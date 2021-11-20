@@ -65,18 +65,12 @@ public static class DSISL
         //    On output, the solution.
         //
     {
-        double ak;
-        double akm1;
-        double bk;
-        double bkm1;
-        double denom;
-        int k;
         int kp;
         double temp;
         //
         //  Loop backward applying the transformations and D inverse to B.
         //
-        k = n;
+        int k = n;
 
         while (0 < k)
         {
@@ -141,11 +135,11 @@ public static class DSISL
                     //
                     //  Apply D inverse.
                     //
-                    ak = a[k - 1 + (k - 1) * lda] / a[k - 2 + (k - 1) * lda];
-                    akm1 = a[k - 2 + (k - 2) * lda] / a[k - 2 + (k - 1) * lda];
-                    bk = b[k - 1] / a[k - 2 + (k - 1) * lda];
-                    bkm1 = b[k - 2] / a[k - 2 + (k - 1) * lda];
-                    denom = ak * akm1 - 1.0;
+                    double ak = a[k - 1 + (k - 1) * lda] / a[k - 2 + (k - 1) * lda];
+                    double akm1 = a[k - 2 + (k - 2) * lda] / a[k - 2 + (k - 1) * lda];
+                    double bk = b[k - 1] / a[k - 2 + (k - 1) * lda];
+                    double bkm1 = b[k - 2] / a[k - 2 + (k - 1) * lda];
+                    double denom = ak * akm1 - 1.0;
                     b[k - 1] = (akm1 * bk - bkm1) / denom;
                     b[k - 2] = (ak * bkm1 - bk) / denom;
                     k -= 2;

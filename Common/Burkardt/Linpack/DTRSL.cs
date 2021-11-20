@@ -69,7 +69,6 @@ public static class DTRSL
         int info;
         int j;
         int jj;
-        int kase;
         double temp;
         //
         //  Check for zero diagonal elements.
@@ -85,7 +84,7 @@ public static class DTRSL
         }
 
         info = 0;
-        kase = (job % 10) switch
+        int kase = (job % 10) switch
         {
             //
             //  Determine the task and go to it.

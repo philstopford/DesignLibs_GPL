@@ -85,23 +85,11 @@ public static class ZQRDC
     {
         int itemp;
         int j;
-        int jj;
         int l;
-        int lup;
-        int maxj;
-        double maxnrm;
-        bool negj;
-        Complex nrmxl;
-        int pl;
-        int pu;
-        bool swapj;
-        Complex t;
-        double tt;
-        Complex[] work;
 
-        pl = 1;
-        pu = 0;
-        work = new Complex [p];
+        int pl = 1;
+        int pu = 0;
+        Complex[] work = new Complex [p];
 
         if (job != 0)
         {
@@ -110,8 +98,8 @@ public static class ZQRDC
             //
             for (j = 1; j <= p; j++)
             {
-                swapj = 0 < ipvt[j - 1];
-                negj = ipvt[j - 1] < 0;
+                bool swapj = 0 < ipvt[j - 1];
+                bool negj = ipvt[j - 1] < 0;
 
                 ipvt[j - 1] = negj switch
                 {
@@ -138,6 +126,7 @@ public static class ZQRDC
 
             pu = p;
 
+            int jj;
             for (jj = 1; jj <= p; jj++)
             {
                 j = p - jj + 1;
@@ -176,7 +165,7 @@ public static class ZQRDC
         //
         //  Perform the Householder reduction of X.
         //
-        lup = Math.Min(n, p);
+        int lup = Math.Min(n, p);
 
         for (l = 1; l <= lup; l++)
         {
@@ -186,8 +175,8 @@ public static class ZQRDC
             //
             if (pl <= l && l < pu)
             {
-                maxnrm = 0.0;
-                maxj = l;
+                double maxnrm = 0.0;
+                int maxj = l;
 
                 for (j = l; j <= pu; j++)
                 {
@@ -217,7 +206,7 @@ public static class ZQRDC
                 //
                 //  Compute the Householder transformation for column L.
                 //
-                nrmxl = new Complex(BLAS1Z.dznrm2(n - l + 1, x, 1, index: + l - 1 + (l - 1) * ldx), 0.0);
+                Complex nrmxl = new Complex(BLAS1Z.dznrm2(n - l + 1, x, 1, index: + l - 1 + (l - 1) * ldx), 0.0);
 
                 if (typeMethods.zabs1(nrmxl) != 0.0)
                 {
@@ -226,7 +215,7 @@ public static class ZQRDC
                         nrmxl = typeMethods.zsign2(nrmxl, x[l - 1 + (l - 1) * ldx]);
                     }
 
-                    t = new Complex(1.0, 0.0) / nrmxl;
+                    Complex t = new Complex(1.0, 0.0) / nrmxl;
                     BLAS1Z.zscal(n - l + 1, t, ref x, 1, index: + l - 1 + (l - 1) * ldx);
                     x[l - 1 + (l - 1) * ldx] = new Complex(1.0, 0.0) + x[l - 1 + (l - 1) * ldx];
                     //
@@ -249,7 +238,7 @@ public static class ZQRDC
                             continue;
                         }
 
-                        tt = 1.0 - Math.Pow(Complex.Abs(x[l - 1 + (j - 1) * ldx]) / qraux[j - 1].Real, 2);
+                        double tt = 1.0 - Math.Pow(Complex.Abs(x[l - 1 + (j - 1) * ldx]) / qraux[j - 1].Real, 2);
                         tt = Math.Max(tt, 0.0);
                         t = new Complex(tt, 0.0);
                         tt = 1.0 + 0.05 * tt

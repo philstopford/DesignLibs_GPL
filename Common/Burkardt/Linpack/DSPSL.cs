@@ -63,29 +63,17 @@ public static class DSPSL
         //    On output, the solution.
         //
     {
-        double ak;
-        double akm1;
-        double bk;
-        double bkm1;
-        double denom;
-        int ik;
-        int ikm1;
-        int ikp1;
-        int k;
-        int kk;
-        int km1k;
-        int km1km1;
         int kp;
         double temp;
         //
         //  Loop backward applying the transformations and D inverse to B.
         //
-        k = n;
-        ik = n * (n - 1) / 2;
+        int k = n;
+        int ik = n * (n - 1) / 2;
 
         while (0 < k)
         {
-            kk = ik + k;
+            int kk = ik + k;
 
             switch (kpvt[k - 1])
             {
@@ -126,7 +114,7 @@ public static class DSPSL
                     //
                     //  2 x 2 pivot block.
                     //
-                    ikm1 = ik - (k - 1);
+                    int ikm1 = ik - (k - 1);
 
                     if (k != 2)
                     {
@@ -151,14 +139,14 @@ public static class DSPSL
                     //
                     //  Apply D inverse.
                     //
-                    km1k = ik + k - 1;
+                    int km1k = ik + k - 1;
                     kk = ik + k;
-                    ak = ap[kk - 1] / ap[km1k - 1];
-                    km1km1 = ikm1 + k - 1;
-                    akm1 = ap[km1km1 - 1] / ap[km1k - 1];
-                    bk = b[k - 1] / ap[km1k - 1];
-                    bkm1 = b[k - 2] / ap[km1k - 1];
-                    denom = ak * akm1 - 1.0;
+                    double ak = ap[kk - 1] / ap[km1k - 1];
+                    int km1km1 = ikm1 + k - 1;
+                    double akm1 = ap[km1km1 - 1] / ap[km1k - 1];
+                    double bk = b[k - 1] / ap[km1k - 1];
+                    double bkm1 = b[k - 2] / ap[km1k - 1];
+                    double denom = ak * akm1 - 1.0;
                     b[k - 1] = (akm1 * bk - bkm1) / denom;
                     b[k - 2] = (ak * bkm1 - bk) / denom;
                     k -= 2;
@@ -216,7 +204,7 @@ public static class DSPSL
                         //  Apply the transformation.
                         //
                         b[k - 1] += BLAS1D.ddot(k - 1, ap, 1, b, 1, xIndex: +ik);
-                        ikp1 = ik + k;
+                        int ikp1 = ik + k;
                         b[k] += BLAS1D.ddot(k - 1, ap, 1, b, 1, xIndex: +ikp1);
                         kp = Math.Abs(kpvt[k - 1]);
                         //

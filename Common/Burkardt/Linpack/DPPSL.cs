@@ -66,10 +66,9 @@ public static class DPPSL
         //
     {
         int k;
-        int kk;
         double t;
 
-        kk = 0;
+        int kk = 0;
 
         for ( k = 1; k <= n; k++ )
         {

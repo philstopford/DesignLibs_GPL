@@ -72,36 +72,17 @@ public static class ZHPDI
         //    For example, JOB = 111 gives all three.
         //
     {
-        double ak;
-        Complex akkp1;
-        double akp1;
         double d;
-        int ij;
         int ik;
         int ikp1;
-        int iks;
-        int j;
-        int jb;
-        int jk;
-        int jkp1;
         int k;
         int kk;
         int kkp1;
-        int km1;
-        int ks;
-        int ksj;
-        int kskp1;
-        int kstep;
-        bool nodet;
-        bool noert;
-        bool noinv;
         double t;
-        Complex t2;
-        Complex[] work;
 
-        noinv = job % 10 == 0;
-        nodet = job % 100 / 10 == 0;
-        noert = job % 1000 / 100 == 0;
+        bool noinv = job % 10 == 0;
+        bool nodet = job % 100 / 10 == 0;
+        bool noert = job % 1000 / 100 == 0;
 
         if (!nodet || !noert)
         {
@@ -207,17 +188,21 @@ public static class ZHPDI
             //
             case false:
             {
-                work = new Complex [n];
+                Complex[] work = new Complex [n];
 
                 k = 1;
                 ik = 0;
 
                 while (k <= n)
                 {
-                    km1 = k - 1;
+                    int km1 = k - 1;
                     kk = ik + k;
                     ikp1 = ik + k;
                     kkp1 = ikp1 + k;
+                    int kstep;
+                    int jk;
+                    int j;
+                    int ij;
                     switch (ipvt[k - 1])
                     {
                         //
@@ -258,9 +243,9 @@ public static class ZHPDI
                         default:
                         {
                             t = Complex.Abs(ap[kkp1 - 1]);
-                            ak = ap[kk - 1].Real / t;
-                            akp1 = ap[kkp1].Real / t;
-                            akkp1 = ap[kkp1 - 1] / t;
+                            double ak = ap[kk - 1].Real / t;
+                            double akp1 = ap[kkp1].Real / t;
+                            Complex akkp1 = ap[kkp1 - 1] / t;
                             d = t * (ak * akp1 - 1.0);
                             ap[kk - 1] = new Complex(akp1 / d, 0.0);
                             ap[kkp1] = new Complex(ak / d, 0.0);
@@ -278,7 +263,7 @@ public static class ZHPDI
                                     ij = 0;
                                     for (j = 1; j <= km1; j++)
                                     {
-                                        jkp1 = ikp1 + j;
+                                        int jkp1 = ikp1 + j;
                                         ap[jkp1 - 1] = BLAS1Z.zdotc(j, ap, 1, work, 1, xIndex: +ij);
                                         BLAS1Z.zaxpy(j - 1, work[j - 1], ap, 1, ref ap, 1, xIndex: +ij, yIndex: +ikp1);
                                         ij += j;
@@ -317,15 +302,17 @@ public static class ZHPDI
                     //
                     //  Swap
                     //
-                    ks = Math.Abs(ipvt[k - 1]);
+                    int ks = Math.Abs(ipvt[k - 1]);
 
                     if (ks != k)
                     {
-                        iks = ks * (ks - 1) / 2;
+                        int iks = ks * (ks - 1) / 2;
 
                         BLAS1Z.zswap(ks, ref ap, 1, ref ap, 1, xIndex: +iks, yIndex: +ik);
-                        ksj = ik + ks;
+                        int ksj = ik + ks;
 
+                        Complex t2;
+                        int jb;
                         for (jb = ks; jb <= k; jb++)
                         {
                             j = k + ks - jb;
@@ -340,7 +327,7 @@ public static class ZHPDI
 
                         if (kstep != 1)
                         {
-                            kskp1 = ikp1 + ks;
+                            int kskp1 = ikp1 + ks;
 
                             t2 = ap[kskp1 - 1];
                             ap[kskp1 - 1] = ap[kkp1 - 1];

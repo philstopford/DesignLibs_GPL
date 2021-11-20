@@ -55,22 +55,18 @@ public static class ZGEFA
         //    if called.  Use RCOND in ZGECO for a reliable indication of singularity.
         //
     {
-        int info;
-        int j;
         int k;
-        int l;
-        Complex t;
         //
         //  Gaussian elimination with partial pivoting.
         //
-        info = 0;
+        int info = 0;
 
         for (k = 1; k <= n - 1; k++)
         {
             //
             //  Find L = pivot index.
             //
-            l = BLAS1Z.izamax(n - k + 1, a, 1, index: +(k - 1) + (k - 1) * lda) + k - 1;
+            int l = BLAS1Z.izamax(n - k + 1, a, 1, index: +(k - 1) + (k - 1) * lda) + k - 1;
             ipvt[k - 1] = l;
             //
             //  Zero pivot implies this column already triangularized.
@@ -84,6 +80,7 @@ public static class ZGEFA
             //
             //  Interchange if necessary.
             //
+            Complex t;
             if (l != k)
             {
                 t = a[l - 1 + (k - 1) * lda];
@@ -99,6 +96,7 @@ public static class ZGEFA
             //
             //  Row elimination with column indexing
             //
+            int j;
             for (j = k + 1; j <= n; j++)
             {
                 t = a[l - 1 + (j - 1) * lda];

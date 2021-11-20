@@ -42,29 +42,21 @@ public static partial class Matrix
         //    Output, double CONDITION_HAGER, the estimated L1 condition.
         //
     {
-        double[] a_lu;
-        double[] b;
-        double c1;
         double c2;
-        double cond;
         int i;
-        int i1;
-        int i2;
-        int job;
-        int[] pivot;
 
-        i1 = -1;
-        c1 = 0.0;
+        int i1 = -1;
+        double c1 = 0.0;
         //
         //  Factor the matrix.
         //
-        a_lu = typeMethods.r8mat_copy_new(n, n, a);
+        double[] a_lu = typeMethods.r8mat_copy_new(n, n, a);
 
-        pivot = new int[n];
+        int[] pivot = new int[n];
 
         typeMethods.r8ge_fa(n, ref a_lu, ref pivot);
 
-        b = new double[n];
+        double[] b = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -73,7 +65,7 @@ public static partial class Matrix
 
         while (true)
         {
-            job = 0;
+            int job = 0;
             typeMethods.r8ge_sl(n, a_lu, pivot, ref b, job);
 
             c2 = typeMethods.r8vec_norm_l1(n, b);
@@ -86,7 +78,7 @@ public static partial class Matrix
             job = 1;
             typeMethods.r8ge_sl(n, a_lu, pivot, ref b, job);
 
-            i2 = typeMethods.r8vec_max_abs_index(n, b);
+            int i2 = typeMethods.r8vec_max_abs_index(n, b);
 
             if (0 <= i1)
             {
@@ -107,7 +99,7 @@ public static partial class Matrix
             b[i1] = 1.0;
         }
 
-        cond = c2 * typeMethods.r8mat_norm_l1(n, n, a);
+        double cond = c2 * typeMethods.r8mat_norm_l1(n, n, a);
 
         return cond;
     }
@@ -162,26 +154,17 @@ public static partial class Matrix
         //    Output, double CONDITION_LINPACK, the estimated L1 condition.
         //
     {
-        double anorm;
         double cond;
-        double ek;
         int i;
-        int info;
         int j;
         int k;
         int l;
-        int[] pivot;
         double s;
-        double sm;
         double t;
-        double wk;
-        double wkm;
-        double ynorm;
-        double[] z;
         //
         //  Compute the L1 norm of A.
         //
-        anorm = 0.0;
+        double anorm = 0.0;
         for (j = 0; j < n; j++)
         {
             s = 0.0;
@@ -196,9 +179,9 @@ public static partial class Matrix
         //
         //  Compute the LU factorization.
         //
-        pivot = new int[n];
+        int[] pivot = new int[n];
 
-        info = typeMethods.r8ge_fa(n, ref a, ref pivot);
+        int info = typeMethods.r8ge_fa(n, ref a, ref pivot);
 
         if (info != 0)
         {
@@ -222,8 +205,8 @@ public static partial class Matrix
         //
         //  Solve U' * W = E.
         //
-        ek = 1.0;
-        z = new double[n];
+        double ek = 1.0;
+        double[] z = new double[n];
         for (i = 0; i < n; i++)
         {
             z[i] = 0.0;
@@ -247,10 +230,10 @@ public static partial class Matrix
                 ek = s * ek;
             }
 
-            wk = ek - z[k];
-            wkm = -ek - z[k];
+            double wk = ek - z[k];
+            double wkm = -ek - z[k];
             s = Math.Abs(wk);
-            sm = Math.Abs(wkm);
+            double sm = Math.Abs(wkm);
 
             if (a[k + k * n] != 0.0)
             {
@@ -339,7 +322,7 @@ public static partial class Matrix
             z[i] /= t;
         }
 
-        ynorm = 1.0;
+        double ynorm = 1.0;
         //
         //  Solve L * V = Y.
         //
@@ -483,28 +466,21 @@ public static partial class Matrix
         //    Output, double CONDITION_SAMPLE1, the estimated L1 condition.
         //
     {
-        double a_norm;
-        double ainv_norm;
-        double[] ax;
-        double ax_norm;
         double cond;
         int i;
-        int seed;
-        double[] x;
-        double x_norm;
 
-        a_norm = 0.0;
-        ainv_norm = 0.0;
-        seed = 123456789;
+        double a_norm = 0.0;
+        double ainv_norm = 0.0;
+        int seed = 123456789;
 
         typeMethods.r8vecNormalData data = new();
 
         for (i = 1; i <= m; i++)
         {
-            x = UniformRNG.r8vec_uniform_unit_new(n, ref data, ref seed);
-            x_norm = typeMethods.r8vec_norm_l1(n, x);
-            ax = typeMethods.r8mat_mv_new(n, n, a, x);
-            ax_norm = typeMethods.r8vec_norm_l1(n, ax);
+            double[] x = UniformRNG.r8vec_uniform_unit_new(n, ref data, ref seed);
+            double x_norm = typeMethods.r8vec_norm_l1(n, x);
+            double[] ax = typeMethods.r8mat_mv_new(n, n, a, x);
+            double ax_norm = typeMethods.r8vec_norm_l1(n, ax);
 
             switch (ax_norm)
             {

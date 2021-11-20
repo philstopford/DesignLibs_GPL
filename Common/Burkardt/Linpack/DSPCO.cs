@@ -98,19 +98,13 @@ public static class DSPCO
     {
         double ak;
         double akm1;
-        double anorm;
         double bk;
         double bkm1;
         double denom;
-        double ek;
         int i;
-        int ij;
-        int ik;
         int ikm1;
         int ikp1;
         int j;
-        int j1;
-        int k;
         int kk;
         int km1k;
         int km1km1;
@@ -120,15 +114,14 @@ public static class DSPCO
         double rcond;
         double s;
         double t;
-        double ynorm;
         //
         //  Find norm of A using only upper half.
         //
-        j1 = 1;
+        int j1 = 1;
         for (j = 1; j <= n; j++)
         {
             z[j - 1] = BLAS1D.dasum(j, ap, 1, index: +j1 - 1);
-            ij = j1;
+            int ij = j1;
             j1 += j;
             for (i = 1; i <= j - 1; i++)
             {
@@ -137,7 +130,7 @@ public static class DSPCO
             }
         }
 
-        anorm = 0.0;
+        double anorm = 0.0;
         for (i = 1; i <= n; i++)
         {
             anorm = Math.Max(anorm, z[i - 1]);
@@ -159,14 +152,14 @@ public static class DSPCO
         //
         //  Solve U * D * W = E.
         //
-        ek = 1.0;
+        double ek = 1.0;
         for (i = 1; i <= n; i++)
         {
             z[i - 1] = 0.0;
         }
 
-        k = n;
-        ik = n * (n - 1) / 2;
+        int k = n;
+        int ik = n * (n - 1) / 2;
 
         while (k != 0)
         {
@@ -310,7 +303,7 @@ public static class DSPCO
             z[i - 1] = s * z[i - 1];
         }
 
-        ynorm = 1.0;
+        double ynorm = 1.0;
         //
         //  Solve U * D * V = Y.
         //

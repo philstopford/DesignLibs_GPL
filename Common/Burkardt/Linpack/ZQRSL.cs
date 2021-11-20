@@ -142,30 +142,23 @@ public static class ZQRSL
         //    of R and B is left unaltered.
         //
     {
-        bool cb;
-        bool cqty;
-        bool cqy;
-        bool cr;
-        bool cxb;
         int i;
-        int info;
         int j;
         int jj;
-        int ju;
         Complex t;
         Complex temp;
 
-        info = 0;
+        int info = 0;
         //
         //  Determine what is to be computed.
         //
-        cqy = job / 10000 != 0;
-        cqty = job % 10000 != 0;
-        cb = job % 1000 / 100 != 0;
-        cr = job % 100 / 10 != 0;
-        cxb = job % 10 != 0;
+        bool cqy = job / 10000 != 0;
+        bool cqty = job % 10000 != 0;
+        bool cb = job % 1000 / 100 != 0;
+        bool cr = job % 100 / 10 != 0;
+        bool cxb = job % 10 != 0;
 
-        ju = Math.Min(k, n - 1);
+        int ju = Math.Min(k, n - 1);
         switch (ju)
         {
             //
@@ -251,15 +244,17 @@ public static class ZQRSL
                 {
                     j = ju - jj + 1;
 
-                    if (typeMethods.zabs1(qraux[j - 1]) != 0.0)
+                    if (typeMethods.zabs1(qraux[j - 1]) == 0.0)
                     {
-                        temp = x[j - 1 + (j - 1) * ldx];
-                        x[j - 1 + (j - 1) * ldx] = qraux[j - 1];
-                        t = -BLAS1Z.zdotc(n - j + 1, x, 1, qy, 1, xIndex: +j - 1 + (j - 1) * ldx, yIndex: +j - 1) /
-                            x[j - 1 + (j - 1) * ldx];
-                        BLAS1Z.zaxpy(n - j + 1, t, x, 1, ref qy, 1, xIndex: +j - 1 + (j - 1) * ldx, yIndex: +j - 1);
-                        x[j - 1 + (j - 1) * ldx] = temp;
+                        continue;
                     }
+
+                    temp = x[j - 1 + (j - 1) * ldx];
+                    x[j - 1 + (j - 1) * ldx] = qraux[j - 1];
+                    t = -BLAS1Z.zdotc(n - j + 1, x, 1, qy, 1, xIndex: +j - 1 + (j - 1) * ldx, yIndex: +j - 1) /
+                        x[j - 1 + (j - 1) * ldx];
+                    BLAS1Z.zaxpy(n - j + 1, t, x, 1, ref qy, 1, xIndex: +j - 1 + (j - 1) * ldx, yIndex: +j - 1);
+                    x[j - 1 + (j - 1) * ldx] = temp;
                 }
 
                 break;

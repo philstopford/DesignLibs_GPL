@@ -69,10 +69,6 @@ public static class DGEDI
         //
     {
         int i;
-        int j;
-        int k;
-        int l;
-        double t;
         //
         //  Compute the determinant.
         //
@@ -112,44 +108,49 @@ public static class DGEDI
         //
         //  Compute inverse(U).
         //
-        if (job % 10 != 0)
+        if (job % 10 == 0)
         {
-            for (k = 1; k <= n; k++)
-            {
-                a[k - 1 + (k - 1) * lda] = 1.0 / a[k - 1 + (k - 1) * lda];
-                t = -a[k - 1 + (k - 1) * lda];
-                BLAS1D.dscal(k - 1, t, ref a, 1, index:  + 0 + (k - 1) * lda);
+            return;
+        }
 
-                for (j = k + 1; j <= n; j++)
-                {
-                    t = a[k - 1 + (j - 1) * lda];
-                    a[k - 1 + (j - 1) * lda] = 0.0;
-                    BLAS1D.daxpy(k, t, a, 1, ref a, 1, xIndex:  + 0 + (k - 1) * lda, yIndex:  + 0 + (j - 1) * lda);
-                }
+        int j;
+        double t;
+        int k;
+        for (k = 1; k <= n; k++)
+        {
+            a[k - 1 + (k - 1) * lda] = 1.0 / a[k - 1 + (k - 1) * lda];
+            t = -a[k - 1 + (k - 1) * lda];
+            BLAS1D.dscal(k - 1, t, ref a, 1, index:  + 0 + (k - 1) * lda);
+
+            for (j = k + 1; j <= n; j++)
+            {
+                t = a[k - 1 + (j - 1) * lda];
+                a[k - 1 + (j - 1) * lda] = 0.0;
+                BLAS1D.daxpy(k, t, a, 1, ref a, 1, xIndex:  + 0 + (k - 1) * lda, yIndex:  + 0 + (j - 1) * lda);
+            }
+        }
+
+        //
+        //  Form inverse(U) * inverse(L).
+        //
+        for (k = n - 1; 1 <= k; k--)
+        {
+            for (i = k + 1; i <= n; i++)
+            {
+                work[i - 1] = a[i - 1 + (k - 1) * lda];
+                a[i - 1 + (k - 1) * lda] = 0.0;
             }
 
-            //
-            //  Form inverse(U) * inverse(L).
-            //
-            for (k = n - 1; 1 <= k; k--)
+            for (j = k + 1; j <= n; j++)
             {
-                for (i = k + 1; i <= n; i++)
-                {
-                    work[i - 1] = a[i - 1 + (k - 1) * lda];
-                    a[i - 1 + (k - 1) * lda] = 0.0;
-                }
+                t = work[j - 1];
+                BLAS1D.daxpy(n, t, a, 1, ref a, 1, xIndex:  + 0 + (j - 1) * lda, yIndex:  + 0 + (k - 1) * lda);
+            }
 
-                for (j = k + 1; j <= n; j++)
-                {
-                    t = work[j - 1];
-                    BLAS1D.daxpy(n, t, a, 1, ref a, 1, xIndex:  + 0 + (j - 1) * lda, yIndex:  + 0 + (k - 1) * lda);
-                }
-
-                l = ipvt[k - 1];
-                if (l != k)
-                {
-                    BLAS1D.dswap(n, ref a, 1, ref a, 1, xIndex:  + 0 + (k - 1) * lda, yIndex:  + 0 + (l - 1) * lda);
-                }
+            int l = ipvt[k - 1];
+            if (l != k)
+            {
+                BLAS1D.dswap(n, ref a, 1, ref a, 1, xIndex:  + 0 + (k - 1) * lda, yIndex:  + 0 + (l - 1) * lda);
             }
         }
     }

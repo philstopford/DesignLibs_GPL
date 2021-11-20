@@ -70,11 +70,6 @@ public static class ZGEDI
         //
     {
         int i;
-        int j;
-        int k;
-        int l;
-        Complex t;
-        Complex[] work;
         //
         //  Compute the determinant.
         //
@@ -116,8 +111,11 @@ public static class ZGEDI
         //
         if (job % 10 != 0)
         {
-            work = new Complex[n];
+            Complex[] work = new Complex[n];
 
+            int j;
+            Complex t;
+            int k;
             for (k = 1; k <= n; k++)
             {
                 a[k - 1 + (k - 1) * lda] = new Complex(1.0, 0.0) / a[k - 1 + (k - 1) * lda];
@@ -149,7 +147,7 @@ public static class ZGEDI
                     BLAS1Z.zaxpy(n, t, a, 1, ref a, 1, xIndex: +0 + (j - 1) * lda, yIndex: +0 + (k - 1) * lda);
                 }
 
-                l = ipvt[k - 1];
+                int l = ipvt[k - 1];
 
                 if (l != k)
                 {

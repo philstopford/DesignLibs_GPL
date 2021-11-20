@@ -47,10 +47,6 @@ public static class AlternatingSignMatrix
         //    order N.
         //
     {
-        int[] a;
-        int asm_num;
-        int[] b;
-        int[] c;
         int i;
         int nn;
 
@@ -69,9 +65,9 @@ public static class AlternatingSignMatrix
                 return 1;
         }
 
-        a = new int[n + 1];
-        b = new int[n + 1];
-        c = new int[n + 1];
+        int[] a = new int[n + 1];
+        int[] b = new int[n + 1];
+        int[] c = new int[n + 1];
 
         b[0] = 2;
         c[0] = 2;
@@ -109,7 +105,7 @@ public static class AlternatingSignMatrix
             }
         }
 
-        asm_num = 0;
+        int asm_num = 0;
         for (i = 0; i < n; i++)
         {
             asm_num += a[i];
@@ -182,9 +178,6 @@ public static class AlternatingSignMatrix
         //    Output, int A[N+1], the entries of the row.
         //
     {
-        int[] b;
-        int[] c;
-        int i;
         int nn;
         switch (n + 1)
         {
@@ -219,8 +212,8 @@ public static class AlternatingSignMatrix
         //
         //  Row 3 and on.
         //
-        b = new int[n + 1];
-        c = new int[n + 1];
+        int[] b = new int[n + 1];
+        int[] c = new int[n + 1];
 
         b[0] = 2;
         c[0] = 2;
@@ -229,6 +222,7 @@ public static class AlternatingSignMatrix
         {
 
             b[nn - 2] = nn;
+            int i;
             for (i = nn - 2; 2 <= i; i--)
             {
                 b[i - 1] += b[i - 2];

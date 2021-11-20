@@ -78,26 +78,19 @@ public static class ZGECO
         //      norm ( A * Z ) = RCOND * norm ( A ) * norm ( Z ).
         //
     {
-        double anorm;
-        Complex ek;
         int i;
         int j;
         int k;
         int l;
         double rcond;
         double s;
-        double sm;
         Complex t;
-        Complex wk;
-        Complex wkm;
-        double ynorm;
-        Complex[] z;
 
-        z = new Complex [n];
+        Complex[] z = new Complex [n];
         //
         //  Compute the 1-norm of A.
         //
-        anorm = 0.0;
+        double anorm = 0.0;
         for (j = 0; j < n; j++)
         {
             anorm = Math.Max(anorm, BLAS1Z.dzasum(n, a, 1, index: +0 + j * lda));
@@ -121,7 +114,7 @@ public static class ZGECO
         //
         //  Solve hermitian(U)*W = E.
         //
-        ek = new Complex(1.0, 0.0);
+        Complex ek = new Complex(1.0, 0.0);
         for (i = 0; i < n; i++)
         {
             z[i] = new Complex(0.0, 0.0);
@@ -141,10 +134,10 @@ public static class ZGECO
                 ek = new Complex(s, 0.0) * ek;
             }
 
-            wk = ek - z[k - 1];
-            wkm = -ek - z[k - 1];
+            Complex wk = ek - z[k - 1];
+            Complex wkm = -ek - z[k - 1];
             s = typeMethods.zabs1(wk);
-            sm = typeMethods.zabs1(wkm);
+            double sm = typeMethods.zabs1(wkm);
 
             if (typeMethods.zabs1(a[k - 1 + (k - 1) * lda]) != 0.0)
             {
@@ -205,7 +198,7 @@ public static class ZGECO
         s = 1.0 / BLAS1Z.dzasum(n, z, 1);
         BLAS1Z.zdscal(n, s, ref z, 1);
 
-        ynorm = 1.0;
+        double ynorm = 1.0;
         //
         //  Solve L * V = Y.
         //

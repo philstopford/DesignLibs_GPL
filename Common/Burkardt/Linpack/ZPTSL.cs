@@ -53,13 +53,7 @@ public static class ZPTSL
         //
     {
         int k;
-        int kbm1;
-        int ke;
-        int kf;
-        int kp1;
-        int nm1d2;
         Complex t1;
-        Complex t2;
         switch (n)
         {
             //
@@ -70,11 +64,11 @@ public static class ZPTSL
                 return;
         }
 
-        nm1d2 = (n - 1) / 2;
+        int nm1d2 = (n - 1) / 2;
 
         if (n != 2)
         {
-            kbm1 = n - 1;
+            int kbm1 = n - 1;
             //
             //  Zero top half of subdiagonal and bottom half of superdiagonal.
             //
@@ -83,14 +77,14 @@ public static class ZPTSL
                 t1 = Complex.Conjugate(e[k - 1]) / d[k - 1];
                 d[k] -= t1 * e[k - 1];
                 b[k] -= t1 * b[k - 1];
-                t2 = e[kbm1 - 1] / d[kbm1];
+                Complex t2 = e[kbm1 - 1] / d[kbm1];
                 d[kbm1 - 1] -= t2 * Complex.Conjugate(e[kbm1 - 1]);
                 b[kbm1 - 1] -= t2 * b[kbm1];
                 kbm1 -= 1;
             }
         }
 
-        kp1 = nm1d2 + 1;
+        int kp1 = nm1d2 + 1;
         switch (n % 2)
         {
             //
@@ -112,8 +106,9 @@ public static class ZPTSL
         if (n != 2)
         {
             k = kp1 - 1;
-            ke = kp1 + nm1d2 - 1;
+            int ke = kp1 + nm1d2 - 1;
 
+            int kf;
             for (kf = kp1; kf <= ke; kf++)
             {
                 b[k - 1] = (b[k - 1] - e[k - 1] * b[k]) / d[k - 1];

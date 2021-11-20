@@ -127,32 +127,19 @@ public static class DGBCO
         //    RCOND is zero if exact singularity is detected or the estimate underflows.
         //
     {
-        double anorm;
-        double ek;
         int i;
-        int is_;
         int j;
-        int ju;
         int k;
-        int l;
-        int la;
         int lm;
-        int lz;
-        int m;
-        int mm;
         double rcond;
         double s;
-        double sm;
         double t;
-        double wk;
-        double wkm;
-        double ynorm;
         //
         //  Compute the 1-norm of A.
         //
-        anorm = 0.0;
-        l = ml + 1;
-        is_ = l + mu;
+        double anorm = 0.0;
+        int l = ml + 1;
+        int is_ = l + mu;
 
         for (j = 1; j <= n; j++)
         {
@@ -189,14 +176,14 @@ public static class DGBCO
         //
         //  Solve U' * W = E.
         //
-        ek = 1.0;
+        double ek = 1.0;
         for (i = 1; i <= n; i++)
         {
             z[i - 1] = 0.0;
         }
 
-        m = ml + mu + 1;
-        ju = 0;
+        int m = ml + mu + 1;
+        int ju = 0;
 
         for (k = 1; k <= n; k++)
         {
@@ -216,10 +203,10 @@ public static class DGBCO
                 ek = s * ek;
             }
 
-            wk = ek - z[k - 1];
-            wkm = -ek - z[k - 1];
+            double wk = ek - z[k - 1];
+            double wkm = -ek - z[k - 1];
             s = Math.Abs(wk);
-            sm = Math.Abs(wkm);
+            double sm = Math.Abs(wkm);
 
             if (abd[m - 1 + (k - 1) * lda] != 0.0)
             {
@@ -233,7 +220,7 @@ public static class DGBCO
             }
 
             ju = Math.Min(Math.Max(ju, mu + ipvt[k - 1]), n);
-            mm = m;
+            int mm = m;
 
             if (k + 1 <= ju)
             {
@@ -306,7 +293,7 @@ public static class DGBCO
             z[i - 1] /= s;
         }
 
-        ynorm = 1.0;
+        double ynorm = 1.0;
         //
         //  Solve L * V = Y.
         //
@@ -372,8 +359,8 @@ public static class DGBCO
             }
 
             lm = Math.Min(k, m) - 1;
-            la = m - lm;
-            lz = k - lm;
+            int la = m - lm;
+            int lz = k - lm;
             t = -z[k - 1];
             BLAS1D.daxpy(lm, t, abd, 1, ref z, 1, xIndex:  + la - 1 + (k - 1) * lda, yIndex:  + lz - 1);
         }

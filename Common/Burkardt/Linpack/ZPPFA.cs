@@ -62,28 +62,22 @@ public static class ZPPFA
         //    K, if the leading minor of order K is not positive definite.
         //
     {
-        int info;
         int j;
-        int jj;
-        int k;
-        int kj;
-        int kk;
-        double s;
-        Complex t;
 
-        info = 0;
-        jj = 0;
+        int info = 0;
+        int jj = 0;
 
         for (j = 1; j <= n; j++)
         {
-            s = 0.0;
-            kj = jj;
-            kk = 0;
+            double s = 0.0;
+            int kj = jj;
+            int kk = 0;
 
+            int k;
             for (k = 1; k <= j - 1; k++)
             {
                 kj += 1;
-                t = ap[kj - 1] - BLAS1Z.zdotc(k - 1, ap, 1, ap, 1, xIndex: +kk, yIndex: +jj);
+                Complex t = ap[kj - 1] - BLAS1Z.zdotc(k - 1, ap, 1, ap, 1, xIndex: +kk, yIndex: +jj);
                 kk += k;
                 t /= ap[kk - 1];
                 ap[kj - 1] = t;

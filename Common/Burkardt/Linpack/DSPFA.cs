@@ -83,52 +83,18 @@ public static class DSPFA
         //    DSPDI may divide by zero if called.
         //
     {
-        double absakk;
-        double ak;
-        double akm1;
-        double alpha;
-        double bk;
-        double bkm1;
-        double colmax;
-        double denom;
-        int ij;
-        int ik;
-        int ikm1;
         int im = 0;
-        int imax;
-        int imaxp1;
-        int imim;
-        int imj;
-        int imk;
-        int info;
-        int j;
-        int jj;
-        int jk;
-        int jkm1;
-        int jmax;
-        int jmim;
-        int k;
-        int kk;
-        int km1;
-        int km1k;
-        int km1km1;
-        int kstep;
-        double mulk;
-        double mulkm1;
-        double rowmax;
-        bool swap;
-        double t;
         //
         //  ALPHA is used in choosing pivot block size.
         //
-        alpha = (1.0 + Math.Sqrt(17.0)) / 8.0;
+        double alpha = (1.0 + Math.Sqrt(17.0)) / 8.0;
 
-        info = 0;
+        int info = 0;
         //
         //  Main loop on K, which goes from N to 1.
         //
-        k = n;
-        ik = n * (n - 1) / 2;
+        int k = n;
+        int ik = n * (n - 1) / 2;
 
         for (;;)
         {
@@ -157,16 +123,20 @@ public static class DSPFA
             //  When it is completed, KSTEP will be set to the size of the pivot block,
             //  and SWAP will be set to .true. if an interchange is required.
             //
-            km1 = k - 1;
-            kk = ik + k;
-            absakk = Math.Abs(ap[kk - 1]);
+            int km1 = k - 1;
+            int kk = ik + k;
+            double absakk = Math.Abs(ap[kk - 1]);
             //
             //  Determine the largest off-diagonal element in column K.
             //
-            imax = BLAS1D.idamax(k - 1, ap, 1, index: +ik);
-            imk = ik + imax;
-            colmax = Math.Abs(ap[imk - 1]);
+            int imax = BLAS1D.idamax(k - 1, ap, 1, index: +ik);
+            int imk = ik + imax;
+            double colmax = Math.Abs(ap[imk - 1]);
 
+            int kstep;
+            bool swap;
+            int j;
+            int imj;
             if (alpha * colmax <= absakk)
             {
                 kstep = 1;
@@ -177,8 +147,8 @@ public static class DSPFA
             //
             else
             {
-                rowmax = 0.0;
-                imaxp1 = imax + 1;
+                double rowmax = 0.0;
+                int imaxp1 = imax + 1;
                 im = imax * (imax - 1) / 2;
                 imj = im + 2 * imax;
 
@@ -190,12 +160,12 @@ public static class DSPFA
 
                 if (imax != 1)
                 {
-                    jmax = BLAS1D.idamax(imax - 1, ap, 1, index: +im);
-                    jmim = jmax + im;
+                    int jmax = BLAS1D.idamax(imax - 1, ap, 1, index: +im);
+                    int jmim = jmax + im;
                     rowmax = Math.Max(rowmax, Math.Abs(ap[jmim - 1]));
                 }
 
-                imim = imax + im;
+                int imim = imax + im;
 
                 if (alpha * rowmax <= Math.Abs(ap[imim - 1]))
                 {
@@ -225,6 +195,11 @@ public static class DSPFA
                     break;
                 default:
                 {
+                    double mulk;
+                    int jk;
+                    int jj;
+                    double t;
+                    int ij;
                     if (kstep != 2)
                     {
                         switch (swap)
@@ -284,8 +259,9 @@ public static class DSPFA
                         //
                         //  2 x 2 pivot block.
                         //
-                        km1k = ik + k - 1;
-                        ikm1 = ik - (k - 1);
+                        int km1k = ik + k - 1;
+                        int ikm1 = ik - (k - 1);
+                        int jkm1;
                         switch (swap)
                         {
                             //
@@ -318,21 +294,21 @@ public static class DSPFA
                         //
                         if (k - 2 != 0)
                         {
-                            ak = ap[kk - 1] / ap[km1k - 1];
-                            km1km1 = ikm1 + k - 1;
-                            akm1 = ap[km1km1 - 1] / ap[km1k - 1];
-                            denom = 1.0 - ak * akm1;
+                            double ak = ap[kk - 1] / ap[km1k - 1];
+                            int km1km1 = ikm1 + k - 1;
+                            double akm1 = ap[km1km1 - 1] / ap[km1k - 1];
+                            double denom = 1.0 - ak * akm1;
                             ij = ik - (k - 1) - (k - 2);
 
                             for (jj = 1; jj <= k - 2; jj++)
                             {
                                 j = km1 - jj;
                                 jk = ik + j;
-                                bk = ap[jk - 1] / ap[km1k - 1];
+                                double bk = ap[jk - 1] / ap[km1k - 1];
                                 jkm1 = ikm1 + j;
-                                bkm1 = ap[jkm1 - 1] / ap[km1k - 1];
+                                double bkm1 = ap[jkm1 - 1] / ap[km1k - 1];
                                 mulk = (akm1 * bk - bkm1) / denom;
-                                mulkm1 = (ak * bkm1 - bk) / denom;
+                                double mulkm1 = (ak * bkm1 - bk) / denom;
                                 t = mulk;
                                 BLAS1D.daxpy(j, t, ap, 1, ref ap, 1, xIndex: +ik, yIndex: +ij);
                                 t = mulkm1;

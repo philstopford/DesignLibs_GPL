@@ -83,21 +83,17 @@ public static class DSICO
     {
         double ak;
         double akm1;
-        double anorm;
         double bk;
         double bkm1;
         double denom;
-        double ek;
         int i;
         int j;
-        int k;
         int kp;
         int kps;
         int ks;
         double rcond;
         double s;
         double t;
-        double ynorm;
         //
         //  Find the norm of A, using only entries in the upper half of the matrix.
         //
@@ -110,7 +106,7 @@ public static class DSICO
             }
         }
 
-        anorm = 0.0;
+        double anorm = 0.0;
         for (i = 1; i <= n; i++)
         {
             anorm = Math.Max(anorm, z[i - 1]);
@@ -132,13 +128,13 @@ public static class DSICO
         //
         //  Solve U * D * W = E.
         //
-        ek = 1.0;
+        double ek = 1.0;
         for (i = 1; i <= n; i++)
         {
             z[i - 1] = 0.0;
         }
 
-        k = n;
+        int k = n;
 
         while (k != 2)
         {
@@ -262,7 +258,7 @@ public static class DSICO
             z[i - 1] /= s;
         }
 
-        ynorm = 1.0;
+        double ynorm = 1.0;
         //
         //  Solve U * D * V = Y.
         //

@@ -54,13 +54,12 @@ public static class DPBDI
         //
     {
         int i;
-        double s;
         //
         //  Compute the determinant.
         //
         det[0] = 1.0;
         det[1] = 0.0;
-        s = 10.0;
+        const double s = 10.0;
 
         for ( i = 1; i <= n; i++ )
         {

@@ -79,8 +79,6 @@ public static partial class Matrix
         //    Local, int NODE_NUM, the number of global nodes.
         //
     {
-        double aij;
-        int basis;
         double bi = 0;
         double bj = 0;
         double dbidx = 0;
@@ -89,14 +87,7 @@ public static partial class Matrix
         double dbjdy = 0;
         int element;
         int i;
-        int ip;
-        int ipp;
         int j;
-        int quad;
-        int test;
-        double w;
-        double x;
-        double y;
         //
         //  Initialize the arrays to zero.
         //
@@ -119,15 +110,17 @@ public static partial class Matrix
         //
         for (element = 1; element <= element_num; element++)
         {
+            int quad;
             for (quad = 1; quad <= nq; quad++)
             {
-                x = xq[quad - 1 + (element - 1) * nq];
-                y = yq[quad - 1 + (element - 1) * nq];
-                w = element_area[element - 1] * wq[quad - 1];
+                double x = xq[quad - 1 + (element - 1) * nq];
+                double y = yq[quad - 1 + (element - 1) * nq];
+                double w = element_area[element - 1] * wq[quad - 1];
 
+                int test;
                 for (test = 1; test <= nnodes; test++)
                 {
-                    ip = element_node[test - 1 + (element - 1) * nnodes];
+                    int ip = element_node[test - 1 + (element - 1) * nnodes];
                     i = indx[ip - 1];
 
                     Quadratic.qbf(x, y, element, test, node_xy, element_node,
@@ -147,15 +140,16 @@ public static partial class Matrix
                     //
                     //  Therefore, we ACTUALLY store the entry in A[I-J+2*IB+1-1 + (J-1) * (3*IB+1)];
                     //
+                    int basis;
                     for (basis = 1; basis <= nnodes; basis++)
                     {
-                        ipp = element_node[basis - 1 + (element - 1) * nnodes];
+                        int ipp = element_node[basis - 1 + (element - 1) * nnodes];
                         j = indx[ipp - 1];
 
                         Quadratic.qbf(x, y, element, basis, node_xy, element_node,
                             element_num, nnodes, node_num, ref bj, ref dbjdx, ref dbjdy);
 
-                        aij = dbidx * dbjdx + dbidy * dbjdy;
+                        double aij = dbidx * dbjdx + dbidy * dbjdy;
 
                         a[i - j + 2 * ib + (j - 1) * (3 * ib + 1)] += w * aij;
                     }

@@ -115,23 +115,13 @@ public static class DCHDD
         //        set to -1.
         //
     {
-        double a;
-        double alpha;
-        double azeta;
-        double b;
         int i;
         int ii;
-        int info;
         int j;
-        double norm;
-        double scale;
-        double t;
-        double xx;
-        double zeta;
         //
         //  Solve R' * A = X, placing the result in the array S.
         //
-        info = 0;
+        int info = 0;
         s[0] = x[0] / r[0 + 0 * ldr];
 
         for (j = 2; j <= p; j++)
@@ -140,7 +130,7 @@ public static class DCHDD
             s[j - 1] /= r[j - 1 + (j - 1) * ldr];
         }
 
-        norm = BLAS1D.dnrm2(p, s, 1);
+        double norm = BLAS1D.dnrm2(p, s, 1);
 
         switch (norm)
         {
@@ -149,16 +139,16 @@ public static class DCHDD
                 return info;
         }
 
-        alpha = Math.Sqrt(1.0 - norm * norm);
+        double alpha = Math.Sqrt(1.0 - norm * norm);
         //
         //  Determine the transformations.
         //
         for (ii = 1; ii <= p; ii++)
         {
             i = p - ii + 1;
-            scale = alpha + Math.Abs(s[i - 1]);
-            a = alpha / scale;
-            b = s[i - 1] / scale;
+            double scale = alpha + Math.Abs(s[i - 1]);
+            double a = alpha / scale;
+            double b = s[i - 1] / scale;
             norm = Math.Sqrt(a * a + b * b);
             c[i - 1] = a / norm;
             s[i - 1] = b / norm;
@@ -170,11 +160,11 @@ public static class DCHDD
         //
         for (j = 1; j <= p; j++)
         {
-            xx = 0.0;
+            double xx = 0.0;
             for (ii = 1; ii <= j; ii++)
             {
                 i = j - ii + 1;
-                t = c[i - 1] * xx + s[i - 1] * r[i - 1 + (j - 1) * ldr];
+                double t = c[i - 1] * xx + s[i - 1] * r[i - 1 + (j - 1) * ldr];
                 r[i - 1 + (j - 1) * ldr] = c[i - 1] * r[i - 1 + (j - 1) * ldr] - s[i - 1] * xx;
                 xx = t;
             }
@@ -185,14 +175,14 @@ public static class DCHDD
         //
         for (j = 1; j <= nz; j++)
         {
-            zeta = y[j - 1];
+            double zeta = y[j - 1];
             for (i = 1; i <= p; i++)
             {
                 z[i - 1 + (j - 1) * ldz] = (z[i - 1 + (j - 1) * ldz] - s[i - 1] * zeta) / c[i - 1];
                 zeta = c[i - 1] * zeta - s[i - 1] * z[i - 1 + (j - 1) * ldz];
             }
 
-            azeta = Math.Abs(zeta);
+            double azeta = Math.Abs(zeta);
 
             if (rho[j - 1] < azeta)
             {

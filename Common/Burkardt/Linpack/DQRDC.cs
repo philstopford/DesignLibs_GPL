@@ -92,18 +92,9 @@ public static class DQRDC
         int j;
         int jp;
         int l;
-        int lup;
-        int maxj;
-        double maxnrm;
-        double nrmxl;
-        int pl;
-        int pu;
-        bool swapj;
-        double t;
-        double tt;
 
-        pl = 1;
-        pu = 0;
+        int pl = 1;
+        int pu = 0;
         //
         //  If pivoting is requested, rearrange the columns.
         //
@@ -111,7 +102,7 @@ public static class DQRDC
         {
             for (j = 1; j <= p; j++)
             {
-                swapj = 0 < jpvt[j - 1];
+                bool swapj = 0 < jpvt[j - 1];
 
                 jpvt[j - 1] = jpvt[j - 1] switch
                 {
@@ -178,7 +169,7 @@ public static class DQRDC
         //
         //  Perform the Householder reduction of A.
         //
-        lup = Math.Min(n, p);
+        int lup = Math.Min(n, p);
 
         for (l = 1; l <= lup; l++)
         {
@@ -187,8 +178,8 @@ public static class DQRDC
             //
             if (pl <= l && l < pu)
             {
-                maxnrm = 0.0;
-                maxj = l;
+                double maxnrm = 0.0;
+                int maxj = l;
                 for (j = l; j <= pu; j++)
                 {
                     if (maxnrm < qraux[j - 1])
@@ -214,59 +205,62 @@ public static class DQRDC
             //
             qraux[l - 1] = 0.0;
 
-            if (l != n)
+            if (l == n)
             {
-                nrmxl = BLAS1D.dnrm2(n - l + 1, a, 1, index: +l - 1 + (l - 1) * lda);
+                continue;
+            }
 
-                if (nrmxl != 0.0)
+            double nrmxl = BLAS1D.dnrm2(n - l + 1, a, 1, index: +l - 1 + (l - 1) * lda);
+
+            if (nrmxl == 0.0)
+            {
+                continue;
+            }
+
+            if (a[l - 1 + (l - 1) * lda] != 0.0)
+            {
+                nrmxl *= typeMethods.r8_sign(a[l - 1 + (l - 1) * lda]);
+            }
+
+            BLAS1D.dscal(n - l + 1, 1.0 / nrmxl, ref a, 1, index: +l - 1 + (l - 1) * lda);
+            a[l - 1 + (l - 1) * lda] = 1.0 + a[l - 1 + (l - 1) * lda];
+            //
+            //  Apply the transformation to the remaining columns, updating the norms.
+            //
+            for (j = l + 1; j <= p; j++)
+            {
+                double t = -BLAS1D.ddot(n - l + 1, a, 1, a, 1, xIndex: +l - 1 + (l - 1) * lda,
+                               yIndex: +l - 1 + (j - 1) * lda)
+                           / a[l - 1 + (l - 1) * lda];
+                BLAS1D.daxpy(n - l + 1, t, a, 1, ref a, 1, xIndex: +l - 1 + (l - 1) * lda,
+                    yIndex: +l - 1 + (j - 1) * lda);
+
+                if ((pl > j || j > pu) || (qraux[j - 1] == 0.0))
                 {
-                    if (a[l - 1 + (l - 1) * lda] != 0.0)
-                    {
-                        nrmxl *= typeMethods.r8_sign(a[l - 1 + (l - 1) * lda]);
-                    }
+                    continue;
+                }
 
-                    BLAS1D.dscal(n - l + 1, 1.0 / nrmxl, ref a, 1, index: +l - 1 + (l - 1) * lda);
-                    a[l - 1 + (l - 1) * lda] = 1.0 + a[l - 1 + (l - 1) * lda];
-                    //
-                    //  Apply the transformation to the remaining columns, updating the norms.
-                    //
-                    for (j = l + 1; j <= p; j++)
-                    {
-                        t = -BLAS1D.ddot(n - l + 1, a, 1, a, 1, xIndex: +l - 1 + (l - 1) * lda,
-                                yIndex: +l - 1 + (j - 1) * lda)
-                            / a[l - 1 + (l - 1) * lda];
-                        BLAS1D.daxpy(n - l + 1, t, a, 1, ref a, 1, xIndex: +l - 1 + (l - 1) * lda,
-                            yIndex: +l - 1 + (j - 1) * lda);
+                double tt = 1.0 - Math.Pow(Math.Abs(a[l - 1 + (j - 1) * lda]) / qraux[j - 1], 2);
+                tt = Math.Max(tt, 0.0);
+                t = tt;
+                tt = 1.0 + 0.05 * tt * Math.Pow(qraux[j - 1] / work[j - 1], 2);
 
-                        if (pl <= j && j <= pu)
-                        {
-                            if (qraux[j - 1] != 0.0)
-                            {
-                                tt = 1.0 - Math.Pow(Math.Abs(a[l - 1 + (j - 1) * lda]) / qraux[j - 1], 2);
-                                tt = Math.Max(tt, 0.0);
-                                t = tt;
-                                tt = 1.0 + 0.05 * tt * Math.Pow(qraux[j - 1] / work[j - 1], 2);
-
-                                if (Math.Abs(tt - 1.0) > double.Epsilon)
-                                {
-                                    qraux[j - 1] *= Math.Sqrt(t);
-                                }
-                                else
-                                {
-                                    qraux[j - 1] = BLAS1D.dnrm2(n - l, a, 1, index: +l + (j - 1) * lda);
-                                    work[j - 1] = qraux[j - 1];
-                                }
-                            }
-                        }
-                    }
-
-                    //
-                    //  Save the transformation.
-                    //
-                    qraux[l - 1] = a[l - 1 + (l - 1) * lda];
-                    a[l - 1 + (l - 1) * lda] = -nrmxl;
+                if (Math.Abs(tt - 1.0) > double.Epsilon)
+                {
+                    qraux[j - 1] *= Math.Sqrt(t);
+                }
+                else
+                {
+                    qraux[j - 1] = BLAS1D.dnrm2(n - l, a, 1, index: +l + (j - 1) * lda);
+                    work[j - 1] = qraux[j - 1];
                 }
             }
+
+            //
+            //  Save the transformation.
+            //
+            qraux[l - 1] = a[l - 1 + (l - 1) * lda];
+            a[l - 1 + (l - 1) * lda] = -nrmxl;
         }
     }
 

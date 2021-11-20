@@ -126,12 +126,14 @@ public static class ZGESL
                 {
                     b[k - 1] += BLAS1Z.zdotc(n - k, a, 1, b, 1, xIndex: +k + (k - 1) * lda, yIndex: +k);
                     l = ipvt[k - 1];
-                    if (l != k)
+                    if (l == k)
                     {
-                        t = b[l - 1];
-                        b[l - 1] = b[k - 1];
-                        b[k - 1] = t;
+                        continue;
                     }
+
+                    t = b[l - 1];
+                    b[l - 1] = b[k - 1];
+                    b[k - 1] = t;
                 }
 
                 break;

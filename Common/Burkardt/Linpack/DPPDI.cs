@@ -61,17 +61,6 @@ public static class DPPDI
         //    10, determinant only.
         //
     {
-        int i;
-        int ii;
-        int j;
-        int j1;
-        int jj;
-        int k;
-        int k1;
-        int kj;
-        int kk;
-        double s;
-        double t;
         //
         //  Compute the determinant.
         //
@@ -79,9 +68,10 @@ public static class DPPDI
         {
             det[0] = 1.0;
             det[1] = 0.0;
-            s = 10.0;
-            ii = 0;
+            double s = 10.0;
+            int ii = 0;
 
+            int i;
             for (i = 1; i <= n; i++)
             {
                 ii += i;
@@ -110,53 +100,61 @@ public static class DPPDI
         //
         //  Compute inverse(R).
         //
-        if (job % 10 != 0)
+        if (job % 10 == 0)
         {
-            kk = 0;
+            return;
+        }
 
-            for (k = 1; k <= n; k++)
+        int kk = 0;
+
+        int k;
+        int k1;
+        int kj;
+        int j1;
+        double t;
+        int j;
+        for (k = 1; k <= n; k++)
+        {
+            k1 = kk + 1;
+            kk += k;
+            ap[kk - 1] = 1.0 / ap[kk - 1];
+            t = -ap[kk - 1];
+            BLAS1D.dscal(k - 1, t, ref ap, 1, index: + k1 - 1);
+            j1 = kk + 1;
+            kj = kk + k;
+
+            for (j = k + 1; j <= n; j++)
             {
-                k1 = kk + 1;
-                kk += k;
-                ap[kk - 1] = 1.0 / ap[kk - 1];
-                t = -ap[kk - 1];
-                BLAS1D.dscal(k - 1, t, ref ap, 1, index: + k1 - 1);
-                j1 = kk + 1;
-                kj = kk + k;
+                t = ap[kj - 1];
+                ap[kj - 1] = 0.0;
+                BLAS1D.daxpy(k, t, ap, 1, ref ap, 1, xIndex: + k1 - 1, yIndex: + j1 - 1);
+                j1 += j;
+                kj += j;
+            }
+        }
 
-                for (j = k + 1; j <= n; j++)
-                {
-                    t = ap[kj - 1];
-                    ap[kj - 1] = 0.0;
-                    BLAS1D.daxpy(k, t, ap, 1, ref ap, 1, xIndex: + k1 - 1, yIndex: + j1 - 1);
-                    j1 += j;
-                    kj += j;
-                }
+        //
+        //  Form inverse(R) * (inverse(R))'.
+        //
+        int jj = 0;
+
+        for (j = 1; j <= n; j++)
+        {
+            j1 = jj + 1;
+            jj += j;
+            k1 = 1;
+            kj = j1;
+
+            for (k = 1; k <= j - 1; k++)
+            {
+                t = ap[kj - 1];
+                BLAS1D.daxpy(k, t, ap, 1, ref ap, 1, xIndex: + j1 - 1, yIndex: + k1 - 1);
+                k1 += k;
+                kj += 1;
             }
 
-            //
-            //  Form inverse(R) * (inverse(R))'.
-            //
-            jj = 0;
-
-            for (j = 1; j <= n; j++)
-            {
-                j1 = jj + 1;
-                jj += j;
-                k1 = 1;
-                kj = j1;
-
-                for (k = 1; k <= j - 1; k++)
-                {
-                    t = ap[kj - 1];
-                    BLAS1D.daxpy(k, t, ap, 1, ref ap, 1, xIndex: + j1 - 1, yIndex: + k1 - 1);
-                    k1 += k;
-                    kj += 1;
-                }
-
-                t = ap[jj - 1];
-                BLAS1D.dscal(j, t, ref ap, 1, index: + j1 - 1);
-            }
+            t = ap[jj - 1];
+            BLAS1D.dscal(j, t, ref ap, 1, index: + j1 - 1);
         }
     }
 

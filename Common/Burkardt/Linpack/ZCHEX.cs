@@ -128,8 +128,6 @@ public static class ZCHEX
     {
         int i;
         int ii;
-        int il;
-        int iu;
         int j;
         int jj;
         Complex t;
@@ -179,7 +177,7 @@ public static class ZCHEX
                 r[k - 1 + (k - 1) * ldr] = t;
                 for (j = k + 1; j <= p; j++)
                 {
-                    il = Math.Max(1, l - j + 1);
+                    int il = Math.Max(1, l - j + 1);
                     for (ii = il; ii <= l - k; ii++)
                     {
                         i = l - ii;
@@ -252,7 +250,7 @@ public static class ZCHEX
                     //
                     if (j != k)
                     {
-                        iu = Math.Min(j - 1, l - 1);
+                        int iu = Math.Min(j - 1, l - 1);
                         for (i = k; i <= iu; i++)
                         {
                             ii = i - k + 1;
@@ -263,12 +261,14 @@ public static class ZCHEX
                         }
                     }
 
-                    if (j < l)
+                    if (j >= l)
                     {
-                        jj = j - k + 1;
-                        t = s[jj - 1];
-                        BLAS1Z.zrotg(ref r[+j - 1 + (j - 1) * ldr], t, ref c[+jj - 1], ref s[+jj - 1]);
+                        continue;
                     }
+
+                    jj = j - k + 1;
+                    t = s[jj - 1];
+                    BLAS1Z.zrotg(ref r[+j - 1 + (j - 1) * ldr], t, ref c[+jj - 1], ref s[+jj - 1]);
                 }
 
                 //

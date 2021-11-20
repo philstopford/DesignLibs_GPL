@@ -146,32 +146,25 @@ public static class DQRSL
         //    index of the first zero diagonal element of R, and B is left unaltered.
         //
     {
-        bool cab;
-        bool cb;
-        bool cqty;
-        bool cqy;
-        bool cr;
         int i;
-        int info;
         int j;
         int jj;
-        int ju;
         double t;
         double temp;
         //
         //  set info flag.
         //
-        info = 0;
+        int info = 0;
         //
         //  Determine what is to be computed.
         //
-        cqy = job / 10000 != 0;
-        cqty = job % 10000 != 0;
-        cb = job % 1000 / 100 != 0;
-        cr = job % 100 / 10 != 0;
-        cab = job % 10 != 0;
+        bool cqy = job / 10000 != 0;
+        bool cqty = job % 10000 != 0;
+        bool cb = job % 1000 / 100 != 0;
+        bool cr = job % 100 / 10 != 0;
+        bool cab = job % 10 != 0;
 
-        ju = Math.Min(k, n - 1);
+        int ju = Math.Min(k, n - 1);
         switch (ju)
         {
             //
@@ -257,15 +250,17 @@ public static class DQRSL
                 {
                     j = ju - jj + 1;
 
-                    if (qraux[j - 1] != 0.0)
+                    if (qraux[j - 1] == 0.0)
                     {
-                        temp = a[j - 1 + (j - 1) * lda];
-                        a[j - 1 + (j - 1) * lda] = qraux[j - 1];
-                        t = -BLAS1D.ddot(n - j + 1, a, 1, qy, 1, xIndex: +j - 1 + (j - 1) * lda, yIndex: +j - 1) /
-                            a[j - 1 + (j - 1) * lda];
-                        BLAS1D.daxpy(n - j + 1, t, a, 1, ref qy, 1, xIndex: +j - 1 + (j - 1) * lda, yIndex: +j - 1);
-                        a[j - 1 + (j - 1) * lda] = temp;
+                        continue;
                     }
+
+                    temp = a[j - 1 + (j - 1) * lda];
+                    a[j - 1 + (j - 1) * lda] = qraux[j - 1];
+                    t = -BLAS1D.ddot(n - j + 1, a, 1, qy, 1, xIndex: +j - 1 + (j - 1) * lda, yIndex: +j - 1) /
+                        a[j - 1 + (j - 1) * lda];
+                    BLAS1D.daxpy(n - j + 1, t, a, 1, ref qy, 1, xIndex: +j - 1 + (j - 1) * lda, yIndex: +j - 1);
+                    a[j - 1 + (j - 1) * lda] = temp;
                 }
 
                 break;

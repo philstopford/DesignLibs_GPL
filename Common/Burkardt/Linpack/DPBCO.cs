@@ -111,32 +111,22 @@ public static class DPBCO
         //    RCOND is zero if exact singularity is detected or the estimate underflows.
         //
     {
-        double anorm;
-        double ek;
         int i;
-        int info;
         int j;
-        int j2;
         int k;
-        int l;
         int la;
         int lb;
         int lm;
-        int mu;
         double rcond;
         double s;
-        double sm;
         double t;
-        double wk;
-        double wkm;
-        double ynorm;
         //
         //  Find the norm of A.
         //
         for (j = 1; j <= n; j++)
         {
-            l = Math.Min(j, m + 1);
-            mu = Math.Max(m + 2 - j, 1);
+            int l = Math.Min(j, m + 1);
+            int mu = Math.Max(m + 2 - j, 1);
             z[j - 1] = BLAS1D.dasum(l, abd, 1, index: + mu - 1 + (j - 1) * lda);
             k = j - l;
             for (i = mu; i <= m; i++)
@@ -146,7 +136,7 @@ public static class DPBCO
             }
         }
 
-        anorm = 0.0;
+        double anorm = 0.0;
         for (i = 1; i <= n; i++)
         {
             anorm = Math.Max(anorm, z[i - 1]);
@@ -155,7 +145,7 @@ public static class DPBCO
         //
         //  Factor.
         //
-        info = DPBFA.dpbfa(ref abd, lda, n, m);
+        int info = DPBFA.dpbfa(ref abd, lda, n, m);
 
         if (info != 0)
         {
@@ -175,7 +165,7 @@ public static class DPBCO
         //
         //  Solve R' * W = E.
         //
-        ek = 1.0;
+        double ek = 1.0;
         for (i = 1; i <= n; i++)
         {
             z[i - 1] = 0.0;
@@ -199,13 +189,13 @@ public static class DPBCO
                 ek = s * ek;
             }
 
-            wk = ek - z[k - 1];
-            wkm = -ek - z[k - 1];
+            double wk = ek - z[k - 1];
+            double wkm = -ek - z[k - 1];
             s = Math.Abs(wk);
-            sm = Math.Abs(wkm);
+            double sm = Math.Abs(wkm);
             wk /= abd[m + (k - 1) * lda];
             wkm /= abd[m + (k - 1) * lda];
-            j2 = Math.Min(k + m, n);
+            int j2 = Math.Min(k + m, n);
             i = m + 1;
 
             if (k + 1 <= j2)
@@ -269,7 +259,7 @@ public static class DPBCO
             z[i - 1] /= s;
         }
 
-        ynorm = 1.0;
+        double ynorm = 1.0;
         //
         //  Solve R' * V = Y.
         //

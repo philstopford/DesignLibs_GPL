@@ -85,34 +85,24 @@ public static class ZPBCO
         //    If INFO != 0, Z is unchanged.
         //
     {
-        double anorm;
-        Complex ek;
         int i;
         int j;
-        int j2;
         int k;
-        int l;
         int la;
         int lb;
         int lm;
-        int mu;
         double rcond;
         double s;
-        double sm;
         Complex t;
-        Complex wk;
-        Complex wkm;
-        double ynorm;
-        Complex[] z;
         //
         //  Find the norm of A.
         //
-        z = new Complex [n];
+        Complex[] z = new Complex [n];
 
         for (j = 1; j <= n; j++)
         {
-            l = Math.Min(j, m + 1);
-            mu = Math.Max(m + 2 - j, 1);
+            int l = Math.Min(j, m + 1);
+            int mu = Math.Max(m + 2 - j, 1);
             z[j - 1] = new Complex(BLAS1Z.dzasum(l, abd, 1, index: +mu - 1 + (j - 1) * lda), 0.0);
             k = j - l;
 
@@ -124,7 +114,7 @@ public static class ZPBCO
             }
         }
 
-        anorm = 0.0;
+        double anorm = 0.0;
         for (j = 0; j < n; j++)
         {
             anorm = Math.Max(anorm, z[j].Real);
@@ -153,7 +143,7 @@ public static class ZPBCO
         //
         //  Solve hermitian(R)*W = E.
         //
-        ek = new Complex(1.0, 0.0);
+        Complex ek = new Complex(1.0, 0.0);
 
         for (i = 0; i < n; i++)
         {
@@ -174,13 +164,13 @@ public static class ZPBCO
                 ek = new Complex(s, 0.0) * ek;
             }
 
-            wk = ek - z[k - 1];
-            wkm = -ek - z[k - 1];
+            Complex wk = ek - z[k - 1];
+            Complex wkm = -ek - z[k - 1];
             s = typeMethods.zabs1(wk);
-            sm = typeMethods.zabs1(wkm);
+            double sm = typeMethods.zabs1(wkm);
             wk /= abd[m + (k - 1) * lda];
             wkm /= abd[m + (k - 1) * lda];
-            j2 = Math.Min(k + m, n);
+            int j2 = Math.Min(k + m, n);
             i = m + 1;
 
             if (k + 1 <= j2)
@@ -232,7 +222,7 @@ public static class ZPBCO
 
         s = 1.0 / BLAS1Z.dzasum(n, z, 1);
         BLAS1Z.zdscal(n, s, ref z, 1);
-        ynorm = 1.0;
+        double ynorm = 1.0;
         //
         //  Solve hermitian(R)*V = Y.
         //

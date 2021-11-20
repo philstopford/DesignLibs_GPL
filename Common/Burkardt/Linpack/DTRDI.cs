@@ -65,21 +65,20 @@ public static class DTRDI
         //    nonzero, if the system was singular.
         //
     {
-        int i;
-        int info;
         int j;
         int k;
         double temp;
         //
         //  Determinant.
         //
-        info = 0;
+        int info = 0;
 
         if (job / 100 != 0)
         {
             det[0] = 1.0;
             det[1] = 0.0;
 
+            int i;
             for (i = 1; i <= n; i++)
             {
                 det[0] *= t[i - 1 + (i - 1) * ldt];

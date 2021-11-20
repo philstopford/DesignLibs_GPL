@@ -76,19 +76,12 @@ public static class DPOCO
         //    RCOND is zero if exact singularity is detected or the estimate underflows.
         //
     {
-        double anorm;
-        double ek;
         int i;
-        int info;
         int j;
         int k;
         double rcond;
         double s;
-        double sm;
         double t;
-        double wk;
-        double wkm;
-        double ynorm;
         //
         //  Find norm of A using only upper half.
         //
@@ -101,7 +94,7 @@ public static class DPOCO
             }
         }
 
-        anorm = 0.0;
+        double anorm = 0.0;
         for (i = 1; i <= n; i++)
         {
             anorm = Math.Max(anorm, z[i - 1]);
@@ -110,7 +103,7 @@ public static class DPOCO
         //
         //  Factor.
         //
-        info = DPOFA.dpofa(ref a, lda, n);
+        int info = DPOFA.dpofa(ref a, lda, n);
 
         if (info != 0)
         {
@@ -130,7 +123,7 @@ public static class DPOCO
         //
         //  Solve R' * W = E.
         //
-        ek = 1.0;
+        double ek = 1.0;
         for (i = 1; i <= n; i++)
         {
             z[i - 1] = 0.0;
@@ -154,10 +147,10 @@ public static class DPOCO
                 ek = s * ek;
             }
 
-            wk = ek - z[k - 1];
-            wkm = -ek - z[k - 1];
+            double wk = ek - z[k - 1];
+            double wkm = -ek - z[k - 1];
             s = Math.Abs(wk);
-            sm = Math.Abs(wkm);
+            double sm = Math.Abs(wkm);
             wk /= a[k - 1 + (k - 1) * lda];
             wkm /= a[k - 1 + (k - 1) * lda];
 
@@ -215,7 +208,7 @@ public static class DPOCO
             z[i - 1] /= s;
         }
 
-        ynorm = 1.0;
+        double ynorm = 1.0;
         //
         //  Solve R' * V = Y.
         //

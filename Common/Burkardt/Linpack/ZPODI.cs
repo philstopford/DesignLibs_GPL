@@ -66,10 +66,6 @@ public static class ZPODI
         //    10, determinant only.
         //
     {
-        int i;
-        int j;
-        int k;
-        Complex t;
         //
         //  Compute determinant
         //
@@ -78,6 +74,7 @@ public static class ZPODI
             det[0] = 1.0;
             det[1] = 0.0;
 
+            int i;
             for (i = 0; i < n; i++)
             {
                 det[0] = det[0] * a[i + i * lda].Real * a[i + i * lda].Real;
@@ -106,6 +103,9 @@ public static class ZPODI
         //
         if (job % 10 != 0)
         {
+            int j;
+            int k;
+            Complex t;
             for (k = 1; k <= n; k++)
             {
                 a[k - 1 + (k - 1) * lda] = new Complex(1.0, 0.0) / a[k - 1 + (k - 1) * lda];

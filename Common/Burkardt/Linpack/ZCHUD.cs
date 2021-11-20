@@ -103,19 +103,15 @@ public static class ZCHUD
         //    Output, Complex S[P], the sines of the transforming rotations.
         //
     {
-        double azeta;
         int i;
         int j;
-        double scale;
         Complex t;
-        Complex xj;
-        Complex zeta;
         //
         //  Update R.
         //
         for (j = 1; j <= p; j++)
         {
-            xj = x[j - 1];
+            Complex xj = x[j - 1];
             //
             //  Apply the previous rotations.
             //
@@ -137,7 +133,7 @@ public static class ZCHUD
         //
         for (j = 1; j <= nz; j++)
         {
-            zeta = y[j - 1];
+            Complex zeta = y[j - 1];
 
             for (i = 1; i <= p; i++)
             {
@@ -146,14 +142,16 @@ public static class ZCHUD
                 z[i - 1 + (j - 1) * ldz] = t;
             }
 
-            azeta = Complex.Abs(zeta);
+            double azeta = Complex.Abs(zeta);
 
-            if (azeta != 0.0 && 0.0 <= rho[j - 1])
+            if (azeta == 0.0 || !(0.0 <= rho[j - 1]))
             {
-                scale = azeta + rho[j - 1];
-                rho[j - 1] = scale * Math.Sqrt(Math.Pow(azeta / scale, 2)
-                                               + Math.Pow(rho[j - 1] / scale, 2));
+                continue;
             }
+
+            double scale = azeta + rho[j - 1];
+            rho[j - 1] = scale * Math.Sqrt(Math.Pow(azeta / scale, 2)
+                                           + Math.Pow(rho[j - 1] / scale, 2));
         }
     }
 

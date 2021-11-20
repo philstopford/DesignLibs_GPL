@@ -133,34 +133,20 @@ public static class ZGBCO
         //      norm ( A * Z ) = RCOND * norm ( A ) * norm ( Z ).
         //
     {
-        double anorm;
-        Complex ek;
-        int is_;
         int j;
-        int ju;
         int k;
-        int l;
-        int la;
         int lm;
-        int lz;
-        int m;
-        int mm;
         double rcond;
         double s;
-        double sm;
         Complex t;
-        Complex wk;
-        Complex wkm;
-        double ynorm;
-        Complex[] z;
 
-        z = new Complex [n];
+        Complex[] z = new Complex [n];
         //
         //  Compute 1-norm of A.
         //
-        anorm = 0.0;
-        l = ml + 1;
-        is_ = l + mu;
+        double anorm = 0.0;
+        int l = ml + 1;
+        int is_ = l + mu;
 
         for (j = 1; j <= n; j++)
         {
@@ -200,15 +186,15 @@ public static class ZGBCO
         //
         //  Solve hermitian(U) * W = E.
         //
-        ek = new Complex(1.0, 0.0);
+        Complex ek = new Complex(1.0, 0.0);
 
         for (j = 1; j <= n; j++)
         {
             z[j - 1] = new Complex(0.0, 0.0);
         }
 
-        m = ml + mu + 1;
-        ju = 0;
+        int m = ml + mu + 1;
+        int ju = 0;
 
         for (k = 1; k <= n; k++)
         {
@@ -224,10 +210,10 @@ public static class ZGBCO
                 ek = new Complex(s, 0.0) * ek;
             }
 
-            wk = ek - z[k - 1];
-            wkm = -ek - z[k - 1];
+            Complex wk = ek - z[k - 1];
+            Complex wkm = -ek - z[k - 1];
             s = typeMethods.zabs1(wk);
-            sm = typeMethods.zabs1(wkm);
+            double sm = typeMethods.zabs1(wkm);
 
             if (typeMethods.zabs1(abd[m - 1 + (k - 1) * lda]) != 0.0)
             {
@@ -241,7 +227,7 @@ public static class ZGBCO
             }
 
             ju = Math.Min(Math.Max(ju, mu + ipvt[k - 1]), n);
-            mm = m;
+            int mm = m;
 
             if (k + 1 <= ju)
             {
@@ -298,7 +284,7 @@ public static class ZGBCO
 
         s = 1.0 / BLAS1Z.dzasum(n, z, 1);
         BLAS1Z.zdscal(n, s, ref z, 1);
-        ynorm = 1.0;
+        double ynorm = 1.0;
         //
         //  Solve L * V = Y.
         //
@@ -350,8 +336,8 @@ public static class ZGBCO
             }
 
             lm = Math.Min(k, m) - 1;
-            la = m - lm;
-            lz = k - lm;
+            int la = m - lm;
+            int lz = k - lm;
             t = -z[k - 1];
             BLAS1Z.zaxpy(lm, t, abd, 1, ref z, 1, xIndex: +la - 1 + (k - 1) * lda, yIndex: +lz - 1);
         }

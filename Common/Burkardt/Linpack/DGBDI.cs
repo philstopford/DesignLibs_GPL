@@ -61,9 +61,8 @@ public static class DGBDI
         //
     {
         int i;
-        int m;
 
-        m = ml + mu + 1;
+        int m = ml + mu + 1;
         det[0] = 1.0;
         det[1] = 0.0;
 

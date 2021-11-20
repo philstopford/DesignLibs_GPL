@@ -79,24 +79,13 @@ public static class DSIDI
         //    For example, JOB = 111 gives all three.
         //
     {
-        double ak;
-        double akkp1;
-        double akp1;
         double d;
-        bool dodet;
-        bool doert;
-        bool doinv;
-        int j;
-        int jb;
         int k;
-        int ks;
-        int kstep;
         double t;
-        double temp;
 
-        doinv = job % 10 != 0;
-        dodet = job % 100 / 10 != 0;
-        doert = job % 1000 / 100 != 0;
+        bool doinv = job % 10 != 0;
+        bool dodet = job % 100 / 10 != 0;
+        bool doert = job % 1000 / 100 != 0;
 
         if (dodet || doert)
         {
@@ -200,6 +189,8 @@ public static class DSIDI
 
                 while (k <= n)
                 {
+                    int j;
+                    int kstep;
                     switch (kpvt[k - 1])
                     {
                         case >= 0:
@@ -234,9 +225,9 @@ public static class DSIDI
                         default:
                         {
                             t = Math.Abs(a[k - 1 + k * lda]);
-                            ak = a[k - 1 + (k - 1) * lda] / t;
-                            akp1 = a[k + k * lda] / t;
-                            akkp1 = a[k - 1 + k * lda] / t;
+                            double ak = a[k - 1 + (k - 1) * lda] / t;
+                            double akp1 = a[k + k * lda] / t;
+                            double akkp1 = a[k - 1 + k * lda] / t;
                             d = t * (ak * akp1 - 1.0);
                             a[k - 1 + (k - 1) * lda] = akp1 / d;
                             a[k + k * lda] = ak / d;
@@ -280,12 +271,14 @@ public static class DSIDI
                     //
                     //  Swap.
                     //
-                    ks = Math.Abs(kpvt[k - 1]);
+                    int ks = Math.Abs(kpvt[k - 1]);
 
                     if (ks != k)
                     {
                         BLAS1D.dswap(ks, ref a, 1, ref a, 1, xIndex: +0 + (ks - 1) * lda, yIndex: +0 + (k - 1) * lda);
 
+                        int jb;
+                        double temp;
                         for (jb = ks; jb <= k; jb++)
                         {
                             j = k + ks - jb;

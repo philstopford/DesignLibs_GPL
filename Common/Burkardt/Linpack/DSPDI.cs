@@ -77,35 +77,17 @@ public static class DSPDI
         //    For example, JOB = 111  gives all three.
         //
     {
-        double ak;
-        double akkp1;
-        double akp1;
         double d;
-        bool dodet;
-        bool doert;
-        bool doinv;
-        int ij;
         int ik;
         int ikp1;
-        int iks;
-        int j;
-        int jb;
-        int jk;
-        int jkp1;
         int k;
         int kk;
         int kkp1;
-        int km1;
-        int ks;
-        int ksj;
-        int kskp1;
-        int kstep;
         double t;
-        double temp;
 
-        doinv = job % 10 != 0;
-        dodet = job % 100 / 10 != 0;
-        doert = job % 1000 / 100 != 0;
+        bool doinv = job % 10 != 0;
+        bool dodet = job % 100 / 10 != 0;
+        bool doert = job % 1000 / 100 != 0;
 
         if (dodet || doert)
         {
@@ -215,11 +197,15 @@ public static class DSPDI
 
                 while (k <= n)
                 {
-                    km1 = k - 1;
+                    int km1 = k - 1;
                     kk = ik + k;
                     ikp1 = ik + k;
                     kkp1 = ikp1 + k;
 
+                    int kstep;
+                    int jk;
+                    int j;
+                    int ij;
                     switch (kpvt[k - 1])
                     {
                         case >= 0:
@@ -258,9 +244,9 @@ public static class DSPDI
                             //  2 by 2.
                             //
                             t = Math.Abs(ap[kkp1 - 1]);
-                            ak = ap[kk - 1] / t;
-                            akp1 = ap[kkp1] / t;
-                            akkp1 = ap[kkp1 - 1] / t;
+                            double ak = ap[kk - 1] / t;
+                            double akp1 = ap[kkp1] / t;
+                            double akkp1 = ap[kkp1 - 1] / t;
                             d = t * (ak * akp1 - 1.0);
                             ap[kk - 1] = akp1 / d;
                             ap[kkp1] = ak / d;
@@ -275,7 +261,7 @@ public static class DSPDI
 
                                     for (j = 1; j <= km1; j++)
                                     {
-                                        jkp1 = ikp1 + j;
+                                        int jkp1 = ikp1 + j;
                                         ap[jkp1 - 1] = BLAS1D.ddot(j, ap, 1, work, 1, xIndex: +ij);
                                         BLAS1D.daxpy(j - 1, work[j - 1], ap, 1, ref ap, 1, xIndex: +ij, yIndex: +ikp1);
                                         ij += j;
@@ -307,14 +293,16 @@ public static class DSPDI
                     //
                     //  Swap.
                     //
-                    ks = Math.Abs(kpvt[k - 1]);
+                    int ks = Math.Abs(kpvt[k - 1]);
 
                     if (ks != k)
                     {
-                        iks = ks * (ks - 1) / 2;
+                        int iks = ks * (ks - 1) / 2;
                         BLAS1D.dswap(ks, ref ap, 1, ref ap, 1, xIndex: +iks, yIndex: +ik);
-                        ksj = ik + ks;
+                        int ksj = ik + ks;
 
+                        double temp;
+                        int jb;
                         for (jb = ks; jb <= k; jb++)
                         {
                             j = k + ks - jb;
@@ -327,7 +315,7 @@ public static class DSPDI
 
                         if (kstep != 1)
                         {
-                            kskp1 = ikp1 + ks;
+                            int kskp1 = ikp1 + ks;
                             temp = ap[kskp1 - 1];
                             ap[kskp1 - 1] = ap[kkp1 - 1];
                             ap[kkp1 - 1] = temp;

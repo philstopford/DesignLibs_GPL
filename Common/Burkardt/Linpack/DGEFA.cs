@@ -56,22 +56,18 @@ public static class DGEFA
         //    Use RCOND in DGECO for a reliable indication of singularity.
         //
     {
-        int info;
-        int j;
         int k;
-        int l;
-        double t;
         //
         //  Gaussian elimination with partial pivoting.
         //
-        info = 0;
+        int info = 0;
 
         for (k = 1; k <= n - 1; k++)
         {
             //
             //  Find L = pivot index.
             //
-            l = BLAS1D.idamax(n - k + 1, a, 1, index:  + (k - 1) + (k - 1) * lda) + k - 1;
+            int l = BLAS1D.idamax(n - k + 1, a, 1, index:  + (k - 1) + (k - 1) * lda) + k - 1;
             ipvt[k - 1] = l;
             switch (a[l - 1 + (k - 1) * lda])
             {
@@ -86,6 +82,7 @@ public static class DGEFA
             //
             //  Interchange if necessary.
             //
+            double t;
             if (l != k)
             {
                 t = a[l - 1 + (k - 1) * lda];
@@ -102,6 +99,7 @@ public static class DGEFA
             //
             //  Row elimination with column indexing.
             //
+            int j;
             for (j = k + 1; j <= n; j++)
             {
                 t = a[l - 1 + (j - 1) * lda];

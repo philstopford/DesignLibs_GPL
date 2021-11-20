@@ -57,11 +57,9 @@ public static class DGTSL
         //       subroutine returns if this error condition is detected.
         //
     {
-        int info;
         int k;
-        double t;
 
-        info = 0;
+        int info = 0;
         c[0] = d[0];
 
         switch (n)
@@ -77,6 +75,7 @@ public static class DGTSL
                     //
                     //  Find the larger of the two rows.
                     //
+                    double t;
                     if (Math.Abs(c[k - 1]) <= Math.Abs(c[k]))
                     {
                         //

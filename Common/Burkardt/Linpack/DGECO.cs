@@ -79,23 +79,17 @@ public static class DGECO
         //    of the reciprocal condition number of A.
         //
     {
-        double anorm;
-        double ek;
         int i;
         int j;
         int k;
         int l;
         double rcond;
         double s;
-        double sm;
         double t;
-        double wk;
-        double wkm;
-        double ynorm;
         //
         //  Compute the L1 norm of A.
         //
-        anorm = 0.0;
+        double anorm = 0.0;
         for (j = 1; j <= n; j++)
         {
             anorm = Math.Max(anorm, BLAS1D.dasum(n, a, 1, index:  + 0 + (j - 1) * lda));
@@ -121,7 +115,7 @@ public static class DGECO
         //
         //  Solve U' * W = E.
         //
-        ek = 1.0;
+        double ek = 1.0;
         for (i = 1; i <= n; i++)
         {
             z[i - 1] = 0.0;
@@ -145,10 +139,10 @@ public static class DGECO
                 ek = s * ek;
             }
 
-            wk = ek - z[k - 1];
-            wkm = -ek - z[k - 1];
+            double wk = ek - z[k - 1];
+            double wkm = -ek - z[k - 1];
             s = Math.Abs(wk);
-            sm = Math.Abs(wkm);
+            double sm = Math.Abs(wkm);
 
             if (a[k - 1 + (k - 1) * lda] != 0.0)
             {
@@ -224,7 +218,7 @@ public static class DGECO
             z[i - 1] /= t;
         }
 
-        ynorm = 1.0;
+        double ynorm = 1.0;
         //
         //  Solve L * V = Y.
         //

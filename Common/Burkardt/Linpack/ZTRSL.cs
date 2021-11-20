@@ -63,7 +63,6 @@ public static class ZTRSL
         //    K, the index of the first zero diagonal element of T.
         //
     {
-        int kase;
         int i;
         int info;
         int j;
@@ -74,18 +73,20 @@ public static class ZTRSL
         //
         for (i = 0; i < n; i++)
         {
-            if (typeMethods.zabs1(t[i + i * ldt]) == 0.0)
+            if (typeMethods.zabs1(t[i + i * ldt]) != 0.0)
             {
-                info = i + 1;
-                return info;
+                continue;
             }
+
+            info = i + 1;
+            return info;
         }
 
         info = 0;
         //
         //  Determine the task and go to it.
         //
-        kase = 1;
+        int kase = 1;
 
         if (job % 10 != 0)
         {

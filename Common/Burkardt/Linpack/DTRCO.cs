@@ -65,34 +65,24 @@ public static class DTRCO
         //    RCOND is zero if exact singularity is detected or the estimate underflows.
         //
     {
-        double ek;
         int i;
         int i1;
         int j;
-        int j1;
-        int j2;
         int k;
         int kk;
-        int l;
-        bool lower;
         double rcond;
         double s;
-        double sm;
-        double temp;
-        double tnorm;
         double w;
-        double wk;
-        double wkm;
-        double ynorm;
 
-        lower = job == 0;
+        bool lower = job == 0;
         //
         //  Compute the 1-norm of T.
         //
-        tnorm = 0.0;
+        double tnorm = 0.0;
 
         for (j = 1; j <= n; j++)
         {
+            int l;
             switch (lower)
             {
                 case true:
@@ -122,7 +112,7 @@ public static class DTRCO
         //
         //  Solve T' * Y = E.
         //
-        ek = 1.0;
+        double ek = 1.0;
         for (i = 1; i <= n; i++)
         {
             z[i - 1] = 0.0;
@@ -152,10 +142,10 @@ public static class DTRCO
                 ek = s * ek;
             }
 
-            wk = ek - z[k - 1];
-            wkm = -ek - z[k - 1];
+            double wk = ek - z[k - 1];
+            double wkm = -ek - z[k - 1];
             s = Math.Abs(wk);
-            sm = Math.Abs(wkm);
+            double sm = Math.Abs(wkm);
 
             if (t[k - 1 + (k - 1) * ldt] != 0.0)
             {
@@ -170,6 +160,8 @@ public static class DTRCO
 
             if (kk != n)
             {
+                int j2;
+                int j1;
                 switch (lower)
                 {
                     case true:
@@ -203,14 +195,14 @@ public static class DTRCO
             z[k - 1] = wk;
         }
 
-        temp = BLAS1D.dasum(n, z, 1);
+        double temp = BLAS1D.dasum(n, z, 1);
 
         for (i = 1; i <= n; i++)
         {
             z[i - 1] /= temp;
         }
 
-        ynorm = 1.0;
+        double ynorm = 1.0;
         //
         //  Solve T * Z = Y.
         //

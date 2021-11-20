@@ -87,26 +87,15 @@ public static class ZCHDC
         //
     {
         int i_temp;
-        int info;
         int j;
         int k;
-        int kb;
-        int l;
-        double maxdia;
-        int maxl;
-        bool negk;
-        int pl;
-        int plp1;
-        int pu;
-        bool swapk;
         Complex temp;
-        Complex[] work;
 
-        pl = 1;
-        pu = 0;
-        info = p;
+        int pl = 1;
+        int pu = 0;
+        int info = p;
 
-        work = new Complex[p];
+        Complex[] work = new Complex[p];
 
         if (job != 0)
         {
@@ -115,8 +104,8 @@ public static class ZCHDC
             //
             for (k = 1; k <= p; k++)
             {
-                swapk = 0 < ipvt[k - 1];
-                negk = ipvt[k - 1] < 0;
+                bool swapk = 0 < ipvt[k - 1];
+                bool negk = ipvt[k - 1] < 0;
 
                 ipvt[k - 1] = negk switch
                 {
@@ -138,7 +127,7 @@ public static class ZCHDC
                             a[pl - 1 + (pl - 1) * lda] = temp;
 
                             a[pl - 1 + (k - 1) * lda] = Complex.Conjugate(a[pl - 1 + (k - 1) * lda]);
-                            plp1 = pl + 1;
+                            int plp1 = pl + 1;
 
                             for (j = plp1; j <= p; j++)
                             {
@@ -168,6 +157,7 @@ public static class ZCHDC
 
             pu = p;
 
+            int kb;
             for (kb = pl; kb <= p; kb++)
             {
                 k = p - kb + pl;
@@ -222,13 +212,14 @@ public static class ZCHDC
             //
             //  Reduction loop.
             //
-            maxdia = a[k - 1 + (k - 1) * lda].Real;
-            maxl = k;
+            double maxdia = a[k - 1 + (k - 1) * lda].Real;
+            int maxl = k;
             //
             //  Determine the pivot element.
             //
             if (pl <= k && k < pu)
             {
+                int l;
                 for (l = k + 1; l <= pu; l++)
                 {
                     if (maxdia < a[l - 1 + (l - 1) * lda].Real)

@@ -46,15 +46,11 @@ public static partial class Matrix
         //    A * U2 = V2 and A * U3 = V3.
         //
     {
-        double[] a;
-        double[] c;
-        int i;
         int j;
-        int k;
         //
         //  Compute C = the inverse of U.
         //
-        c = typeMethods.r8mat_inverse_3d ( u );
+        double[] c = typeMethods.r8mat_inverse_3d ( u );
 
         switch (c)
         {
@@ -64,13 +60,15 @@ public static partial class Matrix
         //
         //  A = V * inverse ( U ).
         //
-        a = new double[3*3];
+        double[] a = new double[3*3];
 
         for ( j = 0; j < 3; j++ )
         {
+            int i;
             for ( i = 0; i < 3; i++ )
             {
                 a[i+j*3] = 0.0;
+                int k;
                 for ( k = 0; k < 3; k++ )
                 {
                     a[i+j*3] += v[i+k*3] * c[k+j*3];

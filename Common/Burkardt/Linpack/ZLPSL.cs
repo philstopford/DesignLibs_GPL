@@ -51,29 +51,17 @@ public static class ZLPSL
         //    On output, the solution.
         //
     {
-        Complex ak;
-        Complex akm1;
-        Complex bk;
-        Complex bkm1;
-        Complex denom;
-        int ik;
-        int ikm1;
-        int ikp1;
-        int k;
-        int kk;
-        int km1k;
-        int km1km1;
         int kp;
         Complex t;
         //
         //  Loop backward applying the transformations and d inverse to b.
         //
-        k = n;
-        ik = n * (n - 1) / 2;
+        int k = n;
+        int ik = n * (n - 1) / 2;
 
         while (0 < k)
         {
-            kk = ik + k;
+            int kk = ik + k;
             switch (ipvt[k - 1])
             {
                 case >= 0:
@@ -105,7 +93,7 @@ public static class ZLPSL
                 //
                 default:
                 {
-                    ikm1 = ik - (k - 1);
+                    int ikm1 = ik - (k - 1);
 
                     if (k != 2)
                     {
@@ -125,14 +113,14 @@ public static class ZLPSL
                     //
                     //  Apply D inverse.
                     //
-                    km1k = ik + k - 1;
+                    int km1k = ik + k - 1;
                     kk = ik + k;
-                    ak = ap[kk - 1] / ap[km1k - 1];
-                    km1km1 = ikm1 + k - 1;
-                    akm1 = ap[km1km1 - 1] / ap[km1k - 1];
-                    bk = b[k - 1] / ap[km1k - 1];
-                    bkm1 = b[k - 2] / ap[km1k - 1];
-                    denom = ak * akm1 - new Complex(1.0, 0.0);
+                    Complex ak = ap[kk - 1] / ap[km1k - 1];
+                    int km1km1 = ikm1 + k - 1;
+                    Complex akm1 = ap[km1km1 - 1] / ap[km1k - 1];
+                    Complex bk = b[k - 1] / ap[km1k - 1];
+                    Complex bkm1 = b[k - 2] / ap[km1k - 1];
+                    Complex denom = ak * akm1 - new Complex(1.0, 0.0);
                     b[k - 1] = (akm1 * bk - bkm1) / denom;
                     b[k - 2] = (ak * bkm1 - bk) / denom;
                     k -= 2;
@@ -179,7 +167,7 @@ public static class ZLPSL
                     if (k != 1)
                     {
                         b[k - 1] += BLAS1Z.zdotu(k - 1, ap, 1, b, 1, xIndex: +ik);
-                        ikp1 = ik + k;
+                        int ikp1 = ik + k;
                         b[k] += BLAS1Z.zdotu(k - 1, ap, 1, b, 1, xIndex: +ikp1);
                         kp = Math.Abs(ipvt[k - 1]);
 

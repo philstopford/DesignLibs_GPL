@@ -83,26 +83,21 @@ public static class ZHICO
     {
         Complex ak;
         Complex akm1;
-        double anorm;
         Complex bk;
         Complex bkm1;
         Complex denom;
-        Complex ek;
         int i;
         int j;
-        int k;
         int kp;
         int kps;
         int ks;
         double rcond;
         double s;
         Complex t;
-        double ynorm;
-        Complex[] z;
         //
         //  Find norm of A using only upper half.
         //
-        z = new Complex [n];
+        Complex[] z = new Complex [n];
 
         for (j = 1; j <= n; j++)
         {
@@ -114,7 +109,7 @@ public static class ZHICO
             }
         }
 
-        anorm = 0.0;
+        double anorm = 0.0;
         for (j = 0; j < n; j++)
         {
             anorm = Math.Max(anorm, z[j].Real);
@@ -136,13 +131,13 @@ public static class ZHICO
         //
         //  Solve U*D*W = E.
         //
-        ek = new Complex(1.0, 0.0);
+        Complex ek = new Complex(1.0, 0.0);
         for (i = 0; i < n; i++)
         {
             z[i] = new Complex(0.0, 0.0);
         }
 
-        k = n;
+        int k = n;
 
         while (0 < k)
         {
@@ -254,7 +249,7 @@ public static class ZHICO
 
         s = 1.0 / BLAS1Z.dzasum(n, z, 1);
         BLAS1Z.zdscal(n, s, ref z, 1);
-        ynorm = 1.0;
+        double ynorm = 1.0;
         //
         //  Solve U*D*V = Y.
         //

@@ -73,24 +73,18 @@ public static partial class Matrix
         //    Output, double CLASS_MATRIX, the zero-th moment.
         //
     {
-        double a2b2;
         double ab;
-        double aba;
         double abi;
         double abj;
-        double abti;
-        double apone;
         int i;
-            
-        double temp;
-        double temp2;
+
         double zemu = 0;
 
-        temp = typeMethods.r8_epsilon();
+        double temp = typeMethods.r8_epsilon();
 
         PARCHK.parchk(kind, 2 * m - 1, alpha, beta);
 
-        temp2 = 0.5;
+        double temp2 = 0.5;
 
         if (500.0 * temp < Math.Abs(Math.Pow(Helpers.Gamma(temp2), 2) - Math.PI))
         {
@@ -167,7 +161,7 @@ public static partial class Matrix
                 aj[0] = (beta - alpha) / abi;
                 bj[0] = Math.Sqrt(4.0 * (1.0 + alpha) * (1.0 + beta)
                                   / ((abi + 1.0) * abi * abi));
-                a2b2 = beta * beta - alpha * alpha;
+                double a2b2 = beta * beta - alpha * alpha;
 
                 for (i = 2; i <= m; i++)
                 {
@@ -232,10 +226,11 @@ public static partial class Matrix
                 ab = alpha + beta;
                 zemu = Helpers.Gamma(alpha + 1.0) * Helpers.Gamma(-(ab + 1.0))
                        / Helpers.Gamma(-beta);
-                apone = alpha + 1.0;
-                aba = ab * apone;
+                double apone = alpha + 1.0;
+                double aba = ab * apone;
                 aj[0] = -apone / (ab + 2.0);
                 bj[0] = -aj[0] * (beta + 1.0) / (ab + 2.0) / (ab + 3.0);
+                double abti;
                 for (i = 2; i <= m; i++)
                 {
                     abti = ab + 2.0 * i;

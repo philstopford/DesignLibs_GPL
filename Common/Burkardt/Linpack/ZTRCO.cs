@@ -66,34 +66,24 @@ public static class ZTRCO
         //      norm(A*Z) = RCOND * norm(A) * norm(Z).
         //
     {
-        Complex ek;
         int i;
         int i1;
         int j;
-        int j1;
-        int j2;
         int k;
         int kk;
-        int l;
-        bool lower;
         double rcond;
         double s;
-        double sm;
-        double tnorm;
         Complex w;
-        Complex wk;
-        Complex wkm;
-        double ynorm;
-        Complex[] z;
 
-        lower = job == 0;
+        bool lower = job == 0;
         //
         //  Compute 1-norm of T
         //
-        tnorm = 0.0;
+        double tnorm = 0.0;
 
         for (j = 1; j <= n; j++)
         {
+            int l;
             switch (lower)
             {
                 case true:
@@ -124,8 +114,8 @@ public static class ZTRCO
         //
         //  Solve hermitian(T)*Y = E.
         //
-        ek = new Complex(1.0, 0.0);
-        z = new Complex[n];
+        Complex ek = new Complex(1.0, 0.0);
+        Complex[] z = new Complex[n];
         for (i = 0; i < n; i++)
         {
             z[i] = new Complex(0.0, 0.0);
@@ -151,10 +141,10 @@ public static class ZTRCO
                 ek = new Complex(s, 0.0) * ek;
             }
 
-            wk = ek - z[k - 1];
-            wkm = -ek - z[k - 1];
+            Complex wk = ek - z[k - 1];
+            Complex wkm = -ek - z[k - 1];
             s = typeMethods.zabs1(wk);
-            sm = typeMethods.zabs1(wkm);
+            double sm = typeMethods.zabs1(wkm);
 
             if (typeMethods.zabs1(t[k - 1 + (k - 1) * ldt]) != 0.0)
             {
@@ -169,6 +159,8 @@ public static class ZTRCO
 
             if (kk != n)
             {
+                int j2;
+                int j1;
                 switch (lower)
                 {
                     case true:
@@ -204,7 +196,7 @@ public static class ZTRCO
 
         s = 1.0 / BLAS1Z.dzasum(n, z, 1);
         BLAS1Z.zdscal(n, s, ref z, 1);
-        ynorm = 1.0;
+        double ynorm = 1.0;
         //
         //  Solve T*Z = Y.
         //

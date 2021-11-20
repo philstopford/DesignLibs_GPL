@@ -103,19 +103,15 @@ public static class DCHUD
         //    transforming rotations.
         //
     {
-        double azeta;
         int i;
         int j;
-        double scale;
         double t;
-        double xj;
-        double zeta;
         //
         //  Update R.
         //
         for (j = 1; j <= p; j++)
         {
-            xj = x[j - 1];
+            double xj = x[j - 1];
             //
             //  Apply the previous rotations.
             //
@@ -137,7 +133,7 @@ public static class DCHUD
         //
         for (j = 1; j <= nz; j++)
         {
-            zeta = y[j - 1];
+            double zeta = y[j - 1];
             for (i = 1; i <= p; i++)
             {
                 t = c[i - 1] * z[i - 1 + (j - 1) * ldz] + s[i - 1] * zeta;
@@ -145,14 +141,16 @@ public static class DCHUD
                 z[i - 1 + (j - 1) * ldz] = t;
             }
 
-            azeta = Math.Abs(zeta);
+            double azeta = Math.Abs(zeta);
 
-            if (azeta != 0.0 && 0.0 <= rho[j - 1])
+            if (azeta == 0.0 || !(0.0 <= rho[j - 1]))
             {
-                scale = azeta + rho[j - 1];
-                rho[j - 1] = scale * Math.Sqrt(
-                    Math.Pow(azeta / scale, 2) + Math.Pow(rho[j - 1] / scale, 2));
+                continue;
             }
+
+            double scale = azeta + rho[j - 1];
+            rho[j - 1] = scale * Math.Sqrt(
+                Math.Pow(azeta / scale, 2) + Math.Pow(rho[j - 1] / scale, 2));
 
         }
     }

@@ -67,24 +67,12 @@ public static class ZSIDI
         //    For example, JOB = 11 gives both.
         //
     {
-        Complex ak;
-        Complex akkp1;
-        Complex akp1;
         Complex d;
-        int i;
-        int j;
-        int jb;
         int k;
-        int km1;
-        int ks;
-        int kstep;
-        bool nodet;
-        bool noinv;
         Complex t;
-        Complex[] work;
 
-        noinv = job % 10 == 0;
-        nodet = job % 100 / 10 == 0;
+        bool noinv = job % 10 == 0;
+        bool nodet = job % 100 / 10 == 0;
 
         switch (nodet)
         {
@@ -145,13 +133,16 @@ public static class ZSIDI
             //
             case false:
             {
-                work = new Complex [n];
+                Complex[] work = new Complex [n];
 
                 k = 1;
 
                 while (k <= n)
                 {
-                    km1 = k - 1;
+                    int km1 = k - 1;
+                    int kstep;
+                    int j;
+                    int i;
                     switch (ipvt[k - 1])
                     {
                         //
@@ -189,9 +180,9 @@ public static class ZSIDI
                         default:
                         {
                             t = a[k - 1 + k * lda];
-                            ak = a[k - 1 + (k - 1) * lda] / t;
-                            akp1 = a[k + k * lda] / t;
-                            akkp1 = a[k - 1 + k * lda] / t;
+                            Complex ak = a[k - 1 + (k - 1) * lda] / t;
+                            Complex akp1 = a[k + k * lda] / t;
+                            Complex akkp1 = a[k - 1 + k * lda] / t;
                             d = t * (ak * akp1 - new Complex(1.0, 0.0));
                             a[k - 1 + (k - 1) * lda] = akp1 / d;
                             a[k + k * lda] = ak / d;
@@ -242,12 +233,13 @@ public static class ZSIDI
                     //
                     //  Swap.
                     //
-                    ks = Math.Abs(ipvt[k - 1]);
+                    int ks = Math.Abs(ipvt[k - 1]);
 
                     if (ks != k)
                     {
                         BLAS1Z.zswap(ks, ref a, 1, ref a, 1, xIndex: +0 + (ks - 1) * lda, yIndex: +0 + (k - 1) * lda);
 
+                        int jb;
                         for (jb = ks; jb <= k; jb++)
                         {
                             j = k + ks - jb;

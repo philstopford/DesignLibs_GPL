@@ -84,30 +84,25 @@ public static class ZSICO
     {
         Complex ak;
         Complex akm1;
-        double anorm;
         Complex bk;
         Complex bkm1;
         Complex denom;
-        Complex ek;
-        int i;
         int j;
-        int k;
         int kp;
         int kps;
         int ks;
         double rcond;
         double s;
-        double ynorm;
         Complex t;
-        Complex[] z;
 
-        z = new Complex [n];
+        Complex[] z = new Complex [n];
         //
         //  Find norm of A using only upper half.
         //
         for (j = 1; j <= n; j++)
         {
             z[j - 1] = new Complex(BLAS1Z.dzasum(j, a, 1, index: +0 + (j - 1) * lda), 0.0);
+            int i;
             for (i = 1; i <= j - 1; i++)
             {
                 z[i - 1] =
@@ -115,7 +110,7 @@ public static class ZSICO
             }
         }
 
-        anorm = 0.0;
+        double anorm = 0.0;
         for (j = 0; j < n; j++)
         {
             anorm = Math.Max(anorm, z[j].Real);
@@ -137,13 +132,13 @@ public static class ZSICO
         //
         //  Solve U*D*W = E.
         //
-        ek = new Complex(1.0, 0.0);
+        Complex ek = new Complex(1.0, 0.0);
         for (j = 0; j < n; j++)
         {
             z[j] = new Complex(0.0, 0.0);
         }
 
-        k = n;
+        int k = n;
 
         while (0 < k)
         {
@@ -254,7 +249,7 @@ public static class ZSICO
 
         s = 1.0 / BLAS1Z.dzasum(n, z, 1);
         BLAS1Z.zdscal(n, s, ref z, 1);
-        ynorm = 1.0;
+        double ynorm = 1.0;
         //
         //  Solve U*D*V = Y.
         //

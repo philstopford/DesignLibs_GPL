@@ -5,7 +5,7 @@ using Burkardt.Types;
 
 namespace Burkardt.Linpack;
 
-public class ZSVDC
+public static class ZSVDC
 {
     public static int zsvdc(ref Complex[] x, int ldx, int n, int p,
             ref Complex[] s, ref Complex[] e, ref Complex[] u, int ldu,
@@ -97,61 +97,26 @@ public class ZSVDC
         //    and B are the same.
         //
     {
-        double b;
-        double c;
         double cs = 0;
-        double el;
-        double emm1;
-        double f;
-        double g;
         int i;
-        int info;
-        int iter;
         int j;
-        int jobu;
-        int k;
-        int kase;
-        int kk;
         int l;
         int ll;
-        int lls;
         int lp1;
         int ls = 0;
-        int lu;
-        int m;
-        int maxit = 30;
-        int mm;
-        int mm1;
-        int mp1;
-        int nct;
-        int nctp1;
-        int ncu;
-        int nrt;
-        int nrtp1;
-        Complex r;
-        double scale;
-        double shift;
-        double sl;
-        double sm;
-        double smm1;
+        const int maxit = 30;
         double sn = 0;
         Complex t;
-        double t1;
-        double test;
-        bool wantu;
-        bool wantv;
-        Complex[] work;
-        double ztest;
 
-        work = new Complex[n];
+        Complex[] work = new Complex[n];
         //
         //  Determine what is to be computed.
         //
-        wantu = false;
-        wantv = false;
-        jobu = job % 100 / 10;
+        bool wantu = false;
+        bool wantv = false;
+        int jobu = job % 100 / 10;
 
-        ncu = jobu switch
+        int ncu = jobu switch
         {
             > 1 => Math.Min(n, p),
             _ => n
@@ -171,10 +136,10 @@ public class ZSVDC
         //  Reduce X to bidiagonal form, storing the diagonal elements
         //  in S and the super-diagonal elements in E.
         //
-        info = 0;
-        nct = Math.Min(n - 1, p);
-        nrt = Math.Max(0, Math.Min(p - 2, n));
-        lu = Math.Max(nct, nrt);
+        int info = 0;
+        int nct = Math.Min(n - 1, p);
+        int nrt = Math.Max(0, Math.Min(p - 2, n));
+        int lu = Math.Max(nct, nrt);
 
         for (l = 1; l <= lu; l++)
         {
@@ -304,9 +269,9 @@ public class ZSVDC
         //
         //  Set up the final bidiagonal matrix of order M.
         //
-        m = Math.Min(p, n + 1);
-        nctp1 = nct + 1;
-        nrtp1 = nrt + 1;
+        int m = Math.Min(p, n + 1);
+        int nctp1 = nct + 1;
+        int nrtp1 = nrt + 1;
 
         if (nct < p)
         {
@@ -424,6 +389,8 @@ public class ZSVDC
         //
         for (i = 1; i <= m; i++)
         {
+            Complex 
+                r;
             if (typeMethods.zabs1(s[i - 1]) != 0.0)
             {
                 t = new Complex(Complex.Abs(s[i - 1]), 0.0);
@@ -467,8 +434,8 @@ public class ZSVDC
         //
         //  Main iteration loop for the singular values.
         //
-        mm = m;
-        iter = 0;
+        int mm = m;
+        int iter = 0;
 
         for (;;)
         {
@@ -500,6 +467,8 @@ public class ZSVDC
             //               S(L), ..., S(M) are not negligible (QR step).
             //  KASE = 4     if E(M-1) is negligible (convergence).
             //
+            double test;
+            double ztest;
             for (ll = 1; ll <= m; ll++)
             {
                 l = m - ll;
@@ -519,6 +488,7 @@ public class ZSVDC
                 }
             }
 
+            int kase;
             if (l == m - 1)
             {
                 kase = 4;
@@ -526,8 +496,9 @@ public class ZSVDC
             else
             {
                 lp1 = l + 1;
-                mp1 = m + 1;
+                int mp1 = m + 1;
 
+                int lls;
                 for (lls = lp1; lls <= mp1; lls++)
                 {
                     ls = m - lls + lp1;
@@ -574,6 +545,10 @@ public class ZSVDC
             }
 
             l += 1;
+            int mm1;
+            double t1;
+            double f;
+            int k;
             switch (kase)
             {
                 //
@@ -585,6 +560,7 @@ public class ZSVDC
                     f = e[m - 2].Real;
                     e[m - 2] = new Complex(0.0, 0.0);
 
+                    int kk;
                     for (kk = 1; kk <= mm1; kk++)
                     {
                         k = mm1 - kk + l;
@@ -644,19 +620,21 @@ public class ZSVDC
                     //
                     //  Calculate the shift.
                     //
-                    scale = Math.Max(Complex.Abs(s[m - 1]),
+                    double scale = Math.Max(Complex.Abs(s[m - 1]),
                         Math.Max(Complex.Abs(s[m - 2]),
                             Math.Max(Complex.Abs(e[m - 2]),
                                 Math.Max(Complex.Abs(s[l - 1]), Complex.Abs(e[l - 1])))));
 
-                    sm = s[m - 1].Real / scale;
-                    smm1 = s[m - 2].Real / scale;
-                    emm1 = e[m - 2].Real / scale;
-                    sl = s[l - 1].Real / scale;
-                    el = e[l - 1].Real / scale;
-                    b = ((smm1 + sm) * (smm1 - sm) + emm1 * emm1) / 2.0;
-                    c = sm * emm1 * (sm * emm1);
-                    shift = 0.0;
+                    double sm = s[m - 1].Real / scale;
+                    double 
+                        smm1 = s[m - 2].Real / scale;
+                    double 
+                        emm1 = e[m - 2].Real / scale;
+                    double sl = s[l - 1].Real / scale;
+                    double el = e[l - 1].Real / scale;
+                    double b = ((smm1 + sm) * (smm1 - sm) + emm1 * emm1) / 2.0;
+                    double c = sm * emm1 * (sm * emm1);
+                    double shift = 0.0;
 
                     if (b != 0.0 || c != 0.0)
                     {
@@ -670,7 +648,7 @@ public class ZSVDC
                     }
 
                     f = (sl + sm) * (sl - sm) + shift;
-                    g = sl * el;
+                    double g = sl * el;
                     //
                     //  Chase zeros.
                     //

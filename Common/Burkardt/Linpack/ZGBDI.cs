@@ -58,9 +58,8 @@ public static class ZGBDI
         //
     {
         int i;
-        int m;
 
-        m = ml + mu + 1;
+        int m = ml + mu + 1;
         det[0] = new Complex(1.0, 0.0);
         det[1] = new Complex(0.0, 0.0);
 

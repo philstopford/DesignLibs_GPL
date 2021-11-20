@@ -117,23 +117,13 @@ public static class ZCDHD
         //        set to -1.
         //
     {
-        double a;
-        double alpha;
-        double azeta;
-        Complex b;
         int i;
         int ii;
-        int info;
         int j;
-        double norm;
-        double scale;
-        Complex t;
-        Complex xx;
-        Complex zeta;
         //
         //  Solve the system hermitian(R) * A = X, placing the result in S.
         //
-        info = 0;
+        int info = 0;
         s[0] = Complex.Conjugate(x[0]) / Complex.Conjugate(r[0 + 0 * ldr]);
 
         for (j = 2; j <= p; j++)
@@ -142,7 +132,7 @@ public static class ZCDHD
             s[j - 1] /= Complex.Conjugate(r[j - 1 + (j - 1) * ldr]);
         }
 
-        norm = BLAS1Z.dznrm2(p, s, 1);
+        double norm = BLAS1Z.dznrm2(p, s, 1);
 
         switch (norm)
         {
@@ -151,16 +141,16 @@ public static class ZCDHD
                 return info;
         }
 
-        alpha = Math.Sqrt(1.0 - norm * norm);
+        double alpha = Math.Sqrt(1.0 - norm * norm);
         //
         //  Determine the transformations.
         //
         for (ii = 1; ii <= p; ii++)
         {
             i = p - ii + 1;
-            scale = alpha + Complex.Abs(s[i - 1]);
-            a = alpha / scale;
-            b = s[i - 1] / scale;
+            double scale = alpha + Complex.Abs(s[i - 1]);
+            double a = alpha / scale;
+            Complex b = s[i - 1] / scale;
             norm = Math.Sqrt(a * a + b.Real * b.Real + b.Imaginary * b.Imaginary);
             c[i - 1] = a / norm;
             s[i - 1] = Complex.Conjugate(b) / norm;
@@ -172,11 +162,11 @@ public static class ZCDHD
         //
         for (j = 1; j <= p; j++)
         {
-            xx = new Complex(0.0, 0.0);
+            Complex xx = new Complex(0.0, 0.0);
             for (ii = 1; ii <= j; ii++)
             {
                 i = j - ii + 1;
-                t = c[i - 1] * xx + s[i - 1] * r[i - 1 + (j - 1) * ldr];
+                Complex t = c[i - 1] * xx + s[i - 1] * r[i - 1 + (j - 1) * ldr];
                 r[i - 1 + (j - 1) * ldr] = c[i - 1] * r[i - 1 + (j - 1) * ldr] - Complex.Conjugate(s[i - 1]) * xx;
                 xx = t;
             }
@@ -187,7 +177,7 @@ public static class ZCDHD
         //
         for (j = 1; j <= nz; j++)
         {
-            zeta = y[j - 1];
+            Complex zeta = y[j - 1];
 
             for (i = 1; i <= p; i++)
             {
@@ -196,7 +186,7 @@ public static class ZCDHD
                 zeta = c[i - 1] * zeta - s[i - 1] * z[i - 1 + (j - 1) * ldz];
             }
 
-            azeta = Complex.Abs(zeta);
+            double azeta = Complex.Abs(zeta);
 
             if (rho[j - 1] < azeta)
             {

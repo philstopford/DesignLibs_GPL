@@ -65,17 +65,14 @@ public static class ZTRDI
         //    of T is zero.
         //
     {
-        int i;
         int info = 0;
-        int j;
-        int k;
-        Complex temp;
 
         if (job / 100 != 0)
         {
             det[0] = new Complex(1.0, 0.0);
             det[1] = new Complex(0.0, 0.0);
 
+            int i;
             for (i = 0; i < n; i++)
             {
                 det[0] *= t[i + i * ldt];
@@ -104,6 +101,9 @@ public static class ZTRDI
         //
         if (job / 10 % 10 != 0)
         {
+            Complex temp;
+            int j;
+            int k;
             if (job % 10 != 0)
             {
                 info = 0;

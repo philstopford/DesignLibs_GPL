@@ -70,11 +70,6 @@ public static class DPODI
         //    with 1.0D+00 <= DET[0] < 10.0D+00 or DET[0] == 0.0D+00.
         //
     {
-        int i;
-        int j;
-        int k;
-        double s;
-        double t;
         //
         //  Compute the determinant.
         //
@@ -82,8 +77,9 @@ public static class DPODI
         {
             det[0] = 1.0;
             det[1] = 0.0;
-            s = 10.0;
+            double s = 10.0;
 
+            int i;
             for (i = 1; i <= n; i++)
             {
                 det[0] = det[0] * a[i - 1 + (i - 1) * lda] * a[i - 1 + (i - 1) * lda];
@@ -110,36 +106,41 @@ public static class DPODI
         //
         //  Compute inverse(R).
         //
-        if (job % 10 != 0)
+        if (job % 10 == 0)
         {
-            for (k = 1; k <= n; k++)
-            {
-                a[k - 1 + (k - 1) * lda] = 1.0 / a[k - 1 + (k - 1) * lda];
-                t = -a[k - 1 + (k - 1) * lda];
-                BLAS1D.dscal(k - 1, t, ref a, 1, index: + 0 + (k - 1) * lda);
+            return;
+        }
 
-                for (j = k + 1; j <= n; j++)
-                {
-                    t = a[k - 1 + (j - 1) * lda];
-                    a[k - 1 + (j - 1) * lda] = 0.0;
-                    BLAS1D.daxpy(k, t, a, 1, ref a, 1, xIndex: + 0 + (k - 1) * lda, yIndex: + 0 + (j - 1) * lda);
-                }
+        double t;
+        int k;
+        int j;
+        for (k = 1; k <= n; k++)
+        {
+            a[k - 1 + (k - 1) * lda] = 1.0 / a[k - 1 + (k - 1) * lda];
+            t = -a[k - 1 + (k - 1) * lda];
+            BLAS1D.dscal(k - 1, t, ref a, 1, index: + 0 + (k - 1) * lda);
+
+            for (j = k + 1; j <= n; j++)
+            {
+                t = a[k - 1 + (j - 1) * lda];
+                a[k - 1 + (j - 1) * lda] = 0.0;
+                BLAS1D.daxpy(k, t, a, 1, ref a, 1, xIndex: + 0 + (k - 1) * lda, yIndex: + 0 + (j - 1) * lda);
+            }
+        }
+
+        //
+        //  Form inverse(R) * (inverse(R))'.
+        //
+        for (j = 1; j <= n; j++)
+        {
+            for (k = 1; k <= j - 1; k++)
+            {
+                t = a[k - 1 + (j - 1) * lda];
+                BLAS1D.daxpy(k, t, a, 1, ref a, 1, xIndex:  + 0 + (j - 1) * lda, yIndex:  + 0 + (k - 1) * lda);
             }
 
-            //
-            //  Form inverse(R) * (inverse(R))'.
-            //
-            for (j = 1; j <= n; j++)
-            {
-                for (k = 1; k <= j - 1; k++)
-                {
-                    t = a[k - 1 + (j - 1) * lda];
-                    BLAS1D.daxpy(k, t, a, 1, ref a, 1, xIndex:  + 0 + (j - 1) * lda, yIndex:  + 0 + (k - 1) * lda);
-                }
-
-                t = a[j - 1 + (j - 1) * lda];
-                BLAS1D.dscal(j, t, ref a, 1, index:  + 0 + (j - 1) * lda);
-            }
+            t = a[j - 1 + (j - 1) * lda];
+            BLAS1D.dscal(j, t, ref a, 1, index:  + 0 + (j - 1) * lda);
         }
     }
 }

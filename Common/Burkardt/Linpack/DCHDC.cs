@@ -94,23 +94,13 @@ public static class DCHDC
         //    element of the Cholesky factor.
         //
     {
-        int info;
         int j;
-        int jp;
-        int jt;
         int k;
-        int l;
-        double maxdia;
-        int maxl;
-        bool negk;
-        int pl;
-        int pu;
-        bool swapk;
         double temp;
 
-        pl = 1;
-        pu = 0;
-        info = p;
+        int pl = 1;
+        int pu = 0;
+        int info = p;
         //
         //  Pivoting has been requested.
         //  Rearrange the the elements according to IPVT.
@@ -119,8 +109,8 @@ public static class DCHDC
         {
             for (k = 1; k <= p; k++)
             {
-                swapk = 0 < ipvt[k - 1];
-                negk = ipvt[k - 1] < 0;
+                bool swapk = 0 < ipvt[k - 1];
+                bool negk = ipvt[k - 1] < 0;
 
                 ipvt[k - 1] = negk switch
                 {
@@ -200,9 +190,7 @@ public static class DCHDC
                                 }
                             }
 
-                            jt = ipvt[k - 1];
-                            ipvt[k - 1] = ipvt[pu - 1];
-                            ipvt[pu - 1] = jt;
+                            (ipvt[k - 1], ipvt[pu - 1]) = (ipvt[pu - 1], ipvt[k - 1]);
                         }
 
                         pu -= 1;
@@ -217,13 +205,14 @@ public static class DCHDC
             //
             //  Reduction loop.
             //
-            maxdia = a[k - 1 + (k - 1) * lda];
-            maxl = k;
+            double maxdia = a[k - 1 + (k - 1) * lda];
+            int maxl = k;
             //
             //  Determine the pivot element.
             //
             if (pl <= k && k < pu)
             {
+                int l;
                 for (l = k + 1; l <= pu; l++)
                 {
                     if (maxdia < a[l - 1 + (l - 1) * lda])
@@ -252,9 +241,7 @@ public static class DCHDC
                 BLAS1D.dswap(k - 1, ref a, 1, ref a, 1, xIndex:  + 0 + (k - 1) * lda, yIndex:  + 0 + (maxl - 1) * lda);
                 a[maxl - 1 + (maxl - 1) * lda] = a[k - 1 + (k - 1) * lda];
                 a[k - 1 + (k - 1) * lda] = maxdia;
-                jp = ipvt[maxl - 1];
-                ipvt[maxl - 1] = ipvt[k - 1];
-                ipvt[k - 1] = jp;
+                (ipvt[maxl - 1], ipvt[k - 1]) = (ipvt[k - 1], ipvt[maxl - 1]);
             }
 
             //

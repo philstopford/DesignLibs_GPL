@@ -48,30 +48,25 @@ public static partial class Matrix
         //
     {
         int element;
-        int i;
-        int iln;
-        int in_;
-        int j;
-        int jln;
-        int jn;
-        int nhba;
 
-        nhba = 0;
+        int nhba = 0;
 
         for ( element = 1; element <= element_num; element++ )
         {
+            int iln;
             for ( iln = 1; iln <= nnodes; iln++ )
             {
-                in_ = element_node[iln-1+(element-1)*nnodes];
-                i = indx[in_-1];
+                int in_ = element_node[iln-1+(element-1)*nnodes];
+                int i = indx[in_-1];
                 switch (i)
                 {
                     case > 0:
                     {
+                        int jln;
                         for ( jln = 1; jln <= nnodes; jln++ )
                         {
-                            jn = element_node[jln-1+(element-1)*nnodes];
-                            j = indx[jn-1];
+                            int jn = element_node[jln-1+(element-1)*nnodes];
+                            int j = indx[jn-1];
                             nhba = Math.Max ( nhba, j - i );
                         }
 
@@ -115,22 +110,19 @@ public static partial class Matrix
         //
     {
         int element;
-        int global_i;
-        int global_j;
-        int local_i;
-        int local_j;
-        int nhba;
 
-        nhba = 0;
+        int nhba = 0;
 
         for ( element = 0; element < element_num; element++ )
         {
+            int local_i;
             for ( local_i = 0; local_i < 3; local_i++ )
             {
-                global_i = element_node[local_i+element*3];
+                int global_i = element_node[local_i+element*3];
+                int local_j;
                 for ( local_j = 1; local_j <= 3; local_j++ )
                 {
-                    global_j = element_node[local_j+element*3];
+                    int global_j = element_node[local_j+element*3];
                     nhba = Math.Max ( nhba, Math.Abs ( global_j - global_i ) );
                 }
             }
@@ -189,7 +181,6 @@ public static partial class Matrix
         //
     {
         int i;
-        int j;
 
         l = 0;
         d = 0;
@@ -197,7 +188,7 @@ public static partial class Matrix
 
         for ( i = 0; i < n; i++ )
         {
-            j = 0;
+            int j = 0;
             while ( l < i - j )
             {
                 if ( a[i+j*m] != 0.0 )

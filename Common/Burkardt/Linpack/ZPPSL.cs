@@ -66,10 +66,9 @@ public static class ZPPSL
         //
     {
         int k;
-        int kk;
         Complex t;
 
-        kk = 0;
+        int kk = 0;
         for ( k = 1; k <= n; k++ )
         {
             t = BLAS1Z.zdotc ( k-1, ap, 1, b, 1, xIndex:+kk );

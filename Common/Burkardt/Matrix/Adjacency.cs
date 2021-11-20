@@ -47,27 +47,23 @@ public static class AdjacencyMatrix
         //    matrix.
         //
     {
-        int band_hi;
-        int band_lo;
-        int col;
         int i;
-        int j;
-        int value;
 
-        band_lo = 0;
-        band_hi = 0;
+        int band_lo = 0;
+        int band_hi = 0;
 
         for (i = 0; i < node_num; i++)
         {
+            int j;
             for (j = adj_row[i]; j <= adj_row[i + 1] - 1; j++)
             {
-                col = adj[j % adj.Length];
+                int col = adj[j % adj.Length];
                 band_lo = Math.Max(band_lo, i - col);
                 band_hi = Math.Max(band_hi, col - i);
             }
         }
 
-        value = band_lo + 1 + band_hi;
+        int value = band_lo + 1 + band_hi;
 
         return value;
     }
@@ -112,62 +108,54 @@ public static class AdjacencyMatrix
         //
     {
         int k;
-        int khi;
-        int klo;
-        bool value;
         //
         //  Symmetric entries are not stored.
         //
         if ( i == j )
         {
-            value = true;
-            return value;
+            return true;
         }
         //
         //  Illegal I, J entries.
         //
         if ( node_num < i )
         {
-            value = false;
-            return value;
+            return false;
         }
 
         switch (i)
         {
             case < 1:
-                value = false;
-                return value;
+                return false;
         }
         if ( node_num < j )
         {
-            value = false;
-            return value;
+            return false;
         }
         switch (j)
         {
             case < 1:
-                value = false;
-                return value;
+                return false;
         }
 
         //
         //  Search the adjacency entries already stored for row I,
         //  to see if J has already been stored.
         //
-        klo = adj_row[i-1];
-        khi = adj_row[i]-1;
+        int klo = adj_row[i-1];
+        int khi = adj_row[i]-1;
 
         for ( k = klo; k <= khi; k++ )
         {
-            if ( adj[k-1] == j )
+            if (adj[k - 1] != j)
             {
-                value = true;
-                return value;
+                continue;
             }
-        }
-        value = false;
 
-        return value;
+            return true;
+        }
+
+        return false;
     }
         
     public static void adj_insert_ij ( int node_num, int adj_max, ref int adj_num, ref int[] adj_row,
@@ -207,7 +195,6 @@ public static class AdjacencyMatrix
         //    Input, int I, J, the two nodes which are adjacent.
         //
     {
-        int j_spot;
         int k;
         //
         //  A new adjacency entry must be made.
@@ -227,7 +214,7 @@ public static class AdjacencyMatrix
         //
         //  The action is going to occur between ADJ_ROW(I) and ADJ_ROW(I+1)-1:
         //
-        j_spot = adj_row[i-1];
+        int j_spot = adj_row[i-1];
 
         for ( k = adj_row[i-1]; k <= adj_row[i]-1; k++ )
         {
@@ -313,27 +300,23 @@ public static class AdjacencyMatrix
         //    adjacency matrix.
         //
     {
-        int band_hi;
-        int band_lo;
-        int bandwidth;
-        int col;
         int i;
-        int j;
 
-        band_lo = 0;
-        band_hi = 0;
+        int band_lo = 0;
+        int band_hi = 0;
 
         for (i = 0; i < node_num; i++)
         {
+            int j;
             for (j = adj_row[(perm[i] + adj_row.Length) % adj_row.Length]; j <= adj_row[(perm[i] + 1 + adj_row.Length) % adj_row.Length] - 1; j++)
             {
-                col = perm_inv[(adj[(j + adj.Length) % adj.Length] + perm_inv.Length) % perm_inv.Length];
+                int col = perm_inv[(adj[(j + adj.Length) % adj.Length] + perm_inv.Length) % perm_inv.Length];
                 band_lo = Math.Max(band_lo, i - col);
                 band_hi = Math.Max(band_hi, col - i);
             }
         }
 
-        bandwidth = band_lo + 1 + band_hi;
+        int bandwidth = band_lo + 1 + band_hi;
 
         return bandwidth;
     }
@@ -390,18 +373,12 @@ public static class AdjacencyMatrix
         //    and inverse permutation.
         //
     {
-        char[] band;
-        int band_lo;
-        int col;
         int i;
-        int j;
-        int k;
-        int nonzero_num;
 
-        band = new char[node_num];
+        char[] band = new char[node_num];
 
-        band_lo = 0;
-        nonzero_num = 0;
+        int band_lo = 0;
+        int nonzero_num = 0;
 
         Console.WriteLine("");
         Console.WriteLine("  Nonzero structure of matrix:");
@@ -409,6 +386,7 @@ public static class AdjacencyMatrix
 
         for (i = 0; i < node_num; i++)
         {
+            int k;
             for (k = 0; k < node_num; k++)
             {
                 band[k] = '.';
@@ -416,9 +394,10 @@ public static class AdjacencyMatrix
 
             band[i] = 'D';
 
+            int j;
             for (j = adj_row[perm[i] - 1]; j <= adj_row[perm[i]] - 1; j++)
             {
-                col = perm_inv[adj[j - 1] - 1] - 1;
+                int col = perm_inv[adj[j - 1] - 1] - 1;
 
                 if (col < i)
                 {
@@ -552,11 +531,6 @@ public static class AdjacencyMatrix
         //
     {
         int i;
-        int j;
-        int jhi;
-        int jlo;
-        int jmax;
-        int jmin;
 
         Console.WriteLine("");
         Console.WriteLine(title + "");
@@ -570,8 +544,8 @@ public static class AdjacencyMatrix
 
         for (i = node_lo; i <= node_hi; i++)
         {
-            jmin = adj_row[i];
-            jmax = adj_row[i + 1] - 1;
+            int jmin = adj_row[i];
+            int jmax = adj_row[i + 1] - 1;
 
             if (jmax < jmin)
             {
@@ -581,10 +555,12 @@ public static class AdjacencyMatrix
             }
             else
             {
+                int jlo;
                 for (jlo = jmin; jlo <= jmax; jlo += 5)
                 {
-                    jhi = Math.Min(jlo + 4, jmax);
+                    int jhi = Math.Min(jlo + 4, jmax);
 
+                    int j;
                     if (jlo == jmin)
                     {
                         string cout = "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
@@ -672,7 +648,6 @@ public static class AdjacencyMatrix
         //    entry of the matrix.
         //
     {
-        int i;
         //
         //  Negative IROW or JCOL indicates the data structure should be initialized.
         //
@@ -685,6 +660,7 @@ public static class AdjacencyMatrix
             Console.WriteLine("  Maximum adjacency ADJ_MAX = " + adj_max + "");
 
             adj_num = 0;
+            int i;
             for (i = 0; i < node_num + 1; i++)
             {
                 adj_row[i] = 1;
@@ -801,18 +777,12 @@ public static class AdjacencyMatrix
         //    For each row, it contains the column indices of the nonzero entries.
         //
     {
-        char[] band;
-        int band_lo;
-        int col;
         int i;
-        int j;
-        int k;
-        int nonzero_num;
 
-        band = new char[node_num];
+        char[] band = new char[node_num];
 
-        band_lo = 0;
-        nonzero_num = 0;
+        int band_lo = 0;
+        int nonzero_num = 0;
 
         Console.WriteLine("");
         Console.WriteLine("  Nonzero structure of matrix:");
@@ -820,6 +790,7 @@ public static class AdjacencyMatrix
 
         for (i = 0; i < node_num; i++)
         {
+            int k;
             for (k = 0; k < node_num; k++)
             {
                 band[k] = '.';
@@ -827,9 +798,10 @@ public static class AdjacencyMatrix
 
             band[i] = 'D';
 
+            int j;
             for (j = adj_row[i]; j <= adj_row[i + 1] - 1; j++)
             {
-                col = adj[j - 1] - 1;
+                int col = adj[j - 1] - 1;
                 if (col < i)
                 {
                     nonzero_num += 1;

@@ -69,40 +69,18 @@ public static class ZSIFA
         //    divide by zero if called.
         //
     {
-        double absakk;
-        Complex ak;
-        Complex akm1;
-        double alpha;
-        Complex bk;
-        Complex bkm1;
-        double colmax;
-        Complex denom;
-        int imax;
-        int info;
-        int j;
-        int jj;
-        int jmax;
-        int k;
-        int km1;
-        int km2;
-        int kstep;
-        Complex mulk;
-        Complex mulkm1;
-        double rowmax;
-        bool swap;
-        Complex t;
         //
         //  Initialize.
         //
         //  ALPHA is used in choosing pivot block size.
         //
-        alpha = (1.0 + Math.Sqrt(17.0)) / 8.0;
+        double alpha = (1.0 + Math.Sqrt(17.0)) / 8.0;
 
-        info = 0;
+        int info = 0;
         //
         //  Main loop on K, which goes from N to 1.
         //
-        k = n;
+        int k = n;
 
         for (;;)
         {
@@ -132,14 +110,17 @@ public static class ZSIFA
             //  SWAP will be set to TRUE if an interchange is
             //  required.
             //
-            km1 = k - 1;
-            absakk = typeMethods.zabs1(a[k - 1 + (k - 1) * lda]);
+            int km1 = k - 1;
+            double absakk = typeMethods.zabs1(a[k - 1 + (k - 1) * lda]);
             //
             //  Determine the largest off-diagonal element in column K.
             //
-            imax = BLAS1Z.izamax(k - 1, a, 1, index: + 0 + (k - 1) * lda);
-            colmax = typeMethods.zabs1(a[imax - 1 + (k - 1) * lda]);
+            int imax = BLAS1Z.izamax(k - 1, a, 1, index: + 0 + (k - 1) * lda);
+            double colmax = typeMethods.zabs1(a[imax - 1 + (k - 1) * lda]);
 
+            int kstep;
+            bool swap;
+            int j;
             if (alpha * colmax < absakk)
             {
                 kstep = 1;
@@ -150,7 +131,7 @@ public static class ZSIFA
             //
             else
             {
-                rowmax = 0.0;
+                double rowmax = 0.0;
 
                 for (j = imax + 1; j <= k; j++)
                 {
@@ -159,7 +140,7 @@ public static class ZSIFA
 
                 if (imax != 1)
                 {
-                    jmax = BLAS1Z.izamax(imax - 1, a, 1, index: + 0 + (imax - 1) * lda);
+                    int jmax = BLAS1Z.izamax(imax - 1, a, 1, index: + 0 + (imax - 1) * lda);
                     rowmax = Math.Max(rowmax, typeMethods.zabs1(a[jmax - 1 + (imax - 1) * lda]));
                 }
 
@@ -192,6 +173,9 @@ public static class ZSIFA
                     continue;
             }
 
+            Complex mulk;
+            Complex t;
+            int jj;
             if (kstep != 2)
             {
                 switch (swap)
@@ -269,21 +253,21 @@ public static class ZSIFA
                 //
                 //  Perform the elimination.
                 //
-                km2 = k - 2;
+                int km2 = k - 2;
 
                 if (km2 != 0)
                 {
-                    ak = a[k - 1 + (k - 1) * lda] / a[k - 2 + (k - 1) * lda];
-                    akm1 = a[k - 2 + (k - 2) * lda] / a[k - 2 + (k - 1) * lda];
-                    denom = new Complex(1.0, 0.0) - ak * akm1;
+                    Complex ak = a[k - 1 + (k - 1) * lda] / a[k - 2 + (k - 1) * lda];
+                    Complex akm1 = a[k - 2 + (k - 2) * lda] / a[k - 2 + (k - 1) * lda];
+                    Complex denom = new Complex(1.0, 0.0) - ak * akm1;
 
                     for (jj = 1; jj <= km2; jj++)
                     {
                         j = km1 - jj;
-                        bk = a[j - 1 + (k - 1) * lda] / a[k - 2 + (k - 1) * lda];
-                        bkm1 = a[j - 1 + (k - 2) * lda] / a[k - 2 + (k - 1) * lda];
+                        Complex bk = a[j - 1 + (k - 1) * lda] / a[k - 2 + (k - 1) * lda];
+                        Complex bkm1 = a[j - 1 + (k - 2) * lda] / a[k - 2 + (k - 1) * lda];
                         mulk = (akm1 * bk - bkm1) / denom;
-                        mulkm1 = (ak * bkm1 - bk) / denom;
+                        Complex mulkm1 = (ak * bkm1 - bk) / denom;
                         t = mulk;
                         BLAS1Z.zaxpy(j, t, a, 1, ref a, 1, xIndex: + 0 + (k - 1) * lda, yIndex: + 0 + (j - 1) * lda);
                         t = mulkm1;

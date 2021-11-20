@@ -103,14 +103,13 @@ public static partial class Matrix
         //    Output, double COMBIN[N*N], the matrix.
         //
     {
-        double[] a;
-        int i;
         int j;
 
-        a = new double[n * n];
+        double[] a = new double[n * n];
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < n; i++)
             {
                 if (i == j)
@@ -198,9 +197,6 @@ public static partial class Matrix
         //    Output, double COMBIN_INVERSE[N*N], the matrix.
         //
     {
-        double[] a;
-        double bot;
-        int i;
         int j;
 
         switch (alpha)
@@ -223,12 +219,13 @@ public static partial class Matrix
                 return null;
         }
 
-        a = new double[n * n];
+        double[] a = new double[n * n];
 
-        bot = alpha * (alpha + n * beta);
+        double bot = alpha * (alpha + n * beta);
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < n; i++)
             {
                 if (i == j)

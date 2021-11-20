@@ -58,11 +58,9 @@ public static class ZGTSL
         //    subroutine returns when this is detected.
         //
     {
-        int info;
         int k;
-        Complex t;
 
-        info = 0;
+        int info = 0;
         c[0] = d[0];
 
         switch (n - 1)
@@ -75,6 +73,7 @@ public static class ZGTSL
 
                 for (k = 1; k <= n - 1; k++)
                 {
+                    Complex t;
                     if (typeMethods.zabs1(c[k - 1]) <= typeMethods.zabs1(c[k]))
                     {
                         t = c[k];

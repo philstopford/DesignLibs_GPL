@@ -89,31 +89,20 @@ public static class DPPCO
         //    RCOND is zero if exact singularity is detected or the estimate underflows.
         //
     {
-        double anorm;
-        double ek;
         int i;
-        int ij;
-        int info;
         int j;
-        int j1;
         int k;
-        int kj;
-        int kk;
         double rcond;
         double s;
-        double sm;
         double t;
-        double wk;
-        double wkm;
-        double ynorm;
         //
         //  Find the norm of A.
         //
-        j1 = 1;
+        int j1 = 1;
         for (j = 1; j <= n; j++)
         {
             z[j - 1] = BLAS1D.dasum(j, ap, 1, index: +j1 - 1);
-            ij = j1;
+            int ij = j1;
             j1 += j;
             for (i = 1; i <= j - 1; i++)
             {
@@ -122,7 +111,7 @@ public static class DPPCO
             }
         }
 
-        anorm = 0.0;
+        double anorm = 0.0;
         for (i = 1; i <= n; i++)
         {
             anorm = Math.Max(anorm, z[i - 1]);
@@ -131,7 +120,7 @@ public static class DPPCO
         //
         //  Factor.
         //
-        info = DPPFA.dppfa(ref ap, n);
+        int info = DPPFA.dppfa(ref ap, n);
 
         if (info != 0)
         {
@@ -151,13 +140,13 @@ public static class DPPCO
         //
         //  Solve R' * W = E.
         //
-        ek = 1.0;
+        double ek = 1.0;
         for (i = 1; i <= n; i++)
         {
             z[i - 1] = 0.0;
         }
 
-        kk = 0;
+        int kk = 0;
 
         for (k = 1; k <= n; k++)
         {
@@ -179,13 +168,13 @@ public static class DPPCO
                 ek = s * ek;
             }
 
-            wk = ek - z[k - 1];
-            wkm = -ek - z[k - 1];
+            double wk = ek - z[k - 1];
+            double wkm = -ek - z[k - 1];
             s = Math.Abs(wk);
-            sm = Math.Abs(wkm);
+            double sm = Math.Abs(wkm);
             wk /= ap[kk - 1];
             wkm /= ap[kk - 1];
-            kj = kk + k;
+            int kj = kk + k;
 
             if (k + 1 <= n)
             {
@@ -246,7 +235,7 @@ public static class DPPCO
             z[i - 1] /= s;
         }
 
-        ynorm = 1.0;
+        double ynorm = 1.0;
         //
         //  Solve R' * V = Y.
         //

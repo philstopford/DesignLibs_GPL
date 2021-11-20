@@ -67,34 +67,16 @@ public static class ZSPDI
         //    For example, JOB = 11 gives both.
         //
     {
-        Complex ak;
-        Complex akkp1;
-        Complex akp1;
         Complex d;
-        int i;
-        int ij;
         int ik;
         int ikp1;
-        int iks;
-        int j;
-        int jb;
-        int jk;
-        int jkp1;
         int k;
         int kk;
         int kkp1 = 0;
-        int km1;
-        int ks;
-        int ksj;
-        int kskp1;
-        int kstep;
-        bool nodet;
-        bool noinv;
         Complex t;
-        Complex[] work;
 
-        noinv = job % 10 == 0;
-        nodet = job % 100 / 10 == 0;
+        bool noinv = job % 10 == 0;
+        bool nodet = job % 100 / 10 == 0;
 
         switch (nodet)
         {
@@ -169,16 +151,21 @@ public static class ZSPDI
             //
             case false:
             {
-                work = new Complex[n];
+                Complex[] work = new Complex[n];
                 k = 1;
                 ik = 0;
 
                 while (k <= n)
                 {
-                    km1 = k - 1;
+                    int km1 = k - 1;
                     kk = ik + k;
                     ikp1 = ik + k;
 
+                    int j;
+                    int jk;
+                    int i;
+                    int ij;
+                    int kstep;
                     switch (ipvt[k - 1])
                     {
                         case >= 0:
@@ -220,9 +207,9 @@ public static class ZSPDI
                         {
                             kkp1 = ikp1 + k;
                             t = ap[kkp1 - 1];
-                            ak = ap[kk - 1] / t;
-                            akp1 = ap[kkp1] / t;
-                            akkp1 = ap[kkp1 - 1] / t;
+                            Complex ak = ap[kk - 1] / t;
+                            Complex akp1 = ap[kkp1] / t;
+                            Complex akkp1 = ap[kkp1 - 1] / t;
                             d = t * (ak * akp1 - new Complex(1.0, 0.0));
                             ap[kk - 1] = akp1 / d;
                             ap[kkp1] = ak / d;
@@ -241,7 +228,7 @@ public static class ZSPDI
 
                                     for (j = 1; j <= km1; j++)
                                     {
-                                        jkp1 = ikp1 + j;
+                                        int jkp1 = ikp1 + j;
                                         ap[jkp1 - 1] = BLAS1Z.zdotu(j, ap, 1, work, 1, xIndex: +ij);
                                         BLAS1Z.zaxpy(j - 1, work[j - 1], ap, 1, ref ap, 1, xIndex: +ij, yIndex: +ikp1);
                                         ij += j;
@@ -278,14 +265,15 @@ public static class ZSPDI
                     //
                     //  Swap.
                     //
-                    ks = Math.Abs(ipvt[k - 1]);
+                    int ks = Math.Abs(ipvt[k - 1]);
 
                     if (ks != k)
                     {
-                        iks = ks * (ks - 1) / 2;
+                        int iks = ks * (ks - 1) / 2;
                         BLAS1Z.zswap(ks, ref ap, 1, ref ap, 1, xIndex: +iks, yIndex: +ik);
-                        ksj = ik + ks;
+                        int ksj = ik + ks;
 
+                        int jb;
                         for (jb = ks; jb <= k; jb++)
                         {
                             j = k + ks - jb;
@@ -300,7 +288,7 @@ public static class ZSPDI
 
                         if (kstep != 1)
                         {
-                            kskp1 = ikp1 + ks;
+                            int kskp1 = ikp1 + ks;
 
                             t = ap[kskp1 - 1];
                             ap[kskp1 - 1] = ap[kkp1 - 1];

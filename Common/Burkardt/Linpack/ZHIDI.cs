@@ -73,26 +73,14 @@ public static class ZHIDI
         //    For example, JOB = 111 gives all three.
         //
     {
-        double ak;
-        Complex akkp1;
-        double akp1;
         double d;
         int i;
-        int j;
         int k;
-        int km1;
-        int ks;
-        int kstep;
-        bool nodet;
-        bool noert;
-        bool noinv;
         double t;
-        Complex t2;
-        Complex[] work;
 
-        noinv = job % 10 == 0;
-        nodet = job % 100 / 10 == 0;
-        noert = job % 1000 / 100 == 0;
+        bool noinv = job % 10 == 0;
+        bool nodet = job % 100 / 10 == 0;
+        bool noert = job % 1000 / 100 == 0;
 
         if (!nodet || !noert)
         {
@@ -196,14 +184,16 @@ public static class ZHIDI
             //
             case false:
             {
-                work = new Complex [n];
+                Complex[] work = new Complex [n];
 
                 k = 1;
 
                 while (k <= n)
                 {
-                    km1 = k - 1;
+                    int km1 = k - 1;
 
+                    int kstep;
+                    int j;
                     switch (ipvt[k - 1])
                     {
                         case >= 0:
@@ -245,9 +235,9 @@ public static class ZHIDI
                             //  2 by 2
                             //
                             t = Complex.Abs(a[k - 1 + k * lda]);
-                            ak = a[k - 1 + (k - 1) * lda].Real / t;
-                            akp1 = a[k + k * lda].Real / t;
-                            akkp1 = a[k - 1 + k * lda] / t;
+                            double ak = a[k - 1 + (k - 1) * lda].Real / t;
+                            double akp1 = a[k + k * lda].Real / t;
+                            Complex akkp1 = a[k - 1 + k * lda] / t;
                             d = t * (ak * akp1 - 1.0);
                             a[k - 1 + (k - 1) * lda] = new Complex(akp1 / d, 0.0);
                             a[k + k * lda] = new Complex(ak / d, 0.0);
@@ -301,12 +291,13 @@ public static class ZHIDI
                     //
                     //  Swap
                     //
-                    ks = Math.Abs(ipvt[k - 1]);
+                    int ks = Math.Abs(ipvt[k - 1]);
 
                     if (ks != k)
                     {
                         BLAS1Z.zswap(ks, ref a, 1, ref a, 1, xIndex: +0 + (ks - 1) * lda, yIndex: +0 + (k - 1) * lda);
 
+                        Complex t2;
                         for (j = k; ks <= j; j--)
                         {
                             t2 = Complex.Conjugate(a[j - 1 + (k - 1) * lda]);

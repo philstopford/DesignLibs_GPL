@@ -59,20 +59,17 @@ public static class ZPOFA
         //    not positive definite.
         //
     {
-        int info;
         int j;
-        int k;
-        double s;
-        Complex t;
 
-        info = 0;
+        int info = 0;
 
         for (j = 1; j <= n; j++)
         {
-            s = 0.0;
+            double s = 0.0;
+            int k;
             for (k = 1; k <= j - 1; k++)
             {
-                t = a[k - 1 + (j - 1) * lda] - BLAS1Z.zdotc(k - 1, a, 1, a, 1, xIndex: +0 + (k - 1) * lda,
+                Complex t = a[k - 1 + (j - 1) * lda] - BLAS1Z.zdotc(k - 1, a, 1, a, 1, xIndex: +0 + (k - 1) * lda,
                     yIndex: +0 + (j - 1) * lda);
                 t /= a[k - 1 + (k - 1) * lda];
                 a[k - 1 + (j - 1) * lda] = t;

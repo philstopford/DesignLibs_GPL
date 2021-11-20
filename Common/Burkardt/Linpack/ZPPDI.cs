@@ -60,17 +60,6 @@ public static class ZPPDI
         //    10, determinant only.
         //
     {
-        int i;
-        int ii;
-        int j;
-        int j1;
-        int jj;
-        int k;
-        int k1;
-        int kj;
-        int kk;
-        int kp1;
-        Complex t;
         //
         //  Compute determinant.
         //
@@ -78,8 +67,9 @@ public static class ZPPDI
         {
             det[0] = 1.0;
             det[1] = 0.0;
-            ii = 0;
+            int ii = 0;
 
+            int i;
             for (i = 1; i <= n; i++)
             {
                 ii += i;
@@ -109,8 +99,14 @@ public static class ZPPDI
         //
         if (job % 10 != 0)
         {
-            kk = 0;
+            int kk = 0;
 
+            int k1;
+            int kj;
+            int k;
+            Complex t;
+            int j;
+            int j1;
             for (k = 1; k <= n; k++)
             {
                 k1 = kk + 1;
@@ -118,7 +114,7 @@ public static class ZPPDI
                 ap[kk - 1] = new Complex(1.0, 0.0) / ap[kk - 1];
                 t = -ap[kk - 1];
                 BLAS1Z.zscal(k - 1, t, ref ap, 1, index: + k1 - 1);
-                kp1 = k + 1;
+                int kp1 = k + 1;
                 j1 = kk + 1;
                 kj = kk + k;
 
@@ -135,7 +131,7 @@ public static class ZPPDI
             //
             //  Form inverse ( R ) * hermitian ( inverse ( R ) ).
             //
-            jj = 0;
+            int jj = 0;
             for (j = 1; j <= n; j++)
             {
                 j1 = jj + 1;

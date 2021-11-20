@@ -81,19 +81,12 @@ public static class ZSPCO
     {
         Complex ak;
         Complex akm1;
-        double anorm;
         Complex bk;
         Complex bkm1;
         Complex denom;
-        Complex ek;
-        int i;
-        int ij;
-        int ik;
         int ikm1;
         int ikp1;
         int j;
-        int j1;
-        int k;
         int kk;
         int km1k;
         int km1km1;
@@ -103,21 +96,20 @@ public static class ZSPCO
         double rcond;
         double s;
         Complex t;
-        double ynorm;
-        Complex[] z;
 
-        z = new Complex[n];
+        Complex[] z = new Complex[n];
         //
         //  Find norm of A using only upper half.
         //
-        j1 = 1;
+        int j1 = 1;
 
         for (j = 1; j <= n; j++)
         {
             z[j - 1] = new Complex(BLAS1Z.dzasum(j, ap, 1, index: +j1 - 1), 0.0);
-            ij = j1;
+            int ij = j1;
             j1 += j;
 
+            int i;
             for (i = 1; i <= j - 1; i++)
             {
                 z[i - 1] = new Complex(z[i - 1].Real + typeMethods.zabs1(ap[ij - 1]), 0.0);
@@ -125,7 +117,7 @@ public static class ZSPCO
             }
         }
 
-        anorm = 0.0;
+        double anorm = 0.0;
         for (j = 0; j < n; j++)
         {
             anorm = Math.Max(anorm, z[j].Real);
@@ -147,14 +139,14 @@ public static class ZSPCO
         //
         //  Solve U*D*W = E.
         //
-        ek = new Complex(1.0, 0.0);
+        Complex ek = new Complex(1.0, 0.0);
         for (j = 0; j < n; j++)
         {
             z[j] = new Complex(0.0, 0.0);
         }
 
-        k = n;
-        ik = n * (n - 1) / 2;
+        int k = n;
+        int ik = n * (n - 1) / 2;
 
         while (0 < k)
         {
@@ -287,7 +279,7 @@ public static class ZSPCO
 
         s = 1.0 / BLAS1Z.dzasum(n, z, 1);
         BLAS1Z.zdscal(n, s, ref z, 1);
-        ynorm = 1.0;
+        double ynorm = 1.0;
         //
         //  Solve U*D*V = Y.
         //

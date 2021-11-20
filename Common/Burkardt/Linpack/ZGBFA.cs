@@ -95,31 +95,20 @@ public static class ZGBFA
         //
     {
         int i;
-        int i0;
-        int info;
-        int j;
-        int j0;
-        int j1;
-        int ju;
         int jz;
         int k;
-        int l;
-        int lm;
-        int m;
-        int mm;
-        Complex t;
 
-        m = ml + mu + 1;
-        info = 0;
+        int m = ml + mu + 1;
+        int info = 0;
         //
         //  Zero initial fill-in columns.
         //
-        j0 = mu + 2;
-        j1 = Math.Min(n, m) - 1;
+        int j0 = mu + 2;
+        int j1 = Math.Min(n, m) - 1;
 
         for (jz = j0; jz <= j1; jz++)
         {
-            i0 = m + 1 - jz;
+            int i0 = m + 1 - jz;
             for (i = i0; i <= ml; i++)
             {
                 abd[i - 1 + (jz - 1) * lda] = new Complex(0.0, 0.0);
@@ -127,7 +116,7 @@ public static class ZGBFA
         }
 
         jz = j1;
-        ju = 0;
+        int ju = 0;
         //
         //  Gaussian elimination with partial pivoting.
         //
@@ -148,8 +137,8 @@ public static class ZGBFA
             //
             //  Find L = pivot index.
             //
-            lm = Math.Min(ml, n - k);
-            l = BLAS1Z.izamax(lm + 1, abd, 1, index: +m - 1 + (k - 1) * lda) + m - 1;
+            int lm = Math.Min(ml, n - k);
+            int l = BLAS1Z.izamax(lm + 1, abd, 1, index: +m - 1 + (k - 1) * lda) + m - 1;
             ipvt[k - 1] = l + k - m;
             //
             //  Zero pivot implies this column already triangularized.
@@ -163,6 +152,7 @@ public static class ZGBFA
             //
             //  Interchange if necessary.
             //
+            Complex t;
             if (l != m)
             {
                 t = abd[l - 1 + (k - 1) * lda];
@@ -179,8 +169,9 @@ public static class ZGBFA
             //  Row elimination with column indexing.
             //
             ju = Math.Min(Math.Max(ju, mu + ipvt[k - 1]), n);
-            mm = m;
+            int mm = m;
 
+            int j;
             for (j = k + 1; j <= ju; j++)
             {
                 l -= 1;

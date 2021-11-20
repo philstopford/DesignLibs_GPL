@@ -54,18 +54,12 @@ public static class ZHISL
         //    On output, the solution.
         //
     {
-        Complex ak;
-        Complex akm1;
-        Complex bk;
-        Complex bkm1;
-        Complex denom;
-        int k;
         int kp;
         Complex t;
         //
         //  Loop backward applying the transformations and D inverse to B.
         //
-        k = n;
+        int k = n;
 
         while (0 < k)
         {
@@ -118,11 +112,11 @@ public static class ZHISL
                     //
                     //  Apply D inverse.
                     //
-                    ak = a[k - 1 + (k - 1) * lda] / Complex.Conjugate(a[k - 2 + (k - 1) * lda]);
-                    akm1 = a[k - 2 + (k - 2) * lda] / a[k - 2 + (k - 1) * lda];
-                    bk = b[k - 1] / Complex.Conjugate(a[k - 2 + (k - 1) * lda]);
-                    bkm1 = b[k - 2] / a[k - 2 + (k - 1) * lda];
-                    denom = ak * akm1 - new Complex(1.0, 0.0);
+                    Complex ak = a[k - 1 + (k - 1) * lda] / Complex.Conjugate(a[k - 2 + (k - 1) * lda]);
+                    Complex akm1 = a[k - 2 + (k - 2) * lda] / a[k - 2 + (k - 1) * lda];
+                    Complex bk = b[k - 1] / Complex.Conjugate(a[k - 2 + (k - 1) * lda]);
+                    Complex bkm1 = b[k - 2] / a[k - 2 + (k - 1) * lda];
+                    Complex denom = ak * akm1 - new Complex(1.0, 0.0);
                     b[k - 1] = (akm1 * bk - bkm1) / denom;
                     b[k - 2] = (ak * bkm1 - bk) / denom;
                     k -= 2;

@@ -120,7 +120,6 @@ public static class Geometry
         //
     {
         double[] v = new double[3 * 3];
-        double[] w;
 
         a = 0.0;
         b = 0.0;
@@ -157,7 +156,7 @@ public static class Geometry
         //
         //  Get the inverse.
         //
-        w = typeMethods.r8mat_inverse_3d(v);
+        double[] w = typeMethods.r8mat_inverse_3d(v);
         //
         //  Compute the parabolic coefficients.
         //

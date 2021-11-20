@@ -50,12 +50,11 @@ public static class PredatorPrey
         double beta = 0;
         double delta = 0;
         double gamma = 0;
-        double[] h;
         int i;
 
         predator_prey_parameters(ref alpha, ref beta, ref gamma, ref delta);
 
-        h = new double[n];
+        double[] h = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -109,10 +108,9 @@ public static class PredatorPrey
         double alpha = 0;
         double beta = 0;
         double delta = 0;
-        double[] drfdt;
         double gamma = 0;
 
-        drfdt = new double[2];
+        double[] drfdt = new double[2];
 
         predator_prey_parameters(ref alpha, ref beta, ref gamma, ref delta);
 
@@ -227,29 +225,25 @@ public static class PredatorPrey
         //    int N: the number of time steps.
         //
     {
-        string command_filename;
         List<string> command = new();
-        string data_filename;
         List<string> data = new();
-        string header = "predator_prey_euler";
+        const string header = "predator_prey_euler";
         int i;
         const int m = 2;
-        double[] pout;
-        double[] t;
 
         Console.WriteLine("");
         Console.WriteLine("predator_prey_euler");
         Console.WriteLine("  A pair of ordinary differential equations for a population");
         Console.WriteLine("  of predators and prey are solved using euler().");
 
-        t = new double[n + 1];
-        pout = new double[(n + 1) * m];
+        double[] t = new double[n + 1];
+        double[] pout = new double[(n + 1) * m];
 
         Euler.euler(predator_prey_deriv, tspan, p0, n, m, t, pout);
         //
         //  Create the data file.
         //
-        data_filename = header + "_data.txt";
+        const string data_filename = header + "_data.txt";
         for (i = 0; i < n; i++)
         {
             data.Add("  " + t[i]
@@ -264,7 +258,7 @@ public static class PredatorPrey
         //
         //  Create the command file.
         //
-        command_filename = header + "_commands.txt";
+        string command_filename = header + "_commands.txt";
 
         command.Add("# " + command_filename + "");
         command.Add("#");
@@ -361,29 +355,25 @@ public static class PredatorPrey
         //    int N: the number of time steps.
         //
     {
-        string command_filename;
         List<string> command = new();
-        string data_filename;
         List<string> data = new();
-        string header = "predator_prey_midpoint";
+        const string header = "predator_prey_midpoint";
         int i;
         const int m = 2;
-        double[] pout;
-        double[] t;
 
         Console.WriteLine("");
         Console.WriteLine("predator_prey_midpoint");
         Console.WriteLine("  A pair of ordinary differential equations for a population");
         Console.WriteLine("  of predators and prey are solved using midpoint_fixed().");
 
-        t = new double[n + 1];
-        pout = new double[(n + 1) * m];
+        double[] t = new double[n + 1];
+        double[] pout = new double[(n + 1) * m];
 
         MidpointFixed.midpoint_fixed(predator_prey_deriv, tspan, p0, n, m, 0, ref t, ref pout);
         //
         //  Create the data file.
         //
-        data_filename = header + "_data.txt";
+        string data_filename = header + "_data.txt";
 
         for (i = 0; i < n; i++)
         {
@@ -399,7 +389,7 @@ public static class PredatorPrey
         //
         //  Create the command file.
         //
-        command_filename = header + "_commands.txt";
+        const string command_filename = header + "_commands.txt";
             
         command.Add("# " + command_filename + "");
         command.Add("#");

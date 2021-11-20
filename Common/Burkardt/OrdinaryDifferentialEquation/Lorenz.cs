@@ -35,12 +35,11 @@ public static class Lorenz
         //    of the dependent variables at time T.
         //
     {
-        double beta = 8.0 / 3.0;
-        double[] dxdt;
-        double rho = 28.0;
-        double sigma = 10.0;
+        const double beta = 8.0 / 3.0;
+        const double rho = 28.0;
+        const double sigma = 10.0;
 
-        dxdt = new double[m];
+        double[] dxdt = new double[m];
 
         dxdt[0] = sigma * ( x[index + 1] - x[index + 0] );
         dxdt[1] = x[index + 0] * ( rho - x[index + 2] ) - x[index + 1];

@@ -61,27 +61,17 @@ public static class HermitePolyChaosExpansion
         //    coefficients at the successive time steps.
         //
     {
-        double dp;
-        double dt;
-        int i;
         int it;
         int j;
-        int k;
-        double t1;
-        double t2;
-        double term;
-        double tp;
-        double[] u1;
-        double[] u2;
 
-        u1 = new double[np + 1];
-        u2 = new double[np + 1];
+        double[] u1 = new double[np + 1];
+        double[] u2 = new double[np + 1];
 
-        dt = (tf - ti) / nt;
+        double dt = (tf - ti) / nt;
         //
         //  Set the PCE coefficients for the initial time.
         //
-        t1 = ti;
+        double t1 = ti;
 
         u1[0] = ui;
         for (j = 1; j <= np; j++)
@@ -103,20 +93,21 @@ public static class HermitePolyChaosExpansion
         //
         for (it = 1; it <= nt; it++)
         {
-            t2 = ((nt - it) * ti
-                  + it * tf)
-                 / nt;
+            double t2 = ((nt - it) * ti
+                         + it * tf)
+                        / nt;
 
+            int k;
             for (k = 0; k <= np; k++)
             {
-                dp = Integral.he_double_product_integral(k, k);
+                double dp = Integral.he_double_product_integral(k, k);
 
-                term = -alpha_mu * u1[k];
+                double term = -alpha_mu * u1[k];
 
-                i = 1;
+                int i = 1;
                 for (j = 0; j <= np; j++)
                 {
-                    tp = Integral.he_triple_product_integral(i, j, k);
+                    double tp = Integral.he_triple_product_integral(i, j, k);
                     term -= alpha_sigma * u1[j] * tp / dp;
                 }
 

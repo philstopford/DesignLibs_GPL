@@ -54,13 +54,12 @@ public static class Geometry
         //    Output, double PARALLELOGRAM_AREA_2D, the (signed) area.
         //
     {
-        double area;
         //
         //  Compute the cross product vector, which only has a single
         //  nonzero component.
         //
-        area = (p[0 + 1 * 2] - p[0 + 0 * 2]) * (p[1 + 2 * 2] - p[1 + 0 * 2])
-               - (p[1 + 1 * 2] - p[1 + 0 * 2]) * (p[0 + 2 * 2] - p[0 + 0 * 2]);
+        double area = (p[0 + 1 * 2] - p[0 + 0 * 2]) * (p[1 + 2 * 2] - p[1 + 0 * 2])
+                      - (p[1 + 1 * 2] - p[1 + 0 * 2]) * (p[0 + 2 * 2] - p[0 + 0 * 2]);
 
         return area;
     }
@@ -117,15 +116,13 @@ public static class Geometry
         //    Output, double PARALLELOGRAM_AREA_3D, the area
         //
     {
-        double area;
-        double cross;
         //
         //  Compute the cross product vector.
         //
-        area = 0.0;
+        double area = 0.0;
 
-        cross = (p[1 + 1 * 3] - p[1 + 0 * 3]) * (p[2 + 2 * 3] - p[2 + 0 * 3])
-                - (p[2 + 1 * 3] - p[2 + 0 * 3]) * (p[1 + 2 * 3] - p[1 + 0 * 3]);
+        double cross = (p[1 + 1 * 3] - p[1 + 0 * 3]) * (p[2 + 2 * 3] - p[2 + 0 * 3])
+                       - (p[2 + 1 * 3] - p[2 + 0 * 3]) * (p[1 + 2 * 3] - p[1 + 0 * 3]);
 
         area += cross * cross;
 
@@ -192,10 +189,9 @@ public static class Geometry
         //    parallelogram, or on its boundary, and FALSE otherwise.
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
         double[] a = new double[DIM_NUM * (DIM_NUM + 1)];
-        int info;
         bool value;
         //
         //  Set up the linear system
@@ -205,8 +201,8 @@ public static class Geometry
         //
         //  which is satisfied by the barycentric coordinates.
         //
-        a[0 + 0 * DIM_NUM] = p2[0] - p1[0];
-        a[1 + 0 * DIM_NUM] = p2[1] - p1[1];
+        a[0] = p2[0] - p1[0];
+        a[1] = p2[1] - p1[1];
 
         a[0 + 1 * DIM_NUM] = p3[0] - p1[0];
         a[1 + 1 * DIM_NUM] = p3[1] - p1[1];
@@ -216,7 +212,7 @@ public static class Geometry
         //
         //  Solve the linear system.
         //
-        info = typeMethods.r8mat_solve(DIM_NUM, 1, ref a);
+        int info = typeMethods.r8mat_solve(DIM_NUM, 1, ref a);
 
         if (info != 0)
         {
@@ -295,18 +291,12 @@ public static class Geometry
         //    and yet be computationally slightly outside it.
         //
     {
-        int DIM_NUM = 3;
-        double TOL = 0.00001;
+        const int DIM_NUM = 3;
+        const double TOL = 0.00001;
 
-        double dot;
-        double dotb;
-        double dott;
-        double v;
         double[] p21 = new double[DIM_NUM];
         double[] p31 = new double[DIM_NUM];
         double[] pn12 = new double[DIM_NUM];
-        double[] pn23;
-        double[] pn31;
         //
         //  Compute V3, the vector normal to V1 = P2-P1 and V2 = P3-P1.
         //
@@ -322,13 +312,13 @@ public static class Geometry
         //  If the component of V = P-P1 in the V3 direction is too large,
         //  then it does not lie in the parallelogram.
         //
-        dot = (p[0] - p1[0]) * pn12[0]
-              + (p[1] - p1[1]) * pn12[1]
-              + (p[2] - p1[2]) * pn12[2];
+        double dot = (p[0] - p1[0]) * pn12[0]
+                     + (p[1] - p1[1]) * pn12[1]
+                     + (p[2] - p1[2]) * pn12[2];
 
-        v = Math.Sqrt(Math.Pow(p2[0] - p[0], 2)
-                      + Math.Pow(p2[1] - p[1], 2)
-                      + Math.Pow(p2[2] - p[2], 2));
+        double v = Math.Sqrt(Math.Pow(p2[0] - p[0], 2)
+                             + Math.Pow(p2[1] - p[1], 2)
+                             + Math.Pow(p2[2] - p[2], 2));
 
         if (TOL * (1.0 + v) < Math.Abs(dot))
         {
@@ -342,18 +332,17 @@ public static class Geometry
         p31[1] = p3[1] - p1[1];
         p31[2] = p3[2] - p1[2];
 
-        pn23 = typeMethods.r8vec_cross_product_3d(p31, pn12);
+        double[] pn23 = typeMethods.r8vec_cross_product_3d(p31, pn12);
         //
         //  Compute ALPHA = ( V dot V23 ) / ( V1 dot V23 )
         //
-        dott = (p[0] - p1[0]) * pn23[0]
-               + (p[1] - p1[1]) * pn23[1]
-               + (p[2] - p1[2]) * pn23[2];
+        double dott = (p[0] - p1[0]) * pn23[0]
+                      + (p[1] - p1[1]) * pn23[1]
+                      + (p[2] - p1[2]) * pn23[2];
 
-        dotb =
-            (p2[0] - p1[0]) * pn23[0] +
-            (p2[1] - p1[1]) * pn23[1] +
-            (p2[2] - p1[2]) * pn23[2];
+        double dotb = (p2[0] - p1[0]) * pn23[0] +
+                      (p2[1] - p1[1]) * pn23[1] +
+                      (p2[2] - p1[2]) * pn23[2];
 
         switch (dotb)
         {
@@ -375,7 +364,7 @@ public static class Geometry
         p21[1] = p2[1] - p1[1];
         p21[2] = p2[2] - p1[2];
 
-        pn31 = typeMethods.r8vec_cross_product_3d(pn12, p21);
+        double[] pn31 = typeMethods.r8vec_cross_product_3d(pn12, p21);
         //
         //  Compute BETA = ( V dot V31 ) / ( V2 dot V31 )
         //
@@ -448,16 +437,9 @@ public static class Geometry
         //    parallelogram.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        double dis13;
-        double dis21;
-        double dis34;
-        double dis42;
         double dist;
-        bool inside;
-        double t;
-        double temp;
         double[] p4 = new double[DIM_NUM];
         double[] pn = new double[DIM_NUM];
         double[] pp = new double[DIM_NUM];
@@ -473,7 +455,7 @@ public static class Geometry
         pp[2] = (p2[0] - p1[0]) * (p3[1] - p1[1])
                 - (p2[1] - p1[1]) * (p3[0] - p1[0]);
 
-        temp = Math.Sqrt(pp[0] * pp[0] + pp[1] * pp[1] + pp[2] * pp[2]);
+        double temp = Math.Sqrt(pp[0] * pp[0] + pp[1] * pp[1] + pp[2] * pp[2]);
 
         switch (temp)
         {
@@ -490,9 +472,9 @@ public static class Geometry
         //
         //  Find PN, the nearest point to P in the plane.
         //
-        t = pp[0] * (p[0] - p1[0])
-            + pp[1] * (p[1] - p1[1])
-            + pp[2] * (p[2] - p1[2]);
+        double t = pp[0] * (p[0] - p1[0])
+                   + pp[1] * (p[1] - p1[1])
+                   + pp[2] * (p[2] - p1[2]);
 
         pn[0] = p[0] - pp[0] * t;
         pn[1] = p[1] - pp[1] * t;
@@ -500,7 +482,7 @@ public static class Geometry
         //
         //  if PN lies WITHIN the parallelogram, we're done.
         //
-        inside = parallelogram_contains_point_3d(p1, p2, p3, p);
+        bool inside = parallelogram_contains_point_3d(p1, p2, p3, p);
 
         switch (inside)
         {
@@ -519,25 +501,25 @@ public static class Geometry
         p4[1] = p2[1] + p3[1] - p1[1];
         p4[2] = p2[2] + p3[2] - p1[2];
 
-        dis13 = Segments.segment_point_dist_3d(p1, p3, p);
+        double dis13 = Segments.segment_point_dist_3d(p1, p3, p);
 
         dist = dis13;
 
-        dis34 = Segments.segment_point_dist_3d(p3, p4, p);
+        double dis34 = Segments.segment_point_dist_3d(p3, p4, p);
 
         if (dis34 < dist)
         {
             dist = dis34;
         }
 
-        dis42 = Segments.segment_point_dist_3d(p4, p2, p);
+        double dis42 = Segments.segment_point_dist_3d(p4, p2, p);
 
         if (dis42 < dist)
         {
             dist = dis42;
         }
 
-        dis21 = Segments.segment_point_dist_3d(p2, p1, p);
+        double dis21 = Segments.segment_point_dist_3d(p2, p1, p);
 
         if (dis21 < dist)
         {

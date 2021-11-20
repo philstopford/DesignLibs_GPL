@@ -42,17 +42,12 @@ public static class Euler
         //    double t[n+1], y[m*(n+1)]: the times and solution values.
         //
     {
-        double dt;
-        double[] dy;
         int i;
-        int j;
-        double tfirst;
-        double tlast;
 
-        tfirst = tspan[0];
-        tlast = tspan[1];
-        dt = ( tlast - tfirst ) / n;
-        j = 0;
+        double tfirst = tspan[0];
+        double tlast = tspan[1];
+        double dt = ( tlast - tfirst ) / n;
+        int j = 0;
         t[j] = tspan[0];
         for ( i = 0; i < m; i++ )
         {
@@ -61,7 +56,7 @@ public static class Euler
 
         for ( j = 0; j < n; j++ )
         {
-            dy = dydt ( t[j], y, +j*m );
+            double[] dy = dydt ( t[j], y, +j*m );
             t[j+1] = t[j] + dt;
             for ( i = 0; i < m; i++ )
             {

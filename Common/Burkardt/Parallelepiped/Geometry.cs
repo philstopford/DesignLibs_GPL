@@ -2,7 +2,7 @@
 
 namespace Burkardt.Parallelepiped;
 
-public class Geometry
+public static class Geometry
 {
     public static bool parallelepiped_contains_point_3d(double[] p1, double[] p2, double[] p3,
             double[] p4, double[] p)
@@ -55,11 +55,9 @@ public class Geometry
         //    parallelepiped, or on its boundary, and false otherwise.
         //
     {
-        double dot;
-
-        dot = (p2[0] - p1[0]) * (p[0] - p1[0])
-              + (p2[1] - p1[1]) * (p[1] - p1[1])
-              + (p2[2] - p1[2]) * (p[2] - p1[2]);
+        double dot = (p2[0] - p1[0]) * (p[0] - p1[0])
+                     + (p2[1] - p1[1]) * (p[1] - p1[1])
+                     + (p2[2] - p1[2]) * (p[2] - p1[2]);
 
         switch (dot)
         {
@@ -101,14 +99,9 @@ public class Geometry
                 return false;
         }
 
-        if (Math.Pow(p4[0] - p1[0], 2)
+        return !(Math.Pow(p4[0] - p1[0], 2)
             + Math.Pow(p4[1] - p1[1], 2)
-            + Math.Pow(p4[2] - p1[2], 2) < dot)
-        {
-            return false;
-        }
-
-        return true;
+            + Math.Pow(p4[2] - p1[2], 2) < dot);
     }
 
     public static double parallelepiped_point_dist_3d(double[] p1, double[] p2, double[] p3,
@@ -169,10 +162,8 @@ public class Geometry
         //    The distance is zero if the point lies exactly on the box.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        double dis;
-        double dist;
         double[] p5 = new double[DIM_NUM];
         double[] p6 = new double[DIM_NUM];
         double[] p7 = new double[DIM_NUM];
@@ -199,9 +190,9 @@ public class Geometry
         //  Compute the distance from the point P to each of the six
         //  paralleogram faces.
         //
-        dis = Parallelogram.Geometry.parallelogram_point_dist_3d(p1, p2, p3, p);
+        double dis = Parallelogram.Geometry.parallelogram_point_dist_3d(p1, p2, p3, p);
 
-        dist = dis;
+        double dist = dis;
 
         dis = Parallelogram.Geometry.parallelogram_point_dist_3d(p1, p2, p4, p);
 

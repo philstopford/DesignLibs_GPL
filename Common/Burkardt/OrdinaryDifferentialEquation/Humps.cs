@@ -42,11 +42,9 @@ public static class Humps
         //    double humps_antideriv: the value of the antiderivative at x.
         //
     {
-        double ya;
-
-        ya = 1.0 / 0.1 * Math.Atan((x - 0.3) / 0.1)
-             + 1.0 / 0.2 * Math.Atan((x - 0.9) / 0.2)
-             - 6.0 * x;
+        double ya = 1.0 / 0.1 * Math.Atan((x - 0.3) / 0.1)
+                    + 1.0 / 0.2 * Math.Atan((x - 0.9) / 0.2)
+                    - 6.0 * x;
 
         return ya;
     }
@@ -86,10 +84,8 @@ public static class Humps
         //    double humps_deriv: the value of the derivative at x.
         //
     {
-        double yp;
-
-        yp = -2.0 * (x - 0.3) / typeMethods.r8_square(typeMethods.r8_square(x - 0.3) + 0.01)
-             - 2.0 * (x - 0.9) / typeMethods.r8_square(typeMethods.r8_square(x - 0.9) + 0.04);
+        double yp = -2.0 * (x - 0.3) / typeMethods.r8_square(typeMethods.r8_square(x - 0.3) + 0.01)
+                    - 2.0 * (x - 0.9) / typeMethods.r8_square(typeMethods.r8_square(x - 0.9) + 0.04);
 
         return yp;
     }
@@ -132,28 +128,18 @@ public static class Humps
         //    double humps_deriv2: the value of the second derivative at x.
         //
     {
-        double u1;
-        double u1p;
-        double u2;
-        double u2p;
-        double v1;
-        double v1p;
-        double v2;
-        double v2p;
-        double ypp;
+        double u1 = -2.0 * (x - 0.3);
+        double v1 = typeMethods.r8_square(typeMethods.r8_square(x - 0.3) + 0.01);
+        double u2 = -2.0 * (x - 0.9);
+        double v2 = typeMethods.r8_square(typeMethods.r8_square(x - 0.9) + 0.04);
 
-        u1 = -2.0 * (x - 0.3);
-        v1 = typeMethods.r8_square(typeMethods.r8_square(x - 0.3) + 0.01);
-        u2 = -2.0 * (x - 0.9);
-        v2 = typeMethods.r8_square(typeMethods.r8_square(x - 0.9) + 0.04);
+        double u1p = -2.0;
+        double v1p = 2.0 * (typeMethods.r8_square(x - 0.3) + 0.01) * 2.0 * (x - 0.3);
+        double u2p = -2.0;
+        double v2p = 2.0 * (typeMethods.r8_square(x - 0.9) + 0.04) * 2.0 * (x - 0.9);
 
-        u1p = -2.0;
-        v1p = 2.0 * (typeMethods.r8_square(x - 0.3) + 0.01) * 2.0 * (x - 0.3);
-        u2p = -2.0;
-        v2p = 2.0 * (typeMethods.r8_square(x - 0.9) + 0.04) * 2.0 * (x - 0.9);
-
-        ypp = (u1p * v1 - u1 * v1p) / v1 / v1
-              + (u2p * v2 - u2 * v2p) / v2 / v2;
+        double ypp = (u1p * v1 - u1 * v1p) / v1 / v1
+                     + (u2p * v2 - u2 * v2p) / v2 / v2;
 
         return ypp;
     }
@@ -187,11 +173,9 @@ public static class Humps
         //    double y: the function value.
         //
     {
-        double y;
-
-        y = 1.0 / (typeMethods.r8_square(x - 0.3) + 0.01)
-            + 1.0 / (typeMethods.r8_square(x - 0.9) + 0.04)
-            - 6.0;
+        double y = 1.0 / (typeMethods.r8_square(x - 0.3) + 0.01)
+                   + 1.0 / (typeMethods.r8_square(x - 0.9) + 0.04)
+                   - 6.0;
 
         return y;
     }
@@ -233,12 +217,10 @@ public static class Humps
         //    double humps_ode: the value of the derivative of the humps function.
         //
     {
-        double yp;
-
-        yp = -1.0 / typeMethods.r8_square(typeMethods.r8_square(x - 0.3) + 0.01)
-             * 2.0 * (x - 0.3)
-             - 1.0 / typeMethods.r8_square(typeMethods.r8_square(x - 0.9) + 0.04)
-             * 2.0 * (x - 0.9);
+        double yp = -1.0 / typeMethods.r8_square(typeMethods.r8_square(x - 0.3) + 0.01)
+                    * 2.0 * (x - 0.3)
+                    - 1.0 / typeMethods.r8_square(typeMethods.r8_square(x - 0.9) + 0.04)
+                    * 2.0 * (x - 0.9);
 
         return yp;
     }
@@ -272,17 +254,13 @@ public static class Humps
         //    string prefix, the prefix for the plot names.
         //
     {
-        string command_filename;
         List<string> command_unit = new();
-        string data_filename;
         List<string> data_unit = new();
         int i;
-        string output_filename;
-        string prefix2;
         //
         //  Create the data file.
         //
-        data_filename = prefix + "_data.txt";
+        string data_filename = prefix + "_data.txt";
         for ( i = 0; i < n; i++ )
         {
             data_unit.Add(x[i] + "  " + y[i] + "");
@@ -293,7 +271,7 @@ public static class Humps
         //
         //  Plot the selected data.
         //
-        command_filename = prefix + "_commands.txt";
+        string command_filename = prefix + "_commands.txt";
 
         command_unit.Add("# " + command_filename + "");
         command_unit.Add("#");
@@ -302,11 +280,11 @@ public static class Humps
         command_unit.Add("#");
         command_unit.Add("set term png");
         command_unit.Add("set nokey");
-        output_filename = prefix + ".png";
+        string output_filename = prefix + ".png";
         command_unit.Add("set output '" + output_filename + "'");
         command_unit.Add("set xlabel '<---X--->'");
         command_unit.Add("set ylabel '<---Y(X)--->'");
-        prefix2 = typeMethods.s_escape_tex ( prefix );
+        string prefix2 = typeMethods.s_escape_tex ( prefix );
         command_unit.Add("set title '" + prefix2 + "'");
         command_unit.Add("set grid");
         command_unit.Add("set style data lines");

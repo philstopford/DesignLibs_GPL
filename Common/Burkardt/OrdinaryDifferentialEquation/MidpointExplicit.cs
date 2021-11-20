@@ -42,19 +42,14 @@ public static class MidpointExplicit
         //    double t[n+1], y[m*(n+1)]: the times and solution values.
         //
     {
-        double dt;
-        double[] f;
         int i;
-        int j;
-        double tm;
-        double[] ym;
 
-        ym = new double[m];
+        double[] ym = new double[m];
 
-        dt = ( tspan[1] - tspan[0] ) / n;
+        double dt = ( tspan[1] - tspan[0] ) / n;
 
         t[0] = tspan[0];
-        j = 0;
+        int j = 0;
         for ( i = 0; i < m; i++ )
         {
             y[i+j*m] = y0[i];
@@ -62,8 +57,8 @@ public static class MidpointExplicit
 
         for ( j = 0; j < n; j++ )
         {
-            f = dydt ( t[j], y, +j*m );
-            tm = t[j] + 0.5 * dt;
+            double[] f = dydt ( t[j], y, +j*m );
+            double tm = t[j] + 0.5 * dt;
             for ( i = 0; i < m; i++ )
             {
                 ym[i] = y[i+j*m] + 0.5 * dt * f[i];

@@ -42,25 +42,17 @@ public static class MidpointFixed
         //    double t[n+1], y[m*(n+1)]: the times and solution values.
         //
     {
-        double dt;
-        double[] f;
         int i;
-        int it_max;
-        int j;
-        int k;
-        double theta;
-        double tm;
-        double[] ym;
 
-        ym = new double[m];
+        double[] ym = new double[m];
 
-        dt = ( tspan[1] - tspan[0] ) / n;
+        double dt = ( tspan[1] - tspan[0] ) / n;
 
-        it_max = 10;
-        theta = 0.5;
+        int it_max = 10;
+        double theta = 0.5;
 
         t[0] = tspan[0];
-        j = 0;
+        int j = 0;
         for ( i = 0; i < m; i++ )
         {
             y[i+j*m] = y0[i];
@@ -68,14 +60,16 @@ public static class MidpointFixed
 
         for ( j = 0; j < n; j++ )
         {
-            tm = t[j] + theta * dt;
+            double tm = t[j] + theta * dt;
             for ( i = 0; i < m; i++ )
             {
                 ym[i] = y[i+j*m];
             }
+
+            int k;
             for ( k = 0; k < it_max; k++ )
             {
-                f = dydt ( tm, ym, index );
+                double[] f = dydt ( tm, ym, index );
                 for ( i = 0; i < m; i++ )
                 {
                     ym[i] = y[i+j*m] + theta * dt * f[i];

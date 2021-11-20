@@ -181,24 +181,13 @@ public static class ODE
         //    call to DE.
         //
     {
-        double absdel;
-        double abseps;
         bool crash = false;
-        double del;
-        double eps;
-        double fouru;
-        int isn;
-        int kle4;
         int l;
         const int maxnum = 500;
-        int nostep;
-        double releps;
-        bool stiff;
-        double tend;
         //
         //  Test for improper parameters.
         //
-        fouru = 4.0 * typeMethods.r8_epsilon();
+        double fouru = 4.0 * typeMethods.r8_epsilon();
 
         switch (neqn)
         {
@@ -228,7 +217,7 @@ public static class ODE
             return;
         }
 
-        eps = Math.Max(relerr, abserr);
+        double eps = Math.Max(relerr, abserr);
 
         switch (eps)
         {
@@ -250,7 +239,7 @@ public static class ODE
                 return;
         }
 
-        isn = typeMethods.i4_sign(iflag);
+        int isn = typeMethods.i4_sign(iflag);
         iflag = Math.Abs(iflag);
 
         if (iflag != 1)
@@ -278,20 +267,20 @@ public static class ODE
         //  steps.  Adjust input error tolerances to define weight vector for
         //  subroutine STEP.
         //
-        del = tout - t;
-        absdel = Math.Abs(del);
+        double del = tout - t;
+        double absdel = Math.Abs(del);
 
-        tend = isn switch
+        double tend = isn switch
         {
             < 0 => tout,
             _ => t + 10.0 * del
         };
 
-        nostep = 0;
-        kle4 = 0;
-        stiff = false;
-        releps = relerr / eps;
-        abseps = abserr / eps;
+        int nostep = 0;
+        int kle4 = 0;
+        bool stiff = false;
+        double releps = relerr / eps;
+        double abseps = abserr / eps;
         //
         //  On start and restart, also set work variables X and YY(*), store the
         //  direction of integration, and initialize the step size.
@@ -501,21 +490,15 @@ public static class ODE
         //    interpolating polynomial.
         //
     {
-        double eta;
         double[] g = new double[13];
-        double gamma;
-        double hi;
         int i;
         int j;
         int k;
-        int ki;
-        double psijm1;
         double[] rho = new double[13];
-        double term;
         double[] w = new double[13];
 
-        hi = xout - x;
-        ki = kold + 1;
+        double hi = xout - x;
+        int ki = kold + 1;
         //
         //  Initialize W for computing G.
         //
@@ -529,13 +512,13 @@ public static class ODE
         //
         g[0] = 1.0;
         rho[0] = 1.0;
-        term = 0.0;
+        double term = 0.0;
 
         for (j = 2; j <= ki; j++)
         {
-            psijm1 = psi[(j - 2 + psiIndex) % psi.Length];
-            gamma = (hi + term) / psijm1;
-            eta = hi / psijm1;
+            double psijm1 = psi[(j - 2 + psiIndex) % psi.Length];
+            double gamma = (hi + term) / psijm1;
+            double eta = hi / psijm1;
             for (i = 1; i <= ki + 1 - j; i++)
             {
                 w[i - 1] = gamma * w[i - 1] - eta * w[i];
@@ -724,29 +707,24 @@ public static class ODE
         const int ig = 62;
         const int ih = 89;
         const int ihold = 90;
-        int ip;
         const int iphase = 75;
-        int iphi;
         const int ipsi = 76;
         const int isig = 25;
         const int istart = 91;
         const int itold = 92;
         const int iv = 38;
         const int iw = 50;
-        int iwt;
         const int ix = 88;
-        int iyp;
-        int iypout;
         const int iyy = 100;
         bool nornd = false;
         bool phase1 = false;
         bool start = false;
 
-        iwt = iyy + neqn;
-        ip = iwt + neqn;
-        iyp = ip + neqn;
-        iypout = iyp + neqn;
-        iphi = iypout + neqn;
+        int iwt = iyy + neqn;
+        int ip = iwt + neqn;
+        int iyp = ip + neqn;
+        int iypout = iyp + neqn;
+        int iphi = iypout + neqn;
 
         if (Math.Abs(iflag) != 1)
         {
@@ -995,35 +973,18 @@ public static class ODE
         double absh;
         double erk;
         double erkm1;
-        double erkm2;
-        double erkp1;
-        double err;
-        double fouru;
         double[] gstr =
         {
             0.50, 0.0833, 0.0417, 0.0264, 0.0188,
             0.0143, 0.0114, 0.00936, 0.00789, 0.00679,
             0.00592, 0.00524, 0.00468
         };
-        double hnew;
         int i;
-        int ifail;
-        int iq;
-        int j;
         int km1;
-        int km2;
         int knew;
         int kp1;
         int kp2;
         int l;
-        int nsp1;
-        double p5eps;
-        double r;
-        double rho;
-        double round;
-        double total;
-        double tau;
-        double temp1;
         double temp2;
         double[] two =
         {
@@ -1031,11 +992,9 @@ public static class ODE
             64.0, 128.0, 256.0, 512.0, 1024.0,
             2048.0, 4096.0, 8192.0
         };
-        double twou;
-        double xold;
 
-        twou = 2.0 * typeMethods.r8_epsilon();
-        fouru = 2.0 * twou;
+        double twou = 2.0 * typeMethods.r8_epsilon();
+        double fouru = 2.0 * twou;
         //
         //  Check if the step size or error tolerance is too small.  If this is the
         //  first step, initialize the PHI array and estimate a starting step size.
@@ -1050,11 +1009,11 @@ public static class ODE
             return;
         }
 
-        p5eps = 0.5 * eps;
+        double p5eps = 0.5 * eps;
         //
         //  If the error tolerance is too small, increase it to an acceptable value.
         //
-        round = 0.0;
+        double round = 0.0;
         for (i = 0; i < neqn; i++)
         {
             round += Math.Pow(y[(i + yIndex) % y.Length] / wt[(i + wtIndex) % wt.Length], 2);
@@ -1086,7 +1045,7 @@ public static class ODE
                     phi[(l - 1 + 1 * neqn + phiIndex) % phi.Length] = 0.0;
                 }
 
-                total = 0.0;
+                double total = 0.0;
                 for (l = 1; l <= neqn; l++)
                 {
                     total += Math.Pow(yp[(l - 1 + ypIndex) % yp.Length] / wt[(l - 1 + wtIndex) % wt.Length],
@@ -1121,7 +1080,7 @@ public static class ODE
             }
         }
 
-        ifail = 0;
+        int ifail = 0;
         //
         //  Compute coefficients of formulas for this step.  Avoid computing
         //  those quantities not changed when step size is not changed.
@@ -1131,7 +1090,7 @@ public static class ODE
             kp1 = k + 1;
             kp2 = k + 2;
             km1 = k - 1;
-            km2 = k - 2;
+            int km2 = k - 2;
             //
             //  NS is the number of steps taken with size H, including the current
             //  one.  When K < NS, no coefficients change.
@@ -1146,15 +1105,16 @@ public static class ODE
                 ns += 1;
             }
 
-            nsp1 = ns + 1;
+            int nsp1 = ns + 1;
             //
             //  Compute those components of ALPHA, BETA, PSI and SIG which change.
             //
+            int j;
             if (ns <= k)
             {
                 beta[(ns - 1 + betaIndex) % beta.Length] = 1.0;
                 alpha[(ns - 1 + alphaIndex) % alpha.Length] = 1.0 / ns;
-                temp1 = h * ns;
+                double temp1 = h * ns;
                 sig[(nsp1 - 1 + sigIndex) % sig.Length] = 1.0;
 
                 for (i = nsp1; i <= k; i++)
@@ -1171,6 +1131,8 @@ public static class ODE
                 }
 
                 psi[(k - 1 + psiIndex) % psi.Length] = temp1;
+                int 
+                    iq;
                 switch (ns)
                 {
                     //
@@ -1278,8 +1240,8 @@ public static class ODE
                 {
                     for (l = 1; l <= neqn; l++)
                     {
-                        tau = h * p[(l - 1 + pIndex) % p.Length] -
-                              phi[(l - 1 + (15 - 1) * neqn + phiIndex) % phi.Length];
+                        double tau = h * p[(l - 1 + pIndex) % p.Length] -
+                                     phi[(l - 1 + (15 - 1) * neqn + phiIndex) % phi.Length];
                         p[(l - 1 + pIndex) % p.Length] = y[(l - 1 + yIndex) % y.Length] + tau;
                         phi[(l - 1 + (16 - 1) * neqn + phiIndex) % phi.Length] =
                             p[(l - 1 + pIndex) % p.Length] - y[(l - 1 + yIndex) % y.Length] - tau;
@@ -1299,14 +1261,14 @@ public static class ODE
                 }
             }
 
-            xold = x;
+            double xold = x;
             x += h;
             absh = Math.Abs(h);
             yp = f(x, p, pIndex, yp, ypIndex);
             //
             //  Estimate the errors at orders K, K-1 and K-2.
             //
-            erkm2 = 0.0;
+            double erkm2 = 0.0;
             erkm1 = 0.0;
             erk = 0.0;
 
@@ -1351,7 +1313,8 @@ public static class ODE
                 _ => erkm1
             };
 
-            err = absh * Math.Sqrt(erk) * (g[(k - 1 + gIndex) % g.Length] - g[(kp1 - 1 + gIndex) % g.Length]);
+            double 
+                err = absh * Math.Sqrt(erk) * (g[(k - 1 + gIndex) % g.Length] - g[(kp1 - 1 + gIndex) % g.Length]);
             erk = absh * Math.Sqrt(erk) * sig[(kp1 - 1 + sigIndex) % sig.Length] * gstr[k - 1];
             knew = k;
             switch (km2)
@@ -1467,9 +1430,9 @@ public static class ODE
             {
                 for (l = 1; l <= neqn; l++)
                 {
-                    rho = h * g[(kp1 - 1 + gIndex) % g.Length] * (yp[(l - 1 + ypIndex) % yp.Length] -
-                                                                  phi[(l - 1 + 0 * neqn + phiIndex) % phi.Length]) -
-                          phi[(l - 1 + (16 - 1) * neqn + phiIndex) % phi.Length];
+                    double rho = h * g[(kp1 - 1 + gIndex) % g.Length] * (yp[(l - 1 + ypIndex) % yp.Length] -
+                                                                         phi[(l - 1 + 0 * neqn + phiIndex) % phi.Length]) -
+                                 phi[(l - 1 + (16 - 1) * neqn + phiIndex) % phi.Length];
                     y[(l - 1 + yIndex) % y.Length] = p[(l - 1 + pIndex) % p.Length] + rho;
                     phi[(l - 1 + (15 - 1) * neqn + phiIndex) % phi.Length] =
                         y[(l - 1 + phiIndex) % phi.Length] - p[(l - 1 + pIndex) % p.Length] - rho;
@@ -1520,7 +1483,7 @@ public static class ODE
         //  * already decided to lower order, or,
         //  * step size not constant so estimate unreliable.
         //
-        erkp1 = 0.0;
+        double erkp1 = 0.0;
 
         if (knew == km1 || k == 12)
         {
@@ -1591,7 +1554,7 @@ public static class ODE
         //
         //  With the new order, determine appropriate step size for next step.
         //
-        hnew = h + h;
+        double hnew = h + h;
 
         switch (phase1)
         {
@@ -1604,7 +1567,7 @@ public static class ODE
                     if (p5eps < erk)
                     {
                         temp2 = k + 1;
-                        r = Math.Pow(p5eps / erk, 1.0 / temp2);
+                        double r = Math.Pow(p5eps / erk, 1.0 / temp2);
                         hnew = absh * Math.Max(0.5, Math.Min(0.9, r));
                         hnew = Math.Abs(Math.Max(hnew, fouru * Math.Abs(x))) * typeMethods.r8_sign(h);
                     }

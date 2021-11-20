@@ -119,7 +119,7 @@ public static partial class Sort
             //
             //  INDX < 0: The user is returning the results of a comparison.
             //
-            case < 0 when indx == -2:
+            case < 0 and -2:
             {
                 switch (isgn)
                 {
@@ -346,7 +346,7 @@ public static partial class Sort
             //
             //  INDX < 0: The user is returning the results of a comparison.
             //
-            case < 0 when indx == -2:
+            case < 0 and -2:
             {
                 switch (isgn)
                 {

@@ -41,10 +41,7 @@ public static class Index
         //    Output, int INDEX0, the index of element I.
         //
     {
-        int index_min = 0;
-        int value;
-
-        value = index_min + (i - i_min);
+        int value = (i - i_min);
 
         return value;
     }
@@ -85,13 +82,8 @@ public static class Index
         //    Output, int INDEX01, the index of element (I,J).
         //
     {
-        int index_min = 0;
-        int value;
-
-        value =
-            index_min
-            + (i - i_min)
-            + (i_max + 1 - i_min) * (j - j_min);
+        int value = (i - i_min)
+                    + (i_max + 1 - i_min) * (j - j_min);
 
         return value;
     }
@@ -136,14 +128,9 @@ public static class Index
         //    Output, int INDEX012, the index of element (I,J,K).
         //
     {
-        int index_min = 0;
-        int value;
-
-        value =
-            index_min
-            + (i - i_min)
-            + (i_max + 1 - i_min) * (j - j_min) *
-            +(i_max + 1 - i_min) * (j_max + 1 - j_min) * (k - k_min);
+        int value = + (i - i_min)
+                    + (i_max + 1 - i_min) * (j - j_min) *
+                    +(i_max + 1 - i_min) * (j_max + 1 - j_min) * (k - k_min);
 
         return value;
     }
@@ -191,17 +178,12 @@ public static class Index
         //    Output, int INDEX0123, the index of (I1,I2,I3,I4).
         //
     {
-        int index_min = 0;
-        int value;
-
-        value =
-            index_min
-            + (i1 - i1_min)
-            + (i1_max + 1 - i1_min) * (i2 - i2_min)
-            + (i1_max + 1 - i1_min) * (i2_max + 1 - i2_min)
-                                    * (i3 - i3_min)
-            + (i1_max + 1 - i1_min) * (i2_max + 1 - i2_min)
-                                    * (i3_max + 1 - i3_min) * (i4 - i4_min);
+        int value = + (i1 - i1_min)
+                    + (i1_max + 1 - i1_min) * (i2 - i2_min)
+                    + (i1_max + 1 - i1_min) * (i2_max + 1 - i2_min)
+                                            * (i3 - i3_min)
+                    + (i1_max + 1 - i1_min) * (i2_max + 1 - i2_min)
+                                            * (i3_max + 1 - i3_min) * (i4 - i4_min);
 
         return value;
     }
@@ -246,19 +228,15 @@ public static class Index
         //    Output, int INDEX0N, the index of element I.
         //
     {
-        int index_min = 0;
         int j;
-        int value;
 
-        value = i[n - 1] - i_min[n - 1];
+        int value = i[n - 1] - i_min[n - 1];
 
         for (j = n - 2; 0 <= j; j--)
         {
             value = value * (i_max[j] + 1 - i_min[j]) + (i[j] - i_min[j]);
         }
-
-        value += index_min;
-
+        
         return value;
     }
 
@@ -298,10 +276,9 @@ public static class Index
         //    Output, int INDEX1, the index of element I.
         //
     {
-        int index_min = 1;
-        int value;
+        const int index_min = 1;
 
-        value = index_min + (i - i_min);
+        int value = index_min + (i - i_min);
 
         return value;
     }
@@ -342,12 +319,8 @@ public static class Index
         //    Output, int INDEX10, the index of element (I,J).
         //
     {
-        int index_min = 0;
-        int value;
-
-        value = index_min
-                + (j - j_min)
-                + (i - i_min) * (j_max + 1 - j_min);
+        int value = (j - j_min)
+                    + (i - i_min) * (j_max + 1 - j_min);
 
         return value;
     }
@@ -388,13 +361,11 @@ public static class Index
         //    Output, int INDEX12, the index of element (I,J).
         //
     {
-        int index_min = 1;
-        int value;
+        const int index_min = 1;
 
-        value =
-            index_min
-            + (i - i_min)
-            + (i_max + 1 - i_min) * (j - j_min);
+        int value = index_min
+                    + (i - i_min)
+                    + (i_max + 1 - i_min) * (j - j_min);
 
         return value;
     }
@@ -440,13 +411,11 @@ public static class Index
         //
     {
         int index_min = 1;
-        int value;
 
-        value =
-            index_min
-            + (i - i_min)
-            + (i_max + 1 - i_min) * (j - j_min) *
-            +(i_max + 1 - i_min) * (j_max + 1 - j_min) * (k - k_min);
+        int value = index_min
+                    + (i - i_min)
+                    + (i_max + 1 - i_min) * (j - j_min) *
+                    +(i_max + 1 - i_min) * (j_max + 1 - j_min) * (k - k_min);
 
         return value;
     }
@@ -494,17 +463,15 @@ public static class Index
         //    Output, int INDEX1234, the index of (I1,I2,I3,I4).
         //
     {
-        int index_min = 1;
-        int value;
+        const int index_min = 1;
 
-        value =
-            index_min
-            + (i1 - i1_min)
-            + (i1_max + 1 - i1_min) * (i2 - i2_min)
-            + (i1_max + 1 - i1_min) * (i2_max + 1 - i2_min)
-                                    * (i3 - i3_min)
-            + (i1_max + 1 - i1_min) * (i2_max + 1 - i2_min)
-                                    * (i3_max + 1 - i3_min) * (i4 - i4_min);
+        int value = index_min
+                    + (i1 - i1_min)
+                    + (i1_max + 1 - i1_min) * (i2 - i2_min)
+                    + (i1_max + 1 - i1_min) * (i2_max + 1 - i2_min)
+                                            * (i3 - i3_min)
+                    + (i1_max + 1 - i1_min) * (i2_max + 1 - i2_min)
+                                            * (i3_max + 1 - i3_min) * (i4 - i4_min);
 
         return value;
     }
@@ -549,11 +516,10 @@ public static class Index
         //    Output, int INDEX1N, the index of element I.
         //
     {
-        int index_min = 1;
+        const int index_min = 1;
         int j;
-        int value;
 
-        value = i[n - 1] - i_min[n - 1];
+        int value = i[n - 1] - i_min[n - 1];
 
         for (j = n - 2; 0 <= j; j--)
         {
@@ -601,12 +567,11 @@ public static class Index
         //    Output, int INDEX21, the index of element (I,J).
         //
     {
-        int index_min = 1;
-        int value;
+        const int index_min = 1;
 
-        value = index_min
-                + (j - j_min)
-                + (i - i_min) * (j_max + 1 - j_min);
+        int value = index_min
+                    + (j - j_min)
+                    + (i - i_min) * (j_max + 1 - j_min);
 
         return value;
     }
@@ -652,14 +617,9 @@ public static class Index
         //    Output, int INDEX210, the index of element (I,J,K).
         //
     {
-        int index_min = 0;
-        int value;
-
-        value =
-            index_min
-            + (k - k_min)
-            + (j - j_min) * (k_max + 1 - k_min)
-            + (i - i_min) * (j_max + 1 - j_min) * (k_max + 1 - k_min);
+        int value = + (k - k_min)
+                    + (j - j_min) * (k_max + 1 - k_min)
+                    + (i - i_min) * (j_max + 1 - j_min) * (k_max + 1 - k_min);
 
         return value;
     }
@@ -705,14 +665,12 @@ public static class Index
         //    Output, int INDEX321, the index of element (I,J,K).
         //
     {
-        int index_min = 1;
-        int value;
+        const int index_min = 1;
 
-        value =
-            index_min
-            + (k - k_min)
-            + (j - j_min) * (k_max + 1 - k_min)
-            + (i - i_min) * (j_max + 1 - j_min) * (k_max + 1 - k_min);
+        int value = index_min
+                    + (k - k_min)
+                    + (j - j_min) * (k_max + 1 - k_min)
+                    + (i - i_min) * (j_max + 1 - j_min) * (k_max + 1 - k_min);
 
         return value;
     }
@@ -760,18 +718,13 @@ public static class Index
         //    Output, int INDEX3210, the index of (I1,I2,I3,I4).
         //
     {
-        int index_min = 0;
-        int value;
-
-        value =
-            index_min
-            + (i4 - i4_min)
-            + (i3 - i3_min)
-            * (i4_max + 1 - i4_min)
-            + (i2 - i2_min) * (i3_max + 1 - i3_min)
-                            * (i4_max + 1 - i4_min)
-            + (i1 - i1_min) * (i2_max + 1 - i2_min) * (i3_max + 1 - i3_min)
-            * (i4_max + 1 - i4_min);
+        int value = + (i4 - i4_min)
+                    + (i3 - i3_min)
+                    * (i4_max + 1 - i4_min)
+                    + (i2 - i2_min) * (i3_max + 1 - i3_min)
+                                    * (i4_max + 1 - i4_min)
+                    + (i1 - i1_min) * (i2_max + 1 - i2_min) * (i3_max + 1 - i3_min)
+                    * (i4_max + 1 - i4_min);
 
         return value;
     }
@@ -820,17 +773,15 @@ public static class Index
         //
     {
         int index_min = 1;
-        int value;
 
-        value =
-            index_min
-            + (i4 - i4_min)
-            + (i3 - i3_min)
-            * (i4_max + 1 - i4_min)
-            + (i2 - i2_min) * (i3_max + 1 - i3_min)
-                            * (i4_max + 1 - i4_min)
-            + (i1 - i1_min) * (i2_max + 1 - i2_min) * (i3_max + 1 - i3_min)
-            * (i4_max + 1 - i4_min);
+        int value = index_min
+                    + (i4 - i4_min)
+                    + (i3 - i3_min)
+                    * (i4_max + 1 - i4_min)
+                    + (i2 - i2_min) * (i3_max + 1 - i3_min)
+                                    * (i4_max + 1 - i4_min)
+                    + (i1 - i1_min) * (i2_max + 1 - i2_min) * (i3_max + 1 - i3_min)
+                    * (i4_max + 1 - i4_min);
 
         return value;
     }
@@ -875,19 +826,15 @@ public static class Index
         //    Output, int INDEXN0, the index of element I.
         //
     {
-        int index_min = 0;
         int j;
-        int value;
 
-        value = i[0] - i_min[0];
+        int value = i[0] - i_min[0];
 
         for (j = 1; j < n; j++)
         {
             value = value * (i_max[j] + 1 - i_min[j]) + (i[j] - i_min[j]);
         }
-
-        value += index_min;
-
+        
         return value;
     }
 
@@ -931,11 +878,10 @@ public static class Index
         //    Output, int INDEXN1, the index of element I.
         //
     {
-        int index_min = 1;
+        const int index_min = 1;
         int j;
-        int value;
 
-        value = i[0] - i_min[0];
+        int value = i[0] - i_min[0];
 
         for (j = 1; j < n; j++)
         {
@@ -1395,7 +1341,6 @@ public static class Index
         //
     {
         int i;
-        int inc;
 
         switch (more)
         {
@@ -1421,7 +1366,7 @@ public static class Index
             }
             default:
             {
-                inc = 0;
+                int inc = 0;
 
                 while (hi <= a[inc])
                 {
@@ -1529,7 +1474,6 @@ public static class Index
         //
     {
         int i;
-        int inc;
 
         switch (more)
         {
@@ -1558,7 +1502,7 @@ public static class Index
             }
             default:
             {
-                inc = 0;
+                int inc = 0;
 
                 while (hi[inc] <= a[inc])
                 {
@@ -1651,7 +1595,6 @@ public static class Index
         //
     {
         int i;
-        int inc;
 
         switch (more)
         {
@@ -1680,7 +1623,7 @@ public static class Index
             }
             default:
             {
-                inc = 0;
+                int inc = 0;
 
                 while (hi[inc] <= a[inc])
                 {
@@ -1749,10 +1692,8 @@ public static class Index
         //
     {
         int i;
-        int range;
-        int rank;
 
-        rank = -1;
+        int rank = -1;
         for (i = 0; i < n; i++)
         {
             if (a[i] < 1 || hi < a[i])
@@ -1768,7 +1709,7 @@ public static class Index
         }
 
         rank = 1;
-        range = 1;
+        int range = 1;
         for (i = 0; i < n; i++)
         {
             rank += (a[i] - 1) * range;
@@ -1820,10 +1761,8 @@ public static class Index
         //
     {
         int i;
-        int range;
-        int rank;
 
-        rank = -1;
+        int rank = -1;
         for (i = 0; i < n; i++)
         {
             if (a[i] < 1 || hi[i] < a[i])
@@ -1839,7 +1778,7 @@ public static class Index
         }
 
         rank = 1;
-        range = 1;
+        int range = 1;
         for (i = 0; i < n; i++)
         {
             rank += (a[i] - 1) * range;
@@ -1892,20 +1831,21 @@ public static class Index
         //
     {
         int i;
-        int range;
         int rank;
 
         for (i = 0; i < n; i++)
         {
-            if (a[i] < lo[i] || hi[i] < a[i])
+            if (a[i] >= lo[i] && hi[i] >= a[i])
             {
-                rank = -1;
-                return rank;
+                continue;
             }
+
+            rank = -1;
+            return rank;
         }
 
         rank = 1;
-        range = 1;
+        int range = 1;
         for (i = 0; i < n; i++)
         {
             rank += (a[i] - lo[i]) * range;
@@ -1956,9 +1896,6 @@ public static class Index
         //
     {
         int i;
-        int j;
-        int k;
-        int range;
 
         for (i = 0; i < n; i++)
         {
@@ -1974,7 +1911,7 @@ public static class Index
                 return;
         }
 
-        range = (int)Math.Pow(hi, n);
+        int range = (int)Math.Pow(hi, n);
         //
         //  The rank might be too large.
         //
@@ -1983,12 +1920,12 @@ public static class Index
             return;
         }
 
-        k = rank - 1;
+        int k = rank - 1;
 
         for (i = n - 1; 0 <= i; i--)
         {
             range /= hi;
-            j = k / range;
+            int j = k / range;
             a[i] = j + 1;
             k -= j * range;
         }
@@ -2036,9 +1973,6 @@ public static class Index
         //
     {
         int i;
-        int j;
-        int k;
-        int range;
 
         for (i = 0; i < n; i++)
         {
@@ -2054,7 +1988,7 @@ public static class Index
                 return;
         }
 
-        range = typeMethods.i4vec_product(n, hi);
+        int range = typeMethods.i4vec_product(n, hi);
         //
         //  The rank might be too large.
         //
@@ -2063,12 +1997,12 @@ public static class Index
             return;
         }
 
-        k = rank - 1;
+        int k = rank - 1;
 
         for (i = n - 1; 0 <= i; i--)
         {
             range /= hi[i];
-            j = k / range;
+            int j = k / range;
             a[i] = j + 1;
             k -= j * range;
         }
@@ -2117,9 +2051,6 @@ public static class Index
         //
     {
         int i;
-        int j;
-        int k;
-        int range;
 
         for (i = 0; i < n; i++)
         {
@@ -2135,7 +2066,7 @@ public static class Index
                 return;
         }
 
-        range = 1;
+        int range = 1;
         for (i = 0; i < n; i++)
         {
             range *= (hi[i] + 1 - lo[i]);
@@ -2149,11 +2080,11 @@ public static class Index
             return;
         }
 
-        k = rank - 1;
+        int k = rank - 1;
         for (i = n - 1; 0 <= i; i--)
         {
             range /= (hi[i] + 1 - lo[i]);
-            j = k / range;
+            int j = k / range;
             a[i] = j + lo[i];
             k -= j * range;
         }

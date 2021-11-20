@@ -31,17 +31,7 @@ public static class Order
         //    Output, bool ORDER_CHECK, is TRUE if the requested order is acceptable.
         //
     {
-        bool check;
-
-        check = order ==   1 ||
-                order ==   3 ||
-                order ==   7 ||
-                order ==  15 ||
-                order ==  31 ||
-                order ==  63 ||
-                order == 127 ||
-                order == 255 ||
-                order == 511;
+        bool check = order is 1 or 3 or 7 or 15 or 31 or 63 or 127 or 255 or 511;
 
         return check;
     }

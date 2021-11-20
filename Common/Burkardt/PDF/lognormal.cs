@@ -34,9 +34,7 @@ public static partial class PDF
         //    Output, bool LOG_NORMAL_CHECK, is true if the parameters are legal.
         //
     {
-        bool check;
-
-        check = true;
+        bool check = true;
 
         switch (sigma)
         {
@@ -79,9 +77,7 @@ public static partial class PDF
         //    Output, double LOG_NORMAL_MEAN, the mean of the PDF.
         //
     {
-        double mean;
-
-        mean = Math.Exp(mu + 0.5 * sigma * sigma);
+        double mean = Math.Exp(mu + 0.5 * sigma * sigma);
 
         return mean;
     }
@@ -130,8 +126,6 @@ public static partial class PDF
         //
     {
         double pdf;
-            
-        double y;
 
         switch (x)
         {
@@ -139,7 +133,7 @@ public static partial class PDF
                 pdf = 0.0;
                 break;
             default:
-                y = (Math.Log(x) - mu) / sigma;
+                double y = (Math.Log(x) - mu) / sigma;
                 pdf = Math.Exp(-0.5 * y * y) / (sigma * x * Math.Sqrt(2.0 * Math.PI));
                 break;
         }
@@ -177,12 +171,9 @@ public static partial class PDF
         //    Output, double LOG_NORMAL_SAMPLE, a sample of the PDF.
         //
     {
-        double cdf;
-        double x;
+        double cdf = UniformRNG.r8_uniform_01(ref seed);
 
-        cdf = UniformRNG.r8_uniform_01(ref seed);
-
-        x = CDF.log_normal_cdf_inv(cdf, mu, sigma);
+        double x = CDF.log_normal_cdf_inv(cdf, mu, sigma);
 
         return x;
     }
@@ -215,9 +206,7 @@ public static partial class PDF
         //    Output, double LOG_NORMAL_VARIANCE, the variance of the PDF.
         //
     {
-        double variance;
-
-        variance = Math.Exp(2.0 * mu + sigma * sigma) * (Math.Exp(sigma * sigma) - 1.0);
+        double variance = Math.Exp(2.0 * mu + sigma * sigma) * (Math.Exp(sigma * sigma) - 1.0);
 
         return variance;
     }

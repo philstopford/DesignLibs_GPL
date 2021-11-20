@@ -58,27 +58,23 @@ public static class Discrete2D
         //    Output, double DISCRETE_CDF_TO_XY[2*N], the sample points.
         //
     {
-        double high;
-        int i;
         int j;
-        int k;
-        double low;
-        double[] r;
-        double[] xy;
 
-        xy = new double[2 * n];
+        double[] xy = new double[2 * n];
 
-        low = 0.0;
+        double low = 0.0;
         for (j = 0; j < n2; j++)
         {
+            int i;
             for (i = 0; i < n1; i++)
             {
-                high = cdf[i + j * n1];
+                double high = cdf[i + j * n1];
+                int k;
                 for (k = 0; k < n; k++)
                 {
                     if (low <= u[k] && u[k] <= high)
                     {
-                        r = UniformRNG.r8vec_uniform_01_new(2, ref seed);
+                        double[] r = UniformRNG.r8vec_uniform_01_new(2, ref seed);
                         xy[0 + k * 2] = (i + r[0]) / n1;
                         xy[1 + k * 2] = (j + r[1]) / n2;
                     }
@@ -136,7 +132,6 @@ public static class Discrete2D
         //    for the cell (I,J), normalized so that the sum over all cells is 1.
         //
     {
-        double[] pdf;
         double[] pdf_save =  {
                 0.0000, 0.0000, 0.0000, 0.0000, 0.0000,
                 0.0000, 0.0000, 0.0000, 0.0000, 0.0000,
@@ -220,19 +215,17 @@ public static class Discrete2D
                 0.0000, 0.0000, 0.0000, 0.0000, 0.0000
             }
             ;
-        double scale;
-        double total;
 
-        pdf = typeMethods.r8mat_copy_new(n1, n2, pdf_save);
+        double[] pdf = typeMethods.r8mat_copy_new(n1, n2, pdf_save);
         //
         //  Normalize to get an integral of 1.
         //
-        total = typeMethods.r8mat_sum(n1, n2, pdf);
+        double total = typeMethods.r8mat_sum(n1, n2, pdf);
 
         Console.WriteLine("");
         Console.WriteLine("  PDF data sums to " + total + "");
 
-        scale = 1.0 / total;
+        double scale = 1.0 / total;
 
         typeMethods.r8mat_scale(n1, n2, scale, ref pdf);
 
@@ -285,7 +278,6 @@ public static class Discrete2D
         //    for the cell (I,J), normalized so that the sum over all cells is 1.
         //
     {
-        double[] pdf;
         double[] pdf_save = {
                 10.0, 20.0, 10.0, 10.0, 20.0, 10.0, 30.0, 10.0, 10.0, 10.0, 10.0, 50.0,
                 25.0, 30.0, 10.0, 25.0, 30.0, 40.0, 30.0, 20.0, 10.0, 20.0, 30.0, 40.0,
@@ -297,19 +289,17 @@ public static class Discrete2D
                 10.0, 10.0, 25.0, 50.0, 10.0, 50.0, 10.0, 50.0, 25.0, 25.0, 25.0, 10.0
             }
             ;
-        double scale;
-        double total;
 
-        pdf = typeMethods.r8mat_copy_new(n1, n2, pdf_save);
+        double[] pdf = typeMethods.r8mat_copy_new(n1, n2, pdf_save);
         //
         //  Normalize to get an integral of 1.
         //
-        total = typeMethods.r8mat_sum(n1, n2, pdf);
+        double total = typeMethods.r8mat_sum(n1, n2, pdf);
 
         Console.WriteLine("");
         Console.WriteLine("  PDF data sums to " + total + "");
 
-        scale = 1.0 / total;
+        double scale = 1.0 / total;
 
         typeMethods.r8mat_scale(n1, n2, scale, ref pdf);
 
@@ -411,16 +401,14 @@ public static class Discrete2D
         //    The last entry of CDF should be 1.
         //
     {
-        double[] cdf;
-        int i;
         int j;
-        double total;
 
-        cdf = new double[n1*n2];
+        double[] cdf = new double[n1*n2];
 
-        total = 0.0;
+        double total = 0.0;
         for ( j = 0; j < n2; j++ )
         {
+            int i;
             for ( i = 0; i < n1; i++ )
             {
                 total += pdf[i+j*n1];

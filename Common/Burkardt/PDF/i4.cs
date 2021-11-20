@@ -114,49 +114,12 @@ public static partial class PDF
         //    distribution.
         //
     {
-        double al;
-        double alv;
-        double amaxp;
-        double c;
         double f;
-        double f1;
-        double f2;
-        double ffm;
-        double fm;
         double g;
-        int i;
         int ix = 0;
-        int ix1;
-        int k;
-        int m;
-        int mp;
-        double p;
-        double p1;
-        double p2;
-        double p3;
-        double p4;
-        double q;
-        double qn;
         double r;
-        double t;
         double u;
-        double v;
         int value;
-        double w;
-        double w2;
-        double x;
-        double x1;
-        double x2;
-        double xl;
-        double xll;
-        double xlr;
-        double xm;
-        double xnp;
-        double xnpq;
-        double xr;
-        double ynorm;
-        double z;
-        double z2;
 
         switch (pp)
         {
@@ -168,15 +131,15 @@ public static partial class PDF
                 return 1;
         }
 
-        p = Math.Min(pp, 1.0 - pp);
-        q = 1.0 - p;
-        xnp = n * p;
+        double p = Math.Min(pp, 1.0 - pp);
+        double q = 1.0 - p;
+        double xnp = n * p;
 
         switch (xnp)
         {
             case < 30.0:
             {
-                qn = Math.Pow(q, n);
+                double qn = Math.Pow(q, n);
                 r = p / q;
                 g = r * (n + 1);
 
@@ -213,29 +176,29 @@ public static partial class PDF
             }
         }
 
-        ffm = xnp + p;
-        m = (int) ffm;
-        fm = m;
-        xnpq = xnp * q;
-        p1 = (int) (2.195 * Math.Sqrt(xnpq) - 4.6 * q) + 0.5;
-        xm = fm + 0.5;
-        xl = xm - p1;
-        xr = xm + p1;
-        c = 0.134 + 20.5 / (15.3 + fm);
-        al = (ffm - xl) / (ffm - xl * p);
-        xll = al * (1.0 + 0.5 * al);
+        double ffm = xnp + p;
+        int m = (int) ffm;
+        double fm = m;
+        double xnpq = xnp * q;
+        double p1 = (int) (2.195 * Math.Sqrt(xnpq) - 4.6 * q) + 0.5;
+        double xm = fm + 0.5;
+        double xl = xm - p1;
+        double xr = xm + p1;
+        double c = 0.134 + 20.5 / (15.3 + fm);
+        double al = (ffm - xl) / (ffm - xl * p);
+        double xll = al * (1.0 + 0.5 * al);
         al = (xr - ffm) / (xr * q);
-        xlr = al * (1.0 + 0.5 * al);
-        p2 = p1 * (1.0 + c + c);
-        p3 = p2 + c / xll;
-        p4 = p3 + c / xlr;
+        double xlr = al * (1.0 + 0.5 * al);
+        double p2 = p1 * (1.0 + c + c);
+        double p3 = p2 + c / xll;
+        double p4 = p3 + c / xlr;
         //
         //  Generate a variate.
         //
         for (;;)
         {
             u = r8_uniform_01_sample() * p4;
-            v = r8_uniform_01_sample();
+            double v = r8_uniform_01_sample();
             //
             //  Triangle
             //
@@ -256,7 +219,7 @@ public static partial class PDF
             //
             if (u <= p2)
             {
-                x = xl + (u - p1) / c;
+                double x = xl + (u - p1) / c;
                 v = v * c + 1.0 - Math.Abs(xm - x) / p1;
 
                 switch (v)
@@ -292,7 +255,7 @@ public static partial class PDF
                 v = v * (u - p3) * xlr;
             }
 
-            k = Math.Abs(ix - m);
+            int k = Math.Abs(ix - m);
 
             if (k <= 20 || xnpq / 2.0 - 1.0 <= k)
             {
@@ -300,9 +263,10 @@ public static partial class PDF
                 r = p / q;
                 g = (n + 1) * r;
 
+                int i;
                 if (m < ix)
                 {
-                    mp = m + 1;
+                    int mp = m + 1;
                     for (i = mp; i <= ix; i++)
                     {
                         f *= (g / i - r);
@@ -310,7 +274,7 @@ public static partial class PDF
                 }
                 else if (ix < m)
                 {
-                    ix1 = ix + 1;
+                    int ix1 = ix + 1;
                     for (i = ix1; i <= m; i++)
                     {
                         f /= (g / i - r);
@@ -331,10 +295,10 @@ public static partial class PDF
             }
             else
             {
-                amaxp = k / xnpq * ((k * (k / 3.0
-                                          + 0.625) + 0.1666666666666) / xnpq + 0.5);
-                ynorm = -(double) (k * k) / (2.0 * xnpq);
-                alv = Math.Log(v);
+                double amaxp = k / xnpq * ((k * (k / 3.0
+                                                 + 0.625) + 0.1666666666666) / xnpq + 0.5);
+                double ynorm = -(double) (k * k) / (2.0 * xnpq);
+                double alv = Math.Log(v);
 
                 if (alv < ynorm - amaxp)
                 {
@@ -353,25 +317,25 @@ public static partial class PDF
                     continue;
                 }
 
-                x1 = ix + 1;
-                f1 = fm + 1.0;
-                z = n + 1 - fm;
-                w = n - ix + 1;
-                z2 = z * z;
-                x2 = x1 * x1;
-                f2 = f1 * f1;
-                w2 = w * w;
+                double x1 = ix + 1;
+                double f1 = fm + 1.0;
+                double z = n + 1 - fm;
+                double w = n - ix + 1;
+                double z2 = z * z;
+                double x2 = x1 * x1;
+                double f2 = f1 * f1;
+                double w2 = w * w;
 
-                t = xm * Math.Log(f1 / x1) + (n - m + 0.5) * Math.Log(z / w)
-                                           + (ix - m) * Math.Log(w * p / (x1 * q))
-                                           + (13860.0 - (462.0 - (132.0 - (99.0 - 140.0
-                                               / f2) / f2) / f2) / f2) / f1 / 166320.0
-                                           + (13860.0 - (462.0 - (132.0 - (99.0 - 140.0
-                                               / z2) / z2) / z2) / z2) / z / 166320.0
-                                           + (13860.0 - (462.0 - (132.0 - (99.0 - 140.0
-                                               / x2) / x2) / x2) / x2) / x1 / 166320.0
-                                           + (13860.0 - (462.0 - (132.0 - (99.0 - 140.0
-                                               / w2) / w2) / w2) / w2) / w / 166320.0;
+                double t = xm * Math.Log(f1 / x1) + (n - m + 0.5) * Math.Log(z / w)
+                                                  + (ix - m) * Math.Log(w * p / (x1 * q))
+                                                  + (13860.0 - (462.0 - (132.0 - (99.0 - 140.0
+                                                      / f2) / f2) / f2) / f2) / f1 / 166320.0
+                                                  + (13860.0 - (462.0 - (132.0 - (99.0 - 140.0
+                                                      / z2) / z2) / z2) / z2) / z / 166320.0
+                                                  + (13860.0 - (462.0 - (132.0 - (99.0 - 140.0
+                                                      / x2) / x2) / x2) / x2) / x1 / 166320.0
+                                                  + (13860.0 - (462.0 - (132.0 - (99.0 - 140.0
+                                                      / w2) / w2) / w2) / w2) / w / 166320.0;
 
                 if (alv <= t)
                 {
@@ -415,17 +379,13 @@ public static partial class PDF
         //    Output, int I4_UNIFORM_AB, a number between A and B.
         //
     {
-        int a2;
-        int b2;
-        double u;
-        int value;
         //
         //  We prefer A < B.
         //
-        a2 = Math.Min(a, b);
-        b2 = Math.Max(a, b);
+        int a2 = Math.Min(a, b);
+        int b2 = Math.Max(a, b);
 
-        u = r8_uniform_01_sample();
+        double u = r8_uniform_01_sample();
         //
         //  Scale to [A2-0.5,B2+0.5].
         //
@@ -434,7 +394,7 @@ public static partial class PDF
         //
         //  Round.
         //
-        value = (int) Math.Round(u);
+        int value = (int) Math.Round(u);
         //
         //  Enforce limits.
         //
@@ -487,20 +447,16 @@ public static partial class PDF
         //    density function evaluated at X.
         //
     {
-        int bot;
-        int c;
         int i;
-        int j;
-        double pdf;
-        int top;
         //
         //  The combinatorial coefficient is an integer.
         //
-        c = 1;
-        top = n;
+        int c = 1;
+        int top = n;
         for (i = 0; i < m; i++)
         {
-            bot = 1;
+            int bot = 1;
+            int j;
             for (j = 0; j < x[i]; j++)
             {
                 c = c * top / bot;
@@ -509,7 +465,7 @@ public static partial class PDF
             }
         }
 
-        pdf = c;
+        double pdf = c;
         for (i = 0; i < m; i++)
         {
             pdf *= Math.Pow(p[i], x[i]);
@@ -566,10 +522,6 @@ public static partial class PDF
     {
         int i;
         int icat;
-        int[] ix;
-        int ntot;
-        double prob;
-        double ptot;
 
         switch (n)
         {
@@ -606,7 +558,7 @@ public static partial class PDF
             }
         }
 
-        ptot = 0.0;
+        double ptot = 0.0;
         for (i = 0; i < ncat - 1; i++)
         {
             ptot += p[i];
@@ -624,10 +576,10 @@ public static partial class PDF
         //
         //  Initialize variables.
         //
-        ntot = n;
+        int ntot = n;
         ptot = 1.0;
 
-        ix = new int[ncat];
+        int[] ix = new int[ncat];
         for (i = 0; i < ncat; i++)
         {
             ix[i] = 0;
@@ -638,7 +590,7 @@ public static partial class PDF
         //
         for (icat = 0; icat < ncat - 1; icat++)
         {
-            prob = p[icat] / ptot;
+            double prob = p[icat] / ptot;
             ix[icat] = i4_binomial_sample(ntot, prob);
             ntot -= ix[icat];
             switch (ntot)

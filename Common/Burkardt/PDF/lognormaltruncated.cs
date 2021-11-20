@@ -39,9 +39,7 @@ public static partial class PDF
         //    are legal.
         //
     {
-        bool check;
-
-        check = true;
+        bool check = true;
 
         switch (sigma)
         {
@@ -88,17 +86,7 @@ public static partial class PDF
         //    Output, double LOG_NORMAL_TRUNCATED_AB_MEAN, the mean of the PDF.
         //
     {
-        double a0;
-        double b0;
-        double c1;
-        double c2;
-        double c3;
-        double c4;
-        bool check;
-        double ln_mean;
-        double mean;
-
-        check = log_normal_truncated_ab_check(mu, sigma, a, b);
+        bool check = log_normal_truncated_ab_check(mu, sigma, a, b);
 
         switch (check)
         {
@@ -109,17 +97,17 @@ public static partial class PDF
                 return 1;
         }
 
-        a0 = (Math.Log(a) - mu) / sigma;
-        b0 = (Math.Log(b) - mu) / sigma;
+        double a0 = (Math.Log(a) - mu) / sigma;
+        double b0 = (Math.Log(b) - mu) / sigma;
 
-        c1 = CDF.normal_01_cdf(sigma - a0);
-        c2 = CDF.normal_01_cdf(sigma - b0);
-        c3 = CDF.normal_01_cdf(+a0);
-        c4 = CDF.normal_01_cdf(+b0);
+        double c1 = CDF.normal_01_cdf(sigma - a0);
+        double c2 = CDF.normal_01_cdf(sigma - b0);
+        double c3 = CDF.normal_01_cdf(+a0);
+        double c4 = CDF.normal_01_cdf(+b0);
 
-        ln_mean = Math.Exp(mu + 0.5 * sigma * sigma);
+        double ln_mean = Math.Exp(mu + 0.5 * sigma * sigma);
 
-        mean = ln_mean * (c1 - c2) / (c4 - c3);
+        double mean = ln_mean * (c1 - c2) / (c4 - c3);
 
         return mean;
     }
@@ -159,13 +147,9 @@ public static partial class PDF
         //    Output, double LOG_NORMAL_TRUNCATED_AB_PDF, the value of the PDF.
         //
     {
-        bool check;
-        double lncdf_a;
-        double lncdf_b;
-        double lnpdf_x;
         double pdf;
 
-        check = log_normal_truncated_ab_check(mu, sigma, a, b);
+        bool check = log_normal_truncated_ab_check(mu, sigma, a, b);
 
         switch (check)
         {
@@ -186,9 +170,9 @@ public static partial class PDF
         }
         else
         {
-            lncdf_a = CDF.log_normal_cdf(a, mu, sigma);
-            lncdf_b = CDF.log_normal_cdf(b, mu, sigma);
-            lnpdf_x = log_normal_pdf(x, mu, sigma);
+            double lncdf_a = CDF.log_normal_cdf(a, mu, sigma);
+            double lncdf_b = CDF.log_normal_cdf(b, mu, sigma);
+            double lnpdf_x = log_normal_pdf(x, mu, sigma);
 
             pdf = lnpdf_x / (lncdf_b - lncdf_a);
         }
@@ -230,13 +214,7 @@ public static partial class PDF
         //    Output, double LOG_NORMAL_TRUNCATED_AB_SAMPLE, a sample of the PDF.
         //
     {
-        double cdf;
-        bool check;
-        double lncdf_a;
-        double lncdf_b;
-        double x;
-
-        check = log_normal_truncated_ab_check(mu, sigma, a, b);
+        bool check = log_normal_truncated_ab_check(mu, sigma, a, b);
 
         switch (check)
         {
@@ -247,12 +225,12 @@ public static partial class PDF
                 return 1;
         }
 
-        lncdf_a = CDF.log_normal_cdf(a, mu, sigma);
-        lncdf_b = CDF.log_normal_cdf(b, mu, sigma);
+        double lncdf_a = CDF.log_normal_cdf(a, mu, sigma);
+        double lncdf_b = CDF.log_normal_cdf(b, mu, sigma);
 
-        cdf = UniformRNG.r8_uniform_ab(lncdf_a, lncdf_b, ref seed);
+        double cdf = UniformRNG.r8_uniform_ab(lncdf_a, lncdf_b, ref seed);
 
-        x = CDF.log_normal_cdf_inv(cdf, mu, sigma);
+        double x = CDF.log_normal_cdf_inv(cdf, mu, sigma);
 
         return x;
     }
@@ -289,19 +267,7 @@ public static partial class PDF
         //    Output, double LOG_NORMAL_TRUNCATED_AB_VARIANCE, the variance of the PDF.
         //
     {
-        double a0;
-        double b0;
-        double c1;
-        double c2;
-        double c3;
-        double c4;
-        bool check;
-        double ln_xsquared;
-        double lntab_xsquared;
-        double mean;
-        double variance;
-
-        check = log_normal_truncated_ab_check(mu, sigma, a, b);
+        bool check = log_normal_truncated_ab_check(mu, sigma, a, b);
 
         switch (check)
         {
@@ -312,21 +278,21 @@ public static partial class PDF
                 return 1;
         }
 
-        mean = log_normal_truncated_ab_mean(mu, sigma, a, b);
+        double mean = log_normal_truncated_ab_mean(mu, sigma, a, b);
 
-        a0 = (Math.Log(a) - mu) / sigma;
-        b0 = (Math.Log(b) - mu) / sigma;
+        double a0 = (Math.Log(a) - mu) / sigma;
+        double b0 = (Math.Log(b) - mu) / sigma;
 
-        c1 = CDF.normal_01_cdf(2.0 * sigma - a0);
-        c2 = CDF.normal_01_cdf(2.0 * sigma - b0);
-        c3 = CDF.normal_01_cdf(+a0);
-        c4 = CDF.normal_01_cdf(+b0);
+        double c1 = CDF.normal_01_cdf(2.0 * sigma - a0);
+        double c2 = CDF.normal_01_cdf(2.0 * sigma - b0);
+        double c3 = CDF.normal_01_cdf(+a0);
+        double c4 = CDF.normal_01_cdf(+b0);
 
-        ln_xsquared = Math.Exp(2.0 * mu + 2.0 * sigma * sigma);
+        double ln_xsquared = Math.Exp(2.0 * mu + 2.0 * sigma * sigma);
 
-        lntab_xsquared = ln_xsquared * (c1 - c2) / (c4 - c3);
+        double lntab_xsquared = ln_xsquared * (c1 - c2) / (c4 - c3);
 
-        variance = lntab_xsquared - mean * mean;
+        double variance = lntab_xsquared - mean * mean;
 
         return variance;
     }

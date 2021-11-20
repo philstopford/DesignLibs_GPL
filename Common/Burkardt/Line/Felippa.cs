@@ -51,8 +51,6 @@ public static class Felippa
         //    Output, double LINE_MONOMIAL, the integral of X^EXPON.
         //
     {
-        double value = 0;
-
         switch (expon)
         {
             case -1:
@@ -61,8 +59,8 @@ public static class Felippa
                 Console.WriteLine("  Exponent = -1 is not a legal input.");
                 return 1;
             default:
-                value = (Math.Pow(b, expon + 1) - Math.Pow(a, expon + 1))
-                        / (expon + 1);
+                double value = (Math.Pow(b, expon + 1) - Math.Pow(a, expon + 1))
+                               / (expon + 1);
 
                 return value;
         }
@@ -94,10 +92,9 @@ public static class Felippa
         //    monomials to check.
         //
     {
-        double a = 0.0;
-        double b = 1.0;
+        const double a = 0.0;
+        const double b = 1.0;
         int expon;
-        double value = 0;
 
         Console.WriteLine("");
         Console.WriteLine("LINE_MONOMIAL_TEST");
@@ -112,7 +109,7 @@ public static class Felippa
 
         for (expon = 0; expon <= degree_max; expon++)
         {
-            value = line_monomial(a, b, expon);
+            double value = line_monomial(a, b, expon);
 
             Console.WriteLine("  " + expon.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "  " + value.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
@@ -145,15 +142,9 @@ public static class Felippa
         //    monomials to check.
         //
     {
-        double a = 0.0;
-        double b = 1.0;
+        const double a = 0.0;
+        const double b = 1.0;
         int expon;
-        int j;
-        int order;
-        double quad;
-        double[] v;
-        double[] w;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("LINE_QUAD_TEST");
@@ -171,13 +162,16 @@ public static class Felippa
             Console.WriteLine("  Monomial exponent:   " + expon + "");
             Console.WriteLine("");
 
+            int order;
+            double quad;
             for (order = 1; order <= 5; order++)
             {
-                v = new double[order];
-                w = new double[order];
-                x = new double[order];
+                double[] v = new double[order];
+                double[] w = new double[order];
+                double[] x = new double[order];
 
                 line_rule(a, b, order, ref w, ref x);
+                int j;
                 for (j = 0; j < order; j++)
                 {
                     v[j] = Math.Pow(x[j], expon);
@@ -596,9 +590,7 @@ public static class Felippa
         //    Output, double LINE_VOLUME, the volume of the line.
         //
     {
-        double volume;
-
-        volume = b - a;
+        double volume = b - a;
 
         return volume;
     }

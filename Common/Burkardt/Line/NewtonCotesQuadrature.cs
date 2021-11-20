@@ -45,18 +45,13 @@ public static class NewtonCotesQuadrature
         //    Output, double W[N], the weights.
         //
     {
-        double[] d;
         int i;
-        int j;
-        int k;
-        double y_a;
-        double y_b;
         //
         //  Define the points X.
         //
         typeMethods.r8vec_linspace ( n, a, b, ref x );
 
-        d = new double[n];
+        double[] d = new double[n];
 
         for ( i = 0; i < n; i++ )
         {
@@ -64,12 +59,14 @@ public static class NewtonCotesQuadrature
             //  Compute the Lagrange basis polynomial which is 1 at XTAB(I),
             //  and zero at the other nodes.
             //
+            int j;
             for ( j = 0; j < n; j++ )
             {
                 d[j] = 0.0;
             }
             d[i] = 1.0;
 
+            int k;
             for ( j = 2; j <= n; j++ )
             {
                 for ( k = j; k <= n; k++ )
@@ -87,14 +84,14 @@ public static class NewtonCotesQuadrature
             //
             //  Evaluate the antiderivative of the polynomial at the endpoints.
             //
-            y_a = d[n-1] / n;
+            double y_a = d[n-1] / n;
             for ( j = n - 2; 0 <= j; j-- )
             {
                 y_a = y_a * a + d[j] / (j + 1);
             }
             y_a *= a;
 
-            y_b = d[n-1] / n;
+            double y_b = d[n-1] / n;
             for ( j = n - 2; 0 <= j; j-- )
             {
                 y_b = y_b * b + d[j] / (j + 1);
@@ -146,18 +143,13 @@ public static class NewtonCotesQuadrature
         //    Output, double W[N], the weights.
         //
     {
-        double[] d;
         int i;
-        int j;
-        int k;
-        double y_a;
-        double y_b;
         //
         //  Define the points X.
         //
         typeMethods.r8vec_linspace2 ( n, a, b, ref x );
 
-        d = new double[n];
+        double[] d = new double[n];
 
         for ( i = 0; i < n; i++ )
         {
@@ -165,12 +157,14 @@ public static class NewtonCotesQuadrature
             //  Compute the Lagrange basis polynomial which is 1 at XTAB(I),
             //  and zero at the other nodes.
             //
+            int j;
             for ( j = 0; j < n; j++ )
             {
                 d[j] = 0.0;
             }
             d[i] = 1.0;
 
+            int k;
             for ( j = 2; j <= n; j++ )
             {
                 for ( k = j; k <= n; k++ )
@@ -188,14 +182,14 @@ public static class NewtonCotesQuadrature
             //
             //  Evaluate the antiderivative of the polynomial at the endpoints.
             //
-            y_a = d[n-1] / n;
+            double y_a = d[n-1] / n;
             for ( j = n - 2; 0 <= j; j-- )
             {
                 y_a = y_a * a + d[j] / (j + 1);
             }
             y_a *= a;
 
-            y_b = d[n-1] / n;
+            double y_b = d[n-1] / n;
             for ( j = n - 2; 0 <= j; j-- )
             {
                 y_b = y_b * b + d[j] / (j + 1);

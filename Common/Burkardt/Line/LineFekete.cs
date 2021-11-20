@@ -59,9 +59,6 @@ public static class LineFekete
     {
         int i;
         int j;
-        double[] mom;
-        double[] v;
-        double[] w;
 
         if (n < m)
         {
@@ -74,11 +71,11 @@ public static class LineFekete
         //
         //  Compute the Chebyshev-Vandermonde matrix.
         //
-        v = VandermondeMatrix.cheby_van1(m, a, b, n, x);
+        double[] v = VandermondeMatrix.cheby_van1(m, a, b, n, x);
         //
         //  MOM(I) = Integral ( A <= x <= B ) Tab(A,B,I;x) dx
         //
-        mom = new double[m];
+        double[] mom = new double[m];
 
         mom[0] = Math.PI * (b - a) / 2.0;
         for (i = 1; i < m; i++)
@@ -89,22 +86,26 @@ public static class LineFekete
         //
         //  Solve the system for the weights W.
         //
-        w = QRSolve.qr_solve(m, n, v, mom);
+        double[] w = QRSolve.qr_solve(m, n, v, mom);
         //
         //  Extract the data associated with the nonzero weights.
         //
         nf = 0;
         for (j = 0; j < n; j++)
         {
-            if (w[j] != 0.0)
+            if (w[j] == 0.0)
             {
-                if (nf < m)
-                {
-                    xf[nf] = x[j];
-                    wf[nf] = w[j];
-                    nf += 1;
-                }
+                continue;
             }
+
+            if (nf >= m)
+            {
+                continue;
+            }
+
+            xf[nf] = x[j];
+            wf[nf] = w[j];
+            nf += 1;
         }
     }
 
@@ -161,9 +162,6 @@ public static class LineFekete
     {
         int i;
         int j;
-        double[] mom;
-        double[] v;
-        double[] w;
 
         if (n < m)
         {
@@ -176,11 +174,11 @@ public static class LineFekete
         //
         //  Compute the Legendre-Vandermonde matrix.
         //
-        v = VandermondeMatrix.legendre_van(m, a, b, n, x);
+        double[] v = VandermondeMatrix.legendre_van(m, a, b, n, x);
         //
         //  MOM(i) = integral ( A <= X <= B ) Lab(A,B,I;X) dx
         //
-        mom = new double[m];
+        double[] mom = new double[m];
         mom[0] = b - a;
         for (i = 1; i < m; i++)
         {
@@ -190,22 +188,26 @@ public static class LineFekete
         //
         //  Solve the system for the weights W.
         //
-        w = QRSolve.qr_solve(m, n, v, mom);
+        double[] w = QRSolve.qr_solve(m, n, v, mom);
         //
         //  Extract the data associated with the nonzero weights.
         //
         nf = 0;
         for (j = 0; j < n; j++)
         {
-            if (w[j] != 0.0)
+            if (w[j] == 0.0)
             {
-                if (nf < m)
-                {
-                    xf[nf] = x[j];
-                    wf[nf] = w[j];
-                    nf += 1;
-                }
+                continue;
             }
+
+            if (nf >= m)
+            {
+                continue;
+            }
+
+            xf[nf] = x[j];
+            wf[nf] = w[j];
+            nf += 1;
         }
 
     }
@@ -264,11 +266,7 @@ public static class LineFekete
         //    Output, double WF(NF), the weights of the Fekete points.
         //
     {
-        int i;
         int j;
-        double[] mom;
-        double[] v;
-        double[] w;
 
         if (n < m)
         {
@@ -281,14 +279,15 @@ public static class LineFekete
         //
         //  Form the moments.
         //
-        mom = Monomial.line_monomial_moments(a, b, m);
+        double[] mom = Monomial.line_monomial_moments(a, b, m);
         //
         //  Form the rectangular Vandermonde matrix V for the polynomial basis.
         //
-        v = new double[m * n];
+        double[] v = new double[m * n];
         for (j = 0; j < n; j++)
         {
             v[0 + j * m] = 1.0;
+            int i;
             for (i = 1; i < m; i++)
             {
                 v[i + j * m] = v[i - 1 + j * m] * x[j];
@@ -298,22 +297,26 @@ public static class LineFekete
         //
         //  Solve the system for the weights W.
         //
-        w = QRSolve.qr_solve(m, n, v, mom);
+        double[] w = QRSolve.qr_solve(m, n, v, mom);
         //
         //  Extract the data associated with the nonzero weights.
         //
         nf = 0;
         for (j = 0; j < n; j++)
         {
-            if (w[j] != 0.0)
+            if (w[j] == 0.0)
             {
-                if (nf < m)
-                {
-                    xf[nf] = x[j];
-                    wf[nf] = w[j];
-                    nf += 1;
-                }
+                continue;
             }
+
+            if (nf >= m)
+            {
+                continue;
+            }
+
+            xf[nf] = x[j];
+            wf[nf] = w[j];
+            nf += 1;
         }
     }
 }

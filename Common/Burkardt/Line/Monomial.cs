@@ -47,9 +47,8 @@ public static class Monomial
         //
     {
         int i;
-        double[] mom;
 
-        mom = new double[m];
+        double[] mom = new double[m];
 
         for ( i = 0; i < m; i++ )
         {

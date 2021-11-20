@@ -127,18 +127,14 @@ public static class DCHEX
     {
         int i;
         int ii;
-        int il;
-        int iu;
         int j;
         int jj;
-        int lm1;
-        int lmk;
         double t;
         //
         //  Initialize
         //
-        lmk = l - k;
-        lm1 = l - 1;
+        int lmk = l - k;
+        int lm1 = l - 1;
         switch (job)
         {
             //
@@ -186,7 +182,7 @@ public static class DCHEX
 
                 for (j = k + 1; j <= p; j++)
                 {
-                    il = Math.Max(1, l - j + 1);
+                    int il = Math.Max(1, l - j + 1);
                     for (ii = il; ii <= lmk; ii++)
                     {
                         i = l - ii;
@@ -256,7 +252,7 @@ public static class DCHEX
                     //
                     if (j != k)
                     {
-                        iu = Math.Min(j - 1, l - 1);
+                        int iu = Math.Min(j - 1, l - 1);
 
                         for (i = k; i <= iu; i++)
                         {

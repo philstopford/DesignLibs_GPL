@@ -3,7 +3,7 @@ using Burkardt.Types;
 
 namespace Burkardt.LineNS;
 
-public class Line
+public static class Line
 {
     public static void lines_imp_int ( double a1, double b1, double c1, double a2, double b2, 
             double c2, ref int ival, ref double[] p )
@@ -55,7 +55,6 @@ public class Line
         //
     {
         double[] a = new double[2 * 2];
-        double[] b;
 
         p[0] = 0.0;
         p[1] = 0.0;
@@ -84,7 +83,7 @@ public class Line
         a[1 + 0 * 2] = a2;
         a[1 + 1 * 2] = b2;
 
-        b = typeMethods.r8mat_inverse_2d(a);
+        double[] b = typeMethods.r8mat_inverse_2d(a);
         //
         //  If the inverse exists, then the lines intersect.
         //  Multiply the inverse times -C to get the intersection point.
@@ -163,9 +162,7 @@ public class Line
         //    line is degenerate.
         //
     {
-        bool value;
-
-        value = a * a + b * b == 0.0;
+        bool value = a * a + b * b == 0.0;
 
         return value;
     }
@@ -208,9 +205,7 @@ public class Line
         //    is degenerate.
         //
     {
-        bool value;
-
-        value = typeMethods.r8vec_eq(dim_num, p1, p2);
+        bool value = typeMethods.r8vec_eq(dim_num, p1, p2);
 
         return value;
     }
@@ -255,13 +250,9 @@ public class Line
         //    Output, bool *FLAG, is TRUE if the point could not be computed.
         //
     {
-        double bot;
-        double[] p4;
-        double t;
+        double[] p4 = new double[2];
 
-        p4 = new double[2];
-
-        bot = Math.Pow(p2[p2Index + 0] - p1[p1Index + 0], 2) + Math.Pow(p2[p2Index + 1] - p1[p1Index + 1], 2);
+        double bot = Math.Pow(p2[p2Index + 0] - p1[p1Index + 0], 2) + Math.Pow(p2[p2Index + 1] - p1[p1Index + 1], 2);
 
         switch (bot)
         {
@@ -278,8 +269,8 @@ public class Line
         //  (P3-P1) dot (P2-P1) / Norm(P3-P1)**2 = normalized coordinate T
         //  of the projection of (P3-P1) onto (P2-P1).
         //
-        t = ((p1[p1Index + 0] - p3[p3Index + 0]) * (p1[p1Index + 0] - p2[p2Index + 0])
-             + (p1[p1Index + 1] - p3[p3Index + 1]) * (p1[p1Index + 1] - p2[p2Index + 1])) / bot;
+        double t = ((p1[p1Index + 0] - p3[p3Index + 0]) * (p1[p1Index + 0] - p2[p2Index + 0])
+                    + (p1[p1Index + 1] - p3[p3Index + 1]) * (p1[p1Index + 1] - p2[p2Index + 1])) / bot;
 
         p4[0] = p1[p1Index + 0] + t * (p2[p2Index + 0] - p1[p1Index + 0]);
         p4[1] = p1[p1Index + 1] + t * (p2[p2Index + 1] - p1[p1Index + 1]);
@@ -437,9 +428,7 @@ public class Line
         //    line is degenerate.
         //
     {
-        bool value;
-
-        value = a * a + b * b == 0.0;
+        bool value = a * a + b * b == 0.0;
 
         return value;
     }
@@ -501,23 +490,9 @@ public class Line
         //
         //  Check whether either line is a point.
         //
-        if (typeMethods.r8vec_eq(2, p1, p2))
-        {
-            point_1 = true;
-        }
-        else
-        {
-            point_1 = false;
-        }
+        point_1 = typeMethods.r8vec_eq(2, p1, p2);
 
-        if (typeMethods.r8vec_eq(2, p3, p4))
-        {
-            point_2 = true;
-        }
-        else
-        {
-            point_2 = false;
-        }
+        point_2 = typeMethods.r8vec_eq(2, p3, p4);
 
         switch (point_1)
         {
@@ -643,23 +618,9 @@ public class Line
         //
         //  Check whether either line is a point.
         //
-        if (typeMethods.r8vec_eq(2, p1, p2, p1Index, p2Index))
-        {
-            point_1 = true;
-        }
-        else
-        {
-            point_1 = false;
-        }
+        point_1 = typeMethods.r8vec_eq(2, p1, p2, p1Index, p2Index);
 
-        if (typeMethods.r8vec_eq(2, p3, p4, p3Index, p4Index))
-        {
-            point_2 = true;
-        }
-        else
-        {
-            point_2 = false;
-        }
+        point_2 = typeMethods.r8vec_eq(2, p3, p4, p3Index, p4Index);
 
         switch (point_1)
         {
@@ -777,7 +738,6 @@ public class Line
         //
     {
         double[] a = new double[2 * 2];
-        double[] b;
 
         p[0] = 0.0;
         p[1] = 0.0;
@@ -806,7 +766,7 @@ public class Line
         a[1 + 0 * 2] = a2;
         a[1 + 1 * 2] = b2;
 
-        b = typeMethods.r8mat_inverse_2d(a);
+        double[] b = typeMethods.r8mat_inverse_2d(a);
         //
         //  If the inverse exists, then the lines intersect.
         //  Multiply the inverse times -C to get the intersection point.
@@ -896,8 +856,6 @@ public class Line
         //    to the line segment.
         //
     {
-        double bot;
-        double dist;
         int i;
         double t;
         double[] pn = new double[2];
@@ -910,7 +868,7 @@ public class Line
         }
         else
         {
-            bot = 0.0;
+            double bot = 0.0;
             for ( i = 0; i < 2; i++ )
             {
                 bot += Math.Pow ( p2[p2Index + i] - p1[p1Index + i], 2 );
@@ -932,7 +890,7 @@ public class Line
             pn[i] = p1[p1Index + i] + t * ( p2[p2Index + i] - p1[p1Index + i] );
         }
 
-        dist = 0.0;
+        double dist = 0.0;
         for ( i = 0; i < 2; i++ )
         {
             dist += Math.Pow ( p[pIndex + i] - pn[i], 2 );
@@ -990,7 +948,6 @@ public class Line
         //    points P1 and P2.
         //
     {
-        double bot;
         int i;
         //
         //  If the line segment is actually a point, then the answer is easy.
@@ -1001,7 +958,7 @@ public class Line
         }
         else
         {
-            bot = 0.0;
+            double bot = 0.0;
             for ( i = 0; i < 2; i++ )
             {
                 bot += Math.Pow ( p2[p2Index + i] - p1[p1Index + i], 2 );

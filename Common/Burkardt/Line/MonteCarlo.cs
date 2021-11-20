@@ -30,9 +30,7 @@ public static class MonteCarlo
         //    Output, double LINE01_LENGTH, the length.
         //
     {
-        double length;
-
-        length = 1.0;
+        const double length = 1.0;
 
         return length;
     }
@@ -79,8 +77,6 @@ public static class MonteCarlo
         //    Output, double LINE01_MONOMIAL_INTEGRAL, the integral.
         //
     {
-        double integral;
-
         switch (e)
         {
             case -1:
@@ -89,7 +85,7 @@ public static class MonteCarlo
                 Console.WriteLine("  E = -1.");
                 return 1;
             default:
-                integral = 1.0 / (e + 1);
+                double integral = 1.0 / (e + 1);
 
                 return integral;
         }
@@ -124,13 +120,11 @@ public static class MonteCarlo
         //    Output, double X[N], the points.
         //
     {
-        double golden;
         int j;
-        double[] x;
 
-        golden = (1.0 + Math.Sqrt(5.0)) / 2.0;
+        double golden = (1.0 + Math.Sqrt(5.0)) / 2.0;
 
-        x = new double[n];
+        double[] x = new double[n];
 
         shift %= 1.0;
 
@@ -188,9 +182,7 @@ public static class MonteCarlo
         //    Output, double X[N], the points.
         //
     {
-        double[] x;
-
-        x = UniformRNG.r8vec_uniform_01_new(n, ref seed);
+        double[] x = UniformRNG.r8vec_uniform_01_new(n, ref seed);
 
         return x;
     }

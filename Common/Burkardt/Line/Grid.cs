@@ -46,9 +46,8 @@ public static class Grid
         //
     {
         int j;
-        double[] x;
 
-        x = new double[n];
+        double[] x = new double[n];
         //
         //  Create the 1D grids in each dimension.
         //

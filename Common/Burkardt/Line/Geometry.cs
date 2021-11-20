@@ -43,9 +43,7 @@ public static class Geometry
         //    is degenerate.
         //
     {
-        bool value;
-
-        value = typeMethods.r8vec_eq(dim_num, p1, p2);
+        bool value = typeMethods.r8vec_eq(dim_num, p1, p2);
 
         return value;
     }
@@ -86,15 +84,12 @@ public static class Geometry
         //    Output, double LINE_EXP_NORMAL_2D[2], a unit normal vector to the line.
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
-        double norm;
-        double[] normal;
+        double[] normal = new double[DIM_NUM];
 
-        normal = new double[DIM_NUM];
-
-        norm = Math.Sqrt((p2[(0 + p2Index) % p2.Length] - p1[(0 + p1Index) % p1.Length]) * (p2[(0 + p2Index) % p2.Length] - p1[(0 + p1Index) % p1.Length])
-                         + (p2[(1 + p2Index) % p2.Length] - p1[(1 + p1Index) % p1.Length]) * (p2[(1 + p2Index) % p2.Length] - p1[(1 + p1Index) % p1.Length]));
+        double norm = Math.Sqrt((p2[(0 + p2Index) % p2.Length] - p1[(0 + p1Index) % p1.Length]) * (p2[(0 + p2Index) % p2.Length] - p1[(0 + p1Index) % p1.Length])
+                                + (p2[(1 + p2Index) % p2.Length] - p1[(1 + p1Index) % p1.Length]) * (p2[(1 + p2Index) % p2.Length] - p1[(1 + p1Index) % p1.Length]));
 
         switch (norm)
         {
@@ -151,16 +146,12 @@ public static class Geometry
         //    the line through P3 and P4 is perpendicular to the given line.
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
-        double bot;
-        double[] p4;
-        double t;
-
-        p4 = new double[DIM_NUM];
+        double[] p4 = new double[DIM_NUM];
         flag = false;
 
-        bot = Math.Pow(p2[(0 + p2Index) % p2.Length] - p1[(0 + p1Index) % p1.Length], 2) + Math.Pow(p2[(1 + p2Index) % p2.Length] - p1[(1 + p1Index) % p1.Length], 2);
+        double bot = Math.Pow(p2[(0 + p2Index) % p2.Length] - p1[(0 + p1Index) % p1.Length], 2) + Math.Pow(p2[(1 + p2Index) % p2.Length] - p1[(1 + p1Index) % p1.Length], 2);
 
         switch (bot)
         {
@@ -177,8 +168,8 @@ public static class Geometry
         //  (P3-P1) dot (P2-P1) / Norm(P3-P1)^2 = normalized coordinate T
         //  of the projection of (P3-P1) onto (P2-P1).
         //
-        t = ((p1[(0 + p1Index) % p1.Length] - p3[(0 + p3Index) % p3.Length]) * (p1[(0 + p1Index) % p1.Length] - p2[(0 + p2Index) % p2.Length])
-             + (p1[(1 + p1Index) % p1.Length] - p3[(1 + p3Index) % p3.Length]) * (p1[(1 + p1Index) % p1.Length] - p2[(1 + p2Index) % p2.Length])) / bot;
+        double t = ((p1[(0 + p1Index) % p1.Length] - p3[(0 + p3Index) % p3.Length]) * (p1[(0 + p1Index) % p1.Length] - p2[(0 + p2Index) % p2.Length])
+                    + (p1[(1 + p1Index) % p1.Length] - p3[(1 + p3Index) % p3.Length]) * (p1[(1 + p1Index) % p1.Length] - p2[(1 + p2Index) % p2.Length])) / bot;
 
         p4[0] = p1[(0 + p1Index) % p1.Length] + t * (p2[(0 + p2Index) % p2.Length] - p1[(0 + p1Index) % p1.Length]);
         p4[1] = p1[(1 + p1Index) % p1.Length] + t * (p2[(1 + p2Index) % p2.Length] - p1[(1 + p1Index) % p1.Length]);
@@ -222,14 +213,10 @@ public static class Geometry
         //    Output, double LINE_EXP_DIST_2D, the distance from the point to the line.
         //
     {
-        double bot;
-        double dist;
-        double dot;
-        double t;
         double[] pn = new double[2];
 
-        bot = Math.Pow(p2[0] - p1[0], 2)
-              + Math.Pow(p2[1] - p1[1], 2);
+        double bot = Math.Pow(p2[0] - p1[0], 2)
+                     + Math.Pow(p2[1] - p1[1], 2);
 
         switch (bot)
         {
@@ -239,19 +226,18 @@ public static class Geometry
                 break;
             //
             default:
-                dot =
-                    (p[(0 + pIndex) % p.Length] - p1[0]) * (p2[0] - p1[0])
-                    + (p[(1 + pIndex) % p.Length] - p1[1]) * (p2[1] - p1[1]);
+                double dot = (p[(0 + pIndex) % p.Length] - p1[0]) * (p2[0] - p1[0])
+                             + (p[(1 + pIndex) % p.Length] - p1[1]) * (p2[1] - p1[1]);
 
-                t = dot / bot;
+                double t = dot / bot;
 
                 pn[0] = p1[0] + t * (p2[0] - p1[0]);
                 pn[1] = p1[1] + t * (p2[1] - p1[1]);
                 break;
         }
 
-        dist = Math.Sqrt(Math.Pow(p[(0 + pIndex) % p.Length] - pn[0], 2)
-                         + Math.Pow(p[(1 + pIndex) % p.Length] - pn[1], 2));
+        double dist = Math.Sqrt(Math.Pow(p[(0 + pIndex) % p.Length] - pn[0], 2)
+                                + Math.Pow(p[(1 + pIndex) % p.Length] - pn[1], 2));
 
         return dist;
     }
@@ -293,16 +279,13 @@ public static class Geometry
         //    to the line.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        double bot;
-        double dist;
-        double t;
         double[] pn = new double[DIM_NUM];
 
-        bot = Math.Pow(p2[0] - p1[0], 2)
-              + Math.Pow(p2[1] - p1[1], 2)
-              + Math.Pow(p2[2] - p1[2], 2);
+        double bot = Math.Pow(p2[0] - p1[0], 2)
+                     + Math.Pow(p2[1] - p1[1], 2)
+                     + Math.Pow(p2[2] - p1[2], 2);
 
         switch (bot)
         {
@@ -311,7 +294,7 @@ public static class Geometry
                 break;
             //
             default:
-                t = (
+                double t = (
                     (p[0] - p1[0]) * (p2[0] - p1[0]) +
                     (p[1] - p1[1]) * (p2[1] - p1[1]) +
                     (p[2] - p1[2]) * (p2[2] - p1[2])) / bot;
@@ -325,9 +308,9 @@ public static class Geometry
         //
         //  Now compute the distance between the projection point and P.
         //
-        dist = Math.Sqrt(Math.Pow(p[0] - pn[0], 2)
-                         + Math.Pow(p[1] - pn[1], 2)
-                         + Math.Pow(p[2] - pn[2], 2));
+        double dist = Math.Sqrt(Math.Pow(p[0] - pn[0], 2)
+                                + Math.Pow(p[1] - pn[1], 2)
+                                + Math.Pow(p[2] - pn[2], 2));
 
         return dist;
     }
@@ -387,7 +370,6 @@ public static class Geometry
         double a = 0;
         double b = 0;
         double c = 0;
-        double dist_signed;
         //
         //  Convert the line to A*x+B*y+C form.
         //
@@ -395,7 +377,7 @@ public static class Geometry
         //
         //  Compute the signed distance from the point to the line.
         //
-        dist_signed = (a * p[0] + b * p[1] + c) / Math.Sqrt(a * a + b * b);
+        double dist_signed = (a * p[0] + b * p[1] + c) / Math.Sqrt(a * a + b * b);
 
         return dist_signed;
     }
@@ -449,9 +431,7 @@ public static class Geometry
         //    Output, double[] T, the relative position of the point PN to the points P1 and P2.
         //
     {
-        double bot;
-
-        bot = Math.Pow(p2[0] - p1[0], 2) + Math.Pow(p2[1] - p1[1], 2);
+        double bot = Math.Pow(p2[0] - p1[0], 2) + Math.Pow(p2[1] - p1[1], 2);
 
         switch (bot)
         {
@@ -527,11 +507,9 @@ public static class Geometry
         //    Output, double[] T, the relative position of the point PN to the points P1 and P2.
         //
     {
-        double bot;
-
-        bot = Math.Pow(p2[0] - p1[0], 2)
-              + Math.Pow(p2[1] - p1[1], 2)
-              + Math.Pow(p2[2] - p1[2], 2);
+        double bot = Math.Pow(p2[0] - p1[0], 2)
+                     + Math.Pow(p2[1] - p1[1], 2)
+                     + Math.Pow(p2[2] - p1[2], 2);
 
         switch (bot)
         {
@@ -664,13 +642,11 @@ public static class Geometry
         //    Output, double[] F, *G, *X0, *Y0, the parametric parameters of the line.
         //
     {
-        double norm;
-
         x0 = p1[0];
         y0 = p1[1];
 
-        norm = Math.Sqrt((p2[0] - p1[0]) * (p2[0] - p1[0])
-                         + (p2[1] - p1[1]) * (p2[1] - p1[1]));
+        double norm = Math.Sqrt((p2[0] - p1[0]) * (p2[0] - p1[0])
+                                + (p2[1] - p1[1]) * (p2[1] - p1[1]));
 
         switch (norm)
         {
@@ -737,13 +713,11 @@ public static class Geometry
         //    Output, double[] X0, *Y0, *Z0, the base vector.
         //
     {
-        double norm;
-
         f = p2[0] - p1[0];
         g = p2[1] - p1[1];
         h = p2[2] - p1[2];
 
-        norm = Math.Sqrt(Math.Pow(f, 2) + Math.Pow(g, 2) + Math.Pow(h, 2));
+        double norm = Math.Sqrt(Math.Pow(f, 2) + Math.Pow(g, 2) + Math.Pow(h, 2));
 
         switch (norm)
         {
@@ -808,9 +782,7 @@ public static class Geometry
         //    line is degenerate.
         //
     {
-        bool value;
-
-        value = a * a + b * b == 0.0;
+        bool value = a * a + b * b == 0.0;
 
         return value;
     }
@@ -901,8 +873,6 @@ public static class Geometry
         //    from the point to the line.
         //
     {
-        double dist;
-
         switch (a * a + b * b)
         {
             case 0.0:
@@ -911,7 +881,7 @@ public static class Geometry
                 Console.WriteLine("  A * A + B * B = 0.");
                 return 1;
             default:
-                dist = -typeMethods.r8_sign(c) * (a * p[0] + b * p[1] + c) / Math.Sqrt(a * a + b * b);
+                double dist = -typeMethods.r8_sign(c) * (a * p[0] + b * p[1] + c) / Math.Sqrt(a * a + b * b);
 
                 return dist;
         }
@@ -961,8 +931,6 @@ public static class Geometry
         //    Output, double P1[2], P2[2], two points on the line.
         //
     {
-        double normsq;
-
         if (line_imp_is_degenerate_2d(a, b, c))
         {
             Console.WriteLine("");
@@ -971,7 +939,7 @@ public static class Geometry
             return;
         }
 
-        normsq = a * a + b * b;
+        double normsq = a * a + b * b;
 
         p1[0] = -a * c / normsq;
         p1[1] = -b * c / normsq;
@@ -1036,9 +1004,7 @@ public static class Geometry
         //    Output, double[] F, *G, *X0, *Y0, the parametric parameters of the line.
         //
     {
-        double test;
-
-        test = a * a + b * b;
+        double test = a * a + b * b;
 
         switch (test)
         {
@@ -1112,14 +1078,10 @@ public static class Geometry
         //    point to the line.
         //
     {
-        double dx;
-        double dy;
-        double value = 0;
+        double dx = g * g * (p[0] - x0) - f * g * (p[1] - y0);
+        double dy = -f * g * (p[0] - x0) + f * f * (p[1] - y0);
 
-        dx = g * g * (p[0] - x0) - f * g * (p[1] - y0);
-        dy = -f * g * (p[0] - x0) + f * f * (p[1] - y0);
-
-        value = Math.Sqrt(dx * dx + dy * dy) / (f * f + g * g);
+        double value = Math.Sqrt(dx * dx + dy * dy) / (f * f + g * g);
 
         return value;
     }
@@ -1172,22 +1134,17 @@ public static class Geometry
         //    to the line.
         //
     {
-        double dx;
-        double dy;
-        double dz;
-        double value = 0;
+        double dx = g * (f * (p[1] - y0) - g * (p[0] - x0))
+                    + h * (f * (p[2] - z0) - h * (p[0] - x0));
 
-        dx = g * (f * (p[1] - y0) - g * (p[0] - x0))
-             + h * (f * (p[2] - z0) - h * (p[0] - x0));
+        double dy = h * (g * (p[2] - z0) - h * (p[1] - y0))
+                    - f * (f * (p[1] - y0) - g * (p[0] - x0));
 
-        dy = h * (g * (p[2] - z0) - h * (p[1] - y0))
-             - f * (f * (p[1] - y0) - g * (p[0] - x0));
+        double dz = -f * (f * (p[2] - z0) - h * (p[0] - x0))
+                    - g * (g * (p[2] - z0) - h * (p[1] - y0));
 
-        dz = -f * (f * (p[2] - z0) - h * (p[0] - x0))
-             - g * (g * (p[2] - z0) - h * (p[1] - y0));
-
-        value = Math.Sqrt(dx * dx + dy * dy + dz * dz)
-                / (f * f + g * g + h * h);
+        double value = Math.Sqrt(dx * dx + dy * dy + dz * dz)
+                       / (f * f + g * g + h * h);
 
         return value;
     }
@@ -1238,12 +1195,9 @@ public static class Geometry
         //    Output, double LINE_PAR_POINT_DIST_2D[2], the nearest point.
         //
     {
-        double t;
-        double[] pn;
+        double t = (f * (p[0] - x0) + g * (p[1] - y0)) / (f * f + g * g);
 
-        t = (f * (p[0] - x0) + g * (p[1] - y0)) / (f * f + g * g);
-
-        pn = new double[2];
+        double[] pn = new double[2];
 
         pn[0] = x0 + t * f;
         pn[1] = y0 + t * g;
@@ -1298,13 +1252,10 @@ public static class Geometry
         //    Output, double LINE_PAR_POINT_NEAR_3D[3], the nearest point.
         //
     {
-        double[] pn;
-        double t;
+        double t = (f * (p[0] - x0) + g * (p[1] - y0) + h * (p[2] - z0))
+                   / (f * f + g * g + h * h);
 
-        t = (f * (p[0] - x0) + g * (p[1] - y0) + h * (p[2] - z0))
-            / (f * f + g * g + h * h);
-
-        pn = new double[3];
+        double[] pn = new double[3];
 
         pn[0] = x0 + t * f;
         pn[1] = y0 + t * g;
@@ -1519,22 +1470,18 @@ public static class Geometry
         //
     {
         double angle;
-        double ctheta;
-        double pdotq;
-        double pnorm;
-        double qnorm;
 
-        pnorm = Math.Sqrt(Math.Pow(p2[0] - p1[0], 2)
-                          + Math.Pow(p2[1] - p1[1], 2)
-                          + Math.Pow(p2[2] - p1[2], 2));
+        double pnorm = Math.Sqrt(Math.Pow(p2[0] - p1[0], 2)
+                                 + Math.Pow(p2[1] - p1[1], 2)
+                                 + Math.Pow(p2[2] - p1[2], 2));
 
-        qnorm = Math.Sqrt(Math.Pow(p4[0] - p3[0], 2)
-                          + Math.Pow(p4[1] - p3[1], 2)
-                          + Math.Pow(p4[2] - p3[2], 2));
+        double qnorm = Math.Sqrt(Math.Pow(p4[0] - p3[0], 2)
+                                 + Math.Pow(p4[1] - p3[1], 2)
+                                 + Math.Pow(p4[2] - p3[2], 2));
 
-        pdotq = (p2[0] - p1[0]) * (p4[0] - p3[0])
-                + (p2[1] - p1[1]) * (p4[1] - p3[1])
-                + (p2[2] - p1[2]) * (p4[2] - p3[2]);
+        double pdotq = (p2[0] - p1[0]) * (p4[0] - p3[0])
+                       + (p2[1] - p1[1]) * (p4[1] - p3[1])
+                       + (p2[2] - p1[2]) * (p4[2] - p3[2]);
 
         if (pnorm <= 0.0 || qnorm <= 0.0)
         {
@@ -1545,7 +1492,7 @@ public static class Geometry
         }
         else
         {
-            ctheta = pdotq / (pnorm * qnorm);
+            double ctheta = pdotq / (pnorm * qnorm);
             angle = typeMethods.r8_acos(ctheta);
         }
 
@@ -1592,14 +1539,9 @@ public static class Geometry
         //    But if one of the lines is degenerate, the angle is returned as -1.0.
         //
     {
-        double angle;
-        double ctheta;
         int i;
-        double pdotq;
-        double pnorm;
-        double qnorm;
 
-        pnorm = 0.0;
+        double pnorm = 0.0;
         for (i = 0; i < dim_num; i++)
         {
             pnorm += Math.Pow(p2[i] - p1[i], 2);
@@ -1607,7 +1549,7 @@ public static class Geometry
 
         pnorm = Math.Sqrt(pnorm);
 
-        qnorm = 0.0;
+        double qnorm = 0.0;
         for (i = 0; i < dim_num; i++)
         {
             qnorm += Math.Pow(q2[i] - q1[i], 2);
@@ -1615,7 +1557,7 @@ public static class Geometry
 
         qnorm = Math.Sqrt(qnorm);
 
-        pdotq = 0.0;
+        double pdotq = 0.0;
         for (i = 0; i < dim_num; i++)
         {
             pdotq += (p2[i] - p1[i]) * (q2[i] - q1[i]);
@@ -1629,8 +1571,8 @@ public static class Geometry
             return 1;
         }
 
-        ctheta = pdotq / (pnorm * qnorm);
-        angle = typeMethods.r8_acos(ctheta);
+        double ctheta = pdotq / (pnorm * qnorm);
+        double angle = typeMethods.r8_acos(ctheta);
 
         return angle;
     }
@@ -1671,15 +1613,12 @@ public static class Geometry
         //    Output, double LINES_EXP_DIST_3D, the distance between the lines.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
         double[] a1 = new double[DIM_NUM];
         double[] a2 = new double[DIM_NUM];
         double[] a3 = new double[DIM_NUM];
-        double bot;
-        double[] cr;
         double dist;
-        double top;
         //
         //  The distance is found by computing the volume of a parallelipiped,
         //  and dividing by the area of its base.
@@ -1700,9 +1639,9 @@ public static class Geometry
         a3[1] = q2[1] - q1[1];
         a3[2] = q2[2] - q1[2];
 
-        cr = typeMethods.r8vec_cross_product_3d(a2, a3);
+        double[] cr = typeMethods.r8vec_cross_product_3d(a2, a3);
 
-        bot = typeMethods.r8vec_norm(3, cr);
+        double bot = typeMethods.r8vec_norm(3, cr);
 
         switch (bot)
         {
@@ -1710,9 +1649,9 @@ public static class Geometry
                 dist = line_exp_point_dist_3d(p1, p2, q1);
                 break;
             default:
-                top = Math.Abs(a1[0] * (a2[1] * a3[2] - a2[2] * a3[1])
-                               - a1[1] * (a2[0] * a3[2] - a2[2] * a3[0])
-                               + a1[2] * (a2[0] * a3[1] - a2[1] * a3[0]));
+                double top = Math.Abs(a1[0] * (a2[1] * a3[2] - a2[2] * a3[1])
+                                      - a1[1] * (a2[0] * a3[2] - a2[2] * a3[0])
+                                      + a1[2] * (a2[0] * a3[1] - a2[1] * a3[0]));
 
                 dist = top / bot;
                 break;
@@ -1759,15 +1698,8 @@ public static class Geometry
         //    Output, double LINES_EXP_DIST_3D_2, the distance between the lines.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        double a;
-        double b;
-        double c;
-        double d;
-        double det;
-        double dist;
-        double e;
         int i;
         double[] pn = new double[DIM_NUM];
         double[] qn = new double[DIM_NUM];
@@ -1826,15 +1758,15 @@ public static class Geometry
         //   ( a  -b ) * ( sn ) = ( -d )
         //   ( b  -c )   ( tc )   ( -e )
         //
-        a = typeMethods.r8vec_dot_product(DIM_NUM, u, u);
-        b = typeMethods.r8vec_dot_product(DIM_NUM, u, v);
-        c = typeMethods.r8vec_dot_product(DIM_NUM, v, v);
-        d = typeMethods.r8vec_dot_product(DIM_NUM, u, w0);
-        e = typeMethods.r8vec_dot_product(DIM_NUM, v, w0);
+        double a = typeMethods.r8vec_dot_product(DIM_NUM, u, u);
+        double b = typeMethods.r8vec_dot_product(DIM_NUM, u, v);
+        double c = typeMethods.r8vec_dot_product(DIM_NUM, v, v);
+        double d = typeMethods.r8vec_dot_product(DIM_NUM, u, w0);
+        double e = typeMethods.r8vec_dot_product(DIM_NUM, v, w0);
         //
         //  Check the determinant.
         //
-        det = -a * c + b * b;
+        double det = -a * c + b * b;
 
         switch (det)
         {
@@ -1868,7 +1800,7 @@ public static class Geometry
             qn[i] = q1[i] + tn * (q2[i] - q1[i]);
         }
 
-        dist = 0.0;
+        double dist = 0.0;
         for (i = 0; i < DIM_NUM; i++)
         {
             dist += Math.Pow(pn[i] - qn[i], 2);
@@ -1923,62 +1855,51 @@ public static class Geometry
         //    determined to be identical.
         //
     {
-        double test1;
-        double test2;
-        double test3;
-        double test4;
-        bool value;
         //
         //  Slope (P1,P2) = Slope (P2,Q1).
         //
-        test1 = (p2[1] - p1[1]) * (q1[0] - p2[0])
-                - (p2[0] - p1[0]) * (q1[1] - p2[1]);
+        double test1 = (p2[1] - p1[1]) * (q1[0] - p2[0])
+                       - (p2[0] - p1[0]) * (q1[1] - p2[1]);
 
         if (test1 != 0.0)
         {
-            value = false;
-            return value;
+            return false;
         }
 
         //
         //  Slope (Q1,Q2) = Slope (P2,Q1).
         //
-        test2 = (q2[1] - q1[1]) * (q1[0] - p2[0])
-                - (q2[0] - q1[0]) * (q1[1] - p2[1]);
+        double test2 = (q2[1] - q1[1]) * (q1[0] - p2[0])
+                       - (q2[0] - q1[0]) * (q1[1] - p2[1]);
 
         if (test2 != 0.0)
         {
-            value = false;
-            return value;
+            return false;
         }
 
         //
         //  Slope (P1,P2) = Slope (P1,Q2).
         //
-        test3 = (p2[1] - p1[1]) * (q2[0] - p1[0])
-                - (p2[0] - p1[0]) * (q2[1] - p1[1]);
+        double test3 = (p2[1] - p1[1]) * (q2[0] - p1[0])
+                       - (p2[0] - p1[0]) * (q2[1] - p1[1]);
 
         if (test3 != 0.0)
         {
-            value = false;
-            return value;
+            return false;
         }
 
         //
         //  Slope (Q1,Q2) = Slope (P1,Q2).
         //
-        test4 = (q2[1] - q1[1]) * (q2[0] - p1[0])
-                - (q2[0] - q1[0]) * (q2[1] - p1[1]);
+        double test4 = (q2[1] - q1[1]) * (q2[0] - p1[0])
+                       - (q2[0] - q1[0]) * (q2[1] - p1[1]);
 
         if (test4 != 0.0)
         {
-            value = false;
-            return value;
+            return false;
         }
 
-        value = true;
-
-        return value;
+        return true;
     }
 
     public static void lines_exp_int_2d(double[] p1, double[] p2, double[] p3, double[] p4,
@@ -2040,23 +1961,9 @@ public static class Geometry
         //
         //  Check whether either line is a point.
         //
-        if (typeMethods.r8vec_eq(DIM_NUM, p1, p2, p1Index, p2Index))
-        {
-            point_1 = true;
-        }
-        else
-        {
-            point_1 = false;
-        }
+        point_1 = typeMethods.r8vec_eq(DIM_NUM, p1, p2, p1Index, p2Index);
 
-        if (typeMethods.r8vec_eq(DIM_NUM, p3, p4, p3Index, p4Index))
-        {
-            point_2 = true;
-        }
-        else
-        {
-            point_2 = false;
-        }
+        point_2 = typeMethods.r8vec_eq(DIM_NUM, p3, p4, p3Index, p4Index);
 
         switch (point_1)
         {
@@ -2163,14 +2070,8 @@ public static class Geometry
         //    Output, double PN[3], QN[3], the nearest points on the lines.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        double a;
-        double b;
-        double c;
-        double d;
-        double det;
-        double e;
         int i;
         double sn;
         double tn;
@@ -2227,15 +2128,15 @@ public static class Geometry
         //   ( a  -b ) * ( sn ) = ( -d )
         //   ( b  -c )   ( tc )   ( -e )
         //
-        a = typeMethods.r8vec_dot_product(DIM_NUM, u, u);
-        b = typeMethods.r8vec_dot_product(DIM_NUM, u, v);
-        c = typeMethods.r8vec_dot_product(DIM_NUM, v, v);
-        d = typeMethods.r8vec_dot_product(DIM_NUM, u, w0);
-        e = typeMethods.r8vec_dot_product(DIM_NUM, v, w0);
+        double a = typeMethods.r8vec_dot_product(DIM_NUM, u, u);
+        double b = typeMethods.r8vec_dot_product(DIM_NUM, u, v);
+        double c = typeMethods.r8vec_dot_product(DIM_NUM, v, v);
+        double d = typeMethods.r8vec_dot_product(DIM_NUM, u, w0);
+        double e = typeMethods.r8vec_dot_product(DIM_NUM, v, w0);
         //
         //  Check the determinant.
         //
-        det = -a * c + b * b;
+        double det = -a * c + b * b;
 
         switch (det)
         {
@@ -2321,9 +2222,7 @@ public static class Geometry
         //    Output, bool LINES_EXP_PARALLEL_2D is TRUE if the lines are parallel.
         //
     {
-        bool value;
-
-        value = Math.Abs((p2[1] - p1[1]) * (q2[0] - q1[0]) - (q2[1] - q1[1]) * (p2[0] - p1[0])) > double.Epsilon;
+        bool value = Math.Abs((p2[1] - p1[1]) * (q2[0] - q1[0]) - (q2[1] - q1[1]) * (p2[0] - p1[0])) > double.Epsilon;
 
         return !value;
     }
@@ -2383,19 +2282,12 @@ public static class Geometry
         //    Output, bool LINES_EXP_PARALLEL_3D is TRUE if the lines are parallel.
         //
     {
-        int DIM_NUM = 3;
-
-        bool value;
+        const int DIM_NUM = 3;
 
         int i;
-        double[] p;
-        double pdotp;
-        double pdotq;
-        double[] q;
-        double qdotq;
 
-        p = new double[DIM_NUM];
-        q = new double[DIM_NUM];
+        double[] p = new double[DIM_NUM];
+        double[] q = new double[DIM_NUM];
 
         for (i = 0; i < DIM_NUM; i++)
         {
@@ -2407,11 +2299,11 @@ public static class Geometry
             q[i] = q2[i] - q1[i];
         }
 
-        pdotq = typeMethods.r8vec_dot_product(DIM_NUM, p, q);
-        pdotp = typeMethods.r8vec_dot_product(DIM_NUM, p, p);
-        qdotq = typeMethods.r8vec_dot_product(DIM_NUM, q, q);
+        double pdotq = typeMethods.r8vec_dot_product(DIM_NUM, p, q);
+        double pdotp = typeMethods.r8vec_dot_product(DIM_NUM, p, p);
+        double qdotq = typeMethods.r8vec_dot_product(DIM_NUM, q, q);
 
-        value = Math.Abs(pdotq * pdotq - pdotp * qdotq) > double.Epsilon;
+        bool value = Math.Abs(pdotq * pdotq - pdotp * qdotq) > double.Epsilon;
 
         return !value;
     }
@@ -2458,19 +2350,13 @@ public static class Geometry
         //    Output, double LINES_IMP_ANGLE_2D, the angle between the two lines.
         //
     {
-        double ctheta;
-        double pdotq;
-        double pnorm;
-        double qnorm;
-        double theta;
+        double pdotq = a1 * a2 + b1 * b2;
+        double pnorm = Math.Sqrt(a1 * a1 + b1 * b1);
+        double qnorm = Math.Sqrt(a2 * a2 + b2 * b2);
 
-        pdotq = a1 * a2 + b1 * b2;
-        pnorm = Math.Sqrt(a1 * a1 + b1 * b1);
-        qnorm = Math.Sqrt(a2 * a2 + b2 * b2);
+        double ctheta = pdotq / (pnorm * qnorm);
 
-        ctheta = pdotq / (pnorm * qnorm);
-
-        theta = Math.Acos(ctheta);
+        double theta = Math.Acos(ctheta);
 
         return theta;
     }
@@ -2607,10 +2493,9 @@ public static class Geometry
         //    the intersection point.  Otherwise, P = 0.
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
         double[] a = new double[DIM_NUM * 2];
-        double[] b;
 
         p[0] = 0.0;
         p[1] = 0.0;
@@ -2639,7 +2524,7 @@ public static class Geometry
         a[1 + 0 * 2] = a2;
         a[1 + 1 * 2] = b2;
 
-        b = typeMethods.r8mat_inverse_2d(a);
+        double[] b = typeMethods.r8mat_inverse_2d(a);
         //
         //  If the inverse exists, then the lines intersect.
         //  Multiply the inverse times -C to get the intersection point.
@@ -2731,16 +2616,11 @@ public static class Geometry
         //    Output, double LINES_PAR_ANGLE_2D, the angle between the two lines.
         //
     {
-        double pdotq;
-        double pnorm;
-        double qnorm;
-        double value = 0;
+        double pdotq = f1 * f2 + g1 * g2;
+        double pnorm = Math.Sqrt(f1 * f1 + g1 * g1);
+        double qnorm = Math.Sqrt(f2 * f2 + g2 * g2);
 
-        pdotq = f1 * f2 + g1 * g2;
-        pnorm = Math.Sqrt(f1 * f1 + g1 * g1);
-        qnorm = Math.Sqrt(f2 * f2 + g2 * g2);
-
-        value = typeMethods.r8_acos(pdotq / (pnorm * qnorm));
+        double value = typeMethods.r8_acos(pdotq / (pnorm * qnorm));
 
         return value;
     }
@@ -2794,16 +2674,11 @@ public static class Geometry
         //    Output, double LINES_PAR_ANGLE_3D, the angle between the two lines.
         //
     {
-        double pdotq;
-        double pnorm;
-        double qnorm;
-        double value = 0;
+        double pdotq = f1 * f2 + g1 * g2 + h1 * h2;
+        double pnorm = Math.Sqrt(f1 * f1 + g1 * g1 + h1 * h1);
+        double qnorm = Math.Sqrt(f2 * f2 + g2 * g2 + h2 * h2);
 
-        pdotq = f1 * f2 + g1 * g2 + h1 * h2;
-        pnorm = Math.Sqrt(f1 * f1 + g1 * g1 + h1 * h1);
-        qnorm = Math.Sqrt(f2 * f2 + g2 * g2 + h2 * h2);
-
-        value = typeMethods.r8_acos(pdotq / (pnorm * qnorm));
+        double value = typeMethods.r8_acos(pdotq / (pnorm * qnorm));
 
         return value;
     }
@@ -2919,9 +2794,7 @@ public static class Geometry
         //    Output, double PINT[2], the intersection point.
         //
     {
-        double det;
-
-        det = f2 * g1 - f1 * g2;
+        double det = f2 * g1 - f1 * g2;
 
         switch (det)
         {

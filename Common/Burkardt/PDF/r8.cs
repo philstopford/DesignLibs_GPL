@@ -35,8 +35,7 @@ public static partial class PDF
         //    Output, double R8_BETA_PDF, the value of the PDF at RVAL.
         //
     {
-        double temp;
-        double value = 0;
+        double value;
 
         switch (alpha)
         {
@@ -63,8 +62,8 @@ public static partial class PDF
                 value = 0.0;
                 break;
             default:
-                temp = typeMethods.r8_gamma_log(alpha + beta) - typeMethods.r8_gamma_log(alpha)
-                                                              - typeMethods.r8_gamma_log(beta);
+                double temp = typeMethods.r8_gamma_log(alpha + beta) - typeMethods.r8_gamma_log(alpha)
+                                                                     - typeMethods.r8_gamma_log(beta);
 
                 value = Math.Exp(temp) * Math.Pow(rval, alpha - 1.0)
                                        * Math.Pow(1.0 - rval, beta - 1.0);
@@ -123,21 +122,13 @@ public static partial class PDF
         double alpha;
         double b;
         double beta;
-        double delta;
-        double gamma;
-        double k1;
-        double k2;
         const double log4 = 1.3862943611198906188;
         const double log5 = 1.6094379124341003746;
-        double r;
-        double s;
-        double t;
         double u1;
         double u2;
         double v;
-        double value = 0;
+        double value;
         double w;
-        double y;
         double z;
 
         switch (aa)
@@ -178,7 +169,7 @@ public static partial class PDF
 
                 alpha = a + b;
                 beta = Math.Sqrt((alpha - 2.0) / (2.0 * a * b - alpha));
-                gamma = a + 1.0 / beta;
+                double gamma = a + 1.0 / beta;
 
                 for (;;)
                 {
@@ -188,15 +179,15 @@ public static partial class PDF
                     w = a * Math.Exp(v);
 
                     z = u1 * u1 * u2;
-                    r = gamma * v - log4;
-                    s = a + r - w;
+                    double r = gamma * v - log4;
+                    double s = a + r - w;
 
                     if (5.0 * z <= s + 1.0 + log5)
                     {
                         break;
                     }
 
-                    t = Math.Log(z);
+                    double t = Math.Log(z);
                     if (t <= s)
                     {
                         break;
@@ -226,10 +217,10 @@ public static partial class PDF
 
                 alpha = a + b;
                 beta = 1.0 / b;
-                delta = 1.0 + a - b;
-                k1 = delta * (1.0 / 72.0 + b / 24.0)
-                     / (a / b - 7.0 / 9.0);
-                k2 = 0.25 + (0.5 + 0.25 / delta) * b;
+                double delta = 1.0 + a - b;
+                double k1 = delta * (1.0 / 72.0 + b / 24.0)
+                            / (a / b - 7.0 / 9.0);
+                double k2 = 0.25 + (0.5 + 0.25 / delta) * b;
 
                 for (;;)
                 {
@@ -240,7 +231,7 @@ public static partial class PDF
                     {
                         case < 0.5:
                         {
-                            y = u1 * u2;
+                            double y = u1 * u2;
                             z = u1 * y;
 
                             if (k1 <= 0.25 * u2 + z - y)
@@ -338,9 +329,7 @@ public static partial class PDF
         //    Output, double R8_CHI_PDF, the value of the PDF at RVAL.
         //
     {
-        double temp1;
-        double temp2;
-        double value = 0;
+        double value;
 
         switch (df)
         {
@@ -357,10 +346,10 @@ public static partial class PDF
                 value = 0.0;
                 break;
             default:
-                temp2 = df * 0.5;
+                double temp2 = df * 0.5;
 
-                temp1 = (temp2 - 1.0) * Math.Log(rval) - 0.5 * rval
-                                                       - temp2 * Math.Log(2.0) - typeMethods.r8_gamma_log(temp2);
+                double temp1 = (temp2 - 1.0) * Math.Log(rval) - 0.5 * rval
+                                                              - temp2 * Math.Log(2.0) - typeMethods.r8_gamma_log(temp2);
 
                 value = Math.Exp(temp1);
                 break;
@@ -404,10 +393,6 @@ public static partial class PDF
         //    Output, double R8_CHI_SAMPLE, a random deviate from the distribution.
         //
     {
-        double arg1;
-        double arg2;
-        double value = 0;
-
         switch (df)
         {
             case <= 0.0:
@@ -418,10 +403,10 @@ public static partial class PDF
                 return 1;
         }
 
-        arg1 = 1.0;
-        arg2 = df / 2.0;
+        double arg1 = 1.0;
+        double arg2 = df / 2.0;
 
-        value = 2.0 * r8_gamma_sample(arg1, arg2);
+        double value = 2.0 * r8_gamma_sample(arg1, arg2);
 
         return value;
     }
@@ -470,7 +455,6 @@ public static partial class PDF
         //    things taken K at a time.
         //
     {
-        int i;
         int mn;
         int mx;
         double value = 0;
@@ -498,6 +482,7 @@ public static partial class PDF
             {
                 value = mx + 1;
 
+                int i;
                 for (i = 2; i <= mn; i++)
                 {
                     value = value * (mx + i) / i;
@@ -593,12 +578,9 @@ public static partial class PDF
         //    Output, double R8_EXPONENTIAL_SAMPLE, a sample of the PDF.
         //
     {
-        double r;
-        double value = 0;
+        double r = r8_uniform_01_sample();
 
-        r = r8_uniform_01_sample();
-
-        value = -Math.Log(r) * lambda;
+        double value = -Math.Log(r) * lambda;
 
         return value;
     }
@@ -664,12 +646,9 @@ public static partial class PDF
         //    Output, double R8_EXPONENTIAL_01_SAMPLE, a sample of the PDF.
         //
     {
-        double r;
-        double value = 0;
+        double r = r8_uniform_01_sample();
 
-        r = r8_uniform_01_sample();
-
-        value = -Math.Log(r);
+        double value = -Math.Log(r);
 
         return value;
     }
@@ -708,8 +687,7 @@ public static partial class PDF
         //    Output, double R8_GAMMA_PDF, the value of the PDF at RVAL.
         //
     {
-        double temp;
-        double value = 0;
+        double value;
 
         switch (alpha)
         {
@@ -735,8 +713,8 @@ public static partial class PDF
                 value = 0.0;
                 break;
             default:
-                temp = alpha * Math.Log(beta) + (alpha - 1.0) * Math.Log(rval)
-                       - beta * rval - typeMethods.r8_gamma_log(alpha);
+                double temp = alpha * Math.Log(beta) + (alpha - 1.0) * Math.Log(rval)
+                              - beta * rval - typeMethods.r8_gamma_log(alpha);
 
                 value = Math.Exp(temp);
                 break;
@@ -832,8 +810,7 @@ public static partial class PDF
         //    Output, double R8_GAMMA_01_PDF, the value of the PDF at RVAL.
         //
     {
-        double temp;
-        double value = 0;
+        double value;
 
         switch (alpha)
         {
@@ -850,7 +827,7 @@ public static partial class PDF
                 value = 0.0;
                 break;
             default:
-                temp = (alpha - 1.0) * Math.Log(rval) - rval - typeMethods.r8_gamma_log(alpha);
+                double temp = (alpha - 1.0) * Math.Log(rval) - rval - typeMethods.r8_gamma_log(alpha);
 
                 value = Math.Exp(temp);
                 break;
@@ -901,56 +878,41 @@ public static partial class PDF
         //    Output, double R8_GAMMA_01_SAMPLE, a random deviate from the distribution.
         //
     {
-        double a1 = 0.3333333;
-        double a2 = -0.2500030;
-        double a3 = 0.2000062;
-        double a4 = -0.1662921;
-        double a5 = 0.1423657;
-        double a6 = -0.1367177;
-        double a7 = 0.1233795;
+        const double a1 = 0.3333333;
+        const double a2 = -0.2500030;
+        const double a3 = 0.2000062;
+        const double a4 = -0.1662921;
+        const double a5 = 0.1423657;
+        const double a6 = -0.1367177;
+        const double a7 = 0.1233795;
         double b;
-        double c;
-        double d;
-        double e;
-        double e1 = 1.0;
-        double e2 = 0.4999897;
-        double e3 = 0.1668290;
-        double e4 = 0.0407753;
-        double e5 = 0.0102930;
-        double p;
-        double q;
-        double q0;
-        double q1 = 0.04166669;
-        double q2 = 0.02083148;
-        double q3 = 0.00801191;
-        double q4 = 0.00144121;
-        double q5 = -0.00007388;
-        double q6 = 0.00024511;
-        double q7 = 0.00024240;
-        double r;
-        double s;
-        double s2;
-        double si;
-        double sqrt32 = 5.6568542494923801952;
-        double t;
-        double u;
-        double v;
+        const double e1 = 1.0;
+        const double e2 = 0.4999897;
+        const double e3 = 0.1668290;
+        const double e4 = 0.0407753;
+        const double e5 = 0.0102930;
+        const double q1 = 0.04166669;
+        const double q2 = 0.02083148;
+        const double q3 = 0.00801191;
+        const double q4 = 0.00144121;
+        const double q5 = -0.00007388;
+        const double q6 = 0.00024511;
+        const double q7 = 0.00024240;
+        const double sqrt32 = 5.6568542494923801952;
         double value = 0;
-        double w;
-        double x;
 
         switch (a)
         {
             case >= 1.0:
             {
-                s2 = a - 0.5;
-                s = Math.Sqrt(s2);
-                d = sqrt32 - 12.0 * s;
+                double s2 = a - 0.5;
+                double s = Math.Sqrt(s2);
+                double d = sqrt32 - 12.0 * s;
                 //
                 //  Immediate acceptance.
                 //
-                t = r8_normal_01_sample();
-                x = s + 0.5 * t;
+                double t = r8_normal_01_sample();
+                double x = s + 0.5 * t;
                 value = x * x;
 
                 switch (t)
@@ -962,21 +924,23 @@ public static partial class PDF
                 //
                 //  Squeeze acceptance.
                 //
-                u = r8_uniform_01_sample();
+                double u = r8_uniform_01_sample();
                 if (d * u <= t * t * t)
                 {
                     return value;
                 }
 
-                r = 1.0 / a;
-                q0 = ((((((
-                              q7 * r
-                              + q6) * r
-                          + q5) * r
-                         + q4) * r
-                        + q3) * r
-                       + q2) * r
-                      + q1) * r;
+                double r = 1.0 / a;
+                double q0 = ((((((
+                                     q7 * r
+                                     + q6) * r
+                                 + q5) * r
+                                + q4) * r
+                               + q3) * r
+                              + q2) * r
+                             + q1) * r;
+                double si;
+                double c;
                 switch (a)
                 {
                     //
@@ -999,6 +963,8 @@ public static partial class PDF
                         break;
                 }
 
+                double q;
+                double v;
                 switch (x)
                 {
                     //
@@ -1026,7 +992,7 @@ public static partial class PDF
 
                 for (;;)
                 {
-                    e = r8_exponential_01_sample();
+                    double e = r8_exponential_01_sample();
                     u = 2.0 * r8_uniform_01_sample() - 1.0;
 
                     t = u switch
@@ -1055,6 +1021,7 @@ public static partial class PDF
                         _ => q0 + 0.5 * t * t * ((((((a7 * v + a6) * v + a5) * v + a4) * v + a3) * v + a2) * v + a1) * v
                     };
 
+                    double w;
                     switch (q)
                     {
                         //
@@ -1097,7 +1064,7 @@ public static partial class PDF
 
                 for (;;)
                 {
-                    p = b * r8_uniform_01_sample();
+                    double p = b * r8_uniform_01_sample();
 
                     if (p < 1.0)
                     {
@@ -1155,9 +1122,7 @@ public static partial class PDF
         //    Output, double R8_INVCHI_PDF, the value of the PDF at RVAL.
         //
     {
-        double temp1;
-        double temp2;
-        double value = 0;
+        double value;
 
         switch (df)
         {
@@ -1174,10 +1139,10 @@ public static partial class PDF
                 value = 0.0;
                 break;
             default:
-                temp2 = df * 0.5;
+                double temp2 = df * 0.5;
 
-                temp1 = -temp2 * Math.Log(2.0) - (temp2 + 1.0) * Math.Log(rval)
-                                               - 0.5 / rval - typeMethods.r8_gamma_log(temp2);
+                double temp1 = -temp2 * Math.Log(2.0) - (temp2 + 1.0) * Math.Log(rval)
+                                                      - 0.5 / rval - typeMethods.r8_gamma_log(temp2);
 
                 value = Math.Exp(temp1);
                 break;
@@ -1214,13 +1179,9 @@ public static partial class PDF
         //    Output, double R8_INVCHI_SAMPLE, the sample of the PDF.
         //
     {
-        double a;
-        double b;
-        double value = 0;
-
-        a = 0.5;
-        b = 0.5 * df;
-        value = r8_gamma_sample(a, b);
+        double a = 0.5;
+        double b = 0.5 * df;
+        double value = r8_gamma_sample(a, b);
 
         if (value != 0.0)
         {
@@ -1264,8 +1225,7 @@ public static partial class PDF
         //    Output, double R8_INVGAM_PDF, the value of the PDF at RVAL.
         //
     {
-        double temp;
-        double value = 0;
+        double value;
 
         switch (alpha)
         {
@@ -1291,8 +1251,8 @@ public static partial class PDF
                 value = 0.0;
                 break;
             default:
-                temp = alpha * Math.Log(beta) - (alpha + 1.0) * Math.Log(rval)
-                                              - beta / rval - typeMethods.r8_gamma_log(alpha);
+                double temp = alpha * Math.Log(beta) - (alpha + 1.0) * Math.Log(rval)
+                                                     - beta / rval - typeMethods.r8_gamma_log(alpha);
 
                 value = Math.Exp(temp);
                 break;
@@ -1378,10 +1338,6 @@ public static partial class PDF
         //    Output, double R8_NORMAL_PDF, the value of the PDF at RVAL.
         //
     {
-            
-        double rtemp;
-        double value = 0;
-
         switch (sd)
         {
             case <= 0.0:
@@ -1391,9 +1347,9 @@ public static partial class PDF
                 return 1;
         }
 
-        rtemp = (rval - av) * (rval - av) * 0.5 / (sd * sd);
+        double rtemp = (rval - av) * (rval - av) * 0.5 / (sd * sd);
 
-        value = Math.Exp(-rtemp) / sd / Math.Sqrt(2.0 * Math.PI);
+        double value = Math.Exp(-rtemp) / sd / Math.Sqrt(2.0 * Math.PI);
 
         return value;
     }
@@ -1524,15 +1480,10 @@ public static partial class PDF
         //    Output, double R8_NORMAL_01_SAMPLE, a normally distributed random value.
         //
     {
-            
-        double r1;
-        double r2;
-        double x;
+        double r1 = r8_uniform_01_sample();
+        double r2 = r8_uniform_01_sample();
 
-        r1 = r8_uniform_01_sample();
-        r2 = r8_uniform_01_sample();
-
-        x = Math.Sqrt(-2.0 * Math.Log(r1)) * Math.Cos(2.0 * Math.PI * r2);
+        double x = Math.Sqrt(-2.0 * Math.Log(r1)) * Math.Cos(2.0 * Math.PI * r2);
 
         return x;
     }
@@ -1572,9 +1523,7 @@ public static partial class PDF
         //    inverse-chi-square distribution.
         //
     {
-        double temp1;
-        double temp2;
-        double value = 0;
+        double value;
 
         switch (df)
         {
@@ -1600,11 +1549,11 @@ public static partial class PDF
                 value = 0.0;
                 break;
             default:
-                temp2 = df * 0.5;
+                double temp2 = df * 0.5;
 
-                temp1 = temp2 * Math.Log(temp2) + temp2 * Math.Log(s)
-                        - temp2 * s / rval
-                        - (temp2 + 1.0) * Math.Log(rval) - typeMethods.r8_gamma_log(temp2);
+                double temp1 = temp2 * Math.Log(temp2) + temp2 * Math.Log(s)
+                               - temp2 * s / rval
+                               - (temp2 + 1.0) * Math.Log(rval) - typeMethods.r8_gamma_log(temp2);
 
                 value = Math.Exp(temp1);
                 break;
@@ -1644,13 +1593,9 @@ public static partial class PDF
         //    Output, double R8_SCINVCHI_SAMPLE, a sample of the distribution
         //
     {
-        double a;
-        double b;
-        double value = 0;
-
-        a = 0.5 * df * s;
-        b = 0.5 * df;
-        value = r8_gamma_sample(a, b);
+        double a = 0.5 * df * s;
+        double b = 0.5 * df;
+        double value = r8_gamma_sample(a, b);
         if (value != 0.0)
         {
             value = 1.0 / value;
@@ -1833,9 +1778,8 @@ public static partial class PDF
         //
     {
         const int option = 1;
-        double value = 0;
 
-        value = entropyRNG.RNG.nextdouble();
+        double value = entropyRNG.RNG.nextdouble();
 
         /*  
         if ( option == 0 )
@@ -1905,26 +1849,22 @@ public static partial class PDF
         //    at X.
         //
     {
-        double[] b;
         int i;
-        double pdf;
-            
-        double xcx;
-        double[] y;
+
         //
         //  Compute:
         //    inverse(R')*(x-mu) = y
         //  by solving:
         //    R'*y = x-mu
         //
-        b = new double[n];
+        double[] b = new double[n];
 
         for (i = 0; i < n; i++)
         {
             b[i] = x[xIndex + i] - mu[i];
         }
 
-        y = typeMethods.r8mat_utsol(n, r, b);
+        double[] y = typeMethods.r8mat_utsol(n, r, b);
         //
         //  Compute:
         //    (x-mu)' * inv(C)          * (x-mu)
@@ -1932,11 +1872,11 @@ public static partial class PDF
         //  = (x-mu)' * inv(R) * inv(R) * (x-mu)
         //  = y' * y.
         //
-        xcx = typeMethods.r8vec_dot_product(n, y, y);
+        double xcx = typeMethods.r8vec_dot_product(n, y, y);
 
-        pdf = 1.0 / Math.Sqrt(Math.Pow(2.0 * Math.PI, n))
-              * 1.0 / Math.Sqrt(c_det)
-              * Math.Exp(-0.5 * xcx);
+        double pdf = 1.0 / Math.Sqrt(Math.Pow(2.0 * Math.PI, n))
+                     * 1.0 / Math.Sqrt(c_det)
+                     * Math.Exp(-0.5 * xcx);
 
         return pdf;
     }
@@ -1991,19 +1931,17 @@ public static partial class PDF
     {
         int i;
         int j;
-        double[] x;
-        double[] z;
         //
         //  Compute X = MU + R' * Z
         //  where Z is a vector of standard normal variates.
         //
-        z = new double[n];
+        double[] z = new double[n];
         for (j = 0; j < n; j++)
         {
             z[j] = r8_normal_01_sample();
         }
 
-        x = new double[n];
+        double[] x = new double[n];
         for (i = 0; i < n; i++)
         {
             x[i] = mu[i];

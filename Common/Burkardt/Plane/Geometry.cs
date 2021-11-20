@@ -70,21 +70,18 @@ public static class Geometry
         //    2, more space for line data is needed.
         //
     {
-        int DIM_NUM = 3;
-        int NX = 5;
-        int NY = 5;
+        const int DIM_NUM = 3;
+        const int NX = 5;
+        const int NY = 5;
 
-        double a = 0.0;
+        double a;
         double amax = 0.0;
         double amin = 0.0;
-        double b = 0.0;
+        double b;
         double bmax = 0.0;
         double bmin = 0.0;
-        double dot = 0.0;
         int i;
         int j;
-        int k;
-        int nbase;
         double[] v1 = new double[DIM_NUM];
         double[] v2 = new double[DIM_NUM];
 
@@ -102,7 +99,7 @@ public static class Geometry
             _ => line_num
         };
 
-        nbase = ncor3;
+        int nbase = ncor3;
         //
         //  Compute the two basis vectors for the affine plane.
         //
@@ -116,7 +113,7 @@ public static class Geometry
         v2[1] = p3[1] - p1[1];
         v2[2] = p3[2] - p1[2];
 
-        dot = typeMethods.r8vec_dot_product(3, v1, v2);
+        double dot = typeMethods.r8vec_dot_product(3, v1, v2);
         //
         //  Remove the component of V1 from V2, and give the
         //  resulting vector unit norm.  V1 and V2 are now orthogonal
@@ -194,6 +191,7 @@ public static class Geometry
                      + (i - 1) * amax)
                     / (NX - 1);
 
+                int k;
                 for (k = 0; k < 3; k++)
                 {
                     cor3[k + ncor3 * 3] = a * v1[k] + b * v2[k];
@@ -300,11 +298,10 @@ public static class Geometry
         double b = 0;
         double c = 0;
         double d = 0;
-        double dist;
 
         plane_exp2imp_3d(p1, p2, p3, ref a, ref b, ref c, ref d);
 
-        dist = plane_imp_point_dist_3d(a, b, c, d, p);
+        double dist = plane_imp_point_dist_3d(a, b, c, d, p);
 
         return dist;
     }
@@ -343,7 +340,6 @@ public static class Geometry
         //    Output, double PN[3], the unit normal vector to the plane.
         //
     {
-        double norm;
         //
         //  The cross product (P2-P1) x (P3-P1) is a vector normal to
         //  (P2-P1) and (P3-P1).
@@ -357,7 +353,7 @@ public static class Geometry
         pn[2] = (p2[0] - p1[0]) * (p3[1] - p1[1])
                 - (p2[1] - p1[1]) * (p3[0] - p1[0]);
 
-        norm = Math.Sqrt(Math.Pow(pn[0], 2) + Math.Pow(pn[1], 2) + Math.Pow(pn[2], 2));
+        double norm = Math.Sqrt(Math.Pow(pn[0], 2) + Math.Pow(pn[1], 2) + Math.Pow(pn[2], 2));
 
         switch (norm)
         {
@@ -425,7 +421,6 @@ public static class Geometry
         //    the points.
         //
     {
-        double dot;
         int i;
         double[] v1 = new double[3];
         double[] v2 = new double[3];
@@ -442,7 +437,7 @@ public static class Geometry
         v2[1] = p3[1] - p1[1];
         v2[2] = p3[2] - p1[2];
 
-        dot = typeMethods.r8vec_dot_product(3, v1, v2);
+        double dot = typeMethods.r8vec_dot_product(3, v1, v2);
 
         for (i = 0; i < 3; i++)
         {
@@ -577,16 +572,12 @@ public static class Geometry
         //    might be considered invisible.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
         double a = 0;
-        double alpha;
         double b = 0;
-        double beta;
         double c = 0;
         double d = 0;
-        double disfo;
-        double disfn;
         int i;
         double[] pn = new double[DIM_NUM];
         //
@@ -600,7 +591,7 @@ public static class Geometry
         //
         //  Get the distance from the focus to the plane.
         //
-        disfn = PointsNS.Geometry.points_dist_3d(pf, pn);
+        double disfn = PointsNS.Geometry.points_dist_3d(pf, pn);
         switch (disfn)
         {
             //
@@ -630,7 +621,7 @@ public static class Geometry
             //
             //  Get the distance from the focus to the object.
             //
-            disfo = PointsNS.Geometry.points_dist_3d(pf, po, p2Index: +i * 3);
+            double disfo = PointsNS.Geometry.points_dist_3d(pf, po, p2Index: +i * 3);
 
             switch (disfo)
             {
@@ -645,7 +636,7 @@ public static class Geometry
                     //
                     //  Compute ALPHA, the angle between (OBJECT-FOCUS) and (NEAREST-FOCUS).
                     //
-                    alpha = Angle.angle_rad_3d(po, pf, pn, p1Index: +i * 3);
+                    double alpha = Angle.angle_rad_3d(po, pf, pn, p1Index: +i * 3);
 
                     switch (Math.Cos(alpha))
                     {
@@ -659,7 +650,7 @@ public static class Geometry
                             //
                             //  BETA is Dist(NEAREST-FOCUS) / ( Cos(ALPHA)*Dist(OBJECT-FOCUS) )
                             //
-                            beta = disfn / (Math.Cos(alpha) * disfo);
+                            double beta = disfn / (Math.Cos(alpha) * disfo);
 
                             ivis[i] = beta switch
                             {
@@ -782,9 +773,7 @@ public static class Geometry
         //    Output, double PN[3], the unit normal vector to the plane.
         //
     {
-        int DIM_NUM = 3;
-
-        double norm;
+        const int DIM_NUM = 3;
 
         typeMethods.r8vec_copy(DIM_NUM, p1, ref pp);
 
@@ -795,7 +784,7 @@ public static class Geometry
         pn[2] = (p2[0] - p1[0]) * (p3[1] - p1[1])
                 - (p2[1] - p1[1]) * (p3[0] - p1[0]);
 
-        norm = Math.Sqrt(pn[0] * pn[0] + pn[1] * pn[1] + pn[2] * pn[2]);
+        double norm = Math.Sqrt(pn[0] * pn[0] + pn[1] * pn[1] + pn[2] * pn[2]);
 
         switch (norm)
         {
@@ -911,15 +900,11 @@ public static class Geometry
         //    the plane intersect, and false otherwise.
         //
     {
-        double denom;
-        double norm1;
-        double norm2;
-        double t;
-        double TOL = 0.00001;
+        const double TOL = 0.00001;
         //
         //  Check.
         //
-        norm1 = Math.Sqrt(a * a + b * b + c * c);
+        double norm1 = Math.Sqrt(a * a + b * b + c * c);
 
         switch (norm1)
         {
@@ -930,7 +915,7 @@ public static class Geometry
                 return true;
         }
 
-        norm2 = Math.Sqrt(f * f + g * g + h * h);
+        double norm2 = Math.Sqrt(f * f + g * g + h * h);
 
         switch (norm2)
         {
@@ -941,7 +926,7 @@ public static class Geometry
                 return true;
         }
 
-        denom = a * f + b * g + c * h;
+        double denom = a * f + b * g + c * h;
         //
         //  The line and the plane may be parallel.
         //
@@ -963,7 +948,7 @@ public static class Geometry
         //  If they are not parallel, they must intersect.
         //
 
-        t = -(a * x0 + b * y0 + c * z0 + d) / denom;
+        double t = -(a * x0 + b * y0 + c * z0 + d) / denom;
         p[0] = x0 + t * f;
         p[1] = y0 + t * g;
         p[2] = z0 + t * h;
@@ -1014,11 +999,8 @@ public static class Geometry
         //    the plane.
         //
     {
-        double dist;
-
-        dist =
-            Math.Abs(a * p[0] + b * p[1] + c * p[2] + d) /
-            Math.Sqrt(a * a + b * b + c * c);
+        double dist = Math.Abs(a * p[0] + b * p[1] + c * p[2] + d) /
+                      Math.Sqrt(a * a + b * b + c * c);
 
         return dist;
     }
@@ -1112,8 +1094,6 @@ public static class Geometry
         //    the plane.
         //
     {
-        double t;
-
         if (plane_imp_is_degenerate_3d(a, b, c))
         {
             Console.WriteLine("");
@@ -1142,8 +1122,8 @@ public static class Geometry
         //
         //    T = (-A*X-B*Y-C*Z-D) / (A * A + B * B + C * C )
         //
-        t = -(a * p[(0 + pIndex) % p.Length] + b * p[(1 + pIndex) % p.Length] + c * p[(2 + pIndex) % p.Length] +
-              d) / (a * a + b * b + c * c);
+        double t = -(a * p[(0 + pIndex) % p.Length] + b * p[(1 + pIndex) % p.Length] + c * p[(2 + pIndex) % p.Length] +
+                     d) / (a * a + b * b + c * c);
 
         pn[(0 + pnIndex) % pn.Length] = p[(0 + pIndex) % p.Length] + a * t;
         pn[(1 + pnIndex) % pn.Length] = p[(1 + pIndex) % p.Length] + b * t;
@@ -1191,22 +1171,14 @@ public static class Geometry
         //    intersection of the plane and the line segment.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        double alpha;
-        double an;
-        double bn;
-        double cn;
-        double dn;
-        double idiocy;
-        double norm;
         double t1;
-        double t2;
 
         typeMethods.r8vec_zero(DIM_NUM, ref pnl);
         typeMethods.r8vec_zero(DIM_NUM, ref pnp);
 
-        norm = Math.Sqrt(a * a + b * b + c * c);
+        double norm = Math.Sqrt(a * a + b * b + c * c);
 
         switch (norm)
         {
@@ -1220,10 +1192,10 @@ public static class Geometry
         //
         //  The normalized coefficients allow us to compute the (signed) distance.
         //
-        an = a / norm;
-        bn = b / norm;
-        cn = c / norm;
-        dn = d / norm;
+        double an = a / norm;
+        double bn = b / norm;
+        double cn = c / norm;
+        double dn = d / norm;
         //
         //  If the line segment is actually a point, then the answer is easy.
         //
@@ -1246,13 +1218,13 @@ public static class Geometry
         //
         t1 = an * p1[(0 + p1Index) % p1.Length] + bn * p1[(1 + p1Index) % p1.Length] +
              cn * p1[(2 + p1Index) % p1.Length] + dn;
-        t2 = an * p2[(0 + p2Index) % p2.Length] + bn * p2[(1 + p2Index) % p2.Length] +
-             cn * p2[(2 + p2Index) % p2.Length] + dn;
+        double t2 = an * p2[(0 + p2Index) % p2.Length] + bn * p2[(1 + p2Index) % p2.Length] +
+                    cn * p2[(2 + p2Index) % p2.Length] + dn;
         //
         //  If these have the same sign, then the line segment does not
         //  cross the plane, and one endpoint is the nearest point.
         //
-        idiocy = t1 * t2;
+        double idiocy = t1 * t2;
         switch (idiocy)
         {
             case > 0.0:
@@ -1283,6 +1255,7 @@ public static class Geometry
             }
             default:
             {
+                double alpha;
                 switch (t1)
                 {
                     case 0.0:
@@ -1361,27 +1334,22 @@ public static class Geometry
         //    Output, double P[3*3], the coordinates of the intersection points.
         //
     {
-        double dist1;
-        double dist2;
-        double dist3;
-        int n;
-
-        n = 0;
+        int n = 0;
         //
         //  Compute the signed distances between the vertices and the plane.
         //
-        dist1 = a * t[0 + 0 * 3] + b * t[1 + 0 * 3] + c * t[2 + 0 * 3] + d;
-        dist2 = a * t[0 + 1 * 3] + b * t[1 + 1 * 3] + c * t[2 + 1 * 3] + d;
-        dist3 = a * t[0 + 2 * 3] + b * t[1 + 2 * 3] + c * t[2 + 2 * 3] + d;
+        double dist1 = a * t[0 + 0 * 3] + b * t[1 + 0 * 3] + c * t[2 + 0 * 3] + d;
+        double dist2 = a * t[0 + 1 * 3] + b * t[1 + 1 * 3] + c * t[2 + 1 * 3] + d;
+        double dist3 = a * t[0 + 2 * 3] + b * t[1 + 2 * 3] + c * t[2 + 2 * 3] + d;
         switch (dist1)
         {
             //
             //  Consider any zero distances.
             //
             case 0.0:
-                p[0 + n * 3] = t[0 + 0 * 3];
-                p[1 + n * 3] = t[1 + 0 * 3];
-                p[2 + n * 3] = t[2 + 0 * 3];
+                p[0] = t[0 + 0 * 3];
+                p[1] = t[1 + 0 * 3];
+                p[2] = t[2 + 0 * 3];
                 n += 1;
                 break;
         }
@@ -1534,10 +1502,7 @@ public static class Geometry
         //    of the intersection points.
         //
     {
-        double alpha;
-        int n;
-
-        n = int_num;
+        int n = int_num;
 
         switch (dist1)
         {
@@ -1562,7 +1527,7 @@ public static class Geometry
                         switch (dist1 * dist2)
                         {
                             case < 0.0:
-                                alpha = dist2 / (dist2 - dist1);
+                                double alpha = dist2 / (dist2 - dist1);
                                 p[0 + n * 3] = alpha * p1[(0 + p1Index) % p1.Length] + (1.0 - alpha) * p2[(0 + p2Index) % p2.Length];
                                 p[1 + n * 3] = alpha * p1[(1 + p1Index) % p1.Length] + (1.0 - alpha) * p2[(1 + p2Index) % p2.Length];
                                 p[2 + n * 3] = alpha * p1[(2 + p1Index) % p1.Length] + (1.0 - alpha) * p2[(2 + p2Index) % p2.Length];
@@ -1632,29 +1597,28 @@ public static class Geometry
         //    returned.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
         double dist12 = 0;
         double dist23 = 0;
         double dist31 = 0;
-        int near_num;
         double[] pp = new double[DIM_NUM];
         double[] pt = new double[DIM_NUM];
 
-        near_num = 0;
+        int near_num = 0;
         //
         //  Consider the line segment P1 - P2.
         //
         plane_imp_segment_near_3d(t, t, a, b, c, d, ref dist12, ref pp, ref pt, p1Index: +0 * 3, p2Index: +1 * 3);
 
         dist = dist12;
-        typeMethods.r8vec_copy(DIM_NUM, pt, ref pn, a2index: +near_num * 3);
+        typeMethods.r8vec_copy(DIM_NUM, pt, ref pn, a2index: 0);
         near_num += 1;
 
         switch (dist12)
         {
             case > 0.0:
-                typeMethods.r8vec_copy(DIM_NUM, pp, ref pn, a2index: +near_num * 3);
+                typeMethods.r8vec_copy(DIM_NUM, pp, ref pn, a2index:  3);
                 near_num += 1;
                 break;
         }
@@ -1669,13 +1633,13 @@ public static class Geometry
             near_num = 0;
             dist = dist23;
 
-            typeMethods.r8vec_copy(DIM_NUM, pt, ref pn, a2index: +near_num * 3);
+            typeMethods.r8vec_copy(DIM_NUM, pt, ref pn, a2index: 0);
             near_num += 1;
 
             switch (dist23)
             {
                 case > 0.0:
-                    typeMethods.r8vec_copy(DIM_NUM, pp, ref pn, a2index: +near_num * 3);
+                    typeMethods.r8vec_copy(DIM_NUM, pp, ref pn, a2index: 0);
                     near_num += 1;
                     break;
             }
@@ -1704,18 +1668,18 @@ public static class Geometry
             near_num = 0;
             dist = dist31;
 
-            typeMethods.r8vec_copy(DIM_NUM, pt, ref pn, a2index: +near_num * 3);
+            typeMethods.r8vec_copy(DIM_NUM, pt, ref pn, a2index: 0);
             near_num += 1;
 
             switch (dist31)
             {
                 case > 0.0:
-                    typeMethods.r8vec_copy(DIM_NUM, pp, ref pn, a2index: +near_num * 3);
+                    typeMethods.r8vec_copy(DIM_NUM, pp, ref pn, a2index: 3);
                     near_num += 1;
                     break;
             }
         }
-        else if (dist31 == dist)
+        else if (Math.Abs(dist31 - dist) <= double.Epsilon)
         {
             typeMethods.r8vec_copy(DIM_NUM, pt, ref pn, a2index: +near_num * 3);
             near_num += 1;
@@ -1822,9 +1786,7 @@ public static class Geometry
         //    Output, double PN[3], the unit normal vector to the plane.
         //
     {
-        double norm;
-
-        norm = Math.Sqrt(a * a + b * b + c * c);
+        double norm = Math.Sqrt(a * a + b * b + c * c);
 
         switch (norm)
         {
@@ -1920,16 +1882,13 @@ public static class Geometry
         //    to the vector PN and the vector PQ.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
         int i;
-        double normal_norm;
-        double pr_norm;
-        double[] temp;
         //
         //  Compute the length of NORMAL.
         //
-        normal_norm = typeMethods.r8vec_norm(DIM_NUM, pn);
+        double normal_norm = typeMethods.r8vec_norm(DIM_NUM, pn);
 
         switch (normal_norm)
         {
@@ -1943,14 +1902,14 @@ public static class Geometry
         //
         //  Find a vector PQ that is normal to PN and has unit length.
         //
-        temp = typeMethods.r8vec_any_normal(DIM_NUM, pn);
+        double[] temp = typeMethods.r8vec_any_normal(DIM_NUM, pn);
         typeMethods.r8vec_copy(DIM_NUM, temp, ref pq);
         //
         //  Now just take the cross product PN x PQ to get the PR vector.
         //
         temp = typeMethods.r8vec_cross_product_3d(pn, pq);
 
-        pr_norm = typeMethods.r8vec_norm(DIM_NUM, temp);
+        double pr_norm = typeMethods.r8vec_norm(DIM_NUM, temp);
 
         for (i = 0; i < DIM_NUM; i++)
         {
@@ -2007,13 +1966,11 @@ public static class Geometry
         //    2, the line and plane seem to be parallel and joined.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
         double[] direction = new double[DIM_NUM];
         int i;
         int ival;
-        double temp;
-        double temp2;
         //
         //  Make sure the line is not degenerate.
         //
@@ -2028,7 +1985,7 @@ public static class Geometry
         //
         //  Make sure the plane normal vector is a unit vector.
         //
-        temp = typeMethods.r8vec_norm(DIM_NUM, normal);
+        double temp = typeMethods.r8vec_norm(DIM_NUM, normal);
 
         switch (temp)
         {
@@ -2101,7 +2058,7 @@ public static class Geometry
             temp += normal[i] * (pp[i] - p1[i]);
         }
 
-        temp2 = 0.0;
+        double temp2 = 0.0;
         for (i = 0; i < DIM_NUM; i++)
         {
             temp2 += normal[i] * direction[i];
@@ -2174,14 +2131,13 @@ public static class Geometry
         //    Output, double PLANE_NORMAL_QR_TO_XYZ[3*N], the XYZ coordinates of the points.
         //
     {
-        int i;
         int j;
-        double[] xyz;
 
-        xyz = new double[3 * n];
+        double[] xyz = new double[3 * n];
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < 3; i++)
             {
                 xyz[i + j * 3] = pp[i] + pq[i] * qr[0 + j * 2] + pr[i] * qr[1 + j * 2];
@@ -2250,16 +2206,10 @@ public static class Geometry
         //    intersection points.
         //
     {
-        double area1;
-        double area2;
         double[] d = new double[4];
-        double dn;
-        double dpp;
         int i;
         int j;
         int j1;
-        int j2;
-        double temp;
 
         int_num = 0;
         for (j = 0; j < 4; j++)
@@ -2273,12 +2223,12 @@ public static class Geometry
         //
         //  DN is the length of the normal vector.
         //
-        dn = Math.Sqrt(typeMethods.r8vec_dot_product(3, normal, normal));
+        double dn = Math.Sqrt(typeMethods.r8vec_dot_product(3, normal, normal));
         //
         //  DPP is the distance between the origin and the projection of the
         //  point PP onto the normal vector.
         //
-        dpp = dn - typeMethods.r8vec_dot_product(3, normal, pp) / dn;
+        double dpp = dn - typeMethods.r8vec_dot_product(3, normal, pp) / dn;
         //
         //  D(I) is positive, zero, or negative if vertex I is above,
         //  on, or below the plane.
@@ -2324,19 +2274,22 @@ public static class Geometry
                 }
                 default:
                 {
+                    int j2;
                     for (j2 = j1 + 1; j2 < 4; j2++)
                     {
-                        if (typeMethods.r8_sign_opposite_strict(d[j1], d[j2]))
+                        if (!typeMethods.r8_sign_opposite_strict(d[j1], d[j2]))
                         {
-                            for (i = 0; i < 3; i++)
-                            {
-                                pint[i + int_num * 3] = (d[j1] * t[i + j2 * 3]
-                                                         - d[j2] * t[i + j1 * 3])
-                                                        / (d[j1] - d[j2]);
-                            }
-
-                            int_num += 1;
+                            continue;
                         }
+
+                        for (i = 0; i < 3; i++)
+                        {
+                            pint[i + int_num * 3] = (d[j1] * t[i + j2 * 3]
+                                                     - d[j2] * t[i + j1 * 3])
+                                                    / (d[j1] - d[j2]);
+                        }
+
+                        int_num += 1;
                     }
 
                     break;
@@ -2351,7 +2304,8 @@ public static class Geometry
             //
             case 4:
             {
-                area1 = Quadrilateral.Geometry.quad_area_3d(pint);
+                double area1 = Quadrilateral.Geometry.quad_area_3d(pint);
+                double temp;
                 for (i = 0; i < 3; i++)
                 {
                     temp = pint[(i + 3 * 3) % pint.Length];
@@ -2359,7 +2313,7 @@ public static class Geometry
                     pint[(i + 4 * 3) % pint.Length] = temp;
                 }
 
-                area2 = Quadrilateral.Geometry.quad_area_3d(pint);
+                double area2 = Quadrilateral.Geometry.quad_area_3d(pint);
                 if (area2 < area1)
                 {
                     temp = pint[(i + 3 * 3) % pint.Length];
@@ -2424,30 +2378,24 @@ public static class Geometry
         //    points returned.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        double d;
-        double dist1;
-        double dist2;
-        double dist3;
-        int int_num;
-
-        int_num = 0;
+        int int_num = 0;
         //
         //  Compute the signed distances between the vertices and the plane.
         //
-        d = -typeMethods.r8vec_dot_product(DIM_NUM, pn, pp);
+        double d = -typeMethods.r8vec_dot_product(DIM_NUM, pn, pp);
 
-        dist1 = typeMethods.r8vec_dot_product(DIM_NUM, pn, t, a2Index: +0 * 3) + d;
-        dist2 = typeMethods.r8vec_dot_product(DIM_NUM, pn, t, a2Index: +1 * 3) + d;
-        dist3 = typeMethods.r8vec_dot_product(DIM_NUM, pn, t, a2Index: +2 * 3) + d;
+        double dist1 = typeMethods.r8vec_dot_product(DIM_NUM, pn, t, a2Index: +0 * 3) + d;
+        double dist2 = typeMethods.r8vec_dot_product(DIM_NUM, pn, t, a2Index: +1 * 3) + d;
+        double dist3 = typeMethods.r8vec_dot_product(DIM_NUM, pn, t, a2Index: +2 * 3) + d;
         switch (dist1)
         {
             //
             //  Consider any zero distances.
             //
             case 0.0:
-                typeMethods.r8vec_copy(DIM_NUM, t, ref p, a1index: +0 * 3, a2index: +int_num * 3);
+                typeMethods.r8vec_copy(DIM_NUM, t, ref p, a1index: +0 * 3, a2index: 0);
                 int_num += 1;
                 break;
         }
@@ -2594,16 +2542,14 @@ public static class Geometry
         //    Output, double NORMAL[3], the unit normal vector.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
         typeMethods.r8vecNormalData data = new();
 
         int i;
-        double norm;
-        double[] v;
         //
         //  Pick PP as a random point inside the unit sphere in ND.
         //
-        v = Ball.Geometry.ball01_sample_3d(ref seed);
+        double[] v = Ball.Geometry.ball01_sample_3d(ref seed);
         typeMethods.r8vec_copy(DIM_NUM, v, ref pp);
         //
         //  Get values from a standard normal distribution.
@@ -2613,7 +2559,7 @@ public static class Geometry
         //
         //  Compute the length of the vector.
         //
-        norm = typeMethods.r8vec_norm(DIM_NUM, normal);
+        double norm = typeMethods.r8vec_norm(DIM_NUM, normal);
         //
         //  Normalize the vector.
         //
@@ -2665,13 +2611,11 @@ public static class Geometry
         //
     {
         int i;
-        double norm;
-        double[] v;
         typeMethods.r8vecNormalData data = new();
         //
         //  Pick PP as a random point inside the unit sphere in ND.
         //
-        v = Ball.Geometry.ball01_sample_nd(dim_num, ref seed);
+        double[] v = Ball.Geometry.ball01_sample_nd(dim_num, ref seed);
         typeMethods.r8vec_copy(dim_num, v, ref pp);
         //
         //  Get values from a standard normal distribution.
@@ -2681,7 +2625,7 @@ public static class Geometry
         //
         //  Compute the length of the vector.
         //
-        norm = typeMethods.r8vec_norm(dim_num, normal);
+        double norm = typeMethods.r8vec_norm(dim_num, normal);
         //
         //  Normalize the vector.
         //
@@ -2752,9 +2696,8 @@ public static class Geometry
         //
     {
         int j;
-        double[] qr;
 
-        qr = new double[2 * n];
+        double[] qr = new double[2 * n];
 
         for (j = 0; j < n; j++)
         {
@@ -2940,12 +2883,9 @@ public static class Geometry
         //    Otherwise, the angle is between 0 and PI.
         //
     {
-        double cosine;
-        double norm1;
-        double norm2;
-        double value = 0;
+        double value;
 
-        norm1 = Math.Sqrt(a1 * a1 + b1 * b1 + c1 * c1);
+        double norm1 = Math.Sqrt(a1 * a1 + b1 * b1 + c1 * c1);
 
         switch (norm1)
         {
@@ -2954,7 +2894,7 @@ public static class Geometry
                 return value;
         }
 
-        norm2 = Math.Sqrt(a2 * a2 + b2 * b2 + c2 * c2);
+        double norm2 = Math.Sqrt(a2 * a2 + b2 * b2 + c2 * c2);
 
         switch (norm2)
         {
@@ -2963,7 +2903,7 @@ public static class Geometry
                 return value;
         }
 
-        cosine = (a1 * a2 + b1 * b2 + c1 * c2) / (norm1 * norm2);
+        double cosine = (a1 * a2 + b1 * b2 + c1 * c2) / (norm1 * norm2);
 
         value = Math.Acos(cosine);
         return value;

@@ -227,23 +227,18 @@ public static class Pentomino
         //
     {
         string color = "";
-        int[] color_index;
-        string command_filename;
         List<string> command_unit = new();
         int i;
-        int i_reverse;
         int j;
-        int k;
-        int m = 5;
-        int n = 5;
-        string plot_filename;
+        const int m = 5;
+        const int n = 5;
 
-        command_filename = label + "_commands.txt";
-        plot_filename = label + ".png";
+        string command_filename = label + "_commands.txt";
+        string plot_filename = label + ".png";
         //
         //  Initially, the grid is entirely white (color 0)
         //
-        color_index = typeMethods.i4rows_zeros_new(m, n);
+        int[] color_index = typeMethods.i4rows_zeros_new(m, n);
         //
         //  Place the pentomino on the grid, so that it is "snug" in the upper left corner.
         //
@@ -276,7 +271,7 @@ public static class Pentomino
         command_unit.Add("unset tics");
         command_unit.Add("set nokey");
 
-        k = 0;
+        int k = 0;
         for (i = 0; i < m; i++)
         {
             for (j = 0; j < n; j++)
@@ -290,7 +285,7 @@ public static class Pentomino
                     _ => color
                 };
 
-                i_reverse = m - 1 - i;
+                int i_reverse = m - 1 - i;
                 command_unit.Add("set object " + k
                                                + " rect from " + j
                                                + ", " + i_reverse

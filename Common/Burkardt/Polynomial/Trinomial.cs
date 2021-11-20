@@ -42,8 +42,6 @@ public static class Trinomial
         //
     {
         int l;
-        int t;
-        int value;
         //
         //  Each factor must be nonnegative.
         //
@@ -55,9 +53,9 @@ public static class Trinomial
             return 1;
         }
 
-        value = 1;
+        int value = 1;
 
-        t = 1;
+        int t = 1;
 
         for ( l = 1; l <= i; l++ )
         {

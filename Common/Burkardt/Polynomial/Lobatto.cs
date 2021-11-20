@@ -67,14 +67,10 @@ public static class Lobatto
         //
     {
         int i;
-        int j;
-        double[] lp;
-        double[] p;
-        double[] pp;
 
-        lp = new double[m * n];
-        p = new double[m * (n + 1)];
-        pp = new double[m * (n + 1)];
+        double[] lp = new double[m * n];
+        double[] p = new double[m * (n + 1)];
+        double[] pp = new double[m * (n + 1)];
 
         for (i = 0; i < m; i++)
         {
@@ -90,6 +86,7 @@ public static class Lobatto
                         {
                             p[i + 0 * m] = 1.0;
                             p[i + 1 * m] = x[i];
+                            int j;
                             for (j = 1; j < n; j++)
                             {
                                 p[i + (j + 1) * m] =
@@ -317,43 +314,32 @@ public static class Lobatto
         //    Input, string PREFIX. the filename prefix.
         //
     {
-        string command_filename;
         List<string> command_unit = new();
-        string data_filename;
         List<string> data_unit = new();
         int i;
         int j;
-        double[] l;
-        double[] lp;
-        int n;
-        string plot_filename;
-        double[] x;
-        double x_hi;
-        double x_lo;
-        int x_num = 501;
-        double[] y;
-        double[] yp;
+        const int x_num = 501;
 
-        x_lo = -1.0;
-        x_hi = +1.0;
-        x = typeMethods.r8vec_linspace_new(x_num, x_lo, x_hi);
+        const double x_lo = -1.0;
+        const double x_hi = +1.0;
+        double[] x = typeMethods.r8vec_linspace_new(x_num, x_lo, x_hi);
         //
         //  Collect the data.
         //
-        y = new double[x_num * ndx_num];
-        yp = new double[x_num * ndx_num];
+        double[] y = new double[x_num * ndx_num];
+        double[] yp = new double[x_num * ndx_num];
 
         for (j = 0; j < ndx_num; j++)
         {
-            n = ndx[j];
+            int n = ndx[j];
 
-            l = lobatto_polynomial_value(x_num, n, x);
+            double[] l = lobatto_polynomial_value(x_num, n, x);
             for (i = 0; i < x_num; i++)
             {
                 y[i + j * x_num] = l[i + (n - 1) * x_num];
             }
 
-            lp = lobatto_polynomial_derivative(x_num, n, x);
+            double[] lp = lobatto_polynomial_derivative(x_num, n, x);
             for (i = 0; i < x_num; i++)
             {
                 yp[i + j * x_num] = lp[i + (n - 1) * x_num];
@@ -364,7 +350,7 @@ public static class Lobatto
         //
         //  Make data file for values.
         //
-        data_filename = prefix + "_value_data.txt";
+        string data_filename = prefix + "_value_data.txt";
 
         for (i = 0; i < x_num; i++)
         {
@@ -383,7 +369,7 @@ public static class Lobatto
         //
         //  Make command file for values.
         //
-        command_filename = prefix + "_value_commands.txt";
+        string command_filename = prefix + "_value_commands.txt";
 
         command_unit.Add("# " + command_filename + "");
         command_unit.Add("#");
@@ -394,7 +380,7 @@ public static class Lobatto
         command_unit.Add("set term png");
         command_unit.Add("set timestamp");
 
-        plot_filename = prefix + "_value.png";
+        string plot_filename = prefix + "_value.png";
 
         command_unit.Add("set output '" + plot_filename + "'");
         command_unit.Add("set xlabel 'x'");
@@ -570,12 +556,9 @@ public static class Lobatto
         //
     {
         int i;
-        int j;
-        double[] l;
-        double[] p;
 
-        l = new double[m * n];
-        p = new double[m * (n + 1)];
+        double[] l = new double[m * n];
+        double[] p = new double[m * (n + 1)];
 
         for (i = 0; i < m; i++)
         {
@@ -592,6 +575,7 @@ public static class Lobatto
                             p[i + 0 * m] = 1.0;
                             p[i + 1 * m] = x[i];
 
+                            int j;
                             for (j = 1; j < n; j++)
                             {
                                 p[i + (j + 1) * m] =

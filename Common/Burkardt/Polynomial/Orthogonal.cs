@@ -132,54 +132,35 @@ public static class Orthogonal
         //    polynomials evaluated at the point Z.
         //
     {
-        double a;
-        double b;
-        double[] f1;
-        double[] f2;
-        int kk;
         int m;
-        int n;
-        int npols;
-        double par1;
-        double par2;
-        double[] pols;
-        double r11;
-        double r12;
-        double r21;
-        double r22;
-        double scale;
-        double sqrt3;
-        double x;
-        double y;
-        double zero;
 
-        npols = (mmax + 1) * (mmax + 2) / 2;
-        pols = new double[npols];
+        int npols = (mmax + 1) * (mmax + 2) / 2;
+        double[] pols = new double[npols];
 
-        zero = 0.0;
-        sqrt3 = Math.Sqrt(3.0);
-        r11 = -1.0 / 3.0;
-        r12 = -1.0 / sqrt3;
-        r21 = -1.0 / 3.0;
-        r22 = 2.0 / sqrt3;
+        const double zero = 0.0;
+        double sqrt3 = Math.Sqrt(3.0);
+        const double r11 = -1.0 / 3.0;
+        double r12 = -1.0 / sqrt3;
+        const double r21 = -1.0 / 3.0;
+        double r22 = 2.0 / sqrt3;
 
-        a = z[0];
-        b = z[1];
+        double a = z[0];
+        double b = z[1];
         //
         //  Map the reference triangle to the right
         //  triangle with the vertices (-1,-1), (1,-1), (-1,1)
         //
-        x = r11 + r12 * b + a;
-        y = r21 + r22 * b;
+        double x = r11 + r12 * b + a;
+        double y = r21 + r22 * b;
         //
         //  Evaluate the Koornwinder's polynomials via the three term recursion.
         //
-        par1 = (2.0 * x + 1.0 + y) / 2.0;
-        par2 = (1.0 - y) / 2.0;
+        double par1 = (2.0 * x + 1.0 + y) / 2.0;
+        double par2 = (1.0 - y) / 2.0;
 
-        f1 = LegendreScaled.klegeypols(par1, par2, mmax);
+        double[] f1 = LegendreScaled.klegeypols(par1, par2, mmax);
 
-        f2 = new double[(mmax + 1) * (mmax + 1)];
+        double[] f2 = new double[(mmax + 1) * (mmax + 1)];
 
         for (m = 0; m <= mmax; m++)
         {
@@ -187,9 +168,10 @@ public static class Orthogonal
             Jacobi.kjacopols(y, par1, zero, mmax - m, ref f2, polsIndex: + m * (mmax + 1));
         }
 
-        kk = 0;
+        int kk = 0;
         for (m = 0; m <= mmax; m++)
         {
+            int n;
             for (n = 0; n <= m; n++)
             {
                 //
@@ -199,7 +181,7 @@ public static class Orthogonal
                 //
                 //  Normalize.
                 //
-                scale = Math.Sqrt
+                double scale = Math.Sqrt
                 ((1 + (m - n) + n) * (1 + (m - n) + (m - n)) / sqrt3
                 );
 

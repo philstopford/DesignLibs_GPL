@@ -63,11 +63,7 @@ public static class Polyomino
         //
     {
         int i;
-        int i_max;
-        int i_min;
         int j;
-        int j_max;
-        int j_min;
         //
         //  Discard nonsense.
         //
@@ -82,16 +78,18 @@ public static class Polyomino
         //
         //  Seek first and last nonzero rows, columns.
         //
-        i_min = -1;
+        int i_min = -1;
         for (i = 0; i < mp; i++)
         {
             for (j = 0; j < np; j++)
             {
-                if (p[i + j * mp] != 0)
+                if (p[i + j * mp] == 0)
                 {
-                    i_min = i;
-                    break;
+                    continue;
                 }
+
+                i_min = i;
+                break;
             }
 
             if (i_min != -1)
@@ -112,7 +110,7 @@ public static class Polyomino
                 return;
         }
 
-        i_max = mp;
+        int i_max = mp;
         for (i = mp - 1; 0 <= i; i--)
         {
             for (j = 0; j < np; j++)
@@ -130,7 +128,7 @@ public static class Polyomino
             }
         }
 
-        j_min = -1;
+        int j_min = -1;
         for (j = 0; j < np; j++)
         {
             for (i = 0; i < mp; i++)
@@ -148,7 +146,7 @@ public static class Polyomino
             }
         }
 
-        j_max = np;
+        int j_max = np;
         for (j = np - 1; 0 <= j; j--)
         {
             for (i = 0; i < mp; i++)
@@ -251,44 +249,42 @@ public static class Polyomino
         //    and J offsets applied to the polyomino P.
         //
     {
-        int i;
-        int j;
-        int k;
-        int[] list;
         int mi;
-        int nj;
-        int pr;
-        int srp;
 
-        list = new int [number * 2];
+        int[] list = new int [number * 2];
         //
         //  Count the 1's in P.
         //
-        pr = typeMethods.i4mat_sum(mp, np, ref p);
+        int pr = typeMethods.i4mat_sum(mp, np, ref p);
         //
         //  For each possible (I,J) coordinate of the upper left corner of a subset of R,
         //  see if it matches P.
         //
-        k = 0;
+        int k = 0;
         for (mi = 0; mi <= mr - mp; mi++)
         {
+            int nj;
             for (nj = 0; nj <= nr - np; nj++)
             {
-                srp = 0;
+                int srp = 0;
+                int j;
                 for (j = 0; j < np; j++)
                 {
+                    int i;
                     for (i = 0; i < mp; i++)
                     {
                         srp += p[i + j * mp] * r[i + mi + (j + nj) * mr];
                     }
                 }
 
-                if (srp == pr)
+                if (srp != pr)
                 {
-                    list[k + 0 * number] = mi;
-                    list[k + 1 * number] = nj;
-                    k += 1;
+                    continue;
                 }
+
+                list[k + 0 * number] = mi;
+                list[k + 1 * number] = nj;
+                k += 1;
             }
         }
 
@@ -352,30 +348,27 @@ public static class Polyomino
         //    P into R.
         //
     {
-        int i;
-        int j;
         int mi;
-        int nj;
-        int number;
-        int pr;
-        int srp;
 
-        number = 0;
+        int number = 0;
         //
         //  Count the 1's in P.
         //
-        pr = typeMethods.i4mat_sum(mp, np, ref p);
+        int pr = typeMethods.i4mat_sum(mp, np, ref p);
         //
         //  For each possible (I,J) coordinate of the upper left corner of a subset of R,
         //  see if it matches P.
         //
         for (mi = 0; mi <= mr - mp; mi++)
         {
+            int nj;
             for (nj = 0; nj <= nr - np; nj++)
             {
-                srp = 0;
+                int srp = 0;
+                int j;
                 for (j = 0; j < np; j++)
                 {
+                    int i;
                     for (i = 0; i < mp; i++)
                     {
                         srp += p[i + j * mp] * r[i + mi + (j + nj) * mr];
@@ -802,15 +795,13 @@ public static class Polyomino
         //
     {
         int i;
-        int j;
-        int k;
-        int[] pin;
 
-        pin = new int[m * n];
+        int[] pin = new int[m * n];
 
-        k = 0;
+        int k = 0;
         for (i = 0; i < m; i++)
         {
+            int j;
             for (j = 0; j < n; j++)
             {
                 if (p[i + j * m] != 0)
@@ -864,7 +855,6 @@ public static class Polyomino
         //    Input, int B[M], the right hand sides.
         //
     {
-        bool first;
         int i;
         int j;
         List<string> output = new();
@@ -881,7 +871,7 @@ public static class Polyomino
         for (i = 0; i < m; i++)
         {
             cout = "";
-            first = true;
+            bool first = true;
             for (j = 0; j < n; j++)
             {
                 if (a[i + j * m] != 0)
@@ -972,9 +962,6 @@ public static class Polyomino
         //    Input, string LABEL, a title for the polyomino.
         //
     {
-        int i;
-        int j;
-
         Console.WriteLine("");
         Console.WriteLine(label + "");
         Console.WriteLine("");
@@ -985,8 +972,10 @@ public static class Polyomino
         else
         {
             string cout = "";
+            int i;
             for (i = 0; i < m; i++)
             {
+                int j;
                 for (j = 0; j < n; j++)
                 {
                     cout += " " + p[i + j * m];
@@ -1049,8 +1038,6 @@ public static class Polyomino
         //
     {
         int k;
-        int r;
-        int s;
 
         mq = m;
         nq = n;
@@ -1071,8 +1058,8 @@ public static class Polyomino
         for (k = 1; k <= rotate; k++)
         {
             typeMethods.i4mat_transpose(mq, nq, ref q);
-            r = mq;
-            s = nq;
+            int r = mq;
+            int s = nq;
             mq = s;
             nq = r;
             typeMethods.i4mat_flip_rows(mq, nq, ref q);

@@ -50,11 +50,7 @@ public static class Multinomial
         //    Output, int COMMUL, the value of the multinomial coefficient.
         //
     {
-        double arg;
-        double fack;
-        double facn;
         int i;
-        int isum;
 
         for (i = 0; i < nfact; i++)
         {
@@ -69,7 +65,7 @@ public static class Multinomial
             }
         }
 
-        isum = 0;
+        int isum = 0;
         for (i = 0; i < nfact; i++)
         {
             isum += iarray[i];
@@ -84,13 +80,13 @@ public static class Multinomial
             return 1;
         }
 
-        arg = n + 1;
-        facn = Helpers.LogGamma(arg);
+        double arg = n + 1;
+        double facn = Helpers.LogGamma(arg);
 
         for (i = 0; i < nfact; i++)
         {
             arg = iarray[i] + 1;
-            fack = Helpers.LogGamma(arg);
+            double fack = Helpers.LogGamma(arg);
             facn -= fack;
         }
 
@@ -194,12 +190,7 @@ public static class Multinomial
         //    Output, int MULTINOMIAL_COEF1, the value of the multinomial coefficient.
         //
     {
-        double arg;
-        double fack;
-        double facn;
         int i;
-        int n;
-        int value;
         //
         //  Each factor must be nonnegative.
         //
@@ -219,19 +210,19 @@ public static class Multinomial
         //
         //  The factors sum to N.
         //
-        n = typeMethods.i4vec_sum(nfactor, factor);
+        int n = typeMethods.i4vec_sum(nfactor, factor);
 
-        arg = n + 1;
-        facn = Helpers.LogGamma(arg);
+        double arg = n + 1;
+        double facn = Helpers.LogGamma(arg);
 
         for (i = 0; i < nfactor; i++)
         {
             arg = factor[i] + 1;
-            fack = Helpers.LogGamma(arg);
+            double fack = Helpers.LogGamma(arg);
             facn -= fack;
         }
 
-        value = (int)typeMethods.r8_nint(Math.Exp(facn));
+        int value = (int)typeMethods.r8_nint(Math.Exp(facn));
 
         return value;
     }
@@ -280,9 +271,6 @@ public static class Multinomial
         //
     {
         int i;
-        int j;
-        int k;
-        int value;
         //
         //  Each factor must be nonnegative.
         //
@@ -299,11 +287,12 @@ public static class Multinomial
             }
         }
 
-        value = 1;
-        k = 0;
+        int value = 1;
+        int k = 0;
 
         for (i = 0; i < nfactor; i++)
         {
+            int j;
             for (j = 1; j <= factor[i]; j++)
             {
                 k += 1;

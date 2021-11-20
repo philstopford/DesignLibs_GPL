@@ -53,18 +53,11 @@ public static class Polynomial
         //    Output, double KJACOYPOLS3[N+1], the polynomial values.
         //
     {
-        double alpha;
-        double beta;
         int k;
-        double k_r8;
-        double pk;
-        double pkm1;
-        double pkp1;
-        double[] pols;
 
-        pols = new double[n + 1];
+        double[] pols = new double[n + 1];
 
-        pkp1 = 1.0;
+        double pkp1 = 1.0;
         pols[0] = pkp1;
 
         switch (n)
@@ -73,7 +66,7 @@ public static class Polynomial
                 return pols;
         }
 
-        pk = pkp1;
+        double pk = pkp1;
         pkp1 = 0.5 * ((a - b) * y + (2.0 + a + b) * x);
         pols[1] = pkp1;
 
@@ -85,19 +78,19 @@ public static class Polynomial
 
         for (k = 2; k <= n; k++)
         {
-            k_r8 = k;
+            double k_r8 = k;
 
-            alpha = (2.0 * k_r8 + a + b - 1.0)
-                    * (a - b) * (a + b) * y
-                    + (2.0 * k_r8 + a + b - 1.0)
-                    * (2.0 * k_r8 + a + b - 2.0)
-                    * (2.0 * k_r8 + a + b) * x;
+            double alpha = (2.0 * k_r8 + a + b - 1.0)
+                           * (a - b) * (a + b) * y
+                           + (2.0 * k_r8 + a + b - 1.0)
+                           * (2.0 * k_r8 + a + b - 2.0)
+                           * (2.0 * k_r8 + a + b) * x;
 
-            beta = 2.0 * (k_r8 + a - 1.0)
-                       * (k_r8 + b - 1.0)
-                       * (2.0 * k_r8 + a + b) * y * y;
+            double beta = 2.0 * (k_r8 + a - 1.0)
+                              * (k_r8 + b - 1.0)
+                              * (2.0 * k_r8 + a + b) * y * y;
 
-            pkm1 = pk;
+            double pkm1 = pk;
             pk = pkp1;
             pkp1 = (alpha * pk - beta * pkm1)
                    / (2.0 * k_r8 * (k_r8 + a + b)
@@ -148,28 +141,22 @@ public static class Polynomial
         //    polynomials evaluated at Z.
         //
     {
-        double[] f1;
-        double[] f2;
-        int kk;
         int m;
-        int n;
-        int npols;
-        double[] pols;
-        double scale;
 
-        npols = (degree + 1) * (degree + 2) / 2;
-        pols = new double[npols];
+        int npols = (degree + 1) * (degree + 2) / 2;
+        double[] pols = new double[npols];
 
-        f1 = llegepols1(degree, z[0]);
-        f2 = llegepols1(degree, z[1]);
+        double[] f1 = llegepols1(degree, z[0]);
+        double[] f2 = llegepols1(degree, z[1]);
 
-        kk = 0;
+        int kk = 0;
         for (m = 0; m <= degree; m++)
         {
+            int n;
             for (n = 0; n <= m; n++)
             {
                 pols[kk] = f1[m - n] * f2[n];
-                scale = (1 + 2 * n) * (1 + 2 * (m - n));
+                double scale = (1 + 2 * n) * (1 + 2 * (m - n));
                 scale = 0.5 * Math.Sqrt(scale);
                 pols[kk] *= scale;
                 kk += 1;
@@ -219,13 +206,9 @@ public static class Polynomial
         //
     {
         int k;
-        double pk;
-        double pkm1;
-        double pkp1;
-        double[] pols;
 
-        pols = new double[degree + 1];
-        pkp1 = 1.0;
+        double[] pols = new double[degree + 1];
+        double pkp1 = 1.0;
         pols[0] = pkp1;
 
         switch (degree)
@@ -234,7 +217,7 @@ public static class Polynomial
                 return pols;
         }
 
-        pk = pkp1;
+        double pk = pkp1;
         pkp1 = x;
         pols[1] = pkp1;
 
@@ -246,7 +229,7 @@ public static class Polynomial
 
         for (k = 1; k <= degree - 1; k++)
         {
-            pkm1 = pk;
+            double pkm1 = pk;
             pk = pkp1;
             pkp1 = ((2 * k + 1) * x * pk
                     - k * pkm1)
@@ -332,39 +315,27 @@ public static class Polynomial
         //
     {
         double[] f;
-        double[] f1;
-        double[] f2s;
-        double[] f3s;
-        double[] fvals;
         int i;
         int j;
-        int k;
         int m;
         int mmax;
-        int n;
-        int ncount;
-        int nvals;
-        double p1;
-        double p2;
-        double scale;
-        double[] uvw;
         double x1;
         double y1;
         //
         //  Convert coordinates from reference to Koornwinder tetrahedron.
         //
-        uvw = typeMethods.ref_to_koorn(xyz);
+        double[] uvw = typeMethods.ref_to_koorn(xyz);
         //
         //  Compute F1.
         //
-        p1 = 0.5 * (2.0 * uvw[0] + 2.0 + uvw[1] + uvw[2]);
-        p2 = -0.5 * (uvw[1] + uvw[2]);
+        double p1 = 0.5 * (2.0 * uvw[0] + 2.0 + uvw[1] + uvw[2]);
+        double p2 = -0.5 * (uvw[1] + uvw[2]);
 
-        f1 = LegendreScaled.klegeypols(p1, p2, degree);
+        double[] f1 = LegendreScaled.klegeypols(p1, p2, degree);
         //
         //  Compute F2S.
         //
-        f2s = new double[(degree + 1) * (degree + 1)];
+        double[] f2s = new double[(degree + 1) * (degree + 1)];
 
         for (j = 1; j <= degree + 1; j++)
         {
@@ -392,7 +363,7 @@ public static class Polynomial
         //
         //  Compute F3S.
         //
-        f3s = new double[(degree + 1) * (degree + 1)];
+        double[] f3s = new double[(degree + 1) * (degree + 1)];
 
         for (j = 1; j <= degree + 1; j++)
         {
@@ -421,20 +392,21 @@ public static class Polynomial
         //
         //  Construct FVALS.
         //
-        nvals = (degree + 1) * (degree + 2) * (degree + 3) / 6;
-        fvals = new double[nvals];
+        int nvals = (degree + 1) * (degree + 2) * (degree + 3) / 6;
+        double[] fvals = new double[nvals];
 
-        ncount = 0;
+        int ncount = 0;
 
         for (mmax = 0; mmax <= degree; mmax++)
         {
             for (m = 0; m <= mmax; m++)
             {
+                int n;
                 for (n = 0; n <= mmax - m; n++)
                 {
-                    k = mmax - m - n;
+                    int k = mmax - m - n;
 
-                    scale = Math.Sqrt
+                    double scale = Math.Sqrt
                     (
                         4.0
                         / (2 * mmax + 3)
@@ -489,12 +461,10 @@ public static class Polynomial
         //    Output, double TS_MULT, the value of the polynomial.
         //
     {
-        double hk;
         int k;
-        double ts;
 
-        ts = 0.0;
-        hk = 1.0;
+        double ts = 0.0;
+        double hk = 1.0;
         for (k = 1; k <= n; k++)
         {
             ts += u[k] * hk;
@@ -608,17 +578,13 @@ public static class Polynomial
         //    the polynomial sum.
         //
     {
-        double[] c3;
-        int[] e3;
         int i;
-        int o3;
-        double[] sc1;
 
-        o3 = o1 + o2;
+        int o3 = o1 + o2;
 
-        c3 = new double[o3];
-        e3 = new int[o3];
-        sc1 = new double[o1];
+        double[] c3 = new double[o3];
+        int[] e3 = new int[o3];
+        double[] sc1 = new double[o1];
 
         for (i = 0; i < o1; i++)
         {
@@ -674,12 +640,10 @@ public static class Polynomial
         //    the polynomial.
         //
     {
-        int get;
-        int put;
         const double r8_epsilon_sqrt = 0.1490116119384766E-07;
 
-        get = 0;
-        put = 0;
+        int get = 0;
+        int put = 0;
 
         while (get < o1)
         {
@@ -763,8 +727,6 @@ public static class Polynomial
         //    polynomial derivative.
         //
     {
-        int[] f1;
-        int i;
         int j;
 
         o2 = o1;
@@ -775,7 +737,8 @@ public static class Polynomial
 
         for (j = 0; j < o1; j++)
         {
-            f1 = Monomial.mono_unrank_grlex(m, e1[j]);
+            int[] f1 = Monomial.mono_unrank_grlex(m, e1[j]);
+            int i;
             for (i = 0; i < m; i++)
             {
                 c2[j] *= typeMethods.i4_fall(f1[i], dif[i]);
@@ -838,23 +801,20 @@ public static class Polynomial
         //    polynomial product.
         //
     {
-        int[] f;
-        int[] f1;
-        int[] f2;
-        int i;
         int j;
-        int k;
 
-        f = new int[m];
+        int[] f = new int[m];
 
         o = 0;
         for (j = 0; j < o2; j++)
         {
+            int i;
             for (i = 0; i < o1; i++)
             {
                 c[o] = c1[i] * c2[j];
-                f1 = Monomial.mono_unrank_grlex(m, e1[i]);
-                f2 = Monomial.mono_unrank_grlex(m, e2[j]);
+                int[] f1 = Monomial.mono_unrank_grlex(m, e1[i]);
+                int[] f2 = Monomial.mono_unrank_grlex(m, e2[j]);
+                int k;
                 for (k = 0; k < m; k++)
                 {
                     f[k] = f1[k] + f2[k];
@@ -903,10 +863,6 @@ public static class Polynomial
         //    Input, string TITLE, a title.
         //
     {
-        int[] f;
-        int i;
-        int j;
-
         Console.WriteLine(title);
 
         switch (o)
@@ -916,6 +872,7 @@ public static class Polynomial
                 break;
             default:
             {
+                int j;
                 for (j = 0; j < o; j++)
                 {
                     string cout = "    ";
@@ -927,7 +884,8 @@ public static class Polynomial
 
                     cout += Math.Abs(c[j]) + " * x^(";
 
-                    f = Monomial.mono_unrank_grlex(d, e[j]);
+                    int[] f = Monomial.mono_unrank_grlex(d, e[j]);
+                    int i;
                     for (i = 0; i < d; i++)
                     {
                         cout += f[i];
@@ -1081,13 +1039,10 @@ public static class Polynomial
         //    Output, double POLYNOMIAL_VALUE[NX], the value of the polynomial at X.
         //
     {
-        int[] f;
         int j;
         int k;
-        double[] p;
-        double[] v;
 
-        p = new double[nx];
+        double[] p = new double[nx];
 
         for (k = 0; k < nx; k++)
         {
@@ -1096,8 +1051,8 @@ public static class Polynomial
 
         for (j = 0; j < o; j++)
         {
-            f = Monomial.mono_unrank_grlex(d, e[j]);
-            v = Monomial.mono_value(d, nx, f, x, xIndex);
+            int[] f = Monomial.mono_unrank_grlex(d, e[j]);
+            double[] v = Monomial.mono_value(d, nx, f, x, xIndex);
             for (k = 0; k < nx; k++)
             {
                 p[k] += c[j] * v[k];
@@ -1895,17 +1850,15 @@ public static class Polynomial
         //    double R8POLY_VALUE[N], the values of the polynomial at X.
         //
     {
-        int i;
         int j;
-        double[] value;
-        double xi;
 
-        value = new double[n];
+        double[] value = new double[n];
 
         for (j = 0; j < n; j++)
         {
             value[j] = c[0];
-            xi = 1.0;
+            double xi = 1.0;
+            int i;
             for (i = 1; i <= m; i++)
             {
                 xi *= x[j];
@@ -1963,26 +1916,23 @@ public static class Polynomial
         //    evaluation points.
         //
     {
-        int ex;
-        int ey;
         int i;
-        int j;
-        double[] p;
         int s;
 
-        p = new double[n];
+        double[] p = new double[n];
 
         for (i = 0; i < n; i++)
         {
             p[i] = 0.0;
         }
 
-        j = 0;
+        int j = 0;
         for (s = 0; s <= m; s++)
         {
+            int ex;
             for (ex = s; 0 <= ex; ex--)
             {
-                ey = s - ex;
+                int ey = s - ex;
                 for (i = 0; i < n; i++)
                 {
                     p[i] += c[j] * Math.Pow(x[i], ex) * Math.Pow(y[i], ey);
@@ -2049,18 +1999,16 @@ public static class Polynomial
         //    between 0 and Q-1.
         //
     {
-        int i;
         int j;
-        int[] poly;
-  
-        poly = new int[PLY.DEG_MAX+2];
+
+        int[] poly = new int[PLY.DEG_MAX+2];
 
         for ( j = 0; j < PLY.DEG_MAX + 2; j++ )
         {
             poly[j] = 0;
         }
 
-        i = in_;
+        int i = in_;
         j = -1;
 
         while ( 0 < i )
@@ -2138,18 +2086,16 @@ public static class Polynomial
         //    between 0 and P-1.
         //
     {
-        int i;
         int j;
-        int[] poly;
 
-        poly = new int[PLY.DEG_MAX + 2];
+        int[] poly = new int[PLY.DEG_MAX + 2];
 
         for (j = 0; j < PLY.DEG_MAX + 2; j++)
         {
             poly[j] = 0;
         }
 
-        i = in_;
+        int i = in_;
         j = -1;
 
         while (0 < i)
@@ -2175,10 +2121,10 @@ public static class Polynomial
         
     public class PLY
     {
-        public static int DEG_MAX = 50;
+        public const int DEG_MAX = 50;
         public int P;
         public int Q;
-        public static int Q_MAX = 50;
+        public const int Q_MAX = 50;
 
         public int[,] add = new int[Q_MAX, Q_MAX];
         public int[,] mul = new int[Q_MAX, Q_MAX];
@@ -2230,16 +2176,13 @@ public static class Polynomial
         //    Output, int PLYADD[DEG_MAX+2], the sum polynomial.
         //
     {
-        int degc;
         int i;
-        int maxab;
-        int[] pc;
 
-        pc = new int[PLY.DEG_MAX + 2];
+        int[] pc = new int[PLY.DEG_MAX + 2];
 
-        maxab = Math.Max(pa[0], pb[0]);
+        int maxab = Math.Max(pa[0], pb[0]);
 
-        degc = -1;
+        int degc = -1;
 
         for (i = 0; i <= maxab; i++)
         {
@@ -2307,12 +2250,8 @@ public static class Polynomial
     {
         int binv = 0;
         int d;
-        int degb;
         int degq = 0;
-        int degr;
         int i;
-        int j;
-        int m;
 
         switch (pb[0])
         {
@@ -2329,8 +2268,8 @@ public static class Polynomial
             pr[i + 1] = pa[i + 1];
         }
 
-        degr = pa[0];
-        degb = pb[0];
+        int degr = pa[0];
+        int degb = pb[0];
 
         degq = degq switch
         {
@@ -2341,7 +2280,7 @@ public static class Polynomial
         //
         //  Find the inverse of the leading coefficient of PB.
         //
-        j = pb[degb + 1];
+        int j = pb[degb + 1];
 
         for (i = 1; i <= ply.P - 1; i++)
         {
@@ -2354,7 +2293,7 @@ public static class Polynomial
 
         for (d = degq; 0 <= d; d--)
         {
-            m = ply.mul[pr[degr + 1], binv];
+            int m = ply.mul[pr[degr + 1], binv];
             for (i = degb; 0 <= i; i--)
             {
                 pr[degr + i - degb + 1] = ply.sub[pr[degr + i - degb + 1], ply.mul[m, pb[i + 1]]];
@@ -2417,18 +2356,13 @@ public static class Polynomial
         //    Output, int PLYMUL[DEG_MAX+2], the product polynomial.
         //
     {
-        int dega;
-        int degb;
         int degc;
         int i;
-        int j;
-        int[] pc;
-        int term;
 
-        pc = new int[PLY.DEG_MAX + 2];
+        int[] pc = new int[PLY.DEG_MAX + 2];
 
-        dega = pa[0];
-        degb = pb[0];
+        int dega = pa[0];
+        int degb = pb[0];
 
         if (dega == -1 || degb == -1)
         {
@@ -2449,7 +2383,8 @@ public static class Polynomial
 
         for (i = 0; i <= degc; i++)
         {
-            term = 0;
+            int term = 0;
+            int j;
             for (j = Math.Max(0, i - dega); j <= Math.Min(degb, i); j++)
             {
                 term = ply.add[term, ply.mul[pa[i - j + 1], pb[j + 1]]];
@@ -2518,13 +2453,11 @@ public static class Polynomial
         //    polynomial information.
         //
     {
-        int degree;
-        int i;
         int j;
 
-        degree = poly[0];
+        int degree = poly[0];
 
-        i = 0;
+        int i = 0;
         for (j = degree; 0 <= j; j--)
         {
             i = i * q + poly[j + 1];
@@ -2582,13 +2515,11 @@ public static class Polynomial
         //    polynomial information.
         //
     {
-        int degree;
-        int i;
         int j;
 
-        degree = poly[0];
+        int degree = poly[0];
   
-        i = 0;
+        int i = 0;
         for ( j = degree; 0 <= j; j-- )
         {
             i = i * ply.Q + poly[j+1];

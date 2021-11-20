@@ -62,12 +62,9 @@ public static class Vandermonde
         //    multiplies X^M.
         //
     {
-        double[] a;
-        double[] c;
+        double[] a = VandermondeMatrix.vandermonde_approx_1d_matrix(n, m, x);
 
-        a = VandermondeMatrix.vandermonde_approx_1d_matrix(n, m, x);
-
-        c = QRSolve.qr_solve(n, m + 1, a, y);
+        double[] c = QRSolve.qr_solve(n, m + 1, a, y);
 
         return c;
     }
@@ -145,15 +142,11 @@ public static class Vandermonde
         //    coefficients of the approximating polynomial.  
         //
     {
-        double[] a;
-        double[] c;
-        int tm;
+        int tm = typeMethods.triangle_num(m + 1);
 
-        tm = typeMethods.triangle_num(m + 1);
+        double[] a = VandermondeMatrix.vandermonde_approx_2d_matrix(n, m, tm, x, y);
 
-        a = VandermondeMatrix.vandermonde_approx_2d_matrix(n, m, tm, x, y);
-
-        c = QRSolve.qr_solve(n, tm, a, z);
+        double[] c = QRSolve.qr_solve(n, tm, a, z);
 
         return c;
     }

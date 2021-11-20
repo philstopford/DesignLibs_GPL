@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using System.Numerics;
 using Burkardt.Types;
 
@@ -87,40 +86,22 @@ public static class PowerMethod
         //    Output, int *IT_NUM, the number of iterations taken.
         //
     {
-        double[] ay;
-        double cos_y1y2;
-        bool debug = false;
         int i;
-        int it;
-        double lambda_old;
-        double norm;
-        double sin_y1y2;
-        double val_dif;
-        double[] y_old;
 
-        ay = new double[n];
-        y_old = new double[n];
-
-        switch (debug)
-        {
-            case true:
-                Console.WriteLine("");
-                Console.WriteLine("     IT      Lambda          Delta-Lambda    Delta-Y");
-                Console.WriteLine("");
-                break;
-        }
-
+        double[] ay = new double[n];
+        double[] y_old = new double[n];
+        
         //
         //  Force Y to be a vector of unit norm.
         //
-        norm = typeMethods.r8vec_norm_l2(n, y);
+        double norm = typeMethods.r8vec_norm_l2(n, y);
 
         for (i = 0; i < n; i++)
         {
             y[i] /= norm;
         }
 
-        it = 0;
+        int it;
 
         for (i = 0; i < n; i++)
         {
@@ -148,23 +129,9 @@ public static class PowerMethod
             }
         }
 
-        val_dif = 0.0;
-        cos_y1y2 = typeMethods.r8vec_dot(n, y, y_old);
-        sin_y1y2 = Math.Sqrt((1.0 - cos_y1y2) * (1.0 + cos_y1y2));
-
-        switch (debug)
-        {
-            case true:
-                Console.WriteLine("  " + it.ToString(CultureInfo.InvariantCulture).PadLeft(5)
-                                       + "  " + lambda.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                       + "  " + val_dif.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                       + "  " + sin_y1y2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
-                break;
-        }
-
         for (it = 1; it <= it_max; it++)
         {
-            lambda_old = lambda;
+            double lambda_old = lambda;
             for (i = 0; i < n; i++)
             {
                 y_old[i] = y[i];
@@ -191,19 +158,7 @@ public static class PowerMethod
                 }
             }
 
-            val_dif = Math.Abs(lambda - lambda_old);
-            cos_y1y2 = typeMethods.r8vec_dot(n, y, y_old);
-            sin_y1y2 = Math.Sqrt((1.0 - cos_y1y2) * (1.0 + cos_y1y2));
-
-            switch (debug)
-            {
-                case true:
-                    Console.WriteLine("  " + it.ToString(CultureInfo.InvariantCulture).PadLeft(5)
-                                           + "  " + lambda.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                           + "  " + val_dif.ToString(CultureInfo.InvariantCulture).PadLeft(14)
-                                           + "  " + sin_y1y2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
-                    break;
-            }
+            double val_dif = Math.Abs(lambda - lambda_old);
 
             if (val_dif <= tol)
             {
@@ -268,26 +223,11 @@ public static class PowerMethod
         //    Output, int *IT_NUM, the number of iterations taken.
         //
     {
-        double alpha;
-        double beta;
-        double gamma;
-        int i;
         int it;
-        double lambda_imag;
-        double lambda_real;
-        double pi_xx;
-        double pi_xy;
-        double pi_xz;
-        double pi_yy;
-        double pi_yz;
-        double pi_zz;
-        double[] x;
-        double[] y;
-        double[] z;
 
-        x = new double[n];
-        y = new double[n];
-        z = new double[n];
+        double[] x = new double[n];
+        double[] y = new double[n];
+        double[] z = new double[n];
 
         it_num = 0;
         //
@@ -295,17 +235,18 @@ public static class PowerMethod
         //
         typeMethods.r8vec_copy(n, x_init, ref x);
 
-        pi_xx = typeMethods.r8vec_dot(n, x, x);
+        double pi_xx = typeMethods.r8vec_dot(n, x, x);
 
         typeMethods.r8vec_divide(n, ref x, pi_xx);
 
         typeMethods.r8mat_mv(n, n, a, x, ref y);
 
-        pi_xy = typeMethods.r8vec_dot(n, x, y);
-        pi_yy = typeMethods.r8vec_dot(n, y, y);
+        double pi_xy = typeMethods.r8vec_dot(n, x, y);
+        double pi_yy = typeMethods.r8vec_dot(n, y, y);
 
         for (it = 1; it <= it_max; it++)
         {
+            int i;
             if (pi_yy - pi_xy * pi_xy < tol * tol * pi_yy)
             {
                 lambda = new Complex(pi_xy, 0.0);
@@ -319,21 +260,21 @@ public static class PowerMethod
 
             typeMethods.r8mat_mv(n, n, a, y, ref z);
 
-            pi_xz = typeMethods.r8vec_dot(n, x, z);
-            pi_yz = typeMethods.r8vec_dot(n, y, z);
-            pi_zz = typeMethods.r8vec_dot(n, z, z);
+            double pi_xz = typeMethods.r8vec_dot(n, x, z);
+            double pi_yz = typeMethods.r8vec_dot(n, y, z);
+            double pi_zz = typeMethods.r8vec_dot(n, z, z);
 
-            alpha = -(pi_yz - pi_xy * pi_xz) / (pi_yy - pi_xy * pi_xy);
+            double alpha = -(pi_yz - pi_xy * pi_xz) / (pi_yy - pi_xy * pi_xy);
 
-            beta = (pi_xy * pi_yz - pi_yy * pi_xz) / (pi_yy - pi_xy * pi_xy);
+            double beta = (pi_xy * pi_yz - pi_yy * pi_xz) / (pi_yy - pi_xy * pi_xy);
 
-            gamma = pi_zz + alpha * alpha * pi_yy + beta * beta
-                    + 2.0 * (alpha * pi_yz + beta * pi_xz + alpha * beta * pi_xy);
+            double gamma = pi_zz + alpha * alpha * pi_yy + beta * beta
+                           + 2.0 * (alpha * pi_yz + beta * pi_xz + alpha * beta * pi_xy);
 
             if (gamma < tol * tol * pi_zz && alpha * alpha < 4.0 * beta)
             {
-                lambda_real = -alpha / 2.0;
-                lambda_imag = Math.Sqrt(4.0 * beta - alpha * alpha) / 2.0;
+                double lambda_real = -alpha / 2.0;
+                double lambda_imag = Math.Sqrt(4.0 * beta - alpha * alpha) / 2.0;
                 lambda = new Complex(lambda_real, lambda_imag);
 
                 for (i = 0; i < n; i++)

@@ -117,9 +117,7 @@ public static class Legendre
         //    Output, double CX[N+1], the values of the first N+1 function.
         //
     {
-        double factor;
         int i;
-        double somx2;
 
         switch (m)
         {
@@ -164,9 +162,9 @@ public static class Legendre
 
         cx[m] = 1.0;
 
-        somx2 = Math.Sqrt(1.0 - x * x);
+        double somx2 = Math.Sqrt(1.0 - x * x);
 
-        factor = 1.0;
+        double factor = 1.0;
         for (i = 1; i <= m; i++)
         {
             cx[m] = -cx[m] * factor * somx2;
@@ -246,11 +244,8 @@ public static class Legendre
         //    Output, double CX[N+1], the values of the first N+1 function.
         //
     {
-        double factor;
         int i;
         int mm;
-            
-        double somx2;
 
         switch (m)
         {
@@ -295,9 +290,9 @@ public static class Legendre
 
         cx[m] = 1.0;
 
-        somx2 = Math.Sqrt(1.0 - x * x);
+        double somx2 = Math.Sqrt(1.0 - x * x);
 
-        factor = 1.0;
+        double factor = 1.0;
         for (i = 1; i <= m; i++)
         {
             cx[m] = -cx[m] * factor * somx2;
@@ -365,86 +360,62 @@ public static class Legendre
         //    Output, double LEGENDRE_ZEROS[ORDER], the zeros.
         //
     {
-        double d1;
-        double d2pn;
-        double d3pn;
-        double d4pn;
-        double dp;
-        double dpn;
-        double e1;
         //double fx;
-        double h;
         int i;
-        int iback;
-        int k;
-        int m;
-        int mp1mi;
-        int ncopy;
-        int nmove;
-        double p;
-        double pk;
-        double pkm1;
-        double pkp1;
-            
-        double t;
-        double u;
-        double v;
-        double x0;
-        double[] xtab;
-        double xtemp;
 
-        xtab = new double[order];
+        double[] xtab = new double[order];
 
-        e1 = order * (order + 1);
+        double e1 = order * (order + 1);
 
-        m = (order + 1) / 2;
+        int m = (order + 1) / 2;
 
         for (i = 1; i <= m; i++)
         {
-            mp1mi = m + 1 - i;
+            int mp1mi = m + 1 - i;
 
-            t = (4 * i - 1) * Math.PI / (4 * order + 2);
+            double t = (4 * i - 1) * Math.PI / (4 * order + 2);
 
-            x0 = Math.Cos(t) * (1.0 - (1.0 - 1.0 / order)
+            double x0 = Math.Cos(t) * (1.0 - (1.0 - 1.0 / order)
                 / (8 * order * order));
 
-            pkm1 = 1.0;
-            pk = x0;
+            double pkm1 = 1.0;
+            double pk = x0;
 
+            int k;
             for (k = 2; k <= order; k++)
             {
-                pkp1 = 2.0 * x0 * pk - pkm1 - (x0 * pk - pkm1) / k;
+                double pkp1 = 2.0 * x0 * pk - pkm1 - (x0 * pk - pkm1) / k;
                 pkm1 = pk;
                 pk = pkp1;
             }
 
-            d1 = order * (pkm1 - x0 * pk);
+            double d1 = order * (pkm1 - x0 * pk);
 
-            dpn = d1 / (1.0 - x0 * x0);
+            double dpn = d1 / (1.0 - x0 * x0);
 
-            d2pn = (2.0 * x0 * dpn - e1 * pk) / (1.0 - x0 * x0);
+            double d2pn = (2.0 * x0 * dpn - e1 * pk) / (1.0 - x0 * x0);
 
-            d3pn = (4.0 * x0 * d2pn + (2.0 - e1) * dpn) / (1.0 - x0 * x0);
+            double d3pn = (4.0 * x0 * d2pn + (2.0 - e1) * dpn) / (1.0 - x0 * x0);
 
-            d4pn = (6.0 * x0 * d3pn + (6.0 - e1) * d2pn) / (1.0 - x0 * x0);
+            double d4pn = (6.0 * x0 * d3pn + (6.0 - e1) * d2pn) / (1.0 - x0 * x0);
 
-            u = pk / dpn;
-            v = d2pn / dpn;
+            double u = pk / dpn;
+            double v = d2pn / dpn;
             //
             //  Initial approximation H:
             //
-            h = -u * (1.0 + 0.5 * u * (v + u * (v * v - d3pn / (3.0 * dpn))));
+            double h = -u * (1.0 + 0.5 * u * (v + u * (v * v - d3pn / (3.0 * dpn))));
             //
             //  Refine H using one step of Newton's method:
             //
-            p = pk + h * (dpn + 0.5 * h * (d2pn + h / 3.0
+            double p = pk + h * (dpn + 0.5 * h * (d2pn + h / 3.0
                 * (d3pn + 0.25 * h * d4pn)));
 
-            dp = dpn + h * (d2pn + 0.5 * h * (d3pn + h * d4pn / 3.0));
+            double dp = dpn + h * (d2pn + 0.5 * h * (d3pn + h * d4pn / 3.0));
 
             h -= p / dp;
 
-            xtemp = x0 + h;
+            double xtemp = x0 + h;
 
             xtab[mp1mi - 1] = xtemp;
 
@@ -461,12 +432,12 @@ public static class Legendre
         //
         //  Shift the data up.
         //
-        nmove = (order + 1) / 2;
-        ncopy = order - nmove;
+        int nmove = (order + 1) / 2;
+        int ncopy = order - nmove;
 
         for (i = 1; i <= nmove; i++)
         {
-            iback = order + 1 - i;
+            int iback = order + 1 - i;
             xtab[iback - 1] = xtab[iback - ncopy - 1];
         }
 
@@ -792,12 +763,10 @@ public static class Legendre
         //    Output, int F[(N+2)/2], the exponents.
         //
     {
-        double[] ctable;
         int i;
         int j;
-        int k;
 
-        ctable = new double[(n + 1) * (n + 1)];
+        double[] ctable = new double[(n + 1) * (n + 1)];
 
         for (i = 0; i <= n; i++)
         {
@@ -839,7 +808,7 @@ public static class Legendre
         //
         o = (n + 2) / 2;
 
-        k = o;
+        int k = o;
         for (j = n; 0 <= j; j -= 2)
         {
             k -= 1;
@@ -950,11 +919,8 @@ public static class Legendre
         //
     {
         int i;
-        int j;
-        double[] v;
-        double[] vtable;
 
-        vtable = new double[n * (o + 1)];
+        double[] vtable = new double[n * (o + 1)];
 
         for (i = 0; i < n; i++)
         {
@@ -970,6 +936,7 @@ public static class Legendre
                     vtable[i + 1 * n] = x[i];
                 }
 
+                int j;
                 for (j = 2; j <= o; j++)
                 {
                     for (i = 0; i < n; i++)
@@ -985,7 +952,7 @@ public static class Legendre
             }
         }
 
-        v = new double[n];
+        double[] v = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -1055,27 +1022,17 @@ public static class Legendre
         //    polynomial product.
         //
     {
-        double[] c1;
-        double[] c2;
-        int[] e1;
-        int[] f2;
         int i;
-        int i1;
-        int i2;
-        int j1;
-        int j2;
-        int o1;
         int o2 = 0;
         int[] p = new int[1];
-        int[] pp;
 
-        c1 = new double[o_max];
-        c2 = new double[o_max];
-        e1 = new int[o_max];
-        f2 = new int[o_max];
-        pp = new int[m];
+        double[] c1 = new double[o_max];
+        double[] c2 = new double[o_max];
+        int[] e1 = new int[o_max];
+        int[] f2 = new int[o_max];
+        int[] pp = new int[m];
 
-        o1 = 1;
+        int o1 = 1;
         c1[0] = 1.0;
         e1[0] = 1;
         //
@@ -1087,8 +1044,10 @@ public static class Legendre
 
             o = 0;
 
+            int j2;
             for (j2 = 0; j2 < o2; j2++)
             {
+                int j1;
                 for (j1 = 0; j1 < o1; j1++)
                 {
                     c[o] = c1[j1] * c2[j2];
@@ -1098,9 +1057,13 @@ public static class Legendre
                         _ => p
                     };
 
+                    int i2;
                     for (i2 = 0; i2 < i; i2++)
                     {
-                        pp[i2] = p[i2];
+                        if (p != null)
+                        {
+                            pp[i2] = p[i2];
+                        }
                     }
 
                     pp[i] = f2[j2];
@@ -1118,6 +1081,7 @@ public static class Legendre
             Polynomial.polynomial_compress(o, c, e, ref o, ref c, ref e);
 
             o1 = o;
+            int i1;
             for (i1 = 0; i1 < o; i1++)
             {
                 c1[i1] = c[i1];
@@ -1163,18 +1127,15 @@ public static class Legendre
     {
         int i;
         int j;
-        double[] v;
-        double[] vi;
-        double[] xi;
 
-        v = new double[n];
+        double[] v = new double[n];
 
         for ( j = 0; j < n; j++ )
         {
             v[j] = 1.0;
         }
 
-        xi = new double[n];
+        double[] xi = new double[n];
 
         for ( i = 0; i < m; i++ )
         {
@@ -1182,7 +1143,7 @@ public static class Legendre
             {
                 xi[j] = x[i+j*m];
             }
-            vi = lp_value ( n, o[i], xi );
+            double[] vi = lp_value ( n, o[i], xi );
             for ( j = 0; j < n; j++ )
             {
                 v[j] *= vi[j];
@@ -1239,17 +1200,11 @@ public static class Legendre
         //    Output, double P_EXPONENTIAL_PRODUCT[(P+1)*(P+1)], the table of integrals.  
         //
     {
-        double[] h_table;
         int i;
         int j;
         int k;
-        int order;
-        double[] table;
-        double[] w_table;
-        double x;
-        double[] x_table;
 
-        table = new double[(p + 1) * (p + 1)];
+        double[] table = new double[(p + 1) * (p + 1)];
 
         for (j = 0; j <= p; j++)
         {
@@ -1259,17 +1214,17 @@ public static class Legendre
             }
         }
 
-        order = (3 * p + 4) / 2;
+        int order = (3 * p + 4) / 2;
 
-        x_table = new double[order];
-        w_table = new double[order];
+        double[] x_table = new double[order];
+        double[] w_table = new double[order];
 
         LegendreQuadrature.p_quadrature_rule(order, ref x_table, ref w_table);
 
         for (k = 0; k < order; k++)
         {
-            x = x_table[k];
-            h_table = p_polynomial_value(1, p, x_table, xIndex: +k);
+            double x = x_table[k];
+            double[] h_table = p_polynomial_value(1, p, x_table, xIndex: +k);
             //
             //  The following formula is an outer product in H_TABLE.
             //
@@ -1390,7 +1345,6 @@ public static class Legendre
         //    the Legendre polynomials of degree 0 through N.
         //
     {
-        double[] c;
         int i;
         int j;
 
@@ -1400,7 +1354,7 @@ public static class Legendre
                 return null;
         }
 
-        c = new double[(n + 1) * (n + 1)];
+        double[] c = new double[(n + 1) * (n + 1)];
 
         for (i = 0; i <= n; i++)
         {
@@ -1496,8 +1450,6 @@ public static class Legendre
     {
         int i;
         int j;
-        double[] v;
-        double[] vp;
 
         switch (n)
         {
@@ -1505,7 +1457,7 @@ public static class Legendre
                 return null;
         }
 
-        vp = new double[m * (n + 1)];
+        double[] vp = new double[m * (n + 1)];
 
         for (i = 0; i < m; i++)
         {
@@ -1518,7 +1470,7 @@ public static class Legendre
                 return vp;
         }
 
-        v = new double[m * (n + 1)];
+        double[] v = new double[m * (n + 1)];
 
         for (i = 0; i < m; i++)
         {
@@ -1610,9 +1562,6 @@ public static class Legendre
     {
         int i;
         int j;
-        double[] v;
-        double[] vp;
-        double[] vpp;
 
         switch (n)
         {
@@ -1620,7 +1569,7 @@ public static class Legendre
                 return null;
         }
 
-        vpp = new double[m * (n + 1)];
+        double[] vpp = new double[m * (n + 1)];
 
         for (i = 0; i < m; i++)
         {
@@ -1633,8 +1582,8 @@ public static class Legendre
                 return vpp;
         }
 
-        v = new double[m * (n + 1)];
-        vp = new double[m * (n + 1)];
+        double[] v = new double[m * (n + 1)];
+        double[] vp = new double[m * (n + 1)];
 
         for (i = 0; i < m; i++)
         {
@@ -1777,7 +1726,6 @@ public static class Legendre
     {
         int i;
         int j;
-        double[] v;
 
         switch (n)
         {
@@ -1785,7 +1733,7 @@ public static class Legendre
                 return null;
         }
 
-        v = new double[m * (n + 1)];
+        double[] v = new double[m * (n + 1)];
 
         for (i = 0; i < m; i++)
         {
@@ -1844,19 +1792,16 @@ public static class Legendre
         //    Output, double P_POLYNOMIAL_ZEROS[NT], the zeros.
         //
     {
-        double[] bj;
         int i;
-        double[] t;
-        double[] wts;
 
-        t = new double[nt];
+        double[] t = new double[nt];
 
         for (i = 0; i < nt; i++)
         {
             t[i] = 0.0;
         }
 
-        bj = new double[nt];
+        double[] bj = new double[nt];
         for (i = 0; i < nt; i++)
         {
             bj[i] = (i + 1) * (i + 1)
@@ -1864,7 +1809,7 @@ public static class Legendre
             bj[i] = Math.Sqrt(bj[i]);
         }
 
-        wts = new double[nt];
+        double[] wts = new double[nt];
         wts[0] = Math.Sqrt(2.0);
         for (i = 1; i < nt; i++)
         {
@@ -1921,17 +1866,11 @@ public static class Legendre
         //    Output, double P_POWER_PRODUCT[(P+1)*(P+1)], the table of integrals.  
         //
     {
-        double[] h_table;
         int i;
         int j;
         int k;
-        int order;
-        double[] table;
-        double[] w_table;
-        double x;
-        double[] x_table;
 
-        table = new double[(p + 1) * (p + 1)];
+        double[] table = new double[(p + 1) * (p + 1)];
 
         for (j = 0; j <= p; j++)
         {
@@ -1941,17 +1880,17 @@ public static class Legendre
             }
         }
 
-        order = p + 1 + (e + 1) / 2;
+        int order = p + 1 + (e + 1) / 2;
 
-        x_table = new double[order];
-        w_table = new double[order];
+        double[] x_table = new double[order];
+        double[] w_table = new double[order];
 
         LegendreQuadrature.p_quadrature_rule(order, ref x_table, ref w_table);
 
         for (k = 0; k < order; k++)
         {
-            x = x_table[k];
-            h_table = p_polynomial_value(1, p, x_table, xIndex: +k);
+            double x = x_table[k];
+            double[] h_table = p_polynomial_value(1, p, x_table, xIndex: +k);
             switch (e)
             {
                 //
@@ -2092,13 +2031,10 @@ public static class Legendre
         //    Output, double PM_POLYNOMIAL_VALUE[MM*(N+1)], the function values.
         //
     {
-        double fact;
         int i;
         int j;
-        int k;
-        double[] v;
 
-        v = new double[mm * (n + 1)];
+        double[] v = new double[mm * (n + 1)];
 
         for (j = 0; j < n + 1; j++)
         {
@@ -2118,7 +2054,8 @@ public static class Legendre
                 v[i + m * mm] = 1.0;
             }
 
-            fact = 1.0;
+            double fact = 1.0;
+            int k;
             for (k = 0; k < m; k++)
             {
                 for (i = 0; i < mm; i++)
@@ -2201,19 +2138,17 @@ public static class Legendre
         //    Output, double PMN_POLYNOMIAL_VALUE[MM*(N+1)], the function values.
         //
     {
-        double factor;
-        int i;
         int j;
-        double[] v;
 
-        v = pm_polynomial_value(mm, n, m, x);
+        double[] v = pm_polynomial_value(mm, n, m, x);
         //
         //  Normalization.
         //
         for (j = m; j <= n; j++)
         {
-            factor = Math.Sqrt((2 * j + 1) * typeMethods.r8_factorial(j - m)
-                               / (2.0 * typeMethods.r8_factorial(j + m)));
+            double factor = Math.Sqrt((2 * j + 1) * typeMethods.r8_factorial(j - m)
+                                      / (2.0 * typeMethods.r8_factorial(j + m)));
+            int i;
             for (i = 0; i < mm; i++)
             {
                 v[i + j * mm] *= factor;
@@ -2267,20 +2202,17 @@ public static class Legendre
         //    Output, double PMNS_POLYNOMIAL_VALUE[MM*(N+1)], the function values.
         //
     {
-        double factor;
-        int i;
         int j;
-            
-        double[] v;
 
-        v = pm_polynomial_value(mm, n, m, x);
+        double[] v = pm_polynomial_value(mm, n, m, x);
         //
         //  Normalization.
         //
         for (j = m; j <= n; j++)
         {
-            factor = Math.Sqrt((2 * j + 1) * typeMethods.r8_factorial(j - m)
-                               / (4.0 * Math.PI * typeMethods.r8_factorial(j + m)));
+            double factor = Math.Sqrt((2 * j + 1) * typeMethods.r8_factorial(j - m)
+                                      / (4.0 * Math.PI * typeMethods.r8_factorial(j + m)));
+            int i;
             for (i = 0; i < mm; i++)
             {
                 v[i + j * mm] *= factor;
@@ -2334,16 +2266,11 @@ public static class Legendre
         //    Output, double PN_PAIR_PRODUCT[(P+1)*(P+1)], the table of integrals.  
         //
     {
-        double[] h_table;
         int i;
         int j;
         int k;
-        int order;
-        double[] table;
-        double[] w_table;
-        double[] x_table;
 
-        table = new double[(p + 1) * (p + 1)];
+        double[] table = new double[(p + 1) * (p + 1)];
 
         for (j = 0; j <= p; j++)
         {
@@ -2353,16 +2280,16 @@ public static class Legendre
             }
         }
 
-        order = p + 1;
+        int order = p + 1;
 
-        x_table = new double[order];
-        w_table = new double[order];
+        double[] x_table = new double[order];
+        double[] w_table = new double[order];
 
         LegendreQuadrature.p_quadrature_rule(order, ref x_table, ref w_table);
 
         for (k = 0; k < order; k++)
         {
-            h_table = pn_polynomial_value(1, p, x_table, xIndex: + k);
+            double[] h_table = pn_polynomial_value(1, p, x_table, xIndex: + k);
 
             for (i = 0; i <= p; i++)
             {
@@ -2433,10 +2360,8 @@ public static class Legendre
         //    the normalized Legendre polynomials of degree 0 through N.
         //
     {
-        double[] c;
         int i;
         int j;
-        double t;
 
         switch (n)
         {
@@ -2447,7 +2372,7 @@ public static class Legendre
         //
         //  Compute P(i,x) coefficients.
         //
-        c = new double[(n + 1) * (n + 1)];
+        double[] c = new double[(n + 1) * (n + 1)];
 
         for (i = 0; i <= n; i++)
         {
@@ -2484,7 +2409,7 @@ public static class Legendre
         //
         for (i = 0; i <= n; i++)
         {
-            t = Math.Sqrt((2 * i + 1) / 2.0);
+            double t = Math.Sqrt((2 * i + 1) / 2.0);
             for (j = 0; j <= i; j++)
             {
                 c[i + j * (n + 1)] *= t;
@@ -2547,16 +2472,14 @@ public static class Legendre
         //    polynomials of order 0 through N.
         //
     {
-        int i;
         int j;
-        double norm;
-        double[] v;
 
-        v = p_polynomial_value(m, n, x, xIndex:xIndex);
+        double[] v = p_polynomial_value(m, n, x, xIndex:xIndex);
 
         for (j = 0; j <= n; j++)
         {
-            norm = Math.Sqrt(2 / (double) (2 * j + 1));
+            double norm = Math.Sqrt(2 / (double) (2 * j + 1));
+            int i;
             for (i = 0; i < m; i++)
             {
                 v[i + j * m] /= norm;

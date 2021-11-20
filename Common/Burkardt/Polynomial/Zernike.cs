@@ -74,7 +74,6 @@ public static class Zernike
         double d;
         int nn;
         double z;
-        double zm2;
         double zp2;
         switch (m)
         {
@@ -106,7 +105,7 @@ public static class Zernike
                 return z;
         }
 
-        zm2 = 0.0;
+        double zm2 = 0.0;
         z = Math.Pow(rho, m);
 
         switch (m)
@@ -118,7 +117,7 @@ public static class Zernike
                 zm2 = z;
                 z = 2.0 * rho * rho - 1.0;
 
-                for (nn = m + 2; nn <= n - 2; nn += 2)
+                for (nn = 2; nn <= n - 2; nn += 2)
                 {
                     a = (nn + 2)
                         / (double)((nn + 2) * (nn + 2) - m * m);
@@ -238,12 +237,9 @@ public static class Zernike
         //    Output, double ZERNIKE_POLY_COEF[N+1], the coefficients of the polynomial.
         //
     {
-        double[] c;
         int l;
-        int nm_minus;
-        int nm_plus;
 
-        c = new double[n + 1];
+        double[] c = new double[n + 1];
 
         typeMethods.r8vec_zero(n + 1, ref c);
 
@@ -270,8 +266,8 @@ public static class Zernike
                 return c;
         }
 
-        nm_plus = (m + n) / 2;
-        nm_minus = (n - m) / 2;
+        int nm_plus = (m + n) / 2;
+        int nm_minus = (n - m) / 2;
 
         c[n] = typeMethods.r8_choose(n, nm_plus);
 

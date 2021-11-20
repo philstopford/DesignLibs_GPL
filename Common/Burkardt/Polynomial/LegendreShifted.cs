@@ -56,7 +56,6 @@ public static class LegendreShifted
     {
         int i;
         int j;
-        double[] v;
 
         switch (n)
         {
@@ -64,7 +63,7 @@ public static class LegendreShifted
                 return null;
         }
 
-        v = new double[m * (n + 1)];
+        double[] v = new double[m * (n + 1)];
 
         for (i = 0; i < m; i++)
         {

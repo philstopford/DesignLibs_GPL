@@ -48,14 +48,10 @@ public static class LegendreScaled
         //
     {
         int k;
-        double pk;
-        double pkm1;
-        double pkp1;
-        double[] pols;
 
-        pols = new double[n + 1];
+        double[] pols = new double[n + 1];
 
-        pkp1 = 1.0;
+        double pkp1 = 1.0;
         pols[0] = pkp1;
         switch (n)
         {
@@ -63,7 +59,7 @@ public static class LegendreScaled
                 return pols;
         }
 
-        pk = pkp1;
+        double pk = pkp1;
         pkp1 = x;
         pols[1] = pkp1;
         switch (n)
@@ -74,7 +70,7 @@ public static class LegendreScaled
 
         for (k = 1; k < n; k++)
         {
-            pkm1 = pk;
+            double pkm1 = pk;
             pk = pkp1;
             pkp1 = ((2.0 * k + 1.0) * x * pk - k * pkm1 * y * y) / (k + 1.0);
             pols[k + 1] = pkp1;
@@ -134,22 +130,13 @@ public static class LegendreScaled
         //    Output, double DERSY[N+1], the derivatives with respect to Y.
         //
     {
-        double dk;
-        double dkm1;
-        double dkp1;
         int k;
-        double pk;
-        double pkm1;
-        double pkp1;
-        double yk;
-        double ykm1;
-        double ykp1;
 
-        pkp1 = 1.0;
+        double pkp1 = 1.0;
         pols[0] = pkp1;
-        dkp1 = 0.0;
+        double dkp1 = 0.0;
         dersx[0] = dkp1;
-        ykp1 = 0.0;
+        double ykp1 = 0.0;
         dersy[0] = ykp1;
 
         switch (n)
@@ -158,13 +145,13 @@ public static class LegendreScaled
                 return;
         }
 
-        pk = pkp1;
+        double pk = pkp1;
         pkp1 = x;
         pols[1] = pkp1;
-        dk = dkp1;
+        double dk = dkp1;
         dkp1 = 1.0;
         dersx[1] = dkp1;
-        yk = ykp1;
+        double yk = ykp1;
         ykp1 = 0.0;
         dersy[1] = ykp1;
 
@@ -176,11 +163,11 @@ public static class LegendreScaled
 
         for (k = 1; k <= n - 1; k++)
         {
-            pkm1 = pk;
+            double pkm1 = pk;
             pk = pkp1;
-            dkm1 = dk;
+            double dkm1 = dk;
             dk = dkp1;
-            ykm1 = yk;
+            double ykm1 = yk;
             yk = ykp1;
             pkp1 = ((2.0 * k + 1.0) * x * pk - k * pkm1 * y * y) / (k + 1.0);
             dkp1 = ((2.0 * k + 1.0) * (x * dk + pk)

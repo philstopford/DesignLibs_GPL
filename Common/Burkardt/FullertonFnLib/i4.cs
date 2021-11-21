@@ -78,12 +78,9 @@ public static partial class FullertonLib
         //
     {
         int i;
-        int k1;
-        int p;
-        int r;
 
-        k1 = k;
-        p = n - k1;
+        int k1 = k;
+        int p = n - k1;
 
         if ( k1 < p )
         {
@@ -91,7 +88,7 @@ public static partial class FullertonLib
             k1 = n - p;
         }
 
-        r = p switch
+        int r = p switch
         {
             0 => 1,
             _ => k1 + 1
@@ -283,16 +280,7 @@ public static partial class FullertonLib
         //    Output, int I4_MAX, the larger of I1 and I2.
         //
     {
-        int value;
-
-        if (i2 < i1)
-        {
-            value = i1;
-        }
-        else
-        {
-            value = i2;
-        }
+        int value = i2 < i1 ? i1 : i2;
 
         return value;
     }
@@ -324,16 +312,7 @@ public static partial class FullertonLib
         //    Output, int I4_MIN, the smaller of I1 and I2.
         //
     {
-        int value;
-
-        if (i1 < i2)
-        {
-            value = i1;
-        }
-        else
-        {
-            value = i2;
-        }
+        int value = i1 < i2 ? i1 : i2;
 
         return value;
     }
@@ -365,7 +344,6 @@ public static partial class FullertonLib
         //    Output, int I4_POW, the value of I^J.
         //
     {
-        int k;
         int value;
 
         switch (j)
@@ -395,6 +373,7 @@ public static partial class FullertonLib
             default:
             {
                 value = 1;
+                int k;
                 for (k = 1; k <= j; k++)
                 {
                     value *= i;

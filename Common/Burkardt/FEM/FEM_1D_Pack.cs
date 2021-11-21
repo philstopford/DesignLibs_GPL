@@ -54,31 +54,7 @@ public static class FEM_1D_Pack
         //    The weights are positive, symmetric, and should sum to 2.
         //
     {
-        double d1;
-        double d2pn;
-        double d3pn;
-        double d4pn;
-        double dp;
-        double dpn;
-        double e1;
-        double fx;
-        double h;
         int i;
-        int iback;
-        int k;
-        int m;
-        int mp1mi;
-        int ncopy;
-        int nmove;
-        double p;
-        double pk;
-        double pkm1;
-        double pkp1;
-        double t;
-        double u;
-        double v;
-        double x0;
-        double xtemp;
 
         switch (order)
         {
@@ -89,59 +65,60 @@ public static class FEM_1D_Pack
                 return;
         }
 
-        e1 = order * (order + 1);
+        double e1 = order * (order + 1);
 
-        m = (order + 1) / 2;
+        int m = (order + 1) / 2;
 
         for (i = 1; i <= (order + 1) / 2; i++)
         {
-            mp1mi = m + 1 - i;
-            t = Math.PI * (4 * i - 1) / (4 * order + 2);
-            x0 = Math.Cos(t) * (1.0 - (1.0 - 1.0 /
+            int mp1mi = m + 1 - i;
+            double t = Math.PI * (4 * i - 1) / (4 * order + 2);
+            double x0 = Math.Cos(t) * (1.0 - (1.0 - 1.0 /
                 order) / (8 * order * order));
 
-            pkm1 = 1.0;
-            pk = x0;
+            double pkm1 = 1.0;
+            double pk = x0;
 
+            int k;
             for (k = 2; k <= order; k++)
             {
-                pkp1 = 2.0 * x0 * pk - pkm1 - (x0 * pk - pkm1) / k;
+                double pkp1 = 2.0 * x0 * pk - pkm1 - (x0 * pk - pkm1) / k;
                 pkm1 = pk;
                 pk = pkp1;
             }
 
-            d1 = order * (pkm1 - x0 * pk);
+            double d1 = order * (pkm1 - x0 * pk);
 
-            dpn = d1 / (1.0 - x0 * x0);
+            double dpn = d1 / (1.0 - x0 * x0);
 
-            d2pn = (2.0 * x0 * dpn - e1 * pk) / (1.0 - x0 * x0);
+            double d2pn = (2.0 * x0 * dpn - e1 * pk) / (1.0 - x0 * x0);
 
-            d3pn = (4.0 * x0 * d2pn + (2.0 - e1) * dpn) / (1.0 - x0 * x0);
+            double d3pn = (4.0 * x0 * d2pn + (2.0 - e1) * dpn) / (1.0 - x0 * x0);
 
-            d4pn = (6.0 * x0 * d3pn + (6.0 - e1) * d2pn) / (1.0 - x0 * x0);
+            double d4pn = (6.0 * x0 * d3pn + (6.0 - e1) * d2pn) / (1.0 - x0 * x0);
 
-            u = pk / dpn;
-            v = d2pn / dpn;
+            double u = pk / dpn;
+            double v = d2pn / dpn;
             //
             //  Initial approximation H:
             //
-            h = -u * (1.0 + 0.5 * u * (v + u * (v * v - d3pn
+            double h = -u * (1.0 + 0.5 * u * (v + u * (v * v - d3pn
                 / (3.0 * dpn))));
             //
             //  Refine H using one step of Newton's method:
             //
-            p = pk + h * (dpn + 0.5 * h * (d2pn + h / 3.0
+            double p = pk + h * (dpn + 0.5 * h * (d2pn + h / 3.0
                 * (d3pn + 0.25 * h * d4pn)));
 
-            dp = dpn + h * (d2pn + 0.5 * h * (d3pn + h * d4pn / 3.0));
+            double dp = dpn + h * (d2pn + 0.5 * h * (d3pn + h * d4pn / 3.0));
 
             h -= p / dp;
 
-            xtemp = x0 + h;
+            double xtemp = x0 + h;
 
             xtab[mp1mi - 1] = xtemp;
 
-            fx = d1 - h * e1 * (pk + 0.5 * h * (dpn + h / 3.0
+            double fx = d1 - h * e1 * (pk + 0.5 * h * (dpn + h / 3.0
                 * (d2pn + 0.25 * h * (d3pn + 0.2 * h * d4pn))));
 
             weight[mp1mi - 1] = 2.0 * (1.0 - xtemp * xtemp) / (fx * fx);
@@ -156,12 +133,12 @@ public static class FEM_1D_Pack
         //
         //  Shift the data up.
         //
-        nmove = (order + 1) / 2;
-        ncopy = order - nmove;
+        int nmove = (order + 1) / 2;
+        int ncopy = order - nmove;
 
         for (i = 1; i <= nmove; i++)
         {
-            iback = order + 1 - i;
+            int iback = order + 1 - i;
             xtab[iback - 1] = xtab[iback - ncopy - 1];
             weight[iback - 1] = weight[iback - ncopy - 1];
         }
@@ -224,13 +201,11 @@ public static class FEM_1D_Pack
         //    finite element basis functions.
         //
     {
-        double x;
-
         double[] sample_v = new double[sample_num];
 
         for (int sample = 0; sample < sample_num; sample++)
         {
-            x = sample_x[sample];
+            double x = sample_x[sample];
             double[] phi = LocalBasis.local_basis_1d(order, node_x, x);
             sample_v[sample] = typeMethods.r8vec_dot_product(order, node_v, phi);
         }

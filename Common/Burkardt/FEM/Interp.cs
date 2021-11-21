@@ -6,7 +6,7 @@ using Burkardt.PolynomialNS;
 namespace Burkardt.FEM;
 
 using Polynomial = Polynomial;
-public class Interp
+public static class Interp
 {
     public static void interp(string code, int element_order, double r, double s,
             double[] ubase, ref double u, ref double dudr, ref double duds)
@@ -46,14 +46,11 @@ public class Interp
         //    quantity and its derivatives at the point (R,S).
         //
     {
-        double[] dtdr;
-        double[] dtds;
         int i;
-        double[] t;
 
-        dtdr = new double[element_order];
-        dtds = new double[element_order];
-        t = new double[element_order];
+        double[] dtdr = new double[element_order];
+        double[] dtds = new double[element_order];
+        double[] t = new double[element_order];
 
         Shape.shape(code, r, s, ref t, ref dtdr, ref dtds);
 
@@ -105,26 +102,12 @@ public class Interp
     {
         double area = 0;
         double dudr = 0;
-        double dudr_exact;
         double duds = 0;
-        double duds_exact;
-        int element_order;
         int i;
-        int node;
-        double[] node_r;
-        double[] node_s;
-        double[] node_u;
         double r = 0;
-        double r_factor;
-        int[] rexp;
         double s = 0;
-        double s_factor;
-        int[] sexp;
-        int seed;
-        int test;
-        int test_num = 5;
+        const int test_num = 5;
         double u = 0;
-        double u_exact;
 
         switch (code)
         {
@@ -138,15 +121,15 @@ public class Interp
         Console.WriteLine("");
         Console.WriteLine("INTERP_TEST for element \"" + code + "\".");
 
-        element_order = Order.order_code(code);
+        int element_order = Order.order_code(code);
 
         Console.WriteLine("  Number of nodes = " + element_order + "");
 
-        node_r = new double [element_order];
-        node_s = new double [element_order];
-        node_u = new double [element_order];
-        rexp = new int [element_order];
-        sexp = new int[element_order];
+        double[] node_r = new double [element_order];
+        double[] node_s = new double [element_order];
+        double[] node_u = new double [element_order];
+        int[] rexp = new int [element_order];
+        int[] sexp = new int[element_order];
         //
         //  Get the coordinates of the reference nodes.
         //
@@ -156,7 +139,7 @@ public class Interp
         //
         Polynomial.poly(code, ref rexp, ref sexp);
 
-        seed = 123456789;
+        int seed = 123456789;
 
         for (i = 0; i < element_order; i++)
         {
@@ -166,17 +149,18 @@ public class Interp
             //
             //  Evaluate R**REXP(I) * S**SEXP(I) at the nodes.  This is our data.
             //
+            int node;
             for (node = 0; node < element_order; node++)
             {
                 r = node_r[node];
                 s = node_s[node];
-                r_factor = rexp[i] switch
+                double r_factor = rexp[i] switch
                 {
                     0 => 1.0,
                     _ => Math.Pow(r, rexp[i])
                 };
 
-                s_factor = sexp[i] switch
+                double s_factor = sexp[i] switch
                 {
                     0 => 1.0,
                     _ => Math.Pow(s, sexp[i])
@@ -194,6 +178,7 @@ public class Interp
             //  value of R**REXP(*) * S**SEXP(I) there.  Mathematically, these
             //  values should be exact.
             //
+            int test;
             for (test = 1; test <= test_num; test++)
             {
                 Reference.reference_sample(code, ref seed, ref r, ref s);
@@ -203,13 +188,13 @@ public class Interp
                                   + "  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(12)
                                   + "  " + s.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
 
-                u_exact = Math.Pow(r, rexp[i]) * Math.Pow(s, sexp[i]);
+                double u_exact = Math.Pow(r, rexp[i]) * Math.Pow(s, sexp[i]);
 
-                dudr_exact = rexp[i]
-                             * Math.Pow(r, rexp[i] - 1) * Math.Pow(s, sexp[i]);
+                double dudr_exact = rexp[i]
+                                    * Math.Pow(r, rexp[i] - 1) * Math.Pow(s, sexp[i]);
 
-                duds_exact = Math.Pow(r, rexp[i]) * sexp[i]
-                                                  * Math.Pow(s, sexp[i] - 1);
+                double duds_exact = Math.Pow(r, rexp[i]) * sexp[i]
+                                                         * Math.Pow(s, sexp[i] - 1);
 
                 interp(code, element_order, r, s, node_u, ref u, ref dudr, ref duds);
 

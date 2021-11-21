@@ -1,6 +1,6 @@
 ﻿namespace Burkardt.FEM;
 
-public class NextBoundaryNode
+public static class NextBoundaryNode
 {
     public static int next_boundary_node(int node, string code)
 

@@ -58,22 +58,14 @@ public static class FEM_3D_Projection
         //    the sampled values.
         //
     {
-        double[] b;
-        double dot;
         int face = 0;
-        int i;
         int j;
-        int k;
         double[] p_xyz = new double[3];
-        double[] sample_value;
         int step_num = 0;
-        int t;
-        int t_node;
-        double[] t_xyz;
 
-        b = new double[fem_element_order];
-        sample_value = new double[fem_value_dim * sample_node_num];
-        t_xyz = new double[3 * fem_element_order];
+        double[] b = new double[fem_element_order];
+        double[] sample_value = new double[fem_value_dim * sample_node_num];
+        double[] t_xyz = new double[3 * fem_element_order];
         //
         //  For each sample point: find the element T that contains it,
         //  and evaluate the finite element function there.
@@ -86,7 +78,7 @@ public static class FEM_3D_Projection
             //
             //  Find the triangle T that contains the point.
             //
-            t = TetMesh.tet_mesh_search_delaunay(fem_node_num, fem_node_xyz,
+            int t = TetMesh.tet_mesh_search_delaunay(fem_node_num, fem_node_xyz,
                 fem_element_order, fem_element_num, fem_element_node,
                 fem_element_neighbor, p_xyz, ref face, ref step_num);
 
@@ -102,6 +94,8 @@ public static class FEM_3D_Projection
             //
             //  Evaluate the finite element basis functions at the point in T.
             //
+            int t_node;
+            int i;
             for (i = 0; i < fem_element_order; i++)
             {
                 t_node = fem_element_node[i + t * fem_element_order];
@@ -116,7 +110,8 @@ public static class FEM_3D_Projection
             //
             for (i = 0; i < fem_value_dim; i++)
             {
-                dot = 0.0;
+                double dot = 0.0;
+                int k;
                 for (k = 0; k < fem_element_order; k++)
                 {
                     t_node = fem_element_node[k + t * fem_element_order];

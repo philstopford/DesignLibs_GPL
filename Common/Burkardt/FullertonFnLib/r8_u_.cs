@@ -43,9 +43,7 @@ public static partial class FullertonLib
         //    Output, int &N, the exponent.
         //
     {
-        double absx;
-
-        absx = Math.Abs ( x );
+        double absx = Math.Abs ( x );
         n = 0;
         y = 0.0;
 

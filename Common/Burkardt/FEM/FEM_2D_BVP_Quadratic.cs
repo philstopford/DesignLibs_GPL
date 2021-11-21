@@ -59,7 +59,7 @@ public static class FEM_2D_BVP_Quadratic
         //    which are also the value of the computed solution at the mesh points.
         //
     {
-        int QUAD_NUM = 3;
+        const int QUAD_NUM = 3;
 
         double[] abscissa =  {
                 -0.774596669241483377035853079956,
@@ -67,78 +67,50 @@ public static class FEM_2D_BVP_Quadratic
                 0.774596669241483377035853079956
             }
             ;
-        double[] amat;
-        double aq;
-        double[] b;
-        int cc;
-        double cq;
-        int e;
         int ex;
-        int ex_num;
-        int ey;
-        int ey_num;
-        double fq;
         int i;
         int ierror = 0;
         int ii;
-        int il;
-        int il2;
-        int il3;
         int j;
         int jj;
-        int jl;
-        int jl2;
-        int jl3;
         int k;
-        int mm;
-        int mn;
-        int n;
         int[] node = new int[9];
-        int quad_num = QUAD_NUM;
-        int qx;
-        int qy;
-        int s;
-        double t;
-        double[] u;
         double[] v = new double[9];
         double[] vx = new double[9];
         double[] vy = new double[9];
-        int w;
         double[] weight =  {
                 0.555555555555555555555555555556,
                 0.888888888888888888888888888889,
                 0.555555555555555555555555555556
             }
             ;
-        double wq;
-        double xq;
         double[] xx = new double[3];
-        double yq;
         double[] yy = new double[3];
 
-        mn = nx * ny;
+        int mn = nx * ny;
 
-        amat = typeMethods.r8mat_zero_new(mn, mn);
-        b = typeMethods.r8vec_zero_new(mn);
+        double[] amat = typeMethods.r8mat_zero_new(mn, mn);
+        double[] b = typeMethods.r8vec_zero_new(mn);
 
-        ex_num = (nx - 1) / 2;
-        ey_num = (ny - 1) / 2;
+        int ex_num = (nx - 1) / 2;
+        int ey_num = (ny - 1) / 2;
 
         for (ex = 0; ex < ex_num; ex++)
         {
-            w = 2 * ex;
-            cc = 2 * ex + 1;
-            e = 2 * ex + 2;
+            int w = 2 * ex;
+            int cc = 2 * ex + 1;
+            int e = 2 * ex + 2;
 
             xx[0] = x[w];
             xx[1] = x[cc];
             xx[2] = x[e];
 
+            int ey;
             for (ey = 0; ey < ey_num; ey++)
             {
-                s = 2 * ey;
-                mm = 2 * ey + 1;
-                n = 2 * ey + 2;
+                int s = 2 * ey;
+                int mm = 2 * ey + 1;
+                int n = 2 * ey + 2;
 
                 yy[0] = y[s];
                 yy[1] = y[mm];
@@ -160,36 +132,44 @@ public static class FEM_2D_BVP_Quadratic
                 node[7] = (2 * ey + 2) * nx + ex * 2 + 1;
                 node[8] = (2 * ey + 2) * nx + ex * 2 + 2;
 
-                for (qx = 0; qx < quad_num; qx++)
+                int qx;
+                for (qx = 0; qx < QUAD_NUM; qx++)
                 {
-                    xq = ((1.0 - abscissa[qx]) * xx[0]
-                          + (1.0 + abscissa[qx]) * xx[2])
-                         / 2.0;
+                    double xq = ((1.0 - abscissa[qx]) * xx[0]
+                                 + (1.0 + abscissa[qx]) * xx[2])
+                                / 2.0;
 
-                    for (qy = 0; qy < quad_num; qy++)
+                    int qy;
+                    for (qy = 0; qy < QUAD_NUM; qy++)
                     {
-                        yq = ((1.0 - abscissa[qy]) * yy[0]
-                              + (1.0 + abscissa[qy]) * yy[2])
-                             / 2.0;
+                        double yq = ((1.0 - abscissa[qy]) * yy[0]
+                                     + (1.0 + abscissa[qy]) * yy[2])
+                                    / 2.0;
 
-                        wq = weight[qx] * (xx[2] - xx[0]) / 2.0
+                        double wq = weight[qx] * (xx[2] - xx[0]) / 2.0
                             * weight[qy] * (yy[2] - yy[0]) / 2.0;
 
                         k = 0;
 
+                        int jl;
                         for (jl = 0; jl < 3; jl++)
                         {
+                            int il;
                             for (il = 0; il < 3; il++)
                             {
                                 v[k] = 1.0;
                                 vx[k] = 0.0;
                                 vy[k] = 0.0;
+                                double t;
+                                int il2;
+                                int jl2;
                                 for (il2 = 0; il2 < 3; il2++)
                                 {
                                     if (il2 != il)
                                     {
                                         v[k] = v[k] * (xq - xx[il2]) / (xx[il] - xx[il2]);
                                         t = 1.0 / (xx[il] - xx[il2]);
+                                        int il3;
                                         for (il3 = 0; il3 < 3; il3++)
                                         {
                                             if (il3 != il && il3 != il2)
@@ -224,6 +204,7 @@ public static class FEM_2D_BVP_Quadratic
                                             }
                                         }
 
+                                        int jl3;
                                         for (jl3 = 0; jl3 < 3; jl3++)
                                         {
                                             if (jl3 != jl && jl3 != jl2)
@@ -240,9 +221,10 @@ public static class FEM_2D_BVP_Quadratic
                             }
                         }
 
-                        aq = a(xq, yq);
-                        cq = c(xq, yq);
-                        fq = f(xq, yq);
+                        double aq = a(xq, yq);
+                        double cq = c(xq, yq);
+                        double 
+                            fq = f(xq, yq);
 
                         for (i = 0; i < 9; i++)
                         {
@@ -295,7 +277,7 @@ public static class FEM_2D_BVP_Quadratic
         //
         //  Solve the linear system.
         //
-        u = typeMethods.r8mat_solve2(mn, ref amat, ref b, ref ierror);
+        double[] u = typeMethods.r8mat_solve2(mn, ref amat, ref b, ref ierror);
             
         return u;
     }
@@ -360,65 +342,39 @@ public static class FEM_2D_BVP_Quadratic
                 0.774596669241483377035853079956
             }
             ;
-        int cc;
-        int e;
         int ex;
-        int ex_num;
-        double exq;
-        double eyq;
-        int ey;
-        int ey_num;
         double h1s = 0;
-        int il;
-        int il2;
-        int il3;
-        int jl;
-        int jl2;
-        int jl3;
-        int k;
-        int mm;
-        int n;
         int[] node = new int[9];
-        int quad_num = QUAD_NUM;
-        int qx;
-        int qy;
-        int s;
-        double t;
-        double uxq;
-        double uyq;
         double[] vx = new double[9];
         double[] vy = new double[9];
-        int w;
         double[] weight =  {
                 0.555555555555555555555555555556,
                 0.888888888888888888888888888889,
                 0.555555555555555555555555555556
             }
             ;
-        double wq;
-        double xq;
         double[] xx = new double[3];
-        double yq;
         double[] yy = new double[3];
 
-        ex_num = (nx - 1) / 2;
-        ey_num = (ny - 1) / 2;
+        int ex_num = (nx - 1) / 2;
+        int ey_num = (ny - 1) / 2;
 
         for (ex = 0; ex < ex_num; ex++)
         {
-            w = 2 * ex;
-            cc = 2 * ex + 1;
-            e = 2 * ex + 2;
+            int w = 2 * ex;
+            int cc = 2 * ex + 1;
+            int e = 2 * ex + 2;
 
             xx[0] = x[w];
             xx[1] = x[cc];
             xx[2] = x[e];
 
+            int ey;
             for (ey = 0; ey < ey_num; ey++)
             {
-                s = 2 * ey;
-                mm = 2 * ey + 1;
-                n = 2 * ey + 2;
+                int s = 2 * ey;
+                int mm = 2 * ey + 1;
+                int n = 2 * ey + 2;
 
                 yy[0] = y[s];
                 yy[1] = y[mm];
@@ -440,37 +396,46 @@ public static class FEM_2D_BVP_Quadratic
                 node[7] = (2 * ey + 2) * nx + ex * 2 + 1;
                 node[8] = (2 * ey + 2) * nx + ex * 2 + 2;
 
-                for (qx = 0; qx < quad_num; qx++)
+                int qx;
+                for (qx = 0; qx < QUAD_NUM; qx++)
                 {
-                    xq = ((1.0 - abscissa[qx]) * xx[0]
-                          + (1.0 + abscissa[qx]) * xx[2])
-                         / 2.0;
+                    double xq = ((1.0 - abscissa[qx]) * xx[0]
+                                 + (1.0 + abscissa[qx]) * xx[2])
+                                / 2.0;
 
-                    for (qy = 0; qy < quad_num; qy++)
+                    int qy;
+                    for (qy = 0; qy < QUAD_NUM; qy++)
                     {
-                        yq = ((1.0 - abscissa[qy]) * yy[0]
-                              + (1.0 + abscissa[qy]) * yy[2])
-                             / 2.0;
+                        double yq = ((1.0 - abscissa[qy]) * yy[0]
+                                     + (1.0 + abscissa[qy]) * yy[2])
+                                    / 2.0;
 
-                        wq = weight[qx] * (xx[2] - xx[0]) / 2.0
+                        double wq = weight[qx] * (xx[2] - xx[0]) / 2.0
                             * weight[qy] * (yy[2] - yy[0]) / 2.0;
 
-                        uxq = 0.0;
-                        uyq = 0.0;
+                        double uxq = 0.0;
+                        double 
+                            uyq = 0.0;
 
-                        k = 0;
+                        int k = 0;
 
+                        int jl;
                         for (jl = 0; jl < 3; jl++)
                         {
+                            int il;
                             for (il = 0; il < 3; il++)
                             {
                                 vx[k] = 0.0;
                                 vy[k] = 0.0;
+                                int jl2;
+                                double t;
+                                int il2;
                                 for (il2 = 0; il2 < 3; il2++)
                                 {
                                     if (il2 != il)
                                     {
                                         t = 1.0 / (xx[il] - xx[il2]);
+                                        int il3;
                                         for (il3 = 0; il3 < 3; il3++)
                                         {
                                             if (il3 != il && il3 != il2)
@@ -504,6 +469,7 @@ public static class FEM_2D_BVP_Quadratic
                                             }
                                         }
 
+                                        int jl3;
                                         for (jl3 = 0; jl3 < 3; jl3++)
                                         {
                                             if (jl3 != jl && jl3 != jl2)
@@ -522,8 +488,8 @@ public static class FEM_2D_BVP_Quadratic
                             }
                         }
 
-                        exq = exact_ux(xq, yq);
-                        eyq = exact_uy(xq, yq);
+                        double exq = exact_ux(xq, yq);
+                        double eyq = exact_uy(xq, yq);
 
                         h1s += wq * (Math.Pow(uxq - exq, 2) + Math.Pow(uyq - eyq, 2));
                     }
@@ -583,14 +549,13 @@ public static class FEM_2D_BVP_Quadratic
         //    Output, double FEM2D_L1_ERROR, the little l1 norm of the error.
         //
     {
-        int i;
         int j;
-        double e1;
 
-        e1 = 0.0;
+        double e1 = 0.0;
 
         for (j = 0; j < ny; j++)
         {
+            int i;
             for (i = 0; i < nx; i++)
             {
                 e1 += Math.Abs(u[i + j * nx] - exact(x[i], y[j]));
@@ -650,7 +615,7 @@ public static class FEM_2D_BVP_Quadratic
         //    Output, double FEM2D_L2_ERROR_QUADRATIC, the estimated L2 norm of the error.
         //
     {
-        int QUAD_NUM = 3;
+        const int QUAD_NUM = 3;
 
         double[] abscissa =  {
                 -0.774596669241483377035853079956,
@@ -658,59 +623,38 @@ public static class FEM_2D_BVP_Quadratic
                 0.774596669241483377035853079956
             }
             ;
-        int cc;
-        int e;
         double e2 = 0;
-        double eq;
         int ex;
-        int ex_num;
-        int ey;
-        int ey_num;
-        int il;
-        int il2;
-        int jl;
-        int jl2;
-        int k;
-        int mm;
-        int n;
         int[] node = new int[9];
-        int quad_num = QUAD_NUM;
-        int qx;
-        int qy;
-        int s;
-        double uq;
         double[] v = new double[9];
-        int w;
         double[] weight =  {
                 0.555555555555555555555555555556,
                 0.888888888888888888888888888889,
                 0.555555555555555555555555555556
             }
             ;
-        double wq;
-        double xq;
         double[] xx = new double[3];
-        double yq;
         double[] yy = new double[3];
 
-        ex_num = (nx - 1) / 2;
-        ey_num = (ny - 1) / 2;
+        int ex_num = (nx - 1) / 2;
+        int ey_num = (ny - 1) / 2;
 
         for (ex = 0; ex < ex_num; ex++)
         {
-            w = 2 * ex;
-            cc = 2 * ex + 1;
-            e = 2 * ex + 2;
+            int w = 2 * ex;
+            int cc = 2 * ex + 1;
+            int e = 2 * ex + 2;
 
             xx[0] = x[w];
             xx[1] = x[cc];
             xx[2] = x[e];
 
+            int ey;
             for (ey = 0; ey < ey_num; ey++)
             {
-                s = 2 * ey;
-                mm = 2 * ey + 1;
-                n = 2 * ey + 2;
+                int s = 2 * ey;
+                int mm = 2 * ey + 1;
+                int n = 2 * ey + 2;
 
                 yy[0] = y[s];
                 yy[1] = y[mm];
@@ -732,29 +676,34 @@ public static class FEM_2D_BVP_Quadratic
                 node[7] = (2 * ey + 2) * nx + ex * 2 + 1;
                 node[8] = (2 * ey + 2) * nx + ex * 2 + 2;
 
-                for (qx = 0; qx < quad_num; qx++)
+                int qx;
+                for (qx = 0; qx < QUAD_NUM; qx++)
                 {
-                    xq = ((1.0 - abscissa[qx]) * xx[0]
-                          + (1.0 + abscissa[qx]) * xx[2])
-                         / 2.0;
+                    double xq = ((1.0 - abscissa[qx]) * xx[0]
+                                 + (1.0 + abscissa[qx]) * xx[2])
+                                / 2.0;
 
-                    for (qy = 0; qy < quad_num; qy++)
+                    int qy;
+                    for (qy = 0; qy < QUAD_NUM; qy++)
                     {
-                        yq = ((1.0 - abscissa[qy]) * yy[0]
-                              + (1.0 + abscissa[qy]) * yy[2])
-                             / 2.0;
+                        double yq = ((1.0 - abscissa[qy]) * yy[0]
+                                     + (1.0 + abscissa[qy]) * yy[2])
+                                    / 2.0;
 
-                        wq = weight[qx] * (xx[2] - xx[0]) / 2.0
+                        double wq = weight[qx] * (xx[2] - xx[0]) / 2.0
                             * weight[qy] * (yy[2] - yy[0]) / 2.0;
 
-                        uq = 0.0;
-                        k = 0;
+                        double uq = 0.0;
+                        int k = 0;
 
+                        int jl;
                         for (jl = 0; jl < 3; jl++)
                         {
+                            int il;
                             for (il = 0; il < 3; il++)
                             {
                                 v[k] = 1.0;
+                                int il2;
                                 for (il2 = 0; il2 < 3; il2++)
                                 {
                                     if (il2 != il)
@@ -763,6 +712,7 @@ public static class FEM_2D_BVP_Quadratic
                                     }
                                 }
 
+                                int jl2;
                                 for (jl2 = 0; jl2 < 3; jl2++)
                                 {
                                     if (jl2 != jl)
@@ -776,7 +726,7 @@ public static class FEM_2D_BVP_Quadratic
                             }
                         }
 
-                        eq = exact(xq, yq);
+                        double eq = exact(xq, yq);
 
                         e2 += wq * Math.Pow(uq - eq, 2);
                     }

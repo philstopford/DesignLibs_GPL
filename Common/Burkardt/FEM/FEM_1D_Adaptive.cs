@@ -3,7 +3,7 @@ using System.Globalization;
 
 namespace Burkardt.FEM;
 
-public class FEM_1D_Adaptive
+public static class FEM_1D_Adaptive
 {
     public static void assemble(ref double[] adiag, ref double[] aleft, ref double[] arite, ref double[] f,
             double[] h, int n, int[] indx, int[] node, int nu, int nl, int nquad,
@@ -433,12 +433,12 @@ public class FEM_1D_Adaptive
         {
             switch (i)
             {
-                case 0 when (ibc == 1 || ibc == 3):
+                case 0 when ibc is 1 or 3:
                     indx[i] = -1;
                     break;
                 default:
                 {
-                    if (i == n && (ibc == 2 || ibc == 3))
+                    if (i == n && ibc is 2 or 3)
                     {
                         indx[i] = -1;
                     }
@@ -554,7 +554,7 @@ public class FEM_1D_Adaptive
         //    Output, double GET_ALPHA, the value of ALPHA.
         //
     {
-        double value = 0.01;
+        const double value = 0.01;
 
         return value;
     }
@@ -583,7 +583,7 @@ public class FEM_1D_Adaptive
         //    Output, double VALUE, the value of BETA.
         //
     {
-        double value = -0.9;
+        const double value = -0.9;
 
         return value;
     }
@@ -612,7 +612,7 @@ public class FEM_1D_Adaptive
         //    Output, int GET_PROBLEM, the index of the problem.
         //
     {
-        int value = 6;
+        const int value = 6;
 
         return value;
     }
@@ -885,7 +885,7 @@ public class FEM_1D_Adaptive
             double u;
             switch (i)
             {
-                case 0 when ibc == 1 || ibc == 3:
+                case 0 when ibc is 1 or 3:
                     u = ul;
                     break;
                 case 0:
@@ -1504,10 +1504,10 @@ public class FEM_1D_Adaptive
         //    and XN(N) is XR.
         //
     {
-        int NL = 2;
-        int NY = 2;
-        int NQUAD = 2;
-        int NMAY = 2 * NY;
+        const int NL = 2;
+        const int NY = 2;
+        const int NQUAD = 2;
+        const int NMAY = 2 * NY;
 
         double[] adiag = new double[NMAY];
         double[] aleft = new double[NMAY];
@@ -1541,7 +1541,7 @@ public class FEM_1D_Adaptive
         //
         //  The 0-th and N-th nodes are special cases.
         //
-        int ibcy = 3;
+        const int ibcy = 3;
 
         for (int j = 0; j <= n; j++)
         {
@@ -1614,14 +1614,7 @@ public class FEM_1D_Adaptive
             };
 
             double ury;
-            if (n - 1 <= j)
-            {
-                ury = ur;
-            }
-            else
-            {
-                ury = f[j];
-            }
+            ury = n - 1 <= j ? ur : f[j];
 
             //
             //  Assemble the matrix for the sub-problem.
@@ -1749,7 +1742,11 @@ public class FEM_1D_Adaptive
             //
             //  Calculation for right interval.
             //
-            if (j <= n - 1)
+            if (j > n - 1)
+            {
+                continue;
+            }
+
             {
                 switch (j)
                 {

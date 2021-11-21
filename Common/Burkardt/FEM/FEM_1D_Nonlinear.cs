@@ -713,38 +713,40 @@ public static class FEM_1D_Nonlinear
 //
 //  Search for the interval that X lies in.
 //
-                if (xleft <= x && x <= xrite)
+                if (!(xleft <= x) || !(x <= xrite))
                 {
-                    u = 0.0;
-
-                    for (int k = 1; k <= nl; k++)
-                    {
-                        int ig = node[k - 1 + (j - 1) * 2];
-                        int iu = indx[ig];
-                        phi(k, x, ref phii, ref phiix, xleft, xrite);
-
-                        switch (iu)
-                        {
-                            case <= 0 when j == 1 && k == 1:
-                                u += ul * phii;
-                                break;
-                            case <= 0:
-                            {
-                                if (j == n && k == nl)
-                                {
-                                    u += ur * phii;
-                                }
-
-                                break;
-                            }
-                            default:
-                                u += f[iu - 1] * phii;
-                                break;
-                        }
-                    }
-
-                    break;
+                    continue;
                 }
+
+                u = 0.0;
+
+                for (int k = 1; k <= nl; k++)
+                {
+                    int ig = node[k - 1 + (j - 1) * 2];
+                    int iu = indx[ig];
+                    phi(k, x, ref phii, ref phiix, xleft, xrite);
+
+                    switch (iu)
+                    {
+                        case <= 0 when j == 1 && k == 1:
+                            u += ul * phii;
+                            break;
+                        case <= 0:
+                        {
+                            if (j == n && k == nl)
+                            {
+                                u += ur * phii;
+                            }
+
+                            break;
+                        }
+                        default:
+                            u += f[iu - 1] * phii;
+                            break;
+                    }
+                }
+
+                break;
             }
 
             Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(12)
@@ -1225,8 +1227,6 @@ public static class FEM_1D_Nonlinear
 //    and XN(N) is XR.
 //
     {
-        double u;
-
         Console.WriteLine("");
         Console.WriteLine("Computed solution:");
         Console.WriteLine("");
@@ -1235,9 +1235,10 @@ public static class FEM_1D_Nonlinear
 
         for (int i = 0; i <= nsub; i++)
         {
+            double u;
             switch (i)
             {
-                case 0 when ibc == 1 || ibc == 3:
+                case 0 when ibc is 1 or 3:
                     u = ul;
                     break;
                 case 0:

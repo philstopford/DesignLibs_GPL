@@ -43,18 +43,16 @@ public static partial class Slow
         //
     {
         int i;
-        int k;
-        double[] r;
-        double theta;
 
-        r = new double[n];
+        double[] r = new double[n];
 
         for (i = 0; i < n; i++)
         {
             r[i] = azero;
+            int k;
             for (k = 0; k < n / 2; k++)
             {
-                theta = (k + 1) * i * 2 * Math.PI / n;
+                double theta = (k + 1) * i * 2 * Math.PI / n;
                 r[i] = r[i] + a[k] * Math.Cos(theta) + b[k] * Math.Sin(theta);
             }
         }
@@ -100,9 +98,6 @@ public static partial class Slow
         //
     {
         int i;
-        int j;
-            
-        double theta;
 
         azero = 0.0;
         for (i = 0; i < n; i++)
@@ -117,9 +112,10 @@ public static partial class Slow
             a[i] = 0.0;
             b[i] = 0.0;
 
+            int j;
             for (j = 0; j < n; j++)
             {
-                theta = 2 * (i + 1) * j * Math.PI / n;
+                double theta = 2 * (i + 1) * j * Math.PI / n;
                 a[i] += r[j] * Math.Cos(theta);
                 b[i] += r[j] * Math.Sin(theta);
             }
@@ -182,17 +178,16 @@ public static partial class Slow
         //    Output, double SCT[N], the transformed data.
         //
     {
-        double angle;
         int i;
-        int j;
-        double[] y;
 
-        y = new double[n];
+        double[] y = new double[n];
 
         for (i = 0; i < n; i++)
         {
             y[i] = x[0] / 2.0;
 
+            double angle;
+            int j;
             for (j = 1; j < n - 1; j++)
             {
                 angle = Math.PI * (i * j % (2 * (n - 1)))
@@ -266,12 +261,9 @@ public static partial class Slow
         //    Output, double SHT[N], the transformed data.
         //
     {
-        double[] b;
         int i;
-        int j;
-        double theta;
 
-        b = new double[n];
+        double[] b = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -280,9 +272,10 @@ public static partial class Slow
 
         for (i = 0; i < n; i++)
         {
+            int j;
             for (j = 0; j < n; j++)
             {
-                theta = 2.0 * Math.PI * (i * j % n) / n;
+                double theta = 2.0 * Math.PI * (i * j % n) / n;
                 b[i] += a[j] * (Math.Cos(theta) + Math.Sin(theta));
             }
         }
@@ -341,11 +334,8 @@ public static partial class Slow
         //
     {
         int i;
-        int j;
-        double theta;
-        double[] y;
 
-        y = new double[n];
+        double[] y = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -354,9 +344,10 @@ public static partial class Slow
 
         for (i = 0; i < n; i++)
         {
+            int j;
             for (j = 1; j < n; j++)
             {
-                theta = 0.5 * Math.PI * (j * (2 * i + 1)) / n;
+                double theta = 0.5 * Math.PI * (j * (2 * i + 1)) / n;
                 y[i] += 2.0 * x[j] * Math.Cos(theta);
             }
         }
@@ -410,11 +401,8 @@ public static partial class Slow
         //
     {
         int i;
-        int j;
-        double theta;
-        double[] y;
 
-        y = new double[n];
+        double[] y = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -423,9 +411,10 @@ public static partial class Slow
 
         for (i = 0; i < n; i++)
         {
+            int j;
             for (j = 0; j < n; j++)
             {
-                theta = 0.5 * Math.PI * (i * (2 * j + 1)) / n;
+                double theta = 0.5 * Math.PI * (i * (2 * j + 1)) / n;
                 y[i] += x[j] * Math.Cos(theta);
             }
         }
@@ -485,11 +474,8 @@ public static partial class Slow
         //
     {
         int i;
-        int j;
-        double theta;
-        double[] y;
 
-        y = new double[n];
+        double[] y = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -498,6 +484,8 @@ public static partial class Slow
 
         for (i = 0; i < n; i++)
         {
+            int j;
+            double theta;
             for (j = 0; j < n - 1; j++)
             {
                 theta = 0.5 * Math.PI * ((j + 1) * (2 * i + 1))
@@ -559,11 +547,8 @@ public static partial class Slow
         //
     {
         int i;
-        int j;
-        double theta;
-        double[] y;
 
-        y = new double[n];
+        double[] y = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -572,10 +557,11 @@ public static partial class Slow
 
         for (i = 0; i < n; i++)
         {
+            int j;
             for (j = 0; j < n; j++)
             {
-                theta = 0.5 * Math.PI * ((i + 1) * (2 * j + 1))
-                        / n;
+                double theta = 0.5 * Math.PI * ((i + 1) * (2 * j + 1))
+                               / n;
                 y[i] += x[j] * Math.Sin(theta);
             }
         }
@@ -631,17 +617,15 @@ public static partial class Slow
     {
         int i;
         int j;
-        double[] theta;
-        double[] y;
 
-        theta = new double[n];
+        double[] theta = new double[n];
 
         for (i = 0; i < n; i++)
         {
             theta[i] = Math.PI * (i + 1) / (n + 1);
         }
 
-        y = new double[n];
+        double[] y = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -694,20 +678,14 @@ public static partial class Slow
         //
     {
         int i;
-        int im1;
-        int ip1;
-        int n2;
-        int np1h;
-        double[] x;
-        double[] y;
 
-        n2 = (n % 2) switch
+        int n2 = (n % 2) switch
         {
             1 => n + 1,
             _ => n
         };
 
-        np1h = (n + 1) / 2;
+        int np1h = (n + 1) / 2;
 
         for (i = 0; i < np1h; i++)
         {
@@ -717,15 +695,15 @@ public static partial class Slow
 
         for (i = 0; i < np1h; i++)
         {
-            ip1 = typeMethods.i4_wrap(i + 1, 0, np1h - 1);
+            int ip1 = typeMethods.i4_wrap(i + 1, 0, np1h - 1);
             s[i] += d[ip1];
         }
 
-        y = new double[n2];
+        double[] y = new double[n2];
 
         for (i = 0; i < np1h; i++)
         {
-            im1 = typeMethods.i4_wrap(i - 1, 0, np1h - 1);
+            int im1 = typeMethods.i4_wrap(i - 1, 0, np1h - 1);
             y[2 * i + 1] = d[i] + Math.Sqrt(3.0) / 4.0 * s[i]
                                 + (Math.Sqrt(3.0) - 2.0) / 4.0 * s[im1];
         }
@@ -735,7 +713,7 @@ public static partial class Slow
             y[2 * i] = s[i] - Math.Sqrt(3.0) * y[2 * i + 1];
         }
 
-        x = new double[n];
+        double[] x = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -778,19 +756,14 @@ public static partial class Slow
         //
     {
         int i;
-        int im1;
-        int ip1;
-        int n2;
-        int np1h;
-        double[] y;
 
-        n2 = (n % 2) switch
+        int n2 = (n % 2) switch
         {
             1 => n + 1,
             _ => n
         };
 
-        y = new double[n2];
+        double[] y = new double[n2];
 
         for (i = 0; i < n; i++)
         {
@@ -802,7 +775,7 @@ public static partial class Slow
             y[n] = 0.0;
         }
 
-        np1h = (n + 1) / 2;
+        int np1h = (n + 1) / 2;
 
         for (i = 0; i < np1h; i++)
         {
@@ -811,14 +784,14 @@ public static partial class Slow
 
         for (i = 0; i < np1h; i++)
         {
-            im1 = typeMethods.i4_wrap(i - 1, 0, np1h - 1);
+            int im1 = typeMethods.i4_wrap(i - 1, 0, np1h - 1);
             d[i] = y[2 * i + 1] - Math.Sqrt(3.0) / 4.0 * s[i]
                                 - (Math.Sqrt(3.0) - 2.0) / 4.0 * s[im1];
         }
 
         for (i = 0; i < np1h; i++)
         {
-            ip1 = typeMethods.i4_wrap(i + 1, 0, np1h - 1);
+            int ip1 = typeMethods.i4_wrap(i + 1, 0, np1h - 1);
             s[i] -= d[ip1];
         }
 

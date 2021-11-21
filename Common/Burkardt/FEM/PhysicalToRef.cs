@@ -128,7 +128,6 @@ public class PhysicalToRef
         double[] a = new double[3*3];
         int i;
         int j;
-        double[] ref_;
 
         for ( j = 0; j < 3; j++ )
         {
@@ -138,7 +137,7 @@ public class PhysicalToRef
             }
         }
 
-        ref_ = new double[3*n];
+        double[] ref_ = new double[3*n];
 
         for ( j = 0; j < n; j++ )
         {

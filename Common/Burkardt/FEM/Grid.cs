@@ -4,7 +4,7 @@ using Burkardt.OrderNS;
 
 namespace Burkardt.FEM;
 
-public class Grid
+public static class Grid
 {
     public static int[] grid_element(string code, int element_order, int nelemx, int nelemy)
 
@@ -287,13 +287,11 @@ public class Grid
         int i;
         int j;
         int k;
-        int node_num;
-        double[] node_xy;
-        double value = 0;
+        double value;
 
-        node_num = x_num* y_num;
+        int node_num = x_num* y_num;
 
-        node_xy = new double[2 * node_num];
+        double[] node_xy = new double[2 * node_num];
 
         switch (x_num)
         {
@@ -487,17 +485,10 @@ public class Grid
         //    each element.
         //
     {
-        int element;
-        int[] element_node;
-        int element_order = 4;
-        int i;
+        const int element_order = 4;
         int j;
-        int ne;
-        int nw;
-        int se;
-        int sw;
 
-        element_node = new int[element_order * nelemx * nelemy];
+        int[] element_node = new int[element_order * nelemx * nelemy];
         //
         //  Node labeling:
         //
@@ -505,16 +496,17 @@ public class Grid
         //     |    |
         //    SW---SE
         //
-        element = 0;
+        int element = 0;
 
         for (j = 1; j <= nelemy; j++)
         {
+            int i;
             for (i = 1; i <= nelemx; i++)
             {
-                sw = i + (j - 1) * (nelemx + 1);
-                se = i + 1 + (j - 1) * (nelemx + 1);
-                nw = i + j * (nelemx + 1);
-                ne = i + 1 + j * (nelemx + 1);
+                int sw = i + (j - 1) * (nelemx + 1);
+                int se = i + 1 + (j - 1) * (nelemx + 1);
+                int nw = i + j * (nelemx + 1);
+                int ne = i + 1 + j * (nelemx + 1);
 
                 element_node[0 + element * element_order] = sw;
                 element_node[1 + element * element_order] = se;
@@ -567,9 +559,7 @@ public class Grid
         //    Output, int GRID_Q4_ELEMENT_NUM, the number of elements in the grid.
         //
     {
-        int element_num;
-
-        element_num = nelemx * nelemy;
+        int element_num = nelemx * nelemy;
 
         return element_num;
     }
@@ -602,9 +592,7 @@ public class Grid
         //    Output, int GRID_Q4_node_num, the number of nodes in the grid.
         //
     {
-        int node_num;
-
-        node_num = (nelemx + 1) * (nelemy + 1);
+        int node_num = (nelemx + 1) * (nelemy + 1);
 
         return node_num;
     }
@@ -684,21 +672,10 @@ public class Grid
         //    each element.
         //
     {
-        int e;
-        int element;
-        int[] element_node;
-        int element_order = 8;
-        int i;
+        const int element_order = 8;
         int j;
-        int n;
-        int ne;
-        int nw;
-        int s;
-        int se;
-        int sw;
-        int w;
 
-        element_node = new int[element_order * nelemx * nelemy];
+        int[] element_node = new int[element_order * nelemx * nelemy];
         //
         //  Node labeling:
         //
@@ -709,22 +686,23 @@ public class Grid
         //    SW----S----SE
         //
 
-        element = 0;
+        int element = 0;
 
         for (j = 1; j <= nelemy; j++)
         {
+            int i;
             for (i = 1; i <= nelemx; i++)
             {
-                sw = (j - 1) * (3 * nelemx + 2) + 2 * i - 1;
-                w = sw + 2 * nelemx + 2 - i;
-                nw = sw + 3 * nelemx + 2;
+                int sw = (j - 1) * (3 * nelemx + 2) + 2 * i - 1;
+                int w = sw + 2 * nelemx + 2 - i;
+                int nw = sw + 3 * nelemx + 2;
 
-                s = sw + 1;
-                n = sw + 3 * nelemx + 2 + 1;
+                int s = sw + 1;
+                int n = sw + 3 * nelemx + 2 + 1;
 
-                se = sw + 2;
-                e = sw + 2 * nelemx + 2 - i + 1;
-                ne = sw + 3 * nelemx + 2 + 2;
+                int se = sw + 2;
+                int e = sw + 2 * nelemx + 2 - i + 1;
+                int ne = sw + 3 * nelemx + 2 + 2;
 
                 element_node[0 + element * element_order] = sw;
                 element_node[1 + element * element_order] = se;
@@ -781,9 +759,7 @@ public class Grid
         //    Output, int GRID_Q8_ELEMENT_NUM, the number of elements in the grid.
         //
     {
-        int element_num;
-
-        element_num = nelemx * nelemy;
+        int element_num = nelemx * nelemy;
 
         return element_num;
     }
@@ -816,9 +792,7 @@ public class Grid
         //    Output, int GRID_Q8_node_num, the number of nodes in the grid.
         //
     {
-        int node_num;
-
-        node_num = 3 * nelemx * nelemy + 2 * nelemx + 2 * nelemy + 1;
+        int node_num = 3 * nelemx * nelemy + 2 * nelemx + 2 * nelemy + 1;
 
         return node_num;
     }
@@ -898,22 +872,10 @@ public class Grid
         //    each element.
         //
     {
-        int c;
-        int e;
-        int element;
-        int[] element_node;
-        int element_order = 9;
-        int i;
+        const int element_order = 9;
         int j;
-        int n;
-        int ne;
-        int nw;
-        int s;
-        int se;
-        int sw;
-        int w;
 
-        element_node = new int[element_order * nelemx * nelemy];
+        int[] element_node = new int[element_order * nelemx * nelemy];
         //
         //  Node labeling:
         //
@@ -923,23 +885,24 @@ public class Grid
         //     |          |
         //    SW----S----SE
         //
-        element = 0;
+        int element = 0;
 
         for (j = 1; j <= nelemy; j++)
         {
+            int i;
             for (i = 1; i <= nelemx; i++)
             {
-                sw = 2 * (j - 1) * (2 * nelemx + 1) + 2 * (i - 1) + 1;
-                w = sw + 2 * nelemx + 1;
-                nw = sw + 2 * (2 * nelemx + 1);
+                int sw = 2 * (j - 1) * (2 * nelemx + 1) + 2 * (i - 1) + 1;
+                int w = sw + 2 * nelemx + 1;
+                int nw = sw + 2 * (2 * nelemx + 1);
 
-                s = sw + 1;
-                c = sw + 1 + 2 * nelemx + 1;
-                n = sw + 1 + 2 * (2 * nelemx + 1);
+                int s = sw + 1;
+                int c = sw + 1 + 2 * nelemx + 1;
+                int n = sw + 1 + 2 * (2 * nelemx + 1);
 
-                se = sw + 2;
-                e = sw + 2 + 2 * nelemx + 1;
-                ne = sw + 2 + 2 * (2 * nelemx + 1);
+                int se = sw + 2;
+                int e = sw + 2 + 2 * nelemx + 1;
+                int ne = sw + 2 + 2 * (2 * nelemx + 1);
 
                 element_node[0 + element * element_order] = sw;
                 element_node[1 + element * element_order] = se;
@@ -997,9 +960,7 @@ public class Grid
         //    Output, int GRID_Q9_ELEMENT_NUM, the number of elements in the grid.
         //
     {
-        int element_num;
-
-        element_num = nelemx * nelemy;
+        int element_num = nelemx * nelemy;
 
         return element_num;
     }
@@ -1032,9 +993,7 @@ public class Grid
         //    Output, int GRID_Q9_node_num, the number of nodes in the grid.
         //
     {
-        int node_num;
-
-        node_num = (2 * nelemx + 1) * (2 * nelemy + 1);
+        int node_num = (2 * nelemx + 1) * (2 * nelemy + 1);
 
         return node_num;
     }
@@ -1114,22 +1073,19 @@ public class Grid
         //    each element.
         //
     {
-        int base_;
-        int element;
-        int[] element_node;
-        int element_order = 12;
-        int i;
+        const int element_order = 12;
         int j;
 
-        element_node = new int[element_order * nelemx * nelemy];
+        int[] element_node = new int[element_order * nelemx * nelemy];
 
-        element = 0;
+        int element = 0;
 
         for (j = 1; j <= nelemy; j++)
         {
+            int i;
             for (i = 1; i <= nelemx; i++)
             {
-                base_ = (j - 1) * (5 * nelemx + 3) + 1;
+                int base_ = (j - 1) * (5 * nelemx + 3) + 1;
 
                 element_node[0 + element * element_order] = base_ + (i - 1) * 3;
                 element_node[1 + element * element_order] = base_ + (i - 1) * 3 + 1;
@@ -1193,9 +1149,7 @@ public class Grid
         //    Output, int GRID_Q12_ELEMENT_NUM, the number of elements in the grid.
         //
     {
-        int element_num;
-
-        element_num = nelemx * nelemy;
+        int element_num = nelemx * nelemy;
 
         return element_num;
     }
@@ -1228,9 +1182,7 @@ public class Grid
         //    Output, int GRID_Q12_node_num, the number of nodes in the grid.
         //
     {
-        int node_num;
-
-        node_num = 5 * nelemx * nelemy + 3 * nelemx + 3 * nelemy + 1;
+        int node_num = 5 * nelemx * nelemy + 3 * nelemx + 3 * nelemy + 1;
 
         return node_num;
     }
@@ -1301,22 +1253,19 @@ public class Grid
         //    each element.
         //
     {
-        int base_;
-        int element;
-        int[] element_node;
-        int element_order = 16;
-        int i;
+        const int element_order = 16;
         int j;
 
-        element_node = new int[element_order * nelemx * nelemy];
+        int[] element_node = new int[element_order * nelemx * nelemy];
 
-        element = 0;
+        int element = 0;
 
         for (j = 1; j <= nelemy; j++)
         {
+            int i;
             for (i = 1; i <= nelemx; i++)
             {
-                base_ = (j - 1) * 3 * (3 * nelemx + 1) + 3 * i - 2;
+                int base_ = (j - 1) * 3 * (3 * nelemx + 1) + 3 * i - 2;
 
                 element_node[0 + element * element_order] = base_;
                 element_node[1 + element * element_order] = base_ + 1;
@@ -1381,9 +1330,7 @@ public class Grid
         //    Output, int GRID_Q16_ELEMENT_NUM, the number of elements in the grid.
         //
     {
-        int element_num;
-
-        element_num = nelemx * nelemy;
+        int element_num = nelemx * nelemy;
 
         return element_num;
     }
@@ -1416,9 +1363,7 @@ public class Grid
         //    Output, int GRID_Q16_node_num, the number of nodes in the grid.
         //
     {
-        int node_num;
-
-        node_num = (3 * nelemx + 1) * (3 * nelemy + 1);
+        int node_num = (3 * nelemx + 1) * (3 * nelemy + 1);
 
         return node_num;
     }
@@ -1486,22 +1431,19 @@ public class Grid
         //    each element.
         //
     {
-        int base_;
-        int element;
-        int[] element_node;
-        int element_order = 6;
-        int i;
+        const int element_order = 6;
         int j;
 
-        element_node = new int[element_order * nelemx * nelemy];
+        int[] element_node = new int[element_order * nelemx * nelemy];
 
-        element = 0;
+        int element = 0;
 
         for (j = 1; j <= nelemy; j++)
         {
+            int i;
             for (i = 1; i <= nelemx; i++)
             {
-                base_ = (j - 1) * (2 * nelemx + 1) + 2 * i - 1;
+                int base_ = (j - 1) * (2 * nelemx + 1) + 2 * i - 1;
 
                 element_node[0 + element * element_order] = base_;
                 element_node[1 + element * element_order] = base_ + 1;
@@ -1556,9 +1498,7 @@ public class Grid
         //    Output, int GRID_QL_ELEMENT_NUM, the number of elements in the grid.
         //
     {
-        int element_num;
-
-        element_num = nelemx * nelemy;
+        int element_num = nelemx * nelemy;
 
         return element_num;
     }
@@ -1591,9 +1531,7 @@ public class Grid
         //    Output, int GRID_QL_node_num, the number of nodes in the grid.
         //
     {
-        int node_num;
-
-        node_num = 2 * nelemx * nelemy + 2 * nelemx + nelemy + 1;
+        int node_num = 2 * nelemx * nelemy + 2 * nelemx + nelemy + 1;
 
         return node_num;
     }
@@ -1643,11 +1581,10 @@ public class Grid
         //    Output, int *N1, *N2, the "shape" of the data in the array.
         //
     {
-        int i;
         //
         //  Make a guess for N1.
         //
-        i = 1;
+        int i = 1;
         n1 = 1;
 
         for (i = 1; i < n; i++)
@@ -1745,17 +1682,10 @@ public class Grid
         //    each element.
         //
     {
-        int element;
-        int[] element_node;
-        int element_order = 3;
-        int i;
+        const int element_order = 3;
         int j;
-        int ne;
-        int nw;
-        int se;
-        int sw;
 
-        element_node = new int[element_order * 2 * nelemx * nelemy];
+        int[] element_node = new int[element_order * 2 * nelemx * nelemy];
         //
         //  Node labeling:
         //
@@ -1764,16 +1694,17 @@ public class Grid
         //     | \|
         //    SW--SE
         //
-        element = 0;
+        int element = 0;
 
         for (j = 1; j <= nelemy; j++)
         {
+            int i;
             for (i = 1; i <= nelemx; i++)
             {
-                sw = i + (j - 1) * (nelemx + 1);
-                se = i + 1 + (j - 1) * (nelemx + 1);
-                nw = i + j * (nelemx + 1);
-                ne = i + 1 + j * (nelemx + 1);
+                int sw = i + (j - 1) * (nelemx + 1);
+                int se = i + 1 + (j - 1) * (nelemx + 1);
+                int nw = i + j * (nelemx + 1);
+                int ne = i + 1 + j * (nelemx + 1);
 
                 element_node[0 + element * element_order] = sw;
                 element_node[1 + element * element_order] = se;
@@ -1829,9 +1760,7 @@ public class Grid
         //    Output, int GRID_T3_ELEMENT_NUM, the number of elements in the grid.
         //
     {
-        int element_num;
-
-        element_num = 2 * nelemx * nelemy;
+        int element_num = 2 * nelemx * nelemy;
 
         return element_num;
     }
@@ -1864,9 +1793,7 @@ public class Grid
         //    Output, int GRID_T3_node_num, the number of nodes in the grid.
         //
     {
-        int node_num;
-
-        node_num = (nelemx + 1) * (nelemy + 1);
+        int node_num = (nelemx + 1) * (nelemy + 1);
 
         return node_num;
     }
@@ -1950,19 +1877,10 @@ public class Grid
         //    each element.
         //
     {
-        int element;
-        int[] element_node;
-        int element_order = 4;
-        int i;
+        const int element_order = 4;
         int j;
-        int nc;
-        int ne;
-        int nw;
-        int sc;
-        int se;
-        int sw;
 
-        element_node = new int[element_order * 2 * nelemx * nelemy];
+        int[] element_node = new int[element_order * 2 * nelemx * nelemy];
         //
         //  Node labeling:
         //
@@ -1973,18 +1891,19 @@ public class Grid
         //     |   .|
         //    SW---SE
         //
-        element = 0;
+        int element = 0;
 
         for (j = 1; j <= nelemy; j++)
         {
+            int i;
             for (i = 1; i <= nelemx; i++)
             {
-                sw = i + (j - 1) * (3 * nelemx + 1);
-                se = sw + 1;
-                sc = sw + nelemx + 1;
-                nc = sw + 2 * nelemx + 1;
-                nw = sw + 3 * nelemx + 1;
-                ne = sw + 3 * nelemx + 2;
+                int sw = i + (j - 1) * (3 * nelemx + 1);
+                int se = sw + 1;
+                int sc = sw + nelemx + 1;
+                int nc = sw + 2 * nelemx + 1;
+                int nw = sw + 3 * nelemx + 1;
+                int ne = sw + 3 * nelemx + 2;
 
                 element_node[0 + element * element_order] = sw;
                 element_node[1 + element * element_order] = se;
@@ -2042,9 +1961,7 @@ public class Grid
         //    Output, int GRID_T4_ELEMENT_NUM, the number of elements in the grid.
         //
     {
-        int element_num;
-
-        element_num = 2 * nelemx * nelemy;
+        int element_num = 2 * nelemx * nelemy;
 
         return element_num;
     }
@@ -2077,9 +1994,7 @@ public class Grid
         //    Output, int GRID_T4_node_num, the number of nodes in the grid.
         //
     {
-        int node_num;
-
-        node_num = (nelemx + 1) * (nelemy + 1) + 2 * nelemx * nelemy;
+        int node_num = (nelemx + 1) * (nelemy + 1) + 2 * nelemx * nelemy;
 
         return node_num;
     }
@@ -2165,22 +2080,10 @@ public class Grid
         //    each element.
         //
     {
-        int c;
-        int e;
-        int element;
-        int[] element_node;
-        int element_order = 6;
-        int i;
+        const int element_order = 6;
         int j;
-        int n;
-        int ne;
-        int nw;
-        int s;
-        int se;
-        int sw;
-        int w;
 
-        element_node = new int[element_order * 2 * nelemx * nelemy];
+        int[] element_node = new int[element_order * 2 * nelemx * nelemy];
         //
         //  Node labeling:
         //
@@ -2190,23 +2093,24 @@ public class Grid
         //     |    .  |
         //    SW---S--SE
         //
-        element = 0;
+        int element = 0;
 
         for (j = 1; j <= nelemy; j++)
         {
+            int i;
             for (i = 1; i <= nelemx; i++)
             {
-                sw = 2 * (j - 1) * (2 * nelemx + 1) + 2 * (i - 1) + 1;
-                w = sw + 2 * nelemx + 1;
-                nw = sw + 2 * (2 * nelemx + 1);
+                int sw = 2 * (j - 1) * (2 * nelemx + 1) + 2 * (i - 1) + 1;
+                int w = sw + 2 * nelemx + 1;
+                int nw = sw + 2 * (2 * nelemx + 1);
 
-                s = sw + 1;
-                c = sw + 1 + 2 * nelemx + 1;
-                n = sw + 1 + 2 * (2 * nelemx + 1);
+                int s = sw + 1;
+                int c = sw + 1 + 2 * nelemx + 1;
+                int n = sw + 1 + 2 * (2 * nelemx + 1);
 
-                se = sw + 2;
-                e = sw + 2 + 2 * nelemx + 1;
-                ne = sw + 2 + 2 * (2 * nelemx + 1);
+                int se = sw + 2;
+                int e = sw + 2 + 2 * nelemx + 1;
+                int ne = sw + 2 + 2 * (2 * nelemx + 1);
 
                 element_node[0 + element * element_order] = sw;
                 element_node[1 + element * element_order] = se;
@@ -2268,9 +2172,7 @@ public class Grid
         //    Output, int GRID_T6_ELEMENT_NUM, the number of elements in the grid.
         //
     {
-        int element_num;
-
-        element_num = 2 * nelemx * nelemy;
+        int element_num = 2 * nelemx * nelemy;
 
         return element_num;
     }
@@ -2303,9 +2205,7 @@ public class Grid
         //    Output, int GRID_T6_node_num, the number of nodes in the grid.
         //
     {
-        int node_num;
-
-        node_num = (2 * nelemx + 1) * (2 * nelemy + 1);
+        int node_num = (2 * nelemx + 1) * (2 * nelemy + 1);
 
         return node_num;
     }
@@ -2380,22 +2280,19 @@ public class Grid
         //    each element.
         //
     {
-        int base_;
-        int element;
-        int[] element_node;
-        int element_order = 10;
-        int i;
+        const int element_order = 10;
         int j;
 
-        element_node = new int[element_order * 2 * nelemx * nelemy];
+        int[] element_node = new int[element_order * 2 * nelemx * nelemy];
 
-        element = 0;
+        int element = 0;
 
         for (j = 1; j <= nelemy; j++)
         {
+            int i;
             for (i = 1; i <= nelemx; i++)
             {
-                base_ = (j - 1) * 3 * (3 * nelemx + 1) + 3 * i - 2;
+                int base_ = (j - 1) * 3 * (3 * nelemx + 1) + 3 * i - 2;
 
                 element_node[0 + element * element_order] = base_;
                 element_node[1 + element * element_order] = base_ + 1;
@@ -2465,9 +2362,7 @@ public class Grid
         //    Output, int GRID_T10_ELEMENT_NUM, the number of elements in the grid.
         //
     {
-        int element_num;
-
-        element_num = 2 * nelemx * nelemy;
+        int element_num = 2 * nelemx * nelemy;
 
         return element_num;
     }
@@ -2500,9 +2395,7 @@ public class Grid
         //    Output, int GRID_T10_node_num, the number of nodes in the grid.
         //
     {
-        int node_num;
-
-        node_num = (3 * nelemx + 1) * (3 * nelemy + 1);
+        int node_num = (3 * nelemx + 1) * (3 * nelemy + 1);
 
         return node_num;
     }
@@ -2579,36 +2472,26 @@ public class Grid
         //    ELEMENT_NODE(I,J) is the index of the I-th node of the J-th element.
         //
     {
-        int c;
-        int e;
-        int element;
-        int i;
         int j;
-        int n;
-        int ne;
-        int nw;
-        int s;
-        int se;
-        int sw;
-        int w;
 
-        element = 0;
+        int element = 0;
 
         for (j = 1; j <= ny - 1; j++)
         {
+            int i;
             for (i = 1; i <= nx - 1; i++)
             {
-                sw = (j - 1) * 2 * (2 * nx - 1) + 2 * i - 1;
-                w = sw + 1;
-                nw = sw + 2;
+                int sw = (j - 1) * 2 * (2 * nx - 1) + 2 * i - 1;
+                int w = sw + 1;
+                int nw = sw + 2;
 
-                s = sw + 2 * nx - 1;
-                c = s + 1;
-                n = s + 2;
+                int s = sw + 2 * nx - 1;
+                int c = s + 1;
+                int n = s + 2;
 
-                se = s + 2 * nx - 1;
-                e = se + 1;
-                ne = se + 2;
+                int se = s + 2 * nx - 1;
+                int e = se + 1;
+                int ne = se + 2;
 
                 element += 1;
                 element_node[0 + (element - 1) * nnodes] = sw;
@@ -2656,12 +2539,7 @@ public class Grid
         //    'T3', 'T4', 'T6' and 'T10'.
         //
     {
-        int[] element_node;
         int element_num = 0;
-        int element_order;
-        int nelemx;
-        int nelemy;
-        int width;
         //
         //  NODE is defined as a vector rather than a two dimensional array,
         //  so that we can handle the various cases using a single array.
@@ -2669,8 +2547,8 @@ public class Grid
         Console.WriteLine("");
         Console.WriteLine("  GRID_TEST: Test the grid routine for element " + code + "");
 
-        nelemx = 3;
-        nelemy = 2;
+        int nelemx = 3;
+        int nelemy = 2;
 
         switch (code)
         {
@@ -2690,13 +2568,13 @@ public class Grid
                 break;
         }
 
-        element_order = Order.order_code(code);
+        int element_order = Order.order_code(code);
 
-        element_node = grid_element(code, element_order, nelemx, nelemy);
+        int[] element_node = grid_element(code, element_order, nelemx, nelemy);
 
         grid_print(element_order, element_num, element_node);
 
-        width = grid_width(element_order, element_num, element_node);
+        int width = grid_width(element_order, element_num, element_node);
 
         Console.WriteLine("");
         Console.WriteLine("  Grid width is " + width + "");
@@ -2758,22 +2636,19 @@ public class Grid
         //
     {
         int element;
-        int ip1;
-        int ip2;
-        int node1;
-        int node2;
-        int width;
 
-        width = 0;
+        int width = 0;
 
         for (element = 0; element < element_num; element++)
         {
+            int node1;
             for (node1 = 0; node1 < element_order; node1++)
             {
-                ip1 = element_node[node1 + element * element_order];
+                int ip1 = element_node[node1 + element * element_order];
+                int node2;
                 for (node2 = 0; node2 < element_order; node2++)
                 {
-                    ip2 = element_node[node2 + element * element_order];
+                    int ip2 = element_node[node2 + element * element_order];
                     width = Math.Max(width, Math.Abs(ip1 - ip2));
                 }
             }

@@ -68,20 +68,13 @@ public static class FEM_3D_Evaluate
         //    the sampled values.
         //
     {
-        double[] b;
-        int i;
         int j;
-        int k;
         double[] p_xyz = new double[3];
-        double[] sample_value;
-        int t;
-        int[] t_node;
-        double[] t_xyz;
 
-        b = new double[fem_element_order];
-        sample_value = new double[fem_value_dim * sample_node_num];
-        t_node = new int[fem_element_order];
-        t_xyz = new double[3 * fem_element_order];
+        double[] b = new double[fem_element_order];
+        double[] sample_value = new double[fem_value_dim * sample_node_num];
+        int[] t_node = new int[fem_element_order];
+        double[] t_xyz = new double[3 * fem_element_order];
         //
         //  For each sample point: find the element T that contains it,
         //  and evaluate the finite element function there.
@@ -95,12 +88,13 @@ public static class FEM_3D_Evaluate
             //  Find the element T that contains the point.
             //
             int step_num = 0;
-            t = TetMesh.tet_mesh_search_naive(fem_node_num, fem_node_xyz,
+            int t = TetMesh.tet_mesh_search_naive(fem_node_num, fem_node_xyz,
                 fem_element_order, fem_element_num, fem_element_node,
                 p_xyz, ref step_num);
             //
             //  Evaluate the finite element basis functions at the point in T.
             //
+            int i;
             for (i = 0; i < fem_element_order; i++)
             {
                 t_node[i] = fem_element_node[i + t * fem_element_order];
@@ -120,6 +114,7 @@ public static class FEM_3D_Evaluate
             for (i = 0; i < fem_value_dim; i++)
             {
                 sample_value[i + j * fem_value_dim] = 0.0;
+                int k;
                 for (k = 0; k < fem_element_order; k++)
                 {
                     sample_value[i + j * fem_value_dim] += fem_value[i + t_node[k] * fem_value_dim] * b[k];

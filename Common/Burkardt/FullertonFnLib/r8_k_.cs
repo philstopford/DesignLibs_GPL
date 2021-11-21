@@ -70,16 +70,8 @@ public static partial class FullertonLib
         //
     {
         double[] a = new double[32];
-        double a0;
-        double alnz;
         double[] alpha = new double[32];
-        double an;
-        double b0;
         double[] beta = new double[32];
-        double bknu0;
-        double bknud;
-        double bn;
-        double c0;
         double[] c0kcs = {
                 +0.60183057242626108387577445180329E-01,
                 -0.15364871433017286092959755943124,
@@ -112,26 +104,8 @@ public static partial class FullertonLib
                 -0.21599152067808647728342168089832E-31
             }
             ;
-        double eta;
-        double expx;
         int i;
-        int ii;
-        int inu;
-        int n;
         int nterms;
-        double p1;
-        double p2;
-        double p3;
-        double qq;
-        double result;
-        double sqrtx;
-        double v;
-        double vlnz;
-        double x2n;
-        double x2tov;
-        double xi;
-        double xmu;
-        double z;
         double[] znu1cs = {
                 +0.203306756994191729674444001216911,
                 +0.140077933413219771062943670790563,
@@ -155,12 +129,11 @@ public static partial class FullertonLib
                 +0.244637186274497596485238794922666E-32
             }
             ;
-        double ztov;
 
         switch (data.ntc0k)
         {
             case 0:
-                eta = 0.1 * r8_mach(3);
+                double eta = 0.1 * r8_mach(3);
                 data.ntc0k = r8_inits(c0kcs, 29, eta);
                 data.ntznu1 = r8_inits(znu1cs, 20, eta);
                 data.xnusml = Math.Sqrt(r8_mach(3) / 8.0);
@@ -201,7 +174,7 @@ public static partial class FullertonLib
             //
             case <= 2.0:
             {
-                v = xnu switch
+                double v = xnu switch
                 {
                     <= 0.5 => xnu,
                     _ => 1.0 - xnu
@@ -210,7 +183,7 @@ public static partial class FullertonLib
                 //
                 //  carefully find (x/2)^xnu and z^xnu where z = x*x/4.
                 //
-                alnz = 2.0 * (Math.Log(x) - data.aln2);
+                double alnz = 2.0 * (Math.Log(x) - data.aln2);
 
                 if (x <= xnu)
                 {
@@ -223,9 +196,10 @@ public static partial class FullertonLib
                     }
                 }
 
-                vlnz = v * alnz;
-                x2tov = Math.Exp(0.5 * vlnz);
+                double vlnz = v * alnz;
+                double x2tov = Math.Exp(0.5 * vlnz);
 
+                double ztov;
                 if (vlnz <= data.alnsml)
                 {
                     ztov = 0.0;
@@ -235,10 +209,10 @@ public static partial class FullertonLib
                     ztov = x2tov * x2tov;
                 }
 
-                a0 = 0.5 * r8_gamma(ref gdata, 1.0 + v);
-                b0 = 0.5 * r8_gamma(ref gdata, 1.0 - v);
+                double a0 = 0.5 * r8_gamma(ref gdata, 1.0 + v);
+                double b0 = 0.5 * r8_gamma(ref gdata, 1.0 - v);
 
-                c0 = ztov switch
+                double c0 = ztov switch
                 {
                     >= 0.5 when data.xnusml < v => -0.75 + r8_csevl(8.0 * v * v - 1.0, c0kcs, data.ntc0k),
                     _ => -data.euler
@@ -252,6 +226,7 @@ public static partial class FullertonLib
 
                 beta[0] = -0.5 * (a0 + ztov * b0);
 
+                double z;
                 if (x <= data.xsml)
                 {
                     z = 0.0;
@@ -266,7 +241,7 @@ public static partial class FullertonLib
 
                 for (i = 2; i <= nterms; i++)
                 {
-                    xi = i - 1;
+                    double xi = i - 1;
                     a0 /= (xi * (xi - v));
                     b0 /= (xi * (xi + v));
                     alpha[i - 1] = (alpha[i - 2] + 2.0 * xi * a0)
@@ -275,7 +250,8 @@ public static partial class FullertonLib
                 }
 
                 bknu = alpha[nterms - 1];
-                bknud = beta[nterms - 1];
+                double bknud = beta[nterms - 1];
+                int ii;
                 for (ii = 2; ii <= nterms; ii++)
                 {
                     i = nterms + 1 - ii;
@@ -283,7 +259,7 @@ public static partial class FullertonLib
                     bknud = beta[i - 1] + bknud * z;
                 }
 
-                expx = Math.Exp(x);
+                double expx = Math.Exp(x);
                 bknu = expx * bknu / x2tov;
 
                 if (data.alnbig < -0.5 * (xnu + 1.0) * alnz - 2.0 * data.aln2)
@@ -301,7 +277,7 @@ public static partial class FullertonLib
                         return;
                 }
 
-                bknu0 = bknu;
+                double bknu0 = bknu;
                 bknu = -v * bknu / x - bknud;
                 bknu1 = 2.0 * xnu * bknu / x + bknu0;
                 break;
@@ -309,7 +285,7 @@ public static partial class FullertonLib
             //
             default:
             {
-                sqrtx = Math.Sqrt(x);
+                double sqrtx = Math.Sqrt(x);
 
                 if (1.0 / data.xsml < x)
                 {
@@ -318,13 +294,14 @@ public static partial class FullertonLib
                     return;
                 }
 
-                an = -0.60 - 1.02 / x;
-                bn = -0.27 - 0.53 / x;
+                double an = -0.60 - 1.02 / x;
+                double bn = -0.27 - 0.53 / x;
                 nterms = i4_min(32, i4_max(3, (int) (an + bn * data.alneps)));
 
+                int inu;
                 for (inu = 1; inu <= 2; inu++)
                 {
-                    xmu = inu switch
+                    double xmu = inu switch
                     {
                         1 when xnu <= data.xnusml => 0.0,
                         1 => 4.0 * xnu * xnu,
@@ -335,6 +312,7 @@ public static partial class FullertonLib
                     a[1] = 9.0 - xmu;
                     a[2] = 25.0 - xmu;
 
+                    double result;
                     switch (a[1])
                     {
                         case 0.0:
@@ -354,16 +332,16 @@ public static partial class FullertonLib
 
                             for (i = 4; i <= nterms; i++)
                             {
-                                n = i - 1;
-                                x2n = 2 * n - 1;
+                                int n = i - 1;
+                                double x2n = 2 * n - 1;
 
                                 a[i - 1] = (x2n + 2.0) * (x2n + 2.0) - xmu;
-                                qq = 16.0 * x2n / a[i - 1];
-                                p1 = -x2n * (12 * n * n - 20 * n - a[0])
+                                double qq = 16.0 * x2n / a[i - 1];
+                                double p1 = -x2n * (12 * n * n - 20 * n - a[0])
                                     / ((x2n - 2.0) * a[i - 1]) - qq * x;
-                                p2 = (12 * n * n - 28 * n + 8 - a[0])
+                                double p2 = (12 * n * n - 28 * n + 8 - a[0])
                                     / a[i - 1] - qq * x;
-                                p3 = -x2n * a[i - 4] / ((x2n - 2.0) * a[i - 1]);
+                                double p3 = -x2n * a[i - 4] / ((x2n - 2.0) * a[i - 1]);
 
                                 alpha[i - 1] = -p1 * alpha[i - 2]
                                                - p2 * alpha[i - 3]

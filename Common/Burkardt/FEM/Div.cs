@@ -107,14 +107,9 @@ public class Div
         double[] dphidx = new double[4];
         double[] dphidy = new double[4];
         int i;
-        int j;
         double[] p = new double[2];
         double[] phi = new double[4];
         double[] q = new double[2 * 4];
-        double xl;
-        double xr;
-        double yb;
-        double yt;
 
         switch (m)
         {
@@ -158,32 +153,33 @@ public class Div
 
         for (i = 1; i <= m - 1; i++)
         {
-            yb = ((2 * m - 2 * i) * ylo
-                  + (2 * i - 2) * yhi)
-                 / (2 * m - 2);
+            double yb = ((2 * m - 2 * i) * ylo
+                         + (2 * i - 2) * yhi)
+                        / (2 * m - 2);
             p[1] = ((2 * m - 2 * i - 1) * ylo
                     + (2 * i - 1) * yhi)
                    / (2 * m - 2);
-            yt = ((2 * m - 2 * i - 2) * ylo
-                  + 2 * i * yhi)
-                 / (2 * m - 2);
+            double yt = ((2 * m - 2 * i - 2) * ylo
+                         + 2 * i * yhi)
+                        / (2 * m - 2);
 
             q[1 + 0 * 2] = yb;
             q[1 + 1 * 2] = yb;
             q[1 + 2 * 2] = yt;
             q[1 + 3 * 2] = yt;
 
+            int j;
             for (j = 1; j <= n - 1; j++)
             {
-                xl = ((2 * n - 2 * j) * xlo
-                      + (2 * j - 2) * xhi)
-                     / (2 * n - 2);
+                double xl = ((2 * n - 2 * j) * xlo
+                             + (2 * j - 2) * xhi)
+                            / (2 * n - 2);
                 p[0] = ((2 * n - 2 * j - 1) * xlo
                         + (2 * j - 1) * xhi)
                        / (2 * n - 2);
-                xr = ((2 * n - 2 * j - 2) * xlo
-                      + 2 * j * xhi)
-                     / (2 * n - 2);
+                double xr = ((2 * n - 2 * j - 2) * xlo
+                             + 2 * j * xhi)
+                            / (2 * n - 2);
 
                 q[0 + 0 * 2] = xl;
                 q[0 + 1 * 2] = xr;

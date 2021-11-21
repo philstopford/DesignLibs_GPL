@@ -103,7 +103,7 @@ public static class FEM_1D_BVP
 //    which are also the value of the computed solution at the mesh points.
 //
     {
-        int QUAD_NUM = 2;
+        const int QUAD_NUM = 2;
 
         double[] abscissa =
             {
@@ -111,67 +111,49 @@ public static class FEM_1D_BVP
                 +0.577350269189625764509148780502
             }
             ;
-        double[] amat;
-        double axq;
-        double[] b;
-        double cxq;
         int e;
-        int e_num;
-        double fxq;
         int i;
         int ierror = 0;
         int j;
-        int l;
-        int q;
-        int quad_num = QUAD_NUM;
-        int r;
-        double[] u;
         double[] weight =
             {
                 1.0, 1.0
             }
             ;
-        double wq;
-        double vl;
-        double vlp;
-        double vr;
-        double vrp;
-        double xl;
-        double xq;
-        double xr;
-//
+        //
 //  Zero out the matrix and right hand side.
 //
-        amat = typeMethods.r8mat_zero_new(n, n);
-        b = typeMethods.r8vec_zero_new(n);
+        double[] amat = typeMethods.r8mat_zero_new(n, n);
+        double[] b = typeMethods.r8vec_zero_new(n);
 
-        e_num = n - 1;
+        int e_num = n - 1;
 
         for (e = 0; e < e_num; e++)
         {
-            l = e;
-            r = e + 1;
+            int l = e;
+            int r = e + 1;
 
-            xl = x[l];
-            xr = x[r];
+            double xl = x[l];
+            double xr = x[r];
 
-            for (q = 0; q < quad_num; q++)
+            int q;
+            for (q = 0; q < QUAD_NUM; q++)
             {
-                xq = ((1.0 - abscissa[q]) * xl
-                      + (1.0 + abscissa[q]) * xr)
-                     / 2.0;
+                double xq = ((1.0 - abscissa[q]) * xl
+                             + (1.0 + abscissa[q]) * xr)
+                            / 2.0;
 
-                wq = weight[q] * (xr - xl) / 2.0;
+                double wq = weight[q] * (xr - xl) / 2.0;
 
-                vl = (xr - xq) / (xr - xl);
-                vlp = -1.0 / (xr - xl);
+                double vl = (xr - xq) / (xr - xl);
+                double vlp = -1.0 / (xr - xl);
 
-                vr = (xq - xl) / (xr - xl);
-                vrp = +1.0 / (xr - xl);
+                double vr = (xq - xl) / (xr - xl);
+                double vrp = +1.0 / (xr - xl);
 
-                axq = a(xq);
-                cxq = c(xq);
-                fxq = f(xq);
+                double axq = a(xq);
+                double cxq = c(xq);
+                double fxq = f(xq);
 
                 amat[l + l * n] += wq * (vlp * axq * vlp + vl * cxq * vl);
                 amat[l + r * n] += wq * (vlp * axq * vrp + vl * cxq * vr);
@@ -226,7 +208,7 @@ public static class FEM_1D_BVP
 //
 //  Solve the linear system.
 //
-        u = typeMethods.r8mat_solve2(n, ref amat, ref b, ref ierror);
+        double[] u = typeMethods.r8mat_solve2(n, ref amat, ref b, ref ierror);
 
         return u;
     }

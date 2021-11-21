@@ -51,13 +51,11 @@ public static partial class FullertonLib
         //
     {
         double corr;
-        double p;
-        double q;
         const double sq2pil = 0.91893853320467274178032973640562;
-        double value = 0;
+        double value;
 
-        p = r8_min(a, b);
-        q = r8_max(a, b);
+        double p = r8_min(a, b);
+        double q = r8_max(a, b);
 
         switch (p)
         {
@@ -133,8 +131,6 @@ public static partial class FullertonLib
         //    Output, double &SGNGAM, the sign (+1 or -1) of gamma ( X ).
         //
     {
-        int k;
-
         algam = r8_lngam(ref data.lngamdata, ref gdata, x);
         sgngam = 1.0;
 
@@ -142,7 +138,7 @@ public static partial class FullertonLib
         {
             case <= 0.0:
             {
-                k = (int) (-r8_aint(x) % 2.0 + 0.1);
+                int k = (int) (-r8_aint(x) % 2.0 + 0.1);
 
                 sgngam = k switch
                 {
@@ -203,15 +199,7 @@ public static partial class FullertonLib
         //    gamma function.
         //
     {
-        double fk;
         int k;
-        double p;
-        double r;
-        double s;
-        double t;
-        double value = 0;
-        double xma;
-        double xpa;
 
         data.eps = data.eps switch
         {
@@ -219,22 +207,22 @@ public static partial class FullertonLib
             _ => data.eps
         };
 
-        xpa = x + 1.0 - a;
-        xma = x - 1.0 - a;
+        double xpa = x + 1.0 - a;
+        double xma = x - 1.0 - a;
 
-        r = 0.0;
-        p = 1.0;
-        s = p;
+        double r = 0.0;
+        double p = 1.0;
+        double s = p;
         for (k = 1; k <= 300; k++)
         {
-            fk = k;
-            t = fk * (a - fk) * (1.0 + r);
+            double fk = k;
+            double t = fk * (a - fk) * (1.0 + r);
             r = -t / ((xma + 2.0 * fk) * (xpa + 2.0 * fk) + t);
             p = r * p;
             s += p;
             if (Math.Abs(p) < data.eps * s)
             {
-                value = a * alx - x + Math.Log(s / xpa);
+                double value = a * alx - x + Math.Log(s / xpa);
                 return value;
             }
         }
@@ -298,17 +286,8 @@ public static partial class FullertonLib
         //    gamma function.
         //
     {
-        double a1x;
-        double ax;
-        double fk;
-        double hstar;
         int k;
-        double p;
-        double r;
-        double s;
         //static double sqeps = 0.0;
-        double t;
-        double value = 0;
 
         data.eps = data.eps switch
         {
@@ -333,23 +312,23 @@ public static partial class FullertonLib
             return 1;
         }
 
-        ax = a + x;
-        a1x = ax + 1.0;
-        r = 0.0;
-        p = 1.0;
-        s = p;
+        double ax = a + x;
+        double a1x = ax + 1.0;
+        double r = 0.0;
+        double p = 1.0;
+        double s = p;
 
         for (k = 1; k <= 200; k++)
         {
-            fk = k;
-            t = (a + fk) * x * (1.0 + r);
+            double fk = k;
+            double t = (a + fk) * x * (1.0 + r);
             r = t / ((ax + fk) * (a1x + fk) - t);
             p = r * p;
             s += p;
             if (Math.Abs(p) < data.eps * s)
             {
-                hstar = 1.0 - x * s / a1x;
-                value = -x - algap1 - Math.Log(hstar);
+                double hstar = 1.0 - x * s / a1x;
+                double value = -x - algap1 - Math.Log(hstar);
                 return value;
             }
         }
@@ -598,12 +577,9 @@ public static partial class FullertonLib
         //    the gamma function of X.
         //
     {
-            
-        double sinpiy;
         const double sq2pil = 0.91893853320467274178032973640562;
         const double sqpi2l = +0.225791352644727432363097614947441;
-        double value = 0;
-        double y;
+        double value;
 
         switch (data.xmax)
         {
@@ -613,7 +589,7 @@ public static partial class FullertonLib
                 break;
         }
 
-        y = Math.Abs(x);
+        double y = Math.Abs(x);
 
         switch (y)
         {
@@ -637,7 +613,7 @@ public static partial class FullertonLib
                 return value;
         }
 
-        sinpiy = Math.Abs(Math.Sin(Math.PI * y));
+        double sinpiy = Math.Abs(Math.Sin(Math.PI * y));
 
         switch (sinpiy)
         {
@@ -864,11 +840,7 @@ public static partial class FullertonLib
             }
             ;
         int n = 0;
-        int ntrval;
         double t = 0;
-        double t2;
-        double value = 0;
-        double xn;
         double y = 0;
 
         data.nterms = data.nterms switch
@@ -888,9 +860,9 @@ public static partial class FullertonLib
 
         r8_upak(x, ref y, ref n);
 
-        xn = n - 1;
+        double xn = n - 1;
         y = 2.0 * y;
-        ntrval = (int) (4.0 * y - 2.5);
+        int ntrval = (int) (4.0 * y - 2.5);
 
         t = ntrval switch
         {
@@ -899,9 +871,9 @@ public static partial class FullertonLib
             _ => t
         };
 
-        t2 = t * t;
-        value = 0.625 * xn + (aln2 * xn + alncen[ntrval - 1] + 2.0 * t
-                              + t * t2 * r8_csevl(578.0 * t2 - 1.0, alncs, data.nterms));
+        double t2 = t * t;
+        double value = 0.625 * xn + (aln2 * xn + alncen[ntrval - 1] + 2.0 * t
+                                     + t * t2 * r8_csevl(578.0 * t2 - 1.0, alncs, data.nterms));
 
         return value;
     }

@@ -51,36 +51,28 @@ public static class FEM_Error
 //
     {
         int e;
-        int e_num;
         double eq;
-        int l;
-        int q;
-        int quad_num = 8;
-        int r;
-        double ul;
-        double ur;
+        const int quad_num = 8;
         double uq;
-        double value = 0;
-        double xl;
         double xq;
-        double xr;
 
-        value = 0.0;
+        double value = 0.0;
 //
 //  Integrate over each interval.
 //
-        e_num = n - 1;
+        int e_num = n - 1;
 
         for (e = 0; e < e_num; e++)
         {
-            l = e;
-            xl = x[l];
-            ul = u[l];
+            int l = e;
+            double xl = x[l];
+            double ul = u[l];
 
-            r = e + 1;
-            xr = x[r];
-            ur = u[r];
+            int r = e + 1;
+            double xr = x[r];
+            double ur = u[r];
 
+            int q;
             for (q = 0; q < quad_num; q++)
             {
                 xq = ((quad_num - q) * xl
@@ -161,53 +153,42 @@ public static class FEM_Error
 //
     {
         int e;
-        int e_num;
         double eq;
-        int l;
-        int m;
-        int q;
-        int quad_num = 8;
-        int r;
+        const int quad_num = 8;
         double uq;
-        double value = 0;
-        double vl;
-        double vm;
-        double vr;
-        double xl;
-        double xm;
         double xq;
-        double xr;
 
-        value = 0.0;
+        double value = 0.0;
 //
 //  Integrate over each interval.
 //
-        e_num = (n - 1) / 2;
+        int e_num = (n - 1) / 2;
 
         for (e = 0; e < e_num; e++)
         {
-            l = 2 * e;
-            xl = x[l];
+            int l = 2 * e;
+            double xl = x[l];
 
-            m = 2 * e + 1;
-            xm = x[m];
+            int m = 2 * e + 1;
+            double xm = x[m];
 
-            r = 2 * e + 2;
-            xr = x[r];
+            int r = 2 * e + 2;
+            double xr = x[r];
 
+            int q;
             for (q = 0; q < quad_num; q++)
             {
                 xq = ((quad_num - q) * xl
                       + q * xr)
                      / quad_num;
-                vl = (xq - xm) / (xl - xm)
-                     * ((xq - xr) / (xl - xr));
+                double vl = (xq - xm) / (xl - xm)
+                            * ((xq - xr) / (xl - xr));
 
-                vm = (xq - xl) / (xm - xl)
-                     * ((xq - xr) / (xm - xr));
+                double vm = (xq - xl) / (xm - xl)
+                            * ((xq - xr) / (xm - xr));
 
-                vr = (xq - xl) / (xr - xl)
-                     * ((xq - xm) / (xr - xm));
+                double vr = (xq - xl) / (xr - xl)
+                            * ((xq - xm) / (xr - xm));
 
                 uq = u[l] * vl + u[m] * vm + u[r] * vr;
 
@@ -277,9 +258,8 @@ public static class FEM_Error
 //
     {
         int i;
-        double e1;
 
-        e1 = 0.0;
+        double e1 = 0.0;
 
         for (i = 0; i < n; i++)
         {
@@ -337,7 +317,7 @@ public static class FEM_Error
 //    Output, double L2_ERROR_LINEAR, the estimated L2 norm of the error.
 //
     {
-        int QUAD_NUM = 2;
+        const int QUAD_NUM = 2;
 
         double[] abscissa =
             {
@@ -345,50 +325,40 @@ public static class FEM_Error
                 +0.577350269189625764509148780502
             }
             ;
-        double eq;
         int i;
-        double e2;
-        int q;
-        int quad_num = QUAD_NUM;
-        double ul;
-        double ur;
-        double uq;
         double[] weight =
             {
                 1.0, 1.0
             }
             ;
-        double wq;
-        double xl;
-        double xq;
-        double xr;
 
-        e2 = 0.0;
+        double e2 = 0.0;
 //
 //  Integrate over each interval.
 //
         for (i = 0; i < n - 1; i++)
         {
-            xl = x[i];
-            xr = x[i + 1];
-            ul = u[i];
-            ur = u[i + 1];
+            double xl = x[i];
+            double xr = x[i + 1];
+            double ul = u[i];
+            double ur = u[i + 1];
 
-            for (q = 0; q < quad_num; q++)
+            int q;
+            for (q = 0; q < QUAD_NUM; q++)
             {
-                xq = ((1.0 - abscissa[q]) * xl
-                      + (1.0 + abscissa[q]) * xr)
-                     / 2.0;
+                double xq = ((1.0 - abscissa[q]) * xl
+                             + (1.0 + abscissa[q]) * xr)
+                            / 2.0;
 
-                wq = weight[q] * (xr - xl) / 2.0;
+                double wq = weight[q] * (xr - xl) / 2.0;
 //
 //  Use the fact that U is a linear combination of piecewise linears.
 //
-                uq = ((xr - xq) * ul
-                      + (xq - xl) * ur)
-                     / (xr - xl);
+                double uq = ((xr - xq) * ul
+                             + (xq - xl) * ur)
+                            / (xr - xl);
 
-                eq = exact(xq);
+                double eq = exact(xq);
 
                 e2 += wq * Math.Pow(uq - eq, 2);
             }
@@ -445,7 +415,7 @@ public static class FEM_Error
 //    Output, double L2_ERROR_QUADRATIC, the estimated L2 norm of the error.
 //
     {
-        int QUAD_NUM = 3;
+        const int QUAD_NUM = 3;
 
         double[] abscissa =  {
                 -0.774596669241483377035853079956,
@@ -454,66 +424,50 @@ public static class FEM_Error
             }
             ;
         int e;
-        int e_num;
-        double e2;
-        double eq;
-        int l;
-        int m;
-        int q;
-        int quad_num = QUAD_NUM;
-        int r;
-        double uq;
-        double vl;
-        double vm;
-        double vr;
         double[] weight =  {
                 0.555555555555555555555555555556,
                 0.888888888888888888888888888889,
                 0.555555555555555555555555555556
             }
             ;
-        double wq;
-        double xl;
-        double xm;
-        double xq;
-        double xr;
 
-        e2 = 0.0;
+        double e2 = 0.0;
 //
 //  Integrate over element E.
 //
-        e_num = (n - 1) / 2;
+        int e_num = (n - 1) / 2;
 
         for (e = 0; e < e_num; e++)
         {
-            l = 2 * e;
-            m = 2 * e + 1;
-            r = 2 * e + 2;
+            int l = 2 * e;
+            int m = 2 * e + 1;
+            int r = 2 * e + 2;
 
-            xl = x[l];
-            xm = x[m];
-            xr = x[r];
+            double xl = x[l];
+            double xm = x[m];
+            double xr = x[r];
 
-            for (q = 0; q < quad_num; q++)
+            int q;
+            for (q = 0; q < QUAD_NUM; q++)
             {
 
-                xq = ((1.0 - abscissa[q]) * xl
-                      + (1.0 + abscissa[q]) * xr)
-                     / 2.0;
+                double xq = ((1.0 - abscissa[q]) * xl
+                             + (1.0 + abscissa[q]) * xr)
+                            / 2.0;
 
-                wq = weight[q] * (xr - xl) / 2.0;
+                double wq = weight[q] * (xr - xl) / 2.0;
 
-                vl = (xq - xm) / (xl - xm)
-                     * ((xq - xr) / (xl - xr));
+                double vl = (xq - xm) / (xl - xm)
+                            * ((xq - xr) / (xl - xr));
 
-                vm = (xq - xl) / (xm - xl)
-                     * ((xq - xr) / (xm - xr));
+                double vm = (xq - xl) / (xm - xl)
+                            * ((xq - xr) / (xm - xr));
 
-                vr = (xq - xl) / (xr - xl)
-                     * ((xq - xm) / (xr - xm));
+                double vr = (xq - xl) / (xr - xl)
+                            * ((xq - xm) / (xr - xm));
 
-                uq = u[l] * vl + u[m] * vm + u[r] * vr;
-                eq = exact(xq);
+                double uq = u[l] * vl + u[m] * vm + u[r] * vr;
+                double eq = exact(xq);
 
                 e2 += wq * Math.Pow(uq - eq, 2);
             }
@@ -572,51 +526,41 @@ public static class FEM_Error
 //    the error.
 //
     {
-        int QUAD_NUM = 2;
+        const int QUAD_NUM = 2;
 
         double[] abscissa =
         {
             -0.577350269189625764509148780502,
             +0.577350269189625764509148780502
         };
-        double exq;
         int i;
-        int q;
-        int quad_num = QUAD_NUM;
-        double h1s;
-        double ul;
-        double ur;
-        double uxq;
         double[] weight = {1.0, 1.0};
-        double wq;
-        double xl;
-        double xq;
-        double xr;
 
-        h1s = 0.0;
+        double h1s = 0.0;
 //
 //  Integrate over each interval.
 //
         for (i = 0; i < n - 1; i++)
         {
-            xl = x[i];
-            xr = x[i + 1];
-            ul = u[i];
-            ur = u[i + 1];
+            double xl = x[i];
+            double xr = x[i + 1];
+            double ul = u[i];
+            double ur = u[i + 1];
 
-            for (q = 0; q < quad_num; q++)
+            int q;
+            for (q = 0; q < QUAD_NUM; q++)
             {
-                xq = ((1.0 - abscissa[q]) * xl
-                      + (1.0 + abscissa[q]) * xr)
-                     / 2.0;
+                double xq = ((1.0 - abscissa[q]) * xl
+                             + (1.0 + abscissa[q]) * xr)
+                            / 2.0;
 
-                wq = weight[q] * (xr - xl) / 2.0;
+                double wq = weight[q] * (xr - xl) / 2.0;
 //
 //  The piecewise linear derivative is a constant in the interval.
 //
-                uxq = (ur - ul) / (xr - xl);
+                double uxq = (ur - ul) / (xr - xl);
 
-                exq = exact_ux(xq);
+                double exq = exact_ux(xq);
 
                 h1s += wq * Math.Pow(uxq - exq, 2);
             }
@@ -674,7 +618,7 @@ public static class FEM_Error
 //    the error.
 //
     {
-        int QUAD_NUM = 3;
+        const int QUAD_NUM = 3;
 
         double[] abscissa =
         {
@@ -683,73 +627,57 @@ public static class FEM_Error
             0.774596669241483377035853079956
         };
         int e;
-        int e_num;
-        double exq;
-        double h1s;
-        int l;
-        int m;
-        int q;
-        int quad_num = QUAD_NUM;
-        int r;
-        double uxq;
-        double vlp;
-        double vmp;
-        double vrp;
         double[] weight =
         {
             0.555555555555555555555555555556,
             0.888888888888888888888888888889,
             0.555555555555555555555555555556
         };
-        double wq;
-        double xl;
-        double xm;
-        double xq;
-        double xr;
 
-        h1s = 0.0;
+        double h1s = 0.0;
 //
 //  Integrate over element E.
 //
-        e_num = (n - 1) / 2;
+        int e_num = (n - 1) / 2;
 
         for (e = 0; e < e_num; e++)
         {
-            l = 2 * e;
-            m = 2 * e + 1;
-            r = 2 * e + 2;
+            int l = 2 * e;
+            int m = 2 * e + 1;
+            int r = 2 * e + 2;
 
-            xl = x[l];
-            xm = x[m];
-            xr = x[r];
+            double xl = x[l];
+            double xm = x[m];
+            double xr = x[r];
 
-            for (q = 0; q < quad_num; q++)
+            int q;
+            for (q = 0; q < QUAD_NUM; q++)
             {
 
-                xq = ((1.0 - abscissa[q]) * xl
-                      + (1.0 + abscissa[q]) * xr)
-                     / 2.0;
+                double xq = ((1.0 - abscissa[q]) * xl
+                             + (1.0 + abscissa[q]) * xr)
+                            / 2.0;
 
-                wq = weight[q] * (xr - xl) / 2.0;
+                double wq = weight[q] * (xr - xl) / 2.0;
 
-                vlp = 1.0 / (xl - xm)
-                      * ((xq - xr) / (xl - xr))
-                      + (xq - xm) / (xl - xm)
-                      * (1.0 / (xl - xr));
+                double vlp = 1.0 / (xl - xm)
+                             * ((xq - xr) / (xl - xr))
+                             + (xq - xm) / (xl - xm)
+                             * (1.0 / (xl - xr));
 
-                vmp = 1.0 / (xm - xl)
-                      * ((xq - xr) / (xm - xr))
-                      + (xq - xl) / (xm - xl)
-                      * (1.0 / (xm - xr));
+                double vmp = 1.0 / (xm - xl)
+                             * ((xq - xr) / (xm - xr))
+                             + (xq - xl) / (xm - xl)
+                             * (1.0 / (xm - xr));
 
-                vrp = 1.0 / (xr - xl)
-                      * ((xq - xm) / (xr - xm))
-                      + (xq - xl) / (xr - xl)
-                      * (1.0 / (xr - xm));
+                double vrp = 1.0 / (xr - xl)
+                             * ((xq - xm) / (xr - xm))
+                             + (xq - xl) / (xr - xl)
+                             * (1.0 / (xr - xm));
 
-                uxq = u[l] * vlp + u[m] * vmp + u[r] * vrp;
+                double uxq = u[l] * vlp + u[m] * vmp + u[r] * vrp;
 
-                exq = exact_ux(xq);
+                double exq = exact_ux(xq);
 
                 h1s += wq * Math.Pow(uxq - exq, 2);
             }

@@ -5,7 +5,7 @@ using Burkardt.Types;
 
 namespace Burkardt.FEM;
 
-public class Shape
+public static class Shape
 {
     public static void shape(string code, double r, double s, ref double[] t,
             ref double[] dtdr, ref double[] dtds)
@@ -362,22 +362,14 @@ public class Shape
         //    Output, double DTDS[12], the S basis derivatives at the point.
         //
     {
-        double a;
-        double b;
-        double c;
-        double corner;
-        double d;
-        double dcdr;
-        double dcds;
+        const double a = 0.0;
+        const double b = 1.0 / 3.0;
+        const double c = 2.0 / 3.0;
+        const double d = 1.0;
 
-        a = 0.0;
-        b = 1.0 / 3.0;
-        c = 2.0 / 3.0;
-        d = 1.0;
-
-        corner = 9.0 * ((2.0 * r - 1.0) * (2.0 * r - 1.0)
-                        + (2.0 * s - 1.0) * (2.0 * s - 1.0))
-                 - 10.0;
+        double corner = 9.0 * ((2.0 * r - 1.0) * (2.0 * r - 1.0)
+                               + (2.0 * s - 1.0) * (2.0 * s - 1.0))
+                        - 10.0;
 
         t[0] = 0.125 * (r - d) * (s - d) * corner;
         t[1] = -13.5 * (r - a) * (r - c) * (r - d) * (s - d);
@@ -392,7 +384,7 @@ public class Shape
         t[10] = -13.5 * (r - a) * (r - b) * (r - d) * (s - a);
         t[11] = 0.125 * (r - a) * (s - a) * corner;
 
-        dcdr = 36.0 * (2.0 * r - 1.0);
+        double dcdr = 36.0 * (2.0 * r - 1.0);
 
         dtdr[0] = 0.125 * (s - d) * ((r - d) * dcdr + corner);
         dtdr[1] = -13.5 * (s - d) * (3.0 * r * r
@@ -411,7 +403,7 @@ public class Shape
             - 2.0 * (a + b + d) * r + a * b + b * d + d * a);
         dtdr[11] = 0.125 * (s - a) * ((r - a) * dcdr + corner);
 
-        dcds = 36.0 * (2.0 * s - 1.0);
+        double dcds = 36.0 * (2.0 * s - 1.0);
 
         dtds[0] = 0.125 * (r - d) * (corner + (s - d) * dcds);
         dtds[1] = -13.5 * (r - a) * (r - c) * (r - d);
@@ -479,28 +471,15 @@ public class Shape
         //    Output, double DTDS[16], the S basis derivatives at the point.
         //
     {
-        double dabc;
-        double dabd;
-        double dacd;
-        double dbcd;
-        double ra;
-        double rb;
-        double rc;
-        double rd;
-        double sa;
-        double sb;
-        double sc;
-        double sd;
+        double ra = r - 0.0;
+        double rb = r - 1.0 / 3.0;
+        double rc = r - 2.0 / 3.0;
+        double rd = r - 1.0;
 
-        ra = r - 0.0;
-        rb = r - 1.0 / 3.0;
-        rc = r - 2.0 / 3.0;
-        rd = r - 1.0;
-
-        sa = s - 0.0;
-        sb = s - 1.0 / 3.0;
-        sc = s - 2.0 / 3.0;
-        sd = s - 1.0;
+        double sa = s - 0.0;
+        double sb = s - 1.0 / 3.0;
+        double sc = s - 2.0 / 3.0;
+        double sd = s - 1.0;
 
         t[0] = 81.0 / 4.0 * rb * rc * rd * sb * sc * sd;
         t[1] = -(243.0 / 4.0) * ra * rc * rd * sb * sc * sd;
@@ -522,10 +501,10 @@ public class Shape
         t[14] = -(243.0 / 4.0) * ra * rb * rd * sa * sb * sc;
         t[15] = 81.0 / 4.0 * ra * rb * rc * sa * sb * sc;
 
-        dbcd = 3.0 * r * r - 4.0 * r + 11.0 / 9.0;
-        dacd = 3.0 * r * r - 10.0 * r / 3.0 + 2.0 / 3.0;
-        dabd = 3.0 * r * r - 8.0 * r / 3.0 + 1.0 / 3.0;
-        dabc = 3.0 * r * r - 2.0 * r + 2.0 / 9.0;
+        double dbcd = 3.0 * r * r - 4.0 * r + 11.0 / 9.0;
+        double dacd = 3.0 * r * r - 10.0 * r / 3.0 + 2.0 / 3.0;
+        double dabd = 3.0 * r * r - 8.0 * r / 3.0 + 1.0 / 3.0;
+        double dabc = 3.0 * r * r - 2.0 * r + 2.0 / 9.0;
 
         dtdr[0] = 81.0 / 4.0 * dbcd * sb * sc * sd;
         dtdr[1] = -(243.0 / 4.0) * dacd * sb * sc * sd;
@@ -868,13 +847,9 @@ public class Shape
         //    Output, double DTDS[10], the S basis derivatives at the point.
         //
     {
-        double a;
-        double b;
-        double c;
-
-        a = 1.0 / 3.0;
-        b = 2.0 / 3.0;
-        c = 1.0;
+        const double a = 1.0 / 3.0;
+        const double b = 2.0 / 3.0;
+        const double c = 1.0;
 
         t[0] = 4.5 * (a - r - s) * (b - r - s) * (c - r - s);
         t[1] = 13.5 * r * (b - r - s) * (c - r - s);
@@ -947,27 +922,19 @@ public class Shape
         //
     {
         double area = 0;
-        double[] dtdr;
-        double[] dtds;
-        int element_order;
         int i;
         int j;
-        double[] r;
-        double rsum;
-        double[] s;
-        double ssum;
-        double[] t;
 
         Console.WriteLine("");
         Console.WriteLine("  SHAPE_TEST: Verify shape functions of type " + code + "");
 
-        element_order = Order.order_code(code);
+        int element_order = Order.order_code(code);
 
-        dtdr = new double[element_order];
-        dtds = new double[element_order];
-        r = new double[element_order];
-        s = new double[element_order];
-        t = new double[element_order];
+        double[] dtdr = new double[element_order];
+        double[] dtds = new double[element_order];
+        double[] r = new double[element_order];
+        double[] s = new double[element_order];
+        double[] t = new double[element_order];
 
         NodeReference.node_reference(code, ref r, ref s, ref area);
 
@@ -997,13 +964,13 @@ public class Shape
         for (i = 0; i < element_order; i++)
         {
             shape(code, r[i], s[i], ref t, ref dtdr, ref dtds);
-            rsum = 0.0;
+            double rsum = 0.0;
             for (j = 0; j < element_order; j++)
             {
                 rsum += dtdr[j];
             }
 
-            ssum = 0.0;
+            double ssum = 0.0;
             for (j = 0; j < element_order; j++)
             {
                 ssum += dtds[j];

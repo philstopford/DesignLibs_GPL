@@ -30,7 +30,7 @@ public static class FEM_Test_Methods
         //    Output, double A00, the value of A(X).
         //
     {
-        double value = 1.0;
+        const double value = 1.0;
 
         return value;
     }
@@ -61,7 +61,7 @@ public static class FEM_Test_Methods
         //    Output, double C00, the value of C(X).
         //
     {
-        double value = 1.0;
+        const double value = 1.0;
 
         return value;
     }
@@ -154,9 +154,7 @@ public static class FEM_Test_Methods
         //    Output, double F00, the value of F(X).
         //
     {
-        double value = x;
-
-        return value;
+        return x;
     }
 
     public static double a1(double x)
@@ -185,7 +183,7 @@ public static class FEM_Test_Methods
         //    Output, double A1, the value of A(X).
         //
     {
-        double value = 1.0;
+        const double value = 1.0;
 
         return value;
     }
@@ -216,7 +214,7 @@ public static class FEM_Test_Methods
         //    Output, double C1, the value of C(X).
         //
     {
-        double value = 0.0;
+        const double value = 0.0;
 
         return value;
     }
@@ -341,7 +339,7 @@ public static class FEM_Test_Methods
         //    Output, double A2, the value of A(X).
         //
     {
-        double value = 1.0;
+        const double value = 1.0;
 
         return value;
     }
@@ -372,7 +370,7 @@ public static class FEM_Test_Methods
         //    Output, double C2, the value of C(X).
         //
     {
-        double value = 2.0;
+        const double value = 2.0;
 
         return value;
     }
@@ -497,7 +495,7 @@ public static class FEM_Test_Methods
         //    Output, double A3, the value of A(X).
         //
     {
-        double value = 1.0;
+        const double value = 1.0;
 
         return value;
     }
@@ -683,7 +681,7 @@ public static class FEM_Test_Methods
         //    Output, double C4, the value of C(X).
         //
     {
-        double value = 0.0;
+        const double value = 0.0;
 
         return value;
     }
@@ -842,7 +840,7 @@ public static class FEM_Test_Methods
         //    Output, double C5, the value of C(X).
         //
     {
-        double value = 0.0;
+        const double value = 0.0;
 
         return value;
     }
@@ -970,7 +968,7 @@ public static class FEM_Test_Methods
         //    Output, double A6, the value of A(X).
         //
     {
-        double value = 1.0;
+        const double value = 1.0;
 
         return value;
     }
@@ -1001,7 +999,7 @@ public static class FEM_Test_Methods
         //    Output, double C6, the value of C(X).
         //
     {
-        double value = 0.0;
+        const double value = 0.0;
 
         return value;
     }
@@ -1125,8 +1123,8 @@ public static class FEM_Test_Methods
         //    Output, double A7, the value of A(X).
         //
     {
-        double alpha = 30.0;
-        double x0 = 1.0 / 3.0;
+        const double alpha = 30.0;
+        const double x0 = 1.0 / 3.0;
         double value = 1.0 / alpha + alpha * Math.Pow(x - x0, 2);
 
         return value;
@@ -1158,7 +1156,7 @@ public static class FEM_Test_Methods
         //    Output, double C7, the value of C(X).
         //
     {
-        double value = 0.0;
+        const double value = 0.0;
 
         return value;
     }
@@ -1189,8 +1187,8 @@ public static class FEM_Test_Methods
         //    Output, double EXACT7, the value of U(X).
         //
     {
-        double alpha = 30.0;
-        double x0 = 1.0 / 3.0;
+        const double alpha = 30.0;
+        const double x0 = 1.0 / 3.0;
         double value = (1.0 - x)
                        * (Math.Atan(alpha * (x - x0)) + Math.Atan(alpha * x0));
 
@@ -1223,8 +1221,8 @@ public static class FEM_Test_Methods
         //    Output, double EXACT_UX7, the value of U(X).
         //
     {
-        double alpha = 30.0;
-        double x0 = 1.0 / 3.0;
+        const double alpha = 30.0;
+        const double x0 = 1.0 / 3.0;
         double value = -Math.Atan(alpha * (x - x0)) - Math.Atan(alpha * x0)
                        + (1.0 - x) * alpha / (1.0 + alpha * alpha * Math.Pow(x - x0, 2));
 
@@ -1258,8 +1256,8 @@ public static class FEM_Test_Methods
         //    Output, double F7, the value of F(X).
         //
     {
-        double alpha = 30.0;
-        double x0 = 1.0 / 3.0;
+        const double alpha = 30.0;
+        const double x0 = 1.0 / 3.0;
         double value = 2.0 * (1.0 + alpha * (x - x0) *
             (Math.Atan(alpha * (x - x0)) + Math.Atan(alpha * x0)));
 
@@ -1292,7 +1290,7 @@ public static class FEM_Test_Methods
         //    Output, double A8, the value of A(X).
         //
     {
-        double value = 1.0;
+        const double value = 1.0;
 
         return value;
     }
@@ -1323,7 +1321,7 @@ public static class FEM_Test_Methods
         //    Output, double C8, the value of C(X).
         //
     {
-        double value = 0.0;
+        const double value = 0.0;
 
         return value;
     }
@@ -1459,7 +1457,7 @@ public static class FEM_Test_Methods
         //    Output, double A8, the value of A(X).
         //
     {
-        double value = 1.0;
+        const double value = 1.0;
 
         return value;
     }
@@ -1490,7 +1488,7 @@ public static class FEM_Test_Methods
         //    Output, double C9, the value of C(X).
         //
     {
-        double value = 0.0;
+        const double value = 0.0;
 
         return value;
     }
@@ -1626,7 +1624,7 @@ public static class FEM_Test_Methods
         //    Output, double A10, the value of A(X).
         //
     {
-        double value = 1.0;
+        const double value = 1.0;
 
         return value;
     }
@@ -1657,7 +1655,7 @@ public static class FEM_Test_Methods
         //    Output, double C10, the value of C(X).
         //
     {
-        double value = 1.0;
+        const double value = 1.0;
 
         return value;
     }
@@ -1750,9 +1748,7 @@ public static class FEM_Test_Methods
         //    Output, double F10, the value of F(X).
         //
     {
-        double value = x;
-
-        return value;
+        return x;
     }
         
     public static double k1 ( double x )
@@ -1781,7 +1777,7 @@ public static class FEM_Test_Methods
 //    Output, double K1, the value of K(X).
 //
     {
-        double value = 1.0;
+        const double value = 1.0;
 
         return value;
     }
@@ -1812,9 +1808,7 @@ public static class FEM_Test_Methods
 //    Output, double F, the value of the right hand side at X.
 //
     {
-        double value = x;
-
-        return value;
+        return x;
     }
 
     public static double[] exact ( int x_num, double[] x )

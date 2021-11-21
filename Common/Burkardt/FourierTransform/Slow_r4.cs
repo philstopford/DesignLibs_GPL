@@ -51,17 +51,16 @@ public static partial class Slow
         //    Output, float SCT[N], the transformed data.
         //
     {
-        float angle;
         int i;
-        int j;
-        float[] y;
 
-        y = new float[n];
+        float[] y = new float[n];
 
         for (i = 0; i < n; i++)
         {
             y[i] = x[0] / 2.0f;
 
+            float angle;
+            int j;
             for (j = 1; j < n - 1; j++)
             {
                 angle = (float) Math.PI * (i * j % (2 * (n - 1)))
@@ -123,18 +122,16 @@ public static partial class Slow
         //
     {
         int i;
-        int k;
-        float[] r;
-        float theta;
 
-        r = new float[n];
+        float[] r = new float[n];
 
         for (i = 0; i < n; i++)
         {
             r[i] = azero;
+            int k;
             for (k = 0; k < n / 2; k++)
             {
-                theta = (float) ((k + 1) * i * 2 * Math.PI / (float) n);
+                float theta = (float) ((k + 1) * i * 2 * Math.PI / (float) n);
                 r[i] = (float) (r[i] + a[k] * Math.Cos(theta) + b[k] * Math.Sin(theta));
             }
         }
@@ -180,8 +177,6 @@ public static partial class Slow
         //
     {
         int i;
-        int j;
-        float theta;
 
         azero = 0.0f;
         for (i = 0; i < n; i++)
@@ -196,9 +191,10 @@ public static partial class Slow
             a[i] = 0.0f;
             b[i] = 0.0f;
 
+            int j;
             for (j = 0; j < n; j++)
             {
-                theta = (float) (2 * (i + 1) * j * Math.PI / (float) n);
+                float theta = (float) (2 * (i + 1) * j * Math.PI / (float) n);
                 a[i] += r[j] * (float) Math.Cos(theta);
                 b[i] += r[j] * (float) Math.Sin(theta);
             }
@@ -264,12 +260,9 @@ public static partial class Slow
         //    Output, float SHT[N], the transformed data.
         //
     {
-        float[] b;
         int i;
-        int j;
-        float theta;
 
-        b = new float[n];
+        float[] b = new float[n];
 
         for (i = 0; i < n; i++)
         {
@@ -278,9 +271,10 @@ public static partial class Slow
 
         for (i = 0; i < n; i++)
         {
+            int j;
             for (j = 0; j < n; j++)
             {
-                theta = (float) (2.0f * Math.PI * (float) (i * j % n) / (float) n);
+                float theta = (float) (2.0f * Math.PI * (float) (i * j % n) / (float) n);
                 b[i] = (float) (b[i] + a[j] * (Math.Cos(theta) + Math.Sin(theta)));
             }
         }
@@ -339,11 +333,8 @@ public static partial class Slow
         //
     {
         int i;
-        int j;
-        float theta;
-        float[] y;
 
-        y = new float[n];
+        float[] y = new float[n];
 
         for (i = 0; i < n; i++)
         {
@@ -352,9 +343,10 @@ public static partial class Slow
 
         for (i = 0; i < n; i++)
         {
+            int j;
             for (j = 1; j < n; j++)
             {
-                theta = (float) (0.5 * Math.PI * (float) (j * (2 * i + 1)) / (float) n);
+                float theta = (float) (0.5 * Math.PI * (float) (j * (2 * i + 1)) / (float) n);
                 y[i] = (float) (y[i] + 2.0 * x[j] * Math.Cos(theta));
             }
         }
@@ -408,11 +400,8 @@ public static partial class Slow
         //
     {
         int i;
-        int j;
-        float theta;
-        float[] y;
 
-        y = new float[n];
+        float[] y = new float[n];
 
         for (i = 0; i < n; i++)
         {
@@ -421,9 +410,10 @@ public static partial class Slow
 
         for (i = 0; i < n; i++)
         {
+            int j;
             for (j = 0; j < n; j++)
             {
-                theta = (float) (0.5 * Math.PI * (float) (i * (2 * j + 1)) / (float) n);
+                float theta = (float) (0.5 * Math.PI * (float) (i * (2 * j + 1)) / (float) n);
                 y[i] = (float) (y[i] + x[j] * Math.Cos(theta));
             }
         }
@@ -483,11 +473,8 @@ public static partial class Slow
         //
     {
         int i;
-        int j;
-        float theta;
-        float[] y;
 
-        y = new float[n];
+        float[] y = new float[n];
 
         for (i = 0; i < n; i++)
         {
@@ -496,6 +483,8 @@ public static partial class Slow
 
         for (i = 0; i < n; i++)
         {
+            int j;
+            float theta;
             for (j = 0; j < n - 1; j++)
             {
                 theta = (float) (0.5 * Math.PI * (float) ((j + 1) * (2 * i + 1))
@@ -557,11 +546,8 @@ public static partial class Slow
         //
     {
         int i;
-        int j;
-        float theta;
-        float[] y;
 
-        y = new float[n];
+        float[] y = new float[n];
 
         for (i = 0; i < n; i++)
         {
@@ -570,10 +556,11 @@ public static partial class Slow
 
         for (i = 0; i < n; i++)
         {
+            int j;
             for (j = 0; j < n; j++)
             {
-                theta = (float) (0.5 * Math.PI * (float) ((i + 1) * (2 * j + 1))
-                                 / (float) n);
+                float theta = (float) (0.5 * Math.PI * (float) ((i + 1) * (2 * j + 1))
+                                       / (float) n);
                 y[i] = (float) (y[i] + x[j] * Math.Sin(theta));
             }
         }
@@ -629,17 +616,15 @@ public static partial class Slow
     {
         int i;
         int j;
-        float[] theta;
-        float[] y;
 
-        theta = new float[n];
+        float[] theta = new float[n];
 
         for (i = 0; i < n; i++)
         {
             theta[i] = (float) (Math.PI * (float) (i + 1) / (float) (n + 1));
         }
 
-        y = new float[n];
+        float[] y = new float[n];
 
         for (i = 0; i < n; i++)
         {

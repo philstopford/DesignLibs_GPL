@@ -64,23 +64,21 @@ public static class Bandwidth
         //
     {
         int element;
-        int global_i;
-        int global_j;
-        int local_i;
-        int local_j;
 
         ml = 0;
         mu = 0;
 
         for (element = 0; element < element_num; element++)
         {
+            int local_i;
             for (local_i = 0; local_i < element_order; local_i++)
             {
-                global_i = element_node[local_i + element * element_order];
+                int global_i = element_node[local_i + element * element_order];
 
+                int local_j;
                 for (local_j = 0; local_j < element_order; local_j++)
                 {
-                    global_j = element_node[local_j + element * element_order];
+                    int global_j = element_node[local_j + element * element_order];
 
                     mu = Math.Max(mu, global_j - global_i);
                     ml = Math.Max(ml, global_i - global_j);
@@ -173,39 +171,35 @@ public static class Bandwidth
         //
     {
         int element;
-        int node_global_i;
-        int node_global_j;
-        int node_local_i;
-        int node_local_j;
-        int var_global_i;
-        int var_global_j;
-        int var_local_i;
-        int var_local_j;
 
         ml = 0;
         mu = 0;
 
         for (element = 0; element < element_num; element++)
         {
+            int node_local_i;
             for (node_local_i = 0; node_local_i < element_order; node_local_i++)
             {
-                node_global_i = element_node[node_local_i + element * element_order];
+                int node_global_i = element_node[node_local_i + element * element_order];
 
+                int var_local_i;
                 for (var_local_i = var_node[node_global_i - 1];
                      var_local_i <= var_node[node_global_i] - 1;
                      var_local_i++)
                 {
-                    var_global_i = var[var_local_i - 1];
+                    int var_global_i = var[var_local_i - 1];
 
+                    int node_local_j;
                     for (node_local_j = 0; node_local_j < element_order; node_local_j++)
                     {
-                        node_global_j = element_node[node_local_j + element * element_order];
+                        int node_global_j = element_node[node_local_j + element * element_order];
 
+                        int var_local_j;
                         for (var_local_j = var_node[node_global_j - 1];
                              var_local_j <= var_node[node_global_j] - 1;
                              var_local_j++)
                         {
-                            var_global_j = var[var_local_j - 1];
+                            int var_global_j = var[var_local_j - 1];
 
                             mu = Math.Max(mu, var_global_j - var_global_i);
                             ml = Math.Max(ml, var_global_i - var_global_j);

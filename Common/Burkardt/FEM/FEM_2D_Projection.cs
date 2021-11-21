@@ -76,31 +76,22 @@ public static class FEM_2D_Projection
         //    the sampled values.
         //
     {
-        double[] b;
-        double[] dbdx;
-        double[] dbdy;
-        double dot;
         int edge = 0;
-        int i;
         int j;
-        int k;
         double[] p_xy = new double[2];
-        double[] sample_value;
         int t = 0;
-        int[] t_node;
-        double[] t_xy;
         DelaunaySearchData data = new();
         double alpha = 0;
         double beta = 0;
         double gammaa = 0;
         int step = 0;
 
-        b = new double[fem_element_order];
-        dbdx = new double[fem_element_order];
-        dbdy = new double[fem_element_order];
-        sample_value = new double[fem_value_dim * sample_node_num];
-        t_node = new int[fem_element_order];
-        t_xy = new double[2 * fem_element_order];
+        double[] b = new double[fem_element_order];
+        double[] dbdx = new double[fem_element_order];
+        double[] dbdy = new double[fem_element_order];
+        double[] sample_value = new double[fem_value_dim * sample_node_num];
+        int[] t_node = new int[fem_element_order];
+        double[] t_xy = new double[2 * fem_element_order];
         //
         //  For each sample point: find the triangle T that contains it,
         //  and evaluate the finite element function there.
@@ -128,6 +119,7 @@ public static class FEM_2D_Projection
             //
             //  Evaluate the finite element basis functions at the point in T.
             //
+            int i;
             for (i = 0; i < fem_element_order; i++)
             {
                 t_node[i] = fem_element_node[(i + t * fem_element_order)  % fem_element_node.Length];
@@ -150,7 +142,8 @@ public static class FEM_2D_Projection
             //
             for (i = 0; i < fem_value_dim; i++)
             {
-                dot = 0.0;
+                double dot = 0.0;
+                int k;
                 for (k = 0; k < fem_element_order; k++)
                 {
                     dot += fem_value[i + t_node[k] * fem_value_dim] * b[k];

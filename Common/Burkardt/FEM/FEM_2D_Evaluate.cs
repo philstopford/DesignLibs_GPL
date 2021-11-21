@@ -74,26 +74,17 @@ public static class FEM_2D_Evaluate
         //    the sampled values.
         //
     {
-        double[] b;
-        double[] dbdx;
-        double[] dbdy;
-        double dot;
         int edge = 0;
-        int i;
         int j;
-        int order;
         double[] p_xy = new double[2];
         int t = 0;
-        double[] sample_value;
-        int[] t_node;
-        double[] t_xy;
 
-        b = new double[fem_element_order];
-        dbdx = new double[fem_element_order];
-        dbdy = new double[fem_element_order];
-        sample_value = new double[fem_value_dim * sample_node_num];
-        t_node = new int[fem_element_order];
-        t_xy = new double[2 * fem_element_order];
+        double[] b = new double[fem_element_order];
+        double[] dbdx = new double[fem_element_order];
+        double[] dbdy = new double[fem_element_order];
+        double[] sample_value = new double[fem_value_dim * sample_node_num];
+        int[] t_node = new int[fem_element_order];
+        double[] t_xy = new double[2 * fem_element_order];
         //
         //  For each sample point: find the triangle T that contains it,
         //  and evaluate the finite element function there.
@@ -122,6 +113,7 @@ public static class FEM_2D_Evaluate
             //  is 1-based, and that for convenience we can get away with making
             //  T_NODE 0-based.
             //
+            int order;
             for (order = 0; order < fem_element_order; order++)
             {
                 t_node[order] = fem_element_node[order + (t - 1) * fem_element_order] - 1;
@@ -146,9 +138,10 @@ public static class FEM_2D_Evaluate
             //
             //  Multiply by the finite element values to get the sample values.
             //
+            int i;
             for (i = 0; i < fem_value_dim; i++)
             {
-                dot = 0.0;
+                double dot = 0.0;
                 for (order = 0; order < fem_element_order; order++)
                 {
                     dot += fem_value[i + t_node[order]] * b[order];

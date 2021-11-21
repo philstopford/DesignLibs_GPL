@@ -2,7 +2,7 @@
 
 namespace Burkardt.FEM;
 
-public class NodeBricks
+public static class NodeBricks
 {
     public static double[] nodes_brick8()
 
@@ -29,7 +29,6 @@ public class NodeBricks
         //    Output, double NODES_BRICK8[3*8], the coordinates.
         //
     {
-        double[] p;
         double[] p_save = {
                 -1.0, -1.0, -1.0,
                 +1.0, -1.0, -1.0,
@@ -42,7 +41,7 @@ public class NodeBricks
             }
             ;
 
-        p = typeMethods.r8mat_copy_new(3, 8, p_save);
+        double[] p = typeMethods.r8mat_copy_new(3, 8, p_save);
 
         return p;
     }
@@ -72,7 +71,6 @@ public class NodeBricks
         //    Output, double NODES_BRICK20[3*20], the coordinates.
         //
     {
-        double[] p;
         double[] p_save = {
                 -1.0, -1.0, -1.0,
                 +1.0, -1.0, -1.0,
@@ -97,7 +95,7 @@ public class NodeBricks
             }
             ;
 
-        p = typeMethods.r8mat_copy_new(3, 20, p_save);
+        double[] p = typeMethods.r8mat_copy_new(3, 20, p_save);
 
         return p;
     }
@@ -127,7 +125,6 @@ public class NodeBricks
         //    Output, double NODES_BRICK27[3*27], the coordinates.
         //
     {
-        double[] p;
         double[] p_save = {
                 -1.0, -1.0, -1.0,
                 +1.0, -1.0, -1.0,
@@ -159,7 +156,7 @@ public class NodeBricks
             }
             ;
 
-        p = typeMethods.r8mat_copy_new(3, 27, p_save);
+        double[] p = typeMethods.r8mat_copy_new(3, 27, p_save);
 
         return p;
     }

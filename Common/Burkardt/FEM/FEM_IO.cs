@@ -214,8 +214,6 @@ public static class IO
         //    inferred from the number of items in the first line of the node data file.
         //
     {
-        int node_num2 = 0;
-
         if (typeMethods.s_len_trim(node_coord_file_name) <= 0)
         {
             Console.WriteLine("");
@@ -264,17 +262,19 @@ public static class IO
         {
             h = typeMethods.r8mat_header_read(node_data_file_name);
             node_data_num = h.m;
-            node_num2 = h.n;
+            int node_num2 = h.n;
 
-            if (node_num2 != node_num)
+            if (node_num2 == node_num)
             {
-                Console.WriteLine("");
-                Console.WriteLine("  The number of nodes in the node coordinate");
-                Console.WriteLine("  file is " + node_num + " but the number of nodes");
-                Console.WriteLine("  in the node data file is " + node_num2 + "");
-                Console.WriteLine("  Because of this, no node data will be stored.");
-                node_data_num = 0;
+                return;
             }
+
+            Console.WriteLine("");
+            Console.WriteLine("  The number of nodes in the node coordinate");
+            Console.WriteLine("  file is " + node_num + " but the number of nodes");
+            Console.WriteLine("  in the node data file is " + node_num2 + "");
+            Console.WriteLine("  Because of this, no node data will be stored.");
+            node_data_num = 0;
         }
         else
         {
@@ -367,14 +367,16 @@ public static class IO
         //
         //  Write the node data file.
         //
-        if (0 < typeMethods.s_len_trim(node_data_file_name))
+        if (0 >= typeMethods.s_len_trim(node_data_file_name))
         {
-            typeMethods.r8mat_write(node_data_file_name, node_data_num, node_num, node_data);
-
-            Console.WriteLine("");
-            Console.WriteLine("FEM_WRITE wrote node data to \""
-                              + node_data_file_name + "\".");
+            return;
         }
+
+        typeMethods.r8mat_write(node_data_file_name, node_data_num, node_num, node_data);
+
+        Console.WriteLine("");
+        Console.WriteLine("FEM_WRITE wrote node data to \""
+                          + node_data_file_name + "\".");
     }
 
     public static void mesh_base_zero(int node_num, int element_order, int element_num,

@@ -46,7 +46,7 @@ public static class FEM_1D_BVP_Quadratic
 //    which are also the value of the computed solution at the mesh points.
 //
     {
-        int QUAD_NUM = 3;
+        const int QUAD_NUM = 3;
 
         double[] abscissa =  {
                 -0.774596669241483377035853079956,
@@ -54,45 +54,22 @@ public static class FEM_1D_BVP_Quadratic
                 0.774596669241483377035853079956
             }
             ;
-        double[] amat;
-        double axq;
-        double[] b;
-        double cxq;
-        int e_num;
-        double fxq;
-        int i;
         int ierror = 0;
-        int l;
-        int m;
-        int quad_num = QUAD_NUM;
-        int r;
-        double[] u;
         double[] weight =  {
                 0.555555555555555555555555555556,
                 0.888888888888888888888888888889,
                 0.555555555555555555555555555556
             }
             ;
-        double wq;
-        double vl;
-        double vlp;
-        double vm;
-        double vmp;
-        double vr;
-        double vrp;
-        double xl;
-        double xm;
-        double xq;
-        double xr;
-//
+        //
 //  Zero out the matrix and right hand side.
 //
-        amat = typeMethods.r8mat_zero_new(n, n);
-        b = typeMethods.r8vec_zero_new(n);
+        double[] amat = typeMethods.r8mat_zero_new(n, n);
+        double[] b = typeMethods.r8vec_zero_new(n);
 //
 //  Integrate over element E.
 //
-        e_num = (n - 1) / 2;
+        int e_num = (n - 1) / 2;
 
         for (int e = 0; e < e_num; e++)
         {
@@ -102,50 +79,50 @@ public static class FEM_1D_BVP_Quadratic
 //    M = 2 * E + 1
 //    R = 2 * E + 2
 //
-            l = 2 * e;
-            m = 2 * e + 1;
-            r = 2 * e + 2;
+            int l = 2 * e;
+            int m = 2 * e + 1;
+            int r = 2 * e + 2;
 
-            xl = x[l];
-            xm = x[m];
-            xr = x[r];
+            double xl = x[l];
+            double xm = x[m];
+            double xr = x[r];
 
-            for (int q = 0; q < quad_num; q++)
+            for (int q = 0; q < QUAD_NUM; q++)
             {
 
-                xq = ((1.0 - abscissa[q]) * xl
-                      + (1.0 + abscissa[q]) * xr)
-                     / 2.0;
+                double xq = ((1.0 - abscissa[q]) * xl
+                             + (1.0 + abscissa[q]) * xr)
+                            / 2.0;
 
-                wq = weight[q] * (xr - xl) / 2.0;
+                double wq = weight[q] * (xr - xl) / 2.0;
 
-                axq = a(xq);
-                cxq = c(xq);
-                fxq = f(xq);
+                double axq = a(xq);
+                double cxq = c(xq);
+                double fxq = f(xq);
 
-                vl = (xq - xm) / (xl - xm)
-                     * ((xq - xr) / (xl - xr));
+                double vl = (xq - xm) / (xl - xm)
+                            * ((xq - xr) / (xl - xr));
 
-                vm = (xq - xl) / (xm - xl)
-                     * ((xq - xr) / (xm - xr));
+                double vm = (xq - xl) / (xm - xl)
+                            * ((xq - xr) / (xm - xr));
 
-                vr = (xq - xl) / (xr - xl)
-                     * ((xq - xm) / (xr - xm));
+                double vr = (xq - xl) / (xr - xl)
+                            * ((xq - xm) / (xr - xm));
 
-                vlp = 1.0 / (xl - xm)
-                      * ((xq - xr) / (xl - xr))
-                      + (xq - xm) / (xl - xm)
-                      * (1.0 / (xl - xr));
+                double vlp = 1.0 / (xl - xm)
+                             * ((xq - xr) / (xl - xr))
+                             + (xq - xm) / (xl - xm)
+                             * (1.0 / (xl - xr));
 
-                vmp = 1.0 / (xm - xl)
-                      * ((xq - xr) / (xm - xr))
-                      + (xq - xl) / (xm - xl)
-                      * (1.0 / (xm - xr));
+                double vmp = 1.0 / (xm - xl)
+                             * ((xq - xr) / (xm - xr))
+                             + (xq - xl) / (xm - xl)
+                             * (1.0 / (xm - xr));
 
-                vrp = 1.0 / (xr - xl)
-                      * ((xq - xm) / (xr - xm))
-                      + (xq - xl) / (xr - xl)
-                      * (1.0 / (xr - xm));
+                double vrp = 1.0 / (xr - xl)
+                             * ((xq - xm) / (xr - xm))
+                             + (xq - xl) / (xr - xl)
+                             * (1.0 / (xr - xm));
 
                 amat[l + l * n] += wq * (vlp * axq * vlp + vl * cxq * vl);
                 amat[l + m * n] += wq * (vlp * axq * vmp + vl * cxq * vm);
@@ -167,13 +144,13 @@ public static class FEM_1D_BVP_Quadratic
 //
 //  Equation 0 is the left boundary condition, U(0.0) = 0.0;
 //
-        i = 0;
+        int i = 0;
         for (int j = 0; j < n; j++)
         {
             amat[i + j * n] = 0.0;
         }
 
-        amat[i + i * n] = 1.0;
+        amat[0] = 1.0;
         b[i] = 0.0;
 //
 //  Equation N-1 is the right boundary condition, U(1.0) = 0.0;
@@ -189,7 +166,7 @@ public static class FEM_1D_BVP_Quadratic
 //
 //  Solve the linear system.
 //
-        u = typeMethods.r8mat_solve2(n, ref amat, ref b, ref ierror);
+        double[] u = typeMethods.r8mat_solve2(n, ref amat, ref b, ref ierror);
 
         return u;
     }

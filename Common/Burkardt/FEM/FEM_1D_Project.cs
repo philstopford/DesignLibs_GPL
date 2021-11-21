@@ -55,12 +55,11 @@ public static class FEM_1D_Project
         //    the FEM values.
         //
     {
-        int QUAD_NUM = 2;
+        const int QUAD_NUM = 2;
 
         int phi_num = 0;
         double[] phi_v = new double[3];
         double[] phi_x = new double[3];
-        int quad_num = QUAD_NUM;
         double[] quad_x =
             {
                 -0.577350269189625764509148780502,
@@ -83,7 +82,7 @@ public static class FEM_1D_Project
             double xl = fem_node_x[l];
             double xr = fem_node_x[r];
 
-            for (int quad = 0; quad < quad_num; quad++)
+            for (int quad = 0; quad < QUAD_NUM; quad++)
             {
                 double xq = ((1.0 - quad_x[quad]) * xl
                              + (1.0 + quad_x[quad]) * xr)
@@ -165,7 +164,7 @@ public static class FEM_1D_Project
                 b[i] = integral;
             }
 
-            int job = 0;
+            const int job = 0;
             double[] x = typeMethods.r83_np_sl(fem_node_num, a, b, job);
 
             for (int i = 0; i < fem_node_num; i++)
@@ -283,26 +282,34 @@ public static class FEM_1D_Project
 
             for (int i = 1; i <= 2; i++)
             {
-                if (f_left + i <= f_num - 1)
+                if (f_left + i > f_num - 1)
                 {
-                    if (xl < f_x[f_left + i] && f_x[f_left + i] < xr)
-                    {
-                        xr = f_x[f_left + i];
-                        break;
-                    }
+                    continue;
                 }
+
+                if (!(xl < f_x[f_left + i]) || !(f_x[f_left + i] < xr))
+                {
+                    continue;
+                }
+
+                xr = f_x[f_left + i];
+                break;
             }
 
             for (int i = 1; i <= 2; i++)
             {
-                if (g_left + i <= g_num - 1)
+                if (g_left + i > g_num - 1)
                 {
-                    if (xl < g_x[g_left + i] && g_x[g_left + i] < xr)
-                    {
-                        xr = g_x[g_left + i];
-                        break;
-                    }
+                    continue;
                 }
+
+                if (!(xl < g_x[g_left + i]) || !(g_x[g_left + i] < xr))
+                {
+                    continue;
+                }
+
+                xr = g_x[g_left + i];
+                break;
             }
 
             typeMethods.r8vec_bracket3(f_num, f_x, xr, ref f_left);
@@ -316,26 +323,28 @@ public static class FEM_1D_Project
             //  Form the linear polynomials for F(X) and G(X) over [XL,XR],
             //  then the product H(X), integrate H(X) and add to the running total.
             //
-            if (typeMethods.r8_epsilon() <= Math.Abs(xr - xl))
+            if (!(typeMethods.r8_epsilon() <= Math.Abs(xr - xl)))
             {
-                double f1 = fl - fr;
-                double f0 = fr * xl - fl * xr;
-
-                double g1 = gl - gr;
-                double g0 = gr * xl - gl * xr;
-
-                double h2 = f1 * g1;
-                double h1 = f1 * g0 + f0 * g1;
-                double h0 = f0 * g0;
-
-                h2 /= 3.0;
-                h1 /= 2.0;
-
-                double bit = ((h2 * xr + h1) * xr + h0) * xr
-                             - ((h2 * xl + h1) * xl + h0) * xl;
-
-                integral += bit / (xr - xl) / (xr - xl);
+                continue;
             }
+
+            double f1 = fl - fr;
+            double f0 = fr * xl - fl * xr;
+
+            double g1 = gl - gr;
+            double g0 = gr * xl - gl * xr;
+
+            double h2 = f1 * g1;
+            double h1 = f1 * g0 + f0 * g1;
+            double h0 = f0 * g0;
+
+            h2 /= 3.0;
+            h1 /= 2.0;
+
+            double bit = ((h2 * xr + h1) * xr + h0) * xr
+                         - ((h2 * xl + h1) * xl + h0) * xl;
+
+            integral += bit / (xr - xl) / (xr - xl);
         }
 
         return integral;

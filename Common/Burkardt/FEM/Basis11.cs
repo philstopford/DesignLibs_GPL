@@ -4,7 +4,7 @@ using Burkardt.Types;
 
 namespace Burkardt.FEM;
 
-public class Basis11
+public static class Basis11
 {
     public static void basis_one_t3(double[] t, int i, double[] p, ref double qi,
             ref double dqidx, ref double dqidy)
@@ -55,13 +55,9 @@ public class Basis11
         //    and its X and Y derivatives.
         //
     {
-        double area;
-        int ip1;
-        int ip2;
-
-        area = t[0 + 0 * 2] * (t[1 + 1 * 2] - t[1 + 2 * 2])
-               + t[0 + 1 * 2] * (t[1 + 2 * 2] - t[1 + 0 * 2])
-               + t[0 + 2 * 2] * (t[1 + 0 * 2] - t[1 + 1 * 2]);
+        double area = t[0 + 0 * 2] * (t[1 + 1 * 2] - t[1 + 2 * 2])
+                      + t[0 + 1 * 2] * (t[1 + 2 * 2] - t[1 + 0 * 2])
+                      + t[0 + 2 * 2] * (t[1 + 0 * 2] - t[1 + 1 * 2]);
 
         switch (area)
         {
@@ -88,8 +84,8 @@ public class Basis11
                 return;
         }
 
-        ip1 = typeMethods.i4_wrap(i + 1, 1, 3);
-        ip2 = typeMethods.i4_wrap(i + 2, 1, 3);
+        int ip1 = typeMethods.i4_wrap(i + 1, 1, 3);
+        int ip2 = typeMethods.i4_wrap(i + 2, 1, 3);
 
         qi = ((t[0 + (ip2 - 1) * 2] - t[0 + (ip1 - 1) * 2])
               * (p[1] - t[1 + (ip1 - 1) * 2])
@@ -149,13 +145,9 @@ public class Basis11
         //    and its X and Y derivatives.
         //
     {
-        double area;
-        int ip1;
-        int ip2;
-
-        area = t[0 + 0 * 2] * (t[1 + 1 * 2] - t[1 + 2 * 2])
-               + t[0 + 1 * 2] * (t[1 + 2 * 2] - t[1 + 0 * 2])
-               + t[0 + 2 * 2] * (t[1 + 0 * 2] - t[1 + 1 * 2]);
+        double area = t[0 + 0 * 2] * (t[1 + 1 * 2] - t[1 + 2 * 2])
+                      + t[0 + 1 * 2] * (t[1 + 2 * 2] - t[1 + 0 * 2])
+                      + t[0 + 2 * 2] * (t[1 + 0 * 2] - t[1 + 1 * 2]);
 
         switch (area)
         {
@@ -178,8 +170,8 @@ public class Basis11
                 return;
         }
 
-        ip1 = typeMethods.i4_wrap(i + 1, 1, 3);
-        ip2 = typeMethods.i4_wrap(i + 2, 1, 3);
+        int ip1 = typeMethods.i4_wrap(i + 1, 1, 3);
+        int ip2 = typeMethods.i4_wrap(i + 2, 1, 3);
 
         qi = ((t[0 + (ip2 - 1) * 2] - t[0 + (ip1 - 1) * 2])
               * (p[1] - t[1 + (ip1 - 1) * 2])
@@ -216,7 +208,7 @@ public class Basis11
         //    None
         //
     {
-        int NODE_NUM = 3;
+        const int NODE_NUM = 3;
 
         double dqjdx = 0;
         double dqjdy = 0;
@@ -224,8 +216,6 @@ public class Basis11
         int j;
         double qj = 0;
         double[] p = new double[2];
-        double sum_x;
-        double sum_y;
         double[] t =
         {
             2.0, 0.0,
@@ -280,8 +270,8 @@ public class Basis11
             p[0] = t[0 + i * 2];
             p[1] = t[1 + i * 2];
 
-            sum_x = 0.0;
-            sum_y = 0.0;
+            double sum_x = 0.0;
+            double sum_y = 0.0;
             for (j = 0; j < NODE_NUM; j++)
             {
                 basis_11_t3(t, j + 1, p, ref qj, ref dqjdx, ref dqjdy);
@@ -363,15 +353,14 @@ public class Basis11
         //    Local, double AREA, is (twice) the area of the triangle.
         //
     {
-        double area;
         double[] dpsidx = new double[4];
         double[] dpsidy = new double[4];
         int j;
         double[] psi = new double[4];
 
-        area = t[0 + 0 * 2] * (t[1 + 1 * 2] - t[1 + 2 * 2])
-               + t[0 + 1 * 2] * (t[1 + 2 * 2] - t[1 + 0 * 2])
-               + t[0 + 2 * 2] * (t[1 + 0 * 2] - t[1 + 1 * 2]);
+        double area = t[0 + 0 * 2] * (t[1 + 1 * 2] - t[1 + 2 * 2])
+                      + t[0 + 1 * 2] * (t[1 + 2 * 2] - t[1 + 0 * 2])
+                      + t[0 + 2 * 2] * (t[1 + 0 * 2] - t[1 + 1 * 2]);
 
         psi[0] = (t[0 + 2 * 2] - t[0 + 1 * 2]) * (p[1] - t[1 + 1 * 2])
                  - (t[1 + 2 * 2] - t[1 + 1 * 2]) * (p[0] - t[0 + 1 * 2]);
@@ -451,7 +440,7 @@ public class Basis11
         //    None
         //
     {
-        int NODE_NUM = 4;
+        const int NODE_NUM = 4;
 
         double dqjdx = 0;
         double dqjdy = 0;
@@ -459,8 +448,6 @@ public class Basis11
         int j;
         double qj = 0;
         double[] p = new double[2];
-        double sum_x;
-        double sum_y;
         double[] t =
         {
             2.0, 0.0,
@@ -521,8 +508,8 @@ public class Basis11
             p[0] = t[0 + i * 2];
             p[1] = t[1 + i * 2];
 
-            sum_x = 0.0;
-            sum_y = 0.0;
+            double sum_x = 0.0;
+            double sum_y = 0.0;
             for (j = 0; j < NODE_NUM; j++)
             {
                 basis_11_t4(t, j + 1, p, ref qj, ref dqjdx, ref dqjdy);
@@ -593,10 +580,6 @@ public class Basis11
         //    and its X and Y derivatives.
         //
     {
-        double gf;
-        double gn;
-        double hf;
-        double hn;
         int j1;
         int j2;
         int k1;
@@ -640,17 +623,17 @@ public class Basis11
         //  Evaluate the two linear factors GF and HF, 
         //  and their normalizers GN and HN.
         //
-        gf = (p[0] - t[0 + j1 * 2]) * (t[1 + j2 * 2] - t[1 + j1 * 2])
-             - (t[0 + j2 * 2] - t[0 + j1 * 2]) * (p[1] - t[1 + j1 * 2]);
+        double gf = (p[0] - t[0 + j1 * 2]) * (t[1 + j2 * 2] - t[1 + j1 * 2])
+                    - (t[0 + j2 * 2] - t[0 + j1 * 2]) * (p[1] - t[1 + j1 * 2]);
 
-        gn = (t[0 + i * 2] - t[0 + j1 * 2]) * (t[1 + j2 * 2] - t[1 + j1 * 2])
-             - (t[0 + j2 * 2] - t[0 + j1 * 2]) * (t[1 + i * 2] - t[1 + j1 * 2]);
+        double gn = (t[0 + i * 2] - t[0 + j1 * 2]) * (t[1 + j2 * 2] - t[1 + j1 * 2])
+                    - (t[0 + j2 * 2] - t[0 + j1 * 2]) * (t[1 + i * 2] - t[1 + j1 * 2]);
 
-        hf = (p[0] - t[0 + k1 * 2]) * (t[1 + k2 * 2] - t[1 + k1 * 2])
-             - (t[0 + k2 * 2] - t[0 + k1 * 2]) * (p[1] - t[1 + k1 * 2]);
+        double hf = (p[0] - t[0 + k1 * 2]) * (t[1 + k2 * 2] - t[1 + k1 * 2])
+                    - (t[0 + k2 * 2] - t[0 + k1 * 2]) * (p[1] - t[1 + k1 * 2]);
 
-        hn = (t[0 + i * 2] - t[0 + k1 * 2]) * (t[1 + k2 * 2] - t[1 + k1 * 2])
-             - (t[0 + k2 * 2] - t[0 + k1 * 2]) * (t[1 + i * 2] - t[1 + k1 * 2]);
+        double hn = (t[0 + i * 2] - t[0 + k1 * 2]) * (t[1 + k2 * 2] - t[1 + k1 * 2])
+                    - (t[0 + k2 * 2] - t[0 + k1 * 2]) * (t[1 + i * 2] - t[1 + k1 * 2]);
         //
         //  Construct the basis function and its derivatives.
         //
@@ -693,7 +676,7 @@ public class Basis11
         //    None
         //
     {
-        int NODE_NUM = 6;
+        const int NODE_NUM = 6;
 
         double[] dphidx = new double[NODE_NUM * NODE_NUM];
         double[] dphidy = new double[NODE_NUM * NODE_NUM];
@@ -701,8 +684,6 @@ public class Basis11
         int j;
         double[] p = new double[2];
         double[] phi = new double[NODE_NUM * NODE_NUM];
-        double sum_x;
-        double sum_y;
         double[] t =
         {
             2.0, 0.0,
@@ -770,13 +751,13 @@ public class Basis11
         Console.WriteLine("");
         for (j = 0; j < NODE_NUM; j++)
         {
-            sum_x = 0.0;
+            double sum_x = 0.0;
             for (i = 0; i < NODE_NUM; i++)
             {
                 sum_x += dphidx[i + j * NODE_NUM];
             }
 
-            sum_y = 0.0;
+            double sum_y = 0.0;
             for (i = 0; i < NODE_NUM; i++)
             {
                 sum_y += dphidy[i + j * NODE_NUM];

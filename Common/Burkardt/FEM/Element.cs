@@ -53,29 +53,20 @@ public static class Element
         //
     {
         int element;
-        int i1;
-        int i2;
-        int i3;
-        double x1;
-        double x2;
-        double x3;
-        double y1;
-        double y2;
-        double y3;
 
         for ( element = 0; element < element_num; element++ )
         {
-            i1 = element_node[0+element*nnodes];
-            x1 = node_xy[0+(i1-1)*2];
-            y1 = node_xy[1+(i1-1)*2];
+            int i1 = element_node[0+element*nnodes];
+            double x1 = node_xy[0+(i1-1)*2];
+            double y1 = node_xy[1+(i1-1)*2];
 
-            i2 = element_node[1+element*nnodes];
-            x2 = node_xy[0+(i2-1)*2];
-            y2 = node_xy[1+(i2-1)*2];
+            int i2 = element_node[1+element*nnodes];
+            double x2 = node_xy[0+(i2-1)*2];
+            double y2 = node_xy[1+(i2-1)*2];
 
-            i3 = element_node[2+element*nnodes];
-            x3 = node_xy[0+(i3-1)*2];
-            y3 = node_xy[1+(i3-1)*2];
+            int i3 = element_node[2+element*nnodes];
+            double x3 = node_xy[0+(i3-1)*2];
+            double y3 = node_xy[1+(i3-1)*2];
 
             element_area[element] = 0.5E+00 * Math.Abs
             ( y1 * ( x2 - x3 )
@@ -196,38 +187,28 @@ public static class Element
         //    2, show triangles and label them.
         //
     {
-        double ave_x;
-        double ave_y;
-        int circle_size = 3;
+        const int circle_size = 3;
         int delta;
         int element;
-        int element_order;
         List<string> file_unit = new();
         int local;
         int node;
-        bool[] node_mask;
-        double x_max;
-        double x_min;
         int x_ps;
         int x_ps_max = 576;
         int x_ps_max_clip = 594;
         int x_ps_min = 36;
         int x_ps_min_clip = 18;
-        double x_scale;
-        double y_max;
-        double y_min;
         int y_ps;
         int y_ps_max = 666;
         int y_ps_max_clip = 684;
         int y_ps_min = 126;
         int y_ps_min_clip = 108;
-        double y_scale;
 
-        element_order = Order.order_code(code);
+        int element_order = Order.order_code(code);
         //
         //  Determine which nodes are visible, controlled by which elements are visible.
         //
-        node_mask = new bool[node_num];
+        bool[] node_mask = new bool[node_num];
         for (node = 0; node < node_num; node++)
         {
             node_mask[node] = false;
@@ -255,7 +236,7 @@ public static class Element
         //  the range of the data, and hence the height and width
         //  of the piece of paper.
         //
-        x_max = -typeMethods.r8_huge();
+        double x_max = -typeMethods.r8_huge();
         for (node = 0; node < node_num; node++)
         {
             switch (node_mask[node])
@@ -272,7 +253,7 @@ public static class Element
             }
         }
 
-        x_min = typeMethods.r8_huge();
+        double x_min = typeMethods.r8_huge();
         for (node = 0; node < node_num; node++)
         {
             switch (node_mask[node])
@@ -289,13 +270,13 @@ public static class Element
             }
         }
 
-        x_scale = x_max - x_min;
+        double x_scale = x_max - x_min;
 
         x_max += 0.05 * x_scale;
         x_min -= 0.05 * x_scale;
         x_scale = x_max - x_min;
 
-        y_max = -typeMethods.r8_huge();
+        double y_max = -typeMethods.r8_huge();
         for (node = 0; node < node_num; node++)
         {
             switch (node_mask[node])
@@ -312,7 +293,7 @@ public static class Element
             }
         }
 
-        y_min = typeMethods.r8_huge();
+        double y_min = typeMethods.r8_huge();
         for (node = 0; node < node_num; node++)
         {
             switch (node_mask[node])
@@ -329,7 +310,7 @@ public static class Element
             }
         }
 
-        y_scale = y_max - y_min;
+        double y_scale = y_max - y_min;
 
         y_max += 0.05 * y_scale;
         y_min -= 0.05 * y_scale;
@@ -595,8 +576,8 @@ public static class Element
             {
                 case true:
                 {
-                    ave_x = 0.0;
-                    ave_y = 0.0;
+                    double ave_x = 0.0;
+                    double ave_y = 0.0;
 
                     for (local = 0; local < element_order; local++)
                     {
@@ -691,13 +672,9 @@ public static class Element
         //    of each element.
         //
     {
-        int element;
-        int i;
         string[] inputlines;
-        int ival;
-        double value = 0;
 
-        element = -1;
+        int element = -1;
 
         try
         {
@@ -724,9 +701,10 @@ public static class Element
                 default:
                 {
                     int index = 0;
-                    ival = Convert.ToInt32(tokens[index]);
+                    int ival = Convert.ToInt32(tokens[index]);
                     index++;
 
+                    int i;
                     for (i = 0; i < element_order; i++)
                     {
                         ival = Convert.ToInt32(tokens[index]);
@@ -736,7 +714,7 @@ public static class Element
 
                     for (i = 0; i < element_att_num; i++)
                     {
-                        value = Convert.ToInt32(tokens[index]);
+                        double value = Convert.ToInt32(tokens[index]);
                         index++;
                         element_att[i + element * element_att_num] = value;
                     }
@@ -787,11 +765,9 @@ public static class Element
         //    Output, int *ELEMENT_ATT_NUM, the number of element attributes.
         //
     {
-        string input;
-
         try
         {
-            input = File.ReadAllLines(element_file)[0];
+            string input = File.ReadAllLines(element_file)[0];
             string[] tokens = input.Split(new[] {' '});
             element_num = Convert.ToInt32(tokens[0]);
             element_order = Convert.ToInt32(tokens[1]);
@@ -842,12 +818,12 @@ public static class Element
         //
     {
         int element;
-        int i;
         List<string> output = new();
             
         for ( element = 0; element < element_num; element++ )
         {
             string cout = "";
+            int i;
             for ( i = 0; i < nnodes; i++ )
             {
                 cout += element_node[i+element*nnodes].ToString(CultureInfo.InvariantCulture).PadLeft(8);

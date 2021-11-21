@@ -100,44 +100,24 @@ public static class FEM_1D_Heat_Steady
 //    which are also the value of the computed solution at the mesh points.
 //
     {
-        int QUAD_NUM = 2;
+        const int QUAD_NUM = 2;
 
         double[] abscissa =  {
                 -0.577350269189625764509148780502,
                 +0.577350269189625764509148780502
             }
             ;
-        double al;
-        double am;
-        double ar;
-        double[] amat;
-        double[] bvec;
-        double bm;
-        double fxq;
         int i;
         int ierror = 0;
-        double kxq;
-        int q;
-        int quad_num = QUAD_NUM;
-        double[] u;
         double[] weight =  {
                 1.0, 1.0
             }
             ;
-        double wq;
-        double vlp;
-        double vm;
-        double vmp;
-        double vrp;
-        double xl;
-        double xm;
-        double xq;
-        double xr;
-//
+        //
 //  Zero out the matrix and right hand side.
 //
-        amat = typeMethods.r8mat_zero_new(n, n);
-        bvec = typeMethods.r8vec_zero_new(n);
+        double[] amat = typeMethods.r8mat_zero_new(n, n);
+        double[] bvec = typeMethods.r8vec_zero_new(n);
 //
 //  Equation 1 is the left boundary condition, U(A) = UA;
 //
@@ -179,21 +159,22 @@ public static class FEM_1D_Heat_Steady
 //
 //  Get the left, right and middle coordinates.
 //
-            xl = x[i - 1];
-            xm = x[i];
-            xr = x[i + 1];
+            double xl = x[i - 1];
+            double xm = x[i];
+            double xr = x[i + 1];
 //
 //  Make temporary variables for A(I,I-1), A(I,I), A(I,I+1) and B(I).
 //
-            al = 0.0;
-            am = 0.0;
-            ar = 0.0;
-            bm = 0.0;
+            double al = 0.0;
+            double am = 0.0;
+            double ar = 0.0;
+            double bm = 0.0;
 //
 //  We approximate the integrals by using a weighted sum of
 //  the integrand values at quadrature points.
 //
-            for (q = 0; q < quad_num; q++)
+int q;
+for (q = 0; q < QUAD_NUM; q++)
             {
 //
 //  Integrate over the LEFT interval, between XL and XM, where:
@@ -206,23 +187,23 @@ public static class FEM_1D_Heat_Steady
 //  VM'(X) =             + 1 / ( XM - XL ) 
 //  VR'(X) = 0
 //
-                xq = ((1.0 - abscissa[q]) * xl
-                      + (1.0 + abscissa[q]) * xm)
-                     / 2.0;
+                double xq = ((1.0 - abscissa[q]) * xl
+                             + (1.0 + abscissa[q]) * xm)
+                            / 2.0;
 
-                wq = weight[q] * (xm - xl) / 2.0;
+                double wq = weight[q] * (xm - xl) / 2.0;
 
 //    vl =  ( xm - xq ) / ( xm - xl );
-                vlp = -1.0 / (xm - xl);
+                double vlp = -1.0 / (xm - xl);
 
-                vm = (xq - xl) / (xm - xl);
-                vmp = +1.0 / (xm - xl);
+                double vm = (xq - xl) / (xm - xl);
+                double vmp = +1.0 / (xm - xl);
 
 //    vr =  0.0;
-                vrp = 0.0;
+                double vrp = 0.0;
 
-                kxq = k(xq);
-                fxq = f(xq);
+                double kxq = k(xq);
+                double fxq = f(xq);
 
                 al += wq * (kxq * vlp * vmp);
                 am += wq * (kxq * vmp * vmp);
@@ -278,7 +259,7 @@ public static class FEM_1D_Heat_Steady
 //
 //  Solve the linear system.
 //
-        u = typeMethods.r8mat_solve2(n, ref amat, ref bvec, ref ierror);
+        double[] u = typeMethods.r8mat_solve2(n, ref amat, ref bvec, ref ierror);
 
         return u;
     }

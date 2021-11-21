@@ -51,11 +51,7 @@ public static partial class FullertonLib
         //    Output, double R8_TAN, the tangent of X.
         //
     {
-        double ainty;
-        double ainty2;
-        int ifn;
         const double pi2rec = 0.011619772367581343075535053490057;
-        double prodbg;
         double[] tancs = {
                 +0.22627932763129357846578636531752,
                 +0.43017913146548961775583410748067E-01,
@@ -78,9 +74,7 @@ public static partial class FullertonLib
                 +0.14419111371369130666666666666666E-31
             }
             ;
-        double value = 0;
-        double y;
-        double yrem;
+        double value;
 
         switch (data.nterms)
         {
@@ -92,7 +86,7 @@ public static partial class FullertonLib
                 break;
         }
 
-        y = Math.Abs(x);
+        double y = Math.Abs(x);
 
         if (data.xmax < y)
         {
@@ -108,16 +102,16 @@ public static partial class FullertonLib
         //  = aint(.625*y) + rem(.625*y) + y*pi2rec  =  aint(.625*y) + z
         //  = aint(.625*y) + aint(z) + rem(z)
         //
-        ainty = r8_aint(y);
-        yrem = y - ainty;
-        prodbg = 0.625 * ainty;
+        double ainty = r8_aint(y);
+        double yrem = y - ainty;
+        double prodbg = 0.625 * ainty;
         ainty = r8_aint(prodbg);
         y = prodbg - ainty + 0.625 * yrem + pi2rec * y;
-        ainty2 = r8_aint(y);
+        double ainty2 = r8_aint(y);
         ainty += ainty2;
         y -= ainty2;
 
-        ifn = (int) (ainty % 2.0);
+        int ifn = (int) (ainty % 2.0);
 
         y = ifn switch
         {
@@ -259,8 +253,6 @@ public static partial class FullertonLib
             }
             ;
         double value = 0;
-        double y;
-        double yrec;
 
         switch (data.nterms)
         {
@@ -271,7 +263,7 @@ public static partial class FullertonLib
                 break;
         }
 
-        y = Math.Abs(x);
+        double y = Math.Abs(x);
 
         if (y <= data.sqeps)
         {
@@ -289,7 +281,7 @@ public static partial class FullertonLib
                     if (y <= data.xmax)
                     {
                         y = Math.Exp(y);
-                        yrec = 1.0 / y;
+                        double yrec = 1.0 / y;
 
                         value = x switch
                         {

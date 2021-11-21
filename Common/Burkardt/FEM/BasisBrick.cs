@@ -5,7 +5,7 @@ using Burkardt.Uniform;
 
 namespace Burkardt.FEM;
 
-public class BasisBrick
+public static class BasisBrick
 {
     public static double[] basis_brick8(int n, double[] p)
 
@@ -48,9 +48,8 @@ public class BasisBrick
         //
     {
         int j;
-        double[] phi;
 
-        phi = new double[8 * n];
+        double[] phi = new double[8 * n];
 
         for (j = 0; j < n; j++)
         {
@@ -100,15 +99,9 @@ public class BasisBrick
         //    None
         //
     {
-        int i;
         int j;
-        int n;
-        int node_num = 8;
-        double[] p;
-        double[] phi;
-        double phi_sum;
-        int seed;
-        int test_num = 5;
+        const int node_num = 8;
+        const int test_num = 5;
 
         Console.WriteLine("");
         Console.WriteLine("BASIS_BRICK8_TEST:");
@@ -120,15 +113,16 @@ public class BasisBrick
         Console.WriteLine("  should form the identity matrix.");
         Console.WriteLine("");
 
-        n = node_num;
+        int n = node_num;
 
-        p = NodeBricks.nodes_brick8();
+        double[] p = NodeBricks.nodes_brick8();
 
-        phi = basis_brick8(n, p);
+        double[] phi = basis_brick8(n, p);
 
         for (j = 0; j < n; j++)
         {
             string cout = "  ";
+            int i;
             for (i = 0; i < node_num; i++)
             {
                 cout += phi[i + j * node_num].ToString(CultureInfo.InvariantCulture).PadLeft(7);
@@ -145,7 +139,7 @@ public class BasisBrick
         Console.WriteLine("");
 
         n = test_num;
-        seed = 123456789;
+        int seed = 123456789;
 
         p = UniformRNG.r8mat_uniform_01_new(3, n, ref seed);
 
@@ -153,7 +147,7 @@ public class BasisBrick
 
         for (j = 0; j < n; j++)
         {
-            phi_sum = typeMethods.r8vec_sum(node_num, phi, aIndex: + j * node_num);
+            double phi_sum = typeMethods.r8vec_sum(node_num, phi, aIndex: + j * node_num);
             Console.WriteLine("  " + p[0 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "  " + p[1 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "  " + p[2 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(8)
@@ -206,9 +200,8 @@ public class BasisBrick
         //
     {
         int j;
-        double[] phi;
 
-        phi = new double[20 * n];
+        double[] phi = new double[20 * n];
 
         for (j = 0; j < n; j++)
         {
@@ -292,15 +285,9 @@ public class BasisBrick
         //    None
         //
     {
-        int i;
         int j;
-        int n;
-        int node_num = 20;
-        double[] p;
-        double[] phi;
-        double phi_sum;
-        int seed;
-        int test_num = 5;
+        const int node_num = 20;
+        const int test_num = 5;
 
         Console.WriteLine("");
         Console.WriteLine("BASIS_BRICK20_TEST:");
@@ -312,15 +299,16 @@ public class BasisBrick
         Console.WriteLine("  should form the identity matrix.");
         Console.WriteLine("");
 
-        n = node_num;
+        int n = node_num;
 
-        p = NodeBricks.nodes_brick20();
+        double[] p = NodeBricks.nodes_brick20();
 
-        phi = basis_brick20(n, p);
+        double[] phi = basis_brick20(n, p);
 
         for (j = 0; j < n; j++)
         {
             string cout = "  ";
+            int i;
             for (i = 0; i < node_num; i++)
             {
                 cout += phi[i + j * node_num].ToString(CultureInfo.InvariantCulture).PadLeft(7);
@@ -337,7 +325,7 @@ public class BasisBrick
         Console.WriteLine("");
 
         n = test_num;
-        seed = 123456789;
+        int seed = 123456789;
 
         p = UniformRNG.r8mat_uniform_01_new(3, n, ref seed);
 
@@ -345,7 +333,7 @@ public class BasisBrick
 
         for (j = 0; j < n; j++)
         {
-            phi_sum = typeMethods.r8vec_sum(node_num, phi, aIndex: + j * node_num);
+            double phi_sum = typeMethods.r8vec_sum(node_num, phi, aIndex: + j * node_num);
             Console.WriteLine("  " + p[0 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "  " + p[1 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "  " + p[2 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(8)
@@ -405,32 +393,22 @@ public class BasisBrick
         //
     {
         int j;
-        double[] phi;
-        double rm;
-        double rp;
-        double rz;
-        double sm;
-        double sp;
-        double sz;
-        double tm;
-        double tp;
-        double tz;
 
-        phi = new double[27 * n];
+        double[] phi = new double[27 * n];
 
         for (j = 0; j < n; j++)
         {
-            rm = p[0 + j * 3] + 1.0;
-            rz = p[0 + j * 3];
-            rp = p[0 + j * 3] - 1.0;
+            double rm = p[0 + j * 3] + 1.0;
+            double rz = p[0 + j * 3];
+            double rp = p[0 + j * 3] - 1.0;
 
-            sm = p[1 + j * 3] + 1.0;
-            sz = p[1 + j * 3];
-            sp = p[1 + j * 3] - 1.0;
+            double sm = p[1 + j * 3] + 1.0;
+            double sz = p[1 + j * 3];
+            double sp = p[1 + j * 3] - 1.0;
 
-            tm = p[2 + j * 3] + 1.0;
-            tz = p[2 + j * 3];
-            tp = p[2 + j * 3] - 1.0;
+            double tm = p[2 + j * 3] + 1.0;
+            double tz = p[2 + j * 3];
+            double tp = p[2 + j * 3] - 1.0;
 
             phi[0 + j * 27] = rz * rp * sz * sp * tz * tp / 8.0;
             phi[1 + j * 27] = rm * rz * sz * sp * tz * tp / 8.0;
@@ -492,15 +470,9 @@ public class BasisBrick
         //    None
         //
     {
-        int i;
         int j;
-        int n;
-        int node_num = 27;
-        double[] p;
-        double[] phi;
-        double phi_sum;
-        int seed;
-        int test_num = 5;
+        const int node_num = 27;
+        const int test_num = 5;
 
         Console.WriteLine("");
         Console.WriteLine("BASIS_BRICK27_TEST:");
@@ -512,15 +484,16 @@ public class BasisBrick
         Console.WriteLine("  should form the identity matrix.");
         Console.WriteLine("");
 
-        n = node_num;
+        int n = node_num;
 
-        p = NodeBricks.nodes_brick27();
+        double[] p = NodeBricks.nodes_brick27();
 
-        phi = basis_brick27(n, p);
+        double[] phi = basis_brick27(n, p);
 
         for (j = 0; j < n; j++)
         {
             string cout = "  ";
+            int i;
             for (i = 0; i < node_num; i++)
             {
                 cout += phi[i + j * node_num].ToString(CultureInfo.InvariantCulture).PadLeft(7);
@@ -537,7 +510,7 @@ public class BasisBrick
         Console.WriteLine("");
 
         n = test_num;
-        seed = 123456789;
+        int seed = 123456789;
 
         p = UniformRNG.r8mat_uniform_01_new(3, n, ref seed);
 
@@ -545,7 +518,7 @@ public class BasisBrick
 
         for (j = 0; j < n; j++)
         {
-            phi_sum = typeMethods.r8vec_sum(node_num, phi, aIndex: + j * node_num);
+            double phi_sum = typeMethods.r8vec_sum(node_num, phi, aIndex: + j * node_num);
             Console.WriteLine("  " + p[0 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "  " + p[1 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "  " + p[2 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(8)

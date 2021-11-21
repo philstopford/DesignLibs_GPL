@@ -96,17 +96,14 @@ public static class Serial
         //
     {
         int j;
-        int m;
-        int mj;
-        bool tgle = false;
 
-        m = (int) (Math.Log(n) / Math.Log(1.99));
-        mj = 1;
+        int m = (int) (Math.Log(n) / Math.Log(1.99));
+        int mj = 1;
         //
         //  Toggling switch for work array.
         //
-        tgle = true;
-        step(n, mj, x, 0 * 2 + 0, x, n / 2 * 2 + 0, ref y, 0 * 2 + 0, ref y, mj * 2 + 0, w, 0, sgn);
+        bool tgle = true;
+        step(n, mj, x, 0 * 2 + 0, x, n / 2 * 2 + 0, ref y, 0 * 2 + 0, ref y, 2 + 0, w, 0, sgn);
 
         switch (n)
         {
@@ -177,18 +174,15 @@ public static class Serial
         //    Output, double W[N], a table of sines and cosines.
         //
     {
-        double arg;
-        double aw;
         int i;
-        int n2;
-            
 
-        n2 = n / 2;
-        aw = 2.0 * Math.PI / n;
+
+        int n2 = n / 2;
+        double aw = 2.0 * Math.PI / n;
 
         for (i = 0; i < n2; i++)
         {
-            arg = aw * i;
+            double arg = aw * i;
             w[i * 2 + 0] = Math.Cos(arg);
             w[i * 2 + 1] = Math.Sin(arg);
         }
@@ -226,14 +220,12 @@ public static class Serial
         //    Output, double GGL, the next pseudorandom value.
         //
     {
-        double d2 = 0.2147483647e10;
-        double t;
-        double value = 0;
+        const double d2 = 0.2147483647e10;
 
-        t = seed;
+        double t = seed;
         t = 16807.0 * t % d2;
         seed = t;
-        value = (t - 1.0) / (d2 - 1.0);
+        double value = (t - 1.0) / (d2 - 1.0);
 
         return value;
     }
@@ -268,29 +260,19 @@ public static class Serial
         //  Parameters:
         //
     {
-        double ambr;
-        double ambu;
         int j;
-        int ja;
-        int jb;
-        int jc;
-        int jd;
-        int jw;
-        int k;
-        int lj;
-        int mj2;
         double[] wjw = new double[2];
 
-        mj2 = 2 * mj;
-        lj = n / mj2;
+        int mj2 = 2 * mj;
+        int lj = n / mj2;
 
         for (j = 0; j < lj; j++)
         {
-            jw = j * mj;
-            ja = jw;
-            jb = ja;
-            jc = j * mj2;
-            jd = jc;
+            int jw = j * mj;
+            int ja = jw;
+            int jb = ja;
+            int jc = j * mj2;
+            int jd = jc;
 
             wjw[0] = w[(wIndex + jw * 2 + 0) % w.Length];
 
@@ -300,6 +282,7 @@ public static class Serial
                 _ => w[(wIndex + jw * 2 + 1) % w.Length]
             };
 
+            int k;
             for (k = 0; k < mj; k++)
             {
                 c[(cIndex + (jc + k) * 2 + 0) % c.Length] = a[(aIndex + (ja + k) * 2 + 0) % a.Length] +
@@ -307,8 +290,8 @@ public static class Serial
                 c[(cIndex + (jc + k) * 2 + 1) % c.Length] = a[(aIndex + (ja + k) * 2 + 1) % a.Length] +
                                                             b[(bIndex + (jb + k) * 2 + 1) % b.Length];
 
-                ambr = a[(aIndex + (ja + k) * 2 + 0) % a.Length] - b[(bIndex + (jb + k) * 2 + 0) % b.Length];
-                ambu = a[(aIndex + (ja + k) * 2 + 1) % a.Length] - b[(bIndex + (jb + k) * 2 + 1) % b.Length];
+                double ambr = a[(aIndex + (ja + k) * 2 + 0) % a.Length] - b[(bIndex + (jb + k) * 2 + 0) % b.Length];
+                double ambu = a[(aIndex + (ja + k) * 2 + 1) % a.Length] - b[(bIndex + (jb + k) * 2 + 1) % b.Length];
 
                 d[(dIndex + (jd + k) * 2 + 0) % d.Length] = wjw[0] * ambr - wjw[1] * ambu;
                 d[(dIndex + (jd + k) * 2 + 1) % d.Length] = wjw[1] * ambr + wjw[0] * ambu;

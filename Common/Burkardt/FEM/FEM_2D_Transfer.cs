@@ -110,87 +110,57 @@ public static class FEM_2D_Transfer
         //    the values.
         //
     {
-        double[] a;
-        double area;
-        double[] b;
         int element;
-        double[] fem_value;
-        int i;
-        int i1;
-        int i2;
-        int i3;
         int j;
-        int nq1;
-        int nq2;
-        int nti1;
-        int nti2;
-        int nti3;
-        int ntj1;
-        int ntj2;
-        int ntj3;
-        int project_node_num = 1;
+        const int project_node_num = 1;
         double[] project_node_xy = new double[2 * 1];
-        double[] project_value;
-        int q1;
-        int q2;
-        double qi;
-        double qj;
-        int quad;
-        int quad_num = 3;
-        int ti1;
-        int ti2;
-        int ti3;
-        int tj1;
-        int tj2;
-        int tj3;
-        double wq;
-        double[] x;
-        double xq;
-        double yq;
+        const int quad_num = 3;
         //
         //  Assemble the coefficient matrix A and the right-hand side B.
         //
-        b = typeMethods.r8mat_zero_new(fem_node_num, fem_value_dim);
-        a = typeMethods.r8mat_zero_new(fem_node_num, fem_node_num);
+        double[] b = typeMethods.r8mat_zero_new(fem_node_num, fem_value_dim);
+        double[] a = typeMethods.r8mat_zero_new(fem_node_num, fem_node_num);
 
         for (element = 0; element < fem_element_num; element++)
         {
-            i1 = fem_element_node[0 + element * 3];
-            i2 = fem_element_node[1 + element * 3];
-            i3 = fem_element_node[2 + element * 3];
+            int i1 = fem_element_node[0 + element * 3];
+            int i2 = fem_element_node[1 + element * 3];
+            int i3 = fem_element_node[2 + element * 3];
 
-            area = 0.5 *
-                   (fem_node_xy[0 + i1 * 2] * (fem_node_xy[1 + i2 * 2] - fem_node_xy[1 + i3 * 2])
-                    + fem_node_xy[0 + i2 * 2] * (fem_node_xy[1 + i3 * 2] - fem_node_xy[1 + i1 * 2])
-                    + fem_node_xy[0 + i3 * 2] * (fem_node_xy[1 + i1 * 2] - fem_node_xy[1 + i2 * 2]));
+            double area = 0.5 *
+                          (fem_node_xy[0 + i1 * 2] * (fem_node_xy[1 + i2 * 2] - fem_node_xy[1 + i3 * 2])
+                           + fem_node_xy[0 + i2 * 2] * (fem_node_xy[1 + i3 * 2] - fem_node_xy[1 + i1 * 2])
+                           + fem_node_xy[0 + i3 * 2] * (fem_node_xy[1 + i1 * 2] - fem_node_xy[1 + i2 * 2]));
             //
             //  Consider each quadrature point.
             //  Here, we use the midside nodes as quadrature points.
             //
+            int quad;
             for (quad = 0; quad < quad_num; quad++)
             {
-                q1 = quad;
-                q2 = (quad + 1) % quad_num;
+                int q1 = quad;
+                int q2 = (quad + 1) % quad_num;
 
-                nq1 = fem_element_node[q1 + element * fem_element_order];
-                nq2 = fem_element_node[q2 + element * fem_element_order];
+                int nq1 = fem_element_node[q1 + element * fem_element_order];
+                int nq2 = fem_element_node[q2 + element * fem_element_order];
 
-                xq = 0.5 * (fem_node_xy[0 + nq1 * 2] + fem_node_xy[0 + nq2 * 2]);
-                yq = 0.5 * (fem_node_xy[1 + nq1 * 2] + fem_node_xy[1 + nq2 * 2]);
-                wq = 1.0 / 3.0;
+                double xq = 0.5 * (fem_node_xy[0 + nq1 * 2] + fem_node_xy[0 + nq2 * 2]);
+                double yq = 0.5 * (fem_node_xy[1 + nq1 * 2] + fem_node_xy[1 + nq2 * 2]);
+                double wq = 1.0 / 3.0;
                 //
                 //  Consider each test function in the element.
                 //
+                int ti1;
                 for (ti1 = 0; ti1 < 3; ti1++)
                 {
-                    ti2 = (ti1 + 1) % 3;
-                    ti3 = (ti1 + 2) % 3;
+                    int ti2 = (ti1 + 1) % 3;
+                    int ti3 = (ti1 + 2) % 3;
 
-                    nti1 = fem_element_node[ti1 + element * fem_element_order];
-                    nti2 = fem_element_node[ti2 + element * fem_element_order];
-                    nti3 = fem_element_node[ti3 + element * fem_element_order];
+                    int nti1 = fem_element_node[ti1 + element * fem_element_order];
+                    int nti2 = fem_element_node[ti2 + element * fem_element_order];
+                    int nti3 = fem_element_node[ti3 + element * fem_element_order];
 
-                    qi = 0.5 * (
+                    double qi = 0.5 * (
                         (fem_node_xy[0 + nti3 * 2] - fem_node_xy[0 + nti2 * 2])
                         * (yq - fem_node_xy[1 + nti2 * 2])
                         - (fem_node_xy[1 + nti3 * 2] - fem_node_xy[1 + nti2 * 2])
@@ -204,7 +174,7 @@ public static class FEM_2D_Transfer
                     project_node_xy[0 + 0 * 2] = xq;
                     project_node_xy[1 + 0 * 2] = yq;
 
-                    project_value = FEM_2D_Projection.projection(sample_node_num, sample_node_xy,
+                    double[] project_value = FEM_2D_Projection.projection(sample_node_num, sample_node_xy,
                         sample_element_order, sample_element_num, sample_element_node,
                         sample_element_neighbor, sample_value_dim, sample_value,
                         project_node_num, project_node_xy);
@@ -217,16 +187,17 @@ public static class FEM_2D_Transfer
                     //
                     //  Consider each basis function in the element.
                     //
+                    int tj1;
                     for (tj1 = 0; tj1 < 3; tj1++)
                     {
-                        tj2 = (tj1 + 1) % 3;
-                        tj3 = (tj1 + 2) % 3;
+                        int tj2 = (tj1 + 1) % 3;
+                        int tj3 = (tj1 + 2) % 3;
 
-                        ntj1 = fem_element_node[tj1 + element * fem_element_order];
-                        ntj2 = fem_element_node[tj2 + element * fem_element_order];
-                        ntj3 = fem_element_node[tj3 + element * fem_element_order];
+                        int ntj1 = fem_element_node[tj1 + element * fem_element_order];
+                        int ntj2 = fem_element_node[tj2 + element * fem_element_order];
+                        int ntj3 = fem_element_node[tj3 + element * fem_element_order];
 
-                        qj = 0.5 * (
+                        double qj = 0.5 * (
                             (fem_node_xy[0 + ntj3 * 2] - fem_node_xy[0 + ntj2 * 2])
                             * (yq - fem_node_xy[1 + ntj2 * 2])
                             - (fem_node_xy[1 + ntj3 * 2] - fem_node_xy[1 + ntj2 * 2])
@@ -241,14 +212,15 @@ public static class FEM_2D_Transfer
         //
         //  SOLVE the linear system A * X = B.
         //
-        x = Solve.r8ge_fss_new(fem_node_num, a, fem_value_dim, b);
+        double[] x = Solve.r8ge_fss_new(fem_node_num, a, fem_value_dim, b);
         //
         //  Copy solution.
         //
-        fem_value = new double[fem_value_dim * fem_value_num];
+        double[] fem_value = new double[fem_value_dim * fem_value_num];
 
         for (j = 0; j < fem_value_num; j++)
         {
+            int i;
             for (i = 0; i < fem_value_dim; i++)
             {
                 fem_value[i + j * fem_value_dim] = x[j + i * fem_value_num];

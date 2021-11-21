@@ -50,50 +50,42 @@ public static class Boundary
         //    On output, F has been adjusted for boundary conditions.
         //
     {
-        int col;
-        int i;
-        int j;
-        int jhi;
-        int jlo;
-        int node;
         int row;
-        double u;
-        double x;
-        double y;
         //
         //  Consider each node.
         //
-        node = 0;
+        int node = 0;
 
         for (row = 1; row <= 2 * ny - 1; row++)
         {
+            int col;
             for (col = 1; col <= 2 * nx - 1; col++)
             {
                 node += 1;
 
-                if (row == 1 ||
-                    row == 2 * ny - 1 ||
-                    col == 1 ||
-                    col == 2 * nx - 1)
+                if (row != 1 && row != 2 * ny - 1 && col != 1 && col != 2 * nx - 1)
                 {
-                    i = indx[node - 1];
-                    x = node_xy[0 + (node - 1) * 2];
-                    y = node_xy[1 + (node - 1) * 2];
-                    ExactResult res = exact(x, y);
-                    u = res.u;
-
-                    jlo = Math.Max(i - ib, 1);
-                    jhi = Math.Min(i + ib, nunk);
-
-                    for (j = jlo; j <= jhi; j++)
-                    {
-                        a[i - j + 2 * ib + (j - 1) * (3 * ib + 1)] = 0.0;
-                    }
-
-                    a[i - i + 2 * ib + (i - 1) * (3 * ib + 1)] = 1.0;
-
-                    f[i - 1] = u;
+                    continue;
                 }
+
+                int i = indx[node - 1];
+                double x = node_xy[0 + (node - 1) * 2];
+                double y = node_xy[1 + (node - 1) * 2];
+                ExactResult res = exact(x, y);
+                double u = res.u;
+
+                int jlo = Math.Max(i - ib, 1);
+                int jhi = Math.Min(i + ib, nunk);
+
+                int j;
+                for (j = jlo; j <= jhi; j++)
+                {
+                    a[i - j + 2 * ib + (j - 1) * (3 * ib + 1)] = 0.0;
+                }
+
+                a[i - i + 2 * ib + (i - 1) * (3 * ib + 1)] = 1.0;
+
+                f[i - 1] = u;
             }
         }
     }
@@ -148,15 +140,14 @@ public static class Boundary
         //    Output, int *NUNK, the number of unknowns.
         //
     {
-        int i;
-        int in_;
         int j;
 
         nunk = 0;
-        in_ = 0;
+        int in_ = 0;
 
         for (j = 1; j <= 2 * ny - 1; j++)
         {
+            int i;
             for (i = 1; i <= 2 * nx - 1; i++)
             {
                 in_ += 1;

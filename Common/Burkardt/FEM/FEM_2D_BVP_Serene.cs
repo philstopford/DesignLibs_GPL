@@ -58,9 +58,7 @@ public static class FEM_2D_BVP_Serene
         //    at (XQ,YQ).
         //
     {
-        double[] v;
-
-        v = new double[8];
+        double[] v = new double[8];
 
         v[0] = not1(xq, xw, xx[0])
                * not1(yq, ys, yy[0])
@@ -151,9 +149,7 @@ public static class FEM_2D_BVP_Serene
         //    functions at (XQ,YQ) with respect to X.
         //
     {
-        double[] vx;
-
-        vx = new double[8];
+        double[] vx = new double[8];
 
         vx[0] =
             not1d(xw, xx[0])
@@ -270,9 +266,7 @@ public static class FEM_2D_BVP_Serene
         //    functions at (XQ,YQ) with respect to Y.
         //
     {
-        double[] vy;
-
-        vy = new double[8];
+        double[] vy = new double[8];
 
         vy[0] =
             not1(xq, xw, xx[0])
@@ -412,7 +406,7 @@ public static class FEM_2D_BVP_Serene
         //    are also the value of the computed solution at the mesh points.
         //
     {
-        int QUAD_NUM = 3;
+        const int QUAD_NUM = 3;
 
         double[] abscissa =  {
                 -0.774596669241483377035853079956,
@@ -421,75 +415,43 @@ public static class FEM_2D_BVP_Serene
             }
             ;
         double[] ae = new double[1];
-        double[] amat;
-        double aq;
-        double[] b;
         double[] be = new double[1];
-        int cc;
-        double cq;
-        int e;
-        int ex;
-        int ex_num;
         int ey;
-        int ey_num;
-        double fq;
         int i;
         int ierror = 0;
         int ii;
-        int inc;
         int j;
         int jj;
-        int k;
-        int mm;
-        int mn;
-        int n;
         int[] node = new int[8];
-        int quad_num = QUAD_NUM;
-        int qx;
-        int qy;
-        int s;
-        double scale;
-        double[] u;
-        double[] v;
-        double[] vx;
-        double[] vy;
-        int w;
         double[] weight =  {
                 0.555555555555555555555555555556,
                 0.888888888888888888888888888889,
                 0.555555555555555555555555555556
             }
             ;
-        double wq;
-        double xe;
-        double xq;
-        double xw;
         double[] xx = new double[8];
-        double yn;
-        double yq;
-        double ys;
         double[] yy = new double[8];
         //
         //  Make room for the matrix A and right hand side b.
         //
-        mn = fem2d_bvp_serene_node_num(nx, ny);
+        int mn = fem2d_bvp_serene_node_num(nx, ny);
 
-        amat = typeMethods.r8mat_zero_new(mn, mn);
-        b = typeMethods.r8vec_zero_new(mn);
+        double[] amat = typeMethods.r8mat_zero_new(mn, mn);
+        double[] b = typeMethods.r8vec_zero_new(mn);
         //
         //  Compute the matrix entries by integrating over each element.
         //
-        ex_num = (nx - 1) / 2;
-        ey_num = (ny - 1) / 2;
+        int ex_num = (nx - 1) / 2;
+        int ey_num = (ny - 1) / 2;
 
         for (ey = 0; ey < ey_num; ey++)
         {
-            s = 2 * ey;
-            mm = 2 * ey + 1;
-            n = 2 * ey + 2;
+            int s = 2 * ey;
+            int mm = 2 * ey + 1;
+            int n = 2 * ey + 2;
 
-            ys = y[s];
-            yn = y[n];
+            double ys = y[s];
+            double yn = y[n];
 
             yy[0] = y[n];
             yy[1] = y[n];
@@ -500,14 +462,15 @@ public static class FEM_2D_BVP_Serene
             yy[6] = y[s];
             yy[7] = y[mm];
 
+            int ex;
             for (ex = 0; ex < ex_num; ex++)
             {
-                w = 2 * ex;
-                cc = 2 * ex + 1;
-                e = 2 * ex + 2;
+                int w = 2 * ex;
+                int cc = 2 * ex + 1;
+                int e = 2 * ex + 2;
 
-                xe = x[e];
-                xw = x[w];
+                double xe = x[e];
+                double xw = x[w];
 
                 xx[0] = x[e];
                 xx[1] = x[cc];
@@ -549,28 +512,30 @@ public static class FEM_2D_BVP_Serene
                     }
                 }
 
-                for (qx = 0; qx < quad_num; qx++)
+                int qx;
+                for (qx = 0; qx < QUAD_NUM; qx++)
                 {
-                    xq = ((1.0 - abscissa[qx]) * x[e]
-                          + (1.0 + abscissa[qx]) * x[w])
-                         / 2.0;
+                    double xq = ((1.0 - abscissa[qx]) * x[e]
+                                 + (1.0 + abscissa[qx]) * x[w])
+                                / 2.0;
 
-                    for (qy = 0; qy < quad_num; qy++)
+                    int qy;
+                    for (qy = 0; qy < QUAD_NUM; qy++)
                     {
-                        yq = ((1.0 - abscissa[qy]) * y[n]
-                              + (1.0 + abscissa[qy]) * y[s])
-                             / 2.0;
+                        double yq = ((1.0 - abscissa[qy]) * y[n]
+                                     + (1.0 + abscissa[qy]) * y[s])
+                                    / 2.0;
 
-                        wq = weight[qx] * (x[e] - x[w]) / 2.0
+                        double wq = weight[qx] * (x[e] - x[w]) / 2.0
                             * weight[qy] * (y[n] - y[s]) / 2.0;
 
-                        v = basis_serene(xq, yq, xw, ys, xe, yn, xx, yy);
-                        vx = basis_dx_serene(xq, yq, xw, ys, xe, yn, xx, yy);
-                        vy = basis_dy_serene(xq, yq, xw, ys, xe, yn, xx, yy);
+                        double[] v = basis_serene(xq, yq, xw, ys, xe, yn, xx, yy);
+                        double[] vx = basis_dx_serene(xq, yq, xw, ys, xe, yn, xx, yy);
+                        double[] vy = basis_dy_serene(xq, yq, xw, ys, xe, yn, xx, yy);
 
-                        aq = a(xq, yq);
-                        cq = c(xq, yq);
-                        fq = f(xq, yq);
+                        double aq = a(xq, yq);
+                        double cq = c(xq, yq);
+                        double fq = f(xq, yq);
                         switch (show11)
                         {
                             //
@@ -629,7 +594,7 @@ public static class FEM_2D_BVP_Serene
                         {
                             case 0 when ex == 0:
                             {
-                                scale = 0.5 * ae[0 + 2 * 8];
+                                double scale = 0.5 * ae[0 + 2 * 8];
                                 for (j = 0; j < 8; j++)
                                 {
                                     for (i = 0; i < 8; i++)
@@ -653,11 +618,11 @@ public static class FEM_2D_BVP_Serene
         //  Where a node is on the boundary, 
         //  replace the finite element equation by a boundary condition.
         //
-        k = 0;
+        int k = 0;
 
         for (j = 0; j < ny; j++)
         {
-            inc = (j % 2) switch
+            int inc = (j % 2) switch
             {
                 0 => 1,
                 _ => 2
@@ -688,7 +653,7 @@ public static class FEM_2D_BVP_Serene
         //
         //  Solve the linear system.
         //
-        u = typeMethods.r8mat_solve2(mn, ref amat, ref b, ref ierror);
+        double[] u = typeMethods.r8mat_solve2(mn, ref amat, ref b, ref ierror);
 
         return u;
     }
@@ -741,11 +706,8 @@ public static class FEM_2D_BVP_Serene
         //    Output, int FEM2D_BVP_SERENE_NODE_NUM, the number of nodes and variables.
         //
     {
-        int value;
-
-        value =
-            nx * (ny + 1) / 2
-            + (nx + 1) / 2 * (ny - 1) / 2;
+        int value = nx * (ny + 1) / 2
+                    + (nx + 1) / 2 * (ny - 1) / 2;
 
         return value;
     }
@@ -808,59 +770,32 @@ public static class FEM_2D_BVP_Serene
                 0.774596669241483377035853079956
             }
             ;
-        int cc;
-        int e;
-        int ex;
-        int ex_num;
         int ey;
-        int ey_num;
-        double exq;
-        double eyq;
-        double h1s;
-        int k;
-        int mm;
-        int n;
         int[] node = new int[8];
-        int quad_num = QUAD_NUM;
-        int qx;
-        int qy;
-        int s;
-        double uxq;
-        double uyq;
-        double[] vx;
-        double[] vy;
-        int w;
         double[] weight =  {
                 0.555555555555555555555555555556,
                 0.888888888888888888888888888889,
                 0.555555555555555555555555555556
             }
             ;
-        double wq;
-        double xe;
-        double xq;
-        double xw;
         double[] xx = new double[8];
-        double yn;
-        double yq;
-        double ys;
         double[] yy = new double[8];
 
-        h1s = 0.0;
+        double h1s = 0.0;
         //
         //  Quadrature definitions.
         //
-        ex_num = (nx - 1) / 2;
-        ey_num = (ny - 1) / 2;
+        int ex_num = (nx - 1) / 2;
+        int ey_num = (ny - 1) / 2;
 
         for (ey = 0; ey < ey_num; ey++)
         {
-            s = 2 * ey;
-            mm = 2 * ey + 1;
-            n = 2 * ey + 2;
+            int s = 2 * ey;
+            int mm = 2 * ey + 1;
+            int n = 2 * ey + 2;
 
-            ys = y[s];
-            yn = y[n];
+            double ys = y[s];
+            double yn = y[n];
 
             yy[0] = y[n];
             yy[1] = y[n];
@@ -871,14 +806,15 @@ public static class FEM_2D_BVP_Serene
             yy[6] = y[s];
             yy[7] = y[mm];
 
+            int ex;
             for (ex = 0; ex < ex_num; ex++)
             {
-                w = 2 * ex;
-                cc = 2 * ex + 1;
-                e = 2 * ex + 2;
+                int w = 2 * ex;
+                int cc = 2 * ex + 1;
+                int e = 2 * ex + 2;
 
-                xe = x[e];
-                xw = x[w];
+                double xe = x[e];
+                double xw = x[w];
 
                 xx[0] = x[e];
                 xx[1] = x[cc];
@@ -904,34 +840,37 @@ public static class FEM_2D_BVP_Serene
                 node[6] = 3 * ey * ey_num + 2 * ey + 2 * ex + 2;
                 node[7] = (3 * ey + 2) * ey_num + 2 * ey + ex + 2;
 
-                for (qx = 0; qx < quad_num; qx++)
+                int qx;
+                for (qx = 0; qx < QUAD_NUM; qx++)
                 {
-                    xq = ((1.0 - abscissa[qx]) * x[e]
-                          + (1.0 + abscissa[qx]) * x[w])
-                         / 2.0;
+                    double xq = ((1.0 - abscissa[qx]) * x[e]
+                                 + (1.0 + abscissa[qx]) * x[w])
+                                / 2.0;
 
-                    for (qy = 0; qy < quad_num; qy++)
+                    int qy;
+                    for (qy = 0; qy < QUAD_NUM; qy++)
                     {
-                        yq = ((1.0 - abscissa[qy]) * y[n]
-                              + (1.0 + abscissa[qy]) * y[s])
-                             / 2.0;
+                        double yq = ((1.0 - abscissa[qy]) * y[n]
+                                     + (1.0 + abscissa[qy]) * y[s])
+                                    / 2.0;
 
-                        wq = weight[qx] * (x[e] - x[w]) / 2.0
+                        double wq = weight[qx] * (x[e] - x[w]) / 2.0
                             * weight[qy] * (y[n] - y[s]) / 2.0;
 
-                        vx = basis_dx_serene(xq, yq, xw, ys, xe, yn, xx, yy);
-                        vy = basis_dy_serene(xq, yq, xw, ys, xe, yn, xx, yy);
+                        double[] vx = basis_dx_serene(xq, yq, xw, ys, xe, yn, xx, yy);
+                        double[] vy = basis_dy_serene(xq, yq, xw, ys, xe, yn, xx, yy);
 
-                        uxq = 0.0;
-                        uyq = 0.0;
+                        double uxq = 0.0;
+                        double uyq = 0.0;
+                        int k;
                         for (k = 0; k < 8; k++)
                         {
                             uxq += u[node[k]] * vx[k];
                             uyq += u[node[k]] * vy[k];
                         }
 
-                        exq = exact_ux(xq, yq);
-                        eyq = exact_uy(xq, yq);
+                        double exq = exact_ux(xq, yq);
+                        double eyq = exact_uy(xq, yq);
 
                         h1s += wq * (Math.Pow(uxq - exq, 2) + Math.Pow(uyq - eyq, 2));
                     }
@@ -987,23 +926,20 @@ public static class FEM_2D_BVP_Serene
         //    Output, double FEM2D_L1_ERROR_SERENE, the little l1 norm of the error.
         //
     {
-        int i;
-        int inc;
         int j;
-        int k;
-        double e1;
 
-        e1 = 0.0;
-        k = 0;
+        double e1 = 0.0;
+        int k = 0;
 
         for (j = 0; j < ny; j++)
         {
-            inc = (j % 2) switch
+            int inc = (j % 2) switch
             {
                 0 => 1,
                 _ => 2
             };
 
+            int i;
             for (i = 0; i < nx; i += inc)
             {
                 e1 += Math.Abs(u[k] - exact(x[i], y[j]));
@@ -1065,7 +1001,7 @@ public static class FEM_2D_BVP_Serene
         //    Output, double E2, the estimated L2 norm of the error.
         //
     {
-        int QUAD_NUM = 3;
+        const int QUAD_NUM = 3;
 
         double[] abscissa =  {
                 -0.774596669241483377035853079956,
@@ -1073,56 +1009,32 @@ public static class FEM_2D_BVP_Serene
                 0.774596669241483377035853079956
             }
             ;
-        int cc;
-        int e;
-        double e2;
-        double eq;
-        int ex;
-        int ex_num;
         int ey;
-        int ey_num;
-        int k;
-        int mm;
-        int n;
         int[] node = new int[8];
-        int quad_num = QUAD_NUM;
-        int qx;
-        int qy;
-        int s;
-        double uq;
-        double[] v;
-        int w;
         double[] weight =  {
                 0.555555555555555555555555555556,
                 0.888888888888888888888888888889,
                 0.555555555555555555555555555556
             }
             ;
-        double wq;
-        double xe;
-        double xq;
-        double xw;
         double[] xx = new double[8];
-        double yn;
-        double yq;
-        double ys;
         double[] yy = new double[8];
 
-        e2 = 0.0;
+        double e2 = 0.0;
         //
         //  Compute the matrix entries by integrating over each element.
         //
-        ex_num = (nx - 1) / 2;
-        ey_num = (ny - 1) / 2;
+        int ex_num = (nx - 1) / 2;
+        int ey_num = (ny - 1) / 2;
 
         for (ey = 0; ey < ey_num; ey++)
         {
-            s = 2 * ey;
-            mm = 2 * ey + 1;
-            n = 2 * ey + 2;
+            int s = 2 * ey;
+            int mm = 2 * ey + 1;
+            int n = 2 * ey + 2;
 
-            ys = y[s];
-            yn = y[n];
+            double ys = y[s];
+            double yn = y[n];
 
             yy[0] = y[n];
             yy[1] = y[n];
@@ -1133,14 +1045,15 @@ public static class FEM_2D_BVP_Serene
             yy[6] = y[s];
             yy[7] = y[mm];
 
+            int ex;
             for (ex = 0; ex < ex_num; ex++)
             {
-                w = 2 * ex;
-                cc = 2 * ex + 1;
-                e = 2 * ex + 2;
+                int w = 2 * ex;
+                int cc = 2 * ex + 1;
+                int e = 2 * ex + 2;
 
-                xe = x[e];
-                xw = x[w];
+                double xe = x[e];
+                double xw = x[w];
 
                 xx[0] = x[e];
                 xx[1] = x[cc];
@@ -1166,30 +1079,33 @@ public static class FEM_2D_BVP_Serene
                 node[6] = 3 * ey * ey_num + 2 * ey + 2 * ex + 2;
                 node[7] = (3 * ey + 2) * ey_num + 2 * ey + ex + 2;
 
-                for (qx = 0; qx < quad_num; qx++)
+                int qx;
+                for (qx = 0; qx < QUAD_NUM; qx++)
                 {
-                    xq = ((1.0 - abscissa[qx]) * x[e]
-                          + (1.0 + abscissa[qx]) * x[w])
-                         / 2.0;
+                    double xq = ((1.0 - abscissa[qx]) * x[e]
+                                 + (1.0 + abscissa[qx]) * x[w])
+                                / 2.0;
 
-                    for (qy = 0; qy < quad_num; qy++)
+                    int qy;
+                    for (qy = 0; qy < QUAD_NUM; qy++)
                     {
-                        yq = ((1.0 - abscissa[qy]) * y[n]
-                              + (1.0 + abscissa[qy]) * y[s])
-                             / 2.0;
+                        double yq = ((1.0 - abscissa[qy]) * y[n]
+                                     + (1.0 + abscissa[qy]) * y[s])
+                                    / 2.0;
 
-                        wq = weight[qx] * (x[e] - x[w]) / 2.0
+                        double wq = weight[qx] * (x[e] - x[w]) / 2.0
                             * weight[qy] * (y[n] - y[s]) / 2.0;
 
-                        v = basis_serene(xq, yq, xw, ys, xe, yn, xx, yy);
+                        double[] v = basis_serene(xq, yq, xw, ys, xe, yn, xx, yy);
 
-                        uq = 0.0;
+                        double uq = 0.0;
+                        int k;
                         for (k = 0; k < 8; k++)
                         {
                             uq += u[node[k]] * v[k];
                         }
 
-                        eq = exact(xq, yq);
+                        double eq = exact(xq, yq);
                         e2 += wq * Math.Pow(uq - eq, 2);
                     }
                 }

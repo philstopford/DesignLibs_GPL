@@ -1,6 +1,6 @@
 ﻿namespace Burkardt.FEM;
 
-public class Derivative
+public static class Derivative
 {
     public static void derivative_average_t3(int node_num, double[] node_xy, int element_num,
             int[] element_node, double[] c, double[] dcdx, double[] dcdy )
@@ -53,19 +53,13 @@ public class Derivative
         //    values of dCdX and dCdY at the nodes.
         //
     {
-        int OFFSET = 1;
+        const int OFFSET = 1;
 
-        int dim;
         double[] dphidx = new double[3 * 3];
         double[] dphidy = new double[3 * 3];
         int element;
-        int j;
         int node;
         int[] node_count = new int[node_num];
-        int node_global1;
-        int node_global2;
-        int node_local1;
-        int node_local2;
         double[] phi = new double[3 * 3];
         double[] t = new double[2 * 3];
 
@@ -84,8 +78,10 @@ public class Derivative
             //
             //  Get the coordinates of the nodes of the element.
             //
+            int j;
             for (j = 0; j < 3; j++)
             {
+                int dim;
                 for (dim = 0; dim < 2; dim++)
                 {
                     t[dim + 2 * j] = node_xy[dim + (element_node[j + element * 3] - OFFSET)];
@@ -101,13 +97,15 @@ public class Derivative
             //  Evaluate dCdX and dCdY at each node in the element, and add
             //  them to the running totals.
             //
+            int node_local1;
             for (node_local1 = 0; node_local1 < 3; node_local1++)
             {
-                node_global1 = element_node[node_local1 + element * 3] - OFFSET;
+                int node_global1 = element_node[node_local1 + element * 3] - OFFSET;
 
+                int node_local2;
                 for (node_local2 = 0; node_local2 < 3; node_local2++)
                 {
-                    node_global2 = element_node[node_local2 + element * 3] - OFFSET;
+                    int node_global2 = element_node[node_local2 + element * 3] - OFFSET;
 
                     dcdx[node_global1] += c[node_global2] * dphidx[node_local2 + node_local1 * 3];
 

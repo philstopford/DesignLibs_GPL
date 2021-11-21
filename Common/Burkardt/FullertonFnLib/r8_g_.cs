@@ -54,9 +54,6 @@ public static partial class FullertonLib
         //    Output, double R8_GAMI, the value of the incomplete gamma function.
         //
     {
-        double factor;
-        double value = 0;
-
         switch (a)
         {
             case <= 0.0:
@@ -65,6 +62,7 @@ public static partial class FullertonLib
                 Console.WriteLine("  A <= 0.");
                 return 1;
             default:
+                double value = 0;
                 switch (x)
                 {
                     case < 0.0:
@@ -76,7 +74,7 @@ public static partial class FullertonLib
                         value = 0.0;
                         break;
                     default:
-                        factor = Math.Exp(r8_lngam(ref data.lngamdata, ref gdata, a) + a * Math.Log(x));
+                        double factor = Math.Exp(r8_lngam(ref data.lngamdata, ref gdata, a) + a * Math.Log(x));
                         value = factor * r8_gamit(ref data.gamitdata, ref gdata, a, x);
                         break;
                 }
@@ -152,24 +150,16 @@ public static partial class FullertonLib
         //    gamma function.
         //
     {
-        double aeps;
-        double ainta;
         double algap1 = 0;
         double alngs = 0;
-        double alx;
         //static double bot = 0.0;
-        double e;
-        double gstar;
-        double h;
-        int izero;
         //int ma;
-        double sga;
         double sgng;
         double sgngam = 0;
         double sgngs = 0;
         //static double sqeps = 0.0;
         double t;
-        double value = 0;
+        double value;
 
         switch (data.eps)
         {
@@ -199,17 +189,17 @@ public static partial class FullertonLib
                 return value;
         }
 
-        alx = Math.Log(x);
-        sga = a switch
+        double alx = Math.Log(x);
+        double sga = a switch
         {
             < 0.0 => -1.0,
             _ => +1.0
         };
 
-        ainta = r8_aint(a + 0.5 * sga);
-        aeps = a - ainta;
+        double ainta = r8_aint(a + 0.5 * sga);
+        double aeps = a - ainta;
 
-        izero = 0;
+        int izero = 0;
 
         switch (x)
         {
@@ -219,7 +209,7 @@ public static partial class FullertonLib
                 {
                     case <= 0.5 when Math.Abs(aeps) <= 0.001:
                     {
-                        e = -ainta switch
+                        double e = -ainta switch
                         {
                             <= 1.0 => 2.0,
                             _ => 2.0 * (-ainta + 2.0) / (ainta * ainta - 1.0)
@@ -238,7 +228,7 @@ public static partial class FullertonLib
                 }
 
                 r8_lgams(ref data.lgamsdata, ref gdata, a + 1.0, ref algap1, ref sgngam);
-                gstar = r8_gmit(ref data.gmitdata, ref gdata, a, x, algap1, sgngam, alx);
+                double gstar = r8_gmit(ref data.gmitdata, ref gdata, a, x, algap1, sgngam, alx);
 
                 switch (gstar)
                 {
@@ -269,7 +259,7 @@ public static partial class FullertonLib
             }
         }
 
-        h = 1.0;
+        double h = 1.0;
 
         if (izero != 1)
         {
@@ -369,18 +359,13 @@ public static partial class FullertonLib
         //    Output, double R8_GAMIT, the function value.
         //
     {
-        double aeps;
-        double ainta;
         double algap1 = 0;
-        double alng;
         double alx;
         //static double bot = 0.0;
-        double h;
-        double sga;
         double sgngam = 0;
         //static double sqeps = 0.0;
         double t;
-        double value = 0;
+        double value;
 
         data.alneps = data.alneps switch
         {
@@ -403,14 +388,14 @@ public static partial class FullertonLib
                 break;
         }
 
-        sga = a switch
+        double sga = a switch
         {
             < 0.0 => -1.0,
             _ => +1.0
         };
 
-        ainta = r8_aint(a + 0.5 * sga);
-        aeps = a - ainta;
+        double ainta = r8_aint(a + 0.5 * sga);
+        double aeps = a - ainta;
 
         switch (x)
         {
@@ -446,11 +431,11 @@ public static partial class FullertonLib
             return value;
         }
 
-        alng = r8_lgic(ref data.lgicdata, a, x, alx);
+        double alng = r8_lgic(ref data.lgicdata, a, x, alx);
         //
         //  Evaluate in terms of log (r8_gamic (a, x))
         //
-        h = 1.0;
+        double h = 1.0;
 
         if (aeps != 0.0 || 0.0 < ainta)
         {
@@ -526,20 +511,15 @@ public static partial class FullertonLib
         //    Output, double &XMIN, &XMAX, the bounds.
         //
     {
-        double alnbig;
-        double alnsml;
         int i;
-        int j;
-        double xln;
-        double xold;
 
-        alnsml = Math.Log(r8_mach(1));
+        double alnsml = Math.Log(r8_mach(1));
         xmin = -alnsml;
 
         for (i = 1; i <= 10; i++)
         {
-            xold = xmin;
-            xln = Math.Log(xmin);
+            double xold = xmin;
+            double xln = Math.Log(xmin);
             xmin -= xmin * ((xmin + 0.5) * xln - xmin
                                                - 0.2258 + alnsml) / (xmin * xln + 0.5);
 
@@ -549,9 +529,10 @@ public static partial class FullertonLib
                 {
                     xmin = -xmin + 0.01;
 
-                    alnbig = Math.Log(r8_mach(2));
+                    double alnbig = Math.Log(r8_mach(2));
                     xmax = alnbig;
 
+                    int j;
                     for (j = 1; j <= 10; j++)
                     {
                         xold = xmax;
@@ -675,13 +656,9 @@ public static partial class FullertonLib
                 -0.5793070335782135784625493333333E-31
             }
             ;
-        int i;
-        int n;
-            
-        double sinpiy;
+
         const double sq2pil = 0.91893853320467274178032973640562;
-        double value = 0;
-        double y;
+        double value;
 
         switch (data.ngcs)
         {
@@ -694,13 +671,13 @@ public static partial class FullertonLib
                 break;
         }
 
-        y = Math.Abs(x);
+        double y = Math.Abs(x);
 
         switch (y)
         {
             case <= 10.0:
             {
-                n = (int) x;
+                int n = (int) x;
                 switch (x)
                 {
                     case < 0.0:
@@ -712,6 +689,7 @@ public static partial class FullertonLib
                 n -= 1;
                 value = 0.9375 + r8_csevl(2.0 * y - 1.0, gcs, data.ngcs);
 
+                int i;
                 switch (n)
                 {
                     case 0:
@@ -759,8 +737,6 @@ public static partial class FullertonLib
                     {
                         switch (n)
                         {
-                            case 0:
-                                break;
                             default:
                             {
                                 for (i = 1; i <= n; i++)
@@ -813,7 +789,7 @@ public static partial class FullertonLib
                     Console.WriteLine("  answer is half precision.");
                 }
 
-                sinpiy = Math.Sin(Math.PI * y);
+                double sinpiy = Math.Sin(Math.PI * y);
 
                 switch (sinpiy)
                 {
@@ -956,20 +932,8 @@ public static partial class FullertonLib
         //    gamma function.
         //
     {
-        double alng;
-        bool converged;
         const double euler = 0.57721566490153286060651209008240;
-        double fk;
-        double fkp1;
-        double fm;
         int k;
-        int m;
-        int mm1;
-        double s;
-        double sgng;
-        double t;
-        double te;
-        double value = 0;
 
         switch (data.eps)
         {
@@ -997,25 +961,27 @@ public static partial class FullertonLib
                 return 1;
         }
 
-        m = -(int) (a - 0.5);
-        fm = m;
+        int m = -(int) (a - 0.5);
+        double fm = m;
 
-        te = 1.0;
-        t = 1.0;
-        s = t;
-        converged = false;
+        double te = 1.0;
+        double t = 1.0;
+        double s = t;
+        bool converged = false;
 
         for (k = 1; k <= 200; k++)
         {
-            fkp1 = k + 1;
+            double fkp1 = k + 1;
             te = -x * te / (fm + fkp1);
             t = te / fkp1;
             s += t;
-            if (Math.Abs(t) < data.eps * s)
+            if (!(Math.Abs(t) < data.eps * s))
             {
-                converged = true;
-                break;
+                continue;
             }
+
+            converged = true;
+            break;
         }
 
         switch (converged)
@@ -1027,7 +993,7 @@ public static partial class FullertonLib
                 return 1;
         }
 
-        value = -alx - euler + x * s / (fm + 1.0);
+        double value = -alx - euler + x * s / (fm + 1.0);
 
         switch (m)
         {
@@ -1041,11 +1007,11 @@ public static partial class FullertonLib
         te = fm;
         t = 1.0;
         s = t;
-        mm1 = m - 1;
+        int mm1 = m - 1;
 
         for (k = 1; k <= mm1; k++)
         {
-            fk = k;
+            double fk = k;
             te = -x * te / fk;
             t = te / (fm - fk);
             s += t;
@@ -1060,13 +1026,13 @@ public static partial class FullertonLib
             value += 1.0 / k;
         }
 
-        sgng = (m % 2) switch
+        double sgng = (m % 2) switch
         {
             1 => -1.0,
             _ => +1.0
         };
 
-        alng = Math.Log(value) - r8_lngam(ref data.lngamdata, ref gdata, fm + 1.0);
+        double alng = Math.Log(value) - r8_lngam(ref data.lngamdata, ref gdata, fm + 1.0);
 
         if (data.bot < alng)
         {
@@ -1138,20 +1104,9 @@ public static partial class FullertonLib
         //    Output, double R8_GMIT, the Tricomi incomplete gamma function.
         //
     {
-        double ae;
-        double aeps;
-        double alg2;
         double algs;
-        bool converged;
-        double fk;
         int k;
-        int m;
-        int ma;
-        double s;
-        double sgng2;
-        double t;
-        double te;
-        double value = 0;
+        double value;
 
         switch (data.eps)
         {
@@ -1170,28 +1125,28 @@ public static partial class FullertonLib
                 return 1;
         }
 
-        ma = a switch
+        int ma = a switch
         {
             < 0.0 => (int) (a - 0.5),
             _ => (int) (a + 0.5)
         };
 
-        aeps = a - ma;
+        double aeps = a - ma;
 
-        ae = a switch
+        double ae = a switch
         {
             < -0.5 => aeps,
             _ => a
         };
 
-        t = 1.0;
-        te = ae;
-        s = t;
-        converged = false;
+        double t = 1.0;
+        double te = ae;
+        double s = t;
+        bool converged = false;
 
         for (k = 1; k <= 200; k++)
         {
-            fk = k;
+            double fk = k;
             te = -x * te / fk;
             t = te / (ae + fk);
             s += t;
@@ -1221,7 +1176,7 @@ public static partial class FullertonLib
 
         algs = -r8_lngam(ref data.lngamdata, ref gdata, 1.0 + aeps) + Math.Log(s);
         s = 1.0;
-        m = -ma - 1;
+        int m = -ma - 1;
         t = 1.0;
 
         for (k = 1; k <= m; k++)
@@ -1243,8 +1198,8 @@ public static partial class FullertonLib
             return value;
         }
 
-        sgng2 = sgngam * r8_sign(s);
-        alg2 = -x - algap1 + Math.Log(Math.Abs(s));
+        double sgng2 = sgngam * r8_sign(s);
+        double alg2 = -x - algap1 + Math.Log(Math.Abs(s));
 
         if (data.bot < alg2)
         {

@@ -5,7 +5,7 @@ using Burkardt.Uniform;
 
 namespace Burkardt.FEM;
 
-public class Basis_mn
+public static class Basis_mn
 {
     public static void basis_mn_q4(double[] q, int n, double[] p, ref double[] phi,
             ref double[] dphidx, ref double[] dphidy)
@@ -67,12 +67,10 @@ public class Basis_mn
         //    bases at the evaluation points.
         //
     {
-        double area;
-        int i;
         int j;
 
-        area = (q[0 + 2 * 2] - q[0 + 0 * 2])
-               * (q[1 + 2 * 2] - q[1 + 0 * 2]);
+        double area = (q[0 + 2 * 2] - q[0 + 0 * 2])
+                      * (q[1 + 2 * 2] - q[1 + 0 * 2]);
 
         for (j = 0; j < n; j++)
         {
@@ -101,6 +99,7 @@ public class Basis_mn
         //
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < 4; i++)
             {
                 phi[i + j * 4] /= area;
@@ -150,8 +149,6 @@ public class Basis_mn
                 3.0, 4.0
             }
             ;
-        double sum_x;
-        double sum_y;
 
         Console.WriteLine("");
         Console.WriteLine("BASIS_MN_Q4_TEST:");
@@ -195,13 +192,13 @@ public class Basis_mn
 
         for (j = 0; j < NODE_NUM; j++)
         {
-            sum_x = 0.0;
+            double sum_x = 0.0;
             for (i = 0; i < NODE_NUM; i++)
             {
                 sum_x += dphidx[i + j * NODE_NUM];
             }
 
-            sum_y = 0.0;
+            double sum_y = 0.0;
             for (i = 0; i < NODE_NUM; i++)
             {
                 sum_y += dphidy[i + j * NODE_NUM];
@@ -278,13 +275,11 @@ public class Basis_mn
         //    Local, double AREA, is (twice) the area of the triangle.
         //
     {
-        double area;
-        int i;
         int j;
 
-        area = t[0 + 0 * 2] * (t[1 + 1 * 2] - t[1 + 2 * 2])
-               + t[0 + 1 * 2] * (t[1 + 2 * 2] - t[1 + 0 * 2])
-               + t[0 + 2 * 2] * (t[1 + 0 * 2] - t[1 + 1 * 2]);
+        double area = t[0 + 0 * 2] * (t[1 + 1 * 2] - t[1 + 2 * 2])
+                      + t[0 + 1 * 2] * (t[1 + 2 * 2] - t[1 + 0 * 2])
+                      + t[0 + 2 * 2] * (t[1 + 0 * 2] - t[1 + 1 * 2]);
 
         switch (area)
         {
@@ -318,6 +313,7 @@ public class Basis_mn
         //
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < 3; i++)
             {
                 phi[i + j * 3] /= area;
@@ -352,15 +348,13 @@ public class Basis_mn
         //    None.
         //
     {
-        int NODE_NUM = 3;
+        const int NODE_NUM = 3;
 
         double[] dphidx = new double[NODE_NUM * NODE_NUM];
         double[] dphidy = new double[NODE_NUM * NODE_NUM];
         int i;
         int j;
         double[] phi = new double[NODE_NUM * NODE_NUM];
-        double sum_x;
-        double sum_y;
         double[] t =
         {
             2.0, 0.0,
@@ -410,8 +404,8 @@ public class Basis_mn
 
         for (j = 0; j < NODE_NUM; j++)
         {
-            sum_x = 0.0;
-            sum_y = 0.0;
+            double sum_x = 0.0;
+            double sum_y = 0.0;
             for (i = 0; i < NODE_NUM; i++)
             {
                 sum_x += dphidx[i + j * NODE_NUM];
@@ -492,13 +486,12 @@ public class Basis_mn
         //    Local, double AREA, is (twice) the area of the triangle.
         //
     {
-        double area;
         int i;
         int j;
 
-        area = t[0 + 0 * 2] * (t[1 + 1 * 2] - t[1 + 2 * 2])
-               + t[0 + 1 * 2] * (t[1 + 2 * 2] - t[1 + 0 * 2])
-               + t[0 + 2 * 2] * (t[1 + 0 * 2] - t[1 + 1 * 2]);
+        double area = t[0 + 0 * 2] * (t[1 + 1 * 2] - t[1 + 2 * 2])
+                      + t[0 + 1 * 2] * (t[1 + 2 * 2] - t[1 + 0 * 2])
+                      + t[0 + 2 * 2] * (t[1 + 0 * 2] - t[1 + 1 * 2]);
 
         for (j = 0; j < n; j++)
         {
@@ -593,8 +586,6 @@ public class Basis_mn
         int i;
         int j;
         double[] phi = new double[NODE_NUM * NODE_NUM];
-        double sum_x;
-        double sum_y;
         double[] t =
         {
             2.0, 0.0,
@@ -645,8 +636,8 @@ public class Basis_mn
 
         for (j = 0; j < NODE_NUM; j++)
         {
-            sum_x = 0.0;
-            sum_y = 0.0;
+            double sum_x = 0.0;
+            double sum_y = 0.0;
             for (i = 0; i < NODE_NUM; i++)
             {
                 sum_x += dphidx[i + j * NODE_NUM];
@@ -724,10 +715,6 @@ public class Basis_mn
         //    and Y derivatives of the basis functions at P.
         //
     {
-        double gn;
-        double gx;
-        double hn;
-        double hx;
         int j;
 
         for (j = 0; j < n; j++)
@@ -735,17 +722,17 @@ public class Basis_mn
             //
             //  Basis function 1: PHI(X,Y) = G(3,2) * H(6,4) / normalization.
             //
-            gx = (p[0 + j * 2] - t[0 + 1 * 2]) * (t[1 + 2 * 2] - t[1 + 1 * 2])
-                 - (t[0 + 2 * 2] - t[0 + 1 * 2]) * (p[1 + j * 2] - t[1 + 1 * 2]);
+            double gx = (p[0 + j * 2] - t[0 + 1 * 2]) * (t[1 + 2 * 2] - t[1 + 1 * 2])
+                        - (t[0 + 2 * 2] - t[0 + 1 * 2]) * (p[1 + j * 2] - t[1 + 1 * 2]);
 
-            gn = (t[0 + 0 * 2] - t[0 + 1 * 2]) * (t[1 + 2 * 2] - t[1 + 1 * 2])
-                 - (t[0 + 2 * 2] - t[0 + 1 * 2]) * (t[1 + 0 * 2] - t[1 + 1 * 2]);
+            double gn = (t[0 + 0 * 2] - t[0 + 1 * 2]) * (t[1 + 2 * 2] - t[1 + 1 * 2])
+                        - (t[0 + 2 * 2] - t[0 + 1 * 2]) * (t[1 + 0 * 2] - t[1 + 1 * 2]);
 
-            hx = (p[0 + j * 2] - t[0 + 3 * 2]) * (t[1 + 5 * 2] - t[1 + 3 * 2])
-                 - (t[0 + 5 * 2] - t[0 + 3 * 2]) * (p[1 + j * 2] - t[1 + 3 * 2]);
+            double hx = (p[0 + j * 2] - t[0 + 3 * 2]) * (t[1 + 5 * 2] - t[1 + 3 * 2])
+                        - (t[0 + 5 * 2] - t[0 + 3 * 2]) * (p[1 + j * 2] - t[1 + 3 * 2]);
 
-            hn = (t[0 + 0 * 2] - t[0 + 3 * 2]) * (t[1 + 5 * 2] - t[1 + 3 * 2])
-                 - (t[0 + 5 * 2] - t[0 + 3 * 2]) * (t[1 + 0 * 2] - t[1 + 3 * 2]);
+            double hn = (t[0 + 0 * 2] - t[0 + 3 * 2]) * (t[1 + 5 * 2] - t[1 + 3 * 2])
+                        - (t[0 + 5 * 2] - t[0 + 3 * 2]) * (t[1 + 0 * 2] - t[1 + 3 * 2]);
 
             phi[0 + j * 6] = gx * hx / (gn * hn);
             dphidx[0 + j * 6] = ((t[1 + 2 * 2] - t[1 + 1 * 2]) * hx
@@ -880,15 +867,13 @@ public class Basis_mn
         //    None
         //
     {
-        int NODE_NUM = 6;
+        const int NODE_NUM = 6;
 
         double[] dphidx = new double[NODE_NUM * NODE_NUM];
         double[] dphidy = new double[NODE_NUM * NODE_NUM];
         int i;
         int j;
         double[] phi = new double[NODE_NUM * NODE_NUM];
-        double sum_x;
-        double sum_y;
         double[] t =
         {
             2.0, 0.0,
@@ -941,13 +926,13 @@ public class Basis_mn
         Console.WriteLine("");
         for (j = 0; j < NODE_NUM; j++)
         {
-            sum_x = 0.0;
+            double sum_x = 0.0;
             for (i = 0; i < NODE_NUM; i++)
             {
                 sum_x += dphidx[i + j * NODE_NUM];
             }
 
-            sum_y = 0.0;
+            double sum_y = 0.0;
             for (i = 0; i < NODE_NUM; i++)
             {
                 sum_y += dphidy[i + j * NODE_NUM];
@@ -1010,30 +995,28 @@ public class Basis_mn
         //
     {
         int j;
-        double volume;
         //
         //           | x1 x2 x3 x4 |
         //  Volume = | y1 y2 y3 y4 |
         //           | z1 z2 z3 z4 |
         //           |  1  1  1  1 |
         //
-        volume =
-            t[0 + 0 * 3] * (
-                t[1 + 1 * 3] * (t[2 + 2 * 3] - t[2 + 3 * 3])
-                - t[1 + 2 * 3] * (t[2 + 1 * 3] - t[2 + 3 * 3])
-                + t[1 + 3 * 3] * (t[2 + 1 * 3] - t[2 + 2 * 3]))
-            - t[0 + 1 * 3] * (
-                t[1 + 0 * 3] * (t[2 + 2 * 3] - t[2 + 3 * 3])
-                - t[1 + 2 * 3] * (t[2 + 0 * 3] - t[2 + 3 * 3])
-                + t[1 + 3 * 3] * (t[2 + 0 * 3] - t[2 + 2 * 3]))
-            + t[0 + 2 * 3] * (
-                t[1 + 0 * 3] * (t[2 + 1 * 3] - t[2 + 3 * 3])
-                - t[1 + 1 * 3] * (t[2 + 0 * 3] - t[2 + 3 * 3])
-                + t[1 + 3 * 3] * (t[2 + 0 * 3] - t[2 + 1 * 3]))
-            - t[0 + 3 * 3] * (
-                t[1 + 0 * 3] * (t[2 + 1 * 3] - t[2 + 2 * 3])
-                - t[1 + 1 * 3] * (t[2 + 0 * 3] - t[2 + 2 * 3])
-                + t[1 + 2 * 3] * (t[2 + 0 * 3] - t[2 + 1 * 3]));
+        double volume = t[0 + 0 * 3] * (
+                            t[1 + 1 * 3] * (t[2 + 2 * 3] - t[2 + 3 * 3])
+                            - t[1 + 2 * 3] * (t[2 + 1 * 3] - t[2 + 3 * 3])
+                            + t[1 + 3 * 3] * (t[2 + 1 * 3] - t[2 + 2 * 3]))
+                        - t[0 + 1 * 3] * (
+                            t[1 + 0 * 3] * (t[2 + 2 * 3] - t[2 + 3 * 3])
+                            - t[1 + 2 * 3] * (t[2 + 0 * 3] - t[2 + 3 * 3])
+                            + t[1 + 3 * 3] * (t[2 + 0 * 3] - t[2 + 2 * 3]))
+                        + t[0 + 2 * 3] * (
+                            t[1 + 0 * 3] * (t[2 + 1 * 3] - t[2 + 3 * 3])
+                            - t[1 + 1 * 3] * (t[2 + 0 * 3] - t[2 + 3 * 3])
+                            + t[1 + 3 * 3] * (t[2 + 0 * 3] - t[2 + 1 * 3]))
+                        - t[0 + 3 * 3] * (
+                            t[1 + 0 * 3] * (t[2 + 1 * 3] - t[2 + 2 * 3])
+                            - t[1 + 1 * 3] * (t[2 + 0 * 3] - t[2 + 2 * 3])
+                            + t[1 + 2 * 3] * (t[2 + 0 * 3] - t[2 + 1 * 3]));
 
         switch (volume)
         {
@@ -1162,22 +1145,17 @@ public class Basis_mn
         //    John Burkardt
         //
     {
-        int NODE_NUM = 4;
+        const int NODE_NUM = 4;
 
-        double[] c;
-        double c_sum;
         int i;
         int j;
         double[] p = new double[1];
         double[] phi1 = new double[NODE_NUM * 1];
-        double phi1_sum;
         double[] phi4 = new double[NODE_NUM * NODE_NUM];
-        int seed;
-        double[] t;
         int test;
-        int test_num = 5;
+        const int test_num = 5;
 
-        seed = 123456789;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("BASIS_MN_TET4_TEST:");
@@ -1185,7 +1163,7 @@ public class Basis_mn
         Console.WriteLine("");
         Console.WriteLine("  Number of nodes = " + NODE_NUM + "");
 
-        t = UniformRNG.r8mat_uniform_01_new(3, 4, ref seed);
+        double[] t = UniformRNG.r8mat_uniform_01_new(3, 4, ref seed);
 
         Console.WriteLine("");
         Console.WriteLine("  Tetrahedron Nodes:");
@@ -1225,9 +1203,9 @@ public class Basis_mn
 
         for (test = 1; test <= test_num; test++)
         {
-            c = UniformRNG.r8vec_uniform_01_new(4, ref seed);
+            double[] c = UniformRNG.r8vec_uniform_01_new(4, ref seed);
 
-            c_sum = typeMethods.r8vec_sum(4, c);
+            double c_sum = typeMethods.r8vec_sum(4, c);
             for (i = 0; i < 4; i++)
             {
                 c[i] /= c_sum;
@@ -1237,7 +1215,7 @@ public class Basis_mn
 
             basis_mn_tet4(t, 1, p, ref phi1);
 
-            phi1_sum = typeMethods.r8vec_sum(NODE_NUM, phi1);
+            double phi1_sum = typeMethods.r8vec_sum(NODE_NUM, phi1);
 
             Console.WriteLine("  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
@@ -1309,9 +1287,8 @@ public class Basis_mn
         //
     {
         int j;
-        double[] phi_linear;
 
-        phi_linear = new double[4 * n];
+        double[] phi_linear = new double[4 * n];
 
         basis_mn_tet4(t, n, p, ref phi_linear);
 
@@ -1355,21 +1332,16 @@ public class Basis_mn
         //    None
         //
     {
-        double[] c;
-        double c_sum;
         int i;
         int j;
         double[] p = new double[1];
         double[] p10 = new double[3 * 10];
         double[] phi1 = new double[10 * 1];
-        double phi1_sum;
         double[] phi10 = new double[10 * 10];
-        int seed;
-        double[] t;
         int test;
-        int test_num = 5;
+        const int test_num = 5;
 
-        seed = 123456789;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("BASIS_MN_TET10_TEST:");
@@ -1377,7 +1349,7 @@ public class Basis_mn
         Console.WriteLine("");
         Console.WriteLine("  Number of nodes = 10.");
 
-        t = UniformRNG.r8mat_uniform_01_new(3, 4, ref seed);
+        double[] t = UniformRNG.r8mat_uniform_01_new(3, 4, ref seed);
 
         Console.WriteLine("");
         Console.WriteLine("  Tetrahedron Nodes:");
@@ -1433,9 +1405,9 @@ public class Basis_mn
 
         for (test = 1; test <= test_num; test++)
         {
-            c = UniformRNG.r8vec_uniform_01_new(4, ref seed);
+            double[] c = UniformRNG.r8vec_uniform_01_new(4, ref seed);
 
-            c_sum = typeMethods.r8vec_sum(4, c);
+            double c_sum = typeMethods.r8vec_sum(4, c);
             for (i = 0; i < 4; i++)
             {
                 c[i] /= c_sum;
@@ -1444,7 +1416,7 @@ public class Basis_mn
             typeMethods.r8mat_mv(3, 4, t, c, ref p);
 
             basis_mn_tet10(t, 1, p, ref phi1);
-            phi1_sum = typeMethods.r8vec_sum(10, phi1);
+            double phi1_sum = typeMethods.r8vec_sum(10, phi1);
 
             Console.WriteLine("  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)

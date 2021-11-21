@@ -6,7 +6,7 @@ namespace Burkardt.FEM;
 public static class FEM_1D_PMethod
 {
     public static void alpbet(ref double[] a, ref double[] alpha, ref double[] beta, int np, int problem,
-        int quad_num, double[] quad_w, double[] quad_x )
+        int quad_num, double[] quad_w, double[] quad_x)
 //****************************************************************************80
 //
 //  Purpose:
@@ -152,16 +152,18 @@ public static class FEM_1D_PMethod
 //  ALPHA(i) = SU(i) / SS(i)
 //  BETA(i)  = SV(i) / SS(i-1)
 //
-            if (i < np)
+            if (i >= np)
             {
-                alpha[i] = su / ss;
-                beta[i] = sv / a[i - 1];
+                continue;
             }
+
+            alpha[i] = su / ss;
+            beta[i] = sv / a[i - 1];
         }
     }
 
     public static void exact(double[] alpha, double[] beta, double[] f, int np, int nprint,
-        int problem, int quad_num, double[] quad_w, double[] quad_x )
+        int problem, int quad_num, double[] quad_w, double[] quad_x)
 //****************************************************************************80
 //
 //  Purpose:
@@ -211,7 +213,7 @@ public static class FEM_1D_PMethod
 //    Input, double QUAD_X(QUAD_NUM), the quadrature abscissas.
 //
     {
-        int nsub = 10;
+        const int nsub = 10;
         double phii = 0;
         double phiix = 0;
         double x;
@@ -306,13 +308,13 @@ public static class FEM_1D_PMethod
     {
         double value = problem switch
         {
-            //
-            //  Test problem 1
-            //
+//
+//  Test problem 1
+//
             1 => 1.0 + 12.0 * x * x - x * x * x * x,
-            //
-            //  Test problem 2
-            //
+//
+//  Test problem 2
+//
             2 => 0.25 * Math.PI * Math.PI * Math.Cos(0.5 * Math.PI * x),
             _ => 0
         };
@@ -321,7 +323,7 @@ public static class FEM_1D_PMethod
     }
 
     public static void ortho(double[] a, double[] alpha, double[] beta, int np, int problem,
-        int quad_num, double[] quad_w, double[] quad_x )
+        int quad_num, double[] quad_w, double[] quad_x)
 //****************************************************************************80
 //
 //  Purpose:
@@ -367,7 +369,7 @@ public static class FEM_1D_PMethod
         double phiix = 0;
         double phij = 0;
         double phijx = 0;
-        //
+//
 //  Zero out the B array, so we can start summing up the dot products.
 //
         double[] b = new double[(np + 1) * (np + 1)];
@@ -420,12 +422,13 @@ public static class FEM_1D_PMethod
             {
                 Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
                                        + "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(6)
-                                       + "  " + (b[i + j * (np + 1)] / a[i]).ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+                                       + "  " + (b[i + j * (np + 1)] / a[i]).ToString(CultureInfo.InvariantCulture)
+                                       .PadLeft(12) + "");
             }
         }
     }
 
-    public static void out_ ( double[] alpha, double[] beta, double[] f, int np, int nprint )
+    public static void out_(double[] alpha, double[] beta, double[] f, int np, int nprint)
 //****************************************************************************80
 //
 //  Purpose:
@@ -501,7 +504,7 @@ public static class FEM_1D_PMethod
     }
 
     public static void phi(double[] alpha, double[] beta, int i, int np, ref double phii,
-        ref double phiix, double x )
+        ref double phiix, double x)
 //****************************************************************************80
 //
 //  Purpose:
@@ -594,10 +597,10 @@ public static class FEM_1D_PMethod
         double value = 0;
         switch (problem)
         {
-    
+
 //
-            //  Test problem 1
-            //
+//  Test problem 1
+//
             case 1:
 
 //
@@ -611,7 +614,7 @@ public static class FEM_1D_PMethod
         return value;
     }
 
-    public static void quad(int quad_num, ref double[] quad_w, ref double[] quad_x )
+    public static void quad(int quad_num, ref double[] quad_w, ref double[] quad_x)
 //****************************************************************************80
 //
 //  Purpose:
@@ -702,13 +705,13 @@ public static class FEM_1D_PMethod
     {
         double value = problem switch
         {
-            //
-            //  Test problem 1
-            //
+//
+//  Test problem 1
+//
             1 => 1.0,
-            //
-            //  Test problem 2
-            //
+//
+//  Test problem 2
+//
             2 => 0.0,
             _ => 0
         };
@@ -717,7 +720,7 @@ public static class FEM_1D_PMethod
     }
 
     public static void sol(double[] a, double[] alpha, double[] beta, ref double[] f, int np,
-        int problem, int quad_num, double[] quad_w, double[] quad_x )
+        int problem, int quad_num, double[] quad_w, double[] quad_x)
 //****************************************************************************80
 //
 //  Purpose:
@@ -825,13 +828,13 @@ public static class FEM_1D_PMethod
     {
         double value = problem switch
         {
-            //
-            //  Test problem 1
-            //
+//
+//  Test problem 1
+//
             1 => 1.0 - Math.Pow(x, 4),
-            //
-            //  Test problem 2
-            //
+//
+//  Test problem 2
+//
             2 => Math.Cos(0.5 * Math.PI * x),
             _ => 0
         };

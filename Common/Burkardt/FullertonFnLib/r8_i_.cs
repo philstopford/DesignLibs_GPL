@@ -44,8 +44,6 @@ public static partial class FullertonLib
         //    to ensure the requested accuracy.
         //
     {
-        double err;
-        int i;
         int value = 0;
 
         switch (nos)
@@ -68,8 +66,9 @@ public static partial class FullertonLib
         }
         else
         {
-            err = 0.0;
+            double err = 0.0;
 
+            int i;
             for (i = nos - 1; 0 <= i; i--)
             {
                 value = i + 1;
@@ -133,16 +132,15 @@ public static partial class FullertonLib
         //
     {
         int i;
-        int ibase;
         int ipart;
         double part;
-        double value = 0;
+        double value;
         double xscl;
 
         switch (data.npart)
         {
             case 0:
-                ibase = i4_mach(10);
+                int ibase = i4_mach(10);
                 data.xmax = 1.0 / r8_mach(4);
                 data.xbig = r8_min(i4_mach(9), 1.0 / r8_mach(4));
                 data.scale = i4_pow(ibase,

@@ -276,14 +276,13 @@ public static partial class FullertonLib
                 +0.26611111369199356137177018346367E-31
             }
             ;
-        double eta;
         const double pi4 = 0.785398163397448309615660845819876;
         double z;
 
         switch (data.nbm0)
         {
             case 0:
-                eta = 0.1 * r8_mach(3);
+                double eta = 0.1 * r8_mach(3);
                 data.nbm0 = r8_inits(bm0cs, 37, eta);
                 data.nbt02 = r8_inits(bt02cs, 39, eta);
                 data.nbm02 = r8_inits(bm02cs, 40, eta);
@@ -533,14 +532,13 @@ public static partial class FullertonLib
                 -0.28172247861233641166739574622810E-31
             }
             ;
-        double eta;
         const double pi4 = 0.785398163397448309615660845819876;
         double z;
 
         switch (data.nbm1)
         {
             case 0:
-                eta = 0.1 * r8_mach(3);
+                double eta = 0.1 * r8_mach(3);
                 data.nbm1 = r8_inits(bm1cs, 37, eta);
                 data.nbt12 = r8_inits(bt12cs, 39, eta);
                 data.nbm12 = r8_inits(bm12cs, 40, eta);
@@ -639,8 +637,7 @@ public static partial class FullertonLib
                 +0.9508172606122666666666666666666666E-33
             }
             ;
-        double value = 0;
-        double y;
+        double value;
 
         switch (data.nti0)
         {
@@ -651,7 +648,7 @@ public static partial class FullertonLib
                 break;
         }
 
-        y = Math.Abs(x);
+        double y = Math.Abs(x);
 
         if (y <= data.xsml)
         {
@@ -876,14 +873,12 @@ public static partial class FullertonLib
                 +0.9508172606122666666666666666666666E-33
             }
             ;
-        double eta;
-        double value = 0;
-        double y;
+        double value;
 
         switch (data.nti0)
         {
             case 0:
-                eta = 0.1 * r8_mach(3);
+                double eta = 0.1 * r8_mach(3);
                 data.nti0 = r8_inits(bi0cs, 18, eta);
                 data.ntai0 = r8_inits(ai0cs, 46, eta);
                 data.ntai02 = r8_inits(ai02cs, 69, eta);
@@ -891,7 +886,7 @@ public static partial class FullertonLib
                 break;
         }
 
-        y = Math.Abs(x);
+        double y = Math.Abs(x);
 
         if (y <= data.xsml)
         {
@@ -979,8 +974,7 @@ public static partial class FullertonLib
                 +0.14367948220620800000000000000000E-31
             }
             ;
-        double value = 0;
-        double y;
+        double value;
 
         switch (data.nti1)
         {
@@ -992,7 +986,7 @@ public static partial class FullertonLib
                 break;
         }
 
-        y = Math.Abs(x);
+        double y = Math.Abs(x);
 
         if (y <= data.xmin)
         {
@@ -1222,14 +1216,12 @@ public static partial class FullertonLib
                 +0.14367948220620800000000000000000E-31
             }
             ;
-        double eta;
-        double value = 0;
-        double y;
+        double value;
 
         switch (data.nti1)
         {
             case 0:
-                eta = 0.1 * r8_mach(3);
+                double eta = 0.1 * r8_mach(3);
                 data.nti1 = r8_inits(bi1cs, 17, eta);
                 data.ntai1 = r8_inits(ai1cs, 46, eta);
                 data.ntai12 = r8_inits(ai12cs, 69, eta);
@@ -1238,7 +1230,7 @@ public static partial class FullertonLib
                 break;
         }
 
-        y = Math.Abs(x);
+        double y = Math.Abs(x);
 
         if (y <= data.xmin)
         {
@@ -1358,8 +1350,7 @@ public static partial class FullertonLib
             }
             ;
         double theta = 0;
-        double value = 0;
-        double y;
+        double value;
 
         switch (data.ntj0)
         {
@@ -1369,7 +1360,7 @@ public static partial class FullertonLib
                 break;
         }
 
-        y = Math.Abs(x);
+        double y = Math.Abs(x);
 
         if (y <= data.xsml)
         {
@@ -1462,8 +1453,7 @@ public static partial class FullertonLib
             }
             ;
         double theta = 0;
-        double value = 0;
-        double y;
+        double value;
 
         switch (data.ntj1)
         {
@@ -1474,7 +1464,7 @@ public static partial class FullertonLib
                 break;
         }
 
-        y = Math.Abs(x);
+        double y = Math.Abs(x);
 
         if (y <= data.xmin)
         {
@@ -1553,16 +1543,12 @@ public static partial class FullertonLib
         //    Output, double R8_BESK, the Bessel function K of order NU at X.
         //
     {
-        int nin;
-        double value = 0;
-        double xnu;
-
-        xnu = nu - (int) nu;
-        nin = (int) nu + 1;
+        double xnu = nu - (int) nu;
+        int nin = (int) nu + 1;
         double[] bke = new double[nin];
         r8_besks(ref globaldata.gdata, ref globaldata.kdata, ref data.edata, xnu, x, nin, ref bke);
 
-        value = bke[nin - 1];
+        double value = bke[nin - 1];
 
         return value;
     }
@@ -1836,14 +1822,13 @@ public static partial class FullertonLib
                 +0.308259388791466666666666666666666E-32
             }
             ;
-        double eta;
-        double value = 0;
+        double value;
         double y;
 
         switch (data.ntk0)
         {
             case 0:
-                eta = 0.1 * r8_mach(3);
+                double eta = 0.1 * r8_mach(3);
                 data.ntk0 = r8_inits(bk0cs, 16, eta);
                 data.ntak0 = r8_inits(ak0cs, 38, eta);
                 data.ntak02 = r8_inits(ak02cs, 33, eta);
@@ -2164,15 +2149,14 @@ public static partial class FullertonLib
                 -0.91550857176541866666666666666666E-31
             }
             ;
-        double eta;
-        double value = 0;
+        double value;
 
         double y;
 
         switch (data.ntk1)
         {
             case 0:
-                eta = 0.1 * r8_mach(3);
+                double eta = 0.1 * r8_mach(3);
                 data.ntk1 = r8_inits(bk1cs, 16, eta);
                 data.ntak1 = r8_inits(ak1cs, 38, eta);
                 data.ntak12 = r8_inits(ak12cs, 33, eta);
@@ -2266,16 +2250,12 @@ public static partial class FullertonLib
         //
     {
         double bknu1 = 0;
-        double direct;
         int i;
-        int n;
-        double v;
         //double vend;
-        double vincr;
         int iswtch = 0;
             
-        v = Math.Abs(xnu);
-        n = i4_abs(nin);
+        double v = Math.Abs(xnu);
+        int n = i4_abs(nin);
 
         switch (v)
         {
@@ -2312,13 +2292,13 @@ public static partial class FullertonLib
                 return;
         }
 
-        vincr = nin switch
+        double vincr = nin switch
         {
             < 0 => -1.0,
             _ => +1.0
         };
 
-        direct = xnu switch
+        double direct = xnu switch
         {
             < 0.0 => -vincr,
             _ => vincr
@@ -2398,9 +2378,7 @@ public static partial class FullertonLib
         //    Output, double BK(abs(NIN)), the K Bessel functions.
         //
     {
-        double expxi;
         int i;
-        int n;
 
         switch (data.xmax)
         {
@@ -2412,8 +2390,8 @@ public static partial class FullertonLib
 
         r8_beskes(ref gdata, ref kdata, xnu, x, nin, ref bk);
 
-        expxi = Math.Exp(-x);
-        n = i4_abs(nin);
+        double expxi = Math.Exp(-x);
+        int n = i4_abs(nin);
 
         for (i = 0; i < n; i++)
         {
@@ -2805,20 +2783,12 @@ public static partial class FullertonLib
         //    Output, double R8_BETAI, the incomplete beta function ratio.
         //
     {
-        double c;
-        double finsum;
         int i;
-        int ib;
         int n;
-        double p;
-        double p1;
-        double ps;
-        double q;
         double term;
-        double value = 0;
+        double value;
         double xb;
         double xi;
-        double y;
 
         switch (data.eps)
         {
@@ -2848,9 +2818,9 @@ public static partial class FullertonLib
             return 1;
         }
 
-        y = x;
-        p = pin;
-        q = qin;
+        double y = x;
+        double p = pin;
+        double q = qin;
 
         if (p < q || 0.8 <= x)
         {
@@ -2881,7 +2851,7 @@ public static partial class FullertonLib
             return value;
         }
 
-        ps = q - r8_aint(q);
+        double ps = q - r8_aint(q);
         switch (ps)
         {
             case 0.0:
@@ -2917,12 +2887,12 @@ public static partial class FullertonLib
             {
                 xb = p * Math.Log(y) + q * Math.Log(1.0 - y)
                      - r8_lbeta(ref data.lbetadata, ref gammadata, p, q) - Math.Log(q);
-                ib = (int) r8_max(xb / data.alnsml, 0.0);
+                int ib = (int) r8_max(xb / data.alnsml, 0.0);
                 term = Math.Exp(xb - ib * data.alnsml);
-                c = 1.0 / (1.0 - y);
-                p1 = q * c / (p + q - 1.0);
+                double c = 1.0 / (1.0 - y);
+                double p1 = q * c / (p + q - 1.0);
 
-                finsum = 0.0;
+                double finsum = 0.0;
                 n = (int) q;
                 if (Math.Abs(q - n) <= double.Epsilon)
                 {
@@ -3096,17 +3066,15 @@ public static partial class FullertonLib
                 +0.491020674696533333333333333333333E-32
             }
             ;
-        double eta;
         double theta = 0;
-        double value = 0;
+        double value;
         double xm = 0;
         //static double xmax = 0.0;
-        double z;
 
         switch (data.nbif)
         {
             case 0:
-                eta = 0.1 * r8_mach(3);
+                double eta = 0.1 * r8_mach(3);
                 data.nbif = r8_inits(bifcs, 13, eta);
                 data.nbig = r8_inits(bigcs, 13, eta);
                 data.nbif2 = r8_inits(bif2cs, 15, eta);
@@ -3124,6 +3092,7 @@ public static partial class FullertonLib
                 break;
             default:
             {
+                double z;
                 if (Math.Abs(x) <= data.x3sml)
                 {
                     z = 0.0;
@@ -3277,18 +3246,14 @@ public static partial class FullertonLib
                 0.0000000000000000000000000000000479
             }
             ;
-        double eta;
         double phi = 0;
-        double value = 0;
-        double x2;
-        double x3;
+        double value;
         //static double xmax = 0.0;
         double xn = 0;
-        double z;
         switch (data.nbif)
         {
             case 0:
-                eta = 0.1 * r8_mach(3);
+                double eta = 0.1 * r8_mach(3);
                 data.nbif = r8_inits(bifcs, 13, eta);
                 data.nbig = r8_inits(bigcs, 13, eta);
                 data.nbif2 = r8_inits(bif2cs, 15, eta);
@@ -3307,6 +3272,8 @@ public static partial class FullertonLib
                 break;
             default:
             {
+                double x2;
+                double x3;
                 if (Math.Abs(x) <= data.x2sml)
                 {
                     x2 = 0.0;
@@ -3332,7 +3299,7 @@ public static partial class FullertonLib
                                     + r8_csevl(x3, bigcs, data.nbig) + 0.5;
                             break;
                         case <= 2.0:
-                            z = (2.0 * x * x * x - 9.0) / 7.0;
+                            double z = (2.0 * x * x * x - 9.0) / 7.0;
                             value = x * x * (r8_csevl(z, bif2cs, data.nbif2) + 0.25)
                                     + r8_csevl(z, big2cs, data.nbig2) + 0.5;
                             break;
@@ -3624,19 +3591,14 @@ public static partial class FullertonLib
             }
             ;
         const double btr = -2.09383632135605431360096498526268;
-        double eta;
         double phi = 0;
-        double sqrtx;
-        double value = 0;
-        double x2;
-        double x3;
+        double value;
         double xn = 0;
-        double z;
 
         switch (data.nbif)
         {
             case 0:
-                eta = 0.1 * r8_mach(3);
+                double eta = 0.1 * r8_mach(3);
                 data.nbif = r8_inits(bifcs, 13, eta);
                 data.nbig = r8_inits(bigcs, 13, eta);
                 data.nbif2 = r8_inits(bif2cs, 15, eta);
@@ -3658,6 +3620,8 @@ public static partial class FullertonLib
                 break;
             default:
             {
+                double x2;
+                double x3;
                 if (Math.Abs(x) <= data.x2sml)
                 {
                     x2 = 0.0;
@@ -3682,6 +3646,8 @@ public static partial class FullertonLib
                 }
                 else
                 {
+                    double sqrtx;
+                    double z;
                     switch (x)
                     {
                         case <= 1.0:
@@ -4000,18 +3966,15 @@ public static partial class FullertonLib
             }
             ;
         const double btr = -2.09383632135605431360096498526268;
-        double eta;
-        double sqrtx;
         double theta = 0;
-        double value = 0;
+        double value;
         double xm = 0;
-        double z;
 
 
         switch (data.nbif)
         {
             case 0:
-                eta = 0.1 * r8_mach(3);
+                double eta = 0.1 * r8_mach(3);
                 data.nbif = r8_inits(bifcs, 13, eta);
                 data.nbig = r8_inits(bigcs, 13, eta);
                 data.nbif2 = r8_inits(bif2cs, 15, eta);
@@ -4032,6 +3995,7 @@ public static partial class FullertonLib
                 break;
             default:
             {
+                double z;
                 if (Math.Abs(x) <= data.x3sml)
                 {
                     z = 0.0;
@@ -4044,6 +4008,7 @@ public static partial class FullertonLib
                 }
                 else
                 {
+                    double sqrtx;
                     switch (x)
                     {
                         case <= 1.0:
@@ -4143,14 +4108,8 @@ public static partial class FullertonLib
         //    Output, double R8_BINOM, the binomial coefficient.
         //
     {
-        double corr;
-        int i;
-        int k;
         const double sq2pil = 0.91893853320467274178032973640562;
-        double value = 0;
-        double xk;
-        double xn;
-        double xnk;
+        double value;
 
         switch (data.bilnmx)
         {
@@ -4186,13 +4145,14 @@ public static partial class FullertonLib
             return 1;
         }
 
-        k = i4_min(m, n - m);
+        int k = i4_min(m, n - m);
 
         switch (k)
         {
             case <= 20 when k * Math.Log(i4_max(n, 1)) <= data.bilnmx:
             {
                 value = 1.0;
+                int i;
                 for (i = 1; i <= k; i++)
                 {
                     value = value * (n - i + 1) / i;
@@ -4212,11 +4172,11 @@ public static partial class FullertonLib
                         return 1;
                 }
 
-                xn = n + 1;
-                xk = k + 1;
-                xnk = n - k + 1;
+                double xn = n + 1;
+                double xk = k + 1;
+                double xnk = n - k + 1;
 
-                corr = r8_lgmc(ref data.lgmcdata, xn) - r8_lgmc(ref data.lgmcdata, xk) - r8_lgmc(ref data.lgmcdata, xnk);
+                double corr = r8_lgmc(ref data.lgmcdata, xn) - r8_lgmc(ref data.lgmcdata, xk) - r8_lgmc(ref data.lgmcdata, xnk);
 
                 value = xk * Math.Log(xnk / xk)
                     - xn * r8_lnrel(ref data.lnreldata, -(xk - 1.0) / xn)

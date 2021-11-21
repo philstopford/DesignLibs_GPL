@@ -47,8 +47,6 @@ public static partial class FullertonLib
         //
     {
         const double aln210 = 3.321928094887362347870319429489;
-        double aln2b;
-        int nsum;
         int ny = 0;
         double value = 0;
 
@@ -56,7 +54,7 @@ public static partial class FullertonLib
         {
             case 0:
             {
-                aln2b = 1.0;
+                double aln2b = 1.0;
                 if (i4_mach(10) != 2)
                 {
                     aln2b = r8_mach(5) * aln210;
@@ -70,7 +68,7 @@ public static partial class FullertonLib
 
         r8_upak(y, ref value, ref ny);
 
-        nsum = n + ny;
+        int nsum = n + ny;
 
         if (nsum < data.nmin)
         {
@@ -158,25 +156,12 @@ public static partial class FullertonLib
         //    Output, double R8_POCH, the Pochhammer function of A and X.
         //
     {
-        double absa;
-        double absax;
         double alnga = 0;
         double alngax = 0;
-        double ax;
-        double b;
-        double cospia;
-        double cospix;
-        double den;
-        double err;
-        double errpch;
-        int i;
-        int ia;
         int n;
             
         double sgnga = 0;
         double sgngax = 0;
-        double sinpia;
-        double sinpix;
         //static double sqeps = 0.0;
         double value = 0;
 
@@ -186,7 +171,7 @@ public static partial class FullertonLib
             _ => data.eps
         };
 
-        ax = a + x;
+        double ax = a + x;
 
         switch (ax)
         {
@@ -214,7 +199,7 @@ public static partial class FullertonLib
                         if (-20.0 < r8_min(a + x, a))
                         {
                             n = (int) x;
-                            ia = (int) a;
+                            int ia = (int) a;
                             value = r8_mop(n) * r8_fac(ref data.facdata, -ia) / r8_fac(ref data.facdata, -ia - n);
                         }
                         else
@@ -252,6 +237,7 @@ public static partial class FullertonLib
         if (Math.Abs(n - x) <= double.Epsilon && n <= 20)
         {
             value = 1.0;
+            int i;
             for (i = 1; i <= n; i++)
             {
                 value *= (a + (i - 1));
@@ -260,8 +246,8 @@ public static partial class FullertonLib
             return value;
         }
 
-        absax = Math.Abs(a + x);
-        absa = Math.Abs(a);
+        double absax = Math.Abs(a + x);
+        double absa = Math.Abs(a);
 
         if (r8_max(absax, absa) <= 20.0)
         {
@@ -277,7 +263,7 @@ public static partial class FullertonLib
             return value;
         }
 
-        b = a switch
+        double b = a switch
         {
             //
             //  abs(x) is small and both abs(a+x) and abs(a) are large.  thus,
@@ -297,16 +283,16 @@ public static partial class FullertonLib
             return value;
         }
 
-        cospix = Math.Cos(Math.PI * x);
-        sinpix = Math.Sin(Math.PI * x);
-        cospia = Math.Cos(Math.PI * a);
-        sinpia = Math.Sin(Math.PI * a);
+        double cospix = Math.Cos(Math.PI * x);
+        double sinpix = Math.Sin(Math.PI * x);
+        double cospia = Math.Cos(Math.PI * a);
+        double sinpia = Math.Sin(Math.PI * a);
 
-        errpch = Math.Abs(x) * (1.0 + Math.Log(b));
-        den = cospix + cospia * sinpix / sinpia;
-        err = (Math.Abs(x) * (Math.Abs(sinpix)
-                              + Math.Abs(cospia * cospix / sinpia))
-               + Math.Abs(a * sinpix) / sinpia / sinpia) * Math.PI;
+        double errpch = Math.Abs(x) * (1.0 + Math.Log(b));
+        double den = cospix + cospia * sinpix / sinpia;
+        double err = (Math.Abs(x) * (Math.Abs(sinpix)
+                                     + Math.Abs(cospia * cospix / sinpia))
+                      + Math.Abs(a * sinpix) / sinpia / sinpia) * Math.PI;
         err = errpch + err / Math.Abs(den);
 
         value /= den;
@@ -382,10 +368,6 @@ public static partial class FullertonLib
         //    Output, double R8_POCH1, the value of the function.
         //
     {
-        double absa;
-        double absx;
-        double alnvar;
-        double b;
         double[] bern = {
                 +0.833333333333333333333333333333333E-01,
                 -0.138888888888888888888888888888888E-02,
@@ -409,28 +391,10 @@ public static partial class FullertonLib
                 -0.236502241570062993455963519636983E-31
             }
             ;
-        double binv;
-        double bp;
         double[] gbern = new double[21];
-        double gbk;
-        int i;
         int ii;
-        int incr;
-        int j;
-        int k;
-        int ndx;
-        int nterms;
-            
-        double poly1;
-        double q;
-        double rho;
-        double sinpxx;
-        double sinpx2;
-        double term;
-        double trig;
-        double value = 0;
-        double var;
-        double var2;
+
+        double value;
 
         switch (data.sqtbig)
         {
@@ -447,8 +411,8 @@ public static partial class FullertonLib
                 return value;
         }
 
-        absx = Math.Abs(x);
-        absa = Math.Abs(a);
+        double absx = Math.Abs(x);
+        double absa = Math.Abs(a);
 
         if (0.1 * absa < absx || 0.1 < absx * Math.Log(r8_max(absa, 2.0)))
         {
@@ -457,36 +421,36 @@ public static partial class FullertonLib
             return value;
         }
 
-        bp = a switch
+        double bp = a switch
         {
             < -0.5 => 1.0 - a - x,
             _ => a
         };
 
-        incr = bp switch
+        int incr = bp switch
         {
             < 10.0 => (int) r8_aint(11.0 - bp),
             _ => 0
         };
 
-        b = bp + incr;
+        double b = bp + incr;
 
-        var = b + 0.5 * (x - 1.0);
-        alnvar = Math.Log(var);
-        q = x * alnvar;
-        poly1 = 0.0;
+        double var = b + 0.5 * (x - 1.0);
+        double alnvar = Math.Log(var);
+        double q = x * alnvar;
+        double poly1 = 0.0;
 
         if (var < data.sqtbig)
         {
-            var2 = 1.0 / var / var;
+            double var2 = 1.0 / var / var;
 
-            rho = 0.5 * (x + 1.0);
+            double rho = 0.5 * (x + 1.0);
             gbern[0] = 1.0;
             gbern[1] = -rho / 12.0;
-            term = var2;
+            double term = var2;
             poly1 = gbern[1] * term;
 
-            nterms = (int) (-0.5 * data.alneps / alnvar + 1.0);
+            int nterms = (int) (-0.5 * data.alneps / alnvar + 1.0);
 
             switch (nterms)
             {
@@ -497,12 +461,14 @@ public static partial class FullertonLib
                     return 1;
             }
 
+            int k;
             for (k = 2; k <= nterms; k++)
             {
-                gbk = 0.0;
+                double gbk = 0.0;
+                int j;
                 for (j = 1; j <= k; j++)
                 {
-                    ndx = k - j + 1;
+                    int ndx = k - j + 1;
                     gbk += bern[ndx - 1] * gbern[j - 1];
                 }
 
@@ -521,8 +487,8 @@ public static partial class FullertonLib
         //
         for (ii = 1; ii <= incr; ii++)
         {
-            i = incr - ii;
-            binv = 1.0 / (bp + i);
+            int i = incr - ii;
+            double binv = 1.0 / (bp + i);
             value = (value - binv) / (1.0 + x * binv);
         }
 
@@ -535,9 +501,9 @@ public static partial class FullertonLib
         //  we have r8_poch1(bp,x), but a is lt -0.5.  we therefore use a reflection
         //  formula to obtain r8_poch1(a,x).
         //
-        sinpxx = Math.Sin(Math.PI * x) / x;
-        sinpx2 = Math.Sin(0.5 * Math.PI * x);
-        trig = sinpxx * r8_cot(ref data.cotdata, Math.PI * b) - 2.0 * sinpx2 * (sinpx2 / x);
+        double sinpxx = Math.Sin(Math.PI * x) / x;
+        double sinpx2 = Math.Sin(0.5 * Math.PI * x);
+        double trig = sinpxx * r8_cot(ref data.cotdata, Math.PI * b) - 2.0 * sinpx2 * (sinpx2 / x);
 
         value = trig + (1.0 + x * trig) * value;
 
@@ -648,10 +614,7 @@ public static partial class FullertonLib
                 -0.775195892523335680000000000000E-32
             }
             ;
-        double aux;
-        int i;
-        int n;
-            
+
         double[] psics = {
                 -0.38057080835217921520437677667039E-01,
                 +0.49141539302938712748204699654277,
@@ -698,7 +661,6 @@ public static partial class FullertonLib
             }
             ;
         double value = 0;
-        double y;
 
         switch (data.ntpsi)
         {
@@ -710,13 +672,13 @@ public static partial class FullertonLib
                 break;
         }
 
-        y = Math.Abs(x);
+        double y = Math.Abs(x);
 
         switch (y)
         {
             case < 10.0:
             {
-                n = (int) x;
+                int n = (int) x;
                 switch (x)
                 {
                     case < 0.0:
@@ -728,6 +690,7 @@ public static partial class FullertonLib
                 n -= 1;
                 value = r8_csevl(2.0 * y - 1.0, psics, data.ntpsi);
 
+                int i;
                 switch (n)
                 {
                     case 0:
@@ -778,14 +741,7 @@ public static partial class FullertonLib
             }
             default:
             {
-                if (y < data.xbig)
-                {
-                    aux = r8_csevl(8.0 / y / y - 1.0, apsics, data.ntapsi);
-                }
-                else
-                {
-                    aux = 0.0;
-                }
+                double aux = y < data.xbig ? r8_csevl(8.0 / y / y - 1.0, apsics, data.ntapsi) : 0.0;
 
                 value = x switch
                 {

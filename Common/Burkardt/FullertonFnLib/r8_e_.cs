@@ -395,13 +395,12 @@ public static partial class FullertonLib
                 -0.807981567699845120000000000000000E-32
             }
             ;
-        double eta;
-        double value = 0;
+        double value;
 
         switch (data.ntae10)
         {
             case 0:
-                eta = 0.1 * r8_mach(3);
+                double eta = 0.1 * r8_mach(3);
                 data.ntae10 = r8_inits(ae10cs, 50, eta);
                 data.ntae11 = r8_inits(ae11cs, 60, eta);
                 data.ntae12 = r8_inits(ae12cs, 41, eta);
@@ -584,7 +583,6 @@ public static partial class FullertonLib
             ;
         const double sqrtpi = 1.77245385090551602729816748334115;
         double value = 0;
-        double y;
 
         switch (data.nterf)
         {
@@ -595,7 +593,7 @@ public static partial class FullertonLib
                 break;
         }
 
-        y = Math.Abs(x);
+        double y = Math.Abs(x);
 
         if (y <= data.sqeps)
         {
@@ -823,15 +821,13 @@ public static partial class FullertonLib
                 +0.12811883993017002666666666666666E-31
             }
             ;
-        double eta;
         const double sqrtpi = 1.77245385090551602729816748334115;
-        double value = 0;
-        double y;
+        double value;
 
         switch (data.nterf)
         {
             case 0:
-                eta = 0.1 * r8_mach(3);
+                double eta = 0.1 * r8_mach(3);
                 data.nterf = r8_inits(erfcs, 21, eta);
                 data.nterfc = r8_inits(erfccs, 59, eta);
                 data.nterc2 = r8_inits(erc2cs, 49, eta);
@@ -858,7 +854,7 @@ public static partial class FullertonLib
             return value;
         }
 
-        y = Math.Abs(x);
+        double y = Math.Abs(x);
 
         if (y < data.sqeps)
         {
@@ -957,10 +953,6 @@ public static partial class FullertonLib
                 +0.229678916630186666666666666666666E-33
             }
             ;
-        double f;
-        int n;
-        int n16;
-        int ndx;
         double[] twon16 = {
                 +0.0,
                 +0.44273782427413840321966478739929E-01,
@@ -981,9 +973,7 @@ public static partial class FullertonLib
                 +1.0
             }
             ;
-        double value = 0;
-        double xint;
-        double y;
+        double value;
 
         switch (data.nterms)
         {
@@ -1003,14 +993,14 @@ public static partial class FullertonLib
         }
         else if (x <= data.xmax)
         {
-            xint = r8_aint(x);
-            y = x - xint;
+            double xint = r8_aint(x);
+            double y = x - xint;
 
             y = 23.0 * y + x * aln216;
-            n = (int) y;
-            f = y - n;
+            int n = (int) y;
+            double f = y - n;
             n = (int)(23.0 * xint + n);
-            n16 = n / 16;
+            int n16 = n / 16;
             switch (n)
             {
                 case < 0:
@@ -1018,7 +1008,7 @@ public static partial class FullertonLib
                     break;
             }
 
-            ndx = n - 16 * n16 + 1;
+            int ndx = n - 16 * n16 + 1;
 
             value = 1.0 + (twon16[ndx - 1] + f * (1.0 + twon16[ndx - 1])
                                                * r8_csevl(f, expcs, data.nterms));
@@ -1086,25 +1076,20 @@ public static partial class FullertonLib
         //    at X.
         //
     {
-        double absx;
-        double alneps;
-        int i;
-        double value = 0;
-        double xln;
-        double xn;
+        double value;
 
         switch (data.nterms)
         {
             case 0:
-                alneps = Math.Log(r8_mach(3));
-                xn = 3.72 - 0.3 * alneps;
-                xln = Math.Log((xn + 1.0) / 1.36);
+                double alneps = Math.Log(r8_mach(3));
+                double xn = 3.72 - 0.3 * alneps;
+                double xln = Math.Log((xn + 1.0) / 1.36);
                 data.nterms = (int) (xn - (xn * xln + alneps) / (xln + 1.36) + 1.5);
                 data.xbnd = r8_mach(3);
                 break;
         }
 
-        absx = Math.Abs(x);
+        double absx = Math.Abs(x);
 
         if (absx < data.xbnd)
         {
@@ -1117,6 +1102,7 @@ public static partial class FullertonLib
                 case <= 0.5:
                 {
                     value = 0.0;
+                    int i;
                     for (i = 1; i <= data.nterms; i++)
                     {
                         value = 1.0 + value * x / (data.nterms + 2 - i);

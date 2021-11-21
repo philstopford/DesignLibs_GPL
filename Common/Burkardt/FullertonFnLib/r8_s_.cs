@@ -54,7 +54,6 @@ public static partial class FullertonLib
         //    Shi evaluated at X.
         //
     {
-        double absx;
         double[] shics = {
                 0.0078372685688900950695200984317332E+00,
                 0.0039227664934234563972697574427225E+00,
@@ -78,7 +77,7 @@ public static partial class FullertonLib
                 break;
         }
 
-        absx = Math.Abs(x);
+        double absx = Math.Abs(x);
 
         if (absx <= data.xsml)
         {
@@ -142,8 +141,6 @@ public static partial class FullertonLib
         //    Output, double R8_SI, the sine integral Si evaluated at X.
         //
     {
-        double absx;
-        double cosx;
         double f = 0;
         double g = 0;
         const double pi2 = 1.57079632679489661923132169163975;
@@ -178,7 +175,7 @@ public static partial class FullertonLib
                 break;
         }
 
-        absx = Math.Abs(x);
+        double absx = Math.Abs(x);
 
         if (absx < data.xsml)
         {
@@ -194,7 +191,7 @@ public static partial class FullertonLib
                 default:
                 {
                     r8_sifg(ref data.sifgdata, absx, ref f, ref g);
-                    cosx = Math.Cos(absx);
+                    double cosx = Math.Cos(absx);
                     value = x switch
                     {
                         < 0.0 => -value,
@@ -564,12 +561,11 @@ public static partial class FullertonLib
                 -0.0000000000000000000000000000000383
             }
             ;
-        double tol;
 
         switch (data.nf1)
         {
             case 0:
-                tol = 0.1 * r8_mach(3);
+                double tol = 0.1 * r8_mach(3);
                 data.nf1 = r8_inits(f1cs, 43, tol);
                 data.nf2 = r8_inits(f2cs, 99, tol);
                 data.ng1 = r8_inits(g1cs, 44, tol);
@@ -719,13 +715,10 @@ public static partial class FullertonLib
         //    Output, double R8_SIN, the sine of X.
         //
     {
-        double f;
-        int n2;
         const double pi2rec = 0.63661977236758134307553505349006;
         const double pihi = 3.140625;
         const double pilo = 9.6765358979323846264338327950288E-04;
         const double pirec = 0.31830988618379067153776752674503;
-        double sgn;
         double[] sincs = {
                 -0.374991154955873175839919279977323464,
                 -0.181603155237250201863830316158004754,
@@ -744,9 +737,7 @@ public static partial class FullertonLib
                 0.000000000000000000000000000000000256
             }
             ;
-        double value = 0;
-        double xn;
-        double y;
+        double value;
 
         switch (data.ntsn)
         {
@@ -758,7 +749,7 @@ public static partial class FullertonLib
                 break;
         }
 
-        y = Math.Abs(x);
+        double y = Math.Abs(x);
 
         if (data.xmax < y)
         {
@@ -782,16 +773,16 @@ public static partial class FullertonLib
             return value;
         }
 
-        xn = (int) (y * pirec + 0.5);
-        n2 = (int) (r8_mod(xn, 2.0) + 0.5);
+        double xn = (int) (y * pirec + 0.5);
+        int n2 = (int) (r8_mod(xn, 2.0) + 0.5);
 
-        sgn = x;
+        double sgn = x;
         if (n2 != 0)
         {
             sgn = -sgn;
         }
 
-        f = y - xn * pihi - xn * pilo;
+        double f = y - xn * pihi - xn * pilo;
         xn = 2.0 * (f * pi2rec) * (f * pi2rec) - 1.0;
         value = f + f * r8_csevl(xn, sincs, data.ntsn);
 
@@ -851,32 +842,32 @@ public static partial class FullertonLib
         //    Output, double R8_SIN_DEG, the sine of X.
         //
     {
-        int n;
         const double raddeg = 0.017453292519943295769236907684886E+00;
-        double value = 0;
 
-        value = Math.Sin(raddeg * x);
+        double value = Math.Sin(raddeg * x);
 
-        if (r8_mod(x, 90.0E+00) == 0.0E+00)
+        if (r8_mod(x, 90.0E+00) != 0.0E+00)
         {
-            n = (int) (Math.Abs(x) / 90.0E+00 + 0.5E+00);
-            n %= 2;
+            return value;
+        }
 
-            switch (n)
+        int n = (int) (Math.Abs(x) / 90.0E+00 + 0.5E+00);
+        n %= 2;
+
+        switch (n)
+        {
+            case 0:
+                value = 0.0E+00;
+                break;
+            default:
             {
-                case 0:
-                    value = 0.0E+00;
-                    break;
-                default:
+                value = value switch
                 {
-                    value = value switch
-                    {
-                        < 0.0E+00 => -1.0E+00,
-                        _ => +1.0E+00
-                    };
+                    < 0.0E+00 => -1.0E+00,
+                    _ => +1.0E+00
+                };
 
-                    break;
-                }
+                break;
             }
         }
 
@@ -945,8 +936,7 @@ public static partial class FullertonLib
                 +0.77568437166506666666666666666666E-32
             }
             ;
-        double value = 0;
-        double y;
+        double value;
 
         switch (data.nterms)
         {
@@ -957,7 +947,7 @@ public static partial class FullertonLib
                 break;
         }
 
-        y = Math.Abs(x);
+        double y = Math.Abs(x);
 
         if (y <= data.sqeps)
         {
@@ -1217,9 +1207,6 @@ public static partial class FullertonLib
         //    Output, double R8_SQRT, the square root of X.
         //
     {
-        int irem;
-        int iter;
-        int ixpnt;
         int n = 0;
         double[] sqrt2 = {
                 0.70710678118654752440084436210485,
@@ -1227,7 +1214,7 @@ public static partial class FullertonLib
                 1.41421356237309504880168872420970
             }
             ;
-        double value = 0;
+        double value;
         double y = 0;
 
         data.niter = data.niter switch
@@ -1249,10 +1236,11 @@ public static partial class FullertonLib
             default:
             {
                 r8_upak(x, ref y, ref n);
-                ixpnt = n / 2;
-                irem = n - 2 * ixpnt + 2;
+                int ixpnt = n / 2;
+                int irem = n - 2 * ixpnt + 2;
                 value = 0.261599 + y * (1.114292 + y * (-0.516888 + y * 0.141067));
 
+                int iter;
                 for (iter = 1; iter <= data.niter; iter++)
                 {
                     value += 0.5 * (y - value * value) / value;

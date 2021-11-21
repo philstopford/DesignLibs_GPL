@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.Types;
 
 namespace Burkardt.FullertonFnLib;
 
@@ -131,15 +132,12 @@ public static partial class FullertonLib
         const int ia1 = 1536;
         const int ia1ma0 = 507;
         const int ic = 1731;
-        int iy0;
-        int iy1;
-        double value = 0;
 
         switch (r)
         {
             case 0.0E+00:
-                iy0 = ia0 * ix0;
-                iy1 = ia1 * ix1 + ia1ma0 * (ix0 - ix1) + iy0;
+                int iy0 = ia0 * ix0;
+                int iy1 = ia1 * ix1 + ia1ma0 * (ix0 - ix1) + iy0;
                 iy0 += ic;
                 ix0 = iy0 % 2048;
                 iy1 += (iy0 - ix0) / 2048;
@@ -152,7 +150,7 @@ public static partial class FullertonLib
                 break;
         }
 
-        value = ix1 * 2048 + ix0;
+        double value = ix1 * 2048 + ix0;
         value /= 4194304.0E+00;
 
         return value;
@@ -275,19 +273,16 @@ public static partial class FullertonLib
         //    Output, double R8_RANDOM, a random number between 0.0 and 1.0.
         //
     {
-        int j;
-        double r;
-        double value = 0;
         //
         //  Pick J, a random index between 1 and N, and return T(J).
         //
-        j = (int) (t[n] * Math.Abs(n));
+        int j = (int) (t[n] * Math.Abs(n));
         t[n] = t[j];
-        value = t[j];
+        double value = t[j];
         //
         //  Put a new value into T(J).
         //
-        r = 0.0;
+        double r = 0.0;
         t[j] = r8_rand(r, ref ix0, ref ix1);
 
         return value;
@@ -337,9 +332,8 @@ public static partial class FullertonLib
         //
     {
         int i;
-        double r;
 
-        r = 0.0;
+        const double r = 0.0;
         for (i = 0; i < n + 1; i++)
         {
             t[i] = r8_rand(r, ref ix0, ref ix1);
@@ -381,13 +375,10 @@ public static partial class FullertonLib
         //    Output, double R8_REN, the random value.
         //
     {
-        const int i4_huge = 2147483647;
-        double value = 0;
-
-        seed %= (i4_huge / 125);
+        seed %= (typeMethods.i4_huge() / 125);
         seed *= 125;
         seed -= seed / 2796203 * 2796203;
-        value = seed / 2796203.0;
+        double value = seed / 2796203.0;
 
         return value;
     }

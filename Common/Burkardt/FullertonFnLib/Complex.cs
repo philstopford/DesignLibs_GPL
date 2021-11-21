@@ -44,17 +44,12 @@ public static partial class FullertonLib
         //    Output, complex <float> C4_COS, the cosine of Z.
         //
     {
-        double cs;
-        Complex value;
-        double x;
-        double y;
+        double x = z.Real;
+        double y = z.Imaginary;
 
-        x = z.Real;
-        y = z.Imaginary;
+        double cs = Math.Cos(x);
 
-        cs = Math.Cos(x);
-
-        value = new Complex(cs * Math.Cosh(y), -Math.Sin(x) * Math.Sinh(y));
+        Complex value = new Complex(cs * Math.Cosh(y), -Math.Sin(x) * Math.Sinh(y));
 
         return value;
     }
@@ -98,17 +93,12 @@ public static partial class FullertonLib
         //    Output, complex <float> C4_SIN, the sine of Z.
         //
     {
-        double sn;
-        Complex value;
-        double x;
-        double y;
+        double x = z.Real;
+        double y = z.Imaginary;
 
-        x = z.Real;
-        y = z.Imaginary;
+        double sn = Math.Sin(x);
 
-        sn = Math.Sin(x);
-
-        value = new Complex(sn * Math.Cosh(y), Math.Cos(x) * Math.Sinh(y));
+        Complex value = new Complex(sn * Math.Cosh(y), Math.Cos(x) * Math.Sinh(y));
 
         return value;
     }

@@ -173,24 +173,26 @@ public static class FEM_1D_Lagrange
                 int j1;
                 for (j1 = 0; j1 < nd; j1++)
                 {
-                    if (j1 != j)
+                    if (j1 == j)
                     {
-                        double p = 1.0;
-                        int j2;
-                        for (j2 = 0; j2 < nd; j2++)
-                        {
-                            if (j2 == j1)
-                            {
-                                p /= (xd[j] - xd[j2]);
-                            }
-                            else if (j2 != j)
-                            {
-                                p = p * (xi[i] - xd[j2]) / (xd[j] - xd[j2]);
-                            }
-                        }
-
-                        lpi[i + j * ni] += p;
+                        continue;
                     }
+
+                    double p = 1.0;
+                    int j2;
+                    for (j2 = 0; j2 < nd; j2++)
+                    {
+                        if (j2 == j1)
+                        {
+                            p /= xd[j] - xd[j2];
+                        }
+                        else if (j2 != j)
+                        {
+                            p = p * (xi[i] - xd[j2]) / (xd[j] - xd[j2]);
+                        }
+                    }
+
+                    lpi[i + j * ni] += p;
                 }
             }
         }
@@ -263,18 +265,16 @@ public static class FEM_1D_Lagrange
         //    of the Lagrange polynomials at the interpolation points.
         //
     {
-        int i;
         int i1;
-        int i2;
         int j;
-        double[] l_interp;
 
-        l_interp = new double[data_num * interp_num];
+        double[] l_interp = new double[data_num * interp_num];
         //
         //  Evaluate the polynomial.
         //
         for (j = 0; j < interp_num; j++)
         {
+            int i;
             for (i = 0; i < data_num; i++)
             {
                 l_interp[i + j * data_num] = 1.0;
@@ -283,15 +283,18 @@ public static class FEM_1D_Lagrange
 
         for (i1 = 0; i1 < data_num; i1++)
         {
+            int i2;
             for (i2 = 0; i2 < data_num; i2++)
             {
-                if (i1 != i2)
+                if (i1 == i2)
                 {
-                    for (j = 0; j < interp_num; j++)
-                    {
-                        l_interp[i1 + j * data_num] = l_interp[i1 + j * data_num]
-                            * (t_interp[j] - t_data[i2]) / (t_data[i1] - t_data[i2]);
-                    }
+                    continue;
+                }
+
+                for (j = 0; j < interp_num; j++)
+                {
+                    l_interp[i1 + j * data_num] = l_interp[i1 + j * data_num]
+                        * (t_interp[j] - t_data[i2]) / (t_data[i1] - t_data[i2]);
                 }
             }
         }
@@ -351,12 +354,14 @@ public static class FEM_1D_Lagrange
         {
             for (int j = 0; j < nd; j++)
             {
-                if (j != i)
+                if (j == i)
                 {
-                    for (int k = 0; k < ni; k++)
-                    {
-                        li[k + i * ni] = li[k + i * ni] * (xi[k] - xd[j]) / (xd[i] - xd[j]);
-                    }
+                    continue;
+                }
+
+                for (int k = 0; k < ni; k++)
+                {
+                    li[k + i * ni] = li[k + i * ni] * (xi[k] - xd[j]) / (xd[i] - xd[j]);
                 }
             }
         }

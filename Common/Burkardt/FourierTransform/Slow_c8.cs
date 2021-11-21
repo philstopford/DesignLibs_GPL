@@ -49,17 +49,10 @@ public static partial class Slow
         //    Output, complex <double> C8MAT_SFTB[N1*N2], the data.
         //
     {
-        Complex cs1;
-        Complex cs2;
         int i1;
         int i2;
-        int j1;
-        int j2;
-        double theta1;
-        double theta2;
-        Complex[] x;
 
-        x = new Complex[n1 * n2];
+        Complex[] x = new Complex[n1 * n2];
 
         for (i2 = 0; i2 < n2; i2++)
         {
@@ -71,16 +64,18 @@ public static partial class Slow
 
         for (i2 = 0; i2 < n2; i2++)
         {
+            int j2;
             for (j2 = 0; j2 < n2; j2++)
             {
-                theta2 = 2.0 * Math.PI * (i2 * j2) / n2;
-                cs2 = new Complex(Math.Cos(theta2), -Math.Sin(theta2));
+                double theta2 = 2.0 * Math.PI * (i2 * j2) / n2;
+                Complex cs2 = new Complex(Math.Cos(theta2), -Math.Sin(theta2));
                 for (i1 = 0; i1 < n1; i1++)
                 {
+                    int j1;
                     for (j1 = 0; j1 < n1; j1++)
                     {
-                        theta1 = 2.0 * Math.PI * (i1 * j1) / n1;
-                        cs1 = new Complex(Math.Cos(theta1), -Math.Sin(theta1));
+                        double theta1 = 2.0 * Math.PI * (i1 * j1) / n1;
+                        Complex cs1 = new Complex(Math.Cos(theta1), -Math.Sin(theta1));
                         x[i1 + i2 * n1] += y[j1 + j2 * n1] * cs1 * cs2;
                     }
                 }
@@ -142,17 +137,10 @@ public static partial class Slow
         //    Output, complex <double> C8MAT_SFTF[N1*N2], the Fourier coefficients.
         //
     {
-        Complex cs1;
-        Complex cs2;
         int i1;
         int i2;
-        int j1;
-        int j2;
-        double theta1;
-        double theta2;
-        Complex[] y;
 
-        y = new Complex[n1 * n2];
+        Complex[] y = new Complex[n1 * n2];
 
         for (i2 = 0; i2 < n2; i2++)
         {
@@ -164,16 +152,18 @@ public static partial class Slow
 
         for (i2 = 0; i2 < n2; i2++)
         {
+            int j2;
             for (j2 = 0; j2 < n2; j2++)
             {
-                theta2 = -2.0 * Math.PI * (i2 * j2) / n2;
-                cs2 = new Complex(Math.Cos(theta2), -Math.Sin(theta2));
+                double theta2 = -2.0 * Math.PI * (i2 * j2) / n2;
+                Complex cs2 = new Complex(Math.Cos(theta2), -Math.Sin(theta2));
                 for (i1 = 0; i1 < n1; i1++)
                 {
+                    int j1;
                     for (j1 = 0; j1 < n1; j1++)
                     {
-                        theta1 = -2.0 * Math.PI * (i1 * j1) / n1;
-                        cs1 = new Complex(Math.Cos(theta1), -Math.Sin(theta1));
+                        double theta1 = -2.0 * Math.PI * (i1 * j1) / n1;
+                        Complex cs1 = new Complex(Math.Cos(theta1), -Math.Sin(theta1));
                         y[i1 + i2 * n1] += x[j1 + j2 * n1] * cs1 * cs2;
                     }
                 }
@@ -226,18 +216,16 @@ public static partial class Slow
         //
     {
         int i;
-        int j;
-        double theta;
-        Complex[] x;
 
-        x = new Complex[n];
+        Complex[] x = new Complex[n];
 
         for (i = 0; i < n; i++)
         {
             x[i] = new Complex(0.0, 0.0);
+            int j;
             for (j = 0; j < n; j++)
             {
-                theta = -2.0 * Math.PI * (i * j) / n;
+                double theta = -2.0 * Math.PI * (i * j) / n;
                 x[i] += y[j] * new Complex(Math.Cos(theta), Math.Sin(theta));
             }
 
@@ -290,18 +278,16 @@ public static partial class Slow
         //
     {
         int i;
-        int j;
-        double theta;
-        Complex[] y;
 
-        y = new Complex[n];
+        Complex[] y = new Complex[n];
 
         for (i = 0; i < n; i++)
         {
             y[i] = new Complex(0.0, 0.0);
+            int j;
             for (j = 0; j < n; j++)
             {
-                theta = -2.0 * Math.PI * (i * j) / n;
+                double theta = -2.0 * Math.PI * (i * j) / n;
                 y[i] += x[j] * new Complex(Math.Cos(theta), -Math.Sin(theta));
             }
         }

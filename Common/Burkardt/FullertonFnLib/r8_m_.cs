@@ -218,38 +218,20 @@ public static partial class FullertonLib
         //    the last digit of the significand.
         //
     {
-        double a;
-        double b;
-        double beta;
-        double betah;
-        double betain;
         int i;
-        int itmp;
-        int iz;
-        int j;
-        int k;
-        int mx;
-        int nxres;
-        double one;
-        double t;
-        double tmp;
         double tmp1;
-        double tmpa;
-        double two;
         double y;
-        double z;
-        double zero;
 
         irnd = 1;
-        one = irnd;
-        two = one + one;
-        a = two;
-        b = a;
-        zero = 0.0e0;
+        double one = irnd;
+        double two = one + one;
+        double a = two;
+        double b = a;
+        const double zero = 0.0e0;
         //
         //  Determine IBETA and BETA ala Malcolm.
         //
-        tmp = a + one - a - one;
+        double tmp = a + one - a - one;
 
         while (Math.Abs(tmp - zero) <= double.Epsilon)
         {
@@ -260,7 +242,7 @@ public static partial class FullertonLib
         }
 
         tmp = a + b;
-        itmp = (int) (tmp - a);
+        int itmp = (int) (tmp - a);
 
         while (itmp == 0)
         {
@@ -270,7 +252,7 @@ public static partial class FullertonLib
         }
 
         ibeta = itmp;
-        beta = ibeta;
+        double beta = ibeta;
         //
         //  Determine IRND, IT.
         //
@@ -288,7 +270,7 @@ public static partial class FullertonLib
         }
 
         irnd = 0;
-        betah = beta / two;
+        double betah = beta / two;
         tmp = a + betah;
         tmp1 = tmp - a;
 
@@ -297,7 +279,7 @@ public static partial class FullertonLib
             irnd = 1;
         }
 
-        tmpa = a + beta;
+        double tmpa = a + beta;
         tmp = tmpa + betah;
 
         irnd = irnd switch
@@ -310,7 +292,7 @@ public static partial class FullertonLib
         //  Determine NEGEP, EPSNEG.
         //
         negep = it + 3;
-        betain = one / beta;
+        double betain = one / beta;
         a = one;
 
         for (i = 1; i <= negep; i++)
@@ -368,10 +350,10 @@ public static partial class FullertonLib
         //
 
         i = 0;
-        k = 1;
-        z = betain;
-        t = one + eps;
-        nxres = 0;
+        int k = 1;
+        double z = betain;
+        double t = one + eps;
+        int nxres = 0;
 
         for (;;)
         {
@@ -405,7 +387,7 @@ public static partial class FullertonLib
         //  First set  K = 2 ^ I.
         //
         iexp = i + 1;
-        mx = k + k;
+        int mx = k + k;
         switch (ibeta)
         {
             //
@@ -414,7 +396,7 @@ public static partial class FullertonLib
             case 10:
             {
                 iexp = 2;
-                iz = (int)ibeta;
+                int iz = (int)ibeta;
                 while (iz <= k)
                 {
                     iz *= (int)ibeta;
@@ -522,6 +504,7 @@ public static partial class FullertonLib
         {
             case > 0:
             {
+                int j;
                 for (j = 1; j <= i; j++)
                 {
                     switch (ibeta)
@@ -569,16 +552,7 @@ public static partial class FullertonLib
         //    Output, double R8_MAX, the maximum of X and Y.
         //
     {
-        double value = 0;
-
-        if (y < x)
-        {
-            value = x;
-        }
-        else
-        {
-            value = y;
-        }
+        double value = y < x ? x : y;
 
         return value;
     }
@@ -610,16 +584,7 @@ public static partial class FullertonLib
         //    Output, double R8_MIN, the minimum of X and Y.
         //
     {
-        double value = 0;
-
-        if (y < x)
-        {
-            value = y;
-        }
-        else
-        {
-            value = x;
-        }
+        double value = y < x ? y : x;
 
         return value;
     }

@@ -112,39 +112,23 @@ public static class FEM_3D_Transfer
         //    the values.
         //
     {
-        double[] a;
-        double[] b;
         int element;
-        double[] fem_value;
         int i;
         int j;
-        int j2;
-        int k;
-        int ni;
-        int nj;
-        double[] phi;
-        int project_node_num = 1;
+        const int project_node_num = 1;
         double[] project_node_xyz = new double[3 * 1];
-        double[] project_value;
-        int quad;
-        int quad_num = 4;
-        double[] ref_quad;
-        double[] ref_weight;
-        double[] tet_quad;
-        double[] tet_xyz;
-        double volume;
-        double[] x;
+        const int quad_num = 4;
         //
         //  Assemble the coefficient matrix A and the right-hand side B.
         //
-        b = typeMethods.r8mat_zero_new(fem_node_num, fem_value_dim);
-        a = typeMethods.r8mat_zero_new(fem_node_num, fem_node_num);
+        double[] b = typeMethods.r8mat_zero_new(fem_node_num, fem_value_dim);
+        double[] a = typeMethods.r8mat_zero_new(fem_node_num, fem_node_num);
 
-        phi = new double[4];
-        ref_weight = new double[quad_num];
-        ref_quad = new double[4 * quad_num];
-        tet_quad = new double[3 * quad_num];
-        tet_xyz = new double[3 * 4];
+        double[] phi = new double[4];
+        double[] ref_weight = new double[quad_num];
+        double[] ref_quad = new double[4 * quad_num];
+        double[] tet_quad = new double[3 * quad_num];
+        double[] tet_xyz = new double[3 * 4];
 
         // Upstream doesn't initialize the arrays and seems to rely on weird default values.
         // Mimic here.
@@ -175,18 +159,19 @@ public static class FEM_3D_Transfer
             {
                 for (i = 0; i < 3; i++)
                 {
-                    j2 = fem_element_node[j + element * 4];
+                    int j2 = fem_element_node[j + element * 4];
                     tet_xyz[i + j * 3] = fem_node_xyz[i + j2 * 3];
                 }
             }
 
-            volume = Tetrahedron.tetrahedron_volume(tet_xyz);
+            double volume = Tetrahedron.tetrahedron_volume(tet_xyz);
 
             for (j = 0; j < quad_num; j++)
             {
                 for (i = 0; i < 3; i++)
                 {
                     tet_quad[i + j * 3] = 0.0;
+                    int k;
                     for (k = 0; k < 4; k++)
                     {
                         double tq = tet_quad[i + j * 3];
@@ -202,6 +187,7 @@ public static class FEM_3D_Transfer
             //  Consider each quadrature point.
             //  Here, we use the midside nodes as quadrature points.
             //
+            int quad;
             for (quad = 0; quad < quad_num; quad++)
             {
                 for (i = 0; i < 3; i++)
@@ -213,14 +199,14 @@ public static class FEM_3D_Transfer
 
                 for (i = 0; i < 4; i++)
                 {
-                    ni = fem_element_node[i + element * fem_element_order];
+                    int ni = fem_element_node[i + element * fem_element_order];
                     //
                     //  The projection takes place here.  The finite element code needs the value
                     //  of the sample function at the point (XQ,YQ).  The call to PROJECTION
                     //  locates (XQ,YQ) in the triangulated mesh of sample data, and returns a
                     //  value produced by piecewise linear interpolation.
                     //
-                    project_value = FEM_3D_Projection.projection(sample_node_num, sample_node_xyz,
+                    double[] project_value = FEM_3D_Projection.projection(sample_node_num, sample_node_xyz,
                         sample_element_order, sample_element_num, sample_element_node,
                         sample_element_neighbor, sample_value_dim, sample_value,
                         project_node_num, project_node_xyz);
@@ -236,7 +222,7 @@ public static class FEM_3D_Transfer
                     //
                     for (j = 0; j < 4; j++)
                     {
-                        nj = fem_element_node[j + element * fem_element_order];
+                        int nj = fem_element_node[j + element * fem_element_order];
 
                         a[ni + nj * fem_node_num] += volume * ref_weight[quad] * (phi[i] * phi[j]);
                     }
@@ -247,11 +233,11 @@ public static class FEM_3D_Transfer
         //
         //  SOLVE the linear system A * X = B.
         //
-        x = Solve.r8ge_fss_new(fem_node_num, a, fem_value_dim, b);
+        double[] x = Solve.r8ge_fss_new(fem_node_num, a, fem_value_dim, b);
         //
         //  Copy solution.
         //
-        fem_value = new double[fem_value_dim * fem_value_num];
+        double[] fem_value = new double[fem_value_dim * fem_value_num];
 
         for (j = 0; j < fem_value_num; j++)
         {

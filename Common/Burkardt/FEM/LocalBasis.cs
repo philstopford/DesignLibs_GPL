@@ -107,19 +107,21 @@ public static class LocalBasis
             dphidx[i] = 0.0;
             for (int j = 0; j < order; j++)
             {
-                if (j != i)
+                if (j == i)
                 {
-                    double term = 1.0 / (node_x[j] - node_x[i]);
-                    for (int k = 0; k < order; k++)
-                    {
-                        if (k != i && k != j)
-                        {
-                            term = term * (x - node_x[i]) / (node_x[k] - node_x[i]);
-                        }
-                    }
-
-                    dphidx[i] += term;
+                    continue;
                 }
+
+                double term = 1.0 / (node_x[j] - node_x[i]);
+                for (int k = 0; k < order; k++)
+                {
+                    if (k != i && k != j)
+                    {
+                        term = term * (x - node_x[i]) / (node_x[k] - node_x[i]);
+                    }
+                }
+
+                dphidx[i] += term;
             }
         }
 

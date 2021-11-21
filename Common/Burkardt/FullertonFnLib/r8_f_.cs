@@ -84,8 +84,7 @@ public static partial class FullertonLib
             }
             ;
         const double sq2pil = 0.91893853320467274178032973640562;
-        double value = 0;
-        double x;
+        double value;
         double xmax = 0;
         double xmin = 0;
 
@@ -111,7 +110,7 @@ public static partial class FullertonLib
             {
                 if (n <= data.nmax)
                 {
-                    x = n + 1;
+                    double x = n + 1;
                     value = Math.Exp((x - 0.5) * Math.Log(x) - x + sq2pil + r8_lgmc(ref data.lgmcdata, x));
                 }
                 else

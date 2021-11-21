@@ -133,7 +133,7 @@ public static class FEM_1D
         double phiix = 0;
         double phij = 0;
         double phijx = 0;
-        //
+//
 //  Zero out the arrays that hold the coefficients of the matrix
 //  and the right hand side.
 //
@@ -159,7 +159,7 @@ public static class FEM_1D
             for (int iq = 0; iq < nquad; iq++)
             {
                 double xquade = xquad[ie];
-                //
+//
 //  and evaluate the integrals associated with the basis functions
 //  for the left, and for the right nodes.
 //
@@ -212,25 +212,25 @@ public static class FEM_1D
                                                    + qq(xquade) * phii * phij);
                                 switch (ju)
                                 {
-    
+
 //
-                                    //  If there is no variable associated with the node, then it's
-                                    //  a specified boundary value, so we multiply the coefficient
-                                    //  times the specified boundary value and subtract it from the
-                                    //  right hand side.
-                                    //
+//  If there is no variable associated with the node, then it's
+//  a specified boundary value, so we multiply the coefficient
+//  times the specified boundary value and subtract it from the
+//  right hand side.
+//
                                     case < 0 when jg == 0:
                                         f[iu] -= aij * ul;
                                         break;
-case < 0:
-{
-    if (jg == nsub)
+                                    case < 0:
+                                    {
+                                        if (jg == nsub)
                                         {
                                             f[iu] -= aij * ur;
                                         }
 
-    break;
-}
+                                        break;
+                                    }
 
 //
                                     default:
@@ -261,7 +261,7 @@ case < 0:
         }
     }
 
-    public static double ff ( double x )
+    public static double ff(double x)
 //****************************************************************************80
 //
 //  Purpose:
@@ -295,13 +295,13 @@ case < 0:
 //    Output, double FF, the value of the function.
 //
     {
-        double value = 0.0;
+        const double value = 0.0;
 
         return value;
     }
-        
-    public static void geometry ( double[] h, int ibc, ref int[] indx, int nl, ref int[] node, int nsub, 
-        ref int nu, double xl, ref double[] xn, ref double[] xquad, double xr )
+
+    public static void geometry(double[] h, int ibc, ref int[] indx, int nl, ref int[] node, int nsub,
+        ref int nu, double xl, ref double[] xn, ref double[] xquad, double xr)
 //****************************************************************************80
 //
 //  Purpose: 
@@ -618,8 +618,8 @@ case < 0:
         Console.WriteLine("  Number of quadrature points per element is " + nquad + "");
     }
 
-    public static void output ( double[] f, int ibc, int[] indx, int nsub, int nu, double ul, 
-        double ur, double[] xn )
+    public static void output(double[] f, int ibc, int[] indx, int nsub, int nu, double ul,
+        double ur, double[] xn)
 
 //****************************************************************************80
 //
@@ -705,8 +705,6 @@ case < 0:
 //    and XN(NSUB) is XR.
 //
     {
-        double u;
-
         Console.WriteLine("");
         Console.WriteLine("  Computed solution coefficients:");
         Console.WriteLine("");
@@ -715,16 +713,17 @@ case < 0:
 
         for (int i = 0; i <= nsub; i++)
         {
+            double u;
             switch (i)
             {
-    
+
 //
-                //  If we're at the first node, check the boundary condition.
-                //
-                case 0 when ibc == 1 || ibc == 3:
+//  If we're at the first node, check the boundary condition.
+//
+                case 0 when ibc is 1 or 3:
                     u = ul;
                     break;
-case 0:
+                case 0:
                     u = f[indx[i] - 1];
                     break;
 
@@ -762,8 +761,8 @@ case 0:
         }
     }
 
-    public static void phi ( int il, double x, ref double phii, ref double phiix, double xleft, 
-        double xrite )
+    public static void phi(int il, double x, ref double phii, ref double phiix, double xleft,
+        double xrite)
 //****************************************************************************80
 //
 //  Purpose:
@@ -806,17 +805,17 @@ case 0:
 //    endpoints of the interval.
 //
     {
-        if ( xleft <= x && x <= xrite )
+        if (xleft <= x && x <= xrite)
         {
             switch (il)
             {
                 case 1:
-                    phii = ( xrite - x ) / ( xrite - xleft );
-                    phiix =         -1.0 / ( xrite - xleft );
+                    phii = (xrite - x) / (xrite - xleft);
+                    phiix = -1.0 / (xrite - xleft);
                     break;
                 default:
-                    phii = ( x - xleft ) / ( xrite - xleft );
-                    phiix = 1.0          / ( xrite - xleft );
+                    phii = (x - xleft) / (xrite - xleft);
+                    phiix = 1.0 / (xrite - xleft);
                     break;
             }
         }
@@ -825,13 +824,13 @@ case 0:
 //
         else
         {
-            phii  = 0.0;
+            phii = 0.0;
             phiix = 0.0;
         }
     }
-        
-        
-    public static double pp ( double x )
+
+
+    public static double pp(double x)
 //****************************************************************************80
 //
 //  Purpose:
@@ -863,7 +862,7 @@ case 0:
 //    Output, double PP, the value of the function.
 //
     {
-        double value = 1.0;
+        const double value = 1.0;
 
         return value;
     }
@@ -935,7 +934,7 @@ case 0:
         }
     }
 
-    public static double qq ( double x )
+    public static double qq(double x)
 //****************************************************************************80
 //
 //  Purpose: 
@@ -967,13 +966,13 @@ case 0:
 //    Output, double QQ, the value of the function.
 //
     {
-        double value = 0.0;
+        const double value = 0.0;
 
         return value;
     }
-        
-    public static void solve ( ref double[] adiag, ref double[] aleft, ref double[] arite, ref double[] f, 
-        int nu )
+
+    public static void solve(ref double[] adiag, ref double[] aleft, ref double[] arite, ref double[] f,
+        int nu)
 //****************************************************************************80
 //
 //  Purpose: 
@@ -1018,27 +1017,29 @@ case 0:
 //
         arite[0] /= adiag[0];
 
-        for (int i = 1; i < nu - 1; i++ )
+        for (int i = 1; i < nu - 1; i++)
         {
-            adiag[i] -= aleft[i] * arite[i-1];
+            adiag[i] -= aleft[i] * arite[i - 1];
             arite[i] /= adiag[i];
         }
-        adiag[nu-1] -= aleft[nu-1] * arite[nu-2];
+
+        adiag[nu - 1] -= aleft[nu - 1] * arite[nu - 2];
 //
 //  Carry out the same elimination steps on F that were done to the
 //  matrix.
 //
         f[0] /= adiag[0];
-        for (int i = 1; i < nu; i++ )
+        for (int i = 1; i < nu; i++)
         {
-            f[i] = ( f[i] - aleft[i] * f[i-1] ) / adiag[i];
+            f[i] = (f[i] - aleft[i] * f[i - 1]) / adiag[i];
         }
+
 //
 //  And now carry out the steps of "back substitution".
 //
-        for (int i = nu - 2; 0 <= i; i-- )
+        for (int i = nu - 2; 0 <= i; i--)
         {
-            f[i] -= arite[i] * f[i+1];
+            f[i] -= arite[i] * f[i + 1];
         }
     }
 }

@@ -78,10 +78,10 @@ public static class GMesh
 
         lines.Add("$EndNodes");
 
-        int element_type = 1;
+        const int element_type = 1;
 
-        int tag_num = 2;
-        int tag1 = 0;
+        const int tag_num = 2;
+        const int tag1 = 0;
         lines.Add("$Elements");
         lines.Add(element_num + "");
         for (int element = 0; element < element_num; element++)
@@ -186,8 +186,8 @@ public static class GMesh
             _ => element_type
         };
 
-        int tag_num = 2;
-        int tag1 = 0;
+        const int tag_num = 2;
+        const int tag1 = 0;
         lines.Add("$Elements");
         lines.Add(element_num + "");
         for (int element = 0; element < element_num; element++)
@@ -353,8 +353,8 @@ public static class GMesh
             _ => element_type
         };
 
-        int tag_num = 2;
-        int tag1 = 0;
+        const int tag_num = 2;
+        const int tag1 = 0;
         lines.Add("$Elements");
         lines.Add(element_num + "");
         for (int element = 0; element < element_num; element++)

@@ -67,62 +67,22 @@ public static class FEM_2D_BVP_Linear
             0.000000000000000000000000000000,
             0.774596669241483377035853079956
         };
-        double[] amat;
-        double aq;
-        double[] b;
-        double cq;
-        int e;
         int ex;
-        int ey;
-        double fq;
-        int i;
         int ierror = 0;
         int ii;
         int j;
         int jj;
-        int k;
-        int mn;
-        int n;
-        int ne;
-        int nw;
-        int quad_num = QUAD_NUM;
-        int qx;
-        int qy;
-        int s;
-        int se;
-        int sw;
-        int w;
         double[] weight =
         {
             0.555555555555555555555555555556,
             0.888888888888888888888888888889,
             0.555555555555555555555555555556
         };
-        double wq;
-        double[] u;
-        double vne;
-        double vnex;
-        double vney;
-        double vnw;
-        double vnwx;
-        double vnwy;
-        double vse;
-        double vsex;
-        double vsey;
-        double vsw;
-        double vswx;
-        double vswy;
-        double xe;
-        double xq;
-        double xw;
-        double yn;
-        double yq;
-        double ys;
 
-        mn = nx * ny;
+        int mn = nx * ny;
 
-        amat = new double[mn * mn];
-        b = new double[mn];
+        double[] amat = new double[mn * mn];
+        double[] b = new double[mn];
 
         for (jj = 0; jj < mn; jj++)
         {
@@ -139,59 +99,62 @@ public static class FEM_2D_BVP_Linear
 
         for (ex = 0; ex < nx - 1; ex++)
         {
-            w = ex;
-            e = ex + 1;
+            int w = ex;
+            int e = ex + 1;
 
-            xw = x[w];
-            xe = x[e];
+            double xw = x[w];
+            double xe = x[e];
 
+            int ey;
             for (ey = 0; ey < ny - 1; ey++)
             {
-                s = ey;
-                n = ey + 1;
+                int s = ey;
+                int n = ey + 1;
 
-                ys = y[s];
-                yn = y[n];
+                double ys = y[s];
+                double yn = y[n];
 
-                sw = ey * nx + ex;
-                se = ey * nx + ex + 1;
-                nw = (ey + 1) * nx + ex;
-                ne = (ey + 1) * nx + ex + 1;
+                int sw = ey * nx + ex;
+                int se = ey * nx + ex + 1;
+                int nw = (ey + 1) * nx + ex;
+                int ne = (ey + 1) * nx + ex + 1;
 
-                for (qx = 0; qx < quad_num; qx++)
+                int qx;
+                for (qx = 0; qx < QUAD_NUM; qx++)
                 {
-                    xq = ((1.0 - abscissa[qx]) * xw
-                          + (1.0 + abscissa[qx]) * xe)
-                         / 2.0;
+                    double xq = ((1.0 - abscissa[qx]) * xw
+                                 + (1.0 + abscissa[qx]) * xe)
+                                / 2.0;
 
-                    for (qy = 0; qy < quad_num; qy++)
+                    int qy;
+                    for (qy = 0; qy < QUAD_NUM; qy++)
                     {
-                        yq = ((1.0 - abscissa[qy]) * ys
-                              + (1.0 + abscissa[qy]) * yn)
-                             / 2.0;
+                        double yq = ((1.0 - abscissa[qy]) * ys
+                                     + (1.0 + abscissa[qy]) * yn)
+                                    / 2.0;
 
-                        wq = weight[qx] * (xe - xw) / 2.0
+                        double wq = weight[qx] * (xe - xw) / 2.0
                             * weight[qy] * (yn - ys) / 2.0;
 
-                        aq = a(xq, yq);
-                        cq = c(xq, yq);
-                        fq = f(xq, yq);
+                        double aq = a(xq, yq);
+                        double cq = c(xq, yq);
+                        double fq = f(xq, yq);
 
-                        vsw = (xe - xq) / (xe - xw) * (yn - yq) / (yn - ys);
-                        vswx = -1.0 / (xe - xw) * (yn - yq) / (yn - ys);
-                        vswy = (xe - xq) / (xe - xw) * -1.0 / (yn - ys);
+                        double vsw = (xe - xq) / (xe - xw) * (yn - yq) / (yn - ys);
+                        double vswx = -1.0 / (xe - xw) * (yn - yq) / (yn - ys);
+                        double vswy = (xe - xq) / (xe - xw) * -1.0 / (yn - ys);
 
-                        vse = (xq - xw) / (xe - xw) * (yn - yq) / (yn - ys);
-                        vsex = 1.0 / (xe - xw) * (yn - yq) / (yn - ys);
-                        vsey = (xq - xw) / (xe - xw) * -1.0 / (yn - ys);
+                        double vse = (xq - xw) / (xe - xw) * (yn - yq) / (yn - ys);
+                        double vsex = 1.0 / (xe - xw) * (yn - yq) / (yn - ys);
+                        double vsey = (xq - xw) / (xe - xw) * -1.0 / (yn - ys);
 
-                        vnw = (xe - xq) / (xe - xw) * (yq - ys) / (yn - ys);
-                        vnwx = -1.0 / (xe - xw) * (yq - ys) / (yn - ys);
-                        vnwy = (xe - xq) / (xe - xw) * 1.0 / (yn - ys);
+                        double vnw = (xe - xq) / (xe - xw) * (yq - ys) / (yn - ys);
+                        double vnwx = -1.0 / (xe - xw) * (yq - ys) / (yn - ys);
+                        double vnwy = (xe - xq) / (xe - xw) * 1.0 / (yn - ys);
 
-                        vne = (xq - xw) / (xe - xw) * (yq - ys) / (yn - ys);
-                        vnex = 1.0 / (xe - xw) * (yq - ys) / (yn - ys);
-                        vney = (xq - xw) / (xe - xw) * 1.0 / (yn - ys);
+                        double vne = (xq - xw) / (xe - xw) * (yq - ys) / (yn - ys);
+                        double vnex = 1.0 / (xe - xw) * (yq - ys) / (yn - ys);
+                        double vney = (xq - xw) / (xe - xw) * 1.0 / (yn - ys);
 
                         amat[sw + sw * mn] += wq * (vswx * aq * vswx
                                                     + vswy * aq * vswy
@@ -257,9 +220,10 @@ public static class FEM_2D_BVP_Linear
         //  Where a node is on the boundary, 
         //  replace the finite element equation by a boundary condition.
         //
-        k = 0;
+        int k = 0;
         for (j = 0; j < ny; j++)
         {
+            int i;
             for (i = 0; i < nx; i++)
             {
                 if (i == 0 || i == nx - 1 || j == 0 || j == ny - 1)
@@ -285,7 +249,7 @@ public static class FEM_2D_BVP_Linear
         //
         //  Solve the linear system.
         //
-        u = typeMethods.r8mat_solve2(mn, ref amat, ref b, ref ierror);
+        double[] u = typeMethods.r8mat_solve2(mn, ref amat, ref b, ref ierror);
 
         return u;
     }
@@ -342,7 +306,7 @@ public static class FEM_2D_BVP_Linear
         //    the error.
         //
     {
-        int QUAD_NUM = 3;
+        const int QUAD_NUM = 3;
 
         double[] abscissa =
         {
@@ -350,96 +314,71 @@ public static class FEM_2D_BVP_Linear
             0.000000000000000000000000000000,
             0.774596669241483377035853079956
         };
-        int e;
         int ex;
-        int ey;
-        double exq;
-        double eyq;
-        double h1s;
-        int n;
-        int quad_num = QUAD_NUM;
-        int qx;
-        int qy;
-        int s;
-        double uxq;
-        double uyq;
-        double vnex;
-        double vney;
-        double vnwx;
-        double vnwy;
-        double vsex;
-        double vsey;
-        double vswx;
-        double vswy;
-        int w;
         double[] weight =
         {
             0.555555555555555555555555555556,
             0.888888888888888888888888888889,
             0.555555555555555555555555555556
         };
-        double wq;
-        double xe;
-        double xq;
-        double xw;
-        double yn;
-        double yq;
-        double ys;
 
-        h1s = 0.0;
+        double h1s = 0.0;
 
         for (ex = 0; ex < nx - 1; ex++)
         {
-            w = ex;
-            e = ex + 1;
+            int w = ex;
+            int e = ex + 1;
 
-            xw = x[w];
-            xe = x[e];
+            double xw = x[w];
+            double xe = x[e];
 
+            int ey;
             for (ey = 0; ey < ny - 1; ey++)
             {
-                s = ey;
-                n = ey + 1;
+                int s = ey;
+                int n = ey + 1;
 
-                ys = y[s];
-                yn = y[n];
+                double ys = y[s];
+                double yn = y[n];
 
-                for (qx = 0; qx < quad_num; qx++)
+                int qx;
+                for (qx = 0; qx < QUAD_NUM; qx++)
                 {
-                    xq = ((1.0 - abscissa[qx]) * xw
-                          + (1.0 + abscissa[qx]) * xe)
-                         / 2.0;
+                    double xq = ((1.0 - abscissa[qx]) * xw
+                                 + (1.0 + abscissa[qx]) * xe)
+                                / 2.0;
 
-                    for (qy = 0; qy < quad_num; qy++)
+                    int qy;
+                    for (qy = 0; qy < QUAD_NUM; qy++)
                     {
-                        yq = ((1.0 - abscissa[qy]) * ys
-                              + (1.0 + abscissa[qy]) * yn)
-                             / 2.0;
+                        double yq = ((1.0 - abscissa[qy]) * ys
+                                     + (1.0 + abscissa[qy]) * yn)
+                                    / 2.0;
 
-                        wq = weight[qx] * (xe - xw) / 2.0
+                        double wq = weight[qx] * (xe - xw) / 2.0
                             * weight[qy] * (yn - ys) / 2.0;
 
-                        vswx = -1.0 / (xe - xw) * (yn - yq) / (yn - ys);
-                        vswy = (xe - xq) / (xe - xw) * -1.0 / (yn - ys);
+                        double vswx = -1.0 / (xe - xw) * (yn - yq) / (yn - ys);
+                        double vswy = (xe - xq) / (xe - xw) * -1.0 / (yn - ys);
 
-                        vsex = 1.0 / (xe - xw) * (yn - yq) / (yn - ys);
-                        vsey = (xq - xw) / (xe - xw) * -1.0 / (yn - ys);
+                        double vsex = 1.0 / (xe - xw) * (yn - yq) / (yn - ys);
+                        double vsey = (xq - xw) / (xe - xw) * -1.0 / (yn - ys);
 
-                        vnwx = -1.0 / (xe - xw) * (yq - ys) / (yn - ys);
-                        vnwy = (xe - xq) / (xe - xw) * 1.0 / (yn - ys);
+                        double vnwx = -1.0 / (xe - xw) * (yq - ys) / (yn - ys);
+                        double vnwy = (xe - xq) / (xe - xw) * 1.0 / (yn - ys);
 
-                        vnex = 1.0 / (xe - xw) * (yq - ys) / (yn - ys);
-                        vney = (xq - xw) / (xe - xw) * 1.0 / (yn - ys);
+                        double vnex = 1.0 / (xe - xw) * (yq - ys) / (yn - ys);
+                        double vney = (xq - xw) / (xe - xw) * 1.0 / (yn - ys);
                         //
                         //  Note that the south-west component of U is stored in U(W,S), not U(S,W)!
                         //
-                        uxq = u[w + s * nx] * vswx + u[e + s * nx] * vsex
-                                                   + u[w + n * nx] * vnwx + u[e + n * nx] * vnex;
-                        uyq = u[w + s * nx] * vswy + u[e + s * nx] * vsey
-                                                   + u[w + n * nx] * vnwy + u[e + n * nx] * vney;
+                        double uxq = u[w + s * nx] * vswx + u[e + s * nx] * vsex
+                                                          + u[w + n * nx] * vnwx + u[e + n * nx] * vnex;
+                        double uyq = u[w + s * nx] * vswy + u[e + s * nx] * vsey
+                                                          + u[w + n * nx] * vnwy + u[e + n * nx] * vney;
 
-                        exq = exact_ux(xq, yq);
-                        eyq = exact_uy(xq, yq);
+                        double exq = exact_ux(xq, yq);
+                        double eyq = exact_uy(xq, yq);
 
                         h1s += wq * (Math.Pow(uxq - exq, 2) + Math.Pow(uyq - eyq, 2));
                     }
@@ -500,14 +439,13 @@ public static class FEM_2D_BVP_Linear
         //    Output, double FEM2D_L1_ERROR, the little l1 norm of the error.
         //
     {
-        int i;
         int j;
-        double e1;
 
-        e1 = 0.0;
+        double e1 = 0.0;
 
         for (j = 0; j < ny; j++)
         {
+            int i;
             for (i = 0; i < nx; i++)
             {
                 e1 += Math.Abs(u[i + j * nx] - exact(x[i], y[j]));
@@ -567,7 +505,7 @@ public static class FEM_2D_BVP_Linear
         //    Output, double FEM2D_L2_ERROR_LINEAR, the estimated L2 norm of the error.
         //
     {
-        int QUAD_NUM = 3;
+        const int QUAD_NUM = 3;
 
         double[] abscissa =
         {
@@ -575,81 +513,62 @@ public static class FEM_2D_BVP_Linear
             0.000000000000000000000000000000,
             0.774596669241483377035853079956
         };
-        int e;
-        double e2;
-        double eq;
         int ex;
-        int ey;
-        int n;
-        int quad_num = QUAD_NUM;
-        int qx;
-        int qy;
-        int s;
-        double uq;
-        double vne;
-        double vnw;
-        double vse;
-        double vsw;
-        int w;
         double[] weight =
         {
             0.555555555555555555555555555556,
             0.888888888888888888888888888889,
             0.555555555555555555555555555556
         };
-        double wq;
-        double xe;
-        double xq;
-        double xw;
-        double yn;
-        double yq;
-        double ys;
 
-        e2 = 0.0;
+        double e2 = 0.0;
         //
         //  Integrate over each interval.
         //
         for (ex = 0; ex < nx - 1; ex++)
         {
-            w = ex;
-            e = ex + 1;
+            int w = ex;
+            int e = ex + 1;
 
-            xw = x[w];
-            xe = x[e];
+            double xw = x[w];
+            double xe = x[e];
 
+            int ey;
             for (ey = 0; ey < ny - 1; ey++)
             {
-                s = ey;
-                n = ey + 1;
+                int s = ey;
+                int n = ey + 1;
 
-                ys = y[s];
-                yn = y[n];
+                double ys = y[s];
+                double yn = y[n];
 
-                for (qx = 0; qx < quad_num; qx++)
+                int qx;
+                for (qx = 0; qx < QUAD_NUM; qx++)
                 {
-                    xq = ((1.0 - abscissa[qx]) * xw
-                          + (1.0 + abscissa[qx]) * xe)
-                         / 2.0;
+                    double xq = ((1.0 - abscissa[qx]) * xw
+                                 + (1.0 + abscissa[qx]) * xe)
+                                / 2.0;
 
-                    for (qy = 0; qy < quad_num; qy++)
+                    int qy;
+                    for (qy = 0; qy < QUAD_NUM; qy++)
                     {
-                        yq = ((1.0 - abscissa[qy]) * ys
-                              + (1.0 + abscissa[qy]) * yn)
-                             / 2.0;
+                        double yq = ((1.0 - abscissa[qy]) * ys
+                                     + (1.0 + abscissa[qy]) * yn)
+                                    / 2.0;
 
-                        wq = weight[qx] * (xe - xw) / 2.0
+                        double wq = weight[qx] * (xe - xw) / 2.0
                             * weight[qy] * (yn - ys) / 2.0;
 
-                        vsw = (xe - xq) / (xe - xw) * (yn - yq) / (yn - ys);
-                        vse = (xq - xw) / (xe - xw) * (yn - yq) / (yn - ys);
-                        vnw = (xe - xq) / (xe - xw) * (yq - ys) / (yn - ys);
-                        vne = (xq - xw) / (xe - xw) * (yq - ys) / (yn - ys);
+                        double vsw = (xe - xq) / (xe - xw) * (yn - yq) / (yn - ys);
+                        double vse = (xq - xw) / (xe - xw) * (yn - yq) / (yn - ys);
+                        double vnw = (xe - xq) / (xe - xw) * (yq - ys) / (yn - ys);
+                        double vne = (xq - xw) / (xe - xw) * (yq - ys) / (yn - ys);
                         //
                         //  Note that the south-west component of U is stored in U(W,S), not U(S,W)!
                         //
-                        uq = u[w + s * nx] * vsw + u[e + s * nx] * vse
-                                                 + u[w + n * nx] * vnw + u[e + n * nx] * vne;
-                        eq = exact(xq, yq);
+                        double uq = u[w + s * nx] * vsw + u[e + s * nx] * vse
+                                                        + u[w + n * nx] * vnw + u[e + n * nx] * vne;
+                        double eq = exact(xq, yq);
 
                         e2 += wq * Math.Pow(uq - eq, 2);
                     }

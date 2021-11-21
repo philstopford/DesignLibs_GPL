@@ -46,11 +46,11 @@ public static class XY
         //    Output, double NODE_XY[2*NODE_NUM], the nodes.
         //
     {
-        int i;
         int j;
 
         for ( j = 1; j <= 2*ny-1; j++ )
         {
+            int i;
             for ( i = 1; i <= 2*nx - 1; i++ )
             {
                 node_xy[0+(i-1+(j-1)*(2*nx-1))*2] =

@@ -2,7 +2,7 @@
 
 namespace Burkardt.FEM;
 
-public class NodeReference
+public static class NodeReference
 {
 
     public static void node_reference(string code, ref double[] r, ref double[] s, ref double area )
@@ -379,12 +379,11 @@ public class NodeReference
         //
     {
         int i;
-        int j;
-        int k;
 
-        k = 0;
+        int k = 0;
         for (i = 0; i <= 3; i++)
         {
+            int j;
             for (j = 0; j <= 3; j++)
             {
                 r[k] = j / 3.0;

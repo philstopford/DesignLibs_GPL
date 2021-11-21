@@ -203,14 +203,12 @@ public static partial class FullertonLib
                 +0.8951937667516552533333333333333E-31
             }
             ;
-        double eps;
-        double value = 0;
-        double y;
+        double value;
 
         switch (data.ntdaw)
         {
             case 0:
-                eps = r8_mach(3);
+                double eps = r8_mach(3);
                 data.ntdaw = r8_inits(dawcs, 21, 0.1 * eps);
                 data.ntdaw2 = r8_inits(daw2cs, 45, 0.1 * eps);
                 data.ntdawa = r8_inits(dawacs, 75, 0.1 * eps);
@@ -221,7 +219,7 @@ public static partial class FullertonLib
                 break;
         }
 
-        y = Math.Abs(x);
+        double y = Math.Abs(x);
 
         if (y <= data.xsml)
         {

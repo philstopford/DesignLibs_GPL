@@ -605,15 +605,13 @@ public static partial class FullertonLib
                 0.0000000000000000000000000000000544
             }
             ;
-        double eta;
         double pi34 = 2.35619449019234492884698253745962716313;
-        double sqrtx;
         double z;
 
         switch (data.nan20)
         {
             case 0:
-                eta = 0.1 * r8_mach(3);
+                double eta = 0.1 * r8_mach(3);
                 data.nan20 = r8_inits(an20cs, 57, eta);
                 data.nan21 = r8_inits(an21cs, 60, eta);
                 data.nan22 = r8_inits(an22cs, 74, eta);
@@ -657,7 +655,7 @@ public static partial class FullertonLib
             }
         }
 
-        sqrtx = Math.Sqrt(-x);
+        double sqrtx = Math.Sqrt(-x);
         ampl = Math.Sqrt(ampl * sqrtx);
         phi = pi34 - x * sqrtx * phi;
     }
@@ -742,9 +740,8 @@ public static partial class FullertonLib
             }
             ;
         double theta = 0;
-        double value = 0;
+        double value;
         double xm = 0;
-        double z;
 
         r8AIEData aiedata = new();
         r8AIMPData aimpdata = new();
@@ -769,6 +766,7 @@ public static partial class FullertonLib
                 break;
             default:
             {
+                double z;
                 if (Math.Abs(x) <= data.x3sml)
                 {
                     z = 0.0;
@@ -887,11 +885,8 @@ public static partial class FullertonLib
                 0.0000000000000000000000000000000276
             }
             ;
-        double eta;
         double phi = 0;
-        double value = 0;
-        double x2;
-        double x3;
+        double value;
         double xn = 0;
 
         r8ADMPData admpdata = new();
@@ -900,7 +895,7 @@ public static partial class FullertonLib
         switch (data.naif)
         {
             case 0:
-                eta = 0.1 * r8_mach(3);
+                double eta = 0.1 * r8_mach(3);
                 data.naif = r8_inits(aifcs, 13, eta);
                 data.naig = r8_inits(aigcs, 13, eta);
                 data.x3sml = r8_power(r8_mach(3), 0.3334);
@@ -916,6 +911,8 @@ public static partial class FullertonLib
                 break;
             default:
             {
+                double x2;
+                double x3;
                 if (Math.Abs(x) <= data.x2sml)
                 {
                     x2 = 0.0;
@@ -1148,20 +1145,15 @@ public static partial class FullertonLib
                 -0.0000000000000000000000000000000353
             }
             ;
-        double eta;
         double phi = 0;
-        double sqrtx;
-        double value = 0;
-        double x2;
-        double x3;
+        double value;
         double xn = 0;
-        double z;
         r8ADMPData admpdata = new();
 
         switch (data.naif)
         {
             case 0:
-                eta = 0.1 * r8_mach(3);
+                double eta = 0.1 * r8_mach(3);
                 data.naif = r8_inits(aifcs, 13, eta);
                 data.naig = r8_inits(aigcs, 13, eta);
                 data.naip1 = r8_inits(aip1cs, 57, eta);
@@ -1181,6 +1173,8 @@ public static partial class FullertonLib
                 break;
             default:
             {
+                double x2;
+                double x3;
                 if (Math.Abs(x) < data.x2sml)
                 {
                     x2 = 0.0;
@@ -1205,6 +1199,8 @@ public static partial class FullertonLib
                 }
                 else
                 {
+                    double sqrtx;
+                    double z;
                     switch (x)
                     {
                         case <= 1.0:
@@ -1444,10 +1440,8 @@ public static partial class FullertonLib
                 +0.347570964526601147340117333333E-31
             }
             ;
-        double eta;
-        double sqrtx;
         double theta = 0;
-        double value = 0;
+        double value;
         double xm = 0;
         double z;
 
@@ -1456,7 +1450,7 @@ public static partial class FullertonLib
         switch (data.naif)
         {
             case 0:
-                eta = 0.1 * r8_mach(3);
+                double eta = 0.1 * r8_mach(3);
                 data.naif = r8_inits(aifcs, 13, eta);
                 data.naig = r8_inits(aigcs, 13, eta);
                 data.naip1 = r8_inits(aip1cs, 57, eta);
@@ -1489,6 +1483,7 @@ public static partial class FullertonLib
                 }
                 else
                 {
+                    double sqrtx;
                     switch (x)
                     {
                         case <= 1.0:
@@ -1977,15 +1972,13 @@ public static partial class FullertonLib
                 -0.4970947029753336916550570105023E-31
             }
             ;
-        double eta;
         const double pi4 = 0.78539816339744830961566084581988;
-        double sqrtx;
         double z;
 
         switch (data.nam20)
         {
             case 0:
-                eta = 0.1 * r8_mach(3);
+                double eta = 0.1 * r8_mach(3);
                 data.nam20 = r8_inits(am20cs, 57, eta);
                 data.nath0 = r8_inits(ath0cs, 53, eta);
                 data.nam21 = r8_inits(am21cs, 60, eta);
@@ -2029,7 +2022,7 @@ public static partial class FullertonLib
             }
         }
 
-        sqrtx = Math.Sqrt(-x);
+        double sqrtx = Math.Sqrt(-x);
         ampl = Math.Sqrt(ampl / sqrtx);
         theta = pi4 - x * sqrtx * theta;
     }
@@ -2159,9 +2152,7 @@ public static partial class FullertonLib
             }
             ;
         const double pi2 = 1.57079632679489661923132169163975;
-        double value = 0;
-        double y;
-        double z;
+        double value;
 
         switch (data.nterms)
         {
@@ -2171,7 +2162,7 @@ public static partial class FullertonLib
                 break;
         }
 
-        y = Math.Abs(x);
+        double y = Math.Abs(x);
 
         if (x < -1.0 - data.sqeps)
         {
@@ -2188,7 +2179,7 @@ public static partial class FullertonLib
                 break;
             case < 1.0:
             {
-                z = 0.0;
+                double z = 0.0;
                 if (data.sqeps < y)
                 {
                     z = y * y;
@@ -2324,7 +2315,6 @@ public static partial class FullertonLib
             }
             ;
         double value = 0;
-        double y;
 
         switch (data.nterms)
         {
@@ -2335,7 +2325,7 @@ public static partial class FullertonLib
                 break;
         }
 
-        y = Math.Abs(x);
+        double y = Math.Abs(x);
 
         if (y <= data.sqeps)
         {
@@ -2447,7 +2437,6 @@ public static partial class FullertonLib
                 1.5
             }
             ;
-        int n;
         double[] pi8 = {
                 +0.17699081698724154807830422909937E-01,
                 +0.35398163397448309615660845819875E-01,
@@ -2455,19 +2444,17 @@ public static partial class FullertonLib
                 +0.70796326794896619231321691639751E-01
             }
             ;
-        double t;
         double[] tanp8 = {
                 +0.41421356237309504880168872420969,
                 +1.0,
                 +2.4142135623730950488016887242096
             }
             ;
-        double value = 0;
+        double value;
         const double xbnd1 = +0.19891236737965800691159762264467;
         const double xbnd2 = +0.66817863791929891999775768652308;
         const double xbnd3 = +1.4966057626654890176011351349424;
         const double xbnd4 = +5.0273394921258481045149750710640;
-        double y;
 
         switch (data.nterms)
         {
@@ -2478,7 +2465,7 @@ public static partial class FullertonLib
                 break;
         }
 
-        y = Math.Abs(x);
+        double y = Math.Abs(x);
 
         switch (y)
         {
@@ -2494,14 +2481,14 @@ public static partial class FullertonLib
             }
             case <= xbnd4:
             {
-                n = y switch
+                int n = y switch
                 {
                     > xbnd3 => 3,
                     > xbnd2 => 2,
                     _ => 1
                 };
 
-                t = (y - tanp8[n - 1]) / (1.0 + y * tanp8[n - 1]);
+                double t = (y - tanp8[n - 1]) / (1.0 + y * tanp8[n - 1]);
 
                 value = conpi8[n - 1] + (pi8[n - 1] + t * (0.75 +
                                                            r8_csevl(50.0 * t * t - 1.0, atancs, data.nterms)));
@@ -2576,10 +2563,7 @@ public static partial class FullertonLib
         //    Output, double R8_ATAN2, the arc-tangent of the angle.
         //
     {
-        double abscs;
-        double abssn;
-            
-        double value = 0;
+        double value;
 
         switch (data.sml)
         {
@@ -2592,8 +2576,8 @@ public static partial class FullertonLib
         //
         //  We now make sure SN can be divided by CS.  It is painful.
         //
-        abssn = Math.Abs(sn);
-        abscs = Math.Abs(cs);
+        double abssn = Math.Abs(sn);
+        double abscs = Math.Abs(cs);
 
         if (abscs <= abssn)
         {
@@ -2730,8 +2714,7 @@ public static partial class FullertonLib
                 +0.6863462444358260053333333333333E-31
             }
             ;
-        double value = 0;
-        double y;
+        double value;
 
         switch (data.nterms)
         {
@@ -2742,7 +2725,7 @@ public static partial class FullertonLib
                 break;
         }
 
-        y = Math.Abs(x);
+        double y = Math.Abs(x);
 
         if (y <= data.sqeps)
         {

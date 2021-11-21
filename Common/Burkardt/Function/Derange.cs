@@ -85,10 +85,7 @@ public static class Derange
         //    Output, int DERANGE_ENUM, the number of derangements of N objects.
         //
     {
-        int i;
         int value;
-        int value1;
-        int value2;
 
         switch (n)
         {
@@ -106,12 +103,13 @@ public static class Derange
                 break;
             default:
             {
-                value1 = 0;
+                int value1 = 0;
                 value = 1;
 
+                int i;
                 for (i = 3; i <= n; i++)
                 {
-                    value2 = value1;
+                    int value2 = value1;
                     value1 = value;
                     value = (i - 1) * (value1 + value2);
                 }
@@ -365,13 +363,11 @@ public static class Derange
         //
     {
         int ican;
-        int[] ifree;
-        int nfree;
         //
         //  Consider all the integers from 1 through N that have not been used yet.
         //
-        nfree = n - k + 1;
-        ifree = new int[n];
+        int nfree = n - k + 1;
+        int[] ifree = new int[n];
 
         Permutation.perm0_free(k - 1, a, nfree, ref ifree);
         //
@@ -450,8 +446,6 @@ public static class Derange
         //    and FALSE if no more derangements could be found.
         //
     {
-        int i;
-
         switch (more)
         {
             case false when n < 2:
@@ -466,6 +460,7 @@ public static class Derange
 
 
                 data.stack = new int[data.stack_max];
+                int i;
                 for (i = 0; i < data.stack_max; i++)
                 {
                     data.stack[i] = 0;
@@ -547,7 +542,6 @@ public static class Derange
         //    Output, bool DERANGE0_CHECK is TRUE if there was an error.
         //
     {
-        bool check;
         int i;
         int j;
         //
@@ -557,8 +551,7 @@ public static class Derange
         {
             if (a[i] < 0 || n - 1 < a[i])
             {
-                check = false;
-                return check;
+                return false;
             }
         }
 
@@ -567,20 +560,22 @@ public static class Derange
         //
         for (j = 0; j < n; j++)
         {
-            check = false;
+            bool check = false;
             for (i = 0; i < n; i++)
             {
-                if (a[i] == j)
+                if (a[i] != j)
                 {
-                    check = true;
-                    break;
+                    continue;
                 }
+
+                check = true;
+                break;
             }
 
             switch (check)
             {
                 case false:
-                    return check;
+                    return false;
             }
         }
 
@@ -591,14 +586,11 @@ public static class Derange
         {
             if (a[i] == i)
             {
-                check = false;
-                return check;
+                return false;
             }
         }
 
-        check = true;
-
-        return check;
+        return true;
     }
 
     public static void derange0_weed_next(int n, int[] a, ref bool more, ref int maxder, ref int numder)
@@ -657,7 +649,6 @@ public static class Derange
         //    but should not alter them.
         //
     {
-        bool deranged;
         switch (more)
         {
             //
@@ -688,7 +679,7 @@ public static class Derange
             //
             //  See if it is a derangment.
             //
-            deranged = derange0_check(n, a);
+            bool deranged = derange0_check(n, a);
 
             if (deranged)
             {

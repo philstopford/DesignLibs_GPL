@@ -57,18 +57,9 @@ public static class CompassSearch
         //    Output, int &K, the number of steps taken.
         //
     {
-        bool decrease;
-        double delta;
-        double fxd;
-        int i;
-        int ii;
-        double s;
-        double[] x;
-        double[] xd;
-
         k = 0;
-        x = new double[m];
-        xd = new double[m];
+        double[] x = new double[m];
+        double[] xd = new double[m];
         typeMethods.r8vec_copy(m, x0, ref x);
         fx = function_handle(m, x);
 
@@ -92,7 +83,7 @@ public static class CompassSearch
             return null;
         }
 
-        delta = delta_init;
+        double delta = delta_init;
 
         while (k < k_max)
         {
@@ -101,15 +92,16 @@ public static class CompassSearch
             //  For each coordinate direction I, seek a lower function value
             //  by increasing or decreasing X(I) by DELTA.
             //
-            decrease = false;
-            s = +1.0;
-            i = 0;
+            bool decrease = false;
+            double s = +1.0;
+            int i = 0;
 
+            int ii;
             for (ii = 1; ii <= 2 * m; ii++)
             {
                 typeMethods.r8vec_copy(m, x, ref xd);
                 xd[i] += s * delta;
-                fxd = function_handle(m, xd);
+                double fxd = function_handle(m, xd);
                 //
                 //  As soon as a decrease is noticed, accept the new point.
                 //

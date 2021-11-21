@@ -38,21 +38,18 @@ public static class Franke
         //    Output, double FRANKE, the function values.
         //
     {
-        double f;
-
-        f = 
-            0.75 * Math.Exp ( 
-                - ( Math.Pow ( 9.0 * x - 2.0, 2 )
-                    + Math.Pow ( 9.0 * y - 2.0, 2 ) ) / 4.0 ) 
-            + 0.75 * Math.Exp ( 
-                - Math.Pow ( 9.0 * x + 1.0, 2 ) / 49.0 
-                - ( 9.0 * y + 1.0 )      / 10.0 )       
-            + 0.5  * Math.Exp ( 
-                - ( Math.Pow ( 9.0 * x - 7.0, 2 ) 
-                    + Math.Pow ( 9.0 * y - 3.0, 2 ) ) / 4.0 ) 
-            - 0.2  * Math.Exp ( 
-                - Math.Pow ( 9.0 * x - 4.0, 2 ) 
-                - Math.Pow ( 9.0 * y - 7.0, 2 ) );
+        double f = 0.75 * Math.Exp ( 
+                       - ( Math.Pow ( 9.0 * x - 2.0, 2 )
+                           + Math.Pow ( 9.0 * y - 2.0, 2 ) ) / 4.0 ) 
+                   + 0.75 * Math.Exp ( 
+                       - Math.Pow ( 9.0 * x + 1.0, 2 ) / 49.0 
+                       - ( 9.0 * y + 1.0 )      / 10.0 )       
+                   + 0.5  * Math.Exp ( 
+                       - ( Math.Pow ( 9.0 * x - 7.0, 2 ) 
+                           + Math.Pow ( 9.0 * y - 3.0, 2 ) ) / 4.0 ) 
+                   - 0.2  * Math.Exp ( 
+                       - Math.Pow ( 9.0 * x - 4.0, 2 ) 
+                       - Math.Pow ( 9.0 * y - 7.0, 2 ) );
 
         return f;
     }

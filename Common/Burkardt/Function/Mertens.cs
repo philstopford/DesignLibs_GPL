@@ -73,9 +73,8 @@ public static class Mertens
         //
     {
         int i;
-        int value;
 
-        value = 0;
+        int value = 0;
 
         for ( i = 1; i <= n; i++ )
         {

@@ -58,11 +58,8 @@ public static class Hail
         //    reached 1.
         //
     {
-        int k;
-        int m;
-
-        k = 0;
-        m = n;
+        int k = 0;
+        int m = n;
 
         switch (n)
         {

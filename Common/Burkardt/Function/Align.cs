@@ -82,12 +82,7 @@ public static class Align
         //    sequences.
         //
     {
-        int[] fi;
-        int fim1j;
-        int fim1jm1;
         int i;
-        int j;
-        int value;
 
         switch (m)
         {
@@ -111,7 +106,7 @@ public static class Align
                 return 1;
         }
 
-        fi = new int[n + 1];
+        int[] fi = new int[n + 1];
         for (i = 0; i <= n; i++)
         {
             fi[i] = 1;
@@ -119,12 +114,13 @@ public static class Align
 
         for (i = 1; i <= m; i++)
         {
-            fim1jm1 = 1;
+            int fim1jm1 = 1;
 
+            int j;
             for (j = 1; j <= n; j++)
             {
 
-                fim1j = fi[j];
+                int fim1j = fi[j];
 
                 fi[j] = fi[j] + fi[j - 1] + fim1jm1;
 
@@ -133,7 +129,7 @@ public static class Align
             }
         }
 
-        value = fi[n];
+        int value = fi[n];
 
         return value;
     }

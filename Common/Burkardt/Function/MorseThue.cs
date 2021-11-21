@@ -63,22 +63,19 @@ public static class MorseThue
         //    Output, int MORSE_THUE, the Morse-Thue number of index I.
         //
     {
-        int NBITS = 32;
+        const int NBITS = 32;
 
         uint[] b = new uint[NBITS];
-        uint s;
-        uint ui;
-        int value;
         //
         //  Expand I into binary form.
         //
-        ui = (uint)i;
+        uint ui = (uint)i;
 
         typeMethods.ui4_to_ubvec ( ui, NBITS, ref b );
         //
         //  Sum the 1's in the binary representation.
         //
-        s = 0;
+        uint s = 0;
         for ( i = 0; i < NBITS; i++ )
         {
             s += b[i];
@@ -88,7 +85,7 @@ public static class MorseThue
         //
         s %= 2;
 
-        value = ( int ) s;
+        int value = ( int ) s;
 
         return value;
     }

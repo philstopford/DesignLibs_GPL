@@ -49,12 +49,9 @@ public static class Lebesgue
         //    for the points.
         //
     {
-        double[] lfun;
-        double lmax;
+        double[] lfun = lebesgue_function(n, x, nfun, xfun);
 
-        lfun = lebesgue_function(n, x, nfun, xfun);
-
-        lmax = typeMethods.r8vec_max(nfun, lfun);
+        double lmax = typeMethods.r8vec_max(nfun, lfun);
 
         return lmax;
     }
@@ -99,13 +96,9 @@ public static class Lebesgue
         //    Output, double LEBESGUE_FUNCTION[NFUN], the Lebesgue function values.
         //
     {
-        int i;
         int j;
-        double[] lfun;
-        double[] llfun;
-        double t;
 
-        lfun = new double[nfun];
+        double[] lfun = new double[nfun];
         switch (n)
         {
             //
@@ -122,11 +115,12 @@ public static class Lebesgue
             }
         }
 
-        llfun = FEM_1D_Lagrange.lagrange_value_OLD(n, x, nfun, xfun);
+        double[] llfun = FEM_1D_Lagrange.lagrange_value_OLD(n, x, nfun, xfun);
 
         for (j = 0; j < nfun; j++)
         {
-            t = 0.0;
+            double t = 0.0;
+            int i;
             for (i = 0; i < n; i++)
             {
                 t += Math.Abs(llfun[i + j * n]);
@@ -187,19 +181,15 @@ public static class Lebesgue
         //    and 'filename.png'.
         //
     {
-        string command_filename;
         List<string> command_unit = new();
-        string data_filename;
         List<string> data_unit = new();
         int i;
-        double[] lfun;
-        string png_filename;
 
-        lfun = lebesgue_function(n, x, nfun, xfun);
+        double[] lfun = lebesgue_function(n, x, nfun, xfun);
         //
         //  Create data file.
         //
-        data_filename = filename + "_data.txt";
+        string data_filename = filename + "_data.txt";
         for (i = 0; i < nfun; i++)
         {
             data_unit.Add(xfun[i] + "  "
@@ -212,7 +202,7 @@ public static class Lebesgue
         //
         //  Create command file.
         //
-        command_filename = filename + "_commands.txt";
+        string command_filename = filename + "_commands.txt";
 
         command_unit.Add("# " + command_filename + "");
         command_unit.Add("#");
@@ -221,7 +211,7 @@ public static class Lebesgue
         command_unit.Add("#");
         command_unit.Add("set term png");
 
-        png_filename = filename + ".png";
+        string png_filename = filename + ".png";
         command_unit.Add("set output '" + png_filename + "'");
         command_unit.Add("set xlabel '<--- X --->'");
         command_unit.Add("set ylabel '<--- Lebesgue(X) --->'");

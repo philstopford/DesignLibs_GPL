@@ -29,20 +29,17 @@ public static class Hilbert
         //    0 <= X, Y < N.
         //
     {
-        int n;
-        int rx;
-        int ry;
         int s;
         int t = d;
 
-        n = (int)Math.Pow ( 2, m );
+        int n = (int)Math.Pow ( 2, m );
 
         x = 0;
         y = 0;
         for ( s = 1; s < n; s *= 2 )
         {
-            rx = 1 & ( t / 2 );
-            ry = 1 & ( t ^ rx );
+            int rx = 1 & ( t / 2 );
+            int ry = 1 & ( t ^ rx );
             rot ( s, ref x, ref y, rx, ry );
             x += s * rx;
             y += s * ry;
@@ -71,8 +68,6 @@ public static class Hilbert
         //    Input, int RX, RY, ???
         //
     {
-        int t;
-
         switch (ry)
         {
             case 0:
@@ -90,9 +85,7 @@ public static class Hilbert
                 //
                 //  Flip.
                 //
-                t = x;
-                x = y;
-                y = t;
+                (x, y) = (y, x);
                 break;
             }
         }
@@ -132,17 +125,14 @@ public static class Hilbert
         //
     {
         int d = 0;
-        int n;
-        int rx;
-        int ry;
         int s;
 
-        n = (int)Math.Pow ( 2, m );
+        int n = (int)Math.Pow ( 2, m );
 
         for ( s = n / 2; s > 0; s /= 2 )
         {
-            rx = ( x & s ) > 0 ? 1 : 0;
-            ry = ( y & s ) > 0 ? 1 : 0;
+            int rx = ( x & s ) > 0 ? 1 : 0;
+            int ry = ( y & s ) > 0 ? 1 : 0;
             d += s * s * ( ( 3 * rx ) ^ ry );
             rot ( s, ref x, ref y, rx, ry );
         }

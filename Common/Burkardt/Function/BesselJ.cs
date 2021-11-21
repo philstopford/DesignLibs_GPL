@@ -34,21 +34,16 @@ public static class BesselJ
         //    Output, double BESSELJ, the value.
         //
     {
-        double alpha;
-        double[] b;
-        int n;
-        int nb;
         int ncalc = 0;
-        double value = 0;
 
-        n = ( int ) order;
-        nb = n + 1;
-        alpha = order - n;
-        b = new double[nb];
+        int n = ( int ) order;
+        int nb = n + 1;
+        double alpha = order - n;
+        double[] b = new double[nb];
 
         rjbesl ( x, alpha, nb, ref b, ref ncalc );
 
-        value = b[n];
+        double value = b[n];
 
         return value;
     }
@@ -349,13 +344,7 @@ public static class BesselJ
         //    significant figures of B(N) can be trusted.
         //
     {
-        double alpem;
-        double alp2em;
-        double capp;
-        double capq;
         const double eighth = 0.125E+00;
-        double em;
-        double en;
         const double enmten = 8.90E-308;
         const double ensig = 1.0E+16;
         const double enten = 1.0E+308;
@@ -388,73 +377,48 @@ public static class BesselJ
             }
             ;
         const double four = 4.0E+00;
-        double gnu;
         const double half = 0.5E+00;
-        double halfx;
-        int i;
-        int j;
-        bool jump;
-        int k;
-        int l;
-        int m;
-        int magx;
-        int n;
-        int nbmx;
-        int nend;
-        int nstart;
         const double one = 1.0E+00;
         const double one30 = 130.0E+00;
-        double p;
         const double pi2 = 0.636619772367581343075535E+00;
-        double plast;
-        double pold;
-        double psave;
-        double psavel;
         const double rtnsig = 1.0E-04;
-        double s;
-        double sum;
-        double t;
-        double t1;
-        double tempa;
-        double tempb;
-        double tempc;
-        double test;
         const double three = 3.0E+00;
         const double three5 = 35.0E+00;
-        double tover;
         const double two = 2.0E+00;
         const double twofiv = 25.0E+00;
         const double twopi1 = 6.28125E+00;
         const double twopi2 = 1.935307179586476925286767E-03;
-        double xc;
-        double xin;
-        double xk;
         const double xlarge = 1.0E+04;
-        double xm;
-        double vcos;
-        double vsin;
-        double z;
         const double zero = 0.0E+00;
 
-        jump = false;
+        bool jump = false;
         //
         //  Check for out of range arguments.
         //
-        magx = (int) x;
+        int magx = (int) x;
 
         switch (nb)
         {
-            case > 0 when zero <= x && x <= xlarge && zero <= alpha && alpha < one:
+            case > 0 when x is >= zero and <= xlarge && alpha is >= zero and < one:
             {
                 //
                 //  Initialize result array to zero.
                 //
                 ncalc = nb;
+                int i;
                 for (i = 1; i <= nb; i++)
                 {
                     b[i - 1] = zero;
                 }
 
+                double tempa;
+                double tempb;
+                double tempc;
+                int n;
+                double tover;
+                double alpem;
+                int m;
+                int k;
                 switch (x)
                 {
                     //
@@ -469,7 +433,7 @@ public static class BesselJ
                         tempa = one;
                         alpem = one + alpha;
 
-                        halfx = x switch
+                        double halfx = x switch
                         {
                             > enmten => half * x,
                             _ => zero
@@ -552,8 +516,8 @@ public static class BesselJ
                     //
                     case > twofiv when nb <= magx + 1:
                     {
-                        xc = Math.Sqrt(pi2 / x);
-                        xin = Math.Pow(eighth / x, 2);
+                        double xc = Math.Sqrt(pi2 / x);
+                        double xin = Math.Pow(eighth / x, 2);
 
                         m = x switch
                         {
@@ -562,24 +526,25 @@ public static class BesselJ
                             _ => 4
                         };
 
-                        xm = four * m;
+                        double xm = four * m;
                         //
                         //  Argument reduction for SIN and COS routines.
                         //
-                        t = Math.Truncate(x / (twopi1 + twopi2) + half);
-                        z = x - t * twopi1 - t * twopi2 - (alpha + half) / pi2;
-                        vsin = Math.Sin(z);
-                        vcos = Math.Cos(z);
-                        gnu = alpha + alpha;
+                        double t = Math.Truncate(x / (twopi1 + twopi2) + half);
+                        double z = x - t * twopi1 - t * twopi2 - (alpha + half) / pi2;
+                        double vsin = Math.Sin(z);
+                        double vcos = Math.Cos(z);
+                        double gnu = alpha + alpha;
 
+                        int j;
                         for (i = 1; i <= 2; i++)
                         {
-                            s = (xm - one - gnu) * (xm - one + gnu) * xin * half;
+                            double s = (xm - one - gnu) * (xm - one + gnu) * xin * half;
                             t = (gnu - (xm - three)) * (gnu + (xm - three));
-                            capp = s * t / fact[2 * m];
-                            t1 = (gnu - (xm + one)) * (gnu + (xm + one));
-                            capq = s * t1 / fact[2 * m + 1];
-                            xk = xm;
+                            double capp = s * t / fact[2 * m];
+                            double t1 = (gnu - (xm + one)) * (gnu + (xm + one));
+                            double capq = s * t1 / fact[2 * m + 1];
+                            double xk = xm;
                             k = m + m;
                             t1 = t;
 
@@ -633,15 +598,18 @@ public static class BesselJ
                     //
                     default:
                     {
-                        nbmx = nb - magx;
+                        int nbmx = nb - magx;
                         n = magx + 1;
-                        en = n + n + (alpha + alpha);
-                        plast = one;
-                        p = en / x;
+                        double en = n + n + (alpha + alpha);
+                        double plast = one;
+                        double p = en / x;
                         //
                         //  Calculate general significance test.
                         //
-                        test = ensig + ensig;
+                        double test = ensig + ensig;
+                        double pold;
+                        int nend;
+                        int l;
                         switch (nbmx)
                         {
                             //
@@ -650,7 +618,7 @@ public static class BesselJ
                             case >= 3:
                             {
                                 tover = enten / ensig;
-                                nstart = magx + 2;
+                                int nstart = magx + 2;
                                 nend = nb - 1;
                                 en = nstart + nstart - two + (alpha + alpha);
 
@@ -669,8 +637,8 @@ public static class BesselJ
                                         tover = enten;
                                         p /= tover;
                                         plast /= tover;
-                                        psave = p;
-                                        psavel = plast;
+                                        double psave = p;
+                                        double psavel = plast;
                                         nstart = n + 1;
 
                                         for (;;)
@@ -696,14 +664,7 @@ public static class BesselJ
                                         p = plast * tover;
                                         n -= 1;
                                         en -= two;
-                                        if (nb < n)
-                                        {
-                                            nend = nb;
-                                        }
-                                        else
-                                        {
-                                            nend = n;
-                                        }
+                                        nend = nb < n ? nb : n;
 
                                         for (l = nstart; l <= nend; l++)
                                         {
@@ -784,10 +745,10 @@ public static class BesselJ
                         tempb = zero;
                         tempa = one / p;
                         m = 2 * n - 4 * (n / 2);
-                        sum = zero;
-                        em = (double)n / 2;
+                        double sum = zero;
+                        double em = (double)n / 2;
                         alpem = em - one + alpha;
-                        alp2em = em + em + alpha;
+                        double alp2em = em + em + alpha;
                         if (m != 0)
                         {
                             sum = tempa * alpem * alp2em / em;

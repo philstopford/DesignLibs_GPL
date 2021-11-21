@@ -53,22 +53,18 @@ public static class Cardinal
         //    Output, double CARDINAL_COS[N], the value of the function at T.
         //
     {
-        double[] c;
-        double cj;
         int i;
         const double r8_eps = 2.220446049250313E-016;
-            
-        double tj;
 
-        c = new double[n];
+        double[] c = new double[n];
 
-        cj = (j % (m + 1)) switch
+        double cj = (j % (m + 1)) switch
         {
             0 => 2.0,
             _ => 1.0
         };
 
-        tj = Math.PI * j / (m + 1);
+        double tj = Math.PI * j / (m + 1);
 
         for (i = 0; i < n; i++)
         {
@@ -133,13 +129,10 @@ public static class Cardinal
     {
         int i;
         const double r8_eps = 2.220446049250313E-016;
-            
-        double[] s;
-        double tj;
 
-        s = new double[n];
+        double[] s = new double[n];
 
-        tj = Math.PI * j / (m + 1);
+        double tj = Math.PI * j / (m + 1);
 
         for (i = 0; i < n; i++)
         {

@@ -138,7 +138,6 @@ public static class Fraction
         //    coefficients.
         //
     {
-        double[] a;
         int i;
         int j;
 
@@ -150,7 +149,7 @@ public static class Fraction
                 return;
         }
 
-        a = new double[m * ((m + 2) / 2)];
+        double[] a = new double[m * ((m + 2) / 2)];
 
         for (i = 0; i < m; i++)
         {
@@ -163,8 +162,8 @@ public static class Fraction
         //
         //  Solve for P's
         //
-        a[0 + 0 * m] = g[0];
-        a[1 + 0 * m] = g[0] * h[1];
+        a[0] = g[0];
+        a[1] = g[0] * h[1];
 
         for (i = 2; i < m; i++)
         {
@@ -183,8 +182,8 @@ public static class Fraction
         //
         //  Solve for Q's.
         //
-        a[0 + 0 * m] = h[0];
-        a[1 + 0 * m] = h[0] * h[1];
+        a[0] = h[0];
+        a[1] = h[0] * h[1];
         a[1 + 1 * m] = g[1];
 
         for (i = 2; i < m; i++)
@@ -260,13 +259,10 @@ public static class Fraction
         //    so that Q[M+1] = 1.0.
         //
     {
-        double[] a;
-        double[] b;
         int i;
-        int k;
 
-        a = new double[m * m];
-        b = new double[m * m];
+        double[] a = new double[m * m];
+        double[] b = new double[m * m];
 
         a[0 + 0 * m] = r[0];
         b[0 + 0 * m] = s[0];
@@ -275,6 +271,7 @@ public static class Fraction
         {
             case > 1:
             {
+                int k;
                 for (k = 1; k < m; k++)
                 {
                     a[k + k * m] = r[0];
@@ -376,12 +373,10 @@ public static class Fraction
         //    Output, bool &ERROR, is TRUE if an error occurred.
         //
     {
-        double[] a;
         int i;
         int k;
-        double ta;
 
-        a = new double[(m + 1) * (2 * m + 1)];
+        double[] a = new double[(m + 1) * (2 * m + 1)];
 
         error = false;
 
@@ -396,7 +391,7 @@ public static class Fraction
         }
 
         t[0] = a[0 + 0 * (m + 1)] / a[0 + 1 * (m + 1)];
-        ta = a[m + 0 * (m + 1)];
+        double ta = a[m];
 
         for (i = 1; i <= m; i++)
         {
@@ -488,9 +483,7 @@ public static class Fraction
         //    J-fraction.
         //
     {
-        double[] a;
         int i;
-        int k;
 
         switch (m)
         {
@@ -501,7 +494,7 @@ public static class Fraction
                 return;
         }
 
-        a = new double[(m + 1) * (m + 1)];
+        double[] a = new double[(m + 1) * (m + 1)];
 
         for (i = 0; i <= m; i++)
         {
@@ -517,9 +510,10 @@ public static class Fraction
         {
             case > 1:
             {
-                r[0] = a[m - 1 + 1 * (m + 1)] / a[m + 0 * (m + 1)];
-                s[0] = (r[0] * a[m - 1 + 0 * (m + 1)] - a[m - 2 + 1 * (m + 1)]) / a[m - 1 + 1 * (m + 1)];
+                r[0] = a[m - 1 + 1 * (m + 1)] / a[m];
+                s[0] = (r[0] * a[m - 1] - a[m - 2 + 1 * (m + 1)]) / a[m - 1 + 1 * (m + 1)];
 
+                int k;
                 for (k = 0; k < m - 2; k++)
                 {
                     a[0 + (k + 2) * (m + 1)] = r[k] * a[0 + k * (m + 1)] - s[k] * a[0 + (k + 1) * (m + 1)];

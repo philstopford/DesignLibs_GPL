@@ -72,42 +72,17 @@ public static class Glomin
         //    double GLOMIN, the value F(X).
         //
     {
-        double a0;
-        double a2;
-        double a3;
-        double d0;
-        double d1;
-        double d2;
-        bool force_first;
-        double h;
-        long k;
-        double m2;
-        double p;
-        double q;
-        double qs;
-        double r;
-        double s;
-        double y;
-        double y0;
-        double y1;
-        double y2;
-        double y3;
-        double yb;
-        double z0;
-        double z1;
-        double z2;
-
         calls = 0;
 
-        a0 = b;
+        double a0 = b;
         x = a0;
-        a2 = a;
-        y0 = f(b);
+        double a2 = a;
+        double y0 = f(b);
         calls += 1;
-        yb = y0;
-        y2 = f(a);
+        double yb = y0;
+        double y2 = f(a);
         calls += 1;
-        y = y2;
+        double y = y2;
 
         if (y0 < y)
         {
@@ -123,18 +98,18 @@ public static class Glomin
             return y;
         }
 
-        m2 = 0.5 * (1.0 + 16.0 * typeMethods.r8_epsilon()) * m;
+        double m2 = 0.5 * (1.0 + 16.0 * typeMethods.r8_epsilon()) * m;
 
         if (c <= a || b <= c)
         {
             c = 0.5 * (a + b);
         }
 
-        y1 = f(c);
+        double y1 = f(c);
         calls += 1;
-        k = 3;
-        d0 = a2 - c;
-        h = 9.0 / 11.0;
+        long k = 3;
+        double d0 = a2 - c;
+        double h = 9.0 / 11.0;
 
         if (y1 < y)
         {
@@ -147,20 +122,20 @@ public static class Glomin
         //
         for (;;)
         {
-            d1 = a2 - a0;
-            d2 = c - a0;
-            z2 = b - a2;
-            z0 = y2 - y1;
-            z1 = y2 - y0;
-            r = d1 * d1 * z0 - d0 * d0 * z1;
-            p = r;
-            qs = 2.0 * (d0 * z1 - d1 * z0);
-            q = qs;
+            double d1 = a2 - a0;
+            double d2 = c - a0;
+            double z2 = b - a2;
+            double z0 = y2 - y1;
+            double z1 = y2 - y0;
+            double r = d1 * d1 * z0 - d0 * d0 * z1;
+            double p = r;
+            double qs = 2.0 * (d0 * z1 - d1 * z0);
+            double q = qs;
             //
             //  Loop control corrected by Hans Bieshaar, 28 May 2021.
             //  Long int arithmetic suggested by Hans Bieshaar, 02 June 2021.
             //
-            force_first = true;
+            bool force_first = true;
 
             switch (k)
             {
@@ -172,6 +147,8 @@ public static class Glomin
                     break;
             }
 
+            double a3;
+            double y3;
             while (r < z2 || force_first)
             {
                 force_first = false;
@@ -196,7 +173,7 @@ public static class Glomin
             }
 
             r = m2 * d0 * d1 * d2;
-            s = Math.Sqrt((y2 - y + t) / m2);
+            double s = Math.Sqrt((y2 - y + t) / m2);
             h = 0.5 * (1.0 + h);
             p = h * (p + 2.0 * r * s);
             //

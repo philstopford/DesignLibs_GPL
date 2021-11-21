@@ -74,14 +74,13 @@ public static class Moebius
         //    space for factoring, MOEBIUS is returned as -1.
         //
     {
-        int FACTOR_MAX = 20;
+        const int FACTOR_MAX = 20;
 
         int[] factor = new int[FACTOR_MAX];
         int i;
         int nfactor = 0;
         int nleft = 0;
         int[] power = new int[FACTOR_MAX];
-        int value;
 
         switch (n)
         {
@@ -104,7 +103,7 @@ public static class Moebius
             return 1;
         }
 
-        value = 1;
+        int value = 1;
 
         for ( i = 0; i < nfactor; i++ )
         {

@@ -198,10 +198,9 @@ public static class Bins
         //    Output, int R83_TO_BIN_EVEN2[3], the index of the bin to which C is assigned.
         //
     {
-        int[] bin;
         int i;
 
-        bin = new int[3];
+        int[] bin = new int[3];
 
         for (i = 0; i < 3; i++)
         {
@@ -272,10 +271,9 @@ public static class Bins
         //    Output, int R83_TO_BIN_EVEN3[3], the index of the bin to which C is assigned.
         //
     {
-        int[] bin;
         int i;
 
-        bin = new int[3];
+        int[] bin = new int[3];
 
         for (i = 0; i < 3; i++)
         {
@@ -480,19 +478,16 @@ public static class Bins
         //    distance to PTEST has been computed.
         //
     {
-        int NDIM = 2;
+        const int NDIM = 2;
 
-        double d_sq;
-        int i;
-        int node;
-
-        node = bin_start[bin[0] + bin[1] * nbin[0]];
+        int node = bin_start[bin[0] + bin[1] * nbin[0]];
 
         while (0 < node)
         {
             found_a_neighbor = true;
 
-            d_sq = 0.0;
+            double d_sq = 0.0;
+            int i;
             for (i = 0; i < NDIM; i++)
             {
                 d_sq += (ptest[i] - pset[i + node * NDIM]) *
@@ -1235,28 +1230,21 @@ public static class Bins
         //    the line degenerates to a point.
         //
     {
-        double dx;
-        double dxu;
-        double dy;
-        double dyu;
-        double t;
-        double tol;
-        double tolabs;
         int value = 0;
 
-        tol = 100.0 * typeMethods.r8_epsilon();
+        double tol = 100.0 * typeMethods.r8_epsilon();
 
-        dx = xv2 - xv1;
-        dy = yv2 - yv1;
-        dxu = xu - xv1;
-        dyu = yu - yv1;
+        double dx = xv2 - xv1;
+        double dy = yv2 - yv1;
+        double dxu = xu - xv1;
+        double dyu = yu - yv1;
 
-        tolabs = tol * Math.Max(Math.Abs(dx),
+        double tolabs = tol * Math.Max(Math.Abs(dx),
             Math.Max(Math.Abs(dy),
                 Math.Max(Math.Abs(dxu),
                     Math.Max(Math.Abs(dyu), Math.Abs(dv)))));
 
-        t = dy * dxu - dx * dyu + dv * Math.Sqrt(dx * dx + dy * dy);
+        double t = dy * dxu - dx * dyu + dv * Math.Sqrt(dx * dx + dy * dy);
 
         if (tolabs < t)
         {
@@ -1308,14 +1296,13 @@ public static class Bins
         //    Output, bool PERM_CHECK, is TRUE if the permutation is OK.
         //
     {
-        bool found;
-        int i;
         int seek;
 
         for (seek = 1; seek <= n; seek++)
         {
-            found = false;
+            bool found = false;
 
+            int i;
             for (i = 0; i < n; i++)
             {
                 if (p[i] == seek)
@@ -1365,10 +1352,8 @@ public static class Bins
         //
     {
         int i;
-        int i0;
         int i1;
         int i2;
-        int is_;
 
         switch (n)
         {
@@ -1388,8 +1373,6 @@ public static class Bins
             return;
         }
 
-        is_ = 1;
-
         for (i = 1; i <= n; i++)
         {
             i1 = p[i - 1];
@@ -1401,7 +1384,7 @@ public static class Bins
                 i1 = i2;
             }
 
-            is_ = -typeMethods.i4_sign(p[i - 1]);
+            int is_ = -typeMethods.i4_sign(p[i - 1]);
             p[i - 1] = typeMethods.i4_sign(is_) * Math.Abs(p[i - 1]);
         }
 
@@ -1413,7 +1396,7 @@ public static class Bins
             {
                 case >= 0:
                 {
-                    i0 = i;
+                    int i0 = i;
 
                     for (;;)
                     {
@@ -1475,19 +1458,17 @@ public static class Bins
         //    point in PSET to P.
         //
     {
-        int NDIM = 2;
+        const int NDIM = 2;
 
-        double d;
-        int i;
         int j;
-        int p_min;
 
         d_min = typeMethods.r8_huge();
-        p_min = 0;
+        int p_min = 0;
 
         for (j = 0; j < nset; j++)
         {
-            d = 0.0;
+            double d = 0.0;
+            int i;
             for (i = 0; i < NDIM; i++)
             {
                 d += (ptest[i] - pset[i + j * NDIM]) * (ptest[i] - pset[i + j * NDIM]);
@@ -1545,19 +1526,17 @@ public static class Bins
         //    point in PSET to P.
         //
     {
-        int NDIM = 3;
+        const int NDIM = 3;
 
-        double d;
-        int i;
         int j;
-        int p_min;
 
         d_min = typeMethods.r8_huge();
-        p_min = 0;
+        int p_min = 0;
 
         for (j = 0; j < nset; j++)
         {
-            d = 0.0;
+            double d = 0.0;
+            int i;
             for (i = 0; i < NDIM; i++)
             {
                 d += (ptest[i] - pset[i + j * NDIM]) * (ptest[i] - pset[i + j * NDIM]);
@@ -1616,17 +1595,15 @@ public static class Bins
         //    point in PSET to P.
         //
     {
-        double d;
-        int i;
         int j;
-        int p_min;
 
         d_min = typeMethods.r8_huge();
-        p_min = 0;
+        int p_min = 0;
 
         for (j = 0; j < nset; j++)
         {
-            d = 0.0;
+            double d = 0.0;
+            int i;
             for (i = 0; i < ndim; i++)
             {
                 d += (ptest[i] - pset[i + j * ndim]) * (ptest[i] - pset[i + j * ndim]);
@@ -1684,25 +1661,22 @@ public static class Bins
         //    nearest point in PSET to each point in PTEST.
         //
     {
-        int NDIM = 2;
+        const int NDIM = 2;
 
-        double d;
-        double d_min;
-        int i;
-        int[] nearest;
-        int set;
         int test;
 
-        nearest = new int[ntest];
+        int[] nearest = new int[ntest];
 
         for (test = 0; test < ntest; test++)
         {
-            d_min = typeMethods.r8_huge();
+            double d_min = typeMethods.r8_huge();
             nearest[test] = -1;
 
+            int set;
             for (set = 0; set < nset; set++)
             {
-                d = 0.0;
+                double d = 0.0;
+                int i;
                 for (i = 0; i < NDIM; i++)
                 {
                     d += (ptest[i + test * NDIM] - pset[i + set * NDIM])

@@ -156,20 +156,15 @@ public static partial class Correlation
         //    Output, double &XMIN, &XMAX, the bounds.
         //
     {
-        double alnbig;
-        double alnsml;
         int i;
-        int j;
-        double xln;
-        double xold;
 
-        alnsml = Math.Log(typeMethods.r8_mach(1));
+        double alnsml = Math.Log(typeMethods.r8_mach(1));
         xmin = -alnsml;
 
         for (i = 1; i <= 10; i++)
         {
-            xold = xmin;
-            xln = Math.Log(xmin);
+            double xold = xmin;
+            double xln = Math.Log(xmin);
             xmin -= xmin * ((xmin + 0.5) * xln - xmin
                                                - 0.2258 + alnsml) / (xmin * xln + 0.5);
 
@@ -179,9 +174,10 @@ public static partial class Correlation
                 {
                     xmin = -xmin + 0.01;
 
-                    alnbig = Math.Log(typeMethods.r8_mach(2));
+                    double alnbig = Math.Log(typeMethods.r8_mach(2));
                     xmax = alnbig;
 
+                    int j;
                     for (j = 1; j <= 10; j++)
                     {
                         xold = xmax;
@@ -296,17 +292,13 @@ public static partial class Correlation
                 -0.5793070335782135784625493333333E-31
             }
             ;
-        int i;
-        int n;
         int ngcs = 0;
-            
-        double sinpiy;
-        double sq2pil = 0.91893853320467274178032973640562;
-        double value = 0;
+
+        const double sq2pil = 0.91893853320467274178032973640562;
+        double value;
         double xmax = 0.0;
         double xmin = 0.0;
         double xsml = 0.0;
-        double y;
 
         switch (ngcs)
         {
@@ -319,13 +311,13 @@ public static partial class Correlation
                 break;
         }
 
-        y = Math.Abs(x);
+        double y = Math.Abs(x);
 
         switch (y)
         {
             case <= 10.0:
             {
-                n = (int) x;
+                int n = (int) x;
                 switch (x)
                 {
                     case < 0.0:
@@ -337,6 +329,7 @@ public static partial class Correlation
                 n -= 1;
                 value = 0.9375 + r8_csevl(2.0 * y - 1.0, gcs, ngcs);
 
+                int i;
                 switch (n)
                 {
                     case 0:
@@ -382,21 +375,10 @@ public static partial class Correlation
                     }
                     default:
                     {
-                        switch (n)
+                        for (i = 1; i <= n; i++)
                         {
-                            case 0:
-                                break;
-                            default:
-                            {
-                                for (i = 1; i <= n; i++)
-                                {
-                                    value = (y + i) * value;
-                                }
-
-                                break;
-                            }
+                            value = (y + i) * value;
                         }
-
                         break;
                     }
                 }
@@ -438,7 +420,7 @@ public static partial class Correlation
                     Console.WriteLine("  answer is half precision.");
                 }
 
-                sinpiy = Math.Sin(Math.PI * y);
+                double sinpiy = Math.Sin(Math.PI * y);
 
                 switch (sinpiy)
                 {

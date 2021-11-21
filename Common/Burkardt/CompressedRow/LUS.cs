@@ -57,9 +57,8 @@ public static class LUSCR
     {
         int i;
         int j;
-        double[] w;
 
-        w = new double[n];
+        double[] w = new double[n];
         //
         //  Copy R in.
         //

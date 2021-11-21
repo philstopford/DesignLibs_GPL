@@ -42,17 +42,16 @@ public static partial class Correlation
         //    Output, double C[N], the correlations.
         //
     {
-        double[] c;
         int i;
 
-        c = new double[n];
+        double[] c = new double[n];
 
         for (i = 0; i < n; i++)
         {
             c[i] = Math.Exp(-Math.Abs(rho[i]) / rho0) * Math.Cos(Math.Abs(rho[i]) / rho0);
         }
 
-        return new CorrelationResult(){result = c, data = globaldata, k1data = data};
+        return new CorrelationResult {result = c, data = globaldata, k1data = data};
     }
 
     public static CorrelationResult correlation_damped_sine(FullertonLib.BesselData globaldata, FullertonLib.r8BESJ0Data data, int n, double[] rho, double rho0 )
@@ -92,11 +91,9 @@ public static partial class Correlation
         //    Output, double C[N], the correlations.
         //
     {
-        double[] c;
         int i;
-        double rhohat;
 
-        c = new double[n];
+        double[] c = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -106,12 +103,12 @@ public static partial class Correlation
                     c[i] = 1.0;
                     break;
                 default:
-                    rhohat = Math.Abs(rho[i]) / rho0;
+                    double rhohat = Math.Abs(rho[i]) / rho0;
                     c[i] = Math.Sin(rhohat) / rhohat;
                     break;
             }
         }
 
-        return new CorrelationResult(){result = c, data = globaldata, j0data = data};
+        return new CorrelationResult {result = c, data = globaldata, j0data = data};
     }
 }

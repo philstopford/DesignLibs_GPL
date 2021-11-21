@@ -41,10 +41,9 @@ public static partial class Correlation
         //    Output, double C[N], the correlations.
         //
     {
-        double[] c;
         int i;
 
-        c = new double[n];
+        double[] c = new double[n];
 
         for ( i = 0; i < n; i++ )
         {
@@ -55,6 +54,6 @@ public static partial class Correlation
             };
         }
 
-        return new CorrelationResult(){result = c, data = globaldata, k1data = data};
+        return new CorrelationResult {result = c, data = globaldata, k1data = data};
     }
 }

@@ -60,15 +60,12 @@ public static class Brent
         //    at X0, of the first appearance of an element of the cycle.
         //
     {
-        int hare;
         int i;
-        int power;
-        int tortoise;
 
-        power = 1;
+        int power = 1;
         lam = 1;
-        tortoise = x0;
-        hare = f(x0);
+        int tortoise = x0;
+        int hare = f(x0);
 
         while (tortoise != hare)
         {

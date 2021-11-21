@@ -88,7 +88,7 @@ public static class Problem0
             value *= PDF.r8_uniform_pdf(a[i], b[i], zp[zpIndex + i]);
         }
 
-        return new Dream.DensityResult() { result = value };
+        return new Dream.DensityResult { result = value };
     }
 
     private static Dream.SampleResult prior_sample(int par_num)
@@ -137,7 +137,7 @@ public static class Problem0
             zp[i] = PDF.r8_uniform_sample(a[i], b[i]);
         }
 
-        return new Dream.SampleResult() {result = zp};
+        return new Dream.SampleResult {result = zp};
     }
 
     private static double sample_likelihood(int par_num, double[] zp)

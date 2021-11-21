@@ -42,15 +42,13 @@ public static partial class Correlation
         //    Output, double C[N], the correlations.
         //
     {
-        double[] c;
         int i;
-        double rhohat;
 
-        c = new double[n];
+        double[] c = new double[n];
 
         for ( i = 0; i < n; i++ )
         {
-            rhohat = Math.Min ( Math.Abs ( rho[i] ) / rho0, 1.0 );
+            double rhohat = Math.Min ( Math.Abs ( rho[i] ) / rho0, 1.0 );
 
             c[i] = 1.0 
                    - 7.0  * Math.Pow ( rhohat, 2 ) 
@@ -59,6 +57,6 @@ public static partial class Correlation
                    + 0.75 * Math.Pow ( rhohat, 7 );
         }
 
-        return new CorrelationResult(){result = c, data = globaldata, k1data = data};
+        return new CorrelationResult {result = c, data = globaldata, k1data = data};
     }
 }

@@ -51,16 +51,14 @@ public static class DiagonalPointerCR
         //
     {
         int i;
-        int j;
-        int j1;
-        int j2;
 
         for ( i = 0; i < n; i++ )
         {
             ua[i] = -1;
-            j1 = ia[i];
-            j2 = ia[i+1];
+            int j1 = ia[i];
+            int j2 = ia[i+1];
 
+            int j;
             for ( j = j1; j < j2; j++ )
             {
                 if ( ja[j] == i ) 

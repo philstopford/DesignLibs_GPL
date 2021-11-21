@@ -50,29 +50,19 @@ public static partial class SamplePaths
         //    Output, double X[N*N2], the sample paths.
         //
     {
-        double[] cor;
-        double[] cor_vec;
         int flag = 0;
-        int i;
         int j;
-        int k;
-        double[] l;
-        double[] r;
-        double[] rho_vec;
-        double rhomin;
-        double[] x;
         //
         //  Choose N equally spaced sample points from 0 to RHOMAX.
         //
-        rhomin = 0.0;
-        rho_vec = typeMethods.r8vec_linspace_new(n, rhomin, rhomax);
+        const double rhomin = 0.0;
+        double[] rho_vec = typeMethods.r8vec_linspace_new(n, rhomin, rhomax);
         //
         //  Evaluate the correlation function.
         //
         Correlation.CorrelationResult tr = correlation(globaldata, kdata, n, rho_vec, rho0);
-        cor_vec = tr.result;
+        double[] cor_vec = tr.result;
         globaldata = tr.data;
-        kdata = tr.kdata;
         //
         //  Construct the correlation matrix;
         //
@@ -83,13 +73,14 @@ public static partial class SamplePaths
         //  Every row of the correlation matrix can be constructed by a subvector
         //  of this vector.
         //
-        cor = new double[n * n];
+        double[] cor = new double[n * n];
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < n; i++)
             {
-                k = typeMethods.i4_wrap(j - i, 0, n - 1);
+                int k = typeMethods.i4_wrap(j - i, 0, n - 1);
                 cor[i + j * n] = cor_vec[k];
             }
         }
@@ -99,7 +90,7 @@ public static partial class SamplePaths
         //
         //    COR = L * L'.
         //
-        l = typeMethods.r8mat_cholesky_factor(n, cor, ref flag);
+        double[] l = typeMethods.r8mat_cholesky_factor(n, cor, ref flag);
         switch (flag)
         {
             //
@@ -116,11 +107,11 @@ public static partial class SamplePaths
         //
         //  Compute a matrix of N by N2 normally distributed values.
         //
-        r = typeMethods.r8mat_normal_01_new(n, n2, ref data, ref seed);
+        double[] r = typeMethods.r8mat_normal_01_new(n, n2, ref data, ref seed);
         //
         //  Compute the sample path.
         //
-        x = typeMethods.r8mat_mm_new(n, n, n2, l, r);
+        double[] x = typeMethods.r8mat_mm_new(n, n, n2, l, r);
 
         Correlation.CorrelationResult res = new() { result = x, data = globaldata };
 
@@ -170,29 +161,19 @@ public static partial class SamplePaths
         //    Output, double X[N*N2], the sample paths.
         //
     {
-        double[] cor;
-        double[] cor_vec;
         int flag = 0;
-        int i;
         int j;
-        int k;
-        double[] l;
-        double[] r;
-        double[] rho_vec;
-        double rhomin;
-        double[] x;
         //
         //  Choose N equally spaced sample points from 0 to RHOMAX.
         //
-        rhomin = 0.0;
-        rho_vec = typeMethods.r8vec_linspace_new(n, rhomin, rhomax);
+        double rhomin = 0.0;
+        double[] rho_vec = typeMethods.r8vec_linspace_new(n, rhomin, rhomax);
         //
         //  Evaluate the correlation function.
         //
         Correlation.CorrelationResult tr = correlation(globaldata, kdata, n, rho_vec, rho0);
-        cor_vec = tr.result;
+        double[] cor_vec = tr.result;
         globaldata = tr.data;
-        kdata = tr.k1data;
         //
         //  Construct the correlation matrix;
         //
@@ -203,13 +184,14 @@ public static partial class SamplePaths
         //  Every row of the correlation matrix can be constructed by a subvector
         //  of this vector.
         //
-        cor = new double[n * n];
+        double[] cor = new double[n * n];
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < n; i++)
             {
-                k = typeMethods.i4_wrap(j - i, 0, n - 1);
+                int k = typeMethods.i4_wrap(j - i, 0, n - 1);
                 cor[i + j * n] = cor_vec[k];
             }
         }
@@ -219,7 +201,7 @@ public static partial class SamplePaths
         //
         //    COR = L * L'.
         //
-        l = typeMethods.r8mat_cholesky_factor(n, cor, ref flag);
+        double[] l = typeMethods.r8mat_cholesky_factor(n, cor, ref flag);
         switch (flag)
         {
             //
@@ -236,11 +218,11 @@ public static partial class SamplePaths
         //
         //  Compute a matrix of N by N2 normally distributed values.
         //
-        r = typeMethods.r8mat_normal_01_new(n, n2, ref data, ref seed);
+        double[] r = typeMethods.r8mat_normal_01_new(n, n2, ref data, ref seed);
         //
         //  Compute the sample path.
         //
-        x = typeMethods.r8mat_mm_new(n, n, n2, l, r);
+        double[] x = typeMethods.r8mat_mm_new(n, n, n2, l, r);
 
         Correlation.CorrelationResult res = new() { result = x, data = globaldata };
 
@@ -291,26 +273,21 @@ public static partial class SamplePaths
         //    Output, double X[N*N2], the sample paths.
         //
     {
-        double[] cor;
         int flag = 0;
-        double[] l;
-        double[] r;
-        double[] s;
-        double[] x;
         //
         //  Choose N equally spaced sample points from RHOMIN to RHOMAX.
         //
-        s = typeMethods.r8vec_linspace_new(n, rhomin, rhomax);
+        double[] s = typeMethods.r8vec_linspace_new(n, rhomin, rhomax);
         //
         //  Evaluate the correlation function.
         //
-        cor = correlation2(n, n, s, s, rho0);
+        double[] cor = correlation2(n, n, s, s, rho0);
         //
         //  Get the Cholesky factorization of COR:
         //
         //    COR = L * L'.
         //
-        l = typeMethods.r8mat_cholesky_factor(n, cor, ref flag);
+        double[] l = typeMethods.r8mat_cholesky_factor(n, cor, ref flag);
         switch (flag)
         {
             //
@@ -327,11 +304,11 @@ public static partial class SamplePaths
         //
         //  Compute a matrix of N by N2 normally distributed values.
         //
-        r = typeMethods.r8mat_normal_01_new(n, n2, ref data, ref seed);
+        double[] r = typeMethods.r8mat_normal_01_new(n, n2, ref data, ref seed);
         //
         //  Compute the sample path.
         //
-        x = typeMethods.r8mat_mm_new(n, n, n2, l, r);
+        double[] x = typeMethods.r8mat_mm_new(n, n, n2, l, r);
 
         return x;
     }

@@ -82,15 +82,13 @@ public static class AXCR
         //
     {
         int i;
-        int k;
-        int k1;
-        int k2;
 
         for (i = 0; i < n; i++)
         {
             w[wIndex + i] = 0.0;
-            k1 = ia[i];
-            k2 = ia[i + 1];
+            int k1 = ia[i];
+            int k2 = ia[i + 1];
+            int k;
             for (k = k1; k < k2; k++)
             {
                 w[wIndex + i] += a[aIndex + k] * x[xIndex + ja[k]];

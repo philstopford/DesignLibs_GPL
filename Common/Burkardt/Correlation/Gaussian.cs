@@ -42,15 +42,14 @@ public static partial class Correlation
         //    Output, double C[N], the correlations.
         //
     {
-        double[] c;
         int i;
 
-        c = new double[n];
+        double[] c = new double[n];
 
         for ( i = 0; i < n; i++ )
         {
             c[i] = Math.Exp ( - Math.Pow ( rho[i] / rho0, 2 ) );
         }
-        return new CorrelationResult(){result = c, data = globaldata, j0data = data};
+        return new CorrelationResult {result = c, data = globaldata, j0data = data};
     }
 }

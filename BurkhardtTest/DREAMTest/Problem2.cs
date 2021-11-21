@@ -85,7 +85,7 @@ public static class Problem2
             value *= PDF.r8_normal_pdf(data.zp_mean_1d, data.zp_sd_1d, zp[i]);
         }
 
-        return new Dream.DensityResult() { result = value, data = data };
+        return new Dream.DensityResult { result = value, data = data };
     }
 
     private static Dream.SampleResult prior_sample(int par_num)
@@ -137,7 +137,7 @@ public static class Problem2
             zp[i] = PDF.r8_normal_sample(data.zp_mean_1d, data.zp_sd_1d);
         }
 
-        return new Dream.SampleResult(){result = zp, data = data};
+        return new Dream.SampleResult {result = zp, data = data};
     }
 
     private static double sample_likelihood(int par_num, double[] zp)

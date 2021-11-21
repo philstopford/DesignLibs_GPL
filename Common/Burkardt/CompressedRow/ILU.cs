@@ -51,16 +51,10 @@ public static class ILUCR
         //    Output, double L[NZ_NUM], the ILU factorization of A.
         //
     {
-        int[] iw;
         int i;
-        int j;
-        int jj;
-        int jrow;
-        int jw;
         int k;
-        double tl;
 
-        iw = new int[n];
+        int[] iw = new int[n];
         //
         //  Copy A.
         //
@@ -74,6 +68,7 @@ public static class ILUCR
             //
             //  IW points to the nonzero entries in row I.
             //
+            int j;
             for (j = 0; j < n; j++)
             {
                 iw[j] = -1;
@@ -85,6 +80,7 @@ public static class ILUCR
             }
 
             j = ia[i];
+            int jrow;
             do
             {
                 jrow = ja[j];
@@ -93,11 +89,12 @@ public static class ILUCR
                     break;
                 }
 
-                tl = l[j] * l[ua[jrow]];
+                double tl = l[j] * l[ua[jrow]];
                 l[j] = tl;
+                int jj;
                 for (jj = ua[jrow] + 1; jj <= ia[jrow + 1] - 1; jj++)
                 {
-                    jw = iw[ja[jj]];
+                    int jw = iw[ja[jj]];
                     if (jw != -1)
                     {
                         l[jw] -= tl * l[jj];

@@ -51,15 +51,13 @@ public static partial class Correlation
         //    Output, double C[N], the correlations.
         //
     {
-        double[] c;
         int i;
-        double rhohat;
 
-        c = new double[n];
+        double[] c = new double[n];
 
         for (i = 0; i < n; i++)
         {
-            rhohat = Math.Abs(rho[i]) / rho0;
+            double rhohat = Math.Abs(rho[i]) / rho0;
             c[i] = FullertonLib.r8_besj0(ref globaldata, ref data, rhohat);
         }
 
@@ -105,11 +103,9 @@ public static partial class Correlation
         //    Output, double C[N], the correlations.
         //
     {
-        double[] c;
         int i;
-        double rhohat;
 
-        c = new double[n];
+        double[] c = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -119,7 +115,7 @@ public static partial class Correlation
                     c[i] = 1.0;
                     break;
                 default:
-                    rhohat = Math.Abs(rho[i]) / rho0;
+                    double rhohat = Math.Abs(rho[i]) / rho0;
                     c[i] = rhohat * FullertonLib.r8_besk1(ref globaldata, ref data, rhohat);
                     break;
             }

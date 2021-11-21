@@ -83,8 +83,6 @@ public static class ClenshawCurtis
         //    Output, int CCL_ORDER, the order of the rule.
         //
     {
-        int n;
-
         switch (l)
         {
             case < 1:
@@ -94,7 +92,7 @@ public static class ClenshawCurtis
                 Console.WriteLine("  Input L = " + l + "");
                 return 1;
             default:
-                n = 2 * l - 1;
+                int n = 2 * l - 1;
 
                 return n;
         }
@@ -241,11 +239,6 @@ public static class ClenshawCurtis
         //    Output, double W[N], the weights.
         //
     {
-        double b;
-        int i;
-        int j;
-            
-        double theta;
         ccResult result = new()
         {
             w = w_,
@@ -265,6 +258,7 @@ public static class ClenshawCurtis
                 break;
             default:
             {
+                int i;
                 for (i = 0; i < n; i++)
                 {
                     result.x[i] = Math.Cos((n - 1 - i) * Math.PI
@@ -280,23 +274,17 @@ public static class ClenshawCurtis
 
                 result.x[n - 1] = +1.0;
 
+                int j;
                 for (i = 0; i < n; i++)
                 {
-                    theta = i * Math.PI
-                            / (n - 1);
+                    double theta = i * Math.PI
+                                   / (n - 1);
 
                     result.w[i] = 1.0;
 
                     for (j = 1; j <= (n - 1) / 2; j++)
                     {
-                        if (2 * j == n - 1)
-                        {
-                            b = 1.0;
-                        }
-                        else
-                        {
-                            b = 2.0;
-                        }
+                        double b = 2 * j == n - 1 ? 1.0 : 2.0;
 
                         result.w[i] -= b * Math.Cos(2.0 * j * theta)
                                        / (4 * j * j - 1);
@@ -437,12 +425,10 @@ public static class ClenshawCurtis
     {
         int dim;
         int order;
-        double[] w_1d;
-        double[] w_nd;
 
         typeMethods.r8vecDPData data = new();
 
-        w_nd = new double[order_nd];
+        double[] w_nd = new double[order_nd];
 
         for (order = 0; order < order_nd; order++)
         {
@@ -451,7 +437,7 @@ public static class ClenshawCurtis
 
         for (dim = 0; dim < dim_num; dim++)
         {
-            w_1d = cc_weights(order_1d[dim]);
+            double[] w_1d = cc_weights(order_1d[dim]);
 
             typeMethods.r8vec_direct_product2(ref data, dim, order_1d[dim], w_1d, dim_num,
                 order_nd, ref w_nd);
@@ -494,14 +480,9 @@ public static class ClenshawCurtis
         //    Output, double CC_WEIGHTS[N], the weights of the rule.
         //
     {
-        double b;
         int i;
-        int j;
-            
-        double theta;
-        double[] w;
 
-        w = new double[n];
+        double[] w = new double[n];
 
         switch (n)
         {
@@ -512,20 +493,14 @@ public static class ClenshawCurtis
 
         for (i = 1; i <= n; i++)
         {
-            theta = (i - 1) * Math.PI / (n - 1);
+            double theta = (i - 1) * Math.PI / (n - 1);
 
             w[i - 1] = 1.0;
 
+            int j;
             for (j = 1; j <= (n - 1) / 2; j++)
             {
-                if (2 * j == n - 1)
-                {
-                    b = 1.0;
-                }
-                else
-                {
-                    b = 2.0;
-                }
+                double b = 2 * j == n - 1 ? 1.0 : 2.0;
 
                 w[i - 1] -= b * Math.Cos(2.0 * j * theta)
                             / (4 * j * j - 1);
@@ -576,9 +551,6 @@ public static class ClenshawCurtis
         //    Output, double X[N], the abscissas.
         //
     {
-        int index;
-
-
         switch (n)
         {
             case < 1:
@@ -591,6 +563,7 @@ public static class ClenshawCurtis
                 break;
             default:
             {
+                int index;
                 for ( index = 1; index <= n; index++ )
                 {
                     x[index-1] =  Math.Cos ( (n - index) * Math.PI
@@ -646,10 +619,7 @@ public static class ClenshawCurtis
         //    Output, double W[N], the weights.
         //
     {
-        double b;
         int i;
-        int j;
-        double theta;
 
         switch (n)
         {
@@ -665,20 +635,14 @@ public static class ClenshawCurtis
 
         for (i = 1; i <= n; i++)
         {
-            theta = (i - 1) * Math.PI / (n - 1);
+            double theta = (i - 1) * Math.PI / (n - 1);
 
             w[i - 1] = 1.0;
 
+            int j;
             for (j = 1; j <= (n - 1) / 2; j++)
             {
-                if (2 * j == n - 1)
-                {
-                    b = 1.0;
-                }
-                else
-                {
-                    b = 2.0;
-                }
+                double b = 2 * j == n - 1 ? 1.0 : 2.0;
 
                 w[i - 1] -= b * Math.Cos(2.0 * j * theta)
                             / (4 * j * j - 1);
@@ -786,18 +750,16 @@ public static class ClenshawCurtis
         //
     {
         int dim;
-        int level;
-        int s;
-        int value;
 
-        value = 0;
+        int value = 0;
 
         for (dim = 0; dim < dim_num; dim++)
         {
-            s = t[tIndex + dim];
+            int s = t[tIndex + dim];
 
             s = typeMethods.i4_modp(s, order);
 
+            int level;
             switch (s)
             {
                 case 0:
@@ -1015,11 +977,6 @@ public static class ClenshawCurtis
         //    Output, double W[ORDER], the weights.
         //
     {
-        double b;
-        int i;
-        int j;
-        double theta;
-
         switch (order)
         {
             case < 1:
@@ -1033,6 +990,7 @@ public static class ClenshawCurtis
                 break;
             default:
             {
+                int i;
                 for (i = 0; i < order; i++)
                 {
                     x[i] = Math.Cos((order - 1 - i) * Math.PI
@@ -1050,20 +1008,14 @@ public static class ClenshawCurtis
 
                 for (i = 0; i < order; i++)
                 {
-                    theta = i * Math.PI / (order - 1);
+                    double theta = i * Math.PI / (order - 1);
 
                     w[i] = 1.0;
 
+                    int j;
                     for (j = 1; j <= (order - 1) / 2; j++)
                     {
-                        if (2 * j == order - 1)
-                        {
-                            b = 1.0;
-                        }
-                        else
-                        {
-                            b = 2.0;
-                        }
+                        double b = 2 * j == order - 1 ? 1.0 : 2.0;
 
                         w[i] -= b * Math.Cos(2.0 * j * theta)
                                 / (4 * j * j - 1);
@@ -1115,9 +1067,6 @@ public static class ClenshawCurtis
         //    Output, double CC_COMPUTE_POINTS[N], the abscissas.
         //
     {
-        int i;
-        double[] x;
-
         switch (n)
         {
             case < 1:
@@ -1127,7 +1076,7 @@ public static class ClenshawCurtis
                 return null;
         }
 
-        x = new double[n];
+        double[] x = new double[n];
 
         switch (n)
         {
@@ -1136,6 +1085,7 @@ public static class ClenshawCurtis
                 break;
             default:
             {
+                int i;
                 for (i = 1; i <= n; i++)
                 {
                     x[i - 1] = Math.Cos((n - i) * Math.PI
@@ -1244,12 +1194,7 @@ public static class ClenshawCurtis
         //    Output, double CCN_COMPUTE_POINTS_NEW[N], the elements of the sequence.
         //
     {
-        int d;
         int i;
-        int k;
-        int m;
-        int td;
-        int tu;
 
         double[] x = new double[n];
         x[0] = n switch
@@ -1273,15 +1218,15 @@ public static class ClenshawCurtis
             _ => x[2]
         };
 
-        m = 3;
-        d = 2;
+        int m = 3;
+        int d = 2;
 
         while (m < n)
         {
-            tu = d + 1;
-            td = d - 1;
+            int tu = d + 1;
+            int td = d - 1;
 
-            k = Math.Min(d, n - m);
+            int k = Math.Min(d, n - m);
 
             for (i = 1; i <= k; i++)
             {
@@ -1490,10 +1435,6 @@ public static class ClenshawCurtis
         //
     {
         int i;
-        int j;
-        int k;
-        double yvala;
-        double yvalb;
 
         double[] d = new double[n];
         double[] w = new double[n];
@@ -1504,6 +1445,7 @@ public static class ClenshawCurtis
             //  Compute the Lagrange basis polynomial which is 1 at XTAB(I),
             //  and zero at the other nodes.
             //
+            int j;
             for (j = 0; j < n; j++)
             {
                 d[j] = 0.0;
@@ -1511,6 +1453,7 @@ public static class ClenshawCurtis
 
             d[i] = 1.0;
 
+            int k;
             for (j = 2; j <= n; j++)
             {
                 for (k = j; k <= n; k++)
@@ -1532,7 +1475,7 @@ public static class ClenshawCurtis
             //  Evaluate the antiderivative of the polynomial at the left and
             //  right endpoints.
             //
-            yvala = d[n - 1] / n;
+            double yvala = d[n - 1] / n;
             for (j = n - 2; 0 <= j; j--)
             {
                 yvala = yvala * x_min + d[j] / (j + 1);
@@ -1540,7 +1483,7 @@ public static class ClenshawCurtis
 
             yvala *= x_min;
 
-            yvalb = d[n - 1] / n;
+            double yvalb = d[n - 1] / n;
             for (j = n - 2; 0 <= j; j--)
             {
                 yvalb = yvalb * x_max + d[j] / (j + 1);
@@ -1641,13 +1584,9 @@ public static class ClenshawCurtis
         //    defining weights, abscissas, and region.
         //
     {
-        string filename_r;
-        string filename_w;
-        string filename_x;
-
-        filename_w = filename + "_w.txt";
-        filename_x = filename + "_x.txt";
-        filename_r = filename + "_r.txt";
+        string filename_w = filename + "_w.txt";
+        string filename_x = filename + "_x.txt";
+        string filename_r = filename + "_r.txt";
 
         Console.WriteLine("");
         Console.WriteLine("  Creating quadrature files.");

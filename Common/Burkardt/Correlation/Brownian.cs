@@ -39,14 +39,13 @@ public static partial class Correlation
         //    Output, double C[M*N], the correlations.
         //
     {
-        double[] c;
-        int i;
         int j;
 
-        c = new double[m * n];
+        double[] c = new double[m * n];
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 c[i + j * m] = Math.Max(s[i], t[j]) switch
@@ -85,19 +84,17 @@ public static partial class Correlation
         //    John Burkardt
         //
     {
-        double[] c;
-        string command_filename = "brownian_plots_commands.txt";
+        const string command_filename = "brownian_plots_commands.txt";
         List<string> command_unit = new();
-        string data_filename = "brownian_plots_data.txt";
+        const string data_filename = "brownian_plots_data.txt";
         List<string> data_unit = new();
-        int n = 101;
-        int n2 = 4;
-        double[] s;
+        const int n = 101;
+        const int n2 = 4;
         double[] t = {0.25, 1.50, 2.50, 3.75};
 
-        s = typeMethods.r8vec_linspace_new(n, 0.0, 5.0);
+        double[] s = typeMethods.r8vec_linspace_new(n, 0.0, 5.0);
 
-        c = new double[n * n2];
+        double[] c = new double[n * n2];
 
         for (int i = 0; i < n; i++)
         {

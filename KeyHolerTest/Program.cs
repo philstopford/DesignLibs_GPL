@@ -348,7 +348,7 @@ internal class Program
         Paths intResNZc = GeoWrangler.close(intResNZ);
         Paths intResNZc_kH = GeoWrangler.makeKeyHole(intResNZc);
 
-        IntRect bounds = ClipperBase.GetBounds(new Paths() { outer });
+        IntRect bounds = ClipperBase.GetBounds(new Paths { outer });
         Path bb = new()
         {
             new IntPoint(bounds.left, bounds.bottom),
@@ -474,7 +474,7 @@ internal class Program
         Paths intResNZc = GeoWrangler.close(intResNZ);
         Paths intResNZc_kH = GeoWrangler.makeKeyHole(intResNZc);
 
-        IntRect bounds = ClipperBase.GetBounds(new Paths() { outer });
+        IntRect bounds = ClipperBase.GetBounds(new Paths { outer });
         Path bb = new()
         {
             new IntPoint(bounds.left, bounds.bottom),

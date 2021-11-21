@@ -53,7 +53,6 @@ public static class QuadratureRule
         //
     {
         int i;
-        double w_sum;
 
         switch (degree)
         {
@@ -109,7 +108,7 @@ public static class QuadratureRule
                 return;
         }
 
-        w_sum = typeMethods.r8vec_sum(n, w);
+        double w_sum = typeMethods.r8vec_sum(n, w);
 
         for (i = 0; i < n; i++)
         {
@@ -155,19 +154,14 @@ public static class QuadratureRule
         //    the files created.
         //
     {
-        string command_filename;
         List<string> command_unit = new();
-        int i;
         int j;
-        string node_filename;
         List<string> node_unit = new();
-        string plot_filename;
-        string vertex_filename;
         List<string> vertex_unit = new();
         //
         //  Create the vertex file.
         //
-        vertex_filename = header + "_vertices.txt";
+        string vertex_filename = header + "_vertices.txt";
         vertex_unit.Add("-1.0, -1.0, -1.0");
         vertex_unit.Add("+1.0  -1.0  -1.0");
         vertex_unit.Add("+1.0  +1.0 -1.0");
@@ -198,11 +192,12 @@ public static class QuadratureRule
         //
         //  Create node file.
         //
-        node_filename = header + "_nodes.txt";
+        string node_filename = header + "_nodes.txt";
 
         for (j = 0; j < n; j++)
         {
             string cout = "";
+            int i;
             for (i = 0; i < 3; i++)
             {
                 cout += x[i + j * 3] + "  ";
@@ -216,14 +211,14 @@ public static class QuadratureRule
         //
         //  Create graphics command file.
         //
-        command_filename = header + "_commands.txt";
+        string command_filename = header + "_commands.txt";
         command_unit.Add("# " + command_filename + "");
         command_unit.Add("#");
         command_unit.Add("# Usage:");
         command_unit.Add("#  gnuplot < " + command_filename + "");
         command_unit.Add("#");
         command_unit.Add("set term png");
-        plot_filename = header + ".png";
+        string plot_filename = header + ".png";
         command_unit.Add("set output '" + plot_filename + "'");
         command_unit.Add("set xlabel '<--- X --->'");
         command_unit.Add("set ylabel '<--- Y --->'");
@@ -279,7 +274,6 @@ public static class QuadratureRule
         //    corresponding rule.
         //
     {
-        int n;
         int[] n_save =
         {
             1, 4, 6, 10, 13,
@@ -296,7 +290,7 @@ public static class QuadratureRule
                 Console.WriteLine("  Illegal value of DEGREE.");
                 return 1;
             default:
-                n = n_save[degree - 1];
+                int n = n_save[degree - 1];
 
                 return n;
         }
@@ -336,35 +330,27 @@ public static class QuadratureRule
         //    Output, double LEGE3EVA[NPOLS], the polynomial values.
         //
     {
-        double[] f1;
-        double[] f2;
-        double[] f3;
-        int kk;
         int m;
-        int n1;
-        int n2;
-        int npols;
-        double[] pols;
-        double scale;
-        double t;
 
-        f1 = llegepols1(degree, z[0]);
-        f2 = llegepols1(degree, z[1]);
-        f3 = llegepols1(degree, z[2]);
+        double[] f1 = llegepols1(degree, z[0]);
+        double[] f2 = llegepols1(degree, z[1]);
+        double[] f3 = llegepols1(degree, z[2]);
 
-        npols = (degree + 1) * (degree + 2) * (degree + 3) / 6;
-        pols = new double[npols];
+        int npols = (degree + 1) * (degree + 2) * (degree + 3) / 6;
+        double[] pols = new double[npols];
 
-        kk = 0;
+        int kk = 0;
         for (m = 0; m <= degree; m++)
         {
+            int n2;
             for (n2 = 0; n2 <= m; n2++)
             {
+                int n1;
                 for (n1 = 0; n1 <= n2; n1++)
                 {
                     pols[kk] = f1[m - n2] * f2[n2 - n1] * f3[n1];
-                    scale = 1.0;
-                    t = 0.5 * (1 + 2 * n1);
+                    double scale = 1.0;
+                    double t = 0.5 * (1 + 2 * n1);
                     scale *= Math.Sqrt(t);
                     t = 0.5 * (1 + 2 * n2 - 2 * n1);
                     scale *= Math.Sqrt(t);
@@ -419,13 +405,9 @@ public static class QuadratureRule
         //
     {
         int k;
-        double pk;
-        double pkm1;
-        double pkp1;
-        double[] pols;
 
-        pols = new double[degree + 1];
-        pkp1 = 1.0;
+        double[] pols = new double[degree + 1];
+        double pkp1 = 1.0;
         pols[0] = pkp1;
 
         switch (degree)
@@ -434,7 +416,7 @@ public static class QuadratureRule
                 return pols;
         }
 
-        pk = pkp1;
+        double pk = pkp1;
         pkp1 = x;
         pols[1] = pkp1;
 
@@ -446,7 +428,7 @@ public static class QuadratureRule
 
         for (k = 1; k <= degree - 1; k++)
         {
-            pkm1 = pk;
+            double pkm1 = pk;
             pk = pkp1;
             pkp1 = ((2 * k + 1) * x * pk
                     - k * pkm1)
@@ -3229,7 +3211,7 @@ public static class QuadratureRule
         //    monomials to check.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
         double[] a =
             {
@@ -3241,19 +3223,10 @@ public static class QuadratureRule
                 +1.0, +1.0, +1.0
             }
             ;
-        int dim;
-        int dim_num = DIM_NUM;
         int[] expon = new int[DIM_NUM];
         int h = 0;
-        int k;
-        bool more;
-        int order;
         int[] order_1d = new int[DIM_NUM];
-        double quad;
         int t = 0;
-        double[] v;
-        double[] w;
-        double[] xyz;
 
         Console.WriteLine("");
         Console.WriteLine("CUBE_QUAD_TEST");
@@ -3261,17 +3234,18 @@ public static class QuadratureRule
         Console.WriteLine("  we approximate monomial integrals with:");
         Console.WriteLine("  CUBE_RULE, which returns N1 by N2 by N3 point rules..");
 
-        more = false;
+        bool more = false;
 
         SubCompData data = new();
 
         for (;;)
         {
-            SubComp.subcomp_next(ref data, degree_max, dim_num, ref expon, ref more, ref h, ref t);
+            SubComp.subcomp_next(ref data, degree_max, DIM_NUM, ref expon, ref more, ref h, ref t);
 
             Console.WriteLine("");
             string cout = "  Monomial exponents: ";
-            for (dim = 0; dim < dim_num; dim++)
+            int dim;
+            for (dim = 0; dim < DIM_NUM; dim++)
             {
                 cout += "  " + expon[dim].ToString(CultureInfo.InvariantCulture).PadLeft(2);
             }
@@ -3279,18 +3253,24 @@ public static class QuadratureRule
             Console.WriteLine(cout);
             Console.WriteLine("");
 
+            double[] w;
+            double[] xyz;
+            int k;
+            int order;
+            double quad;
+            double[] v;
             for (k = 1; k <= 5; k++)
             {
-                for (dim = 0; dim < dim_num; dim++)
+                for (dim = 0; dim < DIM_NUM; dim++)
                 {
                     order_1d[dim] = k;
                 }
 
-                order = typeMethods.i4vec_product(dim_num, order_1d);
+                order = typeMethods.i4vec_product(DIM_NUM, order_1d);
                 w = new double[order];
-                xyz = new double[dim_num * order];
+                xyz = new double[DIM_NUM * order];
                 cube_rule(a, b, order_1d, ref w, ref xyz);
-                v = Monomial.monomial_value(dim_num, order, expon, xyz);
+                v = Monomial.monomial_value(DIM_NUM, order, expon, xyz);
                 quad = typeMethods.r8vec_dot_product(order, w, v);
                 Console.WriteLine("  " + order_1d[0].ToString(CultureInfo.InvariantCulture).PadLeft(6)
                                        + "  " + order_1d[1].ToString(CultureInfo.InvariantCulture).PadLeft(6)
@@ -3304,11 +3284,11 @@ public static class QuadratureRule
             order_1d[0] = 3;
             order_1d[1] = 5;
             order_1d[2] = 2;
-            order = typeMethods.i4vec_product(dim_num, order_1d);
+            order = typeMethods.i4vec_product(DIM_NUM, order_1d);
             w = new double[order];
-            xyz = new double[dim_num * order];
+            xyz = new double[DIM_NUM * order];
             cube_rule(a, b, order_1d, ref w, ref xyz);
-            v = Monomial.monomial_value(dim_num, order, expon, xyz);
+            v = Monomial.monomial_value(DIM_NUM, order, expon, xyz);
             quad = typeMethods.r8vec_dot_product(order, w, v);
             Console.WriteLine("  " + order_1d[0].ToString(CultureInfo.InvariantCulture).PadLeft(6)
                                    + "  " + order_1d[1].ToString(CultureInfo.InvariantCulture).PadLeft(6)
@@ -3377,22 +3357,17 @@ public static class QuadratureRule
         //
     {
         int i;
-        int j;
-        int o;
-        int order;
-        double[] w_1d;
-        double[] x_1d;
         typeMethods.r8vecDPData data = new();
         typeMethods.r8vecDPData data2 = new();
 
-        order = typeMethods.i4vec_product(3, order_1d);
+        int order = typeMethods.i4vec_product(3, order_1d);
 
         for (i = 0; i < 3; i++)
         {
-            o = order_1d[i];
+            int o = order_1d[i];
 
-            w_1d = new double[o];
-            x_1d = new double[o];
+            double[] w_1d = new double[o];
+            double[] x_1d = new double[o];
 
             switch (o)
             {
@@ -3421,6 +3396,7 @@ public static class QuadratureRule
             //
             //  Transform from [-1,+1] to [Ai,Bi]
             //
+            int j;
             for (j = 0; j < o; j++)
             {
                 w_1d[j] = w_1d[j] * (b[i] - a[i]) / 2.0;

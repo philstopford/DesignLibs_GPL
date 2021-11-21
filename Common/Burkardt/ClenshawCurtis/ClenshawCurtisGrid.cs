@@ -195,24 +195,21 @@ public static class ClenshawCurtisGrid
         //
     {
         int i;
-        int level;
-        int order;
-        int t;
-        int[] test_level;
 
-        order = (int) Math.Pow(2, level_max) + 1;
+        int order = (int) Math.Pow(2, level_max) + 1;
 
-        test_level = new int[test_num];
+        int[] test_level = new int[test_num];
 
         for (i = 0; i < test_num; i++)
         {
-            t = test_val[i];
+            int t = test_val[i];
             //
             //  The following MOD operation is only needed to handle cases where
             //  T is not in the expected range.
             //
             t %= order;
 
+            int level;
             switch (t)
             {
                 case 0:
@@ -320,26 +317,23 @@ public static class ClenshawCurtisGrid
         //    nested grids is used.
         //
     {
-        int dim;
         int i;
-        int level;
-        int order;
-        int t;
-        int[] test_level;
 
-        order = (int) Math.Pow(2, level_max) + 1;
+        int order = (int) Math.Pow(2, level_max) + 1;
 
-        test_level = new int[test_num];
+        int[] test_level = new int[test_num];
 
         for (i = 0; i < test_num; i++)
         {
             test_level[i] = 0;
+            int dim;
             for (dim = 0; dim < dim_num; dim++)
             {
-                t = test_val[dim + i * dim_num];
+                int t = test_val[dim + i * dim_num];
 
                 t %= order;
 
+                int level;
                 switch (t)
                 {
                     case 0:
@@ -407,15 +401,11 @@ public static class ClenshawCurtisGrid
         //    the grid.  
         //
     {
-        int[] a;
         int change = 0;
-        int dim;
-        bool done;
-        int p;
 
-        a = new int[dim_num];
-        done = true;
-        p = 0;
+        int[] a = new int[dim_num];
+        bool done = true;
+        int p = 0;
 
         typeMethods.VecGrayData data = new();
             
@@ -428,6 +418,7 @@ public static class ClenshawCurtisGrid
                 break;
             }
 
+            int dim;
             switch (p)
             {
                 case 0:
@@ -489,14 +480,12 @@ public static class ClenshawCurtisGrid
         //    the grid.  
         //
     {
-        int[] a;
         int change = 0;
-        int dim;
-        bool done;
+        // ReSharper disable once JoinDeclarationAndInitializer
         int p;
 
-        a = new int[dim_num];
-        done = true;
+        int[] a = new int[dim_num];
+        bool done = true;
         p = 0;
 
         typeMethods.VecGrayData data = new();
@@ -510,6 +499,7 @@ public static class ClenshawCurtisGrid
                 break;
             }
 
+            int dim;
             for (dim = 0; dim < dim_num; dim++)
             {
                 indx[dim + p * dim_num] = a[dim];
@@ -580,16 +570,11 @@ public static class ClenshawCurtisGrid
         //    several times.
         //
     {
-        int dim;
-        bool more;
-        int[] order_1d;
-        int order_nd;
-
-        order_1d = new int[dim_num];
+        int[] order_1d = new int[dim_num];
         point_num = 0;
         grid_num = 0;
 
-        more = false;
+        bool more = false;
 
         for (;;)
         {
@@ -601,7 +586,8 @@ public static class ClenshawCurtisGrid
                 break;
             }
 
-            order_nd = 1;
+            int order_nd = 1;
+            int dim;
             for (dim = 0; dim < dim_num; dim++)
             {
                 order_nd *= order_1d[dim];
@@ -672,12 +658,7 @@ public static class ClenshawCurtisGrid
         //    Output, int *POINT_NUM, the total number of points in the grids.
         //
     {
-        int dim;
-        bool more;
-        int[] order_1d;
-        int order_nd;
-
-        order_1d = new int[dim_num];
+        int[] order_1d = new int[dim_num];
         //
         //  Determine the total number of points that will be generated
         //  by "going through the motions".
@@ -685,7 +666,7 @@ public static class ClenshawCurtisGrid
         point_num = 0;
         grid_num = 0;
 
-        more = false;
+        bool more = false;
 
         for (;;)
         {
@@ -697,7 +678,8 @@ public static class ClenshawCurtisGrid
                 break;
             }
 
-            order_nd = 1;
+            int order_nd = 1;
+            int dim;
             for (dim = 0; dim < dim_num; dim++)
             {
                 order_nd *= order_1d[dim];
@@ -755,15 +737,11 @@ public static class ClenshawCurtisGrid
         //    several times.
         //
     {
-        int dim;
-        bool more;
-        int[] order_1d;
-        int order_nd;
         int q;
         //
         //  Outer loop generates Q's from Q_MIN to Q_MAX.
         //
-        order_1d = new int[dim_num];
+        int[] order_1d = new int[dim_num];
         point_num = 0;
         grid_num = 0;
 
@@ -774,7 +752,7 @@ public static class ClenshawCurtisGrid
             //
             //  Middle loop generates next partition that adds up to Q.
             //
-            more = false;
+            bool more = false;
 
             for (;;)
             {
@@ -782,7 +760,8 @@ public static class ClenshawCurtisGrid
                 //
                 //  Inner (hidden) loop generates all CC points corresponding to given grid.
                 //
-                order_nd = 1;
+                int order_nd = 1;
+                int dim;
                 for (dim = 0; dim < dim_num; dim++)
                 {
                     order_nd *= order_1d[dim];
@@ -847,16 +826,12 @@ public static class ClenshawCurtisGrid
         //    Output, int *POINT_NUM, the total number of points in the grids.
         //
     {
-        int dim;
-        bool more;
-        int[] order_1d;
-        int order_nd;
         int q;
         //
         //  Determine the total number of points that will be generated
         //  by "going through the motions".
         //
-        order_1d = new int[dim_num];
+        int[] order_1d = new int[dim_num];
         point_num = 0;
         grid_num = 0;
 
@@ -864,13 +839,14 @@ public static class ClenshawCurtisGrid
             
         for (q = q_min; q <= q_max; q++)
         {
-            more = false;
+            bool more = false;
 
             for (;;)
             {
                 Comp.compnz_next(ref data, q, dim_num, ref order_1d, ref more);
 
-                order_nd = 1;
+                int order_nd = 1;
+                int dim;
                 for (dim = 0; dim < dim_num; dim++)
                 {
                     order_nd *= order_1d[dim];
@@ -1015,18 +991,12 @@ public static class ClenshawCurtisGrid
         //    several times.
         //
     {
-        int dim;
-        int[] level_1d;
-        bool more;
-        int[] order_1d;
-        int order_nd;
-
-        level_1d = new int[dim_num];
-        order_1d = new int[dim_num];
+        int[] level_1d = new int[dim_num];
+        int[] order_1d = new int[dim_num];
         point_num = 0;
         grid_num = 0;
 
-        more = false;
+        bool more = false;
 
         for (;;)
         {
@@ -1040,7 +1010,8 @@ public static class ClenshawCurtisGrid
 
             cc_level_to_order(dim_num, level_1d, ref order_1d);
 
-            order_nd = 1;
+            int order_nd = 1;
+            int dim;
             for (dim = 0; dim < dim_num; dim++)
             {
                 order_nd *= order_1d[dim];
@@ -1115,14 +1086,8 @@ public static class ClenshawCurtisGrid
         //    Output, int *POINT_NUM, the total number of points in the grids.
         //
     {
-        int dim;
-        int[] level_1d;
-        bool more;
-        int[] order_1d;
-        int order_nd;
-
-        level_1d = new int[dim_num];
-        order_1d = new int[dim_num];
+        int[] level_1d = new int[dim_num];
+        int[] order_1d = new int[dim_num];
         //
         //  Determine the total number of points that will be generated
         //  by "going through the motions".
@@ -1130,7 +1095,7 @@ public static class ClenshawCurtisGrid
         point_num = 0;
         grid_num = 0;
 
-        more = false;
+        bool more = false;
 
             
         for (;;)
@@ -1145,7 +1110,8 @@ public static class ClenshawCurtisGrid
 
             cc_level_to_order(dim_num, level_1d, ref order_1d);
 
-            order_nd = 1;
+            int order_nd = 1;
+            int dim;
             for (dim = 0; dim < dim_num; dim++)
             {
                 order_nd *= order_1d[dim];
@@ -1209,19 +1175,12 @@ public static class ClenshawCurtisGrid
         //    several times.
         //
     {
-        int dim;
-        int h;
         int level;
-        int[] level_1d;
-        bool more;
-        int[] order_1d;
-        int order_nd;
-        int t;
         //
         //  Outer loop generates LEVELs from LEVEL_MIN to LEVEL_MAX.
         //
-        level_1d = new int[dim_num];
-        order_1d = new int[dim_num];
+        int[] level_1d = new int[dim_num];
+        int[] order_1d = new int[dim_num];
 
         point_num = 0;
         grid_num = 0;
@@ -1231,9 +1190,9 @@ public static class ClenshawCurtisGrid
             //
             //  Middle loop generates next partition that adds up to LEVEL.
             //
-            more = false;
-            h = 0;
-            t = 0;
+            bool more = false;
+            int h = 0;
+            int t = 0;
 
             for (;;)
             {
@@ -1243,7 +1202,8 @@ public static class ClenshawCurtisGrid
                 //
                 cc_level_to_order(dim_num, level_1d, ref order_1d);
 
-                order_nd = 1;
+                int order_nd = 1;
+                int dim;
                 for (dim = 0; dim < dim_num; dim++)
                 {
                     order_nd *= order_1d[dim];
@@ -1313,29 +1273,22 @@ public static class ClenshawCurtisGrid
         //    Output, int *POINT_NUM, the total number of points in the grids.
         //
     {
-        int dim;
-        int h;
         int level;
-        int[] level_1d;
-        bool more;
-        int[] order_1d;
-        int order_nd;
-        int t;
         //
         //  Determine the total number of points that will be generated
         //  by "going through the motions".
         //
-        level_1d = new int[dim_num];
-        order_1d = new int[dim_num];
+        int[] level_1d = new int[dim_num];
+        int[] order_1d = new int[dim_num];
 
         point_num = 0;
         grid_num = 0;
 
         for (level = level_min; level <= level_max; level++)
         {
-            more = false;
-            h = 0;
-            t = 0;
+            bool more = false;
+            int h = 0;
+            int t = 0;
 
             for (;;)
             {
@@ -1343,7 +1296,8 @@ public static class ClenshawCurtisGrid
 
                 cc_level_to_order(dim_num, level_1d, ref order_1d);
 
-                order_nd = 1;
+                int order_nd = 1;
+                int dim;
                 for (dim = 0; dim < dim_num; dim++)
                 {
                     order_nd *= order_1d[dim];
@@ -1390,10 +1344,8 @@ public static class ClenshawCurtisGrid
         //    Clenshaw-Curtis rule of order ORDER.
         //
     {
-        double angle;
-        double b;
         int j;
-        double value = 0;
+        double value;
 
         switch (order)
         {
@@ -1411,17 +1363,10 @@ public static class ClenshawCurtisGrid
 
         for (j = 1; j <= (order - 1) / 2; j++)
         {
-            if (2 * j == order - 1)
-            {
-                b = 1.0;
-            }
-            else
-            {
-                b = 2.0;
-            }
+            double b = 2 * j == order - 1 ? 1.0 : 2.0;
 
-            angle = 2 * j * (i - 1) * Math.PI
-                    / (order - 1);
+            double angle = 2 * j * (i - 1) * Math.PI
+                           / (order - 1);
 
             value -= b * Math.Cos(angle) / (4 * j * j - 1);
         }
@@ -1490,20 +1435,11 @@ public static class ClenshawCurtisGrid
         //
     {
         int dim;
-        int i;
-        int j;
-        int k;
-        int n1;
-        int n2;
-        int n3;
         int order;
-        int order_nd;
-        int order_old;
-        int p;
         double[] w1d = null;
         double[] x1d = null;
 
-        order_nd = typeMethods.i4vec_product(dim_num, order_1d);
+        int order_nd = typeMethods.i4vec_product(dim_num, order_1d);
 
         for (order = 0; order < order_nd; order++)
         {
@@ -1514,7 +1450,7 @@ public static class ClenshawCurtisGrid
 
         for (dim = 0; dim < dim_num; dim++)
         {
-            order_old = order;
+            int order_old = order;
 
             order = order_1d[dim];
             //
@@ -1528,19 +1464,30 @@ public static class ClenshawCurtisGrid
                 ClenshawCurtis.clenshaw_curtis_compute(order, ref x1d, ref w1d);
             }
 
-            p = 0;
-            n1 = typeMethods.i4vec_product(dim, order_1d);
-            n2 = order_1d[dim];
-            n3 = typeMethods.i4vec_product(dim_num - dim - 1, order_1d, aIndex: + dim + 1);
+            int p = 0;
+            int n1 = typeMethods.i4vec_product(dim, order_1d);
+            int n2 = order_1d[dim];
+            int n3 = typeMethods.i4vec_product(dim_num - dim - 1, order_1d, aIndex: + dim + 1);
 
+            int k;
             for (k = 0; k < n1; k++)
             {
+                int j;
                 for (j = 0; j < n2; j++)
                 {
+                    int i;
                     for (i = 0; i < n3; i++)
                     {
-                        point[dim + p * dim_num] = x1d[j];
-                        weight[p] *= w1d[j];
+                        if (x1d != null)
+                        {
+                            point[dim + p * dim_num] = x1d[j];
+                        }
+
+                        if (w1d != null)
+                        {
+                            weight[p] *= w1d[j];
+                        }
+
                         p += 1;
                     }
                 }

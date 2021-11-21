@@ -54,35 +54,28 @@ public static class RearrangeCR
         //    order of the entries may have changed because of the sorting.
         //
     {
-        double dtemp;
         int i;
-        int is_;
-        int itemp;
-        int j;
-        int j1;
-        int j2;
-        int k;
 
         for (i = 0; i < n; i++)
         {
-            j1 = ia[i];
-            j2 = ia[i + 1];
-            is_ = j2 - j1;
+            int j1 = ia[i];
+            int j2 = ia[i + 1];
+            int is_ = j2 - j1;
 
+            int k;
             for (k = 1; k < is_; k++)
             {
+                int j;
                 for (j = j1; j < j2 - k; j++)
                 {
-                    if (ja[j + 1] < ja[j])
+                    if (ja[j + 1] >= ja[j])
                     {
-                        itemp = ja[j + 1];
-                        ja[j + 1] = ja[j];
-                        ja[j] = itemp;
-
-                        dtemp = a[j + 1];
-                        a[j + 1] = a[j];
-                        a[j] = dtemp;
+                        continue;
                     }
+
+                    (ja[j + 1], ja[j]) = (ja[j], ja[j + 1]);
+
+                    (a[j + 1], a[j]) = (a[j], a[j + 1]);
                 }
             }
         }

@@ -45,12 +45,7 @@ public static class Geometry
         //    the point.
         //
     {
-        if (p1[0] <= p[0] && p[0] <= p2[0] && p1[1] <= p[1] && p[1] <= p2[1])
-        {
-            return true;
-        }
-
-        return false;
+        return p1[0] <= p[0] && p[0] <= p2[0] && p1[1] <= p[1] && p[1] <= p2[1];
     }
 
     public static bool box_contains_point_nd(int dim_num, double[] p1, double[] p2, double[] p)
@@ -153,9 +148,8 @@ public static class Geometry
         //    Output, double PINT[2], the point on the box intersected by the ray.
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
-        bool inside;
         int ival = 0;
         double[] pc = new double[DIM_NUM];
         double[] pd = new double[DIM_NUM];
@@ -191,7 +185,7 @@ public static class Geometry
                     break;
             }
 
-            inside = Angle.angle_contains_ray_2d(pc, pa, pd, pb);
+            bool inside = Angle.angle_contains_ray_2d(pc, pa, pd, pb);
 
             if (inside)
             {
@@ -263,14 +257,12 @@ public static class Geometry
         //     3, P1 and P2 were clipped.
         //
     {
-        bool clip_a;
-        bool clip_b;
         int ival;
         double x;
         double y;
 
-        clip_a = false;
-        clip_b = false;
+        bool clip_a = false;
+        bool clip_b = false;
         //
         //  Require that XMIN <= X.
         //
@@ -632,9 +624,7 @@ public static class Geometry
         //    Output, double CUBE01_VOLUME, the volume.
         //
     {
-        double volume;
-
-        volume = 1.0;
+        const double volume = 1.0;
 
         return volume;
     }

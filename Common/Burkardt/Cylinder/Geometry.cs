@@ -54,15 +54,11 @@ public static class Geometry
         //    to the cylinder.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
         double[] axis = new double[DIM_NUM];
-        double axis_length = 0.0;
         double distance = 0.0;
         int i;
-        double off_axis_component = 0.0;
-        double p_dot_axis = 0.0;
-        double p_length = 0.0;
         double[] v1 = new double[DIM_NUM];
 
         for (i = 0; i < DIM_NUM; i++)
@@ -70,7 +66,7 @@ public static class Geometry
             axis[i] = p2[i] - p1[i];
         }
 
-        axis_length = typeMethods.r8vec_norm(DIM_NUM, axis);
+        double axis_length = typeMethods.r8vec_norm(DIM_NUM, axis);
 
         switch (axis_length)
         {
@@ -84,7 +80,7 @@ public static class Geometry
             axis[i] /= axis_length;
         }
 
-        p_dot_axis = 0.0;
+        double p_dot_axis = 0.0;
         for (i = 0; i < DIM_NUM; i++)
         {
             p_dot_axis += (p[i] - p1[i]) * axis[i];
@@ -108,8 +104,8 @@ public static class Geometry
                         v1[i] = p[i] - p1[i];
                     }
 
-                    p_length = typeMethods.r8vec_norm(DIM_NUM, v1);
-                    off_axis_component = Math.Sqrt(Math.Pow(p_length, 2) - Math.Pow(p_dot_axis, 2));
+                    double p_length = typeMethods.r8vec_norm(DIM_NUM, v1);
+                    double off_axis_component = Math.Sqrt(Math.Pow(p_length, 2) - Math.Pow(p_dot_axis, 2));
 
                     distance = Math.Abs(off_axis_component - r);
 
@@ -186,15 +182,11 @@ public static class Geometry
         //    to the cylinder.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
         double[] axis = new double[DIM_NUM];
-        double axis_length = 0.0;
         double distance = 0.0;
         int i;
-        double off_axis_component = 0.0;
-        double p_dot_axis = 0.0;
-        double p_length = 0.0;
         double[] v1 = new double[DIM_NUM];
 
         for (i = 0; i < DIM_NUM; i++)
@@ -202,7 +194,7 @@ public static class Geometry
             axis[i] = p2[i] - p1[i];
         }
 
-        axis_length = typeMethods.r8vec_norm(DIM_NUM, axis);
+        double axis_length = typeMethods.r8vec_norm(DIM_NUM, axis);
 
         switch (axis_length)
         {
@@ -216,7 +208,7 @@ public static class Geometry
             axis[i] /= axis_length;
         }
 
-        p_dot_axis = 0.0;
+        double p_dot_axis = 0.0;
         for (i = 0; i < DIM_NUM; i++)
         {
             p_dot_axis += (p[i] - p1[i]) * axis[i];
@@ -240,8 +232,8 @@ public static class Geometry
                         v1[i] = p[i] - p1[i];
                     }
 
-                    p_length = typeMethods.r8vec_norm(DIM_NUM, v1);
-                    off_axis_component = Math.Sqrt(Math.Pow(p_length, 2) - Math.Pow(p_dot_axis, 2));
+                    double p_length = typeMethods.r8vec_norm(DIM_NUM, v1);
+                    double off_axis_component = Math.Sqrt(Math.Pow(p_length, 2) - Math.Pow(p_dot_axis, 2));
 
                     distance = off_axis_component - r;
 
@@ -311,15 +303,11 @@ public static class Geometry
         //    the cylinder.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
         double[] axis = new double[DIM_NUM];
-        double axis_length;
         int i;
         bool inside;
-        double off_axis_component;
-        double p_dot_axis;
-        double p_length;
         double[] v1 = new double[DIM_NUM];
 
         for (i = 0; i < DIM_NUM; i++)
@@ -327,13 +315,12 @@ public static class Geometry
             axis[i] = p2[i] - p1[i];
         }
 
-        axis_length = typeMethods.r8vec_norm(DIM_NUM, axis);
+        double axis_length = typeMethods.r8vec_norm(DIM_NUM, axis);
 
         switch (axis_length)
         {
             case 0.0:
-                inside = false;
-                return inside;
+                return false;
         }
 
         for (i = 0; i < DIM_NUM; i++)
@@ -341,7 +328,7 @@ public static class Geometry
             axis[i] /= axis_length;
         }
 
-        p_dot_axis = 0.0;
+        double p_dot_axis = 0.0;
         for (i = 0; i < DIM_NUM; i++)
         {
             p_dot_axis += (p[i] - p1[i]) * axis[i];
@@ -364,18 +351,11 @@ public static class Geometry
                 v1[i] = p[i] - p1[i];
             }
 
-            p_length = typeMethods.r8vec_norm(DIM_NUM, v1);
+            double p_length = typeMethods.r8vec_norm(DIM_NUM, v1);
 
-            off_axis_component = Math.Sqrt(Math.Pow(p_length, 2) - Math.Pow(p_dot_axis, 2));
+            double off_axis_component = Math.Sqrt(Math.Pow(p_length, 2) - Math.Pow(p_dot_axis, 2));
 
-            if (off_axis_component <= r)
-            {
-                inside = true;
-            }
-            else
-            {
-                inside = false;
-            }
+            inside = off_axis_component <= r;
         }
 
         return inside;
@@ -428,32 +408,26 @@ public static class Geometry
         //    Output, double CYLINDER_POINT_NEAR_3D[3], the nearest point on the cylinder.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        double axial_component;
         double[] axis = new double[DIM_NUM];
-        double axis_length;
-        double distance;
         int i;
-        double[] normal;
         double[] off_axis = new double[DIM_NUM];
-        double off_axis_component;
-        double[] pn;
 
-        pn = new double[DIM_NUM];
+        double[] pn = new double[DIM_NUM];
 
         for (i = 0; i < DIM_NUM; i++)
         {
             axis[i] = p2[i] - p1[i];
         }
 
-        axis_length = typeMethods.r8vec_norm(DIM_NUM, axis);
+        double axis_length = typeMethods.r8vec_norm(DIM_NUM, axis);
         for (i = 0; i < DIM_NUM; i++)
         {
             axis[i] /= axis_length;
         }
 
-        axial_component = 0.0;
+        double axial_component = 0.0;
         for (i = 0; i < DIM_NUM; i++)
         {
             axial_component += (p[i] - p1[i]) * axis[i];
@@ -464,7 +438,7 @@ public static class Geometry
             off_axis[i] = p[i] - p1[i] - axial_component * axis[i];
         }
 
-        off_axis_component = typeMethods.r8vec_norm(DIM_NUM, off_axis);
+        double off_axis_component = typeMethods.r8vec_norm(DIM_NUM, off_axis);
         switch (axial_component)
         {
             //
@@ -497,7 +471,7 @@ public static class Geometry
                     {
                         case 0.0:
                         {
-                            normal = typeMethods.r8vec_any_normal(DIM_NUM, axis);
+                            double[] normal = typeMethods.r8vec_any_normal(DIM_NUM, axis);
                             for (i = 0; i < DIM_NUM; i++)
                             {
                                 pn[i] = p[i] + r * normal[i];
@@ -507,7 +481,7 @@ public static class Geometry
                         }
                         default:
                         {
-                            distance = Math.Abs(off_axis_component - r);
+                            double distance = Math.Abs(off_axis_component - r);
 
                             for (i = 0; i < DIM_NUM; i++)
                             {
@@ -614,18 +588,13 @@ public static class Geometry
         //    Input, double CYLINDER_SAMPLE_3D[3*N], the sample points.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
         double[] axis = new double[DIM_NUM];
-        double axis_length;
         int i;
         int j;
-        double[] p;
-        double radius;
-        double theta;
         double[] v2 = new double[DIM_NUM];
         double[] v3 = new double[DIM_NUM];
-        double z;
         //
         //  Compute the axis vector.
         //
@@ -634,7 +603,7 @@ public static class Geometry
             axis[i] = p2[i] - p1[i];
         }
 
-        axis_length = typeMethods.r8vec_norm(DIM_NUM, axis);
+        double axis_length = typeMethods.r8vec_norm(DIM_NUM, axis);
         for (i = 0; i < DIM_NUM; i++)
         {
             axis[i] /= axis_length;
@@ -647,15 +616,15 @@ public static class Geometry
         //
         //  Assemble the randomized information.
         //
-        p = new double[DIM_NUM * n];
+        double[] p = new double[DIM_NUM * n];
 
         for (j = 0; j < n; j++)
         {
             for (i = 0; i < DIM_NUM; i++)
             {
-                radius = r * Math.Sqrt(UniformRNG.r8_uniform_01(ref seed));
-                theta = 2.0 * Math.PI * UniformRNG.r8_uniform_01(ref seed);
-                z = axis_length * UniformRNG.r8_uniform_01(ref seed);
+                double radius = r * Math.Sqrt(UniformRNG.r8_uniform_01(ref seed));
+                double theta = 2.0 * Math.PI * UniformRNG.r8_uniform_01(ref seed);
+                double z = axis_length * UniformRNG.r8_uniform_01(ref seed);
 
                 p[i + j * DIM_NUM] = p1[i]
                                      + z * axis[i]
@@ -704,12 +673,9 @@ public static class Geometry
         //    Output, double CYLINDER_VOLUME_3D, the volume of the cylinder.
         //
     {
-        double h;
-        double volume;
+        double h = typeMethods.r8vec_distance(3, p1, p2);
 
-        h = typeMethods.r8vec_distance(3, p1, p2);
-
-        volume = Math.PI * r * r * h;
+        double volume = Math.PI * r * r * h;
 
         return volume;
     }

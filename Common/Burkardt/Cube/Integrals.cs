@@ -4,7 +4,7 @@ using Burkardt.Uniform;
 
 namespace Burkardt.Cube;
 
-public class Integrals
+public static class Integrals
 {
     public static double cube_monomial(double[] a, double[] b, int[] expon)
 
@@ -112,10 +112,7 @@ public class Integrals
                 +1.0, +1.0, +1.0
             }
             ;
-        int beta;
         int[] expon = new int[3];
-        int gamma;
-        double value = 0;
 
         Console.WriteLine("");
         Console.WriteLine("CUBE_MONOMIAL_TEST");
@@ -131,14 +128,16 @@ public class Integrals
         for (alpha = 0; alpha <= degree_max; alpha++)
         {
             expon[0] = alpha;
+            int beta;
             for (beta = 0; beta <= degree_max - alpha; beta++)
             {
                 expon[1] = beta;
+                int gamma;
                 for (gamma = 0; gamma <= degree_max - alpha - beta; gamma++)
                 {
                     expon[2] = gamma;
 
-                    value = cube_monomial(a, b, expon);
+                    double value = cube_monomial(a, b, expon);
 
                     Console.WriteLine("  " + expon[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                            + "  " + expon[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
@@ -242,7 +241,6 @@ public class Integrals
         //
     {
         int i;
-        double integral;
         const int m = 3;
 
         for (i = 0; i < m; i++)
@@ -258,7 +256,7 @@ public class Integrals
             }
         }
 
-        integral = 1.0;
+        double integral = 1.0;
         for (i = 0; i < m; i++)
         {
             integral /= e[i] + 1;
@@ -313,9 +311,8 @@ public class Integrals
         //
     {
         const int m = 3;
-        double[] x;
 
-        x = UniformRNG.r8mat_uniform_01_new(m, n, ref seed);
+        double[] x = UniformRNG.r8mat_uniform_01_new(m, n, ref seed);
 
         return x;
     }
@@ -345,9 +342,7 @@ public class Integrals
         //    Output, double CUBE01_VOLUME, the volume.
         //
     {
-        double volume;
-
-        volume = 1.0;
+        const double volume = 1.0;
 
         return volume;
     }

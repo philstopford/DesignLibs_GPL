@@ -44,7 +44,6 @@ public static partial class Correlation
         //    to ensure the requested accuracy.
         //
     {
-        double err;
         int i;
         int value;
 
@@ -57,16 +56,18 @@ public static partial class Correlation
                 return 1;
         }
 
-        err = 0.0;
+        double err = 0.0;
 
         for ( i = nos - 1; 0 <= i; i-- )
         {
             err += Math.Abs ( dos[i] );
-            if ( eta < err )
+            if (!(eta < err))
             {
-                value = i + 1;
-                return value;
+                continue;
             }
+
+            value = i + 1;
+            return value;
         }
 
         value = i;
@@ -116,12 +117,8 @@ public static partial class Correlation
         //    Output, double R8_CSEVL, the Chebyshev series evaluated at X.
         //
     {
-        double b0;
-        double b1;
         double b2 = 0;
         int i;
-        double twox;
-        double value = 0;
 
         switch (n)
         {
@@ -147,9 +144,9 @@ public static partial class Correlation
                 return 1;
         }
 
-        twox = 2.0 * x;
-        b1 = 0.0;
-        b0 = 0.0;
+        double twox = 2.0 * x;
+        double b1 = 0.0;
+        double b0 = 0.0;
 
         for ( i = n - 1; 0 <= i; i-- )
         {
@@ -158,7 +155,7 @@ public static partial class Correlation
             b0 = twox * b1 - b2 + a[i];
         }
 
-        value = 0.5 * ( b0 - b2 );
+        double value = 0.5 * ( b0 - b2 );
 
         return value;
     }

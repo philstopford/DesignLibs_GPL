@@ -36,20 +36,14 @@ public static partial class Correlation
         //    Output, double K[N*N], the covariance matrix.
         //
     {
-        double c_max;
-        double c_min;
-        double e;
-        double error_frobenius;
         int i;
         int j;
-        double[] k;
-        double tol;
 
-        tol = Math.Sqrt(typeMethods.r8_epsilon());
+        double tol = Math.Sqrt(typeMethods.r8_epsilon());
         //
         //  C must be symmetric.
         //
-        error_frobenius = typeMethods.r8mat_is_symmetric(n, n, c);
+        double error_frobenius = typeMethods.r8mat_is_symmetric(n, n, c);
 
         if (tol < error_frobenius)
         {
@@ -64,7 +58,7 @@ public static partial class Correlation
         //
         for (i = 0; i < n; i++)
         {
-            e = Math.Abs(c[i + i * n] - 1.0);
+            double e = Math.Abs(c[i + i * n] - 1.0);
             if (tol < e)
             {
                 Console.WriteLine("");
@@ -78,7 +72,7 @@ public static partial class Correlation
         //
         //  Off-diagonals must be between -1 and 1.
         //
-        c_min = typeMethods.r8mat_max(n, n, c);
+        double c_min = typeMethods.r8mat_max(n, n, c);
 
         if (c_min < -1.0 - tol)
         {
@@ -88,7 +82,7 @@ public static partial class Correlation
             return null;
         }
 
-        c_max = typeMethods.r8mat_max(n, n, c);
+        double c_max = typeMethods.r8mat_max(n, n, c);
 
         if (1.0 + tol < c_max)
         {
@@ -101,7 +95,7 @@ public static partial class Correlation
         //
         //  Form K.
         //
-        k = new double[n * n];
+        double[] k = new double[n * n];
 
         for (j = 0; j < n; j++)
         {
@@ -145,18 +139,14 @@ public static partial class Correlation
         //    Output, double SIGMA[N], the standard deviations.
         //
     {
-        double e;
-        double error_frobenius;
         int i;
         int j;
-        double sigma_min;
-        double tol;
 
-        tol = Math.Sqrt(typeMethods.r8_epsilon());
+        double tol = Math.Sqrt(typeMethods.r8_epsilon());
         //
         //  K must be symmetric.
         //
-        error_frobenius = typeMethods.r8mat_is_symmetric(n, n, k);
+        double error_frobenius = typeMethods.r8mat_is_symmetric(n, n, k);
 
         if (tol < error_frobenius)
         {
@@ -169,7 +159,7 @@ public static partial class Correlation
         //
         //  It must be the case that K(I,J)^2 <= K(I,I) * K(J,J).
         //
-        e = 0.0;
+        double e = 0.0;
         for (i = 0; i < n; i++)
         {
             for (j = i + 1; j < n; j++)
@@ -197,7 +187,7 @@ public static partial class Correlation
         //
         //  Ensure the diagonal is positive.
         //
-        sigma_min = typeMethods.r8vec_min(n, sigma);
+        double sigma_min = typeMethods.r8vec_min(n, sigma);
 
         switch (sigma_min)
         {

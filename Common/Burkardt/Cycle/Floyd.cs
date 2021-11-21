@@ -63,11 +63,8 @@ public static class Floyd
         //    at X0, of the first appearance of an element of the cycle.
         //
     {
-        int hare;
-        int tortoise;
-
-        tortoise = f(x0);
-        hare = f(tortoise);
+        int tortoise = f(x0);
+        int hare = f(tortoise);
 
         while (tortoise != hare)
         {

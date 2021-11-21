@@ -32,9 +32,7 @@ public static class Geometry
         //    Output, double CONE_AREA_3D, the surface area of the cone.
         //
     {
-        double area;
-
-        area = Math.PI * r * Math.Sqrt(h * h + r * r);
+        double area = Math.PI * r * Math.Sqrt(h * h + r * r);
 
         return area;
     }
@@ -76,11 +74,10 @@ public static class Geometry
         //    Output, double CONE_CENTROID_3D[3], the coordinates of the centroid of the cone.
         //
     {
-        double[] centroid;
-        int dim_num = 3;
+        const int dim_num = 3;
         int i;
 
-        centroid = new double[3];
+        double[] centroid = new double[3];
 
         for (i = 0; i < dim_num; i++)
         {
@@ -118,9 +115,7 @@ public static class Geometry
         //    Output, double CONE_VOLUME_3D, the volume of the cone.
         //
     {
-        double volume;
-
-        volume = Math.PI * r * r * h / 3.0;
+        double volume = Math.PI * r * r * h / 3.0;
 
         return volume;
     }

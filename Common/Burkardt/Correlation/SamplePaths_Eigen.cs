@@ -51,30 +51,19 @@ public static partial class SamplePaths
         //    Output, double X[N*N2], the sample paths.
         //
     {
-        double[] c;
-        double[] cor;
-        double[] cor_vec;
-        double[] d;
-        double dmin;
         int i;
         int j;
         int k;
-        double[] r;
-        double[] rho_vec;
-        double rhomin;
-        double[] v;
-        double[] w;
-        double[] x;
         //
         //  Choose N equally spaced sample points from 0 to RHOMAX.
         //
-        rhomin = 0.0;
-        rho_vec = typeMethods.r8vec_linspace_new(n, rhomin, rhomax);
+        double rhomin = 0.0;
+        double[] rho_vec = typeMethods.r8vec_linspace_new(n, rhomin, rhomax);
         //
         //  Evaluate the correlation function.
         //
         Correlation.CorrelationResult tr = correlation(globaldata, jdata, n, rho_vec, rho0);
-        cor_vec = tr.result;
+        double[] cor_vec = tr.result;
         globaldata = tr.data;
         jdata = tr.j0data;
         //
@@ -87,7 +76,7 @@ public static partial class SamplePaths
         //  Every row of the correlation matrix can be constructed by a subvector
         //  of this vector.
         //
-        cor = new double[n * n];
+        double[] cor = new double[n * n];
 
         for (j = 0; j < n; j++)
         {
@@ -105,9 +94,9 @@ public static partial class SamplePaths
         //
         //  Because COR is symmetric, V is orthogonal.
         //
-        d = new double[n];
-        w = new double[n];
-        v = new double[n * n];
+        double[] d = new double[n];
+        double[] w = new double[n];
+        double[] v = new double[n * n];
 
         TRED2.tred2(n, cor, ref d, ref w, ref v);
 
@@ -116,7 +105,7 @@ public static partial class SamplePaths
         //  We assume COR is non-negative definite, and hence that there
         //  are no negative eigenvalues.
         //
-        dmin = typeMethods.r8vec_min(n, d);
+        double dmin = typeMethods.r8vec_min(n, d);
 
         if (dmin < -Math.Sqrt(typeMethods.r8_epsilon()))
         {
@@ -141,7 +130,7 @@ public static partial class SamplePaths
         //
         //  Compute C, such that C' * C = COR.
         //
-        c = new double[n * n];
+        double[] c = new double[n * n];
 
         for (j = 0; j < n; j++)
         {
@@ -158,11 +147,11 @@ public static partial class SamplePaths
         //
         //  Compute N by N2 independent random normal values.
         //
-        r = typeMethods.r8mat_normal_01_new(n, n2, ref data, ref seed);
+        double[] r = typeMethods.r8mat_normal_01_new(n, n2, ref data, ref seed);
         //
         //  Multiply to get the variables X which have correlation COR.
         //
-        x = typeMethods.r8mat_mm_new(n, n, n2, c, r);
+        double[] x = typeMethods.r8mat_mm_new(n, n, n2, c, r);
 
         Correlation.CorrelationResult result = new() { result = x, data = globaldata };
             
@@ -213,26 +202,16 @@ public static partial class SamplePaths
         //    Output, double X[N*N2], the sample paths.
         //
     {
-        double[] c;
-        double[] cor;
-        double[] d;
-        double dmin;
         int i;
         int j;
-        int k;
-        double[] r;
-        double[] s;
-        double[] v;
-        double[] w;
-        double[] x;
         //
         //  Choose N equally spaced sample points from RHOMIN to RHOMAX.
         //
-        s = typeMethods.r8vec_linspace_new(n, rhomin, rhomax);
+        double[] s = typeMethods.r8vec_linspace_new(n, rhomin, rhomax);
         //
         //  Evaluate the correlation function.
         //
-        cor = correlation2(n, n, s, s, rho0);
+        double[] cor = correlation2(n, n, s, s, rho0);
         //
         //  Get the eigendecomposition of COR:
         //
@@ -240,9 +219,9 @@ public static partial class SamplePaths
         //
         //  Because COR is symmetric, V is orthogonal.
         //
-        d = new double[n];
-        w = new double[n];
-        v = new double[n * n];
+        double[] d = new double[n];
+        double[] w = new double[n];
+        double[] v = new double[n * n];
 
         TRED2.tred2(n, cor, ref d, ref w, ref v);
 
@@ -251,7 +230,7 @@ public static partial class SamplePaths
         //  We assume COR is non-negative definite, and hence that there
         //  are no negative eigenvalues.
         //
-        dmin = typeMethods.r8vec_min(n, d);
+        double dmin = typeMethods.r8vec_min(n, d);
 
         if (dmin < -Math.Sqrt(typeMethods.r8_epsilon()))
         {
@@ -276,13 +255,14 @@ public static partial class SamplePaths
         //
         //  Compute C, such that C' * C = COR.
         //
-        c = new double[n * n];
+        double[] c = new double[n * n];
 
         for (j = 0; j < n; j++)
         {
             for (i = 0; i < n; i++)
             {
                 c[i + j * n] = 0.0;
+                int k;
                 for (k = 0; k < n; k++)
                 {
                     c[i + j * n] += d[k] * v[i + k * n] * v[j + k * n];
@@ -293,11 +273,11 @@ public static partial class SamplePaths
         //
         //  Compute N by N2 independent random normal values.
         //
-        r = typeMethods.r8mat_normal_01_new(n, n2, ref data, ref seed);
+        double[] r = typeMethods.r8mat_normal_01_new(n, n2, ref data, ref seed);
         //
         //  Multiply to get the variables X which have correlation COR.
         //
-        x = typeMethods.r8mat_mm_new(n, n, n2, c, r);
+        double[] x = typeMethods.r8mat_mm_new(n, n, n2, c, r);
 
         return x;
     }

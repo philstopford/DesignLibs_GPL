@@ -56,24 +56,21 @@ public static class Grid
         //
     {
         int i;
-        int j;
-        int m = 3;
-        int s;
-        double[] x;
-        double[] xs;
+        const int m = 3;
 
         typeMethods.r8vecDPData data = new();
 
-        x = new double[m * n];
+        double[] x = new double[m * n];
         //
         //  Create the 1D grids in each dimension.
         //
         for (i = 0; i < m; i++)
         {
-            s = ns[i];
+            int s = ns[i];
 
-            xs = new double[s];
+            double[] xs = new double[s];
 
+            int j;
             for (j = 0; j < s; j++)
             {
                 xs[j] = c[i] switch

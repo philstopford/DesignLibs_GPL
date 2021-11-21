@@ -87,7 +87,7 @@ public static partial class Problem1c
 
         value = PDF.r8vec_multinormal_pdf(par_num, mean, factor, det, zp, zpIndex);
 
-        return new Dream.DensityResult(){result = value};
+        return new Dream.DensityResult {result = value};
     }
 
     private static Dream.SampleResult prior_sample(int par_num)
@@ -140,7 +140,7 @@ public static partial class Problem1c
             zp[i] += mean[i];
         }
 
-        return new Dream.SampleResult() {result = zp};
+        return new Dream.SampleResult {result = zp};
     }
 
     private static double sample_likelihood(int par_num, double[] zp)

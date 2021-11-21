@@ -44,13 +44,9 @@ public static class SinPower
         //    Output, double SIN_POWER_INT, the value of the integral.
         //
     {
-        double ca;
-        double cb;
         int m;
         int mlo;
-        double sa;
-        double sb;
-        double value = 0;
+        double value;
 
         switch (n)
         {
@@ -61,10 +57,10 @@ public static class SinPower
                 return 1;
         }
 
-        sa = Math.Sin ( a );
-        sb = Math.Sin ( b );
-        ca = Math.Cos ( a );
-        cb = Math.Cos ( b );
+        double sa = Math.Sin ( a );
+        double sb = Math.Sin ( b );
+        double ca = Math.Cos ( a );
+        double cb = Math.Cos ( b );
 
         switch (n % 2)
         {

@@ -60,13 +60,6 @@ public static class Box
         //    Output, double BOX_ND, the approximate value of the integral.
         //
     {
-        int dim;
-        int[] indx;
-        int k;
-        double result;
-        double w;
-        double[] x;
-
         eval_num = 0;
 
         switch (dim_num)
@@ -89,11 +82,11 @@ public static class Box
                 return 1;
         }
 
-        k = 0;
-        result = 0.0;
+        int k = 0;
+        double result = 0.0;
 
-        indx = new int[dim_num];
-        x = new double[dim_num];
+        int[] indx = new int[dim_num];
+        double[] x = new double[dim_num];
 
         for (;;)
         {
@@ -104,7 +97,8 @@ public static class Box
                 break;
             }
 
-            w = 1.0;
+            double w = 1.0;
+            int dim;
             for (dim = 0; dim < dim_num; dim++)
             {
                 w *= weight[indx[dim] - 1];

@@ -61,7 +61,7 @@ public static class Files
         string filename2 = i switch
         {
             -1 => filename + "." + ext,
-            _ => filename.Substring(0, i + 1) + ext
+            _ => string.Concat(filename.AsSpan(0, i + 1), ext)
         };
 
         return filename2;
@@ -111,17 +111,11 @@ public static class Files
         //    Output, double R[DIM_NUM*N], the point coordinates.
         //
     {
-        bool error;
-        string[] file_in;
-        int i;
-        int j;
-        double[] x;
-
         try
         {
-            file_in = File.ReadAllLines(file_in_name);
+            string[] file_in = File.ReadAllLines(file_in_name);
 
-            j = 0;
+            int j = 0;
 
             foreach (string line in file_in)
             {
@@ -132,8 +126,8 @@ public static class Files
                 }
 
                 r8vec t = typeMethods.s_to_r8vec(line, dim_num);
-                x = t.rvec;
-                error = t.error;
+                double[] x = t.rvec;
+                bool error = t.error;
 
                 switch (error)
                 {
@@ -141,6 +135,7 @@ public static class Files
                         continue;
                 }
 
+                int i;
                 for (i = 0; i < dim_num; i++)
                 {
                     r[i + j * dim_num] = x[i];
@@ -210,12 +205,9 @@ public static class Files
         //    Input/output, string *FILENAME, the filename to be incremented.
         //
     {
-        char c;
-        int change;
         int i;
-        int lens;
 
-        lens = filename.Length;
+        int lens = filename.Length;
 
         switch (lens)
         {
@@ -226,11 +218,11 @@ public static class Files
                 return;
         }
 
-        change = 0;
+        int change = 0;
 
         for (i = lens - 1; 0 <= i; i--)
         {
-            c = filename[i];
+            char c = filename[i];
 
             switch (c)
             {
@@ -333,15 +325,11 @@ public static class Files
         //    Input/output, string *FILENAME, the filename to be incremented.
         //
     {
-        char c;
-        int carry;
-        int change;
         int i;
-        int lens;
 
         char[] filename = filename_.ToCharArray();
 
-        lens = filename.Length;
+        int lens = filename.Length;
 
 
         switch (lens)
@@ -353,12 +341,12 @@ public static class Files
                 return;
         }
 
-        change = 0;
-        carry = 0;
+        int change = 0;
+        int carry = 0;
 
         for (i = lens - 1; 0 <= i; i--)
         {
-            c = filename[i];
+            char c = filename[i];
 
             switch (c)
             {

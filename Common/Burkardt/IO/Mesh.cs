@@ -1229,15 +1229,9 @@ public static class Mesh
     {
         int edge = 0;
         int hexahedron = 0;
-        int i;
-        int[] i4vec_ = new int[9];
         string[] input;
-        string keyword;
-        int line_num;
         int quadrilateral = 0;
-        double[] r8vec_ = new double[9];
         int tetrahedron = 0;
-        string text;
         int triangle = 0;
         int vertex = 0;
         //
@@ -1271,11 +1265,12 @@ public static class Mesh
         //
         //  Read lines til you get alphanumerics and determine a "mode"
         //
-        line_num = 0;
-        keyword = "NONE";
+        int line_num = 0;
+        string keyword = "NONE";
 
         for (;;)
         {
+            string text;
             try
             {
                 text = input[line_num];
@@ -1389,122 +1384,120 @@ public static class Mesh
             //
             else if (typeMethods.s_eqi(keyword, "DIMENSION"))
             {
-                Convert.ToInt32(text);
                 keyword = "NONE";
             }
             else if (typeMethods.s_eqi(keyword, "EDGES"))
             {
-                Convert.ToInt32(text);
                 keyword = "EDGE_VERTEX";
                 edge = 0;
             }
-            else if (typeMethods.s_eqi(keyword, "EDGE_VERTEX"))
-            {
-                i4vec_ = typeMethods.s_to_i4vec(text, 3).ivec;
-                for (i = 0; i < 2; i++)
-                {
-                    edge_vertex[i + edge * 2] = i4vec_[i];
-                }
-
-                edge_label[edge] = i4vec_[2];
-                edge += 1;
-            }
-            else if (typeMethods.s_eqi(keyword, "HEXAHEDRONS"))
-            {
-                Convert.ToInt32(text);
-                keyword = "HEXAHEDRON_VERTEX";
-                hexahedron = 0;
-            }
-            else if (typeMethods.s_eqi(keyword, "HEXAHEDRON_VERTEX"))
-            {
-                i4vec_ = typeMethods.s_to_i4vec(text, 9).ivec;
-                for (i = 0; i < 8; i++)
-                {
-                    hexahedron_vertex[i + hexahedron * 8] = i4vec_[i];
-                }
-
-                hexahedron_label[hexahedron] = i4vec_[8];
-                hexahedron += 1;
-            }
-            else if (typeMethods.s_eqi(keyword, "QUADRILATERALS"))
-            {
-                Convert.ToInt32(text);
-                keyword = "QUADRILATERAL_VERTEX";
-                quadrilateral = 0;
-            }
-            else if (typeMethods.s_eqi(keyword, "QUADRILATERAL_VERTEX"))
-            {
-                i4vec_ = typeMethods.s_to_i4vec(text, 5).ivec;
-                for (i = 0; i < 4; i++)
-                {
-                    quadrilateral_vertex[i + quadrilateral * 4] = i4vec_[i];
-                }
-
-                quadrilateral_label[quadrilateral] = i4vec_[4];
-                quadrilateral += 1;
-            }
-            else if (typeMethods.s_eqi(keyword, "TETRAHEDRONS"))
-            {
-                Convert.ToInt32(text);
-                keyword = "TETRAHEDRON_VERTEX";
-                tetrahedron = 0;
-            }
-            else if (typeMethods.s_eqi(keyword, "TETRAHEDRON_VERTEX"))
-            {
-                i4vec_ = typeMethods.s_to_i4vec(text, 5).ivec;
-                for (i = 0; i < 4; i++)
-                {
-                    tetrahedron_vertex[i + tetrahedron * 4] = i4vec_[i];
-                }
-
-                tetrahedron_label[tetrahedron] = i4vec_[4];
-                tetrahedron += 1;
-            }
-            else if (typeMethods.s_eqi(keyword, "TRIANGLES"))
-            {
-                Convert.ToInt32(text);
-                keyword = "TRIANGLE_VERTEX";
-                triangle = 0;
-            }
-            else if (typeMethods.s_eqi(keyword, "TRIANGLE_VERTEX"))
-            {
-                i4vec_ = typeMethods.s_to_i4vec(text, 4).ivec;
-                for (i = 0; i < 3; i++)
-                {
-                    triangle_vertex[i + triangle * 3] = i4vec_[i];
-                }
-
-                triangle_label[triangle] = i4vec_[3];
-                triangle += 1;
-            }
-            else if (typeMethods.s_eqi(keyword, "VERTICES"))
-            {
-                Convert.ToInt32(text);
-                keyword = "VERTEX_COORDINATE";
-                vertex = 0;
-            }
-            else if (typeMethods.s_eqi(keyword, "VERTEX_COORDINATE"))
-            {
-                r8vec_ = typeMethods.s_to_r8vec(text, dim + 1).rvec;
-                for (i = 0; i < dim; i++)
-                {
-                    vertex_coordinate[i + vertex * dim] = r8vec_[i];
-                }
-
-                vertex_label[vertex] = (int) r8vec_[dim];
-                vertex += 1;
-            }
-            else if (typeMethods.s_eqi(keyword, "SKIP"))
-            {
-            }
             else
             {
-                Console.WriteLine("");
-                Console.WriteLine("MESH_DATA_READ - Fatal error!");
-                Console.WriteLine("  Could not find keyword while reading line "
-                                  + line_num + "");
-                Console.WriteLine("\"" + text + "\".");
-                return;
+                int i;
+                int[] i4vec_;
+                if (typeMethods.s_eqi(keyword, "EDGE_VERTEX"))
+                {
+                    i4vec_ = typeMethods.s_to_i4vec(text, 3).ivec;
+                    for (i = 0; i < 2; i++)
+                    {
+                        edge_vertex[i + edge * 2] = i4vec_[i];
+                    }
+
+                    edge_label[edge] = i4vec_[2];
+                    edge += 1;
+                }
+                else if (typeMethods.s_eqi(keyword, "HEXAHEDRONS"))
+                {
+                    keyword = "HEXAHEDRON_VERTEX";
+                    hexahedron = 0;
+                }
+                else if (typeMethods.s_eqi(keyword, "HEXAHEDRON_VERTEX"))
+                {
+                    i4vec_ = typeMethods.s_to_i4vec(text, 9).ivec;
+                    for (i = 0; i < 8; i++)
+                    {
+                        hexahedron_vertex[i + hexahedron * 8] = i4vec_[i];
+                    }
+
+                    hexahedron_label[hexahedron] = i4vec_[8];
+                    hexahedron += 1;
+                }
+                else if (typeMethods.s_eqi(keyword, "QUADRILATERALS"))
+                {
+                    keyword = "QUADRILATERAL_VERTEX";
+                    quadrilateral = 0;
+                }
+                else if (typeMethods.s_eqi(keyword, "QUADRILATERAL_VERTEX"))
+                {
+                    i4vec_ = typeMethods.s_to_i4vec(text, 5).ivec;
+                    for (i = 0; i < 4; i++)
+                    {
+                        quadrilateral_vertex[i + quadrilateral * 4] = i4vec_[i];
+                    }
+
+                    quadrilateral_label[quadrilateral] = i4vec_[4];
+                    quadrilateral += 1;
+                }
+                else if (typeMethods.s_eqi(keyword, "TETRAHEDRONS"))
+                {
+                    keyword = "TETRAHEDRON_VERTEX";
+                    tetrahedron = 0;
+                }
+                else if (typeMethods.s_eqi(keyword, "TETRAHEDRON_VERTEX"))
+                {
+                    i4vec_ = typeMethods.s_to_i4vec(text, 5).ivec;
+                    for (i = 0; i < 4; i++)
+                    {
+                        tetrahedron_vertex[i + tetrahedron * 4] = i4vec_[i];
+                    }
+
+                    tetrahedron_label[tetrahedron] = i4vec_[4];
+                    tetrahedron += 1;
+                }
+                else if (typeMethods.s_eqi(keyword, "TRIANGLES"))
+                {
+                    keyword = "TRIANGLE_VERTEX";
+                    triangle = 0;
+                }
+                else if (typeMethods.s_eqi(keyword, "TRIANGLE_VERTEX"))
+                {
+                    i4vec_ = typeMethods.s_to_i4vec(text, 4).ivec;
+                    for (i = 0; i < 3; i++)
+                    {
+                        triangle_vertex[i + triangle * 3] = i4vec_[i];
+                    }
+
+                    triangle_label[triangle] = i4vec_[3];
+                    triangle += 1;
+                }
+                else if (typeMethods.s_eqi(keyword, "VERTICES"))
+                {
+                    keyword = "VERTEX_COORDINATE";
+                    vertex = 0;
+                }
+                else if (typeMethods.s_eqi(keyword, "VERTEX_COORDINATE"))
+                {
+                    double[] r8vec_ = typeMethods.s_to_r8vec(text, dim + 1).rvec;
+                    for (i = 0; i < dim; i++)
+                    {
+                        vertex_coordinate[i + vertex * dim] = r8vec_[i];
+                    }
+
+                    vertex_label[vertex] = (int) r8vec_[dim];
+                    vertex += 1;
+                }
+                else if (typeMethods.s_eqi(keyword, "SKIP"))
+                {
+                }
+                else
+                {
+                    Console.WriteLine("");
+                    Console.WriteLine("MESH_DATA_READ - Fatal error!");
+                    Console.WriteLine("  Could not find keyword while reading line "
+                                      + line_num + "");
+                    Console.WriteLine("\"" + text + "\".");
+                    return;
+                }
             }
         }
 
@@ -1621,9 +1614,6 @@ public static class Mesh
         //
     {
         string[] input;
-        string keyword;
-        int line_num;
-        string text;
         //
         //  Initialize everything to nothing.
         //
@@ -1650,12 +1640,12 @@ public static class Mesh
         //
         //  Read lines til you get alphanumerics and determine a "mode"
         //
-        line_num = 0;
-        keyword = "NONE";
+        int line_num = 0;
+        string keyword = "NONE";
 
         for (;;)
         {
-
+            string text;
             try
             {
                 text = input[line_num];

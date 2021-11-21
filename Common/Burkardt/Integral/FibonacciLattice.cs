@@ -181,7 +181,7 @@ public static class FibonacciLattice
           value = 1.0;
           for (i = 0; i < dim_num; i++)
           {
-               value *= (1.0 + (f2(x[i]) - 1.0));
+               value *= 1.0 + (f2(x[i]) - 1.0);
           }
 
           value -= 1.0;
@@ -236,27 +236,16 @@ public static class FibonacciLattice
           //    Output, double FIBONACCI_LATTICE_B, the estimated integral.
           //
      {
-          double delta;
           int dim;
-          int dim_num = 2;
+          const int dim_num = 2;
           int j;
-          int m;
-          int n;
-          double quad;
-          double quad1;
-          double quad2;
-          int rank;
           double[] w = new double[2 * 2];
-          double[] x;
-          int[] z;
 
-          x = new double[dim_num];
-          z = new int[dim_num];
+          double[] x = new double[dim_num];
+          int[] z = new int[dim_num];
 
-          quad = 0.0;
-
-          m = Helpers.fibonacci(k);
-          n = Helpers.fibonacci(k - 1);
+          int m = Helpers.fibonacci(k);
+          int n = Helpers.fibonacci(k - 1);
           switch (k % 2)
           {
                //
@@ -270,7 +259,7 @@ public static class FibonacciLattice
                     break;
                default:
                {
-                    delta = 0.0;
+                    double delta = 0.0;
                     for (j = 1; j <= m - 1; j++)
                     {
                          delta += j * (j * n % m)
@@ -297,8 +286,8 @@ public static class FibonacciLattice
           //
           //  Get all the corner values.
           //
-          rank = 0;
-          quad1 = 0.0;
+          int rank = 0;
+          double quad1 = 0.0;
 
           for (;;)
           {
@@ -323,7 +312,7 @@ public static class FibonacciLattice
           z[0] = 1;
           z[1] = Helpers.fibonacci(k - 1);
 
-          quad2 = 0.0;
+          double quad2 = 0.0;
           for (j = 1; j <= m - 1; j++)
           {
                for (dim = 0; dim < dim_num; dim++)
@@ -334,7 +323,7 @@ public static class FibonacciLattice
                quad2 += f(dim_num, x);
           }
 
-          quad = quad1 + quad2 / m;
+          double quad = quad1 + quad2 / m;
 
 
           return quad;
@@ -388,26 +377,22 @@ public static class FibonacciLattice
           //    Output, double FIBONACCI_LATTICE_Q, the estimated integral.
           //
      {
-          int dim;
-          int dim_num = 2;
+          const int dim_num = 2;
           int j;
-          int m;
-          double quad;
-          double[] x;
-          int[] z;
 
-          x = new double[dim_num];
-          z = new int[dim_num];
+          double[] x = new double[dim_num];
+          int[] z = new int[dim_num];
 
-          quad = 0.0;
+          double quad = 0.0;
 
-          m = Helpers.fibonacci(k);
+          int m = Helpers.fibonacci(k);
 
           z[0] = 1;
           z[1] = Helpers.fibonacci(k - 1);
 
           for (j = 0; j <= m - 1; j++)
           {
+               int dim;
                for (dim = 0; dim < dim_num; dim++)
                {
                     x[dim] = j * z[dim] / (double) m % 1.0;
@@ -466,23 +451,20 @@ public static class FibonacciLattice
           //    Output, double X[2*M], the nodes.
           //
      {
-          int dim;
-          int dim_num = 2;
+          const int dim_num = 2;
           int j;
-          int m;
-          double[] x;
-          int[] z;
 
-          m = Helpers.fibonacci(k);
+          int m = Helpers.fibonacci(k);
 
-          x = new double[2 * m];
-          z = new int[dim_num];
+          double[] x = new double[2 * m];
+          int[] z = new int[dim_num];
 
           z[0] = 1;
           z[1] = Helpers.fibonacci(k - 1);
 
           for (j = 0; j <= m - 1; j++)
           {
+               int dim;
                for (dim = 0; dim < dim_num; dim++)
                {
                     x[dim + j * dim_num] = j * z[dim]
@@ -542,35 +524,29 @@ public static class FibonacciLattice
           //    Output, double FIBONACCI_LATTICE_Q1, the estimated integral.
           //
      {
-          int dim_num = 2;
-          double dphi;
-          int i;
+          const int dim_num = 2;
           int j;
-          int m;
-          double quad;
-          double[] x;
-          double[] y;
-          int[] z;
 
-          x = new double[dim_num];
-          y = new double[dim_num];
-          z = new int[dim_num];
+          double[] x = new double[dim_num];
+          double[] y = new double[dim_num];
+          int[] z = new int[dim_num];
 
-          quad = 0.0;
+          double quad = 0.0;
 
-          m = Helpers.fibonacci(k);
+          int m = Helpers.fibonacci(k);
 
           z[0] = 1;
           z[1] = Helpers.fibonacci(k - 1);
 
           for (j = 0; j <= m - 1; j++)
           {
+               int i;
                for (i = 0; i < dim_num; i++)
                {
                     x[i] = j * z[i] / (double) m % 1.0;
                }
 
-               dphi = 1.0;
+               double dphi = 1.0;
                for (i = 0; i < dim_num; i++)
                {
                     y[i] = (3.0 - 2.0 * x[i]) * x[i] * x[i];
@@ -634,35 +610,29 @@ public static class FibonacciLattice
           //    Output, double FIBONACCI_LATTICE_Q2, the estimated integral.
           //
      {
-          int dim_num = 2;
-          double dphi;
-          int i;
+          const int dim_num = 2;
           int j;
-          int m;
-          double quad;
-          double[] x;
-          double[] y;
-          int[] z;
 
-          x = new double[dim_num];
-          y = new double[dim_num];
-          z = new int[dim_num];
+          double[] x = new double[dim_num];
+          double[] y = new double[dim_num];
+          int[] z = new int[dim_num];
 
-          quad = 0.0;
+          double quad = 0.0;
 
-          m = Helpers.fibonacci(k);
+          int m = Helpers.fibonacci(k);
 
           z[0] = 1;
           z[1] = Helpers.fibonacci(k - 1);
 
           for (j = 0; j <= m - 1; j++)
           {
+               int i;
                for (i = 0; i < dim_num; i++)
                {
                     x[i] = j * z[i] / (double) m % 1.0;
                }
 
-               dphi = 1.0;
+               double dphi = 1.0;
                for (i = 0; i < dim_num; i++)
                {
                     y[i] = (10.0 - 15.0 * x[i] + 6.0 * Math.Pow(x[i], 2)) * Math.Pow(x[i], 3);
@@ -726,38 +696,31 @@ public static class FibonacciLattice
           //    Output, double FIBONACCI_LATTICE_Q3, the estimated integral.
           //
      {
-          int dim_num = 2;
-          double dphi;
-          int i;
+          const int dim_num = 2;
           int j;
-          int m;
-          double quad;
-          double two_pi;
-          double[] x;
-          double[] y;
-          int[] z;
 
-          x = new double[dim_num];
-          y = new double[dim_num];
-          z = new int[dim_num];
+          double[] x = new double[dim_num];
+          double[] y = new double[dim_num];
+          int[] z = new int[dim_num];
 
-          quad = 0.0;
+          double quad = 0.0;
 
-          m = Helpers.fibonacci(k);
+          int m = Helpers.fibonacci(k);
 
           z[0] = 1;
           z[1] = Helpers.fibonacci(k - 1);
 
-          two_pi = 2.0 * Math.PI;
+          double two_pi = 2.0 * Math.PI;
 
           for (j = 0; j <= m - 1; j++)
           {
+               int i;
                for (i = 0; i < dim_num; i++)
                {
                     x[i] = j * z[i] / (double) m % 1.0;
                }
 
-               dphi = 1.0;
+               double dphi = 1.0;
                for (i = 0; i < dim_num; i++)
                {
                     y[i] = x[i] - Math.Sin(two_pi * x[i]) / two_pi;
@@ -815,30 +778,22 @@ public static class FibonacciLattice
           //    Output, double FIBONACCI_LATTICE_T, the estimated integral.
           //
      {
-          int dim_num = 2;
+          const int dim_num = 2;
           int i;
           int j;
-          int m;
-          double quad;
-          double quad1;
-          double quad2;
-          int rank;
-          double w;
-          double[] x;
-          int[] z;
 
-          x = new double[dim_num];
-          z = new int[dim_num];
+          double[] x = new double[dim_num];
+          int[] z = new int[dim_num];
 
-          quad = 0.0;
+          double quad = 0.0;
 
-          m = Helpers.fibonacci(k);
+          int m = Helpers.fibonacci(k);
           //
           //  Get all the corner values.
           //
-          rank = 0;
-          quad1 = 0.0;
-          w = 1.0 / (int)Math.Pow(2, dim_num);
+          int rank = 0;
+          double quad1 = 0.0;
+          double w = 1.0 / (int)Math.Pow(2, dim_num);
 
           for (;;)
           {
@@ -863,7 +818,7 @@ public static class FibonacciLattice
           z[0] = 1;
           z[1] = Helpers.fibonacci(k - 1);
 
-          quad2 = 0.0;
+          double quad2 = 0.0;
           for (j = 1; j <= m - 1; j++)
           {
                for (i = 0; i < dim_num; i++)
@@ -935,22 +890,17 @@ public static class FibonacciLattice
           //    Output, int FIND_Z20[DIM_NUM], the optimal vector.
           //
      {
-          int dim;
           int i;
-          double q0;
-          double q0_min;
-          int value;
-          int[] z;
-          int[] z_min;
 
-          z = new int[dim_num];
-          z_min = new int[dim_num];
+          int[] z = new int[dim_num];
+          int[] z_min = new int[dim_num];
 
-          q0_min = typeMethods.r8_huge();
+          double q0_min = typeMethods.r8_huge();
 
           for (i = 1; i <= m / 2; i++)
           {
-               value = 1;
+               int value = 1;
+               int dim;
                for (dim = 0; dim < dim_num; dim++)
                {
                     z[dim] = value;
@@ -961,7 +911,7 @@ public static class FibonacciLattice
                //  Use this Z and the lattice integral method Q0 of order M,
                //  to approximate the integral of P2.
                //
-               q0 = Lattice.lattice(dim_num, m, z, f20_s);
+               double q0 = Lattice.lattice(dim_num, m, z, f20_s);
                //
                //  If this result is the smallest so far, save the corresponding Z.
                //

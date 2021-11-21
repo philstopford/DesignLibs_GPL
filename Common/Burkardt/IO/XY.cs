@@ -75,7 +75,6 @@ public static class XY
         //
     {
         string[] input;
-        int j;
 
         try
         {
@@ -89,7 +88,7 @@ public static class XY
             return;
         }
 
-        j = 0;
+        int j = 0;
         int index = 0;
 
         while (j < point_num)
@@ -198,15 +197,13 @@ public static class XY
         //
     {
         int j;
-            
-        double r;
-        double theta;
-        int turns = 5;
+
+        const int turns = 5;
 
         for (j = 0; j < point_num; j++)
         {
-            r = j / (double) (point_num - 1);
-            theta = turns * r * (2.0 * Math.PI);
+            double r = j / (double) (point_num - 1);
+            double theta = turns * r * (2.0 * Math.PI);
             xy[0 + j * 2] = r * Math.Cos(theta);
             xy[1 + j * 2] = r * Math.Sin(theta);
         }
@@ -282,7 +279,6 @@ public static class XY
         //
     {
         string[] input;
-        string text;
 
         point_num = 0;
 
@@ -301,6 +297,7 @@ public static class XY
         int index = 0;
         while (true)
         {
+            string text;
             try
             {
                 text = input[index];
@@ -507,14 +504,11 @@ public static class XY
         //    Input, string OUTPUT_FILENAME, the name of the file to contain the data.
         //
     {
-        int point_num;
-        double[] xy;
-
-        point_num = 100;
+        const int point_num = 100;
         //
         //  Allocate memory.
         //
-        xy = new double[2 * point_num];
+        double[] xy = new double[2 * point_num];
         //
         //  Set the data.
         //
@@ -562,7 +556,6 @@ public static class XY
         //    of points that form faces.
         //
     {
-        int i;
         int face;
 
         for (face = 0; face < face_num; face++)
@@ -577,6 +570,7 @@ public static class XY
         for (face = 0; face < face_num; face++)
         {
             string cout = "";
+            int i;
             for (i = face_pointer[face]; i < face_pointer[face + 1]; i++)
             {
                 cout += "  " + face_data[i];
@@ -633,11 +627,7 @@ public static class XY
         //    Output, int FACE_DATA[FACE_DATA_NUM], the face items.
         //
     {
-        int ilo;
         string[] input;
-        int n;
-        int face;
-        string text;
 
         try
         {
@@ -651,12 +641,13 @@ public static class XY
             return;
         }
 
-        face = 0;
+        int face = 0;
         face_pointer[0] = 0;
         int index = 0;
 
         while (face < face_num)
         {
+            string text;
             try
             {
                 text = input[index];
@@ -676,10 +667,10 @@ public static class XY
                 continue;
             }
 
-            n = typeMethods.s_word_count(text);
+            int n = typeMethods.s_word_count(text);
             face_pointer[face + 1] = face_pointer[face] + n;
 
-            ilo = face_pointer[face];
+            int ilo = face_pointer[face];
 
             i4vec r = typeMethods.s_to_i4vec(text, n);
 
@@ -739,11 +730,11 @@ public static class XY
         //    of points that form faces.
         //
     {
-        int i;
         int face;
 
         for (face = 0; face < face_num; face++)
         {
+            int i;
             for (i = face_pointer[face]; i < face_pointer[face + 1]; i++)
             {
                 output_unit.Add("  " + face_data[i]);
@@ -797,32 +788,27 @@ public static class XY
         //    of points that form faces.
         //
     {
-        int face;
         int i;
         int j;
-        int k;
-        int n_t = 13;
-        int n_r = 5;
-        double r;
-        double r_min = 1.0;
-        double r_max = 3.0;
-        double t;
-        double t_min = 3.141592653589793;
-        double t_max = 0.0;
+        const int n_t = 13;
+        const int n_r = 5;
+        const double r_min = 1.0;
+        const double r_max = 3.0;
+        const double t_min = 3.141592653589793;
+        const double t_max = 0.0;
 
-        k = 0;
+        int k = 0;
         for (j = 1; j <= n_r; j++)
         {
-
-            r = ((n_r - j) * r_min
-                 + (j - 1) * r_max)
-                / (n_r - 1);
+            double r = ((n_r - j) * r_min
+                        + (j - 1) * r_max)
+                       / (n_r - 1);
 
             for (i = 1; i <= n_t; i++)
             {
-                t = ((n_t - i) * t_min
-                     + (i - 1) * t_max)
-                    / (n_t - 1);
+                double t = ((n_t - i) * t_min
+                            + (i - 1) * t_max)
+                           / (n_t - 1);
 
                 xy[0 + k * 2] = r * Math.Cos(t);
                 xy[1 + k * 2] = r * Math.Sin(t);
@@ -830,7 +816,7 @@ public static class XY
             }
         }
 
-        face = 0;
+        int face = 0;
         k = 0;
         face_pointer[face] = k;
 
@@ -970,8 +956,6 @@ public static class XY
         //
     {
         string[] input;
-        int n;
-        string text;
 
         face_data_num = 0;
         face_num = 0;
@@ -992,6 +976,7 @@ public static class XY
 
         for (;;)
         {
+            string text;
             try
             {
                 text = input[index];
@@ -1007,7 +992,7 @@ public static class XY
                 continue;
             }
 
-            n = typeMethods.s_word_count(text);
+            int n = typeMethods.s_word_count(text);
 
             face_data_num += n;
 
@@ -1158,7 +1143,6 @@ public static class XY
         //    of points that form lines.
         //
     {
-        int i;
         int line;
 
         for (line = 0; line < line_num; line++)
@@ -1173,6 +1157,7 @@ public static class XY
         for (line = 0; line < line_num; line++)
         {
             string cout = "";
+            int i;
             for (i = line_pointer[line]; i < line_pointer[line + 1]; i++)
             {
                 cout += "  " + line_data[i];
@@ -1229,11 +1214,7 @@ public static class XY
         //    Output, int LINE_DATA[LINE_DATA_NUM], the line items.
         //
     {
-        int ilo;
         string[] input;
-        int line;
-        int n;
-        string text;
 
         try
         {
@@ -1247,14 +1228,14 @@ public static class XY
             return;
         }
 
-        line = 0;
+        int line = 0;
         line_pointer[0] = 0;
 
         int index = 0;
 
         while (line < line_num)
         {
-
+            string text;
             try
             {
                 text = input[index];
@@ -1273,10 +1254,10 @@ public static class XY
                 continue;
             }
 
-            n = typeMethods.s_word_count(text);
+            int n = typeMethods.s_word_count(text);
             line_pointer[line + 1] = line_pointer[line] + n;
 
-            ilo = line_pointer[line];
+            int ilo = line_pointer[line];
 
             i4vec r = typeMethods.s_to_i4vec(text, n);
 
@@ -1337,12 +1318,12 @@ public static class XY
         //    of points that form lines.
         //
     {
-        int i;
         int line;
 
         for (line = 0; line < line_num; line++)
         {
             string cout = "";
+            int i;
             for (i = line_pointer[line]; i < line_pointer[line + 1]; i++)
             {
                 cout += "  " + line_data[i];
@@ -1554,8 +1535,6 @@ public static class XY
         //
     {
         string[] input;
-        int n;
-        string text;
 
         line_data_num = 0;
         line_num = 0;
@@ -1576,6 +1555,7 @@ public static class XY
 
         for (;;)
         {
+            string text;
             try
             {
                 text = input[index];
@@ -1591,7 +1571,7 @@ public static class XY
                 continue;
             }
 
-            n = typeMethods.s_word_count(text);
+            int n = typeMethods.s_word_count(text);
 
             line_data_num += n;
 

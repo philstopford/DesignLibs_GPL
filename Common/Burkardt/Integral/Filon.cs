@@ -79,17 +79,9 @@ public static class Filon
     {
         double alpha;
         double beta;
-        double c2n;
-        double c2nm1;
-        double cost;
-        double[] ftab;
         double gamma;
-        double h;
         int i;
-        double sint;
-        double theta;
-        double value = 0;
-        double[] x;
+        double value;
 
         if (Math.Abs(a - b) <= double.Epsilon)
         {
@@ -119,7 +111,7 @@ public static class Filon
         //
         //  Set the X values.
         //
-        x = new double[n];
+        double[] x = new double[n];
         for (i = 0; i < n; i++)
         {
             x[i] = ((n - i - 1) * a
@@ -127,10 +119,10 @@ public static class Filon
                    / (n - 1);
         }
 
-        h = (b - a) / (n - 1);
-        theta = t * h;
-        sint = Math.Sin(theta);
-        cost = Math.Cos(theta);
+        double h = (b - a) / (n - 1);
+        double theta = t * h;
+        double sint = Math.Sin(theta);
+        double cost = Math.Cos(theta);
 
         switch (6.0 * Math.Abs(theta))
         {
@@ -164,9 +156,9 @@ public static class Filon
         //
         //  Tabulate the function.
         //
-        ftab = f(n, x);
+        double[] ftab = f(n, x);
 
-        c2n = 0.5 * ftab[0] * Math.Cos(t * x[0]);
+        double c2n = 0.5 * ftab[0] * Math.Cos(t * x[0]);
         for (i = 2; i < n - 1; i += 2)
         {
             c2n += ftab[i] * Math.Cos(t * x[i]);
@@ -174,7 +166,7 @@ public static class Filon
 
         c2n += 0.5 * ftab[n - 1] * Math.Cos(t * x[n - 1]);
 
-        c2nm1 = 0.0;
+        double c2nm1 = 0.0;
         for (i = 1; i <= n - 2; i += 2)
         {
             c2nm1 += ftab[i] * Math.Cos(t * x[i]);
@@ -263,16 +255,9 @@ public static class Filon
     {
         double alpha;
         double beta;
-        double c2n;
-        double c2nm1;
-        double cost;
         double gamma;
-        double h;
         int i;
-        double sint;
-        double theta;
-        double value = 0;
-        double[] x;
+        double value;
 
         if (Math.Abs(a - b) <= double.Epsilon)
         {
@@ -302,7 +287,7 @@ public static class Filon
         //
         //  Set the X values.
         //
-        x = new double[n];
+        double[] x = new double[n];
         for (i = 0; i < n; i++)
         {
             x[i] = ((n - i - 1) * a
@@ -310,10 +295,10 @@ public static class Filon
                    / (n - 1);
         }
 
-        h = (b - a) / (n - 1);
-        theta = t * h;
-        sint = Math.Sin(theta);
-        cost = Math.Cos(theta);
+        double h = (b - a) / (n - 1);
+        double theta = t * h;
+        double sint = Math.Sin(theta);
+        double cost = Math.Cos(theta);
 
         switch (6.0 * Math.Abs(theta))
         {
@@ -344,7 +329,7 @@ public static class Filon
                 break;
         }
 
-        c2n = +0.5 * ftab[0] * Math.Cos(t * x[0]);
+        double c2n = +0.5 * ftab[0] * Math.Cos(t * x[0]);
         for (i = 2; i < n - 1; i += 2)
         {
             c2n += ftab[i] * Math.Cos(t * x[i]);
@@ -352,7 +337,7 @@ public static class Filon
 
         c2n += 0.5 * ftab[n - 1] * Math.Cos(t * x[n - 1]);
 
-        c2nm1 = 0.0;
+        double c2nm1 = 0.0;
         for (i = 1; i <= n - 2; i += 2)
         {
             c2nm1 += ftab[i] * Math.Cos(t * x[i]);
@@ -442,17 +427,9 @@ public static class Filon
     {
         double alpha;
         double beta;
-        double cost;
-        double[] ftab;
         double gamma;
-        double h;
         int i;
-        double s2n;
-        double s2nm1;
-        double sint;
-        double theta;
-        double value = 0;
-        double[] x;
+        double value;
 
         if (Math.Abs(a - b) <= double.Epsilon)
         {
@@ -482,7 +459,7 @@ public static class Filon
         //
         //  Set the X values.
         //
-        x = new double[n];
+        double[] x = new double[n];
         for (i = 0; i < n; i++)
         {
             x[i] = ((n - i - 1) * a
@@ -490,10 +467,10 @@ public static class Filon
                    / (n - 1);
         }
 
-        h = (b - a) / (n - 1);
-        theta = t * h;
-        sint = Math.Sin(theta);
-        cost = Math.Cos(theta);
+        double h = (b - a) / (n - 1);
+        double theta = t * h;
+        double sint = Math.Sin(theta);
+        double cost = Math.Cos(theta);
 
         switch (6.0 * Math.Abs(theta))
         {
@@ -527,9 +504,9 @@ public static class Filon
         //
         //  Tabulate the function.
         //
-        ftab = f(n, x);
+        double[] ftab = f(n, x);
 
-        s2n = +0.5 * ftab[0] * Math.Sin(t * x[0]);
+        double s2n = +0.5 * ftab[0] * Math.Sin(t * x[0]);
         for (i = 2; i < n - 1; i += 2)
         {
             s2n += ftab[i] * Math.Sin(t * x[i]);
@@ -537,7 +514,7 @@ public static class Filon
 
         s2n += 0.5 * ftab[n - 1] * Math.Sin(t * x[n - 1]);
 
-        s2nm1 = 0.0;
+        double s2nm1 = 0.0;
         for (i = 1; i <= n - 2; i += 2)
         {
             s2nm1 += ftab[i] * Math.Sin(t * x[i]);
@@ -626,16 +603,9 @@ public static class Filon
     {
         double alpha;
         double beta;
-        double cost;
         double gamma;
-        double h;
         int i;
-        double s2n;
-        double s2nm1;
-        double sint;
-        double theta;
-        double value = 0;
-        double[] x;
+        double value;
 
         if (Math.Abs(a - b) <= double.Epsilon)
         {
@@ -665,7 +635,7 @@ public static class Filon
         //
         //  Set the X values.
         //
-        x = new double[n];
+        double[] x = new double[n];
         for (i = 0; i < n; i++)
         {
             x[i] = ((n - i - 1) * a
@@ -673,10 +643,10 @@ public static class Filon
                    / (n - 1);
         }
 
-        h = (b - a) / (n - 1);
-        theta = t * h;
-        sint = Math.Sin(theta);
-        cost = Math.Cos(theta);
+        double h = (b - a) / (n - 1);
+        double theta = t * h;
+        double sint = Math.Sin(theta);
+        double cost = Math.Cos(theta);
 
         switch (6.0 * Math.Abs(theta))
         {
@@ -707,7 +677,7 @@ public static class Filon
                 break;
         }
 
-        s2n = +0.5 * ftab[0] * Math.Sin(t * x[0]);
+        double s2n = +0.5 * ftab[0] * Math.Sin(t * x[0]);
         for (i = 2; i < n - 1; i += 2)
         {
             s2n += ftab[i] * Math.Sin(t * x[i]);
@@ -715,7 +685,7 @@ public static class Filon
 
         s2n += 0.5 * ftab[n - 1] * Math.Sin(t * x[n - 1]);
 
-        s2nm1 = 0.0;
+        double s2nm1 = 0.0;
         for (i = 1; i <= n - 2; i += 2)
         {
             s2nm1 += ftab[i] * Math.Sin(t * x[i]);

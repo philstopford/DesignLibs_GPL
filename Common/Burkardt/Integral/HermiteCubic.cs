@@ -49,12 +49,9 @@ public static class HermiteCubic
         //    cubic polynomial over the interval X1 <= X <= X2.
         //
     {
-        double h;
-        double q;
+        double h = x2 - x1;
 
-        h = x2 - x1;
-
-        q = 0.5 * h * (f1 + f2 + h * (d1 - d2) / 6.0);
+        double q = 0.5 * h * (f1 + f2 + h * (d1 - d2) / 6.0);
 
         return q;
     }
@@ -107,54 +104,33 @@ public static class HermiteCubic
         //    Hermite cubic polynomial over the interval A <= X <= B.
         //
     {
-        double dterm;
-        double fterm;
-        double h;
-        double phia1;
-        double phia2;
-        double phib1;
-        double phib2;
-        double psia1;
-        double psia2;
-        double psib1;
-        double psib2;
-        double q;
-        double ta1;
-        double ta2;
-        double tb1;
-        double tb2;
-        double ua1;
-        double ua2;
-        double ub1;
-        double ub2;
+        double h = x2 - x1;
 
-        h = x2 - x1;
+        double ta1 = (a - x1) / h;
+        double ta2 = (x2 - a) / h;
+        double tb1 = (b - x1) / h;
+        double tb2 = (x2 - b) / h;
 
-        ta1 = (a - x1) / h;
-        ta2 = (x2 - a) / h;
-        tb1 = (b - x1) / h;
-        tb2 = (x2 - b) / h;
+        double ua1 = ta1 * ta1 * ta1;
+        double phia1 = ua1 * (2.0 - ta1);
+        double psia1 = ua1 * (3.0 * ta1 - 4.0);
 
-        ua1 = ta1 * ta1 * ta1;
-        phia1 = ua1 * (2.0 - ta1);
-        psia1 = ua1 * (3.0 * ta1 - 4.0);
+        double ua2 = ta2 * ta2 * ta2;
+        double phia2 = ua2 * (2.0 - ta2);
+        double psia2 = -ua2 * (3.0 * ta2 - 4.0);
 
-        ua2 = ta2 * ta2 * ta2;
-        phia2 = ua2 * (2.0 - ta2);
-        psia2 = -ua2 * (3.0 * ta2 - 4.0);
+        double ub1 = tb1 * tb1 * tb1;
+        double phib1 = ub1 * (2.0 - tb1);
+        double psib1 = ub1 * (3.0 * tb1 - 4.0);
 
-        ub1 = tb1 * tb1 * tb1;
-        phib1 = ub1 * (2.0 - tb1);
-        psib1 = ub1 * (3.0 * tb1 - 4.0);
+        double ub2 = tb2 * tb2 * tb2;
+        double phib2 = ub2 * (2.0 - tb2);
+        double psib2 = -ub2 * (3.0 * tb2 - 4.0);
 
-        ub2 = tb2 * tb2 * tb2;
-        phib2 = ub2 * (2.0 - tb2);
-        psib2 = -ub2 * (3.0 * tb2 - 4.0);
+        double fterm = f1 * (phia2 - phib2) + f2 * (phib1 - phia1);
+        double dterm = (d1 * (psia2 - psib2) + d2 * (psib1 - psia1)) * (h / 6.0);
 
-        fterm = f1 * (phia2 - phib2) + f2 * (phib1 - phia1);
-        dterm = (d1 * (psia2 - psib2) + d2 * (psib1 - psia1)) * (h / 6.0);
-
-        q = 0.5 * h * (fterm + dterm);
+        double q = 0.5 * h * (fterm + dterm);
 
         return q;
     }
@@ -211,12 +187,9 @@ public static class HermiteCubic
         //    Hermite cubic Lagrange polynomials from X1 to X2.
         //
     {
-        double h;
-        double[] q;
+        double[] q = new double[4];
 
-        q = new double[4];
-
-        h = x2 - x1;
+        double h = x2 - x1;
 
         q[0] = h / 2.0;
         q[1] = h * h / 12.0;
@@ -270,48 +243,29 @@ public static class HermiteCubic
         //    Hermite cubic Lagrange polynomials over the interval A <= X <= B.
         //
     {
-        double h;
-        double phia1;
-        double phia2;
-        double phib1;
-        double phib2;
-        double psia1;
-        double psia2;
-        double psib1;
-        double psib2;
-        double[] q;
-        double ta1;
-        double ta2;
-        double tb1;
-        double tb2;
-        double ua1;
-        double ua2;
-        double ub1;
-        double ub2;
+        double h = x2 - x1;
+        double ta1 = (a - x1) / h;
+        double ta2 = (x2 - a) / h;
+        double tb1 = (b - x1) / h;
+        double tb2 = (x2 - b) / h;
 
-        h = x2 - x1;
-        ta1 = (a - x1) / h;
-        ta2 = (x2 - a) / h;
-        tb1 = (b - x1) / h;
-        tb2 = (x2 - b) / h;
+        double ua1 = ta1 * ta1 * ta1;
+        double phia1 = ua1 * (2.0 - ta1);
+        double psia1 = ua1 * (3.0 * ta1 - 4.0);
 
-        ua1 = ta1 * ta1 * ta1;
-        phia1 = ua1 * (2.0 - ta1);
-        psia1 = ua1 * (3.0 * ta1 - 4.0);
+        double ua2 = ta2 * ta2 * ta2;
+        double phia2 = ua2 * (2.0 - ta2);
+        double psia2 = -ua2 * (3.0 * ta2 - 4.0);
 
-        ua2 = ta2 * ta2 * ta2;
-        phia2 = ua2 * (2.0 - ta2);
-        psia2 = -ua2 * (3.0 * ta2 - 4.0);
+        double ub1 = tb1 * tb1 * tb1;
+        double phib1 = ub1 * (2.0 - tb1);
+        double psib1 = ub1 * (3.0 * tb1 - 4.0);
 
-        ub1 = tb1 * tb1 * tb1;
-        phib1 = ub1 * (2.0 - tb1);
-        psib1 = ub1 * (3.0 * tb1 - 4.0);
+        double ub2 = tb2 * tb2 * tb2;
+        double phib2 = ub2 * (2.0 - tb2);
+        double psib2 = -ub2 * (3.0 * tb2 - 4.0);
 
-        ub2 = tb2 * tb2 * tb2;
-        phib2 = ub2 * (2.0 - tb2);
-        psib2 = -ub2 * (3.0 * tb2 - 4.0);
-
-        q = new double[4];
+        double[] q = new double[4];
 
         q[0] = 0.5 * h * (phia2 - phib2);
         q[1] = 0.5 * h * (psia2 - psib2) * (h / 6.0);
@@ -379,15 +333,13 @@ public static class HermiteCubic
         //    at X.
         //
     {
-        double dx;
-        double h;
         int j;
 
-        h = x2 - x1;
+        double h = x2 - x1;
 
         for (j = 0; j < n; j++)
         {
-            dx = x[j] - x1;
+            double dx = x[j] - x1;
             //
             //  F1.
             //
@@ -471,9 +423,8 @@ public static class HermiteCubic
         //
     {
         int i;
-        double q;
 
-        q = 0.0;
+        double q = 0.0;
 
         for (i = 0; i < nn - 1; i++)
         {
@@ -531,24 +482,20 @@ public static class HermiteCubic
         //    over the interval [A,B].
         //
     {
-        double aa;
-        double bb;
-        int i;
         int ii;
-        int j;
-        int k;
-        double[] q;
-        double s;
 
-        q = new double[n];
+        double[] q = new double[n];
 
-        i = n / 2;
-        j = n / 2;
+        int i = n / 2;
+        int j = n / 2;
 
         for (ii = 0; ii < n; ii++)
         {
             q[ii] = 0.0;
 
+            double bb;
+            double aa;
+            double s;
             if (a[ii] <= b[ii])
             {
                 aa = a[ii];
@@ -577,6 +524,7 @@ public static class HermiteCubic
                 q[ii] = hermite_cubic_integrate(xn[i], fn[i], dn[i],
                     xn[i + 1], fn[i + 1], dn[i + 1], aa, xn[i + 1]);
 
+                int k;
                 for (k = i + 1; k < j; k++)
                 {
                     q[ii] += hermite_cubic_integral(xn[k], fn[k], dn[k],
@@ -646,9 +594,8 @@ public static class HermiteCubic
         //
     {
         int j;
-        double[] w;
 
-        w = new double[2 * nn];
+        double[] w = new double[2 * nn];
 
         w[0 + 0 * 2] = 0.5 * (xn[1] - xn[0]);
         for (j = 1; j < nn - 1; j++)
@@ -726,9 +673,8 @@ public static class HermiteCubic
         //
     {
         int i;
-        int left;
 
-        left = n / 2;
+        int left = n / 2;
 
         for (i = 0; i < n; i++)
         {
@@ -778,11 +724,8 @@ public static class HermiteCubic
         //    Output, double *C0, *C1, *C2, *C3, the power form of the polynomial.
         //
     {
-        double df;
-        double h;
-
-        h = x2 - x1;
-        df = (f2 - f1) / h;
+        double h = x2 - x1;
+        double df = (f2 - f1) / h;
         //
         //  Polynomial in terms of X - X1:
         //
@@ -851,17 +794,13 @@ public static class HermiteCubic
         //    three derivatives of the Hermite cubic at X.
         //
     {
-        double c2;
-        double c3;
-        double df;
-        double h;
         int i;
 
-        h = x2 - x1;
-        df = (f2 - f1) / h;
+        double h = x2 - x1;
+        double df = (f2 - f1) / h;
 
-        c2 = -(2.0 * d1 - 3.0 * df + d2) / h;
-        c3 = (d1 - 2.0 * df + d2) / h / h;
+        double c2 = -(2.0 * d1 - 3.0 * df + d2) / h;
+        double c3 = (d1 - 2.0 * df + d2) / h / h;
 
         for (i = 0; i < n; i++)
         {

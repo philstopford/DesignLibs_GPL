@@ -55,34 +55,29 @@ public static class MultivariateLagrange
         //    Output, double INTERPOLANT_VALUE[NI], the value of the interpolant at XI.
         //
     {
-        double[] c;
-        int[] e;
         int i;
         int j;
-        int oj;
-        double[] value;
-        double[] yi;
 
-        yi = new double[ni];
+        double[] yi = new double[ni];
 
         for (i = 0; i < ni; i++)
         {
             yi[i] = 0.0;
         }
 
-        c = new double[r];
-        e = new int[r];
+        double[] c = new double[r];
+        int[] e = new int[r];
 
         for (j = 0; j < pn; j++)
         {
-            oj = po[j];
+            int oj = po[j];
             for (i = 0; i < oj; i++)
             {
                 c[i] = pc[j + i * pn];
                 e[i] = pe[j + i * pn];
             }
 
-            value = Polynomial.polynomial_value(d, oj, c, e, ni, xi);
+            double[] value = Polynomial.polynomial_value(d, oj, c, e, ni, xi);
             for (i = 0; i < ni; i++)
             {
                 yi[i] += pd[j] * value[i];
@@ -177,25 +172,14 @@ public static class MultivariateLagrange
         //    Lagrange basis polynomials.
         //
     {
-        double[] c;
-        double[] cj;
-        double[] ck;
         double d_max = 0;
         double d_min = 0;
-        double d_tol;
-        int[] e;
-        int[] ej;
-        int[] ek;
         int i;
         int j;
         int k;
         int l;
-        int o;
         int oj;
         int ok = 0;
-        double[] qc;
-        int[] qe;
-        int[] qo;
         double[] value = new double[1];
         //
         //  Verify that R is correct.
@@ -221,7 +205,7 @@ public static class MultivariateLagrange
         //  Verify that the points are sufficiently distinct.
         //
         typeMethods.r8col_separation(d, nd, xd, ref d_min, ref d_max);
-        d_tol = Math.Sqrt(typeMethods.r8_epsilon());
+        double d_tol = Math.Sqrt(typeMethods.r8_epsilon());
 
         if (d_min < d_tol)
         {
@@ -235,12 +219,12 @@ public static class MultivariateLagrange
         //
         //  Make some work space.
         //
-        c = new double[r];
-        cj = new double[r];
-        ck = new double[r];
-        e = new int[r];
-        ej = new int[r];
-        ek = new int[r];
+        double[] c = new double[r];
+        double[] cj = new double[r];
+        double[] ck = new double[r];
+        int[] e = new int[r];
+        int[] ej = new int[r];
+        int[] ek = new int[r];
         //
         //  Initialize the polynomials Q, which span the space of
         //  N-th degree polynomials.
@@ -249,9 +233,9 @@ public static class MultivariateLagrange
         //  * all ND-dimensional monomials of degree N or less.
         //    in 2D, this might be 1, x, y, x^2, xy, y^2, ...
         //
-        qo = new int[r];
-        qc = new double[r * r];
-        qe = new int[r * r];
+        int[] qo = new int[r];
+        double[] qc = new double[r * r];
+        int[] qe = new int[r * r];
 
         for (k = 0; k < r; k++)
         {
@@ -285,6 +269,7 @@ public static class MultivariateLagrange
             //
             i = r + 1;
 
+            int o;
             for (j = k; j < r; j++)
             {
                 o = qo[j];
@@ -527,27 +512,15 @@ public static class MultivariateLagrange
         //    Lagrange basis polynomials.
         //
     {
-        double[] c;
-        double[] cj;
-        double[] ck;
         double d_max = 0;
         double d_min = 0;
-        double d_tol;
-        int[] e;
-        int[] ej;
-        int[] ek;
         int i;
         int j;
         int k;
         int l;
-        int o;
         int oj;
         int ok = 0;
-        double[] qc;
-        int[] qe;
-        int[] qo;
         double[] value = new double[1];
-        double value_max;
         //
         //  Verify that R is correct.
         //
@@ -572,7 +545,7 @@ public static class MultivariateLagrange
         //  Verify that the points are sufficiently distinct.
         //
         typeMethods.r8col_separation(d, nd, xd, ref d_min, ref d_max);
-        d_tol = Math.Sqrt(typeMethods.r8_epsilon());
+        double d_tol = Math.Sqrt(typeMethods.r8_epsilon());
 
         if (d_min < d_tol)
         {
@@ -586,12 +559,12 @@ public static class MultivariateLagrange
         //
         //  Make some work space.
         //
-        c = new double[r];
-        cj = new double[r];
-        ck = new double[r];
-        e = new int[r];
-        ej = new int[r];
-        ek = new int[r];
+        double[] c = new double[r];
+        double[] cj = new double[r];
+        double[] ck = new double[r];
+        int[] e = new int[r];
+        int[] ej = new int[r];
+        int[] ek = new int[r];
         //
         //  Initialize the polynomials Q, which span the space of
         //  N-th degree polynomials.
@@ -600,9 +573,9 @@ public static class MultivariateLagrange
         //  * all ND-dimensional monomials of degree N or less.
         //    in 2D, this might be 1, x, y, x^2, xy, y^2, ...
         //
-        qo = new int[r];
-        qc = new double[r * r];
-        qe = new int[r * r];
+        int[] qo = new int[r];
+        double[] qc = new double[r * r];
+        int[] qe = new int[r * r];
 
         for (k = 0; k < r; k++)
         {
@@ -635,8 +608,9 @@ public static class MultivariateLagrange
             //  Find the first polynomial Q(K:R)(X) which is nonzero at X(K).
             //
             i = r + 1;
-            value_max = 0.0;
+            double value_max = 0.0;
 
+            int o;
             for (j = k; j < r; j++)
             {
                 o = qo[j];
@@ -880,25 +854,14 @@ public static class MultivariateLagrange
         //    Lagrange basis polynomials.
         //
     {
-        double[] c;
-        double[] cj;
-        double[] ck;
         double d_max = 0;
         double d_min = 0;
-        double d_tol;
-        int[] e;
-        int[] ej;
-        int[] ek;
         int i;
         int j;
         int k;
         int l;
-        int o;
         int oj;
         int ok = 0;
-        double[] qc;
-        int[] qe;
-        int[] qo;
         double[] value = new double[1];
         //
         //  Verify that R is correct.
@@ -924,7 +887,7 @@ public static class MultivariateLagrange
         //  Verify that the points are sufficiently distinct.
         //
         typeMethods.r8col_separation(d, nd, xd, ref d_min, ref d_max);
-        d_tol = Math.Sqrt(typeMethods.r8_epsilon());
+        double d_tol = Math.Sqrt(typeMethods.r8_epsilon());
 
         if (d_min < d_tol)
         {
@@ -938,12 +901,12 @@ public static class MultivariateLagrange
         //
         //  Make some work space.
         //
-        c = new double[r];
-        cj = new double[r];
-        ck = new double[r];
-        e = new int[r];
-        ej = new int[r];
-        ek = new int[r];
+        double[] c = new double[r];
+        double[] cj = new double[r];
+        double[] ck = new double[r];
+        int[] e = new int[r];
+        int[] ej = new int[r];
+        int[] ek = new int[r];
         //
         //  Initialize the polynomials Q, which span the space of
         //  N-th degree polynomials.
@@ -952,9 +915,9 @@ public static class MultivariateLagrange
         //  * all ND-dimensional monomials of degree N or less.
         //    in 2D, this might be 1, x, y, x^2, xy, y^2, ...
         //
-        qo = new int[r];
-        qc = new double[r * r];
-        qe = new int[r * r];
+        int[] qo = new int[r];
+        double[] qc = new double[r * r];
+        int[] qe = new int[r * r];
 
         for (k = 0; k < r; k++)
         {
@@ -988,6 +951,7 @@ public static class MultivariateLagrange
             //
             i = r + 1;
 
+            int o;
             for (j = k; j < r; j++)
             {
                 o = qo[j];
@@ -1233,27 +1197,14 @@ public static class MultivariateLagrange
         //    Lagrange basis polynomials.
         //
     {
-        double[] c;
-        double[] cj;
-        double[] ck;
         double d_max = 0;
         double d_min = 0;
-        double d_tol;
-        int[] e;
-        int[] ej;
-        int[] ek;
         int i;
         int j;
         int k;
         int l;
-        int o;
         int oj;
         int ok = 0;
-        double[] qc;
-        int[] qe;
-        int[] qo;
-        double[] value;
-        double value_max;
         //
         //  Verify that R is correct.
         //
@@ -1278,7 +1229,7 @@ public static class MultivariateLagrange
         //  Verify that the points are sufficiently distinct.
         //
         typeMethods.r8col_separation(d, nd, xd, ref d_min, ref d_max);
-        d_tol = Math.Sqrt(typeMethods.r8_epsilon());
+        double d_tol = Math.Sqrt(typeMethods.r8_epsilon());
 
         if (d_min < d_tol)
         {
@@ -1292,12 +1243,12 @@ public static class MultivariateLagrange
         //
         //  Make some work space.
         //
-        c = new double[r];
-        cj = new double[r];
-        ck = new double[r];
-        e = new int[r];
-        ej = new int[r];
-        ek = new int[r];
+        double[] c = new double[r];
+        double[] cj = new double[r];
+        double[] ck = new double[r];
+        int[] e = new int[r];
+        int[] ej = new int[r];
+        int[] ek = new int[r];
         //
         //  Initialize the polynomials Q, which span the space of
         //  N-th degree polynomials.
@@ -1306,9 +1257,9 @@ public static class MultivariateLagrange
         //  * all ND-dimensional monomials of degree N or less.
         //    in 2D, this might be 1, x, y, x^2, xy, y^2, ...
         //
-        qo = new int[r];
-        qc = new double[r * r];
-        qe = new int[r * r];
+        int[] qo = new int[r];
+        double[] qc = new double[r * r];
+        int[] qe = new int[r * r];
 
         for (k = 0; k < r; k++)
         {
@@ -1341,8 +1292,10 @@ public static class MultivariateLagrange
             //  Find the first polynomial Q(K:R)(X) which is nonzero at X(K).
             //
             i = r + 1;
-            value_max = 0.0;
+            double value_max = 0.0;
 
+            int o;
+            double[] value;
             for (j = k; j < r; j++)
             {
                 o = qo[j];
@@ -1599,15 +1552,11 @@ public static class MultivariateLagrange
     {
         double d_max = 0;
         double d_min = 0;
-        double d_tol;
-        int r;
-        bool success;
-        double tol;
         //
         //  Verify that the points are sufficiently distinct.
         //
         typeMethods.r8col_separation(d, nd, xd, ref d_min, ref d_max);
-        d_tol = Math.Sqrt(typeMethods.r8_epsilon());
+        double d_tol = Math.Sqrt(typeMethods.r8_epsilon());
 
         if (d_min < d_tol)
         {
@@ -1622,16 +1571,16 @@ public static class MultivariateLagrange
         //  Search for the appropriate interpolation space.
         //
         n2 = n;
-        tol = 0.0001;
+        double tol = 0.0001;
 
         for (;;)
         {
-            r = Monomial.mono_upto_enum(d, n2);
+            int r = Monomial.mono_upto_enum(d, n2);
 
             pc = new double[nd * r];
             pe = new int[nd * r];
 
-            success = lagrange_partial4(d, n2, r, nd, xd, option, tol, ref po, ref pc, ref pe);
+            bool success = lagrange_partial4(d, n2, r, nd, xd, option, tol, ref po, ref pc, ref pe);
 
             switch (success)
             {
@@ -1749,28 +1698,14 @@ public static class MultivariateLagrange
         //    and 1 if it was successful.
         //
     {
-        double[] c;
-        double[] cj;
-        double[] ck;
-        int[] e;
-        int[] ej;
-        int[] ek;
         int i;
         int j;
         int k;
         int l;
-        int[] lpp;
         int o = 0;
         int oj;
         int ok = 0;
-        double[] qc;
-        int[] qe;
-        int[] qo;
-        bool success;
-        double[] value;
-        double value_max;
 
-        success = true;
         //
         //  Verify that R is acceptable.
         //
@@ -1786,18 +1721,18 @@ public static class MultivariateLagrange
         //
         //  Make some work space.
         //
-        c = new double[r];
-        cj = new double[r];
-        ck = new double[r];
-        e = new int[r];
-        ej = new int[r];
-        ek = new int[r];
+        double[] c = new double[r];
+        double[] cj = new double[r];
+        double[] ck = new double[r];
+        int[] e = new int[r];
+        int[] ej = new int[r];
+        int[] ek = new int[r];
         //
         //  Initialize the polynomials Q spanning the space of N-th degree polynomials.
         //
-        qo = new int[r];
-        qc = new double[r * r];
-        qe = new int[r * r];
+        int[] qo = new int[r];
+        double[] qc = new double[r * r];
+        int[] qe = new int[r * r];
 
         for (j = 0; j < r; j++)
         {
@@ -1823,7 +1758,7 @@ public static class MultivariateLagrange
                     e[0] = k + 1;
                     break;
                 case 1:
-                    lpp = Comp.comp_unrank_grlex(d, k + 1);
+                    int[] lpp = Comp.comp_unrank_grlex(d, k + 1);
                     PolynomialNS.Legendre.lpp_to_polynomial(d, lpp, r, ref o, ref c, ref e);
                     break;
             }
@@ -1855,8 +1790,9 @@ public static class MultivariateLagrange
             //  Find the polynomial Q(K:R)(X) which is most nonzero at X(K).
             //
             i = r + 1;
-            value_max = 0.0;
+            double value_max = 0.0;
 
+            double[] value;
             for (j = k; j < r; j++)
             {
                 o = qo[j];
@@ -1880,9 +1816,8 @@ public static class MultivariateLagrange
             //
             if (Math.Abs(value_max) < tol || i == r + 1)
             {
-                success = false;
                 Console.WriteLine("LAGRANGE_PARTIAL4 - Unacceptable VALUE_MAX = " + value_max + "");
-                return success;
+                return false;
             }
 
             value = new double[1];
@@ -2013,6 +1948,6 @@ public static class MultivariateLagrange
                 pe[i + l * nd] = ek[l];
             }
         }
-        return success;
+        return true;
     }
 }

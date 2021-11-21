@@ -66,9 +66,8 @@ public static class Smolyak
         //
     {
         int l;
-        int l_min;
 
-        l_min = Math.Max(l_max - m + 1, 0);
+        int l_min = Math.Max(l_max - m + 1, 0);
 
         for (l = 0; l < l_min; l++)
         {

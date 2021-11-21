@@ -53,28 +53,22 @@ public static class QMult
         //
     {
         int i;
-        int order = 16;
-        double quad;
-        double result;
-        double volume;
-        double[] weight;
-        double x;
-        double[] xtab;
+        const int order = 16;
 
-        xtab = new double[order];
-        weight = new double[order];
+        double[] xtab = new double[order];
+        double[] weight = new double[order];
 
         LegendreQuadrature.legendre_set(order, ref xtab, ref weight);
 
-        quad = 0.0;
+        double quad = 0.0;
         for (i = 0; i < order; i++)
         {
-            x = 0.5 * (b - a) * xtab[i] + 0.5 * (a + b);
+            double x = 0.5 * (b - a) * xtab[i] + 0.5 * (a + b);
             quad += 0.5 * weight[i] * func(setting, x);
         }
 
-        volume = b - a;
-        result = quad * volume;
+        double volume = b - a;
+        double result = quad * volume;
 
         return result;
     }
@@ -139,36 +133,27 @@ public static class QMult
         //    and lower limits of the Y integration.
         //
     {
-        double c;
-        double d;
         int i;
-        int j;
-        int order = 16;
-        double quad;
-        double w1;
-        double w2;
-        double[] weight;
-        double x;
-        double[] xtab;
-        double y;
+        const int order = 16;
 
-        xtab = new double[order];
-        weight = new double[order];
+        double[] xtab = new double[order];
+        double[] weight = new double[order];
 
         LegendreQuadrature.legendre_set(order, ref xtab, ref weight);
 
-        quad = 0.0;
+        double quad = 0.0;
         for (i = 0; i < order; i++)
         {
-            w1 = 0.5 * (b - a) * weight[i];
-            x = 0.5 * (b - a) * xtab[i] + 0.5 * (b + a);
-            c = flo(x);
-            d = fup(x);
+            double w1 = 0.5 * (b - a) * weight[i];
+            double x = 0.5 * (b - a) * xtab[i] + 0.5 * (b + a);
+            double c = flo(x);
+            double d = fup(x);
 
+            int j;
             for (j = 0; j < order; j++)
             {
-                w2 = 0.5 * (d - c) * weight[j];
-                y = 0.5 * (d - c) * xtab[j] + 0.5 * (d + c);
+                double w2 = 0.5 * (d - c) * weight[j];
+                double y = 0.5 * (d - c) * xtab[j] + 0.5 * (d + c);
                 quad += w1 * w2 * func(x, y);
             }
         }
@@ -239,58 +224,43 @@ public static class QMult
         //    the function.
         //
     {
-        double c;
-        double d;
-        double e;
-        double f;
         int i;
-        int j;
-        int k;
-        int order = 16;
-        double quad;
-        double result;
-        double volume;
-        double w1;
-        double w2;
-        double w3;
-        double[] weight;
-        double x;
-        double[] xtab;
-        double y;
-        double z;
+        const int order = 16;
 
-        xtab = new double[order];
-        weight = new double[order];
+        double[] xtab = new double[order];
+        double[] weight = new double[order];
 
         LegendreQuadrature.legendre_set(order, ref xtab, ref weight);
 
-        quad = 0.0;
+        double quad = 0.0;
 
         for (i = 0; i < order; i++)
         {
-            x = 0.5 * (b - a) * xtab[i] + 0.5 * (b + a);
-            w1 = 0.5 * weight[i];
-            c = flo1(x);
-            d = fup1(x);
+            double x = 0.5 * (b - a) * xtab[i] + 0.5 * (b + a);
+            double w1 = 0.5 * weight[i];
+            double c = flo1(x);
+            double d = fup1(x);
 
+            int j;
             for (j = 0; j < order; j++)
             {
-                w2 = 0.5 * (d - c) * weight[j];
-                y = 0.5 * (d - c) * xtab[j] + 0.5 * (d + c);
-                e = flo2(x, y);
-                f = fup2(x, y);
+                double w2 = 0.5 * (d - c) * weight[j];
+                double y = 0.5 * (d - c) * xtab[j] + 0.5 * (d + c);
+                double e = flo2(x, y);
+                double f = fup2(x, y);
 
+                int k;
                 for (k = 0; k < order; k++)
                 {
-                    w3 = 0.5 * (f - e) * weight[k];
-                    z = 0.5 * (f - e) * xtab[k] + 0.5 * (f + e);
+                    double w3 = 0.5 * (f - e) * weight[k];
+                    double z = 0.5 * (f - e) * xtab[k] + 0.5 * (f + e);
                     quad += w1 * w2 * w3 * func(settings, x, y, z);
                 }
             }
         }
 
-        volume = b - a;
-        result = quad * volume;
+        double volume = b - a;
+        double result = quad * volume;
 
         return result;
     }

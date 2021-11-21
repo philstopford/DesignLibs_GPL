@@ -39,8 +39,7 @@ public static partial class Integral
         //    Output, double VALUE, the value of the integral.
         //
     {
-        double i_r8;
-        double value = 0;
+        double value;
 
         if (i != j)
         {
@@ -48,7 +47,7 @@ public static partial class Integral
         }
         else
         {
-            i_r8 = i;
+            double i_r8 = i;
 
             value = Math.Pow(2, a + b + 1.0)
                     / (2.0 * i_r8 + a + b + 1.0)
@@ -134,39 +133,29 @@ public static partial class Integral
         //    Output, double JACOBI_INTEGRAL, the value of the integral.
         //
     {
-        double arg1;
-        double arg2;
-        double arg3;
-        double arg4;
-        double c;
-        double s;
-        double value = 0;
-        double value1;
-        double value2;
+        double c = expon;
 
-        c = expon;
-
-        s = (expon % 2) switch
+        double s = (expon % 2) switch
         {
             0 => +1.0,
             _ => -1.0
         };
 
-        arg1 = - alpha;
-        arg2 =   1.0 + c;
-        arg3 =   2.0 + beta + c;
-        arg4 = - 1.0;
+        double arg1 = - alpha;
+        double arg2 = 1.0 + c;
+        double arg3 = 2.0 + beta + c;
+        double arg4 = - 1.0;
 
-        value1 = typeMethods.r8_hyper_2f1 ( arg1, arg2, arg3, arg4 );
+        double value1 = typeMethods.r8_hyper_2f1 ( arg1, arg2, arg3, arg4 );
 
         arg1 = - beta;
         arg2 =   1.0 + c;
         arg3 =   2.0 + alpha + c;
         arg4 = - 1.0;
 
-        value2 = typeMethods.r8_hyper_2f1 ( arg1, arg2, arg3, arg4 );
+        double value2 = typeMethods.r8_hyper_2f1 ( arg1, arg2, arg3, arg4 );
 
-        value = typeMethods.r8_gamma ( 1.0 + c ) * ( 
+        double value = typeMethods.r8_gamma ( 1.0 + c ) * ( 
             s * typeMethods.r8_gamma ( 1.0 + beta  ) * value1 
             / typeMethods.r8_gamma ( 2.0 + beta  + c ) 
             +     typeMethods.r8_gamma ( 1.0 + alpha ) * value2 

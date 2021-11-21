@@ -59,20 +59,17 @@ public static class MonteCarlo
     {
         int dim;
         int i;
-        double result;
-        double volume;
-        double[] x;
 
-        result = 0.0;
+        double result = 0.0;
 
         for ( i = 0; i < eval_num; i++ )
         {
-            x = UniformRNG.r8vec_uniform_01_new ( dim_num, ref seed );
+            double[] x = UniformRNG.r8vec_uniform_01_new ( dim_num, ref seed );
 
             result += func ( dim_num, x );
         }
 
-        volume = 1.0;
+        double volume = 1.0;
         for ( dim = 0; dim < dim_num; dim++ )
         {
             volume *= ( b[dim] - a[dim] );
@@ -127,10 +124,9 @@ public static class MonteCarlo
         //
     {
         int j;
-        double quad;
         double[] x = null;
 
-        quad = 0.0;
+        double quad = 0.0;
 
         for ( j = 1; j <= m; j++ )
         {

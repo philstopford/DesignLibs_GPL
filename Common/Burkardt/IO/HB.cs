@@ -60,17 +60,8 @@ public static class HB
         //
     {
         char code = ' ';
-        int i;
-        int j;
-        int jhi;
-        int jlo;
-        int khi;
-        int klo;
-        char[] line = new char[255];
-        int line_num;
         int m = 0;
         int r = 0;
-        char[] s;
         int w = 0;
 
         switch (rhscrd)
@@ -83,22 +74,24 @@ public static class HB
                     {
                         typeMethods.s_to_format(rhsfmt, ref r, ref code, ref w, ref m);
 
-                        line_num = 1 + (nrow * nrhs - 1) / r;
+                        int line_num = 1 + (nrow * nrhs - 1) / r;
 
-                        jhi = 0;
+                        int jhi = 0;
+                        int i;
                         for (i = 1; i <= line_num; i++)
                         {
-                            line = input[inputIndex].ToCharArray();
+                            char[] line = input[inputIndex].ToCharArray();
                             inputIndex++;
-                            jlo = jhi + 1;
+                            int jlo = jhi + 1;
                             jhi = Math.Min(jlo + r - 1, nrow * nrhs);
 
-                            khi = 0;
+                            int khi = 0;
+                            int j;
                             for (j = jlo; j <= jhi; j++)
                             {
-                                klo = khi + 1;
+                                int klo = khi + 1;
                                 khi = Math.Min(klo + w - 1, line.Length);
-                                s = typeMethods.s_substring(line, klo, khi);
+                                char[] s = typeMethods.s_substring(line, klo, khi);
                                 exact[j - 1] = Convert.ToDouble(s);
                             }
                         }
@@ -163,11 +156,6 @@ public static class HB
         //
     {
         char code = ' ';
-        int i;
-        int j;
-        int jhi;
-        int jlo;
-        int line_num;
         int m = 0;
         int r = 0;
         int w = 0;
@@ -181,14 +169,16 @@ public static class HB
                     case 'X':
                     {
                         typeMethods.s_to_format(rhsfmt, ref r, ref code, ref w, ref m);
-                        line_num = 1 + (nrow * nrhs - 1) / r;
+                        int line_num = 1 + (nrow * nrhs - 1) / r;
 
-                        jhi = 0;
+                        int jhi = 0;
+                        int i;
                         for (i = 1; i <= line_num; i++)
                         {
                             string cout = "";
-                            jlo = jhi + 1;
+                            int jlo = jhi + 1;
                             jhi = Math.Min(jlo + r - 1, nrow * nrhs);
+                            int j;
                             for (j = jlo; j <= jhi; j++)
                             {
                                 cout += exact[j - 1].ToString(CultureInfo.InvariantCulture).PadLeft(w);
@@ -731,17 +721,8 @@ public static class HB
         //
     {
         char code = ' ';
-        int i;
-        int j;
-        int jhi;
-        int jlo;
-        int khi;
-        int klo;
-        char[] line = new char[255];
-        int line_num;
         int m = 0;
         int r = 0;
-        char[] s;
         int w = 0;
 
         switch (rhscrd)
@@ -754,22 +735,24 @@ public static class HB
                     {
                         typeMethods.s_to_format(rhsfmt, ref r, ref code, ref w, ref m);
 
-                        line_num = 1 + (nrow * nrhs - 1) / r;
+                        int line_num = 1 + (nrow * nrhs - 1) / r;
 
-                        jhi = 0;
+                        int jhi = 0;
+                        int i;
                         for (i = 1; i <= line_num; i++)
                         {
-                            line = input[inputIndex].ToCharArray();
+                            char[] line = input[inputIndex].ToCharArray();
                             inputIndex++;
-                            jlo = jhi + 1;
+                            int jlo = jhi + 1;
                             jhi = Math.Min(jlo + r - 1, nrow * nrhs);
 
-                            khi = 0;
+                            int khi = 0;
+                            int j;
                             for (j = jlo; j <= jhi; j++)
                             {
-                                klo = khi + 1;
+                                int klo = khi + 1;
                                 khi = Math.Min(klo + w - 1, line.Length);
-                                s = typeMethods.s_substring(line, klo, khi);
+                                char[] s = typeMethods.s_substring(line, klo, khi);
                                 guess[j - 1] = Convert.ToDouble(s);
                             }
                         }
@@ -835,11 +818,6 @@ public static class HB
         //
     {
         char code = ' ';
-        int i;
-        int j;
-        int jhi;
-        int jlo;
-        int line_num;
         int m = 0;
         int r = 0;
         int w = 0;
@@ -853,15 +831,17 @@ public static class HB
                     case 'G':
                     {
                         typeMethods.s_to_format(rhsfmt, ref r, ref code, ref w, ref m);
-                        line_num = 1 + (nrow * nrhs - 1) / r;
+                        int line_num = 1 + (nrow * nrhs - 1) / r;
 
-                        jhi = 0;
+                        int jhi = 0;
+                        int i;
                         for (i = 1; i <= line_num; i++)
                         {
                             string cout = "";
-                            jlo = jhi + 1;
+                            int jlo = jhi + 1;
                             jhi = Math.Min(jlo + r - 1, nrow * nrhs);
 
+                            int j;
                             for (j = jlo; j <= jhi; j++)
                             {
                                 cout += guess[j - 1].ToString(CultureInfo.InvariantCulture).PadLeft(w);
@@ -1091,8 +1071,7 @@ public static class HB
         //    MXTYPE[2] = 'A'.
         //
     {
-        char[] field;
-        char[] line = new char[255];
+        char[] line;
         //
         //  Read line 1.
         //
@@ -1130,7 +1109,7 @@ public static class HB
             return;
         }
 
-        field = typeMethods.s_substring(line, 1, 14);
+        char[] field = typeMethods.s_substring(line, 1, 14);
         totcrd = Convert.ToInt32(field);
 
         field = typeMethods.s_substring(line, 15, 28);
@@ -1432,12 +1411,10 @@ public static class HB
         //
     {
         int column;
-        int k;
-        double[] rhsval;
         int rhs;
         int row;
 
-        rhsval = new double[nrow * nrhs];
+        double[] rhsval = new double[nrow * nrhs];
         //
         //  Zero out the result vectors.
         //
@@ -1457,6 +1434,7 @@ public static class HB
             //
             //  For nonzero entry K
             //
+            int k;
             for (k = colptr[column - 1]; k <= colptr[column] - 1; k++)
             {
                 row = rowind[k - 1];
@@ -1582,17 +1560,8 @@ public static class HB
         //
     {
         char code = ' ';
-        int i;
-        int j;
-        int jhi;
-        int jlo;
-        int khi;
-        int klo;
-        char[] line = new char[255];
-        int line_num;
         int m = 0;
         int r = 0;
-        char[] s;
         int w = 0;
         switch (rhscrd)
         {
@@ -1603,6 +1572,15 @@ public static class HB
             //    case not F + matrix storage is "E" = finite element RHS
             //
             case > 0:
+                int i;
+                int j;
+                int jhi;
+                int jlo;
+                int khi;
+                int klo;
+                int line_num;
+                char[] line;
+                char[] s;
                 switch (rhstyp[0])
                 {
                     //
@@ -1861,11 +1839,6 @@ public static class HB
         //
     {
         char code = ' ';
-        int i;
-        int j;
-        int jhi;
-        int jlo;
-        int line_num;
         int m = 0;
         int r = 0;
         int w = 0;
@@ -1878,6 +1851,11 @@ public static class HB
             //    case not F + matrix storage is "E" = finite element RHS
             //
             case > 0:
+                int i;
+                int line_num;
+                int jlo;
+                int jhi;
+                int j;
                 switch (rhstyp[0])
                 {
                     //
@@ -2067,11 +2045,6 @@ public static class HB
         //      Input, int ROWIND[NELTVL], the row index of each item.
         //
     {
-        int j;
-        int k;
-        int khi;
-        int klo;
-
         switch (mxtype[2])
         {
             case 'A':
@@ -2079,6 +2052,7 @@ public static class HB
                 Console.WriteLine("");
                 Console.WriteLine("Column Begin   End   ----------------------------------------");
                 Console.WriteLine("");
+                int j;
                 for (j = 1; j <= Math.Min(ncol, 10); j++)
                 {
                     if (colptr[j] - 1 < colptr[j - 1])
@@ -2087,10 +2061,11 @@ public static class HB
                     }
                     else
                     {
+                        int klo;
                         for (klo = colptr[j - 1]; klo <= colptr[j] - 1; klo += 10)
                         {
                             string cout = "";
-                            khi = Math.Min(klo + 9, colptr[j] - 1);
+                            int khi = Math.Min(klo + 9, colptr[j] - 1);
                             if (klo == colptr[j - 1])
                             {
                                 cout += j.ToString(CultureInfo.InvariantCulture).PadLeft(6)
@@ -2098,6 +2073,7 @@ public static class HB
                                         + (colptr[j] - 1).ToString(CultureInfo.InvariantCulture).PadLeft(6) + "   ";
                             }
 
+                            int k;
                             for (k = klo; k <= khi; k++)
                             {
                                 cout += rowind[k - 1].ToString(CultureInfo.InvariantCulture).PadLeft(4);
@@ -2207,27 +2183,24 @@ public static class HB
         char code = ' ';
         int i;
         int j;
-        int jhi;
         int jlo;
         int khi;
         int klo;
-        char[] line = new char[255];
-        int line_num;
+        char[] line;
         int m = 0;
-        int number;
         int r = 0;
         char[] s;
         int w = 0;
 
         typeMethods.s_to_format(ptrfmt, ref r, ref code, ref w, ref m);
 
-        line_num = mxtype[2] switch
+        int line_num = mxtype[2] switch
         {
             'A' => 1 + (ncol + 1 - 1) / r,
             _ => 1 + (ncol - 1) / r
         };
 
-        jhi = 0;
+        int jhi = 0;
         for (i = 1; i <= line_num; i++)
         {
             line = input[inputIndex].ToCharArray();
@@ -2281,7 +2254,7 @@ public static class HB
             {
                 typeMethods.s_to_format(indfmt, ref r, ref code, ref w, ref m);
 
-                number = colptr[ncol - 1] - colptr[0];
+                int number = colptr[ncol - 1] - colptr[0];
                 line_num = 1 + (number - 1) / r;
 
                 jhi = 0;
@@ -2387,7 +2360,6 @@ public static class HB
         char code = ' ';
         int j;
         int m = 0;
-        int number;
         int r = 0;
         int w = 0;
 
@@ -2439,7 +2411,7 @@ public static class HB
             }
             case 'E':
             {
-                number = colptr[ncol - 1] - colptr[0];
+                int number = colptr[ncol - 1] - colptr[0];
 
                 cout = "";
                 for (j = 1; j <= number; j++)
@@ -2513,14 +2485,13 @@ public static class HB
         //    Output, int HB_UA_COLIND[NNZERO], the column index of each matrix value.
         //
     {
-        int[] colind;
         int i;
-        int j;
 
-        colind = new int[nnzero];
+        int[] colind = new int[nnzero];
 
         for (i = 1; i <= ncol; i++)
         {
+            int j;
             for (j = colptr[i - 1]; j <= colptr[i] - 1; j++)
             {
                 colind[j - 1] = i;
@@ -2589,11 +2560,6 @@ public static class HB
         //      Input, double VALUES[NELTVL], the nonzero values of the matrix.
         //
     {
-        int j;
-        int k;
-        int khi;
-        int klo;
-
         switch (mxtype[2])
         {
             case 'A':
@@ -2602,6 +2568,7 @@ public static class HB
                 Console.WriteLine("Column Begin   End   ----------------------------------------");
                 Console.WriteLine("");
 
+                int j;
                 for (j = 1; j <= ncol; j++)
                 {
                     switch (j)
@@ -2621,10 +2588,11 @@ public static class HB
                     }
                     else
                     {
+                        int klo;
                         for (klo = colptr[j - 1]; klo <= colptr[j] - 1; klo += 5)
                         {
                             string cout = "";
-                            khi = Math.Min(klo + 4, colptr[j] - 1);
+                            int khi = Math.Min(klo + 4, colptr[j] - 1);
                             if (klo == colptr[j - 1])
                             {
                                 cout += j.ToString(CultureInfo.InvariantCulture).PadLeft(5)
@@ -2632,6 +2600,7 @@ public static class HB
                                         + (colptr[j] - 1).ToString(CultureInfo.InvariantCulture).PadLeft(5) + "   ";
                             }
 
+                            int k;
                             for (k = klo; k <= khi; k++)
                             {
                                 cout += values[k - 1].ToString(CultureInfo.InvariantCulture).PadLeft(12);
@@ -2731,17 +2700,8 @@ public static class HB
         //
     {
         char code = ' ';
-        int i;
-        int j;
-        int jhi;
-        int jlo;
-        int khi;
-        int klo;
-        char[] line = new char[255];
-        int line_num;
         int m = 0;
         int r = 0;
-        char[] s;
         int w = 0;
 
         typeMethods.s_to_format(valfmt, ref r, ref code, ref w, ref m);
@@ -2755,6 +2715,7 @@ public static class HB
             //
             case > 0:
             {
+                int line_num;
                 switch (mxtype[2])
                 {
                     case 'A':
@@ -2770,24 +2731,26 @@ public static class HB
                         return;
                 }
 
-                jhi = 0;
+                int jhi = 0;
+                int i;
                 for (i = 1; i <= line_num; i++)
                 {
-                    line = input[inputIndex].ToCharArray();
+                    char[] line = input[inputIndex].ToCharArray();
                     inputIndex++;
-                    jlo = jhi + 1;
+                    int jlo = jhi + 1;
                     jhi = mxtype[2] switch
                     {
                         'A' => Math.Min(jlo + r - 1, nnzero),
                         _ => Math.Min(jlo + r - 1, neltvl)
                     };
 
-                    khi = 0;
+                    int khi = 0;
+                    int j;
                     for (j = jlo; j <= jhi; j++)
                     {
-                        klo = khi + 1;
+                        int klo = khi + 1;
                         khi = Math.Min(klo + w - 1, line.Length);
-                        s = typeMethods.s_substring(line, klo, khi);
+                        char[] s = typeMethods.s_substring(line, klo, khi);
                         values[j - 1] = Convert.ToDouble(s);
                     }
                 }
@@ -2863,11 +2826,6 @@ public static class HB
         //
     {
         char code = ' ';
-        int i;
-        int j;
-        int jhi;
-        int jlo;
-        int line_num;
         int m = 0;
         int r = 0;
         int w = 0;
@@ -2878,6 +2836,7 @@ public static class HB
             {
                 typeMethods.s_to_format(valfmt, ref r, ref code, ref w, ref m);
 
+                int line_num;
                 switch (mxtype[2])
                 {
                     case 'A':
@@ -2893,17 +2852,19 @@ public static class HB
                         return;
                 }
 
-                jhi = 0;
+                int jhi = 0;
+                int i;
                 for (i = 1; i <= line_num; i++)
                 {
                     string cout = "";
-                    jlo = jhi + 1;
+                    int jlo = jhi + 1;
                     jhi = mxtype[2] switch
                     {
                         'A' => Math.Min(jlo + r - 1, nnzero),
                         _ => Math.Min(jlo + r - 1, neltvl)
                     };
 
+                    int j;
                     for (j = jlo; j <= jhi; j++)
                     {
                         cout += values[j - 1].ToString(CultureInfo.InvariantCulture).PadLeft(w);
@@ -2982,12 +2943,9 @@ public static class HB
         //
     {
         int column;
-        int k;
-        double[] rhsval;
         int rhs;
-        int row;
 
-        rhsval = new double[ncol * nrhs];
+        double[] rhsval = new double[ncol * nrhs];
         //
         //  Zero out the result vectors.
         //
@@ -3007,9 +2965,10 @@ public static class HB
             //
             //  For nonzero entry K
             //
+            int k;
             for (k = colptr[column - 1]; k <= colptr[column] - 1; k++)
             {
-                row = rowind[k - 1];
+                int row = rowind[k - 1];
                 //
                 //  For each right hand side vector:
                 //

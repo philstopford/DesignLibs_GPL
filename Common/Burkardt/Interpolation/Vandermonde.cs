@@ -58,12 +58,9 @@ public static class Vandermonde
         //    interpolating polynomial.
         //
     {
-        double[] ad;
-        double[] cd;
+        double[] ad = vandermonde_matrix_1d(nd, xd);
 
-        ad = vandermonde_matrix_1d(nd, xd);
-
-        cd = QRSolve.qr_solve(nd, nd, ad, yd);
+        double[] cd = QRSolve.qr_solve(nd, nd, ad, yd);
 
         return cd;
     }
@@ -118,11 +115,10 @@ public static class Vandermonde
         //    Output, double VANDERMONDE_MATRIX_1D[ND*ND], the Vandermonde matrix for X.
         //
     {
-        double[] ad;
         int i;
         int j;
 
-        ad = new double[nd * nd];
+        double[] ad = new double[nd * nd];
 
         for (i = 0; i < nd; i++)
         {
@@ -184,9 +180,8 @@ public static class Vandermonde
     {
         int i;
         int j;
-        double[] yi;
 
-        yi = new double[ni];
+        double[] yi = new double[ni];
 
         for (j = 0; j < ni; j++)
         {
@@ -266,15 +261,9 @@ public static class Vandermonde
         //    Output, double VANDERMONDE_INTERP_2D_MATRIX[N*N], the Vandermonde matrix for X.
         //
     {
-        double[] a;
-        int ex;
-        int ey;
-        int i;
-        int j;
         int s;
-        int tmp1;
 
-        tmp1 = typeMethods.triangle_num(m + 1);
+        int tmp1 = typeMethods.triangle_num(m + 1);
 
         if (n != tmp1)
         {
@@ -287,14 +276,16 @@ public static class Vandermonde
             return null;
         }
 
-        a = new double[n * n];
-        j = 0;
+        double[] a = new double[n * n];
+        int j = 0;
 
         for (s = 0; s <= m; s++)
         {
+            int ex;
             for (ex = s; 0 <= ex; ex--)
             {
-                ey = s - ex;
+                int ey = s - ex;
+                int i;
                 for (i = 0; i < n; i++)
                 {
                     a[i + j * n] = Math.Pow(x[i], ex) * Math.Pow(y[i], ey);

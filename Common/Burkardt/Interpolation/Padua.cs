@@ -73,8 +73,7 @@ public static class Padua
         double angle;
         int i;
         int j;
-        int k;
-            
+
         double pt;
         //
         //  Build the matrix P_2 and store it in RAUX2.
@@ -97,7 +96,7 @@ public static class Padua
             }
         }
 
-        k = 0;
+        int k = 0;
         for (j = 0; j <= deg + 1; j++)
         {
             for (i = 0; i <= deg; i++)
@@ -137,7 +136,7 @@ public static class Padua
         BLAS3D.dgemm('n', 'n', deg + 1, deg + 1, deg + 1, 1.0,
             raux2, degmax + 1, raux1, degmax + 1, 0.0, ref c0, degmax + 2);
 
-        c0[deg + 0 * (degmax + 2)] /= 2.0;
+        c0[deg] /= 2.0;
         //
         //  Estimate the error.
         //
@@ -204,26 +203,22 @@ public static class Padua
         //
     {
         int i;
-        int j;
-        double t;
-        double[] ttg1;
-        double[] ttg2;
-        double value = 0;
         //
         //  Compute the normalized Chebyshev polynomials at the target point.
         //
-        ttg1 = new double[deg + 1];
+        double[] ttg1 = new double[deg + 1];
         PolynomialNS.Chebyshev.cheb(deg, tg1, ref ttg1);
 
-        ttg2 = new double[deg + 1];
+        double[] ttg2 = new double[deg + 1];
         PolynomialNS.Chebyshev.cheb(deg, tg2, ref ttg2);
         //
         //  Evaluate the interpolant
         //
-        value = 0.0;
+        double value = 0.0;
         for (i = deg; 0 <= i; i--)
         {
-            t = 0.0;
+            double t = 0.0;
+            int j;
             for (j = 0; j <= i; j++)
             {
                 t += ttg1[j] * c0[j + (deg - i) * (degmax + 2)];
@@ -283,11 +278,8 @@ public static class Padua
         //    NPD = ( DEG + 1 ) * ( DEG + 2 ) / 2.
         //
     {
-        int itemp0;
         int j;
-        int k;
-            
-        double rtemp0;
+
         switch (deg)
         {
             //
@@ -302,11 +294,12 @@ public static class Padua
         }
 
         npd = 0;
-        itemp0 = deg * (deg + 1);
-        rtemp0 = Math.PI / itemp0;
+        int itemp0 = deg * (deg + 1);
+        double rtemp0 = Math.PI / itemp0;
 
         for (j = 0; j <= deg + 1; j++)
         {
+            int k;
             for (k = j % 2; k <= deg; k += 2)
             {
                 pd1[npd] = -Math.Cos((deg + 1) * k * rtemp0);

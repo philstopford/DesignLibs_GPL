@@ -47,22 +47,18 @@ public static class Nearest1D
         //    Output, double NEAREST_INTERP_1D[NI], the interpolated values.
         //
     {
-        double d;
-        double d2;
         int i;
-        int j;
-        int k;
-        double[] yi;
 
-        yi = new double[ni];
+        double[] yi = new double[ni];
 
         for ( i = 0; i < ni; i++ )
         {
-            k = 0;
-            d = Math.Abs ( xi[i] - xd[k] );
+            int k = 0;
+            double d = Math.Abs ( xi[i] - xd[k] );
+            int j;
             for ( j = 1; j < nd; j++ )
             {
-                d2 = Math.Abs ( xi[i] - xd[j] );
+                double d2 = Math.Abs ( xi[i] - xd[j] );
                 if ( d2 < d )
                 {
                     k = j;

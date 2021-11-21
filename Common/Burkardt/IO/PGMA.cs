@@ -56,8 +56,6 @@ public static class PGMA
         //    Input, int *G, the array of XSIZE by YSIZE data values.
         //
     {
-        int i;
-        int[] index;
         int j;
 
         switch (xsize)
@@ -89,12 +87,13 @@ public static class PGMA
                 return;
         }
 
-        index = g;
+        int[] index = g;
 
         int iCount = 0;
 
         for (j = 0; j < ysize; j++)
         {
+            int i;
             for (i = 0; i < xsize; i++)
             {
                 switch (iCount)
@@ -149,23 +148,19 @@ public static class PGMA
         //
     {
         int i;
-        int[] indexg;
-        int j;
-        int periods = 3;
-        double PI = 3.14159265;
-        double x;
-        double y;
+        const int periods = 3;
 
-        indexg = g;
+        int[] indexg = g;
         int iCount = 0;
 
         for (i = 0; i < ysize; i++)
         {
-            y = 2 * i / (double) (ysize - 1) - 1.0;
+            double y = 2 * i / (double) (ysize - 1) - 1.0;
 
+            int j;
             for (j = 0; j < xsize; j++)
             {
-                x = 2.0 * PI * (periods * j) / (xsize - 1);
+                double x = 2.0 * Math.PI * (periods * j) / (xsize - 1);
 
                 indexg[iCount] = (int) (20.0 * (Math.Sin(x) - y + 2));
 
@@ -206,7 +201,6 @@ public static class PGMA
         //
     {
         string[] input;
-        int numbytes;
         int inputIndex = 0;
 
         try
@@ -228,7 +222,7 @@ public static class PGMA
         //
         //  Allocate storage for the data.
         //
-        numbytes = xsize * ysize * sizeof(int);
+        int numbytes = xsize * ysize * sizeof(int);
 
         g = new int[numbytes];
         //
@@ -270,13 +264,15 @@ public static class PGMA
         while (inputIndex < input.Length)
         {
             string[] tokens = input[inputIndex].Split(' ');
-            for (int t = 0; t < tokens.Length; t++)
+            foreach (string t1 in tokens)
             {
-                if (tokens[t] != "")
+                if (t1 == "")
                 {
-                    g[gIndex] = Convert.ToInt32(tokens[t]);
-                    gIndex++;
+                    continue;
                 }
+
+                g[gIndex] = Convert.ToInt32(t1);
+                gIndex++;
             }
             inputIndex++;
         }
@@ -312,15 +308,14 @@ public static class PGMA
         //    Output, int &MAXG, the maximum gray value.
         //
     {
-        string line;
         string rest = "";
-        int step;
         string word = "";
 
-        step = 0;
+        int step = 0;
 
         while (true)
         {
+            string line;
             try
             {
                 line = input[inputIndex];
@@ -508,19 +503,17 @@ public static class PGMA
         //
     {
         List<string> output = new();
-        int i;
-        int[] indexg;
         int j;
-        int maxg;
         //
         //  Compute the maximum.
         //
-        maxg = 0;
-        indexg = g;
+        int maxg = 0;
+        int[] indexg = g;
         int gIndex = 0;
 
         for (j = 0; j < ysize; j++)
         {
+            int i;
             for (i = 0; i < xsize; i++)
             {
                 if (maxg < indexg[gIndex])
@@ -585,21 +578,18 @@ public static class PGMA
         //    Input, int *G, the array of XSIZE by YSIZE data.
         //
     {
-        int i;
-        int[] indexg;
         int j;
-        int numval;
 
-        indexg = g;
-        numval = 0;
+        int numval = 0;
         int gIndex = 0;
 
         string cout = "";
         for (j = 0; j < ysize; j++)
         {
+            int i;
             for (i = 0; i < xsize; i++)
             {
-                cout += indexg[gIndex].ToString(CultureInfo.InvariantCulture);
+                cout += g[gIndex].ToString(CultureInfo.InvariantCulture);
                 numval++;
                 gIndex++;
 
@@ -680,16 +670,12 @@ public static class PGMA
         //    Input, string OUTPUT_NAME, the name of the file.
         //
     {
-        int[] g;
-        int xsize;
-        int ysize;
-
-        xsize = 300;
-        ysize = 300;
+        const int xsize = 300;
+        const int ysize = 300;
         //
         //  Allocate memory.
         //
-        g = new int[xsize * ysize];
+        int[] g = new int[xsize * ysize];
         //
         //  Set the data.
         //

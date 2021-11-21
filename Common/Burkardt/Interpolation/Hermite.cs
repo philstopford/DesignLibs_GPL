@@ -52,12 +52,7 @@ public static class Hermite
         //    Output, double HERMITE_BASIS_0, the value of the function.
         //
     {
-        double[] factor;
         int j;
-        double li;
-        double lp;
-        double lpp;
-        double value = 0;
 
         if (i < 0 || n - 1 < i)
         {
@@ -67,7 +62,7 @@ public static class Hermite
             return 1;
         }
 
-        factor = new double[n];
+        double[] factor = new double[n];
         //
         //  L(X) = product ( X - X(1:N) )
         //
@@ -80,7 +75,7 @@ public static class Hermite
 
         factor[i] = 1.0;
 
-        lp = typeMethods.r8vec_product(n, factor);
+        double lp = typeMethods.r8vec_product(n, factor);
         //
         //  LI(X) = L(X) / ( X - X(I) ) / L'(X(I))
         //
@@ -91,11 +86,11 @@ public static class Hermite
 
         factor[i] = 1.0;
 
-        li = typeMethods.r8vec_product(n, factor) / lp;
+        double li = typeMethods.r8vec_product(n, factor) / lp;
         //
         //  L''(X(I)).
         //
-        lpp = 0.0;
+        double lpp = 0.0;
         for (j = 0; j < n; j++)
         {
             factor[j] = x[i] - x[j];
@@ -113,7 +108,7 @@ public static class Hermite
             }
         }
 
-        value = (1.0 - (xv - x[i]) * lpp / lp) * li * li;
+        double value = (1.0 - (xv - x[i]) * lpp / lp) * li * li;
 
         return value;
     }
@@ -163,11 +158,7 @@ public static class Hermite
         //    Output, double VALUE, the value of the function.
         //
     {
-        double bot;
-        double[] factor;
         int j;
-        double top;
-        double value = 0;
 
         if (i < 0 || n - 1 < i)
         {
@@ -177,7 +168,7 @@ public static class Hermite
             return 1;
         }
 
-        factor = new double[n];
+        double[] factor = new double[n];
 
         for (j = 0; j < n; j++)
         {
@@ -185,7 +176,7 @@ public static class Hermite
         }
 
         factor[i] = 1.0;
-        top = typeMethods.r8vec_product(n, factor);
+        double top = typeMethods.r8vec_product(n, factor);
 
         for (j = 0; j < n; j++)
         {
@@ -193,9 +184,9 @@ public static class Hermite
         }
 
         factor[i] = 1.0;
-        bot = typeMethods.r8vec_product(n, factor);
+        double bot = typeMethods.r8vec_product(n, factor);
 
-        value = (xv - x[i]) * (top / bot) * (top / bot);
+        double value = (xv - x[i]) * (top / bot) * (top / bot);
 
         return value;
     }
@@ -236,18 +227,7 @@ public static class Hermite
         //    values at the abscissas.
         //
     {
-        double[] cd;
         int i;
-        int nd;
-        int ndp;
-        int nv;
-        double[] xd;
-        double[] xdp;
-        double[] xv;
-        double[] yd;
-        double[] ydp;
-        double[] yv;
-        double[] yvp;
 
         Console.WriteLine("");
         Console.WriteLine("HERMITE_DEMO");
@@ -266,13 +246,13 @@ public static class Hermite
                                    + "  " + yp[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
-        nd = 2 * n;
-        xd = new double[nd];
-        yd = new double[nd];
+        int nd = 2 * n;
+        double[] xd = new double[nd];
+        double[] yd = new double[nd];
 
-        ndp = 2 * n - 1;
-        xdp = new double[ndp];
-        ydp = new double[ndp];
+        int ndp = 2 * n - 1;
+        double[] xdp = new double[ndp];
+        double[] ydp = new double[ndp];
 
         hermite_interpolant(n, x, y, yp, ref xd, ref yd, ref xdp, ref ydp);
 
@@ -299,7 +279,7 @@ public static class Hermite
                                    + "  " + ydp[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
-        cd = new double[2 * n];
+        double[] cd = new double[2 * n];
 
         Dif.dif_to_r8poly(nd, xd, yd, ref cd);
 
@@ -307,10 +287,10 @@ public static class Hermite
         //
         //  Verify interpolation claim!
         //
-        nv = n;
-        xv = new double[nv];
-        yv = new double[nv];
-        yvp = new double[nv];
+        int nv = n;
+        double[] xv = new double[nv];
+        double[] yv = new double[nv];
+        double[] yvp = new double[nv];
 
         for (i = 0; i < nv; i++)
         {
@@ -386,13 +366,11 @@ public static class Hermite
         //
     {
         int i;
-        int j;
-        int nd;
         int ndp = 0;
         //
         //  Copy the data.
         //
-        nd = 2 * n;
+        int nd = 2 * n;
 
         for (i = 0; i < n; i++)
         {
@@ -419,6 +397,7 @@ public static class Hermite
         //
         for (i = 2; i < nd; i++)
         {
+            int j;
             for (j = nd - 1; i <= j; j--)
             {
                 yd[j] = (yd[j] - yd[j - 1]) / (xd[j] - xd[j - i]);
@@ -465,33 +444,20 @@ public static class Hermite
         //    at each abscissa.
         //
     {
-        double a_value;
-        double b_value;
-        double[] c;
         int i;
-        int k;
-        int nd;
-        int ndp;
-        double[] w;
-        double[] xd;
-        double[] xdp;
-        double[] y;
-        double[] yd;
-        double[] ydp;
-        double[] yp;
 
-        y = new double[n];
-        yp = new double[n];
+        double[] y = new double[n];
+        double[] yp = new double[n];
 
-        nd = 2 * n;
-        c = new double[nd];
-        w = new double[nd];
-        xd = new double[nd];
-        yd = new double[nd];
+        int nd = 2 * n;
+        double[] c = new double[nd];
+        double[] w = new double[nd];
+        double[] xd = new double[nd];
+        double[] yd = new double[nd];
 
-        ndp = 2 * n - 1;
-        xdp = new double[ndp];
-        ydp = new double[ndp];
+        int ndp = 2 * n - 1;
+        double[] xdp = new double[ndp];
+        double[] ydp = new double[ndp];
 
         for (i = 0; i < n; i++)
         {
@@ -499,15 +465,15 @@ public static class Hermite
             yp[i] = 0.0;
         }
 
-        k = 0;
+        int k = 0;
 
         for (i = 0; i < n; i++)
         {
             y[i] = 1.0;
             hermite_interpolant(n, x, y, yp, ref xd, ref yd, ref xdp, ref ydp);
             Dif.dif_to_r8poly(nd, xd, yd, ref c);
-            a_value = typeMethods.r8poly_ant_val(n, c, a);
-            b_value = typeMethods.r8poly_ant_val(n, c, b);
+            double a_value = typeMethods.r8poly_ant_val(n, c, a);
+            double b_value = typeMethods.r8poly_ant_val(n, c, b);
             w[k] = b_value - a_value;
             y[i] = 0.0;
             k += 1;
@@ -577,15 +543,14 @@ public static class Hermite
         //    its derivative at the evaluation points.
         //
     {
-        int i;
         int j;
-        int ndp;
 
-        ndp = nd - 1;
+        int ndp = nd - 1;
 
         for (j = 0; j < nv; j++)
         {
             yv[j] = yd[nd - 1];
+            int i;
             for (i = nd - 2; 0 <= i; i--)
             {
                 yv[j] = yd[i] + (xv[j] - xd[i]) * yv[j];

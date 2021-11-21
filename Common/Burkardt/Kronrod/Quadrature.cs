@@ -96,34 +96,18 @@ public static class Quadrature
         //    the Gauss rule.
         //
     {
-        double ak;
-        double an;
-        double[] b;
-        double bb;
-        double c;
-        double coef;
-        double coef2;
-        double d;
-        bool even;
         int i;
         int k;
         int l;
-        int ll;
-        int m;
-        double s;
-        double[] tau;
-        double x1;
-        double xx;
-        double y;
 
-        b = new double[(n + 1) / 2 + 1];
-        tau = new double[(n + 1) / 2];
+        double[] b = new double[(n + 1) / 2 + 1];
+        double[] tau = new double[(n + 1) / 2];
 
-        m = (n + 1) / 2;
-        even = 2 * m == n;
+        int m = (n + 1) / 2;
+        bool even = 2 * m == n;
 
-        d = 2.0;
-        an = 0.0;
+        double d = 2.0;
+        double an = 0.0;
         for (k = 1; k <= n; k++)
         {
             an += 1.0;
@@ -135,7 +119,7 @@ public static class Quadrature
         //
         tau[0] = (an + 2.0) / (an + an + 3.0);
         b[m - 1] = tau[0] - 1.0;
-        ak = an;
+        double ak = an;
 
         for (l = 1; l < m; l++)
         {
@@ -146,6 +130,7 @@ public static class Quadrature
                               - an * (an + 1.0)));
             b[m - l - 1] = tau[l];
 
+            int ll;
             for (ll = 1; ll <= l; ll++)
             {
                 b[m - l - 1] += tau[ll - 1] * b[m - l + ll - 1];
@@ -156,19 +141,19 @@ public static class Quadrature
         //
         //  Calculation of approximate values for the abscissas.
         //
-        bb = Math.Sin(1.570796 / (an + an + 1.0));
-        x1 = Math.Sqrt(1.0 - bb * bb);
-        s = 2.0 * bb * x1;
-        c = Math.Sqrt(1.0 - s * s);
-        coef = 1.0 - (1.0 - 1.0 / an) / (8.0 * an * an);
-        xx = coef * x1;
+        double bb = Math.Sin(1.570796 / (an + an + 1.0));
+        double x1 = Math.Sqrt(1.0 - bb * bb);
+        double s = 2.0 * bb * x1;
+        double c = Math.Sqrt(1.0 - s * s);
+        double coef = 1.0 - (1.0 - 1.0 / an) / (8.0 * an * an);
+        double xx = coef * x1;
         //
         //  Coefficient needed for weights.
         //
         //  COEF2 = 2^(2*n+1) * n! * n! / (2n+1)! 
         //        = 2 * 4^n * n! / product( (n+1)*...*(2*n+1))
         //
-        coef2 = 2.0 / (2 * n + 1);
+        double coef2 = 2.0 / (2 * n + 1);
         for (i = 1; i <= n; i++)
         {
             coef2 = coef2 * 4.0 * i / (n + i);
@@ -184,7 +169,7 @@ public static class Quadrature
             w2[k - 1] = 0.0;
 
             x[k - 1] = xx;
-            y = x1;
+            double y = x1;
             x1 = y * c - bb * s;
             bb = y * s + bb * c;
 

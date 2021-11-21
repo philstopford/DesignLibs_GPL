@@ -56,9 +56,7 @@ public static class Stroud
         //    Output, double EN_HER_MONOMIAL_INTEGRAL, the value of the integral.
         //
     {
-        double arg;
         int i;
-        double value = 0;
 
         for ( i = 0; i < n; i++ )
         {
@@ -72,7 +70,7 @@ public static class Stroud
             }
         }
 
-        value = 1.0;
+        double value = 1.0;
         for ( i = 0; i < n; i++ )
         {
             if ( alpha[i] % 2 == 1 )
@@ -81,7 +79,7 @@ public static class Stroud
                 break;
             }
 
-            arg = (alpha[i] + 1) / 2.0;
+            double arg = (alpha[i] + 1) / 2.0;
             value *= typeMethods.r8_gamma ( arg );
         }
 
@@ -138,9 +136,7 @@ public static class Stroud
         //    Output, double EN_R2_MONOMIAL_INTEGRAL, the value of the integral.
         //
     {
-        double arg;
         int i;
-        double value = 0;
 
         for (i = 0; i < n; i++)
         {
@@ -154,7 +150,7 @@ public static class Stroud
             }
         }
 
-        value = 1.0;
+        double value = 1.0;
         for (i = 0; i < n; i++)
         {
             if (alpha[i] % 2 == 1)
@@ -163,7 +159,7 @@ public static class Stroud
                 break;
             }
 
-            arg = (alpha[i] + 1) / 2.0;
+            double arg = (alpha[i] + 1) / 2.0;
             value *= typeMethods.r8_gamma(arg);
         }
 

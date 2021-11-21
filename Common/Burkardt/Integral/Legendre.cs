@@ -43,14 +43,8 @@ public static partial class Integral
         //    0 <= T.
         //
     {
-        double e;
-        int i;
-        int j;
         int[] p = new int[2];
-        double q;
-        double s;
         int tt;
-        double[] v;
 
         Console.WriteLine("");
         Console.WriteLine("  Quadrature rule for the 2D Legendre integral.");
@@ -58,27 +52,28 @@ public static partial class Integral
         Console.WriteLine("");
         Console.WriteLine("   D   I       J          Relative Error");
 
-        v = new double[n];
+        double[] v = new double[n];
 
         for ( tt = 0; tt <= t; tt++ )
         {
             Console.WriteLine("  " + tt + "");
+            int j;
             for ( j = 0; j <= tt; j++ )
             {
-                i = tt - j;
+                int i = tt - j;
 
                 p[0] = i;
                 p[1] = j;
 
-                s = legendre_2d_monomial_integral ( a, b, p );
+                double s = legendre_2d_monomial_integral ( a, b, p );
 
                 for ( i = 0; i < n; i++ )
                 {
                     v[i] = Math.Pow( x[i], p[0] ) * Math.Pow( y[i], p[1] );
                 }
-                q = typeMethods.r8vec_dot_product ( n, w, v );
+                double q = typeMethods.r8vec_dot_product ( n, w, v );
 
-                e = s switch
+                double e = s switch
                 {
                     0.0 => Math.Abs(q),
                     _ => Math.Abs(q - s) / Math.Abs(s)
@@ -129,12 +124,10 @@ public static partial class Integral
         //    exact integral.
         //
     {
-        double exact;
-
-        exact = ( Math.Pow( b[0], p[0] + 1 ) - Math.Pow( a[0], p[0] + 1 ) ) 
-                / (p[0] + 1) 
-                * ( Math.Pow( b[1], p[1] + 1 ) - Math.Pow( a[1], p[1] + 1 ) ) 
-                / (p[1] + 1);
+        double exact = ( Math.Pow( b[0], p[0] + 1 ) - Math.Pow( a[0], p[0] + 1 ) ) 
+                       / (p[0] + 1) 
+                       * ( Math.Pow( b[1], p[1] + 1 ) - Math.Pow( a[1], p[1] + 1 ) ) 
+                       / (p[1] + 1);
 
         return exact;
     }

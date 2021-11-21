@@ -60,17 +60,15 @@ public static class Lattice
         //    Output, double LATTICE, the estimated integral.
         //
     {
-        int i;
         int j;
-        double quad;
-        double[] x;
 
-        x = new double[dim_num];
+        double[] x = new double[dim_num];
 
-        quad = 0.0;
+        double quad = 0.0;
 
         for (j = 0; j <= m - 1; j++)
         {
+            int i;
             for (i = 0; i < dim_num; i++)
             {
                 x[i] = j * z[i] / (double) m % 1.0;
@@ -156,21 +154,17 @@ public static class Lattice
         //    Output, double LATTICE_NP0, the estimated integral.
         //
     {
-        int dim;
-        int gray_bit;
         int j;
-        double quad;
-        double[] x;
-        double[] y;
         typeMethods.GrayData data = new();
 
-        x = new double[dim_num];
-        y = new double[dim_num];
+        double[] x = new double[dim_num];
+        double[] y = new double[dim_num];
 
-        quad = 0.0;
+        double quad = 0.0;
 
         for (j = 0; j <= m - 1; j++)
         {
+            int dim;
             for (dim = 0; dim < dim_num; dim++)
             {
                 x[dim] = j * z[dim] / (double) m % 1.0;
@@ -179,7 +173,7 @@ public static class Lattice
             //
             //  Generate all DIM_NUM-tuples for which the I-th element is X(I) or 1-X(I).
             //
-            gray_bit = -dim_num;
+            int gray_bit = -dim_num;
 
             for (;;)
             {
@@ -274,26 +268,22 @@ public static class Lattice
         //    Output, double LATTICE_NP1, the estimated integral.
         //
     {
-        int dim;
-        double dphi;
         int j;
-        double quad;
-        double[] x;
-        double[] y;
 
-        x = new double[dim_num];
-        y = new double[dim_num];
+        double[] x = new double[dim_num];
+        double[] y = new double[dim_num];
 
-        quad = 0.0;
+        double quad = 0.0;
 
         for (j = 0; j <= m - 1; j++)
         {
+            int dim;
             for (dim = 0; dim < dim_num; dim++)
             {
                 x[dim] = j * z[dim] / (double) m % 1.0;
             }
 
-            dphi = 1.0;
+            double dphi = 1.0;
             for (dim = 0; dim < dim_num; dim++)
             {
                 y[dim] = (3.0 - 2.0 * x[dim]) * x[dim] * x[dim];
@@ -347,11 +337,9 @@ public static class Lattice
         //    Input, string TITLE, a title.
         //
     {
-        int dim;
         int i;
-        int[] y;
 
-        y = new int[dim_num];
+        int[] y = new int[dim_num];
 
         Console.WriteLine("");
         Console.WriteLine(title + "");
@@ -360,6 +348,7 @@ public static class Lattice
         for (i = 0; i <= m - 1; i++)
         {
             string cout = (i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(4) + "    ";
+            int dim;
             for (dim = 0; dim < dim_num; dim++)
             {
                 y[dim] = i * z[dim] % m;

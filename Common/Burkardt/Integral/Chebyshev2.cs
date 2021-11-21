@@ -37,11 +37,8 @@ public static partial class Integral
         //    Output, double CHEBYSHEV2_INTEGRAL, the value of the exact integral.
         //
     {
-        double bot;
         double exact;
-        int i;
-            
-        double top;
+
         switch (expon % 2)
         {
             //
@@ -49,11 +46,12 @@ public static partial class Integral
             //
             case 0:
             {
-                top = 1;
-                bot = 1;
+                double top = 1;
+                double bot = 1;
+                int i;
                 for ( i = 2; i <= expon; i += 2 )
                 {
-                    top *= ( i - 1 );
+                    top *= i - 1;
                     bot *= i;
                 }
 

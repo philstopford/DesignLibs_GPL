@@ -70,16 +70,10 @@ public static class Sum2
     {
         int dim;
         int i;
-        int[] iwork;
-        int k;
-        int m1;
-        double result;
-        double w1;
-        double[] work;
         //
         //  Default values.
         //
-        result = 0.0;
+        double result = 0.0;
         eval_num = 0;
 
         switch (dim_num)
@@ -106,8 +100,8 @@ public static class Sum2
             }
         }
 
-        iwork = new int[dim_num];
-        work = new double[dim_num];
+        int[] iwork = new int[dim_num];
+        double[] work = new double[dim_num];
 
         for (dim = 0; dim < dim_num; dim++)
         {
@@ -116,12 +110,12 @@ public static class Sum2
 
         for (;;)
         {
-            k = 1;
+            int k = 1;
 
-            w1 = 1.0;
+            double w1 = 1.0;
             for (i = 0; i < dim_num; i++)
             {
-                m1 = iwork[i];
+                int m1 = iwork[i];
                 work[i] = xtab[i + (m1 - 1) * dim_num];
                 w1 *= weight[i + (m1 - 1) * dim_num];
             }

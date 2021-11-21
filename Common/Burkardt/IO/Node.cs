@@ -49,13 +49,9 @@ public static class Node
         //    Output, int NODE_MARKER[NODE_MARKER_NUM*NODE_NUM], the node markers.
         //
     {
-        int i;
         string[] inputlines;
-        int ival;
-        int node;
-        double value = 0;
 
-        node = -1;
+        int node = -1;
 
         try
         {
@@ -82,9 +78,11 @@ public static class Node
                 default:
                 {
                     int index = 0;
-                    ival = Convert.ToInt32(tokens[index]);
+                    int ival = Convert.ToInt32(tokens[index]);
                     index++;
 
+                    int i;
+                    double value = 0;
                     for (i = 0; i < node_dim; i++)
                     {
                         value = Convert.ToInt32(tokens[index]);
@@ -229,15 +227,9 @@ public static class Node
         //    same representative, and all of which are pairwise closer than TOLERANCE.
         //
     {
-        double dist;
-        int i;
-        int j;
         int node1;
-        int node2;
-        int rep;
-        double[] rep_dist;
 
-        rep_dist = new double[node_num];
+        double[] rep_dist = new double[node_num];
 
         for (node1 = 0; node1 < node_num; node1++)
         {
@@ -246,14 +238,18 @@ public static class Node
 
         for (node1 = 0; node1 < node_num; node1++)
         {
+            int j;
             for (j = 0; j < node_num; j++)
             {
                 rep_dist[j] = typeMethods.r8_huge();
             }
 
+            int rep;
+            int node2;
             for (node2 = 0; node2 < node_num; node2++)
             {
-                dist = 0.0;
+                double dist = 0.0;
+                int i;
                 for (i = 0; i < dim_num; i++)
                 {
                     dist += Math.Pow(node_xy[i + node1 * dim_num] - node_xy[i + node2 * dim_num], 2);

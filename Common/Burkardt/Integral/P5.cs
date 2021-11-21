@@ -54,22 +54,8 @@ public static class P5
         //    Output, double P5_ND, the approximate value of the integral.
         //
     {
-        double a0;
-        double a1;
-        double a2;
-        double a3;
-        double a4;
-        double a5;
         int dim;
-        double en;
         int i;
-        int j;
-        double result;
-        double sum1;
-        double sum2;
-        double sum3;
-        double volume;
-        double[] work;
 
         eval_num = 0;
 
@@ -82,25 +68,25 @@ public static class P5
                 return 1;
         }
 
-        a2 = 25.0 / 324.0;
-        a3 = Math.Sqrt(0.6);
-        en = dim_num;
-        a0 = (25.0 * en * en - 115.0 * en + 162.0) / 162.0;
-        a1 = (70.0 - 25.0 * en) / 162.0;
+        double a2 = 25.0 / 324.0;
+        double a3 = Math.Sqrt(0.6);
+        double en = dim_num;
+        double a0 = (25.0 * en * en - 115.0 * en + 162.0) / 162.0;
+        double a1 = (70.0 - 25.0 * en) / 162.0;
 
-        volume = 1.0;
+        double volume = 1.0;
         for (dim = 0; dim < dim_num; dim++)
         {
             volume *= (b[dim] - a[dim]);
         }
 
-        work = new double[dim_num];
+        double[] work = new double[dim_num];
         for (dim = 0; dim < dim_num; dim++)
         {
             work[dim] = 0.5 * (a[dim] + b[dim]);
         }
 
-        result = 0.0;
+        double result = 0.0;
         switch (volume)
         {
             case 0.0:
@@ -110,11 +96,11 @@ public static class P5
                 return result;
         }
 
-        sum1 = a0 * func(dim_num, work);
+        double sum1 = a0 * func(dim_num, work);
         eval_num += 1;
 
-        sum2 = 0.0;
-        sum3 = 0.0;
+        double sum2 = 0.0;
+        double sum3 = 0.0;
 
         for (i = 0; i < dim_num; i++)
         {
@@ -133,17 +119,18 @@ public static class P5
         {
             case > 1:
             {
-                a4 = a3;
+                double a4 = a3;
 
                 for (;;)
                 {
                     for (i = 0; i < dim_num - 1; i++)
                     {
                         work[i] = 0.5 * (a[i] + b[i] + a4 * (b[i] - a[i]));
-                        a5 = a3;
+                        double a5 = a3;
 
                         for (;;)
                         {
+                            int j;
                             for (j = i + 1; j < dim_num; j++)
                             {
                                 work[j] = 0.5 * (a[j] + b[j] + a5 * (b[j] - a[j]));

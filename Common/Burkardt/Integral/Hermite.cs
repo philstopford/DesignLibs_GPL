@@ -40,9 +40,7 @@ public static partial class Integral
         //    Output, double GEN_HERMITE_INTEGRAL, the value of the integral.
         //
     {
-        double a;
-        double arg;
-        double value = 0;
+        double value;
 
         switch (expon % 2)
         {
@@ -51,14 +49,14 @@ public static partial class Integral
                 break;
             default:
             {
-                a = alpha + expon;
+                double a = alpha + expon;
                 switch (a)
                 {
                     case <= - 1.0:
                         value = - typeMethods.r8_huge ( );
                         break;
                     default:
-                        arg = ( a + 1.0 ) / 2.0;
+                        double arg = ( a + 1.0 ) / 2.0;
                         value = typeMethods.r8_gamma ( arg );
                         break;
                 }
@@ -135,10 +133,9 @@ public static partial class Integral
         //
     {
         int exponent = 6;
-        double[] fx;
         int i;
 
-        fx = new double[n];
+        double[] fx = new double[n];
 
         for ( i = 0; i < n; i++ )
         {
@@ -348,16 +345,7 @@ public static partial class Integral
         //    Output, double HE_DOUBLE_PRODUCT_INTEGRAL, the value of the integral.
         //
     {
-        double value = 0;
-
-        if ( i == j )
-        {
-            value = typeMethods.r8_factorial ( i );
-        }
-        else
-        {
-            value = 0.0;
-        }
+        double value = i == j ? typeMethods.r8_factorial ( i ) : 0.0;
         return value;
     }
 

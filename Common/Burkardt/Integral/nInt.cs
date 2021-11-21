@@ -61,13 +61,6 @@ public static class nInt
         //    Output, double BOX_ND, the approximate value of the integral.
         //
     {
-        int dim;
-        int[] indx;
-        int k;
-        double result;
-        double w;
-        double[] x;
-
         eval_num = 0;
 
         switch (dim_num)
@@ -90,11 +83,11 @@ public static class nInt
                 return 1;
         }
 
-        k = 0;
-        result = 0.0;
+        int k = 0;
+        double result = 0.0;
 
-        indx = new int[dim_num];
-        x = new double[dim_num];
+        int[] indx = new int[dim_num];
+        double[] x = new double[dim_num];
 
         for (;;)
         {
@@ -105,7 +98,8 @@ public static class nInt
                 break;
             }
 
-            w = 1.0;
+            double w = 1.0;
+            int dim;
             for (dim = 0; dim < dim_num; dim++)
             {
                 w *= weight[indx[dim] - 1];
@@ -177,20 +171,17 @@ public static class nInt
     {
         int dim;
         int i;
-        double result;
-        double volume;
-        double[] x;
 
-        result = 0.0;
+        double result = 0.0;
 
         for (i = 0; i < eval_num; i++)
         {
-            x = UniformRNG.r8vec_uniform_01_new(dim_num, ref seed);
+            double[] x = UniformRNG.r8vec_uniform_01_new(dim_num, ref seed);
 
             result += func(dim_num, x);
         }
 
-        volume = 1.0;
+        double volume = 1.0;
         for (dim = 0; dim < dim_num; dim++)
         {
             volume *= (b[dim] - a[dim]);
@@ -251,22 +242,8 @@ public static class nInt
         //    Output, double P5_ND, the approximate value of the integral.
         //
     {
-        double a0;
-        double a1;
-        double a2;
-        double a3;
-        double a4;
-        double a5;
         int dim;
-        double en;
         int i;
-        int j;
-        double result;
-        double sum1;
-        double sum2;
-        double sum3;
-        double volume;
-        double[] work;
 
         eval_num = 0;
 
@@ -279,25 +256,25 @@ public static class nInt
                 return 1;
         }
 
-        a2 = 25.0 / 324.0;
-        a3 = Math.Sqrt(0.6);
-        en = dim_num;
-        a0 = (25.0 * en * en - 115.0 * en + 162.0) / 162.0;
-        a1 = (70.0 - 25.0 * en) / 162.0;
+        double a2 = 25.0 / 324.0;
+        double a3 = Math.Sqrt(0.6);
+        double en = dim_num;
+        double a0 = (25.0 * en * en - 115.0 * en + 162.0) / 162.0;
+        double a1 = (70.0 - 25.0 * en) / 162.0;
 
-        volume = 1.0;
+        double volume = 1.0;
         for (dim = 0; dim < dim_num; dim++)
         {
             volume *= (b[dim] - a[dim]);
         }
 
-        work = new double[dim_num];
+        double[] work = new double[dim_num];
         for (dim = 0; dim < dim_num; dim++)
         {
             work[dim] = 0.5 * (a[dim] + b[dim]);
         }
 
-        result = 0.0;
+        double result = 0.0;
         switch (volume)
         {
             case 0.0:
@@ -307,11 +284,11 @@ public static class nInt
                 return result;
         }
 
-        sum1 = a0 * func(dim_num, work);
+        double sum1 = a0 * func(dim_num, work);
         eval_num += 1;
 
-        sum2 = 0.0;
-        sum3 = 0.0;
+        double sum2 = 0.0;
+        double sum3 = 0.0;
 
         for (i = 0; i < dim_num; i++)
         {
@@ -330,17 +307,18 @@ public static class nInt
         {
             case > 1:
             {
-                a4 = a3;
+                double a4 = a3;
 
                 for (;;)
                 {
                     for (i = 0; i < dim_num - 1; i++)
                     {
                         work[i] = 0.5 * (a[i] + b[i] + a4 * (b[i] - a[i]));
-                        a5 = a3;
+                        double a5 = a3;
 
                         for (;;)
                         {
+                            int j;
                             for (j = i + 1; j < dim_num; j++)
                             {
                                 work[j] = 0.5 * (a[j] + b[j] + a5 * (b[j] - a[j]));
@@ -464,21 +442,9 @@ public static class nInt
         //
     {
         int dim;
-        double factor;
         int i;
-        int it;
-        int[] iwork;
-        int[] iwork2;
-        int kdim;
-        int ll;
         double result;
         double result_old = 0;
-        double rnderr;
-        int[] sub_num2;
-        double sum1;
-        double weight;
-        double[] table;
-        double[] x;
 
         eval_num = 0;
 
@@ -514,14 +480,14 @@ public static class nInt
             }
         }
 
-        iwork = new int[dim_num];
-        iwork2 = new int[it_max];
-        sub_num2 = new int[dim_num];
-        table = new double[it_max];
-        x = new double[dim_num];
+        int[] iwork = new int[dim_num];
+        int[] iwork2 = new int[it_max];
+        int[] sub_num2 = new int[dim_num];
+        double[] table = new double[it_max];
+        double[] x = new double[dim_num];
 
         ind = 0;
-        rnderr = typeMethods.r8_epsilon();
+        double rnderr = typeMethods.r8_epsilon();
         iwork2[0] = 1;
 
         for (dim = 0; dim < dim_num; dim++)
@@ -535,13 +501,13 @@ public static class nInt
             _ => iwork2[1]
         };
 
-        it = 1;
+        int it = 1;
 
         for (;;)
         {
-            sum1 = 0.0;
+            double sum1 = 0.0;
 
-            weight = 1.0;
+            double weight = 1.0;
             for (dim = 0; dim < dim_num; dim++)
             {
                 weight = weight * (b[dim] - a[dim]) / sub_num2[dim];
@@ -568,7 +534,7 @@ public static class nInt
                 sum1 += func(dim_num, x);
                 eval_num += 1;
 
-                kdim = dim_num;
+                int kdim = dim_num;
 
                 while (0 < kdim)
                 {
@@ -616,11 +582,12 @@ public static class nInt
             //
             //  Compute the difference table for Richardson extrapolation.
             // 
+            int ll;
             for (ll = 2; ll <= it; ll++)
             {
                 i = it + 1 - ll;
-                factor = iwork2[i - 1] * iwork2[i - 1]
-                         / (double) (iwork2[it - 1] * iwork2[it - 1] - iwork2[i - 1] * iwork2[i - 1]);
+                double factor = iwork2[i - 1] * iwork2[i - 1]
+                                / (double) (iwork2[it - 1] * iwork2[it - 1] - iwork2[i - 1] * iwork2[i - 1]);
                 table[i] += (table[i] - table[i - 1]) * factor;
             }
 
@@ -748,11 +715,8 @@ public static class nInt
         //    Output, int *EVAL_NUM, the number of function evaluations.
         //
     {
-        int DIM_MAX = 10;
+        const int DIM_MAX = 10;
 
-        double ak;
-        double ak1;
-        double akn;
         double[] al =
         {
             0.4142135623730950,
@@ -766,31 +730,8 @@ public static class nInt
             0.7958315233127195,
             0.3851648071345040
         };
-        double b;
-        double[] be;
-        double bk;
-        double d1;
-        double d2;
-        double[] dex;
         int dim;
-        double g;
-        double[] ga;
-        int i;
-        int j;
         int k;
-        int key;
-        bool more;
-        double[] p1;
-        double[] p2;
-        double[] p3;
-        double[] p4;
-        double s1;
-        double s2;
-        double t;
-        double y1;
-        double y2;
-        double y3;
-        double y4;
 
         eval_num = 0;
         switch (dim_num)
@@ -834,13 +775,13 @@ public static class nInt
             return;
         }
 
-        be = new double[dim_num];
-        dex = new double[dim_num];
-        ga = new double[dim_num];
-        p1 = new double[dim_num];
-        p2 = new double[dim_num];
-        p3 = new double[dim_num];
-        p4 = new double[dim_num];
+        double[] be = new double[dim_num];
+        double[] dex = new double[dim_num];
+        double[] ga = new double[dim_num];
+        double[] p1 = new double[dim_num];
+        double[] p2 = new double[dim_num];
+        double[] p3 = new double[dim_num];
+        double[] p4 = new double[dim_num];
 
         for (dim = 0; dim < dim_num; dim++)
         {
@@ -859,16 +800,16 @@ public static class nInt
 
         for (k = k1; k <= k2; k++)
         {
-            ak = k;
-            key = 0;
-            ak1 = ak - 1.1;
-            s1 = 0.0;
-            d1 = 0.0;
-            s2 = 0.0;
-            d2 = 0.0;
-            akn = Math.Pow(ak, dim_num);
-            t = Math.Sqrt(Math.Pow(ak, dim_num)) * ak;
-            bk = 1.0 / ak;
+            double ak = k;
+            int key = 0;
+            double ak1 = ak - 1.1;
+            double s1 = 0.0;
+            double d1 = 0.0;
+            double s2 = 0.0;
+            double d2 = 0.0;
+            double akn = Math.Pow(ak, dim_num);
+            double t = Math.Sqrt(Math.Pow(ak, dim_num)) * ak;
+            double bk = 1.0 / ak;
 
             for (;;)
             {
@@ -877,7 +818,8 @@ public static class nInt
                 if (key != 1)
                 {
                     key -= 1;
-                    more = false;
+                    bool more = false;
+                    int j;
                     for (j = 0; j < dim_num; j++)
                     {
                         if (dex[j] <= ak1)
@@ -896,9 +838,10 @@ public static class nInt
                     }
                 }
 
+                int i;
                 for (i = 0; i < dim_num; i++)
                 {
-                    b = be[i] + al[i];
+                    double b = be[i] + al[i];
                     switch (b)
                     {
                         case > 1.0:
@@ -906,7 +849,7 @@ public static class nInt
                             break;
                     }
 
-                    g = ga[i] + b;
+                    double g = ga[i] + b;
                     switch (g)
                     {
                         case > 1.0:
@@ -936,17 +879,17 @@ public static class nInt
                     p4[i] = (dex[i] + 1.0 - ga[i]) * bk;
                 }
 
-                y1 = func(dim_num, p1);
+                double y1 = func(dim_num, p1);
                 eval_num += 1;
                 //
                 //  There may be an error in the next two lines,
                 //  but oddly enough, that is how the original reads
                 //
-                y3 = func(dim_num, p2);
+                double y3 = func(dim_num, p2);
                 eval_num += 1;
-                y2 = func(dim_num, p3);
+                double y2 = func(dim_num, p3);
                 eval_num += 1;
-                y4 = func(dim_num, p4);
+                double y4 = func(dim_num, p4);
                 eval_num += 1;
 
                 s1 = s1 + y1 + y2;
@@ -1030,16 +973,10 @@ public static class nInt
     {
         int dim;
         int i;
-        int[] iwork;
-        int k;
-        int m1;
-        double result;
-        double w1;
-        double[] work;
         //
         //  Default values.
         //
-        result = 0.0;
+        double result = 0.0;
         eval_num = 0;
 
         switch (dim_num)
@@ -1066,8 +1003,8 @@ public static class nInt
             }
         }
 
-        iwork = new int[dim_num];
-        work = new double[dim_num];
+        int[] iwork = new int[dim_num];
+        double[] work = new double[dim_num];
 
         for (dim = 0; dim < dim_num; dim++)
         {
@@ -1076,12 +1013,12 @@ public static class nInt
 
         for (;;)
         {
-            k = 1;
+            int k = 1;
 
-            w1 = 1.0;
+            double w1 = 1.0;
             for (i = 0; i < dim_num; i++)
             {
-                m1 = iwork[i];
+                int m1 = iwork[i];
                 work[i] = xtab[i + (m1 - 1) * dim_num];
                 w1 *= weight[i + (m1 - 1) * dim_num];
             }

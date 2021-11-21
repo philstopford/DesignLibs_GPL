@@ -52,7 +52,6 @@ public static class PBMA
         //    Input, int *B, the array of XSIZE by YSIZE data values.
         //
     {
-        int i;
         int index = 0;
         int j;
 
@@ -87,6 +86,7 @@ public static class PBMA
             
         for (j = 0; j < ysize; j++)
         {
+            int i;
             for (i = 0; i < xsize; i++)
             {
                 switch (index)
@@ -140,14 +140,8 @@ public static class PBMA
     {
         int i;
         int indexb = 0;
-        int j;
         double r;
-        double test;
-        double x;
-        double xc;
-        double y;
-        double yc;
-            
+
         if ( xsize < ysize )
         {
             r = xsize / 3.0;
@@ -157,17 +151,18 @@ public static class PBMA
             r = ysize / 3.0;
         }
 
-        xc = xsize / 2.0;
-        yc = ysize / 2.0;
+        double xc = xsize / 2.0;
+        double yc = ysize / 2.0;
 
         for ( i = 0; i < ysize; i++ )
         {
-            y = i;
+            double y = i;
+            int j;
             for ( j = 0; j < xsize; j++ )
             {
-                x = j;
-                test = r - Math.Sqrt ( ( x - xc ) * ( x - xc )
-                                       + 0.75 * ( y - yc ) * ( y - yc ) );
+                double x = j;
+                double test = r - Math.Sqrt ( ( x - xc ) * ( x - xc )
+                                              + 0.75 * ( y - yc ) * ( y - yc ) );
                 b[indexb] = Math.Abs(test) switch
                 {
                     <= 3.0 => 1,
@@ -209,7 +204,6 @@ public static class PBMA
     {
         string[] file_in;
         int file_index = 0;
-        int numbytes;
 
         try
         {
@@ -230,7 +224,7 @@ public static class PBMA
         //
         //  Allocate storage for the data.
         //
-        numbytes = xsize * ysize * sizeof(int);
+        int numbytes = xsize * ysize * sizeof(int);
 
         b = new int[numbytes];
         //
@@ -273,9 +267,9 @@ public static class PBMA
         while (file_index < file_in.Length)
         {
             string[] tokens = Helpers.splitStringByWhitespace(file_in[file_index]);
-            for (int i = 0; i < tokens.Length; i++)
+            foreach (string t in tokens)
             {
-                b[index] = Convert.ToInt32(tokens[i]);
+                b[index] = Convert.ToInt32(t);
                 index++;
             }
 
@@ -310,13 +304,14 @@ public static class PBMA
         //    Output, int &XSIZE, &YSIZE, the number of rows and columns of data.
         //
     {
-        string line;
         string rest = "";
         int step = 0;
         string word = "";
             
         while (true)
         {
+            string 
+                line;
             try
             {
                 line = file_in[file_index];
@@ -419,11 +414,10 @@ public static class PBMA
         //    Input, string FILE_IN_NAME, the name of the file.
         //
     {
-        int[] b;
         int xsize = 0;
         int ysize = 0;
 
-        b = null;
+        int[] b = null;
         //
         //  Read the data.
         //
@@ -534,21 +528,18 @@ public static class PBMA
         //    Input, int *B, the arrays of XSIZE by YSIZE data values.
         //
     {
-        int i;
-        int[] indexb;
         int j;
-        int numval;
 
-        indexb = b;
-        numval = 0;
+        int numval = 0;
         string cout = "";
         int bIndex = 0;
 
         for (j = 0; j < ysize; j++)
         {
+            int i;
             for (i = 0; i < xsize; i++)
             {
-                cout += indexb[bIndex] + " ";
+                cout += b[bIndex] + " ";
                 numval += 1;
                 bIndex++;
 
@@ -627,10 +618,9 @@ public static class PBMA
         //
     {
         int[] b;
-        int xsize;
         int ysize;
 
-        xsize = 200;
+        int xsize = 200;
         ysize = 200;
         //
         //  Allocate memory.

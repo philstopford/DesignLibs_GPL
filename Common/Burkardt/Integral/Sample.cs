@@ -91,11 +91,8 @@ public static class Sample
         //    Output, int eval_NUM, the number of function evaluations.
         //
     {
-        int DIM_MAX = 10;
+        const int DIM_MAX = 10;
 
-        double ak;
-        double ak1;
-        double akn;
         double[] al =
         {
             0.4142135623730950,
@@ -109,31 +106,8 @@ public static class Sample
             0.7958315233127195,
             0.3851648071345040
         };
-        double b;
-        double[] be;
-        double bk;
-        double d1;
-        double d2;
-        double[] dex;
         int dim;
-        double g;
-        double[] ga;
-        int i;
-        int j;
         int k;
-        int key;
-        bool more;
-        double[] p1;
-        double[] p2;
-        double[] p3;
-        double[] p4;
-        double s1;
-        double s2;
-        double t;
-        double y1;
-        double y2;
-        double y3;
-        double y4;
 
         eval_num = 0;
         switch (dim_num)
@@ -177,13 +151,13 @@ public static class Sample
             return;
         }
 
-        be = new double[dim_num];
-        dex = new double[dim_num];
-        ga = new double[dim_num];
-        p1 = new double[dim_num];
-        p2 = new double[dim_num];
-        p3 = new double[dim_num];
-        p4 = new double[dim_num];
+        double[] be = new double[dim_num];
+        double[] dex = new double[dim_num];
+        double[] ga = new double[dim_num];
+        double[] p1 = new double[dim_num];
+        double[] p2 = new double[dim_num];
+        double[] p3 = new double[dim_num];
+        double[] p4 = new double[dim_num];
 
         for (dim = 0; dim < dim_num; dim++)
         {
@@ -202,16 +176,16 @@ public static class Sample
 
         for (k = k1; k <= k2; k++)
         {
-            ak = k;
-            key = 0;
-            ak1 = ak - 1.1;
-            s1 = 0.0;
-            d1 = 0.0;
-            s2 = 0.0;
-            d2 = 0.0;
-            akn = Math.Pow(ak, dim_num);
-            t = Math.Sqrt(Math.Pow(ak, dim_num)) * ak;
-            bk = 1.0 / ak;
+            double ak = k;
+            int key = 0;
+            double ak1 = ak - 1.1;
+            double s1 = 0.0;
+            double d1 = 0.0;
+            double s2 = 0.0;
+            double d2 = 0.0;
+            double akn = Math.Pow(ak, dim_num);
+            double t = Math.Sqrt(Math.Pow(ak, dim_num)) * ak;
+            double bk = 1.0 / ak;
 
             for (;;)
             {
@@ -220,7 +194,8 @@ public static class Sample
                 if (key != 1)
                 {
                     key -= 1;
-                    more = false;
+                    bool more = false;
+                    int j;
                     for (j = 0; j < dim_num; j++)
                     {
                         if (dex[j] <= ak1)
@@ -239,9 +214,10 @@ public static class Sample
                     }
                 }
 
+                int i;
                 for (i = 0; i < dim_num; i++)
                 {
-                    b = be[i] + al[i];
+                    double b = be[i] + al[i];
                     switch (b)
                     {
                         case > 1.0:
@@ -249,7 +225,7 @@ public static class Sample
                             break;
                     }
 
-                    g = ga[i] + b;
+                    double g = ga[i] + b;
                     switch (g)
                     {
                         case > 1.0:
@@ -279,17 +255,17 @@ public static class Sample
                     p4[i] = (dex[i] + 1.0 - ga[i]) * bk;
                 }
 
-                y1 = func(dim_num, p1);
+                double y1 = func(dim_num, p1);
                 eval_num += 1;
                 //
                 //  There may be an error in the next two lines,
                 //  but oddly enough, that is how the original reads
                 //
-                y3 = func(dim_num, p2);
+                double y3 = func(dim_num, p2);
                 eval_num += 1;
-                y2 = func(dim_num, p3);
+                double y2 = func(dim_num, p3);
                 eval_num += 1;
-                y4 = func(dim_num, p4);
+                double y4 = func(dim_num, p4);
                 eval_num += 1;
 
                 s1 = s1 + y1 + y2;

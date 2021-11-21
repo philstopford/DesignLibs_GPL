@@ -46,13 +46,7 @@ public static class C1
 //    Output, double C1_GEG_MONOMIAL_INTEGRAL, the value of the integral.
 //
     {
-        double arg1;
-        double arg2;
-        double arg3;
-        double arg4;
-        double c;
-        double value = 0;
-        double value1;
+        double value;
 
         switch (alpha)
         {
@@ -70,14 +64,14 @@ public static class C1
                 return value;
         }
 
-        c = expon;
+        double c = expon;
 
-        arg1 = - alpha;
-        arg2 =   1.0 + c;
-        arg3 =   2.0 + alpha + c;
-        arg4 = - 1.0;
+        double arg1 = - alpha;
+        double arg2 = 1.0 + c;
+        double arg3 = 2.0 + alpha + c;
+        double arg4 = - 1.0;
 
-        value1 = typeMethods.r8_hyper_2f1 ( arg1, arg2, arg3, arg4 );
+        double value1 = typeMethods.r8_hyper_2f1 ( arg1, arg2, arg3, arg4 );
 
         value = 2.0 * typeMethods.r8_gamma ( 1.0 + c ) * typeMethods.r8_gamma ( 1.0 + alpha ) 
             * value1 / typeMethods.r8_gamma ( 2.0 + alpha + c );
@@ -120,39 +114,29 @@ public static class C1
 //    Output, double C1_JAC_MONOMIAL_INTEGRAL, the value of the integral.
 //
     {
-        double arg1;
-        double arg2;
-        double arg3;
-        double arg4;
-        double c;
-        double s;
-        double value = 0;
-        double value1;
-        double value2;
+        double c = expon;
 
-        c = expon;
-
-        s = (expon % 2) switch
+        double s = (expon % 2) switch
         {
             0 => +1.0,
             _ => -1.0
         };
 
-        arg1 = - alpha;
-        arg2 =   1.0 + c;
-        arg3 =   2.0 + beta + c;
-        arg4 = - 1.0;
+        double arg1 = - alpha;
+        double arg2 = 1.0 + c;
+        double arg3 = 2.0 + beta + c;
+        double arg4 = - 1.0;
 
-        value1 = typeMethods.r8_hyper_2f1 ( arg1, arg2, arg3, arg4 );
+        double value1 = typeMethods.r8_hyper_2f1 ( arg1, arg2, arg3, arg4 );
 
         arg1 = - beta;
         arg2 =   1.0 + c;
         arg3 =   2.0 + alpha + c;
         arg4 = - 1.0;
 
-        value2 = typeMethods.r8_hyper_2f1 ( arg1, arg2, arg3, arg4 );
+        double value2 = typeMethods.r8_hyper_2f1 ( arg1, arg2, arg3, arg4 );
 
-        value = typeMethods.r8_gamma ( 1.0 + c ) * ( 
+        double value = typeMethods.r8_gamma ( 1.0 + c ) * ( 
             s * typeMethods.r8_gamma ( 1.0 + beta  ) * value1 
             / typeMethods.r8_gamma ( 2.0 + beta  + c ) 
             +     typeMethods.r8_gamma ( 1.0 + alpha ) * value2 

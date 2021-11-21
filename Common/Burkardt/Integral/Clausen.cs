@@ -110,21 +110,17 @@ public static class Clausen
                 0.00000000000000000002
             }
             ;
-        int n1 = 19;
-        int n2 = 30;
-        double value = 0;
-        double x2;
+        const int n1 = 19;
+        const int n2 = 30;
+        double value;
         double x3;
-        double xa;
-        double xb;
-        double xc;
         //
         //  The function is periodic.  Wrap X into [-pi/2, 3pi/2].
         //
-        xa = -0.5 * Math.PI;
-        xb = 0.5 * Math.PI;
-        xc = 1.5 * Math.PI;
-        x2 = typeMethods.r8_wrap(x, xa, xc);
+        const double xa = -0.5 * Math.PI;
+        const double xb = 0.5 * Math.PI;
+        const double xc = 1.5 * Math.PI;
+        double x2 = typeMethods.r8_wrap(x, xa, xc);
         //
         //  Choose the appropriate expansion.
         //

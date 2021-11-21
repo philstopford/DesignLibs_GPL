@@ -273,22 +273,19 @@ public static class RadialBasisFunctions
         //    Output, double RBF_INTERP[NI], the interpolated values.
         //
     {
-        double[] fi;
         int i;
-        int j;
-        int k;
-        double[] r;
-        double[] v;
 
-        fi = new double[ni];
-        r = new double[nd];
-        v = new double[nd];
+        double[] fi = new double[ni];
+        double[] r = new double[nd];
+        double[] v = new double[nd];
 
         for (i = 0; i < ni; i++)
         {
+            int j;
             for (j = 0; j < nd; j++)
             {
                 r[j] = 0.0;
+                int k;
                 for (k = 0; k < m; k++)
                 {
                     r[j] += Math.Pow(xi[k + i * m] - xd[k + j * m], 2);
@@ -361,22 +358,19 @@ public static class RadialBasisFunctions
         //    Output, double RBF_INTERP_ND[NI], the interpolated values.
         //
     {
-        double[] fi;
         int i;
-        int j;
-        int k;
-        double[] r;
-        double[] v;
 
-        fi = new double[ni];
-        r = new double[nd];
-        v = new double[nd];
+        double[] fi = new double[ni];
+        double[] r = new double[nd];
+        double[] v = new double[nd];
 
         for (i = 0; i < ni; i++)
         {
+            int j;
             for (j = 0; j < nd; j++)
             {
                 r[j] = 0.0;
+                int k;
                 for (k = 0; k < m; k++)
                 {
                     r[j] += Math.Pow(xi[k + i * m] - xd[k + j * m], 2);
@@ -455,23 +449,19 @@ public static class RadialBasisFunctions
         //    Output, double RBF_WEIGHT[ND], the weights.
         //
     {
-        double[] a;
         int i;
-        int j;
-        int k;
-        double[] r;
-        double[] v;
-        double[] w;
 
-        a = new double[nd * nd];
-        r = new double[nd];
-        v = new double[nd];
+        double[] a = new double[nd * nd];
+        double[] r = new double[nd];
+        double[] v = new double[nd];
 
         for (i = 0; i < nd; i++)
         {
+            int j;
             for (j = 0; j < nd; j++)
             {
                 r[j] = 0.0;
+                int k;
                 for (k = 0; k < m; k++)
                 {
                     r[j] += Math.Pow(xd[k + i * m] - xd[k + j * m], 2);
@@ -491,7 +481,7 @@ public static class RadialBasisFunctions
         //
         //  Solve for the weights.
         //
-        w = typeMethods.r8mat_solve_svd(nd, nd, a, fd);
+        double[] w = typeMethods.r8mat_solve_svd(nd, nd, a, fd);
 
         return w;
     }

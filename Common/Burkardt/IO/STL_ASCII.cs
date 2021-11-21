@@ -66,22 +66,14 @@ public static class STL_ASCII
         //    Output, bool STLA_CHECK, is TRUE if the file is legal.
         //
     {
-        bool check;
-        bool done = false;
         bool error = false;
-        int i;
         string[] input;
         int lchar = 0;
-        int state;
-        string text;
-        int text_num;
         int vertex = 0;
-        string word1;
-        string word2;
         typeMethods.WordData data = new();
 
-        state = 0;
-        text_num = 0;
+        int state = 0;
+        int text_num = 0;
         //
         //  Open the file.
         //
@@ -94,8 +86,7 @@ public static class STL_ASCII
             Console.WriteLine("");
             Console.WriteLine("STLA_CHECK - Fatal error!");
             Console.WriteLine("  Could not open the file \"" + input_file_name + "\".");
-            check = false;
-            return check;
+            return false;
         }
 
         //
@@ -104,6 +95,7 @@ public static class STL_ASCII
         int index = 0;
         for (;;)
         {
+            string text;
             try
             {
                 text = input[index];
@@ -118,8 +110,7 @@ public static class STL_ASCII
                     Console.WriteLine("STLA_CHECK - Fatal error!");
                     Console.WriteLine("  File line number = " + text_num + "");
                     Console.WriteLine("  End-of-file, but model not finished.");
-                    check = false;
-                    return check;
+                    return false;
                 }
 
                 break;
@@ -127,11 +118,11 @@ public static class STL_ASCII
 
             text_num += 1;
 
-            done = true;
+            bool done = true;
             //
             //  Read the first word in the line.
             //
-            word1 = typeMethods.word_next_read(ref data, text, ref done);
+            string word1 = typeMethods.word_next_read(ref data, text, ref done);
 
             switch (done)
             {
@@ -140,8 +131,7 @@ public static class STL_ASCII
                     Console.WriteLine("STLA_CHECK - Fatal error!");
                     Console.WriteLine("  File line number = " + text_num + "");
                     Console.WriteLine("  No information on line.");
-                    check = false;
-                    return check;
+                    return false;
             }
 
             //
@@ -153,6 +143,7 @@ public static class STL_ASCII
             //      FACET NORMAL to FACETNORMAL
             //      OUTER LOOP to OUTERLOOP
             //
+            string word2;
             if (typeMethods.s_eqi(word1, "END"))
             {
                 word2 = typeMethods.word_next_read(ref data, text, ref done);
@@ -167,8 +158,7 @@ public static class STL_ASCII
                     Console.WriteLine("  The tag END was followed by an illegal word:");
                     Console.WriteLine("  \"" + word2 + "\"");
                     Console.WriteLine("  when expecting \"FACET\", \"LOOP\", or \"SOLID\".");
-                    check = false;
-                    return check;
+                    return false;
                 }
 
                 word1 += word2;
@@ -186,8 +176,7 @@ public static class STL_ASCII
                     Console.WriteLine("  The tag FACET was followed by an illegal word:");
                     Console.WriteLine("  \"" + word2 + "\"");
                     Console.WriteLine("  when expecting \"NORMAL\".");
-                    check = false;
-                    return check;
+                    return false;
                 }
 
                 word1 += word2;
@@ -204,8 +193,7 @@ public static class STL_ASCII
                     Console.WriteLine("  The tag OUTER was followed by an illegal word:");
                     Console.WriteLine("  \"" + word2 + "\"");
                     Console.WriteLine("  when expecting \"LOOP\".");
-                    check = false;
-                    return check;
+                    return false;
                 }
 
                 word1 += word2;
@@ -244,8 +232,7 @@ public static class STL_ASCII
                     Console.WriteLine("  File line number = " + text_num + "");
                     Console.WriteLine("  A new SOLID statement was encountered, but we");
                     Console.WriteLine("  have not finished processing the current solid.");
-                    check = false;
-                    return check;
+                    return false;
                 }
 
                 state = 1;
@@ -261,167 +248,157 @@ public static class STL_ASCII
                     Console.WriteLine("  either we have not begun a solid at all, or we");
                     Console.WriteLine("  are not at an appropriate point to finish the");
                     Console.WriteLine("  current solid.");
-                    check = false;
-                    return check;
+                    return false;
                 }
 
                 state = 0;
             }
-            else if (typeMethods.s_eqi(word1, "FACETNORMAL"))
+            else
             {
-                if (state != 0 && state != 1)
+                int i;
+                if (typeMethods.s_eqi(word1, "FACETNORMAL"))
                 {
-                    Console.WriteLine("");
-                    Console.WriteLine("STLA_CHECK - Fatal error!");
-                    Console.WriteLine("  File line number = " + text_num + "");
-                    Console.WriteLine("  Model not in right state for FACET.");
-                    check = false;
-                    return check;
-                }
-
-                state = 2;
-
-                for (i = 1; i <= 3; i++)
-                {
-                    word2 = typeMethods.word_next_read(ref data, text, ref done);
-
-                    switch (done)
+                    if (state != 0 && state != 1)
                     {
-                        case true:
-                            Console.WriteLine("");
-                            Console.WriteLine("STLA_CHECK - Fatal error!");
-                            Console.WriteLine("  File line number = " + text_num + "");
-                            Console.WriteLine("  End of information while reading a component");
-                            Console.WriteLine("  of the normal vector.");
-                            check = false;
-                            return check;
-                    }
-
-                    typeMethods.s_to_r8(word2, ref lchar, ref error);
-
-                    switch (error)
-                    {
-                        case true:
-                            Console.WriteLine("");
-                            Console.WriteLine("STLA_CHECK - Fatal error!");
-                            Console.WriteLine("  File line number = " + text_num + "");
-                            Console.WriteLine("  Error while reading a component of the normal vector.");
-                            check = false;
-                            return check;
-                    }
-                }
-            }
-            else if (typeMethods.s_eqi(word1, "ENDFACET"))
-            {
-                if (state != 2)
-                {
-                    Console.WriteLine("");
-                    Console.WriteLine("STLA_CHECK - Fatal error!");
-                    Console.WriteLine("  File line number = " + text_num + "");
-                    Console.WriteLine("  Model not in right state for ENDFACET.");
-                    check = false;
-                    return check;
-                }
-
-                state = 1;
-            }
-            else if (typeMethods.s_eqi(word1, "OUTERLOOP"))
-            {
-                if (state != 2)
-                {
-                    Console.WriteLine("");
-                    Console.WriteLine("STLA_CHECK - Fatal error!");
-                    Console.WriteLine("  File line number = " + text_num + "");
-                    Console.WriteLine("  Model not in right state for OUTERLOOP.");
-                    check = false;
-                    return check;
-                }
-
-                state = 3;
-                vertex = 0;
-            }
-            else if (typeMethods.s_eqi(word1, "ENDLOOP"))
-            {
-                if (state != 3)
-                {
-                    Console.WriteLine("");
-                    Console.WriteLine("STLA_CHECK - Fatal error!");
-                    Console.WriteLine("  File line number = " + text_num + "");
-                    Console.WriteLine("  Model not in right state for ENDLOOP.");
-                    check = false;
-                    return check;
-                }
-
-                state = 2;
-            }
-            else if (typeMethods.s_eqi(word1, "VERTEX"))
-            {
-                if (state != 3)
-                {
-                    Console.WriteLine("");
-                    Console.WriteLine("STLA_CHECK - Fatal error!");
-                    Console.WriteLine("  File line number = " + text_num + "");
-                    Console.WriteLine("  Model not in right state for VERTEX.");
-                    check = false;
-                    return check;
-                }
-
-                switch (vertex)
-                {
-                    case >= 3:
                         Console.WriteLine("");
                         Console.WriteLine("STLA_CHECK - Fatal error!");
                         Console.WriteLine("  File line number = " + text_num + "");
-                        Console.WriteLine("  More than 3 vertices specified for a face.");
-                        check = false;
-                        return check;
-                }
+                        Console.WriteLine("  Model not in right state for FACET.");
+                        return false;
+                    }
 
-                for (i = 1; i <= 3; i++)
+                    state = 2;
+
+                    for (i = 1; i <= 3; i++)
+                    {
+                        word2 = typeMethods.word_next_read(ref data, text, ref done);
+
+                        switch (done)
+                        {
+                            case true:
+                                Console.WriteLine("");
+                                Console.WriteLine("STLA_CHECK - Fatal error!");
+                                Console.WriteLine("  File line number = " + text_num + "");
+                                Console.WriteLine("  End of information while reading a component");
+                                Console.WriteLine("  of the normal vector.");
+                                return false;
+                        }
+
+                        typeMethods.s_to_r8(word2, ref lchar, ref error);
+
+                        switch (error)
+                        {
+                            case true:
+                                Console.WriteLine("");
+                                Console.WriteLine("STLA_CHECK - Fatal error!");
+                                Console.WriteLine("  File line number = " + text_num + "");
+                                Console.WriteLine("  Error while reading a component of the normal vector.");
+                                return false;
+                        }
+                    }
+                }
+                else if (typeMethods.s_eqi(word1, "ENDFACET"))
                 {
-                    word2 = typeMethods.word_next_read(ref data, text, ref done);
-
-                    switch (done)
+                    if (state != 2)
                     {
-                        case true:
-                            Console.WriteLine("");
-                            Console.WriteLine("STLA_CHECK - Fatal error!");
-                            Console.WriteLine("  File line number = " + text_num + "");
-                            Console.WriteLine("  The value of a vertex coordinate is missing.");
-                            check = false;
-                            return check;
+                        Console.WriteLine("");
+                        Console.WriteLine("STLA_CHECK - Fatal error!");
+                        Console.WriteLine("  File line number = " + text_num + "");
+                        Console.WriteLine("  Model not in right state for ENDFACET.");
+                        return false;
                     }
 
-                    typeMethods.s_to_r8(word2, ref lchar, ref error);
-
-                    switch (error)
-                    {
-                        case true:
-                            Console.WriteLine("");
-                            Console.WriteLine("STLA_CHECK - Fatal error!");
-                            Console.WriteLine("  File line number = " + text_num + "");
-                            Console.WriteLine("  The value of a vertex coordinate makes no sense.");
-                            check = false;
-                            return check;
-                    }
+                    state = 1;
                 }
+                else if (typeMethods.s_eqi(word1, "OUTERLOOP"))
+                {
+                    if (state != 2)
+                    {
+                        Console.WriteLine("");
+                        Console.WriteLine("STLA_CHECK - Fatal error!");
+                        Console.WriteLine("  File line number = " + text_num + "");
+                        Console.WriteLine("  Model not in right state for OUTERLOOP.");
+                        return false;
+                    }
 
-                vertex += 1;
-            }
-            else
-            {
-                Console.WriteLine("");
-                Console.WriteLine("STLA_CHECK - Fatal error!");
-                Console.WriteLine("  File line number = " + text_num + "");
-                Console.WriteLine("  Unrecognized line in file.");
-                check = false;
-                return check;
+                    state = 3;
+                    vertex = 0;
+                }
+                else if (typeMethods.s_eqi(word1, "ENDLOOP"))
+                {
+                    if (state != 3)
+                    {
+                        Console.WriteLine("");
+                        Console.WriteLine("STLA_CHECK - Fatal error!");
+                        Console.WriteLine("  File line number = " + text_num + "");
+                        Console.WriteLine("  Model not in right state for ENDLOOP.");
+                        return false;
+                    }
+
+                    state = 2;
+                }
+                else if (typeMethods.s_eqi(word1, "VERTEX"))
+                {
+                    if (state != 3)
+                    {
+                        Console.WriteLine("");
+                        Console.WriteLine("STLA_CHECK - Fatal error!");
+                        Console.WriteLine("  File line number = " + text_num + "");
+                        Console.WriteLine("  Model not in right state for VERTEX.");
+                        return false;
+                    }
+
+                    switch (vertex)
+                    {
+                        case >= 3:
+                            Console.WriteLine("");
+                            Console.WriteLine("STLA_CHECK - Fatal error!");
+                            Console.WriteLine("  File line number = " + text_num + "");
+                            Console.WriteLine("  More than 3 vertices specified for a face.");
+                            return false;
+                    }
+
+                    for (i = 1; i <= 3; i++)
+                    {
+                        word2 = typeMethods.word_next_read(ref data, text, ref done);
+
+                        switch (done)
+                        {
+                            case true:
+                                Console.WriteLine("");
+                                Console.WriteLine("STLA_CHECK - Fatal error!");
+                                Console.WriteLine("  File line number = " + text_num + "");
+                                Console.WriteLine("  The value of a vertex coordinate is missing.");
+                                return false;
+                        }
+
+                        typeMethods.s_to_r8(word2, ref lchar, ref error);
+
+                        switch (error)
+                        {
+                            case true:
+                                Console.WriteLine("");
+                                Console.WriteLine("STLA_CHECK - Fatal error!");
+                                Console.WriteLine("  File line number = " + text_num + "");
+                                Console.WriteLine("  The value of a vertex coordinate makes no sense.");
+                                return false;
+                        }
+                    }
+
+                    vertex += 1;
+                }
+                else
+                {
+                    Console.WriteLine("");
+                    Console.WriteLine("STLA_CHECK - Fatal error!");
+                    Console.WriteLine("  File line number = " + text_num + "");
+                    Console.WriteLine("  Unrecognized line in file.");
+                    return false;
+                }
             }
         }
 
-        check = true;
-
-        return check;
+        return true;
     }
 
     public static void stla_face_node_print(ref STLData data, int face_num, int[] face_node)
@@ -464,10 +441,8 @@ public static class STL_ASCII
         //
     {
         int face;
-        int offset;
-        int vertex;
 
-        offset = data.stla_offset_value;
+        int offset = data.stla_offset_value;
 
         Console.WriteLine("");
         Console.WriteLine("    Face         Nodes");
@@ -476,6 +451,7 @@ public static class STL_ASCII
         for (face = 0; face < face_num; face++)
         {
             string cout = "  " + (face + offset).ToString(CultureInfo.InvariantCulture).PadLeft(6);
+            int vertex;
             for (vertex = 0; vertex < 3; vertex++)
             {
                 cout += "  " + face_node[vertex + face * 3].ToString(CultureInfo.InvariantCulture).PadLeft(6);
@@ -538,27 +514,20 @@ public static class STL_ASCII
         //
     {
         int face;
-        double[] face_normal;
-        int i;
-        int n1;
-        int n2;
-        int n3;
-        double norm;
-        int offset;
         double[] v1 = new double[3];
         double[] v2 = new double[3];
-        double[] v3;
 
-        offset = data.stla_offset_value;
+        int offset = data.stla_offset_value;
 
-        face_normal = new double[3 * face_num];
+        double[] face_normal = new double[3 * face_num];
 
         for (face = 0; face < face_num; face++)
         {
-            n1 = face_node[0 + face * 3] - offset;
-            n2 = face_node[1 + face * 3] - offset;
-            n3 = face_node[2 + face * 3] - offset;
+            int n1 = face_node[0 + face * 3] - offset;
+            int n2 = face_node[1 + face * 3] - offset;
+            int n3 = face_node[2 + face * 3] - offset;
 
+            int i;
             for (i = 0; i < 3; i++)
             {
                 v1[i] = node_xyz[i + n2 * 3] - node_xyz[i + n1 * 3];
@@ -569,9 +538,9 @@ public static class STL_ASCII
                 v2[i] = node_xyz[i + n3 * 3] - node_xyz[i + n1 * 3];
             }
 
-            v3 = typeMethods.r8vec_cross_3d(v1, v2);
+            double[] v3 = typeMethods.r8vec_cross_3d(v1, v2);
 
-            norm = typeMethods.r8vec_length(3, v3);
+            double norm = typeMethods.r8vec_length(3, v3);
 
             if (norm != 0.0)
             {
@@ -626,7 +595,6 @@ public static class STL_ASCII
         //
     {
         int face;
-        int i;
 
         Console.WriteLine("");
         Console.WriteLine("    Face         Normal Vectors");
@@ -635,6 +603,7 @@ public static class STL_ASCII
         for (face = 0; face < face_num; face++)
         {
             string cout = "  " + face.ToString(CultureInfo.InvariantCulture).PadLeft(6);
+            int i;
             for (i = 0; i < 3; i++)
             {
                 cout += "  " + face_normal[i + face * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14);
@@ -677,7 +646,6 @@ public static class STL_ASCII
         //    Input, double NODE_XYZ[3*FACE_NUM], the normal vector at each face.
         //
     {
-        int i;
         int node;
 
         Console.WriteLine("");
@@ -687,6 +655,7 @@ public static class STL_ASCII
         for (node = 0; node < node_num; node++)
         {
             string cout = "  " + node.ToString(CultureInfo.InvariantCulture).PadLeft(6);
+            int i;
             for (i = 0; i < 3; i++)
             {
                 cout += "  " + node_xyz[i + node * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14);
@@ -786,31 +755,18 @@ public static class STL_ASCII
         //    Output, bool STLA_READ, is TRUE if an error occurred.
         //
     {
-        bool done;
-        double dval;
-        bool error;
-        int face;
-        int i;
         string[] input;
         int lchar = 0;
-        int node;
-        int offset;
-        int state;
         double[] temp = new double[3];
-        string text;
-        int text_num;
         int vertex = 0;
-        string word1;
-        string word2;
         typeMethods.WordData data = new();
 
-        error = false;
-        state = 0;
-        offset = stldata.stla_offset_value;
-        text_num = 0;
+        int state = 0;
+        int offset = stldata.stla_offset_value;
+        int text_num = 0;
 
-        face = 0;
-        node = 0;
+        int face = 0;
+        int node = 0;
         //
         //  Open the file.
         //
@@ -823,8 +779,7 @@ public static class STL_ASCII
             Console.WriteLine("");
             Console.WriteLine("STLA_READ - Fatal error!");
             Console.WriteLine("  Could not open the file \"" + input_file_name + "\".");
-            error = true;
-            return error;
+            return true;
         }
 
         //
@@ -833,6 +788,7 @@ public static class STL_ASCII
         int index = 0;
         for (;;)
         {
+            string text;
             try
             {
                 text = input[index];
@@ -846,8 +802,7 @@ public static class STL_ASCII
                     Console.WriteLine("STLA_READ - Fatal error!");
                     Console.WriteLine("  File line number = " + text_num + "");
                     Console.WriteLine("  End-of-file, but model not finished.");
-                    error = true;
-                    return error;
+                    return true;
                 }
 
                 break;
@@ -855,11 +810,11 @@ public static class STL_ASCII
 
             text_num += 1;
 
-            done = true;
+            bool done = true;
             //
             //  Read the first word in the line.
             //
-            word1 = typeMethods.word_next_read(ref data, text, ref done);
+            string word1 = typeMethods.word_next_read(ref data, text, ref done);
 
             switch (done)
             {
@@ -868,8 +823,7 @@ public static class STL_ASCII
                     Console.WriteLine("STLA_READ - Fatal error!");
                     Console.WriteLine("  File line number = " + text_num + "");
                     Console.WriteLine("  No information on line.");
-                    error = true;
-                    return error;
+                    return true;
             }
 
             //
@@ -881,6 +835,7 @@ public static class STL_ASCII
             //      FACET NORMAL to FACETNORMAL
             //      OUTER LOOP to OUTERLOOP
             //
+            string word2;
             if (typeMethods.s_eqi(word1, "END"))
             {
                 word2 = typeMethods.word_next_read(ref data, text, ref done);
@@ -895,8 +850,7 @@ public static class STL_ASCII
                     Console.WriteLine("  The tag END was followed by an illegal word:");
                     Console.WriteLine("  \"" + word2 + "\"");
                     Console.WriteLine("  when expecting \"FACET\", \"LOOP\", or \"SOLID\".");
-                    error = true;
-                    return error;
+                    return true;
                 }
 
                 word1 += word2;
@@ -913,8 +867,7 @@ public static class STL_ASCII
                     Console.WriteLine("  The tag FACET was followed by an illegal word:");
                     Console.WriteLine("  \"" + word2 + "\"");
                     Console.WriteLine("  when expecting \"NORMAL\".");
-                    error = true;
-                    return error;
+                    return true;
                 }
 
                 word1 += word2;
@@ -931,8 +884,7 @@ public static class STL_ASCII
                     Console.WriteLine("  The tag OUTER was followed by an illegal word:");
                     Console.WriteLine("  \"" + word2 + "\"");
                     Console.WriteLine("  when expecting \"LOOP\".");
-                    error = true;
-                    return error;
+                    return true;
                 }
 
                 word1 += word2;
@@ -970,8 +922,7 @@ public static class STL_ASCII
                     Console.WriteLine("STLA_READ - Warning!");
                     Console.WriteLine("  Model not in right state for SOLID.");
                     Console.WriteLine("  File line number = " + text_num + "");
-                    error = true;
-                    return error;
+                    return true;
                 }
 
                 state = 1;
@@ -984,177 +935,173 @@ public static class STL_ASCII
                     Console.WriteLine("STLA_READ - Warning!");
                     Console.WriteLine("  Model not in right state for ENDSOLID.");
                     Console.WriteLine("  File line number = " + text_num + "");
-                    error = true;
-                    return error;
+                    return true;
                 }
 
                 state = 0;
             }
-            else if (typeMethods.s_eqi(word1, "FACETNORMAL"))
+            else
             {
-                if (state != 0 && state != 1)
+                int i;
+                double dval;
+                if (typeMethods.s_eqi(word1, "FACETNORMAL"))
                 {
-                    Console.WriteLine("");
-                    Console.WriteLine("STLA_READ - Warning!");
-                    Console.WriteLine("  Model not in right state for FACET.");
-                    Console.WriteLine("  File line number = " + text_num + "");
-                    error = true;
-                    return error;
-                }
-
-                state = 2;
-
-                if (face_num <= face)
-                {
-                    Console.WriteLine("");
-                    Console.WriteLine("STLA_READ - Warning!");
-                    Console.WriteLine("  More faces being read than expected.");
-                    Console.WriteLine("  File line number = " + text_num + "");
-                    error = true;
-                    return error;
-                }
-
-                for (i = 0; i < 3; i++)
-                {
-                    face_normal[i + face * 3] = 0.0;
-                    word2 = typeMethods.word_next_read(ref data, text, ref done);
-                    switch (done)
+                    if (state != 0 && state != 1)
                     {
-                        case false:
-                        {
-                            dval = typeMethods.s_to_r8(word2, ref lchar, ref error);
-                            switch (error)
-                            {
-                                case true:
-                                    return error;
-                            }
+                        Console.WriteLine("");
+                        Console.WriteLine("STLA_READ - Warning!");
+                        Console.WriteLine("  Model not in right state for FACET.");
+                        Console.WriteLine("  File line number = " + text_num + "");
+                        return true;
+                    }
 
-                            face_normal[i + face * 3] = dval;
-                            break;
+                    state = 2;
+
+                    if (face_num <= face)
+                    {
+                        Console.WriteLine("");
+                        Console.WriteLine("STLA_READ - Warning!");
+                        Console.WriteLine("  More faces being read than expected.");
+                        Console.WriteLine("  File line number = " + text_num + "");
+                        return true;
+                    }
+
+                    for (i = 0; i < 3; i++)
+                    {
+                        face_normal[i + face * 3] = 0.0;
+                        word2 = typeMethods.word_next_read(ref data, text, ref done);
+                        switch (done)
+                        {
+                            case false:
+                            {
+                                bool error = false;
+                                dval = typeMethods.s_to_r8(word2, ref lchar, ref error);
+                                switch (error)
+                                {
+                                    case true:
+                                        return true;
+                                }
+
+                                face_normal[i + face * 3] = dval;
+                                break;
+                            }
                         }
                     }
                 }
-            }
-            else if (typeMethods.s_eqi(word1, "ENDFACET"))
-            {
-                if (state != 2)
+                else if (typeMethods.s_eqi(word1, "ENDFACET"))
                 {
-                    Console.WriteLine("");
-                    Console.WriteLine("STLA_READ - Warning!");
-                    Console.WriteLine("  Model not in right state for ENDFACET.");
-                    Console.WriteLine("  File line number = " + text_num + "");
-                    error = true;
-                    return error;
-                }
-
-                face += 1;
-                state = 1;
-            }
-            else if (typeMethods.s_eqi(word1, "OUTERLOOP"))
-            {
-                if (state != 2)
-                {
-                    Console.WriteLine("");
-                    Console.WriteLine("STLA_READ - Warning!");
-                    Console.WriteLine("  Model not in right state for OUTERLOOP.");
-                    Console.WriteLine("  File line number = " + text_num + "");
-                    error = true;
-                    return error;
-                }
-
-                state = 3;
-                vertex = 0;
-            }
-            else if (typeMethods.s_eqi(word1, "ENDLOOP"))
-            {
-                if (state != 3)
-                {
-                    Console.WriteLine("");
-                    Console.WriteLine("STLA_READ - Warning!");
-                    Console.WriteLine("  Model not in right state for ENDLOOP.");
-                    Console.WriteLine("  File line number = " + text_num + "");
-                    error = true;
-                    return error;
-                }
-
-                state = 2;
-            }
-            else if (typeMethods.s_eqi(word1, "VERTEX"))
-            {
-                if (state != 3)
-                {
-                    Console.WriteLine("");
-                    Console.WriteLine("STLA_READ - Warning!");
-                    Console.WriteLine("  Model not in right state for VERTEX.");
-                    Console.WriteLine("  File line number = " + text_num + "");
-                    error = true;
-                    return error;
-                }
-
-                switch (vertex)
-                {
-                    case >= 3:
+                    if (state != 2)
+                    {
                         Console.WriteLine("");
                         Console.WriteLine("STLA_READ - Warning!");
-                        Console.WriteLine("  Too many vertices for face.");
+                        Console.WriteLine("  Model not in right state for ENDFACET.");
                         Console.WriteLine("  File line number = " + text_num + "");
-                        error = true;
-                        return error;
-                }
+                        return true;
+                    }
 
-                for (i = 0; i < 3; i++)
+                    face += 1;
+                    state = 1;
+                }
+                else if (typeMethods.s_eqi(word1, "OUTERLOOP"))
                 {
-                    word2 = typeMethods.word_next_read(ref data, text, ref done);
-                    switch (done)
+                    if (state != 2)
                     {
-                        case true:
-                            error = true;
-                            return error;
+                        Console.WriteLine("");
+                        Console.WriteLine("STLA_READ - Warning!");
+                        Console.WriteLine("  Model not in right state for OUTERLOOP.");
+                        Console.WriteLine("  File line number = " + text_num + "");
+                        return true;
                     }
 
-                    dval = typeMethods.s_to_r8(word2, ref lchar, ref error);
-                    switch (error)
-                    {
-                        case true:
-                            return error;
-                        default:
-                            temp[i] = dval;
-                            break;
-                    }
+                    state = 3;
+                    vertex = 0;
                 }
+                else if (typeMethods.s_eqi(word1, "ENDLOOP"))
+                {
+                    if (state != 3)
+                    {
+                        Console.WriteLine("");
+                        Console.WriteLine("STLA_READ - Warning!");
+                        Console.WriteLine("  Model not in right state for ENDLOOP.");
+                        Console.WriteLine("  File line number = " + text_num + "");
+                        return true;
+                    }
 
-                if (node_num <= node)
+                    state = 2;
+                }
+                else if (typeMethods.s_eqi(word1, "VERTEX"))
+                {
+                    if (state != 3)
+                    {
+                        Console.WriteLine("");
+                        Console.WriteLine("STLA_READ - Warning!");
+                        Console.WriteLine("  Model not in right state for VERTEX.");
+                        Console.WriteLine("  File line number = " + text_num + "");
+                        return true;
+                    }
+
+                    switch (vertex)
+                    {
+                        case >= 3:
+                            Console.WriteLine("");
+                            Console.WriteLine("STLA_READ - Warning!");
+                            Console.WriteLine("  Too many vertices for face.");
+                            Console.WriteLine("  File line number = " + text_num + "");
+                            return true;
+                    }
+
+                    for (i = 0; i < 3; i++)
+                    {
+                        word2 = typeMethods.word_next_read(ref data, text, ref done);
+                        switch (done)
+                        {
+                            case true:
+                                return true;
+                        }
+
+                        bool error = false;
+                        dval = typeMethods.s_to_r8(word2, ref lchar, ref error);
+                        switch (error)
+                        {
+                            case true:
+                                return true;
+                            default:
+                                temp[i] = dval;
+                                break;
+                        }
+                    }
+
+                    if (node_num <= node)
+                    {
+                        Console.WriteLine("");
+                        Console.WriteLine("STLA_READ - Warning!");
+                        Console.WriteLine("  More nodes being read than expected.");
+                        Console.WriteLine("  File line number = " + text_num + "");
+                        return true;
+                    }
+
+                    for (i = 0; i < 3; i++)
+                    {
+                        node_xy[i + node * 3] = temp[i];
+                    }
+
+                    face_node[vertex + face * 3] = node + offset;
+
+                    node += 1;
+                    vertex += 1;
+                }
+                else
                 {
                     Console.WriteLine("");
                     Console.WriteLine("STLA_READ - Warning!");
-                    Console.WriteLine("  More nodes being read than expected.");
+                    Console.WriteLine("  Unrecognized line in file.");
                     Console.WriteLine("  File line number = " + text_num + "");
-                    error = true;
-                    return error;
+                    return true;
                 }
-
-                for (i = 0; i < 3; i++)
-                {
-                    node_xy[i + node * 3] = temp[i];
-                }
-
-                face_node[vertex + face * 3] = node + offset;
-
-                node += 1;
-                vertex += 1;
-            }
-            else
-            {
-                Console.WriteLine("");
-                Console.WriteLine("STLA_READ - Warning!");
-                Console.WriteLine("  Unrecognized line in file.");
-                Console.WriteLine("  File line number = " + text_num + "");
-                error = true;
-                return error;
             }
         }
 
-        return error;
+        return false;
     }
 
 
@@ -1210,19 +1157,12 @@ public static class STL_ASCII
         //    Output, int *TEXT_NUM, the number of lines of text.
         //
     {
-        bool done = false;
-        bool error = false;
-        int i;
         string[] input;
         int lchar = 0;
-        int state = 0;
-        string text = "";
         int vertex = 0;
-        string word1;
-        string word2;
         typeMethods.WordData data = new();
 
-        state = 0;
+        int state = 0;
 
         text_num = 0;
         solid_num = 0;
@@ -1249,6 +1189,7 @@ public static class STL_ASCII
         int index = 0;
         for (;;)
         {
+            string text = "";
             try
             {
                 text = input[index];
@@ -1270,11 +1211,11 @@ public static class STL_ASCII
 
             text_num += 1;
 
-            done = true;
+            bool done = true;
             //
             //  Read the first word in the line.
             //
-            word1 = typeMethods.word_next_read(ref data, text, ref done);
+            string word1 = typeMethods.word_next_read(ref data, text, ref done);
 
             switch (done)
             {
@@ -1295,6 +1236,7 @@ public static class STL_ASCII
             //      FACET NORMAL to FACETNORMAL
             //      OUTER LOOP to OUTERLOOP
             //
+            string word2;
             if (typeMethods.s_eqi(word1, "END"))
             {
                 word2 = typeMethods.word_next_read(ref data, text, ref done);
@@ -1393,102 +1335,108 @@ public static class STL_ASCII
 
                 solid_num += 1;
             }
-            else if (typeMethods.s_eqi(word1, "FACETNORMAL"))
-            {
-                if (state != 0 && state != 1)
-                {
-                    return;
-                }
-
-                state = 2;
-
-                for (i = 1; i <= 3; i++)
-                {
-                    word2 = typeMethods.word_next_read(ref data, text, ref done);
-
-                    switch (done)
-                    {
-                        case true:
-                            return;
-                    }
-
-                    typeMethods.s_to_r8(word2, ref lchar, ref error);
-
-                    switch (error)
-                    {
-                        case true:
-                            return;
-                    }
-                }
-            }
-            else if (typeMethods.s_eqi(word1, "ENDFACET"))
-            {
-                if (state != 2)
-                {
-                    return;
-                }
-
-                state = 1;
-                face_num += 1;
-            }
-            else if (typeMethods.s_eqi(word1, "OUTERLOOP"))
-            {
-                if (state != 2)
-                {
-                    return;
-                }
-
-                state = 3;
-                vertex = 0;
-            }
-            else if (typeMethods.s_eqi(word1, "ENDLOOP"))
-            {
-                if (state != 3)
-                {
-                    return;
-                }
-
-                state = 2;
-            }
-            else if (typeMethods.s_eqi(word1, "VERTEX"))
-            {
-                if (state != 3)
-                {
-                    return;
-                }
-
-                switch (vertex)
-                {
-                    case >= 3:
-                        return;
-                }
-
-                for (i = 1; i <= 3; i++)
-                {
-                    word2 = typeMethods.word_next_read(ref data, text, ref done);
-
-                    switch (done)
-                    {
-                        case true:
-                            return;
-                    }
-
-                    typeMethods.s_to_r8(word2, ref lchar, ref error);
-
-                    switch (error)
-                    {
-                        case true:
-                            return;
-                    }
-
-                }
-
-                vertex += 1;
-                node_num += 1;
-            }
             else
             {
-                return;
+                int i;
+                if (typeMethods.s_eqi(word1, "FACETNORMAL"))
+                {
+                    if (state != 0 && state != 1)
+                    {
+                        return;
+                    }
+
+                    state = 2;
+
+                    for (i = 1; i <= 3; i++)
+                    {
+                        word2 = typeMethods.word_next_read(ref data, text, ref done);
+
+                        switch (done)
+                        {
+                            case true:
+                                return;
+                        }
+
+                        bool error = false;
+                        typeMethods.s_to_r8(word2, ref lchar, ref error);
+
+                        switch (error)
+                        {
+                            case true:
+                                return;
+                        }
+                    }
+                }
+                else if (typeMethods.s_eqi(word1, "ENDFACET"))
+                {
+                    if (state != 2)
+                    {
+                        return;
+                    }
+
+                    state = 1;
+                    face_num += 1;
+                }
+                else if (typeMethods.s_eqi(word1, "OUTERLOOP"))
+                {
+                    if (state != 2)
+                    {
+                        return;
+                    }
+
+                    state = 3;
+                    vertex = 0;
+                }
+                else if (typeMethods.s_eqi(word1, "ENDLOOP"))
+                {
+                    if (state != 3)
+                    {
+                        return;
+                    }
+
+                    state = 2;
+                }
+                else if (typeMethods.s_eqi(word1, "VERTEX"))
+                {
+                    if (state != 3)
+                    {
+                        return;
+                    }
+
+                    switch (vertex)
+                    {
+                        case >= 3:
+                            return;
+                    }
+
+                    for (i = 1; i <= 3; i++)
+                    {
+                        word2 = typeMethods.word_next_read(ref data, text, ref done);
+
+                        switch (done)
+                        {
+                            case true:
+                                return;
+                        }
+
+                        bool error = false;
+                        typeMethods.s_to_r8(word2, ref lchar, ref error);
+
+                        switch (error)
+                        {
+                            case true:
+                                return;
+                        }
+
+                    }
+
+                    vertex += 1;
+                    node_num += 1;
+                }
+                else
+                {
+                    return;
+                }
             }
         }
     }
@@ -1619,13 +1567,9 @@ public static class STL_ASCII
         //
     {
         int face;
-        int i;
-        int node;
-        int offset;
         List<string> output_unit = new();
-        int vertex;
 
-        offset = data.stla_offset_value;
+        int offset = data.stla_offset_value;
 
         //
         //  Initialize.
@@ -1635,6 +1579,7 @@ public static class STL_ASCII
         for (face = 0; face < face_num; face++)
         {
             string cout = "  facet normal";
+            int i;
             for (i = 0; i < 3; i++)
             {
                 cout += "  " + face_normal[i + face * 3].ToString(CultureInfo.InvariantCulture).PadLeft(10);
@@ -1642,9 +1587,10 @@ public static class STL_ASCII
 
             output_unit.Add(cout);
             output_unit.Add("    outer loop");
+            int vertex;
             for (vertex = 0; vertex < 3; vertex++)
             {
-                node = face_node[vertex + face * 3] - offset;
+                int node = face_node[vertex + face * 3] - offset;
                 cout = "      vertex  ";
                 for (i = 0; i < 3; i++)
                 {

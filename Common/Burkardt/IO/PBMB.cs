@@ -39,8 +39,6 @@ public static class PBMB
         //    Output, bool PBMB_CHECK_DATA, is true if an error occurred.
         //
     {
-        int i;
-        int indexb;
         int j;
 
         switch (xsize)
@@ -63,10 +61,11 @@ public static class PBMB
                 return true;
         }
 
-        indexb = 0;
+        int indexb = 0;
 
         for (j = 0; j < ysize; j++)
         {
+            int i;
             for (i = 0; i < xsize; i++)
             {
                 if (barray[indexb] != 0 && barray[indexb] != 1)
@@ -120,16 +119,9 @@ public static class PBMB
         //
     {
         int i;
-        int indexb;
-        int j;
         float r;
-        float test;
-        float x;
-        float xc;
-        float y;
-        float yc;
 
-        indexb = 0;
+        int indexb = 0;
         if (xsize < ysize)
         {
             r = xsize / 3.0f;
@@ -139,17 +131,18 @@ public static class PBMB
             r = ysize / 3.0f;
         }
 
-        xc = xsize / 2.0f;
-        yc = ysize / 2.0f;
+        float xc = xsize / 2.0f;
+        float yc = ysize / 2.0f;
 
         for (i = 0; i < ysize; i++)
         {
-            y = i;
+            float y = i;
+            int j;
             for (j = 0; j < xsize; j++)
             {
-                x = j;
-                test = r - (float) Math.Sqrt((x - xc) * (x - xc)
-                                             + 0.75f * (y - yc) * (y - yc));
+                float x = j;
+                float test = r - (float) Math.Sqrt((x - xc) * (x - xc)
+                                                   + 0.75f * (y - yc) * (y - yc));
                 if (Math.Abs(test) <= 3.0)
                 {
                     barray[indexb] = 1;
@@ -203,14 +196,11 @@ public static class PBMB
         //    Output, bool PBMB_READ, is true if an error occurred.
         //
     {
-        bool error;
-
-        Stream file_in_s;
         EndianBinaryReader file_in;
 
         try
         {
-            file_in_s = File.OpenRead(input_name);
+            Stream file_in_s = File.OpenRead(input_name);
             file_in = new EndianBinaryReader(EndianBitConverter.Little, file_in_s);
         }
         catch
@@ -224,7 +214,7 @@ public static class PBMB
         //
         //  Read the header.
         //
-        error = pbmb_read_header(ref file_in, ref xsize, ref ysize);
+        bool error = pbmb_read_header(ref file_in, ref xsize, ref ysize);
 
         switch (error)
         {
@@ -290,17 +280,14 @@ public static class PBMB
         //    Output, bool PBMB_READ_DATA, is true if an error occurred.
         //
     {
-        int bit;
-        short c = 0;
         ushort c2 = 0;
-        int i;
         int j;
-        int k;
 
         int indexb = 0;
 
         for ( j = 0; j < ysize; j++ )
         {
+            int i;
             for ( i = 0; i < xsize; i++ )
             {
                 switch (i%8)
@@ -308,7 +295,7 @@ public static class PBMB
                     case 0:
                         try
                         {
-                            c = br.ReadByte();
+                            short c = br.ReadByte();
                             c2 = ( ushort ) c;
                         }
                         catch (Exception)
@@ -323,8 +310,8 @@ public static class PBMB
                         break;
                 }
 
-                k = 7 - i % 8;
-                bit = ( c2 >> k ) & 1;
+                int k = 7 - i % 8;
+                int bit = ( c2 >> k ) & 1;
 
                 barray[indexb] = bit;
                 indexb++;
@@ -363,16 +350,15 @@ public static class PBMB
         //    Output, bool PBMB_READ_HEADER, is true if an error occurred.
         //
     {
-        string line;
         string rest = "";
-        int step;
         string word = "";
 
-        step = 0;
+        int step = 0;
 
 
         while (true)
         {
+            string line;
             try
             {
                 // Read null-terminated string.
@@ -484,14 +470,13 @@ public static class PBMB
         //
     {
         int[] barray = null;
-        bool error;
         int xsize = 0;
         int ysize = 0;
 
         //
         //  Read the data.
         //
-        error = pbmb_read(input_name, ref xsize, ref ysize, ref barray);
+        bool error = pbmb_read(input_name, ref xsize, ref ysize, ref barray);
 
         switch (error)
         {
@@ -560,12 +545,11 @@ public static class PBMB
         //
     {
         bool error = false;
-        Stream file_out_s;
         EndianBinaryWriter file_out = null;
 
         try
         {
-            file_out_s = File.OpenWrite(output_name);
+            Stream file_out_s = File.OpenWrite(output_name);
             file_out = new EndianBinaryWriter(EndianBitConverter.Little, file_out_s);
         }
         catch
@@ -655,22 +639,18 @@ public static class PBMB
         //    Output, bool PBMB_WRITE_DATA, is true if an error occurred.
         //
     {
-        int bit;
-        byte c;
-        int i;
-        int indexb;
         int j;
-        int k;
 
-        indexb = 0;
-        c = 0;
+        int indexb = 0;
+        byte c = 0;
 
         for ( j = 0; j < ysize; j++ )
         {
+            int i;
             for ( i = 0; i < xsize; i++ )
             {
-                k = 7 - i % 8;
-                bit = barray[indexb] & 1;
+                int k = 7 - i % 8;
+                int bit = barray[indexb] & 1;
                 c = (byte)(c | ( bit << k ));
 
                 indexb++;
@@ -750,19 +730,15 @@ public static class PBMB
         //    Output, bool PBMB_WRITE_TEST, is true if an error occurred.
         //
     {
-        int[] barray;
-        bool error;
-        int xsize;
-        int ysize;
         //
         //  Set the data.
         //
-        xsize = 250;
-        ysize = 150;
+        int xsize = 250;
+        int ysize = 150;
 
-        barray = new int [xsize * ysize];
+        int[] barray = new int [xsize * ysize];
 
-        error = pbmb_example(xsize, ysize, ref barray);
+        bool error = pbmb_example(xsize, ysize, ref barray);
 
         switch (error)
         {

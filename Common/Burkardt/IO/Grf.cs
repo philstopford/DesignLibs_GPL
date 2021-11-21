@@ -50,7 +50,6 @@ public static class Grf
         //    Input, double XY[2*NODE_NUM], the node coordinates.
         //
     {
-        int edge;
         int node;
 
         Console.WriteLine("");
@@ -74,6 +73,7 @@ public static class Grf
         for (node = 0; node < node_num; node++)
         {
             string tmp = "  " + node.ToString(CultureInfo.InvariantCulture).PadLeft(4);
+            int edge;
             for (edge = edge_pointer[node]; edge <= edge_pointer[node + 1] - 1; edge++)
             {
                 tmp += "  " + edge_data[edge].ToString(CultureInfo.InvariantCulture).PadLeft(8);
@@ -139,13 +139,8 @@ public static class Grf
         //
     {
         int edge;
-        int i;
         string[] input_unit;
-        int n;
         int node;
-        int node_j;
-        double xval;
-        double yval;
 
         for (edge = 0; edge < edge_num; edge++)
         {
@@ -174,13 +169,11 @@ public static class Grf
         //  Otherwise, count the number of "words", and then reread it.
         //
         edge = 0;
-        node = 0;
         edge_pointer[0] = 0;
-            
-        string text = "";
 
         for (node = 0; node < node_num; node++)
         {
+            string text = "";
             try
             {
                 text = input_unit[node];
@@ -206,7 +199,7 @@ public static class Grf
 
             string[] tokens = Helpers.splitStringByWhitespace(text);
                 
-            n = tokens.Length;
+            int n = tokens.Length;
 
             switch (n)
             {
@@ -217,17 +210,18 @@ public static class Grf
                     return;
             }
 
-            xval = Convert.ToDouble(tokens[1]);
-            yval = Convert.ToDouble(tokens[2]);
+            double xval = Convert.ToDouble(tokens[1]);
+            double yval = Convert.ToDouble(tokens[2]);
 
             edge_pointer[node + 1] = edge_pointer[node] + n - 3;
 
             xy[0 + node * 2] = xval;
             xy[1 + node * 2] = yval;
 
+            int i;
             for (i = n - 3; i < n; i++)
             {
-                node_j = Convert.ToInt32(tokens[i]);
+                int node_j = Convert.ToInt32(tokens[i]);
                 edge_data[edge] = node_j;
                 edge += 1;
             }
@@ -278,7 +272,6 @@ public static class Grf
         //    Input, double XY[2*NODE_NUM], the node coordinates.
         //
     {
-        int edge;
         int node;
 
         for (node = 0; node < node_num; node++)
@@ -286,6 +279,7 @@ public static class Grf
             string tmp = "  " + (node + 1).ToString(CultureInfo.InvariantCulture).PadLeft(4)
                               + "  " + xy[0 + node * 2].ToString(CultureInfo.InvariantCulture).PadLeft(10)
                               + "  " + xy[1 + node * 2].ToString(CultureInfo.InvariantCulture).PadLeft(10);
+            int edge;
             for (edge = edge_pointer[node]; edge <= edge_pointer[node + 1] - 1; edge++)
             {
                 tmp += "  " + edge_data[edge].ToString(CultureInfo.InvariantCulture).PadLeft(8);
@@ -530,7 +524,6 @@ public static class Grf
         //    Output, int *EDGE_NUM, the number of edges.
         //
     {
-        int n;
         string[] input;
 
         edge_num = 0;
@@ -557,7 +550,7 @@ public static class Grf
 
             string[] tokens = text.Split(' ');
                 
-            n = tokens.Length;
+            int n = tokens.Length;
 
             if (n < 3)
             {
@@ -655,15 +648,7 @@ public static class Grf
     {
         List<string> output_unit = new();
 
-        switch (false)
-        {
-            //
-            //  Write the header.
-            //
-            case true:
-                grf_header_write(output_filename, ref output_unit, node_num, edge_num);
-                break;
-        }
+        grf_header_write(output_filename, ref output_unit, node_num, edge_num);
 
         //
         //  Write the data.

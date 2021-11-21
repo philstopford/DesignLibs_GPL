@@ -60,10 +60,8 @@ public static class LagrangeInterpolation
         //
     {
         int i;
-        int j;
-        double[] w;
 
-        w = new double[n];
+        double[] w = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -72,6 +70,7 @@ public static class LagrangeInterpolation
 
         for (i = 0; i < n; i++)
         {
+            int j;
             for (j = 0; j < n; j++)
             {
                 if (i != j)
@@ -132,22 +131,22 @@ public static class LagrangeInterpolation
         //    Output, double LAGRANGE_SUM, the interpolated function value.
         //
     {
-        double bot;
         int i;
-        double top;
         double yv;
 
         for (i = 0; i < n; i++)
         {
-            if (Math.Abs(xv - x[i]) <= double.Epsilon)
+            if (!(Math.Abs(xv - x[i]) <= double.Epsilon))
             {
-                yv = y[i];
-                return yv;
+                continue;
             }
+
+            yv = y[i];
+            return yv;
         }
 
-        top = 0.0;
-        bot = 0.0;
+        double top = 0.0;
+        double bot = 0.0;
 
         for (i = 0; i < n; i++)
         {
@@ -217,15 +216,13 @@ public static class LagrangeInterpolation
         //
     {
         int i;
-        int j;
-        double poly;
-        double yv;
 
-        yv = 0.0;
+        double yv = 0.0;
 
         for (i = 0; i < n; i++)
         {
-            poly = 1.0;
+            double poly = 1.0;
+            int j;
             for (j = 0; j < n; j++)
             {
                 if (j != i)

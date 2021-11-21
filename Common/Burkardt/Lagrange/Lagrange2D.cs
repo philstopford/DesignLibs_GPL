@@ -38,26 +38,22 @@ public static class Lagrange2D
         //    Output, double LAGRANGE_INTERP_2D[NI], the interpolated values.
         //
     {
-        int i;
-        int j;
         int k;
-        int l;
-        double lx;
-        double ly;
-        double[] zi;
 
-        zi = new double[ni];
+        double[] zi = new double[ni];
 
         for ( k = 0; k < ni; k++ )
         {
-            l = 0;
+            int l = 0;
             zi[k] = 0.0;
+            int j;
             for ( j = 0; j < my + 1; j++ )
             {
+                int i;
                 for ( i = 0; i < mx + 1; i++ )
                 {
-                    lx = Lagrange1D.lagrange_basis_function_1d ( mx, xd_1d, i, xi[k] );
-                    ly = Lagrange1D.lagrange_basis_function_1d ( my, yd_1d, j, yi[k] );
+                    double lx = Lagrange1D.lagrange_basis_function_1d ( mx, xd_1d, i, xi[k] );
+                    double ly = Lagrange1D.lagrange_basis_function_1d ( my, yd_1d, j, yi[k] );
                     zi[k] += zd[l] * lx * ly;
                     l += 1;
                 }

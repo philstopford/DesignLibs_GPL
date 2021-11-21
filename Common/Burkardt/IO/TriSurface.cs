@@ -161,13 +161,15 @@ public static class TriSurface
         order_num = h.m;
         triangle_num = h.n;
 
-        if (order_num != 3 && order_num != 6)
+        if (order_num == 3 || order_num == 6)
         {
-            Console.WriteLine("");
-            Console.WriteLine("TRI_SURFACE_SIZE - Fatal error!");
-            Console.WriteLine("  The order of the triangles seems to be " + order_num + "");
-            Console.WriteLine("  Only the values 3 and 6 are acceptable.");
+            return;
         }
+
+        Console.WriteLine("");
+        Console.WriteLine("TRI_SURFACE_SIZE - Fatal error!");
+        Console.WriteLine("  The order of the triangles seems to be " + order_num + "");
+        Console.WriteLine("  Only the values 3 and 6 are acceptable.");
     }
 
     public static void tri_surface_size_print(string node_file_name, string triangle_file_name,

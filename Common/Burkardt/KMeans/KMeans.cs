@@ -69,18 +69,10 @@ public static class KMeans
         //    cluster energies.
         //
     {
-        double dc;
-        double de;
-        double[] f;
         int i;
-        int il;
-        int ir;
         int j;
-        int j2;
         int k;
         double point_energy;
-        double point_energy_min;
-        int swap;
 
         it_num = 0;
         switch (cluster_num)
@@ -119,7 +111,7 @@ public static class KMeans
         //
         for (j = 0; j < point_num; j++)
         {
-            point_energy_min = typeMethods.r8_huge();
+            double point_energy_min = typeMethods.r8_huge();
             cluster[j] = -1;
 
             for (k = 0; k < cluster_num; k++)
@@ -182,7 +174,7 @@ public static class KMeans
         //
         //  Set the point energies.
         //
-        f = typeMethods.r8vec_zero_new(point_num);
+        double[] f = typeMethods.r8vec_zero_new(point_num);
 
         for (j = 0; j < point_num; j++)
         {
@@ -227,12 +219,12 @@ public static class KMeans
         {
             it_num += 1;
 
-            swap = 0;
+            int swap = 0;
 
             for (j = 0; j < point_num; j++)
             {
-                il = cluster[j];
-                ir = il;
+                int il = cluster[j];
+                int ir = il;
 
                 switch (cluster_population[il])
                 {
@@ -240,13 +232,13 @@ public static class KMeans
                         continue;
                 }
 
-                dc = f[j];
+                double dc = f[j];
 
                 for (k = 0; k < cluster_num; k++)
                 {
                     if (k != il)
                     {
-                        de = 0.0;
+                        double de = 0.0;
                         for (i = 0; i < dim_num; i++)
                         {
                             de += Math.Pow(point[i + j * dim_num] - cluster_center[i + k * dim_num], 2);
@@ -297,6 +289,7 @@ public static class KMeans
                 //
                 //  Adjust the value of F for points in clusters IL and IR.
                 //  
+                int j2;
                 for (j2 = 0; j2 < point_num; j2++)
                 {
                     k = cluster[j2];
@@ -413,23 +406,10 @@ public static class KMeans
         //    within-cluster sum of squares.
         //
     {
-        double[] an1;
-        double[] an2;
-        int[] cluster2;
-        double[] d;
-        double db;
         double[] dt = new double[2];
         int i;
-        int ifault;
-        int il;
-        int indx;
-        int[] itran;
         int j;
         int k;
-        int[] live;
-        int[] ncp;
-        double point_energy;
-        double temp;
 
         it_num = 0;
 
@@ -472,13 +452,14 @@ public static class KMeans
         //  For each point I, find its two closest centers, CLUSTER(I) and CLUSTER2(I).
         //  Assign it to CLUSTER(I).
         //
-        cluster2 = new int[point_num];
+        int[] cluster2 = new int[point_num];
 
         for (j = 0; j < point_num; j++)
         {
             cluster[j] = 0;
             cluster2[j] = 1;
 
+            int il;
             for (il = 0; il < 2; il++)
             {
                 dt[il] = 0.0;
@@ -492,14 +473,12 @@ public static class KMeans
             {
                 cluster[j] = 1;
                 cluster2[j] = 0;
-                temp = dt[0];
-                dt[0] = dt[1];
-                dt[1] = temp;
+                (dt[0], dt[1]) = (dt[1], dt[0]);
             }
 
             for (k = 2; k < cluster_num; k++)
             {
-                db = 0.0;
+                double db = 0.0;
                 for (i = 0; i < dim_num; i++)
                 {
                     db += Math.Pow(point[i + j * dim_num] - cluster_center[i + k * dim_num], 2);
@@ -540,10 +519,10 @@ public static class KMeans
         //
         //  Check to see if there is any empty cluster.
         //
-        an1 = new double[cluster_num];
-        an2 = new double[cluster_num];
-        itran = new int[cluster_num];
-        ncp = new int[cluster_num];
+        double[] an1 = new double[cluster_num];
+        double[] an2 = new double[cluster_num];
+        int[] itran = new int[cluster_num];
+        int[] ncp = new int[cluster_num];
 
         for (k = 0; k < cluster_num; k++)
         {
@@ -585,12 +564,12 @@ public static class KMeans
             ncp[k] = -1;
         }
 
-        indx = 0;
-        ifault = 2;
+        int indx = 0;
+        int ifault = 2;
         it_num = 0;
 
-        d = new double[point_num];
-        live = new int[cluster_num];
+        double[] d = new double[point_num];
+        int[] live = new int[cluster_num];
 
         while (it_num < it_max)
         {
@@ -678,7 +657,7 @@ public static class KMeans
         {
             k = cluster[j];
 
-            point_energy = 0.0;
+            double point_energy = 0.0;
             for (i = 0; i < dim_num; i++)
             {
                 point_energy += Math.Pow(point[i + j * dim_num] - cluster_center[i + k * dim_num], 2);
@@ -768,20 +747,8 @@ public static class KMeans
         //    Input/output, int INDX, ?
         //
     {
-        double al1;
-        double al2;
-        double alt;
-        double alw;
-        double dc;
-        int i;
         int j;
         int k;
-        int l;
-        int l1;
-        int l2;
-        int ll;
-        double r2;
-        double rr;
         //
         //  If cluster L is updated in the last quick-transfer stage, it
         //  belongs to the live set throughout this stage.   Otherwise, at
@@ -800,9 +767,9 @@ public static class KMeans
         for (j = 0; j < point_num; j++)
         {
             indx += 1;
-            l1 = cluster[j];
-            l2 = cluster2[j];
-            ll = l2;
+            int l1 = cluster[j];
+            int l2 = cluster2[j];
+            int ll = l2;
             switch (cluster_population[l1])
             {
                 //
@@ -813,6 +780,7 @@ public static class KMeans
                     //
                     //  If L1 has been updated in this stage, re-compute D(I).
                     //
+                    int i;
                     if (ncp[l1] != 0)
                     {
                         d[j] = 0.0;
@@ -827,7 +795,7 @@ public static class KMeans
                     //
                     //  Find the cluster with minimum R2.
                     //
-                    r2 = 0.0;
+                    double r2 = 0.0;
                     for (i = 0; i < dim_num; i++)
                     {
                         r2 += Math.Pow(point[i + j * dim_num] - cluster_center[i + l2 * dim_num], 2);
@@ -835,6 +803,7 @@ public static class KMeans
 
                     r2 = an2[l2] * r2;
 
+                    int l;
                     for (l = 0; l < cluster_num; l++)
                     {
                         //
@@ -846,9 +815,9 @@ public static class KMeans
                         //
                         if ((j < live[l1] || j < live[l]) && l != l1 && l != ll)
                         {
-                            rr = r2 / an2[l];
+                            double rr = r2 / an2[l];
 
-                            dc = 0.0;
+                            double dc = 0.0;
                             for (i = 0; i < dim_num; i++)
                             {
                                 dc += Math.Pow(point[i + j * dim_num] - cluster_center[i + l * dim_num], 2);
@@ -880,10 +849,10 @@ public static class KMeans
                         live[l2] = point_num + j;
                         ncp[l1] = j;
                         ncp[l2] = j;
-                        al1 = cluster_population[l1];
-                        alw = al1 - 1.0;
-                        al2 = cluster_population[l2];
-                        alt = al2 + 1.0;
+                        double al1 = cluster_population[l1];
+                        double alw = al1 - 1.0;
+                        double al2 = cluster_population[l2];
+                        double alt = al2 + 1.0;
 
                         for (i = 0; i < dim_num; i++)
                         {
@@ -1013,34 +982,23 @@ public static class KMeans
         //    updating occurs.
         //
     {
-        double al1;
-        double al2;
-        double alt;
-        double alw;
-        int count;
-        double dd;
-        int i;
-        int j;
-        int l1;
-        int l2;
-        double r2;
-        int step;
         //
         //  In the optimal transfer stage, NCP(L) indicates the step at which
         //  cluster L is last updated.   In the quick transfer stage, NCP(L)
         //  is equal to the step at which cluster L is last updated plus POINT_NUM.
         //
-        count = 0;
-        step = 0;
+        int count = 0;
+        int step = 0;
 
         for (;;)
         {
+            int j;
             for (j = 0; j < point_num; j++)
             {
                 count += 1;
                 step += 1;
-                l1 = cluster[j];
-                l2 = cluster2[j];
+                int l1 = cluster[j];
+                int l2 = cluster2[j];
                 switch (cluster_population[l1])
                 {
                     //
@@ -1054,6 +1012,7 @@ public static class KMeans
                         //  steps ago, we still need to compute the distance from point I to
                         //  cluster L1.
                         //
+                        int i;
                         if (step <= ncp[l1])
                         {
                             d[j] = 0.0;
@@ -1071,9 +1030,9 @@ public static class KMeans
                         //
                         if (step < ncp[l1] || step < ncp[l2])
                         {
-                            r2 = d[j] / an2[l2];
+                            double r2 = d[j] / an2[l2];
 
-                            dd = 0.0;
+                            double dd = 0.0;
                             for (i = 0; i < dim_num; i++)
                             {
                                 dd += Math.Pow(point[i + j * dim_num] - cluster_center[i + l2 * dim_num], 2);
@@ -1093,10 +1052,10 @@ public static class KMeans
                                 itran[l2] = 1;
                                 ncp[l1] = step + point_num;
                                 ncp[l2] = step + point_num;
-                                al1 = cluster_population[l1];
-                                alw = al1 - 1.0;
-                                al2 = cluster_population[l2];
-                                alt = al2 + 1.0;
+                                double al1 = cluster_population[l1];
+                                double alw = al1 - 1.0;
+                                double al2 = cluster_population[l2];
+                                double alt = al2 + 1.0;
 
                                 for (i = 0; i < dim_num; i++)
                                 {
@@ -1202,15 +1161,10 @@ public static class KMeans
         //    the clusters.
         //
     {
-        int ci;
-        int cj;
-        double[] distsq;
         int i;
         int j;
         int k;
         double point_energy;
-        double point_energy_min;
-        int swap;
         switch (cluster_num)
         {
             //
@@ -1255,7 +1209,7 @@ public static class KMeans
         //
         for (j = 0; j < point_num; j++)
         {
-            point_energy_min = typeMethods.r8_huge();
+            double point_energy_min = typeMethods.r8_huge();
             cluster[j] = -1;
 
             for (k = 0; k < cluster_num; k++)
@@ -1311,17 +1265,17 @@ public static class KMeans
         //  Carry out the iteration.
         //
         it_num = 0;
-        distsq = new double[cluster_num];
+        double[] distsq = new double[cluster_num];
 
         while (it_num < it_max)
         {
             it_num += 1;
 
-            swap = 0;
+            int swap = 0;
 
             for (j = 0; j < point_num; j++)
             {
-                ci = cluster[j];
+                int ci = cluster[j];
 
                 switch (cluster_population[ci])
                 {
@@ -1329,6 +1283,7 @@ public static class KMeans
                         continue;
                 }
 
+                int cj;
                 for (cj = 0; cj < cluster_num; cj++)
                 {
                     if (cj == ci)
@@ -1522,18 +1477,10 @@ public static class KMeans
         //    cluster energies.
         //
     {
-        double[] cluster_weight;
-        double dc;
-        double de;
-        double[] f;
         int i;
-        int il;
-        int ir;
         int j;
         int k;
         double point_energy;
-        double point_energy_min;
-        int swap;
 
         it_num = 0;
         switch (cluster_num)
@@ -1596,7 +1543,7 @@ public static class KMeans
         //
         for (j = 0; j < point_num; j++)
         {
-            point_energy_min = typeMethods.r8_huge();
+            double point_energy_min = typeMethods.r8_huge();
             cluster[j] = -1;
 
             for (k = 0; k < cluster_num; k++)
@@ -1619,7 +1566,7 @@ public static class KMeans
         //  Determine the cluster populations and weights.
         //
         typeMethods.i4vec_zero(cluster_num, ref cluster_population);
-        cluster_weight = typeMethods.r8vec_zero_new(cluster_num);
+        double[] cluster_weight = typeMethods.r8vec_zero_new(cluster_num);
 
         for (j = 0; j < point_num; j++)
         {
@@ -1661,7 +1608,7 @@ public static class KMeans
         //
         //  Set the point energies.
         //
-        f = typeMethods.r8vec_zero_new(point_num);
+        double[] f = typeMethods.r8vec_zero_new(point_num);
 
         for (j = 0; j < point_num; j++)
         {
@@ -1705,12 +1652,12 @@ public static class KMeans
         {
             it_num += 1;
 
-            swap = 0;
+            int swap = 0;
 
             for (j = 0; j < point_num; j++)
             {
-                il = cluster[j];
-                ir = il;
+                int il = cluster[j];
+                int ir = il;
 
                 switch (cluster_population[il])
                 {
@@ -1718,13 +1665,13 @@ public static class KMeans
                         continue;
                 }
 
-                dc = f[j];
+                double dc = f[j];
 
                 for (k = 0; k < cluster_num; k++)
                 {
                     if (k != il)
                     {
-                        de = 0.0;
+                        double de = 0.0;
                         for (i = 0; i < dim_num; i++)
                         {
                             de += Math.Pow(point[i + j * dim_num] - cluster_center[i + k * dim_num], 2)
@@ -1916,16 +1863,10 @@ public static class KMeans
         //    the clusters.
         //
     {
-        int ci;
-        int cj;
-        double[] cluster_weight;
-        double[] distsq;
         int i;
         int j;
         int k;
         double point_energy;
-        double point_energy_min;
-        int swap;
         switch (cluster_num)
         {
             //
@@ -1986,7 +1927,7 @@ public static class KMeans
         //
         for (j = 0; j < point_num; j++)
         {
-            point_energy_min = typeMethods.r8_huge();
+            double point_energy_min = typeMethods.r8_huge();
             cluster[j] = -1;
 
             for (k = 0; k < cluster_num; k++)
@@ -2009,7 +1950,7 @@ public static class KMeans
         //  Determine the cluster populations and weights.
         //
         typeMethods.i4vec_zero(cluster_num, ref cluster_population);
-        cluster_weight = typeMethods.r8vec_zero_new(cluster_num);
+        double[] cluster_weight = typeMethods.r8vec_zero_new(cluster_num);
 
         for (j = 0; j < point_num; j++)
         {
@@ -2047,17 +1988,17 @@ public static class KMeans
         //  Carry out the iteration.
         //
         it_num = 0;
-        distsq = new double[cluster_num];
+        double[] distsq = new double[cluster_num];
 
         while (it_num < it_max)
         {
             it_num += 1;
 
-            swap = 0;
+            int swap = 0;
 
             for (j = 0; j < point_num; j++)
             {
-                ci = cluster[j];
+                int ci = cluster[j];
 
                 switch (cluster_population[ci])
                 {
@@ -2065,6 +2006,7 @@ public static class KMeans
                         continue;
                 }
 
+                int cj;
                 for (cj = 0; cj < cluster_num; cj++)
                 {
                     if (cj == ci)

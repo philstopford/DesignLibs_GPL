@@ -55,7 +55,6 @@ public class Serene
         //    function at the point of interest.
         //
     {
-        double eta;
         double pe;
         double pn;
         double pne;
@@ -65,7 +64,6 @@ public class Serene
         double psw;
         double pw;
         double vterp = 0;
-        double xsi;
         //
         //  To make this routine more general, simply pass in the values of XSI
         //  and ETA at which the interpolated value is desired.
@@ -73,8 +71,8 @@ public class Serene
         //  By setting XSI = ETA = 0, we are asking for the interpolated value
         //  at the center of the finite element.
         //
-        xsi = 0.0;
-        eta = 0.0;
+        const double xsi = 0.0;
+        const double eta = 0.0;
         switch (type)
         {
             //

@@ -39,11 +39,8 @@ public static partial class Integral
         //    Output, double GEN_LAGUERRE_INTEGRAL, the value of the integral.
         //
     {
-        double arg;
-        double value = 0;
-
-        arg = alpha + (expon + 1.0);
-        value = typeMethods.r8_gamma ( arg );
+        double arg = alpha + (expon + 1.0);
+        double value = typeMethods.r8_gamma ( arg );
 
         return value;
     }
@@ -81,9 +78,7 @@ public static partial class Integral
         //    Output, double LAGUERRE_INTEGRAL, the value of the integral.
         //
     {
-        double s;
-
-        s = typeMethods.r8_factorial ( p );
+        double s = typeMethods.r8_factorial ( p );
 
         return s;
     }

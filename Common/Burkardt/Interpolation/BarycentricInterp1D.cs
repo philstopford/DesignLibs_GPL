@@ -64,9 +64,6 @@ public static class BarycentricInterp1D
     {
         int i;
         int j;
-        double t;
-        double theta;
-        double wd;
 
         double[] denom = new double[ni];
         int[] exact = new int[ni];
@@ -82,8 +79,8 @@ public static class BarycentricInterp1D
 
         for (j = 0; j < nd; j++)
         {
-            theta = (2 * j - 1) * Math.PI / (2 * nd);
-            wd = typeMethods.r8_mop(j + 1) * Math.Sin(theta);
+            double theta = (2 * j - 1) * Math.PI / (2 * nd);
+            double wd = typeMethods.r8_mop(j + 1) * Math.Sin(theta);
 
             for (i = 0; i < ni; i++)
             {
@@ -97,7 +94,7 @@ public static class BarycentricInterp1D
                 switch (exact[i])
                 {
                     case -1:
-                        t = wd / (xi[i] - xd[j]);
+                        double t = wd / (xi[i] - xd[j]);
                         numer[i] += t * yd[j];
                         denom[i] += t;
                         break;
@@ -172,8 +169,6 @@ public static class BarycentricInterp1D
     {
         int i;
         int j;
-        double t;
-        double wd;
 
         double[] denom = new double[ni];
         int[] exact = new int[ni];
@@ -189,7 +184,7 @@ public static class BarycentricInterp1D
 
         for (j = 0; j < nd; j++)
         {
-            wd = typeMethods.r8_mop(j);
+            double wd = typeMethods.r8_mop(j);
             if (j == 0 || j == nd - 1)
             {
                 wd = 0.5 * wd;
@@ -207,7 +202,7 @@ public static class BarycentricInterp1D
                 switch (exact[i])
                 {
                     case -1:
-                        t = wd / (xi[i] - xd[j]);
+                        double t = wd / (xi[i] - xd[j]);
                         numer[i] += t * yd[j];
                         denom[i] += t;
                         break;
@@ -284,8 +279,6 @@ public static class BarycentricInterp1D
     {
         int i;
         int j;
-        double t;
-        double wd;
 
         double[] denom = new double[ni];
         int[] exact = new int[ni];
@@ -301,7 +294,7 @@ public static class BarycentricInterp1D
 
         for (j = 0; j < nd; j++)
         {
-            wd = typeMethods.r8_mop(j) * typeMethods.r8_choose(nd, j);
+            double wd = typeMethods.r8_mop(j) * typeMethods.r8_choose(nd, j);
 
             for (i = 0; i < ni; i++)
             {
@@ -315,7 +308,7 @@ public static class BarycentricInterp1D
                 switch (exact[i])
                 {
                     case -1:
-                        t = wd / (xi[i] - xd[j]);
+                        double t = wd / (xi[i] - xd[j]);
                         numer[i] += t * yd[j];
                         denom[i] += t;
                         break;

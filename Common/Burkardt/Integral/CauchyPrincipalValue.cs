@@ -73,10 +73,6 @@ public static class CauchyPrincipalValue
         //
     {
         int i;
-        double value = 0;
-        double[] w;
-        double[] x;
-        double x2;
         //
         //  N must be even.
         //
@@ -91,19 +87,19 @@ public static class CauchyPrincipalValue
         //
         //  Get the Gauss-Legendre rule.
         //
-        x = new double[n];
-        w = new double[n];
+        double[] x = new double[n];
+        double[] w = new double[n];
 
         LegendreQuadrature.legendre_set(n, ref x, ref w);
         //
         //  Estimate the integral.
         //
-        value = 0.0;
+        double value = 0.0;
         for (i = 0; i < n; i++)
         {
-            x2 = ((1.0 - x[i]) * a
-                  + (1.0 + x[i]) * b)
-                 / 2.0;
+            double x2 = ((1.0 - x[i]) * a
+                         + (1.0 + x[i]) * b)
+                        / 2.0;
             value += w[i] * f(x2) / x[i];
         }
 

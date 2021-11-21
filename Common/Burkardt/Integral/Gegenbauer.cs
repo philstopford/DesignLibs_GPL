@@ -102,22 +102,13 @@ public static partial class Integral
         //    integral of F.
         //
     {
-        double[] a2;
-        int rh;
-        int s;
-        int sigma;
-        double u;
-        double value = 0;
+        int s = n / 2;
+        int sigma = n % 2;
 
-        value = 0.0;
+        double[] a2 = Chebyshev.chebyshev_even1(n, f);
 
-        s = n / 2;
-        sigma = n % 2;
-
-        a2 = Chebyshev.chebyshev_even1(n, f);
-
-        rh = s;
-        u = 0.5 * (sigma + 1) * a2[rh];
+        int rh = s;
+        double u = 0.5 * (sigma + 1) * a2[rh];
         for (rh = s - 1; 1 <= rh; rh--)
         {
             u = (rh - lambda)
@@ -126,8 +117,8 @@ public static partial class Integral
 
         u = -lambda * u / (lambda + 1.0) + 0.5 * a2[0];
 
-        value = Helpers.Gamma(lambda + 0.5) * Math.Sqrt(Math.PI) * u
-                / Helpers.Gamma(lambda + 1.0);
+        double value = Helpers.Gamma(lambda + 0.5) * Math.Sqrt(Math.PI) * u
+                       / Helpers.Gamma(lambda + 1.0);
 
         return value;
     }
@@ -182,22 +173,13 @@ public static partial class Integral
         //    integral of F.
         //
     {
-        double[] b2;
-        int rh;
-        int s;
-        int sigma;
-        double u;
-        double value = 0;
+        int s = n / 2;
+        int sigma = n % 2;
 
-        value = 0.0;
+        double[] b2 = Chebyshev.chebyshev_even2(n, f);
 
-        s = n / 2;
-        sigma = n % 2;
-
-        b2 = Chebyshev.chebyshev_even2(n, f);
-
-        rh = s;
-        u = (sigma + 1) * b2[rh];
+        int rh = s;
+        double u = (sigma + 1) * b2[rh];
         for (rh = s - 1; 1 <= rh; rh--)
         {
             u = (rh - lambda)
@@ -206,8 +188,8 @@ public static partial class Integral
 
         u = -lambda * u / (lambda + 1.0) + 0.5 * b2[0];
 
-        value = Helpers.Gamma(lambda + 0.5) * Math.Sqrt(Math.PI) * u
-                / Helpers.Gamma(lambda + 1.0);
+        double value = Helpers.Gamma(lambda + 0.5) * Math.Sqrt(Math.PI) * u
+                       / Helpers.Gamma(lambda + 1.0);
 
         return value;
     }

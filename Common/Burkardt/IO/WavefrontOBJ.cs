@@ -44,8 +44,6 @@ public static class WavefrontOBJ
         //
     {
         int face;
-        int i;
-        int order;
 
         Console.WriteLine("");
         Console.WriteLine("    Face   Order      Nodes");
@@ -54,9 +52,10 @@ public static class WavefrontOBJ
         for (face = 0; face < face_num; face++)
         {
             string cout = "";
-            order = face_order[face];
+            int order = face_order[face];
             cout += "  " + face.ToString(CultureInfo.InvariantCulture).PadLeft(6)
                          + "  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(6);
+            int i;
             for (i = 0; i < order; i++)
             {
                 cout += "  " + face_node[i + face * order_max].ToString(CultureInfo.InvariantCulture).PadLeft(6);
@@ -93,7 +92,6 @@ public static class WavefrontOBJ
         //    Input, double NORMAL_VECTOR[3*NORMAL_NUM], the normal vectors.
         //
     {
-        int i;
         int normal;
 
         Console.WriteLine("");
@@ -104,6 +102,7 @@ public static class WavefrontOBJ
         {
             string cout = "";
             cout += "  " + normal.ToString(CultureInfo.InvariantCulture).PadLeft(6);
+            int i;
             for (i = 0; i < 3; i++)
             {
                 cout += "  " + normal_vector[i + normal * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14);
@@ -141,7 +140,6 @@ public static class WavefrontOBJ
         //    of the nodes.
         //
     {
-        int i;
         int node;
 
         Console.WriteLine("");
@@ -152,6 +150,7 @@ public static class WavefrontOBJ
         {
             string cout = "";
             cout += "  " + node.ToString(CultureInfo.InvariantCulture).PadLeft(6);
+            int i;
             for (i = 0; i < 3; i++)
             {
                 cout += "  " + node_xyz[i + node * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14);
@@ -214,8 +213,6 @@ public static class WavefrontOBJ
         //
     {
         string[] input;
-        int n;
-        int text_num;
         //
         //  Initialize.
         //
@@ -223,7 +220,7 @@ public static class WavefrontOBJ
         face_num = 0;
         normal_num = 0;
         order_max = 0;
-        text_num = 0;
+        int text_num = 0;
 
         try
         {
@@ -262,7 +259,7 @@ public static class WavefrontOBJ
                 case 'F':
                 {
                     string[] tokens = Helpers.splitStringByWhitespace(text);
-                    n = tokens.Length;
+                    int n = tokens.Length;
                     order_max = Math.Max(order_max, n - 1);
                     face_num += 1;
                     break;
@@ -370,8 +367,6 @@ public static class WavefrontOBJ
         //
     {
         int face;
-        int i;
-        int order;
 
         Console.WriteLine("");
         Console.WriteLine("  Normal Vector Indices:");
@@ -382,10 +377,11 @@ public static class WavefrontOBJ
         for (face = 0; face < face_num; face++)
         {
             string cout = "";
-            order = face_order[face];
+            int order = face_order[face];
             cout += "  " + face.ToString(CultureInfo.InvariantCulture).PadLeft(6)
                          + "  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(6)
                          + "  ";
+            int i;
             for (i = 0; i < order; i++)
             {
                 cout += "  " + vertex_normal[i + face * order_max].ToString(CultureInfo.InvariantCulture).PadLeft(6);
@@ -488,13 +484,9 @@ public static class WavefrontOBJ
         int face;
         int i;
         int node;
-        int normal;
         List<string> output = new();
-        int text_num;
-        int vertex;
-        double w;
 
-        text_num = 0;
+        int text_num = 0;
 
         output.Add("# " + output_filename + "");
         output.Add("# created by obj_io::obj_write.C");
@@ -515,7 +507,7 @@ public static class WavefrontOBJ
                 break;
         }
 
-        w = 1.0;
+        double w = 1.0;
         for (node = 0; node < node_num; node++)
         {
             string tmp = "v";
@@ -538,6 +530,7 @@ public static class WavefrontOBJ
                 output.Add("");
                 text_num += 1;
 
+                int normal;
                 for (normal = 0; normal < normal_num; normal++)
                 {
                     string tmp = "vn";
@@ -569,6 +562,7 @@ public static class WavefrontOBJ
         for (face = 0; face < face_num; face++)
         {
             string tmp = "f";
+            int vertex;
             for (vertex = 0; vertex < face_order[face]; vertex++)
             {
                 tmp += "  " + face_node[vertex + face * order_max];
@@ -595,17 +589,9 @@ public static class WavefrontOBJ
             Console.WriteLine("  Could not open the output file \"" + output_filename + "\".");
         }
 
-        switch (false)
-        {
-            //
-            //  Report.
-            //
-            case true:
-                Console.WriteLine("");
-                Console.WriteLine("OBJ_WRITE:");
-                Console.WriteLine("  Wrote " + text_num + " text lines to \""
-                                  + output_filename + "\"");
-                break;
-        }
+        Console.WriteLine("");
+        Console.WriteLine("OBJ_WRITE:");
+        Console.WriteLine("  Wrote " + text_num + " text lines to \""
+                          + output_filename + "\"");
     }
 }

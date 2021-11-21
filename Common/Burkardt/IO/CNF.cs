@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using Burkardt.Types;
+using static System.String;
 
 namespace Burkardt.IO;
 
@@ -50,15 +51,6 @@ public static class CNF
         //    the read.
         //
     {
-        int c_num2;
-        bool error;
-        int l_c_num2;
-        int l_num2;
-        int l_val2;
-        string word = "";
-
-        error = false;
-
         string[] input;
 
         try
@@ -130,8 +122,7 @@ public static class CNF
         //
         try
         {
-            i4vec ti = typeMethods.s_to_i4vec(line, 2);
-            c_num2 = ti.ivec[1];
+            typeMethods.s_to_i4vec(line, 2);
         }
         catch (Exception)
         {
@@ -144,9 +135,9 @@ public static class CNF
         //
         //  Read remaining lines, counting the literals while ignoring occurrences of '0'.
         //
-        l_num2 = 0;
-        c_num2 = 0;
-        l_c_num2 = 0;
+        int l_num2 = 0;
+        int c_num2 = 0;
+        int l_c_num2 = 0;
 
         foreach (string tmp in input.Skip(index))
         {
@@ -168,22 +159,17 @@ public static class CNF
             {
                 string tmp2 = tmp.Replace("       ", " ");
                 string[] tokens = tmp2.Split(' ');
-                word = tokens[0];
-                line = string.Join( " ", tokens.Skip(1) );
+                string word = tokens[0];
+                Join( " ", tokens.Skip(1) );
 
                 if (typeMethods.s_len_trim(word) <= 0)
                 {
                     break;
                 }
 
-                l_val2 = typeMethods.s_to_i4(word).val;
+                int l_val2 = typeMethods.s_to_i4(word).val;
                 l_val = new int[tokens.Length];
                 l_c_num = new int[tokens.Length];
-
-                if (error)
-                {
-                    break;
-                }
 
                 if (l_val2 != 0)
                 {
@@ -209,7 +195,7 @@ public static class CNF
         //  Close file and return.
         //
 
-        return error;
+        return false;
     }
 
     public static bool cnf_data_write(int c_num, int l_num, int[] l_c_num, int[] l_val,
@@ -249,18 +235,14 @@ public static class CNF
         //
     {
         int c;
-        bool error;
-        int l;
-        int l_c;
-
-        error = false;
-
-        l = 0;
+        
+        int l = 0;
 
         string line = "";
 
         for (c = 0; c < c_num; c++)
         {
+            int l_c;
             for (l_c = 0; l_c < l_c_num[c]; l_c++)
             {
                 line += " " + l_val[l].ToString(CultureInfo.InvariantCulture).PadLeft(7);
@@ -278,7 +260,7 @@ public static class CNF
             output_unit.Add(line);
         }
 
-        return error;
+        return false;
     }
 
     public static bool cnf_evaluate(int v_num, int c_num, int l_num, int[] l_c_num, int[] l_val,
@@ -327,27 +309,22 @@ public static class CNF
         //
     {
         int c;
-        bool c_val;
-        bool f_val;
-        int l;
-        int l_c;
-        bool s_val;
-        int v_index;
 
-        f_val = true;
+        bool f_val = true;
 
-        l = 0;
+        int l = 0;
 
         for (c = 0; c < c_num; c++)
         {
             //
             //  The clause is false unless some signed literal is true.
             //
-            c_val = false;
+            bool c_val = false;
+            int l_c;
             for (l_c = 0; l_c < l_c_num[c]; l_c++)
             {
-                s_val = 0 < l_val[l];
-                v_index = Math.Abs(l_val[l]);
+                bool s_val = 0 < l_val[l];
+                int v_index = Math.Abs(l_val[l]);
                 l += 1;
                 //
                 //  The signed literal is true if the sign "equals" the value.
@@ -409,14 +386,8 @@ public static class CNF
         //
     {
         string[] input;
-        bool error;
-        int l_val;
         string line = "";
-        string rest;
-        string word;
-
-        error = false;
-
+        
         try
         {
             input = File.ReadAllLines(cnf_file_name);
@@ -526,22 +497,16 @@ public static class CNF
             {
                 string tmp2 = tmp.Replace("       ", " ");
                 string[] tokens = tmp2.Split(' ');
-                word = tokens[0];
-                rest = string.Join(" ", tokens.Skip(1));
-                line = rest;
+                string word = tokens[0];
+                Join(" ", tokens.Skip(1));
 
                 if (typeMethods.s_len_trim(word) <= 0)
                 {
                     break;
                 }
 
-                l_val = typeMethods.s_to_i4(word).val;
-
-                if (error)
-                {
-                    break;
-                }
-
+                int l_val = typeMethods.s_to_i4(word).val;
+                
                 if (l_val != 0)
                 {
                     l_num += 1;
@@ -549,7 +514,7 @@ public static class CNF
             }
         }
 
-        return error;
+        return false;
     }
 
     public static bool cnf_header_write(int v_num, int c_num, string output_name,
@@ -584,9 +549,7 @@ public static class CNF
         //    Input, ofstream &OUTPUT_UNIT, the output unit.
         //
     {
-        bool error;
-
-        error = false;
+        const bool error = false;
 
         output_unit.Add("c " + output_name + "");
         output_unit.Add("c");
@@ -631,8 +594,6 @@ public static class CNF
         //
     {
         int c;
-        int l;
-        int l_c;
 
         Console.WriteLine("");
         Console.WriteLine("CNF data printout:");
@@ -640,12 +601,13 @@ public static class CNF
         Console.WriteLine("  The number of variables       V_NUM  = " + v_num + "");
         Console.WriteLine("  The number of clauses         C_NUM  = " + c_num + "");
         Console.WriteLine("  The number of signed literals L_NUM  = " + l_num + "");
-        l = 0;
+        int l = 0;
         for (c = 0; c < c_num; c++)
         {
             Console.WriteLine("");
             Console.WriteLine("  Clause " + c
                                           + " includes " + l_c_num[c] + " signed literals:");
+            int l_c;
             for (l_c = 0; l_c < l_c_num[c]; l_c++)
             {
                 Console.WriteLine(l_val[l].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "");
@@ -692,10 +654,9 @@ public static class CNF
         //    Input, string OUTPUT_NAME, the name of the output file.
         //
     {
-        bool error;
         List<string> output_unit = new();
 
-        error = false;
+        bool error = false;
         //
         //  Write the header.
         //
@@ -707,7 +668,7 @@ public static class CNF
                 Console.WriteLine("");
                 Console.WriteLine("CNF_WRITE - Fatal error!");
                 Console.WriteLine("  Cannot write the header for the output file \"" + output_name + "\".");
-                return error;
+                return true;
         }
 
         //
@@ -721,7 +682,7 @@ public static class CNF
                 Console.WriteLine("");
                 Console.WriteLine("CNF_WRITE - Fatal error!");
                 Console.WriteLine("  Cannot write the data for the output file \"" + output_name + "\".");
-                return error;
+                return true;
             default:
                 try
                 {

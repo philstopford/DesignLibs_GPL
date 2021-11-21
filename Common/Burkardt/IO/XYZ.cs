@@ -77,7 +77,6 @@ public static class XYZ
         //
     {
         string[] input;
-        int j;
 
         try
         {
@@ -91,7 +90,7 @@ public static class XYZ
             return;
         }
 
-        j = 0;
+        int j = 0;
 
         int index = 0;
 
@@ -201,22 +200,16 @@ public static class XYZ
         //    Output, double XYZ[3*POINT_NUM], the point coordinates.
         //
     {
-        double a;
         int i;
-        double r;
-            
-        double theta;
-        double theta1;
-        double theta2;
 
-        r = 1.0;
-        theta1 = 0.0;
-        theta2 = 3.0 * 2.0 * Math.PI;
-        a = 2.0 / (theta2 - theta1);
+        const double r = 1.0;
+        const double theta1 = 0.0;
+        const double theta2 = 3.0 * 2.0 * Math.PI;
+        const double a = 2.0 / (theta2 - theta1);
 
         for (i = 0; i < point_num; i++)
         {
-            theta = point_num switch
+            double theta = point_num switch
             {
                 1 => 0.5 * (theta1 + theta2),
                 _ => ((point_num - i - 1) * theta1 + i * theta2) / (point_num - 1)
@@ -254,9 +247,7 @@ public static class XYZ
         //    Output, integer XYZ_EXAMPLE_SIZE, the number of points.
         //
     {
-        int point_num;
-
-        point_num = 101;
+        const int point_num = 101;
 
         return point_num;
     }
@@ -324,7 +315,6 @@ public static class XYZ
         //
     {
         string[] input;
-        string text;
 
         point_num = 0;
 
@@ -344,7 +334,7 @@ public static class XYZ
 
         while (true)
         {
-
+            string text;
             try
             {
                 text = input[index];
@@ -552,16 +542,14 @@ public static class XYZ
         //    Input, string OUTPUT_FILENAME, the name of the file to contain the data.
         //
     {
-        int point_num;
-        double[] xyz;
         //
         //  Set the data.
         //
-        point_num = xyz_example_size();
+        int point_num = xyz_example_size();
         //
         //  Allocate memory.
         //
-        xyz = new double[3 * point_num];
+        double[] xyz = new double[3 * point_num];
         //
         //  Set the data.
         //
@@ -609,7 +597,6 @@ public static class XYZ
         //    of points that form faces.
         //
     {
-        int i;
         int face;
 
         Console.WriteLine("");
@@ -624,6 +611,7 @@ public static class XYZ
         for (face = 0; face < face_num; face++)
         {
             string cout = "  " + face.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
+            int i;
             for (i = face_pointer[face]; i < face_pointer[face + 1]; i++)
             {
                 cout += "  " + face_data[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
@@ -680,11 +668,7 @@ public static class XYZ
         //    Output, int FACE_DATA[FACE_DATA_NUM], the face items.
         //
     {
-        int face;
-        int ilo;
         string[] input;
-        int n;
-        string text;
 
         try
         {
@@ -698,13 +682,14 @@ public static class XYZ
             return;
         }
 
-        face = 0;
+        int face = 0;
         face_pointer[0] = 0;
 
         int index = 0;
 
         while (face < face_num)
         {
+            string text;
             try
             {
                 text = input[index];
@@ -723,10 +708,10 @@ public static class XYZ
                 continue;
             }
 
-            n = typeMethods.s_word_count(text);
+            int n = typeMethods.s_word_count(text);
             face_pointer[face + 1] = face_pointer[face] + n;
 
-            ilo = face_pointer[face];
+            int ilo = face_pointer[face];
 
             i4vec r = typeMethods.s_to_i4vec(text, n);
 
@@ -786,12 +771,12 @@ public static class XYZ
         //    of points that form faces.
         //
     {
-        int i;
         int face;
 
         for (face = 0; face < face_num; face++)
         {
             string cout = "";
+            int i;
             for (i = face_pointer[face]; i < face_pointer[face + 1]; i++)
             {
                 cout += "  " + face_data[i];
@@ -994,8 +979,6 @@ public static class XYZ
         //
     {
         string[] input;
-        int n;
-        string text;
 
         face_data_num = 0;
         face_num = 0;
@@ -1016,6 +999,7 @@ public static class XYZ
 
         for (;;)
         {
+            string text;
             try
             {
                 text = input[index];
@@ -1031,7 +1015,7 @@ public static class XYZ
                 continue;
             }
 
-            n = typeMethods.s_word_count(text);
+            int n = typeMethods.s_word_count(text);
 
             face_data_num += n;
 
@@ -1186,7 +1170,6 @@ public static class XYZ
         //    of points that form lines.
         //
     {
-        int i;
         int line;
 
         Console.WriteLine("");
@@ -1201,6 +1184,7 @@ public static class XYZ
         for (line = 0; line < line_num; line++)
         {
             string cout = "  " + line.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
+            int i;
             for (i = line_pointer[line]; i < line_pointer[line + 1]; i++)
             {
                 cout += "  " + line_data[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
@@ -1257,11 +1241,7 @@ public static class XYZ
         //    Output, int LINE_DATA[LINE_DATA_NUM], the line items.
         //
     {
-        int ilo;
         string[] input;
-        int line;
-        int n;
-        string text;
 
         try
         {
@@ -1275,13 +1255,14 @@ public static class XYZ
             return;
         }
 
-        line = 0;
+        int line = 0;
         line_pointer[0] = 0;
 
         int index = 0;
 
         while (line < line_num)
         {
+            string text;
             try
             {
                 text = input[index];
@@ -1300,10 +1281,10 @@ public static class XYZ
                 continue;
             }
 
-            n = typeMethods.s_word_count(text);
+            int n = typeMethods.s_word_count(text);
             line_pointer[line + 1] = line_pointer[line] + n;
 
-            ilo = line_pointer[line];
+            int ilo = line_pointer[line];
 
             i4vec r = typeMethods.s_to_i4vec(text, n);
 
@@ -1364,12 +1345,12 @@ public static class XYZ
         //    of points that form lines.
         //
     {
-        int i;
         int line;
 
         for (line = 0; line < line_num; line++)
         {
             string cout = "";
+            int i;
             for (i = line_pointer[line]; i < line_pointer[line + 1]; i++)
             {
                 cout += "  " + line_data[i];
@@ -1572,8 +1553,6 @@ public static class XYZ
         //
     {
         string[] input;
-        int n;
-        string text;
 
         line_data_num = 0;
         line_num = 0;
@@ -1594,6 +1573,7 @@ public static class XYZ
 
         for (;;)
         {
+            string text;
             try
             {
                 text = input[index];
@@ -1609,7 +1589,7 @@ public static class XYZ
                 continue;
             }
 
-            n = typeMethods.s_word_count(text);
+            int n = typeMethods.s_word_count(text);
 
             line_data_num += n;
 

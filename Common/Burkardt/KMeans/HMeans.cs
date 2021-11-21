@@ -82,15 +82,11 @@ public static class HMeans
         //    associated with each cluster.
         //
     {
-        double[] centroid;
         int i;
         int j;
         int k;
-        int k2;
-        int missed;
         double point_energy;
         double point_energy_min;
-        int swap;
         switch (cluster_num)
         {
             //
@@ -166,13 +162,14 @@ public static class HMeans
             //  #1:
             //  Assign each point to the cluster of its nearest center.
             //
-            swap = 0;
+            int swap = 0;
 
             for (j = 0; j < point_num; j++)
             {
                 point_energy_min = typeMethods.r8_huge();
                 k = cluster[j];
 
+                int k2;
                 for (k2 = 0; k2 < cluster_num; k2++)
                 {
                     point_energy = 0.0;
@@ -228,7 +225,7 @@ public static class HMeans
             //  #3:
             //  Determine the centroids of the clusters.
             //
-            centroid = typeMethods.r8vec_zero_new(dim_num * cluster_num);
+            double[] centroid = typeMethods.r8vec_zero_new(dim_num * cluster_num);
             typeMethods.i4vec_zero(cluster_num, ref cluster_population);
 
             for (j = 0; j < point_num; j++)
@@ -245,7 +242,7 @@ public static class HMeans
             //  Now divide by the population to get the centroid.
             //  But if a center has no population, pick a point at random.
             //
-            missed = 0;
+            int missed = 0;
 
             for (k = 0; k < cluster_num; k++)
             {
@@ -372,14 +369,12 @@ public static class HMeans
         //    number generator.
         //
     {
-        bool debug = false;
+        const bool debug = false;
         int i;
         int j;
         int k;
-        int k2;
         double point_energy;
         double point_energy_min;
-        int swap;
         switch (cluster_num)
         {
             //
@@ -455,13 +450,14 @@ public static class HMeans
             typeMethods.i4vec_zero(cluster_num, ref cluster_population);
             typeMethods.r8vec_zero(cluster_num, ref cluster_energy);
 
-            swap = 0;
+            int swap = 0;
 
             for (j = 0; j < point_num; j++)
             {
                 point_energy_min = typeMethods.r8_huge();
                 k = cluster[j];
 
+                int k2;
                 for (k2 = 0; k2 < cluster_num; k2++)
                 {
                     point_energy = 0.0;
@@ -652,17 +648,12 @@ public static class HMeans
         //    associated with each cluster.
         //
     {
-        double[] centroid;
-        double[] cluster_weight;
-        double energy;
         int i;
         int j;
         int k;
         int k2 = 0;
-        int missed;
         double point_energy;
         double point_energy_min;
-        int swap;
         switch (cluster_num)
         {
             //
@@ -756,7 +747,7 @@ public static class HMeans
             //  Assign each point to the cluster whose center is nearest;
             //  Count the number of points whose cluster assignment is changed.
             //
-            swap = 0;
+            int swap = 0;
 
             for (j = 0; j < point_num; j++)
             {
@@ -799,7 +790,7 @@ public static class HMeans
             //
             //  Determine the current energy.
             //
-            energy = 0.0;
+            double energy = 0.0;
             for (j = 0; j < point_num; j++)
             {
                 point_energy = 0.0;
@@ -820,8 +811,8 @@ public static class HMeans
             //  Determine the centroids of the clusters, and set the 
             //  cluster center to the cluster centroid.
             //
-            centroid = typeMethods.r8vec_zero_new(dim_num * cluster_num);
-            cluster_weight = typeMethods.r8vec_zero_new(cluster_num);
+            double[] centroid = typeMethods.r8vec_zero_new(dim_num * cluster_num);
+            double[] cluster_weight = typeMethods.r8vec_zero_new(cluster_num);
 
             for (j = 0; j < point_num; j++)
             {
@@ -834,7 +825,7 @@ public static class HMeans
                 }
             }
 
-            missed = 0;
+            int missed = 0;
 
             for (k = 0; k < cluster_num; k++)
             {
@@ -974,14 +965,11 @@ public static class HMeans
         //    number generator.
         //
     {
-        double[] cluster_weight;
         int i;
         int j;
         int k;
-        int k2;
         double point_energy;
         double point_energy_min;
-        int swap;
         switch (cluster_num)
         {
             //
@@ -1072,15 +1060,16 @@ public static class HMeans
             //
             typeMethods.i4vec_zero(cluster_num, ref cluster_population);
             typeMethods.r8vec_zero(cluster_num, ref cluster_energy);
-            cluster_weight = typeMethods.r8vec_zero_new(cluster_num);
+            double[] cluster_weight = typeMethods.r8vec_zero_new(cluster_num);
 
-            swap = 0;
+            int swap = 0;
 
             for (j = 0; j < point_num; j++)
             {
                 point_energy_min = typeMethods.r8_huge();
                 k = cluster[j];
 
+                int k2;
                 for (k2 = 0; k2 < cluster_num; k2++)
                 {
                     point_energy = 0.0;

@@ -74,16 +74,15 @@ public static partial class Integral
         //    Output, double FU_VALUE[N], the function values.
         //
     {
-        double[] fx;
-        int i;
         int j;
             
 
-        fx = new double[n];
+        double[] fx = new double[n];
 
         for ( j = 0; j < n; j++ )
         {
             fx[j] = 1.0;
+            int i;
             for ( i = 0; i < d; i++ )
             {
                 fx[j] = fx[j] * Math.Exp ( - Math.Pow ( x[i+j*d] / 2.0, 2 ) / 2.0 ) 

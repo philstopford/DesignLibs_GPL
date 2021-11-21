@@ -61,40 +61,31 @@ public static class Lagrange1D
         //    Output, double LAGRANGE_APPROX_1D[NI], the interpolated values.
         //
     {
-        double a;
-        double b;
-        double[] ld;
-        double[] li;
-        int nc;
-        double[] xc;
-        double[] yc;
-        double[] yi;
-
-        nc = m + 1;
+        int nc = m + 1;
         //
         //  Evaluate the Chebyshev points.
         //
-        a = -1.0;
-        b = +1.0;
-        xc = typeMethods.r8vec_cheby_extreme_new(nc, a, b);
+        const double a = -1.0;
+        const double b = +1.0;
+        double[] xc = typeMethods.r8vec_cheby_extreme_new(nc, a, b);
         //
         //  Evaluate the Lagrange basis functions for the Chebyshev points 
         //  at the data points.
         //
-        ld = lagrange_basis_1d(nc, xc, nd, xd);
+        double[] ld = lagrange_basis_1d(nc, xc, nd, xd);
         //
         //  The value of the Lagrange approximant at each data point should
         //  approximate the data value: LD * YC = YD, where YC are the unknown
         //  coefficients.
         //
-        yc = QRSolve.qr_solve(nd, nc, ld, yd);
+        double[] yc = QRSolve.qr_solve(nd, nc, ld, yd);
         //
         //  Now we want to evaluate the Lagrange approximant at the "interpolant
         //  points": LI * YC = YI
         //
-        li = lagrange_basis_1d(nc, xc, ni, xi);
+        double[] li = lagrange_basis_1d(nc, xc, ni, xi);
 
-        yi = typeMethods.r8mat_mv_new(ni, nc, li, yc);
+        double[] yi = typeMethods.r8mat_mv_new(ni, nc, li, yc);
 
         return yi;
     }
@@ -157,12 +148,10 @@ public static class Lagrange1D
     {
         int i;
         int j;
-        int k;
-        double[] lb;
         //
         //  Evaluate the polynomial.
         //
-        lb = new double[ni * nd];
+        double[] lb = new double[ni * nd];
 
         for (j = 0; j < nd; j++)
         {
@@ -176,12 +165,15 @@ public static class Lagrange1D
         {
             for (j = 0; j < nd; j++)
             {
-                if (j != i)
+                if (j == i)
                 {
-                    for (k = 0; k < ni; k++)
-                    {
-                        lb[k + i * ni] = lb[k + i * ni] * (xi[xiIndex + k] - xd[xdIndex + j]) / (xd[xdIndex + i] - xd[xdIndex + j]);
-                    }
+                    continue;
+                }
+
+                int k;
+                for (k = 0; k < ni; k++)
+                {
+                    lb[k + i * ni] = lb[k + i * ni] * (xi[xiIndex + k] - xd[xdIndex + j]) / (xd[xdIndex + i] - xd[xdIndex + j]);
                 }
             }
         }
@@ -248,12 +240,10 @@ public static class Lagrange1D
     {
         int i;
         int j;
-        int k;
-        double[] lb;
         //
         //  Evaluate the polynomial.
         //
-        lb = new double[ni * nd];
+        double[] lb = new double[ni * nd];
 
         for (j = 0; j < nd; j++)
         {
@@ -267,12 +257,15 @@ public static class Lagrange1D
         {
             for (j = 0; j < nd; j++)
             {
-                if (j != i)
+                if (j == i)
                 {
-                    for (k = 0; k < ni; k++)
-                    {
-                        lb[k + i * ni] = lb[k + i * ni] * (xi[k] - xd[j]) / (xd[i] - xd[j]);
-                    }
+                    continue;
+                }
+
+                int k;
+                for (k = 0; k < ni; k++)
+                {
+                    lb[k + i * ni] = lb[k + i * ni] * (xi[k] - xd[j]) / (xd[i] - xd[j]);
                 }
             }
         }
@@ -315,19 +308,19 @@ public static class Lagrange1D
         //    basis function for the nodes XD, evaluated at XI.
         //
     {
-        int j;
-        double yi;
+        double yi = 1.0;
 
-        yi = 1.0;
-
-        if ( Math.Abs(xi - xd[i]) > double.Epsilon )
+        if (!(Math.Abs(xi - xd[i]) > double.Epsilon))
         {
-            for ( j = 0; j < mx + 1; j++ )
+            return yi;
+        }
+
+        int j;
+        for ( j = 0; j < mx + 1; j++ )
+        {
+            if ( j != i )
             {
-                if ( j != i )
-                {
-                    yi = yi * ( xi - xd[j] ) / ( xd[i] - xd[j] );
-                }
+                yi = yi * ( xi - xd[j] ) / ( xd[i] - xd[j] );
             }
         }
 
@@ -387,12 +380,9 @@ public static class Lagrange1D
         //    Output, double LAGRANGE_VALUE_1D[NI], the interpolated values.
         //
     {
-        double[] lb;
-        double[] yi;
+        double[] lb = lagrange_basis_1d ( nd, xd, ni, xi );
 
-        lb = lagrange_basis_1d ( nd, xd, ni, xi );
-
-        yi = typeMethods.r8mat_mv_new ( ni, nd, lb, yd );
+        double[] yi = typeMethods.r8mat_mv_new ( ni, nd, lb, yd );
             
         return yi;
     }

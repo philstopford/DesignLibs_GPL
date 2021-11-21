@@ -57,12 +57,9 @@ public static class SCT
         //    Output, double SCT[NT], the scaled knots.
         //
     {
-        double bma;
         int i;
-        double shft = 0;
-        double slp = 0;
-        double[] st;
-        double tmp;
+        double shft;
+        double slp;
 
         switch (kind)
         {
@@ -79,8 +76,8 @@ public static class SCT
             case 7:
             case 9:
             {
-                tmp = typeMethods.r8_epsilon();
-                bma = b - a;
+                double tmp = typeMethods.r8_epsilon();
+                double bma = b - a;
 
                 if (bma <= tmp)
                 {
@@ -130,7 +127,7 @@ public static class SCT
             }
         }
 
-        st = new double[nt];
+        double[] st = new double[nt];
 
         for (i = 0; i < nt; i++)
         {

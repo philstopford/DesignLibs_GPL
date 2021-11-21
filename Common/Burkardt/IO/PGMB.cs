@@ -49,7 +49,6 @@ public static class PGMB
         //    false, if the data was legal.
         //
     {
-        int i;
         int j;
 
         switch (xsize)
@@ -84,6 +83,7 @@ public static class PGMB
         int index = 0;
         for (j = 0; j < ysize; j++)
         {
+            int i;
             for (i = 0; i < xsize; i++)
             {
                 if (maxg < g[index])
@@ -134,21 +134,18 @@ public static class PGMB
         //
     {
         int i;
-        int indexg;
-        int j;
-        int periods = 3;
-        float x;
-        float y;
+        const int periods = 3;
 
-        indexg = 0;
+        int indexg = 0;
 
         for (i = 0; i < ysize; i++)
         {
-            y = 2 * i / (float)(ysize - 1) - 1.0f;
+            float y = 2 * i / (float)(ysize - 1) - 1.0f;
 
+            int j;
             for (j = 0; j < xsize; j++)
             {
-                x = (float)(2.0 * Math.PI * (float)(periods * j)) / (xsize - 1);
+                float x = (float)(2.0 * Math.PI * (float)(periods * j)) / (xsize - 1);
 
                 g[indexg] = (int)(20.0 * (Math.Sin(x) - y + 2));
 
@@ -200,14 +197,11 @@ public static class PGMB
         //    Output, bool PGMB_READ, is true if an error occurred.
         //
     {
-        bool error;
-
-        Stream file_in_s;
         EndianBinaryReader file_in;
 
         try
         {
-            file_in_s = File.OpenRead(input_name);
+            Stream file_in_s = File.OpenRead(input_name);
             file_in = new EndianBinaryReader(EndianBitConverter.Little, file_in_s);
         }
         catch (Exception)
@@ -221,7 +215,7 @@ public static class PGMB
         //
         //  Read the header.
         //
-        error = pgmb_read_header(ref file_in, ref xsize, ref ysize, ref maxg);
+        bool error = pgmb_read_header(ref file_in, ref xsize, ref ysize, ref maxg);
 
         switch (error)
         {
@@ -330,18 +324,16 @@ public static class PGMB
         //    Output, bool PGMB_READ_HEADER, is true if an error occurred.
         //
     {
-        int fred;
-        string line = "";
         string rest = "";
-        int step;
         string word = "";
 
-        step = 0;
+        int step = 0;
 
         bool done = false;
 
         while (!done)
         {
+            string line = "";
             try
             {
                 List<byte> strBytes = new();
@@ -448,7 +440,7 @@ public static class PGMB
                         continue;
                     }
 
-                    fred = Convert.ToInt32(word);
+                    int fred = Convert.ToInt32(word);
                     maxg = fred;
                     line = rest;
                     done = true;
@@ -488,7 +480,6 @@ public static class PGMB
         //    Output, bool PGMB_READ_TEST, is true if an error occurred.
         //
     {
-        bool error;
         int[] g = null;
         int maxg = 0;
         int xsize = 0;
@@ -496,7 +487,7 @@ public static class PGMB
         //
         //  Read the data.
         //
-        error = pgmb_read(input_name, ref xsize, ref ysize, ref maxg, ref g);
+        bool error = pgmb_read(input_name, ref xsize, ref ysize, ref maxg, ref g);
 
         switch (error)
         {
@@ -563,18 +554,13 @@ public static class PGMB
         //    Output, bool PGMB_WRITE, is true if an error occurred.
         //
     {
-        bool error;
         int i;
-        int indexg;
-        int j;
-        int maxg;
 
-        Stream file_out_s;
-        EndianBinaryWriter file_out = null;
+        EndianBinaryWriter file_out;
             
         try
         {
-            file_out_s = File.OpenWrite(output_name);
+            Stream file_out_s = File.OpenWrite(output_name);
             file_out = new EndianBinaryWriter(EndianBitConverter.Little, file_out_s);
         }
         catch
@@ -588,11 +574,12 @@ public static class PGMB
         //
         //  Determine the maximum gray value.
         //
-        maxg = 0;
-        indexg = 0;
+        int maxg = 0;
+        int indexg = 0;
 
         for (i = 0; i < xsize; i++)
         {
+            int j;
             for (j = 0; j < ysize; j++)
             {
                 if (maxg < g[indexg])
@@ -607,7 +594,7 @@ public static class PGMB
         //
         //  Write the header.
         //
-        error = pgmb_write_header(ref file_out, xsize, ysize, maxg);
+        bool error = pgmb_write_header(ref file_out, xsize, ysize, maxg);
 
         switch (error)
         {
@@ -670,9 +657,9 @@ public static class PGMB
         //    Output, bool PGMB_WRITE_DATA, is true if an error occurred.
         //
     {
-        for (int i = 0; i < g.Length; i++)
+        foreach (int t in g)
         {
-            file_out.Write((byte)g[i]);
+            file_out.Write((byte)t);
         }
 
         return false;
@@ -747,19 +734,15 @@ public static class PGMB
         //    Output, bool PGMB_WRITE_TEST, is true if an error occurred.
         //
     {
-        bool error;
-        int[] g;
-        int xsize;
-        int ysize;
         //
         //  Set the data.
         //
-        xsize = 300;
-        ysize = 200;
+        const int xsize = 300;
+        const int ysize = 200;
 
-        g = new int[xsize * ysize];
+        int[] g = new int[xsize * ysize];
 
-        error = pgmb_example(xsize, ysize, ref g);
+        bool error = pgmb_example(xsize, ysize, ref g);
 
         switch (error)
         {
@@ -813,7 +796,6 @@ public static class PGMB
         //    Output, bool HANDLE, is true if an error occurred.
         //
     {
-        bool error;
         int[] g = null;
         int maxg = 0;
         int xsize = 0;
@@ -821,7 +803,7 @@ public static class PGMB
         //
         //  Read the input file.
         //
-        error = pgmb_read ( file_in_name, ref xsize, ref ysize, ref maxg, ref g );
+        bool error = pgmb_read ( file_in_name, ref xsize, ref ysize, ref maxg, ref g );
 
         switch (error)
         {
@@ -852,17 +834,16 @@ public static class PGMB
         //
         //  Write the output file.
         //
-        PGMA.pgma_write ( file_out_name, xsize, ysize, g );
-            
-        switch (error)
+        try
         {
-            case true:
-                Console.WriteLine("");
-                Console.WriteLine("PGMB_TO_PGMA: Fatal error!");
-                Console.WriteLine("  PGMA_WRITE failed.");
-                return true;
-            default:
-                return false;
+            PGMA.pgma_write ( file_out_name, xsize, ysize, g );
         }
+        catch (Exception)
+        {
+            Console.WriteLine("");
+            Console.WriteLine("PGMB_TO_PGMA: Fatal error!");
+            Console.WriteLine("  PGMA_WRITE failed.");
+        }
+        return true;
     }
 }

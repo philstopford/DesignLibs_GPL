@@ -44,13 +44,12 @@ public static class Newton1D
         //    Output, double NEWTON_COEF_1D[ND], the divided difference coefficients.
         //
     {
-        double[] cd;
         int i;
         int j;
         //
         //  Copy the data values.
         //
-        cd = new double[nd];
+        double[] cd = new double[nd];
 
         for (i = 0; i < nd; i++)
         {
@@ -134,15 +133,14 @@ public static class Newton1D
         //    Output, double NEWTON_VALUE_1D[NI], the interpolation values.
         //
     {
-        int i;
         int j;
-        double[] yi;
 
-        yi = new double[ni];
+        double[] yi = new double[ni];
 
         for (j = 0; j < ni; j++)
         {
             yi[j] = cd[nd - 1];
+            int i;
             for (i = 2; i <= nd; i++)
             {
                 yi[j] = cd[nd - i] + (xi[j] - xd[nd - i]) * yi[j];

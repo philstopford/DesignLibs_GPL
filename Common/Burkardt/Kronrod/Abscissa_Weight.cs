@@ -58,22 +58,15 @@ public static class Abscissa_Weight
     {
         double ai;
         double b0 = 0;
-        double b1;
-        double b2;
         double d0;
         double d1;
         double d2 = 0;
         double delta = 0;
-        double dif;
-        double f;
         double fd = 0;
-        int i;
         int iter;
         int k;
-        int ka;
-        double yy;
 
-        ka = x switch
+        int ka = x switch
         {
             0.0 => 1,
             _ => 0
@@ -84,11 +77,12 @@ public static class Abscissa_Weight
         //
         for (iter = 1; iter <= 50; iter++)
         {
-            b1 = 0.0;
-            b2 = b[m];
-            yy = 4.0 * x * x - 2.0;
+            double b1 = 0.0;
+            double b2 = b[m];
+            double yy = 4.0 * x * x - 2.0;
             d1 = 0.0;
 
+            double dif;
             switch (even)
             {
                 case true:
@@ -106,7 +100,7 @@ public static class Abscissa_Weight
             for (k = 1; k <= m; k++)
             {
                 ai -= dif;
-                i = m - k + 1;
+                int i = m - k + 1;
                 b0 = b1;
                 b1 = b2;
                 d0 = d1;
@@ -122,6 +116,7 @@ public static class Abscissa_Weight
                 d2 = yy * d1 - d0 + ai * b[i - 1];
             }
 
+            double f;
             switch (even)
             {
                 case true:
@@ -234,22 +229,15 @@ public static class Abscissa_Weight
         //    Output, double *W2, the Gauss weight.
         //
     {
-        double ai;
-        double an;
         double delta = 0;
-        int i;
         int iter;
         int k;
-        int ka;
         double p0 = 0;
         double p1;
         double p2 = 0;
-        double pd0;
-        double pd1;
         double pd2 = 0;
-        double yy;
 
-        ka = x switch
+        int ka = x switch
         {
             0.0 => 1,
             _ => 0
@@ -262,8 +250,8 @@ public static class Abscissa_Weight
         {
             p0 = 1.0;
             p1 = x;
-            pd0 = 0.0;
-            pd1 = 1.0;
+            double pd0 = 0.0;
+            double pd1 = 1.0;
             switch (n)
             {
                 //
@@ -279,7 +267,7 @@ public static class Abscissa_Weight
                     break;
             }
 
-            ai = 0.0;
+            double ai = 0.0;
             for (k = 2; k <= n; k++)
             {
                 ai += 1.0;
@@ -325,16 +313,16 @@ public static class Abscissa_Weight
         //
         //  Computation of the weight.
         //
-        an = n;
+        double an = n;
 
         w2 = 2.0 / (an * pd2 * p0);
 
         p1 = 0.0;
         p2 = b[m];
-        yy = 4.0 * x * x - 2.0;
+        double yy = 4.0 * x * x - 2.0;
         for (k = 1; k <= m; k++)
         {
-            i = m - k + 1;
+            int i = m - k + 1;
             p0 = p1;
             p1 = p2;
             p2 = yy * p1 - p0 + b[i - 1];

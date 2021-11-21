@@ -42,12 +42,12 @@ public static class DTable
         //    Input, double TABLE[M*N], the table data.
         //
     {
-        int i;
         int j;
 
         for (j = 0; j < n; j++)
         {
             string cout = "";
+            int i;
             for (i = 0; i < m; i++)
             {
                 cout += table[i + j * m].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  ";

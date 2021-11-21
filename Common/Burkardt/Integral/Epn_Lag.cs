@@ -44,12 +44,9 @@ public static class Epn_Lag
         //    Output, double EP1_GLG_MONOMIAL_INTEGRAL, the value of the integral.
         //
     {
-        double arg;
-        double exact;
+        double arg = alpha + (expon + 1);
 
-        arg = alpha + (expon + 1);
-
-        exact = typeMethods.r8_gamma(arg);
+        double exact = typeMethods.r8_gamma(arg);
 
         return exact;
     }
@@ -90,9 +87,7 @@ public static class Epn_Lag
         //    Output, double EP1_LAG_MONOMIAL_INTEGRAL, the value of the integral.
         //
     {
-        double value = 0;
-
-        value = typeMethods.r8_factorial(expon);
+        double value = typeMethods.r8_factorial(expon);
 
         return value;
     }
@@ -140,13 +135,11 @@ public static class Epn_Lag
         //
     {
         int i;
-        double value = 0;
-        double value2;
 
-        value = 1.0;
+        double value = 1.0;
         for (i = 0; i < n; i++)
         {
-            value2 = ep1_glg_monomial_integral(expon[i], alpha);
+            double value2 = ep1_glg_monomial_integral(expon[i], alpha);
             value *= value2;
         }
 
@@ -193,13 +186,11 @@ public static class Epn_Lag
         //
     {
         int i;
-        double value = 0;
-        double value2;
 
-        value = 1.0;
+        double value = 1.0;
         for (i = 0; i < n; i++)
         {
-            value2 = ep1_lag_monomial_integral(expon[i]);
+            double value2 = ep1_lag_monomial_integral(expon[i]);
             value *= value2;
         }
 

@@ -58,9 +58,7 @@ public static class PPM_ASCII
         //
     {
         char c = 'x';
-        int i;
         int index = 0;
-        int j;
         int k;
 
         switch (xsize)
@@ -130,8 +128,10 @@ public static class PPM_ASCII
                     break;
             }
 
+            int j;
             for ( j = 0; j < ysize; j++ )
             {
+                int i;
                 for ( i = 0; i < xsize; i++ )
                 {
                     switch (val)
@@ -196,25 +196,19 @@ public static class PPM_ASCII
         //    true, if an error occurred.
         //
     {
-        float f1;
-        float f2;
-        float f3;
         int i;
-        int j;
-        float x;
-        float y;
 
         int index = 0;
         for (i = 0; i < ysize; i++)
         {
-            y = (ysize + 1 - i) / (float) (ysize - 1);
+            float y = (ysize + 1 - i) / (float) (ysize - 1);
+            int j;
             for (j = 0; j < xsize; j++)
             {
-                x = j / (float) (xsize - 1);
+                float x = j / (float) (xsize - 1);
 
-                f1 = 4.0f * (x - 0.5f) * (x - 0.5f);
-                f2 = (float) Math.Sin(3.14159265f * x);
-                f3 = x;
+                float f1 = 4.0f * (x - 0.5f) * (x - 0.5f);
+                float f2 = (float) Math.Sin(3.14159265f * x);
 
                 if (y <= f1)
                 {
@@ -234,9 +228,9 @@ public static class PPM_ASCII
                     g[index] = 150;
                 }
 
-                if (y <= f3)
+                if (y <= x)
                 {
-                    b[index] = (int) (255.0 * f3);
+                    b[index] = (int) (255.0 * x);
                 }
                 else
                 {
@@ -287,9 +281,7 @@ public static class PPM_ASCII
         //    false, if the file was read.
         //
     {
-        bool error;
         string[] input;
-        int numbytes;
 
         int index = 0;
 
@@ -308,7 +300,7 @@ public static class PPM_ASCII
         //
         //  Read the header.
         //
-        error = ppma_read_header(ref input, ref index, ref xsize, ref ysize, ref rgb_max);
+        bool error = ppma_read_header(ref input, ref index, ref xsize, ref ysize, ref rgb_max);
 
         switch (error)
         {
@@ -322,7 +314,7 @@ public static class PPM_ASCII
         //
         //  Allocate storage for the data.
         //
-        numbytes = xsize * ysize;
+        int numbytes = xsize * ysize;
 
         r = new int[numbytes];
         g = new int[numbytes];
@@ -434,15 +426,14 @@ public static class PPM_ASCII
         //    false, if the header was read.
         //
     {
-        string line;
         string rest = "";
-        int step;
         string word = "";
 
-        step = 0;
+        int step = 0;
 
         while (true)
         {
+            string line;
             try
             {
                 line = input[index];
@@ -572,21 +563,17 @@ public static class PPM_ASCII
         //    false, if the test was carried out.
         //
     {
-        int[] b;
-        bool error;
-        int[] g;
-        int[] r;
         int rgb_max = 0;
         int xsize = 0;
         int ysize = 0;
 
-        r = null;
-        g = null;
-        b = null;
+        int[] r = null;
+        int[] g = null;
+        int[] b = null;
         //
         //  Read the data.
         //
-        error = ppma_read(input_name, ref xsize, ref ysize, ref rgb_max, ref r, ref g, ref b);
+        bool error = ppma_read(input_name, ref xsize, ref ysize, ref rgb_max, ref r, ref g, ref b);
 
         switch (error)
         {
@@ -668,21 +655,18 @@ public static class PPM_ASCII
         //    false, if the file was written.
         //
     {
-        bool error;
         List<string> file_out = new();
-        int i;
         int j;
-        int index;
-        int rgb_max;
 
         //
         //  Compute the maximum.
         //
-        rgb_max = 0;
-        index = 0;
+        int rgb_max = 0;
+        int index = 0;
 
         for (j = 0; j < ysize; j++)
         {
+            int i;
             for (i = 0; i < xsize; i++)
             {
                 if (rgb_max < r[index])
@@ -707,7 +691,7 @@ public static class PPM_ASCII
         //
         //  Write the header.
         //
-        error = ppma_write_header(ref file_out, file_out_name, xsize, ysize, rgb_max);
+        bool error = ppma_write_header(ref file_out, file_out_name, xsize, ysize, rgb_max);
 
         switch (error)
         {
@@ -783,16 +767,15 @@ public static class PPM_ASCII
         //    false, if the data was written.
         //
     {
-        int i;
         int j;
-        int rgb_num;
 
-        rgb_num = 0;
+        int rgb_num = 0;
 
         int index = 0;
         string tmp = "";
         for (j = 0; j < ysize; j++)
         {
+            int i;
             for (i = 0; i < xsize; i++)
             {
                 tmp += r[index] + " " + g[index] + " " + b[index];
@@ -809,7 +792,6 @@ public static class PPM_ASCII
                 }
                 index++;
             }
-
         }
 
         return false;
@@ -890,25 +872,18 @@ public static class PPM_ASCII
         //    false, if the test was carried out.
         //
     {
-        int[] b;
-        bool error;
-        int[] g;
-        int[] r;
-        int xsize;
-        int ysize;
-
-        xsize = 300;
-        ysize = 300;
+        const int xsize = 300;
+        const int ysize = 300;
         //
         //  Allocate memory.
         //
-        r = new int[xsize * ysize];
-        g = new int[xsize * ysize];
-        b = new int[xsize * ysize];
+        int[] r = new int[xsize * ysize];
+        int[] g = new int[xsize * ysize];
+        int[] b = new int[xsize * ysize];
         //
         //  Set the data.
         //
-        error = ppma_example ( xsize, ysize, ref r, ref g, ref b );
+        bool error = ppma_example ( xsize, ysize, ref r, ref g, ref b );
 
         switch (error)
         {

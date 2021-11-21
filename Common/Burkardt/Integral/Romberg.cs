@@ -92,21 +92,9 @@ public static class Romberg
         //
     {
         int dim;
-        double factor;
         int i;
-        int it;
-        int[] iwork;
-        int[] iwork2;
-        int kdim;
-        int ll;
         double result;
         double result_old = 0;
-        double rnderr;
-        int[] sub_num2;
-        double sum1;
-        double weight;
-        double[] table;
-        double[] x;
 
         eval_num = 0;
 
@@ -142,14 +130,14 @@ public static class Romberg
             }
         }
 
-        iwork = new int[dim_num];
-        iwork2 = new int[it_max];
-        sub_num2 = new int[dim_num];
-        table = new double[it_max];
-        x = new double[dim_num];
+        int[] iwork = new int[dim_num];
+        int[] iwork2 = new int[it_max];
+        int[] sub_num2 = new int[dim_num];
+        double[] table = new double[it_max];
+        double[] x = new double[dim_num];
 
         ind = 0;
-        rnderr = typeMethods.r8_epsilon();
+        double rnderr = typeMethods.r8_epsilon();
         iwork2[0] = 1;
 
         for (dim = 0; dim < dim_num; dim++)
@@ -163,13 +151,13 @@ public static class Romberg
             _ => iwork2[1]
         };
 
-        it = 1;
+        int it = 1;
 
         for (;;)
         {
-            sum1 = 0.0;
+            double sum1 = 0.0;
 
-            weight = 1.0;
+            double weight = 1.0;
             for (dim = 0; dim < dim_num; dim++)
             {
                 weight = weight * (b[dim] - a[dim]) / sub_num2[dim];
@@ -196,7 +184,7 @@ public static class Romberg
                 sum1 += func(dim_num, x);
                 eval_num += 1;
 
-                kdim = dim_num;
+                int kdim = dim_num;
 
                 while (0 < kdim)
                 {
@@ -244,11 +232,12 @@ public static class Romberg
             //
             //  Compute the difference table for Richardson extrapolation.
             // 
+            int ll;
             for (ll = 2; ll <= it; ll++)
             {
                 i = it + 1 - ll;
-                factor = iwork2[i - 1] * iwork2[i - 1]
-                         / (double) (iwork2[it - 1] * iwork2[it - 1] - iwork2[i - 1] * iwork2[i - 1]);
+                double factor = iwork2[i - 1] * iwork2[i - 1]
+                                / (double) (iwork2[it - 1] * iwork2[it - 1] - iwork2[i - 1] * iwork2[i - 1]);
                 table[i] += (table[i] - table[i - 1]) * factor;
             }
 

@@ -44,14 +44,11 @@ public static class LagrangenD
     {
         int i;
         int j;
-        int n;
-        double[] x_1d;
-        double[] xd;
         typeMethods.r8vecDPData data = new();
         //
         //  Compute the data points.
         //
-        xd = new double[m * nd];
+        double[] xd = new double[m * nd];
 
         for (j = 0; j < nd; j++)
         {
@@ -63,8 +60,8 @@ public static class LagrangenD
 
         for (i = 0; i < m; i++)
         {
-            n = n_1d[i];
-            x_1d = ClenshawCurtis.cc_compute_points(n);
+            int n = n_1d[i];
+            double[] x_1d = ClenshawCurtis.cc_compute_points(n);
             for (j = 0; j < n; j++)
             {
                 x_1d[j] = 0.5 * ((1.0 - x_1d[j]) * a[i]
@@ -115,14 +112,11 @@ public static class LagrangenD
     {
         int i;
         int j;
-        int n;
-        double[] x_1d;
-        double[] xd;
         typeMethods.r8vecDPData data = new();
         //
         //  Compute the data points.
         //
-        xd = new double[m * nd];
+        double[] xd = new double[m * nd];
 
         for (j = 0; j < nd; j++)
         {
@@ -134,8 +128,8 @@ public static class LagrangenD
 
         for (i = 0; i < m; i++)
         {
-            n = Order.order_from_level_135(ind[i]);
-            x_1d = ClenshawCurtis.cc_compute_points(n);
+            int n = Order.order_from_level_135(ind[i]);
+            double[] x_1d = ClenshawCurtis.cc_compute_points(n);
             for (j = 0; j < n; j++)
             {
                 x_1d[j] = 0.5 * ((1.0 - x_1d[j]) * a[i]
@@ -178,11 +172,10 @@ public static class LagrangenD
         //    Output, int LAGRANGE_INTERP_ND_SIZE, the number of points in the product grid.
         //
     {
-        int nd;
         //
         //  Determine the number of data points.
         //
-        nd = typeMethods.i4vec_product(m, n_1d);
+        int nd = typeMethods.i4vec_product(m, n_1d);
 
         return nd;
     }
@@ -218,15 +211,13 @@ public static class LagrangenD
         //
     {
         int i;
-        int n;
-        int nd;
         //
         //  Determine the number of data points.
         //
-        nd = 1;
+        int nd = 1;
         for (i = 0; i < m; i++)
         {
-            n = Order.order_from_level_135(ind[i]);
+            int n = Order.order_from_level_135(ind[i]);
             nd *= n;
         }
 
@@ -277,21 +268,15 @@ public static class LagrangenD
         //    at the points XI.
         //
     {
-        int i;
         int j;
-        int k;
-        int n;
-        double[] value;
-        double[] w;
-        double[] x_1d;
-        double[] zi;
         typeMethods.r8vecDPData data = new();
 
-        w = new double[nd];
-        zi = new double[ni];
+        double[] w = new double[nd];
+        double[] zi = new double[ni];
 
         for (j = 0; j < ni; j++)
         {
+            int i;
             for (i = 0; i < nd; i++)
             {
                 w[i] = 1.0;
@@ -299,15 +284,16 @@ public static class LagrangenD
 
             for (i = 0; i < m; i++)
             {
-                n = n_1d[i];
-                x_1d = ClenshawCurtis.cc_compute_points(n);
+                int n = n_1d[i];
+                double[] x_1d = ClenshawCurtis.cc_compute_points(n);
+                int k;
                 for (k = 0; k < n; k++)
                 {
                     x_1d[k] = 0.5 * ((1.0 - x_1d[k]) * a[i]
                                      + (1.0 + x_1d[k]) * b[i]);
                 }
 
-                value = Lagrange1D.lagrange_base_1d(n, x_1d, 1, xi, xiIndex: + i + j * m);
+                double[] value = Lagrange1D.lagrange_base_1d(n, x_1d, 1, xi, xiIndex: + i + j * m);
                 typeMethods.r8vec_direct_product2(ref data, i, n, value, m, nd, ref w);
             }
 
@@ -361,21 +347,15 @@ public static class LagrangenD
         //    points XI.
         //
     {
-        int i;
         int j;
-        int k;
-        int n;
-        double[] value;
-        double[] w;
-        double[] x_1d;
-        double[] zi;
         typeMethods.r8vecDPData data = new();
 
-        w = new double[nd];
-        zi = new double[ni];
+        double[] w = new double[nd];
+        double[] zi = new double[ni];
 
         for (j = 0; j < ni; j++)
         {
+            int i;
             for (i = 0; i < nd; i++)
             {
                 w[i] = 1.0;
@@ -383,15 +363,16 @@ public static class LagrangenD
 
             for (i = 0; i < m; i++)
             {
-                n = Order.order_from_level_135(ind[i]);
-                x_1d = ClenshawCurtis.cc_compute_points(n);
+                int n = Order.order_from_level_135(ind[i]);
+                double[] x_1d = ClenshawCurtis.cc_compute_points(n);
+                int k;
                 for (k = 0; k < n; k++)
                 {
                     x_1d[k] = 0.5 * ((1.0 - x_1d[k]) * a[i]
                                      + (1.0 + x_1d[k]) * b[i]);
                 }
 
-                value = Lagrange1D.lagrange_base_1d(n, x_1d, 1, xi, xiIndex: + i + j * m);
+                double[] value = Lagrange1D.lagrange_base_1d(n, x_1d, 1, xi, xiIndex: + i + j * m);
                 typeMethods.r8vec_direct_product2(ref data, i, n, value, m, nd, ref w);
             }
 

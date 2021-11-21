@@ -42,13 +42,11 @@ public static class CN_Geg
         //
     {
         int i;
-        double value = 0;
-        double value2;
 
-        value = 1.0;
+        double value = 1.0;
         for ( i = 0; i < n; i++ )
         {
-            value2 = C1.c1_leg_monomial_integral ( expon[i] );
+            double value2 = C1.c1_leg_monomial_integral ( expon[i] );
             value *= value2;
         }
 
@@ -99,8 +97,6 @@ public static class CN_Geg
         //
     {
         int i;
-        double value = 0;
-        double value2;
 
         switch (alpha)
         {
@@ -111,10 +107,10 @@ public static class CN_Geg
                 return 1;
         }
 
-        value = 1.0;
+        double value = 1.0;
         for ( i = 0; i < n; i++ )
         {
-            value2 = C1.c1_geg_monomial_integral ( alpha, expon[i] );
+            double value2 = C1.c1_geg_monomial_integral ( alpha, expon[i] );
             value *= value2;
         }
 
@@ -161,13 +157,11 @@ public static class CN_Geg
         //
     {
         int i;
-        double value = 0;
-        double value2;
 
-        value = 1.0;
+        double value = 1.0;
         for ( i = 0; i < n; i++ )
         {
-            value2 = C1.c1_jac_monomial_integral ( alpha, beta, expon[i] );
+            double value2 = C1.c1_jac_monomial_integral ( alpha, beta, expon[i] );
             value *= value2;
         }
 

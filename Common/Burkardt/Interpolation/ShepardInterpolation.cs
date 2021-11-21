@@ -70,11 +70,13 @@ public static class Shepard
                     for (int j = 0; j < nd; j++)
                     {
                         w[j] = Math.Abs(xi[i] - xd[j]);
-                        if (w[j] == 0.0)
+                        if (w[j] != 0.0)
                         {
-                            z = j;
-                            break;
+                            continue;
                         }
+
+                        z = j;
+                        break;
                     }
 
                     if (z != -1)
@@ -179,11 +181,13 @@ public static class Shepard
                     for (int j = 0; j < nd; j++)
                     {
                         w[j] = Math.Abs(xi[i] - xd[j]);
-                        if (w[j] == 0.0)
+                        if (w[j] != 0.0)
                         {
-                            z = j;
-                            break;
+                            continue;
                         }
+
+                        z = j;
+                        break;
                     }
 
                     if (z != -1)
@@ -286,11 +290,13 @@ public static class Shepard
                     {
                         w[j] = Math.Sqrt(Math.Pow(xi[i] - xd[j], 2)
                                          + Math.Pow(yi[i] - yd[j], 2));
-                        if (w[j] == 0.0)
+                        if (w[j] != 0.0)
                         {
-                            z = j;
-                            break;
+                            continue;
                         }
+
+                        z = j;
+                        break;
                     }
 
                     if (z != -1)
@@ -406,11 +412,13 @@ public static class Shepard
                         }
 
                         w[j] = Math.Sqrt(t);
-                        if (w[j] == 0.0)
+                        if (w[j] != 0.0)
                         {
-                            z = j;
-                            break;
+                            continue;
                         }
+
+                        z = j;
+                        break;
                     }
 
                     if (z != -1)

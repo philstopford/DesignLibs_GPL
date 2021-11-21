@@ -36,15 +36,11 @@ public static class Cholesky
         //    of the difference matrix A - C' * C.
         //
     {
-        double[] ctc;
-        double[] d;
-        double value = 0;
+        double[] ctc = typeMethods.r8mat_mtm_new ( n, n, n, c, c );
 
-        ctc = typeMethods.r8mat_mtm_new ( n, n, n, c, c );
-
-        d = typeMethods.r8mat_sub_new ( n, n, a, ctc );
+        double[] d = typeMethods.r8mat_sub_new ( n, n, a, ctc );
  
-        value = typeMethods.r8mat_norm_fro ( n, n, d );
+        double value = typeMethods.r8mat_norm_fro ( n, n, d );
 
         return value;
     }

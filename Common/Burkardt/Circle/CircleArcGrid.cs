@@ -38,17 +38,15 @@ public static class Circle
         //    Output, double CIRCLE_ARC_GRID[2*N], the grid points.
         //
     {
-        double aj;
         int j;
-        double[] xy;
 
-        xy = new double[2*n];
+        double[] xy = new double[2*n];
 
         for ( j = 0; j < n; j++ )
         {
-            aj = ( (n - j - 1) * a[0]
-                   + j * a[1] ) 
-                 / (n     - 1);
+            double aj = ( (n - j - 1) * a[0]
+                          + j * a[1] ) 
+                        / (n     - 1);
 
             xy[0+j*2] = c[0] + r * Math.Cos ( aj * Math.PI / 180.0 );
             xy[1+j*2] = c[1] + r * Math.Sin ( aj * Math.PI / 180.0 );

@@ -33,7 +33,7 @@ public static class Integrals
     {
         const double r = 1.0;
 
-        double length = 2.0 * Math.PI * r;
+        const double length = 2.0 * Math.PI * r;
 
         return length;
     }
@@ -81,8 +81,6 @@ public static class Integrals
         //    Output, double CIRCLE01_MONOMIAL_INTEGRAL, the integral.
         //
     {
-        double arg;
-        int i;
         double integral;
 
         if (e[0] < 0 || e[1] < 0)
@@ -103,6 +101,8 @@ public static class Integrals
         {
             integral = 2.0;
 
+            int i;
+            double arg;
             for (i = 0; i < 2; i++)
             {
                 arg = 0.5 * (e[i] + 1);
@@ -167,12 +167,10 @@ public static class Integrals
             ;
         int j;
         const double r = 1.0;
-        double[] theta;
-        double[] x;
 
-        theta = UniformRNG.r8vec_uniform_01_new(n, ref seed);
+        double[] theta = UniformRNG.r8vec_uniform_01_new(n, ref seed);
 
-        x = new double[2 * n];
+        double[] x = new double[2 * n];
 
         for (j = 0; j < n; j++)
         {

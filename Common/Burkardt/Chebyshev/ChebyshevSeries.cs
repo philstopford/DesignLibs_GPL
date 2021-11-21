@@ -51,25 +51,19 @@ public static class ChebyshevSeries
         //    derivative.
         //
     {
-        double dl;
-        double dn;
         int k;
-        int l;
-        double[] x2;
-        double xxl;
-        double xxn;
 
-        x2 = new double[npl];
-        dn = npl - 1;
-        xxn = xx[npl - 2];
+        double[] x2 = new double[npl];
+        double dn = npl - 1;
+        double xxn = xx[npl - 2];
         x2[npl - 2] = 2.0 * xx[npl - 1] * dn;
         x2[npl - 1] = 0.0;
 
         for (k = 3; k <= npl; k++)
         {
-            l = npl - k + 1;
-            dl = l;
-            xxl = xx[l - 1];
+            int l = npl - k + 1;
+            double dl = l;
+            double xxl = xx[l - 1];
             x2[l - 1] = x2[l + 1] + 2.0 * xxn * dl;
             xxn = xxl;
         }
@@ -123,25 +117,21 @@ public static class ChebyshevSeries
         //    Output, double ECHEB, the value of the Chebyshev series at X.
         //
     {
-        double br;
         double brp2 = 0;
-        double brpp;
-        double fx;
-        int j;
         int k;
 
-        br = 0.0;
-        brpp = 0.0;
+        double br = 0.0;
+        double brpp = 0.0;
 
         for (k = 1; k <= npl; k++)
         {
-            j = npl - k + 1;
+            int j = npl - k + 1;
             brp2 = brpp;
             brpp = br;
             br = 2.0 * x * brpp - brp2 + coef[j - 1];
         }
 
-        fx = 0.5 * (br - brp2);
+        double fx = 0.5 * (br - brp2);
         return fx;
     }
 
@@ -195,28 +185,19 @@ public static class ChebyshevSeries
     {
         double bf = 0;
         double bj = 0;
-        double bjp2;
-        double bjpl;
-        double dj;
-        double fx;
-        int j;
         int k;
-        int n;
-        double xj;
-        double xjp2;
-        double xjpl;
 
-        xjp2 = 0.0;
-        xjpl = 0.0;
-        bjp2 = 0.0;
-        bjpl = 0.0;
-        n = npl - 1;
+        double xjp2 = 0.0;
+        double xjpl = 0.0;
+        double bjp2 = 0.0;
+        double bjpl = 0.0;
+        int n = npl - 1;
 
         for (k = 1; k <= n; k++)
         {
-            j = npl - k;
-            dj = j;
-            xj = 2.0 * coef[j] * dj + xjp2;
+            int j = npl - k;
+            double dj = j;
+            double xj = 2.0 * coef[j] * dj + xjp2;
             bj = 2.0 * x * bjpl - bjp2 + xj;
             bf = bjp2;
             bjp2 = bjpl;
@@ -225,7 +206,7 @@ public static class ChebyshevSeries
             xjpl = xj;
         }
 
-        fx = 0.5 * (bj - bf);
+        double fx = 0.5 * (bj - bf);
         return fx;
     }
 
@@ -283,21 +264,17 @@ public static class ChebyshevSeries
         //
     {
         int k;
-        double s;
-        double[] w2;
-        double[] ww;
-        double[] xnvse;
 
-        ww = mltply_new(x, xx, npl);
+        double[] ww = mltply_new(x, xx, npl);
 
-        s = -1.0;
+        double s = -1.0;
         typeMethods.r8vec_scale(s, npl, ref ww);
         ww[0] += 2.0;
 
-        w2 = mltply_new(ww, ww, npl);
+        double[] w2 = mltply_new(ww, ww, npl);
         ww[0] = 2.0 * ww[0];
 
-        xnvse = new double[npl];
+        double[] xnvse = new double[npl];
 
         for (k = 1; k <= net; k++)
         {
@@ -444,9 +421,7 @@ public static class ChebyshevSeries
         //    product.
         //
     {
-        double[] x3;
-
-        x3 = typeMethods.r8vec_zero_new ( npl );
+        double[] x3 = typeMethods.r8vec_zero_new ( npl );
 
         mltply ( xx, x2, npl, x3 );
 
@@ -500,21 +475,17 @@ public static class ChebyshevSeries
     {
         double dk;
         int k;
-        int n;
-        double term;
-        double[] x2;
-        double xpr;
 
-        x2 = new double[npl];
+        double[] x2 = new double[npl];
 
-        xpr = xx[0];
+        double xpr = xx[0];
         x2[0] = 0.0;
-        n = npl - 1;
+        int n = npl - 1;
 
         for (k = 2; k <= n; k++)
         {
             dk = k - 1;
-            term = (xpr - xx[k]) / (2.0 * dk);
+            double term = (xpr - xx[k]) / (2.0 * dk);
             xpr = xx[k - 1];
             x2[k - 1] = term;
         }
@@ -579,23 +550,14 @@ public static class ChebyshevSeries
         //    for the input function raised to the (-1/M) power.
         //
     {
-        double alfa;
-        double coef;
-        double dkm2;
-        double dkmm;
-        double dm;
         int k;
-        double[] w2;
-        double[] w3;
-        double[] ww;
-        double[] xa;
 
-        dm = m;
-        alfa = -1.0 / dm;
+        double dm = m;
+        double alfa = -1.0 / dm;
 
-        ww = typeMethods.r8vec_copy_new(npl, x);
+        double[] ww = typeMethods.r8vec_copy_new(npl, x);
 
-        w2 = new double[npl];
+        double[] w2 = new double[npl];
 
         for (k = 1; k <= m; k++)
         {
@@ -605,16 +567,16 @@ public static class ChebyshevSeries
 
         ww[0] -= 2.0;
 
-        xa = typeMethods.r8vec_zero_new(npl);
+        double[] xa = typeMethods.r8vec_zero_new(npl);
         xa[0] = 2.0;
 
-        w3 = typeMethods.r8vec_copy_new(npl, xa);
+        double[] w3 = typeMethods.r8vec_copy_new(npl, xa);
 
         for (k = 2; k <= nt; k++)
         {
-            dkmm = k - 1;
-            dkm2 = k - 2;
-            coef = (alfa - dkm2) / dkmm;
+            double dkmm = k - 1;
+            double dkm2 = k - 2;
+            double coef = (alfa - dkm2) / dkmm;
 
             mltply(w3, ww, npl, w2);
 
@@ -688,16 +650,13 @@ public static class ChebyshevSeries
             Math.Abs(x) <= 1.0
         );
 
-        double b0;
         double b1 = 0.0;
         double b2 = 0.0;
         int i;
-        double value = 0;
-        double x2;
 
-        b0 = coef[nc - 1];
+        double b0 = coef[nc - 1];
 
-        x2 = 2.0 * x;
+        double x2 = 2.0 * x;
 
         for (i = nc - 2; 0 <= i; i--)
         {
@@ -706,7 +665,7 @@ public static class ChebyshevSeries
             b0 = coef[i] - b2 + x2 * b1;
         }
 
-        value = 0.5 * (b0 - b2);
+        double value = 0.5 * (b0 - b2);
 
         return value;
     }
@@ -772,20 +731,16 @@ public static class ChebyshevSeries
             Math.Abs(x) <= 1.0
         );
 
-        double b0;
         double b1 = 0.0;
         double b2 = 0.0;
-        double c0;
         double c1 = 0.0;
         double c2 = 0.0;
         int i;
-        double value = 0;
-        double x2;
 
-        b0 = coef[nc - 1];
-        c0 = coef[nc - 1];
+        double b0 = coef[nc - 1];
+        double c0 = coef[nc - 1];
 
-        x2 = 2.0 * x;
+        double x2 = 2.0 * x;
 
         for (i = nc - 2; 0 <= i; i--)
         {
@@ -805,7 +760,7 @@ public static class ChebyshevSeries
 
         y1 = c0 - c2;
 
-        value = 0.5 * (b0 - b2);
+        double value = 0.5 * (b0 - b2);
 
         return value;
     }
@@ -874,24 +829,19 @@ public static class ChebyshevSeries
             Math.Abs(x) <= 1.0
         );
 
-        double b0;
         double b1 = 0.0;
         double b2 = 0.0;
-        double c0;
         double c1 = 0.0;
         double c2 = 0.0;
-        double d0;
         double d1 = 0.0;
         double d2 = 0.0;
         int i;
-        double value = 0;
-        double x2;
 
-        b0 = coef[nc - 1];
-        c0 = coef[nc - 1];
-        d0 = coef[nc - 1];
+        double b0 = coef[nc - 1];
+        double c0 = coef[nc - 1];
+        double d0 = coef[nc - 1];
 
-        x2 = 2.0 * x;
+        double x2 = 2.0 * x;
 
         for (i = nc - 2; 0 <= i; i--)
         {
@@ -921,7 +871,7 @@ public static class ChebyshevSeries
         y2 = (d0 - d2) * 4.0;
         y1 = c0 - c2;
 
-        value = 0.5 * (b0 - b2);
+        double value = 0.5 * (b0 - b2);
 
         return value;
     }
@@ -994,28 +944,22 @@ public static class ChebyshevSeries
             Math.Abs(x) <= 1.0
         );
 
-        double b0;
         double b1 = 0.0;
         double b2 = 0.0;
-        double c0;
         double c1 = 0.0;
         double c2 = 0.0;
-        double d0;
         double d1 = 0.0;
         double d2 = 0.0;
-        double e0;
         double e1 = 0.0;
         double e2 = 0.0;
         int i;
-        double value = 0;
-        double x2;
 
-        b0 = coef[nc - 1];
-        c0 = coef[nc - 1];
-        d0 = coef[nc - 1];
-        e0 = coef[nc - 1];
+        double b0 = coef[nc - 1];
+        double c0 = coef[nc - 1];
+        double d0 = coef[nc - 1];
+        double e0 = coef[nc - 1];
 
-        x2 = 2.0 * x;
+        double x2 = 2.0 * x;
 
         for (i = nc - 2; 0 <= i; i--)
         {
@@ -1055,7 +999,7 @@ public static class ChebyshevSeries
         y2 = (d0 - d2) * 4.0;
         y1 = c0 - c2;
 
-        value = 0.5 * (b0 - b2);
+        double value = 0.5 * (b0 - b2);
 
         return value;
     }
@@ -1122,29 +1066,23 @@ public static class ChebyshevSeries
             Math.Abs(x) <= 1.0
         );
 
-        double b0;
         double b1 = 0.0;
         double b2 = 0.0;
-        double c0;
         double c1 = 0.0;
         double c2 = 0.0;
-        double d0;
         double d1 = 0.0;
         double d2 = 0.0;
-        double e0;
         double e1 = 0.0;
         double e2 = 0.0;
-        double f0;
         double f1 = 0.0;
         double f2 = 0.0;
         int i;
-        double y0;
 
-        b0 = coef[nc - 1];
-        c0 = coef[nc - 1];
-        d0 = coef[nc - 1];
-        e0 = coef[nc - 1];
-        f0 = coef[nc - 1];
+        double b0 = coef[nc - 1];
+        double c0 = coef[nc - 1];
+        double d0 = coef[nc - 1];
+        double e0 = coef[nc - 1];
+        double f0 = coef[nc - 1];
 
         for (i = nc - 2; 0 <= i; i--)
         {
@@ -1189,7 +1127,7 @@ public static class ChebyshevSeries
             }
         }
 
-        y0 = (b0 - b2) / 2.0;
+        double y0 = (b0 - b2) / 2.0;
         y1 = c0 - c2;
         y2 = (d0 - d2) * 2.0 * 2.0;
         y3 = (e0 - e2) * 6.0 * 4.0;
@@ -1255,16 +1193,13 @@ public static class ChebyshevSeries
             Math.Abs(x) <= 1.0
         );
 
-        double b0;
         double b1 = 0.0;
         double b2 = 0.0;
         int i;
-        double value = 0;
-        double x2;
 
-        b0 = coef[nc - 1];
+        double b0 = coef[nc - 1];
 
-        x2 = 4.0 * x * x - 2.0;
+        double x2 = 4.0 * x * x - 2.0;
 
         for (i = nc - 2; 0 <= i; i--)
         {
@@ -1273,7 +1208,7 @@ public static class ChebyshevSeries
             b0 = coef[i] - b2 + x2 * b1;
         }
 
-        value = 0.5 * (b0 - b2);
+        double value = 0.5 * (b0 - b2);
 
         return value;
     }
@@ -1339,20 +1274,16 @@ public static class ChebyshevSeries
             Math.Abs(x) <= 1.0
         );
 
-        double b0;
         double b1 = 0.0;
         double b2 = 0.0;
-        double c0;
         double c1 = 0.0;
         double c2 = 0.0;
         int i;
-        double value = 0;
-        double x2;
 
-        b0 = coef[nc - 1];
-        c0 = coef[nc - 1];
+        double b0 = coef[nc - 1];
+        double c0 = coef[nc - 1];
 
-        x2 = 4.0 * x * x - 2.0;
+        double x2 = 4.0 * x * x - 2.0;
 
         for (i = nc - 2; 0 <= i; i--)
         {
@@ -1371,7 +1302,7 @@ public static class ChebyshevSeries
 
         y1 = (c0 - c2) * 4.0 * x;
 
-        value = 0.5 * (b0 - b2);
+        double value = 0.5 * (b0 - b2);
 
         return value;
     }
@@ -1440,24 +1371,19 @@ public static class ChebyshevSeries
             Math.Abs(x) <= 1.0
         );
 
-        double b0;
         double b1 = 0.0;
         double b2 = 0.0;
-        double c0;
         double c1 = 0.0;
         double c2 = 0.0;
-        double d0;
         double d1 = 0.0;
         double d2 = 0.0;
         int i;
-        double value = 0;
-        double x2;
 
-        b0 = coef[nc - 1];
-        c0 = coef[nc - 1];
-        d0 = coef[nc - 1];
+        double b0 = coef[nc - 1];
+        double c0 = coef[nc - 1];
+        double d0 = coef[nc - 1];
 
-        x2 = 4.0 * x * x - 2.0;
+        double x2 = 4.0 * x * x - 2.0;
 
         for (i = nc - 2; 0 <= i; i--)
         {
@@ -1486,7 +1412,7 @@ public static class ChebyshevSeries
         y2 = (d0 - d2) * 64.0 * x * x + (c0 - c2) * 4.0;
         y1 = (c0 - c2) * 4.0 * x;
 
-        value = 0.5 * (b0 - b2);
+        double value = 0.5 * (b0 - b2);
 
         return value;
     }
@@ -1542,25 +1468,21 @@ public static class ChebyshevSeries
             Math.Abs(x) <= 1.0
         );
 
-        double b0;
         double b1 = 0.0;
-        double b2 = 0.0;
         int i;
-        double value = 0;
-        double x2;
 
-        b0 = coef[nc - 1];
+        double b0 = coef[nc - 1];
 
-        x2 = 4.0 * x * x - 2.0;
+        double x2 = 4.0 * x * x - 2.0;
 
         for (i = nc - 2; 0 <= i; i--)
         {
-            b2 = b1;
+            double b2 = b1;
             b1 = b0;
             b0 = coef[i] - b2 + x2 * b1;
         }
 
-        value = (b0 - b1) * x;
+        double value = (b0 - b1) * x;
 
         return value;
     }
@@ -1625,22 +1547,17 @@ public static class ChebyshevSeries
             Math.Abs(x) <= 1.0
         );
 
-        double b0;
         double b1 = 0.0;
         double b2 = 0.0;
-        double c0;
         double c1 = 0.0;
         double c2 = 0.0;
-        double coefi;
         int i;
-        double value = 0;
-        double x2;
 
-        coefi = 2.0 * coef[nc - 1];
-        b0 = coefi;
-        c0 = coefi;
+        double coefi = 2.0 * coef[nc - 1];
+        double b0 = coefi;
+        double c0 = coefi;
 
-        x2 = 4.0 * x * x - 2.0;
+        double x2 = 4.0 * x * x - 2.0;
 
         for (i = nc - 2; 0 <= i; i--)
         {
@@ -1659,7 +1576,7 @@ public static class ChebyshevSeries
         }
 
         y1 = (c0 - c2) * 4.0 * x * x + (b0 - b2) * 0.5;
-        value = (b0 - b2) * 0.5 * x;
+        double value = (b0 - b2) * 0.5 * x;
 
         return value;
     }
@@ -1727,26 +1644,20 @@ public static class ChebyshevSeries
             Math.Abs(x) <= 1.0
         );
 
-        double b0;
         double b1 = 0.0;
         double b2 = 0.0;
-        double c0;
         double c1 = 0.0;
         double c2 = 0.0;
-        double d0;
         double d1 = 0.0;
         double d2 = 0.0;
-        double coefi;
         int i;
-        double value = 0;
-        double x2;
 
-        coefi = 2.0 * coef[nc - 1];
-        b0 = coefi;
-        c0 = coefi;
-        d0 = coefi;
+        double coefi = 2.0 * coef[nc - 1];
+        double b0 = coefi;
+        double c0 = coefi;
+        double d0 = coefi;
 
-        x2 = 4.0 * x * x - 2.0;
+        double x2 = 4.0 * x * x - 2.0;
 
         for (i = nc - 2; 0 <= i; i--)
         {
@@ -1773,7 +1684,7 @@ public static class ChebyshevSeries
             }
         }
 
-        value = (b0 - b2) * 0.5 * x;
+        double value = (b0 - b2) * 0.5 * x;
 
         x2 = x * x;
         y1 = (c0 - c2) * 4.0 * x2 + (b0 - b2) * 0.5;

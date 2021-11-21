@@ -57,11 +57,9 @@ public static class Geometry
         //    Output, double *DIST, the distance to the nearest point.
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
         int i;
-        double r2;
-        double theta;
         switch (r)
         {
             //
@@ -85,7 +83,7 @@ public static class Geometry
         //
         //  Determine the angle made by the point.
         //
-        theta = typeMethods.r8_atan(p[1] - pc[1], p[0] - pc[0]);
+        double theta = typeMethods.r8_atan(p[1] - pc[1], p[0] - pc[0]);
         //
         //  If the angle is between THETA1 and THETA2, then you can
         //  simply project the point onto the arc.
@@ -93,7 +91,7 @@ public static class Geometry
         if (typeMethods.r8_modp(theta - theta1, 2.0 * Math.PI) <=
             typeMethods.r8_modp(theta2 - theta1, 2.0 * Math.PI))
         {
-            r2 = 0.0;
+            double r2 = 0.0;
             for (i = 0; i < DIM_NUM; i++)
             {
                 r2 += Math.Pow(p[i] - pc[i], 2);
@@ -161,9 +159,7 @@ public static class Geometry
         //    Output, double CIRCLE_AREA_2D, the area of the circle.
         //
     {
-        double area;
-
-        area = Math.PI * r * r;
+        double area = Math.PI * r * r;
 
         return area;
     }
@@ -277,14 +273,7 @@ public static class Geometry
         {
             if (typeMethods.r8vec_eq(2, p1, p3))
             {
-                if (typeMethods.r8vec_eq(2, p1, p))
-                {
-                    inside = 6;
-                }
-                else
-                {
-                    inside = 7;
-                }
+                inside = typeMethods.r8vec_eq(2, p1, p) ? 6 : 7;
             }
             else
             {
@@ -455,15 +444,8 @@ public static class Geometry
         //    Output, double PC[2], the center of the circle.
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
-        double a;
-        double b;
-        double c;
-        double d;
-        double e;
-        double f;
-        double g;
         //
         //  If all three points are equal, then the
         //  circle of radius 0 and center P1 passes through the points.
@@ -505,13 +487,13 @@ public static class Geometry
             return;
         }
 
-        a = p2[0] - p1[0];
-        b = p2[1] - p1[1];
-        c = p3[0] - p1[0];
-        d = p3[1] - p1[1];
+        double a = p2[0] - p1[0];
+        double b = p2[1] - p1[1];
+        double c = p3[0] - p1[0];
+        double d = p3[1] - p1[1];
 
-        e = a * (p1[0] + p2[0]) + b * (p1[1] + p2[1]);
-        f = c * (p1[0] + p3[0]) + d * (p1[1] + p3[1]);
+        double e = a * (p1[0] + p2[0]) + b * (p1[1] + p2[1]);
+        double f = c * (p1[0] + p3[0]) + d * (p1[1] + p3[1]);
         //
         //  Our formula is:
         //
@@ -519,7 +501,7 @@ public static class Geometry
         //
         //  but we get slightly better results using the original data.
         //
-        g = a * (p3[1] - p2[1]) - b * (p3[0] - p2[0]);
+        double g = a * (p3[1] - p2[1]) - b * (p3[0] - p2[0]);
         switch (g)
         {
             //
@@ -584,12 +566,7 @@ public static class Geometry
         //    is inside or on the circle, false otherwise.
         //
     {
-        if (Math.Pow(p[0] - pc[0], 2) + Math.Pow(p[1] - pc[1], 2) <= r * r)
-        {
-            return true;
-        }
-
-        return false;
+        return Math.Pow(p[0] - pc[0], 2) + Math.Pow(p[1] - pc[1], 2) <= r * r;
     }
 
     public static void circle_imp_line_par_int_2d(double r, double[] pc, double x0, double y0,
@@ -641,12 +618,11 @@ public static class Geometry
         //    the intersecting points.
         //
     {
-        double root;
         double t;
 
-        root = r * r * (f * f + g * g)
-               - (f * (pc[1] - y0) - g * (pc[0] - x0))
-               * (f * (pc[1] - y0) - g * (pc[0] - x0));
+        double root = r * r * (f * f + g * g)
+                      - (f * (pc[1] - y0) - g * (pc[0] - x0))
+                      * (f * (pc[1] - y0) - g * (pc[0] - x0));
 
         switch (root)
         {
@@ -768,12 +744,9 @@ public static class Geometry
         //    the signed distance is negative.
         //
     {
-        double t;
-        double value = 0;
+        double t = Math.Pow(p[0] - pc[0], 2) + Math.Pow(p[1] - pc[1], 2) - r * r;
 
-        t = Math.Pow(p[0] - pc[0], 2) + Math.Pow(p[1] - pc[1], 2) - r * r;
-
-        value = typeMethods.r8_sign(t) * Math.Sqrt(Math.Abs(t));
+        double value = typeMethods.r8_sign(t) * Math.Sqrt(Math.Abs(t));
 
         return value;
     }
@@ -825,11 +798,10 @@ public static class Geometry
         //    Output, double CIRCLE_IMP_POINT_NEAR_2D, the distance of the point to the circle.
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
         double dist;
         int i;
-        double r2;
 
         if (typeMethods.r8vec_eq(DIM_NUM, p, pc))
         {
@@ -842,7 +814,7 @@ public static class Geometry
             return dist;
         }
 
-        r2 = 0.0;
+        double r2 = 0.0;
         for (i = 0; i < DIM_NUM; i++)
         {
             r2 += Math.Pow(p[i] - pc[i], 2);
@@ -900,15 +872,13 @@ public static class Geometry
         //    Output, double CIRCLE_IMP_POINTS_2D[2*N], points on the circle.
         //
     {
-        double angle;
         int j;
-        double[] p;
 
-        p = new double[2 * n];
+        double[] p = new double[2 * n];
 
         for (j = 0; j < n; j++)
         {
-            angle = 2.0 * Math.PI * j / n;
+            double angle = 2.0 * Math.PI * j / n;
             p[0 + j * 2] = pc[0] + r * Math.Cos(angle);
             p[1 + j * 2] = pc[1] + r * Math.Sin(angle);
         }
@@ -967,31 +937,27 @@ public static class Geometry
         //    on the circle.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        int i;
         int j;
-        double[] n1;
-        double[] n2;
-        double[] p;
-        double theta;
         //
         //  Get two unit vectors N1 and N2 which are orthogonal to each other,
         //  and to NC.
         //
-        n1 = new double[DIM_NUM];
-        n2 = new double[DIM_NUM];
+        double[] n1 = new double[DIM_NUM];
+        double[] n2 = new double[DIM_NUM];
 
         Plane.Geometry.plane_normal_basis_3d(pc, nc, ref n1, ref n2);
         //
         //  Rotate R units away from PC in the plane of N1 and N2.
         //
-        p = new double[DIM_NUM * n];
+        double[] p = new double[DIM_NUM * n];
 
         for (j = 0; j < n; j++)
         {
-            theta = 2.0 * Math.PI * j / n;
+            double theta = 2.0 * Math.PI * j / n;
 
+            int i;
             for (i = 0; i < DIM_NUM; i++)
             {
                 p[i + j * DIM_NUM] = pc[i] + r * (Math.Cos(theta) * n1[i]
@@ -1049,17 +1015,15 @@ public static class Geometry
         //
     {
         int i;
-        double theta;
-        double theta3;
         //
         //  THETA3 is the smallest angle, no less than THETA1, which
         //  coincides with THETA2.
         //
-        theta3 = theta1 + typeMethods.r8_modp(theta2 - theta1, 2.0 * Math.PI);
+        double theta3 = theta1 + typeMethods.r8_modp(theta2 - theta1, 2.0 * Math.PI);
 
         for (i = 0; i < n; i++)
         {
-            theta = n switch
+            double theta = n switch
             {
                 > 1 => ((n - i - 1) * theta1 + i * theta3) / (n - 1),
                 _ => 0.5 * (theta1 + theta3)
@@ -1219,9 +1183,7 @@ public static class Geometry
         //    Output, double P1[2], P2[2], P3[2], three points on the circle.
         //
     {
-        double theta;
-
-        theta = 0.0;
+        double theta = 0.0;
         p1[0] = pc[0] + r * Math.Cos(theta);
         p1[1] = pc[1] + r * Math.Sin(theta);
 
@@ -1298,23 +1260,17 @@ public static class Geometry
         //    Output, double CIRCLE_LLR2IMP_2D[2*4], the centers of the circles.
         //
     {
-        double[] a;
-        double[] b;
         double det = 0;
-        double[] n1;
-        double[] n2;
-        double[] pc;
-        double[] x;
 
-        a = new double[2 * 2];
-        b = new double[2];
-        pc = new double[2 * 4];
+        double[] a = new double[2 * 2];
+        double[] b = new double[2];
+        double[] pc = new double[2 * 4];
         //
         //  Compute the normals N1 and N2.
         //
-        n1 = LineNS.Geometry.line_exp_normal_2d(p1, p2);
+        double[] n1 = LineNS.Geometry.line_exp_normal_2d(p1, p2);
 
-        n2 = LineNS.Geometry.line_exp_normal_2d(q1, q2);
+        double[] n2 = LineNS.Geometry.line_exp_normal_2d(q1, q2);
         //
         //  Set the linear system.
         //
@@ -1329,7 +1285,7 @@ public static class Geometry
         b[0] = -p1[0] + q1[0] + r * n1[0] + r * n2[0];
         b[1] = -p1[1] + q1[1] + r * n1[1] + r * n2[1];
 
-        x = typeMethods.r8mat_solve_2d(a, b, ref det);
+        double[] x = typeMethods.r8mat_solve_2d(a, b, ref det);
 
         pc[0 + 2 * 0] = p1[0] + (p2[0] - p1[0]) * x[0] - r * n1[0];
         pc[1 + 2 * 0] = p1[1] + (p2[1] - p1[1]) * x[0] - r * n1[1];
@@ -1454,13 +1410,9 @@ public static class Geometry
         //    Output, double CIRCLE_LUNE_AREA_BY_ANGLE_2D, the area of the lune.
         //
     {
-        double area;
-        double area_sector;
-        double area_triangle;
-
-        area_sector = circle_sector_area_2d(r, pc, theta1, theta2);
-        area_triangle = circle_triangle_area_2d(r, pc, theta1, theta2);
-        area = area_sector - area_triangle;
+        double area_sector = circle_sector_area_2d(r, pc, theta1, theta2);
+        double area_triangle = circle_triangle_area_2d(r, pc, theta1, theta2);
+        double area = area_sector - area_triangle;
 
         return area;
     }
@@ -1556,19 +1508,15 @@ public static class Geometry
         //    of the lune.
         //
     {
-        double[] centroid;
-        double d;
-        double theta;
+        double theta = theta2 - theta1;
 
-        theta = theta2 - theta1;
-
-        d = theta switch
+        double d = theta switch
         {
             0.0 => r,
             _ => 4.0 * r * Math.Pow(Math.Sin(0.5 * theta), 3) / (3.0 * (theta - Math.Sin(theta)))
         };
 
-        centroid = new double[2];
+        double[] centroid = new double[2];
 
         centroid[0] = pc[0] + d * Math.Cos(theta);
         centroid[1] = pc[1] + d * Math.Sin(theta);
@@ -1614,9 +1562,7 @@ public static class Geometry
         //    Output, double HEIGHT, the height of the lune
         //
     {
-        double height;
-
-        height = r * Math.Cos(angle / 2.0);
+        double height = r * Math.Cos(angle / 2.0);
 
         return height;
     }
@@ -1682,24 +1628,19 @@ public static class Geometry
         //    Output, double NORMAL[3], the normal to the circles.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        double dist;
-        double dot;
-        double h;
         int i;
-        int j;
-        double length;
-        double[] v;
         //
         //  Compute the distance from P1 to P2.
         //
-        dist = typeMethods.r8vec_distance(DIM_NUM, p1, p2);
+        double dist = typeMethods.r8vec_distance(DIM_NUM, p1, p2);
         //
         //  If R is smaller than DIST, we don't have a circle.
         //
         if (2.0 * r < dist)
         {
+            int j;
             for (j = 0; j < 2; j++)
             {
                 for (i = 0; i < DIM_NUM; i++)
@@ -1712,21 +1653,21 @@ public static class Geometry
         //
         //  H is the distance from the midpoint of (P1,P2) to the center.
         //
-        h = Math.Sqrt((r + 0.5 * dist) * (r - 0.5 * dist));
+        double h = Math.Sqrt((r + 0.5 * dist) * (r - 0.5 * dist));
         //
         //  Define a unit direction V that is normal to P2-P1, and lying
         //  in the plane (P1,P2,P3).
         //
         //  To do this, subtract from P3-P1 the component in the direction P2-P1.
         //
-        v = new double[DIM_NUM];
+        double[] v = new double[DIM_NUM];
 
         for (i = 0; i < DIM_NUM; i++)
         {
             v[i] = p3[i] - p1[i];
         }
 
-        dot = 0.0;
+        double dot = 0.0;
         for (i = 0; i < DIM_NUM; i++)
         {
             dot += v[i] * (p2[i] - p1[i]);
@@ -1738,7 +1679,7 @@ public static class Geometry
             v[i] -= dot * (p2[i] - p1[i]) / dist;
         }
 
-        length = typeMethods.r8vec_norm(DIM_NUM, v);
+        double length = typeMethods.r8vec_norm(DIM_NUM, v);
         for (i = 0; i < DIM_NUM; i++)
         {
             v[i] /= length;
@@ -1810,26 +1751,22 @@ public static class Geometry
         //    Output, double PC[2*2], the centers of the two circles.
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
-        double dist;
-        double h;
-        int i;
-        int j;
-        double[] pc;
-
-        pc = new double[DIM_NUM * 2];
+        double[] pc = new double[DIM_NUM * 2];
         //
         //  Compute the distance from P1 to P2.
         //
-        dist = Math.Sqrt(Math.Pow(p2[0] - p1[0], 2) + Math.Pow(p2[1] - p1[1], 2));
+        double dist = Math.Sqrt(Math.Pow(p2[0] - p1[0], 2) + Math.Pow(p2[1] - p1[1], 2));
         //
         //  If R is smaller than DIST, we don't have a circle.
         //
         if (2.0 * r < dist)
         {
+            int j;
             for (j = 0; j < 2; j++)
             {
+                int i;
                 for (i = 0; i < DIM_NUM; i++)
                 {
                     pc[i + j * DIM_NUM] = 0.5 * (p1[i] + p2[i]);
@@ -1840,7 +1777,7 @@ public static class Geometry
         //
         //  H is the distance from the midpoint of (P1,P2) to the center.
         //
-        h = Math.Sqrt((r + 0.5 * dist) * (r - 0.5 * dist));
+        double h = Math.Sqrt((r + 0.5 * dist) * (r - 0.5 * dist));
         //
         //  The center is found by going midway between P1 and P2, and then
         //  H units in the unit perpendicular direction.
@@ -1902,9 +1839,7 @@ public static class Geometry
         //    Output, double CIRCLE_SECTOR_AREA_2D, the area of the circle.
         //
     {
-        double area;
-
-        area = 0.5 * r * r * (theta2 - theta1);
+        double area = 0.5 * r * r * (theta2 - theta1);
 
         return area;
     }
@@ -1962,21 +1897,17 @@ public static class Geometry
         //    of the centroid of the sector.
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
-        double[] centroid;
-        double d;
-        double theta;
+        double theta = theta2 - theta1;
 
-        theta = theta2 - theta1;
-
-        d = theta switch
+        double d = theta switch
         {
             0.0 => 2.0 * r / 3.0,
             _ => 4.0 * r * Math.Sin(0.5 * theta) / (3.0 * theta)
         };
 
-        centroid = new double[DIM_NUM];
+        double[] centroid = new double[DIM_NUM];
 
         centroid[0] = pc[0] + d * Math.Cos(theta);
         centroid[1] = pc[1] + d * Math.Sin(theta);
@@ -2033,10 +1964,7 @@ public static class Geometry
         //    inside or on the circular sector.
         //
     {
-        bool inside;
-        double theta;
-
-        inside = false;
+        bool inside = false;
         //
         //  Is the point inside the (full) circle?
         //
@@ -2046,7 +1974,7 @@ public static class Geometry
             //  Is the point's angle within the arc's range?
             //  Try to force the angles to lie between 0 and 2 * PI.
             //
-            theta = typeMethods.r8_atan(p[1] - pc[1], p[0] - pc[0]);
+            double theta = typeMethods.r8_atan(p[1] - pc[1], p[0] - pc[0]);
 
             if (typeMethods.r8_modp(theta - theta1, 2.0 * Math.PI) <=
                 typeMethods.r8_modp(theta2 - theta1, 2.0 * Math.PI))
@@ -2155,9 +2083,7 @@ public static class Geometry
         //    Output, double AREA, the (signed) area of the triangle.
         //
     {
-        double area;
-
-        area = 0.5 * r * r * Math.Sin(theta2 - theta1);
+        double area = 0.5 * r * r * Math.Sin(theta2 - theta1);
 
         return area;
     }
@@ -2255,10 +2181,6 @@ public static class Geometry
         //
     {
         double area;
-        double area1;
-        double area2;
-        double h1;
-        double h2;
 
         if (r1 + r2 < d)
         {
@@ -2272,10 +2194,10 @@ public static class Geometry
                     area = Math.PI * Math.Pow(Math.Min(r1, r2), 2);
                     break;
                 default:
-                    h1 = 0.5 * (d * d + r1 * r1 - r2 * r2) / d;
-                    area1 = circle_lune_area_by_height_2d(r1, h1);
-                    h2 = 0.5 * (d * d - r1 * r1 + r2 * r2) / d;
-                    area2 = circle_lune_area_by_height_2d(r2, h2);
+                    double h1 = 0.5 * (d * d + r1 * r1 - r2 * r2) / d;
+                    double area1 = circle_lune_area_by_height_2d(r1, h1);
+                    double h2 = 0.5 * (d * d - r1 * r1 + r2 * r2) / d;
+                    double area2 = circle_lune_area_by_height_2d(r2, h2);
                     area = area1 + area2;
                     break;
             }
@@ -2338,15 +2260,7 @@ public static class Geometry
         //    coordinates of the intersecting points.
         //
     {
-        double distsq;
-        double root;
-        double sc1;
-        double sc2;
-        double t1;
-        double t2;
-        double tol;
-
-        tol = typeMethods.r8_epsilon();
+        double tol = typeMethods.r8_epsilon();
 
         p[0 + 0 * 2] = 0.0;
         p[1 + 0 * 2] = 0.0;
@@ -2355,32 +2269,25 @@ public static class Geometry
         //
         //  Take care of the case in which the circles have the same center.
         //
-        t1 = (Math.Abs(pc1[0] - pc2[0]) + Math.Abs(pc1[1] - pc2[1])) / 2.0;
-        t2 = (Math.Abs(pc1[0]) + Math.Abs(pc2[0])
-                               + Math.Abs(pc1[1]) + Math.Abs(pc2[1]) + 1.0) / 5.0;
+        double t1 = (Math.Abs(pc1[0] - pc2[0]) + Math.Abs(pc1[1] - pc2[1])) / 2.0;
+        double t2 = (Math.Abs(pc1[0]) + Math.Abs(pc2[0])
+                                      + Math.Abs(pc1[1]) + Math.Abs(pc2[1]) + 1.0) / 5.0;
 
         if (t1 <= tol * t2)
         {
             t1 = Math.Abs(r1 - r2);
             t2 = (Math.Abs(r1) + Math.Abs(r2) + 1.0) / 3.0;
 
-            if (t1 <= tol * t2)
-            {
-                int_num = 3;
-            }
-            else
-            {
-                int_num = 0;
-            }
+            int_num = t1 <= tol * t2 ? 3 : 0;
 
             return;
         }
 
-        distsq = (pc1[0] - pc2[0]) * (pc1[0] - pc2[0])
-                 + (pc1[1] - pc2[1]) * (pc1[1] - pc2[1]);
+        double distsq = (pc1[0] - pc2[0]) * (pc1[0] - pc2[0])
+                        + (pc1[1] - pc2[1]) * (pc1[1] - pc2[1]);
 
-        root = 2.0 * (r1 * r1 + r2 * r2) * distsq - distsq * distsq
-                                                  - (r1 - r2) * (r1 - r2) * (r1 + r2) * (r1 + r2);
+        double root = 2.0 * (r1 * r1 + r2 * r2) * distsq - distsq * distsq
+                                                         - (r1 - r2) * (r1 - r2) * (r1 + r2) * (r1 + r2);
 
         if (root < -tol)
         {
@@ -2388,7 +2295,7 @@ public static class Geometry
             return;
         }
 
-        sc1 = (distsq - (r2 * r2 - r1 * r1)) / distsq;
+        double sc1 = (distsq - (r2 * r2 - r1 * r1)) / distsq;
 
         if (root < tol)
         {
@@ -2398,7 +2305,7 @@ public static class Geometry
             return;
         }
 
-        sc2 = Math.Sqrt(root) / distsq;
+        double sc2 = Math.Sqrt(root) / distsq;
 
         int_num = 2;
 

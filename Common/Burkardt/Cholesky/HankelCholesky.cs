@@ -42,15 +42,10 @@ public static class HankelCholesky
         //    Cholesky factor.
         //
     {
-        double a;
-        double b;
-        double[] c;
         int i;
         int j;
-        double[] r;
-        double t;
 
-        c = new double[(2 * n - 1) * (2 * n - 1)];
+        double[] c = new double[(2 * n - 1) * (2 * n - 1)];
 
         for (j = 0; j < 2 * n - 1; j++)
         {
@@ -59,6 +54,8 @@ public static class HankelCholesky
 
         for (i = 0; i < n - 1; i++)
         {
+            double b;
+            double a;
             switch (i)
             {
                 case 0:
@@ -84,7 +81,7 @@ public static class HankelCholesky
             }
         }
 
-        r = new double[n * n];
+        double[] r = new double[n * n];
 
         for (j = 0; j < n; j++)
         {
@@ -100,7 +97,7 @@ public static class HankelCholesky
         //
         for (i = 0; i < n; i++)
         {
-            t = Math.Sqrt(r[i + i * n]);
+            double t = Math.Sqrt(r[i + i * n]);
             for (j = 0; j < i; j++)
             {
                 r[i + j * n] = 0.0;
@@ -163,17 +160,9 @@ public static class HankelCholesky
         //    Cholesky factor.
         //
     {
-        double alpha;
-        double beta;
         int i;
-        int j;
-        double[] l;
-        int q;
-        int r;
-        int s;
-        int t;
 
-        l = typeMethods.r8mat_zeros_new(n, n);
+        double[] l = typeMethods.r8mat_zeros_new(n, n);
 
         for (i = 0; i < n; i++)
         {
@@ -187,8 +176,11 @@ public static class HankelCholesky
 
         for (i = 2; i < n; i++)
         {
+            int j;
             for (j = 0; j < i - 1; j++)
             {
+                int r;
+                int q;
                 switch ((i + j) % 2)
                 {
                     case 0:
@@ -201,13 +193,15 @@ public static class HankelCholesky
                         break;
                 }
 
-                alpha = 0.0;
+                double alpha = 0.0;
+                int s;
                 for (s = 0; s <= q; s++)
                 {
                     alpha += l[q + s * n] * l[r + s * n];
                 }
 
-                beta = 0.0;
+                double beta = 0.0;
+                int t;
                 for (t = 0; t < j; t++)
                 {
                     beta += l[i + t * n] * l[j + t * n];

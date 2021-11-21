@@ -50,8 +50,6 @@ public static class Segment
         //    the angle of the circle segment.  0 <= THETA < 2 * PI.
         //
     {
-            
-        double theta;
         double[] v1 = new double[2];
         double[] v2 = new double[2];
         //
@@ -64,7 +62,7 @@ public static class Segment
         //
         //  The arc cosine will only give us an answer between 0 and PI.
         //
-        theta = typeMethods.r8_atan(v2[1], v2[0]) - typeMethods.r8_atan(v1[1], v1[0]);
+        double theta = typeMethods.r8_atan(v2[1], v2[0]) - typeMethods.r8_atan(v1[1], v1[0]);
         //
         //  Force 0 <= THETA < 2 * PI.
         //
@@ -294,12 +292,9 @@ public static class Segment
         //    circle segment.
         //
     {
-        double area;
-        double theta;
+        double theta = circle_segment_angle_from_chord(r, c, p1, p2);
 
-        theta = circle_segment_angle_from_chord(r, c, p1, p2);
-
-        area = r * r * (theta - Math.Sin(theta)) / 2.0;
+        double area = r * r * (theta - Math.Sin(theta)) / 2.0;
 
         return area;
     }
@@ -347,8 +342,6 @@ public static class Segment
         //
     {
         double area;
-            
-        double theta;
 
         switch (h)
         {
@@ -357,6 +350,7 @@ public static class Segment
                 break;
             default:
             {
+                double theta;
                 if (h <= r)
                 {
                     theta = 2.0 * Math.Asin(Math.Sqrt(r * r - (r - h) * (r - h)) / r);
@@ -428,28 +422,18 @@ public static class Segment
         //    circle segment.
         //
     {
-        double[] angle;
-        double area;
         int i;
-        int m;
-        double omega1;
-        double omega2;
         double[] p = new double[2];
-        double[] r2;
-        double rmh;
-        double[] vdotp;
-        double[] x;
-        double[] y;
         //
         //  Determine the angles of the chord endpoints.
         //
-        omega1 = typeMethods.r8_atan(p1[1] - c[1], p1[0] - c[0]);
+        double omega1 = typeMethods.r8_atan(p1[1] - c[1], p1[0] - c[0]);
         while (omega1 < 0.0)
         {
             omega1 += 2.0 * Math.PI;
         }
 
-        omega2 = typeMethods.r8_atan(p2[1] - c[1], p2[0] - c[0]);
+        double omega2 = typeMethods.r8_atan(p2[1] - c[1], p2[0] - c[0]);
         while (omega2 < omega1)
         {
             omega2 += 2.0 * Math.PI;
@@ -460,20 +444,20 @@ public static class Segment
         //  To simplify angle measurement, take OMEGA1 as your smallest angle.
         //  That way, the check OMEGA1 <= ANGLE <= OMEGA2 will be legitimate.
         //
-        angle = UniformRNG.r8vec_uniform_01_new(n, ref seed);
+        double[] angle = UniformRNG.r8vec_uniform_01_new(n, ref seed);
         for (i = 0; i < n; i++)
         {
             angle[i] = omega1 + 2.0 * Math.PI * angle[i];
         }
 
-        r2 = UniformRNG.r8vec_uniform_01_new(n, ref seed);
+        double[] r2 = UniformRNG.r8vec_uniform_01_new(n, ref seed);
         for (i = 0; i < n; i++)
         {
             r2[i] = Math.Sqrt(r2[i]);
         }
 
-        x = new double[n];
-        y = new double[n];
+        double[] x = new double[n];
+        double[] y = new double[n];
         for (i = 0; i < n; i++)
         {
             x[i] = c[0] + r2[i] * Math.Cos(angle[i]);
@@ -486,7 +470,7 @@ public static class Segment
         p[0] = 0.5 * (p1[0] + p2[0]) - c[0];
         p[1] = 0.5 * (p1[1] + p2[1]) - c[1];
 
-        rmh = Math.Sqrt(p[0] * p[0] + p[1] * p[1]);
+        double rmh = Math.Sqrt(p[0] * p[0] + p[1] * p[1]);
 
         p[0] /= rmh;
         p[1] /= rmh;
@@ -503,7 +487,7 @@ public static class Segment
         //
         //  Compute the projection of each point onto P.
         //
-        vdotp = new double[n];
+        double[] vdotp = new double[n];
         for (i = 0; i < n; i++)
         {
             vdotp[i] = (x[i] - c[0]) * p[0] + (y[i] - c[1]) * p[1];
@@ -512,7 +496,7 @@ public static class Segment
         //
         //  Points in the segment lie in the sector, and project at least RMH onto P.
         //
-        m = 0;
+        int m = 0;
         for (i = 0; i < n; i++)
         {
             if (omega1 < angle[i] && angle[i] < omega2 && rmh < vdotp[i])
@@ -524,7 +508,7 @@ public static class Segment
         //
         //  The area of the segment is its relative share of the circle area.
         //
-        area = Math.PI * r * r * m / n;
+        double area = Math.PI * r * r * m / n;
 
         return area;
     }
@@ -586,8 +570,6 @@ public static class Segment
         //    would define a smaller circle segment of height H2 or less.
         //
     {
-        double a;
-        double a2;
         double cdf;
 
         switch (h2)
@@ -603,8 +585,8 @@ public static class Segment
                 }
                 else
                 {
-                    a = circle_segment_area_from_height(r, h);
-                    a2 = circle_segment_area_from_height(r, h2);
+                    double a = circle_segment_area_from_height(r, h);
+                    double a2 = circle_segment_area_from_height(r, h2);
                     cdf = a2 / a;
                 }
 
@@ -663,15 +645,11 @@ public static class Segment
         //    of the centroid.
         //
     {
-        double[] d;
-        double s;
-        double theta;
-        double thetah;
         double[] v1 = new double[2];
         //
         //  Get the angle subtended by P1:P2.
         //
-        theta = circle_segment_angle_from_chord(r, c, p1, p2);
+        double theta = circle_segment_angle_from_chord(r, c, p1, p2);
         //
         //  Construct V1, the vector from C to P1.
         //
@@ -680,17 +658,17 @@ public static class Segment
         //
         //  Rotate V1 through THETA / 2.
         //
-        thetah = theta / 2.0;
+        double thetah = theta / 2.0;
 
-        d = new double[2];
+        double[] d = new double[2];
         d[0] = Math.Cos(thetah) * v1[0] - Math.Sin(thetah) * v1[1];
         d[1] = Math.Sin(thetah) * v1[0] + Math.Cos(thetah) * v1[1];
         //
         //  Scale this vector so it represents the distance to the centroid
         //  relative to R.
         //
-        s = 4.0 * Math.Pow(Math.Sin(theta / 2.0), 3)
-            / 3.0 / (theta - Math.Sin(theta));
+        double s = 4.0 * Math.Pow(Math.Sin(theta / 2.0), 3)
+                   / 3.0 / (theta - Math.Sin(theta));
 
         d[0] = s * d[0];
         d[1] = s * d[1];
@@ -747,12 +725,9 @@ public static class Segment
         //    of the centroid.
         //
     {
-        double[] d;
-        double theta;
+        double theta = circle_segment_angle_from_height(r, h);
 
-        theta = circle_segment_angle_from_height(r, h);
-
-        d = new double[2];
+        double[] d = new double[2];
 
         d[0] = 0.0;
         d[1] = 4.0 * r * Math.Pow(Math.Sin(theta / 2.0), 3) / 3.0
@@ -810,16 +785,12 @@ public static class Segment
         //    centroid of the circle segment.
         //
     {
-        double[] d;
-        double[] x;
-        double[] y;
-
-        x = new double[n];
-        y = new double[n];
+        double[] x = new double[n];
+        double[] y = new double[n];
 
         circle_segment_sample_from_chord(r, c, p1, p2, n, ref seed, ref x, ref y);
 
-        d = new double[2];
+        double[] d = new double[2];
 
         d[0] = typeMethods.r8vec_sum(n, x) / n;
         d[1] = typeMethods.r8vec_sum(n, y) / n;
@@ -879,13 +850,7 @@ public static class Segment
         //    the circle segment.
         //
     {
-        double h;
-        double omegah;
-        double theta;
         double[] v = new double[2];
-        double v_omega;
-        double v_project;
-        double v_r;
         int value;
 
         switch (r)
@@ -910,7 +875,7 @@ public static class Segment
         //
         //  a: Point must be inside the circle, so ||V|| <= R.
         //
-        v_r = Math.Sqrt(v[0] * v[0] + v[1] * v[1]);
+        double v_r = Math.Sqrt(v[0] * v[0] + v[1] * v[1]);
 
         if (r < v_r)
         {
@@ -921,7 +886,7 @@ public static class Segment
         //
         //  b: Angle made by the vector V must be between OMEGA1 and OMEGA2.
         //
-        v_omega = Math.Atan2(v[1], v[0]);
+        double v_omega = Math.Atan2(v[1], v[0]);
 
         while (omega1 <= v_omega + 2.0 * Math.PI)
         {
@@ -942,11 +907,11 @@ public static class Segment
         //
         //  c: Projection of V onto unit centerline must be at least R-H.
         //
-        omegah = 0.5 * (omega1 + omega2);
-        v_project = v[0] * Math.Cos(omegah) + v[1] * Math.Sin(omegah);
+        double omegah = 0.5 * (omega1 + omega2);
+        double v_project = v[0] * Math.Cos(omegah) + v[1] * Math.Sin(omegah);
 
-        theta = omega2 - omega1;
-        h = circle_segment_height_from_angle(r, theta);
+        double theta = omega2 - omega1;
+        double h = circle_segment_height_from_angle(r, theta);
 
         if (v_project < r - h)
         {
@@ -1089,13 +1054,7 @@ public static class Segment
         //    circle segment.
         //
     {
-        double a;
-        double area_circle;
-        double eps;
         double h = 0;
-        double h1;
-        double h2;
-        int it;
 
         switch (area)
         {
@@ -1106,7 +1065,7 @@ public static class Segment
                 return 1;
         }
 
-        area_circle = 2.0 * Math.PI * r * r;
+        double area_circle = 2.0 * Math.PI * r * r;
 
         switch (area)
         {
@@ -1138,18 +1097,18 @@ public static class Segment
                 return 1;
         }
 
-        h1 = 0.0;
+        double h1 = 0.0;
         //circle_segment_area_from_height ( r, h1 );
-        h2 = 2.0 * r;
+        double h2 = 2.0 * r;
         //circle_segment_area_from_height ( r, h2 );
 
-        it = 0;
-        eps = typeMethods.r8_epsilon();
+        int it = 0;
+        double eps = typeMethods.r8_epsilon();
 
         while (it < 30)
         {
             h = 0.5 * (h1 + h2);
-            a = circle_segment_area_from_height(r, h);
+            double a = circle_segment_area_from_height(r, h);
             it += 1;
 
             if (Math.Abs(a - area) < Math.Sqrt(eps) * area)
@@ -1216,12 +1175,9 @@ public static class Segment
         //    Output, double CIRCLE_SEGMENT_HEIGHT_FROM_CHORD, the height of the circle segment.
         //
     {
-        double h;
-        double theta;
+        double theta = circle_segment_angle_from_chord(r, c, p1, p2);
 
-        theta = circle_segment_angle_from_chord(r, c, p1, p2);
-
-        h = circle_segment_height_from_angle(r, theta);
+        double h = circle_segment_height_from_angle(r, theta);
 
         return h;
     }
@@ -1272,10 +1228,6 @@ public static class Segment
         //    circle segment.  0 <= ALPHA < 2 * PI.
         //
     {
-        double alpha;
-        double rho1;
-        double rho2;
-        double theta;
         double[] v1 = new double[2];
         double[] v2 = new double[2];
         //
@@ -1288,8 +1240,8 @@ public static class Segment
         //
         //  Use R8_ATAN to guarantee that 0 <= RHO1, RHO2 <= 2 * PI.
         //
-        rho1 = typeMethods.r8_atan(v1[1], v1[0]);
-        rho2 = typeMethods.r8_atan(v2[1], v2[0]);
+        double rho1 = typeMethods.r8_atan(v1[1], v1[0]);
+        double rho2 = typeMethods.r8_atan(v2[1], v2[0]);
         //
         //  Force RHO2 to be bigger than RHO1.
         //
@@ -1301,11 +1253,11 @@ public static class Segment
         //
         //  Compute THETA.
         //
-        theta = rho2 - rho1;
+        double theta = rho2 - rho1;
         //
         //  ALPHA is RHO1, plus half of the angular distance between P1 and P2.
         //
-        alpha = rho1 + 0.5 * theta;
+        double alpha = rho1 + 0.5 * theta;
 
         while (2.0 * Math.PI <= alpha)
         {
@@ -1364,13 +1316,9 @@ public static class Segment
         //
     {
         double[] c2 = new double[2];
-        double[] eta;
-        double h;
         int i;
-        double t;
         double[] vc = new double[2];
         double[] vr = new double[2];
-        double[] xi;
         //
         //  Determine unit vectors VR and VC.
         //  VR points to the center of the chord from the radius.
@@ -1379,7 +1327,7 @@ public static class Segment
         vr[0] = 0.5 * (p1[0] + p2[0]) - c[0];
         vr[1] = 0.5 * (p1[1] + p2[1]) - c[1];
 
-        t = Math.Sqrt(vr[0] * vr[0] + vr[1] * vr[1]);
+        double t = Math.Sqrt(vr[0] * vr[0] + vr[1] * vr[1]);
         vr[0] /= t;
         vr[1] /= t;
 
@@ -1394,13 +1342,13 @@ public static class Segment
         //
         c2[0] = 0.0;
         c2[1] = 0.0;
-        h = circle_segment_height_from_chord(r, c2, p1, p2);
+        double h = circle_segment_height_from_chord(r, c2, p1, p2);
         //
         //  Sample (xi,eta) in the reference coordinates, where the chord
         //  is horizontal.
         //
-        xi = new double[n];
-        eta = new double[n];
+        double[] xi = new double[n];
+        double[] eta = new double[n];
         circle_segment_sample_from_height(r, h, n, ref seed, ref xi, ref eta);
         //
         //  XI is the left/right coordinate along VC.
@@ -1460,22 +1408,17 @@ public static class Segment
         //    Output, double X[N], Y[N], the sample points.
         //
     {
-        double area;
-        double[] area2;
-        double[] h2;
         int i;
-        double[] u;
-        double[] wh;
 
-        area = circle_segment_area_from_height(r, h);
+        double area = circle_segment_area_from_height(r, h);
         //
         //  Pick CDF's randomly.
         //
-        u = UniformRNG.r8vec_uniform_01_new(n, ref seed);
+        double[] u = UniformRNG.r8vec_uniform_01_new(n, ref seed);
         //
         //  Choose points randomly by choosing ordered areas randomly.
         //
-        area2 = new double[n];
+        double[] area2 = new double[n];
         for (i = 0; i < n; i++)
         {
             area2[i] = u[i] * area;
@@ -1484,7 +1427,7 @@ public static class Segment
         //
         //  Each area corresponds to a height H2.  Find it.
         //
-        h2 = new double[n];
+        double[] h2 = new double[n];
         for (i = 0; i < n; i++)
         {
             h2[i] = circle_segment_height_from_area(r, area2[i]);
@@ -1493,7 +1436,7 @@ public static class Segment
         //
         //  Determine the half-width WH of the segment for each H2.
         //
-        wh = new double[n];
+        double[] wh = new double[n];
         for (i = 0; i < n; i++)
         {
             wh[i] = Math.Sqrt(h2[i] * (2.0 * r - h2[i]));

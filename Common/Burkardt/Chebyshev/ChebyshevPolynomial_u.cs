@@ -40,15 +40,13 @@ public static partial class ChebyshevPolynomial
         //    Output, double CHEBY_U_ZERO[N], the zeroes of U(N)(X).
         //
     {
-        double angle;
         int i;
-        double[] z;
 
-        z = new double[n];
+        double[] z = new double[n];
 
         for ( i = 0; i < n; i++ )
         {
-            angle = (i + 1) * Math.PI / (n + 1);
+            double angle = (i + 1) * Math.PI / (n + 1);
             z[i] = Math.Cos ( angle );
         }
         return z;
@@ -74,32 +72,27 @@ public static partial class ChebyshevPolynomial
         //    John Burkardt
         //
     {
-        double[] a;
-        int i;
         int k;
-        double[] phi;
-        double[] phiw;
-        double[] w;
-        double[] x;
 
-        x = new double[n + 1];
-        w = new double[n + 1];
+        double[] x = new double[n + 1];
+        double[] w = new double[n + 1];
 
         u_quadrature_rule(n + 1, ref x, ref w);
 
-        phi = u_polynomial(n + 1, n, x);
+        double[] phi = u_polynomial(n + 1, n, x);
 
-        phiw = new double[(n + 1) * (n + 1)];
+        double[] phiw = new double[(n + 1) * (n + 1)];
 
         for (k = 0; k <= n; k++)
         {
+            int i;
             for (i = 0; i <= n; i++)
             {
                 phiw[i + k * (n + 1)] = w[k] * phi[k + i * (n + 1)];
             }
         }
 
-        a = typeMethods.r8mat_mm_new(n + 1, n + 1, n + 1, phiw, phi);
+        double[] a = typeMethods.r8mat_mm_new(n + 1, n + 1, n + 1, phiw, phi);
 
         return a;
     }
@@ -144,10 +137,7 @@ public static partial class ChebyshevPolynomial
         //    Output, double U_MOMENT, the value of the integral.
         //
     {
-        double arg1;
-        double arg2;
-            
-        double value = 0;
+        double value;
 
         switch (e % 2)
         {
@@ -155,8 +145,8 @@ public static partial class ChebyshevPolynomial
                 value = 0.0;
                 break;
             default:
-                arg1 = 0.5 * (1 + e);
-                arg2 = 2.0 + 0.5 * e;
+                double arg1 = 0.5 * (1 + e);
+                double arg2 = 2.0 + 0.5 * e;
                 value = 0.5 * Math.Sqrt(Math.PI) * Helpers.Gamma(arg1) / Helpers.Gamma(arg2);
                 break;
         }
@@ -222,8 +212,6 @@ public static partial class ChebyshevPolynomial
         //
     {
         int i;
-        int j;
-        double[] v;
 
         switch (n)
         {
@@ -231,7 +219,7 @@ public static partial class ChebyshevPolynomial
                 return null;
         }
 
-        v = new double[m * (n + 1)];
+        double[] v = new double[m * (n + 1)];
 
         for (i = 0; i < m; i++)
         {
@@ -251,6 +239,7 @@ public static partial class ChebyshevPolynomial
 
         for (i = 0; i < m; i++)
         {
+            int j;
             for (j = 2; j <= n; j++)
             {
                 v[i + j * m] = 2.0 * x[i] * v[i + (j - 1) * m] - v[i + (j - 2) * m];
@@ -451,17 +440,15 @@ public static partial class ChebyshevPolynomial
         //
     {
         int i;
-        double[] v;
-        double[] x;
 
-        x = new double[m];
+        double[] x = new double[m];
 
         for (i = 0; i < m; i++)
         {
             x[i] = (2.0 * xab[i] - a - b) / (b - a);
         }
 
-        v = u_polynomial(m, n, x);
+        double[] v = u_polynomial(m, n, x);
         return v;
     }
 
@@ -501,12 +488,9 @@ public static partial class ChebyshevPolynomial
         //    Output, double U_POLYNOMIAL_AB_VALUE, the value.
         //
     {
-        double v;
-        double x;
+        double x = (2.0 * xab - a - b) / (b - a);
 
-        x = (2.0 * xab - a - b) / (b - a);
-
-        v = u_polynomial_value(n, x);
+        double v = u_polynomial_value(n, x);
 
         return v;
     }
@@ -567,7 +551,6 @@ public static partial class ChebyshevPolynomial
         //    of the Chebyshev U polynomials.
         //
     {
-        double[] c;
         int i;
         int j;
 
@@ -577,7 +560,7 @@ public static partial class ChebyshevPolynomial
                 return null;
         }
 
-        c = new double[(n + 1) * (n + 1)];
+        double[] c = new double[(n + 1) * (n + 1)];
 
         for (i = 0; i <= n; i++)
         {
@@ -644,40 +627,31 @@ public static partial class ChebyshevPolynomial
         //    be used.
         //
     {
-        double a;
-        double b;
-        int column;
-        string command_filename;
         List<string> command_unit = new();
-        string data_filename;
         List<string> data_unit = new();
         int i;
         int j;
-        int m = 501;
-        int n;
-        int n_max;
-        double[] v;
-        double[] x;
+        const int m = 501;
 
-        a = -1.0;
-        b = +1.0;
+        double a = -1.0;
+        const double b = +1.0;
 
-        x = typeMethods.r8vec_linspace_new(m, a, b);
+        double[] x = typeMethods.r8vec_linspace_new(m, a, b);
         //
         //  Compute all the data.
         //
-        n_max = typeMethods.i4vec_max(n_num, n_val);
-        v = u_polynomial(m, n_max, x);
+        int n_max = typeMethods.i4vec_max(n_num, n_val);
+        double[] v = u_polynomial(m, n_max, x);
         //
         //  Create the data file.
         //
-        data_filename = "u_polynomial_data.txt";
+        const string data_filename = "u_polynomial_data.txt";
         for (i = 0; i < m; i++)
         {
             string line = x[i].ToString(CultureInfo.InvariantCulture);
             for (j = 0; j < n_num; j++)
             {
-                n = n_val[j];
+                int n = n_val[j];
                 line  += "  " + v[i + n * m];
             }
 
@@ -690,7 +664,7 @@ public static partial class ChebyshevPolynomial
         //
         //  Plot the selected data.
         //
-        command_filename = "u_polynomial_commands.txt";
+        string command_filename = "u_polynomial_commands.txt";
 
         command_unit.Add("# " + command_filename + "");
         command_unit.Add("#");
@@ -708,7 +682,7 @@ public static partial class ChebyshevPolynomial
         for (j = 0; j < n_num; j++)
         {
             string line = "";
-            column = n_val[j] + 1;
+            int column = n_val[j] + 1;
             line += j switch
             {
                 0 => "plot ",
@@ -767,9 +741,7 @@ public static partial class ChebyshevPolynomial
         //    Output, double U_POLYNOMIAL_VALUE, the value of U(n,x).
         //
     {
-        int m;
-        double[] v_vec;
-        double value = 0;
+        double value;
         double[] x_vec = new double[1];
 
         switch (n)
@@ -778,10 +750,10 @@ public static partial class ChebyshevPolynomial
                 value = 0.0;
                 break;
             default:
-                m = 1;
+                int m = 1;
                 x_vec[0] = x;
 
-                v_vec = u_polynomial(m, n, x_vec);
+                double[] v_vec = u_polynomial(m, n, x_vec);
 
                 value = v_vec[n];
                 break;
@@ -950,15 +922,13 @@ public static partial class ChebyshevPolynomial
         //    Output, double U_POLYNOMIAL_ZEROS[N], the zeroes.
         //
     {
-        double angle;
         int i;
-        double[] z;
 
-        z = new double[n];
+        double[] z = new double[n];
 
         for (i = 1; i <= n; i++)
         {
-            angle = i * Math.PI / (n + 1);
+            double angle = i * Math.PI / (n + 1);
             z[i - 1] = Math.Cos(angle);
         }
 
@@ -997,7 +967,6 @@ public static partial class ChebyshevPolynomial
         //    Output, double T[N], W[N], the points and weights of the rule.
         //
     {
-        double[] bj;
         int i;
             
 
@@ -1006,7 +975,7 @@ public static partial class ChebyshevPolynomial
             t[i] = 0.0;
         }
 
-        bj = new double[n];
+        double[] bj = new double[n];
         for (i = 0; i < n; i++)
         {
             bj[i] = 0.5;

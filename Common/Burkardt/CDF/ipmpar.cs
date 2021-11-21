@@ -80,7 +80,6 @@ public static partial class CDF
         //
     {
         int[] imach = new int[11];
-        int ipmpar;
         //     MACHINE CONSTANTS FOR AMDAHL MACHINES.
         //
         //   imach[1] = 2;
@@ -339,7 +338,7 @@ public static partial class CDF
         imach[9] = -1021;
         imach[10] = 1024;
 
-        ipmpar = imach[i];
+        int ipmpar = imach[i];
         return ipmpar;
     }
 }

@@ -45,8 +45,8 @@ public static partial class CDF
         //    is assigned the value 0 when the psi function is undefined.
         //
     {
-        double dx0 = 1.461632144968362341262659542325721325e0;
-        double piov4 = .785398163397448e0;
+        const double dx0 = 1.461632144968362341262659542325721325e0;
+        const double piov4 = .785398163397448e0;
         double[] p1 =  {
                 .895385022981970e-02,.477762828042627e+01,.142441585084029e+03,
                 .118645200713425e+04,.363351846806499e+04,.413810161269013e+04,
@@ -68,10 +68,10 @@ public static partial class CDF
                 .777788548522962e+01
             }
             ;
-        int K1 = 3;
-        int K2 = 1;
-        double psi, aug, den, sgn, upper, w, x, xmax1, xmx0, xsmall, z;
-        int i, m, n, nq;
+        const int K1 = 3;
+        const int K2 = 1;
+        double psi, den, upper, w;
+        int i;
         //
         //  MACHINE DEPENDENT CONSTANTS:
         //
@@ -84,11 +84,11 @@ public static partial class CDF
         //  XSMALL = ABSOLUTE ARGUMENT BELOW WHICH PI*COTAN(PI*X)
         //  MAY BE REPRESENTED BY 1/X.
         //
-        xmax1 = ipmpar(K1);
+        double xmax1 = ipmpar(K1);
         xmax1 = Math.Min(xmax1, 1.0e0 / dpmpar(K2));
-        xsmall = 1e-9;
-        x = xx;
-        aug = 0.0e0;
+        double xsmall = 1e-9;
+        double x = xx;
+        double aug = 0.0e0;
         switch (x)
         {
             case >= 0.5e0:
@@ -121,7 +121,7 @@ public static partial class CDF
         //  REDUCTION OF ARGUMENT FOR COTAN
         //
         w = -x;
-        sgn = piov4;
+        double sgn = piov4;
         switch (w)
         {
             case > 0.0e0:
@@ -139,7 +139,7 @@ public static partial class CDF
             goto S100;
         }
 
-        nq = (int)Math.Truncate(w);
+        int nq = (int)Math.Truncate(w);
         w -= nq;
         nq = (int)Math.Truncate(w * 4.0e0);
         w = 4.0e0 * (w - nq * .25e0);
@@ -148,14 +148,14 @@ public static partial class CDF
         //  ADJUST ARGUMENT TO CORRESPOND TO VALUES IN FIRST
         //  QUADRANT AND DETERMINE SIGN
         //
-        n = nq / 2;
+        int n = nq / 2;
         if (n + n != nq)
         {
             w = 1.0e0 - w;
         }
 
-        z = piov4 * w;
-        m = n / 2;
+        double z = piov4 * w;
+        int m = n / 2;
         if (m + m != n)
         {
             sgn = -sgn;
@@ -210,7 +210,7 @@ public static partial class CDF
         }
 
         den = (upper + p1[6]) / (den + q1[5]);
-        xmx0 = x - dx0;
+        double xmx0 = x - dx0;
         psi = den * xmx0 + aug;
         return psi;
         S70:

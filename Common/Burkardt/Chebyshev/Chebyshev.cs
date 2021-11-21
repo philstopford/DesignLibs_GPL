@@ -67,45 +67,36 @@ public static class Chebyshev
         //    Output, double CHEBY[NPL*NF], the Chebyshev series.
         //
     {
-        double enn;
-        double fk;
-        double[] fxj;
-        double[] gc;
         int j;
         int k;
-        int l;
-        int lm;
-        int n;
-        double pen;
-        double[] x;
-        double xj;
 
-        x = typeMethods.r8vec_zero_new(npl * nf);
+        double[] x = typeMethods.r8vec_zero_new(npl * nf);
 
-        n = npl - 1;
-        enn = n;
-        pen = 3.1415926535897932 / enn;
+        int n = npl - 1;
+        double enn = n;
+        double pen = Math.PI / enn;
 
-        gc = new double[2 * n];
+        double[] gc = new double[2 * n];
         for (k = 1; k <= 2 * n; k++)
         {
-            fk = k - 1;
+            double fk = k - 1;
             gc[k - 1] = Math.Cos(fk * pen);
         }
 
         for (j = 0; j < npl; j++)
         {
-            xj = gc[j];
-            fxj = functn(xj);
+            double xj = gc[j];
+            double[] fxj = functn(xj);
 
             if (j == 0 || j == npl - 1)
             {
                 typeMethods.r8vec_scale(0.5, nf, ref fxj);
             }
 
+            int l;
             for (l = 0; l < npl; l++)
             {
-                lm = l * j % (2 * n);
+                int lm = l * j % (2 * n);
                 for (k = 0; k < nf; k++)
                 {
                     x[l + k * npl] += fxj[k] * gc[lm];
@@ -161,24 +152,18 @@ public static class Chebyshev
         //    Output, double CHEBYSHEV_EVEN1[1+N/2], the even Chebyshev coefficients of F.
         //
     {
-        double[] a2;
-        int j;
         int r;
-        int rh;
-        double r8_n;
-            
-        int s;
-        double total;
 
-        s = n / 2;
+        int s = n / 2;
 
-        r8_n = n;
+        double r8_n = n;
 
-        a2 = new double[s + 1];
+        double[] a2 = new double[s + 1];
 
         for (r = 0; r <= 2 * s; r += 2)
         {
-            total = 0.5 * f(1.0);
+            double total = 0.5 * f(1.0);
+            int j;
             for (j = 1; j < n; j++)
             {
                 total += f(Math.Cos(j * Math.PI / r8_n))
@@ -186,7 +171,7 @@ public static class Chebyshev
             }
 
             total += 0.5 * typeMethods.r8_mop(r) * f(-1.0);
-            rh = r / 2;
+            int rh = r / 2;
             a2[rh] = 2.0 / r8_n * total;
         }
 
@@ -236,32 +221,25 @@ public static class Chebyshev
         //    Output, double CHEBYSHEV_EVEN2(0:N/2), the even Chebyshev coefficients of F.
         //
     {
-        double[] b2;
-        int j;
         int r;
-            
-        int rh;
-        int s;
-        double total;
-        double x1;
-        double x2;
 
-        s = n / 2;
+        int s = n / 2;
 
-        b2 = new double[s + 1];
+        double[] b2 = new double[s + 1];
 
         for (r = 0; r <= 2 * s; r += 2)
         {
-            total = 0.0;
+            double total = 0.0;
+            int j;
             for (j = 0; j <= n; j++)
             {
-                x1 = (2 * j + 1) * Math.PI / 2.0 / (n + 1);
-                x2 = r * (2 * j + 1) * Math.PI
-                     / 2.0 / (n + 1);
+                double x1 = (2 * j + 1) * Math.PI / 2.0 / (n + 1);
+                double x2 = r * (2 * j + 1) * Math.PI
+                            / 2.0 / (n + 1);
                 total += f(Math.Cos(x1)) * Math.Cos(x2);
             }
 
-            rh = r / 2;
+            int rh = r / 2;
             b2[rh] = 2.0 / (n + 1) * total;
         }
 

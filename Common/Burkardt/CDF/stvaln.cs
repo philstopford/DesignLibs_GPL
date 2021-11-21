@@ -57,11 +57,11 @@ public static partial class CDF
                 -0.453642210148e-4
             }
             ;
-        int K1 = 5;
+        const int K1 = 5;
         double sign;
-        double stvaln, y, z;
+        double z;
 
-        switch ((p <= 0.5e0))
+        switch (p <= 0.5e0)
         {
             case false:
                 goto S10;
@@ -73,8 +73,8 @@ public static partial class CDF
         sign = 1.0e0;
         z = 1.0e0 - p;
         S20:
-        y = Math.Sqrt(-(2.0e0 * Math.Log(z)));
-        stvaln = y + eval_pol(xnum, K1, y) / eval_pol(xden, K1, y);
+        double y = Math.Sqrt(-(2.0e0 * Math.Log(z)));
+        double stvaln = y + eval_pol(xnum, K1, y) / eval_pol(xden, K1, y);
         stvaln = sign * stvaln;
         return stvaln;
     }

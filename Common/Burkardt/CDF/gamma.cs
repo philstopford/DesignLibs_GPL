@@ -46,17 +46,17 @@ public static partial class CDF
                 5e-15,5e-7,5e-4
             }
             ;
-        double alog10 = 2.30258509299405e0;
-        double d10 = -.185185185185185e-02;
-        double d20 = .413359788359788e-02;
-        double d30 = .649434156378601e-03;
-        double d40 = -.861888290916712e-03;
-        double d50 = -.336798553366358e-03;
-        double d60 = .531307936463992e-03;
-        double d70 = .344367606892378e-03;
-        double rt2pin = .398942280401433e0;
-        double rtpi = 1.77245385090552e0;
-        double third = .333333333333333e0;
+        const double alog10 = 2.30258509299405e0;
+        const double d10 = -.185185185185185e-02;
+        const double d20 = .413359788359788e-02;
+        const double d30 = .649434156378601e-03;
+        const double d40 = -.861888290916712e-03;
+        const double d50 = -.336798553366358e-03;
+        const double d60 = .531307936463992e-03;
+        const double d70 = .344367606892378e-03;
+        const double rt2pin = .398942280401433e0;
+        const double rtpi = 1.77245385090552e0;
+        const double third = .333333333333333e0;
 
 
         double[] big =  {
@@ -113,58 +113,34 @@ public static partial class CDF
                 31.0e0,17.0e0,9.7e0
             }
             ;
-        int K1 = 1;
-        int K2 = 0;
-        double a2n = 0,
-            a2nm1 = 0,
-            acc = 0,
-            am0 = 0,
-            amn = 0,
-            an = 0,
-            an0 = 0,
-            apn = 0,
-            b2n = 0,
-            b2nm1 = 0,
-            c = 0,
-            c0 = 0,
-            c1 = 0,
-            c2 = 0,
-            c3 = 0,
-            c4 = 0,
-            c5 = 0,
-            c6 = 0,
-            cma = 0,
-            e = 0,
-            e0 = 0,
-            g = 0,
-            h = 0,
-            j = 0,
-            l = 0,
-            r = 0,
-            rta = 0,
-            rtx = 0,
-            s = 0,
-            sum = 0,
-            t = 0,
-            t1 = 0,
-            tol = 0,
-            twoa = 0,
-            u = 0,
-            w = 0,
-            x0 = 0,
-            y = 0,
-            z = 0;
-        int i = 0, iop = 0, m = 0, max = 0, n = 0;
+        const int K1 = 1;
+        const int K2 = 0;
+        double a2n,
+            c,
+            c0,
+            c1,
+            c2,
+            c3,
+            c4,
+            c5,
+            c6,
+            l,
+            r,
+            sum,
+            t,
+            t1,
+            tol,
+            u,
+            w,
+            z;
+        int m, max, n;
         double[] wk = new double[20];
-        double T3 = 0;
-        int T4 = 0, T5 = 0;
-        double T6 = 0, T7 = 0;
 
         //
         //  E IS A MACHINE DEPENDENT CONSTANT. E IS THE SMALLEST
         //  NUMBER FOR WHICH 1.0 + E .GT. 1.0 .
         //
-        e = dpmpar(K1);
+        double e = dpmpar(K1);
         if (a < 0.0e0 || x < 0.0e0)
         {
             goto S430;
@@ -182,15 +158,15 @@ public static partial class CDF
                 goto S420;
         }
 
-        iop = ind + 1;
+        int iop = ind + 1;
         if (iop != 1 && iop != 2)
         {
             iop = 3;
         }
 
-        acc = Math.Max(acc0[iop - 1], e);
-        e0 = e00[iop - 1];
-        x0 = x00[iop - 1];
+        double acc = Math.Max(acc0[iop - 1], e);
+        double e0 = e00[iop - 1];
+        double x0 = x00[iop - 1];
         switch (a)
         {
             //
@@ -229,14 +205,14 @@ public static partial class CDF
             goto S20;
         }
 
-        twoa = a + a;
+        double twoa = a + a;
         m = (int)Math.Truncate(twoa);
         if (Math.Abs(twoa - m) > double.Epsilon)
         {
             goto S20;
         }
 
-        i = m / 2;
+        int i = m / 2;
         if (Math.Abs(a - i) <= double.Epsilon)
         {
             goto S210;
@@ -255,15 +231,15 @@ public static partial class CDF
                 goto S370;
         }
 
-        s = 0.5e0 + (0.5e0 - l);
+        double s = 0.5e0 + (0.5e0 - l);
         z = rlog(l);
         if (z >= 700.0e0 / a)
         {
             goto S410;
         }
 
-        y = a * z;
-        rta = Math.Sqrt(a);
+        double y = a * z;
+        double rta = Math.Sqrt(a);
         if (Math.Abs(s) <= e0 / rta)
         {
             goto S330;
@@ -301,13 +277,13 @@ public static partial class CDF
         //
         //  TAYLOR SERIES FOR P/R
         //
-        apn = a + 1.0e0;
+        double apn = a + 1.0e0;
         t = x / apn;
         wk[0] = t;
         for (n = 2; n <= 20; n++)
         {
             apn += 1.0e0;
-            t *= (x / apn);
+            t *= x / apn;
             switch (t)
             {
                 case <= 1e-3:
@@ -323,7 +299,7 @@ public static partial class CDF
         tol = 0.5e0 * acc;
         S80:
         apn += 1.0e0;
-        t *= (x / apn);
+        t *= x / apn;
         sum += t;
         if (t > tol)
         {
@@ -344,13 +320,13 @@ public static partial class CDF
         //
         //  ASYMPTOTIC EXPANSION
         //
-        amn = a - 1.0e0;
+        double amn = a - 1.0e0;
         t = amn / x;
         wk[0] = t;
         for (n = 2; n <= 20; n++)
         {
             amn -= 1.0e0;
-            t *= (amn / x);
+            t *= amn / x;
             switch (Math.Abs(t))
             {
                 case <= 1e-3:
@@ -370,7 +346,7 @@ public static partial class CDF
         }
 
         amn -= 1.0e0;
-        t *= (amn / x);
+        t *= amn / x;
         sum += t;
         goto S130;
         S140:
@@ -388,7 +364,7 @@ public static partial class CDF
         //
         //  TAYLOR SERIES FOR P(A,X)/X**A
         //
-        an = 3.0e0;
+        double an = 3.0e0;
         c = x;
         sum = x / (a + 3.0e0);
         tol = 3.0e0 * acc / (a + 1.0e0);
@@ -402,10 +378,10 @@ public static partial class CDF
             goto S170;
         }
 
-        j = a * x * ((sum / 6.0e0 - 0.5e0 / (a + 2.0e0)) * x + 1.0e0 / (a + 1.0e0));
+        double j = a * x * ((sum / 6.0e0 - 0.5e0 / (a + 2.0e0)) * x + 1.0e0 / (a + 1.0e0));
         z = a * Math.Log(x);
-        h = gam1(a);
-        g = 1.0e0 + h;
+        double h = gam1(a);
+        double g = 1.0e0 + h;
         switch (x)
         {
             case < 0.25e0:
@@ -452,7 +428,7 @@ public static partial class CDF
         c = 0.0e0;
         goto S230;
         S220:
-        rtx = Math.Sqrt(x);
+        double rtx = Math.Sqrt(x);
         sum = error_fc(K2, rtx);
         t = Math.Exp(-x) / (rtpi * rtx);
         n = 0;
@@ -477,19 +453,19 @@ public static partial class CDF
         //  CONTINUED FRACTION EXPANSION
         //
         tol = Math.Max(5.0e0 * e, acc);
-        a2nm1 = a2n = 1.0e0;
-        b2nm1 = x;
-        b2n = x + (1.0e0 - a);
+        double a2nm1 = a2n = 1.0e0;
+        double b2nm1 = x;
+        double b2n = x + (1.0e0 - a);
         c = 1.0e0;
         S260:
         a2nm1 = x * a2n + c * a2nm1;
         b2nm1 = x * b2n + c * b2nm1;
-        am0 = a2nm1 / b2nm1;
+        double am0 = a2nm1 / b2nm1;
         c += 1.0e0;
-        cma = c - a;
+        double cma = c - a;
         a2n = a2nm1 + cma * a2n;
         b2n = b2nm1 + cma * b2n;
-        an0 = a2n / b2n;
+        double an0 = a2n / b2n;
         if (Math.Abs(an0 - am0) >= tol * an0)
         {
             goto S260;
@@ -508,7 +484,7 @@ public static partial class CDF
         }
 
         c = Math.Exp(-y);
-        T3 = Math.Sqrt(y);
+        double T3 = Math.Sqrt(y);
         w = 0.5e0 * error_fc(K1, T3);
         u = 1.0e0 / a;
         z = l switch
@@ -517,7 +493,7 @@ public static partial class CDF
             _ => Math.Sqrt(z + z)
         };
 
-        T4 = iop - 2;
+        int T4 = iop - 2;
         switch (T4)
         {
             case < 0:
@@ -588,7 +564,7 @@ public static partial class CDF
             _ => Math.Sqrt(z + z)
         };
 
-        T5 = iop - 2;
+        int T5 = iop - 2;
         switch (T5)
         {
             case < 0:
@@ -635,12 +611,12 @@ public static partial class CDF
                 goto S400;
         }
 
-        T6 = Math.Sqrt(x);
+        double T6 = Math.Sqrt(x);
         ans = error_f(T6);
         qans = 0.5e0 + (0.5e0 - ans);
         return;
         S400:
-        T7 = Math.Sqrt(x);
+        double T7 = Math.Sqrt(x);
         qans = error_fc(K2, T7);
         ans = 0.5e0 + (0.5e0 - qans);
         return;
@@ -726,17 +702,17 @@ public static partial class CDF
         //        exceedingly close to X and A is extremely large (say A .GE. 1.E20).
         //
     {
-        double a0 = 3.31125922108741e0;
-        double a1 = 11.6616720288968e0;
-        double a2 = 4.28342155967104e0;
-        double a3 = .213623493715853e0;
-        double b1 = 6.61053765625462e0;
-        double b2 = 6.40691597760039e0;
-        double b3 = 1.27364489782223e0;
-        double b4 = .036117081018842e0;
-        double c = .577215664901533e0;
-        double ln10 = 2.302585e0;
-        double tol = 1e-5;
+        const double a0 = 3.31125922108741e0;
+        const double a1 = 11.6616720288968e0;
+        const double a2 = 4.28342155967104e0;
+        const double a3 = .213623493715853e0;
+        const double b1 = 6.61053765625462e0;
+        const double b2 = 6.40691597760039e0;
+        const double b3 = 1.27364489782223e0;
+        const double b4 = .036117081018842e0;
+        const double c = .577215664901533e0;
+        const double ln10 = 2.302585e0;
+        const double tol = 1e-5;
         double[] amin =  {
                 500.0e0,100.0e0
             }
@@ -757,46 +733,22 @@ public static partial class CDF
                 1e-10,1e-08
             }
             ;
-        int K1 = 1;
-        int K2 = 2;
-        int K3 = 3;
-        int K8 = 0;
-        double am1 = 0,
-            amax = 0,
-            ap1 = 0,
-            ap2 = 0,
-            ap3 = 0,
-            apn = 0,
+        const int K1 = 1;
+        const int K2 = 2;
+        const int K3 = 3;
+        const int K8 = 0;
+        double am1,
             b = 0,
-            c1 = 0,
-            c2 = 0,
-            c3 = 0,
-            c4 = 0,
-            c5 = 0,
-            d = 0,
-            e = 0,
-            e2 = 0,
-            eps = 0,
-            g = 0,
-            h = 0,
+            d,
+            h,
             pn = 0,
-            qg = 0,
             qn = 0,
-            r = 0,
-            rta = 0,
+            r,
             s = 0,
-            s2 = 0,
-            sum = 0,
-            t = 0,
-            u = 0,
-            w = 0,
-            xmax = 0,
-            xmin = 0,
-            xn = 0,
-            y = 0,
-            z = 0;
-        int iop = 0;
-        double T4 = 0, T5 = 0, T6 = 0, T7 = 0, T9 = 0;
+            u,
+            w,
+            y,
+            z;
 
         //
         //  E, XMIN, AND XMAX ARE MACHINE DEPENDENT CONSTANTS.
@@ -804,9 +756,9 @@ public static partial class CDF
         //            XMIN IS THE SMALLEST POSITIVE NUMBER AND XMAX IS THE
         //            LARGEST POSITIVE NUMBER.
         //
-        e = dpmpar(K1);
-        xmin = dpmpar(K2);
-        xmax = dpmpar(K3);
+        double e = dpmpar(K1);
+        double xmin = dpmpar(K2);
+        double xmax = dpmpar(K3);
         x = 0.0e0;
         switch (a)
         {
@@ -814,7 +766,7 @@ public static partial class CDF
                 goto S300;
         }
 
-        t = p + q - 1e0;
+        double t = p + q - 1e0;
         if (Math.Abs(t) > e)
         {
             goto S320;
@@ -839,16 +791,16 @@ public static partial class CDF
                 goto S280;
         }
 
-        e2 = 2.0e0 * e;
-        amax = 0.4e-10 / (e * e);
-        iop = e switch
+        double e2 = 2.0e0 * e;
+        double amax = 0.4e-10 / (e * e);
+        int iop = e switch
         {
             > 1e-10 => 2,
             _ => 1
         };
 
-        eps = eps0[iop - 1];
-        xn = x0;
+        double eps = eps0[iop - 1];
+        double xn = x0;
         switch (x0)
         {
             case > 0.0e0:
@@ -865,9 +817,9 @@ public static partial class CDF
                 goto S80;
         }
 
-        T4 = a + 1.0e0;
-        g = gamma_x(T4);
-        qg = q * g;
+        double T4 = a + 1.0e0;
+        double g = gamma_x(T4);
+        double qg = q * g;
         switch (qg)
         {
             case 0.0e0:
@@ -921,12 +873,12 @@ public static partial class CDF
         xn = y - s * Math.Log(t) - Math.Log(u);
         goto S220;
         S30:
-        c1 = -(s * z);
-        c2 = -(s * (1.0e0 + c1));
-        c3 = s * ((0.5e0 * c1 + (2.0e0 - a)) * c1 + (2.5e0 - 1.5e0 * a));
-        c4 = -(s * (((c1 / 3.0e0 + (2.5e0 - 1.5e0 * a)) * c1 + ((a - 6.0e0) * a + 7.0e0)) * c1 + (
+        double c1 = -(s * z);
+        double c2 = -(s * (1.0e0 + c1));
+        double c3 = s * ((0.5e0 * c1 + (2.0e0 - a)) * c1 + (2.5e0 - 1.5e0 * a));
+        double c4 = -(s * (((c1 / 3.0e0 + (2.5e0 - 1.5e0 * a)) * c1 + ((a - 6.0e0) * a + 7.0e0)) * c1 + (
             (11.0e0 * a - 46.0) * a + 47.0e0) / 6.0e0));
-        c5 = -(s * ((((-(c1 / 4.0e0) + (11.0e0 * a - 17.0e0) / 6.0e0) * c1 + ((-(3.0e0 * a) + 13.0e0) *
+        double c5 = -(s * ((((-(c1 / 4.0e0) + (11.0e0 * a - 17.0e0) / 6.0e0) * c1 + ((-(3.0e0 * a) + 13.0e0) *
             a - 13.0e0)) * c1 + 0.5e0 * (((2.0e0 * a - 25.0e0) * a + 72.0e0) * a - 61.0e0)) * c1 + ((
             (25.0e0 * a - 195.0e0) * a + 477.0e0) * a - 379.0e0) / 12.0e0));
         xn = (((c5 / y + c4) / y + c3) / y + c2) / y + c1 + y;
@@ -959,7 +911,7 @@ public static partial class CDF
                 goto S60;
         }
 
-        T5 = -q;
+        double T5 = -q;
         xn = Math.Exp((alnrel(T5) + gamma_ln1(a)) / a);
         goto S70;
         S60:
@@ -996,8 +948,8 @@ public static partial class CDF
             _ => t - (((a3 * t + a2) * t + a1) * t + a0) / ((((b4 * t + b3) * t + b2) * t + b1) * t + 1.0e0)
         };
 
-        rta = Math.Sqrt(a);
-        s2 = s * s;
+        double rta = Math.Sqrt(a);
+        double s2 = s * s;
         xn = a + s * rta + (s2 - 1.0e0) / 3.0e0 + s * (s2 - 7.0e0) / (36.0e0 * rta) - ((3.0e0 * s2 + 7.0e0) *
             s2 - 16.0e0) / (810.0e0 * a) + s * ((9.0e0 * s2 + 256.0e0) * s2 - 433.0e0) / (38880.0e0 * a *
             rta);
@@ -1038,13 +990,13 @@ public static partial class CDF
         goto S30;
         S120:
         t = a - 1.0e0;
-        T6 = -(t / (xn + 1.0e0));
+        double T6 = -(t / (xn + 1.0e0));
         xn = y + t * Math.Log(xn) - alnrel(T6);
-        T7 = -(t / (xn + 1.0e0));
+        double T7 = -(t / (xn + 1.0e0));
         xn = y + t * Math.Log(xn) - alnrel(T7);
         goto S220;
         S130:
-        ap1 = a + 1.0e0;
+        double ap1 = a + 1.0e0;
         if (xn > 0.70e0 * ap1)
         {
             goto S170;
@@ -1056,8 +1008,8 @@ public static partial class CDF
             goto S140;
         }
 
-        ap2 = a + 2.0e0;
-        ap3 = a + 3.0e0;
+        double ap2 = a + 2.0e0;
+        double ap3 = a + 3.0e0;
         x = Math.Exp((w + x) / a);
         x = Math.Exp((w + x - Math.Log(1.0e0 + x / ap1 * (1.0e0 + x / ap2))) / a);
         x = Math.Exp((w + x - Math.Log(1.0e0 + x / ap1 * (1.0e0 + x / ap2))) / a);
@@ -1075,12 +1027,12 @@ public static partial class CDF
 
         goto S170;
         S140:
-        apn = ap1;
+        double apn = ap1;
         t = xn / apn;
-        sum = 1.0e0 + t;
+        double sum = 1.0e0 + t;
         S150:
         apn += 1.0e0;
-        t *= (xn / apn);
+        t *= xn / apn;
         sum += t;
         switch (t)
         {
@@ -1090,7 +1042,7 @@ public static partial class CDF
 
         t = w - Math.Log(sum);
         xn = Math.Exp((xn + t) / a);
-        xn *= (1.0e0 - (a * Math.Log(xn) - xn - t) / (a - xn));
+        xn *= 1.0e0 - (a * Math.Log(xn) - xn - t) / (a - xn);
         goto S170;
         S160:
         switch (p)
@@ -1300,7 +1252,7 @@ public static partial class CDF
                 goto S290;
         }
 
-        T9 = -p;
+        double T9 = -p;
         x = -alnrel(T9);
         return;
         S290:
@@ -1470,31 +1422,31 @@ public static partial class CDF
         //    double GAMMA_LN1, the value of ln ( Gamma ( 1 + A ) ).
         //
     {
-        double p0 = .577215664901533e+00;
-        double p1 = .844203922187225e+00;
-        double p2 = -.168860593646662e+00;
-        double p3 = -.780427615533591e+00;
-        double p4 = -.402055799310489e+00;
-        double p5 = -.673562214325671e-01;
-        double p6 = -.271935708322958e-02;
-        double q1 = .288743195473681e+01;
-        double q2 = .312755088914843e+01;
-        double q3 = .156875193295039e+01;
-        double q4 = .361951990101499e+00;
-        double q5 = .325038868253937e-01;
-        double q6 = .667465618796164e-03;
-        double r0 = .422784335098467e+00;
-        double r1 = .848044614534529e+00;
-        double r2 = .565221050691933e+00;
-        double r3 = .156513060486551e+00;
-        double r4 = .170502484022650e-01;
-        double r5 = .497958207639485e-03;
-        double s1 = .124313399877507e+01;
-        double s2 = .548042109832463e+00;
-        double s3 = .101552187439830e+00;
-        double s4 = .713309612391000e-02;
-        double s5 = .116165475989616e-03;
-        double gamln1 = 0, w = 0, x = 0;
+        const double p0 = .577215664901533e+00;
+        const double p1 = .844203922187225e+00;
+        const double p2 = -.168860593646662e+00;
+        const double p3 = -.780427615533591e+00;
+        const double p4 = -.402055799310489e+00;
+        const double p5 = -.673562214325671e-01;
+        const double p6 = -.271935708322958e-02;
+        const double q1 = .288743195473681e+01;
+        const double q2 = .312755088914843e+01;
+        const double q3 = .156875193295039e+01;
+        const double q4 = .361951990101499e+00;
+        const double q5 = .325038868253937e-01;
+        const double q6 = .667465618796164e-03;
+        const double r0 = .422784335098467e+00;
+        const double r1 = .848044614534529e+00;
+        const double r2 = .565221050691933e+00;
+        const double r3 = .156513060486551e+00;
+        const double r4 = .170502484022650e-01;
+        const double r5 = .497958207639485e-03;
+        const double s1 = .124313399877507e+01;
+        const double s2 = .548042109832463e+00;
+        const double s3 = .101552187439830e+00;
+        const double s4 = .713309612391000e-02;
+        const double s5 = .116165475989616e-03;
+        double gamln1, w;
 
         switch (a)
         {
@@ -1507,7 +1459,7 @@ public static partial class CDF
         gamln1 = -(a * w);
         return gamln1;
         S10:
-        x = a - 0.5e0 - 0.5e0;
+        double x = a - 0.5e0 - 0.5e0;
         w = (((((r5 * x + r4) * x + r3) * x + r2) * x + r1) * x + r0) /
             (((((s5 * x + s4) * x + s3) * x + s2) * x + s1) * x
              + 1.0e0);
@@ -1551,16 +1503,15 @@ public static partial class CDF
         //    Output, double GAMMA_LOG, the value of ln ( Gamma ( A ) ).
         //
     {
-        double c0 = .833333333333333e-01;
-        double c1 = -.277777777760991e-02;
-        double c2 = .793650666825390e-03;
-        double c3 = -.595202931351870e-03;
-        double c4 = .837308034031215e-03;
-        double c5 = -.165322962780713e-02;
-        double d = .418938533204673e0;
-        double gamln = 0, t = 0, w = 0;
-        int i = 0, n = 0;
-        double T1 = 0;
+        const double c0 = .833333333333333e-01;
+        const double c1 = -.277777777760991e-02;
+        const double c2 = .793650666825390e-03;
+        const double c3 = -.595202931351870e-03;
+        const double c4 = .837308034031215e-03;
+        const double c5 = -.165322962780713e-02;
+        const double d = .418938533204673e0;
+        double gamln, t, w;
+        int i;
 
         switch (a)
         {
@@ -1587,7 +1538,7 @@ public static partial class CDF
                 goto S40;
         }
 
-        n = (int) (a - 1.25e0);
+        int n = (int) (a - 1.25e0);
         t = a;
         w = 1.0e0;
         for (i = 1; i <= n; i++)
@@ -1596,7 +1547,7 @@ public static partial class CDF
             w = t * w;
         }
 
-        T1 = t - 1.0e0;
+        double T1 = t - 1.0e0;
         gamln = gamma_ln1(T1) + Math.Log(w);
         return gamln;
         S40:
@@ -1639,9 +1590,8 @@ public static partial class CDF
         //    Input, double *EPS, the tolerance.
         //
     {
-        double a2n = 0;
-        double a2nm1 = 0;
-        int K2 = 0;
+        double a2n;
+        const int K2 = 0;
         double am0 = 0, an = 0, an0 = 0, b2n = 0, b2nm1 = 0, c = 0,
             cma = 0, g = 0, h = 0, j = 0, l = 0, sum = 0, t = 0,
             tol = 0, w = 0, z = 0, T1 = 0, T3 = 0;
@@ -1727,7 +1677,7 @@ public static partial class CDF
         //
         //  CONTINUED FRACTION EXPANSION
         //
-        a2nm1 = a2n = 1.0e0;
+        double a2nm1 = a2n = 1.0e0;
         b2nm1 = x;
         b2n = x + (1.0e0 - a);
         c = 1.0e0;
@@ -1900,12 +1850,12 @@ public static partial class CDF
         //    double GAMMA_X, the value of the Gamma function.
         //
     {
-        double d = .41893853320467274178e0;
-        double r1 = .820756370353826e-03;
-        double r2 = -.595156336428591e-03;
-        double r3 = .793650663183693e-03;
-        double r4 = -.277777777770481e-02;
-        double r5 = .833333333333333e-01;
+        const double d = .41893853320467274178e0;
+        const double r1 = .820756370353826e-03;
+        const double r2 = -.595156336428591e-03;
+        const double r3 = .793650663183693e-03;
+        const double r4 = -.277777777770481e-02;
+        const double r5 = .833333333333333e-01;
         double[] p =  {
                 .539637273585445e-03,.261939260042690e-02,.204493667594920e-01,
                 .730981088720487e-01,.279648642639792e+00,.553413866010467e+00,1.0e0
@@ -1916,13 +1866,13 @@ public static partial class CDF
                 -.170458969313360e+00,-.567902761974940e-01,.113062953091122e+01,1.0e0
             }
             ;
-        int K2 = 3;
-        int K3 = 0;
-        double Xgamm = 0, bot = 0, g = 0, lnx = 0, s = 0, t = 0, top = 0, w = 0, x = 0, z = 0;
-        int i = 0, j = 0, m = 0, n = 0, T1 = 0;
+        const int K2 = 3;
+        const int K3 = 0;
+        double s = 0, t = 0;
+        int i, j;
 
-        Xgamm = 0.0e0;
-        x = a;
+        double Xgamm = 0.0e0;
+        double x = a;
         switch (Math.Abs(a))
         {
             case >= 15.0e0:
@@ -1933,11 +1883,11 @@ public static partial class CDF
         //  EVALUATION OF GAMMA(A) FOR ABS(A) < 15
         //
         t = 1.0e0;
-        m = (int)Math.Truncate(a) - 1;
+        int m = (int)Math.Truncate(a) - 1;
         //
         //  LET T BE THE PRODUCT OF A-J WHEN A .GE. 2
         //
-        T1 = m;
+        int T1 = m;
         switch (T1)
         {
             case < 0:
@@ -1982,7 +1932,7 @@ public static partial class CDF
         }
 
         S60:
-        x += (0.5e0 + 0.5e0);
+        x += 0.5e0 + 0.5e0;
         t = x * t;
         switch (t)
         {
@@ -2012,8 +1962,8 @@ public static partial class CDF
         //
         //  COMPUTE GAMMA(1 + X) FOR  0 <= X < 1
         //
-        top = p[0];
-        bot = q[0];
+        double top = p[0];
+        double bot = q[0];
         for (i = 1; i < 7; i++)
         {
             top = p[i] + x * top;
@@ -2052,7 +2002,7 @@ public static partial class CDF
         }
 
         x = -a;
-        n = (int) x;
+        int n = (int) x;
         t = t switch
         {
             > 0.9e0 => 1.0e0 - t,
@@ -2076,18 +2026,18 @@ public static partial class CDF
         //  COMPUTE THE MODIFIED ASYMPTOTIC SUM
         //
         t = 1.0e0 / (x * x);
-        g = ((((r1 * t + r2) * t + r3) * t + r4) * t + r5) / x;
+        double g = ((((r1 * t + r2) * t + r3) * t + r4) * t + r5) / x;
         //
         //  ONE MAY REPLACE THE NEXT STATEMENT WITH  LNX = ALOG(X)
         //  BUT LESS ACCURACY WILL NORMALLY BE OBTAINED.
         //
-        lnx = Math.Log(x);
+        double lnx = Math.Log(x);
         //
         //  FINAL ASSEMBLY
         //
-        z = x;
+        double z = x;
         g = d + g + (z - 0.5e0) * (lnx - 1e0);
-        w = g;
+        double w = g;
         t = g - w;
         if (w > 0.99999e0 * exparg(K3))
         {

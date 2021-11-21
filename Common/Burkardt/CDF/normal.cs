@@ -41,26 +41,25 @@ public static partial class CDF
         //    Output, double CDF, the value of the CDF.
         //
     {
-        double a1 = 0.398942280444;
-        double a2 = 0.399903438504;
-        double a3 = 5.75885480458;
-        double a4 = 29.8213557808;
-        double a5 = 2.62433121679;
-        double a6 = 48.6959930692;
-        double a7 = 5.92885724438;
-        double b0 = 0.398942280385;
-        double b1 = 3.8052E-08;
-        double b2 = 1.00000615302;
-        double b3 = 3.98064794E-04;
-        double b4 = 1.98615381364;
-        double b5 = 0.151679116635;
-        double b6 = 5.29330324926;
-        double b7 = 4.8385912808;
-        double b8 = 15.1508972451;
-        double b9 = 0.742380924027;
-        double b10 = 30.789933034;
-        double b11 = 3.99019417011;
-        double cdf;
+        const double a1 = 0.398942280444;
+        const double a2 = 0.399903438504;
+        const double a3 = 5.75885480458;
+        const double a4 = 29.8213557808;
+        const double a5 = 2.62433121679;
+        const double a6 = 48.6959930692;
+        const double a7 = 5.92885724438;
+        const double b0 = 0.398942280385;
+        const double b1 = 3.8052E-08;
+        const double b2 = 1.00000615302;
+        const double b3 = 3.98064794E-04;
+        const double b4 = 1.98615381364;
+        const double b5 = 0.151679116635;
+        const double b6 = 5.29330324926;
+        const double b7 = 4.8385912808;
+        const double b8 = 15.1508972451;
+        const double b9 = 0.742380924027;
+        const double b10 = 30.789933034;
+        const double b11 = 3.99019417011;
         double q;
         double y;
         switch (Math.Abs(x))
@@ -95,7 +94,7 @@ public static partial class CDF
                 break;
         }
 
-        cdf = x switch
+        double cdf = x switch
         {
             //
             //  Take account of negative X.
@@ -195,12 +194,11 @@ public static partial class CDF
             7.86869131145613259100e-4, 1.84631831751005468180e-5,
             1.42151175831644588870e-7, 2.04426310338993978564e-15
         };
-        double q;
         double r;
         const double r8_huge = 1.0E+30;
-        double split1 = 0.425;
-        double split2 = 5.0;
-        double value = 0;
+        const double split1 = 0.425;
+        const double split2 = 5.0;
+        double value;
 
         switch (p)
         {
@@ -212,7 +210,7 @@ public static partial class CDF
                 return value;
         }
 
-        q = p - 0.5;
+        double q = p - 0.5;
 
         if (Math.Abs(q) <= split1)
         {
@@ -291,12 +289,9 @@ public static partial class CDF
         //    Output, double CDF, the value of the CDF.
         //
     {
-        double cdf;
-        double y;
+        double y = (x - mu) / sigma;
 
-        y = (x - mu) / sigma;
-
-        cdf = normal_01_cdf(y);
+        double cdf = normal_01_cdf(y);
 
         return cdf;
     }
@@ -338,9 +333,6 @@ public static partial class CDF
         //    Output, double NORMAL_CDF_INV, the corresponding argument.
         //
     {
-        double x;
-        double x2;
-
         switch (cdf)
         {
             case < 0.0:
@@ -351,9 +343,9 @@ public static partial class CDF
                 return 1;
         }
 
-        x2 = normal_01_cdf_inv(cdf);
+        double x2 = normal_01_cdf_inv(cdf);
 
-        x = mu + sigma * x2;
+        double x = mu + sigma * x2;
 
         return x;
     }
@@ -388,12 +380,9 @@ public static partial class CDF
         //    Output, double NORMAL_MS_CDF, the value of the CDF.
         //
     {
-        double cdf;
-        double y;
+        double y = ( x - mu ) / sigma;
 
-        y = ( x - mu ) / sigma;
-
-        cdf = normal_01_cdf ( y );
+        double cdf = normal_01_cdf ( y );
 
         return cdf;
     }
@@ -435,9 +424,6 @@ public static partial class CDF
         //    Output, double NORMAL_MS_CDF_INV, the corresponding argument.
         //
     {
-        double x;
-        double x2;
-
         switch (cdf)
         {
             case < 0.0:
@@ -448,9 +434,9 @@ public static partial class CDF
                 return 1;
         }
 
-        x2 = normal_01_cdf_inv ( cdf );
+        double x2 = normal_01_cdf_inv ( cdf );
 
-        x = mu + sigma * x2;
+        double x = mu + sigma * x2;
 
         return x;
     }
@@ -488,13 +474,7 @@ public static partial class CDF
         //    Output, double TRUNCATED_NORMAL_AB_CDF, the value of the CDF.
         //
     {
-        double alpha;
-        double alpha_cdf;
-        double beta;
-        double beta_cdf;
         double cdf;
-        double xi;
-        double xi_cdf;
 
         if (x < a)
         {
@@ -502,13 +482,13 @@ public static partial class CDF
         }
         else if (x <= b)
         {
-            alpha = (a - mu) / sigma;
-            beta = (b - mu) / sigma;
-            xi = (x - mu) / sigma;
+            double alpha = (a - mu) / sigma;
+            double beta = (b - mu) / sigma;
+            double xi = (x - mu) / sigma;
 
-            alpha_cdf = normal_01_cdf(alpha);
-            beta_cdf = normal_01_cdf(beta);
-            xi_cdf = normal_01_cdf(xi);
+            double alpha_cdf = normal_01_cdf(alpha);
+            double beta_cdf = normal_01_cdf(beta);
+            double xi_cdf = normal_01_cdf(xi);
 
             cdf = (xi_cdf - alpha_cdf) / (beta_cdf - alpha_cdf);
         }
@@ -650,14 +630,6 @@ public static partial class CDF
         //    Output, double TRUNCATED_NORMAL_AB_CDF_INV, the corresponding argument.
         //
     {
-        double alpha;
-        double alpha_cdf;
-        double beta;
-        double beta_cdf;
-        double x;
-        double xi;
-        double xi_cdf;
-
         switch (cdf)
         {
             case < 0.0:
@@ -668,16 +640,16 @@ public static partial class CDF
                 return 1;
         }
 
-        alpha = (a - mu) / sigma;
-        beta = (b - mu) / sigma;
+        double alpha = (a - mu) / sigma;
+        double beta = (b - mu) / sigma;
 
-        alpha_cdf = normal_01_cdf(alpha);
-        beta_cdf = normal_01_cdf(beta);
+        double alpha_cdf = normal_01_cdf(alpha);
+        double beta_cdf = normal_01_cdf(beta);
 
-        xi_cdf = (beta_cdf - alpha_cdf) * cdf + alpha_cdf;
-        xi = normal_01_cdf_inv(xi_cdf);
+        double xi_cdf = (beta_cdf - alpha_cdf) * cdf + alpha_cdf;
+        double xi = normal_01_cdf_inv(xi_cdf);
 
-        x = mu + sigma * xi;
+        double x = mu + sigma * xi;
 
         return x;
     }
@@ -922,19 +894,15 @@ public static partial class CDF
         //    Output, double TRUNCATED_NORMAL_B_CDF, the value of the CDF.
         //
     {
-        double beta;
-        double beta_cdf;
         double cdf;
-        double xi;
-        double xi_cdf;
 
         if ( x <= b )
         {
-            beta = ( b - mu ) / sigma;
-            xi = ( x - mu ) / sigma;
+            double beta = ( b - mu ) / sigma;
+            double xi = ( x - mu ) / sigma;
 
-            beta_cdf = normal_01_cdf ( beta );
-            xi_cdf = normal_01_cdf ( xi );
+            double beta_cdf = normal_01_cdf ( beta );
+            double xi_cdf = normal_01_cdf ( xi );
 
             cdf = xi_cdf / beta_cdf;
         }
@@ -980,12 +948,6 @@ public static partial class CDF
         //    Output, double TRUNCATED_NORMAL_B_CDF_INV, the corresponding argument.
         //
     {
-        double beta;
-        double beta_cdf;
-        double x;
-        double xi;
-        double xi_cdf;
-
         switch (cdf)
         {
             case < 0.0:
@@ -996,14 +958,14 @@ public static partial class CDF
                 return 1;
         }
 
-        beta = ( b - mu ) / sigma;
+        double beta = ( b - mu ) / sigma;
 
-        beta_cdf = normal_01_cdf ( beta );
+        double beta_cdf = normal_01_cdf ( beta );
 
-        xi_cdf = beta_cdf * cdf;
-        xi = normal_01_cdf_inv ( xi_cdf );
+        double xi_cdf = beta_cdf * cdf;
+        double xi = normal_01_cdf_inv ( xi_cdf );
 
-        x = mu + sigma * xi;
+        double x = mu + sigma * xi;
 
         return x;
     }

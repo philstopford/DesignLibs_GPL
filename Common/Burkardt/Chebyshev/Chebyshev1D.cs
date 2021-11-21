@@ -41,11 +41,9 @@ public static class Chebyshev1D
         //    Output, double CHEBYSHEV_COEF_1D[ND], the Chebyshev coefficients.
         //
     {
-        double[] a;
         double[] c;
         int i;
         int j;
-        double[] x;
 
         switch (nd)
         {
@@ -62,7 +60,7 @@ public static class Chebyshev1D
         //
         //  Map XD to [-1,+1].
         //
-        x = new double[nd];
+        double[] x = new double[nd];
         for (i = 0; i < nd; i++)
         {
             x[i] = (2.0 * xd[i] - xmin - xmax) / (xmax - xmin);
@@ -71,7 +69,7 @@ public static class Chebyshev1D
         //
         //  Form the Chebyshev Vandermonde matrix.
         //
-        a = new double[nd * nd];
+        double[] a = new double[nd * nd];
         for (j = 0; j < nd; j++)
         {
             for (i = 0; i < nd; i++)

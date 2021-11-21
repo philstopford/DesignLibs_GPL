@@ -31,14 +31,14 @@ public static partial class CDF
         //    Output, double RLOG, the value of the function.
         //
     {
-        double a = .566749439387324e-01;
-        double b = .456512608815524e-01;
-        double p0 = .333333333333333e+00;
-        double p1 = -.224696413112536e+00;
-        double p2 = .620886815375787e-02;
-        double q1 = -.127408923933623e+01;
-        double q2 = .354508718369557e+00;
-        double rlog, r, t, u, w, w1;
+        const double a = .566749439387324e-01;
+        const double b = .456512608815524e-01;
+        const double p0 = .333333333333333e+00;
+        const double p1 = -.224696413112536e+00;
+        const double p2 = .620886815375787e-02;
+        const double q1 = -.127408923933623e+01;
+        const double q2 = .354508718369557e+00;
+        double rlog, r, u, w1;
 
         switch (x)
         {
@@ -74,8 +74,8 @@ public static partial class CDF
         //  SERIES EXPANSION
         //
         r = u / (u + 2.0e0);
-        t = r * r;
-        w = ((p2 * t + p1) * t + p0) / ((q2 * t + q1) * t + 1.0e0);
+        double t = r * r;
+        double w = ((p2 * t + p1) * t + p0) / ((q2 * t + q1) * t + 1.0e0);
         rlog = 2.0e0 * t * (1.0e0 / (1.0e0 - r) - r * w) + w1;
         return rlog;
         S40:
@@ -111,15 +111,15 @@ public static partial class CDF
         //    Output, double RLOG1, the value of X - ln ( 1 + X ).
         //
     {
-        double a = .566749439387324e-01;
-        double b = .456512608815524e-01;
+        const double a = .566749439387324e-01;
+        const double b = .456512608815524e-01;
         double h;
-        double p0 = .333333333333333e+00;
-        double p1 = -.224696413112536e+00;
-        double p2 = .620886815375787e-02;
-        double q1 = -.127408923933623e+01;
-        double q2 = .354508718369557e+00;
-        double rlog1, r, t, w, w1;
+        const double p0 = .333333333333333e+00;
+        const double p1 = -.224696413112536e+00;
+        const double p2 = .620886815375787e-02;
+        const double q1 = -.127408923933623e+01;
+        const double q2 = .354508718369557e+00;
+        double rlog1, w1;
 
         switch (x)
         {
@@ -154,9 +154,9 @@ public static partial class CDF
         //
         //  SERIES EXPANSION
         //
-        r = h / (h + 2.0e0);
-        t = r * r;
-        w = ((p2 * t + p1) * t + p0) / ((q2 * t + q1) * t + 1.0e0);
+        double r = h / (h + 2.0e0);
+        double t = r * r;
+        double w = ((p2 * t + p1) * t + p0) / ((q2 * t + q1) * t + 1.0e0);
         rlog1 = 2.0e0 * t * (1.0e0 / (1.0e0 - r) - r * w) + w1;
         return rlog1;
         S40:

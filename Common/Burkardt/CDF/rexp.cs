@@ -33,13 +33,13 @@ public static partial class CDF
         //    double REXP, the value of EXP(X)-1.
         //
     {
-        double p1 = .914041914819518e-09;
-        double p2 = .238082361044469e-01;
-        double q1 = -.499999999085958e+00;
-        double q2 = .107141568980644e+00;
-        double q3 = -.119041179760821e-01;
-        double q4 = .595130811860248e-03;
-        double rexp,w;
+        const double p1 = .914041914819518e-09;
+        const double p2 = .238082361044469e-01;
+        const double q1 = -.499999999085958e+00;
+        const double q2 = .107141568980644e+00;
+        const double q3 = -.119041179760821e-01;
+        const double q4 = .595130811860248e-03;
+        double rexp;
 
         switch (Math.Abs(x))
         {
@@ -49,7 +49,7 @@ public static partial class CDF
         rexp = x*(((p2*x+p1)*x+1.0e0)/((((q4*x+q3)*x+q2)*x+q1)*x+1.0e0));
         return rexp;
         S10:
-        w = Math.Exp(x);
+        double w = Math.Exp(x);
         switch (x)
         {
             case > 0.0e0:

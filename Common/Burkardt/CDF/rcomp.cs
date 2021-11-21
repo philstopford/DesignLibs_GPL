@@ -37,9 +37,9 @@ public static partial class CDF
         //    double RT2PIN = 1/SQRT(2*PI)
         //
     {
-        double rt2pin = .398942280401433e0;
-        double rcomp,t,t1,u;
-        rcomp = 0.0e0;
+        const double rt2pin = .398942280401433e0;
+        double t;
+        double rcomp = 0.0e0;
         switch (a)
         {
             case >= 20.0e0:
@@ -59,7 +59,7 @@ public static partial class CDF
         rcomp = Math.Exp(t)/ gamma_x(a);
         return rcomp;
         S20:
-        u = x/ a;
+        double u = x/ a;
         switch (u)
         {
             case 0.0e0:
@@ -67,7 +67,7 @@ public static partial class CDF
         }
 
         t = Math.Pow(1.0e0/ a,2.0);
-        t1 = (((0.75e0*t-1.0e0)*t+3.5e0)*t-105.0e0)/(a*1260.0e0);
+        double t1 = (((0.75e0*t-1.0e0)*t+3.5e0)*t-105.0e0)/(a*1260.0e0);
         t1 -= a*rlog(u);
         rcomp = rt2pin*Math.Sqrt(a)*Math.Exp(t1);
         return rcomp;

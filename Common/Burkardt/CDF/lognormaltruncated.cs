@@ -41,12 +41,8 @@ public static partial class CDF
         //
     {
         double cdf;
-        bool check;
-        double lncdf_a;
-        double lncdf_b;
-        double lncdf_x;
 
-        check = PDF.log_normal_truncated_ab_check(mu, sigma, a, b);
+        bool check = PDF.log_normal_truncated_ab_check(mu, sigma, a, b);
 
         switch (check)
         {
@@ -67,9 +63,9 @@ public static partial class CDF
         }
         else
         {
-            lncdf_a = log_normal_cdf(a, mu, sigma);
-            lncdf_b = log_normal_cdf(b, mu, sigma);
-            lncdf_x = log_normal_cdf(x, mu, sigma);
+            double lncdf_a = log_normal_cdf(a, mu, sigma);
+            double lncdf_b = log_normal_cdf(b, mu, sigma);
+            double lncdf_x = log_normal_cdf(x, mu, sigma);
 
             cdf = (lncdf_x - lncdf_a) / (lncdf_b - lncdf_a);
         }
@@ -112,13 +108,7 @@ public static partial class CDF
         //    Input, double LOG_NORMAL_TRUNCATED_AB_CDF_INV, the corresponding argument.
         //
     {
-        bool check;
-        double lncdf_a;
-        double lncdf_b;
-        double lncdf_x;
-        double x;
-
-        check = PDF.log_normal_truncated_ab_check(mu, sigma, a, b);
+        bool check = PDF.log_normal_truncated_ab_check(mu, sigma, a, b);
 
         switch (check)
         {
@@ -128,6 +118,7 @@ public static partial class CDF
                 Console.WriteLine("  Parameters are not legal.");
                 return 1;
             default:
+                double x;
                 switch (cdf)
                 {
                     case <= 0.0:
@@ -137,10 +128,10 @@ public static partial class CDF
                         x = b;
                         break;
                     default:
-                        lncdf_a = log_normal_cdf(a, mu, sigma);
-                        lncdf_b = log_normal_cdf(b, mu, sigma);
+                        double lncdf_a = log_normal_cdf(a, mu, sigma);
+                        double lncdf_b = log_normal_cdf(b, mu, sigma);
 
-                        lncdf_x = lncdf_a + cdf * (lncdf_b - lncdf_a);
+                        double lncdf_x = lncdf_a + cdf * (lncdf_b - lncdf_a);
                         x = log_normal_cdf_inv(lncdf_x, mu, sigma);
                         break;
                 }

@@ -110,7 +110,6 @@ public static class Chebyshev2
         //    Output, double W[N], the weights.
         //
     {
-        double angle;
         int i;
             
 
@@ -125,7 +124,7 @@ public static class Chebyshev2
 
         for ( i = 0; i < n; i++ )
         {
-            angle = Math.PI * (n - i) / (n + 1);
+            double angle = Math.PI * (n - i) / (n + 1);
             w[i] = Math.PI / (n + 1) * Math.Pow ( Math.Sin ( angle ), 2 );
             x[i] = Math.Cos ( angle );
         }

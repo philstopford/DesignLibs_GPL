@@ -36,7 +36,6 @@ public static partial class CDF
         //
     {
         double cdf;
-        double logx;
 
         switch (x)
         {
@@ -44,7 +43,7 @@ public static partial class CDF
                 cdf = 0.0;
                 break;
             default:
-                logx = Math.Log(x);
+                double logx = Math.Log(x);
 
                 cdf = normal_cdf(logx, mu, sigma);
                 break;
@@ -84,9 +83,6 @@ public static partial class CDF
         //    Input, double LOG_NORMAL_CDF_INV, the corresponding argument.
         //
     {
-        double logx;
-        double x;
-
         switch (cdf)
         {
             case < 0.0:
@@ -97,9 +93,9 @@ public static partial class CDF
                 return 1;
         }
 
-        logx = normal_cdf_inv(cdf, mu, sigma);
+        double logx = normal_cdf_inv(cdf, mu, sigma);
 
-        x = Math.Exp(logx);
+        double x = Math.Exp(logx);
 
         return x;
     }

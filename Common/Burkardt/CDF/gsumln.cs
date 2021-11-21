@@ -37,17 +37,14 @@ public static partial class CDF
         //
     {
         double gsumln;
-        double T1;
-        double T2;
-        double x;
 
-        x = a+b-2e0;
+        double x = a+b-2e0;
         switch (x)
         {
             case > 0.25e0:
                 goto S10;
         }
-        T1 = 1.0e0+x;
+        double T1 = 1.0e0+x;
         gsumln = gamma_ln1 ( T1 );
         return gsumln;
         S10:
@@ -59,7 +56,7 @@ public static partial class CDF
         gsumln = gamma_ln1 ( x ) + alnrel ( x );
         return gsumln;
         S20:
-        T2 = x-1.0e0;
+        double T2 = x-1.0e0;
         gsumln = gamma_ln1 ( T2 ) + Math.Log ( x * ( 1.0e0 + x ) );
         return gsumln;
     }

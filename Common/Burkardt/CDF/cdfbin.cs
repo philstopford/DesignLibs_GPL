@@ -93,35 +93,25 @@ public static partial class CDF
         //    if STATUS is 1 or 2, this is the search bound that was exceeded.
         //
     {
-        double atol = 1.0e-50;
-        double tol = 1.0e-8;
-        double zero = 1.0e-300;
-        double inf = 1.0e300;
-        double one = 1.0e0;
+        const double atol = 1.0e-50;
+        const double tol = 1.0e-8;
+        const double zero = 1.0e-300;
+        const double inf = 1.0e300;
+        const double one = 1.0e0;
 
         double ccum= 0;
         double cum= 0;
-        int K1 = 1;
-        double K2 = 0.0e0;
-        double K3 = 0.5e0;
-        double K4 = 5.0e0;
-        double K11 = 1.0e0;
-        double pq= 0;
-        double prompr= 0;
+        const int K1 = 1;
+        const double K2 = 0.0e0;
+        const double K3 = 0.5e0;
+        const double K4 = 5.0e0;
+        const double K11 = 1.0e0;
         bool qporq = false;
-        double T5= 0;
-        double T6= 0;
-        double T7= 0;
-        double T8= 0;
-        double T9= 0;
-        double T10= 0;
-        double T12= 0;
-        double T13= 0;
 
         E0000_E0001_Data data = new();
 
         bound = 0.0;
-        switch ((which < 1 && which > 4))
+        switch (which < 1 && which > 4)
         {
             //
             //  Check arguments
@@ -130,7 +120,7 @@ public static partial class CDF
                 goto S30;
         }
 
-        switch ((which < 1))
+        switch (which < 1)
         {
             case false:
                 goto S10;
@@ -150,7 +140,7 @@ public static partial class CDF
                 goto S70;
         }
 
-        switch ((p < 0.0e0 || p > 1.0e0))
+        switch (p is < 0.0e0 or > 1.0e0)
         {
             //
             //     P
@@ -159,7 +149,7 @@ public static partial class CDF
                 goto S60;
         }
 
-        switch ((p < 0.0e0))
+        switch (p < 0.0e0)
         {
             case false:
                 goto S40;
@@ -180,7 +170,7 @@ public static partial class CDF
                 goto S110;
         }
 
-        switch ((q < 0.0e0 || q > 1.0e0))
+        switch (q is < 0.0e0 or > 1.0e0)
         {
             //
             //     Q
@@ -189,7 +179,7 @@ public static partial class CDF
                 goto S100;
         }
 
-        switch ((q < 0.0e0))
+        switch (q < 0.0e0)
         {
             case false:
                 goto S80;
@@ -210,7 +200,7 @@ public static partial class CDF
                 goto S130;
         }
 
-        switch ((xn <= 0.0e0))
+        switch (xn <= 0.0e0)
         {
             //
             //     XN
@@ -230,7 +220,7 @@ public static partial class CDF
                 goto S170;
         }
 
-        switch ((s < 0.0e0 || which != 3 && s > xn))
+        switch (s < 0.0e0 || which != 3 && s > xn)
         {
             //
             //     S
@@ -260,7 +250,7 @@ public static partial class CDF
                 goto S210;
         }
 
-        switch ((pr < 0.0e0 || pr > 1.0e0))
+        switch (pr is < 0.0e0 or > 1.0e0)
         {
             //
             //     PR
@@ -269,7 +259,7 @@ public static partial class CDF
                 goto S200;
         }
 
-        switch ((pr < 0.0e0))
+        switch (pr < 0.0e0)
         {
             case false:
                 goto S180;
@@ -290,7 +280,7 @@ public static partial class CDF
                 goto S250;
         }
 
-        switch ((ompr < 0.0e0 || ompr > 1.0e0))
+        switch (ompr < 0.0e0 || ompr > 1.0e0)
         {
             //
             //     OMPR
@@ -323,7 +313,7 @@ public static partial class CDF
         //
         //     P + Q
         //
-        pq = p + q;
+        double pq = p + q;
         if (!(Math.Abs(pq - 0.5e0 - 0.5e0) > 3.0e0 * dpmpar(K1)))
         {
             goto S280;
@@ -353,7 +343,7 @@ public static partial class CDF
         //
         //     PR + OMPR
         //
-        prompr = pr + ompr;
+        double prompr = pr + ompr;
         if (!(Math.Abs(prompr - 0.5e0 - 0.5e0) > 3.0e0 * dpmpar(K1)))
         {
             goto S320;
@@ -399,14 +389,14 @@ public static partial class CDF
                 //  Calculating S
                 //
                 s = 5.0e0;
-                T5 = atol;
-                T6 = tol;
+                double T5= atol;
+                double T6= tol;
                 E0000E0001.dstinv(ref data, K2, xn, K3, K3, K4, T5, T6);
                 data.status = 0;
                 data.x = s;
                 E0000E0001.dinvr(ref data);
                 S340:
-                switch ((data.status == 1))
+                switch (data.status == 1)
                 {
                     case false:
                         goto S370;
@@ -428,7 +418,7 @@ public static partial class CDF
                 E0000E0001.dinvr(ref data);
                 goto S340;
                 S370:
-                switch ((data.status == -1))
+                switch (data.status == -1)
                 {
                     case false:
                         goto S400;
@@ -456,16 +446,16 @@ public static partial class CDF
                 //  Calculating XN
                 //
                 xn = 5.0e0;
-                T7 = zero;
-                T8 = inf;
-                T9 = atol;
-                T10 = tol;
+                double T7= zero;
+                double T8= inf;
+                double T9= atol;
+                double T10= tol;
                 E0000E0001.dstinv(ref data, T7, T8, K3, K3, K4, T9, T10);
                 data.status = 0;
                 data.x = xn;
                 E0000E0001.dinvr(ref data);
                 S410:
-                switch ((data.status == 1))
+                switch (data.status == 1)
                 {
                     case false:
                         goto S440;
@@ -487,7 +477,7 @@ public static partial class CDF
                 E0000E0001.dinvr(ref data);
                 goto S410;
                 S440:
-                switch ((data.status == -1))
+                switch (data.status == -1)
                 {
                     case false:
                         goto S470;
@@ -514,8 +504,8 @@ public static partial class CDF
                 //
                 //  Calculating PR and OMPR
                 //
-                T12 = atol;
-                T13 = tol;
+                double T12= atol;
+                double T13= tol;
                 E0000E0001.dstzr(ref data, K2, K11, T12, T13);
                 switch (qporq)
                 {
@@ -528,7 +518,7 @@ public static partial class CDF
                 E0000E0001.dzror(ref data);
                 ompr = one - pr;
                 S480:
-                switch ((data.status == 1))
+                switch (data.status == 1)
                 {
                     case false:
                         goto S490;
@@ -548,7 +538,7 @@ public static partial class CDF
                 E0000E0001.dzror(ref data);
                 pr = one - ompr;
                 S510:
-                switch ((data.status == 1))
+                switch (data.status == 1)
                 {
                     case false:
                         goto S520;
@@ -562,7 +552,7 @@ public static partial class CDF
                 goto S510;
                 S530:
                 S520:
-                switch ((data.status == -1))
+                switch (data.status == -1)
                 {
                     case false:
                         goto S560;

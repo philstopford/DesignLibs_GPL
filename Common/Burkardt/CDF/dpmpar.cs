@@ -43,20 +43,14 @@ public static partial class CDF
         //    DPMPAR(3) = B^EMAX*(1 - B^(-M)), THE LARGEST MAGNITUDE.
     {
         double b;
-        double binv;
-        double bm1;
-        int emax;
-        int emin;
-        int ibeta;
-        int K1 = 4;
-        int K2 = 8;
-        int K3 = 9;
-        int K4 = 10;
+        const int K1 = 4;
+        const int K2 = 8;
+        const int K3 = 9;
+        const int K4 = 10;
         int m;
         double one;
-        double value = 0;
+        double value;
         double w;
-        double z;
 
         switch (i)
         {
@@ -67,20 +61,20 @@ public static partial class CDF
                 break;
             case 2:
                 b = ipmpar(K1);
-                emin = ipmpar(K3);
+                int emin = ipmpar(K3);
                 one = 1.0;
-                binv = one/b;
+                double binv = one/b;
                 w = Math.Pow(b,emin+2);
                 value = w*binv*binv*binv;
                 break;
             default:
-                ibeta = ipmpar(K1);
+                int ibeta = ipmpar(K1);
                 m = ipmpar(K2);
-                emax = ipmpar(K4);
+                int emax = ipmpar(K4);
                 b = ibeta;
-                bm1 = ibeta-1;
+                double bm1 = ibeta-1;
                 one = 1.0;
-                z = Math.Pow(b,m-1);
+                double z = Math.Pow(b,m-1);
                 w = ((z-one)*b+bm1)/(b*z);
                 z = Math.Pow(b,emax-2);
                 value = w*z*b*b;

@@ -36,13 +36,12 @@ public static partial class CDF
                 .479137145607681e-01,.128379167095513e+00
             }
             ;
-        double ax;
         double[] b =  {
                 .301048631703895e-02,.538971687740286e-01,.375795757275549e+00
             }
             ;
         double bot;
-        double c = .564189583547756e0;
+        const double c = .564189583547756e0;
         double erf1 = 0;
         double[] p =  {
                 -1.36864857382717e-07,5.64195517478974e-01,7.21175825088309e+00,
@@ -68,9 +67,8 @@ public static partial class CDF
             ;
         double t;
         double top;
-        double x2;
 
-        ax = Math.Abs(x);
+        double ax = Math.Abs(x);
 
         switch (ax)
         {
@@ -103,7 +101,7 @@ public static partial class CDF
                 goto S30;
         }
 
-        x2 = x * x;
+        double x2 = x * x;
         t = 1.0e0 / x2;
         top = (((r[0] * t + r[1]) * t + r[2]) * t + r[3]) * t + r[4];
         bot = (((s[0] * t + s[1]) * t + s[2]) * t + s[3]) * t + 1.0e0;

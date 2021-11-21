@@ -40,19 +40,14 @@ public static partial class CDF
         //
     {
         double a = 0;
-        double dfptt = 0;
-        double K2 = 0.5e0;
+        const double K2 = 0.5e0;
         double oma = 0;
-        double T1 = 0;
-        double tt = 0;
-        double xx = 0;
-        double yy = 0;
 
-        tt = t * t;
-        dfptt = df + tt;
-        xx = df / dfptt;
-        yy = tt / dfptt;
-        T1 = 0.5e0 * df;
+        double tt = t * t;
+        double dfptt = df + tt;
+        double xx = df / dfptt;
+        double yy = tt / dfptt;
+        double T1 = 0.5e0 * df;
         cumbet ( xx, yy, T1, K2, ref a, ref oma );
 
         switch (t)

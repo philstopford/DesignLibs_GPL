@@ -40,7 +40,10 @@ public class E0000_E0001_Data
             xub,
             yy;
         public int i99999;
-        public bool qbdd, qcond, qdum1 = false, qdum2 = false, qincr, qlim;
+        public bool qbdd, qcond;
+        public const bool qdum1 = false;
+        public const bool qdum2 = false;
+        public bool qincr, qlim;
         public bool qup;
         
     }
@@ -573,7 +576,7 @@ public static class E0000E0001
         S140:
         goto S110;
         S150:
-        switch ((data.e0000vars.qlim && !data.e0000vars.qbdd))
+        switch (data.e0000vars.qlim && !data.e0000vars.qbdd)
         {
             case false:
                 goto S160;
@@ -627,7 +630,7 @@ public static class E0000E0001
         S210:
         goto S180;
         S220:
-        switch ((data.e0000vars.qlim && !data.e0000vars.qbdd))
+        switch (data.e0000vars.qlim && !data.e0000vars.qbdd)
         {
             case false:
                 goto S230;
@@ -654,7 +657,7 @@ public static class E0000E0001
 
         S260:
         data.qleft = data.e0000vars.qdum1;
-        data.qhi = data.e0000vars.qdum2;
+        data.qhi = E0000_E0001_Data.E0000Variables.qdum2;
         dzror(ref data);
         if (data.status != 1)
         {
@@ -761,9 +764,9 @@ public static class E0000E0001
         //
     {
 
-        double ftol(double zx, ref E0000_E0001_Data data)
+        double ftol(double zx, ref E0000_E0001_Data data_)
         {
-            return 0.5e0 * Math.Max(data.e0001vars.abstol, data.e0001vars.reltol * Math.Abs(zx));
+            return 0.5e0 * Math.Max(data_.e0001vars.abstol, data_.e0001vars.reltol * Math.Abs(zx));
         }
 
         switch (IENTRY)
@@ -799,7 +802,7 @@ public static class E0000E0001
         data.e0001vars.i99999 = 2;
         goto S270;
         S20:
-        switch ((data.e0001vars.fb < 0.0e0))
+        switch (data.e0001vars.fb < 0.0e0)
         {
             //
             //     Check that F(ZXLO) < 0 < F(ZXHI)  or
@@ -821,13 +824,13 @@ public static class E0000E0001
         return;
         S40:
         S30:
-        switch ((data.e0001vars.fb > 0.0e0))
+        switch (data.e0001vars.fb > 0.0e0)
         {
             case false:
                 goto S60;
         }
 
-        switch ((data.fx > 0.0e0))
+        switch (data.fx > 0.0e0)
         {
             case false:
                 goto S50;
@@ -846,13 +849,13 @@ public static class E0000E0001
         data.e0001vars.fc = data.e0001vars.fa;
         data.e0001vars.ext = 0;
         S80:
-        switch ((Math.Abs(data.e0001vars.fc) < Math.Abs(data.e0001vars.fb)))
+        switch (Math.Abs(data.e0001vars.fc) < Math.Abs(data.e0001vars.fb))
         {
             case false:
                 goto S100;
         }
 
-        switch ((Math.Abs(data.e0001vars.c - data.e0001vars.a) > double.Epsilon))
+        switch (Math.Abs(data.e0001vars.c - data.e0001vars.a) > double.Epsilon)
         {
             case false:
                 goto S90;
@@ -872,13 +875,13 @@ public static class E0000E0001
         data.e0001vars.tol = ftol(data.xlo, ref data);
         data.e0001vars.m = (data.e0001vars.c + data.e0001vars.b) * .5e0;
         data.e0001vars.mb = data.e0001vars.m - data.e0001vars.b;
-        switch ((Math.Abs(data.e0001vars.mb) > data.e0001vars.tol))
+        switch (Math.Abs(data.e0001vars.mb) > data.e0001vars.tol)
         {
             case false:
                 goto S240;
         }
 
-        switch ((data.e0001vars.ext > 3))
+        switch (data.e0001vars.ext > 3)
         {
             case false:
                 goto S110;
@@ -904,7 +907,7 @@ public static class E0000E0001
         data.e0001vars.p = data.e0001vars.fda * data.e0001vars.p;
         data.e0001vars.q = data.e0001vars.fdb * data.e0001vars.fa - data.e0001vars.fda * data.e0001vars.fb;
         S130:
-        switch ((data.e0001vars.p < 0.0e0))
+        switch (data.e0001vars.p < 0.0e0)
         {
             case false:
                 goto S140;
@@ -920,7 +923,7 @@ public static class E0000E0001
                 break;
         }
 
-        switch ((data.e0001vars.p * 1.0e0 == 0.0e0 || data.e0001vars.p <= data.e0001vars.q * data.e0001vars.tol))
+        switch (data.e0001vars.p * 1.0e0 == 0.0e0 || data.e0001vars.p <= data.e0001vars.q * data.e0001vars.tol)
         {
             case false:
                 goto S150;
@@ -929,7 +932,7 @@ public static class E0000E0001
         data.e0001vars.w = data.e0001vars.tol;
         goto S180;
         S150:
-        switch ((data.e0001vars.p < data.e0001vars.mb * data.e0001vars.q))
+        switch (data.e0001vars.p < data.e0001vars.mb * data.e0001vars.q)
         {
             case false:
                 goto S160;
@@ -956,7 +959,7 @@ public static class E0000E0001
         goto S270;
         S200:
         data.e0001vars.fb = data.fx;
-        switch ((data.e0001vars.fc * data.e0001vars.fb >= 0.0e0))
+        switch (data.e0001vars.fc * data.e0001vars.fb >= 0.0e0)
         {
             case false:
                 goto S210;
@@ -964,7 +967,7 @@ public static class E0000E0001
 
         goto S70;
         S210:
-        switch ((Math.Abs(data.e0001vars.w - data.e0001vars.mb) <= double.Epsilon))
+        switch (Math.Abs(data.e0001vars.w - data.e0001vars.mb) <= double.Epsilon)
         {
             case false:
                 goto S220;

@@ -47,7 +47,7 @@ public static partial class CDF
         //    Output, double DSTREM, the Sterling remainder.
         //
     {
-        double hln2pi = 0.91893853320467274178e0;
+        const double hln2pi = 0.91893853320467274178e0;
 
         double[] coef =  {
                 0.0e0,0.0833333333333333333333333333333e0,
@@ -58,10 +58,8 @@ public static partial class CDF
                 0.179644372368830573164938490016e0
             }
             ;
-        int K1 = 10;
+        const int K1 = 10;
         double dstrem;
-        double sterl;
-        double T2;
         switch (z)
         {
             //
@@ -83,16 +81,16 @@ public static partial class CDF
                 throw new Exception("Zero or negative argument in DSTREM");
         }
 
-        switch ((z > 6.0e0))
+        switch (z > 6.0e0)
         {
             case false:
                 goto S10;
         }
-        T2 = 1.0e0 / Math.Pow(z, 2.0);
+        double T2 = 1.0e0 / Math.Pow(z, 2.0);
         dstrem = eval_pol(coef, K1, T2) * z;
         goto S20;
         S10:
-        sterl = hln2pi + (z - 0.5e0) * Math.Log(z) - z;
+        double sterl = hln2pi + (z - 0.5e0) * Math.Log(z) - z;
         dstrem = gamma_log(z) - sterl;
         S20:
         return dstrem;

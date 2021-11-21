@@ -40,16 +40,15 @@ public static partial class CDF
         //    double EVAL_POL, the value of the polynomial at X.
         //
     {
-        double devlpl,term;
         int i;
 
-        term = a[n-1];
+        double term = a[n-1];
         for ( i = n-1-1; i >= 0; i-- )
         {
             term = a[i]+term*x;
         }
 
-        devlpl = term;
+        double devlpl = term;
         return devlpl;
     }
 }

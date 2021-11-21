@@ -46,15 +46,10 @@ public static partial class CDF
         //    Output, double FPSER, the value of IX(A,B)(X).
         //
     {
-        double an;
-        double c;
-        double fpser;
-        int K1 = 1;
-        double s;
+        const int K1 = 1;
         double t;
-        double tol;
 
-        fpser = 1.0e0;
+        double fpser = 1.0e0;
         if(a <= 1e-3*eps)
         {
             goto S10;
@@ -73,21 +68,21 @@ public static partial class CDF
         //                NOTE THAT 1/B(A,B) = B
         //
         fpser = b/ a*fpser;
-        tol = eps/ a;
-        an = a+1.0e0;
+        double tol = eps/ a;
+        double an = a+1.0e0;
         t = x;
-        s = t/an;
+        double s = t/an;
         S20:
         an += 1.0e0;
         t = x*t;
-        c = t/an;
+        double c = t/an;
         s += c;
         if(Math.Abs(c) > tol)
         {
             goto S20;
         }
 
-        fpser *= (1.0e0+a*s);
+        fpser *= 1.0e0+a*s;
 
         return fpser;
     }

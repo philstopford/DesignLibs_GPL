@@ -44,15 +44,10 @@ public static partial class CDF
         //    the complementary F CDF.
         //
     {
-        double half = 0.5e0;
-        double done = 1.0e0;
+        const double half = 0.5e0;
+        const double done = 1.0e0;
 
-        double dsum;
         int ierr = 0;
-        double prod;
-        double T1;
-        double T2;
-        double xx;
         double yy;
 
         switch (f)
@@ -63,15 +58,15 @@ public static partial class CDF
                 return;
         }
 
-        prod = dfn * f;
+        double prod = dfn * f;
         //
         //  XX is such that the incomplete beta with parameters
         //  DFD/2 and DFN/2 evaluated at XX is 1 - CUM or CCUM
         //  YY is 1 - XX
         //  Calculate the smaller of XX and YY accurately
         //
-        dsum = dfd + prod;
-        xx = dfd / dsum;
+        double dsum = dfd + prod;
+        double xx = dfd / dsum;
 
         if (xx > half)
         {
@@ -83,8 +78,8 @@ public static partial class CDF
             yy = done - xx;
         }
 
-        T1 = dfd * half;
-        T2 = dfn * half;
+        double T1 = dfd * half;
+        double T2 = dfn * half;
         beta_inc(T1, T2, xx, yy, ref ccum, ref cum, ref ierr);
     }
 }

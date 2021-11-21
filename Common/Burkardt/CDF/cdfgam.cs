@@ -91,27 +91,20 @@ public static partial class CDF
         //    if STATUS is 1 or 2, this is the search bound that was exceeded.
         //
     {
-        double tol = 1.0e-8;
-        double atol = 1.0e-50;
-        double zero = 1.0e-300;
-        double inf = 1.0e300;
+        const double tol = 1.0e-8;
+        const double atol = 1.0e-50;
+        const double zero = 1.0e-300;
+        const double inf = 1.0e300;
 
         double ccum = 0;
         double cum = 0;
         int ierr = 0;
-        int K1 = 1;
-        double K5 = 0.5e0;
-        double K6 = 5.0e0;
+        const int K1 = 1;
+        const double K5 = 0.5e0;
+        const double K6 = 5.0e0;
         double porq = 0;
-        double pq = 0;
         bool qporq = false;
-        double T2 = 0;
-        double T3 = 0;
-        double T4 = 0;
-        double T7 = 0;
-        double T8 = 0;
-        double T9 = 0;
-        double xscale = 0;
+        double xscale;
         double xx = 0;
 
         E0000_E0001_Data data = new()
@@ -273,7 +266,7 @@ public static partial class CDF
         //
         //     P + Q
         //
-        pq = p + q;
+        double pq = p + q;
         if (!(Math.Abs(pq - 0.5e0 - 0.5e0) > 3.0e0 * dpmpar(K1)))
         {
             goto S200;
@@ -342,7 +335,7 @@ public static partial class CDF
                 //
                 //     Computing X
                 //
-                T2 = -1.0e0;
+                double T2 = -1.0e0;
                 gamma_inc_inv(shape, ref xx, ref T2, ref p, ref q, ref ierr);
                 if (ierr < 0.0e0)
                 {
@@ -362,10 +355,10 @@ public static partial class CDF
                 //
                 shape = 5.0e0;
                 xscale = data.x * scale;
-                T3 = zero;
-                T4 = inf;
-                T7 = atol;
-                T8 = tol;
+                double T3 = zero;
+                double T4 = inf;
+                double T7 = atol;
+                double T8 = tol;
                 E0000E0001.dstinv(ref data, T3, T4, K5, K5, K6, T7, T8);
                 data.status = 0;
                 data.x = shape;
@@ -429,7 +422,7 @@ public static partial class CDF
                 //
                 //  Computing SCALE
                 //
-                T9 = -1.0e0;
+                double T9 = -1.0e0;
                 gamma_inc_inv(shape, ref xx, ref T9, ref p, ref q, ref ierr);
                 if (ierr < 0.0e0)
                 {

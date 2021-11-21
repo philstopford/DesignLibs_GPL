@@ -42,26 +42,15 @@ public static partial class CDF
     {
         double algdiv;
         double c;
-        double c0 = 0.833333333333333e-01;
-        double c1 = -0.277777777760991e-02;
-        double c2 = 0.793650666825390e-03;
-        double c3 = -0.595202931351870e-03;
-        double c4 = 0.837308034031215e-03;
-        double c5 = -0.165322962780713e-02;
+        const double c0 = 0.833333333333333e-01;
+        const double c1 = -0.277777777760991e-02;
+        const double c2 = 0.793650666825390e-03;
+        const double c3 = -0.595202931351870e-03;
+        const double c4 = 0.837308034031215e-03;
+        const double c5 = -0.165322962780713e-02;
         double d;
         double h;
-        double s11;
-        double s3;
-        double s5;
-        double s7;
-        double s9;
-        double t;
-        double T1;
-        double u;
-        double v;
-        double w;
         double x;
-        double x2;
 
         if (b <= a)
         {
@@ -81,31 +70,31 @@ public static partial class CDF
         //
         //  SET SN = (1 - X**N)/(1 - X)
         //
-        x2 = x * x;
-        s3 = 1.0e0 + (x + x2);
-        s5 = 1.0e0 + (x + x2 * s3);
-        s7 = 1.0e0 + (x + x2 * s5);
-        s9 = 1.0e0 + (x + x2 * s7);
-        s11 = 1.0e0 + (x + x2 * s9);
+        double x2 = x * x;
+        double s3 = 1.0e0 + (x + x2);
+        double s5 = 1.0e0 + (x + x2 * s3);
+        double s7 = 1.0e0 + (x + x2 * s5);
+        double s9 = 1.0e0 + (x + x2 * s7);
+        double s11 = 1.0e0 + (x + x2 * s9);
         //
         //  SET W = DEL(B) - DEL(A + B)
         //
-        t = Math.Pow(1.0e0 / b, 2.0);
+        double t = Math.Pow(1.0e0 / b, 2.0);
 
-        w = ((((c5 * s11 * t
-                + c4 * s9) * t
-               + c3 * s7) * t
-              + c2 * s5) * t
-             + c1 * s3) * t
-            + c0;
+        double w = ((((c5 * s11 * t
+                       + c4 * s9) * t
+                      + c3 * s7) * t
+                     + c2 * s5) * t
+                    + c1 * s3) * t
+                   + c0;
 
-        w *= (c / b);
+        w *= c / b;
         //
         //  Combine the results.
         //
-        T1 = a / b;
-        u = d * alnrel(T1);
-        v = a * (Math.Log(b) - 1.0e0);
+        double T1 = a / b;
+        double u = d * alnrel(T1);
+        double v = a * (Math.Log(b) - 1.0e0);
 
         if (v < u)
         {

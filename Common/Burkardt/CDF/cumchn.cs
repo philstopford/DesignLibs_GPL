@@ -77,7 +77,7 @@ public static partial class CDF
         double centwt = 0;
         double chid2 = 0;
         double dfd2 = 0;
-        double eps = 1.0e-5;
+        const double eps = 1.0e-5;
         int i = 0;
         int icent = 0;
         int iterb = 0;
@@ -85,7 +85,7 @@ public static partial class CDF
         double lcntaj = 0;
         double lcntwt = 0;
         double lfact = 0;
-        int ntired = 1000;
+        const int ntired = 1000;
         double pcent = 0;
         double pterm = 0;
         double sum;
@@ -199,7 +199,7 @@ public static partial class CDF
         //
         //  Adjust poisson weight for J decreased by one
         //
-        wt *= (i / xnonc);
+        wt *= i / xnonc;
         term = wt * pterm;
         sum += term;
         i -= 1;
@@ -227,7 +227,7 @@ public static partial class CDF
         //
         //  Update weights for next higher J
         //
-        wt *= (xnonc / (i + 1));
+        wt *= xnonc / (i + 1);
         //
         //  Calculate PTERM and add term to sum
         //

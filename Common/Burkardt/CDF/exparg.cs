@@ -40,15 +40,14 @@ public static partial class CDF
         //    double EXPARG, the desired value.
         //
     {
-        int b;
         double exparg;
-        int K1 = 4;
-        int K2 = 9;
-        int K3 = 10;
+        const int K1 = 4;
+        const int K2 = 9;
+        const int K3 = 10;
         double lnb;
         int m;
 
-        b = ipmpar(K1);
+        int b = ipmpar(K1);
         if(b != 2)
         {
             goto S10;

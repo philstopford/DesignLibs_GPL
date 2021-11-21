@@ -44,7 +44,7 @@ public static partial class CDF
         //    complementary CDF.
         //
     {
-        int K1 = 0;
+        const int K1 = 0;
 
         switch (x)
         {

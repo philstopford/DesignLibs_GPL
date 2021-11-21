@@ -50,13 +50,10 @@ public static partial class CDF
         //    binomial distribution.
         //
     {
-        double T1;
-        double T2;
-
         if ( s < xn )
         {
-            T1 = s + 1.0;
-            T2 = xn - s;
+            double T1 = s + 1.0;
+            double T2 = xn - s;
             cumbet ( pr, ompr, T1, T2, ref ccum, ref cum );
         }
         else

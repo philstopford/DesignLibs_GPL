@@ -56,38 +56,17 @@ public static class bivariatenormal
         //    to the right of the decimal point desired in the answer.
         //
     {
-        double a2;
-        double ap;
-        double b;
-        double cn;
         double con;
-        double conex;
-        double ex;
-        double g2;
-        double gh;
-        double gk;
         double gw = 0;
-        double h2;
-        double h4;
-        int i;
         int is_ = 0;
-        double rr;
-        double s1;
-        double s2;
-        double sgn;
-        double sn;
-        double sp;
-        double sqr;
-        double t;
-        double twopi = Math.PI * 2;
-        double w2;
+        const double twopi = Math.PI * 2;
         double wh = 0;
         double wk = 0;
 
-        b = 0.0;
+        double b = 0.0;
 
-        gh = Gauss.gauss(-ah) / 2.0;
-        gk = Gauss.gauss(-ak) / 2.0;
+        double gh = Gauss.gauss(-ah) / 2.0;
+        double gk = Gauss.gauss(-ak) / 2.0;
 
         switch (r)
         {
@@ -98,7 +77,7 @@ public static class bivariatenormal
                 return b;
         }
 
-        rr = (1.0 + r) * (1.0 - r);
+        double rr = (1.0 + r) * (1.0 - r);
 
         switch (rr)
         {
@@ -139,7 +118,7 @@ public static class bivariatenormal
             }
         }
 
-        sqr = Math.Sqrt(rr);
+        double sqr = Math.Sqrt(rr);
 
         switch (data.idig)
         {
@@ -149,6 +128,7 @@ public static class bivariatenormal
             default:
             {
                 con = twopi / 2.0;
+                int i;
                 for (i = 1; i <= data.idig; i++)
                 {
                     con /= 10.0;
@@ -214,11 +194,11 @@ public static class bivariatenormal
 
         for (;;)
         {
-            sgn = -1.0;
-            t = 0.0;
+            double sgn = -1.0;
 
             if (wk != 0.0)
             {
+                double t = 0.0;
                 switch (Math.Abs(wk))
                 {
                     case 1.0:
@@ -233,7 +213,7 @@ public static class bivariatenormal
                             {
                                 sgn = -sgn;
                                 wh *= wk;
-                                g2 = Gauss.gauss(wh);
+                                double g2 = Gauss.gauss(wh);
                                 wk = 1.0 / wk;
 
                                 switch (wk)
@@ -248,21 +228,21 @@ public static class bivariatenormal
                             }
                         }
 
-                        h2 = wh * wh;
-                        a2 = wk * wk;
-                        h4 = h2 / 2.0;
-                        ex = Math.Exp(-h4);
-                        w2 = h4 * ex;
-                        ap = 1.0;
-                        s2 = ap - ex;
-                        sp = ap;
-                        s1 = 0.0;
-                        sn = s1;
-                        conex = Math.Abs(con / wk);
+                        double h2 = wh * wh;
+                        double a2 = wk * wk;
+                        double h4 = h2 / 2.0;
+                        double ex = Math.Exp(-h4);
+                        double w2 = h4 * ex;
+                        double ap = 1.0;
+                        double s2 = ap - ex;
+                        double sp = ap;
+                        double s1 = 0.0;
+                        double sn = s1;
+                        double conex = Math.Abs(con / wk);
 
                         for (;;)
                         {
-                            cn = ap * s2 / (sn + sp);
+                            double cn = ap * s2 / (sn + sp);
                             s1 += cn;
 
                             if (Math.Abs(cn) <= conex)

@@ -92,29 +92,18 @@ public static partial class CDF
         //    if STATUS is 1 or 2, this is the search bound that was exceeded.
         //
     {
-        double tol = 1.0e-8;
-        double atol = 1.0e-50;
-        double inf = 1.0e300;
+        const double tol = 1.0e-8;
+        const double atol = 1.0e-50;
+        const double inf = 1.0e300;
 
         double ccum = 0;
         double cum = 0;
-        int K1 = 1;
-        double K2 = 0.0e0;
-        double K4 = 0.5e0;
-        double K5 = 5.0e0;
+        const int K1 = 1;
+        const double K2 = 0.0e0;
+        const double K4 = 0.5e0;
+        const double K5 = 5.0e0;
         double pq = 0;
         bool qporq = false;
-        double T3 = 0;
-        double T6 = 0;
-        double T7 = 0;
-        double T8 = 0;
-        double T9 = 0;
-        double T10 = 0;
-        double T11 = 0;
-        double T12 = 0;
-        double T13 = 0;
-        double T14 = 0;
-        double T15 = 0;
 
         E0000_E0001_Data data = new()
         {
@@ -320,9 +309,9 @@ public static partial class CDF
                 //  Calculating F
                 //
                 f = 5.0e0;
-                T3 = inf;
-                T6 = atol;
-                T7 = tol;
+                double T3 = inf;
+                double T6 = atol;
+                double T7 = tol;
                 E0000E0001.dstinv(ref data, K2, T3, K4, K4, K5, T6, T7);
                 data.status = 0;
                 data.x = f;
@@ -382,10 +371,10 @@ public static partial class CDF
             //
             case 3:
             {
-                T8 = 1.0;
-                T9 = inf;
-                T10 = atol;
-                T11 = tol;
+                double T8 = 1.0;
+                double T9 = inf;
+                double T10 = atol;
+                double T11 = tol;
                 E0000E0001.dstinv(ref data, T8, T9, K4, K4, K5, T10, T11);
 
                 data.status = 0;
@@ -437,10 +426,10 @@ public static partial class CDF
             //
             case 4:
             {
-                T12 = 1.0;
-                T13 = inf;
-                T14 = atol;
-                T15 = tol;
+                double T12 = 1.0;
+                double T13 = inf;
+                double T14 = atol;
+                double T15 = tol;
                 E0000E0001.dstinv(ref data, T12, T13, K4, K4, K5, T14, T15);
 
                 data.status = 0;

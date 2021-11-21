@@ -29,8 +29,8 @@ public static partial class CDF
         //    Output, double GAM1, the value of 1 / GAMMA ( A + 1 ) - 1.
         //
     {
-        double s1 = .273076135303957e+00;
-        double s2 = .559398236957378e-01;
+        const double s1 = .273076135303957e+00;
+        const double s2 = .559398236957378e-01;
         double[] p = {
             .577215664901533e+00,-.409078193005776e+00,-.230975380857675e+00,
             .597275330452234e-01,.766968181649490e-02,-.514889771323592e-02,
@@ -45,17 +45,17 @@ public static partial class CDF
             .118378989872749e+00,.930357293360349e-03,-.118290993445146e-01,
             .223047661158249e-02,.266505979058923e-03,-.132674909766242e-03
         };
-        double gam1,bot,d,t,top,w,T1;
+        double gam1,bot, top,w;
 
-        t = a;
-        d = a-0.5e0;
+        double t = a;
+        double d = a-0.5e0;
         t = d switch
         {
             > 0.0e0 => d - 0.5e0,
             _ => t
         };
 
-        T1 = t;
+        double T1 = t;
         switch (T1)
         {
             case < 0:

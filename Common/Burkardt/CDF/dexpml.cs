@@ -39,14 +39,13 @@ public static partial class CDF
         //    Output, double DEXPM1, the value of exp(X)-1.
         //
     {
-        double p1 = 0.914041914819518e-09;
-        double p2 = 0.238082361044469e-01;
-        double q1 = -0.499999999085958e+00;
-        double q2 = 0.107141568980644e+00;
-        double q3 = -0.119041179760821e-01;
-        double q4 = 0.595130811860248e-03;
+        const double p1 = 0.914041914819518e-09;
+        const double p2 = 0.238082361044469e-01;
+        const double q1 = -0.499999999085958e+00;
+        const double q2 = 0.107141568980644e+00;
+        const double q3 = -0.119041179760821e-01;
+        const double q4 = 0.595130811860248e-03;
         double dexpm1;
-        double w;
 
         switch (Math.Abs(x))
         {
@@ -64,6 +63,7 @@ public static partial class CDF
                 break;
             default:
             {
+                double w;
                 switch (x)
                 {
                     case <= 0.0e0:

@@ -68,13 +68,13 @@ public static partial class CDF
                 1.80124575948747e+01
             }
             ;
-        int K1 = 1;
-        double erfc1, ax, bot, e, t, top, w;
+        const int K1 = 1;
+        double erfc1, bot, t, top;
 
         //
         //  ABS(X) <= 0.5
         //
-        ax = Math.Abs(x);
+        double ax = Math.Abs(x);
         switch (ax)
         {
             case > 0.5e0:
@@ -151,9 +151,9 @@ public static partial class CDF
         };
         return erfc1;
         S50:
-        w = x * x;
+        double w = x * x;
         t = w;
-        e = w - t;
+        double e = w - t;
         erfc1 = x switch
         {
             < 0.0e0 => 2.0e0 - erfc1,

@@ -46,31 +46,25 @@ public static partial class CDF
         //    Normal CDF.
         //
     {
-        double approx;
         double[] coef = {
             -1.0e0,3.0e0,-15.0e0,105.0e0,-945.0e0,10395.0e0,-135135.0e0,2027025.0e0,
             -34459425.0e0,654729075.0e0,-13749310575e0,316234143225.0e0
         };
-        double correc;
-        double dlanor;
-        double dlsqpi = 0.91893853320467274177e0;
-        int K1 = 12;
-        double T2;
-        double xx;
-        double xx2;
+        const double dlsqpi = 0.91893853320467274177e0;
+        const int K1 = 12;
 
-        xx = Math.Abs ( x );
+        double xx = Math.Abs ( x );
         switch (xx)
         {
             case < 5.0e0:
                 throw new Exception( "DLANOR: Argument too small.");
         }
-        approx = -dlsqpi-0.5e0*xx*xx-Math.Log(xx);
-        xx2 = xx*xx;
-        T2 = 1.0e0/xx2;
-        correc = eval_pol ( coef, K1, T2 ) / xx2;
+        double approx = -dlsqpi-0.5e0*xx*xx-Math.Log(xx);
+        double xx2 = xx*xx;
+        double T2 = 1.0e0/xx2;
+        double correc = eval_pol ( coef, K1, T2 ) / xx2;
         correc = alnrel ( correc );
-        dlanor = approx+correc;
+        double dlanor = approx+correc;
 
         return dlanor;
     }

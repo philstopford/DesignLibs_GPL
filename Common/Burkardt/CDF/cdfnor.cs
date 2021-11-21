@@ -96,8 +96,7 @@ public static partial class CDF
         //    if STATUS is 1 or 2, this is the search bound that was exceeded.
         //
     {
-        int K1 = 1;
-        double pq;
+        const int K1 = 1;
         double z;
 
         status = 0;
@@ -108,13 +107,13 @@ public static partial class CDF
         //  Check arguments
         //
         status = 0;
-        switch ((which < 1 || which > 4))
+        switch (which is < 1 or > 4)
         {
             case false:
                 goto S30;
         }
 
-        switch ((which < 1))
+        switch (which < 1)
         {
             case false:
                 goto S10;
@@ -134,7 +133,7 @@ public static partial class CDF
                 goto S70;
         }
 
-        switch ((p <= 0.0e0 || p > 1.0e0))
+        switch (p is <= 0.0e0 or > 1.0e0)
         {
             //
             //     P
@@ -143,7 +142,7 @@ public static partial class CDF
                 goto S60;
         }
 
-        switch ((p <= 0.0e0))
+        switch (p <= 0.0e0)
         {
             case false:
                 goto S40;
@@ -164,7 +163,7 @@ public static partial class CDF
                 goto S110;
         }
 
-        switch ((q <= 0.0e0 || q > 1.0e0))
+        switch (q is <= 0.0e0 or > 1.0e0)
         {
             //
             //     Q
@@ -173,7 +172,7 @@ public static partial class CDF
                 goto S100;
         }
 
-        switch ((q <= 0.0e0))
+        switch (q <= 0.0e0)
         {
             case false:
                 goto S80;
@@ -197,7 +196,7 @@ public static partial class CDF
         //
         //     P + Q
         //
-        pq = p + q;
+        double pq = p + q;
         if (!(Math.Abs(pq - 0.5e0 - 0.5e0) > 3.0e0 * dpmpar(K1)))
         {
             goto S140;
@@ -224,7 +223,7 @@ public static partial class CDF
                 goto S170;
         }
 
-        switch ((sd <= 0.0e0))
+        switch (sd <= 0.0e0)
         {
             //
             //     SD

@@ -93,29 +93,27 @@ public static partial class CDF
         //    if STATUS is 1 or 2, this is the search bound that was exceeded.
         //
     {
-        double tol = 1.0e-8;
-        double atol = 1.0e-50;
-        double zero = 1.0e-300;
-        double inf = 1.0e300;
-        double one = 1.0e0;
+        const double tol = 1.0e-8;
+        const double atol = 1.0e-50;
+        const double zero = 1.0e-300;
+        const double inf = 1.0e300;
+        const double one = 1.0e0;
 
         double ccum = 0;
         double cum = 0;
-        int K1 = 1;
-        double K2 = 0.0e0;
-        double K3 = 1.0e0;
-        double K8 = 0.5e0;
-        double K9 = 5.0e0;
-        double pq = 0;
+        const int K1 = 1;
+        const double K2 = 0.0e0;
+        const double K3 = 1.0e0;
+        const double K8 = 0.5e0;
+        const double K9 = 5.0e0;
         bool qporq = false;
-        double xy = 0;
 
-        E0000_E0001_Data data = new();
+        E0000_E0001_Data data = new()
+        {
+            status = 0,
+            x = x_
+        };
 
-        double T4 = 0, T5 = 0, T6 = 0, T7 = 0, T10 = 0, T11 = 0, T12 = 0, T13 = 0, T14 = 0, T15 = 0;
-
-        data.status = 0;
-        data.x = x_;
         bound = 0.0;
         switch ((which < 1 || which > 4))
         {
@@ -309,7 +307,7 @@ public static partial class CDF
         //
         //  P + Q
         //
-        pq = p + q;
+        double pq = p + q;
         if (!(Math.Abs(pq - 0.5e0 - 0.5e0) > 3.0e0 * dpmpar(K1)))
         {
             goto S260;
@@ -339,7 +337,7 @@ public static partial class CDF
         //
         //  X + Y
         //
-        xy = data.x + y;
+        double xy = data.x + y;
         if (!(Math.Abs(xy - 0.5e0 - 0.5e0) > 3.0e0 * dpmpar(K1)))
         {
             goto S300;
@@ -384,8 +382,8 @@ public static partial class CDF
                 //
                 //  Calculating X and Y
                 //
-                T4 = atol;
-                T5 = tol;
+                double T4 = atol;
+                double T5 = tol;
                 E0000E0001.dstzr(ref data, K2, K3, T4, T5);
                 switch (qporq)
                 {
@@ -458,10 +456,10 @@ public static partial class CDF
                 //  Computing A
                 //
                 a = 5.0e0;
-                T6 = zero;
-                T7 = inf;
-                T10 = atol;
-                T11 = tol;
+                double T6 = zero;
+                double T7 = inf;
+                double T10 = atol;
+                double T11 = tol;
                 E0000E0001.dstinv(ref data, T6, T7, K8, K8, K9, T10, T11);
                 data.status = 0;
                 data.x = a;
@@ -517,10 +515,10 @@ public static partial class CDF
                 //  Computing B
                 //
                 b = 5.0e0;
-                T12 = zero;
-                T13 = inf;
-                T14 = atol;
-                T15 = tol;
+                double T12 = zero;
+                double T13 = inf;
+                double T14 = atol;
+                double T15 = tol;
                 E0000E0001.dstinv(ref data, T12, T13, K8, K8, K9, T14, T15);
                 data.status = 0;
                 data.x = b;

@@ -48,10 +48,10 @@ public static partial class CDF
         //    Normal CDF has the value P.
         //
     {
-        double maxit = 100;
-        double eps = 1.0e-13;
-        double r2pi = 0.3989422804014326e0;
-        double nhalf = -0.5e0;
+        const double maxit = 100;
+        const double eps = 1.0e-13;
+        const double r2pi = 0.3989422804014326e0;
+        const double nhalf = -0.5e0;
         double dennor(double x)
         {
             return r2pi * Math.Exp(nhalf * x * x);
@@ -60,16 +60,12 @@ public static partial class CDF
         double ccum = 0;
         double cum = 0;
         double dinvnr = 0;
-        double dx = 0;
-        int i = 0;
-        double pp = 0;
-        bool qporq = false;
-        double strtx = 0;
-        double xcur = 0;
+        int i;
+        double pp;
         //
         //  FIND MINIMUM OF P AND Q
         //
-        qporq = p <= q;
+        bool qporq = p <= q;
         switch (qporq)
         {
             case false:
@@ -84,15 +80,15 @@ public static partial class CDF
         //
         //  INITIALIZATION STEP
         //
-        strtx = stvaln(pp);
-        xcur = strtx;
+        double strtx = stvaln(pp);
+        double xcur = strtx;
         //
         //  NEWTON INTERATIONS
         //
         for (i = 1; i <= maxit; i++)
         {
             cumnor(xcur, ref cum, ref ccum);
-            dx = (cum - pp) / dennor(xcur);
+            double dx = (cum - pp) / dennor(xcur);
             xcur -= dx;
             if (Math.Abs(dx / xcur) < eps)
             {

@@ -43,34 +43,27 @@ public static partial class CDF
         //    double APSER, the value of the incomplete beta ratio.
         //
     {
-        double aj;
         double apser = 0;
-        double bx;
-        double c;
-        double g = 0.577215664901533e0;
-        double j;
-        double s;
-        double t;
-        double tol;
+        const double g = 0.577215664901533e0;
 
-        bx = b * x;
-        t = x - bx;
+        double bx = b * x;
+        double t = x - bx;
 
-        c = (b * eps) switch
+        double c = (b * eps) switch
         {
             <= 2e-2 => Math.Log(x) + psi(b) + g + t,
             _ => Math.Log(bx) + g + t
         };
 
-        tol = 5.0e0 * eps * Math.Abs ( c );
-        j = 1.0e0;
-        s = 0.0e0;
+        double tol = 5.0e0 * eps * Math.Abs ( c );
+        double j = 1.0e0;
+        double s = 0.0e0;
 
         while ( true )
         {
             j += 1.0e0;
             t *= ( x - bx / j );
-            aj = t / j;
+            double aj = t / j;
             s += aj;
             if ( Math.Abs ( aj ) <= tol )
             {

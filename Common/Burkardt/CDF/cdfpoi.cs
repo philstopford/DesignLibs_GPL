@@ -81,24 +81,17 @@ public static partial class CDF
         //    if STATUS is 1 or 2, this is the search bound that was exceeded.
         //
     {
-        double tol = 1.0e-8;
-        double atol = 1.0e-50;
-        double inf = 1.0e300;
+        const double tol = 1.0e-8;
+        const double atol = 1.0e-50;
+        const double inf = 1.0e300;
 
         double ccum = 0;
         double cum = 0;
-        int K1 = 1;
-        double K2 = 0.0e0;
-        double K4 = 0.5e0;
-        double K5 = 5.0e0;
-        double pq = 0;
+        const int K1 = 1;
+        const double K2 = 0.0e0;
+        const double K4 = 0.5e0;
+        const double K5 = 5.0e0;
         bool qporq = false;
-        double T3 = 0;
-        double T6 = 0;
-        double T7 = 0;
-        double T8 = 0;
-        double T9 = 0;
-        double T10 = 0;
 
         E0000_E0001_Data data = new()
         {
@@ -106,7 +99,7 @@ public static partial class CDF
         };
 
         bound = 0.0;
-        switch ((which < 1 || which > 3))
+        switch (which is >= 1 and <= 3)
         {
             //
             //  Check arguments
@@ -115,7 +108,7 @@ public static partial class CDF
                 goto S30;
         }
 
-        switch ((which < 1))
+        switch (which < 1)
         {
             case false:
                 goto S10;
@@ -135,7 +128,7 @@ public static partial class CDF
                 goto S70;
         }
 
-        switch ((p < 0.0e0 || p > 1.0e0))
+        switch (p is < 0.0e0 or > 1.0e0)
         {
             //
             //     P
@@ -144,7 +137,7 @@ public static partial class CDF
                 goto S60;
         }
 
-        switch ((p < 0.0e0))
+        switch (p < 0.0e0)
         {
             case false:
                 goto S40;
@@ -165,7 +158,7 @@ public static partial class CDF
                 goto S110;
         }
 
-        switch ((q <= 0.0e0 || q > 1.0e0))
+        switch (q is <= 0.0e0 or > 1.0e0)
         {
             //
             //     Q
@@ -174,7 +167,7 @@ public static partial class CDF
                 goto S100;
         }
 
-        switch ((q <= 0.0e0))
+        switch (q <= 0.0e0)
         {
             case false:
                 goto S80;
@@ -195,7 +188,7 @@ public static partial class CDF
                 goto S130;
         }
 
-        switch ((s < 0.0e0))
+        switch (s < 0.0e0)
         {
             //
             //     S
@@ -215,7 +208,7 @@ public static partial class CDF
                 goto S150;
         }
 
-        switch ((xlam < 0.0e0))
+        switch (xlam < 0.0e0)
         {
             //
             //     XLAM
@@ -238,7 +231,7 @@ public static partial class CDF
         //
         //     P + Q
         //
-        pq = p + q;
+        double pq = p + q;
         if (!(Math.Abs(pq - 0.5e0 - 0.5e0) > 3.0e0 * dpmpar(K1)))
         {
             goto S180;
@@ -284,15 +277,12 @@ public static partial class CDF
                 //     Calculating S
                 //
                 s = 5.0e0;
-                T3 = inf;
-                T6 = atol;
-                T7 = tol;
-                E0000E0001.dstinv(ref data, K2, T3, K4, K4, K5, T6, T7);
+                E0000E0001.dstinv(ref data, K2, inf, K4, K4, K5, atol, tol);
                 data.status = 0;
                 data.x = s;
                 E0000E0001.dinvr(ref data);
                 S200:
-                switch ((data.status == 1))
+                switch (data.status == 1)
                 {
                     case false:
                         goto S230;
@@ -314,7 +304,7 @@ public static partial class CDF
                 E0000E0001.dinvr(ref data);
                 goto S200;
                 S230:
-                switch ((data.status == -1))
+                switch (data.status == -1)
                 {
                     case false:
                         goto S260;
@@ -342,15 +332,12 @@ public static partial class CDF
                 //     Calculating XLAM
                 //
                 xlam = 5.0e0;
-                T8 = inf;
-                T9 = atol;
-                T10 = tol;
-                E0000E0001.dstinv(ref data, K2, T8, K4, K4, K5, T9, T10);
+                E0000E0001.dstinv(ref data, K2, inf, K4, K4, K5, atol, tol);
                 data.status = 0;
                 data.x = xlam;
                 E0000E0001.dinvr(ref data);
                 S270:
-                switch ((data.status == 1))
+                switch (data.status == 1)
                 {
                     case false:
                         goto S300;
@@ -372,7 +359,7 @@ public static partial class CDF
                 E0000E0001.dinvr(ref data);
                 goto S270;
                 S300:
-                switch ((data.status == -1))
+                switch (data.status == -1)
                 {
                     case false:
                         goto S330;

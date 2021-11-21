@@ -42,28 +42,24 @@ public static partial class CDF
         //
     {
         double alnrel;
-        double p1 = -0.129418923021993e+01;
-        double p2 = 0.405303492862024e+00;
-        double p3 = -0.178874546012214e-01;
-        double q1 = -0.162752256355323e+01;
-        double q2 = 0.747811014037616e+00;
-        double q3 = -0.845104217945565e-01;
-        double t;
-        double t2;
-        double w;
-        double x;
+        const double p1 = -0.129418923021993e+01;
+        const double p2 = 0.405303492862024e+00;
+        const double p3 = -0.178874546012214e-01;
+        const double q1 = -0.162752256355323e+01;
+        const double q2 = 0.747811014037616e+00;
+        const double q3 = -0.845104217945565e-01;
 
         switch (Math.Abs(a))
         {
             case <= 0.375e0:
-                t = a / (a + 2.0e0);
-                t2 = t * t;
-                w = (((p3 * t2 + p2) * t2 + p1) * t2 + 1.0e0)
-                    / (((q3 * t2 + q2) * t2 + q1) * t2 + 1.0e0);
+                double t = a / (a + 2.0e0);
+                double t2 = t * t;
+                double w = (((p3 * t2 + p2) * t2 + p1) * t2 + 1.0e0)
+                           / (((q3 * t2 + q2) * t2 + q1) * t2 + 1.0e0);
                 alnrel = 2.0e0 * t * w;
                 break;
             default:
-                x = 1.0e0 + a;
+                double x = 1.0e0 + a;
                 alnrel = Math.Log(x);
                 break;
         }

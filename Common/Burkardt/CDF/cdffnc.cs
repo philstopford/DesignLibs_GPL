@@ -120,33 +120,19 @@ public static partial class CDF
         //    if STATUS is 1 or 2, this is the search bound that was exceeded.
         //
     {
-        double tent4 = 1.0e4;
-        double tol = 1.0e-8;
-        double atol = 1.0e-50;
-        double zero = 1.0e-300;
-        double one = 1.0e0-1.0e-16;
-        double inf = 1.0e300;
+        const double tent4 = 1.0e4;
+        const double tol = 1.0e-8;
+        const double atol = 1.0e-50;
+        const double zero = 1.0e-300;
+        const double one = 1.0e0-1.0e-16;
+        const double inf = 1.0e300;
 
         double ccum = 0;
         double cum = 0;
-        double K1 = 0.0e0;
-        double K3 = 0.5e0;
-        double K4 = 5.0e0;
-        double T2 = 0;
-        double T5 = 0;
-        double T6 = 0;
-        double T7 = 0;
-        double T8 = 0;
-        double T9 = 0;
-        double T10 = 0;
-        double T11 = 0;
-        double T12 = 0;
-        double T13 = 0;
-        double T14 = 0;
-        double T15 = 0;
-        double T16 = 0;
-        double T17 = 0;
-            
+        const double K1 = 0.0e0;
+        const double K3 = 0.5e0;
+        const double K4 = 5.0e0;
+
         E0000_E0001_Data data = new()
         {
             status = 0
@@ -304,9 +290,9 @@ public static partial class CDF
                 //  Calculating F
                 //
                 f = 5.0e0;
-                T2 = inf;
-                T5 = atol;
-                T6 = tol;
+                double T2 = inf;
+                double T5 = atol;
+                double T6 = tol;
                 E0000E0001.dstinv(ref data, K1, T2, K3, K3, K4, T5, T6);
                 data.status = 0;
                 data.x = f;
@@ -352,10 +338,10 @@ public static partial class CDF
                 //  Calculating DFN
                 //
                 dfn = 5.0e0;
-                T7 = zero;
-                T8 = inf;
-                T9 = atol;
-                T10 = tol;
+                double T7 = zero;
+                double T8 = inf;
+                double T9 = atol;
+                double T10 = tol;
                 E0000E0001.dstinv(ref data, T7, T8, K3, K3, K4, T9, T10);
                 data.status = 0;
                 data.x = dfn;
@@ -401,10 +387,10 @@ public static partial class CDF
                 //     Calculating DFD
                 //
                 dfd = 5.0e0;
-                T11 = zero;
-                T12 = inf;
-                T13 = atol;
-                T14 = tol;
+                double T11 = zero;
+                double T12 = inf;
+                double T13 = atol;
+                double T14 = tol;
                 E0000E0001.dstinv(ref data, T11, T12, K3, K3, K4, T13, T14);
                 data.status = 0;
                 data.x = dfd;
@@ -450,9 +436,9 @@ public static partial class CDF
                 //     Calculating PHONC
                 //
                 phonc = 5.0e0;
-                T15 = tent4;
-                T16 = atol;
-                T17 = tol;
+                double T15 = tent4;
+                double T16 = atol;
+                double T17 = tol;
                 E0000E0001.dstinv(ref data, K1, T15, K3, K3, K4, T16, T17);
                 data.status = 0;
                 data.x = phonc;

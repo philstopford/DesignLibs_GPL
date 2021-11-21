@@ -92,112 +92,129 @@ public static partial class CDF
                 3.8912003286093271411e04,1.9685429676859990727e04
             }
             ;
-        double half = 0.5e0;
+        const double half = 0.5e0;
         double[] p =  {
                 2.1589853405795699e-1,1.274011611602473639e-1,2.2235277870649807e-2,
                 1.421619193227893466e-3,2.9112874951168792e-5,2.307344176494017303e-2
             }
             ;
-        double one = 1.0e0;
+        const double one = 1.0e0;
         double[] q =  {
                 1.28426009614491121e00,4.68238212480865118e-1,6.59881378689285515e-2,
                 3.78239633202758244e-3,7.29751555083966205e-5
             }
             ;
-        double sixten = 1.60e0;
-        double sqrpi = 3.9894228040143267794e-1;
-        double thrsh = 0.66291e0;
-        double root32 = 5.656854248e0;
-        double zero = 0.0e0;
-        int K1 = 1;
-        int K2 = 2;
+        const double sixten = 1.60e0;
+        const double sqrpi = 3.9894228040143267794e-1;
+        const double thrsh = 0.66291e0;
+        const double root32 = 5.656854248e0;
+        const double zero = 0.0e0;
+        const int K1 = 1;
+        const int K2 = 2;
         int i;
-        double del, eps, temp, x, xden, xnum, y, xsq, min;
+        double del, temp, xden, xnum, xsq;
         //
         //  Machine dependent constants
         //
-        eps = dpmpar(K1) * 0.5e0;
-        min = dpmpar(K2);
-        x = arg;
-        y = Math.Abs(x);
-        if (y <= thrsh)
+        double eps = dpmpar(K1) * 0.5e0;
+        double min = dpmpar(K2);
+        double x = arg;
+        double y = Math.Abs(x);
+        switch (y)
         {
-            //
-            //  Evaluate  anorm  for  |X| <= 0.66291
-            //
-            xsq = zero;
-            if (y > eps) xsq = x * x;
-            xnum = a[4] * xsq;
-            xden = xsq;
-            for (i = 0; i < 3; i++)
+            case <= thrsh:
             {
-                xnum = (xnum + a[i]) * xsq;
-                xden = (xden + b[i]) * xsq;
-            }
+                //
+                //  Evaluate  anorm  for  |X| <= 0.66291
+                //
+                xsq = zero;
+                if (y > eps)
+                {
+                    xsq = x * x;
+                }
 
-            result = x * (xnum + a[3]) / (xden + b[3]);
-            temp = result;
-            result = half + temp;
-            ccum = half - temp;
-        }
-        //
-        //  Evaluate  anorm  for 0.66291 <= |X| <= sqrt(32)
-        //
-        else if (y <= root32)
-        {
-            xnum = c[8] * y;
-            xden = y;
-            for (i = 0; i < 7; i++)
-            {
-                xnum = (xnum + c[i]) * y;
-                xden = (xden + d[i]) * y;
-            }
+                xnum = a[4] * xsq;
+                xden = xsq;
+                for (i = 0; i < 3; i++)
+                {
+                    xnum = (xnum + a[i]) * xsq;
+                    xden = (xden + b[i]) * xsq;
+                }
 
-            result = (xnum + c[7]) / (xden + d[7]);
-            xsq = Math.Truncate(y * sixten) / sixten;
-            del = (y - xsq) * (y + xsq);
-            result = Math.Exp(-(xsq * xsq * half)) * Math.Exp(-(del * half)) * result;
-            ccum = one - result;
-            if (x > zero)
-            {
+                result = x * (xnum + a[3]) / (xden + b[3]);
                 temp = result;
-                result = ccum;
-                ccum = temp;
+                result = half + temp;
+                ccum = half - temp;
+                break;
+            }
+            //
+            //  Evaluate  anorm  for 0.66291 <= |X| <= sqrt(32)
+            //
+            case <= root32:
+            {
+                xnum = c[8] * y;
+                xden = y;
+                for (i = 0; i < 7; i++)
+                {
+                    xnum = (xnum + c[i]) * y;
+                    xden = (xden + d[i]) * y;
+                }
+
+                result = (xnum + c[7]) / (xden + d[7]);
+                xsq = Math.Truncate(y * sixten) / sixten;
+                del = (y - xsq) * (y + xsq);
+                result = Math.Exp(-(xsq * xsq * half)) * Math.Exp(-(del * half)) * result;
+                ccum = one - result;
+                if (x > zero)
+                {
+                    temp = result;
+                    result = ccum;
+                    ccum = temp;
+                }
+
+                break;
+            }
+            //
+            default:
+            {
+                result = zero;
+                xsq = one / (x * x);
+                xnum = p[5] * xsq;
+                xden = xsq;
+                for (i = 0; i < 4; i++)
+                {
+                    xnum = (xnum + p[i]) * xsq;
+                    xden = (xden + q[i]) * xsq;
+                }
+
+                result = xsq * (xnum + p[4]) / (xden + q[4]);
+                result = (sqrpi - result) / y;
+                xsq = Math.Truncate(x * sixten) / sixten;
+                del = (x - xsq) * (x + xsq);
+                result = Math.Exp(-(xsq * xsq * half)) * Math.Exp(-(del * half)) * result;
+                ccum = one - result;
+                if (x > zero)
+                {
+                    temp = result;
+                    result = ccum;
+                    ccum = temp;
+                }
+
+                break;
             }
         }
-        //
-        //  Evaluate  anorm  for |X| > sqrt(32)
-        //
-        else
+
+        if (result < min)
         {
-            result = zero;
-            xsq = one / (x * x);
-            xnum = p[5] * xsq;
-            xden = xsq;
-            for (i = 0; i < 4; i++)
-            {
-                xnum = (xnum + p[i]) * xsq;
-                xden = (xden + q[i]) * xsq;
-            }
-
-            result = xsq * (xnum + p[4]) / (xden + q[4]);
-            result = (sqrpi - result) / y;
-            xsq = Math.Truncate(x * sixten) / sixten;
-            del = (x - xsq) * (x + xsq);
-            result = Math.Exp(-(xsq * xsq * half)) * Math.Exp(-(del * half)) * result;
-            ccum = one - result;
-            if (x > zero)
-            {
-                temp = result;
-                result = ccum;
-                ccum = temp;
-            }
+            result = 0.0e0;
         }
 
-        if (result < min) result = 0.0e0;
         //
         //  Fix up for negative argument, erf, etc.
         //
-        if (ccum < min) ccum = 0.0e0;
+        if (ccum < min)
+        {
+            ccum = 0.0e0;
+        }
     }
 }

@@ -64,29 +64,17 @@ public static partial class CDF
         //    complementary CDF.
         //
     {
-        double half = 0.5e0;
-        double done = 1.0e0;
+        const double half = 0.5e0;
+        const double done = 1.0e0;
 
-        double adn = 0;
-        double aup = 0;
-        double b = 0;
         double betdn = 0;
-        double betup = 0;
-        double centwt = 0;
-        double dnterm = 0;
-        double dsum = 0;
         double dummy = 0;
-        double eps = 1.0e-4;
-        double prod = 0;
-        double xx = 0;
-        double yy = 0;
+        const double eps = 1.0e-4;
+        double xx;
 
-        double sum = 0,
-            upterm = 0,
-            xmult = 0,
-            xnonc = 0;
-        int i = 0, icent = 0, ierr = 0;
-        double T1 = 0, T2 = 0, T3 = 0, T4 = 0, T5 = 0, T6 = 0;
+        double sum,
+            upterm;
+        int icent = 0, ierr = 0;
 
         bool qsmall(double x)
         {
@@ -101,7 +89,7 @@ public static partial class CDF
                 return;
         }
 
-        switch ((pnonc < 1.0e-10))
+        switch (pnonc < 1.0e-10)
         {
             case false:
                 goto S20;
@@ -114,7 +102,7 @@ public static partial class CDF
         cumf(f, dfn, dfd, ref cum, ref ccum);
         return;
         S20:
-        xnonc = pnonc / 2.0e0;
+        double xnonc = pnonc / 2.0e0;
         icent = icent switch
         {
             0 => 1,
@@ -127,16 +115,16 @@ public static partial class CDF
         //
         //  Compute central weight term
         //
-        T1 = icent + 1;
-        centwt = Math.Exp(-xnonc + icent * Math.Log(xnonc) - gamma_log(T1));
+        double T1 = icent + 1;
+        double centwt = Math.Exp(-xnonc + icent * Math.Log(xnonc) - gamma_log(T1));
         //
         //  Compute central incomplete beta term
         //  Assure that minimum of arg to beta and 1 - arg is computed
         //  accurately.
         //
-        prod = dfn * f;
-        dsum = dfd + prod;
-        yy = dfd / dsum;
+        double prod = dfn * f;
+        double dsum = dfd + prod;
+        double yy = dfd / dsum;
         if (yy > half)
         {
             xx = prod / dsum;
@@ -147,23 +135,23 @@ public static partial class CDF
             xx = done - yy;
         }
 
-        T2 = dfn * half + icent;
-        T3 = dfd * half;
+        double T2 = dfn * half + icent;
+        double T3 = dfd * half;
         beta_inc(T2, T3, xx, yy, ref betdn, ref dummy, ref ierr);
-        adn = dfn / 2.0e0 + icent;
-        aup = adn;
-        b = dfd / 2.0e0;
-        betup = betdn;
+        double adn = dfn / 2.0e0 + icent;
+        double aup = adn;
+        double b = dfd / 2.0e0;
+        double betup = betdn;
         sum = centwt * betdn;
         //
         //  Now sum terms backward from icent until convergence or all done
         //
-        xmult = centwt;
-        i = icent;
-        T4 = adn + b;
-        T5 = adn + 1.0e0;
-        dnterm = Math.Exp(gamma_log(T4) - gamma_log(T5)
-                                        - gamma_log(b) + adn * Math.Log(xx) + b * Math.Log(yy));
+        double xmult = centwt;
+        int i = icent;
+        double T4 = adn + b;
+        double T5 = adn + 1.0e0;
+        double dnterm = Math.Exp(gamma_log(T4) - gamma_log(T5)
+                                               - gamma_log(b) + adn * Math.Log(xx) + b * Math.Log(yy));
         S30:
         if (qsmall(xmult * betdn) || i <= 0)
         {
@@ -191,7 +179,7 @@ public static partial class CDF
                                   b * Math.Log(yy));
                 break;
             default:
-                T6 = aup - 1.0 + b;
+                double T6 = aup - 1.0 + b;
                 upterm = Math.Exp(gamma_log(T6) - gamma_log(aup)
                                                 - gamma_log(b) + (aup - 1.0) * Math.Log(xx) + b *
                     Math.Log(yy));

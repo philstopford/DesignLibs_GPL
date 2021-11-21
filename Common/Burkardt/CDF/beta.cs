@@ -82,42 +82,20 @@ public static partial class CDF
     {
         double[] a0 = new double[21];
         double[] b0 = new double[21];
-        double bsum = 0;
         double[] c = new double[21];
         double[] d = new double[21];
-        double dsum = 0;
-        double e0 = 1.12837916709551e0;
-        double e1 = 0.353553390593274e0;
-        double f = 0;
-        double h = 0;
-        double h2 = 0;
-        double hn = 0;
-        double j0 = 0;
-        double j1 = 0;
-        int K3 = 1;
-        int num = 20;
-        double r = 0;
-        double r0 = 0;
-        double r1 = 0;
-        double value = 0;
+        const double e0 = 1.12837916709551e0;
+        const double e1 = 0.353553390593274e0;
+        double h;
+        const int K3 = 1;
+        const int num = 20;
+        double r0;
+        double r1;
 
-        double s = 0,
-            sum = 0,
-            t = 0,
-            t0 = 0,
-            t1 = 0,
-            u = 0,
-            w = 0,
-            w0 = 0,
-            z = 0,
-            z0 = 0,
-            z2 = 0,
-            zn = 0,
-            znm1 = 0;
-        int i = 0, im1 = 0, imj = 0, j = 0, m = 0, mm1 = 0, mmj = 0, n = 0, np1 = 0;
-        double T1 = 0, T2 = 0;
+        double w0;
+        int n;
 
-        value = 0.0e0;
+        double value = 0.0e0;
         if (a >= b)
         {
             goto S10;
@@ -134,49 +112,52 @@ public static partial class CDF
         r1 = (b - a) / a;
         w0 = 1.0e0 / Math.Sqrt(b * (1.0e0 + h));
         S20:
-        T1 = -(lambda / a);
-        T2 = lambda / b;
-        f = a * rlog1(T1) + b * rlog1(T2);
-        t = Math.Exp(-f);
+        double T1 = -(lambda / a);
+        double T2 = lambda / b;
+        double f = a * rlog1(T1) + b * rlog1(T2);
+        double t = Math.Exp(-f);
         switch (t)
         {
             case 0.0e0:
                 return value;
         }
 
-        z0 = Math.Sqrt(f);
-        z = 0.5e0 * (z0 / e1);
-        z2 = f + f;
+        double z0 = Math.Sqrt(f);
+        double z = 0.5e0 * (z0 / e1);
+        double z2 = f + f;
         a0[0] = 2.0e0 / 3.0e0 * r1;
         c[0] = -(0.5e0 * a0[0]);
         d[0] = -c[0];
-        j0 = 0.5e0 / e0 * error_fc(K3, z0);
-        j1 = e1;
-        sum = j0 + d[0] * w0 * j1;
-        s = 1.0e0;
-        h2 = h * h;
-        hn = 1.0e0;
-        w = w0;
-        znm1 = z;
-        zn = z2;
+        double j0 = 0.5e0 / e0 * error_fc(K3, z0);
+        double j1 = e1;
+        double sum = j0 + d[0] * w0 * j1;
+        double s = 1.0e0;
+        double h2 = h * h;
+        double hn = 1.0e0;
+        double w = w0;
+        double znm1 = z;
+        double zn = z2;
         for (n = 2; n <= num; n += 2)
         {
             hn = h2 * hn;
             a0[n - 1] = 2.0e0 * r0 * (1.0e0 + h * hn) / (n + 2.0e0);
-            np1 = n + 1;
+            int np1 = n + 1;
             s += hn;
             a0[np1 - 1] = 2.0e0 * r1 * s / (n + 3.0e0);
+            int i;
             for (i = n; i <= np1; i++)
             {
-                r = -(0.5e0 * (i + 1.0e0));
+                double r = -(0.5e0 * (i + 1.0e0));
                 b0[0] = r * a0[0];
+                int j;
+                int m;
                 for (m = 2; m <= i; m++)
                 {
-                    bsum = 0.0e0;
-                    mm1 = m - 1;
+                    double bsum = 0.0e0;
+                    int mm1 = m - 1;
                     for (j = 1; j <= mm1; j++)
                     {
-                        mmj = m - j;
+                        int mmj = m - j;
                         bsum += (j * r - mmj) * a0[j - 1] * b0[mmj - 1];
                     }
 
@@ -184,11 +165,11 @@ public static partial class CDF
                 }
 
                 c[i - 1] = b0[i - 1] / (i + 1.0e0);
-                dsum = 0.0e0;
-                im1 = i - 1;
+                double dsum = 0.0e0;
+                int im1 = i - 1;
                 for (j = 1; j <= im1; j++)
                 {
-                    imj = i - j;
+                    int imj = i - j;
                     dsum += d[imj - 1] * c[j - 1];
                 }
 
@@ -200,10 +181,10 @@ public static partial class CDF
             znm1 = z2 * znm1;
             zn = z2 * zn;
             w = w0 * w;
-            t0 = d[n - 1] * w * j0;
+            double t0 = d[n - 1] * w * j0;
             w = w0 * w;
-            t1 = d[np1 - 1] * w * j1;
-            sum += (t0 + t1);
+            double t1 = d[np1 - 1] * w * j1;
+            sum += t0 + t1;
             if (Math.Abs(t0) + Math.Abs(t1) <= eps * sum)
             {
                 goto S80;
@@ -211,7 +192,7 @@ public static partial class CDF
         }
 
         S80:
-        u = Math.Exp(-bcorr(a, b));
+        double u = Math.Exp(-bcorr(a, b));
         value = e0 * t * u * sum;
         return value;
     }
@@ -380,48 +361,29 @@ public static partial class CDF
         //    was detected.
         //
     {
-        double bm1 = 0;
-        double bp2n = 0;
         double[] c = new double[30];
-        double cn = 0;
-        double coef = 0;
+        double cn;
         double[] d = new double[30];
-        double dj = 0;
-        int i = 0;
-        double j = 0;
-        double l = 0;
-        double lnx = 0;
-        int n = 0;
-        double n2 = 0;
-        int nm1 = 0;
-        double nu = 0;
+        double lnx;
+        int n;
         double p = 0;
         double q = 0;
-        double r = 0;
-        double s = 0;
-        double sum = 0;
-        double t = 0;
-        double T1 = 0;
-        double t2 = 0;
-        double u = 0;
-        double v = 0;
-        double z = 0;
 
-        bm1 = b - 0.5e0 - 0.5e0;
-        nu = a + 0.5e0 * bm1;
+        double bm1 = b - 0.5e0 - 0.5e0;
+        double nu = a + 0.5e0 * bm1;
         switch (y)
         {
             case > 0.375e0:
                 goto S10;
         }
 
-        T1 = -y;
+        double T1 = -y;
         lnx = alnrel(T1);
         goto S20;
         S10:
         lnx = Math.Log(x);
         S20:
-        z = -(nu * lnx);
+        double z = -(nu * lnx);
         switch (b * z)
         {
             case 0.0e0:
@@ -432,9 +394,9 @@ public static partial class CDF
         //  COMPUTATION OF THE EXPANSION
         //  SET R = EXP(-Z)*Z^B/GAMMA(B)
         //
-        r = b * (1.0e0 + gam1(b)) * Math.Exp(b * Math.Log(z));
-        r *= (Math.Exp(a * lnx) * Math.Exp(0.5e0 * bm1 * lnx));
-        u = algdiv(b, a) + b * Math.Log(nu);
+        double r = b * (1.0e0 + gam1(b)) * Math.Exp(b * Math.Log(z));
+        r *= Math.Exp(a * lnx) * Math.Exp(0.5e0 * bm1 * lnx);
+        double u = algdiv(b, a) + b * Math.Log(nu);
         u = r * Math.Exp(-u);
         switch (u)
         {
@@ -443,30 +405,31 @@ public static partial class CDF
         }
 
         gamma_rat1(b, z, r, ref p, ref q, eps);
-        v = 0.25e0 * Math.Pow(1.0e0 / nu, 2.0);
-        t2 = 0.25e0 * lnx * lnx;
-        l = w / u;
-        j = q / r;
-        sum = j;
-        t = cn = 1.0e0;
-        n2 = 0.0e0;
+        double v = 0.25e0 * Math.Pow(1.0e0 / nu, 2.0);
+        double t2 = 0.25e0 * lnx * lnx;
+        double l = w / u;
+        double j = q / r;
+        double sum = j;
+        double t = cn = 1.0e0;
+        double n2 = 0.0e0;
         for (n = 1; n <= 30; n++)
         {
-            bp2n = b + n2;
+            double bp2n = b + n2;
             j = (bp2n * (bp2n + 1.0e0) * j + (z + bp2n + 1.0e0) * t) * v;
             n2 += 2.0e0;
             t *= t2;
             cn /= n2 * (n2 + 1.0e0);
             c[n - 1] = cn;
-            s = 0.0e0;
+            double s = 0.0e0;
             switch (n)
             {
                 case 1:
                     goto S40;
             }
 
-            nm1 = n - 1;
-            coef = b - n;
+            int nm1 = n - 1;
+            double coef = b - n;
+            int i;
             for (i = 1; i <= nm1; i++)
             {
                 s += coef * c[i - 1] * d[n - i - 1];
@@ -475,7 +438,7 @@ public static partial class CDF
 
             S40:
             d[n - 1] = bm1 * cn + s / n;
-            dj = d[n - 1] * j;
+            double dj = d[n - 1] * j;
             sum += dj;
             switch (sum)
             {
@@ -1193,7 +1156,7 @@ public static partial class CDF
         {
             a -= 1.0e0;
             h = a / b;
-            w *= (h / (1.0e0 + h));
+            w *= h / (1.0e0 + h);
         }
 
         w = Math.Log(w);
@@ -1214,7 +1177,7 @@ public static partial class CDF
         for (i = 1; i <= n; i++)
         {
             b -= 1.0e0;
-            z *= (b / (a + b));
+            z *= b / (a + b);
         }
 
         value = w + Math.Log(z) + (gamma_log(a) + (gamma_log(b) - gsumln(a, b)));
@@ -1228,7 +1191,7 @@ public static partial class CDF
         for (i = 1; i <= n; i++)
         {
             a -= 1.0e0;
-            w *= (a / (1.0e0 + a / b));
+            w *= a / (1.0e0 + a / b);
         }
 
         value = Math.Log(w) - n * Math.Log(b) + (gamma_log(a) + algdiv(a, b));
@@ -1365,7 +1328,7 @@ public static partial class CDF
         z = (1.0e0 + gam1(u)) / apb;
         S30:
         c = (1.0e0 + gam1(a)) * (1.0e0 + gam1(b)) / z;
-        bpser *= (c * (b / apb));
+        bpser *= c * (b / apb);
         goto S100;
         S40:
         //
@@ -1383,7 +1346,7 @@ public static partial class CDF
         for (i = 1; i <= m; i++)
         {
             b0 -= 1.0e0;
-            c *= (b0 / (a0 + b0));
+            c *= b0 / (a0 + b0);
         }
 
         u = Math.Log(c) + u;
@@ -1426,7 +1389,7 @@ public static partial class CDF
         tol = eps / a;
         S110:
         n += 1.0e0;
-        c *= ((0.5e0 + (0.5e0 - b / n)) * x);
+        c *= (0.5e0 + (0.5e0 - b / n)) * x;
         w = c / (a + n);
         sum += w;
         if (Math.Abs(w) > tol)
@@ -1434,7 +1397,7 @@ public static partial class CDF
             goto S110;
         }
 
-        bpser *= (1.0e0 + a * sum);
+        bpser *= 1.0e0 + a * sum;
 
         return bpser;
     }
@@ -1604,7 +1567,7 @@ public static partial class CDF
         for (i = 1; i <= n; i++)
         {
             b0 -= 1.0e0;
-            c *= (b0 / (a0 + b0));
+            c *= b0 / (a0 + b0);
         }
 
         u = Math.Log(c) + u;
@@ -1844,7 +1807,7 @@ public static partial class CDF
         for (i = 1; i <= n; i++)
         {
             b0 -= 1.0e0;
-            c *= (b0 / (a0 + b0));
+            c *= b0 / (a0 + b0);
         }
 
         u = Math.Log(c) + u;

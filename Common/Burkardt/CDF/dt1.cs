@@ -52,35 +52,28 @@ public static partial class CDF
         double[] denom = {
             4.0e0,96.0e0,384.0e0,92160.0e0
         };
-        double denpow;
-        double dt1;
         int i;
         int[] ideg = {
             2,3,4,5
         };
-        double sum;
-        double term;
-        double x;
-        double xp;
-        double xx;
 
-        x = Math.Abs ( dinvnr ( p, q ) );
-        xx = x * x;
-        sum = x;
-        denpow = 1.0e0;
+        double x = Math.Abs ( dinvnr ( p, q ) );
+        double xx = x * x;
+        double sum = x;
+        double denpow = 1.0e0;
         for ( i = 0; i < 4; i++ )
         {
-            term = eval_pol ( coef[i], ideg[i], xx ) * x;
+            double term = eval_pol ( coef[i], ideg[i], xx ) * x;
             denpow *= df;
             sum += term / ( denpow * denom[i] );
         }
 
-        xp = p switch
+        double xp = p switch
         {
             >= 0.5e0 => sum,
             _ => -sum
         };
-        dt1 = xp;
+        double dt1 = xp;
 
         return dt1;
     }

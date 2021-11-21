@@ -47,15 +47,10 @@ public static class Grid
         //
     {
         double h;
-        int i;
         int j;
         int nj;
-        int p;
-        double x;
-        double[] xy;
-        double y;
 
-        xy = new double[2 * ng];
+        double[] xy = new double[2 * ng];
 
         if (r[0] < r[1])
         {
@@ -68,13 +63,13 @@ public static class Grid
             nj = n;
         }
 
-        p = 0;
+        int p = 0;
 
         for (j = 0; j <= nj; j++)
         {
-            i = 0;
-            x = c[0];
-            y = c[1] + j * h;
+            int i = 0;
+            double x = c[0];
+            double y = c[1] + j * h;
 
             xy[0 + p * 2] = x;
             xy[1 + p * 2] = y;
@@ -166,12 +161,8 @@ public static class Grid
         //
     {
         double h;
-        int i;
         int j;
         int nj;
-        int p;
-        double x;
-        double y;
 
         if (r[0] < r[1])
         {
@@ -184,13 +175,13 @@ public static class Grid
             nj = n;
         }
 
-        p = 0;
+        int p = 0;
 
         for (j = 0; j <= nj; j++)
         {
-            i = 0;
-            x = c[0];
-            y = c[1] + j * h;
+            int i = 0;
+            double x = c[0];
+            double y = c[1] + j * h;
 
             p += 1;
 

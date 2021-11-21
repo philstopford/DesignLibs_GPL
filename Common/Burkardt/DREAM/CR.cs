@@ -62,13 +62,10 @@ public static class CR
         //
     {
         int i;
-        int i1;
-        int i2;
-        double[] std;
         //
         //  Compute the standard deviations.
         //
-        std = StdCompute.std_compute(chain_num, gen_index, gen_num, par_num, z);
+        double[] std = StdCompute.std_compute(chain_num, gen_index, gen_num, par_num, z);
         //
         //  Increment the update count.
         //
@@ -78,8 +75,8 @@ public static class CR
         //
         for (i = 0; i < par_num; i++)
         {
-            i1 = i + chain_index * par_num + gen_index * par_num * chain_num;
-            i2 = i + chain_index * par_num + (gen_index - 1) * par_num * chain_num;
+            int i1 = i + chain_index * par_num + gen_index * par_num * chain_num;
+            int i2 = i + chain_index * par_num + (gen_index - 1) * par_num * chain_num;
             cr_dis[cr_index] += Math.Pow((z[i2] - z[i1]) / std[i], 2);
         }
     }
@@ -121,9 +118,6 @@ public static class CR
         //
     {
         int cr_index = 0;
-        int i;
-        int n;
-        int[] tmp_index;
 
         switch (cr_num)
         {
@@ -132,9 +126,10 @@ public static class CR
                 break;
             default:
             {
-                n = 1;
-                tmp_index = PDF.i4vec_multinomial_sample(n, cr_prob, cr_num);
+                int n = 1;
+                int[] tmp_index = PDF.i4vec_multinomial_sample(n, cr_prob, cr_num);
 
+                int i;
                 for (i = 0; i < cr_num; i++)
                 {
                     if (tmp_index[i] == 1)
@@ -234,7 +229,6 @@ public static class CR
         //    for each CR.
         //
     {
-        double cr_prob_sum;
         int i;
 
         for (i = 0; i < cr_num - 1; i++)
@@ -242,7 +236,7 @@ public static class CR
             cr_prob[i] = cr_dis[i] / cr_ups[i];
         }
 
-        cr_prob_sum = typeMethods.r8vec_sum(cr_num, cr_prob);
+        double cr_prob_sum = typeMethods.r8vec_sum(cr_num, cr_prob);
 
         for (i = 0; i < cr_num - 1; i++)
         {

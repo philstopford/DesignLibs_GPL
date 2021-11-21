@@ -72,26 +72,17 @@ public static class GelmanRubin
         //    sample data.
         //
     {
-        double b_var;
-        int chain_index;
-        int ind0;
-        int k;
-        double mean_all;
-        double[] mean_chain;
         int par_index;
-        double rnd0;
-        double s;
-        double s_sum;
-        double var;
-        double w_var;
 
-        ind0 = (gen_index + 1) / 2 - 1;
-        rnd0 = ind0 + 1;
+        int ind0 = (gen_index + 1) / 2 - 1;
+        double rnd0 = ind0 + 1;
 
-        mean_chain = new double[chain_num];
+        double[] mean_chain = new double[chain_num];
 
         for (par_index = 0; par_index < par_num; par_index++)
         {
+            int chain_index;
+            int k;
             for (chain_index = 0; chain_index < chain_num; chain_index++)
             {
                 mean_chain[chain_index] = 0.0;
@@ -103,9 +94,9 @@ public static class GelmanRubin
                 mean_chain[chain_index] /= rnd0;
             }
 
-            mean_all = typeMethods.r8vec_sum(chain_num, mean_chain) / chain_num;
+            double mean_all = typeMethods.r8vec_sum(chain_num, mean_chain) / chain_num;
 
-            b_var = 0.0;
+            double b_var = 0.0;
             for (chain_index = 0; chain_index < chain_num; chain_index++)
             {
                 b_var += Math.Pow(mean_chain[chain_index] - mean_all, 2);
@@ -113,10 +104,10 @@ public static class GelmanRubin
 
             b_var = rnd0 * b_var / (chain_num - 1);
 
-            s_sum = 0.0;
+            double s_sum = 0.0;
             for (chain_index = 0; chain_index < chain_num; chain_index++)
             {
-                s = 0.0;
+                double s = 0.0;
                 for (k = ind0; k <= gen_index; k++)
                 {
                     s += Math.Pow(z[par_index + chain_index * par_num + k * par_num * chain_num]
@@ -128,9 +119,9 @@ public static class GelmanRubin
 
             s_sum /= (rnd0 - 1.0);
 
-            w_var = s_sum / chain_num;
+            double w_var = s_sum / chain_num;
 
-            var = ((rnd0 - 1.0) * w_var + b_var) / rnd0;
+            double var = ((rnd0 - 1.0) * w_var + b_var) / rnd0;
 
             gr[par_index + gr_count * par_num] = Math.Sqrt(var / w_var);
         }
@@ -199,11 +190,11 @@ public static class GelmanRubin
         //    1 <= PAR_NUM.
         //
     {
-        int i;
         int j;
 
         for (j = 0; j < gr_num; j++)
         {
+            int i;
             for (i = 0; i < par_num; i++)
             {
                 gr[i + j * par_num] = 0.0;
@@ -253,7 +244,6 @@ public static class GelmanRubin
         //
     {
         List<string> gr_unit = new();
-        int i;
         int j;
 
 
@@ -262,6 +252,7 @@ public static class GelmanRubin
         for (j = 0; j < gr_num; j++)
         {
             string tmp = (printstep * (j + 1) - 1).ToString(CultureInfo.InvariantCulture);
+            int i;
             for (i = 0; i < par_num; i++)
             {
                 tmp += "  " + gr[i + j * par_num];

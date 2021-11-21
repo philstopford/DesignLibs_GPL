@@ -36,13 +36,11 @@ public static class OneD
         //    Output, double FX1, the function value.
         //
     {
-        double value = 0;
-        double[] value_vec;
         double[] x_vec = new double[1];
 
         x_vec[0] = x;
-        value_vec = fx1_vec(1, x_vec);
-        value = value_vec[0];
+        double[] value_vec = fx1_vec(1, x_vec);
+        double value = value_vec[0];
 
         return value;
     }
@@ -79,13 +77,11 @@ public static class OneD
         //    Output, double FX2, the function value.
         //
     {
-        double value = 0;
-        double[] value_vec;
         double[] x_vec = new double[1];
 
         x_vec[0] = x;
-        value_vec = fx2_vec(1, x_vec);
-        value = value_vec[0];
+        double[] value_vec = fx2_vec(1, x_vec);
+        double value = value_vec[0];
 
         return value;
     }
@@ -122,13 +118,11 @@ public static class OneD
         //    Output, double FX3, the function value.
         //
     {
-        double value = 0;
-        double[] value_vec;
         double[] x_vec = new double[1];
 
         x_vec[0] = x;
-        value_vec = fx3_vec(1, x_vec);
-        value = value_vec[0];
+        double[] value_vec = fx3_vec(1, x_vec);
+        double value = value_vec[0];
 
         return value;
     }
@@ -165,13 +159,11 @@ public static class OneD
         //    Output, double FX4, the function value.
         //
     {
-        double value = 0;
-        double[] value_vec;
         double[] x_vec = new double[1];
 
         x_vec[0] = x;
-        value_vec = fx4_vec(1, x_vec);
-        value = value_vec[0];
+        double[] value_vec = fx4_vec(1, x_vec);
+        double value = value_vec[0];
 
         return value;
     }
@@ -208,13 +200,11 @@ public static class OneD
         //    Output, double FX5, the function value.
         //
     {
-        double value = 0;
-        double[] value_vec;
         double[] x_vec = new double[1];
 
         x_vec[0] = x;
-        value_vec = fx5_vec(1, x_vec);
-        value = value_vec[0];
+        double[] value_vec = fx5_vec(1, x_vec);
+        double value = value_vec[0];
 
         return value;
     }
@@ -251,13 +241,11 @@ public static class OneD
         //    Output, double FX6, the function value.
         //
     {
-        double value = 0;
-        double[] value_vec;
         double[] x_vec = new double[1];
 
         x_vec[0] = x;
-        value_vec = fx6_vec(1, x_vec);
-        value = value_vec[0];
+        double[] value_vec = fx6_vec(1, x_vec);
+        double value = value_vec[0];
 
         return value;
     }
@@ -294,13 +282,11 @@ public static class OneD
         //    Output, double FX7, the function value.
         //
     {
-        double value = 0;
-        double[] value_vec;
         double[] x_vec = new double[1];
 
         x_vec[0] = x;
-        value_vec = fx7_vec(1, x_vec);
-        value = value_vec[0];
+        double[] value_vec = fx7_vec(1, x_vec);
+        double value = value_vec[0];
 
         return value;
     }
@@ -353,12 +339,11 @@ public static class OneD
         //    The default value is a moderate 5.  For a sharp rise, use 25 instead.  
         //
     {
-        double[] f;
         int i;
             
         const double steep = 5.0;
 
-        f = new double[n];
+        double[] f = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -416,20 +401,17 @@ public static class OneD
         //    Output, double FX2_VEC[N], the function values.
         //
     {
-        double[] f;
         int i;
-            
-        double x2;
 
-        f = new double[n];
+        double[] f = new double[n];
         //
         //  Map from the convenient range [-1,+1] to the physical range [-2,6pi].
         //
         for (i = 0; i < n; i++)
         {
-            x2 = ((1.0 - x[i]) * -2.0
-                  + (1.0 + x[i]) * 6.0 * Math.PI)
-                 / 2.0;
+            double x2 = ((1.0 - x[i]) * -2.0
+                         + (1.0 + x[i]) * 6.0 * Math.PI)
+                        / 2.0;
 
             f[i] = x2 switch
             {
@@ -486,19 +468,17 @@ public static class OneD
         //    Output, double FX3_VEC[N], the function values.
         //
     {
-        double[] f;
         int i;
-        double x2;
 
-        f = new double[n];
+        double[] f = new double[n];
         //
         //  Map from the convenient range [-1,+1] to the physical range [-3,+3].
         //
         for (i = 0; i < n; i++)
         {
-            x2 = ((1.0 - x[i]) * -3.0
-                  + (1.0 + x[i]) * +3.0)
-                 / 2.0;
+            double x2 = ((1.0 - x[i]) * -3.0
+                         + (1.0 + x[i]) * +3.0)
+                        / 2.0;
 
             f[i] = x2 switch
             {
@@ -555,18 +535,15 @@ public static class OneD
         //    Output, double FX4_VEC[N], the function values.
         //
     {
-        double[] f;
         int i;
-            
-        double x2;
 
-        f = new double[n];
+        double[] f = new double[n];
         //
         //  Convert from -1 <= x <= 1 to 0 <= x <= 1:
         //
         for (i = 0; i < n; i++)
         {
-            x2 = (x[i] + 1.0) / 2.0;
+            double x2 = (x[i] + 1.0) / 2.0;
 
             f[i] = x2 switch
             {
@@ -623,11 +600,10 @@ public static class OneD
         //    Output, double FX5_VEC[N], the function values.
         //
     {
-        double[] f;
         int i;
         const double steep = 20.0;
 
-        f = new double[n];
+        double[] f = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -682,11 +658,10 @@ public static class OneD
         //    Output, double FX6_VEC[N], the function values.
         //
     {
-        double[] f;
         int i;
             
 
-        f = new double[n];
+        double[] f = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -752,11 +727,10 @@ public static class OneD
         //    Output, double FX6_VEC[N], the function values.
         //
     {
-        double[] f;
         int i;
             
 
-        f = new double[n];
+        double[] f = new double[n];
 
         for (i = 0; i < n; i++)
         {

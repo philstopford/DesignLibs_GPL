@@ -49,12 +49,12 @@ public static class Chain
         //
     {
         int c;
-        int p;
 
         for (c = 0; c < chain_num; c++)
         {
             double[] zp = prior_sample(par_num).result;
 
+            int p;
             for (p = 0; p < par_num; p++)
             {
                 z[p + c * par_num + 0 * par_num * chain_num] = zp[p];
@@ -106,7 +106,6 @@ public static class Chain
         //    sample data.
         //
     {
-        int i;
         int j;
 
         Console.WriteLine("");
@@ -130,6 +129,7 @@ public static class Chain
             Console.WriteLine("  Chain " + j + "");
             Console.WriteLine("  Fitness " + fit[j + 0 * chain_num] + "");
             string cout = "";
+            int i;
             for (i = 0; i < par_num; i++)
             {
                 cout += "  " + z[i + j * par_num + 0 * par_num * chain_num].ToString(CultureInfo.InvariantCulture).PadLeft(14);
@@ -193,31 +193,17 @@ public static class Chain
         //    chain sample data.
         //
     {
-        double[] avg;
-        double avg_max;
-        double[] avg_sorted;
-        int best;
-        int i;
-        int ind1;
-        int ind3;
         int j;
-        int klo;
-        int knum;
         int k;
-        int outlier_num;
-        double q1;
-        double q3;
-        double qr;
-        double t;
 
-        klo = (gen_index + 1) / 2 - 1;
-        knum = gen_index + 1 - klo;
+        int klo = (gen_index + 1) / 2 - 1;
+        int knum = gen_index + 1 - klo;
 
-        avg = new double[chain_num];
+        double[] avg = new double[chain_num];
 
         for (j = 0; j < chain_num; j++)
         {
-            t = 0.0;
+            double t = 0.0;
             for (k = klo; k <= gen_index; k++)
             {
                 t += fit[j + k * chain_num];
@@ -229,8 +215,8 @@ public static class Chain
         //
         //  Set BEST to be the index of the chain with maximum average.
         //
-        best = 0;
-        avg_max = avg[0];
+        int best = 0;
+        double avg_max = avg[0];
         for (j = 1; j < chain_num; j++)
         {
             if (avg_max < avg[j])
@@ -244,27 +230,28 @@ public static class Chain
         //  Determine the indices of the chains having averages 1/4 "above" 
         //  and "below" the average.
         //
-        avg_sorted = typeMethods.r8vec_copy_new(chain_num, avg);
+        double[] avg_sorted = typeMethods.r8vec_copy_new(chain_num, avg);
 
         typeMethods.r8vec_sort_heap_a(chain_num, ref avg_sorted);
 
-        ind1 = (int)Math.Round(0.25 * chain_num);
-        ind3 = (int)Math.Round(0.75 * chain_num);
+        int ind1 = (int)Math.Round(0.25 * chain_num);
+        int ind3 = (int)Math.Round(0.75 * chain_num);
 
-        q1 = avg_sorted[ind1];
-        q3 = avg_sorted[ind3];
-        qr = q3 - q1;
+        double q1 = avg_sorted[ind1];
+        double q3 = avg_sorted[ind3];
+        double qr = q3 - q1;
 
         //
         //  Identify outlier chains, and replace their later samples
         //  with values from the "best" chain.
         //
-        outlier_num = 0;
+        int outlier_num = 0;
         for (j = 0; j < chain_num; j++)
         {
             if (avg[j] < q1 - 2.0 * qr)
             {
                 outlier_num += 1;
+                int i;
                 for (i = 0; i < par_num; i++)
                 {
                     z[i + j * par_num + gen_index * par_num * chain_num] =
@@ -354,14 +341,11 @@ public static class Chain
         //
     {
         List<string> chain = new();
-        string chain_filename2;
-        int i;
         int j;
-        int k;
         //
         //  Make a temporary copy of the filename template, which we can alter.
         //
-        chain_filename2 = chain_filename;
+        string chain_filename2 = chain_filename;
         //
         //  Write parameter samples of all chains.
         //
@@ -372,10 +356,12 @@ public static class Chain
         {
             chain.Add("DREAM.CPP:Parameters_and_log_likelihood_for_chain_#" + j + "");
 
+            int k;
             for (k = 0; k < gen_num; k++)
             {
                 string tmp = "  " + k
                                   + "  " + fit[j + k * chain_num];
+                int i;
                 for (i = 0; i < par_num; i++)
                 {
                     tmp += "  " + z[i + j * par_num + k * par_num * chain_num];

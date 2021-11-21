@@ -45,22 +45,17 @@ public static class Grid
         //    Output, double DISK_GRID[2*NG], the grid points inside the circle.
         //
     {
-        double[] cg;
-        int i;
         int j;
-        int p;
-        double x;
-        double y;
 
-        cg = new double[2 * ng];
+        double[] cg = new double[2 * ng];
 
-        p = 0;
+        int p = 0;
 
         for (j = 0; j <= n; j++)
         {
-            i = 0;
-            x = c[0];
-            y = c[1] + r * (2 * j) / (2 * n + 1);
+            int i = 0;
+            double x = c[0];
+            double y = c[1] + r * (2 * j) / (2 * n + 1);
 
             cg[0 + 2 * p] = x;
             cg[1 + 2 * p] = y;
@@ -148,19 +143,15 @@ public static class Grid
         //    the circle.
         //
     {
-        int i;
         int j;
-        int ng;
-        double x;
-        double y;
 
-        ng = 0;
+        int ng = 0;
 
         for (j = 0; j <= n; j++)
         {
-            i = 0;
-            x = c[0];
-            y = c[1] + r * (2 * j) / (2 * n + 1);
+            int i = 0;
+            double x = c[0];
+            double y = c[1] + r * (2 * j) / (2 * n + 1);
             ng += 1;
 
             switch (j)
@@ -233,23 +224,17 @@ public static class Grid
         //    Output, double DISK_GRID_FIBONACCI[2*N], the grid points.
         //
     {
-        double[] g;
-        double gr;
-        double gt;
         int i;
-        double phi;
-            
-        double r0;
 
-        r0 = r / Math.Sqrt(n - 0.5);
-        phi = (1.0 + Math.Sqrt(5.0)) / 2.0;
+        double r0 = r / Math.Sqrt(n - 0.5);
+        double phi = (1.0 + Math.Sqrt(5.0)) / 2.0;
 
-        g = new double[2 * n];
+        double[] g = new double[2 * n];
 
         for (i = 0; i < n; i++)
         {
-            gr = r0 * Math.Sqrt(i + 1 - 0.5);
-            gt = 2.0 * Math.PI * (i + 1) / phi;
+            double gr = r0 * Math.Sqrt(i + 1 - 0.5);
+            double gt = 2.0 * Math.PI * (i + 1) / phi;
             g[0 + i * 2] = c[0] + gr * Math.Cos(gt);
             g[1 + i * 2] = c[1] + gr * Math.Sin(gt);
         }

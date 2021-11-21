@@ -146,15 +146,12 @@ public static class MonteCarlo
         //
     {
         int i;
-        int info;
         int j;
-        int m = 2;
-        double[] u;
-        double[] x;
+        const int m = 2;
         //
         //  Get the upper triangular Cholesky factor U of A.
         //
-        u = new double[m * m];
+        double[] u = new double[m * m];
 
         for (j = 0; j < m; j++)
         {
@@ -164,7 +161,7 @@ public static class MonteCarlo
             }
         }
 
-        info = typeMethods.r8po_fa(ref u, m, m);
+        int info = typeMethods.r8po_fa(ref u, m, m);
 
         if (info != 0)
         {
@@ -178,7 +175,7 @@ public static class MonteCarlo
         //
         //  Get the points Y that satisfy Y' * Y <= R * R.
         //
-        x = Uniform.Sphere.uniform_in_sphere01_map(m, n, ref data, ref seed);
+        double[] x = Uniform.Sphere.uniform_in_sphere01_map(m, n, ref data, ref seed);
 
         for (j = 0; j < n; j++)
         {

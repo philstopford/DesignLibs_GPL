@@ -126,9 +126,7 @@ public static class Geometry
         //    Output, double ELLIPSE_AREA3, the area of the ellipse.
         //
     {
-        double area;
-
-        area = Math.PI * r1 * r2;
+        double area = Math.PI * r1 * r2;
 
         return area;
     }
@@ -180,15 +178,13 @@ public static class Geometry
         //    Output, double ELLIPSE_POINT_DIST_2D, the distance to the ellipse.
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
-        double dist;
         int i;
-        double[] pn;
 
-        pn = ellipse_point_near_2d(r1, r2, p);
+        double[] pn = ellipse_point_near_2d(r1, r2, p);
 
-        dist = 0.0;
+        double dist = 0.0;
         for (i = 0; i < DIM_NUM; i++)
         {
             dist += Math.Pow(p[i] - pn[i], 2);
@@ -257,21 +253,13 @@ public static class Geometry
         //    is closest to P.
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
-        double ct;
-        double f;
-        double fp;
-        int iteration;
-        int iteration_max = 100;
-        double[] pn;
-        double st;
+        const int iteration_max = 100;
         double t;
-        double x;
-        double y;
 
-        x = Math.Abs(p[0]);
-        y = Math.Abs(p[1]);
+        double x = Math.Abs(p[0]);
+        double y = Math.Abs(p[1]);
 
         switch (y)
         {
@@ -304,15 +292,15 @@ public static class Geometry
                         //
                         t = Math.Atan2(y, x);
 
-                        iteration = 0;
+                        int iteration = 0;
 
                         for (;;)
                         {
-                            ct = Math.Cos(t);
-                            st = Math.Sin(t);
+                            double ct = Math.Cos(t);
+                            double st = Math.Sin(t);
 
-                            f = (x - Math.Abs(r1) * ct) * Math.Abs(r1) * st
-                                - (y - Math.Abs(r2) * st) * Math.Abs(r2) * ct;
+                            double f = (x - Math.Abs(r1) * ct) * Math.Abs(r1) * st
+                                       - (y - Math.Abs(r2) * st) * Math.Abs(r2) * ct;
 
                             if (Math.Abs(f) <= 100.0 * typeMethods.r8_epsilon())
                             {
@@ -331,9 +319,9 @@ public static class Geometry
 
                             iteration += 1;
 
-                            fp = r1 * r1 * st * st + r2 * r2 * ct * ct
-                                                   + (x - Math.Abs(r1) * ct) * Math.Abs(r1) * ct
-                                                   + (y - Math.Abs(r2) * st) * Math.Abs(r2) * st;
+                            double fp = r1 * r1 * st * st + r2 * r2 * ct * ct
+                                                          + (x - Math.Abs(r1) * ct) * Math.Abs(r1) * ct
+                                                          + (y - Math.Abs(r2) * st) * Math.Abs(r2) * st;
 
                             t -= f / fp;
                         }
@@ -349,7 +337,7 @@ public static class Geometry
         //
         //  From the T value, we get the nearest point.
         //
-        pn = new double[DIM_NUM];
+        double[] pn = new double[DIM_NUM];
 
         pn[0] = Math.Abs(r1) * Math.Cos(t);
         pn[1] = Math.Abs(r2) * Math.Sin(t);
@@ -411,11 +399,10 @@ public static class Geometry
         //
     {
         int i;
-        double theta;
 
         for (i = 0; i < n; i++)
         {
-            theta = 2.0 * Math.PI * i / n;
+            double theta = 2.0 * Math.PI * i / n;
 
             p[0 + i * 2] = pc[0] + r1 * Math.Cos(psi) * Math.Cos(theta)
                            - r2 * Math.Sin(psi) * Math.Sin(theta);
@@ -480,17 +467,15 @@ public static class Geometry
         //
     {
         int i;
-        double theta;
-        double theta3;
         //
         //  THETA3 is the smallest angle, no less than THETA1, which
         //  coincides with THETA2.
         //
-        theta3 = theta1 + typeMethods.r8_modp(theta2 - theta1, 2.0 * Math.PI);
+        double theta3 = theta1 + typeMethods.r8_modp(theta2 - theta1, 2.0 * Math.PI);
 
         for (i = 0; i < n; i++)
         {
-            theta = n switch
+            double theta = n switch
             {
                 > 1 => ((n - i - 1) * theta1 + i * theta3) / (n - 1),
                 _ => 0.5 * (theta1 + theta3)
@@ -570,21 +555,16 @@ public static class Geometry
         //    Output, double P[2*N], the coordinates of points on the superellipse.
         //
     {
-        double act;
-        double ast;
         int i;
-        double sct;
-        double sst;
-        double theta;
 
         for (i = 0; i < n; i++)
         {
-            theta = 2.0 * Math.PI * i / n;
+            double theta = 2.0 * Math.PI * i / n;
 
-            act = Math.Abs(Math.Cos(theta));
-            sct = typeMethods.r8_sign(Math.Cos(theta));
-            ast = Math.Abs(Math.Sin(theta));
-            sst = typeMethods.r8_sign(Math.Sin(theta));
+            double act = Math.Abs(Math.Cos(theta));
+            double sct = typeMethods.r8_sign(Math.Cos(theta));
+            double ast = Math.Abs(Math.Sin(theta));
+            double sst = typeMethods.r8_sign(Math.Sin(theta));
 
             p[0 + i * 2] = pc[0] + r1 * Math.Cos(psi) * sct * Math.Pow(act, expo)
                            - r2 * Math.Sin(psi) * sst * Math.Pow(ast, expo);

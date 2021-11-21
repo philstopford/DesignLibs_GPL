@@ -40,8 +40,6 @@ public static class Daub2
         //    Output, double DAUB2_MATRIX[N*N], the matrix.
         //
     {
-        double[] a;
-        double[] c;
         int i;
 
         if (n < 2 || n % 2 != 0)
@@ -52,9 +50,9 @@ public static class Daub2
             return null;
         }
 
-        a = typeMethods.r8mat_zero_new(n, n);
+        double[] a = typeMethods.r8mat_zero_new(n, n);
 
-        c = Coefficients.daub_coefficients(2);
+        double[] c = Coefficients.daub_coefficients(2);
 
         for (i = 0; i < n - 1; i += 2)
         {
@@ -167,19 +165,16 @@ public static class Daub2
             }
             ;
         int i;
-        int m;
-        double[] y;
-        double[] z;
 
-        y = typeMethods.r8vec_copy_new(n, x);
+        double[] y = typeMethods.r8vec_copy_new(n, x);
 
-        z = new double[n];
+        double[] z = new double[n];
         for (i = 0; i < n; i++)
         {
             z[i] = 0.0;
         }
 
-        m = n;
+        int m = n;
 
         while (2 <= m)
         {
@@ -236,18 +231,15 @@ public static class Daub2
             }
             ;
         int i;
-        int m;
-        double[] x;
-        double[] z;
 
-        x = typeMethods.r8vec_copy_new(n, y);
-        z = new double[n];
+        double[] x = typeMethods.r8vec_copy_new(n, y);
+        double[] z = new double[n];
         for (i = 0; i < n; i++)
         {
             z[i] = 0.0;
         }
 
-        m = 1;
+        int m = 1;
 
         while (m * 2 <= n)
         {

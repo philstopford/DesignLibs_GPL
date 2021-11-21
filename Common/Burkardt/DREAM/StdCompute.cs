@@ -52,16 +52,14 @@ public static class StdCompute
         //
     {
         int i;
-        int j;
-        int k;
-        double mean;
-        double[] std;
 
-        std = new double[par_num];
+        double[] std = new double[par_num];
 
         for ( i = 0; i < par_num; i++ )
         {
-            mean = 0.0;
+            double mean = 0.0;
+            int j;
+            int k;
             for ( k = 0; k <= gen_index; k++ )
             {
                 for ( j = 0; j < chain_num; j++ )

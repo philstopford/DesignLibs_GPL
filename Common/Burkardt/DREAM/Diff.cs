@@ -69,29 +69,23 @@ public static class Diff
         //    Output, double DIFF_COMPUTE[PAR_NUM], the vector of pair differences.
         //
     {
-        double[] diff;
-        int i1;
-        int i2;
-        int j;
-        int k;
         int pair;
-        int r1;
-        int r2;
         //
         //  Produce the difference of the pairs used for population evolution.
         //
-        diff = typeMethods.r8vec_zero_new(par_num);
+        double[] diff = typeMethods.r8vec_zero_new(par_num);
 
         for (pair = 0; pair < pair_num; pair++)
         {
-            r1 = r[0 + pair * 2];
-            r2 = r[1 + pair * 2];
+            int r1 = r[0 + pair * 2];
+            int r2 = r[1 + pair * 2];
+            int j;
             for (j = 0; j < jump_num; j++)
             {
-                k = jump_dim[j];
-                i1 = k + r1 * par_num + (gen_index - 1) * par_num * chain_num;
-                i2 = k + r2 * par_num + (gen_index - 1) * par_num * chain_num;
-                diff[k] += (z[i1] - z[i2]);
+                int k = jump_dim[j];
+                int i1 = k + r1 * par_num + (gen_index - 1) * par_num * chain_num;
+                int i2 = k + r2 * par_num + (gen_index - 1) * par_num * chain_num;
+                diff[k] += z[i1] - z[i2];
             }
         }
 

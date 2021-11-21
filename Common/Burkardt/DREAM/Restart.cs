@@ -54,33 +54,29 @@ public static class Restart
         //    sample data.
         //
     {
-        int chain_index;
-        int gen_index = 0;
-        int index;
-        int par_index;
-        string[] restart;
-
         try
         {
             //
             //  Read and ignore line 1.
             //
-            restart = File.ReadAllLines(restart_read_filename).Skip(1).ToArray();
+            string[] restart = File.ReadAllLines(restart_read_filename).Skip(1).ToArray();
                 
             //
             //  Assume only one generation.
             //
-            gen_index = 0;
+            int gen_index = 0;
             //
             //  Read the final fitness and parameter values for each chain.
             //
             int lineIndex = 0;
+            int chain_index;
             for (chain_index = 0; chain_index < chain_num; chain_index++)
             {
-                index = chain_index
-                        + chain_num * gen_index;
+                int index = chain_index
+                            + chain_num * gen_index;
                 fit[index] = Convert.ToDouble(restart[lineIndex]);
                 lineIndex++;
+                int par_index;
                 for (par_index = 0; par_index < par_num; par_index++)
                 {
                     index = par_index
@@ -148,7 +144,6 @@ public static class Restart
         //
     {
         int c;
-        int p;
         List<string> restart = new() {"DREAM.C:Parameter_values_for_restart."};
 
 
@@ -156,6 +151,7 @@ public static class Restart
         {
             string tmp =  "  " + c
                                + "  " + fit[c + (gen_num - 1) * chain_num];
+            int p;
             for (p = 0; p < par_num; p++)
             {
                 tmp += "  " + z[p + c * par_num + (gen_num - 1) * par_num * chain_num];

@@ -90,35 +90,25 @@ public static class Sample
         //    Local, double JUMPRATE, the jump rate.
         //
     {
-        double av;
-        double b;
-        double[] diff;
-        double[] eps;
         int i;
-        int[] jump_dim;
         int jump_num = 0;
         double jumprate = 0;
-        double[] noise_e;
         int[] pair = new int[2];
-        int[] r;
-        double r2;
-        double sd;
-        double[] zp;
         //
         //  Used to calculate E following a uniform distribution on (-B,+B).
         //  Because B is currently zero, the noise term is suppressed.
         //
-        b = 0.0;
+        double b = 0.0;
         //
         //  Pick pairs of other chains for crossover.
         //
-        r = new int[2 * pair_num];
+        int[] r = new int[2 * pair_num];
 
         for (i = 0; i < pair_num; i++)
         {
             while (true)
             {
-                r2 = PDF.r8_uniform_01_sample();
+                double r2 = PDF.r8_uniform_01_sample();
                 pair[0] = (int) (r2 * chain_num);
                 r2 = PDF.r8_uniform_01_sample();
                 pair[1] = (int) (r2 * chain_num);
@@ -138,14 +128,14 @@ public static class Sample
         //
         //  Determine the jump rate.
         //
-        jump_dim = new int[par_num];
+        int[] jump_dim = new int[par_num];
 
         Jump.jumprate_choose(cr, cr_index, cr_num, gen_index, jump_dim, ref jump_num,
             ref jumprate, jumprate_table, jumpstep, par_num);
         //
         //  Calculate E in equation 4 of Vrugt.
         //
-        noise_e = new double[par_num];
+        double[] noise_e = new double[par_num];
 
         for (i = 0; i < par_num; i++)
         {
@@ -155,10 +145,10 @@ public static class Sample
         //
         //  Get epsilon value from multinormal distribution                      
         //
-        eps = new double[par_num];
+        double[] eps = new double[par_num];
 
-        av = 0.0;
-        sd = 1.0E-10;
+        double av = 0.0;
+        double sd = 1.0E-10;
         for (i = 0; i < par_num; i++)
         {
             eps[i] = PDF.r8_normal_sample(av, sd);
@@ -167,10 +157,10 @@ public static class Sample
         //
         //  Generate the candidate sample ZP based on equation 4 of Vrugt.
         //
-        diff = Diff.diff_compute(chain_num, gen_index, gen_num, jump_dim, jump_num,
+        double[] diff = Diff.diff_compute(chain_num, gen_index, gen_num, jump_dim, jump_num,
             pair_num, par_num, r, z);
 
-        zp = new double[par_num];
+        double[] zp = new double[par_num];
 
         for (i = 0; i < par_num; i++)
         {
@@ -222,11 +212,10 @@ public static class Sample
         //
     {
         int i;
-        double w;
 
         for (i = 0; i < par_num; i++)
         {
-            w = limits[1 + i * 2] - limits[0 + i * 2];
+            double w = limits[1 + i * 2] - limits[0 + i * 2];
 
             switch (w)
             {

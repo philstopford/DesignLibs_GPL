@@ -81,9 +81,7 @@ public static class MonteCarlo
     {
         int i;
         int j;
-        double[] t;
         double[] u;
-        double[] x;
         //
         //  Get the Cholesky factor U.
         //
@@ -103,7 +101,7 @@ public static class MonteCarlo
         //
         //  Get the points Y that satisfy Y' * Y <= 1.
         //
-        x = Uniform.Sphere.uniform_in_sphere01_map(m, n, ref data, ref seed);
+        double[] x = Uniform.Sphere.uniform_in_sphere01_map(m, n, ref data, ref seed);
         //
         //  Get the points Y that satisfy Y' * Y <= R * R.
         //
@@ -120,7 +118,7 @@ public static class MonteCarlo
         //
         for (j = 0; j < n; j++)
         {
-            t = typeMethods.r8po_sl(m, u, x, bIndex: + j * m);
+            double[] t = typeMethods.r8po_sl(m, u, x, bIndex: + j * m);
             for (i = 0; i < m; i++)
             {
                 x[i + j * m] = t[i];
@@ -184,19 +182,16 @@ public static class MonteCarlo
         //
     {
         int i;
-        double sqrt_det;
-        double[] u;
-        double volume;
 
-        u = typeMethods.r8po_fa(m, a);
+        double[] u = typeMethods.r8po_fa(m, a);
 
-        sqrt_det = 1.0;
+        double sqrt_det = 1.0;
         for (i = 0; i < m; i++)
         {
             sqrt_det *= u[i + i * m];
         }
 
-        volume = Math.Pow(r, m) * Hypersphere.hypersphere_unit_volume(m) / sqrt_det;
+        double volume = Math.Pow(r, m) * Hypersphere.hypersphere_unit_volume(m) / sqrt_det;
             
         return volume;
     }

@@ -38,10 +38,7 @@ public static class Daub4
         //    Output, double DAUB4_MATRIX[N*N], the matrix.
         //
     {
-        double[] a;
-        double[] c;
         int i;
-        int j;
 
         if (n < 4 || n % 2 != 0)
         {
@@ -51,13 +48,13 @@ public static class Daub4
             return null;
         }
 
-        a = typeMethods.r8mat_zero_new(n, n);
+        double[] a = typeMethods.r8mat_zero_new(n, n);
     
-        c = Coefficients.daub_coefficients(4);
+        double[] c = Coefficients.daub_coefficients(4);
 
         for (i = 0; i < n - 1; i += 2)
         {
-            j = i;
+            int j = i;
             a[i + j * n] = c[0];
             j = i + 1;
             a[i + j * n] = c[1];
@@ -180,34 +177,27 @@ public static class Daub4
             }
             ;
         int i;
-        int j;
-        int j0;
-        int j1;
-        int j2;
-        int j3;
-        int m;
-        double[] y;
-        double[] z;
 
-        y = typeMethods.r8vec_copy_new(n, x);
-        z = new double[n];
+        double[] y = typeMethods.r8vec_copy_new(n, x);
+        double[] z = new double[n];
         for (i = 0; i < n; i++)
         {
             z[i] = 0.0;
         }
 
-        m = n;
+        int m = n;
 
         while (4 <= m)
         {
             i = 0;
 
+            int j;
             for (j = 0; j < m - 1; j += 2)
             {
-                j0 = typeMethods.i4_wrap(j, 0, m - 1);
-                j1 = typeMethods.i4_wrap(j + 1, 0, m - 1);
-                j2 = typeMethods.i4_wrap(j + 2, 0, m - 1);
-                j3 = typeMethods.i4_wrap(j + 3, 0, m - 1);
+                int j0 = typeMethods.i4_wrap(j, 0, m - 1);
+                int j1 = typeMethods.i4_wrap(j + 1, 0, m - 1);
+                int j2 = typeMethods.i4_wrap(j + 2, 0, m - 1);
+                int j3 = typeMethods.i4_wrap(j + 3, 0, m - 1);
 
                 z[i] = c[0] * y[j0] + c[1] * y[j1]
                                     + c[2] * y[j2] + c[3] * y[j3];
@@ -267,35 +257,27 @@ public static class Daub4
             }
             ;
         int i;
-        int i0;
-        int i1;
-        int i2;
-        int i3;
-        int j;
-        int m;
-        double[] x;
-        double[] z;
 
-        x = typeMethods.r8vec_copy_new(n, y);
-        z = new double[n];
+        double[] x = typeMethods.r8vec_copy_new(n, y);
+        double[] z = new double[n];
         for (i = 0; i < n; i++)
         {
             z[i] = 0.0;
         }
 
-        m = 4;
+        int m = 4;
 
         while (m <= n)
         {
-            j = 0;
+            int j = 0;
 
             for (i = 0; i < m / 2; i++)
             {
-                i0 = typeMethods.i4_wrap(i - 1, 0, m / 2 - 1);
-                i2 = typeMethods.i4_wrap(i, 0, m / 2 - 1);
+                int i0 = typeMethods.i4_wrap(i - 1, 0, m / 2 - 1);
+                int i2 = typeMethods.i4_wrap(i, 0, m / 2 - 1);
 
-                i1 = typeMethods.i4_wrap(i + m / 2 - 1, m / 2, m - 1);
-                i3 = typeMethods.i4_wrap(i + m / 2, m / 2, m - 1);
+                int i1 = typeMethods.i4_wrap(i + m / 2 - 1, m / 2, m - 1);
+                int i3 = typeMethods.i4_wrap(i + m / 2, m / 2, m - 1);
 
                 z[j] = c[2] * x[i0] + c[1] * x[i1]
                                     + c[0] * x[i2] + c[3] * x[i3];

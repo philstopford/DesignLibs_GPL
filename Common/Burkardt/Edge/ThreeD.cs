@@ -2,7 +2,7 @@
 
 namespace Burkardt.Edge;
 
-public class ThreeD
+public static class ThreeD
 {
     public static double fxyz1(double x, double y, double z)
 
@@ -32,8 +32,6 @@ public class ThreeD
         //  Parameters:
         //
     {
-        double value = 0;
-        double[] value_vec;
         double[] x_vec = new double[1];
         double[] y_vec = new double[1];
         double[] z_vec = new double[1];
@@ -41,8 +39,8 @@ public class ThreeD
         x_vec[0] = x;
         y_vec[0] = y;
         z_vec[0] = z;
-        value_vec = fxyz1_vec(1, x_vec, y_vec, z_vec);
-        value = value_vec[0];
+        double[] value_vec = fxyz1_vec(1, x_vec, y_vec, z_vec);
+        double value = value_vec[0];
 
         return value;
     }
@@ -131,8 +129,6 @@ public class ThreeD
                 0.3810, 0.2000
             }
             ;
-        double c;
-        double[] f;
         double[] g =  {
                 2.0000, -0.9800, -1.0000, -1.0000, 1.5000,
                 -1.0000, 1.0000, 1.0000, 0.0100, 0.0100,
@@ -140,7 +136,6 @@ public class ThreeD
                 -0.0200, 0.0300
             }
             ;
-        int e;
         int i;
         double[] v11 =  {
                 1.0000, 1.0000, 1.0000, 1.0000, 1.0000,
@@ -227,23 +222,24 @@ public class ThreeD
             }
             ;
 
-        f = new double[n];
+        double[] f = new double[n];
 
         for (i = 0; i < n; i++)
         {
             f[i] = 0.0;
 
+            int e;
             for (e = 0; e < 17; e++)
             {
-                c = Math.Pow(((x[i] - x0[e]) * v11[e]
-                              + (y[i] - y0[e]) * v12[e]
-                              + (z[i] - z0[e]) * v13[e]) / a1[e], 2)
-                    + Math.Pow(((x[i] - x0[e]) * v21[e]
-                                + (y[i] - y0[e]) * v22[e]
-                                + (z[i] - z0[e]) * v23[e]) / a2[e], 2)
-                    + Math.Pow(((x[i] - x0[e]) * v31[e]
-                                + (y[i] - y0[e]) * v32[e]
-                                + (z[i] - z0[e]) * v33[e]) / a3[e], 2);
+                double c = Math.Pow(((x[i] - x0[e]) * v11[e]
+                                     + (y[i] - y0[e]) * v12[e]
+                                     + (z[i] - z0[e]) * v13[e]) / a1[e], 2)
+                           + Math.Pow(((x[i] - x0[e]) * v21[e]
+                                       + (y[i] - y0[e]) * v22[e]
+                                       + (z[i] - z0[e]) * v23[e]) / a2[e], 2)
+                           + Math.Pow(((x[i] - x0[e]) * v31[e]
+                                       + (y[i] - y0[e]) * v32[e]
+                                       + (z[i] - z0[e]) * v33[e]) / a3[e], 2);
 
                 switch (c)
                 {

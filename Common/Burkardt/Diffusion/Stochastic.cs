@@ -546,7 +546,7 @@ public static class Stochastic
 //    at (X,Y).
 //
     {
-        double d = 1.0;
+        const double d = 1.0;
         double lp = Math.Max(d, 2.0 * cl);
         double l = cl / lp;
 

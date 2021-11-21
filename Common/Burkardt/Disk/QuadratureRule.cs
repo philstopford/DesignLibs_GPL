@@ -55,15 +55,11 @@ public static class QuadratureRule
         //    Output, double X[NR*NT], Y[NR*NT], the points for the rule.
         //
     {
-        int i;
         int j;
-        double[] r01;
-        double[] t01;
-        double[] w01;
 
-        w01 = new double[nr];
-        r01 = new double[nr];
-        t01 = new double[nt];
+        double[] w01 = new double[nr];
+        double[] r01 = new double[nr];
+        double[] t01 = new double[nt];
 
         disk01_rule(nr, nt, ref w01, ref r01, ref t01);
         //
@@ -71,6 +67,7 @@ public static class QuadratureRule
         //
         for (j = 0; j < nt; j++)
         {
+            int i;
             for (i = 0; i < nr; i++)
             {
                 w[i + j * nr] = w01[i];
@@ -123,11 +120,8 @@ public static class QuadratureRule
         //    Output, double DISK01_MONOMIAL_INTEGRAL, the integral.
         //
     {
-        double arg;
-        int i;
         double integral;
         const double r = 1.0;
-        double s;
 
         if (e[0] < 0 || e[1] < 0)
         {
@@ -147,6 +141,8 @@ public static class QuadratureRule
         {
             integral = 2.0;
 
+            int i;
+            double arg;
             for (i = 0; i < 2; i++)
             {
                 arg = 0.5 * (e[i] + 1);
@@ -160,7 +156,7 @@ public static class QuadratureRule
         //
         //  Adjust the surface integral to get the volume integral.
         //
-        s = e[0] + e[1] + 2;
+        double s = e[0] + e[1] + 2;
         integral = integral * Math.Pow(r, s) / s;
 
         return integral;
@@ -210,14 +206,12 @@ public static class QuadratureRule
     {
         int ir;
         int it;
-            
-        double[] wr;
-        double[] xr;
+
         //
         //  Request a Legendre rule for [-1,+1].
         //
-        xr = new double[nr];
-        wr = new double[nr];
+        double[] xr = new double[nr];
+        double[] wr = new double[nr];
 
         Legendre.QuadratureRule.legendre_ek_compute(nr, ref xr, ref wr);
         //

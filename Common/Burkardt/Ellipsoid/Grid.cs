@@ -50,28 +50,17 @@ public static class Grid
         //
     {
         double h;
-        int ii;
-        int i;
-        int j;
         int k;
-        int m;
-        int ng2;
         int ni;
         int nj;
         int nk;
-        int np;
         double[] p = new double[3 * 8];
-        double rmin;
-        double x;
-        double[] xyz;
-        double y;
-        double z;
 
-        ng2 = 0;
+        int ng2 = 0;
 
-        xyz = new double[3 * ng];
+        double[] xyz = new double[3 * ng];
 
-        rmin = typeMethods.r8vec_min(3, r);
+        double rmin = typeMethods.r8vec_min(3, r);
 
         if (Math.Abs(r[0] - rmin) <= double.Epsilon)
         {
@@ -97,13 +86,15 @@ public static class Grid
 
         for (k = 0; k <= nk; k++)
         {
-            z = c[2] + k * h;
+            double z = c[2] + k * h;
+            int j;
             for (j = 0; j <= nj; j++)
             {
-                y = c[1] + j * h;
+                double y = c[1] + j * h;
+                int i;
                 for (i = 0; i <= ni; i++)
                 {
-                    x = c[0] + i * h;
+                    double x = c[0] + i * h;
                     //
                     //  If we have left the ellipsoid, the I loop is completed.
                     //
@@ -117,13 +108,14 @@ public static class Grid
                     //
                     //  At least one point is generated, but more possible by symmetry.
                     //
-                    np = 0;
+                    int np = 0;
                     p[0 + np * 3] = x;
                     p[1 + np * 3] = y;
                     p[2 + np * 3] = z;
 
                     np = 1;
 
+                    int m;
                     switch (i)
                     {
                         case > 0:
@@ -174,6 +166,7 @@ public static class Grid
 
                     for (m = 0; m < np; m++)
                     {
+                        int ii;
                         for (ii = 0; ii < 3; ii++)
                         {
                             xyz[ii + (ng2 + m) * 3] = p[ii + m * 3];
@@ -229,22 +222,15 @@ public static class Grid
         //
     {
         double h;
-        int i;
-        int j;
         int k;
-        int ng;
         int ni;
         int nj;
         int nk;
         int np = 0;
-        double rmin;
-        double x;
-        double y;
-        double z;
 
-        ng = 0;
+        int ng = 0;
 
-        rmin = typeMethods.r8vec_min(3, r);
+        double rmin = typeMethods.r8vec_min(3, r);
 
         if (Math.Abs(r[0] - rmin) <= double.Epsilon)
         {
@@ -270,13 +256,15 @@ public static class Grid
 
         for (k = 0; k <= nk; k++)
         {
-            z = c[2] + k * h;
+            double z = c[2] + k * h;
+            int j;
             for (j = 0; j <= nj; j++)
             {
-                y = c[1] + j * h;
+                double y = c[1] + j * h;
+                int i;
                 for (i = 0; i <= ni; i++)
                 {
-                    x = c[0] + i * h;
+                    double x = c[0] + i * h;
                     //
                     //  If we have left the ellipsoid, the I loop is completed.
                     //

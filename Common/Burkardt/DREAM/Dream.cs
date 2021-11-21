@@ -167,14 +167,9 @@ public static class Dream
         //    sample data.
         //
     {
-        double[] fit;
-        double[] gr;
         bool gr_conv = false;
         int gr_count = 0;
-        int gr_num = 0;
-        double[] jumprate_table;
-        double[] z;
-            
+
         Console.WriteLine("");
         Console.WriteLine("DREAM");
         Console.WriteLine("  MCMC acceleration by Differential Evolution.");
@@ -238,15 +233,15 @@ public static class Dream
         //
         //  Allocate and zero out memory.
         //
-        gr_num = problem_size.gen_num / problem_value_data.printstep;
+        int gr_num = problem_size.gen_num / problem_value_data.printstep;
 
-        fit = typeMethods.r8mat_zero_new(problem_size.chain_num, problem_size.gen_num);
-        gr = typeMethods.r8mat_zero_new(problem_size.par_num, gr_num);
-        z = typeMethods.r8block_zero_new(problem_size.par_num, problem_size.chain_num, problem_size.gen_num);
+        double[] fit = typeMethods.r8mat_zero_new(problem_size.chain_num, problem_size.gen_num);
+        double[] gr = typeMethods.r8mat_zero_new(problem_size.par_num, gr_num);
+        double[] z = typeMethods.r8block_zero_new(problem_size.par_num, problem_size.chain_num, problem_size.gen_num);
         //
         //  Set the jump rate table.
         //
-        jumprate_table = Jump.jumprate_table_init(problem_size.pair_num, problem_size.par_num);
+        double[] jumprate_table = Jump.jumprate_table_init(problem_size.pair_num, problem_size.par_num);
 
         Jump.jumprate_table_print(jumprate_table, problem_size.pair_num, problem_size.par_num);
         //
@@ -434,51 +429,34 @@ public static class Dream
         //    Local, double ZP_RATIO, the Metropolis ratio for a candidate.
         //
     {
-        int chain_index;
-        double[] cr;
-        double[] cr_dis;
-        int cr_index;
-        double[] cr_prob;
-        int[] cr_ups;
         int gen_index;
-        int i;
-        double pd1;
-        double pd2;
-        double r;
-        double[] zp;
-        int zp_accept;
-        double zp_accept_rate;
-        int zp_count;
-        double zp_fit;
-        double[] zp_old;
-        double zp_old_fit;
-        double zp_ratio;
 
-        zp_old = new double[par_num];
-        zp_count = 0;
-        zp_accept = 0;
+        double[] zp_old = new double[par_num];
+        int zp_count = 0;
+        int zp_accept = 0;
         //
         //  Initialize the CR values.
         //
-        cr = new double[cr_num];
-        cr_dis = new double[cr_num];
-        cr_prob = new double[cr_num];
-        cr_ups = new int[cr_num];
+        double[] cr = new double[cr_num];
+        double[] cr_dis = new double[cr_num];
+        double[] cr_prob = new double[cr_num];
+        int[] cr_ups = new int[cr_num];
 
         CR.cr_init(ref cr, ref cr_dis, cr_num, ref cr_prob, ref cr_ups);
 
         for (gen_index = 1; gen_index < gen_num; gen_index++)
         {
+            int chain_index;
             for (chain_index = 0; chain_index < chain_num; chain_index++)
             {
                 //
                 //  Choose CR_INDEX, the index of a CR.
                 //
-                cr_index = CR.cr_index_choose(cr_num, cr_prob);
+                int cr_index = CR.cr_index_choose(cr_num, cr_prob);
                 //
                 //  Generate a sample candidate ZP.
                 //
-                zp = Sample.sample_candidate(chain_index, chain_num, cr, cr_index, cr_num,
+                double[] zp = Sample.sample_candidate(chain_index, chain_num, cr, cr_index, cr_num,
                     gen_index, gen_num, jumprate_table, jumpstep, limits, pair_num,
                     par_num, z);
 
@@ -486,23 +464,24 @@ public static class Dream
                 //
                 //  Compute the log likelihood function for ZP.
                 //
-                zp_fit = sample_likelihood(par_num, zp);
+                double zp_fit = sample_likelihood(par_num, zp);
 
+                int i;
                 for (i = 0; i < par_num; i++)
                 {
                     zp_old[i] = z[i + chain_index * par_num + (gen_index - 1) * par_num * chain_num];
                 }
 
-                zp_old_fit = fit[chain_index + (gen_index - 1) * chain_num];
+                double zp_old_fit = fit[chain_index + (gen_index - 1) * chain_num];
                 //
                 //  Compute the Metropolis ratio for ZP.
                 //
-                pd1 = prior_density(par_num, zp, 0).result;
+                double pd1 = prior_density(par_num, zp, 0).result;
 
-                pd2 = prior_density(par_num,
+                double pd2 = prior_density(par_num,
                     z, + 0 + chain_index * par_num + (gen_index - 1) * par_num * chain_num).result;
 
-                zp_ratio = Math.Exp(
+                double zp_ratio = Math.Exp(
                     zp_fit + Math.Log(pd1) -
                     (zp_old_fit + Math.Log(pd2)));
 
@@ -510,7 +489,7 @@ public static class Dream
                 //
                 //  Accept the candidate, or copy the value from the previous generation.
                 //
-                r = PDF.r8_uniform_01_sample();
+                double r = PDF.r8_uniform_01_sample();
 
                 if (r <= zp_ratio)
                 {
@@ -613,7 +592,7 @@ public static class Dream
         //
         //  Compute the acceptance rate.
         //
-        zp_accept_rate = zp_accept / (double) zp_count;
+        double zp_accept_rate = zp_accept / (double) zp_count;
 
         Console.WriteLine("");
         Console.WriteLine("  The acceptance rate is " + zp_accept_rate + "");

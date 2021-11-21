@@ -53,23 +53,16 @@ public static class Daub16
                 -1.174767841247695E-04
             }
             ;
-        int i;
-        int j;
-        int j0;
-        int j1;
-        int k;
-        int m;
-        int p = 15;
-        double[] y;
-        double[] z;
+        const int p = 15;
 
-        y = typeMethods.r8vec_copy_new(n, x);
-        z = new double[n];
+        double[] y = typeMethods.r8vec_copy_new(n, x);
+        double[] z = new double[n];
 
-        m = n;
+        int m = n;
 
         while (4 <= m)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 z[i] = 0.0;
@@ -77,12 +70,14 @@ public static class Daub16
 
             i = 0;
 
+            int j;
             for (j = 0; j < m - 1; j += 2)
             {
+                int k;
                 for (k = 0; k < p; k += 2)
                 {
-                    j0 = typeMethods.i4_wrap(j + k, 0, m - 1);
-                    j1 = typeMethods.i4_wrap(j + k + 1, 0, m - 1);
+                    int j0 = typeMethods.i4_wrap(j + k, 0, m - 1);
+                    int j1 = typeMethods.i4_wrap(j + k + 1, 0, m - 1);
                     z[i] = z[i] + c[k] * y[j0] + c[k + 1] * y[j1];
                     z[i + m / 2] = z[i + m / 2] + c[p - k] * y[j0] - c[p - k - 1] * y[j1];
                 }
@@ -150,38 +145,31 @@ public static class Daub16
                 -1.174767841247695E-04
             }
             ;
-        int i;
-        int i0;
-        int i1;
-        int j;
-        int k;
-        int m;
-        int p = 15;
-        int q;
-        double[] x;
-        double[] z;
+        const int p = 15;
 
-        x = typeMethods.r8vec_copy_new(n, y);
-        z = new double[n];
+        double[] x = typeMethods.r8vec_copy_new(n, y);
+        double[] z = new double[n];
 
-        m = 4;
-        q = (p - 1) / 2;
+        int m = 4;
+        int q = (p - 1) / 2;
 
         while (m <= n)
         {
+            int i;
             for (i = 0; i < n; i++)
             {
                 z[i] = 0.0;
             }
 
-            j = 0;
+            int j = 0;
 
             for (i = -q; i < m / 2 - q; i++)
             {
+                int k;
                 for (k = 0; k < p; k += 2)
                 {
-                    i0 = typeMethods.i4_wrap(i + k / 2, 0, m / 2 - 1);
-                    i1 = typeMethods.i4_wrap(i + m / 2 + k / 2, m / 2, m - 1);
+                    int i0 = typeMethods.i4_wrap(i + k / 2, 0, m / 2 - 1);
+                    int i1 = typeMethods.i4_wrap(i + m / 2 + k / 2, m / 2, m - 1);
                     z[j] = z[j] + c[p - k - 1] * x[i0] + c[k + 1] * x[i1];
                     z[j + 1] = z[j + 1] + c[p - k] * x[i0] - c[k] * x[i1];
                 }

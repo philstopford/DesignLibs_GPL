@@ -50,13 +50,10 @@ public static class Geometry
         //    point to the disk.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        double axial_component;
-        double axis_length;
         double dist;
         int i;
-        double off_axis_component;
         double[] off_axis = new double[DIM_NUM];
         double[] v = new double[DIM_NUM];
         //
@@ -68,7 +65,7 @@ public static class Geometry
             return dist;
         }
 
-        axis_length = typeMethods.r8vec_norm(DIM_NUM, axis);
+        double axis_length = typeMethods.r8vec_norm(DIM_NUM, axis);
 
         switch (axis_length)
         {
@@ -82,7 +79,7 @@ public static class Geometry
             v[i] = p[i] - pc[i];
         }
 
-        axial_component = typeMethods.r8vec_dot_product(DIM_NUM, v, axis) / axis_length;
+        double axial_component = typeMethods.r8vec_dot_product(DIM_NUM, v, axis) / axis_length;
         //
         //  Special case: the point satisfies the disk equation exactly.
         //
@@ -100,7 +97,7 @@ public static class Geometry
             off_axis[i] = p[i] - pc[i] - axial_component * axis[i] / axis_length;
         }
 
-        off_axis_component = typeMethods.r8vec_norm(DIM_NUM, off_axis);
+        double off_axis_component = typeMethods.r8vec_norm(DIM_NUM, off_axis);
         //
         //  If the off-axis component has norm less than R, the nearest point is
         //  the projection to the disk along the axial direction, and the distance

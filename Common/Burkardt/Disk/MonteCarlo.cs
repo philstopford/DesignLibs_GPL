@@ -36,10 +36,7 @@ public static class MonteCarlo
         //    Output, double DISK01_AREA, the area of the unit disk.
         //
     {
-        double area;
-            
-
-        area = Math.PI * r * r;
+        double area = Math.PI * r * r;
 
         return area;
     }
@@ -79,25 +76,21 @@ public static class MonteCarlo
         //    Output, double X[2*N], the points.
         //
     {
-        int i;
         int j;
-        double norm;
-        double r2;
-        double[] v;
-        double[] x;
 
-        x = new double[2 * n];
+        double[] x = new double[2 * n];
 
         for (j = 0; j < n; j++)
         {
-            v = typeMethods.r8vec_normal_01_new(2, ref data, ref seed);
+            double[] v = typeMethods.r8vec_normal_01_new(2, ref data, ref seed);
             //
             //  Compute the length of the vector.
             //
-            norm = Math.Sqrt(Math.Pow(v[0], 2) + Math.Pow(v[1], 2));
+            double norm = Math.Sqrt(Math.Pow(v[0], 2) + Math.Pow(v[1], 2));
             //
             //  Normalize the vector.
             //
+            int i;
             for (i = 0; i < 2; i++)
             {
                 v[i] /= norm;
@@ -106,7 +99,7 @@ public static class MonteCarlo
             //
             //  Now compute a value to map the point ON the circle INTO the circle.
             //
-            r2 = UniformRNG.r8_uniform_01(ref seed);
+            double r2 = UniformRNG.r8_uniform_01(ref seed);
 
             for (i = 0; i < 2; i++)
             {
@@ -160,11 +153,8 @@ public static class MonteCarlo
         //    Output, double DISK01_MONOMIAL_INTEGRAL, the integral.
         //
     {
-        double arg;
-        int i;
         double integral;
         const double r = 1.0;
-        double s;
 
         if (e[0] < 0 || e[1] < 0)
         {
@@ -184,6 +174,8 @@ public static class MonteCarlo
         {
             integral = 2.0;
 
+            double arg;
+            int i;
             for (i = 0; i < 2; i++)
             {
                 arg = 0.5 * (e[i] + 1);
@@ -197,7 +189,7 @@ public static class MonteCarlo
         //
         //  Adjust the surface integral to get the volume integral.
         //
-        s = e[0] + e[1] + 2;
+        double s = e[0] + e[1] + 2;
         integral = integral * Math.Pow(r, s) / s;
 
         return integral;

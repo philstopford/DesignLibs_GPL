@@ -51,14 +51,14 @@ public static class Geometry
         //    by the outward normal at the face.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
         double phi = 0.5 * (Math.Sqrt(5.0) + 1.0);
 
         double a = 1.0 / Math.Sqrt(3.0);
         double b = phi / Math.Sqrt(3.0);
         double c = (phi - 1.0) / Math.Sqrt(3.0);
-        double z = 0.0;
+        const double z = 0.0;
 
         int[] face_order_save =
         {

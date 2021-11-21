@@ -69,7 +69,6 @@ public static class Jump
         //
     {
         int i;
-        double r;
         //
         //  Determine the dimensions that will be updated.
         //
@@ -81,7 +80,7 @@ public static class Jump
 
         for (i = 0; i < par_num; i++)
         {
-            r = PDF.r8_uniform_01_sample();
+            double r = PDF.r8_uniform_01_sample();
 
             if (1.0 - cr[cr_index] < r)
             {
@@ -147,13 +146,11 @@ public static class Jump
         //    Output, double JUMPRATE_TABLE_INIT[PAR_NUM], the jumprate table.
         //
     {
-        double c;
         int i;
-        double[] jumprate_table;
 
-        jumprate_table = new double[par_num];
+        double[] jumprate_table = new double[par_num];
 
-        c = 2.38 / Math.Sqrt(2 * pair_num);
+        double c = 2.38 / Math.Sqrt(2 * pair_num);
 
         for (i = 0; i < par_num; i++)
         {

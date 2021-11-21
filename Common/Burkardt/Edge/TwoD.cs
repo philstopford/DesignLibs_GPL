@@ -33,15 +33,13 @@ public static class TwoD
         //  Parameters:
         //
     {
-        double value = 0;
-        double[] value_vec;
         double[] x_vec = new double[1];
         double[] y_vec = new double[1];
 
         x_vec[0] = x;
         y_vec[0] = y;
-        value_vec = fxy1_vec(1, x_vec, y_vec);
-        value = value_vec[0];
+        double[] value_vec = fxy1_vec(1, x_vec, y_vec);
+        double value = value_vec[0];
 
         return value;
     }
@@ -74,15 +72,13 @@ public static class TwoD
         //  Parameters:
         //
     {
-        double value = 0;
-        double[] value_vec;
         double[] x_vec = new double[1];
         double[] y_vec = new double[1];
 
         x_vec[0] = x;
         y_vec[0] = y;
-        value_vec = fxy2_vec(1, x_vec, y_vec);
-        value = value_vec[0];
+        double[] value_vec = fxy2_vec(1, x_vec, y_vec);
+        double value = value_vec[0];
 
         return value;
     }
@@ -115,15 +111,13 @@ public static class TwoD
         //  Parameters:
         //
     {
-        double value = 0;
-        double[] value_vec;
         double[] x_vec = new double[1];
         double[] y_vec = new double[1];
 
         x_vec[0] = x;
         y_vec[0] = y;
-        value_vec = fxy3_vec(1, x_vec, y_vec);
-        value = value_vec[0];
+        double[] value_vec = fxy3_vec(1, x_vec, y_vec);
+        double value = value_vec[0];
 
         return value;
     }
@@ -156,15 +150,13 @@ public static class TwoD
         //  Parameters:
         //
     {
-        double value = 0;
-        double[] value_vec;
         double[] x_vec = new double[1];
         double[] y_vec = new double[1];
 
         x_vec[0] = x;
         y_vec[0] = y;
-        value_vec = fxy4_vec(1, x_vec, y_vec);
-        value = value_vec[0];
+        double[] value_vec = fxy4_vec(1, x_vec, y_vec);
+        double value = value_vec[0];
 
         return value;
     }
@@ -197,15 +189,13 @@ public static class TwoD
         //  Parameters:
         //
     {
-        double value = 0;
-        double[] value_vec;
         double[] x_vec = new double[1];
         double[] y_vec = new double[1];
 
         x_vec[0] = x;
         y_vec[0] = y;
-        value_vec = fxy5_vec(1, x_vec, y_vec);
-        value = value_vec[0];
+        double[] value_vec = fxy5_vec(1, x_vec, y_vec);
+        double value = value_vec[0];
 
         return value;
     }
@@ -251,11 +241,10 @@ public static class TwoD
         //    Output, double FXY1_VEC[N], the function values.
         //
     {
-        double[] f;
         int i;
             
 
-        f = new double[n];
+        double[] f = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -329,7 +318,6 @@ public static class TwoD
         //    3, use Matlab's enhanced contrast level values.
         //
     {
-        double[] c;
         double[] c1 =
         {
             2.0, -0.98, -0.02, +0.01
@@ -342,20 +330,13 @@ public static class TwoD
         {
             1.0, -0.8, -0.2, +0.1
         };
-        int choice;
-        double eta1;
-        double eta2;
-        double[] f;
         int i;
-            
-        double xi1;
-        double xi2;
 
-        f = new double[n];
+        double[] f = new double[n];
 
-        choice = 3;
+        const int choice = 3;
 
-        c = choice switch
+        double[] c = choice switch
         {
             1 => typeMethods.r8vec_copy_new(4, c1),
             2 => typeMethods.r8vec_copy_new(4, c2),
@@ -366,15 +347,15 @@ public static class TwoD
         {
             f[i] = 0.0;
 
-            xi1 = (x[i] - 0.22) * Math.Cos(0.4 * Math.PI)
-                  + y[i] * Math.Sin(0.4 * Math.PI);
-            eta1 = -(x[i] - 0.22) * Math.Sin(0.4 * Math.PI)
-                   + y[i] * Math.Cos(0.4 * Math.PI);
+            double xi1 = (x[i] - 0.22) * Math.Cos(0.4 * Math.PI)
+                         + y[i] * Math.Sin(0.4 * Math.PI);
+            double eta1 = -(x[i] - 0.22) * Math.Sin(0.4 * Math.PI)
+                          + y[i] * Math.Cos(0.4 * Math.PI);
 
-            xi2 = (x[i] + 0.22) * Math.Cos(0.6 * Math.PI)
-                  + y[i] * Math.Sin(0.6 * Math.PI);
-            eta2 = -(x[i] + 0.22) * Math.Sin(0.6 * Math.PI)
-                   + y[i] * Math.Cos(0.6 * Math.PI);
+            double xi2 = (x[i] + 0.22) * Math.Cos(0.6 * Math.PI)
+                         + y[i] * Math.Sin(0.6 * Math.PI);
+            double eta2 = -(x[i] + 0.22) * Math.Sin(0.6 * Math.PI)
+                          + y[i] * Math.Cos(0.6 * Math.PI);
 
             switch (Math.Pow(x[i] / 0.69, 2) + Math.Pow(y[i] / 0.92, 2))
             {
@@ -471,16 +452,14 @@ public static class TwoD
         //    3, use Matlab's enhanced contrast level values.
         //
     {
-        double[] f;
         int i;
-        double r;
-            
 
-        f = new double[n];
+
+        double[] f = new double[n];
 
         for (i = 0; i < n; i++)
         {
-            r = (4.0 * x[i] * x[i] + 4.0 * y[i] * y[i] - 1.0) / 6.0;
+            double r = (4.0 * x[i] * x[i] + 4.0 * y[i] * y[i] - 1.0) / 6.0;
 
             f[i] = (3.0 * r) switch
             {
@@ -551,14 +530,13 @@ public static class TwoD
     {
         const double cl = 0.87879;
         const double cr = 1.0;
-        double[] f;
         int i;
         const double omega = 12.0;
             
         const double rhol = 0.55556;
         const double rhor = 1.0;
 
-        f = new double[n];
+        double[] f = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -624,14 +602,13 @@ public static class TwoD
     {
         const double cl = 0.87879;
         const double cr = 1.0;
-        double[] f;
         int i;
         const double omega = 12.0;
             
         const double rhol = 0.55556;
         const double rhor = 1.0;
 
-        f = new double[n];
+        double[] f = new double[n];
 
         for (i = 0; i < n; i++)
         {

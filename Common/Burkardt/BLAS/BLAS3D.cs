@@ -104,27 +104,23 @@ public static class BLAS3D
         int j;
         int l;
         //int ncola;
-        int nrowa;
-        int nrowb;
-        bool nota;
-        bool notb;
         double temp;
         //
         //  Set NOTA and NOTB as true if A and B respectively are not
         //  transposed and set NROWA, NCOLA and NROWB as the number of rows
         //  and columns of A and the number of rows of B respectively.
         //
-        nota = transa == 'N' || transa == 'n';
+        bool nota = transa is 'N' or 'n';
 
-        nrowa = nota switch
+        int nrowa = nota switch
         {
             true => m,
             _ => k
         };
 
-        notb = transb == 'N' || transb == 'n';
+        bool notb = transb is 'N' or 'n';
 
-        nrowb = notb switch
+        int nrowb = notb switch
         {
             true => k,
             _ => n
@@ -134,9 +130,7 @@ public static class BLAS3D
         //
         //info = 0;
 
-        switch ((transa == 'N' || transa == 'n' ||
-                 transa == 'C' || transa == 'c' ||
-                 transa == 'T' || transa == 't'))
+        switch (transa is 'N' or 'n' or 'C' or 'c' or 'T' or 't')
         {
             case false:
                 Console.WriteLine("");
@@ -145,9 +139,7 @@ public static class BLAS3D
                 return;
         }
 
-        switch ((transb == 'N' || transb == 'n' ||
-                 transb == 'C' || transb == 'c' ||
-                 transb == 'T' || transb == 't'))
+        switch (transb is 'N' or 'n' or 'C' or 'c' or 'T' or 't')
         {
             case false:
                 Console.WriteLine("");
@@ -376,13 +368,15 @@ public static class BLAS3D
 
                             for (l = 0; l < k; l++)
                             {
-                                if (b[j + l * ldb] != 0.0)
+                                if (b[j + l * ldb] == 0.0)
                                 {
-                                    temp = alpha * b[j + l * ldb];
-                                    for (i = 0; i < m; i++)
-                                    {
-                                        c[i + j * ldc] += temp * a[i + l * lda];
-                                    }
+                                    continue;
+                                }
+
+                                temp = alpha * b[j + l * ldb];
+                                for (i = 0; i < m; i++)
+                                {
+                                    c[i + j * ldc] += temp * a[i + l * lda];
                                 }
                             }
                         }
@@ -508,29 +502,24 @@ public static class BLAS3D
         //
     {
         int i;
-        int info;
         int j;
         int k;
-        bool lside;
-        bool nounit;
-        int nrowa;
         double temp;
-        bool upper;
         //
         //  Test the input parameters.
         //
-        lside = side == 'L';
+        bool lside = side == 'L';
 
-        nrowa = lside switch
+        int nrowa = lside switch
         {
             true => m,
             _ => n
         };
 
-        nounit = diag == 'N';
-        upper = uplo == 'U';
+        bool nounit = diag == 'N';
+        bool upper = uplo == 'U';
 
-        info = 0;
+        int info = 0;
         switch (lside)
         {
             case false when side != 'R':
@@ -648,23 +637,25 @@ public static class BLAS3D
                         {
                             for (k = 0; k < m; k++)
                             {
-                                if (b[k + j * ldb] != 0.0)
+                                if (b[k + j * ldb] == 0.0)
                                 {
-                                    temp = alpha * b[k + j * ldb];
-                                    for (i = 0; i < k; i++)
-                                    {
-                                        b[i + j * ldb] += temp * a[i + k * lda];
-                                    }
-
-                                    switch (nounit)
-                                    {
-                                        case true:
-                                            temp *= a[k + k * lda];
-                                            break;
-                                    }
-
-                                    b[k + j * ldb] = temp;
+                                    continue;
                                 }
+
+                                temp = alpha * b[k + j * ldb];
+                                for (i = 0; i < k; i++)
+                                {
+                                    b[i + j * ldb] += temp * a[i + k * lda];
+                                }
+
+                                switch (nounit)
+                                {
+                                    case true:
+                                        temp *= a[k + k * lda];
+                                        break;
+                                }
+
+                                b[k + j * ldb] = temp;
                             }
                         }
 
@@ -676,21 +667,23 @@ public static class BLAS3D
                         {
                             for (k = m - 1; 0 <= k; k--)
                             {
-                                if (b[k + j * ldb] != 0.0)
+                                if (b[k + j * ldb] == 0.0)
                                 {
-                                    temp = alpha * b[k + j * ldb];
-                                    b[k + j * ldb] = temp;
-                                    switch (nounit)
-                                    {
-                                        case true:
-                                            b[k + j * ldb] *= a[k + k * lda];
-                                            break;
-                                    }
+                                    continue;
+                                }
 
-                                    for (i = k + 1; i < m; i++)
-                                    {
-                                        b[i + j * ldb] += temp * a[i + k * lda];
-                                    }
+                                temp = alpha * b[k + j * ldb];
+                                b[k + j * ldb] = temp;
+                                switch (nounit)
+                                {
+                                    case true:
+                                        b[k + j * ldb] *= a[k + k * lda];
+                                        break;
+                                }
+
+                                for (i = k + 1; i < m; i++)
+                                {
+                                    b[i + j * ldb] += temp * a[i + k * lda];
                                 }
                             }
                         }
@@ -778,13 +771,15 @@ public static class BLAS3D
 
                             for (k = 0; k < j; k++)
                             {
-                                if (a[k + j * lda] != 0.0)
+                                if (a[k + j * lda] == 0.0)
                                 {
-                                    temp = alpha * a[k + j * lda];
-                                    for (i = 0; i < m; i++)
-                                    {
-                                        b[i + j * ldb] += temp * b[i + k * ldb];
-                                    }
+                                    continue;
+                                }
+
+                                temp = alpha * a[k + j * lda];
+                                for (i = 0; i < m; i++)
+                                {
+                                    b[i + j * ldb] += temp * b[i + k * ldb];
                                 }
                             }
                         }
@@ -810,13 +805,15 @@ public static class BLAS3D
 
                             for (k = j + 1; k < n; k++)
                             {
-                                if (a[k + j * lda] != 0.0)
+                                if (a[k + j * lda] == 0.0)
                                 {
-                                    temp = alpha * a[k + j * lda];
-                                    for (i = 0; i < m; i++)
-                                    {
-                                        b[i + j * ldb] += temp * b[i + k * ldb];
-                                    }
+                                    continue;
+                                }
+
+                                temp = alpha * a[k + j * lda];
+                                for (i = 0; i < m; i++)
+                                {
+                                    b[i + j * ldb] += temp * b[i + k * ldb];
                                 }
                             }
                         }
@@ -834,13 +831,15 @@ public static class BLAS3D
                                 {
                                     for (j = 0; j < k; j++)
                                     {
-                                        if (a[j + k * lda] != 0.0)
+                                        if (a[j + k * lda] == 0.0)
                                         {
-                                            temp = alpha * a[j + k * lda];
-                                            for (i = 0; i < m; i++)
-                                            {
-                                                b[i + j * ldb] += temp * b[i + k * ldb];
-                                            }
+                                            continue;
+                                        }
+
+                                        temp = alpha * a[j + k * lda];
+                                        for (i = 0; i < m; i++)
+                                        {
+                                            b[i + j * ldb] += temp * b[i + k * ldb];
                                         }
                                     }
 
@@ -852,12 +851,14 @@ public static class BLAS3D
                                             break;
                                     }
 
-                                    if (Math.Abs(temp - 1.0) > double.Epsilon)
+                                    if (!(Math.Abs(temp - 1.0) > double.Epsilon))
                                     {
-                                        for (i = 0; i < m; i++)
-                                        {
-                                            b[i + k * ldb] = temp * b[i + k * ldb];
-                                        }
+                                        continue;
+                                    }
+
+                                    for (i = 0; i < m; i++)
+                                    {
+                                        b[i + k * ldb] = temp * b[i + k * ldb];
                                     }
                                 }
 
@@ -869,13 +870,15 @@ public static class BLAS3D
                                 {
                                     for (j = k + 1; j < n; j++)
                                     {
-                                        if (a[j + k * lda] != 0.0)
+                                        if (a[j + k * lda] == 0.0)
                                         {
-                                            temp = alpha * a[j + k * lda];
-                                            for (i = 0; i < m; i++)
-                                            {
-                                                b[i + j * ldb] += temp * b[i + k * ldb];
-                                            }
+                                            continue;
+                                        }
+
+                                        temp = alpha * a[j + k * lda];
+                                        for (i = 0; i < m; i++)
+                                        {
+                                            b[i + j * ldb] += temp * b[i + k * ldb];
                                         }
                                     }
 
@@ -887,12 +890,14 @@ public static class BLAS3D
                                             break;
                                     }
 
-                                    if (Math.Abs(temp - 1.0) > double.Epsilon)
+                                    if (!(Math.Abs(temp - 1.0) > double.Epsilon))
                                     {
-                                        for (i = 0; i < m; i++)
-                                        {
-                                            b[i + k * ldb] = temp * b[i + k * ldb];
-                                        }
+                                        continue;
+                                    }
+
+                                    for (i = 0; i < m; i++)
+                                    {
+                                        b[i + k * ldb] = temp * b[i + k * ldb];
                                     }
                                 }
 
@@ -999,29 +1004,24 @@ public static class BLAS3D
         //
     {
         int i;
-        int info;
         int j;
         int k;
-        bool lside;
-        bool nounit;
-        int nrowa;
         double temp;
-        bool upper;
         //
         //  Test the input parameters.
         //
-        lside = side == 'L';
+        bool lside = side == 'L';
 
-        nrowa = lside switch
+        int nrowa = lside switch
         {
             true => m,
             _ => n
         };
 
-        nounit = diag == 'N';
-        upper = uplo == 'U';
+        bool nounit = diag == 'N';
+        bool upper = uplo == 'U';
 
-        info = 0;
+        int info = 0;
 
         switch (lside)
         {
@@ -1149,19 +1149,21 @@ public static class BLAS3D
 
                             for (k = m - 1; 0 <= k; k--)
                             {
-                                if (b[k + j * ldb] != 0.0)
+                                if (b[k + j * ldb] == 0.0)
                                 {
-                                    switch (nounit)
-                                    {
-                                        case true:
-                                            b[k + j * ldb] /= a[k + k * lda];
-                                            break;
-                                    }
+                                    continue;
+                                }
 
-                                    for (i = 0; i < k; i++)
-                                    {
-                                        b[i + j * ldb] -= b[k + j * ldb] * a[i + k * lda];
-                                    }
+                                switch (nounit)
+                                {
+                                    case true:
+                                        b[k + j * ldb] /= a[k + k * lda];
+                                        break;
+                                }
+
+                                for (i = 0; i < k; i++)
+                                {
+                                    b[i + j * ldb] -= b[k + j * ldb] * a[i + k * lda];
                                 }
                             }
                         }
@@ -1182,19 +1184,21 @@ public static class BLAS3D
 
                             for (k = 0; k < m; k++)
                             {
-                                if (b[k + j * ldb] != 0.0)
+                                if (b[k + j * ldb] == 0.0)
                                 {
-                                    switch (nounit)
-                                    {
-                                        case true:
-                                            b[k + j * ldb] /= a[k + k * lda];
-                                            break;
-                                    }
+                                    continue;
+                                }
 
-                                    for (i = k + 1; i < m; i++)
-                                    {
-                                        b[i + j * ldb] -= b[k + j * ldb] * a[i + k * lda];
-                                    }
+                                switch (nounit)
+                                {
+                                    case true:
+                                        b[k + j * ldb] /= a[k + k * lda];
+                                        break;
+                                }
+
+                                for (i = k + 1; i < m; i++)
+                                {
+                                    b[i + j * ldb] -= b[k + j * ldb] * a[i + k * lda];
                                 }
                             }
                         }
@@ -1277,12 +1281,14 @@ public static class BLAS3D
 
                             for (k = 0; k < j; k++)
                             {
-                                if (a[k + j * lda] != 0.0)
+                                if (a[k + j * lda] == 0.0)
                                 {
-                                    for (i = 0; i < m; i++)
-                                    {
-                                        b[i + j * ldb] -= a[k + j * lda] * b[i + k * ldb];
-                                    }
+                                    continue;
+                                }
+
+                                for (i = 0; i < m; i++)
+                                {
+                                    b[i + j * ldb] -= a[k + j * lda] * b[i + k * ldb];
                                 }
                             }
 
@@ -1317,12 +1323,14 @@ public static class BLAS3D
 
                             for (k = j + 1; k < n; k++)
                             {
-                                if (a[k + j * lda] != 0.0)
+                                if (a[k + j * lda] == 0.0)
                                 {
-                                    for (i = 0; i < m; i++)
-                                    {
-                                        b[i + j * ldb] -= a[k + j * lda] * b[i + k * ldb];
-                                    }
+                                    continue;
+                                }
+
+                                for (i = 0; i < m; i++)
+                                {
+                                    b[i + j * ldb] -= a[k + j * lda] * b[i + k * ldb];
                                 }
                             }
 
@@ -1368,22 +1376,26 @@ public static class BLAS3D
 
                                     for (j = 0; j < k; j++)
                                     {
-                                        if (a[j + k * lda] != 0.0)
+                                        if (a[j + k * lda] == 0.0)
                                         {
-                                            temp = a[j + k * lda];
-                                            for (i = 0; i < m; i++)
-                                            {
-                                                b[i + j * ldb] -= temp * b[i + k * ldb];
-                                            }
+                                            continue;
+                                        }
+
+                                        temp = a[j + k * lda];
+                                        for (i = 0; i < m; i++)
+                                        {
+                                            b[i + j * ldb] -= temp * b[i + k * ldb];
                                         }
                                     }
 
-                                    if (Math.Abs(alpha - 1.0) > double.Epsilon)
+                                    if (!(Math.Abs(alpha - 1.0) > double.Epsilon))
                                     {
-                                        for (i = 0; i < m; i++)
-                                        {
-                                            b[i + k * ldb] = alpha * b[i + k * ldb];
-                                        }
+                                        continue;
+                                    }
+
+                                    for (i = 0; i < m; i++)
+                                    {
+                                        b[i + k * ldb] = alpha * b[i + k * ldb];
                                     }
                                 }
 
@@ -1409,22 +1421,26 @@ public static class BLAS3D
 
                                     for (j = k + 1; j < n; j++)
                                     {
-                                        if (a[j + k * lda] != 0.0)
+                                        if (a[j + k * lda] == 0.0)
                                         {
-                                            temp = a[j + k * lda];
-                                            for (i = 0; i < m; i++)
-                                            {
-                                                b[i + j * ldb] -= temp * b[i + k * ldb];
-                                            }
+                                            continue;
+                                        }
+
+                                        temp = a[j + k * lda];
+                                        for (i = 0; i < m; i++)
+                                        {
+                                            b[i + j * ldb] -= temp * b[i + k * ldb];
                                         }
                                     }
 
-                                    if (Math.Abs(alpha - 1.0) > double.Epsilon)
+                                    if (!(Math.Abs(alpha - 1.0) > double.Epsilon))
                                     {
-                                        for (i = 0; i < m; i++)
-                                        {
-                                            b[i + k * ldb] = alpha * b[i + k * ldb];
-                                        }
+                                        continue;
+                                    }
+
+                                    for (i = 0; i < m; i++)
+                                    {
+                                        b[i + k * ldb] = alpha * b[i + k * ldb];
                                     }
                                 }
 

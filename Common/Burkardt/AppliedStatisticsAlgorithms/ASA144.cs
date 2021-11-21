@@ -196,12 +196,14 @@ public static partial class Algorithms
             {
                 for (int j = 0; j < ncol; j++)
                 {
-                    if (data.nvect[ii] <= nsubt[j])
+                    if (data.nvect[ii] > nsubt[j])
                     {
-                        ii += 1;
-                        matrix[i + j * nrow] += 1;
-                        break;
+                        continue;
                     }
+
+                    ii += 1;
+                    matrix[i + j * nrow] += 1;
+                    break;
                 }
             }
         }

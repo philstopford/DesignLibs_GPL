@@ -45,8 +45,7 @@ public static partial class Algorithms
         //
     {
         double f;
-        double value = 0;
-        double y;
+        double value;
         double z;
 
         switch (x)
@@ -58,7 +57,7 @@ public static partial class Algorithms
         }
 
         ifault = 0;
-        y = x;
+        double y = x;
 
         switch (x)
         {
@@ -338,11 +337,10 @@ public static partial class Algorithms
         //       was not achieved.
         //
     {
-        double alpha_min = 0.00001;
-        double gamma = 0.0001;
-        double gg;
+        const double alpha_min = 0.00001;
+        const double gamma = 0.0001;
         int ifault2 = 0;
-        int it_max = 100;
+        const int it_max = 100;
         double sum1;
         double sum2;
 
@@ -512,7 +510,7 @@ public static partial class Algorithms
         //
         //  Call Algorithm AS 91 to compute CHI2, the chi-squared value.
         //
-        gg = Helpers.LogGamma(rk / 2.0);
+        double gg = Helpers.LogGamma(rk / 2.0);
 
         double chi2 = ppchi2(gamma, rk, gg, ref ifault2);
 
@@ -716,9 +714,6 @@ public static partial class Algorithms
         //    Output, double DIRICHLET_MIX_MEAN[ELEM_NUM], the means for each element.
         //
     {
-        double[] a_sum;
-        double comp_weight_sum;
-        double[] mean;
         //
         //  Check.
         //
@@ -740,9 +735,9 @@ public static partial class Algorithms
             }
         }
 
-        comp_weight_sum = typeMethods.r8vec_sum(comp_num, comp_weight);
+        double comp_weight_sum = typeMethods.r8vec_sum(comp_num, comp_weight);
 
-        a_sum = new double[comp_num];
+        double[] a_sum = new double[comp_num];
 
         for (int comp_i = 0; comp_i < comp_num; comp_i++)
         {
@@ -753,7 +748,7 @@ public static partial class Algorithms
             }
         }
 
-        mean = new double[elem_num];
+        double[] mean = new double[elem_num];
 
         for (int elem_i = 0; elem_i < elem_num; elem_i++)
         {
@@ -820,11 +815,6 @@ public static partial class Algorithms
         //    Output, double DIRICHLET_MIX_SAMPLE[ELEM_NUM], a sample of the PDF.
         //
     {
-        double comp_weight_sum;
-        double r;
-        double sum2;
-        double[] x;
-        double x_sum;
         //
         //  Check.
         //
@@ -849,12 +839,12 @@ public static partial class Algorithms
         //
         //  Choose a particular density MIX.
         //
-        comp_weight_sum = typeMethods.r8vec_sum(comp_num, comp_weight);
+        double comp_weight_sum = typeMethods.r8vec_sum(comp_num, comp_weight);
 
-        r = UniformRNG.r8_uniform_ab(0.0, comp_weight_sum, ref seed);
+        double r = UniformRNG.r8_uniform_ab(0.0, comp_weight_sum, ref seed);
 
         comp = 0;
-        sum2 = 0.0;
+        double sum2 = 0.0;
 
         while (comp < comp_num)
         {
@@ -871,7 +861,7 @@ public static partial class Algorithms
         //
         //  Sample density COMP.
         //
-        x = new double[elem_num];
+        double[] x = new double[elem_num];
 
         for (int elem_i = 0; elem_i < elem_num; elem_i++)
         {
@@ -881,7 +871,7 @@ public static partial class Algorithms
         //
         //  Normalize the result.
         //
-        x_sum = typeMethods.r8vec_sum(elem_num, x);
+        double x_sum = typeMethods.r8vec_sum(elem_num, x);
 
         for (int elem_i = 0; elem_i < elem_num; elem_i++)
         {
@@ -1204,8 +1194,6 @@ public static partial class Algorithms
                         }
                     }
                 }
-
-                break;
             }
             //
             default:
@@ -1337,8 +1325,6 @@ public static partial class Algorithms
                         }
                     }
                 }
-
-                break;
             }
         }
     }
@@ -1411,8 +1397,8 @@ public static partial class Algorithms
             1.27045825245236838258, 2.41780725177450611770e-1,
             2.27238449892691845833e-2, 7.74545014278341407640e-4
         };
-        double const1 = 0.180625;
-        double const2 = 1.6;
+        const double const1 = 0.180625;
+        const double const2 = 1.6;
         double[] d =
         {
             1.0, 2.05319162663775882187,
@@ -1435,8 +1421,8 @@ public static partial class Algorithms
             1.42151175831644588870e-7, 2.04426310338993978564e-15
         };
         double r;
-        double split1 = 0.425;
-        double split2 = 5.0;
+        const double split1 = 0.425;
+        const double split2 = 5.0;
         double value = 0;
 
         ifault = 0;

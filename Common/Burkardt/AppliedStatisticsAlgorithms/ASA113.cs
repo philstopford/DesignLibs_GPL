@@ -87,7 +87,7 @@ public static partial class Algorithms
         //    2, the number of objects was less than the number of classes.
         //
     {
-        double eps = 1.0E-38;
+        const double eps = 1.0E-38;
 
         switch (ik)
         {
@@ -135,30 +135,36 @@ public static partial class Algorithms
                 icount += 1;
                 int m = klass[j - 1];
 
-                if (l != j)
+                if (l == j)
                 {
-                    if (clsize[l - 1] != 1 || clsize[m - 1] != 1)
-                    {
-                        int iswitch = 1;
-                        double inc = crswap(varval, klass, clsize, in_, ik, iv, critvl,
-                            i, j, l, m, iswitch);
-
-                        if (inc < -eps)
-                        {
-                            critvl += inc;
-                            icount = 0;
-
-                            iswitch = 2;
-                            crswap(varval, klass, clsize, in_, ik, iv, critvl,
-                                i, j, l, m, iswitch);
-
-                            ntrans += 1;
-                            klass[i - 1] = m;
-                            klass[j - 1] = l;
-                            l = m;
-                        }
-                    }
+                    continue;
                 }
+
+                if (clsize[l - 1] == 1 && clsize[m - 1] == 1)
+                {
+                    continue;
+                }
+
+                int iswitch = 1;
+                double inc = crswap(varval, klass, clsize, in_, ik, iv, critvl,
+                    i, j, l, m, iswitch);
+
+                if (!(inc < -eps))
+                {
+                    continue;
+                }
+
+                critvl += inc;
+                icount = 0;
+
+                iswitch = 2;
+                crswap(varval, klass, clsize, in_, ik, iv, critvl,
+                    i, j, l, m, iswitch);
+
+                ntrans += 1;
+                klass[i - 1] = m;
+                klass[j - 1] = l;
+                l = m;
             }
         }
     }
@@ -243,7 +249,7 @@ public static partial class Algorithms
         //    2, the number of objects was less than the number of classes.
         //
     {
-        double eps = 1.0E-38;
+        const double eps = 1.0E-38;
 
         switch (ik)
         {
@@ -296,41 +302,47 @@ public static partial class Algorithms
             int l;
             for (l = 1; l <= ik; l++)
             {
-                if (l != m)
+                if (l == m)
                 {
-                    iswitch = 1;
-                    double inc = crtran(varval, klass, clsize, in_, ik, iv, critvl,
-                        i, m, l, iswitch);
-                    //
-                    //  Remember the values of L and INC.
-                    //
-                    if (inc < inco)
-                    {
-                        lo = l;
-                        inco = inc;
-                    }
+                    continue;
                 }
+
+                iswitch = 1;
+                double inc = crtran(varval, klass, clsize, in_, ik, iv, critvl,
+                    i, m, l, iswitch);
+                //
+                //  Remember the values of L and INC.
+                //
+                if (!(inc < inco))
+                {
+                    continue;
+                }
+
+                lo = l;
+                inco = inc;
             }
 
             icount += 1;
             //
             //  Execute the transfer of object I from class M to class LO.
             //
-            if (lo != m)
+            if (lo == m)
             {
-                l = lo;
-                critvl += inco;
-                icount = 0;
-
-                iswitch = 2;
-                crtran(varval, klass, clsize, in_, ik, iv, critvl,
-                    i, m, l, iswitch);
-
-                ntrans += 1;
-                klass[i - 1] = l;
-                clsize[l - 1] += 1;
-                clsize[m - 1] -= 1;
+                continue;
             }
+
+            l = lo;
+            critvl += inco;
+            icount = 0;
+
+            iswitch = 2;
+            crtran(varval, klass, clsize, in_, ik, iv, critvl,
+                i, m, l, iswitch);
+
+            ntrans += 1;
+            klass[i - 1] = l;
+            clsize[l - 1] += 1;
+            clsize[m - 1] -= 1;
         }
     }
 

@@ -9,7 +9,7 @@ namespace QuadMeshReverseCuthillMcKeeTest;
 
 internal static class Program
 {
-    private static void Main()
+    private static void Main(string[] args)
         //****************************************************************************80
         //
         //  Purpose:

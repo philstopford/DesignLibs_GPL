@@ -74,11 +74,13 @@ public static partial class Algorithms
             sb[k] = u1;
             k += 1;
 
-            if (k < nnp)
+            if (k >= nnp)
             {
-                sb[k] = u2;
-                k += 1;
+                continue;
             }
+
+            sb[k] = u2;
+            k += 1;
         }
 
         //

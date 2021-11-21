@@ -3,7 +3,7 @@ using Burkardt.Types;
 
 namespace Burkardt.Symbol;
 
-public class Jacobi
+public static class Jacobi
 {
     public static int jacobi_symbol(int q, int p)
 

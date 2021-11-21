@@ -65,8 +65,6 @@ public static partial class Algorithms
         //    Output, double NCBETA, the value of the noncentral Beta CDF.
         //
     {
-        double sum;
-
         ifault = 0;
         double value = x;
         switch (lambda)
@@ -136,7 +134,7 @@ public static partial class Algorithms
         //
         //  The online copy of AS 310 has "SUM = Q - TEMP" which is incorrect.
         //
-        sum = q * temp;
+        double sum = q * temp;
         int iter1 = m;
         //
         //  The first set of iterations starts from M and goes downwards

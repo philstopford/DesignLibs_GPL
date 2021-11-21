@@ -38,10 +38,7 @@ public static class Annulus
         //    Output, double ANNULUS_AREA_2D, the area.
         //
     {
-        double area;
-            
-
-        area = Math.PI * (r2 + r1) * (r2 - r1);
+        double area = Math.PI * (r2 + r1) * (r2 - r1);
 
         return area;
     }
@@ -88,9 +85,7 @@ public static class Annulus
         //    Output, double ANNULUS_SECTOR_AREA_2D, the area.
         //
     {
-        double area;
-
-        area = 0.5 * (theta2 - theta1) * (r2 + r1) * (r2 - r1);
+        double area = 0.5 * (theta2 - theta1) * (r2 + r1) * (r2 - r1);
 
         return area;
     }
@@ -148,16 +143,12 @@ public static class Annulus
         //    Output, double ANNULUS_SECTOR_CENTROID_2D[2], the centroid.
         //
     {
-        double[] centroid;
-        double r;
-        double theta;
+        double theta = theta2 - theta1;
 
-        theta = theta2 - theta1;
-
-        r = 4.0 * Math.Sin(theta / 2.0) / (3.0 * theta)
+        double r = 4.0 * Math.Sin(theta / 2.0) / (3.0 * theta)
             * (r1 * r1 + r1 * r2 + r2 * r2) / (r1 + r2);
 
-        centroid = new double[2];
+        double[] centroid = new double[2];
 
         centroid[0] = pc[0] + r * Math.Cos(theta1 + theta / 2.0);
         centroid[1] = pc[1] + r * Math.Sin(theta1 + theta / 2.0);

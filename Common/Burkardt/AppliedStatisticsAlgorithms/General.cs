@@ -94,16 +94,12 @@ public static partial class Algorithms
                 6.012459259764103
             }
             ;
-        double value = 0;
-        double x;
-        double x1;
-        double x2;
-        double xlge = 510000.0;
-        double xlgst = 1.0E+30;
+        const double xlge = 510000.0;
+        const double xlgst = 1.0E+30;
         double y;
 
-        x = xvalue;
-        value = 0.0;
+        double x = xvalue;
+        double value = 0.0;
         //
         //  Check the input.
         //
@@ -208,8 +204,8 @@ public static partial class Algorithms
 
                 if (x <= xlge)
                 {
-                    x1 = 1.0 / x;
-                    x2 = x1 * x1;
+                    double x1 = 1.0 / x;
+                    double x2 = x1 * x1;
 
                     value += x1 * ((
                             r4[2] *
@@ -297,35 +293,32 @@ public static partial class Algorithms
         //    distribution over the desired interval.
         //
     {
-        double a1 = 5.75885480458;
-        double a2 = 2.62433121679;
-        double a3 = 5.92885724438;
-        double b1 = -29.8213557807;
-        double b2 = 48.6959930692;
-        double c1 = -0.000000038052;
-        double c2 = 0.000398064794;
-        double c3 = -0.151679116635;
-        double c4 = 4.8385912808;
-        double c5 = 0.742380924027;
-        double c6 = 3.99019417011;
-        double con = 1.28;
-        double d1 = 1.00000615302;
-        double d2 = 1.98615381364;
-        double d3 = 5.29330324926;
-        double d4 = -15.1508972451;
-        double d5 = 30.789933034;
-        double ltone = 7.0;
-        double p = 0.398942280444;
-        double q = 0.39990348504;
-        double r = 0.398942280385;
-        bool up;
-        double utzero = 18.66;
-        double value = 0;
-        double y;
-        double z;
+        const double a1 = 5.75885480458;
+        const double a2 = 2.62433121679;
+        const double a3 = 5.92885724438;
+        const double b1 = -29.8213557807;
+        const double b2 = 48.6959930692;
+        const double c1 = -0.000000038052;
+        const double c2 = 0.000398064794;
+        const double c3 = -0.151679116635;
+        const double c4 = 4.8385912808;
+        const double c5 = 0.742380924027;
+        const double c6 = 3.99019417011;
+        const double con = 1.28;
+        const double d1 = 1.00000615302;
+        const double d2 = 1.98615381364;
+        const double d3 = 5.29330324926;
+        const double d4 = -15.1508972451;
+        const double d5 = 30.789933034;
+        const double ltone = 7.0;
+        const double p = 0.398942280444;
+        const double q = 0.39990348504;
+        const double r = 0.398942280385;
+        const double utzero = 18.66;
+        double value;
 
-        up = upper;
-        z = x;
+        bool up = upper;
+        double z = x;
 
         switch (z)
         {
@@ -346,7 +339,7 @@ public static partial class Algorithms
             return value;
         }
 
-        y = 0.5 * z * z;
+        double y = 0.5 * z * z;
 
         if (z <= con)
         {
@@ -428,26 +421,15 @@ public static partial class Algorithms
         //
     {
         double a;
-        double ak;
-        double b;
-        double da;
-        double drb;
-        double emin = 12.5;
-        double f;
-        double fk;
-        double fkm1;
-        double fmkm1;
+        const double emin = 12.5;
         double fmkm2;
-        double g1 = 0.3989422804;
-        double g2 = 0.1591549431;
-        double g3 = 2.5066282746;
-        int ioe;
+        const double g1 = 0.3989422804;
+        const double g2 = 0.1591549431;
+        const double g3 = 2.5066282746;
         int k;
-        double rb;
-        double sum;
-        double value = 0;
+        double value;
 
-        f = idf;
+        double f = idf;
         switch (idf)
         {
             //
@@ -465,12 +447,12 @@ public static partial class Algorithms
         }
 
         ifault = 0;
-        ioe = idf % 2;
+        int ioe = idf % 2;
         a = st / Math.Sqrt(f);
-        b = f / (f + st * st);
-        rb = Math.Sqrt(b);
-        da = d * a;
-        drb = d * rb;
+        double b = f / (f + st * st);
+        double rb = Math.Sqrt(b);
+        double da = d * a;
+        double drb = d * rb;
 
         switch (idf)
         {
@@ -479,7 +461,7 @@ public static partial class Algorithms
                 return value;
         }
 
-        sum = 0.0;
+        double sum = 0.0;
 
         if (Math.Abs(drb) < emin)
         {
@@ -491,7 +473,7 @@ public static partial class Algorithms
             fmkm2 = 0.0;
         }
 
-        fmkm1 = b * da * fmkm2;
+        double fmkm1 = b * da * fmkm2;
 
         if (Math.Abs(d) < emin)
         {
@@ -504,12 +486,12 @@ public static partial class Algorithms
             _ => fmkm1
         };
 
-        ak = 1.0;
-        fk = 2.0;
+        double ak = 1.0;
+        double fk = 2.0;
 
         for (k = 2; k <= idf - 2; k += 2)
         {
-            fkm1 = fk - 1.0;
+            double fkm1 = fk - 1.0;
             fmkm2 = b * (da * ak * fmkm1 + fmkm2) * fkm1 / fk;
             ak = 1.0 / (ak * fkm1);
             fmkm1 = b * (da * ak * fmkm2 + fmkm1) * fk / (fk + 1.0);
@@ -578,9 +560,8 @@ public static partial class Algorithms
         //    Output, double TFN, the value of the T-function.
         //
     {
-        int NG = 5;
+        const int NG = 5;
 
-        double fxs;
         int i;
         double[] r =
         {
@@ -590,14 +571,12 @@ public static partial class Algorithms
             0.0747257,
             0.0333357
         };
-        double r1;
-        double r2;
         double rt;
-        double tp = 0.159155;
-        double tv1 = 1.0E-35;
-        double tv2 = 15.0;
-        double tv3 = 15.0;
-        double tv4 = 1.0E-05;
+        const double tp = 0.159155;
+        const double tv1 = 1.0E-35;
+        const double tv2 = 15.0;
+        const double tv3 = 15.0;
+        const double tv4 = 1.0E-05;
         double[] u =
         {
             0.0744372,
@@ -606,10 +585,7 @@ public static partial class Algorithms
             0.4325317,
             0.4869533
         };
-        double value = 0;
-        double x1;
-        double x2;
-        double xs;
+        double value;
         //
         //  Test for X near zero.
         //
@@ -640,15 +616,15 @@ public static partial class Algorithms
         //
         //  Test whether abs ( FX ) is so large that it must be truncated.
         //
-        xs = -0.5 * x * x;
-        x2 = fx;
-        fxs = fx * fx;
+        double xs = -0.5 * x * x;
+        double x2 = fx;
+        double fxs = fx * fx;
         //
         //  Computation of truncation point by Newton iteration.
         //
         if (tv3 <= Math.Log(1.0 + fxs) - xs * fxs)
         {
-            x1 = 0.5 * fx;
+            double x1 = 0.5 * fx;
             fxs = 0.25 * fxs;
 
             for (;;)
@@ -675,8 +651,8 @@ public static partial class Algorithms
         rt = 0.0;
         for (i = 0; i < NG; i++)
         {
-            r1 = 1.0 + fxs * Math.Pow(0.5 + u[i], 2);
-            r2 = 1.0 + fxs * Math.Pow(0.5 - u[i], 2);
+            double r1 = 1.0 + fxs * Math.Pow(0.5 + u[i], 2);
+            double r2 = 1.0 + fxs * Math.Pow(0.5 - u[i], 2);
 
             rt += r[i] * (Math.Exp(xs * r1) / r1 + Math.Exp(xs * r2) / r2);
         }
@@ -1227,8 +1203,7 @@ public static partial class Algorithms
             pn1 = 3.0 * Math.Sqrt(p) * (Math.Pow(x / p, 1.0 / 3.0)
                 + 1.0 / (9.0 * p) - 1.0);
 
-            bool upper = false;
-            value = alnorm(pn1, upper);
+            value = alnorm(pn1, false);
             return value;
         }
 
@@ -1267,14 +1242,7 @@ public static partial class Algorithms
 
             arg += Math.Log(value);
 
-            if (elimit <= arg)
-            {
-                value = Math.Exp(arg);
-            }
-            else
-            {
-                value = 0.0;
-            }
+            value = elimit <= arg ? Math.Exp(arg) : 0.0;
         }
         //
         //  Use a continued fraction expansion.
@@ -1705,9 +1673,8 @@ public static partial class Algorithms
             }
             ;
         int j;
-        double lnsqrt2pi = 0.9189385332046727;
-        double tmp;
-        double value = 0;
+        const double lnsqrt2pi = 0.9189385332046727;
+        double value;
 
         switch (z)
         {
@@ -1720,7 +1687,7 @@ public static partial class Algorithms
         ier = 0;
 
         value = 0.0;
-        tmp = z + 7.0;
+        double tmp = z + 7.0;
         for (j = 8; 1 <= j; j--)
         {
             value += a[j] / tmp;
@@ -1907,30 +1874,29 @@ public static partial class Algorithms
         //    distribution at Z.
         //
     {
-        double a0 = 0.5;
-        double a1 = 0.398942280444;
-        double a2 = 0.399903438504;
-        double a3 = 5.75885480458;
-        double a4 = 29.8213557808;
-        double a5 = 2.62433121679;
-        double a6 = 48.6959930692;
-        double a7 = 5.92885724438;
-        double b0 = 0.398942280385;
-        double b1 = 0.000000038052;
-        double b2 = 1.00000615302;
-        double b3 = 0.000398064794;
-        double b4 = 1.98615381364;
-        double b5 = 0.151679116635;
-        double b6 = 5.29330324926;
-        double b7 = 4.8385912808;
-        double b8 = 15.1508972451;
-        double b9 = 0.742380924027;
-        double b10 = 30.789933034;
-        double b11 = 3.99019417011;
+        const double a0 = 0.5;
+        const double a1 = 0.398942280444;
+        const double a2 = 0.399903438504;
+        const double a3 = 5.75885480458;
+        const double a4 = 29.8213557808;
+        const double a5 = 2.62433121679;
+        const double a6 = 48.6959930692;
+        const double a7 = 5.92885724438;
+        const double b0 = 0.398942280385;
+        const double b1 = 0.000000038052;
+        const double b2 = 1.00000615302;
+        const double b3 = 0.000398064794;
+        const double b4 = 1.98615381364;
+        const double b5 = 0.151679116635;
+        const double b6 = 5.29330324926;
+        const double b7 = 4.8385912808;
+        const double b8 = 15.1508972451;
+        const double b9 = 0.742380924027;
+        const double b10 = 30.789933034;
+        const double b11 = 3.99019417011;
         double y;
-        double zabs;
 
-        zabs = Math.Abs(z);
+        double zabs = Math.Abs(z);
         switch (zabs)
         {
             //
@@ -2250,15 +2216,13 @@ public static partial class Algorithms
         //    Output, double TRIGAMMA, the value of the trigamma function at X.
         //
     {
-        double a = 0.0001;
-        double b = 5.0;
-        double b2 = 0.1666666667;
-        double b4 = -0.03333333333;
-        double b6 = 0.02380952381;
-        double b8 = -0.03333333333;
-        double value = 0;
-        double y;
-        double z;
+        const double a = 0.0001;
+        const double b = 5.0;
+        const double b2 = 0.1666666667;
+        const double b4 = -0.03333333333;
+        const double b6 = 0.02380952381;
+        const double b8 = -0.03333333333;
+        double value;
         switch (x)
         {
             //
@@ -2271,7 +2235,7 @@ public static partial class Algorithms
         }
 
         ifault = 0;
-        z = x;
+        double z = x;
         //
         //  Use small value approximation if X <= A.
         //
@@ -2295,7 +2259,7 @@ public static partial class Algorithms
         //
         //  Apply asymptotic formula if argument is B or greater.
         //
-        y = 1.0 / z / z;
+        double y = 1.0 / z / z;
 
         value = value + 0.5 *
             y + (1.0

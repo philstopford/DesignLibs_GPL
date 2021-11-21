@@ -2,7 +2,7 @@
 
 namespace Burkardt.Values;
 
-public class Cmplex
+public static class Cmplex
 {
     public static void c8_log_values(ref int n_data, ref Complex z, ref Complex fz )
 

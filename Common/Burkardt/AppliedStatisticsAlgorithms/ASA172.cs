@@ -41,9 +41,7 @@ public static partial class Algorithms
     {
         for (int i = 0; i < kdim / 2; i++)
         {
-            int itemp = ivec[i];
-            ivec[i] = ivec[kdim - 1 - i];
-            ivec[kdim - 1 - i] = itemp;
+            (ivec[i], ivec[kdim - 1 - i]) = (ivec[kdim - 1 - i], ivec[i]);
         }
     }
 
@@ -131,11 +129,8 @@ public static partial class Algorithms
         //
     {
         int i;
-        int ifault;
-        int ik;
-        int itempv;
 
-        ifault = 0;
+        int ifault = 0;
         switch (qind)
         {
             //
@@ -149,11 +144,11 @@ public static partial class Algorithms
                 return ifault;
             case true:
             {
-                itempv = jsub - 1;
+                int itempv = jsub - 1;
 
                 for (i = 0; i < kdim - 1; i++)
                 {
-                    ik = kdim - 2 - i;
+                    int ik = kdim - 2 - i;
                     ivec[i] = itempv / iprod[ik];
                     itempv -= iprod[ik] * ivec[i];
                     ivec[i] += 1;

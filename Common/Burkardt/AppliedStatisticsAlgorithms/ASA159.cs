@@ -69,35 +69,13 @@ public static partial class Algorithms
         //    as 0 if no error occurred.
         //
     {
-        bool done1 = false;
         bool done2 = false;
         int i;
-        int ia;
-        int iap;
         int ib = 0;
-        int ic;
-        int id;
-        int idp;
-        int ie;
-        int igp;
-        int ihp;
-        int ii;
-        int iip;
         int j;
-        int jc;
-        int[] jwork;
         int l;
-        bool lsm;
-        bool lsp;
-        int m;
-        int nll;
         int nlm = 0;
-        int nlmp;
-        int nrowtl;
-        double r;
-        double sumprb;
         double x;
-        double y;
 
         ierror = 0;
         switch (key)
@@ -185,29 +163,30 @@ public static partial class Algorithms
         //
         //  Construct a random matrix.
         //
-        jwork = new int[ncol];
+        int[] jwork = new int[ncol];
 
         for (i = 0; i < ncol - 1; i++)
         {
             jwork[i] = ncolt[i];
         }
 
-        jc = data.ntotal;
+        int jc = data.ntotal;
 
         for (l = 0; l < nrow - 1; l++)
         {
-            nrowtl = nrowt[l];
-            ia = nrowtl;
-            ic = jc;
+            int nrowtl = nrowt[l];
+            int ia = nrowtl;
+            int ic = jc;
             jc -= nrowtl;
 
+            int m;
             for (m = 0; m < ncol - 1; m++)
             {
-                id = jwork[m];
-                ie = ic;
+                int id = jwork[m];
+                int ie = ic;
                 ic -= id;
                 ib = ie - ia;
-                ii = ib - id;
+                int ii = ib - id;
                 //
                 //  Test for zero entries in matrix.
                 //
@@ -225,11 +204,11 @@ public static partial class Algorithms
                 //
                 //  Generate a pseudo-random number.
                 //
-                r = UniformRNG.r8_uniform_01(ref seed);
+                double r = UniformRNG.r8_uniform_01(ref seed);
                 //
                 //  Compute the conditional expected value of MATRIX(L,M).
                 //
-                done1 = false;
+                bool done1 = false;
 
                 for (;;)
                 {
@@ -239,12 +218,12 @@ public static partial class Algorithms
                     }
 
                     nlm = (int)(ia * id / (double)ie + 0.5);
-                    iap = ia + 1;
-                    idp = id + 1;
-                    igp = idp - nlm;
-                    ihp = iap - nlm;
-                    nlmp = nlm + 1;
-                    iip = ii + nlmp;
+                    int iap = ia + 1;
+                    int idp = id + 1;
+                    int igp = idp - nlm;
+                    int ihp = iap - nlm;
+                    int nlmp = nlm + 1;
+                    int iip = ii + nlmp;
                     x = Math.Exp(data.fact[iap - 1] + data.fact[ib] + data.fact[ic] + data.fact[idp - 1] -
                                  data.fact[ie] - data.fact[nlmp - 1] - data.fact[igp - 1] - data.fact[ihp - 1] -
                                  data.fact[iip - 1]);
@@ -254,11 +233,11 @@ public static partial class Algorithms
                         break;
                     }
 
-                    sumprb = x;
-                    y = x;
-                    nll = nlm;
-                    lsp = false;
-                    lsm = false;
+                    double sumprb = x;
+                    double y = x;
+                    int nll = nlm;
+                    bool lsp = false;
+                    bool lsm = false;
                     //
                     //  Increment entry in row L, column M.
                     //

@@ -286,18 +286,9 @@ public static partial class Algorithms
         //    of X.
         //
     {
-        double ax;
-        double beta;
-        double c;
-        double errbd;
-        double errmax = 1.0E-07;
-        double gx;
-        int itrmax = 150;
-        double q;
-        double sumq;
-        double temp;
-        double value = 0;
-        double xj;
+        const double errmax = 1.0E-07;
+        const int itrmax = 150;
+        double value;
 
         ifault = 0;
 
@@ -320,23 +311,23 @@ public static partial class Algorithms
                 return value;
         }
 
-        c = 0.5 * lambda;
+        double c = 0.5 * lambda;
         //
         //  Initialize the series.
         //
-        beta = Helpers.LogGamma(a)
-               + Helpers.LogGamma(b)
-               - Helpers.LogGamma(a + b);
+        double beta = Helpers.LogGamma(a)
+                      + Helpers.LogGamma(b)
+                      - Helpers.LogGamma(a + b);
 
-        temp = betain(x, a, b, beta, ref ifault);
+        double temp = betain(x, a, b, beta, ref ifault);
 
-        gx = Math.Exp(a * Math.Log(x) + b * Math.Log(1.0 - x) - beta - Math.Log(a));
+        double gx = Math.Exp(a * Math.Log(x) + b * Math.Log(1.0 - x) - beta - Math.Log(a));
 
-        q = Math.Exp(-c);
+        double q = Math.Exp(-c);
 
-        xj = 0.0;
-        ax = q * temp;
-        sumq = 1.0 - q;
+        double xj = 0.0;
+        double ax = q * temp;
+        double sumq = 1.0 - q;
         value = ax;
         //
         //  Recur over subsequent terms until convergence is achieved.
@@ -355,7 +346,7 @@ public static partial class Algorithms
             //
             //  Check for convergence and act accordingly.
             //
-            errbd = Math.Abs((temp - gx) * sumq);
+            double errbd = Math.Abs((temp - gx) * sumq);
 
             if (errbd <= errmax)
             {

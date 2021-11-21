@@ -243,16 +243,10 @@ public static class BLAS0
         //    Output, double ZMACH, the requested value.
         //
     {
-        double eps;
-        double huge;
         double s;
-        Complex temp1;
-        Complex temp2;
-        Complex temp3;
         double tiny;
-        double value = 0;
 
-        eps = 1.0;
+        double eps = 1.0;
 
         for (;;)
         {
@@ -285,29 +279,9 @@ public static class BLAS0
         //
         tiny = Math.Sqrt(tiny);
 
-        switch (false)
-        {
-            case true:
-            {
-                temp1 = new Complex(1.0, 0.0);
-                temp2 = new Complex(tiny, 0.0);
-                temp3 = temp1 / temp2;
+        double huge = 1.0 / tiny;
 
-                s = temp3.Real;
-
-                tiny = Math.Abs(s - 1.0 / tiny) switch
-                {
-                    > double.Epsilon => Math.Sqrt(tiny),
-                    _ => tiny
-                };
-
-                break;
-            }
-        }
-
-        huge = 1.0 / tiny;
-
-        value = job switch
+        double value = job switch
         {
             1 => eps,
             2 => tiny,
@@ -317,7 +291,6 @@ public static class BLAS0
 
         return value;
     }
-    //****************************************************************************80
 
     public static Complex zsign1(Complex z1, Complex z2)
 

@@ -256,17 +256,8 @@ public static partial class Algorithms
         //    Output, double THA, the value of Owen's T function.
         //
     {
-        double a;
-        double absa;
         double ah;
-        double c1;
-        double c2;
-        double ex;
         double g;
-        double gah;
-        double gh;
-        double h;
-        double lam;
         const double twopi = 6.2831853071795864769;
         double value = 0;
 
@@ -277,7 +268,7 @@ public static partial class Algorithms
                 return value;
         }
 
-        h = h1 / h2;
+        double h = h1 / h2;
 
         switch (a2)
         {
@@ -299,18 +290,18 @@ public static partial class Algorithms
             }
         }
 
-        a = a1 / a2;
+        double a = a1 / a2;
 
         switch (Math.Abs(h))
         {
             case < 0.3 when 7.0 < Math.Abs(a):
             {
-                lam = Math.Abs(a * h);
-                ex = Math.Exp(-lam * lam / 2.0);
+                double lam = Math.Abs(a * h);
+                double ex = Math.Exp(-lam * lam / 2.0);
                 g = alnorm(lam, false);
-                c1 = (ex / lam + Math.Sqrt(twopi) * (g - 0.5)) / twopi;
-                c2 = ((lam * lam + 2.0) * ex / lam / lam / lam
-                      + Math.Sqrt(twopi) * (g - 0.5)) / (6.0 * twopi);
+                double c1 = (ex / lam + Math.Sqrt(twopi) * (g - 0.5)) / twopi;
+                double c2 = ((lam * lam + 2.0) * ex / lam / lam / lam
+                             + Math.Sqrt(twopi) * (g - 0.5)) / (6.0 * twopi);
                 ah = Math.Abs(h);
                 value = 0.25 - c1 * ah + c2 * ah * ah * ah;
                 value = a switch
@@ -323,7 +314,7 @@ public static partial class Algorithms
             }
             default:
             {
-                absa = Math.Abs(a);
+                double absa = Math.Abs(a);
 
                 switch (absa)
                 {
@@ -333,8 +324,8 @@ public static partial class Algorithms
                 }
 
                 ah = absa * h;
-                gh = alnorm(h, false);
-                gah = alnorm(ah, false);
+                double gh = alnorm(h, false);
+                double gah = alnorm(ah, false);
                 value = 0.5 * (gh + gah) - gh * gah - tfn(ah, 1.0 / absa);
 
                 switch (a)

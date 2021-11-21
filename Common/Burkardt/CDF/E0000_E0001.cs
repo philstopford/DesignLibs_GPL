@@ -41,8 +41,8 @@ public class E0000_E0001_Data
             yy;
         public int i99999;
         public bool qbdd, qcond;
-        public const bool qdum1 = false;
-        public const bool qdum2 = false;
+        public bool qdum1 = false;
+        public bool qdum2 = false;
         public bool qincr, qlim;
         public bool qup;
         
@@ -657,7 +657,7 @@ public static class E0000E0001
 
         S260:
         data.qleft = data.e0000vars.qdum1;
-        data.qhi = E0000_E0001_Data.E0000Variables.qdum2;
+        data.qhi = data.e0000vars.qdum2;
         dzror(ref data);
         if (data.status != 1)
         {

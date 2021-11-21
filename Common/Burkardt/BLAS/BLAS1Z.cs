@@ -52,10 +52,8 @@ public static class BLAS1Z
         //
     {
         int i;
-        int ix;
-        double value = 0;
 
-        value = 0.0;
+        double value = 0.0;
 
         if (n <= 0 || incx <= 0)
         {
@@ -76,7 +74,7 @@ public static class BLAS1Z
             }
             default:
             {
-                ix = 0;
+                int ix = 0;
                 for (i = 0; i < n; i++)
                 {
                     value = value + Math.Abs(x[index + ix].Real)
@@ -144,12 +142,7 @@ public static class BLAS1Z
         //    Output, double DZNRM2, the norm of the vector.
         //
     {
-        int i;
-        int ix;
-        double scale;
-        double ssq;
-        double temp;
-        double value = 0;
+        double value;
 
         if (n < 1 || incx < 1)
         {
@@ -157,12 +150,14 @@ public static class BLAS1Z
         }
         else
         {
-            scale = 0.0;
-            ssq = 1.0;
-            ix = 0;
+            double scale = 0.0;
+            double ssq = 1.0;
+            int ix = 0;
 
+            int i;
             for (i = 0; i < n; i++)
             {
+                double temp;
                 if (x[index + ix].Real != 0.0)
                 {
                     temp = Math.Abs(x[index + ix].Real);
@@ -250,11 +245,9 @@ public static class BLAS1Z
         //
     {
         int i;
-        int ix;
         double smax;
-        int value;
 
-        value = 0;
+        int value = 0;
 
         if (n < 1 || incx <= 0)
         {
@@ -271,7 +264,7 @@ public static class BLAS1Z
 
         if (incx != 1)
         {
-            ix = 0;
+            int ix = 0;
             smax = BLAS0.zabs1(x[index + 0]);
             ix += incx;
 
@@ -356,8 +349,6 @@ public static class BLAS1Z
         //
     {
         int i;
-        int ix;
-        int iy;
 
         switch (n)
         {
@@ -372,13 +363,13 @@ public static class BLAS1Z
 
         if (incx != 1 || incy != 1)
         {
-            ix = incx switch
+            int ix = incx switch
             {
                 >= 0 => 0,
                 _ => (-n + 1) * incx
             };
 
-            iy = incy switch
+            int iy = incy switch
             {
                 >= 0 => 0,
                 _ => (-n + 1) * incy
@@ -452,8 +443,6 @@ public static class BLAS1Z
         //
     {
         int i;
-        int ix;
-        int iy;
 
         switch (n)
         {
@@ -463,13 +452,13 @@ public static class BLAS1Z
 
         if (incx != 1 || incy != 1)
         {
-            ix = incx switch
+            int ix = incx switch
             {
                 >= 0 => 0,
                 _ => (-n + 1) * incx
             };
 
-            iy = incy switch
+            int iy = incy switch
             {
                 >= 0 => 0,
                 _ => (-n + 1) * incy
@@ -545,11 +534,8 @@ public static class BLAS1Z
         //
     {
         int i;
-        int ix;
-        int iy;
-        Complex value;
 
-        value = new Complex(0.0, 0.0);
+        Complex value = new Complex(0.0, 0.0);
 
         switch (n)
         {
@@ -570,13 +556,13 @@ public static class BLAS1Z
             }
             default:
             {
-                ix = incx switch
+                int ix = incx switch
                 {
                     >= 0 => 0,
                     _ => (-n + 1) * incx
                 };
 
-                iy = incy switch
+                int iy = incy switch
                 {
                     >= 0 => 0,
                     _ => (-n + 1) * incy
@@ -650,11 +636,8 @@ public static class BLAS1Z
         //
     {
         int i;
-        int ix;
-        int iy;
-        Complex value;
 
-        value = new Complex(0.0, 0.0);
+        Complex value = new Complex(0.0, 0.0);
 
         switch (n)
         {
@@ -675,13 +658,13 @@ public static class BLAS1Z
             }
             default:
             {
-                ix = incx switch
+                int ix = incx switch
                 {
                     >= 0 => 0,
                     _ => (-n + 1) * incx
                 };
 
-                iy = incy switch
+                int iy = incy switch
                 {
                     >= 0 => 0,
                     _ => (-n + 1) * incy
@@ -758,8 +741,6 @@ public static class BLAS1Z
     {
         Complex ctemp;
         int i;
-        int ix;
-        int iy;
 
         switch (n)
         {
@@ -782,13 +763,13 @@ public static class BLAS1Z
             }
             default:
             {
-                ix = incx switch
+                int ix = incx switch
                 {
                     >= 0 => 0,
                     _ => (-n + 1) * incx
                 };
 
-                iy = incy switch
+                int iy = incy switch
                 {
                     >= 0 => 0,
                     _ => (-n + 1) * incy
@@ -957,10 +938,6 @@ public static class BLAS1Z
         //    Output, complex <double> *S, the sine of the Givens rotation.
         //
     {
-        Complex alpha;
-        double norm;
-        double scale;
-
         if (BLAS0.zabs2(ca) == 0.0)
         {
             c = 0.0;
@@ -969,10 +946,10 @@ public static class BLAS1Z
         }
         else
         {
-            scale = BLAS0.zabs2(ca) + BLAS0.zabs2(cb);
-            norm = scale * Math.Sqrt(Math.Pow(BLAS0.zabs2(ca / scale), 2)
-                                     + Math.Pow(BLAS0.zabs2(cb / scale), 2));
-            alpha = ca / BLAS0.zabs2(ca);
+            double scale = BLAS0.zabs2(ca) + BLAS0.zabs2(cb);
+            double norm = scale * Math.Sqrt(Math.Pow(BLAS0.zabs2(ca / scale), 2)
+                                            + Math.Pow(BLAS0.zabs2(cb / scale), 2));
+            Complex alpha = ca / BLAS0.zabs2(ca);
             c = BLAS0.zabs2(ca) / norm;
             s = alpha * Complex.Conjugate(cb) / norm;
             ca = alpha * norm;
@@ -1108,8 +1085,6 @@ public static class BLAS1Z
     {
         Complex ctemp;
         int i;
-        int ix;
-        int iy;
 
         switch (n)
         {
@@ -1132,13 +1107,13 @@ public static class BLAS1Z
             }
             default:
             {
-                ix = incx switch
+                int ix = incx switch
                 {
                     >= 0 => 0,
                     _ => (-n + 1) * incx
                 };
 
-                iy = incy switch
+                int iy = incy switch
                 {
                     >= 0 => 0,
                     _ => (-n + 1) * incy

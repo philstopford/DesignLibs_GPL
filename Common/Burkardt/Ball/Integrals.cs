@@ -49,11 +49,8 @@ public static class Integrals
         //    Output, double BALL01_MONOMIAL_INTEGRAL, the integral.
         //
     {
-        int i;
         double integral;
         const double r = 1.0;
-            
-        double s;
 
         if (e[0] < 0 || e[1] < 0 || e[2] < 0)
         {
@@ -83,6 +80,7 @@ public static class Integrals
                 {
                     integral = 2.0;
 
+                    int i;
                     for (i = 0; i < 3; i++)
                     {
                         integral *= typeMethods.r8_gamma(0.5 * (e[i] + 1));
@@ -98,7 +96,7 @@ public static class Integrals
         /*
         The surface integral is now adjusted to give the volume integral.
         */
-        s = e[0] + e[1] + e[2] + 3;
+        double s = e[0] + e[1] + e[2] + 3;
 
         integral = integral * Math.Pow(r, s) / s;
 
@@ -151,26 +149,23 @@ public static class Integrals
         //
     {
         const double exponent = 1.0 / 3.0;
-        int i;
         int j;
-        double norm;
-        double r;
-        double[] x;
         typeMethods.r8vecNormalData data = new();
 
-        x = typeMethods.r8mat_normal_01_new(3, n, ref data, ref seed);
+        double[] x = typeMethods.r8mat_normal_01_new(3, n, ref data, ref seed);
 
         for (j = 0; j < n; j++)
         {
             //
             //  Compute the length of the vector.
             //
-            norm = Math.Sqrt(Math.Pow(x[0 + j * 3], 2)
-                             + Math.Pow(x[1 + j * 3], 2)
-                             + Math.Pow(x[2 + j * 3], 2));
+            double norm = Math.Sqrt(Math.Pow(x[0 + j * 3], 2)
+                                    + Math.Pow(x[1 + j * 3], 2)
+                                    + Math.Pow(x[2 + j * 3], 2));
             //
             //  Normalize the vector.
             //
+            int i;
             for (i = 0; i < 3; i++)
             {
                 x[i + j * 3] /= norm;
@@ -179,7 +174,7 @@ public static class Integrals
             //
             //  Now compute a value to map the point ON the sphere INTO the sphere.
             //
-            r = UniformRNG.r8_uniform_01(ref seed);
+            double r = UniformRNG.r8_uniform_01(ref seed);
 
             for (i = 0; i < 3; i++)
             {
@@ -216,10 +211,8 @@ public static class Integrals
         //
     {
         const double r = 1.0;
-            
-        double volume;
 
-        volume = 4.0 * Math.PI * Math.Pow(r, 3) / 3.0;
+        double volume = 4.0 * Math.PI * Math.Pow(r, 3) / 3.0;
 
         return volume;
     }

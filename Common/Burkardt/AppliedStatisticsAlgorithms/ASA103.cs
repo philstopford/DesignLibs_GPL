@@ -44,11 +44,9 @@ public static partial class Algorithms
         //    Output, double DIGAMMA, the value of the digamma function at X.
         //
     {
-        double c = 8.5;
-        double euler_mascheroni = 0.57721566490153286060;
-        double r;
-        double value = 0;
-        double x2;
+        const double c = 8.5;
+        const double euler_mascheroni = 0.57721566490153286060;
+        double value;
         switch (x)
         {
             //
@@ -78,7 +76,7 @@ public static partial class Algorithms
         //  Reduce to DIGAMA(X + N).
         //
         value = 0.0;
-        x2 = x;
+        double x2 = x;
         while (x2 < c)
         {
             value -= 1.0 / x2;
@@ -88,7 +86,7 @@ public static partial class Algorithms
         //
         //  Use Stirling's (actually de Moivre's) expansion.
         //
-        r = 1.0 / x2;
+        double r = 1.0 / x2;
         value = value + Math.Log(x2) - 0.5 * r;
 
         r *= r;

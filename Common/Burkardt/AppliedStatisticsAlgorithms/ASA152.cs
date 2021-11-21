@@ -70,40 +70,24 @@ public static partial class Algorithms
         //    probability) of up to LL successes out of KK samples.
         //
     {
-        double arg;
-        bool dir;
-        double elimit = -88.0;
-        int i;
-        int j;
-        int k;
-        int kl;
-        int l;
-        int m;
-        int mbig = 600;
-        double mean;
-        int mnkl;
-        int mvbig = 1000;
-        int n;
-        int nl;
-        double p;
-        double pt;
-        double rootpi = 2.506628274631001;
-        double scale = 1.0E+35;
-        double sig;
-        double value = 0;
+        const double elimit = -88.0;
+        const int mbig = 600;
+        const int mvbig = 1000;
+        const double rootpi = 2.506628274631001;
+        const double scale = 1.0E+35;
 
         ifault = 0;
 
-        k = kk + 1;
-        l = ll + 1;
-        m = mm + 1;
-        n = nn + 1;
+        int k = kk + 1;
+        int l = ll + 1;
+        int m = mm + 1;
+        int n = nn + 1;
 
-        dir = true;
+        bool dir = true;
         //
         //  Check arguments are within permitted limits.
         //
-        value = 0.0;
+        double value = 0.0;
 
         if (n < 1 || m < n || k < 1 || m < k)
         {
@@ -143,7 +127,7 @@ public static partial class Algorithms
                 return value;
         }
 
-        p = nn / (double) (mm - nn);
+        double p = nn / (double) (mm - nn);
 
         if (16.0 * Math.Max(p, 1.0 / p)
             < Math.Min(kk, mm - kk) &&
@@ -152,16 +136,16 @@ public static partial class Algorithms
             //
             //  Use a normal approximation.
             //
-            mean = kk * nn / (double) mm;
+            double mean = kk * nn / (double) mm;
 
-            sig = Math.Sqrt(mean * ((mm - nn) / (double) mm)
-                                 * ((mm - kk) / (double) (mm - 1)));
+            double sig = Math.Sqrt(mean * ((mm - nn) / (double) mm)
+                                        * ((mm - kk) / (double) (mm - 1)));
 
             switch (point)
             {
                 case true:
                 {
-                    arg = -0.5 * Math.Pow((ll - mean) / sig, 2);
+                    double arg = -0.5 * Math.Pow((ll - mean) / sig, 2);
                     if (elimit <= arg)
                     {
                         value = Math.Exp(arg) / (sig * rootpi);
@@ -184,6 +168,7 @@ public static partial class Algorithms
             //  Calculate exact hypergeometric probabilities.
             //  Interchange K and N if this saves calculations.
             //
+            int i;
             if (Math.Min(n - 1, m - n) < Math.Min(k - 1, m - k))
             {
                 i = k;
@@ -198,6 +183,7 @@ public static partial class Algorithms
                 k = m - k + 1;
             }
 
+            int j;
             if (mbig < mm)
             {
                 //
@@ -213,14 +199,7 @@ public static partial class Algorithms
                     - alnfac(kk - ll)
                     - alnfac(mm - nn - kk + ll);
 
-                if (elimit <= p)
-                {
-                    value = Math.Exp(p);
-                }
-                else
-                {
-                    value = 0.0;
-                }
+                value = elimit <= p ? Math.Exp(p) : 0.0;
             }
             else
             {
@@ -292,10 +271,10 @@ public static partial class Algorithms
                     break;
             }
 
-            pt = 0.0;
-            nl = n - l;
-            kl = k - l;
-            mnkl = m - n - kl + 1;
+            double pt = 0.0;
+            int nl = n - l;
+            int kl = k - l;
+            int mnkl = m - n - kl + 1;
 
             if (l <= kl)
             {

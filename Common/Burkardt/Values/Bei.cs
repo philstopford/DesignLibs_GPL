@@ -1,6 +1,6 @@
 ﻿namespace Burkardt.Values;
 
-public class bei
+public static class bei
 {
     public static void bei0_values(ref int n_data, ref double x, ref double fx )
 

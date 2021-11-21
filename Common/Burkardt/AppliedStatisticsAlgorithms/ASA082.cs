@@ -47,20 +47,11 @@ public static partial class Algorithms
         //    1, an error was detected.
         //
     {
-        int i;
-        int j;
         int k;
-        int p;
-        int q;
-        int r;
-        int s;
-        double tol;
-        double x;
-        double y;
 
         d = 0.0;
         ifault = 0;
-        tol = 0.0001;
+        double tol = 0.0001;
 
         switch (n)
         {
@@ -80,13 +71,13 @@ public static partial class Algorithms
         }
 
         d = 1.0;
-        r = 0;
+        int r = 0;
 
         for (k = 2; k <= n + 1; k++)
         {
-            q = r;
-            x = a2[r];
-            y = x switch
+            int q = r;
+            double x = a2[r];
+            double y = x switch
             {
                 < 0.0 => -1.0,
                 _ => +1.0
@@ -118,12 +109,14 @@ public static partial class Algorithms
                     return;
                 }
 
+                int i;
                 for (i = k; i <= n; i++)
                 {
                     q += n;
                     x = a2[q] * y;
-                    p = r;
-                    s = q;
+                    int p = r;
+                    int s = q;
+                    int j;
                     for (j = k; j <= n; j++)
                     {
                         p += 1;

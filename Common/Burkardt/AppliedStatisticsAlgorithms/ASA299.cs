@@ -153,11 +153,13 @@ public static partial class Algorithms
 
                 for (int i = n - 2; 0 <= i; i--)
                 {
-                    if (0 < x[i])
+                    if (0 >= x[i])
                     {
-                        j = i;
-                        break;
+                        continue;
                     }
+
+                    j = i;
+                    break;
                 }
 
                 if (j == n - 1)

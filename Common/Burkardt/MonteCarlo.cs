@@ -4,7 +4,7 @@ using Burkardt.Uniform;
 
 namespace Burkardt.MonteCarlo;
 
-public class MonteCarlo
+public static class MonteCarlo
 {
     public static void calc(int m, int n, int seed)
         //****************************************************************************80

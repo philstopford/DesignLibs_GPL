@@ -68,7 +68,7 @@ public static partial class Algorithms
         //    Input, int K, the maximum number of clusters.
         //
     {
-        double big = 1.0E+10;
+        const double big = 1.0E+10;
 
         for (int i = 1; i <= clusters; i++)
         {
@@ -93,11 +93,13 @@ public static partial class Algorithms
                     db += dc * dc;
                 }
 
-                if (db < da)
+                if (!(db < da))
                 {
-                    da = db;
-                    b[i - 1] = j;
+                    continue;
                 }
+
+                da = db;
+                b[i - 1] = j;
             }
 
             int ig = b[i - 1];
@@ -172,73 +174,85 @@ public static partial class Algorithms
                 //  If the number of cluster points is less than or equal to the
                 //  specified minimum, NZ, then bypass this iteration.
                 //
-                if (minobserv < e[il - 1])
+                if (minobserv >= e[il - 1])
                 {
-                    double fl = e[il - 1];
-                    double dc = f[i - 1];
+                    continue;
+                }
 
-                    for (int  j = 1; j <= clusters; j++ )
+                double fl = e[il - 1];
+                double dc = f[i - 1];
+
+                for (int  j = 1; j <= clusters; j++ )
+                {
+                    if (j == il)
                     {
-                        if ( j != il )
-                        {
-                            double fm = e[j -1];
-                            fm /= (fm + 1.0);
-
-                            double de = 0.0;
-                            for (int k = 1; k <= variables; k++)
-                            {
-                                double da = x[i - 1 + (k - 1) * observations] - d[j -1 + (k - 1) * maxclusters];
-                                de += da * da * fm;
-                            }
-
-                            if (de < dc)
-                            {
-                                dc = de;
-                                ir = j;
-                            }
-                        }
+                        continue;
                     }
-                    //
-                    //  Reassignment is made here if necessary.
-                    //
-                    if (ir != il)
+
+                    double fm = e[j -1];
+                    fm /= (fm + 1.0);
+
+                    double de = 0.0;
+                    for (int k = 1; k <= variables; k++)
                     {
-                        double fq = e[ir - 1];
-                        dev[il - 1] -= f[i - 1];
-                        dev[ir - 1] += dc;
-                        e[ir - 1] += 1;
-                        e[il - 1] -= 1;
-
-                        for (int j = 1; j <= variables; j++ )
-                        {
-                            d[il - 1 + ( j -1)*maxclusters] = (d[il - 1 + ( j -1) * maxclusters]
-                                *fl - x[i - 1 + ( j -1)*observations] ) / (fl - 1.0);
-                            d[ir - 1 + ( j -1)*maxclusters] = (d[ir - 1 + ( j -1) * maxclusters]
-                                *fq + x[i - 1 + ( j -1)*observations] ) / (fq + 1.0);
-                        }
-
-                        b[i - 1] = ir;
-
-                        for (int j = 1; j <= observations; j++)
-                        {
-                            int ij = b[j - 1];
-
-                            if (ij == il || ij == ir)
-                            {
-                                f[j - 1] = 0.0;
-                                for (int k = 1; k <= variables; k++)
-                                {
-                                    double da = x[j - 1 + (k - 1) * observations] - d[ij - 1 + (k - 1) * maxclusters];
-                                    f[j - 1] += da * da;
-                                }
-
-                                fl = e[ij - 1];
-                                f[j - 1] = f[j - 1] * fl / (fl - 1.0);
-                            }
-                        }
-
-                        iw += 1;
+                        double da = x[i - 1 + (k - 1) * observations] - d[j -1 + (k - 1) * maxclusters];
+                        de += da * da * fm;
                     }
+
+                    if (!(de < dc))
+                    {
+                        continue;
+                    }
+
+                    dc = de;
+                    ir = j;
+                }
+                //
+                //  Reassignment is made here if necessary.
+                //
+                if (ir == il)
+                {
+                    continue;
+                }
+
+                {
+                    double fq = e[ir - 1];
+                    dev[il - 1] -= f[i - 1];
+                    dev[ir - 1] += dc;
+                    e[ir - 1] += 1;
+                    e[il - 1] -= 1;
+
+                    for (int j = 1; j <= variables; j++ )
+                    {
+                        d[il - 1 + ( j -1)*maxclusters] = (d[il - 1 + ( j -1) * maxclusters]
+                            *fl - x[i - 1 + ( j -1)*observations] ) / (fl - 1.0);
+                        d[ir - 1 + ( j -1)*maxclusters] = (d[ir - 1 + ( j -1) * maxclusters]
+                            *fq + x[i - 1 + ( j -1)*observations] ) / (fq + 1.0);
+                    }
+
+                    b[i - 1] = ir;
+
+                    for (int j = 1; j <= observations; j++)
+                    {
+                        int ij = b[j - 1];
+
+                        if (ij != il && ij != ir)
+                        {
+                            continue;
+                        }
+
+                        f[j - 1] = 0.0;
+                        for (int k = 1; k <= variables; k++)
+                        {
+                            double da = x[j - 1 + (k - 1) * observations] - d[ij - 1 + (k - 1) * maxclusters];
+                            f[j - 1] += da * da;
+                        }
+
+                        fl = e[ij - 1];
+                        f[j - 1] = f[j - 1] * fl / (fl - 1.0);
+                    }
+
+                    iw += 1;
                 }
             }
 

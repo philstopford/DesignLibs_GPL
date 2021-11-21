@@ -39,18 +39,13 @@ public static class Geometry
         //    Output, double BALL01_SAMPLE_2D[2], a random point in the unit ball.
         //
     {
-            
-        double r;
-        double theta;
-        double[] x;
-
-        r = UniformRNG.r8_uniform_01(ref seed);
+        double r = UniformRNG.r8_uniform_01(ref seed);
         r = Math.Sqrt(r);
 
-        theta = UniformRNG.r8_uniform_01(ref seed);
+        double theta = UniformRNG.r8_uniform_01(ref seed);
         theta = 2.0 * Math.PI * theta;
 
-        x = new double[2];
+        double[] x = new double[2];
 
         x[0] = r * Math.Cos(theta);
         x[1] = r * Math.Sin(theta);
@@ -85,14 +80,8 @@ public static class Geometry
         //    Output, double BALL01_SAMPLE_3D[3], the sample point.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        double phi;
-            
-        double r;
-        double theta;
-        double vdot;
-        double[] x;
         //
         //  Pick a uniformly random VDOT, which must be between -1 and 1.
         //  This represents the dot product of the random vector with the Z unit vector.
@@ -101,23 +90,23 @@ public static class Geometry
         //  Z and Z + dZ is independent of Z.  So choosing Z uniformly chooses
         //  a patch of area uniformly.
         //
-        vdot = UniformRNG.r8_uniform_01(ref seed);
+        double vdot = UniformRNG.r8_uniform_01(ref seed);
         vdot = 2.0 * vdot - 1.0;
 
-        phi = typeMethods.r8_acos(vdot);
+        double phi = typeMethods.r8_acos(vdot);
         //
         //  Pick a uniformly random rotation between 0 and 2 Pi around the
         //  axis of the Z vector.
         //
-        theta = UniformRNG.r8_uniform_01(ref seed);
+        double theta = UniformRNG.r8_uniform_01(ref seed);
         theta = 2.0 * Math.PI * theta;
         //
         //  Pick a random radius R.
         //
-        r = UniformRNG.r8_uniform_01(ref seed);
+        double r = UniformRNG.r8_uniform_01(ref seed);
         r = Math.Pow(r, 1.0 / 3.0);
 
-        x = new double[DIM_NUM];
+        double[] x = new double[DIM_NUM];
 
         x[0] = r * Math.Cos(theta) * Math.Sin(phi);
         x[1] = r * Math.Sin(theta) * Math.Sin(phi);
@@ -169,14 +158,8 @@ public static class Geometry
         //
     {
         int i;
-        double r;
-        double random_cosine;
-        double random_sign;
-        double random_sine;
-        double[] x;
-        double xi;
 
-        x = new double[dim_num];
+        double[] x = new double[dim_num];
 
         x[0] = 1.0;
         for (i = 1; i < dim_num; i++)
@@ -186,18 +169,18 @@ public static class Geometry
 
         for (i = 0; i < dim_num - 1; i++)
         {
-            random_cosine = UniformRNG.r8_uniform_01(ref seed);
+            double random_cosine = UniformRNG.r8_uniform_01(ref seed);
             random_cosine = 2.0 * random_cosine - 1.0;
-            random_sign = UniformRNG.r8_uniform_01(ref seed);
+            double random_sign = UniformRNG.r8_uniform_01(ref seed);
             random_sign = 2 * (int) (2.0 * random_sign - 1.0);
-            random_sine = random_sign
-                          * Math.Sqrt(1.0 - random_cosine * random_cosine);
-            xi = x[i];
+            double random_sine = random_sign
+                                 * Math.Sqrt(1.0 - random_cosine * random_cosine);
+            double xi = x[i];
             x[i] = random_cosine * xi;
             x[i + 1] = random_sine * xi;
         }
 
-        r = UniformRNG.r8_uniform_01(ref seed);
+        double r = UniformRNG.r8_uniform_01(ref seed);
 
         r = Math.Pow(r, 1.0 / dim_num);
 
@@ -234,12 +217,8 @@ public static class Geometry
         //    Output, double BALL01_VOLUME, the volume of the unit ball.
         //
     {
-        double r;
-            
-        double volume;
-
-        r = 1.0;
-        volume = 4.0 * Math.PI * r * r * r / 3.0;
+        const double r = 1.0;
+        double volume = 4.0 * Math.PI * r * r * r / 3.0;
 
         return volume;
     }

@@ -109,9 +109,7 @@ public static partial class Algorithms
             {
                 ic1[i - 1] = 2;
                 ic2[i - 1] = 1;
-                double temp = dt[0];
-                dt[0] = dt[1];
-                dt[1] = temp;
+                (dt[0], dt[1]) = (dt[1], dt[0]);
             }
 
             for (int l = 3; l <= k; l++)
@@ -123,20 +121,22 @@ public static partial class Algorithms
                     db += dc * dc;
                 }
 
-                if (db < dt[1])
+                if (!(db < dt[1]))
                 {
-                    if (dt[0] <= db)
-                    {
-                        dt[1] = db;
-                        ic2[i - 1] = l;
-                    }
-                    else
-                    {
-                        dt[1] = dt[0];
-                        ic2[i - 1] = ic1[i - 1];
-                        dt[0] = db;
-                        ic1[i - 1] = l;
-                    }
+                    continue;
+                }
+
+                if (dt[0] <= db)
+                {
+                    dt[1] = db;
+                    ic2[i - 1] = l;
+                }
+                else
+                {
+                    dt[1] = dt[0];
+                    ic2[i - 1] = ic1[i - 1];
+                    dt[0] = db;
+                    ic1[i - 1] = l;
                 }
             }
         }
@@ -613,37 +613,23 @@ public static partial class Algorithms
         //    since the last transfer.
         //
     {
-        double al1;
-        double al2;
-        double alt;
-        double alw;
-        double da;
-        double db;
-        double dd;
-        double de;
-        int i;
-        int icoun;
-        int istep;
-        int j;
-        int l1;
-        int l2;
-        double r2;
         //
         //  In the optimal transfer stage, NCP(L) indicates the step at which
         //  cluster L is last updated.   In the quick transfer stage, NCP(L)
         //  is equal to the step at which cluster L is last updated plus M.
         //
-        icoun = 0;
-        istep = 0;
+        int icoun = 0;
+        int istep = 0;
 
         for (;;)
         {
+            int i;
             for (i = 1; i <= m; i++)
             {
                 icoun += 1;
                 istep += 1;
-                l1 = ic1[i - 1];
-                l2 = ic2[i - 1];
+                int l1 = ic1[i - 1];
+                int l2 = ic2[i - 1];
                 switch (nc[l1 - 1])
                 {
                     //
@@ -657,12 +643,13 @@ public static partial class Algorithms
                         //  steps ago, we still need to compute the distance from point I to
                         //  cluster L1.
                         //
+                        int j;
                         if (istep <= ncp[l1 - 1])
                         {
-                            da = 0.0;
+                            double da = 0.0;
                             for (j = 1; j <= n; j++)
                             {
-                                db = a[i - 1 + (j - 1) * m] - c[l1 - 1 + (j - 1) * k];
+                                double db = a[i - 1 + (j - 1) * m] - c[l1 - 1 + (j - 1) * k];
                                 da += db * db;
                             }
 
@@ -675,12 +662,12 @@ public static partial class Algorithms
                         //
                         if (istep < ncp[l1 - 1] || istep < ncp[l2 - 1])
                         {
-                            r2 = d[i - 1] / an2[l2 - 1];
+                            double r2 = d[i - 1] / an2[l2 - 1];
 
-                            dd = 0.0;
+                            double dd = 0.0;
                             for (j = 1; j <= n; j++)
                             {
-                                de = a[i - 1 + (j - 1) * m] - c[l2 - 1 + (j - 1) * k];
+                                double de = a[i - 1 + (j - 1) * m] - c[l2 - 1 + (j - 1) * k];
                                 dd += de * de;
                             }
 
@@ -697,10 +684,10 @@ public static partial class Algorithms
                                 itran[l2 - 1] = 1;
                                 ncp[l1 - 1] = istep + m;
                                 ncp[l2 - 1] = istep + m;
-                                al1 = nc[l1 - 1];
-                                alw = al1 - 1.0;
-                                al2 = nc[l2 - 1];
-                                alt = al2 + 1.0;
+                                double al1 = nc[l1 - 1];
+                                double alw = al1 - 1.0;
+                                double al2 = nc[l2 - 1];
+                                double alt = al2 + 1.0;
                                 for (j = 1; j <= n; j++)
                                 {
                                     c[l1 - 1 + (j - 1) * k] =

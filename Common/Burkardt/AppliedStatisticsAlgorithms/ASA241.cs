@@ -92,11 +92,10 @@ public static partial class Algorithms
                 1.42151175831644588870e-7, 2.04426310338993978564e-15
             }
             ;
-        double q;
         double r;
-        double split1 = 0.425;
-        double split2 = 5.0;
-        double value = 0;
+        const double split1 = 0.425;
+        const double split2 = 5.0;
+        double value;
 
         switch (p)
         {
@@ -108,7 +107,7 @@ public static partial class Algorithms
                 return value;
         }
 
-        q = p - 0.5;
+        double q = p - 0.5;
 
         if (Math.Abs(q) <= split1)
         {
@@ -206,8 +205,8 @@ public static partial class Algorithms
         float[] c = {
             1.4234372777f, 2.7568153900f, 1.3067284816f, 0.17023821103f
         };
-        float const1 = 0.180625f;
-        float const2 = 1.6f;
+        const float const1 = 0.180625f;
+        const float const2 = 1.6f;
         float[] d = {
             1.0f, 0.73700164250f, 0.12021132975f
         };
@@ -217,10 +216,9 @@ public static partial class Algorithms
         float[] f = {
             1.0f, 0.24197894225f, 0.012258202635f
         };
-        float q;
         float r;
-        float split1 = 0.425f;
-        float split2 = 5.0f;
+        const float split1 = 0.425f;
+        const float split2 = 5.0f;
         float value;
 
         if (p <= 0.0)
@@ -235,7 +233,7 @@ public static partial class Algorithms
             return value;
         }
 
-        q = p - 0.5f;
+        float q = p - 0.5f;
 
         if (Math.Abs(q) <= split1)
         {

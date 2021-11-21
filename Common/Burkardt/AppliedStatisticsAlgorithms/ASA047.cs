@@ -100,10 +100,10 @@ public static partial class Algorithms
         //    2, iteration terminated because KCOUNT was exceeded without convergence.
         //
     {
-        double ccoeff = 0.5;
-        double ecoeff = 2.0;
-        double eps = 0.001;
-        double rcoeff = 1.0;
+        const double ccoeff = 0.5;
+        const double ecoeff = 2.0;
+        const double eps = 0.001;
+        const double rcoeff = 1.0;
         switch (reqmin)
         {
             //
@@ -182,11 +182,13 @@ public static partial class Algorithms
 
             for (int i = 1; i < nn; i++)
             {
-                if (y[i] < ylo)
+                if (!(y[i] < ylo))
                 {
-                    ylo = y[i];
-                    ilo = i;
+                    continue;
                 }
+
+                ylo = y[i];
+                ilo = i;
             }
 
             //
@@ -205,11 +207,13 @@ public static partial class Algorithms
 
                 for (int i = 1; i < nn; i++)
                 {
-                    if (ynewlo < y[i])
+                    if (!(ynewlo < y[i]))
                     {
-                        ynewlo = y[i];
-                        ihi = i;
+                        continue;
                     }
+
+                    ynewlo = y[i];
+                    ihi = i;
                 }
 
                 //
@@ -336,11 +340,13 @@ public static partial class Algorithms
 
                                 for (int i = 1; i < nn; i++)
                                 {
-                                    if (y[i] < ylo)
+                                    if (!(y[i] < ylo))
                                     {
-                                        ylo = y[i];
-                                        ilo = i;
+                                        continue;
                                     }
+
+                                    ylo = y[i];
+                                    ilo = i;
                                 }
 
                                 continue;
@@ -417,7 +423,11 @@ public static partial class Algorithms
                 //
                 //  Check to see if minimum reached.
                 //
-                if (icount <= kcount)
+                if (icount > kcount)
+                {
+                    continue;
+                }
+
                 {
                     jcount = konvge;
 

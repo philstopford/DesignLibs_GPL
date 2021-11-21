@@ -45,28 +45,23 @@ public static class Grid
         //    Output, double BALL_GRID[3*NG], the grid points inside the ball.
         //
     {
-        double[] bg;
         int i;
-        int j;
-        int k;
-        int p;
-        double x;
-        double y;
-        double z;
 
-        bg = new double[3 * ng];
+        double[] bg = new double[3 * ng];
 
-        p = 0;
+        int p = 0;
 
         for (i = 0; i <= n; i++)
         {
-            x = c[0] + r * (2 * i) / (2 * n + 1);
+            double x = c[0] + r * (2 * i) / (2 * n + 1);
+            int j;
             for (j = 0; j <= n; j++)
             {
-                y = c[1] + r * (2 * j) / (2 * n + 1);
+                double y = c[1] + r * (2 * j) / (2 * n + 1);
+                int k;
                 for (k = 0; k <= n; k++)
                 {
-                    z = c[2] + r * (2 * k) / (2 * n + 1);
+                    double z = c[2] + r * (2 * k) / (2 * n + 1);
 
                     if (r * r < Math.Pow(x - c[0], 2)
                         + Math.Pow(y - c[1], 2)
@@ -196,24 +191,20 @@ public static class Grid
         //
     {
         int i;
-        int j;
-        int k;
-        int ng;
-        double x;
-        double y;
-        double z;
 
-        ng = 0;
+        int ng = 0;
 
         for (i = 0; i <= n; i++)
         {
-            x = c[0] + r * (2 * i) / (2 * n + 1);
+            double x = c[0] + r * (2 * i) / (2 * n + 1);
+            int j;
             for (j = 0; j <= n; j++)
             {
-                y = c[1] + r * (2 * j) / (2 * n + 1);
+                double y = c[1] + r * (2 * j) / (2 * n + 1);
+                int k;
                 for (k = 0; k <= n; k++)
                 {
-                    z = c[2] + r * (2 * k) / (2 * n + 1);
+                    double z = c[2] + r * (2 * k) / (2 * n + 1);
 
                     if (r * r < Math.Pow(x - c[0], 2)
                         + Math.Pow(y - c[1], 2)

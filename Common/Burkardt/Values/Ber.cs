@@ -1,6 +1,6 @@
 ﻿namespace Burkardt.Values;
 
-public class ber
+public static class ber
 {
     public static void ber0_values(ref int n_data, ref double x, ref double fx)
 

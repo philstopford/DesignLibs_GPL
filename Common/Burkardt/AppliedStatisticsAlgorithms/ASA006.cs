@@ -78,9 +78,8 @@ public static partial class Algorithms
         //    accuracy being used.
         //
     {
-        double eta = 1.0E-09;
+        const double eta = 1.0E-09;
         double w = 0;
-        double x = 0;
 
         ifault = 0;
         nullty = 0;
@@ -107,7 +106,7 @@ public static partial class Algorithms
         for (int icol = 1; icol <= n; icol++ )
         {
             ii += icol;
-            x = eta * eta * a[ii-1];
+            double x = eta * eta * a[ii-1];
             int l = 0;
             //
             //  IROW = row number within column ICOL.
@@ -141,11 +140,13 @@ public static partial class Algorithms
                 {
                     u[k-1] = 0.0;
 
-                    if ( Math.Abs ( x * a[k-1] ) < w * w )
+                    if (!(Math.Abs(x * a[k - 1]) < w * w))
                     {
-                        ifault = 2;
-                        return;
+                        continue;
                     }
+
+                    ifault = 2;
+                    return;
                 }
             }
             //

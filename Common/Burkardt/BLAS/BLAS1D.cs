@@ -52,11 +52,9 @@ public static class BLAS1D
         //
     {
         int i;
-        int j;
-        double value = 0;
 
-        value = 0.0;
-        j = 0;
+        double value = 0.0;
+        int j = 0;
 
         for (i = 0; i < n; i++)
         {
@@ -238,9 +236,6 @@ public static class BLAS1D
         //
     {
         int i;
-        int ix;
-        int iy;
-        int m;
 
         switch (n)
         {
@@ -252,7 +247,8 @@ public static class BLAS1D
         {
             case 1 when incy == 1:
             {
-                m = n % 7;
+                int 
+                    m = n % 7;
 
                 if (m != 0)
                 {
@@ -277,13 +273,13 @@ public static class BLAS1D
             }
             default:
             {
-                ix = incx switch
+                int ix = incx switch
                 {
                     >= 0 => 0,
                     _ => (-n + 1) * incx
                 };
 
-                iy = incy switch
+                int iy = incy switch
                 {
                     >= 0 => 0,
                     _ => (-n + 1) * incy
@@ -358,13 +354,9 @@ public static class BLAS1D
         //    entries of DX and DY.
         //
     {
-        double dtemp;
         int i;
-        int ix;
-        int iy;
-        int m;
 
-        dtemp = 0.0;
+        double dtemp = 0.0;
 
         switch (n)
         {
@@ -378,13 +370,13 @@ public static class BLAS1D
         //
         if (incx != 1 || incy != 1)
         {
-            ix = incx switch
+            int ix = incx switch
             {
                 >= 0 => 0,
                 _ => (-n + 1) * incx
             };
 
-            iy = incy switch
+            int iy = incy switch
             {
                 >= 0 => 0,
                 _ => (-n + 1) * incy
@@ -402,7 +394,7 @@ public static class BLAS1D
         //
         else
         {
-            m = n % 5;
+            int m = n % 5;
 
             for (i = 0; i < m; i++)
             {
@@ -473,12 +465,7 @@ public static class BLAS1D
         //    Output, double DNRM2, the Euclidean norm of X.
         //
     {
-        double absxi;
-        int i;
-        int ix;
         double norm;
-        double scale;
-        double ssq;
 
         if (n < 1 || incx < 1)
         {
@@ -493,15 +480,16 @@ public static class BLAS1D
                     break;
                 default:
                 {
-                    scale = 0.0;
-                    ssq = 1.0;
-                    ix = 0;
+                    double scale = 0.0;
+                    double ssq = 1.0;
+                    int ix = 0;
 
+                    int i;
                     for (i = 0; i < n; i++)
                     {
                         if (x[index + ix] != 0.0)
                         {
-                            absxi = Math.Abs(x[index + ix]);
+                            double absxi = Math.Abs(x[index + ix]);
                             if (scale < absxi)
                             {
                                 ssq = 1.0 + ssq * (scale / absxi) * (scale / absxi);
@@ -578,17 +566,14 @@ public static class BLAS1D
         //    sine of some angle) that define a plane rotation.
         //
     {
-        int i;
-        int ix;
-        int iy;
-        double stemp;
-
         switch (n)
         {
             case <= 0:
                 break;
             default:
             {
+                double stemp;
+                int i;
                 switch (incx)
                 {
                     case 1 when incy == 1:
@@ -604,13 +589,13 @@ public static class BLAS1D
                     }
                     default:
                     {
-                        ix = incx switch
+                        int ix = incx switch
                         {
                             >= 0 => 0,
                             _ => (-n + 1) * incx
                         };
 
-                        iy = incy switch
+                        int iy = incy switch
                         {
                             >= 0 => 0,
                             _ => (-n + 1) * incy
@@ -712,20 +697,10 @@ public static class BLAS1D
         //
     {
         double r;
-        double roe;
-        double scale;
-        double z;
 
-        if (Math.Abs(sb) < Math.Abs(sa))
-        {
-            roe = sa;
-        }
-        else
-        {
-            roe = sb;
-        }
+        double roe = Math.Abs(sb) < Math.Abs(sa) ? sa : sb;
 
-        scale = Math.Abs(sa) + Math.Abs(sb);
+        double scale = Math.Abs(sa) + Math.Abs(sb);
 
         switch (scale)
         {
@@ -743,7 +718,7 @@ public static class BLAS1D
                 break;
         }
 
-        z = Math.Abs(c) switch
+        double z = Math.Abs(c) switch
         {
             > 0.0 when Math.Abs(c) <= s => 1.0 / c,
             _ => s
@@ -948,21 +923,14 @@ public static class BLAS1D
         //
     {
         double cs = 0;
-        int i = 0;
-        int iter = 0;
-        int j = 0;
-        int l = 0;
-        int ll = 0;
+        int i;
+        int j;
+        int l;
+        int ll;
         int ls = 0;
-        int lu = 0;
         int maxit = 30;
-        int mm = 0;
-        int mn = 0;
-        int nctp1 = 0;
-        int ncu;
-        int nrtp1 = 0;
         double sn = 0;
-        double t = 0;
+        double t;
         //
         //  Determine what is to be computed.
         //
@@ -971,7 +939,7 @@ public static class BLAS1D
         bool wantv = false;
         int jobu = job % 100 / 10;
 
-        ncu = jobu switch
+        int ncu = jobu switch
         {
             > 1 => Math.Min(m, n),
             _ => m
@@ -993,7 +961,7 @@ public static class BLAS1D
         //
         int nct = Math.Min(m - 1, n);
         int nrt = Math.Max(0, Math.Min(m, n - 2));
-        lu = Math.Max(nct, nrt);
+        int lu = Math.Max(nct, nrt);
 
         for (l = 1; l <= lu; l++)
         {
@@ -1116,9 +1084,9 @@ public static class BLAS1D
         //
         //  Set up the final bidiagonal matrix of order MN.
         //
-        mn = Math.Min(m + 1, n);
-        nctp1 = nct + 1;
-        nrtp1 = nrt + 1;
+        int mn = Math.Min(m + 1, n);
+        int nctp1 = nct + 1;
+        int nrtp1 = nrt + 1;
 
         if (nct < n)
         {
@@ -1228,8 +1196,8 @@ public static class BLAS1D
         //
         //  Main iteration loop for the singular values.
         //
-        mm = mn;
-        iter = 0;
+        int mm = mn;
+        int iter = 0;
 
         while (0 < mn)
         {
@@ -1593,23 +1561,19 @@ public static class BLAS1D
         //    Input, int INCY, the increment between successive elements of Y.
         //
     {
-        int i;
-        int ix;
-        int iy;
-        int m;
-        double temp;
-
         switch (n)
         {
             case <= 0:
                 break;
             default:
             {
+                int i;
+                double temp;
                 switch (incx)
                 {
                     case 1 when incy == 1:
                     {
-                        m = n % 3;
+                        int m = n % 3;
 
                         for (i = 0; i < m; i++)
                         {
@@ -1637,13 +1601,13 @@ public static class BLAS1D
                     }
                     default:
                     {
-                        ix = incx switch
+                        int ix = incx switch
                         {
                             >= 0 => 0,
                             _ => (-n + 1) * incx
                         };
 
-                        iy = incy switch
+                        int iy = incy switch
                         {
                             >= 0 => 0,
                             _ => (-n + 1) * incy
@@ -1721,10 +1685,8 @@ public static class BLAS1D
     {
         double dmax;
         int i;
-        int ix;
-        int value;
 
-        value = 0;
+        int value = 0;
 
         if (n < 1 || incx <= 0)
         {
@@ -1758,7 +1720,7 @@ public static class BLAS1D
             }
             default:
             {
-                ix = 0;
+                int ix = 0;
                 dmax = Math.Abs(dx[0 + index]);
                 ix += incx;
 

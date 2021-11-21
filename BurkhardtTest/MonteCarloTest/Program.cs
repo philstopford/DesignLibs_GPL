@@ -5,7 +5,7 @@ namespace MonteCarloTest;
 
 internal static class Program
 {
-    private static void Main()
+    private static void Main(string[] args)
     {
         Console.WriteLine();
         Console.WriteLine("MONTE_CARLO_RULE");

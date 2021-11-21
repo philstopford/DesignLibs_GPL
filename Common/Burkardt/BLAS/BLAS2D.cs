@@ -82,21 +82,15 @@ public static class BLAS2D
         //
     {
         int i;
-        int info;
-        int ix;
         int iy;
         int j;
-        int jx;
-        int jy;
-        int kx;
-        int ky;
         int lenx;
         int leny;
         double temp;
         //
         //  Test the input parameters.
         //
-        info = 0;
+        int info = 0;
         if (trans != 'N' &&
             trans != 'T' &&
             trans != 'C')
@@ -177,13 +171,13 @@ public static class BLAS2D
                 break;
         }
 
-        kx = incx switch
+        int kx = incx switch
         {
             > 0 => 0,
             _ => 0 - (lenx - 1) * incx
         };
 
-        ky = incy switch
+        int ky = incy switch
         {
             > 0 => 0,
             _ => 0 - (leny - 1) * incy
@@ -262,7 +256,7 @@ public static class BLAS2D
             //
             case 'N':
             {
-                jx = kx;
+                int jx = kx;
                 switch (incy)
                 {
                     case 1:
@@ -312,7 +306,7 @@ public static class BLAS2D
         */
             default:
             {
-                jy = ky;
+                int jy = ky;
                 switch (incx)
                 {
                     case 1:
@@ -336,7 +330,7 @@ public static class BLAS2D
                         for (j = 0; j < n; j++)
                         {
                             temp = 0.0;
-                            ix = kx;
+                            int ix = kx;
                             for (i = 0; i < m; i++)
                             {
                                 temp += a[i + j * lda] * x[ix];
@@ -417,16 +411,12 @@ public static class BLAS2D
         //
     {
         int i;
-        int info;
-        int ix;
         int j;
-        int jy;
-        int kx;
         double temp;
         //
         //  Test the input parameters.
         //
-        info = 0;
+        int info = 0;
         switch (m)
         {
             case < 0:
@@ -490,7 +480,7 @@ public static class BLAS2D
             return;
         }
 
-        jy = incy switch
+        int jy = incy switch
         {
             //
             //  Start the operations. In this version the elements of A are
@@ -522,7 +512,7 @@ public static class BLAS2D
             }
             default:
             {
-                kx = incx switch
+                int kx = incx switch
                 {
                     > 0 => 0,
                     _ => 0 - (m - 1) * incx
@@ -533,7 +523,7 @@ public static class BLAS2D
                     if (y[jy] != 0.0)
                     {
                         temp = alpha * y[jy];
-                        ix = kx;
+                        int ix = kx;
                         for (i = 0; i < m; i++)
                         {
                             a[i + j * lda] += x[ix] * temp;
@@ -624,17 +614,15 @@ public static class BLAS2D
         //    X.  INCX must not be zero.
         //
     {
-        int info;
-        int ix = 0;
+        int ix;
         int j;
         int jx;
         int kx = 0;
-        bool nounit;
         double temp;
         //
         //  Test the input parameters.
         //
-        info = 0;
+        int info = 0;
         if (uplo != 'U' && uplo != 'L')
         {
             info = 1;
@@ -690,7 +678,7 @@ public static class BLAS2D
                 return;
         }
 
-        nounit = diag == 'N';
+        bool nounit = diag == 'N';
         switch (incx)
         {
             //

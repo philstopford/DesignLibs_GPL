@@ -47,15 +47,13 @@ public static partial class Algorithms
         //    Output, float R4_RANDOM, the next value in the sequence.
         //
     {
-        float value;
-
         s1 = 171 * s1 % 30269;
         s2 = 172 * s2 % 30307;
         s3 = 170 * s3 % 30323;
 
-        value = (s1 / 30269.0f
-                 + s2 / 30307.0f
-                 + s3 / 30323.0f) % 1.0f;
+        float value = (s1 / 30269.0f
+                       + s2 / 30307.0f
+                       + s3 / 30323.0f) % 1.0f;
 
         return value;
     }
@@ -105,11 +103,7 @@ public static partial class Algorithms
         //    Output, float R4_UNI, the next value in the sequence.
         //
     {
-        int k;
-        float value;
-        int z;
-
-        k = s1 / 53668;
+        int k = s1 / 53668;
         s1 = 40014 * (s1 - k * 53668) - k * 12211;
         switch (s1)
         {
@@ -127,7 +121,7 @@ public static partial class Algorithms
                 break;
         }
 
-        z = s1 - s2;
+        int z = s1 - s2;
         switch (z)
         {
             case < 1:
@@ -135,7 +129,7 @@ public static partial class Algorithms
                 break;
         }
 
-        value = z / 2147483563.0f;
+        float value = z / 2147483563.0f;
 
         return value;
     }
@@ -242,11 +236,7 @@ public static partial class Algorithms
         //    Output, double R8_UNI, the next value in the sequence.
         //
     {
-        int k;
-        double value = 0;
-        int z;
-
-        k = s1 / 53668;
+        int k = s1 / 53668;
         s1 = 40014 * (s1 - k * 53668) - k * 12211;
         switch (s1)
         {
@@ -264,7 +254,7 @@ public static partial class Algorithms
                 break;
         }
 
-        z = s1 - s2;
+        int z = s1 - s2;
         switch (z)
         {
             case < 1:
@@ -272,7 +262,7 @@ public static partial class Algorithms
                 break;
         }
 
-        value = z / 2147483563.0;
+        double value = z / 2147483563.0;
 
         return value;
     }

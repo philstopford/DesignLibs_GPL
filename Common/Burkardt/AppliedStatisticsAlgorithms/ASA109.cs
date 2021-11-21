@@ -63,32 +63,16 @@ public static partial class Algorithms
         //
     {
         double a;
-        double acu;
-        double adj;
-        double fpu;
-        double g;
-        double h;
-        int iex;
         bool indx;
         double pp;
-        double prev;
         double qq;
-        double r;
-        double s;
-        double sae = -30.0;
-        double sq;
+        const double sae = -30.0;
         double t;
-        double tx;
-        double value = 0;
-        double w;
-        double xin;
-        double y;
-        double yprev;
 
-        fpu = Math.Pow(10.0, sae);
+        double fpu = Math.Pow(10.0, sae);
 
         ifault = 0;
-        value = alpha;
+        double value = alpha;
         switch (p)
         {
             //
@@ -150,19 +134,19 @@ public static partial class Algorithms
         //
         //  Calculate the initial approximation.
         //
-        r = Math.Sqrt(-Math.Log(a * a));
+        double r = Math.Sqrt(-Math.Log(a * a));
 
-        y = r - (2.30753 + 0.27061 * r)
+        double y = r - (2.30753 + 0.27061 * r)
             / (1.0 + (0.99229 + 0.04481 * r) * r);
 
         switch (pp)
         {
             case > 1.0 when 1.0 < qq:
                 r = (y * y - 3.0) / 6.0;
-                s = 1.0 / (pp + pp - 1.0);
+                double s = 1.0 / (pp + pp - 1.0);
                 t = 1.0 / (qq + qq - 1.0);
-                h = 2.0 / (s + t);
-                w = y * Math.Sqrt(h + r) / h - (t - s)
+                double h = 2.0 / (s + t);
+                double w = y * Math.Sqrt(h + r) / h - (t - s)
                     * (r + 5.0 / 6.0 - 2.0 / (3.0 * h));
                 value = pp / (pp + qq * Math.Exp(w + w));
                 break;
@@ -201,9 +185,9 @@ public static partial class Algorithms
         //
         r = 1.0 - pp;
         t = 1.0 - qq;
-        yprev = 0.0;
-        sq = 1.0;
-        prev = 1.0;
+        double yprev = 0.0;
+        double sq = 1.0;
+        double prev = 1.0;
 
         value = value switch
         {
@@ -215,9 +199,9 @@ public static partial class Algorithms
             }
         };
 
-        iex = (int)Math.Round(Math.Max(-5.0 / pp / pp - 1.0 / Math.Pow(a, 0.2) - 13.0, sae));
+        int iex = (int)Math.Round(Math.Max(-5.0 / pp / pp - 1.0 / Math.Pow(a, 0.2) - 13.0, sae));
 
-        acu = Math.Pow(10.0, iex);
+        double acu = Math.Pow(10.0, iex);
         //
         //  Iteration loop.
         //
@@ -234,7 +218,7 @@ public static partial class Algorithms
                 return 1;
             }
 
-            xin = value;
+            double xin = value;
             y = (y - a) * Math.Exp(beta + r * Math.Log(xin) + t * Math.Log(1.0 - xin));
 
             prev = (y * yprev) switch
@@ -243,20 +227,21 @@ public static partial class Algorithms
                 _ => prev
             };
 
-            g = 1.0;
+            double g = 1.0;
 
             for (;;)
             {
+                double tx;
                 for (;;)
                 {
-                    adj = g * y;
+                    double adj = g * y;
                     sq = adj * adj;
 
                     if (sq < prev)
                     {
                         tx = value - adj;
 
-                        if (0.0 <= tx && tx <= 1.0)
+                        if (tx is >= 0.0 and <= 1.0)
                         {
                             break;
                         }
@@ -280,7 +265,7 @@ public static partial class Algorithms
                     return value;
                 }
 
-                if (tx != 0.0 && tx != 1.0)
+                if (tx != 0.0 && Math.Abs(tx - 1.0) > double.Epsilon)
                 {
                     break;
                 }

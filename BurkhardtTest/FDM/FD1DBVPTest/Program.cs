@@ -6,7 +6,7 @@ namespace FDM1DBVPTest;
 
 internal static class Program
 {
-    private static void Main()
+    private static void Main(string[] args)
         //****************************************************************************80
         //
         //  Purpose:
@@ -1046,7 +1046,7 @@ internal static class Program
         return uexact;
     }
 
-    private double[] exact3(int n, double[] x)
+    private static double[] exact3(int n, double[] x)
         //****************************************************************************80
         //
         //  Purpose:

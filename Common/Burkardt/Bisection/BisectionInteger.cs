@@ -71,14 +71,11 @@ public static class Integer
         //   an "approximate" root.
         //
     {
-        int fa;
-        int fb;
-        int t;
         //
         //  Ensure that F(A) < 0 < F(B).
         //
-        fa = f(a);
-        fb = f(b);
+        int fa = f(a);
+        int fb = f(b);
 
         switch (fa)
         {
@@ -105,7 +102,7 @@ public static class Integer
                                 switch (fb)
                                 {
                                     case < 0 when 0 < fa:
-                                        t = a;
+                                        int t = a;
                                         a = b;
                                         b = t;
                                         t = fa;

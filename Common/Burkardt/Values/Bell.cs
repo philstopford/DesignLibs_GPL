@@ -2,7 +2,7 @@
 
 namespace Burkardt.Values;
 
-public class Bell
+public static class Bell
 {
     public static void bell(int n, ref int[] b)
 

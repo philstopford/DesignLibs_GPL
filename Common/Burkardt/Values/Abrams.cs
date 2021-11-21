@@ -1,6 +1,6 @@
 ﻿namespace Burkardt.Values;
 
-public class Abrams
+public static class Abrams
 {
     public static void abram0_values(ref int n_data, ref double x, ref double fx )
 

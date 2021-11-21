@@ -65,7 +65,6 @@ public static partial class Algorithms
                 return;
         }
 
-        int nrow = n;
         //
         //  Compute the Cholesky factorization of A.
         //  The result is stored in C.
@@ -85,7 +84,7 @@ public static partial class Algorithms
         //  IROW = the row number, 
         //  NDIAG = location of last element in the row.
         //
-        int irow = nrow;
+        int irow = n;
         int ndiag = nn;
         //
         //  Special case, zero diagonal element.
@@ -98,7 +97,7 @@ public static partial class Algorithms
                 case 0.0:
                 {
                     l = ndiag;
-                    for (int j = irow; j <= nrow; j++)
+                    for (int j = irow; j <= n; j++)
                     {
                         c[l - 1] = 0.0;
                         l += j;
@@ -109,13 +108,13 @@ public static partial class Algorithms
                 default:
                 {
                     l = ndiag;
-                    for (int i = irow; i <= nrow; i++)
+                    for (int i = irow; i <= n; i++)
                     {
                         w[i - 1] = c[l - 1];
                         l += i;
                     }
 
-                    int icol = nrow;
+                    int icol = n;
                     int jcol = nn;
                     int mdiag = nn;
 
@@ -133,7 +132,7 @@ public static partial class Algorithms
                             x = 0.0;
                         }
 
-                        int k = nrow;
+                        int k = n;
 
                         while (irow < k)
                         {

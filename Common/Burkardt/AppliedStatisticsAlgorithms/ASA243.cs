@@ -266,32 +266,12 @@ public static partial class Algorithms
         //    T distribution.
         //
     {
-        double a;
-        double albeta;
-        double alnrpi = 0.57236494292470008707;
-        double b;
-        double del;
-        double en;
-        double errbd;
-        double errmax = 1.0E-10;
-        double geven;
-        double godd;
-        int itrmax = 100;
-        double lambda;
-        bool negdel;
-        double p;
-        double q;
-        double r2pi = 0.79788456080286535588;
-        double rxb;
-        double s;
-        double tt;
-        double value = 0;
-        ;
-        double x;
-        double xeven;
-        double xodd;
+        const double alnrpi = 0.57236494292470008707;
+        const double errmax = 1.0E-10;
+        const int itrmax = 100;
+        const double r2pi = 0.79788456080286535588;
 
-        value = 0.0;
+        double value = 0.0;
 
         switch (df)
         {
@@ -302,9 +282,9 @@ public static partial class Algorithms
 
         ifault = 0;
 
-        tt = t;
-        del = delta;
-        negdel = false;
+        double tt = t;
+        double del = delta;
+        bool negdel = false;
 
         switch (t)
         {
@@ -318,8 +298,8 @@ public static partial class Algorithms
         //
         //  Initialize twin series.
         //
-        en = 1.0;
-        x = t * t / (t * t + df);
+        double en = 1.0;
+        double x = t * t / (t * t + df);
 
         switch (x)
         {
@@ -338,18 +318,18 @@ public static partial class Algorithms
             }
         }
 
-        lambda = del * del;
-        p = 0.5 * Math.Exp(-0.5 * lambda);
-        q = r2pi * p * del;
-        s = 0.5 - p;
-        a = 0.5;
-        b = 0.5 * df;
-        rxb = Math.Pow(1.0 - x, b);
-        albeta = alnrpi + Helpers.LogGamma(b) - Helpers.LogGamma(a + b);
-        xodd = betain(x, a, b, albeta, ref ifault);
-        godd = 2.0 * rxb * Math.Exp(a * Math.Log(x) - albeta);
-        xeven = 1.0 - rxb;
-        geven = b * x * rxb;
+        double lambda = del * del;
+        double p = 0.5 * Math.Exp(-0.5 * lambda);
+        double q = r2pi * p * del;
+        double s = 0.5 - p;
+        double a = 0.5;
+        double b = 0.5 * df;
+        double rxb = Math.Pow(1.0 - x, b);
+        double albeta = alnrpi + Helpers.LogGamma(b) - Helpers.LogGamma(a + b);
+        double xodd = betain(x, a, b, albeta, ref ifault);
+        double godd = 2.0 * rxb * Math.Exp(a * Math.Log(x) - albeta);
+        double xeven = 1.0 - rxb;
+        double geven = b * x * rxb;
         value = p * xodd + q * xeven;
         //
         //  Repeat until convergence.
@@ -366,7 +346,7 @@ public static partial class Algorithms
             s -= p;
             en += 1.0;
             value = value + p * xodd + q * xeven;
-            errbd = 2.0 * s * (xodd - godd);
+            double errbd = 2.0 * s * (xodd - godd);
 
             if (errbd <= errmax)
             {

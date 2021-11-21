@@ -36,18 +36,16 @@ public static class Inverse
         //    of (A*B-I) + (B*A-I).
         //
     {
-        double[] c;
         int j;
-        double value = 0;
 
-        c = typeMethods.r8mat_mm_new ( n, n, n, a, b );
+        double[] c = typeMethods.r8mat_mm_new ( n, n, n, a, b );
 
         for ( j = 0; j < n; j++ )
         {
             c[j+j*n] -= 1.0;
         }
 
-        value = typeMethods.r8mat_norm_fro ( n, n, c );
+        double value = typeMethods.r8mat_norm_fro ( n, n, c );
 
         c = typeMethods.r8mat_mm_new ( n, n, n, b, a );
 

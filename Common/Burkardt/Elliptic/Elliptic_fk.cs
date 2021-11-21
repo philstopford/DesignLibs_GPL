@@ -1,6 +1,6 @@
 ﻿namespace Burkardt.Elliptic;
 
-public class FK
+public static class FK
 {
     public static double evaluate(double k)
 
@@ -35,19 +35,14 @@ public class FK
         //    Output, double ELLIPTIC_FK, the function value.
         //
     {
-        double errtol;
         int ierr = 0;
-        double value = 0;
-        double x;
-        double y;
-        double z;
 
-        x = 0.0;
-        y = (1.0 - k) * (1.0 + k);
-        z = 1.0;
-        errtol = 1.0E-03;
+        const double x = 0.0;
+        double y = (1.0 - k) * (1.0 + k);
+        const double z = 1.0;
+        const double errtol = 1.0E-03;
 
-        value = Integral.rf(x, y, z, errtol, ref ierr);
+        double value = Integral.rf(x, y, z, errtol, ref ierr);
 
         return value;
     }

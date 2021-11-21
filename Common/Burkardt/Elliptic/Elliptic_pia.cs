@@ -50,25 +50,17 @@ public static class PIA
         //    Output, double ELLIPTIC_PIA, the function value.
         //
     {
-        double errtol;
         int ierr = 0;
-        double k;
-        double p;
-            
-        double value = 0;
-        double x;
-        double y;
-        double z;
 
-        k = Math.Sin(a * Math.PI / 180.0);
-        x = 0.0;
-        y = (1.0 - k) * (1.0 + k);
-        z = 1.0;
-        p = 1.0 - n;
-        errtol = 1.0E-03;
+        double k = Math.Sin(a * Math.PI / 180.0);
+        const double x = 0.0;
+        double y = (1.0 - k) * (1.0 + k);
+        const double z = 1.0;
+        double p = 1.0 - n;
+        const double errtol = 1.0E-03;
 
-        value = Integral.rf(x, y, z, errtol, ref ierr)
-                + n * Integral.rj(x, y, z, p, errtol, ref ierr) / 3.0;
+        double value = Integral.rf(x, y, z, errtol, ref ierr)
+                       + n * Integral.rj(x, y, z, p, errtol, ref ierr) / 3.0;
 
         return value;
     }

@@ -36,15 +36,11 @@ public static class LU
         //    of the difference matrix A - L * U.
         //
     {
-        double[] d;
-        double[] lu;
-        double value = 0;
+        double[] lu = typeMethods.r8mat_mm_new ( n, n, n, l, u );
 
-        lu = typeMethods.r8mat_mm_new ( n, n, n, l, u );
-
-        d = typeMethods.r8mat_sub_new ( n, n, a, lu );
+        double[] d = typeMethods.r8mat_sub_new ( n, n, a, lu );
  
-        value = typeMethods.r8mat_norm_fro ( n, n, d );
+        double value = typeMethods.r8mat_norm_fro ( n, n, d );
 
         return value;
     }

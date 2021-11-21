@@ -35,20 +35,15 @@ public static class EK
         //    Output, double ELLIPTIC_EK, the function value.
         //
     {
-        double errtol;
         int ierr = 0;
-        double value = 0;
-        double x;
-        double y;
-        double z;
 
-        x = 0.0;
-        y = (1.0 - k) * (1.0 + k);
-        z = 1.0;
-        errtol = 1.0E-03;
+        const double x = 0.0;
+        double y = (1.0 - k) * (1.0 + k);
+        const double z = 1.0;
+        const double errtol = 1.0E-03;
 
-        value = Integral.rf(x, y, z, errtol, ref ierr)
-                - k * k * Integral.rd(x, y, z, errtol, ref ierr) / 3.0;
+        double value = Integral.rf(x, y, z, errtol, ref ierr)
+                       - k * k * Integral.rd(x, y, z, errtol, ref ierr) / 3.0;
 
         return value;
     }

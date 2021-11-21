@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.Types;
 
 namespace Burkardt.Elliptic;
 
@@ -40,21 +41,12 @@ public static class Jacobi
         //    elliptic functions sn(u,m), cn(u,m), and dn(u,m).
         //
     {
-        double a;
-        double b;
         double c = 0;
-        double ca;
         double d = 0;
         int i;
-        int l;
-        double[] m_array;
-        double m_comp;
-        double[] n_array;
-        const double r8_epsilon = 2.220446049250313E-16;
-        double u_copy;
 
-        m_comp = 1.0 - m;
-        u_copy = u;
+        double m_comp = 1.0 - m;
+        double u_copy = u;
 
         switch (m_comp)
         {
@@ -75,14 +67,14 @@ public static class Jacobi
                 break;
         }
 
-        ca = Math.Sqrt(r8_epsilon);
+        double ca = Math.Sqrt(typeMethods.r8_epsilon());
 
-        a = 1.0;
+        double a = 1.0;
         dn = 1.0;
-        l = 24;
+        int l = 24;
 
-        m_array = new double[25];
-        n_array = new double[25];
+        double[] m_array = new double[25];
+        double[] n_array = new double[25];
 
         for (i = 0; i < 25; i++)
         {
@@ -111,7 +103,7 @@ public static class Jacobi
 
             for (i = l; 0 <= i; i--)
             {
-                b = m_array[i];
+                double b = m_array[i];
                 a = c * a;
                 c = dn * c;
                 dn = (n_array[i] + a) / (b + a);

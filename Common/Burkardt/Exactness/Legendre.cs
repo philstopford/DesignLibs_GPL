@@ -39,12 +39,7 @@ public static partial class Exactness
         //    0 <= P_MAX.
         //
     {
-        double e;
-        int i;
         int p;
-        double q;
-        double s;
-        double[] v;
 
         Console.WriteLine("");
         Console.WriteLine("  Quadrature rule for the Legendre integral.");
@@ -52,20 +47,21 @@ public static partial class Exactness
         Console.WriteLine("  Degree          Relative Error");
         Console.WriteLine("");
 
-        v = new double[n];
+        double[] v = new double[n];
 
         for (p = 0; p <= p_max; p++)
         {
-            s = Integral.legendre_integral(p);
+            double s = Integral.legendre_integral(p);
 
+            int i;
             for (i = 0; i < n; i++)
             {
                 v[i] = Math.Pow(x[i], p);
             }
 
-            q = typeMethods.r8vec_dot_product(n, w, v);
+            double q = typeMethods.r8vec_dot_product(n, w, v);
 
-            e = s switch
+            double e = s switch
             {
                 0.0 => Math.Abs(q),
                 _ => Math.Abs(q - s) / Math.Abs(s)
@@ -113,18 +109,10 @@ public static partial class Exactness
         //    0 <= T.
         //
     {
-        double e;
-        int i;
-        int j;
-        int k;
-        int l;
         int[] p = new int[3];
-        double q;
-        double s;
         int tt;
-        double[] v;
 
-        v = new double[n];
+        double[] v = new double[n];
 
         Console.WriteLine("");
         Console.WriteLine("  Quadrature rule for the 3D Legendre integral.");
@@ -136,26 +124,29 @@ public static partial class Exactness
         {
             Console.WriteLine(tt.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "");
 
+            int k;
             for (k = 0; k <= tt; k++)
             {
+                int j;
                 for (j = 0; j <= tt - k; j++)
                 {
-                    i = tt - j - k;
+                    int i = tt - j - k;
 
                     p[0] = i;
                     p[1] = j;
                     p[2] = k;
 
-                    s = legendre_3d_monomial_integral(a, b, p);
+                    double s = legendre_3d_monomial_integral(a, b, p);
 
+                    int l;
                     for (l = 0; l < n; l++)
                     {
                         v[l] = Math.Pow(x[l], p[0]) * Math.Pow(y[l], p[1]) * Math.Pow(z[l], p[2]);
                     }
 
-                    q = typeMethods.r8vec_dot_product(n, w, v);
+                    double q = typeMethods.r8vec_dot_product(n, w, v);
 
-                    e = s switch
+                    double e = s switch
                     {
                         0.0 => Math.Abs(q),
                         _ => Math.Abs(q - s) / Math.Abs(s)

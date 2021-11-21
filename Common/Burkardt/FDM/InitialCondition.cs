@@ -34,9 +34,8 @@ public static class InitialCondition
         //
     {
         int i;
-        double[] u;
 
-        u = new double[nx];
+        double[] u = new double[nx];
 
         for ( i = 0; i < nx; i++ )
         {

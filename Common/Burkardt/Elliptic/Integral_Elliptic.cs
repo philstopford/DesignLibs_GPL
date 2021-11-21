@@ -79,17 +79,9 @@ public static class Integral
         //     1, abnormal termination.
         //
     {
-        double c1;
-        double c2;
-        double lamda;
         const double lolim = 3.0E-78;
-        double mu;
-        double s;
-        double sn;
         const double uplim = 1.0E+75;
-        double value = 0;
-        double xn;
-        double yn;
+        double value;
         //
         //   LOLIM and UPLIM determine the range of valid arguments.
         //   LOLIM IS NOT LESS THAN THE MACHINE MINIMUM MULTIPLIED BY 5.
@@ -114,24 +106,24 @@ public static class Integral
         }
 
         ierr = 0;
-        xn = x;
-        yn = y;
+        double xn = x;
+        double yn = y;
 
         while (true)
         {
-            mu = (xn + yn + yn) / 3.0;
-            sn = (yn + mu) / mu - 2.0;
+            double mu = (xn + yn + yn) / 3.0;
+            double sn = (yn + mu) / mu - 2.0;
 
             if (Math.Abs(sn) < errtol)
             {
-                c1 = 1.0 / 7.0;
-                c2 = 9.0 / 22.0;
-                s = sn * sn * (0.3 + sn * (c1 + sn * (0.375 + sn * c2)));
+                double c1 = 1.0 / 7.0;
+                double c2 = 9.0 / 22.0;
+                double s = sn * sn * (0.3 + sn * (c1 + sn * (0.375 + sn * c2)));
                 value = (1.0 + s) / Math.Sqrt(mu);
                 return value;
             }
 
-            lamda = 2.0 * Math.Sqrt(xn) * Math.Sqrt(yn) + yn;
+            double lamda = 2.0 * Math.Sqrt(xn) * Math.Sqrt(yn) + yn;
             xn = (xn + lamda) * 0.25;
             yn = (yn + lamda) * 0.25;
         }
@@ -213,34 +205,9 @@ public static class Integral
         //     1, abnormal termination.
         //
     {
-        double c1;
-        double c2;
-        double c3;
-        double c4;
-        double ea;
-        double eb;
-        double ec;
-        double ed;
-        double ef;
-        double epslon;
-        double lamda;
         const double lolim = 6.0E-51;
-        double mu;
-        double power4;
-        double sigma;
-        double s1;
-        double s2;
         const double uplim = 1.0E+48;
-        double value = 0;
-        double xn;
-        double xndev;
-        double xnroot;
-        double yn;
-        double yndev;
-        double ynroot;
-        double zn;
-        double zndev;
-        double znroot;
+        double value;
         //
         //   LOLIM and UPLIM determine the range of valid arguments.
         //   LOLIM IS NOT LESS THAN 2 / (MACHINE MAXIMUM) ^ (2/3).
@@ -271,42 +238,42 @@ public static class Integral
         }
 
         ierr = 0;
-        xn = x;
-        yn = y;
-        zn = z;
-        sigma = 0.0;
-        power4 = 1.0;
+        double xn = x;
+        double yn = y;
+        double zn = z;
+        double sigma = 0.0;
+        double power4 = 1.0;
 
         while (true)
         {
-            mu = (xn + yn + 3.0 * zn) * 0.2;
-            xndev = (mu - xn) / mu;
-            yndev = (mu - yn) / mu;
-            zndev = (mu - zn) / mu;
-            epslon = Math.Max(Math.Abs(xndev),
+            double mu = (xn + yn + 3.0 * zn) * 0.2;
+            double xndev = (mu - xn) / mu;
+            double yndev = (mu - yn) / mu;
+            double zndev = (mu - zn) / mu;
+            double epslon = Math.Max(Math.Abs(xndev),
                 Math.Max(Math.Abs(yndev), Math.Abs(zndev)));
 
             if (epslon < errtol)
             {
-                c1 = 3.0 / 14.0;
-                c2 = 1.0 / 6.0;
-                c3 = 9.0 / 22.0;
-                c4 = 3.0 / 26.0;
-                ea = xndev * yndev;
-                eb = zndev * zndev;
-                ec = ea - eb;
-                ed = ea - 6.0 * eb;
-                ef = ed + ec + ec;
-                s1 = ed * (-c1 + 0.25 * c3 * ed - 1.5 * c4 * zndev * ef);
-                s2 = zndev * (c2 * ef + zndev * (-c3 * ec + zndev * c4 * ea));
+                double c1 = 3.0 / 14.0;
+                double c2 = 1.0 / 6.0;
+                double c3 = 9.0 / 22.0;
+                double c4 = 3.0 / 26.0;
+                double ea = xndev * yndev;
+                double eb = zndev * zndev;
+                double ec = ea - eb;
+                double ed = ea - 6.0 * eb;
+                double ef = ed + ec + ec;
+                double s1 = ed * (-c1 + 0.25 * c3 * ed - 1.5 * c4 * zndev * ef);
+                double s2 = zndev * (c2 * ef + zndev * (-c3 * ec + zndev * c4 * ea));
                 value = 3.0 * sigma + power4 * (1.0 + s1 + s2) / (mu * Math.Sqrt(mu));
                 return value;
             }
 
-            xnroot = Math.Sqrt(xn);
-            ynroot = Math.Sqrt(yn);
-            znroot = Math.Sqrt(zn);
-            lamda = xnroot * (ynroot + znroot) + ynroot * znroot;
+            double xnroot = Math.Sqrt(xn);
+            double ynroot = Math.Sqrt(yn);
+            double znroot = Math.Sqrt(zn);
+            double lamda = xnroot * (ynroot + znroot) + ynroot * znroot;
             sigma += power4 / (znroot * (zn + lamda));
             power4 *= 0.25;
             xn = (xn + lamda) * 0.25;
@@ -391,27 +358,9 @@ public static class Integral
         //     1, abnormal termination.
         //
     {
-        double c1;
-        double c2;
-        double c3;
-        double e2;
-        double e3;
-        double epslon;
-        double lamda;
         const double lolim = 3.0E-78;
-        double mu;
-        double s;
         const double uplim = 1.0E+75;
-        double value = 0;
-        double xn;
-        double xndev;
-        double xnroot;
-        double yn;
-        double yndev;
-        double ynroot;
-        double zn;
-        double zndev;
-        double znroot;
+        double value;
         //
         //   LOLIM and UPLIM determine the range of valid arguments.
         //   LOLIM IS NOT LESS THAN THE MACHINE MINIMUM MULTIPLIED BY 5.
@@ -441,35 +390,35 @@ public static class Integral
         }
 
         ierr = 0;
-        xn = x;
-        yn = y;
-        zn = z;
+        double xn = x;
+        double yn = y;
+        double zn = z;
 
         while (true)
         {
-            mu = (xn + yn + zn) / 3.0;
-            xndev = 2.0 - (mu + xn) / mu;
-            yndev = 2.0 - (mu + yn) / mu;
-            zndev = 2.0 - (mu + zn) / mu;
-            epslon = Math.Max(Math.Abs(xndev),
+            double mu = (xn + yn + zn) / 3.0;
+            double xndev = 2.0 - (mu + xn) / mu;
+            double yndev = 2.0 - (mu + yn) / mu;
+            double zndev = 2.0 - (mu + zn) / mu;
+            double epslon = Math.Max(Math.Abs(xndev),
                 Math.Max(Math.Abs(yndev), Math.Abs(zndev)));
 
             if (epslon < errtol)
             {
-                c1 = 1.0 / 24.0;
-                c2 = 3.0 / 44.0;
-                c3 = 1.0 / 14.0;
-                e2 = xndev * yndev - zndev * zndev;
-                e3 = xndev * yndev * zndev;
-                s = 1.0 + (c1 * e2 - 0.1 - c2 * e3) * e2 + c3 * e3;
+                double c1 = 1.0 / 24.0;
+                double c2 = 3.0 / 44.0;
+                double c3 = 1.0 / 14.0;
+                double e2 = xndev * yndev - zndev * zndev;
+                double e3 = xndev * yndev * zndev;
+                double s = 1.0 + (c1 * e2 - 0.1 - c2 * e3) * e2 + c3 * e3;
                 value = s / Math.Sqrt(mu);
                 return value;
             }
 
-            xnroot = Math.Sqrt(xn);
-            ynroot = Math.Sqrt(yn);
-            znroot = Math.Sqrt(zn);
-            lamda = xnroot * (ynroot + znroot) + ynroot * znroot;
+            double xnroot = Math.Sqrt(xn);
+            double ynroot = Math.Sqrt(yn);
+            double znroot = Math.Sqrt(zn);
+            double lamda = xnroot * (ynroot + znroot) + ynroot * znroot;
             xn = (xn + lamda) * 0.25;
             yn = (yn + lamda) * 0.25;
             zn = (zn + lamda) * 0.25;
@@ -559,40 +508,9 @@ public static class Integral
         //     1, abnormal termination.
         //
     {
-        double alfa;
-        double beta;
-        double c1;
-        double c2;
-        double c3;
-        double c4;
-        double ea;
-        double eb;
-        double ec;
-        double e2;
-        double e3;
-        double epslon;
-        double etolrc;
-        double lamda;
         const double lolim = 2.0E-26;
-        double mu;
-        double pn;
-        double pndev;
-        double power4;
-        double sigma;
-        double s1;
-        double s2;
-        double s3;
         const double uplim = 3.0E+24;
-        double value = 0;
-        double xn;
-        double xndev;
-        double xnroot;
-        double yn;
-        double yndev;
-        double ynroot;
-        double zn;
-        double zndev;
-        double znroot;
+        double value;
         //
         //   LOLIM and UPLIM determine the range of valid arguments.
         //   LOLIM IS NOT LESS THAN THE CUBE ROOT OF THE VALUE
@@ -627,50 +545,50 @@ public static class Integral
         }
 
         ierr = 0;
-        xn = x;
-        yn = y;
-        zn = z;
-        pn = p;
-        sigma = 0.0;
-        power4 = 1.0;
-        etolrc = 0.5 * errtol;
+        double xn = x;
+        double yn = y;
+        double zn = z;
+        double pn = p;
+        double sigma = 0.0;
+        double power4 = 1.0;
+        double etolrc = 0.5 * errtol;
 
         while (true)
         {
-            mu = (xn + yn + zn + pn + pn) * 0.2;
-            xndev = (mu - xn) / mu;
-            yndev = (mu - yn) / mu;
-            zndev = (mu - zn) / mu;
-            pndev = (mu - pn) / mu;
-            epslon = Math.Max(Math.Abs(xndev),
+            double mu = (xn + yn + zn + pn + pn) * 0.2;
+            double xndev = (mu - xn) / mu;
+            double yndev = (mu - yn) / mu;
+            double zndev = (mu - zn) / mu;
+            double pndev = (mu - pn) / mu;
+            double epslon = Math.Max(Math.Abs(xndev),
                 Math.Max(Math.Abs(yndev),
                     Math.Max(Math.Abs(zndev), Math.Abs(pndev))));
 
             if (epslon < errtol)
             {
-                c1 = 3.0 / 14.0;
-                c2 = 1.0 / 3.0;
-                c3 = 3.0 / 22.0;
-                c4 = 3.0 / 26.0;
-                ea = xndev * (yndev + zndev) + yndev * zndev;
-                eb = xndev * yndev * zndev;
-                ec = pndev * pndev;
-                e2 = ea - 3.0 * ec;
-                e3 = eb + 2.0 * pndev * (ea - ec);
-                s1 = 1.0 + e2 * (-c1 + 0.75 * c3 * e2 - 1.5 * c4 * e3);
-                s2 = eb * (0.5 * c2 + pndev * (-c3 - c3 + pndev * c4));
-                s3 = pndev * ea * (c2 - pndev * c3) - c2 * pndev * ec;
+                const double c1 = 3.0 / 14.0;
+                const double c2 = 1.0 / 3.0;
+                const double c3 = 3.0 / 22.0;
+                const double c4 = 3.0 / 26.0;
+                double ea = xndev * (yndev + zndev) + yndev * zndev;
+                double eb = xndev * yndev * zndev;
+                double ec = pndev * pndev;
+                double e2 = ea - 3.0 * ec;
+                double e3 = eb + 2.0 * pndev * (ea - ec);
+                double s1 = 1.0 + e2 * (-c1 + 0.75 * c3 * e2 - 1.5 * c4 * e3);
+                double s2 = eb * (0.5 * c2 + pndev * (-c3 - c3 + pndev * c4));
+                double s3 = pndev * ea * (c2 - pndev * c3) - c2 * pndev * ec;
                 value = 3.0 * sigma + power4 * (s1 + s2 + s3) / (mu * Math.Sqrt(mu));
                 return value;
             }
 
-            xnroot = Math.Sqrt(xn);
-            ynroot = Math.Sqrt(yn);
-            znroot = Math.Sqrt(zn);
-            lamda = xnroot * (ynroot + znroot) + ynroot * znroot;
-            alfa = pn * (xnroot + ynroot + znroot) + xnroot * ynroot * znroot;
+            double xnroot = Math.Sqrt(xn);
+            double ynroot = Math.Sqrt(yn);
+            double znroot = Math.Sqrt(zn);
+            double lamda = xnroot * (ynroot + znroot) + ynroot * znroot;
+            double alfa = pn * (xnroot + ynroot + znroot) + xnroot * ynroot * znroot;
             alfa *= alfa;
-            beta = pn * (pn + lamda) * (pn + lamda);
+            double beta = pn * (pn + lamda) * (pn + lamda);
             sigma += power4 * rc(alfa, beta, etolrc, ref ierr);
 
             if (ierr != 0)

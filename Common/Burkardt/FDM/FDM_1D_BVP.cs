@@ -83,20 +83,12 @@ public static class FDM_1D_BVP
 //    approximation to the solution.
 //
     {
-        double am;
-        double apm;
-        double cm;
-        double fm;
         int i;
-        double[] rhs;
-        double[] tri;
-        double[] u;
-        double xm;
-//
+        //
 //  Equation 1 is the left boundary condition, U(X[0]) = 0.0;
 //
-        tri = new double[3 * n];
-        rhs = new double[n];
+        double[] tri = new double[3 * n];
+        double[] rhs = new double[n];
 
         tri[0 + 0 * 3] = 0.0;
         tri[1 + 0 * 3] = 1.0;
@@ -108,11 +100,11 @@ public static class FDM_1D_BVP
 //
         for (i = 1; i < n - 1; i++)
         {
-            xm = x[i];
-            am = a(xm);
-            apm = aprime(xm);
-            cm = c(xm);
-            fm = f(xm);
+            double xm = x[i];
+            double am = a(xm);
+            double apm = aprime(xm);
+            double cm = c(xm);
+            double fm = f(xm);
 
             tri[0 + i * 3] = -2.0 * am / (x[i] - x[i - 1]) / (x[i + 1] - x[i - 1])
                              + apm / (x[i + 1] - x[i - 1]);
@@ -136,7 +128,7 @@ public static class FDM_1D_BVP
 //
 //  Solve the linear system.
 //
-        u = typeMethods.r83np_fs(n, ref tri, rhs);
+        double[] u = typeMethods.r83np_fs(n, ref tri, rhs);
 
         return u;
     }

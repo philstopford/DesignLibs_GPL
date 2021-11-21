@@ -58,22 +58,20 @@ public static class Eigen
         //    if X and LAMBDA were exact eigenvectors and eigenvalues of A.
         //
     {
-        double[] c;
-        int i;
         int j;
-        double value = 0;
 
-        c = typeMethods.r8mat_mm_new ( n, n, k, a, x );
+        double[] c = typeMethods.r8mat_mm_new ( n, n, k, a, x );
 
         for ( j = 0; j < k; j++ )
         {
+            int i;
             for ( i = 0; i < n; i++ )
             {
                 c[i+n*j] -= lambda[j] * x[i+n*j];
             }
         }
 
-        value = typeMethods.r8mat_norm_fro ( n, k, c );
+        double value = typeMethods.r8mat_norm_fro ( n, k, c );
 
         return value;
     }

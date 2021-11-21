@@ -91,13 +91,11 @@ public static class FD1D_Heat_Explicit
         //    Output, double FD1D_HEAT_EXPLICIT[X_NUM)], the solution at time T+DT.
         //
     {
-        double[] f;
-        double[] h_new;
         int j;
 
-        f = rhs(x_num, x, t);
+        double[] f = rhs(x_num, x, t);
 
-        h_new = new double[x_num];
+        double[] h_new = new double[x_num];
 
         h_new[0] = 0.0;
 
@@ -200,16 +198,12 @@ public static class FD1D_Heat_Explicit
         //    Output, double FD1D_HEAT_EXPLICIT_CFL, the Courant-Friedrichs-Loewy coefficient.
         //
     {
-        double cfl;
-        double dx;
-        double dt;
-
-        dx = (x_max - x_min) / (x_num - 1);
-        dt = (t_max - t_min) / (t_num - 1);
+        double dx = (x_max - x_min) / (x_num - 1);
+        double dt = (t_max - t_min) / (t_num - 1);
         //
         //  Check the CFL condition, print out its value, and quit if it is too large.
         //
-        cfl = k * dt / dx / dx;
+        double cfl = k * dt / dx / dx;
 
         Console.WriteLine("");
         Console.WriteLine("  CFL stability criterion value = " + cfl + "");

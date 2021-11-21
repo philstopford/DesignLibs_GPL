@@ -38,31 +38,19 @@ public static class PIA_inc
         //    Output, double ELLIPTIC_INC_PIA, the function value.
         //
     {
-        double cp;
-        double errtol;
         int ierr = 0;
-        double k;
-        double p;
-            
-        double sp;
-        double value = 0;
-        double value1;
-        double value2;
-        double x;
-        double y;
-        double z;
 
-        k = Math.Sin(a * Math.PI / 180.0);
+        double k = Math.Sin(a * Math.PI / 180.0);
 
-        cp = Math.Cos(phi);
-        sp = Math.Sin(phi);
-        x = cp * cp;
-        y = (1.0 - k * sp) * (1.0 + k * sp);
-        z = 1.0;
-        p = 1.0 - n * sp * sp;
-        errtol = 1.0E-03;
+        double cp = Math.Cos(phi);
+        double sp = Math.Sin(phi);
+        double x = cp * cp;
+        double y = (1.0 - k * sp) * (1.0 + k * sp);
+        double z = 1.0;
+        double p = 1.0 - n * sp * sp;
+        double errtol = 1.0E-03;
 
-        value1 = Integral.rf(x, y, z, errtol, ref ierr);
+        double value1 = Integral.rf(x, y, z, errtol, ref ierr);
 
         if (ierr != 0)
         {
@@ -72,7 +60,7 @@ public static class PIA_inc
             return 1;
         }
 
-        value2 = Integral.rj(x, y, z, p, errtol, ref ierr);
+        double value2 = Integral.rj(x, y, z, p, errtol, ref ierr);
 
         if (ierr != 0)
         {
@@ -82,7 +70,7 @@ public static class PIA_inc
             return 1;
         }
 
-        value = sp * value1 + n * sp * sp * sp * value2 / 3.0;
+        double value = sp * value1 + n * sp * sp * sp * value2 / 3.0;
 
         return value;
     }

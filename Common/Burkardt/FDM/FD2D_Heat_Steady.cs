@@ -75,18 +75,15 @@ public static class FD2D_Heat_Steady
         //    at the grid points.
         //
     {
-        double[] a;
-        int n;
-        double[] u;
         //
         //  Set the total number of unknowns.
         //
-        n = nx * ny;
+        int n = nx * ny;
         //
         //  Set up the matrix and right hand side.
         //
-        a = new double[n * n];
-        u = new double[n];
+        double[] a = new double[n * n];
+        double[] u = new double[n];
         //
         //  Define the matrix at interior points.
         //
@@ -171,48 +168,33 @@ public static class FD2D_Heat_Steady
         //    entries for the interior nodes filled in.
         //
     {
-        double dce;
-        double dcn;
-        double dcs;
-        double dcw;
-        double dx;
-        double dy;
         int ic;
-        int in_;
-        int is_;
-        int jc;
-        int je;
-        int jw;
-        int kc;
-        int ke;
-        int kn;
-        int ks;
-        int kw;
         //
         //  For now, assume X and Y are equally spaced.
         //
-        dx = x[1] - x[0];
-        dy = y[1] - y[0];
+        double dx = x[1] - x[0];
+        double dy = y[1] - y[0];
 
         for (ic = 1; ic < ny - 1; ic++)
         {
+            int jc;
             for (jc = 1; jc < nx - 1; jc++)
             {
-                in_ = ic + 1;
-                is_ = ic - 1;
-                je = jc + 1;
-                jw = jc - 1;
+                int in_ = ic + 1;
+                int is_ = ic - 1;
+                int je = jc + 1;
+                int jw = jc - 1;
 
-                kc = ic * nx + jc;
-                ke = kc + 1;
-                kw = kc - 1;
-                kn = kc + nx;
-                ks = kc - nx;
+                int kc = ic * nx + jc;
+                int ke = kc + 1;
+                int kw = kc - 1;
+                int kn = kc + nx;
+                int ks = kc - nx;
 
-                dce = d(0.5 * (x[jc] + x[je]), y[ic]);
-                dcw = d(0.5 * (x[jc] + x[jw]), y[ic]);
-                dcn = d(x[jc], 0.5 * (y[ic] + y[in_]));
-                dcs = d(x[jc], 0.5 * (y[ic] + y[is_]));
+                double dce = d(0.5 * (x[jc] + x[je]), y[ic]);
+                double dcw = d(0.5 * (x[jc] + x[jw]), y[ic]);
+                double dcn = d(x[jc], 0.5 * (y[ic] + y[in_]));
+                double dcs = d(x[jc], 0.5 * (y[ic] + y[is_]));
 
                 a[kc + kc * n] = (dce + dcw) / dx / dx + (dcn + dcs) / dy / dy;
                 a[kc + ke * n] = -dce / dx / dx;
@@ -293,12 +275,11 @@ public static class FD2D_Heat_Steady
         //
     {
         int i;
-        int j;
         int kc;
         //
         //  Left boundary.
         //
-        j = 0;
+        int j = 0;
         for (i = 1; i < ny - 1; i++)
         {
             kc = i * nx + j;

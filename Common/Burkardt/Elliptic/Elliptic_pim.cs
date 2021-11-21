@@ -47,22 +47,16 @@ public static class PIM
         //    Output, double ELLIPTIC_PIM, the function value.
         //
     {
-        double errtol;
         int ierr = 0;
-        double p;
-        double value = 0;
-        double x;
-        double y;
-        double z;
 
-        x = 0.0;
-        y = 1.0 - m;
-        z = 1.0;
-        p = 1.0 - n;
-        errtol = 1.0E-03;
+        const double x = 0.0;
+        double y = 1.0 - m;
+        const double z = 1.0;
+        double p = 1.0 - n;
+        const double errtol = 1.0E-03;
 
-        value = Integral.rf(x, y, z, errtol, ref ierr)
-                + n * Integral.rj(x, y, z, p, errtol, ref ierr) / 3.0;
+        double value = Integral.rf(x, y, z, errtol, ref ierr)
+                       + n * Integral.rj(x, y, z, p, errtol, ref ierr) / 3.0;
 
         return value;
     }

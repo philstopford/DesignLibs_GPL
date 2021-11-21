@@ -40,27 +40,18 @@ public static class FA_inc
         //    Output, double ELLIPTIC_INC_FA, the function value.
         //
     {
-        double cp;
-        double errtol;
         int ierr = 0;
-        double k;
-            
-        double sp;
-        double value = 0;
-        double x;
-        double y;
-        double z;
 
-        k = Math.Sin(a * Math.PI / 180.0);
+        double k = Math.Sin(a * Math.PI / 180.0);
 
-        cp = Math.Cos(phi);
-        sp = Math.Sin(phi);
-        x = cp * cp;
-        y = (1.0 - k * sp) * (1.0 + k * sp);
-        z = 1.0;
-        errtol = 1.0E-03;
+        double cp = Math.Cos(phi);
+        double sp = Math.Sin(phi);
+        double x = cp * cp;
+        double y = (1.0 - k * sp) * (1.0 + k * sp);
+        double z = 1.0;
+        double errtol = 1.0E-03;
 
-        value = Integral.rf(x, y, z, errtol, ref ierr);
+        double value = Integral.rf(x, y, z, errtol, ref ierr);
 
         if (ierr != 0)
         {

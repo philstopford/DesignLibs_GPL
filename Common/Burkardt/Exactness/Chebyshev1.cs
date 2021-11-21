@@ -39,12 +39,7 @@ public static partial class Exactness
         //    0 <= P_MAX.
         //
     {
-        double e;
-        int i;
         int p;
-        double q;
-        double s;
-        double[] v;
 
         Console.WriteLine("");
         Console.WriteLine("  Quadrature rule for the Chebyshev1 integral.");
@@ -52,20 +47,21 @@ public static partial class Exactness
         Console.WriteLine("  Degree          Relative Error");
         Console.WriteLine("");
 
-        v = new double[n];
+        double[] v = new double[n];
 
         for ( p = 0; p <= p_max; p++ )
         {
-            s = Integral.chebyshev1_integral ( p );
+            double s = Integral.chebyshev1_integral ( p );
 
+            int i;
             for ( i = 0; i < n; i++ )
             {
                 v[i] = Math.Pow ( x[i], p );
             }
 
-            q = typeMethods.r8vec_dot_product ( n, w, v );
+            double q = typeMethods.r8vec_dot_product ( n, w, v );
 
-            e = s switch
+            double e = s switch
             {
                 0.0 => Math.Abs(q),
                 _ => Math.Abs(q - s) / Math.Abs(s)

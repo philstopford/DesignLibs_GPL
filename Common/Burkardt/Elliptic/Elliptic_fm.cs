@@ -35,19 +35,14 @@ public class FM
         //    Output, double ELLIPTIC_FM, the function value.
         //
     {
-        double errtol;
         int ierr = 0;
-        double value = 0;
-        double x;
-        double y;
-        double z;
 
-        x = 0.0;
-        y = 1.0 - m;
-        z = 1.0;
-        errtol = 1.0E-03;
+        const double x = 0.0;
+        double y = 1.0 - m;
+        const double z = 1.0;
+        const double errtol = 1.0E-03;
 
-        value = Integral.rf(x, y, z, errtol, ref ierr);
+        double value = Integral.rf(x, y, z, errtol, ref ierr);
 
         return value;
     }

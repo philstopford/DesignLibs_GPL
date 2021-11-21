@@ -60,13 +60,7 @@ public static class FD1D_Heat_Steady
         //    at the grid points.
         //
     {
-        double dx;
         int i;
-        double[] rhs;
-        double[] tri;
-        double[] u;
-        double xm;
-        double xp;
 
         Console.WriteLine("");
         Console.WriteLine("FD1D_HEAT_STEADY");
@@ -86,12 +80,12 @@ public static class FD1D_Heat_Steady
         //
         //  Set the spacing.
         //
-        dx = (b - a) / (n - 1);
+        double dx = (b - a) / (n - 1);
         //
         //  Set up the tridiagonal matrix.
         //
-        tri = new double[3 * n];
-        rhs = new double[n];
+        double[] tri = new double[3 * n];
+        double[] rhs = new double[n];
 
         tri[0 + 0 * 3] = 0.0;
         tri[1 + 0 * 3] = 1.0;
@@ -100,8 +94,8 @@ public static class FD1D_Heat_Steady
 
         for (i = 1; i < n - 1; i++)
         {
-            xm = (x[i - 1] + x[i]) / 2.0;
-            xp = (x[i] + x[i + 1]) / 2.0;
+            double xm = (x[i - 1] + x[i]) / 2.0;
+            double xp = (x[i] + x[i + 1]) / 2.0;
 
             tri[0 + i * 3] = -k(xm) / dx / dx;
             tri[1 + i * 3] = (k(xm) + k(xp)) / dx / dx;
@@ -117,7 +111,7 @@ public static class FD1D_Heat_Steady
         //
         //  Solve the linear system.
         //
-        u = typeMethods.r83np_fs(n, ref tri, rhs);
+        double[] u = typeMethods.r83np_fs(n, ref tri, rhs);
 
         return u;
     }

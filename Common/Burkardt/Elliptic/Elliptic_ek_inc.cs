@@ -41,26 +41,16 @@ public static class EK_inc
         //    Output, double ELLIPTIC_INC_EK, the function value.
         //
     {
-        double cp;
-        double errtol;
         int ierr = 0;
-            
-        double sp;
-        double value = 0;
-        double value1;
-        double value2;
-        double x;
-        double y;
-        double z;
 
-        cp = Math.Cos(phi);
-        sp = Math.Sin(phi);
-        x = cp * cp;
-        y = (1.0 - k * sp) * (1.0 + k * sp);
-        z = 1.0;
-        errtol = 1.0E-03;
+        double cp = Math.Cos(phi);
+        double sp = Math.Sin(phi);
+        double x = cp * cp;
+        double y = (1.0 - k * sp) * (1.0 + k * sp);
+        double z = 1.0;
+        double errtol = 1.0E-03;
 
-        value1 = Integral.rf(x, y, z, errtol, ref ierr);
+        double value1 = Integral.rf(x, y, z, errtol, ref ierr);
 
         if (ierr != 0)
         {
@@ -70,7 +60,7 @@ public static class EK_inc
             return 1;
         }
 
-        value2 = Integral.rd(x, y, z, errtol, ref ierr);
+        double value2 = Integral.rd(x, y, z, errtol, ref ierr);
 
         if (ierr != 0)
         {
@@ -80,7 +70,7 @@ public static class EK_inc
             return 1;
         }
 
-        value = sp * value1 - k * k * sp * sp * sp * value2 / 3.0;
+        double value = sp * value1 - k * k * sp * sp * sp * value2 / 3.0;
 
         return value;
     }

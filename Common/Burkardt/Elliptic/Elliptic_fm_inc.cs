@@ -39,24 +39,16 @@ public static class FM_inc
         //    Output, double ELLIPTIC_INC_FM, the function value.
         //
     {
-        double cp;
-        double errtol;
         int ierr = 0;
-            
-        double sp;
-        double value = 0;
-        double x;
-        double y;
-        double z;
 
-        cp = Math.Cos(phi);
-        sp = Math.Sin(phi);
-        x = cp * cp;
-        y = 1.0 - m * sp * sp;
-        z = 1.0;
-        errtol = 1.0E-03;
+        double cp = Math.Cos(phi);
+        double sp = Math.Sin(phi);
+        double x = cp * cp;
+        double y = 1.0 - m * sp * sp;
+        double z = 1.0;
+        double errtol = 1.0E-03;
 
-        value = Integral.rf(x, y, z, errtol, ref ierr);
+        double value = Integral.rf(x, y, z, errtol, ref ierr);
 
         if (ierr != 0)
         {

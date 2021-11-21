@@ -71,13 +71,9 @@ public static class FD1D_Wave
         //    Output, double FD1D_WAVE_ALPHA, the stability coefficient.
         //
     {
-        double alpha;
-        double t_delta;
-        double x_delta;
-
-        t_delta = (t2 - t1) / (t_num - 1);
-        x_delta = (x2 - x1) / (x_num - 1);
-        alpha = c * t_delta / x_delta;
+        double t_delta = (t2 - t1) / (t_num - 1);
+        double x_delta = (x2 - x1) / (x_num - 1);
+        double alpha = c * t_delta / x_delta;
 
         Console.WriteLine("");
         Console.WriteLine("  Stability condition ALPHA = C * DT / DX = " + alpha + "");
@@ -224,12 +220,10 @@ public static class FD1D_Wave
         //
     {
         int j;
-        double[] u2;
-        double[] ut;
 
-        ut = ut_t1(x_num, x_vec);
+        double[] ut = ut_t1(x_num, x_vec);
 
-        u2 = new double[x_num];
+        double[] u2 = new double[x_num];
 
         u2[0] = u_x1(t);
 
@@ -369,9 +363,8 @@ public static class FD1D_Wave
         //
     {
         int j;
-        double[] u3;
 
-        u3 = new double[x_num];
+        double[] u3 = new double[x_num];
 
         u3[0] = u_x1(t);
 

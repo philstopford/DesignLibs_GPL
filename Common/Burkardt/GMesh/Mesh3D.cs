@@ -110,8 +110,6 @@ public static class Mesh3D
         int element;
         int element_type = 0;
         List<string> gmsh = new();
-        int i;
-        int i2;
         int[] leo_to_gmsh =
         {
             0, 1, 2, 3, 4,
@@ -120,8 +118,6 @@ public static class Mesh3D
             13, 8, 14, 15, 16
         };
         int node;
-        int tag_num;
-        int tag1;
         //
         //  Detect and correct 0-based node indexing.
         //
@@ -154,8 +150,8 @@ public static class Mesh3D
             _ => element_type
         };
 
-        tag_num = 2;
-        tag1 = 0;
+        int tag_num = 2;
+        int tag1 = 0;
         gmsh.Add("$Elements");
         gmsh.Add(element_num + "");
         for (element = 0; element < element_num; element++)
@@ -165,13 +161,14 @@ public static class Mesh3D
                                  + "  " + tag_num
                                  + "  " + tag1
                                  + "  " + (element + 1);
+            int i;
             switch (element_order)
             {
                 case 20:
                 {
                     for (i = 0; i < element_order; i++)
                     {
-                        i2 = leo_to_gmsh[i];
+                        int i2 = leo_to_gmsh[i];
                         tmp += "  " + element_node[i2 + element * element_order];
                     }
 

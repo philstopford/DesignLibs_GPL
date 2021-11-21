@@ -43,20 +43,16 @@ public static class Direction
         //    have unit norm.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        double dphi;
         double[] p = new double[DIM_NUM];
         double phi;
-        double psi;
         double theta;
         double vdot;
-        double[] vran;
-        double x;
         //
         //  0 <= SIGMA, just use the base vector.
         //
-        vran = new double[DIM_NUM];
+        double[] vran = new double[DIM_NUM];
 
         switch (sigma)
         {
@@ -88,10 +84,10 @@ public static class Direction
                 //  VDOT, in turn, is a value between -1 and 1, which, for large
                 //  SIGMA, we want biased towards 1.
                 //
-                x = UniformRNG.r8_uniform_01(ref seed);
+                double x = UniformRNG.r8_uniform_01(ref seed);
                 x = Math.Exp((1.0 - sigma) * Math.Log(x));
                 vdot = 2.0 * x - 1.0;
-                dphi = Math.Acos(vdot);
+                double dphi = Math.Acos(vdot);
                 //
                 //  Now we know enough to write down a vector that is rotated DPHI
                 //  from the base vector.
@@ -103,7 +99,7 @@ public static class Direction
                 //  Pick a uniformly random rotation between 0 and 2 Pi around the
                 //  axis of the base vector.
                 //
-                psi = UniformRNG.r8_uniform_01(ref seed);
+                double psi = UniformRNG.r8_uniform_01(ref seed);
                 psi = 2.0 * Math.PI * psi;
 
                 Vector.Geometry.vector_rotate_3d(p, vbase, psi, ref vran);
@@ -141,15 +137,12 @@ public static class Direction
         //    with unit norm.
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
-        double theta;
-        double[] vran;
-
-        theta = UniformRNG.r8_uniform_01(ref seed);
+        double theta = UniformRNG.r8_uniform_01(ref seed);
         theta = 2.0 * Math.PI * theta;
 
-        vran = new double[DIM_NUM];
+        double[] vran = new double[DIM_NUM];
 
         vran[0] = Math.Cos(theta);
         vran[1] = Math.Sin(theta);
@@ -185,12 +178,8 @@ public static class Direction
         //    with unit norm.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        double phi;
-        double theta;
-        double vdot;
-        double[] vran;
         //
         //  Pick a uniformly random VDOT, which must be between -1 and 1.
         //  This represents the dot product of the random vector with the Z unit vector.
@@ -199,17 +188,17 @@ public static class Direction
         //  Z and Z + dZ is independent of Z.  So choosing Z uniformly chooses
         //  a patch of area uniformly.
         //
-        vdot = UniformRNG.r8_uniform_01(ref seed);
+        double vdot = UniformRNG.r8_uniform_01(ref seed);
         vdot = 2.0 * vdot - 1.0;
-        phi = Math.Acos(vdot);
+        double phi = Math.Acos(vdot);
         //
         //  Pick a uniformly random rotation between 0 and 2 Pi around the
         //  axis of the Z vector.
         //
-        theta = UniformRNG.r8_uniform_01(ref seed);
+        double theta = UniformRNG.r8_uniform_01(ref seed);
         theta = 2.0 * Math.PI * theta;
 
-        vran = new double[DIM_NUM];
+        double[] vran = new double[DIM_NUM];
 
         vran[0] = Math.Cos(theta) * Math.Sin(phi);
         vran[1] = Math.Sin(theta) * Math.Sin(phi);
@@ -248,12 +237,11 @@ public static class Direction
         //    with unit norm.
         //
     {
-        double[] a;
         typeMethods.r8vecNormalData data = new();
         //
         //  Take DIM_NUM random samples from the normal distribution.
         //
-        a = typeMethods.r8vec_normal_01_new(dim_num, ref data, ref seed);
+        double[] a = typeMethods.r8vec_normal_01_new(dim_num, ref data, ref seed);
         //
         //  Normalize the vector.
         //

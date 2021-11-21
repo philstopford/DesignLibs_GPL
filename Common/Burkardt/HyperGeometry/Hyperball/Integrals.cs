@@ -54,7 +54,6 @@ public static class Integrals
         int i;
         double integral;
         const double r = 1.0;
-        double s;
 
         for (i = 0; i < m; i++)
         {
@@ -87,7 +86,7 @@ public static class Integrals
             integral *= typeMethods.r8_gamma(arg);
         }
 
-        s = typeMethods.i4vec_sum(m, e) + m;
+        double s = typeMethods.i4vec_sum(m, e) + m;
         arg = 0.5 * s;
 
         integral /= typeMethods.r8_gamma(arg);
@@ -146,23 +145,19 @@ public static class Integrals
         //    Output, double X[M*N], the points.
         //
     {
-        double exponent;
-        int i;
         int j;
-        double norm;
-        double r;
-        double[] x;
 
-        exponent = 1.0 / m;
+        double exponent = 1.0 / m;
 
-        x = typeMethods.r8mat_normal_01_new(m, n, ref data, ref seed);
+        double[] x = typeMethods.r8mat_normal_01_new(m, n, ref data, ref seed);
 
         for (j = 0; j < n; j++)
         {
             //
             //  Compute the length of the vector.
             //
-            norm = 0.0;
+            double norm = 0.0;
+            int i;
             for (i = 0; i < m; i++)
             {
                 norm += Math.Pow(x[i + j * m], 2);
@@ -180,7 +175,7 @@ public static class Integrals
             //
             //  Now compute a value to map the point ON the sphere INTO the sphere.
             //
-            r = UniformRNG.r8_uniform_01(ref seed);
+            double r = UniformRNG.r8_uniform_01(ref seed);
 
             for (i = 0; i < m; i++)
             {

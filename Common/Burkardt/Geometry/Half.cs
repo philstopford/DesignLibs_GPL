@@ -47,12 +47,10 @@ public static class Half
         //    contains the point, and FALSE otherwise.
         //
     {
-        double area_signed;
-
-        area_signed = 0.5 *
-                      (pa[0] * (pb[1] - p[1])
-                       + pb[0] * (p[1] - pa[1])
-                       + p[0] * (pa[1] - pb[1]));
+        double area_signed = 0.5 *
+                             (pa[0] * (pb[1] - p[1])
+                              + pb[0] * (p[1] - pa[1])
+                              + p[0] * (pa[1] - pb[1]));
 
         return 0.0 <= area_signed;
     }
@@ -115,20 +113,16 @@ public static class Half
         //    points returned, which will always be between 0 and 4.
         //
     {
-        double dist1;
-        double dist2;
-        double dist3;
-        int int_num;
         //
         //  Compute the signed distances between the vertices and the plane.
         //
-        dist1 = a * t[0 + 0 * 3] + b * t[1 + 0 * 3] + c * t[2 + 0 * 3] + d;
-        dist2 = a * t[0 + 1 * 3] + b * t[1 + 1 * 3] + c * t[2 + 1 * 3] + d;
-        dist3 = a * t[0 + 2 * 3] + b * t[1 + 2 * 3] + c * t[2 + 2 * 3] + d;
+        double dist1 = a * t[0 + 0 * 3] + b * t[1 + 0 * 3] + c * t[2 + 0 * 3] + d;
+        double dist2 = a * t[0 + 1 * 3] + b * t[1 + 1 * 3] + c * t[2 + 1 * 3] + d;
+        double dist3 = a * t[0 + 2 * 3] + b * t[1 + 2 * 3] + c * t[2 + 2 * 3] + d;
         //
         //  Now we can find the intersections.
         //
-        int_num = halfspace_triangle_int_3d(dist1, dist2, dist3, t, ref p);
+        int int_num = halfspace_triangle_int_3d(dist1, dist2, dist3, t, ref p);
 
         return int_num;
     }
@@ -196,20 +190,16 @@ public static class Half
         //    points returned, which will always be between 0 and 4.
         //
     {
-        double dist1;
-        double dist2;
-        double dist3;
-        int int_num;
         //
         //  Compute the signed distances between the vertices and the plane.
         //
-        dist1 = typeMethods.r8vec_dot_product(3, pn, t, a2Index: +0 * 3);
-        dist2 = typeMethods.r8vec_dot_product(3, pn, t, a2Index: +1 * 3);
-        dist3 = typeMethods.r8vec_dot_product(3, pn, t, a2Index: +2 * 3);
+        double dist1 = typeMethods.r8vec_dot_product(3, pn, t, a2Index: +0 * 3);
+        double dist2 = typeMethods.r8vec_dot_product(3, pn, t, a2Index: +1 * 3);
+        double dist3 = typeMethods.r8vec_dot_product(3, pn, t, a2Index: +2 * 3);
         //
         //  Now we can find the intersections.
         //
-        int_num = halfspace_triangle_int_3d(dist1, dist2, dist3, t, ref p);
+        int int_num = halfspace_triangle_int_3d(dist1, dist2, dist3, t, ref p);
 
         return int_num;
     }
@@ -273,19 +263,18 @@ public static class Half
         //    returned, which will always be between 0 and 4.
         //
     {
-        int int_num;
         //
         //  Walk around the triangle, looking for vertices that are included,
         //  and points of separation.
         //
-        int_num = 0;
+        int int_num = 0;
 
         switch (dist1)
         {
             case <= 0.0:
-                p[0 + int_num * 3] = t[0 + 0 * 3];
-                p[1 + int_num * 3] = t[1 + 0 * 3];
-                p[2 + int_num * 3] = t[2 + 0 * 3];
+                p[0] = t[0 + 0 * 3];
+                p[1] = t[1 + 0 * 3];
+                p[2] = t[2 + 0 * 3];
                 int_num += 1;
                 break;
         }

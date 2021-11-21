@@ -53,18 +53,14 @@ public static class NBITS
         //    minus one.
         //
     {
-        double b;
-        int nbits;
-        double v;
+        int nbits = 0;
 
-        nbits = 0;
-
-        b = 1.0;
+        double b = 1.0;
 
         for ( ; ; )
         {
             b /= 2.0;
-            v = b + 1.0;
+            double v = b + 1.0;
 
             if ( Math.Abs(v - 1.0) <= double.Epsilon )
             {

@@ -51,11 +51,7 @@ public static class Hypersphere
         //
     {
         int i;
-        int i1;
         int j;
-        double t;
-        double[] top;
-        double[] x2;
         switch (m)
         {
             //
@@ -75,7 +71,7 @@ public static class Hypersphere
         //
         //  Subtract the center.
         //
-        x2 = new double[m * n];
+        double[] x2 = new double[m * n];
         for (j = 0; j < n; j++)
         {
             for (i = 0; i < m; i++)
@@ -89,7 +85,7 @@ public static class Hypersphere
         //
         for (j = 0; j < n; j++)
         {
-            t = 0.0;
+            double t = 0.0;
             for (i = 0; i < m; i++)
             {
                 t += Math.Pow(x2[i + m * j], 2);
@@ -111,6 +107,7 @@ public static class Hypersphere
 
         for (i = 1; i < m - 1; i++)
         {
+            int i1;
             for (i1 = 0; i1 <= i - 1; i1++)
             {
                 for (j = 0; j < n; j++)
@@ -139,7 +136,7 @@ public static class Hypersphere
         //
         //  Compute last component of THETA.
         //
-        top = new double[n];
+        double[] top = new double[n];
 
         for (j = 0; j < n; j++)
         {
@@ -290,7 +287,7 @@ public static class Hypersphere
         //    Output, double &AREA, the area.
         //
     {
-        int NMAX = 20;
+        const int NMAX = 20;
 
         double[] area_vec =  {
                 0.2000000000000000E+01,
@@ -415,28 +412,23 @@ public static class Hypersphere
         //    Output, double HYPERSPHERE_01_INTERIOR_UNIFORM[M*N], the points.
         //
     {
-        double exponent;
-        int i;
         int j;
-        double norm;
-        double r;
-        double[] v;
-        double[] x;
 
-        x = new double[m * n];
+        double[] x = new double[m * n];
 
-        exponent = 1.0 / m;
+        double exponent = 1.0 / m;
 
         for (j = 0; j < n; j++)
         {
             //
             //  Fill a vector with normally distributed values.
             //
-            v = typeMethods.r8vec_normal_01_new(m, ref data, ref seed);
+            double[] v = typeMethods.r8vec_normal_01_new(m, ref data, ref seed);
             //
             //  Compute the length of the vector.
             //
-            norm = 0.0;
+            double norm = 0.0;
+            int i;
             for (i = 0; i < m; i++)
             {
                 norm += Math.Pow(v[i], 2);
@@ -454,7 +446,7 @@ public static class Hypersphere
             //
             //  Now compute a value to map the point ON the hypersphere INTO the hypersphere.
             //
-            r = UniformRNG.r8_uniform_01(ref seed);
+            double r = UniformRNG.r8_uniform_01(ref seed);
 
             for (i = 0; i < m; i++)
             {
@@ -523,14 +515,11 @@ public static class Hypersphere
         //    Output, double HYPERSPHERE_01_UNIFORM_SURFACE[M*N], the points.
         //
     {
-        int i;
         int j;
-        double norm;
-        double[] x;
         //
         //  Fill a matrix with normally distributed values.
         //
-        x = typeMethods.r8mat_normal_01_new(m, n, ref data, ref seed);
+        double[] x = typeMethods.r8mat_normal_01_new(m, n, ref data, ref seed);
         //
         //  Normalize each column.
         //
@@ -539,7 +528,8 @@ public static class Hypersphere
             //
             //  Compute the length of the vector.
             //
-            norm = 0.0;
+            double norm = 0.0;
+            int i;
             for (i = 0; i < m; i++)
             {
                 norm += Math.Pow(x[i + j * m], 2);
@@ -851,9 +841,8 @@ public static class Hypersphere
     {
         int i;
         int j;
-        double[] x2;
 
-        x2 = new double[(m - 1) * n];
+        double[] x2 = new double[(m - 1) * n];
 
         for (j = 0; j < n; j++)
         {
@@ -867,7 +856,7 @@ public static class Hypersphere
         {
             for (i = 0; i < m - 1; i++)
             {
-                x2[i + j * (m - 1)] /= (1.0 - x[m - 1 + j * m]);
+                x2[i + j * (m - 1)] /= 1.0 - x[m - 1 + j * m];
             }
         }
 
@@ -907,12 +896,10 @@ public static class Hypersphere
         //    back to the hypersphere.
         //
     {
-        double[] d;
         int i;
         int j;
-        double[] x;
 
-        x = new double[m * n];
+        double[] x = new double[m * n];
 
         for (j = 0; j < n; j++)
         {
@@ -922,7 +909,7 @@ public static class Hypersphere
             }
         }
 
-        d = new double[n];
+        double[] d = new double[n];
 
         for (j = 0; j < n; j++)
         {
@@ -942,7 +929,7 @@ public static class Hypersphere
         {
             for (i = 0; i < m; i++)
             {
-                x[i + j * m] /= (d[j] + 1.0);
+                x[i + j * m] /= d[j] + 1.0;
             }
         }
             
@@ -1005,9 +992,8 @@ public static class Hypersphere
     {
         int i;
         int j;
-        double[] x;
 
-        x = hypersphere_01_surface_uniform(m, n, ref data, ref seed);
+        double[] x = hypersphere_01_surface_uniform(m, n, ref data, ref seed);
         //
         //  Scale by the radius.
         //
@@ -1079,12 +1065,9 @@ public static class Hypersphere
         //
     {
         int i;
-        int i1;
-        int i2;
         int j;
-        double[] x;
 
-        x = new double[m * n];
+        double[] x = new double[m * n];
 
         switch (m)
         {
@@ -1109,9 +1092,11 @@ public static class Hypersphere
 
                 for (j = 0; j < n; j++)
                 {
+                    int i1;
                     for (i1 = 0; i1 < m - 1; i1++)
                     {
                         x[i1 + j * m] *= Math.Cos(theta[i1 + j * (m - 1)]);
+                        int i2;
                         for (i2 = i1 + 1; i2 < m; i2++)
                         {
                             x[i2 + j * m] *= Math.Sin(theta[i1 + j * (m - 1)]);

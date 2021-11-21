@@ -82,17 +82,13 @@ public static class XY
         //    and declination.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        double norm_v;
-        double phi;
-        double theta;
+        double norm_v = typeMethods.r8vec_norm(DIM_NUM, p);
 
-        norm_v = typeMethods.r8vec_norm(DIM_NUM, p);
+        double phi = Math.Asin(p[2] / norm_v);
 
-        phi = Math.Asin(p[2] / norm_v);
-
-        theta = Math.Cos(phi) switch
+        double theta = Math.Cos(phi) switch
         {
             0.0 => 0.0,
             _ => typeMethods.r8_atan(p[1], p[0])
@@ -199,11 +195,9 @@ public static class XY
         //    Output, double *THETA, *PHI, the longitude and declination of the point.
         //
     {
-        double r;
-
-        r = Math.Sqrt(Math.Pow(xyz[0], 2)
-                      + Math.Pow(xyz[1], 2)
-                      + Math.Pow(xyz[2], 2));
+        double r = Math.Sqrt(Math.Pow(xyz[0], 2)
+                             + Math.Pow(xyz[1], 2)
+                             + Math.Pow(xyz[2], 2));
 
         switch (r)
         {
@@ -294,9 +288,7 @@ public static class XY
         //    Output, double TP_TO_XYZ[3], the XYZ coordinates.
         //
     {
-        double[] v;
-
-        v = new double[3];
+        double[] v = new double[3];
 
         v[0] = Math.Cos(theta) * Math.Sin(phi);
         v[1] = Math.Sin(theta) * Math.Sin(phi);

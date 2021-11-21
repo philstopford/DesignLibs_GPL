@@ -78,10 +78,9 @@ public static class Geometry
         //    Output, bool HEXAGON_CONTAINS_POINT_2D, is TRUE if X is in the hexagon.
         //
     {
-        int N = 6;
+        const int N = 6;
 
         int i;
-        int j;
         //
         //  A point is inside a convex hexagon if and only if it is "inside"
         //  each of the 6 halfplanes defined by lines through consecutive
@@ -89,7 +88,7 @@ public static class Geometry
         //
         for (i = 0; i < N; i++)
         {
-            j = (i + 1) % N;
+            int j = (i + 1) % N;
 
             switch (v[0 + i * 2] * (v[1 + j * 2] - p[1])
                     + v[0 + j * 2] * (p[1] - v[1 + i * 2])
@@ -267,7 +266,7 @@ public static class Geometry
         //    Output, double H[2*6], the coordinates of the vertices.
         //
     {
-        double A = 0.8660254037844386;
+        const double A = 0.8660254037844386;
 
         h[0 + 0 * 2] = 1.0;
         h[0 + 1 * 2] = 0.5;

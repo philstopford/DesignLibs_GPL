@@ -37,7 +37,6 @@ public static class Mesh2D
         //    the indices of the nodes that make up each element.
         //
     {
-        int[] element_node;
         int[] element_node_save =
             {
                 1, 2, 6,
@@ -67,7 +66,7 @@ public static class Mesh2D
             }
             ;
 
-        element_node = typeMethods.i4mat_copy_new(element_order, element_num,
+        int[] element_node = typeMethods.i4mat_copy_new(element_order, element_num,
             element_node_save);
 
         return element_node;
@@ -134,7 +133,6 @@ public static class Mesh2D
         //    the nodal coordinates.
         //
     {
-        double[] node_coord;
         double[] node_coord_save =
             {
                 0.0, 0.0,
@@ -161,7 +159,7 @@ public static class Mesh2D
             }
             ;
 
-        node_coord = typeMethods.r8mat_copy_new(2, 21, node_coord_save);
+        double[] node_coord = typeMethods.r8mat_copy_new(2, 21, node_coord_save);
 
         return node_coord;
     }
@@ -247,10 +245,7 @@ public static class Mesh2D
         int element;
         int element_type = 0;
         List<string> gmsh = new();
-        int i;
         int node;
-        int tag_num;
-        int tag1;
         //
         //  Detect and correct 0-based node indexing.
         //
@@ -282,8 +277,8 @@ public static class Mesh2D
             _ => element_type
         };
 
-        tag_num = 2;
-        tag1 = 0;
+        int tag_num = 2;
+        int tag1 = 0;
         gmsh.Add("$Elements");
         gmsh.Add(element_num + "");
         for (element = 0; element < element_num; element++)
@@ -293,6 +288,7 @@ public static class Mesh2D
                                  + "  " + tag_num
                                  + "  " + tag1
                                  + "  " + (element + 1);
+            int i;
             for (i = 0; i < element_order; i++)
             {
                 tmp += "  " + element_node[i + element * element_order];

@@ -106,7 +106,6 @@ public static class Transfer
         //
     {
         int ic;
-        int iff;
 
         for (ic = 0; ic < nc; ic++)
         {
@@ -116,7 +115,7 @@ public static class Transfer
         rc[0] = 0.0;
         for (ic = 1; ic < nc - 1; ic++)
         {
-            iff = 2 * ic;
+            int iff = 2 * ic;
             rc[rcIndex + ic] = 4.0 * (rf[rfIndex + iff] + uf[ufIndex + iff - 1] - 2.0 * uf[ufIndex + iff] + uf[ufIndex + iff + 1]);
         }
 

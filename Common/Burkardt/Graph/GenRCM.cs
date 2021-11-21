@@ -67,21 +67,13 @@ public static class GenRCM
         //
     {
         int i;
-        int ideg;
-        int j;
-        int jstop;
-        int jstrt;
-        int lbegin;
-        int lvlend;
-        int lvsize;
-        int nbr;
         int node;
         //
         //  The sign of ADJ_ROW(I) is used to indicate if node I has been considered.
         //
         ls[lsIndex + 0] = root;
         adj_row[root - 1] = -adj_row[root - 1];
-        lvlend = 0;
+        int lvlend = 0;
         iccsze = 1;
         //
         //  LBEGIN is the pointer to the beginning of the current level, and
@@ -89,7 +81,7 @@ public static class GenRCM
         //
         for (;;)
         {
-            lbegin = lvlend + 1;
+            int lbegin = lvlend + 1;
             lvlend = iccsze;
             //
             //  Find the degrees of nodes in the current level,
@@ -98,13 +90,14 @@ public static class GenRCM
             for (i = lbegin; i <= lvlend; i++)
             {
                 node = ls[(lsIndex + (i - 1) + ls.Length) % ls.Length];
-                jstrt = -adj_row[(node - 1 + adj_row.Length) % adj_row.Length];
-                jstop = Math.Abs(adj_row[node % adj_row.Length]) - 1;
-                ideg = 0;
+                int jstrt = -adj_row[(node - 1 + adj_row.Length) % adj_row.Length];
+                int jstop = Math.Abs(adj_row[node % adj_row.Length]) - 1;
+                int ideg = 0;
 
+                int j;
                 for (j = jstrt; j <= jstop; j++)
                 {
-                    nbr = adj[(j - 1 + adj.Length) % adj.Length];
+                    int nbr = adj[(j - 1 + adj.Length) % adj.Length];
 
                     if (mask[(nbr - 1 + mask.Length) % mask.Length] != 0)
                     {
@@ -127,7 +120,7 @@ public static class GenRCM
             //
             //  Compute the current level width.
             //
-            lvsize = iccsze - lvlend;
+            int lvsize = iccsze - lvlend;
             //
             //  If the current level width is nonzero, generate another level.
             //
@@ -205,11 +198,6 @@ public static class GenRCM
         int i;
         int iccsze = 0;
         int level_num = 0;
-        int[] level_row;
-        int[] mask;
-        int num;
-        int[] perm;
-        int root;
         //
         //  Assuming the input dat is 0 based, add 1 to ADJ_ROW and ADJ,
         //  because GENRCM uses 1-based indexing!
@@ -224,16 +212,16 @@ public static class GenRCM
             adj[i] += 1;
         }
 
-        perm = new int[node_num];
-        level_row = new int[node_num + 1];
-        mask = new int[node_num];
+        int[] perm = new int[node_num];
+        int[] level_row = new int[node_num + 1];
+        int[] mask = new int[node_num];
 
         for (i = 0; i < node_num; i++)
         {
             mask[i] = 1;
         }
 
-        num = 1;
+        int num = 1;
 
         for (i = 0; i < node_num; i++)
         {
@@ -242,7 +230,7 @@ public static class GenRCM
             //
             if (mask[i] != 0)
             {
-                root = i + 1;
+                int root = i + 1;
                 //
                 //  Find a pseudo-peripheral node ROOT.  The level structure found by
                 //  ROOT_FIND is stored starting at PERM(NUM).
@@ -358,28 +346,19 @@ public static class GenRCM
         //
     {
         int i;
-        int iccsze;
-        int j;
-        int jstop;
-        int jstrt;
-        int lbegin;
-        int lvlend;
-        int lvsize;
-        int nbr;
-        int node;
 
         mask[root - 1] = 0;
         level[levelIndex + 0] = root;
         level_num = 0;
-        lvlend = 0;
-        iccsze = 1;
+        int lvlend = 0;
+        int iccsze = 1;
         //
         //  LBEGIN is the pointer to the beginning of the current level, and
         //  LVLEND points to the end of this level.
         //
         for (;;)
         {
-            lbegin = lvlend + 1;
+            int lbegin = lvlend + 1;
             lvlend = iccsze;
             level_num += 1;
             level_row[level_num - 1] = lbegin;
@@ -389,13 +368,14 @@ public static class GenRCM
             //
             for (i = lbegin; i <= lvlend; i++)
             {
-                node = level[levelIndex + (i - 1)];
-                jstrt = adj_row[node - 1];
-                jstop = adj_row[node % adj_row.Length] - 1;
+                int node = level[levelIndex + (i - 1)];
+                int jstrt = adj_row[node - 1];
+                int jstop = adj_row[node % adj_row.Length] - 1;
 
+                int j;
                 for (j = jstrt; j <= jstop; j++)
                 {
-                    nbr = adj[(j - 1 + adj.Length) % adj.Length];
+                    int nbr = adj[(j - 1 + adj.Length) % adj.Length];
 
                     if (mask[(nbr - 1 + mask.Length) % mask.Length] != 0)
                     {
@@ -410,7 +390,7 @@ public static class GenRCM
             //  Compute the current level width (the number of nodes encountered.)
             //  If it is positive, generate the next level.
             //
-            lvsize = iccsze - lvlend;
+            int lvsize = iccsze - lvlend;
 
             if (lvsize <= 0)
             {
@@ -464,12 +444,6 @@ public static class GenRCM
         //
     {
         int i;
-        int j;
-        int jhi;
-        int jlo;
-        int jmax;
-        int jmin;
-        string cout = "";
 
         Console.WriteLine("");
         Console.WriteLine("LEVEL_SET_PRINT");
@@ -482,8 +456,8 @@ public static class GenRCM
 
         for (i = 0; i < level_num; i++)
         {
-            jmin = level_row[i];
-            jmax = level_row[i + 1] - 1;
+            int jmin = level_row[i];
+            int jmax = level_row[i + 1] - 1;
 
             if (jmax < jmin)
             {
@@ -493,10 +467,13 @@ public static class GenRCM
             }
             else
             {
+                int jlo;
                 for (jlo = jmin; jlo <= jmax; jlo += 5)
                 {
-                    jhi = Math.Min(jlo + 4, jmax);
+                    int jhi = Math.Min(jlo + 4, jmax);
 
+                    string cout = "";
+                    int j;
                     if (jlo == jmin)
                     {
                         cout = "  " + (i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(4)
@@ -520,7 +497,6 @@ public static class GenRCM
 
                         Console.WriteLine(cout);
                     }
-
                 }
             }
         }
@@ -600,24 +576,10 @@ public static class GenRCM
         //    the degree of the nodes in the section graph specified by mask and root.
         //
     {
-        int[] deg;
-        int fnbr;
-        int i;
-        int j;
-        int jstop;
-        int jstrt;
-        int k;
-        int l;
-        int lbegin;
-        int lnbr;
-        int lperm;
-        int lvlend;
-        int nbr;
-        int node;
         //
         //  Find the degrees of the nodes in the component specified by MASK and ROOT.
         //
-        deg = new int[node_num];
+        int[] deg = new int[node_num];
 
         degree(root, adj_num, adj_row, adj, mask, ref deg, ref iccsze, ref perm, node_num, permIndex);
 
@@ -629,33 +591,36 @@ public static class GenRCM
                 return;
         }
 
-        lvlend = 0;
-        lnbr = 1;
+        int lvlend = 0;
+        int lnbr = 1;
         //
         //  LBEGIN and LVLEND point to the beginning and
         //  the end of the current level respectively.
         //
         while (lvlend < lnbr)
         {
-            lbegin = lvlend + 1;
+            int lbegin = lvlend + 1;
             lvlend = lnbr;
 
+            int i;
             for (i = lbegin; i <= lvlend; i++)
             {
                 //
                 //  For each node in the current level...
                 //
-                node = perm[permIndex + (i - 1)];
-                jstrt = adj_row[(node - 1 + adj_row.Length) % adj_row.Length];
-                jstop = adj_row[(node + adj_row.Length) % adj_row.Length] - 1;
+                int node = perm[permIndex + (i - 1)];
+                int jstrt = adj_row[(node - 1 + adj_row.Length) % adj_row.Length];
+                int jstop = adj_row[(node + adj_row.Length) % adj_row.Length] - 1;
                 //
                 //  Find the unnumbered neighbors of NODE.
                 //
                 //  FNBR and LNBR point to the first and last neighbors
                 //  of the current node in PERM.
                 //
-                fnbr = lnbr + 1;
+                int fnbr = lnbr + 1;
 
+                int nbr;
+                int j;
                 for (j = jstrt; j <= jstop; j++)
                 {
                     nbr = adj[(j - 1 + adj.Length) % adj.Length];
@@ -680,17 +645,17 @@ public static class GenRCM
                 //  Sort the neighbors of NODE in increasing order by degree.
                 //  Linear insertion is used.
                 //
-                k = fnbr;
+                int k = fnbr;
 
                 while (k < lnbr)
                 {
-                    l = k;
+                    int l = k;
                     k += 1;
                     nbr = perm[permIndex + (k - 1)];
 
                     while (fnbr < l)
                     {
-                        lperm = perm[permIndex + (l - 1)];
+                        int lperm = perm[permIndex + (l - 1)];
 
                         if (deg[(lperm - 1 + deg.Length) % deg.Length] <= deg[(nbr - 1 + deg.Length) % deg.Length])
                         {
@@ -803,17 +768,7 @@ public static class GenRCM
         //    Input, int NODE_NUM, the number of nodes.
         //
     {
-        int iccsze;
-        int j;
-        int jstrt;
-        int k;
-        int kstop;
-        int kstrt;
         int level_num2 = 0;
-        int mindeg;
-        int nabor;
-        int ndeg;
-        int node;
         //
         //  Determine the level structure rooted at ROOT.
         //
@@ -822,7 +777,7 @@ public static class GenRCM
         //
         //  Count the number of nodes in this level structure.
         //
-        iccsze = level_row[level_num] - 1;
+        int iccsze = level_row[level_num] - 1;
         switch (level_num)
         {
             //
@@ -850,23 +805,25 @@ public static class GenRCM
         //
         for (;;)
         {
-            mindeg = iccsze;
+            int mindeg = iccsze;
 
-            jstrt = level_row[level_num - 1];
+            int jstrt = level_row[level_num - 1];
             root = level[levelIndex + (jstrt - 1)];
 
             if (jstrt < iccsze)
             {
+                int j;
                 for (j = jstrt; j <= iccsze; j++)
                 {
-                    node = level[j - 1];
-                    ndeg = 0;
-                    kstrt = adj_row[node - 1];
-                    kstop = adj_row[node] - 1;
+                    int node = level[j - 1];
+                    int ndeg = 0;
+                    int kstrt = adj_row[node - 1];
+                    int kstop = adj_row[node] - 1;
 
+                    int k;
                     for (k = kstrt; k <= kstop; k++)
                     {
-                        nabor = adj[(k - 1 + adj.Length) % adj.Length];
+                        int nabor = adj[(k - 1 + adj.Length) % adj.Length];
                         switch (mask[(nabor - 1 + mask.Length) % mask.Length])
                         {
                             case > 0:

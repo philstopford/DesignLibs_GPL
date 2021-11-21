@@ -39,8 +39,8 @@ public static class Adjacency
         //    Output, int ADJ[ADJ_NUM], the adjacency information.
         //
     {
-        int ADJ_NUM = 28;
-        int NODE_NUM = 10;
+        const int ADJ_NUM = 28;
+        const int NODE_NUM = 10;
 
         int[] adj_save =
         {

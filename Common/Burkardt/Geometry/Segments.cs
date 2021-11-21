@@ -42,9 +42,7 @@ public static class Segments
         //    The point P3 is contained in the line segment if 0 <= U <= 1.
         //
     {
-        double unit;
-
-        unit = p2 - p1;
+        double unit = p2 - p1;
 
         switch (unit)
         {
@@ -67,7 +65,6 @@ public static class Segments
                 u = (p3 - p1) / unit;
                 break;
         }
-
     }
 
     public static void segment_contains_point_2d(double[] p1, double[] p2, double[] p3,
@@ -110,14 +107,10 @@ public static class Segments
         //    portion of the  vector P3-P1, measured in units of (P2-P1).
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
-        double t1;
-        double t2;
-        double unit;
-
-        unit = Math.Sqrt((p2[0] - p1[0]) * (p2[0] - p1[0])
-                         + (p2[1] - p1[1]) * (p2[1] - p1[1]));
+        double unit = Math.Sqrt((p2[0] - p1[0]) * (p2[0] - p1[0])
+                                + (p2[1] - p1[1]) * (p2[1] - p1[1]));
 
         switch (unit)
         {
@@ -134,8 +127,8 @@ public static class Segments
                         + (p3[1] - p1[1]) * (p2[1] - p1[1]))
                        / (unit * unit);
 
-                t1 = (u[0] - 1.0) * p1[0] - u[0] * p2[0] + p3[0];
-                t2 = (u[0] - 1.0) * p1[1] - u[0] * p2[1] + p3[1];
+                double t1 = (u[0] - 1.0) * p1[0] - u[0] * p2[0] + p3[0];
+                double t2 = (u[0] - 1.0) * p1[1] - u[0] * p2[1] + p3[1];
 
                 u[1] = Math.Sqrt(t1 * t1 + t2 * t2) / unit;
                 break;
@@ -199,9 +192,8 @@ public static class Segments
         //    to the points P1 and P2.
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
-        double bot;
         int i;
         double[] pn = new double[DIM_NUM];
         //
@@ -213,7 +205,7 @@ public static class Segments
         }
         else
         {
-            bot = 0.0;
+            double bot = 0.0;
             for (i = 0; i < DIM_NUM; i++)
             {
                 bot += Math.Pow(p2[i] - p1[i], 2);
@@ -299,9 +291,8 @@ public static class Segments
         //    to the points P1 and P2.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        double bot;
         int i;
         double[] pn = new double[DIM_NUM];
         //
@@ -313,7 +304,7 @@ public static class Segments
         }
         else
         {
-            bot = 0.0;
+            double bot = 0.0;
             for (i = 0; i < DIM_NUM; i++)
             {
                 bot += Math.Pow(p2[i] - p1[i], 2);
@@ -387,10 +378,8 @@ public static class Segments
         //    to the line segment.
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
-        double bot;
-        double dist;
         int i;
         double t;
         double[] pn = new double[DIM_NUM];
@@ -403,7 +392,7 @@ public static class Segments
         }
         else
         {
-            bot = 0.0;
+            double bot = 0.0;
             for (i = 0; i < DIM_NUM; i++)
             {
                 bot += Math.Pow(p2[(i + p2Index) % p2.Length] - p1[(i + p1Index) % p1.Length], 2);
@@ -425,7 +414,7 @@ public static class Segments
             pn[i] = p1[(i + p1Index) % p1.Length] + t * (p2[(i + p2Index) % p2.Length] - p1[(i + p1Index) % p1.Length]);
         }
 
-        dist = 0.0;
+        double dist = 0.0;
         for (i = 0; i < DIM_NUM; i++)
         {
             dist += Math.Pow(p[(i + pIndex) % p.Length] - pn[i], 2);
@@ -475,10 +464,8 @@ public static class Segments
         //    to the line segment.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        double bot;
-        double dist;
         int i;
         double t;
         double[] pn = new double[DIM_NUM];
@@ -491,7 +478,7 @@ public static class Segments
         }
         else
         {
-            bot = 0.0;
+            double bot = 0.0;
             for (i = 0; i < DIM_NUM; i++)
             {
                 bot += Math.Pow(p2[(i + p2Index) % p2.Length] - p1[(i + p1Index) % p1.Length], 2);
@@ -513,7 +500,7 @@ public static class Segments
             pn[i] = p1[(i + p1Index) % p1.Length] + t * (p2[(i + p2Index) % p2.Length] - p1[(i + p1Index) % p1.Length]);
         }
 
-        dist = 0.0;
+        double dist = 0.0;
         for (i = 0; i < DIM_NUM; i++)
         {
             dist += Math.Pow(p[(i + pIndex) % p.Length] - pn[i], 2);
@@ -572,9 +559,8 @@ public static class Segments
         //    points P1 and P2.
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
-        double bot;
         int i;
         //
         //  If the line segment is actually a point, then the answer is easy.
@@ -585,7 +571,7 @@ public static class Segments
         }
         else
         {
-            bot = 0.0;
+            double bot = 0.0;
             for (i = 0; i < DIM_NUM; i++)
             {
                 bot += Math.Pow(p2[(i + p2Index) % p2.Length] - p1[(i + p1Index) % p1.Length], 2);
@@ -659,9 +645,8 @@ public static class Segments
         //
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        double bot;
         int i;
         //
         //  If the line segment is actually a point, then the answer is easy.
@@ -672,7 +657,7 @@ public static class Segments
         }
         else
         {
-            bot = 0.0;
+            double bot = 0.0;
             for (i = 0; i < DIM_NUM; i++)
             {
                 bot += Math.Pow(p2[i] - p1[i], 2);
@@ -742,15 +727,14 @@ public static class Segments
         //    Output, double SEGMENTS_CURVATURE_2D, the local curvature.
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
-        double curvature;
         double[] pc = new double[DIM_NUM];
         double r = 0;
 
         CircleNS.Geometry.circle_exp2imp_2d(p1, p2, p3, ref r, ref pc);
 
-        curvature = r switch
+        double curvature = r switch
         {
             > 0.0 => 1.0 / r,
             _ => 0.0
@@ -816,10 +800,9 @@ public static class Segments
         //    Output, double SEGMENTS_DIST_2D, the distance between the line segments.
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
         double dist;
-        double dist2;
         int ival = 0;
         double[] r = new double[DIM_NUM];
         double rps = 0;
@@ -843,7 +826,7 @@ public static class Segments
 
                 switch (rpt)
                 {
-                    case >= 0.0 and <= 1.0 when 0.0 <= rqt && rqt <= 1.0:
+                    case >= 0.0 and <= 1.0 when rqt is >= 0.0 and <= 1.0:
                         dist = 0.0;
                         return dist;
                 }
@@ -857,7 +840,7 @@ public static class Segments
         //  not part of both line segments, then an endpoint of one
         //  line segment achieves the minimum distance.
         //
-        dist2 = segment_point_dist_2d(q1, q2, p1);
+        double dist2 = segment_point_dist_2d(q1, q2, p1);
         dist = dist2;
         dist2 = segment_point_dist_2d(q1, q2, p2);
         dist = Math.Min(dist, dist2);
@@ -945,16 +928,9 @@ public static class Segments
         //    Output, double SEGMENTS_DIST_3D, the distance between the line segments.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        double a;
-        double b;
-        double c;
-        double d;
-        double det;
         double dist;
-        double dist2;
-        double e;
         int i;
         double[] pn = new double[DIM_NUM];
         double[] qn = new double[DIM_NUM];
@@ -1029,15 +1005,15 @@ public static class Segments
         //   ( a  -b ) * ( sn ) = ( -d )
         //   ( b  -c )   ( tc )   ( -e )
         //
-        a = typeMethods.r8vec_dot_product(DIM_NUM, u, u);
-        b = typeMethods.r8vec_dot_product(DIM_NUM, u, v);
-        c = typeMethods.r8vec_dot_product(DIM_NUM, v, v);
-        d = typeMethods.r8vec_dot_product(DIM_NUM, u, w0);
-        e = typeMethods.r8vec_dot_product(DIM_NUM, v, w0);
+        double a = typeMethods.r8vec_dot_product(DIM_NUM, u, u);
+        double b = typeMethods.r8vec_dot_product(DIM_NUM, u, v);
+        double c = typeMethods.r8vec_dot_product(DIM_NUM, v, v);
+        double d = typeMethods.r8vec_dot_product(DIM_NUM, u, w0);
+        double e = typeMethods.r8vec_dot_product(DIM_NUM, v, w0);
         //
         //  Check the determinant.
         //
-        det = -a * c + b * b;
+        double det = -a * c + b * b;
 
         switch (det)
         {
@@ -1068,7 +1044,7 @@ public static class Segments
             //  also happen to lie inside their line segments,
             //  then we have found the nearest points on the line segments.
             //
-            case >= 0.0 and <= 1.0 when 0.0 <= tn && tn <= 1.0:
+            case >= 0.0 and <= 1.0 when tn is >= 0.0 and <= 1.0:
             {
                 for (i = 0; i < DIM_NUM; i++)
                 {
@@ -1096,7 +1072,7 @@ public static class Segments
         //  The nearest point did not occur in the interior.
         //  Therefore it must be achieved at an endpoint.
         //
-        dist2 = segment_point_dist_3d(q1, q2, p1);
+        double dist2 = segment_point_dist_3d(q1, q2, p1);
         dist = dist2;
         dist2 = segment_point_dist_3d(q1, q2, p2);
         dist = Math.Min(dist, dist2);
@@ -1144,24 +1120,17 @@ public static class Segments
         //    Output, double SEGMENTS_DIST_3D, the distance between the line segments.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
         double d1 = 0;
         double d2 = 0;
         double dist = 0;
-        double dl;
-        double dm;
-        double dr;
         double[] pn1 = new double[DIM_NUM];
         double[] pn2 = new double[DIM_NUM];
         double[] pt = new double[DIM_NUM];
-        bool result;
         double t1 = 0;
         double t2 = 0;
-        double tl;
-        double tm;
         double tmin = 0;
-        double tr;
         //
         //  Find the nearest points on line 2 to the endpoints of line 1.
         //
@@ -1180,25 +1149,25 @@ public static class Segments
         //  the square of the distance of any point to line 1 is a quadratic function.
         //  Evaluate it at three points, and seek its local minimum.
         //
-        dl = segment_point_dist_3d(p1, p2, pn1);
+        double dl = segment_point_dist_3d(p1, p2, pn1);
 
         pt[0] = 0.5 * (pn1[0] + pn2[0]);
         pt[1] = 0.5 * (pn1[1] + pn2[1]);
         pt[2] = 0.5 * (pn1[2] + pn2[2]);
 
-        dm = segment_point_dist_3d(p1, p2, pt);
+        double dm = segment_point_dist_3d(p1, p2, pt);
 
-        dr = segment_point_dist_3d(p1, p2, pn2);
+        double dr = segment_point_dist_3d(p1, p2, pn2);
 
-        tl = 0.0;
-        tm = 0.5;
-        tr = 1.0;
+        double tl = 0.0;
+        double tm = 0.5;
+        double tr = 1.0;
 
         dl *= dl;
         dm *= dm;
         dr *= dr;
 
-        result = LocalMinimum.minquad(tl, dl, tm, dm, tr, dr, ref tmin, ref dist);
+        bool result = LocalMinimum.minquad(tl, dl, tm, dm, tr, dr, ref tmin, ref dist);
 
         switch (result)
         {
@@ -1267,15 +1236,13 @@ public static class Segments
         //    points is DIST units.
         //
     {
-        double dist;
-
         r1 = Math.Max(Math.Min(p1, p2),
             Math.Min(q1, q2));
 
         r2 = Math.Min(Math.Max(p1, p2),
             Math.Max(q1, q2));
 
-        dist = r1 - r2;
+        double dist = r1 - r2;
 
         return dist;
     }
@@ -1443,19 +1410,8 @@ public static class Segments
         //
     {
         int i;
-        int indx;
-        int isgn;
-        int itemp;
         int j;
-        int jval;
-        int kval;
-        int match;
-        int seed;
         double temp;
-        double x1val;
-        double x2val;
-        double y1val;
-        double y2val;
         //
         //  Mark STRING so that each segment is alone.
         //
@@ -1469,22 +1425,22 @@ public static class Segments
         //  Starting with the lowest numbered group of line segments,
         //  see if any higher numbered groups belong.
         //
-        seed = 0;
+        int seed = 0;
         string_num = 1;
         string_[seed] = string_num;
 
         for (;;)
         {
-            x1val = p1[0 + seed * 2];
-            x2val = p2[0 + seed * 2];
-            y1val = p1[1 + seed * 2];
-            y2val = p2[1 + seed * 2];
-            jval = order[seed];
-            kval = order[seed];
+            double x1val = p1[0 + seed * 2];
+            double x2val = p2[0 + seed * 2];
+            double y1val = p1[1 + seed * 2];
+            double y2val = p2[1 + seed * 2];
+            int jval = order[seed];
+            int kval = order[seed];
 
             for (;;)
             {
-                match = 0;
+                int match = 0;
 
                 for (j = 0; j < vec_num; j++)
                 {
@@ -1605,10 +1561,10 @@ public static class Segments
         //  Now sort the line segments by string and by order of traversal.
         //
         i = 0;
-        isgn = 0;
+        int isgn = 0;
         j = 0;
 
-        indx = 0;
+        int indx = 0;
 
         SortHeapExternalData data = new();
 
@@ -1618,7 +1574,7 @@ public static class Segments
 
             if (0 < indx)
             {
-                itemp = order[i - 1];
+                int itemp = order[i - 1];
                 order[i - 1] = order[j - 1];
                 order[j - 1] = itemp;
 

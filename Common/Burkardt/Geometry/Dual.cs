@@ -64,17 +64,7 @@ public static class Dual
     {
         int col = 0;
         int face;
-        int i;
-        int inext;
-        int iprev;
-        int istop;
-        int j;
-        int k;
-        double norm;
         int row = 0;
-        double x;
-        double y;
-        double z;
         //
         //  This computation should really compute the center of gravity
         //  of the face, in the general case.
@@ -85,18 +75,19 @@ public static class Dual
         //
         for (face = 0; face < face_num; face++)
         {
-            x = 0.0;
-            y = 0.0;
-            z = 0.0;
+            double x = 0.0;
+            double y = 0.0;
+            double z = 0.0;
+            int j;
             for (j = 0; j < face_order[face]; j++)
             {
-                k = face_point[j + face * face_order_max];
+                int k = face_point[j + face * face_order_max];
                 x += point_coord[0 + (k - 1) * 3];
                 y += point_coord[1 + (k - 1) * 3];
                 z += point_coord[2 + (k - 1) * 3];
             }
 
-            norm = Math.Sqrt(x * x + y * y + z * z);
+            double norm = Math.Sqrt(x * x + y * y + z * z);
 
             point_coord2[0 + face * face_order_max2] = x / norm;
             point_coord2[1 + face * face_order_max2] = y / norm;
@@ -132,13 +123,13 @@ public static class Dual
             //  Save the following node as ISTOP.
             //  When we encounter ISTOP again, this will mark the end of our search.
             //
-            i = row + 1;
+            int i = row + 1;
             if (face_order[col - 1] < i)
             {
                 i = 1;
             }
 
-            istop = face_point[i - 1 + (col - 1) * face_order_max];
+            int istop = face_point[i - 1 + (col - 1) * face_order_max];
             //
             //  Save the previous node as INEXT.
             //
@@ -152,7 +143,7 @@ public static class Dual
                         break;
                 }
 
-                inext = face_point[i - 1 + (col - 1) * face_order_max];
+                int inext = face_point[i - 1 + (col - 1) * face_order_max];
 
                 face_order2[face - 1] += 1;
                 face_point2[face_order2[face - 1] - 1 + (face - 1) * face_order_max2] = col;
@@ -167,7 +158,7 @@ public static class Dual
                 //
                 //  Set IPREV:= INEXT.
                 //
-                iprev = inext;
+                int iprev = inext;
                 //
                 //  Search for the occurrence of the edge FACE-IPREV.
                 //  ROW and COL are 1-based indices.
@@ -247,8 +238,6 @@ public static class Dual
     {
         int i;
         int face;
-        int[] face_order2;
-        int face2;
         //
         //  These values are easy to compute:
         //
@@ -262,7 +251,7 @@ public static class Dual
         //  But then all we have to do is count how many times each item shows up
         //  in the FACE_POINT array.
         //
-        face_order2 = new int[face_num2];
+        int[] face_order2 = new int[face_num2];
 
         for (i = 0; i < face_num2; i++)
         {
@@ -273,7 +262,7 @@ public static class Dual
         {
             for (i = 0; i < face_order[face]; i++)
             {
-                face2 = face_point[i + face * face_order_max];
+                int face2 = face_point[i + face * face_order_max];
                 switch (face2)
                 {
                     case 0:

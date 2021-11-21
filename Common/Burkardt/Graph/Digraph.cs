@@ -88,17 +88,7 @@ public static class Digraph
         //    edge in the Euler circuit.
         //
     {
-        bool[] candid;
-        int[] endnod;
         int i;
-        int istak;
-        int j;
-        int k;
-        int l;
-        int len;
-        int lensol;
-        int lenstk;
-        int[] stack;
         //
         //  Check if the digraph is eulerian.
         //
@@ -107,7 +97,7 @@ public static class Digraph
             trail[i] = 0;
         }
 
-        endnod = new int[nedge];
+        int[] endnod = new int[nedge];
 
         for (i = 0; i < nedge; i++)
         {
@@ -116,7 +106,7 @@ public static class Digraph
 
         for (i = 1; i <= nedge; i++)
         {
-            j = inode[i - 1];
+            int j = inode[i - 1];
             trail[j - 1] += 1;
             j = jnode[i - 1];
             endnod[j - 1] += 1;
@@ -135,11 +125,11 @@ public static class Digraph
         //  The digraph is eulerian; find an Euler circuit.
         //
         success = true;
-        lensol = 1;
-        lenstk = 0;
+        int lensol = 1;
+        int lenstk = 0;
 
-        candid = new bool[nedge];
-        stack = new int[2 * nedge];
+        bool[] candid = new bool[nedge];
+        int[] stack = new int[2 * nedge];
         //
         //  Find the next edge.
         //
@@ -155,14 +145,14 @@ public static class Digraph
                     break;
                 default:
                 {
-                    l = lensol - 1;
+                    int l = lensol - 1;
 
                     if (lensol != 2)
                     {
                         endnod[l - 1] = inode[trail[l - 1] - 1] + jnode[trail[l - 1] - 1] - endnod[l - 2];
                     }
 
-                    k = endnod[l - 1];
+                    int k = endnod[l - 1];
 
                     for (i = 1; i <= nedge; i++)
                     {
@@ -174,7 +164,7 @@ public static class Digraph
                         candid[trail[i - 1] - 1] = false;
                     }
 
-                    len = lenstk;
+                    int len = lenstk;
 
                     for (i = 1; i <= nedge; i++)
                     {
@@ -193,6 +183,7 @@ public static class Digraph
                 }
             }
 
+            int istak;
             for (;;)
             {
                 istak = stack[lenstk - 1];

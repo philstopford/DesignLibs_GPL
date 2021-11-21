@@ -36,9 +36,7 @@ public static class Sample
         //    Output, double SAMPLE_HYPERCUBE_UNIFORM[DIM_NUM*N], the sample points.
         //
     {
-        double[] x;
-
-        x = UniformRNG.r8mat_uniform_01 ( dim_num, n, ref seed );
+        double[] x = UniformRNG.r8mat_uniform_01 ( dim_num, n, ref seed );
 
         GeometrySampleResult result = new()
         {

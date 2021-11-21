@@ -68,26 +68,22 @@ public static class Poisson
         //
     {
         double d1 = 0;
-        double h;
         int i;
-        double[] r;
-        double tol;
-        double[] x;
         //
         //  Initialization.
         //
-        tol = 0.0001;
+        const double tol = 0.0001;
         //
         //  Set the nodes.
         //
-        x = typeMethods.r8vec_linspace_new(n + 1, a, b);
+        double[] x = typeMethods.r8vec_linspace_new(n + 1, a, b);
         //
         //  Set the right hand side.
         //
-        r = new double[n + 1];
+        double[] r = new double[n + 1];
 
         r[0] = ua;
-        h = (b - a) / n;
+        double h = (b - a) / n;
         for (i = 1; i < n; i++)
         {
             r[i] = h * h * force(x[i]);
@@ -178,26 +174,11 @@ public static class Poisson
         //    Output, double U[N+1], the computed solution.
         //
     {
-        double d0;
-        double d1;
-        double h;
         int i;
-        int it;
-        int j;
-        int k;
-        int l;
-        int ll;
-        int m;
-        int nl;
-        double[] r;
-        double tol;
-        double utol;
-        double[] uu;
-        double[] x;
         //
         //  Determine if we have enough storage.
         //
-        k = (int) Math.Log2(n);
+        int k = (int) Math.Log2(n);
 
         if (Math.Abs(n - Math.Pow(2, k)) > double.Epsilon)
         {
@@ -207,25 +188,25 @@ public static class Poisson
             return;
         }
 
-        nl = n + n + k - 2;
+        int nl = n + n + k - 2;
         //
         //  Initialization.
         //
-        it = 4;
+        int it = 4;
         it_num = 0;
-        tol = 0.0001;
-        utol = 0.7;
-        m = n;
+        double tol = 0.0001;
+        double utol = 0.7;
+        int m = n;
         //
         //  Set the nodes.
         //
-        x = typeMethods.r8vec_linspace_new(n + 1, a, b);
+        double[] x = typeMethods.r8vec_linspace_new(n + 1, a, b);
         //
         //  Set the right hand side.
         //
-        r = new double[nl];
+        double[] r = new double[nl];
         r[0] = ua;
-        h = (b - a) / n;
+        double h = (b - a) / n;
         for (i = 1; i < n; i++)
         {
             r[i] = h * h * force(x[i]);
@@ -233,7 +214,7 @@ public static class Poisson
 
         r[n] = ub;
 
-        uu = new double[nl];
+        double[] uu = new double[nl];
 
         for (i = 0; i < nl; i++)
         {
@@ -244,17 +225,17 @@ public static class Poisson
         //  L points to first entry of solution
         //  LL points to penultimate entry.
         //
-        l = 0;
-        ll = n - 1;
+        int l = 0;
+        int ll = n - 1;
         //
         //  Gauss-Seidel iteration
         //
-        d1 = 0.0;
-        j = 0;
+        double d1 = 0.0;
+        int j = 0;
 
         for (;;)
         {
-            d0 = d1;
+            double d0 = d1;
             j += 1;
             GaussSeidel.gauss_seidel(n + 1, r, ref uu, ref d1, rIndex: +l, uIndex: +l);
             it_num += 1;

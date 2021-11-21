@@ -74,18 +74,14 @@ public static class NEWS
         //    edge, and 0 otherwise.
         //
     {
-        int[] b;
-        int[] e;
-        int e_max;
         int i;
         int j;
-        int thresh;
         //
         //  For neatness, we add a border of zeros to the image,
         //  then fill in the border by copying the nearby original values.
         //  This will be our M+2 by N+2 data array B.
         //
-        b = new int[(m + 2) * (n + 2)];
+        int[] b = new int[(m + 2) * (n + 2)];
 
         for (j = 0; j < n; j++)
         {
@@ -107,8 +103,8 @@ public static class NEWS
             b[i + (n + 1) * (m + 2)] = b[i + n * (m + 2)];
         }
 
-        b[0 + 0 * (m + 2)] = (b[0 + 1 * (m + 2)] + b[1 + 0 * (m + 2)]) / 2;
-        b[m + 1 + 0 * (m + 2)] = (b[m + 1 + 1 * (m + 2)] + b[m + 0 + 0 * (m + 2)]) / 2;
+        b[0 + 0 * (m + 2)] = (b[0 + 1 * (m + 2)] + b[1 ]) / 2;
+        b[m + 1] = (b[m + 1 + 1 * (m + 2)] + b[m + 0 ]) / 2;
         b[0 + (n + 1) * (m + 2)] = (b[0 + (n + 0) * (m + 2)] + b[1 + (n + 1) * (m + 2)]) / 2;
         b[m + 1 + (n + 1) * (m + 2)] = (b[m + 1 + (n + 0) * (m + 2)] + b[m + 0 + (n + 1) * (m + 2)]) / 2;
         //
@@ -120,7 +116,7 @@ public static class NEWS
         //   |  0  0  0 |  +  | -1  0  +1 |
         //   |  0 -1  0 |     |  0  0   0 |
         //
-        e = new int[m * n];
+        int[] e = new int[m * n];
 
         for (j = 0; j < n; j++)
         {
@@ -134,12 +130,12 @@ public static class NEWS
         //
         //  Remap E so the largest value is 255.
         //
-        e_max = typeMethods.i4mat_max(m, n, e);
+        int e_max = typeMethods.i4mat_max(m, n, e);
         //
         //  Threshold the data.  Set the threshold to give enough detail
         //  to guess the coin denominations.
         //
-        thresh = e_max / 5;
+        int thresh = e_max / 5;
 
         Console.WriteLine("");
         Console.WriteLine("NEWS:");
@@ -194,12 +190,11 @@ public static class NEWS
         //    Output, int GRAY_MEDIAN_NEWS[M*N], the grayscale data for the filtered image.
         //
     {
-        int[] gray2;
         int i;
         int j;
         int[] p = new int[5];
 
-        gray2 = new int[m * n];
+        int[] gray2 = new int[m * n];
         //
         //  Process the main part of the image:
         //
@@ -262,26 +257,22 @@ public static class NEWS
         //
         //  Process the four corners.
         //
-        i = 0;
-        j = 0;
-        p[0] = gray[i + 1 + j * m];
-        p[1] = gray[i + j * m];
-        p[2] = gray[i + (j + 1) * m];
-        gray2[i + j * m] = typeMethods.i4vec_median(3, ref p);
+        p[0] = gray[1];
+        p[1] = gray[0];
+        p[2] = gray[m];
+        gray2[0] = typeMethods.i4vec_median(3, ref p);
 
-        i = 0;
         j = n - 1;
-        p[0] = gray[i + 1 + j * m];
-        p[1] = gray[i + j * m];
-        p[2] = gray[i + (j - 1) * m];
-        gray2[i + j * m] = typeMethods.i4vec_median(3, ref p);
+        p[0] = gray[1 + j * m];
+        p[1] = gray[j * m];
+        p[2] = gray[(j - 1) * m];
+        gray2[j * m] = typeMethods.i4vec_median(3, ref p);
 
         i = m - 1;
-        j = 0;
-        p[0] = gray[i - 1 + j * m];
-        p[1] = gray[i + j * m];
-        p[2] = gray[i + (j + 1) * m];
-        gray2[i + j * m] = typeMethods.i4vec_median(3, ref p);
+        p[0] = gray[i - 1];
+        p[1] = gray[i];
+        p[2] = gray[i + m];
+        gray2[i + m] = typeMethods.i4vec_median(3, ref p);
 
         i = m - 1;
         j = n - 1;

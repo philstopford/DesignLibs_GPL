@@ -89,18 +89,15 @@ public static class SphericalHarmonic
         //    parts of the functions Y(L,0:L,THETA,PHI).
         //
     {
-        double angle;
         int i;
-        int m_abs;
-        double[] plm;
 
-        m_abs = Math.Abs(m);
+        int m_abs = Math.Abs(m);
 
-        plm = new double[l + 1];
+        double[] plm = new double[l + 1];
 
         PolynomialNS.Legendre.legendre_associated_normalized(l, m_abs, Math.Cos(theta), ref plm);
 
-        angle = m * phi;
+        double angle = m * phi;
 
         switch (m)
         {

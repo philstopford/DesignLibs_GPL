@@ -49,11 +49,10 @@ public static class Geometry
         //
     {
         int i;
-        double theta;
 
         for ( i = 0; i < n; i++ )
         {
-            theta = n switch
+            double theta = n switch
             {
                 1 => 0.5 * (theta1 + theta2),
                 _ => ((n - i) * theta1 + (i - 1) * theta2) / (n - 1)

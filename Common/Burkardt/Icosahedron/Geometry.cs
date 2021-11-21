@@ -65,14 +65,14 @@ public static class Geometry
         //    then sorted by nodes.
         //
     {
-        int DIM_NUM = 3;
-        int EDGE_ORDER = 2;
+        const int DIM_NUM = 3;
+        const int EDGE_ORDER = 2;
 
         double phi = 0.5 * (Math.Sqrt(5.0) + 1.0);
 
         double a = phi / Math.Sqrt(1.0 + phi * phi);
         double b = 1.0 / Math.Sqrt(1.0 + phi * phi);
-        double z = 0.0;
+        const double z = 0.0;
 
         int[] edge_point_save =
         {
@@ -290,7 +290,7 @@ public static class Geometry
         //    by the outward normal at the face.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
         int[] face_order_save =
         {

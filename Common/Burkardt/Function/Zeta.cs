@@ -58,12 +58,8 @@ public static class Zeta
         //    Zeta function minus 1.
         //
     {
-        double base_;
         int k;
         int n = 0;
-        double negp;
-        double nsterm;
-        double value = 0;
 
         switch (p)
         {
@@ -74,10 +70,10 @@ public static class Zeta
                 break;
         }
 
-        nsterm = p * (p + 1.0) * (p + 2.0) * (p + 3.0) * (p + 4.0)
-                 / 30240.0;
+        double nsterm = p * (p + 1.0) * (p + 2.0) * (p + 3.0) * (p + 4.0)
+                        / 30240.0;
 
-        base_ = nsterm * Math.Pow(2.0, p) / tol;
+        double base_ = nsterm * Math.Pow(2.0, p) / tol;
 
         n = n switch
         {
@@ -85,8 +81,8 @@ public static class Zeta
             _ => (int) Math.Pow(base_, 1.0 / (p + 5.0))
         };
 
-        negp = -p;
-        value = 0.0;
+        double negp = -p;
+        double value = 0.0;
         for (k = 2; k < n; k++)
         {
             base_ = k;
@@ -150,10 +146,6 @@ public static class Zeta
         //    Zeta function.
         //
     {
-        int n;
-        double value = 0;
-        double value_old;
-
         switch (p)
         {
             case <= 1.0:
@@ -163,13 +155,13 @@ public static class Zeta
                 return 1;
         }
 
-        value = 0.0;
-        n = 0;
+        double value = 0.0;
+        int n = 0;
 
         for (;;)
         {
             n += 1;
-            value_old = value;
+            double value_old = value;
             value += 1.0 / Math.Pow(n, p);
 
             if (value <= value_old || 1000 <= n)

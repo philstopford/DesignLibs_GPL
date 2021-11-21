@@ -74,14 +74,13 @@ public static class Tau
         //    not enough room for factoring, TAU is returned as -1.
         //
     {
-        int FACTOR_MAX = 20;
+        const int FACTOR_MAX = 20;
 
         int[] factor = new int[FACTOR_MAX];
         int i;
         int nfactor = 0;
         int nleft = 0;
         int[] power = new int[FACTOR_MAX];
-        int value;
 
         switch (n)
         {
@@ -104,10 +103,10 @@ public static class Tau
             return 1;
         }
 
-        value = 1;
+        int value = 1;
         for ( i = 0; i < nfactor; i++ )
         {
-            value *= ( power[i] + 1 );
+            value *= power[i] + 1;
         }
 
         return value;

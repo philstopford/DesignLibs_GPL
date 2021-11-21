@@ -59,15 +59,7 @@ public static class Parabola
         //    at TVAL.
         //
     {
-        double dif1;
-        double dif2;
         int i;
-        double t1;
-        double t2;
-        double t3;
-        double y1;
-        double y2;
-        double y3;
         switch (left)
         {
             //
@@ -100,9 +92,9 @@ public static class Parabola
         // 
         //  Copy out the three abscissas. 
         //
-        t1 = tdata[left - 1];
-        t2 = tdata[left];
-        t3 = tdata[left + 1];
+        double t1 = tdata[left - 1];
+        double t2 = tdata[left];
+        double t3 = tdata[left + 1];
 
         if (t2 <= t1 || t3 <= t2)
         {
@@ -120,14 +112,13 @@ public static class Parabola
         //
         for (i = 0; i < ndim; i++)
         {
-            y1 = ydata[i + (left - 1) * ndim];
-            y2 = ydata[i + left * ndim];
-            y3 = ydata[i + (left + 1) * ndim];
+            double y1 = ydata[i + (left - 1) * ndim];
+            double y2 = ydata[i + left * ndim];
+            double y3 = ydata[i + (left + 1) * ndim];
 
-            dif1 = (y2 - y1) / (t2 - t1);
-            dif2 =
-                ((y3 - y1) / (t3 - t1)
-                 - (y2 - y1) / (t2 - t1)) / (t3 - t2);
+            double dif1 = (y2 - y1) / (t2 - t1);
+            double dif2 = ((y3 - y1) / (t3 - t1)
+                           - (y2 - y1) / (t2 - t1)) / (t3 - t2);
 
             yval[i] = y1 + (tval - t1) * (dif1 + (tval - t2) * dif2);
         }

@@ -58,9 +58,7 @@ public static class Pentagon
         //    Output, int PENT_ENUM, the value of the N-th pentagonal number.
         //
     {
-        int p;
-
-        p = n * ( 3 * n - 1 ) / 2;
+        int p = n * ( 3 * n - 1 ) / 2;
 
         return p;
     }

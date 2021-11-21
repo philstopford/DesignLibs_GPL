@@ -50,8 +50,6 @@ public static class MonteCarlo
         //    Output, double HYPERCUBE01_MONOMIAL_INTEGRAL, the integral.
         //
     {
-        double integral;
-
         for (int i = 0; i < m; i++ )
         {
             switch (e[i])
@@ -65,10 +63,10 @@ public static class MonteCarlo
             }
         }
 
-        integral = 1.0;
+        double integral = 1.0;
         for (int i = 0; i < m; i++ )
         {
-            integral /= ( e[i] + 1 );
+            integral /= e[i] + 1;
         }
 
         return integral;
@@ -153,7 +151,7 @@ public static class MonteCarlo
         //    Output, double HYPERCUBE01_VOLUME, the volume.
         //
     {
-        double volume = 1.0;
+        const double volume = 1.0;
 
         return volume;
     }

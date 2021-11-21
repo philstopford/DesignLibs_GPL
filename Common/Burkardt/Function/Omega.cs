@@ -74,7 +74,7 @@ public static class Omega
         //    not enough room for factoring, OMEGA is returned as -1.
         //
     {
-        int FACTOR_MAX = 20;
+        const int FACTOR_MAX = 20;
 
         int[] factor = new int[FACTOR_MAX];
         int nfactor = 0;
@@ -94,15 +94,16 @@ public static class Omega
         //
         typeMethods.i4_factor ( n, FACTOR_MAX, ref nfactor, ref factor, ref power, ref nleft );
 
-        if ( nleft != 1 )
+        if (nleft == 1)
         {
-            Console.WriteLine("");
-            Console.WriteLine("OMEGA - Fatal error!");
-            Console.WriteLine("  Not enough factorization space.");
-            return 1;
+            return nfactor;
         }
 
-        return nfactor;
+        Console.WriteLine("");
+        Console.WriteLine("OMEGA - Fatal error!");
+        Console.WriteLine("  Not enough factorization space.");
+        return 1;
+
     }
 
 }

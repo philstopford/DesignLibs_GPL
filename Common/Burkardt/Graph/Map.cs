@@ -72,24 +72,13 @@ public static class Map
     {
         double area = 0;
         int i;
-        int info;
-        int j;
-        int[] pivot;
-        double[] r;
-        int[] rexp;
-        double rfact;
-        double[] s;
-        int[] sexp;
-        double sfact;
-        double[] v;
-        double[] w;
 
-        pivot = new int[element_order];
-        r = new double[element_order];
-        rexp = new int[element_order];
-        s = new double[element_order];
-        sexp = new int[element_order];
-        v = new double[element_order * element_order];
+        int[] pivot = new int[element_order];
+        double[] r = new double[element_order];
+        int[] rexp = new int[element_order];
+        double[] s = new double[element_order];
+        int[] sexp = new int[element_order];
+        double[] v = new double[element_order * element_order];
         //
         //  Get the (R,S) location of the nodes.
         //
@@ -104,15 +93,16 @@ public static class Map
         //
         for (i = 0; i < element_order; i++)
         {
+            int j;
             for (j = 0; j < element_order; j++)
             {
-                rfact = rexp[j] switch
+                double rfact = rexp[j] switch
                 {
                     0 => 1.0,
                     _ => Math.Pow(r[i], rexp[j])
                 };
 
-                sfact = sexp[j] switch
+                double sfact = sexp[j] switch
                 {
                     0 => 1.0,
                     _ => Math.Pow(s[i], sexp[j])
@@ -125,7 +115,7 @@ public static class Map
         //
         //  Factor the Vandermonde matrix.
         //
-        info = typeMethods.r8ge_fa(element_order, ref v, ref pivot);
+        int info = typeMethods.r8ge_fa(element_order, ref v, ref pivot);
 
         if (info != 0)
         {
@@ -138,7 +128,7 @@ public static class Map
         //
         //  Invert the Vandermonde matrix.
         //
-        w = typeMethods.r8ge_inverse(element_order, v, pivot);
+        double[] w = typeMethods.r8ge_inverse(element_order, v, pivot);
 
         return w;
     }
@@ -170,15 +160,12 @@ public static class Map
         //    'T3', 'T4', 'T6' and 'T10'.
         //
     {
-        int element_order;
-        double[] w;
-
         Console.WriteLine("");
         Console.WriteLine("  MAP_TEST: The interpolation matrix for element " + code + "");
 
-        element_order = Order.order_code(code);
+        int element_order = Order.order_code(code);
 
-        w = map(code, element_order);
+        double[] w = map(code, element_order);
 
         typeMethods.r8mat_print(element_order, element_order, w,
             "  The interpolation matrix:");
@@ -238,10 +225,8 @@ public static class Map
         //    Output, double &A, &B, &C, &D, &E, &F, the mapping coefficients.
         //
     {
-        double g;
-
-        g =    ( t[1+2*2] - t[1+0*2] ) * ( t[0+1*2] - t[0+0*2] )   
-               - ( t[0+2*2] - t[0+0*2] ) * ( t[1+1*2] - t[1+0*2] );
+        double g = ( t[1+2*2] - t[1+0*2] ) * ( t[0+1*2] - t[0+0*2] )   
+                   - ( t[0+2*2] - t[0+0*2] ) * ( t[1+1*2] - t[1+0*2] );
 
         a = ( - ( t[1+2*2] - t[1+0*2] ) * t[0+0*2]  
               + ( t[0+2*2] - t[0+0*2] ) * t[1+0*2] ) / g;

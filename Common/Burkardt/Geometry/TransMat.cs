@@ -62,10 +62,10 @@ public static class TransMat
         //
     {
         int i;
-        int j;
 
         for (i = 0; i < 4; i++)
         {
+            int j;
             for (j = 0; j < 4; j++)
             {
                 if (i == j)
@@ -125,10 +125,10 @@ public static class TransMat
         double[] d = new double[4 * 4];
         int i;
         int j;
-        int k;
 
         for (i = 0; i < 4; i++)
         {
+            int k;
             for (k = 0; k < 4; k++)
             {
                 d[i + k * 4] = 0.0;
@@ -203,12 +203,12 @@ public static class TransMat
         //
     {
         int i;
-        int j;
         double[] z = new double[3];
 
         for (i = 0; i < 3; i++)
         {
             z[i] = a[i + 3 * 4];
+            int j;
             for (j = 0; j < 3; j++)
             {
                 z[i] += a[i + j * 4] * x[j];
@@ -259,15 +259,15 @@ public static class TransMat
         //    result.  Therefore, it is legal for X and Y to share memory.
         //
     {
-        int i;
-        int j;
         int k;
 
         for (k = 0; k < n; k++)
         {
+            int i;
             for (i = 0; i < 3; i++)
             {
                 p2[i + k * 3] = a[i + 3 * 4];
+                int j;
                 for (j = 0; j < 3; j++)
                 {
                     p2[i + k * 3] += a[i + j * 4] * p1[j + k * 3];
@@ -316,12 +316,12 @@ public static class TransMat
         //
     {
         int i;
-        int j;
         double[] z = new double[4];
 
         for (i = 0; i < 3; i++)
         {
             z[i] = 0.0;
+            int j;
             for (j = 0; j < 3; j++)
             {
                 z[i] += a[i + j * 4] * x[j];
@@ -380,10 +380,8 @@ public static class TransMat
         double[] c = new double[4 * 4];
         double[] d = new double[4 * 4];
         int i;
-        int j;
-        double theta;
 
-        theta = Helpers.degrees_to_radians(angle);
+        double theta = Helpers.degrees_to_radians(angle);
 
         tmat_init(c);
 
@@ -422,6 +420,7 @@ public static class TransMat
 
         for (i = 0; i < 4; i++)
         {
+            int j;
             for (j = 0; j < 4; j++)
             {
                 b[i + j * 4] = d[i + j * 4];
@@ -472,12 +471,8 @@ public static class TransMat
         //
     {
         double[] c = new double[4 * 4];
-        double ca;
         double[] d = new double[4 * 4];
         int i;
-        int j;
-        double sa;
-        double theta;
 
         switch (Math.Pow(v[0], 2) + Math.Pow(v[1], 2) + Math.Pow(v[2], 2))
         {
@@ -485,12 +480,12 @@ public static class TransMat
                 return;
         }
 
-        theta = Helpers.degrees_to_radians(angle);
+        double theta = Helpers.degrees_to_radians(angle);
 
         tmat_init(c);
 
-        ca = Math.Cos(theta);
-        sa = Math.Sin(theta);
+        double ca = Math.Cos(theta);
+        double sa = Math.Sin(theta);
 
         c[0 + 0 * 4] = v[0] * v[0] + ca * (1.0 - v[0] * v[0]);
         c[0 + 1 * 4] = (1.0 - ca) * v[0] * v[1] - sa * v[2];
@@ -508,6 +503,7 @@ public static class TransMat
 
         for (i = 0; i < 4; i++)
         {
+            int j;
             for (j = 0; j < 4; j++)
             {
                 b[i + j * 4] = d[i + j * 4];
@@ -555,7 +551,6 @@ public static class TransMat
         double[] c = new double[4 * 4];
         double[] d = new double[4 * 4];
         int i;
-        int j;
 
         tmat_init(c);
 
@@ -567,6 +562,7 @@ public static class TransMat
 
         for (i = 0; i < 4; i++)
         {
+            int j;
             for (j = 0; j < 4; j++)
             {
                 b[i + j * 4] = d[i + j * 4];
@@ -624,7 +620,6 @@ public static class TransMat
         double[] c = new double[4 * 4];
         double[] d = new double[4 * 4];
         int i;
-        int j;
 
         tmat_init(c);
 
@@ -666,6 +661,7 @@ public static class TransMat
 
         for (i = 0; i < 4; i++)
         {
+            int j;
             for (j = 0; j < 4; j++)
             {
                 b[i + j * 4] = d[i + j * 4];
@@ -712,10 +708,10 @@ public static class TransMat
         //
     {
         int i;
-        int j;
 
         for (i = 0; i < 4; i++)
         {
+            int j;
             for (j = 0; j < 4; j++)
             {
                 b[i + j * 4] = a[i + j * 4];

@@ -65,13 +65,6 @@ public static class Partition
         //    plane partitions of N.
         //
     {
-        int j;
-        int k;
-        int nn;
-        int[] pp;
-        int s2;
-        int value;
-
         switch (n)
         {
             case < 0:
@@ -81,8 +74,8 @@ public static class Partition
                 return 1;
         }
 
-        pp = new int[n+1];
-        nn = 0;
+        int[] pp = new int[n+1];
+        int nn = 0;
         pp[nn] = 1;
 
         nn = 1;
@@ -94,9 +87,11 @@ public static class Partition
         for ( nn = 2; nn <= n; nn++ )
         {
             pp[nn] = 0;
+            int j;
             for ( j = 1; j <= nn; j++ )
             {
-                s2 = 0;
+                int s2 = 0;
+                int k;
                 for ( k = 1; k <= j; k++ )
                 {
                     switch (j % k)
@@ -111,7 +106,7 @@ public static class Partition
             pp[nn] /= nn;
         }
 
-        value = pp[n];
+        int value = pp[n];
 
         return value;
     }

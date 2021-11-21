@@ -85,17 +85,19 @@ public class Zeckendorf
         //
         for (i = m; 2 <= i; i--)
         {
-            if (i_list[i - 2] == i_list[i - 1] + 1)
+            if (i_list[i - 2] != i_list[i - 1] + 1)
             {
-                i_list[i - 2] += 1;
-                for (j = i; j <= m - 1; j++)
-                {
-                    i_list[j - 1] = i_list[j];
-                }
-
-                i_list[m - 1] = 0;
-                m -= 1;
+                continue;
             }
+
+            i_list[i - 2] += 1;
+            for (j = i; j <= m - 1; j++)
+            {
+                i_list[j - 1] = i_list[j];
+            }
+
+            i_list[m - 1] = 0;
+            m -= 1;
 
         }
 

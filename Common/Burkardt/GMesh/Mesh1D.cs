@@ -54,12 +54,8 @@ public class Mesh1D
         //
     {
         int element;
-        int element_type;
         List<string> gmsh = new();
-        int i;
         int node;
-        int tag_num;
-        int tag1;
         //
         //  Detect and correct 0-based node indexing.
         //
@@ -82,10 +78,10 @@ public class Mesh1D
 
         gmsh.Add("$EndNodes");
 
-        element_type = 1;
+        int element_type = 1;
 
-        tag_num = 2;
-        tag1 = 0;
+        int tag_num = 2;
+        int tag1 = 0;
         gmsh.Add("$Elements");
         gmsh.Add(element_num + "");
         for (element = 0; element < element_num; element++)
@@ -95,6 +91,7 @@ public class Mesh1D
                                  + "  " + tag_num
                                  + "  " + tag1
                                  + "  " + (element + 1);
+            int i;
             for (i = 0; i < element_order; i++)
             {
                 tmp += "  " + element_node[i + element * element_order];

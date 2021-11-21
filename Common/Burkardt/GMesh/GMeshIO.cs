@@ -50,10 +50,7 @@ public static class IO
         bool ierror = false;
         string[] input;
         int j = 0;
-        int k;
         int length = 0;
-        int level;
-        double x;
 
         try
         {
@@ -67,7 +64,7 @@ public static class IO
             throw;
         }
 
-        level = 0;
+        int level = 0;
 
         int index = 0;
 
@@ -108,7 +105,7 @@ public static class IO
                 text = text.Substring(length);
                 for (i = 0; i < node_dim; i++)
                 {
-                    x = typeMethods.s_to_r8(text, ref length, ref ierror);
+                    double x = typeMethods.s_to_r8(text, ref length, ref ierror);
                     text = text.Substring(length);
                     node_x[i + j * node_dim] = x;
                 }
@@ -153,6 +150,7 @@ public static class IO
                     break;
                 }
 
+                int k;
                 for (k = 1; k <= 5; k++)
                 {
                     typeMethods.s_to_i4(text, ref length, ref ierror);
@@ -208,27 +206,16 @@ public static class IO
         bool ierror = false;
         string[] input;
         int length = 0;
-        int level;
-        const double r8_big = 1.0E+30;
-        double x;
-        double x_max;
-        double x_min;
-        double y;
-        double y_max;
-        double y_min;
-        double z;
-        double z_max;
-        double z_min;
 
         node_num = 0;
         node_dim = 0;
 
-        x_max = -r8_big;
-        x_min = +r8_big;
-        y_max = -r8_big;
-        y_min = +r8_big;
-        z_max = -r8_big;
-        z_min = +r8_big;
+        double x_max = -typeMethods.r8_big();
+        double x_min = +typeMethods.r8_big();
+        double y_max = -typeMethods.r8_big();
+        double y_min = +typeMethods.r8_big();
+        double z_max = -typeMethods.r8_big();
+        double z_min = +typeMethods.r8_big();
 
         try
         {
@@ -242,7 +229,7 @@ public static class IO
             throw;
         }
 
-        level = 0;
+        int level = 0;
         int index = 0;
         string text = "";
 
@@ -280,17 +267,17 @@ public static class IO
                 typeMethods.s_to_i4(text, ref length, ref ierror);
                 text = text.Substring(length);
 
-                x = typeMethods.s_to_r8(text, ref length, ref ierror);
+                double x = typeMethods.s_to_r8(text, ref length, ref ierror);
                 x_min = Math.Min(x_min, x);
                 x_max = Math.Max(x_max, x);
                 text = text.Substring(length);
 
-                y = typeMethods.s_to_r8(text, ref length, ref ierror);
+                double y = typeMethods.s_to_r8(text, ref length, ref ierror);
                 y_min = Math.Min(y_min, y);
                 y_max = Math.Max(y_max, y);
                 text = text.Substring(length);
 
-                z = typeMethods.s_to_r8(text, ref length, ref ierror);
+                double z = typeMethods.s_to_r8(text, ref length, ref ierror);
                 z_min = Math.Min(z_min, z);
                 z_max = Math.Max(z_max, z);
                 text = text.Substring(length);
@@ -363,9 +350,9 @@ public static class IO
                 */
 
                 string[] tokens = text.Split(' ');
-                for (int ti = 0; ti < tokens.Length; ti++)
+                foreach (string t in tokens)
                 {
-                    if (tokens[ti] != "")
+                    if (t != "")
                     {
                         element_order++;
                     }
@@ -482,8 +469,6 @@ public static class IO
         int element;
         int element_type = 0;
         List<string> gmsh = new();
-        int i;
-        int i2;
         int[] leo_to_gmsh =  {
                 0, 1, 2, 3, 4,
                 6, 9, 10, 7, 5,
@@ -492,8 +477,6 @@ public static class IO
             }
             ;
         int node;
-        int tag_num;
-        int tag1;
 
         gmsh.Add("$MeshFormat");
         gmsh.Add("2.2 0 8");
@@ -519,8 +502,8 @@ public static class IO
             _ => element_type
         };
 
-        tag_num = 2;
-        tag1 = 0;
+        const int tag_num = 2;
+        const int tag1 = 0;
         gmsh.Add("$Elements");
         gmsh.Add(element_num + "");
         for (element = 0; element < element_num; element++)
@@ -530,13 +513,15 @@ public static class IO
                                  + "  " + tag_num
                                  + "  " + tag1
                                  + "  " + (element + 1);
+            int i;
             switch (element_order)
             {
                 case 20:
                 {
                     for (i = 0; i < element_order; i++)
                     {
-                        i2 = leo_to_gmsh[i];
+                        int 
+                            i2 = leo_to_gmsh[i];
                         tmp += "  " + element_node[i2 + element * element_order];
                     }
 

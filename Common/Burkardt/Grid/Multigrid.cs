@@ -52,16 +52,10 @@ public static class Multigrid
         //    product of the entries of ORDER_1D.
         //
     {
-        int[] a;
-        int dim;
-        bool more;
-        int p;
-        int[] indx;
-
-        indx = new int[dim_num * order_nd];
-        a = new int[dim_num];
-        more = false;
-        p = 0;
+        int[] indx = new int[dim_num * order_nd];
+        int[] a = new int[dim_num];
+        bool more = false;
+        int p = 0;
 
         for (;;)
         {
@@ -72,6 +66,7 @@ public static class Multigrid
                 break;
             }
 
+            int dim;
             for (dim = 0; dim < dim_num; dim++)
             {
                 indx[dim + p * dim_num] = a[dim];
@@ -130,16 +125,10 @@ public static class Multigrid
         //    product of the entries of ORDER_1D.
         //
     {
-        int[] a;
-        int dim;
-        bool more;
-        int p;
-        int[] indx;
-
-        indx = new int[dim_num*order_nd];
-        a = new int[dim_num];
-        more = false;
-        p = 0;
+        int[] indx = new int[dim_num*order_nd];
+        int[] a = new int[dim_num];
+        bool more = false;
+        int p = 0;
 
         for ( ; ; )
         {
@@ -150,6 +139,7 @@ public static class Multigrid
                 break;
             }
 
+            int dim;
             for ( dim = 0; dim < dim_num; dim++ )
             {
                 indx[dim+p*dim_num] = a[dim] + 1;
@@ -213,16 +203,10 @@ public static class Multigrid
         //    product of the entries of ORDER_1D.
         //
     {
-        int[] a;
-        int dim;
-        bool more;
-        int p;
-        int[] indx;
-
-        indx = new int[dim_num * order_nd];
-        a = new int[dim_num];
-        more = false;
-        p = 0;
+        int[] indx = new int[dim_num * order_nd];
+        int[] a = new int[dim_num];
+        bool more = false;
+        int p = 0;
 
         for (;;)
         {
@@ -237,6 +221,7 @@ public static class Multigrid
             //  The values of A(DIM) are between 0 and ORDER_1D(DIM)-1 = N - 1 = 2 * M.
             //  Subtracting M sets the range to -M to +M, as we wish.
             //
+            int dim;
             for (dim = 0; dim < dim_num; dim++)
             {
                 indx[dim + p * dim_num] = a[dim] - (order_1d[dim] - 1) / 2;
@@ -297,16 +282,10 @@ public static class Multigrid
         //    product of the entries of ORDER_1D.
         //
     {
-        int[] a;
-        int dim;
-        bool more;
-        int p;
-        int[] indx;
-
-        indx = new int[dim_num * order_nd];
-        a = new int[dim_num];
-        more = false;
-        p = 0;
+        int[] indx = new int[dim_num * order_nd];
+        int[] a = new int[dim_num];
+        bool more = false;
+        int p = 0;
 
         for (;;)
         {
@@ -321,6 +300,7 @@ public static class Multigrid
             //  The values of A(DIM) are between 0 and ORDER_1D(DIM)-1 = N - 1 = 2 * M.
             //  Subtracting M sets the range to -M to +M, as we wish.
             //
+            int dim;
             for (dim = 0; dim < dim_num; dim++)
             {
                 indx[dim + p * dim_num] = a[dim] + 1;
@@ -384,16 +364,10 @@ public static class Multigrid
         //    product of the entries of ORDER_1D.
         //
     {
-        int[] a;
-        int dim;
-        bool more;
-        int p;
-        int[] indx;
-
-        indx = new int[dim_num * order_nd];
-        a = new int[dim_num];
-        more = false;
-        p = 0;
+        int[] indx = new int[dim_num * order_nd];
+        int[] a = new int[dim_num];
+        bool more = false;
+        int p = 0;
 
         for (;;)
         {
@@ -404,6 +378,7 @@ public static class Multigrid
                 break;
             }
 
+            int dim;
             for (dim = 0; dim < dim_num; dim++)
             {
                 indx[dim + p * dim_num] = a[dim];
@@ -463,16 +438,10 @@ public static class Multigrid
         //    product of the entries of ORDER_1D.
         //
     {
-        int[] a;
-        int dim;
-        bool more;
-        int p;
-        int[] indx;
-
-        indx = new int[dim_num * order_nd];
-        a = new int[dim_num];
-        more = false;
-        p = 0;
+        int[] indx = new int[dim_num * order_nd];
+        int[] a = new int[dim_num];
+        bool more = false;
+        int p = 0;
 
         for (;;)
         {
@@ -483,6 +452,7 @@ public static class Multigrid
                 break;
             }
 
+            int dim;
             for (dim = 0; dim < dim_num; dim++)
             {
                 indx[dim + p * dim_num] = a[dim] + 1;
@@ -548,16 +518,10 @@ public static class Multigrid
         //    product of the entries of ORDER_1D.
         //
     {
-        int[] a;
-        int dim;
-        bool more;
-        int p;
-        int[] indx;
-
-        indx = new int[dim_num * order_nd];
-        a = new int[dim_num];
-        more = false;
-        p = 0;
+        int[] indx = new int[dim_num * order_nd];
+        int[] a = new int[dim_num];
+        bool more = false;
+        int p = 0;
 
         for (;;)
         {
@@ -572,6 +536,7 @@ public static class Multigrid
             //  The values of A(DIM) are between 0 and ORDER_1D(DIM)-1 = N - 1 = 2 * M.
             //  Subtracting M sets the range to -M to +M, as we wish.
             //
+            int dim;
             for (dim = 0; dim < dim_num; dim++)
             {
                 indx[dim + p * dim_num] = a[dim] + 1;
@@ -636,16 +601,10 @@ public static class Multigrid
         //    product of the entries of ORDER_1D.
         //
     {
-        int[] a;
-        int dim;
-        bool more;
-        int p;
-        int[] indx;
-
-        indx = new int[dim_num * order_nd];
-        a = new int[dim_num];
-        more = false;
-        p = 0;
+        int[] indx = new int[dim_num * order_nd];
+        int[] a = new int[dim_num];
+        bool more = false;
+        int p = 0;
 
         for (;;)
         {
@@ -660,6 +619,7 @@ public static class Multigrid
             //  The values of A(DIM) are between 0 and ORDER_1D(DIM)-1 = N - 1 = 2 * M.
             //  Subtracting M sets the range to -M to +M, as we wish.
             //
+            int dim;
             for (dim = 0; dim < dim_num; dim++)
             {
                 indx[dim + p * dim_num] = a[dim] - (order_1d[dim] - 1) / 2;
@@ -724,13 +684,12 @@ public static class Multigrid
         //
     {
         int dim;
-        int factor;
-        int order;
 
         for (dim = 0; dim < dim_num; dim++)
         {
-            factor = (int) Math.Pow(2, level_max - level_1d[dim]);
+            int factor = (int) Math.Pow(2, level_max - level_1d[dim]);
 
+            int order;
             for (order = 0; order < order_nd; order++)
             {
                 grid_index[dim + order * dim_num] *= factor;
@@ -792,17 +751,15 @@ public static class Multigrid
         //
     {
         int dim;
-        int factor;
-        int order;
-        int order_max;
 
         for (dim = 0; dim < dim_num; dim++)
         {
+            int order;
             switch (level_1d[dim])
             {
                 case 0:
                 {
-                    order_max = level_max switch
+                    int order_max = level_max switch
                     {
                         0 => 1,
                         _ => (int) Math.Pow(2, level_max) + 1
@@ -817,7 +774,7 @@ public static class Multigrid
                 }
                 default:
                 {
-                    factor = (int) Math.Pow(2, level_max - level_1d[dim]);
+                    int factor = (int) Math.Pow(2, level_max - level_1d[dim]);
                     for (order = 0; order < order_nd; order++)
                     {
                         grid_index[dim + order * dim_num] *= factor;

@@ -78,14 +78,13 @@ public static class Prime
         //    room for full factoring of N, PHI will be returned as -1.
         //
     {
-        int FACTOR_MAX = 20;
+        const int FACTOR_MAX = 20;
 
         int[] factor = new int[FACTOR_MAX];
         int i;
         int nfactor = 0;
         int nleft = 0;
         int[] power = new int[FACTOR_MAX];
-        int value;
 
         switch (n)
         {
@@ -108,7 +107,7 @@ public static class Prime
             return 1;
         }
 
-        value = 1;
+        int value = 1;
         for (i = 0; i < nfactor; i++)
         {
             value = value * (int)Math.Pow(factor[i], power[i] - 1)
@@ -163,12 +162,7 @@ public static class Prime
         //    largest prime stored, then PRIME_GE is returned as -1.
         //
     {
-        int i_hi;
-        int i_lo;
-        int i_mid;
         int p;
-        int p_hi;
-        int p_mid;
 
         switch (n)
         {
@@ -177,9 +171,9 @@ public static class Prime
                 break;
             default:
             {
-                i_lo = 1;
-                i_hi = prime(-1);
-                p_hi = prime(i_hi);
+                int i_lo = 1;
+                int i_hi = prime(-1);
+                int p_hi = prime(i_hi);
 
                 if ( p_hi < n )
                 {
@@ -195,8 +189,8 @@ public static class Prime
                             break;
                         }
 
-                        i_mid = ( i_lo + i_hi ) / 2;
-                        p_mid = prime(i_mid);
+                        int i_mid = ( i_lo + i_hi ) / 2;
+                        int p_mid = prime(i_mid);
 
                         if ( p_mid < n )
                         {

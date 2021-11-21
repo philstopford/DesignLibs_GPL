@@ -81,12 +81,9 @@ public static class Angle
         //    the line between P1 and P2, and from the line between P2 and P3.
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
-        double stheta;
         double temp;
-        double temp1;
-        double temp2;
         double[] u = new double[DIM_NUM];
         double[] u1 = new double[DIM_NUM];
         double[] u2 = new double[DIM_NUM];
@@ -158,8 +155,8 @@ public static class Angle
         u1[0] /= temp;
         u1[1] /= temp;
 
-        temp1 = u1[0] * (p3[0] - p2[0])
-                + u1[1] * (p3[1] - p2[1]);
+        double temp1 = u1[0] * (p3[0] - p2[0])
+                       + u1[1] * (p3[1] - p2[1]);
 
         switch (temp1)
         {
@@ -175,8 +172,8 @@ public static class Angle
         u2[0] /= temp;
         u2[1] /= temp;
 
-        temp2 = u2[0] * (p1[0] - p2[0])
-                + u2[1] * (p1[1] - p2[1]);
+        double temp2 = u2[0] * (p1[0] - p2[0])
+                       + u2[1] * (p1[1] - p2[1]);
 
         switch (temp2)
         {
@@ -256,7 +253,7 @@ public static class Angle
         //  You must go DIST/STHETA units along this unit normal to
         //  result in a distance DIST from line1 (and line2).
         //
-        stheta = u[0] * u1[0] + u[1] * u1[1];
+        double stheta = u[0] * u1[0] + u[1] * u1[1];
 
         p4[0] = p2[0] + dist * u[0] / stheta;
         p4[1] = p2[1] + dist * u[1] / stheta;
@@ -303,22 +300,11 @@ public static class Angle
         //    the angle or on its boundary, and false otherwise.
         //
     {
-        double a1;
-        double a2;
-        bool value;
+        double a1 = angle_deg_2d(p1, p2, p);
 
-        a1 = angle_deg_2d(p1, p2, p);
+        double a2 = angle_deg_2d(p1, p2, p3);
 
-        a2 = angle_deg_2d(p1, p2, p3);
-
-        if (a1 <= a2)
-        {
-            value = true;
-        }
-        else
-        {
-            value = false;
-        }
+        bool value = a1 <= a2;
 
         return value;
     }
@@ -359,9 +345,8 @@ public static class Angle
         //    then ANGLE_DEG_2D is set to 0.
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
-        double angle_rad;
         double[] p = new double[DIM_NUM];
         double value = 0;
 
@@ -378,7 +363,7 @@ public static class Angle
                 break;
             default:
             {
-                angle_rad = Math.Atan2(p[1], p[0]);
+                double angle_rad = Math.Atan2(p[1], p[0]);
 
                 switch (angle_rad)
                 {
@@ -439,13 +424,11 @@ public static class Angle
         //
     {
         int i;
-        double norm;
-        double[] p4;
 
-        p4 = new double[2];
+        double[] p4 = new double[2];
 
-        norm = Math.Sqrt((p1[(0 + p1Index) % p1.Length] - p2[(0 + p2Index) % p2.Length]) * (p1[(0 + p1Index) % p1.Length] - p2[(0 + p2Index) % p2.Length])
-                         + (p1[(1 + p1Index) % p1.Length] - p2[(1 + p2Index) % p2.Length]) * (p1[(1 + p1Index) % p1.Length] - p2[(1 + p2Index) % p2.Length]));
+        double norm = Math.Sqrt((p1[(0 + p1Index) % p1.Length] - p2[(0 + p2Index) % p2.Length]) * (p1[(0 + p1Index) % p1.Length] - p2[(0 + p2Index) % p2.Length])
+                                + (p1[(1 + p1Index) % p1.Length] - p2[(1 + p2Index) % p2.Length]) * (p1[(1 + p1Index) % p1.Length] - p2[(1 + p2Index) % p2.Length]));
 
         for (i = 0; i < 2; i++)
         {
@@ -583,15 +566,12 @@ public static class Angle
         //    zero length, then the angle is returned as zero.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        double dot;
         int i;
-        double v1norm;
-        double v2norm;
-        double value = 0;
+        double value;
 
-        v1norm = 0.0;
+        double v1norm = 0.0;
         for (i = 0; i < DIM_NUM; i++)
         {
             v1norm += Math.Pow(p1[(i + p1Index) % p1.Length] - p2[(i + p2Index) % p2.Length], 2);
@@ -606,7 +586,7 @@ public static class Angle
                 return value;
         }
 
-        v2norm = 0.0;
+        double v2norm = 0.0;
         for (i = 0; i < DIM_NUM; i++)
         {
             v2norm += Math.Pow(p3[(i + p3Index) % p3.Length] - p2[(i + p2Index) % p2.Length], 2);
@@ -621,7 +601,7 @@ public static class Angle
                 return value;
         }
 
-        dot = 0.0;
+        double dot = 0.0;
         for (i = 0; i < DIM_NUM; i++)
         {
             dot += (p1[(i + p1Index) % p1.Length] - p2[(i + p2Index) % p2.Length]) * (p3[(i + p3Index) % p3.Length] - p2[(i + p2Index) % p2.Length]);
@@ -670,15 +650,12 @@ public static class Angle
         //    This value will always be between 0 and PI.
         //
     {
-        double dot;
-        double v1norm;
-        double v2norm;
-        double value = 0;
+        double value;
 
-        dot = typeMethods.r8vec_dot_product(dim_num, vec1, vec2);
+        double dot = typeMethods.r8vec_dot_product(dim_num, vec1, vec2);
 
-        v1norm = typeMethods.r8vec_norm(dim_num, vec1);
-        v2norm = typeMethods.r8vec_norm(dim_num, vec2);
+        double v1norm = typeMethods.r8vec_norm(dim_num, vec1);
+        double v2norm = typeMethods.r8vec_norm(dim_num, vec2);
 
         if (v1norm == 0.0 || v2norm == 0.0)
         {
@@ -748,10 +725,9 @@ public static class Angle
         //    Output, double ANGLE_TURN_2D, the turn angle, between -PI and PI.
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
         double[] p = new double[DIM_NUM];
-        double turn;
 
         p[0] = (p3[0] - p2[0]) * (p1[0] - p2[0])
                + (p3[1] - p2[1]) * (p1[1] - p2[1]);
@@ -759,7 +735,7 @@ public static class Angle
         p[1] = (p3[0] - p2[0]) * (p1[1] - p2[1])
                - (p3[1] - p2[1]) * (p1[0] - p2[0]);
 
-        turn = p[0] switch
+        double turn = p[0] switch
         {
             0.0 when p[1] == 0.0 => 0.0,
             _ => Math.PI - typeMethods.r8_atan(p[1], p[0])

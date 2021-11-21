@@ -35,11 +35,9 @@ public static class Piecewise
         //    Output, double PIECEWISE_LINEAR[NV], the values.
         //
     {
-        int id;
         int iv;
-        double[] yv;
 
-        yv = new double[nv];
+        double[] yv = new double[nv];
 
         for ( iv = 0; iv < nv; iv++ )
         {
@@ -53,6 +51,7 @@ public static class Piecewise
             }
             else
             {
+                int id;
                 for ( id = 1; id < nd; id++ )
                 {
                     if ( xv[iv] < xd[id] )

@@ -54,9 +54,8 @@ public static class Slices
         //
     {
         int j;
-        int piece_num;
 
-        piece_num = 0;
+        int piece_num = 0;
         for ( j = 0; j <= Math.Min ( dim_num, slice_num ); j++ )
         {
             piece_num += typeMethods.i4_choose ( slice_num, j );

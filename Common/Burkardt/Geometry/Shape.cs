@@ -46,24 +46,19 @@ public static class Shape
         //    to the shape.
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
-        double angle;
-        double angle2;
         double dist;
         double[] pa = new double[DIM_NUM];
         double[] pb = new double[DIM_NUM];
-        double radius;
-        double sector_angle;
-        int sector_index;
         //
         //  Determine the angle subtended by a single side.
         //
-        sector_angle = 360.0 / side_num;
+        double sector_angle = 360.0 / side_num;
         //
         //  How long is the half-diagonal?
         //
-        radius = Math.Sqrt(Math.Pow(p1[0] - pc[0], 2) + Math.Pow(p1[1] - pc[1], 2));
+        double radius = Math.Sqrt(Math.Pow(p1[0] - pc[0], 2) + Math.Pow(p1[1] - pc[1], 2));
         switch (radius)
         {
             //
@@ -90,15 +85,15 @@ public static class Shape
         //  Determine the angle between the ray to the first corner,
         //  and the ray to the test point.
         //
-        angle = Angle.angle_deg_2d(p1, pc, p);
+        double angle = Angle.angle_deg_2d(p1, pc, p);
         //
         //  Determine the sector of the point.
         //
-        sector_index = (int) (angle / sector_angle) + 1;
+        int sector_index = (int) (angle / sector_angle) + 1;
         //
         //  Generate the two corner points that terminate the SECTOR-th side.
         //
-        angle2 = (sector_index - 1) * sector_angle;
+        double angle2 = (sector_index - 1) * sector_angle;
         angle2 = Helpers.degrees_to_radians(angle2);
 
         Vector.Geometry.vector_rotate_base_2d(p1, pc, angle2, ref pa);
@@ -158,13 +153,9 @@ public static class Shape
         //    Output, double *DIST, the distance between the points.
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
         double angle;
-        double angle2;
-        double radius;
-        double sector_angle;
-        int sector_index;
         double t = 0;
         double[] pa = new double[DIM_NUM];
         double[] pb = new double[DIM_NUM];
@@ -172,11 +163,11 @@ public static class Shape
         //
         //  Determine the angle subtended by a single side.
         //
-        sector_angle = 360.0 / side_num;
+        double sector_angle = 360.0 / side_num;
         //
         //  How long is the half-diagonal?
         //
-        radius = Math.Sqrt(Math.Pow(p1[0] - pc[0], 2) + Math.Pow(p1[1] - pc[1], 2));
+        double radius = Math.Sqrt(Math.Pow(p1[0] - pc[0], 2) + Math.Pow(p1[1] - pc[1], 2));
         switch (radius)
         {
             //
@@ -215,11 +206,11 @@ public static class Shape
         //
         //  Determine the sector of the point.
         //
-        sector_index = (int) (angle / sector_angle) + 1;
+        int sector_index = (int) (angle / sector_angle) + 1;
         //
         //  Generate the two corner points that terminate the SECTOR-th side.
         //
-        angle2 = (sector_index - 1) * sector_angle;
+        double angle2 = (sector_index - 1) * sector_angle;
         angle2 = Helpers.degrees_to_radians(angle2);
 
         Vector.Geometry.vector_rotate_base_2d(p1, pc, angle2, ref pa);
@@ -376,15 +367,11 @@ public static class Shape
         //    Output, double PI[2], the point on the shape intersected by the ray.
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
-        double angle2;
-        bool inside;
         int ival = 0;
         double[] pv1 = new double[DIM_NUM];
         double[] pv2 = new double[DIM_NUM];
-        double radius;
-        double sector_angle;
         int sector_index;
         //
         //  Warning!
@@ -393,11 +380,11 @@ public static class Shape
         //
         //  Determine the angle subtended by a single side.
         //
-        sector_angle = 360.0 / side_num;
+        double sector_angle = 360.0 / side_num;
         //
         //  How long is the half-diagonal?
         //
-        radius = Math.Sqrt(Math.Pow(p1[0] - pc[0], 2) + Math.Pow(p1[1] - pc[1], 2));
+        double radius = Math.Sqrt(Math.Pow(p1[0] - pc[0], 2) + Math.Pow(p1[1] - pc[1], 2));
         switch (radius)
         {
             //
@@ -418,6 +405,7 @@ public static class Shape
 
         for (sector_index = 1; sector_index <= side_num; sector_index++)
         {
+            double angle2;
             switch (sector_index)
             {
                 //
@@ -443,7 +431,7 @@ public static class Shape
             //  and see if that angle contains the ray.  If so, then the ray
             //  must intersect the shape side of that sector.
             //
-            inside = Angle.angle_contains_ray_2d(pv1, pa, pv2, pb);
+            bool inside = Angle.angle_contains_ray_2d(pv1, pa, pv2, pb);
 
             switch (inside)
             {

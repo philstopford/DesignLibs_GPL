@@ -62,39 +62,32 @@ public static class Grid
         //    Output, double GRID_IN_CUBE01[DIM_NUM*N], the points.
         //
     {
-        int i;
         int j;
-        int n_grid;
-        int n_side;
-        double[] r;
-        int rank;
-        int[] rank_list;
-        int[] tuple;
         //
         //  Find the dimension of the smallest grid with N points.
         //
-        n_side = grid_side(dim_num, n);
+        int n_side = grid_side(dim_num, n);
         //
         //  We need to select N points out of N_SIDE^DIM_NUM set.
         //
-        n_grid = (int) Math.Pow(n_side, dim_num);
+        int n_grid = (int) Math.Pow(n_side, dim_num);
         //
         //  Generate a random subset of N items from a set of size N_GRID.
         //
-        rank_list = new int[n];
+        int[] rank_list = new int[n];
 
         Ksub.ksub_random2(n_grid, n, ref seed, ref rank_list);
         //
         //  Must make one dummy call to TUPLE_NEXT_FAST with RANK = -1.
         //
-        rank = -1;
-        tuple = new int[dim_num];
+        int rank = -1;
+        int[] tuple = new int[dim_num];
         BTupleData data = new() {base_ = new int[dim_num]};
         BTuple.tuple_next_fast(ref data, n_side, dim_num, rank, ref tuple);
         //
         //  Now generate the appropriate indices, and "center" them.
         //
-        r = new double[dim_num * n];
+        double[] r = new double[dim_num * n];
 
         for (j = 0; j < n; j++)
         {
@@ -102,6 +95,7 @@ public static class Grid
 
             BTuple.tuple_next_fast(ref data, n_side, dim_num, rank, ref tuple);
 
+            int i;
             switch (center)
             {
                 case 1:
@@ -196,7 +190,6 @@ public static class Grid
         //    grid in DIM_NUM dimensions that contains at least N points.
         //
     {
-        double exponent;
         int n_side;
 
         switch (n)
@@ -213,7 +206,7 @@ public static class Grid
                 return n_side;
         }
 
-        exponent = 1.0 / dim_num;
+        double exponent = 1.0 / dim_num;
 
         n_side = (int) Math.Pow(n, exponent);
 

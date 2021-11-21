@@ -38,10 +38,6 @@ public static class LocalMinimum
         //    value YMIN.
         //
     {
-        double slope;
-        double slope12;
-        double slope13;
-        double slope23;
         //
         //  Refuse to deal with coincident data.
         //
@@ -77,9 +73,9 @@ public static class LocalMinimum
         //
         //  Now determine the slopes.
         //
-        slope12 = (y2 - y1) / (x2 - x1);
-        slope23 = (y3 - y2) / (x3 - x2);
-        slope13 = (y3 - y1) / (x3 - x1);
+        double slope12 = (y2 - y1) / (x2 - x1);
+        double slope23 = (y3 - y2) / (x3 - x2);
+        double slope13 = (y3 - y1) / (x3 - x1);
         //
         //  Case 1: Minimum must be at an endpoint.
         //
@@ -107,7 +103,7 @@ public static class LocalMinimum
         //
         else
         {
-            slope = Math.Max(Math.Abs(slope12), slope23);
+            double slope = Math.Max(Math.Abs(slope12), slope23);
             xmin = 0.5 * (x1 + x3 + (y1 - y3) / slope);
             ymin = y1 - slope * (xmin - x1);
         }
@@ -156,10 +152,7 @@ public static class LocalMinimum
         //    false if error because X values are not distinct.
         //
     {
-        int ierror;
         double x = 0;
-        double xleft;
-        double xrite;
         double y = 0;
 
         xmin = 0.0;
@@ -175,7 +168,7 @@ public static class LocalMinimum
         //
         //  Find the interval endpoints.
         //
-        xleft = x1;
+        double xleft = x1;
         if (x2 < xleft)
         {
             xleft = x2;
@@ -186,7 +179,7 @@ public static class LocalMinimum
             xleft = x3;
         }
 
-        xrite = x1;
+        double xrite = x1;
         if (xrite < x2)
         {
             xrite = x2;
@@ -219,13 +212,15 @@ public static class LocalMinimum
         //
         //  Find the minimizer and its function value over the real line.
         //
-        ierror = ParabolaNS.Geometry.parabola_ex(x1, y1, x2, y2, x3, y3, ref x, ref y);
+        int ierror = ParabolaNS.Geometry.parabola_ex(x1, y1, x2, y2, x3, y3, ref x, ref y);
 
-        if (ierror != 2 && y < ymin && xleft < x && x < xrite)
+        if (ierror == 2 || !(y < ymin) || !(xleft < x) || !(x < xrite))
         {
-            xmin = x;
-            ymin = y;
+            return true;
         }
+
+        xmin = x;
+        ymin = y;
 
         return true;
     }

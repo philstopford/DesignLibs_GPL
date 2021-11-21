@@ -45,13 +45,12 @@ public static class GaussSeidel
         //
     {
         int i;
-        double u_old;
 
         dif_l1 = 0.0;
 
         for ( i = 1; i < n - 1; i++ )
         {
-            u_old = u[uIndex + i];
+            double u_old = u[uIndex + i];
             u[uIndex + i] = 0.5 * ( u[uIndex + i-1] + u[uIndex + i+1] + r[rIndex + i] );
             dif_l1 += Math.Abs ( u[uIndex + i] - u_old );
         }

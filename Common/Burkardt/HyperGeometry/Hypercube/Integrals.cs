@@ -51,7 +51,6 @@ public static class Integrals
         //
     {
         int i;
-        double integral;
 
         for (i = 0; i < m; i++)
         {
@@ -66,7 +65,7 @@ public static class Integrals
             }
         }
 
-        integral = 1.0;
+        double integral = 1.0;
         for (i = 0; i < m; i++)
         {
             integral /= e[i] + 1;
@@ -122,9 +121,7 @@ public static class Integrals
         //    Output, double X[M*N], the points.
         //
     {
-        double[] x;
-
-        x = UniformRNG.r8mat_uniform_01_new(m, n, ref seed);
+        double[] x = UniformRNG.r8mat_uniform_01_new(m, n, ref seed);
 
         return x;
     }
@@ -156,9 +153,7 @@ public static class Integrals
         //    Output, double HYPERCUBE01_VOLUME, the volume.
         //
     {
-        double volume;
-
-        volume = 1.0;
+        const double volume = 1.0;
 
         return volume;
     }

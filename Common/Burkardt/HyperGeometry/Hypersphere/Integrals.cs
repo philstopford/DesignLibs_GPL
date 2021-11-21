@@ -212,19 +212,17 @@ public static class Integrals
         //    Output, double X[M*N], the points.
         //
     {
-        int i;
         int j;
-        double norm;
-        double[] x;
 
-        x = typeMethods.r8mat_normal_01_new(m, n, ref data, ref seed);
+        double[] x = typeMethods.r8mat_normal_01_new(m, n, ref data, ref seed);
 
         for (j = 0; j < n; j++)
         {
             //
             //  Compute the length of the vector.
             //
-            norm = 0.0;
+            double norm = 0.0;
+            int i;
             for (i = 0; i < m; i++)
             {
                 norm += Math.Pow(x[i + j * m], 2);

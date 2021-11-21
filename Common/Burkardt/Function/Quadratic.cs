@@ -102,14 +102,7 @@ public static class Quadratic
     {
         double dbdr;
         double dbds;
-        double det;
-        double drdx;
-        double drdy;
-        double dsdx;
-        double dsdy;
         int i;
-        double r;
-        double s;
         double[] xn = new double[6];
         double[] yn=  new double[6];
 
@@ -133,20 +126,20 @@ public static class Quadratic
         //  The values of dRdX, dRdY, dSdX and dSdY are easily from the formulas
         //  for R and S.
         //
-        det = (xn[1] - xn[0]) * (yn[2] - yn[0])
-              - (xn[2] - xn[0]) * (yn[1] - yn[0]);
+        double det = (xn[1] - xn[0]) * (yn[2] - yn[0])
+                     - (xn[2] - xn[0]) * (yn[1] - yn[0]);
 
-        r = ((yn[2] - yn[0]) * (x - xn[0])
-             + (xn[0] - xn[2]) * (y - yn[0])) / det;
+        double r = ((yn[2] - yn[0]) * (x - xn[0])
+                    + (xn[0] - xn[2]) * (y - yn[0])) / det;
 
-        drdx = (yn[2] - yn[0]) / det;
-        drdy = (xn[0] - xn[2]) / det;
+        double drdx = (yn[2] - yn[0]) / det;
+        double drdy = (xn[0] - xn[2]) / det;
 
-        s = ((yn[0] - yn[1]) * (x - xn[0])
-             + (xn[1] - xn[0]) * (y - yn[0])) / det;
+        double s = ((yn[0] - yn[1]) * (x - xn[0])
+                    + (xn[1] - xn[0]) * (y - yn[0])) / det;
 
-        dsdx = (yn[0] - yn[1]) / det;
-        dsdy = (xn[1] - xn[0]) / det;
+        double dsdx = (yn[0] - yn[1]) / det;
+        double dsdy = (xn[1] - xn[0]) / det;
         switch (inode)
         {
             //

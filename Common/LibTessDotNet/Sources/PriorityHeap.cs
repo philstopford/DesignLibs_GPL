@@ -38,7 +38,7 @@ namespace LibTessDotNet.Double;
 
 internal struct PQHandle
 {
-    public static readonly int Invalid = 0x0fffffff;
+    public const int Invalid = 0x0fffffff;
     internal int _handle;
 }
 
@@ -59,7 +59,7 @@ internal class PriorityHeap<TValue> where TValue : class
     private int _freeList;
     private bool _initialized;
 
-    public bool Empty { get { return _size == 0; } }
+    public bool Empty => _size == 0;
 
     public PriorityHeap(int initialSize, LessOrEqual leq)
     {
@@ -79,13 +79,10 @@ internal class PriorityHeap<TValue> where TValue : class
 
     private void FloatDown(int curr)
     {
-        int child;
-        int hCurr, hChild;
-
-        hCurr = _nodes[curr];
+        int hCurr = _nodes[curr];
         while (true)
         {
-            child = curr << 1;
+            int child = curr << 1;
             if (child < _size && _leq(_handles[_nodes[child + 1]]._key, _handles[_nodes[child]]._key))
             {
                 ++child;
@@ -93,7 +90,7 @@ internal class PriorityHeap<TValue> where TValue : class
 
             Debug.Assert(child <= _max);
 
-            hChild = _nodes[child];
+            int hChild = _nodes[child];
             if (child > _size || _leq(_handles[hCurr]._key, _handles[hChild]._key))
             {
                 _nodes[curr] = hCurr;
@@ -109,14 +106,11 @@ internal class PriorityHeap<TValue> where TValue : class
 
     private void FloatUp(int curr)
     {
-        int parent;
-        int hCurr, hParent;
-
-        hCurr = _nodes[curr];
+        int hCurr = _nodes[curr];
         while (true)
         {
-            parent = curr >> 1;
-            hParent = _nodes[parent];
+            int parent = curr >> 1;
+            int hParent = _nodes[parent];
             if (parent == 0 || _leq(_handles[hParent]._key, _handles[hCurr]._key))
             {
                 _nodes[curr] = hCurr;

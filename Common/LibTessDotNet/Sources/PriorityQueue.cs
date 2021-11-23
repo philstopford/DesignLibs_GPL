@@ -68,19 +68,18 @@ internal class PriorityQueue<TValue> where TValue : class
 
     private static void Swap(ref int a, ref int b)
     {
-        int tmp = a;
-        a = b;
-        b = tmp;
+        (a, b) = (b, a);
     }
 
     public void Init()
     {
         Stack<StackItem> stack = new();
-        int p, r, i, j, piv;
+        int i;
+        int piv;
         uint seed = 2016473283;
 
-        p = 0;
-        r = _size - 1;
+        int p = 0;
+        int r = _size - 1;
         _order = new int[_size + 1];
         for (piv = 0, i = p; i <= r; ++piv, ++i)
         {
@@ -94,6 +93,7 @@ internal class PriorityQueue<TValue> where TValue : class
             p = top.p;
             r = top.r;
 
+            int j;
             while (r > p + 10)
             {
                 seed = seed * 1539415821 + 1;

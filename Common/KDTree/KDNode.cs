@@ -105,14 +105,7 @@ public class KDNode<T>
             pCursor.Size++;
 
             // If it is larger select the right, or lower,  select the left.
-            if (tPoint[pCursor.iSplitDimension] > pCursor.fSplitValue)
-            {
-                pCursor = pCursor.pRight;
-            }
-            else
-            {
-                pCursor = pCursor.pLeft;
-            }
+            pCursor = tPoint[pCursor.iSplitDimension] > pCursor.fSplitValue ? pCursor.pRight : pCursor.pLeft;
         }
 
         // Insert it into the leaf.
@@ -135,19 +128,21 @@ public class KDNode<T>
         Size++;
 
         // Split if the node is getting too large in terms of data.
-        if (Size == tPoints.Length - 1)
+        if (Size != tPoints.Length - 1)
         {
-            // If the node is getting too physically large.
-            if (CalculateSplit())
-            {
-                // If the node successfully had it's split value calculated, split node.
-                SplitLeafNode();
-            }
-            else
-            {
-                // If the node could not be split, enlarge node data capacity.
-                IncreaseLeafCapacity();
-            }
+            return;
+        }
+
+        // If the node is getting too physically large.
+        if (CalculateSplit())
+        {
+            // If the node successfully had it's split value calculated, split node.
+            SplitLeafNode();
+        }
+        else
+        {
+            // If the node could not be split, enlarge node data capacity.
+            IncreaseLeafCapacity();
         }
     }
 
@@ -259,11 +254,13 @@ public class KDNode<T>
                 _ => fDelta
             };
 
-            if (fDelta > fWidth)
+            if (!(fDelta > fWidth))
             {
-                iSplitDimension = i;
-                fWidth = fDelta;
+                continue;
             }
+
+            iSplitDimension = i;
+            fWidth = fDelta;
         }
 
         switch (fWidth)

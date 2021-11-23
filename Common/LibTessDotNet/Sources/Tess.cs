@@ -96,7 +96,7 @@ public struct ContourVertex
 
     public override string ToString()
     {
-        return string.Format("{0}, {1}", Position, Data);
+        return $"{Position}, {Data}";
     }
 }
 
@@ -173,25 +173,27 @@ public partial class Tess
     /// <summary>
     /// Normal of the tessellated mesh.
     /// </summary>
-    public Vec3 Normal { get { return _normal; } }
+    public Vec3 Normal => _normal;
 
     /// <summary>
     /// Vertices of the tessellated mesh.
     /// </summary>
-    public ContourVertex[] Vertices { get { return _vertices; } }
+    public ContourVertex[] Vertices => _vertices;
+
     /// <summary>
     /// Number of vertices in the tessellated mesh.
     /// </summary>
-    public int VertexCount { get { return _vertexCount; } }
+    public int VertexCount => _vertexCount;
 
     /// <summary>
     /// Indices of the tessellated mesh. See <see cref="ElementType"/> for details on data layout.
     /// </summary>
-    public int[] Elements { get { return _elements; } }
+    public int[] Elements => _elements;
+
     /// <summary>
     /// Number of elements in the tessellated mesh.
     /// </summary>
-    public int ElementCount { get { return _elementCount; } }
+    public int ElementCount => _elementCount;
 
     public Tess()
         : this(new DefaultPool())
@@ -221,10 +223,10 @@ public partial class Tess
     {
         MeshUtils.Vertex v = _mesh._vHead._next;
 
-        double[] minVal = new [] { v._coords.X, v._coords.Y, v._coords.Z };
-        MeshUtils.Vertex[] minVert = new [] { v, v, v };
-        double[] maxVal = new [] { v._coords.X, v._coords.Y, v._coords.Z };
-        MeshUtils.Vertex[] maxVert = new [] { v, v, v };
+        double[] minVal = { v._coords.X, v._coords.Y, v._coords.Z };
+        MeshUtils.Vertex[] minVert = { v, v, v };
+        double[] maxVal = { v._coords.X, v._coords.Y, v._coords.Z };
+        MeshUtils.Vertex[] maxVert = { v, v, v };
 
         for (; v != _mesh._vHead; v = v._next)
         {
@@ -233,7 +235,13 @@ public partial class Tess
             if (v._coords.Z < minVal[2]) { minVal[2] = v._coords.Z; minVert[2] = v; }
             if (v._coords.X > maxVal[0]) { maxVal[0] = v._coords.X; maxVert[0] = v; }
             if (v._coords.Y > maxVal[1]) { maxVal[1] = v._coords.Y; maxVert[1] = v; }
-            if (v._coords.Z > maxVal[2]) { maxVal[2] = v._coords.Z; maxVert[2] = v; }
+
+            if (!(v._coords.Z > maxVal[2]))
+            {
+                continue;
+            }
+
+            maxVal[2] = v._coords.Z; maxVert[2] = v;
         }
 
         // Find two vertices separated by at least 1/sqrt(3) of the maximum
@@ -250,23 +258,25 @@ public partial class Tess
 
         // Look for a third vertex which forms the triangle with maximum area
         // (Length of normal == twice the triangle area)
-        double maxLen2 = 0, tLen2;
+        double maxLen2 = 0;
         MeshUtils.Vertex v1 = minVert[i];
         MeshUtils.Vertex v2 = maxVert[i];
-        Vec3 d1, d2, tNorm;
-        Vec3.Sub(ref v1._coords, ref v2._coords, out d1);
+        Vec3.Sub(ref v1._coords, ref v2._coords, out Vec3 d1);
         for (v = _mesh._vHead._next; v != _mesh._vHead; v = v._next)
         {
-            Vec3.Sub(ref v._coords, ref v2._coords, out d2);
+            Vec3.Sub(ref v._coords, ref v2._coords, out Vec3 d2);
+            Vec3 tNorm;
             tNorm.X = d1.Y * d2.Z - d1.Z * d2.Y;
             tNorm.Y = d1.Z * d2.X - d1.X * d2.Z;
             tNorm.Z = d1.X * d2.Y - d1.Y * d2.X;
-            tLen2 = tNorm.X * tNorm.X + tNorm.Y * tNorm.Y + tNorm.Z * tNorm.Z;
-            if (tLen2 > maxLen2)
+            double tLen2 = tNorm.X * tNorm.X + tNorm.Y * tNorm.Y + tNorm.Z * tNorm.Z;
+            if (!(tLen2 > maxLen2))
             {
-                maxLen2 = tLen2;
-                norm = tNorm;
+                continue;
             }
+
+            maxLen2 = tLen2;
+            norm = tNorm;
         }
 
         switch (maxLen2)
@@ -567,7 +577,7 @@ public partial class Tess
         MeshUtils.Edge edge;
         int maxFaceCount = 0;
         int maxVertexCount = 0;
-        int faceVerts, i;
+        int faceVerts;
 
         polySize = polySize switch
         {
@@ -696,6 +706,7 @@ public partial class Tess
                 edge = edge._Lnext;
             } while (edge != f._anEdge);
             // Fill unused.
+            int i;
             for (i = faceVerts; i < polySize; ++i)
             {
                 _elements[elementIndex++] = Undef;
@@ -728,8 +739,6 @@ public partial class Tess
     {
         MeshUtils.Face f;
         MeshUtils.Edge edge, start;
-        int startVert = 0;
-        int vertCount = 0;
 
         _vertexCount = 0;
         _elementCount = 0;
@@ -759,7 +768,7 @@ public partial class Tess
         int vertIndex = 0;
         int elementIndex = 0;
 
-        startVert = 0;
+        int startVert = 0;
 
         for (f = _mesh._fHead._next; f != _mesh._fHead; f = f._next)
         {
@@ -769,7 +778,7 @@ public partial class Tess
                     continue;
             }
 
-            vertCount = 0;
+            int vertCount = 0;
             start = edge = f._anEdge;
             do
             {

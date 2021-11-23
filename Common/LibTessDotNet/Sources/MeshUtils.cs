@@ -129,7 +129,7 @@ public struct Vec3
 
     public override string ToString()
     {
-        return string.Format("{0}, {1}, {2}", X, Y, Z);
+        return $"{X}, {Y}, {Z}";
     }
 }
 
@@ -225,9 +225,8 @@ public class DefaultPool : IPool
 
     public override T Get<T>()
     {
-        ITypePool typePool;
         T obj = null;
-        if (_register.TryGetValue(typeof(T), out typePool))
+        if (_register.TryGetValue(typeof(T), out ITypePool typePool))
         {
             obj = typePool.Get() as T;
         }
@@ -249,8 +248,7 @@ public class DefaultPool : IPool
                 return;
         }
         obj.Reset(this);
-        ITypePool typePool;
-        if (_register.TryGetValue(typeof(T), out typePool))
+        if (_register.TryGetValue(typeof(T), out ITypePool typePool))
         {
             typePool.Return(obj);
         }
@@ -362,15 +360,30 @@ internal static class MeshUtils
         internal Tess.ActiveRegion _activeRegion;
         internal int _winding;
 
-        internal Face _Rface { get { return _Sym._Lface; } set { _Sym._Lface = value; } }
-        internal Vertex _Dst { get { return _Sym._Org; } set { _Sym._Org = value; } }
+        internal Face _Rface { get => _Sym._Lface;
+            set => _Sym._Lface = value;
+        }
+        internal Vertex _Dst { get => _Sym._Org;
+            set => _Sym._Org = value;
+        }
 
-        internal Edge _Oprev { get { return _Sym._Lnext; } set { _Sym._Lnext = value; } }
-        internal Edge _Lprev { get { return _Onext._Sym; } set { _Onext._Sym = value; } }
-        internal Edge _Dprev { get { return _Lnext._Sym; } set { _Lnext._Sym = value; } }
-        internal Edge _Rprev { get { return _Sym._Onext; } set { _Sym._Onext = value; } }
-        internal Edge _Dnext { get { return _Rprev._Sym; } set { _Rprev._Sym = value; } }
-        internal Edge _Rnext { get { return _Oprev._Sym; } set { _Oprev._Sym = value; } }
+        internal Edge _Oprev { get => _Sym._Lnext;
+            set => _Sym._Lnext = value;
+        }
+        internal Edge _Lprev { get => _Onext._Sym;
+            set => _Onext._Sym = value;
+        }
+        internal Edge _Dprev { get => _Lnext._Sym;
+            set => _Lnext._Sym = value;
+        }
+        internal Edge _Rprev { get => _Sym._Onext;
+            set => _Sym._Onext = value;
+        }
+        internal Edge _Dnext { get => _Rprev._Sym;
+            set => _Rprev._Sym = value;
+        }
+        internal Edge _Rnext { get { return _Oprev._Sym; } set => _Oprev._Sym = value;
+        }
 
         internal static void EnsureFirst(ref Edge e)
         {

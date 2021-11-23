@@ -393,9 +393,8 @@ public partial class Tess
     private void GetIntersectData(MeshUtils.Vertex isect, MeshUtils.Vertex orgUp, MeshUtils.Vertex dstUp, MeshUtils.Vertex orgLo, MeshUtils.Vertex dstLo)
     {
         isect._coords = Vec3.Zero;
-        double w0, w1, w2, w3;
-        VertexWeights(isect, orgUp, dstUp, out w0, out w1);
-        VertexWeights(isect, orgLo, dstLo, out w2, out w3);
+        VertexWeights(isect, orgUp, dstUp, out double w0, out double w1);
+        VertexWeights(isect, orgLo, dstLo, out double w2, out double w3);
 
         if (_combineCallback != null)
         {
@@ -715,7 +714,6 @@ public partial class Tess
     private void WalkDirtyRegions(ActiveRegion regUp)
     {
         ActiveRegion regLo = RegionBelow(regUp);
-        MeshUtils.Edge eUp, eLo;
 
         while (true)
         {
@@ -731,7 +729,7 @@ public partial class Tess
                 {
                     regLo = regUp;
                     regUp = RegionAbove(regUp);
-                    if (regUp == null || !regUp._dirty)
+                    if (regUp is not {_dirty: true})
                     {
                         // We've walked all the dirty regions
                         return;
@@ -741,8 +739,8 @@ public partial class Tess
                 }
             }
             regUp._dirty = false;
-            eUp = regUp._eUp;
-            eLo = regLo._eUp;
+            MeshUtils.Edge eUp = regUp._eUp;
+            MeshUtils.Edge eLo = regLo._eUp;
 
             if (eUp._Dst != eLo._Dst)
             {
@@ -883,15 +881,7 @@ public partial class Tess
 
         // Non-degenerate situation -- need to add a temporary, fixable edge.
         // Connect to the closer of eLo.Org, eUp.Org.
-        MeshUtils.Edge eNew;
-        if (Geom.VertLeq(eLo._Org, eUp._Org))
-        {
-            eNew = eLo._Oprev;
-        }
-        else
-        {
-            eNew = eUp;
-        }
+        MeshUtils.Edge eNew = Geom.VertLeq(eLo._Org, eUp._Org) ? eLo._Oprev : eUp;
         eNew = _mesh.Connect(_pool, eBottomLeft._Lprev, eNew);
 
         // Prevent cleanup, otherwise eNew might disappear before we've even
@@ -985,15 +975,7 @@ public partial class Tess
 
         if (regUp._inside || reg._fixUpperEdge)
         {
-            MeshUtils.Edge eNew;
-            if (reg == regUp)
-            {
-                eNew = _mesh.Connect(_pool, vEvent._anEdge._Sym, eUp._Lnext);
-            }
-            else
-            {
-                eNew = _mesh.Connect(_pool, eLo._Dnext, vEvent._anEdge)._Sym;
-            }
+            MeshUtils.Edge eNew = reg == regUp ? _mesh.Connect(_pool, vEvent._anEdge._Sym, eUp._Lnext) : _mesh.Connect(_pool, eLo._Dnext, vEvent._anEdge)._Sym;
             switch (reg._fixUpperEdge)
             {
                 case true:
@@ -1129,12 +1111,12 @@ public partial class Tess
     /// </summary>
     private void RemoveDegenerateEdges()
     {
-        MeshUtils.Edge eHead = _mesh._eHead, e, eNext, eLnext;
+        MeshUtils.Edge eHead = _mesh._eHead, e, eNext;
 
         for (e = eHead._next; e != eHead; e = eNext)
         {
             eNext = e._next;
-            eLnext = e._Lnext;
+            MeshUtils.Edge eLnext = e._Lnext;
 
             if (Geom.VertEq(e._Org, e._Dst) && e._Lnext._Lnext != e)
             {
@@ -1218,20 +1200,21 @@ public partial class Tess
     private void RemoveDegenerateFaces()
     {
         MeshUtils.Face f, fNext;
-        MeshUtils.Edge e;
 
         for (f = _mesh._fHead._next; f != _mesh._fHead; f = fNext)
         {
             fNext = f._next;
-            e = f._anEdge;
+            MeshUtils.Edge e = f._anEdge;
             Debug.Assert(e._Lnext != e);
 
-            if (e._Lnext._Lnext == e)
+            if (e._Lnext._Lnext != e)
             {
-                // A face with only two edges
-                Geom.AddWinding(e._Onext, e);
-                _mesh.Delete(_pool, e);
+                continue;
             }
+
+            // A face with only two edges
+            Geom.AddWinding(e._Onext, e);
+            _mesh.Delete(_pool, e);
         }
     }
 
@@ -1254,12 +1237,12 @@ public partial class Tess
         RemoveDegenerateFaces();
         InitEdgeDict();
 
-        MeshUtils.Vertex v, vNext;
+        MeshUtils.Vertex v;
         while ((v = _pq.ExtractMin()) != null)
         {
             while (true)
             {
-                vNext = _pq.Minimum();
+                MeshUtils.Vertex vNext = _pq.Minimum();
                 if (vNext == null || !Geom.VertEq(vNext, v))
                 {
                     break;

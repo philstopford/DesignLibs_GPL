@@ -184,9 +184,7 @@ internal static class Geom
 
     private static void Swap(ref MeshUtils.Vertex a, ref MeshUtils.Vertex b)
     {
-        MeshUtils.Vertex tmp = a;
-        a = b;
-        b = tmp;
+        (a, b) = (b, a);
     }
 
     /// <summary>

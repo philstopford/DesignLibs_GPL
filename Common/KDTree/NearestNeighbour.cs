@@ -229,24 +229,15 @@ public class NearestNeighbour<T> : IEnumerator
     /// <summary>
     /// Return the current value referenced by the iterator as an object.
     /// </summary>
-    object IEnumerator.Current
-    {
-        get { return _Current; }
-    }
+    object IEnumerator.Current => _Current;
 
     /// <summary>
     /// Return the distance of the current value to the search point.
     /// </summary>
-    public double CurrentDistance
-    {
-        get { return _CurrentDistance; }
-    }
+    public double CurrentDistance => _CurrentDistance;
 
     /// <summary>
     /// Return the current value referenced by the iterator.
     /// </summary>
-    public T Current
-    {
-        get { return _Current; }
-    }
+    public T Current => _Current;
 }

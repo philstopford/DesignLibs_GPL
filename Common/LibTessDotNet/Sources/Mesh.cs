@@ -352,7 +352,7 @@ internal class Mesh : Pooled<Mesh>
 
         // walk around face, deleting edges whose right face is also NULL
         MeshUtils.Edge eNext = eStart._Lnext;
-        MeshUtils.Edge e, eSym;
+        MeshUtils.Edge e;
         do
         {
             e = eNext;
@@ -375,7 +375,7 @@ internal class Mesh : Pooled<Mesh>
                         e._Org._anEdge = e._Onext;
                         MeshUtils.Splice(e, e._Oprev);
                     }
-                    eSym = e._Sym;
+                    MeshUtils.Edge eSym = e._Sym;
                     if (eSym._Onext == eSym)
                     {
                         MeshUtils.KillVertex(pool, eSym._Org, null);
@@ -420,7 +420,7 @@ internal class Mesh : Pooled<Mesh>
                 MeshUtils.Edge eNext = eCur._Lnext;
                 MeshUtils.Edge eSym = eCur._Sym;
 
-                if (eSym != null && eSym._Lface != null && eSym._Lface._inside)
+                if (eSym is {_Lface: {_inside: true}})
                 {
                     // Try to merge the neighbour faces if the resulting polygons
                     // does not exceed maximum number of vertices.

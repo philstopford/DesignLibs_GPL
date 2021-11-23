@@ -1,4 +1,6 @@
-﻿namespace KDTree;
+﻿using System.Linq;
+
+namespace KDTree;
 
 /// <summary>
 /// An interface which enables flexible distance functions.
@@ -36,13 +38,7 @@ public class SquareEuclideanDistanceFunction : DistanceFunctions
     /// <returns>The n-dimensional squared distance.</returns>
     public double Distance(double[] p1, double[] p2)
     {
-        double fSum = 0;
-        for (int i = 0; i < p1.Length; i++)
-        {
-            double fDifference = p1[i] - p2[i];
-            fSum += fDifference * fDifference;
-        }
-        return fSum;
+        return p1.Select((t, i) => t - p2[i]).Sum(fDifference => fDifference * fDifference);
     }
 
     /// <summary>

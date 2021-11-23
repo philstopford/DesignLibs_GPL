@@ -12,7 +12,7 @@ public class MinHeap<T>
     /// <summary>
     /// The default size for a min heap.
     /// </summary>
-    private static int DEFAULT_SIZE = 64;
+    private const int DEFAULT_SIZE = 64;
 
     /// <summary>
     /// The data array.  This stores the data items in the heap.

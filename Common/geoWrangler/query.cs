@@ -2,6 +2,7 @@
 using geoLib;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace geoWrangler;
 
@@ -214,18 +215,10 @@ public static partial class GeoWrangler
             
         Clipper c = new();
 
-        Paths rationalizedFirstLayer = new();
+        Paths rationalizedFirstLayer = a.Select(t => clockwise( /*Clipper.CleanPolygon*/t)).ToList();
         // Force to clockwise as a safety measure.
-        foreach (Path t in a)
-        {
-            rationalizedFirstLayer.Add(clockwise(/*Clipper.CleanPolygon*/t));
-        }
 
-        Paths rationalizedSecondLayer = new();
-        foreach (Path t in b)
-        {
-            rationalizedSecondLayer.Add(clockwise(/*Clipper.CleanPolygon*/t));
-        }
+        Paths rationalizedSecondLayer = b.Select(t => clockwise( /*Clipper.CleanPolygon*/t)).ToList();
 
         // Intersection should not matter based on order.
         Paths intersectionPaths = new();
@@ -244,10 +237,8 @@ public static partial class GeoWrangler
 
             bool polyMatchFound = false;
 
-            foreach (Path t1 in rationalizedSecondLayer)
+            foreach (string myHash in rationalizedSecondLayer.Select(t1 => utility.Utils.GetMD5Hash(t1.ToString())))
             {
-                string myHash = utility.Utils.GetMD5Hash(t1.ToString());
-
                 if (myHash == intersectionPathHash)
                 {
                     polyMatchFound = true;
@@ -264,10 +255,8 @@ public static partial class GeoWrangler
                 // Strict requires a to be enclosed by b and not to check the case that b is enclosed by a.
                 case false when !polyMatchFound:
                 {
-                    foreach (Path t1 in rationalizedFirstLayer)
+                    foreach (string myHash in rationalizedFirstLayer.Select(t1 => utility.Utils.GetMD5Hash(t1.ToString())))
                     {
-                        string myHash = utility.Utils.GetMD5Hash(t1.ToString());
-
                         if (myHash == intersectionPathHash)
                         {
                             polyMatchFound = true;
@@ -309,20 +298,9 @@ public static partial class GeoWrangler
 
     private static bool pOrthogonal(GeoLibPoint[] sourcePoly, double angularTolerance)
     {
-        bool isOrthogonal = true;
-
         double[] _angles = angles(sourcePoly, allowNegative: true);
 
-        foreach (double t in _angles)
-        {
-            if (Math.Abs(Math.Abs(t) - 90.0) > angularTolerance)
-            {
-                isOrthogonal = false;
-                break;
-            }
-        }
-
-        return isOrthogonal;
+        return _angles.All(t => !(Math.Abs(Math.Abs(t) - 90.0) > angularTolerance));
     }
 
     public static double[] angles(GeoLibPoint[] sourcePoly, bool allowNegative)
@@ -384,20 +362,9 @@ public static partial class GeoWrangler
 
     private static bool pOrthogonal(GeoLibPointF[] sourcePoly, double angularTolerance)
     {
-        bool isOrthogonal = true;
-
         double[] _angles = angles(sourcePoly, allowNegative: false);
 
-        foreach (double t in _angles)
-        {
-            if (Math.Abs(Math.Abs(t) - 90.0) > angularTolerance)
-            {
-                isOrthogonal = false;
-                break;
-            }
-        }
-
-        return isOrthogonal;
+        return _angles.All(t => !(Math.Abs(Math.Abs(t) - 90.0) > angularTolerance));
     }
 
     public static double[] angles(GeoLibPointF[] sourcePoly, bool allowNegative)

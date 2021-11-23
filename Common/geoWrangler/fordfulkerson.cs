@@ -9,7 +9,7 @@ internal class demo_fordfulkerson
 {
     public class fordfulkerson
     {
-        private static readonly int V = 6; //Number of vertices in graph 
+        private const int V = 6; //Number of vertices in graph 
 
         /* Returns true if there is a path 
         from source 's' to sink 't' in residual 

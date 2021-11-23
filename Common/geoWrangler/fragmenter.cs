@@ -40,11 +40,7 @@ public class Fragmenter
                 return source.ToList();
         }
 
-        List<GeoLibPointF[]> ret = new();
-        foreach (GeoLibPointF[] t in source)
-        {
-            ret.Add(pFragmentPath(t.ToArray()));
-        }
+        List<GeoLibPointF[]> ret = source.Select(t => pFragmentPath(t.ToArray())).ToList();
 
         return ret.ToList();
     }
@@ -74,13 +70,7 @@ public class Fragmenter
 
     private Paths pFragmentPaths(Paths source)
     {
-        Paths ret = new();
-        foreach (Path t in source)
-        {
-            ret.Add(pFragmentPath(t));
-        }
-
-        return ret;
+        return source.Select(t => pFragmentPath(t)).ToList();
     }
 
     public Path fragmentPath(Path source)
@@ -180,12 +170,14 @@ public class Fragmenter
         for (int pt = 0; pt < pointList.Count; pt++)
         {
             returnList.Add(pointList[pt]);
-            if (pt != pointList.Count - 1)
+            if (pt == pointList.Count - 1)
             {
-                // Fragment path doesn't return start and end points - just points between.
-                List<GeoLibPointF> newPtsList = fragmentPath(pointList[pt], pointList[pt + 1]);
-                returnList.AddRange(newPtsList);
+                continue;
             }
+
+            // Fragment path doesn't return start and end points - just points between.
+            List<GeoLibPointF> newPtsList = fragmentPath(pointList[pt], pointList[pt + 1]);
+            returnList.AddRange(newPtsList);
         }
         return returnList;
     }

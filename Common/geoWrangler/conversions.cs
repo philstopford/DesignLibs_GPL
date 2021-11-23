@@ -22,10 +22,7 @@ public static partial class GeoWrangler
         Paths ret = new();
         try
         {
-            foreach (GeoLibPoint[] t in source)
-            {
-                ret.Add(pathFromPoint(t, scaling));
-            }
+            ret.AddRange(source.Select(t => pathFromPoint(t, scaling)));
         }
         catch (Exception)
         {
@@ -48,10 +45,7 @@ public static partial class GeoWrangler
         Path returnPath = new();
         try
         {
-            foreach (GeoLibPoint t in source)
-            {
-                returnPath.Add(new IntPoint(t.X * scaling, t.Y * scaling));
-            }
+            returnPath.AddRange(source.Select(t => new IntPoint(t.X * scaling, t.Y * scaling)));
         }
         catch (Exception)
         {
@@ -72,13 +66,7 @@ public static partial class GeoWrangler
 
     private static List<GeoLibPoint[]> pPointsFromPaths(Paths source, long scaling)
     {
-        List<GeoLibPoint[]> ret = new();
-        foreach (Path t in source)
-        {
-            ret.Add(pPointFromPath(t, scaling));
-        }
-
-        return ret;
+        return source.Select(t => pPointFromPath(t, scaling)).ToList();
     }
 
     public static GeoLibPoint[] pointFromPath(Path source, long scaling)
@@ -133,10 +121,7 @@ public static partial class GeoWrangler
         Paths ret = new();
         try
         {
-            foreach (GeoLibPointF[] t in source)
-            {
-                ret.Add(pathFromPointF(t, scaling));
-            }
+            ret.AddRange(source.Select(t => pathFromPointF(t, scaling)));
         }
         catch (Exception)
         {
@@ -161,11 +146,7 @@ public static partial class GeoWrangler
         Path returnPath = new();
         try
         {
-            foreach (GeoLibPointF t in source)
-            {
-                returnPath.Add(new IntPoint(Convert.ToInt64(t.X * scaling),
-                    Convert.ToInt64(t.Y * scaling)));
-            }
+            returnPath.AddRange(source.Select(t => new IntPoint(Convert.ToInt64(t.X * scaling), Convert.ToInt64(t.Y * scaling))));
         }
         catch (Exception)
         {
@@ -186,13 +167,7 @@ public static partial class GeoWrangler
 
     private static List<GeoLibPointF[]> pPointFsFromPaths(Paths source, long scaling)
     {
-        List<GeoLibPointF[]> ret = new();
-        foreach (Path t in source)
-        {
-            ret.Add(pPointFFromPath(t, scaling));
-        }
-
-        return ret;
+        return source.Select(t => pPointFFromPath(t, scaling)).ToList();
     }
 
     public static GeoLibPointF[] pointFFromPath(Path source, long scaling)
@@ -239,10 +214,7 @@ public static partial class GeoWrangler
         List<GeoLibPoint[]> ret = new();
         try
         {
-            foreach (GeoLibPointF[] t in source)
-            {
-                ret.Add(pPointsFromPointF(t, scaling));
-            }
+            ret.AddRange(source.Select(t => pPointsFromPointF(t, scaling)));
         }
         catch (Exception)
         {
@@ -283,10 +255,7 @@ public static partial class GeoWrangler
         List<GeoLibPointF[]> ret = new();
         try
         {
-            foreach (GeoLibPoint[] t in source)
-            {
-                ret.Add(pPointFsFromPoint(t, scaling));
-            }
+            ret.AddRange(source.Select(t => pPointFsFromPoint(t, scaling)));
         }
         catch (Exception)
         {

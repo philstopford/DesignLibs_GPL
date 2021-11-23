@@ -35,15 +35,11 @@ public static partial class GeoWrangler
         foreach (Path t1 in source)
         {
             double a1 = Clipper.Area(t1);
-            double a2 = 0;
             c.Clear();
             c.AddPath(t1, PolyType.ptSubject, true);
             Paths t = new();
             c.Execute(ClipType.ctUnion, t);
-            foreach (Path t2 in t)
-            {
-                a2 += Clipper.Area(t2);
-            }
+            double a2 = t.Sum(t2 => Clipper.Area(t2));
 
             switch (Math.Abs(Math.Abs(a1) - Math.Abs(a2)))
             {
@@ -218,20 +214,22 @@ public static partial class GeoWrangler
                 }
                 List<GeoLibPoint[]> decomp = decompose_poly_to_rectangles(ref abort, ret[i].ToArray(), scaling, maxRayLength, angularTolerance, vertical);
                 // If we got more than one polygon back, we decomposed across an internal edge.
-                if (decomp.Count > 1)
+                if (decomp.Count <= 1)
                 {
-                    // We decomposed something and need to store the new elements.
-                    // Remove original polygon from the list - we only want the decomposed entries in future.
-                    ret.RemoveAt(i);
-                    // Add our decomposed geometry to the end of the list for re-scan.
-                    ret.AddRange(decomp);
-                    // Set our start for the next pass to be this entry in the list. We avoid re-checking known-good polygons in this way.
-                    startIndex = i;
-                    // Flag that we changed something.
-                    changed = true;
-                    // Break out of this loop to start again.
-                    break;
+                    continue;
                 }
+
+                // We decomposed something and need to store the new elements.
+                // Remove original polygon from the list - we only want the decomposed entries in future.
+                ret.RemoveAt(i);
+                // Add our decomposed geometry to the end of the list for re-scan.
+                ret.AddRange(decomp);
+                // Set our start for the next pass to be this entry in the list. We avoid re-checking known-good polygons in this way.
+                startIndex = i;
+                // Flag that we changed something.
+                changed = true;
+                // Break out of this loop to start again.
+                break;
             }
         }
 
@@ -320,7 +318,11 @@ public static partial class GeoWrangler
                 }
             }
 
-            if (p.Count > 0)
+            if (p.Count <= 0)
+            {
+                continue;
+            }
+
             {
                 int pCount_ = p.Count;
                 for (int p_ = pCount_ - 1; p_ >= 0; p_--)
@@ -402,12 +404,14 @@ public static partial class GeoWrangler
                         }
                     }
 
-                    if (edgeIsNew)
+                    if (!edgeIsNew)
                     {
-                        newEdges.Add(t1);// new Path(p[0]));
-                        breakOut = true;
-                        break;
+                        continue;
                     }
+
+                    newEdges.Add(t1);// new Path(p[0]));
+                    breakOut = true;
+                    break;
                 }
                 if (breakOut)
                 {

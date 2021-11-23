@@ -21,11 +21,13 @@ public static partial class GeoWrangler
 
         for (int i = 1; i < sourcePath.Count; ++i)
         {
-            if (sourcePath[i].X < min)
+            if (sourcePath[i].X >= min)
             {
-                min = sourcePath[i].X;
-                minIndex = i;
+                continue;
             }
+
+            min = sourcePath[i].X;
+            minIndex = i;
         }
 
         return minIndex;
@@ -43,11 +45,13 @@ public static partial class GeoWrangler
 
         for (int i = 1; i < sourcePath.Count; ++i)
         {
-            if (sourcePath[i].X > max)
+            if (sourcePath[i].X <= max)
             {
-                max = sourcePath[i].X;
-                maxIndex = i;
+                continue;
             }
+
+            max = sourcePath[i].X;
+            maxIndex = i;
         }
 
         return maxIndex;
@@ -65,11 +69,13 @@ public static partial class GeoWrangler
 
         for (int i = 1; i < sourcePath.Count; ++i)
         {
-            if (sourcePath[i].Y < min)
+            if (sourcePath[i].Y >= min)
             {
-                min = sourcePath[i].Y;
-                minIndex = i;
+                continue;
             }
+
+            min = sourcePath[i].Y;
+            minIndex = i;
         }
 
         return minIndex;
@@ -87,11 +93,13 @@ public static partial class GeoWrangler
 
         for (int i = 1; i < sourcePath.Count; ++i)
         {
-            if (sourcePath[i].Y > max)
+            if (sourcePath[i].Y <= max)
             {
-                max = sourcePath[i].Y;
-                maxIndex = i;
+                continue;
             }
+
+            max = sourcePath[i].Y;
+            maxIndex = i;
         }
 
         return maxIndex;
@@ -109,11 +117,13 @@ public static partial class GeoWrangler
 
         for (int i = 1; i < iPoints.Length; ++i)
         {
-            if (iPoints[i].X < min)
+            if (iPoints[i].X >= min)
             {
-                min = iPoints[i].X;
-                minIndex = i;
+                continue;
             }
+
+            min = iPoints[i].X;
+            minIndex = i;
         }
 
         return minIndex;
@@ -131,11 +141,13 @@ public static partial class GeoWrangler
 
         for (int i = 1; i < iPoints.Length; ++i)
         {
-            if (iPoints[i].Y < min)
+            if (iPoints[i].Y >= min)
             {
-                min = iPoints[i].Y;
-                minIndex = i;
+                continue;
             }
+
+            min = iPoints[i].Y;
+            minIndex = i;
         }
 
         return minIndex;
@@ -153,11 +165,13 @@ public static partial class GeoWrangler
 
         for (int i = 1; i < iPoints.Length; ++i)
         {
-            if (iPoints[i].X > max)
+            if (iPoints[i].X <= max)
             {
-                max = iPoints[i].X;
-                maxIndex = i;
+                continue;
             }
+
+            max = iPoints[i].X;
+            maxIndex = i;
         }
 
         return maxIndex;
@@ -175,11 +189,13 @@ public static partial class GeoWrangler
 
         for (int i = 1; i < iPoints.Length; ++i)
         {
-            if (iPoints[i].Y > max)
+            if (iPoints[i].Y <= max)
             {
-                max = iPoints[i].Y;
-                maxIndex = i;
+                continue;
             }
+
+            max = iPoints[i].Y;
+            maxIndex = i;
         }
 
         return maxIndex;
@@ -197,11 +213,13 @@ public static partial class GeoWrangler
 
         for (int i = 1; i < iPoints.Length; ++i)
         {
-            if (iPoints[i].X < min)
+            if (!(iPoints[i].X < min))
             {
-                min = iPoints[i].X;
-                minIndex = i;
+                continue;
             }
+
+            min = iPoints[i].X;
+            minIndex = i;
         }
 
         return minIndex;
@@ -219,11 +237,13 @@ public static partial class GeoWrangler
 
         for (int i = 1; i < iPoints.Length; ++i)
         {
-            if (iPoints[i].Y < min)
+            if (!(iPoints[i].Y < min))
             {
-                min = iPoints[i].Y;
-                minIndex = i;
+                continue;
             }
+
+            min = iPoints[i].Y;
+            minIndex = i;
         }
 
         return minIndex;
@@ -241,11 +261,13 @@ public static partial class GeoWrangler
 
         for (int i = 1; i < iPoints.Length; ++i)
         {
-            if (iPoints[i].X > max)
+            if (!(iPoints[i].X > max))
             {
-                max = iPoints[i].X;
-                maxIndex = i;
+                continue;
             }
+
+            max = iPoints[i].X;
+            maxIndex = i;
         }
 
         return maxIndex;
@@ -263,11 +285,13 @@ public static partial class GeoWrangler
 
         for (int i = 1; i < iPoints.Length; ++i)
         {
-            if (iPoints[i].Y > max)
+            if (!(iPoints[i].Y > max))
             {
-                max = iPoints[i].Y;
-                maxIndex = i;
+                continue;
             }
+
+            max = iPoints[i].Y;
+            maxIndex = i;
         }
 
         return maxIndex;

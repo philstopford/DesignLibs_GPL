@@ -86,14 +86,7 @@ public static partial class GeoWrangler
                 return pointList.ToList();
         }
 
-        List<GeoLibPointF> returnList = new();
-
-        for (int i = 0; i < pointList.Count; i++)
-        {
-            returnList.Add(Rotate(pivot, pointList[i], angleDegree));
-        }
-
-        return returnList;
+        return pointList.Select(t => Rotate(pivot, t, angleDegree)).ToList();
     }
 
     public static GeoLibPointF Rotate(GeoLibPointF pivot, GeoLibPointF point, double angleDegree)

@@ -21,12 +21,7 @@ public static partial class GeoWrangler
 
     private static List<GeoLibPoint[]> pClockwiseAndReorder(List<GeoLibPoint[]> iPoints)
     {
-        List<GeoLibPoint[]> ret = new();
-        foreach (GeoLibPoint[] t in iPoints)
-        {
-            ret.Add(pClockwiseAndReorder(t));
-        }
-        return ret;
+        return iPoints.Select(t => pClockwiseAndReorder(t)).ToList();
     }
 
     public static GeoLibPoint[] clockwiseAndReorder(GeoLibPoint[] iPoints)
@@ -59,13 +54,20 @@ public static partial class GeoWrangler
         int reIndexStart = minXPoints[0];
         for (int index = 1; index < minXPoints.Count; index++)
         {
-            if (iPoints[minXPoints[index]].Y < minY)
+            if (iPoints[minXPoints[index]].Y >= minY)
             {
-                minY = iPoints[minXPoints[index]].Y;
-                reIndexStart = minXPoints[index];
+                continue;
             }
+
+            minY = iPoints[minXPoints[index]].Y;
+            reIndexStart = minXPoints[index];
         }
-        if (reIndexStart != 0)
+
+        if (reIndexStart == 0)
+        {
+            return iPoints;
+        }
+
         {
             List<GeoLibPoint> tempList = new();
             // Now to start the re-indexing.
@@ -93,12 +95,10 @@ public static partial class GeoWrangler
     private static Paths pClockwiseAndReorder(Paths iPoints)
     {
         Paths retPaths = new();
-        foreach (Path t1 in iPoints)
+        foreach (Path t in iPoints.Select(t1 => pClockwiseAndReorder(t1)))
         {
-            Path t = pClockwiseAndReorder(t1);
             t.Reverse(); // Getting a reversed path from the above, not sure why.
-            t = pClose(t);
-            retPaths.Add(t);
+            retPaths.Add(pClose(t));
         }
 
         return retPaths;
@@ -124,12 +124,7 @@ public static partial class GeoWrangler
 
     private static Paths pReorder(Paths iPoints)
     {
-        Paths ret = new();
-        foreach (Path t in iPoints)
-        {
-            ret.Add(pReorder(t));
-        }
-        return ret;
+        return iPoints.Select(t => pReorder(t)).ToList();
     }
 
     public static Path reOrder(Path iPoints)
@@ -155,13 +150,20 @@ public static partial class GeoWrangler
         int reIndexStart = minXPoints[0];
         for (int index = 1; index < minXPoints.Count; index++)
         {
-            if (iPoints[minXPoints[index]].Y < minY)
+            if (iPoints[minXPoints[index]].Y >= minY)
             {
-                minY = iPoints[minXPoints[index]].Y;
-                reIndexStart = minXPoints[index];
+                continue;
             }
+
+            minY = iPoints[minXPoints[index]].Y;
+            reIndexStart = minXPoints[index];
         }
-        if (reIndexStart != 0)
+
+        if (reIndexStart == 0)
+        {
+            return iPoints;
+        }
+
         {
             Path tempList = new();
             // Now to start the re-indexing.
@@ -228,13 +230,20 @@ public static partial class GeoWrangler
         int reIndexStart = minXPoints[0];
         for (int index = 1; index < minXPoints.Count; index++)
         {
-            if (iPoints[minXPoints[index]].Y < minY)
+            if (!(iPoints[minXPoints[index]].Y < minY))
             {
-                minY = iPoints[minXPoints[index]].Y;
-                reIndexStart = minXPoints[index];
+                continue;
             }
+
+            minY = iPoints[minXPoints[index]].Y;
+            reIndexStart = minXPoints[index];
         }
-        if (reIndexStart != 0)
+
+        if (reIndexStart == 0)
+        {
+            return iPoints;
+        }
+
         {
             List<GeoLibPointF> tempList = new();
             // Now to start the re-indexing.
@@ -277,13 +286,7 @@ public static partial class GeoWrangler
 
     private static List<GeoLibPoint[]> pSimplify(List<GeoLibPoint[]> source)
     {
-        List<GeoLibPoint[]> ret = new();
-        foreach (GeoLibPoint[] t in source)
-        {
-            ret.Add(pSimplify(t));
-        }
-
-        return ret;
+        return source.Select(t => pSimplify(t)).ToList();
     }
     public static GeoLibPoint[] simplify(GeoLibPoint[] iPoints)
     {
@@ -334,13 +337,7 @@ public static partial class GeoWrangler
 
     public static Paths stripColinear(Paths source, double angularTolerance = 0.0f)
     {
-        Paths ret = new();
-        foreach (Path t in source)
-        {
-            ret.Add(pStripColinear(t, angularTolerance));
-        }
-
-        return ret;
+        return source.Select(t => pStripColinear(t, angularTolerance)).ToList();
     }
 
     public static Path stripColinear(Path source, double angularTolerance = 0.0f)
@@ -568,11 +565,13 @@ public static partial class GeoWrangler
                 int retIndex = 1;
                 for (int i = 1; i < source.Count - 1; i++)
                 {
-                    if (source[i].X != ret[retIndex-1].X || source[i].Y != ret[retIndex - 1].Y)
+                    if (source[i].X == ret[retIndex - 1].X && source[i].Y == ret[retIndex - 1].Y)
                     {
-                        ret.Add(new GeoLibPoint(source[i]));
-                        retIndex++;
+                        continue;
                     }
+
+                    ret.Add(new GeoLibPoint(source[i]));
+                    retIndex++;
                 }
 
                 break;
@@ -604,11 +603,14 @@ public static partial class GeoWrangler
                 int retIndex = 1;
                 for (int i = 1; i < source.Count - 1; i++)
                 {
-                    if (Math.Abs(source[i].X - ret[retIndex - 1].X) > double.Epsilon || Math.Abs(source[i].Y - ret[retIndex - 1].Y) > double.Epsilon)
+                    if (!(Math.Abs(source[i].X - ret[retIndex - 1].X) > double.Epsilon) &&
+                        !(Math.Abs(source[i].Y - ret[retIndex - 1].Y) > double.Epsilon))
                     {
-                        ret.Add(new GeoLibPointF(source[i]));
-                        retIndex++;
+                        continue;
                     }
+
+                    ret.Add(new GeoLibPointF(source[i]));
+                    retIndex++;
                 }
 
                 break;
@@ -667,13 +669,7 @@ public static partial class GeoWrangler
 
     private static List<GeoLibPointF[]> pStripColinear(List<GeoLibPointF[]> source, double angularTolerance = 0.0f)
     {
-        List<GeoLibPointF[]> ret = new();
-        foreach (GeoLibPointF[] t in source)
-        {
-            ret.Add(pStripColinear(t, angularTolerance));
-        }
-
-        return ret;
+        return source.Select(t => pStripColinear(t, angularTolerance)).ToList();
     }
 
     public static GeoLibPointF[] stripColinear(GeoLibPointF[] source, double angularTolerance = 0.0f)
@@ -1063,7 +1059,7 @@ public static partial class GeoWrangler
         {
             // Triangulate. This gives us a triangle soup, which may not be entirely helpful for the case where we're punching multiple holes into a mesh. For now, this works, but the limitation will need to be reviewd.	
             // It might be that a PolyTree is needed as the input to the keyhole for these complex cases.... or clockwise paths may need to be evaluated piecewise using all counterclockwise paths for the tessellation.	
-            int polysize = 3;
+            const int polysize = 3;
             tess.Tessellate(wr, ElementType.Polygons, polysize);
 
             // Iterate triangles and create output geometry. We'll use clipper to simplify the output geometry.	

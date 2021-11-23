@@ -11,13 +11,7 @@ public static partial class GeoWrangler
     {
         List<GeoLibPointF[]> r = pMakeArray(source.ToArray(), xCount, xPitch, yCount, yPitch);
 
-        List<List<GeoLibPointF>> ret = new();
-        foreach (GeoLibPointF[] t in r)
-        {
-            ret.Add(t.ToList());
-        }
-
-        return ret;
+        return r.Select(t => t.ToList()).ToList();
     }
 
     public static List<GeoLibPointF[]> makeArray(List<GeoLibPointF> source, int xCount, decimal xPitch, int yCount, decimal yPitch)

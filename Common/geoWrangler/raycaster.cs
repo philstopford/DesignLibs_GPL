@@ -75,7 +75,7 @@ public class RayCast
     private void rayCast(Path emissionPath, Paths collisionPaths, long maxRayLength, bool projectCorners, bool invert, int multisampleRayCount, bool runOuterLoopThreaded, bool runInnerLoopThreaded, IntPoint startOffset, IntPoint endOffset, falloff sideRayFallOff, double sideRayFallOffMultiplier, forceSingleDirection dirOverride)
     {
         // Setting this to true, we shorten rays with the falloff. False means we reduce the contribution to the average instead.
-        bool truncateRaysByWeight = false;
+        const bool truncateRaysByWeight = false;
 
         int ptCount = emissionPath.Count;
 
@@ -389,11 +389,14 @@ public class RayCast
                                 long tL0Y = tmpLine[tL][0].Y;
                                 long tL1X = tmpLine[tL][1].X;
                                 long tL1Y = tmpLine[tL][1].Y;
-                                if (tL0X == startPoint.X && tL0Y == startPoint.Y || tL1X == startPoint.X && tL1Y == startPoint.Y)
+                                if ((tL0X != startPoint.X || tL0Y != startPoint.Y) &&
+                                    (tL1X != startPoint.X || tL1Y != startPoint.Y))
                                 {
-                                    index = tL;
-                                    break;
+                                    continue;
                                 }
+
+                                index = tL;
+                                break;
                             }
                             Path tPath = new();
                             switch (index)

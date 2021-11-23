@@ -10,8 +10,8 @@ internal class GFG
 {
 	// M is number of applicants 
 	// and N is number of jobs 
-	private static int M = 6;
-	private static int N = 6;
+	private const int M = 6;
+	private const int N = 6;
 
 	// A DFS based recursive function 
 	// that returns true if a matching 

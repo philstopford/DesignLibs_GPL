@@ -19,24 +19,12 @@ public static partial class GeoWrangler
 
     private static List<GeoLibPointF[]> pMove(List<GeoLibPointF[]> source, double x, double y)
     {
-        List<GeoLibPointF[]> ret = new();
-        foreach (GeoLibPointF[] t in source)
-        {
-            ret.Add(pMove(t, x, y));
-        }
-
-        return ret;
+        return source.Select(t => pMove(t, x, y)).ToList();
     }
 
     private static List<List<GeoLibPointF>> pMove(List<List<GeoLibPointF>> source, double x, double y)
     {
-        List<List<GeoLibPointF>> ret = new();
-        foreach (List<GeoLibPointF> t in source)
-        {
-            ret.Add(pMove(t.ToArray(), x, y).ToList());
-        }
-
-        return ret;
+        return source.Select(t => pMove(t.ToArray(), x, y).ToList()).ToList();
     }
 
     public static GeoLibPointF[] move(GeoLibPointF[] source, decimal x, decimal y)

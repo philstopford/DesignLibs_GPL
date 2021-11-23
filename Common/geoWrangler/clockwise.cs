@@ -110,11 +110,14 @@ public static partial class GeoWrangler
         {
             for (int j = 0; j < sourceCount; j++)
             {
-                if (Math.Abs(reorderedMidPoints[i].X - midPoints[j].X) <= double.Epsilon && Math.Abs(reorderedMidPoints[i].Y - midPoints[j].Y) <= double.Epsilon)
+                if (!(Math.Abs(reorderedMidPoints[i].X - midPoints[j].X) <= double.Epsilon) ||
+                    !(Math.Abs(reorderedMidPoints[i].Y - midPoints[j].Y) <= double.Epsilon))
                 {
-                    newOrder[i] = j;
-                    break;
+                    continue;
                 }
+
+                newOrder[i] = j;
+                break;
             }
         }
 
@@ -150,11 +153,14 @@ public static partial class GeoWrangler
         {
             for (int j = 0; j < sourceCount; j++)
             {
-                if (Math.Abs(reorderedMidPoints[i].X - midPoints[j].X) <= double.Epsilon && Math.Abs(reorderedMidPoints[i].Y - midPoints[j].Y) <= double.Epsilon)
+                if (!(Math.Abs(reorderedMidPoints[i].X - midPoints[j].X) <= double.Epsilon) ||
+                    !(Math.Abs(reorderedMidPoints[i].Y - midPoints[j].Y) <= double.Epsilon))
                 {
-                    newOrder[i] = j;
-                    break;
+                    continue;
                 }
+
+                newOrder[i] = j;
+                break;
             }
         }
 
@@ -199,13 +205,7 @@ public static partial class GeoWrangler
 
     public static Paths clockwise(Paths source)
     {
-        Paths ret = new();
-        foreach (Path t in source)
-        {
-            ret.Add(pClockwise(t.ToList()));
-        }
-
-        return ret;
+        return source.Select(t => pClockwise(t.ToList())).ToList();
     }
 
     public static Path clockwise(Path iPoints)

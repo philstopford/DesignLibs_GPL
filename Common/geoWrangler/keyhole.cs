@@ -13,8 +13,8 @@ public static partial class GeoWrangler
 {
     // Sizing is used to define the keyhole width (default) and will be used for the sliver/gap removal.
     // Use of a custom value will cause headaches.
-    private static double sizing = 500;
-    private static double default_nudge = 1.03;
+    private const double sizing = 500;
+    private const double default_nudge = 1.03;
 
     public static Paths makeKeyHole(Paths outers, Paths cutters, double customSizing = 0, double extension = 0, double angularTolerance = 0)
     {
@@ -123,11 +123,13 @@ public static partial class GeoWrangler
                     minLength_ortho = minLength_ortho || ray_isOrtho;
 
                     // First ray or a smaller distance causes us to make this the keyhole edge.
-                    if (r == 0 || ray_length < minLength)
+                    if (r != 0 && !(ray_length < minLength))
                     {
-                        cutPathIndex = r;
-                        minLength = ray_length;
+                        continue;
                     }
+
+                    cutPathIndex = r;
+                    minLength = ray_length;
                 }
 
                 if (cutPathIndex != -1)
@@ -154,13 +156,7 @@ public static partial class GeoWrangler
                 c.Execute(ClipType.ctDifference, new_outers);//, PolyFillType.pftNonZero, PolyFillType.pftNegative);
 
                 outers.Clear();
-                foreach (Path t1 in new_outers)
-                {
-                    if (Clipper.Orientation(t1) == outerOrient)
-                    {
-                        outers.Add(t1);
-                    }
-                }
+                outers.AddRange(new_outers.Where(t1 => Clipper.Orientation(t1) == outerOrient));
             }
 
             return pClockwiseAndReorder(outers);
@@ -299,17 +295,9 @@ public static partial class GeoWrangler
             0 => sizing,
             _ => customSizing
         };
-        double oArea = 0;
-        foreach (Path t in source)
-        {
-            oArea += Clipper.Area(t);
-        }
+        double oArea = source.Sum(t => Clipper.Area(t));
         Paths ret = pRemoveFragments(source, -customSizing, extension, maySimplify: maySimplify);
-        double nArea = 0;
-        foreach (Path t in ret)
-        {
-            nArea += Clipper.Area(t);
-        }
+        double nArea = ret.Sum(t => Clipper.Area(t));
 
         return (Math.Abs(oArea) - Math.Abs(nArea)) switch
         {
@@ -346,11 +334,7 @@ public static partial class GeoWrangler
         cGeometry.Clear();
         co.Execute(ref cGeometry, -customSizing); // Size back to original dimensions
 
-        double newArea = 0;
-        foreach (Path t in cGeometry)
-        {
-            newArea += Clipper.Area(t);
-        }
+        double newArea = cGeometry.Sum(t => Clipper.Area(t));
 
         return Math.Abs(newArea) switch
         {
@@ -406,12 +390,9 @@ public static partial class GeoWrangler
                         // Multi-path handling gets interesting. The first path is assumed to be the outer. Let's compare that with the original geometry. If the orientation is different, reverse the full set.
                         bool orientation = Clipper.Orientation(source);
                         bool origCG0_o = Clipper.Orientation(cGeometry[0]);
-                        foreach (Path t in cGeometry)
+                        foreach (Path t in cGeometry.Where(t => origCG0_o != orientation))
                         {
-                            if (origCG0_o != orientation)
-                            {
-                                t.Reverse();
-                            }
+                            t.Reverse();
                         }
 
                         break;

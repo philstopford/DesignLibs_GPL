@@ -115,7 +115,7 @@ public static class Bernoulli
         {
             b += jfact * jfact * s[n + j * m] * s[k + j * m];
 
-            jfact *= (j + 1);
+            jfact *= j + 1;
         }
 
         return b;

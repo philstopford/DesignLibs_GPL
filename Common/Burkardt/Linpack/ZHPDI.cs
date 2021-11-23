@@ -322,7 +322,7 @@ public static class ZHPDI
                             ap[jk - 1] = Complex.Conjugate(ap[ksj - 1]);
                             ap[ksj - 1] = t2;
 
-                            ksj -= (j - 1);
+                            ksj -= j - 1;
                         }
 
                         if (kstep != 1)

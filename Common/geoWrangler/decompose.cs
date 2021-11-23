@@ -69,7 +69,7 @@ public static partial class GeoWrangler
                     if (Clipper.Orientation(cR[0]) != origOrient)
                     {
 #if !GWSINGLETHREADED
-                        Parallel.For(0, crCount, (j) =>
+                        Parallel.For(0, crCount, j =>
 #else
                         for (int j = 0; j < crCount; j++)
 #endif
@@ -100,7 +100,7 @@ public static partial class GeoWrangler
                     {
                         int rCount = ret.Count;
 #if !GWSINGLETHREADED
-                        Parallel.For(0, rCount, (i) =>
+                        Parallel.For(0, rCount, i =>
 #else
                     for (int i = 0; i < rCount; i++)
 #endif

@@ -170,7 +170,7 @@ public static partial class PDF
 
                         u -= f;
                         ix += 1;
-                        f *= (g / ix - r);
+                        f *= g / ix - r;
                     }
                 }
             }
@@ -269,7 +269,7 @@ public static partial class PDF
                     int mp = m + 1;
                     for (i = mp; i <= ix; i++)
                     {
-                        f *= (g / i - r);
+                        f *= g / i - r;
                     }
                 }
                 else if (ix < m)
@@ -277,7 +277,7 @@ public static partial class PDF
                     int ix1 = ix + 1;
                     for (i = ix1; i <= m; i++)
                     {
-                        f /= (g / i - r);
+                        f /= g / i - r;
                     }
                 }
 

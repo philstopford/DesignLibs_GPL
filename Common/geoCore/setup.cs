@@ -2,10 +2,10 @@
 
 public static class GCSetup
 {
-    public static bool oasisSaveCircle = true;
-    public static bool oasisSaveCtrapezoid = true;
-    public static bool oasisSaveTrapezoid = true;
-    public static double circularDefault = 0.1;
-    public static int defaultTextWidth = -10;
-    public static int defaultTextPresentation = 0;
+    public const bool oasisSaveCircle = true;
+    public const bool oasisSaveCtrapezoid = true;
+    public const bool oasisSaveTrapezoid = true;
+    public const double circularDefault = 0.1;
+    public const int defaultTextWidth = -10;
+    public const int defaultTextPresentation = 0;
 }

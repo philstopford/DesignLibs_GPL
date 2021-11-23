@@ -283,7 +283,7 @@ public static class ZSPDI
                             ap[jk - 1] = ap[ksj - 1];
                             ap[ksj - 1] = t;
 
-                            ksj -= (j - 1);
+                            ksj -= j - 1;
                         }
 
                         if (kstep != 1)

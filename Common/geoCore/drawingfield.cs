@@ -84,11 +84,13 @@ public class GCDrawingfield
         for (int i = 0; i < cellList.Count; i++)
         {
             string name = cellList[i].cellName;
-            if (name == s)
+            if (name != s)
             {
-                found = i;
-                break;
+                continue;
             }
+
+            found = i;
+            break;
         }
 
         return found;
@@ -111,11 +113,13 @@ public class GCDrawingfield
         for (int i = 0; i < cellList.Count; i++)
         {
             string name = cellList[i].cellName;
-            if (name == s)
+            if (name != s)
             {
-                found = i;
-                break;
+                continue;
             }
+
+            found = i;
+            break;
         }
         return found > -1 ? cellList[found] : null;
     }
@@ -164,17 +168,19 @@ public class GCDrawingfield
 
         int i = 0;
         int j = 0;
-        for (i = 0; i < cell_list.Count(); i++)
+        for (i = 0; i < cell_list.Count; i++)
         {
             bool topcell = true;
             for (j = 0; j < celllist.Count; j++)
             {
-                if (cell_list[i] != celllist[i])
+                if (cell_list[i] == celllist[i])
                 {
-                    if (celllist[i].depend(cell_list[i]))
-                    {
-                        topcell = false;
-                    }
+                    continue;
+                }
+
+                if (celllist[i].depend(cell_list[i]))
+                {
+                    topcell = false;
                 }
             }
             switch (topcell)
@@ -195,19 +201,21 @@ public class GCDrawingfield
     {
         List<GCCell> cell_list = cellList.ToList();
         List<GCCell> celllist = cellList.ToList();
-        int i = 0;
+        int i;
         int j = 0;
-        for (i = 0; i < cell_list.Count(); i++)
+        for (i = 0; i < cell_list.Count; i++)
         {
             bool topcell = true;
             for (j = 0; j < celllist.Count; j++)
             {
-                if (cell_list[i] != celllist[i])
+                if (cell_list[i] == celllist[i])
                 {
-                    if (celllist[i].depend(cell_list[i]))
-                    {
-                        topcell = false;
-                    }
+                    continue;
+                }
+
+                if (celllist[i].depend(cell_list[i]))
+                {
+                    topcell = false;
                 }
             }
             switch (topcell)
@@ -229,7 +237,7 @@ public class GCDrawingfield
     {
         int cellListCount = cellList.Count;
 #if !GCSINGLETHREADED
-        Parallel.For(0, cellListCount, (i) =>
+        Parallel.For(0, cellListCount, i =>
 #else
             for (int i = 0; i < cellListCount; i++)
 #endif

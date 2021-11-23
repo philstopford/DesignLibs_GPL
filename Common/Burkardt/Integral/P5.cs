@@ -77,7 +77,7 @@ public static class P5
         double volume = 1.0;
         for (dim = 0; dim < dim_num; dim++)
         {
-            volume *= (b[dim] - a[dim]);
+            volume *= b[dim] - a[dim];
         }
 
         double[] work = new double[dim_num];

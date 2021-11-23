@@ -100,7 +100,7 @@ internal static class Program
                     x2 = x1 * x1 - y1 * y1 + x;
                     y2 = 2 * x1 * y1 + y;
 
-                    if (x2 < -2.0 || 2.0 < x2 || y2 < -2.0 || 2.0 < y2)
+                    if (x2 is < -2.0 or > 2.0 || y2 is < -2.0 or > 2.0)
                     {
                         count[i + j * n] = k;
                         break;

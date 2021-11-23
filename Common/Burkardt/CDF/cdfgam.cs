@@ -114,7 +114,7 @@ public static partial class CDF
         };
 
         bound = 0.0;
-        switch ((which < 1 || which > 4))
+        switch (which is < 1 or > 4)
         {
             //
             //  Check arguments
@@ -123,7 +123,7 @@ public static partial class CDF
                 goto S30;
         }
 
-        switch ((which < 1))
+        switch (which < 1)
         {
             case false:
                 goto S10;
@@ -143,7 +143,7 @@ public static partial class CDF
                 goto S70;
         }
 
-        switch ((p < 0.0e0 || p > 1.0e0))
+        switch (p is < 0.0e0 or > 1.0e0)
         {
             //
             //     P
@@ -152,7 +152,7 @@ public static partial class CDF
                 goto S60;
         }
 
-        switch ((p < 0.0e0))
+        switch (p < 0.0e0)
         {
             case false:
                 goto S40;
@@ -173,7 +173,7 @@ public static partial class CDF
                 goto S110;
         }
 
-        switch ((q <= 0.0e0 || q > 1.0e0))
+        switch (q is <= 0.0e0 or > 1.0e0)
         {
             //
             //     Q
@@ -182,7 +182,7 @@ public static partial class CDF
                 goto S100;
         }
 
-        switch ((q <= 0.0e0))
+        switch (q <= 0.0e0)
         {
             case false:
                 goto S80;
@@ -203,7 +203,7 @@ public static partial class CDF
                 goto S130;
         }
 
-        switch ((data.x < 0.0e0))
+        switch (data.x < 0.0e0)
         {
             //
             //     X
@@ -223,7 +223,7 @@ public static partial class CDF
                 goto S150;
         }
 
-        switch ((shape <= 0.0e0))
+        switch (shape <= 0.0e0)
         {
             //
             //  SHAPE
@@ -243,7 +243,7 @@ public static partial class CDF
                 goto S170;
         }
 
-        switch ((scale <= 0.0e0))
+        switch (scale <= 0.0e0)
         {
             //
             //  SCALE
@@ -272,7 +272,7 @@ public static partial class CDF
             goto S200;
         }
 
-        switch ((pq < 0.0e0))
+        switch (pq < 0.0e0)
         {
             case false:
                 goto S180;
@@ -364,7 +364,7 @@ public static partial class CDF
                 data.x = shape;
                 E0000E0001.dinvr(ref data);
                 S250:
-                switch ((data.status == 1))
+                switch (data.status == 1)
                 {
                     case false:
                         goto S290;
@@ -382,7 +382,7 @@ public static partial class CDF
                 S260:
                 data.fx = ccum - q;
                 S270:
-                switch ((qporq && cum > 1.5e0 || !qporq && ccum > 1.5e0))
+                switch (qporq && cum > 1.5e0 || !qporq && ccum > 1.5e0)
                 {
                     case false:
                         goto S280;
@@ -395,7 +395,7 @@ public static partial class CDF
                 E0000E0001.dinvr(ref data);
                 goto S250;
                 S290:
-                switch ((data.status == -1))
+                switch (data.status == -1)
                 {
                     case false:
                         goto S320;

@@ -52,11 +52,7 @@ public class GCBox : GCElement
         {
             return false;
         }
-        if (rect.Top == rect.Bottom)
-        {
-            return false;
-        }
-        return true;
+        return rect.Top != rect.Bottom;
     }
 
     public override void maximum(GeoLibPoint p)

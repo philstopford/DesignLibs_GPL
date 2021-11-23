@@ -120,7 +120,7 @@ namespace info.lundin.math
         /// </summary>
         internal String Variable
         {
-            get { return (variable); }
+            get { return variable; }
         }
 
         /// <summary>
@@ -128,7 +128,7 @@ namespace info.lundin.math
         /// </summary>
         internal int Arguments
         {
-            get { return (args); }
+            get { return args; }
         }
 
         /// <summary>
@@ -136,7 +136,7 @@ namespace info.lundin.math
         /// </summary>
         internal NodeType Type
         {
-            get { return (type); }
+            get { return type; }
         }
 
         /// <summary>

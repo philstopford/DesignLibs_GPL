@@ -72,7 +72,7 @@ public static class MonteCarlo
         double volume = 1.0;
         for ( dim = 0; dim < dim_num; dim++ )
         {
-            volume *= ( b[dim] - a[dim] );
+            volume *= b[dim] - a[dim];
         }
 
         result = result * volume / eval_num;

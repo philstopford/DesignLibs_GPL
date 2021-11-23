@@ -235,7 +235,7 @@ public static class DQRDC
                 BLAS1D.daxpy(n - l + 1, t, a, 1, ref a, 1, xIndex: +l - 1 + (l - 1) * lda,
                     yIndex: +l - 1 + (j - 1) * lda);
 
-                if ((pl > j || j > pu) || (qraux[j - 1] == 0.0))
+                if (pl > j || j > pu || qraux[j - 1] == 0.0)
                 {
                     continue;
                 }

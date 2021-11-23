@@ -47,7 +47,7 @@ internal static class Geom
             WindingRule.NonZero => n != 0,
             WindingRule.Positive => n > 0,
             WindingRule.Negative => n < 0,
-            WindingRule.AbsGeqTwo => n >= 2 || n <= -2,
+            WindingRule.AbsGeqTwo => n is >= 2 or <= -2,
             _ => throw new Exception("Wrong winding rule")
         };
     }

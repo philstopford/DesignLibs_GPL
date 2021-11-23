@@ -728,7 +728,7 @@ public static partial class FullertonLib
 
                         for (i = 1; i <= n; i++)
                         {
-                            value /= (x + (i - 1));
+                            value /= x + (i - 1);
                         }
 
                         break;

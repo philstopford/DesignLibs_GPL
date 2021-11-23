@@ -62,7 +62,7 @@ public static partial class CDF
         while ( true )
         {
             j += 1.0e0;
-            t *= ( x - bx / j );
+            t *= x - bx / j;
             double aj = t / j;
             s += aj;
             if ( Math.Abs ( aj ) <= tol )

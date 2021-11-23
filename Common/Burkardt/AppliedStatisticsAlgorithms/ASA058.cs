@@ -190,7 +190,7 @@ public static partial class Algorithms
                     }
 
                     double fm = e[j -1];
-                    fm /= (fm + 1.0);
+                    fm /= fm + 1.0;
 
                     double de = 0.0;
                     for (int k = 1; k <= variables; k++)

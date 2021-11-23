@@ -226,7 +226,7 @@ namespace info.lundin.math
 
             if (tree.Type == NodeType.Value)
             {
-                return (tree.Value.ToDouble());
+                return tree.Value.ToDouble();
             }
             else if (tree.Type == NodeType.Variable)
             {

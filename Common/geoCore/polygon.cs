@@ -21,7 +21,7 @@ public class GCPolygon : GCElement
 
     private void pGCPolygon()
     {
-        pointarray = new GeoLibPoint[0];
+        pointarray = Array.Empty<GeoLibPoint>();
     }
 
     public GCPolygon(GCPolygon source)
@@ -185,7 +185,7 @@ public class GCPolygon : GCElement
         {
             case true:
             {
-                for (int i = 0; i < pointarray.Count(); i++)
+                for (int i = 0; i < pointarray.Length; i++)
                 {
                     pointarray[i].Offset(pos);
                 }
@@ -202,7 +202,7 @@ public class GCPolygon : GCElement
 
     private void pMove(GeoLibPoint pos)
     {
-        for (int i = 0; i < pointarray.Count(); i++)
+        for (int i = 0; i < pointarray.Length; i++)
         {
             pointarray[i] = new GeoLibPoint(pointarray[i].X + pos.X, pointarray[i].Y + pos.Y);
         }
@@ -229,7 +229,7 @@ public class GCPolygon : GCElement
         GeoLibPoint p = new(0, 0);
         double a;
         int anz = 0;
-        for (a = 0; (a < 350 || a > 370) && anz < 3;)
+        for (a = 0; a is < 350 or > 370 && anz < 3;)
         {
             a = 0;
             for (int i = 0; i < pointarray.Length - 1; i++)
@@ -312,7 +312,7 @@ public class GCPolygon : GCElement
                             {
                                 case true:
                                 {
-                                    switch ((i == 0 && j == pointarray.Length - 2))
+                                    switch (i == 0 && j == pointarray.Length - 2)
                                     {
                                         case false:
                                         {
@@ -432,10 +432,13 @@ public class GCPolygon : GCElement
                                             j = pointarray.Length - 2; ende1 = true;
                                             break;
                                     }
-                                    if (i == pointarray.Length)
+
+                                    if (i != pointarray.Length)
                                     {
-                                        i = 1; ende2 = true;
+                                        continue;
                                     }
+
+                                    i = 1; ende2 = true;
                                 }
                                 h2 = i + 1;
                                 if (h2 == pointarray.Length)
@@ -545,7 +548,7 @@ public class GCPolygon : GCElement
     private void pSaveGDS(gdsWriter gw)
     {
         GeoLibPoint pc = new();
-        int r = 0;
+        const int r = 0;
         if (isCircle())
         {
             GCPath tPath = new(new [] { pc }, layer_nr, datatype_nr);
@@ -629,14 +632,9 @@ public class GCPolygon : GCElement
         double delta = max_distance - min_distance;
 
         // Tolerance value - one DB unit.
-        double tol = 1.0f * 1000;
+        const double tol = 1.0f * 1000;
 
-        if (delta < tol)
-        {
-            return true;
-        }
-
-        return false;
+        return delta < tol;
     }
 
     private void pSaveOASIS(oasWriter ow)
@@ -648,7 +646,7 @@ public class GCPolygon : GCElement
             {
                 // pc and r are manipulated in isCircle()
                 GeoLibPoint pc = new();
-                int r = 0;
+                const int r = 0;
                 if (isCircle())
                 {
                     ow.modal.absoluteMode = ow.modal.absoluteMode switch
@@ -728,7 +726,7 @@ public class GCPolygon : GCElement
         switch (GCSetup.oasisSaveCtrapezoid)
         {
             // check if ctrapezoid
-            case true when (pointarray.Length == 4 || pointarray.Length == 5):
+            case true when pointarray.Length is 4 or 5:
             {
                 int form = 0;
                 int off = 0;

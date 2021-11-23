@@ -117,7 +117,7 @@ public static class GelmanRubin
                 s_sum += s;
             }
 
-            s_sum /= (rnd0 - 1.0);
+            s_sum /= rnd0 - 1.0;
 
             double w_var = s_sum / chain_num;
 

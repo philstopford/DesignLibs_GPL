@@ -75,7 +75,7 @@ public static class LagrangeInterpolation
             {
                 if (i != j)
                 {
-                    w[j] /= (x[i] - x[j]);
+                    w[j] /= x[i] - x[j];
                 }
             }
         }

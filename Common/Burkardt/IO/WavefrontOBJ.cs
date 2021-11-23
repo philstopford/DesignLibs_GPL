@@ -268,7 +268,7 @@ public static class WavefrontOBJ
                 //  VN X Y Z
                 //  Vertex normals.
                 //
-                case 'v' or 'V' when (text[1] == 'n' || text[1] == 'N'):
+                case 'v' or 'V' when text[1] == 'n' || text[1] == 'N':
                     normal_num += 1;
                     break;
                 //

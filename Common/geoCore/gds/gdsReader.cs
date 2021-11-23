@@ -127,17 +127,14 @@ internal partial class gdsReader
         {
             statusUpdateUI?.Invoke("Loading");
             progressUpdateUI?.Invoke(0);
-            Stream s;
-            s = File.OpenRead(filename);
+            Stream s = File.OpenRead(filename);
             if (filename.ToLower().EndsWith("gz"))
             {
-                using (GZipStream gzs = new(s, CompressionMode.Decompress))
-                {
-                    MemoryStream ms = new();
-                    gzs.CopyTo(ms);
-                    ms.Seek(0, SeekOrigin.Begin);
-                    br = new EndianBinaryReader(EndianBitConverter.Big, ms);
-                }
+                using GZipStream gzs = new(s, CompressionMode.Decompress);
+                MemoryStream ms = new();
+                gzs.CopyTo(ms);
+                ms.Seek(0, SeekOrigin.Begin);
+                br = new EndianBinaryReader(EndianBitConverter.Big, ms);
             }
             else
             {
@@ -540,7 +537,7 @@ internal partial class gdsReader
             }
             catch (Exception)
             {
-                string err = "Unable to find any cells. Is this file legal GDS?";
+                const string err = "Unable to find any cells. Is this file legal GDS?";
                 error_msgs.Add(err);
                 throw new Exception(err);
             }

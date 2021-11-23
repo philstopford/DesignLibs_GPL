@@ -375,7 +375,7 @@ public static partial class FullertonLib
         //    Output, double R8_REN, the random value.
         //
     {
-        seed %= (typeMethods.i4_huge() / 125);
+        seed %= typeMethods.i4_huge() / 125;
         seed *= 125;
         seed -= seed / 2796203 * 2796203;
         double value = seed / 2796203.0;

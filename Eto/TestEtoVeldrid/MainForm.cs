@@ -87,7 +87,7 @@ public partial class MainForm : Form
 
 	private void SetUpVeldrid()
 	{
-		switch ((FormReady && VeldridReady))
+		switch (FormReady && VeldridReady)
 		{
 			case false:
 				return;

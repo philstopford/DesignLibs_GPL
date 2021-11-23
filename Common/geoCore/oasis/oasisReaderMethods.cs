@@ -154,11 +154,13 @@ internal partial class oasReader
         for (i = 0; i < items; i++)
         {
             byte help = readRaw();
-            if (help != 0)
+            if (help == 0)
             {
-                string s = Encoding.UTF8.GetString(new [] { help });
-                s1 += s;
+                continue;
             }
+
+            string s = Encoding.UTF8.GetString(new [] { help });
+            s1 += s;
         }
         return s1;
     }

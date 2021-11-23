@@ -79,7 +79,7 @@ public static class Radec
 
         cos_theta = Math.Sqrt(cos_theta);
 
-        cos_theta /= (norm_v1 * norm_v2);
+        cos_theta /= norm_v1 * norm_v2;
 
         double value = typeMethods.r8_acos(cos_theta);
 

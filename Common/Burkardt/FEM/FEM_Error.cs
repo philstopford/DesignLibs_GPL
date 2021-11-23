@@ -101,7 +101,7 @@ public static class FEM_Error
 //
 //  Integral approximation requires multiplication by interval length.
 //
-        value *= (x[n - 1] - x[0]);
+        value *= x[n - 1] - x[0];
 
         return value;
     }
@@ -208,7 +208,7 @@ public static class FEM_Error
 //
 //  Integral approximation requires multiplication by interval length.
 //
-        value *= (x[n - 1] - x[0]);
+        value *= x[n - 1] - x[0];
 
         return value;
     }

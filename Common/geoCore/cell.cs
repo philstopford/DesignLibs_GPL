@@ -84,9 +84,9 @@ public class GCCell
             pAddElement(e);
             return;
         }
-        GeoLibPoint p;
+
         int x2, y2;
-        p = points[0];
+        GeoLibPoint p = points[0];
         int x1 = p.X;
         int y1 = p.Y;
         p = points[1];
@@ -274,21 +274,17 @@ public class GCCell
     private bool pDepend(GCCell cell)
     {
         bool b = false;
-        foreach (GCElement t in elementList)
+        foreach (GCCell cellhelp in from t in elementList where t != null select t.depend())
         {
-            if (t != null)
+            if (cellhelp == cell)
             {
-                GCCell cellhelp = t.depend();
-                if (cellhelp == cell)
+                b = true;
+            }
+            else
+            {
+                if (cellhelp != null && !b)
                 {
-                    b = true;
-                }
-                else
-                {
-                    if (cellhelp != null && !b)
-                    {
-                        b = cellhelp.depend(cell);
-                    }
+                    b = cellhelp.depend(cell);
                 }
             }
         }
@@ -304,7 +300,7 @@ public class GCCell
     {
         int elementListCount = elementList.Count;
 #if !GCSINGLETHREADED
-        Parallel.For(0, elementListCount, (f) =>
+        Parallel.For(0, elementListCount, f =>
 #else
             for (int f = 0; f < elementListCount; f++)
 #endif
@@ -328,7 +324,7 @@ public class GCCell
     {
         int elementListCount = elementList.Count;
 #if !GCSINGLETHREADED
-        Parallel.For(0, elementListCount, (f) =>
+        Parallel.For(0, elementListCount, f =>
 #else
             for (int f = 0; f < elementListCount; f++)
 #endif
@@ -352,7 +348,7 @@ public class GCCell
     {
         int elementListCount = elementList.Count;
 #if !GCSINGLETHREADED
-        Parallel.For(0, elementListCount, (f) =>
+        Parallel.For(0, elementListCount, f =>
 #else
             for (int f = 0; f < elementListCount; f++)
 #endif
@@ -376,7 +372,7 @@ public class GCCell
     {
         int elementListCount = elementList.Count;
 #if !GCSINGLETHREADED
-        Parallel.For(0, elementListCount, (f) =>
+        Parallel.For(0, elementListCount, f =>
 #else
             for (int f = 0; f < elementListCount; f++)
 #endif
@@ -400,7 +396,7 @@ public class GCCell
     {
         int elementListCount = elementList.Count;
 #if !GCSINGLETHREADED
-        Parallel.For(0, elementListCount, (f) =>
+        Parallel.For(0, elementListCount, f =>
 #else
             for (int f = 0; f < elementListCount; f++)
 #endif
@@ -424,7 +420,7 @@ public class GCCell
     {
         int elementListCount = elementList.Count;
 #if !GCSINGLETHREADED
-        Parallel.For(0, elementListCount, (f) =>
+        Parallel.For(0, elementListCount, f =>
 #else
             for (int f = 0; f < elementListCount; f++)
 #endif
@@ -448,7 +444,7 @@ public class GCCell
     {
         int elementListCount = elementList.Count;
 #if !GCSINGLETHREADED
-        Parallel.For(0, elementListCount, (f) =>
+        Parallel.For(0, elementListCount, f =>
 #else
             for (int f = 0; f < elementListCount; f++)
 #endif
@@ -476,32 +472,34 @@ public class GCCell
         m.translate(-pos.X, -pos.Y);
         int elementListCount = elementList.Count;
 #if !GCSINGLETHREADED
-        Parallel.For(0, elementListCount, (f) =>
+        Parallel.For(0, elementListCount, f =>
 #else
             for (int f = 0; f < elementListCount; f++)
 #endif
             {
-                if (elementList[f] != null)
+                if (elementList[f] == null)
                 {
-                    if (elementList[f].isBox() && elementList[f].select)
+                    return;
+                }
+
+                if (elementList[f].isBox() && elementList[f].@select)
+                {
+                    GCPolygon p = elementList[f].convertToPolygons()[0];
+                    p.map(m);
+                    GCBox b = p.convertToBox();
+                    if (b != null)
                     {
-                        GCPolygon p = elementList[f].convertToPolygons()[0];
-                        p.map(m);
-                        GCBox b = p.convertToBox();
-                        if (b != null)
-                        {
-                            elementList[f] = b;
-                        }
-                        else
-                        {
-                            elementList[f] = p;
-                        }
-                        elementList[f].select = true;
+                        elementList[f] = b;
                     }
                     else
                     {
-                        elementList[f].mapSelect(m);
+                        elementList[f] = p;
                     }
+                    elementList[f].@select = true;
+                }
+                else
+                {
+                    elementList[f].mapSelect(m);
                 }
             }
 #if !GCSINGLETHREADED
@@ -544,32 +542,34 @@ public class GCCell
         m.translate(-pos.X, -pos.Y);
         int elementListCount = elementList.Count;
 #if !GCSINGLETHREADED
-        Parallel.For(0, elementListCount, (f) =>
+        Parallel.For(0, elementListCount, f =>
 #else
             for (int f = 0; f < elementListCount; f++)
 #endif
             {
-                if (elementList[f] != null)
+                if (elementList[f] == null)
                 {
-                    if (elementList[f].isBox() && elementList[f].select)
+                    return;
+                }
+
+                if (elementList[f].isBox() && elementList[f].@select)
+                {
+                    GCPolygon p = elementList[f].convertToPolygons()[0];
+                    p.map(m);
+                    GCBox b = p.convertToBox();
+                    if (b != null)
                     {
-                        GCPolygon p = elementList[f].convertToPolygons()[0];
-                        p.map(m);
-                        GCBox b = p.convertToBox();
-                        if (b != null)
-                        {
-                            elementList[f] = b;
-                        }
-                        else
-                        {
-                            elementList[f] = p;
-                        }
-                        elementList[f].select = true;
+                        elementList[f] = b;
                     }
                     else
                     {
-                        elementList[f].mapSelect(m);
+                        elementList[f] = p;
                     }
+                    elementList[f].@select = true;
+                }
+                else
+                {
+                    elementList[f].mapSelect(m);
                 }
             }
 #if !GCSINGLETHREADED
@@ -606,32 +606,34 @@ public class GCCell
         }
         int elementListCount = elementList.Count;
 #if !GCSINGLETHREADED
-        Parallel.For(0, elementListCount, (f) =>
+        Parallel.For(0, elementListCount, f =>
 #else
             for (int f = 0; f < elementListCount; f++)
 #endif
             {
-                if (elementList[f] != null)
+                if (elementList[f] == null)
                 {
-                    if (elementList[f].isBox() && elementList[f].select)
+                    return;
+                }
+
+                if (elementList[f].isBox() && elementList[f].@select)
+                {
+                    GCPolygon p = elementList[f].convertToPolygons()[0];
+                    p.map(m);
+                    GCBox b = p.convertToBox();
+                    if (b != null)
                     {
-                        GCPolygon p = elementList[f].convertToPolygons()[0];
-                        p.map(m);
-                        GCBox b = p.convertToBox();
-                        if (b != null)
-                        {
-                            elementList[f] = b;
-                        }
-                        else
-                        {
-                            elementList[f] = p;
-                        }
-                        elementList[f].select = true;
+                        elementList[f] = b;
                     }
                     else
                     {
-                        elementList[f].mapSelect(m);
+                        elementList[f] = p;
                     }
+                    elementList[f].@select = true;
+                }
+                else
+                {
+                    elementList[f].mapSelect(m);
                 }
             }
 #if !GCSINGLETHREADED
@@ -664,10 +666,7 @@ public class GCCell
     {
         foreach (GCElement el in elementList)
         {
-            if (el != null)
-            {
-                el.maximum(pos);
-            }
+            el?.maximum(pos);
         }
     }
 
@@ -680,12 +679,14 @@ public class GCCell
     {
         for (int f = 0; f < elementList.Count; f++)
         {
-            if (elementList[f] != null)
+            if (elementList[f] == null)
             {
-                if (!elementList[f].correct())
-                {
-                    elementList[f] = null;
-                }
+                continue;
+            }
+
+            if (!elementList[f].correct())
+            {
+                elementList[f] = null;
             }
         }
         elementList.RemoveAll(null!);
@@ -700,17 +701,19 @@ public class GCCell
     {
         int elementListCount = elementList.Count;
 #if !GCSINGLETHREADED
-        Parallel.For(0, elementListCount, (f) =>
+        Parallel.For(0, elementListCount, f =>
 #else
             for (int f = 0; f < elementListCount; f++)
 #endif
             {
-                if (elementList[f] != null)
+                if (elementList[f] == null)
                 {
-                    if (elementList[f].depend() == oldCell)
-                    {
-                        elementList[f].setCellRef(newCell);
-                    }
+                    return;
+                }
+
+                if (elementList[f].depend() == oldCell)
+                {
+                    elementList[f].setCellRef(newCell);
                 }
             }
 #if !GCSINGLETHREADED
@@ -725,35 +728,13 @@ public class GCCell
 
     private bool pDependNotSaved()
     {
-        bool b = false;
-
         switch (saved)
         {
             case true:
                 return false;
         }
 
-        foreach (GCElement element in elementList)
-        {
-            if (element != null)
-            {
-                GCCell cellHelp = element.depend();
-                if (cellHelp != null && !b)
-                {
-                    if (!cellHelp.saved)
-                    {
-                        b = true;
-                        break;
-                    }
-                }
-            }
-            if (b)
-            {
-                break;
-            }
-        }
-
-        return b;
+        return elementList.Select(element => element?.depend()).Any(cellHelp => cellHelp is {saved: false});
     }
 
     public void saveGDS(gdsWriter gw)
@@ -825,18 +806,15 @@ public class GCCell
     private List<GCPolygon> pConvertToPolygons(int layer = -1, int datatype = -1)
     {
         List<GCPolygon> ret = new();
-        for (int f = 0; f < elementList.Count; f++)
+        foreach (GCElement t in elementList.Where(t => t != null))
         {
-            if (elementList[f] != null)
+            if (layer == -1 || datatype == -1)
             {
-                if (layer == -1 || datatype == -1)
-                {
-                    ret.AddRange(elementList[f].convertToPolygons());
-                }
-                else
-                {
-                    ret.AddRange(elementList[f].convertToPolygons().Where(p => p.layer_nr == layer && p.datatype_nr == datatype));
-                }
+                ret.AddRange(t.convertToPolygons());
+            }
+            else
+            {
+                ret.AddRange(t.convertToPolygons().Where(p => p.layer_nr == layer && p.datatype_nr == datatype));
             }
         }
 

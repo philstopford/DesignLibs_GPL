@@ -17,7 +17,7 @@ public partial class gdsWriter
     public EndianBinaryWriter bw { get; set; }
     public GCDrawingfield drawing_ { get; set; }
     private string filename_;
-    private bool noTerminate = false; // debug to allow file comparison during write.
+    private const bool noTerminate = false; // debug to allow file comparison during write.
 
     public gdsWriter(GeoCore gc, string filename)
     {
@@ -50,18 +50,16 @@ public partial class gdsWriter
         {
             case true:
             {
-                using (GZipStream gzs = new(s, CompressionMode.Compress))
+                using GZipStream gzs = new(s, CompressionMode.Compress);
+                bw = new EndianBinaryWriter(EndianBitConverter.Big, gzs);
+                try
                 {
-                    bw = new EndianBinaryWriter(EndianBitConverter.Big, gzs);
-                    try
-                    {
-                        pSave_write();
-                        ret = true;
-                    }
-                    catch (Exception)
-                    {
+                    pSave_write();
+                    ret = true;
+                }
+                catch (Exception)
+                {
 
-                    }
                 }
 
                 break;

@@ -54,7 +54,7 @@ public static partial class GeoWrangler
         int sLength = source.Length;
         GeoLibPointF[] ret = new GeoLibPointF[sLength];
 #if !GWSINGLETHREADED
-        Parallel.For(0, sLength, (i) =>
+        Parallel.For(0, sLength, i =>
 #else
             for (int i = 0; i < source.Length; i++)
 #endif

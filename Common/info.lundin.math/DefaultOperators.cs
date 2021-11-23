@@ -40,7 +40,7 @@ namespace info.lundin.math
                     new Operator( "sqrt",   1, 2, (p, a, b) => { return Math.Sqrt(p.EvalTree(a));} ),
                     new Operator( "cotan",1, 2, (p, a, b) => { return 1 / Math.Tan(p.EvalTree(a));} ),
                     new Operator( "fpart",1, 2, (p, a, b) => { return MathExtra.Fpart(p.EvalTree(a));}),
-                    new Operator( "acotan",1, 2, (p, a, b) => { return (Math.PI / 2 - Math.Atan(p.EvalTree(a)));} ),
+                    new Operator( "acotan",1, 2, (p, a, b) => { return Math.PI / 2 - Math.Atan(p.EvalTree(a));} ),
                     new Operator( "round", 1, 2, (p, a, b) => { return Math.Round(p.EvalTree(a));} ),
                     new Operator( "ceil",  1, 2, (p, a, b) => { return Math.Ceiling(p.EvalTree(a));} ),
                     new Operator( "floor",1, 2, (p, a, b) => { return Math.Floor(p.EvalTree(a));} ),

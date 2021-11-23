@@ -117,7 +117,7 @@ public static partial class CDF
         };
 
         bound = 0.0;
-        switch ((which < 1 || which > 4))
+        switch (which is < 1 or > 4)
         {
             //
             //  Check arguments
@@ -126,7 +126,7 @@ public static partial class CDF
                 goto S30;
         }
 
-        switch ((which < 1))
+        switch (which < 1)
         {
             case false:
                 goto S10;
@@ -146,7 +146,7 @@ public static partial class CDF
                 goto S70;
         }
 
-        switch ((p < 0.0e0 || p > 1.0e0))
+        switch (p is < 0.0e0 or > 1.0e0)
         {
             //
             //     P
@@ -155,7 +155,7 @@ public static partial class CDF
                 goto S60;
         }
 
-        switch ((p < 0.0e0))
+        switch (p < 0.0e0)
         {
             case false:
                 goto S40;
@@ -176,7 +176,7 @@ public static partial class CDF
                 goto S110;
         }
 
-        switch ((q <= 0.0e0 || q > 1.0e0))
+        switch (q is <= 0.0e0 or > 1.0e0)
         {
             //
             //     Q
@@ -185,7 +185,7 @@ public static partial class CDF
                 goto S100;
         }
 
-        switch ((q <= 0.0e0))
+        switch (q <= 0.0e0)
         {
             case false:
                 goto S80;
@@ -206,7 +206,7 @@ public static partial class CDF
                 goto S130;
         }
 
-        switch ((s < 0.0e0))
+        switch (s < 0.0e0)
         {
             //
             //     S
@@ -226,7 +226,7 @@ public static partial class CDF
                 goto S150;
         }
 
-        switch ((xn < 0.0e0))
+        switch (xn < 0.0e0)
         {
             //
             //     XN
@@ -246,7 +246,7 @@ public static partial class CDF
                 goto S190;
         }
 
-        switch ((pr < 0.0e0 || pr > 1.0e0))
+        switch (pr is < 0.0e0 or > 1.0e0)
         {
             //
             //     PR
@@ -255,7 +255,7 @@ public static partial class CDF
                 goto S180;
         }
 
-        switch ((pr < 0.0e0))
+        switch (pr < 0.0e0)
         {
             case false:
                 goto S160;
@@ -276,7 +276,7 @@ public static partial class CDF
                 goto S230;
         }
 
-        switch ((ompr < 0.0e0 || ompr > 1.0e0))
+        switch (ompr is < 0.0e0 or > 1.0e0)
         {
             //
             //     OMPR
@@ -285,7 +285,7 @@ public static partial class CDF
                 goto S220;
         }
 
-        switch ((ompr < 0.0e0))
+        switch (ompr < 0.0e0)
         {
             case false:
                 goto S200;
@@ -345,7 +345,7 @@ public static partial class CDF
             goto S300;
         }
 
-        switch ((prompr < 0.0e0))
+        switch (prompr < 0.0e0)
         {
             case false:
                 goto S280;
@@ -393,7 +393,7 @@ public static partial class CDF
                 data.x = s;
                 E0000E0001.dinvr(ref data);
                 S320:
-                switch ((data.status == 1))
+                switch (data.status == 1)
                 {
                     case false:
                         goto S350;
@@ -415,7 +415,7 @@ public static partial class CDF
                 E0000E0001.dinvr(ref data);
                 goto S320;
                 S350:
-                switch ((data.status == -1))
+                switch (data.status == -1)
                 {
                     case false:
                         goto S380;
@@ -451,7 +451,7 @@ public static partial class CDF
                 data.x = xn;
                 E0000E0001.dinvr(ref data);
                 S390:
-                switch ((data.status == 1))
+                switch (data.status == 1)
                 {
                     case false:
                         goto S420;
@@ -473,7 +473,7 @@ public static partial class CDF
                 E0000E0001.dinvr(ref data);
                 goto S390;
                 S420:
-                switch ((data.status == -1))
+                switch (data.status == -1)
                 {
                     case false:
                         goto S450;
@@ -514,7 +514,7 @@ public static partial class CDF
                 E0000E0001.dzror(ref data);
                 ompr = one - data.x;
                 S460:
-                switch ((data.status == 1))
+                switch (data.status == 1)
                 {
                     case false:
                         goto S470;
@@ -534,7 +534,7 @@ public static partial class CDF
                 E0000E0001.dzror(ref data);
                 pr = one - data.x;
                 S490:
-                switch ((data.status == 1))
+                switch (data.status == 1)
                 {
                     case false:
                         goto S500;
@@ -548,7 +548,7 @@ public static partial class CDF
                 goto S490;
                 S510:
                 S500:
-                switch ((data.status == -1))
+                switch (data.status == -1)
                 {
                     case false:
                         goto S540;

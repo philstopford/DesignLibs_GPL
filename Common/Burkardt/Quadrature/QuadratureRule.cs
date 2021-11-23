@@ -935,7 +935,7 @@ public static class QuadratureRule
 
         for ( i = 0; i < order; i++ )
         {
-            w[i] = ( ( d - c ) / ( b - a ) ) * w[i];
+            w[i] = ( d - c ) / ( b - a ) * w[i];
         }
     }
         

@@ -595,7 +595,7 @@ namespace SandiaRulesTest
 
                 for (i = 0; i < order; i += 1)
                 {
-                    Console.WriteLine("  " + i.ToString().PadLeft((8))
+                    Console.WriteLine("  " + i.ToString().PadLeft(8)
                                            + "  " + x[i].ToString("0.################").PadLeft(24)
                                            + "  " + w[i].ToString("0.################").PadLeft(24) + "");
                 }

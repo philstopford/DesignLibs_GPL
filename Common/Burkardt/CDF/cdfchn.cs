@@ -120,7 +120,7 @@ public static partial class CDF
         };
 
         bound = 0.0;
-        switch ((which < 1 || which > 4))
+        switch (which is < 1 or > 4)
         {
             //
             //  Check arguments
@@ -129,7 +129,7 @@ public static partial class CDF
                 goto S30;
         }
 
-        switch ((which < 1))
+        switch (which < 1)
         {
             case false:
                 goto S10;
@@ -149,7 +149,7 @@ public static partial class CDF
                 goto S70;
         }
 
-        switch ((p < 0.0e0 || p > one))
+        switch (p is < 0.0e0 or > one)
         {
             //
             //  P
@@ -158,7 +158,7 @@ public static partial class CDF
                 goto S60;
         }
 
-        switch ((p < 0.0e0))
+        switch (p < 0.0e0)
         {
             case false:
                 goto S40;
@@ -179,7 +179,7 @@ public static partial class CDF
                 goto S90;
         }
 
-        switch ((data.x < 0.0e0))
+        switch (data.x < 0.0e0)
         {
             //
             //     X
@@ -199,7 +199,7 @@ public static partial class CDF
                 goto S110;
         }
 
-        switch ((df <= 0.0e0))
+        switch (df <= 0.0e0)
         {
             //
             //     DF
@@ -219,7 +219,7 @@ public static partial class CDF
                 goto S130;
         }
 
-        switch ((pnonc < 0.0e0))
+        switch (pnonc < 0.0e0)
         {
             //
             //  PNONC
@@ -258,7 +258,7 @@ public static partial class CDF
                 data.status = 0;
                 E0000E0001.dinvr(ref data);
                 S140:
-                switch ((data.status == 1))
+                switch (data.status == 1)
                 {
                     case false:
                         goto S150;
@@ -269,7 +269,7 @@ public static partial class CDF
                 E0000E0001.dinvr(ref data);
                 goto S140;
                 S150:
-                switch ((data.status == -1))
+                switch (data.status == -1)
                 {
                     case false:
                         goto S180;
@@ -306,7 +306,7 @@ public static partial class CDF
                 data.x = df;
                 E0000E0001.dinvr(ref data);
                 S190:
-                switch ((data.status == 1))
+                switch (data.status == 1)
                 {
                     case false:
                         goto S200;
@@ -318,7 +318,7 @@ public static partial class CDF
                 E0000E0001.dinvr(ref data);
                 goto S190;
                 S200:
-                switch ((data.status == -1))
+                switch (data.status == -1)
                 {
                     case false:
                         goto S230;
@@ -354,7 +354,7 @@ public static partial class CDF
                 data.x = pnonc;
                 E0000E0001.dinvr(ref data);
                 S240:
-                switch ((data.status == 1))
+                switch (data.status == 1)
                 {
                     case false:
                         goto S250;
@@ -366,7 +366,7 @@ public static partial class CDF
                 E0000E0001.dinvr(ref data);
                 goto S240;
                 S250:
-                switch ((data.status == -1))
+                switch (data.status == -1)
                 {
                     case false:
                         goto S280;

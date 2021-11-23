@@ -981,7 +981,7 @@ public static class Properties
 
         for (j = 0; j < 2; j++)
         {
-            centroid[j] /= (6.0 * area);
+            centroid[j] /= 6.0 * area;
         }
 
         return centroid;

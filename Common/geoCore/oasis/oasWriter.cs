@@ -121,18 +121,16 @@ public partial class oasWriter
         {
             case true:
             {
-                using (GZipStream gzs = new(s, CompressionMode.Compress))
+                using GZipStream gzs = new(s, CompressionMode.Compress);
+                bw = new EndianBinaryWriter(EndianBitConverter.Little, gzs);
+                try
                 {
-                    bw = new EndianBinaryWriter(EndianBitConverter.Little, gzs);
-                    try
-                    {
-                        pSave_write();
-                        ret = true;
-                    }
-                    catch (Exception)
-                    {
+                    pSave_write();
+                    ret = true;
+                }
+                catch (Exception)
+                {
 
-                    }
                 }
 
                 break;

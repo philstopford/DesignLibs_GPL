@@ -237,7 +237,7 @@ public static partial class CDF
             goto S180;
         }
 
-        switch ((pq < 0.0e0))
+        switch (pq < 0.0e0)
         {
             case false:
                 goto S160;

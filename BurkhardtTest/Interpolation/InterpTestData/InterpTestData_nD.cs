@@ -833,7 +833,7 @@ public static class Data_nD
         {
             for (int j = 0; j < n; j++)
             {
-                d[j] *= (Math.Pow(c[i], -2) + Math.Pow(x[i + j * m] - w[i], 2));
+                d[j] *= Math.Pow(c[i], -2) + Math.Pow(x[i + j * m] - w[i], 2);
             }
         }
 
@@ -909,7 +909,7 @@ public static class Data_nD
         {
             for (int j = 0; j < n; j++)
             {
-                f[j] *= (Math.Pow(c[i], -2) + Math.Pow(x[i + j * m] - w[i], 2));
+                f[j] *= Math.Pow(c[i], -2) + Math.Pow(x[i + j * m] - w[i], 2);
             }
         }
 
@@ -1214,7 +1214,7 @@ public static class Data_nD
             q += typeMethods.r8_mop(s) / (1.0 + typeMethods.r8vec_i4vec_dot_product(m, c, ivec));
         }
 
-        q /= (typeMethods.r8_factorial(m) * typeMethods.r8vec_product(m, c));
+        q /= typeMethods.r8_factorial(m) * typeMethods.r8vec_product(m, c);
 
         return q;
     }

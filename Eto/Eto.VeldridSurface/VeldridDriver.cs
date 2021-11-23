@@ -739,9 +739,9 @@ public class VeldridDriver
 
 	private void drawPolygons()
 	{
-		int polyListCount = ovpSettings.polyList.Count();
-		int bgPolyListCount = ovpSettings.bgPolyList.Count();
-		int tessPolyListCount = ovpSettings.tessPolyList.Count();
+		int polyListCount = ovpSettings.polyList.Count;
+		int bgPolyListCount = ovpSettings.bgPolyList.Count;
+		int tessPolyListCount = ovpSettings.tessPolyList.Count;
 
 		List<VertexPositionColor> polyList = new();
 
@@ -882,7 +882,7 @@ public class VeldridDriver
 
 	private void drawLines()
 	{
-		int tmp = ovpSettings.lineList.Count();
+		int tmp = ovpSettings.lineList.Count;
 
 		switch (tmp)
 		{
@@ -892,7 +892,7 @@ public class VeldridDriver
 				List<VertexPositionColor> lineList = new();
 
 				// Carve our Z-space up to stack polygons
-				float polyZStep = 1.0f / ovpSettings.lineList.Count();
+				float polyZStep = 1.0f / ovpSettings.lineList.Count;
 
 				lineFirst = new uint[tmp];
 				lineVertexCount = new uint[tmp];

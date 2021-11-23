@@ -1,4 +1,5 @@
-﻿using MiscUtil.Extensions;
+﻿using System;
+using MiscUtil.Extensions;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -144,7 +145,7 @@ public sealed partial class EditableLookup<TKey, TElement> : ILookup<TKey, TElem
         get { return groups.Count; }
     }
 
-    private static readonly IEnumerable<TElement> Empty = new TElement[0];
+    private static readonly IEnumerable<TElement> Empty = Array.Empty<TElement>();
     /// <summary>
     /// Returns the set of values for the given key
     /// </summary>

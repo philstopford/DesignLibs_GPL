@@ -239,37 +239,37 @@ namespace info.lundin.math
             {
                 try
                 {
-                    if ((tmp = getOp(exp, i)) != null && !isTwoArgOp(tmp) && (i - 1 >= 0 && isAlpha(exp[i - 1])))
+                    if ((tmp = getOp(exp, i)) != null && !isTwoArgOp(tmp) && i - 1 >= 0 && isAlpha(exp[i - 1]))
                     {
                         // case: variable jp one-arg-op , xcos(x)
                         str.Insert(i + p, "*");
                         p++;
                     }
-                    else if (isAlpha(exp[i]) && (i - 1 >= 0 && isConstant(exp[i - 1])))
+                    else if (isAlpha(exp[i]) && i - 1 >= 0 && isConstant(exp[i - 1]))
                     {
                         // case: const jp variable or one-arg-op, 2x, 2tan(x)
                         str.Insert(i + p, "*");
                         p++;
                     }
-                    else if (exp[i] == '(' && (i - 1 >= 0 && isConstant(exp[i - 1])))
+                    else if (exp[i] == '(' && i - 1 >= 0 && isConstant(exp[i - 1]))
                     {
                         // case: "const jp ( expr )" , 2(3+x)
                         str.Insert(i + p, "*");
                         p++;
                     }
-                    else if (isAlpha(exp[i]) && (i - 1 >= 0 && exp[i - 1] == ')'))
+                    else if (isAlpha(exp[i]) && i - 1 >= 0 && exp[i - 1] == ')')
                     {
                         // case: ( expr ) jp variable or one-arg-op , (2-x)x , (2-x)sin(x)
                         str.Insert(i + p, "*");
                         p++;
                     }
-                    else if (exp[i] == '(' && (i - 1 >= 0 && exp[i - 1] == ')'))
+                    else if (exp[i] == '(' && i - 1 >= 0 && exp[i - 1] == ')')
                     {
                         // case: ( expr ) jp  ( expr ) , (2-x)(x+1) , sin(x)(2-x) 
                         str.Insert(i + p, "*");
                         p++;
                     }
-                    else if (exp[i] == '(' && (i - 1 >= 0 && isAlpha(exp[i - 1])) && backTrack(exp.Substring(0, i)) == null)
+                    else if (exp[i] == '(' && i - 1 >= 0 && isAlpha(exp[i - 1]) && backTrack(exp.Substring(0, i)) == null)
                     {
                         // case: var jp  ( expr ) , x(x+1) , x(1-sin(x))
                         str.Insert(i + p, "*");
@@ -321,9 +321,9 @@ namespace info.lundin.math
             {
                 try
                 {
-                    if (exp[i] == 'e' && (i - 1 >= 0 && Char.IsDigit(exp[i - 1])))
+                    if (exp[i] == 'e' && i - 1 >= 0 && Char.IsDigit(exp[i - 1]))
                     {
-                        if ((i + 1 < len && Char.IsDigit(exp[i + 1])) || (i + 2 < len && ((exp[i + 1] == '-' || exp[i + 1] == '+') && Char.IsDigit(exp[i + 2]))))
+                        if (i + 1 < len && Char.IsDigit(exp[i + 1]) || i + 2 < len && (exp[i + 1] == '-' || exp[i + 1] == '+') && Char.IsDigit(exp[i + 2]))
                         {
                             // replace the 'e'
                             newstr[i + p] = '*';
@@ -369,9 +369,9 @@ namespace info.lundin.math
             {
                 throw new ParserException("Wrong number of arguments to operator");
             }
-            else if (exp[0] == '(' && ((ma = match(exp, 0)) == (len - 1)))
+            else if (exp[0] == '(' && (ma = match(exp, 0)) == len - 1)
             {
-                return (ParseInfix(exp.Substring(1, ma - 1)));
+                return ParseInfix(exp.Substring(1, ma - 1));
             }
             else if (isVariable(exp))
             {
@@ -383,7 +383,7 @@ namespace info.lundin.math
             {
                 try
                 {
-                    return (new Node(Double.Parse(exp, NumberStyles.Any, culture)));
+                    return new Node(Double.Parse(exp, NumberStyles.Any, culture));
                 }
                 catch (FormatException)
                 {
@@ -478,7 +478,7 @@ namespace info.lundin.math
                 }
             }
 
-            return (count == 0);
+            return count == 0;
         }
 
         /// <summary>Checks if the character is alphabetic.</summary>
@@ -487,7 +487,7 @@ namespace info.lundin.math
         private bool
         isAlpha(char ch)
         {
-            return ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z'));
+            return ch >= 'a' && ch <= 'z' || ch >= 'A' && ch <= 'Z';
         }
 
 
@@ -520,7 +520,7 @@ namespace info.lundin.math
         private bool
         isConstant(char ch)
         {
-            return (Char.IsDigit(ch));
+            return Char.IsDigit(ch);
         }
 
 
@@ -533,7 +533,7 @@ namespace info.lundin.math
         {
             double val = 0D;
             bool ok = Double.TryParse(exp, NumberStyles.Any, culture, out val);
-            return (ok && !Double.IsNaN(val));
+            return ok && !Double.IsNaN(val);
         }
 
         /// <summary>
@@ -544,7 +544,7 @@ namespace info.lundin.math
         private bool
         isOperator(String str)
         {
-            return (operators.ContainsKey(str));
+            return operators.ContainsKey(str);
         }
 
 
@@ -560,7 +560,7 @@ namespace info.lundin.math
             if (str == null) return false;
             Object o = operators[str];
             if (o == null) return false;
-            return (((Operator)o).Arguments == 2);
+            return ((Operator)o).Arguments == 2;
         }
 
         /// <summary>
@@ -571,10 +571,7 @@ namespace info.lundin.math
         private bool
         isAllowedSym(char s)
         {
-            return (
-                s == ',' || s == '.' || s == ')' || s == '(' || s == '>' || s == '<' || s == '&' || s == '=' || s == '|'
-                || culture.NumberFormat.CurrencyGroupSeparator.ToCharArray().Contains(s)
-                || culture.NumberFormat.CurrencyDecimalSeparator.ToCharArray().Contains(s));
+            return s is ',' or '.' or ')' or '(' or '>' or '<' or '&' or '=' or '|' || culture.NumberFormat.CurrencyGroupSeparator.ToCharArray().Contains(s) || culture.NumberFormat.CurrencyDecimalSeparator.ToCharArray().Contains(s);
         }
 
         /// <summary>
@@ -648,12 +645,12 @@ namespace info.lundin.math
 
             for (i = 0; i < maxoplength; i++)
             {
-                if (index >= 0 && (index + maxoplength - i) <= len)
+                if (index >= 0 && index + maxoplength - i <= len)
                 {
                     tmp = exp.Substring(index, maxoplength - i);
                     if (isOperator(tmp))
                     {
-                        return (tmp);
+                        return tmp;
                     }
                 }
             }
@@ -686,7 +683,7 @@ namespace info.lundin.math
             }
             else
             {
-                prec = (operators[_operator]).Precedence;
+                prec = operators[_operator].Precedence;
             }
 
             while (i < len)
@@ -701,7 +698,7 @@ namespace info.lundin.math
                 else if ((op = getOp(exp, i)) != null)
                 {
                     // (_operator != null && _operator.Equals("&&") && op.Equals("||") ) || 
-                    if (str.Length != 0 && !isTwoArgOp(backTrack(str.ToString())) && (operators[op]).Precedence >= prec)
+                    if (str.Length != 0 && !isTwoArgOp(backTrack(str.ToString())) && operators[op].Precedence >= prec)
                     {
                         return str.ToString();
                     }
@@ -740,8 +737,8 @@ namespace info.lundin.math
             {
                 for (i = 0; i <= maxoplength; i++)
                 {
-                    if ((op = getOp(str, (len - 1 - maxoplength + i))) != null
-                    && (len - maxoplength - 1 + i + op.Length) == len)
+                    if ((op = getOp(str, len - 1 - maxoplength + i)) != null
+                    && len - maxoplength - 1 + i + op.Length == len)
                     {
                         return op;
                     }

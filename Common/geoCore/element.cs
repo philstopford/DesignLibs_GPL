@@ -190,14 +190,7 @@ public class GCElement
                 m2 = dif2.Y / dif2.X;
                 b2 = -m2 * p3.X + p3.Y;
                 pc.X = p1.X;
-                if (dif2.Y != 0)
-                {
-                    pc.Y = round(m2 * pc.X + b2);
-                }
-                else
-                {
-                    pc.Y = p3.Y;
-                }
+                pc.Y = dif2.Y != 0 ? round(m2 * pc.X + b2) : p3.Y;
 
                 break;
             }
@@ -207,14 +200,7 @@ public class GCElement
             m1 = dif1.Y / dif1.X;
             b1 = -m1 * p1.X + p1.Y;
             pc.X = p3.X;
-            if (dif2.Y != 0)
-            {
-                pc.Y = round(m1 * pc.X + b1);
-            }
-            else
-            {
-                pc.Y = p1.Y;
-            }
+            pc.Y = dif2.Y != 0 ? round(m1 * pc.X + b1) : p1.Y;
         }
 
         switch (dif1.X)
@@ -261,11 +247,7 @@ public class GCElement
             p4.Y = help;
         }
 
-        if (pc.Y < p1.Y || pc.Y > p2.Y || pc.Y < p3.Y || pc.Y > p4.Y)
-        {
-            return false;
-        }
-        return true;
+        return pc.Y >= p1.Y && pc.Y <= p2.Y && pc.Y >= p3.Y && pc.Y <= p4.Y;
     }
 
     public double distance(GeoLibPoint p1, GeoLibPoint p2, GeoLibPoint p3)
@@ -277,29 +259,30 @@ public class GCElement
     {
         // >0 if left off line
         GeoLibPoint dif1 = new(p2.X - p1.X, p2.Y - p1.Y);
-        if (dif1.X != 0)
+        if (dif1.X == 0)
         {
-            double m1 = (double)dif1.Y / dif1.X;
-            double b1 = -m1 * p1.X + p1.Y;
-            double wert = m1 * p3.X + b1 - p3.Y;
             return dif1.Y switch
             {
-                0 when dif1.X > 0 => -wert,
-                0 => wert,
-                _ => dif1.X switch
-                {
-                    > 0 => -wert,
-                    < 0 => +wert,
-                    _ => wert
-                }
+                > 0 => p1.X - p3.X,
+                _ => p3.X - p1.X
             };
         }
 
+        double m1 = (double)dif1.Y / dif1.X;
+        double b1 = -m1 * p1.X + p1.Y;
+        double wert = m1 * p3.X + b1 - p3.Y;
         return dif1.Y switch
         {
-            > 0 => p1.X - p3.X,
-            _ => p3.X - p1.X
+            0 when dif1.X > 0 => -wert,
+            0 => wert,
+            _ => dif1.X switch
+            {
+                > 0 => -wert,
+                < 0 => +wert,
+                _ => wert
+            }
         };
+
     }
 
     public double distance(GeoLibPoint p1, GeoLibPoint p2)
@@ -344,26 +327,27 @@ public class GCElement
             };
         }
 
-        if (dif1.X != 0 && dif2.X != 0)
+        if (dif1.X == 0 || dif2.X == 0)
         {
-            m1 = dif1.Y / dif1.X;
-            m2 = dif2.Y / dif2.X;
-
-            switch (Math.Abs(m1 - m2))
-            {
-                case > double.Epsilon:
-                    return false;
-            }
-            b1 = -m1 * p1.X + p1.Y;
-            b2 = -m2 * p3.X + p3.Y;
-
-            return Math.Abs(b1 - b2) switch
-            {
-                > double.Epsilon => false,
-                _ => true
-            };
+            return false;
         }
-        return false;
+
+        m1 = dif1.Y / dif1.X;
+        m2 = dif2.Y / dif2.X;
+
+        switch (Math.Abs(m1 - m2))
+        {
+            case > double.Epsilon:
+                return false;
+        }
+        b1 = -m1 * p1.X + p1.Y;
+        b2 = -m2 * p3.X + p3.Y;
+
+        return Math.Abs(b1 - b2) switch
+        {
+            > double.Epsilon => false,
+            _ => true
+        };
     }
 
     public double length(GeoLibPoint p)
@@ -397,17 +381,18 @@ public class GCElement
             };
         }
 
-        if (dif1.X != 0 && dif2.X != 0)
+        if (dif1.X == 0 || dif2.X == 0)
         {
-            m1 = (double)dif1.Y / dif1.X;
-            m2 = (double)dif2.Y / dif2.X;
-            return Math.Abs(m1 - m2) switch
-            {
-                > double.Epsilon => false,
-                _ => true
-            };
+            return false;
         }
-        return false;
+
+        m1 = (double)dif1.Y / dif1.X;
+        m2 = (double)dif2.Y / dif2.X;
+        return Math.Abs(m1 - m2) switch
+        {
+            > double.Epsilon => false,
+            _ => true
+        };
     }
 
     public bool nearlyParallel(GeoLibPoint p1, GeoLibPoint p2, GeoLibPoint p3, GeoLibPoint p4)
@@ -435,21 +420,22 @@ public class GCElement
             }
         }
 
-        if (dif1.X != 0 && dif2.X != 0)
+        if (dif1.X == 0 || dif2.X == 0)
         {
-            m1 = dif1.Y / dif1.X;
-            m2 = dif2.Y / dif2.X;
-            m2 -= m1;
-            switch (m2)
-            {
-                case < 0 and < -0.005:
-                case > 0 and > 0.005:
-                    return false;
-                default:
-                    return true;
-            }
+            return false;
         }
-        return false;
+
+        m1 = dif1.Y / dif1.X;
+        m2 = dif2.Y / dif2.X;
+        m2 -= m1;
+        switch (m2)
+        {
+            case < 0 and < -0.005:
+            case > 0 and > 0.005:
+                return false;
+            default:
+                return true;
+        }
     }
 
     public bool onLine2(GeoLibPoint p1, GeoLibPoint p2, GeoLibPoint p3)
@@ -495,12 +481,7 @@ public class GCElement
             p2.Y = help;
         }
 
-        if (p3.X < p1.X || p3.Y < p1.Y || p3.X > p2.X || p3.Y > p2.Y)
-        {
-            return false;
-        }
-
-        return true;
+        return p3.X >= p1.X && p3.Y >= p1.Y && p3.X <= p2.X && p3.Y <= p2.Y;
     }
 
     public static int round(double d)

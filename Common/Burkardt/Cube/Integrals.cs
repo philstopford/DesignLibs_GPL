@@ -189,7 +189,7 @@ public static class Integrals
 
         for (i = 0; i < 3; i++)
         {
-            value *= (b[i] - a[i]);
+            value *= b[i] - a[i];
         }
 
         return value;

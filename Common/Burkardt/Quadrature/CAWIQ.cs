@@ -391,7 +391,7 @@ public static class CAWIQ
             k = 1;
             for (j = 1; j <= nt; j++)
             {
-                if ((ndx[j - 1] == 0) || (j == i))
+                if (ndx[j - 1] == 0 || j == i)
                 {
                     continue;
                 }

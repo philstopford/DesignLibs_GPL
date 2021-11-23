@@ -172,7 +172,7 @@ public static partial class CDF
                 goto S100;
         }
 
-        switch ((q <= 0.0e0))
+        switch (q <= 0.0e0)
         {
             case false:
                 goto S80;
@@ -222,7 +222,7 @@ public static partial class CDF
             goto S160;
         }
 
-        switch ((pq < 0.0e0))
+        switch (pq < 0.0e0)
         {
             case false:
                 goto S140;
@@ -271,7 +271,7 @@ public static partial class CDF
                 data.x = t;
                 E0000E0001.dinvr(ref data);
                 S180:
-                switch ((data.status == 1))
+                switch (data.status == 1)
                 {
                     case false:
                         goto S210;

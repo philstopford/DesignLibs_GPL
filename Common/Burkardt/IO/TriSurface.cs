@@ -161,7 +161,7 @@ public static class TriSurface
         order_num = h.m;
         triangle_num = h.n;
 
-        if (order_num == 3 || order_num == 6)
+        if (order_num is 3 or 6)
         {
             return;
         }

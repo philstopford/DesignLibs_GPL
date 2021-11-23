@@ -3542,7 +3542,7 @@ public class Clipper : ClipperBase
                     {
                         switch (e1Wc)
                         {
-                            case 0 or 1 when (e2Wc == 0 || e2Wc == 1):
+                            case 0 or 1 when e2Wc is 0 or 1:
                             {
                                 //neither edge is currently contributing ...
                                 long e1Wc2, e2Wc2;

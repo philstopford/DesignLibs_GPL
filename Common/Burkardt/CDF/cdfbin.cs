@@ -229,7 +229,7 @@ public static partial class CDF
                 goto S160;
         }
 
-        switch ((s < 0.0e0))
+        switch (s < 0.0e0)
         {
             case false:
                 goto S140;
@@ -280,7 +280,7 @@ public static partial class CDF
                 goto S250;
         }
 
-        switch (ompr < 0.0e0 || ompr > 1.0e0)
+        switch (ompr is < 0.0e0 or > 1.0e0)
         {
             //
             //     OMPR
@@ -289,7 +289,7 @@ public static partial class CDF
                 goto S240;
         }
 
-        switch ((ompr < 0.0e0))
+        switch (ompr < 0.0e0)
         {
             case false:
                 goto S220;
@@ -319,7 +319,7 @@ public static partial class CDF
             goto S280;
         }
 
-        switch ((pq < 0.0e0))
+        switch (pq < 0.0e0)
         {
             case false:
                 goto S260;
@@ -349,7 +349,7 @@ public static partial class CDF
             goto S320;
         }
 
-        switch ((prompr < 0.0e0))
+        switch (prompr < 0.0e0)
         {
             case false:
                 goto S300;

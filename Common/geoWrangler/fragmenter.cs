@@ -177,10 +177,10 @@ public class Fragmenter
     private List<GeoLibPointF> pFragmentPath(List<GeoLibPointF> pointList)
     {
         List<GeoLibPointF> returnList = new();
-        for (int pt = 0; pt < pointList.Count(); pt++)
+        for (int pt = 0; pt < pointList.Count; pt++)
         {
             returnList.Add(pointList[pt]);
-            if (pt != pointList.Count() - 1)
+            if (pt != pointList.Count - 1)
             {
                 // Fragment path doesn't return start and end points - just points between.
                 List<GeoLibPointF> newPtsList = fragmentPath(pointList[pt], pointList[pt + 1]);

@@ -279,7 +279,7 @@ internal static class Program
         int[] pk;
         bool[] sieve = new bool[SIEVE_MAX];
 
-        if (q_init <= 1 || Polynomial.PLY.Q_MAX < q_init)
+        if (q_init is <= 1 or > Polynomial.PLY.Q_MAX)
         {
             Console.WriteLine("");
             Console.WriteLine("IRRED - Fatal error!");
@@ -586,7 +586,7 @@ internal static class Program
         int[] pk;
         int[] pl;
 
-        if (q_init <= 1 || Polynomial.PLY.Q_MAX < q_init)
+        if (q_init is <= 1 or > Polynomial.PLY.Q_MAX)
         {
             Console.WriteLine("");
             Console.WriteLine("GFTAB - Fatal error!");
@@ -752,7 +752,7 @@ internal static class Program
         int i;
         int j;
 
-        if (q_init <= 1 || Polynomial.PLY.Q_MAX < q_init)
+        if (q_init is <= 1 or > Polynomial.PLY.Q_MAX)
         {
             Console.WriteLine("");
             Console.WriteLine("SETFLD - Fatal error!");

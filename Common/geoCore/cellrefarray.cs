@@ -3,6 +3,7 @@ using geoLib;
 using oasis;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace geoCoreLib;
@@ -445,9 +446,8 @@ public class GCCellRefArray : GCElement
         {
             for (int y = 0; y < count_y; y++)
             {
-                foreach (GCPolygon t in tmp)
+                foreach (GCPolygon tp in tmp.Select(t => new GCPolygon(t)))
                 {
-                    GCPolygon tp = new(t);
                     tp.move(new GeoLibPoint(x * pitch.X, y * pitch.Y));
                     ret.Add(tp);
                 }

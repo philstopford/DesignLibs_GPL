@@ -566,7 +566,7 @@ public static class Geometry
 
         for (j = 0; j < DIM_NUM; j++)
         {
-            centroid[j] /= (6.0 * area);
+            centroid[j] /= 6.0 * area;
         }
 
         return centroid;

@@ -812,7 +812,7 @@ public static class E0000E0001
                 goto S40;
         }
 
-        switch ((data.fx < 0.0e0))
+        switch (data.fx < 0.0e0)
         {
             case false:
                 goto S30;

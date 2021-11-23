@@ -371,7 +371,7 @@ public static class VandermondeMatrix
         {
             for (j = k + 1; j < n; j++)
             {
-                x[j] /= (alpha[j] - alpha[j - k - 1]);
+                x[j] /= alpha[j] - alpha[j - k - 1];
             }
 
             for (j = k; j < n - 1; j++)

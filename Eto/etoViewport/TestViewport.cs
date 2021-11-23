@@ -891,9 +891,9 @@ public class TestViewport : GLSurface
             List<Vector3> tessPolyList = new();
             List<Vector4> tessPolyColorList = new();
 
-            int polyListCount = ovpSettings.polyList.Count();
-            int bgPolyListCount = ovpSettings.bgPolyList.Count();
-            int tessPolyListCount = ovpSettings.tessPolyList.Count();
+            int polyListCount = ovpSettings.polyList.Count;
+            int bgPolyListCount = ovpSettings.bgPolyList.Count;
+            int tessPolyListCount = ovpSettings.tessPolyList.Count;
 
             // Carve our Z-space up to stack polygons
             int numPolys = 1;
@@ -1173,7 +1173,7 @@ public class TestViewport : GLSurface
         try
         {
             // Carve our Z-space up to stack polygons
-            int lineListCount = ovpSettings.lineList.Count();
+            int lineListCount = ovpSettings.lineList.Count;
             float polyZStep = 1.0f / lineListCount;
 
             for (int poly = 0; poly < lineListCount; poly++)

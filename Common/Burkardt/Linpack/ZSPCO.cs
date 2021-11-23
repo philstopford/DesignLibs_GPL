@@ -224,7 +224,7 @@ public static class ZSPCO
             switch (ks)
             {
                 case 2:
-                    ik -= (k + 1);
+                    ik -= k + 1;
                     break;
             }
         }
@@ -356,7 +356,7 @@ public static class ZSPCO
             switch (ks)
             {
                 case 2:
-                    ik -= (k + 1);
+                    ik -= k + 1;
                     break;
             }
         }

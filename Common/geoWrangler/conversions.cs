@@ -104,7 +104,7 @@ public static partial class GeoWrangler
         }
         GeoLibPoint[] returnPoint = new GeoLibPoint[length];
 #if !GWSINGLETHREADED
-        Parallel.For(0, sCount, (pt) =>
+        Parallel.For(0, sCount, pt =>
 #else
             for (int pt = 0; pt < source.Count; pt++)
 #endif
@@ -210,7 +210,7 @@ public static partial class GeoWrangler
         }
         GeoLibPointF[] returnPointF = new GeoLibPointF[length];
 #if !GWSINGLETHREADED
-        Parallel.For(0, sourceCount, (pt) =>
+        Parallel.For(0, sourceCount, pt =>
 #else
             for (int pt = 0; pt < source.Count(); pt++)
 #endif
@@ -258,7 +258,7 @@ public static partial class GeoWrangler
     private static GeoLibPoint[] pPointsFromPointF(GeoLibPointF[] source, long scaling)
     {
         GeoLibPoint[] ret = new GeoLibPoint[source.Length];
-        for (int pt = 0; pt < source.Count(); pt++)
+        for (int pt = 0; pt < source.Length; pt++)
         {
             try
             {
@@ -302,7 +302,7 @@ public static partial class GeoWrangler
     private static GeoLibPointF[] pPointFsFromPoint(GeoLibPoint[] source, long scaling)
     {
         GeoLibPointF[] ret = new GeoLibPointF[source.Length];
-        for (int pt = 0; pt < source.Count(); pt++)
+        for (int pt = 0; pt < source.Length; pt++)
         {
             try
             {

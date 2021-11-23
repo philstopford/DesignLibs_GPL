@@ -83,8 +83,7 @@ public class GCCellref : GCElement
 
     private void pMinimum(GeoLibPoint p)
     {
-        GeoLibPoint pos1, pos2;
-        pos1 = new GeoLibPoint(p.X - point.X, p.Y - point.Y);
+        GeoLibPoint pos1 = new GeoLibPoint(p.X - point.X, p.Y - point.Y);
         pos1.Y = trans.mirror_x switch
         {
             true => -pos1.Y,
@@ -97,7 +96,7 @@ public class GCCellref : GCElement
                 pos1.X = -pos1.X;
                 break;
         }
-        pos2 = pos1;
+        GeoLibPoint pos2 = pos1;
         cell_ref.maximum(pos1);
         cell_ref.minimum(pos2);
         switch (trans.mirror_x)
@@ -156,8 +155,7 @@ public class GCCellref : GCElement
 
     private void pMaximum(GeoLibPoint p)
     {
-        GeoLibPoint pos1, pos2;
-        pos1 = new GeoLibPoint(p.X - point.X, p.Y - point.Y);
+        GeoLibPoint pos1 = new GeoLibPoint(p.X - point.X, p.Y - point.Y);
         pos1.Y = trans.mirror_x switch
         {
             true => -pos1.Y,
@@ -170,7 +168,7 @@ public class GCCellref : GCElement
                 pos1.X = -pos1.X;
                 break;
         }
-        pos2 = pos1;
+        GeoLibPoint pos2 = pos1;
         cell_ref.maximum(pos1);
         cell_ref.minimum(pos2);
         switch (trans.mirror_x)

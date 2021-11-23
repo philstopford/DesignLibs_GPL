@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Text;
 
 namespace oasis;
@@ -30,7 +31,7 @@ internal partial class oasReader
 
     private GCDrawingfield drawing_;
 
-    private enum elementType { boxElement, polygonElement, pathElement, cellrefElement, textElement, circleElement, trapezoidElement, ctrapezoidElement };
+    private enum elementType { boxElement, polygonElement, pathElement, cellrefElement, textElement, circleElement, trapezoidElement, ctrapezoidElement }
     public struct modals
     {
         public bool absoluteMode { get; set; }
@@ -158,13 +159,11 @@ internal partial class oasReader
             Stream stream = File.OpenRead(filename);
             if (filename.ToLower().EndsWith("gz"))
             {
-                using (GZipStream gzs = new(stream, CompressionMode.Decompress))
-                {
-                    MemoryStream ms = new();
-                    gzs.CopyTo(ms);
-                    ms.Seek(0, SeekOrigin.Begin);
-                    br = new EndianBinaryReader(EndianBitConverter.Little, ms);
-                }
+                using GZipStream gzs = new(stream, CompressionMode.Decompress);
+                MemoryStream ms = new();
+                gzs.CopyTo(ms);
+                ms.Seek(0, SeekOrigin.Begin);
+                br = new EndianBinaryReader(EndianBitConverter.Little, ms);
             }
             else
             {
@@ -178,15 +177,17 @@ internal partial class oasReader
             for (i = 0; i < 13; i++)
             {
                 byte help = readRaw();
-                if (help != 0)
+                if (help == 0)
                 {
-                    s = Encoding.UTF8.GetString(new [] { help });
-                    s1 += s;
+                    continue;
                 }
+
+                s = Encoding.UTF8.GetString(new [] { help });
+                s1 += s;
             }
             if (s1 != "%SEMI-OASIS\r\n")
             {
-                string err = "Invalid Format.";
+                const string err = "Invalid Format.";
                 error_msgs.Add(err);
                 throw new Exception(err);
             }
@@ -1136,48 +1137,46 @@ internal partial class oasReader
             while (record != 2);
 
             // update cellref/text, if table at end
-            foreach (GCCell t in drawing_.cellList)
+            foreach (GCCell t in drawing_.cellList.Where(t => t != null))
             {
-                if (t != null)
+                s1 = t.cellName;
+                if (s1.Left(12) != "layout#cell~")
                 {
-                    s1 = t.cellName;
-                    if (s1.Left(12) == "layout#cell~")
-                    {
-                        s1 = s1.Substring(12, s1.Length - 12);
-                        t.cellName = cellNames[Convert.ToInt32(s1)];
-                    }
+                    continue;
                 }
+
+                s1 = s1.Substring(12, s1.Length - 12);
+                t.cellName = cellNames[Convert.ToInt32(s1)];
             }
-            foreach (GCCell t in drawing_.cellList)
+            foreach (GCElement t1 in drawing_.cellList.Where(t => t != null).SelectMany(t => t.elementList))
             {
-                if (t != null)
+                if (t1.isCellref() || t1.isCellrefArray())
                 {
-                    foreach (GCElement t1 in t.elementList)
+                    if (t1.depend() == null)
                     {
-                        if (t1.isCellref() || t1.isCellrefArray())
+                        s1 = t1.getName();
+                        if (s1 != null && s1.Left(12) == "layout#cell~")
                         {
-                            if (t1.depend() == null)
-                            {
-                                s1 = t1.getName();
-                                if (s1 != null && s1.Left(12) == "layout#cell~")
-                                {
-                                    s1 = s1.Substring(12, s1.Length - 12);
-                                    t1.setName(cellNames[Convert.ToInt32(s1)]);
-                                    t1.setCellRef(drawing_.findCell(cellNames[Convert.ToInt32(s1)]));
-                                }
-                            }
-                        }
-                        if (t1.isText())
-                        {
-                            s1 = t1.getName();
-                            if (s1.Left(12) == "layout#text~")
-                            {
-                                s1 = s1.Substring(12, s1.Length - 12);
-                                t1.setName(textNames[Convert.ToInt32(s1)]);
-                            }
+                            s1 = s1.Substring(12, s1.Length - 12);
+                            t1.setName(cellNames[Convert.ToInt32(s1)]);
+                            t1.setCellRef(drawing_.findCell(cellNames[Convert.ToInt32(s1)]));
                         }
                     }
                 }
+
+                if (!t1.isText())
+                {
+                    continue;
+                }
+
+                s1 = t1.getName();
+                if (s1.Left(12) != "layout#text~")
+                {
+                    continue;
+                }
+
+                s1 = s1.Substring(12, s1.Length - 12);
+                t1.setName(textNames[Convert.ToInt32(s1)]);
             }
 
             try
@@ -1187,7 +1186,7 @@ internal partial class oasReader
             }
             catch (Exception)
             {
-                string err = "Unable to find any cells. This library only supports Oasis saved in strict mode.";
+                const string err = "Unable to find any cells. This library only supports Oasis saved in strict mode.";
                 error_msgs.Add(err);
                 throw new Exception(err);
             }

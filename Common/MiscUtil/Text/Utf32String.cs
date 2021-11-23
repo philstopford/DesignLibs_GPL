@@ -26,7 +26,7 @@ public sealed class Utf32String : IEnumerable, IComparable, ICloneable
     /// <summary>
     /// An empty UTF-32 string.
     /// </summary>
-    public static readonly Utf32String Empty = new(new int[0]);
+    public static readonly Utf32String Empty = new(Array.Empty<int>());
     #endregion
 
     #region Instance fields

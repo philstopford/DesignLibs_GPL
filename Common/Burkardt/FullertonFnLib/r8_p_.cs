@@ -240,7 +240,7 @@ public static partial class FullertonLib
             int i;
             for (i = 1; i <= n; i++)
             {
-                value *= (a + (i - 1));
+                value *= a + (i - 1);
             }
 
             return value;

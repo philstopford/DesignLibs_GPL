@@ -187,8 +187,8 @@ public class RayCast
 
             switch (projectCorners)
             {
-                case true when (currentEdgeNormal.X == 0 && previousEdgeNormal.Y == 0 ||
-                                currentEdgeNormal.Y == 0 && previousEdgeNormal.X == 0):
+                case true when currentEdgeNormal.X == 0 && previousEdgeNormal.Y == 0 ||
+                               currentEdgeNormal.Y == 0 && previousEdgeNormal.X == 0:
                 {
                     long tX = currentEdgeNormal.X;
                     long tY = currentEdgeNormal.Y;

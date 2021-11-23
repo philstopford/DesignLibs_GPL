@@ -310,7 +310,7 @@ public static class DSPDI
                             temp = ap[jk - 1];
                             ap[jk - 1] = ap[ksj - 1];
                             ap[ksj - 1] = temp;
-                            ksj -= (j - 1);
+                            ksj -= j - 1;
                         }
 
                         if (kstep != 1)

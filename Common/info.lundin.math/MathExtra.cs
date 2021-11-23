@@ -33,7 +33,7 @@ namespace info.lundin.math
                 return 1;
             }
 
-            return (val * Fac(val - 1));
+            return val * Fac(val - 1);
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace info.lundin.math
                 return 1;
             }
 
-            return (val * Sfac(val - 2));
+            return val * Sfac(val - 2);
         }
 
         /// <summary>
@@ -70,11 +70,11 @@ namespace info.lundin.math
         {
             if (val >= 0)
             {
-                return (val - Math.Floor(val));
+                return val - Math.Floor(val);
             }
             else
             {
-                return (val - Math.Ceiling(val));
+                return val - Math.Ceiling(val);
             }
         }
 
@@ -86,7 +86,7 @@ namespace info.lundin.math
         private static bool
         IsInteger(double a)
         {
-            return ((a - (int)a) == 0.0);
+            return a - (int)a == 0.0;
         }
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace info.lundin.math
         private static bool
         IsEven(int a)
         {
-            return (IsInteger(a / 2));
+            return IsInteger(a / 2);
         }
     }
 }

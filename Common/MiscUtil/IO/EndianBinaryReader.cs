@@ -482,7 +482,7 @@ public class EndianBinaryReader : IDisposable
                 case -1:
                     throw new EndOfStreamException();
             }
-            ret |= ((b & 0x7f) << shift);
+            ret |= (b & 0x7f) << shift;
             switch (b & 0x80)
             {
                 case 0:

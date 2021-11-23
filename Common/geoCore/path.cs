@@ -23,7 +23,7 @@ public class GCPath : GCElement
 
     private void pGCPath()
     {
-        pointarray = new GeoLibPoint[0];
+        pointarray = Array.Empty<GeoLibPoint>();
     }
 
     public GCPath(GeoLibPoint[] points, int layer, int datatype)
@@ -48,7 +48,7 @@ public class GCPath : GCElement
 
     private bool pCorrect()
     {
-        switch (pointarray.Count())
+        switch (pointarray.Length)
         {
             case < 2:
             case 2 when pointarray[0] == pointarray[1] && cap == 0:
@@ -95,7 +95,7 @@ public class GCPath : GCElement
             {
                 int pointArrayCount = pointarray.Length;
 #if !GCSINGLETHREADED
-                Parallel.For(0, pointArrayCount, (i) =>
+                Parallel.For(0, pointArrayCount, i =>
 #else
                 for (int i = 0; i < pointArrayCount; i++)
 #endif
@@ -119,7 +119,7 @@ public class GCPath : GCElement
     {
         int pointArrayCount = pointarray.Length;
 #if !GCSINGLETHREADED
-        Parallel.For(0, pointArrayCount, (i) =>
+        Parallel.For(0, pointArrayCount, i =>
 #else
             for (int i = 0; i < pointArrayCount; i++)
 #endif
@@ -157,11 +157,13 @@ public class GCPath : GCElement
                     return; //no area
             }
 
-            if (pointarray[i] == pointarray[i + 1])
+            if (pointarray[i] != pointarray[i + 1])
             {
-                deletePoint(i + 1);
-                i--;
+                continue;
             }
+
+            deletePoint(i + 1);
+            i--;
         }
     }
 

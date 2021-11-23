@@ -56,7 +56,7 @@ namespace info.lundin.math
         /// </summary>
         public int Precedence
         {
-            get { return (prec); }
+            get { return prec; }
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace info.lundin.math
         /// </summary>
         public string Symbol
         {
-            get { return (op); }
+            get { return op; }
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace info.lundin.math
         /// </summary>
         public int Arguments
         {
-            get { return (args); }
+            get { return args; }
         }
 
     } // End class Operator

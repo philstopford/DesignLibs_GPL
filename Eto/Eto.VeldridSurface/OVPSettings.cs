@@ -314,11 +314,11 @@ public class OVPSettings
 
 	private void pUpdateColors(Color newColor)
 	{
-		for (int poly = 0; poly < polyList.Count(); poly++)
+		for (int poly = 0; poly < polyList.Count; poly++)
 		{
 			polyList[poly].color = newColor;
 		}
-		for (int poly = 0; poly < tessPolyList.Count(); poly++)
+		for (int poly = 0; poly < tessPolyList.Count; poly++)
 		{
 			tessPolyList[poly].color = newColor;
 		}

@@ -210,7 +210,7 @@ public static class Angle
         temp1 = Math.Sqrt(Math.Pow(p3[0] - p2[0], 2) + Math.Pow(p3[1] - p2[1], 2));
         temp2 = Math.Sqrt(Math.Pow(p2[0] - p1[0], 2) + Math.Pow(p2[1] - p1[1], 2));
 
-        temp /= (temp1 * temp2);
+        temp /= temp1 * temp2;
 
         switch (temp)
         {

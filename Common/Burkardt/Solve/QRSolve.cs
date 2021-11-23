@@ -740,7 +740,7 @@ public static class QRSolve
                            / a[index];
                 BLAS1D.daxpy(n - l + 1, t, a, 1, ref a, 1, index, yIndex);
 
-                if ((pl > j || j > pu) || (qraux[j - 1] == 0.0))
+                if (pl > j || j > pu || qraux[j - 1] == 0.0)
                 {
                     continue;
                 }

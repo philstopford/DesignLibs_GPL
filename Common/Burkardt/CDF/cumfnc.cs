@@ -158,7 +158,7 @@ public static partial class CDF
             goto S40;
         }
 
-        xmult *= (i / xnonc);
+        xmult *= i / xnonc;
         i -= 1;
         adn -= 1.0;
         dnterm = (adn + 1.0) / ((adn + b) * xx) * dnterm;
@@ -194,7 +194,7 @@ public static partial class CDF
         }
 
         S60:
-        xmult *= (xnonc / i);
+        xmult *= xnonc / i;
         i += 1;
         aup += 1.0;
         upterm = (aup + b - 2.0e0) * xx / (aup - 1.0) * upterm;

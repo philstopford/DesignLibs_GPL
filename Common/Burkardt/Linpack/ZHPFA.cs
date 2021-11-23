@@ -195,11 +195,11 @@ public static class ZHPFA
                 {
                     ipvt[k - 1] = k;
                     info = k;
-                    ik -= (k - 1);
+                    ik -= k - 1;
                     switch (kstep)
                     {
                         case 2:
-                            ik -= (k - 2);
+                            ik -= k - 2;
                             break;
                     }
 
@@ -235,7 +235,7 @@ public static class ZHPFA
                             ap[jk - 1] = Complex.Conjugate(ap[imj - 1]);
                             ap[imj - 1] = t;
 
-                            imj -= (j - 1);
+                            imj -= j - 1;
                         }
 
                         break;
@@ -256,7 +256,7 @@ public static class ZHPFA
                     ijj = ij + j;
                     ap[ijj - 1] = new Complex(ap[ijj - 1].Real, 0.0);
                     ap[jk - 1] = mulk;
-                    ij -= (j - 1);
+                    ij -= j - 1;
                 }
 
                 ipvt[k - 1] = swap switch
@@ -293,7 +293,7 @@ public static class ZHPFA
                             ap[jkm1 - 1] = Complex.Conjugate(ap[imj - 1]);
                             ap[imj - 1] = t;
 
-                            imj -= (j - 1);
+                            imj -= j - 1;
                         }
 
                         t = ap[km1k - 1];
@@ -333,7 +333,7 @@ public static class ZHPFA
                         ap[jkm1 - 1] = mulkm1;
                         ijj = ij + j;
                         ap[ijj - 1] = new Complex(ap[ijj - 1].Real, 0.0);
-                        ij -= (j - 1);
+                        ij -= j - 1;
                     }
                 }
 
@@ -349,11 +349,11 @@ public static class ZHPFA
                 ipvt[k - 2] = ipvt[k - 1];
             }
 
-            ik -= (k - 1);
+            ik -= k - 1;
             switch (kstep)
             {
                 case 2:
-                    ik -= (k - 2);
+                    ik -= k - 2;
                     break;
             }
 

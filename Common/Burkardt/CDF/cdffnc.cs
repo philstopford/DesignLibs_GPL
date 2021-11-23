@@ -139,7 +139,7 @@ public static partial class CDF
         };
 
         bound = 0.0;
-        switch ((which < 1 || which > 5))
+        switch (which is < 1 or > 5)
         {
             //
             //  Check arguments
@@ -148,7 +148,7 @@ public static partial class CDF
                 goto S30;
         }
 
-        switch ((which < 1))
+        switch (which < 1)
         {
             case false:
                 goto S10;
@@ -168,7 +168,7 @@ public static partial class CDF
                 goto S70;
         }
 
-        switch ((p < 0.0e0 || p > one))
+        switch (p is < 0.0e0 or > one)
         {
             //
             //     P
@@ -177,7 +177,7 @@ public static partial class CDF
                 goto S60;
         }
 
-        switch ((p < 0.0e0))
+        switch (p < 0.0e0)
         {
             case false:
                 goto S40;
@@ -198,7 +198,7 @@ public static partial class CDF
                 goto S90;
         }
 
-        switch ((f < 0.0e0))
+        switch (f < 0.0e0)
         {
             //
             //     F
@@ -218,7 +218,7 @@ public static partial class CDF
                 goto S110;
         }
 
-        switch ((dfn <= 0.0e0))
+        switch (dfn <= 0.0e0)
         {
             //
             //  DFN
@@ -238,7 +238,7 @@ public static partial class CDF
                 goto S130;
         }
 
-        switch ((dfd <= 0.0e0))
+        switch (dfd <= 0.0e0)
         {
             //
             //     DFD
@@ -258,7 +258,7 @@ public static partial class CDF
                 goto S150;
         }
 
-        switch ((phonc < 0.0e0))
+        switch (phonc < 0.0e0)
         {
             //
             //     PHONC
@@ -298,7 +298,7 @@ public static partial class CDF
                 data.x = f;
                 E0000E0001.dinvr(ref data);
                 S160:
-                switch ((data.status == 1))
+                switch (data.status == 1)
                 {
                     case false:
                         goto S170;
@@ -310,7 +310,7 @@ public static partial class CDF
                 E0000E0001.dinvr(ref data);
                 goto S160;
                 S170:
-                switch ((data.status == -1))
+                switch (data.status == -1)
                 {
                     case false:
                         goto S200;
@@ -347,7 +347,7 @@ public static partial class CDF
                 data.x = dfn;
                 E0000E0001.dinvr(ref data);
                 S210:
-                switch ((data.status == 1))
+                switch (data.status == 1)
                 {
                     case false:
                         goto S220;
@@ -359,7 +359,7 @@ public static partial class CDF
                 E0000E0001.dinvr(ref data);
                 goto S210;
                 S220:
-                switch ((data.status == -1))
+                switch (data.status == -1)
                 {
                     case false:
                         goto S250;
@@ -396,7 +396,7 @@ public static partial class CDF
                 data.x = dfd;
                 E0000E0001.dinvr(ref data);
                 S260:
-                switch ((data.status == 1))
+                switch (data.status == 1)
                 {
                     case false:
                         goto S270;
@@ -408,7 +408,7 @@ public static partial class CDF
                 E0000E0001.dinvr(ref data);
                 goto S260;
                 S270:
-                switch ((data.status == -1))
+                switch (data.status == -1)
                 {
                     case false:
                         goto S300;
@@ -444,7 +444,7 @@ public static partial class CDF
                 data.x = phonc;
                 E0000E0001.dinvr(ref data);
                 S310:
-                switch ((data.status == 1))
+                switch (data.status == 1)
                 {
                     case false:
                         goto S320;
@@ -456,7 +456,7 @@ public static partial class CDF
                 E0000E0001.dinvr(ref data);
                 goto S310;
                 S320:
-                switch ((data.status == -1))
+                switch (data.status == -1)
                 {
                     case false:
                         goto S350;

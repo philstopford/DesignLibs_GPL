@@ -140,7 +140,7 @@ public class GeoLibMatrix
 
         int sLength = source.Length;
 #if !GEOLIBSINGLETHREADED
-        Parallel.For(0, sLength, (pt) =>
+        Parallel.For(0, sLength, pt =>
 #else
             for (int pt = 0; pt < sLength; pt++)
 #endif
@@ -170,7 +170,7 @@ public class GeoLibMatrix
 
         int sLength = source.Length;
 #if !GEOLIBSINGLETHREADED
-        Parallel.For(0, sLength, (pt) => 
+        Parallel.For(0, sLength, pt => 
 #else
             for (int pt = 0; pt < sLength; pt++)
 #endif

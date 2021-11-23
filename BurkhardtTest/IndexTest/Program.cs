@@ -445,7 +445,7 @@ internal static class Program
         m = 1;
         for (j = 0; j < n; j++)
         {
-            m *= (i_max[j] - i_min[j] + 1);
+            m *= i_max[j] - i_min[j] + 1;
         }
 
         Console.WriteLine("  ND Index: "

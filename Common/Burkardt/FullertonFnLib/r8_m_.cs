@@ -497,7 +497,7 @@ public static partial class FullertonLib
             xmax = one - beta * epsneg;
         }
 
-        xmax /= (beta * beta * beta * xmin);
+        xmax /= beta * beta * beta * xmin;
         i = (int)(maxexp + minexp + 3);
 
         switch (i)

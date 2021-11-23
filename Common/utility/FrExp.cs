@@ -39,7 +39,7 @@ public static class FrExp
                     exponent++;
                     break;
                 default:
-                    mantissa |= (1L << 52);
+                    mantissa |= 1L << 52;
                     break;
             }
 

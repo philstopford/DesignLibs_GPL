@@ -242,8 +242,8 @@ public static partial class FullertonLib
                 for (i = 2; i <= nterms; i++)
                 {
                     double xi = i - 1;
-                    a0 /= (xi * (xi - v));
-                    b0 /= (xi * (xi + v));
+                    a0 /= xi * (xi - v);
+                    b0 /= xi * (xi + v);
                     alpha[i - 1] = (alpha[i - 2] + 2.0 * xi * a0)
                                    / (xi * (xi + v));
                     beta[i - 1] = (xi - 0.5 * v) * alpha[i - 1] - ztov * b0;

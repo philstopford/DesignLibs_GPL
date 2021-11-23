@@ -689,8 +689,8 @@ public static partial class Slow
 
         for (i = 0; i < np1h; i++)
         {
-            d[i] /= ((Math.Sqrt(3.0) + 1.0) / Math.Sqrt(2.0));
-            s[i] /= ((Math.Sqrt(3.0) - 1.0) / Math.Sqrt(2.0));
+            d[i] /= (Math.Sqrt(3.0) + 1.0) / Math.Sqrt(2.0);
+            s[i] /= (Math.Sqrt(3.0) - 1.0) / Math.Sqrt(2.0);
         }
 
         for (i = 0; i < np1h; i++)

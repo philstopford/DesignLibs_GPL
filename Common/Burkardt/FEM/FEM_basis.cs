@@ -78,15 +78,15 @@ public static class FEM_basis
         double c = 1.0;
         for (p = 0; p <= i - 1; p++)
         {
-            lij *= (d * x - p);
-            c *= (i - p);
+            lij *= d * x - p;
+            c *= i - p;
         }
 
         double w = 1.0 - x;
         for (p = 0; p <= j - 1; p++)
         {
-            lij *= (d * w - p);
-            c *= (j - p);
+            lij *= d * w - p;
+            c *= j - p;
         }
 
         lij /= c;
@@ -177,21 +177,21 @@ public static class FEM_basis
         double c = 1.0;
         for (p = 0; p <= i - 1; p++)
         {
-            lijk *= (d * x - p);
-            c *= (i - p);
+            lijk *= d * x - p;
+            c *= i - p;
         }
 
         for (p = 0; p <= j - 1; p++)
         {
-            lijk *= (d * y - p);
-            c *= (j - p);
+            lijk *= d * y - p;
+            c *= j - p;
         }
 
         double w = 1.0 - x - y;
         for (p = 0; p <= k - 1; p++)
         {
-            lijk *= (d * w - p);
-            c *= (k - p);
+            lijk *= d * w - p;
+            c *= k - p;
         }
 
         lijk /= c;
@@ -247,27 +247,27 @@ public static class FEM_basis
         double c = 1.0;
         for (p = 0; p <= i - 1; p++)
         {
-            lijkl *= (d * x - p);
-            c *= (i - p);
+            lijkl *= d * x - p;
+            c *= i - p;
         }
 
         for (p = 0; p <= j - 1; p++)
         {
-            lijkl *= (d * y - p);
-            c *= (j - p);
+            lijkl *= d * y - p;
+            c *= j - p;
         }
 
         for (p = 0; p <= k - 1; p++)
         {
-            lijkl *= (d * z - p);
-            c *= (k - p);
+            lijkl *= d * z - p;
+            c *= k - p;
         }
 
         double w = 1.0 - x - y - z;
         for (p = 0; p <= l - 1; p++)
         {
-            lijkl *= (d * w - p);
-            c *= (l - p);
+            lijkl *= d * w - p;
+            c *= l - p;
         }
 
         lijkl /= c;
@@ -329,8 +329,8 @@ public static class FEM_basis
         {
             for (p = 0; p < i[q]; p++)
             {
-                l *= (d * x[q] - p);
-                c *= (i[q] - p);
+                l *= d * x[q] - p;
+                c *= i[q] - p;
             }
         }
 
@@ -338,8 +338,8 @@ public static class FEM_basis
 
         for (p = 0; p < i[m]; p++)
         {
-            l *= (d * w - p);
-            c *= (i[m] - p);
+            l *= d * w - p;
+            c *= i[m] - p;
         }
 
         l /= c;

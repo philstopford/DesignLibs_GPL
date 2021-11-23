@@ -242,7 +242,7 @@ public class GCTxt : GCElement
                 break;
         }
         //xy
-        int val = 1 * 2 * 4 + 4;
+        const int val = 1 * 2 * 4 + 4;
         gw.bw.Write((ushort)val);
         gw.bw.Write((byte)0x10);
         gw.bw.Write((byte)3);

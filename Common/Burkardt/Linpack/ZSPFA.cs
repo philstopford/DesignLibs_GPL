@@ -181,11 +181,11 @@ public static class ZSPFA
                 {
                     ipvt[k - 1] = k;
                     info = k;
-                    ik -= (k - 1);
+                    ik -= k - 1;
                     switch (kstep)
                     {
                         case 2:
-                            ik -= (k - 2);
+                            ik -= k - 2;
                             break;
                     }
 
@@ -220,7 +220,7 @@ public static class ZSPFA
                             ap[jk - 1] = ap[imj - 1];
                             ap[imj - 1] = t;
 
-                            imj -= (j - 1);
+                            imj -= j - 1;
                         }
 
                         break;
@@ -240,7 +240,7 @@ public static class ZSPFA
                     t = mulk;
                     BLAS1Z.zaxpy(j, t, ap, 1, ref ap, 1, xIndex: +ik, yIndex: +ij);
                     ap[jk - 1] = mulk;
-                    ij -= (j - 1);
+                    ij -= j - 1;
                 }
 
                 ipvt[k - 1] = swap switch
@@ -277,7 +277,7 @@ public static class ZSPFA
                             ap[jkm1 - 1] = ap[imj - 1];
                             ap[imj - 1] = t;
 
-                            imj -= (j - 1);
+                            imj -= j - 1;
                         }
 
                         t = ap[km1k - 1];
@@ -315,7 +315,7 @@ public static class ZSPFA
                         BLAS1Z.zaxpy(j, t, ap, 1, ref ap, 1, xIndex: +ikm1, yIndex: +ij);
                         ap[jk - 1] = mulk;
                         ap[jkm1 - 1] = mulkm1;
-                        ij -= (j - 1);
+                        ij -= j - 1;
                     }
                 }
 
@@ -331,12 +331,12 @@ public static class ZSPFA
                 ipvt[k - 2] = ipvt[k - 1];
             }
 
-            ik -= (k - 1);
+            ik -= k - 1;
 
             switch (kstep)
             {
                 case 2:
-                    ik -= (k - 2);
+                    ik -= k - 2;
                     break;
             }
 

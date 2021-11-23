@@ -51,7 +51,7 @@ public class DoubleConverter
                 break;
             // Normal numbers; leave exponent as it is but add extra
             default:
-                mantissa |= (1L << 52);
+                mantissa |= 1L << 52;
                 break;
         }
 

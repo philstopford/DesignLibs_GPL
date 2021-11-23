@@ -472,7 +472,7 @@ public class GeoCore
         structure_LayerDataTypeList = sourceGeoCore.structure_LayerDataTypeList.ToList();
         source++;
 
-        while (source < sourceGeoCore.pStructureList.Count())
+        while (source < sourceGeoCore.pStructureList.Count)
         {
             pStructureList.Add(sourceGeoCore.pStructureList[source]);
             source++;
@@ -495,82 +495,84 @@ public class GeoCore
             
         for (int cell = 0; cell < drawing_.cellList.Count; cell++)
         {
-            if (drawing_.cellList[cell].elementList != null)
+            if (drawing_.cellList[cell].elementList == null)
             {
-                // Check whether our cell is known already.
-                string cellName = drawing_.cellList[cell].cellName;
+                continue;
+            }
 
-                int cellIndex = -1;
+            // Check whether our cell is known already.
+            string cellName = drawing_.cellList[cell].cellName;
+
+            int cellIndex = -1;
+
+            try
+            {
+                cellIndex = pStructureList.IndexOf(cellName);
+            }
+            catch (Exception)
+            {
+            }
+
+            switch (cellIndex)
+            {
+                case -1:
+                    pStructureList.Add(cellName); // new cell.
+                    cellIndex = pStructureList.Count - 1; // index.
+
+                    // Cell marker is null so we need to skip in this case.
+                    structure_LayerDataTypeList.Add(new List<string>());
+
+                    structures.Add(new Structure());
+                    break;
+            }
+
+            // Check whether our layer / datatype combination is known.
+            // We have to be careful here - Oasis has the ability to have strings, GDS is numeric.
+
+            List<string> hashList = new();
+            for (int element = 0; element < drawing_.cellList[cell].elementList.Count; element++)
+            {
+                int layer = drawing_.cellList[cell].elementList[element].layer_nr;
+                int datatype = drawing_.cellList[cell].elementList[element].datatype_nr;
+
+                // See if our layer/datatype combination is known to us already.
+
+                string searchString = "L" + layer + "D" + datatype;
+
+                // Query our dictionary.
+                try
+                {
+                    string resultString;
+                    if (layerNames_.TryGetValue(searchString, out resultString))
+                    {
+                        searchString = resultString;
+                    }
+                }
+                catch (Exception)
+                {
+
+                }
+
+                int ldIndex = -1;
 
                 try
                 {
-                    cellIndex = pStructureList.IndexOf(cellName);
+                    ldIndex = structure_LayerDataTypeList[cellIndex].IndexOf(searchString);
                 }
                 catch (Exception)
                 {
                 }
 
-                switch (cellIndex)
+                switch (ldIndex)
                 {
-                    case -1:
-                        pStructureList.Add(cellName); // new cell.
-                        cellIndex = pStructureList.Count - 1; // index.
-
-                        // Cell marker is null so we need to skip in this case.
-                        structure_LayerDataTypeList.Add(new List<string>());
-
-                        structures.Add(new Structure());
+                    case -1 when searchString != "L-1D-1":
+                        structure_LayerDataTypeList[cellIndex].Add(searchString);
+                        //structures[cellIndex].addElement();
+                        ldIndex = structure_LayerDataTypeList[cellIndex].Count - 1;
                         break;
                 }
 
-                // Check whether our layer / datatype combination is known.
-                // We have to be careful here - Oasis has the ability to have strings, GDS is numeric.
-
-                List<string> hashList = new();
-                for (int element = 0; element < drawing_.cellList[cell].elementList.Count; element++)
-                {
-                    int layer = drawing_.cellList[cell].elementList[element].layer_nr;
-                    int datatype = drawing_.cellList[cell].elementList[element].datatype_nr;
-
-                    // See if our layer/datatype combination is known to us already.
-
-                    string searchString = "L" + layer + "D" + datatype;
-
-                    // Query our dictionary.
-                    try
-                    {
-                        string resultString;
-                        if (layerNames_.TryGetValue(searchString, out resultString))
-                        {
-                            searchString = resultString;
-                        }
-                    }
-                    catch (Exception)
-                    {
-
-                    }
-
-                    int ldIndex = -1;
-
-                    try
-                    {
-                        ldIndex = structure_LayerDataTypeList[cellIndex].IndexOf(searchString);
-                    }
-                    catch (Exception)
-                    {
-                    }
-
-                    switch (ldIndex)
-                    {
-                        case -1 when searchString != "L-1D-1":
-                            structure_LayerDataTypeList[cellIndex].Add(searchString);
-                            //structures[cellIndex].addElement();
-                            ldIndex = structure_LayerDataTypeList[cellIndex].Count - 1;
-                            break;
-                    }
-
-                    getGeometry(ref drawing_, cell, element, hashList, cellIndex, searchString);
-                }
+                getGeometry(ref drawing_, cell, element, hashList, cellIndex, searchString);
             }
         }
 
@@ -591,7 +593,7 @@ public class GeoCore
                 }
             }
 
-            for (int index = 0; index < indicesToRemove.Count(); index++)
+            for (int index = 0; index < indicesToRemove.Count; index++)
             {
                 structure_LayerDataTypeList[structure].RemoveAt(index);
                 structures[structure].elements.RemoveAt(index);
@@ -626,11 +628,7 @@ public class GeoCore
                 case -1:
                 {
                     hashList.Add(crP_Hash);
-                    List<GeoLibPointF> t = new();
-                    foreach (GeoLibPoint t1 in p.pointarray)
-                    {
-                        t.Add(new GeoLibPointF(t1.X * scaling, t1.Y * scaling));
-                    }
+                    List<GeoLibPointF> t = p.pointarray.Select(t1 => new GeoLibPointF(t1.X * scaling, t1.Y * scaling)).ToList();
                     if (gcCell.elementList[element].isText())
                     {
                         string text = gcCell.elementList[element].getName();
@@ -798,13 +796,9 @@ public class GeoCore
                     {
                         hashList.Add(crP_Hash);
 
-                        int x = 0;
-                        int y = 0;
-                        List<GeoLibPointF> t = new();
-                        foreach (GeoLibPoint t1 in crP.pointarray)
-                        {
-                            t.Add(new GeoLibPointF((t1.X + x * xSpace) * scaling, (t1.Y + y * ySpace) * scaling));
-                        }
+                        const int x = 0;
+                        const int y = 0;
+                        List<GeoLibPointF> t = crP.pointarray.Select(t1 => new GeoLibPointF((t1.X + x * xSpace) * scaling, (t1.Y + y * ySpace) * scaling)).ToList();
                         structures[cellIndex].addPoly(t, ldString);
                         ret.Add(t);
                         text.Add(crP.isText());
@@ -887,15 +881,9 @@ public class GeoCore
         //string text = pActiveStructure_LDList[activeLD];
         //return structures[activeStructure].isText(text);
 
-        List<bool> ret = new();
-
         List<GCPolygon> tmp = convertToPolygons(true);
-        foreach (GCPolygon t in tmp)
-        {
-            ret.Add(t.isText());
-        }
 
-        return ret;
+        return tmp.Select(t => t.isText()).ToList();
 
     }
 
@@ -909,15 +897,9 @@ public class GeoCore
         //string text = pActiveStructure_LDList[activeLD];
         //return structures[activeStructure].isText(text);
 
-        List<string> ret = new();
-
         List<GCPolygon> tmp = convertToPolygons(true);
-        foreach (GCPolygon t in tmp)
-        {
-            ret.Add(t.getName());
-        }
 
-        return ret;
+        return tmp.Select(t => t.getName()).ToList();
 
     }
 
@@ -932,14 +914,8 @@ public class GeoCore
         {
             case true:
             {
-                List<GeoLibPointF[]> ret = new();
                 List<GCPolygon> tmp = convertToPolygons(true);
-                foreach (GCPolygon t in tmp)
-                {
-                    GeoLibPointF[] p = GeoWrangler.pointFsFromPoint(t.pointarray, 1);
-                    ret.Add(p);
-                }
-                return ret;
+                return tmp.Select(t => GeoWrangler.pointFsFromPoint(t.pointarray, 1)).ToList();
             }
         }
 
@@ -1051,17 +1027,15 @@ public class GeoCore
     private bool nestedCellRef(GCCell cell, int elementIndex)
     {
         bool ret = false;
-        if (cell.elementList[elementIndex].isCellref() || cell.elementList[elementIndex].isCellrefArray())
+        if (!cell.elementList[elementIndex].isCellref() && !cell.elementList[elementIndex].isCellrefArray())
         {
-            GCCell rCell = cell.elementList[elementIndex].getCellref();
-            foreach (GCElement t in rCell.elementList)
-            {
-                if (t.isCellref() || t.isCellrefArray())
-                {
-                    ret = true;
-                    break;
-                }
-            }
+            return ret;
+        }
+
+        GCCell rCell = cell.elementList[elementIndex].getCellref();
+        if (rCell.elementList.Any(t => t.isCellref() || t.isCellrefArray()))
+        {
+            ret = true;
         }
 
         return ret;

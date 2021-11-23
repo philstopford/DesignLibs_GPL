@@ -508,7 +508,7 @@ public class RandomGenerator<TAlgo> : IRandomGenerator
             r1 = 2.0 * NextDouble() - 1.0;
             w = r0 * r0 + r1 * r1;
 
-        } while (w >= 1 || w <= double.Epsilon);
+        } while (w is >= 1 or <= double.Epsilon);
 
         w = Math.Sqrt(-2.0 * Math.Log(w) / w);
         _gaussCache = r0 * w;

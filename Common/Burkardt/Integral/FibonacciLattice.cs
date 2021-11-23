@@ -724,7 +724,7 @@ public static class FibonacciLattice
                for (i = 0; i < dim_num; i++)
                {
                     y[i] = x[i] - Math.Sin(two_pi * x[i]) / two_pi;
-                    dphi *= (1.0 - Math.Cos(two_pi * x[i]));
+                    dphi *= 1.0 - Math.Cos(two_pi * x[i]);
                }
 
                quad += f(dim_num, y) * dphi;

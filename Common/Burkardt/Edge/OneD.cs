@@ -670,10 +670,10 @@ public static class OneD
             switch (x[i])
             {
                 case < 0.5:
-                    f[i] -= (x[i] - 0.5);
+                    f[i] -= x[i] - 0.5;
                     break;
                 default:
-                    f[i] += (x[i] - 0.5);
+                    f[i] += x[i] - 0.5;
                     break;
             }
         }

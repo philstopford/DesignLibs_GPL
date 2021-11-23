@@ -1053,7 +1053,7 @@ public static class Niederreiter
         int i;
         int j;
 
-        if (q_init <= 1 || Q_MAX < q_init)
+        if (q_init is <= 1 or > Q_MAX)
         {
             Console.WriteLine("");
             Console.WriteLine("SETFLD - Fatal error!");

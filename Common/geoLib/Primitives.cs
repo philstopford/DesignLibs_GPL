@@ -1,8 +1,8 @@
 ﻿namespace geoLib;
 
-public enum typeDirection { left1, right1, up1, down1, tilt1 };
-public enum typeVertex { corner, center };
-public enum typeRound { inner, exter };
+public enum typeDirection { left1, right1, up1, down1, tilt1 }
+public enum typeVertex { corner, center }
+public enum typeRound { inner, exter }
 
 public class MyVertex : GeoLibPointF
 {

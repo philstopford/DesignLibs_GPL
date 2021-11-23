@@ -432,12 +432,12 @@ public partial class oasWriter
                                     }
                                     default:
                                     {
-                                        int k, j;
+                                        int k;
                                         switch (p.X)
                                         {
                                             case <= 0:
                                             {
-                                                int i = 2;
+                                                const int i = 2;
                                                 k = ((int)-p.X << 2) + i + 1;
                                                 break;
                                             }
@@ -449,7 +449,7 @@ public partial class oasWriter
                                         switch (p.Y)
                                         {
                                             case <= 0:
-                                                j = 1;
+                                                int j = 1;
                                                 k = ((int)-p.Y << 1) + j;
                                                 break;
                                             default:

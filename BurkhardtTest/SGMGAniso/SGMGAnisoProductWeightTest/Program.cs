@@ -389,8 +389,7 @@ internal static class Program
                     arg3 = alpha + 2.0;
                     arg4 = -1.0;
                     value2 = typeMethods.r8_hyper_2f1(arg1, arg2, arg3, arg4);
-                    weight_sum_exact *= (
-                        value1 / (beta + 1.0) + value2 / (alpha + 1.0));
+                    weight_sum_exact *= value1 / (beta + 1.0) + value2 / (alpha + 1.0);
                     break;
                 case 10:
                     weight_sum_exact *= Math.Sqrt(Math.PI);

@@ -184,7 +184,7 @@ public static class nInt
         double volume = 1.0;
         for (dim = 0; dim < dim_num; dim++)
         {
-            volume *= (b[dim] - a[dim]);
+            volume *= b[dim] - a[dim];
         }
 
         result = result * volume / eval_num;
@@ -265,7 +265,7 @@ public static class nInt
         double volume = 1.0;
         for (dim = 0; dim < dim_num; dim++)
         {
-            volume *= (b[dim] - a[dim]);
+            volume *= b[dim] - a[dim];
         }
 
         double[] work = new double[dim_num];

@@ -41,7 +41,7 @@ public static class Index
         //    Output, int INDEX0, the index of element I.
         //
     {
-        int value = (i - i_min);
+        int value = i - i_min;
 
         return value;
     }
@@ -82,7 +82,7 @@ public static class Index
         //    Output, int INDEX01, the index of element (I,J).
         //
     {
-        int value = (i - i_min)
+        int value = i - i_min
                     + (i_max + 1 - i_min) * (j - j_min);
 
         return value;
@@ -319,7 +319,7 @@ public static class Index
         //    Output, int INDEX10, the index of element (I,J).
         //
     {
-        int value = (j - j_min)
+        int value = j - j_min
                     + (i - i_min) * (j_max + 1 - j_min);
 
         return value;
@@ -1849,7 +1849,7 @@ public static class Index
         for (i = 0; i < n; i++)
         {
             rank += (a[i] - lo[i]) * range;
-            range *= (hi[i] + 1 - lo[i]);
+            range *= hi[i] + 1 - lo[i];
         }
 
         return rank;
@@ -2069,7 +2069,7 @@ public static class Index
         int range = 1;
         for (i = 0; i < n; i++)
         {
-            range *= (hi[i] + 1 - lo[i]);
+            range *= hi[i] + 1 - lo[i];
         }
 
         //
@@ -2083,7 +2083,7 @@ public static class Index
         int k = rank - 1;
         for (i = n - 1; 0 <= i; i--)
         {
-            range /= (hi[i] + 1 - lo[i]);
+            range /= hi[i] + 1 - lo[i];
             int j = k / range;
             a[i] = j + lo[i];
             k -= j * range;

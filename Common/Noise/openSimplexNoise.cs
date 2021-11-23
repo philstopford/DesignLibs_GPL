@@ -24,15 +24,14 @@ public class OpenSimplexNoise
     private byte[] perm3D;
     private byte[] perm4D;
 
-    private static double[] gradients2D = new double[]
-    {
+    private static readonly double[] gradients2D = {
         5,  2,    2,  5,
         -5,  2,   -2,  5,
         5, -2,    2, -5,
         -5, -2,   -2, -5,
     };
 
-    private static double[] gradients3D =
+    private static readonly double[] gradients3D =
     {
         -11,  4,  4,     -4,  11,  4,    -4,  4,  11,
         11,  4,  4,      4,  11,  4,     4,  4,  11,
@@ -44,7 +43,7 @@ public class OpenSimplexNoise
         11, -4, -4,      4, -11, -4,     4, -4, -11,
     };
 
-    private static double[] gradients4D =
+    private static readonly double[] gradients4D =
     {
         3,  1,  1,  1,      1,  3,  1,  1,      1,  1,  3,  1,      1,  1,  1,  3,
         -3,  1,  1,  1,     -1,  3,  1,  1,     -1,  1,  3,  1,     -1,  1,  1,  3,
@@ -70,13 +69,12 @@ public class OpenSimplexNoise
 
     static OpenSimplexNoise()
     {
-        int[][] base2D = new[]
-        {
+        int[][] base2D = {
             new[] { 1, 1, 0, 1, 0, 1, 0, 0, 0 },
             new[] { 1, 1, 0, 1, 0, 1, 2, 1, 1 }
         };
-        int[] p2D = new[] { 0, 0, 1, -1, 0, 0, -1, 1, 0, 2, 1, 1, 1, 2, 2, 0, 1, 2, 0, 2, 1, 0, 0, 0 };
-        int[] lookupPairs2D = new[] { 0, 1, 1, 0, 4, 1, 17, 0, 20, 2, 21, 2, 22, 5, 23, 5, 26, 4, 39, 3, 42, 4, 43, 3 };
+        int[] p2D = { 0, 0, 1, -1, 0, 0, -1, 1, 0, 2, 1, 1, 1, 2, 2, 0, 1, 2, 0, 2, 1, 0, 0, 0 };
+        int[] lookupPairs2D = { 0, 1, 1, 0, 4, 1, 17, 0, 20, 2, 21, 2, 22, 5, 23, 5, 26, 4, 39, 3, 42, 4, 43, 3 };
 
         Contribution2[] contributions2D = new Contribution2[p2D.Length / 4];
         for (int i = 0; i < p2D.Length; i += 4)
@@ -147,8 +145,7 @@ public class OpenSimplexNoise
             lookup3D[lookupPairs3D[i]] = contributions3D[lookupPairs3D[i + 1]];
         }
 
-        int[][] base4D = new[]
-        {
+        int[][] base4D = {
             new[] { 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1 },
             new[] { 3, 1, 1, 1, 0, 3, 1, 1, 0, 1, 3, 1, 0, 1, 1, 3, 0, 1, 1, 1, 4, 1, 1, 1, 1 },
             new[] { 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 2, 1, 1, 0, 0, 2, 1, 0, 1, 0, 2, 1, 0, 0, 1, 2, 0, 1, 1, 0, 2, 0, 1, 0, 1, 2, 0, 0, 1, 1 },
@@ -255,9 +252,9 @@ public class OpenSimplexNoise
 
         int hash =
             (int)(xins - yins + 1) |
-            (int)inSum << 1 |
-            (int)(inSum + yins) << 2 |
-            (int)(inSum + xins) << 4;
+            ((int)inSum << 1) |
+            ((int)(inSum + yins) << 2) |
+            ((int)(inSum + xins) << 4);
 
         Contribution2 c = lookup2D[hash];
 
@@ -311,12 +308,12 @@ public class OpenSimplexNoise
 
         int hash =
             (int)(yins - zins + 1) |
-            (int)(xins - yins + 1) << 1 |
-            (int)(xins - zins + 1) << 2 |
-            (int)inSum << 3 |
-            (int)(inSum + zins) << 5 |
-            (int)(inSum + yins) << 7 |
-            (int)(inSum + xins) << 9;
+            ((int)(xins - yins + 1) << 1) |
+            ((int)(xins - zins + 1) << 2) |
+            ((int)inSum << 3) |
+            ((int)(inSum + zins) << 5) |
+            ((int)(inSum + yins) << 7) |
+            ((int)(inSum + xins) << 9);
 
         Contribution3 c = lookup3D[hash];
 
@@ -377,16 +374,16 @@ public class OpenSimplexNoise
 
         int hash =
             (int)(zins - wins + 1) |
-            (int)(yins - zins + 1) << 1 |
-            (int)(yins - wins + 1) << 2 |
-            (int)(xins - yins + 1) << 3 |
-            (int)(xins - zins + 1) << 4 |
-            (int)(xins - wins + 1) << 5 |
-            (int)inSum << 6 |
-            (int)(inSum + wins) << 8 |
-            (int)(inSum + zins) << 11 |
-            (int)(inSum + yins) << 14 |
-            (int)(inSum + xins) << 17;
+            ((int)(yins - zins + 1) << 1) |
+            ((int)(yins - wins + 1) << 2) |
+            ((int)(xins - yins + 1) << 3) |
+            ((int)(xins - zins + 1) << 4) |
+            ((int)(xins - wins + 1) << 5) |
+            ((int)inSum << 6) |
+            ((int)(inSum + wins) << 8) |
+            ((int)(inSum + zins) << 11) |
+            ((int)(inSum + yins) << 14) |
+            ((int)(inSum + xins) << 17);
 
         Contribution4 c = lookup4D[hash];
 

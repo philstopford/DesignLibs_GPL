@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace Noise;
 
@@ -45,22 +46,12 @@ public class SimplexNoise
     /// <returns></returns>
     public double GetNoise(int x, int y)
     {
-        double result = 0;
-
-        for (int i = 0; i < octaves.Length; i++)
-            result += octaves[i].Noise(x / frequencys[i], y / frequencys[i]) * amplitudes[i];
-
-        return result;
+        return octaves.Select((t, i) => t.Noise(x / frequencys[i], y / frequencys[i]) * amplitudes[i]).Sum();
     }
 
     public double GetNoise(double x, double y)
     {
-        double result = 0;
-
-        for (int i = 0; i < octaves.Length; i++)
-            result += octaves[i].Noise(x / frequencys[i], y / frequencys[i]) * amplitudes[i];
-
-        return result;
+        return octaves.Select((t, i) => t.Noise(x / frequencys[i], y / frequencys[i]) * amplitudes[i]).Sum();
     }
 }
 
@@ -149,9 +140,7 @@ public class SimplexNoiseOctave
             int swapFrom = rand.Next(p.Length);
             int swapTo = rand.Next(p.Length);
 
-            short temp = p[swapFrom];
-            p[swapFrom] = p[swapTo];
-            p[swapTo] = temp;
+            (p[swapFrom], p[swapTo]) = (p[swapTo], p[swapFrom]);
         }
 
 

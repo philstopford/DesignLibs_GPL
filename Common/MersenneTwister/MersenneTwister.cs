@@ -77,13 +77,7 @@ public class MersenneTwister
     /// by instances of this class are less than or equal to this value. This
     /// value is <c>0x7fffffff</c> (<c>2,147,483,647</c>).
     /// </summary>
-    public static int MaxRandomInt
-    {
-        get
-        {
-            return 0x7fffffff;
-        }
-    }
+    public static int MaxRandomInt => 0x7fffffff;
 
     #endregion Properties
 
@@ -120,9 +114,7 @@ public class MersenneTwister
     {
         if (minValue > maxValue)
         {
-            int tmp = maxValue;
-            maxValue = minValue;
-            minValue = tmp;
+            (maxValue, minValue) = (minValue, maxValue);
         }
 
         return (int)Math.Floor((maxValue - minValue + 1) * genrand_real2() + minValue);

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.SphereNS;
 using Burkardt.Types;
 
@@ -68,9 +69,6 @@ internal static class Program
         //
     {
         int lat_num;
-        int long_log;
-        int long_num;
-        int point_num;
 
         Console.WriteLine("");
         Console.WriteLine("SPHERE_LLT_GRID_POINT_COUNT_TEST");
@@ -83,11 +81,12 @@ internal static class Program
         for (lat_num = 1; lat_num <= 17; lat_num += 2)
         {
             Console.WriteLine("");
-            long_num = 1;
+            int long_num = 1;
+            int long_log;
             for (long_log = 1; long_log <= 4; long_log++)
             {
                 long_num *= 2;
-                point_num = Grid_LatLong.sphere_llt_grid_point_count(lat_num, long_num);
+                int point_num = Grid_LatLong.sphere_llt_grid_point_count(lat_num, long_num);
                 Console.WriteLine("  " + lat_num.ToString().PadLeft(8)
                                        + "  " + long_num.ToString().PadLeft(8)
                                        + "  " + point_num.ToString().PadLeft(8) + "");
@@ -117,19 +116,12 @@ internal static class Program
         //
     {
         int i;
-        int j;
-        int k;
-        int lat_num;
-        int long_num;
-        int node_num;
-        double[] node_xyz;
         double[] pc = { 0.0, 0.0, 0.0 };
-        double r;
 
-        lat_num = 3;
-        long_num = 4;
+        const int lat_num = 3;
+        const int long_num = 4;
 
-        r = 10.0;
+        const double r = 10.0;
 
         Console.WriteLine("");
         Console.WriteLine("SPHERE_LLT_GRID_POINTS_TEST");
@@ -145,20 +137,20 @@ internal static class Program
         Console.WriteLine("  Number of latitudes is  " + lat_num + "");
         Console.WriteLine("  Number of longitudes is " + long_num + "");
 
-        node_num = Grid_LatLong.sphere_llt_grid_point_count(lat_num, long_num);
+        int node_num = Grid_LatLong.sphere_llt_grid_point_count(lat_num, long_num);
 
         Console.WriteLine("");
         Console.WriteLine("  The number of grid points is " + node_num + "");
 
-        node_xyz = Grid_LatLong.sphere_llt_grid_points(r, pc, lat_num, long_num, node_num);
+        double[] node_xyz = Grid_LatLong.sphere_llt_grid_points(r, pc, lat_num, long_num, node_num);
 
         Console.WriteLine("");
 
-        k = 0;
+        int k = 0;
         Console.WriteLine("  " + k.ToString().PadLeft(8)
-                               + "  " + node_xyz[0 + k * 3].ToString().PadLeft(14)
-                               + "  " + node_xyz[1 + k * 3].ToString().PadLeft(14)
-                               + "  " + node_xyz[2 + k * 3].ToString().PadLeft(14) + "");
+                               + "  " + node_xyz[0].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                               + "  " + node_xyz[1].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                               + "  " + node_xyz[2].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         k += 1;
 
         Console.WriteLine("");
@@ -166,12 +158,13 @@ internal static class Program
         for (i = 1; i <= lat_num; i++)
         {
             Console.WriteLine("");
+            int j;
             for (j = 0; j < long_num; j++)
             {
                 Console.WriteLine("  " + k.ToString().PadLeft(8)
-                                       + "  " + node_xyz[0 + k * 3].ToString().PadLeft(14)
-                                       + "  " + node_xyz[1 + k * 3].ToString().PadLeft(14)
-                                       + "  " + node_xyz[2 + k * 3].ToString().PadLeft(14) + "");
+                                       + "  " + node_xyz[0 + k * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + node_xyz[1 + k * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + node_xyz[2 + k * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                 k += 1;
                 Console.WriteLine("");
             }
@@ -180,9 +173,9 @@ internal static class Program
         Console.WriteLine("");
 
         Console.WriteLine("  " + k.ToString().PadLeft(8)
-                               + "  " + node_xyz[0 + k * 3].ToString().PadLeft(14)
-                               + "  " + node_xyz[1 + k * 3].ToString().PadLeft(14)
-                               + "  " + node_xyz[2 + k * 3].ToString().PadLeft(14) + "");
+                               + "  " + node_xyz[0 + k * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                               + "  " + node_xyz[1 + k * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                               + "  " + node_xyz[2 + k * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         k += 1;
         Console.WriteLine("");
     }
@@ -209,12 +202,6 @@ internal static class Program
         //
     {
         int lat_num;
-        int line_num;
-        int long_log;
-        int long_num;
-
-        lat_num = 3;
-        long_num = 4;
 
         Console.WriteLine("");
         Console.WriteLine("SPHERE_LLT_GRID_LINE_COUNT_TEST");
@@ -227,11 +214,12 @@ internal static class Program
         for (lat_num = 1; lat_num <= 17; lat_num += 2)
         {
             Console.WriteLine("");
-            long_num = 1;
+            int long_num = 1;
+            int long_log;
             for (long_log = 1; long_log <= 4; long_log++)
             {
                 long_num *= 2;
-                line_num = Grid_LatLong.sphere_llt_grid_line_count(lat_num, long_num);
+                int line_num = Grid_LatLong.sphere_llt_grid_line_count(lat_num, long_num);
                 Console.WriteLine("  " + lat_num.ToString().PadLeft(8)
                                        + "  " + long_num.ToString().PadLeft(8)
                                        + "  " + line_num.ToString().PadLeft(8) + "");
@@ -260,13 +248,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int lat_num;
-        int[] line_data;
-        int line_num;
-        int long_num;
-
-        lat_num = 3;
-        long_num = 4;
+        const int lat_num = 3;
+        const int long_num = 4;
 
         Console.WriteLine("");
         Console.WriteLine("SPHERE_LLT_GRID_LINES_TEST");
@@ -276,12 +259,12 @@ internal static class Program
         Console.WriteLine("  Number of latitudes is  " + lat_num + "");
         Console.WriteLine("  Number of longitudes is " + long_num + "");
 
-        line_num = Grid_LatLong.sphere_llt_grid_line_count(lat_num, long_num);
+        int line_num = Grid_LatLong.sphere_llt_grid_line_count(lat_num, long_num);
 
         Console.WriteLine("");
         Console.WriteLine("  Number of line segments is " + line_num + "");
 
-        line_data = Grid_LatLong.sphere_llt_grid_lines(lat_num, long_num, line_num);
+        int[] line_data = Grid_LatLong.sphere_llt_grid_lines(lat_num, long_num, line_num);
 
         typeMethods.i4mat_transpose_print(2, line_num, line_data,
             "  Grid line vertices:");
@@ -308,20 +291,12 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int lat_num;
-        int[] line_data;
-        int line_num;
-        int long_num;
-        int node_num;
-        double[] node_xyz;
         double[] pc = { 0.0, 0.0, 0.0 };
-        string prefix;
-        double r;
 
-        lat_num = 10;
-        long_num = 12;
+        int lat_num = 10;
+        const int long_num = 12;
 
-        r = 10.0;
+        double r = 10.0;
 
         Console.WriteLine("");
         Console.WriteLine("SPHERE_LLT_GRID_DISPLAY_TEST");
@@ -332,23 +307,23 @@ internal static class Program
         //
         //  Get points.
         //
-        node_num = Grid_LatLong.sphere_llt_grid_point_count(lat_num, long_num);
+        int node_num = Grid_LatLong.sphere_llt_grid_point_count(lat_num, long_num);
 
         Console.WriteLine("");
         Console.WriteLine("  The number of grid points is " + node_num + "");
 
-        node_xyz = Grid_LatLong.sphere_llt_grid_points(r, pc, lat_num, long_num, node_num);
+        double[] node_xyz = Grid_LatLong.sphere_llt_grid_points(r, pc, lat_num, long_num, node_num);
         //
         //  Get lines.
         //
-        line_num = Grid_LatLong.sphere_llt_grid_line_count(lat_num, long_num);
+        int line_num = Grid_LatLong.sphere_llt_grid_line_count(lat_num, long_num);
 
         Console.WriteLine("");
         Console.WriteLine("  Number of line segments is " + line_num + "");
 
-        line_data = Grid_LatLong.sphere_llt_grid_lines(lat_num, long_num, line_num);
+        int[] line_data = Grid_LatLong.sphere_llt_grid_lines(lat_num, long_num, line_num);
 
-        prefix = "sphere_llt_grid";
+        string prefix = "sphere_llt_grid";
 
         Grid_LatLong.sphere_llt_grid_display(node_num, node_xyz, line_num, line_data, prefix);
 

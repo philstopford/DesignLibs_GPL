@@ -37,14 +37,12 @@ internal static class Program
         //    Volume 46, Number 5, 2008, pages 2309-2345.
         //
     {
-        int dim_num;
         int[] dim_num_array =
         {
             2, 2, 2, 2, 2,
             3, 3, 3, 3, 3,
             4, 4
         };
-        int level_max;
         int[] level_max_array =
         {
             0, 1, 2, 3, 4,
@@ -52,7 +50,7 @@ internal static class Program
             2, 3
         };
         int test;
-        int test_num = 12;
+        const int test_num = 12;
 
         Console.WriteLine("");
         Console.WriteLine(" COMP_NEXT_TEST");
@@ -63,8 +61,8 @@ internal static class Program
         //
         for (test = 0; test < test_num; test++)
         {
-            dim_num = dim_num_array[test];
-            level_max = level_max_array[test];
+            int dim_num = dim_num_array[test];
+            int level_max = level_max_array[test];
             comp_next_test(dim_num, level_max);
         }
 
@@ -105,17 +103,10 @@ internal static class Program
         //    Input, int LEVEL_MAX, the maximum level.
         //
     {
-        int dim;
-        int h;
-        int i;
         int level;
-        int[] level_1d;
-        int level_min;
-        bool more_grids;
-        int t;
 
-        level_1d = new int[dim_num];
-        level_min = Math.Max(0, level_max + 1 - dim_num);
+        int[] level_1d = new int[dim_num];
+        int level_min = Math.Max(0, level_max + 1 - dim_num);
 
         Console.WriteLine("");
         Console.WriteLine("COMP_NEXT_TEST");
@@ -138,10 +129,10 @@ internal static class Program
             //  The inner loop generates vectors LEVEL_1D(1:DIM_NUM) whose components 
             //  add up to LEVEL.
             //
-            more_grids = false;
-            h = 0;
-            t = 0;
-            i = 0;
+            bool more_grids = false;
+            int h = 0;
+            int t = 0;
+            int i = 0;
 
             for (;;)
             {
@@ -150,6 +141,7 @@ internal static class Program
                 i += 1;
                 string cout = "  " + level.ToString().PadLeft(8)
                                    + "  " + i.ToString().PadLeft(8);
+                int dim;
                 for (dim = 0; dim < dim_num; dim++)
                 {
                     cout += "  " + level_1d[dim].ToString().PadLeft(8);

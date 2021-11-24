@@ -32,16 +32,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        DateTime ctime;
-        int dim_max;
-        int dim_min;
-        int growth_1d;
-        int level_max_max;
-        int level_max_min;
-        int np_1d;
-        double[] p_1d;
-        int rule_1d;
-
         Console.WriteLine("");
         Console.WriteLine("SGMGA_SIZE_TABLE");
         Console.WriteLine("  Make tables of point counts.");
@@ -49,15 +39,15 @@ internal static class Program
         //
         //  Clenshaw-Curtis Grid (1), slow exponential growth, rule (4).
         //
-        rule_1d = 1;
-        growth_1d = 4;
-        np_1d = 0;
-        p_1d = new double[np_1d];
-        dim_min = 1;
-        dim_max = 5;
-        level_max_min = 0;
-        level_max_max = 7;
-        ctime = DateTime.Now;
+        int rule_1d = 1;
+        int growth_1d = 4;
+        int np_1d = 0;
+        double[] p_1d = new double[np_1d];
+        int dim_min = 1;
+        int dim_max = 5;
+        int level_max_min = 0;
+        int level_max_max = 7;
+        DateTime ctime = DateTime.Now;
         sgmga_size_tabulate(rule_1d, growth_1d, np_1d, p_1d, dim_min, dim_max,
             level_max_min, level_max_max, ClenshawCurtis.clenshaw_curtis_compute_points_np);
         Console.WriteLine("");
@@ -293,19 +283,8 @@ internal static class Program
         //    a function which return the 1D quadrature points.
         //
     {
-        int dim;
         int dim_num;
-        int[] growth;
-        Func<int, int, double[], double[], double[]>[] gw_compute_points;
-        int i;
         int level_max;
-        double[] level_weight;
-        int[] np;
-        int np_sum;
-        double[] p;
-        int point_num;
-        int[] rule;
-        double tol;
 
         Console.WriteLine("");
         Console.WriteLine("SGMGA_SIZE_TABULATE");
@@ -319,7 +298,7 @@ internal static class Program
         Console.WriteLine("  1D growth rule = " + growth_1d + "");
         Console.WriteLine("");
 
-        tol = Math.Sqrt(typeMethods.r8_epsilon());
+        double tol = Math.Sqrt(typeMethods.r8_epsilon());
 
         string cout = "   DIM: ";
         for (dim_num = dim_min; dim_num <= dim_max; dim_num++)
@@ -337,20 +316,22 @@ internal static class Program
             cout = "    " + level_max.ToString().PadLeft(4);
             for (dim_num = dim_min; dim_num <= dim_max; dim_num++)
             {
-                level_weight = new double[dim_num];
-                rule = new int[dim_num];
-                growth = new int[dim_num];
-                np = new int[dim_num];
-                np_sum = dim_num * np_1d;
-                p = new double[np_sum];
-                gw_compute_points = new Func<int, int, double[], double[], double[]>[dim_num];
+                double[] level_weight = new double[dim_num];
+                int[] rule = new int[dim_num];
+                int[] growth = new int[dim_num];
+                int[] np = new int[dim_num];
+                int np_sum = dim_num * np_1d;
+                double[] p = new double[np_sum];
+                Func<int, int, double[], double[], double[]>[] gw_compute_points = new Func<int, int, double[], double[], double[]>[dim_num];
 
+                int dim;
                 for (dim = 0; dim < dim_num; dim++)
                 {
                     level_weight[dim] = 1.0;
                     rule[dim] = rule_1d;
                     growth[dim] = growth_1d;
                     np[dim] = np_1d;
+                    int i;
                     for (i = 0; i < np_1d; i++)
                     {
                         p[i + dim * np_1d] = p_1d[i];
@@ -359,7 +340,7 @@ internal static class Program
                     gw_compute_points[dim] = gw_compute_points_1d;
                 }
 
-                point_num = SGMGAniso.sgmga_size(dim_num, level_weight, level_max, rule,
+                int point_num = SGMGAniso.sgmga_size(dim_num, level_weight, level_max, rule,
                     np, p, gw_compute_points, tol, growth);
 
                 cout += "  " + point_num.ToString().PadLeft(8);

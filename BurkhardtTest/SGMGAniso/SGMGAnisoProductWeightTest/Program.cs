@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.ClenshawCurtisNS;
 using Burkardt.Quadrature;
 using Burkardt.Sparse;
@@ -81,33 +82,24 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int dim_num;
-        Func<int, int, double[], double[], double[]>[] gw_compute_weights;
-        int[] np;
-        int np_sum;
-        int[] order_1d;
-        int order_nd;
-        double[] p;
-        int[] rule;
-
         Console.WriteLine("");
         Console.WriteLine("SGMGA_PRODUCT_WEIGHT_TESTS");
         Console.WriteLine("  Call SGMGA_PRODUCT_WEIGHT_TEST with various arguments.");
 
-        dim_num = 2;
-        order_1d = new int[dim_num];
+        int dim_num = 2;
+        int[] order_1d = new int[dim_num];
         order_1d[0] = 3;
         order_1d[1] = 5;
-        order_nd = typeMethods.i4vec_product(dim_num, order_1d);
-        rule = new int[dim_num];
+        int order_nd = typeMethods.i4vec_product(dim_num, order_1d);
+        int[] rule = new int[dim_num];
         rule[0] = 1;
         rule[1] = 1;
-        np = new int[dim_num];
+        int[] np = new int[dim_num];
         np[0] = 0;
         np[1] = 0;
-        np_sum = typeMethods.i4vec_sum(dim_num, np);
-        p = new double[np_sum];
-        gw_compute_weights = new Func<int, int, double[], double[], double[]>[dim_num];
+        int np_sum = typeMethods.i4vec_sum(dim_num, np);
+        double[] p = new double[np_sum];
+        Func<int, int, double[], double[], double[]>[] gw_compute_weights = new Func<int, int, double[], double[], double[]>[dim_num];
         gw_compute_weights[0] = ClenshawCurtis.clenshaw_curtis_compute_weights_np;
         gw_compute_weights[1] = ClenshawCurtis.clenshaw_curtis_compute_weights_np;
         sgmga_product_weight_test(dim_num, order_1d, order_nd, rule,
@@ -326,25 +318,14 @@ internal static class Program
     {
         double alpha;
         double beta;
-        double arg1;
-        double arg2;
-        double arg3;
-        double arg4;
         int dim;
         int i;
-        int p_index;
-        double value1;
-        double value2;
-        double[] weight;
-        double weight_sum;
-        double weight_sum_error;
-        double weight_sum_exact;
         //
         //  Determine the integral of 1 over the multidimensional weighted region.
         //
-        p_index = 0;
+        int p_index = 0;
 
-        weight_sum_exact = 1.0;
+        double weight_sum_exact = 1.0;
 
         for (dim = 0; dim < dim_num; dim++)
         {
@@ -379,16 +360,16 @@ internal static class Program
                     p_index += 1;
                     beta = p[p_index];
                     p_index += 1;
-                    arg1 = -alpha;
-                    arg2 = 1.0;
-                    arg3 = beta + 2.0;
-                    arg4 = -1.0;
-                    value1 = typeMethods.r8_hyper_2f1(arg1, arg2, arg3, arg4);
+                    double arg1 = -alpha;
+                    double arg2 = 1.0;
+                    double arg3 = beta + 2.0;
+                    double arg4 = -1.0;
+                    double value1 = typeMethods.r8_hyper_2f1(arg1, arg2, arg3, arg4);
                     arg1 = -beta;
                     arg2 = 1.0;
                     arg3 = alpha + 2.0;
                     arg4 = -1.0;
-                    value2 = typeMethods.r8_hyper_2f1(arg1, arg2, arg3, arg4);
+                    double value2 = typeMethods.r8_hyper_2f1(arg1, arg2, arg3, arg4);
                     weight_sum_exact *= value1 / (beta + 1.0) + value2 / (alpha + 1.0);
                     break;
                 case 10:
@@ -462,7 +443,7 @@ internal static class Program
                     Console.WriteLine("  " + dim.ToString().PadLeft(8)
                                            + "  " + rule[dim].ToString().PadLeft(8)
                                            + "  " + order_1d[dim].ToString().PadLeft(8)
-                                           + "  " + alpha.ToString().PadLeft(14) + "");
+                                           + "  " + alpha.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                     break;
                 case 7:
                     Console.WriteLine("  " + dim.ToString().PadLeft(8)
@@ -475,7 +456,7 @@ internal static class Program
                     Console.WriteLine("  " + dim.ToString().PadLeft(8)
                                            + "  " + rule[dim].ToString().PadLeft(8)
                                            + "  " + order_1d[dim].ToString().PadLeft(8)
-                                           + "  " + alpha.ToString().PadLeft(14) + "");
+                                           + "  " + alpha.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                     break;
                 case 9:
                     alpha = p[p_index];
@@ -485,8 +466,8 @@ internal static class Program
                     Console.WriteLine("  " + dim.ToString().PadLeft(8)
                                            + "  " + rule[dim].ToString().PadLeft(8)
                                            + "  " + order_1d[dim].ToString().PadLeft(8)
-                                           + "  " + alpha.ToString().PadLeft(14)
-                                           + "  " + beta.ToString().PadLeft(14) + "");
+                                           + "  " + alpha.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                           + "  " + beta.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                     break;
                 case 10:
                     Console.WriteLine("  " + dim.ToString().PadLeft(8)
@@ -502,7 +483,7 @@ internal static class Program
                     {
                         alpha = p[p_index];
                         p_index += 1;
-                        cout += "  " + alpha.ToString().PadLeft(14);
+                        cout += "  " + alpha.ToString(CultureInfo.InvariantCulture).PadLeft(14);
                     }
 
                     Console.WriteLine(cout);
@@ -517,7 +498,7 @@ internal static class Program
                     {
                         alpha = p[p_index];
                         p_index += 1;
-                        cout += "  " + alpha.ToString().PadLeft(14);
+                        cout += "  " + alpha.ToString(CultureInfo.InvariantCulture).PadLeft(14);
                     }
 
                     Console.WriteLine(cout);
@@ -534,34 +515,34 @@ internal static class Program
         //
         //  Compute the weights.
         //
-        weight = new double[order_nd];
+        double[] weight = new double[order_nd];
 
         SGMGAniso.sgmga_product_weight(dim_num, order_1d, order_nd, rule,
             np, p, gw_compute_weights, ref weight);
         //
         //  Sum the weights to get the approximation to the integral of 1.
         //
-        weight_sum = typeMethods.r8vec_sum(order_nd, weight);
+        double weight_sum = typeMethods.r8vec_sum(order_nd, weight);
         //
         //  Compare the exact and estimated integrals.
         //
-        weight_sum_error = typeMethods.r8_abs(weight_sum - weight_sum_exact);
+        double weight_sum_error = typeMethods.r8_abs(weight_sum - weight_sum_exact);
 
         if (weight_sum_exact != 0.0)
         {
             Console.WriteLine("");
             Console.WriteLine("    Weight sum  Expected sum    Difference");
             Console.WriteLine("");
-            Console.WriteLine("  " + weight_sum.ToString().PadLeft(14)
-                                   + "  " + weight_sum_exact.ToString().PadLeft(14)
-                                   + "  " + weight_sum_error.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + weight_sum.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + weight_sum_exact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + weight_sum_error.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
         else
         {
             Console.WriteLine("");
             Console.WriteLine("    Weight sum");
             Console.WriteLine("");
-            Console.WriteLine("  " + weight_sum.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + weight_sum.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 }

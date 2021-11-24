@@ -74,52 +74,40 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int dim_num;
-        string file_name;
-        int[] growth;
-        Func<int, int, double[], double[], double[]>[] gw_compute_points;
-        Func<int, int, double[], double[], double[]>[] gw_compute_weights;
-        int level_max;
-        int[] np;
-        int np_sum;
-        double[] p;
-        int[] rule;
-        double tol;
-
         Console.WriteLine("");
         Console.WriteLine("SGMG_WRITE_TESTS");
         Console.WriteLine("  Call SGMG_WRITE_TEST with various arguments.");
 
-        dim_num = 2;
+        int dim_num = 2;
 
-        level_max = 2;
+        int level_max = 2;
 
-        rule = new int[dim_num];
+        int[] rule = new int[dim_num];
         rule[0] = 1;
         rule[1] = 1;
 
-        growth = new int[dim_num];
+        int[] growth = new int[dim_num];
         growth[0] = 1;
         growth[1] = 1;
 
-        np = new int[dim_num];
+        int[] np = new int[dim_num];
         np[0] = 0;
         np[1] = 0;
 
-        np_sum = typeMethods.i4vec_sum(dim_num, np);
-        p = new double[np_sum];
+        int np_sum = typeMethods.i4vec_sum(dim_num, np);
+        double[] p = new double[np_sum];
 
-        gw_compute_points = new Func<int, int, double[], double[], double[]>[dim_num];
+        Func<int, int, double[], double[], double[]>[] gw_compute_points = new Func<int, int, double[], double[], double[]>[dim_num];
         gw_compute_points[0] = ClenshawCurtis.clenshaw_curtis_compute_points_np;
         gw_compute_points[1] = ClenshawCurtis.clenshaw_curtis_compute_points_np;
 
-        gw_compute_weights = new Func<int, int, double[], double[], double[]>[dim_num];
+        Func<int, int, double[], double[], double[]>[] gw_compute_weights = new Func<int, int, double[], double[], double[]>[dim_num];
         gw_compute_weights[0] = ClenshawCurtis.clenshaw_curtis_compute_weights_np;
         gw_compute_weights[1] = ClenshawCurtis.clenshaw_curtis_compute_weights_np;
 
-        tol = 0.0000001;
+        double tol = 0.0000001;
 
-        file_name = "sgmg_cc_sl";
+        string file_name = "sgmg_cc_sl";
 
         sgmg_create_rule(dim_num, level_max, rule, growth, np,
             p, gw_compute_points, gw_compute_weights, tol, file_name);
@@ -198,14 +186,6 @@ internal static class Program
         //    Input, string FILE_NAME, the main name of the output files.
         //
     {
-        int point_num;
-        int point_total_num;
-        int[] sparse_index;
-        int[] sparse_order;
-        double[] sparse_point;
-        int[] sparse_unique_index;
-        double[] sparse_weight;
-
         Console.WriteLine("");
         Console.WriteLine("SGMG_CREATE_RULE");
         Console.WriteLine("  Create the requested sparse grid rule, and write it");
@@ -213,33 +193,33 @@ internal static class Program
         //
         //  Compute necessary data.
         //
-        point_total_num = SGMG.sgmg_size_total(dim_num,
+        int point_total_num = SGMG.sgmg_size_total(dim_num,
             level_max, rule, growth);
 
-        point_num = SGMG.sgmg_size(dim_num, level_max,
+        int point_num = SGMG.sgmg_size(dim_num, level_max,
             rule, np, p, gw_compute_points, tol, growth);
 
-        sparse_unique_index = new int[point_total_num];
+        int[] sparse_unique_index = new int[point_total_num];
 
         SGMG.sgmg_unique_index(dim_num, level_max, rule,
             np, p, gw_compute_points, tol, point_num, point_total_num,
             growth, ref sparse_unique_index);
 
-        sparse_order = new int[dim_num * point_num];
-        sparse_index = new int[dim_num * point_num];
+        int[] sparse_order = new int[dim_num * point_num];
+        int[] sparse_index = new int[dim_num * point_num];
 
         SGMG.sgmg_index(dim_num, level_max, rule, point_num,
             point_total_num, sparse_unique_index, growth, ref sparse_order, ref sparse_index);
         //
         //  Compute points and weights.
         //
-        sparse_point = new double [dim_num * point_num];
+        double[] sparse_point = new double [dim_num * point_num];
 
         SGMG.sgmg_point(dim_num, level_max, rule, np,
             p, gw_compute_points, point_num, sparse_order, sparse_index,
             growth, ref sparse_point);
 
-        sparse_weight = new double[point_num];
+        double[] sparse_weight = new double[point_num];
 
         SGMG.sgmg_weight(dim_num, level_max, rule, np,
             p, gw_compute_weights, point_num, point_total_num, sparse_unique_index,

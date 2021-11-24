@@ -35,7 +35,6 @@ internal static class Program
         //    table_latinize input_filename
         //
     {
-        int i;
         string input_filename;
 
 
@@ -48,6 +47,7 @@ internal static class Program
 
         try
         {
+            int i;
             for (i = 1; i < args.Length; i++)
             {
                 input_filename = args[i];
@@ -107,18 +107,14 @@ internal static class Program
         //    Local, int NS, the number of sample points.
         //
     {
-        int dim_num;
-        int n;
-        string output_filename;
-        double[] table;
         //
         //  Need to create the output file name from the input filename.
         //
-        output_filename = Files.file_name_ext_swap(input_filename, "latin.txt");
+        string output_filename = Files.file_name_ext_swap(input_filename, "latin.txt");
 
         TableHeader h = typeMethods.r8mat_header_read(input_filename);
-        dim_num = h.m;
-        n = h.n;
+        int dim_num = h.m;
+        int n = h.n;
 
         Console.WriteLine("");
         Console.WriteLine("  Read the header of \"" + input_filename + "\".");
@@ -126,7 +122,7 @@ internal static class Program
         Console.WriteLine("  Spatial dimension DIM_NUM = " + dim_num + "");
         Console.WriteLine("  Number of points N  = " + n + "");
 
-        table = typeMethods.r8mat_data_read(input_filename, dim_num, n);
+        double[] table = typeMethods.r8mat_data_read(input_filename, dim_num, n);
 
         Console.WriteLine("");
         Console.WriteLine("  Read the data in \"" + input_filename + "\".");

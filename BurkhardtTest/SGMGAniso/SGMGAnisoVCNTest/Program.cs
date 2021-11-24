@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Sparse;
 using Burkardt.Types;
 
@@ -88,7 +89,7 @@ internal static class Program
         double q_max;
         double q_min;
         int test;
-        int test_num = 12;
+        const int test_num = 12;
 
         Console.WriteLine("");
         Console.WriteLine("SGMGA_VCN_TESTS");
@@ -178,18 +179,13 @@ internal static class Program
         //
     {
         int dim;
-        int i;
-        int[] level_1d;
-        int[] level_1d_max;
-        int[] level_1d_min;
-        bool more_grids;
         double q;
         SGMGAniso.SGMGAData data = new();
         string cout = "";
 
-        level_1d = new int[dim_num];
-        level_1d_max = new int[dim_num];
-        level_1d_min = new int[dim_num];
+        int[] level_1d = new int[dim_num];
+        int[] level_1d_max = new int[dim_num];
+        int[] level_1d_min = new int[dim_num];
 
         Console.WriteLine("");
         Console.WriteLine("SGMGA_VCN_TEST");
@@ -226,14 +222,14 @@ internal static class Program
             level_1d_min[dim] = 0;
         }
 
-        more_grids = false;
+        bool more_grids = false;
 
         Console.WriteLine("");
         Console.WriteLine("  IMPORTANCE:");
         cout = "";
         for (dim = 0; dim < dim_num; dim++)
         {
-            cout += "  " + importance[dim].ToString().PadLeft(14);
+            cout += "  " + importance[dim].ToString(CultureInfo.InvariantCulture).PadLeft(14);
         }
 
         Console.WriteLine(cout);
@@ -241,14 +237,14 @@ internal static class Program
         cout = "";
         for (dim = 0; dim < dim_num; dim++)
         {
-            cout += "  " + level_weight[dim].ToString().PadLeft(14);
+            cout += "  " + level_weight[dim].ToString(CultureInfo.InvariantCulture).PadLeft(14);
         }
 
         Console.WriteLine(cout);
         Console.WriteLine("");
         Console.WriteLine("  SGMGA_VCN_NAIVE");
         Console.WriteLine("     I               Q   X");
-        cout = "   MIN" + "  " + q_min.ToString().PadLeft(14);
+        cout = "   MIN" + "  " + q_min.ToString(CultureInfo.InvariantCulture).PadLeft(14);
         for (dim = 0; dim < dim_num; dim++)
         {
             cout += "  " + level_1d_min[dim].ToString().PadLeft(2);
@@ -256,7 +252,7 @@ internal static class Program
 
         Console.WriteLine(cout);
 
-        i = 0;
+        int i = 0;
 
         for (;;)
         {
@@ -276,7 +272,7 @@ internal static class Program
 
             i += 1;
             cout = "  " + i.ToString().PadLeft(4)
-                        + "  " + q.ToString().PadLeft(14);
+                        + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(14);
             for (dim = 0; dim < dim_num; dim++)
             {
                 cout += "  " + level_1d[dim].ToString().PadLeft(2);
@@ -285,7 +281,7 @@ internal static class Program
             Console.WriteLine(cout);
         }
 
-        cout = "   MAX" + "  " + q_max.ToString().PadLeft(14);
+        cout = "   MAX" + "  " + q_max.ToString(CultureInfo.InvariantCulture).PadLeft(14);
         for (dim = 0; dim < dim_num; dim++)
         {
             cout += "  " + level_1d_max[dim].ToString().PadLeft(2);
@@ -296,7 +292,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  SGMGA_VCN");
         Console.WriteLine("     I               Q   X");
-        cout = "   MIN" + "  " + q_min.ToString().PadLeft(14);
+        cout = "   MIN" + "  " + q_min.ToString(CultureInfo.InvariantCulture).PadLeft(14);
         for (dim = 0; dim < dim_num; dim++)
         {
             cout += "  " + level_1d_min[dim].ToString().PadLeft(2);
@@ -324,7 +320,7 @@ internal static class Program
 
             i += 1;
             cout = "  " + i.ToString().PadLeft(4)
-                        + "  " + q.ToString().PadLeft(14);
+                        + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(14);
             for (dim = 0; dim < dim_num; dim++)
             {
                 cout += "  " + level_1d[dim].ToString().PadLeft(2);
@@ -333,7 +329,7 @@ internal static class Program
             Console.WriteLine(cout);
         }
 
-        cout = "   MAX" + "  " + q_max.ToString().PadLeft(14);
+        cout = "   MAX" + "  " + q_max.ToString(CultureInfo.InvariantCulture).PadLeft(14);
         for (dim = 0; dim < dim_num; dim++)
         {
             cout += "  " + level_1d_max[dim].ToString().PadLeft(2);
@@ -364,7 +360,6 @@ internal static class Program
         //
     {
         int dim;
-        int dim_num;
         double[] importance;
         int level_max;
         double[] level_weight;
@@ -378,7 +373,7 @@ internal static class Program
         //
         //  Isotropic examples.
         //
-        dim_num = 2;
+        int dim_num = 2;
 
         for (test = 0; test < 2; test++)
         {
@@ -448,18 +443,12 @@ internal static class Program
         //
     {
         int dim;
-        int[] level_1d;
-        int[] level_1d_max;
-        int[] level_1d_min;
-        bool more_grids;
-        DateTime t1;
-        DateTime t2;
         SGMGAniso.SGMGAData data = new();
         string cout = "";
 
-        level_1d = new int[dim_num];
-        level_1d_max = new int[dim_num];
-        level_1d_min = new int[dim_num];
+        int[] level_1d = new int[dim_num];
+        int[] level_1d_max = new int[dim_num];
+        int[] level_1d_min = new int[dim_num];
 
         Console.WriteLine("");
         Console.WriteLine("SGMGA_VCN_TIMING_TEST");
@@ -496,14 +485,14 @@ internal static class Program
             level_1d_min[dim] = 0;
         }
 
-        more_grids = false;
+        bool more_grids = false;
 
         Console.WriteLine("");
         Console.WriteLine("  IMPORTANCE:");
         cout = "";
         for (dim = 0; dim < dim_num; dim++)
         {
-            cout += "  " + importance[dim].ToString().PadLeft(14);
+            cout += "  " + importance[dim].ToString(CultureInfo.InvariantCulture).PadLeft(14);
         }
 
         Console.WriteLine(cout);
@@ -511,14 +500,14 @@ internal static class Program
         cout = "";
         for (dim = 0; dim < dim_num; dim++)
         {
-            cout += "  " + level_weight[dim].ToString().PadLeft(14);
+            cout += "  " + level_weight[dim].ToString(CultureInfo.InvariantCulture).PadLeft(14);
         }
 
         Console.WriteLine(cout);
         Console.WriteLine("");
         Console.WriteLine("  SGMGA_VCN_NAIVE");
         Console.WriteLine("     I               Q   X");
-        cout = "   MIN" + "  " + q_min.ToString().PadLeft(14);
+        cout = "   MIN" + "  " + q_min.ToString(CultureInfo.InvariantCulture).PadLeft(14);
         for (dim = 0; dim < dim_num; dim++)
         {
             cout += "  " + level_1d_min[dim].ToString().PadLeft(2);
@@ -526,7 +515,7 @@ internal static class Program
 
         Console.WriteLine(cout);
 
-        t1 = DateTime.Now;
+        DateTime t1 = DateTime.Now;
         for (;;)
         {
             SGMGAniso.sgmga_vcn_naive(dim_num, level_weight, level_1d_max, level_1d,
@@ -538,8 +527,8 @@ internal static class Program
             }
         }
 
-        t2 = DateTime.Now;
-        cout = "   MAX" + "  " + q_max.ToString().PadLeft(14);
+        DateTime t2 = DateTime.Now;
+        cout = "   MAX" + "  " + q_max.ToString(CultureInfo.InvariantCulture).PadLeft(14);
         for (dim = 0; dim < dim_num; dim++)
         {
             cout += "  " + level_1d_max[dim].ToString().PadLeft(2);
@@ -547,12 +536,12 @@ internal static class Program
 
         Console.WriteLine(cout);
         Console.WriteLine("  TIME" + "  "
-                                   + (t2 - t1).TotalSeconds.ToString().PadLeft(14) + "");
+                                   + (t2 - t1).TotalSeconds.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
         Console.WriteLine("");
         Console.WriteLine("  SGMGA_VCN");
         Console.WriteLine("     I               Q   X");
-        cout = "   MIN" + "  " + q_min.ToString().PadLeft(14);
+        cout = "   MIN" + "  " + q_min.ToString(CultureInfo.InvariantCulture).PadLeft(14);
         for (dim = 0; dim < dim_num; dim++)
         {
             cout += "  " + level_1d_min[dim].ToString().PadLeft(2);
@@ -573,7 +562,7 @@ internal static class Program
         }
 
         t2 = DateTime.Now;
-        cout = "   MAX" + "  " + q_max.ToString().PadLeft(14);
+        cout = "   MAX" + "  " + q_max.ToString(CultureInfo.InvariantCulture).PadLeft(14);
         for (dim = 0; dim < dim_num; dim++)
         {
             cout += "  " + level_1d_max[dim].ToString().PadLeft(2);
@@ -581,7 +570,7 @@ internal static class Program
 
         Console.WriteLine(cout);
         Console.WriteLine("  TIME" + "  "
-                                   + (t2 - t1).TotalSeconds.ToString().PadLeft(14) + "");
+                                   + (t2 - t1).TotalSeconds.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
     }
 
@@ -626,7 +615,7 @@ internal static class Program
         double q_max;
         double q_min;
         int test;
-        int test_num = 12;
+        const int test_num = 12;
 
         Console.WriteLine("");
         Console.WriteLine("SGMGA_VCN_ORDERED_TESTS");
@@ -700,18 +689,13 @@ internal static class Program
         //
     {
         int dim;
-        int i;
-        int[] level_1d;
-        int[] level_1d_max;
-        int[] level_1d_min;
-        bool more_grids;
         double q;
         SGMGAniso.SGMGAData data = new();
         string cout = "";
 
-        level_1d = new int[dim_num];
-        level_1d_max = new int[dim_num];
-        level_1d_min = new int[dim_num];
+        int[] level_1d = new int[dim_num];
+        int[] level_1d_max = new int[dim_num];
+        int[] level_1d_min = new int[dim_num];
 
         Console.WriteLine("");
         Console.WriteLine("SGMGA_VCN_ORDERED_TEST");
@@ -737,14 +721,14 @@ internal static class Program
             level_1d_min[dim] = 0;
         }
 
-        more_grids = false;
+        bool more_grids = false;
 
         Console.WriteLine("");
         Console.WriteLine("  IMPORTANCE:");
         cout = "";
         for (dim = 0; dim < dim_num; dim++)
         {
-            cout += "  " + importance[dim].ToString().PadLeft(14);
+            cout += "  " + importance[dim].ToString(CultureInfo.InvariantCulture).PadLeft(14);
         }
 
         Console.WriteLine(cout);
@@ -752,14 +736,14 @@ internal static class Program
         cout = "";
         for (dim = 0; dim < dim_num; dim++)
         {
-            cout += "  " + level_weight[dim].ToString().PadLeft(14);
+            cout += "  " + level_weight[dim].ToString(CultureInfo.InvariantCulture).PadLeft(14);
         }
 
         Console.WriteLine(cout);
         Console.WriteLine("");
         Console.WriteLine("  SGMGA_VCN_ORDERED_NAIVE:");
         Console.WriteLine("     I               Q   X");
-        cout = "   MIN" + "  " + q_min.ToString().PadLeft(14);
+        cout = "   MIN" + "  " + q_min.ToString(CultureInfo.InvariantCulture).PadLeft(14);
         for (dim = 0; dim < dim_num; dim++)
         {
             cout += "  " + level_1d_min[dim].ToString().PadLeft(2);
@@ -767,7 +751,7 @@ internal static class Program
 
         Console.WriteLine(cout);
 
-        i = 0;
+        int i = 0;
 
         for (;;)
         {
@@ -787,7 +771,7 @@ internal static class Program
 
             i += 1;
             cout = "  " + i.ToString().PadLeft(4)
-                        + "  " + q.ToString().PadLeft(14);
+                        + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(14);
             for (dim = 0; dim < dim_num; dim++)
             {
                 cout += "  " + level_1d[dim].ToString().PadLeft(2);
@@ -796,7 +780,7 @@ internal static class Program
             Console.WriteLine(cout);
         }
 
-        cout = "   MAX" + "  " + q_max.ToString().PadLeft(14);
+        cout = "   MAX" + "  " + q_max.ToString(CultureInfo.InvariantCulture).PadLeft(14);
         for (dim = 0; dim < dim_num; dim++)
         {
             cout += "  " + level_1d_max[dim].ToString().PadLeft(2);
@@ -807,7 +791,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  SGMGA_VCN_ORDERED:");
         Console.WriteLine("     I               Q   X");
-        cout = "   MIN" + "  " + q_min.ToString().PadLeft(14);
+        cout = "   MIN" + "  " + q_min.ToString(CultureInfo.InvariantCulture).PadLeft(14);
         for (dim = 0; dim < dim_num; dim++)
         {
             cout += "  " + level_1d_min[dim].ToString().PadLeft(2);
@@ -835,7 +819,7 @@ internal static class Program
 
             i += 1;
             cout = "  " + i.ToString().PadLeft(4)
-                        + "  " + q.ToString().PadLeft(14);
+                        + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(14);
             for (dim = 0; dim < dim_num; dim++)
             {
                 cout += "  " + level_1d[dim].ToString().PadLeft(2);
@@ -844,7 +828,7 @@ internal static class Program
             Console.WriteLine(cout);
         }
 
-        cout = "   MAX" + "  " + q_max.ToString().PadLeft(14);
+        cout = "   MAX" + "  " + q_max.ToString(CultureInfo.InvariantCulture).PadLeft(14);
         for (dim = 0; dim < dim_num; dim++)
         {
             cout += "  " + level_1d_max[dim].ToString().PadLeft(2);

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Sparse;
 using Burkardt.Types;
 using Burkardt.Uniform;
@@ -66,24 +67,19 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double alpha_max;
         int dim;
-        int dim_num;
-        double[] level_weight;
-        int seed;
         int test;
-        int test_num;
 
         Console.WriteLine("");
         Console.WriteLine("SGMGA_ANISO_BALANCE_TESTS");
         Console.WriteLine("  Call SGMGA_ANISO_BALANCE_TEST with various arguments.");
 
-        test_num = 5;
-        dim_num = 5;
-        level_weight = new double[dim_num];
+        int test_num = 5;
+        int dim_num = 5;
+        double[] level_weight = new double[dim_num];
 
-        alpha_max = 10.0;
-        seed = 123456789;
+        double alpha_max = 10.0;
+        int seed = 123456789;
         for (test = 1; test <= test_num; test++)
         {
             UniformRNG.r8vec_uniform_01(dim_num, ref seed, ref level_weight);
@@ -132,7 +128,6 @@ internal static class Program
         //
     {
         int dim;
-        double[] level_weight2;
 
         Console.WriteLine("");
         Console.WriteLine("SGMGA_ANISO_BALANCE_TEST");
@@ -142,19 +137,19 @@ internal static class Program
         string cout = "";
         for (dim = 0; dim < dim_num; dim++)
         {
-            cout += "  " + level_weight[dim].ToString().PadLeft(12);
+            cout += "  " + level_weight[dim].ToString(CultureInfo.InvariantCulture).PadLeft(12);
         }
 
         Console.WriteLine(cout);
 
-        level_weight2 = SGMGAniso.sgmga_aniso_balance(alpha_max, dim_num, level_weight);
+        double[] level_weight2 = SGMGAniso.sgmga_aniso_balance(alpha_max, dim_num, level_weight);
 
         Console.WriteLine("  Output weight sum: "
                           + typeMethods.r8vec_sum(dim_num, level_weight2) + "");
         cout = "";
         for (dim = 0; dim < dim_num; dim++)
         {
-            cout += "  " + level_weight2[dim].ToString().PadLeft(12);
+            cout += "  " + level_weight2[dim].ToString(CultureInfo.InvariantCulture).PadLeft(12);
         }
 
         Console.WriteLine(cout);
@@ -182,15 +177,12 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int dim_num;
-        double[] level_weight;
-
         Console.WriteLine("");
         Console.WriteLine("SGMGA_ANISO_NORMALIZE_TESTS");
         Console.WriteLine("  Call SGMGA_ANISO_NORMALIZE_TEST with various arguments.");
 
-        dim_num = 2;
-        level_weight = new double[dim_num];
+        int dim_num = 2;
+        double[] level_weight = new double[dim_num];
         level_weight[0] = 1.0;
         level_weight[1] = 1.0;
         sgmga_aniso_normalize_test(dim_num, level_weight);
@@ -270,7 +262,7 @@ internal static class Program
         string cout = "";
         for (dim = 0; dim < dim_num; dim++)
         {
-            cout += "  " + level_weight[dim].ToString().PadLeft(12);
+            cout += "  " + level_weight[dim].ToString(CultureInfo.InvariantCulture).PadLeft(12);
         }
 
         Console.WriteLine(cout);
@@ -285,7 +277,7 @@ internal static class Program
             cout = "";
             for (dim = 0; dim < dim_num; dim++)
             {
-                cout += "  " + level_weight[dim].ToString().PadLeft(12);
+                cout += "  " + level_weight[dim].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
@@ -313,17 +305,13 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int dim_num;
-        double[] importance;
-        double[] level_weight;
-
         Console.WriteLine("");
         Console.WriteLine("SGMGA_IMPORTANCE_TO_ANISO_TESTS");
         Console.WriteLine("  Call SGMGA_IMPORTANCE_TO_ANISO_TEST with various arguments.");
 
-        dim_num = 2;
-        importance = new double[dim_num];
-        level_weight = new double[dim_num];
+        int dim_num = 2;
+        double[] importance = new double[dim_num];
+        double[] level_weight = new double[dim_num];
         importance[0] = 1.0;
         importance[1] = 1.0;
         sgmga_importance_to_aniso_test(dim_num, importance, level_weight);
@@ -407,7 +395,7 @@ internal static class Program
         string cout = "";
         for (dim = 0; dim < dim_num; dim++)
         {
-            cout += "  " + importance[dim].ToString().PadLeft(12);
+            cout += "  " + importance[dim].ToString(CultureInfo.InvariantCulture).PadLeft(12);
         }
 
         Console.WriteLine(cout);
@@ -418,7 +406,7 @@ internal static class Program
         cout = "";
         for (dim = 0; dim < dim_num; dim++)
         {
-            cout += "  " + level_weight[dim].ToString().PadLeft(12);
+            cout += "  " + level_weight[dim].ToString(CultureInfo.InvariantCulture).PadLeft(12);
         }
 
         Console.WriteLine(cout);

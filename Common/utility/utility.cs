@@ -114,7 +114,7 @@ public static class Utils
         DataContractSerializer serializer = new(input.GetType());
         serializer.WriteObject(memoryStream, input);
         hashAlgorithm.ComputeHash(memoryStream.ToArray());
-        return Convert.ToBase64String(hashAlgorithm.Hash);
+        return hashAlgorithm.Hash != null ? Convert.ToBase64String(hashAlgorithm.Hash) : "";
     }
 
     public static string GetMD5Hash(object input)

@@ -41,29 +41,14 @@ internal static class Program
         //
     {
         int dim = 0;
-        int[] edge_label;
-        int[] edge_vertex;
         int edges = 0;
-        int element_num = 0;
-        int element_order = 0;
-        string fem_element_filename;
-        string fem_node_filename;
-        int[] hexahedron_label;
-        int[] hexahedron_vertex;
+        int element_num;
+        int element_order;
         int hexahedrons = 0;
-        string medit_filename;
         string prefix;
-        int[] quadrilateral_label;
-        int[] quadrilateral_vertex;
         int quadrilaterals = 0;
-        int[] tetrahedron_label;
-        int[] tetrahedron_vertex;
         int tetrahedrons = 0;
-        int[] triangle_label;
-        int[] triangle_vertex;
         int triangles = 0;
-        double[] vertex_coordinate;
-        int[] vertex_label;
         int vertices = 0;
 
         Console.WriteLine("");
@@ -91,9 +76,9 @@ internal static class Program
         //
         //  Create the filenames.
         //
-        medit_filename = prefix + ".mesh";
-        fem_node_filename = prefix + "_nodes.txt";
-        fem_element_filename = prefix + "_elements.txt";
+        string medit_filename = prefix + ".mesh";
+        string fem_node_filename = prefix + "_nodes.txt";
+        string fem_element_filename = prefix + "_elements.txt";
         //
         //  Read MEDIT sizes.
         //
@@ -113,18 +98,18 @@ internal static class Program
         //
         //  Allocate memory.
         //
-        edge_label = new int[edges];
-        edge_vertex = new int[2 * edges];
-        hexahedron_label = new int[hexahedrons];
-        hexahedron_vertex = new int[8 * hexahedrons];
-        quadrilateral_label = new int[quadrilaterals];
-        quadrilateral_vertex = new int[4 * quadrilaterals];
-        tetrahedron_label = new int[tetrahedrons];
-        tetrahedron_vertex = new int[4 * tetrahedrons];
-        triangle_label = new int[triangles];
-        triangle_vertex = new int[3 * triangles];
-        vertex_coordinate = new double[dim * vertices];
-        vertex_label = new int[vertices];
+        int[] edge_label = new int[edges];
+        int[] edge_vertex = new int[2 * edges];
+        int[] hexahedron_label = new int[hexahedrons];
+        int[] hexahedron_vertex = new int[8 * hexahedrons];
+        int[] quadrilateral_label = new int[quadrilaterals];
+        int[] quadrilateral_vertex = new int[4 * quadrilaterals];
+        int[] tetrahedron_label = new int[tetrahedrons];
+        int[] tetrahedron_vertex = new int[4 * tetrahedrons];
+        int[] triangle_label = new int[triangles];
+        int[] triangle_vertex = new int[3 * triangles];
+        double[] vertex_coordinate = new double[dim * vertices];
+        int[] vertex_label = new int[vertices];
         //
         //  Read MEDIT data.
         //

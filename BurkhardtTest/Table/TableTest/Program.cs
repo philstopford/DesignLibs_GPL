@@ -32,7 +32,6 @@ internal static class Program
         //
         {
             Console.WriteLine();
-            ;
             Console.WriteLine("TABLE_IO_TEST");
             Console.WriteLine("  Test the TABLE_IO library.");
 
@@ -71,12 +70,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int M = 5;
-        int N = 20;
+        const int M = 5;
+        const int N = 20;
 
         int i;
-        int j;
-        string output_filename = "r8mat_05_00020.txt";
+        const string output_filename = "r8mat_05_00020.txt";
         double[] table = new double[M * N];
 
         Console.WriteLine();
@@ -85,6 +83,7 @@ internal static class Program
 
         for (i = 0; i < M; i++)
         {
+            int j;
             for (j = 0; j < N; j++)
             {
                 table[i + j * M] = (100 * (j + 1) + i + 1) / 10.0;

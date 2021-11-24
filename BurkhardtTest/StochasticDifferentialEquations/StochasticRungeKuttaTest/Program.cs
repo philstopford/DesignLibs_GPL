@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.ODENS;
 
 namespace StochasticRungeKuttaTest;
@@ -62,15 +63,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double h;
-        int i;
-        int n;
-        double q;
-        int seed;
-        double t;
-        double t0 = 0.0;
-        double tn = 1.0;
-        double[] x;
+        const double t0 = 0.0;
+        const double tn = 1.0;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
@@ -78,22 +72,22 @@ internal static class Program
         Console.WriteLine("  for a problem whose right hand side does not");
         Console.WriteLine("  depend explicitly on time.");
 
-        n = 10;
-        x = new double[n + 1];
-        h = (tn - t0) / n;
-        q = 1.0;
-        seed = 123456789;
+        int n = 10;
+        double[] x = new double[n + 1];
+        double h = (tn - t0) / n;
+        double q = 1.0;
+        int seed = 123456789;
 
-        i = 0;
-        t = t0;
+        int i = 0;
+        double t = t0;
         x[i] = 0.0;
 
         Console.WriteLine("");
         Console.WriteLine("         I           T             X");
         Console.WriteLine("");
         Console.WriteLine("  " + i.ToString().PadLeft(8)
-                               + "  " + t.ToString().PadLeft(14)
-                               + "  " + x[i].ToString().PadLeft(14) + "");
+                               + "  " + t.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                               + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
         for (i = 1; i <= n; i++)
         {
@@ -104,8 +98,8 @@ internal static class Program
             x[i] = RungeKutta.rk1_ti_step(x[i - 1], t, h, q, fi, gi, ref seed);
 
             Console.WriteLine("  " + i.ToString().PadLeft(8)
-                                   + "  " + t.ToString().PadLeft(14)
-                                   + "  " + x[i].ToString().PadLeft(14) + "");
+                                   + "  " + t.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 

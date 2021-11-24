@@ -48,9 +48,6 @@ internal static class Program
         //    Local, int NS, the number of sample points.
         //
     {
-        int i;
-        string input_filename;
-
         Console.WriteLine("");
 
         Console.WriteLine("");
@@ -69,6 +66,7 @@ internal static class Program
         //
         try
         {
+            int i;
             for (i = 1; i < args.Length; i++)
             {
                 handle(args[i], Burkardt.HyperGeometry.Hypercube.Sample.sample_hypercube_uniform);
@@ -80,7 +78,7 @@ internal static class Program
             Console.WriteLine("TABLE_QUALITY:");
             Console.WriteLine("  Please enter the name of a file to be analyzed.");
 
-            input_filename = Console.ReadLine();
+            string input_filename = Console.ReadLine();
 
             handle(input_filename, Burkardt.HyperGeometry.Hypercube.Sample.sample_hypercube_uniform);
 
@@ -140,30 +138,22 @@ internal static class Program
         //      double *sample_routine ( int dim_num, int n, int *seed )
         //
     {
-        double[] gamma;
-        double gamma_ave;
-        double gamma_max;
-        double gamma_min;
         double gamma_std;
         int i;
-        int n;
-        int dim_num;
-        int ns = 100000;
+        const int ns = 100000;
         int nt = 0;
-        int seed_init = 123456789;
+        const int seed_init = 123456789;
         int[] triangle = null;
-        int[] triangle_neighbor;
         int triangle_order;
-        double[] z;
 
         TableHeader h = typeMethods.dtable_header_read(input_filename);
-        dim_num = h.m;
-        n = h.n;
+        int dim_num = h.m;
+        int n = h.n;
 
         // 
         //  Read the point set.
         //
-        z = typeMethods.dtable_data_read(input_filename, dim_num, n);
+        double[] z = typeMethods.dtable_data_read(input_filename, dim_num, n);
         switch (dim_num)
         {
             //
@@ -171,7 +161,7 @@ internal static class Program
             //
             case 2:
                 triangle = new int[3 * 2 * n];
-                triangle_neighbor = new int[3 * 2 * n];
+                int[] triangle_neighbor = new int[3 * 2 * n];
 
                 Delauney.dtris2(n, 0, ref z, ref nt, ref triangle, ref triangle_neighbor);
                 Console.WriteLine("");
@@ -265,9 +255,9 @@ internal static class Program
                               Burkardt.HyperGeometry.Hypercube.Sample.sample_hypercube_uniform,
                               seed_init) + "");
 
-        gamma = Spacing.pointset_spacing(dim_num, n, z);
+        double[] gamma = Spacing.pointset_spacing(dim_num, n, z);
 
-        gamma_ave = 0.0;
+        double gamma_ave = 0.0;
         for (i = 0; i < n; i++)
         {
             gamma_ave += gamma[i];
@@ -275,8 +265,8 @@ internal static class Program
 
         gamma_ave /= n;
 
-        gamma_min = typeMethods.r8vec_min(n, gamma);
-        gamma_max = typeMethods.r8vec_max(n, gamma);
+        double gamma_min = typeMethods.r8vec_min(n, gamma);
+        double gamma_max = typeMethods.r8vec_max(n, gamma);
 
         switch (n)
         {

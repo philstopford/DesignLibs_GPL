@@ -86,19 +86,6 @@ internal static class Program
         //
     {
         int dim;
-        int dim_num;
-        string file_name;
-        int[] growth;
-        Func<int, int, double[], double[], double[]>[] gw_compute_points;
-        Func<int, int, double[], double[], double[]>[] gw_compute_weights;
-        double[] importance;
-        int level_max;
-        double[] level_weight;
-        int[] np;
-        int np_sum;
-        double[] p;
-        int[] rule;
-        double tol;
 
         Console.WriteLine("");
         Console.WriteLine("SGMGA_WRITE_TESTS");
@@ -106,38 +93,38 @@ internal static class Program
         //
         //  Set the point equality tolerance.
         //
-        tol = Math.Sqrt(typeMethods.r8_epsilon());
+        double tol = Math.Sqrt(typeMethods.r8_epsilon());
         Console.WriteLine("");
         Console.WriteLine("  All tests will use a point equality tolerance of " + tol + "");
 
-        dim_num = 2;
-        importance = new double[dim_num];
+        int dim_num = 2;
+        double[] importance = new double[dim_num];
         for (dim = 0; dim < dim_num; dim++)
         {
             importance[dim] = 1.0;
         }
 
-        level_weight = new double[dim_num];
+        double[] level_weight = new double[dim_num];
         SGMGAniso.sgmga_importance_to_aniso(dim_num, importance, ref level_weight);
-        level_max = 2;
-        rule = new int[dim_num];
+        int level_max = 2;
+        int[] rule = new int[dim_num];
         rule[0] = 1;
         rule[1] = 1;
-        growth = new int[dim_num];
+        int[] growth = new int[dim_num];
         growth[0] = 6;
         growth[1] = 6;
-        np = new int[dim_num];
+        int[] np = new int[dim_num];
         np[0] = 0;
         np[1] = 0;
-        np_sum = typeMethods.i4vec_sum(dim_num, np);
-        p = new double[np_sum];
-        gw_compute_points = new Func<int, int, double[], double[], double[]>[dim_num];
+        int np_sum = typeMethods.i4vec_sum(dim_num, np);
+        double[] p = new double[np_sum];
+        Func<int, int, double[], double[], double[]>[] gw_compute_points = new Func<int, int, double[], double[], double[]>[dim_num];
         gw_compute_points[0] = ClenshawCurtis.clenshaw_curtis_compute_points_np;
         gw_compute_points[1] = ClenshawCurtis.clenshaw_curtis_compute_points_np;
-        gw_compute_weights = new Func<int, int, double[], double[], double[]>[dim_num];
+        Func<int, int, double[], double[], double[]>[] gw_compute_weights = new Func<int, int, double[], double[], double[]>[dim_num];
         gw_compute_weights[0] = ClenshawCurtis.clenshaw_curtis_compute_weights_np;
         gw_compute_weights[1] = ClenshawCurtis.clenshaw_curtis_compute_weights_np;
-        file_name = "sgmga_d2_l2_ccxcc_iso";
+        string file_name = "sgmga_d2_l2_ccxcc_iso";
         sgmga_write_test(dim_num, level_weight, level_max, rule, growth, np,
             p, gw_compute_points, gw_compute_weights, tol, file_name);
 
@@ -780,47 +767,39 @@ internal static class Program
         //    Input, string FILE_NAME, the main name of the output files.
         //
     {
-        int point_num;
-        int point_total_num;
-        int[] sparse_index;
-        int[] sparse_order;
-        double[] sparse_point;
-        int[] sparse_unique_index;
-        double[] sparse_weight;
-
         Console.WriteLine("");
         Console.WriteLine("SGMGA_WRITE_TEST");
         Console.WriteLine("  SGMGA_WRITE writes a sparse grid rule to files.");
         //
         //  Compute necessary data.
         //
-        point_total_num = SGMGAniso.sgmga_size_total(dim_num, level_weight,
+        int point_total_num = SGMGAniso.sgmga_size_total(dim_num, level_weight,
             level_max, rule, growth);
 
-        point_num = SGMGAniso.sgmga_size(dim_num, level_weight, level_max,
+        int point_num = SGMGAniso.sgmga_size(dim_num, level_weight, level_max,
             rule, np, p, gw_compute_points, tol, growth);
 
-        sparse_unique_index = new int[point_total_num];
+        int[] sparse_unique_index = new int[point_total_num];
 
         SGMGAniso.sgmga_unique_index(dim_num, level_weight, level_max, rule,
             np, p, gw_compute_points, tol, point_num, point_total_num,
             growth, ref sparse_unique_index);
 
-        sparse_order = new int[dim_num * point_num];
-        sparse_index = new int[dim_num * point_num];
+        int[] sparse_order = new int[dim_num * point_num];
+        int[] sparse_index = new int[dim_num * point_num];
 
         SGMGAniso.sgmga_index(dim_num, level_weight, level_max, rule, point_num,
             point_total_num, sparse_unique_index, growth, ref sparse_order, ref sparse_index);
         //
         //  Compute points and weights.
         //
-        sparse_point = new double [dim_num * point_num];
+        double[] sparse_point = new double [dim_num * point_num];
 
         SGMGAniso.sgmga_point(dim_num, level_weight, level_max, rule, np,
             p, gw_compute_points, point_num, sparse_order, sparse_index,
             growth, ref sparse_point);
 
-        sparse_weight = new double[point_num];
+        double[] sparse_weight = new double[point_num];
 
         SGMGAniso.sgmga_weight(dim_num, level_weight, level_max, rule, np,
             p, gw_compute_weights, point_num, point_total_num, sparse_unique_index,

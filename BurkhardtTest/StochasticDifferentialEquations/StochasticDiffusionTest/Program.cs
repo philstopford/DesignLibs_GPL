@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using Burkardt.StochasticDifferentialEquations;
 using Burkardt.Types;
@@ -81,24 +82,14 @@ internal static class Program
         //    Volume 45, Number 3, 2007, pages 1005-1034.
         //
     {
-        string command_filename = "bnt_commands.txt";
+        const string command_filename = "bnt_commands.txt";
         List<string> command_unit = new();
-        string data_filename = "bnt_data.txt";
+        const string data_filename = "bnt_data.txt";
         List<string> data_unit = new();
-        double[] dc;
-        double dc0;
-        int i;
         int j;
-        int m = 4;
-        int n;
-        int nx = 41;
-        int ny = 31;
-        double[] omega;
-        int seed;
-        double[] xmat;
-        double[] xvec;
-        double[] ymat;
-        double[] yvec;
+        const int m = 4;
+        const int nx = 41;
+        const int ny = 31;
 
         Console.WriteLine("");
         Console.WriteLine("BNT_CONTOUR");
@@ -110,31 +101,32 @@ internal static class Program
         //
         //  Set the spatial grid.
         //
-        xvec = typeMethods.r8vec_linspace_new(nx, -1.5, 0.0);
-        yvec = typeMethods.r8vec_linspace_new(ny, -0.4, 0.8);
+        double[] xvec = typeMethods.r8vec_linspace_new(nx, -1.5, 0.0);
+        double[] yvec = typeMethods.r8vec_linspace_new(ny, -0.4, 0.8);
 
-        xmat = new double[nx * ny];
-        ymat = new double[nx * ny];
+        double[] xmat = new double[nx * ny];
+        double[] ymat = new double[nx * ny];
         typeMethods.r8vec_mesh_2d(nx, ny, xvec, yvec, ref xmat, ref ymat);
         //
         //  Sample OMEGA.
         //
-        seed = 123456789;
-        omega = UniformRNG.r8vec_uniform_01_new(m, ref seed);
+        int seed = 123456789;
+        double[] omega = UniformRNG.r8vec_uniform_01_new(m, ref seed);
         //
         //  Compute the diffusivity field.
         //
-        dc0 = 10.0;
-        n = nx * ny;
-        dc = Diffusion.diffusivity_2d_bnt(dc0, omega, n, xmat, ymat);
+        double dc0 = 10.0;
+        int n = nx * ny;
+        double[] dc = Diffusion.diffusivity_2d_bnt(dc0, omega, n, xmat, ymat);
 
         for (j = 0; j < ny; j++)
         {
+            int i;
             for (i = 0; i < nx; i++)
             {
-                data_unit.Add("  " + xmat[i + j * nx].ToString().PadLeft(14)
-                                   + "  " + ymat[i + j * nx].ToString().PadLeft(14)
-                                   + "  " + dc[i + j * nx].ToString().PadLeft(14) + "");
+                data_unit.Add("  " + xmat[i + j * nx].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + ymat[i + j * nx].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + dc[i + j * nx].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
             data_unit.Add("");
@@ -201,25 +193,14 @@ internal static class Program
         //    Volume 27, Number 4, 2007, pages 675-688.
         //
     {
-        double a;
-        double cl;
-        string command_filename = "elman_commands.txt";
+        const string command_filename = "elman_commands.txt";
         List<string> command_unit = new();
-        string data_filename = "elman_data.txt";
+        const string data_filename = "elman_data.txt";
         List<string> data_unit = new();
-        double[] dc;
-        double dc0;
-        int i;
         int j;
-        int m_1d = 5;
-        int nx = 51;
-        int ny = 51;
-        double[] omega;
-        int seed;
-        double[] xmat;
-        double[] xvec;
-        double[] ymat;
-        double[] yvec;
+        const int m_1d = 5;
+        const int nx = 51;
+        const int ny = 51;
         typeMethods.r8vecNormalData data = new();
 
         Console.WriteLine("");
@@ -229,32 +210,33 @@ internal static class Program
         //
         //  Set the spatial grid.
         //
-        a = 1.0;
-        xvec = typeMethods.r8vec_linspace_new(nx, -a, a);
-        yvec = typeMethods.r8vec_linspace_new(ny, -a, a);
+        double a = 1.0;
+        double[] xvec = typeMethods.r8vec_linspace_new(nx, -a, a);
+        double[] yvec = typeMethods.r8vec_linspace_new(ny, -a, a);
 
-        xmat = new double[nx * ny];
-        ymat = new double[nx * ny];
+        double[] xmat = new double[nx * ny];
+        double[] ymat = new double[nx * ny];
         typeMethods.r8vec_mesh_2d(nx, ny, xvec, yvec, ref xmat, ref ymat);
         //
         //  Sample OMEGA.
         //
-        seed = 123456789;
-        omega = typeMethods.r8vec_normal_01_new(m_1d * m_1d, ref data, ref seed);
+        int seed = 123456789;
+        double[] omega = typeMethods.r8vec_normal_01_new(m_1d * m_1d, ref data, ref seed);
         //
         //  Compute the diffusivity field.
         //
-        cl = 0.1;
-        dc0 = 10.0;
-        dc = Diffusion.diffusivity_2d_elman(a, cl, dc0, m_1d, omega, nx, nx, xmat, ymat);
+        double cl = 0.1;
+        double dc0 = 10.0;
+        double[] dc = Diffusion.diffusivity_2d_elman(a, cl, dc0, m_1d, omega, nx, nx, xmat, ymat);
 
         for (j = 0; j < ny; j++)
         {
+            int i;
             for (i = 0; i < nx; i++)
             {
-                data_unit.Add("  " + xmat[i + j * nx].ToString().PadLeft(14)
-                                   + "  " + ymat[i + j * nx].ToString().PadLeft(14)
-                                   + "  " + dc[i + j * nx].ToString().PadLeft(14) + "");
+                data_unit.Add("  " + xmat[i + j * nx].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + ymat[i + j * nx].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + dc[i + j * nx].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
             data_unit.Add("");
@@ -322,25 +304,15 @@ internal static class Program
         //    Volume 46, Number 5, 2008, pages 2309-2345.
         //
     {
-        double cl;
-        string command_filename = "ntw_commands.txt";
+        const string command_filename = "ntw_commands.txt";
         List<string> command_unit = new();
-        double d;
-        string data_filename = "ntw_data.txt";
+        const string data_filename = "ntw_data.txt";
         List<string> data_unit = new();
-        double[] dc;
-        double dc0;
         int i;
         int j;
-        int m = 21;
-        int nx = 101;
-        int ny = 101;
-        double[] omega;
-        int seed;
-        double[] xmat;
-        double[] xvec;
-        double[] ymat;
-        double[] yvec;
+        const int m = 21;
+        const int nx = 101;
+        const int ny = 101;
 
         Console.WriteLine("");
         Console.WriteLine("NTW_CONTOUR");
@@ -349,19 +321,19 @@ internal static class Program
         //
         //  Set the spatial grid.
         //
-        d = 1.0;
-        xvec = typeMethods.r8vec_linspace_new(nx, 0.0, d);
-        yvec = typeMethods.r8vec_linspace_new(ny, 0.0, d);
+        double d = 1.0;
+        double[] xvec = typeMethods.r8vec_linspace_new(nx, 0.0, d);
+        double[] yvec = typeMethods.r8vec_linspace_new(ny, 0.0, d);
 
-        xmat = new double[nx * ny];
-        ymat = new double[nx * ny];
+        double[] xmat = new double[nx * ny];
+        double[] ymat = new double[nx * ny];
         typeMethods.r8vec_mesh_2d(nx, ny, xvec, yvec, ref xmat, ref ymat);
         //
         //  Sample OMEGA.
         //  We rescale to  [-sqrt(3),sqrt(3)].
         //
-        seed = 123456789;
-        omega = UniformRNG.r8vec_uniform_01_new(m, ref seed);
+        int seed = 123456789;
+        double[] omega = UniformRNG.r8vec_uniform_01_new(m, ref seed);
         for (i = 0; i < m; i++)
         {
             omega[i] = (1.0 - omega[i]) * -Math.Sqrt(3.0)
@@ -371,17 +343,17 @@ internal static class Program
         //
         //  Evaluate the diffusivity field.
         //
-        cl = 0.1;
-        dc0 = 0.5;
-        dc = Diffusion.diffusivity_2d_ntw(cl, dc0, m, omega, nx * ny, xmat, ymat);
+        double cl = 0.1;
+        double dc0 = 0.5;
+        double[] dc = Diffusion.diffusivity_2d_ntw(cl, dc0, m, omega, nx * ny, xmat, ymat);
 
         for (j = 0; j < ny; j++)
         {
             for (i = 0; i < nx; i++)
             {
-                data_unit.Add("  " + xmat[i + j * nx].ToString().PadLeft(14)
-                                   + "  " + ymat[i + j * nx].ToString().PadLeft(14)
-                                   + "  " + dc[i + j * nx].ToString().PadLeft(14) + "");
+                data_unit.Add("  " + xmat[i + j * nx].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + ymat[i + j * nx].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + dc[i + j * nx].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
             data_unit.Add("");
@@ -449,21 +421,11 @@ internal static class Program
         //    Volume 191, 2002, pages 4927-4948.
         //
     {
-        double[] dc;
-        double dc_max;
-        double dc0;
-        string command_filename = "xk_commands.txt";
+        const string command_filename = "xk_commands.txt";
         List<string> command_unit = new();
-        string data_filename = "xk_data.txt";
+        const string data_filename = "xk_data.txt";
         List<string> data_unit = new();
         int j;
-        int m;
-        int n;
-        int seed;
-        double[] omega;
-        double[] x;
-        double x_min;
-        double x_max;
         typeMethods.r8vecNormalData data = new();
 
         Console.WriteLine("");
@@ -473,26 +435,26 @@ internal static class Program
         //
         //  Set up the spatial grid.
         //
-        n = 51;
-        x_min = -1.0;
-        x_max = +1.0;
-        x = typeMethods.r8vec_linspace_new(n, x_min, x_max);
+        int n = 51;
+        double x_min = -1.0;
+        double x_max = +1.0;
+        double[] x = typeMethods.r8vec_linspace_new(n, x_min, x_max);
         //
         //  Sample the OMEGA values.
         //
-        m = 5;
-        seed = 123456789;
-        omega = typeMethods.r8vec_normal_01_new(m, ref data, ref seed);
+        int m = 5;
+        int seed = 123456789;
+        double[] omega = typeMethods.r8vec_normal_01_new(m, ref data, ref seed);
         //
         //  Compute the diffusivity field.
         //
-        dc0 = 10.0;
-        dc = Diffusion.diffusivity_1d_xk(dc0, m, omega, n, x);
+        double dc0 = 10.0;
+        double[] dc = Diffusion.diffusivity_1d_xk(dc0, m, omega, n, x);
 
         for (j = 0; j < n; j++)
         {
-            data_unit.Add("  " + x[j].ToString().PadLeft(14)
-                               + "  " + dc[j].ToString().PadLeft(14) + "");
+            data_unit.Add("  " + x[j].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                               + "  " + dc[j].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         File.WriteAllLines(data_filename, data_unit);
@@ -502,7 +464,7 @@ internal static class Program
         //
         //  Create the command file.
         //
-        dc_max = typeMethods.r8vec_max(n, dc);
+        double dc_max = typeMethods.r8vec_max(n, dc);
 
         command_unit.Add("# " + command_filename + "");
         command_unit.Add("#");

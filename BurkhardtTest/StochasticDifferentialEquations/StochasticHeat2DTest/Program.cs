@@ -72,20 +72,6 @@ internal static class Program
         List<string> data_unit = new();
         int i;
         int j;
-        int nx;
-        int ny;
-        double[] omega;
-        int seed;
-        double[] umat;
-        double u_mean;
-        double[] xmat;
-        double xmax;
-        double xmin;
-        double[] xvec;
-        double[] ymat;
-        double ymax;
-        double ymin;
-        double[] yvec;
         typeMethods.r8vecNormalData data = new();
 
         Console.WriteLine("");
@@ -103,26 +89,26 @@ internal static class Program
         //
         //  Create the X and Y coordinate vectors.
         //
-        nx = 21;
-        xmin = 0.0;
-        xmax = 1.0;
-        xvec = typeMethods.r8vec_linspace_new(nx, xmin, xmax);
+        int nx = 21;
+        double xmin = 0.0;
+        double xmax = 1.0;
+        double[] xvec = typeMethods.r8vec_linspace_new(nx, xmin, xmax);
 
-        ny = 21;
-        ymin = 0.0;
-        ymax = 1.0;
-        yvec = typeMethods.r8vec_linspace_new(ny, ymin, ymax);
+        int ny = 21;
+        double ymin = 0.0;
+        double ymax = 1.0;
+        double[] yvec = typeMethods.r8vec_linspace_new(ny, ymin, ymax);
         //
         //  Create the X and Y coordinate matrices.
         //
-        xmat = new double[nx * ny];
-        ymat = new double[nx * ny];
+        double[] xmat = new double[nx * ny];
+        double[] ymat = new double[nx * ny];
         typeMethods.r8vec_mesh_2d(nx, ny, xvec, yvec, ref xmat, ref ymat);
         //
         //  Sample OMEGA:
         //
-        seed = 123456789;
-        omega = typeMethods.r8vec_normal_01_new(4, ref data, ref seed);
+        int seed = 123456789;
+        double[] omega = typeMethods.r8vec_normal_01_new(4, ref data, ref seed);
         for (i = 0; i < 4; i++)
         {
             omega[i] = 2.0 * omega[i];
@@ -133,7 +119,7 @@ internal static class Program
         //  Solve the finite difference approximation to the steady 2D heat equation
         //  for this set of OMEGA values.
         //
-        umat = Diffusion.stochastic_heat2d(omega, nx, ny, xvec, yvec, test01_f);
+        double[] umat = Diffusion.stochastic_heat2d(omega, nx, ny, xvec, yvec, test01_f);
 
         for (j = 0; j < ny; j++)
         {
@@ -175,7 +161,7 @@ internal static class Program
         //
         //  Report the average value of U.
         //
-        u_mean = typeMethods.r8mat_mean(nx, ny, umat);
+        double u_mean = typeMethods.r8mat_mean(nx, ny, umat);
 
         Console.WriteLine("");
         Console.WriteLine("  Mean value of U is " + u_mean + "");
@@ -208,30 +194,7 @@ internal static class Program
         List<string> data_unit = new();
         int i;
         int j;
-        int nx;
-        int ny;
         double[] omega = new double[4];
-        double[] omega1_mat;
-        double omega1_max;
-        double omega1_min;
-        int omega1_num;
-        double[] omega1_vec;
-        double[] omega2_mat;
-        double omega2_max;
-        double omega2_min;
-        int omega2_num;
-        double[] omega2_vec;
-        double[] umat;
-        double[] u_mean_mat;
-        double u_mean_max;
-        double[] xmat;
-        double xmax;
-        double xmin;
-        double[] xvec;
-        double[] ymat;
-        double ymax;
-        double ymin;
-        double[] yvec;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02:");
@@ -241,38 +204,38 @@ internal static class Program
         //
         //  Create the X and Y coordinate vectors.
         //
-        nx = 21;
-        xmin = 0.0;
-        xmax = 1.0;
-        xvec = typeMethods.r8vec_linspace_new(nx, xmin, xmax);
+        int nx = 21;
+        double xmin = 0.0;
+        double xmax = 1.0;
+        double[] xvec = typeMethods.r8vec_linspace_new(nx, xmin, xmax);
 
-        ny = 21;
-        ymin = 0.0;
-        ymax = 1.0;
-        yvec = typeMethods.r8vec_linspace_new(ny, ymin, ymax);
+        int ny = 21;
+        double ymin = 0.0;
+        double ymax = 1.0;
+        double[] yvec = typeMethods.r8vec_linspace_new(ny, ymin, ymax);
         //
         //  Create the X and Y coordinate matrices.
         //
-        xmat = new double[nx * ny];
-        ymat = new double[nx * ny];
+        double[] xmat = new double[nx * ny];
+        double[] ymat = new double[nx * ny];
         typeMethods.r8vec_mesh_2d(nx, ny, xvec, yvec, ref xmat, ref ymat);
         //
         //  Create OMEGA1 and OMEGA2 vectors.
         //
-        omega1_num = 21;
-        omega1_min = -10.0;
-        omega1_max = +10.0;
-        omega1_vec = typeMethods.r8vec_linspace_new(omega1_num, omega1_min, omega1_max);
+        int omega1_num = 21;
+        double omega1_min = -10.0;
+        double omega1_max = +10.0;
+        double[] omega1_vec = typeMethods.r8vec_linspace_new(omega1_num, omega1_min, omega1_max);
 
-        omega2_num = 21;
-        omega2_min = -10.0;
-        omega2_max = +10.0;
-        omega2_vec = typeMethods.r8vec_linspace_new(omega2_num, omega2_min, omega2_max);
+        int omega2_num = 21;
+        double omega2_min = -10.0;
+        double omega2_max = +10.0;
+        double[] omega2_vec = typeMethods.r8vec_linspace_new(omega2_num, omega2_min, omega2_max);
         //
         //  Create the OMEGA1 and OMEGA2 coordinate matrices.
         //
-        omega1_mat = new double[omega1_num * omega2_num];
-        omega2_mat = new double[omega1_num * omega2_num];
+        double[] omega1_mat = new double[omega1_num * omega2_num];
+        double[] omega2_mat = new double[omega1_num * omega2_num];
         typeMethods.r8vec_mesh_2d(omega1_num, omega2_num, omega1_vec, omega2_vec, ref omega1_mat, ref omega2_mat);
         //
         //  Set OMEGA(3) and OMEGA(4).
@@ -288,7 +251,7 @@ internal static class Program
         //  and save the mean value of the solution, which is a slightly biased
         //  estimate of the heat integral over the unit square.
         //
-        u_mean_mat = new double[omega1_num * omega2_num];
+        double[] u_mean_mat = new double[omega1_num * omega2_num];
 
         for (j = 0; j < omega2_num; j++)
         {
@@ -296,7 +259,7 @@ internal static class Program
             for (i = 0; i < omega1_num; i++)
             {
                 omega[0] = omega1_vec[i];
-                umat = Diffusion.stochastic_heat2d(omega, nx, ny, xvec, yvec, test01_f);
+                double[] umat = Diffusion.stochastic_heat2d(omega, nx, ny, xvec, yvec, test01_f);
                 u_mean_mat[i + j * omega1_num] = typeMethods.r8mat_mean(nx, ny, umat);
             }
         }
@@ -341,7 +304,7 @@ internal static class Program
         //
         //  Print the maximum value of the mean.
         //
-        u_mean_max = typeMethods.r8mat_max(omega1_num, omega2_num, u_mean_mat);
+        double u_mean_max = typeMethods.r8mat_max(omega1_num, omega2_num, u_mean_mat);
 
         Console.WriteLine("");
         Console.WriteLine("  U_Mean_Max = " + u_mean_max + "");
@@ -376,13 +339,9 @@ internal static class Program
         //    Output, double TEST01_F, the value of the heat source term at (X,Y).
         //
     {
-        double arg;
-        double v;
-        double value = 0;
-
-        v = 0.05;
-        arg = (Math.Pow(x - 0.60, 2) + Math.Pow(y - 0.80, 2)) / Math.Pow(v, 2);
-        value = 2000.0 * Math.Exp(-arg);
+        double v = 0.05;
+        double arg = (Math.Pow(x - 0.60, 2) + Math.Pow(y - 0.80, 2)) / Math.Pow(v, 2);
+        double value = 2000.0 * Math.Exp(-arg);
 
         return value;
     }

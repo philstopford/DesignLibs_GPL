@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Sparse;
 using Burkardt.Types;
 
@@ -69,27 +70,22 @@ internal static class Program
         //
     {
         int dim;
-        int dim_num;
-        double[] importance;
-        int level_max_max;
-        int level_max_min;
-        double[] level_weight;
 
         Console.WriteLine("");
         Console.WriteLine("SGMGA_VCN_COEF_TESTS");
         Console.WriteLine("  calls SGMGA_VCN_COEF_TEST.");
 
-        dim_num = 2;
-        importance = new double[dim_num];
+        int dim_num = 2;
+        double[] importance = new double[dim_num];
         for (dim = 0; dim < dim_num; dim++)
         {
             importance[dim] = 1.0;
         }
 
-        level_weight = new double[dim_num];
+        double[] level_weight = new double[dim_num];
         SGMGAniso.sgmga_importance_to_aniso(dim_num, importance, ref level_weight);
-        level_max_min = 0;
-        level_max_max = 4;
+        int level_max_min = 0;
+        int level_max_max = 4;
         sgmga_vcn_coef_test(dim_num, importance, level_weight, level_max_min,
             level_max_max);
 
@@ -187,27 +183,14 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double coef1;
-        double coef1_sum;
-        double coef2;
-        double coef2_sum;
         int dim;
-        int i;
-        int[] level_1d;
-        int[] level_1d_max;
-        int[] level_1d_min;
         int level_max;
-        double level_weight_min_pos;
-        bool more_grids;
-        double q;
-        double q_max;
-        double q_min;
         SGMGAniso.SGMGAData data = new();
         string cout = "";
 
-        level_1d = new int[dim_num];
-        level_1d_max = new int[dim_num];
-        level_1d_min = new int[dim_num];
+        int[] level_1d = new int[dim_num];
+        int[] level_1d_max = new int[dim_num];
+        int[] level_1d_min = new int[dim_num];
 
         Console.WriteLine("");
         Console.WriteLine("SGMGA_VCN_COEF_TEST");
@@ -222,7 +205,7 @@ internal static class Program
         cout = "";
         for (dim = 0; dim < dim_num; dim++)
         {
-            cout += "  " + importance[dim].ToString().PadLeft(14);
+            cout += "  " + importance[dim].ToString(CultureInfo.InvariantCulture).PadLeft(14);
         }
 
         Console.WriteLine(cout);
@@ -230,23 +213,23 @@ internal static class Program
         cout = "";
         for (dim = 0; dim < dim_num; dim++)
         {
-            cout += "  " + level_weight[dim].ToString().PadLeft(14);
+            cout += "  " + level_weight[dim].ToString(CultureInfo.InvariantCulture).PadLeft(14);
         }
 
         Console.WriteLine(cout);
 
         for (level_max = level_max_min; level_max <= level_max_max; level_max++)
         {
-            i = 0;
-            coef1_sum = 0.0;
-            coef2_sum = 0.0;
+            int i = 0;
+            double coef1_sum = 0.0;
+            double coef2_sum = 0.0;
             //
             //  Initialization.
             //
-            level_weight_min_pos = typeMethods.r8vec_min_pos(dim_num, level_weight);
-            q_min = level_max * level_weight_min_pos
-                    - typeMethods.r8vec_sum(dim_num, level_weight);
-            q_max = level_max * level_weight_min_pos;
+            double level_weight_min_pos = typeMethods.r8vec_min_pos(dim_num, level_weight);
+            double q_min = level_max * level_weight_min_pos
+                           - typeMethods.r8vec_sum(dim_num, level_weight);
+            double q_max = level_max * level_weight_min_pos;
             for (dim = 0; dim < dim_num; dim++)
             {
                 level_1d_min[dim] = 0;
@@ -272,12 +255,12 @@ internal static class Program
                 }
             }
 
-            more_grids = false;
+            bool more_grids = false;
 
 
             Console.WriteLine("");
             Console.WriteLine("     I               Q       Coef1       Coef2   X");
-            cout = "   MIN" + "  " + q_min.ToString().PadLeft(14)
+            cout = "   MIN" + "  " + q_min.ToString(CultureInfo.InvariantCulture).PadLeft(14)
                    + "                        ";
             for (dim = 0; dim < dim_num; dim++)
             {
@@ -305,14 +288,14 @@ internal static class Program
                 //
                 //  Compute the combinatorial coefficient.
                 //
-                coef1 = SGMGAniso.sgmga_vcn_coef_naive(dim_num, level_weight, level_1d_max,
+                double coef1 = SGMGAniso.sgmga_vcn_coef_naive(dim_num, level_weight, level_1d_max,
                     level_1d, q_min, q_max);
 
-                coef2 = SGMGAniso.sgmga_vcn_coef(dim_num, level_weight, level_1d, q_max);
+                double coef2 = SGMGAniso.sgmga_vcn_coef(dim_num, level_weight, level_1d, q_max);
 
                 i += 1;
 
-                q = 0.0;
+                double q = 0.0;
                 for (dim = 0; dim < dim_num; dim++)
                 {
                     q += level_weight[dim] * level_1d[dim];
@@ -322,9 +305,9 @@ internal static class Program
                 coef2_sum += coef2;
 
                 cout = "  " + i.ToString().PadLeft(4)
-                            + "  " + q.ToString().PadLeft(14)
-                            + "  " + coef1.ToString().PadLeft(10)
-                            + "  " + coef2.ToString().PadLeft(10);
+                            + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                            + "  " + coef1.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                            + "  " + coef2.ToString(CultureInfo.InvariantCulture).PadLeft(10);
                 for (dim = 0; dim < dim_num; dim++)
                 {
                     cout += "  " + level_1d[dim].ToString().PadLeft(2);
@@ -333,7 +316,7 @@ internal static class Program
                 Console.WriteLine(cout);
             }
 
-            cout = "   MAX" + "  " + q_max.ToString().PadLeft(14)
+            cout = "   MAX" + "  " + q_max.ToString(CultureInfo.InvariantCulture).PadLeft(14)
                    + "                        ";
             for (dim = 0; dim < dim_num; dim++)
             {
@@ -342,8 +325,8 @@ internal static class Program
 
             Console.WriteLine(cout);
             Console.WriteLine("   SUM                "
-                              + "  " + coef1_sum.ToString().PadLeft(10)
-                              + "  " + coef2_sum.ToString().PadLeft(10) + "");
+                              + "  " + coef1_sum.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                              + "  " + coef2_sum.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 }

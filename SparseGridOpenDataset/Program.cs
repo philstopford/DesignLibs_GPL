@@ -5,7 +5,7 @@ using Burkardt.Types;
 
 namespace SparseGridOpenDataset;
 
-internal class Program
+internal static class Program
 {
  private static void Main(string[] args)
   //****************************************************************************80
@@ -49,21 +49,11 @@ internal class Program
  {
   int dim;
   int dim_num;
-  int[] grid_index;
-  double[] grid_point;
-  double[] grid_region;
-  double[] grid_weight;
-  double h;
   int level_max;
-  int m;
-  int n;
-  int order_max;
   int point;
-  int point_num;
   string r_filename = "";
   int rule;
   string w_filename = "";
-  double weight_sum;
   string x_filename = "";
 
   Console.WriteLine("");
@@ -177,7 +167,7 @@ internal class Program
   //
   //  How many distinct points will there be?
   //
-  point_num = Grid.sparse_grid_ofn_size(dim_num, level_max);
+  int point_num = Grid.sparse_grid_ofn_size(dim_num, level_max);
 
   Console.WriteLine("");
   Console.WriteLine("  The number of distinct abscissas in the");
@@ -185,26 +175,26 @@ internal class Program
   Console.WriteLine("  dimension DIM_NUM and the level LEVEL_MAX.");
   Console.WriteLine("  For the given input, this value will be = " + point_num + "");
 
-  grid_point = new double[dim_num * point_num];
+  double[] grid_point = new double[dim_num * point_num];
   //
   //  Determine the index vector, relative to the full product grid,
   //  that identifies the points in the sparse grid.
   //
-  grid_index = Grid.spgrid_open_index(dim_num, level_max, point_num);
+  int[] grid_index = Grid.spgrid_open_index(dim_num, level_max, point_num);
 
   typeMethods.i4mat_transpose_print_some(dim_num, point_num, grid_index, 1, 1,
    dim_num, 10, "  First 10 entries of grid index:");
   //
   //  Compute the physical coordinates of the abscissas.
   //
-  order_max = (int) Math.Pow(2, level_max + 1) - 1;
+  int order_max = (int) Math.Pow(2, level_max + 1) - 1;
 
   switch (rule)
   {
    case 5:
-    m = level_max - 3;
-    n = (order_max + 1) / 2 - 1;
-    h = 4.0 / (order_max + 1);
+    int m = level_max - 3;
+    int n = (order_max + 1) / 2 - 1;
+    double h = 4.0 / (order_max + 1);
 
     Console.WriteLine("  M = " + m
                                + "  ORDER_MAX = " + order_max
@@ -274,13 +264,13 @@ internal class Program
   //
   //  Gather the weights.
   //
-  grid_weight = Grid.spgrid_open_weights(dim_num, level_max, point_num,
+  double[] grid_weight = Grid.spgrid_open_weights(dim_num, level_max, point_num,
    grid_index, rule);
 
   typeMethods.r8vec_print_some(point_num, grid_weight, 1, 10,
    "  First 10 grid weights:");
 
-  weight_sum = typeMethods.r8vec_sum(point_num, grid_weight);
+  double weight_sum = typeMethods.r8vec_sum(point_num, grid_weight);
 
   Console.WriteLine("");
   Console.WriteLine("  Weights sum to   "
@@ -335,7 +325,7 @@ internal class Program
 
   typeMethods.r8mat_write(w_filename, 1, point_num, grid_weight);
 
-  grid_region = new double[dim_num * 2];
+  double[] grid_region = new double[dim_num * 2];
 
   for (dim = 0; dim < dim_num; dim++)
   {

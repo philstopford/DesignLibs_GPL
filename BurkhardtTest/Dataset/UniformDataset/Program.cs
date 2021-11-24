@@ -45,11 +45,7 @@ internal static class Program
         //
     {
         int m;
-        string m_ostring;
         int n;
-        string n_ostring;
-        string output_filename;
-        double[] r;
         int seed;
 
         Console.WriteLine("");
@@ -118,15 +114,15 @@ internal static class Program
         //
         //  Compute the data.
         //
-        r = UniformRNG.r8mat_uniform_01_new(m, n, ref seed);
+        double[] r = UniformRNG.r8mat_uniform_01_new(m, n, ref seed);
         //
         //  Write it to a file.
         //
-        m_ostring = m.ToString();
-        n_ostring = n.ToString();
+        string m_ostring = m.ToString();
+        string n_ostring = n.ToString();
 
-        output_filename = "uniform_" + m_ostring + "_"
-                          + n_ostring + ".txt";
+        string output_filename = "uniform_" + m_ostring + "_"
+                                 + n_ostring + ".txt";
 
         typeMethods.r8mat_write(output_filename, m, n, r);
 

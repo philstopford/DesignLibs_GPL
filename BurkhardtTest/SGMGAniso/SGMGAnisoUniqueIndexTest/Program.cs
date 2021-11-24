@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.ClenshawCurtisNS;
 using Burkardt.Quadrature;
 using Burkardt.Sparse;
@@ -81,18 +82,6 @@ internal static class Program
         //
     {
         int dim;
-        int dim_num;
-        int[] growth;
-        Func<int, int, double[], double[], double[]>[] gw_compute_points;
-        double[] importance;
-        int level_max_max;
-        int level_max_min;
-        double[] level_weight;
-        int[] np;
-        int np_sum;
-        double[] p;
-        int[] rule;
-        double tol;
 
         Console.WriteLine("");
         Console.WriteLine("SGMGA_UNIQUE_INDEX_TESTS");
@@ -100,33 +89,33 @@ internal static class Program
         //
         //  Set the point equality tolerance.
         //
-        tol = Math.Sqrt(typeMethods.r8_epsilon());
+        double tol = Math.Sqrt(typeMethods.r8_epsilon());
         Console.WriteLine("");
         Console.WriteLine("  All tests will use a point equality tolerance of " + tol + "");
 
-        dim_num = 2;
-        importance = new double[dim_num];
+        int dim_num = 2;
+        double[] importance = new double[dim_num];
         for (dim = 0; dim < dim_num; dim++)
         {
             importance[dim] = 1.0;
         }
 
-        level_weight = new double[dim_num];
+        double[] level_weight = new double[dim_num];
         SGMGAniso.sgmga_importance_to_aniso(dim_num, importance, ref level_weight);
-        level_max_min = 0;
-        level_max_max = 2;
-        np = new int[dim_num];
+        int level_max_min = 0;
+        int level_max_max = 2;
+        int[] np = new int[dim_num];
         np[0] = 0;
         np[1] = 0;
-        np_sum = typeMethods.i4vec_sum(dim_num, np);
-        p = new double[np_sum];
-        rule = new int[dim_num];
+        int np_sum = typeMethods.i4vec_sum(dim_num, np);
+        double[] p = new double[np_sum];
+        int[] rule = new int[dim_num];
         rule[0] = 1;
         rule[1] = 1;
-        growth = new int[dim_num];
+        int[] growth = new int[dim_num];
         growth[0] = 6;
         growth[1] = 6;
-        gw_compute_points = new Func<int, int, double[], double[], double[]>[dim_num];
+        Func<int, int, double[], double[], double[]>[] gw_compute_points = new Func<int, int, double[], double[], double[]>[dim_num];
         gw_compute_points[0] = ClenshawCurtis.clenshaw_curtis_compute_points_np;
         gw_compute_points[1] = ClenshawCurtis.clenshaw_curtis_compute_points_np;
         sgmga_unique_index_test(dim_num, importance, level_weight, level_max_min,
@@ -564,16 +553,8 @@ internal static class Program
         //    Input, double TOL, a tolerance for point equality.
         //
     {
-        double alpha;
-        double beta;
         int dim;
-        int i;
         int level_max;
-        int p_index;
-        int point;
-        int point_num;
-        int point_total_num;
-        int[] sparse_unique_index;
 
         Console.WriteLine("");
         Console.WriteLine("SGMGA_UNIQUE_INDEX_TEST");
@@ -583,14 +564,14 @@ internal static class Program
         string cout = "  IMPORTANCE:  ";
         for (dim = 0; dim < dim_num; dim++)
         {
-            cout += "  " + importance[dim].ToString().PadLeft(14);
+            cout += "  " + importance[dim].ToString(CultureInfo.InvariantCulture).PadLeft(14);
         }
 
         Console.WriteLine(cout);
         cout = "  LEVEL_WEIGHT:";
         for (dim = 0; dim < dim_num; dim++)
         {
-            cout += "  " + level_weight[dim].ToString().PadLeft(14);
+            cout += "  " + level_weight[dim].ToString(CultureInfo.InvariantCulture).PadLeft(14);
         }
 
         Console.WriteLine(cout);
@@ -598,10 +579,12 @@ internal static class Program
         Console.WriteLine(" Dimension      Rule  Growth rate      Parameters");
         Console.WriteLine("");
 
-        p_index = 0;
+        int p_index = 0;
 
         for (dim = 0; dim < dim_num; dim++)
         {
+            double alpha;
+            int i;
             switch (rule[dim])
             {
                 case 1:
@@ -619,7 +602,7 @@ internal static class Program
                     Console.WriteLine("  " + dim.ToString().PadLeft(8)
                                            + "  " + rule[dim].ToString().PadLeft(8)
                                            + "  " + growth[dim].ToString().PadLeft(8)
-                                           + "  " + alpha.ToString().PadLeft(14) + "");
+                                           + "  " + alpha.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                     break;
                 case 7:
                     Console.WriteLine("  " + dim.ToString().PadLeft(8)
@@ -632,18 +615,18 @@ internal static class Program
                     Console.WriteLine("  " + dim.ToString().PadLeft(8)
                                            + "  " + rule[dim].ToString().PadLeft(8)
                                            + "  " + growth[dim].ToString().PadLeft(8)
-                                           + "  " + alpha.ToString().PadLeft(14) + "");
+                                           + "  " + alpha.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                     break;
                 case 9:
                     alpha = p[p_index];
                     p_index += 1;
-                    beta = p[p_index];
+                    double beta = p[p_index];
                     p_index += 1;
                     Console.WriteLine("  " + dim.ToString().PadLeft(8)
                                            + "  " + rule[dim].ToString().PadLeft(8)
                                            + "  " + growth[dim].ToString().PadLeft(8)
-                                           + "  " + alpha.ToString().PadLeft(14)
-                                           + "  " + beta.ToString().PadLeft(14) + "");
+                                           + "  " + alpha.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                           + "  " + beta.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                     break;
                 case 10:
                     Console.WriteLine("  " + dim.ToString().PadLeft(8)
@@ -659,7 +642,7 @@ internal static class Program
                     {
                         alpha = p[p_index];
                         p_index += 1;
-                        cout += "  " + alpha.ToString().PadLeft(14);
+                        cout += "  " + alpha.ToString(CultureInfo.InvariantCulture).PadLeft(14);
                     }
 
                     Console.WriteLine(cout);
@@ -674,7 +657,7 @@ internal static class Program
                     {
                         alpha = p[p_index];
                         p_index += 1;
-                        cout += "  " + alpha.ToString().PadLeft(14);
+                        cout += "  " + alpha.ToString(CultureInfo.InvariantCulture).PadLeft(14);
                     }
 
                     Console.WriteLine(cout);
@@ -690,10 +673,10 @@ internal static class Program
 
         for (level_max = level_max_min; level_max <= level_max_max; level_max++)
         {
-            point_total_num = SGMGAniso.sgmga_size_total(dim_num, level_weight,
+            int point_total_num = SGMGAniso.sgmga_size_total(dim_num, level_weight,
                 level_max, rule, growth);
 
-            point_num = SGMGAniso.sgmga_size(dim_num, level_weight, level_max,
+            int point_num = SGMGAniso.sgmga_size(dim_num, level_weight, level_max,
                 rule, np, p, gw_compute_points, tol, growth);
 
             Console.WriteLine("");
@@ -705,7 +688,7 @@ internal static class Program
                                    + "  " + point_num.ToString().PadLeft(8)
                                    + "  " + point_total_num.ToString().PadLeft(8) + "");
 
-            sparse_unique_index = new int[point_total_num];
+            int[] sparse_unique_index = new int[point_total_num];
 
             SGMGAniso.sgmga_unique_index(dim_num, level_weight, level_max, rule,
                 np, p, gw_compute_points, tol, point_num, point_total_num,
@@ -714,6 +697,7 @@ internal static class Program
             Console.WriteLine("");
             Console.WriteLine("     POINT    UNIQUE");
             Console.WriteLine("");
+            int point;
             for (point = 0; point < point_total_num; point++)
             {
                 Console.WriteLine("  " + point.ToString().PadLeft(8)

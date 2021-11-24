@@ -126,59 +126,29 @@ public class Histo
     /// <summary>
     /// Gets the bin boundaries of the Histogram.
     /// </summary>
-    public double[] BinBoundaries
-    {
-        get
-        {
-            return binBoundaries_;
-        }
-    }
+    public double[] BinBoundaries => binBoundaries_;
 
     /// <summary>
     /// Gets the counts for each bin.
     /// </summary>
-    public int[] Counts
-    {
-        get
-        {
-            return counts_;
-        }
-    }
+    public int[] Counts => counts_;
 
     /// <summary>
     /// Gets the number of bins in the Histogram.
     /// </summary>
-    public int NumBins
-    {
-        get
-        {
-            return counts_.Length;
-        }
-    }
+    public int NumBins => counts_.Length;
 
     /// <summary>
     /// Gets the number of data points that were smaller
     /// than the smallest bin boundary.
     /// </summary>
-    public int NumSmaller
-    {
-        get
-        {
-            return numSmaller_;
-        }
-    }
+    public int NumSmaller => numSmaller_;
 
     /// <summary>
     /// Gets the number of data points that were larger than
     /// the larges bin boundary.
     /// </summary>
-    public int NumLarger
-    {
-        get
-        {
-            return numLarger_;
-        }
-    }
+    public int NumLarger => numLarger_;
 
     #endregion Properties
 

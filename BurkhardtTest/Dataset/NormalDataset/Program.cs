@@ -46,17 +46,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] a;
-        string output_filename;
         int i;
         int j;
-        int k;
         int m;
-        double[] mu;
-        string m_ostring;
         int n;
-        string n_ostring;
-        double[] x;
         int seed;
 
 
@@ -130,9 +123,9 @@ internal static class Program
         //
         //  Get the mean.
         //
-        mu = new double[m];
+        double[] mu = new double[m];
 
-        k = 4;
+        int k = 4;
 
         try
         {
@@ -156,7 +149,7 @@ internal static class Program
         //
         //  Get the variance-covariance matrix.
         //
-        a = new double[m * m];
+        double[] a = new double[m * m];
 
         try
         {
@@ -186,15 +179,15 @@ internal static class Program
         //
         //  Compute the data.
         //
-        x = Normal.multinormal_sample(m, n, a, mu, ref seed);
+        double[] x = Normal.multinormal_sample(m, n, a, mu, ref seed);
         //
         //  Write it to a file.
         //
-        m_ostring = m.ToString();
-        n_ostring = n.ToString();
+        string m_ostring = m.ToString();
+        string n_ostring = n.ToString();
 
-        output_filename = "normal_" + m_ostring + "_"
-                          + n_ostring + ".txt";
+        string output_filename = "normal_" + m_ostring + "_"
+                                 + n_ostring + ".txt";
 
         typeMethods.r8mat_write(output_filename, m, n, x);
 

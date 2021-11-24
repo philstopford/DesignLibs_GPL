@@ -46,16 +46,7 @@ internal static class Program
         int dim;
         int dim_num;
         int level_max;
-        int level_min;
         int point;
-        int point_num;
-        double[] r;
-        string r_filename;
-        double[] w;
-        string w_filename;
-        double weight_sum;
-        double[] x;
-        string x_filename;
 
         Console.WriteLine("");
         Console.WriteLine("SPARSE_GRID_CC_DATASET");
@@ -111,7 +102,7 @@ internal static class Program
             level_max = Convert.ToInt32(Console.ReadLine());
         }
 
-        level_min = Math.Max(0, level_max + 1 - dim_num);
+        int level_min = Math.Max(0, level_max + 1 - dim_num);
 
         Console.WriteLine("");
         Console.WriteLine("  LEVEL_MIN is = " + level_min + "");
@@ -119,7 +110,7 @@ internal static class Program
         // 
         //  How many distinct points will there be?
         //
-        point_num = Grid_ClenshawCurtis.sparse_grid_cfn_size(dim_num, level_max);
+        int point_num = Grid_ClenshawCurtis.sparse_grid_cfn_size(dim_num, level_max);
 
         Console.WriteLine("");
         Console.WriteLine("  The number of distinct abscissas in the");
@@ -129,9 +120,9 @@ internal static class Program
         //
         //  Allocate memory.
         //
-        r = new double[dim_num * 2];
-        w = new double[point_num];
-        x = new double[dim_num * point_num];
+        double[] r = new double[dim_num * 2];
+        double[] w = new double[point_num];
+        double[] x = new double[dim_num * point_num];
         //
         //  Compute the weights and points.
         //
@@ -148,7 +139,7 @@ internal static class Program
 
         typeMethods.r8vec_print_some(point_num, w, 1, 10, "  First 10 grid weights:");
 
-        weight_sum = 0.0;
+        double weight_sum = 0.0;
         for (point = 0; point < point_num; point++)
         {
             weight_sum += w[point];
@@ -160,12 +151,12 @@ internal static class Program
         //
         //  Construct appropriate file names.
         //
-        r_filename = "cc_d" + dim_num
-                            + "_level" + level_max + "_r.txt";
-        w_filename = "cc_d" + dim_num
-                            + "_level" + level_max + "_w.txt";
-        x_filename = "cc_d" + dim_num
-                            + "_level" + level_max + "_x.txt";
+        string r_filename = "cc_d" + dim_num
+                                   + "_level" + level_max + "_r.txt";
+        string w_filename = "cc_d" + dim_num
+                                   + "_level" + level_max + "_w.txt";
+        string x_filename = "cc_d" + dim_num
+                                   + "_level" + level_max + "_x.txt";
         //
         //  Write the rule to files.
         //

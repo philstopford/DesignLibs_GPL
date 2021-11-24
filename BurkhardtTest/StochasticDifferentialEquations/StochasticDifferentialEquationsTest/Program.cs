@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.StochasticDifferentialEquations;
 using Burkardt.Types;
 
@@ -73,18 +74,16 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int n = 500;
-        int seed;
-        double[] w;
+        const int n = 500;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01:");
         Console.WriteLine("  BPATH generates a sample Brownian motion path.");
 
-        seed = 123456789;
+        int seed = 123456789;
         typeMethods.r8vecNormalData data = new();
 
-        w = BrownianPath.bpath(ref data, ref seed, n);
+        double[] w = BrownianPath.bpath(ref data, ref seed, n);
 
         BrownianPath.bpath_gnuplot(n, w);
     }
@@ -111,21 +110,18 @@ internal static class Program
         //
     {
         double error = 0;
-        int m = 1000;
-        int n = 500;
-        int seed;
-        double[] u;
-        double[] umean;
+        const int m = 1000;
+        const int n = 500;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02:");
         Console.WriteLine("  BPATH_AVERAGE generates many Brownian paths");
         Console.WriteLine("  and averages them.");
 
-        seed = 123456789;
+        int seed = 123456789;
         typeMethods.r8vecNormalData data = new();
-        u = new double[m * (n + 1)];
-        umean = new double[n + 1];
+        double[] u = new double[m * (n + 1)];
+        double[] umean = new double[n + 1];
 
         BrownianPath.bpath_average(ref data, ref seed, m, n, ref u, ref umean, ref error);
 
@@ -154,10 +150,7 @@ internal static class Program
         //
     {
         double diff = 0;
-        int n = 200;
-        int seed;
-        double[] vem;
-        double[] xem;
+        const int n = 200;
 
         Console.WriteLine("");
         Console.WriteLine("TEST03:");
@@ -167,10 +160,10 @@ internal static class Program
         Console.WriteLine("  Or, we can apply the stochastic chain rule to derive an");
         Console.WriteLine("  an SDE for V, and solve that.");
 
-        seed = 123456789;
+        int seed = 123456789;
         typeMethods.r8vecNormalData data = new();
-        xem = new double[n + 1];
-        vem = new double[n + 1];
+        double[] xem = new double[n + 1];
+        double[] vem = new double[n + 1];
         ChainRule.chain(ref data, ref seed, n, ref xem, ref vem, ref diff);
 
         Console.WriteLine("");
@@ -201,25 +194,20 @@ internal static class Program
         //
     {
         double diff = 0;
-        int n = 256;
-        int seed;
-        double[] t;
-        double[] t2;
-        double[] xem;
-        double[] xtrue;
+        const int n = 256;
 
         Console.WriteLine("");
         Console.WriteLine("TEST04:");
         Console.WriteLine("  EM solves a stochastic differential equation");
         Console.WriteLine("  using the Euler-Maruyama method.");
 
-        seed = 123456789;
+        int seed = 123456789;
         typeMethods.r8vecNormalData data = new();
 
-        t = new double[n + 1];
-        t2 = new double[1 + n / 4];
-        xem = new double[1 + n / 4];
-        xtrue = new double[n + 1];
+        double[] t = new double[n + 1];
+        double[] t2 = new double[1 + n / 4];
+        double[] xem = new double[1 + n / 4];
+        double[] xtrue = new double[n + 1];
 
         EulerMaruyama.em(ref data, ref seed, n, ref t, ref xtrue, ref t2, ref xem, ref diff);
 
@@ -250,22 +238,19 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] dtvals;
-        int m = 100;
-        int n = 512;
-        int p_max = 6;
-        int seed;
-        double[] xerr;
+        const int m = 100;
+        const int n = 512;
+        const int p_max = 6;
 
-        dtvals = new double[p_max];
-        xerr = new double[p_max];
+        double[] dtvals = new double[p_max];
+        double[] xerr = new double[p_max];
 
         Console.WriteLine("");
         Console.WriteLine("TEST05:");
         Console.WriteLine("  EMSTRONG investigates the strong convergence");
         Console.WriteLine("  of the Euler-Maruyama method.");
 
-        seed = 123456789;
+        int seed = 123456789;
         typeMethods.r8vecNormalData data = new();
 
         EulerMaruyamaStrong.emstrong(ref data, ref seed, m, n, p_max, ref dtvals, ref xerr);
@@ -294,23 +279,19 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] dtvals;
-        int m = 50000;
-        int method;
-        int p_max = 5;
-        int seed;
-        double[] xerr;
+        const int m = 50000;
+        const int p_max = 5;
 
-        dtvals = new double[p_max];
-        xerr = new double[p_max];
+        double[] dtvals = new double[p_max];
+        double[] xerr = new double[p_max];
 
         Console.WriteLine("");
         Console.WriteLine("TEST06:");
         Console.WriteLine("  EMWEAK investigates the weak convergence");
         Console.WriteLine("  of the Euler-Maruyama method.");
 
-        seed = 123456789;
-        method = 0;
+        int seed = 123456789;
+        int method = 0;
         typeMethods.r8vecNormalData data = new();
 
         EulerMaruyamaWeak.emweak(ref data, ref seed, method, m, p_max, ref dtvals, ref xerr);
@@ -346,20 +327,17 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] dtvals;
-        int p_max = 4;
-        int seed;
-        double[] xerr;
+        const int p_max = 4;
 
-        dtvals = new double[p_max];
-        xerr = new double[p_max];
+        double[] dtvals = new double[p_max];
+        double[] xerr = new double[p_max];
 
         Console.WriteLine("");
         Console.WriteLine("TEST07:");
         Console.WriteLine("  MILSTRONG investigates the strong convergence");
         Console.WriteLine("  of the Milstein method.");
 
-        seed = 123456789;
+        int seed = 123456789;
         typeMethods.r8vecNormalData data = new();
 
         MilsteinStrong.milstrong(ref data, ref seed, p_max, ref dtvals, ref xerr);
@@ -388,9 +366,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int n = 1000;
-        int p_max = 3;
-        int seed;
+        const int n = 1000;
+        const int p_max = 3;
         typeMethods.r8NormalData data = new();
 
         Console.WriteLine("");
@@ -401,7 +378,7 @@ internal static class Program
         Console.WriteLine("  For technical reasons, the plotting is done");
         Console.WriteLine("  in the same routine as the computations.");
 
-        seed = 123456789;
+        int seed = 123456789;
         typeMethods.r8vecNormalData vdata = new();
 
         Stability.stab_asymptotic(ref vdata, ref data, ref seed, n, p_max);
@@ -428,8 +405,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int seed;
-
         Console.WriteLine("");
         Console.WriteLine("TEST09:");
         Console.WriteLine("  STAB_MEANSQUARE investigates the mean square");
@@ -438,7 +413,7 @@ internal static class Program
         Console.WriteLine("  For technical reasons, the plotting is done");
         Console.WriteLine("  in the same routine as the computations.");
 
-        seed = 123456789;
+        int seed = 123456789;
         typeMethods.r8vecNormalData data = new();
 
         Stability.stab_meansquare(ref data, ref seed);
@@ -470,8 +445,6 @@ internal static class Program
         double estimate = 0;
         double exact = 0;
         int i;
-        int n;
-        int seed;
 
         Console.WriteLine("");
         Console.WriteLine("TEST10:");
@@ -481,8 +454,8 @@ internal static class Program
         Console.WriteLine("         N        Exact        Estimate          Error        Error");
         Console.WriteLine("");
 
-        n = 100;
-        seed = 123456789;
+        int n = 100;
+        int seed = 123456789;
         typeMethods.r8vecNormalData data = new();
 
         for (i = 1; i <= 7; i++)
@@ -490,10 +463,10 @@ internal static class Program
             Integrals.stochastic_integral_ito(n, ref data, ref seed, ref estimate, ref exact, ref error);
 
             Console.WriteLine("  " + n.ToString().PadLeft(8)
-                                   + "  " + exact.ToString().PadLeft(16)
-                                   + "  " + estimate.ToString().PadLeft(16)
-                                   + "  " + error.ToString().PadLeft(16)
-                                   + "  " + (error / exact).ToString().PadLeft(16) + "");
+                                   + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(16)
+                                   + "  " + estimate.ToString(CultureInfo.InvariantCulture).PadLeft(16)
+                                   + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(16)
+                                   + "  " + (error / exact).ToString(CultureInfo.InvariantCulture).PadLeft(16) + "");
 
             n *= 4;
         }
@@ -524,8 +497,6 @@ internal static class Program
         double estimate = 0;
         double exact = 0;
         int i;
-        int n;
-        int seed;
 
         Console.WriteLine("");
         Console.WriteLine("TEST11:");
@@ -535,8 +506,8 @@ internal static class Program
         Console.WriteLine("         N        Exact        Estimate          Error        Error");
         Console.WriteLine("");
 
-        n = 100;
-        seed = 123456789;
+        int n = 100;
+        int seed = 123456789;
         typeMethods.r8vecNormalData data = new();
 
         for (i = 1; i <= 7; i++)
@@ -544,10 +515,10 @@ internal static class Program
             Integrals.stochastic_integral_strat(n, ref data, ref seed, ref estimate, ref exact, ref error);
 
             Console.WriteLine("  " + n.ToString().PadLeft(8)
-                                   + "  " + exact.ToString().PadLeft(16)
-                                   + "  " + estimate.ToString().PadLeft(16)
-                                   + "  " + error.ToString().PadLeft(16)
-                                   + "  " + (error / exact).ToString().PadLeft(16) + "");
+                                   + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(16)
+                                   + "  " + estimate.ToString(CultureInfo.InvariantCulture).PadLeft(16)
+                                   + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(16)
+                                   + "  " + (error / exact).ToString(CultureInfo.InvariantCulture).PadLeft(16) + "");
 
             n *= 4;
         }

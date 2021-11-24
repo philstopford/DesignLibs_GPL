@@ -42,9 +42,6 @@ internal static class Program
         //    containing the coordinates of a point set to be analyzed.
         //
     {
-        int i;
-        string file_name;
-
         Console.WriteLine("");
 
         Console.WriteLine("");
@@ -78,6 +75,7 @@ internal static class Program
         //
         try
         {
+            int i;
             for (i = 1; i < args.Length; i++)
             {
                 handle_file(args[i]);
@@ -89,7 +87,7 @@ internal static class Program
             Console.WriteLine("TABLE_VORONOI:");
             Console.WriteLine("  Please enter the name of a file to be analyzed.");
 
-            file_name = Console.ReadLine();
+            string file_name = Console.ReadLine();
 
             handle_file(file_name);
 
@@ -128,26 +126,18 @@ internal static class Program
         //    is to be read and processed.
         //
     {
-        int NDIM = 2;
+        const int NDIM = 2;
 
-        int[] g_degree;
-        int[] g_face;
-        int g_num;
-        int[] g_start;
-        double[] g_xy;
         int i_num = 0;
-        double[] i_xy;
-        int m;
         int v_num = 0;
-        double[] v_xy;
 
         Console.WriteLine("");
         Console.WriteLine("HANDLE_FILE");
         Console.WriteLine("  Read the TABLE file \"" + file_name + "\".");
 
         TableHeader h = typeMethods.dtable_header_read(file_name);
-        m = h.m;
-        g_num = h.n;
+        int m = h.m;
+        int g_num = h.n;
 
         Console.WriteLine("");
         Console.WriteLine("  DTABLE_HEADER_READ has read the header.");
@@ -171,13 +161,13 @@ internal static class Program
             Console.WriteLine("  Only the first two coordinates will be considered.");
         }
 
-        i_xy = new double[NDIM * g_num];
-        g_degree = new int[g_num];
-        g_face = new int[6 * g_num];
-        g_start = new int[g_num];
-        v_xy = new double[NDIM * 2 * g_num];
+        double[] i_xy = new double[NDIM * g_num];
+        int[] g_degree = new int[g_num];
+        int[] g_face = new int[6 * g_num];
+        int[] g_start = new int[g_num];
+        double[] v_xy = new double[NDIM * 2 * g_num];
 
-        g_xy = typeMethods.dtable_data_read(file_name, NDIM, g_num);
+        double[] g_xy = typeMethods.dtable_data_read(file_name, NDIM, g_num);
 
         Console.WriteLine("");
         Console.WriteLine("  DTABLE_DATA_READ has read the data.");
@@ -261,46 +251,28 @@ internal static class Program
         //    vertices at infinity.
         //
     {
-        int NDIM = 2;
+        const int NDIM = 2;
 
-        double[] center;
-        int count;
-        bool debug = true;
+        const bool debug = true;
         int g;
-        int g_next;
         int i;
-        int i1;
-        int i2;
-        int i3;
-        int ix1;
-        int ix2;
         int j;
-        int jp1;
         int k;
-        int[] nodtri;
-        double[] normal;
-        int s;
-        int sp1;
         int s_next = 0;
         double[] t = new double[NDIM * 3];
-        int[] tnbr;
         int v;
-        int v_inf;
-        int v_next;
-        int v_old;
-        int v_save;
         //
         //  Compute the Delaunay triangulation.
         //
-        nodtri = new int[3 * 2 * g_num];
-        tnbr = new int[3 * 2 * g_num];
+        int[] nodtri = new int[3 * 2 * g_num];
+        int[] tnbr = new int[3 * 2 * g_num];
 
         Delauney.dtris2(g_num, 0, ref g_xy, ref v_num, ref nodtri, ref tnbr);
         //
         //  At this point, you could extend the NODTRI and TNBR data structures
         //  to account for the "vertices at infinity."
         //
-        v_inf = Triangle.tri_augment(v_num, ref nodtri);
+        int v_inf = Triangle.tri_augment(v_num, ref nodtri);
 
         switch (debug)
         {
@@ -380,9 +352,9 @@ internal static class Program
         //
         for (j = 0; j < v_num; j++)
         {
-            i1 = nodtri[0 + j * 3];
-            i2 = nodtri[1 + j * 3];
-            i3 = nodtri[2 + j * 3];
+            int i1 = nodtri[0 + j * 3];
+            int i2 = nodtri[1 + j * 3];
+            int i3 = nodtri[2 + j * 3];
 
             t[0 + 0 * 2] = g_xy[0 + (i1 - 1) * 2];
             t[1 + 0 * 2] = g_xy[1 + (i1 - 1) * 2];
@@ -391,7 +363,7 @@ internal static class Program
             t[0 + 2 * 2] = g_xy[0 + (i3 - 1) * 2];
             t[1 + 2 * 2] = g_xy[1 + (i3 - 1) * 2];
 
-            center = typeMethods.triangle_circumcenter_2d(t);
+            double[] center = typeMethods.triangle_circumcenter_2d(t);
 
             v_xy[0 + j * 2] = center[0];
             v_xy[1 + j * 2] = center[1];
@@ -410,7 +382,7 @@ internal static class Program
         //      Find a Delaunay triangle containing G.
         //      Seek another triangle containing the next node in that triangle.
         //
-        count = 0;
+        int count = 0;
         for (g = 0; g < g_num; g++)
         {
             g_start[g] = 0;
@@ -418,7 +390,8 @@ internal static class Program
 
         for (g = 1; g <= g_num; g++)
         {
-            v_next = 0;
+            int v_next = 0;
+            int s;
             for (v = 1; v <= v_num + v_inf; v++)
             {
                 for (s = 1; s <= 3; s++)
@@ -437,8 +410,11 @@ internal static class Program
                 }
             }
 
-            v_save = v_next;
+            int v_save = v_next;
 
+            int g_next;
+            int v_old;
+            int sp1;
             for (;;)
             {
                 s_next = typeMethods.i4_wrap(s_next + 1, 1, 3);
@@ -626,18 +602,19 @@ internal static class Program
                     //        an infinite Voronoi polygon.
                     //
                     case < 0:
-                        ix1 = nodtri[j + i * 3];
+                        int ix1 = nodtri[j + i * 3];
                         //      x1 = g_xy[0+(ix1-1)*2];
                         //      y1 = g_xy[1+(ix1-1)*2];
-                        jp1 = typeMethods.i4_wrap(j + 1, 0, 2);
+                        int jp1 = typeMethods.i4_wrap(j + 1, 0, 2);
 
-                        ix2 = nodtri[jp1 + i * 3];
+                        int 
+                            ix2 = nodtri[jp1 + i * 3];
                         //      x2 = g_xy[0+(ix2-1)*2];
                         //      y2 = g_xy[1+(ix2-1)*2];
                         //
                         //  Compute the direction I_XY(1:2,-K).
                         //
-                        normal = Burkardt.LineNS.Geometry.line_exp_normal_2d(g_xy, g_xy,  p1Index:+ (ix1 - 1) * 2, p2Index:+ (ix2 - 1) * 2);
+                        double[] normal = Burkardt.LineNS.Geometry.line_exp_normal_2d(g_xy, g_xy,  p1Index:+ (ix1 - 1) * 2, p2Index:+ (ix2 - 1) * 2);
 
                         i_xy[0 + (-k - 1) * 2] = normal[0];
                         i_xy[1 + (-k - 1) * 2] = normal[1];

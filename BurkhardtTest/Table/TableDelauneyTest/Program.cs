@@ -50,15 +50,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int base_ = 1;
-        int node_dim;
-        string node_filename;
-        int node_num;
-        double[] node_xy;
+        const int base_ = 1;
         string prefix;
-        string triangle_filename;
-        int[] triangle_neighbor;
-        int[] triangle_node;
         int triangle_num = 0;
         int triangle_order = 0;
 
@@ -89,14 +82,14 @@ internal static class Program
         //
         //  Create the filenames.
         //
-        node_filename = prefix + "_nodes.txt";
-        triangle_filename = prefix + "_elements.txt";
+        string node_filename = prefix + "_nodes.txt";
+        string triangle_filename = prefix + "_elements.txt";
         //
         //  Read the point coordinates.
         //
         TableHeader h = typeMethods.r8mat_header_read(node_filename);
-        node_dim = h.m;
-        node_num = h.n;
+        int node_dim = h.m;
+        int node_num = h.n;
 
         Console.WriteLine("");
         Console.WriteLine("  Read the header of \"" + node_filename + "\"");
@@ -112,7 +105,7 @@ internal static class Program
             return;
         }
 
-        node_xy = typeMethods.r8mat_data_read(node_filename, node_dim, node_num);
+        double[] node_xy = typeMethods.r8mat_data_read(node_filename, node_dim, node_num);
 
         Console.WriteLine("");
         Console.WriteLine("  Read the data of \"" + node_filename + "\"");
@@ -124,8 +117,8 @@ internal static class Program
         //
         triangle_order = 3;
 
-        triangle_node = new int[triangle_order * 3 * node_num];
-        triangle_neighbor = new int[triangle_order * 3 * node_num];
+        int[] triangle_node = new int[triangle_order * 3 * node_num];
+        int[] triangle_neighbor = new int[triangle_order * 3 * node_num];
 
         Delauney.dtris2(node_num, base_, ref node_xy, ref triangle_num, ref triangle_node,
             ref triangle_neighbor);

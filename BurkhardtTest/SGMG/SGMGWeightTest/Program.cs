@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.ClenshawCurtisNS;
 using Burkardt.Quadrature;
 using Burkardt.Sparse;
@@ -88,41 +89,30 @@ internal static class Program
         //    regardless of duplication.
         //
     {
-        int dim_num;
-        int[] growth;
-        Func<int, int, double[], double[], double[]>[] gw_compute_points;
-        Func<int, int, double[], double[], double[]>[] gw_compute_weights;
-        int level_max_max;
-        int level_max_min;
-        int[] np;
-        int np_sum;
-        double[] p;
-        int[] rule;
-
         Console.WriteLine("");
         Console.WriteLine("SGMG_WEIGHT_TESTS");
         Console.WriteLine("  Call SGMG_WEIGHT_TEST with various arguments.");
         Console.WriteLine("");
         Console.WriteLine("  All tests will use a point equality tolerance of " + tol + "");
 
-        dim_num = 2;
-        level_max_min = 0;
-        level_max_max = 2;
-        np = new int[dim_num];
+        int dim_num = 2;
+        int level_max_min = 0;
+        int level_max_max = 2;
+        int[] np = new int[dim_num];
         np[0] = 0;
         np[1] = 0;
-        np_sum = typeMethods.i4vec_sum(dim_num, np);
-        p = new double[np_sum];
-        rule = new int[dim_num];
+        int np_sum = typeMethods.i4vec_sum(dim_num, np);
+        double[] p = new double[np_sum];
+        int[] rule = new int[dim_num];
         rule[0] = 1;
         rule[1] = 1;
-        growth = new int[dim_num];
+        int[] growth = new int[dim_num];
         growth[0] = 6;
         growth[1] = 6;
-        gw_compute_points = new Func<int, int, double[], double[], double[]>[dim_num];
+        Func<int, int, double[], double[], double[]>[] gw_compute_points = new Func<int, int, double[], double[], double[]>[dim_num];
         gw_compute_points[0] = ClenshawCurtis.clenshaw_curtis_compute_points_np;
         gw_compute_points[1] = ClenshawCurtis.clenshaw_curtis_compute_points_np;
-        gw_compute_weights = new Func<int, int, double[], double[], double[]>[dim_num];
+        Func<int, int, double[], double[], double[]>[] gw_compute_weights = new Func<int, int, double[], double[], double[]>[dim_num];
         gw_compute_weights[0] = ClenshawCurtis.clenshaw_curtis_compute_weights_np;
         gw_compute_weights[1] = ClenshawCurtis.clenshaw_curtis_compute_weights_np;
         sgmg_weight_test(dim_num, level_max_min, level_max_max,
@@ -482,24 +472,10 @@ internal static class Program
         //
     {
         double alpha;
-        double arg1;
-        double arg2;
-        double arg3;
-        double arg4;
         double beta;
         int dim;
         int i;
         int level_max;
-        int p_index;
-        int point_num;
-        int point_total_num;
-        int[] sparse_unique_index;
-        double[] sparse_weight;
-        double value1;
-        double value2;
-        double weight_sum;
-        double weight_sum_error;
-        double weight_sum_exact;
 
         Console.WriteLine("");
         Console.WriteLine("SGMG_WEIGHT_TEST");
@@ -511,7 +487,7 @@ internal static class Program
         Console.WriteLine(" Dimension      Rule  Growth rate       Parameters");
         Console.WriteLine("");
 
-        p_index = 0;
+        int p_index = 0;
         for (dim = 0; dim < dim_num; dim++)
         {
             switch (rule[dim])
@@ -531,7 +507,7 @@ internal static class Program
                     Console.WriteLine("  " + dim.ToString().PadLeft(8)
                                            + "  " + rule[dim].ToString().PadLeft(8)
                                            + "  " + growth[dim].ToString().PadLeft(8)
-                                           + "  " + alpha.ToString().PadLeft(14) + "");
+                                           + "  " + alpha.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                     break;
                 case 7:
                     Console.WriteLine("  " + dim.ToString().PadLeft(8)
@@ -544,7 +520,7 @@ internal static class Program
                     Console.WriteLine("  " + dim.ToString().PadLeft(8)
                                            + "  " + rule[dim].ToString().PadLeft(8)
                                            + "  " + growth[dim].ToString().PadLeft(8)
-                                           + "  " + alpha.ToString().PadLeft(14) + "");
+                                           + "  " + alpha.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                     break;
                 case 9:
                     alpha = p[p_index];
@@ -554,8 +530,8 @@ internal static class Program
                     Console.WriteLine("  " + dim.ToString().PadLeft(8)
                                            + "  " + rule[dim].ToString().PadLeft(8)
                                            + "  " + growth[dim].ToString().PadLeft(8)
-                                           + "  " + alpha.ToString().PadLeft(14)
-                                           + "  " + beta.ToString().PadLeft(14) + "");
+                                           + "  " + alpha.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                           + "  " + beta.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                     break;
                 case 10:
                     Console.WriteLine("  " + dim.ToString().PadLeft(8)
@@ -571,7 +547,7 @@ internal static class Program
                     {
                         alpha = p[p_index];
                         p_index += 1;
-                        cout += "  " + alpha.ToString().PadLeft(14);
+                        cout += "  " + alpha.ToString(CultureInfo.InvariantCulture).PadLeft(14);
                     }
 
                     Console.WriteLine(cout);
@@ -586,7 +562,7 @@ internal static class Program
                     {
                         alpha = p[p_index];
                         p_index += 1;
-                        cout += "  " + alpha.ToString().PadLeft(14);
+                        cout += "  " + alpha.ToString(CultureInfo.InvariantCulture).PadLeft(14);
                     }
 
                     Console.WriteLine(cout);
@@ -600,7 +576,7 @@ internal static class Program
             }
         }
 
-        weight_sum_exact = 1.0;
+        double weight_sum_exact = 1.0;
 
         p_index = 0;
         for (dim = 0; dim < dim_num; dim++)
@@ -634,16 +610,16 @@ internal static class Program
                     p_index += 1;
                     beta = p[p_index];
                     p_index += 1;
-                    arg1 = -alpha;
-                    arg2 = 1.0;
-                    arg3 = beta + 2.0;
-                    arg4 = -1.0;
-                    value1 = typeMethods.r8_hyper_2f1(arg1, arg2, arg3, arg4);
+                    double arg1 = -alpha;
+                    double arg2 = 1.0;
+                    double arg3 = beta + 2.0;
+                    double arg4 = -1.0;
+                    double value1 = typeMethods.r8_hyper_2f1(arg1, arg2, arg3, arg4);
                     arg1 = -beta;
                     arg2 = 1.0;
                     arg3 = alpha + 2.0;
                     arg4 = -1.0;
-                    value2 = typeMethods.r8_hyper_2f1(arg1, arg2, arg3, arg4);
+                    double value2 = typeMethods.r8_hyper_2f1(arg1, arg2, arg3, arg4);
                     weight_sum_exact *= value1 / (beta + 1.0) + value2 / (alpha + 1.0);
                     break;
                 case 10:
@@ -700,32 +676,32 @@ internal static class Program
 
         for (level_max = level_max_min; level_max <= level_max_max; level_max++)
         {
-            point_total_num = SGMG.sgmg_size_total(dim_num,
+            int point_total_num = SGMG.sgmg_size_total(dim_num,
                 level_max, rule, growth);
 
-            point_num = SGMG.sgmg_size(dim_num, level_max,
+            int point_num = SGMG.sgmg_size(dim_num, level_max,
                 rule, np, p, gw_compute_points, tol, growth);
 
-            sparse_unique_index = new int[point_total_num];
+            int[] sparse_unique_index = new int[point_total_num];
 
             SGMG.sgmg_unique_index(dim_num, level_max, rule,
                 np, p, gw_compute_points, tol, point_num, point_total_num,
                 growth, ref sparse_unique_index);
 
-            sparse_weight = new double[point_num];
+            double[] sparse_weight = new double[point_num];
 
             SGMG.sgmg_weight(dim_num, level_max, rule, np,
                 p, gw_compute_weights, point_num, point_total_num, sparse_unique_index,
                 growth, ref sparse_weight);
 
-            weight_sum = typeMethods.r8vec_sum(point_num, sparse_weight);
+            double weight_sum = typeMethods.r8vec_sum(point_num, sparse_weight);
 
-            weight_sum_error = typeMethods.r8_abs(weight_sum - weight_sum_exact);
+            double weight_sum_error = typeMethods.r8_abs(weight_sum - weight_sum_exact);
 
             Console.WriteLine("  " + level_max.ToString().PadLeft(8)
-                                   + "  " + weight_sum.ToString().PadLeft(14)
-                                   + "  " + weight_sum_exact.ToString().PadLeft(14)
-                                   + "  " + weight_sum_error.ToString().PadLeft(14) + "");
+                                   + "  " + weight_sum.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + weight_sum_exact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + weight_sum_error.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
         }
     }

@@ -44,11 +44,7 @@ internal static class Program
         //
     {
         int m;
-        string m_ostring;
         int n;
-        string n_ostring;
-        string output_filename;
-        double[] r;
         int skip;
 
 
@@ -105,15 +101,15 @@ internal static class Program
         //
         //  Compute the data.
         //
-        r = SobolSampler.i8_sobol_generate(m, n, skip);
+        double[] r = SobolSampler.i8_sobol_generate(m, n, skip);
         //
         //  Write it to a file.
         //
-        m_ostring = m.ToString();
-        n_ostring = n.ToString();
+        string m_ostring = m.ToString();
+        string n_ostring = n.ToString();
 
-        output_filename = "sobol_" + m_ostring + "_"
-                          + n_ostring + ".txt";
+        string output_filename = "sobol_" + m_ostring + "_"
+                                 + n_ostring + ".txt";
 
         typeMethods.r8mat_write(output_filename, m, n, r);
 

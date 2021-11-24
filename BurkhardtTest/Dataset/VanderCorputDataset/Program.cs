@@ -49,9 +49,7 @@ internal static class Program
         //
     {
         int base_;
-        string output_filename;
         int n;
-        double[] r;
         int seed;
 
         Console.WriteLine("");
@@ -122,13 +120,13 @@ internal static class Program
         //
         //  Compute the data.
         //
-        r = new double[n];
+        double[] r = new double[n];
 
         VanDerCorput.i4_to_van_der_corput_sequence(seed, base_, n, ref r);
         //
         //  Write the data to a file.
         //
-        output_filename = "van_der_corput_" + base_ + "_" + seed + "_" + n + ".txt";
+        string output_filename = "van_der_corput_" + base_ + "_" + seed + "_" + n + ".txt";
 
         typeMethods.r8mat_write(output_filename, 1, n, r);
 

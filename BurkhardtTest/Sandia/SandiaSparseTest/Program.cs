@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Composition;
 using Burkardt.Quadrature;
 using Burkardt.Sparse;
@@ -35,15 +36,10 @@ internal static class Program
         //    Volume 46, Number 5, 2008, pages 2309-2345.
         //
     {
-        int degree_max;
-        int dim_max;
-        int dim_min;
         int dim_num;
         int level_max;
-        int level_max_max;
-        int level_max_min;
         int rule;
-        int rule_max = 7;
+        const int rule_max = 7;
 
         Console.WriteLine("");
         Console.WriteLine("SANDIA_SPARSE_TEST");
@@ -56,10 +52,10 @@ internal static class Program
             case true:
                 rule = 1;
 
-                dim_min = 1;
-                dim_max = 1;
-                level_max_min = 0;
-                level_max_max = 10;
+                int dim_min = 1;
+                int dim_max = 1;
+                int level_max_min = 0;
+                int level_max_max = 10;
 
                 levels_index_size_test(rule, dim_min, dim_max, level_max_min,
                     level_max_max);
@@ -361,7 +357,7 @@ internal static class Program
                 {
                     dim_num = 2;
                     level_max = 0;
-                    degree_max = 3;
+                    int degree_max = 3;
                     sparse_grid_monomial_test(rule, dim_num, level_max, degree_max);
 
                     dim_num = 2;
@@ -448,7 +444,6 @@ internal static class Program
     {
         int dim_num;
         int level_max;
-        string cout;
 
         Console.WriteLine("");
         Console.WriteLine("LEVELS_INDEX_SIZE_TEST");
@@ -462,7 +457,7 @@ internal static class Program
         Console.WriteLine("  LEVEL_MIN <= LEVEL <= LEVEL_MAX.");
 
         Console.WriteLine("");
-        cout = "   DIM: ";
+        string cout = "   DIM: ";
         for (dim_num = dim_min; dim_num <= dim_max; dim_num++)
         {
             cout += "  " + dim_num.ToString().PadLeft(8);
@@ -526,15 +521,9 @@ internal static class Program
         //    Input, int LEVEL_MAX, the level.
         //
     {
-        int dim;
-        int[] grid_base;
-        int[] grid_index;
-        int level_min;
         int point;
-        int point_num;
-        string cout;
 
-        level_min = Math.Max(0, level_max + 1 - dim_num);
+        int level_min = Math.Max(0, level_max + 1 - dim_num);
 
         Console.WriteLine("");
         Console.WriteLine("LEVELS_INDEX_TEST");
@@ -550,14 +539,14 @@ internal static class Program
         Console.WriteLine("  LEVEL_MIN =                 " + level_min + "");
         Console.WriteLine("  LEVEL_MAX =                 " + level_max + "");
 
-        point_num = Grid.levels_index_size(dim_num, level_max, rule);
+        int point_num = Grid.levels_index_size(dim_num, level_max, rule);
 
         Console.WriteLine("  Unique points in the grid = " + point_num + "");
         //
         //  Compute the orders and points.
         //
-        grid_base = new int[dim_num * point_num];
-        grid_index = new int[dim_num * point_num];
+        int[] grid_base = new int[dim_num * point_num];
+        int[] grid_index = new int[dim_num * point_num];
 
         Grid.levels_index(dim_num, level_max, rule, point_num, ref grid_index,
             ref grid_base);
@@ -570,7 +559,8 @@ internal static class Program
         Console.WriteLine("");
         for (point = 0; point < point_num; point++)
         {
-            cout = "  " + point.ToString().PadLeft(4) + "  ";
+            string cout = "  " + point.ToString().PadLeft(4) + "  ";
+            int dim;
             for (dim = 0; dim < dim_num; dim++)
             {
                 cout += grid_index[dim + point * dim_num].ToString().PadLeft(6);
@@ -623,14 +613,9 @@ internal static class Program
         //    Input, int LEVEL_MAX, the level.
         //
     {
-        int dim;
-        double[] grid_point;
-        double[] grid_weight;
-        int level_min;
         int point;
-        int point_num;
 
-        level_min = Math.Max(0, level_max + 1 - dim_num);
+        int level_min = Math.Max(0, level_max + 1 - dim_num);
 
         Console.WriteLine("");
         Console.WriteLine("SPARSE_GRID_COMPUTE_TEST:");
@@ -643,14 +628,14 @@ internal static class Program
         //
         //  Determine the number of points.
         //
-        point_num = Grid.levels_index_size(dim_num, level_max, rule);
+        int point_num = Grid.levels_index_size(dim_num, level_max, rule);
 
         Console.WriteLine("  Unique points in the grid = " + point_num + "");
         //
         //  Allocate space for the weights and points.
         //
-        grid_weight = new double[point_num];
-        grid_point = new double[dim_num * point_num];
+        double[] grid_weight = new double[point_num];
+        double[] grid_point = new double[dim_num * point_num];
         //
         //  Compute the weights and points.
         //
@@ -665,7 +650,7 @@ internal static class Program
         for (point = 0; point < point_num; point++)
         {
             Console.WriteLine("  " + point.ToString().PadLeft(4)
-                                   + "  " + grid_weight[point].ToString().PadLeft(14) + "");
+                                   + "  " + grid_weight[point].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         Console.WriteLine("");
@@ -674,9 +659,10 @@ internal static class Program
         for (point = 0; point < point_num; point++)
         {
             string cout = "  " + point + "  ";
+            int dim;
             for (dim = 0; dim < dim_num; dim++)
             {
-                cout += grid_point[dim + point * dim_num].ToString().PadLeft(14);
+                cout += grid_point[dim + point * dim_num].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -724,22 +710,15 @@ internal static class Program
         //    Input, int LEVEL_MAX, the level.
         //
     {
-        double[] grid_point;
-        double[] grid_weight;
-        int level_min;
-        double pi = 3.141592653589793;
         int point;
-        int point_num;
-        double weight_sum;
-        double weight_sum_error;
         double weight_sum_exact = 0;
 
-        level_min = Math.Max(0, level_max + 1 - dim_num);
+        int level_min = Math.Max(0, level_max + 1 - dim_num);
 
         weight_sum_exact = rule switch
         {
             >= 1 and <= 5 => Math.Pow(2.0, dim_num),
-            6 => Math.Sqrt(Math.Pow(pi, dim_num)),
+            6 => Math.Sqrt(Math.Pow(Math.PI, dim_num)),
             7 => 1.0,
             _ => weight_sum_exact
         };
@@ -758,14 +737,14 @@ internal static class Program
         //
         //  Determine the number of points.
         //
-        point_num = Grid.levels_index_size(dim_num, level_max, rule);
+        int point_num = Grid.levels_index_size(dim_num, level_max, rule);
 
         Console.WriteLine("  Unique points in the grid = " + point_num + "");
         //
         //  Allocate space for the weights and points.
         //
-        grid_weight = new double[point_num];
-        grid_point = new double[dim_num * point_num];
+        double[] grid_weight = new double[point_num];
+        double[] grid_point = new double[dim_num * point_num];
         //
         //  Compute the weights and points.
         //
@@ -774,20 +753,20 @@ internal static class Program
         //
         //  Sum the weights.
         //
-        weight_sum = 0.0;
+        double weight_sum = 0.0;
         for (point = 0; point < point_num; point++)
         {
             weight_sum += grid_weight[point];
         }
 
-        weight_sum_error = Math.Abs(weight_sum - weight_sum_exact);
+        double weight_sum_error = Math.Abs(weight_sum - weight_sum_exact);
 
         Console.WriteLine("");
         Console.WriteLine("    Weight sum  Expected sum    Difference");
         Console.WriteLine("");
-        Console.WriteLine("  " + weight_sum.ToString().PadLeft(14)
-                               + "  " + weight_sum_exact.ToString().PadLeft(14)
-                               + "  " + weight_sum_error.ToString().PadLeft(14) + "");
+        Console.WriteLine("  " + weight_sum.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                               + "  " + weight_sum_exact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                               + "  " + weight_sum_error.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
     }
 
@@ -843,18 +822,10 @@ internal static class Program
         //
     {
         int degree;
-        int dim;
-        int[] expon;
-        double[] grid_point;
-        double[] grid_weight;
         int h = 0;
-        int level_min;
-        bool more;
-        int point_num;
-        double quad_error;
         int t = 0;
 
-        level_min = Math.Max(0, level_max + 1 - dim_num);
+        int level_min = Math.Max(0, level_max + 1 - dim_num);
 
         Console.WriteLine("");
         Console.WriteLine("SPARSE_GRID_MONOMIAL_TEST");
@@ -864,28 +835,23 @@ internal static class Program
         Console.WriteLine("  For cases where the dimension is greater than 1,");
         Console.WriteLine("  many sparse grid of this level have accuracy through");
         Console.WriteLine("  monomials of total degree   " + 2 * level_max + 1 + "");
-        ;
         Console.WriteLine("");
         Console.WriteLine("  Spatial dimension DIM_NUM = " + dim_num + "");
-        ;
         Console.WriteLine("  LEVEL_MIN =                 " + level_min + "");
-        ;
         Console.WriteLine("  LEVEL_MAX =                 " + level_max + "");
-        ;
         Console.WriteLine("  1D quadrature index RULE =  " + rule + "");
-        ;
         Console.WriteLine("  Check up to DEGREE_MAX =    " + degree_max + "");
         //
         //  Determine the number of points in the rule.
         //
-        point_num = Grid.levels_index_size(dim_num, level_max, rule);
+        int point_num = Grid.levels_index_size(dim_num, level_max, rule);
 
         Console.WriteLine("  Unique points in the grid = " + point_num + "");
         //
         //  Allocate space for the weights and points.
         //
-        grid_weight = new double[point_num];
-        grid_point = new double[dim_num * point_num];
+        double[] grid_weight = new double[point_num];
+        double[] grid_point = new double[dim_num * point_num];
         //
         //  Compute the weights and points.
         //
@@ -893,7 +859,7 @@ internal static class Program
         //
         //  Compare exact and estimated values of the integrals of various monomials.
         //
-        expon = new int[dim_num];
+        int[] expon = new int[dim_num];
 
         Console.WriteLine("");
         Console.WriteLine("      Error      Total   Monomial");
@@ -902,19 +868,20 @@ internal static class Program
 
         for (degree = 0; degree <= degree_max; degree++)
         {
-            more = false;
+            bool more = false;
 
             for (;;)
             {
                 Comp.comp_next(degree, dim_num, ref expon, ref more, ref h, ref t);
 
-                quad_error = MonomialQuadrature.monomial_quadrature(dim_num, expon, point_num,
+                double quad_error = MonomialQuadrature.monomial_quadrature(dim_num, expon, point_num,
                     grid_weight, grid_point, rule);
 
-                string cout = "  " + quad_error.ToString().PadLeft(14)
+                string cout = "  " + quad_error.ToString(CultureInfo.InvariantCulture).PadLeft(14)
                                    + "  " + degree.ToString().PadLeft(2)
                                    + "  ";
 
+                int dim;
                 for (dim = 0; dim < dim_num; dim++)
                 {
                     cout += expon[dim].ToString().PadLeft(2);

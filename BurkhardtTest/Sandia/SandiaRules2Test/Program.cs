@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Quadrature;
 using Burkardt.Types;
 
@@ -78,16 +79,14 @@ internal static class Program
         //
     {
         int i;
-        int j;
-        double value = 0;
 
-        j = 0;
+        int j = 0;
         for (i = 0; i < dim; i++)
         {
             j += data.NP[i];
         }
 
-        value = data.P[j + offset];
+        double value = data.P[j + offset];
 
         data.value = value;
         return data;
@@ -114,23 +113,12 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int TEST_NUM = 3;
+        const int TEST_NUM = 3;
 
-        double alpha;
         double[] alpha_test = {0.5, 1.0, 2.5};
-        double beta;
         double[] beta_test = {0.5, 1.0, 2.5};
-        int dim;
-        int order;
-        int order_max = 10;
+        const int order_max = 10;
         int test1;
-        int test2;
-        double w_diff;
-        double[] w1;
-        double[] w2;
-        double x_diff;
-        double[] x1;
-        double[] x2;
         JacobiQuadrature.ParameterData data = new();
 
         Console.WriteLine("");
@@ -148,39 +136,41 @@ internal static class Program
 
         for (test1 = 0; test1 < TEST_NUM; test1++)
         {
-            alpha = alpha_test[test1];
+            double alpha = alpha_test[test1];
 
+            int test2;
             for (test2 = 0; test2 < TEST_NUM; test2++)
             {
-                beta = beta_test[test2];
+                double beta = beta_test[test2];
 
-                dim = 0;
+                int dim = 0;
                 data.NP = new int[1];
                 data.NP[0] = 2;
                 data.P = new double[2];
                 data.P[0] = alpha;
                 data.P[1] = beta;
 
+                int order;
                 for (order = 1; order <= order_max; order++)
                 {
-                    w1 = new double[order];
-                    w2 = new double[order];
-                    x1 = new double[order];
-                    x2 = new double[order];
+                    double[] w1 = new double[order];
+                    double[] w2 = new double[order];
+                    double[] x1 = new double[order];
+                    double[] x2 = new double[order];
 
                     JacobiQuadrature.jacobi_compute(order, alpha, beta, ref x1, ref w1);
 
                     data = JacobiQuadrature.jacobi_points(parameter, data, order, dim, ref x2);
                     data = JacobiQuadrature.jacobi_weights(parameter, data, order, dim, ref w2);
 
-                    x_diff = typeMethods.r8vec_diff_norm_li(order, x1, x2);
-                    w_diff = typeMethods.r8vec_diff_norm_li(order, w1, w2);
+                    double x_diff = typeMethods.r8vec_diff_norm_li(order, x1, x2);
+                    double w_diff = typeMethods.r8vec_diff_norm_li(order, w1, w2);
 
                     Console.WriteLine("  " + order.ToString().PadLeft(6)
-                                           + "  " + alpha.ToString().PadLeft(10)
-                                           + "  " + beta.ToString().PadLeft(10)
-                                           + "  " + x_diff.ToString().PadLeft(10)
-                                           + "  " + w_diff.ToString().PadLeft(10) + "");
+                                           + "  " + alpha.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                           + "  " + beta.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                           + "  " + x_diff.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                           + "  " + w_diff.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
                 }
             }
         }

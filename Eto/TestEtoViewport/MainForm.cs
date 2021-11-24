@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using Eto.Forms;
 using Eto.Drawing;
 using System.Diagnostics;
+using System.Globalization;
 using System.Timers;
 using System.Threading;
 using System.Threading.Tasks;
@@ -218,7 +219,7 @@ public class MainForm : Form
 		}
 		catch (Exception ex)
 		{
-			string err = ex.ToString(CultureInfo.InvariantCulture);
+			string err = ex.ToString();
 		}
 
 		t.Dispose();

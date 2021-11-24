@@ -737,18 +737,16 @@ public class RandomGenerator<TAlgo> : IRandomGenerator
     {
         // Build unbiased integer.
         ulong rslt = 0;
-        int sb = _shiftBits;
-        ulong sm = _shiftMax;
 
         do
         {
             ulong x;
-            do { x = Next(); } while (x > sm);
+            do { x = Next(); } while (x > _shiftMax);
 
-            rslt <<= sb;
+            rslt <<= _shiftBits;
             rslt |= x;
 
-        } while ((bits -= sb) > 0);
+        } while ((bits -= _shiftBits) > 0);
 
         return rslt;
     }

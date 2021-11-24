@@ -2,6 +2,7 @@
 using Eto.Forms;
 using Eto.Veldrid;
 using System;
+using System.Globalization;
 using System.Threading;
 using Veldrid;
 using VeldridEto;

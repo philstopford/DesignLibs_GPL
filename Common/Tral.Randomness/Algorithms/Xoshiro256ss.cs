@@ -132,7 +132,7 @@ public class Xoshiro256ss : IJumpableAlgorithm
         {
             for (int b = 0; b < 64; ++b)
             {
-                if ((t & 0x01UL << b) != 0)
+                if ((t & (0x01UL << b)) != 0)
                 {
                     s0 ^= _s0;
                     s1 ^= _s1;

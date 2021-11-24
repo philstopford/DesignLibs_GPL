@@ -110,13 +110,11 @@ public static class Utils
 
     private static string GetHash(HashAlgorithm hashAlgorithm, object input)
     {
-        using (MemoryStream memoryStream = new())
-        {
-            DataContractSerializer serializer = new(input.GetType());
-            serializer.WriteObject(memoryStream, input);
-            hashAlgorithm.ComputeHash(memoryStream.ToArray());
-            return Convert.ToBase64String(hashAlgorithm.Hash);
-        }
+        using MemoryStream memoryStream = new();
+        DataContractSerializer serializer = new(input.GetType());
+        serializer.WriteObject(memoryStream, input);
+        hashAlgorithm.ComputeHash(memoryStream.ToArray());
+        return Convert.ToBase64String(hashAlgorithm.Hash);
     }
 
     public static string GetMD5Hash(object input)

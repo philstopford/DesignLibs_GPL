@@ -28,17 +28,18 @@ public static class SeedHelper
     /// </summary>
     public static byte[] GenerateSeed(int count)
     {
-        if (count != 0)
+        if (count == 0)
         {
-            byte[] bytes = new byte[count];
-
-            using RandomNumberGenerator c = RandomNumberGenerator.Create();
-            c.GetBytes(bytes);
-
-            return bytes;
+            return Array.Empty<byte>();
         }
 
-        return Array.Empty<byte>();
+        byte[] bytes = new byte[count];
+
+        using RandomNumberGenerator c = RandomNumberGenerator.Create();
+        c.GetBytes(bytes);
+
+        return bytes;
+
     }
 
     /// <summary>
@@ -183,8 +184,8 @@ public static class SeedHelper
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static uint SwapEndian(uint x)
     {
-        return (x & 0x000000FF) << 24 | (x & 0x0000FF00) << 8 |
-               (x & 0x00FF0000) >> 8 | (x & 0xFF000000) >> 24;
+        return ((x & 0x000000FF) << 24) | ((x & 0x0000FF00) << 8) |
+               ((x & 0x00FF0000) >> 8) | ((x & 0xFF000000) >> 24);
     }
 
     /// <summary>
@@ -193,10 +194,10 @@ public static class SeedHelper
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ulong SwapEndian(ulong x)
     {
-        return (x & 0x00000000000000FFUL) << 56 | (x & 0x000000000000FF00UL) << 40 |
-               (x & 0x0000000000FF0000UL) << 24 | (x & 0x00000000FF000000UL) << 8 |
-               (x & 0x000000FF00000000UL) >> 8 | (x & 0x0000FF0000000000UL) >> 24 |
-               (x & 0x00FF000000000000UL) >> 40 | (x & 0xFF00000000000000UL) >> 56;
+        return ((x & 0x00000000000000FFUL) << 56) | ((x & 0x000000000000FF00UL) << 40) |
+               ((x & 0x0000000000FF0000UL) << 24) | ((x & 0x00000000FF000000UL) << 8) |
+               ((x & 0x000000FF00000000UL) >> 8) | ((x & 0x0000FF0000000000UL) >> 24) |
+               ((x & 0x00FF000000000000UL) >> 40) | ((x & 0xFF00000000000000UL) >> 56);
     }
 
 }

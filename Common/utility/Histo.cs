@@ -118,15 +118,9 @@ public class Histo
     /// </summary>
     public static string FloatFormat
     {
-        get
-        {
-            return floatFormat_;
-        }
+        get => floatFormat_;
 
-        set
-        {
-            floatFormat_ = value;
-        }
+        set => floatFormat_ = value;
     }
 
     /// <summary>
@@ -210,25 +204,24 @@ public class Histo
     public override string ToString()
     {
         StringBuilder buff = new();
-        char closing;
         int i;
         switch (numSmaller_)
         {
             case > 0:
-                buff.AppendFormat("Number smaller: {0}\n", numSmaller_);
+                buff.Append($"Number smaller: {numSmaller_}\n");
                 break;
         }
         for (i = 0; i < counts_.Length; ++i)
         {
-            closing = i == counts_.Length - 1 ? ']' : ')';
-            buff.AppendFormat("[{0}, {1}{2}: {3}", binBoundaries_[i].ToString(floatFormat_),
-                binBoundaries_[i + 1].ToString(FloatFormat), closing, counts_[i]);
+            char closing = i == counts_.Length - 1 ? ']' : ')';
+            buff.Append(
+                $"[{binBoundaries_[i].ToString(floatFormat_)}, {binBoundaries_[i + 1].ToString(FloatFormat)}{closing}: {counts_[i]}");
             buff.Append("\n");
         }
         switch (numLarger_)
         {
             case > 0:
-                buff.AppendFormat("Number larger: {0}\n", numLarger_);
+                buff.Append($"Number larger: {numLarger_}\n");
                 break;
         }
         return buff.ToString();
@@ -257,13 +250,12 @@ public class Histo
     public string StemLeaf(bool normalize = false, int buckets = 100)
     {
         StringBuilder buff = new();
-        char closing;
-        int i, j;
+        int i;
         switch (numSmaller_)
         {
             case > 0:
                 //buff.Append( string.Format("Number smaller: {0}\n", numSmaller_) );
-                buff.AppendFormat("Number smaller: {0}\n", numSmaller_);
+                buff.Append($"Number smaller: {numSmaller_}\n");
                 break;
         }
 
@@ -278,9 +270,9 @@ public class Histo
         }
         for (i = 0; i < counts_.Length; ++i)
         {
-            closing = i == counts_.Length - 1 ? ']' : ')';
-            buff.AppendFormat("[{0}, {1}{2} ", binBoundaries_[i].ToString(floatFormat_),
-                binBoundaries_[i + 1].ToString(FloatFormat), closing);
+            char closing = i == counts_.Length - 1 ? ']' : ')';
+            buff.Append(
+                $"[{binBoundaries_[i].ToString(floatFormat_)}, {binBoundaries_[i + 1].ToString(FloatFormat)}{closing} ");
 
             int count_ = counts_[i];
             switch (normalize)
@@ -292,6 +284,8 @@ public class Histo
                     break;
                 }
             }
+
+            int j;
             for (j = 0; j < count_; ++j)
             {
                 if (j < count_ - 1)
@@ -309,7 +303,7 @@ public class Histo
         switch (numLarger_)
         {
             case > 0:
-                buff.AppendFormat("Number larger: {0}\n", numLarger_);
+                buff.Append($"Number larger: {numLarger_}\n");
                 break;
         }
         return buff.ToString();
@@ -455,12 +449,13 @@ public class Histo
     {
         for (int i = 0; i < boundaries.Length - 1; ++i)
         {
-            if (boundaries[i] >= boundaries[i + 1])
+            if (!(boundaries[i] >= boundaries[i + 1]))
             {
-                string msg = string.Format("Bin boundary {0} is >= bin boundary {1}",
-                    boundaries[i], boundaries[i + 1]);
-                throw new ArgumentException(msg);
+                continue;
             }
+
+            string msg = $"Bin boundary {boundaries[i]} is >= bin boundary {boundaries[i + 1]}";
+            throw new ArgumentException(msg);
         }
     }
 

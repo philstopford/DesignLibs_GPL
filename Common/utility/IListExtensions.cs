@@ -14,9 +14,7 @@ public static class IListExtensions {
         for (int i = 0; i < last; ++i) {
             // var r = rnd.Next(i, count);
             int r = RNG.nextint(i, count);
-            T tmp = ts[i];
-            ts[i] = ts[r];
-            ts[r] = tmp;
+            (ts[i], ts[r]) = (ts[r], ts[i]);
         }
     }
 }

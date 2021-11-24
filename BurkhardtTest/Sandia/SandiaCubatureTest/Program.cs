@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.IntegralNS;
 using Burkardt.Quadrature;
 using Burkardt.Types;
@@ -74,13 +75,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int TEST_NUM = 5;
+        const int TEST_NUM = 5;
 
-        double alpha;
         double[] alpha_test = {-0.5, 0.0, 0.5, 1.0, 1.5};
-        int[] expon = null;
         int n;
-        int test;
 
         Console.WriteLine("");
         Console.WriteLine("CN_GEG_TESTS");
@@ -99,8 +97,10 @@ internal static class Program
 
         for (n = 1; n <= 6; n++)
         {
-            expon = new int[n];
+            int[] expon = new int[n];
 
+            double alpha;
+            int test;
             for (test = 0; test < TEST_NUM; test++)
             {
                 alpha = alpha_test[test];
@@ -169,19 +169,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double c1;
-        int d;
-        double delta0;
         double err;
-        double exact;
-        double gamma0;
         int i;
         int o;
-        int p;
-        double pi = 3.141592653589793;
         double quad;
         double[] v;
-        double volume_1d;
         double[] w;
         double[] x;
 
@@ -196,13 +188,13 @@ internal static class Program
 
         Console.WriteLine(cout);
         cout = "";
-        d = typeMethods.i4vec_sum(n, expon);
+        int d = typeMethods.i4vec_sum(n, expon);
         Console.WriteLine("  Degree = " + d + "");
         Console.WriteLine("");
 
-        exact = CN_Geg.cn_geg_monomial_integral(n, alpha, expon);
+        double exact = CN_Geg.cn_geg_monomial_integral(n, alpha, expon);
 
-        p = 1;
+        int p = 1;
 
         if (d <= p)
         {
@@ -215,8 +207,8 @@ internal static class Program
             err = typeMethods.r8_abs(quad - exact);
             Console.WriteLine("  CN_GEG_01_1:   "
                               + "  " + o.ToString().PadLeft(6)
-                              + "  " + quad.ToString().PadLeft(14)
-                              + "  " + err.ToString().PadLeft(14) + "");
+                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         p = 2;
@@ -232,15 +224,15 @@ internal static class Program
             err = typeMethods.r8_abs(quad - exact);
             Console.WriteLine("  CN_GEG_02_XIU: "
                               + "  " + o.ToString().PadLeft(6)
-                              + "  " + quad.ToString().PadLeft(14)
-                              + "  " + err.ToString().PadLeft(14) + "");
+                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             o = GolubWelsch_Xiu.gw_02_xiu_size(n);
-            gamma0 = 1.0;
-            delta0 = 0.0;
-            c1 = 1.0 / (2.0 * alpha + 3.0);
-            volume_1d = Math.Sqrt(pi) * typeMethods.r8_gamma(alpha + 1.0)
-                        / typeMethods.r8_gamma(alpha + 1.5);
+            double gamma0 = 1.0;
+            double delta0 = 0.0;
+            double c1 = 1.0 / (2.0 * alpha + 3.0);
+            double volume_1d = Math.Sqrt(Math.PI) * typeMethods.r8_gamma(alpha + 1.0)
+                               / typeMethods.r8_gamma(alpha + 1.5);
             x = new double[n * o];
             w = new double[o];
             GolubWelsch_Xiu.gw_02_xiu(n, o, gamma0, delta0, c1, volume_1d, ref x, ref w);
@@ -249,8 +241,8 @@ internal static class Program
             err = typeMethods.r8_abs(quad - exact);
             Console.WriteLine("  GW_02_XIU:     "
                               + "  " + o.ToString().PadLeft(6)
-                              + "  " + quad.ToString().PadLeft(14)
-                              + "  " + err.ToString().PadLeft(14) + "");
+                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         p = 3;
@@ -266,12 +258,12 @@ internal static class Program
             err = typeMethods.r8_abs(quad - exact);
             Console.WriteLine("  CN_GEG_03_XIU: "
                               + "  " + o.ToString().PadLeft(6)
-                              + "  " + quad.ToString().PadLeft(14)
-                              + "  " + err.ToString().PadLeft(14) + "");
+                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         Console.WriteLine("  EXACT                  "
-                          + "  " + exact.ToString().PadLeft(14) + "");
+                          + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
     }
 
     private static void cn_jac_tests()
@@ -295,15 +287,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int TEST_NUM = 4;
+        const int TEST_NUM = 4;
 
-        double alpha;
         double[] alpha_test = {0.0, 1.0, 0.0, 0.5};
-        double beta;
         double[] beta_test = {0.0, 0.0, 2.0, 1.5};
-        int[] expon;
         int n;
-        int test;
 
         Console.WriteLine("");
         Console.WriteLine("CN_JAC_TESTS");
@@ -322,8 +310,11 @@ internal static class Program
 
         for (n = 1; n <= 6; n++)
         {
-            expon = new int[n];
+            int[] expon = new int[n];
 
+            double alpha;
+            int test;
+            double beta;
             for (test = 0; test < TEST_NUM; test++)
             {
                 alpha = alpha_test[test];
@@ -396,18 +387,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double c1;
-        int d;
-        double delta0;
         double err;
-        double exact;
-        double gamma0;
         int i;
         int o;
-        int p;
         double quad;
         double[] v;
-        double volume_1d;
         double[] w;
         double[] x;
 
@@ -423,13 +407,13 @@ internal static class Program
 
         Console.WriteLine(cout);
         cout = "";
-        d = typeMethods.i4vec_sum(n, expon);
+        int d = typeMethods.i4vec_sum(n, expon);
         Console.WriteLine("  Degree = " + d + "");
         Console.WriteLine("");
 
-        exact = CN_Geg.cn_jac_monomial_integral(n, alpha, beta, expon);
+        double exact = CN_Geg.cn_jac_monomial_integral(n, alpha, beta, expon);
 
-        p = 1;
+        int p = 1;
 
         if (d <= p)
         {
@@ -442,8 +426,8 @@ internal static class Program
             err = typeMethods.r8_abs(quad - exact);
             Console.WriteLine("  CN_JAC_01_1:   "
                               + "  " + o.ToString().PadLeft(6)
-                              + "  " + quad.ToString().PadLeft(14)
-                              + "  " + err.ToString().PadLeft(14) + "");
+                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         p = 2;
@@ -459,17 +443,17 @@ internal static class Program
             err = typeMethods.r8_abs(quad - exact);
             Console.WriteLine("  CN_JAC_02_XIU: "
                               + "  " + o.ToString().PadLeft(6)
-                              + "  " + quad.ToString().PadLeft(14)
-                              + "  " + err.ToString().PadLeft(14) + "");
+                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             o = GolubWelsch_Xiu.gw_02_xiu_size(n);
-            gamma0 = (alpha + beta + 2.0) / 2.0;
-            delta0 = (alpha - beta) / 2.0;
-            c1 = 2.0 * (alpha + 1.0) * (beta + 1.0) / (alpha + beta + 3.0)
-                                                    / (alpha + beta + 2.0);
-            volume_1d = Math.Pow(2.0, alpha + beta + 1.0) * typeMethods.r8_gamma(alpha + 1.0)
-                                                          * typeMethods.r8_gamma(beta + 1.0) /
-                        (alpha + beta + 1.0) / typeMethods.r8_gamma(alpha + beta + 1.0);
+            double gamma0 = (alpha + beta + 2.0) / 2.0;
+            double delta0 = (alpha - beta) / 2.0;
+            double c1 = 2.0 * (alpha + 1.0) * (beta + 1.0) / (alpha + beta + 3.0)
+                                                           / (alpha + beta + 2.0);
+            double volume_1d = Math.Pow(2.0, alpha + beta + 1.0) * typeMethods.r8_gamma(alpha + 1.0)
+                                                                 * typeMethods.r8_gamma(beta + 1.0) /
+                               (alpha + beta + 1.0) / typeMethods.r8_gamma(alpha + beta + 1.0);
             x = new double[n * o];
             w = new double[o];
             GolubWelsch_Xiu.gw_02_xiu(n, o, gamma0, delta0, c1, volume_1d, ref x, ref w);
@@ -478,12 +462,12 @@ internal static class Program
             err = typeMethods.r8_abs(quad - exact);
             Console.WriteLine("  GW_02_XIU:     "
                               + "  " + o.ToString().PadLeft(6)
-                              + "  " + quad.ToString().PadLeft(14)
-                              + "  " + err.ToString().PadLeft(14) + "");
+                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         Console.WriteLine("  EXACT                  "
-                          + "  " + exact.ToString().PadLeft(14) + "");
+                          + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
     }
 
@@ -508,7 +492,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] expon;
         int n;
 
         Console.WriteLine("");
@@ -527,7 +510,7 @@ internal static class Program
 
         for (n = 1; n <= 6; n++)
         {
-            expon = new int[n];
+            int[] expon = new int[n];
 
             typeMethods.i4vec_zero(n, ref expon);
             cn_leg_test(n, expon);
@@ -591,19 +574,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double c1;
-        int d;
-        double delta0;
         double err;
-        double exact;
-        double gamma0;
         int i;
         int o;
-        int option;
-        int p;
         double quad;
         double[] v;
-        double volume_1d;
         double[] w;
         double[] x;
 
@@ -617,13 +592,13 @@ internal static class Program
 
         Console.WriteLine(cout);
         cout = "";
-        d = typeMethods.i4vec_sum(n, expon);
+        int d = typeMethods.i4vec_sum(n, expon);
         Console.WriteLine("  Degree = " + d + "");
         Console.WriteLine("");
 
-        exact = CN_Geg.cn_leg_monomial_integral(n, expon);
+        double exact = CN_Geg.cn_leg_monomial_integral(n, expon);
 
-        p = 1;
+        int p = 1;
 
         if (d <= p)
         {
@@ -636,8 +611,8 @@ internal static class Program
             err = typeMethods.r8_abs(quad - exact);
             Console.WriteLine("  CN_LEG_01_1:   "
                               + "  " + o.ToString().PadLeft(6)
-                              + "  " + quad.ToString().PadLeft(14)
-                              + "  " + err.ToString().PadLeft(14) + "");
+                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         p = 2;
@@ -653,14 +628,14 @@ internal static class Program
             err = typeMethods.r8_abs(quad - exact);
             Console.WriteLine("  CN_LEG_02_XIU: "
                               + "  " + o.ToString().PadLeft(6)
-                              + "  " + quad.ToString().PadLeft(14)
-                              + "  " + err.ToString().PadLeft(14) + "");
+                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             o = GolubWelsch_Xiu.gw_02_xiu_size(n);
-            gamma0 = 1.0;
-            delta0 = 0.0;
-            c1 = 1.0 / 3.0;
-            volume_1d = 2.0;
+            double gamma0 = 1.0;
+            double delta0 = 0.0;
+            double c1 = 1.0 / 3.0;
+            double volume_1d = 2.0;
             x = new double[n * o];
             w = new double[o];
             GolubWelsch_Xiu.gw_02_xiu(n, o, gamma0, delta0, c1, volume_1d, ref x, ref w);
@@ -669,8 +644,8 @@ internal static class Program
             err = typeMethods.r8_abs(quad - exact);
             Console.WriteLine("  GW_02_XIU:     "
                               + "  " + o.ToString().PadLeft(6)
-                              + "  " + quad.ToString().PadLeft(14)
-                              + "  " + err.ToString().PadLeft(14) + "");
+                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         p = 3;
@@ -686,8 +661,8 @@ internal static class Program
             err = typeMethods.r8_abs(quad - exact);
             Console.WriteLine("  CN_LEG_03_1:   "
                               + "  " + o.ToString().PadLeft(6)
-                              + "  " + quad.ToString().PadLeft(14)
-                              + "  " + err.ToString().PadLeft(14) + "");
+                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             o = Xiu.cn_leg_03_xiu_size(n);
             x = new double[n * o];
@@ -698,14 +673,15 @@ internal static class Program
             err = typeMethods.r8_abs(quad - exact);
             Console.WriteLine("  CN_LEG_03_XIU: "
                               + "  " + o.ToString().PadLeft(6)
-                              + "  " + quad.ToString().PadLeft(14)
-                              + "  " + err.ToString().PadLeft(14) + "");
+                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         p = 5;
 
         if (d <= p)
         {
+            int option;
             switch (n)
             {
                 case >= 4 and <= 6:
@@ -719,8 +695,8 @@ internal static class Program
                     err = typeMethods.r8_abs(quad - exact);
                     Console.WriteLine("  CN_LEG_05_1(1):"
                                       + "  " + o.ToString().PadLeft(6)
-                                      + "  " + quad.ToString().PadLeft(14)
-                                      + "  " + err.ToString().PadLeft(14) + "");
+                                      + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                      + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                     break;
             }
 
@@ -737,8 +713,8 @@ internal static class Program
                     err = typeMethods.r8_abs(quad - exact);
                     Console.WriteLine("  CN_LEG_05_1(2):"
                                       + "  " + o.ToString().PadLeft(6)
-                                      + "  " + quad.ToString().PadLeft(14)
-                                      + "  " + err.ToString().PadLeft(14) + "");
+                                      + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                      + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                     break;
             }
 
@@ -754,14 +730,14 @@ internal static class Program
                     err = typeMethods.r8_abs(quad - exact);
                     Console.WriteLine("  CN_LEG_05_2:   "
                                       + "  " + o.ToString().PadLeft(6)
-                                      + "  " + quad.ToString().PadLeft(14)
-                                      + "  " + err.ToString().PadLeft(14) + "");
+                                      + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                      + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                     break;
             }
         }
 
         Console.WriteLine("  EXACT                  "
-                          + "  " + exact.ToString().PadLeft(14) + "");
+                          + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
     }
 
@@ -786,9 +762,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int d;
-        int[] expon;
-        int i;
         int n;
 
         Console.WriteLine("");
@@ -807,8 +780,9 @@ internal static class Program
 
         for (n = 1; n <= 7; n++)
         {
-            expon = new int[n];
+            int[] expon = new int[n];
 
+            int i;
             for (i = 0; i < n; i++)
             {
                 expon[i] = 0;
@@ -837,7 +811,7 @@ internal static class Program
                 expon[i] = i + 1;
             }
 
-            d = typeMethods.i4vec_sum(n, expon);
+            int d = typeMethods.i4vec_sum(n, expon);
             switch (d)
             {
                 case <= 5:
@@ -882,20 +856,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double c1;
-        int d;
-        double delta0;
         double err;
-        double exact;
-        double gamma0;
         int i;
         int o;
-        int option;
-        int p;
-        double pi = 3.141592653589793;
         double quad;
         double[] v;
-        double volume_1d;
         double[] w;
         double[] x;
 
@@ -909,13 +874,13 @@ internal static class Program
 
         Console.WriteLine(cout);
         cout = "";
-        d = typeMethods.i4vec_sum(n, expon);
+        int d = typeMethods.i4vec_sum(n, expon);
         Console.WriteLine("  Degree = " + d + "");
         Console.WriteLine("");
 
-        exact = Burkardt.IntegralNS.Stroud.en_her_monomial_integral(n, expon);
+        double exact = Burkardt.IntegralNS.Stroud.en_her_monomial_integral(n, expon);
 
-        p = 1;
+        int p = 1;
 
         if (d <= p)
         {
@@ -928,8 +893,8 @@ internal static class Program
             err = typeMethods.r8_abs(quad - exact);
             Console.WriteLine("  EN_HER_01_1:   "
                               + "  " + o.ToString().PadLeft(6)
-                              + "  " + quad.ToString().PadLeft(14)
-                              + "  " + err.ToString().PadLeft(14) + "");
+                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         p = 2;
@@ -945,14 +910,14 @@ internal static class Program
             err = typeMethods.r8_abs(quad - exact);
             Console.WriteLine("  EN_HER_02_XIU: "
                               + "  " + o.ToString().PadLeft(6)
-                              + "  " + quad.ToString().PadLeft(14)
-                              + "  " + err.ToString().PadLeft(14) + "");
+                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             o = GolubWelsch_Xiu.gw_02_xiu_size(n);
-            gamma0 = 2.0;
-            delta0 = 0.0;
-            c1 = 1.0;
-            volume_1d = Math.Sqrt(pi);
+            double gamma0 = 2.0;
+            double delta0 = 0.0;
+            double c1 = 1.0;
+            double volume_1d = Math.Sqrt(Math.PI);
             x = new double[n * o];
             w = new double[o];
             GolubWelsch_Xiu.gw_02_xiu(n, o, gamma0, delta0, c1, volume_1d, ref x, ref w);
@@ -961,8 +926,8 @@ internal static class Program
             err = typeMethods.r8_abs(quad - exact);
             Console.WriteLine("  GW_02_XIU:     "
                               + "  " + o.ToString().PadLeft(6)
-                              + "  " + quad.ToString().PadLeft(14)
-                              + "  " + err.ToString().PadLeft(14) + "");
+                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         p = 3;
@@ -978,8 +943,8 @@ internal static class Program
             err = typeMethods.r8_abs(quad - exact);
             Console.WriteLine("  EN_HER_03_1:   "
                               + "  " + o.ToString().PadLeft(6)
-                              + "  " + quad.ToString().PadLeft(14)
-                              + "  " + err.ToString().PadLeft(14) + "");
+                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             o = Xiu.en_her_03_xiu_size(n);
             x = new double[n * o];
@@ -990,14 +955,15 @@ internal static class Program
             err = typeMethods.r8_abs(quad - exact);
             Console.WriteLine("  EN_HER_03_XIU: "
                               + "  " + o.ToString().PadLeft(6)
-                              + "  " + quad.ToString().PadLeft(14)
-                              + "  " + err.ToString().PadLeft(14) + "");
+                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         p = 5;
 
         if (d <= p)
         {
+            int option;
             switch (n)
             {
                 case >= 2 and <= 7:
@@ -1011,8 +977,8 @@ internal static class Program
                     err = typeMethods.r8_abs(quad - exact);
                     Console.WriteLine("  EN_HER_05_1(1):"
                                       + "  " + o.ToString().PadLeft(6)
-                                      + "  " + quad.ToString().PadLeft(14)
-                                      + "  " + err.ToString().PadLeft(14) + "");
+                                      + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                      + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                     break;
             }
 
@@ -1031,8 +997,8 @@ internal static class Program
                     err = typeMethods.r8_abs(quad - exact);
                     Console.WriteLine("  EN_HER_05_1(2):"
                                       + "  " + o.ToString().PadLeft(6)
-                                      + "  " + quad.ToString().PadLeft(14)
-                                      + "  " + err.ToString().PadLeft(14) + "");
+                                      + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                      + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                     break;
             }
 
@@ -1045,12 +1011,12 @@ internal static class Program
             err = typeMethods.r8_abs(quad - exact);
             Console.WriteLine("  EN_HER_05_2:   "
                               + "  " + o.ToString().PadLeft(6)
-                              + "  " + quad.ToString().PadLeft(14)
-                              + "  " + err.ToString().PadLeft(14) + "");
+                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         Console.WriteLine("  EXACT                  "
-                          + "  " + exact.ToString().PadLeft(14) + "");
+                          + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
     }
 
@@ -1075,13 +1041,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int TEST_NUM = 5;
+        const int TEST_NUM = 5;
 
-        double alpha;
         double[] alpha_test = {-0.5, 0.0, 0.5, 1.0, 2.0};
-        int[] expon;
         int n;
-        int test;
 
         Console.WriteLine("");
         Console.WriteLine("EPN_GLG_TESTS");
@@ -1099,9 +1062,11 @@ internal static class Program
 
         for (n = 1; n <= 6; n++)
         {
-            expon = new int[n];
+            int[] expon = new int[n];
 
             typeMethods.i4vec_zero(n, ref expon);
+            double alpha;
+            int test;
             for (test = 0; test < TEST_NUM; test++)
             {
                 alpha = alpha_test[test];
@@ -1164,18 +1129,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double c1;
-        int d;
-        double delta0;
         double err;
-        double exact;
-        double gamma0;
         int i;
         int o;
-        int p;
         double quad;
         double[] v;
-        double volume_1d;
         double[] w;
         double[] x;
 
@@ -1190,13 +1148,13 @@ internal static class Program
 
         Console.WriteLine(cout);
         cout = "";
-        d = typeMethods.i4vec_sum(n, expon);
+        int d = typeMethods.i4vec_sum(n, expon);
         Console.WriteLine("  Degree = " + d + "");
         Console.WriteLine("");
 
-        exact = Burkardt.IntegralNS.Epn_Lag.epn_glg_monomial_integral(n, expon, alpha);
+        double exact = Burkardt.IntegralNS.Epn_Lag.epn_glg_monomial_integral(n, expon, alpha);
 
-        p = 1;
+        int p = 1;
 
         if (d <= p)
         {
@@ -1209,8 +1167,8 @@ internal static class Program
             err = typeMethods.r8_abs(quad - exact);
             Console.WriteLine("  EPN_GLG_01_1:   "
                               + "  " + o.ToString().PadLeft(6)
-                              + "  " + quad.ToString().PadLeft(14)
-                              + "  " + err.ToString().PadLeft(14) + "");
+                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         p = 2;
@@ -1226,14 +1184,14 @@ internal static class Program
             err = typeMethods.r8_abs(quad - exact);
             Console.WriteLine("  EPN_GLG_02_XIU: "
                               + "  " + o.ToString().PadLeft(6)
-                              + "  " + quad.ToString().PadLeft(14)
-                              + "  " + err.ToString().PadLeft(14) + "");
+                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             o = GolubWelsch_Xiu.gw_02_xiu_size(n);
-            gamma0 = -1.0;
-            delta0 = alpha + 1.0;
-            c1 = -alpha - 1.0;
-            volume_1d = typeMethods.r8_gamma(1.0 + alpha);
+            double gamma0 = -1.0;
+            double delta0 = alpha + 1.0;
+            double c1 = -alpha - 1.0;
+            double volume_1d = typeMethods.r8_gamma(1.0 + alpha);
             x = new double[n * o];
             w = new double[o];
             GolubWelsch_Xiu.gw_02_xiu(n, o, gamma0, delta0, c1, volume_1d, ref x, ref w);
@@ -1242,12 +1200,12 @@ internal static class Program
             err = typeMethods.r8_abs(quad - exact);
             Console.WriteLine("  GW_02_XIU:      "
                               + "  " + o.ToString().PadLeft(6)
-                              + "  " + quad.ToString().PadLeft(14)
-                              + "  " + err.ToString().PadLeft(14) + "");
+                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         Console.WriteLine("  EXACT                   "
-                          + "  " + exact.ToString().PadLeft(14) + "");
+                          + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
     }
 
@@ -1272,7 +1230,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] expon;
         int n;
 
         Console.WriteLine("");
@@ -1291,7 +1248,7 @@ internal static class Program
 
         for (n = 1; n <= 6; n++)
         {
-            expon = new int[n];
+            int[] expon = new int[n];
 
             typeMethods.i4vec_zero(n, ref expon);
             epn_lag_test(n, expon);
@@ -1338,18 +1295,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double c1;
-        int d;
-        double delta0;
         double err;
-        double exact;
-        double gamma0;
         int i;
         int o;
-        int p;
         double quad;
         double[] v;
-        double volume_1d;
         double[] w;
         double[] x;
 
@@ -1363,13 +1313,13 @@ internal static class Program
 
         Console.WriteLine(cout);
         cout = "";
-        d = typeMethods.i4vec_sum(n, expon);
+        int d = typeMethods.i4vec_sum(n, expon);
         Console.WriteLine("  Degree = " + d + "");
         Console.WriteLine("");
 
-        exact = Burkardt.IntegralNS.Epn_Lag.epn_lag_monomial_integral(n, expon);
+        double exact = Burkardt.IntegralNS.Epn_Lag.epn_lag_monomial_integral(n, expon);
 
-        p = 1;
+        int p = 1;
 
         if (d <= p)
         {
@@ -1382,8 +1332,8 @@ internal static class Program
             err = typeMethods.r8_abs(quad - exact);
             Console.WriteLine("  EPN_LAG_01_1:   "
                               + "  " + o.ToString().PadLeft(6)
-                              + "  " + quad.ToString().PadLeft(14)
-                              + "  " + err.ToString().PadLeft(14) + "");
+                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         p = 2;
@@ -1399,14 +1349,14 @@ internal static class Program
             err = typeMethods.r8_abs(quad - exact);
             Console.WriteLine("  EPN_LAG_02_XIU: "
                               + "  " + o.ToString().PadLeft(6)
-                              + "  " + quad.ToString().PadLeft(14)
-                              + "  " + err.ToString().PadLeft(14) + "");
+                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             o = GolubWelsch_Xiu.gw_02_xiu_size(n);
-            gamma0 = -1.0;
-            delta0 = 1.0;
-            c1 = -1.0;
-            volume_1d = 1.0;
+            double gamma0 = -1.0;
+            double delta0 = 1.0;
+            double c1 = -1.0;
+            double volume_1d = 1.0;
             x = new double[n * o];
             w = new double[o];
             GolubWelsch_Xiu.gw_02_xiu(n, o, gamma0, delta0, c1, volume_1d, ref x, ref w);
@@ -1415,12 +1365,12 @@ internal static class Program
             err = typeMethods.r8_abs(quad - exact);
             Console.WriteLine("  GW_02_XIU:      "
                               + "  " + o.ToString().PadLeft(6)
-                              + "  " + quad.ToString().PadLeft(14)
-                              + "  " + err.ToString().PadLeft(14) + "");
+                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         Console.WriteLine("  EXACT                   "
-                          + "  " + exact.ToString().PadLeft(14) + "");
+                          + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
     }
 
@@ -1450,19 +1400,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double alpha;
-        double beta;
-        double c1;
-        double delta0;
-        double gamma0;
         int i;
         int j;
-        int n;
-        int o;
-        double pi = 3.141592653589793;
-        double volume_1d;
-        double[] w;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("GW_TESTS");
@@ -1472,27 +1411,27 @@ internal static class Program
         //
         //  For a given dimension N, the rule is always the same size.
         //
-        n = 2;
-        o = GolubWelsch_Xiu.gw_02_xiu_size(n);
-        x = new double[n * o];
-        w = new double[o];
+        int n = 2;
+        int o = GolubWelsch_Xiu.gw_02_xiu_size(n);
+        double[] x = new double[n * o];
+        double[] w = new double[o];
         //
         //  Chebyshev Type 1.
         //
-        gamma0 = 1.0;
-        delta0 = 0.0;
-        c1 = 0.5;
-        volume_1d = pi;
+        double gamma0 = 1.0;
+        double delta0 = 0.0;
+        double c1 = 0.5;
+        double volume_1d = Math.PI;
         GolubWelsch_Xiu.gw_02_xiu(n, o, gamma0, delta0, c1, volume_1d, ref x, ref w);
         Console.WriteLine("");
         Console.WriteLine("  Chebyshev1:");
         Console.WriteLine("");
         for (j = 0; j < o; j++)
         {
-            string cout = w[j].ToString().PadLeft(14);
+            string cout = w[j].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             for (i = 0; i < n; i++)
             {
-                cout += x[i + j * n].ToString().PadLeft(14);
+                cout += x[i + j * n].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -1504,17 +1443,17 @@ internal static class Program
         gamma0 = 2.0;
         delta0 = 0.0;
         c1 = 0.5;
-        volume_1d = pi / 2.0;
+        volume_1d = Math.PI / 2.0;
         GolubWelsch_Xiu.gw_02_xiu(n, o, gamma0, delta0, c1, volume_1d, ref x, ref w);
         Console.WriteLine("");
         Console.WriteLine("  Chebyshev2:");
         Console.WriteLine("");
         for (j = 0; j < o; j++)
         {
-            string cout = w[j].ToString().PadLeft(14);
+            string cout = w[j].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             for (i = 0; i < n; i++)
             {
-                cout += x[i + j * n].ToString().PadLeft(14);
+                cout += x[i + j * n].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -1523,11 +1462,11 @@ internal static class Program
         //
         //  Gegenbauer
         //
-        alpha = 1.0;
+        double alpha = 1.0;
         gamma0 = 1.0;
         delta0 = 0.0;
         c1 = 1.0 / (2.0 * alpha + 3.0);
-        volume_1d = Math.Sqrt(pi) * typeMethods.r8_gamma(alpha + 1.0) / typeMethods.r8_gamma(alpha + 1.5);
+        volume_1d = Math.Sqrt(Math.PI) * typeMethods.r8_gamma(alpha + 1.0) / typeMethods.r8_gamma(alpha + 1.5);
         GolubWelsch_Xiu.gw_02_xiu(n, o, gamma0, delta0, c1, volume_1d, ref x, ref w);
         Console.WriteLine("");
         Console.WriteLine("  Gegenbauer:");
@@ -1535,10 +1474,10 @@ internal static class Program
         Console.WriteLine("");
         for (j = 0; j < o; j++)
         {
-            string cout = w[j].ToString().PadLeft(14);
+            string cout = w[j].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             for (i = 0; i < n; i++)
             {
-                cout += x[i + j * n].ToString().PadLeft(14);
+                cout += x[i + j * n].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -1559,10 +1498,10 @@ internal static class Program
         Console.WriteLine("");
         for (j = 0; j < o; j++)
         {
-            string cout = w[j].ToString().PadLeft(14);
+            string cout = w[j].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             for (i = 0; i < n; i++)
             {
-                cout += x[i + j * n].ToString().PadLeft(14);
+                cout += x[i + j * n].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -1583,10 +1522,10 @@ internal static class Program
         Console.WriteLine("");
         for (j = 0; j < o; j++)
         {
-            string cout = w[j].ToString().PadLeft(14);
+            string cout = w[j].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             for (i = 0; i < n; i++)
             {
-                cout += x[i + j * n].ToString().PadLeft(14);
+                cout += x[i + j * n].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -1598,17 +1537,17 @@ internal static class Program
         gamma0 = 2.0;
         delta0 = 0.0;
         c1 = 1.0;
-        volume_1d = Math.Sqrt(pi);
+        volume_1d = Math.Sqrt(Math.PI);
         GolubWelsch_Xiu.gw_02_xiu(n, o, gamma0, delta0, c1, volume_1d, ref x, ref w);
         Console.WriteLine("");
         Console.WriteLine("  Hermite (physicist):");
         Console.WriteLine("");
         for (j = 0; j < o; j++)
         {
-            string cout = w[j].ToString().PadLeft(14);
+            string cout = w[j].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             for (i = 0; i < n; i++)
             {
-                cout += x[i + j * n].ToString().PadLeft(14);
+                cout += x[i + j * n].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -1620,17 +1559,17 @@ internal static class Program
         gamma0 = 1.0;
         delta0 = 0.0;
         c1 = 1.0;
-        volume_1d = Math.Sqrt(2.0 * pi);
+        volume_1d = Math.Sqrt(2.0 * Math.PI);
         GolubWelsch_Xiu.gw_02_xiu(n, o, gamma0, delta0, c1, volume_1d, ref x, ref w);
         Console.WriteLine("");
         Console.WriteLine("  Hermite ( probabilist):");
         Console.WriteLine("");
         for (j = 0; j < o; j++)
         {
-            string cout = w[j].ToString().PadLeft(14);
+            string cout = w[j].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             for (i = 0; i < n; i++)
             {
-                cout += x[i + j * n].ToString().PadLeft(14);
+                cout += x[i + j * n].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -1640,7 +1579,7 @@ internal static class Program
         //  Jacobi.
         //
         alpha = 0.5;
-        beta = 1.5;
+        double beta = 1.5;
         gamma0 = (alpha + beta + 2.0) / 2.0;
         delta0 = (alpha - beta) / 2.0;
         c1 = 2.0 * (alpha + 1.0) * (beta + 1.0) / (alpha + beta + 3.0)
@@ -1656,10 +1595,10 @@ internal static class Program
         Console.WriteLine("");
         for (j = 0; j < o; j++)
         {
-            string cout = w[j].ToString().PadLeft(14);
+            string cout = w[j].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             for (i = 0; i < n; i++)
             {
-                cout += x[i + j * n].ToString().PadLeft(14);
+                cout += x[i + j * n].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -1678,10 +1617,10 @@ internal static class Program
         Console.WriteLine("");
         for (j = 0; j < o; j++)
         {
-            string cout = w[j].ToString().PadLeft(14);
+            string cout = w[j].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             for (i = 0; i < n; i++)
             {
-                cout += x[i + j * n].ToString().PadLeft(14);
+                cout += x[i + j * n].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -1700,10 +1639,10 @@ internal static class Program
         Console.WriteLine("");
         for (j = 0; j < o; j++)
         {
-            string cout = w[j].ToString().PadLeft(14);
+            string cout = w[j].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             for (i = 0; i < n; i++)
             {
-                cout += x[i + j * n].ToString().PadLeft(14);
+                cout += x[i + j * n].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);

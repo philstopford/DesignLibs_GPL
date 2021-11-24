@@ -62,27 +62,23 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string filename;
-        int ng;
-        double[] xg;
-
         Console.WriteLine("");
         Console.WriteLine("SPHERE_FIBONACCI_GRID_POINTS_TEST");
         Console.WriteLine("  SPHERE_FIBONACCI_GRID_POINTS computes points on a sphere");
         Console.WriteLine("  that lie on a Fibonacci spiral.");
 
-        ng = 1000;
+        const int ng = 1000;
         Console.WriteLine("");
         Console.WriteLine("  Number of points NG = " + ng + "");
 
-        xg = Grid_Fibonacci.sphere_fibonacci_grid_points(ng);
+        double[] xg = Grid_Fibonacci.sphere_fibonacci_grid_points(ng);
 
         typeMethods.r8mat_transpose_print_some(3, ng, xg, 1, 1, 3, 10,
             "  Part of the grid array:");
         //
         //  Write the nodes to a file.
         //
-        filename = "sphere_fibonacci_grid_n1000.xyz";
+        string filename = "sphere_fibonacci_grid_n1000.xyz";
 
         typeMethods.r8mat_write(filename, 3, ng, xg);
     }
@@ -108,24 +104,20 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int ng;
-        string prefix;
-        double[] xg;
-
         Console.WriteLine("");
         Console.WriteLine("SPHERE_FIBONACCI_GRID_DISPLAY_TEST");
         Console.WriteLine("  SPHERE_FIBONACCI_GRID_DISPLAY displays points");
         Console.WriteLine("  on a sphere that lie on a Fibonacci spiral.");
 
-        ng = 1000;
+        const int ng = 1000;
         Console.WriteLine("");
         Console.WriteLine("  Number of points NG = " + ng + "");
 
-        xg = Grid_Fibonacci.sphere_fibonacci_grid_points(ng);
+        double[] xg = Grid_Fibonacci.sphere_fibonacci_grid_points(ng);
         //
         //  Display the nodes on a sphere.
         //
-        prefix = "sphere_fibonacci_grid_n1000";
+        string prefix = "sphere_fibonacci_grid_n1000";
 
         Grid_Fibonacci.sphere_fibonacci_grid_display(ng, xg, prefix);
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using Burkardt.SphereNS;
 using Burkardt.Types;
 
@@ -151,37 +152,31 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int factor;
-        string filename;
-        int node_num;
-        double[] node_xyz;
-        List<string> output = new();
-
         Console.WriteLine("");
         Console.WriteLine("TEST02");
         Console.WriteLine("  SPHERE_ICOS_POINT_NUM \"sizes\" a grid generated");
         Console.WriteLine("  on an icosahedron and projected to a sphere.");
         Console.WriteLine("  SPHERE_ICOS1_POINTS creates the grid points.");
 
-        factor = 3;
+        const int factor = 3;
 
         Console.WriteLine("");
         Console.WriteLine("  Sizing factor =       " + factor + "");
 
-        node_num = Icosphere.sphere_icos_point_num(factor);
+        int node_num = Icosphere.sphere_icos_point_num(factor);
 
         Console.WriteLine("");
         Console.WriteLine("  Number of vertices =  " + node_num + "");
 
-        node_xyz = Icosphere.sphere_icos1_points(factor, node_num);
+        double[] node_xyz = Icosphere.sphere_icos1_points(factor, node_num);
 
         typeMethods.r8mat_transpose_print_some(3, node_num, node_xyz, 1, 1, 3, 20,
             "  Initial part of NODE_XYZ array:");
         //
         //  Write the nodes to a file.
         //
-        filename = "sphere_grid_icos1_points_f"
-                   + (factor, "%d") + ".xyz";
+        string filename = "sphere_grid_icos1_points_f"
+                          + (factor, "%d") + ".xyz";
 
         typeMethods.r8mat_write(filename, 3, node_num, node_xyz);
 
@@ -210,37 +205,31 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int factor;
-        string filename;
-        int node_num;
-        double[] node_xyz;
-        List<string> output = new();
-
         Console.WriteLine("");
         Console.WriteLine("TEST03");
         Console.WriteLine("  SPHERE_ICOS_POINT_NUM \"sizes\" a grid generated");
         Console.WriteLine("  on an icosahedron and projected to a sphere.");
         Console.WriteLine("  SPHERE_ICOS2_POINTS creates the grid.");
 
-        factor = 3;
+        const int factor = 3;
 
         Console.WriteLine("");
         Console.WriteLine("  Sizing factor FACTOR = " + factor + "");
 
-        node_num = Icosphere.sphere_icos_point_num(factor);
+        int node_num = Icosphere.sphere_icos_point_num(factor);
 
         Console.WriteLine("");
         Console.WriteLine("  Number of nodes =     " + node_num + "");
 
-        node_xyz = Icosphere.sphere_icos2_points(factor, node_num);
+        double[] node_xyz = Icosphere.sphere_icos2_points(factor, node_num);
 
         typeMethods.r8mat_transpose_print_some(3, node_num, node_xyz, 1, 1, 3, 20,
             "  Initial part of NODE_XYZ array:");
         //
         //  Write the nodes to a file.
         //
-        filename = "sphere_grid_icos2_points_f" + (factor, "%d")
-                                                + ".xyz";
+        string filename = "sphere_grid_icos2_points_f" + (factor, "%d")
+                                                       + ".xyz";
 
         typeMethods.r8mat_write(filename, 3, node_num, node_xyz);
 
@@ -270,16 +259,12 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int lat_num = 3;
-        int lon_num = 4;
+        const int lat_num = 3;
+        const int lon_num = 4;
 
         double[] pc = { 0.0, 0.0, 0.0 };
         int i;
-        int j;
-        int k;
-        int node_num;
-        double[] node_xyz;
-        double r = 10.0;
+        const double r = 10.0;
 
         Console.WriteLine("");
         Console.WriteLine("TEST04");
@@ -295,39 +280,40 @@ internal static class Program
         Console.WriteLine("  The number of latitudes =  " + lat_num + "");
         Console.WriteLine("  The number of longitudes = " + lon_num + "");
 
-        node_num = Grid_LatLong.sphere_ll_point_num(lat_num, lon_num);
+        int node_num = Grid_LatLong.sphere_ll_point_num(lat_num, lon_num);
         Console.WriteLine("");
         Console.WriteLine("  The number of grid points is " + node_num + "");
 
-        node_xyz = Grid_LatLong.sphere_ll_points(r, pc, lat_num, lon_num, node_num);
+        double[] node_xyz = Grid_LatLong.sphere_ll_points(r, pc, lat_num, lon_num, node_num);
 
         Console.WriteLine("");
 
-        k = 0;
+        int k = 0;
         Console.WriteLine("  " + k.ToString().PadLeft(8)
-                               + "  " + node_xyz[0 + k * 3].ToString().PadLeft(12)
-                               + "  " + node_xyz[1 + k * 3].ToString().PadLeft(12)
-                               + "  " + node_xyz[2 + k * 3].ToString().PadLeft(12) + "");
+                               + "  " + node_xyz[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                               + "  " + node_xyz[1].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                               + "  " + node_xyz[2].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
 
         for (i = 1; i <= lat_num; i++)
         {
             Console.WriteLine("");
+            int j;
             for (j = 0; j < lon_num; j++)
             {
                 k += 1;
                 Console.WriteLine("  " + k.ToString().PadLeft(8)
-                                       + "  " + node_xyz[0 + k * 3].ToString().PadLeft(12)
-                                       + "  " + node_xyz[1 + k * 3].ToString().PadLeft(12)
-                                       + "  " + node_xyz[2 + k * 3].ToString().PadLeft(12) + "");
+                                       + "  " + node_xyz[0 + k * 3].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                       + "  " + node_xyz[1 + k * 3].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                       + "  " + node_xyz[2 + k * 3].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             }
         }
 
         Console.WriteLine("");
         k += 1;
         Console.WriteLine("  " + k.ToString().PadLeft(8)
-                               + "  " + node_xyz[0 + k * 3].ToString().PadLeft(12)
-                               + "  " + node_xyz[1 + k * 3].ToString().PadLeft(12)
-                               + "  " + node_xyz[2 + k * 3].ToString().PadLeft(12) + "");
+                               + "  " + node_xyz[0 + k * 3].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                               + "  " + node_xyz[1 + k * 3].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                               + "  " + node_xyz[2 + k * 3].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
     }
 
     private static void test05()
@@ -351,11 +337,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string filename;
         double[] center_xyz = { 0.0, 0.0, 0.0 };
-        int node_num = 500;
-        double[] node_xyz;
-        double r = 1.0;
+        const int node_num = 500;
+        const double r = 1.0;
 
         Console.WriteLine("");
         Console.WriteLine("TEST05");
@@ -369,14 +353,14 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  The number of spiral points is " + node_num + "");
 
-        node_xyz = Sphere.sphere_spiralpoints(r, center_xyz, node_num);
+        double[] node_xyz = Sphere.sphere_spiralpoints(r, center_xyz, node_num);
 
         typeMethods.r8mat_transpose_print_some(3, node_num, node_xyz, 1, 1, 3, 10,
             "  The spiral points:");
         //
         //  Write the nodes to a file.
         //
-        filename = "sphere_grid_spiral_n" + (node_num, "%d") + ".xyz";
+        string filename = "sphere_grid_spiral_n" + (node_num, "%d") + ".xyz";
 
         typeMethods.r8mat_write(filename, 3, node_num, node_xyz);
 
@@ -406,10 +390,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int lat_num = 3;
-        int[] line;
-        int line_num;
-        int long_num = 4;
+        const int lat_num = 3;
+        const int long_num = 4;
 
         Console.WriteLine("");
         Console.WriteLine("TEST06");
@@ -419,12 +401,12 @@ internal static class Program
         Console.WriteLine("  Number of latitudes is  " + lat_num + "");
         Console.WriteLine("  Number of longitudes is " + long_num + "");
 
-        line_num = Grid_LatLong.sphere_ll_line_num(lat_num, long_num);
+        int line_num = Grid_LatLong.sphere_ll_line_num(lat_num, long_num);
 
         Console.WriteLine("");
         Console.WriteLine("  Number of line segments is " + line_num + "");
 
-        line = Grid_LatLong.sphere_ll_lines(lat_num, long_num, line_num);
+        int[] line = Grid_LatLong.sphere_ll_lines(lat_num, long_num, line_num);
 
         typeMethods.i4mat_transpose_print(2, line_num, line, "  Grid line vertices:");
 
@@ -451,10 +433,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int lat_num = 3;
-        int long_num = 4;
-        int rectangle_num = lat_num * long_num;
-        int[] rectangle_node;
+        const int lat_num = 3;
+        const int long_num = 4;
+        const int rectangle_num = lat_num * long_num;
 
         Console.WriteLine("");
         Console.WriteLine("TEST07");
@@ -465,7 +446,7 @@ internal static class Program
         Console.WriteLine("  Number of longitudes is     " + long_num + "");
         Console.WriteLine("  The number of rectangles is " + rectangle_num + "");
 
-        rectangle_node = Grid.sphere_grid_q4(lat_num, long_num);
+        int[] rectangle_node = Grid.sphere_grid_q4(lat_num, long_num);
 
         typeMethods.i4mat_transpose_print(4, rectangle_num, rectangle_node,
             "  Rectangle vertices:");
@@ -493,11 +474,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int lat_num = 3;
-        int lon_num = 4;
-
-        int triangle_num;
-        int[] triangle_node;
+        const int lat_num = 3;
+        const int lon_num = 4;
 
         Console.WriteLine("");
         Console.WriteLine("TEST08");
@@ -507,9 +485,9 @@ internal static class Program
         Console.WriteLine("  Number of latitudes is  " + lat_num + "");
         Console.WriteLine("  Number of longitudes is " + lon_num + "");
 
-        triangle_node = Grid.sphere_grid_t3(lat_num, lon_num);
+        int[] triangle_node = Grid.sphere_grid_t3(lat_num, lon_num);
 
-        triangle_num = 2 * (lat_num + 1) * lon_num;
+        int triangle_num = 2 * (lat_num + 1) * lon_num;
 
         Console.WriteLine("");
         Console.WriteLine("  The number of triangles is " + triangle_num + "");
@@ -540,9 +518,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string filename;
-        int node_num;
-        double[] node_xyz;
         int seed = 123456789;
 
         Console.WriteLine("");
@@ -550,16 +525,16 @@ internal static class Program
         Console.WriteLine("  For the unit sphere in 3 dimensions:");
         Console.WriteLine("  SPHERE_UNIT_SAMPLE does a random sampling.");
 
-        node_num = 1000;
+        const int node_num = 1000;
 
-        node_xyz = Sphere.sphere_unit_sample(node_num, ref seed);
+        double[] node_xyz = Sphere.sphere_unit_sample(node_num, ref seed);
 
         typeMethods.r8mat_transpose_print_some(3, node_num, node_xyz, 1, 1, 3, 10,
             "  First 10 values:");
         //
         //  Write the nodes to a file.
         //
-        filename = "sphere_grid_sample_n" + (node_num, "%d") + ".xyz";
+        string filename = "sphere_grid_sample_n" + (node_num, "%d") + ".xyz";
 
         typeMethods.r8mat_write(filename, 3, node_num, node_xyz);
 
@@ -589,29 +564,24 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string filename;
-        int n;
-        int ns;
-        double[] xyz;
-
         Console.WriteLine("");
         Console.WriteLine("TEST10");
         Console.WriteLine("  SPHERE_CUBED_POINTS computes points on a cubed sphere grid.");
 
-        n = 10;
+        const int n = 10;
         Console.WriteLine("");
         Console.WriteLine("  Number of divisions on each face = " + n + "");
 
-        ns = Cubed.sphere_cubed_point_num(n);
+        int ns = Cubed.sphere_cubed_point_num(n);
         Console.WriteLine("  Total number of points = " + ns + "");
 
-        xyz = Cubed.sphere_cubed_points(n, ns);
+        double[] xyz = Cubed.sphere_cubed_points(n, ns);
 
         typeMethods.r8mat_transpose_print_some(3, ns, xyz, 1, 1, 3, 20, "  Initial part of XYZ array:");
         //
         //  Write the nodes to a file.
         //
-        filename = "sphere_grid_cubed_f" + (n, "%d") + ".xyz";
+        string filename = "sphere_grid_cubed_f" + (n, "%d") + ".xyz";
 
         typeMethods.r8mat_write(filename, 3, n, xyz);
 

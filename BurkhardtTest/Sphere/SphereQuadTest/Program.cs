@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.SphereNS;
 
 namespace SphereQuadTest;
@@ -69,21 +70,13 @@ internal static class Program
         //
     {
         int[] e = new int[3];
-        double exact;
         double h = 0;
-        int h_test;
         int i;
         int n_llc = 0;
         int n_llm = 0;
         int n_llv = 0;
-        int n_mc = 0;
-        double result_llc;
-        double result_llm;
-        double result_llv;
-        double result_mc;
-        int seed;
 
-        seed = 123456789;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
@@ -205,6 +198,7 @@ internal static class Program
                     break;
             }
 
+            int h_test;
             for (h_test = 1; h_test <= 3; h_test++)
             {
                 h = h_test switch
@@ -215,34 +209,34 @@ internal static class Program
                     _ => h
                 };
 
-                n_mc = Quad.sphere01_quad_mc_size(h);
+                int n_mc = Quad.sphere01_quad_mc_size(h);
 
-                result_mc = Quad.sphere01_quad_mc(polyterm_value_3d, h, ref seed, n_mc);
+                double result_mc = Quad.sphere01_quad_mc(polyterm_value_3d, h, ref seed, n_mc);
 
-                result_llc = Quad.sphere01_quad_llc(polyterm_value_3d, h, ref n_llc);
+                double result_llc = Quad.sphere01_quad_llc(polyterm_value_3d, h, ref n_llc);
 
-                result_llm = Quad.sphere01_quad_llm(polyterm_value_3d, h, ref n_llm);
+                double result_llm = Quad.sphere01_quad_llm(polyterm_value_3d, h, ref n_llm);
 
-                result_llv = Quad.sphere01_quad_llv(polyterm_value_3d, h, ref n_llv);
+                double result_llv = Quad.sphere01_quad_llv(polyterm_value_3d, h, ref n_llv);
 
-                exact = Integrals.sphere01_monomial_integral(e);
+                double exact = Integrals.sphere01_monomial_integral(e);
 
                 switch (i)
                 {
                     case 0:
-                        Console.WriteLine("  " + h.ToString().PadLeft(12)
+                        Console.WriteLine("  " + h.ToString(CultureInfo.InvariantCulture).PadLeft(12)
                                                + "  " + n_mc.ToString().PadLeft(12)
                                                + "  " + n_llc.ToString().PadLeft(12)
                                                + "  " + n_llm.ToString().PadLeft(12)
                                                + "  " + n_llv.ToString().PadLeft(12) + "");
                         break;
                     default:
-                        Console.WriteLine("  " + h.ToString().PadLeft(12)
-                                               + "  " + result_mc.ToString().PadLeft(12)
-                                               + "  " + result_llc.ToString().PadLeft(12)
-                                               + "  " + result_llm.ToString().PadLeft(12)
-                                               + "  " + result_llv.ToString().PadLeft(12)
-                                               + "  " + exact.ToString().PadLeft(12) + "");
+                        Console.WriteLine("  " + h.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                               + "  " + result_mc.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                               + "  " + result_llc.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                               + "  " + result_llm.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                               + "  " + result_llv.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                               + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
                         break;
                 }
             }
@@ -272,13 +266,8 @@ internal static class Program
         //
     {
         int[] e = new int[3];
-        double error;
-        double exact;
-        int factor;
-        int factor_log;
         int i;
         int n = 0;
-        double result;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02");
@@ -382,20 +371,21 @@ internal static class Program
 
             polyterm_exponent("PRINT", ref e_save, ref e);
 
-            factor = 1;
+            int factor = 1;
+            int factor_log;
             for (factor_log = 0; factor_log <= 5; factor_log++)
             {
-                result = Quad.sphere01_quad_icos1c(factor, polyterm_value_3d, ref n);
+                double result = Quad.sphere01_quad_icos1c(factor, polyterm_value_3d, ref n);
 
-                exact = Integrals.sphere01_monomial_integral(e);
+                double exact = Integrals.sphere01_monomial_integral(e);
 
-                error = Math.Abs(exact - result);
+                double error = Math.Abs(exact - result);
 
                 Console.WriteLine("  " + factor.ToString().PadLeft(4)
                                        + "  " + n.ToString().PadLeft(8)
-                                       + "  " + result.ToString().PadLeft(14)
-                                       + "  " + exact.ToString().PadLeft(14)
-                                       + "  " + error.ToString().PadLeft(14) + "");
+                                       + "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
                 factor *= 2;
             }
@@ -424,13 +414,8 @@ internal static class Program
         //
     {
         int[] e = new int[3];
-        double error;
-        double exact;
-        int factor;
-        int factor_log;
         int i;
         int n = 0;
-        double result;
 
         Console.WriteLine("");
         Console.WriteLine("TEST03");
@@ -534,20 +519,21 @@ internal static class Program
 
             polyterm_exponent("PRINT", ref e_save, ref e);
 
-            factor = 1;
+            int factor = 1;
+            int factor_log;
             for (factor_log = 0; factor_log <= 5; factor_log++)
             {
-                result = Quad.sphere01_quad_icos1m(factor, polyterm_value_3d, ref n);
+                double result = Quad.sphere01_quad_icos1m(factor, polyterm_value_3d, ref n);
 
-                exact = Integrals.sphere01_monomial_integral(e);
+                double exact = Integrals.sphere01_monomial_integral(e);
 
-                error = Math.Abs(exact - result);
+                double error = Math.Abs(exact - result);
 
                 Console.WriteLine("  " + factor.ToString().PadLeft(4)
                                        + "  " + n.ToString().PadLeft(8)
-                                       + "  " + result.ToString().PadLeft(14)
-                                       + "  " + exact.ToString().PadLeft(14)
-                                       + "  " + error.ToString().PadLeft(14) + "");
+                                       + "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
                 factor *= 2;
             }
@@ -576,13 +562,8 @@ internal static class Program
         //
     {
         int[] e = new int[3];
-        double error;
-        double exact;
-        int factor;
-        int factor_log;
         int i;
         int n = 0;
-        double result;
 
         Console.WriteLine("");
         Console.WriteLine("TEST04");
@@ -686,20 +667,21 @@ internal static class Program
 
             polyterm_exponent("PRINT", ref e_save, ref e);
 
-            factor = 1;
+            int factor = 1;
+            int factor_log;
             for (factor_log = 0; factor_log <= 5; factor_log++)
             {
-                result = Quad.sphere01_quad_icos1v(factor, polyterm_value_3d, ref n);
+                double result = Quad.sphere01_quad_icos1v(factor, polyterm_value_3d, ref n);
 
-                exact = Integrals.sphere01_monomial_integral(e);
+                double exact = Integrals.sphere01_monomial_integral(e);
 
-                error = Math.Abs(exact - result);
+                double error = Math.Abs(exact - result);
 
                 Console.WriteLine("  " + factor.ToString().PadLeft(4)
                                        + "  " + n.ToString().PadLeft(8)
-                                       + "  " + result.ToString().PadLeft(14)
-                                       + "  " + exact.ToString().PadLeft(14)
-                                       + "  " + error.ToString().PadLeft(14) + "");
+                                       + "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
                 factor *= 2;
             }
@@ -728,13 +710,8 @@ internal static class Program
         //
     {
         int[] e = new int[3];
-        double error;
-        double exact;
-        int factor;
-        int factor_log;
         int i;
         int n = 0;
-        double result;
 
         Console.WriteLine("");
         Console.WriteLine("TEST05");
@@ -838,20 +815,21 @@ internal static class Program
 
             polyterm_exponent("PRINT", ref e_save, ref e);
 
-            factor = 1;
+            int factor = 1;
+            int factor_log;
             for (factor_log = 0; factor_log <= 5; factor_log++)
             {
-                result = Quad.sphere01_quad_icos2v(factor, polyterm_value_3d, ref n);
+                double result = Quad.sphere01_quad_icos2v(factor, polyterm_value_3d, ref n);
 
-                exact = Integrals.sphere01_monomial_integral(e);
+                double exact = Integrals.sphere01_monomial_integral(e);
 
-                error = Math.Abs(exact - result);
+                double error = Math.Abs(exact - result);
 
                 Console.WriteLine("  " + factor.ToString().PadLeft(4)
                                        + "  " + n.ToString().PadLeft(8)
-                                       + "  " + result.ToString().PadLeft(14)
-                                       + "  " + exact.ToString().PadLeft(14)
-                                       + "  " + error.ToString().PadLeft(14) + "");
+                                       + "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
                 factor *= 2;
             }
@@ -1020,12 +998,14 @@ internal static class Program
 
         for (i = 0; i < 3; i++)
         {
-            if (e[i] != 0)
+            if (e[i] == 0)
             {
-                for (j = 0; j < n; j++)
-                {
-                    f[j] *= Math.Pow(x[i + j * 3], e[i]);
-                }
+                continue;
+            }
+
+            for (j = 0; j < n; j++)
+            {
+                f[j] *= Math.Pow(x[i + j * 3], e[i]);
             }
         }
 

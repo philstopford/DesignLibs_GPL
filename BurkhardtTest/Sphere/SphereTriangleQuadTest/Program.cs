@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.SphereNS;
 using Burkardt.Types;
 
@@ -73,15 +74,8 @@ internal static class Program
     {
         int[] e = new int[3];
         int i;
-        double result_01;
-        double result_02;
-        double result_03;
-        int seed;
-        double[] v1;
-        double[] v2;
-        double[] v3;
 
-        seed = 123456789;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
@@ -93,9 +87,9 @@ internal static class Program
         //
         //  Choose three points at random to define a spherical triangle.
         //
-        v1 = MonteCarlo.sphere01_sample(1, ref seed);
-        v2 = MonteCarlo.sphere01_sample(1, ref seed);
-        v3 = MonteCarlo.sphere01_sample(1, ref seed);
+        double[] v1 = MonteCarlo.sphere01_sample(1, ref seed);
+        double[] v2 = MonteCarlo.sphere01_sample(1, ref seed);
+        double[] v3 = MonteCarlo.sphere01_sample(1, ref seed);
 
         Console.WriteLine("");
         Console.WriteLine("  Vertices of random spherical triangle:");
@@ -202,15 +196,15 @@ internal static class Program
 
             polyterm_exponent("PRINT", e);
 
-            result_01 = TriangleQuad.sphere01_triangle_quad_01(v1, v2, v3, polyterm_value_3d);
+            double result_01 = TriangleQuad.sphere01_triangle_quad_01(v1, v2, v3, polyterm_value_3d);
 
-            result_02 = TriangleQuad.sphere01_triangle_quad_02(v1, v2, v3, polyterm_value_3d);
+            double result_02 = TriangleQuad.sphere01_triangle_quad_02(v1, v2, v3, polyterm_value_3d);
 
-            result_03 = TriangleQuad.sphere01_triangle_quad_03(v1, v2, v3, polyterm_value_3d);
+            double result_03 = TriangleQuad.sphere01_triangle_quad_03(v1, v2, v3, polyterm_value_3d);
 
-            Console.WriteLine("  " + result_01.ToString().PadLeft(14)
-                                   + "  " + result_02.ToString().PadLeft(14)
-                                   + "  " + result_03.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + result_01.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + result_02.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + result_03.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
         }
     }
@@ -238,18 +232,11 @@ internal static class Program
     {
         int[] e = new int[3];
         int i;
-        int n_mc1 = 1000;
-        int n_mc2 = 10000;
-        int n_mc3 = 100000;
-        double result_01;
-        double result_02;
-        double result_03;
-        int seed;
-        double[] v1;
-        double[] v2;
-        double[] v3;
+        const int n_mc1 = 1000;
+        const int n_mc2 = 10000;
+        const int n_mc3 = 100000;
 
-        seed = 123456789;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02");
@@ -262,9 +249,9 @@ internal static class Program
         //
         //  Choose three points at random to define a spherical triangle.
         //
-        v1 = MonteCarlo.sphere01_sample(1, ref seed);
-        v2 = MonteCarlo.sphere01_sample(1, ref seed);
-        v3 = MonteCarlo.sphere01_sample(1, ref seed);
+        double[] v1 = MonteCarlo.sphere01_sample(1, ref seed);
+        double[] v2 = MonteCarlo.sphere01_sample(1, ref seed);
+        double[] v3 = MonteCarlo.sphere01_sample(1, ref seed);
 
         Console.WriteLine("");
         Console.WriteLine("  Vertices of random spherical triangle:");
@@ -371,18 +358,18 @@ internal static class Program
 
             polyterm_exponent("PRINT", e);
 
-            result_01 = TriangleQuad.sphere01_triangle_quad_00(n_mc1, v1, v2, v3,
+            double result_01 = TriangleQuad.sphere01_triangle_quad_00(n_mc1, v1, v2, v3,
                 polyterm_value_3d, ref seed);
 
-            result_02 = TriangleQuad.sphere01_triangle_quad_00(n_mc2, v1, v2, v3,
+            double result_02 = TriangleQuad.sphere01_triangle_quad_00(n_mc2, v1, v2, v3,
                 polyterm_value_3d, ref seed);
 
-            result_03 = TriangleQuad.sphere01_triangle_quad_00(n_mc3, v1, v2, v3,
+            double result_03 = TriangleQuad.sphere01_triangle_quad_00(n_mc3, v1, v2, v3,
                 polyterm_value_3d, ref seed);
 
-            Console.WriteLine("  " + result_01.ToString().PadLeft(14)
-                                   + "  " + result_02.ToString().PadLeft(14)
-                                   + "  " + result_03.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + result_01.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + result_02.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + result_03.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
         }
 
@@ -409,20 +396,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double best;
         int[] e = new int[3];
-        double error;
-        int factor;
-        int factor_log;
         int i;
         int node_num = 0;
-        double result;
-        int seed;
-        double[] v1;
-        double[] v2;
-        double[] v3;
 
-        seed = 123456789;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("TEST03");
@@ -437,9 +415,9 @@ internal static class Program
         //
         //  Choose three points at random to define a spherical triangle.
         //
-        v1 = MonteCarlo.sphere01_sample(1, ref seed);
-        v2 = MonteCarlo.sphere01_sample(1, ref seed);
-        v3 = MonteCarlo.sphere01_sample(1, ref seed);
+        double[] v1 = MonteCarlo.sphere01_sample(1, ref seed);
+        double[] v2 = MonteCarlo.sphere01_sample(1, ref seed);
+        double[] v3 = MonteCarlo.sphere01_sample(1, ref seed);
 
         Console.WriteLine("");
         Console.WriteLine("  Vertices of random spherical triangle:");
@@ -546,24 +524,25 @@ internal static class Program
 
             polyterm_exponent("PRINT", e);
 
-            factor = (int) Math.Pow(2, 9);
+            int factor = (int) Math.Pow(2, 9);
 
-            best = TriangleQuad.sphere01_triangle_quad_icos1c(v1, v2, v3, factor,
+            double best = TriangleQuad.sphere01_triangle_quad_icos1c(v1, v2, v3, factor,
                 polyterm_value_3d, ref node_num);
 
             factor = 1;
 
+            int factor_log;
             for (factor_log = 0; factor_log <= 9; factor_log++)
             {
-                result = TriangleQuad.sphere01_triangle_quad_icos1c(v1, v2, v3, factor,
+                double result = TriangleQuad.sphere01_triangle_quad_icos1c(v1, v2, v3, factor,
                     polyterm_value_3d, ref node_num);
 
-                error = Math.Abs(result - best);
+                double error = Math.Abs(result - best);
 
                 Console.WriteLine("  " + factor.ToString().PadLeft(4)
                                        + "  " + node_num.ToString().PadLeft(8)
-                                       + "  " + result.ToString().PadLeft(16)
-                                       + "  " + error.ToString().PadLeft(10) + "");
+                                       + "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(16)
+                                       + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
                 factor *= 2;
             }
@@ -591,20 +570,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double best;
         int[] e = new int[3];
-        double error;
-        int factor;
-        int factor_log;
         int i;
         int node_num = 0;
-        double result;
-        int seed;
-        double[] v1;
-        double[] v2;
-        double[] v3;
 
-        seed = 123456789;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("TEST04");
@@ -619,9 +589,9 @@ internal static class Program
         //
         //  Choose three points at random to define a spherical triangle.
         //
-        v1 = MonteCarlo.sphere01_sample(1, ref seed);
-        v2 = MonteCarlo.sphere01_sample(1, ref seed);
-        v3 = MonteCarlo.sphere01_sample(1, ref seed);
+        double[] v1 = MonteCarlo.sphere01_sample(1, ref seed);
+        double[] v2 = MonteCarlo.sphere01_sample(1, ref seed);
+        double[] v3 = MonteCarlo.sphere01_sample(1, ref seed);
 
         Console.WriteLine("");
         Console.WriteLine("  Vertices of random spherical triangle:");
@@ -728,24 +698,25 @@ internal static class Program
 
             polyterm_exponent("PRINT", e);
 
-            factor = (int) Math.Pow(2, 9);
+            int factor = (int) Math.Pow(2, 9);
 
-            best = TriangleQuad.sphere01_triangle_quad_icos1m(v1, v2, v3, factor,
+            double best = TriangleQuad.sphere01_triangle_quad_icos1m(v1, v2, v3, factor,
                 polyterm_value_3d, ref node_num);
 
             factor = 1;
 
+            int factor_log;
             for (factor_log = 0; factor_log <= 9; factor_log++)
             {
-                result = TriangleQuad.sphere01_triangle_quad_icos1m(v1, v2, v3, factor,
+                double result = TriangleQuad.sphere01_triangle_quad_icos1m(v1, v2, v3, factor,
                     polyterm_value_3d, ref node_num);
 
-                error = Math.Abs(result - best);
+                double error = Math.Abs(result - best);
 
                 Console.WriteLine("  " + factor.ToString().PadLeft(4)
                                        + "  " + node_num.ToString().PadLeft(8)
-                                       + "  " + result.ToString().PadLeft(16)
-                                       + "  " + error.ToString().PadLeft(10) + "");
+                                       + "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(16)
+                                       + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
                 factor *= 2;
             }
@@ -774,20 +745,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double best;
         int[] e = new int[3];
-        double error;
-        int factor;
-        int factor_log;
         int i;
         int node_num = 0;
-        double result;
-        int seed;
-        double[] v1;
-        double[] v2;
-        double[] v3;
 
-        seed = 123456789;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("TEST05");
@@ -802,9 +764,9 @@ internal static class Program
         //
         //  Choose three points at random to define a spherical triangle.
         //
-        v1 = MonteCarlo.sphere01_sample(1, ref seed);
-        v2 = MonteCarlo.sphere01_sample(1, ref seed);
-        v3 = MonteCarlo.sphere01_sample(1, ref seed);
+        double[] v1 = MonteCarlo.sphere01_sample(1, ref seed);
+        double[] v2 = MonteCarlo.sphere01_sample(1, ref seed);
+        double[] v3 = MonteCarlo.sphere01_sample(1, ref seed);
 
         Console.WriteLine("");
         Console.WriteLine("  Vertices of random spherical triangle:");
@@ -911,24 +873,25 @@ internal static class Program
 
             polyterm_exponent("PRINT", e);
 
-            factor = (int) Math.Pow(2, 9);
+            int factor = (int) Math.Pow(2, 9);
 
-            best = TriangleQuad.sphere01_triangle_quad_icos1v(v1, v2, v3, factor,
+            double best = TriangleQuad.sphere01_triangle_quad_icos1v(v1, v2, v3, factor,
                 polyterm_value_3d, ref node_num);
 
             factor = 1;
 
+            int factor_log;
             for (factor_log = 0; factor_log <= 9; factor_log++)
             {
-                result = TriangleQuad.sphere01_triangle_quad_icos1v(v1, v2, v3, factor,
+                double result = TriangleQuad.sphere01_triangle_quad_icos1v(v1, v2, v3, factor,
                     polyterm_value_3d, ref node_num);
 
-                error = Math.Abs(result - best);
+                double error = Math.Abs(result - best);
 
                 Console.WriteLine("  " + factor.ToString().PadLeft(4)
                                        + "  " + node_num.ToString().PadLeft(8)
-                                       + "  " + result.ToString().PadLeft(16)
-                                       + "  " + error.ToString().PadLeft(10) + "");
+                                       + "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(16)
+                                       + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
                 factor *= 2;
             }
@@ -956,20 +919,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double best;
         int[] e = new int[3];
-        double error;
-        int factor;
-        int factor_log;
         int i;
         int node_num = 0;
-        double result;
-        int seed;
-        double[] v1;
-        double[] v2;
-        double[] v3;
 
-        seed = 123456789;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("TEST06");
@@ -984,9 +938,9 @@ internal static class Program
         //
         //  Choose three points at random to define a spherical triangle.
         //
-        v1 = MonteCarlo.sphere01_sample(1, ref seed);
-        v2 = MonteCarlo.sphere01_sample(1, ref seed);
-        v3 = MonteCarlo.sphere01_sample(1, ref seed);
+        double[] v1 = MonteCarlo.sphere01_sample(1, ref seed);
+        double[] v2 = MonteCarlo.sphere01_sample(1, ref seed);
+        double[] v3 = MonteCarlo.sphere01_sample(1, ref seed);
 
         Console.WriteLine("");
         Console.WriteLine("  Vertices of random spherical triangle:");
@@ -1093,24 +1047,25 @@ internal static class Program
 
             polyterm_exponent("PRINT", e);
 
-            factor = (int) Math.Pow(2, 9);
+            int factor = (int) Math.Pow(2, 9);
 
-            best = TriangleQuad.sphere01_triangle_quad_icos2v(v1, v2, v3, factor,
+            double best = TriangleQuad.sphere01_triangle_quad_icos2v(v1, v2, v3, factor,
                 polyterm_value_3d, ref node_num);
 
             factor = 1;
 
+            int factor_log;
             for (factor_log = 0; factor_log <= 9; factor_log++)
             {
-                result = TriangleQuad.sphere01_triangle_quad_icos2v(v1, v2, v3, factor,
+                double result = TriangleQuad.sphere01_triangle_quad_icos2v(v1, v2, v3, factor,
                     polyterm_value_3d, ref node_num);
 
-                error = Math.Abs(result - best);
+                double error = Math.Abs(result - best);
 
                 Console.WriteLine("  " + factor.ToString().PadLeft(4)
                                        + "  " + node_num.ToString().PadLeft(8)
-                                       + "  " + result.ToString().PadLeft(16)
-                                       + "  " + error.ToString().PadLeft(10) + "");
+                                       + "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(16)
+                                       + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
                 factor *= 2;
             }

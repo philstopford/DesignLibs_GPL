@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.MonomialNS;
 using Burkardt.Square;
 using Burkardt.Types;
@@ -79,14 +80,8 @@ internal static class Program
             0, 4,
             6, 0
         };
-        double exact;
         int i;
         int j;
-        int n;
-        double result;
-        int seed;
-        double[] value;
-        double[] x;
         string cout;
 
         Console.WriteLine("");
@@ -94,18 +89,18 @@ internal static class Program
         Console.WriteLine("  Use SQUARE01_SAMPLE to estimate integrals");
         Console.WriteLine("  over the interior of the unit square in 2D.");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("         N        1              X^2             Y^2" + 
                           "             X^4           X^2Y^2          Y^4          X^6");
         Console.WriteLine("");
 
-        n = 1;
+        int n = 1;
 
         while (n <= 65536)
         {
-            x = MonteCarlo.square01_sample(n, ref seed);
+            double[] x = MonteCarlo.square01_sample(n, ref seed);
             cout = "  " + n.ToString().PadLeft(8);
             for (j = 0; j < 7; j++)
             {
@@ -114,10 +109,10 @@ internal static class Program
                     e[i] = e_test[i + j * 2];
                 }
 
-                value = Monomial.monomial_value(2, n, e, x);
+                double[] value = Monomial.monomial_value(2, n, e, x);
 
-                result = MonteCarlo.square01_area() * typeMethods.r8vec_sum(n, value) / n;
-                cout += "  " + result.ToString().PadLeft(14);
+                double result = MonteCarlo.square01_area() * typeMethods.r8vec_sum(n, value) / n;
+                cout += "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(14);
 
             }
 
@@ -135,8 +130,8 @@ internal static class Program
                 e[i] = e_test[i + j * 2];
             }
 
-            exact = MonteCarlo.square01_monomial_integral(e);
-            cout += "  " + exact.ToString().PadLeft(14);
+            double   exact = MonteCarlo.square01_monomial_integral(e);
+            cout += "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(14);
         }
 
         Console.WriteLine(cout);

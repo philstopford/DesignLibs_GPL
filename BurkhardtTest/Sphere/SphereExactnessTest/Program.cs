@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Composition;
 using Burkardt.SphereNS;
 using Burkardt.Table;
@@ -60,27 +61,17 @@ internal static class Program
     {
         int degree;
         int degree_max;
-        int dim;
         int dim_num;
         double[] dtp;
-        double[] dtpw;
-        int[] expon;
         string filename;
         string files;
-        int h;
         int i;
         int j;
-        bool more;
         int point_num;
         string prefix;
-        double quad_error;
         double[] rtp;
-        double[] rtpw;
-        int t;
         double[] w;
-        double w_sum;
         double[] xyz;
-        double[] xyzw;
 
         Console.WriteLine("");
         Console.WriteLine("SPHERE_EXACTNESS");
@@ -168,7 +159,7 @@ internal static class Program
             dim_num = hd.m;
             point_num = hd.n;
 
-            xyzw = typeMethods.r8mat_data_read(filename, 4, point_num);
+            double[] xyzw = typeMethods.r8mat_data_read(filename, 4, point_num);
 
             xyz = new double[3 * point_num];
             w = new double[point_num];
@@ -221,7 +212,7 @@ internal static class Program
             dim_num = hd.m;
             point_num = hd.n;
 
-            rtpw = typeMethods.r8mat_data_read(filename, 3, point_num);
+            double[] rtpw = typeMethods.r8mat_data_read(filename, 3, point_num);
 
             xyz = new double[3 * point_num];
             w = new double[point_num];
@@ -291,7 +282,7 @@ internal static class Program
             dim_num = hd.m;
             point_num = hd.n;
 
-            dtpw = typeMethods.r8mat_data_read(filename, 3, point_num);
+            double[] dtpw = typeMethods.r8mat_data_read(filename, 3, point_num);
 
             xyz = new double[3 * point_num];
             w = new double[point_num];
@@ -384,7 +375,7 @@ internal static class Program
         //
         //  The W's should sum to 4 * PI.
         //
-        w_sum = typeMethods.r8vec_sum(point_num, w);
+        double w_sum = typeMethods.r8vec_sum(point_num, w);
 
         for (i = 0; i < point_num; i++)
         {
@@ -394,7 +385,7 @@ internal static class Program
         //
         //  Explore the monomials.
         //
-        expon = new int[dim_num];
+        int[] expon = new int[dim_num];
 
         Console.WriteLine("");
         Console.WriteLine("      Error    Degree  Exponents");
@@ -402,20 +393,21 @@ internal static class Program
         for (degree = 0; degree <= degree_max; degree++)
         {
             Console.WriteLine("");
-            more = false;
-            h = 0;
-            t = 0;
+            bool more = false;
+            int h = 0;
+            int t = 0;
 
             for (;;)
             {
                 Comp.comp_next(degree, dim_num, ref expon, ref more, ref h, ref t);
 
-                quad_error = Sphere.sphere01_monomial_quadrature(expon, point_num, xyz, w);
+                double quad_error = Sphere.sphere01_monomial_quadrature(expon, point_num, xyz, w);
 
-                string cout = "  " + quad_error.ToString().PadLeft(12)
+                string cout = "  " + quad_error.ToString(CultureInfo.InvariantCulture).PadLeft(12)
                                    + "     " + degree.ToString().PadLeft(2)
                                    + "  ";
 
+                int dim;
                 for (dim = 0; dim < dim_num; dim++)
                 {
                     cout += expon[dim].ToString().PadLeft(3);

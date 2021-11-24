@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Square;
 
 namespace SquareMinimumRuleTest;
@@ -29,14 +30,12 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int degree;
-
         Console.WriteLine("");
         Console.WriteLine("SQUARE_MINIMAL_RULE_TEST");
             
         Console.WriteLine("  Test the SQUARE_MINIMAL_RULE library.");
 
-        degree = 8;
+        const int degree = 8;
         square_minimal_rule_print_test(degree);
 
         square_minimal_rule_order_test();
@@ -72,11 +71,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double area;
-        double d;
         int j;
-        int order;
-        double[] xyw;
 
         Console.WriteLine("");
         Console.WriteLine("SQUARE_MINIMAL_RULE_PRINT_TEST");
@@ -87,9 +82,9 @@ internal static class Program
         //
         //  Retrieve and print a symmetric quadrature rule.
         //
-        xyw = MinimalRule.square_minimal_rule(degree);
+        double[] xyw = MinimalRule.square_minimal_rule(degree);
 
-        order = MinimalRule.square_minimal_rule_order(degree);
+        int order = MinimalRule.square_minimal_rule_order(degree);
 
         Console.WriteLine("");
         Console.WriteLine("  Number of nodes N = " + order + "");
@@ -100,21 +95,21 @@ internal static class Program
         for (j = 0; j < order; j++)
         {
             Console.WriteLine("  " + j.ToString().PadLeft(4)
-                                   + "  " + xyw[0 + j * 3].ToString().PadLeft(14)
-                                   + "  " + xyw[1 + j * 3].ToString().PadLeft(14)
-                                   + "  " + xyw[2 + j * 3].ToString().PadLeft(14) + "");
+                                   + "  " + xyw[0 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + xyw[1 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + xyw[2 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
-        d = 0.0;
+        double d = 0.0;
         for (j = 0; j < order; j++)
         {
             d += xyw[2 + j * 3];
         }
 
         Console.WriteLine("");
-        Console.WriteLine("   Sum  " + d.ToString().PadLeft(14) + "");
-        area = Integrals.squaresym_area();
-        Console.WriteLine("  Area  " + area.ToString().PadLeft(14) + "");
+        Console.WriteLine("   Sum  " + d.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+        double area = Integrals.squaresym_area();
+        Console.WriteLine("  Area  " + area.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
     }
 
@@ -147,22 +142,20 @@ internal static class Program
         //
     {
         int degree;
-        int degree_max;
-        int order;
 
         Console.WriteLine("");
         Console.WriteLine("SQUARE_MINIMAL_RULE_ORDER_TEST");
         Console.WriteLine("  Print the order (number of points) for each");
         Console.WriteLine("  minimal square rule.");
 
-        degree_max = MinimalRule.square_minimal_rule_degree_max();
+        int degree_max = MinimalRule.square_minimal_rule_degree_max();
 
         Console.WriteLine("");
         Console.WriteLine(" Degree  Order");
         Console.WriteLine("");
         for (degree = 0; degree <= degree_max; degree++)
         {
-            order = MinimalRule.square_minimal_rule_order(degree);
+            int order = MinimalRule.square_minimal_rule_order(degree);
             Console.WriteLine("  " + degree
                                    + "  " + order + "");
         }
@@ -198,9 +191,6 @@ internal static class Program
         //
     {
         int degree;
-        int degree_max;
-        double error_max;
-        int m_num;
 
         Console.WriteLine("");
         Console.WriteLine("SQUARE_MINIMAL_RULE_ERROR_MAX_TEST");
@@ -208,7 +198,7 @@ internal static class Program
         Console.WriteLine("  error for a rule that should be exact for all monomials");
         Console.WriteLine("  up to a given value of DEGREE.");
 
-        degree_max = MinimalRule.square_minimal_rule_degree_max();
+        int degree_max = MinimalRule.square_minimal_rule_degree_max();
 
         Console.WriteLine("");
         Console.WriteLine(" Degree  Monomials  Error Max");
@@ -216,8 +206,8 @@ internal static class Program
 
         for (degree = 0; degree <= degree_max; degree++)
         {
-            error_max = MinimalRule.square_minimal_rule_error_max(degree);
-            m_num = (degree + 1) * (degree + 2) / 2;
+            double error_max = MinimalRule.square_minimal_rule_error_max(degree);
+            int m_num = (degree + 1) * (degree + 2) / 2;
             Console.WriteLine("   " + degree.ToString().PadLeft(4)
                                     + "       " + m_num.ToString().PadLeft(4)
                                     + "  " + error_max + "");

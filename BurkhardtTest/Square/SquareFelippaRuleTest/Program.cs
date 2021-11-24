@@ -29,13 +29,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int degree_max;
-
         Console.WriteLine("");
         Console.WriteLine("SQUARE_FELIPPA_RULE_TEST");
         Console.WriteLine("  Test the SQUARE_FELIPPA_RULE library.");
 
-        degree_max = 4;
+        int degree_max = 4;
         FelippaRule.square_monomial_test(degree_max);
 
         degree_max = 5;

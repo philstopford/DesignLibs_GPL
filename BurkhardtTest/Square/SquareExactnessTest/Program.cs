@@ -68,13 +68,6 @@ internal static class Program
         double[] a = new double[2];
         double[] b = new double[2];
         int l;
-        int n;
-        int n_1d;
-        int p_max;
-        int t;
-        double[] w;
-        double[] x;
-        double[] y;
 
         a[0] = -1.0;
         a[1] = -1.0;
@@ -93,17 +86,17 @@ internal static class Program
 
         for (l = 0; l <= 5; l++)
         {
-            n_1d = l + 1;
-            n = n_1d * n_1d;
-            t = 2 * l + 1;
+            int n_1d = l + 1;
+            int n = n_1d * n_1d;
+            int t = 2 * l + 1;
 
-            w = new double[n];
-            x = new double[n];
-            y = new double[n];
+            double[] w = new double[n];
+            double[] x = new double[n];
+            double[] y = new double[n];
 
             LegendreQuadrature.legendre_2d_set(a, b, n_1d, n_1d, ref x, ref y, ref w);
 
-            p_max = t + 1;
+            int p_max = t + 1;
             Integral.legendre_2d_exactness(a, b, n, ref x, ref y, ref w, p_max);
         }
 
@@ -133,11 +126,6 @@ internal static class Program
         double[] a = new double[2];
         double[] b = new double[2];
         int l;
-        int n;
-        int p_max;
-        double[] w;
-        double[] x;
-        double[] y;
 
         a[0] = -1.0;
         a[1] = -1.0;
@@ -157,16 +145,16 @@ internal static class Program
 
         for (l = 0; l <= 5; l++)
         {
-            n = (l + 1) * (l + 2) / 2;
+            int n = (l + 1) * (l + 2) / 2;
 
-            w = new double[n];
-            x = new double[n];
-            y = new double[n];
+            double[] w = new double[n];
+            double[] x = new double[n];
+            double[] y = new double[n];
 
             Burkardt.Values.Padua.padua_point_set(l, ref x, ref y);
             Burkardt.Values.Padua.padua_weight_set(l, ref w);
 
-            p_max = l switch
+            int p_max = l switch
             {
                 0 => l + 2,
                 _ => l + 1

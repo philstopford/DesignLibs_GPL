@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Square;
 using Burkardt.Types;
 
@@ -66,11 +67,9 @@ internal static class Program
         double[] b = { +1.0, +1.0 };
         int[] c = { 1, 1 };
         int i;
-        int n;
         int[] ns = { 3, 3 };
-        double[] x;
 
-        n = ns[0] * ns[1];
+        int n = ns[0] * ns[1];
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
@@ -85,11 +84,11 @@ internal static class Program
             Console.WriteLine(i.ToString().PadLeft(6) + "  "
                                                       + ns[i].ToString().PadLeft(4) + "  "
                                                       + c[i].ToString().PadLeft(4) + "  "
-                                                      + a[i].ToString().PadLeft(8) + "  "
-                                                      + b[i].ToString().PadLeft(8) + "");
+                                                      + a[i].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                                                      + b[i].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
 
-        x = Grid.square_grid(n, ns, a, b, c);
+        double[] x = Grid.square_grid(n, ns, a, b, c);
         typeMethods.r8mat_transpose_print(2, n, x, "  Grid points:");
     }
 
@@ -118,11 +117,9 @@ internal static class Program
         double[] b = { 1.0, 1.0 };
         int[] c = { 2, 2 };
         int i;
-        int n;
         int[] ns = { 4, 2 };
-        double[] x;
 
-        n = ns[0] * ns[1];
+        int n = ns[0] * ns[1];
 
         Console.WriteLine("");
         Console.WriteLine("TEST02");
@@ -137,11 +134,11 @@ internal static class Program
             Console.WriteLine(i.ToString().PadLeft(6) + "  "
                                                       + ns[i].ToString().PadLeft(4) + "  "
                                                       + c[i].ToString().PadLeft(4) + "  "
-                                                      + a[i].ToString().PadLeft(8) + "  "
-                                                      + b[i].ToString().PadLeft(8) + "");
+                                                      + a[i].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                                                      + b[i].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
 
-        x = Grid.square_grid(n, ns, a, b, c);
+        double[] x = Grid.square_grid(n, ns, a, b, c);
         typeMethods.r8mat_transpose_print(2, n, x, "  Grid points:");
     }
 
@@ -170,11 +167,9 @@ internal static class Program
         double[] b = { +10.0, +2.0 };
         int[] c = { 3, 4 };
         int i;
-        int n;
         int[] ns = { 3, 3 };
-        double[] x;
 
-        n = ns[0] * ns[1];
+        int n = ns[0] * ns[1];
 
         Console.WriteLine("");
         Console.WriteLine("TEST03");
@@ -189,11 +184,11 @@ internal static class Program
             Console.WriteLine(i + "  "
                                 + ns[i].ToString().PadLeft(4) + "  "
                                 + c[i].ToString().PadLeft(4) + "  "
-                                + a[i].ToString().PadLeft(8) + "  "
-                                + b[i].ToString().PadLeft(8) + "");
+                                + a[i].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                                + b[i].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
 
-        x = Grid.square_grid(n, ns, a, b, c);
+        double[] x = Grid.square_grid(n, ns, a, b, c);
         typeMethods.r8mat_transpose_print(2, n, x, "  Grid points:");
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.MonomialNS;
 using Burkardt.Square;
 using Burkardt.Types;
@@ -69,17 +70,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] e;
-        double error;
-        double exact;
-        int m = 2;
-        int n = 4192;
-        double result;
-        int seed;
+        const int m = 2;
+        const int n = 4192;
         int test;
-        int test_num = 20;
-        double[] value;
-        double[] x;
+        const int test_num = 20;
 
         Console.WriteLine("");
         Console.WriteLine("SQUARE01_MONOMIAL_INTEGRAL_TEST");
@@ -89,8 +83,8 @@ internal static class Program
         //
         //  Get sample points.
         //
-        seed = 123456789;
-        x = Integrals.square01_sample(n, ref seed);
+        int seed = 123456789;
+        double[] x = Integrals.square01_sample(n, ref seed);
         Console.WriteLine("");
         Console.WriteLine("  Number of sample points is " + n + "");
         //
@@ -102,19 +96,19 @@ internal static class Program
 
         for (test = 1; test <= test_num; test++)
         {
-            e = UniformRNG.i4vec_uniform_ab_new(m, 0, 7, ref seed);
+            int[] e = UniformRNG.i4vec_uniform_ab_new(m, 0, 7, ref seed);
 
-            value = Monomial.monomial_value(m, n, e, x);
+            double[] value = Monomial.monomial_value(m, n, e, x);
 
-            result = Integrals.square01_area() * typeMethods.r8vec_sum(n, value) / n;
-            exact = Integrals.square01_monomial_integral(e);
-            error = Math.Abs(result - exact);
+            double result = Integrals.square01_area() * typeMethods.r8vec_sum(n, value) / n;
+            double exact = Integrals.square01_monomial_integral(e);
+            double error = Math.Abs(result - exact);
 
             Console.WriteLine("  " + e[0].ToString().PadLeft(2)
                                    + "  " + e[1].ToString().PadLeft(2)
-                                   + "  " + result.ToString().PadLeft(14)
-                                   + "  " + exact.ToString().PadLeft(14)
-                                   + "  " + error.ToString().PadLeft(14) + "");
+                                   + "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
         }
 
@@ -142,17 +136,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] e;
-        double error;
-        double exact;
-        int m = 2;
-        int n = 4192;
-        double result;
-        int seed;
+        const int m = 2;
+        const int n = 4192;
         int test;
-        int test_num = 20;
-        double[] value;
-        double[] x;
+        const int test_num = 20;
 
         Console.WriteLine("");
         Console.WriteLine("SQUARESYM_MONOMIAL_INTEGRAL_TEST");
@@ -162,8 +149,8 @@ internal static class Program
         //
         //  Get sample points.
         //
-        seed = 123456789;
-        x = Integrals.squaresym_sample(n, ref seed);
+        int seed = 123456789;
+        double[] x = Integrals.squaresym_sample(n, ref seed);
         Console.WriteLine("");
         Console.WriteLine("  Number of sample points is " + n + "");
         //
@@ -175,19 +162,19 @@ internal static class Program
 
         for (test = 1; test <= test_num; test++)
         {
-            e = UniformRNG.i4vec_uniform_ab_new(m, 0, 7, ref seed);
+            int[] e = UniformRNG.i4vec_uniform_ab_new(m, 0, 7, ref seed);
 
-            value = Monomial.monomial_value(m, n, e, x);
+            double[] value = Monomial.monomial_value(m, n, e, x);
 
-            result = Integrals.squaresym_area() * typeMethods.r8vec_sum(n, value) / n;
-            exact = Integrals.squaresym_monomial_integral(e);
-            error = Math.Abs(result - exact);
+            double result = Integrals.squaresym_area() * typeMethods.r8vec_sum(n, value) / n;
+            double exact = Integrals.squaresym_monomial_integral(e);
+            double error = Math.Abs(result - exact);
 
             Console.WriteLine("  " + e[0].ToString().PadLeft(2)
                                    + "  " + e[1].ToString().PadLeft(2)
-                                   + "  " + result.ToString().PadLeft(14)
-                                   + "  " + exact.ToString().PadLeft(14)
-                                   + "  " + error.ToString().PadLeft(14) + "");
+                                   + "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
         }
 

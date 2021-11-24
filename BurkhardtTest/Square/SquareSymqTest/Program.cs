@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using Burkardt.PolynomialNS;
 using Burkardt.Square;
@@ -42,17 +43,13 @@ internal static class Program
         //    Volume 59, 2010, pages 663-676.
         //
     {
-        int degree;
-        string header;
-        int n;
-
         Console.WriteLine("");
         Console.WriteLine("SQUARE_SYMQ_RULE_TEST");
         Console.WriteLine("  Test the SQUARE_SYMQ_RULE library.");
 
-        degree = 8;
-        n = Symq.rule_full_size(degree);
-        header = "square08";
+        int degree = 8;
+        int n = Symq.rule_full_size(degree);
+        string header = "square08";
 
         test01(degree, n);
 
@@ -105,23 +102,19 @@ internal static class Program
         //    Input, int N, the number of nodes.
         //
     {
-        double area;
-        double d;
         int j;
-        double[] w;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
         Console.WriteLine("  Symmetric quadrature rule for a square.");
         Console.WriteLine("  Polynomial exactness degree DEGREE = " + degree + "");
 
-        area = 4.0;
+        double area = 4.0;
         //
         //  Retrieve and print a symmetric quadrature rule.
         //
-        x = new double[2 * n];
-        w = new double[n];
+        double[] x = new double[2 * n];
+        double[] w = new double[n];
 
         Symq.square_symq(degree, n, ref x, ref w);
 
@@ -134,12 +127,12 @@ internal static class Program
         for (j = 0; j < n; j++)
         {
             Console.WriteLine(j.ToString().PadLeft(4) + "  "
-                                                      + w[j].ToString().PadLeft(14) + "  "
-                                                      + x[0 + j * 2].ToString().PadLeft(14) + "  "
-                                                      + x[1 + j * 2].ToString().PadLeft(14) + "");
+                                                      + w[j].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                                                      + x[0 + j * 2].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                                                      + x[1 + j * 2].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
-        d = typeMethods.r8vec_sum(n, w);
+        double d = typeMethods.r8vec_sum(n, w);
 
         Console.WriteLine("   Sum  " + d + "");
         Console.WriteLine("  Area  " + area + "");
@@ -186,9 +179,6 @@ internal static class Program
     {
         int i;
         List<string> rule_unit = new();
-        string rule_filename;
-        double[] w;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02");
@@ -198,14 +188,14 @@ internal static class Program
         //
         //  Retrieve a symmetric quadrature rule.
         //
-        x = new double[2 * n];
-        w = new double[n];
+        double[] x = new double[2 * n];
+        double[] w = new double[n];
 
         Symq.square_symq(degree, n, ref x, ref w);
         //
         //  Write the points and weights to a file.
         //
-        rule_filename = header + ".txt";
+        string rule_filename = header + ".txt";
 
         for (i = 0; i < n; i++)
         {
@@ -260,9 +250,6 @@ internal static class Program
         //    Input, string HEADER, an identifier for the filenames.
         //
     {
-        double[] w;
-        double[] x;
-
         Console.WriteLine("");
         Console.WriteLine("TEST03");
         Console.WriteLine("  Get a quadrature rule for the symmetric square.");
@@ -271,8 +258,8 @@ internal static class Program
         //
         //  Retrieve a symmetric quadrature rule.
         //
-        x = new double[2 * n];
-        w = new double[n];
+        double[] x = new double[2 * n];
+        double[] w = new double[n];
 
         Symq.square_symq(degree, n, ref x, ref w);
         //
@@ -319,15 +306,8 @@ internal static class Program
         //    Input, int N, the number of nodes to be used by the rule.
         //
     {
-        double area;
-        double d;
         int i;
         int j;
-        int npols;
-        double[] pols;
-        double[] rints;
-        double[] w;
-        double[] x;
         double[] z = new double[2];
 
         Console.WriteLine("");
@@ -338,13 +318,13 @@ internal static class Program
         //
         //  Retrieve a symmetric quadrature rule.
         //
-        x = new double[2 * n];
-        w = new double[n];
+        double[] x = new double[2 * n];
+        double[] w = new double[n];
 
         Symq.square_symq(degree, n, ref x, ref w);
 
-        npols = (degree + 1) * (degree + 2) / 2;
-        rints = new double[npols];
+        int npols = (degree + 1) * (degree + 2) / 2;
+        double[] rints = new double[npols];
 
         for (j = 0; j < npols; j++)
         {
@@ -356,16 +336,16 @@ internal static class Program
             z[0] = x[0 + i * 2];
             z[1] = x[1 + i * 2];
 
-            pols = Polynomial.lege2eva(degree, z);
+            double[] pols = Polynomial.lege2eva(degree, z);
             for (j = 0; j < npols; j++)
             {
                 rints[j] += w[i] * pols[j];
             }
         }
 
-        area = 4.0;
+        double area = 4.0;
 
-        d = 0.0;
+        double d = 0.0;
         d = Math.Pow(rints[0] - Math.Sqrt(area), 2);
         for (i = 1; i < npols; i++)
         {

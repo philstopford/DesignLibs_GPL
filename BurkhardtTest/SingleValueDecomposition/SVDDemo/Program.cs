@@ -58,17 +58,9 @@ internal static class Program
         //    in the singular value decomposition of A.
         //
     {
-        double[] a;
-        double[] a_pseudo;
-        int i;
         int j;
-        int m;
-        int n;
-        double[] s;
         int seed;
         string string_;
-        double[] u;
-        double[] v;
 
         Console.WriteLine("");
         Console.WriteLine("SVD_DEMO:");
@@ -105,7 +97,7 @@ internal static class Program
             string_ = Console.ReadLine();
         }
 
-        m = Convert.ToInt32(string_);
+        int m = Convert.ToInt32(string_);
         Console.WriteLine("");
         Console.WriteLine("  Matrix row order    M = " + m + "");
 
@@ -127,7 +119,7 @@ internal static class Program
             string_ = Console.ReadLine();
         }
 
-        n = Convert.ToInt32(string_);
+        int n = Convert.ToInt32(string_);
         Console.WriteLine("  Matrix column order N = " + n + "");
 
         //
@@ -149,9 +141,9 @@ internal static class Program
         //
         //  Set aside space for the arrays.
         //
-        u = new double[m * m];
-        s = new double[m * n];
-        v = new double[n * n];
+        double[] u = new double[m * m];
+        double[] s = new double[m * n];
+        double[] v = new double[n * n];
         //
         //  Generate the matrix.
         //
@@ -159,10 +151,11 @@ internal static class Program
         Console.WriteLine("  We choose a \"random\" matrix A, with integral");
         Console.WriteLine("  values between 0 and 10.");
 
-        a = UniformRNG.r8mat_uniform_01_new(m, n, ref seed);
+        double[] a = UniformRNG.r8mat_uniform_01_new(m, n, ref seed);
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 a[i + m * j] = typeMethods.r8_nint(10.0 * a[i + m * j]);
@@ -198,7 +191,7 @@ internal static class Program
         //
         //  Compute the pseudoinverse.
         //
-        a_pseudo = PseudoLinear.pseudo_inverse(m, n, u, s, v);
+        double[] a_pseudo = PseudoLinear.pseudo_inverse(m, n, u, s, v);
 
         typeMethods.r8mat_print(n, m, a_pseudo, "  The pseudoinverse of A:");
         //

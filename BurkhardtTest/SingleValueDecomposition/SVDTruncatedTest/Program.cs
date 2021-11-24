@@ -27,17 +27,14 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int m;
-        int n;
-
         Console.WriteLine("");
         Console.WriteLine("SVD_TRUNCATED");
         Console.WriteLine("  Demonstrate the use of the truncated or economy-size");
         Console.WriteLine("  Singular Value Decomposition (SVD) for cases where");
         Console.WriteLine("  the sizes of M and N are very different.");
 
-        m = 4;
-        n = 3;
+        int m = 4;
+        int n = 3;
         svd_truncated_u_test(m, n);
 
         m = 3;
@@ -72,30 +69,22 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] a;
-        double[] a_save;
-        double err;
         int i;
         int j;
-        int k;
-        int seed;
-        double[] sn;
-        double[] un;
-        double[] v;
 
         Console.WriteLine("");
         Console.WriteLine("SVD_TRUNCATED_U_TEST");
         Console.WriteLine("  M = " + m + "");
         Console.WriteLine("  N = " + n + "");
 
-        a = new double[m * n];
-        un = new double[m * n];
-        sn = new double[n * n];
-        v = new double[n * n];
+        double[] a = new double[m * n];
+        double[] un = new double[m * n];
+        double[] sn = new double[n * n];
+        double[] v = new double[n * n];
 
-        seed = 123456789;
+        int seed = 123456789;
 
-        a_save = UniformRNG.r8mat_uniform_01_new(m, n, ref seed);
+        double[] a_save = UniformRNG.r8mat_uniform_01_new(m, n, ref seed);
 
         typeMethods.r8mat_print(m, n, a_save, "  A:");
 
@@ -120,6 +109,7 @@ internal static class Program
             for (i = 0; i < m; i++)
             {
                 a[i + j * m] = 0.0;
+                int k;
                 for (k = 0; k < n; k++)
                 {
                     a[i + j * m] += un[i + k * m] * sn[k + k * n] * v[j + k * n];
@@ -127,7 +117,7 @@ internal static class Program
             }
         }
 
-        err = 0.0;
+        double err = 0.0;
         for (j = 0; j < n; j++)
         {
             for (i = 0; i < m; i++)
@@ -164,30 +154,22 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] a;
-        double[] a_save;
-        double err;
         int i;
         int j;
-        int k;
-        int seed;
-        double[] sm;
-        double[] u;
-        double[] vm;
 
         Console.WriteLine("");
         Console.WriteLine("SVD_TRUNCATED_V_TEST");
         Console.WriteLine("  M = " + m + "");
         Console.WriteLine("  N = " + n + "");
 
-        a = new double[m * n];
-        u = new double[m * m];
-        sm = new double[m * m];
-        vm = new double[n * m];
+        double[] a = new double[m * n];
+        double[] u = new double[m * m];
+        double[] sm = new double[m * m];
+        double[] vm = new double[n * m];
 
-        seed = 123456789;
+        int seed = 123456789;
 
-        a_save = UniformRNG.r8mat_uniform_01_new(m, n, ref seed);
+        double[] a_save = UniformRNG.r8mat_uniform_01_new(m, n, ref seed);
 
         typeMethods.r8mat_print(m, n, a_save, "  A:");
 
@@ -212,6 +194,7 @@ internal static class Program
             for (i = 0; i < m; i++)
             {
                 a[i + j * m] = 0.0;
+                int k;
                 for (k = 0; k < m; k++)
                 {
                     a[i + j * m] += u[i + k * m] * sm[k + k * m] * vm[j + k * n];
@@ -219,7 +202,7 @@ internal static class Program
             }
         }
 
-        err = 0.0;
+        double err = 0.0;
         for (j = 0; j < n; j++)
         {
             for (i = 0; i < m; i++)

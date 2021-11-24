@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Uniform;
 
 namespace FeynmanKac2DTest;
@@ -97,37 +98,13 @@ internal static class Program
             //    LC: QA76.59.P47.
             //
       {
-            double a = 2.0;
-            double b = 1.0;
-            double chk;
-            int dim = 2;
-            double dx;
-            double dy;
-            double err;
-            double h = 0.0001;
-            int i;
+            const double a = 2.0;
+            const double b = 1.0;
+            const int dim = 2;
+            const double h = 0.0001;
             int j;
-            int k;
-            int N = 10000;
-            int n_inside;
-            int ni;
-            int nj;
-            double rth;
+            const int N = 10000;
             int seed = 123456789;
-            int steps;
-            int steps_ave;
-            double us;
-            double ut;
-            double vh;
-            double vs;
-            double x;
-            double x1;
-            double x2;
-            double y;
-            double w;
-            double w_exact;
-            double we;
-            double wt;
 
             Console.WriteLine("");
             Console.WriteLine("FEYNMAN-KAC_2D:");
@@ -154,20 +131,12 @@ internal static class Program
             //
             //  RTH is the scaled stepsize.
             //
-            rth = Math.Sqrt(dim * h);
+            double rth = Math.Sqrt(dim * h);
             //
             //  Choose the spacing so we have about 10 points in the shorter direction.
             //
-            if (a < b)
-            {
-                  ni = 11;
-                  nj = 1 + (int) Math.Ceiling(b / a) * (ni - 1);
-            }
-            else
-            {
-                  nj = 11;
-                  ni = 1 + (int) Math.Ceiling(a / b) * (nj - 1);
-            }
+            int nj = 11;
+            int ni = 1 + (int) Math.Ceiling(a / b) * (nj - 1);
 
             Console.WriteLine("");
             Console.WriteLine("  X coordinate marked by %d points");
@@ -177,8 +146,8 @@ internal static class Program
             //
             //  Loop over the grid points.
             //
-            err = 0.0;
-            n_inside = 0;
+            double err = 0.0;
+            int n_inside = 0;
 
             Console.WriteLine("");
             Console.WriteLine("     X        Y        W Approx     W Exact    Error    Ave Steps");
@@ -186,29 +155,33 @@ internal static class Program
 
             for (j = 1; j <= nj; j++)
             {
-                  x = ((nj - j) * -a
-                       + (j - 1) * a)
-                      / (nj - 1);
+                  double x = ((nj - j) * -a
+                              + (j - 1) * a)
+                             / (nj - 1);
 
+                  int i;
                   for (i = 1; i <= ni; i++)
                   {
-                        y = ((ni - i) * -b
-                             + (i - 1) * b)
-                            / (ni - 1);
+                        double y = ((ni - i) * -b
+                                    + (i - 1) * b)
+                                   / (ni - 1);
 
-                        chk = Math.Pow(x / a, 2) + Math.Pow(y / b, 2);
+                        double chk = Math.Pow(x / a, 2) + Math.Pow(y / b, 2);
 
+                        double w_exact;
+                        double wt;
+                        int steps_ave;
                         switch (chk)
                         {
                               case > 1.0:
                                     w_exact = 1.0;
                                     wt = 1.0;
                                     steps_ave = 0;
-                                    Console.WriteLine("  " + x.ToString().PadLeft(10)
-                                                           + "  " + y.ToString().PadLeft(10)
-                                                           + "  " + wt.ToString().PadLeft(10)
-                                                           + "  " + w_exact.ToString().PadLeft(10)
-                                                           + "  " + Math.Abs(w_exact - wt).ToString().PadLeft(10)
+                                    Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                                           + "  " + y.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                                           + "  " + wt.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                                           + "  " + w_exact.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                                           + "  " + Math.Abs(w_exact - wt).ToString(CultureInfo.InvariantCulture).PadLeft(10)
                                                            + "  " + steps_ave.ToString().PadLeft(8) + "");
                                     continue;
                         }
@@ -224,18 +197,19 @@ internal static class Program
                         //
                         wt = 0.0;
 
-                        steps = 0;
+                        int steps = 0;
                         // 
                         //  Do N paths
                         //
+                        int k;
                         for (k = 0; k < N; k++)
                         {
-                              x1 = x;
-                              x2 = y;
+                              double x1 = x;
+                              double x2 = y;
                               // 
                               //  W = exp(-int(s=0..t) v(X)ds) 
                               //
-                              w = 1.0;
+                              double w = 1.0;
                               //
                               //  CHK is < 1.0 while the point is inside the ellipse.
                               //
@@ -245,7 +219,9 @@ internal static class Program
                                     //
                                     //  Determine DX, DY.
                                     //
-                                    ut = UniformRNG.r8_uniform_01(ref seed);
+                                    double ut = UniformRNG.r8_uniform_01(ref seed);
+                                    double dx;
+                                    double us;
                                     switch (ut)
                                     {
                                           case < 1.0 / 2.0:
@@ -265,6 +241,7 @@ internal static class Program
                                     }
 
                                     ut = UniformRNG.r8_uniform_01(ref seed);
+                                    double dy;
                                     switch (ut)
                                     {
                                           case < 1.0 / 2.0:
@@ -283,7 +260,7 @@ internal static class Program
                                                 break;
                                     }
 
-                                    vs = potential(a, b, x1, x2);
+                                    double vs = potential(a, b, x1, x2);
                                     //
                                     //  Move to the new point.
                                     //
@@ -292,9 +269,9 @@ internal static class Program
 
                                     steps += 1;
 
-                                    vh = potential(a, b, x1, x2);
+                                    double vh = potential(a, b, x1, x2);
 
-                                    we = (1.0 - h * vs) * w;
+                                    double we = (1.0 - h * vs) * w;
                                     w -= 0.5 * h * (vh * we + vs * w);
 
                                     chk = Math.Pow(x1 / a, 2)
@@ -314,11 +291,11 @@ internal static class Program
                         //
                         err += Math.Pow(w_exact - wt, 2);
 
-                        Console.WriteLine("  " + x.ToString().PadLeft(10)
-                                               + "  " + y.ToString().PadLeft(10)
-                                               + "  " + wt.ToString().PadLeft(10)
-                                               + "  " + w_exact.ToString().PadLeft(10)
-                                               + "  " + Math.Abs(w_exact - wt).ToString().PadLeft(10)
+                        Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                               + "  " + y.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                               + "  " + wt.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                               + "  " + w_exact.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                               + "  " + Math.Abs(w_exact - wt).ToString(CultureInfo.InvariantCulture).PadLeft(10)
                                                + "  " + steps_ave.ToString().PadLeft(8) + "");
                   }
             }

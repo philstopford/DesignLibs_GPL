@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using Burkardt;
 using Burkardt.IO;
@@ -61,29 +62,17 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int DATA_FILE_BASE_MAX = 20;
+        const int DATA_FILE_BASE_MAX = 20;
 
-        string basis_file;
-        int basis_num = 0;
         bool comment;
-        char comment_char;
         int comp_num = 0;
         string data_file = "";
-        int data_file_base_num = 0;
         string[] data_file_base = new string[DATA_FILE_BASE_MAX];
-        int data_file_num = 0;
         int dim_num = 0;
-        string file_name;
         int i;
         int ii;
         int j;
-        int k;
-        int l;
         int node_num = 0;
-        double[] point;
-        int point_num = 0;
-        double[] sval;
-        double[] table;
 
         Console.WriteLine("");
         Console.WriteLine("SVD_BASIS:");
@@ -107,14 +96,14 @@ internal static class Program
         //  What is the basis size?
         //
         Console.WriteLine("  How many basis vectors (L) are to be extracted?");
-        basis_num = Convert.ToInt32(Console.ReadLine());
+        int basis_num = Convert.ToInt32(Console.ReadLine());
 
         Console.WriteLine("");
         Console.WriteLine("  L = " + basis_num + "");
         //
         //  Gather one or more "base" file names.
         //
-        data_file_base_num = 0;
+        int data_file_base_num = 0;
 
         for (;;)
         {
@@ -140,7 +129,7 @@ internal static class Program
             //  CIN won't allow you to enter a blank line!
             //  I just don't have the energy today to replace CIN by GETLINE....
             //
-            file_name = Console.ReadLine();
+            string file_name = Console.ReadLine();
 
             switch (file_name)
             {
@@ -211,7 +200,7 @@ internal static class Program
         //
         //  Count all the data files.
         //
-        data_file_num = 0;
+        int data_file_num = 0;
 
         for (i = 0; i < data_file_base_num; i++)
         {
@@ -252,7 +241,7 @@ internal static class Program
         //
         //  Set up an array to hold all the data.
         //
-        point_num = data_file_num;
+        int point_num = data_file_num;
 
         Console.WriteLine("");
         Console.WriteLine("  The data is stored in an M by N matrix A.");
@@ -262,11 +251,11 @@ internal static class Program
         //
         //  Allocate space for the POINT array.
         //
-        point = new double[dim_num * point_num];
+        double[] point = new double[dim_num * point_num];
         //
         //  Read the data.
         //
-        l = 0;
+        int l = 0;
 
         for (ii = 0; ii < data_file_base_num; ii++)
         {
@@ -279,9 +268,9 @@ internal static class Program
                     break;
                 }
 
-                table = typeMethods.r8mat_data_read(data_file, comp_num, node_num);
+                double[] table = typeMethods.r8mat_data_read(data_file, comp_num, node_num);
 
-                k = 0;
+                int k = 0;
                 for (j = 0; j < node_num; j++)
                 {
                     for (i = 0; i < comp_num; i++)
@@ -306,7 +295,7 @@ internal static class Program
         //
         //----------------------------------------------------------------------------
         //
-        sval = new double[basis_num];
+        double[] sval = new double[basis_num];
 
         SingleValueDecomposition.singular_vectors(dim_num, point_num, basis_num, ref point, ref sval);
         //
@@ -325,7 +314,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Enter \"Y\" or \"N\":");
 
-        comment_char = Console.ReadLine().ToCharArray()[0];
+        char comment_char = Console.ReadLine().ToCharArray()[0];
 
         switch (comment_char)
         {
@@ -338,7 +327,7 @@ internal static class Program
                 break;
         }
 
-        basis_file = "svd_000.txt";
+        string basis_file = "svd_000.txt";
 
         for (j = 0; j < basis_num; j++)
         {
@@ -408,7 +397,6 @@ internal static class Program
             //
         {
             List<string> file_out = new();
-            int i;
             int j;
 
             switch (comment)
@@ -420,7 +408,7 @@ internal static class Program
                     file_out.Add("#");
                     file_out.Add("#  Number of components M =  " + m.ToString().PadLeft(12) + "");
                     file_out.Add("#  Number of items N =       " + n.ToString().PadLeft(12) + "");
-                    file_out.Add("#  Singular value S =        " + s.ToString().PadLeft(14) + "");
+                    file_out.Add("#  Singular value S =        " + s.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                     file_out.Add("#  EPSILON (unit roundoff) = " + typeMethods.r8_epsilon() + "");
                     file_out.Add("#");
                     break;
@@ -429,9 +417,10 @@ internal static class Program
             for (j = 0; j < n; j++)
             {
                 string cout = "";
+                int i;
                 for (i = 0; i < m; i++)
                 {
-                    cout += u[i + j * m].ToString().PadLeft(10) + "  ";
+                    cout += u[i + j * m].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  ";
                 }
 
                 file_out.Add(cout);

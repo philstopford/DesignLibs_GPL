@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Uniform;
 
 namespace FeynmanKac1DTest;
@@ -96,31 +97,11 @@ internal static class Program
         //    LC: QA76.59.P47.
         //
     {
-        double a = 2.0;
-        double chk;
-        double dx;
-        double err;
-        double h = 0.0001;
+        const double a = 2.0;
+        const double h = 0.0001;
         int i;
-        int it;
-        int k;
-        int n = 1000;
-        int n_int;
-        int ni;
-        double rth;
+        const int n = 1000;
         int seed = 123456789;
-        int steps;
-        int steps_ave;
-        double test;
-        double us;
-        double vh;
-        double vs;
-        double x;
-        double x1;
-        double w;
-        double w_exact;
-        double we;
-        double wt;
 
         Console.WriteLine("");
         Console.WriteLine("FEYNMAN_KAC_1D:");
@@ -144,16 +125,16 @@ internal static class Program
         //
         //  Choose the spacing so we have about ni points on or in the interval.
         //
-        ni = 21;
+        int ni = 21;
 
         Console.WriteLine("");
         Console.WriteLine("  X coordinate discretized by " + ni + 2 + " points");
         //
         //  RTH is the scaled stepsize.
         //
-        rth = Math.Sqrt(h);
+        double rth = Math.Sqrt(h);
 
-        err = 0.0;
+        double err = 0.0;
         //
         //  Loop over the points.
         //
@@ -162,19 +143,22 @@ internal static class Program
                           "      W Approx        Error      Ave Steps  Test");
         Console.WriteLine("");
 
-        k = 0;
-        n_int = 0;
+        int k = 0;
+        int n_int = 0;
 
         for (i = 0; i <= ni + 1; i++)
         {
-            x = ((ni - i) * -a
-                 + (i - 1) * a)
-                / (ni - 1);
+            double x = ((ni - i) * -a
+                        + (i - 1) * a)
+                       / (ni - 1);
 
             k += 1;
 
-            test = a * a - x * x;
+            double test = a * a - x * x;
 
+            double w_exact;
+            double wt;
+            int steps_ave;
             switch (test)
             {
                 case < 0.0:
@@ -183,12 +167,12 @@ internal static class Program
                     steps_ave = 0;
                     Console.WriteLine("  " + i.ToString().PadLeft(4)
                                            + "  " + k.ToString().PadLeft(4)
-                                           + "  " + x.ToString().PadLeft(12)
-                                           + "  " + w_exact.ToString().PadLeft(12)
-                                           + "  " + wt.ToString().PadLeft(12)
-                                           + "  " + Math.Abs(w_exact - wt).ToString().PadLeft(12)
+                                           + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                           + "  " + w_exact.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                           + "  " + wt.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                           + "  " + Math.Abs(w_exact - wt).ToString(CultureInfo.InvariantCulture).PadLeft(12)
                                            + "  " + steps_ave.ToString().PadLeft(8)
-                                           + "  " + test.ToString().PadLeft(8) + "");
+                                           + "  " + test.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
                     continue;
             }
 
@@ -201,34 +185,35 @@ internal static class Program
             //  Now try to estimate the solution at this point.
             //
             wt = 0.0;
-            steps = 0;
+            int steps = 0;
 
+            int it;
             for (it = 1; it <= n; it++)
             {
 
-                x1 = x;
+                double x1 = x;
                 // 
                 //  W = exp(-int(s=0..t) v(X)ds) 
                 //
-                w = 1.0;
+                double w = 1.0;
                 //
                 //  CHK is < 1.0 while the point is inside the interval.
                 //
-                chk = 0.0;
+                double chk = 0.0;
 
                 while (chk < 1.0)
                 {
                     //
                     //  Determine DX.
                     //
-                    us = UniformRNG.r8_uniform_01(ref seed) - 0.5;
-                    dx = us switch
+                    double us = UniformRNG.r8_uniform_01(ref seed) - 0.5;
+                    double dx = us switch
                     {
                         < 0.0 => -rth,
                         _ => +rth
                     };
 
-                    vs = potential(a, x1);
+                    double vs = potential(a, x1);
                     //
                     //  Move to the new point.
                     //
@@ -236,9 +221,9 @@ internal static class Program
 
                     steps += 1;
 
-                    vh = potential(a, x1);
+                    double vh = potential(a, x1);
 
-                    we = (1.0 - h * vs) * w;
+                    double we = (1.0 - h * vs) * w;
                     w -= 0.5 * h * (vh * we + vs * w);
 
                     chk = Math.Pow(x1 / a, 2);
@@ -259,12 +244,12 @@ internal static class Program
 
             Console.WriteLine("  " + i.ToString().PadLeft(4)
                                    + "  " + k.ToString().PadLeft(4)
-                                   + "  " + x.ToString().PadLeft(12)
-                                   + "  " + w_exact.ToString().PadLeft(12)
-                                   + "  " + wt.ToString().PadLeft(12)
-                                   + "  " + Math.Abs(w_exact - wt).ToString().PadLeft(12)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + w_exact.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + wt.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + Math.Abs(w_exact - wt).ToString(CultureInfo.InvariantCulture).PadLeft(12)
                                    + "  " + steps_ave.ToString().PadLeft(8)
-                                   + "  " + test.ToString().PadLeft(8) + "");
+                                   + "  " + test.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
 
         //

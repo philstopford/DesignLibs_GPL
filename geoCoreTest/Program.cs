@@ -407,8 +407,8 @@ internal class Program
         path[4] = new GeoLibPoint(0, 40);
 
         gcell.addPath(path, 1, 0);
-        gcell.elementList[gcell.elementList.Count - 1].setWidth(5); // note that Oasis only supports factors of 2, so this gets rounded down to make a 4 unit path at the writer (for Oasis).
-        gcell.elementList[gcell.elementList.Count - 1].setCap(2); // extend the path by half the width at the line ends.
+        gcell.elementList[^1].setWidth(5); // note that Oasis only supports factors of 2, so this gets rounded down to make a 4 unit path at the writer (for Oasis).
+        gcell.elementList[^1].setCap(2); // extend the path by half the width at the line ends.
 
         g.setDrawing(drawing_);
         g.setValid(true);
@@ -527,15 +527,15 @@ internal class Program
         gcell = drawing_.addCell();
         gcell.addCellref();
 
-        gcell.elementList[gcell.elementList.Count - 1].setPos(new GeoLibPoint(10, 0));
-        gcell.elementList[gcell.elementList.Count - 1].setCellRef(drawing_.findCell("test"));
-        gcell.elementList[gcell.elementList.Count - 1].setName("test");
-        gcell.elementList[gcell.elementList.Count - 1].rotate(0);
-        gcell.elementList[gcell.elementList.Count - 1].scale(2);
+        gcell.elementList[^1].setPos(new GeoLibPoint(10, 0));
+        gcell.elementList[^1].setCellRef(drawing_.findCell("test"));
+        gcell.elementList[^1].setName("test");
+        gcell.elementList[^1].rotate(0);
+        gcell.elementList[^1].scale(2);
         switch (mirror_x)
         {
             case true:
-                gcell.elementList[gcell.elementList.Count - 1].setMirrorx();
+                gcell.elementList[^1].setMirrorx();
                 break;
         }
 
@@ -568,15 +568,15 @@ internal class Program
         mirror_x = true;
         gcell = drawing_.addCell();
         gcell.addCellref();
-        gcell.elementList[gcell.elementList.Count - 1].setPos(new GeoLibPoint(20, 20));
-        gcell.elementList[gcell.elementList.Count - 1].setCellRef(drawing_.findCell("test2"));
-        gcell.elementList[gcell.elementList.Count - 1].setName("test2");
-        gcell.elementList[gcell.elementList.Count - 1].rotate(0);
-        gcell.elementList[gcell.elementList.Count - 1].scale(2);
+        gcell.elementList[^1].setPos(new GeoLibPoint(20, 20));
+        gcell.elementList[^1].setCellRef(drawing_.findCell("test2"));
+        gcell.elementList[^1].setName("test2");
+        gcell.elementList[^1].rotate(0);
+        gcell.elementList[^1].scale(2);
         switch (mirror_x)
         {
             case true:
-                gcell.elementList[gcell.elementList.Count - 1].setMirrorx();
+                gcell.elementList[^1].setMirrorx();
                 break;
         }
 
@@ -652,14 +652,14 @@ internal class Program
         gcell = drawing_.addCell();
         gcell.addCellref(drawing_.findCell("test"), new GeoLibPoint(0, 0));
         gcell.addCellrefArray(drawing_.findCell("test"), array, 4, 4);
-        gcell.elementList[gcell.elementList.Count - 1].setPos(new GeoLibPoint(0, 0));
-        gcell.elementList[gcell.elementList.Count - 1].setName("test");
-        gcell.elementList[gcell.elementList.Count - 1].rotate(0);
-        gcell.elementList[gcell.elementList.Count - 1].scale(1);
+        gcell.elementList[^1].setPos(new GeoLibPoint(0, 0));
+        gcell.elementList[^1].setName("test");
+        gcell.elementList[^1].rotate(0);
+        gcell.elementList[^1].scale(1);
         switch (mirror_x)
         {
             case true:
-                gcell.elementList[gcell.elementList.Count - 1].setMirrorx();
+                gcell.elementList[^1].setMirrorx();
                 break;
         }
 
@@ -781,31 +781,31 @@ internal class Program
                     {0, 0, 0, 0}, // x=0*w+0*h, y=0*w+0*h ...
                     {0, 0, 0, 1}, {1, -1, 0, 1}, {1, 0, 0, 0}
                 },
-                1 => new int[4, 4] {{0, 0, 0, 0}, {0, 0, 0, 1}, {1, 0, 0, 1}, {1, -1, 0, 0}},
-                2 => new int[4, 4] {{0, 0, 0, 0}, {0, 1, 0, 1}, {1, 0, 0, 1}, {1, 0, 0, 0}},
-                3 => new int[4, 4] {{0, 1, 0, 0}, {0, 0, 0, 1}, {1, 0, 0, 1}, {1, 0, 0, 0}},
-                4 => new int[4, 4] {{0, 0, 0, 0}, {0, 1, 0, 1}, {1, -1, 0, 1}, {1, 0, 0, 0}},
-                5 => new int[4, 4] {{0, 1, 0, 0}, {0, 0, 0, 1}, {1, 0, 0, 1}, {1, -1, 0, 0}},
-                6 => new int[4, 4] {{0, 0, 0, 0}, {0, 1, 0, 1}, {1, 0, 0, 1}, {1, -1, 0, 0}},
-                7 => new int[4, 4] {{0, 1, 0, 0}, {0, 0, 0, 1}, {1, -1, 0, 1}, {1, 0, 0, 0}},
-                8 => new int[4, 4] {{0, 0, 0, 0}, {0, 0, 0, 1}, {1, 0, -1, 1}, {1, 0, 0, 0}},
-                9 => new int[4, 4] {{0, 0, 0, 0}, {0, 0, -1, 1}, {1, 0, 0, 1}, {1, 0, 0, 0}},
-                10 => new int[4, 4] {{0, 0, 0, 0}, {0, 0, 0, 1}, {1, 0, 0, 1}, {1, 0, 1, 0}},
-                11 => new int[4, 4] {{0, 0, 1, 0}, {0, 0, 0, 1}, {1, 0, 0, 1}, {1, 0, 0, 0}},
-                12 => new int[4, 4] {{0, 0, 0, 0}, {0, 0, 0, 1}, {1, 0, -1, 1}, {1, 0, 1, 0}},
-                13 => new int[4, 4] {{0, 0, 1, 0}, {0, 0, -1, 1}, {1, 0, 0, 1}, {1, 0, 0, 0}},
-                14 => new int[4, 4] {{0, 0, 0, 0}, {0, 0, -1, 1}, {1, 0, 0, 1}, {1, 0, 1, 0}},
-                15 => new int[4, 4] {{0, 0, 1, 0}, {0, 0, 0, 1}, {1, 0, -1, 1}, {1, 0, 0, 0}},
-                16 => new int[4, 4] {{0, 0, 0, 0}, {0, 0, 1, 0}, {1, 0, 0, 0}, {0, 0, 0, 0}},
-                17 => new int[4, 4] {{0, 0, 0, 0}, {0, 0, 1, 0}, {1, 0, 1, 0}, {0, 0, 0, 0}},
-                18 => new int[4, 4] {{0, 0, 0, 0}, {1, 0, 1, 0}, {1, 0, 0, 0}, {0, 0, 0, 0}},
-                19 => new int[4, 4] {{0, 0, 1, 0}, {1, 0, 1, 0}, {1, 0, 0, 0}, {0, 0, 1, 0}},
-                20 => new int[4, 4] {{0, 0, 0, 0}, {0, 1, 0, 1}, {0, 2, 0, 0}, {0, 0, 0, 0}},
-                21 => new int[4, 4] {{0, 0, 0, 1}, {0, 2, 0, 1}, {0, 1, 0, 0}, {0, 0, 0, 1}},
-                22 => new int[4, 4] {{0, 0, 0, 0}, {0, 0, 2, 0}, {1, 0, 1, 0}, {0, 0, 0, 0}},
-                23 => new int[4, 4] {{1, 0, 0, 0}, {0, 0, 1, 0}, {1, 0, 2, 0}, {1, 0, 0, 0}},
-                24 => new int[4, 4] {{0, 0, 0, 0}, {0, 0, 0, 1}, {1, 0, 0, 1}, {1, 0, 0, 0}},
-                25 => new int[4, 4] {{0, 0, 0, 0}, {0, 0, 1, 0}, {1, 0, 1, 0}, {1, 0, 0, 0}},
+                1 => new[,] {{0, 0, 0, 0}, {0, 0, 0, 1}, {1, 0, 0, 1}, {1, -1, 0, 0}},
+                2 => new[,] {{0, 0, 0, 0}, {0, 1, 0, 1}, {1, 0, 0, 1}, {1, 0, 0, 0}},
+                3 => new[,] {{0, 1, 0, 0}, {0, 0, 0, 1}, {1, 0, 0, 1}, {1, 0, 0, 0}},
+                4 => new[,] {{0, 0, 0, 0}, {0, 1, 0, 1}, {1, -1, 0, 1}, {1, 0, 0, 0}},
+                5 => new[,] {{0, 1, 0, 0}, {0, 0, 0, 1}, {1, 0, 0, 1}, {1, -1, 0, 0}},
+                6 => new [,] {{0, 0, 0, 0}, {0, 1, 0, 1}, {1, 0, 0, 1}, {1, -1, 0, 0}},
+                7 => new [,] {{0, 1, 0, 0}, {0, 0, 0, 1}, {1, -1, 0, 1}, {1, 0, 0, 0}},
+                8 => new [,] {{0, 0, 0, 0}, {0, 0, 0, 1}, {1, 0, -1, 1}, {1, 0, 0, 0}},
+                9 => new [,] {{0, 0, 0, 0}, {0, 0, -1, 1}, {1, 0, 0, 1}, {1, 0, 0, 0}},
+                10 => new [,] {{0, 0, 0, 0}, {0, 0, 0, 1}, {1, 0, 0, 1}, {1, 0, 1, 0}},
+                11 => new [,] {{0, 0, 1, 0}, {0, 0, 0, 1}, {1, 0, 0, 1}, {1, 0, 0, 0}},
+                12 => new [,] {{0, 0, 0, 0}, {0, 0, 0, 1}, {1, 0, -1, 1}, {1, 0, 1, 0}},
+                13 => new [,] {{0, 0, 1, 0}, {0, 0, -1, 1}, {1, 0, 0, 1}, {1, 0, 0, 0}},
+                14 => new [,] {{0, 0, 0, 0}, {0, 0, -1, 1}, {1, 0, 0, 1}, {1, 0, 1, 0}},
+                15 => new [,] {{0, 0, 1, 0}, {0, 0, 0, 1}, {1, 0, -1, 1}, {1, 0, 0, 0}},
+                16 => new [,] {{0, 0, 0, 0}, {0, 0, 1, 0}, {1, 0, 0, 0}, {0, 0, 0, 0}},
+                17 => new [,] {{0, 0, 0, 0}, {0, 0, 1, 0}, {1, 0, 1, 0}, {0, 0, 0, 0}},
+                18 => new [,] {{0, 0, 0, 0}, {1, 0, 1, 0}, {1, 0, 0, 0}, {0, 0, 0, 0}},
+                19 => new [,] {{0, 0, 1, 0}, {1, 0, 1, 0}, {1, 0, 0, 0}, {0, 0, 1, 0}},
+                20 => new [,] {{0, 0, 0, 0}, {0, 1, 0, 1}, {0, 2, 0, 0}, {0, 0, 0, 0}},
+                21 => new [,] {{0, 0, 0, 1}, {0, 2, 0, 1}, {0, 1, 0, 0}, {0, 0, 0, 1}},
+                22 => new [,] {{0, 0, 0, 0}, {0, 0, 2, 0}, {1, 0, 1, 0}, {0, 0, 0, 0}},
+                23 => new [,] {{1, 0, 0, 0}, {0, 0, 1, 0}, {1, 0, 2, 0}, {1, 0, 0, 0}},
+                24 => new [,] {{0, 0, 0, 0}, {0, 0, 0, 1}, {1, 0, 0, 1}, {1, 0, 0, 0}},
+                25 => new [,] {{0, 0, 0, 0}, {0, 0, 1, 0}, {1, 0, 1, 0}, {1, 0, 0, 0}},
                 _ => new int[4, 4]
             };
 
@@ -845,7 +845,7 @@ internal class Program
                 }
             }
 
-            pa[pa.Length - 1] = new GeoLibPoint(pa[0]);
+            pa[^1] = new GeoLibPoint(pa[0]);
 
             gcell.addPolygon(pa, i + 1, 0);
         }
@@ -1076,7 +1076,7 @@ internal class Program
             gcell.addPolygon(poly, 1, 0);
 
             master_gcell.addCellref();
-            GCElement cellref = master_gcell.elementList[master_gcell.elementList.Count - 1];
+            GCElement cellref = master_gcell.elementList[^1];
             cellref.setPos(new GeoLibPoint(40 * (i % edge), 40 * Math.Floor((double)i / edge)));
             cellref.setCellRef(drawing_.findCell("test" + i));
             cellref.setName("test" + i);

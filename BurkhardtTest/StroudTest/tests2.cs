@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.IntegralNS;
 using Burkardt.Stroud;
 using Burkardt.Types;
@@ -34,11 +35,8 @@ public static class tests2
             }
             ;
         int i;
-        int j;
         string name = "";
-        int num;
-        int order;
-        double r = 3.0;
+        const double r = 3.0;
 
         Console.WriteLine("");
         Console.WriteLine("TEST10");
@@ -54,7 +52,7 @@ public static class tests2
         Console.WriteLine("  F(X)");
         Console.WriteLine("");
 
-        num = functions.function_2d_num();
+        int num = functions.function_2d_num();
 
         for (i = 1; i <= num; i++)
         {
@@ -63,11 +61,12 @@ public static class tests2
 
             string cout = "  " + name;
 
+            int j;
             for (j = 1; j <= 4; j++)
             {
-                order = (int)Math.Pow(2, j);
+                int order = (int)Math.Pow(2, j);
 
-                cout += Circle.circle_cum(function_2d_index, functions.function_2d, center, r, order).ToString()
+                cout += Circle.circle_cum(function_2d_index, functions.function_2d, center, r, order).ToString(CultureInfo.InvariantCulture)
                     .PadLeft(14);
             }
 
@@ -97,16 +96,9 @@ public static class tests2
         //    John Burkardt
         //
     {
-        double area1;
-        double area2;
-        double area3;
         int i;
-        double pi = 3.141592653589793;
-        double r;
-        double theta1;
-        double theta2;
 
-        r = 1.0;
+        const double r = 1.0;
 
         Console.WriteLine("");
         Console.WriteLine("TEST11");
@@ -126,21 +118,21 @@ public static class tests2
 
         for (i = 0; i <= 12; i++)
         {
-            theta1 = 0.0;
-            theta2 = i * 2.0 * pi / 12.0;
+            const double theta1 = 0.0;
+            double theta2 = i * 2.0 * Math.PI / 12.0;
 
-            area1 = Circle.circle_sector_area_2d(r, theta1, theta2);
+            double area1 = Circle.circle_sector_area_2d(r, theta1, theta2);
 
-            area2 = Circle.circle_triangle_area_2d(r, theta1, theta2);
+            double area2 = Circle.circle_triangle_area_2d(r, theta1, theta2);
 
-            area3 = Lens.lens_half_area_2d(r, theta1, theta2);
+            double area3 = Lens.lens_half_area_2d(r, theta1, theta2);
 
-            Console.WriteLine("  " + r.ToString().PadLeft(9)
-                                   + "  " + theta1.ToString().PadLeft(9)
-                                   + "  " + theta2.ToString().PadLeft(14)
-                                   + "  " + area1.ToString().PadLeft(14)
-                                   + "  " + area2.ToString().PadLeft(14)
-                                   + "  " + area3.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(9)
+                                   + "  " + theta1.ToString(CultureInfo.InvariantCulture).PadLeft(9)
+                                   + "  " + theta2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + area1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + area2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + area3.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -166,18 +158,9 @@ public static class tests2
         //    John Burkardt
         //
     {
-        double area1;
-        double area2;
-        double area3;
-        double pi = 3.141592653589793;
-        double h;
         int i;
-        double r;
-        double theta1;
-        double theta2;
-        double w;
 
-        r = 50.0;
+        const double r = 50.0;
 
         Console.WriteLine("");
         Console.WriteLine("TEST12");
@@ -193,24 +176,24 @@ public static class tests2
 
         for (i = 0; i <= 12; i++)
         {
-            theta1 = 0.0;
-            theta2 = i * 2.0 * pi / 12.0;
-            w = 2.0 * r * Math.Sin(0.5 * (theta2 - theta1));
-            h = r * (1.0 - Math.Cos(0.5 * (theta2 - theta1)));
+            const double theta1 = 0.0;
+            double theta2 = i * 2.0 * Math.PI / 12.0;
+            double w = 2.0 * r * Math.Sin(0.5 * (theta2 - theta1));
+            double h = r * (1.0 - Math.Cos(0.5 * (theta2 - theta1)));
 
-            area1 = Lens.lens_half_area_2d(r, theta1, theta2);
+            double area1 = Lens.lens_half_area_2d(r, theta1, theta2);
 
-            area2 = Lens.lens_half_h_area_2d(r, h);
+            double area2 = Lens.lens_half_h_area_2d(r, h);
 
-            area3 = Lens.lens_half_w_area_2d(r, w);
+            double area3 = Lens.lens_half_w_area_2d(r, w);
 
-            Console.WriteLine("  " + theta1.ToString().PadLeft(6)
-                                   + "  " + theta2.ToString().PadLeft(6)
-                                   + "  " + h.ToString().PadLeft(6)
-                                   + "  " + w.ToString().PadLeft(6)
-                                   + "  " + area1.ToString().PadLeft(10)
-                                   + "  " + area2.ToString().PadLeft(10)
-                                   + "  " + area3.ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + theta1.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + theta2.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + h.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + w.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + area1.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + area2.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + area3.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
     }
@@ -236,7 +219,6 @@ public static class tests2
         //    John Burkardt
         //
     {
-        double area;
         double[] center = new double[2];
         double[] center_test =
             {
@@ -246,31 +228,22 @@ public static class tests2
                 0.0, 0.0
             }
             ;
-        int dim;
-        int dim_num = 2;
+        const int dim_num = 2;
         int i;
-        int j;
         string name = "";
-        int num;
-        int nr;
-        int nrhi = 5;
-        int nrlo = 1;
-        double pi = 3.141592653589793;
-        double radius;
+        const int nrhi = 5;
+        const int nrlo = 1;
         double[] radius_test =
             {
                 1.0, 2.0, 4.0, 8.0
             }
             ;
-        double result;
-        int test_num = 4;
-        double theta1;
+        const int test_num = 4;
         double[] theta1_test =
             {
                 0.0, 0.0, 0.0, 0.0
             }
             ;
-        double theta2;
         double[] theta2_test =
             {
                 2.0, 1.0, 0.5, 0.25
@@ -294,28 +267,30 @@ public static class tests2
 
         for (i = 0; i < test_num; i++)
         {
+            int dim;
             for (dim = 0; dim < dim_num; dim++)
             {
                 center[dim] = center_test[dim + i * dim_num];
             }
 
-            radius = radius_test[i];
-            theta1 = theta1_test[i] * pi;
-            theta2 = theta2_test[i] * pi;
+            double radius = radius_test[i];
+            double theta1 = theta1_test[i] * Math.PI;
+            double theta2 = theta2_test[i] * Math.PI;
 
-            area = Circle.circle_sector_area_2d(radius, theta1, theta2);
+            double area = Circle.circle_sector_area_2d(radius, theta1, theta2);
 
             Console.WriteLine("");
             Console.WriteLine("       CENTER      RADIUS  THETA1  THETA2  Area");
             Console.WriteLine("");
-            Console.WriteLine(center[0].ToString().PadLeft(8)
-                              + center[1].ToString().PadLeft(8)
-                              + radius.ToString().PadLeft(8)
-                              + theta1.ToString().PadLeft(8)
-                              + theta2.ToString().PadLeft(8)
-                              + area.ToString().PadLeft(8) + "");
+            Console.WriteLine(center[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                              + center[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                              + radius.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                              + theta1.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                              + theta2.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                              + area.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
             Console.WriteLine("");
             string cout = "       F   ";
+            int nr;
             for (nr = nrlo; nr <= nrhi; nr++)
             {
                 cout += "      " + nr.ToString().PadLeft(2) + "      ";
@@ -324,22 +299,21 @@ public static class tests2
             Console.WriteLine(cout);
             Console.WriteLine("");
 
-            num = functions.function_2d_num();
+            int num = functions.function_2d_num();
 
+            int j;
             for (j = 1; j <= num; j++)
             {
-                int function_2d_index = j;
-
-                functions.function_2d_name(function_2d_index, ref name);
+                functions.function_2d_name(j, ref name);
 
                 cout = "  " + name;
 
                 for (nr = nrlo; nr <= nrhi; nr++)
                 {
-                    result = Circle.circle_sector(function_2d_index, functions.function_2d, center, radius, theta1,
+                    double result = Circle.circle_sector(j, functions.function_2d, center, radius, theta1,
                         theta2,
                         nr);
-                    cout += result.ToString().PadLeft(14);
+                    cout += result.ToString(CultureInfo.InvariantCulture).PadLeft(14);
                 }
 
                 Console.WriteLine(cout);
@@ -369,9 +343,6 @@ public static class tests2
         //    John Burkardt
         //
     {
-        double area1;
-        double area2;
-        double area3;
         double[] center = new double[2];
         double[] center_test =
             {
@@ -381,51 +352,37 @@ public static class tests2
                 0.0, 0.0
             }
             ;
-        int dim = 0;
-        int dim_num = 2;
-        int i = 0;
-        int j = 0;
+        const int dim_num = 2;
+        int i;
         string name = "";
         int nc = 0;
-        int num = 0;
-        int nr = 0;
         int nr2 = 0;
         int nt = 0;
-        double pi = 3.141592653589793;
         double[] ra = new double[5];
-        double radius;
         double[] radius_test =
             {
                 1.0, 2.0, 4.0, 8.0
             }
             ;
-        double result1 = 0;
-        double result2 = 0;
-        double resulta = 0;
-        double resultb = 0;
-        int rule = 0;
         double[] rw = new double[5];
         double[] ta = new double[20];
-        int test_num = 4;
-        double theta1 = 0;
+        const int test_num = 4;
         double[] theta1_test =
             {
                 0.0, 0.0, 0.0, 0.0
             }
             ;
-        double theta2 = 0;
         double[] theta2_test =
             {
                 2.0, 1.0, 0.5, 0.25
             }
             ;
-        double theta3 = 0;
         double[] tw = new double[20];
         double zw = 0;
 
-        nr = 5;
+        const int nr = 5;
 
-        rule = 9;
+        const int rule = 9;
         Circle.circle_rt_size(rule, ref nr2, ref nt, ref nc);
         Circle.circle_rt_set(rule, nr2, nt, nc, ref ra, ref rw, ref ta, ref tw, ref zw);
 
@@ -457,60 +414,61 @@ public static class tests2
 
         for (i = 0; i < test_num; i++)
         {
+            int dim = 0;
             for (dim = 0; dim < dim_num; dim++)
             {
                 center[dim] = center_test[dim + i * dim_num];
             }
 
-            radius = radius_test[i];
+            double radius = radius_test[i];
 
-            theta1 = theta1_test[i] * pi;
-            theta2 = theta2_test[i] * pi;
-            theta3 = theta2 + 2.0 * pi - (theta2 - theta1);
+            double theta1 = theta1_test[i] * Math.PI;
+            double theta2 = theta2_test[i] * Math.PI;
+            double theta3 = theta2 + 2.0 * Math.PI - (theta2 - theta1);
 
-            area1 = Circle.circle_sector_area_2d(radius, theta1, theta2);
-            area2 = Circle.circle_sector_area_2d(radius, theta2, theta3);
-            area3 = Circle.circle_area_2d(radius);
+            double area1 = Circle.circle_sector_area_2d(radius, theta1, theta2);
+            double area2 = Circle.circle_sector_area_2d(radius, theta2, theta3);
+            double area3 = Circle.circle_area_2d(radius);
 
             Console.WriteLine("");
             Console.WriteLine("      CENTER       RADIUS   THETA1   THETA2   Area1   Area2  Circle");
             Console.WriteLine("");
-            Console.WriteLine(center[0].ToString().PadLeft(9)
-                              + center[1].ToString().PadLeft(9)
-                              + radius.ToString().PadLeft(9)
-                              + theta1.ToString().PadLeft(9)
-                              + theta2.ToString().PadLeft(9)
-                              + area1.ToString().PadLeft(9)
-                              + area2.ToString().PadLeft(9)
-                              + area3.ToString().PadLeft(9) + "");
+            Console.WriteLine(center[0].ToString(CultureInfo.InvariantCulture).PadLeft(9)
+                              + center[1].ToString(CultureInfo.InvariantCulture).PadLeft(9)
+                              + radius.ToString(CultureInfo.InvariantCulture).PadLeft(9)
+                              + theta1.ToString(CultureInfo.InvariantCulture).PadLeft(9)
+                              + theta2.ToString(CultureInfo.InvariantCulture).PadLeft(9)
+                              + area1.ToString(CultureInfo.InvariantCulture).PadLeft(9)
+                              + area2.ToString(CultureInfo.InvariantCulture).PadLeft(9)
+                              + area3.ToString(CultureInfo.InvariantCulture).PadLeft(9) + "");
             Console.WriteLine("");
             Console.WriteLine("       F   Sector1       Sector2         Sum         Circle");
             Console.WriteLine("");
 
-            num = functions.function_2d_num();
+            int num = functions.function_2d_num();
 
+            int j;
             for (j = 1; j <= num; j++)
             {
-                int function_2d_index = j;
-                functions.function_2d_name(function_2d_index, ref name);
+                functions.function_2d_name(j, ref name);
 
-                resulta = Circle.circle_sector(function_2d_index, functions.function_2d, center, radius, theta1,
+                double resulta = Circle.circle_sector(j, functions.function_2d, center, radius, theta1,
                     theta2, nr);
 
-                resultb = Circle.circle_sector(function_2d_index, functions.function_2d, center, radius, theta2,
+                double resultb = Circle.circle_sector(j, functions.function_2d, center, radius, theta2,
                     theta3, nr);
 
-                result1 = resulta + resultb;
+                double result1 = resulta + resultb;
 
-                result2 = Circle.circle_rt_sum(function_2d_index, functions.function_2d, center, radius, nr2, ra,
+                double result2 = Circle.circle_rt_sum(j, functions.function_2d, center, radius, nr2, ra,
                     rw,
                     nt, ta, tw, zw);
 
                 Console.WriteLine("  " + name
-                                       + resulta.ToString().PadLeft(14)
-                                       + resultb.ToString().PadLeft(14)
-                                       + result1.ToString().PadLeft(14)
-                                       + result2.ToString().PadLeft(14) + "");
+                                       + resulta.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + resultb.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + result1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + result2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
     }
@@ -541,22 +499,13 @@ public static class tests2
                 1.0, 1.0
             }
             ;
-        int i = 0;
-        int ihi = 0;
-        int ilo = 0;
+        int ilo;
         string name = "";
         int nc = 0;
-        int num = 0;
         int nr = 0;
         int nt = 0;
-        double r = 1.0;
-        double[] ra;
-        double result = 0;
-        double[] rw;
-        int rule = 0;
-        int rule_max = 9;
-        double[] ta;
-        double[] tw;
+        const double r = 1.0;
+        const int rule_max = 9;
         double zw = 0;
 
         Console.WriteLine("");
@@ -567,16 +516,17 @@ public static class tests2
         Console.WriteLine("");
         Console.WriteLine("  We use a radius " + r + "");
         Console.WriteLine("  and center:");
-        Console.WriteLine("  CENTER = " + center[0].ToString().PadLeft(14)
-                                        + center[1].ToString().PadLeft(14) + "");
+        Console.WriteLine("  CENTER = " + center[0].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                        + center[1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("");
 
         for (ilo = 1; ilo <= rule_max; ilo += 5)
         {
-            ihi = Math.Min(ilo + 4, rule_max);
+            int ihi = Math.Min(ilo + 4, rule_max);
 
             Console.WriteLine("");
             string cout = "  Rule:  ";
+            int rule;
             for (rule = ilo; rule <= ihi; rule++)
             {
                 cout += "       " + rule.ToString().PadLeft(7);
@@ -585,8 +535,9 @@ public static class tests2
             Console.WriteLine(cout);
             Console.WriteLine("Function");
 
-            num = functions.function_2d_num();
+            int num = functions.function_2d_num();
 
+            int i = 0;
             for (i = 1; i <= num; i++)
             {
                 int function_2d_index = i;
@@ -597,17 +548,17 @@ public static class tests2
                 {
                     Circle.circle_rt_size(rule, ref nr, ref nt, ref nc);
 
-                    ra = new double[nr];
-                    rw = new double[nr];
-                    ta = new double[nt];
-                    tw = new double[nt];
+                    double[] ra = new double[nr];
+                    double[] rw = new double[nr];
+                    double[] ta = new double[nt];
+                    double[] tw = new double[nt];
 
                     Circle.circle_rt_set(rule, nr, nt, nc, ref ra, ref rw, ref ta, ref tw, ref zw);
 
-                    result = Circle.circle_rt_sum(function_2d_index, functions.function_2d, center, r, nr, ra, rw,
+                    double result = Circle.circle_rt_sum(function_2d_index, functions.function_2d, center, r, nr, ra, rw,
                         nt, ta,
                         tw, zw);
-                    cout += result.ToString().PadLeft(14);
+                    cout += result.ToString(CultureInfo.InvariantCulture).PadLeft(14);
                 }
 
                 Console.WriteLine(cout);
@@ -641,21 +592,11 @@ public static class tests2
                 1.0, 1.0
             }
             ;
-        int i;
-        int ihi;
         int ilo;
         string name = "";
-        int num;
-        int order;
-        double r;
-        double result;
-        int rule;
-        int rule_max = 13;
-        double[] weight;
-        double[] xtab;
-        double[] ytab;
+        const int rule_max = 13;
 
-        r = 1.0;
+        double r = 1.0;
         Console.WriteLine("");
         Console.WriteLine("TEST16");
         Console.WriteLine("  CIRCLE_XY_SET sets a quadrature rule");
@@ -670,10 +611,11 @@ public static class tests2
 
         for (ilo = 1; ilo <= rule_max; ilo += 5)
         {
-            ihi = Math.Min(ilo + 4, rule_max);
+            int ihi = Math.Min(ilo + 4, rule_max);
 
             Console.WriteLine("");
             string cout = "  Rule:  ";
+            int rule;
             for (rule = ilo; rule <= ihi; rule++)
             {
                 cout += "       " + rule.ToString().PadLeft(7);
@@ -682,30 +624,30 @@ public static class tests2
             Console.WriteLine(cout);
             Console.WriteLine(" 'Function");
 
-            num = functions.function_2d_num();
+            int num = functions.function_2d_num();
 
+            int i;
             for (i = 1; i <= num; i++)
             {
-                int function_2d_index = i;
-                functions.function_2d_name(function_2d_index, ref name);
+                functions.function_2d_name(i, ref name);
 
                 cout = "  " + name;
 
                 for (rule = ilo; rule <= ihi; rule++)
                 {
-                    order = Circle.circle_xy_size(rule);
+                    int order = Circle.circle_xy_size(rule);
 
-                    xtab = new double[order];
-                    ytab = new double[order];
-                    weight = new double[order];
+                    double[] xtab = new double[order];
+                    double[] ytab = new double[order];
+                    double[] weight = new double[order];
 
                     Circle.circle_xy_set(rule, order, xtab, ytab, weight);
 
-                    result = Circle.circle_xy_sum(function_2d_index, functions.function_2d, center, r, order, xtab,
+                    double result = Circle.circle_xy_sum(i, functions.function_2d, center, r, order, xtab,
                         ytab,
                         weight);
 
-                    cout += result.ToString().PadLeft(14);
+                    cout += result.ToString(CultureInfo.InvariantCulture).PadLeft(14);
 
                 }
 
@@ -735,17 +677,14 @@ public static class tests2
         //    John Burkardt
         //
     {
-        int TEST_NUM = 5;
+        const int TEST_NUM = 5;
 
-        double alpha;
         double[] alpha_test =
             {
                 -0.5, 0.0, 0.5, 1.0, 1.5
             }
             ;
-        int[] expon;
         int n;
-        int test;
 
         Console.WriteLine("");
         Console.WriteLine("TEST163");
@@ -764,8 +703,10 @@ public static class tests2
 
         for (n = 1; n <= 6; n++)
         {
-            expon = new int[n];
+            int[] expon = new int[n];
 
+            double alpha;
+            int test;
             for (test = 0; test < TEST_NUM; test++)
             {
                 alpha = alpha_test[test];
@@ -835,23 +776,19 @@ public static class tests2
         //    John Burkardt
         //
     {
-        int TEST_NUM = 4;
+        const int TEST_NUM = 4;
 
-        double alpha;
         double[] alpha_test =
             {
                 0.0, 1.0, 0.0, 0.5
             }
             ;
-        double beta;
         double[] beta_test =
             {
                 0.0, 0.0, 2.0, 1.5
             }
             ;
-        int[] expon;
         int n;
-        int test;
 
         Console.WriteLine("");
         Console.WriteLine("TEST165");
@@ -870,8 +807,11 @@ public static class tests2
 
         for (n = 1; n <= 6; n++)
         {
-            expon = new int[n];
+            int[] expon = new int[n];
 
+            double alpha;
+            int test;
+            double beta;
             for (test = 0; test < TEST_NUM; test++)
             {
                 alpha = alpha_test[test];
@@ -944,7 +884,6 @@ public static class tests2
         //    John Burkardt
         //
     {
-        int[] expon;
         int n;
 
         Console.WriteLine("");
@@ -963,7 +902,7 @@ public static class tests2
 
         for (n = 1; n <= 6; n++)
         {
-            expon = new int[n];
+            int[] expon = new int[n];
 
             typeMethods.i4vec_zero(n, ref expon);
             cn.cn_leg_test(n, expon);
@@ -1028,14 +967,11 @@ public static class tests2
         //    John Burkardt
         //
     {
-        double h;
         int i;
         string name = "";
-        int num;
-        double r = 1.0;
-        double result;
+        const double r = 1.0;
 
-        h = 1.0;
+        const double h = 1.0;
 
         Console.WriteLine("");
         Console.WriteLine("TEST17");
@@ -1046,17 +982,16 @@ public static class tests2
         Console.WriteLine("    F(X)    CONE_3D");
         Console.WriteLine("");
 
-        num = functions.function_3d_num();
+        int num = functions.function_3d_num();
 
         for (i = 1; i <= num; i++)
         {
-            int function_3d_index = i;
-            functions.function_3d_name(function_3d_index, ref name);
+            functions.function_3d_name(i, ref name);
 
-            result = Cone.cone_unit_3d(function_3d_index, functions.function_3d);
+            double result = Cone.cone_unit_3d(i, functions.function_3d);
 
             Console.WriteLine("  " + name
-                                   + "  " + result.ToString().PadLeft(14) + "");
+                                   + "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -1081,18 +1016,12 @@ public static class tests2
         //    John Burkardt
         //
     {
-        int i;
-        int n;
         const int N_MAX = 4;
         string name = "";
-        int num;
-        double r1;
         double[] r1_test = { 0.0, 1.0 };
-        double r2;
         double[] r2_test = { 1.0, 2.0 };
-        double result;
         int test;
-        int test_num = 2;
+        const int test_num = 2;
 
         Console.WriteLine("");
         Console.WriteLine("TEST18");
@@ -1101,14 +1030,15 @@ public static class tests2
 
         for (test = 0; test < test_num; test++)
         {
-            r1 = r1_test[test];
-            r2 = r2_test[test];
+            double r1 = r1_test[test];
+            double r2 = r2_test[test];
 
             Console.WriteLine("");
             Console.WriteLine("  Inner radius = " + r1 + "");
             Console.WriteLine("  Outer radius = " + r2 + "");
             Console.WriteLine("");
 
+            int n;
             for (n = 2; n <= N_MAX; n++)
             {
                 Console.WriteLine("");
@@ -1118,17 +1048,17 @@ public static class tests2
                 Console.WriteLine("    F(X)      CUBE_SHELL_ND");
                 Console.WriteLine("");
 
-                num = functions.function_nd_num();
+                int num = functions.function_nd_num();
 
+                int i;
                 for (i = 1; i <= num; i++)
                 {
-                    int function_nd_index = i;
-                    functions.function_nd_name(function_nd_index, ref name);
+                    functions.function_nd_name(i, ref name);
 
-                    result = Cube.cube_shell_nd(function_nd_index, functions.function_nd, n, r1, r2);
+                    double result = Cube.cube_shell_nd(i, functions.function_nd, n, r1, r2);
 
                     Console.WriteLine("  " + name
-                                           + result.ToString().PadLeft(14) + "");
+                                           + result.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                 }
             }
         }
@@ -1155,19 +1085,13 @@ public static class tests2
         //    John Burkardt
         //
     {
-        double a1;
         double[] a = new double[3];
-        double b1;
         double[] b = new double[3];
         int i;
         string name = "";
-        int num;
-        double result1 = 0;
-        double result2 = 0;
-        double result3;
 
-        a1 = -1.0;
-        b1 = +1.0;
+        const double a1 = -1.0;
+        const double b1 = +1.0;
 
         a[0] = -1.0;
         a[1] = -1.0;
@@ -1187,22 +1111,22 @@ public static class tests2
         Console.WriteLine("    F(X)      CUBE_UNIT_3D    QMULT_3D        RECTANGLE_3D");
         Console.WriteLine("");
 
-        num = functions.function_3d_num();
+        int num = functions.function_3d_num();
 
         for (i = 1; i <= num; i++)
         {
             int function_3d_index = i;
             functions.function_3d_name(function_3d_index, ref name);
 
-            result1 = Cube.cube_unit_3d(function_3d_index, functions.function_3d);
-            result2 = QMult.qmult_3d(function_3d_index, functions.function_3d, a1, b1, integrationlimits.fu18,
+            double result1 = Cube.cube_unit_3d(function_3d_index, functions.function_3d);
+            double result2 = QMult.qmult_3d(function_3d_index, functions.function_3d, a1, b1, integrationlimits.fu18,
                 integrationlimits.fl18, integrationlimits.fu28, integrationlimits.fl28);
-            result3 = Rectangle.rectangle_3d(function_3d_index, functions.function_3d, a, b);
+            double result3 = Rectangle.rectangle_3d(function_3d_index, functions.function_3d, a, b);
 
             Console.WriteLine("  " + name
-                                   + "  " + result1.ToString().PadLeft(14)
-                                   + "  " + result2.ToString().PadLeft(14)
-                                   + "  " + result3.ToString().PadLeft(14) + "");
+                                   + "  " + result1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + result2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + result3.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 

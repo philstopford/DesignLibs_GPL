@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Stroud;
 using Burkardt.Types;
 
@@ -28,22 +29,12 @@ public static class tests5
         //
     {
         int i;
-        int ihi;
         int ilo;
         string name = "";
-        int num;
-        int order;
-        double result;
-        int rule;
-        int rule_max = 8;
-        double[] weight;
+        const int rule_max = 8;
         double[] x = { 1.0, 4.0, 1.0, 1.0 };
-        double[] xtab;
         double[] y = { 2.0, 2.0, 3.0, 2.0 };
-        double[] ytab;
         double[] z = { 6.0, 6.0, 6.0, 8.0 };
-        double[] ztab;
-        string cout = "";
 
         Console.WriteLine("");
         Console.WriteLine("TEST40");
@@ -55,18 +46,19 @@ public static class tests5
         Console.WriteLine("");
         for (i = 0; i < 4; i++)
         {
-            Console.WriteLine("  " + x[i].ToString().PadLeft(6)
-                                   + "  " + y[i].ToString().PadLeft(6)
-                                   + "  " + z[i].ToString().PadLeft(6) + "");
+            Console.WriteLine("  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + y[i].ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + z[i].ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
         }
 
 
         for (ilo = 1; ilo <= rule_max; ilo += 5)
         {
-            ihi = Math.Min(ilo + 4, rule_max);
+            int ihi = Math.Min(ilo + 4, rule_max);
 
             Console.WriteLine("");
-            cout = "  Rule:   ";
+            string cout = "  Rule:   ";
+            int rule;
             for (rule = ilo; rule <= ihi; rule++)
             {
                 cout += "       " + rule.ToString().PadLeft(7);
@@ -76,7 +68,7 @@ public static class tests5
             Console.WriteLine("  Function");
             Console.WriteLine("");
 
-            num = functions.function_3d_num();
+            int num = functions.function_3d_num();
 
             for (i = 1; i <= num; i++)
             {
@@ -86,20 +78,20 @@ public static class tests5
 
                 for (rule = ilo; rule <= ihi; rule++)
                 {
-                    order = Tetrahedron.tetra_unit_size(rule);
+                    int order = Tetrahedron.tetra_unit_size(rule);
 
-                    weight = new double[order];
-                    xtab = new double[order];
-                    ytab = new double[order];
-                    ztab = new double[order];
+                    double[] weight = new double[order];
+                    double[] xtab = new double[order];
+                    double[] ytab = new double[order];
+                    double[] ztab = new double[order];
 
                     Tetrahedron.tetra_unit_set(rule, order, ref xtab, ref ytab, ref ztab, ref weight);
 
-                    result = Tetrahedron.tetra_sum(function_3d_index, functions.function_3d, x, y, z, order, xtab,
+                    double result = Tetrahedron.tetra_sum(function_3d_index, functions.function_3d, x, y, z, order, xtab,
                         ytab, ztab,
                         weight);
 
-                    cout += result.ToString().PadLeft(14);
+                    cout += result.ToString(CultureInfo.InvariantCulture).PadLeft(14);
                 }
 
                 Console.WriteLine(cout);
@@ -136,15 +128,7 @@ public static class tests5
     {
         int i;
         string name = "";
-        int nsub;
-        int num;
-        int order;
-        double result;
-        int rule;
-        double[] weight;
-        double[] xtab;
         double[] xval = { 0.0, 0.0, 1.0 };
-        double[] ytab;
         double[] yval = { 0.0, 1.0, 0.0 };
 
         Console.WriteLine("");
@@ -156,18 +140,18 @@ public static class tests5
         Console.WriteLine("");
         Console.WriteLine("  Triangle vertices:");
         Console.WriteLine("");
-        Console.WriteLine(xval[0].ToString().PadLeft(14) + yval[0].ToString().PadLeft(14) + "");
-        Console.WriteLine(xval[1].ToString().PadLeft(14) + yval[1].ToString().PadLeft(14) + "");
-        Console.WriteLine(xval[2].ToString().PadLeft(14) + yval[2].ToString().PadLeft(14) + "");
+        Console.WriteLine(xval[0].ToString(CultureInfo.InvariantCulture).PadLeft(14) + yval[0].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+        Console.WriteLine(xval[1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + yval[1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+        Console.WriteLine(xval[2].ToString(CultureInfo.InvariantCulture).PadLeft(14) + yval[2].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         //
         //  Get the quadrature abscissas and weights for a unit triangle.
         //
-        rule = 3;
-        order = Triangle.triangle_unit_size(rule);
+        int rule = 3;
+        int order = Triangle.triangle_unit_size(rule);
 
-        xtab = new double[order];
-        ytab = new double[order];
-        weight = new double[order];
+        double[] xtab = new double[order];
+        double[] ytab = new double[order];
+        double[] weight = new double[order];
 
         Triangle.triangle_unit_set(rule, order, ref xtab, ref ytab, ref weight);
 
@@ -180,7 +164,7 @@ public static class tests5
         //
         //  Set the function.
         //
-        num = functions.function_2d_num();
+        int num = functions.function_2d_num();
 
         for (i = 1; i <= num; i++)
         {
@@ -189,12 +173,13 @@ public static class tests5
             //
             //  Try an increasing number of subdivisions.
             //
+            int nsub;
             for (nsub = 1; nsub <= 5; nsub++)
             {
-                result = Triangle.triangle_sub(function_2d_index, functions.function_2d, xval, yval, nsub, order,
+                double result = Triangle.triangle_sub(function_2d_index, functions.function_2d, xval, yval, nsub, order,
                     xtab,
                     ytab, weight);
-                Console.WriteLine("  " + name + nsub.ToString().PadLeft(4) + result.ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + name + nsub.ToString().PadLeft(4) + result.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
 
@@ -221,19 +206,9 @@ public static class tests5
         //    John Burkardt
         //
     {
-        int i;
-        int ihi;
         int ilo;
         string name = "";
-        int num;
-        int order;
-        double result;
-        int rule;
-        int rule_max = 20;
-        double[] weight;
-        double[] xtab;
-        double[] ytab;
-        string cout = "";
+        const int rule_max = 20;
 
         Console.WriteLine("");
         Console.WriteLine("TEST42");
@@ -244,10 +219,11 @@ public static class tests5
 
         for (ilo = 1; ilo <= rule_max; ilo += 5)
         {
-            ihi = Math.Min(ilo + 4, rule_max);
+            int ihi = Math.Min(ilo + 4, rule_max);
 
             Console.WriteLine("");
-            cout = "  Rule:   ";
+            string cout = "  Rule:   ";
+            int rule;
             for (rule = ilo; rule <= ihi; rule++)
             {
                 cout += "       " + rule;
@@ -257,8 +233,9 @@ public static class tests5
             Console.WriteLine("Function");
             Console.WriteLine("");
 
-            num = functions.function_2d_num();
+            int num = functions.function_2d_num();
 
+            int i;
             for (i = 1; i <= num; i++)
             {
                 int function_2d_index = i;
@@ -267,18 +244,18 @@ public static class tests5
 
                 for (rule = ilo; rule <= ihi; rule++)
                 {
-                    order = Triangle.triangle_unit_size(rule);
+                    int order = Triangle.triangle_unit_size(rule);
 
-                    xtab = new double[order];
-                    ytab = new double[order];
-                    weight = new double[order];
+                    double[] xtab = new double[order];
+                    double[] ytab = new double[order];
+                    double[] weight = new double[order];
 
                     Triangle.triangle_unit_set(rule, order, ref xtab, ref ytab, ref weight);
 
-                    result = Triangle.triangle_unit_sum(function_2d_index, functions.function_2d, order, xtab, ytab,
+                    double result = Triangle.triangle_unit_sum(function_2d_index, functions.function_2d, order, xtab, ytab,
                         weight);
 
-                    cout += result.ToString().PadLeft(14);
+                    cout += result.ToString(CultureInfo.InvariantCulture).PadLeft(14);
                 }
 
                 Console.WriteLine(cout);
@@ -308,19 +285,7 @@ public static class tests5
         //
     {
         int a;
-        int b;
-        double coef;
-        double err;
-        double exact;
-        int i;
-        int order;
-        double quad;
-        int rule;
-        int rule_max = 20;
-        double value = 0;
-        double[] weight;
-        double[] xtab;
-        double[] ytab;
+        const int rule_max = 20;
 
         Console.WriteLine("");
         Console.WriteLine("TEST425");
@@ -331,9 +296,11 @@ public static class tests5
 
         for (a = 0; a <= 10; a++)
         {
+            int b;
             for (b = 0; b <= 10 - a; b++)
             {
-                coef = (a + b + 2) * (double)(a + b + 1);
+                double coef = (a + b + 2) * (double)(a + b + 1);
+                int i;
                 for (i = 1; i <= b; i++)
                 {
                     coef = coef * (a + i) / i;
@@ -346,35 +313,37 @@ public static class tests5
                 Console.WriteLine("  Rule       QUAD           ERROR");
                 Console.WriteLine("");
 
+                int rule;
                 for (rule = 1; rule <= rule_max; rule++)
                 {
-                    order = Triangle.triangle_unit_size(rule);
+                    int order = Triangle.triangle_unit_size(rule);
 
-                    xtab = new double[order];
-                    ytab = new double[order];
-                    weight = new double[order];
+                    double[] xtab = new double[order];
+                    double[] ytab = new double[order];
+                    double[] weight = new double[order];
 
                     Triangle.triangle_unit_set(rule, order, ref xtab, ref ytab, ref weight);
 
-                    quad = 0.0;
+                    double quad = 0.0;
 
                     for (i = 0; i < order; i++)
                     {
+                        double value = 0;
                         switch (a)
                         {
                             case 0 when b == 0:
                                 value = coef;
                                 break;
-                            case 0 when b != 0:
+                            case 0 when true:
                                 value = coef * Math.Pow(ytab[i], b);
                                 break;
                             default:
                             {
-                                if (a != 0 && b == 0)
+                                if (b == 0)
                                 {
                                     value = coef * Math.Pow(xtab[i], a);
                                 }
-                                else if (a != 0 && b != 0)
+                                else
                                 {
                                     value = coef * Math.Pow(xtab[i], a) * Math.Pow(ytab[i], b);
                                 }
@@ -386,11 +355,11 @@ public static class tests5
                         quad += 0.5 * weight[i] * value;
                     }
 
-                    exact = 1.0;
-                    err = Math.Abs(exact - quad);
+                    double exact = 1.0;
+                    double err = Math.Abs(exact - quad);
                     Console.WriteLine("  " + rule.ToString().PadLeft(4)
-                                           + "  " + quad.ToString().PadLeft(14)
-                                           + "  " + err.ToString().PadLeft(11) + "");
+                                           + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                           + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(11) + "");
                 }
             }
         }
@@ -417,19 +386,9 @@ public static class tests5
         //    John Burkardt
         //
     {
-        int i;
-        int ihi;
         int ilo;
         string name = "";
-        int num;
-        int order;
-        double result;
-        int rule;
-        int rule_max = 8;
-        double[] weight;
-        double[] xtab;
-        double[] ytab;
-        string cout = "";
+        const int rule_max = 8;
 
         Console.WriteLine("");
         Console.WriteLine("TEST43");
@@ -440,10 +399,11 @@ public static class tests5
 
         for (ilo = 1; ilo <= rule_max; ilo += 5)
         {
-            ihi = Math.Min(ilo + 4, rule_max);
+            int ihi = Math.Min(ilo + 4, rule_max);
 
             Console.WriteLine("");
-            cout = "  Rule Order: ";
+            string cout = "  Rule Order: ";
+            int rule;
             for (rule = ilo; rule <= ihi; rule++)
             {
                 cout += rule.ToString().PadLeft(6);
@@ -453,8 +413,9 @@ public static class tests5
             Console.WriteLine("Function");
             Console.WriteLine("");
 
-            num = functions.function_2d_num();
+            int num = functions.function_2d_num();
 
+            int i;
             for (i = 1; i <= num; i++)
             {
                 int function_2d_index = i;
@@ -463,18 +424,18 @@ public static class tests5
 
                 for (rule = ilo; rule <= ihi; rule++)
                 {
-                    order = Triangle.triangle_unit_product_size(rule);
+                    int order = Triangle.triangle_unit_product_size(rule);
 
-                    xtab = new double[order];
-                    ytab = new double[order];
-                    weight = new double[order];
+                    double[] xtab = new double[order];
+                    double[] ytab = new double[order];
+                    double[] weight = new double[order];
 
                     Triangle.triangle_unit_product_set(rule, order, ref xtab, ref ytab, ref weight);
 
-                    result = Triangle.triangle_unit_sum(function_2d_index, functions.function_2d, order, xtab, ytab,
+                    double result = Triangle.triangle_unit_sum(function_2d_index, functions.function_2d, order, xtab, ytab,
                         weight);
 
-                    cout += result.ToString().PadLeft(14);
+                    cout += result.ToString(CultureInfo.InvariantCulture).PadLeft(14);
 
                 }
 
@@ -504,21 +465,11 @@ public static class tests5
         //    John Burkardt
         //
     {
-        int i;
-        int ihi;
         int ilo;
         string name = "";
-        int num;
-        int order;
-        double result;
-        int rule;
-        int rule_max = 20;
-        double[] weight;
-        double[] xtab;
+        const int rule_max = 20;
         double[] xval = { 1.0, 3.0, 1.0 };
-        double[] ytab;
         double[] yval = { 1.0, 1.0, 4.0 };
-        string cout = "";
 
         Console.WriteLine("");
         Console.WriteLine("TEST44");
@@ -529,10 +480,11 @@ public static class tests5
 
         for (ilo = 1; ilo <= rule_max; ilo += 5)
         {
-            ihi = Math.Min(ilo + 4, rule_max);
+            int ihi = Math.Min(ilo + 4, rule_max);
 
             Console.WriteLine("");
-            cout = "  Rule:   ";
+            string cout = "  Rule:   ";
+            int rule;
             for (rule = ilo; rule <= ihi; rule++)
             {
                 cout += rule.ToString().PadLeft(6);
@@ -543,8 +495,9 @@ public static class tests5
             Console.WriteLine("Function");
             Console.WriteLine("");
 
-            num = functions.function_2d_num();
+            int num = functions.function_2d_num();
 
+            int i;
             for (i = 1; i <= num; i++)
             {
                 int function_2d_index = i;
@@ -553,19 +506,19 @@ public static class tests5
 
                 for (rule = ilo; rule <= ihi; rule++)
                 {
-                    order = Triangle.triangle_unit_size(rule);
+                    int order = Triangle.triangle_unit_size(rule);
 
-                    xtab = new double[order];
-                    ytab = new double[order];
-                    weight = new double[order];
+                    double[] xtab = new double[order];
+                    double[] ytab = new double[order];
+                    double[] weight = new double[order];
 
                     Triangle.triangle_unit_set(rule, order, ref xtab, ref ytab, ref weight);
 
-                    result = Triangle.triangle_sum(function_2d_index, functions.function_2d, xval, yval, order,
+                    double result = Triangle.triangle_sum(function_2d_index, functions.function_2d, xval, yval, order,
                         xtab, ytab,
                         weight);
 
-                    cout += result.ToString().PadLeft(14);
+                    cout += result.ToString(CultureInfo.InvariantCulture).PadLeft(14);
 
                 }
 
@@ -598,17 +551,10 @@ public static class tests5
         int i;
         int j;
         int j2;
-        int n;
         string name = "";
-        int num;
-        double result;
-        double r1;
-        double r2;
-        string cout = "";
 
-        r1 = 0.5;
-        r2 = 1.0;
-        n = 10;
+        const double r1 = 0.5;
+        const double r2 = 1.0;
 
         Console.WriteLine("");
         Console.WriteLine("TEST45");
@@ -620,7 +566,7 @@ public static class tests5
         Console.WriteLine("  Outer radius = " + r2 + "");
         Console.WriteLine("  Area = " + Torus.torus_area_3d(r1, r2) + "");
         Console.WriteLine("");
-        cout = "  " + "  F(X)  ";
+        string cout = "  " + "  F(X)  ";
         for (j = 1; j <= 5; j++)
         {
             j2 = 2 * (j - 1);
@@ -630,7 +576,7 @@ public static class tests5
         Console.WriteLine(cout);
         Console.WriteLine("");
 
-        num = functions.function_3d_num();
+        int num = functions.function_3d_num();
 
         for (i = 1; i <= num; i++)
         {
@@ -642,9 +588,9 @@ public static class tests5
             for (j = 1; j <= 5; j++)
             {
                 j2 = 2 * (j - 1);
-                n = (int)Math.Pow(2, j2);
-                result = Torus.torus_1(function_3d_index, functions.function_3d, r1, r2, n);
-                cout += result.ToString().PadLeft(14);
+                int n = (int)Math.Pow(2, j2);
+                double result = Torus.torus_1(function_3d_index, functions.function_3d, r1, r2, n);
+                cout += result.ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -674,15 +620,9 @@ public static class tests5
     {
         int i;
         string name = "";
-        int num;
-        double result1 = 0;
-        double result2 = 0;
-        double result3;
-        double r1;
-        double r2;
 
-        r1 = 0.5;
-        r2 = 1.0;
+        const double r1 = 0.5;
+        const double r2 = 1.0;
 
         Console.WriteLine("");
         Console.WriteLine("TEST46");
@@ -699,21 +639,21 @@ public static class tests5
         Console.WriteLine("    F(X)");
         Console.WriteLine("");
 
-        num = functions.function_3d_num();
+        int num = functions.function_3d_num();
 
         for (i = 1; i <= num; i++)
         {
             int function_3d_index = i;
             functions.function_3d_name(function_3d_index, ref name);
 
-            result1 = Torus.torus_5s2(function_3d_index, functions.function_3d, r1, r2);
-            result2 = Torus.torus_6s2(function_3d_index, functions.function_3d, r1, r2);
-            result3 = Torus.torus_14s(function_3d_index, functions.function_3d, r1, r2);
+            double result1 = Torus.torus_5s2(function_3d_index, functions.function_3d, r1, r2);
+            double result2 = Torus.torus_6s2(function_3d_index, functions.function_3d, r1, r2);
+            double result3 = Torus.torus_14s(function_3d_index, functions.function_3d, r1, r2);
 
             Console.WriteLine("  " + name
-                                   + "  " + result1.ToString().PadLeft(14)
-                                   + "  " + result2.ToString().PadLeft(14)
-                                   + "  " + result3.ToString().PadLeft(14) + "");
+                                   + "  " + result1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + result2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + result3.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -740,14 +680,9 @@ public static class tests5
     {
         int i;
         string name = "";
-        int num;
-        double result1 = 0;
-        double result2 = 0;
-        double r1;
-        double r2;
 
-        r1 = 1.0;
-        r2 = 0.125;
+        const double r1 = 1.0;
+        const double r2 = 0.125;
 
         Console.WriteLine("");
         Console.WriteLine("TEST47");
@@ -762,19 +697,19 @@ public static class tests5
         Console.WriteLine("    F(X)    5C2           14C");
         Console.WriteLine("");
 
-        num = functions.function_3d_num();
+        int num = functions.function_3d_num();
 
         for (i = 1; i <= num; i++)
         {
             int function_3d_index = i;
             functions.function_3d_name(function_3d_index, ref name);
 
-            result1 = Torus.torus_square_5c2(function_3d_index, functions.function_3d, r1, r2);
-            result2 = Torus.torus_square_14c(function_3d_index, functions.function_3d, r1, r2);
+            double result1 = Torus.torus_square_5c2(function_3d_index, functions.function_3d, r1, r2);
+            double result2 = Torus.torus_square_14c(function_3d_index, functions.function_3d, r1, r2);
 
             Console.WriteLine("  " + name
-                                   + "  " + result1.ToString().PadLeft(14)
-                                   + "  " + result2.ToString().PadLeft(14) + "");
+                                   + "  " + result1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + result2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -799,9 +734,6 @@ public static class tests5
         //    John Burkardt
         //
     {
-        int nt;
-        double[] t;
-
         Console.WriteLine("");
         Console.WriteLine("TEST48");
         Console.WriteLine("  For evenly spaced angles between 0 and 2*PI:");
@@ -809,8 +741,8 @@ public static class tests5
         Console.WriteLine("  TVEC_EVEN2");
         Console.WriteLine("  TVEC_EVEN3");
 
-        nt = 4;
-        t = typeMethods.tvec_even(nt);
+        int nt = 4;
+        double[] t = typeMethods.tvec_even(nt);
         typeMethods.r8vec_print(nt, t, "  TVEC_EVEN:");
 
         nt = 4;
@@ -844,11 +776,6 @@ public static class tests5
         //    John Burkardt
         //
     {
-        int nt;
-        double[] t;
-        double theta1;
-        double theta2;
-
         Console.WriteLine("");
         Console.WriteLine("TEST49");
         Console.WriteLine("  For evenly spaced angles between THETA1 and THETA2:");
@@ -856,15 +783,15 @@ public static class tests5
         Console.WriteLine("  TVEC_EVEN_BRACKET2.");
         Console.WriteLine("  TVEC_EVEN_BRACKET3.");
 
-        theta1 = 30.0;
-        theta2 = 90.0;
+        const double theta1 = 30.0;
+        const double theta2 = 90.0;
 
         Console.WriteLine("");
         Console.WriteLine("  THETA1 = " + theta1 + "");
         Console.WriteLine("  THETA2 = " + theta2 + "");
 
-        nt = 4;
-        t = typeMethods.tvec_even_bracket(nt, theta1, theta2);
+        int nt = 4;
+        double[] t = typeMethods.tvec_even_bracket(nt, theta1, theta2);
         typeMethods.r8vec_print(nt, t, "  TVEC_EVEN_BRACKET");
 
         nt = 5;

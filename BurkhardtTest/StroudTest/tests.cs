@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Stroud;
 
 namespace StroudTest;
@@ -26,17 +27,11 @@ public static class tests
         //    John Burkardt
         //
     {
-        double[] center;
-        int i;
         int n;
         const int N_MAX = 3;
         string name = "";
-        int num;
-        double result1 = 0;
-        double result2 = 0;
-        double r;
 
-        r = 2.0;
+        const double r = 2.0;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
@@ -46,7 +41,8 @@ public static class tests
 
         for (n = 2; n <= N_MAX; n++)
         {
-            center = new double[n];
+            double[] center = new double[n];
+            int i;
             for (i = 0; i < n; i++)
             {
                 center[i] = i + 1;
@@ -67,18 +63,18 @@ public static class tests
             Console.WriteLine("    F(X)");
             Console.WriteLine("");
 
-            num = functions.function_nd_num();
+            int num = functions.function_nd_num();
 
             for (i = 1; i <= num; i++)
             {
                 int function_nd_index = i;
                 functions.function_nd_name(function_nd_index, ref name);
 
-                result1 = Ball.ball_f1_nd(function_nd_index, functions.function_nd, n, center, r);
-                result2 = Ball.ball_f3_nd(function_nd_index, functions.function_nd, n, center, r);
+                double result1 = Ball.ball_f1_nd(function_nd_index, functions.function_nd, n, center, r);
+                double result2 = Ball.ball_f3_nd(function_nd_index, functions.function_nd, n, center, r);
                 Console.WriteLine("  " + name
-                                       + "  " + result1.ToString().PadLeft(14)
-                                       + "  " + result2.ToString().PadLeft(14) + "");
+                                       + "  " + result1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + result2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
         }
@@ -106,14 +102,13 @@ public static class tests
         //
     {
         double[] center = { 0.0, 0.0, 0.0 };
-        int dim_num = 3;
+        const int dim_num = 3;
         int[] p = new int[3];
-        double result1 = 0;
         double result2 = 0;
-        double r = 2.0;
+        const double r = 2.0;
         string string_ = "";
         int test;
-        int test_num = 4;
+        const int test_num = 4;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02");
@@ -164,11 +159,11 @@ public static class tests
                     break;
             }
 
-            result1 = Ball.ball_monomial_nd(dim_num, p, r);
+            double result1 = Ball.ball_monomial_nd(dim_num, p, r);
 
             Console.WriteLine("  " + string_
-                                   + "  " + result1.ToString().PadLeft(14)
-                                   + "  " + result2.ToString().PadLeft(14) + "");
+                                   + "  " + result1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + result2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -196,10 +191,6 @@ public static class tests
     {
         int i;
         string name = "";
-        int num;
-        double result1 = 0;
-        double result2 = 0;
-        double result3;
 
         Console.WriteLine("");
         Console.WriteLine("TEST03");
@@ -214,21 +205,21 @@ public static class tests
         Console.WriteLine("    F(X)");
         Console.WriteLine("");
 
-        num = functions.function_3d_num();
+        int num = functions.function_3d_num();
 
         for (i = 1; i <= num; i++)
         {
             int function_3d_index = i;
             functions.function_3d_name(function_3d_index, ref name);
 
-            result1 = Ball.ball_unit_07_3d(function_3d_index, functions.function_3d);
-            result2 = Ball.ball_unit_14_3d(function_3d_index, functions.function_3d);
-            result3 = Ball.ball_unit_15_3d(function_3d_index, functions.function_3d);
+            double result1 = Ball.ball_unit_07_3d(function_3d_index, functions.function_3d);
+            double result2 = Ball.ball_unit_14_3d(function_3d_index, functions.function_3d);
+            double result3 = Ball.ball_unit_15_3d(function_3d_index, functions.function_3d);
 
             Console.WriteLine("  " + name
-                                   + "  " + result1.ToString().PadLeft(14)
-                                   + "  " + result2.ToString().PadLeft(14)
-                                   + "  " + result3.ToString().PadLeft(14) + "");
+                                   + "  " + result1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + result2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + result3.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -253,13 +244,9 @@ public static class tests
         //    John Burkardt
         //
     {
-        int i;
         int n;
         const int N_MAX = 3;
         string name = "";
-        int num;
-        double result1 = 0;
-        double result2 = 0;
 
         Console.WriteLine("");
         Console.WriteLine("TEST04");
@@ -279,19 +266,20 @@ public static class tests
             Console.WriteLine("    F(X)");
             Console.WriteLine("");
 
-            num = functions.function_nd_num();
+            int num = functions.function_nd_num();
 
+            int i;
             for (i = 1; i <= num; i++)
             {
                 int function_nd_index = i;
                 functions.function_nd_name(function_nd_index, ref name);
 
-                result1 = Ball.ball_unit_f1_nd(function_nd_index, functions.function_nd, n);
-                result2 = Ball.ball_unit_f3_nd(function_nd_index, functions.function_nd, n);
+                double result1 = Ball.ball_unit_f1_nd(function_nd_index, functions.function_nd, n);
+                double result2 = Ball.ball_unit_f3_nd(function_nd_index, functions.function_nd, n);
 
                 Console.WriteLine("  " + name
-                                       + result1.ToString().PadLeft(14)
-                                       + result2.ToString().PadLeft(14) + "");
+                                       + result1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + result2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
     }
@@ -329,11 +317,11 @@ public static class tests
         Console.WriteLine("");
 
         Console.WriteLine("  " + dim_num.ToString().PadLeft(3)
-                               + "  " + Ball.ball_unit_volume_3d().ToString().PadLeft(14)
+                               + "  " + Ball.ball_unit_volume_3d().ToString(CultureInfo.InvariantCulture).PadLeft(14)
                                + "  BALL_UNIT_VOLUME_3D");
 
         Console.WriteLine("  " + dim_num.ToString().PadLeft(3)
-                               + "  " + Ball.ball_unit_volume_nd(dim_num).ToString().PadLeft(14)
+                               + "  " + Ball.ball_unit_volume_nd(dim_num).ToString(CultureInfo.InvariantCulture).PadLeft(14)
                                + "  BALL_UNIT_VOLUME_ND");
 
     }
@@ -398,8 +386,7 @@ public static class tests
         //
     {
         int i;
-        int n = 3;
-        double r;
+        const int n = 3;
 
         Console.WriteLine("");
         Console.WriteLine("TEST052");
@@ -410,17 +397,17 @@ public static class tests
         Console.WriteLine("    N    R      Volume    Method");
         Console.WriteLine("");
 
-        r = 1.0;
+        double r = 1.0;
 
         for (i = 1; i <= 3; i++)
         {
             Console.WriteLine("  " + n.ToString().PadLeft(3)
-                                   + "  " + r.ToString().PadLeft(14)
+                                   + "  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(14)
                                    + "  " + Ball.ball_volume_3d(r)
                                    + "  BALL_VOLUME_3D");
 
             Console.WriteLine("  " + n.ToString().PadLeft(3)
-                                   + "  " + r.ToString().PadLeft(14)
+                                   + "  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(14)
                                    + "  " + Ball.ball_volume_nd(n, r)
                                    + "  " + "BALL_VOLUME_ND");
 
@@ -449,9 +436,7 @@ public static class tests
         //    John Burkardt
         //
     {
-        int i;
         int n;
-        double r;
 
         Console.WriteLine("");
         Console.WriteLine("TEST054");
@@ -463,11 +448,12 @@ public static class tests
 
         for (n = 2; n <= 10; n++)
         {
-            r = 0.5;
+            double r = 0.5;
+            int i;
             for (i = 1; i <= 3; i++)
             {
                 Console.WriteLine("  " + n.ToString().PadLeft(3)
-                                       + "  " + r.ToString().PadLeft(14)
+                                       + "  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(14)
                                        + "  " + Ball.ball_volume_nd(n, r) + "");
                 r *= 2.0;
             }
@@ -495,7 +481,6 @@ public static class tests
         //    John Burkardt
         //
     {
-        double area;
         double[] center = new double[2];
         double[] center_test =
             {
@@ -503,27 +488,20 @@ public static class tests
                 0.0, 0.0
             }
             ;
-        int dim;
-        int dim_num = 2;
+        const int dim_num = 2;
         int i;
-        int j;
         string name = "";
-        int num;
-        int nr;
-        double radius1;
         double[] radius1_test =
             {
                 0.0, 1.0
             }
             ;
-        double radius2;
         double[] radius2_test =
             {
                 1.0, 2.0
             }
             ;
-        double result;
-        int test_num = 2;
+        const int test_num = 2;
 
         Console.WriteLine("");
         Console.WriteLine("TEST07");
@@ -535,44 +513,47 @@ public static class tests
 
         for (i = 0; i < test_num; i++)
         {
+            int dim;
             for (dim = 0; dim < dim_num; dim++)
             {
                 center[dim] = center_test[dim + i * dim_num];
             }
 
-            radius1 = radius1_test[i];
-            radius2 = radius2_test[i];
+            double radius1 = radius1_test[i];
+            double radius2 = radius2_test[i];
 
-            area = Circle.circle_annulus_area_2d(radius1, radius2);
+            double area = Circle.circle_annulus_area_2d(radius1, radius2);
 
             Console.WriteLine("");
             Console.WriteLine("  " + "   Area"
-                                   + center[0].ToString().PadLeft(10)
-                                   + center[1].ToString().PadLeft(10)
-                                   + radius1.ToString().PadLeft(10)
-                                   + radius2.ToString().PadLeft(10)
-                                   + "  " + area.ToString().PadLeft(10) + "");
+                                   + center[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + center[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + radius1.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + radius2.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + area.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
-            num = functions.function_2d_num();
+            int num = functions.function_2d_num();
 
+            int j;
             for (j = 1; j <= num; j++)
             {
                 int function_2d_index = j;
 
+                int nr;
                 for (nr = 1; nr <= 4; nr++)
                 {
-                    result = Circle.circle_annulus(function_2d_index, functions.function_2d, center, radius1,
+                    double result = Circle.circle_annulus(function_2d_index, functions.function_2d, center, radius1,
                         radius2, nr);
 
                     functions.function_2d_name(function_2d_index, ref name);
 
                     Console.WriteLine("  " + name
-                                           + center[0].ToString().PadLeft(10)
-                                           + center[1].ToString().PadLeft(10)
-                                           + radius1.ToString().PadLeft(10)
-                                           + radius2.ToString().PadLeft(10)
+                                           + center[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                           + center[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                           + radius1.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                           + radius2.ToString(CultureInfo.InvariantCulture).PadLeft(10)
                                            + nr.ToString().PadLeft(2)
-                                           + result.ToString().PadLeft(10) + "");
+                                           + result.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
                 }
             }
         }
@@ -599,7 +580,6 @@ public static class tests
         //    John Burkardt
         //
     {
-        double area;
         double[] center = new double[2];
         double[] center_test =
             {
@@ -608,36 +588,25 @@ public static class tests
                 0.0, 0.0
             }
             ;
-        int dim = 0;
-        int dim_num = 2;
+        const int dim_num = 2;
         int i;
-        int j;
-        string name = "";
         int nc = 0;
-        int num = 0;
-        int nr = 0;
         int nr2 = 0;
         int nt = 0;
         double[] ra = new double[5];
-        double radius1;
         double[] radius1_test =
             {
                 0.0, 1.0, 1.0
             }
             ;
-        double radius2;
         double[] radius2_test =
             {
                 1.0, 2.0, 3.0
             }
             ;
-        double result1 = 0;
-        double result2 = 0;
-        double result3;
         double[] rw = new double[5];
-        int rule = 0;
         double[] ta = new double[20];
-        int test_num = 3;
+        const int test_num = 3;
         double[] tw = new double[20];
         double zw = 0;
 
@@ -656,55 +625,57 @@ public static class tests
 
         for (i = 0; i < test_num; i++)
         {
+            int dim;
             for (dim = 0; dim < dim_num; dim++)
             {
                 center[dim] = center_test[dim + i * dim_num];
             }
 
-            radius1 = radius1_test[i];
-            radius2 = radius2_test[i];
+            double radius1 = radius1_test[i];
+            double radius2 = radius2_test[i];
 
-            area = Circle.circle_annulus_area_2d(radius1, radius2);
+            double area = Circle.circle_annulus_area_2d(radius1, radius2);
 
-            name = "   Area";
+            string name = "   Area";
             Console.WriteLine("");
             Console.WriteLine("  " + name
-                                   + center[0].ToString().PadLeft(11)
-                                   + center[1].ToString().PadLeft(11)
-                                   + radius1.ToString().PadLeft(11)
-                                   + radius2.ToString().PadLeft(11)
-                                   + area.ToString().PadLeft(11) + "");
+                                   + center[0].ToString(CultureInfo.InvariantCulture).PadLeft(11)
+                                   + center[1].ToString(CultureInfo.InvariantCulture).PadLeft(11)
+                                   + radius1.ToString(CultureInfo.InvariantCulture).PadLeft(11)
+                                   + radius2.ToString(CultureInfo.InvariantCulture).PadLeft(11)
+                                   + area.ToString(CultureInfo.InvariantCulture).PadLeft(11) + "");
 
-            rule = 9;
+            const int rule = 9;
             Circle.circle_rt_size(rule, ref nr2, ref nt, ref nc);
             Circle.circle_rt_set(rule, nr2, nt, nc, ref ra, ref rw, ref ta, ref tw, ref zw);
 
-            num = functions.function_2d_num();
+            int num = functions.function_2d_num();
 
+            int j;
             for (j = 1; j <= num; j++)
             {
                 int function_2d_index = j;
                 functions.function_2d_name(function_2d_index, ref name);
 
-                nr = 5;
-                result1 = Circle.circle_annulus(function_2d_index, functions.function_2d, center, radius1, radius2,
+                int nr = 5;
+                double result1 = Circle.circle_annulus(function_2d_index, functions.function_2d, center, radius1, radius2,
                     nr);
 
-                result2 = Circle.circle_rt_sum(function_2d_index, functions.function_2d, center, radius1, nr2, ra,
+                double result2 = Circle.circle_rt_sum(function_2d_index, functions.function_2d, center, radius1, nr2, ra,
                     rw, nt,
                     ta, tw, zw);
 
-                result3 = Circle.circle_rt_sum(function_2d_index, functions.function_2d, center, radius2, nr2, ra,
+                double result3 = Circle.circle_rt_sum(function_2d_index, functions.function_2d, center, radius2, nr2, ra,
                     rw, nt,
                     ta, tw, zw);
 
                 Console.WriteLine("  " + name
-                                       + center[0].ToString().PadLeft(11)
-                                       + center[1].ToString().PadLeft(11)
-                                       + radius1.ToString().PadLeft(11)
-                                       + radius2.ToString().PadLeft(11)
-                                       + result1.ToString().PadLeft(11)
-                                       + (result3 - result2).ToString().PadLeft(11) + "");
+                                       + center[0].ToString(CultureInfo.InvariantCulture).PadLeft(11)
+                                       + center[1].ToString(CultureInfo.InvariantCulture).PadLeft(11)
+                                       + radius1.ToString(CultureInfo.InvariantCulture).PadLeft(11)
+                                       + radius2.ToString(CultureInfo.InvariantCulture).PadLeft(11)
+                                       + result1.ToString(CultureInfo.InvariantCulture).PadLeft(11)
+                                       + (result3 - result2).ToString(CultureInfo.InvariantCulture).PadLeft(11) + "");
             }
         }
     }
@@ -730,7 +701,6 @@ public static class tests
         //    John Burkardt
         //
     {
-        double area;
         double[] center = new double[2];
         double[] center_test =
         {
@@ -738,13 +708,10 @@ public static class tests
             1.0, 0.0,
             3.0, 4.0
         };
-        int dim;
-        int dim_num = 2;
+        const int dim_num = 2;
         int i;
-        int ntest = 3;
-        double radius1;
+        const int ntest = 3;
         double[] radius1_test = { 0.0, 1.0, 1.0 };
-        double radius2;
         double[] radius2_test = { 1.0, 2.0, 3.0 };
 
         Console.WriteLine("");
@@ -757,22 +724,23 @@ public static class tests
 
         for (i = 0; i < ntest; i++)
         {
+            int dim;
             for (dim = 0; dim < dim_num; dim++)
             {
                 center[dim] = center_test[dim + i * dim_num];
             }
 
-            radius1 = radius1_test[i];
-            radius2 = radius2_test[i];
+            double radius1 = radius1_test[i];
+            double radius2 = radius2_test[i];
 
-            area = Circle.circle_annulus_area_2d(radius1, radius2);
+            double area = Circle.circle_annulus_area_2d(radius1, radius2);
 
             Console.WriteLine("");
-            Console.WriteLine("  " + center[0].ToString().PadLeft(9)
-                                   + "  " + center[1].ToString().PadLeft(9)
-                                   + "  " + radius1.ToString().PadLeft(9)
-                                   + "  " + radius2.ToString().PadLeft(9)
-                                   + "  " + area.ToString().PadLeft(9) + "");
+            Console.WriteLine("  " + center[0].ToString(CultureInfo.InvariantCulture).PadLeft(9)
+                                   + "  " + center[1].ToString(CultureInfo.InvariantCulture).PadLeft(9)
+                                   + "  " + radius1.ToString(CultureInfo.InvariantCulture).PadLeft(9)
+                                   + "  " + radius2.ToString(CultureInfo.InvariantCulture).PadLeft(9)
+                                   + "  " + area.ToString(CultureInfo.InvariantCulture).PadLeft(9) + "");
         }
 
     }
@@ -798,48 +766,21 @@ public static class tests
         //    John Burkardt
         //
     {
-        double as1 = 0;
-        double as2 = 0;
-        double as3 = 0;
-        double as4 = 0;
         double[] center = new double[2];
         int j;
         int nc = 0;
         string name = "";
-        int num = 0;
-        int nr = 0;
         int nr2 = 0;
         int nt = 0;
-        double pi = 3.141592653589793;
         double[] ra = new double[5];
-        double radius = 0;
-        double radius1a = 0;
-        double radius2a = 0;
-        double radius1b = 0;
-        double radius2b = 0;
-        double radius1c = 0;
-        double radius2c = 0;
-        double radius1d = 0;
-        double radius2d = 0;
-        double result1 = 0;
-        double result2 = 0;
-        int rule = 0;
         double[] rw = new double[5];
         double[] ta = new double[20];
-        double theta1a = 0;
-        double theta2a = 0;
-        double theta1b = 0;
-        double theta2b = 0;
-        double theta1c = 0;
-        double theta2c = 0;
-        double theta1d = 0;
-        double theta2d = 0;
         double[] tw = new double[20];
         double zw = 0;
 
-        nr = 5;
+        const int nr = 5;
 
-        rule = 9;
+        const int rule = 9;
         Circle.circle_rt_size(rule, ref nr2, ref nt, ref nc);
         Circle.circle_rt_set(rule, nr2, nt, nc, ref ra, ref rw, ref ta, ref tw, ref zw);
 
@@ -868,65 +809,65 @@ public static class tests
 
         center[0] = 0.0;
         center[1] = 0.0;
-        radius = 1.0;
+        const double radius = 1.0;
 
-        radius1a = 0.0;
-        radius2a = 0.25;
-        theta1a = 0.0;
-        theta2a = 0.5 * pi;
+        const double radius1a = 0.0;
+        const double radius2a = 0.25;
+        const double theta1a = 0.0;
+        const double theta2a = 0.5 * Math.PI;
 
-        radius1b = 0.0;
-        radius2b = 0.25;
-        theta1b = 0.5 * pi;
-        theta2b = 2.0 * pi;
+        const double radius1b = 0.0;
+        const double radius2b = 0.25;
+        const double theta1b = 0.5 * Math.PI;
+        const double theta2b = 2.0 * Math.PI;
 
-        radius1c = 0.25;
-        radius2c = 1.0;
-        theta1c = 0.0;
-        theta2c = 0.25 * pi;
+        const double radius1c = 0.25;
+        const double radius2c = 1.0;
+        const double theta1c = 0.0;
+        const double theta2c = 0.25 * Math.PI;
 
-        radius1d = 0.25;
-        radius2d = 1.0;
-        theta1d = 0.25 * pi;
-        theta2d = 2.0 * pi;
+        const double radius1d = 0.25;
+        const double radius2d = 1.0;
+        const double theta1d = 0.25 * Math.PI;
+        const double theta2d = 2.0 * Math.PI;
 
         Console.WriteLine("");
         Console.WriteLine("       F  Result1  Result2");
         Console.WriteLine("");
 
-        num = functions.function_2d_num();
+        int num = functions.function_2d_num();
 
         for (j = 1; j <= num; j++)
         {
             int function_2d_index = j;
 
-            as1 = Circle.circle_annulus_sector(function_2d_index, functions.function_2d, center, radius1a, radius2a,
+            double as1 = Circle.circle_annulus_sector(function_2d_index, functions.function_2d, center, radius1a, radius2a,
                 theta1a,
                 theta2a, nr);
 
-            as2 = Circle.circle_annulus_sector(function_2d_index, functions.function_2d, center, radius1b, radius2b,
+            double as2 = Circle.circle_annulus_sector(function_2d_index, functions.function_2d, center, radius1b, radius2b,
                 theta1b,
                 theta2b, nr);
 
-            as3 = Circle.circle_annulus_sector(function_2d_index, functions.function_2d, center, radius1c, radius2c,
+            double as3 = Circle.circle_annulus_sector(function_2d_index, functions.function_2d, center, radius1c, radius2c,
                 theta1c,
                 theta2c, nr);
 
-            as4 = Circle.circle_annulus_sector(function_2d_index, functions.function_2d, center, radius1d, radius2d,
+            double as4 = Circle.circle_annulus_sector(function_2d_index, functions.function_2d, center, radius1d, radius2d,
                 theta1d,
                 theta2d, nr);
 
-            result1 = as1 + as2 + as3 + as4;
+            double result1 = as1 + as2 + as3 + as4;
 
-            result2 = Circle.circle_rt_sum(function_2d_index, functions.function_2d, center, radius, nr2, ra, rw,
+            double result2 = Circle.circle_rt_sum(function_2d_index, functions.function_2d, center, radius, nr2, ra, rw,
                 nt,
                 ta, tw, zw);
 
             functions.function_2d_name(function_2d_index, ref name);
 
             Console.WriteLine("  " + name
-                                   + result1.ToString().PadLeft(14)
-                                   + result2.ToString().PadLeft(14) + "");
+                                   + result1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + result2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }

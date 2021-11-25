@@ -40,15 +40,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] element_node;
         int element_num = 0;
         int element_order = 0;
-        string fem_element_filename;
-        string fem_node_filename;
-        string gmsh_filename;
         int m = 0;
         int node_num = 0;
-        double[] node_x;
         string prefix;
 
         Console.WriteLine("");
@@ -76,9 +71,9 @@ internal static class Program
         //
         //  Create the filenames.
         //
-        gmsh_filename = prefix + ".msh";
-        fem_node_filename = prefix + "_nodes.txt";
-        fem_element_filename = prefix + "_elements.txt";
+        string gmsh_filename = prefix + ".msh";
+        string fem_node_filename = prefix + "_nodes.txt";
+        string fem_element_filename = prefix + "_elements.txt";
         //
         //  Read GMSH sizes.
         //
@@ -95,8 +90,8 @@ internal static class Program
         //
         //  Allocate memory.
         //
-        node_x = new double[m * node_num];
-        element_node = new int[element_order * element_num];
+        double[] node_x = new double[m * node_num];
+        int[] element_node = new int[element_order * element_num];
         //
         //  Read GMSH data.
         //

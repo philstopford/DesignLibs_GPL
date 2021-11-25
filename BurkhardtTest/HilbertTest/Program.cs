@@ -57,8 +57,6 @@ internal static class Program
         //
     {
         int d;
-        int m;
-        int n;
         int x = 0;
         int y = 0;
 
@@ -66,8 +64,8 @@ internal static class Program
         Console.WriteLine("D2XY_TEST:");
         Console.WriteLine("  D2XY converts a Hilbert linear D coordinate to an (X,Y) 2D coordinate.");
 
-        m = 3;
-        n = (int) Math.Pow(2, m);
+        const int m = 3;
+        int n = (int) Math.Pow(2, m);
 
         Console.WriteLine("");
         Console.WriteLine("    D    X    Y");
@@ -98,16 +96,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int m;
-        int n;
-        int rx;
-        int ry;
-        int x;
-        int x0;
-        int x1;
         int y;
-        int y0;
-        int y1;
 
         Console.WriteLine("");
         Console.WriteLine("ROT_TEST:");
@@ -116,21 +105,22 @@ internal static class Program
         Console.WriteLine("   X   Y  X0  Y0  X1  Y1");
         Console.WriteLine("");
 
-        m = 3;
-        n = (int) Math.Pow(2, m);
-        ry = 0;
+        int m = 3;
+        int n = (int) Math.Pow(2, m);
+        int ry = 0;
 
         for (y = 0; y < 8; y++)
         {
+            int x;
             for (x = 0; x < 8; x++)
             {
-                rx = 0;
-                x0 = x;
-                y0 = y;
+                int rx = 0;
+                int x0 = x;
+                int y0 = y;
                 Hilbert.rot(n, ref x0, ref y0, rx, ry);
                 rx = 1;
-                x1 = x;
-                y1 = y;
+                int x1 = x;
+                int y1 = y;
                 Hilbert.rot(n, ref x1, ref y1, rx, ry);
                 Console.WriteLine("  " + x.ToString().PadLeft(2)
                                        + "  " + y.ToString().PadLeft(2)
@@ -159,9 +149,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int d;
-        int m;
-        int n;
         int x;
         int y;
 
@@ -169,8 +156,8 @@ internal static class Program
         Console.WriteLine("XY2D_TEST:");
         Console.WriteLine("  XY2D converts an (X,Y) 2D coordinate to a Hilbert linear D coordinate.");
 
-        m = 3;
-        n = (int) Math.Pow(2, m);
+        int m = 3;
+        int n = (int) Math.Pow(2, m);
 
         Console.WriteLine("");
         string cout = "        ";
@@ -186,7 +173,7 @@ internal static class Program
             cout = "  " + y.ToString().PadLeft(3) + ":  ";
             for (x = 0; x < n; x++)
             {
-                d = Hilbert.xy2d(m, x, y);
+                int d = Hilbert.xy2d(m, x, y);
                 cout += d.ToString().PadLeft(3);
             }
 

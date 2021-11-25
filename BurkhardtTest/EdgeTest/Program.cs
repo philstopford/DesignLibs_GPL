@@ -74,29 +74,25 @@ internal static class Program
         //    Volume 43, Number 1, 2006, pages 259-279.
         //
     {
-        string command_filename;
         List<string> command_unit = new();
-        string data_filename;
         List<string> data_unit = new();
         double[] f = new double[1];
         string header = "";
-        int i;
         int n = 0;
         int test;
-        int test_num;
         string title = "";
         double[] x = new double[1];
-        double x_max;
-        double x_min;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01:");
         Console.WriteLine("  Plot 1D test functions.");
 
-        test_num = 7;
+        int test_num = 7;
 
         for (test = 1; test <= test_num; test++)
         {
+            double x_min;
+            double x_max;
             switch (test)
             {
                 case 1:
@@ -164,7 +160,8 @@ internal static class Program
                     break;
             }
 
-            data_filename = header + "_data.txt";
+            string data_filename = header + "_data.txt";
+            int i;
             for (i = 0; i < n; i++)
             {
                 data_unit.Add(x[i]
@@ -174,7 +171,7 @@ internal static class Program
             File.WriteAllLines(data_filename, data_unit);
             Console.WriteLine("  Created data file '" + data_filename + "'");
 
-            command_filename = header + "_commands.txt";
+            string command_filename = header + "_commands.txt";
             command_unit.Add("# " + command_filename + "");
             command_unit.Add("#");
             command_unit.Add("# Usage:");
@@ -229,44 +226,32 @@ internal static class Program
         //    Volume 43, Number 1, 2006, pages 259-279.
         //
     {
-        string command_filename;
         List<string> command_unit = new();
-        string data_filename;
         List<string> data_unit = new();
-        double fxy;
-        string header;
         int i;
-        int j;
-        int n;
-        string title;
-        double[] x;
-        double x_max;
-        double x_min;
-        double[] y;
-        double y_max;
-        double y_min;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02:");
         Console.WriteLine("  Plot 2D test function #1 with jump along circle.");
 
-        header = "fxy1";
-        title = "2D test function #1 with discontinuity along circle";
+        const string header = "fxy1";
+        const string title = "2D test function #1 with discontinuity along circle";
 
-        n = 101;
-        x_min = -1.0;
-        x_max = +1.0;
-        x = typeMethods.r8vec_linspace_new(n, x_min, x_max);
-        y_min = -1.0;
-        y_max = +1.0;
-        y = typeMethods.r8vec_linspace_new(n, y_min, y_max);
+        const int n = 101;
+        const double x_min = -1.0;
+        const double x_max = +1.0;
+        double[] x = typeMethods.r8vec_linspace_new(n, x_min, x_max);
+        const double y_min = -1.0;
+        const double y_max = +1.0;
+        double[] y = typeMethods.r8vec_linspace_new(n, y_min, y_max);
 
-        data_filename = header + "_data.txt";
+        const string data_filename = header + "_data.txt";
         for (i = 0; i < n; i++)
         {
+            int j;
             for (j = 0; j < n; j++)
             {
-                fxy = TwoD.fxy1(x[i], y[j]);
+                double fxy = TwoD.fxy1(x[i], y[j]);
                 data_unit.Add(x[i]
                               + "  " + y[j]
                               + "  " + fxy + "");
@@ -278,7 +263,7 @@ internal static class Program
         File.WriteAllLines(data_filename, data_unit);
         Console.WriteLine("  Created data file '" + data_filename + "'");
 
-        command_filename = header + "_commands.txt";
+        const string command_filename = header + "_commands.txt";
         command_unit.Add("# " + command_filename + "");
         command_unit.Add("#");
         command_unit.Add("# Usage:");
@@ -334,44 +319,32 @@ internal static class Program
         //    Volume 43, Number 1, 2006, pages 259-279.
         //
     {
-        string command_filename;
         List<string> command_unit = new();
-        string data_filename;
         List<string> data_unit = new();
-        double fxy;
-        string header;
         int i;
-        int j;
-        int n;
-        string title;
-        double[] x;
-        double x_max;
-        double x_min;
-        double[] y;
-        double y_max;
-        double y_min;
 
         Console.WriteLine("");
         Console.WriteLine("TEST03:");
         Console.WriteLine("  Plot 2D test function #2, the Shepp Logan phantom.");
 
-        header = "fxy2";
-        title = "2D test function #2, the Shepp Logan phantom";
+        const string header = "fxy2";
+        const string title = "2D test function #2, the Shepp Logan phantom";
 
-        n = 101;
-        x_min = -1.0;
-        x_max = +1.0;
-        x = typeMethods.r8vec_linspace_new(n, x_min, x_max);
-        y_min = -1.0;
-        y_max = +1.0;
-        y = typeMethods.r8vec_linspace_new(n, y_min, y_max);
+        const int n = 101;
+        const double x_min = -1.0;
+        const double x_max = +1.0;
+        double[] x = typeMethods.r8vec_linspace_new(n, x_min, x_max);
+        const double y_min = -1.0;
+        const double y_max = +1.0;
+        double[] y = typeMethods.r8vec_linspace_new(n, y_min, y_max);
 
-        data_filename = header + "_data.txt";
+        const string data_filename = header + "_data.txt";
         for (i = 0; i < n; i++)
         {
+            int j;
             for (j = 0; j < n; j++)
             {
-                fxy = TwoD.fxy2(x[i], y[j]);
+                double fxy = TwoD.fxy2(x[i], y[j]);
                 data_unit.Add(x[i]
                               + "  " + y[j]
                               + "  " + fxy + "");
@@ -383,7 +356,7 @@ internal static class Program
         File.WriteAllLines(data_filename, data_unit);
         Console.WriteLine("  Created data file '" + data_filename + "'");
 
-        command_filename = header + "_commands.txt";
+        const string command_filename = header + "_commands.txt";
         command_unit.Add("# " + command_filename + "");
         command_unit.Add("#");
         command_unit.Add("# Usage:");
@@ -439,44 +412,32 @@ internal static class Program
         //    Volume 58, 2008, pages 577-592.
         //
     {
-        string command_filename;
         List<string> command_unit = new();
-        string data_filename;
         List<string> data_unit = new();
-        double fxy;
-        string header;
         int i;
-        int j;
-        int n;
-        string title;
-        double[] x;
-        double x_max;
-        double x_min;
-        double[] y;
-        double y_max;
-        double y_min;
 
         Console.WriteLine("");
         Console.WriteLine("TEST035:");
         Console.WriteLine("  Plot 2D test function #3, the modified 2D Harten function.");
 
-        header = "fxy3";
-        title = "2D test function #3, the modified 2D Harten function";
+        const string header = "fxy3";
+        const string title = "2D test function #3, the modified 2D Harten function";
 
-        n = 101;
-        x_min = -1.0;
-        x_max = +1.0;
-        x = typeMethods.r8vec_linspace_new(n, x_min, x_max);
-        y_min = -1.0;
-        y_max = +1.0;
-        y = typeMethods.r8vec_linspace_new(n, y_min, y_max);
+        const int n = 101;
+        const double x_min = -1.0;
+        const double x_max = +1.0;
+        double[] x = typeMethods.r8vec_linspace_new(n, x_min, x_max);
+        const double y_min = -1.0;
+        const double y_max = +1.0;
+        double[] y = typeMethods.r8vec_linspace_new(n, y_min, y_max);
 
-        data_filename = header + "_data.txt";
+        const string data_filename = header + "_data.txt";
         for (i = 0; i < n; i++)
         {
+            int j;
             for (j = 0; j < n; j++)
             {
-                fxy = TwoD.fxy3(x[i], y[j]);
+                double fxy = TwoD.fxy3(x[i], y[j]);
                 data_unit.Add(x[i]
                               + "  " + y[j]
                               + "  " + fxy + "");
@@ -488,7 +449,7 @@ internal static class Program
         File.WriteAllLines(data_filename, data_unit);
         Console.WriteLine("  Created data file '" + data_filename + "'");
 
-        command_filename = header + "_commands.txt";
+        const string command_filename = header + "_commands.txt";
         command_unit.Add("# " + command_filename + "");
         command_unit.Add("#");
         command_unit.Add("# Usage:");
@@ -544,44 +505,32 @@ internal static class Program
         //    Volume 58, 2008, pages 577-592.
         //
     {
-        string command_filename;
         List<string> command_unit = new();
-        string data_filename;
         List<string> data_unit = new();
-        double fxy;
-        string header;
         int i;
-        int j;
-        int n;
-        string title;
-        double[] x;
-        double x_max;
-        double x_min;
-        double[] y;
-        double y_max;
-        double y_min;
 
         Console.WriteLine("");
         Console.WriteLine("TEST036:");
         Console.WriteLine("  Plot 2D test function #4, the discontinuous medium wave, P(x,t).");
 
-        header = "fxy4";
-        title = "2D test function #4, the discontinuous medium wave, P(x,t)";
+        const string header = "fxy4";
+        const string title = "2D test function #4, the discontinuous medium wave, P(x,t)";
 
-        n = 101;
-        x_min = -1.0;
-        x_max = 0.0;
-        x = typeMethods.r8vec_linspace_new(n, x_min, x_max);
-        y_min = 0.0;
-        y_max = 0.1;
-        y = typeMethods.r8vec_linspace_new(n, y_min, y_max);
+        const int n = 101;
+        const double x_min = -1.0;
+        const double x_max = 0.0;
+        double[] x = typeMethods.r8vec_linspace_new(n, x_min, x_max);
+        const double y_min = 0.0;
+        const double y_max = 0.1;
+        double[] y = typeMethods.r8vec_linspace_new(n, y_min, y_max);
 
-        data_filename = header + "_data.txt";
+        const string data_filename = header + "_data.txt";
         for (i = 0; i < n; i++)
         {
+            int j;
             for (j = 0; j < n; j++)
             {
-                fxy = TwoD.fxy4(x[i], y[j]);
+                double fxy = TwoD.fxy4(x[i], y[j]);
                 data_unit.Add(x[i]
                               + "  " + y[j]
                               + "  " + fxy + "");
@@ -593,7 +542,7 @@ internal static class Program
         File.WriteAllLines(data_filename, data_unit);
         Console.WriteLine("  Created data file '" + data_filename + "'");
 
-        command_filename = header + "_commands.txt";
+        const string command_filename = header + "_commands.txt";
         command_unit.Add("# " + command_filename + "");
         command_unit.Add("#");
         command_unit.Add("# Usage:");
@@ -649,44 +598,32 @@ internal static class Program
         //    Volume 58, 2008, pages 577-592.
         //
     {
-        string command_filename;
         List<string> command_unit = new();
-        string data_filename;
         List<string> data_unit = new();
-        double fxy;
-        string header;
         int i;
-        int j;
-        int n;
-        string title;
-        double[] x;
-        double x_max;
-        double x_min;
-        double[] y;
-        double y_max;
-        double y_min;
 
         Console.WriteLine("");
         Console.WriteLine("TEST037:");
         Console.WriteLine("  Plot 2D test function #5, the discontinuous medium wave, U(x,t).");
 
-        header = "fxy5";
-        title = "2D test function #5, the discontinuous medium wave, U(x,t)";
+        const string header = "fxy5";
+        const string title = "2D test function #5, the discontinuous medium wave, U(x,t)";
 
-        n = 101;
-        x_min = -1.0;
-        x_max = 0.0;
-        x = typeMethods.r8vec_linspace_new(n, x_min, x_max);
-        y_min = 0.0;
-        y_max = 0.1;
-        y = typeMethods.r8vec_linspace_new(n, y_min, y_max);
+        const int n = 101;
+        const double x_min = -1.0;
+        const double x_max = 0.0;
+        double[] x = typeMethods.r8vec_linspace_new(n, x_min, x_max);
+        const double y_min = 0.0;
+        const double y_max = 0.1;
+        double[] y = typeMethods.r8vec_linspace_new(n, y_min, y_max);
 
-        data_filename = header + "_data.txt";
+        const string data_filename = header + "_data.txt";
         for (i = 0; i < n; i++)
         {
+            int j;
             for (j = 0; j < n; j++)
             {
-                fxy = TwoD.fxy5(x[i], y[j]);
+                double fxy = TwoD.fxy5(x[i], y[j]);
                 data_unit.Add(x[i]
                               + "  " + y[j]
                               + "  " + fxy + "");
@@ -698,7 +635,7 @@ internal static class Program
         File.WriteAllLines(data_filename, data_unit);
         Console.WriteLine("  Created data file '" + data_filename + "'");
 
-        command_filename = header + "_commands.txt";
+        const string command_filename = header + "_commands.txt";
         command_unit.Add("# " + command_filename + "");
         command_unit.Add("#");
         command_unit.Add("# Usage:");
@@ -754,47 +691,31 @@ internal static class Program
         //    Volume 4, Number 1, February 1980, pages 94-107.
         //
     {
-        string command_filename;
         List<string> command_unit = new();
-        string data_filename;
         List<string> data_unit = new();
-        double fxyz;
         string header = "";
-        int i;
-        int j;
-        int n;
         int test;
-        int test_num;
         string title = "";
-        double[] x;
-        double x_max;
-        double x_min;
         double x_val = 0;
-        double[] y;
-        double y_max;
-        double y_min;
         double y_val = 0;
-        double[] z;
-        double z_max;
-        double z_min;
         double z_val = 0;
 
         Console.WriteLine("");
         Console.WriteLine("TEST04:");
         Console.WriteLine("  Plot 3D test function #1, the Shepp Logan 3D phantom.");
 
-        test_num = 3;
+        const int test_num = 3;
 
-        n = 101;
-        x_min = -1.5;
-        x_max = +1.5;
-        x = typeMethods.r8vec_linspace_new(n, x_min, x_max);
-        y_min = -1.5;
-        y_max = +1.5;
-        y = typeMethods.r8vec_linspace_new(n, y_min, y_max);
-        z_min = -1.5;
-        z_max = +1.5;
-        z = typeMethods.r8vec_linspace_new(n, z_min, z_max);
+        const int n = 101;
+        const double x_min = -1.5;
+        const double x_max = +1.5;
+        double[] x = typeMethods.r8vec_linspace_new(n, x_min, x_max);
+        const double y_min = -1.5;
+        const double y_max = +1.5;
+        double[] y = typeMethods.r8vec_linspace_new(n, y_min, y_max);
+        const double z_min = -1.5;
+        const double z_max = +1.5;
+        double[] z = typeMethods.r8vec_linspace_new(n, z_min, z_max);
 
         for (test = 1; test <= test_num; test++)
         {
@@ -817,11 +738,14 @@ internal static class Program
                     break;
             }
 
-            data_filename = header + "_data.txt";
+            string data_filename = header + "_data.txt";
+            int i;
             for (i = 0; i < n; i++)
             {
+                int j;
                 for (j = 0; j < n; j++)
                 {
+                    double fxyz;
                     switch (test)
                     {
                         case 1:
@@ -851,7 +775,7 @@ internal static class Program
             File.WriteAllLines(data_filename, data_unit);
             Console.WriteLine("  Created data file '" + data_filename + "'");
 
-            command_filename = header + "_commands.txt";
+            string command_filename = header + "_commands.txt";
             command_unit.Add("# " + command_filename + "");
             command_unit.Add("#");
             command_unit.Add("# Usage:");

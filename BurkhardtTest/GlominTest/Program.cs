@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Function;
 using Burkardt.Types;
 
@@ -26,31 +27,24 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
-        double c;
-        double e;
-        double m;
-        double t;
-
         Console.WriteLine("");
         Console.WriteLine("glomin_test():");
         Console.WriteLine("  glomin() seeks a global minimizer of a function F(X)");
         Console.WriteLine("  in an interval [A,B], given some upper bound M ");
         Console.WriteLine("  for the second derivative of F.");
 
-        e = Math.Sqrt(typeMethods.r8_epsilon());
-        t = Math.Sqrt(typeMethods.r8_epsilon());
+        double e = Math.Sqrt(typeMethods.r8_epsilon());
+        double t = Math.Sqrt(typeMethods.r8_epsilon());
 
         Console.WriteLine("");
         Console.WriteLine("  Tolerances:");
         Console.WriteLine("  e = " + e + "");
         Console.WriteLine("  t = " + t + "");
 
-        a = 7.0;
-        b = 9.0;
-        c = (a + b) / 2.0;
-        m = 0.0;
+        double a = 7.0;
+        double b = 9.0;
+        double c = (a + b) / 2.0;
+        double m = 0.0;
         glomin_example(a, b, c, m, e, t, h_01,
             "h_01(x) = 2 - x");
 
@@ -151,14 +145,11 @@ internal static class Program
         //
     {
         int calls = 0;
-        double fa;
-        double fb;
-        double fx;
         double x = 0;
 
-        fx = Glomin.glomin(a, b, c, m, e, t, f, ref x, ref calls);
-        fa = f(a);
-        fb = f(b);
+        double fx = Glomin.glomin(a, b, c, m, e, t, f, ref x, ref calls);
+        double fa = f(a);
+        double fb = f(b);
 
         Console.WriteLine("");
         Console.WriteLine("  " + title + "");
@@ -167,11 +158,11 @@ internal static class Program
         Console.WriteLine("           A                 X             B");
         Console.WriteLine("         F(A)              F(X)          F(B)");
         Console.WriteLine("  " + a.ToString("0.######").PadLeft(14)
-                               + "  " + x.ToString().PadLeft(14)
-                               + "  " + b.ToString().PadLeft(14) + "");
-        Console.WriteLine("  " + fa.ToString().PadLeft(14)
-                               + "  " + fx.ToString().PadLeft(14)
-                               + "  " + fb.ToString().PadLeft(14) + "");
+                               + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                               + "  " + b.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+        Console.WriteLine("  " + fa.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                               + "  " + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                               + "  " + fb.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  Number of calls to F = " + calls + "");
     }
 

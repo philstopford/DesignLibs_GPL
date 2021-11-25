@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Composition;
 using Burkardt.MonomialNS;
 using Burkardt.TetrahedronNS;
@@ -70,10 +71,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int degree;
-        int order_num;
         int rule;
-        int rule_num;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
@@ -81,7 +79,7 @@ internal static class Program
         Console.WriteLine("  KEAST_DEGREE returns the degree of a rule;");
         Console.WriteLine("  KEAST_ORDER_NUM returns the order of a rule.");
 
-        rule_num = KeastRule.keast_rule_num();
+        int rule_num = KeastRule.keast_rule_num();
 
         Console.WriteLine("");
         Console.WriteLine("  Number of available rules = " + rule_num + "");
@@ -91,8 +89,8 @@ internal static class Program
 
         for (rule = 1; rule <= rule_num; rule++)
         {
-            order_num = KeastRule.keast_order_num(rule);
-            degree = KeastRule.keast_degree(rule);
+            int order_num = KeastRule.keast_order_num(rule);
+            int degree = KeastRule.keast_degree(rule);
             Console.WriteLine("  " + rule.ToString().PadLeft(8)
                                    + "  " + degree.ToString().PadLeft(8)
                                    + "  " + order_num.ToString().PadLeft(8) + "");
@@ -121,13 +119,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int order;
-        int order_num;
         int rule;
-        int rule_num;
-        double[] wtab;
-        double wtab_sum;
-        double[] xyztab;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02");
@@ -137,7 +129,7 @@ internal static class Program
         Console.WriteLine("  In this test, we simply check that the weights");
         Console.WriteLine("  sum to 1.");
 
-        rule_num = KeastRule.keast_rule_num();
+        int rule_num = KeastRule.keast_rule_num();
 
         Console.WriteLine("");
         Console.WriteLine("  Number of available rules = " + rule_num + "");
@@ -148,14 +140,15 @@ internal static class Program
 
         for (rule = 1; rule <= rule_num; rule++)
         {
-            order_num = KeastRule.keast_order_num(rule);
+            int order_num = KeastRule.keast_order_num(rule);
 
-            xyztab = new double[3 * order_num];
-            wtab = new double[order_num];
+            double[] xyztab = new double[3 * order_num];
+            double[] wtab = new double[order_num];
 
             KeastRule.keast_rule(rule, order_num, ref xyztab, ref wtab);
 
-            wtab_sum = 0.0;
+            double wtab_sum = 0.0;
+            int order;
             for (order = 0; order < order_num; order++)
             {
                 wtab_sum += wtab[order];
@@ -163,7 +156,7 @@ internal static class Program
 
             Console.WriteLine("  " + rule.ToString().PadLeft(8)
                                    + "  " + order_num.ToString().PadLeft(8)
-                                   + "  " + wtab_sum.ToString().PadLeft(14) + "");
+                                   + "  " + wtab_sum.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -189,12 +182,6 @@ internal static class Program
         //
     {
         int rule;
-        int rule_num;
-        int suborder;
-        int suborder_num;
-        double[] suborder_w;
-        double[] suborder_xyzz;
-        double xyzz_sum;
 
         Console.WriteLine("");
         Console.WriteLine("TEST03");
@@ -205,7 +192,7 @@ internal static class Program
         Console.WriteLine("  quadrature point, the barycentric coordinates");
         Console.WriteLine("  add up to 1.");
 
-        rule_num = KeastRule.keast_rule_num();
+        int rule_num = KeastRule.keast_rule_num();
 
         Console.WriteLine("");
         Console.WriteLine("      Rule    Suborder    Sum of coordinates");
@@ -213,10 +200,10 @@ internal static class Program
 
         for (rule = 1; rule <= rule_num; rule++)
         {
-            suborder_num = KeastRule.keast_suborder_num(rule);
+            int suborder_num = KeastRule.keast_suborder_num(rule);
 
-            suborder_xyzz = new double[4 * suborder_num];
-            suborder_w = new double[suborder_num];
+            double[] suborder_xyzz = new double[4 * suborder_num];
+            double[] suborder_w = new double[suborder_num];
 
             KeastRule.keast_subrule(rule, suborder_num, ref suborder_xyzz, ref suborder_w);
 
@@ -224,12 +211,13 @@ internal static class Program
             Console.WriteLine("  " + rule.ToString().PadLeft(8)
                                    + "  " + suborder_num.ToString().PadLeft(8) + "");
 
+            int suborder;
             for (suborder = 0; suborder < suborder_num; suborder++)
             {
-                xyzz_sum = suborder_xyzz[0 + suborder * 4]
-                           + suborder_xyzz[1 + suborder * 4]
-                           + suborder_xyzz[2 + suborder * 4]
-                           + suborder_xyzz[3 + suborder * 4];
+                double xyzz_sum = suborder_xyzz[0 + suborder * 4]
+                                  + suborder_xyzz[1 + suborder * 4]
+                                  + suborder_xyzz[2 + suborder * 4]
+                                  + suborder_xyzz[3 + suborder * 4];
                 Console.WriteLine("                    "
                                   + "  " + xyzz_sum.ToString("0.################").PadLeft(25) + "");
             }
@@ -275,13 +263,6 @@ internal static class Program
             1.0, 2.0, 9.0
         };
         int order;
-        int order_num;
-        int rule;
-        double volume;
-        double volume2;
-        double[] w;
-        double[] xyz;
-        double[] xyz2;
 
         Console.WriteLine("");
         Console.WriteLine("TEST04");
@@ -289,13 +270,13 @@ internal static class Program
         Console.WriteLine("  on the unit (reference) tetrahedron to a rule on ");
         Console.WriteLine("  an arbitrary (physical) tetrahedron.");
 
-        rule = 2;
+        int rule = 2;
 
-        order_num = KeastRule.keast_order_num(rule);
+        int order_num = KeastRule.keast_order_num(rule);
 
-        xyz = new double[3 * order_num];
-        xyz2 = new double[3 * order_num];
-        w = new double[order_num];
+        double[] xyz = new double[3 * order_num];
+        double[] xyz2 = new double[3 * order_num];
+        double[] w = new double[order_num];
 
         KeastRule.keast_rule(rule, order_num, ref xyz, ref w);
         //
@@ -308,12 +289,12 @@ internal static class Program
         for (node = 0; node < NODE_NUM; node++)
         {
             Console.WriteLine("  " + (node + 1).ToString().PadLeft(8)
-                                   + "  " + node_xyz[0 + node * 3].ToString().PadLeft(14)
-                                   + "  " + node_xyz[1 + node * 3].ToString().PadLeft(14)
-                                   + "  " + node_xyz[2 + node * 3].ToString().PadLeft(14) + "");
+                                   + "  " + node_xyz[0 + node * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + node_xyz[1 + node * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + node_xyz[2 + node * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
-        volume = Tetrahedron.tetrahedron_volume(node_xyz);
+        double volume = Tetrahedron.tetrahedron_volume(node_xyz);
 
         Console.WriteLine("");
         Console.WriteLine("  Rule " + rule + " for reference tetrahedron");
@@ -325,10 +306,10 @@ internal static class Program
         for (order = 0; order < order_num; order++)
         {
             Console.WriteLine("  " + order.ToString().PadLeft(8)
-                                   + "  " + xyz[0 + order * 3].ToString().PadLeft(14)
-                                   + "  " + xyz[1 + order * 3].ToString().PadLeft(14)
-                                   + "  " + xyz[2 + order * 3].ToString().PadLeft(14)
-                                   + "  " + w[order].ToString().PadLeft(14) + "");
+                                   + "  " + xyz[0 + order * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + xyz[1 + order * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + xyz[2 + order * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + w[order].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         //
@@ -345,12 +326,12 @@ internal static class Program
         for (node = 0; node < NODE_NUM; node++)
         {
             Console.WriteLine("  " + (node + 1).ToString().PadLeft(8)
-                                   + "  " + node_xyz2[0 + node * 3].ToString().PadLeft(14)
-                                   + "  " + node_xyz2[1 + node * 3].ToString().PadLeft(14)
-                                   + "  " + node_xyz2[2 + node * 3].ToString().PadLeft(14) + "");
+                                   + "  " + node_xyz2[0 + node * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + node_xyz2[1 + node * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + node_xyz2[2 + node * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
-        volume2 = Tetrahedron.tetrahedron_volume(node_xyz2);
+        double volume2 = Tetrahedron.tetrahedron_volume(node_xyz2);
 
         Console.WriteLine("");
         Console.WriteLine("  Rule " + rule + " for physical tetrahedron");
@@ -362,10 +343,10 @@ internal static class Program
         for (order = 0; order < order_num; order++)
         {
             Console.WriteLine("  " + order.ToString().PadLeft(8)
-                                   + "  " + xyz2[0 + order * 3].ToString().PadLeft(14)
-                                   + "  " + xyz2[1 + order * 3].ToString().PadLeft(14)
-                                   + "  " + xyz2[2 + order * 3].ToString().PadLeft(14)
-                                   + "  " + w[order].ToString().PadLeft(14) + "");
+                                   + "  " + xyz2[0 + order * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + xyz2[1 + order * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + xyz2[2 + order * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + w[order].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -391,19 +372,9 @@ internal static class Program
         //
     {
         int degree;
-        int degree_max = 3;
-        int dim_num = 3;
+        const int degree_max = 3;
+        const int dim_num = 3;
         int[] expon = new int[3];
-        int h;
-        double[] mono;
-        bool more;
-        int order_num;
-        double quad;
-        int rule;
-        int rule_num;
-        int t;
-        double[] w;
-        double[] xyz;
 
         Console.WriteLine("");
         Console.WriteLine("TEST05");
@@ -411,7 +382,7 @@ internal static class Program
         Console.WriteLine("  monomial integrands X^A Y^B Z^C");
         Console.WriteLine("  on the unit tetrahedron.");
 
-        rule_num = KeastRule.keast_rule_num();
+        int rule_num = KeastRule.keast_rule_num();
 
         Console.WriteLine("");
         Console.WriteLine("      Rule     Order     Quad");
@@ -419,9 +390,9 @@ internal static class Program
 
         for (degree = 0; degree <= degree_max; degree++)
         {
-            more = false;
-            h = 0;
-            t = 0;
+            bool more = false;
+            int h = 0;
+            int t = 0;
 
             for (;;)
             {
@@ -434,22 +405,23 @@ internal static class Program
                                   + " * Z^" + expon[2] + "");
                 Console.WriteLine("");
 
+                int rule;
                 for (rule = 1; rule <= rule_num; rule++)
                 {
-                    order_num = KeastRule.keast_order_num(rule);
+                    int order_num = KeastRule.keast_order_num(rule);
 
-                    xyz = new double[3 * order_num];
-                    w = new double[order_num];
+                    double[] xyz = new double[3 * order_num];
+                    double[] w = new double[order_num];
 
                     KeastRule.keast_rule(rule, order_num, ref xyz, ref w);
 
-                    mono = Monomial.monomial_value(dim_num, order_num, xyz, expon);
+                    double[] mono = Monomial.monomial_value(dim_num, order_num, xyz, expon);
 
-                    quad = typeMethods.r8vec_dot(order_num, w, mono);
+                    double quad = typeMethods.r8vec_dot(order_num, w, mono);
 
                     Console.WriteLine("  " + rule.ToString().PadLeft(8)
                                            + "  " + order_num.ToString().PadLeft(8)
-                                           + "  " + quad.ToString().PadLeft(14) + "");
+                                           + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                 }
 
                 if (!more)
@@ -481,12 +453,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int degree;
         int order;
-        int order_num;
-        int rule;
-        double[] w;
-        double[] xyz;
 
         Console.WriteLine("");
         Console.WriteLine("TEST06");
@@ -495,9 +462,9 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  In this test, we simply print a rule.");
 
-        rule = 10;
-        degree = KeastRule.keast_degree(rule);
-        order_num = KeastRule.keast_order_num(rule);
+        int rule = 10;
+        int degree = KeastRule.keast_degree(rule);
+        int order_num = KeastRule.keast_order_num(rule);
 
         Console.WriteLine("");
         Console.WriteLine("  Rule =   " + rule + "");
@@ -508,18 +475,18 @@ internal static class Program
         Console.WriteLine("         I      W               X               Y               Z");
         Console.WriteLine("");
 
-        xyz = new double[3 * order_num];
-        w = new double[order_num];
+        double[] xyz = new double[3 * order_num];
+        double[] w = new double[order_num];
 
         KeastRule.keast_rule(rule, order_num, ref xyz, ref w);
 
         for (order = 0; order < order_num; order++)
         {
             Console.WriteLine("  " + order.ToString().PadLeft(8)
-                                   + "  " + w[order].ToString().PadLeft(14)
-                                   + "  " + xyz[0 + order * 3].ToString().PadLeft(14)
-                                   + "  " + xyz[1 + order * 3].ToString().PadLeft(14)
-                                   + "  " + xyz[2 + order * 3].ToString().PadLeft(14) + "");
+                                   + "  " + w[order].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + xyz[0 + order * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + xyz[1 + order * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + xyz[2 + order * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 }

@@ -34,7 +34,6 @@ internal static class Program
         //
     {
         int prob;
-        int prob_num;
 
         Console.WriteLine("");
         Console.WriteLine("PWL_INTERP_1D_TEST:");
@@ -46,7 +45,7 @@ internal static class Program
 
         pwl_value_1d_test();
 
-        prob_num = TestInterp.p00_prob_num();
+        int prob_num = TestInterp.p00_prob_num();
         for (prob = 1; prob <= prob_num; prob++)
         {
             pwl_interp_1d_test01(prob);
@@ -79,24 +78,20 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] lb;
-        int nd = 4;
-        int ni = 21;
-        double x_max;
-        double x_min;
+        const int nd = 4;
+        const int ni = 21;
         double[] xd = { 0.0, 2.0, 5.0, 10.0 };
-        double[] xi;
 
         Console.WriteLine("");
         Console.WriteLine("PWL_BASIS_1D_TEST:");
         Console.WriteLine("  PWL_BASIS_1D evaluates the piecewise linear 1D basis");
         Console.WriteLine("  functions.");
 
-        x_min = 0.0;
-        x_max = 10.0;
-        xi = typeMethods.r8vec_linspace_new(ni, x_min, x_max);
+        const double x_min = 0.0;
+        const double x_max = 10.0;
+        double[] xi = typeMethods.r8vec_linspace_new(ni, x_min, x_max);
 
-        lb = Interp1D.pwl_basis_1d(nd, xd, ni, xi);
+        double[] lb = Interp1D.pwl_basis_1d(nd, xd, ni, xi);
 
         typeMethods.r8mat_print(ni, nd, lb, "  The piecewise linear basis functions:");
     }
@@ -126,24 +121,20 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int nd = 4;
-        int ni = 21;
-        double x_max;
-        double x_min;
+        const int nd = 4;
+        const int ni = 21;
         double[] xd = { 0.0, 2.0, 5.0, 10.0 };
         double[] yd = { -28.0, +10.0, -8.0, +162.0 };
-        double[] xi;
-        double[] yi;
 
         Console.WriteLine("");
         Console.WriteLine("PWL_VALUE_1D_TEST:");
         Console.WriteLine("  PWL_VALUE_1D evaluates a piecewise linear 1D interpolant.");
 
-        x_min = 0.0;
-        x_max = 10.0;
-        xi = typeMethods.r8vec_linspace_new(ni, x_min, x_max);
+        const double x_min = 0.0;
+        const double x_max = 10.0;
+        double[] xi = typeMethods.r8vec_linspace_new(ni, x_min, x_max);
 
-        yi = Interp1D.pwl_value_1d(nd, xd, yd, ni, xi);
+        double[] yi = Interp1D.pwl_value_1d(nd, xd, yd, ni, xi);
 
         typeMethods.r8vec2_print(ni, xi, yi, "  Table of interpolant values:");
     }
@@ -173,40 +164,26 @@ internal static class Program
         //    Input, int PROB, the problem index.
         //
     {
-        string command_filename;
         List<string> command_unit = new();
-        string data_filename;
         List<string> data_unit = new();
         int i;
-        double interp_error;
-        string interp_filename;
         List<string> interp_unit = new();
         int j;
-        int nd;
-        int ni;
-        string output_filename;
-        double[] xd;
-        double[] xi;
-        double xmax;
-        double xmin;
-        double[] xy;
-        double[] yd;
-        double[] yi;
 
         Console.WriteLine("");
         Console.WriteLine("PWL_INTERP_1D_TEST01:");
         Console.WriteLine("  PWL_INTERP_1D evaluates the piecewise linear interpolant.");
         Console.WriteLine("  Interpolate data from TEST_INTERP problem #" + prob + "");
 
-        nd = TestInterp.p00_data_num(prob);
+        int nd = TestInterp.p00_data_num(prob);
         Console.WriteLine("  Number of data points = " + nd + "");
 
-        xy = TestInterp.p00_data(prob, 2, nd);
+        double[] xy = TestInterp.p00_data(prob, 2, nd);
 
         typeMethods.r8mat_transpose_print(2, nd, xy, "  Data array:");
 
-        xd = new double[nd];
-        yd = new double[nd];
+        double[] xd = new double[nd];
+        double[] yd = new double[nd];
 
         for (i = 0; i < nd; i++)
         {
@@ -217,24 +194,24 @@ internal static class Program
         //
         //  #1:  Does interpolant match function at interpolation points?
         //
-        ni = nd;
+        int ni = nd;
 
-        xi = new double[ni];
+        double[] xi = new double[ni];
         for (i = 0; i < ni; i++)
         {
             xi[i] = xd[i];
         }
 
-        yi = Interp1D.pwl_value_1d(nd, xd, yd, ni, xi);
+        double[] yi = Interp1D.pwl_value_1d(nd, xd, yd, ni, xi);
 
-        interp_error = typeMethods.r8vec_diff_norm(ni, yi, yd) / ni;
+        double interp_error = typeMethods.r8vec_diff_norm(ni, yi, yd) / ni;
 
         Console.WriteLine("");
         Console.WriteLine("  L2 interpolation error averaged per interpolant node = " + interp_error + "");
         //
         //  Create data file.
         //
-        data_filename = "data" + prob + ".txt";
+        string data_filename = "data" + prob + ".txt";
         for (j = 0; j < nd; j++)
         {
             data_unit.Add("  " + xd[j]
@@ -250,12 +227,12 @@ internal static class Program
         //
 
         ni = 501;
-        xmin = typeMethods.r8vec_min(nd, xd);
-        xmax = typeMethods.r8vec_max(nd, xd);
+        double xmin = typeMethods.r8vec_min(nd, xd);
+        double xmax = typeMethods.r8vec_max(nd, xd);
         xi = typeMethods.r8vec_linspace_new(ni, xmin, xmax);
         yi = Interp1D.pwl_value_1d(nd, xd, yd, ni, xi);
 
-        interp_filename = "interp" + prob + ".txt";
+        string interp_filename = "interp" + prob + ".txt";
         for (j = 0; j < ni; j++)
         {
             interp_unit.Add("  " + xi[j]
@@ -268,9 +245,9 @@ internal static class Program
         //
         //  Plot the data and the interpolant.
         //
-        command_filename = "commands" + prob + ".txt";
+        string command_filename = "commands" + prob + ".txt";
 
-        output_filename = "plot" + prob + ".png";
+        string output_filename = "plot" + prob + ".png";
 
         command_unit.Add("# " + command_filename + "");
         command_unit.Add("#");

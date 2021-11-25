@@ -31,12 +31,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int i;
-        int n;
         int[] n_test = { 2, 3, 4, 5, 9 };
-        int n_test_num = 5;
+        const int n_test_num = 5;
         int prob;
-        int prob_num;
 
         Console.WriteLine("");
         Console.WriteLine("PWL_INTERP_2D_TEST:");
@@ -44,15 +41,16 @@ internal static class Program
         Console.WriteLine("  The R8LIB library is needed.");
         Console.WriteLine("  The test needs the TEST_INTERP_2D library.");
 
-        prob_num = Data_2D.f00_num();
+        int prob_num = Data_2D.f00_num();
         //
         //  Numerical tests.
         //
         for (prob = 1; prob <= prob_num; prob++)
         {
+            int i;
             for (i = 0; i < n_test_num; i++)
             {
-                n = n_test[i];
+                int n = n_test[i];
                 test01(prob, n);
             }
         }
@@ -93,49 +91,28 @@ internal static class Program
         //    Input, int N, the grid size in each dimension.
         //
     {
-        double app_error;
         int i;
-        int ij;
-        double int_error;
         int j;
-        int nd;
-        int ni;
-        int nxd;
-        int nyd;
-        double[] xd;
-        double[] xd_1d;
-        double[] xi;
-        double[] xi_1d;
-        double[] yd;
-        double[] yd_1d;
-        double[] yi;
-        double[] yi_1d;
-        double[] zd;
-        double[] zdm;
-        double[] zi;
-
-        nxd = n;
-        nyd = n;
 
         Console.WriteLine("");
         Console.WriteLine("PWL_INTERP_2D_TEST01:");
         Console.WriteLine("  Interpolate data from TEST_INTERP_2D problem # " + prob + "");
-        Console.WriteLine("  Using polynomial interpolant of product degree " + nxd + " x " + nyd + "");
+        Console.WriteLine("  Using polynomial interpolant of product degree " + n + " x " + n + "");
 
-        nd = nxd * nyd;
+        int nd = n * n;
         Console.WriteLine("  Number of data points = " + nd + "");
 
-        xd_1d = typeMethods.r8vec_linspace_new(nxd, 0.0, 1.0);
-        yd_1d = typeMethods.r8vec_linspace_new(nyd, 0.0, 1.0);
+        double[] xd_1d = typeMethods.r8vec_linspace_new(n, 0.0, 1.0);
+        double[] yd_1d = typeMethods.r8vec_linspace_new(n, 0.0, 1.0);
 
-        xd = new double[nxd * nyd];
-        yd = new double[nxd * nyd];
-        zd = new double[nxd * nyd];
+        double[] xd = new double[n * n];
+        double[] yd = new double[n * n];
+        double[] zd = new double[n * n];
 
-        ij = 0;
-        for (j = 0; j < nyd; j++)
+        int ij = 0;
+        for (j = 0; j < n; j++)
         {
-            for (i = 0; i < nxd; i++)
+            for (i = 0; i < n; i++)
             {
                 xd[ij] = xd_1d[i];
                 yd[ij] = yd_1d[j];
@@ -155,11 +132,11 @@ internal static class Program
         //
         //  #1:  Does interpolant match function at data points?
         //
-        ni = nd;
-        xi = typeMethods.r8vec_copy_new(ni, xd);
-        yi = typeMethods.r8vec_copy_new(ni, yd);
+        int ni = nd;
+        double[] xi = typeMethods.r8vec_copy_new(ni, xd);
+        double[] yi = typeMethods.r8vec_copy_new(ni, yd);
 
-        zi = Interp2D.pwl_interp_2d(nxd, nyd, xd_1d, yd_1d, zd, ni, xi, yi);
+        double[] zi = Interp2D.pwl_interp_2d(n, n, xd_1d, yd_1d, zd, ni, xi, yi);
 
         switch (ni)
         {
@@ -168,7 +145,7 @@ internal static class Program
                 break;
         }
 
-        int_error = typeMethods.r8vec_norm_affine(ni, zi, zd) / ni;
+        double int_error = typeMethods.r8vec_norm_affine(ni, zi, zd) / ni;
 
         Console.WriteLine("");
         Console.WriteLine("  RMS data interpolation error = " + int_error + "");
@@ -180,29 +157,29 @@ internal static class Program
             //
             case > 1:
             {
-                xi_1d = new double[nxd - 1];
-                yi_1d = new double[nyd - 1];
+                double[] xi_1d = new double[n - 1];
+                double[] yi_1d = new double[n - 1];
 
-                for (i = 0; i < nxd - 1; i++)
+                for (i = 0; i < n - 1; i++)
                 {
                     xi_1d[i] = 0.5 * (xd_1d[i] + xd_1d[i + 1]);
                 }
 
-                for (i = 0; i < nyd - 1; i++)
+                for (i = 0; i < n - 1; i++)
                 {
                     yi_1d[i] = 0.5 * (yd_1d[i] + yd_1d[i + 1]);
                 }
 
-                ni = (nxd - 1) * (nyd - 1);
+                ni = (n - 1) * (n - 1);
 
                 xi = new double[ni];
                 yi = new double[ni];
-                zdm = new double[ni];
+                double[] zdm = new double[ni];
 
                 ij = 0;
-                for (j = 0; j < nyd - 1; j++)
+                for (j = 0; j < n - 1; j++)
                 {
-                    for (i = 0; i < nxd - 1; i++)
+                    for (i = 0; i < n - 1; i++)
                     {
                         xi[ij] = xi_1d[i];
                         yi[ij] = yi_1d[j];
@@ -212,9 +189,9 @@ internal static class Program
 
                 Data_2D.f00_f0(prob, ni, xi, yi, ref zdm);
 
-                zi = Interp2D.pwl_interp_2d(nxd, nyd, xd_1d, yd_1d, zd, ni, xi, yi);
+                zi = Interp2D.pwl_interp_2d(n, n, xd_1d, yd_1d, zd, ni, xi, yi);
 
-                app_error = typeMethods.r8vec_norm_affine(ni, zi, zdm) / ni;
+                double app_error = typeMethods.r8vec_norm_affine(ni, zi, zdm) / ni;
 
                 Console.WriteLine("  RMS data approximation error = " + app_error + "");
                 break;

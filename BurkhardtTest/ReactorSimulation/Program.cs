@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Uniform;
 
 namespace ReactorSimulation;
@@ -124,24 +125,12 @@ internal static class Program
         //
     {
         double azm = 0;
-        double d = 0;
         double e = 0;
-        double ea = 0;
-        double er = 0;
-        double et = 0;
         double mu = 0;
-        int na = 0;
-        int nr = 0;
-        int nt = 0;
-        int ntot = 100000;
-        int part = 0;
-        double sa = 0;
-        int seed = 0;
-        double sr = 0;
-        double st = 0;
-        int test = 0;
-        int test_num = 5;
-        double thick = 2.0;
+        const int ntot = 100000;
+        int test;
+        const int test_num = 5;
+        const double thick = 2.0;
         double x = 0;
         double y = 0;
         double z = 0;
@@ -154,7 +143,7 @@ internal static class Program
         Console.WriteLine("  Number of simulated particles is NTOT = " + ntot + "");
         Console.WriteLine("  Number of tests TEST_NUM = " + test_num + "");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         for (test = 1; test <= test_num; test++)
         {
@@ -164,18 +153,19 @@ internal static class Program
             //
             //  Initialize.
             //
-            ea = 0.0;
-            er = 0.0;
-            et = 0.0;
-            na = 0;
-            nr = 0;
-            nt = 0;
-            sa = 0.0;
-            sr = 0.0;
-            st = 0.0;
+            double ea = 0.0;
+            double er = 0.0;
+            double et = 0.0;
+            int na = 0;
+            int nr = 0;
+            int nt = 0;
+            double sa = 0.0;
+            double sr = 0.0;
+            double st = 0.0;
             //
             //  Loop over the particles.
             //
+            int part;
             for (part = 1; part <= ntot; part++)
             {
                 //
@@ -189,7 +179,7 @@ internal static class Program
                     //  Compute the distance that the particle can travel through the slab,
                     //  based on its current energy.
                     //
-                    d = dist2c(e, ref seed);
+                    double d = dist2c(e, ref seed);
                     //
                     //  Update the particle's position by D units.
                     //
@@ -290,20 +280,11 @@ internal static class Program
         //    Local, double PA, the probability of absorption.
         //
     {
-        double pa = 0.1;
-        double u;
-        bool value;
+        const double pa = 0.1;
 
-        u = UniformRNG.r8_uniform_01(ref seed);
+        double u = UniformRNG.r8_uniform_01(ref seed);
 
-        if (u <= pa)
-        {
-            value = true;
-        }
-        else
-        {
-            value = false;
-        }
+        bool value = u <= pa;
 
         return value;
     }
@@ -350,16 +331,12 @@ internal static class Program
         //    Output, double CROSS, the cross section.
         //
     {
-        double s;
-        double value = 0;
-        double y;
+        double s = Math.Abs(Math.Sin(100.0 * (Math.Exp(e) - 1.0))
+                            + Math.Sin(18.81 * (Math.Exp(e) - 1.0)));
 
-        s = Math.Abs(Math.Sin(100.0 * (Math.Exp(e) - 1.0))
-                     + Math.Sin(18.81 * (Math.Exp(e) - 1.0)));
+        double y = Math.Max(0.02, s);
 
-        y = Math.Max(0.02, s);
-
-        value = 10.0 * Math.Exp(-0.1 / y);
+        double value = 10.0 * Math.Exp(-0.1 / y);
 
         return value;
     }
@@ -416,12 +393,9 @@ internal static class Program
         //    through the slab before colliding.
         //
     {
-        double u;
-        double value = 0;
+        double u = UniformRNG.r8_uniform_01(ref seed);
 
-        u = UniformRNG.r8_uniform_01(ref seed);
-
-        value = -Math.Log(u) / cross(e);
+        double value = -Math.Log(u) / cross(e);
 
         return value;
     }
@@ -478,17 +452,14 @@ internal static class Program
         //    energies.
         //
     {
-        double c;
-        double emax = 2.5;
-        double emin = 1.0E-03;
-        double u;
-        double value = 0;
+        const double emax = 2.5;
+        const double emin = 1.0E-03;
 
-        u = UniformRNG.r8_uniform_01(ref seed);
+        double u = UniformRNG.r8_uniform_01(ref seed);
 
-        c = 1.0 / (2.0 * (Math.Sqrt(emax) - Math.Sqrt(emin)));
+        double c = 1.0 / (2.0 * (Math.Sqrt(emax) - Math.Sqrt(emin)));
 
-        value = u / (2.0 * c) + Math.Sqrt(emin);
+        double value = u / (2.0 * c) + Math.Sqrt(emin);
         value *= value;
 
         return value;
@@ -553,11 +524,6 @@ internal static class Program
         double ea_ave;
         double er_ave;
         double et_ave;
-        double etot;
-        double pa;
-        double pr;
-        double pt;
-        double ptot;
 
         Console.WriteLine("");
         Console.WriteLine("  The Reactor Shielding Problem:");
@@ -567,7 +533,7 @@ internal static class Program
                           "Percent     Energy         StDev");
         Console.WriteLine("");
 
-        etot = ea + er + et;
+        double etot = ea + er + et;
 
         switch (na)
         {
@@ -580,14 +546,14 @@ internal static class Program
                 break;
         }
 
-        pa = na * 100 / (double)ntot;
+        double pa = na * 100 / (double)ntot;
 
         Console.WriteLine("Absorbed   "
                           + "  " + na.ToString().PadLeft(8)
-                          + "  " + ea.ToString().PadLeft(14)
-                          + "  " + pa.ToString().PadLeft(6)
-                          + "  " + ea_ave.ToString().PadLeft(14)
-                          + "  " + sa.ToString().PadLeft(14) + "");
+                          + "  " + ea.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + pa.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                          + "  " + ea_ave.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + sa.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
         switch (nr)
         {
@@ -600,14 +566,14 @@ internal static class Program
                 break;
         }
 
-        pr = nr * 100 / (double)ntot;
+        double pr = nr * 100 / (double)ntot;
 
         Console.WriteLine("Reflected  "
                           + "  " + nr.ToString().PadLeft(8)
-                          + "  " + er.ToString().PadLeft(14)
-                          + "  " + pr.ToString().PadLeft(6)
-                          + "  " + er_ave.ToString().PadLeft(14)
-                          + "  " + sr.ToString().PadLeft(14) + "");
+                          + "  " + er.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + pr.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                          + "  " + er_ave.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + sr.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
         switch (nt)
         {
@@ -620,22 +586,22 @@ internal static class Program
                 break;
         }
 
-        pt = nt * 100 / (double)ntot;
+        double pt = nt * 100 / (double)ntot;
 
         Console.WriteLine("Transmitted  "
                           + "  " + nt.ToString().PadLeft(8)
-                          + "  " + et.ToString().PadLeft(14)
-                          + "  " + pt.ToString().PadLeft(6)
-                          + "  " + et_ave.ToString().PadLeft(14)
-                          + "  " + st.ToString().PadLeft(14) + "");
+                          + "  " + et.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + pt.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                          + "  " + et_ave.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + st.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
-        ptot = 100.0;
+        double ptot = 100.0;
 
         Console.WriteLine("");
         Console.WriteLine("Total      "
                           + "  " + ntot.ToString().PadLeft(8)
-                          + "  " + etot.ToString().PadLeft(14)
-                          + "  " + ptot.ToString().PadLeft(6) + "");
+                          + "  " + etot.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + ptot.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
 
     }
 
@@ -691,14 +657,11 @@ internal static class Program
         //    direction.
         //
     {
-        double pi = 3.141592653589793;
-        double u;
-
-        u = UniformRNG.r8_uniform_01(ref seed);
+        double u = UniformRNG.r8_uniform_01(ref seed);
         mu = -1.0 + 2.0 * u;
 
         u = UniformRNG.r8_uniform_01(ref seed);
-        azm = u * 2.0 * pi;
+        azm = u * 2.0 * Math.PI;
 
         u = UniformRNG.r8_uniform_01(ref seed);
         e = (u * 0.7 + 0.3) * e;
@@ -751,14 +714,11 @@ internal static class Program
         //    Output, double &X, &Y, &Z, the initial coordinates of the particle.
         //
     {
-        double pi = 3.141592653589793;
-        double u;
-
-        u = UniformRNG.r8_uniform_01(ref seed);
+        double u = UniformRNG.r8_uniform_01(ref seed);
         mu = u;
 
         u = UniformRNG.r8_uniform_01(ref seed);
-        azm = u * 2.0 * pi;
+        azm = u * 2.0 * Math.PI;
 
         x = 0.0;
         y = 0.0;
@@ -811,9 +771,7 @@ internal static class Program
         //    particle.
         //
     {
-        double s;
-
-        s = Math.Sqrt(1.0 - mu * mu);
+        double s = Math.Sqrt(1.0 - mu * mu);
 
         x += d * mu;
         y += d * s * Math.Cos(azm);

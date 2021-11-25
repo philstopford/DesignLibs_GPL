@@ -65,16 +65,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] a;
         int i = 0;
-        int i4_hi;
-        int i4_lo;
-        int indx;
         int isgn = 0;
         int j = 0;
-        int k;
-        int n = 20;
-        int seed;
+        const int n = 20;
         Sort.SortRCData data = new();
 
         Console.WriteLine("");
@@ -85,17 +79,16 @@ internal static class Program
         //
         //  Generate some data to sort.
         //
-        i4_lo = 1;
-        i4_hi = n;
-        seed = 123456789;
+        const int i4_lo = 1;
+        int seed = 123456789;
 
-        a = UniformRNG.i4vec_uniform_ab_new(n, i4_lo, i4_hi, ref seed);
+        int[] a = UniformRNG.i4vec_uniform_ab_new(n, i4_lo, n, ref seed);
 
         typeMethods.i4vec_print(n, a, "  Unsorted array:");
         //
         //  Sort the data.
         // 
-        indx = 0;
+        int indx = 0;
 
         for (;;)
         {
@@ -111,9 +104,7 @@ internal static class Program
             }
             else if (0 < indx)
             {
-                k = a[i - 1];
-                a[i - 1] = a[j - 1];
-                a[j - 1] = k;
+                (a[i - 1], a[j - 1]) = (a[j - 1], a[i - 1]);
             }
             else
             {
@@ -149,21 +140,15 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] a;
         int i = 0;
         int i_save = 0;
-        int i4_hi = 0;
-        int i4_lo = 0;
-        int indx = 0;
         int isgn = 0;
         int j = 0;
         int j_save = 0;
-        int k = 0;
         int k_save = 0;
         int l_save = 0;
-        int n = 20;
+        const int n = 20;
         int n_save = 0;
-        int seed = 0;
 
         Console.WriteLine("");
         Console.WriteLine("SORT_SAFE_RC_TEST");
@@ -173,17 +158,16 @@ internal static class Program
         //
         //  Generate some data to sort.
         //
-        i4_lo = 1;
-        i4_hi = n;
-        seed = 123456789;
+        const int i4_lo = 1;
+        int seed = 123456789;
 
-        a = UniformRNG.i4vec_uniform_ab_new(n, i4_lo, i4_hi, ref seed);
+        int[] a = UniformRNG.i4vec_uniform_ab_new(n, i4_lo, n, ref seed);
 
         typeMethods.i4vec_print(n, a, "  Unsorted array:");
         //
         //  Sort the data.
         //
-        indx = 0;
+        int indx = 0;
 
         for (;;)
         {
@@ -200,9 +184,7 @@ internal static class Program
             }
             else if (0 < indx)
             {
-                k = a[i - 1];
-                a[i - 1] = a[j - 1];
-                a[j - 1] = k;
+                (a[i - 1], a[j - 1]) = (a[j - 1], a[i - 1]);
             }
             else
             {

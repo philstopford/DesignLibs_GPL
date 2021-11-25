@@ -26,17 +26,7 @@ public static class ParabolaTest
         //    John Burkardt
         //
     {
-        double a;
-        double b;
-        double c;
-        int ierror = 0;
-        double x1;
-        double x2;
-        double x3;
         double xmin = 0;
-        double y1;
-        double y2;
-        double y3;
         double ymin = 0;
 
         Console.WriteLine("");
@@ -46,16 +36,16 @@ public static class ParabolaTest
         Console.WriteLine("  PARABOLA_EX2 finds the extreme value of a parabola");
         Console.WriteLine("  determined by three points.");
 
-        a = 2.0;
-        b = -4.0;
-        c = 10.0;
+        double a = 2.0;
+        double b = -4.0;
+        double c = 10.0;
 
-        x1 = 1.0;
-        y1 = a * x1 * x1 + b * x1 + c;
-        x2 = 2.0;
-        y2 = a * x2 * x2 + b * x2 + c;
-        x3 = 3.0;
-        y3 = a * x3 * x3 + b * x3 + c;
+        const double x1 = 1.0;
+        double y1 = a * x1 * x1 + b * x1 + c;
+        const double x2 = 2.0;
+        double y2 = a * x2 * x2 + b * x2 + c;
+        const double x3 = 3.0;
+        double y3 = a * x3 * x3 + b * x3 + c;
 
         Console.WriteLine("");
         Console.WriteLine("  Parabolic coefficients (A,B,C) = "
@@ -71,7 +61,7 @@ public static class ParabolaTest
         b = 0.0;
         c = 0.0;
 
-        ierror = Geometry.parabola_ex(x1, y1, x2, y2, x3, y3, ref xmin, ref ymin);
+        int ierror = Geometry.parabola_ex(x1, y1, x2, y2, x3, y3, ref xmin, ref ymin);
 
         switch (ierror)
         {

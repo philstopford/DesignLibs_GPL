@@ -30,7 +30,7 @@ public static class PlaneTest
             //    John Burkardt
             //
       {
-            int DIM_NUM = 3;
+            const int DIM_NUM = 3;
 
             double[] p1 = {-10.56, -10.56, 78.09};
             double[] p2 = {44.66, -65.77, 0.0};
@@ -43,24 +43,24 @@ public static class PlaneTest
             Console.WriteLine("");
             Console.WriteLine("  Coordinates of 3 points:");
             Console.WriteLine("");
-            Console.WriteLine("  P1 = " + p1[0].ToString().PadLeft(12)
-                                        + "  " + p1[1].ToString().PadLeft(12)
-                                        + "  " + p1[2].ToString().PadLeft(12) + "");
-            Console.WriteLine("  P2 = " + p2[0].ToString().PadLeft(12)
-                                        + "  " + p2[1].ToString().PadLeft(12)
-                                        + "  " + p2[2].ToString().PadLeft(12) + "");
-            Console.WriteLine("  P3 = " + p3[0].ToString().PadLeft(12)
-                                        + "  " + p3[1].ToString().PadLeft(12)
-                                        + "  " + p3[2].ToString().PadLeft(12) + "");
+            Console.WriteLine("  P1 = " + p1[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                        + "  " + p1[1].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                        + "  " + p1[2].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+            Console.WriteLine("  P2 = " + p2[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                        + "  " + p2[1].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                        + "  " + p2[2].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+            Console.WriteLine("  P3 = " + p3[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                        + "  " + p3[1].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                        + "  " + p3[2].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
 
             Geometry.plane_exp_normal_3d(p1, p2, p3, ref pn);
 
             Console.WriteLine("");
             Console.WriteLine("  Unit normal vector:");
             Console.WriteLine("");
-            Console.WriteLine("  PN = " + pn[0].ToString().PadLeft(12)
-                                        + "  " + pn[1].ToString().PadLeft(12)
-                                        + "  " + pn[2].ToString().PadLeft(12) + "");
+            Console.WriteLine("  PN = " + pn[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                        + "  " + pn[1].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                        + "  " + pn[2].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
 
       }
 
@@ -81,7 +81,7 @@ public static class PlaneTest
             //    John Burkardt
             //
       {
-            int DIM_NUM = 3;
+            const int DIM_NUM = 3;
 
             double a = 0;
             double b = 0;
@@ -114,15 +114,15 @@ public static class PlaneTest
             Console.WriteLine("");
             Console.WriteLine("  Input:");
             Console.WriteLine("");
-            Console.WriteLine("  P1 = " + p1[0].ToString().PadLeft(12)
-                                        + "  " + p1[1].ToString().PadLeft(12)
-                                        + "  " + p1[2].ToString().PadLeft(12) + "");
-            Console.WriteLine("  P2 = " + p2[0].ToString().PadLeft(12)
-                                        + "  " + p2[1].ToString().PadLeft(12)
-                                        + "  " + p2[2].ToString().PadLeft(12) + "");
-            Console.WriteLine("  P3 = " + p3[0].ToString().PadLeft(12)
-                                        + "  " + p3[1].ToString().PadLeft(12)
-                                        + "  " + p3[2].ToString().PadLeft(12) + "");
+            Console.WriteLine("  P1 = " + p1[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                        + "  " + p1[1].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                        + "  " + p1[2].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+            Console.WriteLine("  P2 = " + p2[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                        + "  " + p2[1].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                        + "  " + p2[2].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+            Console.WriteLine("  P3 = " + p3[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                        + "  " + p3[1].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                        + "  " + p3[2].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             Console.WriteLine("");
             Console.WriteLine("  Output:");
             Console.WriteLine("");
@@ -146,15 +146,15 @@ public static class PlaneTest
             Console.WriteLine("");
             Console.WriteLine("  Input:");
             Console.WriteLine("");
-            Console.WriteLine("  P1 = " + p1[0].ToString().PadLeft(12)
-                                        + "  " + p1[1].ToString().PadLeft(12)
-                                        + "  " + p1[2].ToString().PadLeft(12) + "");
-            Console.WriteLine("  P2 = " + p2[0].ToString().PadLeft(12)
-                                        + "  " + p2[1].ToString().PadLeft(12)
-                                        + "  " + p2[2].ToString().PadLeft(12) + "");
-            Console.WriteLine("  P3 = " + p3[0].ToString().PadLeft(12)
-                                        + "  " + p3[1].ToString().PadLeft(12)
-                                        + "  " + p3[2].ToString().PadLeft(12) + "");
+            Console.WriteLine("  P1 = " + p1[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                        + "  " + p1[1].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                        + "  " + p1[2].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+            Console.WriteLine("  P2 = " + p2[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                        + "  " + p2[1].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                        + "  " + p2[2].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+            Console.WriteLine("  P3 = " + p3[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                        + "  " + p3[1].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                        + "  " + p3[2].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             Console.WriteLine("");
             Console.WriteLine("  Output:");
             Console.WriteLine("");
@@ -180,7 +180,7 @@ public static class PlaneTest
             //    John Burkardt
             //
       {
-            int DIM_NUM = 3;
+            const int DIM_NUM = 3;
 
             int i;
             double[] p1 = new double[DIM_NUM];
@@ -212,15 +212,15 @@ public static class PlaneTest
             Console.WriteLine("");
             Console.WriteLine("  Input:");
             Console.WriteLine("");
-            Console.WriteLine("  P1 = " + p1[0].ToString().PadLeft(12)
-                                        + "  " + p1[1].ToString().PadLeft(12)
-                                        + "  " + p1[2].ToString().PadLeft(12) + "");
-            Console.WriteLine("  P2 = " + p2[0].ToString().PadLeft(12)
-                                        + "  " + p2[1].ToString().PadLeft(12)
-                                        + "  " + p2[2].ToString().PadLeft(12) + "");
-            Console.WriteLine("  P3 = " + p3[0].ToString().PadLeft(12)
-                                        + "  " + p3[1].ToString().PadLeft(12)
-                                        + "  " + p3[2].ToString().PadLeft(12) + "");
+            Console.WriteLine("  P1 = " + p1[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                        + "  " + p1[1].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                        + "  " + p1[2].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+            Console.WriteLine("  P2 = " + p2[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                        + "  " + p2[1].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                        + "  " + p2[2].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+            Console.WriteLine("  P3 = " + p3[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                        + "  " + p3[1].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                        + "  " + p3[2].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             Console.WriteLine("");
             Console.WriteLine("  Output:");
             Console.WriteLine("");
@@ -242,21 +242,21 @@ public static class PlaneTest
             string cout = "  P1: ";
             for (i = 0; i < DIM_NUM; i++)
             {
-                  cout += "  " + p1[i].ToString().PadLeft(8);
+                  cout += "  " + p1[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
 
             Console.WriteLine(cout);
             cout = "  P2: ";
             for (i = 0; i < DIM_NUM; i++)
             {
-                  cout += "  " + p2[i].ToString().PadLeft(8);
+                  cout += "  " + p2[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
 
             Console.WriteLine(cout);
             cout = "  P3: ";
             for (i = 0; i < DIM_NUM; i++)
             {
-                  cout += "  " + p3[i].ToString().PadLeft(8);
+                  cout += "  " + p3[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
 
             Console.WriteLine(cout);
@@ -296,10 +296,9 @@ public static class PlaneTest
             //    John Burkardt
             //
       {
-            int DIM_NUM = 3;
-            int N = 5;
+            const int DIM_NUM = 3;
+            const int N = 5;
 
-            int i;
             int[] ivis = new int[N];
             int j;
             double[] p1 = {1.0, 0.0, 0.0};
@@ -329,14 +328,15 @@ public static class PlaneTest
             string cout = "";
             for (j = 0; j < N; j++)
             {
+                  int i;
                   for (i = 0; i < DIM_NUM; i++)
                   {
-                        cout += "  " + po[i + j * DIM_NUM].ToString().PadLeft(10);
+                        cout += "  " + po[i + j * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(10);
                   }
 
                   for (i = 0; i < DIM_NUM; i++)
                   {
-                        cout += "  " + pp[i + j * DIM_NUM].ToString().PadLeft(10);
+                        cout += "  " + pp[i + j * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(10);
                   }
 
                   cout += "  " + ivis[j].ToString().PadLeft(4);
@@ -362,12 +362,8 @@ public static class PlaneTest
             //    John Burkardt
             //
       {
-            int DIM_NUM = 3;
+            const int DIM_NUM = 3;
 
-            double a;
-            double b;
-            double c;
-            double d;
             int i;
             double[] p1 = new double[DIM_NUM];
             double[] p2 = new double[DIM_NUM];
@@ -378,10 +374,10 @@ public static class PlaneTest
             Console.WriteLine("  PLANE_IMP2EXP_3D converts a plane in implicit");
             Console.WriteLine("  (A,B,C,D) form to explicit form.");
 
-            a = 1.0;
-            b = -2.0;
-            c = -3.0;
-            d = 6.0;
+            const double a = 1.0;
+            const double b = -2.0;
+            const double c = -3.0;
+            const double d = 6.0;
 
             Console.WriteLine("");
             Console.WriteLine("  A = " + a
@@ -394,21 +390,21 @@ public static class PlaneTest
             string cout = "  P1: ";
             for (i = 0; i < DIM_NUM; i++)
             {
-                  cout += "  " + p1[i].ToString().PadLeft(8);
+                  cout += "  " + p1[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
 
             Console.WriteLine(cout);
             cout = "  P2: ";
             for (i = 0; i < DIM_NUM; i++)
             {
-                  cout += "  " + p2[i].ToString().PadLeft(8);
+                  cout += "  " + p2[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
 
             Console.WriteLine(cout);
             cout = "  P3: ";
             for (i = 0; i < DIM_NUM; i++)
             {
-                  cout += "  " + p3[i].ToString().PadLeft(8);
+                  cout += "  " + p3[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
 
             Console.WriteLine(cout);
@@ -432,12 +428,8 @@ public static class PlaneTest
             //    John Burkardt
             //
       {
-            int DIM_NUM = 3;
+            const int DIM_NUM = 3;
 
-            double a;
-            double b;
-            double c;
-            double d;
             double[] pn = new double[DIM_NUM];
             double[] pp = new double[DIM_NUM];
 
@@ -446,10 +438,10 @@ public static class PlaneTest
             Console.WriteLine("  PLANE_IMP2NORMAL_3D converts a plane in implicit");
             Console.WriteLine("  (A,B,C,D) form to point, normal form.");
 
-            a = 1.0;
-            b = -2.0;
-            c = -3.0;
-            d = 6.0;
+            const double a = 1.0;
+            const double b = -2.0;
+            const double c = -3.0;
+            const double d = 6.0;
 
             Console.WriteLine("");
             Console.WriteLine("  A = " + a
@@ -482,21 +474,9 @@ public static class PlaneTest
             //    John Burkardt
             //
       {
-            int DIM_NUM = 3;
+            const int DIM_NUM = 3;
 
-            double a;
-            double b;
-            double c;
-            double d;
-            double f;
-            double g;
-            double h;
-            int i;
-            bool intersect;
             double[] p = new double[DIM_NUM];
-            double x0;
-            double y0;
-            double z0;
 
             Console.WriteLine("");
             Console.WriteLine("PLANE_IMP_LINE_PAR_INT_3D_TEST");
@@ -504,20 +484,20 @@ public static class PlaneTest
             Console.WriteLine("  intersection of an implicit plane and");
             Console.WriteLine("  a parametric line, in 3D.");
 
-            a = 1.0;
-            b = -2.0;
-            c = -3.0;
-            d = 6.0;
+            const double a = 1.0;
+            const double b = -2.0;
+            const double c = -3.0;
+            const double d = 6.0;
 
-            f = 2.0;
-            g = 1.0;
-            h = 5.0;
-            x0 = 3.0;
-            y0 = 0.0;
-            z0 = -7.0;
+            const double f = 2.0;
+            const double g = 1.0;
+            const double h = 5.0;
+            const double x0 = 3.0;
+            const double y0 = 0.0;
+            const double z0 = -7.0;
             string cout = "";
 
-            intersect = Geometry.plane_imp_line_par_int_3d(a, b, c, d, x0, y0, z0, f, g, h, ref p);
+            bool intersect = Geometry.plane_imp_line_par_int_3d(a, b, c, d, x0, y0, z0, f, g, h, ref p);
 
             switch (intersect)
             {
@@ -525,9 +505,10 @@ public static class PlaneTest
                   {
                         Console.WriteLine("");
                         Console.WriteLine("  The plane and line intersect at");
+                        int i;
                         for (i = 0; i < DIM_NUM; i++)
                         {
-                              cout += "  " + p[i].ToString().PadLeft(12);
+                              cout += "  " + p[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
                         }
 
                         Console.WriteLine(cout);
@@ -563,13 +544,9 @@ public static class PlaneTest
             //    John Burkardt
             //
       {
-            int DIM_NUM = 3;
-            int TEST_NUM = 2;
+            const int DIM_NUM = 3;
+            const int TEST_NUM = 2;
 
-            double a;
-            double b;
-            double c;
-            double d;
             double dist = 0;
             double[] p1 = new double[DIM_NUM];
             double[] p2 = new double[DIM_NUM];
@@ -602,10 +579,10 @@ public static class PlaneTest
                               break;
                   }
 
-                  a = 1.0;
-                  b = -2.0;
-                  c = -3.0;
-                  d = 6.0;
+                  const double a = 1.0;
+                  const double b = -2.0;
+                  const double c = -3.0;
+                  const double d = 6.0;
 
                   Geometry.plane_imp_segment_near_3d(p1, p2, a, b, c, d, ref dist, ref pp, ref pls);
 
@@ -638,24 +615,18 @@ public static class PlaneTest
             //    John Burkardt
             //
       {
-            int TEST_NUM = 4;
+            const int TEST_NUM = 4;
 
-            double a;
-            double b;
-            double c;
-            double d;
-            double dist;
-            double dist_signed;
             double[] p = new double[3];
             int test;
             double[] xtest = new double[TEST_NUM];
             double[] ytest = new double[TEST_NUM];
             double[] ztest = new double[TEST_NUM];
 
-            a = 0.0;
-            b = 0.0;
-            c = 1.0;
-            d = -10.0;
+            const double a = 0.0;
+            const double b = 0.0;
+            const double c = 1.0;
+            const double d = -10.0;
 
             xtest[0] = -12.0;
             ytest[0] = 14.0;
@@ -694,15 +665,15 @@ public static class PlaneTest
                   p[1] = ytest[test];
                   p[2] = ztest[test];
 
-                  dist = Geometry.plane_imp_point_dist_3d(a, b, c, d, p);
+                  double dist = Geometry.plane_imp_point_dist_3d(a, b, c, d, p);
 
-                  dist_signed = Geometry.plane_imp_point_dist_signed_3d(a, b, c, d, p);
+                  double dist_signed = Geometry.plane_imp_point_dist_signed_3d(a, b, c, d, p);
 
-                  Console.WriteLine("  " + p[0].ToString().PadLeft(10)
-                                         + "  " + p[1].ToString().PadLeft(10)
-                                         + "  " + p[2].ToString().PadLeft(10)
-                                         + "  " + dist.ToString().PadLeft(10)
-                                         + "  " + dist_signed.ToString().PadLeft(10) + "");
+                  Console.WriteLine("  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                         + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                         + "  " + p[2].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                         + "  " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                         + "  " + dist_signed.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
             }
 
       }
@@ -724,15 +695,10 @@ public static class PlaneTest
             //    John Burkardt
             //
       {
-            int DIM_NUM = 3;
-            int TEST_NUM = 2;
+            const int DIM_NUM = 3;
+            const int TEST_NUM = 2;
 
-            double a;
-            double b;
-            double c;
-            double d;
             double dist = 0;
-            int near_num;
             double[] pn = new double[DIM_NUM * 6];
             double[] t =
             {
@@ -747,10 +713,10 @@ public static class PlaneTest
             Console.WriteLine("  PLANE_IMP_TRIANGLE_NEAR_3D finds the nearest");
             Console.WriteLine("  points on an implicit plane and a triangle.");
 
-            a = 1.0;
-            b = -2.0;
-            c = -3.0;
-            d = 6.0;
+            const double a = 1.0;
+            const double b = -2.0;
+            const double c = -3.0;
+            const double d = 6.0;
 
             Console.WriteLine("");
             Console.WriteLine("  Implicit plane: A*X + B*Y + C*Z + D = 0.");
@@ -763,12 +729,12 @@ public static class PlaneTest
             {
                   switch (test)
                   {
-                        case 1:
+                        case 0:
                               t[0 + 2 * DIM_NUM] = 5.0;
                               t[1 + 2 * DIM_NUM] = 1.0;
                               t[2 + 2 * DIM_NUM] = -2.0;
                               break;
-                        case 2:
+                        case 1:
                               t[0 + 2 * DIM_NUM] = 9.0;
                               t[1 + 2 * DIM_NUM] = 3.0;
                               t[2 + 2 * DIM_NUM] = 8.0;
@@ -777,7 +743,7 @@ public static class PlaneTest
 
                   typeMethods.r8mat_transpose_print(DIM_NUM, 3, t, "  Triangle vertices:");
 
-                  near_num = Geometry.plane_imp_triangle_near_3d(t, a, b, c, d, ref dist, ref pn);
+                  int near_num = Geometry.plane_imp_triangle_near_3d(t, a, b, c, d, ref dist, ref pn);
 
                   Console.WriteLine("");
                   Console.WriteLine("  Triangle to plane distance is " + dist + "");
@@ -803,15 +769,10 @@ public static class PlaneTest
             //    John Burkardt
             //
       {
-            int DIM_NUM = 3;
-            int TEST_NUM = 4;
+            const int DIM_NUM = 3;
+            const int TEST_NUM = 4;
 
-            double a;
-            double b;
-            double c;
-            double d;
             int int_num = 0;
-            int j;
             double[] p = new double[DIM_NUM * 3];
             double[] t = new double[DIM_NUM * 3];
             int test;
@@ -822,10 +783,10 @@ public static class PlaneTest
             Console.WriteLine("  intersection points of an implicit plane");
             Console.WriteLine("  and a triangle.");
 
-            a = 1.0;
-            b = -2.0;
-            c = -3.0;
-            d = 6.0;
+            const double a = 1.0;
+            const double b = -2.0;
+            const double c = -3.0;
+            const double d = 6.0;
 
             Console.WriteLine("");
             Console.WriteLine("  The implicit plane: A*X + B*Y + C*Z + D = 0.");
@@ -896,12 +857,13 @@ public static class PlaneTest
                   {
                         case > 0:
                         {
+                              int j;
                               for (j = 0; j < int_num; j++)
                               {
                                     Console.WriteLine("  " + (j + 1).ToString().PadLeft(4)
-                                                           + "  " + p[0 + j * 3].ToString().PadLeft(10)
-                                                           + "  " + p[1 + j * 3].ToString().PadLeft(10)
-                                                           + "  " + p[2 + j * 3].ToString().PadLeft(10) + "");
+                                                           + "  " + p[0 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                                           + "  " + p[1 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                                           + "  " + p[2 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
                               }
 
                               break;
@@ -929,12 +891,10 @@ public static class PlaneTest
             //    John Burkardt
             //
       {
-            int DIM_NUM = 3;
-            int TEST_NUM = 5;
+            const int DIM_NUM = 3;
+            const int TEST_NUM = 5;
 
             double[] b = new double[DIM_NUM * DIM_NUM];
-            double[] pn;
-            double[] pp;
             double[] pq = new double[DIM_NUM];
             double[] pr = new double[DIM_NUM];
             int seed = 123456789;
@@ -949,8 +909,8 @@ public static class PlaneTest
 
             for (test = 0; test < TEST_NUM; test++)
             {
-                  pp = UniformRNG.r8vec_uniform_01_new(DIM_NUM, ref seed);
-                  pn = UniformRNG.r8vec_uniform_01_new(DIM_NUM, ref seed);
+                  double[] pp = UniformRNG.r8vec_uniform_01_new(DIM_NUM, ref seed);
+                  double[] pn = UniformRNG.r8vec_uniform_01_new(DIM_NUM, ref seed);
 
                   Geometry.plane_normal_basis_3d(pp, pn, ref pq, ref pr);
 
@@ -1000,16 +960,14 @@ public static class PlaneTest
             //    John Burkardt
             //
       {
-            int DIM_NUM = 3;
+            const int DIM_NUM = 3;
 
             int i;
-            int ival;
             double[] normal = {1.0, -2.0, -3.0};
             double[] p1 = {3.0, 0.0, -7.0};
             double[] p2 = {5.0, 1.0, -2.0};
             double[] pint = new double[DIM_NUM];
             double[] pp = {-1.0, +1.0, +1.0};
-            double temp;
 
             Console.WriteLine("");
             Console.WriteLine("TEST0615");
@@ -1017,7 +975,7 @@ public static class PlaneTest
             Console.WriteLine("  intersection of a normal plane and");
             Console.WriteLine("  an explicit line, in 3D.");
 
-            temp = 0.0;
+            double temp = 0.0;
             for (i = 0; i < DIM_NUM; i++)
             {
                   temp += Math.Pow(normal[i], 2);
@@ -1035,7 +993,7 @@ public static class PlaneTest
             typeMethods.r8vec_print(DIM_NUM, p1, "  Line point P1:");
             typeMethods.r8vec_print(DIM_NUM, p2, "  Line point P2:");
 
-            ival = Geometry.plane_normal_line_exp_int_3d(pp, normal, p1, p2, ref pint);
+            int ival = Geometry.plane_normal_line_exp_int_3d(pp, normal, p1, p2, ref pint);
 
             Console.WriteLine("");
 
@@ -1083,22 +1041,13 @@ public static class PlaneTest
             //    John Burkardt
             //
       {
-            double dif;
-            int i;
             int j;
-            int m = 3;
-            int n = 5;
-            double[] normal;
-            double[] pp;
+            const int m = 3;
+            const int n = 5;
             double[] pq = new double[3];
             double[] pr = new double[3];
-            double[] qr1;
-            double[] qr2;
-            int seed;
-            double t;
-            double[] xyz;
 
-            seed = 123456789;
+            int seed = 123456789;
 
             Console.WriteLine("");
             Console.WriteLine("TEST0616");
@@ -1109,9 +1058,9 @@ public static class PlaneTest
             //
             //  Choose PP and NORMAL at random.
             //
-            pp = UniformRNG.r8vec_uniform_01_new(m, ref seed);
+            double[] pp = UniformRNG.r8vec_uniform_01_new(m, ref seed);
 
-            normal = UniformRNG.r8vec_uniform_01_new(m, ref seed);
+            double[] normal = UniformRNG.r8vec_uniform_01_new(m, ref seed);
             //
             //  Compute in-plane basis vectors PQ and PR.
             //
@@ -1119,20 +1068,21 @@ public static class PlaneTest
             //
             //  Choose random Q, R coordinates.
             //
-            qr1 = UniformRNG.r8mat_uniform_01_new(m - 1, n, ref seed);
+            double[] qr1 = UniformRNG.r8mat_uniform_01_new(m - 1, n, ref seed);
             //
             //  Convert to XYZ.
             //
-            xyz = Geometry.plane_normal_qr_to_xyz(pp, normal, pq, pr, n, qr1);
+            double[] xyz = Geometry.plane_normal_qr_to_xyz(pp, normal, pq, pr, n, qr1);
             //
             //  Convert XYZ to QR.
             //
-            qr2 = Geometry.plane_normal_xyz_to_qr(pp, normal, pq, pr, n, xyz);
+            double[] qr2 = Geometry.plane_normal_xyz_to_qr(pp, normal, pq, pr, n, xyz);
 
-            dif = 0.0;
+            double dif = 0.0;
             for (j = 0; j < n; j++)
             {
-                  t = 0.0;
+                  double t = 0.0;
+                  int i;
                   for (i = 0; i < m - 1; i++)
                   {
                         t += Math.Pow(qr1[0 + j * 2] - qr2[0 + j * 2], 2);
@@ -1168,10 +1118,7 @@ public static class PlaneTest
             //    John Burkardt
             //
       {
-            int i;
-            int j;
             int k;
-            int l;
             int int_num = 0;
             double[] normal = new double[3];
             double[] pint = new double[3 * 4];
@@ -1183,8 +1130,6 @@ public static class PlaneTest
                   0.0, 1.0, 0.0,
                   0.0, 0.0, 1.0
             };
-
-            string cout = "";
 
             Console.WriteLine("");
             Console.WriteLine("TEST0617");
@@ -1210,7 +1155,8 @@ public static class PlaneTest
                   Console.WriteLine("");
                   Console.WriteLine("  Plane normal vector number " + k + "");
                   Console.WriteLine("");
-                  cout = "";
+                  string cout = "";
+                  int i;
                   for (i = 0; i < 3; i++)
                   {
                         cout += "  " + normal[i];
@@ -1218,6 +1164,7 @@ public static class PlaneTest
 
                   Console.WriteLine(cout);
 
+                  int l;
                   for (l = 0; l <= 6; l++)
                   {
                         for (i = 0; i < 3; i++)
@@ -1240,6 +1187,7 @@ public static class PlaneTest
                         Console.WriteLine("");
                         Console.WriteLine("  Number of intersection points = " + int_num + "");
                         Console.WriteLine("");
+                        int j;
                         for (j = 0; j < int_num; j++)
                         {
                               cout = "  " + j.ToString().PadLeft(4);
@@ -1275,14 +1223,12 @@ public static class PlaneTest
             //    John Burkardt
             //
       {
-            int DIM_NUM = 3;
-            int TEST_NUM = 4;
+            const int DIM_NUM = 3;
+            const int TEST_NUM = 4;
 
-            int int_num;
             double[] normal = {1.0, -2.0, -3.0};
             double[] pint = new double[DIM_NUM * 3];
             double[] pp = {0.0, 0.0, 2.0};
-            double[] t;
             double[] t_test =
             {
                   3.0, 0.0, -7.0,
@@ -1311,11 +1257,11 @@ public static class PlaneTest
 
             for (test = 0; test < TEST_NUM; test++)
             {
-                  t = t_test.Skip(+DIM_NUM * 3 * test).ToArray();
+                  double[] t = t_test.Skip(+DIM_NUM * 3 * test).ToArray();
 
                   typeMethods.r8mat_transpose_print(DIM_NUM, 3, t, "  Triangle vertices:");
 
-                  int_num = Geometry.plane_normal_triangle_int_3d(pp, normal, t, pint);
+                  int int_num = Geometry.plane_normal_triangle_int_3d(pp, normal, t, pint);
 
                   Console.WriteLine("");
                   Console.WriteLine("  Number of intersection points is " + int_num + "");
@@ -1346,7 +1292,7 @@ public static class PlaneTest
             //    John Burkardt
             //
       {
-            int DIM_NUM = 3;
+            const int DIM_NUM = 3;
 
             int i;
             double[] normal = {-0.2672612, -0.5345225, -0.8017837};
@@ -1370,21 +1316,21 @@ public static class PlaneTest
             cout = "  P1: ";
             for (i = 0; i < DIM_NUM; i++)
             {
-                  cout += "  " + p1[i].ToString().PadLeft(8);
+                  cout += "  " + p1[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
 
             Console.WriteLine(cout);
             cout = "  P2: ";
             for (i = 0; i < DIM_NUM; i++)
             {
-                  cout += "  " + p2[i].ToString().PadLeft(8);
+                  cout += "  " + p2[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
 
             Console.WriteLine(cout);
             cout = "  P3: ";
             for (i = 0; i < DIM_NUM; i++)
             {
-                  cout += "  " + p3[i].ToString().PadLeft(8);
+                  cout += "  " + p3[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
 
             Console.WriteLine(cout);
@@ -1499,10 +1445,9 @@ public static class PlaneTest
             //    John Burkardt
             //
       {
-            int DIM_NUM = 3;
-            int TEST_NUM = 5;
+            const int DIM_NUM = 3;
+            const int TEST_NUM = 5;
 
-            int i;
             double[] p1 = { 1.0, 0.0, 0.0 };
             double[] p2 = { 0.0, 1.0, 0.0 };
             double[] p3 = { 0.0, 0.0, 1.0 };
@@ -1528,13 +1473,14 @@ public static class PlaneTest
             for ( test = 0; test < TEST_NUM; test++ )
             {
                   string cout = "";
+                  int i;
                   for ( i = 0; i < DIM_NUM; i++ )
                   {
-                        cout += "  " + po[i+test*DIM_NUM].ToString().PadLeft(10);
+                        cout += "  " + po[i+test*DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(10);
                   }
                   for ( i = 0; i < DIM_NUM; i++ )
                   {
-                        cout += "  " + pp[i+test*DIM_NUM].ToString().PadLeft(10);
+                        cout += "  " + pp[i+test*DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(10);
                   }
                   Console.WriteLine(cout);
             }

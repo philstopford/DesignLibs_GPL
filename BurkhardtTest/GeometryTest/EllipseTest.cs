@@ -29,17 +29,15 @@ public static class EllipseTest
         //
     {
         double[] a = {5.0, 1.0, 1.0, 2.0};
-        double area;
-        double r;
 
         Console.WriteLine("");
         Console.WriteLine("ELLIPSE_AREA1_TEST");
             
         Console.WriteLine("  ELLIPSE_AREA1 computes the area of an ellipse.");
 
-        r = 10.0;
+        double r = 10.0;
 
-        area = Geometry.ellipse_area1(a, r);
+        double area = Geometry.ellipse_area1(a, r);
 
         Console.WriteLine("");
         Console.WriteLine("  R = " + r + "");
@@ -73,23 +71,17 @@ public static class EllipseTest
         //    John Burkardt
         //
     {
-        double a;
-        double area;
-        double b;
-        double c;
-        double d;
-
         Console.WriteLine("");
         Console.WriteLine("ELLIPSE_AREA2_TEST");
             
         Console.WriteLine("  ELLIPSE_AREA2 computes the area of an ellipse.");
 
-        a = 5.0;
-        b = 2.0;
-        c = 2.0;
-        d = 10.0;
+        const double a = 5.0;
+        const double b = 2.0;
+        const double c = 2.0;
+        const double d = 10.0;
 
-        area = Geometry.ellipse_area2(a, b, c, d);
+        double area = Geometry.ellipse_area2(a, b, c, d);
 
         Console.WriteLine("");
         Console.WriteLine("  Ellipse: " + a
@@ -124,19 +116,15 @@ public static class EllipseTest
         //    John Burkardt
         //
     {
-        double area;
-        double r1;
-        double r2;
-
         Console.WriteLine("");
         Console.WriteLine("ELLIPSE_AREA3_TEST");
             
         Console.WriteLine("  ELLIPSE_AREA3 computes the area of an ellipse.");
 
-        r1 = 10.0;
-        r2 = 10.0 / 3.0;
+        const double r1 = 10.0;
+        const double r2 = 10.0 / 3.0;
 
-        area = Geometry.ellipse_area3(r1, r2);
+        double area = Geometry.ellipse_area3(r1, r2);
 
         Console.WriteLine("");
         Console.WriteLine("  Ellipse:  (x/" + r1 + ")^2 + (y/" + r2 + ")^2 = 1");
@@ -169,14 +157,13 @@ public static class EllipseTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
-        double dist;
         int i;
-        int n = 10;
+        const int n = 10;
         double[] p = new double[DIM_NUM];
-        double r1 = 3.0;
-        double r2 = 2.0;
+        const double r1 = 3.0;
+        const double r2 = 2.0;
 
         Console.WriteLine("");
         Console.WriteLine("TEST025:");
@@ -201,11 +188,11 @@ public static class EllipseTest
                     + i * 0.0)
                    / n;
 
-            dist = Geometry.ellipse_point_dist_2d(r1, r2, p);
+            double dist = Geometry.ellipse_point_dist_2d(r1, r2, p);
 
-            Console.WriteLine("  " + p[0].ToString().PadLeft(8)
-                                   + "  " + p[1].ToString().PadLeft(8)
-                                   + "  " + dist.ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
 
     }
@@ -231,14 +218,13 @@ public static class EllipseTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
         int i;
-        int n = 10;
+        const int n = 10;
         double[] p = new double[DIM_NUM];
-        double[] pn;
-        double r1 = 3.0;
-        double r2 = 2.0;
+        const double r1 = 3.0;
+        const double r2 = 2.0;
 
         Console.WriteLine("");
         Console.WriteLine("ELLIPSE_POINT_NEAR_2D_TEST:");
@@ -263,12 +249,12 @@ public static class EllipseTest
                     + i * 0.0)
                    / n;
 
-            pn = Geometry.ellipse_point_near_2d(r1, r2, p);
+            double[] pn = Geometry.ellipse_point_near_2d(r1, r2, p);
 
-            Console.WriteLine("  " + p[0].ToString().PadLeft(8)
-                                   + "  " + p[1].ToString().PadLeft(8)
-                                   + "  " + pn[0].ToString().PadLeft(8)
-                                   + "  " + pn[1].ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + pn[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + pn[1].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
 
         }
 
@@ -295,17 +281,13 @@ public static class EllipseTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
         const int N_MAX = 24;
 
-        double area;
-        int n;
         double[] pc = {5.0, -2.0};
-        double psi = 3.141592653589793 / 6.0;
-        double r1 = 3.0;
-        double r2 = 1.0;
-        double result;
-        double[] v;
+        const double psi = 3.141592653589793 / 6.0;
+        const double r1 = 3.0;
+        const double r2 = 1.0;
 
         Console.WriteLine("");
         Console.WriteLine("TEST026");
@@ -318,12 +300,12 @@ public static class EllipseTest
         Console.WriteLine("  radii R1 = " + r1 + " R2 = " + r2 + "");
         Console.WriteLine("  and angle PSI = " + psi + "");
 
-        area = Geometry.ellipse_area3(r1, r2);
+        double area = Geometry.ellipse_area3(r1, r2);
 
         Console.WriteLine("  and area = " + area + "");
 
-        n = 16;
-        v = new double[DIM_NUM * n];
+        int n = 16;
+        double[] v = new double[DIM_NUM * n];
 
         Geometry.ellipse_points_2d(pc, r1, r2, psi, n, ref v);
 
@@ -340,9 +322,9 @@ public static class EllipseTest
         {
             v = new double[DIM_NUM * n];
             Geometry.ellipse_points_2d(pc, r1, r2, psi, n, ref v);
-            result = Burkardt.Polygon.Geometry.polygon_area_2d(n, v);
+            double result = Burkardt.Polygon.Geometry.polygon_area_2d(n, v);
             Console.WriteLine("  " + n.ToString().PadLeft(6)
-                                   + "  " + result.ToString().PadLeft(12) + "");
+                                   + "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -417,20 +399,16 @@ public static class EllipseTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int N = 24;
+        const int DIM_NUM = 2;
+        const int N = 24;
 
         double[] pc = { 5.0, -2.0 };
-        double expo;
         double[] p = new double[DIM_NUM*N];
-        double psi;
-        double r1;
-        double r2;
 
-        r1 = 3.0;
-        r2 = 1.0;
-        expo = 1.5;
-        psi = Math.PI / 6.0;
+        const double r1 = 3.0;
+        const double r2 = 1.0;
+        const double expo = 1.5;
+        const double psi = Math.PI / 6.0;
 
         Console.WriteLine("");
         Console.WriteLine("TEST202");

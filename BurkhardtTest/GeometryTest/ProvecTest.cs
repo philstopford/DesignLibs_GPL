@@ -27,8 +27,8 @@ public static class ProvecTest
         //    John Burkardt
         //
     {
-        int M = 4;
-        int N = 2;
+        const int M = 4;
+        const int N = 2;
 
         double[] base_ = {
             4.0, 3.0, 2.0, 1.0,

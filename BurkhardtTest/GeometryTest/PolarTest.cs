@@ -29,12 +29,9 @@ public static class PolarTest
         //    John Burkardt
         //
     {
-        int TEST_NUM = 10;
+        const int TEST_NUM = 10;
 
-        double b;
-        double c;
         double r = 0;
-        int seed;
         double t = 0;
         int test;
         double[] xy1 = new double[2];
@@ -48,9 +45,9 @@ public static class PolarTest
         Console.WriteLine("         X           Y     ===>  R           T   =>      X           Y");
         Console.WriteLine("");
 
-        b = -1.0;
-        c = +1.0;
-        seed = 123456789;
+        const double b = -1.0;
+        const double c = +1.0;
+        int seed = 123456789;
 
         for ( test = 1; test <= TEST_NUM; test++ )
         {
@@ -60,12 +57,12 @@ public static class PolarTest
             XY.xy_to_polar ( xy1, ref r, ref t );
             Helpers.polar_to_xy ( r, t, ref xy2 );
 
-            Console.WriteLine("  " + xy1[0].ToString().PadLeft(10)
-                                   + "  " + xy1[1].ToString().PadLeft(10)
-                                   + "  " + r.ToString().PadLeft(10)
-                                   + "  " + t.ToString().PadLeft(10)
-                                   + "  " + xy2[0].ToString().PadLeft(10)
-                                   + "  " + xy2[1].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + xy1[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + xy1[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + t.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + xy2[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + xy2[1].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 

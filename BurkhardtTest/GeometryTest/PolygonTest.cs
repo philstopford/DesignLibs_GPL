@@ -30,10 +30,9 @@ public static class PolygonTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int N = 4;
+        const int DIM_NUM = 2;
+        const int N = 4;
 
-        double result;
         double[] v =
         {
             0.0, 0.0,
@@ -58,7 +57,7 @@ public static class PolygonTest
         Console.WriteLine("  F(X,Y)    Integral");
         Console.WriteLine("");
 
-        result = Geometry.polygon_1_2d(N, v);
+        double result = Geometry.polygon_1_2d(N, v);
         Console.WriteLine("    1  " + "  " + result + "");
 
         result = Geometry.polygon_x_2d(N, v);
@@ -99,10 +98,9 @@ public static class PolygonTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int N = 6;
+        const int DIM_NUM = 2;
+        const int N = 6;
 
-        double[] angle;
         int i;
         double[] v =
         {
@@ -124,7 +122,7 @@ public static class PolygonTest
 
         typeMethods.r8mat_transpose_print(DIM_NUM, N, v, "  The polygon vertices:");
 
-        angle = Geometry.polygon_angles_2d(N, v);
+        double[] angle = Geometry.polygon_angles_2d(N, v);
 
         Console.WriteLine("");
         Console.WriteLine("  Polygonal angles in degrees:");
@@ -133,7 +131,7 @@ public static class PolygonTest
         for (i = 0; i < N; i++)
         {
             Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                   + "  " + Helpers.radians_to_degrees(angle[i]).ToString().PadLeft(14) + "");
+                                   + "  " + Helpers.radians_to_degrees(angle[i]).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -158,16 +156,12 @@ public static class PolygonTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int TEST_NUM = 2;
+        const int DIM_NUM = 2;
+        const int TEST_NUM = 2;
 
-        double area;
-        double area_exact;
         double[] area_exact_test = {2.0, 6.0};
-        int n;
         int[] n_test = {4, 8};
         int test;
-        double[] v;
         double[] v1 =
         {
             1.0, 0.0,
@@ -194,9 +188,9 @@ public static class PolygonTest
 
         for (test = 0; test < TEST_NUM; test++)
         {
-            n = n_test[test];
-            area_exact = area_exact_test[test];
-            v = new double[DIM_NUM * n];
+            int n = n_test[test];
+            double area_exact = area_exact_test[test];
+            double[] v = new double[DIM_NUM * n];
 
             switch (test)
             {
@@ -213,7 +207,7 @@ public static class PolygonTest
 
             typeMethods.r8mat_transpose_print(DIM_NUM, n, v, "  The polygon vertices:");
 
-            area = Geometry.polygon_area_2d(n, v);
+            double area = Geometry.polygon_area_2d(n, v);
 
             Console.WriteLine("");
             Console.WriteLine("  Exact area is        " + area_exact + "");
@@ -244,16 +238,12 @@ public static class PolygonTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int TEST_NUM = 2;
+        const int DIM_NUM = 2;
+        const int TEST_NUM = 2;
 
-        double area;
-        double area_exact;
         double[] area_exact_test = {2.0, 6.0};
-        int n;
         int[] n_test = {4, 8};
         int test;
-        double[] v;
         double[] v1 =
         {
             1.0, 0.0,
@@ -280,9 +270,9 @@ public static class PolygonTest
 
         for (test = 0; test < TEST_NUM; test++)
         {
-            n = n_test[test];
-            area_exact = area_exact_test[test];
-            v = new double[DIM_NUM * n];
+            int n = n_test[test];
+            double area_exact = area_exact_test[test];
+            double[] v = new double[DIM_NUM * n];
 
             switch (test)
             {
@@ -299,7 +289,7 @@ public static class PolygonTest
 
             typeMethods.r8mat_transpose_print(DIM_NUM, n, v, "  The polygon vertices:");
 
-            area = Geometry.polygon_area_2d_2(n, v);
+            double area = Geometry.polygon_area_2d_2(n, v);
 
             Console.WriteLine("");
             Console.WriteLine("  Exact area is        " + area_exact + "");
@@ -330,17 +320,13 @@ public static class PolygonTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
-        int TEST_NUM = 2;
+        const int DIM_NUM = 3;
+        const int TEST_NUM = 2;
 
-        double area;
-        double area_exact;
         double[] area_exact_test = {2.4494898, 6.0};
-        int n;
         int[] n_test = {4, 8};
         double[] normal = new double[DIM_NUM];
         int test;
-        double[] v;
         double[] v1 =
         {
             1.0, 0.0, 0.0,
@@ -367,10 +353,10 @@ public static class PolygonTest
 
         for (test = 0; test < TEST_NUM; test++)
         {
-            area_exact = area_exact_test[test];
-            n = n_test[test];
+            double area_exact = area_exact_test[test];
+            int n = n_test[test];
 
-            v = new double[DIM_NUM * n];
+            double[] v = new double[DIM_NUM * n];
 
             switch (test)
             {
@@ -384,7 +370,7 @@ public static class PolygonTest
 
             typeMethods.r8mat_transpose_print(DIM_NUM, n, v, "  The polygon vertices:");
 
-            area = Geometry.polygon_area_3d(n, v, ref normal);
+            double area = Geometry.polygon_area_3d(n, v, ref normal);
 
             Console.WriteLine("");
             Console.WriteLine("  Exact area is        " + area_exact + "");
@@ -414,16 +400,12 @@ public static class PolygonTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
-        int TEST_NUM = 2;
+        const int DIM_NUM = 3;
+        const int TEST_NUM = 2;
 
-        double area;
-        double area_exact;
         double[] area_exact_test = {2.4494898, 6.0};
-        int n;
         int[] n_test = {4, 8};
         int test;
-        double[] v;
         double[] v1 =
         {
             1.0, 0.0, 0.0,
@@ -450,10 +432,10 @@ public static class PolygonTest
 
         for (test = 0; test < TEST_NUM; test++)
         {
-            area_exact = area_exact_test[test];
-            n = n_test[test];
+            double area_exact = area_exact_test[test];
+            int n = n_test[test];
 
-            v = new double[DIM_NUM * n];
+            double[] v = new double[DIM_NUM * n];
 
             switch (test)
             {
@@ -467,7 +449,7 @@ public static class PolygonTest
 
             typeMethods.r8mat_transpose_print(DIM_NUM, n, v, "  The polygon vertices:");
 
-            area = Geometry.polygon_area_3d_2(n, v);
+            double area = Geometry.polygon_area_3d_2(n, v);
 
             Console.WriteLine("");
             Console.WriteLine("  Exact area is        " + area_exact + "");
@@ -498,10 +480,9 @@ public static class PolygonTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int N = 4;
+        const int DIM_NUM = 2;
+        const int N = 4;
 
-        double[] centroid;
         double[] v =
         {
             1.0, 0.0,
@@ -518,7 +499,7 @@ public static class PolygonTest
 
         typeMethods.r8mat_transpose_print(DIM_NUM, N, v, "  The polygon vertices:");
 
-        centroid = Geometry.polygon_centroid_2d(N, v);
+        double[] centroid = Geometry.polygon_centroid_2d(N, v);
 
         typeMethods.r8vec_print(DIM_NUM, centroid, "  POLYGON_CENTROID_2D:");
 
@@ -549,10 +530,9 @@ public static class PolygonTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
-        int N = 4;
+        const int DIM_NUM = 3;
+        const int N = 4;
 
-        double[] centroid;
         double[] v =
         {
             1.0, 0.0, 0.0,
@@ -568,7 +548,7 @@ public static class PolygonTest
 
         typeMethods.r8mat_transpose_print(DIM_NUM, N, v, "  The polygon vertices:");
 
-        centroid = Geometry.polygon_centroid_3d(N, v);
+        double[] centroid = Geometry.polygon_centroid_3d(N, v);
 
         typeMethods.r8vec_print(DIM_NUM, centroid, "  The centroid:");
 
@@ -595,10 +575,8 @@ public static class PolygonTest
         //    John Burkardt
         //
     {
-        int dim_num = 2;
-        bool inside;
-        int n = 5;
-        double[] p;
+        const int dim_num = 2;
+        const int n = 5;
         double[] p_test =
         {
             1.0, 1.0,
@@ -607,7 +585,7 @@ public static class PolygonTest
             0.5, -0.25
         };
         int test;
-        int test_num = 4;
+        const int test_num = 4;
         double[] v =
         {
             0.0, 0.0,
@@ -630,12 +608,12 @@ public static class PolygonTest
 
         for (test = 0; test < test_num; test++)
         {
-            p = p_test.Skip(+dim_num * test).ToArray();
+            double[] p = p_test.Skip(+dim_num * test).ToArray();
 
-            inside = Geometry.polygon_contains_point_2d(n, v, p);
+            bool inside = Geometry.polygon_contains_point_2d(n, v, p);
 
-            Console.WriteLine("  " + p[0].ToString().PadLeft(12)
-                                   + "  " + p[1].ToString().PadLeft(12)
+            Console.WriteLine("  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(12)
                                    + "  " + inside + "");
         }
 
@@ -662,10 +640,8 @@ public static class PolygonTest
         //    John Burkardt
         //
     {
-        int dim_num = 2;
-        bool inside;
-        int n = 5;
-        double[] p;
+        const int dim_num = 2;
+        const int n = 5;
         double[] p_test =
         {
             1.0, 1.0,
@@ -674,7 +650,7 @@ public static class PolygonTest
             0.5, -0.25
         };
         int test;
-        int test_num = 4;
+        const int test_num = 4;
         double[] v =
         {
             0.0, 0.0,
@@ -697,12 +673,12 @@ public static class PolygonTest
 
         for (test = 0; test < test_num; test++)
         {
-            p = p_test.Skip(+dim_num * test).ToArray();
+            double[] p = p_test.Skip(+dim_num * test).ToArray();
 
-            string cout = "  " + p[0].ToString().PadLeft(12)
-                               + "  " + p[1].ToString().PadLeft(12);
+            string cout = "  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                               + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(12);
 
-            inside = Geometry.polygon_contains_point_2d_2(n, v, p);
+            bool inside = Geometry.polygon_contains_point_2d_2(n, v, p);
 
             Console.WriteLine(cout + "  " + inside + "");
         }
@@ -729,10 +705,8 @@ public static class PolygonTest
         //    John Burkardt
         //
     {
-        int dim_num = 2;
-        bool inside;
-        int n = 5;
-        double[] p;
+        const int dim_num = 2;
+        const int n = 5;
         double[] p_test =
         {
             1.0, 1.0,
@@ -741,7 +715,7 @@ public static class PolygonTest
             0.5, -0.25
         };
         int test;
-        int test_num = 4;
+        const int test_num = 4;
         double[] v =
         {
             0.0, 0.0,
@@ -764,12 +738,12 @@ public static class PolygonTest
 
         for (test = 0; test < test_num; test++)
         {
-            p = p_test.Skip(+dim_num * test).ToArray();
+            double[] p = p_test.Skip(+dim_num * test).ToArray();
 
-            string cout = "  " + p[0].ToString().PadLeft(12)
-                               + "  " + p[1].ToString().PadLeft(12);
+            string cout = "  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                               + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(12);
 
-            inside = Geometry.polygon_contains_point_2d_3(n, v, p);
+            bool inside = Geometry.polygon_contains_point_2d_3(n, v, p);
 
             Console.WriteLine(cout + "  " + inside + "");
         }
@@ -796,11 +770,10 @@ public static class PolygonTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int N = 4;
+        const int DIM_NUM = 2;
+        const int N = 4;
 
-        double diameter;
-        double diameter_exact = 2.0;
+        const double diameter_exact = 2.0;
         double[] v =
         {
             1.0, 0.0,
@@ -816,7 +789,7 @@ public static class PolygonTest
 
         typeMethods.r8mat_transpose_print(DIM_NUM, N, v, "  The polygon vertices:");
 
-        diameter = Geometry.polygon_diameter_2d(N, v);
+        double diameter = Geometry.polygon_diameter_2d(N, v);
 
         Console.WriteLine("");
         Console.WriteLine("  Diameter ( computed ) " + diameter + "");
@@ -845,10 +818,9 @@ public static class PolygonTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int N = 4;
+        const int DIM_NUM = 2;
+        const int N = 4;
 
-        double h;
         double[] v =
         {
             1.0, 1.0,
@@ -856,21 +828,20 @@ public static class PolygonTest
             2.0, 4.0,
             1.0, 3.0
         };
-        double[] w;
 
         Console.WriteLine("");
         Console.WriteLine("TEST0801");
         Console.WriteLine("  For a polygon in 2D:");
         Console.WriteLine("  POLYGON_EXPAND_2D expands it by an amount H.");
 
-        h = 0.5;
+        double h = 0.5;
 
         typeMethods.r8mat_transpose_print(DIM_NUM, N, v, "  The polygon vertices:");
 
         Console.WriteLine("");
         Console.WriteLine("  The expansion amount H = " + h + "");
 
-        w = Geometry.polygon_expand_2d(N, v, h);
+        double[] w = Geometry.polygon_expand_2d(N, v, h);
 
         typeMethods.r8mat_transpose_print(DIM_NUM, N, w, "  The expanded polygon:");
 
@@ -901,7 +872,6 @@ public static class PolygonTest
         int n;
         double radin = 0;
         double radout = 0;
-        double side = 0;
 
         Console.WriteLine("");
         Console.WriteLine("TEST0803");
@@ -916,7 +886,7 @@ public static class PolygonTest
             Console.WriteLine("");
             Console.WriteLine("  Number of polygonal sides = " + n + "");
 
-            side = 1.0;
+            double side = 1.0;
 
             Console.WriteLine("");
             Console.WriteLine("  Assuming SIDE = " + side + "");
@@ -962,11 +932,10 @@ public static class PolygonTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int N = 4;
+        const int DIM_NUM = 2;
+        const int N = 4;
 
-        double diameter;
-        double diameter_exact = 2.0;
+        const double diameter_exact = 2.0;
         double[] v =
         {
             1.0, 0.0,
@@ -982,7 +951,7 @@ public static class PolygonTest
 
         typeMethods.r8mat_transpose_print(DIM_NUM, N, v, "  The polygonal vertices:");
 
-        diameter = Geometry.polygon_diameter_2d(N, v);
+        double diameter = Geometry.polygon_diameter_2d(N, v);
 
         Console.WriteLine("");
         Console.WriteLine("  Diameter ( computed ) " + diameter + "");
@@ -1017,9 +986,8 @@ public static class PolygonTest
     {
         int n = 0;
         double[] p = new double[3];
-        double solid_angle;
         int test;
-        int test_num = 4;
+        const int test_num = 4;
         double[] v = null;
 
         Console.WriteLine("");
@@ -1139,7 +1107,7 @@ public static class PolygonTest
 
             typeMethods.r8mat_transpose_print(3, n, v, "  The polygon vertices V:");
 
-            solid_angle = Geometry.polygon_solid_angle_3d(n, v, p);
+            double solid_angle = Geometry.polygon_solid_angle_3d(n, v, p);
 
             Console.WriteLine("");
             Console.WriteLine("  Solid angle subtended: " + solid_angle + "");

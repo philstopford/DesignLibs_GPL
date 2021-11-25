@@ -40,12 +40,10 @@ public static class ParallelepipedTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
-        int TEST_NUM = 7;
+        const int DIM_NUM = 3;
+        const int TEST_NUM = 7;
 
-        double dist;
         int i;
-        double[] p;
         double[] p_test =
         {
             1.0, 4.0, 0.5,
@@ -72,28 +70,28 @@ public static class ParallelepipedTest
         string cout = "";
         for (i = 0; i < DIM_NUM; i++)
         {
-            cout += "  " + p1[i].ToString().PadLeft(12);
+            cout += "  " + p1[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
         }
 
         Console.WriteLine(cout);
         cout = "";
         for (i = 0; i < DIM_NUM; i++)
         {
-            cout += "  " + p2[i].ToString().PadLeft(12);
+            cout += "  " + p2[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
         }
 
         Console.WriteLine(cout);
         cout = "";
         for (i = 0; i < DIM_NUM; i++)
         {
-            cout += "  " + p3[i].ToString().PadLeft(12);
+            cout += "  " + p3[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
         }
 
         Console.WriteLine(cout);
         cout = "";
         for (i = 0; i < DIM_NUM; i++)
         {
-            cout += "  " + p4[i].ToString().PadLeft(12);
+            cout += "  " + p4[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
         }
 
         Console.WriteLine(cout);
@@ -103,17 +101,17 @@ public static class ParallelepipedTest
 
         for (test = 0; test < TEST_NUM; test++)
         {
-            p = p_test.Skip(+test * DIM_NUM).ToArray();
+            double[] p = p_test.Skip(+test * DIM_NUM).ToArray();
 
-            dist = Geometry.parallelepiped_point_dist_3d(p1, p2, p3, p4, p);
+            double dist = Geometry.parallelepiped_point_dist_3d(p1, p2, p3, p4, p);
 
             cout = "  " + test.ToString().PadLeft(3);
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + p[i].ToString().PadLeft(8);
+                cout += "  " + p[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
 
-            Console.WriteLine(cout + "  " + dist.ToString().PadLeft(12) + "");
+            Console.WriteLine(cout + "  " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
 
         }
     }

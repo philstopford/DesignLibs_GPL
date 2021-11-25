@@ -41,12 +41,11 @@ public static class HexagonTest
             0.2, 0.8
         };
         int i;
-        int j;
         double[] p = new double[DIM_NUM];
-        double xhi = 1.0;
-        double xlo = 0.0;
-        double yhi = 1.0;
-        double ylo = 0.0;
+        const double xhi = 1.0;
+        const double xlo = 0.0;
+        const double yhi = 1.0;
+        const double ylo = 0.0;
 
         Console.WriteLine("");
         Console.WriteLine("TEST0315");
@@ -64,6 +63,7 @@ public static class HexagonTest
                    / (N - 1);
 
             string cout = "  ";
+            int j;
             for (j = 1; j <= N; j++)
             {
                 p[0] = ((N - j) * xlo
@@ -105,9 +105,8 @@ public static class HexagonTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
-        double angle;
         int i;
         double[] p = new double[DIM_NUM];
 
@@ -120,11 +119,11 @@ public static class HexagonTest
 
         for (i = -10; i <= 370; i += 10)
         {
-            angle = i;
+            double angle = i;
             Geometry.hexagon_shape_2d(angle, ref p);
-            Console.WriteLine("  " + angle.ToString().PadLeft(12)
-                                   + "  " + p[0].ToString().PadLeft(12)
-                                   + "  " + p[1].ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + angle.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 

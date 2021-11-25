@@ -29,10 +29,9 @@ public static class PolylineTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int N = 4;
+        const int DIM_NUM = 2;
+        const int N = 4;
 
-        int i;
         int j;
         double[] p =
         {
@@ -41,13 +40,8 @@ public static class PolylineTest
             2.0, 0.0,
             0.0, 0.0
         };
-        double[] pt;
-        double[] s;
-        double t;
 
-        t = 2.0;
-
-        string cout = "";
+        const double t = 2.0;
 
         Console.WriteLine("");
         Console.WriteLine("TEST084");
@@ -60,26 +54,27 @@ public static class PolylineTest
         //
         //  The call to POLYLINE_ARCLENGTH_ND is just to help us believe the final result.
         //
-        s = Geometry.polyline_arclength_nd(DIM_NUM, N, p);
+        double[] s = Geometry.polyline_arclength_nd(DIM_NUM, N, p);
 
         Console.WriteLine("");
         Console.WriteLine("           P              Arclength(X,Y)");
         Console.WriteLine("");
         for (j = 0; j < N; j++)
         {
-            cout = "";
+            string cout = "";
+            int i;
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + p[i + j * DIM_NUM].ToString().PadLeft(12);
+                cout += "  " + p[i + j * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
-            Console.WriteLine(cout + "  " + s[j].ToString().PadLeft(12) + "");
+            Console.WriteLine(cout + "  " + s[j].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
         Console.WriteLine("");
         Console.WriteLine("  We search for the point with coordinate " + t + "");
 
-        pt = Geometry.polyline_index_point_nd(DIM_NUM, N, p, t);
+        double[] pt = Geometry.polyline_index_point_nd(DIM_NUM, N, p, t);
 
         typeMethods.r8vec_print(DIM_NUM, pt, "  The computed point:");
 
@@ -106,9 +101,9 @@ public static class PolylineTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int NK = 4;
-        int NT = 13;
+        const int DIM_NUM = 2;
+        const int NK = 4;
+        const int NT = 13;
 
         double[] pk =
         {
@@ -117,7 +112,6 @@ public static class PolylineTest
             1.0, 0.0,
             1.0, 2.0
         };
-        double[] pt;
 
         Console.WriteLine("");
         Console.WriteLine("POLYLINE_POINTS_ND_TEST");
@@ -125,7 +119,7 @@ public static class PolylineTest
 
         typeMethods.r8mat_transpose_print(DIM_NUM, NK, pk, "  The defining points:");
 
-        pt = Geometry.polyline_points_nd(DIM_NUM, NK, pk, NT);
+        double[] pt = Geometry.polyline_points_nd(DIM_NUM, NK, pk, NT);
 
         typeMethods.r8mat_transpose_print(DIM_NUM, NT, pt, "  The computed points:");
 

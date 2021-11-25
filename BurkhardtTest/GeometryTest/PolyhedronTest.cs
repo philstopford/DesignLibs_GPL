@@ -29,12 +29,11 @@ public static class PolyhedronTest
         //    John Burkardt
         //
     {
-        int FACE_NUM = 4;
-        int ORDER_MAX = 3;
-        int NODE_NUM = 4;
+        const int FACE_NUM = 4;
+        const int ORDER_MAX = 3;
+        const int NODE_NUM = 4;
 
-        double area;
-        double area_exact = 2.366025;
+        const double area_exact = 2.366025;
         double[] coord =
         {
             0.0, 0.0, 0.0,
@@ -85,13 +84,13 @@ public static class PolyhedronTest
             cout = "  " + j.ToString().PadLeft(4);
             for (i = 0; i < 3; i++)
             {
-                cout += "  " + coord[i + j * 3].ToString().PadLeft(10);
+                cout += "  " + coord[i + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(10);
             }
 
             Console.WriteLine(cout);
         }
 
-        area = Geometry.polyhedron_area_3d(coord, ORDER_MAX, FACE_NUM, node, NODE_NUM,
+        double area = Geometry.polyhedron_area_3d(coord, ORDER_MAX, FACE_NUM, node, NODE_NUM,
             order);
 
         Console.WriteLine("");
@@ -121,12 +120,11 @@ public static class PolyhedronTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
-        int FACE_NUM = 4;
-        int ORDER_MAX = 3;
-        int NODE_NUM = 4;
+        const int DIM_NUM = 3;
+        const int FACE_NUM = 4;
+        const int ORDER_MAX = 3;
+        const int NODE_NUM = 4;
 
-        double[] centroid;
         double[] centroid_exact = {0.25, 0.25, 0.25};
         double[] coord =
         {
@@ -145,7 +143,7 @@ public static class PolyhedronTest
             2, 3, 4
         };
         int[] order = {3, 3, 3, 3};
-        string cout = "";
+        string cout;
 
         Console.WriteLine("");
         Console.WriteLine("POLYHEDRON_CENTROID_3D_TEST");
@@ -178,24 +176,24 @@ public static class PolyhedronTest
             cout = "  " + j.ToString().PadLeft(4);
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + coord[i + j * DIM_NUM].ToString().PadLeft(10);
+                cout += "  " + coord[i + j * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(10);
             }
 
             Console.WriteLine(cout);
         }
 
-        centroid = Geometry.polyhedron_centroid_3d(coord, ORDER_MAX, FACE_NUM, node,
+        double[] centroid = Geometry.polyhedron_centroid_3d(coord, ORDER_MAX, FACE_NUM, node,
             NODE_NUM, order);
 
         Console.WriteLine("");
         Console.WriteLine("  The computed centroid is "
-                          + centroid[0].ToString().PadLeft(10) + "  "
-                          + centroid[1].ToString().PadLeft(10) + "  "
-                          + centroid[2].ToString().PadLeft(10) + "");
+                          + centroid[0].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                          + centroid[1].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                          + centroid[2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         Console.WriteLine("  The correct centroid is  "
-                          + centroid_exact[0].ToString().PadLeft(10) + "  "
-                          + centroid_exact[1].ToString().PadLeft(10) + "  "
-                          + centroid_exact[2].ToString().PadLeft(10) + "");
+                          + centroid_exact[0].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                          + centroid_exact[1].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                          + centroid_exact[2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
     }
 
@@ -220,13 +218,12 @@ public static class PolyhedronTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
-        int FACE_NUM = 4;
-        int FACE_ORDER_MAX = 3;
-        int NODE_NUM = 4;
-        int TEST_NUM = 100;
+        const int DIM_NUM = 3;
+        const int FACE_NUM = 4;
+        const int FACE_ORDER_MAX = 3;
+        const int NODE_NUM = 4;
+        const int TEST_NUM = 100;
 
-        double[] c;
         int[] face_order = {3, 3, 3, 3};
         int[] face_point =
         {
@@ -235,10 +232,6 @@ public static class PolyhedronTest
             1, 4, 3,
             2, 3, 4
         };
-        bool inside1;
-        bool inside2;
-        double[] p;
-        int seed;
         int test;
         double[] v =
         {
@@ -270,36 +263,36 @@ public static class PolyhedronTest
         Console.WriteLine("      X           Y           Z      IN1 IN2");
         Console.WriteLine("");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         for (test = 1; test <= TEST_NUM; test++)
         {
-            p = UniformRNG.r8vec_uniform_01_new(DIM_NUM, ref seed);
+            double[] p = UniformRNG.r8vec_uniform_01_new(DIM_NUM, ref seed);
 
-            inside1 = Geometry.polyhedron_contains_point_3d(NODE_NUM, FACE_NUM,
+            bool inside1 = Geometry.polyhedron_contains_point_3d(NODE_NUM, FACE_NUM,
                 FACE_ORDER_MAX, v, face_order, face_point, p);
 
-            c = Burkardt.TetrahedronNS.Geometry.tetrahedron_barycentric_3d(v, p);
+            double[] c = Burkardt.TetrahedronNS.Geometry.tetrahedron_barycentric_3d(v, p);
 
-            inside2 = 0.0 <= c[0] && c[0] <= 1.0 &&
-                      0.0 <= c[1] && c[1] <= 1.0 &&
-                      0.0 <= c[2] && c[2] <= 1.0 &&
-                      0.0 <= c[3] && c[3] <= 1.0 &&
-                      c[0] + c[1] + c[2] + c[3] <= 1.0;
+            bool inside2 = 0.0 <= c[0] && c[0] <= 1.0 &&
+                           0.0 <= c[1] && c[1] <= 1.0 &&
+                           0.0 <= c[2] && c[2] <= 1.0 &&
+                           0.0 <= c[3] && c[3] <= 1.0 &&
+                           c[0] + c[1] + c[2] + c[3] <= 1.0;
 
-            Console.WriteLine("  " + p[0].ToString().PadLeft(10)
-                                   + "  " + p[1].ToString().PadLeft(10)
-                                   + "  " + p[2].ToString().PadLeft(10)
+            Console.WriteLine("  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + p[2].ToString(CultureInfo.InvariantCulture).PadLeft(10)
                                    + "  " + inside1.ToString().PadLeft(1)
                                    + "  " + inside2.ToString().PadLeft(1) + "");
 
             if (inside1 != inside2)
             {
                 Console.WriteLine("??? Disagreement!  Barycentric coordinates:");
-                Console.WriteLine("  " + c[0].ToString().PadLeft(10)
-                                       + "  " + c[1].ToString().PadLeft(10)
-                                       + "  " + c[2].ToString().PadLeft(10)
-                                       + "  " + c[3].ToString().PadLeft(10) + "");
+                Console.WriteLine("  " + c[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + c[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + c[2].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + c[3].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
             }
 
         }
@@ -347,10 +340,8 @@ public static class PolyhedronTest
             1, 2, 3
         };
         int[] order = {3, 3, 3, 3};
-        double volume_exact = 1.0 / 6.0;
-        double volume1;
-        double volume2;
-        string cout = "";
+        const double volume_exact = 1.0 / 6.0;
+        string cout;
 
         Console.WriteLine("");
         Console.WriteLine("TEST083");
@@ -384,16 +375,16 @@ public static class PolyhedronTest
             cout = "  " + j.ToString().PadLeft(4);
             for (i = 0; i < 3; i++)
             {
-                cout += "  " + coord[i + j * 3].ToString().PadLeft(10);
+                cout += "  " + coord[i + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(10);
             }
 
             Console.WriteLine(cout);
         }
 
-        volume1 = Geometry.polyhedron_volume_3d(coord, ORDER_MAX, FACE_NUM, node, NODE_NUM,
+        double volume1 = Geometry.polyhedron_volume_3d(coord, ORDER_MAX, FACE_NUM, node, NODE_NUM,
             order);
 
-        volume2 = Geometry.polyhedron_volume_3d_2(coord, ORDER_MAX, FACE_NUM, node, NODE_NUM,
+        double volume2 = Geometry.polyhedron_volume_3d_2(coord, ORDER_MAX, FACE_NUM, node, NODE_NUM,
             order);
 
         Console.WriteLine("");

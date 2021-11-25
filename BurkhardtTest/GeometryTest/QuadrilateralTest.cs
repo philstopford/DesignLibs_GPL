@@ -29,9 +29,8 @@ public static class QuadrilateralTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
-        double area;
         double[] quad =
         {
             0.0, 0.0,
@@ -48,7 +47,7 @@ public static class QuadrilateralTest
 
         typeMethods.r8mat_transpose_print(DIM_NUM, 4, quad, "  The vertices:");
 
-        area = Geometry.quad_area_2d(quad);
+        double area = Geometry.quad_area_2d(quad);
 
         Console.WriteLine("");
         Console.WriteLine("  QUAD_AREA_2D area is  " + area + "");
@@ -80,9 +79,6 @@ public static class QuadrilateralTest
         //    John Burkardt
         //
     {
-        double area;
-        double area1;
-        double area2;
         int i;
         int j;
         double[] q =
@@ -101,7 +97,7 @@ public static class QuadrilateralTest
 
         typeMethods.r8mat_transpose_print(3, 4, q, "  The vertices:");
 
-        area = Geometry.quad_area_3d(q);
+        double area = Geometry.quad_area_3d(q);
 
         Console.WriteLine("");
         Console.WriteLine("  QUAD_AREA_3D area is     " + area + "");
@@ -114,7 +110,7 @@ public static class QuadrilateralTest
             }
         }
 
-        area1 = typeMethods.triangle_area_3d(t);
+        double area1 = typeMethods.triangle_area_3d(t);
         for (j = 0; j < 2; j++)
         {
             for (i = 0; i < 3; i++)
@@ -128,7 +124,7 @@ public static class QuadrilateralTest
             t[i + 2 * 3] = q[i + 0 * 3];
         }
 
-        area2 = typeMethods.triangle_area_3d(t);
+        double area2 = typeMethods.triangle_area_3d(t);
         Console.WriteLine("  Sum of TRIANGLE_AREA_3D: " + area1 + area2 + "");
 
     }
@@ -154,13 +150,9 @@ public static class QuadrilateralTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int TEST_NUM = 7;
+        const int DIM_NUM = 2;
+        const int TEST_NUM = 7;
 
-        double dist;
-        double dist_signed;
-        bool inside;
-        double[] p;
         double[] p_test =
         {
             0.25, 0.25,
@@ -197,19 +189,19 @@ public static class QuadrilateralTest
 
         for (test = 0; test < TEST_NUM; test++)
         {
-            p = p_test.Skip(+test * DIM_NUM).ToArray();
+            double[] p = p_test.Skip(+test * DIM_NUM).ToArray();
 
-            inside = Geometry.quad_contains_point_2d(q, p);
+            bool inside = Geometry.quad_contains_point_2d(q, p);
 
-            dist_signed = Geometry.quad_point_dist_signed_2d(q, p);
+            double dist_signed = Geometry.quad_point_dist_signed_2d(q, p);
 
-            dist = Geometry.quad_point_dist_2d(q, p);
+            double dist = Geometry.quad_point_dist_2d(q, p);
 
-            Console.WriteLine("  " + p[0].ToString().PadLeft(12)
-                                   + "  " + p[1].ToString().PadLeft(12)
+            Console.WriteLine("  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(12)
                                    + "  " + inside.ToString().PadLeft(1)
-                                   + "  " + dist_signed.ToString().PadLeft(12)
-                                   + "  " + dist.ToString().PadLeft(12) + "");
+                                   + "  " + dist_signed.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 

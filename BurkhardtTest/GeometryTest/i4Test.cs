@@ -26,16 +26,14 @@ public static class i4Test
         //    John Burkardt
         //
     {
-        int M = 5;
-        int N = 4;
-        int TEST_NUM = 3;
+        const int M = 5;
+        const int N = 4;
+        const int TEST_NUM = 3;
 
         int[] a = new int[M * N];
         int col = 0;
         int i;
-        int item;
         int[] item_test = {34, 12, 90};
-        int j;
         int row = 0;
         int test;
 
@@ -46,6 +44,7 @@ public static class i4Test
 
         for (i = 0; i < M; i++)
         {
+            int j;
             for (j = 0; j < N; j++)
             {
                 a[i + j * M] = 10 * (i + 1) + j + 1;
@@ -56,7 +55,7 @@ public static class i4Test
 
         for (test = 0; test < TEST_NUM; test++)
         {
-            item = item_test[test];
+            int item = item_test[test];
 
             typeMethods.i4col_find_item(M, N, a, item, ref row, ref col);
 
@@ -87,18 +86,15 @@ public static class i4Test
         //    John Burkardt
         //
     {
-        int M = 5;
-        int N = 4;
-        int TEST_NUM = 5;
+        const int M = 5;
+        const int N = 4;
+        const int TEST_NUM = 5;
 
         int[] a = new int[M * N];
         int col = 0;
         int i;
-        int item1;
         int[] item1_test = {22, 32, 22, 54, 54};
-        int item2;
         int[] item2_test = {32, 22, 23, 14, 11};
-        int j;
         int row = 0;
         int test;
 
@@ -111,6 +107,7 @@ public static class i4Test
 
         for (i = 0; i < M; i++)
         {
+            int j;
             for (j = 0; j < N; j++)
             {
                 a[i + j * M] = 10 * (i + 1) + j + 1;
@@ -121,8 +118,8 @@ public static class i4Test
 
         for (test = 0; test < TEST_NUM; test++)
         {
-            item1 = item1_test[test];
-            item2 = item2_test[test];
+            int item1 = item1_test[test];
+            int item2 = item2_test[test];
 
             typeMethods.i4col_find_pair_wrap(M, N, a, item1, item2, ref row, ref col);
 

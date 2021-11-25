@@ -27,11 +27,8 @@ public static class HaversineTest
         //    John Burkardt
         //
     {
-        double d;
-        double hx;
         int test;
-        int test_num = 12;
-        double x;
+        const int test_num = 12;
 
         Console.WriteLine("");
         Console.WriteLine("TEST031");
@@ -42,12 +39,12 @@ public static class HaversineTest
 
         for ( test = 0; test <= test_num; test++ )
         {
-            x = test * 2.0 * Math.PI / test_num;
-            d = Helpers.radians_to_degrees ( x );
-            hx = Helpers.haversine ( x );
-            Console.WriteLine("  " + d.ToString().PadLeft(8)
-                                   + "  " + x.ToString().PadLeft(8)
-                                   + "  " + hx.ToString().PadLeft(12) + "");
+            double x = test * 2.0 * Math.PI / test_num;
+            double d = Helpers.radians_to_degrees ( x );
+            double hx = Helpers.haversine ( x );
+            Console.WriteLine("  " + d.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + hx.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 }

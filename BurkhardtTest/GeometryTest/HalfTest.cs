@@ -29,11 +29,10 @@ public static class HalfTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int TEST_NUM = 4;
+        const int DIM_NUM = 2;
+        const int TEST_NUM = 4;
 
         bool[] expected = {true, false, true, false};
-        double[] p;
         double[] p_test =
         {
             1.0, 1.0,
@@ -41,7 +40,6 @@ public static class HalfTest
             -1.0, 1.0,
             2.0, 200.0
         };
-        double[] p1;
         double[] p1_test =
         {
             0.0, 0.0,
@@ -49,7 +47,6 @@ public static class HalfTest
             -5.0, -5.0,
             3.0, 150.0
         };
-        double[] p2;
         double[] p2_test =
         {
             2.0, 0.0,
@@ -57,7 +54,6 @@ public static class HalfTest
             10.0, 10.0,
             1.0, 50.0
         };
-        bool temp;
         int test;
 
         Console.WriteLine("");
@@ -69,19 +65,19 @@ public static class HalfTest
 
         for (test = 0; test < TEST_NUM; test++)
         {
-            p1 = p1_test.Skip(test * DIM_NUM).ToArray();
-            p2 = p2_test.Skip(+test * DIM_NUM).ToArray();
-            p = p_test.Skip(+test * DIM_NUM).ToArray();
+            double[] p1 = p1_test.Skip(test * DIM_NUM).ToArray();
+            double[] p2 = p2_test.Skip(+test * DIM_NUM).ToArray();
+            double[] p = p_test.Skip(+test * DIM_NUM).ToArray();
 
-            temp = Burkardt.Geometry.Half.halfplane_contains_point_2d(p1, p2, p);
+            bool temp = Burkardt.Geometry.Half.halfplane_contains_point_2d(p1, p2, p);
 
             Console.WriteLine("");
-            Console.WriteLine("  P1 = " + p1[0].ToString().PadLeft(12)
-                                        + "  " + p1[1].ToString().PadLeft(12) + "");
-            Console.WriteLine("  P2 = " + p2[0].ToString().PadLeft(12)
-                                        + "  " + p2[1].ToString().PadLeft(12) + "");
-            Console.WriteLine("  P = " + p[0].ToString().PadLeft(12)
-                                       + "  " + p[1].ToString().PadLeft(12) + "");
+            Console.WriteLine("  P1 = " + p1[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                        + "  " + p1[1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+            Console.WriteLine("  P2 = " + p2[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                        + "  " + p2[1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+            Console.WriteLine("  P = " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                       + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             Console.WriteLine("  Contains? = " + temp
                                                + "  Correct = " + expected[test] + "");
         }
@@ -109,16 +105,10 @@ public static class HalfTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        double a;
-        double b;
-        double c;
-        double d;
-        int int_num;
-        int j;
         int test;
-        int test_num = 6;
+        const int test_num = 6;
         double[] p = new double[DIM_NUM * 4];
         double[] t = new double[DIM_NUM * 3];
 
@@ -128,10 +118,10 @@ public static class HalfTest
         Console.WriteLine("  intersection points of an implicit");
         Console.WriteLine("  halfspace and a triangle.");
 
-        a = 1.0;
-        b = -2.0;
-        c = -3.0;
-        d = 6.0;
+        const double a = 1.0;
+        const double b = -2.0;
+        const double c = -3.0;
+        const double d = 6.0;
 
         Console.WriteLine("");
         Console.WriteLine("  The implicitly defined bounding plane");
@@ -228,7 +218,7 @@ public static class HalfTest
 
             typeMethods.r8mat_transpose_print(DIM_NUM, 3, t, "  Triangle vertices:");
 
-            int_num = Burkardt.Geometry.Half.halfspace_imp_triangle_int_3d(a, b, c, d, t, ref p);
+            int int_num = Burkardt.Geometry.Half.halfspace_imp_triangle_int_3d(a, b, c, d, t, ref p);
 
             Console.WriteLine("");
             Console.WriteLine("  Number of intersection points is " + int_num + "");
@@ -238,12 +228,13 @@ public static class HalfTest
             {
                 case > 0:
                 {
+                    int j;
                     for (j = 0; j < int_num; j++)
                     {
                         Console.WriteLine("  " + j.ToString().PadLeft(4)
-                                               + "  " + p[0 + j * DIM_NUM].ToString().PadLeft(10)
-                                               + "  " + p[1 + j * DIM_NUM].ToString().PadLeft(10)
-                                               + "  " + p[2 + j * DIM_NUM].ToString().PadLeft(10) + "");
+                                               + "  " + p[0 + j * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                               + "  " + p[1 + j * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                               + "  " + p[2 + j * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
                     }
 
                     break;
@@ -274,16 +265,14 @@ public static class HalfTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        int int_num;
-        int j;
         double[] p = new double[DIM_NUM * 4];
         double[] pn = {2.0, -4.0, -6.0};
         double[] pp = {-6.0, 0.0, 0.0};
         double[] t = new double[DIM_NUM * 3];
         int test;
-        int test_num = 6;
+        const int test_num = 6;
 
         Console.WriteLine("");
         Console.WriteLine("TEST030");
@@ -382,7 +371,7 @@ public static class HalfTest
             Console.WriteLine("  Case " + test + "");
             typeMethods.r8mat_transpose_print(DIM_NUM, 3, t, "  Triangle vertices:");
 
-            int_num = Burkardt.Geometry.Half.halfspace_norm_triangle_int_3d(pp, pn, t, ref p);
+            int int_num = Burkardt.Geometry.Half.halfspace_norm_triangle_int_3d(pp, pn, t, ref p);
 
             Console.WriteLine("");
             Console.WriteLine("  Number of intersection points is " + int_num + "");
@@ -392,12 +381,13 @@ public static class HalfTest
             {
                 case > 0:
                 {
+                    int j;
                     for (j = 0; j < int_num; j++)
                     {
                         Console.WriteLine("  " + j.ToString().PadLeft(4)
-                                               + "  " + p[0 + j * 3].ToString().PadLeft(10)
-                                               + "  " + p[1 + j * 3].ToString().PadLeft(10)
-                                               + "  " + p[2 + j * 3].ToString().PadLeft(10) + "");
+                                               + "  " + p[0 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                               + "  " + p[1 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                               + "  " + p[2 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
                     }
 
                     break;

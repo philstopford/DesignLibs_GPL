@@ -27,13 +27,7 @@ public static class LocalMinimumTest
         //    John Burkardt
         //
     {
-        double x1;
-        double x2;
-        double x3;
         double xmin = 0;
-        double y1;
-        double y2;
-        double y3;
         double ymin = 0;
 
         Console.WriteLine("");
@@ -45,14 +39,14 @@ public static class LocalMinimumTest
         //  Case 1: the three points lie on a straight line.
         //  (XMIN=9,YMIN=2).
         //
-        x1 = 14.0;
-        y1 = 7.0;
+        double x1 = 14.0;
+        double y1 = 7.0;
 
-        x2 = 9.0;
-        y2 = 2.0;
+        double x2 = 9.0;
+        double y2 = 2.0;
 
-        x3 = 12.0;
-        y3 = 5.0;
+        double x3 = 12.0;
+        double y3 = 5.0;
 
         LocalMinimum.minabs(x1, y1, x2, y2, x3, y3, ref xmin, ref ymin);
 
@@ -119,14 +113,7 @@ public static class LocalMinimumTest
         //    John Burkardt
         //
     {
-        bool result;
-        double x1;
-        double x2;
-        double x3;
         double xmin = 0;
-        double y1;
-        double y2;
-        double y3;
         double ymin = 0;
 
         Console.WriteLine("");
@@ -138,16 +125,16 @@ public static class LocalMinimumTest
         //  Case 1: a minimum is in the interval.
         //  y = ( x - 1 )**2 + 4
         //
-        x1 = 0.0;
-        y1 = (x1 - 1.0) * (x1 - 1.0) + 4.0;
+        double x1 = 0.0;
+        double y1 = (x1 - 1.0) * (x1 - 1.0) + 4.0;
 
-        x2 = 2.0;
-        y2 = (x2 - 1.0) * (x2 - 1.0) + 4.0;
+        double x2 = 2.0;
+        double y2 = (x2 - 1.0) * (x2 - 1.0) + 4.0;
 
-        x3 = 3.0;
-        y3 = (x3 - 1.0) * (x3 - 1.0) + 4.0;
+        double x3 = 3.0;
+        double y3 = (x3 - 1.0) * (x3 - 1.0) + 4.0;
 
-        result = LocalMinimum.minquad(x1, y1, x2, y2, x3, y3, ref xmin, ref ymin);
+        bool result = LocalMinimum.minquad(x1, y1, x2, y2, x3, y3, ref xmin, ref ymin);
 
         switch (result)
         {

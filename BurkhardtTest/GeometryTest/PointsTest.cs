@@ -44,10 +44,9 @@ public static class PointsTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int N = 12;
+        const int DIM_NUM = 2;
+        const int N = 12;
 
-        int centroid_index;
         double[] p =
         {
             7.0, 3.0,
@@ -71,7 +70,7 @@ public static class PointsTest
 
         typeMethods.r8mat_transpose_print(DIM_NUM, N, p, "  The points:");
 
-        centroid_index = Geometry.points_centroid_2d(N, p);
+        int centroid_index = Geometry.points_centroid_2d(N, p);
 
         Console.WriteLine("");
         Console.WriteLine("  The centroid is point #: " + centroid_index + "");
@@ -98,26 +97,21 @@ public static class PointsTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int TEST_NUM = 3;
+        const int DIM_NUM = 2;
+        const int TEST_NUM = 3;
 
-        double colin;
-        int i;
-        double[] p1;
         double[] p1_test =
         {
             0.0, 0.0,
             0.0, 0.0,
             0.0, 0.0
         };
-        double[] p2;
         double[] p2_test =
         {
             10.0, 10.0,
             0.0, 1.0,
             1.0, 0.0
         };
-        double[] p3;
         double[] p3_test =
         {
             5.0, 4.99,
@@ -133,46 +127,47 @@ public static class PointsTest
 
         for (test = 0; test < TEST_NUM; test++)
         {
-            p1 = p1_test.Skip(+DIM_NUM * test).ToArray();
-            p2 = p2_test.Skip(+DIM_NUM * test).ToArray();
-            p3 = p3_test.Skip(+DIM_NUM * test).ToArray();
+            double[] p1 = p1_test.Skip(+DIM_NUM * test).ToArray();
+            double[] p2 = p2_test.Skip(+DIM_NUM * test).ToArray();
+            double[] p3 = p3_test.Skip(+DIM_NUM * test).ToArray();
 
             Console.WriteLine("");
 
             switch (test)
             {
-                case 1:
+                case 0:
                     Console.WriteLine("  Points almost on a line: Expect tiny COLIN.");
                     break;
-                case 2:
+                case 1:
                     Console.WriteLine("  Two points close, one far: Expect tiny COLIN.");
                     break;
-                case 3:
+                case 2:
                     Console.WriteLine("  Equilateral triangle: Expect COLIN = 1.");
                     break;
             }
 
-            colin = Geometry.points_colin_2d(p1, p2, p3);
+            double colin = Geometry.points_colin_2d(p1, p2, p3);
 
             Console.WriteLine("");
             string cout = "  P1: ";
+            int i;
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + p1[i].ToString().PadLeft(8);
+                cout += "  " + p1[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
 
             Console.WriteLine(cout);
             cout = "  P2: ";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + p2[i].ToString().PadLeft(8);
+                cout += "  " + p2[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
 
             Console.WriteLine(cout);
             cout = "  P3: ";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + p3[i].ToString().PadLeft(8);
+                cout += "  " + p3[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
 
             Console.WriteLine(cout);

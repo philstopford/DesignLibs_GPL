@@ -30,7 +30,6 @@ public static class ParallelogramTest
         //    John Burkardt
         //
     {
-        double area;
         double[] p =
         {
             2.0, 7.0,
@@ -46,7 +45,7 @@ public static class ParallelogramTest
 
         typeMethods.r8mat_transpose_print(2, 4, p, "  Vertices:");
 
-        area = Geometry.parallelogram_area_2d(p);
+        double area = Geometry.parallelogram_area_2d(p);
 
         Console.WriteLine("");
         Console.WriteLine("  AREA = " + area + "");
@@ -73,7 +72,6 @@ public static class ParallelogramTest
         //    John Burkardt
         //
     {
-        double area;
         double[] p =
         {
             1.0, 2.0, 3.0,
@@ -89,7 +87,7 @@ public static class ParallelogramTest
 
         typeMethods.r8mat_transpose_print(3, 4, p, "  Vertices:");
 
-        area = Geometry.parallelogram_area_3d(p);
+        double area = Geometry.parallelogram_area_3d(p);
 
         Console.WriteLine("");
         Console.WriteLine("  AREA = " + area + "");
@@ -116,12 +114,9 @@ public static class ParallelogramTest
         //    16 July 2005
         //
     {
-        int DIM_NUM = 2;
-        int TEST_NUM = 4;
+        const int DIM_NUM = 2;
+        const int TEST_NUM = 4;
 
-        int i;
-        bool inside;
-        double[] p;
         double[] p_test =
         {
             1.0, 0.5,
@@ -144,14 +139,15 @@ public static class ParallelogramTest
 
         for (test = 0; test < TEST_NUM; test++)
         {
-            p = p_test.Skip(+test * DIM_NUM).ToArray();
+            double[] p = p_test.Skip(+test * DIM_NUM).ToArray();
 
-            inside = Geometry.parallelogram_contains_point_2d(p1, p2, p3, p);
+            bool inside = Geometry.parallelogram_contains_point_2d(p1, p2, p3, p);
 
             string cout = "";
+            int i;
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + p[i].ToString().PadLeft(12);
+                cout += "  " + p[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout + "  " + inside + "");
@@ -179,20 +175,18 @@ public static class ParallelogramTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int N = 51;
+        const int DIM_NUM = 2;
+        const int N = 51;
 
         int i;
-        int j;
         double[] p = new double[DIM_NUM];
         double[] p1 = {0.2, 0.0};
         double[] p2 = {0.4, 0.6};
         double[] p3 = {0.6, 0.4};
-        double xhi = 1.0;
-        double xlo = 0.0;
-        double yhi = 1.0;
-        double ylo = 0.0;
-        string cout = "";
+        const double xhi = 1.0;
+        const double xlo = 0.0;
+        const double yhi = 1.0;
+        const double ylo = 0.0;
 
         Console.WriteLine("");
         Console.WriteLine("PARALLELOGRAM_CONTAINS_POINT_2D_TEST2");
@@ -209,7 +203,8 @@ public static class ParallelogramTest
                     + (i - 1) * ylo)
                    / (N - 1);
 
-            cout = "  ";
+            string cout = "  ";
+            int j;
             for (j = 1; j <= N; j++)
             {
                 p[0] = ((N - j) * xlo
@@ -255,12 +250,9 @@ public static class ParallelogramTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
-        int TEST_NUM = 5;
+        const int DIM_NUM = 3;
+        const int TEST_NUM = 5;
 
-        int i;
-        bool inside;
-        double[] p;
         double[] p_test =
         {
             1.0, 1.0, 0.5,
@@ -284,14 +276,15 @@ public static class ParallelogramTest
 
         for (test = 0; test < TEST_NUM; test++)
         {
-            p = p_test.Skip(+test * DIM_NUM).ToArray();
+            double[] p = p_test.Skip(+test * DIM_NUM).ToArray();
 
-            inside = Geometry.parallelogram_contains_point_3d(p1, p2, p3, p);
+            bool inside = Geometry.parallelogram_contains_point_3d(p1, p2, p3, p);
 
             string cout = "";
+            int i;
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + p[i].ToString().PadLeft(12);
+                cout += "  " + p[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout + "  " + inside + "");

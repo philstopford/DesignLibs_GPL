@@ -28,30 +28,23 @@ public static class SortHeapExternalTest
         //    John Burkardt
         //
     {
-        int[] a;
-        int i;
-        int indx;
-        int isgn;
-        int j;
-        int n = 20;
-        int seed;
-        int temp;
+        const int n = 20;
         SortHeapExternalData data = new();
 
         Console.WriteLine("");
         Console.WriteLine("SORT_HEAP_EXTERNAL_TEST");
         Console.WriteLine("  SORT_HEAP_EXTERNAL sorts objects externally.");
 
-        seed = 123456789;
+        int seed = 123456789;
 
-        a = UniformRNG.i4vec_uniform_ab_new ( n, 1, n, ref seed );
+        int[] a = UniformRNG.i4vec_uniform_ab_new ( n, 1, n, ref seed );
 
         typeMethods.i4vec1_print ( n, a, "  Before sorting:" );
 
-        indx = 0;
-        i = 0;
-        j = 0;
-        isgn = 0;
+        int indx = 0;
+        int i = 0;
+        int j = 0;
+        int isgn = 0;
 
         for ( ; ; )
         {
@@ -71,9 +64,7 @@ public static class SortHeapExternalTest
             }
             else if ( 0 < indx )
             {
-                temp = a[i-1];
-                a[i-1] = a[j-1];
-                a[j-1] = temp;
+                (a[i-1], a[j-1]) = (a[j-1], a[i-1]);
             }
             else
             {

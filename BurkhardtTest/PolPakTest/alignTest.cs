@@ -26,7 +26,7 @@ public static class alignTest
         //    John Burkardt
         //
     {
-        int M_MAX = 10;
+        const int M_MAX = 10;
         const int N_MAX = 10;
 
         int i;

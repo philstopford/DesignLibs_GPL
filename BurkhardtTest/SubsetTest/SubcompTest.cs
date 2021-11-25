@@ -26,22 +26,12 @@ public static class SubcompTest
         //    John Burkardt
         //
     {
-        int[] a;
-        int h;
-        int i;
-        int k;
-        bool more;
-        int n;
-        int t;
-        int rank;
-        int total;
-
-        n = 6;
-        k = 3;
-        a = new int[k];
-        more = false;
-        h = 0;
-        t = 0;
+        const int n = 6;
+        const int k = 3;
+        int[] a = new int[k];
+        bool more = false;
+        int h = 0;
+        int t = 0;
 
         SubCompData data = new();
 
@@ -55,13 +45,14 @@ public static class SubcompTest
         Console.WriteLine("     #   Sum");
         Console.WriteLine("");
 
-        rank = 0;
+        int rank = 0;
 
         for (;;)
         {
             SubComp.subcomp_next(ref data, n, k, ref a, ref more, ref h, ref t);
 
-            total = 0;
+            int total = 0;
+            int i;
             for (i = 0; i < k; i++)
             {
                 total += a[i];
@@ -107,26 +98,14 @@ public static class SubcompTest
         //    John Burkardt
         //
     {
-        int[] a;
-        int h;
-        int i;
-        int k;
-        bool more;
-        bool more2;
-        int n = 6;
-        int n2;
-        int rank;
-        int t;
-        int total;
-
-        n = 6;
-        k = 3;
-        a = new int[k];
-        more = false;
-        h = 0;
-        t = 0;
-        n2 = 0;
-        more2 = false;
+        const int n = 6;
+        const int k = 3;
+        int[] a = new int[k];
+        bool more = false;
+        int h = 0;
+        int t = 0;
+        int n2 = 0;
+        bool more2 = false;
         CompNZData data = new();
 
         Console.WriteLine("");
@@ -139,13 +118,14 @@ public static class SubcompTest
         Console.WriteLine("     #   Sum");
         Console.WriteLine("");
 
-        rank = 0;
+        int rank = 0;
 
         for (;;)
         {
             SubComp.subcompnz_next(ref data, n, k, ref a, ref more, ref h, ref t, ref n2, ref more2);
 
-            total = 0;
+            int total = 0;
+            int i;
             for (i = 0; i < k; i++)
             {
                 total += a[i];
@@ -191,28 +171,15 @@ public static class SubcompTest
         //    John Burkardt
         //
     {
-        int[] a;
-        int h;
-        int i;
-        int k;
-        bool more;
-        bool more2;
-        int n;
-        int n_hi = 7;
-        int n_lo = 5;
-        int n2;
-        int rank;
-        int t;
-
-        n_lo = 5;
-        n_hi = 7;
-        k = 3;
-        a = new int[k];
-        more = false;
-        h = 0;
-        t = 0;
-        n2 = 0;
-        more2 = false;
+        const int n_lo = 5;
+        const int n_hi = 7;
+        const int k = 3;
+        int[] a = new int[k];
+        bool more = false;
+        int h = 0;
+        int t = 0;
+        int n2 = 0;
+        bool more2 = false;
         CompNZData data = new();
 
         Console.WriteLine("");
@@ -227,13 +194,14 @@ public static class SubcompTest
         Console.WriteLine("     #     N");
         Console.WriteLine("");
 
-        rank = 0;
+        int rank = 0;
 
         for (;;)
         {
             SubComp.subcompnz2_next(ref data, n_lo, n_hi, k, ref a, ref more, ref h, ref t, ref n2, ref more2);
 
-            n = 0;
+            int n = 0;
+            int i;
             for (i = 0; i < k; i++)
             {
                 n += a[i];

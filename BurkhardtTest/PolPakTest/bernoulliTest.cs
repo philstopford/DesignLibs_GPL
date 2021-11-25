@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.PolynomialNS;
 
 namespace PolPakTest;
@@ -29,7 +30,6 @@ public static class bernoulliTest
         double c0 = 0;
         double[] c1 = new double[31];
         int n = 0;
-        int n_data;
 
         Console.WriteLine("");
         Console.WriteLine("BERNOULLI_NUMBER_TEST");
@@ -39,7 +39,7 @@ public static class bernoulliTest
         Console.WriteLine("   I      Exact     BERNOULLI_NUMBER");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -53,9 +53,9 @@ public static class bernoulliTest
             Burkardt.Sequence.Bernoulli.bernoulli_number(n, ref c1);
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(4) + "  "
-                              + c0.ToString().PadLeft(10) + "  "
-                              + c1[n].ToString().PadLeft(10) + "");
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                              + c0.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                              + c1[n].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
     }
@@ -84,7 +84,6 @@ public static class bernoulliTest
         double c0 = 0;
         double[] c1 = new double[31];
         int n = 0;
-        int n_data;
 
         Console.WriteLine("");
         Console.WriteLine("BERNOULLI_NUMBER2_TEST");
@@ -93,7 +92,7 @@ public static class bernoulliTest
         Console.WriteLine("   I      Exact     BERNOULLI_NUMBER2");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -107,9 +106,9 @@ public static class bernoulliTest
             Burkardt.Sequence.Bernoulli.bernoulli_number2(n, ref c1);
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(4) + "  "
-                              + c0.ToString().PadLeft(10) + "  "
-                              + c1[n].ToString().PadLeft(10) + "");
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                              + c0.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                              + c1[n].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
     }
@@ -136,9 +135,7 @@ public static class bernoulliTest
         //
     {
         double c0 = 0;
-        double c1 = 0;
         int n = 0;
-        int n_data;
 
         Console.WriteLine("");
         Console.WriteLine("BERNOULLI_NUMBER3_TEST");
@@ -147,7 +144,7 @@ public static class bernoulliTest
         Console.WriteLine("   I      Exact     BERNOULLI_NUMBER3");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -158,12 +155,12 @@ public static class bernoulliTest
                 break;
             }
 
-            c1 = Burkardt.Sequence.Bernoulli.bernoulli_number3(n);
+            double c1 = Burkardt.Sequence.Bernoulli.bernoulli_number3(n);
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(4) + "  "
-                              + c0.ToString().PadLeft(14) + "  "
-                              + c1.ToString().PadLeft(14) + "");
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                              + c0.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                              + c1.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
         }
 
@@ -190,12 +187,10 @@ public static class bernoulliTest
         //    John Burkardt
         //
     {
-        double bx;
         int i;
-        int n = 15;
-        double x;
+        const int n = 15;
 
-        x = 0.2;
+        const double x = 0.2;
 
         Console.WriteLine("");
         Console.WriteLine("BERNOULLI_POLY_TEST");
@@ -208,11 +203,11 @@ public static class bernoulliTest
 
         for (i = 1; i <= n; i++)
         {
-            bx = Bernoulli.bernoulli_poly(i, x);
+            double bx = Bernoulli.bernoulli_poly(i, x);
 
             Console.WriteLine("  "
-                              + i.ToString().PadLeft(6) + "  "
-                              + bx.ToString().PadLeft(10) + "");
+                              + i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + bx.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
     }
@@ -238,12 +233,10 @@ public static class bernoulliTest
         //    John Burkardt
         //
     {
-        double bx;
         int i;
-        int n = 15;
-        double x;
+        const int n = 15;
 
-        x = 0.2;
+        const double x = 0.2;
 
         Console.WriteLine("");
         Console.WriteLine("BERNOULLI_POLY2_TEST");
@@ -256,11 +249,11 @@ public static class bernoulliTest
 
         for (i = 1; i <= n; i++)
         {
-            bx = Bernoulli.bernoulli_poly2(i, x);
+            double bx = Bernoulli.bernoulli_poly2(i, x);
 
             Console.WriteLine("  "
-                              + i.ToString().PadLeft(2) + "  "
-                              + bx.ToString().PadLeft(16) + "");
+                              + i.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  "
+                              + bx.ToString(CultureInfo.InvariantCulture).PadLeft(16) + "");
         }
 
     }
@@ -286,9 +279,7 @@ public static class bernoulliTest
         //    John Burkardt
         //
     {
-        int b;
         int k;
-        int n;
 
         Console.WriteLine("");
         Console.WriteLine("POLY_BERNOULLI_TEST");
@@ -301,13 +292,14 @@ public static class bernoulliTest
         for ( k = 0; k <= 6; k++ )
         {
             Console.WriteLine("");
+            int n;
             for ( n = 0; n <= 6; n++ )
             {
-                b = Bernoulli.poly_bernoulli ( n, k );
+                int b = Bernoulli.poly_bernoulli ( n, k );
 
-                Console.WriteLine("  " + n.ToString().PadLeft(2)
-                                       + "  " + k.ToString().PadLeft(2)
-                                       + "  " + b.ToString().PadLeft(12) + "");
+                Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + b.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             }
         }
 

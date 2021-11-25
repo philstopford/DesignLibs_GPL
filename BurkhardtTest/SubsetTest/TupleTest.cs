@@ -26,12 +26,10 @@ public static class TupleTest
         //    John Burkardt
         //
     {
-        int N = 2;
+        const int N = 2;
 
-        int i;
-        int m1 = 2;
-        int m2 = 4;
-        int rank;
+        const int m1 = 2;
+        const int m2 = 4;
         int[] x = new int[N];
 
         Console.WriteLine("");
@@ -44,7 +42,7 @@ public static class TupleTest
         Console.WriteLine("  N = " + N + "");
         Console.WriteLine("");
 
-        rank = 0;
+        int rank = 0;
 
         for (;;)
         {
@@ -56,6 +54,7 @@ public static class TupleTest
             }
 
             string cout = rank.ToString().PadLeft(4);
+            int i;
             for (i = 0; i < N; i++)
             {
                 cout += x[i].ToString().PadLeft(4) + "  ";
@@ -88,11 +87,8 @@ public static class TupleTest
         //
     {
         int[] base_ = new int[2];
-        int i;
-        int m = 3;
-        int n = 2;
-        int rank;
-        int rank_hi;
+        const int m = 3;
+        const int n = 2;
         int[] x = new int[2];
 
         Console.WriteLine("");
@@ -106,16 +102,17 @@ public static class TupleTest
         //
         //  Initialize.
         //
-        rank = -1;
+        int rank = -1;
         BTuple.tuple_next_fast(m, n, rank, ref base_, ref x);
 
-        rank_hi = (int)Math.Pow(m, n);
+        int rank_hi = (int)Math.Pow(m, n);
 
         for (rank = 0; rank < rank_hi; rank++)
         {
             BTuple.tuple_next_fast(m, n, rank, ref base_, ref x);
 
             string cout = rank.ToString().PadLeft(4);
+            int i;
             for (i = 0; i < n; i++)
             {
                 cout += x[i].ToString().PadLeft(4) + "  ";
@@ -146,11 +143,9 @@ public static class TupleTest
         //    John Burkardt
         //
     {
-        int N = 3;
+        const int N = 3;
 
-        int i;
-        int m = 3;
-        int rank;
+        const int m = 3;
         int[] x = new int[N];
 
         Console.WriteLine("");
@@ -164,7 +159,7 @@ public static class TupleTest
         Console.WriteLine("  N = " + N + "");
         Console.WriteLine("");
 
-        rank = 0;
+        int rank = 0;
 
         for (;;)
         {
@@ -176,6 +171,7 @@ public static class TupleTest
             }
 
             string cout = rank.ToString().PadLeft(4);
+            int i;
             for (i = 0; i < N; i++)
             {
                 cout += x[i].ToString().PadLeft(4) + "  ";
@@ -208,10 +204,8 @@ public static class TupleTest
         //    John Burkardt
         //
     {
-        int N = 3;
+        const int N = 3;
 
-        int i;
-        int rank;
         int[] x = new int[N];
         int[] xmin = { 2, 3, 8 };
         int[] xmax = { 4, 3, 5 };
@@ -231,7 +225,7 @@ public static class TupleTest
         Console.WriteLine("");
         Console.WriteLine("");
 
-        rank = 0;
+        int rank = 0;
 
         for (;;)
         {
@@ -243,6 +237,7 @@ public static class TupleTest
             }
 
             string cout = rank.ToString().PadLeft(4);
+            int i;
             for (i = 0; i < N; i++)
             {
                 cout += x[i].ToString().PadLeft(4) + "  ";
@@ -252,6 +247,4 @@ public static class TupleTest
 
         }
     }
-
-
 }

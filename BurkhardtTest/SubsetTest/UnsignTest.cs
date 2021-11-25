@@ -27,19 +27,15 @@ public static class UnsignTest
         //    John Burkardt
         //
     {
-        int N = 32;
+        const int N = 32;
 
         int i;
         uint[] i1vec = new uint[N];
         uint[] i2vec = new uint[N];
         uint[] i3vec = new uint[N];
-        int ihi = 1000;
-        int ilo = 0;
-        int ntest = 5;
-        int seed;
-        uint ui1;
-        uint ui2;
-        uint ui3;
+        const int ihi = 1000;
+        const int ilo = 0;
+        const int ntest = 5;
 
         Console.WriteLine("");
         Console.WriteLine("NIM_SUM_TEST");
@@ -48,17 +44,17 @@ public static class UnsignTest
         Console.WriteLine("    I    J    Nim(I+J)");
         Console.WriteLine("");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         for (i = 1; i <= ntest; i++)
         {
-            ui1 = (uint)UniformRNG.i4_uniform_ab(ilo, ihi, ref seed);
+            uint ui1 = (uint)UniformRNG.i4_uniform_ab(ilo, ihi, ref seed);
             typeMethods.ui4_to_ubvec(ui1, N, ref i1vec);
 
-            ui2 = (uint)UniformRNG.i4_uniform_ab(ilo, ihi, ref seed);
+            uint ui2 = (uint)UniformRNG.i4_uniform_ab(ilo, ihi, ref seed);
             typeMethods.ui4_to_ubvec(ui2, N, ref i2vec);
 
-            ui3 = typeMethods.nim_sum(ui1, ui2);
+            uint ui3 = typeMethods.nim_sum(ui1, ui2);
             typeMethods.ui4_to_ubvec(ui3, N, ref i3vec);
 
             Console.WriteLine("");
@@ -104,17 +100,14 @@ public static class UnsignTest
         //    John Burkardt
         //
     {
-        int N = 10;
+        const int N = 10;
 
         uint[] bvec1 = new uint[N];
         uint[] bvec2 = new uint[N];
         uint[] bvec3 = new uint[N];
-        uint ui;
-        uint uj;
-        uint uk;
         int seed = 123456789;
         int test;
-        int test_num = 10;
+        const int test_num = 10;
 
         Console.WriteLine("");
         Console.WriteLine("UBVEC_ADD_TEST");
@@ -126,14 +119,14 @@ public static class UnsignTest
 
         for (test = 1; test <= test_num; test++)
         {
-            ui = (uint ) UniformRNG.i4_uniform_ab(0, 100, ref seed);
-            uj = (uint ) UniformRNG.i4_uniform_ab(0, 100, ref seed);
+            uint ui = (uint ) UniformRNG.i4_uniform_ab(0, 100, ref seed);
+            uint uj = (uint ) UniformRNG.i4_uniform_ab(0, 100, ref seed);
 
             Console.WriteLine("");
             Console.WriteLine("  " + ui.ToString().PadLeft(8)
                                    + "  " + uj.ToString().PadLeft(8) + "");
 
-            uk = ui + uj;
+            uint uk = ui + uj;
 
             Console.WriteLine("  Directly:         "
                               + "  " + uk.ToString().PadLeft(8) + "");
@@ -170,7 +163,7 @@ public static class UnsignTest
         //    John Burkardt
         //
     {
-        int n = 10;
+        const int n = 10;
         uint[] ubvec =  {
                 1, 0, 0, 1, 0, 1, 1, 1, 0, 0
             }
@@ -204,12 +197,10 @@ public static class UnsignTest
         //    John Burkardt
         //
     {
-        int N = 10;
+        const int N = 10;
 
         uint[] bvec = new uint[N];
         uint ui1;
-        uint ui2;
-        int j;
 
         Console.WriteLine("");
         Console.WriteLine("UBVEC_TO_UI4_TEST");
@@ -223,9 +214,10 @@ public static class UnsignTest
         {
             typeMethods.ui4_to_ubvec(ui1, N, ref bvec);
 
-            ui2 = typeMethods.ubvec_to_ui4(N, bvec);
+            uint ui2 = typeMethods.ubvec_to_ui4(N, bvec);
 
             string cout = ui1.ToString().PadLeft(3) + "  ";
+            int j;
             for (j = 0; j < N; j++)
             {
                 cout += bvec[j].ToString().PadLeft(1);
@@ -260,13 +252,10 @@ public static class UnsignTest
         uint[] bvec1 = new uint[10];
         uint[] bvec2 = new uint[10];
         uint[] bvec3 = new uint[10];
-        int n = 10;
-        uint ui;
-        uint uj;
-        uint uk;
+        const int n = 10;
         int seed = 123456789;
         int test;
-        int test_num = 10;
+        const int test_num = 10;
 
         Console.WriteLine("");
         Console.WriteLine("UBVEC_XOR_TEST");
@@ -278,12 +267,12 @@ public static class UnsignTest
 
         for (test = 1; test <= test_num; test++)
         {
-            ui = (uint ) UniformRNG.i4_uniform_ab(0, 100, ref seed);
-            uj = (uint ) UniformRNG.i4_uniform_ab(0, 100, ref seed);
+            uint ui = (uint ) UniformRNG.i4_uniform_ab(0, 100, ref seed);
+            uint uj = (uint ) UniformRNG.i4_uniform_ab(0, 100, ref seed);
             typeMethods.ui4_to_ubvec(ui, n, ref bvec1);
             typeMethods.ui4_to_ubvec(uj, n, ref bvec2);
             typeMethods.ubvec_xor(n, bvec1, bvec2, bvec3);
-            uk = typeMethods.ubvec_to_ui4(n, bvec3);
+            uint uk = typeMethods.ubvec_to_ui4(n, bvec3);
 
             Console.WriteLine("  " + ui.ToString().PadLeft(8)
                                    + "  " + uj.ToString().PadLeft(8)
@@ -312,12 +301,10 @@ public static class UnsignTest
         //    John Burkardt
         //
     {
-        int N = 10;
+        const int N = 10;
 
         uint[] bvec = new uint[N];
         uint ui1;
-        uint ui2;
-        int j;
 
         Console.WriteLine("");
         Console.WriteLine("UI4_TO_UBVEC_TEST");
@@ -331,9 +318,10 @@ public static class UnsignTest
         {
             typeMethods.ui4_to_ubvec(ui1, N, ref bvec);
 
-            ui2 = typeMethods.ubvec_to_ui4(N, bvec);
+            uint ui2 = typeMethods.ubvec_to_ui4(N, bvec);
 
             string cout = ui1.ToString().PadLeft(3) + "  ";
+            int j;
             for (j = 0; j < N; j++)
             {
                 cout += bvec[j].ToString().PadLeft(1);

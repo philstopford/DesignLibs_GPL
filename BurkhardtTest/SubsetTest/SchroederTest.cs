@@ -26,7 +26,7 @@ public static class SchroederTest
         //    John Burkardt
         //
     {
-        int N = 10;
+        const int N = 10;
 
         int i;
         int[] s = new int[N];

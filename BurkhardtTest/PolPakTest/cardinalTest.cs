@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Function;
 using Burkardt.Types;
 
@@ -27,12 +28,8 @@ public static class cardinalTest
         //    John Burkardt
         //
     {
-        double[] c;
-        int i;
         int j;
-        int m = 11;
-        const double r8_pi = 3.141592653589793;
-        double[] t;
+        const int m = 11;
 
         Console.WriteLine("");
         Console.WriteLine("CARDINAL_COS_TEST");
@@ -44,15 +41,16 @@ public static class cardinalTest
         Console.WriteLine("  The CARDINAL_COS test matrix:");
         Console.WriteLine("");
 
-        t = typeMethods.r8vec_linspace_new(m + 2, 0.0, r8_pi);
+        double[] t = typeMethods.r8vec_linspace_new(m + 2, 0.0, Math.PI);
 
         for (j = 0; j <= m + 1; j++)
         {
-            c = Cardinal.cardinal_cos(j, m, m + 2, t);
+            double[] c = Cardinal.cardinal_cos(j, m, m + 2, t);
             string cout = "";
+            int i;
             for (i = 0; i <= m + 1; i++)
             {
-                cout += "  " + c[i].ToString().PadLeft(4);
+                cout += "  " + c[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
             }
 
             Console.WriteLine(cout);
@@ -81,12 +79,8 @@ public static class cardinalTest
         //    John Burkardt
         //
     {
-        int i;
         int j;
-        int m = 11;
-        const double r8_pi = 3.141592653589793;
-        double[] s;
-        double[] t;
+        const int m = 11;
 
         Console.WriteLine("");
         Console.WriteLine("CARDINAL_SIN_TEST");
@@ -94,18 +88,19 @@ public static class cardinalTest
         Console.WriteLine("  Si(Tj) = Delta(i,j), where Tj = cos(pi*i/(n+1)).");
         Console.WriteLine("  A simple check of all pairs should form the identity matrix.");
 
-        t = typeMethods.r8vec_linspace_new(m + 2, 0.0, r8_pi);
+        double[] t = typeMethods.r8vec_linspace_new(m + 2, 0.0, Math.PI);
 
         Console.WriteLine("");
         Console.WriteLine("  The CARDINAL_SIN test matrix:");
         Console.WriteLine("");
         for (j = 0; j <= m + 1; j++)
         {
-            s = Cardinal.cardinal_sin(j, m, m + 2, t);
+            double[] s = Cardinal.cardinal_sin(j, m, m + 2, t);
             string cout = "";
+            int i;
             for (i = 0; i <= m + 1; i++)
             {
-                cout += "  " + s[i].ToString().PadLeft(4);
+                cout += "  " + s[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
             }
 
             Console.WriteLine(cout);

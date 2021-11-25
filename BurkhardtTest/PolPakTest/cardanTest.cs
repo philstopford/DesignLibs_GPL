@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.PolynomialNS;
 using Burkardt.Types;
 
@@ -30,20 +31,15 @@ public static class cardanTest
         const int N_MAX = 10;
 
         double[] c = new double[N_MAX + 1];
-        double cx1;
-        double[] cx2;
-        int n;
-        double s;
-        double x;
 
         Console.WriteLine("");
         Console.WriteLine("CARDAN_POLY_TEST");
         Console.WriteLine("  CARDAN_POLY evaluates a Cardan polynomial directly.");
         Console.WriteLine("");
 
-        n = N_MAX;
-        x = 0.25;
-        s = 0.5;
+        int n = N_MAX;
+        const double x = 0.25;
+        const double s = 0.5;
 
         Console.WriteLine("");
         Console.WriteLine("  Compare CARDAN_POLY_COEF + R8POLY_VALUE_HORNER");
@@ -55,17 +51,17 @@ public static class cardanTest
         Console.WriteLine("  Order       Horner          Direct");
         Console.WriteLine("");
 
-        cx2 = Cardan.cardan_poly(n, x, s);
+        double[] cx2 = Cardan.cardan_poly(n, x, s);
 
         for (n = 0; n <= N_MAX; n++)
         {
             Cardan.cardan_poly_coef(n, s, ref c);
 
-            cx1 = typeMethods.r8poly_value_horner(n, c, x);
+            double cx1 = typeMethods.r8poly_value_horner(n, c, x);
 
             Console.WriteLine("  " + n.ToString().PadLeft(2)
-                                   + "  " + cx1.ToString().PadLeft(14)
-                                   + "  " + cx2[n].ToString().PadLeft(14) + "");
+                                   + "  " + cx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + cx2[n].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -94,11 +90,9 @@ public static class cardanTest
         const int N_MAX = 10;
 
         double[] c = new double[N_MAX + 1];
-        int i;
         int n;
-        double s;
 
-        s = 1.0;
+        const double s = 1.0;
 
         Console.WriteLine("");
         Console.WriteLine("CARDAN_POLY_COEF_TEST");
@@ -114,9 +108,10 @@ public static class cardanTest
         {
             Cardan.cardan_poly_coef(n, s, ref c);
             string cout = "  " + n.ToString().PadLeft(2) + "  ";
+            int i;
             for (i = 0; i <= n; i++)
             {
-                cout += c[i].ToString().PadLeft(3) + "  ";
+                cout += c[i].ToString(CultureInfo.InvariantCulture).PadLeft(3) + "  ";
             }
 
             Console.WriteLine(cout);

@@ -29,8 +29,6 @@ public static class Thuetest
         const int N_MAX = 100;
 
         int i;
-        int j;
-        int n;
         int[] thue = new int[N_MAX];
 
         Console.WriteLine("");
@@ -39,7 +37,7 @@ public static class Thuetest
         Console.WriteLine("  Thue binary sequence.");
         Console.WriteLine("");
 
-        n = 1;
+        int n = 1;
         thue[0] = 0;
         string cout = n.ToString().PadLeft(4) + "    ";
         for (i = 0; i < n; i++)
@@ -54,6 +52,7 @@ public static class Thuetest
             Thue.thue_binary_next(ref n, ref thue);
 
             cout = n.ToString().PadLeft(4) + "    ";
+            int j;
             for (j = 0; j < n; j++)
             {
                 cout += thue[j];
@@ -87,8 +86,6 @@ public static class Thuetest
         const int N_MAX = 100;
 
         int i;
-        int j;
-        int n;
         int[] thue = new int[N_MAX];
 
         Console.WriteLine("");
@@ -97,7 +94,7 @@ public static class Thuetest
         Console.WriteLine("  Thue ternary sequence.");
         Console.WriteLine("");
 
-        n = 1;
+        int n = 1;
         thue[0] = 1;
         string cout = n.ToString().PadLeft(4) + "    ";
         for (i = 0; i < n; i++)
@@ -112,6 +109,7 @@ public static class Thuetest
             Thue.thue_ternary_next(ref n, ref thue);
 
             cout = n.ToString().PadLeft(4) + "    ";
+            int j;
             for (j = 0; j < n; j++)
             {
                 cout += thue[j];

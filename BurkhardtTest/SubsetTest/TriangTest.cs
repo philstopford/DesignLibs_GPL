@@ -28,7 +28,7 @@ public static class TriangTest
         //    John Burkardt
         //
     {
-        int N = 10;
+        const int N = 10;
 
         int[] a = {
             1,0,1,0,1,0,1,0,0,1, 

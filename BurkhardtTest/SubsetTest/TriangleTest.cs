@@ -26,26 +26,16 @@ public static class TriangleTest
         //    John Burkardt
         //
     {
-        int i1;
-        int i2;
-        int i3;
-        int j1;
-        int j2;
-        int j3;
-        bool more;
-        int n;
-        int rank;
+        const int n = 4;
+        int rank = 0;
 
-        n = 4;
-        rank = 0;
-
-        more = false;
-        i1 = 0;
-        j1 = 0;
-        i2 = 0;
-        j2 = 0;
-        i3 = 0;
-        j3 = 0;
+        bool more = false;
+        int i1 = 0;
+        int j1 = 0;
+        int i2 = 0;
+        int j2 = 0;
+        int i3 = 0;
+        int j3 = 0;
 
         Console.WriteLine("");
         Console.WriteLine("SUBTRIANGLE_NEXT_TEST");

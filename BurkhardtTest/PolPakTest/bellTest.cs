@@ -27,9 +27,7 @@ public static class bellTest
         //
     {
         int c = 0;
-        int[] c2;
         int n = 0;
-        int n_data;
 
         Console.WriteLine("");
         Console.WriteLine("BELL_TEST");
@@ -38,7 +36,7 @@ public static class bellTest
         Console.WriteLine("  N  exact C(I)  computed C(I)");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for ( ; ; )
         {
@@ -49,7 +47,7 @@ public static class bellTest
                 break;
             }
 
-            c2 = new int[n+1];
+            int[] c2 = new int[n+1];
 
             Burkardt.Values.Bell.bell ( n, ref c2 );
 
@@ -83,8 +81,6 @@ public static class bellTest
         //    John Burkardt
         //
     {
-        int []c;
-        int i;
         int n;
         const int N_MAX = 10;
 
@@ -98,8 +94,9 @@ public static class bellTest
 
         for ( n = 0; n <= N_MAX; n++ )
         {
-            c = Bell.bell_poly_coef ( n );
+            int []c = Bell.bell_poly_coef ( n );
             string cout = "  " + n.ToString().PadLeft(2) + ":  ";
+            int i;
             for ( i = 0; i <= n; i++ )
             {
                 cout += "  " + c[i].ToString().PadLeft(6);

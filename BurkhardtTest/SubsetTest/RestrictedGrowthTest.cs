@@ -26,11 +26,8 @@ public static class RestrictedGrowthTest
         //    John Burkardt
         //
     {
-        int N = 4;
+        const int N = 4;
 
-        bool done;
-        int i;
-        int rank;
         int[] v = new int[N];
         int[] vmax = new int[N];
 
@@ -40,9 +37,9 @@ public static class RestrictedGrowthTest
         Console.WriteLine("  functions.");
         Console.WriteLine("");
 
-        rank = 0;
+        int rank = 0;
 
-        done = true;
+        bool done = true;
 
         for (;;)
         {
@@ -56,6 +53,7 @@ public static class RestrictedGrowthTest
             rank += 1;
             string cout = "  "
                           + rank.ToString().PadLeft(3) + "  ";
+            int i;
             for (i = 0; i < N; i++)
             {
                 cout += v[i].ToString().PadLeft(1) + "  ";

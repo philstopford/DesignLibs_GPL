@@ -27,30 +27,20 @@ public static class SubsetTest
         //    John Burkardt
         //
     {
-        int[] a;
-        int i;
-        int m;
-        int m2;
-        bool more;
-        bool more2;
-        int n;
-        int rank;
-        int subsize;
-
         Console.WriteLine("");
         Console.WriteLine("SUBSET_BY_SIZE_NEXT_TEST");
         Console.WriteLine("  SUBSET_BY_SIZE_NEXT generates all subsets of an N set.");
         Console.WriteLine("");
 
-        n = 5;
-        a = new int[n];
-        subsize = 0;
-        more = false;
-        more2 = false;
-        m = 0;
-        m2 = 0;
+        const int n = 5;
+        int[] a = new int[n];
+        int subsize = 0;
+        bool more = false;
+        bool more2 = false;
+        int m = 0;
+        int m2 = 0;
 
-        rank = 0;
+        int rank = 0;
 
         for (;;)
         {
@@ -64,6 +54,7 @@ public static class SubsetTest
             {
                 case > 0:
                 {
+                    int i;
                     for (i = 0; i < subsize; i++)
                     {
                         cout += a[i].ToString().PadLeft(2) + "  ";
@@ -106,13 +97,10 @@ public static class SubsetTest
         //    John Burkardt
         //
     {
-        int NDIM = 3;
+        const int NDIM = 3;
 
         int[] a = new int[NDIM];
-        int i;
-        int k;
-        bool ltest;
-        int n = 5;
+        const int n = 5;
 
         Console.WriteLine("");
         Console.WriteLine("SUBSET_LEX_NEXT_TEST");
@@ -123,11 +111,11 @@ public static class SubsetTest
         Console.WriteLine("  Here, we require the subsets to be no larger");
         Console.WriteLine("  than NDIM = " + NDIM + "");
 
-        k = 0;
+        int k = 0;
 
         for (;;)
         {
-            ltest = k == NDIM;
+            bool ltest = k == NDIM;
 
             Subset.subset_lex_next(n, ltest, NDIM, ref k, ref a);
 
@@ -136,6 +124,7 @@ public static class SubsetTest
                 case > 0:
                 {
                     string cout = "  ";
+                    int i;
                     for (i = 0; i < k; i++)
                     {
                         cout += a[i].ToString().PadLeft(2) + "  ";
@@ -178,13 +167,10 @@ public static class SubsetTest
         //    John Burkardt
         //
     {
-        int N = 5;
+        const int N = 5;
 
         int[] a = new int[N];
-        int i;
-        int j;
         int iadd = 0;
-        bool more;
         int ncard = 0;
 
         Console.WriteLine("");
@@ -196,14 +182,13 @@ public static class SubsetTest
         Console.WriteLine("  Gray code");
         Console.WriteLine("");
 
-        more = false;
-        j = 0;
+        bool more = false;
 
         for (;;)
         {
             Subset.subset_gray_next(N, ref a, ref more, ref ncard, ref iadd);
 
-            j += 1;
+            int i;
             for (i = 0; i < N; i++)
             {
             }
@@ -241,12 +226,9 @@ public static class SubsetTest
         //    John Burkardt
         //
     {
-        int N = 5;
+        const int N = 5;
 
-        int[] a = new int[N];
-        int i;
         int j;
-        int seed;
 
         Console.WriteLine("");
         Console.WriteLine("SUBSET_RANDOM_TEST");
@@ -254,13 +236,14 @@ public static class SubsetTest
         Console.WriteLine("  The number of elements in the main set is " + N + "");
         Console.WriteLine("");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         for (j = 1; j <= 5; j++)
         {
-            a = Subset.subset_random(N, ref seed);
+            int[] a = Subset.subset_random(N, ref seed);
 
             string cout = j.ToString().PadLeft(4) + "    ";
+            int i;
             for (i = 0; i < N; i++)
             {
                 cout += a[i].ToString().PadLeft(2);
@@ -293,11 +276,10 @@ public static class SubsetTest
         //    John Burkardt
         //
     {
-        int N = 5;
+        const int N = 5;
 
         int[] a = { 1, 0, 1, 1, 0 };
         int i;
-        int rank;
 
         Console.WriteLine("");
         Console.WriteLine("SUBSET_GRAY_RANK_TEST");
@@ -312,7 +294,7 @@ public static class SubsetTest
 
         Console.WriteLine("");
 
-        rank = Ranking.subset_gray_rank(N, a);
+        int rank = Ranking.subset_gray_rank(N, a);
 
         Console.WriteLine("");
         Console.WriteLine("  The rank is " + rank + "");
@@ -339,10 +321,9 @@ public static class SubsetTest
         //    John Burkardt
         //
     {
-        int N = 5;
+        const int N = 5;
 
         int[] a = new int[N];
-        int i;
         int rank;
 
         Console.WriteLine("");
@@ -361,6 +342,7 @@ public static class SubsetTest
 
             string cout = "  "
                           + rank.ToString().PadLeft(4) + "  ";
+            int i;
             for (i = 0; i < N; i++)
             {
                 cout += a[i].ToString().PadLeft(2);

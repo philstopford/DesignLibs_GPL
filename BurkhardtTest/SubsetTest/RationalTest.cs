@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Function;
 using Burkardt.RationalNS;
 using Burkardt.Types;
@@ -29,10 +30,10 @@ public static class RationalTest
         //    John Burkardt
         //
     {
-        int abot = 4;
-        int atop = 3;
-        int bbot = 7;
-        int btop = 10;
+        const int abot = 4;
+        const int atop = 3;
+        const int bbot = 7;
+        const int btop = 10;
         int cbot = 0;
         int ctop = 0;
         bool error = false;
@@ -70,10 +71,10 @@ public static class RationalTest
         //    John Burkardt
         //
     {
-        int abot = 4;
-        int atop = 3;
-        int bbot = 7;
-        int btop = 10;
+        const int abot = 4;
+        const int atop = 3;
+        const int bbot = 7;
+        const int btop = 10;
         int cbot = 0;
         int ctop = 0;
         bool error = false;
@@ -111,14 +112,11 @@ public static class RationalTest
         //    John Burkardt
         //
     {
-        int FRAC_MAX = 20;
+        const int FRAC_MAX = 20;
 
         int[] a = new int[FRAC_MAX];
         int[] b = new int[FRAC_MAX];
         int frac_num = 0;
-        int i;
-        int ihi;
-        int ilo;
         int n;
 
         Console.WriteLine("");
@@ -134,10 +132,12 @@ public static class RationalTest
             Console.WriteLine("  Number of fractions: " + frac_num + "");
             Console.WriteLine("");
 
+            int ilo;
             for (ilo = 0; ilo < frac_num; ilo += 20)
             {
-                ihi = Math.Min(ilo + 20 - 1, frac_num - 1);
+                int ihi = Math.Min(ilo + 20 - 1, frac_num - 1);
                 string cout = "";
+                int i;
                 for (i = ilo; i <= ihi; i++)
                 {
                     cout += a[i].ToString().PadLeft(3);
@@ -178,15 +178,11 @@ public static class RationalTest
         //
     {
         const int N_MAX = 4;
-        int TWO_POWER_MAX = 16;
+        const int TWO_POWER_MAX = 16;
 
         int[] a = new int[TWO_POWER_MAX + 1];
         int[] b = new int[TWO_POWER_MAX + 1];
-        int i;
-        int ihi;
-        int ilo;
         int n;
-        int two_power;
 
         Console.WriteLine("");
         Console.WriteLine("RAT_FAREY2_TEST");
@@ -199,14 +195,16 @@ public static class RationalTest
             Console.WriteLine("");
             Console.WriteLine("  Row " + n + 1 + "");
 
-            two_power = (int)Math.Pow(2, n);
+            int two_power = (int)Math.Pow(2, n);
 
+            int ilo;
             for (ilo = 0; ilo <= two_power; ilo += 20)
 
             {
-                ihi = Math.Min(ilo + 20 - 1, two_power);
+                int ihi = Math.Min(ilo + 20 - 1, two_power);
                 Console.WriteLine("");
                 string cout = "";
+                int i;
                 for (i = ilo; i <= ihi; i++)
                 {
                     cout += a[i].ToString().PadLeft(3);
@@ -247,10 +245,10 @@ public static class RationalTest
         //    John Burkardt
         //
     {
-        int abot = 4;
-        int atop = 3;
-        int bbot = 7;
-        int btop = 10;
+        const int abot = 4;
+        const int atop = 3;
+        const int bbot = 7;
+        const int btop = 10;
         int cbot = 0;
         int ctop = 0;
         bool error = false;
@@ -288,10 +286,6 @@ public static class RationalTest
         //    John Burkardt
         //
     {
-        int a1;
-        int a2;
-        int b1;
-        int b2;
         int i;
         int[] rat_top = { 3, 1, 20, 8, -10, 9, -11 };
         int[] rat_bot = { 4, 1000, 1, 4, 7, -15, -11 };
@@ -307,10 +301,10 @@ public static class RationalTest
 
         for (i = 0; i < 7; i++)
         {
-            a1 = rat_top[i];
-            b1 = rat_bot[i];
-            a2 = a1;
-            b2 = b1;
+            int a1 = rat_top[i];
+            int b1 = rat_bot[i];
+            int a2 = a1;
+            int b2 = b1;
             Rational.rat_normalize(ref a2, ref b2);
             Console.WriteLine("  " + a1.ToString().PadLeft(6)
                                    + "  " + b1.ToString().PadLeft(6)
@@ -341,7 +335,7 @@ public static class RationalTest
         //    John Burkardt
         //
     {
-        int N = 6;
+        const int N = 6;
 
         int[] a = new int[(N + 1) * (N + 1)];
         int[] b = new int[(N + 1) * (N + 1)];
@@ -382,16 +376,16 @@ public static class RationalTest
         //    John Burkardt
         //
     {
-        int M = 10;
+        const int M = 10;
 
         int[] a = new int[M];
-        int bot = 15625;
+        const int bot = 15625;
         bool error = false;
         int i;
         int n = 0;
         int[] p = new int[M];
         int[] q = new int[M];
-        int top = 4096;
+        const int top = 4096;
 
         Console.WriteLine("");
         Console.WriteLine("RAT_TO_CFRAC_TEST");
@@ -418,7 +412,7 @@ public static class RationalTest
             Console.WriteLine(i.ToString().PadLeft(3) + "  "
                                                       + p[i].ToString().PadLeft(6) + "  "
                                                       + q[i].ToString().PadLeft(6) + "  "
-                                                      + (p[i] / (double)q[i]).ToString().PadLeft(14) + "");
+                                                      + (p[i] / (double)q[i]).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -446,14 +440,8 @@ public static class RationalTest
         int exponent = 0;
         int i;
         int mantissa = 0;
-        double r1;
-        double r2;
-        double r3;
-        int rat_bot = 0;
         int rat_bot2 = 0;
-        int rat_top = 0;
         int rat_top2 = 0;
-        int seed;
 
         Console.WriteLine("");
         Console.WriteLine("RAT_TO_DEC_TEST");
@@ -467,20 +455,20 @@ public static class RationalTest
         Console.WriteLine("");
         Console.WriteLine("  Then convert back to rational and the equivalent real.");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         for (i = 1; i <= 10; i++)
         {
-            rat_top = UniformRNG.i4_uniform_ab(-1000, 1000, ref seed);
-            rat_bot = UniformRNG.i4_uniform_ab(1, 1000, ref seed);
+            int rat_top = UniformRNG.i4_uniform_ab(-1000, 1000, ref seed);
+            int rat_bot = UniformRNG.i4_uniform_ab(1, 1000, ref seed);
 
-            r1 = rat_top / (double)rat_bot;
+            double r1 = rat_top / (double)rat_bot;
 
             Rational.rat_to_dec(rat_top, rat_bot, ref mantissa, ref exponent);
-            r2 = mantissa * Math.Pow(10.0, exponent);
+            double r2 = mantissa * Math.Pow(10.0, exponent);
 
             typeMethods.dec_to_rat(mantissa, exponent, ref rat_top2, ref rat_bot2);
-            r3 = rat_top2 / (double)rat_bot2;
+            double r3 = rat_top2 / (double)rat_bot2;
 
             Console.WriteLine("");
             Console.WriteLine("  " + r1 + " = " + rat_top + "/" + rat_bot + "");
@@ -513,10 +501,7 @@ public static class RationalTest
         int a = 0;
         int b = 0;
         int i;
-        int ndig = 4;
-        double r;
-        double r2;
-        int seed;
+        const int ndig = 4;
 
         Console.WriteLine("");
         Console.WriteLine("RAT_TO_R8_TEST");
@@ -524,7 +509,7 @@ public static class RationalTest
         Console.WriteLine("");
         Console.WriteLine("  The maximum number of digits allowed is " + ndig + "");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("     R   =>  A / B  =>  R2");
@@ -532,17 +517,17 @@ public static class RationalTest
 
         for (i = 1; i <= 10; i++)
         {
-            r = UniformRNG.r8_uniform_01(ref seed);
+            double r = UniformRNG.r8_uniform_01(ref seed);
             r = 10.0 * (r - 0.25);
 
             typeMethods.r8_to_rat(r, ndig, ref a, ref b);
-            r2 = Rational.rat_to_r8(a, b);
+            double r2 = Rational.rat_to_r8(a, b);
 
             Console.WriteLine("  "
-                              + r.ToString().PadLeft(10) + "  "
+                              + r.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
                               + a.ToString().PadLeft(6) + "  "
                               + b.ToString().PadLeft(6) + "  "
-                              + r2.ToString().PadLeft(10) + "");
+                              + r2.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -567,12 +552,9 @@ public static class RationalTest
         //    John Burkardt
         //
     {
-        int a;
-        int b;
         int i;
         int[] rat_top = { 3, 1, 20, 8, -10, 9, -11 };
         int[] rat_bot = { 4, 1000, 1, 4, 7, -15, -11 };
-        string s;
 
         Console.WriteLine("");
         Console.WriteLine("RAT_TO_S_TEST");
@@ -584,9 +566,9 @@ public static class RationalTest
 
         for (i = 0; i < 7; i++)
         {
-            a = rat_top[i];
-            b = rat_bot[i];
-            s = Rational.rat_to_s(a, b);
+            int a = rat_top[i];
+            int b = rat_bot[i];
+            string s = Rational.rat_to_s(a, b);
             Console.WriteLine("  " + a.ToString().PadLeft(6)
                                    + "  " + b.ToString().PadLeft(6)
                                    + "      " + s + "");
@@ -614,22 +596,19 @@ public static class RationalTest
         //    John Burkardt
         //
     {
-        int N_TEST = 17;
+        const int N_TEST = 17;
 
-        int a;
         int[] a_test =
         {
             1000, 1000, 1000, 1000, 1000, 1, -1, -10, -100, -1000,
             1, 10, 100, 1000, 10000, 17, 4000000
         };
-        int b;
         int[] b_test =
         {
             3, 40, 500, 6000, 70000, 1, 200, 200, 200, 200,
             -200, -200, -200, -200, -200, 3000, 4000000
         };
         int i;
-        int width;
 
         Console.WriteLine("");
         Console.WriteLine("RAT_WIDTH_TEST");
@@ -640,10 +619,10 @@ public static class RationalTest
 
         for (i = 0; i < N_TEST; i++)
         {
-            a = a_test[i];
-            b = b_test[i];
+            int a = a_test[i];
+            int b = b_test[i];
 
-            width = Rational.rat_width(a, b);
+            int width = Rational.rat_width(a, b);
 
             Console.WriteLine("  "
                               + a.ToString().PadLeft(8) + "  "
@@ -673,7 +652,7 @@ public static class RationalTest
         //    John Burkardt
         //
     {
-        int N3 = 3;
+        const int N3 = 3;
 
         int[] a3 = new int[N3 * N3];
         int[] b3 = new int[N3 * N3];
@@ -682,14 +661,13 @@ public static class RationalTest
         int idbot = 0;
         int idtop = 0;
         int j;
-        int k;
 
         Console.WriteLine("");
         Console.WriteLine("RATMAT_DET_TEST");
         Console.WriteLine("  RATMAT_DET: determinant of a rational matrix.");
         Console.WriteLine("");
 
-        k = 0;
+        int k = 0;
         for (i = 0; i < N3; i++)
         {
             for (j = 0; j < N3; j++)

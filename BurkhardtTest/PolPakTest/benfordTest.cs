@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Probability;
 
 namespace PolPakTest;
@@ -40,7 +41,7 @@ public static class benfordTest
         {
             Console.WriteLine("  "
                               + i.ToString().PadLeft(4)              + "  "
-                              + Benford.benford_pdf ( i ).ToString().PadLeft(10) + "");
+                              + Benford.benford_pdf ( i ).ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
     }

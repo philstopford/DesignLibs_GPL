@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.PolynomialNS;
 
 namespace PolPakTest;
@@ -30,7 +31,6 @@ public static class bernsteinTest
         double[] bvec = new double[11];
         int k = 0;
         int n = 0;
-        int n_data;
         double x = 0;
 
         Console.WriteLine("");
@@ -40,7 +40,7 @@ public static class bernsteinTest
         Console.WriteLine("   N   K   X   Exact   B(N,K)(X)");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for ( ; ; )
         {
@@ -53,11 +53,11 @@ public static class bernsteinTest
 
             BernsteinPolynomial.bernstein_poly ( n, x, ref bvec );
 
-            Console.WriteLine("  " + n.ToString().PadLeft(4)
-                                   + "  " + k.ToString().PadLeft(4)
-                                   + "  " + x.ToString().PadLeft(7)
-                                   + "  " + b.ToString().PadLeft(14)
-                                   + "  " + bvec[k].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + b.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + bvec[k].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -83,22 +83,19 @@ public static class bernsteinTest
         //    John Burkardt
         //
     {
-        int  N = 10;
+        const int N = 10;
 
-        double a;
-        double b;
         double[] bern = new double[N+1];
         int i;
-        double x;
 
         Console.WriteLine("");
         Console.WriteLine("BPAB_TEST");
         Console.WriteLine("  BPAB evaluates Bernstein polynomials.");
         Console.WriteLine("");
 
-        x = 0.3;
-        a = 0.0;
-        b = 1.0;
+        const double x = 0.3;
+        const double a = 0.0;
+        const double b = 1.0;
 
         BernsteinPolynomial.bpab ( N, x, a, b, ref bern );
 
@@ -110,8 +107,8 @@ public static class bernsteinTest
 
         for ( i = 0; i <= N; i++ )
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(4)      
-                                   + "  " + bern[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)      
+                                   + "  " + bern[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }

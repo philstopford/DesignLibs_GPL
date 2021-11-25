@@ -63,7 +63,7 @@ public static class YoungTableauTest
         //    John Burkardt
         //
     {
-        int N = 6;
+        const int N = 6;
 
         int i;
         int[] a = new int[N];
@@ -71,7 +71,6 @@ public static class YoungTableauTest
                 3, 2, 1, 0, 0, 0
             }
             ;
-        bool more;
 
         for (i = 0; i < N; i++)
         {
@@ -83,7 +82,7 @@ public static class YoungTableauTest
         Console.WriteLine("  YTB_NEXT generates Young tableaus.");
         Console.WriteLine("");
 
-        more = false;
+        bool more = false;
 
         i = 0;
 
@@ -123,7 +122,7 @@ public static class YoungTableauTest
         //    John Burkardt
         //
     {
-        int N = 6;
+        const int N = 6;
 
         int[] a = new int[N];
         int i;
@@ -131,13 +130,12 @@ public static class YoungTableauTest
                 3, 2, 1, 0, 0, 0
             }
             ;
-        int seed;
 
         Console.WriteLine("");
         Console.WriteLine("YTB_RANDOM_TEST");
         Console.WriteLine("  YTB_RANDOM generates a random Young tableau");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         for (i = 1; i <= 5; i++)
         {

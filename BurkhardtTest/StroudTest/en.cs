@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.MonomialNS;
 using Burkardt.Quadrature;
 using Burkardt.Types;
@@ -31,20 +32,12 @@ public static class en
         //    John Burkardt
         //
     {
-        double c1;
-        int d;
-        double delta0;
         double err;
-        double exact;
-        double gamma0;
         int i;
         int o;
         int option;
-        int p;
-        double pi = 3.141592653589793;
         double quad;
         double[] v;
-        double volume_1d;
         double[] w;
         double[] x;
 
@@ -53,17 +46,17 @@ public static class en
         string cout = "  EXPON = ";
         for (i = 0; i < n; i++)
         {
-            cout += "  " + expon[i].ToString().PadLeft(4);
+            cout += "  " + expon[i].ToString(CultureInfo.InvariantCulture).PadLeft(4);
         }
 
         Console.WriteLine(cout);
-        d = typeMethods.i4vec_sum(n, expon);
+        int d = typeMethods.i4vec_sum(n, expon);
         Console.WriteLine("  Degree = " + d + "");
         Console.WriteLine("");
 
-        exact = StroudIntegral.en_r2_monomial_integral(n, expon);
+        double exact = StroudIntegral.en_r2_monomial_integral(n, expon);
 
-        p = 1;
+        int p = 1;
 
         if (d <= p)
         {
@@ -75,9 +68,9 @@ public static class en
             quad = typeMethods.r8vec_dot_product(o, w, v);
             err = Math.Abs(quad - exact);
             Console.WriteLine("  EN_R2_01_1:    "
-                              + "  " + o.ToString().PadLeft(6)
-                              + "  " + quad.ToString().PadLeft(14)
-                              + "  " + err.ToString().PadLeft(14) + "");
+                              + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         p = 2;
@@ -92,15 +85,15 @@ public static class en
             quad = typeMethods.r8vec_dot_product(o, w, v);
             err = Math.Abs(quad - exact);
             Console.WriteLine("  EN_R2_02_XIU:  "
-                              + "  " + o.ToString().PadLeft(6)
-                              + "  " + quad.ToString().PadLeft(14)
-                              + "  " + err.ToString().PadLeft(14) + "");
+                              + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             o = GolubWelsch_Xiu.gw_02_xiu_size(n);
-            gamma0 = 2.0;
-            delta0 = 0.0;
-            c1 = 1.0;
-            volume_1d = Math.Sqrt(pi);
+            const double gamma0 = 2.0;
+            const double delta0 = 0.0;
+            const double c1 = 1.0;
+            double volume_1d = Math.Sqrt(Math.PI);
             x = new double[n * o];
             w = new double[o];
             GolubWelsch_Xiu.gw_02_xiu(n, o, gamma0, delta0, c1, volume_1d, ref x, ref w);
@@ -108,9 +101,9 @@ public static class en
             quad = typeMethods.r8vec_dot_product(o, w, v);
             err = Math.Abs(quad - exact);
             Console.WriteLine("  GW_02_XIU:     "
-                              + "  " + o.ToString().PadLeft(6)
-                              + "  " + quad.ToString().PadLeft(14)
-                              + "  " + err.ToString().PadLeft(14) + "");
+                              + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         p = 3;
@@ -125,9 +118,9 @@ public static class en
             quad = typeMethods.r8vec_dot_product(o, w, v);
             err = Math.Abs(quad - exact);
             Console.WriteLine("  EN_R2_03_1:    "
-                              + "  " + o.ToString().PadLeft(6)
-                              + "  " + quad.ToString().PadLeft(14)
-                              + "  " + err.ToString().PadLeft(14) + "");
+                              + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             o = StroudQuadrature.en_r2_03_2_size(n);
             x = new double[n * o];
@@ -137,9 +130,9 @@ public static class en
             quad = typeMethods.r8vec_dot_product(o, w, v);
             err = Math.Abs(quad - exact);
             Console.WriteLine("  EN_R2_03_2:    "
-                              + "  " + o.ToString().PadLeft(6)
-                              + "  " + quad.ToString().PadLeft(14)
-                              + "  " + err.ToString().PadLeft(14) + "");
+                              + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             o = Xiu.en_r2_03_xiu_size(n);
             x = new double[n * o];
@@ -149,9 +142,9 @@ public static class en
             quad = typeMethods.r8vec_dot_product(o, w, v);
             err = Math.Abs(quad - exact);
             Console.WriteLine("  EN_R2_03_XIU:  "
-                              + "  " + o.ToString().PadLeft(6)
-                              + "  " + quad.ToString().PadLeft(14)
-                              + "  " + err.ToString().PadLeft(14) + "");
+                              + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         p = 5;
@@ -170,9 +163,9 @@ public static class en
                     quad = typeMethods.r8vec_dot_product(o, w, v);
                     err = Math.Abs(quad - exact);
                     Console.WriteLine("  EN_R2_05_1(1): "
-                                      + "  " + o.ToString().PadLeft(6)
-                                      + "  " + quad.ToString().PadLeft(14)
-                                      + "  " + err.ToString().PadLeft(14) + "");
+                                      + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                      + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                      + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                     break;
             }
 
@@ -190,9 +183,9 @@ public static class en
                     quad = typeMethods.r8vec_dot_product(o, w, v);
                     err = Math.Abs(quad - exact);
                     Console.WriteLine("  EN_R2_05_1(2): "
-                                      + "  " + o.ToString().PadLeft(6)
-                                      + "  " + quad.ToString().PadLeft(14)
-                                      + "  " + err.ToString().PadLeft(14) + "");
+                                      + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                      + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                      + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                     break;
             }
 
@@ -204,9 +197,9 @@ public static class en
             quad = typeMethods.r8vec_dot_product(o, w, v);
             err = Math.Abs(quad - exact);
             Console.WriteLine("  EN_R2_05_2:    "
-                              + "  " + o.ToString().PadLeft(6)
-                              + "  " + quad.ToString().PadLeft(14)
-                              + "  " + err.ToString().PadLeft(14) + "");
+                              + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             switch (n)
             {
@@ -219,9 +212,9 @@ public static class en
                     quad = typeMethods.r8vec_dot_product(o, w, v);
                     err = Math.Abs(quad - exact);
                     Console.WriteLine("  EN_R2_05_3:    "
-                                      + "  " + o.ToString().PadLeft(6)
-                                      + "  " + quad.ToString().PadLeft(14)
-                                      + "  " + err.ToString().PadLeft(14) + "");
+                                      + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                      + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                      + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                     break;
             }
 
@@ -233,9 +226,9 @@ public static class en
             quad = typeMethods.r8vec_dot_product(o, w, v);
             err = Math.Abs(quad - exact);
             Console.WriteLine("  EN_R2_05_4:    "
-                              + "  " + o.ToString().PadLeft(6)
-                              + "  " + quad.ToString().PadLeft(14)
-                              + "  " + err.ToString().PadLeft(14) + "");
+                              + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             o = StroudQuadrature.en_r2_05_5_size(n);
             x = new double[n * o];
@@ -245,9 +238,9 @@ public static class en
             quad = typeMethods.r8vec_dot_product(o, w, v);
             err = Math.Abs(quad - exact);
             Console.WriteLine("  EN_R2_05_5:    "
-                              + "  " + o.ToString().PadLeft(6)
-                              + "  " + quad.ToString().PadLeft(14)
-                              + "  " + err.ToString().PadLeft(14) + "");
+                              + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             switch (n)
             {
@@ -260,9 +253,9 @@ public static class en
                     quad = typeMethods.r8vec_dot_product(o, w, v);
                     err = Math.Abs(quad - exact);
                     Console.WriteLine("  EN_R2_05_6:    "
-                                      + "  " + o.ToString().PadLeft(6)
-                                      + "  " + quad.ToString().PadLeft(14)
-                                      + "  " + err.ToString().PadLeft(14) + "");
+                                      + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                      + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                      + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                     break;
             }
         }
@@ -286,9 +279,9 @@ public static class en
                     quad = typeMethods.r8vec_dot_product(o, w, v);
                     err = Math.Abs(quad - exact);
                     Console.WriteLine("  EN_R2_07_1(1): "
-                                      + "  " + o.ToString().PadLeft(6)
-                                      + "  " + quad.ToString().PadLeft(14)
-                                      + "  " + err.ToString().PadLeft(14) + "");
+                                      + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                      + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                      + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                     break;
             }
 
@@ -305,9 +298,9 @@ public static class en
                     quad = typeMethods.r8vec_dot_product(o, w, v);
                     err = Math.Abs(quad - exact);
                     Console.WriteLine("  EN_R2_07_1(2): "
-                                      + "  " + o.ToString().PadLeft(6)
-                                      + "  " + quad.ToString().PadLeft(14)
-                                      + "  " + err.ToString().PadLeft(14) + "");
+                                      + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                      + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                      + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                     break;
             }
 
@@ -322,9 +315,9 @@ public static class en
                     quad = typeMethods.r8vec_dot_product(o, w, v);
                     err = Math.Abs(quad - exact);
                     Console.WriteLine("  EN_R2_07_2:    "
-                                      + "  " + o.ToString().PadLeft(6)
-                                      + "  " + quad.ToString().PadLeft(14)
-                                      + "  " + err.ToString().PadLeft(14) + "");
+                                      + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                      + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                      + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                     break;
             }
 
@@ -340,9 +333,9 @@ public static class en
                     quad = typeMethods.r8vec_dot_product(o, w, v);
                     err = Math.Abs(quad - exact);
                     Console.WriteLine("  EN_R2_07_3(1): "
-                                      + "  " + o.ToString().PadLeft(6)
-                                      + "  " + quad.ToString().PadLeft(14)
-                                      + "  " + err.ToString().PadLeft(14) + "");
+                                      + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                      + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                      + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                     break;
             }
 
@@ -359,9 +352,9 @@ public static class en
                     quad = typeMethods.r8vec_dot_product(o, w, v);
                     err = Math.Abs(quad - exact);
                     Console.WriteLine("  EN_R2_07_3(2): "
-                                      + "  " + o.ToString().PadLeft(6)
-                                      + "  " + quad.ToString().PadLeft(14)
-                                      + "  " + err.ToString().PadLeft(14) + "");
+                                      + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                      + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                      + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                     break;
             }
         }
@@ -382,9 +375,9 @@ public static class en
                     quad = typeMethods.r8vec_dot_product(o, w, v);
                     err = Math.Abs(quad - exact);
                     Console.WriteLine("  EN_R2_09_1(1): "
-                                      + "  " + o.ToString().PadLeft(6)
-                                      + "  " + quad.ToString().PadLeft(14)
-                                      + "  " + err.ToString().PadLeft(14) + "");
+                                      + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                      + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                      + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
                     option = 2;
                     o = StroudQuadrature.en_r2_09_1_size(n);
@@ -395,9 +388,9 @@ public static class en
                     quad = typeMethods.r8vec_dot_product(o, w, v);
                     err = Math.Abs(quad - exact);
                     Console.WriteLine("  EN_R2_09_1(2): "
-                                      + "  " + o.ToString().PadLeft(6)
-                                      + "  " + quad.ToString().PadLeft(14)
-                                      + "  " + err.ToString().PadLeft(14) + "");
+                                      + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                      + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                      + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                     break;
             }
         }
@@ -418,9 +411,9 @@ public static class en
                     quad = typeMethods.r8vec_dot_product(o, w, v);
                     err = Math.Abs(quad - exact);
                     Console.WriteLine("  EN_R2_11_1(1): "
-                                      + "  " + o.ToString().PadLeft(6)
-                                      + "  " + quad.ToString().PadLeft(14)
-                                      + "  " + err.ToString().PadLeft(14) + "");
+                                      + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                      + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                      + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
                     option = 2;
                     o = StroudQuadrature.en_r2_11_1_size(n);
@@ -431,15 +424,15 @@ public static class en
                     quad = typeMethods.r8vec_dot_product(o, w, v);
                     err = Math.Abs(quad - exact);
                     Console.WriteLine("  EN_R2_11_1(2): "
-                                      + "  " + o.ToString().PadLeft(6)
-                                      + "  " + quad.ToString().PadLeft(14)
-                                      + "  " + err.ToString().PadLeft(14) + "");
+                                      + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                      + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                      + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                     break;
             }
         }
 
         Console.WriteLine("  EXACT                  "
-                          + "  " + exact.ToString().PadLeft(14) + "");
+                          + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
     }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.MonomialNS;
 using Burkardt.Quadrature;
 using Burkardt.Types;
@@ -31,18 +32,11 @@ public static class epn
         //    John Burkardt
         //
     {
-        double c1;
-        int d;
-        double delta0;
         double err;
-        double exact;
-        double gamma0;
         int i;
         int o;
-        int p;
         double quad;
         double[] v;
-        double volume_1d;
         double[] w;
         double[] x;
 
@@ -56,13 +50,13 @@ public static class epn
         }
 
         Console.WriteLine(cout);
-        d = typeMethods.i4vec_sum(n, expon);
+        int d = typeMethods.i4vec_sum(n, expon);
         Console.WriteLine("  Degree = " + d + "");
         Console.WriteLine("");
 
-        exact = EpnLagIntegral.epn_glg_monomial_integral(n, expon, alpha);
+        double exact = EpnLagIntegral.epn_glg_monomial_integral(n, expon, alpha);
 
-        p = 0;
+        int p = 0;
 
         if (d <= p)
         {
@@ -75,8 +69,8 @@ public static class epn
             err = Math.Abs(quad - exact);
             Console.WriteLine("  EPN_GLG_00_1:   "
                               + "  " + o.ToString().PadLeft(6)
-                              + "  " + quad.ToString().PadLeft(14)
-                              + "  " + err.ToString().PadLeft(14) + "");
+                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         p = 1;
@@ -92,8 +86,8 @@ public static class epn
             err = Math.Abs(quad - exact);
             Console.WriteLine("  EPN_GLG_01_1:   "
                               + "  " + o.ToString().PadLeft(6)
-                              + "  " + quad.ToString().PadLeft(14)
-                              + "  " + err.ToString().PadLeft(14) + "");
+                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         p = 2;
@@ -109,14 +103,14 @@ public static class epn
             err = Math.Abs(quad - exact);
             Console.WriteLine("  EPN_GLG_02_XIU: "
                               + "  " + o.ToString().PadLeft(6)
-                              + "  " + quad.ToString().PadLeft(14)
-                              + "  " + err.ToString().PadLeft(14) + "");
+                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             o = GolubWelsch_Xiu.gw_02_xiu_size(n);
-            gamma0 = -1.0;
-            delta0 = alpha + 1.0;
-            c1 = -alpha - 1.0;
-            volume_1d = typeMethods.r8_gamma(1.0 + alpha);
+            double gamma0 = -1.0;
+            double delta0 = alpha + 1.0;
+            double c1 = -alpha - 1.0;
+            double volume_1d = typeMethods.r8_gamma(1.0 + alpha);
             x = new double[n * o];
             w = new double[o];
             GolubWelsch_Xiu.gw_02_xiu(n, o, gamma0, delta0, c1, volume_1d, ref x, ref w);
@@ -125,12 +119,12 @@ public static class epn
             err = Math.Abs(quad - exact);
             Console.WriteLine("  GW_02_XIU:      "
                               + "  " + o.ToString().PadLeft(6)
-                              + "  " + quad.ToString().PadLeft(14)
-                              + "  " + err.ToString().PadLeft(14) + "");
+                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         Console.WriteLine("  EXACT                   "
-                          + "  " + exact.ToString().PadLeft(14) + "");
+                          + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
     }
 
@@ -155,18 +149,11 @@ public static class epn
         //    John Burkardt
         //
     {
-        double c1;
-        int d;
-        double delta0;
         double err;
-        double exact;
-        double gamma0;
         int i;
         int o;
-        int p;
         double quad;
         double[] v;
-        double volume_1d;
         double[] w;
         double[] x;
 
@@ -179,13 +166,13 @@ public static class epn
         }
 
         Console.WriteLine(cout);
-        d = typeMethods.i4vec_sum(n, expon);
+        int d = typeMethods.i4vec_sum(n, expon);
         Console.WriteLine("  Degree = " + d + "");
         Console.WriteLine("");
 
-        exact = EpnLagIntegral.epn_lag_monomial_integral(n, expon);
+        double exact = EpnLagIntegral.epn_lag_monomial_integral(n, expon);
 
-        p = 0;
+        int p = 0;
 
         if (d <= p)
         {
@@ -198,8 +185,8 @@ public static class epn
             err = Math.Abs(quad - exact);
             Console.WriteLine("  EPN_LAG_00_1:   "
                               + "  " + o.ToString().PadLeft(6)
-                              + "  " + quad.ToString().PadLeft(14)
-                              + "  " + err.ToString().PadLeft(14) + "");
+                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         p = 1;
@@ -215,8 +202,8 @@ public static class epn
             err = Math.Abs(quad - exact);
             Console.WriteLine("  EPN_LAG_01_1:   "
                               + "  " + o.ToString().PadLeft(6)
-                              + "  " + quad.ToString().PadLeft(14)
-                              + "  " + err.ToString().PadLeft(14) + "");
+                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         p = 2;
@@ -232,14 +219,14 @@ public static class epn
             err = Math.Abs(quad - exact);
             Console.WriteLine("  EPN_LAG_02_XIU: "
                               + "  " + o.ToString().PadLeft(6)
-                              + "  " + quad.ToString().PadLeft(14)
-                              + "  " + err.ToString().PadLeft(14) + "");
+                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             o = GolubWelsch_Xiu.gw_02_xiu_size(n);
-            gamma0 = -1.0;
-            delta0 = 1.0;
-            c1 = -1.0;
-            volume_1d = 1.0;
+            const double gamma0 = -1.0;
+            const double delta0 = 1.0;
+            const double c1 = -1.0;
+            const double volume_1d = 1.0;
             x = new double[n * o];
             w = new double[o];
             GolubWelsch_Xiu.gw_02_xiu(n, o, gamma0, delta0, c1, volume_1d, ref x, ref w);
@@ -248,12 +235,12 @@ public static class epn
             err = Math.Abs(quad - exact);
             Console.WriteLine("  GW_02_XIU:      "
                               + "  " + o.ToString().PadLeft(6)
-                              + "  " + quad.ToString().PadLeft(14)
-                              + "  " + err.ToString().PadLeft(14) + "");
+                              + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         Console.WriteLine("  EXACT                   "
-                          + "  " + exact.ToString().PadLeft(14) + "");
+                          + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
     }
 

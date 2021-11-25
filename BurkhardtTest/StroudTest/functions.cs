@@ -155,7 +155,7 @@ public static class functions
         //    Output, int FUNCTION_1D_NUM, the number of 1D functions.
         //
     {
-        int value = 12;
+        const int value = 12;
 
         return value;
     }
@@ -285,7 +285,7 @@ public static class functions
         //    Output, int FUNCTION_2D_NUM, the number of 2D functions.
         //
     {
-        int value = 12;
+        const int value = 12;
 
         return value;
     }
@@ -298,7 +298,7 @@ public static class functions
         //
         //    FUNCTION_3D evaluates a function F(X,Y,Z) of 3 variables.
         //
-        ///  Discussion:
+        //  Discussion:
         //
         //    This routine assumes that the global variable FUNCTION_3D_INDEX has been
         //    set, and is accessible.
@@ -437,7 +437,7 @@ public static class functions
         //    Output, int FUNCTION_3D_NUM, the number of 3D functions.
         //
     {
-        int value = 23;
+        const int value = 23;
 
         return value;
     }
@@ -478,7 +478,7 @@ public static class functions
     {
         int i;
         double temp;
-        double value = 0;
+        double value;
 
         switch (function_nd_index)
         {
@@ -623,7 +623,7 @@ public static class functions
         //    Output, int FUNCTION_ND_NUM, the number of ND functions.
         //
     {
-        int value = 12;
+        const int value = 12;
 
         return value;
     }
@@ -655,9 +655,7 @@ public static class functions
         //    Output, double F_1_2D, the value of the function.
         //
     {
-        double value = 0;
-
-        value = 1.0;
+        const double value = 1.0;
 
         return value;
     }
@@ -689,11 +687,7 @@ public static class functions
         //    Output, double F_X_2D, the value of the function.
         //
     {
-        double value = 0;
-
-        value = x;
-
-        return value;
+        return x;
     }
 
     public static double f_r_2d(double x, double y)
@@ -723,9 +717,7 @@ public static class functions
         //    Output, double F_R_2D, the value of the function.
         //
     {
-        double value = 0;
-
-        value = Math.Sqrt(x * x + y * y);
+        double value = Math.Sqrt(x * x + y * y);
 
         return value;
     }

@@ -31,9 +31,8 @@ public static class misc
     {
         int i;
         int j;
-        double[] v;
 
-        v = new double[n*(n+1)];
+        double[] v = new double[n*(n+1)];
 
         for ( i = 0; i < n; i++ )
         {

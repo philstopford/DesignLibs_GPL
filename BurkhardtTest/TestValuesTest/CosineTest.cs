@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Values;
 
 namespace TestValuesTest;
@@ -26,7 +27,6 @@ public static class CosineTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("CI_VALUES_TEST:");
@@ -35,7 +35,7 @@ public static class CosineTest
         Console.WriteLine("");
         Console.WriteLine("      X            CI(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Cosine.ci_values(ref n_data, ref x, ref fx);
@@ -45,8 +45,8 @@ public static class CosineTest
             }
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + fx.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -71,7 +71,6 @@ public static class CosineTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("CIN_VALUES_TEST:");
@@ -80,7 +79,7 @@ public static class CosineTest
         Console.WriteLine("");
         Console.WriteLine("      X            CIN(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Cosine.cin_values(ref n_data, ref x, ref fx);
@@ -90,8 +89,8 @@ public static class CosineTest
             }
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + fx.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -116,7 +115,6 @@ public static class CosineTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("CINH_VALUES_TEST:");
@@ -125,7 +123,7 @@ public static class CosineTest
         Console.WriteLine("");
         Console.WriteLine("      X            CINH(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Cosine.cinh_values(ref n_data, ref x, ref fx);
@@ -135,8 +133,8 @@ public static class CosineTest
             }
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + fx.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -161,7 +159,6 @@ public static class CosineTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("COS_VALUES_TEST:");
@@ -169,7 +166,7 @@ public static class CosineTest
         Console.WriteLine("");
         Console.WriteLine("                X                     FX");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Cosine.cos_values(ref n_data, ref x, ref fx);
@@ -205,7 +202,6 @@ public static class CosineTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("COS_DEGREE_VALUES_TEST:");
@@ -213,7 +209,7 @@ public static class CosineTest
         Console.WriteLine("");
         Console.WriteLine("                X                     FX");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Cosine.cos_degree_values(ref n_data, ref x, ref fx);
@@ -252,7 +248,6 @@ public static class CosineTest
         double b = 0;
         double fx = 0;
         int n = 0;
-        int n_data;
         Console.WriteLine("");
         Console.WriteLine("COS_POWER_INT_VALUES_TEST:");
         Console.WriteLine("  COS_POWER_INT_VALUES returns values of");
@@ -260,7 +255,7 @@ public static class CosineTest
         Console.WriteLine("");
         Console.WriteLine("         A         B       N        FX");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Cosine.cos_power_int_values(ref n_data, ref a, ref b, ref n, ref fx);
@@ -270,9 +265,9 @@ public static class CosineTest
             }
 
             Console.WriteLine("  "
-                              + a.ToString().PadLeft(8) + "  "
-                              + b.ToString().PadLeft(8) + "  "
-                              + n.ToString().PadLeft(6) + "  "
+                              + a.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + b.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -298,7 +293,6 @@ public static class CosineTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("COSH_VALUES_TEST:");
@@ -306,7 +300,7 @@ public static class CosineTest
         Console.WriteLine("");
         Console.WriteLine("                X                     FX");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Cosine.cosh_values(ref n_data, ref x, ref fx);

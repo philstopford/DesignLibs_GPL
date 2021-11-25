@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Values;
 
 namespace TestValuesTest;
@@ -26,7 +27,6 @@ public static class NormalTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("NORMAL_01_CDF_VALUES_TEST:");
@@ -35,7 +35,7 @@ public static class NormalTest
         Console.WriteLine("");
         Console.WriteLine("            X                   CDF(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Normal.normal_01_cdf_values(ref n_data, ref x, ref fx);
@@ -71,7 +71,6 @@ public static class NormalTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("NORMAL_01_PDF_VALUES_TEST:");
@@ -80,7 +79,7 @@ public static class NormalTest
         Console.WriteLine("");
         Console.WriteLine("            X                   PDF(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Normal.normal_01_pdf_values(ref n_data, ref x, ref fx);
@@ -117,7 +116,6 @@ public static class NormalTest
     {
         double fx = 0;
         double mu = 0;
-        int n_data;
         double sigma = 0;
         double x = 0;
         Console.WriteLine("");
@@ -127,7 +125,7 @@ public static class NormalTest
         Console.WriteLine("");
         Console.WriteLine("            X                   CDF(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Normal.normal_cdf_values(ref n_data, ref mu, ref sigma, ref x, ref fx);
@@ -137,9 +135,9 @@ public static class NormalTest
             }
 
             Console.WriteLine("  "
-                              + mu.ToString().PadLeft(12) + "  "
-                              + sigma.ToString().PadLeft(12) + "  "
-                              + x.ToString().PadLeft(12) + "  "
+                              + mu.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + sigma.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -166,7 +164,6 @@ public static class NormalTest
     {
         double fx = 0;
         double mu = 0;
-        int n_data;
         double sigma = 0;
         double x = 0;
         Console.WriteLine("");
@@ -176,7 +173,7 @@ public static class NormalTest
         Console.WriteLine("");
         Console.WriteLine("            X                   PDF(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Normal.normal_pdf_values(ref n_data, ref mu, ref sigma, ref x, ref fx);
@@ -186,9 +183,9 @@ public static class NormalTest
             }
 
             Console.WriteLine("  "
-                              + mu.ToString().PadLeft(12) + "  "
-                              + sigma.ToString().PadLeft(12) + "  "
-                              + x.ToString().PadLeft(12) + "  "
+                              + mu.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + sigma.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }

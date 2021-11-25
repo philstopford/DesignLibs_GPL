@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Values;
 
 namespace TestValuesTest;
@@ -27,7 +28,6 @@ public static class BernoulliTest
     {
         double c = 0;
         int n = 0;
-        int n_data;
 
         Console.WriteLine("");
         Console.WriteLine("BERNOULLI_NUMBER_VALUES_TEST:");
@@ -36,7 +36,7 @@ public static class BernoulliTest
         Console.WriteLine("");
         Console.WriteLine("     N              B(N)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for ( ; ; )
         {
             Bernoulli.bernoulli_number_values ( ref n_data, ref n, ref c );
@@ -44,7 +44,7 @@ public static class BernoulliTest
             {
                 break;
             }
-            Console.WriteLine("  " + n.ToString().PadLeft(6)
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(6)
                                    + "  " + c.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -70,7 +70,6 @@ public static class BernoulliTest
     {
         double b = 0;
         int n = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("BERNOULLI_POLY_VALUES_TEST:");
@@ -79,7 +78,7 @@ public static class BernoulliTest
         Console.WriteLine("");
         Console.WriteLine("     N     X      BERNOULLI(N)(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for ( ; ; )
         {
             Bernoulli.bernoulli_poly_values ( ref n_data, ref n, ref x, ref b );
@@ -88,9 +87,9 @@ public static class BernoulliTest
                 break;
             }
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(6) + "  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + b.ToString().PadLeft(12) + "");
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + b.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 

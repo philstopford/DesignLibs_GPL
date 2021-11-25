@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Values;
 
 namespace TestValuesTest;
@@ -26,7 +27,6 @@ public static class LogarithmTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("LOG_VALUES_TEST:");
@@ -34,7 +34,7 @@ public static class LogarithmTest
         Console.WriteLine("");
         Console.WriteLine("                X                     FX");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Log.log_values(ref n_data, ref x, ref fx);
@@ -44,7 +44,7 @@ public static class LogarithmTest
             }
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -71,7 +71,6 @@ public static class LogarithmTest
     {
         double fx = 0;
         double mu = 0;
-        int n_data;
         double sigma = 0;
         double x = 0;
         Console.WriteLine("");
@@ -81,7 +80,7 @@ public static class LogarithmTest
         Console.WriteLine("");
         Console.WriteLine("     Mu      Sigma        X   CDF(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Log.log_normal_cdf_values(ref n_data, ref mu, ref sigma, ref x, ref fx);
@@ -91,9 +90,9 @@ public static class LogarithmTest
             }
 
             Console.WriteLine("  "
-                              + mu.ToString().PadLeft(8) + "  "
-                              + sigma.ToString().PadLeft(8) + "  "
-                              + x.ToString().PadLeft(8) + "  "
+                              + mu.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + sigma.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -120,7 +119,6 @@ public static class LogarithmTest
     {
         double fx = 0;
         int n = 0;
-        int n_data;
         double t = 0;
         Console.WriteLine("");
         Console.WriteLine("LOG_SERIES_CDF_VALUES_TEST:");
@@ -129,7 +127,7 @@ public static class LogarithmTest
         Console.WriteLine("");
         Console.WriteLine("     T      N   CDF(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Log.log_series_cdf_values(ref n_data, ref t, ref n, ref fx);
@@ -140,7 +138,7 @@ public static class LogarithmTest
 
             Console.WriteLine("  "
                               + t.ToString("0.################").PadLeft(24) + "  "
-                              + n.ToString().PadLeft(6) + "  "
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -166,7 +164,6 @@ public static class LogarithmTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("LOG10_VALUES_TEST:");
@@ -174,7 +171,7 @@ public static class LogarithmTest
         Console.WriteLine("");
         Console.WriteLine("                X                     FX");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Log.log10_values(ref n_data, ref x, ref fx);
@@ -210,7 +207,6 @@ public static class LogarithmTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("LOGARITHMIC_INTEGRAL_VALUES_TEST:");
@@ -219,7 +215,7 @@ public static class LogarithmTest
         Console.WriteLine("");
         Console.WriteLine("      X            LI(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Log.logarithmic_integral_values(ref n_data, ref x, ref fx);
@@ -229,7 +225,7 @@ public static class LogarithmTest
             }
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -256,7 +252,6 @@ public static class LogarithmTest
     {
         double fx = 0;
         int n = 0;
-        int n_data;
         double z = 0;
         Console.WriteLine("");
         Console.WriteLine("POLYLOGARITHM_VALUES_TEST:");
@@ -265,7 +260,7 @@ public static class LogarithmTest
         Console.WriteLine("");
         Console.WriteLine("     N      Z          Fx");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Log.polylogarithm_values(ref n_data, ref n, ref z, ref fx);
@@ -275,7 +270,7 @@ public static class LogarithmTest
             }
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(6) + "  "
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
                               + z.ToString("0.################").PadLeft(24) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }

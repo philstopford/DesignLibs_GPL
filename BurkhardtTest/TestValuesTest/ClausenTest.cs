@@ -26,7 +26,6 @@ public static class ClausenTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("CLAUSEN_VALUES_TEST:");
@@ -35,7 +34,7 @@ public static class ClausenTest
         Console.WriteLine("");
         Console.WriteLine("                X                     FX");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for ( ; ; )
         {
             Clausen.clausen_values ( ref n_data, ref x, ref fx );

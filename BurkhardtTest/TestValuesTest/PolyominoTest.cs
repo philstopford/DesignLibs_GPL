@@ -3,7 +3,7 @@ using Burkardt.Values;
 
 namespace TestValuesTest;
 
-public class PolyominoTest
+public static class PolyominoTest
 {
     public static void polyomino_chiral_count_values_test()
         //****************************************************************************80
@@ -25,14 +25,13 @@ public class PolyominoTest
         //    John Burkardt
         //
     {
-        int n_data;
         long number = 0;
         int order = 0;
         Console.WriteLine("");
         Console.WriteLine("POLYOMINO_CHIRAL_COUNT_VALUES_TEST:");
         Console.WriteLine("  POLYOMINO_CHIRAL_COUNT_VALUES returns the number of chiral");
         Console.WriteLine("  polyominoes of a given order;");
-        n_data = 0;
+        int n_data = 0;
         Console.WriteLine("");
         Console.WriteLine("   Order      Number");
         Console.WriteLine("");
@@ -69,14 +68,13 @@ public class PolyominoTest
         //    John Burkardt
         //
     {
-        int n_data;
         long number = 0;
         int order = 0;
         Console.WriteLine("");
         Console.WriteLine("POLYOMINO_FIXED_COUNT_VALUES_TEST:");
         Console.WriteLine("  POLYOMINO_FIXED_COUNT_VALUES returns the number of fixed");
         Console.WriteLine("  polyominoes of a given order;");
-        n_data = 0;
+        int n_data = 0;
         Console.WriteLine("");
         Console.WriteLine("   Order      Number");
         Console.WriteLine("");
@@ -113,14 +111,13 @@ public class PolyominoTest
         //    John Burkardt
         //
     {
-        int n_data;
         long number = 0;
         int order = 0;
         Console.WriteLine("");
         Console.WriteLine("POLYOMINO_FREE_COUNT_VALUES_TEST:");
         Console.WriteLine("  POLYOMINO_FREE_COUNT_VALUES returns the number of free");
         Console.WriteLine("  polyominoes of a given order;");
-        n_data = 0;
+        int n_data = 0;
         Console.WriteLine("");
         Console.WriteLine("   Order      Number");
         Console.WriteLine("");

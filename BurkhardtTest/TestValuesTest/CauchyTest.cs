@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Values;
 
 namespace TestValuesTest;
@@ -27,7 +28,6 @@ public static class CauchyTest
     {
         double fx = 0;
         double mu = 0;
-        int n_data;
         double sigma = 0;
         double x = 0;
         Console.WriteLine("");
@@ -37,7 +37,7 @@ public static class CauchyTest
         Console.WriteLine("");
         Console.WriteLine("     Mu      Sigma        X   CDF(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Cauchy.cauchy_cdf_values(ref n_data, ref mu, ref sigma, ref x, ref fx);
@@ -47,9 +47,9 @@ public static class CauchyTest
             }
 
             Console.WriteLine("  "
-                              + mu.ToString().PadLeft(8) + "  "
-                              + sigma.ToString().PadLeft(8) + "  "
-                              + x.ToString().PadLeft(8) + "  "
+                              + mu.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + sigma.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }

@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Values;
 
 namespace TestValuesTest;
 
-public class LegendreTest
+public static class LegendreTest
 {
     public static void legendre_associated_values_test()
         //****************************************************************************80
@@ -28,7 +29,6 @@ public class LegendreTest
         double fx = 0;
         int m = 0;
         int n = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("LEGENDRE_ASSOCIATED_VALUES_TEST:");
@@ -37,7 +37,7 @@ public class LegendreTest
         Console.WriteLine("");
         Console.WriteLine("     N     M    X             P(N,M)(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Legendre.legendre_associated_values(ref n_data, ref n, ref m, ref x, ref fx);
@@ -47,9 +47,9 @@ public class LegendreTest
             }
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(6) + "  "
-                              + m.ToString().PadLeft(6) + "  "
-                              + x.ToString().PadLeft(12) + "  "
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + m.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -77,7 +77,6 @@ public class LegendreTest
         double fx = 0;
         int m = 0;
         int n = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("LEGENDRE_ASSOCIATED_NORMALIZED_VALUES_TEST:");
@@ -86,7 +85,7 @@ public class LegendreTest
         Console.WriteLine("");
         Console.WriteLine("     N     M    X             P(N,M)(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Legendre.legendre_associated_normalized_values(ref n_data, ref n, ref m, ref x, ref fx);
@@ -96,9 +95,9 @@ public class LegendreTest
             }
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(6) + "  "
-                              + m.ToString().PadLeft(6) + "  "
-                              + x.ToString().PadLeft(12) + "  "
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + m.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -126,7 +125,6 @@ public class LegendreTest
         double fx = 0;
         int m = 0;
         int n = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("LEGENDRE_ASSOCIATED_NORMALIZED_SPHERE_VALUES_TEST:");
@@ -135,7 +133,7 @@ public class LegendreTest
         Console.WriteLine("");
         Console.WriteLine("     N     M    X             P(N,M)(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Legendre.legendre_associated_normalized_sphere_values(ref n_data, ref n, ref m, ref x, ref fx);
@@ -145,9 +143,9 @@ public class LegendreTest
             }
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(6) + "  "
-                              + m.ToString().PadLeft(6) + "  "
-                              + x.ToString().PadLeft(12) + "  "
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + m.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -174,7 +172,6 @@ public class LegendreTest
     {
         double fx = 0;
         int n = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("LEGENDRE_NORMALIZED_POLYNOMIAL_VALUES_TEST:");
@@ -183,7 +180,7 @@ public class LegendreTest
         Console.WriteLine("");
         Console.WriteLine("     N    X             Pn(N)(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Legendre.legendre_normalized_polynomial_values(ref n_data, ref n, ref x, ref fx);
@@ -193,8 +190,8 @@ public class LegendreTest
             }
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(6) + "  "
-                              + x.ToString().PadLeft(12) + "  "
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -221,7 +218,6 @@ public class LegendreTest
     {
         double fx = 0;
         int n = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("LEGENDRE_POLYNOMIAL_VALUES_TEST:");
@@ -230,7 +226,7 @@ public class LegendreTest
         Console.WriteLine("");
         Console.WriteLine("     N    X             P(N)(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Legendre.legendre_polynomial_values(ref n_data, ref n, ref x, ref fx);
@@ -240,8 +236,8 @@ public class LegendreTest
             }
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(6) + "  "
-                              + x.ToString().PadLeft(12) + "  "
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -268,7 +264,6 @@ public class LegendreTest
     {
         double fx = 0;
         int n = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("LEGENDRE_SHIFTED_POLYNOMIAL_VALUES_TEST:");
@@ -277,7 +272,7 @@ public class LegendreTest
         Console.WriteLine("");
         Console.WriteLine("     N    X             P(N)(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Legendre.legendre_shifted_polynomial_values(ref n_data, ref n, ref x, ref fx);
@@ -287,8 +282,8 @@ public class LegendreTest
             }
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(6) + "  "
-                              + x.ToString().PadLeft(12) + "  "
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -315,7 +310,6 @@ public class LegendreTest
     {
         double fx = 0;
         int n = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("LEGENDRE_FUNCTION_Q_VALUES_TEST:");
@@ -324,7 +318,7 @@ public class LegendreTest
         Console.WriteLine("");
         Console.WriteLine("     N    X             Q(N)(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Legendre.legendre_function_q_values(ref n_data, ref n, ref x, ref fx);
@@ -334,8 +328,8 @@ public class LegendreTest
             }
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(6) + "  "
-                              + x.ToString().PadLeft(12) + "  "
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }

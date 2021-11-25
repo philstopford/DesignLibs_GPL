@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Values;
 
 namespace TestValuesTest;
 
-public class LerchTest
+public static class LerchTest
 {
     public static void lerch_values_test()
         //****************************************************************************80
@@ -27,7 +28,6 @@ public class LerchTest
     {
         double a = 0;
         double fx = 0;
-        int n_data;
         int s = 0;
         double z = 0;
         Console.WriteLine("");
@@ -37,7 +37,7 @@ public class LerchTest
         Console.WriteLine("");
         Console.WriteLine("      Z      S      A      Fx");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Lerch.lerch_values(ref n_data, ref z, ref s, ref a, ref fx);
@@ -49,7 +49,7 @@ public class LerchTest
             Console.WriteLine("  "
                               + z.ToString("0.################").PadLeft(24) + "  "
                               + s.ToString().PadLeft(6) + "  "
-                              + a.ToString().PadLeft(12) + "  "
+                              + a.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }

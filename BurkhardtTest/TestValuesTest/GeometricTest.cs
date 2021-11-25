@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Values;
 
 namespace TestValuesTest;
@@ -26,7 +27,6 @@ public static class GeometricTest
         //
     {
         double cdf = 0;
-        int n_data;
         double p = 0;
         int x = 0;
         Console.WriteLine("");
@@ -36,7 +36,7 @@ public static class GeometricTest
         Console.WriteLine("");
         Console.WriteLine("      X      P       CDF");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Geometric.geometric_cdf_values(ref n_data, ref x, ref p, ref cdf);
@@ -47,7 +47,7 @@ public static class GeometricTest
 
             Console.WriteLine("  "
                               + x.ToString().PadLeft(6) + "  "
-                              + p.ToString().PadLeft(8) + "  "
+                              + p.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
                               + cdf.ToString("0.################").PadLeft(24) + "");
         }
     }

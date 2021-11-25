@@ -3,7 +3,7 @@ using Burkardt.Values;
 
 namespace TestValuesTest;
 
-public class SynchTest
+public static class SynchTest
 {
     public static void synch1_values_test()
         //****************************************************************************80
@@ -26,7 +26,6 @@ public class SynchTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("SYNCH1_VALUES_TEST:");
@@ -35,7 +34,7 @@ public class SynchTest
         Console.WriteLine("");
         Console.WriteLine("                X                     FX");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Synch.synch1_values(ref n_data, ref x, ref fx);
@@ -71,7 +70,6 @@ public class SynchTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("SYNCH2_VALUES_TEST:");
@@ -80,7 +78,7 @@ public class SynchTest
         Console.WriteLine("");
         Console.WriteLine("                X                     FX");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Synch.synch2_values(ref n_data, ref x, ref fx);

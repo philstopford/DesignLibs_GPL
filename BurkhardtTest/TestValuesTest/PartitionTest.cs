@@ -3,7 +3,7 @@ using Burkardt.Values;
 
 namespace TestValuesTest;
 
-public class PartitionTest
+public static class PartitionTest
 {
     public static void partition_count_values_test()
 
@@ -28,7 +28,6 @@ public class PartitionTest
     {
         int fn = 0;
         int n = 0;
-        int n_data;
         Console.WriteLine("");
         Console.WriteLine("PARTITION_COUNT_VALUES_TEST:");
         Console.WriteLine("  PARTITION_COUNT_VALUES returns values of ");
@@ -36,7 +35,7 @@ public class PartitionTest
         Console.WriteLine("");
         Console.WriteLine("     N         P(N)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Partition.partition_count_values(ref n_data, ref n, ref fn);
@@ -73,7 +72,6 @@ public class PartitionTest
     {
         int fn = 0;
         int n = 0;
-        int n_data;
         Console.WriteLine("");
         Console.WriteLine("PARTITION_DISTINCT_COUNT_VALUES_TEST:");
         Console.WriteLine("  PARTITION_DISTINCT_COUNT_VALUES returns values of ");
@@ -81,7 +79,7 @@ public class PartitionTest
         Console.WriteLine("");
         Console.WriteLine("     N         Q(N)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Partition.partition_distinct_count_values(ref n_data, ref n, ref fn);

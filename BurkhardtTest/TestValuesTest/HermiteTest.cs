@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Values;
 
 namespace TestValuesTest;
@@ -27,7 +28,6 @@ public static class HermiteTest
     {
         double fx = 0;
         int n = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("HERMITE_FUNCTION_VALUES_TEST");
@@ -36,7 +36,7 @@ public static class HermiteTest
         Console.WriteLine("");
         Console.WriteLine("     N      X            Hf(N,X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Hermite.hermite_function_values(ref n_data, ref n, ref x, ref fx);
@@ -46,8 +46,8 @@ public static class HermiteTest
             }
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(6) + "  "
-                              + x.ToString().PadLeft(12) + "  "
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -74,7 +74,6 @@ public static class HermiteTest
     {
         double fx = 0;
         int n = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("HERMITE_POLY_PHYS_VALUES_TEST");
@@ -83,7 +82,7 @@ public static class HermiteTest
         Console.WriteLine("");
         Console.WriteLine("     N      X            H(N,X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Hermite.hermite_poly_phys_values(ref n_data, ref n, ref x, ref fx);
@@ -93,8 +92,8 @@ public static class HermiteTest
             }
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(6) + "  "
-                              + x.ToString().PadLeft(12) + "  "
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -121,7 +120,6 @@ public static class HermiteTest
     {
         double fx = 0;
         int n = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("HERMITE_POLY_PROB_VALUES_TEST");
@@ -130,7 +128,7 @@ public static class HermiteTest
         Console.WriteLine("");
         Console.WriteLine("     N      X            He(N,X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Hermite.hermite_poly_prob_values(ref n_data, ref n, ref x, ref fx);
@@ -140,8 +138,8 @@ public static class HermiteTest
             }
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(6) + "  "
-                              + x.ToString().PadLeft(12) + "  "
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }

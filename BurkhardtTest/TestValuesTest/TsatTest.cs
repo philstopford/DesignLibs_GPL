@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Values;
 
 namespace TestValuesTest;
 
-public class TsatTest
+public static class TsatTest
 {
     public static void tsat_values_test()
         //****************************************************************************80
@@ -25,7 +26,6 @@ public class TsatTest
         //    John Burkardt
         //
     {
-        int n_data;
         double p = 0;
         double tc = 0;
         Console.WriteLine("");
@@ -36,7 +36,7 @@ public class TsatTest
         Console.WriteLine("");
         Console.WriteLine("      P           Tsat(P)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Tsat.tsat_values(ref n_data, ref p, ref tc);
@@ -46,8 +46,8 @@ public class TsatTest
             }
 
             Console.WriteLine("  "
-                              + p.ToString().PadLeft(12) + p + "  "
-                              + tc.ToString().PadLeft(12) + tc + "");
+                              + p.ToString(CultureInfo.InvariantCulture).PadLeft(12) + p + "  "
+                              + tc.ToString(CultureInfo.InvariantCulture).PadLeft(12) + tc + "");
         }
     }
 }

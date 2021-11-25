@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Values;
 
 namespace TestValuesTest;
 
-public class PrandtlTest
+public static class PrandtlTest
 {
     public static void prandtl_values_test ( )
         //****************************************************************************80
@@ -25,7 +26,6 @@ public class PrandtlTest
         //    John Burkardt
         //
     {
-        int n_data;
         double p = 0;
         double pr = 0;
         double tc = 0;
@@ -37,7 +37,7 @@ public class PrandtlTest
         Console.WriteLine("");
         Console.WriteLine("      T            P            Pr(T,P)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for ( ; ; )
         {
             Prandtl.prandtl_values ( ref n_data, ref tc, ref p, ref pr );
@@ -46,9 +46,9 @@ public class PrandtlTest
                 break;
             }
             Console.WriteLine("  "
-                              + tc.ToString().PadLeft(12) + "  "
-                              + p.ToString().PadLeft(12)  + "  "
-                              + pr.ToString().PadLeft(12) + "");
+                              + tc.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + p.ToString(CultureInfo.InvariantCulture).PadLeft(12)  + "  "
+                              + pr.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 }

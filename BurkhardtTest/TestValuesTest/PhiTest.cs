@@ -3,7 +3,7 @@ using Burkardt.Values;
 
 namespace TestValuesTest;
 
-public class PhiTest
+public static class PhiTest
 {
     public static void phi_values_test ( )
         //****************************************************************************80
@@ -27,7 +27,6 @@ public class PhiTest
     {
         int fn = 0;
         int n = 0;
-        int n_data;
         Console.WriteLine("");
         Console.WriteLine("PHI_VALUES_TEST:");
         Console.WriteLine("  PHI_VALUES returns values of");
@@ -35,7 +34,7 @@ public class PhiTest
         Console.WriteLine("");
         Console.WriteLine("     N         PHI(N)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for ( ; ; )
         {
             Phi.phi_values ( ref n_data, ref n, ref fn );

@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Values;
 
 namespace TestValuesTest;
 
-public class RayleighTest
+public static class RayleighTest
 {
     public static void rayleigh_cdf_values_test()
         //****************************************************************************80
@@ -26,7 +27,6 @@ public class RayleighTest
         //
     {
         double fx = 0;
-        int n_data;
         double sigma = 0;
         double x = 0;
         Console.WriteLine("");
@@ -36,7 +36,7 @@ public class RayleighTest
         Console.WriteLine("");
         Console.WriteLine("      SIGMA        X            CDF(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Rayleigh.rayleigh_cdf_values(ref n_data, ref sigma, ref x, ref fx);
@@ -46,8 +46,8 @@ public class RayleighTest
             }
 
             Console.WriteLine("  "
-                              + sigma.ToString().PadLeft(12) + "  "
-                              + x.ToString().PadLeft(12) + "  "
+                              + sigma.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }

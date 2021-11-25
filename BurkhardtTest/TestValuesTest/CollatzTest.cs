@@ -27,7 +27,6 @@ public static class CollatzTest
     {
         int count = 0;
         int n = 0;
-        int n_data;
         Console.WriteLine("");
         Console.WriteLine("COLLATZ_COUNT_VALUES_TEST:");
         Console.WriteLine("  COLLATZ_COUNT_VALUES returns values of");
@@ -36,7 +35,7 @@ public static class CollatzTest
         Console.WriteLine("");
         Console.WriteLine("         N      COLLATZ_COUNT(N)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Collatz.collatz_count_values(ref n_data, ref n, ref count);

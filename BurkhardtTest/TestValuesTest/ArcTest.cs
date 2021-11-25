@@ -26,7 +26,6 @@ public static class ArcTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("ARCCOS_VALUES_TEST:");
@@ -34,7 +33,7 @@ public static class ArcTest
         Console.WriteLine("");
         Console.WriteLine("                X                     FX");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             arc.arccos_values(ref n_data, ref x, ref fx);
@@ -70,7 +69,6 @@ public static class ArcTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("ARCCOSH_VALUES_TEST:");
@@ -79,7 +77,7 @@ public static class ArcTest
         Console.WriteLine("");
         Console.WriteLine("                X                     FX");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             arc.arccosh_values(ref n_data, ref x, ref fx);
@@ -115,7 +113,6 @@ public static class ArcTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("ARCSIN_VALUES_TEST:");
@@ -123,7 +120,7 @@ public static class ArcTest
         Console.WriteLine("");
         Console.WriteLine("                X                     FX");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             arc.arcsin_values(ref n_data, ref x, ref fx);
@@ -159,7 +156,6 @@ public static class ArcTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("ARCSINH_VALUES_TEST:");
@@ -168,7 +164,7 @@ public static class ArcTest
         Console.WriteLine("");
         Console.WriteLine("                X                     FX");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             arc.arcsinh_values(ref n_data, ref x, ref fx);
@@ -204,7 +200,6 @@ public static class ArcTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("ARCTAN_VALUES_TEST:");
@@ -212,7 +207,7 @@ public static class ArcTest
         Console.WriteLine("");
         Console.WriteLine("                X                     FX");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             arc.arctan_values(ref n_data, ref x, ref fx);
@@ -248,7 +243,6 @@ public static class ArcTest
         //
     {
         double bip = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("ARCTAN_INT_VALUES_TEST:");
@@ -257,7 +251,7 @@ public static class ArcTest
         Console.WriteLine("");
         Console.WriteLine("                X                     FX");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             arc.arctan_int_values(ref n_data, ref x, ref bip);
@@ -293,7 +287,6 @@ public static class ArcTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("ARCTANH_VALUES_TEST:");
@@ -302,7 +295,7 @@ public static class ArcTest
         Console.WriteLine("");
         Console.WriteLine("                X                     FX");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             arc.arctanh_values(ref n_data, ref x, ref fx);

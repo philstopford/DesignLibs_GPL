@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Values;
 
 namespace TestValuesTest;
@@ -26,7 +27,6 @@ public static class ConstPressureTest
         //
     {
         double cp = 0;
-        int n_data;
         double p = 0;
         double tc = 0;
         Console.WriteLine("");
@@ -37,7 +37,7 @@ public static class ConstPressureTest
         Console.WriteLine("");
         Console.WriteLine("      T            P            CP(T,P)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for ( ; ; )
         {
             ConstPressure.cp_values ( ref n_data, ref tc, ref p, ref cp );
@@ -46,9 +46,9 @@ public static class ConstPressureTest
                 break;
             }
             Console.WriteLine("  "
-                              + tc.ToString().PadLeft(12) + "  "
-                              + p.ToString().PadLeft(12) + "  "
-                              + cp.ToString().PadLeft(12) + "");
+                              + tc.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + p.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + cp.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 

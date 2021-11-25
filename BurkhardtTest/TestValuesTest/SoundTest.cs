@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Values;
 
 namespace TestValuesTest;
 
-public class SoundTest
+public static class SoundTest
 {
     public static void sound_values_test()
         //****************************************************************************80
@@ -26,7 +27,6 @@ public class SoundTest
         //
     {
         double c = 0;
-        int n_data;
         double p = 0;
         double tc = 0;
         Console.WriteLine("");
@@ -37,7 +37,7 @@ public class SoundTest
         Console.WriteLine("");
         Console.WriteLine("      T            P            C(T,P)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Sound.sound_values(ref n_data, ref tc, ref p, ref c);
@@ -47,9 +47,9 @@ public class SoundTest
             }
 
             Console.WriteLine("  "
-                              + tc.ToString().PadLeft(12) + "  "
-                              + p.ToString().PadLeft(12) + "  "
-                              + c.ToString().PadLeft(12) + "");
+                              + tc.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + p.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + c.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 

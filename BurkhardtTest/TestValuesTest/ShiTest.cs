@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Values;
 
 namespace TestValuesTest;
 
-public class ShiTest
+public static class ShiTest
 {
     public static void shi_values_test()
         //****************************************************************************80
@@ -26,7 +27,6 @@ public class ShiTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("SHI_VALUES_TEST:");
@@ -35,7 +35,7 @@ public class ShiTest
         Console.WriteLine("");
         Console.WriteLine("      X            SHI(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Shi.shi_values(ref n_data, ref x, ref fx);
@@ -45,7 +45,7 @@ public class ShiTest
             }
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }

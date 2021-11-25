@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Values;
 
 namespace TestValuesTest;
 
-public class OwenTest
+public static class OwenTest
 {
     public static void owen_values_test()
         //****************************************************************************80
@@ -27,7 +28,6 @@ public class OwenTest
     {
         double a = 0;
         double h = 0;
-        int n_data;
         double t = 0;
         Console.WriteLine("");
         Console.WriteLine("OWEN_VALUES_TEST");
@@ -36,7 +36,7 @@ public class OwenTest
         Console.WriteLine("");
         Console.WriteLine("          H            A            T");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Owen.owen_values(ref n_data, ref h, ref a, ref t);
@@ -46,8 +46,8 @@ public class OwenTest
             }
 
             Console.WriteLine("  "
-                              + h.ToString().PadLeft(12) + "  "
-                              + a.ToString().PadLeft(12) + "  "
+                              + h.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + a.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
                               + t.ToString("0.################").PadLeft(24) + "");
         }
     }

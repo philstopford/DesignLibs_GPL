@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Values;
 
 namespace TestValuesTest;
 
-public class StudentTest
+public static class StudentTest
 {
     public static void student_cdf_values_test()
         //****************************************************************************80
@@ -27,7 +28,6 @@ public class StudentTest
     {
         double c = 0;
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("STUDENT_CDF_VALUES_TEST:");
@@ -36,7 +36,7 @@ public class StudentTest
         Console.WriteLine("");
         Console.WriteLine("      C     X       CDF(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Student.student_cdf_values(ref n_data, ref c, ref x, ref fx);
@@ -46,8 +46,8 @@ public class StudentTest
             }
 
             Console.WriteLine("  "
-                              + c.ToString().PadLeft(16) + "  "
-                              + x.ToString().PadLeft(16) + "  "
+                              + c.ToString(CultureInfo.InvariantCulture).PadLeft(16) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(16) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -75,8 +75,6 @@ public class StudentTest
         int df = 0;
         double fx = 0;
         double lambda = 0;
-        ;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("STUDENT_NONCENTRAL_CDF_VALUES_TEST:");
@@ -85,7 +83,7 @@ public class StudentTest
         Console.WriteLine("");
         Console.WriteLine("    DF     LAMBDA        X        CDF");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Student.student_noncentral_cdf_values(ref n_data, ref df, ref lambda, ref x, ref fx);
@@ -95,9 +93,9 @@ public class StudentTest
             }
 
             Console.WriteLine("  "
-                              + df.ToString().PadLeft(6) + "  "
-                              + lambda.ToString().PadLeft(8) + "  "
-                              + x.ToString().PadLeft(8) + "  "
+                              + df.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + lambda.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }

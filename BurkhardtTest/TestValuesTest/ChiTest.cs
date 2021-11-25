@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Values;
 
 namespace TestValuesTest;
 
-public class ChiTest
+public static class ChiTest
 {
     public static void chi_values_test()
         //****************************************************************************80
@@ -26,7 +27,6 @@ public class ChiTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("CHI_VALUES_TEST:");
@@ -35,7 +35,7 @@ public class ChiTest
         Console.WriteLine("");
         Console.WriteLine("      X            CHI(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Chi.chi_values(ref n_data, ref x, ref fx);
@@ -45,8 +45,8 @@ public class ChiTest
             }
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + fx.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -72,7 +72,6 @@ public class ChiTest
     {
         int a = 0;
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("CHI_SQUARE_CDF_VALUES_TEST:");
@@ -81,7 +80,7 @@ public class ChiTest
         Console.WriteLine("");
         Console.WriteLine("     N       X    CDF(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Chi.chi_square_cdf_values(ref n_data, ref a, ref x, ref fx);
@@ -91,9 +90,9 @@ public class ChiTest
             }
 
             Console.WriteLine("  "
-                              + a.ToString().PadLeft(6) + "  "
-                              + x.ToString().PadLeft(8) + "  "
-                              + fx.ToString().PadLeft(12) + "");
+                              + a.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -119,7 +118,6 @@ public class ChiTest
     {
         double df = 0;
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("CHI_SQUARE_PDF_VALUES_TEST:");
@@ -128,7 +126,7 @@ public class ChiTest
         Console.WriteLine("");
         Console.WriteLine("     DF         X    PDF(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Chi.chi_square_pdf_values(ref n_data, ref df, ref x, ref fx);
@@ -138,9 +136,9 @@ public class ChiTest
             }
 
             Console.WriteLine("  "
-                              + df.ToString().PadLeft(8) + "  "
-                              + x.ToString().PadLeft(8) + "  "
-                              + fx.ToString().PadLeft(12) + "");
+                              + df.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -167,8 +165,6 @@ public class ChiTest
         int df = 0;
         double fx = 0;
         double lambda = 0;
-        ;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("CHI_SQUARE_NONCENTRAL_CDF_VALUES_TEST:");
@@ -177,7 +173,7 @@ public class ChiTest
         Console.WriteLine("");
         Console.WriteLine("      X      LAMBDA     DF     CDF");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Chi.chi_square_noncentral_cdf_values(ref n_data, ref df, ref lambda, ref x, ref fx);
@@ -187,10 +183,10 @@ public class ChiTest
             }
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(10) + "  "
-                              + lambda.ToString().PadLeft(8) + "  "
-                              + df.ToString().PadLeft(4) + "  "
-                              + fx.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                              + lambda.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + df.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -216,7 +212,6 @@ public class ChiTest
     {
         double df = 0;
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("INVERSE_CHI_SQUARE_PDF_VALUES_TEST:");
@@ -225,7 +220,7 @@ public class ChiTest
         Console.WriteLine("");
         Console.WriteLine("     DF        X    PDF");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Chi.inverse_chi_square_pdf_values(ref n_data, ref df, ref x, ref fx);
@@ -235,9 +230,9 @@ public class ChiTest
             }
 
             Console.WriteLine("  "
-                              + df.ToString().PadLeft(8) + "  "
-                              + x.ToString().PadLeft(8) + "  "
-                              + fx.ToString().PadLeft(12) + "");
+                              + df.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -263,7 +258,6 @@ public class ChiTest
     {
         double df = 0;
         double fx = 0;
-        int n_data;
         double x = 0;
         double xi = 0;
         Console.WriteLine("");
@@ -273,7 +267,7 @@ public class ChiTest
         Console.WriteLine("");
         Console.WriteLine("     DF        XI        X    PDF");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for ( ; ; )
         {
             Chi.scaled_inverse_chi_square_pdf_values ( ref n_data, ref df, ref xi, ref x, ref fx );
@@ -282,10 +276,10 @@ public class ChiTest
                 break;
             }
             Console.WriteLine("  "
-                              + df.ToString().PadLeft(8) + "  "
-                              + xi.ToString().PadLeft(8) + "  "
-                              + x.ToString().PadLeft(8)  + "  "
-                              + fx.ToString().PadLeft(12) + "");
+                              + df.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + xi.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8)  + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 }

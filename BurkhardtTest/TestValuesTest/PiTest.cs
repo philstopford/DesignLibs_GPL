@@ -3,7 +3,7 @@ using Burkardt.Values;
 
 namespace TestValuesTest;
 
-public class PiTest
+public static class PiTest
 {
     public static void pi_values_test ( )
         //****************************************************************************80
@@ -27,7 +27,6 @@ public class PiTest
     {
         int fn = 0;
         int n = 0;
-        int n_data;
         Console.WriteLine("");
         Console.WriteLine("PI_VALUES_TEST:");
         Console.WriteLine("  PI_VALUES returns values of");
@@ -35,7 +34,7 @@ public class PiTest
         Console.WriteLine("");
         Console.WriteLine("     N         PI(N)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for ( ; ; )
         {
             Pi.pi_values ( ref n_data, ref n, ref fn );

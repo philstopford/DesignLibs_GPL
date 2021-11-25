@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Values;
 
 namespace TestValuesTest;
@@ -27,7 +28,6 @@ public static class EulerTest
     {
         int c = 0;
         int n = 0;
-        int n_data;
         Console.WriteLine("");
         Console.WriteLine("EULER_NUMBER_VALUES_TEST:");
         Console.WriteLine("  EULER_NUMBER_VALUES returns values of");
@@ -35,7 +35,7 @@ public static class EulerTest
         Console.WriteLine("");
         Console.WriteLine("     N        EULER_NUMBER(N)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for ( ; ; )
         {
             Euler.euler_number_values ( ref n_data, ref n, ref c );
@@ -44,8 +44,8 @@ public static class EulerTest
                 break;
             }
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(6) + "  "
-                              + c.ToString().PadLeft(10) + "");
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + c.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
     public static void euler_poly_values_test ( )
@@ -70,7 +70,6 @@ public static class EulerTest
     {
         double fx = 0;
         int n = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("EULER_POLY_VALUES_TEST:");
@@ -79,7 +78,7 @@ public static class EulerTest
         Console.WriteLine("");
         Console.WriteLine("     N     X       EULER_POLY(N)(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for ( ; ; )
         {
             Euler.euler_poly_values ( ref n_data, ref n, ref x, ref fx );
@@ -88,9 +87,9 @@ public static class EulerTest
                 break;
             }
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(6) + "  "
-                              + x.ToString().PadLeft(8) + "  "
-                              + fx.ToString().PadLeft(16) + "");
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(16) + "");
         }
     }
 }

@@ -26,7 +26,6 @@ public static class CotTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("COT_VALUES_TEST:");
@@ -34,7 +33,7 @@ public static class CotTest
         Console.WriteLine("");
         Console.WriteLine("                X                     FX");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Cot.cot_values(ref n_data, ref x, ref fx);

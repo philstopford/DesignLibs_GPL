@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Values;
 
 namespace TestValuesTest;
 
-public class ChebyshevTest
+public static class ChebyshevTest
 {
     public static void cheby_t_poly_values_test()
         //****************************************************************************80
@@ -27,7 +28,6 @@ public class ChebyshevTest
     {
         double fx = 0;
         int n = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("CHEBY_T_POLY_VALUES_TEST:");
@@ -36,7 +36,7 @@ public class ChebyshevTest
         Console.WriteLine("");
         Console.WriteLine("     N       X      T(N)(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Chebyshev.cheby_t_poly_values(ref n_data, ref n, ref x, ref fx);
@@ -46,9 +46,9 @@ public class ChebyshevTest
             }
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(6) + "  "
-                              + x.ToString().PadLeft(8) + "  "
-                              + fx.ToString().PadLeft(12) + "");
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -74,7 +74,6 @@ public class ChebyshevTest
     {
         double fx = 0;
         int n = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("CHEBY_T01_POLY_VALUES_TEST:");
@@ -83,7 +82,7 @@ public class ChebyshevTest
         Console.WriteLine("");
         Console.WriteLine("     N       X      T01(N)(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Chebyshev.cheby_t01_poly_values(ref n_data, ref n, ref x, ref fx);
@@ -93,9 +92,9 @@ public class ChebyshevTest
             }
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(6) + "  "
-                              + x.ToString().PadLeft(8) + "  "
-                              + fx.ToString().PadLeft(12) + "");
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -121,7 +120,6 @@ public class ChebyshevTest
     {
         double fx = 0;
         int n = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("CHEBY_U_POLY_VALUES_TEST:");
@@ -130,7 +128,7 @@ public class ChebyshevTest
         Console.WriteLine("");
         Console.WriteLine("     N       X      U(N)(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Chebyshev.cheby_u_poly_values(ref n_data, ref n, ref x, ref fx);
@@ -140,9 +138,9 @@ public class ChebyshevTest
             }
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(6) + "  "
-                              + x.ToString().PadLeft(8) + "  "
-                              + fx.ToString().PadLeft(12) + "");
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -168,7 +166,6 @@ public class ChebyshevTest
     {
         double fx = 0;
         int n = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("CHEBY_U01_POLY_VALUES_TEST:");
@@ -177,7 +174,7 @@ public class ChebyshevTest
         Console.WriteLine("");
         Console.WriteLine("     N       X      U01(N)(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Chebyshev.cheby_u01_poly_values(ref n_data, ref n, ref x, ref fx);
@@ -187,9 +184,9 @@ public class ChebyshevTest
             }
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(6) + "  "
-                              + x.ToString().PadLeft(8) + "  "
-                              + fx.ToString().PadLeft(12) + "");
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -215,7 +212,6 @@ public class ChebyshevTest
     {
         double fx = 0;
         int n = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("CHEBY_V_POLY_VALUES_TEST:");
@@ -224,7 +220,7 @@ public class ChebyshevTest
         Console.WriteLine("");
         Console.WriteLine("     N       X      V(N)(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Chebyshev.cheby_v_poly_values(ref n_data, ref n, ref x, ref fx);
@@ -234,9 +230,9 @@ public class ChebyshevTest
             }
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(6) + "  "
-                              + x.ToString().PadLeft(8) + "  "
-                              + fx.ToString().PadLeft(12) + "");
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -262,7 +258,6 @@ public class ChebyshevTest
     {
         double fx = 0;
         int n = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("CHEBY_V01_POLY_VALUES_TEST:");
@@ -271,7 +266,7 @@ public class ChebyshevTest
         Console.WriteLine("");
         Console.WriteLine("     N       X      V01(N)(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Chebyshev.cheby_v01_poly_values(ref n_data, ref n, ref x, ref fx);
@@ -281,9 +276,9 @@ public class ChebyshevTest
             }
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(6) + "  "
-                              + x.ToString().PadLeft(8) + "  "
-                              + fx.ToString().PadLeft(12) + "");
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -309,7 +304,6 @@ public class ChebyshevTest
     {
         double fx = 0;
         int n = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("CHEBY_W_POLY_VALUES_TEST:");
@@ -318,7 +312,7 @@ public class ChebyshevTest
         Console.WriteLine("");
         Console.WriteLine("     N       X      W(N)(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Chebyshev.cheby_w_poly_values(ref n_data, ref n, ref x, ref fx);
@@ -328,9 +322,9 @@ public class ChebyshevTest
             }
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(6) + "  "
-                              + x.ToString().PadLeft(8) + "  "
-                              + fx.ToString().PadLeft(12) + "");
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -356,7 +350,6 @@ public class ChebyshevTest
     {
         double fx = 0;
         int n = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("CHEBY_W01_POLY_VALUES_TEST:");
@@ -365,7 +358,7 @@ public class ChebyshevTest
         Console.WriteLine("");
         Console.WriteLine("     N       X      W01(N)(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Chebyshev.cheby_w01_poly_values(ref n_data, ref n, ref x, ref fx);
@@ -375,9 +368,9 @@ public class ChebyshevTest
             }
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(6) + "  "
-                              + x.ToString().PadLeft(8) + "  "
-                              + fx.ToString().PadLeft(12) + "");
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 

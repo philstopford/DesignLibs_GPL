@@ -3,7 +3,7 @@ using Burkardt.Values;
 
 namespace TestValuesTest;
 
-public class ExponentialTest
+public static class ExponentialTest
 {
     public static void exp_values_test()
         //****************************************************************************80
@@ -26,7 +26,6 @@ public class ExponentialTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("EXP_VALUES_TEST:");
@@ -34,7 +33,7 @@ public class ExponentialTest
         Console.WriteLine("");
         Console.WriteLine("                X                     FX");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Exponential.exp_values(ref n_data, ref x, ref fx);
@@ -69,7 +68,6 @@ public class ExponentialTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("EXP3_INT_VALUES_TEST:");
@@ -78,7 +76,7 @@ public class ExponentialTest
         Console.WriteLine("");
         Console.WriteLine("                X                     FX");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Exponential.exp3_int_values(ref n_data, ref x, ref fx);
@@ -114,7 +112,6 @@ public class ExponentialTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("EXPONENTIAL_01_PDF_VALUES_TEST:");
@@ -123,7 +120,7 @@ public class ExponentialTest
         Console.WriteLine("");
         Console.WriteLine("            X                   PDF(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Exponential.exponential_01_pdf_values(ref n_data, ref x, ref fx);
@@ -160,8 +157,6 @@ public class ExponentialTest
     {
         double fx = 0;
         double lambda = 0;
-        ;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("EXPONENTIAL_CDF_VALUES_TEST:");
@@ -170,7 +165,7 @@ public class ExponentialTest
         Console.WriteLine("");
         Console.WriteLine("       LAMBDA         X                     FX");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Exponential.exponential_cdf_values(ref n_data, ref lambda, ref x, ref fx);
@@ -208,8 +203,6 @@ public class ExponentialTest
     {
         double fx = 0;
         double lambda = 0;
-        ;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("EXPONENTIAL_PDF_VALUES_TEST:");
@@ -218,7 +211,7 @@ public class ExponentialTest
         Console.WriteLine("");
         Console.WriteLine("       LAMBDA         X                     FX");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Exponential.exponential_pdf_values(ref n_data, ref lambda, ref x, ref fx);

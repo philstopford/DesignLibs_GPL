@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Values;
 
 namespace TestValuesTest;
 
-public class WeibullTest
+public static class WeibullTest
 {
     public static void weibull_cdf_values_test()
         //****************************************************************************80
@@ -26,10 +27,8 @@ public class WeibullTest
         //
     {
         double alpha = 0;
-        ;
         double beta = 0;
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("WEIBULL_CDF_VALUES_TEST:");
@@ -38,7 +37,7 @@ public class WeibullTest
         Console.WriteLine("");
         Console.WriteLine("     Alpha   Beta        X   CDF(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Weibull.weibull_cdf_values(ref n_data, ref alpha, ref beta, ref x, ref fx);
@@ -48,9 +47,9 @@ public class WeibullTest
             }
 
             Console.WriteLine("  "
-                              + alpha.ToString().PadLeft(8) + "  "
-                              + beta.ToString().PadLeft(8) + "  "
-                              + x.ToString().PadLeft(8) + "  "
+                              + alpha.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + beta.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }

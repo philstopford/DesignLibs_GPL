@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Values;
 
 namespace TestValuesTest;
 
-public class ThermCondTest
+public static class ThermCondTest
 {
     public static void thercon_values_test()
         //****************************************************************************80
@@ -26,8 +27,6 @@ public class ThermCondTest
         //
     {
         double lambda = 0;
-        ;
-        int n_data;
         double p = 0;
         double tc = 0;
         Console.WriteLine("");
@@ -38,7 +37,7 @@ public class ThermCondTest
         Console.WriteLine("");
         Console.WriteLine("      T            P            LAMBDA(T,P)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             ThermCond.thercon_values(ref n_data, ref tc, ref p, ref lambda);
@@ -48,9 +47,9 @@ public class ThermCondTest
             }
 
             Console.WriteLine("  "
-                              + tc.ToString().PadLeft(12) + "  "
-                              + p.ToString().PadLeft(12) + "  "
-                              + lambda.ToString().PadLeft(12) + "");
+                              + tc.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + p.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + lambda.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 

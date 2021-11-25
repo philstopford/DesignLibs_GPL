@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Values;
 
 namespace TestValuesTest;
 
-public class MittagLefflerTest
+public static class MittagLefflerTest
 {
     public static void mittag_leffler_ea_values_test()
         //****************************************************************************80
@@ -27,7 +28,6 @@ public class MittagLefflerTest
     {
         double a = 0;
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("MITTAG_LEFFLER_EA_VALUES_TEST:");
@@ -36,7 +36,7 @@ public class MittagLefflerTest
         Console.WriteLine("");
         Console.WriteLine("      A            X            E(A;X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             MittagLeffler.mittag_leffler_ea_values(ref n_data, ref a, ref x, ref fx);
@@ -46,8 +46,8 @@ public class MittagLefflerTest
             }
 
             Console.WriteLine("  "
-                              + a.ToString().PadLeft(12) + "  "
-                              + x.ToString().PadLeft(12) + "  "
+                              + a.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -75,7 +75,6 @@ public class MittagLefflerTest
         double a = 0;
         double b = 0;
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("MITTAG_LEFFLER_EAB_VALUES_TEST:");
@@ -84,7 +83,7 @@ public class MittagLefflerTest
         Console.WriteLine("");
         Console.WriteLine("      A            B             X            E(A,B;X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             MittagLeffler.mittag_leffler_eab_values(ref n_data, ref a, ref b, ref x, ref fx);
@@ -93,9 +92,9 @@ public class MittagLefflerTest
                 break;
             }
 
-            Console.WriteLine("  " + a.ToString().PadLeft(12)
-                                   + "  " + b.ToString().PadLeft(12)
-                                   + "  " + x.ToString().PadLeft(12)
+            Console.WriteLine("  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + b.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(12)
                                    + "  " + fx.ToString("0.################").PadLeft(24) + "");
         }
     }

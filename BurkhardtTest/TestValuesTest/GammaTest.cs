@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Values;
 
 namespace TestValuesTest;
@@ -26,7 +27,6 @@ public static class GammaTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("GAMMA_VALUES_TEST:");
@@ -34,7 +34,7 @@ public static class GammaTest
         Console.WriteLine("");
         Console.WriteLine("      X            GAMMA(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Gamma.gamma_values(ref n_data, ref x, ref fx);
@@ -44,7 +44,7 @@ public static class GammaTest
             }
 
             Console.WriteLine("  "
-                              +x.ToString().PadLeft(12) + x + "  "
+                              +x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + x + "  "
                               + fx.ToString("0.################").PadLeft(24) + fx + "");
         }
     }
@@ -70,9 +70,7 @@ public static class GammaTest
         //
     {
         double alpha = 0;
-        ;
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("GAMMA_01_PDF_VALUES_TEST:");
@@ -81,7 +79,7 @@ public static class GammaTest
         Console.WriteLine("");
         Console.WriteLine("       ALPHA        X                   PDF(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Gamma.gamma_01_pdf_values(ref n_data, ref alpha, ref x, ref fx);
@@ -91,8 +89,8 @@ public static class GammaTest
             }
 
             Console.WriteLine("  "
-                              + alpha.ToString().PadLeft(12) + alpha + "  "
-                              + x.ToString().PadLeft(12) + x + "  "
+                              + alpha.ToString(CultureInfo.InvariantCulture).PadLeft(12) + alpha + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + x + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -119,7 +117,6 @@ public static class GammaTest
     {
         double fx = 0;
         double mu = 0;
-        int n_data;
         double sigma = 0;
         double x = 0;
         Console.WriteLine("");
@@ -129,7 +126,7 @@ public static class GammaTest
         Console.WriteLine("");
         Console.WriteLine("      M    Sigma      X            CDF((X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Gamma.gamma_cdf_values(ref n_data, ref mu, ref sigma, ref x, ref fx);
@@ -139,9 +136,9 @@ public static class GammaTest
             }
 
             Console.WriteLine("  "
-                              + mu.ToString().PadLeft(12) + mu + "  "
-                              + sigma.ToString().PadLeft(12) + sigma + "  "
-                              + x.ToString().PadLeft(12) + x + "  "
+                              + mu.ToString(CultureInfo.InvariantCulture).PadLeft(12) + mu + "  "
+                              + sigma.ToString(CultureInfo.InvariantCulture).PadLeft(12) + sigma + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + x + "  "
                               + fx.ToString("0.################").PadLeft(24) + fx + "");
         }
     }
@@ -168,7 +165,6 @@ public static class GammaTest
     {
         double a = 0;
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("GAMMA_INC_VALUES_TEST:");
@@ -177,7 +173,7 @@ public static class GammaTest
         Console.WriteLine("");
         Console.WriteLine("      A            X            GAMMA_INC(A)(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Gamma.gamma_inc_values(ref n_data, ref a, ref x, ref fx);
@@ -187,8 +183,8 @@ public static class GammaTest
             }
 
             Console.WriteLine("  "
-                              +a.ToString().PadLeft(12) + a + "  "
-                              + x.ToString().PadLeft(12) + x + "  "
+                              +a.ToString(CultureInfo.InvariantCulture).PadLeft(12) + a + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + x + "  "
                               + fx.ToString("0.################").PadLeft(24) + fx + "");
         }
     }
@@ -215,7 +211,6 @@ public static class GammaTest
     {
         double a = 0;
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("GAMMA_INC_P_VALUES_TEST:");
@@ -224,7 +219,7 @@ public static class GammaTest
         Console.WriteLine("");
         Console.WriteLine("      A            X            F(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Gamma.gamma_inc_p_values(ref n_data, ref a, ref x, ref fx);
@@ -234,8 +229,8 @@ public static class GammaTest
             }
 
             Console.WriteLine("  "
-                              +a.ToString().PadLeft(12) + "  "
-                              + x.ToString().PadLeft(12) + "  "
+                              +a.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -262,7 +257,6 @@ public static class GammaTest
     {
         double a = 0;
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("GAMMA_INC_Q_VALUES_TEST:");
@@ -271,7 +265,7 @@ public static class GammaTest
         Console.WriteLine("");
         Console.WriteLine("      A            X            F(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Gamma.gamma_inc_q_values(ref n_data, ref a, ref x, ref fx);
@@ -281,8 +275,8 @@ public static class GammaTest
             }
 
             Console.WriteLine("  "
-                              +a.ToString().PadLeft(12) + "  "
-                              + x.ToString().PadLeft(12) + "  "
+                              +a.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -309,7 +303,6 @@ public static class GammaTest
     {
         double a = 0;
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("GAMMA_INC_TRICOMI_VALUES_TEST:");
@@ -318,7 +311,7 @@ public static class GammaTest
         Console.WriteLine("");
         Console.WriteLine("      A            X            F(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Gamma.gamma_inc_tricomi_values(ref n_data, ref a, ref x, ref fx);
@@ -328,8 +321,8 @@ public static class GammaTest
             }
 
             Console.WriteLine("  "
-                              +a.ToString().PadLeft(12) + "  "
-                              + x.ToString().PadLeft(12) + "  "
+                              +a.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -355,7 +348,6 @@ public static class GammaTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("GAMMA_LOG_VALUES_TEST:");
@@ -364,7 +356,7 @@ public static class GammaTest
         Console.WriteLine("");
         Console.WriteLine("      X            GAMMA_LOG(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Gamma.gamma_log_values(ref n_data, ref x, ref fx);
@@ -374,7 +366,7 @@ public static class GammaTest
             }
 
             Console.WriteLine("  "
-                              +x.ToString().PadLeft(12) + x + "  "
+                              +x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + x + "  "
                               + fx.ToString("0.################").PadLeft(24) + fx + "");
         }
     }
@@ -400,10 +392,8 @@ public static class GammaTest
         //
     {
         double alpha = 0;
-        ;
         double beta = 0;
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("GAMMA_PDF_VALUES_TEST:");
@@ -412,7 +402,7 @@ public static class GammaTest
         Console.WriteLine("");
         Console.WriteLine("       BETA          ALPHA        X                   PDF(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Gamma.gamma_pdf_values(ref n_data, ref beta, ref alpha, ref x, ref fx);
@@ -422,9 +412,9 @@ public static class GammaTest
             }
 
             Console.WriteLine("  "
-                              + beta.ToString().PadLeft(12) + "  "
-                              + alpha.ToString().PadLeft(12) + "  "
-                              + x.ToString().PadLeft(12) + "  "
+                              + beta.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + alpha.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -449,10 +439,9 @@ public static class GammaTest
         //    John Burkardt
         //
     {
-        double alpha = 0;;
+        double alpha = 0;
         double beta = 0;
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("INVERSE_GAMMA_PDF_VALUES_TEST:");
@@ -461,7 +450,7 @@ public static class GammaTest
         Console.WriteLine("");
         Console.WriteLine("     ALPHA        BETA      X    PDF");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for ( ; ; )
         {
             Gamma.inverse_gamma_pdf_values ( ref n_data, ref alpha, ref beta, ref x, ref fx );
@@ -470,10 +459,10 @@ public static class GammaTest
                 break;
             }
             Console.WriteLine("  "
-                              + alpha.ToString().PadLeft(8) + "  "
-                              + beta.ToString().PadLeft(8) + "  "
-                              + x.ToString().PadLeft(8) + "  "
-                              + fx.ToString().PadLeft(12) + "");
+                              + alpha.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + beta.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 }

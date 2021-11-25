@@ -26,7 +26,6 @@ public static class TransportationTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("TRAN02_VALUES_TEST:");
@@ -35,7 +34,7 @@ public static class TransportationTest
         Console.WriteLine("");
         Console.WriteLine("                X                     FX");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Transportation.tran02_values(ref n_data, ref x, ref fx);
@@ -71,7 +70,6 @@ public static class TransportationTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("TRAN03_VALUES_TEST:");
@@ -80,7 +78,7 @@ public static class TransportationTest
         Console.WriteLine("");
         Console.WriteLine("                X                     FX");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Transportation.tran03_values(ref n_data, ref x, ref fx);
@@ -116,7 +114,6 @@ public static class TransportationTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("TRAN04_VALUES_TEST:");
@@ -125,7 +122,7 @@ public static class TransportationTest
         Console.WriteLine("");
         Console.WriteLine("                X                     FX");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Transportation.tran04_values(ref n_data, ref x, ref fx);
@@ -161,7 +158,6 @@ public static class TransportationTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("TRAN05_VALUES_TEST:");
@@ -170,7 +166,7 @@ public static class TransportationTest
         Console.WriteLine("");
         Console.WriteLine("                X                     FX");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Transportation.tran05_values(ref n_data, ref x, ref fx);
@@ -206,7 +202,6 @@ public static class TransportationTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("TRAN06_VALUES_TEST:");
@@ -215,7 +210,7 @@ public static class TransportationTest
         Console.WriteLine("");
         Console.WriteLine("                X                     FX");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Transportation.tran06_values(ref n_data, ref x, ref fx);
@@ -251,7 +246,6 @@ public static class TransportationTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("TRAN07_VALUES_TEST:");
@@ -260,7 +254,7 @@ public static class TransportationTest
         Console.WriteLine("");
         Console.WriteLine("                X                     FX");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Transportation.tran07_values(ref n_data, ref x, ref fx);
@@ -296,7 +290,6 @@ public static class TransportationTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("TRAN08_VALUES_TEST:");
@@ -305,7 +298,7 @@ public static class TransportationTest
         Console.WriteLine("");
         Console.WriteLine("                X                     FX");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Transportation.tran08_values(ref n_data, ref x, ref fx);
@@ -341,7 +334,6 @@ public static class TransportationTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("TRAN09_VALUES_TEST:");
@@ -350,7 +342,7 @@ public static class TransportationTest
         Console.WriteLine("");
         Console.WriteLine("                X                     FX");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Transportation.tran09_values(ref n_data, ref x, ref fx);

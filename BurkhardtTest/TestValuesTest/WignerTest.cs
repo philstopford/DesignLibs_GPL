@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Values;
 
 namespace TestValuesTest;
 
-public class WignerTest
+public static class WignerTest
 {
     public static void nine_j_values_test()
         //****************************************************************************80
@@ -35,7 +36,6 @@ public class WignerTest
         double j7 = 0;
         double j8 = 0;
         double j9 = 0;
-        int n_data;
         Console.WriteLine("");
         Console.WriteLine("NINE_J_VALUES_TEST:");
         Console.WriteLine("  NINE_J_VALUES returns values of");
@@ -44,7 +44,7 @@ public class WignerTest
         Console.WriteLine("      J1      J2      J3      J4      J5      J6"
                           + "      J7      J8      J9        NINE_J");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Wigner.nine_j_values(ref n_data, ref j1, ref j2, ref j3, ref j4, ref j5, ref j6, ref j7, ref j8, ref j9,
@@ -54,15 +54,15 @@ public class WignerTest
                 break;
             }
 
-            Console.WriteLine("  " + j1.ToString().PadLeft(6)
-                                   + "  " + j2.ToString().PadLeft(6)
-                                   + "  " + j3.ToString().PadLeft(6)
-                                   + "  " + j4.ToString().PadLeft(6)
-                                   + "  " + j5.ToString().PadLeft(6)
-                                   + "  " + j6.ToString().PadLeft(6)
-                                   + "  " + j7.ToString().PadLeft(6)
-                                   + "  " + j8.ToString().PadLeft(6)
-                                   + "  " + j9.ToString().PadLeft(6)
+            Console.WriteLine("  " + j1.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + j2.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + j3.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + j4.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + j5.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + j6.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + j7.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + j8.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + j9.ToString(CultureInfo.InvariantCulture).PadLeft(6)
                                    + "  " + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -94,7 +94,6 @@ public class WignerTest
         double j4 = 0;
         double j5 = 0;
         double j6 = 0;
-        int n_data;
         Console.WriteLine("");
         Console.WriteLine("SIX_J_VALUES_TEST:");
         Console.WriteLine("  SIX_J_VALUES returns values of ");
@@ -103,7 +102,7 @@ public class WignerTest
         Console.WriteLine(
             "      J1      J2      J3      J4      J5      J6        SIX_J");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Wigner.six_j_values(ref n_data, ref j1, ref j2, ref j3, ref j4, ref j5, ref j6, ref fx);
@@ -112,12 +111,12 @@ public class WignerTest
                 break;
             }
 
-            Console.WriteLine("  " + j1.ToString().PadLeft(6)
-                                   + "  " + j2.ToString().PadLeft(6)
-                                   + "  " + j3.ToString().PadLeft(6)
-                                   + "  " + j4.ToString().PadLeft(6)
-                                   + "  " + j5.ToString().PadLeft(6)
-                                   + "  " + j6.ToString().PadLeft(6)
+            Console.WriteLine("  " + j1.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + j2.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + j3.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + j4.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + j5.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + j6.ToString(CultureInfo.InvariantCulture).PadLeft(6)
                                    + "  " + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -149,7 +148,6 @@ public class WignerTest
         double m1 = 0;
         double m2 = 0;
         double m3 = 0;
-        int n_data;
         Console.WriteLine("");
         Console.WriteLine("THREE_J_VALUES_TEST:");
         Console.WriteLine("  THREE_J_VALUES returns values of");
@@ -157,7 +155,7 @@ public class WignerTest
         Console.WriteLine("");
         Console.WriteLine("      J1      J2      J3      M1      M2      M3        THREE_J");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Wigner.three_j_values(ref n_data, ref j1, ref j2, ref j3, ref m1, ref m2, ref m3, ref fx);
@@ -166,12 +164,12 @@ public class WignerTest
                 break;
             }
 
-            Console.WriteLine("  " + j1.ToString().PadLeft(6)
-                                   + "  " + j2.ToString().PadLeft(6)
-                                   + "  " + j3.ToString().PadLeft(6)
-                                   + "  " + m1.ToString().PadLeft(6)
-                                   + "  " + m2.ToString().PadLeft(6)
-                                   + "  " + m3.ToString().PadLeft(6)
+            Console.WriteLine("  " + j1.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + j2.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + j3.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + m1.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + m2.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + m3.ToString(CultureInfo.InvariantCulture).PadLeft(6)
                                    + "  " + fx.ToString("0.################").PadLeft(24) + "");
         }
     }

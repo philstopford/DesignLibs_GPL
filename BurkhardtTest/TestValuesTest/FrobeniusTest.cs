@@ -25,16 +25,13 @@ public static class FrobeniusTest
         //    John Burkardt
         //
     {
-        int[] c;
         int f = 0;
-        int i;
-        int n_data;
         int order = 0;
         Console.WriteLine("");
         Console.WriteLine("FROBENIUS_NUMBER_DATA_VALUES_TEST:");
         Console.WriteLine("  FROBENIUS_NUMBER_DATA_VALUES returns the corresponding");
         Console.WriteLine("  coin denominations.");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Frobenius.frobenius_number_order_values(ref n_data, ref order);
@@ -43,11 +40,12 @@ public static class FrobeniusTest
                 break;
             }
 
-            c = new int[order];
+            int[] c = new int[order];
             Frobenius.frobenius_number_data_values(ref n_data, order, ref c, ref f);
             Console.WriteLine("");
             Console.WriteLine("  Order = " + order + "");
             string cout = "";
+            int i;
             for (i = 0; i < order; i++)
             {
                 cout += "  " + c[i].ToString().PadLeft(8);
@@ -78,7 +76,6 @@ public static class FrobeniusTest
         //    John Burkardt
         //
     {
-        int n_data;
         int order = 0;
         Console.WriteLine("");
         Console.WriteLine("FROBENIUS_NUMBER_ORDER_VALUES_TEST:");
@@ -87,7 +84,7 @@ public static class FrobeniusTest
         Console.WriteLine("");
         Console.WriteLine("   Problem   ORDER");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Frobenius.frobenius_number_order_values(ref n_data, ref order);
@@ -125,7 +122,6 @@ public static class FrobeniusTest
         int c1 = 0;
         int c2 = 0;
         int f = 0;
-        int n_data;
         Console.WriteLine("");
         Console.WriteLine("FROBENIUS_NUMBER_ORDER2_VALUES_TEST:");
         Console.WriteLine("  FROBENIUS_NUMBER_ORDER2_VALUES returns values of ");
@@ -133,7 +129,7 @@ public static class FrobeniusTest
         Console.WriteLine("");
         Console.WriteLine("         C1        C2          F(C1,C2)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Frobenius.frobenius_number_order2_values(ref n_data, ref c1, ref c2, ref f);

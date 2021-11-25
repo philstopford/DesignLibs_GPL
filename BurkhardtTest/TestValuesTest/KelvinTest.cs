@@ -26,7 +26,6 @@ public static class KelvinTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("KEI0_VALUES_TEST:");
@@ -35,7 +34,7 @@ public static class KelvinTest
         Console.WriteLine("");
         Console.WriteLine("                X                     FX");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Kelvin.kei0_values(ref n_data, ref x, ref fx);
@@ -71,7 +70,6 @@ public static class KelvinTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("KEI1_VALUES_TEST:");
@@ -80,7 +78,7 @@ public static class KelvinTest
         Console.WriteLine("");
         Console.WriteLine("                X                     FX");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Kelvin.kei1_values(ref n_data, ref x, ref fx);
@@ -116,7 +114,6 @@ public static class KelvinTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("KER0_VALUES_TEST:");
@@ -125,7 +122,7 @@ public static class KelvinTest
         Console.WriteLine("");
         Console.WriteLine("                X                     FX");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Kelvin.ker0_values(ref n_data, ref x, ref fx);
@@ -161,7 +158,6 @@ public static class KelvinTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("KER1_VALUES_TEST:");
@@ -170,7 +166,7 @@ public static class KelvinTest
         Console.WriteLine("");
         Console.WriteLine("                X                     FX");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Kelvin.ker1_values(ref n_data, ref x, ref fx);

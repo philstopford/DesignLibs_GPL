@@ -3,7 +3,7 @@ using Burkardt.Values;
 
 namespace TestValuesTest;
 
-public class SigmaTest
+public static class SigmaTest
 {
     public static void sigma_values_test()
         //****************************************************************************80
@@ -27,7 +27,6 @@ public class SigmaTest
     {
         int fn = 0;
         int n = 0;
-        int n_data;
         Console.WriteLine("");
         Console.WriteLine("SIGMA_VALUES_TEST:");
         Console.WriteLine("  SIGMA_VALUES returns values of");
@@ -35,7 +34,7 @@ public class SigmaTest
         Console.WriteLine("");
         Console.WriteLine("       N         SIGMA(N)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Sigma.sigma_values(ref n_data, ref n, ref fn);

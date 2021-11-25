@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Values;
 
 namespace TestValuesTest;
@@ -28,7 +29,6 @@ public static class BernsteinTest
         double b = 0;
         int k = 0;
         int n = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("BERNSTEIN_POLY_01_VALUES_TEST:");
@@ -37,7 +37,7 @@ public static class BernsteinTest
         Console.WriteLine("");
         Console.WriteLine("     N     K       X      BERNSTEIN(N,K)(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for ( ; ; )
         {
             Bernstein.bernstein_poly_01_values ( ref n_data, ref n, ref k, ref x, ref b );
@@ -46,10 +46,10 @@ public static class BernsteinTest
                 break;
             }
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(6) + "  "
-                              + k.ToString().PadLeft(6) + "  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + b.ToString().PadLeft(12) + "");
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + k.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + b.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 }

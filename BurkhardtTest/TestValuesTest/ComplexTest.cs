@@ -27,7 +27,6 @@ public static class ComplexTest
         //
     {
         Complex fz = new();
-        int n_data;
         Complex z = new();
         Console.WriteLine("");
         Console.WriteLine("C8_LOG_VALUES_TEST:");
@@ -36,7 +35,7 @@ public static class ComplexTest
         Console.WriteLine("");
         Console.WriteLine("                Z                     FZ");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for ( ; ; )
         {
             Cmplex.c8_log_values ( ref n_data, ref z, ref fz );

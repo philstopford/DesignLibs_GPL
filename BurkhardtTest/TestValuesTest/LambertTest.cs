@@ -26,7 +26,6 @@ public static class LambertTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("LAMBERT_W_VALUES_TEST:");
@@ -35,7 +34,7 @@ public static class LambertTest
         Console.WriteLine("");
         Console.WriteLine("                X                     W(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Lambert.lambert_w_values(ref n_data, ref x, ref fx);

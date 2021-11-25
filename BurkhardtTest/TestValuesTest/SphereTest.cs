@@ -3,7 +3,7 @@ using Burkardt.Values;
 
 namespace TestValuesTest;
 
-public class SphereTest
+public static class SphereTest
 {
     public static void sphere_unit_area_values_test()
         //****************************************************************************80
@@ -26,7 +26,6 @@ public class SphereTest
         //
     {
         double fx = 0;
-        int n_data;
         int n = 0;
         Console.WriteLine("");
         Console.WriteLine("SPHERE_UNIT_AREA_VALUES_TEST:");
@@ -35,7 +34,7 @@ public class SphereTest
         Console.WriteLine("");
         Console.WriteLine("      N           AREA");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Sphere.sphere_unit_area_values(ref n_data, ref n, ref fx);
@@ -71,7 +70,6 @@ public class SphereTest
         //
     {
         double fx = 0;
-        int n_data;
         int n = 0;
         Console.WriteLine("");
         Console.WriteLine("SPHERE_UNIT_VOLUME_VALUES_TEST:");
@@ -80,7 +78,7 @@ public class SphereTest
         Console.WriteLine("");
         Console.WriteLine("      N           VOLUME");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Sphere.sphere_unit_volume_values(ref n_data, ref n, ref fx);

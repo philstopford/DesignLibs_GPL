@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Values;
 
 namespace TestValuesTest;
@@ -25,10 +26,9 @@ public static class ExtremeTest
         //    John Burkardt
         //
     {
-        double alpha = 0;;
+        double alpha = 0;
         double beta = 0;
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("EXTREME_VALUES_CDF_VALUES_TEST:");
@@ -37,7 +37,7 @@ public static class ExtremeTest
         Console.WriteLine("");
         Console.WriteLine("        Alpha    Beta        X                     FX");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for ( ; ; )
         {
             Extreme.extreme_values_cdf_values ( ref n_data, ref alpha, ref beta, ref x, ref fx );
@@ -46,9 +46,9 @@ public static class ExtremeTest
                 break;
             }
             Console.WriteLine("  "
-                              + alpha.ToString().PadLeft(12)                        + alpha  + "  "
-                              + beta.ToString().PadLeft(12)                        + beta   + "  "
-                              + x.ToString().PadLeft(12)                        + x      + "  "
+                              + alpha.ToString(CultureInfo.InvariantCulture).PadLeft(12)                        + alpha  + "  "
+                              + beta.ToString(CultureInfo.InvariantCulture).PadLeft(12)                        + beta   + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12)                        + x      + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }

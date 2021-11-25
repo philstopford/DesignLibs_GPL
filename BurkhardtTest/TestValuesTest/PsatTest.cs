@@ -3,7 +3,7 @@ using Burkardt.Values;
 
 namespace TestValuesTest;
 
-public class PsatTest
+public static class PsatTest
 {
     public static void psat_values_test ( )
         //****************************************************************************80
@@ -25,7 +25,6 @@ public class PsatTest
         //    John Burkardt
         //
     {
-        int n_data;
         double psat = 0;
         double tc = 0;
         Console.WriteLine("");
@@ -36,7 +35,7 @@ public class PsatTest
         Console.WriteLine("");
         Console.WriteLine("      T            PSAT(T)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for ( ; ; )
         {
             Psat.psat_values ( ref n_data, ref tc, ref psat );

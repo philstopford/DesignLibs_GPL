@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Values;
 
 namespace TestValuesTest;
 
-public class MultinomialTest
+public static class MultinomialTest
 {
     public static void multinomial_pdf_values_test()
         //****************************************************************************80
@@ -25,14 +26,9 @@ public class MultinomialTest
         //    John Burkardt
         //
     {
-        int i;
         int m = 0;
         int n = 0;
-        int n_data1;
-        int n_data2;
-        double[] p;
         double pdf = 0;
-        int[] x;
         Console.WriteLine("");
         Console.WriteLine("MULTINOMIAL_PDF_VALUES_TEST:");
         Console.WriteLine("  MULTINOMIAL_PDF_VALUES stores values of the Multinomial PDF.");
@@ -42,8 +38,8 @@ public class MultinomialTest
         Console.WriteLine("  outcome I occurred X(I) times.");
         Console.WriteLine("");
         Console.WriteLine("     N     M     I      P        X        PDF()");
-        n_data1 = 0;
-        n_data2 = 0;
+        int n_data1 = 0;
+        int n_data2 = 0;
         for (;;)
         {
             Multinomial.multinomial_pdf_sizes(ref n_data1, ref m);
@@ -52,20 +48,21 @@ public class MultinomialTest
                 break;
             }
 
-            p = new double[m];
-            x = new int[m];
+            double[] p = new double[m];
+            int[] x = new int[m];
             Multinomial.multinomial_pdf_values(ref n_data2, m, ref n, ref p, ref x, ref pdf);
             Console.WriteLine("");
+            int i;
             for (i = 0; i < m; i++)
             {
                 Console.WriteLine("              " + i.ToString().PadLeft(4)
-                                                   + "  " + p[i].ToString().PadLeft(8)
+                                                   + "  " + p[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                                    + "  " + x[i].ToString().PadLeft(4) + "");
             }
 
             Console.WriteLine("  " + n.ToString().PadLeft(4)
                                    + "  " + m.ToString().PadLeft(4)
-                                   + "                        " + pdf.ToString().PadLeft(14) + "");
+                                   + "                        " + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 }

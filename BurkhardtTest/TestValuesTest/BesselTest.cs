@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Values;
 
 namespace TestValuesTest;
@@ -26,7 +27,6 @@ public static class BesselTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("BESSEL_I0_VALUES_TEST:");
@@ -35,7 +35,7 @@ public static class BesselTest
         Console.WriteLine("");
         Console.WriteLine("      X         I0(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Bessel.bessel_i0_values(ref n_data, ref x, ref fx);
@@ -45,8 +45,8 @@ public static class BesselTest
             }
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + fx.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -71,7 +71,6 @@ public static class BesselTest
         //
     {
         double bip = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("BESSEL_I0_INT_VALUES_TEST:");
@@ -80,7 +79,7 @@ public static class BesselTest
         Console.WriteLine("");
         Console.WriteLine("                X                     FX");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Bessel.bessel_i0_int_values(ref n_data, ref x, ref bip);
@@ -116,7 +115,6 @@ public static class BesselTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("BESSEL_I0_SPHERICAL_VALUES_TEST:");
@@ -125,7 +123,7 @@ public static class BesselTest
         Console.WriteLine("");
         Console.WriteLine("      X            i0(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Bessel.bessel_i0_spherical_values(ref n_data, ref x, ref fx);
@@ -135,8 +133,8 @@ public static class BesselTest
             }
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + fx.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -161,7 +159,6 @@ public static class BesselTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("BESSEL_I1_VALUES_TEST:");
@@ -170,7 +167,7 @@ public static class BesselTest
         Console.WriteLine("");
         Console.WriteLine("      X         I1(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Bessel.bessel_i1_values(ref n_data, ref x, ref fx);
@@ -180,8 +177,8 @@ public static class BesselTest
             }
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + fx.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -206,7 +203,6 @@ public static class BesselTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("BESSEL_I1_SPHERICAL_VALUES_TEST:");
@@ -215,7 +211,7 @@ public static class BesselTest
         Console.WriteLine("");
         Console.WriteLine("      X            i1(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Bessel.bessel_i1_spherical_values(ref n_data, ref x, ref fx);
@@ -225,8 +221,8 @@ public static class BesselTest
             }
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + fx.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -252,7 +248,6 @@ public static class BesselTest
     {
         double fx = 0;
         int n = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("BESSEL_IN_VALUES_TEST:");
@@ -261,7 +256,7 @@ public static class BesselTest
         Console.WriteLine("");
         Console.WriteLine("      N     X         IN(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Bessel.bessel_in_values(ref n_data, ref n, ref x, ref fx);
@@ -271,9 +266,9 @@ public static class BesselTest
             }
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(6) + "  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + fx.ToString().PadLeft(12) + "");
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -299,7 +294,6 @@ public static class BesselTest
     {
         double fx = 0;
         double nu = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("BESSEL_IX_VALUES_TEST:");
@@ -308,7 +302,7 @@ public static class BesselTest
         Console.WriteLine("");
         Console.WriteLine("      NU    X         IN(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Bessel.bessel_ix_values(ref n_data, ref nu, ref x, ref fx);
@@ -318,9 +312,9 @@ public static class BesselTest
             }
 
             Console.WriteLine("  "
-                              + nu.ToString().PadLeft(12) + "  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + fx.ToString().PadLeft(12) + "");
+                              + nu.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -346,7 +340,6 @@ public static class BesselTest
     {
         double fx = 0;
         int n = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("BESSEL_J_SPHERICAL_VALUES_TEST:");
@@ -355,7 +348,7 @@ public static class BesselTest
         Console.WriteLine("");
         Console.WriteLine("      N      X            jn(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Bessel.bessel_j_spherical_values(ref n_data, ref n, ref x, ref fx);
@@ -365,9 +358,9 @@ public static class BesselTest
             }
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(4) + "  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + fx.ToString().PadLeft(12) + "");
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -392,7 +385,6 @@ public static class BesselTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("BESSEL_J0_VALUES_TEST:");
@@ -401,7 +393,7 @@ public static class BesselTest
         Console.WriteLine("");
         Console.WriteLine("      X         J0(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Bessel.bessel_j0_values(ref n_data, ref x, ref fx);
@@ -411,8 +403,8 @@ public static class BesselTest
             }
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + fx.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -437,7 +429,6 @@ public static class BesselTest
         //
     {
         double bip = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("BESSEL_J0_INT_VALUES_TEST:");
@@ -446,7 +437,7 @@ public static class BesselTest
         Console.WriteLine("");
         Console.WriteLine("                X                     FX");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Bessel.bessel_j0_int_values(ref n_data, ref x, ref bip);
@@ -482,7 +473,6 @@ public static class BesselTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("BESSEL_J0_SPHERICAL_VALUES_TEST:");
@@ -491,7 +481,7 @@ public static class BesselTest
         Console.WriteLine("");
         Console.WriteLine("      X            j0(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Bessel.bessel_j0_spherical_values(ref n_data, ref x, ref fx);
@@ -501,8 +491,8 @@ public static class BesselTest
             }
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + fx.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -528,7 +518,6 @@ public static class BesselTest
     {
         double fx = 0;
         int k = 0;
-        int n_data;
         Console.WriteLine("");
         Console.WriteLine("BESSEL_J0_ZERO_VALUES_TEST:");
         Console.WriteLine("  BESSEL_J0_ZERO_VALUES stores values of zeros of");
@@ -536,7 +525,7 @@ public static class BesselTest
         Console.WriteLine("");
         Console.WriteLine("       K         X(K)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Bessel.bessel_j0_zero_values(ref n_data, ref k, ref fx);
@@ -545,8 +534,8 @@ public static class BesselTest
                 break;
             }
 
-            Console.WriteLine("  " + k.ToString().PadLeft(6)
-                                   + "  " + fx.ToString().PadLeft(24) + "");
+            Console.WriteLine("  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + fx.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "");
         }
     }
 
@@ -571,7 +560,6 @@ public static class BesselTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("BESSEL_J1_VALUES_TEST:");
@@ -580,7 +568,7 @@ public static class BesselTest
         Console.WriteLine("");
         Console.WriteLine("      X         J1(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Bessel.bessel_j1_values(ref n_data, ref x, ref fx);
@@ -590,8 +578,8 @@ public static class BesselTest
             }
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + fx.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -616,7 +604,6 @@ public static class BesselTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("BESSEL_J1_SPHERICAL_VALUES_TEST:");
@@ -625,7 +612,7 @@ public static class BesselTest
         Console.WriteLine("");
         Console.WriteLine("      X            j1(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Bessel.bessel_j1_spherical_values(ref n_data, ref x, ref fx);
@@ -635,8 +622,8 @@ public static class BesselTest
             }
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + fx.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -662,7 +649,6 @@ public static class BesselTest
     {
         double fx = 0;
         int n = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("BESSEL_JN_VALUES_TEST:");
@@ -671,7 +657,7 @@ public static class BesselTest
         Console.WriteLine("");
         Console.WriteLine("      N     X         JN(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Bessel.bessel_jn_values(ref n_data, ref n, ref x, ref fx);
@@ -681,9 +667,9 @@ public static class BesselTest
             }
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(6) + "  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + fx.ToString().PadLeft(12) + "");
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -709,7 +695,6 @@ public static class BesselTest
     {
         double fx = 0;
         double nu = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("BESSEL_JX_VALUES_TEST:");
@@ -718,7 +703,7 @@ public static class BesselTest
         Console.WriteLine("");
         Console.WriteLine("      NU      X         JN(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Bessel.bessel_jx_values(ref n_data, ref nu, ref x, ref fx);
@@ -728,9 +713,9 @@ public static class BesselTest
             }
 
             Console.WriteLine("  "
-                              + nu.ToString().PadLeft(12) + "  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + fx.ToString().PadLeft(12) + "");
+                              + nu.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -755,7 +740,6 @@ public static class BesselTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("BESSEL_K0_VALUES_TEST:");
@@ -764,7 +748,7 @@ public static class BesselTest
         Console.WriteLine("");
         Console.WriteLine("      X         K0(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Bessel.bessel_k0_values(ref n_data, ref x, ref fx);
@@ -774,8 +758,8 @@ public static class BesselTest
             }
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + fx.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -800,7 +784,6 @@ public static class BesselTest
         //
     {
         double bip = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("BESSEL_K0_INT_VALUES_TEST:");
@@ -809,7 +792,7 @@ public static class BesselTest
         Console.WriteLine("");
         Console.WriteLine("                X                     FX");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Bessel.bessel_k0_int_values(ref n_data, ref x, ref bip);
@@ -845,7 +828,6 @@ public static class BesselTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("BESSEL_K1_VALUES_TEST:");
@@ -854,7 +836,7 @@ public static class BesselTest
         Console.WriteLine("");
         Console.WriteLine("      X         K1(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Bessel.bessel_k1_values(ref n_data, ref x, ref fx);
@@ -864,8 +846,8 @@ public static class BesselTest
             }
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + fx.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -891,7 +873,6 @@ public static class BesselTest
     {
         double fx = 0;
         int n = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("BESSEL_KN_VALUES_TEST:");
@@ -900,7 +881,7 @@ public static class BesselTest
         Console.WriteLine("");
         Console.WriteLine("      N      X         KN(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Bessel.bessel_kn_values(ref n_data, ref n, ref x, ref fx);
@@ -910,9 +891,9 @@ public static class BesselTest
             }
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(6) + "  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + fx.ToString().PadLeft(12) + "");
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -938,7 +919,6 @@ public static class BesselTest
     {
         double fx = 0;
         double nu = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("BESSEL_KX_VALUES_TEST:");
@@ -947,7 +927,7 @@ public static class BesselTest
         Console.WriteLine("");
         Console.WriteLine("      NU     X         KN(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Bessel.bessel_kx_values(ref n_data, ref nu, ref x, ref fx);
@@ -957,9 +937,9 @@ public static class BesselTest
             }
 
             Console.WriteLine("  "
-                              + nu.ToString().PadLeft(12) + "  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + fx.ToString().PadLeft(12) + "");
+                              + nu.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -984,7 +964,6 @@ public static class BesselTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("BESSEL_Y0_VALUES_TEST:");
@@ -993,7 +972,7 @@ public static class BesselTest
         Console.WriteLine("");
         Console.WriteLine("      X         Y0(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Bessel.bessel_y0_values(ref n_data, ref x, ref fx);
@@ -1003,8 +982,8 @@ public static class BesselTest
             }
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + fx.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -1029,7 +1008,6 @@ public static class BesselTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("BESSEL_Y0_INT_VALUES_TEST:");
@@ -1038,7 +1016,7 @@ public static class BesselTest
         Console.WriteLine("");
         Console.WriteLine("                X                     FX");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Bessel.bessel_y0_int_values(ref n_data, ref x, ref fx);
@@ -1074,7 +1052,6 @@ public static class BesselTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("BESSEL_Y0_SPHERICAL_VALUES_TEST:");
@@ -1083,7 +1060,7 @@ public static class BesselTest
         Console.WriteLine("");
         Console.WriteLine("                X                      y0(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Bessel.bessel_y0_spherical_values(ref n_data, ref x, ref fx);
@@ -1119,7 +1096,6 @@ public static class BesselTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("BESSEL_Y1_VALUES_TEST:");
@@ -1128,7 +1104,7 @@ public static class BesselTest
         Console.WriteLine("");
         Console.WriteLine("                X                   Y1(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Bessel.bessel_y1_values(ref n_data, ref x, ref fx);
@@ -1164,7 +1140,6 @@ public static class BesselTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("BESSEL_Y1_SPHERICAL_VALUES_TEST:");
@@ -1173,7 +1148,7 @@ public static class BesselTest
         Console.WriteLine("");
         Console.WriteLine("                X                      y1(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Bessel.bessel_y1_spherical_values(ref n_data, ref x, ref fx);
@@ -1210,7 +1185,6 @@ public static class BesselTest
     {
         double fx = 0;
         int n = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("BESSEL_YN_VALUES_TEST:");
@@ -1219,7 +1193,7 @@ public static class BesselTest
         Console.WriteLine("");
         Console.WriteLine("      N     X         YN(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Bessel.bessel_yn_values(ref n_data, ref n, ref x, ref fx);
@@ -1229,9 +1203,9 @@ public static class BesselTest
             }
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(6) + "  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + fx.ToString().PadLeft(12) + "");
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -1257,7 +1231,6 @@ public static class BesselTest
     {
         double fx = 0;
         double nu = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("BESSEL_YX_VALUES_TEST:");
@@ -1266,7 +1239,7 @@ public static class BesselTest
         Console.WriteLine("");
         Console.WriteLine("      NU    X         YN(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Bessel.bessel_yx_values(ref n_data, ref nu, ref x, ref fx);
@@ -1276,9 +1249,9 @@ public static class BesselTest
             }
 
             Console.WriteLine("  "
-                              + nu.ToString().PadLeft(12) + "  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + fx.ToString().PadLeft(12) + "");
+                              + nu.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 

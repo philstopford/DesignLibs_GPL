@@ -3,7 +3,7 @@ using Burkardt.Values;
 
 namespace TestValuesTest;
 
-public class SphericalHarmonicTest
+public static class SphericalHarmonicTest
 {
     public static void spherical_harmonic_values_test()
         //****************************************************************************80
@@ -27,7 +27,6 @@ public class SphericalHarmonicTest
     {
         int l = 0;
         int m = 0;
-        int n_data;
         double phi = 0;
         double theta = 0;
         double yi = 0;
@@ -39,7 +38,7 @@ public class SphericalHarmonicTest
         Console.WriteLine("");
         Console.WriteLine("   L   M    THETA       PHI           Yr                    Yi");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             SphericalHarmonic.spherical_harmonic_values(ref n_data, ref l, ref m, ref theta, ref phi, ref yr,

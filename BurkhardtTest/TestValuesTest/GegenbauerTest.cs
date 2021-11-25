@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Values;
 
 namespace TestValuesTest;
@@ -28,7 +29,6 @@ public static class GegenbauerTest
         double a = 0;
         double fx = 0;
         int n = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("GEGENBAUER_POLY_VALUES_TEST:");
@@ -37,7 +37,7 @@ public static class GegenbauerTest
         Console.WriteLine("");
         Console.WriteLine("       N       A       X       G(N,A)(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Gegenbauer.gegenbauer_poly_values(ref n_data, ref n, ref a, ref x, ref fx);
@@ -48,8 +48,8 @@ public static class GegenbauerTest
 
             Console.WriteLine("  "
                               + n.ToString().PadLeft(6) + "  "
-                              + a.ToString().PadLeft(10) + "  "
-                              + x.ToString().PadLeft(10) + "  "
+                              + a.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }

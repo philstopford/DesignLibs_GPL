@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Values;
 
 namespace TestValuesTest;
@@ -26,7 +27,6 @@ public static class SineTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("SI_VALUES_TEST:");
@@ -35,7 +35,7 @@ public static class SineTest
         Console.WriteLine("");
         Console.WriteLine("      X            SI(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for ( ; ; )
         {
             Sine.si_values ( ref n_data, ref x, ref fx );
@@ -69,7 +69,6 @@ public static class SineTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("SIN_VALUES_TEST:");
@@ -77,7 +76,7 @@ public static class SineTest
         Console.WriteLine("");
         Console.WriteLine("                X                     FX");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Sine.sin_values(ref n_data, ref x, ref fx);
@@ -113,7 +112,6 @@ public static class SineTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("SIN_DEGREE_VALUES_TEST:");
@@ -121,7 +119,7 @@ public static class SineTest
         Console.WriteLine("");
         Console.WriteLine("                X                     FX");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Sine.sin_degree_values(ref n_data, ref x, ref fx);
@@ -160,7 +158,6 @@ public static class SineTest
         double b = 0;
         double fx = 0;
         int n = 0;
-        int n_data;
         Console.WriteLine("");
         Console.WriteLine("SIN_POWER_INT_VALUES_TEST:");
         Console.WriteLine("  SIN_POWER_INT_VALUES returns values of");
@@ -168,7 +165,7 @@ public static class SineTest
         Console.WriteLine("");
         Console.WriteLine("         A         B       N        FX");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Sine.sin_power_int_values(ref n_data, ref a, ref b, ref n, ref fx);
@@ -178,8 +175,8 @@ public static class SineTest
             }
 
             Console.WriteLine("  "
-                              + a.ToString().PadLeft(8) + a + "  "
-                              + b.ToString().PadLeft(8) + b + "  "
+                              + a.ToString(CultureInfo.InvariantCulture).PadLeft(8) + a + "  "
+                              + b.ToString(CultureInfo.InvariantCulture).PadLeft(8) + b + "  "
                               + n.ToString().PadLeft(6) + n + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
@@ -206,7 +203,6 @@ public static class SineTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("SINH_VALUES_TEST:");
@@ -214,7 +210,7 @@ public static class SineTest
         Console.WriteLine("");
         Console.WriteLine("                X                     FX");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Sine.sinh_values(ref n_data, ref x, ref fx);

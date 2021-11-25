@@ -26,7 +26,6 @@ public static class TangentTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("TAN_VALUES_TEST:");
@@ -34,7 +33,7 @@ public static class TangentTest
         Console.WriteLine("");
         Console.WriteLine("                X                     FX");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Tangent.tan_values(ref n_data, ref x, ref fx);
@@ -69,7 +68,6 @@ public static class TangentTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("TANH_VALUES_TEST:");
@@ -77,7 +75,7 @@ public static class TangentTest
         Console.WriteLine("");
         Console.WriteLine("                X                     FX");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for ( ; ; )
         {
             Tangent.tanh_values ( ref n_data, ref x, ref fx );

@@ -3,7 +3,7 @@ using Burkardt.Values;
 
 namespace TestValuesTest;
 
-public class PrimeTest
+public static class PrimeTest
 {
     public static void prime_values_test ( )
         //****************************************************************************80
@@ -26,7 +26,6 @@ public class PrimeTest
         //
     {
         int n = 0;
-        int n_data;
         int p = 0;
         Console.WriteLine("");
         Console.WriteLine("PRIME_VALUES_TEST:");
@@ -35,7 +34,7 @@ public class PrimeTest
         Console.WriteLine("");
         Console.WriteLine("           N          P[N]");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for ( ; ; )
         {
             Prime.prime_values ( ref n_data, ref n, ref p );

@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Values;
 
 namespace TestValuesTest;
 
-public class SurfTensionTest
+public static class SurfTensionTest
 {
     public static void surten_values_test ( )
         //****************************************************************************80
@@ -25,7 +26,6 @@ public class SurfTensionTest
         //    John Burkardt
         //
     {
-        int n_data;
         double sigma = 0;
         double tc = 0;
         Console.WriteLine("");
@@ -36,7 +36,7 @@ public class SurfTensionTest
         Console.WriteLine("");
         Console.WriteLine("      T            SIGMA(T)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for ( ; ; )
         {
             SurfTension.surten_values ( ref n_data, ref tc, ref sigma );
@@ -45,8 +45,8 @@ public class SurfTensionTest
                 break;
             }
             Console.WriteLine( "  "
-                               + tc.ToString().PadLeft(12) + tc    + "  "
-                               + sigma.ToString().PadLeft(12) + sigma + "");
+                               + tc.ToString(CultureInfo.InvariantCulture).PadLeft(12) + tc    + "  "
+                               + sigma.ToString(CultureInfo.InvariantCulture).PadLeft(12) + sigma + "");
         }
     }
 }

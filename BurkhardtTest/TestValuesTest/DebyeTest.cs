@@ -3,7 +3,7 @@ using Burkardt.Values;
 
 namespace TestValuesTest;
 
-public class DebyeTest
+public static class DebyeTest
 {
     public static void debye1_values_test()
         //****************************************************************************80
@@ -26,7 +26,6 @@ public class DebyeTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("DEBYE1_VALUES_TEST:");
@@ -35,7 +34,7 @@ public class DebyeTest
         Console.WriteLine("");
         Console.WriteLine("                X                     FX");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Debye.debye1_values(ref n_data, ref x, ref fx);
@@ -71,7 +70,6 @@ public class DebyeTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("DEBYE2_VALUES_TEST:");
@@ -80,7 +78,7 @@ public class DebyeTest
         Console.WriteLine("");
         Console.WriteLine("                X                     FX");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Debye.debye2_values(ref n_data, ref x, ref fx);
@@ -116,7 +114,6 @@ public class DebyeTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("DEBYE3_VALUES_TEST:");
@@ -125,7 +122,7 @@ public class DebyeTest
         Console.WriteLine("");
         Console.WriteLine("                X                     FX");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Debye.debye3_values(ref n_data, ref x, ref fx);
@@ -161,7 +158,6 @@ public class DebyeTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("DEBYE4_VALUES_TEST:");
@@ -170,7 +166,7 @@ public class DebyeTest
         Console.WriteLine("");
         Console.WriteLine("                X                     FX");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Debye.debye4_values(ref n_data, ref x, ref fx);

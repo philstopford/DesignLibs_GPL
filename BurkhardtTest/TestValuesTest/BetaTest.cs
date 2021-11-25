@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Values;
 
 namespace TestValuesTest;
 
-public class BetaTest
+public static class BetaTest
 {
     public static void beta_cdf_values_test()
         //****************************************************************************80
@@ -28,7 +29,6 @@ public class BetaTest
         double a = 0;
         double b = 0;
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("BETA_CDF_VALUES_TEST:");
@@ -37,7 +37,7 @@ public class BetaTest
         Console.WriteLine("");
         Console.WriteLine("      A            B            X            CDF(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Beta.beta_cdf_values(ref n_data, ref a, ref b, ref x, ref fx);
@@ -47,9 +47,9 @@ public class BetaTest
             }
 
             Console.WriteLine("  "
-                              + a.ToString().PadLeft(12) + "  "
-                              + b.ToString().PadLeft(12) + "  "
-                              + x.ToString().PadLeft(12) + "  "
+                              + a.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + b.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -77,7 +77,6 @@ public class BetaTest
         double a = 0;
         double b = 0;
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("BETA_INC_VALUES_TEST:");
@@ -86,7 +85,7 @@ public class BetaTest
         Console.WriteLine("");
         Console.WriteLine("      A            B            X            BETA_INC(A,B)(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Beta.beta_inc_values(ref n_data, ref a, ref b, ref x, ref fx);
@@ -96,9 +95,9 @@ public class BetaTest
             }
 
             Console.WriteLine("  "
-                              + a.ToString().PadLeft(12) + "  "
-                              + b.ToString().PadLeft(12) + "  "
-                              + x.ToString().PadLeft(12) + "  "
+                              + a.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + b.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -124,7 +123,6 @@ public class BetaTest
         //
     {
         double fxy = 0;
-        int n_data;
         double x = 0;
         double y = 0;
         Console.WriteLine("");
@@ -134,7 +132,7 @@ public class BetaTest
         Console.WriteLine("");
         Console.WriteLine("      X              Y         BETA_LOG(X,Y)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Beta.beta_log_values(ref n_data, ref x, ref y, ref fxy);
@@ -144,8 +142,8 @@ public class BetaTest
             }
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + y.ToString().PadLeft(12) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + y.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
                               + fxy.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -174,8 +172,6 @@ public class BetaTest
         double b = 0;
         double fx = 0;
         double lambda = 0;
-        ;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("BETA_NONCENTRAL_CDF_VALUES_TEST:");
@@ -184,7 +180,7 @@ public class BetaTest
         Console.WriteLine("");
         Console.WriteLine("      A            B       LAMBDA             X            CDF(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Beta.beta_noncentral_cdf_values(ref n_data, ref a, ref b, ref lambda, ref x, ref fx);
@@ -194,10 +190,10 @@ public class BetaTest
             }
 
             Console.WriteLine("  "
-                              + a.ToString().PadLeft(12) + "  "
-                              + b.ToString().PadLeft(12) + "  "
-                              + lambda.ToString().PadLeft(12) + "  "
-                              + x.ToString().PadLeft(12) + "  "
+                              + a.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + b.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + lambda.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -223,10 +219,8 @@ public class BetaTest
         //
     {
         double alpha = 0;
-        ;
         double beta = 0;
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("BETA_PDF_VALUES_TEST:");
@@ -235,7 +229,7 @@ public class BetaTest
         Console.WriteLine("");
         Console.WriteLine("      ALPHA        BETA         X            PDF(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Beta.beta_pdf_values(ref n_data, ref alpha, ref beta, ref x, ref fx);
@@ -245,9 +239,9 @@ public class BetaTest
             }
 
             Console.WriteLine("  "
-                              + alpha.ToString().PadLeft(12) + "  "
-                              + beta.ToString().PadLeft(12) + "  "
-                              + x.ToString().PadLeft(12) + "  "
+                              + alpha.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + beta.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -273,7 +267,6 @@ public class BetaTest
         //
     {
         double fxy = 0;
-        int n_data;
         double x = 0;
         double y = 0;
         Console.WriteLine("");
@@ -283,7 +276,7 @@ public class BetaTest
         Console.WriteLine("");
         Console.WriteLine("      X              Y         BETA(X,Y)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Beta.beta_values(ref n_data, ref x, ref y, ref fxy);
@@ -292,8 +285,8 @@ public class BetaTest
                 break;
             }
 
-            Console.WriteLine("  " + x.ToString().PadLeft(12)
-                                   + "  " + y.ToString().PadLeft(12)
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + y.ToString(CultureInfo.InvariantCulture).PadLeft(12)
                                    + "  " + fxy.ToString("0.################").PadLeft(24) + "");
         }
     }

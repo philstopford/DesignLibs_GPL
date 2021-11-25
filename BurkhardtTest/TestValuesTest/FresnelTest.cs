@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Values;
 
 namespace TestValuesTest;
@@ -26,7 +27,6 @@ public static class FresnelTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("FRESNEL_COS_VALUES_TEST:");
@@ -35,7 +35,7 @@ public static class FresnelTest
         Console.WriteLine("");
         Console.WriteLine("      X           C(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Fresnel.fresnel_cos_values(ref n_data, ref x, ref fx);
@@ -45,7 +45,7 @@ public static class FresnelTest
             }
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -71,7 +71,6 @@ public static class FresnelTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("FRESNEL_SIN_VALUES_TEST:");
@@ -80,7 +79,7 @@ public static class FresnelTest
         Console.WriteLine("");
         Console.WriteLine("      X           S(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Fresnel.fresnel_sin_values(ref n_data, ref x, ref fx);
@@ -90,7 +89,7 @@ public static class FresnelTest
             }
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }

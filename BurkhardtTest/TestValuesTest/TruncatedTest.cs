@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Values;
 
 namespace TestValuesTest;
@@ -29,7 +30,6 @@ public static class TruncatedTest
         double b = 0;
         double fx = 0;
         double mu = 0;
-        int n_data;
         double sigma = 0;
         double x = 0;
         Console.WriteLine("");
@@ -39,7 +39,7 @@ public static class TruncatedTest
         Console.WriteLine("");
         Console.WriteLine("        MU     SIGMA       A         B         X        CDF(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Truncated.truncated_normal_ab_cdf_values(ref n_data, ref mu, ref sigma, ref a, ref b, ref x, ref fx);
@@ -48,11 +48,11 @@ public static class TruncatedTest
                 break;
             }
 
-            Console.WriteLine("  " + mu.ToString().PadLeft(8)
-                                   + "  " + sigma.ToString().PadLeft(8) + sigma
-                                   + "  " + a.ToString().PadLeft(8)
-                                   + "  " + b.ToString().PadLeft(8)
-                                   + "  " + x.ToString().PadLeft(8)
+            Console.WriteLine("  " + mu.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + sigma.ToString(CultureInfo.InvariantCulture).PadLeft(8) + sigma
+                                   + "  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + b.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "  " + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -81,7 +81,6 @@ public static class TruncatedTest
         double b = 0;
         double fx = 0;
         double mu = 0;
-        int n_data;
         double sigma = 0;
         double x = 0;
         Console.WriteLine("");
@@ -91,7 +90,7 @@ public static class TruncatedTest
         Console.WriteLine("");
         Console.WriteLine("        MU     SIGMA       A         B         X        PDF(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Truncated.truncated_normal_ab_pdf_values(ref n_data, ref mu, ref sigma, ref a, ref b, ref x, ref fx);
@@ -100,11 +99,11 @@ public static class TruncatedTest
                 break;
             }
 
-            Console.WriteLine("  " + mu.ToString().PadLeft(8)
-                                   + "  " + sigma.ToString().PadLeft(8) + sigma
-                                   + "  " + a.ToString().PadLeft(8)
-                                   + "  " + b.ToString().PadLeft(8)
-                                   + "  " + x.ToString().PadLeft(8)
+            Console.WriteLine("  " + mu.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + sigma.ToString(CultureInfo.InvariantCulture).PadLeft(8) + sigma
+                                   + "  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + b.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "  " + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -132,7 +131,6 @@ public static class TruncatedTest
         double a = 0;
         double fx = 0;
         double mu = 0;
-        int n_data;
         double sigma = 0;
         double x = 0;
         Console.WriteLine("");
@@ -142,7 +140,7 @@ public static class TruncatedTest
         Console.WriteLine("");
         Console.WriteLine("        MU     SIGMA       A         X        CDF(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Truncated.truncated_normal_a_cdf_values(ref n_data, ref mu, ref sigma, ref a, ref x, ref fx);
@@ -151,10 +149,10 @@ public static class TruncatedTest
                 break;
             }
 
-            Console.WriteLine("  " + mu.ToString().PadLeft(8)
-                                   + "  " + sigma.ToString().PadLeft(8) + sigma
-                                   + "  " + a.ToString().PadLeft(8)
-                                   + "  " + x.ToString().PadLeft(8)
+            Console.WriteLine("  " + mu.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + sigma.ToString(CultureInfo.InvariantCulture).PadLeft(8) + sigma
+                                   + "  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "  " + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -182,7 +180,6 @@ public static class TruncatedTest
         double a = 0;
         double fx = 0;
         double mu = 0;
-        int n_data;
         double sigma = 0;
         double x = 0;
         Console.WriteLine("");
@@ -192,7 +189,7 @@ public static class TruncatedTest
         Console.WriteLine("");
         Console.WriteLine("        MU     SIGMA       A         X        PDF(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Truncated.truncated_normal_a_pdf_values(ref n_data, ref mu, ref sigma, ref a, ref x, ref fx);
@@ -201,10 +198,10 @@ public static class TruncatedTest
                 break;
             }
 
-            Console.WriteLine("  " + mu.ToString().PadLeft(8)
-                                   + "  " + sigma.ToString().PadLeft(8) + sigma
-                                   + "  " + a.ToString().PadLeft(8)
-                                   + "  " + x.ToString().PadLeft(8)
+            Console.WriteLine("  " + mu.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + sigma.ToString(CultureInfo.InvariantCulture).PadLeft(8) + sigma
+                                   + "  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "  " + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -232,7 +229,6 @@ public static class TruncatedTest
         double b = 0;
         double fx = 0;
         double mu = 0;
-        int n_data;
         double sigma = 0;
         double x = 0;
         Console.WriteLine("");
@@ -242,7 +238,7 @@ public static class TruncatedTest
         Console.WriteLine("");
         Console.WriteLine("        MU     SIGMA       B         X        CDF(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Truncated.truncated_normal_b_cdf_values(ref n_data, ref mu, ref sigma, ref b, ref x, ref fx);
@@ -251,10 +247,10 @@ public static class TruncatedTest
                 break;
             }
 
-            Console.WriteLine("  " + mu.ToString().PadLeft(8)
-                                   + "  " + sigma.ToString().PadLeft(8) + sigma
-                                   + "  " + b.ToString().PadLeft(8)
-                                   + "  " + x.ToString().PadLeft(8)
+            Console.WriteLine("  " + mu.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + sigma.ToString(CultureInfo.InvariantCulture).PadLeft(8) + sigma
+                                   + "  " + b.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "  " + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -282,7 +278,6 @@ public static class TruncatedTest
         double b = 0;
         double fx = 0;
         double mu = 0;
-        int n_data;
         double sigma = 0;
         double x = 0;
         Console.WriteLine("");
@@ -292,7 +287,7 @@ public static class TruncatedTest
         Console.WriteLine("");
         Console.WriteLine("        MU     SIGMA       B         X        PDF(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Truncated.truncated_normal_b_pdf_values(ref n_data, ref mu, ref sigma, ref b, ref x, ref fx);
@@ -301,10 +296,10 @@ public static class TruncatedTest
                 break;
             }
 
-            Console.WriteLine("  " + mu.ToString().PadLeft(8)
-                                   + "  " + sigma.ToString().PadLeft(8) + sigma
-                                   + "  " + b.ToString().PadLeft(8)
-                                   + "  " + x.ToString().PadLeft(8)
+            Console.WriteLine("  " + mu.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + sigma.ToString(CultureInfo.InvariantCulture).PadLeft(8) + sigma
+                                   + "  " + b.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "  " + fx.ToString("0.################").PadLeft(24) + "");
         }
     }

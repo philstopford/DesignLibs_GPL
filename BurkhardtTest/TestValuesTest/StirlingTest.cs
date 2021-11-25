@@ -3,7 +3,7 @@ using Burkardt.Values;
 
 namespace TestValuesTest;
 
-public class StirlingTest
+public static class StirlingTest
 {
     public static void stirling1_values_test()
         //****************************************************************************80
@@ -27,7 +27,6 @@ public class StirlingTest
     {
         int m = 0;
         int n = 0;
-        int n_data;
         int s1 = 0;
         Console.WriteLine("");
         Console.WriteLine("STIRLING1_VALUES_TEST:");
@@ -36,7 +35,7 @@ public class StirlingTest
         Console.WriteLine("");
         Console.WriteLine("     N     N        S1");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Stirling.stirling1_values(ref n_data, ref n, ref m, ref s1);
@@ -74,7 +73,6 @@ public class StirlingTest
     {
         int m = 0;
         int n = 0;
-        int n_data;
         int s2 = 0;
         Console.WriteLine("");
         Console.WriteLine("STIRLING2_VALUES_TEST:");
@@ -83,7 +81,7 @@ public class StirlingTest
         Console.WriteLine("");
         Console.WriteLine("     N     N        S2");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Stirling.stirling1_values(ref n_data, ref n, ref m, ref s2);

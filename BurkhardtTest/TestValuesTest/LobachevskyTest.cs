@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Values;
 
 namespace TestValuesTest;
@@ -26,7 +27,6 @@ public static class LobachevskyTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("LOBACHEVSKY_VALUES_TEST:");
@@ -35,7 +35,7 @@ public static class LobachevskyTest
         Console.WriteLine("");
         Console.WriteLine("                X                     FX");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Lobachevsky.lobachevsky_values(ref n_data, ref x, ref fx);
@@ -45,7 +45,7 @@ public static class LobachevskyTest
             }
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }

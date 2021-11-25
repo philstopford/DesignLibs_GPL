@@ -4,7 +4,7 @@ using Burkardt.Values;
 
 namespace TestValuesTest;
 
-public class WrightOmegaTest
+public static class WrightOmegaTest
 {
     public static void wright_omega_values_test()
         //****************************************************************************80
@@ -27,7 +27,6 @@ public class WrightOmegaTest
         //
     {
         Complex fz = new();
-        int n_data;
         Complex z = new();
         Console.WriteLine("");
         Console.WriteLine("WRIGHT_OMEGA_VALUES_TEST:");
@@ -36,7 +35,7 @@ public class WrightOmegaTest
         Console.WriteLine("");
         Console.WriteLine("                Z                     FZ");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             WrightOmega.wright_omega_values(ref n_data, ref z, ref fz);

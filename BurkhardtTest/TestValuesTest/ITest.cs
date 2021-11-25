@@ -3,7 +3,7 @@ using Burkardt.Values;
 
 namespace TestValuesTest;
 
-public class ITest
+public static class ITest
 {
 
     public static void i0ml0_values_test()
@@ -27,7 +27,6 @@ public class ITest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("I0ML0_VALUES_TEST:");
@@ -36,7 +35,7 @@ public class ITest
         Console.WriteLine("");
         Console.WriteLine("                X                     FX");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             I.i0ml0_values(ref n_data, ref x, ref fx);
@@ -72,7 +71,6 @@ public class ITest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("I1ML1_VALUES_TEST:");
@@ -81,7 +79,7 @@ public class ITest
         Console.WriteLine("");
         Console.WriteLine("                X                     FX");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             I.i1ml1_values(ref n_data, ref x, ref fx);

@@ -26,7 +26,6 @@ public static class BerTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("BER0_VALUES_TEST:");
@@ -35,7 +34,7 @@ public static class BerTest
         Console.WriteLine("");
         Console.WriteLine("                X                     FX");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for ( ; ; )
         {
             ber.ber0_values ( ref n_data, ref x, ref fx );
@@ -68,7 +67,6 @@ public static class BerTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("BER1_VALUES_TEST:");
@@ -77,7 +75,7 @@ public static class BerTest
         Console.WriteLine("");
         Console.WriteLine("                X                     FX");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for ( ; ; )
         {
             ber.ber1_values ( ref n_data, ref x, ref fx );

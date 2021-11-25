@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Values;
 
 namespace TestValuesTest;
@@ -28,7 +29,6 @@ public static class DateTest
         int d = 0;
         double date_num = 0;
         int m = 0;
-        int n_data;
         int y = 0;
         Console.WriteLine("");
         Console.WriteLine("DATENUM_VALUES_TEST:");
@@ -37,7 +37,7 @@ public static class DateTest
         Console.WriteLine("");
         Console.WriteLine("     Y     M     D  DATENUM");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Date.datenum_values(ref n_data, ref y, ref m, ref d, ref date_num);
@@ -46,10 +46,10 @@ public static class DateTest
                 break;
             }
 
-            Console.WriteLine("  " + y.ToString().PadLeft(4)
-                                   + "  " + m.ToString().PadLeft(4)
-                                   + "  " + d.ToString().PadLeft(4)
-                                   + "  " + date_num.ToString().PadLeft(11) + "");
+            Console.WriteLine("  " + y.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + d.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + date_num.ToString(CultureInfo.InvariantCulture).PadLeft(11) + "");
         }
     }
 
@@ -75,7 +75,6 @@ public static class DateTest
     {
         int d = 0;
         int m = 0;
-        int n_data;
         int y = 0;
         Console.WriteLine("");
         Console.WriteLine("EASTER_GREGORIAN_VALUES_TEST:");
@@ -84,7 +83,7 @@ public static class DateTest
         Console.WriteLine("");
         Console.WriteLine("   D   M      Y");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Date.easter_gregorian_values(ref n_data, ref d, ref m, ref y);
@@ -93,9 +92,9 @@ public static class DateTest
                 break;
             }
 
-            Console.WriteLine("  " + d.ToString().PadLeft(2)
-                                   + "  " + m.ToString().PadLeft(2)
-                                   + "  " + y.ToString().PadLeft(4) + "");
+            Console.WriteLine("  " + d.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + y.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "");
         }
     }
 
@@ -121,7 +120,6 @@ public static class DateTest
     {
         int d = 0;
         int m = 0;
-        int n_data;
         int y = 0;
         Console.WriteLine("");
         Console.WriteLine("EASTER_JULIAN_VALUES_TEST:");
@@ -130,7 +128,7 @@ public static class DateTest
         Console.WriteLine("");
         Console.WriteLine("   D   M      Y");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Date.easter_julian_values(ref n_data, ref d, ref m, ref y);
@@ -139,9 +137,9 @@ public static class DateTest
                 break;
             }
 
-            Console.WriteLine("  " + d.ToString().PadLeft(2)
-                                   + "  " + m.ToString().PadLeft(2)
-                                   + "  " + y.ToString().PadLeft(4) + "");
+            Console.WriteLine("  " + d.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + y.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "");
         }
     }
 
@@ -168,7 +166,6 @@ public static class DateTest
         int d = 0;
         double f = 0;
         double jed = 0;
-        int n_data;
         int m = 0;
         int y = 0;
         Console.WriteLine("");
@@ -179,7 +176,7 @@ public static class DateTest
         Console.WriteLine("");
         Console.WriteLine("        JED          Y   M   D    F");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Date.jed_ce_values(ref n_data, ref jed, ref y, ref m, ref d, ref f);
@@ -188,11 +185,11 @@ public static class DateTest
                 break;
             }
 
-            Console.WriteLine("  " + jed.ToString().PadLeft(12)
-                                   + "  " + y.ToString().PadLeft(6)
-                                   + "  " + m.ToString().PadLeft(2)
-                                   + "  " + d.ToString().PadLeft(2)
-                                   + "  " + f.ToString().PadLeft(6) + "");
+            Console.WriteLine("  " + jed.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + y.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + d.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + f.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
         }
     }
 
@@ -217,7 +214,6 @@ public static class DateTest
         //
     {
         double jed = 0;
-        int n_data;
         double mjd = 0;
         Console.WriteLine("");
         Console.WriteLine("JED_MJD_VALUES_TEST:");
@@ -227,7 +223,7 @@ public static class DateTest
         Console.WriteLine("");
         Console.WriteLine("   JED      MJD");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Date.jed_mjd_values(ref n_data, ref jed, ref mjd);
@@ -237,8 +233,8 @@ public static class DateTest
             }
 
             Console.WriteLine("  "
-                              + jed.ToString().PadLeft(12) + "  "
-                              + mjd.ToString().PadLeft(12) + "");
+                              + jed.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + mjd.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -263,7 +259,6 @@ public static class DateTest
         //
     {
         double jed = 0;
-        int n_data;
         double rd = 0;
         Console.WriteLine("");
         Console.WriteLine("JED_RD_VALUES_TEST:");
@@ -273,7 +268,7 @@ public static class DateTest
         Console.WriteLine("");
         Console.WriteLine("   JED      RD");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Date.jed_rd_values(ref n_data, ref jed, ref rd);
@@ -283,8 +278,8 @@ public static class DateTest
             }
 
             Console.WriteLine("  "
-                              + jed.ToString().PadLeft(12) + "  "
-                              + rd.ToString().PadLeft(12) + "");
+                              + jed.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + rd.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -309,7 +304,6 @@ public static class DateTest
         //
     {
         double jed = 0;
-        int n_data;
         int weekday = 0;
         string[] weekday_name =
             {
@@ -324,7 +318,7 @@ public static class DateTest
         Console.WriteLine("");
         Console.WriteLine("   JED      #  Weekday");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Date.jed_weekday_values(ref n_data, ref jed, ref weekday);
@@ -334,8 +328,8 @@ public static class DateTest
             }
 
             Console.WriteLine("  "
-                              + jed.ToString().PadLeft(12) + "  "
-                              + weekday.ToString().PadLeft(1) + "  "
+                              + jed.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + weekday.ToString(CultureInfo.InvariantCulture).PadLeft(1) + "  "
                               + weekday_name[weekday - 1] + "");
         }
     }
@@ -362,7 +356,6 @@ public static class DateTest
     {
         int d = 0;
         int m = 0;
-        int n_data;
         int w = 0; int y = 0;
         Console.WriteLine("");
         Console.WriteLine("WEEKDAY_VALUES_TEST:");
@@ -371,7 +364,7 @@ public static class DateTest
         Console.WriteLine("");
         Console.WriteLine("     Y     M     D     W");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Date.weekday_values(ref n_data, ref y, ref m, ref d, ref w);
@@ -380,10 +373,10 @@ public static class DateTest
                 break;
             }
 
-            Console.WriteLine("  " + y.ToString().PadLeft(4)
-                                   + "  " + m.ToString().PadLeft(4)
-                                   + "  " + d.ToString().PadLeft(4)
-                                   + "  " + w.ToString().PadLeft(4) + "");
+            Console.WriteLine("  " + y.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + d.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + w.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "");
         }
     }
 }

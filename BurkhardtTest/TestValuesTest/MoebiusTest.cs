@@ -3,7 +3,7 @@ using Burkardt.Values;
 
 namespace TestValuesTest;
 
-public class MoebiusTest
+public static class MoebiusTest
 {
 
     public static void moebius_values_test()
@@ -28,7 +28,6 @@ public class MoebiusTest
     {
         int fn = 0;
         int n = 0;
-        int n_data;
         Console.WriteLine("");
         Console.WriteLine("MOEBIUS_VALUES_TEST:");
         Console.WriteLine("  MOEBIUS_VALUES returns values of");
@@ -36,7 +35,7 @@ public class MoebiusTest
         Console.WriteLine("");
         Console.WriteLine("     N         MU(N)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Moebius.moebius_values(ref n_data, ref n, ref fn);

@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Values;
 
 namespace TestValuesTest;
 
-public class SecVirTest
+public static class SecVirTest
 {
     public static void secvir_values_test()
         //****************************************************************************80
@@ -25,7 +26,6 @@ public class SecVirTest
         //    John Burkardt
         //
     {
-        int n_data;
         double tc = 0;
         double vir = 0;
         Console.WriteLine("");
@@ -36,7 +36,7 @@ public class SecVirTest
         Console.WriteLine("");
         Console.WriteLine("      T            VIR(T)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             SecVir.secvir_values(ref n_data, ref tc, ref vir);
@@ -46,8 +46,8 @@ public class SecVirTest
             }
 
             Console.WriteLine("  "
-                              + tc.ToString().PadLeft(12) + "  "
-                              + vir.ToString().PadLeft(12) + "");
+                              + tc.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + vir.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 }

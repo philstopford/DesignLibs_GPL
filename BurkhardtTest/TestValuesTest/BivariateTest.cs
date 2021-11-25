@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Values;
 
 namespace TestValuesTest;
@@ -26,7 +27,6 @@ public static class BivariateTest
         //
     {
         double fxy = 0;
-        int n_data;
         double r = 0;
         double x = 0;
         double y = 0;
@@ -37,7 +37,7 @@ public static class BivariateTest
         Console.WriteLine("");
         Console.WriteLine("      X            Y            R            F(R)(X,Y)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Bivariate.bivariate_normal_cdf_values(ref n_data, ref x, ref y, ref r, ref fxy);
@@ -47,9 +47,9 @@ public static class BivariateTest
             }
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + y.ToString().PadLeft(12) + "  "
-                              + r.ToString().PadLeft(12) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + y.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + r.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
                               + fxy.ToString("0.################").PadLeft(24) + fxy + "");
         }
     }

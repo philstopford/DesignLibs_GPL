@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Values;
 
 namespace TestValuesTest;
@@ -44,8 +45,8 @@ public static class IntgrTest
             }
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + fx.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 }

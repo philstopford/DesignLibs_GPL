@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Values;
 
 namespace TestValuesTest;
@@ -26,7 +27,6 @@ public static class ErrorFuncTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("ERF_VALUES_TEST:");
@@ -35,7 +35,7 @@ public static class ErrorFuncTest
         Console.WriteLine("");
         Console.WriteLine("      X          ERF(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for ( ; ; )
         {
             ErrorFunc.erf_values ( ref n_data, ref x, ref fx );
@@ -44,8 +44,8 @@ public static class ErrorFuncTest
                 break;
             }
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + fx.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
     public static void erfc_values_test ( )
@@ -69,7 +69,6 @@ public static class ErrorFuncTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("ERFC_VALUES_TEST:");
@@ -78,7 +77,7 @@ public static class ErrorFuncTest
         Console.WriteLine("");
         Console.WriteLine("      X          ERFC(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for ( ; ; )
         {
             ErrorFunc.erfc_values ( ref n_data, ref x, ref fx );
@@ -87,8 +86,8 @@ public static class ErrorFuncTest
                 break;
             }
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + fx.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 

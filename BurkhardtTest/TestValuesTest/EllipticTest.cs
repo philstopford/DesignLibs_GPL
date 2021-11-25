@@ -26,7 +26,6 @@ public static class EllipticTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("ELLIPTIC_EA_VALUES_TEST:");
@@ -36,7 +35,7 @@ public static class EllipticTest
         Console.WriteLine("");
         Console.WriteLine("    A            E(A)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Elliptic.elliptic_ea_values(ref n_data, ref x, ref fx);
@@ -71,7 +70,6 @@ public static class EllipticTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("ELLIPTIC_EK_VALUES_TEST:");
@@ -81,7 +79,7 @@ public static class EllipticTest
         Console.WriteLine("");
         Console.WriteLine("      K            E(K)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Elliptic.elliptic_ek_values(ref n_data, ref x, ref fx);
@@ -116,7 +114,6 @@ public static class EllipticTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("ELLIPTIC_EM_VALUES_TEST:");
@@ -126,7 +123,7 @@ public static class EllipticTest
         Console.WriteLine("");
         Console.WriteLine("      M            E(M)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Elliptic.elliptic_em_values(ref n_data, ref x, ref fx);
@@ -161,7 +158,6 @@ public static class EllipticTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("ELLIPTIC_FA_VALUES_TEST:");
@@ -171,7 +167,7 @@ public static class EllipticTest
         Console.WriteLine("");
         Console.WriteLine("    A            F(A)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Elliptic.elliptic_fa_values(ref n_data, ref x, ref fx);
@@ -206,7 +202,6 @@ public static class EllipticTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("ELLIPTIC_FK_VALUES_TEST:");
@@ -216,7 +211,7 @@ public static class EllipticTest
         Console.WriteLine("");
         Console.WriteLine("    K            F(K)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Elliptic.elliptic_fk_values(ref n_data, ref x, ref fx);
@@ -251,7 +246,6 @@ public static class EllipticTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("ELLIPTIC_FM_VALUES_TEST:");
@@ -261,7 +255,7 @@ public static class EllipticTest
         Console.WriteLine("");
         Console.WriteLine("      M            F(M)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Elliptic.elliptic_fm_values(ref n_data, ref x, ref fx);
@@ -297,7 +291,6 @@ public static class EllipticTest
     {
         double a = 0;
         double ea = 0;
-        int n_data;
         double phi = 0;
 
         Console.WriteLine("");
@@ -308,7 +301,7 @@ public static class EllipticTest
         Console.WriteLine("");
         Console.WriteLine("    PHI        A            E(PHI,A)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         while (true)
         {
             Elliptic.elliptic_inc_ea_values(ref n_data, ref phi, ref a, ref ea);
@@ -345,7 +338,6 @@ public static class EllipticTest
     {
         double ek = 0;
         double k = 0;
-        int n_data;
         double phi = 0;
 
         Console.WriteLine("");
@@ -356,7 +348,7 @@ public static class EllipticTest
         Console.WriteLine("");
         Console.WriteLine("    PHI        K            E(PHI,K)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         while (true)
         {
             Elliptic.elliptic_inc_ek_values(ref n_data, ref phi, ref k, ref ek);
@@ -393,7 +385,6 @@ public static class EllipticTest
     {
         double em = 0;
         double m = 0;
-        int n_data;
         double phi = 0;
 
         Console.WriteLine("");
@@ -404,7 +395,7 @@ public static class EllipticTest
         Console.WriteLine("");
         Console.WriteLine("    PHI        M            E(PHI,M)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         while (true)
         {
             Elliptic.elliptic_inc_em_values(ref n_data, ref phi, ref m, ref em);
@@ -440,7 +431,6 @@ public static class EllipticTest
     {
         double a = 0;
         double fa = 0;
-        int n_data;
         double phi = 0;
 
         Console.WriteLine("");
@@ -451,7 +441,7 @@ public static class EllipticTest
         Console.WriteLine("");
         Console.WriteLine("    PHI        A            F(PHI,A)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         while (true)
         {
             Elliptic.elliptic_inc_fa_values(ref n_data, ref phi, ref a, ref fa);
@@ -488,7 +478,6 @@ public static class EllipticTest
     {
         double fk = 0;
         double k = 0;
-        int n_data;
         double phi = 0;
 
         Console.WriteLine("");
@@ -499,7 +488,7 @@ public static class EllipticTest
         Console.WriteLine("");
         Console.WriteLine("    PHI        K            F(PHI,K)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         while (true)
         {
             Elliptic.elliptic_inc_fk_values(ref n_data, ref phi, ref k, ref fk);
@@ -536,7 +525,6 @@ public static class EllipticTest
     {
         double fm = 0;
         double m = 0;
-        int n_data;
         double phi = 0;
 
         Console.WriteLine("");
@@ -547,7 +535,7 @@ public static class EllipticTest
         Console.WriteLine("");
         Console.WriteLine("    PHI        M            F(PHI,M)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         while (true)
         {
             Elliptic.elliptic_inc_fm_values(ref n_data, ref phi, ref m, ref fm);
@@ -584,7 +572,6 @@ public static class EllipticTest
     {
         double a = 0;
         double n = 0;
-        int n_data;
         double phi = 0;
         double pia = 0;
 
@@ -596,7 +583,7 @@ public static class EllipticTest
         Console.WriteLine("");
         Console.WriteLine("    PHI           N             A            Pi(PHI,N,A)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         while (true)
         {
             Elliptic.elliptic_inc_pia_values(ref n_data, ref phi, ref n, ref a, ref pia);
@@ -633,7 +620,6 @@ public static class EllipticTest
     {
         double k = 0;
         double n = 0;
-        int n_data;
         double phi = 0;
         double pik = 0;
 
@@ -645,7 +631,7 @@ public static class EllipticTest
         Console.WriteLine("");
         Console.WriteLine("    PHI           N             K            Pi(PHI,N,K)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         while (true)
         {
             Elliptic.elliptic_inc_pik_values(ref n_data, ref phi, ref n, ref k, ref pik);
@@ -682,7 +668,6 @@ public static class EllipticTest
     {
         double m = 0;
         double n = 0;
-        int n_data;
         double phi = 0;
         double pim = 0;
 
@@ -694,7 +679,7 @@ public static class EllipticTest
         Console.WriteLine("");
         Console.WriteLine("    PHI           N             M            Pi(PHI,N,M)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         while (true)
         {
             Elliptic.elliptic_inc_pim_values(ref n_data, ref phi, ref n, ref m, ref pim);
@@ -732,7 +717,6 @@ public static class EllipticTest
     {
         double a = 0;
         double n = 0;
-        int n_data;
         double pia = 0;
         Console.WriteLine("");
         Console.WriteLine("ELLIPTIC_PIA_VALUES_TEST:");
@@ -742,7 +726,7 @@ public static class EllipticTest
         Console.WriteLine("");
         Console.WriteLine("    N             A            Pi(N,A)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Elliptic.elliptic_pia_values(ref n_data, ref n, ref a, ref pia);
@@ -779,7 +763,6 @@ public static class EllipticTest
     {
         double k = 0;
         double n = 0;
-        int n_data;
         double pik = 0;
         Console.WriteLine("");
         Console.WriteLine("ELLIPTIC_PIK_VALUES_TEST:");
@@ -789,7 +772,7 @@ public static class EllipticTest
         Console.WriteLine("");
         Console.WriteLine("    N             K            Pi(N,K)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Elliptic.elliptic_pik_values(ref n_data, ref n, ref k, ref pik);
@@ -826,7 +809,6 @@ public static class EllipticTest
     {
         double m = 0;
         double n = 0;
-        int n_data;
         double pim = 0;
         Console.WriteLine("");
         Console.WriteLine("ELLIPTIC_PIM_VALUES_TEST:");
@@ -836,7 +818,7 @@ public static class EllipticTest
         Console.WriteLine("");
         Console.WriteLine("    N             M            Pi(N,M)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Elliptic.elliptic_pim_values(ref n_data, ref n, ref m, ref pim);

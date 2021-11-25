@@ -27,7 +27,6 @@ public static class DedekindTest
     {
         int d = 0;
         int n = 0;
-        int n_data;
         int p = 0;
         int q = 0;
         Console.WriteLine("");
@@ -37,7 +36,7 @@ public static class DedekindTest
         Console.WriteLine("");
         Console.WriteLine("       P       Q       N       D");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for ( ; ; )
         {
             Dedekind.dedekind_sum_values ( ref n_data, ref p, ref q, ref n, ref d );

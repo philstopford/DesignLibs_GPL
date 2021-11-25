@@ -3,7 +3,7 @@ using Burkardt.Values;
 
 namespace TestValuesTest;
 
-public class CatalanTest
+public static class CatalanTest
 {
     public static void catalan_values_test ( )
         //****************************************************************************80
@@ -27,7 +27,6 @@ public class CatalanTest
     {
         int c = 0;
         int n = 0;
-        int n_data;
         Console.WriteLine("");
         Console.WriteLine("CATALAN_VALUES_TEST:");
         Console.WriteLine("  CATALAN_VALUES returns values of ");
@@ -35,7 +34,7 @@ public class CatalanTest
         Console.WriteLine("");
         Console.WriteLine("     N        C(N)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for ( ; ; )
         {
             Catalan.catalan_values ( ref n_data, ref n, ref c );

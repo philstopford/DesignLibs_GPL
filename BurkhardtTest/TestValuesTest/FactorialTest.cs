@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Values;
 
 namespace TestValuesTest;
@@ -28,7 +29,6 @@ public static class FactorialTest
     {
         int fn = 0;
         int n = 0;
-        int n_data;
         Console.WriteLine("");
         Console.WriteLine("I4_FACTORIAL_TEST:");
         Console.WriteLine("   I4_FACTORIAL_VALUES returns values of");
@@ -36,7 +36,7 @@ public static class FactorialTest
         Console.WriteLine("");
         Console.WriteLine("      N        Factorial(N)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Factorial.i4_factorial_values(ref n_data, ref n, ref fn);
@@ -46,8 +46,8 @@ public static class FactorialTest
             }
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(6) + "  "
-                              + fn.ToString().PadLeft(12) + "");
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + fn.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -73,7 +73,6 @@ public static class FactorialTest
     {
         int fn = 0;
         int n = 0;
-        int n_data;
         Console.WriteLine("");
         Console.WriteLine("I4_FACTORIAL2_TEST:");
         Console.WriteLine("   I4_FACTORIAL2_VALUES return;s values of");
@@ -81,7 +80,7 @@ public static class FactorialTest
         Console.WriteLine("");
         Console.WriteLine("      N         DoubleFactorial(N)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Factorial.i4_factorial2_values(ref n_data, ref n, ref fn);
@@ -91,8 +90,8 @@ public static class FactorialTest
             }
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(6) + "  "
-                              + fn.ToString().PadLeft(12) + "");
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + fn.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -119,7 +118,6 @@ public static class FactorialTest
         int fmn = 0;
         int m = 0;
         int n = 0;
-        int n_data;
         Console.WriteLine("");
         Console.WriteLine("I4_FALL_VALUES_TEST:");
         Console.WriteLine("  I4_FALL_VALUES returns some exact values");
@@ -127,7 +125,7 @@ public static class FactorialTest
         Console.WriteLine("");
         Console.WriteLine("     M     N      I4_FALL(M,N)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Factorial.i4_fall_values(ref n_data, ref m, ref n, ref fmn);
@@ -137,9 +135,9 @@ public static class FactorialTest
             }
 
             Console.WriteLine("  "
-                              + m.ToString().PadLeft(6) + "  "
-                              + n.ToString().PadLeft(6) + "  "
-                              + fmn.ToString().PadLeft(12) + "");
+                              + m.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + fmn.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -166,7 +164,6 @@ public static class FactorialTest
         int fmn = 0;
         int m = 0;
         int n = 0;
-        int n_data;
         Console.WriteLine("");
         Console.WriteLine("I4_RISE_VALUES_TEST:");
         Console.WriteLine("  I4_RISE_VALUES returns some exact values");
@@ -174,7 +171,7 @@ public static class FactorialTest
         Console.WriteLine("");
         Console.WriteLine("     M     N      I4_RISE(M,N)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Factorial.i4_rise_values(ref n_data, ref m, ref n, ref fmn);
@@ -184,9 +181,9 @@ public static class FactorialTest
             }
 
             Console.WriteLine("  "
-                              + m.ToString().PadLeft(6) + "  "
-                              + n.ToString().PadLeft(6) + "  "
-                              + fmn.ToString().PadLeft(12) + "");
+                              + m.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + fmn.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -212,7 +209,6 @@ public static class FactorialTest
     {
         double fn = 0;
         int n = 0;
-        int n_data;
         Console.WriteLine("");
         Console.WriteLine("R8_FACTORIAL_VALUES_TEST:");
         Console.WriteLine("  R8_FACTORIAL_VALUES stores values of");
@@ -220,7 +216,7 @@ public static class FactorialTest
         Console.WriteLine("");
         Console.WriteLine("      N       Factorial(N)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Factorial.r8_factorial_values(ref n_data, ref n, ref fn);
@@ -230,7 +226,7 @@ public static class FactorialTest
             }
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(6) + "  "
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
                               + fn.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -257,7 +253,6 @@ public static class FactorialTest
     {
         double fn = 0;
         int n = 0;
-        int n_data;
         Console.WriteLine("");
         Console.WriteLine("R8_FACTORIAL_LOG_VALUES_TEST:");
         Console.WriteLine("  R8_FACTORIAL_LOG_VALUES stores values of");
@@ -266,7 +261,7 @@ public static class FactorialTest
         Console.WriteLine("");
         Console.WriteLine("      N       Log(Factorial(N))");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Factorial.r8_factorial_log_values(ref n_data, ref n, ref fn);
@@ -276,7 +271,7 @@ public static class FactorialTest
             }
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(6) + "  "
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
                               + fn.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -303,7 +298,6 @@ public static class FactorialTest
     {
         double f = 0;
         int n = 0;
-        int n_data;
         Console.WriteLine("");
         Console.WriteLine("R8_FACTORIAL2_VALUES_TEST:");
         Console.WriteLine("  R8_FACTORIAL2_VALUES stores values of");
@@ -311,7 +305,7 @@ public static class FactorialTest
         Console.WriteLine("");
         Console.WriteLine("      N       F");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Factorial.r8_factorial2_values(ref n_data, ref n, ref f);
@@ -321,7 +315,7 @@ public static class FactorialTest
             }
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(6) + "  "
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
                               + f.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -348,7 +342,6 @@ public static class FactorialTest
     {
         double f = 0;
         int n = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("R8_FALL_VALUES_TEST:");
@@ -357,7 +350,7 @@ public static class FactorialTest
         Console.WriteLine("");
         Console.WriteLine("     X     N      R8_FALL(X,N)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Factorial.r8_fall_values(ref n_data, ref x, ref n, ref f);
@@ -367,9 +360,9 @@ public static class FactorialTest
             }
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(8) + "  "
-                              + n.ToString().PadLeft(8) + "  "
-                              + f.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + f.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -395,7 +388,6 @@ public static class FactorialTest
     {
         double f = 0;
         int n = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("R8_RISE_VALUES_TEST:");
@@ -404,7 +396,7 @@ public static class FactorialTest
         Console.WriteLine("");
         Console.WriteLine("     X     N      R8_RISE(X,N)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Factorial.r8_rise_values(ref n_data, ref x, ref n, ref f);
@@ -414,9 +406,9 @@ public static class FactorialTest
             }
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(8) + "  "
-                              + n.ToString().PadLeft(8) + "  "
-                              + f.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + f.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -442,7 +434,6 @@ public static class FactorialTest
     {
         int fn = 0;
         int n = 0;
-        int n_data;
         Console.WriteLine("");
         Console.WriteLine("SUBFACTORIAL_VALUES_TEST:");
         Console.WriteLine("  SUBFACTORIAL_VALUES returns values of");
@@ -450,7 +441,7 @@ public static class FactorialTest
         Console.WriteLine("");
         Console.WriteLine("      N       Subfactorial[N]");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Factorial.subfactorial_values(ref n_data, ref n, ref fn);
@@ -460,8 +451,8 @@ public static class FactorialTest
             }
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(6) + "  "
-                              + fn.ToString().PadLeft(12) + "");
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + fn.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 

@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Values;
 
 namespace TestValuesTest;
 
-public class PsiTest
+public static class PsiTest
 {
     public static void psi_values_test()
         //****************************************************************************80
@@ -26,7 +27,6 @@ public class PsiTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("PSI_VALUES_TEST");
@@ -35,7 +35,7 @@ public class PsiTest
         Console.WriteLine("");
         Console.WriteLine("      X            PSI(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Psi.psi_values(ref n_data, ref x, ref fx);
@@ -45,7 +45,7 @@ public class PsiTest
             }
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }

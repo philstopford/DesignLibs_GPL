@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Values;
 
 namespace TestValuesTest;
 
-public class StruveTest
+public static class StruveTest
 {
     public static void struve_h0_values_test()
         //****************************************************************************80
@@ -26,7 +27,6 @@ public class StruveTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("STRUVE_H0_VALUES_TEST:");
@@ -35,7 +35,7 @@ public class StruveTest
         Console.WriteLine("");
         Console.WriteLine("      X            H0(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Struve.struve_h0_values(ref n_data, ref x, ref fx);
@@ -45,7 +45,7 @@ public class StruveTest
             }
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -71,7 +71,6 @@ public class StruveTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("STRUVE_H1_VALUES_TEST:");
@@ -80,7 +79,7 @@ public class StruveTest
         Console.WriteLine("");
         Console.WriteLine("      X            H1(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Struve.struve_h1_values(ref n_data, ref x, ref fx);
@@ -90,7 +89,7 @@ public class StruveTest
             }
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -116,7 +115,6 @@ public class StruveTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("STRUVE_L0_VALUES_TEST:");
@@ -125,7 +123,7 @@ public class StruveTest
         Console.WriteLine("");
         Console.WriteLine("      X            L0(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Struve.struve_l0_values(ref n_data, ref x, ref fx);
@@ -135,7 +133,7 @@ public class StruveTest
             }
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -161,7 +159,6 @@ public class StruveTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("STRUVE_L1_VALUES_TEST:");
@@ -170,7 +167,7 @@ public class StruveTest
         Console.WriteLine("");
         Console.WriteLine("      X            L1(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Struve.struve_l1_values(ref n_data, ref x, ref fx);
@@ -180,7 +177,7 @@ public class StruveTest
             }
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
                               + fx.ToString("0.################").PadLeft(24) + "");
         }
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Values;
 
 namespace TestValuesTest;
@@ -26,7 +27,6 @@ public static class CubeRootTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("CBRT_VALUES_TEST:");
@@ -34,7 +34,7 @@ public static class CubeRootTest
         Console.WriteLine("");
         Console.WriteLine("      X            CBRT(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for ( ; ; )
         {
             CubeRoot.cbrt_values ( ref n_data, ref x, ref fx );
@@ -43,8 +43,8 @@ public static class CubeRootTest
                 break;
             }
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + fx.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 }

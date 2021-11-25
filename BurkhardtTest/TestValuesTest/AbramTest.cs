@@ -3,7 +3,7 @@ using Burkardt.Values;
 
 namespace TestValuesTest;
 
-public class AbramsTest
+public static class AbramsTest
 {
   public static void abram0_values_test()
     //****************************************************************************80
@@ -26,7 +26,6 @@ public class AbramsTest
     //
   {
     double fx = 0;
-    int n_data;
     double x = 0;
     Console.WriteLine("");
     Console.WriteLine("ABRAM0_VALUES_TEST:");
@@ -35,7 +34,7 @@ public class AbramsTest
     Console.WriteLine("");
     Console.WriteLine("                X                   ABRAM0(X)");
     Console.WriteLine("");
-    n_data = 0;
+    int n_data = 0;
     for (;;)
     {
       Abrams.abram0_values(ref n_data, ref x, ref fx);
@@ -71,7 +70,6 @@ public class AbramsTest
     //
   {
     double fx = 0;
-    int n_data;
     double x = 0;
     Console.WriteLine("");
     Console.WriteLine("ABRAM1_VALUES_TEST:");
@@ -80,7 +78,7 @@ public class AbramsTest
     Console.WriteLine("");
     Console.WriteLine("                X                   ABRAM1(X)");
     Console.WriteLine("");
-    n_data = 0;
+    int n_data = 0;
     for (;;)
     {
       Abrams.abram1_values(ref n_data, ref x, ref fx);
@@ -116,7 +114,6 @@ public class AbramsTest
     //
   {
     double fx = 0;
-    int n_data;
     double x = 0;
     Console.WriteLine("");
     Console.WriteLine("ABRAM2_VALUES_TEST:");
@@ -125,7 +122,7 @@ public class AbramsTest
     Console.WriteLine("");
     Console.WriteLine("                X                   ABRAM3(X)");
     Console.WriteLine("");
-    n_data = 0;
+    int n_data = 0;
     for (;;)
     {
       Abrams.abram2_values(ref n_data, ref x, ref fx);

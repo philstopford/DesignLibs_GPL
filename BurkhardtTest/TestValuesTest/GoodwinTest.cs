@@ -26,7 +26,6 @@ public static class GoodwinTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("GOODWIN_VALUES_TEST:");
@@ -35,7 +34,7 @@ public static class GoodwinTest
         Console.WriteLine("");
         Console.WriteLine("                X                     FX");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Goodwin.goodwin_values(ref n_data, ref x, ref fx);

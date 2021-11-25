@@ -4,7 +4,7 @@ using Burkardt.Values;
 
 namespace TestValuesTest;
 
-public class AiryTest
+public static class AiryTest
 {
     public static void airy_ai_values_test()
         //****************************************************************************80
@@ -27,7 +27,6 @@ public class AiryTest
         //
     {
         double ai = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("AIRY_AI_VALUES_TEST:");
@@ -36,7 +35,7 @@ public class AiryTest
         Console.WriteLine("");
         Console.WriteLine("                X                     Ai(X)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Airy.airy_ai_values(ref n_data, ref x, ref ai);
@@ -72,7 +71,6 @@ public class AiryTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("AIRY_AI_INT_VALUES_TEST:");
@@ -81,7 +79,7 @@ public class AiryTest
         Console.WriteLine("");
         Console.WriteLine("                X                     FX");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Airy.airy_ai_int_values(ref n_data, ref x, ref fx);
@@ -117,7 +115,6 @@ public class AiryTest
         //
     {
         double aip = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("AIRY_AI_PRIME_VALUES_TEST:");
@@ -126,7 +123,7 @@ public class AiryTest
         Console.WriteLine("");
         Console.WriteLine("                X                    Ai'");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Airy.airy_ai_prime_values(ref n_data, ref x, ref aip);
@@ -162,7 +159,6 @@ public class AiryTest
         //
     {
         double bi = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("AIRY_BI_VALUES_TEST:");
@@ -171,7 +167,7 @@ public class AiryTest
         Console.WriteLine("");
         Console.WriteLine("                X                     Bi");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Airy.airy_bi_values(ref n_data, ref x, ref bi);
@@ -207,7 +203,6 @@ public class AiryTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("AIRY_BI_INT_VALUES_TEST:");
@@ -216,7 +211,7 @@ public class AiryTest
         Console.WriteLine("");
         Console.WriteLine("                X                     FX");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Airy.airy_bi_int_values(ref n_data, ref x, ref fx);
@@ -252,7 +247,6 @@ public class AiryTest
         //
     {
         double bip = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("AIRY_BI_PRIME_VALUES_TEST:");
@@ -261,7 +255,7 @@ public class AiryTest
         Console.WriteLine("");
         Console.WriteLine("                X                     Bi'");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Airy.airy_bi_prime_values(ref n_data, ref x, ref bip);
@@ -297,7 +291,6 @@ public class AiryTest
         //
     {
         Complex cai = new();
-        int n_data;
         Complex x = new();
         Console.WriteLine("");
         Console.WriteLine("AIRY_CAI_VALUES_TEST:");
@@ -306,7 +299,7 @@ public class AiryTest
         Console.WriteLine("");
         Console.WriteLine("                X                     Ai");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Airy.airy_cai_values(ref n_data, ref x, ref cai);
@@ -344,7 +337,6 @@ public class AiryTest
         //
     {
         Complex cbi = new();
-        int n_data;
         Complex x = new();
         Console.WriteLine("");
         Console.WriteLine("AIRY_CBI_VALUES_TEST:");
@@ -353,7 +345,7 @@ public class AiryTest
         Console.WriteLine("");
         Console.WriteLine("                X                     Bi");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Airy.airy_cbi_values(ref n_data, ref x, ref cbi);
@@ -391,7 +383,6 @@ public class AiryTest
         //
     {
         double bip = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("AIRY_GI_VALUES_TEST:");
@@ -400,7 +391,7 @@ public class AiryTest
         Console.WriteLine("");
         Console.WriteLine("                X                     Gi");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Airy.airy_gi_values(ref n_data, ref x, ref bip);
@@ -436,7 +427,6 @@ public class AiryTest
         //
     {
         double bip = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("AIRY_HI_VALUES_TEST:");
@@ -445,7 +435,7 @@ public class AiryTest
         Console.WriteLine("");
         Console.WriteLine("                X                     Hi");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Airy.airy_hi_values(ref n_data, ref x, ref bip);

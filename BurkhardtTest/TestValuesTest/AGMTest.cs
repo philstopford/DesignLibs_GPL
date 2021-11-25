@@ -28,7 +28,6 @@ public static class AGMTest
         double a = 0;
         double b = 0;
         double fx = 0;
-        int n_data;
 
         Console.WriteLine("");
         Console.WriteLine("AGM_VALUES_TEST:");
@@ -37,7 +36,7 @@ public static class AGMTest
         Console.WriteLine("");
         Console.WriteLine("           A          B              AGM(A,B)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for ( ; ; )
         {
             AGM.agm_values ( ref n_data, ref a, ref b, ref fx );

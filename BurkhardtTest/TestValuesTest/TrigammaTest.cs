@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Values;
 
 namespace TestValuesTest;
 
-public class TrigammaTest
+public static class TrigammaTest
 {
     public static void trigamma_values_test()
         //****************************************************************************80
@@ -26,7 +27,6 @@ public class TrigammaTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("TRIGAMMA_VALUES_TEST");
@@ -35,7 +35,7 @@ public class TrigammaTest
         Console.WriteLine("");
         Console.WriteLine("      X            FX");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Trigamma.trigamma_values(ref n_data, ref x, ref fx);
@@ -44,7 +44,7 @@ public class TrigammaTest
                 break;
             }
 
-            Console.WriteLine("  " + x.ToString().PadLeft(12)
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(12)
                                    + "  " + fx.ToString("0.################").PadLeft(24) + "");
         }
     }

@@ -3,7 +3,7 @@ using Burkardt.Values;
 
 namespace TestValuesTest;
 
-public class BeiBellTest
+public static class BeiBellTest
 {
     public static void bei0_values_test()
         //****************************************************************************80
@@ -26,7 +26,6 @@ public class BeiBellTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("BEI0_VALUES_TEST:");
@@ -35,7 +34,7 @@ public class BeiBellTest
         Console.WriteLine("");
         Console.WriteLine("                X                     FX");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             bei.bei0_values(ref n_data, ref x, ref fx);
@@ -71,7 +70,6 @@ public class BeiBellTest
         //
     {
         double fx = 0;
-        int n_data;
         double x = 0;
         Console.WriteLine("");
         Console.WriteLine("BEI1_VALUES_TEST:");
@@ -80,7 +78,7 @@ public class BeiBellTest
         Console.WriteLine("");
         Console.WriteLine("                X                     FX");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             bei.bei1_values(ref n_data, ref x, ref fx);
@@ -117,7 +115,6 @@ public class BeiBellTest
     {
         int c = 0;
         int n = 0;
-        int n_data;
 
         Console.WriteLine("");
         Console.WriteLine("BELL_VALUES_TEST:");
@@ -126,7 +123,7 @@ public class BeiBellTest
         Console.WriteLine("");
         Console.WriteLine("     N        BELL(N)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Bell.bell_values(ref n_data, ref n, ref c);

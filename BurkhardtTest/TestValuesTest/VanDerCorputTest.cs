@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Values;
 
 namespace TestValuesTest;
 
-public class VanDerCorputTest
+public static class VanDerCorputTest
 {
     public static void van_der_corput_values_test()
         //****************************************************************************80
@@ -26,7 +27,6 @@ public class VanDerCorputTest
         //
     {
         int base_ = 0;
-        int n_data;
         int seed = 0;
         double value = 0;
         Console.WriteLine("");
@@ -36,7 +36,7 @@ public class VanDerCorputTest
         Console.WriteLine("");
         Console.WriteLine("      BASE      SEED    VDC(BASE,SEED)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             VanDerCorput.van_der_corput_values(ref n_data, ref base_, ref seed, ref value);
@@ -48,7 +48,7 @@ public class VanDerCorputTest
             Console.WriteLine("  "
                               + base_.ToString().PadLeft(8) + "  "
                               + seed.ToString().PadLeft(8) + "  "
-                              + value.ToString().PadLeft(14) + "");
+                              + value.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 }

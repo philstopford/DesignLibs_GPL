@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Values;
 
 namespace TestValuesTest;
@@ -26,7 +27,6 @@ public static class DielectricTest
         //
     {
         double eps = 0;
-        int n_data;
         double p = 0;
         double tc = 0;
         Console.WriteLine("");
@@ -36,7 +36,7 @@ public static class DielectricTest
         Console.WriteLine("");
         Console.WriteLine("      T           P            EPS(T,P)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for ( ; ; )
         {
             Dielectrics.dielectric_values ( ref n_data, ref tc, ref p, ref eps );
@@ -45,9 +45,9 @@ public static class DielectricTest
                 break;
             }
             Console.WriteLine("  "
-                              + tc.ToString().PadLeft(12)  + "  "
-                              + p.ToString().PadLeft(12) + "  "
-                              + eps.ToString().PadLeft(12) + "");
+                              + tc.ToString(CultureInfo.InvariantCulture).PadLeft(12)  + "  "
+                              + p.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + eps.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 }

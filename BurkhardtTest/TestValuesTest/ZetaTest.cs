@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Values;
 
 namespace TestValuesTest;
 
-public class ZetaTest
+public static class ZetaTest
 {
     public static void zeta_values_test ( )
         //****************************************************************************80
@@ -26,7 +27,6 @@ public class ZetaTest
         //
     {
         int n = 0;
-        int n_data;
         double zeta = 0;
         Console.WriteLine("");
         Console.WriteLine("ZETA_VALUES_TEST:");
@@ -35,7 +35,7 @@ public class ZetaTest
         Console.WriteLine("");
         Console.WriteLine("     N        ZETA(N)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for ( ; ; )
         {
             Zeta.zeta_values ( ref n_data, ref n, ref zeta );
@@ -43,7 +43,7 @@ public class ZetaTest
             {
                 break;
             }
-            Console.WriteLine(n.ToString().PadLeft(6)                 + "  "
+            Console.WriteLine(n.ToString(CultureInfo.InvariantCulture).PadLeft(6)                 + "  "
                                                                       + zeta.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -67,7 +67,6 @@ public class ZetaTest
         //    John Burkardt
         //
     {
-        int n_data;
         double p = 0;
         double zeta_m1 = 0;
         Console.WriteLine("");
@@ -77,7 +76,7 @@ public class ZetaTest
         Console.WriteLine("");
         Console.WriteLine("     N        ZETA_M1(N)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for ( ; ; )
         {
             Zeta.zeta_m1_values ( ref n_data, ref p, ref zeta_m1 );
@@ -85,7 +84,7 @@ public class ZetaTest
             {
                 break;
             }
-            Console.WriteLine(p.ToString().PadLeft(6)                         + "  "
+            Console.WriteLine(p.ToString(CultureInfo.InvariantCulture).PadLeft(6)                         + "  "
                                                                               + zeta_m1.ToString("0.################").PadLeft(24) + "");
         }
     }

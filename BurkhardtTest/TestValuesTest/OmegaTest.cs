@@ -3,7 +3,7 @@ using Burkardt.Values;
 
 namespace TestValuesTest;
 
-public class OmegaTest
+public static class OmegaTest
 {
     public static void omega_values_test()
         //****************************************************************************80
@@ -27,7 +27,6 @@ public class OmegaTest
     {
         int fn = 0;
         int n = 0;
-        int n_data;
         Console.WriteLine("");
         Console.WriteLine("OMEGA_VALUES_TEST:");
         Console.WriteLine("  OMEGA_VALUES returns values of");
@@ -35,7 +34,7 @@ public class OmegaTest
         Console.WriteLine("");
         Console.WriteLine("     N           OMEGA(N)");
         Console.WriteLine("");
-        n_data = 0;
+        int n_data = 0;
         for (;;)
         {
             Omega.omega_values(ref n_data, ref n, ref fn);

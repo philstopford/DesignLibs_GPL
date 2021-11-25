@@ -28,18 +28,16 @@ public static class tribonacciTest
         //
     {
         int i;
-        int n;
-        int t;
 
         Console.WriteLine("");
         Console.WriteLine("tribonacci_direct_test():");
         Console.WriteLine("  tribonacci_direct() computes the Tribonacci sequence.");
         Console.WriteLine("");
 
-        n = 20;
+        int n = 20;
         for (i = 1; i <= n; i++)
         {
-            t = Tribonacci.tribonacci_direct(i);
+            int t = Tribonacci.tribonacci_direct(i);
             Console.WriteLine("  " + i.ToString().PadLeft(4)
                                    + "  " + t.ToString().PadLeft(8) + "");
         }
@@ -67,18 +65,16 @@ public static class tribonacciTest
         //    John Burkardt
         //
     {
-        int[] f;
         int i;
-        int n;
 
         Console.WriteLine("");
         Console.WriteLine("tribonacci_recursive_test():");
         Console.WriteLine("  tribonacci_recursive() computes the Tribonacci sequence.");
         Console.WriteLine("");
 
-        n = 22;
+        int n = 22;
 
-        f = Tribonacci.tribonacci_recursive(n);
+        int[] f = Tribonacci.tribonacci_recursive(n);
 
         for (i = 0; i < n; i++)
         {

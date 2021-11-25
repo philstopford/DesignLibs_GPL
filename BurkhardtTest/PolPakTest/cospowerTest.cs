@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.IntegralNS;
 
 namespace PolPakTest;
@@ -30,9 +31,7 @@ public static class cospowerTest
         double a = 0;
         double b = 0;
         double fx = 0;
-        double fx2 = 0;
         int n = 0;
-        int n_data;
 
         Console.WriteLine("");
         Console.WriteLine("COS_POWER_INT_TEST:");
@@ -42,7 +41,7 @@ public static class cospowerTest
         Console.WriteLine("         A         B       N        Exact    Computed");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -53,14 +52,14 @@ public static class cospowerTest
                 break;
             }
 
-            fx2 = CosPower.cos_power_int(a, b, n);
+            double fx2 = CosPower.cos_power_int(a, b, n);
 
             Console.WriteLine("  "
-                              + a.ToString().PadLeft(8) + "  "
-                              + b.ToString().PadLeft(8) + "  "
-                              + n.ToString().PadLeft(6) + "  "
-                              + fx.ToString().PadLeft(12) + "  "
-                              + fx2.ToString().PadLeft(12) + "");
+                              + a.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + b.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 

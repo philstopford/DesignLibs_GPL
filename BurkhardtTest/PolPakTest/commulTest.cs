@@ -26,22 +26,19 @@ public static class commulTest
         //    John Burkardt
         //
     {
-        int n;
         int[] factor = new int[4];
         int i;
-        int ncomb;
-        int nfactor;
 
         Console.WriteLine("");
         Console.WriteLine("COMMUL_TEST");
         Console.WriteLine("  COMMUL computes a multinomial coefficient.");
         Console.WriteLine("");
 
-        n = 8;
-        nfactor = 2;
+        int n = 8;
+        int nfactor = 2;
         factor[0] = 6;
         factor[1] = 2;
-        ncomb = Multinomial.commul ( n, nfactor, factor );
+        int ncomb = Multinomial.commul ( n, nfactor, factor );
         Console.WriteLine("");
         Console.WriteLine("  N = " + n + "");
         Console.WriteLine("  Number of factors = " + factor + "");

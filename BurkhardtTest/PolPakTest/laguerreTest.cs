@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.PolynomialNS;
 using Burkardt.Types;
 
@@ -27,15 +28,12 @@ public static class laguerreTest
         //    John Burkardt
         //
     {
-        int N = 10;
-        int N_TEST = 6;
+        const int N = 10;
+        const int N_TEST = 6;
 
-        double alpha;
         double[] alpha_test = { 0.0, 0.0, 0.1, 0.1, 0.5, 1.0 };
         double[] c = new double [N + 1];
         int i;
-        int j;
-        double x;
         double[] x_test = { 0.0, 1.0, 0.0, 0.5, 0.5, 0.5 };
 
         Console.WriteLine("");
@@ -46,8 +44,8 @@ public static class laguerreTest
         for (i = 0; i < N_TEST; i++)
         {
 
-            x = x_test[i];
-            alpha = alpha_test[i];
+            double x = x_test[i];
+            double alpha = alpha_test[i];
 
             Console.WriteLine("");
             Console.WriteLine("  Table of L(N,ALPHA)(X) for");
@@ -59,11 +57,12 @@ public static class laguerreTest
 
             Laguerre.gen_laguerre_poly(N, alpha, x, ref c);
 
+            int j;
             for (j = 0; j <= N; j++)
             {
                 Console.WriteLine("  "
-                                  + j.ToString().PadLeft(6) + "  "
-                                  + c[j].ToString().PadLeft(14) + "");
+                                  + j.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                  + c[j].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
     }
@@ -89,18 +88,15 @@ public static class laguerreTest
         //    John Burkardt
         //
     {
-        int N = 6;
-        int N_TEST = 6;
+        const int N = 6;
+        const int N_TEST = 6;
 
         double[] c = new double[N + 1];
         int i;
-        int j;
-        int m;
         int[] m_test =  {
                 0, 0, 1, 2, 3, 1
             }
             ;
-        double x;
         double[] x_test =  {
                 0.0, 1.0, 0.0, 0.5, 0.5, 0.5
             }
@@ -113,8 +109,8 @@ public static class laguerreTest
 
         for (i = 0; i < N_TEST; i++)
         {
-            m = m_test[i];
-            x = x_test[i];
+            int m = m_test[i];
+            double x = x_test[i];
 
             Console.WriteLine("");
             Console.WriteLine("  Table of L(N,M)(X) for");
@@ -126,11 +122,12 @@ public static class laguerreTest
 
             Laguerre.laguerre_associated(N, m, x, ref c);
 
+            int j;
             for (j = 0; j <= N; j++)
             {
                 Console.WriteLine("  "
-                                  + j.ToString().PadLeft(6) + "  "
-                                  + c[j].ToString().PadLeft(14) + "");
+                                  + j.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                  + c[j].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
         }
@@ -186,10 +183,10 @@ public static class laguerreTest
             Laguerre.laguerre_poly(n, x, ref fx2);
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(8) + "  "
-                              + x.ToString().PadLeft(8) + "  "
-                              + fx.ToString().PadLeft(14) + "  "
-                              + fx2[n].ToString().PadLeft(14) + "");
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                              + fx2[n].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -215,10 +212,9 @@ public static class laguerreTest
         //    John Burkardt
         //
     {
-        int N = 5;
+        const int N = 5;
 
         double[] c = new double[(N + 1) * (N + 1)];
-        double fact;
         int i;
         int j;
 
@@ -239,14 +235,13 @@ public static class laguerreTest
                 switch (j)
                 {
                     case 0:
-                        Console.WriteLine(c[i + j * (N + 1)].ToString().PadLeft(14) + "");
-                        ;
+                        Console.WriteLine(c[i + j * (N + 1)].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                         break;
                     case 1:
-                        Console.WriteLine(c[i + j * (N + 1)].ToString().PadLeft(14) + " * x");
+                        Console.WriteLine(c[i + j * (N + 1)].ToString(CultureInfo.InvariantCulture).PadLeft(14) + " * x");
                         break;
                     default:
-                        Console.WriteLine(c[i + j * (N + 1)].ToString().PadLeft(14) + " * x^" + j + "");
+                        Console.WriteLine(c[i + j * (N + 1)].ToString(CultureInfo.InvariantCulture).PadLeft(14) + " * x^" + j + "");
                         break;
                 }
             }
@@ -254,7 +249,7 @@ public static class laguerreTest
 
         for (i = 0; i <= N; i++)
         {
-            fact = typeMethods.r8_factorial(i);
+            double fact = typeMethods.r8_factorial(i);
             Console.WriteLine("");
             Console.WriteLine("  Factorially scaled L(" + i + ")");
             Console.WriteLine("");
@@ -263,14 +258,13 @@ public static class laguerreTest
                 switch (j)
                 {
                     case 0:
-                        Console.WriteLine((fact * c[i + j * (N + 1)]).ToString().PadLeft(14) + "");
-                        ;
+                        Console.WriteLine((fact * c[i + j * (N + 1)]).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                         break;
                     case 1:
-                        Console.WriteLine((fact * c[i + j * (N + 1)]).ToString().PadLeft(14) + " * x");
+                        Console.WriteLine((fact * c[i + j * (N + 1)]).ToString(CultureInfo.InvariantCulture).PadLeft(14) + " * x");
                         break;
                     default:
-                        Console.WriteLine((fact * c[i + j * (N + 1)]).ToString().PadLeft(14) + " * x^" + j + "");
+                        Console.WriteLine((fact * c[i + j * (N + 1)]).ToString(CultureInfo.InvariantCulture).PadLeft(14) + " * x^" + j + "");
                         break;
                 }
             }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace PolPakTest;
 
@@ -31,7 +32,6 @@ public static class eulerTest
         int c1 = 0;
         int[] c2 = new int[13];
         int n = 0;
-        int n_data;
 
         Console.WriteLine("");
         Console.WriteLine("EULER_NUMBER_TEST");
@@ -40,7 +40,7 @@ public static class eulerTest
         Console.WriteLine("  N  exact   EULER_NUMBER");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -54,9 +54,9 @@ public static class eulerTest
             Sequence.euler_number(n, ref c2);
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(4) + "  "
-                              + c1.ToString().PadLeft(12) + "  "
-                              + c2[n].ToString().PadLeft(12) + "");
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                              + c1.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + c2[n].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
 
         }
 
@@ -84,9 +84,7 @@ public static class eulerTest
         //
     {
         int c1 = 0;
-        double c2 = 0;
         int n = 0;
-        int n_data;
 
         Console.WriteLine("");
         Console.WriteLine("EULER_NUMBER2_TEST");
@@ -95,7 +93,7 @@ public static class eulerTest
         Console.WriteLine("  N  exact   EULER_NUMBER2");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -106,12 +104,12 @@ public static class eulerTest
                 break;
             }
 
-            c2 = Sequence.euler_number2(n);
+            double c2 = Sequence.euler_number2(n);
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(4) + "  "
-                              + c1.ToString().PadLeft(12) + "  "
-                              + c2.ToString().PadLeft(14) + "");
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                              + c1.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + c2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
         }
 
@@ -138,12 +136,10 @@ public static class eulerTest
         //    John Burkardt
         //
     {
-        double f;
         int i;
-        int n = 15;
-        double x;
+        const int n = 15;
 
-        x = 0.5;
+        double x = 0.5;
 
         Console.WriteLine("");
         Console.WriteLine("EULER_POLY_TEST");
@@ -154,12 +150,12 @@ public static class eulerTest
 
         for (i = 0; i <= n; i++)
         {
-            f = Polynomial.euler_poly(i, x);
+            double f = Polynomial.euler_poly(i, x);
 
             Console.WriteLine("  "
-                              + i.ToString().PadLeft(2) + "  "
-                              + x.ToString().PadLeft(14) + "  "
-                              + f.ToString().PadLeft(14) + "");
+                              + i.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                              + f.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -185,11 +181,10 @@ public static class eulerTest
         //    John Burkardt
         //
     {
-        int N = 7;
+        const int N = 7;
 
         int[] e = new int[N * N];
         int i;
-        int j;
 
         Console.WriteLine("");
         Console.WriteLine("EULERIAN_TEST");
@@ -201,9 +196,10 @@ public static class eulerTest
         for (i = 0; i < N; i++)
         {
             string cout = "";
+            int j;
             for (j = 0; j < N; j++)
             {
-                cout += e[i + j * N].ToString().PadLeft(6) + "  ";
+                cout += e[i + j * N].ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
             }
 
             Console.WriteLine(cout);

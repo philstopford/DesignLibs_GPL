@@ -27,7 +27,6 @@ public static class delannoyTest
         //    John Burkardt
         //
     {
-        int[] a;
         const int m = 8;
         const int n = 8;
 
@@ -37,7 +36,7 @@ public static class delannoyTest
         Console.WriteLine("  A(M,N) counts the paths from (0,0) to (M,N).");
         Console.WriteLine("");
 
-        a = Delannoy.delannoy ( m, n );
+        int[] a = Delannoy.delannoy ( m, n );
 
         typeMethods.i4mat_print ( m + 1, n + 1, a, "  The Delannoy numbers:" );
 

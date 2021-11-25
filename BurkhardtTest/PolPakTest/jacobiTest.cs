@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.PolynomialNS;
 
 namespace PolPakTest;
 
 using Symbol = Burkardt.Symbol.Jacobi;
 
-public class jacobiTest
+public static class jacobiTest
 {
     public static void jacobi_poly_test()
 
@@ -30,11 +31,8 @@ public class jacobiTest
     {
         double a = 0;
         double b = 0;
-        double[] c;
         double fx = 0;
-        double fx2 = 0;
         int n = 0;
-        int n_data = 0;
         double x = 0;
 
         Console.WriteLine("");
@@ -45,7 +43,7 @@ public class jacobiTest
         Console.WriteLine("        N       A       B      X       JPV      JACOBI");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -57,16 +55,16 @@ public class jacobiTest
                 break;
             }
 
-            c = Jacobi.jacobi_poly(n, a, b, x);
-            fx2 = c[n];
+            double[] c = Jacobi.jacobi_poly(n, a, b, x);
+            double fx2 = c[n];
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(6) + "  "
-                              + a.ToString().PadLeft(6) + "  "
-                              + b.ToString().PadLeft(6) + "  "
-                              + x.ToString().PadLeft(10) + "  "
-                              + fx.ToString().PadLeft(14) + "  "
-                              + fx2.ToString().PadLeft(14) + "");
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + a.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + b.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                              + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
         }
 
@@ -93,12 +91,10 @@ public class jacobiTest
         //    John Burkardt
         //
     {
-        int N_TEST = 4;
+        const int N_TEST = 4;
 
         int i;
-        int p;
         int[] ptest = { 3, 9, 10, 12 };
-        int q;
 
         Console.WriteLine("");
         Console.WriteLine("JACOBI_SYMBOL_TEST");
@@ -108,15 +104,16 @@ public class jacobiTest
 
         for (i = 0; i < N_TEST; i++)
         {
-            p = ptest[i];
+            int p = ptest[i];
             Console.WriteLine("");
             Console.WriteLine("Jacobi Symbols for P = " + p + "");
             Console.WriteLine("");
+            int q;
             for (q = 0; q <= p; q++)
             {
-                Console.WriteLine("  " + p.ToString().PadLeft(8)
-                                       + "  " + q.ToString().PadLeft(8)
-                                       + "  " + Symbol.jacobi_symbol(q, p).ToString().PadLeft(8) + "");
+                Console.WriteLine("  " + p.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + Symbol.jacobi_symbol(q, p).ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
             }
         }
     }

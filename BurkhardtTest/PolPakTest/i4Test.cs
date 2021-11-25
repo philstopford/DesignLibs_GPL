@@ -26,8 +26,6 @@ public static class i4Test
         //    John Burkardt
         //
     {
-        int cnk;
-        int k;
         int n;
 
         Console.WriteLine("");
@@ -39,9 +37,10 @@ public static class i4Test
 
         for (n = 0; n <= 4; n++)
         {
+            int k;
             for (k = 0; k <= n; k++)
             {
-                cnk = typeMethods.i4_choose(n, k);
+                int cnk = typeMethods.i4_choose(n, k);
 
                 Console.WriteLine("  "
                                   + n.ToString().PadLeft(6) + "  "
@@ -73,10 +72,8 @@ public static class i4Test
         //    John Burkardt
         //
     {
-        int i = 0;
-        int j = 0;
-        int maxfactor = 10;
-        int n = 0;
+        int i;
+        const int maxfactor = 10;
         int[] n_test = { 60, 664048, 8466763 };
         int nfactor = 0;
         int nleft = 0;
@@ -89,10 +86,11 @@ public static class i4Test
 
         for (i = 0; i < 3; i++)
         {
-            n = n_test[i];
+            int n = n_test[i];
             typeMethods.i4_factor(n, maxfactor, ref nfactor, ref factor, ref power, ref nleft);
             Console.WriteLine("");
             Console.WriteLine("  Factors of N = " + n + "");
+            int j;
             for (j = 0; j < nfactor; j++)
             {
                 Console.WriteLine("    " + factor[j] + "^" + power[j] + "");
@@ -128,9 +126,7 @@ public static class i4Test
         //
     {
         int fn = 0;
-        int fn2 = 0;
         int n = 0;
-        int n_data;
 
         Console.WriteLine("");
         Console.WriteLine("I4_FACTORIAL_TEST:");
@@ -139,7 +135,7 @@ public static class i4Test
         Console.WriteLine("     X       Exact F       I4_FACTORIAL(X)");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -150,7 +146,7 @@ public static class i4Test
                 break;
             }
 
-            fn2 = typeMethods.i4_factorial(n);
+            int fn2 = typeMethods.i4_factorial(n);
 
             Console.WriteLine("  "
                               + n.ToString().PadLeft(4) + "  "
@@ -183,9 +179,7 @@ public static class i4Test
         //
     {
         int fn = 0;
-        int fn2 = 0;
         int n = 0;
-        int n_data;
 
         Console.WriteLine("");
         Console.WriteLine("I4_FACTORIAL2_TEST:");
@@ -194,7 +188,7 @@ public static class i4Test
         Console.WriteLine("   N   Exact  I4_FACTORIAL2(N)");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -205,7 +199,7 @@ public static class i4Test
                 break;
             }
 
-            fn2 = typeMethods.i4_factorial2(n);
+            int fn2 = typeMethods.i4_factorial2(n);
 
             Console.WriteLine("  "
                               + n.ToString().PadLeft(4) + "  "
@@ -237,10 +231,8 @@ public static class i4Test
         //
     {
         int i;
-        int i4;
         int[] i4_test = { -13, 0, 1, 8, 10, 50, 55, 100, 144, 200 };
-        bool l;
-        int test_num = 10;
+        const int test_num = 10;
 
         Console.WriteLine("");
         Console.WriteLine("I4_IS_FIBONACCI_TEST");
@@ -251,8 +243,8 @@ public static class i4Test
 
         for (i = 0; i < test_num; i++)
         {
-            i4 = i4_test[i];
-            l = typeMethods.i4_is_fibonacci(i4);
+            int i4 = i4_test[i];
+            bool l = typeMethods.i4_is_fibonacci(i4);
 
             Console.WriteLine(" " + i4.ToString().PadLeft(4)
                                   + "  " + l.ToString().PadLeft(1) + "");
@@ -282,7 +274,6 @@ public static class i4Test
         //
     {
         int i;
-        bool l;
 
         Console.WriteLine("");
         Console.WriteLine("I4_IS_TRIANGULAR_TEST");
@@ -294,7 +285,7 @@ public static class i4Test
 
         for (i = 0; i <= 20; i++)
         {
-            l = typeMethods.i4_is_triangular(i);
+            bool l = typeMethods.i4_is_triangular(i);
 
             Console.WriteLine("  " + i.ToString().PadLeft(4)
                                    + "  " + l.ToString().PadLeft(1) + "");
@@ -324,9 +315,7 @@ public static class i4Test
         //
     {
         int c = 0;
-        int c2 = 0;
         int n = 0;
-        int n_data;
         const int N_MAX = 20;
 
         Console.WriteLine("");
@@ -338,7 +327,7 @@ public static class i4Test
         Console.WriteLine("     N       Exact F    Q(N)");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -354,7 +343,7 @@ public static class i4Test
                 continue;
             }
 
-            c2 = typeMethods.i4_partition_distinct_count(n);
+            int c2 = typeMethods.i4_partition_distinct_count(n);
 
             Console.WriteLine("  "
                               + n.ToString().PadLeft(10) + "  "
@@ -388,7 +377,7 @@ public static class i4Test
     {
         int i = 0;
         int j = 0;
-        int k = 0;
+        int k;
 
         Console.WriteLine("");
         Console.WriteLine("I4_TO_TRIANGLE_LOWER_TEST");

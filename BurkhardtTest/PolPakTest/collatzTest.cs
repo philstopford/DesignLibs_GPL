@@ -27,9 +27,7 @@ public static class collatzTest
         //
     {
         int count = 0;
-        int count2 = 0;
         int n = 0;
-        int n_data;
 
         Console.WriteLine("");
         Console.WriteLine("COLLATZ_COUNT_TEST:");
@@ -40,7 +38,7 @@ public static class collatzTest
         Console.WriteLine("              (computed)    (table)");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for ( ; ; )
         {
@@ -51,7 +49,7 @@ public static class collatzTest
                 break;
             }
 
-            count2 = Collatz.collatz_count ( n );
+            int count2 = Collatz.collatz_count ( n );
 
             Console.WriteLine("  " + n.ToString().PadLeft(8)
                                    + "  " + count.ToString().PadLeft(8)
@@ -83,7 +81,6 @@ public static class collatzTest
     {
         int i_max = 0;
         int j_max = 0;
-        int n;
 
         Console.WriteLine("");
         Console.WriteLine("COLLATZ_COUNT_MAX_TEST:");
@@ -93,7 +90,7 @@ public static class collatzTest
         Console.WriteLine("         N     I_MAX     J_MAX");
         Console.WriteLine("");
 
-        n = 10;
+        int n = 10;
 
         while ( n <= 100000 )
         {

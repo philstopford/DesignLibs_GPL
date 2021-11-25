@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt;
 
 namespace PolPakTest;
@@ -27,8 +28,6 @@ public static class lgammaTest
         //
     {
         double fx = 0;
-        double fx2 = 0;
-        int n_data = 0;
         double x = 0;
 
         Console.WriteLine("");
@@ -39,7 +38,7 @@ public static class lgammaTest
         Console.WriteLine("     X       Exact F       LGAMMA(X)");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -50,12 +49,12 @@ public static class lgammaTest
                 break;
             }
 
-            fx2 = Helpers.LogGamma(x);
+            double fx2 = Helpers.LogGamma(x);
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(8) + "  "
-                              + fx.ToString().PadLeft(10) + "  "
-                              + fx2.ToString().PadLeft(10) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                              + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
         }
 

@@ -28,7 +28,6 @@ public static class omegaTest
     {
         int c = 0;
         int n = 0;
-        int n_data;
 
         Console.WriteLine("");
         Console.WriteLine("OMEGA_TEST");
@@ -37,7 +36,7 @@ public static class omegaTest
         Console.WriteLine("          N   Exact   OMEGA(N)");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {

@@ -28,7 +28,6 @@ public static class tauTest
     {
         int c = 0;
         int n = 0;
-        int n_data;
 
         Console.WriteLine("");
         Console.WriteLine("TAU_TEST");
@@ -37,7 +36,7 @@ public static class tauTest
         Console.WriteLine("  N  exact C(I)  computed C(I)");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {

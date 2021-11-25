@@ -26,7 +26,7 @@ public static class motzkinTest
         //    John Burkardt
         //
     {
-        int N = 10;
+        const int N = 10;
 
         int[] a = new int[N + 1];
         int i;

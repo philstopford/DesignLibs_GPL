@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Function;
 
 namespace PolPakTest;
@@ -26,13 +27,10 @@ public static class zetaTest
         //    John Burkardt
         //
     {
-        int n_data;
         double p = 0;
-        double tol = 0;
         double z1 = 0;
-        double z2 = 0;
 
-        tol = 1.0E-10;
+        const double tol = 1.0E-10;
 
         Console.WriteLine("");
         Console.WriteLine("ZETA_M1_TEST");
@@ -43,7 +41,7 @@ public static class zetaTest
         Console.WriteLine("                    tabulated          computed.");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -54,11 +52,11 @@ public static class zetaTest
                 break;
             }
 
-            z2 = Zeta.zeta_m1(p, tol);
+            double z2 = Zeta.zeta_m1(p, tol);
 
-            Console.WriteLine("  " + p.ToString().PadLeft(8)
-                                   + "  " + z1.ToString().PadLeft(20)
-                                   + "  " + z2.ToString().PadLeft(20) + "");
+            Console.WriteLine("  " + p.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + z1.ToString(CultureInfo.InvariantCulture).PadLeft(20)
+                                   + "  " + z2.ToString(CultureInfo.InvariantCulture).PadLeft(20) + "");
 
         }
 
@@ -86,10 +84,7 @@ public static class zetaTest
         //
     {
         int n = 0;
-        int n_data;
-        double n_real = 0;
         double z1 = 0;
-        double z2 = 0;
 
         Console.WriteLine("");
         Console.WriteLine("ZETA_NAIVE_TEST");
@@ -98,7 +93,7 @@ public static class zetaTest
         Console.WriteLine("       N            exact Zeta         computed Zeta");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -109,13 +104,13 @@ public static class zetaTest
                 break;
             }
 
-            n_real = n;
+            double n_real = n;
 
-            z2 = Zeta.zeta_naive(n_real);
+            double z2 = Zeta.zeta_naive(n_real);
 
-            Console.WriteLine("  " + n.ToString().PadLeft(6)
-                                   + "  " + z1.ToString().PadLeft(20)
-                                   + "  " + z2.ToString().PadLeft(20) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + z1.ToString(CultureInfo.InvariantCulture).PadLeft(20)
+                                   + "  " + z2.ToString(CultureInfo.InvariantCulture).PadLeft(20) + "");
         }
     }
 }

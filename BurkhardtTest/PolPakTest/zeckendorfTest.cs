@@ -26,13 +26,12 @@ public static class zeckendorfTest
         //    John Burkardt
         //
     {
-        int M_MAX = 20;
+        const int M_MAX = 20;
 
         int[] i_list = new int[M_MAX];
-        int j = 0;
         int[] f_list = new int[M_MAX];
         int m = 0;
-        int n = 0;
+        int n;
 
         Console.WriteLine("");
         Console.WriteLine("ZECKENDORF_TEST");
@@ -47,6 +46,7 @@ public static class zeckendorfTest
             Zeckendorf.zeckendorf(n, M_MAX, ref m, ref i_list, ref f_list);
 
             string cout = n.ToString().PadLeft(4) + "  ";
+            int j;
             for (j = 0; j < m; j++)
             {
                 cout += f_list[j].ToString().PadLeft(4) + "  ";

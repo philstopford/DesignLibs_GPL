@@ -26,9 +26,7 @@ public static class simplexTest
         //    John Burkardt
         //
     {
-        int m;
         int n;
-        int value;
 
         Console.WriteLine("");
         Console.WriteLine("SIMPLEX_NUM_TEST");
@@ -41,9 +39,10 @@ public static class simplexTest
         for (n = 0; n <= 10; n++)
         {
             string cout = "  " + n.ToString().PadLeft(2);
+            int m;
             for (m = 0; m <= 5; m++)
             {
-                value = Simplex.simplex_num(m, n);
+                int value = Simplex.simplex_num(m, n);
                 cout += "  " + value.ToString().PadLeft(4);
             }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.PolynomialNS;
 using Burkardt.Types;
 
@@ -27,10 +28,8 @@ public static class compSymmPolyTest
         //    John Burkardt
         //
     {
-        int n = 5;
+        const int n = 5;
         int nn;
-        int rr;
-        double value = 0;
         double[] x = { 1.0, 2.0, 3.0, 4.0, 5.0 };
 
         Console.WriteLine("");
@@ -47,10 +46,11 @@ public static class compSymmPolyTest
         for ( nn = 0; nn <= n; nn++ )
         {
             string cout = "  " + nn.ToString().PadLeft(2);
+            int rr;
             for ( rr = 0; rr <= 5; rr++ )
             {
-                value = CompleteSymmetric.complete_symmetric_poly ( nn, rr, x );
-                cout += "  " + value.ToString().PadLeft(6);
+                double value = CompleteSymmetric.complete_symmetric_poly ( nn, rr, x );
+                cout += "  " + value.ToString(CultureInfo.InvariantCulture).PadLeft(6);
             }
             Console.WriteLine(cout);
         }

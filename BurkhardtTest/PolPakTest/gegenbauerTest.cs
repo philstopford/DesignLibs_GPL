@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.PolynomialNS;
 
 namespace PolPakTest;
@@ -27,11 +28,8 @@ public static class gegenbauerTest
         //
     {
         double a = 0;
-        double[] c;
         double fx = 0;
-        double fx2 = 0;
         int n = 0;
-        int n_data;
         double x = 0;
 
         Console.WriteLine("");
@@ -41,7 +39,7 @@ public static class gegenbauerTest
         Console.WriteLine("        N       A       X       GPV      GEGENBAUER");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for ( ; ; )
         {
@@ -53,17 +51,17 @@ public static class gegenbauerTest
                 break;
             }
 
-            c = new double[n+1];
+            double[] c = new double[n+1];
 
             GegenbauerPolynomial.gegenbauer_poly ( n, a, x, c );
-            fx2 = c[n];
+            double fx2 = c[n];
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(6)   + "  "
-                              + a.ToString().PadLeft(10)   + "  "
-                              + x.ToString().PadLeft(10)   + "  "
-                              + fx.ToString().PadLeft(14)  + "  "
-                              + fx2.ToString().PadLeft(14) + "");
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6)   + "  "
+                              + a.ToString(CultureInfo.InvariantCulture).PadLeft(10)   + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(10)   + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14)  + "  "
+                              + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
         }
 

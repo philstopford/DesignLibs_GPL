@@ -39,7 +39,6 @@ public static class triangleTest
             Console.WriteLine("  "
                               + n.ToString().PadLeft(4) + "  "
                               + Triangle.triangle_num(n).ToString().PadLeft(6) + "");
-            ;
         }
 
     }
@@ -66,8 +65,6 @@ public static class triangleTest
         //
     {
         int i;
-        int j;
-        int k;
 
         Console.WriteLine("");
         Console.WriteLine("TRIANGLE_LOWER_TO_I4_TEST");
@@ -79,9 +76,10 @@ public static class triangleTest
 
         for (i = 0; i <= 4; i++)
         {
+            int j;
             for (j = 0; j <= i; j++)
             {
-                k = typeMethods.triangle_lower_to_i4(i, j);
+                int k = typeMethods.triangle_lower_to_i4(i, j);
 
                 Console.WriteLine("  " + i.ToString().PadLeft(4)
                                        + "  " + j.ToString().PadLeft(4)

@@ -29,7 +29,6 @@ public static class combTest
         const int N_MAX = 10;
 
         int[] c = new int[N_MAX+1];
-        int i;
         int n;
 
         Console.WriteLine("");
@@ -41,6 +40,7 @@ public static class combTest
         {
             Comb.comb_row_next ( n, ref c );
             string cout = "  " + n.ToString().PadLeft(2) + "  ";
+            int i;
             for ( i = 0; i <= n; i++ )
             {
                 cout += c[i].ToString().PadLeft(6);

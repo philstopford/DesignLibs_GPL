@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.RandomNS;
 using Burkardt.Types;
 
@@ -30,8 +31,6 @@ public static class r8Test
         double a = 0;
         double b = 0;
         double fx = 0;
-        double fx2 = 0;
-        int n_data;
 
         Console.WriteLine("");
         Console.WriteLine("R8_AGM_TEST");
@@ -43,7 +42,7 @@ public static class r8Test
                           + "      (Tabulated)             R8_AGM(A,B)");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -54,7 +53,7 @@ public static class r8Test
                 break;
             }
 
-            fx2 = typeMethods.r8_agm(a, b);
+            double fx2 = typeMethods.r8_agm(a, b);
 
             Console.WriteLine("  " + a.ToString("0.######").PadLeft(10)
                                    + "  " + b.ToString("0.######").PadLeft(10)
@@ -87,8 +86,6 @@ public static class r8Test
         //
     {
         double fxy = 0;
-        double fxy2 = 0;
-        int n_data = 0;
         double x = 0;
         double y = 0;
 
@@ -99,7 +96,7 @@ public static class r8Test
         Console.WriteLine("     X      Y        Exact F       R8_BETA(X,Y)");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -110,13 +107,13 @@ public static class r8Test
                 break;
             }
 
-            fxy2 = typeMethods.r8_beta(x, y);
+            double fxy2 = typeMethods.r8_beta(x, y);
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(10) + "  "
-                              + y.ToString().PadLeft(10) + "  "
-                              + fxy.ToString().PadLeft(10) + "  "
-                              + fxy2.ToString().PadLeft(10) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                              + y.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                              + fxy.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                              + fxy2.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
     }
@@ -142,9 +139,7 @@ public static class r8Test
         //    John Burkardt
         //
     {
-        double cnk = 0;
-        int k = 0;
-        int n = 0;
+        int n;
 
         Console.WriteLine("");
         Console.WriteLine("R8_CHOOSE_TEST");
@@ -155,14 +150,15 @@ public static class r8Test
 
         for (n = 0; n <= 4; n++)
         {
+            int k = 0;
             for (k = 0; k <= n; k++)
             {
-                cnk = typeMethods.r8_choose(n, k);
+                double cnk = typeMethods.r8_choose(n, k);
 
                 Console.WriteLine("  "
-                                  + n.ToString().PadLeft(6) + "  "
-                                  + k.ToString().PadLeft(6) + "  "
-                                  + cnk.ToString().PadLeft(6) + "");
+                                  + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                  + k.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                  + cnk.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
             }
         }
 
@@ -189,10 +185,7 @@ public static class r8Test
         //    John Burkardt
         //
     {
-        int i = 0;
-        double x1 = 0;
-        double y = 0;
-        double x2 = 0;
+        int i;
         Rand48 rand48 = new();
 
         Console.WriteLine("");
@@ -204,12 +197,12 @@ public static class r8Test
 
         for (i = 1; i <= 10; i++)
         {
-            x1 = -10.0 + 20.0 * rand48.drand48();
-            y = typeMethods.r8_cube_root(x1);
-            x2 = Math.Pow(y, 3);
-            Console.WriteLine(x1.ToString().PadLeft(14) + "  "
-                                                        + y.ToString().PadLeft(14) + "  "
-                                                        + x2.ToString().PadLeft(14) + "");
+            double x1 = -10.0 + 20.0 * rand48.drand48();
+            double y = typeMethods.r8_cube_root(x1);
+            double x2 = Math.Pow(y, 3);
+            Console.WriteLine(x1.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                                                        + y.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                                                        + x2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -236,8 +229,6 @@ public static class r8Test
         //
     {
         double fx = 0;
-        double fx2 = 0;
-        int n_data = 0;
         double x = 0;
 
         Console.WriteLine("");
@@ -247,7 +238,7 @@ public static class r8Test
         Console.WriteLine("     X      Exact F     R8_ERF(X)");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -258,12 +249,12 @@ public static class r8Test
                 break;
             }
 
-            fx2 = typeMethods.r8_erf(x);
+            double fx2 = typeMethods.r8_erf(x);
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(8) + "  "
-                              + fx.ToString().PadLeft(14) + "  "
-                              + fx2.ToString().PadLeft(14) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                              + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -290,9 +281,7 @@ public static class r8Test
         //
     {
         double fx = 0;
-        int n_data = 0;
         double x1 = 0;
-        double x2 = 0;
 
         Console.WriteLine("");
         Console.WriteLine("R8_ERF_INVERSE_TEST");
@@ -301,7 +290,7 @@ public static class r8Test
         Console.WriteLine("    FX           X1           X2");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -312,12 +301,12 @@ public static class r8Test
                 break;
             }
 
-            x2 = typeMethods.r8_erf_inverse(fx);
+            double x2 = typeMethods.r8_erf_inverse(fx);
 
             Console.WriteLine("  "
-                              + fx.ToString().PadLeft(8) + "  "
-                              + x1.ToString().PadLeft(14) + "  "
-                              + x2.ToString().PadLeft(14) + "");
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + x1.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                              + x2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -343,14 +332,9 @@ public static class r8Test
         //    John Burkardt
         //
     {
-        double g = 0;
-        double g_approx = 0;
-        int i = 0;
-        int n = 0;
-        double n_r8 = 0;
-        int test = 0;
+        int test;
 
-        g = typeMethods.r8_euler_constant();
+        double g = typeMethods.r8_euler_constant();
 
         Console.WriteLine("");
         Console.WriteLine("R8_EULER_CONSTANT_TEST:");
@@ -364,19 +348,20 @@ public static class r8Test
         Console.WriteLine("         N      Partial Sum    |gamma - partial sum|");
         Console.WriteLine("");
 
-        n = 1;
+        int n = 1;
         for (test = 0; test <= 20; test++)
         {
-            n_r8 = n;
-            g_approx = -Math.Log(n_r8);
+            double n_r8 = n;
+            double g_approx = -Math.Log(n_r8);
+            int i = 0;
             for (i = 1; i <= n; i++)
             {
                 g_approx += 1.0 / i;
             }
 
-            Console.WriteLine("  " + n.ToString().PadLeft(8)
-                                   + "  " + g_approx.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(g_approx - g).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + g_approx.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(g_approx - g).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             n *= 2;
         }
 
@@ -404,7 +389,6 @@ public static class r8Test
         //
     {
         double fn = 0;
-        int n_data;
         int n = 0;
 
         Console.WriteLine("");
@@ -414,7 +398,7 @@ public static class r8Test
         Console.WriteLine("     N       Exact F       R8_FACTORIAL(N)");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -426,9 +410,9 @@ public static class r8Test
             }
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(4) + "  "
-                              + fn.ToString().PadLeft(14) + "  "
-                              + typeMethods.r8_factorial(n).ToString().PadLeft(14) + "");
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                              + fn.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                              + typeMethods.r8_factorial(n).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -478,9 +462,9 @@ public static class r8Test
             }
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(5) + "  "
-                              + fn.ToString().PadLeft(14) + "  "
-                              + typeMethods.r8_factorial_log(n).ToString().PadLeft(14) + "");
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(5) + "  "
+                              + fn.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                              + typeMethods.r8_factorial_log(n).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
         }
 
@@ -508,8 +492,6 @@ public static class r8Test
         //
     {
         double fx1 = 0;
-        double fx2 = 0;
-        int n_data;
         double x = 0;
 
         Console.WriteLine("");
@@ -519,7 +501,7 @@ public static class r8Test
         Console.WriteLine("      X            GAMMA(X)     R8_GAMMA(X)");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -530,9 +512,9 @@ public static class r8Test
                 break;
             }
 
-            fx2 = typeMethods.r8_gamma(x);
+            double fx2 = typeMethods.r8_gamma(x);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(12)
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(12)
                                    + "  " + fx1.ToString("0.################").PadLeft(24)
                                    + "  " + fx2.ToString("0.################").PadLeft(24) + "");
         }
@@ -564,8 +546,6 @@ public static class r8Test
         double b = 0;
         double c = 0;
         double fx = 0;
-        double fx2 = 0;
-        int n_data = 0;
         double x = 0;
 
         Console.WriteLine("");
@@ -577,7 +557,7 @@ public static class r8Test
         Console.WriteLine("                                     " + "(tabulated)               (computed)");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -588,7 +568,7 @@ public static class r8Test
                 break;
             }
 
-            fx2 = typeMethods.r8_hyper_2f1(a, b, c, x);
+            double fx2 = typeMethods.r8_hyper_2f1(a, b, c, x);
 
             Console.WriteLine("  " + a.ToString("0.##").PadLeft(6)
                                    + "  " + b.ToString("0.##").PadLeft(6)
@@ -622,8 +602,6 @@ public static class r8Test
         //
     {
         double fx = 0;
-        double fx2 = 0;
-        int n_data = 0;
         double x = 0;
 
         Console.WriteLine("");
@@ -636,7 +614,7 @@ public static class r8Test
                           + "       (R8_PSI)");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -647,7 +625,7 @@ public static class r8Test
                 break;
             }
 
-            fx2 = typeMethods.r8_psi(x);
+            double fx2 = typeMethods.r8_psi(x);
 
             Console.WriteLine("  " + x.ToString("0.##").PadLeft(8)
                                    + "  " + fx.ToString("0.################").PadLeft(24)
@@ -684,17 +662,15 @@ public static class r8Test
         double[] c3 = { 1.0, 2.0, 0.0, 4.0 };
         double[] c4 = { 1.0, 0.0, 0.0, 0.0 };
         double[] c5 = { 0.0, 0.0, 0.0, 0.0 };
-        int d;
-        int m;
 
         Console.WriteLine("");
         Console.WriteLine("R8POLY_DEGREE_TEST");
         Console.WriteLine("  R8POLY_DEGREE determines the degree of an R8POLY.");
 
-        m = 3;
+        int m = 3;
 
         typeMethods.r8poly_print(m, c1, "  The R8POLY:");
-        d = typeMethods.r8poly_degree(m, ref c1);
+        int d = typeMethods.r8poly_degree(m, ref c1);
         Console.WriteLine("  Dimensioned degree = " + m + ",  Actual degree = " + d + "");
 
         typeMethods.r8poly_print(m, c2, "  The R8POLY:");
@@ -770,12 +746,8 @@ public static class r8Test
     {
         double[] c = { 24.0, -50.0, +35.0, -10.0, 1.0 };
         int i;
-        int m = 4;
-        int n = 16;
-        double p;
-        double[] x;
-        double x_hi;
-        double x_lo;
+        const int m = 4;
+        const int n = 16;
 
         Console.WriteLine("");
         Console.WriteLine("R8POLY_VALUE_HORNER_TEST");
@@ -784,9 +756,9 @@ public static class r8Test
 
         typeMethods.r8poly_print(m, c, "  The polynomial coefficients:");
 
-        x_lo = 0.0;
-        x_hi = 5.0;
-        x = typeMethods.r8vec_linspace_new(n, x_lo, x_hi);
+        double x_lo = 0.0;
+        double x_hi = 5.0;
+        double[] x = typeMethods.r8vec_linspace_new(n, x_lo, x_hi);
 
         Console.WriteLine("");
         Console.WriteLine("   I    X    P(X)");
@@ -794,10 +766,10 @@ public static class r8Test
 
         for (i = 0; i < n; i++)
         {
-            p = typeMethods.r8poly_value_horner(m, c, x[i]);
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + x[i].ToString().PadLeft(8)
-                                   + "  " + p.ToString().PadLeft(14) + "");
+            double p = typeMethods.r8poly_value_horner(m, c, x[i]);
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + p.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }

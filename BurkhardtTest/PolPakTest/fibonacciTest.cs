@@ -26,9 +26,8 @@ public static class fibonacciTest
         //    John Burkardt
         //
     {
-        int f;
         int i;
-        int n = 20;
+        const int n = 20;
 
         Console.WriteLine("");
         Console.WriteLine("FIBONACCI_DIRECT_TEST");
@@ -37,7 +36,7 @@ public static class fibonacciTest
 
         for (i = 1; i <= n; i++)
         {
-            f = Fibonacci.fibonacci_direct(i);
+            int f = Fibonacci.fibonacci_direct(i);
 
             Console.WriteLine("  "
                               + i.ToString().PadLeft(6) + "  "
@@ -69,7 +68,7 @@ public static class fibonacciTest
     {
         int f = 0;
         int i = 0;
-        int n = 0;
+        int n;
 
         Console.WriteLine("");
         Console.WriteLine("FIBONACCI_FLOOR_TEST");
@@ -112,7 +111,7 @@ public static class fibonacciTest
         //    John Burkardt
         //
     {
-        int N = 20;
+        const int N = 20;
 
         int[] f = new int[N];
         int i;

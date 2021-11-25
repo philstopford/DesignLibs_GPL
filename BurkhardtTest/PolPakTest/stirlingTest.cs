@@ -27,10 +27,8 @@ public static class stirlingTest
         //
     {
         int i;
-        int j;
-        int m = 8;
-        int n = 8;
-        int[] s1;
+        const int m = 8;
+        const int n = 8;
 
         Console.WriteLine("");
         Console.WriteLine("STIRLING1_TEST");
@@ -38,11 +36,12 @@ public static class stirlingTest
         Console.WriteLine("  Get rows 1 through " + m + "");
         Console.WriteLine("");
 
-        s1 = Stirling.stirling1 ( m, n );
+        int[] s1 = Stirling.stirling1 ( m, n );
 
         for ( i = 0; i < m; i++ )
         {
             string cout = (i+1).ToString().PadLeft(6) + "  ";
+            int j;
             for ( j = 0; j < n; j++ )
             {
                 cout += s1[i+j*m].ToString().PadLeft(6) + "  ";
@@ -73,12 +72,10 @@ public static class stirlingTest
         //    John Burkardt
         //
     {
-        int  M = 8;
-        int  N = 8;
+        const int M = 8;
+        const int N = 8;
 
         int i;
-        int j;
-        int[] s2;
 
         Console.WriteLine("");
         Console.WriteLine("STIRLING2_TEST");
@@ -86,11 +83,12 @@ public static class stirlingTest
         Console.WriteLine("  Get rows 1 through " + M + "");
         Console.WriteLine("");
 
-        s2 = Stirling.stirling2 ( M, N );
+        int[] s2 = Stirling.stirling2 ( M, N );
 
         for ( i = 0; i < M; i++ )
         {
             string cout = (i+1).ToString().PadLeft(6) + "  ";
+            int j;
             for ( j = 0; j < N; j++ )
             {
                 cout += s2[i+j*M].ToString().PadLeft(6) + "  ";

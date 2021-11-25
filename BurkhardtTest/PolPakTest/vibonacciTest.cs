@@ -26,10 +26,9 @@ public static class vibonacciTest
         //    John Burkardt
         //
     {
-        int N = 20;
+        const int N = 20;
 
         int i;
-        int seed;
         int[] v1 = new int[N];
         int[] v2 = new int[N];
         int[] v3 = new int[N];
@@ -43,7 +42,7 @@ public static class vibonacciTest
         Console.WriteLine("     I      V1      V2      V3");
         Console.WriteLine("");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         Vibonacci.vibonacci(N, ref seed, ref v1);
         Vibonacci.vibonacci(N, ref seed, ref v2);

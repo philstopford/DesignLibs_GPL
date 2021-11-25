@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Function;
 
 namespace PolPakTest;
@@ -27,8 +28,6 @@ public static class gudermannianTest
         //
     {
         double fx = 0;
-        double fx2 = 0;
-        int n_data = 0;
         double x = 0;
 
         Console.WriteLine("");
@@ -38,7 +37,7 @@ public static class gudermannianTest
         Console.WriteLine("     X      Exact F       GUD(X)");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for ( ; ; )
         {
@@ -49,12 +48,12 @@ public static class gudermannianTest
                 break;
             }
 
-            fx2 = Gudermannian.gud ( x );
+            double fx2 = Gudermannian.gud ( x );
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(10)   + "  "
-                              + fx.ToString().PadLeft(10)  + "  "
-                              + fx2.ToString().PadLeft(10) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(10)   + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(10)  + "  "
+                              + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
     }
@@ -80,10 +79,7 @@ public static class gudermannianTest
         //    John Burkardt
         //
     {
-        double g;
         int i;
-        double x;
-        double x2;
 
         Console.WriteLine("");
         Console.WriteLine("AGUD_TEST");
@@ -94,13 +90,13 @@ public static class gudermannianTest
 
         for ( i = 0; i <= 10; i++ )
         {
-            x = 1.0 + i / 5.0;
-            g = Gudermannian.gud ( x );
-            x2 = Gudermannian.agud ( g );
+            double x = 1.0 + i / 5.0;
+            double g = Gudermannian.gud ( x );
+            double x2 = Gudermannian.agud ( g );
 
-            Console.WriteLine("  " + x.ToString().PadLeft(10)
-                                   + "  " + g.ToString().PadLeft(10)
-                                   + "  " + x2.ToString().PadLeft(10)    + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + g.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + x2.ToString(CultureInfo.InvariantCulture).PadLeft(10)    + "");
         }
 
     }

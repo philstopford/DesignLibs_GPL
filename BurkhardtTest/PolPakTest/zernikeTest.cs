@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.PolynomialNS;
 using Burkardt.Types;
 
@@ -28,12 +29,8 @@ public static class zernikeTest
         //
     {
         double[] c;
-        int i;
         int m;
         int n;
-        double rho;
-        double z1;
-        double z2;
 
         Console.WriteLine("");
         Console.WriteLine("ZERNIKE_POLY_TEST");
@@ -50,18 +47,19 @@ public static class zernikeTest
             for (m = 0; m <= n; m++)
             {
                 c = Zernike.zernike_poly_coef(m, n);
-                string cout = "  " + n.ToString().PadLeft(2)
-                                   + "  " + m.ToString().PadLeft(2);
+                string cout = "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(2);
+                int i;
                 for (i = 0; i <= n; i++)
                 {
-                    cout += c[i].ToString().PadLeft(7);
+                    cout += c[i].ToString(CultureInfo.InvariantCulture).PadLeft(7);
                 }
 
                 Console.WriteLine(cout);
             }
         }
 
-        rho = 0.987654321;
+        double rho = 0.987654321;
 
         Console.WriteLine("");
         Console.WriteLine("  Z1: Compute polynomial coefficients,");
@@ -77,13 +75,13 @@ public static class zernikeTest
             for (m = 0; m <= n; m++)
             {
                 c = Zernike.zernike_poly_coef(m, n);
-                z1 = typeMethods.r8poly_value_horner(n, c, rho);
+                double z1 = typeMethods.r8poly_value_horner(n, c, rho);
 
-                z2 = Zernike.zernike_poly(m, n, rho);
-                Console.WriteLine("  " + n.ToString().PadLeft(2)
-                                       + "  " + m.ToString().PadLeft(2)
-                                       + "  " + z1.ToString().PadLeft(16)
-                                       + "  " + z2.ToString().PadLeft(16) + "");
+                double z2 = Zernike.zernike_poly(m, n, rho);
+                Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + z1.ToString(CultureInfo.InvariantCulture).PadLeft(16)
+                                       + "  " + z2.ToString(CultureInfo.InvariantCulture).PadLeft(16) + "");
 
             }
         }
@@ -111,20 +109,18 @@ public static class zernikeTest
         //    John Burkardt
         //
     {
-        double[] c;
         int m;
-        int n;
 
         Console.WriteLine("");
         Console.WriteLine("ZERNIKE_POLY_COEF_TEST");
         Console.WriteLine("  ZERNIKE_POLY_COEF determines the Zernike");
         Console.WriteLine("  polynomial coefficients.");
 
-        n = 5;
+        int n = 5;
 
         for (m = 0; m <= n; m++)
         {
-            c = Zernike.zernike_poly_coef(m, n);
+            double[] c = Zernike.zernike_poly_coef(m, n);
             typeMethods.r8poly_print(n, c, "  Zernike polynomial");
         }
 

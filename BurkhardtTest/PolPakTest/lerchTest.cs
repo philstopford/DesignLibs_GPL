@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Function;
 
 namespace PolPakTest;
@@ -28,8 +29,6 @@ public static class lerchTest
     {
         double a = 0;
         double fx = 0;
-        double fx2 = 0;
-        int n_data = 0;
         int s = 0;
         double z = 0;
 
@@ -41,7 +40,7 @@ public static class lerchTest
         Console.WriteLine("                             Tabulated        Computed");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for ( ; ; )
         {
@@ -52,14 +51,14 @@ public static class lerchTest
                 break;
             }
 
-            fx2 = Lerch.lerch ( z, s, a );
+            double fx2 = Lerch.lerch ( z, s, a );
 
             Console.WriteLine("  "
-                              + z.ToString().PadLeft(8)   + "  "
-                              + s.ToString().PadLeft(4)   + "  "
-                              + a.ToString().PadLeft(8)   + "  "
-                              + fx.ToString().PadLeft(14)  + "  "
-                              + fx2.ToString().PadLeft(14) + "");
+                              + z.ToString(CultureInfo.InvariantCulture).PadLeft(8)   + "  "
+                              + s.ToString(CultureInfo.InvariantCulture).PadLeft(4)   + "  "
+                              + a.ToString(CultureInfo.InvariantCulture).PadLeft(8)   + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14)  + "  "
+                              + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }

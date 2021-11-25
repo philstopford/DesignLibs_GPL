@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace PolPakTest;
 
@@ -60,10 +61,10 @@ public static class legendreTest
             Polynomial.legendre_poly(n, x, ref fx2, ref fp2);
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(8) + "  "
-                              + x.ToString().PadLeft(8) + "  "
-                              + fx.ToString().PadLeft(14) + "  "
-                              + fx2[n].ToString().PadLeft(14) + "");
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                              + fx2[n].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
         }
 
@@ -90,11 +91,10 @@ public static class legendreTest
         //    John Burkardt
         //
     {
-        int N = 5;
+        const int N = 5;
 
         double[] c = new double[(N + 1) * (N + 1)];
         int i;
-        int j;
 
         Console.WriteLine("");
         Console.WriteLine("LEGENDRE_POLY_COEF_TEST");
@@ -108,19 +108,19 @@ public static class legendreTest
             Console.WriteLine("");
             Console.WriteLine("  P(" + i + ")");
             Console.WriteLine("");
+            int j;
             for (j = i; 0 <= j; j--)
             {
                 switch (j)
                 {
                     case 0:
-                        Console.WriteLine(c[i + j * (N + 1)].ToString().PadLeft(14) + "");
-                        ;
+                        Console.WriteLine(c[i + j * (N + 1)].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                         break;
                     case 1:
-                        Console.WriteLine(c[i + j * (N + 1)].ToString().PadLeft(14) + " * x");
+                        Console.WriteLine(c[i + j * (N + 1)].ToString(CultureInfo.InvariantCulture).PadLeft(14) + " * x");
                         break;
                     default:
-                        Console.WriteLine(c[i + j * (N + 1)].ToString().PadLeft(14) + " * x^" + j + "");
+                        Console.WriteLine(c[i + j * (N + 1)].ToString(CultureInfo.InvariantCulture).PadLeft(14) + " * x^" + j + "");
                         break;
                 }
             }
@@ -179,11 +179,11 @@ public static class legendreTest
             Polynomial.legendre_associated(n, m, x, ref fx2);
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(8) + "  "
-                              + m.ToString().PadLeft(8) + "  "
-                              + x.ToString().PadLeft(8) + "  "
-                              + fx.ToString().PadLeft(14) + "  "
-                              + fx2[n].ToString().PadLeft(14) + "");
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + m.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                              + fx2[n].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
         }
 
@@ -242,11 +242,11 @@ public static class legendreTest
             Polynomial.legendre_associated_normalized(n, m, x, ref fx2);
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(8) + "  "
-                              + m.ToString().PadLeft(8) + "  "
-                              + x.ToString().PadLeft(8) + "  "
-                              + fx.ToString().PadLeft(14) + "  "
-                              + fx2[n].ToString().PadLeft(14) + "");
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + m.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                              + fx2[n].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
         }
 
@@ -278,7 +278,6 @@ public static class legendreTest
         double fx = 0;
         double[] fx2 = new double[N_MAX + 1];
         int n = 0;
-        int n_data;
         double x = 0;
 
         Console.WriteLine("");
@@ -288,7 +287,7 @@ public static class legendreTest
         Console.WriteLine("     N      X        Exact F       Q(N)(X)");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -302,10 +301,10 @@ public static class legendreTest
             Function.legendre_function_q(n, x, ref fx2);
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(8) + "  "
-                              + x.ToString().PadLeft(8) + "  "
-                              + fx.ToString().PadLeft(14) + "  "
-                              + fx2[n].ToString().PadLeft(14) + "");
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                              + fx2[n].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
         }
 
@@ -332,12 +331,10 @@ public static class legendreTest
         //    John Burkardt
         //
     {
-        int N_TEST = 4;
+        const int N_TEST = 4;
 
         int i;
-        int p;
         int[] ptest = { 7, 11, 13, 17 };
-        int q;
 
         Console.WriteLine("");
         Console.WriteLine("LEGENDRE_SYMBOL_TEST");
@@ -347,16 +344,17 @@ public static class legendreTest
 
         for (i = 0; i < N_TEST; i++)
         {
-            p = ptest[i];
+            int p = ptest[i];
             Console.WriteLine("");
             Console.WriteLine("  Legendre Symbols for P = " + p + "");
             Console.WriteLine("");
+            int q;
             for (q = 0; q <= p; q++)
             {
                 Console.WriteLine("  "
-                                  + p.ToString().PadLeft(8) + "  "
-                                  + q.ToString().PadLeft(8) + "  "
-                                  + Symbol.legendre_symbol(q, p).ToString().PadLeft(8) + "");
+                                  + p.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                                  + q.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                                  + Symbol.legendre_symbol(q, p).ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
             }
         }
     }

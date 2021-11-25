@@ -28,7 +28,6 @@ public static class moebiusTest
     {
         int c = 0;
         int n = 0;
-        int n_data;
 
         Console.WriteLine("");
         Console.WriteLine("MOEBIUS_TEST");
@@ -37,7 +36,7 @@ public static class moebiusTest
         Console.WriteLine("      N   Exact   MOEBIUS(N)");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {

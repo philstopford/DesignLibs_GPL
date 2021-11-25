@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Function;
 
 namespace PolPakTest;
@@ -31,14 +32,11 @@ public static class sphericalharmonicTest
         double[] c = new double[N_MAX + 1];
         int l = 0;
         int m = 0;
-        int n_data = 0;
         double phi = 0;
         double[] s = new double[N_MAX + 1];
         double theta = 0;
         double yi = 0;
-        double yi2 = 0;
         double yr = 0;
-        double yr2 = 0;
 
         Console.WriteLine("");
         Console.WriteLine("SPHERICAL_HARMONIC_TEST:");
@@ -48,7 +46,7 @@ public static class sphericalharmonicTest
             "         N         M    THETA      PHI            YR            YI");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -62,24 +60,24 @@ public static class sphericalharmonicTest
 
             SphericalHarmonic.spherical_harmonic(l, m, theta, phi, ref c, ref s);
 
-            yr2 = c[l];
-            yi2 = s[l];
+            double yr2 = c[l];
+            double yi2 = s[l];
 
             Console.WriteLine("  "
-                              + l.ToString().PadLeft(8) + "  "
-                              + m.ToString().PadLeft(8) + "  "
-                              + theta.ToString().PadLeft(8) + "  "
-                              + phi.ToString().PadLeft(8) + "  "
-                              + yr.ToString().PadLeft(14) + "  "
-                              + yi.ToString().PadLeft(14) + "");
+                              + l.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + m.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + theta.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + phi.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + yr.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                              + yi.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             Console.WriteLine("  "
                               + "        " + "  "
                               + "        " + "  "
                               + "        " + "  "
                               + "        " + "  "
-                              + yr2.ToString().PadLeft(14) + "  "
-                              + yi2.ToString().PadLeft(14) + "");
+                              + yr2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                              + yi2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }

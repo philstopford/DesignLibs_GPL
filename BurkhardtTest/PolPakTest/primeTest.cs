@@ -27,15 +27,13 @@ public static class primeTest
         //
     {
         int i;
-        int n;
-        int prime_max;
 
         Console.WriteLine("");
         Console.WriteLine("PRIME_TEST");
         Console.WriteLine("  PRIME returns primes from a table.");
 
-        n = -1;
-        prime_max = Prime.prime ( n );
+        int n = -1;
+        int prime_max = Prime.prime ( n );
         Console.WriteLine("");
         Console.WriteLine("  Number of primes stored is " + prime_max + "");
         Console.WriteLine("");
@@ -80,7 +78,6 @@ public static class primeTest
     {
         int c = 0;
         int n = 0;
-        int n_data;
 
         Console.WriteLine("");
         Console.WriteLine("PHI_TEST");
@@ -89,7 +86,7 @@ public static class primeTest
         Console.WriteLine("  N   Exact   PHI(N)");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {

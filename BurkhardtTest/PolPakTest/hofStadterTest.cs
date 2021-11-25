@@ -26,7 +26,6 @@ public static class hofStadterTest
         //    John Burkardt
         //
     {
-        int f;
         int i;
 
         Console.WriteLine("");
@@ -39,7 +38,7 @@ public static class hofStadterTest
 
         for (i = 0; i <= 30; i++)
         {
-            f = Hofstadter.f_hofstadter(i);
+            int f = Hofstadter.f_hofstadter(i);
 
             Console.WriteLine("  "
                               + i.ToString().PadLeft(6) + "  "

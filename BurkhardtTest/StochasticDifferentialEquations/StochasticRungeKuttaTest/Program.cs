@@ -72,10 +72,10 @@ internal static class Program
         Console.WriteLine("  for a problem whose right hand side does not");
         Console.WriteLine("  depend explicitly on time.");
 
-        int n = 10;
+        const int n = 10;
         double[] x = new double[n + 1];
-        double h = (tn - t0) / n;
-        double q = 1.0;
+        const double h = (tn - t0) / n;
+        const double q = 1.0;
         int seed = 123456789;
 
         int i = 0;
@@ -130,9 +130,7 @@ internal static class Program
         //    Output, double FI, the value.
         //
     {
-        double value = 0;
-
-        value = 1.0;
+        const double value = 1.0;
 
         return value;
     }
@@ -164,9 +162,7 @@ internal static class Program
         //    Output, double GI, the value.
         //
     {
-        double value = 0;
-
-        value = 1.0;
+        const double value = 1.0;
 
         return value;
     }

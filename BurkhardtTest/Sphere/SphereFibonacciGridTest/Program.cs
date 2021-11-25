@@ -78,7 +78,7 @@ internal static class Program
         //
         //  Write the nodes to a file.
         //
-        string filename = "sphere_fibonacci_grid_n1000.xyz";
+        const string filename = "sphere_fibonacci_grid_n1000.xyz";
 
         typeMethods.r8mat_write(filename, 3, ng, xg);
     }
@@ -117,7 +117,7 @@ internal static class Program
         //
         //  Display the nodes on a sphere.
         //
-        string prefix = "sphere_fibonacci_grid_n1000";
+        const string prefix = "sphere_fibonacci_grid_n1000";
 
         Grid_Fibonacci.sphere_fibonacci_grid_display(ng, xg, prefix);
     }

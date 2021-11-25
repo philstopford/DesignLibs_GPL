@@ -59,26 +59,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] adj;
-        int adj_num;
-        int[] adj_row;
-        int bandwidth;
-        int dim_num;
-        string element_filename;
-        int[] element_neighbor;
-        int[] element_node;
-        int element_num;
-        int element_order;
-        string element_rcm_filename;
         int i;
         int j;
-        int node;
-        string node_filename;
-        int node_num;
-        string node_rcm_filename;
-        double[] node_xy;
-        int[] perm;
-        int[] perm_inv;
         string prefix;
 
         Console.WriteLine("");
@@ -112,16 +94,16 @@ internal static class Program
         //
         //  Create the filenames.
         //
-        node_filename = prefix + "_nodes.txt";
-        element_filename = prefix + "_elements.txt";
-        node_rcm_filename = prefix + "_rcm_nodes.txt";
-        element_rcm_filename = prefix + "_rcm_elements.txt";
+        string node_filename = prefix + "_nodes.txt";
+        string element_filename = prefix + "_elements.txt";
+        string node_rcm_filename = prefix + "_rcm_nodes.txt";
+        string element_rcm_filename = prefix + "_rcm_elements.txt";
         //
         //  Read the data.
         //
         TableHeader h = typeMethods.r8mat_header_read(node_filename);
-        dim_num = h.m;
-        node_num = h.n;
+        int dim_num = h.m;
+        int node_num = h.n;
 
         Console.WriteLine("");
         Console.WriteLine("  Read the header of \"" + node_filename + "\".");
@@ -129,7 +111,7 @@ internal static class Program
         Console.WriteLine("  Spatial dimension DIM_NUM = " + dim_num + "");
         Console.WriteLine("  Number of nodes NODE_NUM =  " + node_num + "");
 
-        node_xy = typeMethods.r8mat_data_read(node_filename, dim_num, node_num);
+        double[] node_xy = typeMethods.r8mat_data_read(node_filename, dim_num, node_num);
 
         Console.WriteLine("");
         Console.WriteLine("  Read the data in \"" + node_filename + "\".");
@@ -138,8 +120,8 @@ internal static class Program
             dim_num, 5, "  Coordinates of first 5 nodes:");
 
         h = typeMethods.i4mat_header_read(element_filename);
-        element_order = h.m;
-        element_num = h.n;
+        int element_order = h.m;
+        int element_num = h.n;
 
         Console.WriteLine("");
         Console.WriteLine("  Read the header of \"" + element_filename + "\".");
@@ -155,7 +137,7 @@ internal static class Program
             return;
         }
 
-        element_node = typeMethods.i4mat_data_read(element_filename, element_order,
+        int[] element_node = typeMethods.i4mat_data_read(element_filename, element_order,
             element_num);
 
         Console.WriteLine("");
@@ -170,29 +152,29 @@ internal static class Program
         //
         //  Create the element neighbor array.
         //
-        element_neighbor = Neighbors.neighbor_elements_q4_mesh(element_num, element_node);
+        int[] element_neighbor = Neighbors.neighbor_elements_q4_mesh(element_num, element_node);
         //
         //  Count the number of adjacencies, and set up the ADJ_ROW 
         //  adjacency pointer array.
         //
-        adj_row = new int [node_num + 1];
+        int[] adj_row = new int [node_num + 1];
 
-        adj_num = Adjacency.adj_size_q4_mesh(node_num, element_num,
+        int adj_num = Adjacency.adj_size_q4_mesh(node_num, element_num,
             element_node, element_neighbor, ref adj_row);
         //
         //  Set up the ADJ adjacency array.
         //
-        adj = Adjacency.adj_set_q4_mesh(node_num, element_num, element_node,
+        int[] adj = Adjacency.adj_set_q4_mesh(node_num, element_num, element_node,
             element_neighbor, adj_num, adj_row);
 
-        bandwidth = AdjacencyMatrix.adj_bandwidth(node_num, adj_num, adj_row, adj);
+        int bandwidth = AdjacencyMatrix.adj_bandwidth(node_num, adj_num, adj_row, adj);
 
         Console.WriteLine("");
         Console.WriteLine("  ADJ bandwidth = " + bandwidth + "");
         //
         //  Compute the RCM permutation.
         //
-        perm = new int[node_num];
+        int[] perm = new int[node_num];
         //
         //  For now, add 1 to ADJ and ADJ_ROW since GENRCM assumes 1-based indexing.
         //
@@ -225,7 +207,7 @@ internal static class Program
             adj[i] -= 1;
         }
 
-        perm_inv = new int[node_num];
+        int[] perm_inv = new int[node_num];
 
         typeMethods.perm_inverse3(node_num, perm, ref perm_inv);
 
@@ -245,7 +227,7 @@ internal static class Program
         {
             for (i = 0; i < element_order; i++)
             {
-                node = element_node[i + j * element_order];
+                int node = element_node[i + j * element_order];
                 element_node[i + j * element_order] = perm_inv[node];
             }
         }

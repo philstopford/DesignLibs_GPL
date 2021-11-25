@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.MonomialNS;
 using Burkardt.PyramidNS;
 using Burkardt.Types;
@@ -65,19 +66,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int e_max = 6;
-        int e1;
-        int e2;
+        const int e_max = 6;
         int e3;
         int[] expon = new int[3];
-        double error;
-        double exact;
-        int m = 3;
-        int n = 500000;
-        double q;
-        int seed;
-        double[] value;
-        double[] x;
+        const int m = 3;
+        const int n = 500000;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
@@ -86,8 +79,8 @@ internal static class Program
         //
         //  Get sample points.
         //
-        seed = 123456789;
-        x = Integrals.pyramid01_sample(n, ref seed);
+        int seed = 123456789;
+        double[] x = Integrals.pyramid01_sample(n, ref seed);
 
         Console.WriteLine("");
         Console.WriteLine("  Number of sample points used is " + n + "");
@@ -101,25 +94,27 @@ internal static class Program
         for (e3 = 0; e3 <= e_max; e3++)
         {
             expon[2] = e3;
+            int e2;
             for (e2 = 0; e2 <= e_max - e3; e2 += 2)
             {
                 expon[1] = e2;
+                int e1;
                 for (e1 = 0; e1 <= e_max - e3 - e2; e1 += 2)
                 {
                     expon[0] = e1;
 
-                    value = Monomial.monomial_value(m, n, expon, x);
+                    double[] value = Monomial.monomial_value(m, n, expon, x);
 
-                    q = Integrals.pyramid01_volume() * typeMethods.r8vec_sum(n, value) / n;
-                    exact = Integrals.pyramid01_monomial_integral(expon);
-                    error = Math.Abs(q - exact);
+                    double q = Integrals.pyramid01_volume() * typeMethods.r8vec_sum(n, value) / n;
+                    double exact = Integrals.pyramid01_monomial_integral(expon);
+                    double error = Math.Abs(q - exact);
 
                     Console.WriteLine("  " + expon[0].ToString().PadLeft(2)
                                            + "  " + expon[1].ToString().PadLeft(2)
                                            + "  " + expon[2].ToString().PadLeft(2)
-                                           + "  " + q.ToString().PadLeft(14)
-                                           + "  " + exact.ToString().PadLeft(14)
-                                           + "  " + error.ToString().PadLeft(12) + "");
+                                           + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                           + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                           + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
 
                 }
             }
@@ -147,15 +142,13 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int n = 20;
-        int seed;
-        double[] x;
+        const int n = 20;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02");
         Console.WriteLine("  Print sample points in the unit pyramid in 3D.");
-        seed = 123456789;
-        x = Integrals.pyramid01_sample(n, ref seed);
+        int seed = 123456789;
+        double[] x = Integrals.pyramid01_sample(n, ref seed);
         typeMethods.r8mat_transpose_print(3, n, x, "  Unit pyramid points");
     }
 }

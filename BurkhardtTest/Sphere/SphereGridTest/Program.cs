@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using Burkardt.SphereNS;
 using Burkardt.Types;
@@ -487,7 +486,7 @@ internal static class Program
 
         int[] triangle_node = Grid.sphere_grid_t3(lat_num, lon_num);
 
-        int triangle_num = 2 * (lat_num + 1) * lon_num;
+        const int triangle_num = 2 * (lat_num + 1) * lon_num;
 
         Console.WriteLine("");
         Console.WriteLine("  The number of triangles is " + triangle_num + "");

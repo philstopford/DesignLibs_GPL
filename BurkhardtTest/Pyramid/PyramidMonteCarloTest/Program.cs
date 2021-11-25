@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.MonomialNS;
 using Burkardt.PyramidNS;
 using Burkardt.Types;
@@ -64,8 +65,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int M = 3;
-        int TEST_NUM = 10;
+        const int M = 3;
+        const int TEST_NUM = 10;
 
         int[] e = new int[M];
         int[] e_test =
@@ -83,20 +84,14 @@ internal static class Program
         };
         int i;
         int j;
-        int m = M;
-        int n;
         double result;
-        int seed;
-        int test_num = TEST_NUM;
-        double[] value;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
         Console.WriteLine("  Use PYRAMID01_SAMPLE to estimate integrals");
         Console.WriteLine("  over the interior of the unit pyramid in 3D.");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("         N"
@@ -112,25 +107,25 @@ internal static class Program
                           + "          X^2Z^2");
         Console.WriteLine("");
 
-        n = 1;
+        int n = 1;
 
         while (n <= 65536)
         {
             string cout = "  " + n.ToString().PadLeft(8);
 
-            x = MonteCarlo.pyramid01_sample(n, ref seed);
+            double[] x = MonteCarlo.pyramid01_sample(n, ref seed);
 
-            for (j = 0; j < test_num; j++)
+            for (j = 0; j < TEST_NUM; j++)
             {
-                for (i = 0; i < m; i++)
+                for (i = 0; i < M; i++)
                 {
-                    e[i] = e_test[i + j * m];
+                    e[i] = e_test[i + j * M];
                 }
 
-                value = Monomial.monomial_value(m, n, e, x);
+                double[] value = Monomial.monomial_value(M, n, e, x);
 
                 result = MonteCarlo.pyramid01_volume() * typeMethods.r8vec_sum(n, value) / n;
-                cout += "  " + result.ToString().PadLeft(14);
+                cout += "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -143,13 +138,13 @@ internal static class Program
 
         for (j = 0; j < 10; j++)
         {
-            for (i = 0; i < m; i++)
+            for (i = 0; i < M; i++)
             {
-                e[i] = e_test[i + j * m];
+                e[i] = e_test[i + j * M];
             }
 
             result = MonteCarlo.pyramid01_integral(e);
-            cout2 += "  " + result.ToString().PadLeft(14);
+            cout2 += "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(14);
         }
 
         Console.WriteLine(cout2);

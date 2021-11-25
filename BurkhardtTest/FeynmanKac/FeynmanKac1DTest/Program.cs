@@ -125,7 +125,7 @@ internal static class Program
         //
         //  Choose the spacing so we have about ni points on or in the interval.
         //
-        int ni = 21;
+        const int ni = 21;
 
         Console.WriteLine("");
         Console.WriteLine("  X coordinate discretized by " + ni + 2 + " points");

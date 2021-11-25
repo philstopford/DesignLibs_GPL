@@ -145,20 +145,19 @@ internal static class Program
         Console.WriteLine("  The spatial dimension of the data M = " + m + "");
         Console.WriteLine("  The number of generators, G_NUM = " + g_num + "");
 
-        if (m < NDIM)
+        switch (m)
         {
-            Console.WriteLine("");
-            Console.WriteLine("HANDLE - Fatal error!");
-            Console.WriteLine("  The input spatial dimension is less than 2.");
-            return;
-        }
-
-        if (NDIM < m)
-        {
-            Console.WriteLine("");
-            Console.WriteLine("HANDLE - Warning:");
-            Console.WriteLine("  The input spatial dimension is greater than 2.");
-            Console.WriteLine("  Only the first two coordinates will be considered.");
+            case < NDIM:
+                Console.WriteLine("");
+                Console.WriteLine("HANDLE - Fatal error!");
+                Console.WriteLine("  The input spatial dimension is less than 2.");
+                return;
+            case > NDIM:
+                Console.WriteLine("");
+                Console.WriteLine("HANDLE - Warning:");
+                Console.WriteLine("  The input spatial dimension is greater than 2.");
+                Console.WriteLine("  Only the first two coordinates will be considered.");
+                break;
         }
 
         double[] i_xy = new double[NDIM * g_num];
@@ -396,12 +395,14 @@ internal static class Program
             {
                 for (s = 1; s <= 3; s++)
                 {
-                    if (nodtri[s - 1 + (v - 1) * 3] == g)
+                    if (nodtri[s - 1 + (v - 1) * 3] != g)
                     {
-                        v_next = v;
-                        s_next = s;
-                        break;
+                        continue;
                     }
+
+                    v_next = v;
+                    s_next = s;
+                    break;
                 }
 
                 if (v_next != 0)
@@ -438,24 +439,28 @@ internal static class Program
 
                     for (s = 1; s <= 3; s++)
                     {
-                        if (nodtri[s - 1 + (v - 1) * 3] == g)
+                        if (nodtri[s - 1 + (v - 1) * 3] != g)
                         {
-                            sp1 = typeMethods.i4_wrap(s + 1, 1, 3);
-                            if (nodtri[sp1 - 1 + (v - 1) * 3] == g_next)
-                            {
-                                v_next = v;
-                                s_next = sp1;
-                                break;
-                            }
-
-                            sp1 = typeMethods.i4_wrap(s + 2, 1, 3);
-                            if (nodtri[sp1 - 1 + (v - 1) * 3] == g_next)
-                            {
-                                v_next = v;
-                                s_next = sp1;
-                                break;
-                            }
+                            continue;
                         }
+
+                        sp1 = typeMethods.i4_wrap(s + 1, 1, 3);
+                        if (nodtri[sp1 - 1 + (v - 1) * 3] == g_next)
+                        {
+                            v_next = v;
+                            s_next = sp1;
+                            break;
+                        }
+
+                        sp1 = typeMethods.i4_wrap(s + 2, 1, 3);
+                        if (nodtri[sp1 - 1 + (v - 1) * 3] != g_next)
+                        {
+                            continue;
+                        }
+
+                        v_next = v;
+                        s_next = sp1;
+                        break;
                     }
 
                     if (v_next != 0)
@@ -469,11 +474,13 @@ internal static class Program
                     break;
                 }
 
-                if (v_next == 0)
+                if (v_next != 0)
                 {
-                    v_next = v_old;
-                    break;
+                    continue;
                 }
+
+                v_next = v_old;
+                break;
             }
 
             //
@@ -508,24 +515,28 @@ internal static class Program
 
                     for (s = 1; s <= 3; s++)
                     {
-                        if (nodtri[s - 1 + (v - 1) * 3] == g)
+                        if (nodtri[s - 1 + (v - 1) * 3] != g)
                         {
-                            sp1 = typeMethods.i4_wrap(s + 1, 1, 3);
-                            if (nodtri[sp1 - 1 + (v - 1) * 3] == g_next)
-                            {
-                                v_next = v;
-                                s_next = sp1;
-                                break;
-                            }
-
-                            sp1 = typeMethods.i4_wrap(s + 2, 1, 3);
-                            if (nodtri[sp1 - 1 + (v - 1) * 3] == g_next)
-                            {
-                                v_next = v;
-                                s_next = sp1;
-                                break;
-                            }
+                            continue;
                         }
+
+                        sp1 = typeMethods.i4_wrap(s + 1, 1, 3);
+                        if (nodtri[sp1 - 1 + (v - 1) * 3] == g_next)
+                        {
+                            v_next = v;
+                            s_next = sp1;
+                            break;
+                        }
+
+                        sp1 = typeMethods.i4_wrap(s + 2, 1, 3);
+                        if (nodtri[sp1 - 1 + (v - 1) * 3] != g_next)
+                        {
+                            continue;
+                        }
+
+                        v_next = v;
+                        s_next = sp1;
+                        break;
                     }
 
                     if (v_next != 0)

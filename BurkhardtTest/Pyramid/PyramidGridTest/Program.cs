@@ -66,7 +66,6 @@ internal static class Program
         //
     {
         int n;
-        int ng;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
@@ -78,7 +77,7 @@ internal static class Program
         Console.WriteLine("");
         for (n = 0; n <= 10; n++)
         {
-            ng = Grid.pyramid_grid_size(n);
+            int ng = Grid.pyramid_grid_size(n);
             Console.WriteLine(n.ToString().PadLeft(4) + "  "
                                                       + ng.ToString().PadLeft(6) + "");
         }
@@ -105,22 +104,18 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int n;
-        int ng;
-        double[] pg;
-
         Console.WriteLine("");
         Console.WriteLine("TEST02");
         Console.WriteLine("  PYRAMID_UNIT_GRID determines a unit pyramid");
         Console.WriteLine("  grid with N+1 points along each edge.");
 
-        n = 4;
+        int n = 4;
         typeMethods.r8_print(n, "  Grid parameter N:");
 
-        ng = Grid.pyramid_grid_size(n);
+        int ng = Grid.pyramid_grid_size(n);
         typeMethods.r8_print(ng, "  Grid size NG:");
 
-        pg = Grid.pyramid_unit_grid(n, ng);
+        double[] pg = Grid.pyramid_unit_grid(n, ng);
 
         typeMethods.r8mat_transpose_print(3, ng, pg, "  Pyramid grid points:");
     }
@@ -146,25 +141,20 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string header;
-        int n;
-        int ng;
-        double[] pg;
-
         Console.WriteLine("");
         Console.WriteLine("TEST03");
         Console.WriteLine("  PYRAMID_UNIT_GRID_PLOT plots a unit pyramid");
         Console.WriteLine("  grid with N+1 points along each edge.");
 
-        n = 5;
+        int n = 5;
         typeMethods.r8_print(n, "  Grid parameter N:");
 
-        ng = Grid.pyramid_grid_size(n);
+        int ng = Grid.pyramid_grid_size(n);
         typeMethods.r8_print(ng, "  Grid size NG:");
 
-        pg = Grid.pyramid_unit_grid(n, ng);
+        double[] pg = Grid.pyramid_unit_grid(n, ng);
 
-        header = "pyramid_unit";
+        string header = "pyramid_unit";
         Grid.pyramid_unit_grid_plot(n, ng, pg, header);
     }
 }

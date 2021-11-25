@@ -228,8 +228,8 @@ internal static class Program
                               + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             o = GolubWelsch_Xiu.gw_02_xiu_size(n);
-            double gamma0 = 1.0;
-            double delta0 = 0.0;
+            const double gamma0 = 1.0;
+            const double delta0 = 0.0;
             double c1 = 1.0 / (2.0 * alpha + 3.0);
             double volume_1d = Math.Sqrt(Math.PI) * typeMethods.r8_gamma(alpha + 1.0)
                                / typeMethods.r8_gamma(alpha + 1.5);
@@ -632,10 +632,10 @@ internal static class Program
                               + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             o = GolubWelsch_Xiu.gw_02_xiu_size(n);
-            double gamma0 = 1.0;
-            double delta0 = 0.0;
-            double c1 = 1.0 / 3.0;
-            double volume_1d = 2.0;
+            const double gamma0 = 1.0;
+            const double delta0 = 0.0;
+            const double c1 = 1.0 / 3.0;
+            const double volume_1d = 2.0;
             x = new double[n * o];
             w = new double[o];
             GolubWelsch_Xiu.gw_02_xiu(n, o, gamma0, delta0, c1, volume_1d, ref x, ref w);
@@ -914,9 +914,9 @@ internal static class Program
                               + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             o = GolubWelsch_Xiu.gw_02_xiu_size(n);
-            double gamma0 = 2.0;
-            double delta0 = 0.0;
-            double c1 = 1.0;
+            const double gamma0 = 2.0;
+            const double delta0 = 0.0;
+            const double c1 = 1.0;
             double volume_1d = Math.Sqrt(Math.PI);
             x = new double[n * o];
             w = new double[o];
@@ -1188,7 +1188,7 @@ internal static class Program
                               + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             o = GolubWelsch_Xiu.gw_02_xiu_size(n);
-            double gamma0 = -1.0;
+            const double gamma0 = -1.0;
             double delta0 = alpha + 1.0;
             double c1 = -alpha - 1.0;
             double volume_1d = typeMethods.r8_gamma(1.0 + alpha);
@@ -1353,10 +1353,10 @@ internal static class Program
                               + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             o = GolubWelsch_Xiu.gw_02_xiu_size(n);
-            double gamma0 = -1.0;
-            double delta0 = 1.0;
-            double c1 = -1.0;
-            double volume_1d = 1.0;
+            const double gamma0 = -1.0;
+            const double delta0 = 1.0;
+            const double c1 = -1.0;
+            const double volume_1d = 1.0;
             x = new double[n * o];
             w = new double[o];
             GolubWelsch_Xiu.gw_02_xiu(n, o, gamma0, delta0, c1, volume_1d, ref x, ref w);
@@ -1411,7 +1411,7 @@ internal static class Program
         //
         //  For a given dimension N, the rule is always the same size.
         //
-        int n = 2;
+        const int n = 2;
         int o = GolubWelsch_Xiu.gw_02_xiu_size(n);
         double[] x = new double[n * o];
         double[] w = new double[o];
@@ -1579,7 +1579,7 @@ internal static class Program
         //  Jacobi.
         //
         alpha = 0.5;
-        double beta = 1.5;
+        const double beta = 1.5;
         gamma0 = (alpha + beta + 2.0) / 2.0;
         delta0 = (alpha - beta) / 2.0;
         c1 = 2.0 * (alpha + 1.0) * (beta + 1.0) / (alpha + beta + 3.0)

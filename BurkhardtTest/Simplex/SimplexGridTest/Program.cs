@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.SimplexNS;
 using Burkardt.Types;
 
@@ -64,9 +65,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int m;
         int n;
-        int ng;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01:");
@@ -78,9 +77,10 @@ internal static class Program
         for (n = 0; n <= 10; n++)
         {
             string cout = "  " + n.ToString().PadLeft(3) + ":";
+            int m;
             for (m = 0; m <= 5; m++)
             {
-                ng = Grid.simplex_grid_size(m, n);
+                int ng = Grid.simplex_grid_size(m, n);
                 cout += ng.ToString().PadLeft(6);
             }
 
@@ -109,11 +109,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] g;
         int i;
-        int j;
-        int m = 3;
-        int n;
+        const int m = 3;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02:");
@@ -124,10 +121,10 @@ internal static class Program
         Console.WriteLine("   #:  1  2  3  (*)");
         Console.WriteLine("");
 
-        n = 3;
+        const int n = 3;
 
-        j = 0;
-        g = new int[m + 1];
+        int j = 0;
+        int[] g = new int[m + 1];
         for (i = 0; i < m; i++)
         {
             g[i] = 0;
@@ -177,12 +174,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] g;
-        int i;
         int j;
-        int m = 3;
-        int n;
-        int seed;
+        const int m = 3;
 
         Console.WriteLine("");
         Console.WriteLine("TEST03:");
@@ -193,14 +186,15 @@ internal static class Program
         Console.WriteLine("   #:  1  2  3  (*)");
         Console.WriteLine("");
 
-        n = 3;
-        seed = 123456789;
+        const int n = 3;
+        int seed = 123456789;
 
         for (j = 1; j <= 20; j++)
         {
-            g = Grid.simplex_grid_index_sample(m, n, ref seed);
+            int[] g = Grid.simplex_grid_index_sample(m, n, ref seed);
 
             string cout = "  " + j.ToString().PadLeft(2);
+            int i;
             for (i = 0; i < m; i++)
             {
                 cout += g[i].ToString().PadLeft(3);
@@ -231,19 +225,14 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] g;
-        int i;
         int j;
-        int m = 2;
-        int n;
-        int seed;
+        const int m = 2;
         double[] v =
         {
             20.0, 0.0,
             30.0, 40.0,
             10.0, 20.0
         };
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST04:");
@@ -252,7 +241,7 @@ internal static class Program
         Console.WriteLine("  that uses N+1 points on a side,");
         Console.WriteLine("  in an M-dimensional simplex.");
 
-        n = 5;
+        int n = 5;
 
         typeMethods.r8mat_transpose_print(m, m + 1, v, "  Simplex vertices:");
 
@@ -261,14 +250,15 @@ internal static class Program
         Console.WriteLine("   #:  1  2  3     X        Y");
         Console.WriteLine("");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         for (j = 1; j <= 10; j++)
         {
-            g = Grid.simplex_grid_index_sample(m, n, ref seed);
-            x = Grid.simplex_grid_index_to_point(m, n, 1, g, v);
+            int[] g = Grid.simplex_grid_index_sample(m, n, ref seed);
+            double[] x = Grid.simplex_grid_index_to_point(m, n, 1, g, v);
 
             string cout = "  " + j.ToString().PadLeft(2) + ":";
+            int i;
             for (i = 0; i <= m; i++)
             {
                 cout += g[i].ToString().PadLeft(3);
@@ -277,7 +267,7 @@ internal static class Program
             cout += "  ";
             for (i = 0; i < m; i++)
             {
-                cout += x[i].ToString().PadLeft(8);
+                cout += x[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
 
             Console.WriteLine(cout);
@@ -306,22 +296,17 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] grid;
-        int m;
-        int n;
-        int ng;
-
         Console.WriteLine("");
         Console.WriteLine("TEST05:");
         Console.WriteLine("  SIMPLEX_GRID_INDEX_ALL returns all the indices");
         Console.WriteLine("  of a simplex grid that uses N+1 points on a side,");
         Console.WriteLine("  in an M-dimensional simplex.");
 
-        m = 3;
-        n = 3;
-        ng = Grid.simplex_grid_size(m, n);
+        const int m = 3;
+        const int n = 3;
+        int ng = Grid.simplex_grid_size(m, n);
 
-        grid = Grid.simplex_grid_index_all(m, n, ng);
+        int[] grid = Grid.simplex_grid_index_all(m, n, ng);
 
         typeMethods.i4mat_transpose_print(m + 1, ng, grid,
             "  Transposed Simplex Grid Index Matrix:");
@@ -349,17 +334,13 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] grid;
-        int m = 2;
-        int n;
-        int ng;
+        const int m = 2;
         double[] v =
         {
             20.0, 0.0,
             30.0, 40.0,
             10.0, 20.0
         };
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST06:");
@@ -368,14 +349,14 @@ internal static class Program
         Console.WriteLine("  that uses N+1 points on a side,");
         Console.WriteLine("  in an M-dimensional simplex.");
 
-        n = 5;
-        ng = Grid.simplex_grid_size(m, n);
+        const int n = 5;
+        int ng = Grid.simplex_grid_size(m, n);
 
         typeMethods.r8mat_transpose_print(m, m + 1, v, "  Simplex vertices:");
 
-        grid = Grid.simplex_grid_index_all(m, n, ng);
+        int[] grid = Grid.simplex_grid_index_all(m, n, ng);
 
-        x = Grid.simplex_grid_index_to_point(m, n, ng, grid, v);
+        double[] x = Grid.simplex_grid_index_to_point(m, n, ng, grid, v);
 
         typeMethods.r8mat_transpose_print(m, ng, x, "  Grid Point Coordinates:");
     }

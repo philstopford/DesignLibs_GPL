@@ -143,7 +143,7 @@ internal static class Program
             {
                 double beta = beta_test[test2];
 
-                int dim = 0;
+                const int dim = 0;
                 data.NP = new int[1];
                 data.NP[0] = 2;
                 data.P = new double[2];

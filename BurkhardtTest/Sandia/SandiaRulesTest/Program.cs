@@ -4129,13 +4129,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int M = 2;
-        int N1 = 11;
-        int N2 = 8;
-
-        int m = M;
-        int n1 = N1;
-        int n2 = N2;
+        const int M = 2;
+        const int N1 = 11;
+        const int N2 = 8;
 
         double[] a1 =
         {
@@ -4186,14 +4182,14 @@ internal static class Program
         //
         //  Step 1
         //
-        int[] indx1 = new int[n1];
-        double[] r1 = new double[n1];
-        int[] undx1 = new int[n1];
-        bool[] unique1 = new bool[n1];
-        int[] xdnu1 = new int[n1];
-        double[] z = new double[m];
+        int[] indx1 = new int[N1];
+        double[] r1 = new double[N1];
+        int[] undx1 = new int[N1];
+        bool[] unique1 = new bool[N1];
+        int[] xdnu1 = new int[N1];
+        double[] z = new double[M];
 
-        Dataset.point_radial_tol_unique_index_inc1(m, n1, a1, tol, ref seed, z, r1,
+        Dataset.point_radial_tol_unique_index_inc1(M, N1, a1, tol, ref seed, z, r1,
             indx1, unique1, ref unique_num1, undx1, xdnu1);
 
         Console.WriteLine("");
@@ -4205,7 +4201,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("           I1  XDNU1  UNDX1");
         Console.WriteLine("");
-        for (i1 = 0; i1 < n1; i1++)
+        for (i1 = 0; i1 < N1; i1++)
         {
             Console.WriteLine("  " + "    "
                                    + "  " + i1.ToString().PadLeft(4)
@@ -4223,8 +4219,8 @@ internal static class Program
             Console.WriteLine("  " + "    "
                                    + "  " + i1.ToString().PadLeft(4)
                                    + "  " + undx1[i1].ToString().PadLeft(4)
-                                   + "  " + a1[0 + undx1[i1] * m].ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                                   + "  " + a1[1 + undx1[i1] * m].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+                                   + "  " + a1[0 + undx1[i1] * M].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + a1[1 + undx1[i1] * M].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
         Console.WriteLine("");
@@ -4232,20 +4228,20 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("          I1 UNIQUE1       R1     --A1(1,I1)--  --A1(2,I1)--");
         Console.WriteLine("");
-        for (i1 = 0; i1 < n1; i1++)
+        for (i1 = 0; i1 < N1; i1++)
         {
             Console.WriteLine("  " + "    "
                                    + "  " + i1.ToString().PadLeft(4)
                                    + "  " + unique1[i1].ToString().PadLeft(4)
                                    + "  " + r1[i1].ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                                   + "  " + a1[0 + i1 * m].ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                                   + "  " + a1[1 + i1 * m].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+                                   + "  " + a1[0 + i1 * M].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + a1[1 + i1 * M].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
         Console.WriteLine("");
         Console.WriteLine("          I1   INDX1   R1(INDX1)");
         Console.WriteLine("");
-        for (i1 = 0; i1 < n1; i1++)
+        for (i1 = 0; i1 < N1; i1++)
         {
             Console.WriteLine("  " + "    "
                                    + "  " + i1.ToString().PadLeft(4)
@@ -4256,13 +4252,13 @@ internal static class Program
         //
         //  Step 2
         //
-        int[] indx2 = new int[n2];
-        double[] r2 = new double[n2];
-        int[] undx2 = new int[n2];
-        bool[] unique2 = new bool[n2];
-        int[] xdnu2 = new int[n2];
+        int[] indx2 = new int[N2];
+        double[] r2 = new double[N2];
+        int[] undx2 = new int[N2];
+        bool[] unique2 = new bool[N2];
+        int[] xdnu2 = new int[N2];
 
-        Dataset.point_radial_tol_unique_index_inc2(m, n1, a1, n2, a2, tol, z,
+        Dataset.point_radial_tol_unique_index_inc2(M, N1, a1, N2, a2, tol, z,
             r1, indx1, unique1, unique_num1, undx1, xdnu1,
             ref r2, ref indx2, ref unique2, ref unique_num2, ref undx2, ref xdnu2);
 
@@ -4277,12 +4273,12 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  (Temporary data)");
         Console.WriteLine("");
-        for (i2 = 0; i2 < n2; i2++)
+        for (i2 = 0; i2 < N2; i2++)
         {
             int undx_value = xdnu2[i2] < unique_num1 ? undx1[xdnu2[i2]] : undx2[xdnu2[i2] - unique_num1];
 
             Console.WriteLine("  " + i2.ToString().PadLeft(4)
-                                   + "  " + (i2 + n1).ToString().PadLeft(4)
+                                   + "  " + (i2 + N1).ToString().PadLeft(4)
                                    + "  " + xdnu2[i2].ToString().PadLeft(4)
                                    + "  " + undx_value.ToString().PadLeft(4) + "");
         }
@@ -4299,8 +4295,8 @@ internal static class Program
             Console.WriteLine("  " + i2.ToString().PadLeft(4)
                                    + "  " + (i2 + unique_num1).ToString().PadLeft(4)
                                    + "  " + undx2[i2].ToString().PadLeft(4)
-                                   + "  " + a2[0 + (undx2[i2] - n1) * m].ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                                   + "  " + a2[1 + (undx2[i2] - n1) * m].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+                                   + "  " + a2[0 + (undx2[i2] - N1) * M].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + a2[1 + (undx2[i2] - N1) * M].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
         //
@@ -4309,16 +4305,16 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Merge the temporary data with the permanent data.");
 
-        double[] a3 = new double[m * (n1 + n2)];
-        int[] indx3 = new int[n1 + n2];
-        double[] r3 = new double[n1 + n2];
-        int[] undx3 = new int[n1 + n2];
-        bool[] unique3 = new bool[n1 + n2];
-        int[] xdnu3 = new int[n1 + n2];
+        double[] a3 = new double[M * (N1 + N2)];
+        int[] indx3 = new int[N1 + N2];
+        double[] r3 = new double[N1 + N2];
+        int[] undx3 = new int[N1 + N2];
+        bool[] unique3 = new bool[N1 + N2];
+        int[] xdnu3 = new int[N1 + N2];
 
-        Dataset.point_radial_tol_unique_index_inc3(m,
-            n1, a1, r1, indx1, unique1, unique_num1, undx1, xdnu1,
-            n2, a2, r2, indx2, unique2, unique_num2, undx2, xdnu2,
+        Dataset.point_radial_tol_unique_index_inc3(M,
+            N1, a1, r1, indx1, unique1, unique_num1, undx1, xdnu1,
+            N2, a2, r2, indx2, unique2, unique_num2, undx2, xdnu2,
             ref n3, ref a3, ref r3, ref indx3, ref unique3, ref unique_num3, ref undx3, ref xdnu3);
 
         Console.WriteLine("");
@@ -4348,8 +4344,8 @@ internal static class Program
             Console.WriteLine("  " + "    "
                                    + "  " + i3.ToString().PadLeft(4)
                                    + "  " + undx3[i3].ToString().PadLeft(4)
-                                   + "  " + a3[0 + undx3[i3] * m].ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                                   + "  " + a3[1 + undx3[i3] * m].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+                                   + "  " + a3[0 + undx3[i3] * M].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + a3[1 + undx3[i3] * M].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
         Console.WriteLine("");
@@ -4363,8 +4359,8 @@ internal static class Program
                                    + "  " + i3.ToString().PadLeft(4)
                                    + "  " + unique3[i3].ToString().PadLeft(4)
                                    + "  " + r3[i3].ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                                   + "  " + a3[0 + i3 * m].ToString(CultureInfo.InvariantCulture).PadLeft(12)
-                                   + "  " + a3[1 + i3 * m].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+                                   + "  " + a3[0 + i3 * M].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + a3[1 + i3 * M].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
         Console.WriteLine("");
@@ -4560,7 +4556,7 @@ internal static class Program
         //
     {
         const int M = 11;
-        const int N = (2 * M);
+        const int N = 2 * M;
 
         int i;
         double[] w = new double[N];
@@ -4611,7 +4607,7 @@ internal static class Program
         //
     {
         const int M = 11;
-        const int N = (2 * M);
+        const int N = 2 * M;
 
         int i;
         double[] w = new double[N];
@@ -5343,11 +5339,11 @@ internal static class Program
         Console.WriteLine("  HERMITE_INTERPOLANT_VALUE evaluates it.");
         Console.WriteLine("  Consider data for y=sin(x) at x=0,1,2,3,4.");
 
-        int n = 5;
+        const int n = 5;
         double[] y = new double[n];
         double[] yp = new double[n];
 
-        int nd = 2 * n;
+        const int nd = 2 * n;
         double[] xd = new double[nd];
         double[] yd = new double[nd];
 

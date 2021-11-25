@@ -128,7 +128,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string input_filename = "r8mat_05_00020.txt";
+        const string input_filename = "r8mat_05_00020.txt";
 
         Console.WriteLine();
         Console.WriteLine("TEST02");
@@ -175,10 +175,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int M = 5;
-        int N = 20;
+        const int M = 5;
+        const int N = 20;
 
-        string output_filename = "i4mat_05_00020.txt";
+        const string output_filename = "i4mat_05_00020.txt";
         int[] table = new int[M*N];
 
         Console.WriteLine();
@@ -228,7 +228,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string input_filename = "i4mat_05_00020.txt";
+        const string input_filename = "i4mat_05_00020.txt";
 
         Console.WriteLine();
         Console.WriteLine("TEST04");
@@ -275,8 +275,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int M = 2;
-        int N = 10;
+        const int M = 2;
+        const int N = 10;
 
         int seed = 123456789;
 
@@ -315,8 +315,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int m = 6;
-        int n = 4;
+        const int m = 6;
+        const int n = 4;
 
         Console.WriteLine();
         Console.WriteLine("TEST06");

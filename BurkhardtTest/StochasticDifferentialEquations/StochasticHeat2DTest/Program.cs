@@ -66,9 +66,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string command_filename = "solution_commands.txt";
+        const string command_filename = "solution_commands.txt";
         List<string> command_unit = new();
-        string data_filename = "solution_data.txt";
+        const string data_filename = "solution_data.txt";
         List<string> data_unit = new();
         int i;
         int j;
@@ -89,14 +89,14 @@ internal static class Program
         //
         //  Create the X and Y coordinate vectors.
         //
-        int nx = 21;
-        double xmin = 0.0;
-        double xmax = 1.0;
+        const int nx = 21;
+        const double xmin = 0.0;
+        const double xmax = 1.0;
         double[] xvec = typeMethods.r8vec_linspace_new(nx, xmin, xmax);
 
-        int ny = 21;
-        double ymin = 0.0;
-        double ymax = 1.0;
+        const int ny = 21;
+        const double ymin = 0.0;
+        const double ymax = 1.0;
         double[] yvec = typeMethods.r8vec_linspace_new(ny, ymin, ymax);
         //
         //  Create the X and Y coordinate matrices.
@@ -188,9 +188,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string command_filename = "umean_commands.txt";
+        const string command_filename = "umean_commands.txt";
         List<string> command_unit = new();
-        string data_filename = "umean_data.txt";
+        const string data_filename = "umean_data.txt";
         List<string> data_unit = new();
         int i;
         int j;
@@ -204,14 +204,14 @@ internal static class Program
         //
         //  Create the X and Y coordinate vectors.
         //
-        int nx = 21;
-        double xmin = 0.0;
-        double xmax = 1.0;
+        const int nx = 21;
+        const double xmin = 0.0;
+        const double xmax = 1.0;
         double[] xvec = typeMethods.r8vec_linspace_new(nx, xmin, xmax);
 
-        int ny = 21;
-        double ymin = 0.0;
-        double ymax = 1.0;
+        const int ny = 21;
+        const double ymin = 0.0;
+        const double ymax = 1.0;
         double[] yvec = typeMethods.r8vec_linspace_new(ny, ymin, ymax);
         //
         //  Create the X and Y coordinate matrices.
@@ -222,14 +222,14 @@ internal static class Program
         //
         //  Create OMEGA1 and OMEGA2 vectors.
         //
-        int omega1_num = 21;
-        double omega1_min = -10.0;
-        double omega1_max = +10.0;
+        const int omega1_num = 21;
+        const double omega1_min = -10.0;
+        const double omega1_max = +10.0;
         double[] omega1_vec = typeMethods.r8vec_linspace_new(omega1_num, omega1_min, omega1_max);
 
-        int omega2_num = 21;
-        double omega2_min = -10.0;
-        double omega2_max = +10.0;
+        const int omega2_num = 21;
+        const double omega2_min = -10.0;
+        const double omega2_max = +10.0;
         double[] omega2_vec = typeMethods.r8vec_linspace_new(omega2_num, omega2_min, omega2_max);
         //
         //  Create the OMEGA1 and OMEGA2 coordinate matrices.
@@ -339,7 +339,7 @@ internal static class Program
         //    Output, double TEST01_F, the value of the heat source term at (X,Y).
         //
     {
-        double v = 0.05;
+        const double v = 0.05;
         double arg = (Math.Pow(x - 0.60, 2) + Math.Pow(y - 0.80, 2)) / Math.Pow(v, 2);
         double value = 2000.0 * Math.Exp(-arg);
 

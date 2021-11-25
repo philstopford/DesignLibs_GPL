@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.QuadMesh;
 using Burkardt.Types;
 
@@ -77,15 +78,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int adj_num = 0;
-        int[] adj_col;
-        int[] element_neighbor;
-        int[] element_node;
         int element_num = 0;
         int hole_num = 0;
-        int node = 0;
+        int node;
         int node_num = 0;
-        double[] node_xy;
 
         Console.WriteLine("");
         Console.WriteLine("ADJ_SIZE_Q4_MESH_TEST");
@@ -95,18 +91,18 @@ internal static class Program
         //
         Burkardt.Values.QuadMesh.example1_q4_mesh_size(ref node_num, ref element_num, ref hole_num);
 
-        element_neighbor = new int[4 * element_num];
-        element_node = new int[4 * element_num];
-        node_xy = new double[2 * node_num];
+        int[] element_neighbor = new int[4 * element_num];
+        int[] element_node = new int[4 * element_num];
+        double[] node_xy = new double[2 * node_num];
 
         Burkardt.Values.QuadMesh.example1_q4_mesh(node_num, element_num, ref node_xy, ref element_node,
             ref element_neighbor);
         //
         //  Get the count of the node adjacencies.
         //
-        adj_col = new int[node_num + 1];
+        int[] adj_col = new int[node_num + 1];
 
-        adj_num = Adjacency.adj_size_q4_mesh(node_num, element_num, element_node,
+        int adj_num = Adjacency.adj_size_q4_mesh(node_num, element_num, element_node,
             element_neighbor, ref adj_col);
 
         Console.WriteLine("");
@@ -144,14 +140,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] element_area;
-        int[] element_neighbor;
-        int[] element_node;
         int element_num = 0;
         int hole_num = 0;
         double mesh_area = 0;
         int node_num = 0;
-        double[] node_xy;
 
         Console.WriteLine("");
         Console.WriteLine("AREA_Q4_MESH_TEST");
@@ -160,14 +152,14 @@ internal static class Program
 
         Burkardt.Values.QuadMesh.example1_q4_mesh_size(ref node_num, ref element_num, ref hole_num);
 
-        element_neighbor = new int[4 * element_num];
-        element_node = new int[4 * element_num];
-        node_xy = new double[2 * node_num];
+        int[] element_neighbor = new int[4 * element_num];
+        int[] element_node = new int[4 * element_num];
+        double[] node_xy = new double[2 * node_num];
 
         Burkardt.Values.QuadMesh.example1_q4_mesh(node_num, element_num, ref node_xy, ref element_node,
             ref element_neighbor);
 
-        element_area = new double[element_num];
+        double[] element_area = new double[element_num];
 
         Area.area_q4_mesh(node_num, element_num, node_xy, element_node,
             element_area, ref mesh_area);
@@ -199,7 +191,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double area;
         double[] quad_xy =
         {
             1.0, 2.0,
@@ -212,7 +203,7 @@ internal static class Program
         Console.WriteLine("AREA_QUAD_TEST");
         Console.WriteLine("  AREA_QUAD computes the area of a quadrilateral.");
 
-        area = Area.area_quad(quad_xy);
+        double area = Area.area_quad(quad_xy);
 
         Console.WriteLine("");
         Console.WriteLine("  Area = " + area + "");
@@ -240,13 +231,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int boundary_edge_num;
-        int[] element_neighbor;
-        int[] element_node;
         int element_num = 0;
         int hole_num = 0;
         int node_num = 0;
-        double[] node_xy;
 
         Console.WriteLine("");
         Console.WriteLine("BOUNDARY_EDGE_COUNT_Q4_MESH_TEST");
@@ -255,14 +242,14 @@ internal static class Program
 
         Burkardt.Values.QuadMesh.example1_q4_mesh_size(ref node_num, ref element_num, ref hole_num);
 
-        element_neighbor = new int[4 * element_num];
-        element_node = new int[4 * element_num];
-        node_xy = new double[2 * node_num];
+        int[] element_neighbor = new int[4 * element_num];
+        int[] element_node = new int[4 * element_num];
+        double[] node_xy = new double[2 * node_num];
 
         Burkardt.Values.QuadMesh.example1_q4_mesh(node_num, element_num, ref node_xy, ref element_node,
             ref element_neighbor);
 
-        boundary_edge_num = Boundary.boundary_edge_count_q4_mesh(element_num, element_node);
+        int boundary_edge_num = Boundary.boundary_edge_count_q4_mesh(element_num, element_node);
 
         Console.WriteLine("");
         Console.WriteLine("  Number of boundary edges = " + boundary_edge_num + "");
@@ -332,15 +319,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] element_neighbor;
-        int[] element_node;
         int element_num = 0;
-        int element_show = 0;
         int hole_num = 0;
         int node_num = 0;
-        int node_show = 0;
-        double[] node_xy;
-        string output_filename;
 
         Console.WriteLine("");
         Console.WriteLine("EXAMPLE1_Q4_MESH_TEST");
@@ -353,9 +334,9 @@ internal static class Program
         Console.WriteLine("  Number of elements = " + element_num + "");
         Console.WriteLine("  Number of holes =    " + hole_num + "");
 
-        element_neighbor = new int[4 * element_num];
-        element_node = new int[4 * element_num];
-        node_xy = new double[2 * node_num];
+        int[] element_neighbor = new int[4 * element_num];
+        int[] element_node = new int[4 * element_num];
+        double[] node_xy = new double[2 * node_num];
 
         Burkardt.Values.QuadMesh.example1_q4_mesh(node_num, element_num, ref node_xy, ref element_node,
             ref element_neighbor);
@@ -369,9 +350,9 @@ internal static class Program
         //
         //  Plot the mesh.
         //
-        node_show = 2;
-        element_show = 2;
-        output_filename = "q4_mesh_ex1.eps";
+        int node_show = 2;
+        int element_show = 2;
+        string output_filename = "q4_mesh_ex1.eps";
 
         Plot.plot_q4_mesh(node_num, element_num, node_xy, element_node,
             node_show, element_show, output_filename);
@@ -399,15 +380,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] element_neighbor;
-        int[] element_node;
         int element_num = 0;
-        int element_show = 0;
         int hole_num = 0;
         int node_num = 0;
-        int node_show = 0;
-        double[] node_xy;
-        string output_filename;
 
         Console.WriteLine("");
         Console.WriteLine("EXAMPLE2_Q4_MESH_TEST");
@@ -420,9 +395,9 @@ internal static class Program
         Console.WriteLine("  Number of elements = " + element_num + "");
         Console.WriteLine("  Number of holes =    " + hole_num + "");
 
-        element_neighbor = new int[4 * element_num];
-        element_node = new int[4 * element_num];
-        node_xy = new double[2 * node_num];
+        int[] element_neighbor = new int[4 * element_num];
+        int[] element_node = new int[4 * element_num];
+        double[] node_xy = new double[2 * node_num];
 
         Burkardt.Values.QuadMesh.example2_q4_mesh(node_num, element_num, ref node_xy, ref element_node,
             ref element_neighbor);
@@ -436,9 +411,9 @@ internal static class Program
         //
         //  Plot the mesh.
         //
-        node_show = 2;
-        element_show = 2;
-        output_filename = "q4_mesh_ex2.eps";
+        int node_show = 2;
+        int element_show = 2;
+        string output_filename = "q4_mesh_ex2.eps";
 
         Plot.plot_q4_mesh(node_num, element_num, node_xy, element_node,
             node_show, element_show, output_filename);
@@ -465,13 +440,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] element_neighbor;
-        int[] element_neighbor2;
-        int[] element_node;
         int element_num = 0;
         int hole_num = 0;
         int node_num = 0;
-        double[] node_xy;
 
         Console.WriteLine("");
         Console.WriteLine("TEST08");
@@ -480,9 +451,9 @@ internal static class Program
 
         Burkardt.Values.QuadMesh.example1_q4_mesh_size(ref node_num, ref element_num, ref hole_num);
 
-        element_neighbor = new int[4 * element_num];
-        element_node = new int[4 * element_num];
-        node_xy = new double[2 * node_num];
+        int[] element_neighbor = new int[4 * element_num];
+        int[] element_node = new int[4 * element_num];
+        double[] node_xy = new double[2 * node_num];
 
         Burkardt.Values.QuadMesh.example1_q4_mesh(node_num, element_num, ref node_xy, ref element_node,
             ref element_neighbor);
@@ -490,7 +461,7 @@ internal static class Program
         typeMethods.i4mat_transpose_print(4, element_num, element_neighbor,
             "  Element neighbors as reported by EXAMPLE1_Q4_MESH:");
 
-        element_neighbor2 = Neighbors.neighbor_elements_q4_mesh(element_num, element_node);
+        int[] element_neighbor2 = Neighbors.neighbor_elements_q4_mesh(element_num, element_node);
 
         typeMethods.i4mat_transpose_print(4, element_num, element_neighbor2,
             "  Element neighbors computed by NEIGHBOR_ELEMENTS_Q4_MESH:");
@@ -517,13 +488,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] element_neighbor;
-        int[] element_node;
         int element_num = 0;
         int hole_num = 0;
         int node_num = 0;
-        double[] node_xy;
-        string output_filename;
 
         Console.WriteLine("");
         Console.WriteLine("TEST09");
@@ -531,14 +498,14 @@ internal static class Program
 
         Burkardt.Values.QuadMesh.example2_q4_mesh_size(ref node_num, ref element_num, ref hole_num);
 
-        element_neighbor = new int[4 * element_num];
-        element_node = new int[4 * element_num];
-        node_xy = new double[2 * node_num];
+        int[] element_neighbor = new int[4 * element_num];
+        int[] element_node = new int[4 * element_num];
+        double[] node_xy = new double[2 * node_num];
 
         Burkardt.Values.QuadMesh.example2_q4_mesh(node_num, element_num, ref node_xy, ref element_node,
             ref element_neighbor);
 
-        output_filename = "q4_mesh_ex2_element_neighbors.txt";
+        string output_filename = "q4_mesh_ex2_element_neighbors.txt";
         typeMethods.i4mat_write(output_filename, 4, element_num, element_neighbor);
         Console.WriteLine("");
         Console.WriteLine("  Element neighbors written to \"" + output_filename + "\".");
@@ -573,13 +540,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] element_neighbor;
-        int[] element_node;
         int element_num = 0;
         int hole_num = 0;
         int node_num = 0;
-        int[] node_order;
-        double[] node_xy;
 
         Console.WriteLine("");
         Console.WriteLine("TEST10");
@@ -588,14 +551,14 @@ internal static class Program
 
         Burkardt.Values.QuadMesh.example1_q4_mesh_size(ref node_num, ref element_num, ref hole_num);
 
-        element_neighbor = new int[4 * element_num];
-        element_node = new int[4 * element_num];
-        node_xy = new double[2 * node_num];
+        int[] element_neighbor = new int[4 * element_num];
+        int[] element_node = new int[4 * element_num];
+        double[] node_xy = new double[2 * node_num];
 
         Burkardt.Values.QuadMesh.example1_q4_mesh(node_num, element_num, ref node_xy, ref element_node,
             ref element_neighbor);
 
-        node_order = NodeOrder.node_order_q4_mesh(element_num, element_node, node_num);
+        int[] node_order = NodeOrder.node_order_q4_mesh(element_num, element_node, node_num);
 
         typeMethods.i4vec_print(node_num, node_order, "      NODE         ORDER");
     }
@@ -621,17 +584,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] element_neighbor;
-        int[] element_node;
         int element_num = 0;
         int hole_num = 0;
         int node_num = 0;
-        double[] node_xy;
-        int sample = 0;
-        int sample_num = 0;
-        int[] sample_element;
-        double[] sample_xy;
-        int seed;
+        int sample;
 
         Console.WriteLine("");
         Console.WriteLine("TEST105");
@@ -640,19 +596,19 @@ internal static class Program
 
         Burkardt.Values.QuadMesh.example1_q4_mesh_size(ref node_num, ref element_num, ref hole_num);
 
-        element_neighbor = new int[4 * element_num];
-        element_node = new int[4 * element_num];
-        node_xy = new double[2 * node_num];
+        int[] element_neighbor = new int[4 * element_num];
+        int[] element_node = new int[4 * element_num];
+        double[] node_xy = new double[2 * node_num];
 
         Burkardt.Values.QuadMesh.example1_q4_mesh(node_num, element_num, ref node_xy, ref element_node,
             ref element_neighbor);
 
-        sample_num = 20;
+        int sample_num = 20;
 
-        sample_xy = new double[2 * sample_num];
-        sample_element = new int[sample_num];
+        double[] sample_xy = new double[2 * sample_num];
+        int[] sample_element = new int[sample_num];
 
-        seed = 123456789;
+        int seed = 123456789;
 
         Sample.sample_q4_mesh(node_num, node_xy, element_num, element_node,
             sample_num, ref seed, ref sample_xy, ref sample_element);
@@ -664,8 +620,8 @@ internal static class Program
         for (sample = 0; sample < sample_num; sample++)
         {
             Console.WriteLine("  " + sample.ToString().PadLeft(8)
-                                   + "  " + sample_xy[0 + sample * 2].ToString().PadLeft(8)
-                                   + "  " + sample_xy[1 + sample * 2].ToString().PadLeft(8)
+                                   + "  " + sample_xy[0 + sample * 2].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + sample_xy[1 + sample * 2].ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "  " + sample_element[sample].ToString().PadLeft(8) + "");
         }
     }
@@ -691,8 +647,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int n;
-        string output_filename = "sample_quad.txt";
+        const string output_filename = "sample_quad.txt";
         double[] quad_xy =
         {
             1.0, 2.0,
@@ -700,19 +655,17 @@ internal static class Program
             5.0, 3.0,
             4.0, 4.0
         };
-        int seed;
-        double[] xy;
 
         Console.WriteLine("");
         Console.WriteLine("SAMPLE_QUAD_TEST");
         Console.WriteLine("  SAMPLE_QUAD computes N random points in a quadrilateral.");
         Console.WriteLine("  Write them to a file.");
 
-        n = 5000;
+        int n = 5000;
 
-        seed = 123456789;
+        int seed = 123456789;
 
-        xy = Sample.sample_quad_new(quad_xy, n, ref seed);
+        double[] xy = Sample.sample_quad_new(quad_xy, n, ref seed);
 
         typeMethods.r8mat_write(output_filename, 2, n, xy);
 

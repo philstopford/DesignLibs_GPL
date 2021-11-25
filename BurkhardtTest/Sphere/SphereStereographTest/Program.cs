@@ -78,8 +78,8 @@ internal static class Program
         Console.WriteLine("  SPHERE_STEREOGRAPH_INVERSE is the inverse map.");
         Console.WriteLine("  Check that these two functions are inverses.");
 
-        int m = 3;
-        int n = 100;
+        const int m = 3;
+        const int n = 100;
         //
         //  Check #1.
         //
@@ -161,8 +161,8 @@ internal static class Program
         Console.WriteLine("  (focus and center are arbitrary)");
         Console.WriteLine("  Check that these two functions can agree.");
 
-        int m = 3;
-        int n = 100;
+        const int m = 3;
+        const int n = 100;
 
         double[] focus = new double[m];
         for (i = 0; i < m - 1; i++)

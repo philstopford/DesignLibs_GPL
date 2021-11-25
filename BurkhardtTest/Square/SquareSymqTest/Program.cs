@@ -47,9 +47,9 @@ internal static class Program
         Console.WriteLine("SQUARE_SYMQ_RULE_TEST");
         Console.WriteLine("  Test the SQUARE_SYMQ_RULE library.");
 
-        int degree = 8;
+        const int degree = 8;
         int n = Symq.rule_full_size(degree);
-        string header = "square08";
+        const string header = "square08";
 
         test01(degree, n);
 
@@ -109,7 +109,7 @@ internal static class Program
         Console.WriteLine("  Symmetric quadrature rule for a square.");
         Console.WriteLine("  Polynomial exactness degree DEGREE = " + degree + "");
 
-        double area = 4.0;
+        const double area = 4.0;
         //
         //  Retrieve and print a symmetric quadrature rule.
         //
@@ -343,10 +343,9 @@ internal static class Program
             }
         }
 
-        double area = 4.0;
+        const double area = 4.0;
 
-        double d = 0.0;
-        d = Math.Pow(rints[0] - Math.Sqrt(area), 2);
+        double d = Math.Pow(rints[0] - Math.Sqrt(area), 2);
         for (i = 1; i < npols; i++)
         {
             d += Math.Pow(rints[i], 2);

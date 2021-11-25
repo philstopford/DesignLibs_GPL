@@ -293,10 +293,10 @@ internal static class Program
     {
         double[] pc = { 0.0, 0.0, 0.0 };
 
-        int lat_num = 10;
+        const int lat_num = 10;
         const int long_num = 12;
 
-        double r = 10.0;
+        const double r = 10.0;
 
         Console.WriteLine("");
         Console.WriteLine("SPHERE_LLT_GRID_DISPLAY_TEST");
@@ -323,7 +323,7 @@ internal static class Program
 
         int[] line_data = Grid_LatLong.sphere_llt_grid_lines(lat_num, long_num, line_num);
 
-        string prefix = "sphere_llt_grid";
+        const string prefix = "sphere_llt_grid";
 
         Grid_LatLong.sphere_llt_grid_display(node_num, node_xyz, line_num, line_data, prefix);
 

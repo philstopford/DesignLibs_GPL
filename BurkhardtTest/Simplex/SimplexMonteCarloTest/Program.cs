@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.MonomialNS;
 using Burkardt.SimplexNS;
 using Burkardt.Types;
@@ -83,11 +84,7 @@ internal static class Program
         int i;
         int j;
         const int m = 3;
-        int n;
         double result;
-        int seed;
-        double[] value;
-        double[] x;
         string cout = "";
 
         Console.WriteLine("");
@@ -95,7 +92,7 @@ internal static class Program
         Console.WriteLine("  Use SIMPLEX_UNIT_SAMPLE for a Monte Carlo estimate of an");
         Console.WriteLine("  integral over the interior of the unit simplex in 3D.");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("         N        1               X               Y " +
@@ -103,11 +100,11 @@ internal static class Program
                           "              Y^2             YZ               Z^2");
         Console.WriteLine("");
 
-        n = 1;
+        int n = 1;
 
         while (n <= 65536)
         {
-            x = MonteCarlo.simplex_unit_sample(m, n, ref seed);
+            double[] x = MonteCarlo.simplex_unit_sample(m, n, ref seed);
 
             cout = "  " + n.ToString().PadLeft(8);
             for (j = 0; j < 10; j++)
@@ -117,12 +114,12 @@ internal static class Program
                     e[i] = e_test[i + j * m];
                 }
 
-                value = Monomial.monomial_value(m, n, e, x);
+                double[] value = Monomial.monomial_value(m, n, e, x);
 
                 result = MonteCarlo.simplex_unit_volume(m) * typeMethods.r8vec_sum(n, value)
                          / n;
 
-                cout += "  " + result.ToString().PadLeft(14);
+                cout += "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(14);
 
             }
 
@@ -143,7 +140,7 @@ internal static class Program
             }
 
             result = MonteCarlo.simplex_unit_monomial_integral(m, e);
-            cout += "  " + result.ToString().PadLeft(14);
+            cout += "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(14);
         }
 
         Console.WriteLine(cout);
@@ -184,11 +181,7 @@ internal static class Program
         int i;
         int j;
         const int m = 6;
-        int n;
         double result;
-        int seed;
-        double[] value;
-        double[] x;
         string cout;
 
         Console.WriteLine("");
@@ -196,7 +189,7 @@ internal static class Program
         Console.WriteLine("  Use SIMPLEX_UNIT_SAMPLE for a Monte Carlo estimate of an");
         Console.WriteLine("  integral over the interior of the unit simplex in 6D.");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("         N" +
@@ -209,11 +202,11 @@ internal static class Program
                           "         Z^6");
         Console.WriteLine("");
 
-        n = 1;
+        int n = 1;
 
         while (n <= 65536)
         {
-            x = MonteCarlo.simplex_unit_sample(m, n, ref seed);
+            double[] x = MonteCarlo.simplex_unit_sample(m, n, ref seed);
 
             cout = "  " + n.ToString().PadLeft(8);
             for (j = 0; j < 7; j++)
@@ -223,12 +216,12 @@ internal static class Program
                     e[i] = e_test[i + j * m];
                 }
 
-                value = Monomial.monomial_value(m, n, e, x);
+                double[] value = Monomial.monomial_value(m, n, e, x);
 
                 result = MonteCarlo.simplex_unit_volume(m) * typeMethods.r8vec_sum(n, value)
                          / n;
 
-                cout += "  " + result.ToString().PadLeft(14);
+                cout += "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(14);
 
             }
 
@@ -248,7 +241,7 @@ internal static class Program
             }
 
             result = MonteCarlo.simplex_unit_monomial_integral(m, e);
-            cout += "  " + result.ToString().PadLeft(14);
+            cout += "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(14);
         }
 
         Console.WriteLine(cout);
@@ -292,9 +285,6 @@ internal static class Program
         int i;
         int j;
         const int m = 3;
-        int n;
-        double result;
-        int seed;
         double[] t =
         {
             1.0, 0.0, 0.0,
@@ -302,8 +292,6 @@ internal static class Program
             1.0, 2.0, 0.0,
             1.0, 0.0, 3.0
         };
-        double[] value;
-        double[] x;
         string cout = "";
 
         Console.WriteLine("");
@@ -319,13 +307,13 @@ internal static class Program
             cout = "";
             for (i = 0; i < 3; i++)
             {
-                cout += "  " + t[i + j * 3].ToString().PadLeft(14);
+                cout += "  " + t[i + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
         }
 
-        seed = 123456789;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("         N        1               X               Y " +
@@ -333,11 +321,11 @@ internal static class Program
                           "              Y^2             YZ               Z^2");
         Console.WriteLine("");
 
-        n = 1;
+        int n = 1;
 
         while (n <= 65536)
         {
-            x = MonteCarlo.simplex_general_sample(m, n, t, ref seed);
+            double[] x = MonteCarlo.simplex_general_sample(m, n, t, ref seed);
 
             cout = "  " + n.ToString().PadLeft(8);
             for (j = 0; j < 10; j++)
@@ -347,12 +335,12 @@ internal static class Program
                     e[i] = e_test[i + j * m];
                 }
 
-                value = Monomial.monomial_value(m, n, e, x);
+                double[] value = Monomial.monomial_value(m, n, e, x);
 
-                result = MonteCarlo.simplex_general_volume(m, t) * typeMethods.r8vec_sum(n, value)
-                         / n;
+                double result = MonteCarlo.simplex_general_volume(m, t) * typeMethods.r8vec_sum(n, value)
+                                / n;
 
-                cout += "  " + result.ToString().PadLeft(14);
+                cout += "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);

@@ -30,14 +30,12 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int n;
-
         Console.WriteLine("");
         Console.WriteLine("SIMPLEX_COORDINATES_TEST");
             
         Console.WriteLine("  Test the SIMPLEX_COORDINATES library.");
 
-        n = 3;
+        int n = 3;
         simplex_coordinates1_test(n);
         simplex_coordinates2_test(n);
 
@@ -80,22 +78,16 @@ internal static class Program
     {
         int i;
         int j;
-        int k;
-        double side;
-        double volume;
-        double volume2;
-        double[] x;
-        double[] xtx;
 
         Console.WriteLine("");
         Console.WriteLine("SIMPLEX_COORDINATES1_TEST");
         Console.WriteLine("  Call SIMPLEX_COORDINATES1");
 
-        x = Coordinates.simplex_coordinates1(n);
+        double[] x = Coordinates.simplex_coordinates1(n);
 
         typeMethods.r8mat_transpose_print(n, n + 1, x, "  Simplex vertex coordinates:");
 
-        side = 0.0;
+        double side = 0.0;
         for (i = 0; i < n; i++)
         {
             side += Math.Pow(x[i + 0 * n] - x[i + 1 * n], 2);
@@ -103,23 +95,24 @@ internal static class Program
 
         side = Math.Sqrt(side);
 
-        volume = Coordinates.simplex_volume(n, x);
+        double volume = Coordinates.simplex_volume(n, x);
 
-        volume2 = Math.Sqrt(n + 1) / typeMethods.r8_factorial(n)
-                                   / Math.Sqrt(Math.Pow(2.0, n)) * Math.Pow(side, n);
+        double volume2 = Math.Sqrt(n + 1) / typeMethods.r8_factorial(n)
+                                          / Math.Sqrt(Math.Pow(2.0, n)) * Math.Pow(side, n);
 
         Console.WriteLine("");
         Console.WriteLine("  Side length =     " + side + "");
         Console.WriteLine("  Volume =          " + volume + "");
         Console.WriteLine("  Expected volume = " + volume2 + "");
 
-        xtx = new double[(n + 1) * (n + 1)];
+        double[] xtx = new double[(n + 1) * (n + 1)];
 
         for (j = 0; j < n + 1; j++)
         {
             for (i = 0; i < n + 1; i++)
             {
                 xtx[i + j * (n + 1)] = 0.0;
+                int k;
                 for (k = 0; k < n; k++)
                 {
                     xtx[i + j * (n + 1)] += x[k + i * n] * x[k + j * n];
@@ -158,22 +151,16 @@ internal static class Program
     {
         int i;
         int j;
-        int k;
-        double side;
-        double volume;
-        double volume2;
-        double[] x;
-        double[] xtx;
 
         Console.WriteLine("");
         Console.WriteLine("SIMPLEX_COORDINATES2_TEST");
         Console.WriteLine("  Call SIMPLEX_COORDINATES2");
 
-        x = Coordinates.simplex_coordinates2(n);
+        double[] x = Coordinates.simplex_coordinates2(n);
 
         typeMethods.r8mat_transpose_print(n, n + 1, x, "  Simplex vertex coordinates:");
 
-        side = 0.0;
+        double side = 0.0;
         for (i = 0; i < n; i++)
         {
             side += Math.Pow(x[i + 0 * n] - x[i + 1 * n], 2);
@@ -181,23 +168,24 @@ internal static class Program
 
         side = Math.Sqrt(side);
 
-        volume = Coordinates.simplex_volume(n, x);
+        double volume = Coordinates.simplex_volume(n, x);
 
-        volume2 = Math.Sqrt(n + 1) / typeMethods.r8_factorial(n)
-                                   / Math.Sqrt(Math.Pow(2.0, n)) * Math.Pow(side, n);
+        double volume2 = Math.Sqrt(n + 1) / typeMethods.r8_factorial(n)
+                                          / Math.Sqrt(Math.Pow(2.0, n)) * Math.Pow(side, n);
 
         Console.WriteLine("");
         Console.WriteLine("  Side length =     " + side + "");
         Console.WriteLine("  Volume =          " + volume + "");
         Console.WriteLine("  Expected volume = " + volume2 + "");
 
-        xtx = new double[(n + 1) * (n + 1)];
+        double[] xtx = new double[(n + 1) * (n + 1)];
 
         for (j = 0; j < n + 1; j++)
         {
             for (i = 0; i < n + 1; i++)
             {
                 xtx[i + j * (n + 1)] = 0.0;
+                int k;
                 for (k = 0; k < n; k++)
                 {
                     xtx[i + j * (n + 1)] += x[k + i * n] * x[k + j * n];

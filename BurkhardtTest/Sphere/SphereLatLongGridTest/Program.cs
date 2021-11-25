@@ -324,7 +324,7 @@ internal static class Program
 
         int[] line_data = Grid_LatLong.sphere_llq_grid_lines(lat_num, long_num, line_num);
 
-        string prefix = "sphere_llq_grid";
+        const string prefix = "sphere_llq_grid";
 
         Grid_LatLong.sphere_llq_grid_display(node_num, node_xyz, line_num, line_data, prefix);
 

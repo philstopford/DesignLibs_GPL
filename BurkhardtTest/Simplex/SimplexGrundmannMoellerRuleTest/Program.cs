@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using Burkardt.Composition;
 using Burkardt.MonomialNS;
@@ -80,9 +81,6 @@ internal static class Program
         int j;
         int m = 2;
         int n = 10;
-        double[] phy;
-        double[] phy_unit;
-        double[] ref_;
         int seed = 123456789;
         double[] t =
         {
@@ -111,7 +109,7 @@ internal static class Program
             cout = "";
             for (i = 0; i < m; i++)
             {
-                cout += "  " + t[i + j * m].ToString().PadLeft(8);
+                cout += "  " + t[i + j * m].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
 
             Console.WriteLine(cout);
@@ -121,7 +119,7 @@ internal static class Program
         Console.WriteLine("   (  XSI     ETA )   ( X       Y  )");
         Console.WriteLine("");
 
-        phy_unit = new double[m * (m + 1)];
+        double[] phy_unit = new double[m * (m + 1)];
 
         Simplex.simplex_unit_to_general(m, m + 1, t, t_unit, ref phy_unit);
 
@@ -130,19 +128,19 @@ internal static class Program
             cout = "";
             for (i = 0; i < m; i++)
             {
-                cout += "  " + t_unit[i + j * m].ToString().PadLeft(9);
+                cout += "  " + t_unit[i + j * m].ToString(CultureInfo.InvariantCulture).PadLeft(9);
             }
 
             for (i = 0; i < m; i++)
             {
-                cout += "  " + phy_unit[i + j * m].ToString().PadLeft(9);
+                cout += "  " + phy_unit[i + j * m].ToString(CultureInfo.InvariantCulture).PadLeft(9);
             }
 
             Console.WriteLine(cout);
         }
 
-        ref_ = Simplex.simplex_unit_sample(m, n, ref seed);
-        phy = new double[m * n];
+        double[] ref_ = Simplex.simplex_unit_sample(m, n, ref seed);
+        double[] phy = new double[m * n];
 
         Simplex.simplex_unit_to_general(m, n, t, ref_, ref phy);
 
@@ -151,12 +149,12 @@ internal static class Program
             cout = "";
             for (i = 0; i < m; i++)
             {
-                cout += "  " + ref_[i + j * m].ToString().PadLeft(9);
+                cout += "  " + ref_[i + j * m].ToString(CultureInfo.InvariantCulture).PadLeft(9);
             }
 
             for (i = 0; i < m; i++)
             {
-                cout += "  " + phy[i + j * m].ToString().PadLeft(9);
+                cout += "  " + phy[i + j * m].ToString(CultureInfo.InvariantCulture).PadLeft(9);
             }
 
             Console.WriteLine(cout);
@@ -186,11 +184,8 @@ internal static class Program
     {
         int dim;
         int j;
-        int m = 3;
-        int n = 10;
-        double[] phy;
-        double[] phy_unit;
-        double[] ref_;
+        const int m = 3;
+        const int n = 10;
         int seed = 123456789;
         double[] t =
         {
@@ -206,7 +201,7 @@ internal static class Program
             0.0, 1.0, 0.0,
             0.0, 0.0, 1.0
         };
-        int vertex_num = 3 + 1;
+        const int vertex_num = 3 + 1;
         string cout = "";
         Console.WriteLine("");
         Console.WriteLine("TEST02");
@@ -222,7 +217,7 @@ internal static class Program
             cout = "";
             for (dim = 0; dim < m; dim++)
             {
-                cout += "  " + t[dim + j * m].ToString().PadLeft(8);
+                cout += "  " + t[dim + j * m].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
 
             Console.WriteLine(cout);
@@ -232,7 +227,7 @@ internal static class Program
         Console.WriteLine("   (  XSI     ETA     MU )    ( X       Y       Z )");
         Console.WriteLine("");
 
-        phy_unit = new double[m * (m + 1)];
+        double[] phy_unit = new double[m * (m + 1)];
 
         Simplex.simplex_unit_to_general(m, m + 1, t, t_unit, ref phy_unit);
 
@@ -241,19 +236,19 @@ internal static class Program
             cout = "";
             for (dim = 0; dim < m; dim++)
             {
-                cout += "  " + t_unit[dim + j * m].ToString().PadLeft(9);
+                cout += "  " + t_unit[dim + j * m].ToString(CultureInfo.InvariantCulture).PadLeft(9);
             }
 
             for (dim = 0; dim < m; dim++)
             {
-                cout += "  " + phy_unit[dim + j * m].ToString().PadLeft(9);
+                cout += "  " + phy_unit[dim + j * m].ToString(CultureInfo.InvariantCulture).PadLeft(9);
             }
 
             Console.WriteLine(cout);
         }
 
-        ref_ = Simplex.simplex_unit_sample(m, n, ref seed);
-        phy = new double[m * n];
+        double[] ref_ = Simplex.simplex_unit_sample(m, n, ref seed);
+        double[] phy = new double[m * n];
 
         Simplex.simplex_unit_to_general(m, n, t, ref_, ref phy);
 
@@ -262,12 +257,12 @@ internal static class Program
             cout = "";
             for (dim = 0; dim < m; dim++)
             {
-                cout += "  " + ref_[dim + j * m].ToString().PadLeft(9);
+                cout += "  " + ref_[dim + j * m].ToString(CultureInfo.InvariantCulture).PadLeft(9);
             }
 
             for (dim = 0; dim < m; dim++)
             {
-                cout += "  " + phy[dim + j * m].ToString().PadLeft(9);
+                cout += "  " + phy[dim + j * m].ToString(CultureInfo.InvariantCulture).PadLeft(9);
             }
 
             Console.WriteLine(cout);
@@ -295,15 +290,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int TEST_NUM = 4;
+        const int TEST_NUM = 4;
 
-        int degree;
-        int m;
         int[] m_test = { 2, 3, 5, 10 };
-        int n;
-        int rule;
         int test;
-        int test_num = TEST_NUM;
 
         Console.WriteLine("");
         Console.WriteLine("TEST03");
@@ -316,16 +306,17 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("   M      RULE    DEGREE N");
 
-        for (test = 0; test < test_num; test++)
+        for (test = 0; test < TEST_NUM; test++)
         {
-            m = m_test[test];
+            int m = m_test[test];
 
             Console.WriteLine("");
 
+            int rule;
             for (rule = 0; rule <= 5; rule++)
             {
-                n = GrundmannMoellerRule.gm_rule_size(rule, m);
-                degree = 2 * rule + 1;
+                int n = GrundmannMoellerRule.gm_rule_size(rule, m);
+                int degree = 2 * rule + 1;
 
                 Console.WriteLine("  " + m.ToString().PadLeft(8)
                                        + "  " + rule.ToString().PadLeft(8)
@@ -356,13 +347,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int dim;
-        int m;
-        int n;
         int point;
-        int rule;
-        double[] w;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST04");
@@ -372,18 +357,18 @@ internal static class Program
         Console.WriteLine("  using a rule of index RULE,");
         Console.WriteLine("  which will have degree of exactness 2*RULE+1.");
 
-        m = 3;
-        rule = 2;
+        const int m = 3;
+        const int rule = 2;
 
         Console.WriteLine("");
         Console.WriteLine("  Here we use M = " + m + "");
         Console.WriteLine("  RULE = " + rule + "");
         Console.WriteLine("  DEGREE = " + 2 * rule + 1 + "");
 
-        n = GrundmannMoellerRule.gm_rule_size(rule, m);
+        int n = GrundmannMoellerRule.gm_rule_size(rule, m);
 
-        w = new double[n];
-        x = new double[m * n];
+        double[] w = new double[n];
+        double[] x = new double[m * n];
 
         GrundmannMoellerRule.gm_unit_rule_set(rule, m, n, ref w, ref x);
 
@@ -394,10 +379,11 @@ internal static class Program
         for (point = 0; point < n; point++)
         {
             string cout = "  " + (point + 1).ToString().PadLeft(8)
-                               + "  " + w[point].ToString().PadLeft(12);
+                               + "  " + w[point].ToString(CultureInfo.InvariantCulture).PadLeft(12);
+            int dim;
             for (dim = 0; dim < m; dim++)
             {
-                cout += "  " + x[dim + point * m].ToString().PadLeft(12);
+                cout += "  " + x[dim + point * m].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
@@ -425,18 +411,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int TEST_NUM = 4;
+        const int TEST_NUM = 4;
 
-        int m;
         int[] m_test = { 2, 3, 5, 10 };
-        int n;
-        int point;
-        int rule;
         int test;
-        int test_num = TEST_NUM;
-        double[] w;
-        double w_sum;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST05");
@@ -452,22 +430,24 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("   M      RULE    N  WEIGHT SUM");
 
-        for (test = 0; test < test_num; test++)
+        for (test = 0; test < TEST_NUM; test++)
         {
-            m = m_test[test];
+            int m = m_test[test];
 
             Console.WriteLine("");
 
+            int rule;
             for (rule = 0; rule <= 5; rule++)
             {
-                n = GrundmannMoellerRule.gm_rule_size(rule, m);
+                int n = GrundmannMoellerRule.gm_rule_size(rule, m);
 
-                w = new double[n];
-                x = new double[m * n];
+                double[] w = new double[n];
+                double[] x = new double[m * n];
 
                 GrundmannMoellerRule.gm_unit_rule_set(rule, m, n, ref w, ref x);
 
-                w_sum = 0.0;
+                double w_sum = 0.0;
+                int point;
                 for (point = 0; point < n; point++)
                 {
                     w_sum += w[point];
@@ -502,16 +482,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int dim;
-        int m;
-        int n;
         int point;
-        int rule;
-        double[] w;
-        string w_file;
         List<string> w_unit = new();
-        double[] x;
-        string x_file;
         List<string> x_unit = new();
 
         Console.WriteLine("");
@@ -524,22 +496,22 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  In this test, we write a rule to a file.");
 
-        m = 3;
-        rule = 2;
+        const int m = 3;
+        const int rule = 2;
 
         Console.WriteLine("");
         Console.WriteLine("  Here we use M = " + m + "");
         Console.WriteLine("  RULE = " + rule + "");
         Console.WriteLine("  DEGREE = " + 2 * rule + 1 + "");
 
-        n = GrundmannMoellerRule.gm_rule_size(rule, m);
+        int n = GrundmannMoellerRule.gm_rule_size(rule, m);
 
-        w = new double[n];
-        x = new double[m * n];
+        double[] w = new double[n];
+        double[] x = new double[m * n];
 
         GrundmannMoellerRule.gm_unit_rule_set(rule, m, n, ref w, ref x);
 
-        w_file = "gm" + rule + "_" + m + "d_w.txt";
+        string w_file = "gm" + rule + "_" + m + "d_w.txt";
 
         for (point = 0; point < n; point++)
         {
@@ -548,11 +520,12 @@ internal static class Program
 
         File.WriteAllLines(w_file, w_unit);
 
-        x_file = "gm" + rule + "_" + m + "d_x.txt";
+        string x_file = "gm" + rule + "_" + m + "d_x.txt";
 
         for (point = 0; point < n; point++)
         {
             string tmp = "";
+            int dim;
             for (dim = 0; dim < m; dim++)
             {
                 tmp += x[dim + point * m].ToString("0.################").PadLeft(20);
@@ -592,18 +565,11 @@ internal static class Program
         //
     {
         int degree;
-        int degree_max = 4;
-        int[] expon;
+        const int degree_max = 4;
         int h = 0;
-        int m = 5;
-        bool more;
-        int n;
-        double quad_error;
-        int rule;
-        int rule_max = 3;
+        const int m = 5;
+        const int rule_max = 3;
         int t = 0;
-        double[] w;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST07");
@@ -623,11 +589,11 @@ internal static class Program
         Console.WriteLine("      Rule     Order     Quad_Error");
         Console.WriteLine("");
 
-        expon = new int[m];
+        int[] expon = new int[m];
 
         for (degree = 0; degree <= degree_max; degree++)
         {
-            more = false;
+            bool more = false;
 
             for (;;)
             {
@@ -641,21 +607,22 @@ internal static class Program
                                                  + " * X5^" + expon[4] + "");
                 Console.WriteLine("");
 
+                int rule;
                 for (rule = 0; rule <= rule_max; rule++)
                 {
-                    n = GrundmannMoellerRule.gm_rule_size(rule, m);
+                    int n = GrundmannMoellerRule.gm_rule_size(rule, m);
 
-                    w = new double[n];
-                    x = new double[m * n];
+                    double[] w = new double[n];
+                    double[] x = new double[m * n];
 
                     GrundmannMoellerRule.gm_unit_rule_set(rule, m, n, ref w, ref x);
 
-                    quad_error = Simplex.simplex_unit_monomial_quadrature(m, expon,
+                    double quad_error = Simplex.simplex_unit_monomial_quadrature(m, expon,
                         n, x, w);
 
                     Console.WriteLine("  " + rule.ToString().PadLeft(8)
                                            + "  " + n.ToString().PadLeft(8)
-                                           + "  " + quad_error.ToString().PadLeft(14) + "");
+                                           + "  " + quad_error.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                 }
 
                 if (!more)
@@ -689,9 +656,6 @@ internal static class Program
     {
         int i;
         int j;
-        int m;
-        int n;
-        int rule;
         double[] t =
         {
             1.0, 0.0, 0.0,
@@ -699,8 +663,6 @@ internal static class Program
             1.0, 2.0, 0.0,
             1.0, 0.0, 3.0
         };
-        double[] w;
-        double[] x;
         string cout;
 
         Console.WriteLine("");
@@ -711,8 +673,8 @@ internal static class Program
         Console.WriteLine("  using a rule of index RULE,");
         Console.WriteLine("  which will have degree of exactness 2*RULE+1.");
 
-        m = 3;
-        rule = 2;
+        const int m = 3;
+        const int rule = 2;
 
         Console.WriteLine("");
         Console.WriteLine("  Here we use M = " + m + "");
@@ -727,16 +689,16 @@ internal static class Program
             cout = "";
             for (i = 0; i < 3; i++)
             {
-                cout += "  " + t[i + j * 3].ToString().PadLeft(14);
+                cout += "  " + t[i + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
         }
 
-        n = GrundmannMoellerRule.gm_rule_size(rule, m);
+        int n = GrundmannMoellerRule.gm_rule_size(rule, m);
 
-        w = new double[n];
-        x = new double[m * n];
+        double[] w = new double[n];
+        double[] x = new double[m * n];
 
         GrundmannMoellerRule.gm_general_rule_set(rule, m, n, t, ref w, ref x);
 
@@ -747,10 +709,10 @@ internal static class Program
         for (j = 0; j < n; j++)
         {
             cout = "  " + j.ToString().PadLeft(8)
-                        + "  " + w[j].ToString().PadLeft(12);
+                        + "  " + w[j].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             for (i = 0; i < m; i++)
             {
-                cout += "  " + x[i + j * m].ToString().PadLeft(12);
+                cout += "  " + x[i + j * m].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
@@ -793,16 +755,8 @@ internal static class Program
             0, 1, 1,
             0, 0, 2
         };
-        int i;
-        int k;
-        int m = 3;
-        int n;
-        double result;
+        const int m = 3;
         int rule;
-        double[] value;
-        double volume;
-        double[] w;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST09");
@@ -817,7 +771,7 @@ internal static class Program
         Console.WriteLine("  some maximum degree, choose a few low order rules");
         Console.WriteLine("  and determine the quadrature error for each.");
 
-        volume = Simplex.simplex_unit_volume(m);
+        double volume = Simplex.simplex_unit_volume(m);
         Console.WriteLine("");
         Console.WriteLine("  Simplex volume = " + volume + "");
 
@@ -832,27 +786,29 @@ internal static class Program
 
         for (rule = 0; rule <= 5; rule++)
         {
-            n = GrundmannMoellerRule.gm_rule_size(rule, m);
+            int n = GrundmannMoellerRule.gm_rule_size(rule, m);
 
-            w = new double[n];
-            x = new double[m * n];
+            double[] w = new double[n];
+            double[] x = new double[m * n];
 
             GrundmannMoellerRule.gm_unit_rule_set(rule, m, n, ref w, ref x);
 
             string cout = "  " + n.ToString().PadLeft(8);
 
+            int k;
             for (k = 0; k < 10; k++)
             {
+                int i;
                 for (i = 0; i < m; i++)
                 {
                     e[i] = e_test[i + k * m];
                 }
 
-                value = Monomial.monomial_value(m, n, e, x);
+                double[] value = Monomial.monomial_value(m, n, e, x);
 
-                result = typeMethods.r8vec_dot_product(n, w, value);
+                double result = typeMethods.r8vec_dot_product(n, w, value);
 
-                cout += "  " + result.ToString().PadLeft(14);
+                cout += "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(14);
 
             }
 
@@ -898,10 +854,7 @@ internal static class Program
         };
         int i;
         int j;
-        int k;
-        int m = 3;
-        int n;
-        double result;
+        const int m = 3;
         int rule;
         double[] t =
         {
@@ -910,10 +863,6 @@ internal static class Program
             1.0, 2.0, 0.0,
             1.0, 0.0, 3.0
         };
-        double[] value;
-        double volume;
-        double[] w;
-        double[] x;
         string cout;
 
         Console.WriteLine("");
@@ -937,13 +886,13 @@ internal static class Program
             cout = "";
             for (i = 0; i < 3; i++)
             {
-                cout += "  " + t[i + j * 3].ToString().PadLeft(14);
+                cout += "  " + t[i + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
         }
 
-        volume = Simplex.simplex_general_volume(m, t);
+        double volume = Simplex.simplex_general_volume(m, t);
         Console.WriteLine("");
         Console.WriteLine("  Simplex volume = " + volume + "");
 
@@ -958,15 +907,16 @@ internal static class Program
 
         for (rule = 0; rule <= 5; rule++)
         {
-            n = GrundmannMoellerRule.gm_rule_size(rule, m);
+            int n = GrundmannMoellerRule.gm_rule_size(rule, m);
 
-            w = new double[n];
-            x = new double[m * n];
+            double[] w = new double[n];
+            double[] x = new double[m * n];
 
             GrundmannMoellerRule.gm_general_rule_set(rule, m, n, t, ref w, ref x);
 
             cout = "  " + n.ToString().PadLeft(8);
 
+            int k;
             for (k = 0; k < 10; k++)
             {
                 for (i = 0; i < m; i++)
@@ -974,11 +924,11 @@ internal static class Program
                     e[i] = e_test[i + k * m];
                 }
 
-                value = Monomial.monomial_value(m, n, e, x);
+                double[] value = Monomial.monomial_value(m, n, e, x);
 
-                result = typeMethods.r8vec_dot_product(n, w, value);
+                double result = typeMethods.r8vec_dot_product(n, w, value);
 
-                cout += "  " + result.ToString().PadLeft(14);
+                cout += "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(14);
 
             }
 

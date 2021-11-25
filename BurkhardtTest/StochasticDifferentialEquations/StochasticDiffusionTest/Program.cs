@@ -115,8 +115,8 @@ internal static class Program
         //
         //  Compute the diffusivity field.
         //
-        double dc0 = 10.0;
-        int n = nx * ny;
+        const double dc0 = 10.0;
+        const int n = nx * ny;
         double[] dc = Diffusion.diffusivity_2d_bnt(dc0, omega, n, xmat, ymat);
 
         for (j = 0; j < ny; j++)
@@ -210,7 +210,7 @@ internal static class Program
         //
         //  Set the spatial grid.
         //
-        double a = 1.0;
+        const double a = 1.0;
         double[] xvec = typeMethods.r8vec_linspace_new(nx, -a, a);
         double[] yvec = typeMethods.r8vec_linspace_new(ny, -a, a);
 
@@ -225,8 +225,8 @@ internal static class Program
         //
         //  Compute the diffusivity field.
         //
-        double cl = 0.1;
-        double dc0 = 10.0;
+        const double cl = 0.1;
+        const double dc0 = 10.0;
         double[] dc = Diffusion.diffusivity_2d_elman(a, cl, dc0, m_1d, omega, nx, nx, xmat, ymat);
 
         for (j = 0; j < ny; j++)
@@ -321,7 +321,7 @@ internal static class Program
         //
         //  Set the spatial grid.
         //
-        double d = 1.0;
+        const double d = 1.0;
         double[] xvec = typeMethods.r8vec_linspace_new(nx, 0.0, d);
         double[] yvec = typeMethods.r8vec_linspace_new(ny, 0.0, d);
 
@@ -343,8 +343,8 @@ internal static class Program
         //
         //  Evaluate the diffusivity field.
         //
-        double cl = 0.1;
-        double dc0 = 0.5;
+        const double cl = 0.1;
+        const double dc0 = 0.5;
         double[] dc = Diffusion.diffusivity_2d_ntw(cl, dc0, m, omega, nx * ny, xmat, ymat);
 
         for (j = 0; j < ny; j++)
@@ -435,20 +435,20 @@ internal static class Program
         //
         //  Set up the spatial grid.
         //
-        int n = 51;
-        double x_min = -1.0;
-        double x_max = +1.0;
+        const int n = 51;
+        const double x_min = -1.0;
+        const double x_max = +1.0;
         double[] x = typeMethods.r8vec_linspace_new(n, x_min, x_max);
         //
         //  Sample the OMEGA values.
         //
-        int m = 5;
+        const int m = 5;
         int seed = 123456789;
         double[] omega = typeMethods.r8vec_normal_01_new(m, ref data, ref seed);
         //
         //  Compute the diffusivity field.
         //
-        double dc0 = 10.0;
+        const double dc0 = 10.0;
         double[] dc = Diffusion.diffusivity_1d_xk(dc0, m, omega, n, x);
 
         for (j = 0; j < n; j++)

@@ -135,7 +135,7 @@ internal static class Program
             //
             //  Choose the spacing so we have about 10 points in the shorter direction.
             //
-            int nj = 11;
+            const int nj = 11;
             int ni = 1 + (int) Math.Ceiling(a / b) * (nj - 1);
 
             Console.WriteLine("");

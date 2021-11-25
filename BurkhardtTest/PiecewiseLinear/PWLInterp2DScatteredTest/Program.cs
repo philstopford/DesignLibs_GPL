@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.PiecewiseLinear;
 using Burkardt.TriangulationNS;
 using InterpTest;
@@ -32,7 +33,6 @@ internal static class Program
         //
     {
         int prob;
-        int prob_num;
 
         Console.WriteLine("");
         Console.WriteLine("PWL_INTERP_2D_SCATTERED_TEST:");
@@ -45,7 +45,7 @@ internal static class Program
         //
         //  Numerical tests.
         //
-        prob_num = Data_2D.f00_num();
+        int prob_num = Data_2D.f00_num();
 
         for (prob = 1; prob <= prob_num; prob++)
         {
@@ -81,7 +81,7 @@ internal static class Program
     {
         int[] element_neighbor = new int[3 * 2 * 9];
         int element_num = 0;
-        int node_num = 9;
+        const int node_num = 9;
         double[] node_xy =
         {
             0.0, 0.0,
@@ -134,9 +134,8 @@ internal static class Program
         int element_num = 0;
         int i;
         int j;
-        int k;
-        int ni = 25;
-        int node_num = 9;
+        const int ni = 25;
+        const int node_num = 9;
         double[] node_xy =
         {
             0.0, 0.0,
@@ -150,12 +149,8 @@ internal static class Program
             1.0, 1.0
         };
         int[] triangle = new int[3 * 2 * 9];
-        double x;
         double[] xyi = new double[2 * 25];
-        double y;
         double[] zd = new double[9];
-        double ze;
-        double[] zi;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02");
@@ -186,15 +181,15 @@ internal static class Program
         //
         for (i = 0; i < node_num; i++)
         {
-            x = node_xy[0 + i * 2];
-            y = node_xy[1 + i * 2];
+            double x = node_xy[0 + i * 2];
+            double y = node_xy[1 + i * 2];
             zd[i] = x + 2.0 * y;
         }
 
         //
         //  Define the interpolation points.
         //
-        k = 0;
+        int k = 0;
         for (i = 0; i <= 4; i++)
         {
             for (j = 0; j <= 4; j++)
@@ -208,7 +203,7 @@ internal static class Program
         //
         //  Evaluate the interpolant.
         //
-        zi = Interp2D.pwl_interp_2d_scattered_value(node_num, node_xy, zd, element_num,
+        double[] zi = Interp2D.pwl_interp_2d_scattered_value(node_num, node_xy, zd, element_num,
             triangle, element_neighbor, ni, xyi);
 
         Console.WriteLine("");
@@ -216,12 +211,12 @@ internal static class Program
         Console.WriteLine("");
         for (k = 0; k < ni; k++)
         {
-            ze = xyi[0 + k * 2] + 2.0 * xyi[1 + k * 2];
+            double ze = xyi[0 + k * 2] + 2.0 * xyi[1 + k * 2];
             Console.WriteLine("  " + k.ToString().PadLeft(4)
-                                   + "  " + xyi[0 + k * 2].ToString().PadLeft(10)
-                                   + "  " + xyi[1 + k * 2].ToString().PadLeft(10)
-                                   + "  " + zi[k].ToString().PadLeft(10)
-                                   + "  " + ze.ToString().PadLeft(10) + "");
+                                   + "  " + xyi[0 + k * 2].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + xyi[1 + k * 2].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + zi[k].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + ze.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -246,28 +241,16 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] element_neighbor;
         int element_num = 0;
-        int g;
         int i;
         int j;
-        int k;
-        int nd;
-        int ni = 25;
-        double rms;
-        int[] triangle;
-        double[] xd;
+        const int ni = 25;
         double[] xi = new double[25];
-        double[] xyd;
         double[] xyi = new double[2 * 25];
-        double[] yd;
         double[] yi = new double[25];
-        double[] zd;
-        double[] ze;
-        double[] zi;
 
-        g = 2;
-        nd = Data_2D.g00_size(g);
+        int g = 2;
+        int nd = Data_2D.g00_size(g);
 
         Console.WriteLine("");
         Console.WriteLine("TEST03");
@@ -279,15 +262,15 @@ internal static class Program
         //
         //  Get the data points and evaluate the function there.
         //
-        xd = new double[nd];
-        yd = new double[nd];
+        double[] xd = new double[nd];
+        double[] yd = new double[nd];
 
         Data_2D.g00_xy(g, nd, ref xd, ref yd);
 
-        zd = new double[nd];
+        double[] zd = new double[nd];
         Data_2D.f00_f0(prob, nd, xd, yd, ref zd);
 
-        xyd = new double[2 * nd];
+        double[] xyd = new double[2 * nd];
 
         for (i = 0; i < nd; i++)
         {
@@ -298,8 +281,8 @@ internal static class Program
         //
         //  Set up the Delaunay triangulation.
         //
-        element_neighbor = new int[3 * 2 * nd];
-        triangle = new int[3 * 2 * nd];
+        int[] element_neighbor = new int[3 * 2 * nd];
+        int[] triangle = new int[3 * 2 * nd];
 
         Delauney.r8tris2(nd, ref xyd, ref element_num, ref triangle, ref element_neighbor);
 
@@ -319,7 +302,7 @@ internal static class Program
         //
         //  Define the interpolation points.
         //
-        k = 0;
+        int k = 0;
         for (i = 1; i <= 5; i++)
         {
             for (j = 1; j <= 5; j++)
@@ -336,15 +319,15 @@ internal static class Program
             yi[k] = xyi[1 + k * 2];
         }
 
-        ze = new double[ni];
+        double[] ze = new double[ni];
         Data_2D.f00_f0(prob, ni, xi, yi, ref ze);
         //
         //  Evaluate the interpolant.
         //
-        zi = Interp2D.pwl_interp_2d_scattered_value(nd, xyd, zd, element_num,
+        double[] zi = Interp2D.pwl_interp_2d_scattered_value(nd, xyd, zd, element_num,
             triangle, element_neighbor, ni, xyi);
 
-        rms = 0.0;
+        double rms = 0.0;
         for (k = 0; k < ni; k++)
         {
             rms += Math.Pow(zi[k] - ze[k], 2);
@@ -362,10 +345,10 @@ internal static class Program
         for (k = 0; k < ni; k++)
         {
             Console.WriteLine("  " + k.ToString().PadLeft(4)
-                                   + "  " + xyi[0 + k * 2].ToString().PadLeft(10)
-                                   + "  " + xyi[1 + k * 2].ToString().PadLeft(10)
-                                   + "  " + zi[k].ToString().PadLeft(10)
-                                   + "  " + ze[k].ToString().PadLeft(10) + "");
+                                   + "  " + xyi[0 + k * 2].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + xyi[1 + k * 2].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + zi[k].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + ze[k].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt;
 using Burkardt.Table;
 using Burkardt.Types;
@@ -35,13 +36,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double d;
-        double de;
-        int dim_num;
-        double e;
         string input_filename;
-        int point_num;
-        double[] points;
 
         //
         //  Get the input filename
@@ -61,13 +56,13 @@ internal static class Program
         //  Get the data size.
         //
         TableHeader h = typeMethods.r8mat_header_read(input_filename);
-        dim_num = h.m;
-        point_num = h.n;
+        int dim_num = h.m;
+        int point_num = h.n;
 
         //
         //  Read the data.
         //
-        points = typeMethods.r8mat_data_read(input_filename, dim_num, point_num);
+        double[] points = typeMethods.r8mat_data_read(input_filename, dim_num, point_num);
 
         if (typeMethods.r8mat_min(dim_num, point_num, points) < 0.0)
         {
@@ -88,19 +83,19 @@ internal static class Program
         //
         //  Analyze the data.
         //
-        d = Diaphony.diaphony_compute(dim_num, point_num, points);
+        double d = Diaphony.diaphony_compute(dim_num, point_num, points);
 
-        e = 1.0 / Math.Sqrt(point_num);
-        de = d / e;
+        double e = 1.0 / Math.Sqrt(point_num);
+        double de = d / e;
 
         Console.WriteLine("");
         Console.WriteLine("  File  M  N  Diaphony  1/sqrt(N)  D/sqrt(N)");
         Console.WriteLine("  " + input_filename
                                + "  " + dim_num.ToString().PadLeft(2)
                                + "  " + point_num.ToString().PadLeft(5)
-                               + "  " + d.ToString().PadLeft(14)
-                               + "  " + e.ToString().PadLeft(14)
-                               + "  " + de.ToString().PadLeft(14) + "");
+                               + "  " + d.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                               + "  " + e.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                               + "  " + de.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Function;
 using Burkardt.MatrixNS;
 using Burkardt.Types;
@@ -109,10 +110,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int NDIM = 1;
-        int NDATA = 5;
+        const int NDIM = 1;
+        const int NDATA = 5;
         int i;
-        int left;
         double[] xdata = new double[NDATA];
         double xval;
         double[] ydata = new double[NDIM * NDATA];
@@ -136,10 +136,10 @@ internal static class Program
             xdata[i] = xval;
             ydata[0 + i * NDIM] = 2.0 * xval * xval + 3.0 * xval + 1.0;
             zdata[i] = 4.0 * xval * xval - 2.0 * xval + 5.0;
-            Console.WriteLine(i.ToString().PadLeft(6) + "  "
-                                                      + xdata[i].ToString().PadLeft(10) + "  "
-                                                      + ydata[i].ToString().PadLeft(10) + "  "
-                                                      + zdata[i].ToString().PadLeft(10) + "");
+            Console.WriteLine(i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                      + xdata[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                                                      + ydata[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                                                      + zdata[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         Console.WriteLine("");
@@ -151,7 +151,7 @@ internal static class Program
         for (i = 1; i <= 5; i++)
         {
             xval = 2 * i - 1;
-            left = i;
+            int left = i;
             if (NDATA - 2 < left)
             {
                 left = NDATA - 2;
@@ -167,10 +167,10 @@ internal static class Program
             Parabola.parabola_val2(NDIM, NDATA, xdata, zdata, left, xval, ref zval);
 
             Console.WriteLine("  "
-                              + left.ToString().PadLeft(6) + "  "
-                              + xval.ToString().PadLeft(10) + "  "
-                              + yval[0].ToString().PadLeft(10) + "  "
-                              + zval[0].ToString().PadLeft(10) + "");
+                              + left.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + xval.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                              + yval[0].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                              + zval[0].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -195,15 +195,14 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 10;
-        int NTEST = 6;
+        const int N = 10;
+        const int NTEST = 6;
         int i;
         int itest;
         int left = 0;
         int right = 0;
         double[] x = new double[N];
         double[] xtest = { -10.0, 1.0, 4.5, 5.0, 10.0, 12.0 };
-        double xval;
 
         Console.WriteLine("");
         Console.WriteLine("TEST002");
@@ -221,7 +220,7 @@ internal static class Program
 
         for (itest = 0; itest < NTEST; itest++)
         {
-            xval = xtest[itest];
+            double xval = xtest[itest];
 
             Console.WriteLine("");
             Console.WriteLine("  Search for XVAL = " + xval + "");
@@ -229,12 +228,12 @@ internal static class Program
             typeMethods.r8vec_bracket(N, x, xval, ref left, ref right);
 
             Console.WriteLine("  X["
-                              + left.ToString().PadLeft(2) + "-1] = "
-                              + x[left - 1].ToString().PadLeft(12) + "");
+                              + left.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "-1] = "
+                              + x[left - 1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
 
             Console.WriteLine("  X["
-                              + right.ToString().PadLeft(2) + "-1] = "
-                              + x[right - 1].ToString().PadLeft(12) + "");
+                              + right.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "-1] = "
+                              + x[right - 1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
 
         }
     }
@@ -260,14 +259,12 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 10;
-        int NTEST = 6;
+        const int N = 10;
+        const int NTEST = 6;
         int i;
         int itest;
-        int left;
         double[] x = new double[N];
         double[] xtest = { -10.0, 1.0, 4.5, 5.0, 10.0, 12.0 };
-        double xval;
 
         Console.WriteLine("");
         Console.WriteLine("TEST003");
@@ -283,11 +280,11 @@ internal static class Program
 
         typeMethods.r8vec_print(N, x, "  Sorted array:");
 
-        left = (N + 1) / 2;
+        int left = (N + 1) / 2;
 
         for (itest = 0; itest < NTEST; itest++)
         {
-            xval = xtest[itest];
+            double xval = xtest[itest];
 
             Console.WriteLine("");
             Console.WriteLine("  Search for XVAL = " + xval + "");
@@ -332,11 +329,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 4;
-        int NTEST = 6;
+        const int N = 4;
+        const int NTEST = 6;
         int itest;
-        int j;
-        int order;
         double[] x = new double[N];
 
         Console.WriteLine("");
@@ -392,17 +387,18 @@ internal static class Program
                     break;
             }
 
-            order = typeMethods.r8vec_order_type(N, x);
+            int order = typeMethods.r8vec_order_type(N, x);
 
             Console.WriteLine("");
             Console.WriteLine("  Vector of order type " + order + ":");
             Console.WriteLine("");
 
+            int j;
             for (j = 0; j < N; j++)
             {
                 Console.WriteLine("  "
-                                  + j.ToString().PadLeft(6) + "  "
-                                  + x[j].ToString().PadLeft(10) + "");
+                                  + j.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                  + x[j].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
             }
 
         }
@@ -430,11 +426,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 10;
-        double[] a;
-        double[] b;
-        int seed;
-        double[] x;
+        const int N = 10;
 
         Console.WriteLine("");
         Console.WriteLine("TEST005");
@@ -442,16 +434,16 @@ internal static class Program
         //
         //  Set the matrix.
         //
-        seed = 123456789;
-        a = D3.d3_uniform(N, ref seed);
+        int seed = 123456789;
+        double[] a = D3.d3_uniform(N, ref seed);
         //
         //  Set the desired solution.
         //
-        x = typeMethods.r8vec_indicator_new(N);
+        double[] x = typeMethods.r8vec_indicator_new(N);
         //
         //  Compute b = A * x.
         //
-        b = D3.d3_mxv(N, a, x);
+        double[] b = D3.d3_mxv(N, a, x);
         //
         //  Wipe out the solution.
         //  Solve the system.
@@ -493,17 +485,13 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int MAXTAB = 8;
+        const int MAXTAB = 8;
 
         double[] diftab = new double[MAXTAB];
-        double error;
         int j;
         int ntab;
-        double true_value;
         double[] xtab = new double[MAXTAB];
-        double xval;
         double[] ytab = new double[MAXTAB];
-        double yval;
 
         Console.WriteLine("");
         Console.WriteLine("TEST006");
@@ -520,12 +508,12 @@ internal static class Program
             ytab[j] = Math.Exp(xtab[j]);
 
             Console.WriteLine("  "
-                              + xtab[j].ToString().PadLeft(10) + "  "
-                              + ytab[j].ToString().PadLeft(10) + "");
+                              + xtab[j].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                              + ytab[j].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
-        xval = 2.5;
-        true_value = Math.Exp(xval);
+        double xval = 2.5;
+        double true_value = Math.Exp(xval);
         Console.WriteLine("");
         Console.WriteLine("  Evaluate at X = " + xval + " where EXP(X) = "
                           + true_value + "");
@@ -544,14 +532,14 @@ internal static class Program
 
             Data.data_to_dif(ntab, xtab, ytab, ref diftab);
 
-            yval = Polynomial.Dif.dif_val(ntab, xtab, diftab, xval);
+            double yval = Polynomial.Dif.dif_val(ntab, xtab, diftab, xval);
 
-            error = yval - true_value;
+            double error = yval - true_value;
 
             Console.WriteLine("  "
-                              + ntab.ToString().PadLeft(6) + "  "
-                              + yval.ToString().PadLeft(10) + "  "
-                              + error.ToString().PadLeft(10) + "");
+                              + ntab.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + yval.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                              + error.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
         }
     }
@@ -577,18 +565,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int NDATA = 5;
+        const int NDATA = 5;
 
         int i;
-        int j;
-        int jhi;
-        char mark;
-        int nsample = 4;
+        const int nsample = 4;
         double[] tdata = { 0.0, 1.0, 4.0, 6.0, 10.0 };
-        double thi = 0;
-        double tlo = 0;
-        double tval;
-        double yval;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
@@ -600,6 +581,8 @@ internal static class Program
 
         for (i = 0; i <= NDATA; i++)
         {
+            double thi;
+            double tlo;
             switch (i)
             {
                 case 0:
@@ -613,7 +596,7 @@ internal static class Program
                         tlo = tdata[i - 1];
                         thi = tdata[i];
                     }
-                    else if (NDATA <= i)
+                    else
                     {
                         tlo = tdata[NDATA - 1];
                         thi = tdata[NDATA - 1] + 0.5 * (tdata[NDATA - 1] - tdata[NDATA - 2]);
@@ -623,6 +606,7 @@ internal static class Program
                 }
             }
 
+            int jhi;
             if (i < NDATA)
             {
                 jhi = nsample - 1;
@@ -632,16 +616,17 @@ internal static class Program
                 jhi = nsample;
             }
 
+            int j;
             for (j = 0; j <= jhi; j++)
             {
 
-                tval = ((nsample - j) * tlo
-                        + j * thi)
-                       / nsample;
+                double tval = ((nsample - j) * tlo
+                               + j * thi)
+                              / nsample;
 
-                yval = Basis.basis_function_b_val(tdata, tval);
+                double yval = Basis.basis_function_b_val(tdata, tval);
 
-                mark = ((0 < i) & (j == 0)) switch
+                char mark = ((0 < i) & (j == 0)) switch
                 {
                     true => '*',
                     _ => ' '
@@ -649,8 +634,8 @@ internal static class Program
 
                 Console.WriteLine("  "
                                   + mark + "  "
-                                  + tval.ToString().PadLeft(12) + "  "
-                                  + yval.ToString().PadLeft(12) + "");
+                                  + tval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                  + yval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             }
         }
 
@@ -677,15 +662,13 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int NDATA = 5;
+        const int NDATA = 5;
 
-        double beta1;
-        double beta2;
         int i;
         int j;
         int jhi;
         char mark;
-        int nsample = 4;
+        const int nsample = 4;
         double[] tdata = { 0.0, 1.0, 4.0, 6.0, 10.0 };
         double thi = 0;
         double tlo = 0;
@@ -697,8 +680,8 @@ internal static class Program
         Console.WriteLine("  BASIS_FUNCTION_BETA_VAL evaluates the ");
         Console.WriteLine("    Beta spline basis function.");
 
-        beta1 = 1.0;
-        beta2 = 0.0;
+        double beta1 = 1.0;
+        double beta2 = 0.0;
 
         Console.WriteLine("");
         Console.WriteLine("  BETA1 = " + beta1 + "");
@@ -722,7 +705,7 @@ internal static class Program
                         tlo = tdata[i - 1];
                         thi = tdata[i];
                     }
-                    else if (NDATA <= i)
+                    else
                     {
                         tlo = tdata[NDATA - 1];
                         thi = tdata[NDATA - 1] + 0.5 * (tdata[NDATA - 1] - tdata[NDATA - 2]);
@@ -757,8 +740,8 @@ internal static class Program
 
                 Console.WriteLine("  "
                                   + mark + "  "
-                                  + tval.ToString().PadLeft(12) + "  "
-                                  + yval.ToString().PadLeft(12) + "");
+                                  + tval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                  + yval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             }
         }
 
@@ -787,7 +770,7 @@ internal static class Program
                         tlo = tdata[i - 1];
                         thi = tdata[i];
                     }
-                    else if (NDATA <= i)
+                    else
                     {
                         tlo = tdata[NDATA - 1];
                         thi = tdata[NDATA - 1] + 0.5 * (tdata[NDATA - 1] - tdata[NDATA - 2]);
@@ -822,8 +805,8 @@ internal static class Program
 
                 Console.WriteLine("  "
                                   + mark + "  "
-                                  + tval.ToString().PadLeft(12) + "  "
-                                  + yval.ToString().PadLeft(12) + "");
+                                  + tval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                  + yval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             }
         }
 
@@ -852,7 +835,7 @@ internal static class Program
                         tlo = tdata[i - 1];
                         thi = tdata[i];
                     }
-                    else if (NDATA <= i)
+                    else
                     {
                         tlo = tdata[NDATA - 1];
                         thi = tdata[NDATA - 1] + 0.5 * (tdata[NDATA - 1] - tdata[NDATA - 2]);
@@ -887,8 +870,8 @@ internal static class Program
 
                 Console.WriteLine("  "
                                   + mark + "  "
-                                  + tval.ToString().PadLeft(12) + "  "
-                                  + yval.ToString().PadLeft(12) + "");
+                                  + tval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                  + yval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             }
         }
 
@@ -915,47 +898,40 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 4;
-        int NDATA = 4;
+        const int N = 4;
+        const int NDATA = 4;
 
         int i;
-        int j;
-        int jhi;
-        int left;
-        char mark;
-        double[] mbasis;
-        int nsample = 4;
+        const int nsample = 4;
         double[] tdata = { -1.0, 0.0, 1.0, 2.0 };
-        double thi = 0;
-        double tlo = 0;
-        double tval;
         double[] ydata = { 4.0, 7.0, 12.0, 19.0 };
-        double yval;
 
         Console.WriteLine("");
         Console.WriteLine("TEST03");
         Console.WriteLine("  BASIS_MATRIX_B_UNI sets up the basis matrix");
         Console.WriteLine("    for the uniform B spline.");
 
-        mbasis = Basis.basis_matrix_b_uni();
+        double[] mbasis = Basis.basis_matrix_b_uni();
 
         Console.WriteLine("");
         Console.WriteLine("    TDATA, YDATA");
         Console.WriteLine("");
         for (i = 0; i < NDATA; i++)
         {
-            Console.WriteLine(tdata[i].ToString().PadLeft(12) + "  "
-                                                              + ydata[i].ToString().PadLeft(12) + "");
+            Console.WriteLine(tdata[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                              + ydata[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
         Console.WriteLine("");
         Console.WriteLine("              T      Spline(T)");
         Console.WriteLine("");
 
-        left = 2;
+        int left = 2;
 
         for (i = 0; i <= NDATA; i++)
         {
+            double tlo;
+            double thi;
             switch (i)
             {
                 case 0:
@@ -969,7 +945,7 @@ internal static class Program
                         tlo = tdata[i - 1];
                         thi = tdata[i];
                     }
-                    else if (NDATA <= i)
+                    else
                     {
                         tlo = tdata[NDATA - 1];
                         thi = tdata[NDATA - 1] + 0.5 * (tdata[NDATA - 1] - tdata[NDATA - 2]);
@@ -979,6 +955,7 @@ internal static class Program
                 }
             }
 
+            int jhi;
             if (i < NDATA)
             {
                 jhi = nsample - 1;
@@ -988,15 +965,16 @@ internal static class Program
                 jhi = nsample;
             }
 
+            int j;
             for (j = 0; j <= jhi; j++)
             {
-                tval = ((nsample - j) * tlo
-                        + j * thi)
-                       / nsample;
+                double tval = ((nsample - j) * tlo
+                               + j * thi)
+                              / nsample;
 
-                yval = Basis.basis_matrix_tmp(left, N, mbasis, NDATA, tdata, ydata, tval);
+                double yval = Basis.basis_matrix_tmp(left, N, mbasis, NDATA, tdata, ydata, tval);
 
-                mark = ((0 < i) & (j == 0)) switch
+                char mark = ((0 < i) & (j == 0)) switch
                 {
                     true => '*',
                     _ => ' '
@@ -1004,8 +982,8 @@ internal static class Program
 
                 Console.WriteLine("  "
                                   + mark + "  "
-                                  + tval.ToString().PadLeft(12) + "  "
-                                  + yval.ToString().PadLeft(12) + "");
+                                  + tval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                  + yval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
 
             }
         }
@@ -1034,18 +1012,14 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 4;
-        int NDATA = 4;
+        const int N = 4;
+        const int NDATA = 4;
 
-        double beta1;
-        double beta2;
         int i;
         int j;
         int jhi;
-        int left;
         char mark;
-        double[] mbasis;
-        int nsample = 4;
+        const int nsample = 4;
         double[] tdata = { -1.0, 0.0, 1.0, 2.0 };
         double thi = 0;
         double tlo = 0;
@@ -1060,25 +1034,25 @@ internal static class Program
         //
         //  First test
         //
-        beta1 = 1.0;
-        beta2 = 0.0;
+        double beta1 = 1.0;
+        double beta2 = 0.0;
 
         Console.WriteLine("");
         Console.WriteLine("  BETA1 = " + beta1 + "");
         Console.WriteLine("  BETA2 = " + beta2 + "");
 
-        mbasis = Basis.basis_matrix_beta_uni(beta1, beta2);
+        double[] mbasis = Basis.basis_matrix_beta_uni(beta1, beta2);
 
         Console.WriteLine("");
         Console.WriteLine("    TDATA, YDATA");
         Console.WriteLine("");
         for (i = 0; i < NDATA; i++)
         {
-            Console.WriteLine(tdata[i].ToString().PadLeft(12) + "  "
-                                                              + ydata[i].ToString().PadLeft(12) + "");
+            Console.WriteLine(tdata[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                              + ydata[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
-        left = 2;
+        int left = 2;
 
         Console.WriteLine("");
         Console.WriteLine("              T      Spline(T)");
@@ -1099,7 +1073,7 @@ internal static class Program
                         tlo = tdata[i - 1];
                         thi = tdata[i];
                     }
-                    else if (NDATA <= i)
+                    else
                     {
                         tlo = tdata[NDATA - 1];
                         thi = tdata[NDATA - 1] + 0.5 * (tdata[NDATA - 1] - tdata[NDATA - 2]);
@@ -1134,8 +1108,8 @@ internal static class Program
 
                 Console.WriteLine("  "
                                   + mark + "  "
-                                  + tval.ToString().PadLeft(12) + "  "
-                                  + yval.ToString().PadLeft(12) + "");
+                                  + tval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                  + yval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             }
         }
 
@@ -1156,8 +1130,8 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < NDATA; i++)
         {
-            Console.WriteLine(tdata[i].ToString().PadLeft(12) + "  "
-                                                              + ydata[i].ToString().PadLeft(12) + "");
+            Console.WriteLine(tdata[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                              + ydata[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
         left = 2;
@@ -1181,7 +1155,7 @@ internal static class Program
                         tlo = tdata[i - 1];
                         thi = tdata[i];
                     }
-                    else if (NDATA <= i)
+                    else
                     {
                         tlo = tdata[NDATA - 1];
                         thi = tdata[NDATA - 1] + 0.5 * (tdata[NDATA - 1] - tdata[NDATA - 2]);
@@ -1216,8 +1190,8 @@ internal static class Program
 
                 Console.WriteLine("  "
                                   + mark + "  "
-                                  + tval.ToString().PadLeft(12) + "  "
-                                  + yval.ToString().PadLeft(12) + "");
+                                  + tval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                  + yval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             }
         }
 
@@ -1238,8 +1212,8 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < NDATA; i++)
         {
-            Console.WriteLine(tdata[i].ToString().PadLeft(12) + "  "
-                                                              + ydata[i].ToString().PadLeft(12) + "");
+            Console.WriteLine(tdata[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                              + ydata[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
         left = 2;
@@ -1263,7 +1237,7 @@ internal static class Program
                         tlo = tdata[i - 1];
                         thi = tdata[i];
                     }
-                    else if (NDATA <= i)
+                    else
                     {
                         tlo = tdata[NDATA - 1];
                         thi = tdata[NDATA - 1] + 0.5 * (tdata[NDATA - 1] - tdata[NDATA - 2]);
@@ -1298,8 +1272,8 @@ internal static class Program
 
                 Console.WriteLine("  "
                                   + mark + "  "
-                                  + tval.ToString().PadLeft(12) + "  "
-                                  + yval.ToString().PadLeft(12) + "");
+                                  + tval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                  + yval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             }
         }
 
@@ -1327,40 +1301,31 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 4;
-        int NDATA = 4;
+        const int N = 4;
+        const int NDATA = 4;
 
         int i;
-        int j;
-        int jhi;
-        int left;
-        char mark;
-        double[] mbasis;
-        int nsample = 4;
+        const int nsample = 4;
         double[] tdata = { 0.0, 0.0, 1.0, 1.0 };
-        double thi = 0;
-        double tlo = 0;
-        double tval;
         double[] ydata = { 7.0, 8.3333333, 10.0, 12.0 };
-        double yval;
 
         Console.WriteLine("");
         Console.WriteLine("TEST05");
         Console.WriteLine("  BASIS_MATRIX_BEZIER sets up the basis");
         Console.WriteLine("    matrix for the uniform Bezier spline.");
 
-        mbasis = Basis.basis_matrix_bezier();
+        double[] mbasis = Basis.basis_matrix_bezier();
 
         Console.WriteLine("");
         Console.WriteLine("    TDATA, YDATA");
         Console.WriteLine("");
         for (i = 0; i < NDATA; i++)
         {
-            Console.WriteLine(tdata[i].ToString().PadLeft(12) + "  "
-                                                              + ydata[i].ToString().PadLeft(12) + "");
+            Console.WriteLine(tdata[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                              + ydata[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
-        left = 2;
+        const int left = 2;
 
         Console.WriteLine("");
         Console.WriteLine("              T      Spline(T)");
@@ -1369,6 +1334,8 @@ internal static class Program
 
         for (i = 0; i <= NDATA; i++)
         {
+            double thi;
+            double tlo;
             switch (i)
             {
                 case 0:
@@ -1382,7 +1349,7 @@ internal static class Program
                         tlo = tdata[i - 1];
                         thi = tdata[i];
                     }
-                    else if (NDATA <= i)
+                    else
                     {
                         tlo = tdata[NDATA - 1];
                         thi = tdata[NDATA - 1] + 0.5 * (tdata[NDATA - 1] - tdata[NDATA - 2]);
@@ -1392,6 +1359,7 @@ internal static class Program
                 }
             }
 
+            int jhi;
             if (i < NDATA)
             {
                 jhi = nsample - 1;
@@ -1401,15 +1369,16 @@ internal static class Program
                 jhi = nsample;
             }
 
+            int j;
             for (j = 0; j <= jhi; j++)
             {
-                tval = ((nsample - j) * tlo
-                        + j * thi)
-                       / nsample;
+                double tval = ((nsample - j) * tlo
+                               + j * thi)
+                              / nsample;
 
-                yval = Basis.basis_matrix_tmp(left, N, mbasis, NDATA, tdata, ydata, tval);
+                double yval = Basis.basis_matrix_tmp(left, N, mbasis, NDATA, tdata, ydata, tval);
 
-                mark = ((0 < i) & (j == 0)) switch
+                char mark = ((0 < i) & (j == 0)) switch
                 {
                     true => '*',
                     _ => ' '
@@ -1417,8 +1386,8 @@ internal static class Program
 
                 Console.WriteLine("  "
                                   + mark + "  "
-                                  + tval.ToString().PadLeft(12) + "  "
-                                  + yval.ToString().PadLeft(12) + "");
+                                  + tval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                  + yval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             }
         }
 
@@ -1446,40 +1415,31 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 4;
-        int NDATA = 4;
+        const int N = 4;
+        const int NDATA = 4;
 
         int i;
-        int j;
-        int jhi;
-        int left;
-        char mark;
-        double[] mbasis;
-        int nsample = 4;
+        const int nsample = 4;
         double[] tdata = { 0.0, 0.0, 1.0, 1.0 };
-        double thi = 0;
-        double tlo = 0;
-        double tval;
         double[] ydata = { 7.0, 12.0, 4.0, 6.0 };
-        double yval;
 
         Console.WriteLine("");
         Console.WriteLine("TEST06");
         Console.WriteLine("  BASIS_MATRIX_HERMITE sets up the basis matrix");
         Console.WriteLine("    for the Hermite spline.");
 
-        mbasis = Basis.basis_matrix_hermite();
+        double[] mbasis = Basis.basis_matrix_hermite();
 
         Console.WriteLine("");
         Console.WriteLine("    TDATA, YDATA");
         Console.WriteLine("");
         for (i = 0; i < NDATA; i++)
         {
-            Console.WriteLine(tdata[i].ToString().PadLeft(12) + "  "
-                                                              + ydata[i].ToString().PadLeft(12) + "");
+            Console.WriteLine(tdata[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                              + ydata[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
-        left = 2;
+        int left = 2;
 
         Console.WriteLine("");
         Console.WriteLine("              T      Spline(T)");
@@ -1488,6 +1448,8 @@ internal static class Program
 
         for (i = 0; i <= NDATA; i++)
         {
+            double thi;
+            double tlo;
             switch (i)
             {
                 case 0:
@@ -1501,7 +1463,7 @@ internal static class Program
                         tlo = tdata[i - 1];
                         thi = tdata[i];
                     }
-                    else if (NDATA <= i)
+                    else
                     {
                         tlo = tdata[NDATA - 1];
                         thi = tdata[NDATA - 1] + 0.5 * (tdata[NDATA - 1] - tdata[NDATA - 2]);
@@ -1511,6 +1473,7 @@ internal static class Program
                 }
             }
 
+            int jhi;
             if (i < NDATA)
             {
                 jhi = nsample - 1;
@@ -1520,15 +1483,16 @@ internal static class Program
                 jhi = nsample;
             }
 
+            int j;
             for (j = 0; j <= jhi; j++)
             {
-                tval = ((nsample - j) * tlo
-                        + j * thi)
-                       / nsample;
+                double tval = ((nsample - j) * tlo
+                               + j * thi)
+                              / nsample;
 
-                yval = Basis.basis_matrix_tmp(left, N, mbasis, NDATA, tdata, ydata, tval);
+                double yval = Basis.basis_matrix_tmp(left, N, mbasis, NDATA, tdata, ydata, tval);
 
-                mark = ((0 < i) & (j == 0)) switch
+                char mark = ((0 < i) & (j == 0)) switch
                 {
                     true => '*',
                     _ => ' '
@@ -1536,8 +1500,8 @@ internal static class Program
 
                 Console.WriteLine("  "
                                   + mark + "  "
-                                  + tval.ToString().PadLeft(12) + "  "
-                                  + yval.ToString().PadLeft(12) + "");
+                                  + tval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                  + yval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             }
         }
 
@@ -1569,29 +1533,20 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 4;
-        int NDATA = 4;
+        const int N = 4;
+        const int NDATA = 4;
 
         int i;
-        int j;
-        int jhi;
-        int left;
-        char mark;
-        double[] mbasis;
-        int nsample = 4;
+        const int nsample = 4;
         double[] tdata = { -1.0, 0.0, 1.0, 2.0 };
-        double thi = 0;
-        double tlo = 0;
-        double tval;
         double[] ydata = { 4.0, 7.0, 12.0, 19.0 };
-        double yval;
 
         Console.WriteLine("");
         Console.WriteLine("TEST07");
         Console.WriteLine("  BASIS_MATRIX_OVERHAUSER_UNI sets up the basis");
         Console.WriteLine("    matrix for the uniform Overhauser spline.");
 
-        mbasis = Basis.basis_matrix_overhauser_uni();
+        double[] mbasis = Basis.basis_matrix_overhauser_uni();
 
         Console.WriteLine("");
         Console.WriteLine("    TDATA, YDATA");
@@ -1599,11 +1554,11 @@ internal static class Program
         for (i = 0; i < NDATA; i++)
         {
             Console.WriteLine("  "
-                              + tdata[i].ToString().PadLeft(12) + "  "
-                              + ydata[i].ToString().PadLeft(12) + "");
+                              + tdata[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + ydata[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
-        left = 2;
+        int left = 2;
 
         Console.WriteLine("");
         Console.WriteLine("              T      Spline(T)");
@@ -1611,6 +1566,8 @@ internal static class Program
 
         for (i = 0; i <= NDATA; i++)
         {
+            double thi;
+            double tlo;
             switch (i)
             {
                 case 0:
@@ -1624,7 +1581,7 @@ internal static class Program
                         tlo = tdata[i - 1];
                         thi = tdata[i];
                     }
-                    else if (NDATA <= i)
+                    else
                     {
                         tlo = tdata[NDATA - 1];
                         thi = tdata[NDATA - 1] + 0.5 * (tdata[NDATA - 1] - tdata[NDATA - 2]);
@@ -1634,6 +1591,7 @@ internal static class Program
                 }
             }
 
+            int jhi;
             if (i < NDATA)
             {
                 jhi = nsample - 1;
@@ -1643,15 +1601,16 @@ internal static class Program
                 jhi = nsample;
             }
 
+            int j;
             for (j = 0; j <= jhi; j++)
             {
-                tval = ((nsample - j) * tlo
-                        + j * thi)
-                       / nsample;
+                double tval = ((nsample - j) * tlo
+                               + j * thi)
+                              / nsample;
 
-                yval = Basis.basis_matrix_tmp(left, N, mbasis, NDATA, tdata, ydata, tval);
+                double yval = Basis.basis_matrix_tmp(left, N, mbasis, NDATA, tdata, ydata, tval);
 
-                mark = ((0 < i) & (j == 0)) switch
+                char mark = ((0 < i) & (j == 0)) switch
                 {
                     true => '*',
                     _ => ' '
@@ -1659,8 +1618,8 @@ internal static class Program
 
                 Console.WriteLine("  "
                                   + mark + "  "
-                                  + tval.ToString().PadLeft(12) + "  "
-                                  + yval.ToString().PadLeft(12) + "");
+                                  + tval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                  + yval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             }
         }
 
@@ -1692,18 +1651,14 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 4;
-        int NDATA = 4;
+        const int N = 4;
+        const int NDATA = 4;
 
-        double alpha;
-        double beta;
         int i;
         int j;
         int jhi;
-        int left;
         char mark;
-        double[] mbasis;
-        int nsample = 4;
+        const int nsample = 4;
         double[] tdata = new double[NDATA];
         double thi = 0;
         double tlo = 0;
@@ -1722,14 +1677,14 @@ internal static class Program
         tdata[2] = 2.0;
         tdata[3] = 3.0;
 
-        alpha = (tdata[2] - tdata[1]) / (tdata[2] - tdata[0]);
-        beta = (tdata[2] - tdata[1]) / (tdata[3] - tdata[1]);
+        double alpha = (tdata[2] - tdata[1]) / (tdata[2] - tdata[0]);
+        double beta = (tdata[2] - tdata[1]) / (tdata[3] - tdata[1]);
 
         Console.WriteLine("");
         Console.WriteLine("  ALPHA = " + alpha + "");
         Console.WriteLine("  BETA  = " + beta + "");
 
-        mbasis = Basis.basis_matrix_overhauser_nonuni(alpha, beta);
+        double[] mbasis = Basis.basis_matrix_overhauser_nonuni(alpha, beta);
 
         for (i = 0; i < NDATA; i++)
         {
@@ -1742,11 +1697,11 @@ internal static class Program
         for (i = 0; i < NDATA; i++)
         {
             Console.WriteLine("  "
-                              + tdata[i].ToString().PadLeft(12) + "  "
-                              + ydata[i].ToString().PadLeft(12) + "");
+                              + tdata[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + ydata[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
-        left = 2;
+        int left = 2;
 
         Console.WriteLine("");
         Console.WriteLine("              T      Spline(T)");
@@ -1767,7 +1722,7 @@ internal static class Program
                         tlo = tdata[i - 1];
                         thi = tdata[i];
                     }
-                    else if (NDATA <= i)
+                    else
                     {
                         tlo = tdata[NDATA - 1];
                         thi = tdata[NDATA - 1] + 0.5 * (tdata[NDATA - 1] - tdata[NDATA - 2]);
@@ -1802,8 +1757,8 @@ internal static class Program
 
                 Console.WriteLine("  "
                                   + mark + "  "
-                                  + tval.ToString().PadLeft(12) + "  "
-                                  + yval.ToString().PadLeft(12) + "");
+                                  + tval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                  + yval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             }
         }
 
@@ -1832,8 +1787,8 @@ internal static class Program
         for (i = 0; i < NDATA; i++)
         {
             Console.WriteLine("  "
-                              + tdata[i].ToString().PadLeft(12) + "  "
-                              + ydata[i].ToString().PadLeft(12) + "");
+                              + tdata[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + ydata[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
         left = 2;
@@ -1857,7 +1812,7 @@ internal static class Program
                         tlo = tdata[i - 1];
                         thi = tdata[i];
                     }
-                    else if (NDATA <= i)
+                    else
                     {
                         tlo = tdata[NDATA - 1];
                         thi = tdata[NDATA - 1] + 0.5 * (tdata[NDATA - 1] - tdata[NDATA - 2]);
@@ -1892,8 +1847,8 @@ internal static class Program
 
                 Console.WriteLine("  "
                                   + mark + "  "
-                                  + tval.ToString().PadLeft(12) + "  "
-                                  + yval.ToString().PadLeft(12) + "");
+                                  + tval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                  + yval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             }
         }
 
@@ -1921,8 +1876,8 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < NDATA; i++)
         {
-            Console.WriteLine(tdata[i].ToString().PadLeft(12) + "  "
-                                                              + ydata[i].ToString().PadLeft(12) + "");
+            Console.WriteLine(tdata[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                              + ydata[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
         left = 2;
@@ -1946,7 +1901,7 @@ internal static class Program
                         tlo = tdata[i - 1];
                         thi = tdata[i];
                     }
-                    else if (NDATA <= i)
+                    else
                     {
                         tlo = tdata[NDATA - 1];
                         thi = tdata[NDATA - 1] + 0.5 * (tdata[NDATA - 1] - tdata[NDATA - 2]);
@@ -1981,8 +1936,8 @@ internal static class Program
 
                 Console.WriteLine("  "
                                   + mark + "  "
-                                  + tval.ToString().PadLeft(12) + "  "
-                                  + yval.ToString().PadLeft(12) + "");
+                                  + tval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                  + yval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             }
         }
 
@@ -2010,18 +1965,14 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 4;
-        int NDATA = 4;
+        const int N = 4;
+        const int NDATA = 4;
 
-        double alpha;
-        double beta;
         int i;
         int j;
         int jhi;
-        int left;
         char mark;
-        double[] mbasis;
-        int nsample = 4;
+        const int nsample = 4;
         double[] tdata = new double[NDATA];
         double thi = 0;
         double tlo = 0;
@@ -2045,14 +1996,14 @@ internal static class Program
         tdata[2] = 1.0;
         tdata[3] = 2.0;
 
-        alpha = (tdata[2] - tdata[1]) / (tdata[2] - tdata[0]);
-        beta = (tdata[2] - tdata[1]) / (tdata[3] - tdata[1]);
+        double alpha = (tdata[2] - tdata[1]) / (tdata[2] - tdata[0]);
+        double beta = (tdata[2] - tdata[1]) / (tdata[3] - tdata[1]);
 
         Console.WriteLine("");
         Console.WriteLine("  ALPHA = " + alpha + "");
         Console.WriteLine("  BETA  = " + beta + "");
 
-        mbasis = Basis.basis_matrix_overhauser_nonuni(alpha, beta);
+        double[] mbasis = Basis.basis_matrix_overhauser_nonuni(alpha, beta);
 
         for (i = 0; i < NDATA; i++)
         {
@@ -2064,11 +2015,11 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < NDATA; i++)
         {
-            Console.WriteLine(tdata[i].ToString().PadLeft(12) + "  "
-                                                              + ydata[i].ToString().PadLeft(12) + "");
+            Console.WriteLine(tdata[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                              + ydata[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
-        left = 2;
+        int left = 2;
 
         Console.WriteLine("");
         Console.WriteLine("              T      Spline(T)");
@@ -2089,7 +2040,7 @@ internal static class Program
                         tlo = tdata[i - 1];
                         thi = tdata[i];
                     }
-                    else if (NDATA <= i)
+                    else
                     {
                         tlo = tdata[NDATA - 1];
                         thi = tdata[NDATA - 1] + 0.5 * (tdata[NDATA - 1] - tdata[NDATA - 2]);
@@ -2124,8 +2075,8 @@ internal static class Program
 
                 Console.WriteLine("  "
                                   + mark + "  "
-                                  + tval.ToString().PadLeft(12) + "  "
-                                  + yval.ToString().PadLeft(12) + "");
+                                  + tval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                  + yval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             }
         }
 
@@ -2158,8 +2109,8 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < NDATA; i++)
         {
-            Console.WriteLine(tdata[i].ToString().PadLeft(12) + "  "
-                                                              + ydata[i].ToString().PadLeft(12) + "");
+            Console.WriteLine(tdata[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                              + ydata[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
         left = 2;
@@ -2183,7 +2134,7 @@ internal static class Program
                         tlo = tdata[i - 1];
                         thi = tdata[i];
                     }
-                    else if (NDATA <= i)
+                    else
                     {
                         tlo = tdata[NDATA - 1];
                         thi = tdata[NDATA - 1] + 0.5 * (tdata[NDATA - 1] - tdata[NDATA - 2]);
@@ -2218,8 +2169,8 @@ internal static class Program
 
                 Console.WriteLine("  "
                                   + mark + "  "
-                                  + tval.ToString().PadLeft(12) + "  "
-                                  + yval.ToString().PadLeft(12) + "");
+                                  + tval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                  + yval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             }
         }
 
@@ -2247,11 +2198,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 2;
+        const int N = 2;
 
         int i;
-        int nsample = 101;
-        double t;
+        const int nsample = 101;
         double[] xcon = { 0.0, 0.75, 1.0 };
         double xval = 0;
         double[] ycon = { 1.0, 0.0, 1.0 };
@@ -2269,13 +2219,13 @@ internal static class Program
 
         for (i = 1; i <= nsample; i++)
         {
-            t = (i - 1) / (double)(nsample - 1);
+            double t = (i - 1) / (double)(nsample - 1);
 
             Bezier.bc_val(N, t, xcon, ycon, ref xval, ref yval);
 
-            Console.WriteLine(t.ToString().PadLeft(12) + "  "
-                                                       + xval.ToString().PadLeft(12) + "  "
-                                                       + yval.ToString().PadLeft(12) + "");
+            Console.WriteLine(t.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                       + xval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                       + yval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
         Console.WriteLine("");
@@ -2304,14 +2254,12 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 2;
+        const int N = 2;
 
-        double a = 0.0;
-        double b = 1.0;
-        double bval;
+        const double a = 0.0;
+        const double b = 1.0;
         int i;
-        int nsample = 21;
-        double x;
+        const int nsample = 21;
         double[] y = { 1.0, 0.0, 1.0 };
 
         Console.WriteLine("");
@@ -2326,15 +2274,15 @@ internal static class Program
 
         for (i = 1; i <= nsample; i++)
         {
-            x = ((nsample - i) * a
-                 + (i - 1) * b)
-                / (nsample - 1);
+            double x = ((nsample - i) * a
+                        + (i - 1) * b)
+                       / (nsample - 1);
 
-            bval = Bezier.bez_val(N, x, a, b, y);
+            double bval = Bezier.bez_val(N, x, a, b, y);
 
-            Console.WriteLine(i.ToString().PadLeft(6) + "  "
-                                                      + x.ToString().PadLeft(12) + "  "
-                                                      + bval.ToString().PadLeft(12) + "");
+            Console.WriteLine(i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                      + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                      + bval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
         Console.WriteLine("");
@@ -2366,14 +2314,10 @@ internal static class Program
     {
         const int N_MAX = 3;
 
-        double a = 0.0;
-        double b = 1.0;
-        double[] bern;
-        int i;
-        int j;
+        const double a = 0.0;
+        const double b = 1.0;
         int n;
-        int nsample = 11;
-        double x;
+        const int nsample = 11;
 
         Console.WriteLine("");
         Console.WriteLine("TEST115");
@@ -2388,18 +2332,20 @@ internal static class Program
             Console.WriteLine("   X         BERN(N,0,X)  BERN(N,1,X)  BERN(N,2,X)  BERN(N,3,X)");
             Console.WriteLine("");
 
+            int i;
             for (i = 1; i <= nsample; i++)
             {
-                x = ((nsample - i) * a
-                     + (i - 1) * b)
-                    / (nsample - 1);
+                double x = ((nsample - i) * a
+                            + (i - 1) * b)
+                           / (nsample - 1);
 
-                bern = Polynomial.BernsteinPolynomial.bernstein_poly_01(n, x);
+                double[] bern = Polynomial.BernsteinPolynomial.bernstein_poly_01(n, x);
 
-                string cout = x.ToString().PadLeft(12) + "  ";
+                string cout = x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  ";
+                int j;
                 for (j = 0; j <= n; j++)
                 {
-                    cout += bern[j].ToString().PadLeft(12) + "  ";
+                    cout += bern[j].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  ";
                 }
 
                 Console.WriteLine(cout);
@@ -2431,14 +2377,10 @@ internal static class Program
     {
         const int N_MAX = 3;
 
-        double a = 1.0;
-        double b = 3.0;
-        double[] bern;
-        int i;
-        int j;
+        const double a = 1.0;
+        const double b = 3.0;
         int n;
-        int nsample = 11;
-        double x;
+        const int nsample = 11;
 
         Console.WriteLine("");
         Console.WriteLine("TEST116");
@@ -2453,18 +2395,20 @@ internal static class Program
             Console.WriteLine("   X         BERN(N,0,X)  BERN(N,1,X)  BERN(N,2,X)  BERN(N,3,X)");
             Console.WriteLine("");
 
+            int i;
             for (i = 1; i <= nsample; i++)
             {
-                x = ((nsample - i) * a
-                     + (i - 1) * b)
-                    / (nsample - 1);
+                double x = ((nsample - i) * a
+                            + (i - 1) * b)
+                           / (nsample - 1);
 
-                bern = Polynomial.BernsteinPolynomial.bernstein_poly_ab(n, a, b, x);
+                double[] bern = Polynomial.BernsteinPolynomial.bernstein_poly_ab(n, a, b, x);
 
-                string cout = x.ToString().PadLeft(12) + "  ";
+                string cout = x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  ";
+                int j;
                 for (j = 0; j <= n; j++)
                 {
-                    cout += bern[j].ToString().PadLeft(12) + "  ";
+                    cout += bern[j].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  ";
                 }
 
                 Console.WriteLine(cout);
@@ -2493,28 +2437,23 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int MAXDATA = 10;
+        const int MAXDATA = 10;
 
-        double a;
-        double b;
-        int i;
         int ndata;
-        int nsample;
         double[] xdata = new double[MAXDATA + 1];
-        double xval;
         double[] ydata = new double[MAXDATA + 1];
-        double yval;
 
         Console.WriteLine("");
         Console.WriteLine("TEST12");
         Console.WriteLine("  BPAB_APPROX evaluates the Bernstein polynomial");
         Console.WriteLine("  approximant to a function F(X).");
 
-        a = 1.0;
-        b = 3.0;
+        double a = 1.0;
+        double b = 3.0;
 
         for (ndata = 0; ndata <= 9; ndata += 3)
         {
+            int i;
             for (i = 0; i <= ndata; i++)
             {
                 xdata[i] = ndata switch
@@ -2531,8 +2470,8 @@ internal static class Program
             Console.WriteLine("");
             for (i = 0; i <= ndata; i++)
             {
-                Console.WriteLine(xdata[i].ToString().PadLeft(12) + "  "
-                                                                  + ydata[i].ToString().PadLeft(12) + "");
+                Console.WriteLine(xdata[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                                  + ydata[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             }
 
             Console.WriteLine("");
@@ -2541,22 +2480,22 @@ internal static class Program
             Console.WriteLine("    X      F(X)     BERN(X)    ERROR");
             Console.WriteLine("");
 
-            nsample = 2 * ndata + 1;
+            int nsample = 2 * ndata + 1;
 
             for (i = 1; i <= nsample; i++)
             {
-                xval = nsample switch
+                double xval = nsample switch
                 {
                     1 => 0.5 * (a + b),
                     _ => ((nsample - i) * a + (i - 1) * b) / (nsample - 1)
                 };
 
-                yval = Polynomial.BernsteinPolynomial.bpab_approx(ndata, a, b, ydata, xval);
+                double yval = Polynomial.BernsteinPolynomial.bpab_approx(ndata, a, b, ydata, xval);
 
-                Console.WriteLine(xval.ToString().PadLeft(12) + "  "
-                                                              + Math.Sin(xval).ToString().PadLeft(12) + "  "
-                                                              + yval.ToString().PadLeft(12) + "  "
-                                                              + (yval - Math.Sin(xval)).ToString().PadLeft(12) +
+                Console.WriteLine(xval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                              + Math.Sin(xval).ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                              + yval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                              + (yval - Math.Sin(xval)).ToString(CultureInfo.InvariantCulture).PadLeft(12) +
                                                               "");
             }
         }
@@ -2583,25 +2522,19 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int MAXDEG = 6;
-        int NTAB = 21;
+        const int MAXDEG = 6;
+        const int NTAB = 21;
 
         double[] b = new double[MAXDEG];
         double[] c = new double[MAXDEG + 1];
         double[] d = new double[MAXDEG - 1];
         double eps = 0;
-        double error;
         int i;
         int ierror = 0;
-        int j;
-        int jhi;
         int ndeg;
         double[] ptab = new double[NTAB];
         double[] xtab = new double[NTAB];
-        double xval;
         double[] ytab = new double[NTAB];
-        double ytrue;
-        double yval;
 
         Console.WriteLine("");
         Console.WriteLine("TEST125");
@@ -2630,8 +2563,8 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < NTAB; i++)
         {
-            Console.WriteLine(xtab[i].ToString().PadLeft(12) + "  "
-                                                             + ytab[i].ToString().PadLeft(12) + "");
+            Console.WriteLine(xtab[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                             + ytab[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
         for (ndeg = 1; ndeg <= MAXDEG; ndeg++)
@@ -2650,17 +2583,12 @@ internal static class Program
 
             for (i = 1; i <= NTAB; i++)
             {
-                if (i < NTAB)
-                {
-                    jhi = 2;
-                }
-                else
-                {
-                    jhi = 0;
-                }
+                int jhi = i < NTAB ? 2 : 0;
 
+                int j;
                 for (j = 0; j <= jhi; j++)
                 {
+                    double xval;
                     if (i < NTAB)
                     {
                         xval = ((3 - j) * xtab[i - 1]
@@ -2672,17 +2600,17 @@ internal static class Program
                         xval = xtab[i - 1];
                     }
 
-                    yval = Polynomial.LeastSquares.least_val_old(xval, ndeg, b, c, d);
+                    double yval = Polynomial.LeastSquares.least_val_old(xval, ndeg, b, c, d);
 
-                    ytrue = (int)(Math.Exp(xval) * 100.0 + 0.5)
-                            / 100.0;
+                    double ytrue = (int)(Math.Exp(xval) * 100.0 + 0.5)
+                                   / 100.0;
 
-                    error = yval - ytrue;
+                    double error = yval - ytrue;
 
-                    Console.WriteLine(xval.ToString().PadLeft(12) + "  "
-                                                                  + yval.ToString().PadLeft(12) + "  "
-                                                                  + ytrue.ToString().PadLeft(12) + "  "
-                                                                  + error.ToString().PadLeft(12) + "");
+                    Console.WriteLine(xval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                                  + yval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                                  + ytrue.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                                  + error.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
                 }
             }
         }
@@ -2709,8 +2637,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int POINT_NUM = 21;
-        int NTERMS = 4;
+        const int POINT_NUM = 21;
+        const int NTERMS = 4;
 
         double[] b = new double[NTERMS];
         double[] c = new double[NTERMS];
@@ -2718,7 +2646,6 @@ internal static class Program
         double[] f = new double[POINT_NUM];
         int i;
         int nterms2;
-        double px;
         double[] w = new double[POINT_NUM];
         double[] x = new double[POINT_NUM];
 
@@ -2745,11 +2672,11 @@ internal static class Program
             Console.WriteLine("");
             for (i = 0; i < POINT_NUM; i++)
             {
-                px = Polynomial.LeastSquares.least_val(nterms2, b, c, d, x[i]);
-                Console.WriteLine("  " + x[i].ToString().PadLeft(12)
-                                       + "  " + f[i].ToString().PadLeft(12)
-                                       + "  " + px.ToString().PadLeft(12)
-                                       + "  " + (px - f[i]).ToString().PadLeft(12) + "");
+                double px = Polynomial.LeastSquares.least_val(nterms2, b, c, d, x[i]);
+                Console.WriteLine("  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                       + "  " + f[i].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                       + "  " + px.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                       + "  " + (px - f[i]).ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             }
         }
     }
@@ -2775,8 +2702,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int POINT_NUM = 21;
-        int NTERMS = 4;
+        const int POINT_NUM = 21;
+        const int NTERMS = 4;
 
         double[] b = new double[NTERMS];
         double[] c = new double[NTERMS];
@@ -2816,11 +2743,11 @@ internal static class Program
             for (i = 0; i < POINT_NUM; i++)
             {
                 Polynomial.LeastSquares.least_val2(nterms2, b, c, d, x[i], ref px, ref pxp);
-                Console.WriteLine("  " + x[i].ToString().PadLeft(12)
-                                       + "  " + f[i].ToString().PadLeft(12)
-                                       + "  " + px.ToString().PadLeft(12)
-                                       + "  " + fp[i].ToString().PadLeft(12)
-                                       + "  " + pxp.ToString().PadLeft(12) + "");
+                Console.WriteLine("  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                       + "  " + f[i].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                       + "  " + px.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                       + "  " + fp[i].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                       + "  " + pxp.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             }
         }
 
@@ -2847,20 +2774,12 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int NDATA = 11;
+        const int NDATA = 11;
 
         int i;
-        int j;
-        int jhi;
-        char mark;
-        int nsample = 4;
-        double pi = 3.141592653589793;
+        const int nsample = 4;
         double[] tdata = new double[NDATA];
-        double thi = 0;
-        double tlo = 0;
-        double tval;
         double[] ydata = new double[NDATA];
-        double yval;
 
         Console.WriteLine("");
         Console.WriteLine("TEST13");
@@ -2873,9 +2792,9 @@ internal static class Program
         for (i = 0; i < NDATA; i++)
         {
             tdata[i] = i;
-            ydata[i] = Math.Sin(2.0 * pi * tdata[i] / (NDATA - 1));
-            Console.WriteLine(tdata[i].ToString().PadLeft(12) + "  "
-                                                              + ydata[i].ToString().PadLeft(12) + "");
+            ydata[i] = Math.Sin(2.0 * Math.PI * tdata[i] / (NDATA - 1));
+            Console.WriteLine(tdata[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                              + ydata[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
         Console.WriteLine("");
@@ -2884,6 +2803,8 @@ internal static class Program
 
         for (i = 0; i <= NDATA; i++)
         {
+            double thi;
+            double tlo;
             switch (i)
             {
                 case 0:
@@ -2897,7 +2818,7 @@ internal static class Program
                         tlo = tdata[i - 1];
                         thi = tdata[i];
                     }
-                    else if (NDATA <= i)
+                    else
                     {
                         tlo = tdata[NDATA - 1];
                         thi = tdata[NDATA - 1] + 0.5 * (tdata[NDATA - 1] - tdata[NDATA - 2]);
@@ -2907,6 +2828,7 @@ internal static class Program
                 }
             }
 
+            int jhi;
             if (i < NDATA)
             {
                 jhi = nsample - 1;
@@ -2916,15 +2838,16 @@ internal static class Program
                 jhi = nsample;
             }
 
+            int j;
             for (j = 0; j <= jhi; j++)
             {
-                tval = ((nsample - j) * tlo
-                        + j * thi)
-                       / nsample;
+                double tval = ((nsample - j) * tlo
+                               + j * thi)
+                              / nsample;
 
-                yval = CubicB.spline_b_val(NDATA, tdata, ydata, tval);
+                double yval = CubicB.spline_b_val(NDATA, tdata, ydata, tval);
 
-                mark = i switch
+                char mark = i switch
                 {
                     > 0 when j == 0 => '*',
                     _ => ' '
@@ -2932,8 +2855,8 @@ internal static class Program
 
                 Console.WriteLine("  "
                                   + mark + "  "
-                                  + tval.ToString().PadLeft(12) + "  "
-                                  + yval.ToString().PadLeft(12) + "");
+                                  + tval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                  + yval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
 
             }
 
@@ -2962,16 +2885,13 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int NDATA = 11;
+        const int NDATA = 11;
 
-        double beta1;
-        double beta2;
         int i;
         int j;
         int jhi;
         char mark;
-        int nsample = 4;
-        double pi = 3.141592653589793;
+        const int nsample = 4;
         double[] tdata = new double[NDATA];
         double thi = 0;
         double tlo = 0;
@@ -2988,13 +2908,13 @@ internal static class Program
         for (i = 0; i < NDATA; i++)
         {
             tdata[i] = i;
-            ydata[i] = Math.Sin(2.0 * pi * tdata[i] / (NDATA - 1));
-            Console.WriteLine(tdata[i].ToString().PadLeft(12) + "  "
-                                                              + ydata[i].ToString().PadLeft(12) + "");
+            ydata[i] = Math.Sin(2.0 * Math.PI * tdata[i] / (NDATA - 1));
+            Console.WriteLine(tdata[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                              + ydata[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
-        beta1 = 1.0;
-        beta2 = 0.0;
+        double beta1 = 1.0;
+        double beta2 = 0.0;
 
         Console.WriteLine("");
         Console.WriteLine("  BETA1 = " + beta1 + "");
@@ -3019,7 +2939,7 @@ internal static class Program
                         tlo = tdata[i - 1];
                         thi = tdata[i];
                     }
-                    else if (NDATA <= i)
+                    else
                     {
                         tlo = tdata[NDATA - 1];
                         thi = tdata[NDATA - 1] + 0.5 * (tdata[NDATA - 1] - tdata[NDATA - 2]);
@@ -3054,8 +2974,8 @@ internal static class Program
 
                 Console.WriteLine("  "
                                   + mark + "  "
-                                  + tval.ToString().PadLeft(12) + "  "
-                                  + yval.ToString().PadLeft(12) + "");
+                                  + tval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                  + yval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             }
         }
 
@@ -3084,7 +3004,7 @@ internal static class Program
                         tlo = tdata[i - 1];
                         thi = tdata[i];
                     }
-                    else if (NDATA <= i)
+                    else
                     {
                         tlo = tdata[NDATA - 1];
                         thi = tdata[NDATA - 1] + 0.5 * (tdata[NDATA - 1] - tdata[NDATA - 2]);
@@ -3119,8 +3039,8 @@ internal static class Program
 
                 Console.WriteLine("  "
                                   + mark + "  "
-                                  + tval.ToString().PadLeft(12) + "  "
-                                  + yval.ToString().PadLeft(12) + "");
+                                  + tval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                  + yval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             }
 
         }
@@ -3150,7 +3070,7 @@ internal static class Program
                         tlo = tdata[i - 1];
                         thi = tdata[i];
                     }
-                    else if (NDATA <= i)
+                    else
                     {
                         tlo = tdata[NDATA - 1];
                         thi = tdata[NDATA - 1] + 0.5 * (tdata[NDATA - 1] - tdata[NDATA - 2]);
@@ -3185,8 +3105,8 @@ internal static class Program
 
                 Console.WriteLine("  "
                                   + mark + "  "
-                                  + tval.ToString().PadLeft(12) + "  "
-                                  + yval.ToString().PadLeft(12) + "");
+                                  + tval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                  + yval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             }
         }
 
@@ -3213,20 +3133,13 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int NDATA = 12;
-        int N_TEST = 20;
+        const int NDATA = 12;
+        const int N_TEST = 20;
 
-        double fval;
         int i;
-        int j;
         int seed = 123456789;
-        double[] tdata;
-        double thi = 0;
-        double tlo = 0;
-        double[] t_test;
         double tval = 0;
         double[] ydata = new double[NDATA];
-        double yval;
 
         Console.WriteLine("");
         Console.WriteLine("TEST145");
@@ -3237,10 +3150,10 @@ internal static class Program
         //
         //  Set the data.
         //
-        tlo = -1.0;
-        thi = +1.0;
+        double tlo = -1.0;
+        double thi = +1.0;
 
-        tdata = typeMethods.r8vec_even_new(NDATA - 1, tlo, thi);
+        double[] tdata = typeMethods.r8vec_even_new(NDATA - 1, tlo, thi);
 
         for (i = 0; i < NDATA; i++)
         {
@@ -3251,14 +3164,12 @@ internal static class Program
                     break;
                 default:
                 {
-                    if (i < NDATA - 1)
+                    tval = i switch
                     {
-                        tval = 0.5 * (tdata[i - 1] + tdata[i]);
-                    }
-                    else if (i == NDATA - 1)
-                    {
-                        tval = tdata[i - 1];
-                    }
+                        < NDATA - 1 => 0.5 * (tdata[i - 1] + tdata[i]),
+                        NDATA - 1 => tdata[i - 1],
+                        _ => tval
+                    };
 
                     break;
                 }
@@ -3279,18 +3190,18 @@ internal static class Program
         {
             Console.WriteLine("  *"
                               + "              "
-                              + ydata[i].ToString().PadLeft(12) + "");
+                              + ydata[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             if (i < NDATA - 1)
             {
                 Console.WriteLine("  *"
-                                  + tdata[i].ToString().PadLeft(12) + "");
+                                  + tdata[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             }
         }
 
         //
         //  Sample the spline.
         //
-        t_test = UniformRNG.r8vec_uniform_new(N_TEST, tlo - 1.0, thi + 1.0, ref seed);
+        double[] t_test = UniformRNG.r8vec_uniform_new(N_TEST, tlo - 1.0, thi + 1.0, ref seed);
 
         typeMethods.r8vec_sort_bubble_a(N_TEST, ref t_test);
 
@@ -3298,30 +3209,31 @@ internal static class Program
         Console.WriteLine("     T     Y(interp)    Y(exact)");
         Console.WriteLine("");
 
-        j = 0;
+        int j = 0;
         Console.WriteLine("  *"
                           + "              "
-                          + ydata[j].ToString().PadLeft(12) + "");
+                          + ydata[j].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         j += 1;
 
         for (i = 0; i < N_TEST; i++)
         {
             tval = t_test[i];
 
-            yval = Constant.spline_constant_val(NDATA, tdata, ydata, tval);
+            double yval = Constant.spline_constant_val(NDATA, tdata, ydata, tval);
 
+            double fval;
             if (j <= NDATA - 1)
             {
                 while (tdata[j - 1] <= tval)
                 {
                     fval = frunge(tdata[j - 1]);
                     Console.WriteLine("  *"
-                                      + tdata[j - 1].ToString().PadLeft(12) + "  "
+                                      + tdata[j - 1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
                                       + "            " + "  "
-                                      + fval.ToString().PadLeft(12) + "");
+                                      + fval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
                     Console.WriteLine("  *"
                                       + "            " + "  "
-                                      + ydata[j].ToString().PadLeft(12) + "");
+                                      + ydata[j].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
                     j += 1;
                     if (NDATA <= j)
                     {
@@ -3333,9 +3245,9 @@ internal static class Program
             fval = frunge(tval);
 
             Console.WriteLine("   "
-                              + tval.ToString().PadLeft(12) + "  "
-                              + yval.ToString().PadLeft(12) + "  "
-                              + fval.ToString().PadLeft(12) + "");
+                              + tval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + yval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + fval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
 
         }
     }
@@ -3361,23 +3273,18 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 11;
+        const int N = 11;
 
-        int i = 0;
+        int i;
         int ibcbeg = 0;
         int ibcend = 0;
-        int j = 0;
-        int jhi = 0;
-        int k = 0;
+        int k;
         double[] t = new double[N];
-        double tval = 0;
         double[] y = new double[N];
         double ybcbeg = 0;
         double ybcend = 0;
-        double[] ypp;
         double yppval = 0;
         double ypval = 0;
-        double yval = 0;
         //
         //  Set up the data.
         //
@@ -3397,9 +3304,9 @@ internal static class Program
                     + i * +1.0)
                    / (N - 1);
             y[i] = frunge(t[i]);
-            Console.WriteLine(i.ToString().PadLeft(6) + "  "
-                                                      + t[i].ToString().PadLeft(10) + "  "
-                                                      + y[i].ToString().PadLeft(10) + "");
+            Console.WriteLine(i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                      + t[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                                                      + y[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         //
@@ -3465,15 +3372,15 @@ internal static class Program
                     break;
             }
 
-            ypp = Cubic.spline_cubic_set(N, t, y, ibcbeg, ybcbeg, ibcend, ybcend);
+            double[] ypp = Cubic.spline_cubic_set(N, t, y, ibcbeg, ybcbeg, ibcend, ybcend);
 
             Console.WriteLine("");
             Console.WriteLine("  SPLINE''(T), F''(T):");
             Console.WriteLine("");
             for (i = 0; i < N; i++)
             {
-                Console.WriteLine(ypp[i].ToString().PadLeft(10) + "  "
-                                                                + fpprunge(t[i]).ToString().PadLeft(10) + "");
+                Console.WriteLine(ypp[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                                                                + fpprunge(t[i]).ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
             }
 
             Console.WriteLine("");
@@ -3482,6 +3389,7 @@ internal static class Program
 
             for (i = 0; i <= N; i++)
             {
+                int jhi;
                 switch (i)
                 {
                     case 0:
@@ -3489,21 +3397,16 @@ internal static class Program
                         break;
                     default:
                     {
-                        if (i < N)
-                        {
-                            jhi = 2;
-                        }
-                        else
-                        {
-                            jhi = 2;
-                        }
+                        jhi = 2;
 
                         break;
                     }
                 }
 
+                int j;
                 for (j = 1; j <= jhi; j++)
                 {
+                    double tval;
                     switch (i)
                     {
                         case 0:
@@ -3531,11 +3434,11 @@ internal static class Program
                         }
                     }
 
-                    yval = Cubic.spline_cubic_val(N, t, y, ypp, tval, ref ypval, ref yppval);
+                    double yval = Cubic.spline_cubic_val(N, t, y, ypp, tval, ref ypval, ref yppval);
 
-                    Console.WriteLine(tval.ToString().PadLeft(10) + "  "
-                                                                  + yval.ToString().PadLeft(10) + "  "
-                                                                  + frunge(tval).ToString().PadLeft(10) + "");
+                    Console.WriteLine(tval.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                                                                  + yval.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                                                                  + frunge(tval).ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
                 }
             }
         }
@@ -3563,22 +3466,16 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 11;
+        const int N = 11;
 
-        int i = 0;
+        int i;
         int ibcbeg = 0;
         int ibcend = 0;
-        int j = 0;
-        int jhi = 0;
-        int k = 0;
-        int left = 0;
-        int left_in = 0;
+        int k;
         double[] t = new double[N];
-        double tval = 0;
         double[] y = new double[N];
         double ybcbeg = 0;
         double ybcend = 0;
-        double[] ypp;
         double yppval = 0;
         double ypval = 0;
         double yval = 0;
@@ -3601,9 +3498,9 @@ internal static class Program
                     + i * +1.0)
                    / (N - 1);
             y[i] = frunge(t[i]);
-            Console.WriteLine(i.ToString().PadLeft(6) + "  "
-                                                      + t[i].ToString().PadLeft(12) + "  "
-                                                      + y[i].ToString().PadLeft(12) + "");
+            Console.WriteLine(i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                      + t[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                      + y[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
         //
@@ -3650,18 +3547,18 @@ internal static class Program
                     break;
             }
 
-            ypp = Cubic.spline_cubic_set(N, t, y, ibcbeg, ybcbeg, ibcend, ybcend);
+            double[] ypp = Cubic.spline_cubic_set(N, t, y, ibcbeg, ybcbeg, ibcend, ybcend);
 
             Console.WriteLine("");
             Console.WriteLine("  SPLINE''(T), F''(T):");
             Console.WriteLine("");
             for (i = 0; i < N; i++)
             {
-                Console.WriteLine(ypp[i].ToString().PadLeft(12) + "  "
-                                                                + fpprunge(t[i]).ToString().PadLeft(12) + "");
+                Console.WriteLine(ypp[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                                + fpprunge(t[i]).ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             }
 
-            left = 0;
+            int left = 0;
 
             Console.WriteLine("");
             Console.WriteLine("  T, SPLINE(T), F(T), LEFT_IN, LEFT_OUT");
@@ -3669,6 +3566,7 @@ internal static class Program
 
             for (i = 0; i <= N; i++)
             {
+                int jhi;
                 switch (i)
                 {
                     case 0:
@@ -3676,21 +3574,16 @@ internal static class Program
                         break;
                     default:
                     {
-                        if (i < N)
-                        {
-                            jhi = 2;
-                        }
-                        else
-                        {
-                            jhi = 2;
-                        }
+                        jhi = 2;
 
                         break;
                     }
                 }
 
+                int j;
                 for (j = 1; j <= jhi; j++)
                 {
+                    double tval;
                     switch (i)
                     {
                         case 0:
@@ -3717,15 +3610,15 @@ internal static class Program
                         }
                     }
 
-                    left_in = left;
+                    int left_in = left;
                     Cubic.spline_cubic_val2(N, t, tval, ref left, y, ypp, ref yval, ref ypval,
                         ref yppval);
 
-                    Console.WriteLine(tval.ToString().PadLeft(12) + "  "
-                                                                  + yval.ToString().PadLeft(12) + "  "
-                                                                  + frunge(tval).ToString().PadLeft(12) + "  "
-                                                                  + left_in.ToString().PadLeft(6) + "  "
-                                                                  + left.ToString().PadLeft(6) + "");
+                    Console.WriteLine(tval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                                  + yval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                                  + frunge(tval).ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                                  + left_in.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                                  + left.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
                 }
             }
         }
@@ -3753,23 +3646,18 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 11;
+        const int N = 11;
 
-        int i = 0;
+        int i;
         int ibcbeg = 0;
         int ibcend = 0;
-        int j = 0;
-        int jhi = 0;
-        int k = 0;
+        int k;
         double[] t = new double[N];
-        double tval = 0;
         double[] y = new double[N];
         double ybcbeg = 0;
         double ybcend = 0;
-        double[] ypp;
         double yppval = 0;
         double ypval = 0;
-        double yval = 0;
         //
         //  Set up the data.
         //
@@ -3788,9 +3676,9 @@ internal static class Program
             t[i] = i / (double)(N - 1);
             t[i] *= t[i];
             y[i] = fcube(t[i]);
-            Console.WriteLine(i.ToString().PadLeft(6) + "  "
-                                                      + t[i].ToString().PadLeft(10) + "  "
-                                                      + y[i].ToString().PadLeft(10) + "");
+            Console.WriteLine(i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                      + t[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                                                      + y[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         //
@@ -3837,15 +3725,15 @@ internal static class Program
                     break;
             }
 
-            ypp = Cubic.spline_cubic_set(N, t, y, ibcbeg, ybcbeg, ibcend, ybcend);
+            double[] ypp = Cubic.spline_cubic_set(N, t, y, ibcbeg, ybcbeg, ibcend, ybcend);
 
             Console.WriteLine("");
             Console.WriteLine("  SPLINE''(T), F''(T):");
             Console.WriteLine("");
             for (i = 0; i < N; i++)
             {
-                Console.WriteLine(ypp[i].ToString().PadLeft(12) + "  "
-                                                                + fppcube(t[i]).ToString().PadLeft(12) + "");
+                Console.WriteLine(ypp[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                                + fppcube(t[i]).ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             }
 
             Console.WriteLine("");
@@ -3854,6 +3742,7 @@ internal static class Program
 
             for (i = 0; i <= N; i++)
             {
+                int jhi;
                 switch (i)
                 {
                     case 0:
@@ -3861,21 +3750,16 @@ internal static class Program
                         break;
                     default:
                     {
-                        if (i < N)
-                        {
-                            jhi = 2;
-                        }
-                        else
-                        {
-                            jhi = 2;
-                        }
+                        jhi = 2;
 
                         break;
                     }
                 }
 
+                int j;
                 for (j = 1; j <= jhi; j++)
                 {
+                    double tval = 0;
                     switch (i)
                     {
                         case 0:
@@ -3902,11 +3786,11 @@ internal static class Program
                         }
                     }
 
-                    yval = Cubic.spline_cubic_val(N, t, y, ypp, tval, ref ypval, ref yppval);
+                    double yval = Cubic.spline_cubic_val(N, t, y, ypp, tval, ref ypval, ref yppval);
 
-                    Console.WriteLine(tval.ToString().PadLeft(12) + "  "
-                                                                  + yval.ToString().PadLeft(12) + "  "
-                                                                  + fcube(tval).ToString().PadLeft(12) + "");
+                    Console.WriteLine(tval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                                  + yval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                                  + fcube(tval).ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
                 }
             }
         }
@@ -3934,23 +3818,18 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 11;
+        const int N = 11;
 
-        int i = 0;
+        int i;
         int ibcbeg = 0;
         int ibcend = 0;
-        int j = 0;
-        int jhi = 0;
-        int k = 0;
+        int k;
         double[] t = new double[N];
-        double tval = 0;
         double[] y = new double[N];
         double ybcbeg = 0;
         double ybcend = 0;
-        double[] ypp;
         double yppval = 0;
         double ypval = 0;
-        double yval = 0;
         //
         //  Set up the data.
         //
@@ -3967,8 +3846,8 @@ internal static class Program
         {
             t[i] = i / (double)(N - 1);
             y[i] = fcube(t[i]);
-            Console.WriteLine(t[i].ToString().PadLeft(12) + "  "
-                                                          + y[i].ToString().PadLeft(12) + "");
+            Console.WriteLine(t[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                          + y[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
         //
@@ -4015,15 +3894,15 @@ internal static class Program
                     break;
             }
 
-            ypp = Cubic.spline_cubic_set(N, t, y, ibcbeg, ybcbeg, ibcend, ybcend);
+            double[] ypp = Cubic.spline_cubic_set(N, t, y, ibcbeg, ybcbeg, ibcend, ybcend);
 
             Console.WriteLine("");
             Console.WriteLine("     SPLINE''(T)       F''(T):");
             Console.WriteLine("");
             for (i = 0; i < N; i++)
             {
-                Console.WriteLine(ypp[i].ToString().PadLeft(12) + "  "
-                                                                + fppcube(t[i]).ToString().PadLeft(12) + "");
+                Console.WriteLine(ypp[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                                + fppcube(t[i]).ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             }
 
             Console.WriteLine("");
@@ -4032,6 +3911,7 @@ internal static class Program
 
             for (i = 0; i <= N; i++)
             {
+                int jhi;
                 switch (i)
                 {
                     case 0:
@@ -4039,21 +3919,16 @@ internal static class Program
                         break;
                     default:
                     {
-                        if (i < N)
-                        {
-                            jhi = 2;
-                        }
-                        else
-                        {
-                            jhi = 2;
-                        }
+                        jhi = 2;
 
                         break;
                     }
                 }
 
+                int j;
                 for (j = 1; j <= jhi; j++)
                 {
+                    double tval;
                     switch (i)
                     {
                         case 0:
@@ -4080,18 +3955,18 @@ internal static class Program
                         }
                     }
 
-                    yval = Cubic.spline_cubic_val(N, t, y, ypp, tval, ref ypval, ref yppval);
+                    double yval = Cubic.spline_cubic_val(N, t, y, ypp, tval, ref ypval, ref yppval);
 
                     Console.WriteLine("");
-                    Console.WriteLine(tval.ToString().PadLeft(12)
-                                      + yval.ToString().PadLeft(12) + "  "
-                                      + fcube(tval).ToString().PadLeft(12) + "");
+                    Console.WriteLine(tval.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                      + yval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                      + fcube(tval).ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
                     Console.WriteLine("            "
-                                      + ypval.ToString().PadLeft(12) + "  "
-                                      + fpcube(tval).ToString().PadLeft(12) + "");
+                                      + ypval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                      + fpcube(tval).ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
                     Console.WriteLine("            "
-                                      + yppval.ToString().PadLeft(12) + "  "
-                                      + fppcube(tval).ToString().PadLeft(12) + "");
+                                      + yppval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                      + fppcube(tval).ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
                 }
             }
         }
@@ -4119,24 +3994,18 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 2;
+        const int N = 2;
 
-        int i = 0;
+        int i;
         int ibcbeg = 0;
         int ibcend = 0;
-        int j = 0;
-        int jhi = 0;
-        int k1 = 0;
-        int k2 = 0;
+        int k1;
         double[] t = new double[N];
-        double tval = 0;
         double[] y = new double[N];
         double ybcbeg = 0;
         double ybcend = 0;
-        double[] ypp;
         double yppval = 0;
         double ypval = 0;
-        double yval = 0;
         //
         //  Set up the data.
         //
@@ -4159,8 +4028,8 @@ internal static class Program
         {
             t[i] = i / (double)(N - 1);
             y[i] = fcube(t[i]);
-            Console.WriteLine(t[i].ToString().PadLeft(12) + "  "
-                                                          + y[i].ToString().PadLeft(12) + "");
+            Console.WriteLine(t[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                          + y[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
         //
@@ -4195,6 +4064,7 @@ internal static class Program
                     break;
             }
 
+            int k2;
             for (k2 = 0; k2 < 3; k2++)
             {
                 switch (k2)
@@ -4223,15 +4093,15 @@ internal static class Program
                         break;
                 }
 
-                ypp = Cubic.spline_cubic_set(N, t, y, ibcbeg, ybcbeg, ibcend, ybcend);
+                double[] ypp = Cubic.spline_cubic_set(N, t, y, ibcbeg, ybcbeg, ibcend, ybcend);
 
                 Console.WriteLine("");
                 Console.WriteLine("  SPLINE''(T)        F''(T)");
                 Console.WriteLine("");
                 for (i = 0; i < N; i++)
                 {
-                    Console.WriteLine(ypp[i].ToString().PadLeft(12) + "  "
-                                                                    + fppcube(t[i]).ToString().PadLeft(12) + "");
+                    Console.WriteLine(ypp[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                                    + fppcube(t[i]).ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
                 }
 
                 Console.WriteLine("");
@@ -4240,6 +4110,7 @@ internal static class Program
 
                 for (i = 0; i <= N; i++)
                 {
+                    int jhi = 0;
                     switch (i)
                     {
                         case 0:
@@ -4247,22 +4118,16 @@ internal static class Program
                             break;
                         default:
                         {
-                            if (i < N)
-                            {
-                                jhi = 2;
-                            }
-                            else
-                            {
-                                jhi = 2;
-                            }
+                            jhi = 2;
 
                             break;
                         }
                     }
 
+                    int j = 0;
                     for (j = 1; j <= jhi; j++)
                     {
-
+                        double tval = 0;
                         switch (i)
                         {
                             case 0:
@@ -4289,18 +4154,18 @@ internal static class Program
                             }
                         }
 
-                        yval = Cubic.spline_cubic_val(N, t, y, ypp, tval, ref ypval, ref yppval);
+                        double yval = Cubic.spline_cubic_val(N, t, y, ypp, tval, ref ypval, ref yppval);
 
                         Console.WriteLine("");
-                        Console.WriteLine(tval.ToString().PadLeft(12)
-                                          + yval.ToString().PadLeft(12) + "  "
-                                          + fcube(tval).ToString().PadLeft(12) + "");
+                        Console.WriteLine(tval.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                          + yval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                          + fcube(tval).ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
                         Console.WriteLine("            "
-                                          + ypval.ToString().PadLeft(12) + "  "
-                                          + fpcube(tval).ToString().PadLeft(12) + "");
+                                          + ypval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                          + fpcube(tval).ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
                         Console.WriteLine("            "
-                                          + yppval.ToString().PadLeft(12) + "  "
-                                          + fppcube(tval).ToString().PadLeft(12) + "");
+                                          + yppval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                          + fppcube(tval).ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
                     }
                 }
             }
@@ -4329,18 +4194,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int NDATA = 4;
+        const int NDATA = 4;
 
-        double[] c;
-        double fpval;
-        double fval;
         int i;
-        int j;
-        int jhi;
-        char mark;
-        double pi = 3.141592653589793;
         double[] tdata = new double[NDATA];
-        double tval;
         double[] ydata = new double[NDATA];
         double[] ypdata = new double[NDATA];
         double ypval = 0;
@@ -4355,7 +4212,7 @@ internal static class Program
         //
         for (i = 0; i < NDATA; i++)
         {
-            tdata[i] = 0.5 * i * pi / (NDATA - 1);
+            tdata[i] = 0.5 * i * Math.PI / (NDATA - 1);
             ydata[i] = Math.Sin(tdata[i]);
             ypdata[i] = Math.Cos(tdata[i]);
         }
@@ -4368,15 +4225,15 @@ internal static class Program
 
         for (i = 0; i < NDATA; i++)
         {
-            Console.WriteLine(tdata[i].ToString().PadLeft(12) + "  "
-                                                              + ydata[i].ToString().PadLeft(12) + "  "
-                                                              + ypdata[i].ToString().PadLeft(12) + "");
+            Console.WriteLine(tdata[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                              + ydata[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                              + ypdata[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
         //
         //  Set up the spline.
         //
-        c = Hermite.spline_hermite_set(NDATA, tdata, ydata, ypdata);
+        double[] c = Hermite.spline_hermite_set(NDATA, tdata, ydata, ypdata);
         //
         //  Now evaluate the spline all over the place.
         //
@@ -4386,26 +4243,20 @@ internal static class Program
 
         for (i = 0; i < NDATA; i++)
         {
-            if (i == NDATA - 1)
-            {
-                jhi = 0;
-            }
-            else
-            {
-                jhi = 2;
-            }
+            int jhi = i == NDATA - 1 ? 0 : 2;
 
+            int j;
             for (j = 0; j <= jhi; j++)
             {
-                tval = 0.5 * (3 * i + j) * pi
-                       / (3 * (NDATA - 1));
+                double tval = 0.5 * (3 * i + j) * Math.PI
+                              / (3 * (NDATA - 1));
 
-                fval = Math.Sin(tval);
-                fpval = Math.Cos(tval);
+                double fval = Math.Sin(tval);
+                double fpval = Math.Cos(tval);
 
                 Hermite.spline_hermite_val(NDATA, tdata, c, tval, ref yval, ref ypval);
 
-                mark = j switch
+                char mark = j switch
                 {
                     0 => '*',
                     _ => ' '
@@ -4413,11 +4264,11 @@ internal static class Program
 
                 Console.WriteLine("  "
                                   + mark + "  "
-                                  + tval.ToString().PadLeft(12) + "  "
-                                  + yval.ToString().PadLeft(12) + "  "
-                                  + fval.ToString().PadLeft(12) + "  "
-                                  + ypval.ToString().PadLeft(12) + "  "
-                                  + fpval.ToString().PadLeft(12) + "");
+                                  + tval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                  + yval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                  + fval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                  + ypval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                  + fpval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             }
 
         }
@@ -4445,16 +4296,13 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 4;
+        const int N = 4;
 
-        double a;
-        double b;
         double[] data_x = new double[N];
         double[] data_y = new double[N];
         int i;
         double[] int_x = { 0.0, 1.0, 4.0, 5.0, 10.0 };
         double[] int_v = { 10.0, 2.0, 8.0, 27.5 };
-        double value = 0;
 
         Console.WriteLine("");
         Console.WriteLine("TEST205");
@@ -4483,13 +4331,13 @@ internal static class Program
 
         for (i = 1; i <= N; i++)
         {
-            a = int_x[i - 1];
-            b = int_x[i];
-            value = Linear.spline_linear_int(N, data_x, data_y, a, b);
-            Console.WriteLine(a.ToString().PadLeft(8) + "  "
-                                                      + b.ToString().PadLeft(8) + "  "
-                                                      + int_v[i - 1].ToString().PadLeft(12) + "  "
-                                                      + value.ToString().PadLeft(12) + "");
+            double a = int_x[i - 1];
+            double b = int_x[i];
+            double value = Linear.spline_linear_int(N, data_x, data_y, a, b);
+            Console.WriteLine(a.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                                                      + b.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                                                      + int_v[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                      + value.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
     }
@@ -4515,14 +4363,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 11;
+        const int N = 11;
 
-        double fval = 0;
-        int i = 0;
-        int j = 0;
-        int jhi = 0;
+        int i;
         double[] t = new double[N];
-        double tval = 0;
         double[] y = new double[N];
         double ypval = 0;
         double yval = 0;
@@ -4551,8 +4395,8 @@ internal static class Program
 
         for (i = 0; i < N; i++)
         {
-            Console.WriteLine(t[i].ToString().PadLeft(12) + "  "
-                                                          + y[i].ToString().PadLeft(12) + "");
+            Console.WriteLine(t[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                          + y[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
         Console.WriteLine("");
@@ -4562,6 +4406,7 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i <= N; i++)
         {
+            int jhi = 0;
             switch (i)
             {
                 case 0:
@@ -4569,21 +4414,16 @@ internal static class Program
                     break;
                 default:
                 {
-                    if (i < N)
-                    {
-                        jhi = 2;
-                    }
-                    else
-                    {
-                        jhi = 2;
-                    }
+                    jhi = 2;
 
                     break;
                 }
             }
 
+            int j = 0;
             for (j = 1; j <= jhi; j++)
             {
+                double tval = 0;
                 switch (i)
                 {
                     case 0:
@@ -4612,11 +4452,11 @@ internal static class Program
 
                 Linear.spline_linear_val(N, t, y, tval, ref yval, ref ypval);
 
-                fval = frunge(tval);
+                double fval = frunge(tval);
 
-                Console.WriteLine(tval.ToString().PadLeft(12) + "  "
-                                                              + yval.ToString().PadLeft(12) + "  "
-                                                              + fval.ToString().PadLeft(12) + "");
+                Console.WriteLine(tval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                              + yval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                              + fval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
 
             }
         }
@@ -4644,12 +4484,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 3;
+        const int N = 3;
 
-        double a;
-        double b;
         int i;
-        double int_val;
         double[] t = { 2.0, 4.5, 7.5 };
         double[] y = { 3.0, 3.75, 5.5 };
 
@@ -4668,8 +4505,8 @@ internal static class Program
 
         for (i = 0; i < N; i++)
         {
-            Console.WriteLine(t[i].ToString().PadLeft(12) + "  "
-                                                          + y[i].ToString().PadLeft(12) + "");
+            Console.WriteLine(t[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                          + y[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
         Console.WriteLine("");
@@ -4678,6 +4515,8 @@ internal static class Program
 
         for (i = 1; i <= 5; i++)
         {
+            double b;
+            double a;
             switch (i)
             {
                 case 1:
@@ -4702,12 +4541,12 @@ internal static class Program
                     break;
             }
 
-            int_val = Linear.spline_linear_int(N, t, y, a, b);
+            double int_val = Linear.spline_linear_int(N, t, y, a, b);
 
             Console.WriteLine("  "
-                              + a.ToString().PadLeft(12) + "  "
-                              + b.ToString().PadLeft(12) + "  "
-                              + int_val.ToString().PadLeft(12) + "");
+                              + a.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + b.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + int_val.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
     }
@@ -4733,20 +4572,12 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int NDATA = 11;
+        const int NDATA = 11;
 
         int i;
-        int j;
-        int jhi;
-        char mark;
-        int nsample = 4;
-        double pi = 3.141592653589793;
+        const int nsample = 4;
         double[] tdata = new double[NDATA];
-        double thi = 0;
-        double tlo = 0;
-        double tval;
         double[] ydata = new double[NDATA];
-        double yval;
 
         Console.WriteLine("");
         Console.WriteLine("TEST22");
@@ -4756,7 +4587,7 @@ internal static class Program
         for (i = 0; i < NDATA; i++)
         {
             tdata[i] = i;
-            ydata[i] = Math.Sin(2.0 * pi * tdata[i] / (NDATA - 1));
+            ydata[i] = Math.Sin(2.0 * Math.PI * tdata[i] / (NDATA - 1));
         }
 
         Console.WriteLine("");
@@ -4769,8 +4600,8 @@ internal static class Program
         for (i = 0; i < NDATA; i++)
         {
             Console.WriteLine("  "
-                              + tdata[i].ToString().PadLeft(12) + "  "
-                              + ydata[i].ToString().PadLeft(12) + "");
+                              + tdata[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + ydata[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
         Console.WriteLine("");
@@ -4779,6 +4610,8 @@ internal static class Program
 
         for (i = 0; i <= NDATA; i++)
         {
+            double thi = 0;
+            double tlo = 0;
             switch (i)
             {
                 case 0:
@@ -4792,7 +4625,7 @@ internal static class Program
                         tlo = tdata[i - 1];
                         thi = tdata[i];
                     }
-                    else if (NDATA <= i)
+                    else
                     {
                         tlo = tdata[NDATA - 1];
                         thi = tdata[NDATA - 1] + 0.5 * (tdata[NDATA - 1] - tdata[NDATA - 2]);
@@ -4802,6 +4635,7 @@ internal static class Program
                 }
             }
 
+            int jhi;
             if (i < NDATA)
             {
                 jhi = nsample - 1;
@@ -4811,15 +4645,16 @@ internal static class Program
                 jhi = nsample;
             }
 
+            int j;
             for (j = 0; j <= jhi; j++)
             {
-                tval = ((nsample - j) * tlo
-                        + j * thi)
-                       / nsample;
+                double tval = ((nsample - j) * tlo
+                               + j * thi)
+                              / nsample;
 
-                yval = Overhauser.spline_overhauser_uni_val(NDATA, tdata, ydata, tval);
+                double yval = Overhauser.spline_overhauser_uni_val(NDATA, tdata, ydata, tval);
 
-                mark = ((0 < i) & (j == 0)) switch
+                char mark = ((0 < i) & (j == 0)) switch
                 {
                     true => '*',
                     _ => ' '
@@ -4827,8 +4662,8 @@ internal static class Program
 
                 Console.WriteLine("  "
                                   + mark + "  "
-                                  + tval.ToString().PadLeft(12) + "  "
-                                  + yval.ToString().PadLeft(12) + "");
+                                  + tval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                  + yval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
 
             }
 
@@ -4857,20 +4692,12 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int NDATA = 11;
+        const int NDATA = 11;
 
         int i;
-        int j;
-        int jhi;
-        char mark;
-        int nsample = 4;
-        double pi = 3.141592653589793;
+        const int nsample = 4;
         double[] tdata = new double[NDATA];
-        double thi = 0;
-        double tlo = 0;
-        double tval;
         double[] ydata = new double[NDATA];
-        double yval;
 
         Console.WriteLine("");
         Console.WriteLine("TEST225");
@@ -4883,7 +4710,7 @@ internal static class Program
         for (i = 0; i < NDATA; i++)
         {
             tdata[i] = i;
-            ydata[i] = Math.Sin(2.0 * pi * tdata[i] / (NDATA - 1));
+            ydata[i] = Math.Sin(2.0 * Math.PI * tdata[i] / (NDATA - 1));
         }
 
         Console.WriteLine("");
@@ -4896,8 +4723,8 @@ internal static class Program
         for (i = 0; i < NDATA; i++)
         {
             Console.WriteLine("  "
-                              + tdata[i].ToString().PadLeft(12) + "  "
-                              + ydata[i].ToString().PadLeft(12) + "");
+                              + tdata[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + ydata[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
         Console.WriteLine("");
@@ -4906,6 +4733,8 @@ internal static class Program
 
         for (i = 0; i <= NDATA; i++)
         {
+            double tlo;
+            double thi;
             switch (i)
             {
                 case 0:
@@ -4919,7 +4748,7 @@ internal static class Program
                         tlo = tdata[i - 1];
                         thi = tdata[i];
                     }
-                    else if (NDATA <= i)
+                    else
                     {
                         tlo = tdata[NDATA - 1];
                         thi = tdata[NDATA - 1] + 0.5 * (tdata[NDATA - 1] - tdata[NDATA - 2]);
@@ -4929,6 +4758,7 @@ internal static class Program
                 }
             }
 
+            int jhi;
             if (i < NDATA)
             {
                 jhi = nsample - 1;
@@ -4938,15 +4768,16 @@ internal static class Program
                 jhi = nsample;
             }
 
+            int j;
             for (j = 0; j <= jhi; j++)
             {
-                tval = ((nsample - j) * tlo
-                        + j * thi)
-                       / nsample;
+                double tval = ((nsample - j) * tlo
+                               + j * thi)
+                              / nsample;
 
-                yval = Overhauser.spline_overhauser_nonuni_val(NDATA, tdata, ydata, tval);
+                double yval = Overhauser.spline_overhauser_nonuni_val(NDATA, tdata, ydata, tval);
 
-                mark = ((0 < i) & (j == 0)) switch
+                char mark = ((0 < i) & (j == 0)) switch
                 {
                     true => '*',
                     _ => ' '
@@ -4954,8 +4785,8 @@ internal static class Program
 
                 Console.WriteLine("  "
                                   + mark + "  "
-                                  + tval.ToString().PadLeft(12) + "  "
-                                  + yval.ToString().PadLeft(12) + "");
+                                  + tval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                  + yval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
 
             }
 
@@ -4984,12 +4815,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int NDATA = 4;
-        int NDIM = 1;
+        const int NDATA = 4;
+        const int NDIM = 1;
 
         int i;
         double[] tdata = new double[NDATA];
-        double tval;
         double[] ydata = new double[NDIM * NDATA];
         double[] yval = new double[NDIM];
         double[] zdata = new double[NDATA];
@@ -5025,9 +4855,9 @@ internal static class Program
         for (i = 0; i < NDATA; i++)
         {
             Console.WriteLine("  "
-                              + tdata[i].ToString().PadLeft(12) + "  "
-                              + ydata[0 + i * NDIM].ToString().PadLeft(12) + "  "
-                              + zdata[0 + i * NDIM].ToString().PadLeft(12) + "");
+                              + tdata[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + ydata[0 + i * NDIM].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + zdata[0 + i * NDIM].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
         //
@@ -5039,14 +4869,14 @@ internal static class Program
 
         for (i = 0; i <= 6 * NDATA + 3; i++)
         {
-            tval = i / 6.0;
+            double tval = i / 6.0;
             Overhauser.spline_overhauser_val(NDIM, NDATA, tdata, ydata, tval, yval);
             Overhauser.spline_overhauser_val(NDIM, NDATA, tdata, zdata, tval, zval);
 
             Console.WriteLine("  "
-                              + tval.ToString().PadLeft(12) + "  "
-                              + yval[0].ToString().PadLeft(12) + "  "
-                              + zval[0].ToString().PadLeft(12) + "");
+                              + tval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + yval[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + zval[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -5071,11 +4901,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 21;
-        int NE = 101;
+        const int N = 21;
+        const int NE = 101;
 
         double[] d = new double[N];
-        double diff;
         double[] f = new double[N];
         double[] fe = new double[NE];
         int i;
@@ -5116,12 +4945,12 @@ internal static class Program
         //
         for (i = 0; i < NE; i++)
         {
-            diff = fe[i] - frunge(xe[i]);
+            double diff = fe[i] - frunge(xe[i]);
 
-            Console.WriteLine("  " + xe[i].ToString().PadLeft(8)
-                                   + "  " + frunge(xe[i]).ToString().PadLeft(10)
-                                   + "  " + fe[i].ToString().PadLeft(10)
-                                   + "  " + diff.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + xe[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + frunge(xe[i]).ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + fe[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + diff.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -5146,14 +4975,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 11;
+        const int N = 11;
 
-        double fval;
         int i;
-        int j;
-        int jhi;
         double[] t = new double[N];
-        double tval;
         double[] y = new double[N];
         double ypval = 0;
         double yval = 0;
@@ -5183,8 +5008,8 @@ internal static class Program
         for (i = 0; i < N; i++)
         {
             Console.WriteLine("  "
-                              + t[i].ToString().PadLeft(12) + "  "
-                              + y[i].ToString().PadLeft(12) + "");
+                              + t[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + y[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
         Console.WriteLine("");
@@ -5195,6 +5020,7 @@ internal static class Program
 
         for (i = 0; i <= N; i++)
         {
+            int jhi;
             switch (i)
             {
                 case 0:
@@ -5202,21 +5028,16 @@ internal static class Program
                     break;
                 default:
                 {
-                    if (i < N)
-                    {
-                        jhi = 2;
-                    }
-                    else
-                    {
-                        jhi = 2;
-                    }
+                    jhi = 2;
 
                     break;
                 }
             }
 
+            int j;
             for (j = 1; j <= jhi; j++)
             {
+                double tval;
                 switch (i)
                 {
                     case 0:
@@ -5245,11 +5066,11 @@ internal static class Program
 
                 Quadratic.spline_quadratic_val(N, t, y, tval, ref yval, ref ypval);
 
-                fval = frunge(tval);
+                double fval = frunge(tval);
 
-                Console.WriteLine(tval.ToString().PadLeft(12) + "  "
-                                                              + yval.ToString().PadLeft(12) + "  "
-                                                              + fval.ToString().PadLeft(12) + "");
+                Console.WriteLine(tval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                              + yval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                              + fval.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             }
         }
 
@@ -5303,9 +5124,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double fx;
-
-        fx = 1.0 / (1.0 + 25.0 * x * x);
+        double fx = 1.0 / (1.0 + 25.0 * x * x);
 
         return fx;
     }
@@ -5331,11 +5150,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double bot;
-        double fx;
-
-        bot = 1.0 + 25.0 * x * x;
-        fx = -50.0 * x / (bot * bot);
+        double bot = 1.0 + 25.0 * x * x;
+        double fx = -50.0 * x / (bot * bot);
 
         return fx;
     }
@@ -5361,11 +5177,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double bot;
-        double fx;
-
-        bot = 1.0 + 25.0 * x * x;
-        fx = (-50.0 + 3750.0 * x * x) / (bot * bot * bot);
+        double bot = 1.0 + 25.0 * x * x;
+        double fx = (-50.0 + 3750.0 * x * x) / (bot * bot * bot);
 
         return fx;
     }
@@ -5401,9 +5214,7 @@ internal static class Program
         //    Output, double FCUBE, the value of the function.
         //
     {
-        double fx;
-
-        fx = ((x + 2.0) * x + 3.0) * x + 4.0;
+        double fx = ((x + 2.0) * x + 3.0) * x + 4.0;
 
         return fx;
     }
@@ -5439,9 +5250,7 @@ internal static class Program
         //    Output, double FPCUBE, the value of the derivative of the function.
         //
     {
-        double fx;
-
-        fx = (3.0 * x + 4.0) * x + 3.0;
+        double fx = (3.0 * x + 4.0) * x + 3.0;
 
         return fx;
     }
@@ -5477,9 +5286,7 @@ internal static class Program
         //    Output, double FPPCUBE, the value of the second derivative of the function.
         //
     {
-        double fx;
-
-        fx = 6.0 * x + 4.0;
+        double fx = 6.0 * x + 4.0;
 
         return fx;
     }

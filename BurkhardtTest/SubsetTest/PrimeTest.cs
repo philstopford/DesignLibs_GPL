@@ -27,15 +27,13 @@ public static class PrimeTest
         //
     {
         int i;
-        int n;
-        int prime_max;
 
         Console.WriteLine("");
         Console.WriteLine("PRIME_TEST");
         Console.WriteLine("  PRIME returns primes from a table.");
 
-        n = -1;
-        prime_max = Prime.prime ( n );
+        const int n = -1;
+        int prime_max = Prime.prime ( n );
         Console.WriteLine("");
         Console.WriteLine("  Number of primes stored is " + prime_max + "");
         Console.WriteLine("");

@@ -26,10 +26,9 @@ public static class MorseThueTest
         //    John Burkardt
         //
     {
-        int N = 100;
+        const int N = 100;
 
         int i;
-        int ihi;
         int ilo;
         int[] s = new int[N+1];
 
@@ -46,7 +45,7 @@ public static class MorseThueTest
         for ( ilo = 0; ilo <= N; ilo += 10 )
         {
             string cout = "  ";
-            ihi = Math.Min ( ilo + 9, N );
+            int ihi = Math.Min ( ilo + 9, N );
             for ( i = ilo; i <= ihi; i++ )
             {
                 cout += s[i].ToString().PadLeft(1);

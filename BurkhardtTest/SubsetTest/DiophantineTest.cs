@@ -26,9 +26,8 @@ public static class DiophantineTest
         //    John Burkardt
         //
     {
-        int TEST_NUM = 20;
+        const int TEST_NUM = 20;
 
-        int a = 0;
         int[] a_test =
         {
             1027, 1027, 1027, 1027, -1027,
@@ -36,7 +35,6 @@ public static class DiophantineTest
             0, 0, 1, 1, 1,
             1024, 0, 0, 5, 2
         };
-        int b;
         int[] b_test =
         {
             712, 712, -712, -712, 712,
@@ -44,7 +42,6 @@ public static class DiophantineTest
             1, 1, 0, 0, 1,
             -15625, 0, 3, 0, 4
         };
-        int c;
         int[] c_test =
         {
             7, -7, 7, -7, 7,
@@ -54,8 +51,7 @@ public static class DiophantineTest
         };
 
         bool error = false;
-        int r = 0;
-        int test_i = 0;
+        int test_i;
         int x = 0;
         int y = 0;
 
@@ -69,9 +65,9 @@ public static class DiophantineTest
 
         for (test_i = 0; test_i < TEST_NUM; test_i++)
         {
-            a = a_test[test_i];
-            b = b_test[test_i];
-            c = c_test[test_i];
+            int a = a_test[test_i];
+            int b = b_test[test_i];
+            int c = c_test[test_i];
 
             Diophantine.diophantine(a, b, c, ref error, ref x, ref y);
 
@@ -84,7 +80,7 @@ public static class DiophantineTest
                                                                + "(Error occurred!)" + "");
                     break;
                 default:
-                    r = a * x + b * y - c;
+                    int r = a * x + b * y - c;
                     Console.WriteLine(a.ToString().PadLeft(10) + "  "
                                                                + b.ToString().PadLeft(10) + "  "
                                                                + c.ToString().PadLeft(10) + "  "
@@ -118,12 +114,9 @@ public static class DiophantineTest
         //    John Burkardt
         //
     {
-        int a = 4096;
-        int b = -15625;
-        int c = 46116;
-        int r;
-        int x;
-        int y;
+        const int a = 4096;
+        const int b = -15625;
+        const int c = 46116;
 
         Console.WriteLine("");
         Console.WriteLine("DIOPHANTINE_SOLUTION_MINIMIZE_TEST");
@@ -131,10 +124,10 @@ public static class DiophantineTest
         Console.WriteLine("  Euclidean norm solution of a Diophantine equation:");
         Console.WriteLine("    A * X + B * Y = C");
 
-        x = 665499996;
-        y = 174456828;
+        int x = 665499996;
+        int y = 174456828;
 
-        r = a * x + b * y - c;
+        int r = a * x + b * y - c;
 
         Console.WriteLine("");
         Console.WriteLine("  Coefficients:");

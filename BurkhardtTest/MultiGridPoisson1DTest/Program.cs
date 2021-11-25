@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Grid;
 using Burkardt.Types;
 
@@ -66,27 +67,18 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
-        double difmax;
-        int i;
         int it_num = 0;
         int k;
-        int n;
-        double[] u;
-        double ua;
-        double ub;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01_MONO");
         Console.WriteLine("  MONOGRID_POISSON_1D solves a 1D Poisson BVP");
         Console.WriteLine("  using the Gauss-Seidel method.");
 
-        a = 0.0;
-        b = 1.0;
-        ua = 0.0;
-        ub = 0.0;
+        const double a = 0.0;
+        const double b = 1.0;
+        const double ua = 0.0;
+        const double ub = 0.0;
 
         Console.WriteLine("");
         Console.WriteLine("  -u''(x) = 1, for 0 < x < 1");
@@ -95,10 +87,10 @@ internal static class Program
 
         for (k = 5; k <= 5; k++)
         {
-            n = (int) Math.Pow(2, k);
+            int n = (int) Math.Pow(2, k);
 
-            u = new double[n + 1];
-            x = typeMethods.r8vec_linspace_new(n + 1, a, b);
+            double[] u = new double[n + 1];
+            double[] x = typeMethods.r8vec_linspace_new(n + 1, a, b);
 
             Console.WriteLine("");
             Console.WriteLine("  Mesh index K = " + k + "");
@@ -110,17 +102,18 @@ internal static class Program
             Console.WriteLine("");
             Console.WriteLine("     I        X(I)      U(I)         U Exact(X(I))");
             Console.WriteLine("");
+            int i;
             for (i = 0; i < n + 1; i++)
             {
-                Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                       + "  " + x[i].ToString().PadLeft(10)
-                                       + "  " + u[i].ToString().PadLeft(14)
-                                       + "  " + exact1(x[i]).ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + exact1(x[i]).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
             Console.WriteLine("");
 
-            difmax = 0.0;
+            double difmax = 0.0;
             for (i = 0; i < n + 1; i++)
             {
                 difmax = Math.Max(difmax, Math.Abs(u[i] - exact1(x[i])));
@@ -152,27 +145,18 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
-        double difmax;
-        int i;
         int it_num = 0;
         int k;
-        int n;
-        double[] u;
-        double ua;
-        double ub;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01_MULTI");
         Console.WriteLine("  MULTIGRID_POISSON_1D solves a 1D Poisson BVP");
         Console.WriteLine("  using the multigrid method.");
 
-        a = 0.0;
-        b = 1.0;
-        ua = 0.0;
-        ub = 0.0;
+        const double a = 0.0;
+        const double b = 1.0;
+        const double ua = 0.0;
+        const double ub = 0.0;
 
         Console.WriteLine("");
         Console.WriteLine("  -u''(x) = 1, for 0 < x < 1");
@@ -181,10 +165,10 @@ internal static class Program
 
         for (k = 5; k <= 5; k++)
         {
-            n = (int) Math.Pow(2, k);
+            int n = (int) Math.Pow(2, k);
 
-            u = new double[n + 1];
-            x = typeMethods.r8vec_linspace_new(n + 1, a, b);
+            double[] u = new double[n + 1];
+            double[] x = typeMethods.r8vec_linspace_new(n + 1, a, b);
 
             Console.WriteLine("");
             Console.WriteLine("  Mesh index K = " + k + "");
@@ -196,17 +180,18 @@ internal static class Program
             Console.WriteLine("");
             Console.WriteLine("     I        X(I)      U(I)         U Exact(X(I))");
             Console.WriteLine("");
+            int i;
             for (i = 0; i < n + 1; i++)
             {
-                Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                       + "  " + x[i].ToString().PadLeft(10)
-                                       + "  " + u[i].ToString().PadLeft(14)
-                                       + "  " + exact1(x[i]).ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + exact1(x[i]).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
             Console.WriteLine("");
 
-            difmax = 0.0;
+            double difmax = 0.0;
             for (i = 0; i < n + 1; i++)
             {
                 difmax = Math.Max(difmax, Math.Abs(u[i] - exact1(x[i])));
@@ -322,27 +307,18 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
-        double difmax;
-        int i;
         int it_num = 0;
         int k;
-        int n;
-        double[] u;
-        double ua;
-        double ub;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02_MONO");
         Console.WriteLine("  MONOGRID_POISSON_1D solves a 1D Poisson BVP");
         Console.WriteLine("  using the Gauss-Seidel method.");
 
-        a = 0.0;
-        b = 1.0;
-        ua = 0.0;
-        ub = 0.0;
+        const double a = 0.0;
+        const double b = 1.0;
+        const double ua = 0.0;
+        const double ub = 0.0;
 
         Console.WriteLine("");
         Console.WriteLine("  -u''(x) = - x * (x+3) * exp(x), for 0 < x < 1");
@@ -351,10 +327,10 @@ internal static class Program
 
         for (k = 5; k <= 5; k++)
         {
-            n = (int) Math.Pow(2, k);
+            int n = (int) Math.Pow(2, k);
 
-            u = new double[n + 1];
-            x = typeMethods.r8vec_linspace_new(n + 1, a, b);
+            double[] u = new double[n + 1];
+            double[] x = typeMethods.r8vec_linspace_new(n + 1, a, b);
 
             Console.WriteLine("");
             Console.WriteLine("  Mesh index K = " + k + "");
@@ -366,17 +342,18 @@ internal static class Program
             Console.WriteLine("");
             Console.WriteLine("     I        X(I)      U(I)         U Exact(X(I))");
             Console.WriteLine("");
+            int i;
             for (i = 0; i < n + 1; i++)
             {
-                Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                       + "  " + x[i].ToString().PadLeft(10)
-                                       + "  " + u[i].ToString().PadLeft(14)
-                                       + "  " + exact2(x[i]).ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + exact2(x[i]).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
             Console.WriteLine("");
 
-            difmax = 0.0;
+            double difmax = 0.0;
             for (i = 0; i < n + 1; i++)
             {
                 difmax = Math.Max(difmax, Math.Abs(u[i] - exact2(x[i])));
@@ -408,27 +385,18 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
-        double difmax;
-        int i;
         int it_num = 0;
         int k;
-        int n;
-        double[] u;
-        double ua;
-        double ub;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02_MULTI");
         Console.WriteLine("  MULTIGRID_POISSON_1D solves a 1D Poisson BVP");
         Console.WriteLine("  using the multigrid method.");
 
-        a = 0.0;
-        b = 1.0;
-        ua = 0.0;
-        ub = 0.0;
+        const double a = 0.0;
+        const double b = 1.0;
+        const double ua = 0.0;
+        const double ub = 0.0;
 
         Console.WriteLine("");
         Console.WriteLine("  -u''(x) = - x * (x+3) * exp(x), for 0 < x < 1");
@@ -437,10 +405,10 @@ internal static class Program
 
         for (k = 5; k <= 5; k++)
         {
-            n = (int) Math.Pow(2, k);
+            int n = (int) Math.Pow(2, k);
 
-            u = new double[n + 1];
-            x = typeMethods.r8vec_linspace_new(n + 1, a, b);
+            double[] u = new double[n + 1];
+            double[] x = typeMethods.r8vec_linspace_new(n + 1, a, b);
 
             Console.WriteLine("");
             Console.WriteLine("  Mesh index K = " + k + "");
@@ -452,17 +420,18 @@ internal static class Program
             Console.WriteLine("");
             Console.WriteLine("     I        X(I)      U(I)         U Exact(X(I))");
             Console.WriteLine("");
+            int i;
             for (i = 0; i < n + 1; i++)
             {
-                Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                       + "  " + x[i].ToString().PadLeft(10)
-                                       + "  " + u[i].ToString().PadLeft(14)
-                                       + "  " + exact2(x[i]).ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + exact2(x[i]).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
             Console.WriteLine("");
 
-            difmax = 0.0;
+            double difmax = 0.0;
             for (i = 0; i < n + 1; i++)
             {
                 difmax = Math.Max(difmax, Math.Abs(u[i] - exact2(x[i])));
@@ -508,9 +477,7 @@ internal static class Program
         //    Output, double EXACT2, the value of the exact solution at X.
         //
     {
-        double value = 0;
-
-        value = x * (x - 1.0) * Math.Exp(x);
+        double value = x * (x - 1.0) * Math.Exp(x);
 
         return value;
     }
@@ -550,9 +517,7 @@ internal static class Program
         //    Output, double FORCE2, the value of the forcing function at X.
         //
     {
-        double value = 0;
-
-        value = -x * (x + 3.0) * Math.Exp(x);
+        double value = -x * (x + 3.0) * Math.Exp(x);
 
         return value;
     }

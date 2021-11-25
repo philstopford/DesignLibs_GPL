@@ -26,14 +26,11 @@ public static class MultinomialTest
         //    John Burkardt
         //
     {
-        int MAXFACTOR = 5;
+        const int MAXFACTOR = 5;
 
         int[] factor = new int[MAXFACTOR];
         int i;
-        int j;
-        int n;
         int ncomb;
-        int nfactor;
 
         Console.WriteLine("");
         Console.WriteLine("MULTINOMIAL_COEF1_TEST");
@@ -44,8 +41,8 @@ public static class MultinomialTest
         Console.WriteLine("  Line 10 of the BINOMIAL table:");
         Console.WriteLine("");
 
-        n = 10;
-        nfactor = 2;
+        int n = 10;
+        int nfactor = 2;
 
         for (i = 0; i <= n; i++)
         {
@@ -73,6 +70,7 @@ public static class MultinomialTest
 
             Console.WriteLine("");
 
+            int j;
             for (j = 0; j <= n - factor[0]; j++)
             {
                 factor[1] = j;
@@ -110,14 +108,11 @@ public static class MultinomialTest
         //    John Burkardt
         //
     {
-        int MAXFACTOR = 5;
+        const int MAXFACTOR = 5;
 
         int[] factor = new int[MAXFACTOR];
         int i;
-        int j;
-        int n;
         int ncomb;
-        int nfactor;
 
         Console.WriteLine("");
         Console.WriteLine("MULTINOMIAL_COEF2_TEST");
@@ -128,8 +123,8 @@ public static class MultinomialTest
         Console.WriteLine("  Line 10 of the BINOMIAL table:");
         Console.WriteLine("");
 
-        n = 10;
-        nfactor = 2;
+        int n = 10;
+        int nfactor = 2;
 
         for (i = 0; i <= n; i++)
         {
@@ -157,6 +152,7 @@ public static class MultinomialTest
 
             Console.WriteLine("");
 
+            int j;
             for (j = 0; j <= n - factor[0]; j++)
             {
                 factor[1] = j;

@@ -70,9 +70,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double h;
-        double[] l;
-        int n = 5;
+        const int n = 5;
         int test;
 
         Console.WriteLine("");
@@ -86,7 +84,7 @@ internal static class Program
 
         for (test = 1; test <= 2; test++)
         {
-            h = test switch
+            double h = test switch
             {
                 1 => 1.0,
                 _ => 1.0 / (n + 1)
@@ -95,7 +93,7 @@ internal static class Program
             Console.WriteLine("");
             Console.WriteLine("  Using spacing H = " + h + "");
 
-            l = L1DD.l1dd(n, h);
+            double[] l = L1DD.l1dd(n, h);
             typeMethods.r8mat_print(n, n, l, "  L1DD:");
 
             l = L1DN.l1dn(n, h);
@@ -133,12 +131,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double h;
         int i;
-        double[] lu;
-        int n = 9;
-        double[] u;
-        double[] x;
+        const int n = 9;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02");
@@ -149,18 +143,18 @@ internal static class Program
         Console.WriteLine("  L1NN_APPLY for Neumann/Neumann BC;");
         Console.WriteLine("  L1PP_APPLY for Periodic BC;");
 
-        x = new double[n];
+        double[] x = new double[n];
         for (i = 0; i < n; i++)
         {
             x[i] = (i + 1) / (double) (n + 1);
         }
 
-        h = 1.0 / (n + 1);
+        const double h = 1.0 / (n + 1);
 
         Console.WriteLine("");
         Console.WriteLine(" Using spacing H = " + h + "");
 
-        u = new double[n];
+        double[] u = new double[n];
         for (i = 0; i < n; i++)
         {
             u[i] = x[i] * (1.0 - x[i]);
@@ -168,7 +162,7 @@ internal static class Program
 
         typeMethods.r8vec_print(n, u, "  Vector U:");
 
-        lu = L1DD.l1dd_apply(n, h, u);
+        double[] lu = L1DD.l1dd_apply(n, h, u);
         typeMethods.r8vec_print(n, lu, "  L1DD(U):");
 
         lu = L1DN.l1dn_apply(n, h, u);
@@ -205,13 +199,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] a;
-        double err;
-        double h;
-        double[] lambda;
-        int n = 5;
+        const int n = 5;
         int test;
-        double[] v;
 
         Console.WriteLine("");
         Console.WriteLine("TEST03");
@@ -222,12 +211,12 @@ internal static class Program
         Console.WriteLine("  L1NN_EIGEN for Neumann/Neumann BC;");
         Console.WriteLine("  L1PP_EIGEN for Periodic BC;");
 
-        v = new double[n * n];
-        lambda = new double[n];
+        double[] v = new double[n * n];
+        double[] lambda = new double[n];
 
         for (test = 1; test <= 2; test++)
         {
-            h = test switch
+            double h = test switch
             {
                 1 => 1.0,
                 _ => 1.0 / (n + 1)
@@ -236,11 +225,11 @@ internal static class Program
             Console.WriteLine("");
             Console.WriteLine("  Using spacing H = " + h + "");
 
-            a = L1DD.l1dd(n, h);
+            double[] a = L1DD.l1dd(n, h);
             L1DD.l1dd_eigen(n, h, ref v, ref lambda);
             typeMethods.r8vec_print(n, lambda, "  L1DD Eigenvalues:");
             typeMethods.r8mat_print(n, n, v, "  L1DD Eigenvectors:");
-            err = Eigen.eigen_error(n, n, a, v, lambda);
+            double err = Eigen.eigen_error(n, n, a, v, lambda);
             Console.WriteLine("");
             Console.WriteLine("  L1DD eigenerror = " + err + "");
 
@@ -299,11 +288,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double err;
-        double h;
-        double[] l;
-        double[] linv;
-        int n = 5;
+        const int n = 5;
         int test;
 
         Console.WriteLine("");
@@ -315,7 +300,7 @@ internal static class Program
 
         for (test = 1; test <= 2; test++)
         {
-            h = test switch
+            double h = test switch
             {
                 1 => 1.0,
                 _ => 1.0 / (n + 1)
@@ -324,11 +309,11 @@ internal static class Program
             Console.WriteLine("");
             Console.WriteLine("  Using spacing H = " + h + "");
 
-            l = L1DD.l1dd(n, h);
+            double[] l = L1DD.l1dd(n, h);
             typeMethods.r8mat_print(n, n, l, "  L1DD:");
-            linv = L1DD.l1dd_inverse(n, h);
+            double[] linv = L1DD.l1dd_inverse(n, h);
             typeMethods.r8mat_print(n, n, linv, "  L1DD_INVERSE:");
-            err = Inverse.inverse_error(n, l, linv);
+            double err = Inverse.inverse_error(n, l, linv);
             Console.WriteLine("");
             Console.WriteLine("  L1DD inverse error = " + err + "");
 
@@ -371,11 +356,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] a;
-        double[] c;
-        double err;
-        double h;
-        int n = 5;
+        const int n = 5;
         int test;
 
         Console.WriteLine("");
@@ -389,7 +370,7 @@ internal static class Program
 
         for (test = 1; test <= 2; test++)
         {
-            h = test switch
+            double h = test switch
             {
                 1 => 1.0,
                 _ => 1.0 / (n + 1)
@@ -398,10 +379,10 @@ internal static class Program
             Console.WriteLine("");
             Console.WriteLine("  Using spacing H = " + h + "");
 
-            a = L1DD.l1dd(n, h);
-            c = L1DD.l1dd_cholesky(n, h);
+            double[] a = L1DD.l1dd(n, h);
+            double[] c = L1DD.l1dd_cholesky(n, h);
             typeMethods.r8mat_print(n, n, c, "  L1DD Cholesky factor:");
-            err = Cholesky.cholesky_upper_error(n, a, c);
+            double err = Cholesky.cholesky_upper_error(n, a, c);
             Console.WriteLine("");
             Console.WriteLine("  L1DD Cholesky error = " + err + "");
 
@@ -456,13 +437,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] a;
-        double err;
-        double h;
-        double[] l;
-        int n = 5;
+        const int n = 5;
         int test;
-        double[] u;
 
         Console.WriteLine("");
         Console.WriteLine("TEST06");
@@ -473,12 +449,12 @@ internal static class Program
         Console.WriteLine("  L1NN_LU for Neumann/Neumann BC;");
         Console.WriteLine("  L1PP_LU for Periodic BC;");
 
-        l = new double[n * n];
-        u = new double[n * n];
+        double[] l = new double[n * n];
+        double[] u = new double[n * n];
 
         for (test = 1; test <= 2; test++)
         {
-            h = test switch
+            double h = test switch
             {
                 1 => 1.0,
                 _ => 1.0 / (n + 1)
@@ -487,11 +463,11 @@ internal static class Program
             Console.WriteLine("");
             Console.WriteLine("  Using spacing H = " + h + "");
 
-            a = L1DD.l1dd(n, h);
+            double[] a = L1DD.l1dd(n, h);
             L1DD.l1dd_lu(n, h, ref l, ref u);
             typeMethods.r8mat_print(n, n, l, "  L1DD L factor:");
             typeMethods.r8mat_print(n, n, u, "  L1DD U factor:");
-            err = LU.lu_error(n, a, l, u);
+            double err = LU.lu_error(n, a, l, u);
             Console.WriteLine("");
             Console.WriteLine("  L1DD LU error = " + err + "");
 

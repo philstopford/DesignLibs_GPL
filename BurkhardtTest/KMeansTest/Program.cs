@@ -81,21 +81,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string center_filename = "test01_centers.txt";
-        int[] cluster;
-        double[] cluster_center;
-        double[] cluster_energy;
-        string cluster_filename = "test01_clusters.txt";
-        int cluster_num;
-        int[] cluster_population;
-        double[] cluster_variance;
-        int dim_num;
-        int it_max;
+        const string center_filename = "test01_centers.txt";
+        const string cluster_filename = "test01_clusters.txt";
         int it_num = 0;
-        double[] point;
-        string point_filename = "points_100.txt";
-        int point_num;
-        int seed;
+        const string point_filename = "points_100.txt";
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
@@ -107,32 +96,32 @@ internal static class Program
         Console.WriteLine("  Data points will be read from \"" + point_filename + "\".");
 
         TableHeader h = typeMethods.r8mat_header_read(point_filename);
-        dim_num = h.m;
-        point_num = h.n;
+        int dim_num = h.m;
+        int point_num = h.n;
 
         Console.WriteLine("");
         Console.WriteLine("  Point spatial dimension = " + dim_num + "");
         Console.WriteLine("  Number of points = " + point_num + "");
 
-        point = typeMethods.r8mat_data_read(point_filename, dim_num, point_num);
+        double[] point = typeMethods.r8mat_data_read(point_filename, dim_num, point_num);
         //
         //  Clustering parameters.
         //
-        cluster_num = 5;
-        it_max = 20;
-        seed = 123456789;
+        const int cluster_num = 5;
+        const int it_max = 20;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("  Number of iterations allowed is " + it_max + "");
         //
         //  Initialize the centers.
         //
-        cluster_center = Cluster.cluster_initialize_5(dim_num, point_num, cluster_num,
+        double[] cluster_center = Cluster.cluster_initialize_5(dim_num, point_num, cluster_num,
             point, ref seed);
 
-        cluster = typeMethods.i4vec_negone_new(point_num);
-        cluster_energy = new double[cluster_num];
-        cluster_population = new int[cluster_num];
+        int[] cluster = typeMethods.i4vec_negone_new(point_num);
+        double[] cluster_energy = new double[cluster_num];
+        int[] cluster_population = new int[cluster_num];
 
         HMeans.hmeans_01(dim_num, point_num, cluster_num, it_max, ref it_num, point,
             cluster, cluster_center, cluster_population, cluster_energy);
@@ -140,7 +129,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Number of iterations taken is " + it_num + "");
 
-        cluster_variance = Cluster.cluster_variance_compute(dim_num, point_num,
+        double[] cluster_variance = Cluster.cluster_variance_compute(dim_num, point_num,
             cluster_num, point, cluster, cluster_center);
 
         Cluster.cluster_print_summary(point_num, cluster_num,
@@ -177,21 +166,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string center_filename = "test02_centers.txt";
-        int[] cluster;
-        double[] cluster_center;
-        double[] cluster_energy;
-        string cluster_filename = "test02_clusters.txt";
-        int cluster_num;
-        int[] cluster_population;
-        double[] cluster_variance;
-        int dim_num;
-        int it_max;
+        const string center_filename = "test02_centers.txt";
+        const string cluster_filename = "test02_clusters.txt";
         int it_num = 0;
-        double[] point;
-        string point_filename = "points_100.txt";
-        int point_num;
-        int seed;
+        const string point_filename = "points_100.txt";
 
         Console.WriteLine("");
         Console.WriteLine("TEST02");
@@ -203,32 +181,32 @@ internal static class Program
         Console.WriteLine("  Data points will be read from \"" + point_filename + "\".");
 
         TableHeader h = typeMethods.r8mat_header_read(point_filename);
-        dim_num = h.m;
-        point_num = h.n;
+        int dim_num = h.m;
+        int point_num = h.n;
 
         Console.WriteLine("");
         Console.WriteLine("  Point spatial dimension = " + dim_num + "");
         Console.WriteLine("  Number of points = " + point_num + "");
 
-        point = typeMethods.r8mat_data_read(point_filename, dim_num, point_num);
+        double[] point = typeMethods.r8mat_data_read(point_filename, dim_num, point_num);
         //
         //  Clustering parameters.
         //
-        cluster_num = 5;
-        it_max = 20;
-        seed = 123456789;
+        const int cluster_num = 5;
+        const int it_max = 20;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("  Number of iterations allowed is " + it_max + "");
         //
         //  Initialize the centers.
         //
-        cluster_center = Cluster.cluster_initialize_5(dim_num, point_num, cluster_num,
+        double[] cluster_center = Cluster.cluster_initialize_5(dim_num, point_num, cluster_num,
             point, ref seed);
 
-        cluster = typeMethods.i4vec_negone_new(point_num);
-        cluster_energy = new double[cluster_num];
-        cluster_population = new int[cluster_num];
+        int[] cluster = typeMethods.i4vec_negone_new(point_num);
+        double[] cluster_energy = new double[cluster_num];
+        int[] cluster_population = new int[cluster_num];
 
         HMeans.hmeans_02(dim_num, point_num, cluster_num, it_max, ref it_num, point,
             cluster, cluster_center, cluster_population, cluster_energy, ref seed);
@@ -236,7 +214,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Number of iterations taken is " + it_num + "");
 
-        cluster_variance = Cluster.cluster_variance_compute(dim_num, point_num,
+        double[] cluster_variance = Cluster.cluster_variance_compute(dim_num, point_num,
             cluster_num, point, cluster, cluster_center);
 
         Cluster.cluster_print_summary(point_num, cluster_num,
@@ -273,21 +251,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string center_filename = "test03_centers.txt";
-        int[] cluster;
-        double[] cluster_center;
-        double[] cluster_energy;
-        string cluster_filename = "test03_clusters.txt";
-        int cluster_num;
-        int[] cluster_population;
-        double[] cluster_variance;
-        int dim_num;
-        int it_max;
+        const string center_filename = "test03_centers.txt";
+        const string cluster_filename = "test03_clusters.txt";
         int it_num = 0;
-        double[] point;
-        string point_filename = "points_100.txt";
-        int point_num;
-        int seed;
+        const string point_filename = "points_100.txt";
 
         Console.WriteLine("");
         Console.WriteLine("TEST03");
@@ -300,31 +267,31 @@ internal static class Program
         Console.WriteLine("  Data points will be read from \"" + point_filename + "\".");
 
         TableHeader h = typeMethods.r8mat_header_read(point_filename);
-        dim_num = h.m;
-        point_num = h.n;
+        int dim_num = h.m;
+        int point_num = h.n;
 
         Console.WriteLine("");
         Console.WriteLine("  Point spatial dimension = " + dim_num + "");
         Console.WriteLine("  Number of points = " + point_num + "");
 
-        point = typeMethods.r8mat_data_read(point_filename, dim_num, point_num);
+        double[] point = typeMethods.r8mat_data_read(point_filename, dim_num, point_num);
         //
         //  Clustering parameters.
         //
-        cluster_num = 5;
-        it_max = 20;
-        seed = 123456789;
+        const int cluster_num = 5;
+        const int it_max = 20;
+        int seed = 123456789;
 
-        cluster = typeMethods.i4vec_negone_new(point_num);
-        cluster_energy = new double[cluster_num];
-        cluster_population = new int[cluster_num];
+        int[] cluster = typeMethods.i4vec_negone_new(point_num);
+        double[] cluster_energy = new double[cluster_num];
+        int[] cluster_population = new int[cluster_num];
 
         Console.WriteLine("");
         Console.WriteLine("  Number of iterations allowed is " + it_max + "");
         //
         //  Initialize the centers.
         //
-        cluster_center = Cluster.cluster_initialize_5(dim_num, point_num, cluster_num, point,
+        double[] cluster_center = Cluster.cluster_initialize_5(dim_num, point_num, cluster_num, point,
             ref seed);
 
         KMeans.kmeans_01(dim_num, point_num, cluster_num, it_max, ref it_num, point,
@@ -333,7 +300,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Number of KMEANS_01 iterations taken is " + it_num + "");
 
-        cluster_variance = Cluster.cluster_variance_compute(dim_num, point_num, cluster_num,
+        double[] cluster_variance = Cluster.cluster_variance_compute(dim_num, point_num, cluster_num,
             point, cluster, cluster_center);
 
         Cluster.cluster_print_summary(point_num, cluster_num, cluster_population,
@@ -370,20 +337,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string center_filename = "test04_centers.txt";
-        int[] cluster;
-        double[] cluster_center;
-        double[] cluster_energy;
-        string cluster_filename = "test04_clusters.txt";
-        int cluster_num;
-        int[] cluster_population;
-        double[] cluster_variance;
-        int dim_num;
-        int it_max;
+        const string center_filename = "test04_centers.txt";
+        const string cluster_filename = "test04_clusters.txt";
         int it_num = 0;
-        double[] point;
-        string point_filename = "points_100.txt";
-        int point_num;
+        const string point_filename = "points_100.txt";
 
         Console.WriteLine("");
         Console.WriteLine("TEST04");
@@ -396,30 +353,30 @@ internal static class Program
         Console.WriteLine("  Data points will be read from \"" + point_filename + "\".");
 
         TableHeader h = typeMethods.r8mat_header_read(point_filename);
-        dim_num = h.m;
-        point_num = h.n;
+        int dim_num = h.m;
+        int point_num = h.n;
 
         Console.WriteLine("");
         Console.WriteLine("  Point spatial dimension = " + dim_num + "");
         Console.WriteLine("  Number of points = " + point_num + "");
 
-        point = typeMethods.r8mat_data_read(point_filename, dim_num, point_num);
+        double[] point = typeMethods.r8mat_data_read(point_filename, dim_num, point_num);
         //
         //  Clustering parameters.
         //
-        cluster_num = 5;
-        it_max = 20;
+        const int cluster_num = 5;
+        const int it_max = 20;
 
-        cluster = typeMethods.i4vec_negone_new(point_num);
-        cluster_energy = new double[cluster_num];
-        cluster_population = new int[cluster_num];
+        int[] cluster = typeMethods.i4vec_negone_new(point_num);
+        double[] cluster_energy = new double[cluster_num];
+        int[] cluster_population = new int[cluster_num];
 
         Console.WriteLine("");
         Console.WriteLine("  Number of iterations allowed is " + it_max + "");
         //
         //  Initialize the centers.
         //
-        cluster_center = Cluster.cluster_initialize_1(dim_num, point_num, cluster_num, point);
+        double[] cluster_center = Cluster.cluster_initialize_1(dim_num, point_num, cluster_num, point);
 
         KMeans.kmeans_02(dim_num, point_num, cluster_num, it_max, ref it_num, point,
             ref cluster, ref cluster_center, ref cluster_population, ref cluster_energy);
@@ -427,7 +384,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Number of iterations taken is " + it_num + "");
 
-        cluster_variance = Cluster.cluster_variance_compute(dim_num, point_num, cluster_num,
+        double[] cluster_variance = Cluster.cluster_variance_compute(dim_num, point_num, cluster_num,
             point, cluster, cluster_center);
 
         Cluster.cluster_print_summary(point_num, cluster_num,
@@ -464,20 +421,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string center_filename = "test05_centers.txt";
-        int[] cluster;
-        double[] cluster_center;
-        double[] cluster_energy;
-        string cluster_filename = "test05_clusters.txt";
-        int cluster_num;
-        int[] cluster_population;
-        double[] cluster_variance;
-        int dim_num;
-        int it_max;
+        const string center_filename = "test05_centers.txt";
+        const string cluster_filename = "test05_clusters.txt";
         int it_num = 0;
-        double[] point;
-        string point_filename = "points_100.txt";
-        int point_num;
+        const string point_filename = "points_100.txt";
 
         Console.WriteLine("");
         Console.WriteLine("TEST05");
@@ -489,30 +436,30 @@ internal static class Program
         Console.WriteLine("  Data points will be read from \"" + point_filename + "\".");
 
         TableHeader h = typeMethods.r8mat_header_read(point_filename);
-        dim_num = h.m;
-        point_num = h.n;
+        int dim_num = h.m;
+        int point_num = h.n;
 
         Console.WriteLine("");
         Console.WriteLine("  Point spatial dimension = " + dim_num + "");
         Console.WriteLine("  Number of points = " + point_num + "");
 
-        point = typeMethods.r8mat_data_read(point_filename, dim_num, point_num);
+        double[] point = typeMethods.r8mat_data_read(point_filename, dim_num, point_num);
         //
         //  Clustering parameters.
         //
-        cluster_num = 5;
-        it_max = 20;
+        const int cluster_num = 5;
+        const int it_max = 20;
 
-        cluster = typeMethods.i4vec_negone_new(point_num);
-        cluster_energy = new double[cluster_num];
-        cluster_population = new int[cluster_num];
+        int[] cluster = typeMethods.i4vec_negone_new(point_num);
+        double[] cluster_energy = new double[cluster_num];
+        int[] cluster_population = new int[cluster_num];
 
         Console.WriteLine("");
         Console.WriteLine("  Number of iterations allowed is " + it_max + "");
         //
         //  Initialize the centers.
         //
-        cluster_center = Cluster.cluster_initialize_1(dim_num, point_num, cluster_num,
+        double[] cluster_center = Cluster.cluster_initialize_1(dim_num, point_num, cluster_num,
             point);
 
         KMeans.kmeans_03(dim_num, point_num, cluster_num, it_max, ref it_num, point,
@@ -521,7 +468,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Number of iterations taken is " + it_num + "");
 
-        cluster_variance = Cluster.cluster_variance_compute(dim_num, point_num, cluster_num,
+        double[] cluster_variance = Cluster.cluster_variance_compute(dim_num, point_num, cluster_num,
             point, cluster, cluster_center);
 
         Cluster.cluster_print_summary(point_num, cluster_num, cluster_population,
@@ -559,23 +506,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string center_filename = "test06_centers.txt";
-        int[] cluster;
-        double[] cluster_center;
-        double[] cluster_energy;
-        string cluster_filename = "test06_clusters.txt";
-        int cluster_num;
-        int[] cluster_population;
-        double[] cluster_variance;
-        int dim_num;
-        int it_max;
-        int it_max_h;
-        int it_max_k;
+        const string center_filename = "test06_centers.txt";
+        const string cluster_filename = "test06_clusters.txt";
         int it_num = 0;
-        double[] point;
-        string point_filename = "points_100.txt";
-        int point_num;
-        int seed;
+        const string point_filename = "points_100.txt";
 
         Console.WriteLine("");
         Console.WriteLine("TEST06");
@@ -587,26 +521,26 @@ internal static class Program
         Console.WriteLine("  Data points will be read from \"" + point_filename + "\".");
 
         TableHeader h = typeMethods.r8mat_header_read(point_filename);
-        dim_num = h.m;
-        point_num = h.n;
+        int dim_num = h.m;
+        int point_num = h.n;
 
         Console.WriteLine("");
         Console.WriteLine("  Point spatial dimension = " + dim_num + "");
         Console.WriteLine("  Number of points = " + point_num + "");
 
-        point = typeMethods.r8mat_data_read(point_filename, dim_num, point_num);
+        double[] point = typeMethods.r8mat_data_read(point_filename, dim_num, point_num);
         //
         //  Clustering parameters.
         //
-        cluster_num = 5;
-        it_max = 20;
-        seed = 123456789;
-        it_max_h = 3;
-        it_max_k = it_max;
+        const int cluster_num = 5;
+        const int it_max = 20;
+        int seed = 123456789;
+        const int it_max_h = 3;
+        const int it_max_k = it_max;
 
-        cluster = typeMethods.i4vec_negone_new(point_num);
-        cluster_energy = new double[cluster_num];
-        cluster_population = new int[cluster_num];
+        int[] cluster = typeMethods.i4vec_negone_new(point_num);
+        double[] cluster_energy = new double[cluster_num];
+        int[] cluster_population = new int[cluster_num];
 
         Console.WriteLine("");
         Console.WriteLine("  Number of HMEANS_01 iterations allowed is " + it_max_h + "");
@@ -614,7 +548,7 @@ internal static class Program
         //
         //  Initialize the centers.
         //
-        cluster_center = Cluster.cluster_initialize_5(dim_num, point_num, cluster_num,
+        double[] cluster_center = Cluster.cluster_initialize_5(dim_num, point_num, cluster_num,
             point, ref seed);
 
         HMeans.hmeans_01(dim_num, point_num, cluster_num, it_max_h, ref it_num, point,
@@ -623,7 +557,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Number of HMEANS_01 iterations taken is " + it_num + "");
 
-        cluster_variance = Cluster.cluster_variance_compute(dim_num, point_num, cluster_num,
+        double[] cluster_variance = Cluster.cluster_variance_compute(dim_num, point_num, cluster_num,
             point, cluster, cluster_center);
 
         Cluster.cluster_print_summary(point_num, cluster_num, cluster_population,
@@ -673,23 +607,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string center_filename = "test07_centers.txt";
-        int[] cluster;
-        double[] cluster_center;
-        double[] cluster_energy;
-        string cluster_filename = "test07_clusters.txt";
-        int cluster_num;
-        int[] cluster_population;
-        double[] cluster_variance;
-        int dim_num;
-        int it_max;
-        int it_max_h;
-        int it_max_k;
+        const string center_filename = "test07_centers.txt";
+        const string cluster_filename = "test07_clusters.txt";
         int it_num = 0;
-        double[] point;
-        string point_filename = "points_100.txt";
-        int point_num;
-        int seed;
+        const string point_filename = "points_100.txt";
 
         Console.WriteLine("");
         Console.WriteLine("TEST07");
@@ -701,27 +622,27 @@ internal static class Program
         Console.WriteLine("  Data points will be read from \"" + point_filename + "\".");
 
         TableHeader h = typeMethods.r8mat_header_read(point_filename);
-        dim_num = h.m;
-        point_num = h.n;
+        int dim_num = h.m;
+        int point_num = h.n;
 
         Console.WriteLine("");
         Console.WriteLine("  Point spatial dimension = " + dim_num + "");
         Console.WriteLine("  Number of points = " + point_num + "");
 
-        point = typeMethods.r8mat_data_read(point_filename, dim_num, point_num);
+        double[] point = typeMethods.r8mat_data_read(point_filename, dim_num, point_num);
         //
         //  Clustering parameters.
         //
-        cluster_num = 5;
-        it_max = 20;
-        seed = 123456789;
+        const int cluster_num = 5;
+        const int it_max = 20;
+        int seed = 123456789;
 
-        it_max_h = 3;
-        it_max_k = it_max;
+        const int it_max_h = 3;
+        const int it_max_k = it_max;
 
-        cluster = typeMethods.i4vec_negone_new(point_num);
-        cluster_energy = new double[cluster_num];
-        cluster_population = new int[cluster_num];
+        int[] cluster = typeMethods.i4vec_negone_new(point_num);
+        double[] cluster_energy = new double[cluster_num];
+        int[] cluster_population = new int[cluster_num];
 
         Console.WriteLine("");
         Console.WriteLine("  Number of HMEANS_01 iterations allowed is " + it_max_h + "");
@@ -729,7 +650,7 @@ internal static class Program
         //
         //  Initialize the centers.
         //
-        cluster_center = Cluster.cluster_initialize_5(dim_num, point_num, cluster_num,
+        double[] cluster_center = Cluster.cluster_initialize_5(dim_num, point_num, cluster_num,
             point, ref seed);
 
         HMeans.hmeans_01(dim_num, point_num, cluster_num, it_max_h, ref it_num, point,
@@ -738,7 +659,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Number of HMEANS_01 iterations taken is " + it_num + "");
 
-        cluster_variance = Cluster.cluster_variance_compute(dim_num, point_num, cluster_num,
+        double[] cluster_variance = Cluster.cluster_variance_compute(dim_num, point_num, cluster_num,
             point, cluster, cluster_center);
 
         Cluster.cluster_print_summary(point_num, cluster_num, cluster_population,
@@ -788,23 +709,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string center_filename = "test08_centers.txt";
-        int[] cluster;
-        double[] cluster_center;
-        double[] cluster_energy;
-        string cluster_filename = "test08_clusters.txt";
-        int cluster_num;
-        int[] cluster_population;
-        double[] cluster_variance;
-        int dim_num;
-        int it_max;
-        int it_max_h;
-        int it_max_k;
+        const string center_filename = "test08_centers.txt";
+        const string cluster_filename = "test08_clusters.txt";
         int it_num = 0;
-        double[] point;
-        string point_filename = "points_100.txt";
-        int point_num;
-        int seed;
+        const string point_filename = "points_100.txt";
 
         Console.WriteLine("");
         Console.WriteLine("TEST08");
@@ -816,26 +724,26 @@ internal static class Program
         Console.WriteLine("  Data points will be read from \"" + point_filename + "\".");
 
         TableHeader h = typeMethods.r8mat_header_read(point_filename);
-        dim_num = h.m;
-        point_num = h.n;
+        int dim_num = h.m;
+        int point_num = h.n;
 
         Console.WriteLine("");
         Console.WriteLine("  Point spatial dimension = " + dim_num + "");
         Console.WriteLine("  Number of points = " + point_num + "");
 
-        point = typeMethods.r8mat_data_read(point_filename, dim_num, point_num);
+        double[] point = typeMethods.r8mat_data_read(point_filename, dim_num, point_num);
         //
         //  Clustering parameters.
         //
-        cluster_num = 5;
-        it_max = 20;
-        seed = 123456789;
-        it_max_h = 3;
-        it_max_k = it_max;
+        const int cluster_num = 5;
+        const int it_max = 20;
+        int seed = 123456789;
+        const int it_max_h = 3;
+        const int it_max_k = it_max;
 
-        cluster = typeMethods.i4vec_negone_new(point_num);
-        cluster_energy = new double[cluster_num];
-        cluster_population = new int[cluster_num];
+        int[] cluster = typeMethods.i4vec_negone_new(point_num);
+        double[] cluster_energy = new double[cluster_num];
+        int[] cluster_population = new int[cluster_num];
 
         Console.WriteLine("");
         Console.WriteLine("  Initialize by using a few steps of HMEANS_02:");
@@ -844,7 +752,7 @@ internal static class Program
         //
         //  Initialize the centers.
         //
-        cluster_center = Cluster.cluster_initialize_5(dim_num, point_num, cluster_num,
+        double[] cluster_center = Cluster.cluster_initialize_5(dim_num, point_num, cluster_num,
             point, ref seed);
         //
         //  Initialize the clusters.
@@ -855,7 +763,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Number of HMEANS_01 iterations taken is " + it_num + "");
 
-        cluster_variance = Cluster.cluster_variance_compute(dim_num, point_num, cluster_num,
+        double[] cluster_variance = Cluster.cluster_variance_compute(dim_num, point_num, cluster_num,
             point, cluster, cluster_center);
 
         Cluster.cluster_print_summary(point_num, cluster_num, cluster_population,
@@ -910,25 +818,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string center_filename = "test09_centers.txt";
-        int[] cluster;
-        double[] cluster_center;
-        double[] cluster_energy;
-        string cluster_filename = "test09_clusters.txt";
-        int cluster_num;
-        int[] cluster_population;
-        double[] cluster_variance;
-        int dim_num;
-        int it_max;
+        const string center_filename = "test09_centers.txt";
+        const string cluster_filename = "test09_clusters.txt";
         int it_num = 0;
-        double[] point;
-        string point_filename = "points_100.txt";
-        int point_num;
-        int seed;
-        double[] weight;
-        int weight_dim;
-        int weight_num;
-        string weight_filename = "weights_equal_100.txt";
+        const string point_filename = "points_100.txt";
+        const string weight_filename = "weights_equal_100.txt";
 
         Console.WriteLine("");
         Console.WriteLine("TEST09");
@@ -940,14 +834,14 @@ internal static class Program
         Console.WriteLine("  Data points will be read from \"" + point_filename + "\".");
 
         TableHeader h = typeMethods.r8mat_header_read(point_filename);
-        dim_num = h.m;
-        point_num = h.n;
+        int dim_num = h.m;
+        int point_num = h.n;
 
         Console.WriteLine("");
         Console.WriteLine("  Point spatial dimension = " + dim_num + "");
         Console.WriteLine("  Number of points = " + point_num + "");
 
-        point = typeMethods.r8mat_data_read(point_filename, dim_num, point_num);
+        double[] point = typeMethods.r8mat_data_read(point_filename, dim_num, point_num);
         //
         //  Read the weights.
         //
@@ -955,8 +849,8 @@ internal static class Program
         Console.WriteLine("  Weights will be read from \"" + weight_filename + "\".");
 
         h = typeMethods.r8mat_header_read(weight_filename);
-        weight_dim = h.m;
-        weight_num = h.n;
+        int weight_dim = h.m;
+        int weight_num = h.n;
 
         if (weight_dim != 1)
         {
@@ -974,24 +868,24 @@ internal static class Program
             return;
         }
 
-        weight = typeMethods.r8mat_data_read(weight_filename, weight_dim, weight_num);
+        double[] weight = typeMethods.r8mat_data_read(weight_filename, weight_dim, weight_num);
         //
         //  Clustering parameters.
         //
-        cluster_num = 5;
-        it_max = 20;
-        seed = 123456789;
+        const int cluster_num = 5;
+        const int it_max = 20;
+        int seed = 123456789;
 
-        cluster = typeMethods.i4vec_negone_new(point_num);
-        cluster_energy = new double[cluster_num];
-        cluster_population = new int[cluster_num];
+        int[] cluster = typeMethods.i4vec_negone_new(point_num);
+        double[] cluster_energy = new double[cluster_num];
+        int[] cluster_population = new int[cluster_num];
 
         Console.WriteLine("");
         Console.WriteLine("  Number of iterations allowed is " + it_max + "");
         //
         //  Initialize the cluster centers.
         //
-        cluster_center = Cluster.cluster_initialize_5(dim_num, point_num, cluster_num,
+        double[] cluster_center = Cluster.cluster_initialize_5(dim_num, point_num, cluster_num,
             point, ref seed);
 
         HMeans.hmeans_w_01(dim_num, point_num, cluster_num, it_max, ref it_num,
@@ -1001,7 +895,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Number of iterations taken is " + it_num + "");
 
-        cluster_variance = Cluster.cluster_variance_compute(dim_num, point_num, cluster_num,
+        double[] cluster_variance = Cluster.cluster_variance_compute(dim_num, point_num, cluster_num,
             point, cluster, cluster_center);
 
         Cluster.cluster_print_summary(point_num, cluster_num, cluster_population,
@@ -1044,25 +938,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string center_filename = "test10_centers.txt";
-        int[] cluster;
-        double[] cluster_center;
-        double[] cluster_energy;
-        string cluster_filename = "test10_clusters.txt";
-        int cluster_num;
-        int[] cluster_population;
-        double[] cluster_variance;
-        int dim_num;
-        int it_max;
+        const string center_filename = "test10_centers.txt";
+        const string cluster_filename = "test10_clusters.txt";
         int it_num = 0;
-        double[] point;
-        string point_filename = "points_100.txt";
-        int point_num;
-        int seed;
-        double[] weight;
-        int weight_dim;
-        int weight_num;
-        string weight_filename = "weights_equal_100.txt";
+        const string point_filename = "points_100.txt";
+        const string weight_filename = "weights_equal_100.txt";
 
         Console.WriteLine("");
         Console.WriteLine("TEST10");
@@ -1074,14 +954,14 @@ internal static class Program
         Console.WriteLine("  Data points will be read from \"" + point_filename + "\".");
 
         TableHeader h = typeMethods.r8mat_header_read(point_filename);
-        dim_num = h.m;
-        point_num = h.n;
+        int dim_num = h.m;
+        int point_num = h.n;
 
         Console.WriteLine("");
         Console.WriteLine("  Point spatial dimension = " + dim_num + "");
         Console.WriteLine("  Number of points = " + point_num + "");
 
-        point = typeMethods.r8mat_data_read(point_filename, dim_num, point_num);
+        double[] point = typeMethods.r8mat_data_read(point_filename, dim_num, point_num);
         //
         //  Read the weights.
         //
@@ -1089,8 +969,8 @@ internal static class Program
         Console.WriteLine("  Weights will be read from \"" + weight_filename + "\".");
 
         h = typeMethods.r8mat_header_read(weight_filename);
-        weight_dim = h.m;
-        weight_num = h.n;
+        int weight_dim = h.m;
+        int weight_num = h.n;
 
         if (weight_dim != 1)
         {
@@ -1108,24 +988,24 @@ internal static class Program
             return;
         }
 
-        weight = typeMethods.r8mat_data_read(weight_filename, weight_dim, weight_num);
+        double[] weight = typeMethods.r8mat_data_read(weight_filename, weight_dim, weight_num);
         //
         //  Clustering parameters.
         //
-        cluster_num = 5;
-        it_max = 20;
-        seed = 123456789;
+        const int cluster_num = 5;
+        const int it_max = 20;
+        int seed = 123456789;
 
-        cluster = typeMethods.i4vec_negone_new(point_num);
-        cluster_energy = new double[cluster_num];
-        cluster_population = new int[cluster_num];
+        int[] cluster = typeMethods.i4vec_negone_new(point_num);
+        double[] cluster_energy = new double[cluster_num];
+        int[] cluster_population = new int[cluster_num];
 
         Console.WriteLine("");
         Console.WriteLine("  Number of iterations allowed is " + it_max + "");
         //
         //  Initialize the cluster centers.
         //
-        cluster_center = Cluster.cluster_initialize_5(dim_num, point_num, cluster_num,
+        double[] cluster_center = Cluster.cluster_initialize_5(dim_num, point_num, cluster_num,
             point, ref seed);
 
         HMeans.hmeans_w_02(dim_num, point_num, cluster_num, it_max, ref it_num,
@@ -1135,7 +1015,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Number of iterations taken is " + it_num + "");
 
-        cluster_variance = Cluster.cluster_variance_compute(dim_num, point_num, cluster_num,
+        double[] cluster_variance = Cluster.cluster_variance_compute(dim_num, point_num, cluster_num,
             point, cluster, cluster_center);
 
         Cluster.cluster_print_summary(point_num, cluster_num, cluster_population,
@@ -1178,25 +1058,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string center_filename = "test11_centers.txt";
-        int[] cluster;
-        double[] cluster_center;
-        double[] cluster_energy;
-        string cluster_filename = "test11_clusters.txt";
-        int cluster_num;
-        int[] cluster_population;
-        double[] cluster_variance;
-        int dim_num;
-        int it_max;
+        const string center_filename = "test11_centers.txt";
+        const string cluster_filename = "test11_clusters.txt";
         int it_num = 0;
-        double[] point;
-        string point_filename = "points_100.txt";
-        int point_num;
-        int seed;
-        double[] weight;
-        int weight_dim;
-        int weight_num;
-        string weight_filename = "weights_equal_100.txt";
+        const string point_filename = "points_100.txt";
+        const string weight_filename = "weights_equal_100.txt";
 
         Console.WriteLine("");
         Console.WriteLine("TEST11");
@@ -1208,14 +1074,14 @@ internal static class Program
         Console.WriteLine("  Data points will be read from \"" + point_filename + "\".");
 
         TableHeader h = typeMethods.r8mat_header_read(point_filename);
-        dim_num = h.m;
-        point_num = h.n;
+        int dim_num = h.m;
+        int point_num = h.n;
 
         Console.WriteLine("");
         Console.WriteLine("  Point spatial dimension = " + dim_num + "");
         Console.WriteLine("  Number of points = " + point_num + "");
 
-        point = typeMethods.r8mat_data_read(point_filename, dim_num, point_num);
+        double[] point = typeMethods.r8mat_data_read(point_filename, dim_num, point_num);
         //
         //  Read the weights.
         //
@@ -1223,8 +1089,8 @@ internal static class Program
         Console.WriteLine("  Weights will be read from \"" + weight_filename + "\".");
 
         h = typeMethods.r8mat_header_read(weight_filename);
-        weight_dim = h.m;
-        weight_num = h.n;
+        int weight_dim = h.m;
+        int weight_num = h.n;
 
         if (weight_dim != 1)
         {
@@ -1242,24 +1108,24 @@ internal static class Program
             return;
         }
 
-        weight = typeMethods.r8mat_data_read(weight_filename, weight_dim, weight_num);
+        double[] weight = typeMethods.r8mat_data_read(weight_filename, weight_dim, weight_num);
         //
         //  Clustering parameters.
         //
-        cluster_num = 5;
-        it_max = 20;
-        seed = 123456789;
+        const int cluster_num = 5;
+        const int it_max = 20;
+        int seed = 123456789;
 
-        cluster = typeMethods.i4vec_negone_new(point_num);
-        cluster_energy = new double[cluster_num];
-        cluster_population = new int[cluster_num];
+        int[] cluster = typeMethods.i4vec_negone_new(point_num);
+        double[] cluster_energy = new double[cluster_num];
+        int[] cluster_population = new int[cluster_num];
 
         Console.WriteLine("");
         Console.WriteLine("  Number of iterations allowed is " + it_max + "");
         //
         //  Initialize the cluster centers.
         //
-        cluster_center = Cluster.cluster_initialize_5(dim_num, point_num, cluster_num,
+        double[] cluster_center = Cluster.cluster_initialize_5(dim_num, point_num, cluster_num,
             point, ref seed);
 
         KMeans.kmeans_w_01(dim_num, point_num, cluster_num, it_max, ref it_num,
@@ -1269,7 +1135,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Number of iterations taken is " + it_num + "");
 
-        cluster_variance = Cluster.cluster_variance_compute(dim_num, point_num, cluster_num,
+        double[] cluster_variance = Cluster.cluster_variance_compute(dim_num, point_num, cluster_num,
             point, cluster, cluster_center);
 
         Cluster.cluster_print_summary(point_num, cluster_num,
@@ -1312,24 +1178,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string center_filename = "test12_centers.txt";
-        int[] cluster;
-        double[] cluster_center;
-        double[] cluster_energy;
-        string cluster_filename = "test12_clusters.txt";
-        int cluster_num;
-        int[] cluster_population;
-        double[] cluster_variance;
-        int dim_num;
-        int it_max;
+        const string center_filename = "test12_centers.txt";
+        const string cluster_filename = "test12_clusters.txt";
         int it_num = 0;
-        double[] point;
-        string point_filename = "points_100.txt";
-        int point_num;
-        double[] weight;
-        int weight_dim;
-        int weight_num;
-        string weight_filename = "weights_equal_100.txt";
+        const string point_filename = "points_100.txt";
+        const string weight_filename = "weights_equal_100.txt";
 
         Console.WriteLine("");
         Console.WriteLine("TEST12");
@@ -1341,14 +1194,14 @@ internal static class Program
         Console.WriteLine("  Data points will be read from \"" + point_filename + "\".");
 
         TableHeader h = typeMethods.r8mat_header_read(point_filename);
-        dim_num = h.m;
-        point_num = h.n;
+        int dim_num = h.m;
+        int point_num = h.n;
 
         Console.WriteLine("");
         Console.WriteLine("  Point spatial dimension = " + dim_num + "");
         Console.WriteLine("  Number of points = " + point_num + "");
 
-        point = typeMethods.r8mat_data_read(point_filename, dim_num, point_num);
+        double[] point = typeMethods.r8mat_data_read(point_filename, dim_num, point_num);
         //
         //  Read the weights.
         //
@@ -1356,8 +1209,8 @@ internal static class Program
         Console.WriteLine("  Weights will be read from \"" + weight_filename + "\".");
 
         h = typeMethods.r8mat_header_read(weight_filename);
-        weight_dim = h.m;
-        weight_num = h.n;
+        int weight_dim = h.m;
+        int weight_num = h.n;
 
         if (weight_dim != 1)
         {
@@ -1375,23 +1228,23 @@ internal static class Program
             return;
         }
 
-        weight = typeMethods.r8mat_data_read(weight_filename, weight_dim, weight_num);
+        double[] weight = typeMethods.r8mat_data_read(weight_filename, weight_dim, weight_num);
         //
         //  Clustering parameters.
         //
-        cluster_num = 5;
-        it_max = 20;
+        const int cluster_num = 5;
+        const int it_max = 20;
 
-        cluster = typeMethods.i4vec_negone_new(point_num);
-        cluster_energy = new double[cluster_num];
-        cluster_population = new int[cluster_num];
+        int[] cluster = typeMethods.i4vec_negone_new(point_num);
+        double[] cluster_energy = new double[cluster_num];
+        int[] cluster_population = new int[cluster_num];
 
         Console.WriteLine("");
         Console.WriteLine("  Number of iterations allowed is " + it_max + "");
         //
         //  Initialize the cluster centers.
         //
-        cluster_center = Cluster.cluster_initialize_1(dim_num, point_num, cluster_num,
+        double[] cluster_center = Cluster.cluster_initialize_1(dim_num, point_num, cluster_num,
             point);
 
         KMeans.kmeans_w_03(dim_num, point_num, cluster_num, it_max, ref it_num,
@@ -1401,7 +1254,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Number of iterations taken is " + it_num + "");
 
-        cluster_variance = Cluster.cluster_variance_compute(dim_num, point_num, cluster_num,
+        double[] cluster_variance = Cluster.cluster_variance_compute(dim_num, point_num, cluster_num,
             point, cluster, cluster_center);
 
         Cluster.cluster_print_summary(point_num, cluster_num,
@@ -1439,25 +1292,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string center_filename = "test13_centers.txt";
-        int[] cluster;
-        double[] cluster_center;
-        double[] cluster_energy;
-        string cluster_filename = "test13_clusters.txt";
-        int cluster_num;
-        int[] cluster_population;
-        double[] cluster_variance;
-        int dim_num;
-        int it_max;
+        const string center_filename = "test13_centers.txt";
+        const string cluster_filename = "test13_clusters.txt";
         int it_num = 0;
-        double[] point;
-        string point_filename = "points_100.txt";
-        int point_num;
-        int seed;
-        double[] weight;
-        int weight_dim;
-        int weight_num;
-        string weight_filename = "weights_unequal_100.txt";
+        const string point_filename = "points_100.txt";
+        const string weight_filename = "weights_unequal_100.txt";
 
         Console.WriteLine("");
         Console.WriteLine("TEST13");
@@ -1469,14 +1308,14 @@ internal static class Program
         Console.WriteLine("  Data points will be read from \"" + point_filename + "\".");
 
         TableHeader h = typeMethods.r8mat_header_read(point_filename);
-        dim_num = h.m;
-        point_num = h.n;
+        int dim_num = h.m;
+        int point_num = h.n;
 
         Console.WriteLine("");
         Console.WriteLine("  Point spatial dimension = " + dim_num + "");
         Console.WriteLine("  Number of points = " + point_num + "");
 
-        point = typeMethods.r8mat_data_read(point_filename, dim_num, point_num);
+        double[] point = typeMethods.r8mat_data_read(point_filename, dim_num, point_num);
         //
         //  Read the weights.
         //
@@ -1484,8 +1323,8 @@ internal static class Program
         Console.WriteLine("  Weights will be read from \"" + weight_filename + "\".");
 
         h = typeMethods.r8mat_header_read(weight_filename);
-        weight_dim = h.m;
-        weight_num = h.n;
+        int weight_dim = h.m;
+        int weight_num = h.n;
 
         if (weight_dim != 1)
         {
@@ -1503,24 +1342,24 @@ internal static class Program
             return;
         }
 
-        weight = typeMethods.r8mat_data_read(weight_filename, weight_dim, weight_num);
+        double[] weight = typeMethods.r8mat_data_read(weight_filename, weight_dim, weight_num);
         //
         //  Clustering parameters.
         //
-        cluster_num = 5;
-        it_max = 20;
-        seed = 123456789;
+        const int cluster_num = 5;
+        const int it_max = 20;
+        int seed = 123456789;
 
-        cluster = typeMethods.i4vec_negone_new(point_num);
-        cluster_energy = new double[cluster_num];
-        cluster_population = new int[cluster_num];
+        int[] cluster = typeMethods.i4vec_negone_new(point_num);
+        double[] cluster_energy = new double[cluster_num];
+        int[] cluster_population = new int[cluster_num];
 
         Console.WriteLine("");
         Console.WriteLine("  Number of iterations allowed is " + it_max + "");
         //
         //  Initialize the cluster centers.
         //
-        cluster_center = Cluster.cluster_initialize_5(dim_num, point_num, cluster_num,
+        double[] cluster_center = Cluster.cluster_initialize_5(dim_num, point_num, cluster_num,
             point, ref seed);
 
         HMeans.hmeans_w_01(dim_num, point_num, cluster_num, it_max, ref it_num,
@@ -1530,7 +1369,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Number of iterations taken is " + it_num + "");
 
-        cluster_variance = Cluster.cluster_variance_compute(dim_num, point_num, cluster_num,
+        double[] cluster_variance = Cluster.cluster_variance_compute(dim_num, point_num, cluster_num,
             point, cluster, cluster_center);
 
         Cluster.cluster_print_summary(point_num, cluster_num,
@@ -1568,25 +1407,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string center_filename = "test14_centers.txt";
-        int[] cluster;
-        double[] cluster_center;
-        double[] cluster_energy;
-        string cluster_filename = "test14_clusters.txt";
-        int cluster_num;
-        int[] cluster_population;
-        double[] cluster_variance;
-        int dim_num;
-        int it_max;
+        const string center_filename = "test14_centers.txt";
+        const string cluster_filename = "test14_clusters.txt";
         int it_num = 0;
-        double[] point;
-        string point_filename = "points_100.txt";
-        int point_num;
-        int seed;
-        double[] weight;
-        int weight_dim;
-        int weight_num;
-        string weight_filename = "weights_unequal_100.txt";
+        const string point_filename = "points_100.txt";
+        const string weight_filename = "weights_unequal_100.txt";
 
         Console.WriteLine("");
         Console.WriteLine("TEST14");
@@ -1598,14 +1423,14 @@ internal static class Program
         Console.WriteLine("  Data points will be read from \"" + point_filename + "\".");
 
         TableHeader h = typeMethods.r8mat_header_read(point_filename);
-        dim_num = h.m;
-        point_num = h.n;
+        int dim_num = h.m;
+        int point_num = h.n;
 
         Console.WriteLine("");
         Console.WriteLine("  Point spatial dimension = " + dim_num + "");
         Console.WriteLine("  Number of points = " + point_num + "");
 
-        point = typeMethods.r8mat_data_read(point_filename, dim_num, point_num);
+        double[] point = typeMethods.r8mat_data_read(point_filename, dim_num, point_num);
         //
         //  Read the weights.
         //
@@ -1613,8 +1438,8 @@ internal static class Program
         Console.WriteLine("  Weights will be read from \"" + weight_filename + "\".");
 
         h = typeMethods.r8mat_header_read(weight_filename);
-        weight_dim = h.m;
-        weight_num = h.n;
+        int weight_dim = h.m;
+        int weight_num = h.n;
 
         if (weight_dim != 1)
         {
@@ -1632,24 +1457,24 @@ internal static class Program
             return;
         }
 
-        weight = typeMethods.r8mat_data_read(weight_filename, weight_dim, weight_num);
+        double[] weight = typeMethods.r8mat_data_read(weight_filename, weight_dim, weight_num);
         //
         //  Clustering parameters.
         //
-        cluster_num = 5;
-        it_max = 20;
-        seed = 123456789;
+        const int cluster_num = 5;
+        const int it_max = 20;
+        int seed = 123456789;
 
-        cluster = typeMethods.i4vec_negone_new(point_num);
-        cluster_energy = new double[cluster_num];
-        cluster_population = new int[cluster_num];
+        int[] cluster = typeMethods.i4vec_negone_new(point_num);
+        double[] cluster_energy = new double[cluster_num];
+        int[] cluster_population = new int[cluster_num];
 
         Console.WriteLine("");
         Console.WriteLine("  Number of iterations allowed is " + it_max + "");
         //
         //  Initialize the cluster centers.
         //
-        cluster_center = Cluster.cluster_initialize_5(dim_num, point_num, cluster_num,
+        double[] cluster_center = Cluster.cluster_initialize_5(dim_num, point_num, cluster_num,
             point, ref seed);
 
         HMeans.hmeans_w_02(dim_num, point_num, cluster_num, it_max, ref it_num,
@@ -1659,7 +1484,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Number of iterations taken is " + it_num + "");
 
-        cluster_variance = Cluster.cluster_variance_compute(dim_num, point_num, cluster_num,
+        double[] cluster_variance = Cluster.cluster_variance_compute(dim_num, point_num, cluster_num,
             point, cluster, cluster_center);
 
         Cluster.cluster_print_summary(point_num, cluster_num,
@@ -1697,25 +1522,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string center_filename = "test15_centers.txt";
-        int[] cluster;
-        double[] cluster_center;
-        double[] cluster_energy;
-        string cluster_filename = "test15_clusters.txt";
-        int cluster_num;
-        int[] cluster_population;
-        double[] cluster_variance;
-        int dim_num;
-        int it_max;
+        const string center_filename = "test15_centers.txt";
+        const string cluster_filename = "test15_clusters.txt";
         int it_num = 0;
-        double[] point;
-        string point_filename = "points_100.txt";
-        int point_num;
-        int seed;
-        double[] weight;
-        int weight_dim;
-        int weight_num;
-        string weight_filename = "weights_unequal_100.txt";
+        const string point_filename = "points_100.txt";
+        const string weight_filename = "weights_unequal_100.txt";
 
         Console.WriteLine("");
         Console.WriteLine("TEST15");
@@ -1727,14 +1538,14 @@ internal static class Program
         Console.WriteLine("  Data points will be read from \"" + point_filename + "\".");
 
         TableHeader h = typeMethods.r8mat_header_read(point_filename);
-        dim_num = h.m;
-        point_num = h.n;
+        int dim_num = h.m;
+        int point_num = h.n;
 
         Console.WriteLine("");
         Console.WriteLine("  Point spatial dimension = " + dim_num + "");
         Console.WriteLine("  Number of points = " + point_num + "");
 
-        point = typeMethods.r8mat_data_read(point_filename, dim_num, point_num);
+        double[] point = typeMethods.r8mat_data_read(point_filename, dim_num, point_num);
         //
         //  Read the weights.
         //
@@ -1742,8 +1553,8 @@ internal static class Program
         Console.WriteLine("  Weights will be read from \"" + weight_filename + "\".");
 
         h = typeMethods.r8mat_header_read(weight_filename);
-        weight_dim = h.m;
-        weight_num = h.n;
+        int weight_dim = h.m;
+        int weight_num = h.n;
 
         if (weight_dim != 1)
         {
@@ -1761,24 +1572,24 @@ internal static class Program
             return;
         }
 
-        weight = typeMethods.r8mat_data_read(weight_filename, weight_dim, weight_num);
+        double[] weight = typeMethods.r8mat_data_read(weight_filename, weight_dim, weight_num);
         //
         //  Clustering parameters.
         //
-        cluster_num = 5;
-        it_max = 20;
-        seed = 123456789;
+        const int cluster_num = 5;
+        const int it_max = 20;
+        int seed = 123456789;
 
-        cluster = typeMethods.i4vec_negone_new(point_num);
-        cluster_energy = new double[cluster_num];
-        cluster_population = new int[cluster_num];
+        int[] cluster = typeMethods.i4vec_negone_new(point_num);
+        double[] cluster_energy = new double[cluster_num];
+        int[] cluster_population = new int[cluster_num];
 
         Console.WriteLine("");
         Console.WriteLine("  Number of iterations allowed is " + it_max + "");
         //
         //  Initialize the cluster centers.
         //
-        cluster_center = Cluster.cluster_initialize_5(dim_num, point_num, cluster_num,
+        double[] cluster_center = Cluster.cluster_initialize_5(dim_num, point_num, cluster_num,
             point, ref seed);
 
         KMeans.kmeans_w_01(dim_num, point_num, cluster_num, it_max, ref it_num,
@@ -1788,7 +1599,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Number of iterations taken is " + it_num + "");
 
-        cluster_variance = Cluster.cluster_variance_compute(dim_num, point_num, cluster_num,
+        double[] cluster_variance = Cluster.cluster_variance_compute(dim_num, point_num, cluster_num,
             point, cluster, cluster_center);
 
         Cluster.cluster_print_summary(point_num, cluster_num,
@@ -1825,24 +1636,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string center_filename = "test16_centers.txt";
-        int[] cluster;
-        double[] cluster_center;
-        double[] cluster_energy;
-        string cluster_filename = "test16_clusters.txt";
-        int cluster_num;
-        int[] cluster_population;
-        double[] cluster_variance;
-        int dim_num;
-        int it_max;
+        const string center_filename = "test16_centers.txt";
+        const string cluster_filename = "test16_clusters.txt";
         int it_num = 0;
-        double[] point;
-        string point_filename = "points_100.txt";
-        int point_num;
-        double[] weight;
-        int weight_dim;
-        int weight_num;
-        string weight_filename = "weights_unequal_100.txt";
+        const string point_filename = "points_100.txt";
+        const string weight_filename = "weights_unequal_100.txt";
 
         Console.WriteLine("");
         Console.WriteLine("TEST16");
@@ -1854,14 +1652,14 @@ internal static class Program
         Console.WriteLine("  Data points will be read from \"" + point_filename + "\".");
 
         TableHeader h = typeMethods.r8mat_header_read(point_filename);
-        dim_num = h.m;
-        point_num = h.n;
+        int dim_num = h.m;
+        int point_num = h.n;
 
         Console.WriteLine("");
         Console.WriteLine("  Point spatial dimension = " + dim_num + "");
         Console.WriteLine("  Number of points = " + point_num + "");
 
-        point = typeMethods.r8mat_data_read(point_filename, dim_num, point_num);
+        double[] point = typeMethods.r8mat_data_read(point_filename, dim_num, point_num);
         //
         //  Read the weights.
         //
@@ -1869,8 +1667,8 @@ internal static class Program
         Console.WriteLine("  Weights will be read from \"" + weight_filename + "\".");
 
         h = typeMethods.r8mat_header_read(weight_filename);
-        weight_dim = h.m;
-        weight_num = h.n;
+        int weight_dim = h.m;
+        int weight_num = h.n;
 
         if (weight_dim != 1)
         {
@@ -1888,23 +1686,23 @@ internal static class Program
             return;
         }
 
-        weight = typeMethods.r8mat_data_read(weight_filename, weight_dim, weight_num);
+        double[] weight = typeMethods.r8mat_data_read(weight_filename, weight_dim, weight_num);
         //
         //  Clustering parameters.
         //
-        cluster_num = 5;
-        it_max = 20;
+        const int cluster_num = 5;
+        const int it_max = 20;
 
-        cluster = typeMethods.i4vec_negone_new(point_num);
-        cluster_energy = new double[cluster_num];
-        cluster_population = new int[cluster_num];
+        int[] cluster = typeMethods.i4vec_negone_new(point_num);
+        double[] cluster_energy = new double[cluster_num];
+        int[] cluster_population = new int[cluster_num];
 
         Console.WriteLine("");
         Console.WriteLine("  Number of iterations allowed is " + it_max + "");
         //
         //  Initialize the cluster centers.
         //
-        cluster_center = Cluster.cluster_initialize_1(dim_num, point_num, cluster_num, point);
+        double[] cluster_center = Cluster.cluster_initialize_1(dim_num, point_num, cluster_num, point);
 
         KMeans.kmeans_w_03(dim_num, point_num, cluster_num, it_max, ref it_num,
             point, weight, ref cluster, ref cluster_center, ref cluster_population,
@@ -1913,7 +1711,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Number of iterations taken is " + it_num + "");
 
-        cluster_variance = Cluster.cluster_variance_compute(dim_num, point_num, cluster_num,
+        double[] cluster_variance = Cluster.cluster_variance_compute(dim_num, point_num, cluster_num,
             point, cluster, cluster_center);
 
         Cluster.cluster_print_summary(point_num, cluster_num,

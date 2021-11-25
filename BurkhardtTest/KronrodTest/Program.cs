@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Kronrod;
 
 namespace KronrodTest;
@@ -64,13 +65,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double eps;
         int i;
         int i2;
-        int n = 3;
+        const int n = 3;
         double s;
-        double[] w1;
-        double[] w2;
         double[] wg =
         {
             0.555555555555555555556,
@@ -87,7 +85,6 @@ internal static class Program
             0.268488089868333440729,
             0.104656226026467265194
         };
-        double[] x;
         double[] xg =
         {
             -0.77459666924148337704,
@@ -113,10 +110,10 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Compare to exact data.");
 
-        eps = 0.000001;
-        w1 = new double[n + 1];
-        w2 = new double[n + 1];
-        x = new double[n + 1];
+        double eps = 0.000001;
+        double[] w1 = new double[n + 1];
+        double[] w2 = new double[n + 1];
+        double[] x = new double[n + 1];
 
         Quadrature.kronrod(n, eps, ref x, ref w1, ref w2);
 
@@ -127,10 +124,10 @@ internal static class Program
         Console.WriteLine("");
         for (i = 1; i <= n + 1; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + x[i - 1].ToString().PadLeft(14)
-                                   + "  " + w1[i - 1].ToString().PadLeft(14)
-                                   + "  " + w2[i - 1].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + w1[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + w2[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         Console.WriteLine("");
@@ -150,9 +147,9 @@ internal static class Program
                 s = +1.0;
             }
 
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + xg[i - 1].ToString().PadLeft(14)
-                                   + "  " + (s * x[i2 - 1]).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + xg[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + (s * x[i2 - 1]).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         Console.WriteLine("");
@@ -170,9 +167,9 @@ internal static class Program
                 i2 = 2 * (n + 1) - 2 * i;
             }
 
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + wg[i - 1].ToString().PadLeft(14)
-                                   + "  " + w2[i2 - 1].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + wg[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + w2[i2 - 1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         Console.WriteLine("");
@@ -192,9 +189,9 @@ internal static class Program
                 s = +1.0;
             }
 
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + xk[i - 1].ToString().PadLeft(14)
-                                   + "  " + (s * x[i2 - 1]).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + xk[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + (s * x[i2 - 1]).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         Console.WriteLine("");
@@ -212,9 +209,9 @@ internal static class Program
                 i2 = 2 * (n + 1) - i;
             }
 
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + wk[i - 1].ToString().PadLeft(14)
-                                   + "  " + w1[i2 - 1].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + wk[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + w1[i2 - 1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -239,12 +236,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double eps;
         int i;
-        int n = 4;
-        double[] w1;
-        double[] w2;
-        double[] x;
+        const int n = 4;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02");
@@ -252,10 +245,10 @@ internal static class Program
         Console.WriteLine("  of order 4, and the Kronrod extension of");
         Console.WriteLine("  order 4+5=9.");
 
-        eps = 0.000001;
-        w1 = new double[n + 1];
-        w2 = new double[n + 1];
-        x = new double[n + 1];
+        double eps = 0.000001;
+        double[] w1 = new double[n + 1];
+        double[] w2 = new double[n + 1];
+        double[] x = new double[n + 1];
 
         Quadrature.kronrod(n, eps, ref x, ref w1, ref w2);
 
@@ -266,10 +259,10 @@ internal static class Program
         Console.WriteLine("");
         for (i = 1; i <= n + 1; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + x[i - 1].ToString().PadLeft(14)
-                                   + "  " + w1[i - 1].ToString().PadLeft(14)
-                                   + "  " + w2[i - 1].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + w1[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + w2[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -294,15 +287,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double eps;
-        double exact = 1.5643964440690497731;
-        int i;
-        double i1;
-        double i2;
-        int n;
-        double[] w1;
-        double[] w2;
-        double[] x;
+        const double exact = 1.5643964440690497731;
 
         Console.WriteLine("");
         Console.WriteLine("TEST03");
@@ -312,20 +297,20 @@ internal static class Program
         //  EPS just tells KRONROD how carefully it must compute X, W1 and W2.
         //  It is NOT a statement about the accuracy of your integral estimate!
         //
-        eps = 0.000001;
+        double eps = 0.000001;
         //
         //  Start the process with a 1 point rule.
         //
-        n = 1;
+        int n = 1;
 
         for (;;)
         {
             //
             //  Make space.
             //
-            w1 = new double[n + 1];
-            w2 = new double[n + 1];
-            x = new double[n + 1];
+            double[] w1 = new double[n + 1];
+            double[] w2 = new double[n + 1];
+            double[] x = new double[n + 1];
 
             Quadrature.kronrod(n, eps, ref x, ref w1, ref w2);
             //
@@ -341,9 +326,10 @@ internal static class Program
             //     function value at 0 once, and the function values at the other
             //     X values "twice", that is, once at X and once at -X.
             //
-            i1 = w1[n] * f(x[n]);
-            i2 = w2[n] * f(x[n]);
+            double i1 = w1[n] * f(x[n]);
+            double i2 = w2[n] * f(x[n]);
 
+            int i;
             for (i = 0; i < n; i++)
             {
                 i1 += w1[i] * (f(-x[i]) + f(x[i]));

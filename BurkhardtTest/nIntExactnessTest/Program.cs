@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Composition;
 using Burkardt.Quadrature;
 using Burkardt.Table;
@@ -28,32 +29,13 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] alpha;
         double[] beta;
         int degree;
         int degree_max;
         int dim;
-        int dim_num = 0;
-        int dim_num2;
         bool error = false;
-        int[] expon;
-        int h;
         int last = 0;
-        bool more;
-        int point_num = 0;
-        int point_num2;
-        double quad_error;
         string quad_filename;
-        string quad_a_filename;
-        string quad_b_filename;
-        string quad_r_filename;
-        string quad_w_filename;
-        string quad_x_filename;
-        int[] rule;
-        int t;
-        double[] weight;
-        double[] x;
-        double[] x_range;
 
         Console.WriteLine("");
         Console.WriteLine("NINT_EXACTNESS_MIXED");
@@ -116,11 +98,11 @@ internal static class Program
         //    the quadrature R file;
         //    the output "exactness" file.
         //
-        quad_a_filename = quad_filename + "_a.txt";
-        quad_b_filename = quad_filename + "_b.txt";
-        quad_r_filename = quad_filename + "_r.txt";
-        quad_w_filename = quad_filename + "_w.txt";
-        quad_x_filename = quad_filename + "_x.txt";
+        string quad_a_filename = quad_filename + "_a.txt";
+        string quad_b_filename = quad_filename + "_b.txt";
+        string quad_r_filename = quad_filename + "_r.txt";
+        string quad_w_filename = quad_filename + "_w.txt";
+        string quad_x_filename = quad_filename + "_x.txt";
         //
         //  The second command line argument is the maximum degree.
         //
@@ -152,20 +134,20 @@ internal static class Program
         //  Read the X file.
         //
         TableHeader th = typeMethods.r8mat_header_read(quad_x_filename);
-        dim_num = th.m;
-        point_num = th.n;
+        int dim_num = th.m;
+        int point_num = th.n;
 
         Console.WriteLine("");
         Console.WriteLine("  Spatial dimension = " + dim_num + "");
         Console.WriteLine("  Number of points  = " + point_num + "");
 
-        x = typeMethods.r8mat_data_read(quad_x_filename, dim_num, point_num);
+        double[] x = typeMethods.r8mat_data_read(quad_x_filename, dim_num, point_num);
         //
         //  Read the W file.
         //
         th = typeMethods.r8mat_header_read(quad_w_filename);
-        dim_num2 = th.m;
-        point_num2 = th.n;
+        int dim_num2 = th.m;
+        int point_num2 = th.n;
 
         if (dim_num2 != 1)
         {
@@ -185,7 +167,7 @@ internal static class Program
             return;
         }
 
-        weight = typeMethods.r8mat_data_read(quad_w_filename, 1, point_num);
+        double[] weight = typeMethods.r8mat_data_read(quad_w_filename, 1, point_num);
         //
         //  Read the R file.
         //
@@ -210,7 +192,7 @@ internal static class Program
             return;
         }
 
-        x_range = beta = typeMethods.r8mat_data_read(quad_r_filename, dim_num, 2);
+        double[] x_range = beta = typeMethods.r8mat_data_read(quad_r_filename, dim_num, 2);
         //
         //  Read the A file.
         //
@@ -235,7 +217,7 @@ internal static class Program
             return;
         }
 
-        alpha = beta = typeMethods.r8mat_data_read(quad_a_filename, dim_num, 1);
+        double[] alpha = beta = typeMethods.r8mat_data_read(quad_a_filename, dim_num, 1);
         //
         //  Read the B file.
         //
@@ -264,7 +246,7 @@ internal static class Program
         //
         //  Try to determine the rule types.
         //
-        rule = new int[dim_num];
+        int[] rule = new int[dim_num];
 
         Console.WriteLine("");
         Console.WriteLine("  Analysis of integration region:");
@@ -274,7 +256,7 @@ internal static class Program
         {
             switch (x_range[dim + 0 * dim_num])
             {
-                case -1.0 when x_range[dim + 1 * dim_num] == +1.0:
+                case -1.0 when Math.Abs(x_range[dim + 1 * dim_num] - +1.0) <= double.Epsilon:
                 {
                     switch (alpha[dim])
                     {
@@ -292,7 +274,7 @@ internal static class Program
 
                     break;
                 }
-                case 0.0 when x_range[dim + 1 * dim_num] == typeMethods.r8_huge():
+                case 0.0 when Math.Abs(x_range[dim + 1 * dim_num] - typeMethods.r8_huge()) <= double.Epsilon:
                 {
                     switch (alpha[dim])
                     {
@@ -311,8 +293,8 @@ internal static class Program
                 }
                 default:
                 {
-                    if (x_range[dim + 0 * dim_num] == -typeMethods.r8_huge() &&
-                        x_range[dim + 1 * dim_num] == +typeMethods.r8_huge())
+                    if (Math.Abs(x_range[dim + 0 * dim_num] - (-typeMethods.r8_huge())) <= double.Epsilon &&
+                        Math.Abs(x_range[dim + 1 * dim_num] - +typeMethods.r8_huge()) <= double.Epsilon)
                     {
                         switch (alpha[dim])
                         {
@@ -346,7 +328,7 @@ internal static class Program
         //
         //  Explore the monomials.
         //
-        expon = new int[dim_num];
+        int[] expon = new int[dim_num];
 
         Console.WriteLine("");
         Console.WriteLine("      Error    Degree  Exponents");
@@ -354,18 +336,18 @@ internal static class Program
 
         for (degree = 0; degree <= degree_max; degree++)
         {
-            more = false;
-            h = 0;
-            t = 0;
+            bool more = false;
+            int h = 0;
+            int t = 0;
 
             for (;;)
             {
                 Comp.comp_next(degree, dim_num, ref expon, ref more, ref h, ref t);
 
-                quad_error = MonomialQuadrature.monomial_quadrature(dim_num, point_num, rule, alpha,
+                double quad_error = MonomialQuadrature.monomial_quadrature(dim_num, point_num, rule, alpha,
                     beta, expon, weight, x);
 
-                string cout = "  " + quad_error.ToString().PadLeft(12)
+                string cout = "  " + quad_error.ToString(CultureInfo.InvariantCulture).PadLeft(12)
                                    + "     " + degree.ToString().PadLeft(2)
                                    + "  ";
 

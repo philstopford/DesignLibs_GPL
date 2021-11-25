@@ -5,7 +5,7 @@ using Burkardt.Types;
 
 namespace SubsetTestNS;
 
-public class CompTest
+public static class CompTest
 {
     public static void comp_enum_test()
 
@@ -28,8 +28,6 @@ public class CompTest
         //    John Burkardt
         //
     {
-        int num;
-        int k;
         int n;
 
         Console.WriteLine("");
@@ -40,9 +38,10 @@ public class CompTest
         for (n = 0; n <= 10; n++)
         {
             string cout = "";
+            int k;
             for (k = 1; k <= 10; k++)
             {
-                num = Comp.comp_enum(n, k);
+                int num = Comp.comp_enum(n, k);
                 cout += "  " + num.ToString().PadLeft(6);
             }
 
@@ -71,14 +70,11 @@ public class CompTest
         //    John Burkardt
         //
     {
-        int K = 3;
+        const int K = 3;
 
         int[] a = new int[K];
         int h = 0;
-        int i;
-        int index;
-        bool more;
-        int n = 6;
+        const int n = 6;
         int t = 0;
 
         Console.WriteLine("");
@@ -89,8 +85,8 @@ public class CompTest
         Console.WriteLine("  using " + K + " parts.");
         Console.WriteLine("");
 
-        more = false;
-        index = 0;
+        bool more = false;
+        int index = 0;
 
         for (;;)
         {
@@ -99,6 +95,7 @@ public class CompTest
             index += 1;
             string cout = "  ";
             cout += "  " + index.ToString().PadLeft(4) + "  ";
+            int i;
             for (i = 0; i < K; i++)
             {
                 cout += a[i].ToString().PadLeft(4) + "  ";
@@ -134,9 +131,7 @@ public class CompTest
         //    John Burkardt
         //
     {
-        int j;
-        int kc = 3;
-        int nc;
+        const int kc = 3;
         int rank;
         int[] xc = new int[3];
 
@@ -153,6 +148,7 @@ public class CompTest
 
         for (rank = 1; rank <= 71; rank++)
         {
+            int j;
             switch (rank)
             {
                 case 1:
@@ -169,7 +165,7 @@ public class CompTest
                     break;
             }
 
-            nc = typeMethods.i4vec_sum(kc, xc);
+            int nc = typeMethods.i4vec_sum(kc, xc);
 
             string cout = "   " + rank.ToString().PadLeft(3) + ": ";
             cout += "    " + nc.ToString().PadLeft(2) + " = ";
@@ -211,13 +207,11 @@ public class CompTest
         //    John Burkardt
         //
     {
-        int K = 5;
+        const int K = 5;
 
         int[] a = new int[K];
-        int i;
         int j;
-        int n = 10;
-        int seed;
+        const int n = 10;
 
         Console.WriteLine("");
         Console.WriteLine("COMP_RANDOM_TEST");
@@ -227,13 +221,14 @@ public class CompTest
         Console.WriteLine("  using " + K + " parts.");
         Console.WriteLine("");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         for (j = 1; j <= 5; j++)
         {
             Comp.comp_random(n, K, ref seed, ref a);
 
             string cout = "  ";
+            int i;
             for (i = 0; i < K; i++)
             {
                 cout += a[i].ToString().PadLeft(4) + "  ";
@@ -264,15 +259,8 @@ public class CompTest
         //    John Burkardt
         //
     {
-        int j;
-        int kc;
-        int nc;
         int rank = 0;
-        int rank1;
-        int rank2;
-        int seed;
         int test;
-        int[] xc;
 
         Console.WriteLine("");
         Console.WriteLine("COMP_RANDOM_GRLEX_TEST");
@@ -282,18 +270,19 @@ public class CompTest
         Console.WriteLine("  graded lexicographic (grlex) order between indices RANK1 and RANK2.");
         Console.WriteLine("");
 
-        kc = 3;
-        rank1 = 20;
-        rank2 = 60;
-        seed = 123456789;
+        const int kc = 3;
+        const int rank1 = 20;
+        const int rank2 = 60;
+        int seed = 123456789;
 
         for (test = 1; test <= 5; test++)
         {
-            xc = Comp.comp_random_grlex(kc, rank1, rank2, ref seed, ref rank);
-            nc = typeMethods.i4vec_sum(kc, xc);
+            int[] xc = Comp.comp_random_grlex(kc, rank1, rank2, ref seed, ref rank);
+            int nc = typeMethods.i4vec_sum(kc, xc);
 
             string cout = "   " + rank.ToString().PadLeft(3) + ": ";
             cout += "    " + nc.ToString().PadLeft(2) + " = ";
+            int j;
             for (j = 0; j < kc - 1; j++)
             {
                 cout += xc[j].ToString().PadLeft(2) + " + ";
@@ -324,14 +313,8 @@ public class CompTest
         //    John Burkardt
         //
     {
-        int kc;
-        int rank1;
-        int rank2;
         int rank3 = 0;
-        int rank4;
-        int seed;
         int test;
-        int[] xc;
 
         Console.WriteLine("");
         Console.WriteLine("COMP_RANK_GRLEX_TEST");
@@ -344,15 +327,15 @@ public class CompTest
         Console.WriteLine("  Test    Rank      Rank");
         Console.WriteLine("");
 
-        kc = 3;
-        rank1 = 20;
-        rank2 = 60;
-        seed = 123456789;
+        const int kc = 3;
+        const int rank1 = 20;
+        const int rank2 = 60;
+        int seed = 123456789;
 
         for (test = 1; test <= 5; test++)
         {
-            xc = Comp.comp_random_grlex(kc, rank1, rank2, ref seed, ref rank3);
-            rank4 = Comp.comp_rank_grlex(kc, xc);
+            int[] xc = Comp.comp_random_grlex(kc, rank1, rank2, ref seed, ref rank3);
+            int rank4 = Comp.comp_rank_grlex(kc, xc);
 
             Console.WriteLine("  " + test.ToString().PadLeft(4) + 
                               "  " + rank3.ToString().PadLeft(6) + 
@@ -384,28 +367,24 @@ public class CompTest
         int[] ac = new int[5];
         int[] as_ = new int [4];
         int i;
-        int j;
-        int kc;
         int ks = 0;
-        int nc;
         int ns = 0;
-        int seed;
-        string cout;
 
         Console.WriteLine("");
         Console.WriteLine("COMP_TO_KSUB_TEST");
         Console.WriteLine("  COMP_TO_KSUB returns the K subset corresponding to a composition.");
 
-        nc = 10;
-        kc = 5;
-        seed = 123456789;
+        int nc = 10;
+        int kc = 5;
+        int seed = 123456789;
 
         for (i = 1; i <= 5; i++)
         {
             Console.WriteLine("");
 
             Comp.comp_random(nc, kc, ref seed, ref ac);
-            cout = "  COMP:";
+            string cout = "  COMP:";
+            int j;
             for (j = 0; j < kc; j++)
             {
                 cout += ac[j].ToString().PadLeft(4);
@@ -454,12 +433,8 @@ public class CompTest
         //    John Burkardt
         //
     {
-        int j;
-        int kc = 3;
-        int nc;
+        const int kc = 3;
         int rank1;
-        int[] xc;
-        string cout;
 
         Console.WriteLine("");
         Console.WriteLine("COMP_UNRANK_GRLEX_TEST");
@@ -474,11 +449,12 @@ public class CompTest
 
         for (rank1 = 1; rank1 <= 71; rank1++)
         {
-            xc = Comp.comp_unrank_grlex(kc, rank1);
-            nc = typeMethods.i4vec_sum(kc, xc);
+            int[] xc = Comp.comp_unrank_grlex(kc, rank1);
+            int nc = typeMethods.i4vec_sum(kc, xc);
 
-            cout = "   " + rank1.ToString().PadLeft(3) + ": ";
+            string cout = "   " + rank1.ToString().PadLeft(3) + ": ";
             cout += "    " + nc.ToString().PadLeft(2) + " = ";
+            int j;
             for (j = 0; j < kc - 1; j++)
             {
                 cout += xc[j].ToString().PadLeft(2) + " + ";
@@ -520,29 +496,25 @@ public class CompTest
         int[] ac = new int[5];
         int[] as_ = new int[4];
         int i;
-        int j;
-        int kc;
         int ks = 0;
-        int nc;
         int ns = 0;
-        int seed;
-        string cout;
 
         Console.WriteLine("");
         Console.WriteLine("COMPNZ_TO_KSUB_TEST");
         Console.WriteLine("  COMPNZ_TO_KSUB returns the K subset corresponding");
         Console.WriteLine("  to a nonzero composition.");
 
-        nc = 10;
-        kc = 5;
-        seed = 123456789;
+        int nc = 10;
+        int kc = 5;
+        int seed = 123456789;
 
         for (i = 1; i <= 5; i++)
         {
             Console.WriteLine("");
 
             Comp.compnz_random(nc, kc, ref seed, ref ac);
-            cout = "  COMPNZ:";
+            string cout = "  COMPNZ:";
+            int j;
             for (j = 0; j < kc; j++)
             {
                 cout += ac[j].ToString().PadLeft(4);
@@ -592,15 +564,10 @@ public class CompTest
         //
     {
         int[] a = new int[3];
-        int i;
-        int k;
-        bool more;
-        int n;
-        string cout;
 
-        n = 6;
-        k = 3;
-        more = false;
+        const int n = 6;
+        const int k = 3;
+        bool more = false;
 
         CompNZData data = new();
 
@@ -616,7 +583,8 @@ public class CompTest
         {
             Comp.compnz_next(ref data, n, k, ref a, ref more);
 
-            cout = "  ";
+            string cout = "  ";
+            int i;
             for (i = 0; i < k; i++)
             {
                 cout += a[i].ToString().PadLeft(4) + "  ";
@@ -653,14 +621,11 @@ public class CompTest
         //    John Burkardt
         //
     {
-        int K = 5;
+        const int K = 5;
 
         int[] a = new int[K];
-        int i;
         int j;
-        int n = 10;
-        int seed;
-        string cout;
+        const int n = 10;
 
         Console.WriteLine("");
         Console.WriteLine("COMPNZ_RANDOM_TEST");
@@ -671,13 +636,14 @@ public class CompTest
         Console.WriteLine("  using " + K + " nonzero parts.");
         Console.WriteLine("");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         for (j = 1; j <= 5; j++)
         {
             Comp.compnz_random(n, K, ref seed, ref a);
 
-            cout = "  ";
+            string cout = "  ";
+            int i;
             for (i = 0; i < K; i++)
             {
                 cout += a[i].ToString().PadLeft(4) + "  ";

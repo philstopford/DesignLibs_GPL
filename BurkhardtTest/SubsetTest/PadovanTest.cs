@@ -3,7 +3,7 @@ using Burkardt.Sequence;
 
 namespace SubsetTestNS;
 
-public class PadovanTest
+public static class PadovanTest
 {
     public static void padovan_test ( )
 
@@ -26,7 +26,7 @@ public class PadovanTest
         //    John Burkardt
         //
     {
-        int N = 10;
+        const int N = 10;
 
         int i;
         int[] p = new int[N];

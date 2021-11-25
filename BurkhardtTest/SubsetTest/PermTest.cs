@@ -31,7 +31,7 @@ public static class PermTest
         //    John Burkardt
         //
     {
-        int N = 5;
+        const int N = 5;
  
         int[] ins = new int[N];
         int[] perm = { 2, 4, 0, 3, 1 };
@@ -74,15 +74,12 @@ public static class PermTest
         //    John Burkardt
         //
     {
-        int N = 5;
+        const int N = 5;
 
         int[] counts = new int[N];
-        int i;
-        int k;
-        int number;
         int seed = 123456789;
         int test;
-        int test_num = 5;
+        const int test_num = 5;
 
         Console.WriteLine("");
         Console.WriteLine("MULTIPERM_ENUM_TEST");
@@ -98,15 +95,16 @@ public static class PermTest
 
         for (test = 1; test <= test_num; test++)
         {
-            k = UniformRNG.i4_uniform_ab(1, N, ref seed);
+            int k = UniformRNG.i4_uniform_ab(1, N, ref seed);
 
             Comp.compnz_random(N, k, ref seed, ref counts);
 
-            number = Permutation.multiperm_enum(N, k, counts);
+            int number = Permutation.multiperm_enum(N, k, counts);
 
             string cout = "  " + number.ToString().PadLeft(6)
                                + "  " + N.ToString().PadLeft(6)
                                + "  " + k.ToString().PadLeft(6);
+            int i;
             for (i = 0; i < k; i++)
             {
                 cout += "  " + counts[i].ToString().PadLeft(4);
@@ -137,12 +135,9 @@ public static class PermTest
         //    John Burkardt
         //
     {
-        int N = 6;
+        const int N = 6;
 
         int[] a = { 1, 2, 2, 3, 3, 3 };
-        int i;
-        bool more;
-        int tally;
 
         Console.WriteLine("");
         Console.WriteLine("MULTIPERM_NEXT_TEST");
@@ -150,14 +145,15 @@ public static class PermTest
         Console.WriteLine("  lexical order.");
         Console.WriteLine("");
 
-        tally = 0;
-        more = true;
+        int tally = 0;
+        bool more = true;
 
         while (more)
         {
             tally += 1;
 
             string cout = "  " + tally.ToString().PadLeft(4);
+            int i;
             for (i = 0; i < N; i++)
             {
                 cout += "  " + a[i].ToString().PadLeft(2);
@@ -190,7 +186,7 @@ public static class PermTest
         //    John Burkardt
         //
     {
-        int N = 9;
+        const int N = 9;
 
         int length = 0;
         int[] p = { 1, 2, 8, 5, 6, 7, 4, 3, 0 };
@@ -235,9 +231,8 @@ public static class PermTest
         //    John Burkardt
         //
     {
-        int fnm;
         int m;
-        int n = 10;
+        const int n = 10;
 
         Console.WriteLine("");
         Console.WriteLine("PERM_FIXED_ENUM_TEST");
@@ -251,7 +246,7 @@ public static class PermTest
 
         for (m = 0; m <= n; m++)
         {
-            fnm = Permutation.perm_fixed_enum(n, m);
+            int fnm = Permutation.perm_fixed_enum(n, m);
 
             Console.WriteLine("  "
                               + m.ToString().PadLeft(3) + "  "
@@ -280,7 +275,7 @@ public static class PermTest
         //    John Burkardt
         //
     {
-        int n = 7;
+        const int n = 7;
         int[] p = { 6, 1, 3, 0, 4, 2, 5 };
 
         Console.WriteLine("");
@@ -311,8 +306,7 @@ public static class PermTest
         //    John Burkardt
         //
     {
-        int break_count;
-        int n = 6;
+        const int n = 6;
         int[] p = { 3, 4, 1, 0, 5, 2 };
 
         Console.WriteLine("");
@@ -321,7 +315,7 @@ public static class PermTest
 
         Permutation.perm0_print(n, p, "  The permutation:");
 
-        break_count = Permutation.perm0_break_count(n, p);
+        int break_count = Permutation.perm0_break_count(n, p);
 
         Console.WriteLine("");
         Console.WriteLine("  The number of breaks is " + break_count + "");
@@ -348,7 +342,7 @@ public static class PermTest
         //    John Burkardt
         //
     {
-        int n = 5;
+        const int n = 5;
         int[] p1 = { 5, 2, 3, 4, 1 };
         int[] p2 = { 4, 1, 3, 0, 2 };
         int[] p3 = { 0, 2, 1, 3, 2 };
@@ -389,9 +383,9 @@ public static class PermTest
         //    John Burkardt
         //
     {
-        int N = 9;
+        const int N = 9;
 
-        int iopt = 1;
+        const int iopt = 1;
         int isgn = 0;
         int ncycle = 0;
         int[] p = { 1, 2, 8, 5, 6, 7, 4, 3, 0 };
@@ -432,24 +426,18 @@ public static class PermTest
         //    John Burkardt
         //
     {
-        int N = 10;
+        const int N = 10;
 
-        int k11;
-        int k12;
-        int k13;
-        int k21;
-        int k23;
         int[] p1 = new int[N];
         int[] p2 = new int[N];
         int[] p3 = new int[N];
-        int seed;
 
         Console.WriteLine("");
         Console.WriteLine("PERM0_DISTANCE_TEST");
         Console.WriteLine("  PERM0_DISTANCE computes the Ulam metric distance");
         Console.WriteLine("  between two permutations of (0,...,N-1).");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         Permutation.perm0_random2(N, ref seed, ref p1);
         Permutation.perm0_random2(N, ref seed, ref p2);
@@ -459,11 +447,11 @@ public static class PermTest
         Permutation.perm0_print(N, p2, "  Permutation P2");
         Permutation.perm0_print(N, p3, "  Permutation P3");
 
-        k11 = Permutation.perm0_distance(N, p1, p1);
-        k12 = Permutation.perm0_distance(N, p1, p2);
-        k21 = Permutation.perm0_distance(N, p2, p1);
-        k13 = Permutation.perm0_distance(N, p1, p3);
-        k23 = Permutation.perm0_distance(N, p2, p3);
+        int k11 = Permutation.perm0_distance(N, p1, p1);
+        int k12 = Permutation.perm0_distance(N, p1, p2);
+        int k21 = Permutation.perm0_distance(N, p2, p1);
+        int k13 = Permutation.perm0_distance(N, p1, p3);
+        int k23 = Permutation.perm0_distance(N, p2, p3);
 
         Console.WriteLine("");
         Console.WriteLine("  K(P1,P1) should be 0.");
@@ -504,11 +492,9 @@ public static class PermTest
         //    John Burkardt
         //
     {
-        int i;
         int[] ifree = new int[5];
         int[] ipart = new int[5];
-        int n = 5;
-        int nfree;
+        const int n = 5;
         int npart;
         int[] p = { 4, 1, 2, 3, 0 };
 
@@ -519,12 +505,13 @@ public static class PermTest
 
         for (npart = 0; npart <= n; npart++)
         {
+            int i;
             for (i = 0; i < npart; i++)
             {
                 ipart[i] = p[i];
             }
 
-            nfree = n - npart;
+            int nfree = n - npart;
             Permutation.perm0_free(npart, ipart, nfree, ref ifree);
             typeMethods.i4vec_transpose_print(npart, ipart, "  Partial permutation:");
             typeMethods.i4vec_transpose_print(nfree, ifree, "  Values not yet used:");
@@ -552,9 +539,8 @@ public static class PermTest
         //    John Burkardt
         //
     {
-        int n = 7;
+        const int n = 7;
         int[] p1 = { 3, 2, 4, 0, 6, 5, 1 };
-        int[] p2;
 
         Console.WriteLine("");
         Console.WriteLine("PERM0_INVERSE_TEST");
@@ -563,7 +549,7 @@ public static class PermTest
 
         Permutation.perm0_print(n, p1, "  The original permutation:");
 
-        p2 = Permutation.perm0_inverse(n, p1);
+        int[] p2 = Permutation.perm0_inverse(n, p1);
 
         Permutation.perm0_print(n, p2, "  The inverted permutation:");
     }
@@ -589,7 +575,7 @@ public static class PermTest
         //    John Burkardt
         //
     {
-        int N = 7;
+        const int N = 7;
 
         int[] p = { 3, 2, 4, 0, 6, 5, 1 };
 
@@ -626,10 +612,9 @@ public static class PermTest
         //    John Burkardt
         //
     {
-        int N = 7;
+        const int N = 7;
 
         int[] perm = { 3, 2, 4, 0, 6, 5, 1 };
-        int[] perm_inv;
 
         Console.WriteLine("");
         Console.WriteLine("PERM0_INVERSE3_NEW_TEST");
@@ -637,7 +622,7 @@ public static class PermTest
 
         Permutation.perm0_print(N, perm, "  The original permutation:");
 
-        perm_inv = Permutation.perm0_inverse3_new(N, perm);
+        int[] perm_inv = Permutation.perm0_inverse3_new(N, perm);
 
         Permutation.perm0_print(N, perm_inv, "  The inverted permutation:");
     }
@@ -663,9 +648,8 @@ public static class PermTest
         //    John Burkardt
         //
     {
-        int N = 4;
+        const int N = 4;
 
-        bool more;
         int[] p = new int[N];
 
         Console.WriteLine("");
@@ -673,7 +657,7 @@ public static class PermTest
         Console.WriteLine("  PERM0_LEX_NEXT generates permutations in order.");
         Console.WriteLine("");
 
-        more = false;
+        bool more = false;
 
         for (;;)
         {
@@ -711,19 +695,18 @@ public static class PermTest
         //    John Burkardt
         //
     {
-        int N = 5;
+        const int N = 5;
 
         int[] p1 = new int[N];
         int[] p2 = new int[N];
         int[] p3 = new int[N];
-        int seed;
 
         Console.WriteLine("");
         Console.WriteLine("PERM0_MUL_TEST");
         Console.WriteLine("  PERM0_MUL multiplies two permutations of (0,...,N-1).");
         Console.WriteLine("");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         Permutation.perm0_random(N, ref seed, ref p1);
         Permutation.perm0_random(N, ref seed, ref p2);
@@ -760,8 +743,7 @@ public static class PermTest
         //
     {
         bool even = false;
-        bool more = false;
-        int n = 4;
+        const int n = 4;
         int[] p = new int[4];
 
         Console.WriteLine("");
@@ -769,7 +751,7 @@ public static class PermTest
         Console.WriteLine("  PERM0_NEXT generates permutations of (0,...,N-1).");
         Console.WriteLine("");
 
-        more = false;
+        bool more = false;
 
         for (;;)
         {
@@ -805,9 +787,8 @@ public static class PermTest
         //    John Burkardt
         //
     {
-        int N = 4;
+        const int N = 4;
 
-        bool done = false;
         int[] p = new int[N];
         Permutation.PermNext2Data data = new();
 
@@ -816,7 +797,7 @@ public static class PermTest
         Console.WriteLine("  PERM0_NEXT2 generates permutations of (0,...,N-1).");
         Console.WriteLine("");
 
-        done = true;
+        bool done = true;
 
         for (;;)
         {
@@ -853,20 +834,15 @@ public static class PermTest
         //    John Burkardt
         //
     {
-        bool more;
-        int n;
-        int[] p;
-        int rank;
-
         Console.WriteLine("");
         Console.WriteLine("PERM0_NEXT3_TEST");
         Console.WriteLine("  PERM0_NEXT3 generates permutations of (0,...,N-1).");
         Console.WriteLine("");
 
-        n = 4;
-        p = new int[n];
-        more = false;
-        rank = 0;
+        const int n = 4;
+        int[] p = new int[n];
+        bool more = false;
+        int rank = 0;
 
         for (;;)
         {
@@ -902,7 +878,7 @@ public static class PermTest
         //    John Burkardt
         //
     {
-        int N = 4;
+        const int N = 4;
 
         int i;
         int[] p = new int[N];
@@ -942,7 +918,7 @@ public static class PermTest
         //    John Burkardt
         //
     {
-        int N = 4;
+        const int N = 4;
 
         int i;
         int[] p = new int[N];
@@ -983,9 +959,8 @@ public static class PermTest
         //
     {
         int[] invers = new int[4];
-        int n = 4;
+        const int n = 4;
         int[] p = { 0, 3, 1, 2 };
-        int rank;
 
         Console.WriteLine("");
         Console.WriteLine("PERM0_RANK_TEST");
@@ -993,7 +968,7 @@ public static class PermTest
 
         Permutation.perm0_print(n, p, "  The permutation:");
 
-        rank = Permutation.perm0_rank(n, p, ref invers);
+        int rank = Permutation.perm0_rank(n, p, ref invers);
 
         Console.WriteLine("");
         Console.WriteLine("  The rank is " + rank + "");
@@ -1020,13 +995,9 @@ public static class PermTest
         //    John Burkardt
         //
     {
-        int N = 4;
+        const int N = 4;
 
-        int i;
-        bool more;
         int[] p = new int[N];
-        int rank;
-        int p_sign;
 
         Console.WriteLine("");
         Console.WriteLine("PERM0_SIGN_TEST");
@@ -1035,14 +1006,14 @@ public static class PermTest
         Console.WriteLine("  RANK  SIGN  Permutation");
         Console.WriteLine("");
 
-        more = false;
-        rank = 0;
+        bool more = false;
+        int rank = 0;
 
         for (;;)
         {
             Permutation.perm0_lex_next(N, p, ref more);
 
-            p_sign = Permutation.perm0_sign(N, p);
+            int p_sign = Permutation.perm0_sign(N, p);
             if (!more)
             {
                 break;
@@ -1051,6 +1022,7 @@ public static class PermTest
             string cout = rank.ToString().PadLeft(4) + "  "
                                                      + p_sign.ToString().PadLeft(4) + "  ";
 
+            int i;
             for (i = 0; i < N; i++)
             {
                 cout += p[i].ToString().PadLeft(4) + "  ";
@@ -1085,7 +1057,7 @@ public static class PermTest
     {
         int[] a = new int[9];
         int[] jarray = new int[9];
-        int n = 9;
+        const int n = 9;
         int npart = 0;
         int[] p = { 1, 2, 8, 5, 6, 7, 4, 3, 0 };
 
@@ -1124,7 +1096,7 @@ public static class PermTest
         //    John Burkardt
         //
     {
-        int N = 5;
+        const int N = 5;
 
         int[] ins = new int [N];
         int[] perm = { 2, 4, 0, 3, 1 };
@@ -1167,7 +1139,7 @@ public static class PermTest
         //    John Burkardt
         //
     {
-        int N = 7;
+        const int N = 7;
 
         int[] a = new int[N];
         int[] lambda = new int[N];
@@ -1207,9 +1179,9 @@ public static class PermTest
         //    John Burkardt
         //
     {
-        int n = 4;
+        const int n = 4;
         int[] p = new int[4];
-        int rank = 6;
+        const int rank = 6;
 
         Console.WriteLine("");
         Console.WriteLine("PERM0_UNRANK_TEST");
@@ -1244,7 +1216,7 @@ public static class PermTest
         //    John Burkardt
         //
     {
-        int n = 6;
+        const int n = 6;
         int[] p1 = { 4, 5, 2, 1, 6, 3 };
         int[] p2 = new int[6];
 
@@ -1281,7 +1253,7 @@ public static class PermTest
         //    John Burkardt
         //
     {
-        int n = 5;
+        const int n = 5;
         int[] p1 = { 5, 2, 3, 4, 1 };
         int[] p2 = { 4, 1, 3, 0, 2 };
         int[] p3 = { 0, 2, 1, 3, 2 };
@@ -1322,7 +1294,7 @@ public static class PermTest
         //    John Burkardt
         //
     {
-        int n = 6;
+        const int n = 6;
         int[] p1 = { -6, 3, 1, -5, 4, -2 };
         int[] p2 = new int[6];
 
@@ -1359,7 +1331,7 @@ public static class PermTest
         //    John Burkardt
         //
     {
-        int n = 9;
+        const int n = 9;
         int[] p1 = { 2, 3, 9, 6, 7, 8, 5, 4, 1 };
         int[] p2 = new int[9];
         int[] p3 = new int[9];
@@ -1401,7 +1373,7 @@ public static class PermTest
         //    John Burkardt
         //
     {
-        int n = 9;
+        const int n = 9;
         int[] p1 = { 2, 3, 9, 6, 7, 8, 5, 4, 1 };
         int[] p2 = new int[9];
         int[] p3 = new int[9];
@@ -1443,7 +1415,7 @@ public static class PermTest
         //    John Burkardt
         //
     {
-        int n = 7;
+        const int n = 7;
         int[] p = { 7, 2, 4, 1, 5, 3, 6 };
 
         Console.WriteLine("");

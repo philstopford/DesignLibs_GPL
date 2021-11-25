@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt;
 using Burkardt.RationalNS;
 using Burkardt.Types;
@@ -30,10 +31,6 @@ public static class r8Test
         //
     {
         int i;
-        int seed;
-        double x;
-        double y;
-        double z;
 
         Console.WriteLine("");
         Console.WriteLine("R8_AGM_TEST");
@@ -44,19 +41,19 @@ public static class r8Test
         Console.WriteLine("    X        Y    R8_AGM(X,Y)");
         Console.WriteLine("");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         for (i = 1; i <= 10; i++)
         {
-            x = UniformRNG.i4_uniform_ab(1, 10, ref seed);
+            double x = UniformRNG.i4_uniform_ab(1, 10, ref seed);
 
-            y = UniformRNG.i4_uniform_ab(1, 10, ref seed);
+            double y = UniformRNG.i4_uniform_ab(1, 10, ref seed);
 
-            z = typeMethods.r8_agm(x, y);
+            double z = typeMethods.r8_agm(x, y);
 
-            Console.WriteLine(x.ToString().PadLeft(10) + "  "
-                                                       + y.ToString().PadLeft(10) + "  "
-                                                       + z.ToString().PadLeft(10) + "");
+            Console.WriteLine(x.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                                                       + y.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                                                       + z.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -81,8 +78,6 @@ public static class r8Test
         //    John Burkardt
         //
     {
-        double cnk;
-        int k;
         int n;
 
         Console.WriteLine("");
@@ -94,13 +89,14 @@ public static class r8Test
 
         for (n = 0; n <= 4; n++)
         {
+            int k;
             for (k = 0; k <= n; k++)
             {
-                cnk = typeMethods.r8_choose(n, k);
+                double cnk = typeMethods.r8_choose(n, k);
 
-                Console.WriteLine(n.ToString().PadLeft(6) + "  "
-                                                          + k.ToString().PadLeft(6) + "  "
-                                                          + cnk.ToString().PadLeft(6) + "");
+                Console.WriteLine(n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                                                      + k.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                                                      + cnk.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
             }
         }
     }
@@ -126,22 +122,19 @@ public static class r8Test
         //    John Burkardt
         //
     {
-        double r;
-        double s;
-
         Console.WriteLine("");
         Console.WriteLine("R8_EPSILON_TEST");
         Console.WriteLine("  R8_EPSILON produces the floating point machine precision.");
         Console.WriteLine("");
 
-        r = typeMethods.r8_epsilon();
-        Console.WriteLine("  R = R8_EPSILON() = " + r.ToString().PadLeft(10) + "");
+        double r = typeMethods.r8_epsilon();
+        Console.WriteLine("  R = R8_EPSILON() = " + r.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
-        s = 1.0 + r - 1.0;
-        Console.WriteLine("  ( 1 + R ) - 1 = " + s.ToString().PadLeft(10) + "");
+        double s = 1.0 + r - 1.0;
+        Console.WriteLine("  ( 1 + R ) - 1 = " + s.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
         s = 1.0 + r / 2.0 - 1.0;
-        Console.WriteLine("  ( 1 + (R/2) ) - 1 = " + s.ToString().PadLeft(10) + "");
+        Console.WriteLine("  ( 1 + (R/2) ) - 1 = " + s.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
     }
 
@@ -167,9 +160,7 @@ public static class r8Test
         //
     {
         double f1 = 0;
-        double f2 = 0;
         int n = 0;
-        int n_data = 0;
         double x = 0;
 
         Console.WriteLine("");
@@ -179,7 +170,7 @@ public static class r8Test
         Console.WriteLine("    X          N                Exact                  Computed");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -190,11 +181,11 @@ public static class r8Test
                 break;
             }
 
-            f2 = typeMethods.r8_fall(x, n);
+            double f2 = typeMethods.r8_fall(x, n);
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(8) + "  "
-                              + n.ToString().PadLeft(4) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
                               + f1.ToString("0.################").PadLeft(24) + "  "
                               + f2.ToString("0.################").PadLeft(24) + "");
         }
@@ -222,9 +213,7 @@ public static class r8Test
         //
     {
         double f1 = 0;
-        double f2 = 0;
         int n = 0;
-        int n_data = 0;
         double x = 0;
 
         Console.WriteLine("");
@@ -234,7 +223,7 @@ public static class r8Test
         Console.WriteLine("    X          N                Exact                  Computed");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -245,11 +234,11 @@ public static class r8Test
                 break;
             }
 
-            f2 = typeMethods.r8_rise(x, n);
+            double f2 = typeMethods.r8_rise(x, n);
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(8) + "  "
-                              + n.ToString().PadLeft(4) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
                               + f1.ToString("0.################").PadLeft(24) + "  "
                               + f2.ToString("0.################").PadLeft(24) + "");
         }
@@ -276,22 +265,19 @@ public static class r8Test
         //    John Burkardt
         //
     {
-        int N = 10;
+        const int N = 10;
 
         int[] a = new int[N + 1];
-        double error;
         int i;
         int[] p = new int[N + 2];
         int[] q = new int[N + 2];
-        double r;
-        double temp;
 
         Console.WriteLine("");
         Console.WriteLine("R8_TO_CFRAC_TEST");
         Console.WriteLine("  R8_TO_CFRAC converts a double precision number to");
         Console.WriteLine("  a sequence of continued fraction convergents.");
 
-        r = 2.0 * Math.PI;
+        double r = 2.0 * Math.PI;
 
         Console.WriteLine("");
         Console.WriteLine("  Use the real number R = " + r + "");
@@ -302,16 +288,16 @@ public static class r8Test
 
         for (i = 0; i <= N; i++)
         {
-            temp = p[i + 1] / (double)q[i + 1];
+            double temp = p[i + 1] / (double)q[i + 1];
 
-            error = r - temp;
+            double error = r - temp;
 
             Console.WriteLine("  "
-                              + a[i].ToString().PadLeft(12) + "  "
-                              + p[i + 1].ToString().PadLeft(12) + "  "
-                              + q[i + 1].ToString().PadLeft(12) + "  "
-                              + temp.ToString().PadLeft(14) + "  "
-                              + error.ToString().PadLeft(14) + "");
+                              + a[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + p[i + 1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + q[i + 1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + temp.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                              + error.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -338,26 +324,20 @@ public static class r8Test
     {
         int a = 0;
         int b = 0;
-        int dec_digit;
         int i;
-        double r;
-        double r2;
-        double r8_hi;
-        double r8_lo;
-        int seed;
 
         Console.WriteLine("");
         Console.WriteLine("R8_TO_DEC_TEST");
         Console.WriteLine("  R8_TO_DEC converts a real number to a decimal;");
 
-        dec_digit = 5;
+        const int dec_digit = 5;
 
         Console.WriteLine("");
         Console.WriteLine("  The maximum number of digits allowed is " + dec_digit + "");
 
-        r8_lo = -10.0;
-        r8_hi = +10.0;
-        seed = 123456789;
+        const double r8_lo = -10.0;
+        const double r8_hi = +10.0;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("     R   =>  A * 10^B  =>  R2");
@@ -365,16 +345,16 @@ public static class r8Test
 
         for (i = 1; i <= 10; i++)
         {
-            r = UniformRNG.r8_uniform_ab(r8_lo, r8_hi, ref seed);
+            double r = UniformRNG.r8_uniform_ab(r8_lo, r8_hi, ref seed);
 
             typeMethods.r8_to_dec(r, dec_digit, ref a, ref b);
-            r2 = typeMethods.dec_to_r8(a, b);
+            double r2 = typeMethods.dec_to_r8(a, b);
 
             Console.WriteLine("  "
-                              + r.ToString().PadLeft(10) + "  "
-                              + a.ToString().PadLeft(6) + "  "
-                              + b.ToString().PadLeft(6) + "  "
-                              + r2.ToString().PadLeft(10) + "");
+                              + r.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                              + a.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + b.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + r2.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -402,10 +382,7 @@ public static class r8Test
         int a = 0;
         int b = 0;
         int i;
-        int ndig = 4;
-        double r;
-        double r2;
-        int seed;
+        const int ndig = 4;
 
         Console.WriteLine("");
         Console.WriteLine("R8_TO_RAT_TEST");
@@ -413,7 +390,7 @@ public static class r8Test
         Console.WriteLine("");
         Console.WriteLine("  The maximum number of digits allowed is " + ndig + "");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("     R   =>  A / B  =>  R2");
@@ -421,17 +398,17 @@ public static class r8Test
 
         for (i = 1; i <= 10; i++)
         {
-            r = UniformRNG.r8_uniform_01(ref seed);
+            double r = UniformRNG.r8_uniform_01(ref seed);
             r = 10.0 * (r - 0.25);
 
             typeMethods.r8_to_rat(r, ndig, ref a, ref b);
-            r2 = Rational.rat_to_r8(a, b);
+            double r2 = Rational.rat_to_r8(a, b);
 
             Console.WriteLine("  "
-                              + r.ToString().PadLeft(10) + "  "
-                              + a.ToString().PadLeft(6) + "  "
-                              + b.ToString().PadLeft(6) + "  "
-                              + r2.ToString().PadLeft(10) + "");
+                              + r.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                              + a.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + b.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + r2.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
     }
@@ -457,22 +434,20 @@ public static class r8Test
         //    John Burkardt
         //
     {
-        int N3 = 3;
-        int N4 = 4;
+        const int N3 = 3;
+        const int N4 = 4;
 
         double[] a3 = new double[N3 * N3];
         double[] a4 = new double[N4 * N4];
-        double det;
         int i;
         int j;
-        int k;
 
         Console.WriteLine("");
         Console.WriteLine("R8MAT_DET_TEST");
         Console.WriteLine("  R8MAT_DET: determinant of a real matrix.");
         Console.WriteLine("");
 
-        k = 0;
+        int k = 0;
         for (i = 0; i < N3; i++)
         {
             for (j = 0; j < N3; j++)
@@ -484,7 +459,7 @@ public static class r8Test
 
         typeMethods.r8mat_print(N3, N3, a3, "  The 123/456/789 matrix:");
 
-        det = typeMethods.r8mat_det(N3, a3);
+        double det = typeMethods.r8mat_det(N3, a3);
 
         Console.WriteLine("");
         Console.WriteLine("  Determinant of the 123/456/789 matrix is " + det + "");
@@ -552,12 +527,11 @@ public static class r8Test
         //    John Burkardt
         //
     {
-        int N = 9;
+        const int N = 9;
 
         double[] a = new double[N * N];
         int i;
         int[] p = { 1, 2, 8, 5, 6, 7, 4, 3, 0 };
-        int j;
 
         Console.WriteLine("");
         Console.WriteLine("R8MAT_PERM0_TEST");
@@ -566,6 +540,7 @@ public static class r8Test
 
         for (i = 0; i < N; i++)
         {
+            int j;
             for (j = 0; j < N; j++)
             {
                 a[i + j * N] = (i + 1) * 10 + j + 1;
@@ -603,12 +578,11 @@ public static class r8Test
         //    John Burkardt
         //
     {
-        int M = 9;
-        int N = 7;
+        const int M = 9;
+        const int N = 7;
 
         double[] a = new double[M * N];
         int i;
-        int j;
         int[] p = { 1, 2, 8, 5, 6, 7, 4, 3, 0 };
         int[] q = { 2, 3, 4, 5, 6, 0, 1 };
 
@@ -619,6 +593,7 @@ public static class r8Test
 
         for (i = 0; i < M; i++)
         {
+            int j;
             for (j = 0; j < N; j++)
             {
                 a[i + j * M] = (i + 1) * 10 + j + 1;
@@ -657,11 +632,7 @@ public static class r8Test
         //    John Burkardt
         //
     {
-        double[] a;
-        int i;
-        int j;
         int n;
-        double perm;
 
         Console.WriteLine("");
         Console.WriteLine("R8MAT_PERMANENT_TEST");
@@ -674,10 +645,12 @@ public static class r8Test
         Console.WriteLine("DEBUG");
         for (n = 2; n <= 12; n++)
         {
-            a = new double[n * n];
+            double[] a = new double[n * n];
 
+            int i;
             for (i = 0; i < n; i++)
             {
+                int j;
                 for (j = 0; j < n; j++)
                 {
                     if (i == j)
@@ -691,10 +664,10 @@ public static class r8Test
                 }
             }
 
-            perm = typeMethods.r8mat_permanent(n, a);
+            double perm = typeMethods.r8mat_permanent(n, a);
 
-            Console.WriteLine(n.ToString().PadLeft(4) + "  "
-                                                      + perm.ToString().PadLeft(10) + "");
+            Console.WriteLine(n.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                      + perm.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
             Console.WriteLine("DEBUG, N = " + n + "");
         }
     }
@@ -720,12 +693,11 @@ public static class r8Test
         //    John Burkardt
         //
     {
-        int N = 6;
+        const int N = 6;
 
-        int i;
         double[] a = new double[N];
         int iopt = 0;
-        int test = 0;
+        int test;
         double val = 0;
         double x0 = 0;
 
@@ -763,6 +735,7 @@ public static class r8Test
                     break;
             }
 
+            int i;
             for (i = 0; i < N - 1; i++)
             {
                 a[i] = 0.0;
@@ -826,15 +799,13 @@ public static class r8Test
         //    John Burkardt
         //
     {
-        int N = 4;
-
-        double[] a;
+        const int N = 4;
 
         Console.WriteLine("");
         Console.WriteLine("R8POLY_F2P_TEST");
         Console.WriteLine("  R8POLY_F2P: factorial => power sum.");
 
-        a = typeMethods.r8vec_indicator1_new(N);
+        double[] a = typeMethods.r8vec_indicator1_new(N);
 
         typeMethods.r8poly_print(N - 1, a, "  The power sum polynomial:");
 
@@ -868,23 +839,19 @@ public static class r8Test
         //    John Burkardt
         //
     {
-        int N = 5;
-
-        double[] a;
-        double val;
-        double x;
+        const int N = 5;
 
         Console.WriteLine("");
         Console.WriteLine("R8POLY_FVAL_TEST");
         Console.WriteLine("  R8POLY_FVAL evaluates a polynomial in factorial form.");
 
-        a = typeMethods.r8vec_indicator1_new(N);
+        double[] a = typeMethods.r8vec_indicator1_new(N);
 
         typeMethods.r8vec_print(N, a, "  The factorial coefficients:");
 
-        x = 2.0;
+        const double x = 2.0;
 
-        val = typeMethods.r8poly_fval(N, a, x);
+        double val = typeMethods.r8poly_fval(N, a, x);
 
         Console.WriteLine("");
         Console.WriteLine("  RPOLY (" + x + ") = " + val + "");
@@ -912,17 +879,16 @@ public static class r8Test
         //    John Burkardt
         //
     {
-        int N = 4;
+        const int N = 4;
 
         int i;
-        double[] a;
         double[] a2 = new double[N];
 
         Console.WriteLine("");
         Console.WriteLine("R8POLY_N2P_TEST");
         Console.WriteLine("  R8POLY_N2P: Newton => power sum;");
 
-        a = typeMethods.r8vec_indicator1_new(N);
+        double[] a = typeMethods.r8vec_indicator1_new(N);
 
         for (i = 0; i < N; i++)
         {
@@ -964,19 +930,16 @@ public static class r8Test
         //    John Burkardt
         //
     {
-        int N = 5;
+        const int N = 5;
 
-        double[] a;
         double[] a2 = new double[N];
         int i;
-        double val;
-        double x;
 
         Console.WriteLine("");
         Console.WriteLine("R8POLY_NVAL_TEST");
         Console.WriteLine("  R8POLY_NVAL evaluates a polynomial in Newton form.");
 
-        a = typeMethods.r8vec_indicator1_new(N);
+        double[] a = typeMethods.r8vec_indicator1_new(N);
 
         for (i = 0; i < N; i++)
         {
@@ -987,9 +950,9 @@ public static class r8Test
 
         typeMethods.r8vec_print(N, a2, "  Newton polynomial abscissas:");
 
-        x = 2.0;
+        const double x = 2.0;
 
-        val = typeMethods.r8poly_nval(N, a, a2, x);
+        double val = typeMethods.r8poly_nval(N, a, a2, x);
 
         Console.WriteLine("");
         Console.WriteLine("  RPOLY (" + x + ") = " + val + "");
@@ -1018,26 +981,21 @@ public static class r8Test
         //    John Burkardt
         //
     {
-        double[] a;
-        int n;
-        double x;
-        double[] xarray;
-
         Console.WriteLine("");
         Console.WriteLine("R8POLY_NXL_TEST");
         Console.WriteLine("  R8POLY_NX replaces one abscissa in a Newton polynomial.");
 
-        n = 3;
+        const int n = 3;
 
-        a = typeMethods.r8vec_indicator1_new(n);
-        xarray = typeMethods.r8vec_indicator1_new(n);
+        double[] a = typeMethods.r8vec_indicator1_new(n);
+        double[] xarray = typeMethods.r8vec_indicator1_new(n);
 
         typeMethods.r8vec_print(n, a, "  Newton polynomial coefficients:");
         typeMethods.r8vec_print(n, xarray, "  Newton polynomial abscissas:");
         /*
         Shift the X array by inserting X=0.
         */
-        x = 0.0;
+        double x = 0.0;
         Console.WriteLine("");
         Console.WriteLine("  Replace one abscissa by X = " + x + "");
 
@@ -1070,15 +1028,13 @@ public static class r8Test
         //    John Burkardt
         //
     {
-        int N = 4;
-
-        double[] a;
+        const int N = 4;
 
         Console.WriteLine("");
         Console.WriteLine("R8POLY_P2F_TEST");
         Console.WriteLine("  R8POLY_P2F: power sum => factorial;");
 
-        a = typeMethods.r8vec_indicator1_new(N);
+        double[] a = typeMethods.r8vec_indicator1_new(N);
 
         typeMethods.r8poly_print(N - 1, a, "  The power sum polynomial:");
 
@@ -1113,17 +1069,16 @@ public static class r8Test
         //    John Burkardt
         //
     {
-        int N = 4;
+        const int N = 4;
 
         int i;
-        double[] a;
         double[] a2 = new double[N];
 
         Console.WriteLine("");
         Console.WriteLine("R8POLY_P2N_TEST");
         Console.WriteLine("  R8POLY_P2N: Power sum => Newton.");
 
-        a = typeMethods.r8vec_indicator1_new(N);
+        double[] a = typeMethods.r8vec_indicator1_new(N);
 
         for (i = 0; i < N; i++)
         {
@@ -1164,18 +1119,16 @@ public static class r8Test
         //    John Burkardt
         //
     {
-        int N = 4;
+        const int N = 4;
 
-        double[] a;
-        double x = 2.0;
+        const double x = 2.0;
 
         Console.WriteLine("");
         Console.WriteLine("R8POLY_P2T_TEST");
-        ;
         Console.WriteLine("  R8POLY_P2T: Power sum => Taylor.");
         Console.WriteLine("  The Taylor form uses the base point X0 = " + x + "");
 
-        a = typeMethods.r8vec_indicator1_new(N + 1);
+        double[] a = typeMethods.r8vec_indicator1_new(N + 1);
 
         typeMethods.r8vec_print(N, a, "  Initial Taylor sum form:");
 
@@ -1241,13 +1194,9 @@ public static class r8Test
         //    John Burkardt
         //
     {
-        int N = 4;
+        const int N = 4;
 
-        double[] a;
-        double val;
-        double x;
-
-        a = typeMethods.r8vec_indicator1_new(N + 1);
+        double[] a = typeMethods.r8vec_indicator1_new(N + 1);
 
         Console.WriteLine("");
         Console.WriteLine("R8POLY_PVAL_TEST");
@@ -1256,9 +1205,9 @@ public static class r8Test
 
         typeMethods.r8poly_print(N, a, "  The polynomial to be evaluated:");
 
-        x = 2.0;
+        const double x = 2.0;
 
-        val = typeMethods.r8poly_pval(N, a, x);
+        double val = typeMethods.r8poly_pval(N, a, x);
 
         Console.WriteLine("  At X = " + x + "");
         Console.WriteLine("  Computed polynomial value is " + val + "");
@@ -1286,17 +1235,16 @@ public static class r8Test
         //    John Burkardt
         //
     {
-        int N = 4;
+        const int N = 4;
 
-        double[] a;
-        double x = 2.0;
+        const double x = 2.0;
 
         Console.WriteLine("");
         Console.WriteLine("R8POLY_T2P_TEST");
         Console.WriteLine("  R8POLY_T2P: Taylor => Power sum;");
         Console.WriteLine("  The Taylor form uses the base point X0 = " + x + "");
 
-        a = typeMethods.r8vec_indicator1_new(N + 1);
+        double[] a = typeMethods.r8vec_indicator1_new(N + 1);
 
         typeMethods.r8vec_print(N, a, "  Initial Taylor sum form:");
 
@@ -1331,17 +1279,11 @@ public static class r8Test
         //    John Burkardt
         //
     {
-        int found_num;
         int i;
-        int indx;
-        int k;
-        int n = 8;
-        int maxstack = 100;
+        const int n = 8;
+        const int maxstack = 100;
         int[] ncan = new int[8];
-        int nstack;
         double[] stacks = new double[100];
-        double t;
-        double total;
         double[] w = { 15.0, 22.0, 14.0, 26.0, 32.0, 9.0, 16.0, 8.0 };
         double[] x = new double[8];
 
@@ -1356,41 +1298,42 @@ public static class r8Test
         Console.WriteLine("  X(I) is 0.0 or 1.0 if the entry is skipped or used.");
         Console.WriteLine("");
 
-        t = 53.0;
+        double t = 53.0;
 
         for (i = 0; i < n; i++)
         {
             x[i] = 0.0;
         }
 
-        indx = 0;
-        k = 0;
-        nstack = 0;
+        int indx = 0;
+        int k = 0;
+        int nstack = 0;
         for (i = 0; i < n; i++)
         {
             ncan[i] = 0;
         }
 
-        found_num = 0;
+        int found_num = 0;
 
         for (;;)
         {
             typeMethods.r8vec_backtrack(n, maxstack, stacks, ref x, ref indx, ref k, ref nstack, ref ncan);
 
+            double total;
             if (indx == 1)
             {
                 found_num += 1;
-                string cout = "  " + found_num.ToString().PadLeft(2) + "   ";
+                string cout = "  " + found_num.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "   ";
 
                 total = typeMethods.r8vec_dot_product(n, w, x);
-                cout += "  " + total.ToString().PadLeft(8) + ":  ";
+                cout += "  " + total.ToString(CultureInfo.InvariantCulture).PadLeft(8) + ":  ";
 
                 for (i = 0; i < n; i++)
                 {
                     switch (x[i])
                     {
                         case 1.0:
-                            cout += "  " + w[i].ToString().PadLeft(8);
+                            cout += "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
                             break;
                     }
                 }
@@ -1418,7 +1361,7 @@ public static class r8Test
                 {
                     ncan[k - 1] = 0;
                 }
-                else if (t == total)
+                else if (Math.Abs(t - total) <= double.Epsilon)
                 {
                     ncan[k - 1] += 1;
                     stacks[nstack] = 0.0;
@@ -1430,16 +1373,18 @@ public static class r8Test
                     stacks[nstack] = 0.0;
                     nstack += 1;
 
-                    if (total + w[k - 1] <= t)
+                    if (!(total + w[k - 1] <= t))
                     {
-                        ncan[k - 1] += 1;
-                        stacks[nstack] = 1.0;
-                        nstack += 1;
+                        continue;
                     }
+
+                    ncan[k - 1] += 1;
+                    stacks[nstack] = 1.0;
+                    nstack += 1;
                 }
                 else if (total < t && k == n)
                 {
-                    if (total + w[k - 1] == t)
+                    if (Math.Abs(total + w[k - 1] - t) <= double.Epsilon)
                     {
                         ncan[k - 1] += 1;
                         stacks[nstack] = 1.0;
@@ -1499,8 +1444,8 @@ public static class r8Test
 
         for (k = 1; k <= N; k++)
         {
-            Console.WriteLine(k.ToString().PadLeft(4) + "  "
-                                                      + typeMethods.r8vec_frac(N, ref a, k).ToString().PadLeft(10) + "");
+            Console.WriteLine(k.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                      + typeMethods.r8vec_frac(N, ref a, k).ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
         }
     }

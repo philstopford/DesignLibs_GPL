@@ -61,28 +61,24 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int d1;
-        int d2;
-        int m;
-        int n;
-        string s1 = "water";
-        string s2 = "kitten";
-        string s3 = "saturday";
-        string s4 = "pheromones";
-        string t1 = "wine";
-        string t2 = "sitting";
-        string t3 = "sunday";
-        string t4 = "photographer";
+        const string s1 = "water";
+        const string s2 = "kitten";
+        const string s3 = "saturday";
+        const string s4 = "pheromones";
+        const string t1 = "wine";
+        const string t2 = "sitting";
+        const string t3 = "sunday";
+        const string t4 = "photographer";
 
         Console.WriteLine("");
         Console.WriteLine("Levenshtein.levenshtein_distance_TEST:");
         Console.WriteLine("  Levenshtein.levenshtein_distance computes the Levenshtein distance");
         Console.WriteLine("  between two strings.");
 
-        m = s1.Length;
-        n = t1.Length;
-        d1 = Levenshtein.levenshtein_distance(m, s1, n, t1);
-        d2 = 3;
+        int m = s1.Length;
+        int n = t1.Length;
+        int d1 = Levenshtein.levenshtein_distance(m, s1, n, t1);
+        int d2 = 3;
         Console.WriteLine("");
         Console.WriteLine("  S = '" + s1 + "'");
         Console.WriteLine("  T = '" + t1 + "'");
@@ -141,19 +137,16 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] d;
         int i;
         int j;
-        int m;
-        int n;
-        string s1 = "water";
-        string s2 = "kitten";
-        string s3 = "saturday";
-        string s4 = "pheromones";
-        string t1 = "wine";
-        string t2 = "sitting";
-        string t3 = "sunday";
-        string t4 = "photographer";
+        const string s1 = "water";
+        const string s2 = "kitten";
+        const string s3 = "saturday";
+        const string s4 = "pheromones";
+        const string t1 = "wine";
+        const string t2 = "sitting";
+        const string t3 = "sunday";
+        const string t4 = "photographer";
         string cout = "";
 
         Console.WriteLine("");
@@ -162,9 +155,9 @@ internal static class Program
         Console.WriteLine("  associated with the computation of the Levenshtein");
         Console.WriteLine("  distance between two strings.");
 
-        m = s1.Length;
-        n = t1.Length;
-        d = Levenshtein.levenshtein_matrix(m, s1, n, t1);
+        int m = s1.Length;
+        int n = t1.Length;
+        int[] d = Levenshtein.levenshtein_matrix(m, s1, n, t1);
         Console.WriteLine("");
         Console.WriteLine("  S = '" + s1 + "'");
         Console.WriteLine("  T = '" + t1 + "'");

@@ -38,8 +38,7 @@ public static class PartialOrderingTest
             0,1,0,0,1,1,1,1,0,1, 
             0,0,0,0,0,0,0,0,0,0, 
             0,0,0,0,1,0,1,0,0,1 };
-        bool ierror;
-        int n = 10;
+        const int n = 10;
 
         Console.WriteLine("");
         Console.WriteLine("PORD_CHECK_TEST");
@@ -47,7 +46,7 @@ public static class PartialOrderingTest
 
         typeMethods.i4mat_print ( n, n, a, "  The partial ordering matrix:" );
  
-        ierror = PartialOrdering.pord_check ( n, a );
+        bool ierror = PartialOrdering.pord_check ( n, a );
  
         Console.WriteLine("");
         Console.WriteLine("  CHECK FLAG = " + ierror + "");

@@ -26,13 +26,9 @@ public static class DebruijnTest
         //    John Burkardt
         //
     {
-        int NUM_TEST = 3;
+        const int NUM_TEST = 3;
 
-        int i;
-        int ihi;
-        int m;
         int[] mtest = { 2, 3, 2 };
-        int n;
         int[] ntest = { 3, 3, 4 };
         int[] string_ = new int[28];
         int test;
@@ -43,8 +39,8 @@ public static class DebruijnTest
 
         for ( test = 0; test < NUM_TEST; test++ )
         {
-            m = mtest[test];
-            n = ntest[test];
+            int m = mtest[test];
+            int n = ntest[test];
 
             Console.WriteLine("");
             Console.WriteLine("  The alphabet size is M = " + m + "");
@@ -52,10 +48,11 @@ public static class DebruijnTest
 
             Debruijn.debruijn ( m, n, ref string_ );
 
-            ihi = (int)Math.Pow ( m, n );
+            int ihi = (int)Math.Pow ( m, n );
 
             Console.WriteLine("");
             string cout = "  ";
+            int i;
             for ( i = 0; i < ihi; i++ )
             {
                 cout += string_[i];

@@ -27,9 +27,8 @@ public static class CongruenceTest
         //    John Burkardt
         //
     {
-        int TEST_NUM = 20;
+        const int TEST_NUM = 20;
 
-        int a;
         int[] a_test =  {
                 1027, 1027, 1027, 1027, -1027,
                 -1027, -1027, -1027, 6, 0,
@@ -37,7 +36,6 @@ public static class CongruenceTest
                 1024, 0, 0, 5, 2
             }
             ;
-        int b;
         int[] b_test =  {
                 712, 712, -712, -712, 712,
                 712, -712, -712, 8, 0,
@@ -45,7 +43,6 @@ public static class CongruenceTest
                 -15625, 0, 3, 0, 4
             }
             ;
-        int c;
         int[] c_test =  {
                 7, -7, 7, -7, 7,
                 -7, 7, -7, 50, 0,
@@ -54,9 +51,7 @@ public static class CongruenceTest
             }
             ;
         bool error = false;
-        int result;
         int test_i;
-        int x;
 
         Console.WriteLine("");
         Console.WriteLine("CONGRUENCE_TEST");
@@ -68,11 +63,11 @@ public static class CongruenceTest
 
         for (test_i = 1; test_i < TEST_NUM; test_i++)
         {
-            a = a_test[test_i];
-            b = b_test[test_i];
-            c = c_test[test_i];
+            int a = a_test[test_i];
+            int b = b_test[test_i];
+            int c = c_test[test_i];
 
-            x = Congruence.congruence(a, b, c, ref error);
+            int x = Congruence.congruence(a, b, c, ref error);
 
             switch (error)
             {
@@ -86,14 +81,7 @@ public static class CongruenceTest
                     break;
                 default:
                 {
-                    if (b != 0)
-                    {
-                        result = typeMethods.i4_modp(a * x - c, b);
-                    }
-                    else
-                    {
-                        result = 0;
-                    }
+                    int result = b != 0 ? typeMethods.i4_modp(a * x - c, b) : 0;
 
                     Console.WriteLine("  "
                                       + test_i.ToString().PadLeft(2) + "  "

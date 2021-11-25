@@ -27,11 +27,8 @@ public static class GrayTest
         //    John Burkardt
         //
     {
-        int[] a = new int[4];
-        int change;
         int[] g = new int[4];
-        int i;
-        int n = 4;
+        const int n = 4;
 
         Console.WriteLine("");
         Console.WriteLine("GRAY_NEXT_TEST");
@@ -42,7 +39,7 @@ public static class GrayTest
         Console.WriteLine("   K  Switch  Gray Code");
         Console.WriteLine("");
 
-        change = -n;
+        int change = -n;
 
         typeMethods.GrayData data = new();
             
@@ -55,6 +52,7 @@ public static class GrayTest
                 break;
             }
 
+            int i;
             switch (change)
             {
                 case 0:
@@ -104,9 +102,7 @@ public static class GrayTest
         //    John Burkardt
         //
     {
-        int gray;
         int rank;
-        int rank2;
 
         Console.WriteLine("");
         Console.WriteLine("GRAY_RANK_TEST");
@@ -121,9 +117,9 @@ public static class GrayTest
 
         for (rank = 0; rank <= 24; rank++)
         {
-            gray = Ranking.gray_unrank(rank);
+            int gray = Ranking.gray_unrank(rank);
 
-            rank2 = Ranking.gray_rank(gray);
+            int rank2 = Ranking.gray_rank(gray);
 
             Console.WriteLine(rank.ToString().PadLeft(9) + "  "
                                                          + gray.ToString().PadLeft(9) + "  "
@@ -152,9 +148,7 @@ public static class GrayTest
         //    John Burkardt
         //
     {
-        int gray;
         int rank;
-        int rank2;
 
         Console.WriteLine("");
         Console.WriteLine("GRAY_RANK2_TEST");
@@ -169,9 +163,9 @@ public static class GrayTest
 
         for (rank = 0; rank <= 24; rank++)
         {
-            gray = Ranking.gray_unrank2(rank);
+            int gray = Ranking.gray_unrank2(rank);
 
-            rank2 = Ranking.gray_rank2(gray);
+            int rank2 = Ranking.gray_rank2(gray);
 
             Console.WriteLine(rank.ToString().PadLeft(9) + "  "
                                                          + gray.ToString().PadLeft(9) + "  "
@@ -200,9 +194,7 @@ public static class GrayTest
         //    John Burkardt
         //
     {
-        int gray;
         int rank;
-        int rank2;
 
         Console.WriteLine("");
         Console.WriteLine("GRAY_UNRANK_TEST");
@@ -217,9 +209,9 @@ public static class GrayTest
 
         for (rank = 0; rank <= 24; rank++)
         {
-            gray = Ranking.gray_unrank(rank);
+            int gray = Ranking.gray_unrank(rank);
 
-            rank2 = Ranking.gray_rank(gray);
+            int rank2 = Ranking.gray_rank(gray);
 
             Console.WriteLine(rank.ToString().PadLeft(9) + "  "
                                                          + gray.ToString().PadLeft(9) + "  "
@@ -248,9 +240,7 @@ public static class GrayTest
         //    John Burkardt
         //
     {
-        int gray;
         int rank;
-        int rank2;
 
         Console.WriteLine("");
         Console.WriteLine("GRAY_UNRANK2_TEST");
@@ -265,9 +255,9 @@ public static class GrayTest
 
         for (rank = 0; rank <= 24; rank++)
         {
-            gray = Ranking.gray_unrank2(rank);
+            int gray = Ranking.gray_unrank2(rank);
 
-            rank2 = Ranking.gray_rank2(gray);
+            int rank2 = Ranking.gray_rank2(gray);
 
             Console.WriteLine(rank.ToString().PadLeft(9) + "  "
                                                          + gray.ToString().PadLeft(9) + "  "

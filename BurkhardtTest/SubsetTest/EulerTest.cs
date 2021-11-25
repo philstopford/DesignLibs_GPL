@@ -28,7 +28,6 @@ public static class EulerTest
     {
         const int N_MAX = 9;
 
-        int i;
         int[] ieuler = new int[N_MAX+1];
         int n;
 
@@ -42,6 +41,7 @@ public static class EulerTest
             Permutation.euler_row ( n, ref ieuler );
 
             string cout = "";
+            int i;
             for ( i = 0; i <= n; i++ )
             {
                 cout += ieuler[i].ToString().PadLeft(7) + "  ";

@@ -28,18 +28,14 @@ public static class PowerTest
         //    John Burkardt
         //
     {
-        int a;
-        int m;
-        int n;
-
         Console.WriteLine("");
         Console.WriteLine("POWER_MOD_TEST");
         Console.WriteLine("  POWER_MOD computes the remainder of a power");
         Console.WriteLine("  of an integer modulo another integer.");
 
-        a = 7;
-        n = 50;
-        m = 11;
+        int a = 7;
+        int n = 50;
+        int m = 11;
 
         Console.WriteLine("");
         Console.WriteLine("  A = " + a + "");
@@ -79,10 +75,9 @@ public static class PowerTest
         //    John Burkardt
         //
     {
-        int N = 10;
+        const int N = 10;
 
         double[] a = new double[N];
-        double alpha;
         double[] b = new double[N];
         int i;
 
@@ -90,7 +85,7 @@ public static class PowerTest
         Console.WriteLine("POWER_SERIES1_TEST");
         Console.WriteLine("  POWER_SERIES1 composes a power series;");
 
-        alpha = 7.0;
+        double alpha = 7.0;
 
         a[0] = 1.0;
         for (i = 1; i < N; i++)
@@ -137,7 +132,7 @@ public static class PowerTest
         //    John Burkardt
         //
     {
-        int N = 4;
+        const int N = 4;
 
         double[] a = new double[N];
         double[] b = new double[N];
@@ -186,7 +181,7 @@ public static class PowerTest
         //    John Burkardt
         //
     {
-        int N = 4;
+        const int N = 4;
 
         double[] a = new double[N];
         double[] b = new double[N];
@@ -236,7 +231,7 @@ public static class PowerTest
         //    John Burkardt
         //
     {
-        int N = 10;
+        const int N = 10;
         //
         //  The order of arguments for POWER_SERIES4 is a shame.
         //

@@ -27,9 +27,7 @@ public static class CatalanTest
         //
     {
         int c = 0;
-        int[] c2;
         int n = 0;
-        int n_data;
 
         Console.WriteLine("");
         Console.WriteLine("CATALAN_TEST");
@@ -38,7 +36,7 @@ public static class CatalanTest
         Console.WriteLine("  N  exact C(I)  computed C(I)");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -49,7 +47,7 @@ public static class CatalanTest
                 break;
             }
 
-            c2 = new int[n + 1];
+            int[] c2 = new int[n + 1];
 
             c2 = Catalan.catalan(n);
 
@@ -86,9 +84,6 @@ public static class CatalanTest
 
         int[] c = new int[N_MAX + 1];
         int i;
-        int n;
-        bool next;
-        string cout;
 
         Console.WriteLine("");
         Console.WriteLine("CATALAN_ROW_NEXT_TEST");
@@ -96,11 +91,11 @@ public static class CatalanTest
         Console.WriteLine("");
         Console.WriteLine("  First, compute row 7:");
 
-        next = false;
-        n = 7;
+        bool next = false;
+        int n = 7;
         Catalan.catalan_row_next(next, n, ref c);
 
-        cout = n.ToString().PadLeft(4) + "  ";
+        string cout = n.ToString().PadLeft(4) + "  ";
         for (i = 0; i <= n; i++)
         {
             cout += c[i].ToString().PadLeft(8) + "  ";

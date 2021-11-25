@@ -30,12 +30,6 @@ public static class KsubTest
     {
         int[] a = new int[3];
         int i;
-        int k;
-        int m;
-        int m2;
-        bool more;
-        int n;
-        int rank;
 
         Console.WriteLine("");
         Console.WriteLine("KSUB_NEXT_TEST");
@@ -43,18 +37,18 @@ public static class KsubTest
         Console.WriteLine("  in lexicographic order.");
         Console.WriteLine("");
 
-        rank = 0;
+        int rank = 0;
 
-        n = 5;
-        k = 3;
+        const int n = 5;
+        const int k = 3;
         for (i = 0; i < k; i++)
         {
             a[i] = 0;
         }
 
-        more = false;
-        m = 0;
-        m2 = 0;
+        bool more = false;
+        int m = 0;
+        int m2 = 0;
 
         for (;;)
         {
@@ -99,15 +93,10 @@ public static class KsubTest
         //    John Burkardt
         //
     {
-        int K = 3;
+        const int K = 3;
 
         int[] a = new int[K];
-        int i;
-        int i_in;
-        int i_out;
-        bool more;
-        int n = 5;
-        int rank;
+        const int n = 5;
 
         Console.WriteLine("");
         Console.WriteLine("KSUB_NEXT2_TEST");
@@ -121,9 +110,9 @@ public static class KsubTest
         //  We will save the starting subset, and stop when the
         //  new subset is the same as the starting one.
         //
-        i_in = 0;
-        i_out = 0;
-        rank = 0;
+        int i_in = 0;
+        int i_out = 0;
+        int rank = 0;
 
         typeMethods.i4vec_indicator1(K, ref a);
 
@@ -131,6 +120,7 @@ public static class KsubTest
         {
             rank += 1;
             string cout = rank.ToString().PadLeft(2) + "  ";
+            int i;
             for (i = 0; i < K; i++)
             {
                 cout += a[i].ToString().PadLeft(2) + "  ";
@@ -142,7 +132,7 @@ public static class KsubTest
 
             Ksub.ksub_next2(n, K, ref a, ref i_in, ref i_out);
 
-            more = false;
+            bool more = false;
 
             for (i = 1; i <= K; i++)
             {
@@ -181,15 +171,12 @@ public static class KsubTest
         //    John Burkardt
         //
     {
-        int K = 3;
+        const int K = 3;
 
         int[] a = new int[K];
-        int i;
         int i_in = 0;
         int i_out = 0;
-        bool more;
-        int n = 5;
-        int rank;
+        const int n = 5;
 
         Console.WriteLine("");
         Console.WriteLine("KSUB_NEXT3_TEST");
@@ -199,8 +186,8 @@ public static class KsubTest
         Console.WriteLine("Rank    Subset  Added Removed");
         Console.WriteLine("");
 
-        rank = 0;
-        more = false;
+        int rank = 0;
+        bool more = false;
 
         for (;;)
         {
@@ -208,6 +195,7 @@ public static class KsubTest
 
             rank += 1;
             string cout = rank.ToString().PadLeft(4) + "  ";
+            int i;
             for (i = 0; i < K; i++)
             {
                 cout += a[i].ToString().PadLeft(2) + "  ";
@@ -246,13 +234,10 @@ public static class KsubTest
         //    John Burkardt
         //
     {
-        int K = 3;
+        const int K = 3;
 
         int[] a = new int[K];
-        bool done;
-        int i;
-        int n = 5;
-        int rank;
+        const int n = 5;
 
         Console.WriteLine("");
         Console.WriteLine("KSUB_NEXT4_TEST");
@@ -263,8 +248,8 @@ public static class KsubTest
         Console.WriteLine("Rank    Subset");
         Console.WriteLine("");
 
-        done = true;
-        rank = 0;
+        bool done = true;
+        int rank = 0;
 
         for (;;)
         {
@@ -278,6 +263,7 @@ public static class KsubTest
             rank += 1;
             string cout = rank.ToString().PadLeft(4) + "  ";
             cout += "  ";
+            int i;
             for (i = 0; i < K; i++)
             {
                 cout += a[i].ToString().PadLeft(4) + "  ";
@@ -309,13 +295,11 @@ public static class KsubTest
         //    John Burkardt
         //
     {
-        int K = 3;
+        const int K = 3;
 
         int[] a = new int[K];
         int i;
-        int j;
-        int n = 5;
-        int seed;
+        const int n = 5;
 
         Console.WriteLine("");
         Console.WriteLine("KSUB_RANDOM_TEST");
@@ -324,12 +308,13 @@ public static class KsubTest
         Console.WriteLine("  Subset size is K = " + K + "");
         Console.WriteLine("");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         for (i = 1; i <= 5; i++)
         {
             string cout = "";
             Ksub.ksub_random(n, K, ref seed, ref a);
+            int j;
             for (j = 0; j < K; j++)
             {
                 cout += "  " + a[j].ToString().PadLeft(3);
@@ -360,13 +345,11 @@ public static class KsubTest
         //    John Burkardt
         //
     {
-        int K = 3;
+        const int K = 3;
 
         int[] a = new int[K];
         int i;
-        int j;
-        int n = 5;
-        int seed;
+        const int n = 5;
 
         Console.WriteLine("");
         Console.WriteLine("KSUB_RANDOM2_TEST");
@@ -375,12 +358,13 @@ public static class KsubTest
         Console.WriteLine("  Subset size is K = " + K + "");
         Console.WriteLine("");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         for (i = 1; i <= 5; i++)
         {
             string cout = "";
             Ksub.ksub_random2(n, K, ref seed, ref a);
+            int j;
             for (j = 0; j < K; j++)
             {
                 cout += "  " + a[j].ToString().PadLeft(3);
@@ -411,13 +395,11 @@ public static class KsubTest
         //    John Burkardt
         //
     {
-        int K = 3;
-        int N = 5;
+        const int K = 3;
+        const int N = 5;
 
         int[] a = new int[N];
         int i;
-        int j;
-        int seed;
 
         Console.WriteLine("");
         Console.WriteLine("KSUB_RANDOM3_TEST");
@@ -426,12 +408,13 @@ public static class KsubTest
         Console.WriteLine("  Subset size is K = " + K + "");
         Console.WriteLine("");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         for (i = 1; i <= 10; i++)
         {
             string cout = "";
             Ksub.ksub_random3(N, K, ref seed, ref a);
+            int j;
             for (j = 0; j < N; j++)
             {
                 cout += "  " + a[j].ToString().PadLeft(3);
@@ -462,13 +445,11 @@ public static class KsubTest
         //    John Burkardt
         //
     {
-        int K = 3;
-        int N = 5;
+        const int K = 3;
+        const int N = 5;
 
         int[] a = new int[N];
         int i;
-        int j;
-        int seed;
 
         Console.WriteLine("");
         Console.WriteLine("KSUB_RANDOM4_TEST");
@@ -477,12 +458,13 @@ public static class KsubTest
         Console.WriteLine("  Subset size is K = " + K + "");
         Console.WriteLine("");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         for (i = 1; i <= 10; i++)
         {
             string cout = "";
             Ksub.ksub_random4(N, K, ref seed, ref a);
+            int j;
             for (j = 0; j < K; j++)
             {
                 cout += "  " + a[j].ToString().PadLeft(3);
@@ -513,12 +495,9 @@ public static class KsubTest
         //    John Burkardt
         //
     {
-        int[] a;
         int i;
-        int j;
-        int k = 5;
-        int n = 52;
-        int seed;
+        const int k = 5;
+        const int n = 52;
 
         Console.WriteLine("");
         Console.WriteLine("KSUB_RANDOM5_TEST");
@@ -527,12 +506,13 @@ public static class KsubTest
         Console.WriteLine("  Subset size is K = " + k + "");
         Console.WriteLine("");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         for (i = 1; i <= 5; i++)
         {
             string cout = "";
-            a = Ksub.ksub_random5(n, k, ref seed);
+            int[] a = Ksub.ksub_random5(n, k, ref seed);
+            int j;
             for (j = 0; j < k; j++)
             {
                 cout += "  " + a[j].ToString().PadLeft(3);
@@ -563,8 +543,8 @@ public static class KsubTest
         //    John Burkardt
         //
     {
-        int N = 6;
-        int K = 3;
+        const int N = 6;
+        const int K = 3;
 
         int[] a = { 1, 3, 5 };
         int i;
@@ -616,21 +596,17 @@ public static class KsubTest
     {
         int[] ac = new int[5];
         int[] as_ = new int[4];
-        int i = 0;
-        int j = 0;
-        int kc = 0;
+        int i;
         int ks = 0;
-        int nc = 0;
         int ns = 0;
-        int seed = 0;
 
         Console.WriteLine("");
         Console.WriteLine("KSUB_TO_COMP_TEST");
         Console.WriteLine("  KSUB_TO_COMP returns the composition corresponding to a K subset.");
 
-        nc = 10;
-        kc = 5;
-        seed = 123456789;
+        int nc = 10;
+        int kc = 5;
+        int seed = 123456789;
 
         for (i = 1; i <= 5; i++)
         {
@@ -638,6 +614,7 @@ public static class KsubTest
 
             Comp.comp_random(nc, kc, ref seed, ref ac);
             string cout = "  COMP:";
+            int j;
             for (j = 0; j < kc; j++)
             {
                 cout += ac[j].ToString().PadLeft(4);
@@ -688,22 +665,18 @@ public static class KsubTest
     {
         int[] ac = new int[5];
         int[] as_ = new int[4];
-        int i = 0;
-        int j = 0;
-        int kc = 0;
+        int i;
         int ks = 0;
-        int nc = 0;
         int ns = 0;
-        int seed = 0;
 
         Console.WriteLine("");
         Console.WriteLine("KSUB_TO_COMPNZ_TEST");
         Console.WriteLine("  KSUB_TO_COMPNZ returns the nonzero composition ");
         Console.WriteLine("  corresponding to a K subset.");
 
-        nc = 10;
-        kc = 5;
-        seed = 123456789;
+        int nc = 10;
+        int kc = 5;
+        int seed = 123456789;
 
         for (i = 1; i <= 5; i++)
         {
@@ -711,6 +684,7 @@ public static class KsubTest
 
             Comp.compnz_random(nc, kc, ref seed, ref ac);
             string cout = "  COMPNZ:";
+            int j;
             for (j = 0; j < kc; j++)
             {
                 cout += ac[j].ToString().PadLeft(4);
@@ -759,14 +733,13 @@ public static class KsubTest
         //    John Burkardt
         //
     {
-        int K = 3;
+        const int K = 3;
 
         int i;
         int[] a = new int[K];
-        int n = 5;
-        int rank;
+        const int n = 5;
 
-        rank = 8;
+        const int rank = 8;
 
         Console.WriteLine("");
         Console.WriteLine("KSUB_UNRANK_TEST");

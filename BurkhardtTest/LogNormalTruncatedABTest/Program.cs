@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.CDFLib;
 using Burkardt.PDFLib;
 using Burkardt.Types;
@@ -67,16 +68,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
-        double cdf;
         int i;
-        double mu;
-        double pdf;
         int seed = 123456789;
-        double sigma;
-        double x;
-        double x2;
 
         Console.WriteLine("");
         Console.WriteLine("LOG_NORMAL_TRUNCATED_AB_CDF_TEST");
@@ -84,10 +77,10 @@ internal static class Program
         Console.WriteLine("  LOG_NORMAL_TRUNCATED_AB_CDF_INV inverts the Log Normal Truncated AB CDF.");
         Console.WriteLine("  LOG_NORMAL_TRUNCATED_AB_PDF evaluates the Log Normal Truncated AB PDF;");
 
-        mu = 0.5;
-        sigma = 3.0;
-        a = Math.Exp(mu);
-        b = Math.Exp(mu + 2.0 * sigma);
+        double mu = 0.5;
+        double sigma = 3.0;
+        double a = Math.Exp(mu);
+        double b = Math.Exp(mu + 2.0 * sigma);
 
         Console.WriteLine("");
         Console.WriteLine("  PDF parameter MU =     " + mu + "");
@@ -109,15 +102,15 @@ internal static class Program
 
         for (i = 1; i <= 10; i++)
         {
-            x = PDF.log_normal_truncated_ab_sample(mu, sigma, a, b, ref seed);
-            pdf = PDF.log_normal_truncated_ab_pdf(x, mu, sigma, a, b);
-            cdf = CDF.log_normal_truncated_ab_cdf(x, mu, sigma, a, b);
-            x2 = CDF.log_normal_truncated_ab_cdf_inv(cdf, mu, sigma, a, b);
+            double x = PDF.log_normal_truncated_ab_sample(mu, sigma, a, b, ref seed);
+            double pdf = PDF.log_normal_truncated_ab_pdf(x, mu, sigma, a, b);
+            double cdf = CDF.log_normal_truncated_ab_cdf(x, mu, sigma, a, b);
+            double x2 = CDF.log_normal_truncated_ab_cdf_inv(cdf, mu, sigma, a, b);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(12)
-                                   + "  " + pdf.ToString().PadLeft(12)
-                                   + "  " + cdf.ToString().PadLeft(12)
-                                   + "  " + x2.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + x2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -142,19 +135,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int SAMPLE_NUM = 1000;
+        const int SAMPLE_NUM = 1000;
 
-        double a;
-        double b;
         int i;
-        double mean;
-        double mu;
         int seed = 123456789;
-        double sigma;
-        double variance;
         double[] x = new double[SAMPLE_NUM];
-        double xmax;
-        double xmin;
 
         Console.WriteLine("");
         Console.WriteLine("LOG_NORMAL_TRUNCATED_AB_SAMPLE_TEST");
@@ -162,10 +147,10 @@ internal static class Program
         Console.WriteLine("  LOG_NORMAL_TRUNCATED_AB_SAMPLE samples the Log Normal Truncated AB distribution;");
         Console.WriteLine("  LOG_NORMAL_TRUNCATED_AB_VARIANCE computes the Log Normal Truncated AB variance;");
 
-        mu = 0.5;
-        sigma = 3.0;
-        a = Math.Exp(mu);
-        b = Math.Exp(mu + 2.0 * sigma);
+        double mu = 0.5;
+        double sigma = 3.0;
+        double a = Math.Exp(mu);
+        double b = Math.Exp(mu + 2.0 * sigma);
 
         Console.WriteLine("");
         Console.WriteLine("  PDF parameter MU =     " + mu + "");
@@ -181,8 +166,8 @@ internal static class Program
             return;
         }
 
-        mean = PDF.log_normal_truncated_ab_mean(mu, sigma, a, b);
-        variance = PDF.log_normal_truncated_ab_variance(mu, sigma, a, b);
+        double mean = PDF.log_normal_truncated_ab_mean(mu, sigma, a, b);
+        double variance = PDF.log_normal_truncated_ab_variance(mu, sigma, a, b);
 
         Console.WriteLine("");
         Console.WriteLine("  PDF mean =     " + mean + "");
@@ -195,8 +180,8 @@ internal static class Program
 
         mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
         variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
-        xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
-        xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
+        double xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+        double xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
         Console.WriteLine("");
         Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");

@@ -26,14 +26,12 @@ public static class EquivTest
         //    John Burkardt
         //
     {
-        int N = 4;
+        const int N = 4;
 
         int[] a = new int[N];
         int i;
         int[] jarray = new int[N];
-        bool more = false;
         int npart = 0;
-        int rank = 0;
 
         Console.WriteLine("");
         Console.WriteLine("EQUIV_NEXT_TEST");
@@ -50,8 +48,8 @@ public static class EquivTest
         Console.WriteLine(cout);
         Console.WriteLine("");
 
-        rank = 0;
-        more = false;
+        int rank = 0;
+        bool more = false;
 
         for (;;)
         {
@@ -97,12 +95,10 @@ public static class EquivTest
         //    John Burkardt
         //
     {
-        int N = 4;
+        const int N = 4;
 
         int[] a = new int[N];
-        bool done;
         int i;
-        int rank;
 
         Console.WriteLine("");
         Console.WriteLine("EQUIV_NEXT2_TEST");
@@ -119,8 +115,8 @@ public static class EquivTest
         Console.WriteLine(cout);
         Console.WriteLine("");
 
-        rank = 0;
-        done = true;
+        int rank = 0;
+        bool done = true;
 
         for (;;)
         {
@@ -169,15 +165,14 @@ public static class EquivTest
     {
         int[] a = new int[4];
         int i;
-        int n = 4;
+        const int n = 4;
         int npart = 0;
-        int seed;
 
         Console.WriteLine("");
         Console.WriteLine("EQUIV_PRINT_TEST");
         Console.WriteLine("  EQUIV_PRINT prints a set partition.");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         for (i = 1; i <= 5; i++)
         {
@@ -210,15 +205,14 @@ public static class EquivTest
     {
         int[] a = new int[4];
         int i;
-        int n = 4;
+        const int n = 4;
         int npart = 0;
-        int seed;
 
         Console.WriteLine("");
         Console.WriteLine("EQUIV_PRINT2_TEST");
         Console.WriteLine("  EQUIV_PRINT2 prints a set partition.");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         for (i = 1; i <= 5; i++)
         {
@@ -251,15 +245,14 @@ public static class EquivTest
     {
         int[] a = new int[4];
         int i;
-        int n = 4;
+        const int n = 4;
         int npart = 0;
-        int seed;
 
         Console.WriteLine("");
         Console.WriteLine("EQUIV_RANDOM_TEST");
         Console.WriteLine("  EQUIV_RANDOM selects a random set partition.");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         for (i = 1; i <= 5; i++)
         {

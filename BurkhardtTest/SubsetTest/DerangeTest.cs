@@ -27,7 +27,7 @@ public static class DerangeTest
         //    John Burkardt
         //
     {
-        int N = 10;
+        const int N = 10;
 
         int i;
 
@@ -67,7 +67,7 @@ public static class DerangeTest
         //    John Burkardt
         //
     {
-        int N = 10;
+        const int N = 10;
 
         int[] d = new int[N + 1];
         int i;
@@ -109,7 +109,7 @@ public static class DerangeTest
         //    John Burkardt
         //
     {
-        int N = 10;
+        const int N = 10;
 
         int i;
 
@@ -148,12 +148,9 @@ public static class DerangeTest
         //    John Burkardt
         //
     {
-        int N = 5;
+        const int N = 5;
 
         int[] a = new int[N];
-        int i;
-        bool more;
-        int rank;
         Derange.DerangeBackData data = new();
 
         Console.WriteLine("");
@@ -162,8 +159,8 @@ public static class DerangeTest
         Console.WriteLine("  using backtracking.");
         Console.WriteLine("");
 
-        more = false;
-        rank = 0;
+        bool more = false;
+        int rank = 0;
 
         for (;;)
         {
@@ -177,6 +174,7 @@ public static class DerangeTest
             rank += 1;
 
             string cout = rank.ToString().PadLeft(4) + "    ";
+            int i;
             for (i = 0; i < N; i++)
             {
                 cout += a[i].ToString().PadLeft(4) + "  ";
@@ -217,11 +215,9 @@ public static class DerangeTest
                 0, 3, 8, 1, 2
             }
             ;
-        bool check;
-        int i;
         int j;
-        int n = 5;
-        int n_test = 5;
+        const int n = 5;
+        const int n_test = 5;
 
         Console.WriteLine("");
         Console.WriteLine("DERANGE0_CHECK_TEST");
@@ -230,13 +226,14 @@ public static class DerangeTest
 
         for (j = 0; j < n_test; j++)
         {
+            int i;
             for (i = 0; i < n; i++)
             {
                 a[i] = a_test[i + j * n];
             }
 
             typeMethods.i4vec_transpose_print(n, a, "  Potential derangement:");
-            check = Derange.derange0_check(n, a);
+            bool check = Derange.derange0_check(n, a);
             Console.WriteLine("  CHECK = " + check + "");
         }
     }
@@ -262,19 +259,11 @@ public static class DerangeTest
         //    John Burkardt
         //
     {
-        int[] a;
-        int i;
-        int maxder;
-        bool more;
-        int n;
-        int numder;
-        int rank;
-
-        n = 5;
-        a = new int[n];
-        more = false;
-        maxder = 0;
-        numder = 0;
+        const int n = 5;
+        int[] a = new int[n];
+        bool more = false;
+        int maxder = 0;
+        int numder = 0;
 
         Console.WriteLine("");
         Console.WriteLine("DERANGE0_WEED_NEXT_TEST");
@@ -283,7 +272,7 @@ public static class DerangeTest
         Console.WriteLine("  the ones that are not derangements.");
         Console.WriteLine("");
 
-        rank = 0;
+        int rank = 0;
 
         for (;;)
         {
@@ -292,6 +281,7 @@ public static class DerangeTest
             rank += 1;
 
             string cout = rank.ToString().PadLeft(4) + ":   ";
+            int i;
             for (i = 0; i < n; i++)
             {
                 cout += a[i].ToString().PadLeft(4) + "  ";

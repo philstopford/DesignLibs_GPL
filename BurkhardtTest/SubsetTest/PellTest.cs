@@ -27,7 +27,7 @@ public static class PellTest
         //    John Burkardt
         //
     {
-        int d = 0;
+        int d;
         int q = 0;
         int r = 0;
         int x0 = 0;
@@ -45,17 +45,19 @@ public static class PellTest
         {
             typeMethods.i4_sqrt(d, ref q, ref r);
 
-            if (r != 0)
+            if (r == 0)
             {
-                Pell.pell_basic(d, ref x0, ref y0);
-
-                r = x0 * x0 - d * y0 * y0;
-
-                Console.WriteLine(d.ToString().PadLeft(9) + "  "
-                                                          + x0.ToString().PadLeft(9) + "  "
-                                                          + y0.ToString().PadLeft(9) + "  "
-                                                          + r.ToString().PadLeft(9) + "");
+                continue;
             }
+
+            Pell.pell_basic(d, ref x0, ref y0);
+
+            r = x0 * x0 - d * y0 * y0;
+
+            Console.WriteLine(d.ToString().PadLeft(9) + "  "
+                                                      + x0.ToString().PadLeft(9) + "  "
+                                                      + y0.ToString().PadLeft(9) + "  "
+                                                      + r.ToString().PadLeft(9) + "");
         }
     }
 
@@ -80,7 +82,7 @@ public static class PellTest
         //    John Burkardt
         //
     {
-        int d = 0;
+        int d;
         int q = 0;
         int r = 0;
         int x0 = 0;
@@ -99,27 +101,28 @@ public static class PellTest
         {
             typeMethods.i4_sqrt(d, ref q, ref r);
 
-            if (r != 0)
+            if (r == 0)
             {
-                Pell.pell_basic(d, ref x0, ref y0);
-
-                r = x0 * x0 - d * y0 * y0;
-
-                Console.WriteLine(d.ToString().PadLeft(9) + "  "
-                                                          + x0.ToString().PadLeft(9) + "  "
-                                                          + y0.ToString().PadLeft(9) + "  "
-                                                          + r.ToString().PadLeft(9) + "");
-
-                Pell.pell_next(d, x0, y0, x0, y0, ref x1, ref y1);
-
-                r = x1 * x1 - d * y1 * y1;
-
-                Console.WriteLine("         " + "  "
-                                              + x1.ToString().PadLeft(9) + "  "
-                                              + y1.ToString().PadLeft(9) + "  "
-                                              + r.ToString().PadLeft(9) + "");
-
+                continue;
             }
+
+            Pell.pell_basic(d, ref x0, ref y0);
+
+            r = x0 * x0 - d * y0 * y0;
+
+            Console.WriteLine(d.ToString().PadLeft(9) + "  "
+                                                      + x0.ToString().PadLeft(9) + "  "
+                                                      + y0.ToString().PadLeft(9) + "  "
+                                                      + r.ToString().PadLeft(9) + "");
+
+            Pell.pell_next(d, x0, y0, x0, y0, ref x1, ref y1);
+
+            r = x1 * x1 - d * y1 * y1;
+
+            Console.WriteLine("         " + "  "
+                                          + x1.ToString().PadLeft(9) + "  "
+                                          + y1.ToString().PadLeft(9) + "  "
+                                          + r.ToString().PadLeft(9) + "");
 
         }
     }

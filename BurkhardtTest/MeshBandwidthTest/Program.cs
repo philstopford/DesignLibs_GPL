@@ -41,7 +41,6 @@ internal static class Program
         //
     {
         string element_filename;
-        int[] element_node;
         int element_num = 0;
         int element_order = 0;
         int m = 0;
@@ -97,7 +96,7 @@ internal static class Program
         Console.WriteLine("  Element order ELEMENT_ORDER =    " + element_order + "");
         Console.WriteLine("  Number of element ELEMENT_NUM  = " + element_num + "");
 
-        element_node = typeMethods.i4mat_data_read(element_filename, element_order,
+        int[] element_node = typeMethods.i4mat_data_read(element_filename, element_order,
             element_num);
 
         Console.WriteLine("");

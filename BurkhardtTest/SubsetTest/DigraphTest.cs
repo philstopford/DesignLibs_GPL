@@ -27,15 +27,11 @@ public static class DigraphTest
         //    John Burkardt
         //
     {
-        int NEDGE = 7;
-        int NNODE = 5;
+        const int NEDGE = 7;
+        const int NNODE = 5;
 
-        int i;
-        int in_;
         int[] inode = { 2, 1, 2, 1, 3, 5, 4 };
-        int j;
         int[] jnode = { 5, 4, 3, 2, 1, 1, 2 };
-        int jp1;
         bool success = false;
         int[] trail = new int[NEDGE];
 
@@ -59,19 +55,14 @@ public static class DigraphTest
                 Console.WriteLine("	 I  Edge  Node");
                 Console.WriteLine("");
 
+                int i;
                 for (i = 0; i < NEDGE; i++)
                 {
-                    j = trail[i];
+                    int j = trail[i];
 
-                    if (i + 1 == NEDGE)
-                    {
-                        jp1 = trail[0];
-                    }
-                    else
-                    {
-                        jp1 = trail[i + 1];
-                    }
+                    int jp1 = i + 1 == NEDGE ? trail[0] : trail[i + 1];
 
+                    int in_;
                     if (jnode[j - 1] == inode[jp1 - 1])
                     {
                         in_ = jnode[j - 1];
@@ -123,13 +114,12 @@ public static class DigraphTest
     {
         int[] inode = { 2, 1, 2, 1, 3, 5, 4 };
         int[] jnode = { 5, 4, 3, 2, 1, 1, 2 };
-        int nedge;
 
         Console.WriteLine("");
         Console.WriteLine("DIGRAPH_ARC_PRINT_TEST");
         Console.WriteLine("  DIGRAPH_ARC_PRINT prints a digraph.");
 
-        nedge = 7;
+        int nedge = 7;
 
         Digraph.digraph_arc_print(nedge, inode, jnode, "  The arc list of the digraph:");
     }

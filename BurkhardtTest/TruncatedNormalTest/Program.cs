@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.CDFLib;
 using Burkardt.Probability;
 using Burkardt.Types;
@@ -122,10 +123,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int a = -100;
-        int b = 200;
+        const int a = -100;
+        const int b = 200;
         int i;
-        int j;
         int seed = 123456789;
 
         Console.WriteLine("");
@@ -141,10 +141,10 @@ internal static class Program
 
         for (i = 1; i <= 20; i++)
         {
-            j = UniformRNG.i4_uniform_ab(a, b, ref seed);
+            int j = UniformRNG.i4_uniform_ab(a, b, ref seed);
 
-            Console.WriteLine("  " + i.ToString().PadLeft(8)
-                                   + "  " + j.ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
 
     }
@@ -171,8 +171,6 @@ internal static class Program
         //
     {
         double cdf1 = 0;
-        double cdf2;
-        int n_data;
         double x = 0;
 
         Console.WriteLine("");
@@ -183,7 +181,7 @@ internal static class Program
         Console.WriteLine("                     (exact)                   (computed)");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -194,11 +192,11 @@ internal static class Program
                 break;
             }
 
-            cdf2 = CDF.normal_01_cdf(x);
+            double cdf2 = CDF.normal_01_cdf(x);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + cdf1.ToString().PadLeft(24)
-                                   + "  " + cdf2.ToString().PadLeft(24) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + cdf1.ToString(CultureInfo.InvariantCulture).PadLeft(24)
+                                   + "  " + cdf2.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "");
         }
 
     }
@@ -225,9 +223,7 @@ internal static class Program
         //
     {
         double cdf = 0;
-        int n_data;
         double x1 = 0;
-        double x2;
 
         Console.WriteLine("");
         Console.WriteLine("NORMAL_01_CDF_INV_TEST");
@@ -237,7 +233,7 @@ internal static class Program
         Console.WriteLine("                     (exact)                   (computed)");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -248,11 +244,11 @@ internal static class Program
                 break;
             }
 
-            x2 = CDF.normal_01_cdf_inv(cdf);
+            double x2 = CDF.normal_01_cdf_inv(cdf);
 
-            Console.WriteLine("  " + cdf.ToString().PadLeft(14)
-                                   + "  " + x1.ToString().PadLeft(24)
-                                   + "  " + x2.ToString().PadLeft(24) + "");
+            Console.WriteLine("  " + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + x1.ToString(CultureInfo.InvariantCulture).PadLeft(24)
+                                   + "  " + x2.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "");
         }
 
     }
@@ -279,24 +275,19 @@ internal static class Program
         //
     {
         int i;
-        double mean;
-        int sample_num;
         int seed = 123456789;
-        double[] x;
-        double xmax;
-        double xmin;
 
         Console.WriteLine("");
         Console.WriteLine("NORMAL_01_MEAN_TEST");
         Console.WriteLine("  NORMAL_01_MEAN computes the Normal 01 mean;");
 
-        mean = Normal.normal_01_mean();
+        double mean = Normal.normal_01_mean();
 
         Console.WriteLine("");
         Console.WriteLine("  PDF mean =     " + mean + "");
 
-        sample_num = 1000;
-        x = new double[sample_num];
+        int sample_num = 1000;
+        double[] x = new double[sample_num];
 
         for (i = 0; i < sample_num; i++)
         {
@@ -304,8 +295,8 @@ internal static class Program
         }
 
         mean = typeMethods.r8vec_mean(sample_num, x);
-        xmax = typeMethods.r8vec_max(sample_num, x);
-        xmin = typeMethods.r8vec_min(sample_num, x);
+        double xmax = typeMethods.r8vec_max(sample_num, x);
+        double xmin = typeMethods.r8vec_min(sample_num, x);
 
         Console.WriteLine("");
         Console.WriteLine("  Sample size =     " + sample_num + "");
@@ -337,7 +328,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double moment;
         int order;
 
         Console.WriteLine("");
@@ -349,10 +339,10 @@ internal static class Program
 
         for (order = 0; order <= 10; order++)
         {
-            moment = Normal.normal_01_moment(order);
+            double moment = Normal.normal_01_moment(order);
 
-            Console.WriteLine("  " + order.ToString().PadLeft(14)
-                                   + "  " + moment.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + moment.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -379,8 +369,6 @@ internal static class Program
         //
     {
         int i;
-        double pdf;
-        double x;
 
         Console.WriteLine("");
         Console.WriteLine("NORMAL_01_PDF_TEST");
@@ -391,12 +379,12 @@ internal static class Program
 
         for (i = -20; i <= 20; i++)
         {
-            x = i / 10.0;
+            double x = i / 10.0;
 
-            pdf = Normal.normal_01_pdf(x);
+            double pdf = Normal.normal_01_pdf(x);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + pdf.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -423,8 +411,6 @@ internal static class Program
         //
     {
         int i;
-        int seed;
-        double x;
 
         Console.WriteLine("");
         Console.WriteLine("NORMAL_01_SAMPLE_TEST");
@@ -432,13 +418,13 @@ internal static class Program
         Console.WriteLine("  distribution with mean 0 and standard deviation 1.");
         Console.WriteLine("");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         for (i = 1; i <= 10; i++)
         {
-            x = Normal.normal_01_sample(ref seed);
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + x.ToString().PadLeft(14) + "");
+            double x = Normal.normal_01_sample(ref seed);
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -465,23 +451,20 @@ internal static class Program
         //
     {
         int i;
-        int sample_num;
         int seed = 123456789;
-        double variance;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("NORMAL_01_VARIANCE_TEST");
         Console.WriteLine("  NORMAL_01_VARIANCE computes the Normal 01 variance;");
 
-        variance = Normal.normal_01_variance();
+        double variance = Normal.normal_01_variance();
 
         Console.WriteLine("");
         Console.WriteLine("  PDF variance = " + variance + "");
 
-        sample_num = 1000;
+        const int sample_num = 1000;
 
-        x = new double[sample_num];
+        double[] x = new double[sample_num];
 
         for (i = 0; i < sample_num; i++)
         {
@@ -518,18 +501,14 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double cdf;
         int i;
-        double mu;
-        double sigma;
-        double x;
 
         Console.WriteLine("");
         Console.WriteLine("NORMAL_MS_CDF_TEST");
         Console.WriteLine("  NORMAL_MS_CDF evaluates the Normal MS CDF;");
 
-        mu = 100.0;
-        sigma = 15.0;
+        const double mu = 100.0;
+        const double sigma = 15.0;
 
         Console.WriteLine("");
         Console.WriteLine("  Parameter MU = " + mu + "");
@@ -540,10 +519,10 @@ internal static class Program
 
         for (i = -20; i <= +20; i++)
         {
-            x = mu + sigma * i / 10.0;
-            cdf = CDF.normal_ms_cdf(x, mu, sigma);
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + cdf.ToString().PadLeft(24) + "");
+            double x = mu + sigma * i / 10.0;
+            double cdf = CDF.normal_ms_cdf(x, mu, sigma);
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "");
         }
 
     }
@@ -569,19 +548,14 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double cdf;
         int i;
-        double mu;
-        double sigma;
-        double x;
-        double x2;
 
         Console.WriteLine("");
         Console.WriteLine("NORMAL_MS_CDF_INV_TEST");
         Console.WriteLine("  NORMAL_MS_CDF_INV inverts the Normal MS CDF;");
 
-        mu = 100.0;
-        sigma = 15.0;
+        const double mu = 100.0;
+        const double sigma = 15.0;
 
         Console.WriteLine("");
         Console.WriteLine("  Parameter MU = " + mu + "");
@@ -593,12 +567,12 @@ internal static class Program
 
         for (i = -20; i <= +20; i++)
         {
-            x = mu + sigma * i / 10.0;
-            cdf = CDF.normal_ms_cdf(x, mu, sigma);
-            x2 = CDF.normal_ms_cdf_inv(cdf, mu, sigma);
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + cdf.ToString().PadLeft(14)
-                                   + "  " + x2.ToString().PadLeft(14) + "");
+            double x = mu + sigma * i / 10.0;
+            double cdf = CDF.normal_ms_cdf(x, mu, sigma);
+            double x2 = CDF.normal_ms_cdf_inv(cdf, mu, sigma);
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + x2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -625,33 +599,26 @@ internal static class Program
         //
     {
         int i;
-        double mean;
-        double mu;
-        int sample_num;
         int seed = 123456789;
-        double sigma;
-        double[] x;
-        double xmax;
-        double xmin;
 
         Console.WriteLine("");
         Console.WriteLine("NORMAL_MS_MEAN_TEST");
         Console.WriteLine("  NORMAL_MS_MEAN computes the Normal MS mean.");
 
-        mu = 100.0;
-        sigma = 15.0;
+        const double mu = 100.0;
+        const double sigma = 15.0;
 
         Console.WriteLine("");
         Console.WriteLine("  Parameter MU = " + mu + "");
         Console.WriteLine("  Parameteter SIGMA = " + sigma + "");
 
-        mean = Normal.normal_ms_mean(mu, sigma);
+        double mean = Normal.normal_ms_mean(mu, sigma);
 
         Console.WriteLine("");
         Console.WriteLine("  PDF mean = " + mean + "");
 
-        sample_num = 1000;
-        x = new double[sample_num];
+        const int sample_num = 1000;
+        double[] x = new double[sample_num];
 
         for (i = 0; i < sample_num; i++)
         {
@@ -659,8 +626,8 @@ internal static class Program
         }
 
         mean = typeMethods.r8vec_mean(sample_num, x);
-        xmax = typeMethods.r8vec_max(sample_num, x);
-        xmin = typeMethods.r8vec_min(sample_num, x);
+        double xmax = typeMethods.r8vec_max(sample_num, x);
+        double xmin = typeMethods.r8vec_min(sample_num, x);
 
         Console.WriteLine("");
         Console.WriteLine("  Sample size =     " + sample_num + "");
@@ -692,15 +659,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double moment1;
-        double moment2;
-        double mu;
         double[] mu_test = { 0.0, 2.0, 10.0, 0.0 };
-        int order;
-        double sigma;
         double[] sigma_test = { 1.0, 1.0, 2.0, 2.0 };
         int test;
-        int test_num = 4;
+        const int test_num = 4;
 
         Console.WriteLine("");
         Console.WriteLine("NORMAL_MOMENT_MS_TEST");
@@ -708,20 +670,21 @@ internal static class Program
 
         for (test = 0; test < test_num; test++)
         {
-            mu = mu_test[test];
-            sigma = sigma_test[test];
+            double mu = mu_test[test];
+            double sigma = sigma_test[test];
             Console.WriteLine("");
             Console.WriteLine("  Mu = " + mu
                                         + "  Sigma = " + sigma + "");
             Console.WriteLine(" Order  Moment");
             Console.WriteLine("");
+            int order;
             for (order = 0; order <= 8; order++)
             {
-                moment1 = Normal.normal_ms_moment(order, mu, sigma);
-                moment2 = Normal.normal_ms_moment_values(order, mu, sigma);
-                Console.WriteLine("  " + order.ToString().PadLeft(2)
-                                       + "  " + moment1.ToString().PadLeft(14)
-                                       + "  " + moment2.ToString().PadLeft(14) + "");
+                double moment1 = Normal.normal_ms_moment(order, mu, sigma);
+                double moment2 = Normal.normal_ms_moment_values(order, mu, sigma);
+                Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + moment1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + moment2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
 
@@ -748,15 +711,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double moment1;
-        double moment2;
-        double mu;
         double[] mu_test = { 0.0, 2.0, 10.0, 0.0 };
-        int order;
-        double sigma;
         double[] sigma_test = { 1.0, 1.0, 2.0, 2.0 };
         int test;
-        int test_num = 4;
+        const int test_num = 4;
 
         Console.WriteLine("");
         Console.WriteLine("NORMAL_MS_MOMENT_CENTRAL_TEST");
@@ -765,20 +723,21 @@ internal static class Program
 
         for (test = 0; test < test_num; test++)
         {
-            mu = mu_test[test];
-            sigma = sigma_test[test];
+            double mu = mu_test[test];
+            double sigma = sigma_test[test];
             Console.WriteLine("");
             Console.WriteLine("  Mu = " + mu
                                         + "  Sigma = " + sigma + "");
             Console.WriteLine(" Order  Moment");
             Console.WriteLine("");
+            int order;
             for (order = 0; order <= 8; order++)
             {
-                moment1 = Normal.normal_ms_moment_central(order, mu, sigma);
-                moment2 = Normal.normal_ms_moment_central_values(order, mu, sigma);
-                Console.WriteLine("  " + order.ToString().PadLeft(2)
-                                       + "  " + moment1.ToString().PadLeft(14)
-                                       + "  " + moment2.ToString().PadLeft(14) + "");
+                double moment1 = Normal.normal_ms_moment_central(order, mu, sigma);
+                double moment2 = Normal.normal_ms_moment_central_values(order, mu, sigma);
+                Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + moment1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + moment2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
 
@@ -806,17 +765,13 @@ internal static class Program
         //
     {
         int i;
-        double mu;
-        double pdf;
-        double sigma;
-        double x;
 
         Console.WriteLine("");
         Console.WriteLine("NORMAL_MS_PDF_TEST");
         Console.WriteLine("  NORMAL_MS_PDF evaluates the Normal MS PDF;");
 
-        mu = 100.0;
-        sigma = 15.0;
+        const double mu = 100.0;
+        const double sigma = 15.0;
 
         Console.WriteLine("");
         Console.WriteLine("  Parameter MU = " + mu + "");
@@ -828,10 +783,10 @@ internal static class Program
 
         for (i = -20; i <= +20; i++)
         {
-            x = mu + sigma * i / 10.0;
-            pdf = Normal.normal_ms_pdf(mu, sigma, x);
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + pdf.ToString().PadLeft(24) + "");
+            double x = mu + sigma * i / 10.0;
+            double pdf = Normal.normal_ms_pdf(mu, sigma, x);
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "");
         }
 
     }
@@ -858,17 +813,13 @@ internal static class Program
         //
     {
         int i;
-        double mu;
-        int seed;
-        double sigma;
-        double x;
 
         Console.WriteLine("");
         Console.WriteLine("NORMAL_MS_SAMPLE_TEST");
         Console.WriteLine("  NORMAL_MS_SAMPLE returns samples from the Normal MS PDF.");
 
-        mu = 100.0;
-        sigma = 15.0;
+        const double mu = 100.0;
+        const double sigma = 15.0;
 
         Console.WriteLine("");
         Console.WriteLine("  Parameter MU = " + mu + "");
@@ -876,13 +827,13 @@ internal static class Program
 
         Console.WriteLine("");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         for (i = 1; i <= 10; i++)
         {
-            x = Normal.normal_ms_sample(mu, sigma, ref seed);
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + x.ToString().PadLeft(14) + "");
+            double x = Normal.normal_ms_sample(mu, sigma, ref seed);
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -909,31 +860,26 @@ internal static class Program
         //
     {
         int i;
-        double mu;
-        int sample_num;
         int seed = 123456789;
-        double sigma;
-        double variance;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("NORMAL_MS_VARIANCE_TEST");
         Console.WriteLine("  NORMAL_MS_VARIANCE computes the Normal MS variance;");
 
-        mu = 100.0;
-        sigma = 15.0;
+        const double mu = 100.0;
+        const double sigma = 15.0;
 
         Console.WriteLine("");
         Console.WriteLine("  Parameter MU = " + mu + "");
         Console.WriteLine("  Parameteter SIGMA = " + sigma + "");
 
-        variance = Normal.normal_ms_variance(mu, sigma);
+        double variance = Normal.normal_ms_variance(mu, sigma);
 
         Console.WriteLine("");
         Console.WriteLine("  PDF variance = " + variance + "");
 
-        sample_num = 1000;
-        x = new double[sample_num];
+        const int sample_num = 1000;
+        double[] x = new double[sample_num];
 
         for (i = 0; i < sample_num; i++)
         {
@@ -970,8 +916,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double cnk;
-        int k;
         int n;
 
         Console.WriteLine("");
@@ -983,12 +927,13 @@ internal static class Program
         for (n = 0; n <= 5; n++)
         {
             Console.WriteLine("");
+            int k;
             for (k = 0; k <= n; k++)
             {
-                cnk = typeMethods.r8_choose(n, k);
-                Console.WriteLine(n.ToString().PadLeft(10) + "  "
-                                                           + k.ToString().PadLeft(8) + "  "
-                                                           + cnk.ToString().PadLeft(14) + "");
+                double cnk = typeMethods.r8_choose(n, k);
+                Console.WriteLine(n.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                                                                                       + k.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                                                                                       + cnk.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
 
@@ -1016,9 +961,7 @@ internal static class Program
         //
     {
         double f1 = 0;
-        double f2;
         int n = 0;
-        int n_data;
 
         Console.WriteLine("");
         Console.WriteLine("R8_FACTORIAL2_TEST");
@@ -1027,7 +970,7 @@ internal static class Program
         Console.WriteLine("    N                Exact                  Computed");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -1038,10 +981,10 @@ internal static class Program
                 break;
             }
 
-            f2 = typeMethods.r8_factorial2(n);
+            double f2 = typeMethods.r8_factorial2(n);
 
             Console.WriteLine("  "
-                              + n.ToString().PadLeft(4) + "  "
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
                               + f1.ToString("0.################").PadLeft(24) + "  "
                               + f2.ToString("0.################").PadLeft(24) + "");
         }
@@ -1069,10 +1012,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int i4;
-        int i4_max;
-        int i4_min;
-        double r8;
         int seed = 123456789;
         int test;
 
@@ -1083,16 +1022,16 @@ internal static class Program
         Console.WriteLine("    I4  R8_MOP(I4)");
         Console.WriteLine("");
 
-        i4_min = -100;
-        i4_max = +100;
+        const int i4_min = -100;
+        const int i4_max = +100;
 
         for (test = 1; test <= 10; test++)
         {
-            i4 = UniformRNG.i4_uniform_ab(i4_min, i4_max, ref seed);
-            r8 = typeMethods.r8_mop(i4);
+            int i4 = UniformRNG.i4_uniform_ab(i4_min, i4_max, ref seed);
+            double r8 = typeMethods.r8_mop(i4);
             Console.WriteLine("  "
-                              + i4.ToString().PadLeft(4) + "  "
-                              + r8.ToString().PadLeft(4) + "");
+                              + i4.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                              + r8.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "");
         }
 
     }
@@ -1118,15 +1057,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 1000;
+        const int N = 1000;
 
         int i;
-        double max;
-        double mean;
-        double min;
         int seed = 123456789;
         double[] x = new double[N];
-        double variance;
 
         Console.WriteLine("");
         Console.WriteLine("R8_UNIFORM_01_TEST");
@@ -1144,14 +1079,14 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < 10; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                   + "  " + x[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
-        min = typeMethods.r8vec_min(N, x);
-        max = typeMethods.r8vec_max(N, x);
-        mean = typeMethods.r8vec_mean(N, x);
-        variance = typeMethods.r8vec_variance(N, x);
+        double min = typeMethods.r8vec_min(N, x);
+        double max = typeMethods.r8vec_max(N, x);
+        double mean = typeMethods.r8vec_mean(N, x);
+        double variance = typeMethods.r8vec_variance(N, x);
 
         Console.WriteLine("");
         Console.WriteLine("  Number of samples was " + N + "");
@@ -1183,7 +1118,7 @@ internal static class Program
         //
     {
         double[] c = { 2.0, -3.4, 56.0, 0.0, 0.78, 9.0 };
-        int m = 5;
+        const int m = 5;
 
         Console.WriteLine("");
         Console.WriteLine("R8POLY_PRINT_TEST");
@@ -1216,12 +1151,8 @@ internal static class Program
     {
         double[] c = { 24.0, -50.0, +35.0, -10.0, 1.0 };
         int i;
-        int m = 4;
-        int n = 16;
-        double p;
-        double[] x;
-        double x_hi;
-        double x_lo;
+        const int m = 4;
+        const int n = 16;
 
         Console.WriteLine("");
         Console.WriteLine("R8POLY_VALUE_HORNER_TEST");
@@ -1230,9 +1161,9 @@ internal static class Program
 
         typeMethods.r8poly_print(m, c, "  The polynomial coefficients:");
 
-        x_lo = 0.0;
-        x_hi = 5.0;
-        x = typeMethods.r8vec_linspace_new(n, x_lo, x_hi);
+        double x_lo = 0.0;
+        double x_hi = 5.0;
+        double[] x = typeMethods.r8vec_linspace_new(n, x_lo, x_hi);
 
         Console.WriteLine("");
         Console.WriteLine("   I    X    P(X)");
@@ -1240,10 +1171,10 @@ internal static class Program
 
         for (i = 0; i < n; i++)
         {
-            p = typeMethods.r8poly_value_horner(m, c, x[i]);
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + x[i].ToString().PadLeft(8)
-                                   + "  " + p.ToString().PadLeft(14) + "");
+            double p = typeMethods.r8poly_value_horner(m, c, x[i]);
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + p.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
 
@@ -1270,20 +1201,17 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
-        int n = 5;
-        double[] x;
+        const int n = 5;
 
         Console.WriteLine("");
         Console.WriteLine("R8VEC_LINSPACE_NEW_TEST");
         Console.WriteLine("  For a R8VEC:");
         Console.WriteLine("  R8VEC_LINSPACE_NEW: evenly spaced points between A and B;");
 
-        a = 10.0;
-        b = 20.0;
+        const double a = 10.0;
+        const double b = 20.0;
 
-        x = typeMethods.r8vec_linspace_new(n, a, b);
+        double[] x = typeMethods.r8vec_linspace_new(n, a, b);
         typeMethods.r8vec_print(n, x, "  r8vec_linspace ( 5, 10, 20 )");
 
     }
@@ -1310,7 +1238,7 @@ internal static class Program
         //
     {
         double[] a = { 123.456, 0.000005, -1.0E+06, 3.14159265 };
-        int n = 4;
+        const int n = 4;
 
         Console.WriteLine("");
         Console.WriteLine("TEST1335");
@@ -1343,9 +1271,7 @@ internal static class Program
     {
         double a = 0;
         double cdf1 = 0;
-        double cdf2;
         double mu = 0;
-        int n_data;
         double sigma = 0;
         double x = 0;
 
@@ -1357,7 +1283,7 @@ internal static class Program
         Console.WriteLine("        MU       S         A         X        CDF1           CDF2");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -1369,12 +1295,12 @@ internal static class Program
                 break;
             }
 
-            cdf2 = CDF.truncated_normal_a_cdf(x, mu, sigma, a);
+            double cdf2 = CDF.truncated_normal_a_cdf(x, mu, sigma, a);
 
-            Console.WriteLine("  " + mu.ToString().PadLeft(8)
-                                   + "  " + sigma.ToString().PadLeft(8)
-                                   + "  " + a.ToString().PadLeft(8)
-                                   + "  " + x.ToString().PadLeft(8)
+            Console.WriteLine("  " + mu.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + sigma.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "  " + cdf1.ToString("0.################").PadLeft(24)
                                    + "  " + cdf2.ToString("0.################").PadLeft(24) + "");
         }
@@ -1401,20 +1327,13 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double cdf;
         int i;
-        double mu;
-        int sample_num = 10;
-        int seed;
-        double sigma;
-        double x;
-        double x2;
+        const int sample_num = 10;
 
-        a = 50.0;
-        mu = 100.0;
-        sigma = 25.0;
-        seed = 123456789;
+        const double a = 50.0;
+        const double mu = 100.0;
+        const double sigma = 25.0;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("TRUNCATED_NORMAL_A_CDF_INV_TEST:");
@@ -1432,13 +1351,13 @@ internal static class Program
 
         for (i = 0; i < sample_num; i++)
         {
-            x = Truncated.truncated_normal_a_sample(mu, sigma, a, ref seed);
-            cdf = CDF.truncated_normal_a_cdf(x, mu, sigma, a);
-            x2 = CDF.truncated_normal_a_cdf_inv(cdf, mu, sigma, a);
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + x.ToString().PadLeft(14)
-                                   + "  " + cdf.ToString().PadLeft(14)
-                                   + "  " + x2.ToString().PadLeft(14) + "");
+            double x = Truncated.truncated_normal_a_sample(mu, sigma, a, ref seed);
+            double cdf = CDF.truncated_normal_a_cdf(x, mu, sigma, a);
+            double x2 = CDF.truncated_normal_a_cdf_inv(cdf, mu, sigma, a);
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + x2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -1464,21 +1383,13 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
         int i;
-        double mean;
-        double mu;
-        int sample_num = 1000;
-        int seed;
-        double sigma;
-        double[] x;
-        double xmax;
-        double xmin;
+        const int sample_num = 1000;
 
-        a = 50.0;
-        mu = 100.0;
-        sigma = 25.0;
-        seed = 123456789;
+        const double a = 50.0;
+        const double mu = 100.0;
+        const double sigma = 25.0;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("TRUNCATED_NORMAL_A_MEAN_TEST");
@@ -1491,12 +1402,12 @@ internal static class Program
         Console.WriteLine("  The parent distribution is truncated to");
         Console.WriteLine("  the interval [" + a + ",+oo)");
 
-        mean = Truncated.truncated_normal_a_mean(mu, sigma, a);
+        double mean = Truncated.truncated_normal_a_mean(mu, sigma, a);
 
         Console.WriteLine("");
         Console.WriteLine("  PDF mean = " + mean + "");
 
-        x = new double[sample_num];
+        double[] x = new double[sample_num];
 
         for (i = 0; i < sample_num; i++)
         {
@@ -1504,8 +1415,8 @@ internal static class Program
         }
 
         mean = typeMethods.r8vec_mean(sample_num, x);
-        xmax = typeMethods.r8vec_max(sample_num, x);
-        xmin = typeMethods.r8vec_min(sample_num, x);
+        double xmax = typeMethods.r8vec_max(sample_num, x);
+        double xmin = typeMethods.r8vec_min(sample_num, x);
 
         Console.WriteLine("");
         Console.WriteLine("  Sample size =     " + sample_num + "");
@@ -1537,27 +1448,21 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
         double[] a_test =
         {
             0.0, -10.0, 10.0, -10.0, 10.0, -10.0
         };
-        double moment;
-        double mu;
         double[] mu_test =
         {
             0.0, 0.0, 0.0, 0.0, 0.0, -5.0
         };
-        int order;
-        double sigma;
         double[] sigma_test =
         {
             1.0, 1.0, 1.0, 2.0, 2.0, 1.0
         };
         int test;
-        int test_num;
 
-        test_num = 6;
+        const int test_num = 6;
 
         Console.WriteLine("");
         Console.WriteLine("TRUNCATED_NORMAL_A_MOMENT_TEST");
@@ -1566,9 +1471,9 @@ internal static class Program
 
         for (test = 0; test < test_num; test++)
         {
-            mu = mu_test[test];
-            sigma = sigma_test[test];
-            a = a_test[test];
+            double mu = mu_test[test];
+            double sigma = sigma_test[test];
+            double a = a_test[test];
             Console.WriteLine("");
             Console.WriteLine("  Test = " + test
                                           + ", Mu = " + mu
@@ -1576,11 +1481,12 @@ internal static class Program
                                           + ", A = " + a + "");
             Console.WriteLine(" Order  Moment");
             Console.WriteLine("");
+            int order;
             for (order = 0; order <= 8; order++)
             {
-                moment = Truncated.truncated_normal_a_moment(order, mu, sigma, a);
-                Console.WriteLine("  " + order.ToString().PadLeft(2)
-                                       + "  " + moment.ToString().PadLeft(14) + "");
+                double moment = Truncated.truncated_normal_a_moment(order, mu, sigma, a);
+                Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + moment.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
     }
@@ -1608,9 +1514,7 @@ internal static class Program
     {
         double a = 0;
         double mu = 0;
-        int n_data;
         double pdf1 = 0;
-        double pdf2;
         double sigma = 0;
         double x = 0;
 
@@ -1622,7 +1526,7 @@ internal static class Program
         Console.WriteLine("        MU       S         A         X        PDF1        PDF2");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -1634,12 +1538,12 @@ internal static class Program
                 break;
             }
 
-            pdf2 = Truncated.truncated_normal_a_pdf(x, mu, sigma, a);
+            double pdf2 = Truncated.truncated_normal_a_pdf(x, mu, sigma, a);
 
-            Console.WriteLine("  " + mu.ToString().PadLeft(8)
-                                   + "  " + sigma.ToString().PadLeft(8)
-                                   + "  " + a.ToString().PadLeft(8)
-                                   + "  " + x.ToString().PadLeft(8)
+            Console.WriteLine("  " + mu.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + sigma.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "  " + pdf1.ToString("0.################").PadLeft(24)
                                    + "  " + pdf2.ToString("0.################").PadLeft(24) + "");
         }
@@ -1666,18 +1570,13 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
         int i;
-        double mu;
-        int sample_num = 10;
-        int seed;
-        double sigma;
-        double x;
+        const int sample_num = 10;
 
-        a = 50.0;
-        mu = 100.0;
-        sigma = 25.0;
-        seed = 123456789;
+        const double a = 50.0;
+        const double mu = 100.0;
+        const double sigma = 25.0;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("TRUNCATED_NORMAL_A_SAMPLE_TEST:");
@@ -1693,9 +1592,9 @@ internal static class Program
 
         for (i = 0; i < sample_num; i++)
         {
-            x = Truncated.truncated_normal_a_sample(mu, sigma, a, ref seed);
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + x.ToString().PadLeft(14) + "");
+            double x = Truncated.truncated_normal_a_sample(mu, sigma, a, ref seed);
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -1721,19 +1620,13 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
         int i;
-        double mu;
-        int sample_num = 1000;
-        int seed;
-        double sigma;
-        double variance;
-        double[] x;
+        const int sample_num = 1000;
 
-        a = 50.0;
-        mu = 100.0;
-        sigma = 25.0;
-        seed = 123456789;
+        const double a = 50.0;
+        const double mu = 100.0;
+        const double sigma = 25.0;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("TRUNCATED_NORMAL_A_VARIANCE_TEST");
@@ -1746,12 +1639,12 @@ internal static class Program
         Console.WriteLine("  The parent distribution is truncated to");
         Console.WriteLine("  the interval [" + a + ",+oo)");
 
-        variance = Truncated.truncated_normal_a_variance(mu, sigma, a);
+        double variance = Truncated.truncated_normal_a_variance(mu, sigma, a);
 
         Console.WriteLine("");
         Console.WriteLine("  PDF variance = " + variance + "");
 
-        x = new double[sample_num];
+        double[] x = new double[sample_num];
 
         for (i = 0; i < sample_num; i++)
         {
@@ -1791,9 +1684,7 @@ internal static class Program
         double a = 0;
         double b = 0;
         double cdf1 = 0;
-        double cdf2 = 0;
         double mu = 0;
-        int n_data;
         double sigma = 0;
         double x = 0;
 
@@ -1805,7 +1696,7 @@ internal static class Program
         Console.WriteLine("        MU       S         A         B         X        CDF1           CDF2");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -1817,13 +1708,13 @@ internal static class Program
                 break;
             }
 
-            cdf2 = CDF.truncated_normal_ab_cdf(x, mu, sigma, a, b);
+            double cdf2 = CDF.truncated_normal_ab_cdf(x, mu, sigma, a, b);
 
-            Console.WriteLine("  " + mu.ToString().PadLeft(8)
-                                   + "  " + sigma.ToString().PadLeft(8)
-                                   + "  " + a.ToString().PadLeft(8)
-                                   + "  " + b.ToString().PadLeft(8)
-                                   + "  " + x.ToString().PadLeft(8)
+            Console.WriteLine("  " + mu.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + sigma.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + b.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "  " + cdf1.ToString("0.################").PadLeft(24)
                                    + "  " + cdf2.ToString("0.################").PadLeft(24) + "");
         }
@@ -1850,22 +1741,14 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
-        double cdf;
         int i;
-        double mu;
-        int sample_num = 10;
-        int seed;
-        double sigma;
-        double x;
-        double x2;
+        const int sample_num = 10;
 
-        a = 50.0;
-        b = 150.0;
-        mu = 100.0;
-        sigma = 25.0;
-        seed = 123456789;
+        const double a = 50.0;
+        const double b = 150.0;
+        const double mu = 100.0;
+        const double sigma = 25.0;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("TRUNCATED_NORMAL_AB_CDF_INV_TEST:");
@@ -1883,13 +1766,13 @@ internal static class Program
 
         for (i = 0; i < sample_num; i++)
         {
-            x = Truncated.truncated_normal_ab_sample(mu, sigma, a, b, ref seed);
-            cdf = CDF.truncated_normal_ab_cdf(x, mu, sigma, a, b);
-            x2 = CDF.truncated_normal_ab_cdf_inv(cdf, mu, sigma, a, b);
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + x.ToString().PadLeft(14)
-                                   + "  " + cdf.ToString().PadLeft(14)
-                                   + "  " + x2.ToString().PadLeft(14) + "");
+            double x = Truncated.truncated_normal_ab_sample(mu, sigma, a, b, ref seed);
+            double cdf = CDF.truncated_normal_ab_cdf(x, mu, sigma, a, b);
+            double x2 = CDF.truncated_normal_ab_cdf_inv(cdf, mu, sigma, a, b);
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + x2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -1915,23 +1798,14 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
         int i;
-        double mean;
-        double mu;
-        int sample_num = 1000;
-        int seed;
-        double sigma;
-        double[] x;
-        double xmax;
-        double xmin;
+        const int sample_num = 1000;
 
-        a = 50.0;
-        b = 150.0;
-        mu = 100.0;
-        sigma = 25.0;
-        seed = 123456789;
+        const double a = 50.0;
+        const double b = 150.0;
+        const double mu = 100.0;
+        const double sigma = 25.0;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("TRUNCATED_NORMAL_AB_MEAN_TEST");
@@ -1944,12 +1818,12 @@ internal static class Program
         Console.WriteLine("  The parent distribution is truncated to");
         Console.WriteLine("  the interval [" + a + "," + b + "]");
 
-        mean = Truncated.truncated_normal_ab_mean(mu, sigma, a, b);
+        double mean = Truncated.truncated_normal_ab_mean(mu, sigma, a, b);
 
         Console.WriteLine("");
         Console.WriteLine("  PDF mean = " + mean + "");
 
-        x = new double[sample_num];
+        double[] x = new double[sample_num];
 
         for (i = 0; i < sample_num; i++)
         {
@@ -1957,8 +1831,8 @@ internal static class Program
         }
 
         mean = typeMethods.r8vec_mean(sample_num, x);
-        xmax = typeMethods.r8vec_max(sample_num, x);
-        xmin = typeMethods.r8vec_min(sample_num, x);
+        double xmax = typeMethods.r8vec_max(sample_num, x);
+        double xmin = typeMethods.r8vec_min(sample_num, x);
 
         Console.WriteLine("");
         Console.WriteLine("  Sample size =     " + sample_num + "");
@@ -1990,32 +1864,25 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
         double[] a_test =
         {
             -1.0, 0.0, -1.0, -1.0, 0.0, 0.5, -2.0, -4.0, 4.0
         };
-        double b;
         double[] b_test =
         {
             1.0, 1.0, 0.0, 1.0, 2.0, 2.0, 2.0, 4.0, 7.0
         };
-        double moment;
-        double mu;
         double[] mu_test =
         {
             0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 5.0
         };
-        int order;
-        double sigma;
         double[] sigma_test =
         {
             1.0, 1.0, 1.0, 2.0, 1.0, 1.0, 1.0, 1.0, 0.5
         };
         int test;
-        int test_num;
 
-        test_num = 9;
+        const int test_num = 9;
 
         Console.WriteLine("");
         Console.WriteLine("TRUNCATED_NORMAL_AB_MOMENT_TEST");
@@ -2024,10 +1891,10 @@ internal static class Program
 
         for (test = 0; test < test_num; test++)
         {
-            mu = mu_test[test];
-            sigma = sigma_test[test];
-            a = a_test[test];
-            b = b_test[test];
+            double mu = mu_test[test];
+            double sigma = sigma_test[test];
+            double a = a_test[test];
+            double b = b_test[test];
             Console.WriteLine("");
             Console.WriteLine("  Test = " + test
                                           + ", Mu = " + mu
@@ -2036,11 +1903,12 @@ internal static class Program
                                           + ", B = " + b + "");
             Console.WriteLine(" Order  Moment");
             Console.WriteLine("");
+            int order;
             for (order = 0; order <= 8; order++)
             {
-                moment = Truncated.truncated_normal_ab_moment(order, mu, sigma, a, b);
-                Console.WriteLine("  " + order.ToString().PadLeft(2)
-                                       + "  " + moment.ToString().PadLeft(14) + "");
+                double moment = Truncated.truncated_normal_ab_moment(order, mu, sigma, a, b);
+                Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + moment.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
     }
@@ -2069,9 +1937,7 @@ internal static class Program
         double a = 0;
         double b = 0;
         double mu = 0;
-        int n_data;
         double pdf1 = 0;
-        double pdf2;
         double sigma = 0;
         double x = 0;
 
@@ -2083,7 +1949,7 @@ internal static class Program
         Console.WriteLine("        MU       S         A         B         X        PDF1        PDF2");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -2095,13 +1961,13 @@ internal static class Program
                 break;
             }
 
-            pdf2 = Truncated.truncated_normal_ab_pdf(x, mu, sigma, a, b);
+            double pdf2 = Truncated.truncated_normal_ab_pdf(x, mu, sigma, a, b);
 
-            Console.WriteLine("  " + mu.ToString().PadLeft(8)
-                                   + "  " + sigma.ToString().PadLeft(8)
-                                   + "  " + a.ToString().PadLeft(8)
-                                   + "  " + b.ToString().PadLeft(8)
-                                   + "  " + x.ToString().PadLeft(8)
+            Console.WriteLine("  " + mu.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + sigma.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + b.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "  " + pdf1.ToString("0.################").PadLeft(24)
                                    + "  " + pdf2.ToString("0.################").PadLeft(24) + "");
         }
@@ -2128,20 +1994,14 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
         int i;
-        double mu;
-        int sample_num = 10;
-        int seed;
-        double sigma;
-        double x;
+        const int sample_num = 10;
 
-        a = 50.0;
-        b = 150.0;
-        mu = 100.0;
-        sigma = 25.0;
-        seed = 123456789;
+        const double a = 50.0;
+        const double b = 150.0;
+        const double mu = 100.0;
+        const double sigma = 25.0;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("TRUNCATED_NORMAL_AB_SAMPLE_TEST:");
@@ -2157,9 +2017,9 @@ internal static class Program
 
         for (i = 0; i < sample_num; i++)
         {
-            x = Truncated.truncated_normal_ab_sample(mu, sigma, a, b, ref seed);
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + x.ToString().PadLeft(14) + "");
+            double x = Truncated.truncated_normal_ab_sample(mu, sigma, a, b, ref seed);
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -2185,21 +2045,14 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
         int i;
-        double mu;
-        int sample_num = 1000;
-        int seed;
-        double sigma;
-        double variance;
-        double[] x;
+        const int sample_num = 1000;
 
-        a = 50.0;
-        b = 150.0;
-        mu = 100.0;
-        sigma = 25.0;
-        seed = 123456789;
+        const double a = 50.0;
+        const double b = 150.0;
+        const double mu = 100.0;
+        const double sigma = 25.0;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("TRUNCATED_NORMAL_AB_VARIANCE_TEST");
@@ -2212,12 +2065,12 @@ internal static class Program
         Console.WriteLine("  The parent distribution is truncated to");
         Console.WriteLine("  the interval [" + a + "," + b + "]");
 
-        variance = Truncated.truncated_normal_ab_variance(mu, sigma, a, b);
+        double variance = Truncated.truncated_normal_ab_variance(mu, sigma, a, b);
 
         Console.WriteLine("");
         Console.WriteLine("  PDF variance = " + variance + "");
 
-        x = new double[sample_num];
+        double[] x = new double[sample_num];
 
         for (i = 0; i < sample_num; i++)
         {
@@ -2256,9 +2109,7 @@ internal static class Program
     {
         double b = 0;
         double cdf1 = 0;
-        double cdf2 = 0;
         double mu = 0;
-        int n_data;
         double sigma = 0;
         double x = 0;
 
@@ -2270,7 +2121,7 @@ internal static class Program
         Console.WriteLine("        MU       S         B         X        CDF1           CDF2");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -2282,12 +2133,12 @@ internal static class Program
                 break;
             }
 
-            cdf2 = CDF.truncated_normal_b_cdf(x, mu, sigma, b);
+            double cdf2 = CDF.truncated_normal_b_cdf(x, mu, sigma, b);
 
-            Console.WriteLine("  " + mu.ToString().PadLeft(8)
-                                   + "  " + sigma.ToString().PadLeft(8)
-                                   + "  " + b.ToString().PadLeft(8)
-                                   + "  " + x.ToString().PadLeft(8)
+            Console.WriteLine("  " + mu.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + sigma.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + b.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "  " + cdf1.ToString("0.################").PadLeft(24)
                                    + "  " + cdf2.ToString("0.################").PadLeft(24) + "");
         }
@@ -2314,20 +2165,13 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double b;
-        double cdf;
         int i;
-        double mu;
-        int sample_num = 10;
-        int seed;
-        double sigma;
-        double x;
-        double x2;
+        const int sample_num = 10;
 
-        b = 150.0;
-        mu = 100.0;
-        sigma = 25.0;
-        seed = 123456789;
+        const double b = 150.0;
+        const double mu = 100.0;
+        const double sigma = 25.0;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("TRUNCATED_NORMAL_B_CDF_INV_TEST:");
@@ -2345,13 +2189,13 @@ internal static class Program
 
         for (i = 0; i < sample_num; i++)
         {
-            x = Truncated.truncated_normal_b_sample(mu, sigma, b, ref seed);
-            cdf = CDF.truncated_normal_b_cdf(x, mu, sigma, b);
-            x2 = CDF.truncated_normal_b_cdf_inv(cdf, mu, sigma, b);
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + x.ToString().PadLeft(14)
-                                   + "  " + cdf.ToString().PadLeft(14)
-                                   + "  " + x2.ToString().PadLeft(14) + "");
+            double x = Truncated.truncated_normal_b_sample(mu, sigma, b, ref seed);
+            double cdf = CDF.truncated_normal_b_cdf(x, mu, sigma, b);
+            double x2 = CDF.truncated_normal_b_cdf_inv(cdf, mu, sigma, b);
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + x2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -2377,21 +2221,13 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double b;
         int i;
-        double mean;
-        double mu;
-        int sample_num = 1000;
-        int seed;
-        double sigma;
-        double[] x;
-        double xmax;
-        double xmin;
+        const int sample_num = 1000;
 
-        b = 150.0;
-        mu = 100.0;
-        sigma = 25.0;
-        seed = 123456789;
+        const double b = 150.0;
+        const double mu = 100.0;
+        const double sigma = 25.0;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("TRUNCATED_NORMAL_B_MEAN_TEST");
@@ -2404,12 +2240,12 @@ internal static class Program
         Console.WriteLine("  The parent distribution is truncated to");
         Console.WriteLine("  the interval (-oo," + b + "]");
 
-        mean = Truncated.truncated_normal_b_mean(mu, sigma, b);
+        double mean = Truncated.truncated_normal_b_mean(mu, sigma, b);
 
         Console.WriteLine("");
         Console.WriteLine("  PDF mean = " + mean + "");
 
-        x = new double[sample_num];
+        double[] x = new double[sample_num];
 
         for (i = 0; i < sample_num; i++)
         {
@@ -2417,8 +2253,8 @@ internal static class Program
         }
 
         mean = typeMethods.r8vec_mean(sample_num, x);
-        xmax = typeMethods.r8vec_max(sample_num, x);
-        xmin = typeMethods.r8vec_min(sample_num, x);
+        double xmax = typeMethods.r8vec_max(sample_num, x);
+        double xmin = typeMethods.r8vec_min(sample_num, x);
 
         Console.WriteLine("");
         Console.WriteLine("  Sample size =     " + sample_num + "");
@@ -2450,27 +2286,21 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double b;
         double[] b_test =
         {
             0.0, 10.0, -10.0, 10.0, -10.0, 10.0
         };
-        double moment;
-        double mu;
         double[] mu_test =
         {
             0.0, 0.0, 0.0, 0.0, 0.0, 5.0
         };
-        int order;
-        double sigma;
         double[] sigma_test =
         {
             1.0, 1.0, 1.0, 2.0, 2.0, 1.0
         };
         int test;
-        int test_num;
 
-        test_num = 6;
+        const int test_num = 6;
 
         Console.WriteLine("");
         Console.WriteLine("TRUNCATED_NORMAL_B_MOMENT_TEST");
@@ -2479,9 +2309,9 @@ internal static class Program
 
         for (test = 0; test < test_num; test++)
         {
-            mu = mu_test[test];
-            sigma = sigma_test[test];
-            b = b_test[test];
+            double mu = mu_test[test];
+            double sigma = sigma_test[test];
+            double b = b_test[test];
             Console.WriteLine("");
             Console.WriteLine("  Test = " + test
                                           + ", Mu = " + mu
@@ -2489,11 +2319,12 @@ internal static class Program
                                           + ", B = " + b + "");
             Console.WriteLine(" Order  Moment");
             Console.WriteLine("");
+            int order;
             for (order = 0; order <= 8; order++)
             {
-                moment = Truncated.truncated_normal_b_moment(order, mu, sigma, b);
-                Console.WriteLine("  " + order.ToString().PadLeft(2)
-                                       + "  " + moment.ToString().PadLeft(14) + "");
+                double moment = Truncated.truncated_normal_b_moment(order, mu, sigma, b);
+                Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + moment.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
     }
@@ -2521,9 +2352,7 @@ internal static class Program
     {
         double b = 0;
         double mu = 0;
-        int n_data;
         double pdf1 = 0;
-        double pdf2;
         double sigma = 0;
         double x = 0;
 
@@ -2535,7 +2364,7 @@ internal static class Program
         Console.WriteLine("        MU       S         B         X        PDF1        PDF2");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -2547,12 +2376,12 @@ internal static class Program
                 break;
             }
 
-            pdf2 = Truncated.truncated_normal_b_pdf(x, mu, sigma, b);
+            double pdf2 = Truncated.truncated_normal_b_pdf(x, mu, sigma, b);
 
-            Console.WriteLine("  " + mu.ToString().PadLeft(8)
-                                   + "  " + sigma.ToString().PadLeft(8)
-                                   + "  " + b.ToString().PadLeft(8)
-                                   + "  " + x.ToString().PadLeft(8)
+            Console.WriteLine("  " + mu.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + sigma.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + b.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "  " + pdf1.ToString("0.################").PadLeft(24)
                                    + "  " + pdf2.ToString("0.################").PadLeft(24) + "");
         }
@@ -2579,18 +2408,13 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double b;
         int i;
-        double mu;
-        int sample_num = 10;
-        int seed;
-        double sigma;
-        double x;
+        const int sample_num = 10;
 
-        b = 150.0;
-        mu = 100.0;
-        sigma = 25.0;
-        seed = 123456789;
+        const double b = 150.0;
+        const double mu = 100.0;
+        const double sigma = 25.0;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("TRUNCATED_NORMAL_B_SAMPLE_TEST:");
@@ -2606,9 +2430,9 @@ internal static class Program
 
         for (i = 0; i < sample_num; i++)
         {
-            x = Truncated.truncated_normal_b_sample(mu, sigma, b, ref seed);
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + x.ToString().PadLeft(14) + "");
+            double x = Truncated.truncated_normal_b_sample(mu, sigma, b, ref seed);
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -2634,19 +2458,13 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double b;
         int i;
-        double mu;
-        int sample_num = 1000;
-        int seed;
-        double sigma;
-        double variance;
-        double[] x;
+        const int sample_num = 1000;
 
-        b = 150.0;
-        mu = 100.0;
-        sigma = 25.0;
-        seed = 123456789;
+        const double b = 150.0;
+        const double mu = 100.0;
+        const double sigma = 25.0;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("TRUNCATED_NORMAL_B_VARIANCE_TEST");
@@ -2659,12 +2477,12 @@ internal static class Program
         Console.WriteLine("  The parent distribution is truncated to");
         Console.WriteLine("  the interval (-oo," + b + "]");
 
-        variance = Truncated.truncated_normal_b_variance(mu, sigma, b);
+        double variance = Truncated.truncated_normal_b_variance(mu, sigma, b);
 
         Console.WriteLine("");
         Console.WriteLine("  PDF variance = " + variance + "");
 
-        x = new double[sample_num];
+        double[] x = new double[sample_num];
 
         for (i = 0; i < sample_num; i++)
         {

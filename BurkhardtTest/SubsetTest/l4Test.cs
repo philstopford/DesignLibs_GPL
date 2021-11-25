@@ -26,10 +26,9 @@ public static class l4Test
         //    John Burkardt
         //
     {
-        bool done;
         int i;
         bool[] l4vec = new bool[3];
-        int n = 3;
+        const int n = 3;
 
         Console.WriteLine("");
         Console.WriteLine("L4VEC_NEXT_TEST");
@@ -41,7 +40,7 @@ public static class l4Test
             l4vec[i] = false;
         }
  
-        done = false;
+        bool done = false;
 
         for ( ; ; )
         {

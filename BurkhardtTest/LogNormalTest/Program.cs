@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.CDFLib;
 using Burkardt.PDFLib;
 using Burkardt.Types;
@@ -65,14 +66,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double cdf;
         int i;
-        double mu;
-        double pdf;
         int seed = 123456789;
-        double sigma;
-        double x;
-        double x2;
 
         Console.WriteLine("");
         Console.WriteLine("LOG_NORMAL_CDF_TEST");
@@ -80,8 +75,8 @@ internal static class Program
         Console.WriteLine("  LOG_NORMAL_CDF_INV inverts the Log Normal CDF.");
         Console.WriteLine("  LOG_NORMAL_PDF evaluates the Log Normal PDF;");
 
-        mu = 10.0;
-        sigma = 2.25;
+        const double mu = 10.0;
+        const double sigma = 2.25;
 
         Console.WriteLine("");
         Console.WriteLine("  PDF parameter MU =      " + mu + "");
@@ -101,16 +96,16 @@ internal static class Program
 
         for (i = 1; i <= 10; i++)
         {
-            x = PDF.log_normal_sample(mu, sigma, ref seed);
-            pdf = PDF.log_normal_pdf(x, mu, sigma);
-            cdf = CDF.log_normal_cdf(x, mu, sigma);
-            x2 = CDF.log_normal_cdf_inv(cdf, mu, sigma);
+            double x = PDF.log_normal_sample(mu, sigma, ref seed);
+            double pdf = PDF.log_normal_pdf(x, mu, sigma);
+            double cdf = CDF.log_normal_cdf(x, mu, sigma);
+            double x2 = CDF.log_normal_cdf_inv(cdf, mu, sigma);
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + pdf.ToString().PadLeft(12) + "  "
-                              + cdf.ToString().PadLeft(12) + "  "
-                              + x2.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -135,17 +130,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int SAMPLE_NUM = 1000;
+        const int SAMPLE_NUM = 1000;
 
         int i;
-        double mean;
-        double mu;
         int seed = 123456789;
-        double sigma;
-        double variance;
         double[] x = new double[SAMPLE_NUM];
-        double xmax;
-        double xmin;
 
         Console.WriteLine("");
         Console.WriteLine("LOG_NORMAL_SAMPLE_TEST");
@@ -153,8 +142,8 @@ internal static class Program
         Console.WriteLine("  LOG_NORMAL_SAMPLE samples the Log Normal distribution;");
         Console.WriteLine("  LOG_NORMAL_VARIANCE computes the Log Normal variance;");
 
-        mu = 1.0;
-        sigma = 2.0;
+        const double mu = 1.0;
+        const double sigma = 2.0;
 
         Console.WriteLine("");
         Console.WriteLine("  PDF parameter MU =      " + mu + "");
@@ -168,8 +157,8 @@ internal static class Program
             return;
         }
 
-        mean = PDF.log_normal_mean(mu, sigma);
-        variance = PDF.log_normal_variance(mu, sigma);
+        double mean = PDF.log_normal_mean(mu, sigma);
+        double variance = PDF.log_normal_variance(mu, sigma);
 
         Console.WriteLine("");
         Console.WriteLine("  PDF mean =     " + mean + "");
@@ -182,8 +171,8 @@ internal static class Program
 
         mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
         variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
-        xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
-        xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
+        double xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+        double xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
         Console.WriteLine("");
         Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");

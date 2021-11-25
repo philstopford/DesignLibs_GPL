@@ -30,10 +30,8 @@ public static class IndexTest
     {
         int i = 0;
         int j = 0;
-        bool more = false;
-        int n1 = 5;
-        int n2 = 3;
-        int n;
+        const int n1 = 5;
+        const int n2 = 3;
 
         Console.WriteLine("");
         Console.WriteLine("INDEX_BOX_NEXT_2D_TEST");
@@ -47,8 +45,8 @@ public static class IndexTest
         Console.WriteLine("   #    I   J");
         Console.WriteLine("");
 
-        more = false;
-        n = 0;
+        bool more = false;
+        int n = 0;
 
         for (;;)
         {
@@ -90,11 +88,9 @@ public static class IndexTest
         int i = 0;
         int j = 0;
         int k = 0;
-        bool more = false;
-        int n1 = 5;
-        int n2 = 3;
-        int n3 = 4;
-        int n = 0;
+        const int n1 = 5;
+        const int n2 = 3;
+        const int n3 = 4;
 
         Console.WriteLine("");
         Console.WriteLine("INDEX_BOX_NEXT_3D_TEST");
@@ -109,8 +105,8 @@ public static class IndexTest
         Console.WriteLine("   #    I   J   K");
         Console.WriteLine("");
 
-        more = false;
-        n = 0;
+        bool more = false;
+        int n = 0;
 
         for (;;)
         {
@@ -152,13 +148,11 @@ public static class IndexTest
         //
     {
         int i = 0;
-        int ic = 10;
+        const int ic = 10;
         int j = 0;
-        int jc = 20;
-        bool more = false;
-        int n1 = 4;
-        int n2 = 3;
-        int n = 0;
+        const int jc = 20;
+        const int n1 = 4;
+        const int n2 = 3;
 
         Console.WriteLine("");
         Console.WriteLine("INDEX_BOX2_NEXT_2D_TEST");
@@ -176,8 +170,8 @@ public static class IndexTest
         Console.WriteLine("   #    I   J");
         Console.WriteLine("");
 
-        more = false;
-        n = 0;
+        bool more = false;
+        int n = 0;
 
         for (;;)
         {
@@ -217,16 +211,14 @@ public static class IndexTest
         //
     {
         int i = 0;
-        int ic = 10;
+        const int ic = 10;
         int j = 0;
-        int jc = 20;
+        const int jc = 20;
         int k = 0;
-        int kc = 30;
-        bool more;
-        int n1 = 5;
-        int n2 = 3;
-        int n3 = 4;
-        int n = 0;
+        const int kc = 30;
+        const int n1 = 5;
+        const int n2 = 3;
+        const int n3 = 4;
 
         Console.WriteLine("");
         Console.WriteLine("INDEX_BOX2_NEXT_3D_TEST");
@@ -248,8 +240,8 @@ public static class IndexTest
         Console.WriteLine("   #    I   J   K");
         Console.WriteLine("");
 
-        more = false;
-        n = 0;
+        bool more = false;
+        int n = 0;
 
         for (;;)
         {
@@ -297,12 +289,10 @@ public static class IndexTest
         //    John Burkardt
         //
     {
-        int N = 3;
+        const int N = 3;
 
         int[] a = new int[N];
-        int hi = 3;
-        int i;
-        bool more = false;
+        const int hi = 3;
 
         Console.WriteLine("");
         Console.WriteLine("INDEX_NEXT0_TEST");
@@ -317,13 +307,14 @@ public static class IndexTest
         Console.WriteLine("  Index arrays:");
         Console.WriteLine("");
 
-        more = false;
+        bool more = false;
 
         for (;;)
         {
             Index.index_next0(N, hi, ref a, ref more);
 
             string cout = "";
+            int i;
             for (i = 0; i < N; i++)
             {
                 cout += a[i].ToString().PadLeft(4) + "  ";
@@ -360,12 +351,10 @@ public static class IndexTest
         //    John Burkardt
         //
     {
-        int N = 3;
+        const int N = 3;
 
         int[] a = new int[N];
         int[] hi = { 4, 2, 3 };
-        int i;
-        bool more = false;
 
         Console.WriteLine("");
         Console.WriteLine("INDEX_NEXT1_TEST");
@@ -381,13 +370,14 @@ public static class IndexTest
         Console.WriteLine("  Index arrays:");
         Console.WriteLine("");
 
-        more = false;
+        bool more = false;
 
         for (;;)
         {
             Index.index_next1(N, hi, ref a, ref more);
 
             string cout = "";
+            int i;
             for (i = 0; i < N; i++)
             {
                 cout += a[i].ToString().PadLeft(4) + "  ";
@@ -424,13 +414,12 @@ public static class IndexTest
         //    John Burkardt
         //
     {
-        int N = 3;
+        const int N = 3;
 
         int[] a = new int[N];
         int[] hi = { 11, -3, 1 };
         int i;
         int[] lo = { 10, -5, 0 };
-        bool more = false;
 
         Console.WriteLine("");
         Console.WriteLine("INDEX_NEXT2_TEST");
@@ -454,7 +443,7 @@ public static class IndexTest
         Console.WriteLine("Index arrays:");
         Console.WriteLine("");
 
-        more = false;
+        bool more = false;
 
         for (;;)
         {
@@ -498,11 +487,10 @@ public static class IndexTest
         //    John Burkardt
         //
     {
-        int N = 3;
+        const int N = 3;
 
         int[] a = { 3, 1, 2 };
-        int hi = 3;
-        int rank;
+        const int hi = 3;
 
         Console.WriteLine("");
         Console.WriteLine("INDEX_RANK0_TEST");
@@ -516,7 +504,7 @@ public static class IndexTest
 
         typeMethods.i4vec1_print(N, a, "  The index array:");
 
-        rank = Index.index_rank0(N, hi, a);
+        int rank = Index.index_rank0(N, hi, a);
 
         Console.WriteLine("");
         Console.WriteLine("  The rank of this object is " + rank + "");
@@ -544,12 +532,11 @@ public static class IndexTest
         //    John Burkardt
         //
     {
-        int N = 3;
+        const int N = 3;
 
         int[] a = { 4, 1, 2 };
         int[] hi = { 4, 2, 3 };
         int i;
-        int rank;
 
         Console.WriteLine("");
         Console.WriteLine("INDEX_RANK1_TEST");
@@ -569,7 +556,7 @@ public static class IndexTest
 
         typeMethods.i4vec1_print(N, a, "  The index array:");
 
-        rank = Index.index_rank1(N, hi, a);
+        int rank = Index.index_rank1(N, hi, a);
 
         Console.WriteLine("");
         Console.WriteLine("  The rank of this object is " + rank + "");
@@ -652,12 +639,10 @@ public static class IndexTest
         //    John Burkardt
         //
     {
-        int N = 3;
+        const int N = 3;
 
         int[] a = new int[N];
-        int hi = 3;
-        int i;
-        int maxrank;
+        const int hi = 3;
         int rank;
 
         Console.WriteLine("");
@@ -671,12 +656,13 @@ public static class IndexTest
         Console.WriteLine("  Rank, Multi-Index:");
         Console.WriteLine("");
 
-        maxrank = (int)Math.Pow(hi, N);
+        int maxrank = (int)Math.Pow(hi, N);
 
         for (rank = 1; rank <= maxrank; rank++)
         {
             Index.index_unrank0(N, hi, rank, ref a);
             string cout = rank.ToString().PadLeft(3) + "  ";
+            int i;
             for (i = 0; i < N; i++)
             {
                 cout += a[i].ToString().PadLeft(6) + "  ";
@@ -707,12 +693,10 @@ public static class IndexTest
         //    John Burkardt
         //
     {
-        int N = 3;
+        const int N = 3;
 
         int[] a = new int[N];
         int[] hi = { 4, 2, 3 };
-        int i;
-        int maxrank;
         int rank;
 
         Console.WriteLine("");
@@ -727,12 +711,13 @@ public static class IndexTest
         Console.WriteLine("  Rank, Multi-Index:");
         Console.WriteLine("");
 
-        maxrank = typeMethods.i4vec_product(N, hi);
+        int maxrank = typeMethods.i4vec_product(N, hi);
 
         for (rank = 1; rank <= maxrank; rank++)
         {
             Index.index_unrank1(N, hi, rank, ref a);
             string cout = rank.ToString().PadLeft(3) + "  ";
+            int i;
             for (i = 0; i < N; i++)
             {
                 cout += a[i].ToString().PadLeft(6) + "  ";
@@ -763,13 +748,12 @@ public static class IndexTest
         //    John Burkardt
         //
     {
-        int N = 3;
+        const int N = 3;
 
         int[] a = new int[N];
         int[] hi = { 2, 11, 6 };
         int i;
         int[] lo = { 1, 10, 4 };
-        int rank;
 
         Console.WriteLine("");
         Console.WriteLine("INDEX_UNRANK2_TEST");
@@ -791,7 +775,7 @@ public static class IndexTest
         Console.WriteLine("  Rank, Multi-Index:");
         Console.WriteLine("");
 
-        rank = 7;
+        int rank = 7;
 
         Index.index_unrank2(N, lo, hi, rank, ref a);
         string cout = rank.ToString().PadLeft(3) + "  ";

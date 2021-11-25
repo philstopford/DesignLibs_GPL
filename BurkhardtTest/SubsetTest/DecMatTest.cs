@@ -27,8 +27,8 @@ public static class DecMatTest
         //    John Burkardt
         //
     {
-        int N3 = 3;
-        int N4 = 4;
+        const int N3 = 3;
+        const int N4 = 4;
 
         int a = 0;
         int b = 0;
@@ -38,20 +38,17 @@ public static class DecMatTest
         int[] b4 = new int[N4 * N4];
         int i;
         int dbot = 0;
-        int dec_digit;
         int dtop = 0;
         int j;
-        int k;
-        double r;
 
         Console.WriteLine("");
         Console.WriteLine("DECMAT_DET_TEST");
         Console.WriteLine("  DECMAT_DET: determinant of a decimal matrix.");
         Console.WriteLine("");
 
-        dec_digit = 5;
+        const int dec_digit = 5;
 
-        k = 0;
+        int k = 0;
         for (i = 0; i < N3; i++)
         {
             for (j = 0; j < N3; j++)
@@ -82,7 +79,7 @@ public static class DecMatTest
         {
             for (j = 0; j < N4; j++)
             {
-                r = 1.0 / (i + j + 2);
+                double r = 1.0 / (i + j + 2);
 
                 typeMethods.r8_to_dec(r, dec_digit, ref a, ref b);
                 a4[i + j * N4] = a;
@@ -161,24 +158,22 @@ public static class DecMatTest
         int[] amat = new int[4 * 3];
         int b = 0;
         int[] bmat = new int[4 * 3];
-        int dec_digit;
         int i;
-        int j;
-        int m = 4;
-        int n = 3;
-        double r;
+        const int m = 4;
+        const int n = 3;
 
         Console.WriteLine("");
         Console.WriteLine("DECMAT_PRINT_TEST");
         Console.WriteLine("  DECMAT_PRINT prints a decimal matrix.");
 
-        dec_digit = 5;
+        const int dec_digit = 5;
 
         for (i = 0; i < m; i++)
         {
+            int j;
             for (j = 0; j < n; j++)
             {
-                r = 1.0 / (i + j + 2);
+                double r = 1.0 / (i + j + 2);
 
                 typeMethods.r8_to_dec(r, dec_digit, ref a, ref b);
                 amat[i + j * m] = a;

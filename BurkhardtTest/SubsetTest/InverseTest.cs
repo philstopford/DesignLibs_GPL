@@ -26,10 +26,7 @@ public static class InverseTest
         //    John Burkardt
         //
     {
-        int b;
         int n;
-        int y;
-        int z;
 
         Console.WriteLine("");
         Console.WriteLine("INVERSE_MOD_N_TEST");
@@ -43,10 +40,11 @@ public static class InverseTest
 
         for ( n = 1; n <= 10;  n++ )
         {
+            int b;
             for ( b = 1; b < n; b++ )
             {
-                y = Helpers.inverse_mod_n ( b, n );
-                z = b * y % n;
+                int y = Helpers.inverse_mod_n ( b, n );
+                int z = b * y % n;
                 Console.WriteLine("  " + b.ToString().PadLeft(2)
                                        + "  " + n.ToString().PadLeft(2)
                                        + "  " + y.ToString().PadLeft(2)

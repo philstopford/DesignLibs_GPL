@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt;
 using Burkardt.Values;
 using Burkardt.Types;
@@ -29,15 +30,12 @@ public static class i4Test
         //    John Burkardt
         //
     {
-        int i4;
         int[] i4_test =  {
                 101, -31
             }
             ;
-        int j;
-        int pos;
         int test;
-        int test_num = 2;
+        const int test_num = 2;
 
         Console.WriteLine("");
         Console.WriteLine("I4_BCLR_TEST");
@@ -45,7 +43,7 @@ public static class i4Test
 
         for (test = 0; test < test_num; test++)
         {
-            i4 = i4_test[test];
+            int i4 = i4_test[test];
 
             Console.WriteLine("");
             Console.WriteLine("  Working on I4 = " + i4 + "");
@@ -53,9 +51,10 @@ public static class i4Test
             Console.WriteLine("       Pos     I4_BCLR(I4,POS)");
             Console.WriteLine("");
 
+            int pos;
             for (pos = 0; pos < 32; pos++)
             {
-                j = typeMethods.i4_bclr(i4, pos);
+                int j = typeMethods.i4_bclr(i4, pos);
 
                 Console.WriteLine("  " + pos.ToString().PadLeft(8)
                                        + "  " + j.ToString().PadLeft(12) + "");
@@ -84,15 +83,12 @@ public static class i4Test
         //    John Burkardt
         //
     {
-        int i4;
         int[] i4_test =  {
                 101, -31
             }
             ;
-        int j;
-        int pos;
         int test;
-        int test_num = 2;
+        const int test_num = 2;
 
         Console.WriteLine("");
         Console.WriteLine("I4_BSET_TEST");
@@ -100,7 +96,7 @@ public static class i4Test
 
         for (test = 0; test < test_num; test++)
         {
-            i4 = i4_test[test];
+            int i4 = i4_test[test];
 
             Console.WriteLine("");
             Console.WriteLine("  Working on I4 = " + i4 + "");
@@ -108,9 +104,10 @@ public static class i4Test
             Console.WriteLine("       Pos     I4_BSET(I4,POS)");
             Console.WriteLine("");
 
+            int pos;
             for (pos = 0; pos < 32; pos++)
             {
-                j = typeMethods.i4_bset(i4, pos);
+                int j = typeMethods.i4_bset(i4, pos);
 
                 Console.WriteLine("  " + pos.ToString().PadLeft(8)
                                        + "  " + j.ToString().PadLeft(12) + "");
@@ -139,13 +136,10 @@ public static class i4Test
         //    John Burkardt
         //
     {
-        int i4;
         int[] i4_test =  {
                 101, -31
             }
             ;
-        bool j;
-        int pos;
         int test;
 
         Console.WriteLine("");
@@ -154,7 +148,7 @@ public static class i4Test
 
         for (test = 0; test < 2; test++)
         {
-            i4 = i4_test[test];
+            int i4 = i4_test[test];
 
             Console.WriteLine("");
             Console.WriteLine("  Analyze the integer I4 = " + i4 + "");
@@ -162,9 +156,10 @@ public static class i4Test
             Console.WriteLine("       Pos     I4_BTEST(I4,POS)");
             Console.WriteLine("");
 
+            int pos;
             for (pos = 0; pos <= 31; pos++)
             {
-                j = typeMethods.i4_btest(i4, pos);
+                bool j = typeMethods.i4_btest(i4, pos);
 
                 Console.WriteLine("  " + pos.ToString().PadLeft(8)
                                        + "  " + j + "");
@@ -193,8 +188,6 @@ public static class i4Test
         //    John Burkardt
         //
     {
-        int cnk;
-        int k;
         int n;
 
         Console.WriteLine("");
@@ -206,9 +199,10 @@ public static class i4Test
         for (n = 0; n <= 4; n++)
         {
             Console.WriteLine("");
+            int k;
             for (k = 0; k <= n; k++)
             {
-                cnk = typeMethods.i4_choose(n, k);
+                int cnk = typeMethods.i4_choose(n, k);
 
                 Console.WriteLine("  "
                                   + n.ToString().PadLeft(6) + "  "
@@ -235,12 +229,11 @@ public static class i4Test
         //    05 September 2005
         //
     {
-        int FACTOR_MAX = 10;
+        const int FACTOR_MAX = 10;
 
         int[] factor = new int[FACTOR_MAX];
         int factor_num = 0;
         int i;
-        int n;
         int nleft = 0;
         int[] power = new int[FACTOR_MAX];
 
@@ -248,7 +241,7 @@ public static class i4Test
         Console.WriteLine("I4_FACTOR_TEST");
         Console.WriteLine("  I4_FACTOR factors an integer,");
 
-        n = 2 * 2 * 17 * 37;
+        const int n = 2 * 2 * 17 * 37;
 
         Console.WriteLine("");
         Console.WriteLine("  The integer is " + n + "");
@@ -298,10 +291,8 @@ public static class i4Test
         //
     {
         int f1 = 0;
-        int f2 = 0;
         int m = 0;
         int n = 0;
-        int n_data = 0;
 
         Console.WriteLine("");
         Console.WriteLine("I4_FALL_TEST");
@@ -309,7 +300,7 @@ public static class i4Test
         Console.WriteLine("");
         Console.WriteLine("         M         N     Exact  I4_Fall(M,N)");
 
-        n_data = 0;
+        int n_data = 0;
 
         while (true)
         {
@@ -320,7 +311,7 @@ public static class i4Test
                 break;
             }
 
-            f2 = typeMethods.i4_fall(m, n);
+            int f2 = typeMethods.i4_fall(m, n);
 
             Console.WriteLine("  " + m.ToString().PadLeft(8)
                                    + "  " + n.ToString().PadLeft(8)
@@ -350,10 +341,7 @@ public static class i4Test
         //    John Burkardt
         //
     {
-        int i;
-        int j;
         int k;
-        int seed;
 
         Console.WriteLine("");
         Console.WriteLine("I4_GCD_TEST");
@@ -364,12 +352,12 @@ public static class i4Test
         Console.WriteLine("     I     J    I4_GCD(I,J)");
         Console.WriteLine("");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         for (k = 1; k <= 15; k++)
         {
-            i = UniformRNG.i4_uniform_ab(-5, 15, ref seed);
-            j = UniformRNG.i4_uniform_ab(1, 15, ref seed);
+            int i = UniformRNG.i4_uniform_ab(-5, 15, ref seed);
+            int j = UniformRNG.i4_uniform_ab(1, 15, ref seed);
 
             Console.WriteLine(i.ToString().PadLeft(4) + "  "
                                                       + j.ToString().PadLeft(4) + "  "
@@ -445,7 +433,7 @@ public static class i4Test
         for (i = 0; i < N; i++)
         {
             Console.WriteLine(x[i].ToString().PadLeft(6) + "  "
-                                                         + Math.Log10(x[i]).ToString().PadLeft(6) + "");
+                                                         + Math.Log10(x[i]).ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
 
         }
     }
@@ -542,9 +530,7 @@ public static class i4Test
         //
     {
         int c1 = 0;
-        int c2;
         int n = 0;
-        int n_data;
 
         Console.WriteLine("");
         Console.WriteLine("I4_MOEBIUS_TEST");
@@ -552,7 +538,7 @@ public static class i4Test
         Console.WriteLine("");
         Console.WriteLine("         N     Exact  I4_Moebius(N)");
 
-        n_data = 0;
+        int n_data = 0;
 
         while (true)
         {
@@ -563,7 +549,7 @@ public static class i4Test
                 break;
             }
 
-            c2 = typeMethods.i4_moebius(n);
+            int c2 = typeMethods.i4_moebius(n);
 
             Console.WriteLine("  " + n.ToString().PadLeft(8)
                                    + "  " + c1.ToString().PadLeft(8)
@@ -649,7 +635,6 @@ public static class i4Test
         const int N_MAX = 20;
 
         int n = 0;
-        int n_data;
         int p = 0;
         int[] p2 = new int[N_MAX + 1];
 
@@ -657,7 +642,7 @@ public static class i4Test
         Console.WriteLine("I4_PARTITION_COUNT_TEST");
         Console.WriteLine("  I4_PARTITION_COUNT counts partitions of an integer.");
 
-        n_data = 0;
+        int n_data = 0;
 
         Console.WriteLine("");
         Console.WriteLine("   N     Exact     Count");
@@ -711,15 +696,13 @@ public static class i4Test
         const int N_MAX = 20;
 
         int n = 0;
-        int n_data;
         int p = 0;
-        int[] p2;
 
         Console.WriteLine("");
         Console.WriteLine("I4_PARTITION_COUNT2_TEST");
         Console.WriteLine("  I4_PARTITION_COUNT2 counts partitions of an integer.");
 
-        n_data = 0;
+        int n_data = 0;
 
         Console.WriteLine("");
         Console.WriteLine("   N     Exact     Count");
@@ -740,7 +723,7 @@ public static class i4Test
 
             if (n <= N_MAX)
             {
-                p2 = typeMethods.i4_partition_count2(n);
+                int[] p2 = typeMethods.i4_partition_count2(n);
                 cout += "  "
                         + "      "
                         + p2[n].ToString().PadLeft(10);
@@ -879,16 +862,14 @@ public static class i4Test
                 1, 1, 3, 1
             }
             ;
-        int n;
-        int npart;
 
         Console.WriteLine("");
         Console.WriteLine("I4_PARTITION_PRINT_TEST");
         Console.WriteLine("  I4_PARTITION_PRINT prints an integer partition.");
         Console.WriteLine("");
 
-        n = 14;
-        npart = 4;
+        const int n = 14;
+        const int npart = 4;
         typeMethods.i4_partition_print(n, npart, a, mult);
     }
 
@@ -913,26 +894,24 @@ public static class i4Test
         //    John Burkardt
         //
     {
-        int N = 8;
+        const int N = 8;
 
         int[] a = new int[N];
         int i;
         int j;
         int[] mult = new int[N];
         int npart = 0;
-        int seed;
-        int[] table;
 
         Console.WriteLine("");
         Console.WriteLine("I4_PARTITION_RANDOM_TEST");
         Console.WriteLine("  I4_PARTITION_RANDOM generates a random partition.");
         Console.WriteLine("");
 
-        seed = 123456789;
+        int seed = 123456789;
         //
         //  Call once just to get the partition table.
         //
-        table = typeMethods.i4_partition_count2(N);
+        int[] table = typeMethods.i4_partition_count2(N);
 
         Console.WriteLine("");
         Console.WriteLine("  The number of partitions of N.");
@@ -978,12 +957,9 @@ public static class i4Test
         //    John Burkardt
         //
     {
-        int i;
         int j;
         int[] m = new int[3];
-        int msum;
-        int s = 3;
-        string cout;
+        const int s = 3;
 
         Console.WriteLine("");
         Console.WriteLine("I4_PARTITIONS_NEXT_TEST");
@@ -991,7 +967,7 @@ public static class i4Test
         Console.WriteLine("  nondecreasing partitions of an integer, and");
         Console.WriteLine("  if necessary, increments the integer to keep on going.");
 
-        i = 0;
+        int i = 0;
         m[0] = 0;
         m[1] = 0;
         m[2] = 0;
@@ -999,9 +975,9 @@ public static class i4Test
         Console.WriteLine("");
         Console.WriteLine("   I Sum    Partition");
         Console.WriteLine("");
-        msum = typeMethods.i4vec_sum(s, m);
-        cout = "  " + i.ToString().PadLeft(2)
-                    + "  " + msum.ToString().PadLeft(2) + "    ";
+        int msum = typeMethods.i4vec_sum(s, m);
+        string cout = "  " + i.ToString().PadLeft(2)
+                           + "  " + msum.ToString().PadLeft(2) + "    ";
         for (j = 0; j < s; j++)
         {
             cout += m[j].ToString().PadLeft(2);
@@ -1082,10 +1058,8 @@ public static class i4Test
         //
     {
         int f1 = 0;
-        int f2 = 0;
         int m = 0;
         int n = 0;
-        int n_data;
 
         Console.WriteLine("");
         Console.WriteLine("I4_RISE_TEST");
@@ -1093,7 +1067,7 @@ public static class i4Test
         Console.WriteLine("");
         Console.WriteLine("         M         N     Exact  I4_RISE(M,N)");
 
-        n_data = 0;
+        int n_data = 0;
 
         while (true)
         {
@@ -1104,7 +1078,7 @@ public static class i4Test
                 break;
             }
 
-            f2 = typeMethods.i4_rise(m, n);
+            int f2 = typeMethods.i4_rise(m, n);
 
             Console.WriteLine("  " + m.ToString().PadLeft(8)
                                    + "  " + n.ToString().PadLeft(8)
@@ -1176,11 +1150,10 @@ public static class i4Test
         //    John Burkardt
         //
     {
-        int MAX_TERM = 100;
+        const int MAX_TERM = 100;
 
         int[] b = new int[MAX_TERM + 1];
-        int i = 0;
-        int n = 0;
+        int n;
         int n_term = 0;
 
         Console.WriteLine("");
@@ -1196,6 +1169,7 @@ public static class i4Test
             typeMethods.i4_sqrt_cf(n, MAX_TERM, ref n_term, ref b);
             string cout = n.ToString().PadLeft(5) + "  "
                                                   + n_term.ToString().PadLeft(5) + "  ";
+            int i = 0;
             for (i = 0; i <= n_term; i++)
             {
                 cout += b[i].ToString().PadLeft(5) + "  ";
@@ -1228,10 +1202,6 @@ public static class i4Test
     {
         int[] dvec = new int[6];
         int i;
-        int i1;
-        int i2;
-        int n;
-        int seed;
 
         Console.WriteLine("");
         Console.WriteLine("I4_TO_DVEC_TEST");
@@ -1240,13 +1210,13 @@ public static class i4Test
         Console.WriteLine("         I4 => DVEC => I4");
         Console.WriteLine("");
 
-        seed = 123456789;
-        i1 = UniformRNG.i4_uniform_ab(-10000, 10000, ref seed);
+        int seed = 123456789;
+        int i1 = UniformRNG.i4_uniform_ab(-10000, 10000, ref seed);
 
-        n = 6;
+        int n = 6;
         typeMethods.i4_to_dvec(i1, n, ref dvec);
 
-        i2 = typeMethods.dvec_to_i4(n, ref dvec);
+        int i2 = typeMethods.dvec_to_i4(n, ref dvec);
 
         string cout = "  " + i1.ToString().PadLeft(6) + "  ";
         for (i = n - 1; 0 <= i; i--)
@@ -1288,15 +1258,12 @@ public static class i4Test
             }
             ;
         int degree = 0;
-        int i;
         int intval;
-        int intval2;
         int[] intval_test =  {
                 1, 6, 23, 23, 23, 23, 23, 23, 23
             }
             ;
         int test;
-        string cout;
 
         Console.WriteLine("");
         Console.WriteLine("I4_TO_I4POLY_TEST");
@@ -1310,10 +1277,11 @@ public static class i4Test
             intval = intval_test[test];
             base_ = base_test[test];
             typeMethods.i4_to_i4poly(intval, base_, DEGREE_MAX, ref degree, ref a);
-            cout = "  "
-                   + intval.ToString().PadLeft(6) + "  "
-                   + base_.ToString().PadLeft(6) + "  "
-                   + degree.ToString().PadLeft(6) + "  ";
+            string cout = "  "
+                          + intval.ToString().PadLeft(6) + "  "
+                          + base_.ToString().PadLeft(6) + "  "
+                          + degree.ToString().PadLeft(6) + "  ";
+            int i;
             for (i = 0; i <= degree; i++)
             {
                 cout += a[i].ToString().PadLeft(6) + "  ";
@@ -1333,7 +1301,7 @@ public static class i4Test
             intval = intval_test[test];
             base_ = base_test[test];
             typeMethods.i4_to_i4poly(intval, base_, DEGREE_MAX, ref degree, ref a);
-            intval2 = typeMethods.i4poly_to_i4(degree, a, base_);
+            int intval2 = typeMethods.i4poly_to_i4(degree, a, base_);
             Console.WriteLine("  "
                               + intval.ToString().PadLeft(6) + "  "
                               + intval2.ToString().PadLeft(6) + "");
@@ -1361,7 +1329,6 @@ public static class i4Test
         //    John Burkardt
         //
     {
-        double h;
         int i;
         int j;
         int p;
@@ -1389,8 +1356,8 @@ public static class i4Test
             for (j = 1; j <= 5; j++)
             {
                 p = Burkardt.Function.Prime.prime(j);
-                h = Burkardt.Sequence.VanDerCorput.i4_to_van_der_corput(i, p);
-                cout += h.ToString().PadLeft(10) + "  ";
+                double h = Burkardt.Sequence.VanDerCorput.i4_to_van_der_corput(i, p);
+                cout += h.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  ";
             }
 
             Console.WriteLine(cout);
@@ -1520,11 +1487,10 @@ public static class i4Test
         //    John Burkardt
         //
     {
-        int N = 9;
+        const int N = 9;
 
         int[] a = new int[N * N];
         int i;
-        int j;
         int[] p =  {
                 1,2,8,5,6,7,4,3,0
             }
@@ -1537,6 +1503,7 @@ public static class i4Test
 
         for (i = 0; i < N; i++)
         {
+            int j;
             for (j = 0; j < N; j++)
             {
                 a[i + j * N] = (i + 1) * 10 + j + 1;
@@ -1573,12 +1540,11 @@ public static class i4Test
         //    John Burkardt
         //
     {
-        int M = 9;
-        int N = 7;
+        const int M = 9;
+        const int N = 7;
 
         int[] a = new int[M * N];
         int i;
-        int j;
         int[] p =  {
                 1,2,8,5,6,7,4,3,0
             }
@@ -1595,6 +1561,7 @@ public static class i4Test
 
         for (i = 0; i < M; i++)
         {
+            int j;
             for (j = 0; j < N; j++)
             {
                 a[i + j * M] = (i + 1) * 10 + j + 1;
@@ -1745,11 +1712,8 @@ public static class i4Test
                 1, -2, 7, 8, 0, -5
             }
             ;
-        int[] c;
-        int na = 5;
-        int nb = 5;
-        int nc;
-        int nc2;
+        const int na = 5;
+        const int nb = 5;
 
         Console.WriteLine("");
         Console.WriteLine("I4POLY_ADD_TEST");
@@ -1759,11 +1723,11 @@ public static class i4Test
 
         typeMethods.i4poly_print(nb, b, "  Polynomial B:");
 
-        c = typeMethods.i4poly_add(na, a, nb, b);
+        int[] c = typeMethods.i4poly_add(na, a, nb, b);
 
-        nc = Math.Max(na, nb);
+        int nc = Math.Max(na, nb);
 
-        nc2 = typeMethods.i4poly_degree(nc, c);
+        int nc2 = typeMethods.i4poly_degree(nc, c);
 
         typeMethods.i4poly_print(nc2, c, "  Polynomial C = A+B:");
     }
@@ -1836,8 +1800,7 @@ public static class i4Test
                 0, 1, 0, 3, 4, 0, 6, 7, 0, 0, 0
             }
             ;
-        int degree;
-        int n = 4;
+        const int n = 4;
 
         Console.WriteLine("");
         Console.WriteLine("I4POLY_DEGREE_TEST");
@@ -1845,7 +1808,7 @@ public static class i4Test
 
         typeMethods.i4poly_print(n, a, "  The polynomial:");
 
-        degree = typeMethods.i4poly_degree(n, a);
+        int degree = typeMethods.i4poly_degree(n, a);
 
         Console.WriteLine("");
         Console.WriteLine("The polyomial degree = " + degree + "");
@@ -1873,7 +1836,6 @@ public static class i4Test
         //
     {
         int[] a = new int[11];
-        int[] b;
         int d = 0;
         int na = 0;
         int test_num = 2;
@@ -1915,7 +1877,7 @@ public static class i4Test
             Console.WriteLine("");
             Console.WriteLine("  Differentiate A " + d + " times.");
 
-            b = typeMethods.i4poly_dif(na, a, d);
+            int[] b = typeMethods.i4poly_dif(na, a, d);
             typeMethods.i4poly_print(na - d, b, "  The derivative, B:");
         }
     }
@@ -2130,24 +2092,22 @@ public static class i4Test
         //    John Burkardt
         //
     {
-        int DEGREE_MAX = 5;
-        int TEST_NUM = 9;
+        const int DEGREE_MAX = 5;
+        const int TEST_NUM = 9;
 
         int[] a = new int[DEGREE_MAX + 1];
-        int base_ = 0;
+        int base_;
         int[] base_test =  {
                 2, 2, 2, 3, 4, 5, 6, 23, 24
             }
             ;
         int degree = 0;
-        int i = 0;
-        int intval = 0;
-        int intval2 = 0;
+        int intval;
         int[] intval_test =  {
                 1, 6, 23, 23, 23, 23, 23, 23, 23
             }
             ;
-        int test = 0;
+        int test;
 
         Console.WriteLine("");
         Console.WriteLine("I4POLY_TO_I4_TEST");
@@ -2165,6 +2125,7 @@ public static class i4Test
                           + intval.ToString().PadLeft(6) + "  "
                           + base_.ToString().PadLeft(6) + "  "
                           + degree.ToString().PadLeft(6) + "  ";
+            int i = 0;
             for (i = 0; i <= degree; i++)
             {
                 cout += a[i].ToString().PadLeft(6) + "  ";
@@ -2184,7 +2145,7 @@ public static class i4Test
             intval = intval_test[test];
             base_ = base_test[test];
             typeMethods.i4_to_i4poly(intval, base_, DEGREE_MAX, ref degree, ref a);
-            intval2 = typeMethods.i4poly_to_i4(degree, a, base_);
+            int intval2 = typeMethods.i4poly_to_i4(degree, a, base_);
             Console.WriteLine("  "
                               + intval.ToString().PadLeft(6) + "  "
                               + intval2.ToString().PadLeft(6) + "");
@@ -2212,17 +2173,11 @@ public static class i4Test
         //    John Burkardt
         //
     {
-        int found_num;
         int i;
-        int indx;
-        int k;
-        int n = 8;
-        int maxstack = 100;
+        const int n = 8;
+        const int maxstack = 100;
         int[] ncan = new int[8];
-        int nstack;
         int[] stacks = new int[100];
-        int t;
-        int total;
         int[] w =  {
                 15, 22, 14, 26, 32, 9, 16, 8
             }
@@ -2240,27 +2195,28 @@ public static class i4Test
         Console.WriteLine("  X(I) is 0 or 1 if the entry is skipped or used.");
         Console.WriteLine("");
 
-        t = 53;
+        int t = 53;
 
         for (i = 0; i < n; i++)
         {
             x[i] = 0;
         }
 
-        indx = 0;
-        k = 0;
-        nstack = 0;
+        int indx = 0;
+        int k = 0;
+        int nstack = 0;
         for (i = 0; i < n; i++)
         {
             ncan[i] = 0;
         }
 
-        found_num = 0;
+        int found_num = 0;
 
         for (;;)
         {
             typeMethods.i4vec_backtrack(n, maxstack, stacks, ref x, ref indx, ref k, ref nstack, ref ncan);
 
+            int total;
             if (indx == 1)
             {
                 found_num += 1;
@@ -2361,33 +2317,26 @@ public static class i4Test
         //    John Burkardt
         //
     {
-        int N = 4;
+        const int N = 4;
 
-        int[] a;
         int i;
-        int seed;
 
         Console.WriteLine("");
         Console.WriteLine("I4VEC_DESCENDS_TEST");
         Console.WriteLine("  I4VEC_DESCENDS is true if an integer vector decreases.");
         Console.WriteLine("");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         for (i = 1; i <= 5; i++)
         {
-            a = UniformRNG.i4vec_uniform_ab_new(N, 1, N, ref seed);
+            int[] a = UniformRNG.i4vec_uniform_ab_new(N, 1, N, ref seed);
 
             typeMethods.i4vec1_print(N, a, "  The integer array to search:");
 
-            if (typeMethods.i4vec_descends(N, ref a))
-            {
-                Console.WriteLine("  The preceding vector is descending.");
-            }
-            else
-            {
-                Console.WriteLine("  The preceding vector is not descending.");
-            }
+            Console.WriteLine(typeMethods.i4vec_descends(N, ref a)
+                ? "  The preceding vector is descending."
+                : "  The preceding vector is not descending.");
         }
     }
 
@@ -2412,21 +2361,18 @@ public static class i4Test
         //    John Burkardt
         //
     {
-        int N = 10;
+        const int N = 10;
 
-        int[] a;
-        int afrac;
         int k;
-        int seed;
 
         Console.WriteLine("");
         Console.WriteLine("I4VEC_FRAC_TEST");
         Console.WriteLine("  I4VEC_FRAC: K-th smallest integer vector entry.");
         Console.WriteLine("");
 
-        seed = 123456789;
+        int seed = 123456789;
 
-        a = UniformRNG.i4vec_uniform_ab_new(N, 1, 2 * N, ref seed);
+        int[] a = UniformRNG.i4vec_uniform_ab_new(N, 1, 2 * N, ref seed);
 
         typeMethods.i4vec1_print(N, a, "  The integer array to search:");
 
@@ -2436,11 +2382,10 @@ public static class i4Test
 
         for (k = 1; k <= N; k++)
         {
-            afrac = typeMethods.i4vec_frac(N, ref a, k);
+            int afrac = typeMethods.i4vec_frac(N, ref a, k);
 
             Console.WriteLine(k.ToString().PadLeft(6) + "  "
                                                       + afrac.ToString().PadLeft(6) + "");
-
         }
     }
 
@@ -2465,12 +2410,7 @@ public static class i4Test
         //    John Burkardt
         //
     {
-        int N = 20;
-
-        int[] a;
-        int aval;
-        int first;
-        int seed;
+        const int N = 20;
 
         Console.WriteLine("");
         Console.WriteLine("I4VEC_INDEX_TEST");
@@ -2478,15 +2418,15 @@ public static class i4Test
         Console.WriteLine("  of a given value in an integer vector.");
         Console.WriteLine("");
 
-        seed = 123456789;
+        int seed = 123456789;
 
-        a = UniformRNG.i4vec_uniform_ab_new(N, 1, N / 2, ref seed);
+        int[] a = UniformRNG.i4vec_uniform_ab_new(N, 1, N / 2, ref seed);
 
-        aval = a[N / 2];
+        int aval = a[N / 2];
 
         typeMethods.i4vec1_print(N, a, "  The integer array to search:");
 
-        first = typeMethods.i4vec_index(N, a, aval);
+        int first = typeMethods.i4vec_index(N, a, aval);
 
         Console.WriteLine("");
         Console.WriteLine("  The value searched for is " + aval + "");
@@ -2514,11 +2454,7 @@ public static class i4Test
         //    John Burkardt
         //
     {
-        int N = 20;
-
-        int[] a;
-        int last;
-        int seed;
+        const int N = 20;
 
         Console.WriteLine("");
         Console.WriteLine("I4VEC_MAXLOC_LAST_TEST");
@@ -2526,13 +2462,13 @@ public static class i4Test
         Console.WriteLine("  entry in an integer vector.");
         Console.WriteLine("");
 
-        seed = 123456789;
+        int seed = 123456789;
 
-        a = UniformRNG.i4vec_uniform_ab_new(N, 1, N / 4, ref seed);
+        int[] a = UniformRNG.i4vec_uniform_ab_new(N, 1, N / 4, ref seed);
 
         typeMethods.i4vec1_print(N, a, "  The integer array to search:");
 
-        last = typeMethods.i4vec_maxloc_last(N, a);
+        int last = typeMethods.i4vec_maxloc_last(N, a);
 
         Console.WriteLine("");
         Console.WriteLine("  Index of last maximal entry is " + last + "");
@@ -2559,11 +2495,9 @@ public static class i4Test
         //    John Burkardt
         //
     {
-        int N = 4;
+        const int N = 4;
 
-        int[] a;
         int i;
-        int seed;
 
         Console.WriteLine("");
         Console.WriteLine("I4VEC_PAIRWISE_PRIME_TEST");
@@ -2571,22 +2505,17 @@ public static class i4Test
         Console.WriteLine("  is pairwise prime.");
         Console.WriteLine("");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         for (i = 1; i <= 5; i++)
         {
-            a = UniformRNG.i4vec_uniform_ab_new(N, 1, N, ref seed);
+            int[] a = UniformRNG.i4vec_uniform_ab_new(N, 1, N, ref seed);
 
             typeMethods.i4vec1_print(N, a, "  The array to check:");
 
-            if (typeMethods.i4vec_pairwise_prime(N, a))
-            {
-                Console.WriteLine("  The preceding vector is pairwise prime.");
-            }
-            else
-            {
-                Console.WriteLine("  The preceding vector is not pairwise prime.");
-            }
+            Console.WriteLine(typeMethods.i4vec_pairwise_prime(N, a)
+                ? "  The preceding vector is pairwise prime."
+                : "  The preceding vector is not pairwise prime.");
         }
     }
 
@@ -2611,19 +2540,16 @@ public static class i4Test
         //    John Burkardt
         //
     {
-        int N = 5;
-
-        int[] a;
-        int seed;
+        const int N = 5;
 
         Console.WriteLine("");
         Console.WriteLine("I4VEC_REVERSE_TEST");
         Console.WriteLine("  I4VEC_REVERSE reverses an integer vector.");
         Console.WriteLine("");
 
-        seed = 123456789;
+        int seed = 123456789;
 
-        a = UniformRNG.i4vec_uniform_ab_new(N, 1, N, ref seed);
+        int[] a = UniformRNG.i4vec_uniform_ab_new(N, 1, N, ref seed);
 
         typeMethods.i4vec1_print(N, a, "  The integer array:");
 
@@ -2653,10 +2579,7 @@ public static class i4Test
         //    John Burkardt
         //
     {
-        int N = 20;
-
-        int[] a;
-        int seed;
+        const int N = 20;
 
         Console.WriteLine("");
         Console.WriteLine("I4VEC_SORT_BUBBLE_A_TEST");
@@ -2664,9 +2587,9 @@ public static class i4Test
         Console.WriteLine("  using bubble sort.");
         Console.WriteLine("");
 
-        seed = 123456789;
+        int seed = 123456789;
 
-        a = UniformRNG.i4vec_uniform_ab_new(N, 0, 3 * N, ref seed);
+        int[] a = UniformRNG.i4vec_uniform_ab_new(N, 0, 3 * N, ref seed);
 
         typeMethods.i4vec1_print(N, a, "  Unsorted array:");
 
@@ -2696,12 +2619,9 @@ public static class i4Test
         //    John Burkardt
         //
     {
-        int N = 20;
+        const int N = 20;
 
-        int[] a;
         int i;
-        int[] indx;
-        int seed;
 
         Console.WriteLine("");
         Console.WriteLine("I4VEC_SORT_HEAP_INDEX_D_TEST");
@@ -2709,13 +2629,13 @@ public static class i4Test
         Console.WriteLine("  an integer vector using heap sort.");
         Console.WriteLine("");
 
-        seed = 123456789;
+        int seed = 123456789;
 
-        a = UniformRNG.i4vec_uniform_ab_new(N, 0, 3 * N, ref seed);
+        int[] a = UniformRNG.i4vec_uniform_ab_new(N, 0, 3 * N, ref seed);
 
         typeMethods.i4vec1_print(N, a, "  Unsorted array:");
 
-        indx = typeMethods.i4vec_sort_heap_index_d(N, a);
+        int[] indx = typeMethods.i4vec_sort_heap_index_d(N, a);
 
         Console.WriteLine("");
         Console.WriteLine("     I  INDX[I]  A[INDX[I]-1]");
@@ -2750,16 +2670,13 @@ public static class i4Test
         //    John Burkardt
         //
     {
-        int[] a;
-        int n;
-
         Console.WriteLine("");
         Console.WriteLine("I4VEC_TRANSPOSE_PRINT_TEST");
         Console.WriteLine("  I4VEC_TRANSPOSE_PRINT prints an integer vector");
         Console.WriteLine("  with 5 entries to a row, and an optional title.");
 
-        n = 12;
-        a = typeMethods.i4vec_indicator1_new(n);
+        const int n = 12;
+        int[] a = typeMethods.i4vec_indicator1_new(n);
 
         typeMethods.i4vec_transpose_print(n, a, "  My array:  ");
 
@@ -2786,11 +2703,10 @@ public static class i4Test
         //    John Burkardt
         //
     {
-        int a = -100;
-        int b = 200;
-        int n = 20;
+        const int a = -100;
+        const int b = 200;
+        const int n = 20;
         int seed = 123456789;
-        int[] v;
 
         Console.WriteLine("");
         Console.WriteLine("I4VEC_UNIFORM_AB_TEST");
@@ -2803,7 +2719,7 @@ public static class i4Test
         Console.WriteLine("  The initial seed is " + seed + "");
         Console.WriteLine("");
 
-        v = UniformRNG.i4vec_uniform_ab_new(n, a, b, ref seed);
+        int[] v = UniformRNG.i4vec_uniform_ab_new(n, a, b, ref seed);
 
         typeMethods.i4vec_print(n, v, "  The random vector:");
     }

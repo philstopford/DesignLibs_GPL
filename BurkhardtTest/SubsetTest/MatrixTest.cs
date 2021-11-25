@@ -27,7 +27,7 @@ public static class MatrixTest
         //    John Burkardt
         //
     {
-        int N = 6;
+        const int N = 6;
 
         int cost = 0;
         int i;

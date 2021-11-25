@@ -43,15 +43,11 @@ internal static class Program
         double a;
         double b;
         string filename;
-        int iarg;
         double[] moment = new double[1];
         double mu;
         int n;
         int option;
-        double[] r;
         double sigma;
-        double[] w;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TRUNCATED_NORMAL_RULE");
@@ -75,7 +71,7 @@ internal static class Program
         Console.WriteLine("    filename_x.txt - the abscissa file.");
         Console.WriteLine("    filename_r.txt - the region file, listing A and B.");
 
-        iarg = 0;
+        int iarg = 0;
         //
         //  Get OPTION.
         //
@@ -245,14 +241,14 @@ internal static class Program
         //
         //  Construct the rule from the moments.
         //
-        w = new double[n];
-        x = new double[n];
+        double[] w = new double[n];
+        double[] x = new double[n];
 
         Moments.moment_method(n, moment, ref x, ref w);
         //
         //  Output the rule.
         //
-        r = new double[2];
+        double[] r = new double[2];
         r[0] = a;
         r[1] = b;
 

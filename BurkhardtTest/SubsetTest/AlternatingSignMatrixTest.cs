@@ -66,7 +66,6 @@ public static class AlternatingSignMatrixTest
         const int N_MAX = 7;
 
         int[] a = new int[N_MAX+1];
-        int i;
         int n;
 
         Console.WriteLine("");
@@ -79,6 +78,7 @@ public static class AlternatingSignMatrixTest
         {
             AlternatingSignMatrix.asm_triangle ( n, ref a );
             string cout = n.ToString().PadLeft(4) + "  ";
+            int i;
             for ( i = 0; i <= n; i++ )
             {
                 cout += a[i].ToString().PadLeft(8) + "  ";

@@ -27,29 +27,26 @@ public static class CombTest
         //    John Burkardt
         //
     {
-        int N = 5;
+        const int N = 5;
 
         int[] a = new int[N];
-        bool done = false;
-        int i;
         int k;
-        int n = N;
 
         Console.WriteLine("");
         Console.WriteLine("COMB_NEXT_TEST");
         Console.WriteLine("  COMB_NEXT produces combinations.");
 
-        for (k = 1; k <= n; k++)
+        for (k = 1; k <= N; k++)
         {
             Console.WriteLine("");
             Console.WriteLine("  Combinations of size K = " + k + "");
             Console.WriteLine("");
 
-            done = true;
+            bool done = true;
 
             for (;;)
             {
-                Comb.comb_next(n, k, a, ref done);
+                Comb.comb_next(N, k, a, ref done);
 
                 if (done)
                 {
@@ -57,6 +54,7 @@ public static class CombTest
                 }
 
                 string cout = "";
+                int i;
                 for (i = 0; i < k; i++)
                 {
                     cout += "  " + a[i].ToString().PadLeft(4);
@@ -89,8 +87,6 @@ public static class CombTest
         //    John Burkardt
         //
     {
-        int[] c;
-        int i;
         int n;
         const int N_MAX = 10;
 
@@ -99,12 +95,13 @@ public static class CombTest
         Console.WriteLine("  COMB_ROW_NEXT computes the next row of the Pascal triangle.");
         Console.WriteLine("");
 
-        c = new int[N_MAX + 1];
+        int[] c = new int[N_MAX + 1];
 
         for (n = 0; n <= N_MAX; n++)
         {
             Comb.comb_row_next(n, ref c);
             string cout = "  " + n.ToString().PadLeft(2) + "  ";
+            int i;
             for (i = 0; i <= n; i++)
             {
                 cout += c[i].ToString().PadLeft(5);
@@ -135,16 +132,15 @@ public static class CombTest
         //    John Burkardt
         //
     {
-        int N = 5;
+        const int N = 5;
 
         int[] a = new int[N];
-        int cnk;
         int i;
-        int m = 10;
+        const int m = 10;
         int rank;
         string cout;
 
-        cnk = typeMethods.i4_choose(m, N);
+        int cnk = typeMethods.i4_choose(m, N);
 
         Console.WriteLine("");
         Console.WriteLine("COMB_UNRANK_TEST");

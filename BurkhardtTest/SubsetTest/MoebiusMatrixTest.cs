@@ -27,7 +27,7 @@ public static class MoebiusMatrixTest
         //    John Burkardt
         //
     {
-        int N = 11;
+        const int N = 11;
 
         int[] ih =
         {

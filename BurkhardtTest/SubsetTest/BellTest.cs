@@ -27,9 +27,7 @@ public static class BellTest
         //
     {
         int c = 0;
-        int[] c2;
         int n = 0;
-        int n_data;
 
         Console.WriteLine("");
         Console.WriteLine("BELL_TEST");
@@ -38,7 +36,7 @@ public static class BellTest
         Console.WriteLine("  N  exact C(I)  computed C(I)");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for ( ; ; )
         {
@@ -49,7 +47,7 @@ public static class BellTest
                 break;
             }
 
-            c2 = new int[n+1];
+            int[] c2 = new int[n+1];
 
             Bell.bell ( n, ref c2 );
 

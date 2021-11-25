@@ -26,9 +26,8 @@ public static class MonomialTest
         //    John Burkardt
         //
     {
-        int degree_max = 9;
+        const int degree_max = 9;
         int dim;
-        int total;
 
         Console.WriteLine("");
         Console.WriteLine("MONOMIAL_COUNT_TEST");
@@ -41,7 +40,7 @@ public static class MonomialTest
 
         for (dim = 1; dim <= 6; dim++)
         {
-            total = Monomial.monomial_count(degree_max, dim);
+            int total = Monomial.monomial_count(degree_max, dim);
             Console.WriteLine("  " + dim.ToString().PadLeft(2)
                                    + "  " + total.ToString().PadLeft(8) + "");
         }
@@ -68,11 +67,8 @@ public static class MonomialTest
         //    John Burkardt
         //
     {
-        int[] counts;
-        int degree;
-        int degree_max = 9;
+        const int degree_max = 9;
         int dim;
-        int total;
 
         Console.WriteLine("");
         Console.WriteLine("MONOMIAL_COUNTS");
@@ -81,19 +77,20 @@ public static class MonomialTest
 
         for (dim = 1; dim <= 6; dim++)
         {
-            counts = Monomial.monomial_counts(degree_max, dim);
+            int[] counts = Monomial.monomial_counts(degree_max, dim);
 
             Console.WriteLine("");
             Console.WriteLine("  DIM = " + dim + "");
             Console.WriteLine("");
 
+            int degree;
             for (degree = 0; degree <= degree_max; degree++)
             {
                 Console.WriteLine("  " + degree.ToString().PadLeft(8)
                                        + "  " + counts[degree].ToString().PadLeft(8) + "");
             }
 
-            total = 0;
+            int total = 0;
             for (degree = 0; degree <= degree_max; degree++)
             {
                 total += counts[degree];

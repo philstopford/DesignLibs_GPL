@@ -70,8 +70,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int i;
-        int j;
         int k;
         int[] p = null;
         int p_m = 0;
@@ -89,9 +87,11 @@ internal static class Program
             Console.WriteLine("");
             Console.WriteLine("  " + pentominoes[k] + " pentomino (" + p_m + "," + p_n + "):");
             Console.WriteLine("");
+            int i;
             for (i = 0; i < p_m; i++)
             {
                 string cout = "    ";
+                int j;
                 for (j = 0; j < p_n; j++)
                 {
                     cout += p[i * p_n + j];
@@ -125,7 +125,6 @@ internal static class Program
         //
     {
         int k;
-        string label;
         int[] p = null;
         int p_m = 0;
         int p_n = 0;
@@ -139,7 +138,7 @@ internal static class Program
         for (k = 0; k < 12; k++)
         {
             Pentomino.pentomino_matrix(pentominoes[k], ref p_m, ref p_n, ref p);
-            label = pentominoes[k];
+            string label = pentominoes[k];
             Pentomino.pentomino_plot(p_m, p_n, p, label);
         }
 
@@ -173,8 +172,6 @@ internal static class Program
         //    Local, int P[MP*NP], a matrix representing the polyomino.  
         //
     {
-        int mp;
-        int np;
         int[] p1 = { 0, 1, 1, 1, 1, 0, 0, 1, 0 };
         int[] p2 = { 0, 1, 2, 1, 3, 0, 0, -9, 0 };
         int[] p3 = { 0, 0, 0, 0, 1, 3, 0, 0, 0, 0, 0, 0 };
@@ -190,8 +187,8 @@ internal static class Program
         //
         //  Nothing happens:
         //
-        mp = 3;
-        np = 3;
+        int mp = 3;
+        int np = 3;
         polyomino_condense_demo(mp, np, p1);
         //
         //  Nonzero, but non-one entries are set to 1.
@@ -253,12 +250,11 @@ internal static class Program
         //    Local, int Q[MQ*NQ], a matrix representing the condensed polyomino.  
         //
     {
-        string label;
         int mq = 0;
         int nq = 0;
         int[] q = null;
 
-        label = "  The initial (" + mp + "," + np + ") polynomino P:";
+        string label = "  The initial (" + mp + "," + np + ") polynomino P:";
         Polyomino.polyomino_print(mp, np, p, label);
 
         Polyomino.polyomino_condense(mp, np, p, ref mq, ref nq, ref q);
@@ -288,19 +284,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int i;
-        int j;
         int k;
-        int[] list;
-        int mk;
-        int nk;
-        int mp = 3;
-        int mq;
-        int mr = 4;
-        int np = 2;
-        int nq;
-        int nr = 4;
-        int number;
+        const int mp = 3;
+        const int mr = 4;
+        const int np = 2;
+        const int nr = 4;
         int[] p =
         {
             0, 0, 1,
@@ -326,27 +314,27 @@ internal static class Program
         //
         //  Get the number of embeddings.
         //
-        number = Polyomino.polyomino_embed_number(mr, nr, r, mp, np, p);
+        int number = Polyomino.polyomino_embed_number(mr, nr, r, mp, np, p);
 
         Console.WriteLine("");
         Console.WriteLine("  As a fixed polyomino, P can be embedded in R in " + number + " ways");
         /*
         Get the list of embeddings.
         */
-        list = Polyomino.polyomino_embed_list(mr, nr, r, mp, np, p, number);
+        int[] list = Polyomino.polyomino_embed_list(mr, nr, r, mp, np, p, number);
 
         for (k = 0; k < number; k++)
         {
-            mk = list[k + 0 * number];
-            nk = list[k + 1 * number];
-            mq = mr;
-            nq = nr;
+            int mk = list[k + 0 * number];
+            int nk = list[k + 1 * number];
 
-            for (j = 0; j < nq; j++)
+            int i;
+            int j;
+            for (j = 0; j < nr; j++)
             {
-                for (i = 0; i < mq; i++)
+                for (i = 0; i < mr; i++)
                 {
-                    q[i + j * mq] = r[i + j * mr];
+                    q[i + j * mr] = r[i + j * mr];
                 }
             }
 
@@ -354,19 +342,19 @@ internal static class Program
             {
                 for (i = 0; i < mp; i++)
                 {
-                    q[i + mk + (j + nk) * mq] += p[i + j * mp];
+                    q[i + mk + (j + nk) * mr] += p[i + j * mp];
                 }
             }
 
             Console.WriteLine("");
             Console.WriteLine("  Embedding number " + k + ":");
             Console.WriteLine("");
-            for (i = 0; i < mq; i++)
+            for (i = 0; i < mr; i++)
             {
                 string cout = "";
-                for (j = 0; j < nq; j++)
+                for (j = 0; j < nr; j++)
                 {
-                    cout += " " + q[i + j * mq];
+                    cout += " " + q[i + j * mr];
                 }
 
                 Console.WriteLine(cout);
@@ -395,11 +383,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int mp = 3;
-        int mr = 4;
-        int np = 2;
-        int nr = 4;
-        int number;
+        const int mp = 3;
+        const int mr = 4;
+        const int np = 2;
+        const int nr = 4;
         int[] p =
         {
             0, 0, 1,
@@ -422,7 +409,7 @@ internal static class Program
 
         Polyomino.polyomino_print(mp, np, p, "  The given polyomino P:");
 
-        number = Polyomino.polyomino_embed_number(mr, nr, r, mp, np, p);
+        int number = Polyomino.polyomino_embed_number(mr, nr, r, mp, np, p);
 
         Console.WriteLine("");
         Console.WriteLine("  As a fixed polyomino, P can be embedded in R in " + number + " ways");
@@ -633,9 +620,8 @@ internal static class Program
         //
     {
         int i;
-        int j;
-        int m = 3;
-        int n = 4;
+        const int m = 3;
+        const int n = 4;
         //
         //  P is listed in column-major order;
         //
@@ -646,7 +632,6 @@ internal static class Program
             1, 1, 1,
             1, 0, 0
         };
-        int[] pin;
 
         Console.WriteLine("");
         Console.WriteLine("POLYOMINO_INDEX_TEST");
@@ -656,7 +641,7 @@ internal static class Program
 
         Polyomino.polyomino_print(m, n, p, "  The polyomino P:");
 
-        pin = Polyomino.polyomino_index(m, n, p);
+        int[] pin = Polyomino.polyomino_index(m, n, p);
 
         Console.WriteLine("");
         Console.WriteLine("  PIN: Index vector for P:");
@@ -664,6 +649,7 @@ internal static class Program
         for (i = 0; i < m; i++)
         {
             string cout = "";
+            int j;
             for (j = 0; j < n; j++)
             {
                 cout += " " + pin[i + j * m];
@@ -698,10 +684,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] a;
-        int[] b;
-        string filename = "reid.lp";
-        string label = "\\ LP file for the Reid example, created by POLYOMINO_LP_WRITE.";
+        const string filename = "reid.lp";
+        const string label = "\\ LP file for the Reid example, created by POLYOMINO_LP_WRITE.";
         int m = 0;
         int n = 0;
 
@@ -716,8 +700,8 @@ internal static class Program
         //
         polyomino_monohedral_example_reid_size(ref m, ref n);
 
-        a = new int[m * n];
-        b = new int[m];
+        int[] a = new int[m * n];
+        int[] b = new int[m];
 
         polyomino_monohedral_example_reid_system(m, n, a, b);
         //
@@ -843,10 +827,9 @@ internal static class Program
         //    1 in row 1, and in column 1, and in row M, and in column N.
         //
     {
-        string label;
-        int m = 3;
+        const int m = 3;
         int mq = 0;
-        int n = 3;
+        const int n = 3;
         int nq = 0;
         //
         //  P is given by columns, not rows.
@@ -859,7 +842,6 @@ internal static class Program
         };
         int[] q = null;
         int reflect;
-        int rotate;
 
         Console.WriteLine("");
         Console.WriteLine("POLYOMINO_TRANSFORM_TEST:");
@@ -872,11 +854,12 @@ internal static class Program
 
         for (reflect = 0; reflect <= 1; reflect++)
         {
+            int rotate;
             for (rotate = 0; rotate <= 3; rotate++)
             {
                 Polyomino.polyomino_transform(m, n, p, rotate, reflect, ref mq, ref nq, ref q);
 
-                label = "  P after " + reflect + " reflections and " + rotate + " rotations:";
+                string label = "  P after " + reflect + " reflections and " + rotate + " rotations:";
 
                 Polyomino.polyomino_print(mq, nq, q, label);
             }

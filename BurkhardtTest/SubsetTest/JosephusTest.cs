@@ -26,11 +26,6 @@ public static class JosephusTest
         //    John Burkardt
         //
     {
-        int k;
-        int m;
-        int n;
-        int x;
-
         Console.WriteLine("");
         Console.WriteLine("JOSEPHUS_TEST");
         Console.WriteLine("  JOSEPHUS solves Josephus problems.");
@@ -38,10 +33,10 @@ public static class JosephusTest
         Console.WriteLine("    N    M    K	 X");
         Console.WriteLine("");
 
-        m = 3;
-        n = 41;
-        k = 41;
-        x = Josephus.josephus(n, m, k);
+        int m = 3;
+        int n = 41;
+        int k = 41;
+        int x = Josephus.josephus(n, m, k);
 
         Console.WriteLine(n.ToString().PadLeft(5) + "  "
                                                   + m.ToString().PadLeft(5) + "  "

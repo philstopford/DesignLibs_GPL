@@ -85,9 +85,7 @@ internal static class Program
         //
     {
         int c = 0;
-        int[] c2;
         int n = 0;
-        int n_data;
 
         Console.WriteLine("");
         Console.WriteLine("TEST005");
@@ -97,7 +95,7 @@ internal static class Program
         Console.WriteLine("  N  exact C(I)  computed C(I)");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -108,7 +106,7 @@ internal static class Program
                 break;
             }
 
-            c2 = Catalan.catalan(n);
+            int[] c2 = Catalan.catalan(n);
 
             Console.WriteLine("  " + n.ToString().PadLeft(4)
                                    + "  " + c.ToString().PadLeft(6)
@@ -138,7 +136,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int depth = 4;
+        const int depth = 4;
 
         Console.WriteLine("");
         Console.WriteLine("TEST006");
@@ -183,9 +181,7 @@ internal static class Program
         //
     {
         int[] code = {1, 3, 8, 8, 3, 6, 8};
-        int[] inode;
-        int[] jnode;
-        int nnode = 9;
+        const int nnode = 9;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
@@ -199,8 +195,8 @@ internal static class Program
 
         typeMethods.i4vec_print(nnode - 2, code, "  The Pruefer code:");
 
-        inode = new int[nnode - 1];
-        jnode = new int[nnode - 1];
+        int[] inode = new int[nnode - 1];
+        int[] jnode = new int[nnode - 1];
 
         Pruefer.pruefer_to_tree_arc(nnode, code, ref inode, ref jnode);
 
@@ -228,21 +224,19 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int NNODE = 9;
+        const int NNODE = 9;
 
         int[] code = {1, 3, 8, 8, 3, 6, 8, 0, 0};
-        int[] itree;
-        int nnode = NNODE;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02");
         Console.WriteLine("  PRUEFER_TO_TREE_2_NEW produces a tree from its Pruefer code");
 
-        typeMethods.i4vec_print(nnode - 2, code, "  The Pruefer code:");
+        typeMethods.i4vec_print(NNODE - 2, code, "  The Pruefer code:");
 
-        itree = Pruefer.pruefer_to_tree_2_new(nnode, code);
+        int[] itree = Pruefer.pruefer_to_tree_2_new(NNODE, code);
 
-        typeMethods.i4vec_print(nnode - 1, itree, "  The edge list of the tree:");
+        typeMethods.i4vec_print(NNODE - 1, itree, "  The edge list of the tree:");
     }
 
     private static void test025()
@@ -271,13 +265,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int NNODE = 4;
+        const int NNODE = 4;
 
         int[] code = new int[NNODE];
-        int i;
         int[] itree = new int[NNODE];
         int j;
-        int nnode = NNODE;
 
         Console.WriteLine("");
         Console.WriteLine("TEST025");
@@ -285,13 +277,14 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("   Code      Tree");
         Console.WriteLine("");
-        for (j = 1; j <= nnode; j++)
+        for (j = 1; j <= NNODE; j++)
         {
             code[1] = j;
-            for (i = 1; i <= nnode; i++)
+            int i;
+            for (i = 1; i <= NNODE; i++)
             {
                 code[0] = i;
-                Pruefer.pruefer_to_tree_2(nnode, code, ref itree);
+                Pruefer.pruefer_to_tree_2(NNODE, code, ref itree);
                 Console.WriteLine("  " + code[0].ToString().PadLeft(2)
                                        + "  " + code[1].ToString().PadLeft(2)
                                        + "  "
@@ -333,10 +326,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] code;
         int[] inode = {2, 3, 3, 6, 8, 8, 8, 1};
         int[] jnode = {3, 7, 6, 8, 4, 5, 1, 9};
-        int nnode = 9;
+        const int nnode = 9;
 
         Console.WriteLine("");
         Console.WriteLine("TEST03");
@@ -350,7 +342,7 @@ internal static class Program
 
         Graph.graph_arc_print(nnode - 1, inode, jnode, "  The graph:");
 
-        code = Tree.tree_arc_to_pruefer(nnode, inode, jnode);
+        int[] code = Tree.tree_arc_to_pruefer(nnode, inode, jnode);
 
         typeMethods.i4vec_print(nnode - 2, code, "  The Pruefer code:");
     }
@@ -386,22 +378,21 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int NNODE = 9;
+        const int NNODE = 9;
 
         int[] center = new int[2];
         int eccent = 0;
         int[] inode = {2, 3, 3, 6, 8, 8, 8, 1};
         int[] jnode = {3, 7, 6, 8, 4, 5, 1, 9};
-        int nnode = NNODE;
         int parity = 0;
 
         Console.WriteLine("");
         Console.WriteLine("TEST04");
         Console.WriteLine("  TREE_ARC_CENTER computes the center of a tree.");
 
-        Graph.graph_arc_print(nnode - 1, inode, jnode, "  The edge list of the tree:");
+        Graph.graph_arc_print(NNODE - 1, inode, jnode, "  The edge list of the tree:");
 
-        Tree.tree_arc_center(nnode, inode, jnode, ref center, ref eccent, ref parity);
+        Tree.tree_arc_center(NNODE, inode, jnode, ref center, ref eccent, ref parity);
 
         Console.WriteLine("");
         Console.WriteLine("  Parity = " + parity + "");
@@ -450,13 +441,12 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int NNODE = 3;
+        const int NNODE = 3;
 
         int[] center = new int[2];
         int eccent = 0;
         int[] inode = new int[NNODE - 1];
         int[] jnode = new int[NNODE - 1];
-        int nnode = NNODE;
         int parity = 0;
 
         Console.WriteLine("");
@@ -468,9 +458,9 @@ internal static class Program
         jnode[0] = 2;
         jnode[1] = 3;
 
-        Graph.graph_arc_print(nnode - 1, inode, jnode, "  The edge list of the tree:");
+        Graph.graph_arc_print(NNODE - 1, inode, jnode, "  The edge list of the tree:");
 
-        Tree.tree_arc_center(nnode, inode, jnode, ref center, ref eccent, ref parity);
+        Tree.tree_arc_center(NNODE, inode, jnode, ref center, ref eccent, ref parity);
 
         Console.WriteLine("");
         Console.WriteLine("  Parity = " + parity + "");
@@ -494,9 +484,9 @@ internal static class Program
         jnode[0] = 1;
         jnode[1] = 3;
 
-        Graph.graph_arc_print(nnode - 1, inode, jnode, "  The edge list of the tree:");
+        Graph.graph_arc_print(NNODE - 1, inode, jnode, "  The edge list of the tree:");
 
-        Tree.tree_arc_center(nnode, inode, jnode, ref center, ref eccent, ref parity);
+        Tree.tree_arc_center(NNODE, inode, jnode, ref center, ref eccent, ref parity);
 
         Console.WriteLine("");
         Console.WriteLine("  Parity = " + parity + "");
@@ -547,22 +537,21 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int NNODE = 11;
+        const int NNODE = 11;
 
         int[] center = new int[2];
         int eccent = 0;
         int[] inode = {1, 1, 1, 2, 2, 3, 3, 3, 1, 2};
         int[] jnode = {4, 5, 6, 8, 10, 7, 9, 11, 2, 3};
-        int nnode = NNODE;
         int parity = 0;
 
         Console.WriteLine("");
         Console.WriteLine("TEST06");
         Console.WriteLine("  TREE_ARC_CENTER computes the center of a tree.");
 
-        Graph.graph_arc_print(nnode - 1, inode, jnode, "  The edge list of the tree:");
+        Graph.graph_arc_print(NNODE - 1, inode, jnode, "  The edge list of the tree:");
 
-        Tree.tree_arc_center(nnode, inode, jnode, ref center, ref eccent, ref parity);
+        Tree.tree_arc_center(NNODE, inode, jnode, ref center, ref eccent, ref parity);
 
         Console.WriteLine("");
         Console.WriteLine("  Parity = " + parity + "");
@@ -617,7 +606,7 @@ internal static class Program
         int[] inode = {2, 3, 3, 6, 8, 8, 8, 1};
         int[] jnode = {3, 7, 6, 8, 4, 5, 1, 9};
         int[] label = new int[9];
-        int nnode = 9;
+        const int nnode = 9;
         int nnode1 = 0;
         int nnode2 = 0;
 
@@ -661,10 +650,9 @@ internal static class Program
         int[] icode = new int[2];
         int[] inode = new int[3];
         int[] jnode = new int[3];
-        int nnode = 4;
-        int seed;
+        const int nnode = 4;
 
-        seed = 123456789;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("TEST08");
@@ -704,7 +692,6 @@ internal static class Program
         //
     {
         int nnode;
-        int num;
 
         Console.WriteLine("");
         Console.WriteLine("TEST09");
@@ -714,7 +701,7 @@ internal static class Program
 
         for (nnode = 0; nnode <= 10; nnode++)
         {
-            num = Tree.tree_enum(nnode);
+            int num = Tree.tree_enum(nnode);
             Console.WriteLine("  " + nnode.ToString().PadLeft(8)
                                    + "  " + num.ToString().PadLeft(10) + "");
         }
@@ -741,12 +728,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int NNODE = 4;
+        const int NNODE = 4;
 
         int[] icode = new int[NNODE];
         int[] itree = new int[NNODE];
-        bool more;
-        int nnode = NNODE;
 
         Console.WriteLine("");
         Console.WriteLine("TEST10");
@@ -756,13 +741,13 @@ internal static class Program
         Console.WriteLine("  Pruefer code     Tree");
         Console.WriteLine("");
 
-        more = false;
+        bool more = false;
 
         TreeNextData data = new();
             
         for (;;)
         {
-            Tree.tree_parent_next(ref data, nnode, ref icode, ref itree, ref more);
+            Tree.tree_parent_next(ref data, NNODE, ref icode, ref itree, ref more);
 
             Console.WriteLine("  " + icode[0]
                                    + "  " + icode[1]
@@ -800,7 +785,6 @@ internal static class Program
         //
     {
         int nnode;
-        int num;
 
         Console.WriteLine("");
         Console.WriteLine("TEST11");
@@ -810,7 +794,7 @@ internal static class Program
 
         for (nnode = 0; nnode <= 11; nnode++)
         {
-            num = Tree.tree_rb_enum(nnode);
+            int num = Tree.tree_rb_enum(nnode);
 
             Console.WriteLine("  " + nnode.ToString().PadLeft(8)
                                    + "  " + num.ToString().PadLeft(8) + "");
@@ -839,10 +823,7 @@ internal static class Program
         //
     {
         int[] a = new int[11];
-        int i;
-        int j;
-        bool more;
-        int n = 11;
+        const int n = 11;
 
         Console.WriteLine("");
         Console.WriteLine("TEST12");
@@ -853,8 +834,8 @@ internal static class Program
         Console.WriteLine("  The number of nodes N = " + n + "");
         Console.WriteLine("");
 
-        more = false;
-        i = 0;
+        bool more = false;
+        int i = 0;
 
         for (;;)
         {
@@ -867,6 +848,7 @@ internal static class Program
 
             i += 1;
             string cout = "  " + i.ToString().PadLeft(2) + "  ";
+            int j;
             for (j = 0; j < n; j++)
             {
                 cout += a[j];
@@ -898,11 +880,7 @@ internal static class Program
         //
     {
         int[] a = new int[11];
-        int i;
-        int j;
-        bool more;
-        int n = 11;
-        int[] parent;
+        const int n = 11;
 
         Console.WriteLine("");
         Console.WriteLine("TEST13");
@@ -915,8 +893,8 @@ internal static class Program
         Console.WriteLine("  The number of nodes N = " + n + "");
         Console.WriteLine("");
 
-        more = false;
-        i = 0;
+        bool more = false;
+        int i = 0;
 
         for (;;)
         {
@@ -927,10 +905,11 @@ internal static class Program
                 break;
             }
 
-            parent = Tree.tree_rb_to_parent(n, a);
+            int[] parent = Tree.tree_rb_to_parent(n, a);
 
             i += 1;
             string cout = "  " + i.ToString().PadLeft(2) + "  ";
+            int j;
             for (j = 0; j < n; j++)
             {
                 cout += parent[j].ToString().PadLeft(3);
@@ -964,12 +943,9 @@ internal static class Program
     {
         int[] a = new int[11];
         int i;
-        int j;
-        int n;
         const int N_MAX = 11;
-        int seed;
 
-        seed = 123456789;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("TEST14");
@@ -986,13 +962,14 @@ internal static class Program
             Console.WriteLine("  Nodes  Preorder code");
             Console.WriteLine("");
 
-            n = 0;
+            int n = 0;
 
             for (;;)
             {
                 Tree.tree_rb_yule(ref n, ref seed, a);
 
                 string cout = "  " + n.ToString().PadLeft(2) + "  ";
+                int j;
                 for (j = 0; j < n; j++)
                 {
                     cout += a[j];
@@ -1043,8 +1020,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] code;
-        int nnode = 12;
+        const int nnode = 12;
         int[] parent = {0, 1, 1, 2, 2, 2, 3, 3, 5, 5, 6, 10};
 
         Console.WriteLine("");
@@ -1053,7 +1029,7 @@ internal static class Program
 
         typeMethods.i4vec_print(nnode, parent, "  Parent vector for tree:");
 
-        code = Tree.tree_rooted_code(nnode, parent);
+        int[] code = Tree.tree_rooted_code(nnode, parent);
 
         typeMethods.i4vec_print(2 * nnode, code, "  The tree code:");
     }
@@ -1099,8 +1075,7 @@ internal static class Program
         //
     {
         int depth = 0;
-        int[] depth_node;
-        int nnode = 12;
+        const int nnode = 12;
         int[] parent = {0, 1, 1, 2, 2, 2, 3, 3, 5, 5, 6, 10};
 
         Console.WriteLine("");
@@ -1109,7 +1084,7 @@ internal static class Program
 
         typeMethods.i4vec_print(nnode, parent, "  Parent vector for tree:");
 
-        depth_node = new int[nnode];
+        int[] depth_node = new int[nnode];
 
         Tree.tree_rooted_depth(nnode, parent, ref depth, ref depth_node);
 
@@ -1140,14 +1115,13 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int nnode = 10;
-        int[] ntree;
+        const int nnode = 10;
 
         Console.WriteLine("");
         Console.WriteLine("TEST17");
         Console.WriteLine("  TREE_ROOTED_ENUM counts unlabeled rooted trees.");
 
-        ntree = Tree.tree_rooted_enum(nnode);
+        int[] ntree = Tree.tree_rooted_enum(nnode);
 
         typeMethods.i4vec_print(nnode, ntree,
             "  Number of trees with given number of nodes:");
@@ -1175,12 +1149,9 @@ internal static class Program
         //
     {
         int i;
-        int[] itree;
-        int j;
-        int nnode = 5;
-        int seed;
+        const int nnode = 5;
 
-        seed = 123456789;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("TEST18");
@@ -1194,9 +1165,10 @@ internal static class Program
         Console.WriteLine("");
         for (i = 1; i <= 5; i++)
         {
-            itree = Tree.tree_rooted_random(nnode, ref seed);
+            int[] itree = Tree.tree_rooted_random(nnode, ref seed);
 
             string cout = "  ";
+            int j;
             for (j = 1; j < nnode; j++)
             {
                 cout += itree[j].ToString().PadLeft(4);

@@ -27,18 +27,14 @@ public static class DVecTest
         //    John Burkardt
         //
     {
-        int N = 10;
+        const int N = 10;
 
         int[] dvec1 = new int[N];
         int[] dvec2 = new int[N];
         int[] dvec3 = new int[N];
-        int i;
-        int j;
-        int k;
-        int l;
         int seed = 123456789;
         int test;
-        int test_num = 10;
+        const int test_num = 10;
 
         Console.WriteLine("");
         Console.WriteLine("DVEC_ADD_TEST");
@@ -49,15 +45,15 @@ public static class DVecTest
 
         for (test = 1; test <= test_num; test++)
         {
-            i = UniformRNG.i4_uniform_ab(-100, 100, ref seed);
-            j = UniformRNG.i4_uniform_ab(-100, 100, ref seed);
+            int i = UniformRNG.i4_uniform_ab(-100, 100, ref seed);
+            int j = UniformRNG.i4_uniform_ab(-100, 100, ref seed);
 
-            k = i + j;
+            int k = i + j;
 
             typeMethods.i4_to_dvec(i, N, ref dvec1);
             typeMethods.i4_to_dvec(j, N, ref dvec2);
             typeMethods.dvec_add(N, dvec1, dvec2, ref dvec3);
-            l = typeMethods.dvec_to_i4(N, ref dvec3);
+            int l = typeMethods.dvec_to_i4(N, ref dvec3);
 
             Console.WriteLine("  " + i.ToString().PadLeft(8)
                                    + "  " + j.ToString().PadLeft(8)
@@ -88,15 +84,13 @@ public static class DVecTest
         //    John Burkardt
         //
     {
-        int N = 10;
+        const int N = 10;
 
         int[] dvec1 = new int[N];
         int[] dvec2 = new int[N];
-        int i;
-        int j;
         int seed = 123456789;
         int test;
-        int test_num = 5;
+        const int test_num = 5;
 
         Console.WriteLine("");
         Console.WriteLine("DVEC_COMPLEMENTX_TEST");
@@ -106,13 +100,13 @@ public static class DVecTest
 
         for (test = 1; test <= test_num; test++)
         {
-            i = UniformRNG.i4_uniform_ab(-100, 100, ref seed);
+            int i = UniformRNG.i4_uniform_ab(-100, 100, ref seed);
 
             typeMethods.i4_to_dvec(i, N, ref dvec1);
 
             typeMethods.dvec_complementx(N, dvec1, ref dvec2);
 
-            j = typeMethods.dvec_to_i4(N, ref dvec2);
+            int j = typeMethods.dvec_to_i4(N, ref dvec2);
 
             Console.WriteLine("");
             Console.WriteLine("  I = " + "  " + i + "");
@@ -144,21 +138,16 @@ public static class DVecTest
         //    John Burkardt
         //
     {
-        int N = 10;
+        const int N = 10;
 
         int[] dvec1 = new int[N];
         int[] dvec2 = new int[N];
         int[] dvec3 = new int[N];
-        int i;
-        int j;
-        int k;
-        int l;
         int n2 = 0;
         int seed = 123456789;
-        int test;
-        int test_num = 10;
+        const int test_num = 10;
         int test2;
-        int test2_num = 2;
+        const int test2_num = 2;
 
         Console.WriteLine("");
         Console.WriteLine("DVEC_MUL_TEST");
@@ -189,17 +178,18 @@ public static class DVecTest
             Console.WriteLine("        I        J        I * J  DVEC_MUL");
             Console.WriteLine("");
 
+            int test;
             for (test = 1; test <= test_num; test++)
             {
-                i = UniformRNG.i4_uniform_ab(-1000, 1000, ref seed);
-                j = UniformRNG.i4_uniform_ab(-1000, 1000, ref seed);
+                int i = UniformRNG.i4_uniform_ab(-1000, 1000, ref seed);
+                int j = UniformRNG.i4_uniform_ab(-1000, 1000, ref seed);
 
-                k = i * j;
+                int k = i * j;
 
                 typeMethods.i4_to_dvec(i, n2, ref dvec1);
                 typeMethods.i4_to_dvec(j, n2, ref dvec2);
                 typeMethods.dvec_mul(n2, dvec1, dvec2, ref dvec3);
-                l = typeMethods.dvec_to_i4(n2, ref dvec3);
+                int l = typeMethods.dvec_to_i4(n2, ref dvec3);
 
                 Console.WriteLine("  " + i.ToString().PadLeft(8)
                                        + "  " + j.ToString().PadLeft(8)
@@ -235,7 +225,7 @@ public static class DVecTest
                 3, 4, 1, 7, 7, 5, 5, 0, 0, 9
             }
             ;
-        int n = 20;
+        const int n = 20;
 
         Console.WriteLine("");
         Console.WriteLine("DVEC_PRINT_TEST");
@@ -265,18 +255,14 @@ public static class DVecTest
         //    John Burkardt
         //
     {
-        int N = 10;
+        const int N = 10;
 
         int[] dvec1 = new int[N];
         int[] dvec2 = new int[N];
         int[] dvec4 = new int[N];
-        int i;
-        int j;
-        int k;
-        int l;
         int seed = 123456789;
         int test;
-        int test_num = 10;
+        const int test_num = 10;
 
         Console.WriteLine("");
         Console.WriteLine("DVEC_SUB_TEST");
@@ -287,15 +273,15 @@ public static class DVecTest
 
         for (test = 1; test <= test_num; test++)
         {
-            i = UniformRNG.i4_uniform_ab(-100, 100, ref seed);
-            j = UniformRNG.i4_uniform_ab(-100, 100, ref seed);
+            int i = UniformRNG.i4_uniform_ab(-100, 100, ref seed);
+            int j = UniformRNG.i4_uniform_ab(-100, 100, ref seed);
 
-            k = i - j;
+            int k = i - j;
 
             typeMethods.i4_to_dvec(i, N, ref dvec1);
             typeMethods.i4_to_dvec(j, N, ref dvec2);
             typeMethods.dvec_sub(N, dvec1, dvec2, ref dvec4);
-            l = typeMethods.dvec_to_i4(N, ref dvec4);
+            int l = typeMethods.dvec_to_i4(N, ref dvec4);
 
             Console.WriteLine("  " + i.ToString().PadLeft(8)
                                    + "  " + j.ToString().PadLeft(8)
@@ -328,10 +314,6 @@ public static class DVecTest
     {
         int[] dvec = new int[6];
         int i;
-        int i1;
-        int i2;
-        int n;
-        int seed;
 
         Console.WriteLine("");
         Console.WriteLine("DVEC_TO_I4_TEST");
@@ -340,13 +322,13 @@ public static class DVecTest
         Console.WriteLine("         I4 => DVEC => I4");
         Console.WriteLine("");
 
-        seed = 123456789;
-        i1 = UniformRNG.i4_uniform_ab(-10000, 10000, ref seed);
+        int seed = 123456789;
+        int i1 = UniformRNG.i4_uniform_ab(-10000, 10000, ref seed);
 
-        n = 6;
+        const int n = 6;
         typeMethods.i4_to_dvec(i1, n, ref dvec);
 
-        i2 = typeMethods.dvec_to_i4(n, ref dvec);
+        int i2 = typeMethods.dvec_to_i4(n, ref dvec);
 
         string cout = "  " + i1.ToString().PadLeft(6) + "  ";
         for (i = n - 1; 0 <= i; i--)

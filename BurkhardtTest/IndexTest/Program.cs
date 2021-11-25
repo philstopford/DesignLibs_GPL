@@ -66,13 +66,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int i;
-        int i_max;
-        int i_min;
-        int index_max;
-        int index_min;
-        int value;
-
         Console.WriteLine("");
         Console.WriteLine("TEST01");
         Console.WriteLine("  INDEX0 indexes a 1D array with zero base,");
@@ -81,17 +74,17 @@ internal static class Program
         Console.WriteLine("             Min Index   Max");
         Console.WriteLine("");
 
-        i_min = 1;
-        i = 3;
-        i_max = 5;
+        const int i_min = 1;
+        const int i = 3;
+        const int i_max = 5;
         Console.WriteLine("  1D Index"
                           + "  " + i_min.ToString().PadLeft(4)
                           + "  " + i.ToString().PadLeft(4)
                           + "  " + i_max.ToString().PadLeft(4) + "");
 
-        value = Index.index0(i_min, i, i_max);
-        index_min = 0;
-        index_max = index_min + i_max - i_min;
+        int value = Index.index0(i_min, i, i_max);
+        int index_min = 0;
+        int index_max = i_max - i_min;
         Console.WriteLine("  Index0  "
                           + "  " + index_min.ToString().PadLeft(4)
                           + "  " + value.ToString().PadLeft(4)
@@ -127,16 +120,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int i;
-        int i_max;
-        int i_min;
-        int index_max;
-        int index_min;
-        int j;
-        int j_max;
-        int j_min;
-        int value;
-
         Console.WriteLine("");
         Console.WriteLine("TEST02");
         Console.WriteLine("  For a 2D array,");
@@ -148,20 +131,20 @@ internal static class Program
         Console.WriteLine("                Min   Index     Max");
         Console.WriteLine("");
 
-        i_min = 1;
-        i = 3;
-        i_max = 5;
-        j_min = 1;
-        j = 2;
-        j_max = 4;
+        const int i_min = 1;
+        const int i = 3;
+        const int i_max = 5;
+        const int j_min = 1;
+        const int j = 2;
+        const int j_max = 4;
         Console.WriteLine("  2D Index:"
                           + "  " + i_min.ToString().PadLeft(3) + j_min.ToString().PadLeft(3)
                           + "  " + i.ToString().PadLeft(3) + j.ToString().PadLeft(3)
                           + "  " + i_max.ToString().PadLeft(3) + j_max.ToString().PadLeft(3) + "");
 
-        value = Index.index01(i_min, i, i_max, j_min, j, j_max);
-        index_min = 0;
-        index_max = index_min + (i_max - i_min + 1) * (j_max - j_min + 1) - 1;
+        int value = Index.index01(i_min, i, i_max, j_min, j, j_max);
+        int index_min = 0;
+        int index_max = (i_max - i_min + 1) * (j_max - j_min + 1) - 1;
         Console.WriteLine("  INDEX01: "
                           + "  " + index_min.ToString().PadLeft(6)
                           + "  " + value.ToString().PadLeft(6)
@@ -169,7 +152,7 @@ internal static class Program
 
         value = Index.index10(i_min, i, i_max, j_min, j, j_max);
         index_min = 0;
-        index_max = index_min + (i_max - i_min + 1) * (j_max - j_min + 1) - 1;
+        index_max = (i_max - i_min + 1) * (j_max - j_min + 1) - 1;
         Console.WriteLine("  INDEX10: "
                           + "  " + index_min.ToString().PadLeft(6)
                           + "  " + value.ToString().PadLeft(6)
@@ -213,20 +196,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int i;
-        int i_max;
-        int i_min;
-        int index_max;
-        int index_min;
-        int j;
-        int j_max;
-        int j_min;
-        int k;
-        int k_max;
-        int k_min;
-        int m;
-        int value;
-
         Console.WriteLine("");
         Console.WriteLine("TEST03");
         Console.WriteLine("  For a 3D array,");
@@ -238,19 +207,19 @@ internal static class Program
         Console.WriteLine("                   Min      Index        Max");
         Console.WriteLine("");
 
-        i_min = 1;
-        i = 3;
-        i_max = 5;
-        j_min = 1;
-        j = 2;
-        j_max = 4;
-        k_min = 1;
-        k = 1;
-        k_max = 3;
+        const int i_min = 1;
+        const int i = 3;
+        const int i_max = 5;
+        const int j_min = 1;
+        const int j = 2;
+        const int j_max = 4;
+        const int k_min = 1;
+        const int k = 1;
+        const int k_max = 3;
 
-        m = (i_max - i_min + 1)
-            * (j_max - j_min + 1)
-            * (k_max - k_min + 1);
+        int m = (i_max - i_min + 1)
+                * (j_max - j_min + 1)
+                * (k_max - k_min + 1);
 
         Console.WriteLine("  3D Index:"
                           + "  " + i_min.ToString().PadLeft(3) + j_min.ToString().PadLeft(3) +
@@ -259,9 +228,9 @@ internal static class Program
                           + "  " + i_max.ToString().PadLeft(3) + j_max.ToString().PadLeft(3) +
                           k_max.ToString().PadLeft(3) + "");
 
-        value = Index.index012(i_min, i, i_max, j_min, j, j_max, k_min, k, k_max);
-        index_min = 0;
-        index_max = index_min + m - 1;
+        int value = Index.index012(i_min, i, i_max, j_min, j, j_max, k_min, k, k_max);
+        int index_min = 0;
+        int index_max = m - 1;
         Console.WriteLine("  INDEX012:"
                           + "  " + index_min.ToString().PadLeft(9)
                           + "  " + value.ToString().PadLeft(9)
@@ -277,7 +246,7 @@ internal static class Program
 
         value = Index.index210(i_min, i, i_max, j_min, j, j_max, k_min, k, k_max);
         index_min = 0;
-        index_max = index_min + m - 1;
+        index_max = m - 1;
         Console.WriteLine("  INDEX210:"
                           + "  " + index_min.ToString().PadLeft(9)
                           + "  " + value.ToString().PadLeft(9)
@@ -313,23 +282,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int i;
-        int i_max;
-        int i_min;
-        int index_max;
-        int index_min;
-        int j;
-        int j_max;
-        int j_min;
-        int k;
-        int k_max;
-        int k_min;
-        int l;
-        int l_max;
-        int l_min;
-        int m;
-        int value;
-
         Console.WriteLine("");
         Console.WriteLine("TEST04");
         Console.WriteLine("  For a 4D array,");
@@ -341,23 +293,23 @@ internal static class Program
         Console.WriteLine("                       Min         Index           Max");
         Console.WriteLine("");
 
-        i_min = 1;
-        i = 3;
-        i_max = 5;
-        j_min = 1;
-        j = 2;
-        j_max = 4;
-        k_min = 1;
-        k = 1;
-        k_max = 3;
-        l_min = 1;
-        l = 2;
-        l_max = 2;
+        const int i_min = 1;
+        const int i = 3;
+        const int i_max = 5;
+        const int j_min = 1;
+        const int j = 2;
+        const int j_max = 4;
+        const int k_min = 1;
+        const int k = 1;
+        const int k_max = 3;
+        const int l_min = 1;
+        const int l = 2;
+        const int l_max = 2;
 
-        m = (i_max - i_min + 1)
-            * (j_max - j_min + 1)
-            * (k_max - k_min + 1)
-            * (l_max - l_min + 1);
+        int m = (i_max - i_min + 1)
+                * (j_max - j_min + 1)
+                * (k_max - k_min + 1)
+                * (l_max - l_min + 1);
 
         Console.WriteLine("  4D Index:  "
                           + "  " + i_min.ToString().PadLeft(3) + j_min.ToString().PadLeft(3) +
@@ -367,9 +319,9 @@ internal static class Program
                           + "  " + i_max.ToString().PadLeft(3) + j_max.ToString().PadLeft(3) +
                           k_max.ToString().PadLeft(3) + l_max.ToString().PadLeft(3) + "");
 
-        value = Index.index0123(i_min, i, i_max, j_min, j, j_max, k_min, k, k_max, l_min, l, l_max);
-        index_min = 0;
-        index_max = index_min + m - 1;
+        int value = Index.index0123(i_min, i, i_max, j_min, j, j_max, k_min, k, k_max, l_min, l, l_max);
+        int index_min = 0;
+        int index_max = m - 1;
         Console.WriteLine("  INDEX0123: "
                           + "  " + index_min.ToString().PadLeft(12)
                           + "  " + value.ToString().PadLeft(12)
@@ -385,7 +337,7 @@ internal static class Program
 
         value = Index.index3210(i_min, i, i_max, j_min, j, j_max, k_min, k, k_max, l_min, l, l_max);
         index_min = 0;
-        index_max = index_min + m - 1;
+        index_max = m - 1;
         Console.WriteLine("  INDEX3210: "
                           + "  " + index_min.ToString().PadLeft(12)
                           + "  " + value.ToString().PadLeft(12)
@@ -425,12 +377,8 @@ internal static class Program
         int[] i = {3, 2, 1, 2};
         int[] i_max = {5, 4, 3, 2};
         int[] i_min = {1, 1, 1, 1};
-        int index_max;
-        int index_min;
         int j;
-        int m;
-        int n = 4;
-        int value;
+        const int n = 4;
 
         Console.WriteLine("");
         Console.WriteLine("TEST05");
@@ -442,7 +390,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("                       Min         Index           Max");
 
-        m = 1;
+        int m = 1;
         for (j = 0; j < n; j++)
         {
             m *= i_max[j] - i_min[j] + 1;
@@ -456,9 +404,9 @@ internal static class Program
                           + "  " + i_max[0].ToString().PadLeft(3) + i_max[1].ToString().PadLeft(3) +
                           i_max[2].ToString().PadLeft(3) + i_max[3].ToString().PadLeft(3) + "");
 
-        value = Index.index0n(n, i_min, i, i_max);
-        index_min = 0;
-        index_max = index_min + m - 1;
+        int value = Index.index0n(n, i_min, i, i_max);
+        int index_min = 0;
+        int index_max = m - 1;
         Console.WriteLine("  INDEX0N:  "
                           + "  " + index_min.ToString().PadLeft(12)
                           + "  " + value.ToString().PadLeft(12)
@@ -474,7 +422,7 @@ internal static class Program
 
         value = Index.indexn0(n, i_min, i, i_max);
         index_min = 0;
-        index_max = index_min + m - 1;
+        index_max = m - 1;
         Console.WriteLine("  INDEXN0:  "
                           + "  " + index_min.ToString().PadLeft(12)
                           + "  " + value.ToString().PadLeft(12)

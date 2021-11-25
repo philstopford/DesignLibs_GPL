@@ -72,22 +72,20 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string filename = "chebyshev1";
-        double[] l;
-        string label = "Chebyshev1 points for N = 11";
+        const string filename = "chebyshev1";
+        const string label = "Chebyshev1 points for N = 11";
         int n;
         const int N_MAX = 11;
-        int nfun = 501;
+        const int nfun = 501;
         double[] x;
-        double[] xfun;
 
         Console.WriteLine("");
         Console.WriteLine("LEBESGUE_TEST01:");
         Console.WriteLine("  Analyze Chebyshev1 points.");
 
-        xfun = typeMethods.r8vec_linspace_new(nfun, -1.0, +1.0);
+        double[] xfun = typeMethods.r8vec_linspace_new(nfun, -1.0, +1.0);
 
-        l = new double[nfun];
+        double[] l = new double[nfun];
 
         for (n = 1; n <= N_MAX; n++)
         {
@@ -129,22 +127,20 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string filename = "chebyshev2";
-        double[] l;
-        string label = "Chebyshev2 points for N = 11";
+        const string filename = "chebyshev2";
+        const string label = "Chebyshev2 points for N = 11";
         int n;
         const int N_MAX = 11;
-        int nfun = 501;
+        const int nfun = 501;
         double[] x;
-        double[] xfun;
 
         Console.WriteLine("");
         Console.WriteLine("LEBESGUE_TEST02:");
         Console.WriteLine("  Analyze Chebyshev2 points.");
 
-        xfun = typeMethods.r8vec_linspace_new(nfun, -1.0, +1.0);
+        double[] xfun = typeMethods.r8vec_linspace_new(nfun, -1.0, +1.0);
 
-        l = new double[nfun];
+        double[] l = new double[nfun];
 
         for (n = 1; n <= N_MAX; n++)
         {
@@ -186,22 +182,20 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string filename = "chebyshev3";
-        double[] l;
-        string label = "Chebyshev3 points for N = 11";
+        const string filename = "chebyshev3";
+        const string label = "Chebyshev3 points for N = 11";
         int n;
         const int N_MAX = 11;
-        int nfun = 501;
+        const int nfun = 501;
         double[] x;
-        double[] xfun;
 
         Console.WriteLine("");
         Console.WriteLine("LEBESGUE_TEST03:");
         Console.WriteLine("  Analyze Chebyshev3 points.");
 
-        xfun = typeMethods.r8vec_linspace_new(nfun, -1.0, +1.0);
+        double[] xfun = typeMethods.r8vec_linspace_new(nfun, -1.0, +1.0);
 
-        l = new double[nfun];
+        double[] l = new double[nfun];
 
         for (n = 1; n <= N_MAX; n++)
         {
@@ -243,22 +237,20 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string filename = "chebyshev4";
-        double[] l;
-        string label = "Chebyshev4 points for N = 11";
+        const string filename = "chebyshev4";
+        const string label = "Chebyshev4 points for N = 11";
         int n;
         const int N_MAX = 11;
-        int nfun = 501;
+        const int nfun = 501;
         double[] x;
-        double[] xfun;
 
         Console.WriteLine("");
         Console.WriteLine("LEBESGUE_TEST04:");
         Console.WriteLine("  Analyze Chebyshev4 points.");
 
-        xfun = typeMethods.r8vec_linspace_new(nfun, -1.0, +1.0);
+        double[] xfun = typeMethods.r8vec_linspace_new(nfun, -1.0, +1.0);
 
-        l = new double[nfun];
+        double[] l = new double[nfun];
 
         for (n = 1; n <= N_MAX; n++)
         {
@@ -299,22 +291,20 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string filename = "equidistant1";
-        double[] l;
-        string label = "Equidistant1 points for N = 11";
+        const string filename = "equidistant1";
+        const string label = "Equidistant1 points for N = 11";
         int n;
         const int N_MAX = 11;
-        int nfun = 501;
+        const int nfun = 501;
         double[] x;
-        double[] xfun;
 
         Console.WriteLine("");
         Console.WriteLine("LEBESGUE_TEST05:");
         Console.WriteLine("  Analyze Equidistant1 points.");
 
-        xfun = typeMethods.r8vec_linspace_new(nfun, -1.0, +1.0);
+        double[] xfun = typeMethods.r8vec_linspace_new(nfun, -1.0, +1.0);
 
-        l = new double[nfun];
+        double[] l = new double[nfun];
 
         for (n = 1; n <= N_MAX; n++)
         {
@@ -355,22 +345,20 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string filename = "equidistant2";
-        double[] l;
-        string label = "Equidistant2 points for N = 11";
+        const string filename = "equidistant2";
+        const string label = "Equidistant2 points for N = 11";
         int n;
         const int N_MAX = 11;
-        int nfun = 501;
+        const int nfun = 501;
         double[] x;
-        double[] xfun;
 
         Console.WriteLine("");
         Console.WriteLine("LEBESGUE_TEST06:");
         Console.WriteLine("  Analyze Equidistant2 points.");
 
-        xfun = typeMethods.r8vec_linspace_new(nfun, -1.0, +1.0);
+        double[] xfun = typeMethods.r8vec_linspace_new(nfun, -1.0, +1.0);
 
-        l = new double[nfun];
+        double[] l = new double[nfun];
 
         for (n = 1; n <= N_MAX; n++)
         {
@@ -411,22 +399,20 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string filename = "equidistant3";
-        double[] l;
-        string label = "Equidistant3 points for N = 11";
+        const string filename = "equidistant3";
+        const string label = "Equidistant3 points for N = 11";
         int n;
         const int N_MAX = 11;
-        int nfun = 501;
+        const int nfun = 501;
         double[] x;
-        double[] xfun;
 
         Console.WriteLine("");
         Console.WriteLine("LEBESGUE_TEST07:");
         Console.WriteLine("  Analyze Equidistant3 points.");
 
-        xfun = typeMethods.r8vec_linspace_new(nfun, -1.0, +1.0);
+        double[] xfun = typeMethods.r8vec_linspace_new(nfun, -1.0, +1.0);
 
-        l = new double[nfun];
+        double[] l = new double[nfun];
 
         for (n = 1; n <= N_MAX; n++)
         {
@@ -467,22 +453,20 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string filename = "fejer1";
-        double[] l;
-        string label = "Fejer1 points for N = 11";
+        const string filename = "fejer1";
+        const string label = "Fejer1 points for N = 11";
         int n;
         const int N_MAX = 11;
-        int nfun = 501;
+        const int nfun = 501;
         double[] x;
-        double[] xfun;
 
         Console.WriteLine("");
         Console.WriteLine("LEBESGUE_TEST08:");
         Console.WriteLine("  Analyze Fejer1 points.");
 
-        xfun = typeMethods.r8vec_linspace_new(nfun, -1.0, +1.0);
+        double[] xfun = typeMethods.r8vec_linspace_new(nfun, -1.0, +1.0);
 
-        l = new double[nfun];
+        double[] l = new double[nfun];
 
         for (n = 1; n <= N_MAX; n++)
         {
@@ -523,22 +507,20 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string filename = "fejer2";
-        double[] l;
-        string label = "Fejer2 points for N = 11";
+        const string filename = "fejer2";
+        const string label = "Fejer2 points for N = 11";
         int n;
         const int N_MAX = 11;
-        int nfun = 501;
+        const int nfun = 501;
         double[] x;
-        double[] xfun;
 
         Console.WriteLine("");
         Console.WriteLine("LEBESGUE_TEST09:");
         Console.WriteLine("  Analyze Fejer2 points.");
 
-        xfun = typeMethods.r8vec_linspace_new(nfun, -1.0, +1.0);
+        double[] xfun = typeMethods.r8vec_linspace_new(nfun, -1.0, +1.0);
 
-        l = new double[nfun];
+        double[] l = new double[nfun];
 
         for (n = 1; n <= N_MAX; n++)
         {

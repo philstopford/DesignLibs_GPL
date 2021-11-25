@@ -30,11 +30,8 @@ public static class SphereTest
         //    John Burkardt
         //
     {
-        int TEST_NUM = 6;
+        const int TEST_NUM = 6;
 
-        double dist1;
-        double dist2;
-        double dist3;
         string[] name =
         {
             "Atlanta, Georgia  ",
@@ -48,13 +45,8 @@ public static class SphereTest
         int[] lat_m = {11, 0, 0, 49, 25, 5};
         int[] long_d = {82, 0, 0, 3, 98, 81};
         int[] long_m = {34, 0, 0, 0, 30, 6};
-        double lat1;
-        double lat2;
-        double long1;
-        double long2;
-        double radius = 3957.0;
+        const double radius = 3957.0;
         int test1;
-        int test2;
 
         Console.WriteLine("");
         Console.WriteLine("TEST068");
@@ -67,20 +59,21 @@ public static class SphereTest
 
         for (test1 = 0; test1 < TEST_NUM - 1; test1++)
         {
-            lat1 = Helpers.dms_to_radians(lat_d[test1], lat_m[test1], 0);
-            long1 = Helpers.dms_to_radians(long_d[test1], long_m[test1], 0);
+            double lat1 = Helpers.dms_to_radians(lat_d[test1], lat_m[test1], 0);
+            double long1 = Helpers.dms_to_radians(long_d[test1], long_m[test1], 0);
 
             Console.WriteLine("");
             Console.WriteLine("  Distance from " + name[test1] + "");
 
+            int test2;
             for (test2 = test1 + 1; test2 < TEST_NUM; test2++)
             {
-                lat2 = Helpers.dms_to_radians(lat_d[test2], lat_m[test2], 0);
-                long2 = Helpers.dms_to_radians(long_d[test2], long_m[test2], 0);
+                double lat2 = Helpers.dms_to_radians(lat_d[test2], lat_m[test2], 0);
+                double long2 = Helpers.dms_to_radians(long_d[test2], long_m[test2], 0);
 
-                dist1 = Geometry.sphere_distance1(lat1, long1, lat2, long2, radius);
-                dist2 = Geometry.sphere_distance2(lat1, long1, lat2, long2, radius);
-                dist3 = Geometry.sphere_distance3(lat1, long1, lat2, long2, radius);
+                double dist1 = Geometry.sphere_distance1(lat1, long1, lat2, long2, radius);
+                double dist2 = Geometry.sphere_distance2(lat1, long1, lat2, long2, radius);
+                double dist3 = Geometry.sphere_distance3(lat1, long1, lat2, long2, radius);
 
                 Console.WriteLine("             to " + name[test2]
                                                      + "  " + dist1
@@ -111,18 +104,11 @@ public static class SphereTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
-        double h;
-        double haver_sine;
-        double pi = 3.141592653589793;
-        double r = 1.0;
+        const double r = 1.0;
         int test;
-        int test_num = 12;
-        double theta1;
-        double theta2;
-        double volume1;
-        double volume2;
+        const int test_num = 12;
 
         Console.WriteLine("");
         Console.WriteLine("TEST0125");
@@ -144,30 +130,31 @@ public static class SphereTest
 
         for (test = 1; test <= test_num; test++)
         {
-            h = 2.0 * r * test / test_num;
+            double h = 2.0 * r * test / test_num;
 
-            haver_sine = Math.Sqrt(r * r - (r - h) * (r - h));
+            double haver_sine = Math.Sqrt(r * r - (r - h) * (r - h));
 
+            double theta2;
             if (h <= r)
             {
                 theta2 = typeMethods.r8_asin(haver_sine / r);
             }
             else
             {
-                theta2 = pi - typeMethods.r8_asin(haver_sine / r);
+                theta2 = Math.PI - typeMethods.r8_asin(haver_sine / r);
             }
 
-            theta1 = -theta2;
+            double theta1 = -theta2;
 
-            volume1 = Geometry.sphere_cap_volume_2d(r, h);
+            double volume1 = Geometry.sphere_cap_volume_2d(r, h);
 
-            volume2 = Geometry.sphere_cap_volume_nd(DIM_NUM, r, h);
+            double volume2 = Geometry.sphere_cap_volume_nd(DIM_NUM, r, h);
 
-            Console.WriteLine("  " + theta1.ToString().PadLeft(10)
-                                   + "  " + theta2.ToString().PadLeft(10)
-                                   + "  " + h.ToString().PadLeft(10)
-                                   + "  " + volume1.ToString().PadLeft(10)
-                                   + "  " + volume2.ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + theta1.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + theta2.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + h.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + volume1.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + volume2.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
     }
@@ -193,14 +180,11 @@ public static class SphereTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        double h;
         int test;
-        int test_num = 12;
-        double r = 1.0;
-        double volume1;
-        double volume2;
+        const int test_num = 12;
+        const double r = 1.0;
 
         Console.WriteLine("");
         Console.WriteLine("TEST0126");
@@ -219,15 +203,15 @@ public static class SphereTest
 
         for (test = 0; test <= test_num; test++)
         {
-            h = 2.0 * r * test / test_num;
+            double h = 2.0 * r * test / test_num;
 
-            volume1 = Geometry.sphere_cap_volume_3d(r, h);
+            double volume1 = Geometry.sphere_cap_volume_3d(r, h);
 
-            volume2 = Geometry.sphere_cap_volume_nd(DIM_NUM, r, h);
+            double volume2 = Geometry.sphere_cap_volume_nd(DIM_NUM, r, h);
 
-            Console.WriteLine("  " + h.ToString().PadLeft(12)
-                                   + "  " + volume1.ToString().PadLeft(12)
-                                   + "  " + volume2.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + h.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + volume1.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + volume2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
     }
@@ -253,14 +237,11 @@ public static class SphereTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        double area1;
-        double area2;
-        double h;
         int test;
-        int test_num = 12;
-        double r = 1.0;
+        const int test_num = 12;
+        const double r = 1.0;
 
         Console.WriteLine("");
         Console.WriteLine("TEST0127");
@@ -277,16 +258,16 @@ public static class SphereTest
 
         for (test = 0; test <= test_num; test++)
         {
-            h = 2.0 * r * test / test_num;
+            double h = 2.0 * r * test / test_num;
 
-            area1 = Geometry.sphere_cap_area_3d(r, h);
+            double area1 = Geometry.sphere_cap_area_3d(r, h);
 
-            area2 = Geometry.sphere_cap_area_nd(DIM_NUM, r, h);
+            double area2 = Geometry.sphere_cap_area_nd(DIM_NUM, r, h);
 
-            Console.WriteLine("  " + r.ToString().PadLeft(12)
-                                   + "  " + h.ToString().PadLeft(12)
-                                   + "  " + area1.ToString().PadLeft(12)
-                                   + "  " + area2.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + h.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + area1.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + area2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
     }
@@ -312,7 +293,7 @@ public static class SphereTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
         double[] p1 = {-1.0, -1.0, 4.0};
         double[] p2 = {5.0, 7.0, 4.0};
@@ -357,8 +338,8 @@ public static class SphereTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
-        int TEST_NUM = 4;
+        const int DIM_NUM = 3;
+        const int TEST_NUM = 4;
 
         int i;
         bool inside;
@@ -398,7 +379,7 @@ public static class SphereTest
             cout = "  " + inside.ToString().PadLeft(1);
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + p[i].ToString().PadLeft(12);
+                cout += "  " + p[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
@@ -418,7 +399,7 @@ public static class SphereTest
             cout = "  " + inside.ToString().PadLeft(1);
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + p[i].ToString().PadLeft(12);
+                cout += "  " + p[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
@@ -447,8 +428,8 @@ public static class SphereTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
-        int TEST_NUM = 4;
+        const int DIM_NUM = 3;
+        const int TEST_NUM = 4;
 
         int i;
         double[] p;
@@ -493,12 +474,12 @@ public static class SphereTest
 
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout = "  " + p[i].ToString().PadLeft(12);
+                cout = "  " + p[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + pn[i].ToString().PadLeft(12);
+                cout += "  " + pn[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
@@ -518,12 +499,12 @@ public static class SphereTest
             cout = "";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + p[i].ToString().PadLeft(12);
+                cout += "  " + p[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + pn[i].ToString().PadLeft(12);
+                cout += "  " + pn[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
@@ -552,7 +533,7 @@ public static class SphereTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
         int i;
         double[] pc = {1.0, 2.0, 3.0};
@@ -574,28 +555,28 @@ public static class SphereTest
         cout = "  P1:";
         for (i = 0; i < DIM_NUM; i++)
         {
-            cout += "  " + p1[i].ToString().PadLeft(12);
+            cout += "  " + p1[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
         }
 
         Console.WriteLine(cout);
         cout = "  P2:";
         for (i = 0; i < DIM_NUM; i++)
         {
-            cout += "  " + p2[i].ToString().PadLeft(12);
+            cout += "  " + p2[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
         }
 
         Console.WriteLine(cout);
         cout = "  P3:";
         for (i = 0; i < DIM_NUM; i++)
         {
-            cout += "  " + p3[i].ToString().PadLeft(12);
+            cout += "  " + p3[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
         }
 
         Console.WriteLine(cout);
         cout = "  P4:";
         for (i = 0; i < DIM_NUM; i++)
         {
-            cout += "  " + p4[i].ToString().PadLeft(12);
+            cout += "  " + p4[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
         }
 
         Console.WriteLine(cout);
@@ -617,28 +598,28 @@ public static class SphereTest
         cout = "  P1:";
         for (i = 0; i < DIM_NUM; i++)
         {
-            cout += "  " + p1[i].ToString().PadLeft(12);
+            cout += "  " + p1[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
         }
 
         Console.WriteLine(cout);
         cout = "  P2:";
         for (i = 0; i < DIM_NUM; i++)
         {
-            cout += "  " + p2[i].ToString().PadLeft(12);
+            cout += "  " + p2[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
         }
 
         Console.WriteLine(cout);
         cout = "  P3:";
         for (i = 0; i < DIM_NUM; i++)
         {
-            cout += "  " + p3[i].ToString().PadLeft(12);
+            cout += "  " + p3[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
         }
 
         Console.WriteLine(cout);
         cout = "  P4:";
         for (i = 0; i < DIM_NUM; i++)
         {
-            cout += "  " + p4[i].ToString().PadLeft(12);
+            cout += "  " + p4[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
         }
 
         Console.WriteLine(cout);
@@ -666,9 +647,8 @@ public static class SphereTest
         //    John Burkardt
         //
     {
-        int N = 3;
+        const int N = 3;
 
-        int n = N;
         double[] p =
         {
             4.0, 2.0, 3.0,
@@ -679,15 +659,15 @@ public static class SphereTest
         double[] pc = new double[N];
         double[] pc_true = {1.0, 2.0, 3.0};
         double r = 0;
-        double r_true = 3.0;
+        const double r_true = 3.0;
 
         Console.WriteLine("");
         Console.WriteLine("TEST1836");
         Console.WriteLine("  SPHERE_EXP2IMP_ND: explicit sphere => implicit form;");
 
-        typeMethods.r8mat_transpose_print(n, n + 1, p, "  Initial form of explicit sphere:");
+        typeMethods.r8mat_transpose_print(N, N + 1, p, "  Initial form of explicit sphere:");
 
-        Geometry.sphere_exp2imp_nd(n, p, ref r, ref pc);
+        Geometry.sphere_exp2imp_nd(N, p, ref r, ref pc);
 
         Console.WriteLine("");
         Console.WriteLine("  Computed form of implicit sphere:");
@@ -695,9 +675,9 @@ public static class SphereTest
         Console.WriteLine("  Imputed radius = " + r + "");
         Console.WriteLine("  True radius =    " + r_true + "");
 
-        typeMethods.r8vec_print(n, pc, "  Imputed center");
+        typeMethods.r8vec_print(N, pc, "  Imputed center");
 
-        typeMethods.r8vec_print(n, pc_true, "  True center");
+        typeMethods.r8vec_print(N, pc_true, "  True center");
 
     }
 
@@ -722,11 +702,11 @@ public static class SphereTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
-        int TRI_MAX = 1000;
+        const int DIM_NUM = 3;
+        const int TRI_MAX = 1000;
 
-        int nlat = 3;
-        int nlong = 4;
+        const int nlat = 3;
+        const int nlong = 4;
         int triangle_num = 0;
         int[] tri = new int[DIM_NUM * TRI_MAX];
 
@@ -768,10 +748,9 @@ public static class SphereTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
-        int TEST_NUM = 4;
+        const int DIM_NUM = 3;
+        const int TEST_NUM = 4;
 
-        int i;
         double[] p_test =
         {
             2.0, 0.0, 0.0,
@@ -779,10 +758,9 @@ public static class SphereTest
             2.0, 4.0, 10.0,
             3.0, 5.0, 0.0
         };
-        double[] p1;
         double[] p2 = new double[DIM_NUM];
         double[] pc = {2.0, 4.0, 0.0};
-        double r = 2.0;
+        const double r = 2.0;
         int test;
 
         Console.WriteLine("");
@@ -795,20 +773,21 @@ public static class SphereTest
 
         for (test = 0; test < TEST_NUM; test++)
         {
-            p1 = p_test.Skip(+test * DIM_NUM).ToArray();
+            double[] p1 = p_test.Skip(+test * DIM_NUM).ToArray();
 
             Geometry.sphere_imp_point_project_3d(r, pc, p1, ref p2);
 
             Console.WriteLine("");
             string cout = "";
+            int i;
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + p1[i].ToString().PadLeft(12);
+                cout += "  " + p1[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + p2[i].ToString().PadLeft(12);
+                cout += "  " + p2[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
@@ -837,10 +816,8 @@ public static class SphereTest
         //    John Burkardt
         //
     {
-        double area;
         int dim_num;
-        double r = 1.0;
-        double volume;
+        const double r = 1.0;
 
         Console.WriteLine("");
         Console.WriteLine("TEST189");
@@ -855,11 +832,11 @@ public static class SphereTest
 
         for (dim_num = 2; dim_num <= 10; dim_num++)
         {
-            area = Geometry.sphere_imp_area_nd(dim_num, r);
-            volume = Geometry.sphere_imp_volume_nd(dim_num, r);
+            double area = Geometry.sphere_imp_area_nd(dim_num, r);
+            double volume = Geometry.sphere_imp_volume_nd(dim_num, r);
             Console.WriteLine("  " + dim_num.ToString().PadLeft(6)
-                                   + "  " + area.ToString().PadLeft(14)
-                                   + "  " + volume.ToString().PadLeft(14) + "");
+                                   + "  " + area.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + volume.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -885,9 +862,6 @@ public static class SphereTest
         //    John Burkardt
         //
     {
-        double area;
-        double area1;
-        double area2;
         double[] area_test =
         {
             0.001,
@@ -906,9 +880,6 @@ public static class SphereTest
             1.0E+10,
             1.0E+11
         };
-        int i;
-        int i_test;
-        double[] lat;
         double[] lat_test =
         {
             -80.0, -79.999999567493945456, -79.999999783746965784,
@@ -927,7 +898,6 @@ public static class SphereTest
             50.0, 49.301837019419162475, 50.669079015386089932,
             60.0, 55.676479026604850271, 57.644171397676860716
         };
-        double[] lon;
         double[] lon_test =
         {
             0.0, 0.0, -0.000002157012112311,
@@ -946,17 +916,14 @@ public static class SphereTest
             0.0, 1.816527281102587718, 1.868836724548604625,
             0.0, 0.0, 7.01051280511881837
         };
-        int n;
         int[] n_test =
         {
             3, 3, 3, 3, 3,
             3, 3, 3, 3, 3,
             3, 3, 3, 3, 3
         };
-        double pi = 3.141592653589793;
-        double r;
         int test;
-        int test_num = 15;
+        const int test_num = 15;
 
         Console.WriteLine("");
         Console.WriteLine("TEST1892");
@@ -968,31 +935,32 @@ public static class SphereTest
                           "         AREA2          ERROR2");
         Console.WriteLine("");
 
-        i_test = 0;
-        r = 20000000.0 / pi;
+        int i_test = 0;
+        const double r = 20000000.0 / Math.PI;
 
         for (test = 0; test < test_num; test++)
         {
-            n = n_test[test];
-            area = area_test[test] / r / r;
-            lat = new double[n];
-            lon = new double[n];
+            int n = n_test[test];
+            double area = area_test[test] / r / r;
+            double[] lat = new double[n];
+            double[] lon = new double[n];
+            int i;
             for (i = 0; i < n; i++)
             {
-                lat[i] = lat_test[i_test] * pi / 180.0;
-                lon[i] = lon_test[i_test] * pi / 180.0;
+                lat[i] = lat_test[i_test] * Math.PI / 180.0;
+                lon[i] = lon_test[i_test] * Math.PI / 180.0;
                 i_test += 1;
             }
 
-            area1 = Geometry.sphere01_polygon_area(n, lat, lon);
-            area2 = Geometry.sphere01_polygon_area_karney(n, lat, lon);
+            double area1 = Geometry.sphere01_polygon_area(n, lat, lon);
+            double area2 = Geometry.sphere01_polygon_area_karney(n, lat, lon);
             Console.WriteLine("  " + test.ToString().PadLeft(4)
                                    + "  " + n.ToString().PadLeft(4)
-                                   + "  " + area.ToString().PadLeft(13)
-                                   + "  " + area1.ToString().PadLeft(13)
-                                   + "  " + Math.Abs(area - area1).ToString().PadLeft(13)
-                                   + "  " + area2.ToString().PadLeft(13)
-                                   + "  " + Math.Abs(area - area2).ToString().PadLeft(13) + "");
+                                   + "  " + area.ToString(CultureInfo.InvariantCulture).PadLeft(13)
+                                   + "  " + area1.ToString(CultureInfo.InvariantCulture).PadLeft(13)
+                                   + "  " + Math.Abs(area - area1).ToString(CultureInfo.InvariantCulture).PadLeft(13)
+                                   + "  " + area2.ToString(CultureInfo.InvariantCulture).PadLeft(13)
+                                   + "  " + Math.Abs(area - area2).ToString(CultureInfo.InvariantCulture).PadLeft(13) + "");
 
         }
 
@@ -1020,9 +988,7 @@ public static class SphereTest
         //
     {
         double area = 0;
-        double area2 = 0;
         int dim_num = 0;
-        int n_data = 0;
 
         Console.WriteLine("");
         Console.WriteLine("TEST1895:");
@@ -1034,7 +1000,7 @@ public static class SphereTest
         Console.WriteLine("               Area           Area");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -1045,11 +1011,11 @@ public static class SphereTest
                 break;
             }
 
-            area2 = Geometry.sphere_unit_area_nd(dim_num);
+            double area2 = Geometry.sphere_unit_area_nd(dim_num);
 
             Console.WriteLine("  " + dim_num.ToString().PadLeft(6)
-                                   + "  " + area.ToString().PadLeft(14)
-                                   + "  " + area2.ToString().PadLeft(14) + "");
+                                   + "  " + area.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + area2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -1075,15 +1041,13 @@ public static class SphereTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
         double[] average = new double[DIM_NUM];
-        double dot_average;
         int i;
         int j;
-        int sample_num = 1000;
+        const int sample_num = 1000;
         int seed = 123456789;
-        double[] v;
         double[] x;
         string cout = "";
 
@@ -1102,7 +1066,7 @@ public static class SphereTest
             x = Geometry.sphere_unit_sample_2d(ref seed);
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + x[i].ToString().PadLeft(12);
+                cout += "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
@@ -1134,7 +1098,7 @@ public static class SphereTest
         cout = "  Average:        ";
         for (i = 0; i < DIM_NUM; i++)
         {
-            cout += "  " + average[i].ToString().PadLeft(12);
+            cout += "  " + average[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
         }
 
         Console.WriteLine(cout);
@@ -1150,9 +1114,9 @@ public static class SphereTest
 
         for (j = 1; j <= 5; j++)
         {
-            v = Geometry.sphere_unit_sample_2d(ref seed);
+            double[] v = Geometry.sphere_unit_sample_2d(ref seed);
 
-            dot_average = 0.0;
+            double dot_average = 0.0;
 
             for (i = 1; i <= sample_num; i++)
             {
@@ -1166,7 +1130,7 @@ public static class SphereTest
             cout = "  V:                ";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + v[i].ToString().PadLeft(12);
+                cout += "  " + v[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
@@ -1197,16 +1161,14 @@ public static class SphereTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
         double[] average = new double[DIM_NUM];
-        double dot_average;
         int i;
         int j;
         int k;
-        int sample_num = 1000;
+        const int sample_num = 1000;
         int seed = 123456789;
-        double[] v;
         double[] x;
         string cout = "";
 
@@ -1224,7 +1186,7 @@ public static class SphereTest
             x = Geometry.sphere_unit_sample_3d(ref seed);
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + x[i].ToString().PadLeft(8);
+                cout += "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
         }
 
@@ -1253,7 +1215,7 @@ public static class SphereTest
         cout = "  Average:        ";
         for (i = 0; i < DIM_NUM; i++)
         {
-            cout += "  " + average[i].ToString().PadLeft(8);
+            cout += "  " + average[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         }
 
         Console.WriteLine(cout);
@@ -1267,9 +1229,9 @@ public static class SphereTest
 
         for (k = 1; k <= 5; k++)
         {
-            v = Geometry.sphere_unit_sample_3d(ref seed);
+            double[] v = Geometry.sphere_unit_sample_3d(ref seed);
 
-            dot_average = 0.0;
+            double dot_average = 0.0;
 
             for (j = 1; j <= sample_num; j++)
             {
@@ -1283,7 +1245,7 @@ public static class SphereTest
             cout = "  V:                ";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + v[i].ToString().PadLeft(8);
+                cout += "  " + v[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
 
             Console.WriteLine(cout);
@@ -1313,16 +1275,14 @@ public static class SphereTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
         double[] average = new double[DIM_NUM];
-        double dot_average;
         int i;
         int j;
         int k;
-        int sample_num = 1000;
+        const int sample_num = 1000;
         int seed = 123456789;
-        double[] v;
         double[] x;
         string cout = "";
 
@@ -1343,7 +1303,7 @@ public static class SphereTest
             x = Geometry.sphere_unit_sample_3d_2(ref seed);
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + x[i].ToString().PadLeft(8);
+                cout += "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
         }
 
@@ -1372,7 +1332,7 @@ public static class SphereTest
         cout = "  Average:        ";
         for (i = 0; i < DIM_NUM; i++)
         {
-            cout += "  " + average[i].ToString().PadLeft(8);
+            cout += "  " + average[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         }
 
         Console.WriteLine(cout);
@@ -1386,9 +1346,9 @@ public static class SphereTest
 
         for (k = 1; k <= 5; k++)
         {
-            v = Geometry.sphere_unit_sample_3d_2(ref seed);
+            double[] v = Geometry.sphere_unit_sample_3d_2(ref seed);
 
-            dot_average = 0.0;
+            double dot_average = 0.0;
 
             for (j = 1; j <= sample_num; j++)
             {
@@ -1402,7 +1362,7 @@ public static class SphereTest
             cout = "  V:                ";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + v[i].ToString().PadLeft(8);
+                cout += "  " + v[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
 
             Console.WriteLine(cout);
@@ -1432,16 +1392,14 @@ public static class SphereTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
         double[] average = new double[DIM_NUM];
-        double dot_average;
         int i;
         int j;
         int k;
-        int sample_num = 1000;
+        const int sample_num = 1000;
         int seed = 123456789;
-        double[] v;
         double[] x;
         string cout = "";
 
@@ -1459,7 +1417,7 @@ public static class SphereTest
             x = Geometry.sphere_unit_sample_nd(DIM_NUM, ref seed);
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + x[i].ToString().PadLeft(8);
+                cout += "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
 
             Console.WriteLine(cout);
@@ -1493,7 +1451,7 @@ public static class SphereTest
         cout = "";
         for (i = 0; i < DIM_NUM; i++)
         {
-            cout += "  " + average[i].ToString().PadLeft(8);
+            cout += "  " + average[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         }
 
         Console.WriteLine(cout);
@@ -1506,9 +1464,9 @@ public static class SphereTest
 
         for (k = 1; k <= 5; k++)
         {
-            v = Geometry.sphere_unit_sample_nd(DIM_NUM, ref seed);
+            double[] v = Geometry.sphere_unit_sample_nd(DIM_NUM, ref seed);
 
-            dot_average = 0.0;
+            double dot_average = 0.0;
 
             for (j = 1; j <= sample_num; j++)
             {
@@ -1522,7 +1480,7 @@ public static class SphereTest
             cout = "  V:                ";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + v[i].ToString().PadLeft(8);
+                cout += "  " + v[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
 
             Console.WriteLine(cout);
@@ -1553,16 +1511,14 @@ public static class SphereTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
         double[] average = new double[DIM_NUM];
-        double dot_average;
         int i;
         int j;
         int k;
-        int sample_num = 1000;
+        const int sample_num = 1000;
         int seed = 123456789;
-        double[] v;
         double[] x;
         string cout = "";
         Console.WriteLine("");
@@ -1579,7 +1535,7 @@ public static class SphereTest
             x = Geometry.sphere_unit_sample_nd_2(DIM_NUM, ref seed);
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + x[i].ToString().PadLeft(8);
+                cout += "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
 
             Console.WriteLine(cout);
@@ -1613,7 +1569,7 @@ public static class SphereTest
         cout = "";
         for (i = 0; i < DIM_NUM; i++)
         {
-            cout += "  " + average[i].ToString().PadLeft(8);
+            cout += "  " + average[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         }
 
         Console.WriteLine(cout);
@@ -1626,9 +1582,9 @@ public static class SphereTest
 
         for (k = 1; k <= 5; k++)
         {
-            v = Geometry.sphere_unit_sample_nd_2(DIM_NUM, ref seed);
+            double[] v = Geometry.sphere_unit_sample_nd_2(DIM_NUM, ref seed);
 
-            dot_average = 0.0;
+            double dot_average = 0.0;
 
             for (j = 1; j <= sample_num; j++)
             {
@@ -1642,7 +1598,7 @@ public static class SphereTest
             cout = "  V:                ";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + v[i].ToString().PadLeft(8);
+                cout += "  " + v[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
 
             Console.WriteLine(cout);
@@ -1673,16 +1629,14 @@ public static class SphereTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
         double[] average = new double[DIM_NUM];
-        double dot_average;
         int i;
         int j;
         int k;
-        int sample_num = 1000;
+        const int sample_num = 1000;
         int seed = 123456789;
-        double[] v;
         double[] x;
         string cout = "";
 
@@ -1700,7 +1654,7 @@ public static class SphereTest
             x = Geometry.sphere_unit_sample_nd_3(DIM_NUM, ref seed);
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + x[i].ToString().PadLeft(8);
+                cout += "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
 
             Console.WriteLine(cout);
@@ -1734,7 +1688,7 @@ public static class SphereTest
         cout = "";
         for (i = 0; i < DIM_NUM; i++)
         {
-            cout += "  " + average[i].ToString().PadLeft(8);
+            cout += "  " + average[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         }
 
         Console.WriteLine(cout);
@@ -1747,9 +1701,9 @@ public static class SphereTest
 
         for (k = 1; k <= 5; k++)
         {
-            v = Geometry.sphere_unit_sample_nd_3(DIM_NUM, ref seed);
+            double[] v = Geometry.sphere_unit_sample_nd_3(DIM_NUM, ref seed);
 
-            dot_average = 0.0;
+            double dot_average = 0.0;
 
             for (j = 1; j <= sample_num; j++)
             {
@@ -1763,7 +1717,7 @@ public static class SphereTest
             cout = "  V:                ";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + v[i].ToString().PadLeft(8);
+                cout += "  " + v[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
 
             Console.WriteLine(cout);
@@ -1795,9 +1749,7 @@ public static class SphereTest
         //
     {
         int dim_num = 0;
-        int n_data = 0;
         double volume = 0;
-        double volume2 = 0;
 
         Console.WriteLine("");
         Console.WriteLine("TEST1955:");
@@ -1809,7 +1761,7 @@ public static class SphereTest
         Console.WriteLine("                Volume         Volume");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -1820,11 +1772,11 @@ public static class SphereTest
                 break;
             }
 
-            volume2 = Geometry.sphere_unit_volume_nd(dim_num);
+            double volume2 = Geometry.sphere_unit_volume_nd(dim_num);
 
             Console.WriteLine("  " + dim_num.ToString().PadLeft(6)
-                                   + "  " + volume.ToString().PadLeft(10)
-                                   + "  " + volume2.ToString().PadLeft(10) + "");
+                                   + "  " + volume.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + volume2.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -1850,21 +1802,18 @@ public static class SphereTest
         //
     {
         double a = 0;
-        double as_;
         double b = 0;
-        double bs = 0;
         double c = 0;
-        double cs = 0;
-        double r = 10.0;
+        const double r = 10.0;
 
         Console.WriteLine("");
         Console.WriteLine("TEST200");
         Console.WriteLine("  SPHERE_TRIANGLE_SIDES_TO_ANGLES takes the sides of a");
         Console.WriteLine("  spherical triangle and determines the angles.");
 
-        as_ = 121.0 + 15.4 / 60.0;
-        bs = 104.0 + 54.7 / 60.0;
-        cs = 65.0 + 42.5 / 60.0;
+        double as_ = 121.0 + 15.4 / 60.0;
+        double bs = 104.0 + 54.7 / 60.0;
+        double cs = 65.0 + 42.5 / 60.0;
 
         as_ = Helpers.degrees_to_radians(as_);
         bs = Helpers.degrees_to_radians(bs);

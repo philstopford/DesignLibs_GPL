@@ -26,13 +26,11 @@ public static class WedgeTest
         //    John Burkardt
         //
     {
-        double volume;
-
         Console.WriteLine("");
         Console.WriteLine("WEDGE01_VOLUME_TEST");
         Console.WriteLine("  WEDGE01_VOLUME returns the volume of the unit wedge.");
 
-        volume = Geometry.wedge01_volume ( );
+        double volume = Geometry.wedge01_volume ( );
 
         Console.WriteLine("");
         Console.WriteLine("  Volume = " + volume + "");

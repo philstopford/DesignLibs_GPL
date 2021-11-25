@@ -28,25 +28,20 @@ public static class SortHeapTest
         //    John Burkardt
         //
     {
-        int N = 20;
+        const int N = 20;
 
         int[] a = new int[N];
-        int i;
-        int indx;
-        int isgn;
-        int j;
-        int seed;
         SortHeapExternalData data = new();
 
         Console.WriteLine("");
         Console.WriteLine("TEST180");
         Console.WriteLine("  SORT_HEAP_EXTERNAL sorts objects externally.");
 
-        indx = 0;
-        i = 0;
-        j = 0;
-        isgn = 0;
-        seed = 123456789;
+        int indx = 0;
+        int i;
+        int j = 0;
+        int isgn = 0;
+        int seed = 123456789;
 
         for ( i = 0; i < N; i++ )
         {
@@ -81,9 +76,7 @@ public static class SortHeapTest
             //
             else if ( 0 < indx )
             {
-                int tmp = a[i - 1];
-                a[i - 1] = a[j - 1];
-                a[j - 1] = tmp;
+                (a[i - 1], a[j - 1]) = (a[j - 1], a[i - 1]);
                 //
                 //  ...and if the return value of INDX is 0, we're done.
                 //

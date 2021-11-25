@@ -54,26 +54,18 @@ internal static class Program
         //    CRC Press, 1999.
         //
     {
-        string file_out_name = "tiler_3d.tri";
+        const string file_out_name = "tiler_3d.tri";
         List<string> file_out = new();
         int i;
-        int j;
-        int k;
-        int ni = 3;
-        int nj = 3;
-        int nk = 3;
-        double u0;
-        double u1;
-        double umax = 30.0;
-        double umin = 150.0;
-        double v0;
-        double v1;
-        double vmax = 5.0;
-        double vmin = 1.0;
-        double w0;
-        double w1;
-        double wmax = 30.0;
-        double wmin = -30.0;
+        const int ni = 3;
+        const int nj = 3;
+        const int nk = 3;
+        const double umax = 30.0;
+        const double umin = 150.0;
+        const double vmax = 5.0;
+        const double vmin = 1.0;
+        const double wmax = 30.0;
+        const double wmin = -30.0;
 
 
         Console.WriteLine("");
@@ -93,37 +85,39 @@ internal static class Program
         for (i = 1; i <= ni; i++)
         {
 
-            u0 = ((ni + 1 - i) * umin + (i - 1) * umax)
-                 / ni;
+            double u0 = ((ni + 1 - i) * umin + (i - 1) * umax)
+                        / ni;
 
-            u1 = ((ni - i) * umin + i * umax)
-                 / ni;
+            double u1 = ((ni - i) * umin + i * umax)
+                        / ni;
             //
             //  Consider items with index (I,J,*):
             //
+            int j;
             for (j = 1; j <= nj; j++)
             {
 
-                v0 = ((nj - j + 1) * vmin
-                      + (j - 1) * vmax)
-                     / nj;
+                double v0 = ((nj - j + 1) * vmin
+                             + (j - 1) * vmax)
+                            / nj;
 
-                v1 = ((nj - j) * vmin
-                      + j * vmax)
-                     / nj;
+                double v1 = ((nj - j) * vmin
+                             + j * vmax)
+                            / nj;
                 //
                 //  Consider items with index (I,J,K):
                 //
+                int k;
                 for (k = 1; k <= nk; k++)
                 {
 
-                    w0 = ((nk - k + 1) * wmin
-                          + (k - 1) * wmax)
-                         / nk;
+                    double w0 = ((nk - k + 1) * wmin
+                                 + (k - 1) * wmax)
+                                / nk;
 
-                    w1 = ((nk - k) * wmin
-                          + k * wmax)
-                         / nk;
+                    double w1 = ((nk - k) * wmin
+                                 + k * wmax)
+                                / nk;
                     //
                     //  Fill sub-box (I,J,K) with the 3-D "tile".
                     //   
@@ -210,13 +204,10 @@ internal static class Program
         //    Output, double *X, *Y, *Z, the (X,Y,Z) coordinates of the point.
         //
     {
-        double DEG2RAD = Math.PI / 180.0;
+        const double DEG2RAD = Math.PI / 180.0;
 
-        double psi;
-        double theta;
-
-        theta = u * DEG2RAD;
-        psi = w * DEG2RAD;
+        double theta = u * DEG2RAD;
+        double psi = w * DEG2RAD;
 
         if (Math.Abs(u - umin) <= double.Epsilon)
         {
@@ -318,24 +309,18 @@ internal static class Program
         //    two oppositie corners of the sub-box.
         //
     {
-        int NPOINT = 4;
-        double R0 = 0.0;
-        double R1 = 1.0;
-        double S0 = 0.0;
-        double S1 = 1.0;
-        double T0 = 0.0;
-        double T1 = 1.0;
+        const int NPOINT = 4;
+        const double R0 = 0.0;
+        const double R1 = 1.0;
+        const double S0 = 0.0;
+        const double S1 = 1.0;
+        const double T0 = 0.0;
+        const double T1 = 1.0;
 
         int i;
-        double r = 0;
         double[] r_tab = new double[NPOINT];
-        double s = 0;
         double[] s_tab = new double[NPOINT];
-        double t = 0;
         double[] t_tab = new double[NPOINT];
-        double u = 0;
-        double v = 0;
-        double w = 0;
         double[] x = new double[NPOINT];
         double x000 = 0;
         double x00t = 0;
@@ -475,23 +460,24 @@ internal static class Program
             //
             //  Get the (R,S,T) coordinates of point I.
             //
-            r = r_tab[i];
-            s = s_tab[i];
-            t = t_tab[i];
+            double r = r_tab[i];
+            double s = s_tab[i];
+            double t = t_tab[i];
             //
             //  Get the corresponding point (U,V,W) in the rectangular space.
             //
-            u = ((R1 - r) * u0
-                 + (r - R0) * u1)
-                / (R1 - R0);
+            double u = ((R1 - r) * u0
+                        + (r - R0) * u1)
+                       / (R1 - R0);
 
-            v = ((S1 - s) * v0
-                 + (s - S0) * v1)
-                / (S1 - S0);
+            double 
+                v = ((S1 - s) * v0
+                     + (s - S0) * v1)
+                    / (S1 - S0);
 
-            w = ((T1 - t) * w0
-                 + (t - T0) * w1)
-                / (T1 - T0);
+            double w = ((T1 - t) * w0
+                        + (t - T0) * w1)
+                       / (T1 - T0);
             //
             //  Evaluate (X,Y,Z) on the 12 edges "near" (U,V,W).
             //

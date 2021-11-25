@@ -143,26 +143,23 @@ internal static class Program
         //    Input, int W[N], a set of weights.
         //
     {
-        int[] c;
         int discrepancy = 0;
         int i;
-        int w0_sum;
-        int w1_sum;
 
         Console.WriteLine("");
         Console.WriteLine("PARTITION_BRUTE_TEST:");
         Console.WriteLine("  PARTITION_BRUTE_TEST partitions a set of N integers W so that the subsets");
         Console.WriteLine("  have equal sums.");
 
-        c = new int[n];
+        int[] c = new int[n];
 
         Partition.partition_brute(n, w, ref c, ref discrepancy);
 
         Console.WriteLine("");
         Console.WriteLine("     I        W0        W1");
         Console.WriteLine("");
-        w0_sum = 0;
-        w1_sum = 0;
+        int w0_sum = 0;
+        int w1_sum = 0;
         for (i = 0; i < n; i++)
         {
             switch (c[i])
@@ -217,7 +214,6 @@ internal static class Program
         //    Input, int W[N], a set of weights.
         //
     {
-        int count;
         int i;
 
         Console.WriteLine("");
@@ -225,7 +221,7 @@ internal static class Program
         Console.WriteLine("  PARTITION_COUNT counts the number of exact solutions");
         Console.WriteLine("  of the partition problem.");
 
-        count = Partition.partition_count(n, w);
+        int count = Partition.partition_count(n, w);
 
         Console.WriteLine("");
         Console.WriteLine("     I        W");

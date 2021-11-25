@@ -30,15 +30,12 @@ public static class SegmentTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int TEST_NUM = 13;
+        const int DIM_NUM = 2;
+        const int TEST_NUM = 13;
 
-        double curvature;
         double[] p1 = {0.0, 0.0};
         double[] p2 = {1.0, 0.0};
         double[] p3 = new double[DIM_NUM];
-        double theta;
-        double theta_degrees;
         int test;
 
         Console.WriteLine("");
@@ -60,20 +57,20 @@ public static class SegmentTest
 
         for (test = 1; test <= TEST_NUM; test++)
         {
-            theta = 2.0 * Math.PI * (test - 1)
-                    / (TEST_NUM - 1);
+            double theta = 2.0 * Math.PI * (test - 1)
+                           / (TEST_NUM - 1);
 
-            theta_degrees = 360.0 * (test - 1)
-                            / (TEST_NUM - 1);
+            double theta_degrees = 360.0 * (test - 1)
+                                   / (TEST_NUM - 1);
 
             p3[0] = Math.Cos(theta);
             p3[1] = Math.Sin(theta);
 
-            curvature = Segments.segments_curvature_2d(p1, p2, p3);
+            double curvature = Segments.segments_curvature_2d(p1, p2, p3);
 
             Console.WriteLine("  " + test.ToString().PadLeft(4)
-                                   + "  " + theta_degrees.ToString().PadLeft(5)
-                                   + "  " + curvature.ToString().PadLeft(14) + "");
+                                   + "  " + theta_degrees.ToString(CultureInfo.InvariantCulture).PadLeft(5)
+                                   + "  " + curvature.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -108,12 +105,9 @@ public static class SegmentTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int TEST_NUM = 9;
+        const int DIM_NUM = 2;
+        const int TEST_NUM = 9;
 
-        double dist;
-        int i;
-        double[] p1;
         double[] p1_test =
         {
             2.0, 3.0,
@@ -126,7 +120,6 @@ public static class SegmentTest
             0.0, 0.0,
             -10.0, -10.0
         };
-        double[] p2;
         double[] p2_test =
         {
             8.0, 6.0,
@@ -139,7 +132,6 @@ public static class SegmentTest
             100.0, 100.0,
             100.0, 100.0
         };
-        double[] q1;
         double[] q1_test =
         {
             8.0, 3.0,
@@ -152,7 +144,6 @@ public static class SegmentTest
             50.0, 0.0,
             50.0, 0.0
         };
-        double[] q2;
         double[] q2_test =
         {
             14.0, 6.0,
@@ -166,7 +157,6 @@ public static class SegmentTest
             60.0, 0.0
         };
         int test;
-        string cout = "";
 
         Console.WriteLine("");
         Console.WriteLine("TEST042");
@@ -175,12 +165,12 @@ public static class SegmentTest
 
         for (test = 0; test < TEST_NUM; test++)
         {
-            p1 = p1_test.Skip(+test * DIM_NUM).ToArray();
-            p2 = p2_test.Skip(+test * DIM_NUM).ToArray();
-            q1 = q1_test.Skip(+test * DIM_NUM).ToArray();
-            q2 = q2_test.Skip(+test * DIM_NUM).ToArray();
+            double[] p1 = p1_test.Skip(+test * DIM_NUM).ToArray();
+            double[] p2 = p2_test.Skip(+test * DIM_NUM).ToArray();
+            double[] q1 = q1_test.Skip(+test * DIM_NUM).ToArray();
+            double[] q2 = q2_test.Skip(+test * DIM_NUM).ToArray();
 
-            dist = Segments.segments_dist_2d(p1, p2, q1, q2);
+            double dist = Segments.segments_dist_2d(p1, p2, q1, q2);
 
             Console.WriteLine("");
 
@@ -223,30 +213,31 @@ public static class SegmentTest
             }
 
             Console.WriteLine("");
-            cout = "  P1:";
+            string cout = "  P1:";
+            int i;
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + p1[i].ToString().PadLeft(12);
+                cout += "  " + p1[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
             cout = "  P2:";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + p2[i].ToString().PadLeft(12);
+                cout += "  " + p2[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             cout = "  Q1:";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + q1[i].ToString().PadLeft(12);
+                cout += "  " + q1[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
             cout = "  Q2:";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + q2[i].ToString().PadLeft(12);
+                cout += "  " + q2[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
@@ -275,9 +266,8 @@ public static class SegmentTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        double dist;
         double[] p1 = new double[DIM_NUM];
         double[] p2 = new double[DIM_NUM];
         double[] p3 = new double[DIM_NUM];
@@ -313,7 +303,7 @@ public static class SegmentTest
         p4[1] = 0.0;
         p4[2] = 0.0;
 
-        dist = Segments.segments_dist_3d(p1, p2, p3, p4);
+        double dist = Segments.segments_dist_3d(p1, p2, p3, p4);
 
         Console.WriteLine("  " + 0 + "  " + dist + "  " + 1.0 + "");
         //
@@ -342,7 +332,7 @@ public static class SegmentTest
         dist = Segments.segments_dist_3d(p1, p2, p3, p4);
 
         Console.WriteLine("  " + 1.ToString().PadLeft(3)
-                               + "  " + dist.ToString().PadLeft(12) + "  " + 5.0 + "");
+                               + "  " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  " + 5.0 + "");
         //
         //  Case 2, parallel, coincident, overlapping.
         //
@@ -369,7 +359,7 @@ public static class SegmentTest
         dist = Segments.segments_dist_3d(p1, p2, p3, p4);
 
         Console.WriteLine("  " + 2.ToString().PadLeft(3)
-                               + "  " + dist.ToString().PadLeft(12) + "  " + 0.0 + "");
+                               + "  " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  " + 0.0 + "");
         //
         //  Case 3, parallel, coincident, disjoint.
         //
@@ -396,7 +386,7 @@ public static class SegmentTest
         dist = Segments.segments_dist_3d(p1, p2, p3, p4);
 
         Console.WriteLine("  " + 3.ToString().PadLeft(3)
-                               + "  " + dist.ToString().PadLeft(12) + "  " + 3.0 + "");
+                               + "  " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  " + 3.0 + "");
         //
         //  Case 4, nonparallel, could intersect, and does intersect.
         //
@@ -424,7 +414,7 @@ public static class SegmentTest
         dist = Segments.segments_dist_3d(p1, p2, p3, p4);
 
         Console.WriteLine("  " + 4.ToString().PadLeft(3)
-                               + "  " + dist.ToString().PadLeft(12) + "  " + 0.0 + "");
+                               + "  " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  " + 0.0 + "");
         //
         //  Case 5, nonparallel, could intersect, and does not intersect.
         //
@@ -452,7 +442,7 @@ public static class SegmentTest
         dist = Segments.segments_dist_3d(p1, p2, p3, p4);
 
         Console.WriteLine("  " + 5.ToString().PadLeft(3)
-                               + "  " + dist.ToString().PadLeft(12) + "  " + 1.0 + "");
+                               + "  " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  " + 1.0 + "");
         //
         //  Case 6, nonparallel, can not intersect, "end-to-end".
         //
@@ -479,7 +469,7 @@ public static class SegmentTest
         dist = Segments.segments_dist_3d(p1, p2, p3, p4);
 
         Console.WriteLine("  " + 6.ToString().PadLeft(3)
-                               + "  " + dist.ToString().PadLeft(12) + "  " + 3.0 + "");
+                               + "  " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  " + 3.0 + "");
         //
         //  Case 7, nonparallel, can not intersect, "end-to-mid".
         //
@@ -506,7 +496,7 @@ public static class SegmentTest
         dist = Segments.segments_dist_3d(p1, p2, p3, p4);
 
         Console.WriteLine("  " + 7.ToString().PadLeft(3)
-                               + "  " + dist.ToString().PadLeft(12) + "  " + 1.0 + "");
+                               + "  " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  " + 1.0 + "");
         //
         //  Case 8, nonparallel, can not intersect, "mid-to-mid".
         //
@@ -533,7 +523,7 @@ public static class SegmentTest
         dist = Segments.segments_dist_3d(p1, p2, p3, p4);
 
         Console.WriteLine("  " + 8.ToString().PadLeft(3)
-                               + "  " + dist.ToString().PadLeft(12) + "  " + 10.0 + "");
+                               + "  " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  " + 10.0 + "");
         //
         //  Case 9, nonparallel, can not intersect, "mid-to-end".
         //
@@ -560,7 +550,7 @@ public static class SegmentTest
         dist = Segments.segments_dist_3d(p1, p2, p3, p4);
 
         Console.WriteLine("  " + 9.ToString().PadLeft(3)
-                               + "  " + dist.ToString().PadLeft(12) + "  " + 4.0 + "");
+                               + "  " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  " + 4.0 + "");
 
     }
 
@@ -585,15 +575,10 @@ public static class SegmentTest
         //    John Burkardt
         //
     {
-        int TEST_NUM = 7;
+        const int TEST_NUM = 7;
 
-        double dist;
         int test;
-        double p1;
-        double p2;
-        double q1;
         double[] q1_test = {-1.0, 3.0, 1.0, 0.5, 0.25, 0.5, 2.0};
-        double q2;
         double[] q2_test = {1.0, 2.0, 2.0, -3.0, 0.50, 0.5, 2.0};
         double r1 = 0;
         double r2 = 0;
@@ -612,21 +597,21 @@ public static class SegmentTest
 
         for (test = 0; test < TEST_NUM; test++)
         {
-            p1 = -1.0;
-            p2 = 1.0;
-            q1 = q1_test[test];
-            q2 = q2_test[test];
+            double p1 = -1.0;
+            double p2 = 1.0;
+            double q1 = q1_test[test];
+            double q2 = q2_test[test];
 
-            dist = Segments.segments_int_1d(p1, p2, q1, q2, ref r1, ref r2);
+            double dist = Segments.segments_int_1d(p1, p2, q1, q2, ref r1, ref r2);
 
             Console.WriteLine("  " + test.ToString().PadLeft(2)
-                                   + "  " + p1.ToString().PadLeft(8)
-                                   + "  " + p2.ToString().PadLeft(8)
-                                   + "  " + q1.ToString().PadLeft(8)
-                                   + "  " + q2.ToString().PadLeft(8)
-                                   + "  " + r1.ToString().PadLeft(8)
-                                   + "  " + r2.ToString().PadLeft(8)
-                                   + "  " + dist.ToString().PadLeft(8) + "");
+                                   + "  " + p1.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + p2.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + q1.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + q2.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + r1.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + r2.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
     }
 
@@ -651,14 +636,13 @@ public static class SegmentTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int TEST_NUM = 4;
+        const int DIM_NUM = 2;
+        const int TEST_NUM = 4;
 
         int flag = 0;
         int i;
         double[] p1 = {-1.0, 3.0};
         double[] p2 = {1.0, 1.0};
-        double[] q1;
         double[] q1_test =
         {
             -1.0, 1.0,
@@ -666,7 +650,6 @@ public static class SegmentTest
             0.0, 0.0,
             1.0, 2.0
         };
-        double[] q2;
         double[] q2_test =
         {
             1.0, -1.0,
@@ -688,36 +671,36 @@ public static class SegmentTest
         cout = "  P1:";
         for (i = 0; i < DIM_NUM; i++)
         {
-            cout += "  " + p1[i].ToString().PadLeft(12);
+            cout += "  " + p1[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
         }
 
         Console.WriteLine(cout);
         cout = "  P2:";
         for (i = 0; i < DIM_NUM; i++)
         {
-            cout += "  " + p2[i].ToString().PadLeft(12);
+            cout += "  " + p2[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
         }
 
         Console.WriteLine(cout);
 
         for (test = 0; test < TEST_NUM; test++)
         {
-            q1 = q1_test.Skip(+test * DIM_NUM).ToArray();
-            q2 = q2_test.Skip(+test * DIM_NUM).ToArray();
+            double[] q1 = q1_test.Skip(+test * DIM_NUM).ToArray();
+            double[] q2 = q2_test.Skip(+test * DIM_NUM).ToArray();
 
             Console.WriteLine("");
             Console.WriteLine("");
             cout = "  Q1:";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + q1[i].ToString().PadLeft(12);
+                cout += "  " + q1[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
             cout = "  Q2:";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + q2[i].ToString().PadLeft(12);
+                cout += "  " + q2[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
@@ -736,7 +719,7 @@ public static class SegmentTest
                     cout = "  The line segments intersect at:";
                     for (i = 0; i < DIM_NUM; i++)
                     {
-                        cout += "  " + r[i].ToString().PadLeft(12);
+                        cout += "  " + r[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
                     }
 
                     Console.WriteLine(cout);
@@ -767,13 +750,10 @@ public static class SegmentTest
         //    John Burkardt
         //
     {
-        int TEST_NUM = 4;
+        const int TEST_NUM = 4;
 
-        double p;
         double[] p_test = {3.0, 7.5, 20.0, 5.0};
-        double p1;
         double[] p1_test = {2.0, 10.0, 8.0, 88.0};
-        double p2;
         double[] p2_test = {6.0, -10.0, 10.0, 88.0};
         double t = 0;
         int test;
@@ -788,16 +768,16 @@ public static class SegmentTest
 
         for (test = 0; test < TEST_NUM; test++)
         {
-            p1 = p1_test[test];
-            p2 = p2_test[test];
-            p = p_test[test];
+            double p1 = p1_test[test];
+            double p2 = p2_test[test];
+            double p = p_test[test];
 
             Segments.segment_contains_point_1d(p1, p2, p, ref t);
 
-            Console.WriteLine("  " + p1.ToString().PadLeft(7)
-                                   + "  " + p2.ToString().PadLeft(7)
-                                   + "  " + p.ToString().PadLeft(7)
-                                   + "  " + t.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + p1.ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + p2.ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + p.ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + t.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
     }
@@ -823,16 +803,11 @@ public static class SegmentTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
-        double dist;
-        int i;
-        double[] p;
-        double[] p1;
-        double[] p2;
         int seed = 123456789;
         int test;
-        int test_num = 3;
+        const int test_num = 3;
 
         Console.WriteLine("");
         Console.WriteLine("TEST0365");
@@ -841,36 +816,37 @@ public static class SegmentTest
 
         for (test = 1; test <= test_num; test++)
         {
-            p1 = UniformRNG.r8vec_uniform_01_new(DIM_NUM, ref seed);
-            p2 = UniformRNG.r8vec_uniform_01_new(DIM_NUM, ref seed);
-            p = UniformRNG.r8vec_uniform_01_new(DIM_NUM, ref seed);
+            double[] p1 = UniformRNG.r8vec_uniform_01_new(DIM_NUM, ref seed);
+            double[] p2 = UniformRNG.r8vec_uniform_01_new(DIM_NUM, ref seed);
+            double[] p = UniformRNG.r8vec_uniform_01_new(DIM_NUM, ref seed);
 
-            dist = Segments.segment_point_dist_2d(p1, p2, p);
+            double dist = Segments.segment_point_dist_2d(p1, p2, p);
 
             Console.WriteLine("");
             Console.WriteLine("  TEST = " + test.ToString().PadLeft(2) + "");
             string cout = "  P1 =   ";
+            int i;
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += p1[i].ToString().PadLeft(12);
+                cout += p1[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
             cout = "  P2 =   ";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += p2[i].ToString().PadLeft(12);
+                cout += p2[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
             cout = "  P =    ";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += p[i].ToString().PadLeft(12);
+                cout += p[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
-            Console.WriteLine("  DIST = " + dist.ToString().PadLeft(12) + "");
+            Console.WriteLine("  DIST = " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
     }
@@ -896,16 +872,11 @@ public static class SegmentTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        double dist;
-        int i;
-        double[] p;
-        double[] p1;
-        double[] p2;
         int seed = 123456789;
         int test;
-        int test_num = 3;
+        const int test_num = 3;
 
         Console.WriteLine("");
         Console.WriteLine("SEGMENT_POINT_DIST_3D_TEST");
@@ -914,36 +885,37 @@ public static class SegmentTest
 
         for (test = 1; test <= test_num; test++)
         {
-            p1 = UniformRNG.r8vec_uniform_01_new(DIM_NUM, ref seed);
-            p2 = UniformRNG.r8vec_uniform_01_new(DIM_NUM, ref seed);
-            p = UniformRNG.r8vec_uniform_01_new(DIM_NUM, ref seed);
+            double[] p1 = UniformRNG.r8vec_uniform_01_new(DIM_NUM, ref seed);
+            double[] p2 = UniformRNG.r8vec_uniform_01_new(DIM_NUM, ref seed);
+            double[] p = UniformRNG.r8vec_uniform_01_new(DIM_NUM, ref seed);
 
-            dist = Segments.segment_point_dist_3d(p1, p2, p);
+            double dist = Segments.segment_point_dist_3d(p1, p2, p);
 
             Console.WriteLine("");
             Console.WriteLine("  TEST = " + test.ToString().PadLeft(12) + "");
             string cout = "  P1 =   ";
+            int i;
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += p1[i].ToString().PadLeft(12);
+                cout += p1[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
             cout = "  P2 =   ";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += p2[i].ToString().PadLeft(12);
+                cout += p2[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
             cout = "  P =    ";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += p[i].ToString().PadLeft(12);
+                cout += p[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
-            Console.WriteLine("  DIST = " + dist.ToString().PadLeft(12) + "");
+            Console.WriteLine("  DIST = " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
     }
@@ -969,18 +941,14 @@ public static class SegmentTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
         double dist = 0;
-        int i;
-        double[] p;
-        double[] p1;
-        double[] p2;
         double[] pn = new double[DIM_NUM];
         int seed = 123456789;
         double t = 0;
         int test;
-        int test_num = 3;
+        const int test_num = 3;
 
         Console.WriteLine("");
         Console.WriteLine("SEGMENT_POINT_NEAR_2D_TEST");
@@ -989,44 +957,45 @@ public static class SegmentTest
 
         for (test = 1; test <= test_num; test++)
         {
-            p1 = UniformRNG.r8vec_uniform_01_new(DIM_NUM, ref seed);
-            p2 = UniformRNG.r8vec_uniform_01_new(DIM_NUM, ref seed);
-            p = UniformRNG.r8vec_uniform_01_new(DIM_NUM, ref seed);
+            double[] p1 = UniformRNG.r8vec_uniform_01_new(DIM_NUM, ref seed);
+            double[] p2 = UniformRNG.r8vec_uniform_01_new(DIM_NUM, ref seed);
+            double[] p = UniformRNG.r8vec_uniform_01_new(DIM_NUM, ref seed);
 
             Segments.segment_point_near_2d(p1, p2, p, ref pn, ref dist, ref t);
 
             Console.WriteLine("");
             Console.WriteLine("  TEST = " + test.ToString().PadLeft(2) + "");
             string cout = "  P1 =   ";
+            int i;
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += p1[i].ToString().PadLeft(12);
+                cout += p1[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
             cout = "  P2 =   ";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += p2[i].ToString().PadLeft(12);
+                cout += p2[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
             cout = "  P =    ";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += p[i].ToString().PadLeft(12);
+                cout += p[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
             cout = "  PN =   ";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += pn[i].ToString().PadLeft(12);
+                cout += pn[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine("");
-            Console.WriteLine("  DIST = " + dist.ToString().PadLeft(12) + "");
-            Console.WriteLine("  T =    " + t.ToString().PadLeft(12) + "");
+            Console.WriteLine("  DIST = " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+            Console.WriteLine("  T =    " + t.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
     }
@@ -1052,18 +1021,14 @@ public static class SegmentTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
         double dist = 0;
-        int i;
-        double[] p;
-        double[] p1;
-        double[] p2;
         double[] pn = new double[DIM_NUM];
         int seed = 123456789;
         double t = 0;
         int test;
-        int test_num = 3;
+        const int test_num = 3;
 
         Console.WriteLine("");
         Console.WriteLine("SEGMENT_POINT_NEAR_3D_TEST");
@@ -1072,44 +1037,45 @@ public static class SegmentTest
 
         for (test = 1; test <= test_num; test++)
         {
-            p1 = UniformRNG.r8vec_uniform_01_new(DIM_NUM, ref seed);
-            p2 = UniformRNG.r8vec_uniform_01_new(DIM_NUM, ref seed);
-            p = UniformRNG.r8vec_uniform_01_new(DIM_NUM, ref seed);
+            double[] p1 = UniformRNG.r8vec_uniform_01_new(DIM_NUM, ref seed);
+            double[] p2 = UniformRNG.r8vec_uniform_01_new(DIM_NUM, ref seed);
+            double[] p = UniformRNG.r8vec_uniform_01_new(DIM_NUM, ref seed);
 
             Segments.segment_point_near_3d(p1, p2, p, ref pn, ref dist, ref t);
 
             Console.WriteLine("");
             Console.WriteLine("  TEST = " + test.ToString().PadLeft(2) + "");
             string cout = "  P1 =   ";
+            int i;
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += p1[i].ToString().PadLeft(12);
+                cout += p1[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
             cout = "  P2 =   ";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += p2[i].ToString().PadLeft(12);
+                cout += p2[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
             cout = "  P =    ";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += p[i].ToString().PadLeft(12);
+                cout += p[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
             cout = "  PN =   ";
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += pn[i].ToString().PadLeft(12);
+                cout += pn[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine("");
-            Console.WriteLine("  DIST = " + dist.ToString().PadLeft(12) + "");
-            Console.WriteLine("  T    = " + t.ToString().PadLeft(12) + "");
+            Console.WriteLine("  DIST = " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+            Console.WriteLine("  T    = " + t.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
     }
@@ -1135,7 +1101,7 @@ public static class SegmentTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
         double dist = 0;
         double[] p = new double[DIM_NUM];
@@ -1173,11 +1139,11 @@ public static class SegmentTest
         Segments.segment_point_near_3d(p1, p2, p, ref pn, ref dist, ref t);
 
         Console.WriteLine("  " + 1.ToString().PadLeft(6)
-                               + "  " + t.ToString().PadLeft(10)
-                               + "  " + dist.ToString().PadLeft(10)
-                               + "  " + pn[0].ToString().PadLeft(10)
-                               + "  " + pn[1].ToString().PadLeft(10)
-                               + "  " + pn[2].ToString().PadLeft(10) + "");
+                               + "  " + t.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                               + "  " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                               + "  " + pn[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                               + "  " + pn[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                               + "  " + pn[2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         //
         //  Case 2, point is nearest interior point of segment.
         //
@@ -1200,11 +1166,11 @@ public static class SegmentTest
         Segments.segment_point_near_3d(p1, p2, p, ref pn, ref dist, ref t);
 
         Console.WriteLine("  " + 2.ToString().PadLeft(6)
-                               + "  " + t.ToString().PadLeft(10)
-                               + "  " + dist.ToString().PadLeft(10)
-                               + "  " + pn[0].ToString().PadLeft(10)
-                               + "  " + pn[1].ToString().PadLeft(10)
-                               + "  " + pn[2].ToString().PadLeft(10) + "");
+                               + "  " + t.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                               + "  " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                               + "  " + pn[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                               + "  " + pn[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                               + "  " + pn[2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         //
         //  Case 3, point is on the line.
         //
@@ -1227,11 +1193,11 @@ public static class SegmentTest
         Segments.segment_point_near_3d(p1, p2, p, ref pn, ref dist, ref t);
 
         Console.WriteLine("  " + 3.ToString().PadLeft(6)
-                               + "  " + t.ToString().PadLeft(10)
-                               + "  " + dist.ToString().PadLeft(10)
-                               + "  " + pn[0].ToString().PadLeft(10)
-                               + "  " + pn[1].ToString().PadLeft(10)
-                               + "  " + pn[2].ToString().PadLeft(10) + "");
+                               + "  " + t.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                               + "  " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                               + "  " + pn[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                               + "  " + pn[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                               + "  " + pn[2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
     }
 
@@ -1256,10 +1222,9 @@ public static class SegmentTest
         //    John Burkardt
         //
     {
-        int VEC_NUM = 15;
+        const int VEC_NUM = 15;
 
         int i;
-        int jstrng;
         int[] order = new int[VEC_NUM];
         double[] p1 = {
             0.0, 0.0,
@@ -1306,10 +1271,10 @@ public static class SegmentTest
         for ( i = 0; i < VEC_NUM; i++ )
         {
             Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                   + "  " + p1[0+i*2].ToString().PadLeft(10)
-                                   + "  " + p1[1+i*2].ToString().PadLeft(10)
-                                   + "  " + p2[0+i*2].ToString().PadLeft(10)
-                                   + "  " + p1[1+i*2].ToString().PadLeft(10) + "");
+                                   + "  " + p1[0+i*2].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + p1[1+i*2].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + p2[0+i*2].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + p1[1+i*2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         Segments.string_2d ( VEC_NUM, p1, p2, ref string_num, ref order, ref string_ );
@@ -1320,7 +1285,7 @@ public static class SegmentTest
         Console.WriteLine("  STRING, ORDER, P1, P2");
         Console.WriteLine("");
 
-        jstrng = 1;
+        int jstrng = 1;
 
         for ( i = 0; i < VEC_NUM; i++ )
         {
@@ -1331,10 +1296,10 @@ public static class SegmentTest
             }
             Console.WriteLine("  " + string_[i].ToString().PadLeft(3)
                                    + "  " + order[i].ToString().PadLeft(3)
-                                   + "  " + p1[0+i*2].ToString().PadLeft(10)
-                                   + "  " + p1[1+i*2].ToString().PadLeft(10)
-                                   + "  " + p2[0+i*2].ToString().PadLeft(10)
-                                   + "  " + p2[1+i*2].ToString().PadLeft(10) + "");
+                                   + "  " + p1[0+i*2].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + p1[1+i*2].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + p2[0+i*2].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + p2[1+i*2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
     }

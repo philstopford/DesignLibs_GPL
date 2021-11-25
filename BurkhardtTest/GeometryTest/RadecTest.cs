@@ -29,13 +29,11 @@ public static class RadecTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
-        int TEST_NUM = 6;
+        const int DIM_NUM = 3;
+        const int TEST_NUM = 6;
 
         double dec1 = 0;
         double dec2 = 0;
-        double[] p1;
-        double[] p2;
         double[] p_test =
         {
             1.0, 0.0, 0.0,
@@ -48,9 +46,6 @@ public static class RadecTest
         double ra1 = 0;
         double ra2 = 0;
         int test1;
-        int test2;
-        double theta;
-        double theta_deg;
 
         Console.WriteLine("");
         Console.WriteLine("TEST173");
@@ -63,24 +58,25 @@ public static class RadecTest
 
         for (test1 = 0; test1 < TEST_NUM; test1++)
         {
-            p1 = p_test.Skip(+test1 * DIM_NUM).ToArray();
+            double[] p1 = p_test.Skip(+test1 * DIM_NUM).ToArray();
 
             XY.xyz_to_radec(p1, ref ra1, ref dec1);
 
+            int test2;
             for (test2 = test1 + 1; test2 < TEST_NUM; test2++)
             {
-                p2 = p_test.Skip(+test2 * DIM_NUM).ToArray();
+                double[] p2 = p_test.Skip(+test2 * DIM_NUM).ToArray();
 
                 XY.xyz_to_radec(p2, ref ra2, ref dec2);
-                theta = Radec.radec_distance_3d(ra1, dec1, ra2, dec2);
-                theta_deg = Helpers.radians_to_degrees(theta);
+                double theta = Radec.radec_distance_3d(ra1, dec1, ra2, dec2);
+                double theta_deg = Helpers.radians_to_degrees(theta);
 
-                Console.WriteLine("  " + ra1.ToString().PadLeft(8)
-                                       + "  " + dec1.ToString().PadLeft(8)
-                                       + "  " + ra2.ToString().PadLeft(8)
-                                       + "  " + dec2.ToString().PadLeft(8)
-                                       + "  " + theta.ToString().PadLeft(8)
-                                       + "  " + theta_deg.ToString().PadLeft(8) + "");
+                Console.WriteLine("  " + ra1.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + dec1.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + ra2.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + dec2.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + theta.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + theta_deg.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
             }
         }
     }
@@ -106,13 +102,10 @@ public static class RadecTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
-        int TEST_NUM = 6;
+        const int DIM_NUM = 3;
+        const int TEST_NUM = 6;
 
         double dec = 0;
-        int i;
-        double[] p1;
-        double[] p2;
         double[] p_test =
         {
             1.0, 0.0, 0.0,
@@ -135,25 +128,26 @@ public static class RadecTest
 
         for (test = 0; test < TEST_NUM; test++)
         {
-            p1 = p_test.Skip(+test * DIM_NUM).ToArray();
+            double[] p1 = p_test.Skip(+test * DIM_NUM).ToArray();
 
             string cout = "";
 
+            int i;
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + p1[i].ToString().PadLeft(7);
+                cout += "  " + p1[i].ToString(CultureInfo.InvariantCulture).PadLeft(7);
             }
 
             XY.xyz_to_radec(p1, ref ra, ref dec);
 
-            cout += ra.ToString().PadLeft(7);
-            cout += dec.ToString().PadLeft(7);
+            cout += ra.ToString(CultureInfo.InvariantCulture).PadLeft(7);
+            cout += dec.ToString(CultureInfo.InvariantCulture).PadLeft(7);
 
-            p2 = Radec.radec_to_xyz(ra, dec);
+            double[] p2 = Radec.radec_to_xyz(ra, dec);
 
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + p2[i].ToString().PadLeft(7);
+                cout += "  " + p2[i].ToString(CultureInfo.InvariantCulture).PadLeft(7);
             }
 
             Console.WriteLine(cout);

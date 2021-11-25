@@ -29,39 +29,35 @@ public static class r8Test
         //    John Burkardt
         //
     {
-        double[] a;
         double[] b = null;
         double det = 0;
-        int i;
-        int n = 2;
-        int seed;
+        const int n = 2;
         int test;
-        int test_num = 5;
-        double[] x;
-        double[] x2;
+        const int test_num = 5;
 
         Console.WriteLine("");
         Console.WriteLine("TEST0234");
         Console.WriteLine("  R8MAT_SOLVE_2D solves 2D linear systems.");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         for (test = 1; test <= test_num; test++)
         {
-            a = UniformRNG.r8mat_uniform_01_new(n, n, ref seed);
-            x = UniformRNG.r8vec_uniform_01_new(n, ref seed);
+            double[] a = UniformRNG.r8mat_uniform_01_new(n, n, ref seed);
+            double[] x = UniformRNG.r8vec_uniform_01_new(n, ref seed);
             typeMethods.r8mat_mv(n, n, a, x, ref b);
 
-            x2 = typeMethods.r8mat_solve_2d(a, b, ref det);
+            double[] x2 = typeMethods.r8mat_solve_2d(a, b, ref det);
 
             Console.WriteLine("");
             Console.WriteLine("  Solution / Computed:");
             Console.WriteLine("");
 
+            int i;
             for (i = 0; i < n; i++)
             {
-                Console.WriteLine("  " + x[i].ToString().PadLeft(14)
-                                       + "  " + x2[i].ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + x2[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
         }
@@ -88,12 +84,9 @@ public static class r8Test
         //    John Burkardt
         //
     {
-        int TEST_NUM = 9;
+        const int TEST_NUM = 9;
 
-        double temp1;
-        double temp2;
         int test;
-        double x;
         double[] x_test =
         {
             5.0, 1.2, 1.0, 0.9, 0.5, 0.0, -0.9, -1.0, -1.01
@@ -108,14 +101,14 @@ public static class r8Test
 
         for (test = 0; test < TEST_NUM; test++)
         {
-            x = x_test[test];
+            double x = x_test[test];
 
-            temp1 = typeMethods.r8_acos(x);
-            temp2 = Helpers.radians_to_degrees(temp1);
+            double temp1 = typeMethods.r8_acos(x);
+            double temp2 = Helpers.radians_to_degrees(temp1);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(12)
-                                   + "  " + temp1.ToString().PadLeft(12)
-                                   + "  " + temp2.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + temp1.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + temp2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -140,12 +133,9 @@ public static class r8Test
         //    John Burkardt
         //
     {
-        int TEST_NUM = 9;
+        const int TEST_NUM = 9;
 
-        double temp1;
-        double temp2;
         int test;
-        double x;
         double[] x_test =
         {
             5.0, 1.2, 1.0, 0.9, 0.5, 0.0, -0.9, -1.0, -1.01
@@ -160,14 +150,14 @@ public static class r8Test
 
         for (test = 0; test < TEST_NUM; test++)
         {
-            x = x_test[test];
+            double x = x_test[test];
 
-            temp1 = typeMethods.r8_asin(x);
-            temp2 = Helpers.radians_to_degrees(temp1);
+            double temp1 = typeMethods.r8_asin(x);
+            double temp2 = Helpers.radians_to_degrees(temp1);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(12)
-                                   + "  " + temp1.ToString().PadLeft(12)
-                                   + "  " + temp2.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + temp1.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + temp2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -215,23 +205,16 @@ public static class r8Test
             x = x_test[test];
             y = y_test[test];
 
-            if (x != 0.0)
-            {
-                temp1 = Math.Atan(y / x);
-            }
-            else
-            {
-                temp1 = typeMethods.r8_huge();
-            }
+            temp1 = x != 0.0 ? Math.Atan(y / x) : typeMethods.r8_huge();
 
             temp2 = Math.Atan2(y, x);
             temp3 = typeMethods.r8_atan(y, x);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(12)
-                                   + "  " + y.ToString().PadLeft(12)
-                                   + "  " + temp1.ToString().PadLeft(12)
-                                   + "  " + temp2.ToString().PadLeft(12)
-                                   + "  " + temp3.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + y.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + temp1.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + temp2.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + temp3.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
         Console.WriteLine("");
@@ -243,23 +226,16 @@ public static class r8Test
             x = x_test[test];
             y = y_test[test];
 
-            if (x != 0.0)
-            {
-                temp1 = Helpers.radians_to_degrees(Math.Atan(y / x));
-            }
-            else
-            {
-                temp1 = typeMethods.r8_huge();
-            }
+            temp1 = x != 0.0 ? Helpers.radians_to_degrees(Math.Atan(y / x)) : typeMethods.r8_huge();
 
             temp2 = Helpers.radians_to_degrees(Math.Atan2(y, x));
             temp3 = Helpers.radians_to_degrees(typeMethods.r8_atan(y, x));
 
-            Console.WriteLine("  " + x.ToString().PadLeft(12)
-                                   + "  " + y.ToString().PadLeft(12)
-                                   + "  " + temp1.ToString().PadLeft(12)
-                                   + "  " + temp2.ToString().PadLeft(12)
-                                   + "  " + temp3.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + y.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + temp1.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + temp2.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + temp3.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -284,16 +260,10 @@ public static class r8Test
         //    John Burkardt
         //
     {
-        int DIM_NUM = 10;
-        int TEST_NUM = 5;
+        const int DIM_NUM = 10;
+        const int TEST_NUM = 5;
 
-        int seed;
         int test;
-        double[] v1;
-        double v1_norm;
-        double v1v2_dot;
-        double[] v2;
-        double v2_norm;
 
         Console.WriteLine("");
         Console.WriteLine("TEST0243");
@@ -303,19 +273,19 @@ public static class r8Test
         Console.WriteLine("    Test    ||V1||      ||V2||        V1.V2");
         Console.WriteLine("");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         for (test = 0; test < TEST_NUM; test++)
         {
-            v1 = UniformRNG.r8vec_uniform_01_new(DIM_NUM, ref seed);
-            v1_norm = typeMethods.r8vec_norm(DIM_NUM, v1);
-            v2 = typeMethods.r8vec_any_normal(DIM_NUM, v1);
-            v2_norm = typeMethods.r8vec_norm(DIM_NUM, v2);
-            v1v2_dot = typeMethods.r8vec_dot_product(DIM_NUM, v1, v2);
+            double[] v1 = UniformRNG.r8vec_uniform_01_new(DIM_NUM, ref seed);
+            double v1_norm = typeMethods.r8vec_norm(DIM_NUM, v1);
+            double[] v2 = typeMethods.r8vec_any_normal(DIM_NUM, v1);
+            double v2_norm = typeMethods.r8vec_norm(DIM_NUM, v2);
+            double v1v2_dot = typeMethods.r8vec_dot_product(DIM_NUM, v1, v2);
             Console.WriteLine("  " + test.ToString().PadLeft(6)
-                                   + "  " + v1_norm.ToString().PadLeft(10)
-                                   + "  " + v2_norm.ToString().PadLeft(10)
-                                   + "  " + v1v2_dot.ToString().PadLeft(10) + "");
+                                   + "  " + v1_norm.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + v2_norm.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + v1v2_dot.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -347,10 +317,6 @@ public static class r8Test
         int n;
         int seed = 123456789;
         double[] x;
-        double x_max;
-        double x_mean;
-        double x_min;
-        double x_var;
         typeMethods.r8vecNormalData data = new();
 
         Console.WriteLine("");
@@ -373,7 +339,7 @@ public static class r8Test
             for (j = 0; j < n; j++)
             {
                 Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                       + "  " + x[j].ToString().PadLeft(10) + "");
+                                       + "  " + x[j].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
             }
         }
 
@@ -399,7 +365,7 @@ public static class r8Test
             for (j = 0; j < n; j++)
             {
                 Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                       + "  " + x[j].ToString().PadLeft(10) + "");
+                                       + "  " + x[j].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
             }
         }
 
@@ -426,7 +392,7 @@ public static class r8Test
         {
             i += 1;
             Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                   + "  " + x[j].ToString().PadLeft(10) + "");
+                                   + "  " + x[j].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         //
@@ -452,7 +418,7 @@ public static class r8Test
         {
             i += 1;
             Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                   + "  " + x[j].ToString().PadLeft(10) + "");
+                                   + "  " + x[j].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         n = 1;
@@ -462,7 +428,7 @@ public static class r8Test
         {
             i += 1;
             Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                   + "  " + x[j].ToString().PadLeft(10) + "");
+                                   + "  " + x[j].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         n = 2;
@@ -472,7 +438,7 @@ public static class r8Test
         {
             i += 1;
             Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                   + "  " + x[j].ToString().PadLeft(10) + "");
+                                   + "  " + x[j].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         //
@@ -482,10 +448,10 @@ public static class r8Test
         n = N_MAX;
         x = typeMethods.r8vec_normal_01_new(n, ref data, ref seed);
 
-        x_min = typeMethods.r8vec_min(n, x);
-        x_max = typeMethods.r8vec_max(n, x);
-        x_mean = typeMethods.r8vec_mean(n, x);
-        x_var = typeMethods.r8vec_variance(n, x);
+        double x_min = typeMethods.r8vec_min(n, x);
+        double x_max = typeMethods.r8vec_max(n, x);
+        double x_mean = typeMethods.r8vec_mean(n, x);
+        double x_var = typeMethods.r8vec_variance(n, x);
 
         Console.WriteLine("");
         Console.WriteLine("  Test #5:");
@@ -520,8 +486,8 @@ public static class r8Test
         //    John Burkardt
         //
     {
-        int N = 3;
-        int RHS_NUM = 2;
+        const int N = 3;
+        const int RHS_NUM = 2;
 
         double[] a =
         {
@@ -532,8 +498,6 @@ public static class r8Test
             7.0, 16.0, 7.0
         };
         int i;
-        int info;
-        int j;
 
         Console.WriteLine("");
         Console.WriteLine("TEST1745");
@@ -545,7 +509,7 @@ public static class r8Test
         //
         //  Solve the systems.
         //
-        info = typeMethods.r8mat_solve(N, RHS_NUM, ref a);
+        int info = typeMethods.r8mat_solve(N, RHS_NUM, ref a);
 
         if (info != 0)
         {
@@ -561,9 +525,10 @@ public static class r8Test
         for (i = 0; i < N; i++)
         {
             string cout = "";
+            int j;
             for (j = N; j < N + RHS_NUM; j++)
             {
-                cout += "  " + a[i + j * N].ToString().PadLeft(10);
+                cout += "  " + a[i + j * N].ToString(CultureInfo.InvariantCulture).PadLeft(10);
             }
 
             Console.WriteLine(cout);
@@ -597,7 +562,6 @@ public static class r8Test
             2.0, 2.0, 1.0,
             1.0, 1.0, 1.0
         };
-        double[] b;
         int i;
 
         Console.WriteLine("");
@@ -609,21 +573,21 @@ public static class r8Test
         Console.WriteLine("");
         for (i = 0; i < 3; i++)
         {
-            Console.WriteLine("  " + a[i + 0 * 3].ToString().PadLeft(10)
-                                   + "  " + a[i + 1 * 3].ToString().PadLeft(10)
-                                   + "  " + a[i + 2 * 3].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + a[i + 0 * 3].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + a[i + 1 * 3].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + a[i + 2 * 3].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
-        b = typeMethods.r8mat_inverse_3d(a);
+        double[] b = typeMethods.r8mat_inverse_3d(a);
 
         Console.WriteLine("");
         Console.WriteLine("  Inverse matrix B:");
         Console.WriteLine("");
         for (i = 0; i < 3; i++)
         {
-            Console.WriteLine("  " + b[i + 0 * 3].ToString().PadLeft(10)
-                                   + "  " + b[i + 1 * 3].ToString().PadLeft(10)
-                                   + "  " + b[i + 2 * 3].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + b[i + 0 * 3].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + b[i + 1 * 3].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + b[i + 2 * 3].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 }

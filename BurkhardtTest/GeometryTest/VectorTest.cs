@@ -29,14 +29,12 @@ public static class VectorTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
-        int TEST_NUM = 3;
+        const int DIM_NUM = 3;
+        const int TEST_NUM = 3;
 
         double[] angle = new double[DIM_NUM];
         double[] angle_degrees = new double[DIM_NUM];
-        int j;
         int test;
-        double[] v;
         double[] v_test =
         {
             1.0, 0.0, 0.0,
@@ -57,24 +55,25 @@ public static class VectorTest
 
         for (test = 0; test < TEST_NUM; test++)
         {
-            v = v_test.Skip(+test * DIM_NUM).ToArray();
+            double[] v = v_test.Skip(+test * DIM_NUM).ToArray();
 
             Geometry.vector_directions_nd(DIM_NUM, v, ref angle);
 
+            int j;
             for (j = 0; j < DIM_NUM; j++)
             {
                 angle_degrees[j] = Helpers.radians_to_degrees(angle[j]);
             }
 
-            Console.WriteLine("  " + v[0].ToString().PadLeft(7)
-                                   + "  " + v[1].ToString().PadLeft(7)
-                                   + "  " + v[2].ToString().PadLeft(7)
-                                   + "  " + angle[0].ToString().PadLeft(7)
-                                   + "  " + angle[1].ToString().PadLeft(7)
-                                   + "  " + angle[2].ToString().PadLeft(7)
-                                   + "  " + angle_degrees[0].ToString().PadLeft(7)
-                                   + "  " + angle_degrees[1].ToString().PadLeft(7)
-                                   + "  " + angle_degrees[2].ToString().PadLeft(7) + "");
+            Console.WriteLine("  " + v[0].ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + v[1].ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + v[2].ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + angle[0].ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + angle[1].ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + angle[2].ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + angle_degrees[0].ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + angle_degrees[1].ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + angle_degrees[2].ToString(CultureInfo.InvariantCulture).PadLeft(7) + "");
         }
     }
 
@@ -99,13 +98,11 @@ public static class VectorTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int TEST_NUM = 3;
+        const int DIM_NUM = 2;
+        const int TEST_NUM = 3;
 
-        double angle;
         double[] a_test = {30.0, -45.0, 270.0};
         int test;
-        double[] v;
         double[] v_test =
         {
             1.0, 0.0,
@@ -124,17 +121,17 @@ public static class VectorTest
 
         for (test = 0; test < TEST_NUM; test++)
         {
-            v = v_test.Skip(+test * DIM_NUM).ToArray();
+            double[] v = v_test.Skip(+test * DIM_NUM).ToArray();
 
-            angle = Helpers.degrees_to_radians(a_test[test]);
+            double angle = Helpers.degrees_to_radians(a_test[test]);
 
             Geometry.vector_rotate_2d(v, angle, ref w);
 
-            Console.WriteLine("  " + v[0].ToString().PadLeft(7)
-                                   + "  " + v[1].ToString().PadLeft(7)
-                                   + "  " + a_test[test].ToString().PadLeft(7)
-                                   + "  " + w[0].ToString().PadLeft(7)
-                                   + "  " + w[1].ToString().PadLeft(7) + "");
+            Console.WriteLine("  " + v[0].ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + v[1].ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + a_test[test].ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + w[0].ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + w[1].ToString(CultureInfo.InvariantCulture).PadLeft(7) + "");
         }
 
     }
@@ -185,9 +182,9 @@ public static class VectorTest
         Console.WriteLine("");
         Console.WriteLine("  Rotations will be about the following axis:");
         Console.WriteLine("");
-        Console.WriteLine("  " + axis[0].ToString().PadLeft(8)
-                               + "  " + axis[1].ToString().PadLeft(8)
-                               + "  " + axis[2].ToString().PadLeft(8) + "");
+        Console.WriteLine("  " + axis[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                               + "  " + axis[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                               + "  " + axis[2].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         Console.WriteLine("");
         Console.WriteLine("              V1             Angle             V2");
         Console.WriteLine("    ----------------------  ------  ----------------------");
@@ -219,9 +216,9 @@ public static class VectorTest
         Console.WriteLine("");
         Console.WriteLine("  Rotations will be about the following axis:");
         Console.WriteLine("");
-        Console.WriteLine("  " + axis[0].ToString().PadLeft(8)
-                               + "  " + axis[1].ToString().PadLeft(8)
-                               + "  " + axis[2].ToString().PadLeft(8) + "");
+        Console.WriteLine("  " + axis[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                               + "  " + axis[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                               + "  " + axis[2].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         Console.WriteLine("");
         Console.WriteLine("              V1             Angle             V2");
         Console.WriteLine("    ----------------------  ------  ----------------------");
@@ -266,12 +263,10 @@ public static class VectorTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int TEST_NUM = 4;
+        const int DIM_NUM = 2;
+        const int TEST_NUM = 4;
 
-        double angle;
         double[] a_test = {30.0, -45.0, 270.0, 20.0};
-        double[] p1;
         double[] p2 = new double[DIM_NUM];
         double[] pb = {10.0, 5.0};
         double[] p_test =
@@ -293,19 +288,19 @@ public static class VectorTest
 
         for (test = 0; test < TEST_NUM; test++)
         {
-            p1 = p_test.Skip(+test * DIM_NUM).ToArray();
+            double[] p1 = p_test.Skip(+test * DIM_NUM).ToArray();
 
-            angle = Helpers.degrees_to_radians(a_test[test]);
+            double angle = Helpers.degrees_to_radians(a_test[test]);
 
             Geometry.vector_rotate_base_2d(p1, pb, angle, ref p2);
 
-            Console.WriteLine("  " + p1[0].ToString().PadLeft(7)
-                                   + "  " + p1[1].ToString().PadLeft(7)
-                                   + "  " + pb[0].ToString().PadLeft(7)
-                                   + "  " + pb[1].ToString().PadLeft(7)
-                                   + "  " + a_test[test].ToString().PadLeft(7)
-                                   + "  " + p2[0].ToString().PadLeft(7)
-                                   + "  " + p2[1].ToString().PadLeft(7) + "");
+            Console.WriteLine("  " + p1[0].ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + p1[1].ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + pb[0].ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + pb[1].ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + a_test[test].ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + p2[0].ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + p2[1].ToString(CultureInfo.InvariantCulture).PadLeft(7) + "");
         }
 
     }
@@ -331,15 +326,10 @@ public static class VectorTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
-        int TEST_NUM = 5;
+        const int DIM_NUM = 3;
+        const int TEST_NUM = 5;
 
         int test1;
-        int test2;
-        double theta;
-        double theta_deg;
-        double[] v1;
-        double[] v2;
         double[] v_test =
         {
             1.0, 0.0, 0.0,
@@ -360,24 +350,25 @@ public static class VectorTest
 
         for (test1 = 0; test1 < TEST_NUM; test1++)
         {
-            v1 = v_test.Skip(+test1 * DIM_NUM).ToArray();
+            double[] v1 = v_test.Skip(+test1 * DIM_NUM).ToArray();
 
+            int test2;
             for (test2 = test1 + 1; test2 < TEST_NUM; test2++)
             {
-                v2 = v_test.Skip(+test2 * DIM_NUM).ToArray();
+                double[] v2 = v_test.Skip(+test2 * DIM_NUM).ToArray();
 
-                theta = Geometry.vector_separation_nd(DIM_NUM, v1, v2);
+                double theta = Geometry.vector_separation_nd(DIM_NUM, v1, v2);
 
-                theta_deg = Helpers.radians_to_degrees(theta);
+                double theta_deg = Helpers.radians_to_degrees(theta);
 
-                Console.WriteLine("  " + v1[0].ToString().PadLeft(7)
-                                       + "  " + v1[1].ToString().PadLeft(7)
-                                       + "  " + v1[2].ToString().PadLeft(7)
-                                       + "  " + v2[0].ToString().PadLeft(7)
-                                       + "  " + v2[1].ToString().PadLeft(7)
-                                       + "  " + v2[2].ToString().PadLeft(7)
-                                       + "  " + theta.ToString().PadLeft(7)
-                                       + "  " + theta_deg.ToString().PadLeft(7) + "");
+                Console.WriteLine("  " + v1[0].ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                       + "  " + v1[1].ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                       + "  " + v1[2].ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                       + "  " + v2[0].ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                       + "  " + v2[1].ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                       + "  " + v2[2].ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                       + "  " + theta.ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                       + "  " + theta_deg.ToString(CultureInfo.InvariantCulture).PadLeft(7) + "");
             }
         }
     }

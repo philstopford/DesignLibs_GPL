@@ -25,14 +25,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int a;
-        int b;
-        int c;
-        int j;
-
-        a = 1;
-        b = typeMethods.i4_huge();
-        c = 45;
+        const int a = 1;
+        int b = typeMethods.i4_huge();
+        const int c = 45;
 
         Console.WriteLine("");
         Console.WriteLine("SEARCH_SERIAL:");
@@ -45,7 +40,7 @@ internal static class Program
 
         DateTime wtime = DateTime.Now;
 
-        j = search(a, b, c);
+        int j = search(a, b, c);
 
         DateTime wtime2 = DateTime.Now;
 
@@ -98,14 +93,12 @@ internal static class Program
         //
     {
         int j;
-        int k;
-        int value;
 
-        value = i;
+        int value = i;
 
         for (j = 1; j <= 5; j++)
         {
-            k = value / 127773;
+            int k = value / 127773;
 
             value = 16807 * (value - k * 127773) - k * 2836;
 
@@ -150,21 +143,21 @@ internal static class Program
         //    if no solution was found.
         //
     {
-        int fi;
         int i;
-        int j;
 
-        j = -1;
+        int j = -1;
 
         for (i = a; i <= b; i++)
         {
-            fi = f(i);
+            int fi = f(i);
 
-            if (fi == c)
+            if (fi != c)
             {
-                j = i;
-                break;
+                continue;
             }
+
+            j = i;
+            break;
         }
 
         return j;

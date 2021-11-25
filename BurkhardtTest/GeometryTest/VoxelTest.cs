@@ -27,9 +27,8 @@ public static class VoxelTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        int dist;
         int[] p1 = {1, 1, 5};
         int[] p2 = {9, 4, 4};
 
@@ -50,7 +49,7 @@ public static class VoxelTest
                                + "  " + p2[1].ToString().PadLeft(6)
                                + "  " + p2[2].ToString().PadLeft(6) + "");
 
-        dist = Geometry.voxels_dist_l1_nd(DIM_NUM, p1, p2);
+        int dist = Geometry.voxels_dist_l1_nd(DIM_NUM, p1, p2);
 
         Console.WriteLine("");
         Console.WriteLine("  L1 distance = " + dist + "");
@@ -78,10 +77,8 @@ public static class VoxelTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        int n;
-        int[] v;
         int[] p1 = {1, 1, 5};
         int[] p2 = {9, 4, 4};
 
@@ -103,12 +100,12 @@ public static class VoxelTest
                                + "  " + p2[1].ToString().PadLeft(6)
                                + "  " + p2[2].ToString().PadLeft(6) + "");
 
-        n = Geometry.voxels_dist_l1_nd(DIM_NUM, p1, p2) + 1;
+        int n = Geometry.voxels_dist_l1_nd(DIM_NUM, p1, p2) + 1;
 
         Console.WriteLine("");
         Console.WriteLine("  Number of voxels we will compute is " + n + "");
 
-        v = new int[3 * n];
+        int[] v = new int[3 * n];
 
         Geometry.voxels_line_3d(p1, p2, n, ref v);
 
@@ -151,10 +148,10 @@ public static class VoxelTest
         //    John Burkardt
         //
     {
-        int LIST_MAX = 100;
-        int NX = 8;
-        int NY = 9;
-        int NZ = 1;
+        const int LIST_MAX = 100;
+        const int NX = 8;
+        const int NY = 9;
+        const int NZ = 1;
 
         int i;
         int[] ishow = new int[NX * NY * NZ];
@@ -163,8 +160,6 @@ public static class VoxelTest
         int l;
         int[] list = new int[LIST_MAX];
         int list_num = 0;
-        int nelements;
-        int region;
         int region_num = 0;
 
         Console.WriteLine("");
@@ -236,11 +231,11 @@ public static class VoxelTest
             Console.WriteLine("  The stack-based list of regions is:");
             Console.WriteLine("");
 
-            region = region_num;
+            int region = region_num;
 
             while (0 < list_num)
             {
-                nelements = list[list_num - 1];
+                int nelements = list[list_num - 1];
                 list_num -= 1;
 
                 Console.WriteLine("");
@@ -288,12 +283,9 @@ public static class VoxelTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
         int i;
-        int inc;
-        int jnc;
-        int knc;
         int[] v1 = {1, 1, 5};
         int[] v2 = new int[DIM_NUM];
         int[] v3 = new int[DIM_NUM];
@@ -305,9 +297,9 @@ public static class VoxelTest
 
         typeMethods.i4vec_copy(DIM_NUM, v1, ref v2);
 
-        inc = 7;
-        jnc = 3;
-        knc = -1;
+        int inc = 7;
+        int jnc = 3;
+        int knc = -1;
 
         Console.WriteLine("");
         Console.WriteLine("  " + 0.ToString().PadLeft(4)

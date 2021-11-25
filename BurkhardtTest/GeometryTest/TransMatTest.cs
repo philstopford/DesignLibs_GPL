@@ -29,12 +29,8 @@ public static class TransMatTest
         //
     {
         double[] a = new double[4 * 4];
-        double angle;
-        char axis1;
-        string axis2;
         double[] b = new double[4 * 4];
         int i;
-        double s;
         double[] v = new double[3];
 
         Console.WriteLine("");
@@ -56,17 +52,17 @@ public static class TransMatTest
         Console.WriteLine("");
         for (i = 0; i < 4; i++)
         {
-            Console.WriteLine("  " + a[i + 0 * 4].ToString().PadLeft(10)
-                                   + "  " + a[i + 1 * 4].ToString().PadLeft(10)
-                                   + "  " + a[i + 2 * 4].ToString().PadLeft(10)
-                                   + "  " + a[i + 3 * 4].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + a[i + 0 * 4].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + a[i + 1 * 4].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + a[i + 2 * 4].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + a[i + 3 * 4].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         //
         //  Rotation about an axis.
         //
-        angle = 30.0;
-        axis1 = 'x';
+        double angle = 30.0;
+        const char axis1 = 'x';
         TransMat.tmat_rot_axis(a, ref b, angle, axis1);
 
         Console.WriteLine("");
@@ -75,10 +71,10 @@ public static class TransMatTest
         Console.WriteLine("");
         for (i = 0; i < 4; i++)
         {
-            Console.WriteLine("  " + b[i + 0 * 4].ToString().PadLeft(10)
-                                   + "  " + b[i + 1 * 4].ToString().PadLeft(10)
-                                   + "  " + b[i + 2 * 4].ToString().PadLeft(10)
-                                   + "  " + b[i + 3 * 4].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + b[i + 0 * 4].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + b[i + 1 * 4].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + b[i + 2 * 4].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + b[i + 3 * 4].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         //
@@ -97,10 +93,10 @@ public static class TransMatTest
         Console.WriteLine("");
         for (i = 0; i < 4; i++)
         {
-            Console.WriteLine("  " + b[i + 0 * 4].ToString().PadLeft(10)
-                                   + "  " + b[i + 1 * 4].ToString().PadLeft(10)
-                                   + "  " + b[i + 2 * 4].ToString().PadLeft(10)
-                                   + "  " + b[i + 3 * 4].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + b[i + 0 * 4].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + b[i + 1 * 4].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + b[i + 2 * 4].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + b[i + 3 * 4].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         //
@@ -117,17 +113,17 @@ public static class TransMatTest
         Console.WriteLine("");
         for (i = 0; i < 4; i++)
         {
-            Console.WriteLine("  " + b[i + 0 * 4].ToString().PadLeft(10)
-                                   + "  " + b[i + 1 * 4].ToString().PadLeft(10)
-                                   + "  " + b[i + 2 * 4].ToString().PadLeft(10)
-                                   + "  " + b[i + 3 * 4].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + b[i + 0 * 4].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + b[i + 1 * 4].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + b[i + 2 * 4].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + b[i + 3 * 4].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         //
         //  Shear.
         //
-        axis2 = "xy";
-        s = 0.5;
+        const string axis2 = "xy";
+        const double s = 0.5;
         TransMat.tmat_shear(a, ref b, axis2, s);
 
         Console.WriteLine("");
@@ -136,10 +132,10 @@ public static class TransMatTest
         Console.WriteLine("");
         for (i = 0; i < 4; i++)
         {
-            Console.WriteLine("  " + b[i + 0 * 4].ToString().PadLeft(10)
-                                   + "  " + b[i + 1 * 4].ToString().PadLeft(10)
-                                   + "  " + b[i + 2 * 4].ToString().PadLeft(10)
-                                   + "  " + b[i + 3 * 4].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + b[i + 0 * 4].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + b[i + 1 * 4].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + b[i + 2 * 4].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + b[i + 3 * 4].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         //
@@ -156,10 +152,10 @@ public static class TransMatTest
         Console.WriteLine("");
         for (i = 0; i < 4; i++)
         {
-            Console.WriteLine("  " + b[i + 0 * 4].ToString().PadLeft(10)
-                                   + "  " + b[i + 1 * 4].ToString().PadLeft(10)
-                                   + "  " + b[i + 2 * 4].ToString().PadLeft(10)
-                                   + "  " + b[i + 3 * 4].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + b[i + 0 * 4].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + b[i + 1 * 4].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + b[i + 2 * 4].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + b[i + 3 * 4].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -184,17 +180,13 @@ public static class TransMatTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
-        int N = 4;
+        const int DIM_NUM = 3;
+        const int N = 4;
 
         double[] a = new double[4 * 4];
-        double angle;
-        char axis1;
-        string axis2;
         double[] b = new double[4 * 4];
         double[] point = new double[DIM_NUM * N];
         double[] point2 = new double[DIM_NUM * N];
-        double s;
         double[] v = new double[3];
 
         Console.WriteLine("");
@@ -228,8 +220,8 @@ public static class TransMatTest
         //
         //  Rotation about an axis.
         //
-        angle = 30.0;
-        axis1 = 'x';
+        double angle = 30.0;
+        const char axis1 = 'x';
         TransMat.tmat_rot_axis(a, ref b, angle, axis1);
 
         TransMat.tmat_mxp2(b, point, ref point2, N);
@@ -273,8 +265,8 @@ public static class TransMatTest
         //
         //  Shear.
         //
-        axis2 = "xy";
-        s = 0.5;
+        const string axis2 = "xy";
+        const double s = 0.5;
         TransMat.tmat_shear(a, ref b, axis2, s);
 
         TransMat.tmat_mxp2(b, point, ref point2, N);

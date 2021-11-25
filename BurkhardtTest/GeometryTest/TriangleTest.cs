@@ -31,7 +31,7 @@ public static class TriangleTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
         double[] angle = new double[3];
         int i;
@@ -56,8 +56,8 @@ public static class TriangleTest
         Console.WriteLine("");
         for (i = 0; i < 3; i++)
         {
-            Console.WriteLine("  " + angle[i].ToString().PadLeft(12)
-                                   + "  " + Helpers.radians_to_degrees(angle[i]).ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + angle[i].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + Helpers.radians_to_degrees(angle[i]).ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
     }
@@ -83,7 +83,7 @@ public static class TriangleTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
         double[] angle = new double[3];
         int i;
@@ -108,8 +108,8 @@ public static class TriangleTest
         Console.WriteLine("");
         for (i = 0; i < 3; i++)
         {
-            Console.WriteLine("  " + angle[i].ToString().PadLeft(12)
-                                   + "  " + Helpers.radians_to_degrees(angle[i]).ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + angle[i].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + Helpers.radians_to_degrees(angle[i]).ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
     }
@@ -135,9 +135,8 @@ public static class TriangleTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
-        double area;
         double[] t =
         {
             0.0, 1.0,
@@ -152,7 +151,7 @@ public static class TriangleTest
 
         typeMethods.r8mat_transpose_print(DIM_NUM, 3, t, "  Triangle vertices:");
 
-        area = Geometry.triangle_area_2d(t);
+        double area = Geometry.triangle_area_2d(t);
 
         Console.WriteLine("  Area is " + area + "");
 
@@ -179,12 +178,9 @@ public static class TriangleTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
-        double area;
-        int i;
         int j;
-        int jp1;
         double[] s = new double[3];
         double[] t =
         {
@@ -204,8 +200,9 @@ public static class TriangleTest
         {
             s[j] = 0.0;
 
-            jp1 = (j + 1) % 3;
+            int jp1 = (j + 1) % 3;
 
+            int i;
             for (i = 0; i < DIM_NUM; i++)
             {
                 s[j] += Math.Pow(t[i + j * DIM_NUM] - t[i + jp1 * DIM_NUM], 2);
@@ -216,7 +213,7 @@ public static class TriangleTest
 
         typeMethods.r8vec_print(3, s, "  Side lengths:");
 
-        area = Geometry.triangle_area_heron(s);
+        double area = Geometry.triangle_area_heron(s);
 
         Console.WriteLine("  Area is " + area + "");
 
@@ -243,9 +240,8 @@ public static class TriangleTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        double area;
         double[] t =
         {
             1.0, 2.0, 3.0,
@@ -262,7 +258,7 @@ public static class TriangleTest
 
         typeMethods.r8mat_print(DIM_NUM, 3, t, "  Triangle (vertices are columns)");
 
-        area = Geometry.triangle_area_3d(t);
+        double area = Geometry.triangle_area_3d(t);
 
         Console.WriteLine("");
         Console.WriteLine("  Area #1 " + area + "");
@@ -298,10 +294,9 @@ public static class TriangleTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int TEST_NUM = 7;
+        const int DIM_NUM = 2;
+        const int TEST_NUM = 7;
 
-        double[] p;
         double[] p_test =
         {
             0.25, 0.25,
@@ -319,7 +314,6 @@ public static class TriangleTest
             1.0, 0.0
         };
         int test;
-        double[] xsi;
 
         Console.WriteLine("");
         Console.WriteLine("TEST20655");
@@ -335,16 +329,16 @@ public static class TriangleTest
 
         for (test = 0; test < TEST_NUM; test++)
         {
-            p = p_test.Skip(+test * DIM_NUM).ToArray();
+            double[] p = p_test.Skip(+test * DIM_NUM).ToArray();
 
-            xsi = Geometry.triangle_barycentric_2d(t, p);
+            double[] xsi = Geometry.triangle_barycentric_2d(t, p);
 
-            Console.WriteLine("  " + p[0].ToString().PadLeft(8)
-                                   + "  " + p[1].ToString().PadLeft(8)
+            Console.WriteLine("  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "  "
-                                   + "  " + xsi[0].ToString().PadLeft(8)
-                                   + "  " + xsi[1].ToString().PadLeft(8)
-                                   + "  " + xsi[2].ToString().PadLeft(8) + "");
+                                   + "  " + xsi[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + xsi[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + xsi[2].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
 
         }
 
@@ -371,11 +365,9 @@ public static class TriangleTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int TEST_NUM = 4;
+        const int DIM_NUM = 2;
+        const int TEST_NUM = 4;
 
-        double[] centroid;
-        double[] t;
         double[] t_test =
         {
             0.0, 0.0,
@@ -400,11 +392,11 @@ public static class TriangleTest
 
         for (test = 0; test < TEST_NUM; test++)
         {
-            t = t_test.Skip(+test * DIM_NUM * 3).ToArray();
+            double[] t = t_test.Skip(+test * DIM_NUM * 3).ToArray();
 
             typeMethods.r8mat_transpose_print(DIM_NUM, 3, t, "  Triangle vertices:");
 
-            centroid = Geometry.triangle_centroid_2d(t);
+            double[] centroid = Geometry.triangle_centroid_2d(t);
 
             typeMethods.r8vec_print(DIM_NUM, centroid, "  Centroid:");
 
@@ -433,9 +425,8 @@ public static class TriangleTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        double[] centroid;
         double[] t =
         {
             1.0, 2.0, 3.0,
@@ -450,7 +441,7 @@ public static class TriangleTest
 
         typeMethods.r8mat_transpose_print(DIM_NUM, 3, t, "  Triangle vertices:");
 
-        centroid = Geometry.triangle_centroid_3d(t);
+        double[] centroid = Geometry.triangle_centroid_3d(t);
 
         typeMethods.r8vec_print(DIM_NUM, centroid, "  Centroid:");
 
@@ -484,12 +475,9 @@ public static class TriangleTest
         //    John Burkardt
         //
     {
-        int M = 2;
-        int TEST_NUM = 4;
+        const int M = 2;
+        const int TEST_NUM = 4;
 
-        int m = M;
-        double[] pc;
-        double[] t;
         double[] t_test =
         {
             10.0, 5.0,
@@ -506,7 +494,6 @@ public static class TriangleTest
             20.0, 7.0
         };
         int test;
-        int test_num = TEST_NUM;
 
         Console.WriteLine("");
         Console.WriteLine("TEST2101");
@@ -515,20 +502,20 @@ public static class TriangleTest
         Console.WriteLine("  TRIANGLE_CIRCUMCENTER_2D_2;");
         Console.WriteLine("  TRIANGLE_CIRCUMCENTER (any dimension);");
 
-        for (test = 0; test < test_num; test++)
+        for (test = 0; test < TEST_NUM; test++)
         {
-            t = t_test.Skip(+test * m * 3).ToArray();
+            double[] t = t_test.Skip(+test * M * 3).ToArray();
 
-            typeMethods.r8mat_transpose_print(m, 3, t, "  Triangle vertices:");
+            typeMethods.r8mat_transpose_print(M, 3, t, "  Triangle vertices:");
 
-            pc = Geometry.triangle_circumcenter_2d(t);
-            typeMethods.r8vec_print(m, pc, "  Circumcenter by TRIANGLE_CIRCUMCENTER_2D:");
+            double[] pc = Geometry.triangle_circumcenter_2d(t);
+            typeMethods.r8vec_print(M, pc, "  Circumcenter by TRIANGLE_CIRCUMCENTER_2D:");
 
             pc = Geometry.triangle_circumcenter_2d_2(t);
-            typeMethods.r8vec_print(m, pc, "  Circumcenter by TRIANGLE_CIRCUMCENTER_2D_2:");
+            typeMethods.r8vec_print(M, pc, "  Circumcenter by TRIANGLE_CIRCUMCENTER_2D_2:");
 
-            pc = Geometry.triangle_circumcenter(m, t);
-            typeMethods.r8vec_print(m, pc, "  Circumcenter by TRIANGLE_CIRCUMCENTER:");
+            pc = Geometry.triangle_circumcenter(M, t);
+            typeMethods.r8vec_print(M, pc, "  Circumcenter by TRIANGLE_CIRCUMCENTER:");
         }
 
     }
@@ -554,21 +541,12 @@ public static class TriangleTest
         //    John Burkardt
         //
     {
-        int M1 = 2;
-        int TEST_NUM = 4;
+        const int M1 = 2;
+        const int TEST_NUM = 4;
 
-        double[] a12;
         int i = 0;
-        int j;
-        int k;
         int m2;
-        double[] o1;
-        double[] o2;
-        int m1 = M1;
-        double[] pc2;
-        int seed;
         double[] t1 = new double[M1 * 3];
-        double[] t2;
         double[] t_test =
         {
             10.0, 5.0,
@@ -584,8 +562,6 @@ public static class TriangleTest
             11.0, 5.0,
             20.0, 7.0
         };
-        int test;
-        int test_num = TEST_NUM;
 
         Console.WriteLine("");
         Console.WriteLine("TEST21011");
@@ -596,34 +572,36 @@ public static class TriangleTest
         //
         for (m2 = 2; m2 <= 5; m2++)
         {
-            seed = 123456789;
+            int seed = 123456789;
 
             Console.WriteLine("");
             Console.WriteLine("  M2 = " + m2 + "");
 
-            t2 = new double[m2 * 3];
+            double[] t2 = new double[m2 * 3];
             //
             //  Randomly choose a mapping P2 = O2 + A12 * ( P1 - O1 )
             //
-            a12 = UniformRNG.r8mat_uniform_01_new(m2, m1, ref seed);
-            o1 = UniformRNG.r8vec_uniform_01_new(m1, ref seed);
-            o2 = UniformRNG.r8vec_uniform_01_new(m2, ref seed);
+            double[] a12 = UniformRNG.r8mat_uniform_01_new(m2, M1, ref seed);
+            double[] o1 = UniformRNG.r8vec_uniform_01_new(M1, ref seed);
+            double[] o2 = UniformRNG.r8vec_uniform_01_new(m2, ref seed);
             //
             //  Map each M1-dimensional triangle into M2 space.
             //
-            for (test = 0; test < test_num; test++)
+            int test;
+            for (test = 0; test < TEST_NUM; test++)
             {
+                int j;
                 for (j = 0; j < 3; j++)
                 {
-                    for (i = 0; i < m1; i++)
+                    for (i = 0; i < M1; i++)
                     {
-                        t1[(i + j * m1) % t1.Length] = t_test[(i + j * m1 + test * m1 * 3) % t_test.Length];
+                        t1[(i + j * M1) % t1.Length] = t_test[(i + j * M1 + test * M1 * 3) % t_test.Length];
                     }
                 }
 
                 for (j = 0; j < 3; j++)
                 {
-                    t1[(i + j * m1) % t1.Length] -= o1[i % o1.Length];
+                    t1[(i + j * M1) % t1.Length] -= o1[i % o1.Length];
                 }
 
                 for (j = 0; j < 3; j++)
@@ -631,9 +609,10 @@ public static class TriangleTest
                     for (i = 0; i < m2; i++)
                     {
                         t2[(i + j * m2) % t2.Length] = 0.0;
-                        for (k = 0; k < m1; k++)
+                        int k;
+                        for (k = 0; k < M1; k++)
                         {
-                            t2[(i + j * m2) % t2.Length] += a12[(i + k * m2) % a12.Length] * t1[(k + j * m1) % t1.Length];
+                            t2[(i + j * m2) % t2.Length] += a12[(i + k * m2) % a12.Length] * t1[(k + j * M1) % t1.Length];
                         }
                     }
                 }
@@ -646,7 +625,7 @@ public static class TriangleTest
                     }
                 }
 
-                pc2 = Geometry.triangle_circumcenter(m2, t2);
+                double[] pc2 = Geometry.triangle_circumcenter(m2, t2);
 
                 typeMethods.r8vec_print(m2, pc2, "  Circumcenter by TRIANGLE_CIRCUMCENTER:");
                 Console.WriteLine("");
@@ -681,12 +660,11 @@ public static class TriangleTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int TEST_NUM = 4;
+        const int DIM_NUM = 2;
+        const int TEST_NUM = 4;
 
         double[] pc = new double[DIM_NUM];
         double r = 0;
-        double[] t;
         double[] t_test =
         {
             0.0, 0.0,
@@ -712,7 +690,7 @@ public static class TriangleTest
 
         for (test = 0; test < TEST_NUM; test++)
         {
-            t = t_test.Skip(+test * DIM_NUM * 3).ToArray();
+            double[] t = t_test.Skip(+test * DIM_NUM * 3).ToArray();
 
             typeMethods.r8mat_transpose_print(DIM_NUM, 3, t, "  Triangle vertices:");
 
@@ -750,11 +728,9 @@ public static class TriangleTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int TEST_NUM = 4;
+        const int DIM_NUM = 2;
+        const int TEST_NUM = 4;
 
-        double r;
-        double[] t;
         double[] t_test =
         {
             0.0, 0.0,
@@ -779,11 +755,11 @@ public static class TriangleTest
 
         for (test = 0; test < TEST_NUM; test++)
         {
-            t = t_test.Skip(+test * DIM_NUM * 3).ToArray();
+            double[] t = t_test.Skip(+test * DIM_NUM * 3).ToArray();
 
             typeMethods.r8mat_transpose_print(DIM_NUM, 3, t, "  Triangle vertices:");
 
-            r = Geometry.triangle_circumradius_2d(t);
+            double r = Geometry.triangle_circumradius_2d(t);
 
             Console.WriteLine("  Circumradius: " + r + "");
         }
@@ -880,11 +856,10 @@ public static class TriangleTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
         int dim;
         bool inside = false;
-        double norm;
         double[] p0 =
         {
             3.0, 0.0, -7.0
@@ -908,7 +883,7 @@ public static class TriangleTest
 
         typeMethods.r8mat_transpose_print(DIM_NUM, 3, t, "  Triangle vertices:");
 
-        norm = 0.0;
+        double norm = 0.0;
         for (dim = 0; dim < DIM_NUM; dim++)
         {
             norm += Math.Pow(pd[dim], 2);
@@ -1024,8 +999,8 @@ public static class TriangleTest
             inside2 = Geometry.triangle_contains_point_2d_2(t, p);
             inside3 = Geometry.triangle_contains_point_2d_3(t, p);
 
-            Console.WriteLine("  " + p[0].ToString().PadLeft(8)
-                                   + "  " + p[1].ToString().PadLeft(8)
+            Console.WriteLine("  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "    " + inside1.ToString().PadLeft(1)
                                    + "    " + inside2.ToString().PadLeft(1)
                                    + "    " + inside3.ToString().PadLeft(1) + "");
@@ -1058,8 +1033,8 @@ public static class TriangleTest
             inside2 = Geometry.triangle_contains_point_2d_2(t2, p);
             inside3 = Geometry.triangle_contains_point_2d_3(t2, p);
 
-            Console.WriteLine("  " + p[0].ToString().PadLeft(8)
-                                   + "  " + p[1].ToString().PadLeft(8)
+            Console.WriteLine("  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "    " + inside1.ToString().PadLeft(1)
                                    + "    " + inside2.ToString().PadLeft(1)
                                    + "    " + inside3.ToString().PadLeft(1) + "");
@@ -1088,11 +1063,9 @@ public static class TriangleTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int TEST_NUM = 3;
+        const int DIM_NUM = 2;
+        const int TEST_NUM = 3;
 
-        double diameter;
-        double[] t;
         double[] t_test =
         {
             4.0, 2.0,
@@ -1114,11 +1087,11 @@ public static class TriangleTest
 
         for (test = 0; test < TEST_NUM; test++)
         {
-            t = t_test.Skip(+test * DIM_NUM * 3).ToArray();
+            double[] t = t_test.Skip(+test * DIM_NUM * 3).ToArray();
 
             typeMethods.r8mat_transpose_print(DIM_NUM, 3, t, "  Triangle vertices:");
 
-            diameter = Geometry.triangle_diameter_2d(t);
+            double diameter = Geometry.triangle_diameter_2d(t);
 
             Console.WriteLine("  Diameter =       " + diameter + "");
         }
@@ -1146,12 +1119,11 @@ public static class TriangleTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int GRID_MAX = 50;
+        const int DIM_NUM = 2;
+        const int GRID_MAX = 50;
 
         double[] g = new double[DIM_NUM * GRID_MAX];
         int grid_num = 0;
-        int sub_num;
         double[] t =
         {
             0.0, 1.0,
@@ -1159,7 +1131,7 @@ public static class TriangleTest
             1.0, 0.0
         };
 
-        sub_num = 3;
+        const int sub_num = 3;
 
         Console.WriteLine("");
         Console.WriteLine("TEST208");
@@ -1199,11 +1171,10 @@ public static class TriangleTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int TEST_NUM = 4;
+        const int DIM_NUM = 2;
+        const int TEST_NUM = 4;
 
         double[] pc = new double[DIM_NUM];
-        double[] t;
         double[] t_test =
         {
             0.0, 0.0,
@@ -1228,7 +1199,7 @@ public static class TriangleTest
 
         for (test = 0; test < TEST_NUM; test++)
         {
-            t = t_test.Skip(+test * DIM_NUM * 3).ToArray();
+            double[] t = t_test.Skip(+test * DIM_NUM * 3).ToArray();
 
             typeMethods.r8mat_transpose_print(DIM_NUM, 3, t, "  Triangle vertices:");
 
@@ -1306,9 +1277,8 @@ public static class TriangleTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
-        double r;
         double[] t =
         {
             0.0, 1.0,
@@ -1323,7 +1293,7 @@ public static class TriangleTest
 
         typeMethods.r8mat_transpose_print(DIM_NUM, 3, t, "  Triangle vertices:");
 
-        r = Geometry.triangle_inradius_2d(t);
+        double r = Geometry.triangle_inradius_2d(t);
 
         Console.WriteLine("  Incircle radius is " + r + "");
 
@@ -1352,10 +1322,8 @@ public static class TriangleTest
     {
         int[] c = new int[3];
         int i;
-        int j;
         int layer;
-        int n = 2;
-        bool more;
+        const int n = 2;
         int[] v = new int[2];
         string cout = "";
 
@@ -1388,7 +1356,7 @@ public static class TriangleTest
             Console.WriteLine("");
 
             c[2] = layer;
-            more = false;
+            bool more = false;
             i = 0;
 
             for (;;)
@@ -1402,6 +1370,7 @@ public static class TriangleTest
 
                 i += 1;
                 cout += "  " + i.ToString().PadLeft(4);
+                int j;
                 for (j = 0; j < n; j++)
                 {
                     cout += "  " + v[j].ToString().PadLeft(4);
@@ -1434,13 +1403,10 @@ public static class TriangleTest
         //    John Burkardt
         //
     {
-        int N = 2;
+        const int N = 2;
 
         int[] c = new int[N + 1];
         int i;
-        int j;
-        bool more;
-        int n = N;
         int[] v = new int[N];
         string cout = "";
 
@@ -1451,22 +1417,22 @@ public static class TriangleTest
         Console.WriteLine("");
         Console.WriteLine("    0 <= X(1)/C(1) + X(2)/C(2) <= C(3).");
 
-        for (i = 0; i < n + 1; i++)
+        for (i = 0; i < N + 1; i++)
         {
-            c[i] = n + 1 - i;
+            c[i] = N + 1 - i;
         }
 
-        for (i = 0; i < n; i++)
+        for (i = 0; i < N; i++)
         {
             v[i] = 0;
         }
 
-        more = false;
+        bool more = false;
 
         Console.WriteLine("");
-        Console.WriteLine("  N = " + n + "");
+        Console.WriteLine("  N = " + N + "");
         cout = "  C = ";
-        for (i = 0; i < n + 1; i++)
+        for (i = 0; i < N + 1; i++)
         {
             cout += "  " + c[i].ToString().PadLeft(4);
         }
@@ -1487,7 +1453,8 @@ public static class TriangleTest
 
             i += 1;
             cout += "  " + i.ToString().PadLeft(4);
-            for (j = 0; j < n; j++)
+            int j;
+            for (j = 0; j < N; j++)
             {
                 cout += "  " + v[j].ToString().PadLeft(4);
             }
@@ -1517,11 +1484,9 @@ public static class TriangleTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int TEST_NUM = 4;
+        const int DIM_NUM = 2;
+        const int TEST_NUM = 4;
 
-        int i;
-        double[] t;
         double[] t_test =
         {
             4.0, 2.0,
@@ -1546,9 +1511,9 @@ public static class TriangleTest
 
         for (test = 0; test < TEST_NUM; test++)
         {
-            t = t_test.Skip(+test * DIM_NUM * 3).ToArray();
+            double[] t = t_test.Skip(+test * DIM_NUM * 3).ToArray();
 
-            i = Geometry.triangle_orientation_2d(t);
+            int i = Geometry.triangle_orientation_2d(t);
 
             typeMethods.r8mat_transpose_print(DIM_NUM, 3, t, "  Triangle vertices:");
 
@@ -1595,12 +1560,11 @@ public static class TriangleTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int TEST_NUM = 4;
+        const int DIM_NUM = 2;
+        const int TEST_NUM = 4;
 
         bool flag = false;
         double[] pc = new double[DIM_NUM];
-        double[] t;
         double[] t_test =
         {
             0.0, 0.0,
@@ -1625,7 +1589,7 @@ public static class TriangleTest
 
         for (test = 0; test < TEST_NUM; test++)
         {
-            t = t_test.Skip(+test * DIM_NUM * 3).ToArray();
+            double[] t = t_test.Skip(+test * DIM_NUM * 3).ToArray();
 
             typeMethods.r8mat_transpose_print(DIM_NUM, 3, t, "  Triangle vertices:");
 
@@ -1657,11 +1621,9 @@ public static class TriangleTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int TEST_NUM = 7;
+        const int DIM_NUM = 2;
+        const int TEST_NUM = 7;
 
-        double dist;
-        double[] p;
         double[] p_test =
         {
             0.25, 0.25,
@@ -1694,13 +1656,13 @@ public static class TriangleTest
 
         for (test = 0; test < TEST_NUM; test++)
         {
-            p = p_test.Skip(+test * DIM_NUM).ToArray();
+            double[] p = p_test.Skip(+test * DIM_NUM).ToArray();
 
-            dist = Geometry.triangle_point_dist_2d(t, p);
+            double dist = Geometry.triangle_point_dist_2d(t, p);
 
-            Console.WriteLine("  " + p[0].ToString().PadLeft(8)
-                                   + "  " + p[1].ToString().PadLeft(8)
-                                   + "  " + dist.ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
 
     }
@@ -1726,11 +1688,9 @@ public static class TriangleTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int TEST_NUM = 7;
+        const int DIM_NUM = 2;
+        const int TEST_NUM = 7;
 
-        double dist_signed;
-        double[] p;
         double[] p_test =
         {
             0.25, 0.25,
@@ -1763,13 +1723,13 @@ public static class TriangleTest
 
         for (test = 0; test < TEST_NUM; test++)
         {
-            p = p_test.Skip(+test * DIM_NUM).ToArray();
+            double[] p = p_test.Skip(+test * DIM_NUM).ToArray();
 
-            dist_signed = Geometry.triangle_point_dist_signed_2d(t, p);
+            double dist_signed = Geometry.triangle_point_dist_signed_2d(t, p);
 
-            Console.WriteLine("  " + p[0].ToString().PadLeft(8)
-                                   + "  " + p[1].ToString().PadLeft(8)
-                                   + "  " + dist_signed.ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + dist_signed.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
 
     }
@@ -1795,11 +1755,9 @@ public static class TriangleTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
-        int TEST_NUM = 3;
+        const int DIM_NUM = 3;
+        const int TEST_NUM = 3;
 
-        double dist;
-        double[] p;
         double[] p_test =
         {
             1.0, 2.0, 3.0,
@@ -1828,14 +1786,14 @@ public static class TriangleTest
 
         for (test = 0; test < TEST_NUM; test++)
         {
-            p = p_test.Skip(+test * DIM_NUM).ToArray();
+            double[] p = p_test.Skip(+test * DIM_NUM).ToArray();
 
-            dist = Geometry.triangle_point_dist_3d(t, p);
+            double dist = Geometry.triangle_point_dist_3d(t, p);
 
-            Console.WriteLine("  " + p[0].ToString().PadLeft(10)
-                                   + "  " + p[1].ToString().PadLeft(10)
-                                   + "  " + p[2].ToString().PadLeft(10)
-                                   + "  " + dist.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + p[2].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
     }
@@ -1861,11 +1819,10 @@ public static class TriangleTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int TEST_NUM = 7;
+        const int DIM_NUM = 2;
+        const int TEST_NUM = 7;
 
         double dist = 0;
-        double[] p;
         double[] p_test =
         {
             0.25, 0.25,
@@ -1899,14 +1856,14 @@ public static class TriangleTest
 
         for (test = 0; test < TEST_NUM; test++)
         {
-            p = p_test.Skip(+test * DIM_NUM).ToArray();
+            double[] p = p_test.Skip(+test * DIM_NUM).ToArray();
 
             Geometry.triangle_point_near_2d(t, p, ref pn, ref dist);
 
-            Console.WriteLine("  " + p[0].ToString().PadLeft(10)
-                                   + "  " + p[1].ToString().PadLeft(10)
-                                   + "  " + pn[0].ToString().PadLeft(10)
-                                   + "  " + pn[1].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + pn[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + pn[1].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
     }
@@ -1932,11 +1889,9 @@ public static class TriangleTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int TEST_NUM = 4;
+        const int DIM_NUM = 2;
+        const int TEST_NUM = 4;
 
-        double quality;
-        double[] t;
         double[] t_test =
         {
             0.0, 0.0,
@@ -1961,11 +1916,11 @@ public static class TriangleTest
 
         for (test = 0; test < TEST_NUM; test++)
         {
-            t = t_test.Skip(+test * DIM_NUM * 3).ToArray();
+            double[] t = t_test.Skip(+test * DIM_NUM * 3).ToArray();
 
             typeMethods.r8mat_transpose_print(DIM_NUM, 3, t, "  Triangle vertices:");
 
-            quality = Geometry.triangle_quality_2d(t);
+            double quality = Geometry.triangle_quality_2d(t);
 
             Console.WriteLine("  Quality = " + quality + "");
         }
@@ -2026,11 +1981,11 @@ public static class TriangleTest
             Geometry.triangle_sample(t, 1, ref seed, ref p);
             Geometry.triangle_xy_to_xsi_2d(t, p, xsi);
 
-            Console.WriteLine("  " + p[0].ToString().PadLeft(8)
-                                   + "  " + p[1].ToString().PadLeft(8)
-                                   + "  " + xsi[0].ToString().PadLeft(8).ToString().PadLeft(8)
-                                   + "  " + xsi[1].ToString().PadLeft(8)
-                                   + "  " + xsi[2].ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + xsi[0].ToString(CultureInfo.InvariantCulture).PadLeft(8).PadLeft(8)
+                                   + "  " + xsi[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + xsi[2].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
 
     }
@@ -2056,11 +2011,9 @@ public static class TriangleTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int TEST_NUM = 10;
+        const int DIM_NUM = 2;
+        const int TEST_NUM = 10;
 
-        int i;
-        int j;
         double[] p = new double[DIM_NUM];
         double[] p2 = new double[DIM_NUM];
         int seed = 123456789;
@@ -2094,9 +2047,11 @@ public static class TriangleTest
             {
                 case 1:
                 {
+                    int i;
                     for (i = 0; i < DIM_NUM; i++)
                     {
                         p[i] = 0.0;
+                        int j;
                         for (j = 0; j < 3; j++)
                         {
                             p[i] += t[i + j * DIM_NUM];
@@ -2121,13 +2076,13 @@ public static class TriangleTest
             Geometry.triangle_xsi_to_xy_2d(t, xsi, ref p2);
 
             Console.WriteLine("");
-            Console.WriteLine("  " + p[0].ToString().PadLeft(8)
-                                   + "  " + p[1].ToString().PadLeft(8)
-                                   + "  " + xsi[0].ToString().PadLeft(8)
-                                   + "  " + xsi[1].ToString().PadLeft(8)
-                                   + "  " + xsi[2].ToString().PadLeft(8) + "");
-            Console.WriteLine("  " + p2[0].ToString().PadLeft(8)
-                                   + "  " + p2[1].ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + xsi[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + xsi[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + xsi[2].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+            Console.WriteLine("  " + p2[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + p2[1].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
 
     }

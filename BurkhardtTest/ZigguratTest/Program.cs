@@ -86,10 +86,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int i;
         int j;
-        int seed;
-        int value;
 
         Console.WriteLine("");
         Console.WriteLine("SHR3_SEEDED_TEST1");
@@ -102,7 +99,7 @@ internal static class Program
 
         for (j = 0; j < 3; j++)
         {
-            seed = (j % 2) switch
+            int seed = (j % 2) switch
             {
                 0 => 123456789,
                 _ => 987654321
@@ -113,9 +110,10 @@ internal static class Program
                                    + "  " + seed.ToString().PadLeft(12) + "");
             Console.WriteLine("");
 
+            int i;
             for (i = 1; i <= 10; i++)
             {
-                value = SHR3.shr3_seeded(ref seed);
+                int value = SHR3.shr3_seeded(ref seed);
 
                 Console.WriteLine("  " + i.ToString().PadLeft(6)
                                        + "  " + seed.ToString().PadLeft(12)
@@ -145,10 +143,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int i;
         int j;
-        int seed;
-        float value;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02");
@@ -157,7 +152,7 @@ internal static class Program
 
         for (j = 0; j < 3; j++)
         {
-            seed = (j % 2) switch
+            int seed = (j % 2) switch
             {
                 0 => 123456789,
                 _ => 987654321
@@ -168,13 +163,14 @@ internal static class Program
                                    + "  " + seed.ToString().PadLeft(12) + "");
             Console.WriteLine("");
 
+            int i;
             for (i = 1; i <= 10; i++)
             {
-                value = r4.r4_uni(ref seed);
+                float value = r4.r4_uni(ref seed);
 
                 Console.WriteLine("  " + i.ToString().PadLeft(6)
                                        + "  " + seed.ToString().PadLeft(12)
-                                       + "  " + value.ToString().PadLeft(14) + "");
+                                       + "  " + value.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
     }
@@ -201,11 +197,8 @@ internal static class Program
         //
     {
         float[] fn = new float[128];
-        int i;
         int j;
         int[] kn = new int[128];
-        int seed;
-        float value;
         float[] wn = new float[128];
 
         Console.WriteLine("");
@@ -217,7 +210,7 @@ internal static class Program
 
         for (j = 0; j < 3; j++)
         {
-            seed = (j % 2) switch
+            int seed = (j % 2) switch
             {
                 0 => 123456789,
                 _ => 987654321
@@ -228,13 +221,14 @@ internal static class Program
                                    + "  " + seed.ToString().PadLeft(12) + "");
             Console.WriteLine("");
 
+            int i;
             for (i = 1; i <= 10; i++)
             {
-                value = r4.r4_nor(ref seed, kn, fn, wn);
+                float value = r4.r4_nor(ref seed, kn, fn, wn);
 
                 Console.WriteLine("  " + i.ToString().PadLeft(6)
                                        + "  " + seed.ToString().PadLeft(12)
-                                       + "  " + value.ToString().PadLeft(14) + "");
+                                       + "  " + value.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
     }
@@ -261,11 +255,8 @@ internal static class Program
         //
     {
         float[] fe = new float[256];
-        int i;
         int j;
         int[] ke = new int[256];
-        int seed;
-        float value;
         float[] we = new float[256];
 
         Console.WriteLine("");
@@ -277,7 +268,7 @@ internal static class Program
 
         for (j = 0; j < 3; j++)
         {
-            seed = (j % 2) switch
+            int seed = (j % 2) switch
             {
                 0 => 123456789,
                 _ => 987654321
@@ -288,13 +279,14 @@ internal static class Program
                                    + "  " + seed.ToString().PadLeft(12) + "");
             Console.WriteLine("");
 
+            int i;
             for (i = 1; i <= 10; i++)
             {
-                value = r4.r4_exp(ref seed, ke, fe, we);
+                float value = r4.r4_exp(ref seed, ke, fe, we);
 
                 Console.WriteLine("  " + i.ToString().PadLeft(6)
                                        + "  " + seed.ToString().PadLeft(12)
-                                       + "  " + value.ToString().PadLeft(14) + "");
+                                       + "  " + value.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
     }
@@ -320,9 +312,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        DateTime ctime;
         int sample;
-        int seed;
         int value = 0;
 
         Console.WriteLine("");
@@ -330,9 +320,9 @@ internal static class Program
         Console.WriteLine("  Measure the time it takes SHR3_SEEDED to generate");
         Console.WriteLine("  " + sample_num + " unsigned 32 bit integers.");
 
-        seed = 123456789;
+        int seed = 123456789;
 
-        ctime = DateTime.Now;
+        DateTime ctime = DateTime.Now;
 
         for (sample = 0; sample < sample_num; sample++)
         {
@@ -367,9 +357,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        DateTime ctime;
         int sample;
-        int seed;
         float value = 0;
 
         Console.WriteLine("");
@@ -377,9 +365,9 @@ internal static class Program
         Console.WriteLine("  Measure the time it takes R4_UNI to generate");
         Console.WriteLine("  " + sample_num + " uniformly random floats.");
 
-        seed = 123456789;
+        int seed = 123456789;
 
-        ctime = DateTime.Now;
+        DateTime ctime = DateTime.Now;
 
         for (sample = 0; sample < sample_num; sample++)
         {
@@ -414,11 +402,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        DateTime ctime;
         float[] fn = new float[128];
         int[] kn = new int[128];
         int sample;
-        int seed;
         float value = 0;
         float[] wn = new float[129];
 
@@ -429,9 +415,9 @@ internal static class Program
 
         r4.r4_nor_setup(ref kn, ref fn, ref wn);
 
-        seed = 123456789;
+        int seed = 123456789;
 
-        ctime = DateTime.Now;
+        DateTime ctime = DateTime.Now;
 
         for (sample = 0; sample < sample_num; sample++)
         {
@@ -467,11 +453,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        DateTime ctime;
         float[] fe = new float[256];
         int[] ke = new int[256];
         int sample;
-        int seed;
         float value = 0;
         float[] we = new float[256];
 
@@ -482,9 +466,9 @@ internal static class Program
 
         r4.r4_exp_setup(ref ke, ref fe, ref we);
 
-        seed = 123456789;
+        int seed = 123456789;
 
-        ctime = DateTime.Now;
+        DateTime ctime = DateTime.Now;
 
         for (sample = 0; sample < sample_num; sample++)
         {
@@ -521,9 +505,6 @@ internal static class Program
         //
     {
         int j;
-        int jcong_new;
-        int jcong_in;
-        int jcong_old;
 
         Console.WriteLine("");
         Console.WriteLine("TEST09");
@@ -533,12 +514,12 @@ internal static class Program
         Console.WriteLine("    Input Seed   Output Seed  Output Value");
         Console.WriteLine("");
 
-        jcong_new = 234567891;
+        int jcong_new = 234567891;
 
         for (j = 1; j <= 10; j++)
         {
-            jcong_old = jcong_new;
-            jcong_in = jcong_new;
+            int jcong_old = jcong_new;
+            int jcong_in = jcong_new;
             jcong_new = Congruential.cong_seeded(ref jcong_in);
             Console.WriteLine("  " + jcong_old.ToString().PadLeft(12)
                                    + "  " + jcong_in.ToString().PadLeft(12)
@@ -568,15 +549,6 @@ internal static class Program
         //
     {
         int j;
-        int jcong_in;
-        int jcong_old;
-        int jsr_in;
-        int jsr_old;
-        int w_in;
-        int w_old;
-        int value;
-        int z_in;
-        int z_old;
 
         Console.WriteLine("");
         Console.WriteLine("TEST10");
@@ -586,18 +558,18 @@ internal static class Program
         Console.WriteLine("              JCONG           JSR             W             Z         Value");
         Console.WriteLine("");
 
-        jcong_in = 234567891;
-        jsr_in = 123456789;
-        w_in = 345678912;
-        z_in = 456789123;
+        int jcong_in = 234567891;
+        int jsr_in = 123456789;
+        int w_in = 345678912;
+        int z_in = 456789123;
 
         for (j = 1; j <= 10; j++)
         {
-            jcong_old = jcong_in;
-            jsr_old = jsr_in;
-            w_old = w_in;
-            z_old = z_in;
-            value = KISS.kiss_seeded(ref jcong_in, ref jsr_in, ref w_in, ref z_in);
+            int jcong_old = jcong_in;
+            int jsr_old = jsr_in;
+            int w_old = w_in;
+            int z_old = z_in;
+            int value = KISS.kiss_seeded(ref jcong_in, ref jsr_in, ref w_in, ref z_in);
             Console.WriteLine("  In "
                               + "  " + jcong_old.ToString().PadLeft(12)
                               + "  " + jsr_old.ToString().PadLeft(12)
@@ -634,11 +606,6 @@ internal static class Program
         //
     {
         int j;
-        int w_in;
-        int w_old;
-        int value;
-        int z_in;
-        int z_old;
 
         Console.WriteLine("");
         Console.WriteLine("TEST11");
@@ -648,14 +615,14 @@ internal static class Program
         Console.WriteLine("       Input W       Input Z      Output W      Output Z  Output Value");
         Console.WriteLine("");
 
-        w_in = 345678912;
-        z_in = 456789123;
+        int w_in = 345678912;
+        int z_in = 456789123;
 
         for (j = 1; j <= 10; j++)
         {
-            w_old = w_in;
-            z_old = z_in;
-            value = MultiplyWithCarry.mwc_seeded(ref w_in, ref z_in);
+            int w_old = w_in;
+            int z_old = z_in;
+            int value = MultiplyWithCarry.mwc_seeded(ref w_in, ref z_in);
             Console.WriteLine("  " + w_old.ToString().PadLeft(12)
                                    + "  " + z_old.ToString().PadLeft(12)
                                    + "  " + w_in.ToString().PadLeft(12)
@@ -686,9 +653,6 @@ internal static class Program
         //
     {
         int j;
-        int jsr_new;
-        int jsr_in;
-        int jsr_old;
 
         Console.WriteLine("");
         Console.WriteLine("SHR3_SEEDED_TEST3");
@@ -698,12 +662,12 @@ internal static class Program
         Console.WriteLine("    Input Seed   Output Seed  Output Value");
         Console.WriteLine("");
 
-        jsr_new = 123456789;
+        int jsr_new = 123456789;
 
         for (j = 1; j <= 10; j++)
         {
-            jsr_old = jsr_new;
-            jsr_in = jsr_new;
+            int jsr_old = jsr_new;
+            int jsr_in = jsr_new;
             jsr_new = SHR3.shr3_seeded(ref jsr_in);
             Console.WriteLine("  " + jsr_old.ToString().PadLeft(12)
                                    + "  " + jsr_in.ToString().PadLeft(12)

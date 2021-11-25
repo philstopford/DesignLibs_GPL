@@ -28,16 +28,11 @@ public static class TubeTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int TEST_NUM = 4;
+        const int DIM_NUM = 2;
+        const int TEST_NUM = 4;
 
-        double dist;
         double[] dist_test = { 0.5, 0.5, 1.0, 1.0 };
-        int j;
-        int n;
-        int nlo;
         int[] n_test = { 4, 5, 5, 5 };
-        double[] p;
         double[] p_test = {
             0.0,  0.0,
             4.0,  3.0,
@@ -58,8 +53,6 @@ public static class TubeTest
             10.0, 10.0,
             10.0,  0.0,
             0.0,  0.0 };
-        double[] p1;
-        double[] p2;
         int test;
 
         Console.WriteLine("");
@@ -69,16 +62,17 @@ public static class TubeTest
 
         for ( test = 0; test < TEST_NUM; test++ )
         {
-            n = n_test[test];
-            dist = dist_test[test];
+            int n = n_test[test];
+            double dist = dist_test[test];
 
-            nlo = 0;
+            int nlo = 0;
+            int j;
             for ( j = 0; j < test; j++ )
             {
                 nlo += n_test[j];
             }
 
-            p = p_test.Skip( + DIM_NUM * nlo).ToArray();
+            double[] p = p_test.Skip( + DIM_NUM * nlo).ToArray();
 
             Console.WriteLine("");
             Console.WriteLine("  Test " + test + "");
@@ -87,8 +81,8 @@ public static class TubeTest
 
             typeMethods.r8mat_transpose_print ( DIM_NUM, n, p, "  Points to surround:" );
 
-            p1 = new double[DIM_NUM*n];
-            p2 = new double[DIM_NUM*n];
+            double[] p1 = new double[DIM_NUM*n];
+            double[] p2 = new double[DIM_NUM*n];
 
             Geometry.tube_2d ( dist, n, p, ref p1, ref p2 );
 

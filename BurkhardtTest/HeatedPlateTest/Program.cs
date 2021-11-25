@@ -108,19 +108,12 @@ internal static class Program
         //    Local, double W[M][N], the solution computed at the latest iteration.
         //
     {
-        int M = 100;
-        int N = 500;
+        const int M = 100;
+        const int N = 500;
 
-        TimeSpan ctime;
-        DateTime ctime1;
-        DateTime ctime2;
-        double diff;
         double epsilon;
         int i;
-        int iterations;
-        int iterations_print;
         int j;
-        double mean;
         List<string> output = new();
         string output_filename;
         double[,] u = new double[M, N];
@@ -150,7 +143,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  The iteration will be repeated until the change is <= "
                           + epsilon + "");
-        diff = epsilon;
+        double diff = epsilon;
         //
         //  Read OUTPUT_FILE from the command line or the user.
         //
@@ -194,7 +187,7 @@ internal static class Program
         //  Average the boundary values, to come up with a reasonable
         //  initial value for the interior.
         //
-        mean = 0.0;
+        double mean = 0.0;
         for (i = 1; i < M - 1; i++)
         {
             mean += w[i, 0];
@@ -231,12 +224,12 @@ internal static class Program
         //  iterate until the  new solution W differs from the old solution U
         //  by no more than EPSILON.
         //
-        iterations = 0;
-        iterations_print = 1;
+        int iterations = 0;
+        int iterations_print = 1;
         Console.WriteLine("");
         Console.WriteLine(" Iteration  Change");
         Console.WriteLine("");
-        ctime1 = DateTime.Now;
+        DateTime ctime1 = DateTime.Now;
 
         while (epsilon <= diff)
         {
@@ -270,16 +263,18 @@ internal static class Program
             }
 
             iterations++;
-            if (iterations == iterations_print)
+            if (iterations != iterations_print)
             {
-                Console.WriteLine("  " + iterations.ToString().PadLeft(8)
-                                       + "  " + diff + "");
-                iterations_print = 2 * iterations_print;
+                continue;
             }
+
+            Console.WriteLine("  " + iterations.ToString().PadLeft(8)
+                                   + "  " + diff + "");
+            iterations_print = 2 * iterations_print;
         }
 
-        ctime2 = DateTime.Now;
-        ctime = ctime2 - ctime1;
+        DateTime ctime2 = DateTime.Now;
+        TimeSpan ctime = ctime2 - ctime1;
 
         Console.WriteLine("");
         Console.WriteLine("  " + iterations.ToString().PadLeft(8)

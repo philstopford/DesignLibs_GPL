@@ -35,12 +35,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int m;
-        int n;
-        int n_unique;
-        int seed;
-        double tol;
-
         Console.WriteLine(" ");
         Console.WriteLine("POINT_MERGE_TEST");
         Console.WriteLine("  Test the POINT_MERGE library.");
@@ -50,10 +44,11 @@ internal static class Program
         //  (which cannot be extended to a tolerance version in multidimensions)
         //  and the "Tol Unique Count", which is an O(N^2) algorithm.
         //
-        m = 3;
-        n = 10;
-        n_unique = 7;
-        seed = 123456789;
+        int m = 3;
+        int n = 10;
+        int n_unique = 7;
+        int seed = 123456789;
+        const bool debug = false;
         test01(m, n, n_unique, seed);
 
         m = 4;
@@ -69,7 +64,7 @@ internal static class Program
         m = 3;
         n = 10;
         n_unique = 7;
-        tol = 0.00001;
+        double tol = 0.00001;
         seed = 123456789;
         test02(m, n, n_unique, tol, seed);
 
@@ -104,7 +99,7 @@ internal static class Program
         seed = 123456789;
         test03(m, n, n_unique, tol, seed);
 
-        switch (false)
+        switch (debug)
         {
             case true:
                 m = 3;
@@ -157,7 +152,7 @@ internal static class Program
         seed = 123456789;
         test05(m, n, n_unique, tol, seed);
 
-        switch (false)
+        switch (debug)
         {
             case true:
                 m = 3;
@@ -206,10 +201,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] a;
-        double tol;
-        int unique_num;
-
         Console.WriteLine(" ");
         Console.WriteLine("TEST01");
         Console.WriteLine("  To count the unique columns in an typeMethods.r8COL, we call");
@@ -221,20 +212,20 @@ internal static class Program
         Console.WriteLine("  N =     " + n + "");
         Console.WriteLine("  SEED =  " + seed + "");
 
-        a = typeMethods.r8col_duplicates(m, n, n_unique, ref seed);
+        double[] a = typeMethods.r8col_duplicates(m, n, n_unique, ref seed);
 
         typeMethods.r8mat_transpose_print(m, n, a, "  Matrix with N_UNIQUE unique columns:");
 
         Console.WriteLine(" ");
         Console.WriteLine("  N_UNIQUE =                  " + n_unique + "");
 
-        unique_num = typeMethods.point_unique_count(m, n, a);
+        int unique_num = typeMethods.point_unique_count(m, n, a);
         Console.WriteLine("  POINT_UNIQUE_COUNT =        " + unique_num + "");
 
         unique_num = typeMethods.point_radial_unique_count(m, n, a, ref seed);
         Console.WriteLine("  POINT_RADIAL_UNIQUE_COUNT = " + unique_num + "");
 
-        tol = 0.0;
+        double tol = 0.0;
         unique_num = typeMethods.point_tol_unique_count(m, n, a, tol);
         Console.WriteLine("  POINT_TOL_UNIQUE_COUNT =    " + unique_num + "");
     }
@@ -269,12 +260,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] a;
-        int i;
         int j;
-        double[] r;
-        double r_norm;
-        int unique_num;
 
         Console.WriteLine(" ");
         Console.WriteLine("TEST02");
@@ -287,7 +273,7 @@ internal static class Program
         Console.WriteLine("  TOL =  " + tol + "");
         Console.WriteLine("  SEED =  " + seed + "");
 
-        a = typeMethods.r8col_duplicates(m, n, n_unique, ref seed);
+        double[] a = typeMethods.r8col_duplicates(m, n, n_unique, ref seed);
 
         typeMethods.r8mat_transpose_print(m, n, a, "  Matrix with N_UNIQUE unique columns:");
         //
@@ -295,12 +281,13 @@ internal static class Program
         //  equal, they remain "tolerably equal" after the addition of random
         //  perturbation vectors whose 2-norm is no greater than TOL/2.
         //
-        r = new double[m];
+        double[] r = new double[m];
 
         for (j = 0; j < n; j++)
         {
             UniformRNG.r8vec_uniform_01(m, ref seed, ref r);
-            r_norm = typeMethods.r8vec_norm_l2(m, r);
+            double r_norm = typeMethods.r8vec_norm_l2(m, r);
+            int i;
             for (i = 0; i < m; i++)
             {
                 a[i + j * m] += 0.5 * tol * r[i] / r_norm;
@@ -312,7 +299,7 @@ internal static class Program
         Console.WriteLine(" ");
         Console.WriteLine("  N_UNIQUE =                      " + n_unique + "");
 
-        unique_num = typeMethods.point_radial_tol_unique_count(m, n, a, tol, ref seed);
+        int unique_num = typeMethods.point_radial_tol_unique_count(m, n, a, tol, ref seed);
         Console.WriteLine("  POINT_RADIAL_TOL_UNIQUE_COUNT = " + unique_num + "");
 
         unique_num = typeMethods.point_tol_unique_count(m, n, a, tol);
@@ -347,13 +334,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] a;
-        DateTime ctime;
-        int i;
         int j;
-        double[] r;
-        double r_norm;
-        int unique_num;
 
         Console.WriteLine(" ");
         Console.WriteLine("TEST03");
@@ -366,18 +347,19 @@ internal static class Program
         Console.WriteLine("  TOL =  " + tol + "");
         Console.WriteLine("  SEED =  " + seed + "");
 
-        a = typeMethods.r8col_duplicates(m, n, n_unique, ref seed);
+        double[] a = typeMethods.r8col_duplicates(m, n, n_unique, ref seed);
         //
         //  The form of the tolerance test means that if two vectors are initially
         //  equal, they remain "tolerably equal" after the addition of random
         //  perturbation vectors whose 2-norm is no greater than TOL/2.
         //
-        r = new double[m];
+        double[] r = new double[m];
 
         for (j = 0; j < n; j++)
         {
             UniformRNG.r8vec_uniform_01(m, ref seed, ref r);
-            r_norm = typeMethods.r8vec_norm_l2(m, r);
+            double r_norm = typeMethods.r8vec_norm_l2(m, r);
+            int i;
             for (i = 0; i < m; i++)
             {
                 a[i + j * m] += 0.5 * tol * r[i] / r_norm;
@@ -387,8 +369,8 @@ internal static class Program
         Console.WriteLine(" ");
         Console.WriteLine("  N_UNIQUE =                      " + n_unique + "");
 
-        ctime = DateTime.Now;
-        unique_num = typeMethods.point_radial_tol_unique_count(m, n, a, tol, ref seed);
+        DateTime ctime = DateTime.Now;
+        int unique_num = typeMethods.point_radial_tol_unique_count(m, n, a, tol, ref seed);
         Console.WriteLine(" ");
         Console.WriteLine("  POINT_RADIAL_TOL_UNIQUE_COUNT = " + unique_num + "");
         Console.WriteLine("  Time = " + (DateTime.Now - ctime).TotalSeconds + "");
@@ -430,16 +412,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] a;
         double dist;
         int i;
         int j;
         int k;
-        double[] r;
-        double r_norm;
-        int[] undx;
-        int unique_num;
-        int[] xdnu;
         string cout;
 
         Console.WriteLine(" ");
@@ -453,7 +429,7 @@ internal static class Program
         Console.WriteLine("  TOL =  " + tol + "");
         Console.WriteLine("  SEED =  " + seed + "");
 
-        a = typeMethods.r8col_duplicates(m, n, n_unique, ref seed);
+        double[] a = typeMethods.r8col_duplicates(m, n, n_unique, ref seed);
 
         typeMethods.r8mat_transpose_print(m, n, a, "  Matrix with N_UNIQUE unique columns:");
         //
@@ -461,12 +437,12 @@ internal static class Program
         //  equal, they remain "tolerably equal" after the addition of random
         //  perturbation vectors whose 2-norm is no greater than TOL/2.
         //
-        r = new double[m];
+        double[] r = new double[m];
 
         for (j = 0; j < n; j++)
         {
             UniformRNG.r8vec_uniform_01(m, ref seed, ref r);
-            r_norm = typeMethods.r8vec_norm_l2(m, r);
+            double r_norm = typeMethods.r8vec_norm_l2(m, r);
             for (i = 0; i < m; i++)
             {
                 a[i + j * m] += 0.5 * tol * r[i] / r_norm;
@@ -478,10 +454,10 @@ internal static class Program
         Console.WriteLine(" ");
         Console.WriteLine("  N_UNIQUE =                      " + n_unique + "");
 
-        undx = new int[n];
-        xdnu = new int[n];
+        int[] undx = new int[n];
+        int[] xdnu = new int[n];
 
-        unique_num = typeMethods.point_radial_tol_unique_index(m, n, a, tol, ref seed, ref undx,
+        int unique_num = typeMethods.point_radial_tol_unique_index(m, n, a, tol, ref seed, ref undx,
             ref xdnu);
 
         Console.WriteLine(" ");
@@ -527,7 +503,7 @@ internal static class Program
                 }
 
                 dist = Math.Sqrt(dist);
-                Console.WriteLine("          " + dist.ToString().PadLeft(10) + "");
+                Console.WriteLine("          " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
             }
         }
 
@@ -574,7 +550,7 @@ internal static class Program
                 }
 
                 dist = Math.Sqrt(dist);
-                Console.WriteLine("          " + dist.ToString().PadLeft(10) + "");
+                Console.WriteLine("          " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
             }
         }
     }
@@ -609,15 +585,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] a;
-        DateTime ctime;
-        int i;
         int j;
-        double[] r;
-        double r_norm;
-        int[] undx;
-        int unique_num;
-        int[] xdnu;
 
         Console.WriteLine(" ");
         Console.WriteLine("TEST05");
@@ -630,18 +598,19 @@ internal static class Program
         Console.WriteLine("  TOL =  " + tol + "");
         Console.WriteLine("  SEED =  " + seed + "");
 
-        a = typeMethods.r8col_duplicates(m, n, n_unique, ref seed);
+        double[] a = typeMethods.r8col_duplicates(m, n, n_unique, ref seed);
         //
         //  The form of the tolerance test means that if two vectors are initially
         //  equal, they remain "tolerably equal" after the addition of random
         //  perturbation vectors whose 2-norm is no greater than TOL/2.
         //
-        r = new double[m];
+        double[] r = new double[m];
 
         for (j = 0; j < n; j++)
         {
             UniformRNG.r8vec_uniform_01(m, ref seed, ref r);
-            r_norm = typeMethods.r8vec_norm_l2(m, r);
+            double r_norm = typeMethods.r8vec_norm_l2(m, r);
+            int i;
             for (i = 0; i < m; i++)
             {
                 a[i + j * m] += 0.5 * tol * r[i] / r_norm;
@@ -651,11 +620,11 @@ internal static class Program
         Console.WriteLine(" ");
         Console.WriteLine("  N_UNIQUE =                      " + n_unique + "");
 
-        undx = new int[n];
-        xdnu = new int[n];
+        int[] undx = new int[n];
+        int[] xdnu = new int[n];
 
-        ctime = DateTime.Now;
-        unique_num = typeMethods.point_radial_tol_unique_index(m, n, a, tol, ref seed, ref undx,
+        DateTime ctime = DateTime.Now;
+        int unique_num = typeMethods.point_radial_tol_unique_index(m, n, a, tol, ref seed, ref undx,
             ref xdnu);
 
         Console.WriteLine(" ");

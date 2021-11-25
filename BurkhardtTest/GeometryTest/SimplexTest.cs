@@ -27,18 +27,10 @@ public static class SimplexTest
         //    John Burkardt
         //
     {
-        int TEST_NUM = 4;
+        const int TEST_NUM = 4;
 
-        int[] c;
-        int i;
-        int j;
-        int layer;
-        bool more;
-        int n;
         int[] n_test = {1, 2, 3, 4};
         int test;
-        int[] v;
-        string cout = "";
 
         Console.WriteLine("");
         Console.WriteLine("TEST1788");
@@ -49,10 +41,11 @@ public static class SimplexTest
 
         for (test = 0; test < TEST_NUM; test++)
         {
-            n = n_test[test];
-            c = new int[n + 1];
-            v = new int[n];
+            int n = n_test[test];
+            int[] c = new int[n + 1];
+            int[] v = new int[n];
 
+            int i;
             for (i = 0; i < n + 1; i++)
             {
                 c[i] = i + 2;
@@ -65,7 +58,7 @@ public static class SimplexTest
 
             Console.WriteLine("");
             Console.WriteLine("  N = " + n + "");
-            cout = "  C = ";
+            string cout = "  C = ";
             for (i = 0; i < n; i++)
             {
                 cout += "  " + c[i].ToString().PadLeft(4);
@@ -74,6 +67,7 @@ public static class SimplexTest
             Console.WriteLine(cout);
             Console.WriteLine("");
 
+            int layer;
             for (layer = 0; layer <= 2; layer++)
             {
                 Console.WriteLine("");
@@ -81,7 +75,7 @@ public static class SimplexTest
                 Console.WriteLine("");
 
                 c[n] = layer;
-                more = false;
+                bool more = false;
                 i = 0;
 
                 for (;;)
@@ -95,6 +89,7 @@ public static class SimplexTest
 
                     i += 1;
                     cout = "  " + i.ToString().PadLeft(4);
+                    int j;
                     for (j = 0; j < n; j++)
                     {
                         cout += "  " + v[j].ToString().PadLeft(4);
@@ -128,17 +123,10 @@ public static class SimplexTest
         //    John Burkardt
         //
     {
-        int TEST_NUM = 4;
+        const int TEST_NUM = 4;
 
-        int[] c;
-        int i;
-        int j;
-        bool more;
-        int n;
         int[] n_test = {1, 2, 3, 4};
         int test;
-        int[] v;
-        string cout = "";
 
         Console.WriteLine("");
         Console.WriteLine("TEST1789");
@@ -149,11 +137,12 @@ public static class SimplexTest
 
         for (test = 0; test < TEST_NUM; test++)
         {
-            n = n_test[test];
+            int n = n_test[test];
 
-            c = new int[n + 1];
-            v = new int[n];
+            int[] c = new int[n + 1];
+            int[] v = new int[n];
 
+            int i;
             for (i = 0; i < n + 1; i++)
             {
                 c[i] = n + 1 - i;
@@ -164,11 +153,11 @@ public static class SimplexTest
                 v[i] = 0;
             }
 
-            more = false;
+            bool more = false;
 
             Console.WriteLine("");
             Console.WriteLine("  N = " + n + "");
-            cout = "  C = ";
+            string cout = "  C = ";
             for (i = 0; i < n + 1; i++)
             {
                 cout += "  " + c[i].ToString().PadLeft(4);
@@ -190,6 +179,7 @@ public static class SimplexTest
 
                 i += 1;
                 cout = "  " + i.ToString().PadLeft(4);
+                int j;
                 for (j = 0; j < n; j++)
                 {
                     cout += "  " + v[j].ToString().PadLeft(4);
@@ -222,14 +212,13 @@ public static class SimplexTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
         double[] tetra = {
             0.000000,  0.942809, -0.333333,
             -0.816496, -0.816496, -0.333333,
             0.816496, -0.816496, -0.333333,
             0.000000,  0.000000,  1.000000 };
-        double volume;
 
         Console.WriteLine("");
         Console.WriteLine("TEST1805");
@@ -240,7 +229,7 @@ public static class SimplexTest
 
         typeMethods.r8mat_transpose_print ( DIM_NUM, DIM_NUM+1, tetra, "  Simplex vertices:" );
 
-        volume = Burkardt.TetrahedronNS.Geometry.tetrahedron_volume_3d ( tetra );
+        double volume = Burkardt.TetrahedronNS.Geometry.tetrahedron_volume_3d ( tetra );
 
         Console.WriteLine("");
         Console.WriteLine("  Volume computed by TETRAHEDRON_VOLUME_3D:");

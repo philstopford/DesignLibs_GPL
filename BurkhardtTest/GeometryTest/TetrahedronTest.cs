@@ -29,9 +29,8 @@ public static class TetrahedronTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        double[] centroid;
         double[] tetra =
         {
             0.000000, 0.942809, -0.333333,
@@ -47,7 +46,7 @@ public static class TetrahedronTest
 
         typeMethods.r8mat_transpose_print(DIM_NUM, 4, tetra, "  Tetrahedron vertices:");
 
-        centroid = Geometry.tetrahedron_centroid_3d(tetra);
+        double[] centroid = Geometry.tetrahedron_centroid_3d(tetra);
 
         typeMethods.r8vec_print(DIM_NUM, centroid, "  Centroid:");
 
@@ -74,19 +73,15 @@ public static class TetrahedronTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
-        int TEST_NUM = 3;
+        const int DIM_NUM = 3;
+        const int TEST_NUM = 3;
 
-        double[] c;
         double[] c_test =
         {
             0.0, 0.1, 0.2, 0.7,
             -1.3, 2.0, 0.2, 0.1,
             0.8, 0.6, -0.5, 0.1
         };
-        int i;
-        bool inside;
-        int j;
         double[] p = new double[DIM_NUM];
         int test;
         double[] tetra =
@@ -111,22 +106,24 @@ public static class TetrahedronTest
 
         for (test = 0; test < TEST_NUM; test++)
         {
-            c = c_test.Skip(+test * 4).ToArray();
+            double[] c = c_test.Skip(+test * 4).ToArray();
 
             typeMethods.r8vec_zero(DIM_NUM, ref p);
+            int i;
             for (i = 0; i < DIM_NUM; i++)
             {
+                int j;
                 for (j = 0; j < 4; j++)
                 {
                     p[i] += tetra[i + j * DIM_NUM] * c[j];
                 }
             }
 
-            inside = Geometry.tetrahedron_contains_point_3d(tetra, p);
+            bool inside = Geometry.tetrahedron_contains_point_3d(tetra, p);
 
-            Console.WriteLine("  " + p[0].ToString().PadLeft(12)
-                                   + "  " + p[1].ToString().PadLeft(12)
-                                   + "  " + p[2].ToString().PadLeft(12)
+            Console.WriteLine("  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + p[2].ToString(CultureInfo.InvariantCulture).PadLeft(12)
                                    + "  " + inside.ToString().PadLeft(1) + "");
         }
 
@@ -153,7 +150,7 @@ public static class TetrahedronTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
         double[] pc = new double[DIM_NUM];
         double r = 0;
@@ -202,9 +199,8 @@ public static class TetrahedronTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        double[] edge_length;
         double[] tetra =
         {
             0.577350269189626, 0.0, 0.0,
@@ -220,7 +216,7 @@ public static class TetrahedronTest
 
         typeMethods.r8mat_transpose_print(DIM_NUM, 4, tetra, "  Tetrahedron vertices:");
 
-        edge_length = Geometry.tetrahedron_edge_length_3d(tetra);
+        double[] edge_length = Geometry.tetrahedron_edge_length_3d(tetra);
 
         typeMethods.r8vec_print(6, edge_length, "  Edge lengths:");
 
@@ -248,7 +244,7 @@ public static class TetrahedronTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
         double[] pc = new double[DIM_NUM];
         double r = 0;
@@ -299,10 +295,8 @@ public static class TetrahedronTest
     {
         int[] c = new int[4];
         int i;
-        int j;
         int layer;
-        bool more;
-        int n = 3;
+        const int n = 3;
         int[] v = new int[3];
         string cout = "";
 
@@ -337,7 +331,7 @@ public static class TetrahedronTest
             Console.WriteLine("");
 
             c[3] = layer;
-            more = false;
+            bool more = false;
             i = 0;
 
             for (;;)
@@ -351,6 +345,7 @@ public static class TetrahedronTest
 
                 i += 1;
                 cout = "  " + i.ToString().PadLeft(4);
+                int j;
                 for (j = 0; j < n; j++)
                 {
                     cout += "  " + v[j].ToString().PadLeft(4);
@@ -382,13 +377,10 @@ public static class TetrahedronTest
         //    John Burkardt
         //
     {
-        int N = 3;
+        const int N = 3;
 
         int[] c = new int[N + 1];
         int i;
-        int j;
-        bool more;
-        int n = N;
         int[] v = new int[N];
         string cout = "";
 
@@ -399,22 +391,22 @@ public static class TetrahedronTest
         Console.WriteLine("");
         Console.WriteLine("    0 <= X(1)/C(1) + X(2)/C(2) + X(3)/C(3) <= C(4).");
 
-        for (i = 0; i < n + 1; i++)
+        for (i = 0; i < N + 1; i++)
         {
-            c[i] = n + 1 - i;
+            c[i] = N + 1 - i;
         }
 
-        for (i = 0; i < n; i++)
+        for (i = 0; i < N; i++)
         {
             v[i] = 0;
         }
 
-        more = false;
+        bool more = false;
 
         Console.WriteLine("");
-        Console.WriteLine("  N = " + n + "");
+        Console.WriteLine("  N = " + N + "");
         cout = "  C = ";
-        for (i = 0; i < n + 1; i++)
+        for (i = 0; i < N + 1; i++)
         {
             cout += "  " + c[i].ToString().PadLeft(4);
         }
@@ -435,7 +427,8 @@ public static class TetrahedronTest
 
             i += 1;
             cout = "  " + i.ToString().PadLeft(4);
-            for (j = 0; j < n; j++)
+            int j;
+            for (j = 0; j < N; j++)
             {
                 cout += "  " + v[j].ToString().PadLeft(4);
             }
@@ -465,12 +458,10 @@ public static class TetrahedronTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
-        int TEST_NUM = 2;
+        const int DIM_NUM = 3;
+        const int TEST_NUM = 2;
 
-        double quality;
         int test;
-        double[] tetra;
         double[] tetra_test =
         {
             0.577350269189626, 0.0, 0.0,
@@ -490,11 +481,11 @@ public static class TetrahedronTest
 
         for (test = 0; test < TEST_NUM; test++)
         {
-            tetra = tetra_test.Skip(+test * DIM_NUM * 4).ToArray();
+            double[] tetra = tetra_test.Skip(+test * DIM_NUM * 4).ToArray();
 
             typeMethods.r8mat_transpose_print(DIM_NUM, 4, tetra, "  Tetrahedron vertices:");
 
-            quality = Geometry.tetrahedron_quality1_3d(tetra);
+            double quality = Geometry.tetrahedron_quality1_3d(tetra);
 
             Console.WriteLine("");
             Console.WriteLine("  Tetrahedron quality is " + quality + "");
@@ -523,12 +514,10 @@ public static class TetrahedronTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
-        int TEST_NUM = 2;
+        const int DIM_NUM = 3;
+        const int TEST_NUM = 2;
 
-        double quality2;
         int test;
-        double[] tetra;
         double[] tetra_test =
         {
             0.577350269189626, 0.0, 0.0,
@@ -548,11 +537,11 @@ public static class TetrahedronTest
 
         for (test = 0; test < TEST_NUM; test++)
         {
-            tetra = tetra_test.Skip(+test * DIM_NUM * 4).ToArray();
+            double[] tetra = tetra_test.Skip(+test * DIM_NUM * 4).ToArray();
 
             typeMethods.r8mat_transpose_print(DIM_NUM, 4, tetra, "  Tetrahedron vertices:");
 
-            quality2 = Geometry.tetrahedron_quality2_3d(tetra);
+            double quality2 = Geometry.tetrahedron_quality2_3d(tetra);
 
             Console.WriteLine("");
             Console.WriteLine("  Tetrahedron quality is " + quality2 + "");
@@ -581,12 +570,10 @@ public static class TetrahedronTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
-        int TEST_NUM = 2;
+        const int DIM_NUM = 3;
+        const int TEST_NUM = 2;
 
-        double quality3;
         int test;
-        double[] tetra;
         double[] tetra_test =
         {
             0.577350269189626, 0.0, 0.0,
@@ -606,11 +593,11 @@ public static class TetrahedronTest
 
         for (test = 0; test < TEST_NUM; test++)
         {
-            tetra = tetra_test.Skip(+test * DIM_NUM * 4).ToArray();
+            double[] tetra = tetra_test.Skip(+test * DIM_NUM * 4).ToArray();
 
             typeMethods.r8mat_transpose_print(DIM_NUM, 4, tetra, "  Tetrahedron vertices:");
 
-            quality3 = Geometry.tetrahedron_quality3_3d(tetra);
+            double quality3 = Geometry.tetrahedron_quality3_3d(tetra);
 
             Console.WriteLine("");
             Console.WriteLine("  Tetrahedron quality is " + quality3 + "");
@@ -639,12 +626,10 @@ public static class TetrahedronTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
-        int TEST_NUM = 2;
+        const int DIM_NUM = 3;
+        const int TEST_NUM = 2;
 
-        double quality4;
         int test;
-        double[] tetra;
         double[] tetra_test =
         {
             0.577350269189626, 0.0, 0.0,
@@ -664,11 +649,11 @@ public static class TetrahedronTest
 
         for (test = 0; test < TEST_NUM; test++)
         {
-            tetra = tetra_test.Skip(+test * DIM_NUM * 4).ToArray();
+            double[] tetra = tetra_test.Skip(+test * DIM_NUM * 4).ToArray();
 
             typeMethods.r8mat_transpose_print(DIM_NUM, 4, tetra, "  Tetrahedron vertices:");
 
-            quality4 = Geometry.tetrahedron_quality4_3d(tetra);
+            double quality4 = Geometry.tetrahedron_quality4_3d(tetra);
 
             Console.WriteLine("");
             Console.WriteLine("  Tetrahedron quality is " + quality4 + "");
@@ -697,15 +682,12 @@ public static class TetrahedronTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
         int edge_num = 0;
         int face_num = 0;
-        int[] face_order;
         int face_order_max = 0;
-        int[] face_point;
         int point_num = 0;
-        double[] point_coord;
 
         Console.WriteLine("");
         Console.WriteLine("TEST203235");
@@ -727,9 +709,9 @@ public static class TetrahedronTest
         //
         //  Make room for the data.
         //
-        face_order = new int[face_num];
-        face_point = new int[face_order_max * face_num];
-        point_coord = new double[DIM_NUM * point_num];
+        int[] face_order = new int[face_num];
+        int[] face_point = new int[face_order_max * face_num];
+        double[] point_coord = new double[DIM_NUM * point_num];
         //
         //  Get the data.
         //
@@ -764,8 +746,8 @@ public static class TetrahedronTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
-        int TEST_NUM = 10;
+        const int DIM_NUM = 3;
+        const int TEST_NUM = 10;
 
         double[] p = new double[DIM_NUM];
         int seed = 123456789;
@@ -777,7 +759,6 @@ public static class TetrahedronTest
             1.0, 4.0, 4.0
         };
         int test;
-        double[] xsi;
 
         Console.WriteLine("");
         Console.WriteLine("TEST20324");
@@ -798,17 +779,17 @@ public static class TetrahedronTest
         {
             Geometry.tetrahedron_sample_3d(t, 1, ref seed, ref p);
 
-            string cout = "  " + p[0].ToString().PadLeft(8)
-                               + "  " + p[1].ToString().PadLeft(8)
-                               + "  " + p[2].ToString().PadLeft(8);
+            string cout = "  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                               + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                               + "  " + p[2].ToString(CultureInfo.InvariantCulture).PadLeft(8);
 
-            xsi = Geometry.tetrahedron_barycentric_3d(t, p);
+            double[] xsi = Geometry.tetrahedron_barycentric_3d(t, p);
 
             Console.WriteLine(cout + "    "
-                                   + "  " + xsi[0].ToString().PadLeft(8)
-                                   + "  " + xsi[1].ToString().PadLeft(8)
-                                   + "  " + xsi[2].ToString().PadLeft(8)
-                                   + "  " + xsi[3].ToString().PadLeft(8) + "");
+                                   + "  " + xsi[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + xsi[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + xsi[2].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + xsi[3].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
 
         }
 
@@ -835,15 +816,12 @@ public static class TetrahedronTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
         int edge_num = 0;
         int face_num = 0;
-        int[] face_order;
         int face_order_max = 0;
-        int[] face_point;
         int point_num = 0;
-        double[] point_coord;
 
         Console.WriteLine("");
         Console.WriteLine("TEST20325");
@@ -864,9 +842,9 @@ public static class TetrahedronTest
         //
         //  Make room for the data.
         //
-        face_order = new int[face_num];
-        face_point = new int[face_order_max * face_num];
-        point_coord = new double[DIM_NUM * point_num];
+        int[] face_order = new int[face_num];
+        int[] face_point = new int[face_order_max * face_num];
+        double[] point_coord = new double[DIM_NUM * point_num];
         //
         //  Get the data.
         //
@@ -902,7 +880,6 @@ public static class TetrahedronTest
         //    John Burkardt
         //
     {
-        double[] angle;
         double[] t1 =
         {
             0.000000, 0.942809, -0.333333,
@@ -938,7 +915,7 @@ public static class TetrahedronTest
         Console.WriteLine("  associated with the vertices of a tetrahedron in 3D.");
 
         typeMethods.r8mat_transpose_print(3, 4, t1, "  Tetrahedron #1");
-        angle = Geometry.tetrahedron_solid_angles_3d(t1);
+        double[] angle = Geometry.tetrahedron_solid_angles_3d(t1);
         typeMethods.r8vec_print(4, angle, "  Solid angles for tetrahedron #1");
 
         typeMethods.r8mat_transpose_print(3, 4, t2, "  Tetrahedron #2");
@@ -976,7 +953,7 @@ public static class TetrahedronTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
         double[] tetra =
         {
@@ -985,7 +962,6 @@ public static class TetrahedronTest
             0.816496, -0.816496, -0.333333,
             0.000000, 0.000000, 1.000000
         };
-        double volume;
 
         Console.WriteLine("");
         Console.WriteLine("TEST2033");
@@ -994,7 +970,7 @@ public static class TetrahedronTest
 
         typeMethods.r8mat_transpose_print(DIM_NUM, DIM_NUM + 1, tetra, "  Tetrahedron vertices");
 
-        volume = Geometry.tetrahedron_volume_3d(tetra);
+        double volume = Geometry.tetrahedron_volume_3d(tetra);
 
         Console.WriteLine("");
         Console.WriteLine("  Volume = " + volume + "");

@@ -220,12 +220,8 @@ static class Program
         //
     {
         int i;
-        double[] q1;
-        double[] q2;
-        double[] q3;
-        int seed;
 
-        seed = 123456789;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("Q8_MULTIPLY_TEST");
@@ -233,9 +229,9 @@ static class Program
 
         for (i = 1; i <= 5; i++)
         {
-            q1 = typeMethods.q8_normal_01(ref seed);
-            q2 = typeMethods.q8_normal_01(ref seed);
-            q3 = typeMethods.q8_multiply(q1, q2);
+            double[] q1 = typeMethods.q8_normal_01(ref seed);
+            double[] q2 = typeMethods.q8_normal_01(ref seed);
+            double[] q3 = typeMethods.q8_multiply(q1, q2);
 
             Console.WriteLine("");
             typeMethods.q8_transpose_print(q1, "  q1 = q8_normal_01 ( seed ) :");
@@ -268,9 +264,6 @@ static class Program
         //
     {
         int i;
-        double[] q1;
-        double[] q2;
-        double[] q3;
 
         int seed = 123456789;
 
@@ -280,9 +273,9 @@ static class Program
 
         for (i = 1; i <= 5; i++)
         {
-            q1 = typeMethods.q8_normal_01(ref seed);
-            q2 = typeMethods.q8_normal_01(ref seed);
-            q3 = typeMethods.q8_multiply2(q1, q2);
+            double[] q1 = typeMethods.q8_normal_01(ref seed);
+            double[] q2 = typeMethods.q8_normal_01(ref seed);
+            double[] q3 = typeMethods.q8_multiply2(q1, q2);
 
             Console.WriteLine("");
             typeMethods.q8_transpose_print(q1, "  q1 = q8_normal_01 ( seed )  :");
@@ -352,11 +345,8 @@ static class Program
         //
     {
         int i;
-        double[] q;
-        int seed;
-        double value = 0;
 
-        seed = 123456789;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("Q8_NORM_TEST");
@@ -365,9 +355,9 @@ static class Program
         for (i = 1; i <= 5; i++)
         {
             Console.WriteLine("");
-            q = typeMethods.q8_normal_01(ref seed);
+            double[] q = typeMethods.q8_normal_01(ref seed);
             typeMethods.q8_transpose_print(q, "  q = q8_normal_01(seed):");
-            value = typeMethods.q8_norm(q);
+            double value = typeMethods.q8_norm(q);
             Console.WriteLine("  q8_norm(q) = " + value + "");
         }
     }
@@ -427,7 +417,6 @@ static class Program
         //    John Burkardt
         //
     {
-        double c;
         int test;
 
         Console.WriteLine("");
@@ -439,15 +428,15 @@ static class Program
 
         for (test = -1; test <= 13; test++)
         {
-            c = (test - 6) / (double) 6;
+            double c = (test - 6) / (double) 6;
 
-            string cout = c.ToString().PadLeft(14) + "  "
-                                                                               + typeMethods.r8_acos(c).ToString().PadLeft(14);
+            string cout = c.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                                                                               + typeMethods.r8_acos(c).ToString(CultureInfo.InvariantCulture).PadLeft(14);
 
             switch (c)
             {
                 case >= -1.0 and <= 1.0:
-                    cout += "  " + Math.Acos(c).ToString().PadLeft(14);
+                    cout += "  " + Math.Acos(c).ToString(CultureInfo.InvariantCulture).PadLeft(14);
                     break;
             }
 
@@ -476,28 +465,26 @@ static class Program
         //    John Burkardt
         //
     {
-        int M = 6;
-        int N = 4;
+        const int M = 6;
+        const int N = 4;
 
         double[] a = new double[M * N];
-        int i;
         int j;
-        int m = M;
-        int n = N;
 
         Console.WriteLine("");
         Console.WriteLine("typeMethods.r8MAT_PRINT_TEST");
         Console.WriteLine("  typeMethods.r8MAT_PRINT prints an typeMethods.r8MAT.");
 
-        for (j = 0; j < n; j++)
+        for (j = 0; j < N; j++)
         {
-            for (i = 0; i < m; i++)
+            int i;
+            for (i = 0; i < M; i++)
             {
-                a[i + j * m] = (i + 1) * 10 + j + 1;
+                a[i + j * M] = (i + 1) * 10 + j + 1;
             }
         }
 
-        typeMethods.r8mat_print(m, n, a, "  The matrix:");
+        typeMethods.r8mat_print(M, N, a, "  The matrix:");
 
     }
 
@@ -522,28 +509,26 @@ static class Program
         //    John Burkardt
         //
     {
-        int M = 6;
-        int N = 4;
+        const int M = 6;
+        const int N = 4;
 
         double[] a = new double[M * N];
-        int i;
         int j;
-        int m = M;
-        int n = N;
 
         Console.WriteLine("");
         Console.WriteLine("typeMethods.r8MAT_PRINT_SOME_TEST");
         Console.WriteLine("  typeMethods.r8MAT_PRINT_SOME prints some of an typeMethods.r8MAT.");
 
-        for (j = 0; j < n; j++)
+        for (j = 0; j < N; j++)
         {
-            for (i = 0; i < m; i++)
+            int i;
+            for (i = 0; i < M; i++)
             {
-                a[i + j * m] = (i + 1) * 10 + j + 1;
+                a[i + j * M] = (i + 1) * 10 + j + 1;
             }
         }
 
-        typeMethods.r8mat_print_some(m, n, a, 2, 1, 4, 2, "  Rows 2:4, Cols 1:2:");
+        typeMethods.r8mat_print_some(M, N, a, 2, 1, 4, 2, "  Rows 2:4, Cols 1:2:");
 
     }
 
@@ -710,13 +695,10 @@ static class Program
         //    John Burkardt
         //
     {
-        double angle;
         double[] axis1 = {0.2361737, -0.8814124, -0.4090649};
         double[] axis2 = {0.0, 0.0, 2.0};
-        double[] q;
         double[] v1 = {1.0, 4.0, 10.0};
         double[] v2 = {1.0, 1.0, 1.0};
-        double[] w;
 
         Console.WriteLine("");
         Console.WriteLine("ROTATION_AXIS2QUAT_TEST");
@@ -725,15 +707,15 @@ static class Program
         typeMethods.r8vec_print(3, v1, "  The vector V:");
         typeMethods.r8vec_print(3, axis1, "  The rotation axis:");
 
-        angle = 1.159804;
+        double angle = 1.159804;
         Console.WriteLine("");
         Console.WriteLine("  The rotation angle is " + angle + "");
 
-        q = Rotation.rotation_axis2quat(axis1, angle);
+        double[] q = Rotation.rotation_axis2quat(axis1, angle);
 
         typeMethods.r8vec_print(4, q, "  The rotation quaternion Q:");
 
-        w = Rotation.rotation_quat_vector(q, v1);
+        double[] w = Rotation.rotation_quat_vector(q, v1);
 
         typeMethods.r8vec_print(3, w, "  The rotated vector W:");
 
@@ -780,14 +762,12 @@ static class Program
         //    John Burkardt
         //
     {
-        double angle;
         double[] axis1 = {0.2361737, -0.8814124, -0.4090649};
         double[] axis2 = {0.0, 0.0, 2.0};
         double[] v1 = {1.0, 4.0, 10.0};
         double[] v2 = {1.0, 1.0, 1.0};
-        double[] w;
 
-        angle = 1.159804;
+        double angle = 1.159804;
 
         Console.WriteLine("");
         Console.WriteLine("ROTATION_AXIS_VECTOR_TEST");
@@ -801,7 +781,7 @@ static class Program
         Console.WriteLine("");
         Console.WriteLine("  The rotation angle is " + angle + "");
 
-        w = Rotation.rotation_axis_vector(axis1, angle, v1);
+        double[] w = Rotation.rotation_axis_vector(axis1, angle, v1);
 
         typeMethods.r8vec_print(3, w, "  The rotated vector:");
 
@@ -852,7 +832,6 @@ static class Program
             -0.86602539, 0.0, 0.5
         };
         double angle = 0;
-        double[] axis;
 
         Console.WriteLine("");
         Console.WriteLine("ROTATION_MAT2AXIS_TEST");
@@ -863,7 +842,7 @@ static class Program
 
         typeMethods.r8mat_print(3, 3, a, "  The rotation matrix:");
 
-        axis = new double[3];
+        double[] axis = new double[3];
         Rotation.rotation_mat2axis(a, axis, ref angle);
 
         typeMethods.r8vec_print(3, axis, "  The rotation axis:");
@@ -904,8 +883,6 @@ static class Program
             0.25, 0.86602539, 0.43301269,
             -0.86602539, 0.0, 0.5
         };
-        double[] a2;
-        double[] q;
 
         Console.WriteLine("");
         Console.WriteLine("ROTATION_MAT2QUAT_TEST");
@@ -916,11 +893,11 @@ static class Program
 
         typeMethods.r8mat_print(3, 3, a, "  The rotation matrix:");
 
-        q = Rotation.rotation_mat2quat(a);
+        double[] q = Rotation.rotation_mat2quat(a);
 
         typeMethods.r8vec_print(4, q, "  The rotation quaternion Q:");
 
-        a2 = Rotation.rotation_quat2mat(q);
+        double[] a2 = Rotation.rotation_quat2mat(q);
 
         typeMethods.r8mat_print(3, 3, a2, "  The recovered rotation matrix:");
 
@@ -954,7 +931,6 @@ static class Program
             -0.86602539, 0.0, 0.5
         };
         double[] v = {1.0, 4.0, 10.0};
-        double[] w;
 
         Console.WriteLine("");
         Console.WriteLine("ROTATION_MAT_VECTOR_TEST");
@@ -964,7 +940,7 @@ static class Program
         typeMethods.r8mat_print(3, 3, a, "  The rotation matrix:");
         typeMethods.r8vec_print(3, v, "  The vector V:");
 
-        w = Rotation.rotation_mat_vector(a, v);
+        double[] w = Rotation.rotation_mat_vector(a, v);
         typeMethods.r8vec_print(3, w, "  The rotated vector W = A * V:");
 
     }
@@ -991,9 +967,7 @@ static class Program
         //
     {
         double angle = 0;
-        double[] axis;
         double[] q = {0.836516, 0.12941, -0.482963, -0.224144};
-        double[] q2;
 
         Console.WriteLine("");
         Console.WriteLine("ROTATION_QUAT2AXIS_TEST");
@@ -1004,7 +978,7 @@ static class Program
 
         typeMethods.r8vec_print(4, q, "  The rotation quaternion:");
 
-        axis = new double[3];
+        double[] axis = new double[3];
         Rotation.rotation_quat2axis(q, axis, ref angle);
 
         typeMethods.r8vec_print(3, axis, "  The rotation axis:");
@@ -1012,7 +986,7 @@ static class Program
         Console.WriteLine("");
         Console.WriteLine("  The rotation angle is " + angle + "");
 
-        q2 = Rotation.rotation_axis2quat(axis, angle);
+        double[] q2 = Rotation.rotation_axis2quat(axis, angle);
 
         typeMethods.r8vec_print(4, q2, "  The recovered rotation quaternion:");
 
@@ -1039,9 +1013,7 @@ static class Program
         //    John Burkardt
         //
     {
-        double[] a;
         double[] q = {0.836516, 0.12941, -0.482963, -0.224144};
-        double[] q2;
 
         Console.WriteLine("");
         Console.WriteLine("ROTATION_QUAT2MAT_TEST");
@@ -1052,11 +1024,11 @@ static class Program
 
         typeMethods.r8vec_print(4, q, "  The rotation quaternion:");
 
-        a = Rotation.rotation_quat2mat(q);
+        double[] a = Rotation.rotation_quat2mat(q);
 
         typeMethods.r8mat_print(3, 3, a, "  The rotation matrix:");
 
-        q2 = Rotation.rotation_mat2quat(a);
+        double[] q2 = Rotation.rotation_mat2quat(a);
 
         typeMethods.r8vec_print(4, q2, "  The recovered rotation quaternion:");
     }
@@ -1084,7 +1056,6 @@ static class Program
     {
         double[] q = {0.836516, 0.12941, -0.482963, -0.224144};
         double[] v = {1.0, 4.0, 10.0};
-        double[] w;
 
         Console.WriteLine("");
         Console.WriteLine("ROTATION_QUAT_VECTOR_TEST");
@@ -1095,7 +1066,7 @@ static class Program
 
         typeMethods.r8vec_print(3, v, "  The vector V:");
 
-        w = Rotation.rotation_quat_vector(q, v);
+        double[] w = Rotation.rotation_quat_vector(q, v);
         typeMethods.r8vec_print(3, w, "  The rotated vector:");
 
     }

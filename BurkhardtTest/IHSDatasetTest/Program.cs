@@ -50,16 +50,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int d;
-        int i;
-        int[] i4_ihs;
-        int j;
-        int m;
-        int n;
         string output_filename = "";
-        int seed;
-        int seed_init;
-        double[] r8_ihs;
         //
         //  Print introduction and options.
         //
@@ -102,6 +93,7 @@ internal static class Program
             Console.WriteLine("  (2 is a small typical value).");
             Console.WriteLine("  (0 or any negative value terminates execution).");
 
+            int m;
             try
             {
                 m = Convert.ToInt32(Console.ReadLine());
@@ -134,6 +126,7 @@ internal static class Program
             Console.WriteLine("  (10 is a small typical value).");
             Console.WriteLine("  (0 or any negative value terminates execution).");
 
+            int n;
             try
             {
                 n = Convert.ToInt32(Console.ReadLine());
@@ -169,6 +162,7 @@ internal static class Program
             Console.WriteLine("  (5 is a typical value).");
             Console.WriteLine("  (0 or any negative value terminates execution).");
 
+            int d;
             try
             {
                 d = Convert.ToInt32(Console.ReadLine());
@@ -202,6 +196,7 @@ internal static class Program
             Console.WriteLine("  (0 indicates you want a seed to be chosen for you.)");
             Console.WriteLine("  (Any negative value terminates execution).");
 
+            int seed;
             try
             {
                 seed = Convert.ToInt32(Console.ReadLine());
@@ -237,14 +232,16 @@ internal static class Program
             //
             //  Compute the integer data.
             //
-            seed_init = seed;
-            i4_ihs = IHS.ihs(m, n, d, ref seed);
+            int seed_init = seed;
+            int[] i4_ihs = IHS.ihs(m, n, d, ref seed);
             //
             //  Convert from integer to real.
             //
-            r8_ihs = new double[m * n];
+            double[] r8_ihs = new double[m * n];
+            int j;
             for (j = 0; j < n; j++)
             {
+                int i;
                 for (i = 0; i < m; i++)
                 {
                     r8_ihs[i + j * m] = (2 * i4_ihs[i + j * m] - 1)

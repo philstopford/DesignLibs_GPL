@@ -77,23 +77,20 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int NODE_NUM = 10;
-        int ADJ_MAX = NODE_NUM * (NODE_NUM - 1);
+        const int NODE_NUM = 10;
+        const int ADJ_MAX = NODE_NUM * (NODE_NUM - 1);
 
         int[] adj = new int[ADJ_MAX];
         int adj_num = 0;
         int[] adj_row = new int[NODE_NUM + 1];
-        int i;
-        int j;
         int k;
-        int n_calls;
         int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
         Console.WriteLine("  ADJ_SET sets up an adjacency matrix incrementally.");
 
-        n_calls = UniformRNG.i4_uniform(1, ADJ_MAX, ref seed);
+        int n_calls = UniformRNG.i4_uniform(1, ADJ_MAX, ref seed);
 
         AdjacencyMatrix.adj_set(NODE_NUM, ADJ_MAX, ref adj_num, ref adj_row, ref adj, -1, -1);
 
@@ -103,8 +100,8 @@ internal static class Program
 
         for (k = 1; k <= n_calls; k++)
         {
-            i = UniformRNG.i4_uniform(1, NODE_NUM, ref seed);
-            j = UniformRNG.i4_uniform(1, NODE_NUM, ref seed);
+            int i = UniformRNG.i4_uniform(1, NODE_NUM, ref seed);
+            int j = UniformRNG.i4_uniform(1, NODE_NUM, ref seed);
 
             Console.WriteLine("  " + i.ToString().PadLeft(8)
                                    + "  " + j.ToString().PadLeft(8) + "");
@@ -140,14 +137,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] adj;
         int adj_num = 0;
-        int[] adj_row;
-        int bandwidth;
         int i;
         int node_num = 0;
-        int[] perm;
-        int[] perm_inv;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02");
@@ -156,10 +148,10 @@ internal static class Program
 
         Burkardt.Graph.Adjacency.graph_01_size(ref node_num, ref adj_num);
 
-        adj_row = new int[node_num + 1];
-        adj = new int[adj_num];
-        perm = new int[node_num];
-        perm_inv = new int[node_num];
+        int[] adj_row = new int[node_num + 1];
+        int[] adj = new int[adj_num];
+        int[] perm = new int[node_num];
+        int[] perm_inv = new int[node_num];
 
         Burkardt.Graph.Adjacency.graph_01_adj(node_num, adj_num, ref adj_row, ref adj);
 
@@ -167,7 +159,7 @@ internal static class Program
 
         AdjacencyMatrix.adj_show(node_num, adj_num, adj_row, adj);
 
-        bandwidth = AdjacencyMatrix.adj_bandwidth(node_num, adj_num, adj_row, adj);
+        int bandwidth = AdjacencyMatrix.adj_bandwidth(node_num, adj_num, adj_row, adj);
 
         Console.WriteLine("");
         Console.WriteLine("  ADJ bandwidth = " + bandwidth + "");
@@ -221,23 +213,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] adj;
-        int adj_num;
-        int[] adj_row;
-        int bandwidth;
         int hole_num = 0;
-        int i;
-        int j;
-        int node;
         int node_num = 0;
-        double[] node_xy;
-        int[] perm;
-        int[] perm_inv;
-        int seed;
         int test;
         int triangle_num = 0;
-        int[] triangle_neighbor;
-        int[] triangle_node;
 
         Console.WriteLine("");
         Console.WriteLine("TEST03");
@@ -250,12 +229,13 @@ internal static class Program
 
         for (test = 1; test <= 2; test++)
         {
-            node_xy = new double[2 * node_num];
-            triangle_node = new int[3 * triangle_num];
-            triangle_neighbor = new int[3 * triangle_num];
+            double[] node_xy = new double[2 * node_num];
+            int[] triangle_node = new int[3 * triangle_num];
+            int[] triangle_neighbor = new int[3 * triangle_num];
 
             Order3_Example.triangulation_order3_example2(node_num, triangle_num, ref node_xy,
                 ref triangle_node, ref triangle_neighbor);
+            int[] perm;
             switch (test)
             {
                 //
@@ -263,17 +243,19 @@ internal static class Program
                 //
                 case 2:
                 {
-                    seed = 123456789;
+                    int seed = 123456789;
 
                     perm = typeMethods.perm_uniform(node_num, 0, ref seed);
 
                     typeMethods.i4vec_print(node_num, perm, "  The random permutation:");
 
+                    int i;
                     for (i = 0; i < 3; i++)
                     {
+                        int j;
                         for (j = 0; j < triangle_num; j++)
                         {
-                            node = triangle_node[i + j * 3];
+                            int node = triangle_node[i + j * 3];
                             triangle_node[i + j * 3] = perm[node - 1];
                         }
                     }
@@ -285,17 +267,17 @@ internal static class Program
             typeMethods.i4mat_transpose_print(3, triangle_num, triangle_node,
                 "  TRIANGLE_NODE:");
 
-            adj_row = new int[node_num + 1];
+            int[] adj_row = new int[node_num + 1];
 
-            adj_num = Adjacency.triangulation_order3_adj_count(node_num, triangle_num,
+            int adj_num = Adjacency.triangulation_order3_adj_count(node_num, triangle_num,
                 triangle_node, triangle_neighbor, adj_row);
 
-            adj = Adjacency.triangulation_order3_adj_set(node_num, triangle_num, triangle_node,
+            int[] adj = Adjacency.triangulation_order3_adj_set(node_num, triangle_num, triangle_node,
                 triangle_neighbor, adj_num, adj_row);
 
             AdjacencyMatrix.adj_print(node_num, adj_num, adj_row, adj, "  ADJ array:");
 
-            bandwidth = AdjacencyMatrix.adj_bandwidth(node_num, adj_num, adj_row, adj);
+            int bandwidth = AdjacencyMatrix.adj_bandwidth(node_num, adj_num, adj_row, adj);
 
             Console.WriteLine("");
             Console.WriteLine("  ADJ bandwidth = " + bandwidth + "");
@@ -306,7 +288,7 @@ internal static class Program
 
             typeMethods.i4vec_print(node_num, perm, "  The RCM permutation:");
 
-            perm_inv = new int[node_num];
+            int[] perm_inv = new int[node_num];
 
             typeMethods.perm_inverse3(node_num, perm, ref perm_inv);
 
@@ -339,23 +321,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] adj;
-        int adj_num;
-        int[] adj_row;
-        int bandwidth;
         int hole_num = 0;
         int i;
-        int j;
-        int node;
         int node_num = 0;
-        double[] node_xy;
-        int[] perm;
-        int[] perm_inv;
-        int seed;
         int triangle_num = 0;
-        int[] triangle_neighbor;
-        int[] triangle_node;
-        int triangle_order = 6;
+        const int triangle_order = 6;
 
         Console.WriteLine("");
         Console.WriteLine("TEST04");
@@ -363,26 +333,27 @@ internal static class Program
 
         Order6_Example.triangulation_order6_example2_size(ref node_num, ref triangle_num, ref hole_num);
 
-        node_xy = new double[2 * node_num];
-        triangle_node = new int[triangle_order * triangle_num];
-        triangle_neighbor = new int[3 * triangle_num];
+        double[] node_xy = new double[2 * node_num];
+        int[] triangle_node = new int[triangle_order * triangle_num];
+        int[] triangle_neighbor = new int[3 * triangle_num];
 
         Order6_Example.triangulation_order6_example2(node_num, triangle_num, ref node_xy,
             ref triangle_node, ref triangle_neighbor);
         //
         //  Randomly permute the nodes.
         //
-        seed = 123456789;
+        int seed = 123456789;
 
-        perm = typeMethods.perm_uniform(node_num, 0, ref seed);
+        int[] perm = typeMethods.perm_uniform(node_num, 0, ref seed);
 
         typeMethods.i4vec_print(node_num, perm, "  The random permutation:");
 
         for (i = 0; i < triangle_order; i++)
         {
+            int j;
             for (j = 0; j < triangle_num; j++)
             {
-                node = triangle_node[i + j * triangle_order];
+                int node = triangle_node[i + j * triangle_order];
                 triangle_node[i + j * triangle_order] = perm[node - 1];
             }
         }
@@ -390,17 +361,17 @@ internal static class Program
         typeMethods.i4mat_transpose_print(triangle_order, triangle_num, triangle_node,
             "  Permuted TRIANGLE_NODE");
 
-        adj_row = new int[node_num + 1];
+        int[] adj_row = new int[node_num + 1];
 
-        adj_num = Adjacency.triangulation_order6_adj_count(node_num, triangle_num,
+        int adj_num = Adjacency.triangulation_order6_adj_count(node_num, triangle_num,
             triangle_node, ref triangle_neighbor, ref adj_row);
 
-        adj = Adjacency.triangulation_order6_adj_set(node_num, triangle_num, triangle_node,
+        int[] adj = Adjacency.triangulation_order6_adj_set(node_num, triangle_num, triangle_node,
             triangle_neighbor, adj_num, adj_row);
 
         AdjacencyMatrix.adj_print(node_num, adj_num, adj_row, adj, "  ADJ array:");
 
-        bandwidth = AdjacencyMatrix.adj_bandwidth(node_num, adj_num, adj_row, adj);
+        int bandwidth = AdjacencyMatrix.adj_bandwidth(node_num, adj_num, adj_row, adj);
 
         Console.WriteLine("");
         Console.WriteLine("  ADJ bandwidth = " + bandwidth + "");
@@ -411,7 +382,7 @@ internal static class Program
 
         typeMethods.i4vec_print(node_num, perm, "  The RCM permutation:");
 
-        perm_inv = new int[node_num];
+        int[] perm_inv = new int[node_num];
 
         typeMethods.perm_inverse3(node_num, perm, ref perm_inv);
 
@@ -443,9 +414,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] adj;
         int adj_num = 0;
-        int[] adj_row;
         int node_num = 0;
 
         Console.WriteLine("");
@@ -456,8 +425,8 @@ internal static class Program
 
         Burkardt.Graph.Adjacency.graph_01_size(ref node_num, ref adj_num);
 
-        adj_row = new int[node_num + 1];
-        adj = new int[adj_num];
+        int[] adj_row = new int[node_num + 1];
+        int[] adj = new int[adj_num];
 
         Burkardt.Graph.Adjacency.graph_01_adj(node_num, adj_num, ref adj_row, ref adj);
 
@@ -488,17 +457,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] adj;
         int adj_num = 0;
-        int[] adj_row;
         int i;
-        int j;
-        int[] level;
         int level_num = 0;
-        int[] level_row;
-        int[] mask;
         int node_num = 0;
-        int root;
         int seed = 123456789;
 
         Console.WriteLine("");
@@ -508,8 +470,8 @@ internal static class Program
 
         Burkardt.Graph.Adjacency.graph_01_size(ref node_num, ref adj_num);
 
-        adj_row = new int[node_num + 1];
-        adj = new int[adj_num];
+        int[] adj_row = new int[node_num + 1];
+        int[] adj = new int[adj_num];
 
         Burkardt.Graph.Adjacency.graph_01_adj(node_num, adj_num, ref adj_row, ref adj);
 
@@ -519,14 +481,15 @@ internal static class Program
         //
         //  Choose different roots.
         //
-        level = new int[node_num];
-        level_row = new int[node_num + 1];
-        mask = new int[node_num];
+        int[] level = new int[node_num];
+        int[] level_row = new int[node_num + 1];
+        int[] mask = new int[node_num];
 
         for (i = 1; i <= 3; i++)
         {
-            root = UniformRNG.i4_uniform(1, node_num, ref seed);
+            int root = UniformRNG.i4_uniform(1, node_num, ref seed);
 
+            int j;
             for (j = 0; j < node_num; j++)
             {
                 mask[j] = 1;
@@ -560,17 +523,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] adj;
         int adj_num = 0;
-        int[] adj_row;
         int i;
-        int j;
-        int[] level;
         int level_num = 0;
-        int[] level_row;
-        int[] mask;
         int node_num = 0;
-        int root;
 
         Console.WriteLine("");
         Console.WriteLine("TEST07");
@@ -580,8 +536,8 @@ internal static class Program
 
         Burkardt.Graph.Adjacency.graph_01_size(ref node_num, ref adj_num);
 
-        adj_row = new int[node_num + 1];
-        adj = new int[adj_num];
+        int[] adj_row = new int[node_num + 1];
+        int[] adj = new int[adj_num];
 
         Burkardt.Graph.Adjacency.graph_01_adj(node_num, adj_num, ref adj_row, ref adj);
 
@@ -589,17 +545,18 @@ internal static class Program
 
         AdjacencyMatrix.adj_show(node_num, adj_num, adj_row, adj);
 
-        level = new int[node_num];
-        level_row = new int[node_num + 1];
-        mask = new int[node_num];
+        int[] level = new int[node_num];
+        int[] level_row = new int[node_num + 1];
+        int[] mask = new int[node_num];
 
         for (i = 1; i <= node_num; i++)
         {
-            root = i;
+            int root = i;
 
             Console.WriteLine("");
             Console.WriteLine("  Starting root =    " + root + "");
 
+            int j;
             for (j = 0; j < node_num; j++)
             {
                 mask[j] = 1;
@@ -634,13 +591,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] adj_row;
         int hole_num = 0;
         int node_num = 0;
-        double[] node_xy;
         int triangle_num = 0;
-        int[] triangle_neighbor;
-        int[] triangle_node;
 
         Console.WriteLine("");
         Console.WriteLine("TEST08");
@@ -649,9 +602,9 @@ internal static class Program
 
         Order3_Example.triangulation_order3_example2_size(ref node_num, ref triangle_num, ref hole_num);
 
-        node_xy = new double[2 * node_num];
-        triangle_node = new int[3 * triangle_num];
-        triangle_neighbor = new int[3 * triangle_num];
+        double[] node_xy = new double[2 * node_num];
+        int[] triangle_node = new int[3 * triangle_num];
+        int[] triangle_neighbor = new int[3 * triangle_num];
 
         Order3_Example.triangulation_order3_example2(node_num, triangle_num, ref node_xy,
             ref triangle_node, ref triangle_neighbor);
@@ -659,7 +612,7 @@ internal static class Program
         typeMethods.i4mat_transpose_print(3, triangle_num, triangle_node,
             "  TRIANGLE_NODE");
 
-        adj_row = new int[node_num + 1];
+        int[] adj_row = new int[node_num + 1];
 
         Adjacency.triangulation_order3_adj_count(node_num, triangle_num,
             triangle_node, triangle_neighbor, adj_row);
@@ -688,16 +641,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] adj;
-        int adj_num;
-        int[] adj_row;
-        int bandwidth;
         int hole_num = 0;
         int node_num = 0;
-        double[] node_xy;
         int triangle_num = 0;
-        int[] triangle_neighbor;
-        int[] triangle_node;
 
         Console.WriteLine("");
         Console.WriteLine("TEST09");
@@ -706,9 +652,9 @@ internal static class Program
 
         Order3_Example.triangulation_order3_example2_size(ref node_num, ref triangle_num, ref hole_num);
 
-        node_xy = new double[2 * node_num];
-        triangle_node = new int[3 * triangle_num];
-        triangle_neighbor = new int[3 * triangle_num];
+        double[] node_xy = new double[2 * node_num];
+        int[] triangle_node = new int[3 * triangle_num];
+        int[] triangle_neighbor = new int[3 * triangle_num];
 
         Order3_Example.triangulation_order3_example2(node_num, triangle_num, ref node_xy,
             ref triangle_node, ref triangle_neighbor);
@@ -716,17 +662,17 @@ internal static class Program
         typeMethods.i4mat_transpose_print(3, triangle_num, triangle_node,
             "  TRIANGLE_NODE");
 
-        adj_row = new int[node_num + 1];
+        int[] adj_row = new int[node_num + 1];
 
-        adj_num = Adjacency.triangulation_order3_adj_count(node_num, triangle_num,
+        int adj_num = Adjacency.triangulation_order3_adj_count(node_num, triangle_num,
             triangle_node, triangle_neighbor, adj_row);
 
-        adj = Adjacency.triangulation_order3_adj_set(node_num, triangle_num, triangle_node,
+        int[] adj = Adjacency.triangulation_order3_adj_set(node_num, triangle_num, triangle_node,
             triangle_neighbor, adj_num, adj_row);
 
         AdjacencyMatrix.adj_print(node_num, adj_num, adj_row, adj, "  ADJ array:");
 
-        bandwidth = AdjacencyMatrix.adj_bandwidth(node_num, adj_num, adj_row, adj);
+        int bandwidth = AdjacencyMatrix.adj_bandwidth(node_num, adj_num, adj_row, adj);
 
         Console.WriteLine("");
         Console.WriteLine("  ADJ bandwidth = " + bandwidth + "");
@@ -775,7 +721,6 @@ internal static class Program
             11, 6, 12,
             10, 6, 11
         };
-        int[] triangle_neighbor;
 
         Console.WriteLine("");
         Console.WriteLine("TEST10");
@@ -786,7 +731,7 @@ internal static class Program
         typeMethods.i4mat_transpose_print(TRIANGLE_ORDER, TRIANGLE_NUM, triangle_node,
             "  Triangles:");
 
-        triangle_neighbor = NeighborElements.triangulation_neighbor_triangles(TRIANGLE_ORDER,
+        int[] triangle_neighbor = NeighborElements.triangulation_neighbor_triangles(TRIANGLE_ORDER,
             TRIANGLE_NUM, triangle_node);
 
         typeMethods.i4mat_transpose_print(3, TRIANGLE_NUM, triangle_neighbor,
@@ -814,13 +759,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] adj_row;
         int hole_num = 0;
         int node_num = 0;
-        double[] node_xy;
         int triangle_num = 0;
-        int[] triangle_neighbor;
-        int[] triangle_node;
 
         Console.WriteLine("");
         Console.WriteLine("TEST11");
@@ -829,14 +770,14 @@ internal static class Program
 
         Order6_Example.triangulation_order6_example2_size(ref node_num, ref triangle_num, ref hole_num);
 
-        node_xy = new double[2 * node_num];
-        triangle_node = new int[6 * triangle_num];
-        triangle_neighbor = new int[3 * triangle_num];
+        double[] node_xy = new double[2 * node_num];
+        int[] triangle_node = new int[6 * triangle_num];
+        int[] triangle_neighbor = new int[3 * triangle_num];
 
         Order6_Example.triangulation_order6_example2(node_num, triangle_num, ref node_xy,
             ref triangle_node, ref triangle_neighbor);
 
-        adj_row = new int[node_num + 1];
+        int[] adj_row = new int[node_num + 1];
 
         Adjacency.triangulation_order6_adj_count(node_num, triangle_num,
             triangle_node, ref triangle_neighbor, ref adj_row);
@@ -865,16 +806,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] adj;
-        int adj_num;
-        int[] adj_row;
-        int bandwidth;
         int hole_num = 0;
         int node_num = 0;
-        double[] node_xy;
         int triangle_num = 0;
-        int[] triangle_neighbor;
-        int[] triangle_node;
 
         Console.WriteLine("");
         Console.WriteLine("TEST12");
@@ -883,9 +817,9 @@ internal static class Program
 
         Order6_Example.triangulation_order6_example2_size(ref node_num, ref triangle_num, ref hole_num);
 
-        node_xy = new double[2 * node_num];
-        triangle_node = new int[6 * triangle_num];
-        triangle_neighbor = new int[3 * triangle_num];
+        double[] node_xy = new double[2 * node_num];
+        int[] triangle_node = new int[6 * triangle_num];
+        int[] triangle_neighbor = new int[3 * triangle_num];
 
         Order6_Example.triangulation_order6_example2(node_num, triangle_num, ref node_xy,
             ref triangle_node, ref triangle_neighbor);
@@ -893,19 +827,19 @@ internal static class Program
         typeMethods.i4mat_transpose_print(6, triangle_num, triangle_node,
             "  TRIANGLE_NODE");
 
-        adj_row = new int[node_num + 1];
+        int[] adj_row = new int[node_num + 1];
 
-        adj_num = Adjacency.triangulation_order6_adj_count(node_num, triangle_num, triangle_node,
+        int adj_num = Adjacency.triangulation_order6_adj_count(node_num, triangle_num, triangle_node,
             ref triangle_neighbor, ref adj_row);
 
-        adj = new int [adj_num];
+        int[] adj = new int [adj_num];
 
         adj = Adjacency.triangulation_order6_adj_set(node_num, triangle_num, triangle_node,
             triangle_neighbor, adj_num, adj_row);
 
         AdjacencyMatrix.adj_print(node_num, adj_num, adj_row, adj, "  ADJ array:");
 
-        bandwidth = AdjacencyMatrix.adj_bandwidth(node_num, adj_num, adj_row, adj);
+        int bandwidth = AdjacencyMatrix.adj_bandwidth(node_num, adj_num, adj_row, adj);
 
         Console.WriteLine("");
         Console.WriteLine("  ADJ bandwidth = " + bandwidth + "");

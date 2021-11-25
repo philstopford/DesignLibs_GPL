@@ -51,13 +51,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int n;
-
         Console.WriteLine("");
         Console.WriteLine("HISTOGRAM_DATA_2D_SAMPLE:");
         Console.WriteLine("  Generate sample data using a discrete PDF.");
 
-        n = 1000;
+        int n = 1000;
         test01(n);
         test02(n);
         //
@@ -94,14 +92,8 @@ internal static class Program
         //    Input, int N, the number of sample points to be generated.
         //
     {
-        double[] cdf;
-        string filename;
         int n1 = 0;
         int n2 = 0;
-        double[] pdf;
-        int seed;
-        double[] u;
-        double[] xy;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
@@ -115,26 +107,26 @@ internal static class Program
         //
         //  Construct a PDF from the data.
         //
-        pdf = Discrete2D.get_discrete_pdf_data1(n1, n2);
+        double[] pdf = Discrete2D.get_discrete_pdf_data1(n1, n2);
         //
         //  "Integrate" the data over rows and columns of the region to get the CDF.
         //
-        cdf = Discrete2D.set_discrete_cdf(n1, n2, pdf);
+        double[] cdf = Discrete2D.set_discrete_cdf(n1, n2, pdf);
         //
         //  Choose N CDF values at random.
         //
-        seed = 123456789;
+        int seed = 123456789;
 
-        u = UniformRNG.r8vec_uniform_01_new(n, ref seed);
+        double[] u = UniformRNG.r8vec_uniform_01_new(n, ref seed);
         //
         //  Find the cell corresponding to each CDF value,
         //  and choose a random point in that cell.
         //
-        xy = Discrete2D.discrete_cdf_to_xy(n1, n2, cdf, n, u, ref seed);
+        double[] xy = Discrete2D.discrete_cdf_to_xy(n1, n2, cdf, n, u, ref seed);
         //
         //  Write data to a file for examination, plotting, or analysis.
         //
-        filename = "test01.txt";
+        string filename = "test01.txt";
         typeMethods.r8mat_write(filename, 2, n, xy);
 
         Console.WriteLine("");
@@ -166,14 +158,8 @@ internal static class Program
         //    Input, int N, the number of sample points to be generated.
         //
     {
-        double[] cdf;
-        string filename;
         int n1 = 0;
         int n2 = 0;
-        double[] pdf;
-        int seed;
-        double[] u;
-        double[] xy;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02");
@@ -187,26 +173,26 @@ internal static class Program
         //
         //  Construct a PDF from the data.
         //
-        pdf = Discrete2D.get_discrete_pdf_data2(n1, n2);
+        double[] pdf = Discrete2D.get_discrete_pdf_data2(n1, n2);
         //
         //  "Integrate" the data over rows and columns of the region to get the CDF.
         //
-        cdf = Discrete2D.set_discrete_cdf(n1, n2, pdf);
+        double[] cdf = Discrete2D.set_discrete_cdf(n1, n2, pdf);
         //
         //  Choose N CDF values at random.
         //
-        seed = 123456789;
+        int seed = 123456789;
 
-        u = UniformRNG.r8vec_uniform_01_new(n, ref seed);
+        double[] u = UniformRNG.r8vec_uniform_01_new(n, ref seed);
         //
         //  Find the cell corresponding to each CDF value,
         //  and choose a random point in that cell.
         //
-        xy = Discrete2D.discrete_cdf_to_xy(n1, n2, cdf, n, u, ref seed);
+        double[] xy = Discrete2D.discrete_cdf_to_xy(n1, n2, cdf, n, u, ref seed);
         //
         //  Write data to a file for examination, plotting, or analysis.
         //
-        filename = "test02.txt";
+        string filename = "test02.txt";
         typeMethods.r8mat_write(filename, 2, n, xy);
 
         Console.WriteLine("");

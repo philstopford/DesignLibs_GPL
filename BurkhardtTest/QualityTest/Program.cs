@@ -71,15 +71,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string input_filename;
-        int n;
-        int dim_num;
-        int ns;
-        int seed_init;
-        int[] triangle_neighbor = null;
         int[] triangle_node = null;
         int triangle_num = 0;
-        double[] z = null;
 
         Console.WriteLine("");
         Console.WriteLine("TEST_HALTON");
@@ -87,13 +80,13 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  We use a built-in sample routine.");
 
-        ns = 100000;
-        seed_init = 123456789;
-        input_filename = "cvt_02_00100.txt";
+        int ns = 100000;
+        int seed_init = 123456789;
+        string input_filename = "cvt_02_00100.txt";
 
         TableHeader h = typeMethods.dtable_header_read(input_filename);
-        dim_num = h.m;
-        n = h.n;
+        int dim_num = h.m;
+        int n = h.n;
 
         Console.WriteLine("");
         Console.WriteLine("  Measures of uniform point dispersion.");
@@ -107,7 +100,7 @@ internal static class Program
         Console.WriteLine("  The random number SEED_INIT =    " + seed_init + "");
         Console.WriteLine("");
 
-        z = typeMethods.dtable_data_read(input_filename, dim_num, n);
+        double[] z = typeMethods.dtable_data_read(input_filename, dim_num, n);
 
         typeMethods.r8mat_transpose_print_some(dim_num, n, z, 1, 1, 5, 5,
             "  5x5 portion of data read from file:");
@@ -118,7 +111,7 @@ internal static class Program
             //
             case 2:
                 triangle_node = new int[3 * 2 * n];
-                triangle_neighbor = new int[3 * 2 * n];
+                int[] triangle_neighbor = new int[3 * 2 * n];
 
                 Delauney.dtris2(n, 0, ref z, ref triangle_num, ref triangle_node, ref triangle_neighbor);
                 Console.WriteLine("");
@@ -182,15 +175,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string input_filename;
-        int n;
-        int dim_num;
-        int ns;
-        int seed_init;
-        int[] triangle_neighbor = null;
         int[] triangle_node = null;
         int triangle_num = 0;
-        double[] z = null;
 
         Console.WriteLine("");
         Console.WriteLine("TEST_HALTON");
@@ -198,13 +184,13 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  We use a built-in sample routine.");
 
-        ns = 100000;
-        seed_init = 123456789;
-        input_filename = "halton_02_00100.txt";
+        int ns = 100000;
+        int seed_init = 123456789;
+        string input_filename = "halton_02_00100.txt";
 
         TableHeader h = typeMethods.dtable_header_read(input_filename);
-        dim_num = h.m;
-        n = h.n;
+        int dim_num = h.m;
+        int n = h.n;
 
         Console.WriteLine("");
         Console.WriteLine("  Measures of uniform point dispersion.");
@@ -218,7 +204,7 @@ internal static class Program
         Console.WriteLine("  The random number SEED_INIT =    " + seed_init + "");
         Console.WriteLine("");
 
-        z = typeMethods.dtable_data_read(input_filename, dim_num, n);
+        double[] z = typeMethods.dtable_data_read(input_filename, dim_num, n);
 
         typeMethods.r8mat_transpose_print_some(dim_num, n, z, 1, 1, 5, 5,
             "  5x5 portion of data read from file:");
@@ -229,7 +215,7 @@ internal static class Program
             //
             case 2:
                 triangle_node = new int[3 * 2 * n];
-                triangle_neighbor = new int[3 * 2 * n];
+                int[] triangle_neighbor = new int[3 * 2 * n];
 
                 Delauney.dtris2(n, 0, ref z, ref triangle_num, ref triangle_node, ref triangle_neighbor);
                 Console.WriteLine("");
@@ -293,15 +279,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string input_filename;
-        int n;
-        int dim_num;
-        int ns;
-        int seed_init;
-        int[] triangle_neighbor = null;
         int[] triangle_node = null;
         int triangle_num = 0;
-        double[] z = null;
 
         Console.WriteLine("");
         Console.WriteLine("TEST_SPHERE");
@@ -309,13 +288,13 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  We use a built-in sample routine.");
 
-        ns = 100000;
-        seed_init = 123456789;
-        input_filename = "sphere_02_00100.txt";
+        int ns = 100000;
+        int seed_init = 123456789;
+        string input_filename = "sphere_02_00100.txt";
 
         TableHeader h = typeMethods.dtable_header_read(input_filename);
-        dim_num = h.m;
-        n = h.n;
+        int dim_num = h.m;
+        int n = h.n;
 
         Console.WriteLine("");
         Console.WriteLine("  Measures of uniform point dispersion.");
@@ -329,7 +308,7 @@ internal static class Program
         Console.WriteLine("  The random number SEED_INIT =    " + seed_init + "");
         Console.WriteLine("");
 
-        z = typeMethods.dtable_data_read(input_filename, dim_num, n);
+        double[] z = typeMethods.dtable_data_read(input_filename, dim_num, n);
 
         typeMethods.r8mat_transpose_print_some(dim_num, n, z, 1, 1, 5, 5,
             "  5x5 portion of data read from file:");
@@ -340,7 +319,7 @@ internal static class Program
             //
             case 2:
                 triangle_node = new int[3 * 2 * n];
-                triangle_neighbor = new int[3 * 2 * n];
+                int[] triangle_neighbor = new int[3 * 2 * n];
 
                 Delauney.dtris2(n, 0, ref z, ref triangle_num, ref triangle_node, ref triangle_neighbor);
                 Console.WriteLine("");
@@ -837,10 +816,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] gamma;
-        double gamma_ave;
-        double gamma_max;
-        double gamma_min;
         double gamma_std;
         int i;
 
@@ -848,12 +823,12 @@ internal static class Program
         Console.WriteLine("TEST11");
         Console.WriteLine("  POINTSET_SPACING computes pointset spacing parameters.");
 
-        gamma = Spacing.pointset_spacing(dim_num, n, z);
+        double[] gamma = Spacing.pointset_spacing(dim_num, n, z);
 
-        gamma_min = typeMethods.r8vec_min(n, gamma);
-        gamma_max = typeMethods.r8vec_max(n, gamma);
+        double gamma_min = typeMethods.r8vec_min(n, gamma);
+        double gamma_max = typeMethods.r8vec_max(n, gamma);
 
-        gamma_ave = 0.0;
+        double gamma_ave = 0.0;
         for (i = 0; i < n; i++)
         {
             gamma_ave += gamma[i];
@@ -964,15 +939,8 @@ internal static class Program
         //
     {
         int i;
-        int j;
-        double[] radius;
-        double radius_ave;
-        double radius_max;
-        double radius_min;
-        double sphere;
-        bool verbose = false;
-        double volume;
-        bool walls = true;
+        const bool verbose = false;
+        const bool walls = true;
 
         if (!typeMethods.r8mat_in_01(dim_num, n, z))
         {
@@ -982,12 +950,12 @@ internal static class Program
             return typeMethods.r8_huge();
         }
 
-        radius = Quality.radius_maximus(dim_num, n, z, walls);
+        double[] radius = Quality.radius_maximus(dim_num, n, z, walls);
 
-        sphere = 0.0;
+        double sphere = 0.0;
         for (i = 0; i < n; i++)
         {
-            volume = Sphere.sphere_volume_nd(dim_num, radius[i]);
+            double volume = Sphere.sphere_volume_nd(dim_num, radius[i]);
             sphere += volume;
         }
 
@@ -995,9 +963,10 @@ internal static class Program
         {
             case true:
             {
-                radius_ave = 0.0;
-                radius_min = typeMethods.r8_huge();
-                radius_max = 0.0;
+                double radius_ave = 0.0;
+                double radius_min = typeMethods.r8_huge();
+                double radius_max = 0.0;
+                int j;
                 for (j = 0; j < n; j++)
                 {
                     radius_ave += radius[j];

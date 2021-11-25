@@ -30,20 +30,19 @@ public static class CircleTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
         double[] pc = new double[DIM_NUM];
         double[] p1 = new double[DIM_NUM];
         double[] p2 = new double[DIM_NUM];
         double r = 0;
-        double theta;
 
         Console.WriteLine("");
         Console.WriteLine("CIRCLE_DIA2IMP_2D_TEST");
         Console.WriteLine("  CIRCLE_DIA2IMP_2D converts a diameter to an");
         Console.WriteLine("  implicit circle in 2D.");
 
-        theta = 2.0;
+        const double theta = 2.0;
 
         p1[0] = 2.0 + 5.0 * Math.Cos(theta);
         p1[1] = 2.0 + 5.0 * Math.Sin(theta);
@@ -80,7 +79,6 @@ public static class CircleTest
         //    John Burkardt
         //
     {
-        int inside;
         double[] p1 = new double[2];
         double[] p2 = new double[2];
         double[] p3 = new double[2];
@@ -117,7 +115,7 @@ public static class CircleTest
         p4[0] = 2.0;
         p4[1] = 3.0;
 
-        inside = Geometry.circle_exp_contains_point_2d(p1, p2, p3, p4);
+        int inside = Geometry.circle_exp_contains_point_2d(p1, p2, p3, p4);
 
         Console.WriteLine("");
         Console.WriteLine("  P1 = " + p1[0] + "  " + p1[1] + "");
@@ -195,15 +193,11 @@ public static class CircleTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int TEST_NUM = 3;
+        const int DIM_NUM = 2;
+        const int TEST_NUM = 3;
 
-        double[] p1;
-        double[] p2;
-        double[] p3;
         double[] pc = new double[DIM_NUM];
         double r = 0;
-        double[] t;
         int test;
         double[] test_t =
         {
@@ -225,13 +219,13 @@ public static class CircleTest
 
         for (test = 0; test < TEST_NUM; test++)
         {
-            t = test_t.Skip(+test * DIM_NUM * 3).ToArray();
+            double[] t = test_t.Skip(+test * DIM_NUM * 3).ToArray();
 
             typeMethods.r8mat_transpose_print(DIM_NUM, 3, t, "  The points::");
 
-            p1 = t;
-            p2 = p1.Skip(DIM_NUM).ToArray();
-            p3 = p2.Skip(DIM_NUM).ToArray();
+            double[] p1 = t;
+            double[] p2 = p1.Skip(DIM_NUM).ToArray();
+            double[] p3 = p2.Skip(DIM_NUM).ToArray();
 
             Geometry.circle_exp2imp_2d(p1, p2, p3, ref r, ref pc);
 
@@ -260,34 +254,30 @@ public static class CircleTest
         //    John Burkardt
         //
     {
-        double d;
         double[] center = {0.0, 0.0};
         int i;
-        double[] p;
-        double r;
-        int seed;
 
         Console.WriteLine("");
         Console.WriteLine("CIRCLE_IMP_POINT_DIST_2D_TEST");
         Console.WriteLine("  CIRCLE_IMP_POINT_DIST_2D finds the");
         Console.WriteLine("  distance from a point to a circle.");
 
-        r = 5.0;
+        double r = 5.0;
         Geometry.circle_imp_print_2d(r, center, "  The circle:");
 
         Console.WriteLine("");
         Console.WriteLine("       X       Y       D");
         Console.WriteLine("");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         for (i = 1; i <= 10; i++)
         {
-            p = UniformRNG.r8vec_uniform_ab_new(2, -10.0, +10.0, ref seed);
-            d = Geometry.circle_imp_point_dist_2d(r, center, p);
-            Console.WriteLine("  " + p[0].ToString().PadLeft(8)
-                                   + "  " + p[1].ToString().PadLeft(8)
-                                   + "  " + d.ToString().PadLeft(8) + "");
+            double[] p = UniformRNG.r8vec_uniform_ab_new(2, -10.0, +10.0, ref seed);
+            double d = Geometry.circle_imp_point_dist_2d(r, center, p);
+            Console.WriteLine("  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + d.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
 
     }
@@ -313,17 +303,15 @@ public static class CircleTest
         //    John Burkardt
         //
     {
-        int N = 13;
-        int DIM_NUM = 2;
+        const int N = 13;
+        const int DIM_NUM = 2;
 
-        double r = 2.0;
-        double theta1;
-        double theta2;
+        const double r = 2.0;
         double[] p = new double[DIM_NUM * N];
         double[] pc = {5.0, -2.0};
 
-        theta1 = Math.PI / 2.0;
-        theta2 = 3.0 * Math.PI / 2.0;
+        const double theta1 = Math.PI / 2.0;
+        const double theta2 = 3.0 * Math.PI / 2.0;
 
         Console.WriteLine("");
         Console.WriteLine("CIRCLE_IMP_POINTS_ARC_2D_TEST");
@@ -362,25 +350,12 @@ public static class CircleTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
-        double d1;
-        double d2;
-        double d3;
-        double d4;
-        double p_hi = 10.0;
-        double p_lo = -10.0;
-        double[] pc;
-        double[] p1;
-        double[] p2;
-        double[] q1;
-        double[] q2;
-        double r;
-        double r_hi;
-        double r_lo;
-        int seed;
+        const double p_hi = 10.0;
+        const double p_lo = -10.0;
         int test;
-        int test_num = 5;
+        const int test_num = 5;
 
         Console.WriteLine("");
         Console.WriteLine("CIRCLE_LLR2IMP_2D_TEST");
@@ -391,71 +366,71 @@ public static class CircleTest
         Console.WriteLine("  and determines the centers C of 4 circles");
         Console.WriteLine("  of the given radius, tangent to both lines.");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         for (test = 1; test <= test_num; test++)
         {
-            p1 = UniformRNG.r8vec_uniform_ab_new(DIM_NUM, p_lo, p_hi, ref seed);
-            p2 = UniformRNG.r8vec_uniform_ab_new(DIM_NUM, p_lo, p_hi, ref seed);
-            q1 = UniformRNG.r8vec_uniform_ab_new(DIM_NUM, p_lo, p_hi, ref seed);
-            q2 = UniformRNG.r8vec_uniform_ab_new(DIM_NUM, p_lo, p_hi, ref seed);
+            double[] p1 = UniformRNG.r8vec_uniform_ab_new(DIM_NUM, p_lo, p_hi, ref seed);
+            double[] p2 = UniformRNG.r8vec_uniform_ab_new(DIM_NUM, p_lo, p_hi, ref seed);
+            double[] q1 = UniformRNG.r8vec_uniform_ab_new(DIM_NUM, p_lo, p_hi, ref seed);
+            double[] q2 = UniformRNG.r8vec_uniform_ab_new(DIM_NUM, p_lo, p_hi, ref seed);
 
-            r_lo = 1.0;
-            r_hi = 5.0;
-            r = UniformRNG.r8_uniform_ab(r_lo, r_hi, ref seed);
+            double r_lo = 1.0;
+            double r_hi = 5.0;
+            double r = UniformRNG.r8_uniform_ab(r_lo, r_hi, ref seed);
 
             Console.WriteLine("");
             Console.WriteLine("  Radius R = " + r + "");
 
             Console.WriteLine("  Point #P1: ( "
-                              + p1[0].ToString().PadLeft(12) + ","
-                              + p1[1].ToString().PadLeft(12) + ")");
+                              + p1[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + ","
+                              + p1[1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + ")");
             Console.WriteLine("  Point #P2: ( "
-                              + p2[0].ToString().PadLeft(12) + ","
-                              + p2[1].ToString().PadLeft(12) + ")");
+                              + p2[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + ","
+                              + p2[1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + ")");
             Console.WriteLine("  Point #Q1: ( "
-                              + q1[0].ToString().PadLeft(12) + ","
-                              + q1[1].ToString().PadLeft(12) + ")");
+                              + q1[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + ","
+                              + q1[1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + ")");
             Console.WriteLine("  Point #Q2: ( "
-                              + q2[0].ToString().PadLeft(12) + ","
-                              + q2[1].ToString().PadLeft(12) + ")");
+                              + q2[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + ","
+                              + q2[1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + ")");
 
-            pc = Geometry.circle_llr2imp_2d(p1, p2, q1, q2, r);
+            double[] pc = Geometry.circle_llr2imp_2d(p1, p2, q1, q2, r);
 
             Console.WriteLine("  Center #1: ( "
-                              + pc[0 + 0 * DIM_NUM].ToString().PadLeft(12) + ","
-                              + pc[1 + 0 * DIM_NUM].ToString().PadLeft(12) + ")");
+                              + pc[0 + 0 * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(12) + ","
+                              + pc[1 + 0 * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(12) + ")");
             Console.WriteLine("  Center #2: ( "
-                              + pc[0 + 1 * DIM_NUM].ToString().PadLeft(12) + ","
-                              + pc[1 + 1 * DIM_NUM].ToString().PadLeft(12) + ")");
+                              + pc[0 + 1 * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(12) + ","
+                              + pc[1 + 1 * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(12) + ")");
             Console.WriteLine("  Center #3: ( "
-                              + pc[0 + 2 * DIM_NUM].ToString().PadLeft(12) + ","
-                              + pc[1 + 2 * DIM_NUM].ToString().PadLeft(12) + ")");
+                              + pc[0 + 2 * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(12) + ","
+                              + pc[1 + 2 * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(12) + ")");
             Console.WriteLine("  Center #4: ( "
-                              + pc[0 + 3 * DIM_NUM].ToString().PadLeft(12) + ","
-                              + pc[1 + 3 * DIM_NUM].ToString().PadLeft(12) + ")");
+                              + pc[0 + 3 * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(12) + ","
+                              + pc[1 + 3 * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(12) + ")");
             //
             //  Check that the lines are the right distance from the center.
             //
-            d1 = Burkardt.LineNS.Geometry.line_exp_point_dist_2d(p1, p2, pc);
-            d2 = Burkardt.LineNS.Geometry.line_exp_point_dist_2d(p1, p2, pc, +1 * 2);
-            d3 = Burkardt.LineNS.Geometry.line_exp_point_dist_2d(p1, p2, pc, +2 * 2);
-            d4 = Burkardt.LineNS.Geometry.line_exp_point_dist_2d(p1, p2, pc, +3 * 2);
+            double d1 = Burkardt.LineNS.Geometry.line_exp_point_dist_2d(p1, p2, pc);
+            double d2 = Burkardt.LineNS.Geometry.line_exp_point_dist_2d(p1, p2, pc, +1 * 2);
+            double d3 = Burkardt.LineNS.Geometry.line_exp_point_dist_2d(p1, p2, pc, +2 * 2);
+            double d4 = Burkardt.LineNS.Geometry.line_exp_point_dist_2d(p1, p2, pc, +3 * 2);
 
-            Console.WriteLine("  " + d1.ToString().PadLeft(12)
-                                   + "  " + d2.ToString().PadLeft(12)
-                                   + "  " + d3.ToString().PadLeft(12)
-                                   + "  " + d4.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + d1.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + d2.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + d3.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + d4.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
 
             d1 = Burkardt.LineNS.Geometry.line_exp_point_dist_2d(q1, q2, pc);
             d2 = Burkardt.LineNS.Geometry.line_exp_point_dist_2d(q1, q2, pc, +1 * 2);
             d3 = Burkardt.LineNS.Geometry.line_exp_point_dist_2d(q1, q2, pc, +2 * 2);
             d4 = Burkardt.LineNS.Geometry.line_exp_point_dist_2d(q1, q2, pc, +3 * 2);
 
-            Console.WriteLine("  " + d1.ToString().PadLeft(12)
-                                   + "  " + d2.ToString().PadLeft(12)
-                                   + "  " + d3.ToString().PadLeft(12)
-                                   + "  " + d4.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + d1.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + d2.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + d3.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + d4.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
 
         }
 
@@ -482,15 +457,11 @@ public static class CircleTest
         //    John Burkardt
         //
     {
-        double angle;
-        double h;
         int i;
-        int n_test;
-        double r;
 
-        n_test = 6;
+        const int n_test = 6;
 
-        r = 2.0;
+        const double r = 2.0;
 
         Console.WriteLine("");
         Console.WriteLine("CIRCLE_LUNE_ANGLE_BY_HEIGHT_2D_TEST");
@@ -502,13 +473,13 @@ public static class CircleTest
 
         for (i = -n_test; i <= n_test; i++)
         {
-            h = i * r / n_test;
+            double h = i * r / n_test;
 
-            angle = Geometry.circle_lune_angle_by_height_2d(r, h);
+            double angle = Geometry.circle_lune_angle_by_height_2d(r, h);
 
-            Console.WriteLine("  " + r.ToString().PadLeft(10)
-                                   + "  " + h.ToString().PadLeft(10)
-                                   + "  " + angle.ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + h.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + angle.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -533,14 +504,10 @@ public static class CircleTest
         //    John Burkardt
         //
     {
-        double area;
         double[] pc = {0.0, 0.0};
-        double r = 1.0;
-        double r8_pi = 3.141592653589793;
+        const double r = 1.0;
         int test;
-        int test_num = 12;
-        double theta1;
-        double theta2;
+        const int test_num = 12;
 
         Console.WriteLine("");
         Console.WriteLine("CIRCLE_LUNE_AREA_BY_ANGLE_2D_TEST");
@@ -553,15 +520,15 @@ public static class CircleTest
 
         for (test = 0; test <= test_num; test++)
         {
-            theta1 = 0.0;
-            theta2 = test * 2.0 * r8_pi / test_num;
+            const double theta1 = 0.0;
+            double theta2 = test * 2.0 * Math.PI / test_num;
 
-            area = Geometry.circle_lune_area_by_angle_2d(r, pc, theta1, theta2);
+            double area = Geometry.circle_lune_area_by_angle_2d(r, pc, theta1, theta2);
 
-            Console.WriteLine("  " + r.ToString().PadLeft(6)
-                                   + "  " + theta1.ToString().PadLeft(12)
-                                   + "  " + theta2.ToString().PadLeft(12)
-                                   + "  " + area.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + theta1.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + theta2.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + area.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -586,11 +553,9 @@ public static class CircleTest
         //    John Burkardt
         //
     {
-        double area;
-        double h;
         int i;
-        int n_test = 6;
-        double r = 2.0;
+        const int n_test = 6;
+        const double r = 2.0;
 
         Console.WriteLine("");
         Console.WriteLine("CIRCLE_LUNE_AREA_BY_HEIGHT_2D_TEST");
@@ -603,13 +568,13 @@ public static class CircleTest
 
         for (i = -n_test; i <= n_test; i++)
         {
-            h = i * r / n_test;
+            double h = i * r / n_test;
 
-            area = Geometry.circle_lune_area_by_height_2d(r, h);
+            double area = Geometry.circle_lune_area_by_height_2d(r, h);
 
-            Console.WriteLine("  " + r.ToString().PadLeft(6)
-                                   + "  " + h.ToString().PadLeft(12)
-                                   + "  " + area.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + h.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + area.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -634,13 +599,11 @@ public static class CircleTest
         //    John Burkardt
         //
     {
-        double[] centroid;
         double[] pc = {5.0, 3.0};
-        double r = 2.0;
+        const double r = 2.0;
         int test;
-        int test_num = 12;
-        double theta1 = 0.0;
-        double theta2;
+        const int test_num = 12;
+        const double theta1 = 0.0;
 
         Console.WriteLine("");
         Console.WriteLine("CIRCLE_LUNE_CENTROID_2D_TEST");
@@ -658,13 +621,13 @@ public static class CircleTest
 
         for (test = 0; test <= test_num; test++)
         {
-            theta2 = test * 2.0 * Math.PI / test_num;
+            double theta2 = test * 2.0 * Math.PI / test_num;
 
-            centroid = Geometry.circle_lune_centroid_2d(r, pc, theta1, theta2);
+            double[] centroid = Geometry.circle_lune_centroid_2d(r, pc, theta1, theta2);
 
-            Console.WriteLine("  " + theta2.ToString().PadLeft(12)
-                                   + "  " + centroid[0].ToString().PadLeft(12)
-                                   + "  " + centroid[1].ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + theta2.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + centroid[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + centroid[1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
 
         }
 
@@ -691,16 +654,11 @@ public static class CircleTest
         //    John Burkardt
         //
     {
-        double angle;
-        double height;
         int i;
-        int n_test;
-        double r;
-        double r8_pi = 3.141592653589793;
 
-        n_test = 12;
+        const int n_test = 12;
 
-        r = 2.0;
+        const double r = 2.0;
 
         Console.WriteLine("");
         Console.WriteLine("CIRCLE_LUNE_HEIGHT_BY_ANGLE_2D_TEST");
@@ -712,13 +670,13 @@ public static class CircleTest
 
         for (i = 0; i <= n_test; i++)
         {
-            angle = i * 2.0 * r8_pi / n_test;
+            double angle = i * 2.0 * Math.PI / n_test;
 
-            height = Geometry.circle_lune_height_by_angle_2d(r, angle);
+            double height = Geometry.circle_lune_height_by_angle_2d(r, angle);
 
-            Console.WriteLine("  " + r.ToString().PadLeft(10)
-                                   + "  " + angle.ToString().PadLeft(10)
-                                   + "  " + height.ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + angle.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + height.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -743,26 +701,14 @@ public static class CircleTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
-        double d11;
-        double d12;
-        double d21;
-        double d22;
-        int i;
         double[] normal = new double[DIM_NUM];
-        double p_hi = 10.0;
-        double p_lo = -10.0;
+        const double p_hi = 10.0;
+        const double p_lo = -10.0;
         double[] pc = new double[DIM_NUM * 2];
-        double[] p1;
-        double[] p2;
-        double[] p3;
-        double r;
-        double r_hi;
-        double r_lo;
-        int seed;
         int test;
-        int test_num = 5;
+        const int test_num = 5;
 
         Console.WriteLine("");
         Console.WriteLine("CIRCLE_PPPR2IMP_3D_TEST");
@@ -772,51 +718,51 @@ public static class CircleTest
         Console.WriteLine("  of the given radius, passing through P1 and P2");
         Console.WriteLine("  and lying in the plane of P1, P2 and P3.");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         for (test = 1; test <= test_num; test++)
         {
-            p1 = UniformRNG.r8vec_uniform_ab_new(DIM_NUM, p_lo, p_hi, ref seed);
-            p2 = UniformRNG.r8vec_uniform_ab_new(DIM_NUM, p_lo, p_hi, ref seed);
-            p3 = UniformRNG.r8vec_uniform_ab_new(DIM_NUM, p_lo, p_hi, ref seed);
+            double[] p1 = UniformRNG.r8vec_uniform_ab_new(DIM_NUM, p_lo, p_hi, ref seed);
+            double[] p2 = UniformRNG.r8vec_uniform_ab_new(DIM_NUM, p_lo, p_hi, ref seed);
+            double[] p3 = UniformRNG.r8vec_uniform_ab_new(DIM_NUM, p_lo, p_hi, ref seed);
 
-            r_lo = typeMethods.r8vec_distance(DIM_NUM, p1, p2);
-            r_hi = r_lo + 5.0;
-            r = UniformRNG.r8_uniform_ab(r_lo, r_hi, ref seed);
+            double r_lo = typeMethods.r8vec_distance(DIM_NUM, p1, p2);
+            double r_hi = r_lo + 5.0;
+            double r = UniformRNG.r8_uniform_ab(r_lo, r_hi, ref seed);
 
             Console.WriteLine("");
             Console.WriteLine("  Radius R = " + r + "");
 
             Console.WriteLine("  Point #1: ( "
-                              + p1[0].ToString().PadLeft(12) + ","
-                              + p1[1].ToString().PadLeft(12) + ")");
+                              + p1[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + ","
+                              + p1[1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + ")");
             Console.WriteLine("  Point #2: ( "
-                              + p2[0].ToString().PadLeft(12) + ","
-                              + p2[1].ToString().PadLeft(12) + ")");
+                              + p2[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + ","
+                              + p2[1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + ")");
             Console.WriteLine("  Point #3: ( "
-                              + p3[0].ToString().PadLeft(12) + ","
-                              + p3[1].ToString().PadLeft(12) + ")");
+                              + p3[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + ","
+                              + p3[1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + ")");
 
             Geometry.circle_pppr2imp_3d(p1, p2, p3, r, ref pc, ref normal);
 
             Console.WriteLine("  Center #1: ( "
-                              + pc[0 + 0 * DIM_NUM].ToString().PadLeft(12) + ","
-                              + pc[1 + 0 * DIM_NUM].ToString().PadLeft(12) + ")");
+                              + pc[0 + 0 * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(12) + ","
+                              + pc[1 + 0 * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(12) + ")");
             Console.WriteLine("  Center #2: ( "
-                              + pc[0 + 1 * DIM_NUM].ToString().PadLeft(12) + ","
-                              + pc[1 + 1 * DIM_NUM].ToString().PadLeft(12) + ")");
+                              + pc[0 + 1 * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(12) + ","
+                              + pc[1 + 1 * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(12) + ")");
             //
             //  Check that the points are the right distance from the center.
             //
-            d11 = typeMethods.r8vec_distance(DIM_NUM, p1, pc, +0 * DIM_NUM);
-            d21 = typeMethods.r8vec_distance(DIM_NUM, p2, pc, +0 * DIM_NUM);
-            d12 = typeMethods.r8vec_distance(DIM_NUM, p1, pc, +1 * DIM_NUM);
-            d22 = typeMethods.r8vec_distance(DIM_NUM, p2, pc, +1 * DIM_NUM);
+            double d11 = typeMethods.r8vec_distance(DIM_NUM, p1, pc);
+            double d21 = typeMethods.r8vec_distance(DIM_NUM, p2, pc);
+            double d12 = typeMethods.r8vec_distance(DIM_NUM, p1, pc, +1 * DIM_NUM);
+            double d22 = typeMethods.r8vec_distance(DIM_NUM, p2, pc, +1 * DIM_NUM);
 
-            Console.WriteLine("  " + d11.ToString().PadLeft(12)
-                                   + "  " + d21.ToString().PadLeft(12)
-                                   + "  " + d12.ToString().PadLeft(12)
-                                   + "  " + d22.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + d11.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + d21.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + d12.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + d22.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             //
             //  Check that the radial vector to the point is perpendicular to NORMAL.
             //
@@ -824,6 +770,7 @@ public static class CircleTest
             d21 = 0.0;
             d12 = 0.0;
             d22 = 0.0;
+            int i;
             for (i = 0; i < DIM_NUM; i++)
             {
                 d11 += normal[i] * (p1[i] - pc[i + 0 * DIM_NUM]);
@@ -832,10 +779,10 @@ public static class CircleTest
                 d22 += normal[i] * (p2[i] - pc[i + 1 * DIM_NUM]);
             }
 
-            Console.WriteLine("  " + d11.ToString().PadLeft(12)
-                                   + "  " + d21.ToString().PadLeft(12)
-                                   + "  " + d12.ToString().PadLeft(12)
-                                   + "  " + d22.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + d11.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + d21.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + d12.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + d22.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
     }
@@ -861,23 +808,12 @@ public static class CircleTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
-        double d11;
-        double d12;
-        double d21;
-        double d22;
-        double p_hi = 10.0;
-        double p_lo = -10.0;
-        double[] pc;
-        double[] p1;
-        double[] p2;
-        double r;
-        double r_hi;
-        double r_lo;
-        int seed;
+        const double p_hi = 10.0;
+        const double p_lo = -10.0;
         int test;
-        int test_num = 5;
+        const int test_num = 5;
 
         Console.WriteLine("");
         Console.WriteLine("CIRCLE_PPR2IMP_2D_TEST");
@@ -886,45 +822,45 @@ public static class CircleTest
         Console.WriteLine("  and determines the centers C of two circles");
         Console.WriteLine("  of the given radius, passing through P1 and P2.");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         for (test = 1; test <= test_num; test++)
         {
-            p1 = UniformRNG.r8vec_uniform_ab_new(DIM_NUM, p_lo, p_hi, ref seed);
-            p2 = UniformRNG.r8vec_uniform_ab_new(DIM_NUM, p_lo, p_hi, ref seed);
+            double[] p1 = UniformRNG.r8vec_uniform_ab_new(DIM_NUM, p_lo, p_hi, ref seed);
+            double[] p2 = UniformRNG.r8vec_uniform_ab_new(DIM_NUM, p_lo, p_hi, ref seed);
 
-            r_lo = typeMethods.r8vec_distance(DIM_NUM, p1, p2);
-            r_hi = r_lo + 5.0;
-            r = UniformRNG.r8_uniform_ab(r_lo, r_hi, ref seed);
+            double r_lo = typeMethods.r8vec_distance(DIM_NUM, p1, p2);
+            double r_hi = r_lo + 5.0;
+            double r = UniformRNG.r8_uniform_ab(r_lo, r_hi, ref seed);
 
             Console.WriteLine("");
             Console.WriteLine("  Radius R = " + r + "");
 
             Console.WriteLine("  Point #1: ( "
-                              + p1[0].ToString().PadLeft(12) + ","
-                              + p1[1].ToString().PadLeft(12) + ")");
+                              + p1[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + ","
+                              + p1[1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + ")");
             Console.WriteLine("  Point #2: ( "
-                              + p2[0].ToString().PadLeft(12) + ","
-                              + p2[1].ToString().PadLeft(12) + ")");
+                              + p2[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + ","
+                              + p2[1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + ")");
 
-            pc = Geometry.circle_ppr2imp_2d(p1, p2, r);
+            double[] pc = Geometry.circle_ppr2imp_2d(p1, p2, r);
 
             Console.WriteLine("  Center #1: ( "
-                              + pc[0 + 0 * DIM_NUM].ToString().PadLeft(12) + ","
-                              + pc[1 + 0 * DIM_NUM].ToString().PadLeft(12) + ")");
+                              + pc[0 + 0 * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(12) + ","
+                              + pc[1 + 0 * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(12) + ")");
             Console.WriteLine("  Center #2: ( "
-                              + pc[0 + 1 * DIM_NUM].ToString().PadLeft(12) + ","
-                              + pc[1 + 1 * DIM_NUM].ToString().PadLeft(12) + ")");
+                              + pc[0 + 1 * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(12) + ","
+                              + pc[1 + 1 * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(12) + ")");
 
-            d11 = typeMethods.r8vec_distance(DIM_NUM, p1, pc, +0 * DIM_NUM);
-            d21 = typeMethods.r8vec_distance(DIM_NUM, p2, pc, +0 * DIM_NUM);
-            d12 = typeMethods.r8vec_distance(DIM_NUM, p1, pc, +1 * DIM_NUM);
-            d22 = typeMethods.r8vec_distance(DIM_NUM, p2, pc, +1 * DIM_NUM);
+            double d11 = typeMethods.r8vec_distance(DIM_NUM, p1, pc);
+            double d21 = typeMethods.r8vec_distance(DIM_NUM, p2, pc);
+            double d12 = typeMethods.r8vec_distance(DIM_NUM, p1, pc, +1 * DIM_NUM);
+            double d22 = typeMethods.r8vec_distance(DIM_NUM, p2, pc, +1 * DIM_NUM);
 
-            Console.WriteLine("  " + d11.ToString().PadLeft(12)
-                                   + "  " + d21.ToString().PadLeft(12)
-                                   + "  " + d12.ToString().PadLeft(12)
-                                   + "  " + d22.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + d11.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + d21.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + d12.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + d22.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
     }
@@ -950,14 +886,10 @@ public static class CircleTest
         //    John Burkardt
         //
     {
-        double area;
         double[] pc = {0.0, 0.0};
-        double r8_pi = 3.141592653589793;
-        double r = 1.0;
+        const double r = 1.0;
         int test;
-        int test_num = 12;
-        double theta1;
-        double theta2;
+        const int test_num = 12;
 
         Console.WriteLine("");
         Console.WriteLine("CIRCLE_SECTOR_AREA_2D_TEST");
@@ -970,15 +902,15 @@ public static class CircleTest
 
         for (test = 0; test <= test_num; test++)
         {
-            theta1 = 0.0;
-            theta2 = test * 2.0 * r8_pi / test_num;
+            double theta1 = 0.0;
+            double theta2 = test * 2.0 * Math.PI / test_num;
 
-            area = Geometry.circle_sector_area_2d(r, pc, theta1, theta2);
+            double area = Geometry.circle_sector_area_2d(r, pc, theta1, theta2);
 
-            Console.WriteLine("  " + r.ToString().PadLeft(6)
-                                   + "  " + theta1.ToString().PadLeft(12)
-                                   + "  " + theta2.ToString().PadLeft(12)
-                                   + "  " + area.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + theta1.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + theta2.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + area.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -1003,13 +935,11 @@ public static class CircleTest
         //    John Burkardt
         //
     {
-        double[] centroid;
         double[] pc = {5.0, 3.0};
-        double r = 2.0;
+        const double r = 2.0;
         int test;
-        int test_num = 12;
-        double theta1 = 0.0;
-        double theta2;
+        const int test_num = 12;
+        const double theta1 = 0.0;
 
         Console.WriteLine("");
         Console.WriteLine("CIRCLE_SECTOR_CENTROID_2D_TEST");
@@ -1027,13 +957,13 @@ public static class CircleTest
 
         for (test = 0; test <= test_num; test++)
         {
-            theta2 = test * 2.0 * Math.PI / test_num;
+            double theta2 = test * 2.0 * Math.PI / test_num;
 
-            centroid = Geometry.circle_sector_centroid_2d(r, pc, theta1, theta2);
+            double[] centroid = Geometry.circle_sector_centroid_2d(r, pc, theta1, theta2);
 
-            Console.WriteLine("  " + theta2.ToString().PadLeft(12)
-                                   + "  " + centroid[0].ToString().PadLeft(12)
-                                   + "  " + centroid[1].ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + theta2.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + centroid[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + centroid[1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
 
         }
 
@@ -1060,14 +990,10 @@ public static class CircleTest
         //    John Burkardt
         //
     {
-        double area;
         double[] pc = {0.0, 0.0};
-        double r8_pi = 3.141592653589793;
-        double r = 1.0;
+        const double r = 1.0;
         int test;
-        int test_num = 12;
-        double theta1;
-        double theta2;
+        const int test_num = 12;
 
         Console.WriteLine("");
         Console.WriteLine("CIRCLE_TRIANGLE_AREA_2D_TEST");
@@ -1080,15 +1006,15 @@ public static class CircleTest
 
         for (test = 0; test <= test_num; test++)
         {
-            theta1 = 0.0;
-            theta2 = test * 2.0 * r8_pi / test_num;
+            double theta1 = 0.0;
+            double theta2 = test * 2.0 * Math.PI / test_num;
 
-            area = Geometry.circle_triangle_area_2d(r, pc, theta1, theta2);
+            double area = Geometry.circle_triangle_area_2d(r, pc, theta1, theta2);
 
-            Console.WriteLine("  " + r.ToString().PadLeft(6)
-                                   + "  " + theta1.ToString().PadLeft(12)
-                                   + "  " + theta2.ToString().PadLeft(12)
-                                   + "  " + area.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + theta1.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + theta2.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + area.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -1114,17 +1040,14 @@ public static class CircleTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int TEST_NUM = 13;
+        const int DIM_NUM = 2;
+        const int TEST_NUM = 13;
 
-        double curvature;
         double[] pc = new double[DIM_NUM];
         double[] p1 = {0.0, 0.0};
         double[] p2 = {1.0, 0.0};
         double[] p3 = new double[DIM_NUM];
         double r = 0;
-        double theta;
-        double theta_degrees;
         int test;
 
         Console.WriteLine("");
@@ -1151,26 +1074,26 @@ public static class CircleTest
 
         for (test = 1; test <= TEST_NUM; test++)
         {
-            theta = 2.0 * Math.PI * (test - 1)
-                    / (TEST_NUM - 1);
+            double theta = 2.0 * Math.PI * (test - 1)
+                           / (TEST_NUM - 1);
 
-            theta_degrees = 360.0 * (test - 1)
-                            / (TEST_NUM - 1);
+            double theta_degrees = 360.0 * (test - 1)
+                                   / (TEST_NUM - 1);
 
             p3[0] = Math.Cos(theta);
             p3[1] = Math.Sin(theta);
 
             Geometry.circle_exp2imp_2d(p1, p2, p3, ref r, ref pc);
 
-            curvature = r switch
+            double curvature = r switch
             {
                 > 0.0 => 1.0 / r,
                 _ => 0.0
             };
 
             Console.WriteLine("  " + test.ToString().PadLeft(4)
-                                   + "  " + theta_degrees.ToString().PadLeft(5)
-                                   + "  " + curvature.ToString().PadLeft(14) + "");
+                                   + "  " + theta_degrees.ToString(CultureInfo.InvariantCulture).PadLeft(5)
+                                   + "  " + curvature.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -1196,14 +1119,13 @@ public static class CircleTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
         double[] p1 = new double[DIM_NUM];
         double[] p2 = new double[DIM_NUM];
         double[] p3 = new double[DIM_NUM];
         double[] pc1 = new double[DIM_NUM];
         double[] pc2 = new double[DIM_NUM];
-        double r1;
         double r2 = 0;
 
         Console.WriteLine("");
@@ -1215,7 +1137,7 @@ public static class CircleTest
 
         pc1[0] = 10.0;
         pc1[1] = 5.0;
-        r1 = 3.0;
+        const double r1 = 3.0;
 
         Geometry.circle_imp_print_2d(r1, pc1, "  The implicit circle:");
 
@@ -1252,13 +1174,10 @@ public static class CircleTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
-        int n;
-        double[] p;
         double[] pc = {5.0, -2.0};
-        double r = 2.0;
-        double result;
+        const double r = 2.0;
 
         Console.WriteLine("");
         Console.WriteLine("TEST016");
@@ -1270,9 +1189,9 @@ public static class CircleTest
         Console.WriteLine("");
         Console.WriteLine("  The area = " + Math.PI * r * r + "");
 
-        n = 8;
+        int n = 8;
 
-        p = Geometry.circle_imp_points_2d(r, pc, n);
+        double[] p = Geometry.circle_imp_points_2d(r, pc, n);
 
         typeMethods.r8mat_transpose_print(DIM_NUM, n, p, "  Sample results:");
 
@@ -1286,9 +1205,9 @@ public static class CircleTest
         for (n = 3; n <= 24; n++)
         {
             p = Geometry.circle_imp_points_2d(r, pc, n);
-            result = Burkardt.Polygon.Geometry.polygon_area_2d(n, p);
+            double result = Burkardt.Polygon.Geometry.polygon_area_2d(n, p);
             Console.WriteLine("  " + n.ToString().PadLeft(6)
-                                   + "  " + result.ToString().PadLeft(12) + "");
+                                   + "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
     }
@@ -1314,13 +1233,12 @@ public static class CircleTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
-        int N = 12;
+        const int DIM_NUM = 3;
+        const int N = 12;
 
         double[] nc = {1.0, 1.0, 1.0};
-        double[] p;
         double[] pc = {5.0, -2.0, 1.0};
-        double r = 2.0;
+        const double r = 2.0;
 
         Console.WriteLine("");
         Console.WriteLine("TEST0165");
@@ -1328,7 +1246,7 @@ public static class CircleTest
 
         Geometry.circle_imp_print_3d(r, pc, nc, "  The implicit circle:");
 
-        p = Geometry.circle_imp_points_3d(r, pc, nc, N);
+        double[] p = Geometry.circle_imp_points_3d(r, pc, nc, N);
 
         typeMethods.r8mat_transpose_print(DIM_NUM, N, p, "  Points on the circle:");
 
@@ -1355,14 +1273,10 @@ public static class CircleTest
         //    John Burkardt
         //
     {
-        double area;
-        double d;
         double[] d_test = {1.5, 1.0, 0.5, 1.5, 1.0, 0.0};
         int i;
-        int ntest = 6;
-        double r1;
+        const int ntest = 6;
         double[] r1_test = {1.0, 1.0, 1.0, 1.0, 1.0, 1.0};
-        double r2;
         double[] r2_test = {0.5, 0.5, 0.5, 1.0, 1.0, 1.0};
 
         Console.WriteLine("");
@@ -1376,15 +1290,15 @@ public static class CircleTest
 
         for (i = 0; i < ntest; i++)
         {
-            r1 = r1_test[i];
-            r2 = r2_test[i];
-            d = d_test[i];
-            area = Geometry.circles_intersect_area_2d(r1, r2, d);
+            double r1 = r1_test[i];
+            double r2 = r2_test[i];
+            double d = d_test[i];
+            double area = Geometry.circles_intersect_area_2d(r1, r2, d);
 
-            Console.WriteLine("  " + r1.ToString().PadLeft(6)
-                                   + "  " + r2.ToString().PadLeft(6)
-                                   + "  " + d.ToString().PadLeft(6)
-                                   + "  " + area.ToString().PadLeft(6) + "");
+            Console.WriteLine("  " + r1.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + r2.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + d.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + area.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
         }
     }
 
@@ -1409,13 +1323,12 @@ public static class CircleTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int TEST_NUM = 5;
+        const int DIM_NUM = 2;
+        const int TEST_NUM = 5;
 
         int int_num = 0;
         double[] pint = new double[DIM_NUM * 2];
         double[] pc1 = {0.0, 0.0};
-        double[] pc2;
         double[] pc2_test =
         {
             5.0, 5.0,
@@ -1424,8 +1337,7 @@ public static class CircleTest
             6.0, 0.0,
             0.0, 0.0
         };
-        double r1 = 5.0;
-        double r2;
+        const double r1 = 5.0;
         double[] r2_test = {0.5, 5.0, 3.0, 3.0, 5.0};
         int test;
 
@@ -1438,8 +1350,8 @@ public static class CircleTest
 
         for (test = 0; test < TEST_NUM; test++)
         {
-            r2 = r2_test[test];
-            pc2 = pc2_test.Skip(test * DIM_NUM).ToArray();
+            double r2 = r2_test[test];
+            double[] pc2 = pc2_test.Skip(test * DIM_NUM).ToArray();
 
             Geometry.circle_imp_print_2d(r2, pc2, "  The second circle:");
 
@@ -1457,8 +1369,8 @@ public static class CircleTest
                     Console.WriteLine("");
                     Console.WriteLine("        P");
                     Console.WriteLine("");
-                    Console.WriteLine("  " + pint[0 + 0 * DIM_NUM].ToString().PadLeft(8)
-                                           + "  " + pint[1 + 0 * DIM_NUM].ToString().PadLeft(8) + "");
+                    Console.WriteLine("  " + pint[0 + 0 * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + pint[1 + 0 * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
                     break;
                 case 2:
                     Console.WriteLine("");
@@ -1466,10 +1378,10 @@ public static class CircleTest
                     Console.WriteLine("");
                     Console.WriteLine("        P");
                     Console.WriteLine("");
-                    Console.WriteLine("  " + pint[0 + 0 * DIM_NUM].ToString().PadLeft(8)
-                                           + "  " + pint[1 + 0 * DIM_NUM].ToString().PadLeft(8) + "");
-                    Console.WriteLine("  " + pint[0 + 1 * DIM_NUM].ToString().PadLeft(8)
-                                           + "  " + pint[1 + 1 * DIM_NUM].ToString().PadLeft(8) + "");
+                    Console.WriteLine("  " + pint[0 + 0 * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + pint[1 + 0 * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+                    Console.WriteLine("  " + pint[0 + 1 * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + pint[1 + 1 * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
                     break;
                 case 3:
                     Console.WriteLine("");

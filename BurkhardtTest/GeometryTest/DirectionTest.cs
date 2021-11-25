@@ -27,19 +27,15 @@ public static class DirectionTest
         //    John Burkardt
         //
     {
-        int i;
         int itest;
-        int seed;
-        double sigma;
         double[] vbase = {1.0, 0.0, 0.0};
-        double[] vran;
 
         Console.WriteLine("");
         Console.WriteLine("TEST021");
         Console.WriteLine("  DIRECTION_PERT_3D perturbs a direction vector.");
         Console.WriteLine("");
 
-        seed = entropyRNG.RNG.nextint();
+        int seed = entropyRNG.RNG.nextint();
 
         Console.WriteLine("");
         Console.WriteLine("  We use SEED = " + seed + "");
@@ -52,7 +48,7 @@ public static class DirectionTest
 
         for (itest = 0; itest < 3; itest++)
         {
-            sigma = itest switch
+            double sigma = itest switch
             {
                 0 => 0.99,
                 1 => 0.5,
@@ -63,12 +59,13 @@ public static class DirectionTest
             Console.WriteLine("  Using sigma = " + sigma + "");
             Console.WriteLine("");
 
+            int i;
             for (i = 0; i < 20; i++)
             {
-                vran = Direction.direction_pert_3d(sigma, vbase, ref seed);
-                Console.WriteLine("  " + vran[0].ToString().PadLeft(10)
-                                       + "  " + vran[1].ToString().PadLeft(10)
-                                       + "  " + vran[2].ToString().PadLeft(10) + "");
+                double[] vran = Direction.direction_pert_3d(sigma, vbase, ref seed);
+                Console.WriteLine("  " + vran[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + vran[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + vran[2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
             }
 
         }
@@ -97,14 +94,12 @@ public static class DirectionTest
         //
     {
         int i;
-        int seed;
-        double[] vran;
 
         Console.WriteLine("");
         Console.WriteLine("TEST022");
         Console.WriteLine("  DIRECTION_UNIFORM_3D picks a random direction vector.");
 
-        seed = entropyRNG.RNG.nextint();
+        int seed = entropyRNG.RNG.nextint();
 
         Console.WriteLine("");
         Console.WriteLine("  We use SEED = " + seed + "");
@@ -113,10 +108,10 @@ public static class DirectionTest
 
         for (i = 0; i < 10; i++)
         {
-            vran = Direction.direction_uniform_3d(ref seed);
-            Console.WriteLine("  " + vran[0].ToString().PadLeft(10)
-                                   + "  " + vran[1].ToString().PadLeft(10)
-                                   + "  " + vran[2].ToString().PadLeft(10) + "");
+            double[] vran = Direction.direction_uniform_3d(ref seed);
+            Console.WriteLine("  " + vran[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + vran[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + vran[2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
     }
@@ -142,12 +137,10 @@ public static class DirectionTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 4;
+        const int DIM_NUM = 4;
 
         int i;
-        int j;
         int seed = 123456789;
-        double[] vran;
 
         Console.WriteLine("");
         Console.WriteLine("DIRECTION_UNIFORM_ND_TEST");
@@ -156,11 +149,12 @@ public static class DirectionTest
 
         for (i = 1; i <= 10; i++)
         {
-            vran = Direction.direction_uniform_nd(DIM_NUM, ref seed);
+            double[] vran = Direction.direction_uniform_nd(DIM_NUM, ref seed);
             string cout = "";
+            int j;
             for (j = 0; j < DIM_NUM; j++)
             {
-                cout += "  " + vran[j].ToString().PadLeft(8);
+                cout += "  " + vran[j].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
 
             Console.WriteLine(cout);

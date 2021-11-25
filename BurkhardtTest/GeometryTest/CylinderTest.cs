@@ -29,15 +29,13 @@ public static class CylinderTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
-        int TEST_NUM = 6;
+        const int DIM_NUM = 3;
+        const int TEST_NUM = 6;
 
-        double dist;
         double[] dist_test =
         {
             3.0, 0.5, 5.0, 8.0, 1.0, 0.25
         };
-        double[] p;
         double[] p_test =
         {
             4.0, 0.5, 0.0,
@@ -49,7 +47,7 @@ public static class CylinderTest
         };
         double[] p1 = {0.0, -2.0, 0.0};
         double[] p2 = {0.0, 2.0, 0.0};
-        double r = 1.0;
+        const double r = 1.0;
         int test;
 
         Console.WriteLine("");
@@ -60,30 +58,30 @@ public static class CylinderTest
         Console.WriteLine("");
         Console.WriteLine("  Radius R = " + r + "");
         Console.WriteLine("  Center of bottom disk ="
-                          + "  " + p1[0].ToString().PadLeft(10)
-                          + "  " + p1[1].ToString().PadLeft(10)
-                          + "  " + p1[2].ToString().PadLeft(10) + "");
+                          + "  " + p1[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + p1[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + p1[2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         Console.WriteLine("  Center of top disk =   "
-                          + "  " + p2[0].ToString().PadLeft(10)
-                          + "  " + p2[1].ToString().PadLeft(10)
-                          + "  " + p2[2].ToString().PadLeft(10) + "");
+                          + "  " + p2[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + p2[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + p2[2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
         for (test = 0; test < TEST_NUM; test++)
         {
-            p = p_test.Skip(+test * DIM_NUM).ToArray();
+            double[] p = p_test.Skip(+test * DIM_NUM).ToArray();
 
             Console.WriteLine("");
             Console.WriteLine("  P ="
-                              + "  " + p[0].ToString().PadLeft(10)
-                              + "  " + p[1].ToString().PadLeft(10)
-                              + "  " + p[2].ToString().PadLeft(10) + "");
+                              + "  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                              + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                              + "  " + p[2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
-            dist = Geometry.cylinder_point_dist_3d(p1, p2, r, p);
+            double dist = Geometry.cylinder_point_dist_3d(p1, p2, r, p);
 
             Console.WriteLine("  Distance (computed) ="
-                              + "  " + dist.ToString().PadLeft(10) + "");
+                              + "  " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
             Console.WriteLine("  Distance (exact)    ="
-                              + "  " + dist_test[test].ToString().PadLeft(10) + "");
+                              + "  " + dist_test[test].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -108,15 +106,13 @@ public static class CylinderTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
-        int TEST_NUM = 6;
+        const int DIM_NUM = 3;
+        const int TEST_NUM = 6;
 
-        double dist;
         double[] dist_test =
         {
             3.0, -0.5, 5.0, 8.0, -1.0, -0.25
         };
-        double[] p;
         double[] p_test =
         {
             4.0, 0.5, 0.0,
@@ -128,7 +124,7 @@ public static class CylinderTest
         };
         double[] p1 = {0.0, -2.0, 0.0};
         double[] p2 = {0.0, 2.0, 0.0};
-        double r = 1.0;
+        const double r = 1.0;
         int test;
 
         Console.WriteLine("");
@@ -139,30 +135,30 @@ public static class CylinderTest
         Console.WriteLine("");
         Console.WriteLine("  Radius R = " + r + "");
         Console.WriteLine("  Center of bottom disk ="
-                          + "  " + p1[0].ToString().PadLeft(10)
-                          + "  " + p1[1].ToString().PadLeft(10)
-                          + "  " + p1[2].ToString().PadLeft(10) + "");
+                          + "  " + p1[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + p1[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + p1[2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         Console.WriteLine("  Center of top disk =   "
-                          + "  " + p2[0].ToString().PadLeft(10)
-                          + "  " + p2[1].ToString().PadLeft(10)
-                          + "  " + p2[2].ToString().PadLeft(10) + "");
+                          + "  " + p2[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + p2[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + p2[2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
         for (test = 0; test < TEST_NUM; test++)
         {
-            p = p_test.Skip(test * DIM_NUM).ToArray();
+            double[] p = p_test.Skip(test * DIM_NUM).ToArray();
 
             Console.WriteLine("");
             Console.WriteLine("  P ="
-                              + "  " + p[0].ToString().PadLeft(10)
-                              + "  " + p[1].ToString().PadLeft(10)
-                              + "  " + p[2].ToString().PadLeft(10) + "");
+                              + "  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                              + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                              + "  " + p[2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
-            dist = Geometry.cylinder_point_dist_signed_3d(p1, p2, r, p);
+            double dist = Geometry.cylinder_point_dist_signed_3d(p1, p2, r, p);
 
             Console.WriteLine("  Signed distance (computed) ="
-                              + "  " + dist.ToString().PadLeft(10) + "");
+                              + "  " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
             Console.WriteLine("  Signed distance (exact)    ="
-                              + "  " + dist_test[test].ToString().PadLeft(10) + "");
+                              + "  " + dist_test[test].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -187,15 +183,13 @@ public static class CylinderTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
-        int TEST_NUM = 6;
+        const int DIM_NUM = 3;
+        const int TEST_NUM = 6;
 
-        bool inside;
         bool[] inside_test =
         {
             false, true, false, false, true, true
         };
-        double[] p;
         double[] p_test =
         {
             4.0, 0.5, 0.0,
@@ -207,7 +201,7 @@ public static class CylinderTest
         };
         double[] p1 = {0.0, -2.0, 0.0};
         double[] p2 = {0.0, 2.0, 0.0};
-        double r = 1.0;
+        const double r = 1.0;
         int test;
 
         Console.WriteLine("");
@@ -218,25 +212,25 @@ public static class CylinderTest
         Console.WriteLine("");
         Console.WriteLine("  Radius R = " + r + "");
         Console.WriteLine("  Center of bottom disk ="
-                          + "  " + p1[0].ToString().PadLeft(10)
-                          + "  " + p1[1].ToString().PadLeft(10)
-                          + "  " + p1[2].ToString().PadLeft(10) + "");
+                          + "  " + p1[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + p1[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + p1[2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         Console.WriteLine("  Center of top disk =   "
-                          + "  " + p2[0].ToString().PadLeft(10)
-                          + "  " + p2[1].ToString().PadLeft(10)
-                          + "  " + p2[2].ToString().PadLeft(10) + "");
+                          + "  " + p2[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + p2[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + p2[2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
         for (test = 0; test < TEST_NUM; test++)
         {
-            p = p_test.Skip(test * DIM_NUM).ToArray();
+            double[] p = p_test.Skip(test * DIM_NUM).ToArray();
 
             Console.WriteLine("");
             Console.WriteLine("  P ="
-                              + "  " + p[0].ToString().PadLeft(10)
-                              + "  " + p[1].ToString().PadLeft(10)
-                              + "  " + p[2].ToString().PadLeft(10) + "");
+                              + "  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                              + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                              + "  " + p[2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
-            inside = Geometry.cylinder_point_inside_3d(p1, p2, r, p);
+            bool inside = Geometry.cylinder_point_inside_3d(p1, p2, r, p);
 
             Console.WriteLine("  INSIDE (computed) ="
                               + "  " + inside.ToString().PadLeft(1) + "");
@@ -266,10 +260,9 @@ public static class CylinderTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
-        int TEST_NUM = 6;
+        const int DIM_NUM = 3;
+        const int TEST_NUM = 6;
 
-        double[] p;
         double[] p_test =
         {
             4.0, 0.5, 0.0,
@@ -281,7 +274,6 @@ public static class CylinderTest
         };
         double[] p1 = {0.0, -2.0, 0.0};
         double[] p2 = {0.0, 2.0, 0.0};
-        double[] pn;
         double[] pn_test =
         {
             1.0, 0.5, 0.0,
@@ -291,7 +283,7 @@ public static class CylinderTest
             1.0, 0.0, 0.0,
             0.25, 2.0, 0.0
         };
-        double r = 1.0;
+        const double r = 1.0;
         int test;
 
         Console.WriteLine("");
@@ -302,34 +294,34 @@ public static class CylinderTest
         Console.WriteLine("");
         Console.WriteLine("  Radius R = " + r + "");
         Console.WriteLine("  Center of bottom disk ="
-                          + "  " + p1[0].ToString().PadLeft(10)
-                          + "  " + p1[1].ToString().PadLeft(10)
-                          + "  " + p1[2].ToString().PadLeft(10) + "");
+                          + "  " + p1[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + p1[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + p1[2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         Console.WriteLine("  Center of top disk =   "
-                          + "  " + p2[0].ToString().PadLeft(10)
-                          + "  " + p2[1].ToString().PadLeft(10)
-                          + "  " + p2[2].ToString().PadLeft(10) + "");
+                          + "  " + p2[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + p2[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + p2[2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
         for (test = 0; test < TEST_NUM; test++)
         {
-            p = p_test.Skip(+test * DIM_NUM).ToArray();
+            double[] p = p_test.Skip(+test * DIM_NUM).ToArray();
 
             Console.WriteLine("");
             Console.WriteLine("  P ="
-                              + "  " + p[0].ToString().PadLeft(10)
-                              + "  " + p[1].ToString().PadLeft(10)
-                              + "  " + p[2].ToString().PadLeft(10) + "");
+                              + "  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                              + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                              + "  " + p[2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
-            pn = Geometry.cylinder_point_near_3d(p1, p2, r, p);
+            double[] pn = Geometry.cylinder_point_near_3d(p1, p2, r, p);
 
             Console.WriteLine("  PN (computed) ="
-                              + "  " + pn[0].ToString().PadLeft(10)
-                              + "  " + pn[1].ToString().PadLeft(10)
-                              + "  " + pn[2].ToString().PadLeft(10) + "");
+                              + "  " + pn[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                              + "  " + pn[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                              + "  " + pn[2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
             Console.WriteLine("  PN (exact)    ="
-                              + "  " + pn_test[0 + test * DIM_NUM].ToString().PadLeft(10)
-                              + "  " + pn_test[1 + test * DIM_NUM].ToString().PadLeft(10)
-                              + "  " + pn_test[2 + test * DIM_NUM].ToString().PadLeft(10) + "");
+                              + "  " + pn_test[0 + test * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                              + "  " + pn_test[1 + test * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                              + "  " + pn_test[2 + test * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         Console.WriteLine("");
@@ -359,13 +351,12 @@ public static class CylinderTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
-        int N = 20;
+        const int DIM_NUM = 3;
+        const int N = 20;
 
-        double[] p;
         double[] p1 = {0.0, -2.0, 0.0};
         double[] p2 = {0.0, 2.0, 0.0};
-        double r = 1.0;
+        const double r = 1.0;
         int seed = 123456789;
 
         Console.WriteLine("");
@@ -375,15 +366,15 @@ public static class CylinderTest
         Console.WriteLine("");
         Console.WriteLine("  Radius R = " + r + "");
         Console.WriteLine("  Center of bottom disk ="
-                          + "  " + p1[0].ToString().PadLeft(10)
-                          + "  " + p1[1].ToString().PadLeft(10)
-                          + "  " + p1[2].ToString().PadLeft(10) + "");
+                          + "  " + p1[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + p1[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + p1[2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         Console.WriteLine("  Center of top disk =   "
-                          + "  " + p2[0].ToString().PadLeft(10)
-                          + "  " + p2[1].ToString().PadLeft(10)
-                          + "  " + p2[2].ToString().PadLeft(10) + "");
+                          + "  " + p2[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + p2[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + p2[2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
-        p = Geometry.cylinder_sample_3d(p1, p2, r, N, ref seed);
+        double[] p = Geometry.cylinder_sample_3d(p1, p2, r, N, ref seed);
 
         typeMethods.r8mat_transpose_print(DIM_NUM, N, p, "  Sample points:");
 
@@ -412,9 +403,7 @@ public static class CylinderTest
     {
         double[] p1 = {1.0, 2.0, 3.0};
         double[] p2 = {5.0, 6.0, 5.0};
-        double pi = 3.141592653589793;
-        double r = 5.0;
-        double volume;
+        const double r = 5.0;
 
         Console.WriteLine("");
         Console.WriteLine("TEST0204");
@@ -423,19 +412,19 @@ public static class CylinderTest
         Console.WriteLine("");
         Console.WriteLine("  Radius R = " + r + "");
         Console.WriteLine("  Center of bottom disk ="
-                          + "  " + p1[0].ToString().PadLeft(10)
-                          + "  " + p1[1].ToString().PadLeft(10)
-                          + "  " + p1[2].ToString().PadLeft(10) + "");
+                          + "  " + p1[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + p1[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + p1[2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         Console.WriteLine("  Center of top disk =   "
-                          + "  " + p2[0].ToString().PadLeft(10)
-                          + "  " + p2[1].ToString().PadLeft(10)
-                          + "  " + p2[2].ToString().PadLeft(10) + "");
+                          + "  " + p2[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + p2[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + p2[2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
-        volume = Geometry.cylinder_volume_3d(p1, p2, r);
+        double volume = Geometry.cylinder_volume_3d(p1, p2, r);
 
         Console.WriteLine("");
         Console.WriteLine("  Volume (computed) = " + volume + "");
-        Console.WriteLine("  Volume (exact)    = " + pi * 150.0 + "");
+        Console.WriteLine("  Volume (exact)    = " + Math.PI * 150.0 + "");
 
     }
 

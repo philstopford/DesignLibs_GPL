@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt;
 using Burkardt.AnnulusNS;
 
@@ -27,15 +28,12 @@ public static class AnnulusTest
         //    John Burkardt
         //
     {
-        double[] centroid;
         double[] pc = { 5.0, 3.0 };
-        double r1 = 2.0;
-        double r2 = 3.0;
-        double theta1;
-        double theta2;
+        const double r1 = 2.0;
+        const double r2 = 3.0;
 
-        theta1 = Helpers.degrees_to_radians ( 30.0 );
-        theta2 = Helpers.degrees_to_radians ( 60.0 );
+        double theta1 = Helpers.degrees_to_radians ( 30.0 );
+        double theta2 = Helpers.degrees_to_radians ( 60.0 );
 
         Console.WriteLine("");
         Console.WriteLine("ANNULUS_SECTOR_CENTROID_2D_TEST");
@@ -49,12 +47,12 @@ public static class AnnulusTest
         Console.WriteLine("  The first angle is THETA1 =  " + theta1 + "");
         Console.WriteLine("  The second angle is THETA2 = " + theta2 + "");
 
-        centroid = Annulus.annulus_sector_centroid_2d ( pc, r1, r2, theta1, theta2 );
+        double[] centroid = Annulus.annulus_sector_centroid_2d ( pc, r1, r2, theta1, theta2 );
 
         Console.WriteLine("");
         Console.WriteLine("  Centroid: "
-                          + centroid[0].ToString().PadLeft(12)
-                          + centroid[1].ToString().PadLeft(12) + "");
+                          + centroid[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                          + centroid[1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             
     }
 

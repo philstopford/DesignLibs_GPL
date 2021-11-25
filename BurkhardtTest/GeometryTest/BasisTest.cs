@@ -27,11 +27,8 @@ public static class BasisTest
         //    John Burkardt
         //
     {
-        double[] a = null;
         double[] c = new double[3*3];
         int i;
-        int j;
-        int k;
         double[] u = {
             1.0, 2.0, 3.0,
             0.0, 0.0, 1.0,
@@ -51,7 +48,7 @@ public static class BasisTest
 
         typeMethods.r8mat_print ( 3, 3, v, "  The matrix V" );
 
-        a = Matrix.basis_map_3d ( u, v );
+        double[] a = Matrix.basis_map_3d ( u, v );
 
         switch (a)
         {
@@ -66,9 +63,11 @@ public static class BasisTest
 
         for ( i = 0; i < 3; i++ )
         {
+            int j;
             for ( j = 0; j < 3; j++ )
             {
                 c[i+j*3] = 0.0;
+                int k;
                 for ( k = 0; k < 3; k++ )
                 {
                     c[i+j*3] += a[i+k*3] * u[k+j*3];

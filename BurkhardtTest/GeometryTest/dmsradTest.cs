@@ -29,8 +29,6 @@ public static class dmsradTest
     {
         int angle_deg = 0;
         int angle_min = 0;
-        double angle_rad = 0;
-        double angle_rad2 = 0;
         int angle_sec = 0;
         int i;
 
@@ -46,17 +44,17 @@ public static class dmsradTest
 
         for ( i = -2; i <= 15; i++ )
         {
-            angle_rad = Math.PI * i / 7.0;
+            double angle_rad = Math.PI * i / 7.0;
 
             Helpers.radians_to_dms ( angle_rad, ref angle_deg, ref angle_min, ref angle_sec );
 
-            angle_rad2 = Helpers.dms_to_radians ( angle_deg, angle_min, angle_sec );
+            double angle_rad2 = Helpers.dms_to_radians ( angle_deg, angle_min, angle_sec );
 
-            Console.WriteLine("  " + angle_rad.ToString().PadLeft(10)
+            Console.WriteLine("  " + angle_rad.ToString(CultureInfo.InvariantCulture).PadLeft(10)
                                    + "  " + angle_deg.ToString().PadLeft(4)
                                    + "  " + angle_min.ToString().PadLeft(3)
                                    + "  " + angle_sec.ToString().PadLeft(3)
-                                   + "  " + angle_rad2.ToString().PadLeft(10) + "");
+                                   + "  " + angle_rad2.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 

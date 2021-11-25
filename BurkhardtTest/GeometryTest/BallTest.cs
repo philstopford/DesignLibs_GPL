@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Ball;
 using Burkardt.Types;
 
@@ -27,17 +28,13 @@ public static class BallTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
         double[] average = new double[DIM_NUM];
-        double average_r;
-        double average_theta;
         int i;
         int j;
-        int sample_num = 1000;
+        const int sample_num = 1000;
         int seed = 123456789;
-        double temp;
-        double theta;
         double[] x;
         string cout = "";
 
@@ -56,7 +53,7 @@ public static class BallTest
             x = Geometry.ball01_sample_2d(ref seed);
             for (j = 0; j < DIM_NUM; j++)
             {
-                cout += "  " + x[j].ToString().PadLeft(10);
+                cout += "  " + x[j].ToString(CultureInfo.InvariantCulture).PadLeft(10);
             }
 
             Console.WriteLine(cout);
@@ -88,18 +85,18 @@ public static class BallTest
         cout = "  Average:        ";
         for (j = 0; j < DIM_NUM; j++)
         {
-            cout += "  " + average[j].ToString().PadLeft(10);
+            cout += "  " + average[j].ToString(CultureInfo.InvariantCulture).PadLeft(10);
         }
 
         Console.WriteLine(cout);
         cout = "";
 
-        average_r = 0.0;
+        double average_r = 0.0;
 
         for (i = 1; i <= sample_num; i++)
         {
             x = Geometry.ball01_sample_2d(ref seed);
-            temp = 0.0;
+            double temp = 0.0;
             for (j = 0; j < DIM_NUM; j++)
             {
                 temp += x[j] * x[j];
@@ -117,12 +114,12 @@ public static class BallTest
         Console.WriteLine("");
         Console.WriteLine("  Average:        " + average_r + "");
 
-        average_theta = 0.0;
+        double average_theta = 0.0;
 
         for (i = 1; i <= sample_num; i++)
         {
             x = Geometry.ball01_sample_2d(ref seed);
-            theta = typeMethods.r8_atan(x[1], x[0]);
+            double theta = typeMethods.r8_atan(x[1], x[0]);
             average_theta += theta;
         }
 
@@ -157,19 +154,14 @@ public static class BallTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
         double[] average = new double[DIM_NUM];
-        double average_phi;
-        double average_r;
-        double average_theta;
         int i;
         int j;
-        int sample_num = 1000;
-        double phi;
+        const int sample_num = 1000;
         double r;
         int seed = 123456789;
-        double theta;
         double[] x;
         string cout = "";
 
@@ -188,7 +180,7 @@ public static class BallTest
             x = Geometry.ball01_sample_3d(ref seed);
             for (j = 0; j < DIM_NUM; j++)
             {
-                cout += "  " + x[j].ToString().PadLeft(8);
+                cout += "  " + x[j].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
 
             Console.WriteLine(cout);
@@ -220,7 +212,7 @@ public static class BallTest
         cout = "  Average:";
         for (i = 0; i < DIM_NUM; i++)
         {
-            cout += "  " + average[i].ToString().PadLeft(8);
+            cout += "  " + average[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         }
 
         Console.WriteLine(cout);
@@ -228,7 +220,7 @@ public static class BallTest
 
         seed = 123456789;
 
-        average_r = 0.0;
+        double average_r = 0.0;
 
         for (i = 1; i <= sample_num; i++)
         {
@@ -252,12 +244,12 @@ public static class BallTest
         Console.WriteLine("");
         Console.WriteLine("  Average:        " + average_r + "");
 
-        average_theta = 0.0;
+        double average_theta = 0.0;
 
         for (i = 1; i <= sample_num; i++)
         {
             x = Geometry.ball01_sample_3d(ref seed);
-            theta = typeMethods.r8_atan(x[1], x[0]);
+            double theta = typeMethods.r8_atan(x[1], x[0]);
             average_theta += theta;
         }
 
@@ -269,7 +261,7 @@ public static class BallTest
         Console.WriteLine("");
         Console.WriteLine("  Average:        " + average_theta + "");
 
-        average_phi = 0.0;
+        double average_phi = 0.0;
 
         for (i = 1; i <= sample_num; i++)
         {
@@ -281,7 +273,7 @@ public static class BallTest
             }
 
             r = Math.Sqrt(r);
-            phi = Math.Acos(x[2] / r);
+            double phi = Math.Acos(x[2] / r);
             average_phi += phi;
         }
 
@@ -316,21 +308,16 @@ public static class BallTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
         double[] average = new double[DIM_NUM];
-        double average_phi;
-        double average_r;
-        double average_theta;
         int i;
         int j;
-        int sample_num = 1000;
-        double phi;
+        const int sample_num = 1000;
         double r;
         int seed = 123456789;
-        double theta;
         double[] x;
-        string cout = "";
+        string cout;
 
         Console.WriteLine("");
         Console.WriteLine("BALL01_SAMPLE_ND_TEST");
@@ -347,7 +334,7 @@ public static class BallTest
             x = Geometry.ball01_sample_nd(DIM_NUM, ref seed);
             for (j = 0; j < DIM_NUM; j++)
             {
-                cout += "  " + x[j].ToString().PadLeft(8);
+                cout += "  " + x[j].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
 
             Console.WriteLine(cout);
@@ -379,7 +366,7 @@ public static class BallTest
         cout = "  Average:        ";
         for (j = 0; j < DIM_NUM; j++)
         {
-            cout += "  " + average[j].ToString().PadLeft(8);
+            cout += "  " + average[j].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         }
 
         Console.WriteLine(cout);
@@ -387,7 +374,7 @@ public static class BallTest
 
         seed = 123456789;
 
-        average_r = 0.0;
+        double average_r = 0.0;
 
         for (i = 1; i <= sample_num; i++)
         {
@@ -412,12 +399,12 @@ public static class BallTest
         Console.WriteLine("");
         Console.WriteLine("  Average:        " + average_r + "");
 
-        average_theta = 0.0;
+        double average_theta = 0.0;
 
         for (i = 1; i <= sample_num; i++)
         {
             x = Geometry.ball01_sample_nd(DIM_NUM, ref seed);
-            theta = typeMethods.r8_atan(x[1], x[0]);
+            double theta = typeMethods.r8_atan(x[1], x[0]);
             average_theta += theta;
         }
 
@@ -429,7 +416,7 @@ public static class BallTest
         Console.WriteLine("");
         Console.WriteLine("  Average:        " + average_theta + "");
 
-        average_phi = 0.0;
+        double average_phi = 0.0;
 
         for (i = 1; i <= sample_num; i++)
         {
@@ -441,7 +428,7 @@ public static class BallTest
             }
 
             r = Math.Sqrt(r);
-            phi = Math.Acos(x[2] / r);
+            double phi = Math.Acos(x[2] / r);
             average_phi += phi;
         }
 
@@ -476,13 +463,11 @@ public static class BallTest
         //    John Burkardt
         //
     {
-        double volume;
-
         Console.WriteLine("");
         Console.WriteLine("BALL01_VOLUME_TEST");
         Console.WriteLine("  BALL01_VOLUME returns the volume of the unit ball.");
 
-        volume = Geometry.ball01_volume();
+        double volume = Geometry.ball01_volume();
 
         Console.WriteLine("");
         Console.WriteLine("  Volume = " + volume + "");

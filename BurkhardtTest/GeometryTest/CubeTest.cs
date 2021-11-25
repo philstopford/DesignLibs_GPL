@@ -27,15 +27,12 @@ public static class CubeTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
         int edge_num = 0;
         int face_num = 0;
-        int[] face_order;
         int face_order_max = 0;
-        int[] face_point;
         int point_num = 0;
-        double[] point_coord;
 
         Console.WriteLine("");
         Console.WriteLine("TEST020");
@@ -56,9 +53,9 @@ public static class CubeTest
         //
         //  Make room for the data.
         //
-        face_order = new int[face_num];
-        face_point = new int[face_order_max * face_num];
-        point_coord = new double[DIM_NUM * point_num];
+        int[] face_order = new int[face_num];
+        int[] face_point = new int[face_order_max * face_num];
+        double[] point_coord = new double[DIM_NUM * point_num];
         //
         //  Get the data.
         //
@@ -93,13 +90,11 @@ public static class CubeTest
         //    John Burkardt
         //
     {
-        double volume;
-
         Console.WriteLine("");
         Console.WriteLine("CUBE01_VOLUME_TEST");
         Console.WriteLine("  CUBE01_VOLUME returns the volume of the unit cube.");
 
-        volume = Geometry.cube01_volume();
+        double volume = Geometry.cube01_volume();
 
         Console.WriteLine("");
         Console.WriteLine("  Volume = " + volume + "");

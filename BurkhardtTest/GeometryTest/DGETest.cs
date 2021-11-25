@@ -28,17 +28,13 @@ public static class DGETest
         //    John Burkardt
         //
     {
-        int N = 5;
+        const int N = 5;
 
-        double[] a;
         double[] alu = new double[N * N];
         double[] b = new double[N];
         int i;
-        int info;
         int j;
-        int job;
         int[] pivot = new int[N];
-        int seed;
         double[] x = new double[N];
 
         Console.WriteLine("");
@@ -50,8 +46,8 @@ public static class DGETest
         //
         //  Set the matrix.
         //
-        seed = 123456789;
-        a = UniformRNG.r8mat_uniform_01_new(N, N, ref seed);
+        int seed = 123456789;
+        double[] a = UniformRNG.r8mat_uniform_01_new(N, N, ref seed);
         typeMethods.r8mat_print(N, N, a, "  Matrix A:");
         //
         //  Set the desired solution.
@@ -89,7 +85,7 @@ public static class DGETest
         //
         //  Factor the matrix.
         //
-        info = Matrix.dge_fa(N, ref alu, ref pivot);
+        int info = Matrix.dge_fa(N, ref alu, ref pivot);
 
         typeMethods.r8mat_print(N, N, alu, "  Factored matrix ALU:");
 
@@ -105,7 +101,7 @@ public static class DGETest
         //
         //  Solve the linear system.
         //
-        job = 0;
+        int job = 0;
         Matrix.dge_sl(N, alu, pivot, ref b, job);
 
         typeMethods.r8vec_print(N, b, "  Solution: (Should be 1, 2, 3,...)");

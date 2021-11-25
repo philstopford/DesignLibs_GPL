@@ -27,13 +27,11 @@ public static class DiskPointTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
-        int TEST_NUM = 5;
+        const int DIM_NUM = 3;
+        const int TEST_NUM = 5;
 
         double[] axis = { 0.0, 1.0, 1.0 };
-        double dist;
         double[] dist_test = { 2.0, 0.0, 0.0, 8.0, 10.0 };
-        double[] p;
         double[] pc = { 0.0, 1.4142135, 1.4142135 };
         double[] p_test = {
             0.0,  0.0,        0.0,
@@ -41,7 +39,7 @@ public static class DiskPointTest
             2.0,  1.4142135,  1.4142135,
             10.0,  1.4142135,  1.4142135,
             10.0,  5.6568542,  5.6568542 };
-        double r = 2.0;
+        const double r = 2.0;
         int test;
 
         Console.WriteLine("");
@@ -56,11 +54,11 @@ public static class DiskPointTest
 
         for ( test = 0; test < TEST_NUM; test++ )
         {
-            p = p_test.Skip( + test * DIM_NUM).ToArray();
+            double[] p = p_test.Skip( + test * DIM_NUM).ToArray();
 
             typeMethods.r8vec_print ( DIM_NUM, p, "  Point: " );
 
-            dist = Burkardt.Disk.Geometry.disk_point_dist_3d ( pc, r, axis, p );
+            double dist = Burkardt.Disk.Geometry.disk_point_dist_3d ( pc, r, axis, p );
 
             Console.WriteLine("");
             Console.WriteLine("  Distance = " + dist

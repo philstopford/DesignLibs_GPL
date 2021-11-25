@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Cube;
 using Burkardt.Types;
 
@@ -27,18 +28,16 @@ public static class BoxTest
         //    John Burkardt
         //
     {
-        int N = 46;
+        const int N = 46;
 
         int i;
-        int j;
         double[] p = new double[2];
         double[] p1 = {-0.1, 0.3};
         double[] p2 = {1.1, 0.9};
-        double xhi = 1.2;
-        double xlo = -0.3;
-        double yhi = 1.4;
-        double ylo = -0.1;
-        string cout = "";
+        const double xhi = 1.2;
+        const double xlo = -0.3;
+        const double yhi = 1.4;
+        const double ylo = -0.1;
 
         Console.WriteLine("");
         Console.WriteLine("BOX_CONTAINS_POINT_2D_TEST");
@@ -55,7 +54,8 @@ public static class BoxTest
                     + (i - 1) * ylo)
                    / (N - 1);
 
-            cout = "  ";
+            string cout = "  ";
+            int j;
             for (j = 1; j <= N; j++)
             {
                 p[0] = ((N - j) * xlo
@@ -97,11 +97,10 @@ public static class BoxTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int TEST_NUM = 5;
+        const int DIM_NUM = 2;
+        const int TEST_NUM = 5;
 
         int i;
-        int ival;
         double[] p1 = {-10.0, 10.0};
         double[] p2 = {10.0, 20.0};
         double[] pa = new double[DIM_NUM];
@@ -135,7 +134,7 @@ public static class BoxTest
         Console.WriteLine("");
         for (i = 0; i < DIM_NUM; i++)
         {
-            cout += "  " + p1[i].ToString().PadLeft(8);
+            cout += "  " + p1[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         }
 
         Console.WriteLine("");
@@ -144,7 +143,7 @@ public static class BoxTest
         Console.WriteLine("");
         for (i = 0; i < DIM_NUM; i++)
         {
-            cout += "  " + p2[i].ToString().PadLeft(8);
+            cout += "  " + p2[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         }
 
         Console.WriteLine(cout);
@@ -162,17 +161,17 @@ public static class BoxTest
             typeMethods.r8vec_copy(DIM_NUM, pa, ref qa);
             typeMethods.r8vec_copy(DIM_NUM, pb, ref qb);
 
-            ival = Geometry.box_segment_clip_2d(p1, p2, qa, qb);
+            int ival = Geometry.box_segment_clip_2d(p1, p2, qa, qb);
 
             Console.WriteLine("");
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + pa[i].ToString().PadLeft(8);
+                cout += "  " + pa[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
 
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + pb[i].ToString().PadLeft(8);
+                cout += "  " + pb[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
 
             Console.WriteLine(cout);
@@ -191,7 +190,7 @@ public static class BoxTest
                 {
                     for (i = 0; i < DIM_NUM; i++)
                     {
-                        cout += "  " + qa[i].ToString().PadLeft(8);
+                        cout += "  " + qa[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
                     }
 
                     break;
@@ -205,7 +204,7 @@ public static class BoxTest
 
                     for (i = 0; i < DIM_NUM; i++)
                     {
-                        cout += "  " + qb[i].ToString().PadLeft(8);
+                        cout += "  " + qb[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
                     }
 
                     Console.WriteLine(cout);
@@ -216,16 +215,15 @@ public static class BoxTest
                 {
                     for (i = 0; i < DIM_NUM; i++)
                     {
-                        cout += "  " + qa[i].ToString().PadLeft(8);
+                        cout += "  " + qa[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
                     }
 
                     for (i = 0; i < DIM_NUM; i++)
                     {
-                        cout += "  " + qb[i].ToString().PadLeft(8);
+                        cout += "  " + qb[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
                     }
 
                     Console.WriteLine(cout);
-                    cout = "";
                     break;
                 }
             }
@@ -254,8 +252,8 @@ public static class BoxTest
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int TEST_NUM = 3;
+        const int DIM_NUM = 2;
+        const int TEST_NUM = 3;
 
         double[] p1 = {0.0, 0.0};
         double[] p2 = {5.0, 3.0};
@@ -290,13 +288,13 @@ public static class BoxTest
         Console.WriteLine("");
         Console.WriteLine("  Lower left box corner:");
         Console.WriteLine("");
-        Console.WriteLine("  " + p1[0].ToString().PadLeft(12)
-                               + "  " + p1[1].ToString().PadLeft(12) + "");
+        Console.WriteLine("  " + p1[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                               + "  " + p1[1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         Console.WriteLine("");
         Console.WriteLine("  Upper right box corner:");
         Console.WriteLine("");
-        Console.WriteLine("  " + p2[0].ToString().PadLeft(12)
-                               + "  " + p2[1].ToString().PadLeft(12) + "");
+        Console.WriteLine("  " + p2[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                               + "  " + p2[1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         Console.WriteLine("");
 
         for (test = 0; test < TEST_NUM; test++)
@@ -307,14 +305,14 @@ public static class BoxTest
             Geometry.box_ray_int_2d(p1, p2, pa, pb, pint);
 
             Console.WriteLine("");
-            Console.WriteLine("  Origin:       " + pa[0].ToString().PadLeft(12)
-                                                 + "  " + pa[1].ToString().PadLeft(12) + "");
-            Console.WriteLine("  Point 2:      " + pb[0].ToString().PadLeft(12)
-                                                 + "  " + pb[1].ToString().PadLeft(12) + "");
-            Console.WriteLine("  Intersection: " + pint[0].ToString().PadLeft(12)
-                                                 + "  " + pint[1].ToString().PadLeft(12) + "");
+            Console.WriteLine("  Origin:       " + pa[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                                 + "  " + pa[1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+            Console.WriteLine("  Point 2:      " + pb[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                                 + "  " + pb[1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+            Console.WriteLine("  Intersection: " + pint[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                                 + "  " + pint[1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             Console.WriteLine("  Correct:      " + pc_test[0 + test * DIM_NUM]
-                                                 + "  " + pc_test[1 + test * DIM_NUM].ToString().PadLeft(12) + "");
+                                                 + "  " + pc_test[1 + test * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -339,16 +337,14 @@ public static class BoxTest
         //    John Burkardt
         //
     {
-        int N = 46;
+        const int N = 46;
 
         int i;
-        int j;
         double[] p = new double[2];
-        double xhi = 1.2;
-        double xlo = -0.3;
-        double yhi = 1.4;
-        double ylo = -0.1;
-        string cout = "";
+        const double xhi = 1.2;
+        const double xlo = -0.3;
+        const double yhi = 1.4;
+        const double ylo = -0.1;
 
         Console.WriteLine("");
         Console.WriteLine("BOX01_CONTAINS_POINT_2D_TEST");
@@ -365,7 +361,8 @@ public static class BoxTest
                     + (i - 1) * ylo)
                    / (N - 1);
 
-            cout = "  ";
+            string cout = "  ";
+            int j;
             for (j = 1; j <= N; j++)
             {
                 p[0] = ((N - j) * xlo

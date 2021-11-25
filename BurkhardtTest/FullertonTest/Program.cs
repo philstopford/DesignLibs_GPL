@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.FullertonFnLib;
 using Burkardt.Values;
 
@@ -164,8 +165,8 @@ internal static class Program
 
         for (i = 1; i <= 16; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + FullertonLib.i4_mach(i).ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + FullertonLib.i4_mach(i).ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
     }
@@ -192,8 +193,6 @@ internal static class Program
         //
     {
         double fx1 = 0;
-        double fx2;
-        int n_data;
         double x = 0;
 
         Console.WriteLine("");
@@ -203,7 +202,7 @@ internal static class Program
         Console.WriteLine("             X      ARCCOS(X)  R8_ACOS(X)         Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -214,12 +213,12 @@ internal static class Program
                 break;
             }
 
-            fx2 = FullertonLib.r8_acos(x);
+            double fx2 = FullertonLib.r8_acos(x);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -246,8 +245,6 @@ internal static class Program
         //
     {
         double fx1 = 0;
-        double fx2;
-        int n_data;
         double x = 0;
 
         Console.WriteLine("");
@@ -257,7 +254,7 @@ internal static class Program
         Console.WriteLine("             X      ARCCOSH(X)  R8_ACOSH(X)        Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -268,12 +265,12 @@ internal static class Program
                 break;
             }
 
-            fx2 = FullertonLib.r8_acosh(x);
+            double fx2 = FullertonLib.r8_acosh(x);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -300,8 +297,6 @@ internal static class Program
         //
     {
         double fx1 = 0;
-        double fx2;
-        int n_data;
         double x = 0;
 
         Console.WriteLine("");
@@ -311,7 +306,7 @@ internal static class Program
         Console.WriteLine("             X   AIRY_AI(X)  R8_AI(X)         Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
         FullertonLib.r8AIData data = new();
 
         for (;;)
@@ -323,12 +318,12 @@ internal static class Program
                 break;
             }
 
-            fx2 = FullertonLib.r8_ai(ref data, x);
+            double fx2 = FullertonLib.r8_ai(ref data, x);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -355,8 +350,6 @@ internal static class Program
         //
     {
         double fx1 = 0;
-        double fx2;
-        int n_data;
         double x = 0;
 
         Console.WriteLine("");
@@ -365,7 +358,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("             X   AIRY_AID(X)  R8_AID(X)         Diff");
 
-        n_data = 0;
+        int n_data = 0;
         FullertonLib.r8AIDData data = new();
 
         for (;;)
@@ -377,13 +370,13 @@ internal static class Program
                 break;
             }
 
-            fx2 = FullertonLib.r8_aid(ref data, x);
+            double fx2 = FullertonLib.r8_aid(ref data, x);
 
             Console.WriteLine("");
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -410,8 +403,6 @@ internal static class Program
         //
     {
         double fx1 = 0;
-        double fx2;
-        int n_data;
         double x = 0;
 
         Console.WriteLine("");
@@ -421,7 +412,7 @@ internal static class Program
         Console.WriteLine("             X      AINT(X)  R8_AINT(X)         Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -432,12 +423,12 @@ internal static class Program
                 break;
             }
 
-            fx2 = FullertonLib.r8_aint(x);
+            double fx2 = FullertonLib.r8_aint(x);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -464,8 +455,6 @@ internal static class Program
         //
     {
         double fx1 = 0;
-        double fx2;
-        int n_data;
         double x = 0;
 
         Console.WriteLine("");
@@ -475,7 +464,7 @@ internal static class Program
         Console.WriteLine("             X      ARCSIN(X)  R8_ASIN(X)         Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
         FullertonLib.r8ASINData data = new();
 
         for (;;)
@@ -487,12 +476,12 @@ internal static class Program
                 break;
             }
 
-            fx2 = FullertonLib.r8_asin(ref data, x);
+            double fx2 = FullertonLib.r8_asin(ref data, x);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -519,8 +508,6 @@ internal static class Program
         //
     {
         double fx1 = 0;
-        double fx2;
-        int n_data;
         double x = 0;
 
         Console.WriteLine("");
@@ -530,7 +517,7 @@ internal static class Program
         Console.WriteLine("             X      ARCSINH(X)  R8_ASINH(X)        Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
         FullertonLib.r8ASINHData data = new();
 
         for (;;)
@@ -542,12 +529,12 @@ internal static class Program
                 break;
             }
 
-            fx2 = FullertonLib.r8_asinh(ref data, x);
+            double fx2 = FullertonLib.r8_asinh(ref data, x);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -574,8 +561,8 @@ internal static class Program
         //
     {
         double fx1 = 0;
-        double fx2;
-        int n_data;
+
+
         double x = 0;
 
         Console.WriteLine("");
@@ -585,7 +572,7 @@ internal static class Program
         Console.WriteLine("             X      ARCTAN(X)  R8_ATAN(X)         Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
         FullertonLib.r8ATANData data = new();
 
         for (;;)
@@ -597,12 +584,12 @@ internal static class Program
                 break;
             }
 
-            fx2 = FullertonLib.r8_atan(ref data, x);
+            double fx2 = FullertonLib.r8_atan(ref data, x);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -629,8 +616,8 @@ internal static class Program
         //
     {
         double fx1 = 0;
-        double fx2;
-        int n_data;
+
+
         double x = 0;
         double y = 0;
 
@@ -641,7 +628,7 @@ internal static class Program
         Console.WriteLine("             X             Y      ARCTAN2(Y,X)  R8_ATAN2(Y,X)         Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
         FullertonLib.r8ATAN2Data data = new();
 
         for (;;)
@@ -653,13 +640,13 @@ internal static class Program
                 break;
             }
 
-            fx2 = FullertonLib.r8_atan2(ref data, y, x);
+            double fx2 = FullertonLib.r8_atan2(ref data, y, x);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + y.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + y.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -686,8 +673,8 @@ internal static class Program
         //
     {
         double fx1 = 0;
-        double fx2;
-        int n_data;
+
+
         double x = 0;
 
         Console.WriteLine("");
@@ -697,7 +684,7 @@ internal static class Program
         Console.WriteLine("             X      ARCTANH(X)  R8_ATANH(X)        Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
         FullertonLib.r8ATANHData data = new();
 
         for (;;)
@@ -709,12 +696,12 @@ internal static class Program
                 break;
             }
 
-            fx2 = FullertonLib.r8_atanh(ref data, x);
+            double fx2 = FullertonLib.r8_atanh(ref data, x);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -741,8 +728,8 @@ internal static class Program
         //
     {
         double fx1 = 0;
-        double fx2;
-        int n_data;
+
+
         double x = 0;
 
         Console.WriteLine("");
@@ -752,7 +739,7 @@ internal static class Program
         Console.WriteLine("             X      BESI0(X)  R8_BESI0(X)        Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
         FullertonLib.BesselData globaldata = new();
         FullertonLib.r8BESI0Data data = new();
 
@@ -765,12 +752,12 @@ internal static class Program
                 break;
             }
 
-            fx2 = FullertonLib.r8_besi0(ref globaldata, ref data, x);
+            double fx2 = FullertonLib.r8_besi0(ref globaldata, ref data, x);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -797,8 +784,8 @@ internal static class Program
         //
     {
         double fx1 = 0;
-        double fx2;
-        int n_data;
+
+
         double x = 0;
 
         Console.WriteLine("");
@@ -808,7 +795,7 @@ internal static class Program
         Console.WriteLine("             X      BESI1(X)  R8_BESI1(X)        Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
         FullertonLib.BesselData globaldata = new();
         FullertonLib.r8BESI1Data data = new();
 
@@ -821,12 +808,12 @@ internal static class Program
                 break;
             }
 
-            fx2 = FullertonLib.r8_besi1(ref globaldata, ref data, x);
+            double fx2 = FullertonLib.r8_besi1(ref globaldata, ref data, x);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -853,8 +840,8 @@ internal static class Program
         //
     {
         double fx1 = 0;
-        double fx2;
-        int n_data;
+
+
         double x = 0;
 
         Console.WriteLine("");
@@ -864,7 +851,7 @@ internal static class Program
         Console.WriteLine("             X      BESJ0(X)  R8_BESJ0(X)        Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
         FullertonLib.BesselData globaldata = new();
         FullertonLib.r8BESJ0Data data = new();
 
@@ -877,12 +864,12 @@ internal static class Program
                 break;
             }
 
-            fx2 = FullertonLib.r8_besj0(ref globaldata, ref data, x);
+            double fx2 = FullertonLib.r8_besj0(ref globaldata, ref data, x);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -909,8 +896,8 @@ internal static class Program
         //
     {
         double fx1 = 0;
-        double fx2;
-        int n_data;
+
+
         double x = 0;
 
         Console.WriteLine("");
@@ -920,7 +907,7 @@ internal static class Program
         Console.WriteLine("             X      BESJ1(X)  R8_BESJ1(X)        Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
         FullertonLib.BesselData globaldata = new();
         FullertonLib.r8BESJ1Data data = new();
 
@@ -933,12 +920,12 @@ internal static class Program
                 break;
             }
 
-            fx2 = FullertonLib.r8_besj1(ref globaldata, ref data, x);
+            double fx2 = FullertonLib.r8_besj1(ref globaldata, ref data, x);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -965,8 +952,8 @@ internal static class Program
         //
     {
         double fx1 = 0;
-        double fx2;
-        int n_data;
+
+
         double x = 0;
 
         Console.WriteLine("");
@@ -976,7 +963,7 @@ internal static class Program
         Console.WriteLine("             X      BESK0(X)  R8_BESK0(X)        Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
         FullertonLib.BesselData globaldata = new();
         FullertonLib.r8BESK0Data data = new();
 
@@ -989,12 +976,12 @@ internal static class Program
                 break;
             }
 
-            fx2 = FullertonLib.r8_besk0(ref globaldata, ref data, x);
+            double fx2 = FullertonLib.r8_besk0(ref globaldata, ref data, x);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -1021,8 +1008,8 @@ internal static class Program
         //
     {
         double fx1 = 0;
-        double fx2;
-        int n_data;
+
+
         double x = 0;
 
         Console.WriteLine("");
@@ -1032,7 +1019,7 @@ internal static class Program
         Console.WriteLine("             X      BESK1(X)  R8_BESK1(X)        Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
         FullertonLib.BesselData globaldata = new();
         FullertonLib.r8BESK1Data data = new();
 
@@ -1045,12 +1032,12 @@ internal static class Program
                 break;
             }
 
-            fx2 = FullertonLib.r8_besk1(ref globaldata, ref data, x);
+            double fx2 = FullertonLib.r8_besk1(ref globaldata, ref data, x);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -1077,8 +1064,8 @@ internal static class Program
         //
     {
         double fx1 = 0;
-        double fx2;
-        int n_data;
+
+
         double x = 0;
 
         Console.WriteLine("");
@@ -1088,7 +1075,7 @@ internal static class Program
         Console.WriteLine("             X      BESY0(X)  R8_BESY0(X)        Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
         FullertonLib.BesselData globaldata = new();
         FullertonLib.r8BESY0Data data = new();
 
@@ -1101,12 +1088,12 @@ internal static class Program
                 break;
             }
 
-            fx2 = FullertonLib.r8_besy0(ref globaldata, ref data, x);
+            double fx2 = FullertonLib.r8_besy0(ref globaldata, ref data, x);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -1133,8 +1120,8 @@ internal static class Program
         //
     {
         double fx1 = 0;
-        double fx2;
-        int n_data;
+
+
         double x = 0;
 
         Console.WriteLine("");
@@ -1144,7 +1131,7 @@ internal static class Program
         Console.WriteLine("             X      BESY1(X)  R8_BESY1(X)        Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
         FullertonLib.BesselData globaldata = new();
         FullertonLib.r8BESY1Data data = new();
 
@@ -1157,12 +1144,12 @@ internal static class Program
                 break;
             }
 
-            fx2 = FullertonLib.r8_besy1(ref globaldata, ref data, x);
+            double fx2 = FullertonLib.r8_besy1(ref globaldata, ref data, x);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -1191,8 +1178,8 @@ internal static class Program
         double a = 0;
         double b = 0;
         double fx1 = 0;
-        double fx2;
-        int n_data;
+
+
 
         Console.WriteLine("");
         Console.WriteLine("R8_BETA_TEST:");
@@ -1201,7 +1188,7 @@ internal static class Program
         Console.WriteLine("             X        BETA(A,B)  R8_BETA(A,B)       Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
         FullertonLib.r8GammaData gdata = new();
         FullertonLib.BesselData globaldata = new();
         FullertonLib.r8BetaData data = new();
@@ -1215,14 +1202,14 @@ internal static class Program
                 break;
             }
 
-            fx2 = FullertonLib.r8_beta(ref gdata, ref globaldata, ref data, a, b);
+            double fx2 = FullertonLib.r8_beta(ref gdata, ref globaldata, ref data, a, b);
 
 
-            Console.WriteLine("  " + a.ToString().PadLeft(14)
-                                   + "  " + b.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + b.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -1251,8 +1238,8 @@ internal static class Program
         double a = 0;
         double b = 0;
         double fx1 = 0;
-        double fx2;
-        int n_data;
+
+
         double x = 0;
 
         Console.WriteLine("");
@@ -1262,7 +1249,7 @@ internal static class Program
         Console.WriteLine("             X        BETA(A,B,X)  R8_BETAI(A,B,X)       Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
         FullertonLib.r8Beta1Data data = new();
         FullertonLib.r8GammaData gammadata = new();
 
@@ -1275,14 +1262,14 @@ internal static class Program
                 break;
             }
 
-            fx2 = FullertonLib.r8_betai( ref data, ref gammadata, x, a, b);
+            double fx2 = FullertonLib.r8_betai( ref data, ref gammadata, x, a, b);
 
-            Console.WriteLine("  " + a.ToString().PadLeft(14)
-                                   + "  " + b.ToString().PadLeft(14)
-                                   + "  " + x.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + b.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -1309,8 +1296,8 @@ internal static class Program
         //
     {
         double fx1 = 0;
-        double fx2;
-        int n_data;
+
+
         double x = 0;
 
         Console.WriteLine("");
@@ -1320,7 +1307,7 @@ internal static class Program
         Console.WriteLine("             X   AIRY_BI(X)  R8_BI(X)         Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
         FullertonLib.r8BiData data = new();
 
         for (;;)
@@ -1332,12 +1319,12 @@ internal static class Program
                 break;
             }
 
-            fx2 = FullertonLib.r8_bi(ref data, x);
+            double fx2 = FullertonLib.r8_bi(ref data, x);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -1364,8 +1351,8 @@ internal static class Program
         //
     {
         double fx1 = 0;
-        double fx2;
-        int n_data;
+
+
         double x = 0;
 
         Console.WriteLine("");
@@ -1375,7 +1362,7 @@ internal static class Program
         Console.WriteLine("             X   AIRY_BID(X)  R8_BID(X)         Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
         FullertonLib.r8BidData data = new();
 
         for (;;)
@@ -1387,12 +1374,12 @@ internal static class Program
                 break;
             }
 
-            fx2 = FullertonLib.r8_bid(ref data, x);
+            double fx2 = FullertonLib.r8_bid(ref data, x);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -1421,8 +1408,8 @@ internal static class Program
         int a = 0;
         int b = 0;
         int fx1 = 0;
-        double fx2;
-        int n_data;
+
+
 
         Console.WriteLine("");
         Console.WriteLine("R8_BINOM_TEST:");
@@ -1431,7 +1418,7 @@ internal static class Program
         Console.WriteLine("             X        BINOM(A,B)  R8_BINOM(A,B)       Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
         FullertonLib.r8BinomData data = new();
 
         for (;;)
@@ -1443,13 +1430,13 @@ internal static class Program
                 break;
             }
 
-            fx2 = FullertonLib.r8_binom(ref data, a,  b);
+            double fx2 = FullertonLib.r8_binom(ref data, a,  b);
 
-            Console.WriteLine("  " + a.ToString().PadLeft(14)
-                                   + "  " + b.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + b.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -1476,8 +1463,8 @@ internal static class Program
         //
     {
         double fx1 = 0;
-        double fx2;
-        int n_data;
+
+
         double x = 0;
 
         Console.WriteLine("");
@@ -1487,7 +1474,7 @@ internal static class Program
         Console.WriteLine("             X      CBRT(X)  R8_CBRT(X)        Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         FullertonLib.r8CBRTData data = new();
 
@@ -1500,12 +1487,12 @@ internal static class Program
                 break;
             }
 
-            fx2 = FullertonLib.r8_cbrt(ref data, x);
+            double fx2 = FullertonLib.r8_cbrt(ref data, x);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -1532,8 +1519,8 @@ internal static class Program
         //
     {
         double fx1 = 0;
-        double fx2;
-        int n_data;
+
+
         double x = 0;
 
         Console.WriteLine("");
@@ -1543,7 +1530,7 @@ internal static class Program
         Console.WriteLine("             X      CHI(X)  R8_CHI(X)         Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -1554,12 +1541,12 @@ internal static class Program
                 break;
             }
 
-            fx2 = FullertonLib.r8_chi(x);
+            double fx2 = FullertonLib.r8_chi(x);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -1588,8 +1575,8 @@ internal static class Program
         double a = 0;
         double b = 0;
         double fx1 = 0;
-        double fx2;
-        int n_data;
+
+
         double x = 0;
 
         Console.WriteLine("");
@@ -1599,7 +1586,7 @@ internal static class Program
         Console.WriteLine("             A               B               X     CHU(A,B,X)  R8_CHU(A,B,X)  Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         FullertonLib.r8CHUData data = new();
         FullertonLib.r8GammaData gammadata = new();
@@ -1613,14 +1600,14 @@ internal static class Program
                 break;
             }
 
-            fx2 = FullertonLib.r8_chu(ref data, ref gammadata, a, b, x);
+            double fx2 = FullertonLib.r8_chu(ref data, ref gammadata, a, b, x);
 
-            Console.WriteLine("  " + a.ToString().PadLeft(14)
-                                   + "  " + b.ToString().PadLeft(14)
-                                   + "  " + x.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + b.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -1647,8 +1634,8 @@ internal static class Program
         //
     {
         double fx1 = 0;
-        double fx2;
-        int n_data;
+
+
         double x = 0;
 
         Console.WriteLine("");
@@ -1658,7 +1645,7 @@ internal static class Program
         Console.WriteLine("             X      CI(X)  R8_CI(X)         Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
         FullertonLib.r8CIData data = new();
 
         for (;;)
@@ -1670,12 +1657,12 @@ internal static class Program
                 break;
             }
 
-            fx2 = FullertonLib.r8_ci(ref data, x);
+            double fx2 = FullertonLib.r8_ci(ref data, x);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -1702,8 +1689,8 @@ internal static class Program
         //
     {
         double fx1 = 0;
-        double fx2;
-        int n_data;
+
+
         double x = 0;
 
         Console.WriteLine("");
@@ -1713,7 +1700,7 @@ internal static class Program
         Console.WriteLine("             X      CIN(X)  R8_CIN(X)         Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
         FullertonLib.r8CINData data = new();
 
         for (;;)
@@ -1725,12 +1712,12 @@ internal static class Program
                 break;
             }
 
-            fx2 = FullertonLib.r8_cin(ref data, x);
+            double fx2 = FullertonLib.r8_cin(ref data, x);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -1757,8 +1744,8 @@ internal static class Program
         //
     {
         double fx1 = 0;
-        double fx2;
-        int n_data;
+
+
         double x = 0;
 
         Console.WriteLine("");
@@ -1768,7 +1755,7 @@ internal static class Program
         Console.WriteLine("             X      CINH(X)  R8_CINH(X)         Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
         FullertonLib.r8CINHData data = new();
 
         for (;;)
@@ -1780,12 +1767,12 @@ internal static class Program
                 break;
             }
 
-            fx2 = FullertonLib.r8_cinh(ref data, x);
+            double fx2 = FullertonLib.r8_cinh(ref data, x);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -1812,8 +1799,8 @@ internal static class Program
         //
     {
         double fx1 = 0;
-        double fx2;
-        int n_data;
+
+
         double x = 0;
 
         Console.WriteLine("");
@@ -1823,7 +1810,7 @@ internal static class Program
         Console.WriteLine("             X      COS(X)  R8_COS(X)         Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
         FullertonLib.r8CosData data = new();
 
         for (;;)
@@ -1835,12 +1822,12 @@ internal static class Program
                 break;
             }
 
-            fx2 = FullertonLib.r8_cos(ref data, x);
+            double fx2 = FullertonLib.r8_cos(ref data, x);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -1867,8 +1854,8 @@ internal static class Program
         //
     {
         double fx1 = 0;
-        double fx2;
-        int n_data;
+
+
         double x = 0;
 
         Console.WriteLine("");
@@ -1878,7 +1865,7 @@ internal static class Program
         Console.WriteLine("             X      COS_DEG(X)  R8_COS_DEG(X)         Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -1889,13 +1876,13 @@ internal static class Program
                 break;
             }
 
-            fx2 = FullertonLib.r8_cos_deg(x);
+            double fx2 = FullertonLib.r8_cos_deg(x);
 
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -1922,8 +1909,8 @@ internal static class Program
         //
     {
         double fx1 = 0;
-        double fx2;
-        int n_data;
+
+
         double x = 0;
 
         Console.WriteLine("");
@@ -1933,7 +1920,7 @@ internal static class Program
         Console.WriteLine("             X      COSH(X)  R8_COSH(X)        Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
         FullertonLib.r8CoshData data = new();
 
         for (;;)
@@ -1945,12 +1932,12 @@ internal static class Program
                 break;
             }
 
-            fx2 = FullertonLib.r8_cosh(ref data, x);
+            double fx2 = FullertonLib.r8_cosh(ref data, x);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -1977,8 +1964,8 @@ internal static class Program
         //
     {
         double fx1 = 0;
-        double fx2;
-        int n_data;
+
+
         double x = 0;
 
         Console.WriteLine("");
@@ -1988,7 +1975,7 @@ internal static class Program
         Console.WriteLine("             X      COT(X)  R8_COT(X)         Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
         FullertonLib.r8CotData data = new();
 
         for (;;)
@@ -2000,12 +1987,12 @@ internal static class Program
                 break;
             }
 
-            fx2 = FullertonLib.r8_cot(ref data, x);
+            double fx2 = FullertonLib.r8_cot(ref data, x);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -2031,8 +2018,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double err;
-        int i;
         int n;
         double[] expcs =  {
                 2.532131755504016,
@@ -2052,8 +2037,6 @@ internal static class Program
                 0.000000000000001
             }
             ;
-        double s;
-        double x = 0;
 
         Console.WriteLine("");
         Console.WriteLine("R8_CSEVL_TEST:");
@@ -2068,17 +2051,18 @@ internal static class Program
 
         for (n = 1; n <= 12; n++)
         {
-            err = 0.0;
+            double err = 0.0;
+            int i;
             for (i = -10; i <= 10; i++)
             {
-                x = i / 10.0;
-                s = FullertonLib.r8_csevl(x, expcs, n);
+                double x = i / 10.0;
+                double s = FullertonLib.r8_csevl(x, expcs, n);
                 err += Math.Abs(s - Math.Exp(x));
             }
 
             err /= 21.0;
-            Console.WriteLine("  " + n.ToString().PadLeft(2)
-                                   + "  " + err.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -2105,8 +2089,8 @@ internal static class Program
         //
     {
         double fx1 = 0;
-        double fx2;
-        int n_data;
+
+
         double x = 0;
 
         Console.WriteLine("");
@@ -2116,7 +2100,7 @@ internal static class Program
         Console.WriteLine("             X      DAWSON(X)  R8_DAWSON(X)         Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
         FullertonLib.r8DawsonData data = new();
 
         for (;;)
@@ -2128,12 +2112,12 @@ internal static class Program
                 break;
             }
 
-            fx2 = FullertonLib.r8_dawson(ref data, x);
+            double fx2 = FullertonLib.r8_dawson(ref data, x);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -2160,8 +2144,8 @@ internal static class Program
         //
     {
         double fx1 = 0;
-        double fx2;
-        int n_data;
+
+
         double x = 0;
 
         Console.WriteLine("");
@@ -2171,7 +2155,7 @@ internal static class Program
         Console.WriteLine("             X      E1(X)  R8_E1(X)         Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
         FullertonLib.r8E1Data data = new();
 
         for (;;)
@@ -2183,12 +2167,12 @@ internal static class Program
                 break;
             }
 
-            fx2 = FullertonLib.r8_e1(ref data, x);
+            double fx2 = FullertonLib.r8_e1(ref data, x);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -2215,8 +2199,8 @@ internal static class Program
         //
     {
         double fx1 = 0;
-        double fx2;
-        int n_data;
+
+
         double x = 0;
 
         Console.WriteLine("");
@@ -2226,7 +2210,7 @@ internal static class Program
         Console.WriteLine("             X      EI(X)  R8_EI(X)         Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -2237,12 +2221,12 @@ internal static class Program
                 break;
             }
 
-            fx2 = FullertonLib.r8_ei(x);
+            double fx2 = FullertonLib.r8_ei(x);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -2269,8 +2253,8 @@ internal static class Program
         //
     {
         double fx1 = 0;
-        double fx2;
-        int n_data;
+
+
         double x = 0;
 
         Console.WriteLine("");
@@ -2280,7 +2264,7 @@ internal static class Program
         Console.WriteLine("             X      ERF(X)  R8_ERF(X)         Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
         FullertonLib.r8ErfData data = new();
 
         for (;;)
@@ -2292,12 +2276,12 @@ internal static class Program
                 break;
             }
 
-            fx2 = FullertonLib.r8_erf(ref data, x);
+            double fx2 = FullertonLib.r8_erf(ref data, x);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -2324,8 +2308,8 @@ internal static class Program
         //
     {
         double fx1 = 0;
-        double fx2;
-        int n_data;
+
+
         double x = 0;
 
         Console.WriteLine("");
@@ -2335,7 +2319,7 @@ internal static class Program
         Console.WriteLine("             X      ERFC(X)  R8_ERFC(X)         Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
         FullertonLib.r8ErfCData data = new();
 
         for (;;)
@@ -2347,12 +2331,12 @@ internal static class Program
                 break;
             }
 
-            fx2 = FullertonLib.r8_erfc(ref data, x);
+            double fx2 = FullertonLib.r8_erfc(ref data, x);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -2379,8 +2363,8 @@ internal static class Program
         //
     {
         double fx1 = 0;
-        double fx2;
-        int n_data;
+
+
         double x = 0;
 
         Console.WriteLine("");
@@ -2390,7 +2374,7 @@ internal static class Program
         Console.WriteLine("             X      EXP(X)  R8_EXP(X)         Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
         FullertonLib.r8ExpData data = new();
 
         for (;;)
@@ -2402,12 +2386,12 @@ internal static class Program
                 break;
             }
 
-            fx2 = FullertonLib.r8_exp(ref data, x);
+            double fx2 = FullertonLib.r8_exp(ref data, x);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -2434,9 +2418,9 @@ internal static class Program
         //
     {
         double fx1 = 0;
-        double fx2;
+
         int n = 0;
-        int n_data;
+
 
         Console.WriteLine("");
         Console.WriteLine("R8_FAC_TEST:");
@@ -2445,7 +2429,7 @@ internal static class Program
         Console.WriteLine("             N      FAC(N)  R8_FAC(N)         Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
         FullertonLib.r8FacData data = new();
 
         for (;;)
@@ -2457,12 +2441,12 @@ internal static class Program
                 break;
             }
 
-            fx2 = FullertonLib.r8_fac(ref data, n);
+            double fx2 = FullertonLib.r8_fac(ref data, n);
 
-            Console.WriteLine("  " + n.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -2490,8 +2474,8 @@ internal static class Program
     {
         double a = 0;
         double fx1 = 0;
-        double fx2;
-        int n_data;
+
+
         double x = 0;
 
         Console.WriteLine("");
@@ -2501,7 +2485,7 @@ internal static class Program
         Console.WriteLine("             X        GAMIC(A,X)  R8_GAMIC(A,X)       Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
         FullertonLib.r8GamicData data = new();
         FullertonLib.r8GammaData gdata = new();
 
@@ -2514,13 +2498,13 @@ internal static class Program
                 break;
             }
 
-            fx2 = FullertonLib.r8_gamic(ref data, ref gdata, a, x);
+            double fx2 = FullertonLib.r8_gamic(ref data, ref gdata, a, x);
 
-            Console.WriteLine("  " + a.ToString().PadLeft(14)
-                                   + "  " + x.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -2548,8 +2532,8 @@ internal static class Program
     {
         double a = 0;
         double fx1 = 0;
-        double fx2;
-        int n_data;
+
+
         double x = 0;
 
         Console.WriteLine("");
@@ -2559,7 +2543,7 @@ internal static class Program
         Console.WriteLine("             X        GAMIT(A,X)  R8_GAMIT(A,X)       Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
         FullertonLib.r8GamitData data = new();
         FullertonLib.r8GammaData gdata = new();
 
@@ -2572,13 +2556,13 @@ internal static class Program
                 break;
             }
 
-            fx2 = FullertonLib.r8_gamit(ref data, ref gdata, a, x);
+            double fx2 = FullertonLib.r8_gamit(ref data, ref gdata, a, x);
 
-            Console.WriteLine("  " + a.ToString().PadLeft(14)
-                                   + "  " + x.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -2641,8 +2625,8 @@ internal static class Program
         //
     {
         double fx1 = 0;
-        double fx2;
-        int n_data;
+
+
         double x = 0;
 
         Console.WriteLine("");
@@ -2652,7 +2636,7 @@ internal static class Program
         Console.WriteLine("             X      GAMMA(X)  R8_GAMMA(X)        Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
         FullertonLib.r8GammaData gdata = new();
 
         for (;;)
@@ -2664,12 +2648,12 @@ internal static class Program
                 break;
             }
 
-            fx2 = FullertonLib.r8_gamma(ref gdata, x);
+            double fx2 = FullertonLib.r8_gamma(ref gdata, x);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -2695,10 +2679,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double fx1 = 0;
-        double fx2;
         double gx = 0;
-        int n_data;
+
         double x = 0;
 
         Console.WriteLine("");
@@ -2708,7 +2690,7 @@ internal static class Program
         Console.WriteLine("             X    1/GAMMA(X)  R8_GAMR(X)        Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
         FullertonLib.r8GamrData data = new();
         FullertonLib.r8GammaData gdata = new();
 
@@ -2721,13 +2703,13 @@ internal static class Program
                 break;
             }
 
-            fx1 = 1.0 / gx;
-            fx2 = FullertonLib.r8_gamr(ref data, ref gdata, x);
+            double fx1 = 1.0 / gx;
+            double fx2 = FullertonLib.r8_gamr(ref data, ref gdata, x);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -2754,7 +2736,6 @@ internal static class Program
         //
     {
         int i;
-        int n;
         double[] sincs =  {
                 -0.374991154955873175839919279977323464,
                 -0.181603155237250201863830316158004754,
@@ -2773,7 +2754,6 @@ internal static class Program
                 +0.000000000000000000000000000000000256
             }
             ;
-        double tol;
 
         Console.WriteLine("");
         Console.WriteLine("R8_INITS_TEST:");
@@ -2786,12 +2766,12 @@ internal static class Program
         Console.WriteLine("  Accuracy    Terms Needed");
         Console.WriteLine("");
 
-        tol = 1.0;
+        double tol = 1.0;
         for (i = 1; i <= 18; i++)
         {
-            n = FullertonLib.r8_inits(sincs, 15, tol);
-            Console.WriteLine("  " + tol.ToString().PadLeft(14)
-                                   + "  " + n.ToString().PadLeft(4) + "");
+            int n = FullertonLib.r8_inits(sincs, 15, tol);
+            Console.WriteLine("  " + tol.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "");
             tol /= 10.0;
         }
 
@@ -2819,8 +2799,8 @@ internal static class Program
         //
     {
         double fx1 = 0;
-        double fx2;
-        int n_data;
+
+
         double x = 0;
 
         Console.WriteLine("");
@@ -2830,7 +2810,7 @@ internal static class Program
         Console.WriteLine("             X      INT(X)  R8_INT(X)         Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
         FullertonLib.r8IntData data = new();
 
         for (;;)
@@ -2842,12 +2822,12 @@ internal static class Program
                 break;
             }
 
-            fx2 = FullertonLib.r8_int(ref data, x);
+            double fx2 = FullertonLib.r8_int(ref data, x);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -2876,8 +2856,8 @@ internal static class Program
         double a = 0;
         double b = 0;
         double fx1 = 0;
-        double fx2;
-        int n_data;
+
+
 
         Console.WriteLine("");
         Console.WriteLine("R8_LBETA_TEST:");
@@ -2886,7 +2866,7 @@ internal static class Program
         Console.WriteLine("             X        LBETA(A,B)  R8_LBETA(A,B)       Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
         FullertonLib.r8LBetaData data = new();
         FullertonLib.r8GammaData gdata = new();
 
@@ -2899,13 +2879,13 @@ internal static class Program
                 break;
             }
 
-            fx2 = FullertonLib.r8_lbeta(ref data, ref gdata, a, b);
+            double fx2 = FullertonLib.r8_lbeta(ref data, ref gdata, a, b);
 
-            Console.WriteLine("  " + a.ToString().PadLeft(14)
-                                   + "  " + b.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + b.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -2933,7 +2913,7 @@ internal static class Program
     {
         double fx1 = 0;
         double fx2 = 0;
-        int n_data;
+
         double slngam = 0;
         double x = 0;
 
@@ -2945,7 +2925,7 @@ internal static class Program
         Console.WriteLine("             X        LNGAM(X)  Sign(Gamma(X)) ALNGAM        Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
         FullertonLib.r8LgamsData data = new();
         FullertonLib.r8GammaData gdata = new();
 
@@ -2960,11 +2940,11 @@ internal static class Program
 
             FullertonLib.r8_lgams(ref data, ref gdata, x, ref fx2, ref slngam);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + slngam.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + slngam.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
         }
 
@@ -2991,10 +2971,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double fx1 = 0;
-        double fx2;
         double gamma_log = 0;
-        int n_data;
+
         const double r8_pi = 3.141592653589793;
         double x = 0;
 
@@ -3007,7 +2985,7 @@ internal static class Program
         Console.WriteLine("             X        LGMC(X)  R8_LGMC(X)        Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
         FullertonLib.r8LgmcData data = new();
 
         for (;;)
@@ -3025,12 +3003,12 @@ internal static class Program
                 //  Function requires 10 <= x.
                 //
                 case >= 10.0:
-                    fx1 = gamma_log - Math.Log(Math.Sqrt(2.0 * r8_pi)) - (x - 0.5) * Math.Log(x) + x;
-                    fx2 = FullertonLib.r8_lgmc(ref data, x);
-                    Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                           + "  " + fx1.ToString().PadLeft(14)
-                                           + "  " + fx2.ToString().PadLeft(14)
-                                           + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+                    double fx1 = gamma_log - Math.Log(Math.Sqrt(2.0 * r8_pi)) - (x - 0.5) * Math.Log(x) + x;
+                    double fx2 = FullertonLib.r8_lgmc(ref data, x);
+                    Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                           + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                           + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                           + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                     break;
             }
         }
@@ -3059,8 +3037,8 @@ internal static class Program
         //
     {
         double fx1 = 0;
-        double fx2;
-        int n_data;
+
+
         double x = 0;
 
         Console.WriteLine("");
@@ -3070,7 +3048,7 @@ internal static class Program
         Console.WriteLine("             X      LI(X)  R8_LI(X)        Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
         FullertonLib.r8LiData data = new();
 
         for (;;)
@@ -3082,12 +3060,12 @@ internal static class Program
                 break;
             }
 
-            fx2 = FullertonLib.r8_li(ref data, x);
+            double fx2 = FullertonLib.r8_li(ref data, x);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -3114,8 +3092,8 @@ internal static class Program
         //
     {
         double fx1 = 0;
-        double fx2;
-        int n_data;
+
+
         double x = 0;
 
         Console.WriteLine("");
@@ -3124,7 +3102,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("             X        LNGAM(X)  R8_LNGAM(X)        Diff");
 
-        n_data = 0;
+        int n_data = 0;
         FullertonLib.r8LngamData data = new();
         FullertonLib.r8GammaData gdata = new();
 
@@ -3137,13 +3115,13 @@ internal static class Program
                 break;
             }
 
-            fx2 = FullertonLib.r8_lngam(ref data, ref gdata, x);
+            double fx2 = FullertonLib.r8_lngam(ref data, ref gdata, x);
 
             Console.WriteLine("");
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -3170,8 +3148,8 @@ internal static class Program
         //
     {
         double fx1 = 0;
-        double fx2;
-        int n_data;
+
+
         double x = 0;
 
         Console.WriteLine("");
@@ -3181,7 +3159,7 @@ internal static class Program
         Console.WriteLine("             X      LOG(1+X)  R8_LNREL(X)        Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
         FullertonLib.r8LnrelData data = new();
 
         for (;;)
@@ -3195,12 +3173,12 @@ internal static class Program
 
             x -= 1.0;
 
-            fx2 = FullertonLib.r8_lnrel(ref data, x);
+            double fx2 = FullertonLib.r8_lnrel(ref data, x);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -3227,8 +3205,8 @@ internal static class Program
         //
     {
         double fx1 = 0;
-        double fx2;
-        int n_data;
+
+
         double x = 0;
 
         Console.WriteLine("");
@@ -3238,7 +3216,7 @@ internal static class Program
         Console.WriteLine("             X      LOG(X)  R8_LOG(X)        Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
         FullertonLib.r8LogData data = new();
 
         for (;;)
@@ -3250,12 +3228,12 @@ internal static class Program
                 break;
             }
 
-            fx2 = FullertonLib.r8_log(ref data, x);
+            double fx2 = FullertonLib.r8_log(ref data, x);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -3282,8 +3260,8 @@ internal static class Program
         //
     {
         double fx1 = 0;
-        double fx2;
-        int n_data;
+
+
         double x = 0;
 
         Console.WriteLine("");
@@ -3292,7 +3270,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("             X      LOG10(X)  R8_LOG10(X)        Diff");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -3303,12 +3281,12 @@ internal static class Program
                 break;
             }
 
-            fx2 = FullertonLib.r8_log10(x);
+            double fx2 = FullertonLib.r8_log10(x);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -3351,8 +3329,8 @@ internal static class Program
 
         for (i = 1; i <= 5; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + FullertonLib.r8_mach(i).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + FullertonLib.r8_mach(i).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -3379,13 +3357,10 @@ internal static class Program
         //
     {
         int i;
-        int n;
         int[] n_test =  {
                 7, 8, 7, 7, 4, 0, -1, 0, 7, 2, 0
             }
             ;
-        double x = 0;
-        double y;
         double[] y_test =  {
                 0.5,
                 0.5,
@@ -3411,13 +3386,13 @@ internal static class Program
 
         for (i = 0; i < 11; i++)
         {
-            y = y_test[i];
-            n = n_test[i];
+            double y = y_test[i];
+            int n = n_test[i];
 
-            x = FullertonLib.r8_pak(ref data, y, n);
-            Console.WriteLine("  " + y.ToString().PadLeft(24)
-                                   + "  " + n.ToString().PadLeft(8)
-                                   + "  " + x.ToString().PadLeft(24) + "");
+            double x = FullertonLib.r8_pak(ref data, y, n);
+            Console.WriteLine("  " + y.ToString(CultureInfo.InvariantCulture).PadLeft(24)
+                                   + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "");
         }
 
     }
@@ -3445,10 +3420,8 @@ internal static class Program
     {
         double a = 0;
         double fx1 = 0;
-        double fx2;
+
         int n = 0;
-        int n_data;
-        double x = 0;
 
         Console.WriteLine("");
         Console.WriteLine("R8_POCH_TEST:");
@@ -3456,7 +3429,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("             X        POCH(A,X)  R8_POCH(A,X)       Diff");
 
-        n_data = 0;
+        int n_data = 0;
         FullertonLib.r8PochData data = new();
         FullertonLib.r8GammaData gdata = new();
 
@@ -3469,14 +3442,14 @@ internal static class Program
                 break;
             }
 
-            x = n;
-            fx2 = FullertonLib.r8_poch(ref data, ref gdata, a, x);
+            double x = n;
+            double fx2 = FullertonLib.r8_poch(ref data, ref gdata, a, x);
 
-            Console.WriteLine("  " + a.ToString().PadLeft(14)
-                                   + "  " + x.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -3503,8 +3476,8 @@ internal static class Program
         //
     {
         double fx1 = 0;
-        double fx2;
-        int n_data;
+
+
         double x = 0;
 
         Console.WriteLine("");
@@ -3514,7 +3487,7 @@ internal static class Program
         Console.WriteLine("             X      PSI(X)  R8_PSI(X)        Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
         FullertonLib.r8PsiData data = new();
 
         for (;;)
@@ -3527,12 +3500,12 @@ internal static class Program
                     
             }
 
-            fx2 = FullertonLib.r8_psi(ref data, x);
+            double fx2 = FullertonLib.r8_psi(ref data, x);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -3558,15 +3531,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double average;
         int i;
         int[] i_value  = {
                 1, 2, 3, 4, 10, 100, 1000
             }
             ;
-        int ix0;
-        int ix1;
-        int k;
         double r;
         double[] r_value =  {
                 0.0004127026,
@@ -3578,8 +3547,6 @@ internal static class Program
                 0.2176990509
             }
             ;
-        double s;
-        double variance;
 
         Console.WriteLine("");
         Console.WriteLine("R8_RAND_TEST:");
@@ -3590,11 +3557,11 @@ internal static class Program
         //
         //  Start the sequence.
         //
-        ix0 = 0;
-        ix1 = 0;
-        s = 0.0;
+        int ix0 = 0;
+        int ix1 = 0;
+        double s = 0.0;
 
-        k = 0;
+        int k = 0;
 
         for (i = 1; i <= 1000; i++)
         {
@@ -3602,9 +3569,9 @@ internal static class Program
 
             if (i == i_value[k])
             {
-                Console.WriteLine("  " + i.ToString().PadLeft(14)
-                                       + "  " + r.ToString().PadLeft(14)
-                                       + "  " + r_value[k].ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + r_value[k].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                 k += 1;
             }
         }
@@ -3616,7 +3583,7 @@ internal static class Program
         ix1 = 0;
         s = 0.0;
 
-        average = 0.0;
+        double average = 0.0;
         for (i = 1; i <= 1000000; i++)
         {
             r = FullertonLib.r8_rand(s, ref ix0, ref ix1);
@@ -3626,8 +3593,8 @@ internal static class Program
         average /= 1000000.0;
         Console.WriteLine("");
         Console.WriteLine("     Average =  "
-                          + "  " + average.ToString().PadLeft(14)
-                          + "  " + 0.5.ToString().PadLeft(14) + "");
+                          + "  " + average.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + 0.5.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         //
         //  Restart the sequence.
         //
@@ -3635,7 +3602,7 @@ internal static class Program
         ix1 = 0;
         s = 0.0;
 
-        variance = 0.0;
+        double variance = 0.0;
         for (i = 1; i <= 1000000; i++)
         {
             r = FullertonLib.r8_rand(s, ref ix0, ref ix1);
@@ -3644,8 +3611,8 @@ internal static class Program
 
         variance /= 1000000.0;
         Console.WriteLine("     Variance = "
-                          + "  " + variance.ToString().PadLeft(14)
-                          + "  " + (1.0 / 12.0).ToString().PadLeft(14) + "");
+                          + "  " + variance.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + (1.0 / 12.0).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
     }
 
@@ -3671,16 +3638,10 @@ internal static class Program
         //
     {
         int i;
-        double m;
-        double m2;
-        double r;
-        double sd;
-        double sd2;
-        int seed;
 
-        m = 3.0;
-        sd = 2.0;
-        seed = 123456789;
+        const double m = 3.0;
+        const double sd = 2.0;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("R8_RANDGS_TEST:");
@@ -3691,19 +3652,19 @@ internal static class Program
         Console.WriteLine("               I       R8_RANDGS");
         Console.WriteLine("");
 
-        m2 = 0.0;
-        sd2 = 0.0;
+        double m2 = 0.0;
+        double sd2 = 0.0;
 
         for (i = 1; i <= 1000; i++)
         {
-            r = FullertonLib.r8_randgs(m, sd, ref seed);
+            double r = FullertonLib.r8_randgs(m, sd, ref seed);
             m2 += r;
             sd2 += Math.Pow(m - r, 2);
             switch (i)
             {
                 case <= 10:
-                    Console.WriteLine("  " + i.ToString().PadLeft(14)
-                                           + "  " + r.ToString().PadLeft(14) + "");
+                    Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                           + "  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                     break;
             }
         }
@@ -3738,19 +3699,14 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double average;
         int i;
         int[] i_value =  {
                 1, 2, 3, 4, 10, 100, 1000
             }
             ;
-        int ix0;
-        int ix1;
-        int k;
-        int n = 32;
+        const int n = 32;
         double r;
         double[] t = new double[33];
-        double variance;
 
         Console.WriteLine("");
         Console.WriteLine("R8_RANDOM_TEST:");
@@ -3761,11 +3717,11 @@ internal static class Program
         //
         //  Start the sequence.
         //
-        ix0 = 0;
-        ix1 = 0;
+        int ix0 = 0;
+        int ix1 = 0;
         FullertonLib.r8_random_init(n, ref t, ref ix0, ref ix1);
 
-        k = 0;
+        int k = 0;
 
         for (i = 1; i <= 1000; i++)
         {
@@ -3773,8 +3729,8 @@ internal static class Program
 
             if (i == i_value[k])
             {
-                Console.WriteLine("  " + i.ToString().PadLeft(14)
-                                       + "  " + r.ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                 k += 1;
             }
         }
@@ -3786,7 +3742,7 @@ internal static class Program
         ix1 = 0;
         FullertonLib.r8_random_init(n, ref t, ref ix0, ref ix1);
 
-        average = 0.0;
+        double average = 0.0;
         for (i = 1; i <= 1000000; i++)
         {
             r = FullertonLib.r8_random(n, ref t, ref ix0, ref ix1);
@@ -3796,8 +3752,8 @@ internal static class Program
         average /= 1000000.0;
         Console.WriteLine("");
         Console.WriteLine("     Average =  "
-                          + "  " + average.ToString().PadLeft(14)
-                          + "  " + 0.5.ToString().PadLeft(14) + "");
+                          + "  " + average.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + 0.5.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         //
         //  Restart the sequence.
         //
@@ -3805,7 +3761,7 @@ internal static class Program
         ix1 = 0;
         FullertonLib.r8_random_init(n, ref t, ref ix0, ref ix1);
 
-        variance = 0.0;
+        double variance = 0.0;
         for (i = 1; i <= 1000000; i++)
         {
             r = FullertonLib.r8_random(n, ref t, ref ix0, ref ix1);
@@ -3814,8 +3770,8 @@ internal static class Program
 
         variance /= 1000000.0;
         Console.WriteLine("     Variance = "
-                          + "  " + variance.ToString().PadLeft(14)
-                          + "  " + (1.0 / 12.0).ToString().PadLeft(14) + "");
+                          + "  " + variance.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + (1.0 / 12.0).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
     }
 
@@ -3840,13 +3796,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double average;
         int i;
         int[] i_value =  {
                 1, 2, 3, 4, 10, 100, 1000
             }
             ;
-        int k;
         double r;
         double[] r_value =  {
                 0.470393,
@@ -3858,8 +3812,6 @@ internal static class Program
                 0.0121733
             }
             ;
-        int seed;
-        double variance;
 
         Console.WriteLine("");
         Console.WriteLine("R8_REN_TEST:");
@@ -3868,8 +3820,8 @@ internal static class Program
         Console.WriteLine("               I       R8_REN         Expected");
         Console.WriteLine("");
 
-        seed = 100001;
-        k = 0;
+        int seed = 100001;
+        int k = 0;
 
         for (i = 1; i <= 1000; i++)
         {
@@ -3877,15 +3829,15 @@ internal static class Program
 
             if (i == i_value[k])
             {
-                Console.WriteLine("  " + i.ToString().PadLeft(14)
-                                       + "  " + r.ToString().PadLeft(14)
-                                       + "  " + r_value[k].ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + r_value[k].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                 k += 1;
             }
         }
 
         seed = 123456789;
-        average = 0.0;
+        double average = 0.0;
         for (i = 1; i <= 1000000; i++)
         {
             r = FullertonLib.r8_ren(ref seed);
@@ -3895,11 +3847,11 @@ internal static class Program
         average /= 1000000.0;
         Console.WriteLine("");
         Console.WriteLine("     Average =  "
-                          + "  " + average.ToString().PadLeft(14)
-                          + "  " + 0.5.ToString().PadLeft(14) + "");
+                          + "  " + average.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + 0.5.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
         seed = 123456789;
-        variance = 0.0;
+        double variance = 0.0;
         for (i = 1; i <= 1000000; i++)
         {
             r = FullertonLib.r8_ren(ref seed);
@@ -3908,8 +3860,8 @@ internal static class Program
 
         variance /= 1000000.0;
         Console.WriteLine("     Variance = "
-                          + "  " + variance.ToString().PadLeft(14)
-                          + "  " + (1.0 / 12.0).ToString().PadLeft(14) + "");
+                          + "  " + variance.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + (1.0 / 12.0).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
     }
 
@@ -3935,8 +3887,8 @@ internal static class Program
         //
     {
         double fx1 = 0;
-        double fx2;
-        int n_data;
+
+
         double x = 0;
 
         Console.WriteLine("");
@@ -3946,7 +3898,7 @@ internal static class Program
         Console.WriteLine("             X      SHI(X)  R8_SHI(X)         Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
         FullertonLib.r8ShiData data = new();
 
         for (;;)
@@ -3958,12 +3910,12 @@ internal static class Program
                 break;
             }
 
-            fx2 = FullertonLib.r8_shi(ref data, x);
+            double fx2 = FullertonLib.r8_shi(ref data, x);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -3990,8 +3942,8 @@ internal static class Program
         //
     {
         double fx1 = 0;
-        double fx2;
-        int n_data;
+
+
         double x = 0;
 
         Console.WriteLine("");
@@ -4001,7 +3953,7 @@ internal static class Program
         Console.WriteLine("             X      SI(X)  R8_SI(X)         Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
         FullertonLib.r8SiData data = new();
 
         for (;;)
@@ -4013,12 +3965,12 @@ internal static class Program
                 break;
             }
 
-            fx2 = FullertonLib.r8_si(ref data, x);
+            double fx2 = FullertonLib.r8_si(ref data, x);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -4045,8 +3997,8 @@ internal static class Program
         //
     {
         double fx1 = 0;
-        double fx2;
-        int n_data;
+
+
         double x = 0;
 
         Console.WriteLine("");
@@ -4056,7 +4008,7 @@ internal static class Program
         Console.WriteLine("             X      SIN(X)  R8_SIN(X)         Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
         FullertonLib.r8SinData data = new();
 
         for (;;)
@@ -4068,12 +4020,12 @@ internal static class Program
                 break;
             }
 
-            fx2 = FullertonLib.r8_sin(ref data, x);
+            double fx2 = FullertonLib.r8_sin(ref data, x);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -4100,8 +4052,8 @@ internal static class Program
         //
     {
         double fx1 = 0;
-        double fx2;
-        int n_data;
+
+
         double x = 0;
 
         Console.WriteLine("");
@@ -4111,7 +4063,7 @@ internal static class Program
         Console.WriteLine("             X      SIN_DEG(X)  R8_SIN_DEG(X)         Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -4122,12 +4074,12 @@ internal static class Program
                 break;
             }
 
-            fx2 = FullertonLib.r8_sin_deg(x);
+            double fx2 = FullertonLib.r8_sin_deg(x);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -4154,8 +4106,8 @@ internal static class Program
         //
     {
         double fx1 = 0;
-        double fx2;
-        int n_data;
+
+
         double x = 0;
 
         Console.WriteLine("");
@@ -4165,7 +4117,7 @@ internal static class Program
         Console.WriteLine("             X      SINH(X)  R8_SINH(X)        Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
         FullertonLib.r8SinhData data = new();
 
         for (;;)
@@ -4177,12 +4129,12 @@ internal static class Program
                 break;
             }
 
-            fx2 = FullertonLib.r8_sinh(ref data, x);
+            double fx2 = FullertonLib.r8_sinh(ref data, x);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -4209,8 +4161,8 @@ internal static class Program
         //
     {
         double fx1 = 0;
-        double fx2;
-        int n_data;
+
+
         double x = 0;
 
         Console.WriteLine("");
@@ -4220,7 +4172,7 @@ internal static class Program
         Console.WriteLine("             X      SPENCE(X)  R8_SPENCE(X)        Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
         FullertonLib.r8SpenceData data = new();
 
         for (;;)
@@ -4232,12 +4184,12 @@ internal static class Program
                 break;
             }
 
-            fx2 = FullertonLib.r8_spence(ref data, x);
+            double fx2 = FullertonLib.r8_spence(ref data, x);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -4264,8 +4216,8 @@ internal static class Program
         //
     {
         double fx1 = 0;
-        double fx2;
-        int n_data;
+
+
         double x = 0;
 
         Console.WriteLine("");
@@ -4275,7 +4227,7 @@ internal static class Program
         Console.WriteLine("             X      SQRT(X)  R8_SQRT(X)        Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
         FullertonLib.r8SqrtData data = new();
 
         for (;;)
@@ -4287,12 +4239,12 @@ internal static class Program
                 break;
             }
 
-            fx2 = FullertonLib.r8_sqrt(ref data, x);
+            double fx2 = FullertonLib.r8_sqrt(ref data, x);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -4319,8 +4271,8 @@ internal static class Program
         //
     {
         double fx1 = 0;
-        double fx2;
-        int n_data;
+
+
         double x = 0;
 
         Console.WriteLine("");
@@ -4330,7 +4282,7 @@ internal static class Program
         Console.WriteLine("             X      TAN(X)  R8_TAN(X)         Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
         FullertonLib.r8TanData data = new();
 
         for (;;)
@@ -4342,12 +4294,12 @@ internal static class Program
                 break;
             }
 
-            fx2 = FullertonLib.r8_tan(ref data, x);
+            double fx2 = FullertonLib.r8_tan(ref data, x);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -4374,8 +4326,8 @@ internal static class Program
         //
     {
         double fx1 = 0;
-        double fx2;
-        int n_data;
+
+
         double x = 0;
 
         Console.WriteLine("");
@@ -4385,7 +4337,7 @@ internal static class Program
         Console.WriteLine("             X      TANH(X)  R8_TANH(X)        Diff");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
         FullertonLib.r8TanhData data = new();
 
         for (;;)
@@ -4397,12 +4349,12 @@ internal static class Program
                 break;
             }
 
-            fx2 = FullertonLib.r8_tanh(ref data, x);
+            double fx2 = FullertonLib.r8_tanh(ref data, x);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + fx1.ToString().PadLeft(14)
-                                   + "  " + fx2.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(fx1 - fx2).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(fx1 - fx2).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -4430,7 +4382,6 @@ internal static class Program
     {
         int i;
         int n = 0;
-        double x = 0;
         double[] x_test =  {
                 64.0,
                 128.0,
@@ -4456,13 +4407,13 @@ internal static class Program
 
         for (i = 0; i < 11; i++)
         {
-            x = x_test[i];
+            double x = x_test[i];
 
             FullertonLib.r8_upak(x, ref y, ref n);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + y.ToString().PadLeft(14)
-                                   + "  " + n.ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + y.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
 
     }

@@ -66,21 +66,15 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string boundary_filename = "disk_grid_test01_boundary.txt";
+        const string boundary_filename = "disk_grid_test01_boundary.txt";
         List<string> boundary_unit = new();
         double[] c = new double[2];
-        double[] cg;
-        string command_filename = "disk_grid_test01_commands.txt";
+        const string command_filename = "disk_grid_test01_commands.txt";
         List<string> command_unit = new();
-        string data_filename = "disk_grid_test01_data.txt";
+        const string data_filename = "disk_grid_test01_data.txt";
         List<string> data_unit = new();
-        string filename = "disk_grid_test01.xy";
+        const string filename = "disk_grid_test01.xy";
         int i;
-        int n;
-        int ng;
-        const double pi = 3.141592653589793;
-        double r;
-        double t;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01:");
@@ -88,23 +82,22 @@ internal static class Program
         Console.WriteLine("  with N+1 points on a horizontal or vertical radius,");
         Console.WriteLine("  based on any disk.");
 
-        n = 20;
-        r = 2.0;
+        int n = 20;
+        double r = 2.0;
         c[0] = 1.0;
         c[1] = 5.0;
 
         Console.WriteLine("");
         Console.WriteLine("  We use N = " + n + "");
         Console.WriteLine("  Radius R = " + r + "");
-        ;
         Console.WriteLine("  Center C = (" + c[0] + "," + c[1] + ")");
 
-        ng = Grid.disk_grid_count(n, r, c);
+        int ng = Grid.disk_grid_count(n, r, c);
 
         Console.WriteLine("");
         Console.WriteLine("  Number of grid points will be " + ng + "");
 
-        cg = Grid.disk_grid(n, r, c, ng);
+        double[] cg = Grid.disk_grid(n, r, c, ng);
 
         typeMethods.r82vec_print_part(ng, cg, 20, "  Part of the grid point array:");
         //
@@ -119,7 +112,7 @@ internal static class Program
         //
         for (i = 0; i <= 50; i++)
         {
-            t = 2.0 * pi * i / 50.0;
+            double t = 2.0 * Math.PI * i / 50.0;
             boundary_unit.Add("  " + c[0] + r * Math.Cos(t)
                               + "  " + c[1] + r * Math.Sin(t) + "");
         }
@@ -186,38 +179,32 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string boundary_filename = "disk_grid_test02_boundary.txt";
+        const string boundary_filename = "disk_grid_test02_boundary.txt";
         List<string> boundary_unit = new();
         double[] c = new double[2];
-        string command_filename = "disk_grid_test02_commands.txt";
+        const string command_filename = "disk_grid_test02_commands.txt";
         List<string> command_unit = new();
-        string data_filename = "disk_grid_test02_data.txt";
+        const string data_filename = "disk_grid_test02_data.txt";
         List<string> data_unit = new();
-        string filename = "disk_grid_test02.xy";
-        double[] g;
+        const string filename = "disk_grid_test02.xy";
         int i;
-        int n;
-        const double pi = 3.141592653589793;
-        double r;
-        double t;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02:");
         Console.WriteLine("  DISK_GRID_FIBONACCI can define a grid of N points");
         Console.WriteLine("  based on a Fibonacci spiral inside a disk.");
 
-        n = 1000;
-        r = 2.0;
+        const int n = 1000;
+        const double r = 2.0;
         c[0] = 1.0;
         c[1] = 5.0;
 
         Console.WriteLine("");
         Console.WriteLine("  We use N = " + n + "");
         Console.WriteLine("  Radius R = " + r + "");
-        ;
         Console.WriteLine("  Center C = (" + c[0] + "," + c[1] + ")");
 
-        g = Grid.disk_grid_fibonacci(n, r, c);
+        double[] g = Grid.disk_grid_fibonacci(n, r, c);
 
         typeMethods.r82vec_print_part(n, g, 20, "  Part of the grid point array:");
         //
@@ -232,7 +219,7 @@ internal static class Program
         //
         for (i = 0; i <= 50; i++)
         {
-            t = 2.0 * pi * i / 50.0;
+            double t = 2.0 * Math.PI * i / 50.0;
             boundary_unit.Add("  " + c[0] + r * Math.Cos(t)
                               + "  " + c[1] + r * Math.Sin(t) + "");
         }

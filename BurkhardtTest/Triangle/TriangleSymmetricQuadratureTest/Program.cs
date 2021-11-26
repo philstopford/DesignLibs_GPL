@@ -46,7 +46,6 @@ internal static class Program
         int degree = 0;
         string header = "";
         int itype;
-        int numnodes;
         double[] vert1 = new double[2];
         double[] vert2 = new double[2];
         double[] vert3 = new double[2];
@@ -108,7 +107,7 @@ internal static class Program
             //
             //  Determine the size of the rule.
             //
-            numnodes = rule_full_size(degree);
+            int numnodes = rule_full_size(degree);
             //
             //  Retrieve a rule and print it.
             //
@@ -211,12 +210,6 @@ internal static class Program
         //
     {
         int i;
-        double[] rp1;
-        int seed;
-        double[] sp1;
-        double[] sp2;
-        double[] tp1;
-        double[] tp2;
         double[] tv1 = new double[2];
         double[] tv2 = new double[2];
         double[] tv3 = new double[2];
@@ -260,11 +253,11 @@ internal static class Program
         tv3[0] = 0.0;
         tv3[1] = 3.0;
 
-        seed = 123456789;
+        int seed = 123456789;
 
         for (i = 1; i <= 5; i++)
         {
-            sp1 = UniformRNG.r8vec_uniform_01_new(2, ref seed);
+            double[] sp1 = UniformRNG.r8vec_uniform_01_new(2, ref seed);
 
             switch (sp1[0] + sp1[1])
             {
@@ -274,10 +267,10 @@ internal static class Program
                     break;
             }
 
-            tp1 = Burkardt.SimplexNS.Simplex.simplex_to_triangle(tv1, tv2, tv3, sp1);
-            rp1 = typeMethods.triangle_to_ref(tv1, tv2, tv3, tp1);
-            tp2 = typeMethods.ref_to_triangle(tv1, tv2, tv3, rp1);
-            sp2 = typeMethods.triangle_to_simplex(tv1, tv2, tv3, tp2);
+            double[] tp1 = Burkardt.SimplexNS.Simplex.simplex_to_triangle(tv1, tv2, tv3, sp1);
+            double[] rp1 = typeMethods.triangle_to_ref(tv1, tv2, tv3, tp1);
+            double[] tp2 = typeMethods.ref_to_triangle(tv1, tv2, tv3, rp1);
+            double[] sp2 = typeMethods.triangle_to_simplex(tv1, tv2, tv3, tp2);
 
             Console.WriteLine("");
             Console.WriteLine("  SP1: " + sp1[0] + "  " + sp1[1] + "");
@@ -329,23 +322,19 @@ internal static class Program
         //    vertices of the triangle.
         //
     {
-        double area;
-        double d;
         int j;
-        double[] rnodes;
-        double[] weights;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02");
         Console.WriteLine("  Symmetric quadrature rule for a triangle.");
         Console.WriteLine("  Polynomial exactness degree DEGREE = " + degree + "");
 
-        area = typeMethods.triangle_area(vert1, vert2, vert3);
+        double area = typeMethods.triangle_area(vert1, vert2, vert3);
         //
         //  Retrieve and print a symmetric quadrature rule.
         //
-        rnodes = new double[2 * numnodes];
-        weights = new double[numnodes];
+        double[] rnodes = new double[2 * numnodes];
+        double[] weights = new double[numnodes];
 
         SymmetricQuadrature.triasymq(degree, vert1, vert2, vert3, ref rnodes, ref weights, numnodes);
 
@@ -363,7 +352,7 @@ internal static class Program
                                 + rnodes[1 + j * 2] + "");
         }
 
-        d = typeMethods.r8vec_sum(numnodes, weights);
+        double d = typeMethods.r8vec_sum(numnodes, weights);
 
         Console.WriteLine("   Sum  " + d + "");
         Console.WriteLine("  Area  " + area + "");
@@ -412,16 +401,13 @@ internal static class Program
         //    Input, string HEADER, an identifier for the graphics filenames.
         //
     {
-        double[] rnodes;
-        double[] weights;
-
         Console.WriteLine("");
         Console.WriteLine("TEST03");
         Console.WriteLine("  TRIASYMQ_GNUPLOT creates gnuplot graphics files.");
         Console.WriteLine("  Polynomial exactness degree DEGREE = " + degree + "");
 
-        rnodes = new double[2 * numnodes];
-        weights = new double[numnodes];
+        double[] rnodes = new double[2 * numnodes];
+        double[] weights = new double[numnodes];
 
         SymmetricQuadrature.triasymq(degree, vert1, vert2, vert3, ref rnodes, ref weights, numnodes);
 
@@ -475,10 +461,7 @@ internal static class Program
         //
     {
         int j;
-        double[] rnodes;
         List<string> rule_unit = new();
-        string rule_filename;
-        double[] weights;
 
         Console.WriteLine("");
         Console.WriteLine("TEST04");
@@ -488,14 +471,14 @@ internal static class Program
         //
         //  Retrieve a symmetric quadrature rule.
         //
-        rnodes = new double[2 * numnodes];
-        weights = new double[numnodes];
+        double[] rnodes = new double[2 * numnodes];
+        double[] weights = new double[numnodes];
 
         SymmetricQuadrature.triasymq(degree, vert1, vert2, vert3, ref rnodes, ref weights, numnodes);
         //
         //  Write the points and weights to a file.
         //
-        rule_filename = header + ".txt";
+        string rule_filename = header + ".txt";
 
         for (j = 0; j < numnodes; j++)
         {
@@ -552,17 +535,8 @@ internal static class Program
         //    vertices of the triangle.
         //
     {
-        double area;
-        double d;
         int i;
         int j;
-        int npols;
-        double[] pols;
-        double[] r;
-        double[] rints;
-        double[] rnodes;
-        double scale;
-        double[] weights;
         double[] z = new double[2];
 
         Console.WriteLine("");
@@ -571,20 +545,20 @@ internal static class Program
         Console.WriteLine("  Check it by integrating orthonormal polynomials.");
         Console.WriteLine("  Polynomial exactness degree DEGREE = " + degree + "");
 
-        area = typeMethods.triangle_area(vert1, vert2, vert3);
+        double area = typeMethods.triangle_area(vert1, vert2, vert3);
         //
         //  Retrieve a symmetric quadrature rule.
         //
-        rnodes = new double[2 * numnodes];
-        weights = new double[numnodes];
+        double[] rnodes = new double[2 * numnodes];
+        double[] weights = new double[numnodes];
 
         SymmetricQuadrature.triasymq(degree, vert1, vert2, vert3, ref rnodes, ref weights, numnodes);
         //
         //  Construct the matrix of values of the orthogonal polynomials
         //  at the user-provided nodes
         //
-        npols = (degree + 1) * (degree + 2) / 2;
-        rints = new double[npols];
+        int npols = (degree + 1) * (degree + 2) / 2;
+        double[] rints = new double[npols];
 
         for (j = 0; j < npols; j++)
         {
@@ -595,22 +569,22 @@ internal static class Program
         {
             z[0] = rnodes[0 + i * 2];
             z[1] = rnodes[1 + i * 2];
-            r = typeMethods.triangle_to_ref(vert1, vert2, vert3, z);
-            pols = Orthogonal.ortho2eva(degree, r);
+            double[] r = typeMethods.triangle_to_ref(vert1, vert2, vert3, z);
+            double[] pols = Orthogonal.ortho2eva(degree, r);
             for (j = 0; j < npols; j++)
             {
                 rints[j] += weights[i] * pols[j];
             }
         }
 
-        scale = Math.Sqrt(Math.Sqrt(3.0)) / Math.Sqrt(area);
+        double scale = Math.Sqrt(Math.Sqrt(3.0)) / Math.Sqrt(area);
 
         for (j = 0; j < npols; j++)
         {
             rints[j] *= scale;
         }
 
-        d = Math.Pow(rints[0] - Math.Sqrt(area), 2);
+        double d = Math.Pow(rints[0] - Math.Sqrt(area), 2);
         for (j = 1; j < npols; j++)
         {
             d += rints[j] * rints[j];

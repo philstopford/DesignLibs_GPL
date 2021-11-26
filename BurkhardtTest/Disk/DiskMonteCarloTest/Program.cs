@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.MonomialNS;
 using Burkardt.Types;
 using Burkardt.Uniform;
@@ -34,7 +35,6 @@ internal static class Program
         //
     {
         double[] center = new double[2];
-        double r;
 
         Console.WriteLine("");
         Console.WriteLine("DISK_MONTE_CARLO_TEST");
@@ -44,7 +44,7 @@ internal static class Program
 
         center[0] = 0.0;
         center[1] = 0.0;
-        r = 1.0;
+        double r = 1.0;
         disk_sample_test(center, r);
 
         center[0] = 1.0;
@@ -84,19 +84,15 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double area;
         double[] center = new double[2];
-        double[] data;
         int i;
-        double r;
-        int seed;
 
         Console.WriteLine("");
         Console.WriteLine("DISK_AREA_TEST");
         Console.WriteLine("  DISK_AREA computes the area of a disk with");
         Console.WriteLine("  center = (CX,CY) and radius R.");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("  (   CX        CY     )    R          Area");
@@ -104,14 +100,14 @@ internal static class Program
 
         for (i = 1; i <= 10; i++)
         {
-            data = UniformRNG.r8vec_uniform_01_new(3, ref seed);
+            double[] data = UniformRNG.r8vec_uniform_01_new(3, ref seed);
             center[0] = 10.0 * data[0] - 5.0;
             center[1] = 10.0 * data[1] - 5.0;
-            r = data[2];
-            area = MonteCarlo.disk_area(center, r);
-            Console.WriteLine("  (" + center[0].ToString().PadLeft(9)
-                                    + ", " + center[1].ToString().PadLeft(9)
-                                    + ")  " + r.ToString().PadLeft(9)
+            double r = data[2];
+            double area = MonteCarlo.disk_area(center, r);
+            Console.WriteLine("  (" + center[0].ToString(CultureInfo.InvariantCulture).PadLeft(9)
+                                    + ", " + center[1].ToString(CultureInfo.InvariantCulture).PadLeft(9)
+                                    + ")  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(9)
                                     + "  " + area + "");
         }
     }
@@ -151,11 +147,7 @@ internal static class Program
             ;
         int i;
         int j;
-        int n;
         double result;
-        int seed;
-        double[] value;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("DISK_SAMPLE_TEST");
@@ -164,7 +156,7 @@ internal static class Program
                                             + "," + center[1]
                                             + ") and radius " + r + "");
 
-        seed = 123456789;
+        int seed = 123456789;
         typeMethods.r8vecNormalData data = new();
 
         Console.WriteLine("");
@@ -172,13 +164,13 @@ internal static class Program
                           + "             X^4             X^2Y^2           Y^4             X^6");
         Console.WriteLine("");
 
-        n = 1;
+        int n = 1;
 
         while (n <= 65536)
         {
-            x = MonteCarlo.disk_sample(center, r, n, ref data, ref seed);
+            double[] x = MonteCarlo.disk_sample(center, r, n, ref data, ref seed);
 
-            string cout = "  " + n.ToString().PadLeft(8);
+            string cout = "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8);
             for (j = 0; j < 7; j++)
             {
                 for (i = 0; i < 2; i++)
@@ -186,10 +178,10 @@ internal static class Program
                     e[i] = e_test[i + j * 2];
                 }
 
-                value = Monomial.monomial_value(2, n, e, x);
+                double[] value = Monomial.monomial_value(2, n, e, x);
 
                 result = MonteCarlo.disk_area(center, r) * typeMethods.r8vec_sum(n, value) / n;
-                cout += "  " + result.ToString().PadLeft(14);
+                cout += "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -199,7 +191,7 @@ internal static class Program
 
         switch (center[0])
         {
-            case 0.0 when center[1] == 0.0 && r == 1.0:
+            case 0.0 when center[1] == 0.0 && Math.Abs(r - 1.0) <= double.Epsilon:
             {
                 Console.WriteLine("");
                 string cout = "     Exact";
@@ -211,7 +203,7 @@ internal static class Program
                     }
 
                     result = MonteCarlo.disk01_monomial_integral(e);
-                    cout += "  " + result.ToString().PadLeft(14);
+                    cout += "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(14);
                 }
 
                 Console.WriteLine(cout);

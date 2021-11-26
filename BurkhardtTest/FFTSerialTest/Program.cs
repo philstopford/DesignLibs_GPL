@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.FourierTransform;
 
 namespace FFTSerialTest;
@@ -35,28 +36,8 @@ internal static class Program
         //    LC: QA76.58.P47.
         //
     {
-        TimeSpan ctime;
-        DateTime ctime1;
-        DateTime ctime2;
-        double error;
-        bool first;
-        double flops;
-        double fnm1;
-        int i;
-        int icase;
-        int it;
         int ln2;
-        double mflops;
-        int n;
         int nits = 10000;
-        double seed;
-        double sgn;
-        double[] w;
-        double[] x;
-        double[] y;
-        double[] z;
-        double z0;
-        double z1;
 
         Console.WriteLine("");
         Console.WriteLine("FFT_SERIAL");
@@ -75,9 +56,9 @@ internal static class Program
         Console.WriteLine("             N      NITS    Error         Time          Time/Call     MFLOPS");
         Console.WriteLine("");
 
-        seed = 331.0;
+        double seed = 331.0;
         string cout = "";
-        n = 1;
+        int n = 1;
         //
         //  LN2 is the log base 2 of N.  Each increase of LN2 doubles N.
         //
@@ -91,16 +72,19 @@ internal static class Program
             //  and store a complex number as a pair of doubles, a complex vector as a doubly
             //  dimensioned array whose second dimension is 2. 
             //
-            w = new double[n];
-            x = new double[2 * n];
-            y = new double[2 * n];
-            z = new double[2 * n];
+            double[] w = new double[n];
+            double[] x = new double[2 * n];
+            double[] y = new double[2 * n];
+            double[] z = new double[2 * n];
 
-            first = true;
+            bool first = true;
 
+            int icase;
             for (icase = 0; icase < 2; icase++)
             {
-
+                int i;
+                double z0;
+                double z1;
                 switch (first)
                 {
                     case true:
@@ -137,6 +121,7 @@ internal static class Program
                 //  Initialize the sine and cosine tables.
                 //
                 Serial.cffti(n, ref w);
+                double sgn;
                 switch (first)
                 {
                     //
@@ -151,8 +136,8 @@ internal static class Program
                         // 
                         //  Results should be same as initial multiplied by N.
                         //
-                        fnm1 = 1.0 / n;
-                        error = 0.0;
+                        double fnm1 = 1.0 / n;
+                        double error = 0.0;
                         for (i = 0; i < 2 * n; i += 2)
                         {
                             error = error
@@ -161,15 +146,16 @@ internal static class Program
                         }
 
                         error = Math.Sqrt(fnm1 * error);
-                        cout += "  " + n.ToString().PadLeft(12)
-                                     + "  " + nits.ToString().PadLeft(8)
-                                     + "  " + error.ToString().PadLeft(12);
+                        cout += "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                     + "  " + nits.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                     + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(12);
                         first = false;
                         break;
                     }
                     default:
                     {
-                        ctime1 = DateTime.Now;
+                        DateTime ctime1 = DateTime.Now;
+                        int it;
                         for (it = 0; it < nits; it++)
                         {
                             sgn = +1.0;
@@ -178,16 +164,16 @@ internal static class Program
                             Serial.cfft2(n, ref y, ref x, w, sgn);
                         }
 
-                        ctime2 = DateTime.Now;
-                        ctime = ctime2 - ctime1;
+                        DateTime ctime2 = DateTime.Now;
+                        TimeSpan ctime = ctime2 - ctime1;
 
-                        flops = 2.0 * nits * (5.0 * n * ln2);
+                        double flops = 2.0 * nits * (5.0 * n * ln2);
 
-                        mflops = flops / 1.0E+06 / ctime.TotalSeconds;
+                        double mflops = flops / 1.0E+06 / ctime.TotalSeconds;
 
                         Console.WriteLine(cout + "  " + ctime.ToString().PadLeft(12)
                                           + "  " + (ctime / (2 * nits)).ToString().PadLeft(12)
-                                          + "  " + mflops.ToString().PadLeft(12) + "");
+                                          + "  " + mflops.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
                         cout = "";
                         break;
                     }

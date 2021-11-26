@@ -73,16 +73,16 @@ internal static class Program
         double[] c = new double[11];
         double[] c1 = { 7.0, -5.0, 9.0, 11.0, 0.0, -13.0 };
         double[] c2 = { 2.0, 3.0, -8.0, 4.0, 9.0 };
-        int m = 3;
+        const int m = 3;
         int[] e = new int[11];
         int[] e1 = { 1, 2, 4, 5, 12, 33 };
         int[] e2 = { 1, 3, 4, 30, 33 };
         int o = 0;
-        int o1 = 6;
-        int o2 = 5;
-        string title = "  P1(X) + P2(X) =";
-        string title1 = "  P1(X) =";
-        string title2 = "  P2(X) =";
+        const int o1 = 6;
+        const int o2 = 5;
+        const string title = "  P1(X) + P2(X) =";
+        const string title1 = "  P1(X) =";
+        const string title2 = "  P2(X) =";
 
         Console.WriteLine("");
         Console.WriteLine("POLYNOMIAL_ADD_TEST");
@@ -123,17 +123,17 @@ internal static class Program
         double[] c = new double[11];
         double[] c1 = { 7.0, -5.0, 9.0, 11.0, 0.0, -13.0 };
         double[] c2 = { 2.0, 3.0, -8.0, 4.0, 9.0 };
-        int m = 3;
+        const int m = 3;
         int[] e = new int[11];
         int[] e1 = { 1, 2, 4, 5, 12, 33 };
         int[] e2 = { 1, 3, 4, 30, 33 };
         int o = 0;
-        int o1 = 6;
-        int o2 = 5;
-        double s = 10.0;
-        string title = "  S * P1(X) + P2(X) =";
-        string title1 = "  P1(X) =";
-        string title2 = "  P2(X) =";
+        const int o1 = 6;
+        const int o2 = 5;
+        const double s = 10.0;
+        const string title = "  S * P1(X) + P2(X) =";
+        const string title1 = "  P1(X) =";
+        const string title2 = "  P2(X) =";
 
         Console.WriteLine("");
         Console.WriteLine("POLYNOMIAL_AXPY_TEST");
@@ -173,19 +173,18 @@ internal static class Program
     {
         double[] c = { 7.0, -5.0, 5.0, 9.0, 11.0, 3.0, 6.0, 0.0, -13.0, 1.0E-20 };
         double[] c2 = new double[10];
-        int m = 3;
+        const int m = 3;
         int[] e = { 1, 2, 2, 4, 5, 5, 5, 12, 33, 35 };
         int[] e2 = new int[10];
-        int o = 10;
+        const int o = 10;
         int o2 = 0;
-        string title;
 
         Console.WriteLine("");
         Console.WriteLine("POLYNOMIAL_COMPRESS_TEST");
         Console.WriteLine("  POLYNOMIAL_COMPRESS compresses a polynomial.");
 
         Console.WriteLine("");
-        title = "  Uncompressed P(X) = ";
+        string title = "  Uncompressed P(X) = ";
         Polynomial.polynomial_print(m, o, c, e, title);
 
         Polynomial.polynomial_compress(o, c, e, ref o2, ref c2, ref e2);
@@ -218,14 +217,14 @@ internal static class Program
     {
         double[] c = new double[4];
         double[] c1 = { 2.0, 3.0, 4.0, 5.0 };
-        int m = 2;
+        const int m = 2;
         int[] dif = { 2, 1 };
         int[] e = new int[4];
         int[] e1 = { 1, 10, 12, 32 };
         int o = 0;
-        int o1 = 4;
-        string title = "  d3 P(X) dx1 dx1 dx2 =";
-        string title1 = "  P(X) =";
+        const int o1 = 4;
+        const string title = "  d3 P(X) dx1 dx1 dx2 =";
+        const string title1 = "  P(X) =";
 
         Console.WriteLine("");
         Console.WriteLine("POLYNOMIAL_DIF_TEST");
@@ -263,16 +262,16 @@ internal static class Program
         double[] c = new double[8];
         double[] c1 = { 2.0, 3.0, 4.0, 5.0 };
         double[] c2 = { 6.0, 7.0 };
-        int m = 3;
+        const int m = 3;
         int[] e = new int[8];
         int[] e1 = { 1, 3, 4, 6 };
         int[] e2 = { 2, 5 };
         int o = 0;
-        int o1 = 4;
-        int o2 = 2;
-        string title = "  P1(X) * P2(X) =";
-        string title1 = "  P1(X) =";
-        string title2 = "  P2(X) =";
+        const int o1 = 4;
+        const int o2 = 2;
+        const string title = "  P1(X) * P2(X) =";
+        const string title1 = "  P1(X) =";
+        const string title2 = "  P2(X) =";
 
         Console.WriteLine("");
         Console.WriteLine("POLYNOMIAL_MUL_TEST");
@@ -311,10 +310,10 @@ internal static class Program
         //
     {
         double[] c = { 7.0, -5.0, 9.0, 11.0, 0.0, -13.0 };
-        int m = 3;
+        const int m = 3;
         int[] e = { 1, 2, 4, 5, 12, 33 };
-        int o = 6;
-        string title = "  P1(X) =";
+        const int o = 6;
+        const string title = "  P1(X) =";
 
         Console.WriteLine("");
         Console.WriteLine("POLYNOMIAL_PRINT_TEST");
@@ -346,21 +345,19 @@ internal static class Program
         //
     {
         double[] c = { 7.0, -5.0, 9.0, 11.0, 0.0, -13.0 };
-        int m = 3;
+        const int m = 3;
         int[] e = { 1, 2, 4, 5, 12, 33 };
-        int o = 6;
-        double s;
-        string title;
+        const int o = 6;
 
         Console.WriteLine("");
         Console.WriteLine("POLYNOMIAL_PRINT_TEST");
         Console.WriteLine("  POLYNOMIAL_PRINT prints a polynomial.");
 
         Console.WriteLine("");
-        title = "  Original P(X):";
+        string title = "  Original P(X):";
         Polynomial.polynomial_print(m, o, c, e, title);
 
-        s = -0.5;
+        double s = -0.5;
         Console.WriteLine("");
         Console.WriteLine("  Apply scale factor S = " + s + "");
         Polynomial.polynomial_scale(s, m, o, ref c, e);
@@ -392,17 +389,16 @@ internal static class Program
         //
     {
         double[] c = { 0.0, 9.0, -5.0, -13.0, 7.0, 11.0 };
-        int m = 3;
+        const int m = 3;
         int[] e = { 12, 4, 2, 33, 1, 5 };
-        int o = 6;
-        string title;
+        const int o = 6;
 
         Console.WriteLine("");
         Console.WriteLine("POLYNOMIAL_SORT_TEST");
         Console.WriteLine("  POLYNOMIAL_SORT sorts a polynomial by exponent index.");
 
         Console.WriteLine("");
-        title = "  Unsorted polynomial:";
+        string title = "  Unsorted polynomial:";
         Polynomial.polynomial_print(m, o, c, e, title);
 
         Polynomial.polynomial_sort(o, ref c, ref e);
@@ -434,13 +430,12 @@ internal static class Program
         //
     {
         double[] c = { 7.0, -5.0, 9.0, 11.0, 0.0, -13.0 };
-        int m = 3;
+        const int m = 3;
         int[] e = { 1, 2, 4, 5, 12, 33 };
         int j;
-        int nx = 2;
-        int o = 6;
-        double[] p;
-        string title = "  P(X) =";
+        const int nx = 2;
+        const int o = 6;
+        const string title = "  P(X) =";
         double[] x =
         {
             1.0, 2.0, 3.0,
@@ -454,7 +449,7 @@ internal static class Program
         Console.WriteLine("");
         Polynomial.polynomial_print(m, o, c, e, title);
 
-        p = Polynomial.polynomial_value(m, o, c, e, nx, x);
+        double[] p = Polynomial.polynomial_value(m, o, c, e, nx, x);
 
         Console.WriteLine("");
         for (j = 0; j < nx; j++)

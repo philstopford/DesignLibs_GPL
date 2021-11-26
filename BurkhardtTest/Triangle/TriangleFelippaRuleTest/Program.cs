@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Composition;
 using Burkardt.TriangleNS;
 using Burkardt.Types;
@@ -32,14 +33,12 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int degree_max;
-
         Console.WriteLine("");
         Console.WriteLine("TRIANGLE_FELIPPA_RULE_TEST");
         Console.WriteLine("  C++ version");
         Console.WriteLine("  Test the TRIANGLE_FELIPPA_RULE library.");
 
-        degree_max = 4;
+        int degree_max = 4;
         triangle_unit_monomial_test(degree_max);
 
         degree_max = 7;
@@ -83,7 +82,6 @@ internal static class Program
         int alpha;
         int beta;
         int[] expon = new int[2];
-        double value = 0;
 
         Console.WriteLine("");
         Console.WriteLine("TRIANGLE_UNIT_MONOMIAL_TEST");
@@ -103,11 +101,11 @@ internal static class Program
             {
                 expon[1] = beta;
 
-                value = QuadratureRule.triangle_unit_monomial(expon);
+                double value = QuadratureRule.triangle_unit_monomial(expon);
 
-                Console.WriteLine("  " + expon[0].ToString().PadLeft(8)
-                                       + "  " + expon[1].ToString().PadLeft(8)
-                                       + "  " + value.ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + expon[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + expon[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + value.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
 
@@ -139,19 +137,11 @@ internal static class Program
         //    monomials to check.
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
-        int dim;
-        int dim_num = DIM_NUM;
         int[] expon = new int[DIM_NUM];
         int h = 0;
-        bool more;
-        int order;
-        double quad;
         int t = 0;
-        double[] v;
-        double[] w;
-        double[] xy;
         SubCompData data = new();
 
         Console.WriteLine("");
@@ -166,89 +156,90 @@ internal static class Program
         Console.WriteLine("  QuadratureRule.triangle_unit_o07,");
         Console.WriteLine("  QuadratureRule.triangle_unit_o12,");
 
-        more = false;
+        bool more = false;
 
         for (;;)
         {
-            SubComp.subcomp_next(ref data, degree_max, dim_num, ref expon, ref more, ref h, ref t);
+            SubComp.subcomp_next(ref data, degree_max, DIM_NUM, ref expon, ref more, ref h, ref t);
 
             Console.WriteLine("");
             string cout = "  Monomial exponents: ";
-            for (dim = 0; dim < dim_num; dim++)
+            int dim;
+            for (dim = 0; dim < DIM_NUM; dim++)
             {
-                cout += "  " + expon[dim].ToString().PadLeft(2);
+                cout += "  " + expon[dim].ToString(CultureInfo.InvariantCulture).PadLeft(2);
             }
 
             Console.WriteLine(cout);
             Console.WriteLine("");
 
-            order = 1;
-            w = new double[order];
-            xy = new double[dim_num * order];
+            int order = 1;
+            double[] w = new double[order];
+            double[] xy = new double[DIM_NUM * order];
             QuadratureRule.triangle_unit_o01(ref w, ref xy);
-            v = Monomial.monomial_value(dim_num, order, expon, xy);
-            quad = QuadratureRule.triangle_unit_volume() * typeMethods.r8vec_dot_product(order, w, v);
-            Console.WriteLine("  " + order.ToString().PadLeft(6)
-                                   + "  " + quad.ToString().PadLeft(14) + "");
+            double[] v = Monomial.monomial_value(DIM_NUM, order, expon, xy);
+            double quad = QuadratureRule.triangle_unit_volume() * typeMethods.r8vec_dot_product(order, w, v);
+            Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             order = 3;
             w = new double[order];
-            xy = new double[dim_num * order];
+            xy = new double[DIM_NUM * order];
             QuadratureRule.triangle_unit_o03(ref w, ref xy);
-            v = Monomial.monomial_value(dim_num, order, expon, xy);
+            v = Monomial.monomial_value(DIM_NUM, order, expon, xy);
             quad = QuadratureRule.triangle_unit_volume() * typeMethods.r8vec_dot_product(order, w, v);
-            Console.WriteLine("  " + order.ToString().PadLeft(6)
-                                   + "  " + quad.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             order = 3;
             w = new double[order];
-            xy = new double[dim_num * order];
+            xy = new double[DIM_NUM * order];
             QuadratureRule.triangle_unit_o03b(ref w, ref xy);
-            v = Monomial.monomial_value(dim_num, order, expon, xy);
+            v = Monomial.monomial_value(DIM_NUM, order, expon, xy);
             quad = QuadratureRule.triangle_unit_volume() * typeMethods.r8vec_dot_product(order, w, v);
-            Console.WriteLine("  " + order.ToString().PadLeft(6)
-                                   + "  " + quad.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             order = 6;
             w = new double[order];
-            xy = new double[dim_num * order];
+            xy = new double[DIM_NUM * order];
             QuadratureRule.triangle_unit_o06(ref w, ref xy);
-            v = Monomial.monomial_value(dim_num, order, expon, xy);
+            v = Monomial.monomial_value(DIM_NUM, order, expon, xy);
             quad = QuadratureRule.triangle_unit_volume() * typeMethods.r8vec_dot_product(order, w, v);
-            Console.WriteLine("  " + order.ToString().PadLeft(6)
-                                   + "  " + quad.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             order = 6;
             w = new double[order];
-            xy = new double[dim_num * order];
+            xy = new double[DIM_NUM * order];
             QuadratureRule.triangle_unit_o06b(ref w, ref xy);
-            v = Monomial.monomial_value(dim_num, order, expon, xy);
+            v = Monomial.monomial_value(DIM_NUM, order, expon, xy);
             quad = QuadratureRule.triangle_unit_volume() * typeMethods.r8vec_dot_product(order, w, v);
-            Console.WriteLine("  " + order.ToString().PadLeft(6)
-                                   + "  " + quad.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             order = 7;
             w = new double[order];
-            xy = new double[dim_num * order];
+            xy = new double[DIM_NUM * order];
             QuadratureRule.triangle_unit_o07(ref w, ref xy);
-            v = Monomial.monomial_value(dim_num, order, expon, xy);
+            v = Monomial.monomial_value(DIM_NUM, order, expon, xy);
             quad = QuadratureRule.triangle_unit_volume() * typeMethods.r8vec_dot_product(order, w, v);
-            Console.WriteLine("  " + order.ToString().PadLeft(6)
-                                   + "  " + quad.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             order = 12;
             w = new double[order];
-            xy = new double[dim_num * order];
+            xy = new double[DIM_NUM * order];
             QuadratureRule.triangle_unit_o12(ref w, ref xy);
-            v = Monomial.monomial_value(dim_num, order, expon, xy);
+            v = Monomial.monomial_value(DIM_NUM, order, expon, xy);
             quad = QuadratureRule.triangle_unit_volume() * typeMethods.r8vec_dot_product(order, w, v);
-            Console.WriteLine("  " + order.ToString().PadLeft(6)
-                                   + "  " + quad.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             Console.WriteLine("");
             quad = QuadratureRule.triangle_unit_monomial(expon);
             Console.WriteLine("  " + " Exact"
-                                   + "  " + quad.ToString().PadLeft(14) + "");
+                                   + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             if (!more)
             {

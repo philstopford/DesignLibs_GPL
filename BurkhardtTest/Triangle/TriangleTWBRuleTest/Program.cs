@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.TriangleNS;
 using Burkardt.Types;
 
@@ -28,13 +29,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int degree_max;
-
         Console.WriteLine("");
         Console.WriteLine("triangle_twb_rule_test");
         Console.WriteLine("  Test triangle_twb_rule.");
 
-        degree_max = 5;
+        const int degree_max = 5;
         triangle_unit_quad_test(degree_max);
 
         Console.WriteLine("");
@@ -68,52 +67,43 @@ internal static class Program
         //    Input, int DEGREE_MAX, the maximum total degree of the monomials to check.
         //
     {
-        int degree;
-        int ex;
-        int ey;
-        int n;
-        double q;
-        int strength;
-        double[] v;
-        double[] w;
-        double[] x;
-        double[] y;
-
         Console.WriteLine("");
         Console.WriteLine("triangle_unit_quad_test");
         Console.WriteLine("  Approximate monomial integrals in triangle with TWB rules.");
 
-        degree = 0;
-        ex = 0;
-        ey = degree;
+        int degree = 0;
+        int ex = 0;
+        int ey = degree;
 
         while (true)
         {
             Console.WriteLine("");
             Console.WriteLine("  Monomial: x^" + ex + " y^" + ey + "");
 
+            int strength;
+            double q;
             for (strength = 1; strength <= 25; strength++)
             {
-                n = TWBRule.twb_rule_n(strength);
+                int n = TWBRule.twb_rule_n(strength);
                 switch (n)
                 {
                     case < 1:
                         continue;
                 }
 
-                w = TWBRule.twb_rule_w(strength);
-                x = TWBRule.twb_rule_x(strength);
-                y = TWBRule.twb_rule_y(strength);
-                v = Burkardt.MonomialNS.Monomial.monomial_value_2d(n, ex, ey, x, y);
+                double[] w = TWBRule.twb_rule_w(strength);
+                double[] x = TWBRule.twb_rule_x(strength);
+                double[] y = TWBRule.twb_rule_y(strength);
+                double[] v = Burkardt.MonomialNS.Monomial.monomial_value_2d(n, ex, ey, x, y);
                 q = typeMethods.r8vec_dot_product(n, w, v);
-                Console.WriteLine("  " + strength.ToString().PadLeft(6)
-                                       + "  " + n.ToString().PadLeft(6)
-                                       + "  " + q.ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + strength.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                       + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                       + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             }
 
             q = TriMonomial.triangle_unit_monomial(ex, ey);
-            Console.WriteLine("   Exact          " + q.ToString().PadLeft(14) + "");
+            Console.WriteLine("   Exact          " + q.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             if (ex < degree)
             {

@@ -47,21 +47,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int dim_num;
-        string element_filename;
         int element_att_num = 0;
-        double[] element_att;
-        int[] element_node;
         int element_num = 0;
         int element_order = 0;
-        string fem_element_filename;
-        string fem_node_filename;
-        double[] node_att;
         int node_att_num = 0;
         int node_marker_num = 0;
-        string node_filename;
-        int[] node_marker;
-        double[] node_coord;
         int node_dim = 0;
         int node_num = 0;
         string prefix;
@@ -88,10 +78,10 @@ internal static class Program
         //
         //  Create the file names.
         //
-        node_filename = prefix + ".node";
-        element_filename = prefix + ".ele";
-        fem_node_filename = prefix + "_nodes.txt";
-        fem_element_filename = prefix + "_elements.txt";
+        string node_filename = prefix + ".node";
+        string element_filename = prefix + ".ele";
+        string fem_node_filename = prefix + "_nodes.txt";
+        string fem_element_filename = prefix + "_elements.txt";
 
         Console.WriteLine("");
         Console.WriteLine("  Read Node file \"" + node_filename + "\"");
@@ -104,9 +94,9 @@ internal static class Program
         Node.node_size_read(node_filename, ref node_num, ref node_dim, ref node_att_num,
             ref node_marker_num);
 
-        node_coord = new double[node_dim * node_num];
-        node_att = new double[node_att_num * node_num];
-        node_marker = new int[node_marker_num * node_num];
+        double[] node_coord = new double[node_dim * node_num];
+        double[] node_att = new double[node_att_num * node_num];
+        int[] node_marker = new int[node_marker_num * node_num];
 
         Node.node_data_read(node_filename, node_num, node_dim, node_att_num,
             node_marker_num, ref node_coord, ref node_att, ref node_marker);
@@ -116,15 +106,15 @@ internal static class Program
         Element.element_size_read(element_filename, ref element_num, ref element_order,
             ref element_att_num);
 
-        element_node = new int[element_order * element_num];
-        element_att = new double[element_att_num * element_num];
+        int[] element_node = new int[element_order * element_num];
+        double[] element_att = new double[element_att_num * element_num];
 
         Element.element_data_read(element_filename, element_num, element_order,
             element_att_num, ref element_node, ref element_att);
         //
         //  Write the FEM NODE and ELEMENT data.
         //
-        dim_num = 2;
+        int dim_num = 2;
 
         typeMethods.r8mat_write(fem_node_filename, dim_num, node_num, node_coord);
 

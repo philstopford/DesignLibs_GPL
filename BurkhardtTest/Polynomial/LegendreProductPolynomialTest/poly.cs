@@ -31,22 +31,21 @@ public static class polyTest
             }
             ;
         double[] c2 = new double[10];
-        int m = 3;
+        const int m = 3;
         int[] e =  {
                 1, 2, 2, 4, 5, 5, 5, 12, 33, 35
             }
             ;
         int[] e2 = new int[10];
-        int o = 10;
+        const int o = 10;
         int o2 = 0;
-        string title;
 
         Console.WriteLine("");
         Console.WriteLine("POLYNOMIAL_COMPRESS_TEST");
         Console.WriteLine("  POLYNOMIAL_COMPRESS compresses a polynomial.");
 
         Console.WriteLine("");
-        title = "  Uncompressed P(X) = ";
+        string title = "  Uncompressed P(X) = ";
         Polynomial.polynomial_print(m, o, c, e, title);
 
         Polynomial.polynomial_compress(o, c, e, ref o2, ref c2, ref e2);
@@ -81,13 +80,13 @@ public static class polyTest
                 7.0, -5.0, 9.0, 11.0, 0.0, -13.0
             }
             ;
-        int m = 3;
+        const int m = 3;
         int[] e =  {
                 1, 2, 4, 5, 12, 33
             }
             ;
-        int o = 6;
-        string title = "  P1(X) =";
+        const int o = 6;
+        const string title = "  P1(X) =";
 
         Console.WriteLine("");
         Console.WriteLine("POLYNOMIAL_PRINT_TEST");
@@ -122,20 +121,19 @@ public static class polyTest
                 0.0, 9.0, -5.0, -13.0, 7.0, 11.0
             }
             ;
-        int m = 3;
+        const int m = 3;
         int[] e =  {
                 12, 4, 2, 33, 1, 5
             }
             ;
-        int o = 6;
-        string title;
+        const int o = 6;
 
         Console.WriteLine("");
         Console.WriteLine("POLYNOMIAL_SORT_TEST");
         Console.WriteLine("  POLYNOMIAL_SORT sorts a polynomial by exponent index.");
 
         Console.WriteLine("");
-        title = "  Unsorted polynomial:";
+        string title = "  Unsorted polynomial:";
         Polynomial.polynomial_print(m, o, c, e, title);
 
         Polynomial.polynomial_sort(o, ref c, ref e);
@@ -170,16 +168,15 @@ public static class polyTest
                 7.0, -5.0, 9.0, 11.0, 0.0, -13.0
             }
             ;
-        int m = 3;
+        const int m = 3;
         int[] e =  {
                 1, 2, 4, 5, 12, 33
             }
             ;
         int j;
-        int nx = 2;
-        int o = 6;
-        double[] p;
-        string title = "  P(X) =";
+        const int nx = 2;
+        const int o = 6;
+        const string title = "  P(X) =";
         double[] x =  {
                 1.0, 2.0, 3.0,
                 -2.0, 4.0, 1.0
@@ -193,7 +190,7 @@ public static class polyTest
         Console.WriteLine("");
         Polynomial.polynomial_print(m, o, c, e, title);
 
-        p = Polynomial.polynomial_value(m, o, c, e, nx, x);
+        double[] p = Polynomial.polynomial_value(m, o, c, e, nx, x);
 
         Console.WriteLine("");
         for (j = 0; j < nx; j++)

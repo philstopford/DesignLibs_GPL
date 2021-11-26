@@ -27,14 +27,8 @@ public static class monoTest
         //    John Burkardt
         //
     {
-        int a;
-        int b;
-        int m = 4;
+        const int m = 4;
         int i;
-        int j;
-        int k;
-        int seed;
-        int[] x;
 
         Console.WriteLine("");
         Console.WriteLine("MONO_NEXT_GRLEX_TEST");
@@ -43,15 +37,16 @@ public static class monoTest
         Console.WriteLine("");
         Console.WriteLine("  Let M =  " + m + "");
 
-        a = 0;
-        b = 3;
-        seed = 123456789;
+        const int a = 0;
+        const int b = 3;
+        int seed = 123456789;
 
         for (i = 1; i <= 10; i++)
         {
-            x = UniformRNG.i4vec_uniform_ab_new(m, a, b, ref seed);
+            int[] x = UniformRNG.i4vec_uniform_ab_new(m, a, b, ref seed);
             Console.WriteLine("");
             string cout = "  ";
+            int k;
             for (k = 0; k < m; k++)
             {
                 cout += x[k].ToString().PadLeft(2);
@@ -59,6 +54,7 @@ public static class monoTest
 
             Console.WriteLine(cout);
 
+            int j;
             for (j = 1; j <= 5; j++)
             {
                 Monomial.mono_next_grlex(m, ref x);
@@ -99,14 +95,13 @@ public static class monoTest
         int[] f2 = {-5};
         int[] f3 = {2, 1, 0, 3};
         int[] f4 = {17, -3, 199};
-        int m;
 
         Console.WriteLine("");
         Console.WriteLine("MONO_PRINT_TEST");
         Console.WriteLine("  MONO_PRINT can print out a monomial.");
         Console.WriteLine("");
 
-        m = 1;
+        int m = 1;
         Monomial.mono_print(m, f1, "  Monomial [5]:");
 
         m = 1;
@@ -141,13 +136,10 @@ public static class monoTest
         //    John Burkardt
         //
     {
-        int m = 3;
-        int i;
+        const int m = 3;
         int j;
-        int n;
-        int rank;
         int test;
-        int test_num = 8;
+        const int test_num = 8;
         int[] x = new int[3];
         int[] x_test =
         {
@@ -169,7 +161,7 @@ public static class monoTest
         Console.WriteLine("");
         Console.WriteLine("  Print a monomial sequence with ranks assigned.");
 
-        n = 4;
+        const int n = 4;
 
         Console.WriteLine("");
         Console.WriteLine("  Let M = " + m + "");
@@ -180,7 +172,7 @@ public static class monoTest
         x[1] = 0;
         x[2] = 0;
 
-        i = 1;
+        int i = 1;
 
         for (;;)
         {
@@ -212,7 +204,7 @@ public static class monoTest
                 x[j] = x_test[j + test * m];
             }
 
-            rank = Monomial.mono_rank_grlex(m, x);
+            int rank = Monomial.mono_rank_grlex(m, x);
 
             string cout = "  " + rank.ToString().PadLeft(3) + "    ";
             for (j = 0; j < m; j++)
@@ -246,16 +238,10 @@ public static class monoTest
         //    John Burkardt
         //
     {
-        int m = 3;
+        const int m = 3;
         int i;
         int j;
-        int n;
-        int rank;
-        int rank_max;
-        int seed;
         int test;
-        int test_num;
-        int[] x;
 
         Console.WriteLine("");
         Console.WriteLine("MONO_UNRANK_GRLEX_TEST");
@@ -266,15 +252,15 @@ public static class monoTest
         Console.WriteLine("");
         Console.WriteLine("  For reference, print a monomial sequence with ranks.");
 
-        n = 4;
-        rank_max = Monomial.mono_upto_enum(m, n);
+        const int n = 4;
+        int rank_max = Monomial.mono_upto_enum(m, n);
 
         Console.WriteLine("");
         Console.WriteLine("  Let M = " + m + "");
         Console.WriteLine("      N = " + n + "");
         Console.WriteLine("");
 
-        x = new int[n];
+        int[] x = new int[n];
         for (i = 0; i < m; i++)
         {
             x[i] = 0;
@@ -305,12 +291,12 @@ public static class monoTest
         Console.WriteLine("  Now choose random ranks between 1 and " + rank_max + "");
         Console.WriteLine("");
 
-        seed = 123456789;
-        test_num = 5;
+        int seed = 123456789;
+        const int test_num = 5;
 
         for (test = 1; test <= test_num; test++)
         {
-            rank = UniformRNG.i4_uniform_ab(1, rank_max, ref seed);
+            int rank = UniformRNG.i4_uniform_ab(1, rank_max, ref seed);
             x = Monomial.mono_unrank_grlex(m, rank);
             string cout = "  " + rank.ToString().PadLeft(3) + "    ";
             for (j = 0; j < m; j++)
@@ -346,7 +332,6 @@ public static class monoTest
     {
         int m;
         int n;
-        int v;
 
         Console.WriteLine("");
         Console.WriteLine("MONO_UPTO_ENUM_TEST");
@@ -369,7 +354,7 @@ public static class monoTest
             cout += "  " + m.ToString().PadLeft(2) + "  |";
             for (n = 0; n <= 8; n++)
             {
-                v = Monomial.mono_upto_enum(m, n);
+                int v = Monomial.mono_upto_enum(m, n);
                 cout += " " + v.ToString().PadLeft(5);
             }
 
@@ -399,10 +384,7 @@ public static class monoTest
         //    John Burkardt
         //
     {
-        int m = 3;
-        int i;
-        int j;
-        int n;
+        const int m = 3;
         int[] x = new int[3];
 
         Console.WriteLine("");
@@ -414,7 +396,7 @@ public static class monoTest
         Console.WriteLine("  We start the process with (0,0,...,0,0).");
         Console.WriteLine("  The process ends with (N,0,...,0,0)");
 
-        n = 4;
+        const int n = 4;
 
         Console.WriteLine("");
         Console.WriteLine("  Let M = " + m + "");
@@ -425,11 +407,12 @@ public static class monoTest
         x[1] = 0;
         x[2] = 0;
 
-        i = 1;
+        int i = 1;
 
         for (;;)
         {
             string cout = "  " + i.ToString().PadLeft(2) + "    ";
+            int j;
             for (j = 0; j < m; j++)
             {
                 cout += x[j].ToString().PadLeft(2);
@@ -469,34 +452,30 @@ public static class monoTest
         //    John Burkardt
         //
     {
-        int m = 3;
-        int j;
-        int n;
+        const int m = 3;
         int rank = 0;
-        int seed;
         int test;
-        int test_num;
-        int[] x;
 
         Console.WriteLine("");
         Console.WriteLine("MONO_UPTO_RANDOM_TEST");
         Console.WriteLine("  MONO_UPTO_RANDOM selects at random a monomial");
         Console.WriteLine("  in M dimensions of total degree no greater than N.");
 
-        n = 4;
+        const int n = 4;
 
         Console.WriteLine("");
         Console.WriteLine("  Let M = " + m + "");
         Console.WriteLine("      N = " + n + "");
         Console.WriteLine("");
 
-        seed = 123456789;
-        test_num = 5;
+        int seed = 123456789;
+        const int test_num = 5;
 
         for (test = 1; test <= test_num; test++)
         {
-            x = Monomial.mono_upto_random(m, n, ref seed, ref rank);
+            int[] x = Monomial.mono_upto_random(m, n, ref seed, ref rank);
             string cout = "  " + rank.ToString().PadLeft(3) + "    ";
+            int j;
             for (j = 0; j < m; j++)
             {
                 cout += x[j].ToString().PadLeft(2);
@@ -528,16 +507,10 @@ public static class monoTest
         //    John Burkardt
         //
     {
-        int[] f;
-        int j;
-        int m = 3;
-        int n;
-        int nx = 2;
+        const int m = 3;
+        const int nx = 2;
         int rank = 0;
-        int seed;
         int test;
-        int test_num;
-        double[] v;
         double[] x =
         {
             1.0, 2.0, 3.0,
@@ -548,21 +521,22 @@ public static class monoTest
         Console.WriteLine("MONO_VALUE_TEST");
         Console.WriteLine("  MONO_VALUE evaluates a monomial.");
 
-        n = 6;
+        const int n = 6;
 
         Console.WriteLine("");
         Console.WriteLine("  Let M = " + m + "");
         Console.WriteLine("      N = " + n + "");
 
-        seed = 123456789;
-        test_num = 5;
+        int seed = 123456789;
+        const int test_num = 5;
 
         for (test = 1; test <= test_num; test++)
         {
-            f = Monomial.mono_upto_random(m, n, ref seed, ref rank);
+            int[] f = Monomial.mono_upto_random(m, n, ref seed, ref rank);
             Console.WriteLine("");
             Monomial.mono_print(m, f, "  M(X) = ");
-            v = Monomial.mono_value(m, nx, f, x);
+            double[] v = Monomial.mono_value(m, nx, f, x);
+            int j;
             for (j = 0; j < nx; j++)
             {
                 Console.WriteLine("  M(" + x[0 + j * m]

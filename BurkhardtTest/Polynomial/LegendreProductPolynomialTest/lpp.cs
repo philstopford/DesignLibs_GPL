@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Composition;
 using Burkardt.PolynomialNS;
 using Burkardt.Uniform;
@@ -28,14 +29,8 @@ public static class lppTest
         //    John Burkardt
         //
     {
-        double[] c;
-        int[] e;
-        int i;
-        int[] l;
-        string label;
-        int m = 2;
+        const int m = 2;
         int o = 0;
-        int o_max;
         int rank;
 
         Console.WriteLine("");
@@ -48,23 +43,24 @@ public static class lppTest
 
         for (rank = 1; rank <= 11; rank++)
         {
-            l = Comp.comp_unrank_grlex(m, rank);
+            int[] l = Comp.comp_unrank_grlex(m, rank);
 
-            o_max = 1;
+            int o_max = 1;
+            int i;
             for (i = 0; i < m; i++)
             {
                 o_max = o_max * (l[i] + 2) / 2;
             }
 
-            c = new double[o_max];
-            e = new int[o_max];
+            double[] c = new double[o_max];
+            int[] e = new int[o_max];
 
             Legendre.lpp_to_polynomial(m, l, o_max, ref o, ref c, ref e);
 
-            label = "  LPP #" + rank
-                              + " = L(" + l[0]
-                              + ",X)*L(" + l[1]
-                              + ",Y) = ";
+            string label = "  LPP #" + rank
+                                     + " = L(" + l[0]
+                                     + ",X)*L(" + l[1]
+                                     + ",Y) = ";
 
             Console.WriteLine("");
             Polynomial.polynomial_print(m, o, c, e, label);
@@ -92,30 +88,20 @@ public static class lppTest
         //    John Burkardt
         //
     {
-        double[] c;
-        int[] e;
         int i;
-        int[] l;
-        int m = 3;
-        int n = 1;
+        const int m = 3;
+        const int n = 1;
         int o = 0;
-        int o_max;
         int rank;
-        int seed;
-        double[] v1;
-        double[] v2;
-        double[] x;
-        double xhi;
-        double xlo;
 
         Console.WriteLine("");
         Console.WriteLine("LPP_VALUE_TEST:");
         Console.WriteLine("  LPP_VALUE evaluates a Legendre product polynomial.");
 
-        xlo = -1.0;
-        xhi = +1.0;
-        seed = 123456789;
-        x = UniformRNG.r8vec_uniform_ab_new(m, xlo, xhi, ref seed);
+        const double xlo = -1.0;
+        const double xhi = +1.0;
+        int seed = 123456789;
+        double[] x = UniformRNG.r8vec_uniform_ab_new(m, xlo, xhi, ref seed);
 
         Console.WriteLine("");
         string cout = "  Evaluate at X = ";
@@ -131,28 +117,28 @@ public static class lppTest
 
         for (rank = 1; rank <= 20; rank++)
         {
-            l = Comp.comp_unrank_grlex(m, rank);
+            int[] l = Comp.comp_unrank_grlex(m, rank);
             //
             //  Evaluate the LPP directly.
             //
-            v1 = Legendre.lpp_value(m, n, l, x);
+            double[] v1 = Legendre.lpp_value(m, n, l, x);
             //
             //  Convert the LPP to a polynomial.
             //
-            o_max = 1;
+            int o_max = 1;
             for (i = 0; i < m; i++)
             {
                 o_max = o_max * (l[i] + 2) / 2;
             }
 
-            c = new double[o_max];
-            e = new int[o_max];
+            double[] c = new double[o_max];
+            int[] e = new int[o_max];
 
             Legendre.lpp_to_polynomial(m, l, o_max, ref o, ref c, ref e);
             //
             //  Evaluate the polynomial.
             //
-            v2 = Polynomial.polynomial_value(m, o, c, e, n, x);
+            double[] v2 = Polynomial.polynomial_value(m, o, c, e, n, x);
             //
             //  Compare results.
             //
@@ -160,8 +146,8 @@ public static class lppTest
                                                          + l[0].ToString().PadLeft(2) + "  "
                                                          + l[1].ToString().PadLeft(2) + "  "
                                                          + l[2].ToString().PadLeft(2) + "  "
-                                                         + v1[0].ToString().PadLeft(14) + "  "
-                                                         + v2[0].ToString().PadLeft(14) + "");
+                                                         + v1[0].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                                                         + v2[0].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 }

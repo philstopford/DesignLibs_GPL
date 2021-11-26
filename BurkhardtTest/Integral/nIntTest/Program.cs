@@ -29,11 +29,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int TEST_NUM = 3;
+        const int TEST_NUM = 3;
 
-        double a;
-        double b;
-        int dim_num;
         int[] dim_num_test = {2, 3, 4};
         int test;
 
@@ -41,8 +38,8 @@ internal static class Program
         Console.WriteLine("NINTLIB_TEST");
         Console.WriteLine("  Test the NINTLIB library.");
 
-        a = 0.0;
-        b = 1.0;
+        const double a = 0.0;
+        const double b = 1.0;
 
         Console.WriteLine("");
         Console.WriteLine("TESTND");
@@ -52,7 +49,7 @@ internal static class Program
 
         for (test = 0; test < TEST_NUM; test++)
         {
-            dim_num = dim_num_test[test];
+            int dim_num = dim_num_test[test];
 
             Console.WriteLine("");
             Console.WriteLine("");
@@ -184,11 +181,10 @@ internal static class Program
         //    to be integrated.
         //
     {
-        int ORDER = 5;
+        const int ORDER = 5;
 
         int eval_num = 0;
         int i;
-        double result;
         double[] wtab =
         {
             0.236926885056189087514264040720,
@@ -220,7 +216,7 @@ internal static class Program
             wtab2[i] = 0.5 * wtab[i];
         }
 
-        result = nInt.box_nd(func, dim_num, ORDER, xtab2, wtab2, ref eval_num);
+        double result = nInt.box_nd(func, dim_num, ORDER, xtab2, wtab2, ref eval_num);
 
         Console.WriteLine("  BOX_ND:         "
                           + result.ToString("0.############").PadLeft(20)
@@ -256,16 +252,13 @@ internal static class Program
         //    to be integrated.
         //
     {
-        double[] a;
-        double[] b;
         int dim;
         int eval_num = 0;
-        double result;
         //
         //  Set the integration limits.
         //
-        a = new double[dim_num];
-        b = new double[dim_num];
+        double[] a = new double[dim_num];
+        double[] b = new double[dim_num];
 
         for (dim = 0; dim < dim_num; dim++)
         {
@@ -277,7 +270,7 @@ internal static class Program
             b[dim] = 1.0;
         }
 
-        result = nInt.p5_nd(func, dim_num, a, b, ref eval_num);
+        double result = nInt.p5_nd(func, dim_num, a, b, ref eval_num);
 
         Console.WriteLine("  P5_ND:          "
                           + result.ToString("0.############").PadLeft(20)
@@ -312,21 +305,16 @@ internal static class Program
         //    to be integrated.
         //
     {
-        double[] a;
-        double[] b;
         int dim;
         int eval_num = 0;
         int ind = 0;
-        int it_max = 3;
-        double result;
-        int[] sub_num;
-        double tol;
+        const int it_max = 3;
         //
         //  Set the integration limits.
         //
-        a = new double[dim_num];
-        b = new double[dim_num];
-        sub_num = new int[dim_num];
+        double[] a = new double[dim_num];
+        double[] b = new double[dim_num];
+        int[] sub_num = new int[dim_num];
 
         for (dim = 0; dim < dim_num; dim++)
         {
@@ -338,13 +326,13 @@ internal static class Program
             b[dim] = 1.0;
         }
 
-        tol = 0.001;
+        double tol = 0.001;
         for (dim = 0; dim < dim_num; dim++)
         {
             sub_num[dim] = 10;
         }
 
-        result = nInt.romberg_nd(func, a, b, dim_num, sub_num, it_max, tol,
+        double result = nInt.romberg_nd(func, a, b, dim_num, sub_num, it_max, tol,
             ref ind, ref eval_num);
 
         Console.WriteLine("  ROMBERG_ND:     "
@@ -380,7 +368,7 @@ internal static class Program
         //    to be integrated.
         //
     {
-        int K2 = 4;
+        const int K2 = 4;
 
         double[] dev1 = new double[K2];
         double[] dev2 = new double[K2];
@@ -389,9 +377,8 @@ internal static class Program
         double[] est2 = new double[K2];
         double[] err2 = new double[K2];
         int eval_num = 0;
-        int k1;
 
-        k1 = 1;
+        const int k1 = 1;
 
         nInt.sample_nd(func, k1, K2, dim_num, est1, err1, dev1, est2, err2,
             dev2, ref eval_num);
@@ -447,24 +434,14 @@ internal static class Program
         //    to be integrated.
         //
     {
-        double[] a;
-        double[] b;
         int dim;
         int eval_num = 0;
-        int eval_total;
-        int i;
         int igrid;
-        int j;
-        int ngrid;
-        double result;
-        double result_total;
-        double[] xlo;
-        double[] xhi;
 
-        a = new double[dim_num];
-        b = new double[dim_num];
-        xlo = new double[dim_num];
-        xhi = new double[dim_num];
+        double[] a = new double[dim_num];
+        double[] b = new double[dim_num];
+        double[] xlo = new double[dim_num];
+        double[] xhi = new double[dim_num];
 
         for (dim = 0; dim < dim_num; dim++)
         {
@@ -478,11 +455,12 @@ internal static class Program
 
         for (igrid = 1; igrid <= 6; igrid++)
         {
-            ngrid = (int) Math.Pow(2, igrid - 1);
+            int ngrid = (int) Math.Pow(2, igrid - 1);
 
-            result_total = 0.0;
-            eval_total = 0;
+            double result_total = 0.0;
+            int eval_total = 0;
 
+            int i;
             for (i = 1; i <= ngrid; i++)
             {
                 a[0] = ((ngrid - i + 1) * xlo[0]
@@ -493,6 +471,7 @@ internal static class Program
                         + i * xhi[0])
                        / ngrid;
 
+                int j;
                 for (j = 1; j <= ngrid; j++)
                 {
                     a[1] = ((ngrid - j + 1) * xlo[1]
@@ -503,7 +482,7 @@ internal static class Program
                             + j * xhi[1])
                            / ngrid;
 
-                    result = nInt.p5_nd(func, dim_num, a, b, ref eval_num);
+                    double result = nInt.p5_nd(func, dim_num, a, b, ref eval_num);
 
                     result_total += result;
                     eval_total += eval_num;
@@ -545,21 +524,16 @@ internal static class Program
         //    to be integrated.
         //
     {
-        double[] a;
-        double[] b;
         int dim;
-        int eval_num;
-        double result;
-        int seed;
         int test;
-        int test_num = 3;
+        const int test_num = 3;
 
-        seed = 123456789;
+        int seed = 123456789;
         //
         //  Set the integration limits.
         //
-        a = new double[dim_num];
-        b = new double[dim_num];
+        double[] a = new double[dim_num];
+        double[] b = new double[dim_num];
 
         for (dim = 0; dim < dim_num; dim++)
         {
@@ -573,9 +547,9 @@ internal static class Program
 
         for (test = 1; test <= test_num; test++)
         {
-            eval_num = (int) Math.Pow(8, test) * 10000;
+            int eval_num = (int) Math.Pow(8, test) * 10000;
 
-            result = nInt.monte_carlo_nd(func, dim_num, a, b, eval_num, ref seed);
+            double result = nInt.monte_carlo_nd(func, dim_num, a, b, eval_num, ref seed);
 
             Console.WriteLine("  MONTE_CARLO_ND: "
                               + result.ToString("0.############").PadLeft(20)
@@ -612,17 +586,15 @@ internal static class Program
         //    Output, double FBDN, the value of the function at X.
         //
     {
-        double arg;
         int dim;
-        double value = 0;
 
-        arg = 0.0;
+        double arg = 0.0;
         for (dim = 0; dim < dim_num; dim++)
         {
             arg += x[dim] * x[dim];
         }
 
-        value = 1.0 / (1.0 + arg);
+        double value = 1.0 / (1.0 + arg);
 
         return value;
     }
@@ -656,17 +628,15 @@ internal static class Program
         //    Output, double FEDN, the value of the function at X.
         //
     {
-        double arg;
         int dim;
-        double value = 0;
 
-        arg = 0.0;
+        double arg = 0.0;
         for (dim = 0; dim < dim_num; dim++)
         {
             arg += x[dim];
         }
 
-        value = Math.Exp(arg);
+        double value = Math.Exp(arg);
 
         return value;
     }
@@ -736,17 +706,15 @@ internal static class Program
         //    Output, double FXDN, the value of the function at X.
         //
     {
-        double arg;
         int dim;
-        double value = 0;
 
-        arg = 0.0;
+        double arg = 0.0;
         for (dim = 0; dim < dim_num; dim++)
         {
             arg += x[dim];
         }
 
-        value = arg;
+        double value = arg;
 
         return value;
     }
@@ -780,17 +748,15 @@ internal static class Program
         //    Output, double FX2DN, the value of the function at X.
         //
     {
-        double arg;
         int dim;
-        double value = 0;
 
-        arg = 0.0;
+        double arg = 0.0;
         for (dim = 0; dim < dim_num; dim++)
         {
             arg += x[dim] * x[dim];
         }
 
-        value = arg;
+        double value = arg;
 
         return value;
     }
@@ -824,17 +790,15 @@ internal static class Program
         //    Output, double FX3DN, the value of the function at X.
         //
     {
-        double arg;
         int dim;
-        double value = 0;
 
-        arg = 0.0;
+        double arg = 0.0;
         for (dim = 0; dim < dim_num; dim++)
         {
             arg += x[dim] * x[dim] * x[dim];
         }
 
-        value = arg;
+        double value = arg;
 
         return value;
     }

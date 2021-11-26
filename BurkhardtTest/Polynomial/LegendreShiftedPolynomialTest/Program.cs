@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.PolynomialNS;
 
 namespace LegendreShiftedPolynomialTest;
@@ -64,11 +65,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int n_data;
-        double e;
         double fx1 = 0;
-        double fx2;
-        double[] fx2_vec;
         int n = 0;
         double x = 0;
         double[] x_vec = new double[1];
@@ -81,7 +78,7 @@ internal static class Program
         Console.WriteLine("     N        X          P01(N,X)                 P01(N,X)                     Error");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -93,16 +90,16 @@ internal static class Program
             }
 
             x_vec[0] = x;
-            fx2_vec = LegendreShifted.p01_polynomial_value(1, n, x_vec);
-            fx2 = fx2_vec[n];
+            double[] fx2_vec = LegendreShifted.p01_polynomial_value(1, n, x_vec);
+            double fx2 = fx2_vec[n];
 
-            e = fx1 - fx2;
+            double e = fx1 - fx2;
 
-            Console.WriteLine("  " + n.ToString().PadLeft(4)
-                                   + "  " + x.ToString().PadLeft(12)
-                                   + "  " + fx1.ToString().PadLeft(24)
-                                   + "  " + fx2.ToString().PadLeft(24)
-                                   + "  " + e.ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(24)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(24)
+                                   + "  " + e.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
     }
 }

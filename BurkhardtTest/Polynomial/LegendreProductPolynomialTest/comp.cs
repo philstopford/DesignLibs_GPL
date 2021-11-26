@@ -27,8 +27,6 @@ public static class compTest
         //    John Burkardt
         //
     {
-        int num;
-        int k;
         int n;
 
         Console.WriteLine("");
@@ -38,9 +36,10 @@ public static class compTest
         string cout = "";
         for (n = 0; n <= 10; n++)
         {
+            int k;
             for (k = 1; k <= 10; k++)
             {
-                num = Comp.comp_enum(n, k);
+                int num = Comp.comp_enum(n, k);
                 cout += "  " + num.ToString().PadLeft(6);
             }
 
@@ -70,9 +69,7 @@ public static class compTest
         //    John Burkardt
         //
     {
-        int j;
-        int kc = 3;
-        int nc;
+        const int kc = 3;
         int rank;
         int[] xc = new int[3];
 
@@ -89,6 +86,7 @@ public static class compTest
 
         for (rank = 1; rank <= 71; rank++)
         {
+            int j;
             switch (rank)
             {
                 case 1:
@@ -105,7 +103,7 @@ public static class compTest
                     break;
             }
 
-            nc = typeMethods.i4vec_sum(kc, xc);
+            int nc = typeMethods.i4vec_sum(kc, xc);
 
             string cout = "   " + rank.ToString().PadLeft(3) + ": ";
             cout += "    " + nc.ToString().PadLeft(2) + " = ";
@@ -147,15 +145,8 @@ public static class compTest
         //    John Burkardt
         //
     {
-        int j;
-        int kc;
-        int nc;
         int rank = 0;
-        int rank1;
-        int rank2;
-        int seed;
         int test;
-        int[] xc;
 
         Console.WriteLine("");
         Console.WriteLine("COMP_RANDOM_GRLEX_TEST");
@@ -165,18 +156,19 @@ public static class compTest
         Console.WriteLine("  graded lexicographic (grlex) order between indices RANK1 and RANK2.");
         Console.WriteLine("");
 
-        kc = 3;
-        rank1 = 20;
-        rank2 = 60;
-        seed = 123456789;
+        const int kc = 3;
+        const int rank1 = 20;
+        const int rank2 = 60;
+        int seed = 123456789;
 
         for (test = 1; test <= 5; test++)
         {
-            xc = Comp.comp_random_grlex(kc, rank1, rank2, ref seed, ref rank);
-            nc = typeMethods.i4vec_sum(kc, xc);
+            int[] xc = Comp.comp_random_grlex(kc, rank1, rank2, ref seed, ref rank);
+            int nc = typeMethods.i4vec_sum(kc, xc);
 
             string cout = "   " + rank.ToString().PadLeft(3) + ": ";
             cout += "    " + nc.ToString().PadLeft(2) + " = ";
+            int j;
             for (j = 0; j < kc - 1; j++)
             {
                 cout += xc[j].ToString().PadLeft(2) + " + ";
@@ -208,14 +200,8 @@ public static class compTest
         //    John Burkardt
         //
     {
-        int kc;
-        int rank1;
-        int rank2;
         int rank3 = 0;
-        int rank4;
-        int seed;
         int test;
-        int[] xc;
 
         Console.WriteLine("");
         Console.WriteLine("COMP_RANK_GRLEX_TEST");
@@ -228,15 +214,15 @@ public static class compTest
         Console.WriteLine("  Test    Rank      Rank");
         Console.WriteLine("");
 
-        kc = 3;
-        rank1 = 20;
-        rank2 = 60;
-        seed = 123456789;
+        const int kc = 3;
+        const int rank1 = 20;
+        const int rank2 = 60;
+        int seed = 123456789;
 
         for (test = 1; test <= 5; test++)
         {
-            xc = Comp.comp_random_grlex(kc, rank1, rank2, ref seed, ref rank3);
-            rank4 = Comp.comp_rank_grlex(kc, xc);
+            int[] xc = Comp.comp_random_grlex(kc, rank1, rank2, ref seed, ref rank3);
+            int rank4 = Comp.comp_rank_grlex(kc, xc);
 
             Console.WriteLine("  " + test.ToString().PadLeft(4) +
                               "  " + rank3.ToString().PadLeft(6) +
@@ -265,11 +251,8 @@ public static class compTest
         //    John Burkardt
         //
     {
-        int j;
-        int kc = 3;
-        int nc;
+        const int kc = 3;
         int rank1;
-        int[] xc;
 
         Console.WriteLine("");
         Console.WriteLine("COMP_UNRANK_GRLEX_TEST");
@@ -284,11 +267,12 @@ public static class compTest
 
         for (rank1 = 1; rank1 <= 71; rank1++)
         {
-            xc = Comp.comp_unrank_grlex(kc, rank1);
-            nc = typeMethods.i4vec_sum(kc, xc);
+            int[] xc = Comp.comp_unrank_grlex(kc, rank1);
+            int nc = typeMethods.i4vec_sum(kc, xc);
 
             string cout = "   " + rank1.ToString().PadLeft(3) + ": ";
             cout += "    " + nc.ToString().PadLeft(2) + " = ";
+            int j;
             for (j = 0; j < kc - 1; j++)
             {
                 cout += xc[j].ToString().PadLeft(2) + " + ";

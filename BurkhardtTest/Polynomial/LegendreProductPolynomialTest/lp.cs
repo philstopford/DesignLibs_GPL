@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.PolynomialNS;
 
 namespace LegendreProductPolynomialTest;
@@ -26,12 +27,7 @@ public static class lpTest
         //    John Burkardt
         //
     {
-        double[] c;
-        int[] e;
-        int[] f;
-        int i;
-        string label;
-        int m = 1;
+        const int m = 1;
         int n;
         const int N_MAX = 10;
         int o = 0;
@@ -43,18 +39,19 @@ public static class lpTest
 
         for (n = 0; n <= N_MAX; n++)
         {
-            c = new double[n + 1];
-            f = new int[n + 1];
+            double[] c = new double[n + 1];
+            int[] f = new int[n + 1];
 
             Legendre.lp_coefficients(n, ref o, ref c, ref f);
 
-            e = new int[o];
+            int[] e = new int[o];
+            int i;
             for (i = 0; i < o; i++)
             {
                 e[i] = f[i] + 1;
             }
 
-            label = "  P(" + n + ",x) = ";
+            string label = "  P(" + n + ",x) = ";
             Polynomial.polynomial_print(m, o, c, e, label);
         }
     }
@@ -80,16 +77,12 @@ public static class lpTest
         //    John Burkardt
         //
     {
-        double e;
-        int n;
-        int n_data;
         int o = 0;
         double x = 0;
         double[] xvec = new double[1];
         double fx1 = 0;
-        double[] fx2;
 
-        n = 1;
+        const int n = 1;
 
         Console.WriteLine("");
         Console.WriteLine("LP_VALUE_TEST:");
@@ -100,7 +93,7 @@ public static class lpTest
                           "                   Error");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -113,15 +106,15 @@ public static class lpTest
 
             xvec[0] = x;
 
-            fx2 = Legendre.lp_value(n, o, xvec);
+            double[] fx2 = Legendre.lp_value(n, o, xvec);
 
-            e = fx1 - fx2[0];
+            double e = fx1 - fx2[0];
 
-            Console.WriteLine(o.ToString().PadLeft(6) + "  "
-                                                      + x.ToString().PadLeft(12) + "  "
-                                                      + fx1.ToString().PadLeft(24) + "  "
-                                                      + fx2[0].ToString().PadLeft(24) + "  "
-                                                      + e.ToString().PadLeft(8) + "");
+            Console.WriteLine(o.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                      + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                      + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "  "
+                                                      + fx2[0].ToString(CultureInfo.InvariantCulture).PadLeft(24) + "  "
+                                                      + e.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
 
     }
@@ -147,7 +140,6 @@ public static class lpTest
         //    John Burkardt
         //
     {
-        int n_data;
         int o = 0;
         double x = 0;
         double fx = 0;
@@ -161,7 +153,7 @@ public static class lpTest
         Console.WriteLine("     O        X           L(O,X)");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -172,9 +164,9 @@ public static class lpTest
                 break;
             }
 
-            Console.WriteLine(o.ToString().PadLeft(6) + "  "
-                                                      + x.ToString().PadLeft(12) + "  "
-                                                      + fx.ToString().PadLeft(24) + "");
+            Console.WriteLine(o.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                      + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                      + fx.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "");
         }
     }
 }

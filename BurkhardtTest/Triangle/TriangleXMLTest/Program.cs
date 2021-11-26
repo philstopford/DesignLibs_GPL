@@ -46,21 +46,13 @@ internal static class Program
         //
     {
         int element_att_num = 0;
-        double[] element_att;
-        int[] element_node;
         int element_num = 0;
         int element_order = 0;
         int m = 0;
-        double[] node_att;
         int node_att_num = 0;
         int node_marker_num = 0;
-        int[] node_marker;
-        double[] node_x;
         int node_num = 0;
         string prefix;
-        string triangle_element_filename;
-        string triangle_node_filename;
-        string xml_filename;
 
         Console.WriteLine("");
         Console.WriteLine("TRIANGLE_TO_XML:");
@@ -84,9 +76,9 @@ internal static class Program
         //
         //  Create the file names.
         //
-        triangle_node_filename = prefix + ".node";
-        triangle_element_filename = prefix + ".ele";
-        xml_filename = prefix + ".xml";
+        string triangle_node_filename = prefix + ".node";
+        string triangle_element_filename = prefix + ".ele";
+        string xml_filename = prefix + ".xml";
 
         Console.WriteLine("");
         Console.WriteLine("  Read:");
@@ -100,9 +92,9 @@ internal static class Program
         typeMethods.triangle_node_size_read(triangle_node_filename, ref node_num, ref m, ref node_att_num,
             ref node_marker_num);
 
-        node_x = new double[m * node_num];
-        node_att = new double[node_att_num * node_num];
-        node_marker = new int[node_marker_num * node_num];
+        double[] node_x = new double[m * node_num];
+        double[] node_att = new double[node_att_num * node_num];
+        int[] node_marker = new int[node_marker_num * node_num];
 
         typeMethods.triangle_node_data_read(triangle_node_filename, node_num, m, node_att_num,
             node_marker_num, ref node_x, ref node_att, ref node_marker);
@@ -112,8 +104,8 @@ internal static class Program
         typeMethods.triangle_element_size_read(triangle_element_filename, ref element_num, ref element_order,
             ref element_att_num);
 
-        element_node = new int[element_order * element_num];
-        element_att = new double[element_att_num * element_num];
+        int[] element_node = new int[element_order * element_num];
+        double[] element_att = new double[element_att_num * element_num];
 
         typeMethods.triangle_element_data_read(triangle_element_filename, element_num, element_order,
             element_att_num, ref element_node, ref element_att);

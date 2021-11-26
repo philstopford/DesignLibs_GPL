@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Transform;
 using Burkardt.Uniform;
 
@@ -64,13 +65,9 @@ internal static class Program
         //
     {
         int i;
-        int n = 10;
-        int seed;
-        double[] r;
-        double[] s;
-        double[] t;
+        const int n = 10;
 
-        seed = 123456789;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("COSINE_TRANSFORM_TEST01:");
@@ -83,9 +80,9 @@ internal static class Program
         Console.WriteLine("  Let T be the transform of E.");
         Console.WriteLine("  Then R and T will be equal.");
 
-        r = UniformRNG.r8vec_uniform_01_new(n, ref seed);
-        s = Cosine.cosine_transform_data(n, r);
-        t = Cosine.cosine_transform_inverse(n, s);
+        double[] r = UniformRNG.r8vec_uniform_01_new(n, ref seed);
+        double[] s = Cosine.cosine_transform_data(n, r);
+        double[] t = Cosine.cosine_transform_inverse(n, s);
 
         Console.WriteLine("");
         Console.WriteLine("     I      R(I)        S(I)        T(I)");
@@ -93,10 +90,10 @@ internal static class Program
 
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + r[i].ToString().PadLeft(10)
-                                   + "  " + s[i].ToString().PadLeft(10)
-                                   + "  " + t[i].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + r[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + s[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + t[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 }

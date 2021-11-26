@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Transform;
 using Burkardt.Types;
 using Burkardt.Uniform;
@@ -65,13 +66,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double err;
         int i;
-        int n;
-        int seed;
-        double[] u;
-        double[] v;
-        double[] w;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
@@ -79,14 +74,14 @@ internal static class Program
         //
         //  Random data.
         //
-        n = 16;
-        seed = 123456789;
-        u = UniformRNG.r8vec_uniform_01_new(n, ref seed);
-        v = typeMethods.r8vec_copy_new(n, u);
+        int n = 16;
+        int seed = 123456789;
+        double[] u = UniformRNG.r8vec_uniform_01_new(n, ref seed);
+        double[] v = typeMethods.r8vec_copy_new(n, u);
 
         Haar.haar_1d(n, ref v);
 
-        w = typeMethods.r8vec_copy_new(n, v);
+        double[] w = typeMethods.r8vec_copy_new(n, v);
         Haar.haar_1d_inverse(n, ref w);
 
         Console.WriteLine("");
@@ -94,10 +89,10 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + u[i].ToString().PadLeft(10)
-                                   + "  " + v[i].ToString().PadLeft(10)
-                                   + "  " + w[i].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + v[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         //
@@ -117,10 +112,10 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + u[i].ToString().PadLeft(10)
-                                   + "  " + v[i].ToString().PadLeft(10)
-                                   + "  " + w[i].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + v[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         //
@@ -140,10 +135,10 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + u[i].ToString().PadLeft(10)
-                                   + "  " + v[i].ToString().PadLeft(10)
-                                   + "  " + w[i].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + v[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         //
@@ -171,10 +166,10 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + u[i].ToString().PadLeft(10)
-                                   + "  " + v[i].ToString().PadLeft(10)
-                                   + "  " + w[i].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + v[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         //
@@ -190,7 +185,7 @@ internal static class Program
         w = typeMethods.r8vec_copy_new(n, v);
         Haar.haar_1d_inverse(n, ref w);
 
-        err = typeMethods.r8vec_diff_norm(n, u, w);
+        double err = typeMethods.r8vec_diff_norm(n, u, w);
 
         Console.WriteLine("");
         Console.WriteLine("  For N = " + n
@@ -218,13 +213,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double err;
         int m = 16;
         int n = 4;
-        int seed;
-        double[] u;
-        double[] v;
-        double[] w;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02");
@@ -233,18 +223,18 @@ internal static class Program
         //
         //  Demonstrate successful inversion.
         //
-        seed = 123456789;
-        u = UniformRNG.r8mat_uniform_01_new(m, n, ref seed);
+        int seed = 123456789;
+        double[] u = UniformRNG.r8mat_uniform_01_new(m, n, ref seed);
 
         typeMethods.r8mat_print(m, n, u, "  Input array U:");
 
-        v = typeMethods.r8mat_copy_new(m, n, u);
+        double[] v = typeMethods.r8mat_copy_new(m, n, u);
 
         Haar.haar_2d(m, n, ref v);
 
         typeMethods.r8mat_print(m, n, v, "  Transformed array V:");
 
-        w = typeMethods.r8mat_copy_new(m, n, v);
+        double[] w = typeMethods.r8mat_copy_new(m, n, v);
 
         Haar.haar_2d_inverse(m, n, ref w);
 
@@ -264,7 +254,7 @@ internal static class Program
         w = typeMethods.r8mat_copy_new(m, n, v);
         Haar.haar_2d_inverse(m, n, ref w);
 
-        err = typeMethods.r8mat_dif_fro(m, n, u, w);
+        double err = typeMethods.r8mat_dif_fro(m, n, u, w);
 
         Console.WriteLine("");
         Console.WriteLine("  M = " + m

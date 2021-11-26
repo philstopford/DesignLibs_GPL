@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.MonomialNS;
 using Burkardt.Types;
 
@@ -71,17 +72,15 @@ internal static class Program
                 5.0, 1.0, 1.0, 2.0
             }
             ;
-        double area;
-        double r;
 
         Console.WriteLine("");
         Console.WriteLine("ELLIPSE_AREA1_TEST");
             
         Console.WriteLine("  ELLIPSE_AREA1 computes the area of an ellipse.");
 
-        r = 10.0;
+        const double r = 10.0;
 
-        area = MonteCarlo.ellipse_area1(a, r);
+        double area = MonteCarlo.ellipse_area1(a, r);
 
         Console.WriteLine("");
         Console.WriteLine("  R = " + r + "");
@@ -116,23 +115,17 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double area;
-        double b;
-        double c;
-        double d;
-
         Console.WriteLine("");
         Console.WriteLine("ELLIPSE_AREA2_TEST");
             
         Console.WriteLine("  ELLIPSE_AREA2 computes the area of an ellipse.");
 
-        a = 5.0;
-        b = 2.0;
-        c = 2.0;
-        d = 10.0;
+        const double a = 5.0;
+        const double b = 2.0;
+        const double c = 2.0;
+        const double d = 10.0;
 
-        area = MonteCarlo.ellipse_area2(a, b, c, d);
+        double area = MonteCarlo.ellipse_area2(a, b, c, d);
 
         Console.WriteLine("");
         Console.WriteLine("  Ellipse: " + a
@@ -184,20 +177,14 @@ internal static class Program
                 3, 0
             }
             ;
-        int j;
-        int n;
-        double r = 2.0;
-        double result;
-        int seed;
-        double[] value;
-        double[] x;
+        const double r = 2.0;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
         Console.WriteLine("  Use ELLIPSE01_SAMPLE to estimate integrals");
         Console.WriteLine("  in the ellipse x' * A * x <= r^2.");
 
-        seed = 123456789;
+        int seed = 123456789;
         typeMethods.r8vecNormalData data = new();
 
         Console.WriteLine("");
@@ -205,26 +192,27 @@ internal static class Program
                           + "             X^2               XY             Y^2             X^3");
         Console.WriteLine("");
 
-        n = 1;
+        int n = 1;
 
         while (n <= 65536)
         {
 
-            x = MonteCarlo.ellipse_sample(n, a, r, ref data, ref seed);
+            double[] x = MonteCarlo.ellipse_sample(n, a, r, ref data, ref seed);
 
             string cout = "  " + n.ToString().PadLeft(8);
 
+            int j;
             for (j = 0; j < 7; j++)
             {
                 e[0] = e_test[0 + j * 2];
                 e[1] = e_test[1 + j * 2];
 
-                value = Monomial.monomial_value(2, n, e, x);
+                double[] value = Monomial.monomial_value(2, n, e, x);
 
-                result = MonteCarlo.ellipse_area1(a, r) * typeMethods.r8vec_sum(n, value)
-                         / n;
+                double result = MonteCarlo.ellipse_area1(a, r) * typeMethods.r8vec_sum(n, value)
+                                / n;
 
-                cout += "  " + result.ToString().PadLeft(14);
+                cout += "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);

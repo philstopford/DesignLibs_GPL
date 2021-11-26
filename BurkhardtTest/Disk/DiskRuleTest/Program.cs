@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace DiskRuleTest;
 
@@ -63,10 +64,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double area;
         int d;
-        int ex;
-        int ey;
         double[] exact =  {
                 9.0,
                 9.0, 18.0,
@@ -75,20 +73,9 @@ internal static class Program
                 1773.0 / 8.0, 279.0 / 2.0, 1341.0 / 8.0, 387.0 / 2.0, 5769.0 / 8.0
             }
             ;
-        int i;
-        int j;
         int k;
-        int nr = 4;
-        int nt = 8;
-        double q;
-        const double r8_pi = 3.141592653589793;
-        double rc;
-        double s;
-        double[] w;
-        double[] x;
-        double xc;
-        double[] y;
-        double yc;
+        const int nr = 4;
+        const int nt = 8;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
@@ -103,23 +90,23 @@ internal static class Program
         //
         //  Define the general disk.
         //
-        xc = 1.0;
-        yc = 2.0;
-        rc = 3.0;
+        const double xc = 1.0;
+        const double yc = 2.0;
+        const double rc = 3.0;
         //
         //  Put in the factor of PI in the exact values.
         //
         for (k = 0; k < 15; k++)
         {
-            exact[k] *= r8_pi;
+            exact[k] *= Math.PI;
         }
 
         //
         //  Compute the quadrature rule.
         //
-        w = new double[nr * nt];
-        x = new double[nr * nt];
-        y = new double[nr * nt];
+        double[] w = new double[nr * nt];
+        double[] x = new double[nr * nt];
+        double[] y = new double[nr * nt];
 
         QuadratureRule.disk_rule(nr, nt, xc, yc, rc, ref w, ref x, ref y);
         //
@@ -135,27 +122,30 @@ internal static class Program
 
         for (d = 0; d <= 4; d++)
         {
+            int ex;
             for (ex = d; 0 <= ex; ex--)
             {
-                ey = d - ex;
+                int ey = d - ex;
 
-                s = 0.0;
+                double s = 0.0;
+                int j;
                 for (j = 0; j < nt; j++)
                 {
+                    int i;
                     for (i = 0; i < nr; i++)
                     {
                         s += w[i + j * nr] * Math.Pow(x[i + j * nr], ex) * Math.Pow(y[i + j * nr], ey);
                     }
                 }
 
-                area = r8_pi * rc * rc;
+                double area = Math.PI * rc * rc;
 
-                q = area * s;
+                double q = area * s;
 
-                Console.WriteLine("  " + ex.ToString().PadLeft(2)
-                                       + "  " + ey.ToString().PadLeft(2)
-                                       + "  " + exact[k].ToString().PadLeft(14)
-                                       + "  " + q.ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + ex.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + ey.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + exact[k].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
                 k += 1;
             }

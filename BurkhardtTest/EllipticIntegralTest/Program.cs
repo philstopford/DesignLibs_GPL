@@ -129,8 +129,6 @@ internal static class Program
         //    C++ version by John Burkardt.
         //
     {
-        double eliptc;
-        double errtol;
         int i;
         int ierr = 0;
         double[] x =
@@ -237,11 +235,11 @@ internal static class Program
         Console.WriteLine("              X                          Y                         RC(X,Y)");
         Console.WriteLine("");
 
-        errtol = 1.0E-3;
+        double errtol = 1.0E-3;
 
         for (i = 0; i < 43; i++)
         {
-            eliptc = Integral.rc(x[i], y[i], errtol, ref ierr);
+            double eliptc = Integral.rc(x[i], y[i], errtol, ref ierr);
             string cout = "  " + x[i].ToString("0.################").PadLeft(27)
                                + "  " + y[i].ToString("0.################").PadLeft(27);
             switch (ierr)
@@ -286,18 +284,13 @@ internal static class Program
         //    C++ version by John Burkardt.
         //
     {
-        double errtol;
         int i;
-        double ibmarc;
         double ibmlog;
         int ierr = 0;
-        int ipower;
         int j;
         int m;
-        double myarc;
         double mylog;
         double v;
-        double w;
         double x;
         double[] x_vec =
             {
@@ -317,7 +310,6 @@ internal static class Program
             }
             ;
         double y;
-        double z;
 
         Console.WriteLine("");
         Console.WriteLine("RC_TEST2");
@@ -328,7 +320,7 @@ internal static class Program
         Console.WriteLine("     X                From LOG                   From RC");
         Console.WriteLine("");
 
-        errtol = 1.0E-3;
+        double errtol = 1.0E-3;
 
         for (j = 1; j <= 10; j++)
         {
@@ -359,7 +351,7 @@ internal static class Program
 
         for (i = 0; i < 16; i++)
         {
-            ipower = -75 + 10 * i;
+            int ipower = -75 + 10 * i;
             x = Math.Pow(10.0, ipower);
             y = (1.0 + x) / 2.0;
             v = x / y;
@@ -377,10 +369,10 @@ internal static class Program
         for (m = 0; m < 13; m++)
         {
             x = x_vec[m];
-            z = 1.0 / x;
-            w = z + x;
-            myarc = Math.Sqrt(x) * Integral.rc(z, w, errtol, ref ierr);
-            ibmarc = Math.Atan(x);
+            double z = 1.0 / x;
+            double w = z + x;
+            double myarc = Math.Sqrt(x) * Integral.rc(z, w, errtol, ref ierr);
+            double ibmarc = Math.Atan(x);
             Console.WriteLine(x.ToString("0.#").PadLeft(8)
                               + ibmarc.ToString("0.################").PadLeft(27)
                               + myarc.ToString("0.################").PadLeft(27) + "");
@@ -425,8 +417,6 @@ internal static class Program
         //    C++ version by John Burkardt.
         //
     {
-        double eliptc;
-        double errtol;
         int i;
         int ierr = 0;
         double[] x =
@@ -534,11 +524,11 @@ internal static class Program
                           "                          Z                         RD(X,Y,Z)");
         Console.WriteLine("");
 
-        errtol = 1.0E-03;
+        double errtol = 1.0E-03;
 
         for (i = 0; i < 27; i++)
         {
-            eliptc = Integral.rd(x[i], y[i], z[i], errtol, ref ierr);
+            double eliptc = Integral.rd(x[i], y[i], z[i], errtol, ref ierr);
             string cout = x[i].ToString("0.################").PadLeft(27)
                           + y[i].ToString("0.################").PadLeft(27)
                           + z[i].ToString("0.################").PadLeft(27);
@@ -591,8 +581,6 @@ internal static class Program
         //    C++ version by John Burkardt.
         //
     {
-        double eliptc;
-        double errtol;
         int i;
         int ierr = 0;
         double[] x =
@@ -784,11 +772,11 @@ internal static class Program
                           "                          Z                         RF(X,Y,Z)");
         Console.WriteLine(" ");
 
-        errtol = 1.0E-3;
+        double errtol = 1.0E-3;
 
         for (i = 0; i < 55; i++)
         {
-            eliptc = Integral.rf(x[i], y[i], z[i], errtol, ref ierr);
+            double eliptc = Integral.rf(x[i], y[i], z[i], errtol, ref ierr);
             string cout = x[i].ToString("0.################").PadLeft(27)
                           + y[i].ToString("0.################").PadLeft(27)
                           + z[i].ToString("0.################").PadLeft(27);
@@ -843,8 +831,6 @@ internal static class Program
         //    C++ version by John Burkardt.
         //
     {
-        double eliptc;
-        double errtol;
         int i;
         int ierr = 0;
 
@@ -1046,11 +1032,11 @@ internal static class Program
                           "                         RJ(X,Y,Z,P)");
         Console.WriteLine("");
 
-        errtol = 1.0E-3;
+        double errtol = 1.0E-3;
 
         for (i = 0; i < 42; i++)
         {
-            eliptc = Integral.rj(x[i], y[i], z[i], p[i], errtol, ref ierr);
+            double eliptc = Integral.rj(x[i], y[i], z[i], p[i], errtol, ref ierr);
             string cout = x[i].ToString("0.################").PadLeft(27)
                           + y[i].ToString("0.################").PadLeft(27)
                           + z[i].ToString("0.################").PadLeft(27)
@@ -1090,8 +1076,6 @@ internal static class Program
     {
         double a = 0;
         double fx = 0;
-        double fx2;
-        int n_data;
 
         Console.WriteLine("");
         Console.WriteLine("ELLIPTIC_EA_TEST:");
@@ -1103,7 +1087,7 @@ internal static class Program
         Console.WriteLine("          Tabulated         Calculated");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         while (true)
         {
@@ -1114,7 +1098,7 @@ internal static class Program
                 break;
             }
 
-            fx2 = EA.evaluate(a);
+            double fx2 = EA.evaluate(a);
 
             Console.WriteLine("  " + a.ToString("0.######").PadLeft(14) + 
                               "  " + fx.ToString("0.################").PadLeft(24) + 
@@ -1144,9 +1128,7 @@ internal static class Program
         //
     {
         double fx = 0;
-        double fx2;
         double k = 0;
-        int n_data;
 
         Console.WriteLine("");
         Console.WriteLine("ELLIPTIC_EK_TEST:");
@@ -1158,7 +1140,7 @@ internal static class Program
         Console.WriteLine("          Tabulated         Calculated");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         while (true)
         {
@@ -1169,7 +1151,7 @@ internal static class Program
                 break;
             }
 
-            fx2 = EK.evaluate(k);
+            double fx2 = EK.evaluate(k);
 
             Console.WriteLine("  " + k.ToString("0.######").PadLeft(14) + 
                               "  " + fx.ToString("0.################").PadLeft(24) + 
@@ -1199,9 +1181,7 @@ internal static class Program
         //
     {
         double fx = 0;
-        double fx2;
         double m = 0;
-        int n_data;
 
         Console.WriteLine("");
         Console.WriteLine("ELLIPTIC_EM_TEST:");
@@ -1213,7 +1193,7 @@ internal static class Program
         Console.WriteLine("          Tabulated         Calculated");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         while (true)
         {
@@ -1224,7 +1204,7 @@ internal static class Program
                 break;
             }
 
-            fx2 = EM.evaluate(m);
+            double fx2 = EM.evaluate(m);
 
             Console.WriteLine("  " + m.ToString("0.######").PadLeft(14) + 
                               "  " + fx.ToString("0.################").PadLeft(24) + 
@@ -1255,8 +1235,6 @@ internal static class Program
     {
         double a = 0;
         double fx = 0;
-        double fx2;
-        int n_data;
 
         Console.WriteLine("");
         Console.WriteLine("ELLIPTIC_FA_TEST:");
@@ -1268,7 +1246,7 @@ internal static class Program
         Console.WriteLine("          Tabulated         Calculated");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         while (true)
         {
@@ -1279,7 +1257,7 @@ internal static class Program
                 break;
             }
 
-            fx2 = FA.evaluate(a);
+            double fx2 = FA.evaluate(a);
 
             Console.WriteLine("  " + a.ToString("0.######").PadLeft(14) + 
                               "  " + fx.ToString("0.################").PadLeft(24) + 
@@ -1309,9 +1287,7 @@ internal static class Program
         //
     {
         double fx = 0;
-        double fx2;
         double k = 0;
-        int n_data;
 
         Console.WriteLine("");
         Console.WriteLine("ELLIPTIC_FK_TEST:");
@@ -1323,7 +1299,7 @@ internal static class Program
         Console.WriteLine("          Tabulated         Calculated");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         while (true)
         {
@@ -1334,7 +1310,7 @@ internal static class Program
                 break;
             }
 
-            fx2 = FK.evaluate(k);
+            double fx2 = FK.evaluate(k);
 
             Console.WriteLine("  " + k.ToString("0.######").PadLeft(14) + 
                               "  " + fx.ToString("0.################").PadLeft(24) + 
@@ -1364,9 +1340,7 @@ internal static class Program
         //
     {
         double fx = 0;
-        double fx2;
         double m = 0;
-        int n_data;
 
         Console.WriteLine("");
         Console.WriteLine("ELLIPTIC_FM_TEST:");
@@ -1378,7 +1352,7 @@ internal static class Program
         Console.WriteLine("          Tabulated         Calculated");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         while (true)
         {
@@ -1389,7 +1363,7 @@ internal static class Program
                 break;
             }
 
-            fx2 = FM.evaluate(m);
+            double fx2 = FM.evaluate(m);
 
             Console.WriteLine("  " + m.ToString("0.######").PadLeft(14) + 
                               "  " + fx.ToString("0.################").PadLeft(24) + 
@@ -1421,9 +1395,7 @@ internal static class Program
     {
         double a = 0;
         double n = 0;
-        int n_data;
         double pia1 = 0;
-        double pia2;
 
         Console.WriteLine("");
         Console.WriteLine("ELLIPTIC_PIA_TEST:");
@@ -1435,7 +1407,7 @@ internal static class Program
         Console.WriteLine("                Tabulated    Calculated");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         while (true)
         {
@@ -1446,7 +1418,7 @@ internal static class Program
                 break;
             }
 
-            pia2 = PIA.evaluate(n, a);
+            double pia2 = PIA.evaluate(n, a);
 
             Console.WriteLine("  " + n.ToString("0.######").PadLeft(14) + 
                               "  " + a.ToString("0.######").PadLeft(14) + 
@@ -1478,9 +1450,7 @@ internal static class Program
     {
         double k = 0;
         double n = 0;
-        int n_data;
         double pik1 = 0;
-        double pik2 = 0;
 
         Console.WriteLine("");
         Console.WriteLine("ELLIPTIC_PIK_TEST:");
@@ -1492,7 +1462,7 @@ internal static class Program
         Console.WriteLine("                 Tabulated         Calculated");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         while (true)
         {
@@ -1503,7 +1473,7 @@ internal static class Program
                 break;
             }
 
-            pik2 = PIK.evaluate(n, k);
+            double pik2 = PIK.evaluate(n, k);
 
             Console.WriteLine("  " + n.ToString("0.######").PadLeft(14) + 
                               "  " + k.ToString("0.######").PadLeft(14) + 
@@ -1535,9 +1505,7 @@ internal static class Program
     {
         double m = 0;
         double n = 0;
-        int n_data;
         double pim1 = 0;
-        double pim2 = 0;
 
         Console.WriteLine("");
         Console.WriteLine("ELLIPTIC_PIM_TEST:");
@@ -1549,7 +1517,7 @@ internal static class Program
         Console.WriteLine("                 Tabulated         Calculated");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         while (true)
         {
@@ -1560,7 +1528,7 @@ internal static class Program
                 break;
             }
 
-            pim2 = PIM.evaluate(n, m);
+            double pim2 = PIM.evaluate(n, m);
 
             Console.WriteLine("  " + n.ToString("0.######").PadLeft(14) + 
                               "  " + m.ToString("0.######").PadLeft(14) + 
@@ -1592,8 +1560,6 @@ internal static class Program
     {
         double a = 0;
         double fx = 0;
-        double fx2 = 0;
-        int n_data;
         double phi = 0;
 
         Console.WriteLine("");
@@ -1606,7 +1572,7 @@ internal static class Program
         Console.WriteLine("                              Tabulated         Calculated");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         while (true)
         {
@@ -1617,7 +1583,7 @@ internal static class Program
                 break;
             }
 
-            fx2 = EA_inc.evaluate(phi, a);
+            double fx2 = EA_inc.evaluate(phi, a);
 
             Console.WriteLine("  " + phi.ToString("0.######").PadLeft(14) + 
                               "  " + a.ToString("0.######").PadLeft(14) + 
@@ -1648,9 +1614,7 @@ internal static class Program
         //
     {
         double fx = 0;
-        double fx2 = 0;
         double k = 0;
-        int n_data;
         double phi = 0;
 
         Console.WriteLine("");
@@ -1663,7 +1627,7 @@ internal static class Program
         Console.WriteLine("                              Tabulated         Calculated");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         while (true)
         {
@@ -1674,7 +1638,7 @@ internal static class Program
                 break;
             }
 
-            fx2 = EK_inc.evaluate(phi, k);
+            double fx2 = EK_inc.evaluate(phi, k);
 
             Console.WriteLine("  " + phi.ToString("0.######").PadLeft(14) + 
                               "  " + k.ToString("0.######").PadLeft(14) + 
@@ -1705,9 +1669,7 @@ internal static class Program
         //
     {
         double fx = 0;
-        double fx2 = 0;
         double m = 0;
-        int n_data;
         double phi = 0;
 
         Console.WriteLine("");
@@ -1720,7 +1682,7 @@ internal static class Program
         Console.WriteLine("                              Tabulated         Calculated");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         while (true)
         {
@@ -1731,7 +1693,7 @@ internal static class Program
                 break;
             }
 
-            fx2 = EM_inc.evaluate(phi, m);
+            double fx2 = EM_inc.evaluate(phi, m);
 
             Console.WriteLine("  " + phi.ToString("0.######").PadLeft(14) + 
                               "  " + m.ToString("0.######").PadLeft(14) + 
@@ -1763,8 +1725,6 @@ internal static class Program
     {
         double a = 0;
         double fx = 0;
-        double fx2 = 0;
-        int n_data;
         double phi = 0;
 
         Console.WriteLine("");
@@ -1777,7 +1737,7 @@ internal static class Program
         Console.WriteLine("                              Tabulated         Calculated");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         while (true)
         {
@@ -1788,7 +1748,7 @@ internal static class Program
                 break;
             }
 
-            fx2 = FA_inc.evaluate(phi, a);
+            double fx2 = FA_inc.evaluate(phi, a);
 
             Console.WriteLine("  " + phi.ToString("0.######").PadLeft(14) + 
                               "  " + a.ToString("0.######").PadLeft(14) + 
@@ -1819,9 +1779,7 @@ internal static class Program
         //
     {
         double fx = 0;
-        double fx2 = 0;
         double k = 0;
-        int n_data;
         double phi = 0;
 
         Console.WriteLine("");
@@ -1834,7 +1792,7 @@ internal static class Program
         Console.WriteLine("                              Tabulated         Calculated");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         while (true)
         {
@@ -1845,7 +1803,7 @@ internal static class Program
                 break;
             }
 
-            fx2 = FK_inc.evaluate(phi, k);
+            double fx2 = FK_inc.evaluate(phi, k);
 
             Console.WriteLine("  " + phi.ToString("0.######").PadLeft(14) + 
                               "  " + k.ToString("0.######").PadLeft(14) + 
@@ -1876,9 +1834,7 @@ internal static class Program
         //
     {
         double fx = 0;
-        double fx2 = 0;
         double m = 0;
-        int n_data;
         double phi = 0;
 
         Console.WriteLine("");
@@ -1891,7 +1847,7 @@ internal static class Program
         Console.WriteLine("                              Tabulated         Calculated");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         while (true)
         {
@@ -1902,7 +1858,7 @@ internal static class Program
                 break;
             }
 
-            fx2 = FM_inc.evaluate(phi, m);
+            double fx2 = FM_inc.evaluate(phi, m);
 
             Console.WriteLine("  " + phi.ToString("0.######").PadLeft(14) + 
                               "  " + m.ToString("0.######").PadLeft(14) + 
@@ -1934,10 +1890,8 @@ internal static class Program
     {
         double a = 0;
         double n = 0;
-        int n_data;
         double phi = 0;
         double pia1 = 0;
-        double pia2 = 0;
 
         Console.WriteLine("");
         Console.WriteLine("ELLIPTIC_INC_PIA_TEST:");
@@ -1949,7 +1903,7 @@ internal static class Program
         Console.WriteLine("                                Tabulated    Calculated");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         while (true)
         {
@@ -1960,7 +1914,7 @@ internal static class Program
                 break;
             }
 
-            pia2 = PIA_inc.evaluate(phi, n, a);
+            double pia2 = PIA_inc.evaluate(phi, n, a);
 
             Console.WriteLine("  " + phi.ToString("0.######").PadLeft(14) + 
                               "  " + n.ToString("0.######").PadLeft(14) + 
@@ -1994,10 +1948,8 @@ internal static class Program
     {
         double k = 0;
         double n = 0;
-        int n_data;
         double phi = 0;
         double pik1 = 0;
-        double pik2 = 0;
 
         Console.WriteLine("");
         Console.WriteLine("ELLIPTIC_INC_PIK_TEST:");
@@ -2009,7 +1961,7 @@ internal static class Program
         Console.WriteLine("                                 Tabulated         Calculated");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         while (true)
         {
@@ -2020,7 +1972,7 @@ internal static class Program
                 break;
             }
 
-            pik2 = PIK_inc.evaluate(phi, n, k);
+            double pik2 = PIK_inc.evaluate(phi, n, k);
 
             Console.WriteLine("  " + phi.ToString("0.######").PadLeft(14) + 
                               "  " + n.ToString("0.######").PadLeft(14) + 
@@ -2053,10 +2005,8 @@ internal static class Program
     {
         double m = 0;
         double n = 0;
-        int n_data;
         double phi = 0;
         double pim1 = 0;
-        double pim2 = 0;
 
         Console.WriteLine("");
         Console.WriteLine("ELLIPTIC_INC_PIM_TEST:");
@@ -2068,7 +2018,7 @@ internal static class Program
         Console.WriteLine("                                 Tabulated         Calculated");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         while (true)
         {
@@ -2079,7 +2029,7 @@ internal static class Program
                 break;
             }
 
-            pim2 = PIM_inc.evaluate(phi, n, m);
+            double pim2 = PIM_inc.evaluate(phi, n, m);
 
             Console.WriteLine("  " + phi.ToString("0.######").PadLeft(14) + 
                               "  " + n.ToString("0.######").PadLeft(14) + 
@@ -2112,10 +2062,8 @@ internal static class Program
     {
         double a = 0;
         double cn1 = 0;
-        double cn2 = 0;
         double k = 0;
         double m = 0;
-        int n_data;
         double u = 0;
 
         Console.WriteLine("");
@@ -2125,7 +2073,7 @@ internal static class Program
         Console.WriteLine("    U       M       Exact CN                CN(U,M)");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         while (true)
         {
@@ -2136,7 +2084,7 @@ internal static class Program
                 break;
             }
 
-            cn2 = Jacobi_cn.evaluate(u, m);
+            double cn2 = Jacobi_cn.evaluate(u, m);
 
             Console.WriteLine("  " + u.ToString("0.####").PadLeft(8) + 
                               "  " + m.ToString("0.####").PadLeft(8) + 
@@ -2168,10 +2116,8 @@ internal static class Program
     {
         double a = 0;
         double dn1 = 0;
-        double dn2 = 0;
         double k = 0;
         double m = 0;
-        int n_data;
         double u = 0;
 
         Console.WriteLine("");
@@ -2181,7 +2127,7 @@ internal static class Program
         Console.WriteLine("    U       M       Exact DN                DN(U,M)");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         while (true)
         {
@@ -2192,7 +2138,7 @@ internal static class Program
                 break;
             }
 
-            dn2 = Jacobi_dn.evaluate(u, m);
+            double dn2 = Jacobi_dn.evaluate(u, m);
 
             Console.WriteLine("  " + u.ToString("0.####").PadLeft(8) + 
                               "  " + m.ToString("0.####").PadLeft(8) + 
@@ -2225,9 +2171,7 @@ internal static class Program
         double a = 0;
         double k = 0;
         double m = 0;
-        int n_data;
         double sn1 = 0;
-        double sn2 = 0;
         double u = 0;
 
         Console.WriteLine("");
@@ -2237,7 +2181,7 @@ internal static class Program
         Console.WriteLine("    U       M       Exact SN                SN(U,M)");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         while (true)
         {
@@ -2248,7 +2192,7 @@ internal static class Program
                 break;
             }
 
-            sn2 = Jacobi_sn.evaluate(u, m);
+            double sn2 = Jacobi_sn.evaluate(u, m);
 
             Console.WriteLine("  " + u.ToString("0.####").PadLeft(8) + 
                               "  " + m.ToString("0.####").PadLeft(8) + 

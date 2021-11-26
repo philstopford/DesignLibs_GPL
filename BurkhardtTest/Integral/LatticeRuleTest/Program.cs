@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt;
 using Burkardt.Function;
 using Burkardt.IntegralNS;
@@ -81,15 +82,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] a;
-        double[] b;
         int dim;
-        int dim_num = 2;
-        double error;
-        double exact;
+        const int dim_num = 2;
         int k;
-        int m;
-        double quad;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
@@ -99,8 +94,8 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  The spatial dimension DIM_NUM = " + dim_num + "");
 
-        a = new double[dim_num];
-        b = new double[dim_num];
+        double[] a = new double[dim_num];
+        double[] b = new double[dim_num];
 
         for (dim = 0; dim < dim_num; dim++)
         {
@@ -112,7 +107,7 @@ internal static class Program
             b[dim] = 1.0;
         }
 
-        exact = FibonacciLattice.e_01_2d(dim_num, a, b);
+        double exact = FibonacciLattice.e_01_2d(dim_num, a, b);
 
         Console.WriteLine("");
         Console.WriteLine("         K         M      EXACT     ESTIMATE  ERROR");
@@ -120,17 +115,17 @@ internal static class Program
 
         for (k = 3; k <= 18; k++)
         {
-            m = Helpers.fibonacci(k);
+            int m = Helpers.fibonacci(k);
 
-            quad = FibonacciLattice.fibonacci_lattice_q(k, FibonacciLattice.f_01_2d);
+            double quad = FibonacciLattice.fibonacci_lattice_q(k, FibonacciLattice.f_01_2d);
 
-            error = Math.Abs(exact - quad);
+            double error = Math.Abs(exact - quad);
 
-            Console.WriteLine("  " + k.ToString().PadLeft(8)
-                                   + "  " + m.ToString().PadLeft(8)
-                                   + "  " + exact.ToString().PadLeft(10)
-                                   + "  " + quad.ToString().PadLeft(10)
-                                   + "  " + error.ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
     }
@@ -156,15 +151,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] a;
-        double[] b;
         int dim;
-        int dim_num = 2;
-        double error;
-        double exact;
+        const int dim_num = 2;
         int k;
-        int m;
-        double quad;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02");
@@ -174,8 +163,8 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  The spatial dimension DIM_NUM = " + dim_num + "");
 
-        a = new double[dim_num];
-        b = new double[dim_num];
+        double[] a = new double[dim_num];
+        double[] b = new double[dim_num];
 
         for (dim = 0; dim < dim_num; dim++)
         {
@@ -187,7 +176,7 @@ internal static class Program
             b[dim] = 1.0;
         }
 
-        exact = FibonacciLattice.e_01_2d(dim_num, a, b);
+        double exact = FibonacciLattice.e_01_2d(dim_num, a, b);
 
         Console.WriteLine("");
         Console.WriteLine("         K         M      EXACT     ESTIMATE  ERROR");
@@ -195,17 +184,17 @@ internal static class Program
 
         for (k = 3; k <= 18; k++)
         {
-            m = Helpers.fibonacci(k);
+            int m = Helpers.fibonacci(k);
 
-            quad = FibonacciLattice.fibonacci_lattice_t(k, FibonacciLattice.f_01_2d);
+            double quad = FibonacciLattice.fibonacci_lattice_t(k, FibonacciLattice.f_01_2d);
 
-            error = Math.Abs(exact - quad);
+            double error = Math.Abs(exact - quad);
 
-            Console.WriteLine("  " + k.ToString().PadLeft(8)
-                                   + "  " + m.ToString().PadLeft(8)
-                                   + "  " + exact.ToString().PadLeft(10)
-                                   + "  " + quad.ToString().PadLeft(10)
-                                   + "  " + error.ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
     }
@@ -231,15 +220,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] a;
-        double[] b;
         int dim;
-        int dim_num = 2;
-        double error;
-        double exact;
+        const int dim_num = 2;
         int k;
-        int m;
-        double quad;
 
         Console.WriteLine("");
         Console.WriteLine("TEST03");
@@ -249,8 +232,8 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  The spatial dimension DIM_NUM = " + dim_num + "");
 
-        a = new double[dim_num];
-        b = new double[dim_num];
+        double[] a = new double[dim_num];
+        double[] b = new double[dim_num];
 
         for (dim = 0; dim < dim_num; dim++)
         {
@@ -262,7 +245,7 @@ internal static class Program
             b[dim] = 1.0;
         }
 
-        exact = FibonacciLattice.e_01_2d(dim_num, a, b);
+        double exact = FibonacciLattice.e_01_2d(dim_num, a, b);
 
         Console.WriteLine("");
         Console.WriteLine("         K         M      EXACT     ESTIMATE  ERROR");
@@ -270,17 +253,17 @@ internal static class Program
 
         for (k = 3; k <= 18; k++)
         {
-            m = Helpers.fibonacci(k);
+            int m = Helpers.fibonacci(k);
 
-            quad = FibonacciLattice.fibonacci_lattice_b(k, FibonacciLattice.f_01_2d);
+            double quad = FibonacciLattice.fibonacci_lattice_b(k, FibonacciLattice.f_01_2d);
 
-            error = Math.Abs(exact - quad);
+            double error = Math.Abs(exact - quad);
 
-            Console.WriteLine("  " + k.ToString().PadLeft(8)
-                                   + "  " + m.ToString().PadLeft(8)
-                                   + "  " + exact.ToString().PadLeft(10)
-                                   + "  " + quad.ToString().PadLeft(10)
-                                   + "  " + error.ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
     }
@@ -306,15 +289,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] a;
-        double[] b;
         int dim;
-        int dim_num = 2;
-        double error;
-        double exact;
+        const int dim_num = 2;
         int k;
-        int m;
-        double quad;
 
         Console.WriteLine("");
         Console.WriteLine("TEST04");
@@ -325,8 +302,8 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  The spatial dimension DIM_NUM = " + dim_num + "");
 
-        a = new double[dim_num];
-        b = new double[dim_num];
+        double[] a = new double[dim_num];
+        double[] b = new double[dim_num];
 
         for (dim = 0; dim < dim_num; dim++)
         {
@@ -338,7 +315,7 @@ internal static class Program
             b[dim] = 1.0;
         }
 
-        exact = FibonacciLattice.e_01_2d(dim_num, a, b);
+        double exact = FibonacciLattice.e_01_2d(dim_num, a, b);
 
         Console.WriteLine("");
         Console.WriteLine("         K         M      EXACT     ESTIMATE  ERROR");
@@ -346,17 +323,17 @@ internal static class Program
 
         for (k = 3; k <= 18; k++)
         {
-            m = Helpers.fibonacci(k);
+            int m = Helpers.fibonacci(k);
 
-            quad = FibonacciLattice.fibonacci_lattice_q1(k, FibonacciLattice.f_01_2d);
+            double quad = FibonacciLattice.fibonacci_lattice_q1(k, FibonacciLattice.f_01_2d);
 
-            error = Math.Abs(exact - quad);
+            double error = Math.Abs(exact - quad);
 
-            Console.WriteLine("  " + k.ToString().PadLeft(8)
-                                   + "  " + m.ToString().PadLeft(8)
-                                   + "  " + exact.ToString().PadLeft(10)
-                                   + "  " + quad.ToString().PadLeft(10)
-                                   + "  " + error.ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
     }
@@ -382,15 +359,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] a;
-        double[] b;
         int dim;
-        int dim_num = 2;
-        double error;
-        double exact;
+        const int dim_num = 2;
         int k;
-        int m;
-        double quad;
 
         Console.WriteLine("");
         Console.WriteLine("TEST05");
@@ -401,8 +372,8 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  The spatial dimension DIM_NUM = " + dim_num + "");
 
-        a = new double[dim_num];
-        b = new double[dim_num];
+        double[] a = new double[dim_num];
+        double[] b = new double[dim_num];
 
         for (dim = 0; dim < dim_num; dim++)
         {
@@ -414,7 +385,7 @@ internal static class Program
             b[dim] = 1.0;
         }
 
-        exact = FibonacciLattice.e_01_2d(dim_num, a, b);
+        double exact = FibonacciLattice.e_01_2d(dim_num, a, b);
 
         Console.WriteLine("");
         Console.WriteLine("         K         M      EXACT     ESTIMATE  ERROR");
@@ -422,17 +393,17 @@ internal static class Program
 
         for (k = 3; k <= 18; k++)
         {
-            m = Helpers.fibonacci(k);
+            int m = Helpers.fibonacci(k);
 
-            quad = FibonacciLattice.fibonacci_lattice_q2(k, FibonacciLattice.f_01_2d);
+            double quad = FibonacciLattice.fibonacci_lattice_q2(k, FibonacciLattice.f_01_2d);
 
-            error = Math.Abs(exact - quad);
+            double error = Math.Abs(exact - quad);
 
-            Console.WriteLine("  " + k.ToString().PadLeft(8)
-                                   + "  " + m.ToString().PadLeft(8)
-                                   + "  " + exact.ToString().PadLeft(10)
-                                   + "  " + quad.ToString().PadLeft(10)
-                                   + "  " + error.ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
     }
@@ -458,15 +429,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] a;
-        double[] b;
         int dim;
-        int dim_num = 2;
-        double error;
-        double exact;
+        const int dim_num = 2;
         int k;
-        int m;
-        double quad;
 
         Console.WriteLine("");
         Console.WriteLine("TEST06");
@@ -477,8 +442,8 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  The spatial dimension DIM_NUM = " + dim_num + "");
 
-        a = new double[dim_num];
-        b = new double[dim_num];
+        double[] a = new double[dim_num];
+        double[] b = new double[dim_num];
 
         for (dim = 0; dim < dim_num; dim++)
         {
@@ -490,7 +455,7 @@ internal static class Program
             b[dim] = 1.0;
         }
 
-        exact = FibonacciLattice.e_01_2d(dim_num, a, b);
+        double exact = FibonacciLattice.e_01_2d(dim_num, a, b);
 
         Console.WriteLine("");
         Console.WriteLine("         K         M      EXACT     ESTIMATE  ERROR");
@@ -498,17 +463,17 @@ internal static class Program
 
         for (k = 3; k <= 18; k++)
         {
-            m = Helpers.fibonacci(k);
+            int m = Helpers.fibonacci(k);
 
-            quad = FibonacciLattice.fibonacci_lattice_q3(k, FibonacciLattice.f_01_2d);
+            double quad = FibonacciLattice.fibonacci_lattice_q3(k, FibonacciLattice.f_01_2d);
 
-            error = Math.Abs(exact - quad);
+            double error = Math.Abs(exact - quad);
 
-            Console.WriteLine("  " + k.ToString().PadLeft(8)
-                                   + "  " + m.ToString().PadLeft(8)
-                                   + "  " + exact.ToString().PadLeft(10)
-                                   + "  " + quad.ToString().PadLeft(10)
-                                   + "  " + error.ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
     }
@@ -540,17 +505,9 @@ internal static class Program
         //    Oxford, 1994, page 18.
         //
     {
-        double[] a;
-        double[] b;
         int dim;
-        int dim_num = 2;
-        double error;
-        double exact;
+        const int dim_num = 2;
         int i;
-        int m;
-        double quad;
-        int[] z;
-        ;
 
         Console.WriteLine("");
         Console.WriteLine("TEST07");
@@ -560,13 +517,13 @@ internal static class Program
         Console.WriteLine("  The spatial dimension DIM_NUM = " + dim_num + "");
         Console.WriteLine("  The lattice rule order M will vary.");
 
-        z = new int[dim_num];
+        int[] z = new int[dim_num];
 
         z[0] = 1;
         z[1] = 2;
 
-        a = new double[dim_num];
-        b = new double[dim_num];
+        double[] a = new double[dim_num];
+        double[] b = new double[dim_num];
 
         for (dim = 0; dim < dim_num; dim++)
         {
@@ -586,19 +543,19 @@ internal static class Program
 
         for (i = 1; i <= 10; i++)
         {
-            m = Prime.prime(3 * i);
+            int m = Prime.prime(3 * i);
 
-            quad = Lattice.lattice(dim_num, m, z, FibonacciLattice.f_01_2d);
+            double quad = Lattice.lattice(dim_num, m, z, FibonacciLattice.f_01_2d);
 
-            exact = FibonacciLattice.e_01_2d(dim_num, a, b);
+            double exact = FibonacciLattice.e_01_2d(dim_num, a, b);
 
-            error = Math.Abs(exact - quad);
+            double error = Math.Abs(exact - quad);
 
-            Console.WriteLine("  " + i.ToString().PadLeft(8)
-                                   + "  " + m.ToString().PadLeft(8)
-                                   + "  " + exact.ToString().PadLeft(10)
-                                   + "  " + quad.ToString().PadLeft(10)
-                                   + "  " + error.ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
     }
@@ -630,17 +587,10 @@ internal static class Program
         //    Oxford, 1994, page 18.
         //
     {
-        double[] a;
-        double[] b;
         int dim;
-        int dim_num = 2;
-        double error;
-        double exact;
+        const int dim_num = 2;
         int i;
-        int m = 53;
-        double quad;
-        int[] z;
-        ;
+        const int m = 53;
 
         Console.WriteLine("");
         Console.WriteLine("TEST08");
@@ -651,12 +601,12 @@ internal static class Program
         Console.WriteLine("  The lattice rule order M will vary.");
         Console.WriteLine("  The lattice generator vector Z will vary.");
 
-        z = new int[dim_num];
+        int[] z = new int[dim_num];
 
         z[0] = 1;
 
-        a = new double[dim_num];
-        b = new double[dim_num];
+        double[] a = new double[dim_num];
+        double[] b = new double[dim_num];
 
         for (dim = 0; dim < dim_num; dim++)
         {
@@ -678,18 +628,18 @@ internal static class Program
         {
             z[1] = i;
 
-            quad = Lattice.lattice(dim_num, m, z, FibonacciLattice.f_01_2d);
+            double quad = Lattice.lattice(dim_num, m, z, FibonacciLattice.f_01_2d);
 
-            exact = FibonacciLattice.e_01_2d(dim_num, a, b);
+            double exact = FibonacciLattice.e_01_2d(dim_num, a, b);
 
-            error = Math.Abs(exact - quad);
+            double error = Math.Abs(exact - quad);
 
-            Console.WriteLine("  " + m.ToString().PadLeft(8)
-                                   + "  " + z[0].ToString().PadLeft(8)
-                                   + "  " + z[1].ToString().PadLeft(8)
-                                   + "  " + exact.ToString().PadLeft(10)
-                                   + "  " + quad.ToString().PadLeft(10)
-                                   + "  " + error.ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + z[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + z[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
     }
@@ -721,17 +671,9 @@ internal static class Program
         //    Oxford, 1994, page 18.
         //
     {
-        double[] a;
-        double[] b;
         int dim;
-        int dim_num = 2;
-        double error;
-        double exact;
+        const int dim_num = 2;
         int k;
-        int m;
-        double quad;
-        int[] z;
-        ;
 
         Console.WriteLine("");
         Console.WriteLine("TEST085");
@@ -741,13 +683,13 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  The spatial dimension DIM_NUM = " + dim_num + "");
 
-        z = new int[dim_num];
+        int[] z = new int[dim_num];
 
         z[0] = 1;
         z[1] = 2;
 
-        a = new double[dim_num];
-        b = new double[dim_num];
+        double[] a = new double[dim_num];
+        double[] b = new double[dim_num];
 
         for (dim = 0; dim < dim_num; dim++)
         {
@@ -767,19 +709,19 @@ internal static class Program
 
         for (k = 3; k <= 18; k++)
         {
-            m = Helpers.fibonacci(k);
+            int m = Helpers.fibonacci(k);
 
-            quad = Lattice.lattice(dim_num, m, z, FibonacciLattice.f_01_2d);
+            double quad = Lattice.lattice(dim_num, m, z, FibonacciLattice.f_01_2d);
 
-            exact = FibonacciLattice.e_01_2d(dim_num, a, b);
+            double exact = FibonacciLattice.e_01_2d(dim_num, a, b);
 
-            error = Math.Abs(exact - quad);
+            double error = Math.Abs(exact - quad);
 
-            Console.WriteLine("  " + k.ToString().PadLeft(8)
-                                   + "  " + m.ToString().PadLeft(8)
-                                   + "  " + exact.ToString().PadLeft(10)
-                                   + "  " + quad.ToString().PadLeft(10)
-                                   + "  " + error.ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
     }
@@ -811,17 +753,9 @@ internal static class Program
         //    Oxford, 1994, page 18.
         //
     {
-        double[] a;
-        double[] b;
         int dim;
-        int dim_num = 2;
-        double error;
-        double exact;
+        const int dim_num = 2;
         int k;
-        int m;
-        double quad;
-        int[] z;
-        ;
 
         Console.WriteLine("");
         Console.WriteLine("TEST09");
@@ -831,13 +765,13 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  The spatial dimension DIM_NUM = " + dim_num + "");
 
-        z = new int[dim_num];
+        int[] z = new int[dim_num];
 
         z[0] = 1;
         z[1] = 2;
 
-        a = new double[dim_num];
-        b = new double[dim_num];
+        double[] a = new double[dim_num];
+        double[] b = new double[dim_num];
 
         for (dim = 0; dim < dim_num; dim++)
         {
@@ -857,19 +791,19 @@ internal static class Program
 
         for (k = 3; k <= 18; k++)
         {
-            m = Helpers.fibonacci(k);
+            int m = Helpers.fibonacci(k);
 
-            quad = Lattice.lattice_np0(dim_num, m, z, FibonacciLattice.f_01_2d);
+            double quad = Lattice.lattice_np0(dim_num, m, z, FibonacciLattice.f_01_2d);
 
-            exact = FibonacciLattice.e_01_2d(dim_num, a, b);
+            double exact = FibonacciLattice.e_01_2d(dim_num, a, b);
 
-            error = Math.Abs(exact - quad);
+            double error = Math.Abs(exact - quad);
 
-            Console.WriteLine("  " + k.ToString().PadLeft(8)
-                                   + "  " + m.ToString().PadLeft(8)
-                                   + "  " + exact.ToString().PadLeft(10)
-                                   + "  " + quad.ToString().PadLeft(10)
-                                   + "  " + error.ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
     }
@@ -901,17 +835,9 @@ internal static class Program
         //    Oxford, 1994, page 18.
         //
     {
-        double[] a;
-        double[] b;
         int dim;
-        int dim_num = 2;
-        double error;
-        double exact;
+        const int dim_num = 2;
         int k;
-        int m;
-        double quad;
-        int[] z;
-        ;
 
         Console.WriteLine("");
         Console.WriteLine("TEST10");
@@ -921,13 +847,13 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  The spatial dimension DIM_NUM = " + dim_num + "");
 
-        z = new int[dim_num];
+        int[] z = new int[dim_num];
 
         z[0] = 1;
         z[1] = 2;
 
-        a = new double[dim_num];
-        b = new double[dim_num];
+        double[] a = new double[dim_num];
+        double[] b = new double[dim_num];
 
         for (dim = 0; dim < dim_num; dim++)
         {
@@ -947,19 +873,19 @@ internal static class Program
 
         for (k = 3; k <= 18; k++)
         {
-            m = Helpers.fibonacci(k);
+            int m = Helpers.fibonacci(k);
 
-            quad = Lattice.lattice_np1(dim_num, m, z, FibonacciLattice.f_01_2d);
+            double quad = Lattice.lattice_np1(dim_num, m, z, FibonacciLattice.f_01_2d);
 
-            exact = FibonacciLattice.e_01_2d(dim_num, a, b);
+            double exact = FibonacciLattice.e_01_2d(dim_num, a, b);
 
-            error = Math.Abs(exact - quad);
+            double error = Math.Abs(exact - quad);
 
-            Console.WriteLine("  " + k.ToString().PadLeft(8)
-                                   + "  " + m.ToString().PadLeft(8)
-                                   + "  " + exact.ToString().PadLeft(10)
-                                   + "  " + quad.ToString().PadLeft(10)
-                                   + "  " + error.ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
     }
@@ -985,16 +911,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] a;
-        double[] b;
         int dim;
-        int dim_num = 2;
-        double error;
-        double exact;
+        const int dim_num = 2;
         int k;
-        int m;
-        double quad;
-        int seed;
 
         Console.WriteLine("");
         Console.WriteLine("TEST11");
@@ -1004,8 +923,8 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  The spatial dimension DIM_NUM = " + dim_num + "");
 
-        a = new double[dim_num];
-        b = new double[dim_num];
+        double[] a = new double[dim_num];
+        double[] b = new double[dim_num];
 
         for (dim = 0; dim < dim_num; dim++)
         {
@@ -1017,9 +936,9 @@ internal static class Program
             b[dim] = 1.0;
         }
 
-        seed = 123456789;
+        int seed = 123456789;
 
-        exact = FibonacciLattice.e_01_2d(dim_num, a, b);
+        double exact = FibonacciLattice.e_01_2d(dim_num, a, b);
 
         Console.WriteLine("");
         Console.WriteLine("         K         M      EXACT     ESTIMATE  ERROR");
@@ -1027,17 +946,17 @@ internal static class Program
 
         for (k = 2; k <= 5; k++)
         {
-            m = (int) Math.Pow(10, k);
+            int m = (int) Math.Pow(10, k);
 
-            quad = MonteCarlo.monte_carlo(dim_num, m, FibonacciLattice.f_01_2d, ref seed);
+            double quad = MonteCarlo.monte_carlo(dim_num, m, FibonacciLattice.f_01_2d, ref seed);
 
-            error = Math.Abs(exact - quad);
+            double error = Math.Abs(exact - quad);
 
-            Console.WriteLine("  " + k.ToString().PadLeft(8)
-                                   + "  " + m.ToString().PadLeft(8)
-                                   + "  " + exact.ToString().PadLeft(10)
-                                   + "  " + quad.ToString().PadLeft(10)
-                                   + "  " + error.ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
     }
@@ -1069,11 +988,10 @@ internal static class Program
         //    Oxford, 1994, page 18.
         //
     {
-        int dim_num = 2;
-        int m = 8;
-        int[] z;
+        const int dim_num = 2;
+        const int m = 8;
 
-        z = new int[dim_num];
+        int[] z = new int[dim_num];
 
         z[0] = 1;
         z[1] = 3;
@@ -1145,10 +1063,10 @@ internal static class Program
 
             z = FibonacciLattice.find_z20(dim_num, m);
 
-            string cout = "  " + m.ToString().PadLeft(8);
+            string cout = "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(8);
             for (dim = 0; dim < dim_num; dim++)
             {
-                cout += "  " + z[dim].ToString().PadLeft(8);
+                cout += "  " + z[dim].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
 
             Console.WriteLine(cout);
@@ -1165,10 +1083,10 @@ internal static class Program
 
             z = FibonacciLattice.find_z20(dim_num, m);
 
-            string cout = "  " + m.ToString().PadLeft(8);
+            string cout = "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(8);
             for (dim = 0; dim < dim_num; dim++)
             {
-                cout += "  " + z[dim].ToString().PadLeft(8);
+                cout += "  " + z[dim].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
 
             Console.WriteLine(cout);
@@ -1185,10 +1103,10 @@ internal static class Program
 
             z = FibonacciLattice.find_z20(dim_num, m);
 
-            string cout = "  " + m.ToString().PadLeft(8);
+            string cout = "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(8);
             for (dim = 0; dim < dim_num; dim++)
             {
-                cout += "  " + z[dim].ToString().PadLeft(8);
+                cout += "  " + z[dim].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
 
             Console.WriteLine(cout);
@@ -1205,10 +1123,10 @@ internal static class Program
 
             z = FibonacciLattice.find_z20(dim_num, m);
 
-            string cout = "  " + m.ToString().PadLeft(8);
+            string cout = "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(8);
             for (dim = 0; dim < dim_num; dim++)
             {
-                cout += "  " + z[dim].ToString().PadLeft(8);
+                cout += "  " + z[dim].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
 
             Console.WriteLine(cout);
@@ -1244,13 +1162,10 @@ internal static class Program
         //    Oxford, 1994, page 18.
         //
     {
-        int dim_num = 2;
-        int k;
-        int m;
-        double[] x;
+        const int dim_num = 2;
 
-        k = 12;
-        m = Helpers.fibonacci(k);
+        const int k = 12;
+        int m = Helpers.fibonacci(k);
 
         Console.WriteLine("");
         Console.WriteLine("TEST14");
@@ -1260,7 +1175,7 @@ internal static class Program
         Console.WriteLine("  The Fibonacci index K =   " + k + "");
         Console.WriteLine("  The Fibonacci value M =   " + m + "");
 
-        x = FibonacciLattice.fibonacci_lattice_q_nodes(k);
+        double[] x = FibonacciLattice.fibonacci_lattice_q_nodes(k);
 
         typeMethods.r8mat_transpose_print(dim_num, m, x, "  The Fibonacci lattice nodes:");
 

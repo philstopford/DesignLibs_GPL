@@ -65,11 +65,8 @@ internal static class Program
         //
     {
         double[] c = new double[2];
-        string filename = "ellipse_grid_test01.xy";
-        int n;
-        int ng;
+        const string filename = "ellipse_grid_test01.xy";
         double[] r = new double[2];
-        double[] xy;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01:");
@@ -77,7 +74,7 @@ internal static class Program
         Console.WriteLine("  with N+1 points on the minor half axis,");
         Console.WriteLine("  based on any ellipse.");
 
-        n = 8;
+        const int n = 8;
         r[0] = 2.0;
         r[1] = 1.0;
         c[0] = 1.0;
@@ -88,12 +85,12 @@ internal static class Program
         Console.WriteLine("  Radius R = (" + r[0] + "," + r[1] + ")");
         Console.WriteLine("  Center C = (" + c[0] + "," + c[1] + ")");
 
-        ng = Grid.ellipse_grid_count(n, r, c);
+        int ng = Grid.ellipse_grid_count(n, r, c);
 
         Console.WriteLine("");
         Console.WriteLine("  Number of grid points will be " + ng + "");
 
-        xy = Grid.ellipse_grid(n, r, c, ng);
+        double[] xy = Grid.ellipse_grid(n, r, c, ng);
 
         typeMethods.r82vec_print_part(ng, xy, 20, "  Part of the grid point array:");
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Numerics;
 using Burkardt.FourierTransform;
 using Burkardt.Types;
@@ -80,12 +81,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int n1 = 10;
-        int n2 = 4;
-        int seed;
-        Complex[] x;
-        Complex[] x2;
-        Complex[] y;
+        const int n1 = 10;
+        const int n2 = 4;
 
         Console.WriteLine("");
         Console.WriteLine("C4MAT_SFT_TEST");
@@ -94,21 +91,21 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  The data has dimensions N1 = " + n1 + ", N2 = " + n2 + "");
 
-        seed = 123456789;
+        int seed = 123456789;
 
-        x = UniformRNG.c4mat_uniform_01_new(n1, n2, ref seed);
+        Complex[] x = UniformRNG.c4mat_uniform_01_new(n1, n2, ref seed);
 
         typeMethods.c4mat_print_some(n1, n2, x, 1, 1, 10, 10, "  The original data:");
         //
         //  Compute the slow Fourier transform of the data.
         //
-        y = Slow.c4mat_sftf(n1, n2, x);
+        Complex[] y = Slow.c4mat_sftf(n1, n2, x);
 
         typeMethods.c4mat_print_some(n1, n2, y, 1, 1, 10, 10, "  The Fourier coefficients:");
         //
         //  Now try to retrieve the data from the coefficients.
         //
-        x2 = Slow.c4mat_sftb(n1, n2, y);
+        Complex[] x2 = Slow.c4mat_sftb(n1, n2, y);
 
         typeMethods.c4mat_print_some(n1, n2, x2, 1, 1, 10, 10, "  The retrieved data:");
     }
@@ -134,11 +131,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int n = 36;
-        int seed;
-        Complex[] x;
-        Complex[] x2;
-        Complex[] y;
+        const int n = 36;
 
         Console.WriteLine("");
         Console.WriteLine("C4VEC_SFT_TEST");
@@ -147,21 +140,21 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  The number of data values, N = " + n + "");
 
-        seed = 123456789;
+        int seed = 123456789;
 
-        x = UniformRNG.c4vec_uniform_01_new(n, ref seed);
+        Complex[] x = UniformRNG.c4vec_uniform_01_new(n, ref seed);
 
         typeMethods.c4vec_print_part(n, x, 10, "  The original data:");
         //
         //  Compute the slow Fourier transform of the data.
         //
-        y = Slow.c4vec_sftf(n, x);
+        Complex[] y = Slow.c4vec_sftf(n, x);
 
         typeMethods.c4vec_print_part(n, y, 10, "  The Fourier coefficients:");
         //
         //  Now try to retrieve the data from the coefficients.
         //
-        x2 = Slow.c4vec_sftb(n, y);
+        Complex[] x2 = Slow.c4vec_sftb(n, y);
 
         typeMethods.c4vec_print_part(n, x2, 10, "  The retrieved data:");
     }
@@ -187,12 +180,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int n1 = 10;
-        int n2 = 4;
-        int seed;
-        Complex[] x;
-        Complex[] x2;
-        Complex[] y;
+        const int n1 = 10;
+        const int n2 = 4;
 
         Console.WriteLine("");
         Console.WriteLine("C8MAT_SFT_TEST");
@@ -201,21 +190,21 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  The data has dimensions N1 = " + n1 + ", N2 = " + n2 + "");
 
-        seed = 123456789;
+        int seed = 123456789;
 
-        x = UniformRNG.c8mat_uniform_01_new(n1, n2, ref seed);
+        Complex[] x = UniformRNG.c8mat_uniform_01_new(n1, n2, ref seed);
 
         typeMethods.c8mat_print_some(n1, n2, x, 1, 1, 10, 10, "  The original data:");
         //
         //  Compute the slow Fourier transform of the data.
         //
-        y = Slow.c8mat_sftf(n1, n2, x);
+        Complex[] y = Slow.c8mat_sftf(n1, n2, x);
 
         typeMethods.c8mat_print_some(n1, n2, y, 1, 1, 10, 10, "  The Fourier coefficients:");
         //
         //  Now try to retrieve the data from the coefficients.
         //
-        x2 = Slow.c8mat_sftb(n1, n2, y);
+        Complex[] x2 = Slow.c8mat_sftb(n1, n2, y);
 
         typeMethods.c8mat_print_some(n1, n2, x2, 1, 1, 10, 10, "  The retrieved data:");
     }
@@ -241,11 +230,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int n = 36;
-        int seed;
-        Complex[] x;
-        Complex[] x2;
-        Complex[] y;
+        const int n = 36;
 
         Console.WriteLine("");
         Console.WriteLine("C8VEC_SFT_TEST");
@@ -254,21 +239,21 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  The number of data values, N = " + n + "");
 
-        seed = 123456789;
+        int seed = 123456789;
 
-        x = UniformRNG.c8vec_uniform_01_new(n, ref seed);
+        Complex[] x = UniformRNG.c8vec_uniform_01_new(n, ref seed);
 
         typeMethods.c8vec_print_part(n, x, 10, "  The original data:");
         //
         //  Compute the slow Fourier transform of the data.
         //
-        y = Slow.c8vec_sftf(n, x);
+        Complex[] y = Slow.c8vec_sftf(n, x);
 
         typeMethods.c8vec_print_part(n, y, 10, "  The Fourier coefficients:");
         //
         //  Now try to retrieve the data from the coefficients.
         //
-        x2 = Slow.c8vec_sftb(n, y);
+        Complex[] x2 = Slow.c8vec_sftb(n, y);
 
         typeMethods.c8vec_print_part(n, x2, 10, "  The retrieved data:");
     }
@@ -294,16 +279,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        float[] a;
-        float ahi = 5.0f;
-        float alo = 0.0f;
+        const float ahi = 5.0f;
+        const float alo = 0.0f;
         float azero = 0;
-        float[] b;
         int i;
-        int n = 36;
-        int seed;
-        float[] x;
-        float[] z;
+        const int n = 36;
 
         Console.WriteLine("");
         Console.WriteLine("R4VEC_SFT_TEST");
@@ -312,16 +292,16 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  The number of data values, N = " + n + "");
 
-        seed = 123456789;
+        int seed = 123456789;
 
-        x = UniformRNG.r4vec_uniform_ab_new(n, alo, ahi, ref seed);
+        float[] x = UniformRNG.r4vec_uniform_ab_new(n, alo, ahi, ref seed);
 
         typeMethods.r4vec_print_part(n, x, 10, "  The original data:");
         //
         //  Compute the slow Fourier transform of the data.
         //
-        a = new float[n / 2];
-        b = new float[n / 2];
+        float[] a = new float[n / 2];
+        float[] b = new float[n / 2];
 
         Slow.r4vec_sftf(n, x, ref azero, ref a, ref b);
 
@@ -329,13 +309,13 @@ internal static class Program
         Console.WriteLine("  A (cosine) coefficients:");
         Console.WriteLine("");
 
-        Console.WriteLine("  " + 0.ToString().PadLeft(4)
-                               + "  " + azero.ToString().PadLeft(14) + "");
+        Console.WriteLine("  " + 0.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                               + "  " + azero.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
         for (i = 0; i < n / 2; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + a[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + a[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         Console.WriteLine("");
@@ -344,14 +324,14 @@ internal static class Program
 
         for (i = 0; i < n / 2; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + b[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + b[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         //
         //  Now try to retrieve the data from the coefficients.
         //
-        z = Slow.r4vec_sftb(n, azero, a, b);
+        float[] z = Slow.r4vec_sftb(n, azero, a, b);
 
         typeMethods.r4vec_print_part(n, z, 10, "  The retrieved data:");
     }
@@ -377,14 +357,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double ahi = 5.0;
-        double alo = 0.0;
-        double[] c;
-        double[] d;
-        double[] e;
+        const double ahi = 5.0;
+        const double alo = 0.0;
         int i;
-        int n = 256;
-        int seed;
+        const int n = 256;
 
         Console.WriteLine("");
         Console.WriteLine("R8VEC_SCTTEST");
@@ -394,22 +370,22 @@ internal static class Program
         //
         //  Set the data values.
         //
-        seed = 123456789;
+        int seed = 123456789;
 
-        c = UniformRNG.r8vec_uniform_ab_new(n, alo, ahi, ref seed);
+        double[] c = UniformRNG.r8vec_uniform_ab_new(n, alo, ahi, ref seed);
 
         typeMethods.r8vec_print_part(n, c, 10, "  The original data:");
         //
         //  Compute the coefficients.
         //
-        d = Slow.r8vec_sct(n, c);
+        double[] d = Slow.r8vec_sct(n, c);
 
         typeMethods.r8vec_print_part(n, d, 10, "  The cosine coefficients:");
         //
         //  Now compute inverse transform of coefficients.  Should get back the
         //  original data.
         //
-        e = Slow.r8vec_sct(n, d);
+        double[] e = Slow.r8vec_sct(n, d);
 
         for (i = 0; i < n; i++)
         {
@@ -440,16 +416,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] a;
-        double ahi = 5.0;
-        double alo = 0.0;
+        const double ahi = 5.0;
+        const double alo = 0.0;
         double azero = 0;
-        double[] b;
         int i;
-        int n = 36;
-        int seed;
-        double[] x;
-        double[] z;
+        const int n = 36;
 
         Console.WriteLine("");
         Console.WriteLine("R8VEC_SFT_TEST");
@@ -458,16 +429,16 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  The number of data values, N = " + n + "");
 
-        seed = 123456789;
+        int seed = 123456789;
 
-        x = UniformRNG.r8vec_uniform_ab_new(n, alo, ahi, ref seed);
+        double[] x = UniformRNG.r8vec_uniform_ab_new(n, alo, ahi, ref seed);
 
         typeMethods.r8vec_print_part(n, x, 10, "  The original data:");
         //
         //  Compute the slow Fourier transform of the data.
         //
-        a = new double[n / 2];
-        b = new double[n / 2];
+        double[] a = new double[n / 2];
+        double[] b = new double[n / 2];
 
         Slow.r8vec_sftf(n, x, ref azero, ref a, ref b);
 
@@ -475,13 +446,13 @@ internal static class Program
         Console.WriteLine("  A (cosine) coefficients:");
         Console.WriteLine("");
 
-        Console.WriteLine("  " + 0.ToString().PadLeft(4)
-                               + "  " + azero.ToString().PadLeft(14) + "");
+        Console.WriteLine("  " + 0.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                               + "  " + azero.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
         for (i = 0; i < n / 2; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + a[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + a[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         Console.WriteLine("");
@@ -490,14 +461,14 @@ internal static class Program
 
         for (i = 0; i < n / 2; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + b[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + b[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         //
         //  Now try to retrieve the data from the coefficients.
         //
-        z = Slow.r8vec_sftb(n, azero, a, b);
+        double[] z = Slow.r8vec_sftb(n, azero, a, b);
 
         typeMethods.r8vec_print_part(n, z, 10, "  The retrieved data:");
     }
@@ -523,13 +494,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double ahi = 5.0;
-        double alo = 0.0;
-        double[] c;
-        double[] d;
-        double[] e;
-        int n = 17;
-        int seed;
+        const double ahi = 5.0;
+        const double alo = 0.0;
+        const int n = 17;
 
         Console.WriteLine("");
         Console.WriteLine("R8VEC_SHT_TEST");
@@ -539,22 +506,22 @@ internal static class Program
         //
         //  Set the data values.
         //
-        seed = 123456789;
+        int seed = 123456789;
 
-        c = UniformRNG.r8vec_uniform_ab_new(n, alo, ahi, ref seed);
+        double[] c = UniformRNG.r8vec_uniform_ab_new(n, alo, ahi, ref seed);
 
         typeMethods.r8vec_print_part(n, c, 10, "  The original data:");
         //
         //  Compute the coefficients.
         //
-        d = Slow.r8vec_sht(n, c);
+        double[] d = Slow.r8vec_sht(n, c);
 
         typeMethods.r8vec_print_part(n, d, 10, "  The Hartley coefficients:");
         //
         //  Now compute inverse transform of coefficients.  Should get back the
         //  original data.
         //
-        e = Slow.r8vec_sht(n, d);
+        double[] e = Slow.r8vec_sht(n, d);
 
         typeMethods.r8vec_print_part(n, e, 10, "  The retrieved data:");
     }
@@ -580,13 +547,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double ahi = 5.0;
-        double alo = 0.0;
-        int n = 256;
-        int seed;
-        double[] x;
-        double[] y;
-        double[] z;
+        const double ahi = 5.0;
+        const double alo = 0.0;
+        const int n = 256;
 
         Console.WriteLine("");
         Console.WriteLine("R8VEC_SQCT_TEST");
@@ -597,22 +560,22 @@ internal static class Program
         //
         //  Set the data values.
         //
-        seed = 123456789;
+        int seed = 123456789;
 
-        x = UniformRNG.r8vec_uniform_ab_new(n, alo, ahi, ref seed);
+        double[] x = UniformRNG.r8vec_uniform_ab_new(n, alo, ahi, ref seed);
 
         typeMethods.r8vec_print_part(n, x, 10, "  The original data:");
         //
         //  Compute the coefficients.
         //
-        y = Slow.r8vec_sqctf(n, x);
+        double[] y = Slow.r8vec_sqctf(n, x);
 
         typeMethods.r8vec_print_part(n, y, 10, "  The cosine coefficients:");
         //
         //  Now compute inverse transform of coefficients.  Should get back the
         //  original data.
         //
-        z = Slow.r8vec_sqctb(n, y);
+        double[] z = Slow.r8vec_sqctb(n, y);
 
         typeMethods.r8vec_print_part(n, z, 10, "  The retrieved data:");
     }
@@ -638,13 +601,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double ahi = 5.0;
-        double alo = 0.0;
-        int n = 256;
-        int seed;
-        double[] x;
-        double[] y;
-        double[] z;
+        const double ahi = 5.0;
+        const double alo = 0.0;
+        const int n = 256;
 
         Console.WriteLine("");
         Console.WriteLine("R8VEC_SQST_TEST");
@@ -655,22 +614,22 @@ internal static class Program
         //
         //  Set the data values.
         //
-        seed = 123456789;
+        int seed = 123456789;
 
-        x = UniformRNG.r8vec_uniform_ab_new(n, alo, ahi, ref seed);
+        double[] x = UniformRNG.r8vec_uniform_ab_new(n, alo, ahi, ref seed);
 
         typeMethods.r8vec_print_part(n, x, 10, "  The original data:");
         //
         //  Compute the coefficients.
         //
-        y = Slow.r8vec_sqstf(n, x);
+        double[] y = Slow.r8vec_sqstf(n, x);
 
         typeMethods.r8vec_print_part(n, y, 10, "  The sine coefficients:");
         //
         //  Now compute inverse transform of coefficients.  Should get back the
         //  original data.
         //
-        z = Slow.r8vec_sqstb(n, y);
+        double[] z = Slow.r8vec_sqstb(n, y);
 
         typeMethods.r8vec_print_part(n, z, 10, "  The retrieved data:");
     }
@@ -696,14 +655,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double ahi = 5.0;
-        double alo = 0.0;
-        double[] c;
-        double[] d;
-        double[] e;
+        const double ahi = 5.0;
+        const double alo = 0.0;
         int i;
-        int n = 256;
-        int seed;
+        const int n = 256;
 
         Console.WriteLine("");
         Console.WriteLine("R8VEC_SST_TEST");
@@ -713,22 +668,22 @@ internal static class Program
         //
         //  Set the data values.
         //
-        seed = 123456789;
+        int seed = 123456789;
 
-        c = UniformRNG.r8vec_uniform_ab_new(n, alo, ahi, ref seed);
+        double[] c = UniformRNG.r8vec_uniform_ab_new(n, alo, ahi, ref seed);
 
         typeMethods.r8vec_print_part(n, c, 10, "  The original data:");
         //
         //  Compute the coefficients;
         //
-        d = Slow.r8vec_sst(n, c);
+        double[] d = Slow.r8vec_sst(n, c);
 
         typeMethods.r8vec_print_part(n, d, 10, "  The sine coefficients:");
         //
         //  Now compute inverse transform of coefficients.  Should get back the
         //  original data.
         //
-        e = Slow.r8vec_sst(n, d);
+        double[] e = Slow.r8vec_sst(n, d);
 
         for (i = 0; i < n; i++)
         {
@@ -759,18 +714,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double ahi;
-        double alo;
-        double[] d;
         int i;
-        int n = 36;
-        int np1h;
-        double[] s;
-        int seed;
-        double[] x;
+        const int n = 36;
 
-        alo = 0.0;
-        ahi = 5.0;
+        const double alo = 0.0;
+        const double ahi = 5.0;
 
         Console.WriteLine("");
         Console.WriteLine("R8VEC_SWT_TEST");
@@ -779,17 +727,17 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  The number of data values, N = " + n + "");
 
-        seed = 123456789;
+        int seed = 123456789;
 
-        x = UniformRNG.r8vec_uniform_ab_new(n, alo, ahi, ref seed);
+        double[] x = UniformRNG.r8vec_uniform_ab_new(n, alo, ahi, ref seed);
 
         typeMethods.r8vec_print_part(n, x, 10, "  The original data:");
         //
         //  Compute the slow wavelet transform of the data.
         //
-        np1h = (n + 1) / 2;
-        s = new double[np1h];
-        d = new double[np1h];
+        int np1h = (n + 1) / 2;
+        double[] s = new double[np1h];
+        double[] d = new double[np1h];
 
         Slow.r8vec_swtf(n, x, ref s, ref d);
 
@@ -798,9 +746,9 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < np1h; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + s[i].ToString().PadLeft(14)
-                                   + "  " + d[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + s[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + d[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         //

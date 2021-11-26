@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.TriangleNS;
 using Burkardt.Types;
 
@@ -81,9 +82,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] angle;
         int i;
-        const double r8_pi = 3.141592653589793;
         double[] t =
         {
             0.0, 1.0,
@@ -97,15 +96,15 @@ internal static class Program
 
         typeMethods.r8mat_transpose_print(2, 3, t, "  Triangle vertices:");
 
-        angle = typeMethods.triangle_angles_2d_new(t);
+        double[] angle = typeMethods.triangle_angles_2d_new(t);
 
         Console.WriteLine("");
         Console.WriteLine("      Radians      Degrees");
         Console.WriteLine("");
         for (i = 0; i < 3; i++)
         {
-            Console.WriteLine("  " + angle[i].ToString().PadLeft(14)
-                                   + "  " + angle[i] * 180.0 / r8_pi + "");
+            Console.WriteLine("  " + angle[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + angle[i] * 180.0 / Math.PI + "");
         }
     }
 
@@ -130,7 +129,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double area;
         double[] t =
         {
             0.0, 1.0,
@@ -144,7 +142,7 @@ internal static class Program
 
         typeMethods.r8mat_transpose_print(2, 3, t, "  Triangle vertices:");
 
-        area = Integrals.triangle_area(t);
+        double area = Integrals.triangle_area(t);
 
         Console.WriteLine("");
         Console.WriteLine("  Triangle area is " + area + "");
@@ -171,9 +169,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] centroid;
-        int i;
-        int j;
         double[] t = new double[2 * 3];
         double[] t_test =
         {
@@ -198,8 +193,10 @@ internal static class Program
 
         for (test = 0; test < 4; test++)
         {
+            int j;
             for (j = 0; j < 3; j++)
             {
+                int i;
                 for (i = 0; i < 2; i++)
                 {
                     t[i + j * 2] = t_test[i + j * 2 + test * 2 * 3];
@@ -208,7 +205,7 @@ internal static class Program
 
             typeMethods.r8mat_transpose_print(2, 3, t, "  Triangle vertices:");
 
-            centroid = typeMethods.triangle_centroid_2d(t);
+            double[] centroid = typeMethods.triangle_centroid_2d(t);
 
             typeMethods.r8vec_print(2, centroid, "  Centroid:");
 
@@ -236,8 +233,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int i;
-        int j;
         double[] pc = new double[2];
         double r = 0;
         double[] t = new double[2 * 3];
@@ -264,8 +259,10 @@ internal static class Program
 
         for (test = 0; test < 4; test++)
         {
+            int j;
             for (j = 0; j < 3; j++)
             {
+                int i;
                 for (i = 0; i < 2; i++)
                 {
                     t[i + j * 2] = t_test[i + j * 2 + test * 2 * 3];
@@ -343,8 +340,8 @@ internal static class Program
 
             inside = typeMethods.triangle_contains_point_2d(t, p);
 
-            Console.WriteLine("  " + p[0].ToString().PadLeft(8)
-                                   + "  " + p[1].ToString().PadLeft(8)
+            Console.WriteLine("  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "  " + inside + "");
         }
 
@@ -374,8 +371,8 @@ internal static class Program
 
             inside = typeMethods.triangle_contains_point_2d(t2, p);
 
-            Console.WriteLine("  " + p[0].ToString().PadLeft(8)
-                                   + "  " + p[1].ToString().PadLeft(8)
+            Console.WriteLine("  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "  " + inside + "");
         }
     }
@@ -401,9 +398,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double diameter;
-        int i;
-        int j;
         double[] t = new double[2 * 3];
         double[] t_test =
         {
@@ -426,8 +420,10 @@ internal static class Program
 
         for (test = 0; test < 3; test++)
         {
+            int j;
             for (j = 0; j < 3; j++)
             {
+                int i;
                 for (i = 0; i < 2; i++)
                 {
                     t[i + j * 2] = t_test[i + j * 2 + test * 6];
@@ -436,7 +432,7 @@ internal static class Program
 
             typeMethods.r8mat_transpose_print(2, 3, t, "  Triangle vertices:");
 
-            diameter = typeMethods.triangle_diameter_2d(t);
+            double diameter = typeMethods.triangle_diameter_2d(t);
 
             Console.WriteLine("");
             Console.WriteLine("  Diameter = " + diameter + "");
@@ -465,9 +461,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] edge_length;
-        int i;
-        int j;
         double[] t = new double[2 * 3];
         double[] t_test =
         {
@@ -489,8 +482,10 @@ internal static class Program
 
         for (test = 0; test < 3; test++)
         {
+            int j;
             for (j = 0; j < 3; j++)
             {
+                int i;
                 for (i = 0; i < 2; i++)
                 {
                     t[i + j * 2] = t_test[i + j * 2 + test * 6];
@@ -499,7 +494,7 @@ internal static class Program
 
             typeMethods.r8mat_transpose_print(2, 3, t, "  Triangle vertices:");
 
-            edge_length = typeMethods.triangle_edge_length_2d(t);
+            double[] edge_length = typeMethods.triangle_edge_length_2d(t);
 
             typeMethods.r8vec_print(3, edge_length, "  EDGE_LENGTHS:");
 
@@ -572,8 +567,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int i;
-        int j;
         double[] t = new double[2 * 3];
         double[] t_test =
         {
@@ -598,6 +591,8 @@ internal static class Program
 
         for (test = 0; test < 4; test++)
         {
+            int i;
+            int j;
             for (j = 0; j < 3; j++)
             {
                 for (i = 0; i < 2; i++)
@@ -655,8 +650,6 @@ internal static class Program
         //
     {
         bool flag = false;
-        int i;
-        int j;
         double[] pc = new double[2];
         double[] t = new double[2 * 3];
         double[] t_test =
@@ -682,8 +675,10 @@ internal static class Program
 
         for (test = 0; test < 4; test++)
         {
+            int j;
             for (j = 0; j < 3; j++)
             {
+                int i;
                 for (i = 0; i < 2; i++)
                 {
                     t[i + j * 2] = t_test[i + j * 2 + test * 6];
@@ -720,7 +715,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double dist;
         double[] p = new double[2];
         double[] p_test =
         {
@@ -756,12 +750,12 @@ internal static class Program
             p[0] = p_test[0 + test * 2];
             p[1] = p_test[1 + test * 2];
 
-            dist = typeMethods.triangle_point_dist(t, p);
+            double dist = typeMethods.triangle_point_dist(t, p);
 
-            Console.WriteLine("  " + p[0].ToString().PadLeft(8)
-                                   + "  " + p[1].ToString().PadLeft(8)
+            Console.WriteLine("  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "  "
-                                   + "  " + dist.ToString().PadLeft(8) + "");
+                                   + "  " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
 
     }
@@ -827,11 +821,11 @@ internal static class Program
 
             typeMethods.triangle_point_near(t, p, ref pn, ref dist);
 
-            Console.WriteLine("  " + p[0].ToString().PadLeft(8)
-                                   + "  " + p[1].ToString().PadLeft(8)
+            Console.WriteLine("  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "  "
-                                   + "  " + pn[0].ToString().PadLeft(8)
-                                   + "  " + pn[1].ToString().PadLeft(8) + "");
+                                   + "  " + pn[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + pn[1].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
     }
 
@@ -856,9 +850,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int i;
-        int j;
-        double quality;
         double[] t = new double[2 * 3];
         double[] t_test =
         {
@@ -883,8 +874,10 @@ internal static class Program
 
         for (test = 0; test < 4; test++)
         {
+            int j;
             for (j = 0; j < 3; j++)
             {
+                int i;
                 for (i = 0; i < 2; i++)
                 {
                     t[i + j * 2] = t_test[i + j * 2 + test * 6];
@@ -893,7 +886,7 @@ internal static class Program
 
             typeMethods.r8mat_transpose_print(2, 3, t, "  Triangle vertices:");
 
-            quality = typeMethods.triangle_quality_2d(t);
+            double quality = typeMethods.triangle_quality_2d(t);
 
             Console.WriteLine("");
             Console.WriteLine("  Quality = " + quality + "");
@@ -931,7 +924,6 @@ internal static class Program
             0.0, 1.0
         };
         int test;
-        double[] xsi;
 
         Console.WriteLine("");
         Console.WriteLine("TRIANGLE_REFERENCE_SAMPLE_TEST");
@@ -944,13 +936,13 @@ internal static class Program
         for (test = 0; test < 10; test++)
         {
             typeMethods.triangle_reference_sample(1, ref seed, ref p);
-            xsi = typeMethods.triangle_xy_to_xsi(t, p);
-            Console.WriteLine("  " + p[0].ToString().PadLeft(8)
-                                   + "  " + p[1].ToString().PadLeft(8)
+            double[] xsi = typeMethods.triangle_xy_to_xsi(t, p);
+            Console.WriteLine("  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "  "
-                                   + "  " + xsi[0].ToString().PadLeft(8)
-                                   + "  " + xsi[1].ToString().PadLeft(8)
-                                   + "  " + xsi[2].ToString().PadLeft(8) + "");
+                                   + "  " + xsi[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + xsi[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + xsi[2].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
     }
 
@@ -984,7 +976,6 @@ internal static class Program
             -2.0, 2.0
         };
         int test;
-        double[] xsi;
 
         Console.WriteLine("");
         Console.WriteLine("TRIANGLE_SAMPLE_TEST");
@@ -999,13 +990,13 @@ internal static class Program
         for (test = 0; test < 10; test++)
         {
             typeMethods.triangle_sample(t, 1, ref seed, ref p);
-            xsi = typeMethods.triangle_xy_to_xsi(t, p);
-            Console.WriteLine("  " + p[0].ToString().PadLeft(8)
-                                   + "  " + p[1].ToString().PadLeft(8)
+            double[] xsi = typeMethods.triangle_xy_to_xsi(t, p);
+            Console.WriteLine("  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "  "
-                                   + "  " + xsi[0].ToString().PadLeft(8)
-                                   + "  " + xsi[1].ToString().PadLeft(8)
-                                   + "  " + xsi[2].ToString().PadLeft(8) + "");
+                                   + "  " + xsi[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + xsi[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + xsi[2].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
     }
 
@@ -1031,7 +1022,6 @@ internal static class Program
         //
     {
         double[] p = null;
-        double[] p2;
         int seed = 123456789;
         double[] t =
         {
@@ -1040,7 +1030,6 @@ internal static class Program
             -2.0, 2.0
         };
         int test;
-        double[] xsi;
 
         Console.WriteLine("");
         Console.WriteLine("TRIANGLE_XSI_TO_XY_TEST");
@@ -1073,19 +1062,19 @@ internal static class Program
                     break;
             }
 
-            xsi = typeMethods.triangle_xy_to_xsi(t, p);
+            double[] xsi = typeMethods.triangle_xy_to_xsi(t, p);
 
-            p2 = typeMethods.triangle_xsi_to_xy(t, xsi);
+            double[] p2 = typeMethods.triangle_xsi_to_xy(t, xsi);
 
-            Console.WriteLine("  " + p[0].ToString().PadLeft(8)
-                                   + "  " + p[1].ToString().PadLeft(8)
+            Console.WriteLine("  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "  "
-                                   + "  " + xsi[0].ToString().PadLeft(8)
-                                   + "  " + xsi[1].ToString().PadLeft(8)
-                                   + "  " + xsi[2].ToString().PadLeft(8)
+                                   + "  " + xsi[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + xsi[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + xsi[2].ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "  "
-                                   + "  " + p2[0].ToString().PadLeft(8)
-                                   + "  " + p2[1].ToString().PadLeft(8) + "");
+                                   + "  " + p2[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + p2[1].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
 
         }
     }
@@ -1112,7 +1101,6 @@ internal static class Program
         //
     {
         double[] p = null;
-        double[] p2;
         int seed = 123456789;
         double[] t =
         {
@@ -1121,7 +1109,6 @@ internal static class Program
             -2.0, 2.0
         };
         int test;
-        double[] xsi;
 
         Console.WriteLine("");
         Console.WriteLine("TRIANGLE_XY_TO_XSI_TEST");
@@ -1154,19 +1141,19 @@ internal static class Program
                     break;
             }
 
-            xsi = typeMethods.triangle_xy_to_xsi(t, p);
+            double[] xsi = typeMethods.triangle_xy_to_xsi(t, p);
 
-            p2 = typeMethods.triangle_xsi_to_xy(t, xsi);
+            double[] p2 = typeMethods.triangle_xsi_to_xy(t, xsi);
 
-            Console.WriteLine("  " + p[0].ToString().PadLeft(8)
-                                   + "  " + p[1].ToString().PadLeft(8)
+            Console.WriteLine("  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "  "
-                                   + "  " + xsi[0].ToString().PadLeft(8)
-                                   + "  " + xsi[1].ToString().PadLeft(8)
-                                   + "  " + xsi[2].ToString().PadLeft(8)
+                                   + "  " + xsi[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + xsi[1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + xsi[2].ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "  "
-                                   + "  " + p2[0].ToString().PadLeft(8)
-                                   + "  " + p2[1].ToString().PadLeft(8) + "");
+                                   + "  " + p2[0].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + p2[1].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
     }
 }

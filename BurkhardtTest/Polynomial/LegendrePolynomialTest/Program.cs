@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.PolynomialNS;
 using Burkardt.Quadrature;
 using Burkardt.Types;
@@ -31,16 +32,12 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double b;
-        int e;
-        int p;
-
         Console.WriteLine("");
         Console.WriteLine("LEGENDRE_POLYNOMIAL_TEST:");
         Console.WriteLine("  Test the LEGENDRE_POLYNOMIAL library.");
 
-        p = 5;
-        b = 0.0;
+        int p = 5;
+        double b = 0.0;
         p_exponential_product_test(p, b);
 
         p = 5;
@@ -56,7 +53,7 @@ internal static class Program
         p_polynomial_zeros_test();
 
         p = 5;
-        e = 0;
+        int e = 0;
         p_power_product_test(p, e);
 
         p = 5;
@@ -106,7 +103,6 @@ internal static class Program
         //
     {
         int n;
-        double value = 0;
 
         Console.WriteLine("");
         Console.WriteLine("P_INTEGRAL_TEST:");
@@ -117,10 +113,10 @@ internal static class Program
 
         for (n = 0; n <= 10; n++)
         {
-            value = Legendre.p_integral(n);
+            double value = Legendre.p_integral(n);
 
-            Console.WriteLine("  " + n.ToString().PadLeft(4)
-                                   + "  " + value.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + value.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -146,11 +142,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int n_data;
-        double e;
         double fx1 = 0;
-        double fx2;
-        double[] fx2_vec;
         int n = 0;
         double x = 0;
         double[] x_vec = new double[1];
@@ -163,7 +155,7 @@ internal static class Program
         Console.WriteLine("     N        X           P(N,X)                    P(N,X)                     Error");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -175,16 +167,16 @@ internal static class Program
             }
 
             x_vec[0] = x;
-            fx2_vec = Legendre.p_polynomial_value(1, n, x_vec);
-            fx2 = fx2_vec[n];
+            double[] fx2_vec = Legendre.p_polynomial_value(1, n, x_vec);
+            double fx2 = fx2_vec[n];
 
-            e = fx1 - fx2;
+            double e = fx1 - fx2;
 
-            Console.WriteLine("  " + n.ToString().PadLeft(4)
-                                   + "  " + x.ToString().PadLeft(12)
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(12)
                                    + "  " + fx1.ToString("0.################").PadLeft(24)
                                    + "  " + fx2.ToString("0.################").PadLeft(24)
-                                   + "  " + e.ToString().PadLeft(8) + "");
+                                   + "  " + e.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
     }
 
@@ -209,14 +201,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
         int i;
-        int j;
-        int m;
-        int n;
-        double[] vp;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("P_POLYNOMIAL_PRIME_TEST:");
@@ -227,21 +212,22 @@ internal static class Program
         Console.WriteLine("     N        X           P'(N,X)");
         Console.WriteLine("");
 
-        m = 11;
-        a = -1.0;
-        b = +1.0;
-        x = typeMethods.r8vec_linspace_new(m, a, b);
+        const int m = 11;
+        const double a = -1.0;
+        const double b = +1.0;
+        double[] x = typeMethods.r8vec_linspace_new(m, a, b);
 
-        n = 5;
-        vp = Legendre.p_polynomial_prime(m, n, x);
+        const int n = 5;
+        double[] vp = Legendre.p_polynomial_prime(m, n, x);
 
         for (i = 0; i < m; i++)
         {
             Console.WriteLine("");
+            int j;
             for (j = 0; j <= n; j++)
             {
-                Console.WriteLine("  " + j.ToString().PadLeft(4)
-                                       + "  " + x[i].ToString().PadLeft(12)
+                Console.WriteLine("  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(12)
                                        + "  " + vp[i + j * m].ToString("0.################").PadLeft(24) + "");
             }
         }
@@ -268,14 +254,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
         int i;
-        int j;
-        int m;
-        int n;
-        double[] vpp;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("P_POLYNOMIAL_PRIME2_TEST:");
@@ -286,21 +265,22 @@ internal static class Program
         Console.WriteLine("     N        X           P\"(N,X)");
         Console.WriteLine("");
 
-        m = 11;
-        a = -1.0;
-        b = +1.0;
-        x = typeMethods.r8vec_linspace_new(m, a, b);
+        const int m = 11;
+        const double a = -1.0;
+        const double b = +1.0;
+        double[] x = typeMethods.r8vec_linspace_new(m, a, b);
 
-        n = 5;
-        vpp = Legendre.p_polynomial_prime2(m, n, x);
+        const int n = 5;
+        double[] vpp = Legendre.p_polynomial_prime2(m, n, x);
 
         for (i = 0; i < m; i++)
         {
             Console.WriteLine("");
+            int j;
             for (j = 0; j <= n; j++)
             {
-                Console.WriteLine("  " + j.ToString().PadLeft(4)
-                                       + "  " + x[i].ToString().PadLeft(12)
+                Console.WriteLine("  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(12)
                                        + "  " + vpp[i + j * m].ToString("0.################").PadLeft(24) + "");
             }
         }
@@ -327,22 +307,21 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] c;
         int i;
-        int j;
-        int n = 10;
+        const int n = 10;
 
         Console.WriteLine("");
         Console.WriteLine("P_POLYNOMIAL_COEFFICIENTS_TEST");
         Console.WriteLine("  P_POLYNOMIAL_COEFFICIENTS: coefficients of Legendre polynomial P(n,x).");
 
-        c = Legendre.p_polynomial_coefficients(n);
+        double[] c = Legendre.p_polynomial_coefficients(n);
 
         for (i = 0; i <= n; i++)
         {
             Console.WriteLine("");
             Console.WriteLine("  P(" + i + ",x) =");
             Console.WriteLine("");
+            int j;
             for (j = i; 0 <= j; j--)
             {
                 switch (c[i + j * (n + 1)])
@@ -353,14 +332,13 @@ internal static class Program
                         switch (j)
                         {
                             case 0:
-                                Console.WriteLine(c[i + j * (n + 1)].ToString().PadLeft(14) + "");
-                                ;
+                                Console.WriteLine(c[i + j * (n + 1)].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                                 break;
                             case 1:
-                                Console.WriteLine(c[i + j * (n + 1)].ToString().PadLeft(14) + " * x");
+                                Console.WriteLine(c[i + j * (n + 1)].ToString(CultureInfo.InvariantCulture).PadLeft(14) + " * x");
                                 break;
                             default:
-                                Console.WriteLine(c[i + j * (n + 1)].ToString().PadLeft(14) + " * x^" + j + "");
+                                Console.WriteLine(c[i + j * (n + 1)].ToString(CultureInfo.InvariantCulture).PadLeft(14) + " * x^" + j + "");
                                 break;
                         }
 
@@ -392,9 +370,6 @@ internal static class Program
         //
     {
         int degree;
-        double[] hz;
-        string title;
-        double[] z;
 
         Console.WriteLine("");
         Console.WriteLine("P_POLYNOMIAL_ZEROS_TEST:");
@@ -403,11 +378,11 @@ internal static class Program
 
         for (degree = 1; degree <= 5; degree++)
         {
-            z = Legendre.p_polynomial_zeros(degree);
-            title = "  Computed zeros for P(" + degree + ",z):";
+            double[] z = Legendre.p_polynomial_zeros(degree);
+            string title = "  Computed zeros for P(" + degree + ",z):";
             typeMethods.r8vec_print(degree, z, title);
 
-            hz = Legendre.p_polynomial_value(degree, degree, z);
+            double[] hz = Legendre.p_polynomial_value(degree, degree, z);
             title = "  Evaluate P(" + degree + ",z):";
             typeMethods.r8vec_print(degree, hz, title, +degree * degree);
         }
@@ -435,22 +410,15 @@ internal static class Program
         //
     {
         int e;
-        double[] f;
-        int i;
-        int n;
-        double q;
-        double q_exact;
-        double[] w;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("P_QUADRATURE_RULE_TEST:");
         Console.WriteLine("  P_QUADRATURE_RULE computes the quadrature rule");
         Console.WriteLine("  associated with P(n,x)");
 
-        n = 7;
-        x = new double[n];
-        w = new double[n];
+        const int n = 7;
+        double[] x = new double[n];
+        double[] w = new double[n];
 
         LegendreQuadrature.p_quadrature_rule(n, ref x, ref w);
 
@@ -464,10 +432,11 @@ internal static class Program
         Console.WriteLine("   E       Q_Estimate      Q_Exact");
         Console.WriteLine("");
 
-        f = new double[n];
+        double[] f = new double[n];
 
         for (e = 0; e <= 2 * n - 1; e++)
         {
+            int i;
             switch (e)
             {
                 case 0:
@@ -490,11 +459,11 @@ internal static class Program
                 }
             }
 
-            q = typeMethods.r8vec_dot_product(n, w, f);
-            q_exact = Legendre.p_integral(e);
-            Console.WriteLine("  " + e.ToString().PadLeft(2)
-                                   + "  " + q.ToString().PadLeft(14)
-                                   + "  " + q_exact.ToString().PadLeft(14) + "");
+            double q = typeMethods.r8vec_dot_product(n, w, f);
+            double q_exact = Legendre.p_integral(e);
+            Console.WriteLine("  " + e.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + q_exact.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -526,8 +495,6 @@ internal static class Program
         //    Input, double B, the coefficient of X in the exponential factor.
         //
     {
-        double[] table;
-
         Console.WriteLine("");
         Console.WriteLine("P_EXPONENTIAL_PRODUCT_TEST");
         Console.WriteLine("  P_EXPONENTIAL_PRODUCT_TEST computes a Legendre exponential product table.");
@@ -540,7 +507,7 @@ internal static class Program
         Console.WriteLine("  Maximum degree P = " + p + "");
         Console.WriteLine("  Exponential argument coefficient B = " + b + "");
 
-        table = Legendre.p_exponential_product(p, b);
+        double[] table = Legendre.p_exponential_product(p, b);
 
         typeMethods.r8mat_print(p + 1, p + 1, table, "  Exponential product table:");
     }
@@ -573,8 +540,6 @@ internal static class Program
         //    Input, int E, the exponent of X.
         //
     {
-        double[] table;
-
         Console.WriteLine("");
         Console.WriteLine("P_POWER_PRODUCT_TEST");
         Console.WriteLine("  P_POWER_PRODUCT_TEST computes a Legendre power product table.");
@@ -587,7 +552,7 @@ internal static class Program
         Console.WriteLine("  Maximum degree P = " + p + "");
         Console.WriteLine("  Exponent of X, E = " + e + "");
 
-        table = Legendre.p_power_product(p, e);
+        double[] table = Legendre.p_power_product(p, e);
 
         typeMethods.r8mat_print(p + 1, p + 1, table, "  Power product table:");
     }
@@ -613,11 +578,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int n_data;
-        double e;
         double fx1 = 0;
-        double fx2;
-        double[] fx2_vec;
         int m = 0;
         int n = 0;
         double x = 0;
@@ -632,7 +593,7 @@ internal static class Program
             "     N     M        X        Pm(N,M,X)                 Pm(N,M,X)                     Error");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -644,17 +605,17 @@ internal static class Program
             }
 
             x_vec[0] = x;
-            fx2_vec = Legendre.pm_polynomial_value(1, n, m, x_vec);
-            fx2 = fx2_vec[n];
+            double[] fx2_vec = Legendre.pm_polynomial_value(1, n, m, x_vec);
+            double fx2 = fx2_vec[n];
 
-            e = fx1 - fx2;
+            double e = fx1 - fx2;
 
-            Console.WriteLine("  " + n.ToString().PadLeft(4)
-                                   + "  " + m.ToString().PadLeft(4)
-                                   + "  " + x.ToString().PadLeft(12)
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(12)
                                    + "  " + fx1.ToString("0.################").PadLeft(24)
                                    + "  " + fx2.ToString("0.################").PadLeft(24)
-                                   + "  " + e.ToString().PadLeft(8) + "");
+                                   + "  " + e.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
     }
 
@@ -679,11 +640,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int n_data;
-        double e;
         double fx1 = 0;
-        double fx2;
-        double[] fx2_vec;
         int m = 0;
         int n = 0;
         double x = 0;
@@ -698,7 +655,7 @@ internal static class Program
             "     N     M        X       Pmn(N,M,X)                Pmn(N,M,X)                     Error");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -710,17 +667,17 @@ internal static class Program
             }
 
             x_vec[0] = x;
-            fx2_vec = Legendre.pmn_polynomial_value(1, n, m, x_vec);
-            fx2 = fx2_vec[n];
+            double[] fx2_vec = Legendre.pmn_polynomial_value(1, n, m, x_vec);
+            double fx2 = fx2_vec[n];
 
-            e = fx1 - fx2;
+            double e = fx1 - fx2;
 
-            Console.WriteLine("  " + n.ToString().PadLeft(4)
-                                   + "  " + m.ToString().PadLeft(4)
-                                   + "  " + x.ToString().PadLeft(12)
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(12)
                                    + "  " + fx1.ToString("0.################").PadLeft(24)
                                    + "  " + fx2.ToString("0.################").PadLeft(24)
-                                   + "  " + e.ToString().PadLeft(8) + "");
+                                   + "  " + e.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
     }
 
@@ -745,11 +702,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int n_data;
-        double e;
         double fx1 = 0;
-        double fx2;
-        double[] fx2_vec;
         int m = 0;
         int n = 0;
         double x = 0;
@@ -764,7 +717,7 @@ internal static class Program
             "     N     M        X       Pmns(N,M,X)                Pmns(N,M,X)                     Error");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -776,17 +729,17 @@ internal static class Program
             }
 
             x_vec[0] = x;
-            fx2_vec = Legendre.pmns_polynomial_value(1, n, m, x_vec);
-            fx2 = fx2_vec[n];
+            double[] fx2_vec = Legendre.pmns_polynomial_value(1, n, m, x_vec);
+            double fx2 = fx2_vec[n];
 
-            e = fx1 - fx2;
+            double e = fx1 - fx2;
 
-            Console.WriteLine("  " + n.ToString().PadLeft(4)
-                                   + "  " + m.ToString().PadLeft(4)
-                                   + "  " + x.ToString().PadLeft(12)
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(12)
                                    + "  " + fx1.ToString("0.################").PadLeft(24)
                                    + "  " + fx2.ToString("0.################").PadLeft(24)
-                                   + "  " + e.ToString().PadLeft(8) + "");
+                                   + "  " + e.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
     }
 
@@ -811,22 +764,21 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] c;
         int i;
-        int j;
-        int n = 10;
+        const int n = 10;
 
         Console.WriteLine("");
         Console.WriteLine("PN_POLYNOMIAL_COEFFICIENTS_TEST");
         Console.WriteLine("  PN_POLYNOMIAL_COEFFICIENTS: coefficients of normalized Legendre polynomial P(n,x).");
 
-        c = Legendre.pn_polynomial_coefficients(n);
+        double[] c = Legendre.pn_polynomial_coefficients(n);
 
         for (i = 0; i <= n; i++)
         {
             Console.WriteLine("");
             Console.WriteLine("  P(" + i + ",x) =");
             Console.WriteLine("");
+            int j;
             for (j = i; 0 <= j; j--)
             {
                 switch (c[i + j * (n + 1)])
@@ -837,14 +789,13 @@ internal static class Program
                         switch (j)
                         {
                             case 0:
-                                Console.WriteLine(c[i + j * (n + 1)].ToString().PadLeft(14) + "");
-                                ;
+                                Console.WriteLine(c[i + j * (n + 1)].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                                 break;
                             case 1:
-                                Console.WriteLine(c[i + j * (n + 1)].ToString().PadLeft(14) + " * x");
+                                Console.WriteLine(c[i + j * (n + 1)].ToString(CultureInfo.InvariantCulture).PadLeft(14) + " * x");
                                 break;
                             default:
-                                Console.WriteLine(c[i + j * (n + 1)].ToString().PadLeft(14) + " * x^" + j + "");
+                                Console.WriteLine(c[i + j * (n + 1)].ToString(CultureInfo.InvariantCulture).PadLeft(14) + " * x^" + j + "");
                                 break;
                         }
 
@@ -880,8 +831,6 @@ internal static class Program
         //    factors.
         //
     {
-        double[] table;
-
         Console.WriteLine("");
         Console.WriteLine("PN_PAIR_PRODUCT_TEST:");
         Console.WriteLine("  PN_PAIR_PRODUCT_TEST computes a pair product table for Pn(n,x).");
@@ -892,7 +841,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Maximum degree P = " + p + "");
 
-        table = Legendre.pn_pair_product(p);
+        double[] table = Legendre.pn_pair_product(p);
 
         typeMethods.r8mat_print(p + 1, p + 1, table, "  Pair product table:");
     }
@@ -918,11 +867,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int n_data;
-        double e;
         double fx1 = 0;
-        double fx2;
-        double[] fx2_vec;
         int n = 0;
         double x = 0;
         double[] x_vec = new double[1];
@@ -935,7 +880,7 @@ internal static class Program
         Console.WriteLine("     N        X          Pn(N,X)                   Pn(N,X)                     Error");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -947,16 +892,16 @@ internal static class Program
             }
 
             x_vec[0] = x;
-            fx2_vec = Legendre.pn_polynomial_value(1, n, x_vec);
-            fx2 = fx2_vec[n];
+            double[] fx2_vec = Legendre.pn_polynomial_value(1, n, x_vec);
+            double fx2 = fx2_vec[n];
 
-            e = fx1 - fx2;
+            double e = fx1 - fx2;
 
-            Console.WriteLine("  " + n.ToString().PadLeft(4)
-                                   + "  " + x.ToString().PadLeft(12)
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(12)
                                    + "  " + fx1.ToString("0.################").PadLeft(24)
                                    + "  " + fx2.ToString("0.################").PadLeft(24)
-                                   + "  " + e.ToString().PadLeft(8) + "");
+                                   + "  " + e.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
     }
 }

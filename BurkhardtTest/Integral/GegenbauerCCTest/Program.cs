@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt;
 using Burkardt.ChebyshevNS;
 using Burkardt.Function;
@@ -76,11 +77,8 @@ internal static class Program
         //    Output, double F, the value.
         //
     {
-        double a;
-        double value = 0;
-
-        a = 2.0;
-        value = Math.Cos(a * x);
+        const double a = 2.0;
+        double value = Math.Cos(a * x);
 
         return value;
     }
@@ -106,7 +104,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] a2;
         double[] a2_exact =  {
                 0.4477815660,
                 -0.7056685603,
@@ -114,19 +111,17 @@ internal static class Program
                 -0.0048097159
             }
             ;
-        int s;
-        int n;
 
         Console.WriteLine("");
         Console.WriteLine("CHEBYSHEV_EVEN1_TEST:");
         Console.WriteLine("  CHEBYSHEV_EVEN1 computes the even Chebyshev coefficients");
         Console.WriteLine("  of a function F, using the extreme points of Tn(x).");
 
-        n = 6;
+        const int n = 6;
 
-        a2 = Chebyshev.chebyshev_even1(n, f);
+        double[] a2 = Chebyshev.chebyshev_even1(n, f);
 
-        s = n / 2;
+        const int s = n / 2;
         typeMethods.r8vec2_print(s + 1, a2, a2_exact, "  Computed and Exact Coefficients:");
     }
 
@@ -151,20 +146,16 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] b2;
-        int n;
-        int s;
-
         Console.WriteLine("");
         Console.WriteLine("CHEBYSHEV_EVEN2_TEST:");
         Console.WriteLine("  CHEBYSHEV_EVEN2 computes the even Chebyshev coefficients");
         Console.WriteLine("  of a function F, using the zeros of Tn(x).");
 
-        n = 6;
+        const int n = 6;
 
-        b2 = Chebyshev.chebyshev_even2(n, f);
+        double[] b2 = Chebyshev.chebyshev_even2(n, f);
 
-        s = n / 2;
+        const int s = n / 2;
         typeMethods.r8vec_print(s + 1, b2, "  Computed Coefficients:");
     }
 
@@ -189,28 +180,22 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double exact;
-        double lambda;
-        int n;
-        double value = 0;
-
         Console.WriteLine("");
         Console.WriteLine("GEGENBAUER_CC1_TEST:");
         Console.WriteLine("  GEGENBAUER_CC1 estimates the Gegenbauer integral of");
         Console.WriteLine("  a function f(x) using a Clenshaw-Curtis type approach");
         Console.WriteLine("  based on the extreme points of Tn(x).");
 
-        lambda = 0.75;
-        a = 2.0;
-        n = 6;
+        const double lambda = 0.75;
+        const double a = 2.0;
+        const int n = 6;
 
-        value = Integral.gegenbauer_cc1(n, lambda, f);
+        double value = Integral.gegenbauer_cc1(n, lambda, f);
 
         Console.WriteLine("");
         Console.WriteLine("  Value = " + value + "");
-        exact = Helpers.Gamma(lambda + 0.5) * Math.Sqrt(Math.PI) * BesselJ.besselj(lambda, a)
-                / Math.Pow(0.5 * a, lambda);
+        double exact = Helpers.Gamma(lambda + 0.5) * Math.Sqrt(Math.PI) * BesselJ.besselj(lambda, a)
+                       / Math.Pow(0.5 * a, lambda);
         Console.WriteLine("  Exact = " + exact + "");
     }
 
@@ -235,28 +220,22 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double exact;
-        double lambda;
-        int n;
-        double value = 0;
-
         Console.WriteLine("");
         Console.WriteLine("GEGENBAUER_CC2_TEST:");
         Console.WriteLine("  GEGENBAUER_CC2 estimates the Gegenbauer integral of");
         Console.WriteLine("  a function f(x) using a Clenshaw-Curtis type approach");
         Console.WriteLine("  based on the zeros of Tn(x).");
 
-        lambda = 0.75;
-        a = 2.0;
-        n = 6;
+        const double lambda = 0.75;
+        const double a = 2.0;
+        const int n = 6;
 
-        value = Integral.gegenbauer_cc2(n, lambda, f);
+        double value = Integral.gegenbauer_cc2(n, lambda, f);
 
         Console.WriteLine("");
         Console.WriteLine("  Value = " + value + "");
-        exact = Helpers.Gamma(lambda + 0.5) * Math.Sqrt(Math.PI) * BesselJ.besselj(lambda, a)
-                / Math.Pow(0.5 * a, lambda);
+        double exact = Helpers.Gamma(lambda + 0.5) * Math.Sqrt(Math.PI) * BesselJ.besselj(lambda, a)
+                       / Math.Pow(0.5 * a, lambda);
         Console.WriteLine("  Exact = " + exact + "");
     }
 
@@ -281,10 +260,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int a = -100;
-        int b = 200;
+        const int a = -100;
+        const int b = 200;
         int i;
-        int j;
         int seed = 123456789;
 
         Console.WriteLine("");
@@ -300,10 +278,10 @@ internal static class Program
 
         for (i = 1; i <= 20; i++)
         {
-            j = UniformRNG.i4_uniform_ab(a, b, ref seed);
+            int j = UniformRNG.i4_uniform_ab(a, b, ref seed);
 
-            Console.WriteLine("  " + i.ToString().PadLeft(8)
-                                   + "  " + j.ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
     }
 
@@ -328,10 +306,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int i4;
-        int i4_max;
-        int i4_min;
-        double r8;
         int seed = 123456789;
         int test;
 
@@ -342,16 +316,16 @@ internal static class Program
         Console.WriteLine("    I4  R8_MOP(I4)");
         Console.WriteLine("");
 
-        i4_min = -100;
-        i4_max = +100;
+        const int i4_min = -100;
+        const int i4_max = +100;
 
         for (test = 1; test <= 10; test++)
         {
-            i4 = UniformRNG.i4_uniform_ab(i4_min, i4_max, ref seed);
-            r8 = typeMethods.r8_mop(i4);
+            int i4 = UniformRNG.i4_uniform_ab(i4_min, i4_max, ref seed);
+            double r8 = typeMethods.r8_mop(i4);
             Console.WriteLine("  "
-                              + i4.ToString().PadLeft(4) + "  "
-                              + r8.ToString().PadLeft(4) + "");
+                              + i4.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                              + r8.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "");
         }
     }
 
@@ -380,7 +354,7 @@ internal static class Program
                 123.456, 0.000005, -1.0E+06, 3.14159265
             }
             ;
-        int n = 4;
+        const int n = 4;
 
         Console.WriteLine("");
         Console.WriteLine("R8VEC_PRINT_TEST");
@@ -417,7 +391,7 @@ internal static class Program
         double[] b = new double[5];
         double[] c = new double[5];
         int i;
-        int n = 5;
+        const int n = 5;
 
         Console.WriteLine("");
         Console.WriteLine("R8VEC2_PRINT_TEST");

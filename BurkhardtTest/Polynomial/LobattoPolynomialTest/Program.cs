@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.PolynomialNS;
 
 namespace LobattoPolynomialTest;
@@ -60,17 +61,12 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double e;
         double fx1 = 0;
-        double fx2;
-        double[] l;
-        int m;
         int n = 0;
-        int n_data;
         double x = 0;
         double[] xvec = new double[1];
 
-        m = 1;
+        const int m = 1;
 
         Console.WriteLine("");
         Console.WriteLine("LOBATTO_POLYNOMIAL_VALUE_TEST:");
@@ -82,7 +78,7 @@ internal static class Program
         Console.WriteLine("     N        X                        L(N,X)                    L(N,X)        Error");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -95,17 +91,17 @@ internal static class Program
 
             xvec[0] = x;
 
-            l = Lobatto.lobatto_polynomial_value(m, n, xvec);
+            double[] l = Lobatto.lobatto_polynomial_value(m, n, xvec);
 
-            fx2 = l[0 + (n - 1) * m];
+            double fx2 = l[0 + (n - 1) * m];
 
-            e = fx1 - fx2;
+            double e = fx1 - fx2;
 
-            Console.WriteLine("  " + n.ToString().PadLeft(4)
-                                   + "  " + x.ToString().PadLeft(12)
-                                   + "  " + fx1.ToString().PadLeft(12)
-                                   + "  " + fx2.ToString().PadLeft(12)
-                                   + "  " + e.ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + e.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
 
         }
     }
@@ -131,17 +127,12 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double e;
         double fx1 = 0;
-        double fx2;
-        double[] lp;
-        int m;
         int n = 0;
-        int n_data;
         double x = 0;
         double[] xvec = new double[1];
 
-        m = 1;
+        const int m = 1;
 
         Console.WriteLine("");
         Console.WriteLine("LOBATTO_POLYNOMIAL_DERIVATIVE_TEST:");
@@ -153,7 +144,7 @@ internal static class Program
         Console.WriteLine("     N        X                        L''(N,X)                   L''(N,X)       Error");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -165,16 +156,16 @@ internal static class Program
             }
 
             xvec[0] = x;
-            lp = Lobatto.lobatto_polynomial_derivative(m, n, xvec);
-            fx2 = lp[0 + (n - 1) * m];
+            double[] lp = Lobatto.lobatto_polynomial_derivative(m, n, xvec);
+            double fx2 = lp[0 + (n - 1) * m];
 
-            e = fx1 - fx2;
+            double e = fx1 - fx2;
 
-            Console.WriteLine("  " + n.ToString().PadLeft(4)
-                                   + "  " + x.ToString().PadLeft(12)
-                                   + "  " + fx1.ToString().PadLeft(12)
-                                   + "  " + fx2.ToString().PadLeft(12)
-                                   + "  " + e.ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + e.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
 
         }
 

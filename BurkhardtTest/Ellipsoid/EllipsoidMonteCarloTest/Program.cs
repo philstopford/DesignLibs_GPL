@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.MonomialNS;
 using Burkardt.Types;
 
@@ -69,7 +70,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int M = 2;
+        const int M = 2;
 
         double[] a =  {
                 9.0, 1.0,
@@ -87,20 +88,11 @@ internal static class Program
                 3, 0
             }
             ;
-        int i;
-        int j;
-        int m = M;
-        int n;
-        double r = 2.0;
-        double result;
-        int seed;
+        const double r = 2.0;
         double[] v =  {
                 0.0, 0.0
             }
             ;
-        double[] value;
-        double volume;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
@@ -109,14 +101,14 @@ internal static class Program
 
         Console.WriteLine("");
         typeMethods.r8_print(r, "  Ellipsoid radius R:");
-        typeMethods.r8vec_print(m, v, "  Ellipsoid center V:");
-        typeMethods.r8mat_print(m, m, a, "  Ellipsoid matrix A:");
+        typeMethods.r8vec_print(M, v, "  Ellipsoid center V:");
+        typeMethods.r8mat_print(M, M, a, "  Ellipsoid matrix A:");
 
-        volume = MonteCarlo.ellipsoid_volume(m, a, v, r);
+        double volume = MonteCarlo.ellipsoid_volume(M, a, v, r);
         Console.WriteLine("");
         typeMethods.r8_print(volume, "  Ellipsoid volume:");
 
-        seed = 123456789;
+        int seed = 123456789;
         typeMethods.r8vecNormalData data = new();
 
         Console.WriteLine("");
@@ -124,24 +116,26 @@ internal static class Program
                           "             X^2               XY             Y^2             X^3");
         Console.WriteLine("");
 
-        n = 1;
+        int n = 1;
 
         while (n <= 65536)
         {
-            x = MonteCarlo.ellipsoid_sample(m, n, a, v, r, ref data, ref seed);
+            double[] x = MonteCarlo.ellipsoid_sample(M, n, a, v, r, ref data, ref seed);
 
-            string cout = n.ToString().PadLeft(10) + "  ";
+            string cout = n.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  ";
+            int j;
             for (j = 0; j < 7; j++)
             {
-                for (i = 0; i < m; i++)
+                int i;
+                for (i = 0; i < M; i++)
                 {
-                    e[i] = e_test[i + j * m];
+                    e[i] = e_test[i + j * M];
                 }
 
-                value = Monomial.monomial_value(m, n, e, x);
+                double[] value = Monomial.monomial_value(M, n, e, x);
 
-                result = volume * typeMethods.r8vec_sum(n, value) / n;
-                cout += result.ToString().PadLeft(14) + "  ";
+                double result = volume * typeMethods.r8vec_sum(n, value) / n;
+                cout += result.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  ";
             }
 
             Console.WriteLine(cout);
@@ -171,7 +165,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int M = 2;
+        const int M = 2;
 
         double[] a =  {
                 9.0, 1.0,
@@ -189,20 +183,11 @@ internal static class Program
                 3, 0
             }
             ;
-        int i;
-        int j;
-        int m = M;
-        int n;
-        double r = 0.5;
-        double result;
-        int seed;
+        const double r = 0.5;
         double[] v =  {
                 2.0, 3.0
             }
             ;
-        double[] value;
-        double volume;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02");
@@ -211,14 +196,14 @@ internal static class Program
 
         Console.WriteLine("");
         typeMethods.r8_print(r, "  Ellipsoid radius R:");
-        typeMethods.r8vec_print(m, v, "  Ellipsoid center V:");
-        typeMethods.r8mat_print(m, m, a, "  Ellipsoid matrix A:");
+        typeMethods.r8vec_print(M, v, "  Ellipsoid center V:");
+        typeMethods.r8mat_print(M, M, a, "  Ellipsoid matrix A:");
 
-        volume = MonteCarlo.ellipsoid_volume(m, a, v, r);
+        double volume = MonteCarlo.ellipsoid_volume(M, a, v, r);
         Console.WriteLine("");
         typeMethods.r8_print(volume, "  Ellipsoid volume:");
 
-        seed = 123456789;
+        int seed = 123456789;
         typeMethods.r8vecNormalData data = new();
 
         Console.WriteLine("");
@@ -226,24 +211,26 @@ internal static class Program
                           "             X^2               XY             Y^2             X^3");
         Console.WriteLine("");
 
-        n = 1;
+        int n = 1;
 
         while (n <= 65536)
         {
-            x = MonteCarlo.ellipsoid_sample(m, n, a, v, r, ref data, ref seed);
+            double[] x = MonteCarlo.ellipsoid_sample(M, n, a, v, r, ref data, ref seed);
 
-            string cout = n.ToString().PadLeft(10) + "  ";
+            string cout = n.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  ";
+            int j;
             for (j = 0; j < 7; j++)
             {
-                for (i = 0; i < m; i++)
+                int i;
+                for (i = 0; i < M; i++)
                 {
-                    e[i] = e_test[i + j * m];
+                    e[i] = e_test[i + j * M];
                 }
 
-                value = Monomial.monomial_value(m, n, e, x);
+                double[] value = Monomial.monomial_value(M, n, e, x);
 
-                result = volume * typeMethods.r8vec_sum(n, value) / n;
-                cout += result.ToString().PadLeft(14) + "  ";
+                double result = volume * typeMethods.r8vec_sum(n, value) / n;
+                cout += result.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  ";
             }
 
             Console.WriteLine(cout);
@@ -273,7 +260,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int M = 3;
+        const int M = 3;
 
         double[] a =  {
                 9.0, 6.0, 3.0,
@@ -292,20 +279,11 @@ internal static class Program
                 0, 0, 3
             }
             ;
-        int i;
-        int j;
-        int m = M;
-        int n;
-        double r = 0.5;
-        double result;
-        int seed;
+        const double r = 0.5;
         double[] v =  {
                 1.0, 2.0, 3.0
             }
             ;
-        double[] value;
-        double volume;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST03");
@@ -314,14 +292,14 @@ internal static class Program
 
         Console.WriteLine("");
         typeMethods.r8_print(r, "  Ellipsoid radius R:");
-        typeMethods.r8vec_print(m, v, "  Ellipsoid center V:");
-        typeMethods.r8mat_print(m, m, a, "  Ellipsoid matrix A:");
+        typeMethods.r8vec_print(M, v, "  Ellipsoid center V:");
+        typeMethods.r8mat_print(M, M, a, "  Ellipsoid matrix A:");
 
-        volume = MonteCarlo.ellipsoid_volume(m, a, v, r);
+        double volume = MonteCarlo.ellipsoid_volume(M, a, v, r);
         Console.WriteLine("");
         typeMethods.r8_print(volume, "  Ellipsoid volume:");
 
-        seed = 123456789;
+        int seed = 123456789;
         typeMethods.r8vecNormalData data = new();
 
         Console.WriteLine("");
@@ -329,24 +307,26 @@ internal static class Program
                           "              Z                X^2            YZ              Z^3");
         Console.WriteLine("");
 
-        n = 1;
+        int n = 1;
 
         while (n <= 65536)
         {
-            x = MonteCarlo.ellipsoid_sample(m, n, a, v, r, ref data, ref seed);
+            double[] x = MonteCarlo.ellipsoid_sample(M, n, a, v, r, ref data, ref seed);
 
-            string cout = n.ToString().PadLeft(10) + "  ";
+            string cout = n.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  ";
+            int j;
             for (j = 0; j < 7; j++)
             {
-                for (i = 0; i < m; i++)
+                int i;
+                for (i = 0; i < M; i++)
                 {
-                    e[i] = e_test[i + j * m];
+                    e[i] = e_test[i + j * M];
                 }
 
-                value = Monomial.monomial_value(m, n, e, x);
+                double[] value = Monomial.monomial_value(M, n, e, x);
 
-                result = volume * typeMethods.r8vec_sum(n, value) / n;
-                cout += result.ToString().PadLeft(14) + "  ";
+                double result = volume * typeMethods.r8vec_sum(n, value) / n;
+                cout += result.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  ";
             }
 
             Console.WriteLine(cout);

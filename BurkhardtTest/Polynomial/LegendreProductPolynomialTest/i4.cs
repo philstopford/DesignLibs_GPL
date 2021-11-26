@@ -27,8 +27,6 @@ public static class i4Test
         //    John Burkardt
         //
     {
-        int cnk;
-        int k;
         int n;
 
         Console.WriteLine("");
@@ -40,9 +38,10 @@ public static class i4Test
         for (n = 0; n <= 4; n++)
         {
             Console.WriteLine("");
+            int k;
             for (k = 0; k <= n; k++)
             {
-                cnk = typeMethods.i4_choose(n, k);
+                int cnk = typeMethods.i4_choose(n, k);
 
                 Console.WriteLine("  "
                                   + n.ToString().PadLeft(6) + "  "
@@ -74,10 +73,9 @@ public static class i4Test
         //    John Burkardt
         //
     {
-        int a = -100;
-        int b = 200;
+        const int a = -100;
+        const int b = 200;
         int i;
-        int j;
         int seed = 123456789;
 
         Console.WriteLine("");
@@ -93,7 +91,7 @@ public static class i4Test
 
         for (i = 1; i <= 20; i++)
         {
-            j = UniformRNG.i4_uniform_ab(a, b, ref seed);
+            int j = UniformRNG.i4_uniform_ab(a, b, ref seed);
 
             Console.WriteLine("  " + i.ToString().PadLeft(8)
                                    + "  " + j.ToString().PadLeft(8) + "");
@@ -122,13 +120,8 @@ public static class i4Test
         //    John Burkardt
         //
     {
-        int[] a;
-        int b;
-        int c;
-        int n = 12;
-        int[] p;
-        int seed;
-        seed = 123456789;
+        const int n = 12;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("I4VEC_PERMUTE_TEST");
@@ -136,13 +129,12 @@ public static class i4Test
         Console.WriteLine("  according to a given permutation.");
         Console.WriteLine("  Using initial random number seed = " + seed + "");
 
-        b = 0;
-        c = n;
-        a = UniformRNG.i4vec_uniform_ab_new(n, b, c, ref seed);
+        const int b = 0;
+        int[] a = UniformRNG.i4vec_uniform_ab_new(n, b, n, ref seed);
 
         typeMethods.i4vec_print(n, a, "  A, before rearrangement:");
 
-        p = typeMethods.perm_uniform_new(n, ref seed);
+        int[] p = typeMethods.perm_uniform_new(n, ref seed);
 
         typeMethods.i4vec_print(n, p, "  Permutation vector P:");
 
@@ -173,7 +165,7 @@ public static class i4Test
         //    John Burkardt
         //
     {
-        int n = 4;
+        const int n = 4;
         int[] v = {91, 92, 93, 94};
 
         Console.WriteLine("");
@@ -205,28 +197,23 @@ public static class i4Test
         //    John Burkardt
         //
     {
-        int[] a;
-        int b;
-        int c;
         int i;
-        int[] indx;
-        int n = 20;
-        int seed;
+        const int n = 20;
 
         Console.WriteLine("");
         Console.WriteLine("I4VEC_SORT_HEAP_INDEX_A_TEST");
         Console.WriteLine("  I4VEC_SORT_HEAP_INDEX_A creates an ascending");
         Console.WriteLine("  sort index for an I4VEC.");
 
-        b = 0;
-        c = 3 * n;
-        seed = 123456789;
+        const int b = 0;
+        const int c = 3 * n;
+        int seed = 123456789;
 
-        a = UniformRNG.i4vec_uniform_ab_new(n, b, c, ref seed);
+        int[] a = UniformRNG.i4vec_uniform_ab_new(n, b, c, ref seed);
 
         typeMethods.i4vec_print(n, a, "  Unsorted array:");
 
-        indx = typeMethods.i4vec_sort_heap_index_a(n, a);
+        int[] indx = typeMethods.i4vec_sort_heap_index_a(n, a);
 
         typeMethods.i4vec_print(n, indx, "  Sort vector INDX:");
 
@@ -264,26 +251,19 @@ public static class i4Test
         //    John Burkardt
         //
     {
-        int[] a;
-        int hi;
-        int lo;
-        int n;
-        int s;
-        int seed;
-
         Console.WriteLine("");
         Console.WriteLine("I4VEC_SUM_TEST");
         Console.WriteLine("  I4VEC_SUM sums the entries of an I4VEC.");
 
-        n = 5;
-        lo = 0;
-        hi = 10;
-        seed = 123456789;
+        const int n = 5;
+        const int lo = 0;
+        const int hi = 10;
+        int seed = 123456789;
 
-        a = UniformRNG.i4vec_uniform_ab_new(n, lo, hi, ref seed);
+        int[] a = UniformRNG.i4vec_uniform_ab_new(n, lo, hi, ref seed);
         typeMethods.i4vec_print(n, a, "  The vector:");
 
-        s = typeMethods.i4vec_sum(n, a);
+        int s = typeMethods.i4vec_sum(n, a);
         Console.WriteLine("");
         Console.WriteLine("  The vector entries sum to " + s + "");
 
@@ -311,11 +291,10 @@ public static class i4Test
         //    John Burkardt
         //
     {
-        int a = -100;
-        int b = 200;
-        int n = 20;
+        const int a = -100;
+        const int b = 200;
+        const int n = 20;
         int seed = 123456789;
-        int[] v;
 
         Console.WriteLine("");
         Console.WriteLine("I4VEC_UNIFORM_AB_NEW_TEST");
@@ -328,7 +307,7 @@ public static class i4Test
         Console.WriteLine("  The initial seed is " + seed + "");
         Console.WriteLine("");
 
-        v = UniformRNG.i4vec_uniform_ab_new(n, a, b, ref seed);
+        int[] v = UniformRNG.i4vec_uniform_ab_new(n, a, b, ref seed);
 
         typeMethods.i4vec_print(n, v, "  The random vector:");
 

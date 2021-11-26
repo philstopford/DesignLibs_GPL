@@ -78,8 +78,8 @@ internal static class Program
             0.048690315425316, 0.638444188569809,
             0.048690315425316, 0.312865496004875
         };
-        int p_num = 13;
-        string plot_filename = "test01.svg";
+        const int p_num = 13;
+        const string plot_filename = "test01.svg";
         double[] t =
         {
             0.0, 0.0,

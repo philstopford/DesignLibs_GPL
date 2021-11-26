@@ -220,17 +220,15 @@ public static class Problem1
         //
     {
         int i;
-        double[] x;
-        double[] zp;
 
-        x = new double[par_num];
+        double[] x = new double[par_num];
 
         for (i = 0; i < par_num; i++)
         {
             x[i] = PDF.r8_normal_01_sample();
         }
 
-        zp = typeMethods.r8mat_mtv_new(par_num, par_num, c.factor, x);
+        double[] zp = typeMethods.r8mat_mtv_new(par_num, par_num, c.factor, x);
 
         for (i = 0; i < par_num; i++)
         {
@@ -276,20 +274,15 @@ public static class Problem1
         //
     {
         int i;
-        const double pi = 3.141592653589793;
-        double value = 0;
-        double[] x;
-        double xcx;
-        double[] y;
 
-        x = new double[par_num];
+        double[] x = new double[par_num];
 
         for (i = 0; i < par_num; i++)
         {
             x[i] = zp[i] - c.mean[i];
         }
 
-        y = typeMethods.r8mat_utsol(par_num, c.factor, x);
+        double[] y = typeMethods.r8mat_utsol(par_num, c.factor, x);
         //
         //  Compute:
         //    (x-mu)' * inv(C)          * (x-mu)
@@ -297,11 +290,11 @@ public static class Problem1
         //  = (x-mu)' * inv(R) * inv(R) * (x-mu)
         //  = y' * y.
         //
-        xcx = typeMethods.r8vec_dot_product(par_num, y, y);
+        double xcx = typeMethods.r8vec_dot_product(par_num, y, y);
 
-        value = -0.5 * par_num * Math.Log(2.0 * pi)
-                - 0.5 * Math.Log(c.det)
-                - 0.5 * xcx;
+        double value = -0.5 * par_num * Math.Log(2.0 * Math.PI)
+                       - 0.5 * Math.Log(c.det)
+                       - 0.5 * xcx;
 
         return value;
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.MinpackNS;
 using Burkardt.SolveNS;
 using Burkardt.Types;
@@ -62,31 +63,16 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] err;
-        double[] fjac;
-        double[] fvec;
-        double[] fvecp;
-        int i;
         int ido;
-        int iflag;
-        int j;
-        int ldfjac;
-        int m;
-        int mode;
-        int n;
-        int seed;
-        double[] x;
-        double[] xp;
 
-        m = 5;
-        n = 5;
-        ldfjac = n;
-        err = new double[m];
-        fjac = new double[ldfjac * n];
-        fvec = new double[m];
-        fvecp = new double[m];
-        x = new double[n];
-        xp = new double[n];
+        const int m = 5;
+        const int n = 5;
+        double[] err = new double[m];
+        double[] fjac = new double[n * n];
+        double[] fvec = new double[m];
+        double[] fvecp = new double[m];
+        double[] x = new double[n];
+        double[] xp = new double[n];
 
         Console.WriteLine("");
         Console.WriteLine("CHKDER_TEST");
@@ -96,7 +82,7 @@ internal static class Program
 
         for (ido = 1; ido <= 2; ido++)
         {
-            seed = 123456789;
+            int seed = 123456789;
             switch (ido)
             {
                 case 1:
@@ -113,6 +99,7 @@ internal static class Program
             //
             //  Set the point at which the test is to be made:
             //
+            int i;
             for (i = 0; i < n; i++)
             {
                 x[i] = UniformRNG.r8_uniform_01(ref seed);
@@ -123,36 +110,36 @@ internal static class Program
             Console.WriteLine("");
             for (i = 0; i < n; i++)
             {
-                Console.WriteLine("  " + x[i].ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
-            mode = 1;
-            Minpack.chkder(m, n, x, fvec, fjac, ldfjac, xp, fvecp, mode, ref err);
+            int mode = 1;
+            Minpack.chkder(m, n, x, fvec, fjac, n, xp, fvecp, mode, ref err);
 
-            iflag = 1;
-            chkder_f(n, x, fvec, fjac, ldfjac, ref iflag);
-            chkder_f(n, xp, fvecp, fjac, ldfjac, ref iflag);
+            int iflag = 1;
+            chkder_f(n, x, fvec, fjac, n, ref iflag);
+            chkder_f(n, xp, fvecp, fjac, n, ref iflag);
 
             Console.WriteLine("");
             Console.WriteLine("  Sampled function values F(X) and F(XP)");
             Console.WriteLine("");
             for (i = 0; i < m; i++)
             {
-                Console.WriteLine("  " + i.ToString().PadLeft(8)
-                                       + "  " + fvec[i].ToString().PadLeft(14)
-                                       + "  " + fvecp[i].ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + fvec[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + fvecp[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
             iflag = 2;
-            chkder_f(n, x, fvec, fjac, ldfjac, ref iflag);
+            chkder_f(n, x, fvec, fjac, n, ref iflag);
             switch (ido)
             {
                 //
                 //  Here's where we put a mistake into the jacobian, on purpose.
                 //
                 case 2:
-                    fjac[0 + 0 * ldfjac] = 1.01 * fjac[0 + 0 * ldfjac];
-                    fjac[1 + 2 * ldfjac] = -fjac[1 + 2 * ldfjac];
+                    fjac[0 + 0 * n] = 1.01 * fjac[0 + 0 * n];
+                    fjac[1 + 2 * n] = -fjac[1 + 2 * n];
                     break;
             }
 
@@ -162,16 +149,17 @@ internal static class Program
             string cout = "";
             for (i = 0; i < m; i++)
             {
+                int j;
                 for (j = 0; j < n; j++)
                 {
-                    cout += "  " + fjac[i + j * ldfjac].ToString().PadLeft(12);
+                    cout += "  " + fjac[i + j * n].ToString(CultureInfo.InvariantCulture).PadLeft(12);
                 }
 
                 Console.WriteLine(cout);
             }
 
             mode = 2;
-            Minpack.chkder(m, n, x, fvec, fjac, ldfjac, xp, fvecp, mode, ref err);
+            Minpack.chkder(m, n, x, fvec, fjac, n, xp, fvecp, mode, ref err);
 
             Console.WriteLine("");
             Console.WriteLine("  CHKDER gradient component error estimates:");
@@ -180,8 +168,8 @@ internal static class Program
             Console.WriteLine("");
             for (i = 0; i < m; i++)
             {
-                Console.WriteLine("  " + i.ToString().PadLeft(8)
-                                       + "  " + err[i].ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + err[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
     }
@@ -226,9 +214,7 @@ internal static class Program
         //
     {
         int i;
-        int j;
         double x_prod;
-        double x_sum;
         switch (iflag)
         {
             //
@@ -236,7 +222,7 @@ internal static class Program
             //
             case 1:
             {
-                x_sum = 0.0;
+                double x_sum = 0.0;
                 x_prod = 1.0;
                 for (i = 0; i < n; i++)
                 {
@@ -257,6 +243,7 @@ internal static class Program
             //
             case 2:
             {
+                int j;
                 for (j = 0; j < n; j++)
                 {
                     for (i = 0; i < n - 1; i++)
@@ -321,19 +308,13 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] fvec;
-        int iflag;
-        int info;
-        int lwa;
-        int n = 2;
-        double tol = 0.00001;
-        double[] wa;
-        double[] x;
+        const int n = 2;
+        const double tol = 0.00001;
 
-        lwa = n * (3 * n + 13) / 2;
-        fvec = new double[n];
-        wa = new double[lwa];
-        x = new double[n];
+        const int lwa = n * (3 * n + 13) / 2;
+        double[] fvec = new double[n];
+        double[] wa = new double[lwa];
+        double[] x = new double[n];
 
         Console.WriteLine("");
         Console.WriteLine("HYBRD1_TEST");
@@ -342,14 +323,13 @@ internal static class Program
         x[0] = 3.0;
         x[1] = 0.0;
         typeMethods.r8vec_print(n, x, "  Initial X");
-        iflag = 1;
+        const int iflag = 1;
         fcnData res = hybrd1_f(n, x, fvec, iflag, 0, 0);
         fvec = res.fvec;
-        iflag = res.iflag;
 
         typeMethods.r8vec_print(n, fvec, "  F(X)");
 
-        info = Minpack.hybrd1(hybrd1_f, n, x, fvec, tol, wa, lwa);
+        int info = Minpack.hybrd1(hybrd1_f, n, x, fvec, tol, wa, lwa);
 
         Console.WriteLine("");
         Console.WriteLine("  Returned value of INFO = " + info + "");
@@ -408,22 +388,12 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] a;
-        double[] a2;
-        double[] acnorm;
         int i;
-        int[] ipivot;
         int j;
         int k;
-        int lda = 5;
-        int lipvt;
-        int m = 5;
-        int n = 7;
-        bool pivot;
-        double[] q;
-        double[] r;
-        double[] rdiag;
-        int seed;
+        const int lda = 5;
+        const int m = 5;
+        const int n = 7;
 
         Console.WriteLine("");
         Console.WriteLine("QFORM_TEST:");
@@ -432,9 +402,9 @@ internal static class Program
         //
         //  Set the matrix A.
         //
-        a = new double[m * n];
+        double[] a = new double[m * n];
 
-        seed = 123456789;
+        int seed = 123456789;
         for (j = 0; j < n; j++)
         {
             for (i = 0; i < m; i++)
@@ -447,17 +417,17 @@ internal static class Program
         //
         //  Compute the QR factors.
         //
-        pivot = false;
-        ipivot = new int[n];
-        lipvt = n;
-        rdiag = new double[n];
-        acnorm = new double[n];
+        const bool pivot = false;
+        int[] ipivot = new int[n];
+        int lipvt = n;
+        double[] rdiag = new double[n];
+        double[] acnorm = new double[n];
 
         QRSolve.qrfac(m, n, ref a, lda, pivot, ref ipivot, ref lipvt, ref rdiag, ref acnorm);
         //
         //  Extract the R factor.
         //
-        r = new double[m * n];
+        double[] r = new double[m * n];
         for (j = 0; j < n; j++)
         {
             for (i = 0; i < m; i++)
@@ -483,7 +453,7 @@ internal static class Program
         //
         //  Call QRFORM to form the Q factor.
         //
-        q = new double[m * m];
+        double[] q = new double[m * m];
         for (j = 0; j < m; j++)
         {
             for (i = 0; i < m; i++)
@@ -506,7 +476,7 @@ internal static class Program
         //
         //  Compute Q*R.
         //
-        a2 = typeMethods.r8mat_mm_new(m, m, n, q, r);
+        double[] a2 = typeMethods.r8mat_mm_new(m, m, n, q, r);
         //
         //  Compare Q*R to A.
         //

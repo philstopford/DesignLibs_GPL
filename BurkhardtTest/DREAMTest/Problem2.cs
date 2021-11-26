@@ -76,10 +76,9 @@ public static class Problem2
         //
     {
         int i;
-        double value = 0;
         Dream.DensityData data = new() { zp_mean_1d = 0.0, zp_sd_1d = Math.Sqrt(5.0) };
 
-        value = 1.0;
+        double value = 1.0;
         for (i = 0; i < par_num; i++)
         {
             value *= PDF.r8_normal_pdf(data.zp_mean_1d, data.zp_sd_1d, zp[i]);
@@ -122,7 +121,6 @@ public static class Problem2
         //
     {
         int i;
-        double[] zp;
 
         Dream.SampleData data = new()
         {
@@ -130,7 +128,7 @@ public static class Problem2
             zp_sd_1d = Math.Sqrt(5.0)
         };
             
-        zp = new double[par_num];
+        double[] zp = new double[par_num];
 
         for (i = 0; i < par_num; i++)
         {
@@ -185,24 +183,20 @@ public static class Problem2
         //    for the sample.
         //
     {
-        double b = 0.01;
+        const double b = 0.01;
         int i;
-        const double r8_pi = 3.141592653589793;
-        double value = 0;
-        double xcx;
-        double y2;
 
-        y2 = zp[1] + b * zp[0] * zp[0] - 100.0 * b;
+        double y2 = zp[1] + b * zp[0] * zp[0] - 100.0 * b;
 
-        xcx = zp[0] * zp[0] / 100.0 + y2 * y2;
+        double xcx = zp[0] * zp[0] / 100.0 + y2 * y2;
         for (i = 2; i < par_num; i++)
         {
             xcx += zp[i] * zp[i];
         }
 
-        value = -0.5 * par_num * Math.Log(2.0 * r8_pi)
-                - 0.5 * Math.Log(100.0)
-                - 0.5 * xcx;
+        double value = -0.5 * par_num * Math.Log(2.0 * Math.PI)
+                       - 0.5 * Math.Log(100.0)
+                       - 0.5 * xcx;
 
         return value;
     }

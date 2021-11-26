@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Function;
 using Burkardt.PolynomialNS;
 using Burkardt.RandomNS;
@@ -68,12 +69,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] coef;
         int i;
         int j;
-        int m = 10;
-        int n = 7;
-        int qs = 7;
+        const int m = 10;
+        const int n = 7;
+        const int qs = 7;
 
         Console.WriteLine("");
         Console.WriteLine("TEST005");
@@ -82,13 +82,13 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Here, QS = " + qs + "");
 
-        coef = Coefficients.binomial_table(qs, m, n);
+        int[] coef = Coefficients.binomial_table(qs, m, n);
 
         Console.WriteLine("");
         string cout = "   I/J";
         for (j = 0; j <= n; j++)
         {
-            cout += j.ToString().PadLeft(8);
+            cout += j.ToString(CultureInfo.InvariantCulture).PadLeft(8);
         }
 
         Console.WriteLine(cout);
@@ -96,10 +96,10 @@ internal static class Program
 
         for (i = 0; i <= m; i++)
         {
-            cout = "  " + i.ToString().PadLeft(2) + "  ";
+            cout = "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  ";
             for (j = 0; j <= n; j++)
             {
-                cout += coef[i + j * (m + 1)].ToString().PadLeft(8);
+                cout += coef[i + j * (m + 1)].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
 
             Console.WriteLine(cout);
@@ -127,7 +127,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int i4;
         int j4;
 
         Console.WriteLine("");
@@ -139,11 +138,12 @@ internal static class Program
 
         for (j4 = 2; j4 <= 5; j4++)
         {
+            int i4;
             for (i4 = 0; i4 <= 10; i4++)
             {
-                Console.WriteLine("  " + i4.ToString().PadLeft(8)
-                                       + "  " + j4.ToString().PadLeft(8)
-                                       + "  " + Math.Log(i4, j4).ToString().PadLeft(8) + "");
+                Console.WriteLine("  " + i4.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + j4.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + Math.Log(i4, j4).ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
             }
 
             Console.WriteLine("");
@@ -171,16 +171,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int DIM_MAX = 4;
+        const int DIM_MAX = 4;
 
-        int dim;
         int dim_num;
-        int i;
-        int qs;
         double[] r = new double[DIM_MAX];
-        int seed;
-        int seed_in;
-        int seed_out;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
@@ -193,8 +187,8 @@ internal static class Program
         for (dim_num = 2; dim_num <= DIM_MAX; dim_num++)
         {
 
-            seed = -1;
-            qs = Prime.prime_ge(dim_num);
+            int seed = -1;
+            int qs = Prime.prime_ge(dim_num);
 
             Console.WriteLine("");
             Console.WriteLine("  Using dimension DIM_NUM =   " + dim_num + "");
@@ -204,16 +198,18 @@ internal static class Program
             Console.WriteLine("  In    Out");
             Console.WriteLine("");
 
+            int i;
             for (i = 1; i <= 10; i++)
             {
-                seed_in = seed;
+                int seed_in = seed;
                 Faure.faure(ref data, dim_num, ref seed, ref r);
-                seed_out = seed;
-                string cout = seed_in.ToString().PadLeft(6) + "  "
-                                                            + seed_out.ToString().PadLeft(6) + "  ";
+                int seed_out = seed;
+                string cout = seed_in.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                            + seed_out.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
+                int dim;
                 for (dim = 0; dim < dim_num; dim++)
                 {
-                    cout += r[dim].ToString().PadLeft(10) + "  ";
+                    cout += r[dim].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  ";
                 }
 
                 Console.WriteLine(cout);
@@ -243,13 +239,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
         int dim;
         int i;
-        int qs;
         double[] r = new double[DIM_NUM];
-        int seed;
         int seed_in;
         int seed_out;
 
@@ -261,7 +255,7 @@ internal static class Program
         Console.WriteLine("  manipulated to skip ahead in the sequence, or");
         Console.WriteLine("  to come back to any part of the sequence.");
 
-        qs = Prime.prime_ge(DIM_NUM);
+        int qs = Prime.prime_ge(DIM_NUM);
 
         Console.WriteLine("");
         Console.WriteLine("  Using dimension DIM_NUM =   " + DIM_NUM + "");
@@ -272,7 +266,7 @@ internal static class Program
         Console.WriteLine("  SEED is negative, it is reset to a value that");
         Console.WriteLine("  is the recommended starting point:");
 
-        seed = -1;
+        int seed = -1;
         Console.WriteLine("");
         Console.WriteLine("  Seed  Seed   Faure");
         Console.WriteLine("  In    Out");
@@ -285,11 +279,11 @@ internal static class Program
             seed_in = seed;
             Faure.faure(ref data, DIM_NUM, ref seed, ref r);
             seed_out = seed;
-            string cout = seed_in.ToString().PadLeft(6) + "  "
-                                                        + seed_out.ToString().PadLeft(6) + "  ";
+            string cout = seed_in.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                        + seed_out.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
             for (dim = 0; dim < DIM_NUM; dim++)
             {
-                cout += r[dim].ToString().PadLeft(10) + "  ";
+                cout += r[dim].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  ";
             }
 
             Console.WriteLine(cout);
@@ -311,11 +305,11 @@ internal static class Program
             seed_in = seed;
             Faure.faure(ref data, DIM_NUM, ref seed, ref r);
             seed_out = seed;
-            string cout = seed_in.ToString().PadLeft(6) + "  "
-                                                        + seed_out.ToString().PadLeft(6) + "  ";
+            string cout = seed_in.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                        + seed_out.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
             for (dim = 0; dim < DIM_NUM; dim++)
             {
-                cout += r[dim].ToString().PadLeft(10) + "  ";
+                cout += r[dim].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  ";
             }
 
             Console.WriteLine(cout);
@@ -337,11 +331,11 @@ internal static class Program
             seed_in = seed;
             Faure.faure(ref data, DIM_NUM, ref seed, ref r);
             seed_out = seed;
-            string cout= seed_in.ToString().PadLeft(6) + "  "
-                                                       + seed_out.ToString().PadLeft(6) + "  ";
+            string cout= seed_in.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                       + seed_out.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
             for (dim = 0; dim < DIM_NUM; dim++)
             {
-                cout += r[dim].ToString().PadLeft(10) + "  ";
+                cout += r[dim].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  ";
             }
 
             Console.WriteLine(cout);
@@ -363,11 +357,11 @@ internal static class Program
             seed_in = seed;
             Faure.faure(ref data, DIM_NUM, ref seed, ref r);
             seed_out = seed;
-            string cout = seed_in.ToString().PadLeft(6) + "  "
-                                                        + seed_out.ToString().PadLeft(6) + "  ";
+            string cout = seed_in.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                        + seed_out.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
             for (dim = 0; dim < DIM_NUM; dim++)
             {
-                cout += r[dim].ToString().PadLeft(10) + "  ";
+                cout += r[dim].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  ";
             }
 
             Console.WriteLine(cout);
@@ -395,15 +389,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int dim;
-        int dim_base = 10;
+        const int dim_base = 10;
         int dim_num;
-        int i;
-        int qs;
-        double[] r;
-        int seed;
-        int seed_in;
-        int seed_out;
 
         Console.WriteLine("");
         Console.WriteLine("TEST03");
@@ -415,10 +402,10 @@ internal static class Program
             
         for (dim_num = dim_base; dim_num <= 6 * dim_base; dim_num += dim_base)
         {
-            r = new double[dim_num];
+            double[] r = new double[dim_num];
 
-            seed = -1;
-            qs = Prime.prime_ge(dim_num);
+            int seed = -1;
+            int qs = Prime.prime_ge(dim_num);
 
             Console.WriteLine("");
             Console.WriteLine("  Using dimension DIM_NUM =   " + dim_num + "");
@@ -428,17 +415,19 @@ internal static class Program
             Console.WriteLine("  In    Out");
             Console.WriteLine("");
 
+            int i;
             for (i = 1; i <= 2; i++)
             {
-                seed_in = seed;
+                int seed_in = seed;
                 Faure.faure(ref data, dim_num, ref seed, ref r);
-                seed_out = seed;
-                Console.WriteLine("  " + seed_in.ToString().PadLeft(8)
-                                       + "  " + seed_out.ToString().PadLeft(8) + "");
+                int seed_out = seed;
+                Console.WriteLine("  " + seed_in.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + seed_out.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
                 string cout = "                    ";
+                int dim;
                 for (dim = 0; dim < dim_num; dim++)
                 {
-                    cout += "  " + r[dim].ToString().PadLeft(10);
+                    cout += "  " + r[dim].ToString(CultureInfo.InvariantCulture).PadLeft(10);
                     if ((dim + 1) % 5 == 0 || dim + 1 == dim_num)
                     {
                         Console.WriteLine(cout);

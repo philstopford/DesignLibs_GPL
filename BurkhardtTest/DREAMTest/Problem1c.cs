@@ -18,7 +18,7 @@ public static partial class Problem1c
             gen_num = 10,
             pair_num = 3,
             //par_num = 100,
-            par_num = 5,
+            par_num = 5
         };
 
         c = new Covariance(ps.par_num);
@@ -76,16 +76,11 @@ public static partial class Problem1c
         //    Output, real PRIOR_DENSITY, the value of the prior density function.
         //
     {
-        double det;
-        double[] factor;
-        double[] mean;
-        double value = 0;
+        double[] mean = c.mean_get();
+        double[] factor = c.factor_get();
+        double det = c.det_get();
 
-        mean = c.mean_get();
-        factor = c.factor_get();
-        det = c.det_get();
-
-        value = PDF.r8vec_multinormal_pdf(par_num, mean, factor, det, zp, zpIndex);
+        double value = PDF.r8vec_multinormal_pdf(par_num, mean, factor, det, zp, zpIndex);
 
         return new Dream.DensityResult {result = value};
     }
@@ -118,23 +113,19 @@ public static partial class Problem1c
         //    Output, double PRIOR_SAMPLE[PAR_NUM], the sample from the distribution.
         //
     {
-        double[] factor;
         int i;
-        double[] mean;
-        double[] x;
-        double[] zp;
 
-        x = new double[par_num];
+        double[] x = new double[par_num];
 
         for (i = 0; i < par_num; i++)
         {
             x[i] = PDF.r8_normal_01_sample();
         }
 
-        factor = c.factor_get();
-        zp = typeMethods.r8mat_mtv_new(par_num, par_num, factor, x);
+        double[] factor = c.factor_get();
+        double[] zp = typeMethods.r8mat_mtv_new(par_num, par_num, factor, x);
 
-        mean = c.mean_get();
+        double[] mean = c.mean_get();
         for (i = 0; i < par_num; i++)
         {
             zp[i] += mean[i];
@@ -178,26 +169,18 @@ public static partial class Problem1c
         //    for the sample.
         //
     {
-        double det;
-        double[] factor;
         int i;
-        double[] mean;
-        const double pi = 3.141592653589793;
-        double value = 0;
-        double[] x;
-        double xcx;
-        double[] y;
 
-        mean = c.mean_get();
-        x = new double[par_num];
+        double[] mean = c.mean_get();
+        double[] x = new double[par_num];
 
         for (i = 0; i < par_num; i++)
         {
             x[i] = zp[i] - mean[i];
         }
 
-        factor = c.factor_get();
-        y = typeMethods.r8mat_utsol(par_num, factor, x);
+        double[] factor = c.factor_get();
+        double[] y = typeMethods.r8mat_utsol(par_num, factor, x);
         //
         //  Compute:
         //    (x-mu)' * inv(C)          * (x-mu)
@@ -205,12 +188,12 @@ public static partial class Problem1c
         //  = (x-mu)' * inv(R) * inv(R) * (x-mu)
         //  = y' * y.
         //
-        xcx = typeMethods.r8vec_dot_product(par_num, y, y);
+        double xcx = typeMethods.r8vec_dot_product(par_num, y, y);
 
-        det = c.det_get();
-        value = -0.5 * par_num * Math.Log(2.0 * pi)
-                - 0.5 * Math.Log(det)
-                - 0.5 * xcx;
+        double det = c.det_get();
+        double value = -0.5 * par_num * Math.Log(2.0 * Math.PI)
+                       - 0.5 * Math.Log(det)
+                       - 0.5 * xcx;
 
         return value;
     }

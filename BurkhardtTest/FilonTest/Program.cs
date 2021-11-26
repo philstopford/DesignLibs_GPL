@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.IntegralNS;
 
 namespace FilonTest;
@@ -63,26 +64,20 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
         double exact = 0;
         double[] ftab = new double[1];
         int i;
         int k;
-        int n;
-        const double r8_pi = 3.141592653589793;
-        double result;
         double t = 0;
-        double[] x;
 
-        a = 0.0;
-        b = 2.0 * r8_pi;
+        const double a = 0.0;
+        const double b = 2.0 * Math.PI;
 
-        n = 11;
+        int n = 11;
         //
         //  Set the X values.
         //
-        x = new double[n];
+        double[] x = new double[n];
         for (i = 0; i < n; i++)
         {
             x[i] = ((n - i - 1) * a
@@ -124,7 +119,7 @@ internal static class Program
                     _ => ftab
                 };
 
-                result = Filon.filon_tab_cos(n, ftab, a, b, t);
+                double result = Filon.filon_tab_cos(n, ftab, a, b, t);
 
                 exact = i switch
                 {
@@ -136,9 +131,9 @@ internal static class Program
                     _ => exact
                 };
 
-                Console.WriteLine(t.ToString().PadLeft(24) + "  "
-                                                           + result.ToString().PadLeft(24) + "  "
-                                                           + exact.ToString().PadLeft(24) + "");
+                Console.WriteLine(t.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "  "
+                                                           + result.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "  "
+                                                           + exact.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "");
             }
         }
     }
@@ -164,18 +159,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
-        double error;
-        double exact;
-        double[] ftab;
-        int i;
         int j;
-        int n;
-        const double r8_pi = 3.141592653589793;
-        double result;
-        double t;
-        double[] x;
         //
         //  Example suggested by James Roedder.
         //
@@ -188,16 +172,17 @@ internal static class Program
         Console.WriteLine("       N    Approximate             Exact                   Error");
         Console.WriteLine("");
 
-        a = 0.0;
-        b = 2.0 * r8_pi;
+        const double a = 0.0;
+        const double b = 2.0 * Math.PI;
 
         for (j = 1; j <= 6; j++)
         {
-            n = (int)Math.Pow(2, j) * 10 + 1;
+            int n = (int)Math.Pow(2, j) * 10 + 1;
             //
             //  Set the X values.
             //
-            x = new double[n];
+            double[] x = new double[n];
+            int i;
             for (i = 0; i < n; i++)
             {
                 x[i] = ((n - i - 1) * a
@@ -205,19 +190,19 @@ internal static class Program
                        / (n - 1);
             }
 
-            ftab = log_integrand(n, x);
+            double[] ftab = log_integrand(n, x);
 
-            t = 10.0;
+            double t = 10.0;
 
-            result = Filon.filon_tab_cos(n, ftab, a, b, t);
+            double result = Filon.filon_tab_cos(n, ftab, a, b, t);
 
-            exact = -0.008446594405;
-            error = result - exact;
+            double exact = -0.008446594405;
+            double error = result - exact;
 
-            Console.WriteLine(n.ToString().PadLeft(6) + "  "
-                                                      + result.ToString().PadLeft(24) + "  "
-                                                      + exact.ToString().PadLeft(24) + "  "
-                                                      + error.ToString().PadLeft(24) + "");
+            Console.WriteLine(n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                      + result.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "  "
+                                                      + exact.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "  "
+                                                      + error.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "");
 
         }
     }
@@ -243,15 +228,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
-        double error;
-        double exact;
         int j;
-        int n;
-        const double r8_pi = 3.141592653589793;
-        double result;
-        double t;
         //
         //  Example suggested by James Roedder.
         //
@@ -264,24 +241,24 @@ internal static class Program
         Console.WriteLine("       N    Approximate             Exact                   Error");
         Console.WriteLine("");
 
-        a = 0.0;
-        b = 2.0 * r8_pi;
+        double a = 0.0;
+        double b = 2.0 * Math.PI;
 
         for (j = 1; j <= 6; j++)
         {
-            n = (int)Math.Pow(2, j) * 10 + 1;
+            int n = (int)Math.Pow(2, j) * 10 + 1;
 
-            t = 10.0;
+            double t = 10.0;
 
-            result = Filon.filon_fun_cos(n, log_integrand, a, b, t);
+            double result = Filon.filon_fun_cos(n, log_integrand, a, b, t);
 
-            exact = -0.008446594405;
-            error = result - exact;
+            double exact = -0.008446594405;
+            double error = result - exact;
 
-            Console.WriteLine(n.ToString().PadLeft(6) + "  "
-                                                      + result.ToString().PadLeft(24) + "  "
-                                                      + exact.ToString().PadLeft(24) + "  "
-                                                      + error.ToString().PadLeft(24) + "");
+            Console.WriteLine(n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                      + result.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "  "
+                                                      + exact.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "  "
+                                                      + error.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "");
         }
     }
 
@@ -306,25 +283,19 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
         double exact = 0;
         double[] ftab = new double[1];
         int i;
         int k;
-        int n;
-        double r8_pi = 3.141592653589793;
-        double result;
         double t = 0;
-        double[] x;
 
-        a = 0.0;
-        b = 2.0 * r8_pi;
-        n = 11;
+        const double a = 0.0;
+        const double b = 2.0 * Math.PI;
+        const int n = 11;
         //
         //  Set the X values.
         //
-        x = new double[n];
+        double[] x = new double[n];
         for (i = 0; i < n; i++)
         {
             x[i] = ((n - i - 1) * a
@@ -367,7 +338,7 @@ internal static class Program
                     _ => ftab
                 };
 
-                result = Filon.filon_tab_sin(n, ftab, a, b, t);
+                double result = Filon.filon_tab_sin(n, ftab, a, b, t);
 
                 exact = i switch
                 {
@@ -379,13 +350,12 @@ internal static class Program
                     _ => exact
                 };
 
-                Console.WriteLine(t.ToString().PadLeft(24) + "  "
-                                                           + result.ToString().PadLeft(24) + "  "
-                                                           + exact.ToString().PadLeft(24) + "");
+                Console.WriteLine(t.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "  "
+                                                           + result.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "  "
+                                                           + exact.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "");
             }
         }
     }
-    //****************************************************************************80
 
     private static void test05()
 
@@ -408,18 +378,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
-        double error;
-        double exact;
-        double[] ftab;
-        int i;
         int j;
-        int n;
-        const double r8_pi = 3.141592653589793;
-        double result;
-        double t;
-        double[] x;
         //
         //  Example suggested by James Roedder.
         //
@@ -432,16 +391,17 @@ internal static class Program
         Console.WriteLine("       N    Approximate             Exact                   Error");
         Console.WriteLine("");
 
-        a = 0.0;
-        b = 2.0 * r8_pi;
+        const double a = 0.0;
+        const double b = 2.0 * Math.PI;
 
         for (j = 1; j <= 6; j++)
         {
-            n = (int)Math.Pow(2, j) * 10 + 1;
+            int n = (int)Math.Pow(2, j) * 10 + 1;
             //
             //  Set the X values.
             //
-            x = new double[n];
+            double[] x = new double[n];
+            int i;
             for (i = 0; i < n; i++)
             {
                 x[i] = ((n - i - 1) * a
@@ -449,19 +409,19 @@ internal static class Program
                        / (n - 1);
             }
 
-            ftab = log_integrand(n, x);
+            double[] ftab = log_integrand(n, x);
 
-            t = 10.0;
+            double t = 10.0;
 
-            result = Filon.filon_tab_sin(n, ftab, a, b, t);
+            double result = Filon.filon_tab_sin(n, ftab, a, b, t);
 
-            exact = -0.19762680771872;
-            error = result - exact;
+            double exact = -0.19762680771872;
+            double error = result - exact;
 
-            Console.WriteLine(n.ToString().PadLeft(6) + "  "
-                                                      + result.ToString().PadLeft(24) + "  "
-                                                      + exact.ToString().PadLeft(24) + "  "
-                                                      + error.ToString().PadLeft(24) + "");
+            Console.WriteLine(n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                      + result.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "  "
+                                                      + exact.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "  "
+                                                      + error.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "");
 
         }
     }
@@ -487,15 +447,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
-        double error;
-        double exact;
         int j;
-        int n;
-        const double r8_pi = 3.141592653589793;
-        double result;
-        double t;
         //
         //  Example suggested by James Roedder.
         //
@@ -508,24 +460,24 @@ internal static class Program
         Console.WriteLine("       N    Approximate             Exact                   Error");
         Console.WriteLine("");
 
-        a = 0.0;
-        b = 2.0 * r8_pi;
+        double a = 0.0;
+        double b = 2.0 * Math.PI;
 
         for (j = 1; j <= 6; j++)
         {
-            n = (int)Math.Pow(2, j) * 10 + 1;
+            int n = (int)Math.Pow(2, j) * 10 + 1;
 
-            t = 10.0;
+            double t = 10.0;
 
-            result = Filon.filon_fun_sin(n, log_integrand, a, b, t);
+            double result = Filon.filon_fun_sin(n, log_integrand, a, b, t);
 
-            exact = -0.19762680771872;
-            error = result - exact;
+            double exact = -0.19762680771872;
+            double error = result - exact;
 
-            Console.WriteLine(n.ToString().PadLeft(6) + "  "
-                                                      + result.ToString().PadLeft(24) + "  "
-                                                      + exact.ToString().PadLeft(24) + "  "
-                                                      + error.ToString().PadLeft(24) + "");
+            Console.WriteLine(n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                      + result.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "  "
+                                                      + exact.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "  "
+                                                      + error.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "");
         }
     }
 
@@ -558,10 +510,9 @@ internal static class Program
         //    Output, double ZERO_INTEGRAND[N], the function values.
         //
     {
-        double[] fx;
         int i;
 
-        fx = new double[n];
+        double[] fx = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -600,10 +551,9 @@ internal static class Program
         //    Output, double ONE_INTEGRAND[N], the function values.
         //
     {
-        double[] fx;
         int i;
 
-        fx = new double[n];
+        double[] fx = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -642,10 +592,9 @@ internal static class Program
         //    Output, double TWO_INTEGRAND[N], the function values.
         //
     {
-        double[] fx;
         int i;
 
-        fx = new double[n];
+        double[] fx = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -684,10 +633,9 @@ internal static class Program
         //    Output, double LOG_INTEGRAND[N], the function values.
         //
     {
-        double[] fx;
         int i;
 
-        fx = new double[n];
+        double[] fx = new double[n];
 
         for (i = 0; i < n; i++)
         {

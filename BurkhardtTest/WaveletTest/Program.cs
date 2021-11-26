@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.DaubechiesWavelet;
 using Burkardt.Types;
 using Burkardt.Uniform;
@@ -74,14 +75,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a_first;
-        double a_last;
         int i;
-        int n;
-        int seed;
-        double[] u;
-        double[] v;
-        double[] w;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
@@ -90,24 +84,24 @@ internal static class Program
         //
         //  Random data.
         //
-        n = 16;
-        seed = 123456789;
+        int n = 16;
+        int seed = 123456789;
 
-        u = UniformRNG.r8vec_uniform_01_new(n, ref seed);
+        double[] u = UniformRNG.r8vec_uniform_01_new(n, ref seed);
 
-        v = Daub2.daub2_transform(n, u);
+        double[] v = Daub2.daub2_transform(n, u);
 
-        w = Daub2.daub2_transform_inverse(n, v);
+        double[] w = Daub2.daub2_transform_inverse(n, v);
 
         Console.WriteLine("");
         Console.WriteLine("   i      U          D2(U)    D2inv(D2(U))");
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + u[i].ToString().PadLeft(10)
-                                   + "  " + v[i].ToString().PadLeft(10)
-                                   + "  " + w[i].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + v[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         //
@@ -129,18 +123,18 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + u[i].ToString().PadLeft(10)
-                                   + "  " + v[i].ToString().PadLeft(10)
-                                   + "  " + w[i].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + v[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         //
         //  Linear signal.
         //
         n = 16;
-        a_first = 1.0;
-        a_last = n;
+        double a_first = 1.0;
+        double a_last = n;
         u = typeMethods.r8vec_linspace_new(n, a_first, a_last);
 
         v = Daub2.daub2_transform(n, u);
@@ -152,10 +146,10 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + u[i].ToString().PadLeft(10)
-                                   + "  " + v[i].ToString().PadLeft(10)
-                                   + "  " + w[i].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + v[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         //
@@ -177,10 +171,10 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + u[i].ToString().PadLeft(10)
-                                   + "  " + v[i].ToString().PadLeft(10)
-                                   + "  " + w[i].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + v[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -205,14 +199,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a_first;
-        double a_last;
         int i;
-        int n;
-        int seed;
-        double[] u;
-        double[] v;
-        double[] w;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02");
@@ -221,24 +208,24 @@ internal static class Program
         //
         //  Random data.
         //
-        n = 16;
-        seed = 123456789;
+        int n = 16;
+        int seed = 123456789;
 
-        u = UniformRNG.r8vec_uniform_01_new(n, ref seed);
+        double[] u = UniformRNG.r8vec_uniform_01_new(n, ref seed);
 
-        v = Daub4.daub4_transform(n, u);
+        double[] v = Daub4.daub4_transform(n, u);
 
-        w = Daub4.daub4_transform_inverse(n, v);
+        double[] w = Daub4.daub4_transform_inverse(n, v);
 
         Console.WriteLine("");
         Console.WriteLine("   i      U          D4(U)    D4inv(D4(U))");
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + u[i].ToString().PadLeft(10)
-                                   + "  " + v[i].ToString().PadLeft(10)
-                                   + "  " + w[i].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + v[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         //
@@ -260,18 +247,18 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + u[i].ToString().PadLeft(10)
-                                   + "  " + v[i].ToString().PadLeft(10)
-                                   + "  " + w[i].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + v[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         //
         //  Linear signal.
         //
         n = 16;
-        a_first = 1.0;
-        a_last = n;
+        double a_first = 1.0;
+        double a_last = n;
         u = typeMethods.r8vec_linspace_new(n, a_first, a_last);
 
         v = Daub4.daub4_transform(n, u);
@@ -283,10 +270,10 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + u[i].ToString().PadLeft(10)
-                                   + "  " + v[i].ToString().PadLeft(10)
-                                   + "  " + w[i].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + v[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         //
@@ -308,10 +295,10 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + u[i].ToString().PadLeft(10)
-                                   + "  " + v[i].ToString().PadLeft(10)
-                                   + "  " + w[i].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + v[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -336,14 +323,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a_first;
-        double a_last;
         int i;
-        int n;
-        int seed;
-        double[] u;
-        double[] v;
-        double[] w;
 
         Console.WriteLine("");
         Console.WriteLine("TEST03");
@@ -352,24 +332,24 @@ internal static class Program
         //
         //  Random data.
         //
-        n = 16;
-        seed = 123456789;
+        int n = 16;
+        int seed = 123456789;
 
-        u = UniformRNG.r8vec_uniform_01_new(n, ref seed);
+        double[] u = UniformRNG.r8vec_uniform_01_new(n, ref seed);
 
-        v = Daub6.daub6_transform(n, u);
+        double[] v = Daub6.daub6_transform(n, u);
 
-        w = Daub6.daub6_transform_inverse(n, v);
+        double[] w = Daub6.daub6_transform_inverse(n, v);
 
         Console.WriteLine("");
         Console.WriteLine("   i      U          D6(U)    D6inv(D6(U))");
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + u[i].ToString().PadLeft(10)
-                                   + "  " + v[i].ToString().PadLeft(10)
-                                   + "  " + w[i].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + v[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         //
@@ -391,18 +371,18 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + u[i].ToString().PadLeft(10)
-                                   + "  " + v[i].ToString().PadLeft(10)
-                                   + "  " + w[i].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + v[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         //
         //  Linear signal.
         //
         n = 16;
-        a_first = 1.0;
-        a_last = n;
+        double a_first = 1.0;
+        double a_last = n;
         u = typeMethods.r8vec_linspace_new(n, a_first, a_last);
 
         v = Daub6.daub6_transform(n, u);
@@ -414,10 +394,10 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + u[i].ToString().PadLeft(10)
-                                   + "  " + v[i].ToString().PadLeft(10)
-                                   + "  " + w[i].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + v[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         //
@@ -439,10 +419,10 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + u[i].ToString().PadLeft(10)
-                                   + "  " + v[i].ToString().PadLeft(10)
-                                   + "  " + w[i].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + v[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -467,14 +447,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a_first;
-        double a_last;
         int i;
-        int n;
-        int seed;
-        double[] u;
-        double[] v;
-        double[] w;
 
         Console.WriteLine("");
         Console.WriteLine("TEST04");
@@ -483,24 +456,24 @@ internal static class Program
         //
         //  Random data.
         //
-        n = 16;
-        seed = 123456789;
+        int n = 16;
+        int seed = 123456789;
 
-        u = UniformRNG.r8vec_uniform_01_new(n, ref seed);
+        double[] u = UniformRNG.r8vec_uniform_01_new(n, ref seed);
 
-        v = Daub8.daub8_transform(n, u);
+        double[] v = Daub8.daub8_transform(n, u);
 
-        w = Daub8.daub8_transform_inverse(n, v);
+        double[] w = Daub8.daub8_transform_inverse(n, v);
 
         Console.WriteLine("");
         Console.WriteLine("   i      U          D8(U)    D8inv(D8(U))");
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + u[i].ToString().PadLeft(10)
-                                   + "  " + v[i].ToString().PadLeft(10)
-                                   + "  " + w[i].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + v[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         //
@@ -522,18 +495,18 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + u[i].ToString().PadLeft(10)
-                                   + "  " + v[i].ToString().PadLeft(10)
-                                   + "  " + w[i].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + v[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         //
         //  Linear signal.
         //
         n = 16;
-        a_first = 1.0;
-        a_last = n;
+        double a_first = 1.0;
+        double a_last = n;
         u = typeMethods.r8vec_linspace_new(n, a_first, a_last);
 
         v = Daub8.daub8_transform(n, u);
@@ -545,10 +518,10 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + u[i].ToString().PadLeft(10)
-                                   + "  " + v[i].ToString().PadLeft(10)
-                                   + "  " + w[i].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + v[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         //
@@ -570,10 +543,10 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + u[i].ToString().PadLeft(10)
-                                   + "  " + v[i].ToString().PadLeft(10)
-                                   + "  " + w[i].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + v[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -598,14 +571,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a_first;
-        double a_last;
         int i;
-        int n;
-        int seed;
-        double[] u;
-        double[] v;
-        double[] w;
 
         Console.WriteLine("");
         Console.WriteLine("TEST05");
@@ -614,24 +580,24 @@ internal static class Program
         //
         //  Random data.
         //
-        n = 16;
-        seed = 123456789;
+        int n = 16;
+        int seed = 123456789;
 
-        u = UniformRNG.r8vec_uniform_01_new(n, ref seed);
+        double[] u = UniformRNG.r8vec_uniform_01_new(n, ref seed);
 
-        v = Daub10.daub10_transform(n, u);
+        double[] v = Daub10.daub10_transform(n, u);
 
-        w = Daub10.daub10_transform_inverse(n, v);
+        double[] w = Daub10.daub10_transform_inverse(n, v);
 
         Console.WriteLine("");
         Console.WriteLine("   i      U          D10(U)    D10inv(D10(U))");
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + u[i].ToString().PadLeft(10)
-                                   + "  " + v[i].ToString().PadLeft(10)
-                                   + "  " + w[i].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + v[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         //
@@ -653,18 +619,18 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + u[i].ToString().PadLeft(10)
-                                   + "  " + v[i].ToString().PadLeft(10)
-                                   + "  " + w[i].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + v[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         //
         //  Linear signal.
         //
         n = 16;
-        a_first = 1.0;
-        a_last = n;
+        double a_first = 1.0;
+        double a_last = n;
         u = typeMethods.r8vec_linspace_new(n, a_first, a_last);
 
         v = Daub10.daub10_transform(n, u);
@@ -676,10 +642,10 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + u[i].ToString().PadLeft(10)
-                                   + "  " + v[i].ToString().PadLeft(10)
-                                   + "  " + w[i].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + v[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         //
@@ -701,10 +667,10 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + u[i].ToString().PadLeft(10)
-                                   + "  " + v[i].ToString().PadLeft(10)
-                                   + "  " + w[i].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + v[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -729,14 +695,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a_first;
-        double a_last;
         int i;
-        int n;
-        int seed;
-        double[] u;
-        double[] v;
-        double[] w;
 
         Console.WriteLine("");
         Console.WriteLine("TEST06");
@@ -745,24 +704,24 @@ internal static class Program
         //
         //  Random data.
         //
-        n = 16;
-        seed = 123456789;
+        int n = 16;
+        int seed = 123456789;
 
-        u = UniformRNG.r8vec_uniform_01_new(n, ref seed);
+        double[] u = UniformRNG.r8vec_uniform_01_new(n, ref seed);
 
-        v = Daub12.daub12_transform(n, u);
+        double[] v = Daub12.daub12_transform(n, u);
 
-        w = Daub12.daub12_transform_inverse(n, v);
+        double[] w = Daub12.daub12_transform_inverse(n, v);
 
         Console.WriteLine("");
         Console.WriteLine("   i      U          D12(U)    D12inv(D12(U))");
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + u[i].ToString().PadLeft(10)
-                                   + "  " + v[i].ToString().PadLeft(10)
-                                   + "  " + w[i].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + v[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         //
@@ -784,18 +743,18 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + u[i].ToString().PadLeft(10)
-                                   + "  " + v[i].ToString().PadLeft(10)
-                                   + "  " + w[i].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + v[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         //
         //  Linear signal.
         //
         n = 16;
-        a_first = 1.0;
-        a_last = n;
+        double a_first = 1.0;
+        double a_last = n;
         u = typeMethods.r8vec_linspace_new(n, a_first, a_last);
 
         v = Daub12.daub12_transform(n, u);
@@ -807,10 +766,10 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + u[i].ToString().PadLeft(10)
-                                   + "  " + v[i].ToString().PadLeft(10)
-                                   + "  " + w[i].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + v[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         //
@@ -832,10 +791,10 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + u[i].ToString().PadLeft(10)
-                                   + "  " + v[i].ToString().PadLeft(10)
-                                   + "  " + w[i].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + v[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -860,14 +819,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a_first;
-        double a_last;
         int i;
-        int n;
-        int seed;
-        double[] u;
-        double[] v;
-        double[] w;
 
         Console.WriteLine("");
         Console.WriteLine("TEST07");
@@ -876,24 +828,24 @@ internal static class Program
         //
         //  Random data.
         //
-        n = 16;
-        seed = 123456789;
+        int n = 16;
+        int seed = 123456789;
 
-        u = UniformRNG.r8vec_uniform_01_new(n, ref seed);
+        double[] u = UniformRNG.r8vec_uniform_01_new(n, ref seed);
 
-        v = Daub14.daub14_transform(n, u);
+        double[] v = Daub14.daub14_transform(n, u);
 
-        w = Daub14.daub14_transform_inverse(n, v);
+        double[] w = Daub14.daub14_transform_inverse(n, v);
 
         Console.WriteLine("");
         Console.WriteLine("   i      U          D14(U)    D14inv(D14(U))");
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + u[i].ToString().PadLeft(10)
-                                   + "  " + v[i].ToString().PadLeft(10)
-                                   + "  " + w[i].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + v[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         //
@@ -915,18 +867,18 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + u[i].ToString().PadLeft(10)
-                                   + "  " + v[i].ToString().PadLeft(10)
-                                   + "  " + w[i].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + v[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         //
         //  Linear signal.
         //
         n = 16;
-        a_first = 1.0;
-        a_last = n;
+        double a_first = 1.0;
+        double a_last = n;
         u = typeMethods.r8vec_linspace_new(n, a_first, a_last);
 
         v = Daub14.daub14_transform(n, u);
@@ -938,10 +890,10 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + u[i].ToString().PadLeft(10)
-                                   + "  " + v[i].ToString().PadLeft(10)
-                                   + "  " + w[i].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + v[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         //
@@ -963,10 +915,10 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + u[i].ToString().PadLeft(10)
-                                   + "  " + v[i].ToString().PadLeft(10)
-                                   + "  " + w[i].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + v[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -991,14 +943,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a_first;
-        double a_last;
         int i;
-        int n;
-        int seed;
-        double[] u;
-        double[] v;
-        double[] w;
 
         Console.WriteLine("");
         Console.WriteLine("TEST08");
@@ -1007,24 +952,24 @@ internal static class Program
         //
         //  Random data.
         //
-        n = 16;
-        seed = 123456789;
+        int n = 16;
+        int seed = 123456789;
 
-        u = UniformRNG.r8vec_uniform_01_new(n, ref seed);
+        double[] u = UniformRNG.r8vec_uniform_01_new(n, ref seed);
 
-        v = Daub16.daub16_transform(n, u);
+        double[] v = Daub16.daub16_transform(n, u);
 
-        w = Daub16.daub16_transform_inverse(n, v);
+        double[] w = Daub16.daub16_transform_inverse(n, v);
 
         Console.WriteLine("");
         Console.WriteLine("   i      U          D16(U)    D16inv(D16(U))");
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + u[i].ToString().PadLeft(10)
-                                   + "  " + v[i].ToString().PadLeft(10)
-                                   + "  " + w[i].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + v[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         //
@@ -1046,18 +991,18 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + u[i].ToString().PadLeft(10)
-                                   + "  " + v[i].ToString().PadLeft(10)
-                                   + "  " + w[i].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + v[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         //
         //  Linear signal.
         //
         n = 16;
-        a_first = 1.0;
-        a_last = n;
+        double a_first = 1.0;
+        double a_last = n;
         u = typeMethods.r8vec_linspace_new(n, a_first, a_last);
 
         v = Daub16.daub16_transform(n, u);
@@ -1069,10 +1014,10 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + u[i].ToString().PadLeft(10)
-                                   + "  " + v[i].ToString().PadLeft(10)
-                                   + "  " + w[i].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + v[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         //
@@ -1094,10 +1039,10 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + u[i].ToString().PadLeft(10)
-                                   + "  " + v[i].ToString().PadLeft(10)
-                                   + "  " + w[i].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + v[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -1122,14 +1067,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a_first;
-        double a_last;
         int i;
-        int n;
-        int seed;
-        double[] u;
-        double[] v;
-        double[] w;
 
         Console.WriteLine("");
         Console.WriteLine("TEST09");
@@ -1138,24 +1076,24 @@ internal static class Program
         //
         //  Random data.
         //
-        n = 16;
-        seed = 123456789;
+        int n = 16;
+        int seed = 123456789;
 
-        u = UniformRNG.r8vec_uniform_01_new(n, ref seed);
+        double[] u = UniformRNG.r8vec_uniform_01_new(n, ref seed);
 
-        v = Daub18.daub18_transform(n, u);
+        double[] v = Daub18.daub18_transform(n, u);
 
-        w = Daub18.daub18_transform_inverse(n, v);
+        double[] w = Daub18.daub18_transform_inverse(n, v);
 
         Console.WriteLine("");
         Console.WriteLine("   i      U          D18(U)    D18inv(D18(U))");
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + u[i].ToString().PadLeft(10)
-                                   + "  " + v[i].ToString().PadLeft(10)
-                                   + "  " + w[i].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + v[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         //
@@ -1177,18 +1115,18 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + u[i].ToString().PadLeft(10)
-                                   + "  " + v[i].ToString().PadLeft(10)
-                                   + "  " + w[i].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + v[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         //
         //  Linear signal.
         //
         n = 16;
-        a_first = 1.0;
-        a_last = n;
+        double a_first = 1.0;
+        double a_last = n;
         u = typeMethods.r8vec_linspace_new(n, a_first, a_last);
 
         v = Daub18.daub18_transform(n, u);
@@ -1200,10 +1138,10 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + u[i].ToString().PadLeft(10)
-                                   + "  " + v[i].ToString().PadLeft(10)
-                                   + "  " + w[i].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + v[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         //
@@ -1225,10 +1163,10 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + u[i].ToString().PadLeft(10)
-                                   + "  " + v[i].ToString().PadLeft(10)
-                                   + "  " + w[i].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + v[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -1253,14 +1191,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a_first;
-        double a_last;
         int i;
-        int n;
-        int seed;
-        double[] u;
-        double[] v;
-        double[] w;
 
         Console.WriteLine("");
         Console.WriteLine("TEST10");
@@ -1269,24 +1200,24 @@ internal static class Program
         //
         //  Random data.
         //
-        n = 16;
-        seed = 123456789;
+        int n = 16;
+        int seed = 123456789;
 
-        u = UniformRNG.r8vec_uniform_01_new(n, ref seed);
+        double[] u = UniformRNG.r8vec_uniform_01_new(n, ref seed);
 
-        v = Daub20.daub20_transform(n, u);
+        double[] v = Daub20.daub20_transform(n, u);
 
-        w = Daub20.daub20_transform_inverse(n, v);
+        double[] w = Daub20.daub20_transform_inverse(n, v);
 
         Console.WriteLine("");
         Console.WriteLine("   i      U          D20(U)    D20inv(D20(U))");
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + u[i].ToString().PadLeft(10)
-                                   + "  " + v[i].ToString().PadLeft(10)
-                                   + "  " + w[i].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + v[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         //
@@ -1308,18 +1239,18 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + u[i].ToString().PadLeft(10)
-                                   + "  " + v[i].ToString().PadLeft(10)
-                                   + "  " + w[i].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + v[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         //
         //  Linear signal.
         //
         n = 16;
-        a_first = 1.0;
-        a_last = n;
+        double a_first = 1.0;
+        double a_last = n;
         u = typeMethods.r8vec_linspace_new(n, a_first, a_last);
 
         v = Daub20.daub20_transform(n, u);
@@ -1331,10 +1262,10 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + u[i].ToString().PadLeft(10)
-                                   + "  " + v[i].ToString().PadLeft(10)
-                                   + "  " + w[i].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + v[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         //
@@ -1356,10 +1287,10 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + u[i].ToString().PadLeft(10)
-                                   + "  " + v[i].ToString().PadLeft(10)
-                                   + "  " + w[i].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + v[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 }

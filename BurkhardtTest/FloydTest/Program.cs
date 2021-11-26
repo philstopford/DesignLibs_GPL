@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.MinDist;
 using Burkardt.Types;
 
@@ -67,7 +68,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 6;
+        const int N = 6;
 
         int[] a =  {
                 0, -1, -1, -1, -1, -1,
@@ -78,10 +79,8 @@ internal static class Program
                 -1, 8, -1, -1, 3, 0
             }
             ;
-        int huge;
         int i;
         int j;
-        int n = N;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
@@ -97,31 +96,31 @@ internal static class Program
         Console.WriteLine("  node I to node J.  In that case, the value of");
         Console.WriteLine("  of A(I,J) is essentially \"infinity\".");
 
-        typeMethods.i4mat_print(n, n, a, "  Initial direct distance array:");
+        typeMethods.i4mat_print(N, N, a, "  Initial direct distance array:");
 
-        huge = typeMethods.i4_huge() / 2;
+        int huge = typeMethods.i4_huge() / 2;
 
-        for (j = 0; j < n; j++)
+        for (j = 0; j < N; j++)
         {
-            for (i = 0; i < n; i++)
+            for (i = 0; i < N; i++)
             {
-                a[i + j * n] = a[i + j * n] switch
+                a[i + j * N] = a[i + j * N] switch
                 {
                     -1 => huge,
-                    _ => a[i + j * n]
+                    _ => a[i + j * N]
                 };
             }
         }
 
-        Floyd.i4mat_floyd(n, ref a);
+        Floyd.i4mat_floyd(N, ref a);
 
-        for (j = 0; j < n; j++)
+        for (j = 0; j < N; j++)
         {
-            for (i = 0; i < n; i++)
+            for (i = 0; i < N; i++)
             {
-                if (a[i + j * n] == huge)
+                if (a[i + j * N] == huge)
                 {
-                    a[i + j * n] = -1;
+                    a[i + j * N] = -1;
                 }
             }
         }
@@ -132,7 +131,7 @@ internal static class Program
         Console.WriteLine("  this indicates there is NO directed path from");
         Console.WriteLine("  node I to node J.");
 
-        typeMethods.i4mat_print(n, n, a, "  Final shortest distance array:");
+        typeMethods.i4mat_print(N, N, a, "  Final shortest distance array:");
     }
 
     private static void test02()
@@ -167,10 +166,8 @@ internal static class Program
                 -1.0, 8.0, -1.0, -1.0, 3.0, 0.0
             }
             ;
-        double huge;
         int i;
         int j;
-        int n = N;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02");
@@ -186,31 +183,31 @@ internal static class Program
         Console.WriteLine("  node I to node J.  In that case, the value of");
         Console.WriteLine("  of A(I,J) is essentially \"infinity\".");
 
-        typeMethods.r8mat_print(n, n, a, "  Initial direct distance array:");
+        typeMethods.r8mat_print(N, N, a, "  Initial direct distance array:");
 
-        huge = typeMethods.r8_huge();
+        double huge = typeMethods.r8_huge();
 
-        for (j = 0; j < n; j++)
+        for (j = 0; j < N; j++)
         {
-            for (i = 0; i < n; i++)
+            for (i = 0; i < N; i++)
             {
-                a[i + j * n] = a[i + j * n] switch
+                a[i + j * N] = a[i + j * N] switch
                 {
                     -1.0 => huge,
-                    _ => a[i + j * n]
+                    _ => a[i + j * N]
                 };
             }
         }
 
-        Floyd.r8mat_floyd(n, ref a);
+        Floyd.r8mat_floyd(N, ref a);
 
-        for (j = 0; j < n; j++)
+        for (j = 0; j < N; j++)
         {
-            for (i = 0; i < n; i++)
+            for (i = 0; i < N; i++)
             {
-                if (a[i + j * n] == huge)
+                if (Math.Abs(a[i + j * N] - huge) <= double.Epsilon)
                 {
-                    a[i + j * n] = -1.0;
+                    a[i + j * N] = -1.0;
                 }
             }
         }
@@ -221,7 +218,7 @@ internal static class Program
         Console.WriteLine("  this indicates there is NO directed path from");
         Console.WriteLine("  node I to node J.");
 
-        typeMethods.r8mat_print(n, n, a, "  Final shortest distance array:");
+        typeMethods.r8mat_print(N, N, a, "  Final shortest distance array:");
     }
 
     private static void test03()
@@ -245,9 +242,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int n;
-        double wtime;
-
         Console.WriteLine("");
         Console.WriteLine("TEST03");
         Console.WriteLine("  Test I4MAT_FLOYD on the MOD(I,J) matrix.");
@@ -256,14 +250,14 @@ internal static class Program
         Console.WriteLine("         N   Time (seconds)  Time/N^3");
         Console.WriteLine("");
 
-        n = 1;
+        int n = 1;
         while (n <= 2048)
         {
-            wtime = test03_sub(n);
-            Console.WriteLine("  " + n.ToString().PadLeft(6)
-                                   + "  " + wtime.ToString().PadLeft(14)
+            double wtime = test03_sub(n);
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + wtime.ToString(CultureInfo.InvariantCulture).PadLeft(14)
                                    + "  " + (1000000.0 * wtime / n
-                                                               / n / n).ToString().PadLeft(14)
+                                                               / n / n).ToString(CultureInfo.InvariantCulture).PadLeft(14)
                                    + "");
             n *= 2;
         }
@@ -315,20 +309,15 @@ internal static class Program
         //    Output, double TEST03, the CPU time required by I4MAT_FLOYD.
         //
     {
-        int[] a;
-        int huge;
-        int i;
         int j;
-        DateTime time1;
-        DateTime time2;
-        double wtime;
 
-        a = new int[n * n];
+        int[] a = new int[n * n];
 
-        huge = typeMethods.i4_huge() / 2;
+        int huge = typeMethods.i4_huge() / 2;
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < n; i++)
             {
                 a[i + j * n] = ((i + 1) % (j + 1)) switch
@@ -339,13 +328,13 @@ internal static class Program
             }
         }
 
-        time1 = DateTime.Now;
+        DateTime time1 = DateTime.Now;
 
         Floyd.i4mat_floyd(n, ref a);
 
-        time2 = DateTime.Now;
+        DateTime time2 = DateTime.Now;
 
-        wtime = (time2 - time1).TotalSeconds;
+        double wtime = (time2 - time1).TotalSeconds;
 
         return wtime;
     }
@@ -445,12 +434,8 @@ internal static class Program
                 40, 48, 47
             }
             ;
-        int element_num = ELEMENT_NUM;
         int i;
         int j;
-        int n1;
-        int n2;
-        int node_num = NODE_NUM;
         double[] xy =  {
                 1.0, 1.0,
                 2.0, 1.0,
@@ -510,34 +495,34 @@ internal static class Program
         //
         //  Must initialize distances to -1
         //
-        for (j = 0; j < node_num; j++)
+        for (j = 0; j < NODE_NUM; j++)
         {
-            for (i = 0; i < node_num; i++)
+            for (i = 0; i < NODE_NUM; i++)
             {
-                d[i + j * node_num] = -1.0;
+                d[i + j * NODE_NUM] = -1.0;
             }
         }
 
         //
         //  Diagonals are 0.
         //
-        for (i = 0; i < node_num; i++)
+        for (i = 0; i < NODE_NUM; i++)
         {
-            d[i + i * node_num] = 0.0;
+            d[i + i * NODE_NUM] = 0.0;
         }
 
         //
         //  Initialize D to the one-step distance.
         //
-        for (element = 0; element < element_num; element++)
+        for (element = 0; element < ELEMENT_NUM; element++)
         {
-            n1 = element_node[2 + element * 3] - 1;
+            int n1 = element_node[2 + element * 3] - 1;
             for (i = 0; i < 3; i++)
             {
-                n2 = element_node[i + element * 3] - 1;
-                d[n1 + n2 * node_num] = Math.Sqrt(Math.Pow(xy[0 + n1 * 2] - xy[0 + n2 * 2], 2)
+                int n2 = element_node[i + element * 3] - 1;
+                d[n1 + n2 * NODE_NUM] = Math.Sqrt(Math.Pow(xy[0 + n1 * 2] - xy[0 + n2 * 2], 2)
                                                   + Math.Pow(xy[1 + n1 * 2] - xy[1 + n2 * 2], 2));
-                d[n2 + n1 * node_num] = d[n1 + n2 * node_num];
+                d[n2 + n1 * NODE_NUM] = d[n1 + n2 * NODE_NUM];
                 n1 = n2;
             }
         }
@@ -545,14 +530,14 @@ internal static class Program
         //
         //  Reset -1 values to R8_HUGE.
         //
-        for (j = 0; j < node_num; j++)
+        for (j = 0; j < NODE_NUM; j++)
         {
-            for (i = 0; i < node_num; i++)
+            for (i = 0; i < NODE_NUM; i++)
             {
-                d[i + j * node_num] = d[i + j * node_num] switch
+                d[i + j * NODE_NUM] = d[i + j * NODE_NUM] switch
                 {
                     -1.0 => typeMethods.r8_huge(),
-                    _ => d[i + j * node_num]
+                    _ => d[i + j * NODE_NUM]
                 };
             }
         }
@@ -560,8 +545,8 @@ internal static class Program
         //
         //  Update D to the N-1 step distance.
         //
-        Floyd.r8mat_floyd(node_num, ref d);
+        Floyd.r8mat_floyd(NODE_NUM, ref d);
 
-        typeMethods.r8mat_print(node_num, node_num, d, "  Distance matrix");
+        typeMethods.r8mat_print(NODE_NUM, NODE_NUM, d, "  Distance matrix");
     }
 }

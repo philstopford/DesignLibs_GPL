@@ -128,9 +128,8 @@ public static class Problem0
             }
             ;
         int i;
-        double[] zp;
 
-        zp = new double[par_num];
+        double[] zp = new double[par_num];
 
         for (i = 0; i < par_num; i++)
         {
@@ -176,35 +175,24 @@ public static class Problem0
         //
     {
         int i;
-        const double pi = 3.141592653589793;
-        double t1;
-        double t2;
-        double value = 0;
 
-        t1 = 0.0;
+        double t1 = 0.0;
         for (i = 0; i < par_num; i++)
         {
             t1 += Math.Pow(zp[i] + 5.0, 2);
         }
 
-        t1 = Math.Log(1.0 / 3.0 / (2.0 * pi)) - 0.5 * t1;
+        t1 = Math.Log(1.0 / 3.0 / (2.0 * Math.PI)) - 0.5 * t1;
 
-        t2 = 0.0;
+        double t2 = 0.0;
         for (i = 0; i < par_num; i++)
         {
             t2 += Math.Pow(zp[i] - 5.0, 2);
         }
 
-        t2 = Math.Log(2.0 / 3.0 / (2.0 * pi)) - 0.5 * t2;
+        t2 = Math.Log(2.0 / 3.0 / (2.0 * Math.PI)) - 0.5 * t2;
 
-        if (t1 < t2)
-        {
-            value = t2;
-        }
-        else
-        {
-            value = t1;
-        }
+        double value = t1 < t2 ? t2 : t1;
 
         return value;
     }        

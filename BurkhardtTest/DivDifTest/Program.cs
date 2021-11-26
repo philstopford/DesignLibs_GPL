@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.MatrixNS;
 using Burkardt.PolynomialNS;
 using Burkardt.Quadrature;
@@ -84,21 +85,17 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int MAXTAB = 10;
+        const int MAXTAB = 10;
 
         double[] diftab = new double[MAXTAB];
         double[] diftab2 = new double[MAXTAB];
         double[] diftab3 = new double[MAXTAB];
         int i;
-        int ntab;
-        int ntab2;
         int ntab3 = 0;
         double[] xtab = new double[MAXTAB];
         double[] xtab2 = new double[MAXTAB];
         double[] xtab3 = new double[MAXTAB];
-        double xval;
         double[] ytab = new double[MAXTAB];
-        double yval;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
@@ -113,7 +110,7 @@ internal static class Program
         //
         //  Set XTAB, YTAB to X, X^2.
         //
-        ntab = 4;
+        int ntab = 4;
 
         for (i = 0; i < ntab; i++)
         {
@@ -131,8 +128,8 @@ internal static class Program
         Console.WriteLine("  DIF_APPEND can add the data (5,25) to the table.");
         Console.WriteLine("");
 
-        xval = 5.0;
-        yval = 25.0;
+        double xval = 5.0;
+        double yval = 25.0;
 
         Dif.dif_append(ntab, xtab, diftab, xval, yval, ref ntab, ref xtab, ref diftab);
 
@@ -161,7 +158,7 @@ internal static class Program
         //
         //  Compute a table for the derivative.
         //
-        ntab2 = ntab - 1;
+        int ntab2 = ntab - 1;
         Dif.dif_deriv_table(ntab, xtab, diftab, ref xtab2, diftab2);
 
         Dif.dif_print(ntab2, xtab2, diftab2,
@@ -213,17 +210,13 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int MAXTAB = 8;
+        const int MAXTAB = 8;
 
         double[] diftab = new double[MAXTAB];
-        double error;
         int j;
         int ntab;
-        double true_value;
         double[] xtab = new double[MAXTAB];
-        double xval;
         double[] ytab = new double[MAXTAB];
-        double yval;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02");
@@ -240,12 +233,12 @@ internal static class Program
             ytab[j] = Math.Exp(xtab[j]);
 
             Console.WriteLine("  "
-                              + xtab[j].ToString().PadLeft(10) + "  "
-                              + ytab[j].ToString().PadLeft(10) + "");
+                              + xtab[j].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                              + ytab[j].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
-        xval = 2.5;
-        true_value = Math.Exp(xval);
+        const double xval = 2.5;
+        double true_value = Math.Exp(xval);
         Console.WriteLine("");
         Console.WriteLine("  Evaluate at X = " + xval + " where EXP(X) = "
                           + true_value + "");
@@ -264,14 +257,14 @@ internal static class Program
 
             Data.data_to_dif(ntab, xtab, ytab, ref diftab);
 
-            yval = Dif.dif_val(ntab, xtab, diftab, xval);
+            double yval = Dif.dif_val(ntab, xtab, diftab, xval);
 
-            error = yval - true_value;
+            double error = yval - true_value;
 
             Console.WriteLine("  "
-                              + ntab.ToString().PadLeft(6) + "  "
-                              + yval.ToString().PadLeft(10) + "  "
-                              + error.ToString().PadLeft(10) + "");
+                              + ntab.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + yval.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                              + error.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
         }
     }
@@ -297,20 +290,14 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int NTAB = 5;
+        const int NTAB = 5;
 
-        double[] diftab;
         int i;
         int j;
-        int nstep = 9;
-        double[] pointer;
+        const int nstep = 9;
         int pointerIndex = 0;
-        int set = 3;
-        double xhi;
-        double xlo;
+        const int set = 3;
         double[] xtab = new double[NTAB];
-        double xval;
-        double yval;
 
         Console.WriteLine("");
         Console.WriteLine("Dif.dif_basis_test");
@@ -326,7 +313,7 @@ internal static class Program
         //
         //  Get the difference tables for the basis polynomials and print them.
         //
-        diftab = new double[NTAB * NTAB];
+        double[] diftab = new double[NTAB * NTAB];
 
         Dif.dif_basis(NTAB, xtab, ref diftab);
 
@@ -335,15 +322,14 @@ internal static class Program
         Console.WriteLine("  Each ROW represents a polynomial.");
         Console.WriteLine("");
 
-        pointer = diftab;
-            
-        string cout = "";
+        double[] pointer = diftab;
+
         for (i = 0; i < NTAB; i++)
         {
-            cout = "  ";
+            string cout = "  ";
             for (j = 0; j < NTAB; j++)
             {
-                cout += pointerIndex.ToString().PadLeft(10) + "  ";
+                cout += pointerIndex.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  ";
                 pointerIndex++;
             }
 
@@ -359,8 +345,8 @@ internal static class Program
         Console.WriteLine("      X        Y");
         Console.WriteLine("");
 
-        xhi = NTAB;
-        xlo = 1.0;
+        const double xhi = NTAB;
+        const double xlo = 1.0;
         //
         //  Advance pointer to beginning of data for basis polynomial SET.
         //
@@ -377,15 +363,15 @@ internal static class Program
         for (i = 1; i <= nstep; i++)
         {
 
-            xval = ((nstep - i) * xlo
-                    + (i - 1) * xhi)
-                   / (nstep - 1);
+            double xval = ((nstep - i) * xlo
+                           + (i - 1) * xhi)
+                          / (nstep - 1);
 
-            yval = Dif.dif_val(NTAB, xtab, pointer, xval, diftabIndex:pointerIndex);
+            double yval = Dif.dif_val(NTAB, xtab, pointer, xval, diftabIndex:pointerIndex);
 
             Console.WriteLine("  "
-                              + xval.ToString().PadLeft(10) + "  "
-                              + yval.ToString().PadLeft(10) + "");
+                              + xval.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                              + yval.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
         }
     }
@@ -411,14 +397,12 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int MAXTAB = 10;
+        const int MAXTAB = 10;
 
         double[] c = new double[MAXTAB];
         double[] diftab1 = new double[MAXTAB];
         double[] diftab2 = new double[MAXTAB];
         int i;
-        int ntab;
-        double x;
         double[] xtab1 = new double[MAXTAB];
         double[] xtab2 = new double[MAXTAB];
         double[] ytab1 = new double[MAXTAB];
@@ -434,10 +418,10 @@ internal static class Program
         //
         //  Set XTAB, YTAB to X, F(X)
         //
-        ntab = 4;
+        const int ntab = 4;
         for (i = 0; i < ntab; i++)
         {
-            x = i + 1;
+            double x = i + 1;
             xtab1[i] = x;
             xtab2[i] = x;
             ytab1[i] = -4.0 + x * (3.0 + x * (-2.0 + x));
@@ -489,16 +473,12 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 5;
+        const int N = 5;
 
         int i;
         double[] poly_cof = new double[N];
         double[] poly_cof2 = new double[N + 1];
         double[] poly_cof3 = new double[N - 1];
-        double xval;
-        double yval;
-        double yval2;
-        double yval3;
 
         Console.WriteLine("");
         Console.WriteLine("TEST06");
@@ -539,20 +519,20 @@ internal static class Program
         for (i = 0; i <= 2; i++)
         {
 
-            xval = i;
+            double xval = i;
 
 
-            yval = typeMethods.r8poly_val_horner(N, poly_cof, xval);
+            double yval = typeMethods.r8poly_val_horner(N, poly_cof, xval);
 
-            yval2 = typeMethods.r8poly_ant_val(N, poly_cof, xval);
+            double yval2 = typeMethods.r8poly_ant_val(N, poly_cof, xval);
 
-            yval3 = typeMethods.r8poly_der_val(N, poly_cof, xval);
+            double yval3 = typeMethods.r8poly_der_val(N, poly_cof, xval);
 
             Console.WriteLine("  "
-                              + xval.ToString().PadLeft(10) + "  "
-                              + yval.ToString().PadLeft(10) + "  "
-                              + yval2.ToString().PadLeft(10) + "  "
-                              + yval3.ToString().PadLeft(10) + "");
+                              + xval.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                              + yval.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                              + yval2.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                              + yval3.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
         }
     }
@@ -578,20 +558,14 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int NTAB = 5;
+        const int NTAB = 5;
 
         int i;
         int j;
-        int nstep = 9;
-        double[] pointer;
+        const int nstep = 9;
         int pointerIndex = 0;
-        double[] polcof;
-        int set = 3;
-        double xhi;
-        double xlo;
+        const int set = 3;
         double[] xtab = new double[NTAB];
-        double xval;
-        double yval;
 
         Console.WriteLine("");
         Console.WriteLine("typeMethods.r8poly_basis_test");
@@ -599,7 +573,7 @@ internal static class Program
         Console.WriteLine("  in standard form.");
         Console.WriteLine("");
 
-        polcof = new double[NTAB * NTAB];
+        double[] polcof = new double[NTAB * NTAB];
         //
         //  Set the base points.
         //
@@ -614,15 +588,13 @@ internal static class Program
         Console.WriteLine("  Each ROW represents a polynomial.");
         Console.WriteLine("");
 
-        pointer = polcof;
-            
         string cout = "";
 
         for (i = 0; i < NTAB; i++)
         {
             for (j = 0; j < NTAB; j++)
             {
-                cout += pointerIndex.ToString().PadLeft(10) + "  ";
+                cout += pointerIndex.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  ";
                 pointerIndex++;
             }
 
@@ -632,7 +604,7 @@ internal static class Program
         //
         //  Advance the pointer to the beginning of the data for basis polynomial SET.
         //
-        pointer = polcof;
+        double[] pointer = polcof;
         pointerIndex = 0;
         for (i = 1; i < set; i++)
         {
@@ -655,21 +627,21 @@ internal static class Program
         Console.WriteLine("      X        Y");
         Console.WriteLine("");
 
-        xhi = NTAB;
-        xlo = 1.0;
+        double xhi = NTAB;
+        double xlo = 1.0;
 
         for (i = 1; i <= nstep; i++)
         {
 
-            xval = ((nstep - i) * xlo
-                    + (i - 1) * xhi)
-                   / (nstep - 1);
+            double xval = ((nstep - i) * xlo
+                           + (i - 1) * xhi)
+                          / (nstep - 1);
 
-            yval = typeMethods.r8poly_val_horner(NTAB, pointer, xval, polyCofIndex:pointerIndex);
+            double yval = typeMethods.r8poly_val_horner(NTAB, pointer, xval, polyCofIndex:pointerIndex);
 
             Console.WriteLine("  "
-                              + xval.ToString().PadLeft(10) + "  "
-                              + yval.ToString().PadLeft(10) + "");
+                              + xval.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                              + yval.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
         }
     }
@@ -695,15 +667,13 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 3;
+        const int N = 3;
 
         int i;
         double[] poly_cof = new double[N];
-        double scale;
-        double shift;
 
-        scale = 2.0;
-        shift = +3.0;
+        const double scale = 2.0;
+        const double shift = +3.0;
         poly_cof[0] = +6.0;
         poly_cof[1] = -1.0;
         poly_cof[2] = 2.0;
@@ -718,8 +688,8 @@ internal static class Program
         for (i = 0; i < N; i++)
         {
             Console.WriteLine("  "
-                              + i.ToString().PadLeft(6) + "  "
-                              + poly_cof[i].ToString().PadLeft(10) + "");
+                              + i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + poly_cof[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         typeMethods.r8poly_shift(scale, shift, N, ref poly_cof);
@@ -734,8 +704,8 @@ internal static class Program
         for (i = 0; i < N; i++)
         {
             Console.WriteLine("  "
-                              + i.ToString().PadLeft(6) + "  "
-                              + poly_cof[i].ToString().PadLeft(10) + "");
+                              + i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + poly_cof[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -782,9 +752,9 @@ internal static class Program
         for (i = 0; i < NORDER; i++)
         {
             Console.WriteLine("  "
-                              + (i + 1).ToString().PadLeft(6) + "  "
-                              + xtab[i].ToString().PadLeft(10) + "  "
-                              + weight[i].ToString().PadLeft(10) + "");
+                              + (i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + xtab[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                              + weight[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -831,9 +801,9 @@ internal static class Program
         for (i = 0; i < NORDER; i++)
         {
             Console.WriteLine("  "
-                              + (i + 1).ToString().PadLeft(6) + "  "
-                              + xtab[i].ToString().PadLeft(10) + "  "
-                              + weight[i].ToString().PadLeft(10) + "");
+                              + (i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + xtab[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                              + weight[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -858,11 +828,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int MAXROOTS = 4;
+        const int MAXROOTS = 4;
 
         double[] c = new double[MAXROOTS + 1];
         double[] diftab = new double[MAXROOTS + 1];
-        int nroots;
         int ntab = 0;
         double[] roots = new double[MAXROOTS];
         double[] xtab = new double[MAXROOTS + 1];
@@ -874,7 +843,7 @@ internal static class Program
         Console.WriteLine("  DIF_TO_R8POLY converts it to a standard form polynomial.");
         Console.WriteLine("");
 
-        nroots = 1;
+        int nroots = 1;
         roots[0] = 3.0;
         typeMethods.r8vec_print(nroots, roots, "  The roots:");
 
@@ -934,11 +903,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int MAXROOT = 5;
+        const int MAXROOT = 5;
 
         double[] c = new double[MAXROOT + 1];
         int nc = 0;
-        int nroot;
         double[] roots = new double[MAXROOT];
 
         Console.WriteLine("");
@@ -946,7 +914,7 @@ internal static class Program
         Console.WriteLine("  roots_to_r8poly() computes polynomial coefficients from roots.");
         Console.WriteLine("");
 
-        nroot = 1;
+        int nroot = 1;
         roots[0] = 3.0;
         typeMethods.r8vec_print(nroot, roots, "  The roots:");
 
@@ -1006,32 +974,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] c0;
-        double[] d0;
-        double[] d1;
-        double[] d2;
-        double[] d3;
-        double[] d4;
-        double[] f0;
         int i;
         int j;
-        int k;
-        int n0;
-        int n1;
-        int n2;
-        int n3;
-        int n4;
-        double x;
-        double[] x0;
-        double[] x1;
-        double[] x2;
-        double[] x3;
-        double[] x4;
-        double y0;
-        double y1;
-        double y2;
-        double y3;
-        double y4;
 
         Console.WriteLine("");
         Console.WriteLine("Dif.dif_derivk_table_test");
@@ -1040,9 +984,9 @@ internal static class Program
         //
         //  Set the 0 data points.
         //
-        n0 = 5;
-        x0 = new double[n0];
-        f0 = new double[n0];
+        int n0 = 5;
+        double[] x0 = new double[n0];
+        double[] f0 = new double[n0];
         for (i = 0; i < 5; i++)
         {
             x0[i] = i - 2;
@@ -1063,45 +1007,45 @@ internal static class Program
         //
         //  Compute the difference table.
         //
-        d0 = new double[n0];
+        double[] d0 = new double[n0];
         Data.data_to_dif(n0, x0, f0, ref d0);
         Dif.dif_print(n0, x0, d0, "  The divided difference polynomial P0:");
 
-        c0 = new double[n0];
+        double[] c0 = new double[n0];
         Dif.dif_to_r8poly(n0, x0, d0, ref c0);
 
         typeMethods.r8poly_print(n0, c0, "  Using DIF_TO_R8POLY");
         //
         //  Compute the difference table for the K=1 derivative.
         //
-        k = 1;
-        n1 = n0 - k;
-        x1 = new double[n1];
-        d1 = new double[n1];
+        int k = 1;
+        int n1 = n0 - k;
+        double[] x1 = new double[n1];
+        double[] d1 = new double[n1];
         Dif.dif_derivk_table(n0, x0, d0, k, x1, ref d1);
         //
         //  Compute the difference table for the K=2 derivative.
         //
         k = 2;
-        n2 = n0 - k;
-        x2 = new double[n2];
-        d2 = new double[n2];
+        int n2 = n0 - k;
+        double[] x2 = new double[n2];
+        double[] d2 = new double[n2];
         Dif.dif_derivk_table(n0, x0, d0, k, x2, ref d2);
         //
         //  Compute the difference table for the K=3 derivative.
         //
         k = 3;
-        n3 = n0 - k;
-        x3 = new double[n3];
-        d3 = new double[n3];
+        int n3 = n0 - k;
+        double[] x3 = new double[n3];
+        double[] d3 = new double[n3];
         Dif.dif_derivk_table(n0, x0, d0, k, x3, ref d3);
         //
         //  Compute the difference table for the K=4 derivative.
         //
         k = 4;
-        n4 = n0 - k;
-        x4 = new double[n4];
-        d4 = new double[n4];
+        int n4 = n0 - k;
+        double[] x4 = new double[n4];
+        double[] d4 = new double[n4];
         Dif.dif_derivk_table(n0, x0, d0, k, x4, ref d4);
         //
         //  Evaluate all 5 polynomials.
@@ -1115,18 +1059,18 @@ internal static class Program
 
         for (i = 0; i <= 10; i++)
         {
-            x = i / 5.0;
-            y0 = Dif.dif_val(n0, x0, d0, x);
-            y1 = Dif.dif_val(n1, x1, d1, x);
-            y2 = Dif.dif_val(n2, x2, d2, x);
-            y3 = Dif.dif_val(n3, x3, d3, x);
-            y4 = Dif.dif_val(n4, x4, d4, x);
-            Console.WriteLine("  " + x.ToString().PadLeft(8)
-                                   + "  " + y0.ToString().PadLeft(8)
-                                   + "  " + y1.ToString().PadLeft(8)
-                                   + "  " + y2.ToString().PadLeft(8)
-                                   + "  " + y3.ToString().PadLeft(8)
-                                   + "  " + y4.ToString().PadLeft(8) + "");
+            double x = i / 5.0;
+            double y0 = Dif.dif_val(n0, x0, d0, x);
+            double y1 = Dif.dif_val(n1, x1, d1, x);
+            double y2 = Dif.dif_val(n2, x2, d2, x);
+            double y3 = Dif.dif_val(n3, x3, d3, x);
+            double y4 = Dif.dif_val(n4, x4, d4, x);
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + y0.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + y1.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + y2.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + y3.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + y4.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
     }
 
@@ -1151,20 +1095,16 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] c;
-        double[] ddp;
-        int nd = 3;
-        double[] xd;
-        double[] xdp;
+        const int nd = 3;
 
         Console.WriteLine("");
         Console.WriteLine("Dif.dif_basis_deriv_test");
         Console.WriteLine("  Dif.dif_basis_deriv() computes difference tables for");
         Console.WriteLine("  the first derivative of each Lagrange basis.");
 
-        xd = new double[nd];
-        xdp = new double[nd - 1];
-        ddp = new double[(nd - 1) * nd];
+        double[] xd = new double[nd];
+        double[] xdp = new double[nd - 1];
+        double[] ddp = new double[(nd - 1) * nd];
 
         xd[0] = -2.0;
         xd[1] = 1.0;
@@ -1178,7 +1118,7 @@ internal static class Program
         typeMethods.r8mat_transpose_print(nd - 1, nd, ddp,
             "  Lagrange basis derivative polynomial coefficients:");
 
-        c = new double[nd - 1];
+        double[] c = new double[nd - 1];
         Dif.dif_to_r8poly(nd - 1, xdp, ddp, ref c, diftabIndex: + 0 * (nd - 1));
         typeMethods.r8poly_print(nd - 1, c, "  P1'=-(2x-6)/21");
 
@@ -1210,20 +1150,18 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] c;
+        // ReSharper disable once JoinDeclarationAndInitializer
         double[] ddp;
-        int k = 2;
-        int nd = 5;
-        double[] xd;
-        double[] xdp;
+        const int k = 2;
+        const int nd = 5;
 
         Console.WriteLine("");
         Console.WriteLine("Dif.dif_basis_derivk_test");
         Console.WriteLine("  DIF_BASIS_DERIVK computes difference tables for");
         Console.WriteLine("  the K-th derivative of each Lagrange basis.");
 
-        xd = new double[nd];
-        xdp = new double[nd - k];
+        double[] xd = new double[nd];
+        double[] xdp = new double[nd - k];
         ddp = new double[(nd - k) * nd];
 
         xd[0] = 1.0;
@@ -1240,7 +1178,7 @@ internal static class Program
         typeMethods.r8mat_transpose_print(nd - k, nd, ddp,
             "  Lagrange basis K-th derivative polynomial coefficients:");
 
-        c = new double[nd - k];
+        double[] c = new double[nd - k];
 
         Dif.dif_to_r8poly(nd - k, xdp, ddp, ref c, diftabIndex: + 0 * (nd - k));
         typeMethods.r8poly_print(nd - k, c, "  P1''=(12x^2-84x+142)/24");

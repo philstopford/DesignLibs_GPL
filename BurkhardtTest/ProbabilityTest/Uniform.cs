@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Types;
 
 namespace ProbabilityTest;
 
-internal partial class Program
+internal static partial class Program
 {
     private static void uniform_01_order_sample_test()
 
@@ -26,17 +27,15 @@ internal partial class Program
 //    John Burkardt
 //
     {
-        int n;
         int seed = 123456789;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("UNIFORM_01_ORDER_SAMPLE_TEST");
         Console.WriteLine("  For the Uniform 01 Order PDF:");
         Console.WriteLine("  UNIFORM_ORDER_SAMPLE samples.");
 
-        n = 10;
-        x = Burkardt.Probability.Uniform.uniform_01_order_sample(n, ref seed);
+        int n = 10;
+        double[] x = Burkardt.Probability.Uniform.uniform_01_order_sample(n, ref seed);
 
         typeMethods.r8vec_print(n, x, "  Ordered sample:");
     }
@@ -63,12 +62,9 @@ internal partial class Program
 //
     {
         int i;
-        int j;
-        int n;
         int seed = 123456789;
-        double[] x;
 
-        n = 3;
+        const int n = 3;
 
         Console.WriteLine("");
         Console.WriteLine("UNIFORM_NSPHERE_SAMPLE_TEST");
@@ -82,11 +78,12 @@ internal partial class Program
 
         for (i = 1; i <= 10; i++)
         {
-            x = Burkardt.Probability.Uniform.uniform_nsphere_sample(n, ref seed);
-            string cout = "  " + i.ToString().PadLeft(6) + "  ";
+            double[] x = Burkardt.Probability.Uniform.uniform_nsphere_sample(n, ref seed);
+            string cout = "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
+            int j;
             for (j = 0; j < n; j++)
             {
-                cout += x[j].ToString().PadLeft(12) + "  ";
+                cout += x[j].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  ";
             }
 
             Console.WriteLine(cout);
@@ -116,12 +113,8 @@ internal partial class Program
 //    John Burkardt
 //
     {
-        double cdf;
         int i;
-        double pdf;
         int seed = 123456789;
-        double x;
-        double x2;
 
         Console.WriteLine("");
         Console.WriteLine("UNIFORM_01_CDF_TEST");
@@ -136,16 +129,16 @@ internal partial class Program
 
         for (i = 1; i <= 10; i++)
         {
-            x = Burkardt.Probability.Uniform.uniform_01_sample(ref seed);
-            pdf = Burkardt.Probability.Uniform.uniform_01_pdf(x);
-            cdf = Burkardt.Probability.Uniform.uniform_01_cdf(x);
-            x2 = Burkardt.Probability.Uniform.uniform_01_cdf_inv(cdf);
+            double x = Burkardt.Probability.Uniform.uniform_01_sample(ref seed);
+            double pdf = Burkardt.Probability.Uniform.uniform_01_pdf(x);
+            double cdf = Burkardt.Probability.Uniform.uniform_01_cdf(x);
+            double x2 = Burkardt.Probability.Uniform.uniform_01_cdf_inv(cdf);
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + pdf.ToString().PadLeft(12) + "  "
-                              + cdf.ToString().PadLeft(12) + "  "
-                              + x2.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
     }
@@ -171,15 +164,11 @@ internal partial class Program
 //    John Burkardt
 //
     {
-        int SAMPLE_NUM = 1000;
+        const int SAMPLE_NUM = 1000;
 
         int i;
-        double mean;
         int seed = 123456789;
-        double variance;
         double[] x = new double [SAMPLE_NUM];
-        double xmax;
-        double xmin;
 
         Console.WriteLine("");
         Console.WriteLine("UNIFORM_01_SAMPLE_TEST");
@@ -187,8 +176,8 @@ internal partial class Program
         Console.WriteLine("  UNIFORM_01_SAMPLE samples the Uniform 01 distribution;");
         Console.WriteLine("  UNIFORM_01_VARIANCE computes the Uniform 01 variance.");
 
-        mean = Burkardt.Probability.Uniform.uniform_01_mean();
-        variance = Burkardt.Probability.Uniform.uniform_01_variance();
+        double mean = Burkardt.Probability.Uniform.uniform_01_mean();
+        double variance = Burkardt.Probability.Uniform.uniform_01_variance();
 
         Console.WriteLine("");
         Console.WriteLine("  PDF mean =     " + mean + "");
@@ -201,8 +190,8 @@ internal partial class Program
 
         mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
         variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
-        xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
-        xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
+        double xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+        double xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
         Console.WriteLine("");
         Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
@@ -234,14 +223,8 @@ internal partial class Program
 //    John Burkardt
 //
     {
-        double a;
-        double b;
-        double cdf;
         int i;
-        double pdf;
         int seed = 123456789;
-        double x;
-        double x2;
 
         Console.WriteLine("");
         Console.WriteLine("UNIFORM_CDF_TEST");
@@ -249,8 +232,8 @@ internal partial class Program
         Console.WriteLine("  UNIFORM_CDF_INV inverts the Uniform CDF.");
         Console.WriteLine("  UNIFORM_PDF evaluates the Uniform PDF;");
 
-        a = 1.0;
-        b = 10.0;
+        double a = 1.0;
+        double b = 10.0;
 
         Console.WriteLine("");
         Console.WriteLine("  PDF parameter A =      " + a + "");
@@ -270,16 +253,16 @@ internal partial class Program
 
         for (i = 1; i <= 10; i++)
         {
-            x = Burkardt.Probability.Uniform.uniform_sample(a, b, ref seed);
-            pdf = Burkardt.Probability.Uniform.uniform_pdf(x, a, b);
-            cdf = Burkardt.Probability.Uniform.uniform_cdf(x, a, b);
-            x2 = Burkardt.Probability.Uniform.uniform_cdf_inv(cdf, a, b);
+            double x = Burkardt.Probability.Uniform.uniform_sample(a, b, ref seed);
+            double pdf = Burkardt.Probability.Uniform.uniform_pdf(x, a, b);
+            double cdf = Burkardt.Probability.Uniform.uniform_cdf(x, a, b);
+            double x2 = Burkardt.Probability.Uniform.uniform_cdf_inv(cdf, a, b);
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + pdf.ToString().PadLeft(12) + "  "
-                              + cdf.ToString().PadLeft(12) + "  "
-                              + x2.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -304,17 +287,11 @@ internal partial class Program
 //    John Burkardt
 //
     {
-        int SAMPLE_NUM = 1000;
+        const int SAMPLE_NUM = 1000;
 
-        double a;
-        double b;
         int i;
-        double mean;
         int seed = 123456789;
-        double variance;
         double[] x = new double [SAMPLE_NUM];
-        double xmax;
-        double xmin;
 
         Console.WriteLine("");
         Console.WriteLine("UNIFORM_SAMPLE_TEST");
@@ -322,8 +299,8 @@ internal partial class Program
         Console.WriteLine("  UNIFORM_SAMPLE samples the Uniform distribution;");
         Console.WriteLine("  UNIFORM_VARIANCE computes the Uniform variance;");
 
-        a = 1.0;
-        b = 10.0;
+        double a = 1.0;
+        double b = 10.0;
 
         Console.WriteLine("");
         Console.WriteLine("  PDF parameter A =      " + a + "");
@@ -337,8 +314,8 @@ internal partial class Program
             return;
         }
 
-        mean = Burkardt.Probability.Uniform.uniform_mean(a, b);
-        variance = Burkardt.Probability.Uniform.uniform_variance(a, b);
+        double mean = Burkardt.Probability.Uniform.uniform_mean(a, b);
+        double variance = Burkardt.Probability.Uniform.uniform_variance(a, b);
 
         Console.WriteLine("");
         Console.WriteLine("  PDF mean =     " + mean + "");
@@ -351,8 +328,8 @@ internal partial class Program
 
         mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
         variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
-        xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
-        xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
+        double xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+        double xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
         Console.WriteLine("");
         Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
@@ -384,14 +361,8 @@ internal partial class Program
 //    John Burkardt
 //
     {
-        int a;
-        int b;
-        double cdf;
         int i;
-        double pdf;
         int seed = 123456789;
-        int x;
-        int x2;
 
         Console.WriteLine("");
         Console.WriteLine("UNIFORM_DISCRETE_CDF_TEST");
@@ -399,8 +370,8 @@ internal partial class Program
         Console.WriteLine("  UNIFORM_DISCRETE_CDF_INV inverts the Uniform Discrete CDF.");
         Console.WriteLine("  UNIFORM_DISCRETE_PDF evaluates the Uniform Discrete PDF;");
 
-        a = 1;
-        b = 6;
+        int a = 1;
+        int b = 6;
 
         Console.WriteLine("");
         Console.WriteLine("  PDF parameter A =      " + a + "");
@@ -420,16 +391,16 @@ internal partial class Program
 
         for (i = 1; i <= 10; i++)
         {
-            x = Burkardt.Probability.Uniform.uniform_discrete_sample(a, b, ref seed);
-            pdf = Burkardt.Probability.Uniform.uniform_discrete_pdf(x, a, b);
-            cdf = Burkardt.Probability.Uniform.uniform_discrete_cdf(x, a, b);
-            x2 = Burkardt.Probability.Uniform.uniform_discrete_cdf_inv(cdf, a, b);
+            int x = Burkardt.Probability.Uniform.uniform_discrete_sample(a, b, ref seed);
+            double pdf = Burkardt.Probability.Uniform.uniform_discrete_pdf(x, a, b);
+            double cdf = Burkardt.Probability.Uniform.uniform_discrete_cdf(x, a, b);
+            int x2 = Burkardt.Probability.Uniform.uniform_discrete_cdf_inv(cdf, a, b);
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + pdf.ToString().PadLeft(12) + "  "
-                              + cdf.ToString().PadLeft(12) + "  "
-                              + x2.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -454,17 +425,11 @@ internal partial class Program
 //    John Burkardt
 //
     {
-        int SAMPLE_NUM = 1000;
+        const int SAMPLE_NUM = 1000;
 
-        int a;
-        int b;
         int i;
-        double mean;
         int seed = 123456789;
-        double variance;
         int[] x = new int[SAMPLE_NUM];
-        int xmax;
-        int xmin;
 
         Console.WriteLine("");
         Console.WriteLine("UNIFORM_DISCRETE_SAMPLE_TEST");
@@ -472,8 +437,8 @@ internal partial class Program
         Console.WriteLine("  UNIFORM_DISCRETE_SAMPLE samples the Uniform Discrete distribution;");
         Console.WriteLine("  UNIFORM_DISCRETE_VARIANCE computes the Uniform Discrete variance;");
 
-        a = 1;
-        b = 6;
+        int a = 1;
+        int b = 6;
 
         Console.WriteLine("");
         Console.WriteLine("  PDF parameter A =      " + a + "");
@@ -487,8 +452,8 @@ internal partial class Program
             return;
         }
 
-        mean = Burkardt.Probability.Uniform.uniform_discrete_mean(a, b);
-        variance = Burkardt.Probability.Uniform.uniform_discrete_variance(a, b);
+        double mean = Burkardt.Probability.Uniform.uniform_discrete_mean(a, b);
+        double variance = Burkardt.Probability.Uniform.uniform_discrete_variance(a, b);
 
         Console.WriteLine("");
         Console.WriteLine("  PDF mean =     " + mean + "");
@@ -501,8 +466,8 @@ internal partial class Program
 
         mean = typeMethods.i4vec_mean(SAMPLE_NUM, x);
         variance = typeMethods.i4vec_variance(SAMPLE_NUM, x);
-        xmax = typeMethods.i4vec_max(SAMPLE_NUM, x);
-        xmin = typeMethods.i4vec_min(SAMPLE_NUM, x);
+        int xmax = typeMethods.i4vec_max(SAMPLE_NUM, x);
+        int xmin = typeMethods.i4vec_min(SAMPLE_NUM, x);
 
         Console.WriteLine("");
         Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");

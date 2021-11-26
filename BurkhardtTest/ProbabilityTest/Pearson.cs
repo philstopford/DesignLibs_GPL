@@ -3,7 +3,7 @@ using Burkardt.Probability;
 
 namespace ProbabilityTest;
 
-internal partial class Program
+internal static partial class Program
 {
     private static void pearson_05_pdf_test()
 
@@ -26,21 +26,15 @@ internal partial class Program
 //    John Burkardt
 //
     {
-        double a;
-        double b;
-        double c;
-        double pdf;
-        double x;
-
         Console.WriteLine("");
         Console.WriteLine("PEARSON_05_PDF");
         Console.WriteLine("  PEARSON_05_PDF evaluates the Pearson 05 PDF.");
 
-        x = 5.0;
+        const double x = 5.0;
 
-        a = 1.0;
-        b = 2.0;
-        c = 3.0;
+        const double a = 1.0;
+        const double b = 2.0;
+        const double c = 3.0;
 
         Console.WriteLine("");
         Console.WriteLine("  PDF parameter A = " + a + "");
@@ -55,7 +49,7 @@ internal partial class Program
             return;
         }
 
-        pdf = Pearson.pearson_05_pdf(x, a, b, c);
+        double pdf = Pearson.pearson_05_pdf(x, a, b, c);
 
         Console.WriteLine("");
         Console.WriteLine("  PDF argument X =  " + x + "");

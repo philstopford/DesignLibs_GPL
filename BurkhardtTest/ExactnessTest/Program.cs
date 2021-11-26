@@ -76,9 +76,6 @@ internal static class Program
         //
     {
         int n;
-        int p_max;
-        double[] w;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("CHEBYSHEV1_EXACTNESS_TEST");
@@ -89,10 +86,10 @@ internal static class Program
 
         for (n = 1; n <= 5; n++)
         {
-            x = new double[n];
-            w = new double[n];
+            double[] x = new double[n];
+            double[] w = new double[n];
             chebyshev1_set(n, ref x, ref w);
-            p_max = 2 * n;
+            int p_max = 2 * n;
             Exactness.chebyshev1_exactness(n, x, w, p_max);
         }
     }
@@ -519,9 +516,6 @@ internal static class Program
         //
     {
         int n;
-        int p_max;
-        double[] w;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("CHEBYSHEV3_EXACTNESS_TEST");
@@ -532,10 +526,10 @@ internal static class Program
 
         for (n = 1; n <= 5; n++)
         {
-            x = new double[n];
-            w = new double[n];
+            double[] x = new double[n];
+            double[] w = new double[n];
             chebyshev3_set(n, x, w);
-            p_max = n switch
+            int p_max = n switch
             {
                 1 => 2 * n,
                 _ => 2 * n - 2
@@ -748,9 +742,6 @@ internal static class Program
         //
     {
         int n;
-        int p_max;
-        double[] w;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("CLENSHAW_CURTIS_EXACTNESS_TEST");
@@ -762,10 +753,10 @@ internal static class Program
 
         for (n = 1; n <= 5; n++)
         {
-            x = new double[n];
-            w = new double[n];
+            double[] x = new double[n];
+            double[] w = new double[n];
             clenshaw_curtis_set(n, x, w);
-            p_max = (n % 2) switch
+            int p_max = (n % 2) switch
             {
                 1 => n + 1,
                 _ => n
@@ -1014,9 +1005,6 @@ internal static class Program
         //
     {
         int n;
-        int p_max;
-        double[] w;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("FEJER1_EXACTNESS_TEST");
@@ -1028,10 +1016,10 @@ internal static class Program
 
         for (n = 1; n <= 5; n++)
         {
-            x = new double[n];
-            w = new double[n];
+            double[] x = new double[n];
+            double[] w = new double[n];
             fejer1_set(n, x, w);
-            p_max = (n % 2) switch
+            int p_max = (n % 2) switch
             {
                 1 => n + 1,
                 _ => n
@@ -1262,9 +1250,6 @@ internal static class Program
         //
     {
         int n;
-        int p_max;
-        double[] w;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("FEJER2_EXACTNESS_TEST");
@@ -1276,10 +1261,10 @@ internal static class Program
 
         for (n = 1; n <= 5; n++)
         {
-            x = new double[n];
-            w = new double[n];
+            double[] x = new double[n];
+            double[] w = new double[n];
             fejer2_set(n, x, w);
-            p_max = (n % 2) switch
+            int p_max = (n % 2) switch
             {
                 1 => n + 1,
                 _ => n
@@ -1509,8 +1494,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double lambda;
-        int p_max;
         double[] w1 =  {
                 1.2485988353771993
             }
@@ -1572,7 +1555,7 @@ internal static class Program
             }
             ;
 
-        lambda = 1.75;
+        double lambda = 1.75;
 
         Console.WriteLine("");
         Console.WriteLine("GEGENBAUER_EXACTNESS_TEST");
@@ -1615,7 +1598,7 @@ internal static class Program
             }
 
             legendre_set(n, ref x, ref w);
-            p_max = 2 * n;
+            int p_max = 2 * n;
             Exactness.legendre_exactness(n, x, w, p_max);
         }
     }
@@ -2436,11 +2419,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int i;
         int n;
-        int p_max;
-        double[] w;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("LAGUERRE_1_EXACTNESS_TEST");
@@ -2451,12 +2430,13 @@ internal static class Program
 
         for (n = 1; n <= 5; n++)
         {
-            x = new double[n];
-            w = new double[n];
+            double[] x = new double[n];
+            double[] w = new double[n];
             laguerre_1_set(n, ref x, ref w);
             //
             //  Standardize the rule by multiplying every weight w(i) by exp(-x(i)).
             //
+            int i;
             for (i = 0; i < n; i++)
             {
                 w[i] = Math.Exp(-x[i]) * w[i];
@@ -2465,7 +2445,7 @@ internal static class Program
             //
             //  Now test the rule in standard form.
             //
-            p_max = 2 * n;
+            int p_max = 2 * n;
             Exactness.laguerre_exactness(n, x, w, p_max);
         }
     }
@@ -2682,9 +2662,6 @@ internal static class Program
         //
     {
         int n;
-        int p_max;
-        double[] w;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("LEGENDRE_EXACTNESS_TEST");
@@ -2695,10 +2672,10 @@ internal static class Program
 
         for (n = 1; n <= 5; n++)
         {
-            x = new double[n];
-            w = new double[n];
+            double[] x = new double[n];
+            double[] w = new double[n];
             legendre_set(n, ref x, ref w);
-            p_max = 2 * n;
+            int p_max = 2 * n;
             Exactness.legendre_exactness(n, x, w, p_max);
         }
     }

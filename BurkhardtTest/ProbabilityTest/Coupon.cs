@@ -3,7 +3,7 @@ using Burkardt.Probability;
 
 namespace ProbabilityTest;
 
-internal partial class Program
+internal static partial class Program
 {
     private static void coupon_complete_pdf_test()
 

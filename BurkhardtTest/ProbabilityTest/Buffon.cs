@@ -4,7 +4,7 @@ using Burkardt.Types;
 
 namespace ProbabilityTest;
 
-internal partial class Program
+internal static partial class Program
 {
     private static void buffon_box_pdf_test()
 

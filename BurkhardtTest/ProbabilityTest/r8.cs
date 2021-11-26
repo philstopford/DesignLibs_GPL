@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Probability;
 using Burkardt.Types;
 using Burkardt.Uniform;
 
 namespace ProbabilityTest;
 
-internal partial class Program
+internal static partial class Program
 {
     private static void r8_beta_test()
 
@@ -53,8 +54,8 @@ internal partial class Program
 
             double fxy2 = typeMethods.r8_beta(x, y);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(12)
-                                   + "  " + y.ToString().PadLeft(12)
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + y.ToString(CultureInfo.InvariantCulture).PadLeft(12)
                                    + "  " + fxy1.ToString("0.################").PadLeft(24)
                                    + "  " + fxy2.ToString("0.################").PadLeft(24) + "");
         }
@@ -93,8 +94,8 @@ internal partial class Program
             double rval = i / 5.0;
             int ival = (int)Math.Ceiling(rval);
             Console.WriteLine("  "
-                              + rval.ToString().PadLeft(14) + "  "
-                              + ival.ToString().PadLeft(6) + "");
+                              + rval.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                              + ival.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
         }
     }
 
@@ -120,10 +121,6 @@ internal partial class Program
 //
     {
         int i;
-        int seed;
-        double x;
-        double y;
-        double z;
 
         Console.WriteLine("");
         Console.WriteLine("R8_ERROR_F_TEST");
@@ -132,18 +129,16 @@ internal partial class Program
         Console.WriteLine("X   -> Y = R8_ERROR_F(X) -> Z = R8_ERROR_F_INVERSE(Y)");
         Console.WriteLine("");
 
-        seed = 123456789;
-
-        x = 1.0;
+        int seed = 123456789;
 
         for (i = 1; i <= 20; i++)
         {
-            x = Normal.normal_01_sample(ref seed);
-            y = typeMethods.r8_error_f(x);
-            z = typeMethods.r8_error_f_inverse(y);
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + y.ToString().PadLeft(14)
-                                   + "  " + z.ToString().PadLeft(14) + "");
+            double x = Normal.normal_01_sample(ref seed);
+            double y = typeMethods.r8_error_f(x);
+            double z = typeMethods.r8_error_f_inverse(y);
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + y.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + z.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -168,7 +163,6 @@ internal partial class Program
 //    John Burkardt
 //
     {
-        double f;
         int i;
 
         Console.WriteLine("");
@@ -180,11 +174,11 @@ internal partial class Program
 
         for (i = 0; i <= 20; i++)
         {
-            f = typeMethods.r8_factorial(i);
+            double f = typeMethods.r8_factorial(i);
 
             Console.WriteLine("  "
-                              + i.ToString().PadLeft(4) + "  "
-                              + f.ToString().PadLeft(24) + "");
+                              + i.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                              + f.ToString(CultureInfo.InvariantCulture).PadLeft(24) + "");
         }
     }
 
@@ -235,10 +229,10 @@ internal partial class Program
             double fx2 = typeMethods.r8_gamma_inc(a, x);
 
             Console.WriteLine("  "
-                              + a.ToString().PadLeft(8) + "  "
-                              + x.ToString().PadLeft(8) + "  "
-                              + fx.ToString().PadLeft(16) + "  "
-                              + fx2.ToString().PadLeft(16) + "");
+                              + a.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(16) + "  "
+                              + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(16) + "");
         }
     }
 
@@ -277,8 +271,8 @@ internal partial class Program
             double g = typeMethods.r8_gamma_log_int(i);
 
             Console.WriteLine("  "
-                              + i.ToString().PadLeft(6) + "  "
-                              + g.ToString().PadLeft(12) + "");
+                              + i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + g.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -303,15 +297,11 @@ internal partial class Program
 //    John Burkardt
 //
     {
-        int N = 1000;
+        const int N = 1000;
 
         int i;
-        double max;
-        double mean;
-        double min;
         int seed = 123456789;
         double[] x = new double[N];
-        double variance;
 
         Console.WriteLine("");
         Console.WriteLine("R8_UNIFORM_01_TEST");
@@ -329,14 +319,14 @@ internal partial class Program
         Console.WriteLine("");
         for (i = 0; i < 10; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                   + "  " + x[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
-        min = typeMethods.r8vec_min(N, x);
-        max = typeMethods.r8vec_max(N, x);
-        mean = typeMethods.r8vec_mean(N, x);
-        variance = typeMethods.r8vec_variance(N, x);
+        double min = typeMethods.r8vec_min(N, x);
+        double max = typeMethods.r8vec_max(N, x);
+        double mean = typeMethods.r8vec_mean(N, x);
+        double variance = typeMethods.r8vec_variance(N, x);
 
         Console.WriteLine("");
         Console.WriteLine("  Number of samples was " + N + "");
@@ -382,8 +372,8 @@ internal partial class Program
         {
             p = i;
             v = typeMethods.r8_zeta(p);
-            Console.WriteLine("  " + p.ToString().PadLeft(6)
-                                   + "  " + v.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + p.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + v.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         Console.WriteLine("");
@@ -391,8 +381,8 @@ internal partial class Program
         {
             p = 3.0 + i / 8.0;
             v = typeMethods.r8_zeta(p);
-            Console.WriteLine("  " + p.ToString().PadLeft(6)
-                                   + "  " + v.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + p.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + v.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 }

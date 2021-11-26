@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Probability;
 using Burkardt.Types;
 
 namespace ProbabilityTest;
 
-internal partial class Program
+internal static partial class Program
 {
     private static void runs_pdf_test()
 
@@ -27,11 +28,7 @@ internal partial class Program
 //    John Burkardt
 //
     {
-        int m;
         int n;
-        double pdf;
-        double pdf_total;
-        int r;
 
         Console.WriteLine("");
         Console.WriteLine("RUNS_PDF_TEST");
@@ -44,29 +41,30 @@ internal partial class Program
         Console.WriteLine("         M         N         R      PDF");
         Console.WriteLine("");
 
-        m = 6;
+        const int m = 6;
 
         for (n = 0; n <= 9; n++)
         {
             Console.WriteLine("");
-            pdf_total = 0.0;
+            double pdf_total = 0.0;
 
+            int r;
             for (r = 1; r <= 2 * Math.Min(m, n) + 2; r++)
             {
-                pdf = Runs.runs_pdf(m, n, r);
+                double pdf = Runs.runs_pdf(m, n, r);
 
-                Console.WriteLine("  " + m.ToString().PadLeft(8)
-                                       + "  " + n.ToString().PadLeft(8)
-                                       + "  " + r.ToString().PadLeft(8)
-                                       + "  " + pdf.ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
                 pdf_total += pdf;
             }
 
-            Console.WriteLine("  " + m.ToString().PadLeft(8)
+            Console.WriteLine("  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "  " + "        "
                                    + "  " + "        "
-                                   + "  " + pdf_total.ToString().PadLeft(14) + "");
+                                   + "  " + pdf_total.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
         }
     }
@@ -92,17 +90,11 @@ internal partial class Program
 //    John Burkardt
 //
     {
-        int SAMPLE_NUM = 1000;
+        const int SAMPLE_NUM = 1000;
 
         int i;
-        int m;
-        double mean;
-        int n;
         int seed = 123456789;
-        double variance;
         int[] x = new int[SAMPLE_NUM];
-        int xmax;
-        int xmin;
 
         Console.WriteLine("");
         Console.WriteLine("RUNS_SAMPLE_TEST");
@@ -110,15 +102,15 @@ internal partial class Program
         Console.WriteLine("  RUNS_SAMPLE samples the Runs distribution;");
         Console.WriteLine("  RUNS_VARIANCE computes the Runs variance");
 
-        m = 10;
-        n = 5;
+        const int m = 10;
+        const int n = 5;
 
         Console.WriteLine("");
         Console.WriteLine("  PDF parameter M = " + m + "");
         Console.WriteLine("  PDF parameter N = " + n + "");
 
-        mean = Runs.runs_mean(m, n);
-        variance = Runs.runs_variance(m, n);
+        double mean = Runs.runs_mean(m, n);
+        double variance = Runs.runs_variance(m, n);
 
         Console.WriteLine("  PDF mean =        " + mean + "");
         Console.WriteLine("  PDF variance =    " + variance + "");
@@ -130,8 +122,8 @@ internal partial class Program
 
         mean = typeMethods.i4vec_mean(SAMPLE_NUM, x);
         variance = typeMethods.i4vec_variance(SAMPLE_NUM, x);
-        xmax = typeMethods.i4vec_max(SAMPLE_NUM, x);
-        xmin = typeMethods.i4vec_min(SAMPLE_NUM, x);
+        int xmax = typeMethods.i4vec_max(SAMPLE_NUM, x);
+        int xmin = typeMethods.i4vec_min(SAMPLE_NUM, x);
 
         Console.WriteLine("");
         Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");

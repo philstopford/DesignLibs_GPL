@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt;
 using Burkardt.CDFLib;
 using Burkardt.Values;
@@ -92,13 +93,11 @@ internal static class Program
         double a = 0;
         double b = 0;
         double ccdf_compute = 0;
-        double ccdf_lookup = 0;
         double cdf_compute = 0;
         double cdf_lookup = 0;
         int ierror = 0;
-        int n_data = 0;
         double x = 0;
-        double y = 0;
+        double y;
 
         Console.WriteLine("");
         Console.WriteLine("beta_inc_test");
@@ -110,7 +109,7 @@ internal static class Program
             "                                           (Lookup)      (Computed)";
         Console.WriteLine(cout);
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -150,7 +149,7 @@ internal static class Program
                 break;
             }
 
-            ccdf_lookup = 1.0 - cdf_lookup;
+            double ccdf_lookup = 1.0 - cdf_lookup;
 
             y = 1.0 - x;
 
@@ -255,12 +254,12 @@ internal static class Program
             }
 
             Console.WriteLine("  "
-                              + p.ToString().PadLeft(10) + "  "
-                              + q.ToString().PadLeft(10) + "  "
-                              + x.ToString().PadLeft(10) + "  "
-                              + y.ToString().PadLeft(10) + "  "
-                              + a.ToString().PadLeft(10) + "  "
-                              + b.ToString().PadLeft(10) + "");
+                              + p.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                              + q.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                              + y.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                              + a.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                              + b.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -354,12 +353,12 @@ internal static class Program
             }
 
             Console.WriteLine("  "
-                              + p.ToString().PadLeft(10) + "  "
-                              + q.ToString().PadLeft(10) + "  "
-                              + s.ToString().PadLeft(10) + "  "
-                              + xn.ToString().PadLeft(10) + "  "
-                              + pr.ToString().PadLeft(10) + "  "
-                              + ompr.ToString().PadLeft(10) + "");
+                              + p.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                              + q.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                              + s.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                              + xn.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                              + pr.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                              + ompr.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -436,10 +435,10 @@ internal static class Program
             }
 
             Console.WriteLine("  "
-                              + p.ToString().PadLeft(10) + "  "
-                              + q.ToString().PadLeft(10) + "  "
-                              + x.ToString().PadLeft(10) + "  "
-                              + df.ToString().PadLeft(10) + "");
+                              + p.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                              + q.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                              + df.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -527,11 +526,11 @@ internal static class Program
             }
 
             Console.WriteLine("  "
-                              + p.ToString().PadLeft(8) + "  "
-                              + q.ToString().PadLeft(8) + "  "
-                              + x.ToString().PadLeft(8) + "  "
-                              + df.ToString().PadLeft(8) + "  "
-                              + pnonc.ToString().PadLeft(8) + "");
+                              + p.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + q.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + df.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + pnonc.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
     }
 
@@ -619,11 +618,11 @@ internal static class Program
             }
 
             Console.WriteLine("  "
-                              + p.ToString().PadLeft(8) + "  "
-                              + q.ToString().PadLeft(8) + "  "
-                              + f.ToString().PadLeft(8) + "  "
-                              + dfn.ToString().PadLeft(8) + "  "
-                              + dfd.ToString().PadLeft(8) + "");
+                              + p.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + q.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + f.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + dfn.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + dfd.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
     }
 
@@ -724,12 +723,12 @@ internal static class Program
             }
 
             Console.WriteLine("  "
-                              + p.ToString().PadLeft(8) + "  "
-                              + q.ToString().PadLeft(8) + "  "
-                              + f.ToString().PadLeft(8) + "  "
-                              + dfn.ToString().PadLeft(8) + "  "
-                              + dfd.ToString().PadLeft(8) + "  "
-                              + pnonc.ToString().PadLeft(8) + "");
+                              + p.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + q.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + f.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + dfn.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + dfd.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + pnonc.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
     }
 
@@ -817,11 +816,11 @@ internal static class Program
             }
 
             Console.WriteLine("  "
-                              + p.ToString().PadLeft(8) + "  "
-                              + q.ToString().PadLeft(9) + "  "
-                              + x.ToString().PadLeft(8) + "  "
-                              + shape.ToString().PadLeft(8) + "  "
-                              + scale.ToString().PadLeft(8) + "");
+                              + p.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + q.ToString(CultureInfo.InvariantCulture).PadLeft(9) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + shape.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + scale.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
     }
 
@@ -914,12 +913,12 @@ internal static class Program
             }
 
             Console.WriteLine("  "
-                              + p.ToString().PadLeft(8) + "  "
-                              + q.ToString().PadLeft(9) + "  "
-                              + f.ToString().PadLeft(8) + "  "
-                              + s.ToString().PadLeft(8) + "  "
-                              + pr.ToString().PadLeft(8) + "  "
-                              + ompr.ToString().PadLeft(8) + "");
+                              + p.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + q.ToString(CultureInfo.InvariantCulture).PadLeft(9) + "  "
+                              + f.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + s.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + pr.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + ompr.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
     }
 
@@ -1007,11 +1006,11 @@ internal static class Program
             }
 
             Console.WriteLine("  "
-                              + p.ToString().PadLeft(9) + "  "
-                              + q.ToString().PadLeft(8) + "  "
-                              + x.ToString().PadLeft(8) + "  "
-                              + mean.ToString().PadLeft(8) + "  "
-                              + sd.ToString().PadLeft(8) + "");
+                              + p.ToString(CultureInfo.InvariantCulture).PadLeft(9) + "  "
+                              + q.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + mean.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + sd.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
     }
 
@@ -1088,10 +1087,10 @@ internal static class Program
             }
 
             Console.WriteLine("  "
-                              + p.ToString().PadLeft(9) + "  "
-                              + q.ToString().PadLeft(9) + "  "
-                              + s.ToString().PadLeft(9) + "  "
-                              + xlam.ToString().PadLeft(9) + "");
+                              + p.ToString(CultureInfo.InvariantCulture).PadLeft(9) + "  "
+                              + q.ToString(CultureInfo.InvariantCulture).PadLeft(9) + "  "
+                              + s.ToString(CultureInfo.InvariantCulture).PadLeft(9) + "  "
+                              + xlam.ToString(CultureInfo.InvariantCulture).PadLeft(9) + "");
         }
     }
 
@@ -1168,10 +1167,10 @@ internal static class Program
             }
 
             Console.WriteLine("  "
-                              + p.ToString().PadLeft(9) + "  "
-                              + q.ToString().PadLeft(9) + "  "
-                              + t.ToString().PadLeft(9) + "  "
-                              + df.ToString().PadLeft(9) + "");
+                              + p.ToString(CultureInfo.InvariantCulture).PadLeft(9) + "  "
+                              + q.ToString(CultureInfo.InvariantCulture).PadLeft(9) + "  "
+                              + t.ToString(CultureInfo.InvariantCulture).PadLeft(9) + "  "
+                              + df.ToString(CultureInfo.InvariantCulture).PadLeft(9) + "");
         }
     }
 
@@ -1230,12 +1229,12 @@ internal static class Program
             CDF.cumbet(x, y, a, b, ref cdf_compute, ref ccdf_compute);
 
             Console.WriteLine(" "
-                              + x.ToString().PadLeft(9) + "  "
-                              + y.ToString().PadLeft(9) + "  "
-                              + a.ToString().PadLeft(9) + "  "
-                              + b.ToString().PadLeft(9) + "  "
-                              + cdf_lookup.ToString().PadLeft(9) + "  "
-                              + cdf_compute.ToString().PadLeft(9) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(9) + "  "
+                              + y.ToString(CultureInfo.InvariantCulture).PadLeft(9) + "  "
+                              + a.ToString(CultureInfo.InvariantCulture).PadLeft(9) + "  "
+                              + b.ToString(CultureInfo.InvariantCulture).PadLeft(9) + "  "
+                              + cdf_lookup.ToString(CultureInfo.InvariantCulture).PadLeft(9) + "  "
+                              + cdf_compute.ToString(CultureInfo.InvariantCulture).PadLeft(9) + "");
         }
 
         Console.WriteLine("");
@@ -1262,12 +1261,12 @@ internal static class Program
             CDF.cumbet(x, y, a, b, ref cdf_compute, ref ccdf_compute);
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(9) + "  "
-                              + y.ToString().PadLeft(9) + "  "
-                              + a.ToString().PadLeft(9) + "  "
-                              + b.ToString().PadLeft(9) + "  "
-                              + ccdf_lookup.ToString().PadLeft(9) + "  "
-                              + ccdf_compute.ToString().PadLeft(9) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(9) + "  "
+                              + y.ToString(CultureInfo.InvariantCulture).PadLeft(9) + "  "
+                              + a.ToString(CultureInfo.InvariantCulture).PadLeft(9) + "  "
+                              + b.ToString(CultureInfo.InvariantCulture).PadLeft(9) + "  "
+                              + ccdf_lookup.ToString(CultureInfo.InvariantCulture).PadLeft(9) + "  "
+                              + ccdf_compute.ToString(CultureInfo.InvariantCulture).PadLeft(9) + "");
         }
     }
 
@@ -1330,11 +1329,11 @@ internal static class Program
             CDF.cumbin(s_double, x_double, pr, ompr, ref cdf_compute, ref ccdf_compute);
 
             Console.WriteLine("  "
-                              + s.ToString().PadLeft(2) + "  "
-                              + x.ToString().PadLeft(2) + "  "
-                              + pr.ToString().PadLeft(8) + "  "
-                              + cdf_lookup.ToString().PadLeft(12) + "  "
-                              + cdf_compute.ToString().PadLeft(12) + "");
+                              + s.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  "
+                              + pr.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + cdf_lookup.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + cdf_compute.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
         Console.WriteLine("");
@@ -1363,11 +1362,11 @@ internal static class Program
             CDF.cumbin(s_double, x_double, pr, ompr, ref cdf_compute, ref ccdf_compute);
 
             Console.WriteLine("  "
-                              + s.ToString().PadLeft(2) + "  "
-                              + x.ToString().PadLeft(2) + "  "
-                              + pr.ToString().PadLeft(8) + "  "
-                              + ccdf_lookup.ToString().PadLeft(12) + "  "
-                              + ccdf_compute.ToString().PadLeft(12) + "");
+                              + s.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  "
+                              + pr.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + ccdf_lookup.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + ccdf_compute.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -1424,10 +1423,10 @@ internal static class Program
             CDF.cumchi(x, df_double, ref cdf_compute, ref ccdf_compute);
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(8) + "  "
-                              + df.ToString().PadLeft(2) + "  "
-                              + cdf_lookup.ToString().PadLeft(12) + "  "
-                              + cdf_compute.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + df.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  "
+                              + cdf_lookup.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + cdf_compute.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
         Console.WriteLine("");
@@ -1453,10 +1452,10 @@ internal static class Program
             CDF.cumchi(x, df_double, ref cdf_compute, ref ccdf_compute);
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(8) + "  "
-                              + df.ToString().PadLeft(2) + "  "
-                              + ccdf_lookup.ToString().PadLeft(12) + "  "
-                              + ccdf_compute.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + df.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  "
+                              + ccdf_lookup.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + ccdf_compute.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -1515,11 +1514,11 @@ internal static class Program
             CDF.cumchn(x, df_double, lambda, ref cdf_compute, ref ccdf_compute);
 
             Console.WriteLine("  "
-                              + df.ToString().PadLeft(6) + "  "
-                              + lambda.ToString().PadLeft(8) + "  "
-                              + x.ToString().PadLeft(8) + "  "
-                              + cdf_lookup.ToString().PadLeft(12) + "  "
-                              + cdf_compute.ToString().PadLeft(12) + "");
+                              + df.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + lambda.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + cdf_lookup.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + cdf_compute.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
         Console.WriteLine("");
@@ -1545,11 +1544,11 @@ internal static class Program
             CDF.cumchn(x, df_double, lambda, ref cdf_compute, ref ccdf_compute);
 
             Console.WriteLine("  "
-                              + df.ToString().PadLeft(6) + "  "
-                              + lambda.ToString().PadLeft(8) + "  "
-                              + x.ToString().PadLeft(8) + "  "
-                              + ccdf_lookup.ToString().PadLeft(12) + "  "
-                              + ccdf_compute.ToString().PadLeft(12) + "");
+                              + df.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + lambda.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + ccdf_lookup.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + ccdf_compute.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
             
     }
@@ -1610,11 +1609,11 @@ internal static class Program
             CDF.cumf(x, dfn_double, dfd_double, ref cdf_compute, ref ccdf_compute);
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(8) + "  "
-                              + dfn.ToString().PadLeft(2) + "  "
-                              + dfd.ToString().PadLeft(2) + "  "
-                              + cdf_lookup.ToString().PadLeft(12) + "  "
-                              + cdf_compute.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + dfn.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  "
+                              + dfd.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  "
+                              + cdf_lookup.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + cdf_compute.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
 
         }
 
@@ -1642,11 +1641,11 @@ internal static class Program
             CDF.cumf(x, dfn_double, dfd_double, ref cdf_compute, ref ccdf_compute);
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(8) + "  "
-                              + dfn.ToString().PadLeft(2) + "  "
-                              + dfd.ToString().PadLeft(2) + "  "
-                              + ccdf_lookup.ToString().PadLeft(12) + "  "
-                              + ccdf_compute.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + dfn.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  "
+                              + dfd.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  "
+                              + ccdf_lookup.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + ccdf_compute.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -1708,12 +1707,12 @@ internal static class Program
                 ref ccdf_compute);
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(8) + "  "
-                              + dfn.ToString().PadLeft(2) + "  "
-                              + dfd.ToString().PadLeft(2) + "  "
-                              + lambda.ToString().PadLeft(8) + "  "
-                              + cdf_lookup.ToString().PadLeft(12) + "  "
-                              + cdf_compute.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + dfn.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  "
+                              + dfd.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  "
+                              + lambda.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + cdf_lookup.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + cdf_compute.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
         Console.WriteLine("");
@@ -1741,12 +1740,12 @@ internal static class Program
                 ref ccdf_compute);
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(8) + "  "
-                              + dfn.ToString().PadLeft(2) + "  "
-                              + dfd.ToString().PadLeft(2) + "  "
-                              + lambda.ToString().PadLeft(8) + "  "
-                              + ccdf_lookup.ToString().PadLeft(12) + "  "
-                              + ccdf_compute.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + dfn.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  "
+                              + dfd.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  "
+                              + lambda.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + ccdf_lookup.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + ccdf_compute.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -1800,10 +1799,10 @@ internal static class Program
             CDF.cumgam(x, a, ref cdf_compute, ref ccdf_compute);
 
             Console.WriteLine("  "
-                              + a.ToString().PadLeft(8) + "  "
-                              + x.ToString().PadLeft(8) + "  "
-                              + cdf_lookup.ToString().PadLeft(12) + "  "
-                              + cdf_compute.ToString().PadLeft(12) + "");
+                              + a.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + cdf_lookup.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + cdf_compute.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
         Console.WriteLine("");
@@ -1827,10 +1826,10 @@ internal static class Program
             CDF.cumgam(x, a, ref cdf_compute, ref ccdf_compute);
 
             Console.WriteLine("  "
-                              + a.ToString().PadLeft(8) + "  "
-                              + x.ToString().PadLeft(8) + "  "
-                              + ccdf_lookup.ToString().PadLeft(12) + "  "
-                              + ccdf_compute.ToString().PadLeft(12) + "");
+                              + a.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + ccdf_lookup.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + ccdf_compute.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -1893,11 +1892,11 @@ internal static class Program
             CDF.cumnbn(f_double, s_double, pr, ompr, ref cdf_compute, ref ccdf_compute);
 
             Console.WriteLine("  "
-                              + f.ToString().PadLeft(2) + "  "
-                              + s.ToString().PadLeft(2) + "  "
-                              + pr.ToString().PadLeft(8) + "  "
-                              + cdf_lookup.ToString().PadLeft(12) + "  "
-                              + cdf_compute.ToString().PadLeft(12) + "");
+                              + f.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  "
+                              + s.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  "
+                              + pr.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + cdf_lookup.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + cdf_compute.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
         Console.WriteLine("");
@@ -1926,11 +1925,11 @@ internal static class Program
             CDF.cumnbn(f_double, s_double, pr, ompr, ref cdf_compute, ref ccdf_compute);
 
             Console.WriteLine("  "
-                              + f.ToString().PadLeft(2) + "  "
-                              + s.ToString().PadLeft(2) + "  "
-                              + pr.ToString().PadLeft(8) + "  "
-                              + ccdf_lookup.ToString().PadLeft(12) + "  "
-                              + ccdf_compute.ToString().PadLeft(12) + "");
+                              + f.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  "
+                              + s.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  "
+                              + pr.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + ccdf_lookup.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + ccdf_compute.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -1983,9 +1982,9 @@ internal static class Program
             CDF.cumnor(x, ref cdf_compute, ref ccdf_compute);
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(8) + "  "
-                              + cdf_lookup.ToString().PadLeft(12) + "  "
-                              + cdf_compute.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + cdf_lookup.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + cdf_compute.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
         Console.WriteLine("");
@@ -2009,9 +2008,9 @@ internal static class Program
             CDF.cumnor(x, ref cdf_compute, ref ccdf_compute);
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(8) + "  "
-                              + ccdf_lookup.ToString().PadLeft(12) + "  "
-                              + ccdf_compute.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + ccdf_lookup.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + ccdf_compute.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -2067,10 +2066,10 @@ internal static class Program
             CDF.cumpoi(x_double, lambda, ref cdf_compute, ref ccdf_compute);
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(4) + "  "
-                              + lambda.ToString().PadLeft(8) + "  "
-                              + cdf_lookup.ToString().PadLeft(12) + "  "
-                              + cdf_compute.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                              + lambda.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + cdf_lookup.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + cdf_compute.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
         Console.WriteLine("");
@@ -2095,10 +2094,10 @@ internal static class Program
             CDF.cumpoi(x_double, lambda, ref cdf_compute, ref ccdf_compute);
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(4) + "  "
-                              + lambda.ToString().PadLeft(8) + "  "
-                              + ccdf_lookup.ToString().PadLeft(12) + "  "
-                              + ccdf_compute.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                              + lambda.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + ccdf_lookup.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + ccdf_compute.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -2155,10 +2154,10 @@ internal static class Program
             CDF.cumt(x, df_double, ref cdf_compute, ref ccdf_compute);
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(8) + "  "
-                              + df.ToString().PadLeft(2) + "  "
-                              + cdf_lookup.ToString().PadLeft(12) + "  "
-                              + cdf_compute.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + df.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  "
+                              + cdf_lookup.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + cdf_compute.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
         Console.WriteLine("");
@@ -2184,10 +2183,10 @@ internal static class Program
             CDF.cumt(x, df_double, ref cdf_compute, ref ccdf_compute);
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(8) + "  "
-                              + df.ToString().PadLeft(2) + "  "
-                              + ccdf_lookup.ToString().PadLeft(12) + "  "
-                              + ccdf_compute.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + df.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  "
+                              + ccdf_lookup.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + ccdf_compute.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -2217,8 +2216,8 @@ internal static class Program
         Console.WriteLine("  BETA evaluates the Beta function;");
         Console.WriteLine("  GAMMA_X evaluates the Gamma function.");
 
-        double a = 2.2;
-        double b = 3.7;
+        const double a = 2.2;
+        const double b = 3.7;
         double apb = a + b;
 
         double beta1 = CDF.beta(a, b);
@@ -2281,9 +2280,9 @@ internal static class Program
             double erf_compute = CDF.error_f(x);
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(8) + "  "
-                              + erf_lookup.ToString().PadLeft(12) + "  "
-                              + erf_compute.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + erf_lookup.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + erf_compute.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
         Console.WriteLine("");
@@ -2291,7 +2290,7 @@ internal static class Program
         Console.WriteLine("              (Lookup)      (Computed)");
         Console.WriteLine("");
 
-        int ind = 0;
+        const int ind = 0;
         n_data = 0;
 
         for (;;)
@@ -2307,9 +2306,9 @@ internal static class Program
             double erfc_compute = CDF.error_fc(ind, x);
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(8) + "  "
-                              + erfc_lookup.ToString().PadLeft(12) + "  "
-                              + erfc_compute.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + erfc_lookup.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + erfc_compute.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -2362,10 +2361,10 @@ internal static class Program
 
             double gamma_x_compute = CDF.gamma_x(x);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(8)
-                                   + "  " + gamma_lookup.ToString().PadLeft(12)
-                                   + "  " + tgamma_compute.ToString().PadLeft(12)
-                                   + "  " + gamma_x_compute.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + gamma_lookup.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + tgamma_compute.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + gamma_x_compute.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -2393,11 +2392,11 @@ internal static class Program
         int ierror = 0;
         double p = 0;
         double q = 0;
-        int test_num = 10;
+        const int test_num = 10;
         double x2 = 0;
 
-        double a = 3.0;
-        int ind = 1;
+        const double a = 3.0;
+        const int ind = 1;
         double x0 = 0;
 
         Console.WriteLine("");
@@ -2421,10 +2420,10 @@ internal static class Program
             CDF.gamma_inc_inv(a, ref x2, ref x0, ref p, ref q, ref ierror);
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + p.ToString().PadLeft(12) + "  "
-                              + q.ToString().PadLeft(12) + "  "
-                              + x2.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + p.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + q.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -2475,13 +2474,9 @@ internal static class Program
             double psi_compute = CDF.psi(x);
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(8) + "  "
-                              + psi_lookup.ToString().PadLeft(12) + "  "
-                              + psi_compute.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + psi_lookup.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + psi_compute.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
-}
-
-internal class TestValues
-{
 }

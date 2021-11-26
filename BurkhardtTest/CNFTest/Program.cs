@@ -70,13 +70,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int C_NUM = 2;
-        int L_NUM = 5;
+        const int C_NUM = 2;
+        const int L_NUM = 5;
 
-        int c_num = C_NUM;
-        int l_num = L_NUM;
-
-        string cnf_file_name = "cnf_io_v3_c2.cnf";
+        const string cnf_file_name = "cnf_io_v3_c2.cnf";
         int[] l_c_num =  {
                 2, 3
             }
@@ -85,7 +82,7 @@ internal static class Program
                 1, -3, 2, 3, -1
             }
             ;
-        int v_num = 3;
+        const int v_num = 3;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
@@ -93,13 +90,13 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Here is the data:");
 
-        CNF.cnf_print(v_num, c_num, l_num, l_c_num, l_val);
+        CNF.cnf_print(v_num, C_NUM, L_NUM, l_c_num, l_val);
 
         Console.WriteLine("");
         Console.WriteLine("  Now we call CNF_WRITE to store this information");
         Console.WriteLine("  in the file \"" + cnf_file_name + "\".");
 
-        CNF.cnf_write(v_num, c_num, l_num, l_c_num, l_val, cnf_file_name);
+        CNF.cnf_write(v_num, C_NUM, L_NUM, l_c_num, l_val, cnf_file_name);
 
     }
 
@@ -125,8 +122,7 @@ internal static class Program
         //
     {
         int c_num = 0;
-        string cnf_file_name = "cnf_io_v3_c2.cnf";
-        bool error;
+        const string cnf_file_name = "cnf_io_v3_c2.cnf";
         int l_num = 0;
         int v_num = 0;
 
@@ -137,7 +133,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Read the header of \"" + cnf_file_name + "\".");
 
-        error = CNF.cnf_header_read(cnf_file_name, ref v_num, ref c_num, ref l_num);
+        bool error = CNF.cnf_header_read(cnf_file_name, ref v_num, ref c_num, ref l_num);
 
         switch (error)
         {
@@ -176,11 +172,8 @@ internal static class Program
         //
     {
         int c_num = 0;
-        string cnf_file_name = "cnf_io_v3_c2.cnf";
-        bool error;
-        int[] l_c_num;
+        const string cnf_file_name = "cnf_io_v3_c2.cnf";
         int l_num = 0;
-        int[] l_val;
         int v_num = 0;
 
         Console.WriteLine("");
@@ -190,7 +183,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Read the header of \"" + cnf_file_name + "\".");
 
-        error = CNF.cnf_header_read(cnf_file_name, ref v_num, ref c_num, ref l_num);
+        bool error = CNF.cnf_header_read(cnf_file_name, ref v_num, ref c_num, ref l_num);
 
         switch (error)
         {
@@ -205,8 +198,8 @@ internal static class Program
         Console.WriteLine("  The number of clauses         C_NUM  = " + c_num + "");
         Console.WriteLine("  The number of signed literals L_NUM  = " + l_num + "");
 
-        l_c_num = new int[c_num];
-        l_val = new int[l_num];
+        int[] l_c_num = new int[c_num];
+        int[] l_val = new int[l_num];
 
         CNF.cnf_data_read(cnf_file_name, v_num, c_num, l_num, ref l_c_num, ref l_val);
 
@@ -241,13 +234,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int C_NUM = 18;
-        int L_NUM = 36;
+        const int C_NUM = 18;
+        const int L_NUM = 36;
 
-        int c_num = C_NUM;
-        int l_num = L_NUM;
-
-        string cnf_file_name = "cnf_io_v16_c18.cnf";
+        const string cnf_file_name = "cnf_io_v16_c18.cnf";
         int[] l_c_num =  {
                 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
                 2, 2, 2, 2, 2, 2, 2, 2
@@ -274,7 +264,7 @@ internal static class Program
                 15, 16
             }
             ;
-        int v_num = 16;
+        const int v_num = 16;
 
         Console.WriteLine("");
         Console.WriteLine("TEST04");
@@ -282,13 +272,13 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Here is the data to be written to the file:");
 
-        CNF.cnf_print(v_num, c_num, l_num, l_c_num, l_val);
+        CNF.cnf_print(v_num, C_NUM, L_NUM, l_c_num, l_val);
 
         Console.WriteLine("");
         Console.WriteLine("  Now we call CNF_WRITE to store this information");
         Console.WriteLine("  in the file \"" + cnf_file_name + "\".");
 
-        CNF.cnf_write(v_num, c_num, l_num, l_c_num, l_val, cnf_file_name);
+        CNF.cnf_write(v_num, C_NUM, L_NUM, l_c_num, l_val, cnf_file_name);
 
     }
 
@@ -314,8 +304,7 @@ internal static class Program
         //
     {
         int c_num = 0;
-        string cnf_file_name = "cnf_io_v16_c18.cnf";
-        bool error;
+        const string cnf_file_name = "cnf_io_v16_c18.cnf";
         int l_num = 0;
         int v_num = 0;
 
@@ -326,7 +315,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Read the header of \"" + cnf_file_name + "\".");
 
-        error = CNF.cnf_header_read(cnf_file_name, ref v_num, ref c_num, ref l_num);
+        bool error = CNF.cnf_header_read(cnf_file_name, ref v_num, ref c_num, ref l_num);
 
         switch (error)
         {
@@ -365,11 +354,8 @@ internal static class Program
         //
     {
         int c_num = 0;
-        string cnf_file_name = "cnf_io_v16_c18.cnf";
-        bool error;
-        int[] l_c_num;
+        const string cnf_file_name = "cnf_io_v16_c18.cnf";
         int l_num = 0;
-        int[] l_val;
         int v_num = 0;
 
         Console.WriteLine("");
@@ -379,7 +365,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Read the header of \"" + cnf_file_name + "\".");
 
-        error = CNF.cnf_header_read(cnf_file_name, ref v_num, ref c_num, ref l_num);
+        bool error = CNF.cnf_header_read(cnf_file_name, ref v_num, ref c_num, ref l_num);
 
         switch (error)
         {
@@ -394,8 +380,8 @@ internal static class Program
         Console.WriteLine("  The number of clauses         C_NUM  = " + c_num + "");
         Console.WriteLine("  The number of signed literals L_NUM  = " + l_num + "");
 
-        l_c_num = new int[c_num];
-        l_val = new int[l_num];
+        int[] l_c_num = new int[c_num];
+        int[] l_val = new int[l_num];
 
         CNF.cnf_data_read(cnf_file_name, v_num, c_num, l_num, ref l_c_num, ref l_val);
 
@@ -432,17 +418,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int C_NUM = 18;
-        int L_NUM = 36;
-        int V_NUM = 16;
+        const int C_NUM = 18;
+        const int L_NUM = 36;
+        const int V_NUM = 16;
 
-        int c_num = C_NUM;
-        int l_num = L_NUM;
-        int v_num = V_NUM;
-
-        bool f_val;
         int i;
-        int ihi;
         int j;
         int[] l_c_num =  {
                 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
@@ -470,7 +450,6 @@ internal static class Program
                 15, 16
             }
             ;
-        int solution_num;
         bool[] v_val = new bool[V_NUM];
 
         Console.WriteLine("");
@@ -479,11 +458,11 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Here is the CNF data defining the formula:");
 
-        CNF.cnf_print(v_num, c_num, l_num, l_c_num, l_val);
+        CNF.cnf_print(V_NUM, C_NUM, L_NUM, l_c_num, l_val);
         //
         //  Initialize the logical vector.
         //
-        for (j = 0; j < v_num; j++)
+        for (j = 0; j < V_NUM; j++)
         {
             v_val[j] = false;
         }
@@ -491,7 +470,7 @@ internal static class Program
         //
         //  Compute the number of binary vectors to check.
         //
-        ihi = (int)Math.Pow(2, v_num);
+        int ihi = (int)Math.Pow(2, V_NUM);
 
         Console.WriteLine("");
         Console.WriteLine("  Number of input vectors to check is " + ihi + "");
@@ -501,11 +480,11 @@ internal static class Program
         //
         //  Check every possible input vector.
         //
-        solution_num = 0;
+        int solution_num = 0;
 
         for (i = 0; i < ihi; i++)
         {
-            f_val = CNF.cnf_evaluate(v_num, c_num, l_num, l_c_num, l_val, v_val);
+            bool f_val = CNF.cnf_evaluate(V_NUM, C_NUM, L_NUM, l_c_num, l_val, v_val);
 
             switch (f_val)
             {
@@ -514,7 +493,7 @@ internal static class Program
                     solution_num += 1;
                     string cout = "  " + solution_num.ToString().PadLeft(2)
                                        + "  " + i.ToString().PadLeft(10);
-                    for (j = 0; j < v_num; j++)
+                    for (j = 0; j < V_NUM; j++)
                     {
 
                         cout += v_val[j] ? 1 : 0; // v_val[j];
@@ -525,7 +504,7 @@ internal static class Program
                 }
             }
 
-            typeMethods.lvec_next(v_num, ref v_val);
+            typeMethods.lvec_next(V_NUM, ref v_val);
         }
 
         //

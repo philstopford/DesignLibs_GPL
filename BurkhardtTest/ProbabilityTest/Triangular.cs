@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Probability;
 using Burkardt.Types;
 
 namespace ProbabilityTest;
 
-internal partial class Program
+internal static partial class Program
 {
     public static void triangular_cdf_test()
         //****************************************************************************80
@@ -26,14 +27,8 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
-        double cdf;
         int i;
-        double pdf;
         int seed = 123456789;
-        double x;
-        double x2;
 
         Console.WriteLine("");
         Console.WriteLine("TRIANGULAR_CDF_TEST");
@@ -41,8 +36,8 @@ internal partial class Program
         Console.WriteLine("  TRIANGULAR_CDF_INV inverts the Triangular CDF.");
         Console.WriteLine("  TRIANGULAR_PDF evaluates the Triangular PDF;");
 
-        a = 1.0;
-        b = 10.0;
+        double a = 1.0;
+        double b = 10.0;
 
         Console.WriteLine("");
         Console.WriteLine("  PDF parameter A =      " + a + "");
@@ -62,16 +57,16 @@ internal partial class Program
 
         for (i = 1; i <= 10; i++)
         {
-            x = Triangular.triangular_sample(a, b, ref seed);
-            pdf = Triangular.triangular_pdf(x, a, b);
-            cdf = Triangular.triangular_cdf(x, a, b);
-            x2 = Triangular.triangular_cdf_inv(cdf, a, b);
+            double x = Triangular.triangular_sample(a, b, ref seed);
+            double pdf = Triangular.triangular_pdf(x, a, b);
+            double cdf = Triangular.triangular_cdf(x, a, b);
+            double x2 = Triangular.triangular_cdf_inv(cdf, a, b);
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + pdf.ToString().PadLeft(12) + "  "
-                              + cdf.ToString().PadLeft(12) + "  "
-                              + x2.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
     }
@@ -96,17 +91,11 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int SAMPLE_NUM = 1000;
+        const int SAMPLE_NUM = 1000;
 
-        double a;
-        double b;
         int i;
-        double mean;
         int seed = 123456789;
-        double variance;
         double[] x = new double [SAMPLE_NUM];
-        double xmax;
-        double xmin;
 
         Console.WriteLine("");
         Console.WriteLine("TRIANGULAR_SAMPLE_TEST");
@@ -114,8 +103,8 @@ internal partial class Program
         Console.WriteLine("  TRIANGULAR_SAMPLE samples the Triangular distribution;");
         Console.WriteLine("  TRIANGULAR_VARIANCE computes the Triangular variance;");
 
-        a = 1.0;
-        b = 10.0;
+        double a = 1.0;
+        double b = 10.0;
 
         Console.WriteLine("");
         Console.WriteLine("  PDF parameter A =      " + a + "");
@@ -129,8 +118,8 @@ internal partial class Program
             return;
         }
 
-        mean = Triangular.triangular_mean(a, b);
-        variance = Triangular.triangular_variance(a, b);
+        double mean = Triangular.triangular_mean(a, b);
+        double variance = Triangular.triangular_variance(a, b);
 
         Console.WriteLine("");
         Console.WriteLine("  PDF mean =     " + mean + "");
@@ -143,8 +132,8 @@ internal partial class Program
 
         mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
         variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
-        xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
-        xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
+        double xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+        double xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
         Console.WriteLine("");
         Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");

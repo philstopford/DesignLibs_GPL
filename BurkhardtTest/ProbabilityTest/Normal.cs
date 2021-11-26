@@ -5,7 +5,7 @@ using Burkardt.Types;
 
 namespace ProbabilityTest;
 
-internal partial class Program
+internal static partial class Program
 {
     private static void normal_01_cdf_test()
 

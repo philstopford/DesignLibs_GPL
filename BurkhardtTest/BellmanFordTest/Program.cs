@@ -78,10 +78,10 @@ internal static class Program
                 5, 0,
                 3, 2,
                 5, 3,
-                3, 0,
+                3, 0
             }
             ;
-        int e_num = 10;
+        const int e_num = 10;
         double[] e_weight =
             {
                 -3.0,
@@ -97,8 +97,8 @@ internal static class Program
             }
             ;
         int[] predecessor = new int[6];
-        int source = 0;
-        int v_num = 6;
+        const int source = 0;
+        const int v_num = 6;
         double[] v_weight = new double[6];
 
         Console.WriteLine("");

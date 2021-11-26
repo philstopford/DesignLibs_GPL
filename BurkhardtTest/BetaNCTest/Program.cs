@@ -72,7 +72,7 @@ internal static class Program
         double lambda = 0;
         double x = 0;
 
-        double error_max = 1.0E-10;
+        const double error_max = 1.0E-10;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01:");

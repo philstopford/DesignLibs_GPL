@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.PDFLib;
 using Burkardt.Types;
 
@@ -85,10 +86,10 @@ internal static class Program
         for (int k = 0; k <= n; k++)
         {
             double prob = PDF.i4_binomial_pdf(n, p, k);
-            Console.WriteLine("  " + n.ToString().PadLeft(2)
-                                   + "  " + p.ToString().PadLeft(8)
-                                   + "  " + k.ToString().PadLeft(2)
-                                   + "  " + prob.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + p.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + prob.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -126,10 +127,10 @@ internal static class Program
             double p = PDF.r8_uniform_sample(0.0, 1.0);
             int k = PDF.i4_binomial_sample(n, p);
             double pdf = PDF.i4_binomial_pdf(n, p, k);
-            Console.WriteLine("  " + n.ToString().PadLeft(2)
-                                   + "  " + p.ToString().PadLeft(8)
-                                   + "  " + k.ToString().PadLeft(2)
-                                   + "  " + pdf.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + p.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -154,9 +155,6 @@ internal static class Program
 //    John Burkardt
 //
     {
-        int a;
-        int b;
-        int c;
         int i;
 
         Console.WriteLine("");
@@ -169,12 +167,12 @@ internal static class Program
 
         for (i = 1; i <= 10; i++)
         {
-            a = PDF.i4_uniform_sample(-10, +10);
-            b = PDF.i4_uniform_sample(a, 20);
-            c = PDF.i4_uniform_sample(a, b);
-            Console.WriteLine("  " + a.ToString().PadLeft(3)
-                                   + "  " + b.ToString().PadLeft(3)
-                                   + "  " + c.ToString().PadLeft(3) + "");
+            int a = PDF.i4_uniform_sample(-10, +10);
+            int b = PDF.i4_uniform_sample(a, 20);
+            int c = PDF.i4_uniform_sample(a, b);
+            Console.WriteLine("  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(3)
+                                   + "  " + b.ToString(CultureInfo.InvariantCulture).PadLeft(3)
+                                   + "  " + c.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "");
         }
     }
 
@@ -221,9 +219,9 @@ internal static class Program
         {
             double df = 5.0 * PDF.r8_uniform_01_sample() + 1.0;
             double u = PDF.r8_chi_sample(df);
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + df.ToString().PadLeft(14)
-                                   + "  " + u.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + df.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + u.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -248,13 +246,8 @@ internal static class Program
 //    John Burkardt
 //
     {
-        double[] a;
-        double diff;
-        int i;
         int j;
-        int n = 5;
-        double[] r1;
-        double[] r2;
+        const int n = 5;
 
         Console.WriteLine("");
         Console.WriteLine("R8PO_FA_TEST");
@@ -267,10 +260,11 @@ internal static class Program
 //
 //  Generate a random upper triangular matrix with positive diagonal.
 //
-        r1 = new double[n * n];
+        double[] r1 = new double[n * n];
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i <= j; i++)
             {
                 r1[i + j * n] = PDF.r8_uniform_01_sample();
@@ -286,13 +280,13 @@ internal static class Program
 //
 //  Compute a positive definite symmetric matrix A.
 //
-        a = typeMethods.r8ge_mtm(n, r1, r1);
+        double[] a = typeMethods.r8ge_mtm(n, r1, r1);
 
         typeMethods.r8ge_print(n, n, a, "  A:");
 
-        r2 = typeMethods.r8po_fa(n, a);
+        double[] r2 = typeMethods.r8po_fa(n, a);
 
-        diff = typeMethods.r8mat_norm_fro_affine(n, n, r1, r2);
+        double diff = typeMethods.r8mat_norm_fro_affine(n, n, r1, r2);
 
         Console.WriteLine("");
         Console.WriteLine("  Frobenius difference between R1 and R2 = " + diff + "");
@@ -319,22 +313,9 @@ internal static class Program
 //    John Burkardt
 //
     {
-        double[] c;
-        double c_det;
-        double[] c_inv;
-        double eps;
         int i;
         int j;
-        double[] mu;
-        int n = 5;
-        double pdf1;
-        double pdf2;
-        const double r8_pi = 3.141592653589793;
-        double[] r1;
-        double[] r2;
-        double[] x;
-        double xcx;
-        double[] y;
+        const int n = 5;
 
         Console.WriteLine("");
         Console.WriteLine("R8VEC_MULTINORMAL_PDF_TEST");
@@ -348,7 +329,7 @@ internal static class Program
 //
 //  Generate a random upper triangular matrix with positive diagonal.
 //
-        r1 = new double[n * n];
+        double[] r1 = new double[n * n];
 
         for (j = 0; j < n; j++)
         {
@@ -374,27 +355,27 @@ internal static class Program
 //
 //  Compute a positive definite symmetric matrix C.
 //
-        c = typeMethods.r8ge_mtm(n, r1, r1);
+        double[] c = typeMethods.r8ge_mtm(n, r1, r1);
         typeMethods.r8ge_print(n, n, c, "  C:");
 //
 //  Compute the Cholesky factor.
 //
-        r2 = typeMethods.r8mat_pofac(n, c);
+        double[] r2 = typeMethods.r8mat_pofac(n, c);
         typeMethods.r8ge_print(n, n, r2, "  R2:");
 //
 //  Compute the determinant of C.
 //
-        c_det = typeMethods.r8mat_podet(n, r2);
+        double c_det = typeMethods.r8mat_podet(n, r2);
         Console.WriteLine("");
         Console.WriteLine("  Determinant of C = " + c_det + "");
 //
 //  Compute the inverse of C.
 //
-        c_inv = typeMethods.r8mat_poinv(n, r2);
+        double[] c_inv = typeMethods.r8mat_poinv(n, r2);
 //
 //  Compute a random set of means.
 //
-        mu = new double[n];
+        double[] mu = new double[n];
         for (i = 0; i < n; i++)
         {
             mu[i] = PDF.r8_normal_01_sample();
@@ -403,27 +384,27 @@ internal static class Program
 //
 //  Compute X as small variations from MU.
 //
-        x = new double[n];
+        double[] x = new double[n];
         for (i = 0; i < n; i++)
         {
-            eps = 0.01 * PDF.r8_normal_01_sample();
+            double eps = 0.01 * PDF.r8_normal_01_sample();
             x[i] = (1.0 + eps) * mu[i];
         }
 
 //
 //  Compute PDF1 from the function.
 //
-        pdf1 = PDF.r8vec_multinormal_pdf(n, mu, r2, c_det, x);
+        double pdf1 = PDF.r8vec_multinormal_pdf(n, mu, r2, c_det, x);
 //
 //  Compute PDF2 from the definition.
 //
-        y = new double[n];
+        double[] y = new double[n];
         for (i = 0; i < n; i++)
         {
             y[i] = x[i] - mu[i];
         }
 
-        xcx = 0.0;
+        double xcx = 0.0;
         for (j = 0; j < n; j++)
         {
             for (i = 0; i < n; i++)
@@ -439,9 +420,9 @@ internal static class Program
             }
         }
 
-        pdf2 = 1.0 / Math.Sqrt(Math.Pow(2.0 * r8_pi, n))
-               * 1.0 / Math.Sqrt(c_det)
-               * Math.Exp(-0.5 * xcx);
+        double pdf2 = 1.0 / Math.Sqrt(Math.Pow(2.0 * Math.PI, n))
+                      * 1.0 / Math.Sqrt(c_det)
+                      * Math.Exp(-0.5 * xcx);
 
         Console.WriteLine("");
         Console.WriteLine("  PDF1 = " + pdf1 + "");

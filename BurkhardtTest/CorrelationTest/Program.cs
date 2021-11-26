@@ -73,27 +73,21 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] c;
-        int n;
-        double[] rho;
-        double rho0;
-
         Console.WriteLine("");
         Console.WriteLine("CORRELATION_TEST01");
         Console.WriteLine("  Make plots of correlation functions.");
         Console.WriteLine("");
 
-        n = 101;
+        const int n = 101;
         FullertonLib.BesselData globaldata = new();
-        Correlation.CorrelationResult tr;
         //
         //  besselj
         //
-        rho0 = 1.0;
+        double rho0 = 1.0;
         FullertonLib.r8BESJ0Data j0data = new();
-        rho = typeMethods.r8vec_linspace_new(n, -8.0, 8.0);
-        tr = Correlation.correlation_besselj(globaldata, j0data, n, rho, rho0);
-        c = tr.result;
+        double[] rho = typeMethods.r8vec_linspace_new(n, -8.0, 8.0);
+        Correlation.CorrelationResult tr = Correlation.correlation_besselj(globaldata, j0data, n, rho, rho0);
+        double[] c = tr.result;
         globaldata = tr.data;
         j0data = tr.j0data;
         Plot.correlation_plot(n, rho, c, "besselj", "Bessel J correlation");
@@ -279,14 +273,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int n;
-        int n2;
-        double[] rho;
-        double rho0 = 1.0;
-        double rhomax = 10.0;
-        double rhomin = 0.0;
-        int seed;
-        double[] x;
+        const double rho0 = 1.0;
+        const double rhomax = 10.0;
+        const double rhomin = 0.0;
 
         Console.WriteLine("");
         Console.WriteLine("CORRELATION_TEST02");
@@ -302,19 +291,19 @@ internal static class Program
 
         FullertonLib.BesselData globaldata = new();
             
-        n = 101;
-        n2 = 3;
-        rho = typeMethods.r8vec_linspace_new(n, rhomin, rhomax);
+        const int n = 101;
+        const int n2 = 3;
+        double[] rho = typeMethods.r8vec_linspace_new(n, rhomin, rhomax);
         //
         //  besselj
         //  Use EIGEN, because CHOLESKY fails.
         //
-        seed = 123456789;
+        int seed = 123456789;
         typeMethods.r8vecNormalData data = new();
         FullertonLib.r8BESJ0Data jdata = new();
         Correlation.CorrelationResult tr = SamplePaths.sample_paths_eigen(globaldata, jdata, n, n2, rhomax, rho0, Correlation.correlation_besselj, ref data, ref seed);
         globaldata = tr.data;
-        x = tr.result;
+        double[] x = tr.result;
         jdata = tr.j0data;
         Paths.paths_plot(n, n2, rho, x, "besselj", "Bessel J correlation");
         //
@@ -490,16 +479,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] c;
         double[] cvec;
         int i;
         int j;
-        int n;
-        int n2;
-        double[] rho;
-        double[] rho0;
-        double rhomax;
-        double rhomin;
         Correlation.CorrelationResult tr;
         FullertonLib.BesselData globaldata = new();
 
@@ -511,19 +493,19 @@ internal static class Program
         //
         //  besselj
         //
-        n = 101;
-        n2 = 5;
-        rho0 = new double[n2];
+        int n = 101;
+        int n2 = 5;
+        double[] rho0 = new double[n2];
         rho0[0] = 1.0;
         rho0[1] = 1.5;
         rho0[2] = 2.0;
         rho0[3] = 4.0;
         rho0[4] = 8.0;
-        rhomin = -8.0;
-        rhomax = +8.0;
-        rho = typeMethods.r8vec_linspace_new(n, rhomin, rhomax);
+        double rhomin = -8.0;
+        double rhomax = +8.0;
+        double[] rho = typeMethods.r8vec_linspace_new(n, rhomin, rhomax);
         FullertonLib.r8BESJ0Data j0data = new();
-        c = new double[n * n2];
+        double[] c = new double[n * n2];
         for (j = 0; j < n2; j++)
         {
             tr = Correlation.correlation_besselj(globaldata, j0data, n, rho, rho0[j]);
@@ -608,7 +590,7 @@ internal static class Program
         rhomin = -2.0;
         rhomax = +2.0;
         rho = typeMethods.r8vec_linspace_new(n, rhomin, rhomax);
-        c = new double[n * n2];
+        c = new double[n];
         for (j = 0; j < n2; j++)
         {
             tr = Correlation.correlation_constant(globaldata, k1data, n, rho, rho0[j]);
@@ -988,7 +970,7 @@ internal static class Program
         rhomin = -2.0;
         rhomax = +2.0;
         rho = typeMethods.r8vec_linspace_new(n, rhomin, rhomax);
-        c = new double[n * n2];
+        c = new double[n];
         for (j = 0; j < n2; j++)
         {
             tr = Correlation.correlation_white_noise(globaldata, k1data, n, rho, rho0[j]);
@@ -1025,24 +1007,17 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] c;
-        double[] k;
-        double[] k2;
-        int n;
-        double[] sigma;
-
         Console.WriteLine("");
         Console.WriteLine("CORRELATION_TEST04");
         Console.WriteLine("  Convert between a correlation and a covariance matrix.");
 
-        n = 5;
-        k2 = new double[n];
-        k = Matrix.minij(n, n);
+        int n = 5;
+        double[] k = Matrix.minij(n, n);
 
         typeMethods.r8mat_print(n, n, k, "  Covariance matrix K:");
 
-        c = new double[n * n];
-        sigma = new double[n];
+        double[] c = new double[n * n];
+        double[] sigma = new double[n];
 
         Correlation.covariance_to_correlation(n, k, ref c, ref sigma);
 
@@ -1050,7 +1025,7 @@ internal static class Program
 
         typeMethods.r8vec_print(n, sigma, "  Variances:");
 
-        k2 = Correlation.correlation_to_covariance(n, c, sigma);
+        double[] k2 = Correlation.correlation_to_covariance(n, c, sigma);
 
         typeMethods.r8mat_print(n, n, k2, "  Recovered covariance matrix K2:");
     }
@@ -1105,15 +1080,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int n;
-        int n2;
-        double[] rho;
-        double rho0;
-        double rhomax;
-        double rhomin;
-        int seed;
-        double[] x;
-
         Console.WriteLine("");
         Console.WriteLine("CORRELATION_TEST06");
         Console.WriteLine("  For non-stationary correlation functions:");
@@ -1134,15 +1100,15 @@ internal static class Program
         /*
         brownian
         */
-        n = 101;
-        n2 = 3;
-        rhomin = 0.0;
-        rhomax = 10.0;
-        rho0 = 1.0;
-        seed = 123456789;
+        const int n = 101;
+        const int n2 = 3;
+        const double rhomin = 0.0;
+        const double rhomax = 10.0;
+        const double rho0 = 1.0;
+        int seed = 123456789;
         typeMethods.r8vecNormalData data = new();
-        x = SamplePaths.sample_paths2_cholesky(n, n2, rhomin, rhomax, rho0, Correlation.correlation_brownian, ref data, ref seed);
-        rho = typeMethods.r8vec_linspace_new(n, rhomin, rhomax);
+        double[] x = SamplePaths.sample_paths2_cholesky(n, n2, rhomin, rhomax, rho0, Correlation.correlation_brownian, ref data, ref seed);
+        double[] rho = typeMethods.r8vec_linspace_new(n, rhomin, rhomax);
         Paths.paths_plot(n, n2, rho, x, "brownian", "Brownian correlation");
     }
 }

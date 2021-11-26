@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Probability;
 using Burkardt.Types;
 
 namespace ProbabilityTest;
 
-internal partial class Program
+internal static partial class Program
 {
     private static void semicircular_cdf_test()
 
@@ -27,14 +28,8 @@ internal partial class Program
 //    John Burkardt
 //
     {
-        double a;
-        double b;
-        double cdf;
         int i;
-        double pdf;
         int seed = 123456789;
-        double x;
-        double x2;
 
         Console.WriteLine("");
         Console.WriteLine("SEMICIRCULAR_CDF_TEST");
@@ -42,8 +37,8 @@ internal partial class Program
         Console.WriteLine("  SEMICIRCULAR_CDF_INV inverts the Semicircular CDF.");
         Console.WriteLine("  SEMICIRCULAR_PDF evaluates the Semicircular PDF;");
 
-        a = 3.0;
-        b = 2.0;
+        const double a = 3.0;
+        const double b = 2.0;
 
         Console.WriteLine("");
         Console.WriteLine("  PDF parameter A =      " + a + "");
@@ -63,16 +58,16 @@ internal partial class Program
 
         for (i = 1; i <= 10; i++)
         {
-            x = Semicircular.semicircular_sample(a, b, ref seed);
-            pdf = Semicircular.semicircular_pdf(x, a, b);
-            cdf = Semicircular.semicircular_cdf(x, a, b);
-            x2 = Semicircular.semicircular_cdf_inv(cdf, a, b);
+            double x = Semicircular.semicircular_sample(a, b, ref seed);
+            double pdf = Semicircular.semicircular_pdf(x, a, b);
+            double cdf = Semicircular.semicircular_cdf(x, a, b);
+            double x2 = Semicircular.semicircular_cdf_inv(cdf, a, b);
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + pdf.ToString().PadLeft(12) + "  "
-                              + cdf.ToString().PadLeft(12) + "  "
-                              + x2.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -97,17 +92,11 @@ internal partial class Program
 //    John Burkardt
 //
     {
-        int SAMPLE_NUM = 1000;
+        const int SAMPLE_NUM = 1000;
 
-        double a;
-        double b;
         int i;
-        double mean;
         int seed = 123456789;
-        double variance;
         double[] x = new double [SAMPLE_NUM];
-        double xmax;
-        double xmin;
 
         Console.WriteLine("");
         Console.WriteLine("SEMICIRCULAR_SAMPLE_TEST");
@@ -115,8 +104,8 @@ internal partial class Program
         Console.WriteLine("  SEMICIRCULAR_SAMPLE samples the Semicircular distribution;");
         Console.WriteLine("  SEMICIRCULAR_VARIANCE computes the Semicircular variance;");
 
-        a = 3.0;
-        b = 2.0;
+        const double a = 3.0;
+        const double b = 2.0;
 
         Console.WriteLine("");
         Console.WriteLine("  PDF parameter A =      " + a + "");
@@ -130,8 +119,8 @@ internal partial class Program
             return;
         }
 
-        mean = Semicircular.semicircular_mean(a, b);
-        variance = Semicircular.semicircular_variance(a, b);
+        double mean = Semicircular.semicircular_mean(a, b);
+        double variance = Semicircular.semicircular_variance(a, b);
 
         Console.WriteLine("");
         Console.WriteLine("  PDF mean =     " + mean + "");
@@ -144,8 +133,8 @@ internal partial class Program
 
         mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
         variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
-        xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
-        xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
+        double xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+        double xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
         Console.WriteLine("");
         Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");

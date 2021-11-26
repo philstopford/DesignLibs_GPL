@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using Burkardt.Function;
 using Burkardt.SortNS;
@@ -99,10 +100,10 @@ internal static class Program
             double c = UniformRNG.r8_uniform(rmin, rmax, ref seed);
             int bin = Bins.r8_to_bin_even2(nbin, a, b, c);
             Bins.bin_to_r8_even2(nbin, bin, a, b, ref cmin, ref cmax);
-            Console.WriteLine("  " + c.ToString().PadLeft(10)
-                                   + "  " + bin.ToString().PadLeft(6)
-                                   + "  " + cmin.ToString().PadLeft(10)
-                                   + "  " + cmax.ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + c.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + bin.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + cmin.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + cmax.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -252,24 +253,19 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 20;
+        const int N = 20;
 
         int[] a = new int[N];
-        int i;
-        int indx;
-        int isgn;
-        int j;
-        int seed;
 
         Console.WriteLine("");
         Console.WriteLine("TEST180");
         Console.WriteLine("  SORT_HEAP_EXTERNAL sorts objects externally.");
 
-        indx = 0;
-        i = 0;
-        j = 0;
-        isgn = 0;
-        seed = 123456789;
+        int indx = 0;
+        int i;
+        int j = 0;
+        int isgn = 0;
+        int seed = 123456789;
 
         for (i = 0; i < N; i++)
         {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.IntegralNS;
 
 namespace CauchyPrincipalValueTest;
@@ -63,11 +64,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
-        double exact;
         int n;
-        double value = 0;
 
         Console.WriteLine("");
         Console.WriteLine("CPV_TEST01:");
@@ -77,15 +74,15 @@ internal static class Program
         Console.WriteLine("   N           Estimate             Error");
         Console.WriteLine("");
 
-        exact = 2.11450175075;
-        a = -1.0;
-        b = +1.0;
+        double exact = 2.11450175075;
+        double a = -1.0;
+        double b = +1.0;
         for (n = 2; n <= 8; n += 2)
         {
-            value = CauchyPrincipalValue.cpv(f01, a, b, n);
-            Console.WriteLine("  " + n.ToString().PadLeft(2)
-                                   + "  " + value.ToString().PadLeft(24)
-                                   + "  " + Math.Abs(value - exact).ToString().PadLeft(14) + "");
+            double value = CauchyPrincipalValue.cpv(f01, a, b, n);
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + value.ToString(CultureInfo.InvariantCulture).PadLeft(24)
+                                   + "  " + Math.Abs(value - exact).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -151,17 +148,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
-        double delta;
-        double exact;
         int k;
-        int n;
-        double r1;
-        double r2;
-        double r3;
-        double r4;
-        double value = 0;
 
         Console.WriteLine("");
         Console.WriteLine("CPV_TEST02:");
@@ -169,24 +156,25 @@ internal static class Program
         Console.WriteLine("  Try this for delta = 1, 1/2, 1/4.");
         Console.WriteLine("");
         Console.WriteLine("   N          Estimate                  Exact                  Error");
-        delta = 1.0;
+        double delta = 1.0;
         for (k = 1; k <= 3; k++)
         {
             Console.WriteLine("");
-            r1 = Math.Pow(delta + 1.5, 2) + 0.75;
-            r2 = Math.Pow(-delta + 1.5, 2) + 0.75;
-            r3 = Math.Atan(Math.Sqrt(0.75) / (delta + 1.5));
-            r4 = Math.Atan(Math.Sqrt(0.75) / (-delta + 1.5));
-            exact = -Math.Log(r1 / r2) / 6.0 + (r3 - r4) / Math.Sqrt(3.0);
+            double r1 = Math.Pow(delta + 1.5, 2) + 0.75;
+            double r2 = Math.Pow(-delta + 1.5, 2) + 0.75;
+            double r3 = Math.Atan(Math.Sqrt(0.75) / (delta + 1.5));
+            double r4 = Math.Atan(Math.Sqrt(0.75) / (-delta + 1.5));
+            double exact = -Math.Log(r1 / r2) / 6.0 + (r3 - r4) / Math.Sqrt(3.0);
+            int n;
             for (n = 2; n <= 8; n += 2)
             {
-                a = 1.0 - delta;
-                b = 1.0 + delta;
-                value = CauchyPrincipalValue.cpv(f02, a, b, n);
-                Console.WriteLine("  " + n.ToString().PadLeft(2)
-                                       + "  " + value.ToString().PadLeft(24)
-                                       + "  " + exact.ToString().PadLeft(24)
-                                       + "  " + Math.Abs(value - exact).ToString().PadLeft(14) + "");
+                double a = 1.0 - delta;
+                double b = 1.0 + delta;
+                double value = CauchyPrincipalValue.cpv(f02, a, b, n);
+                Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + value.ToString(CultureInfo.InvariantCulture).PadLeft(24)
+                                       + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(24)
+                                       + "  " + Math.Abs(value - exact).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
             delta /= 2.0;

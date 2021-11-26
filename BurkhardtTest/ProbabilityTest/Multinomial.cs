@@ -5,7 +5,7 @@ using Burkardt.Uniform;
 
 namespace ProbabilityTest;
 
-internal partial class Program
+internal static partial class Program
 {
     private static void multinomial_coef_test()
 

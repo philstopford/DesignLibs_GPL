@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Probability;
 using Burkardt.Types;
 
 namespace ProbabilityTest;
 
-internal partial class Program
+internal static partial class Program
 {
     private static void weibull_cdf_test()
 
@@ -27,15 +28,8 @@ internal partial class Program
 //    John Burkardt
 //
     {
-        double a;
-        double b;
-        double c;
-        double cdf;
         int i;
-        double pdf;
         int seed = 123456789;
-        double x;
-        double x2;
 
         Console.WriteLine("");
         Console.WriteLine("WEIBULL_CDF_TEST");
@@ -43,9 +37,9 @@ internal partial class Program
         Console.WriteLine("  WEIBULL_CDF_INV inverts the Weibull CDF.");
         Console.WriteLine("  WEIBULL_PDF evaluates the Weibull PDF;");
 
-        a = 2.0;
-        b = 3.0;
-        c = 4.0;
+        double a = 2.0;
+        double b = 3.0;
+        double c = 4.0;
 
         Console.WriteLine("");
         Console.WriteLine("  PDF parameter A =      " + a + "");
@@ -66,16 +60,16 @@ internal partial class Program
 
         for (i = 1; i <= 10; i++)
         {
-            x = Weibull.weibull_sample(a, b, c, ref seed);
-            pdf = Weibull.weibull_pdf(x, a, b, c);
-            cdf = Weibull.weibull_cdf(x, a, b, c);
-            x2 = Weibull.weibull_cdf_inv(cdf, a, b, c);
+            double x = Weibull.weibull_sample(a, b, c, ref seed);
+            double pdf = Weibull.weibull_pdf(x, a, b, c);
+            double cdf = Weibull.weibull_cdf(x, a, b, c);
+            double x2 = Weibull.weibull_cdf_inv(cdf, a, b, c);
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + pdf.ToString().PadLeft(12) + "  "
-                              + cdf.ToString().PadLeft(12) + "  "
-                              + x2.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -100,18 +94,11 @@ internal partial class Program
 //    John Burkardt
 //
     {
-        int SAMPLE_NUM = 1000;
+        const int SAMPLE_NUM = 1000;
 
-        double a;
-        double b;
-        double c;
         int i;
-        double mean;
         int seed = 123456789;
-        double variance;
         double[] x = new double [SAMPLE_NUM];
-        double xmax;
-        double xmin;
 
         Console.WriteLine("");
         Console.WriteLine("WEIBULL_SAMPLE_TEST");
@@ -119,9 +106,9 @@ internal partial class Program
         Console.WriteLine("  WEIBULL_SAMPLE samples the Weibull distribution;");
         Console.WriteLine("  WEIBULL_VARIANCE computes the Weibull variance.");
 
-        a = 2.0;
-        b = 3.0;
-        c = 4.0;
+        double a = 2.0;
+        double b = 3.0;
+        double c = 4.0;
 
         Console.WriteLine("");
         Console.WriteLine("  PDF parameter A =      " + a + "");
@@ -136,8 +123,8 @@ internal partial class Program
             return;
         }
 
-        mean = Weibull.weibull_mean(a, b, c);
-        variance = Weibull.weibull_variance(a, b, c);
+        double mean = Weibull.weibull_mean(a, b, c);
+        double variance = Weibull.weibull_variance(a, b, c);
 
         Console.WriteLine("");
         Console.WriteLine("  PDF mean =     " + mean + "");
@@ -150,8 +137,8 @@ internal partial class Program
 
         mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
         variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
-        xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
-        xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
+        double xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+        double xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
         Console.WriteLine("");
         Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
@@ -182,14 +169,8 @@ internal partial class Program
 //    John Burkardt
 //
     {
-        double a;
-        double b;
-        double cdf;
         int i;
-        double pdf;
         int seed = 123456789;
-        int x;
-        int x2;
 
         Console.WriteLine("");
         Console.WriteLine("WEIBULL_DISCRETE_CDF_TEST");
@@ -197,8 +178,8 @@ internal partial class Program
         Console.WriteLine("  WEIBULL_DISCRETE_CDF_INV inverts the Weibull Discrete CDF.");
         Console.WriteLine("  WEIBULL_DISCRETE_PDF evaluates the Weibull Discrete PDF;");
 
-        a = 0.5;
-        b = 1.5;
+        const double a = 0.5;
+        const double b = 1.5;
 
         Console.WriteLine("");
         Console.WriteLine("  PDF parameter A =      " + a + "");
@@ -218,16 +199,16 @@ internal partial class Program
 
         for (i = 1; i <= 10; i++)
         {
-            x = Weibull.weibull_discrete_sample(a, b, ref seed);
-            pdf = Weibull.weibull_discrete_pdf(x, a, b);
-            cdf = Weibull.weibull_discrete_cdf(x, a, b);
-            x2 = Weibull.weibull_discrete_cdf_inv(cdf, a, b);
+            int x = Weibull.weibull_discrete_sample(a, b, ref seed);
+            double pdf = Weibull.weibull_discrete_pdf(x, a, b);
+            double cdf = Weibull.weibull_discrete_cdf(x, a, b);
+            int x2 = Weibull.weibull_discrete_cdf_inv(cdf, a, b);
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + pdf.ToString().PadLeft(12) + "  "
-                              + cdf.ToString().PadLeft(12) + "  "
-                              + x2.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -252,24 +233,18 @@ internal partial class Program
 //    John Burkardt
 //
     {
-        int SAMPLE_NUM = 1000;
+        const int SAMPLE_NUM = 1000;
 
-        double a;
-        double b;
         int i;
-        double mean;
         int seed = 123456789;
-        double variance;
         double[] x = new double [SAMPLE_NUM];
-        double xmax;
-        double xmin;
 
         Console.WriteLine("");
         Console.WriteLine("WEIBULL_DISCRETE_SAMPLE_TEST");
         Console.WriteLine("  WEIBULL_DISCRETE_SAMPLE samples the Weibull Discrete distribution;");
 
-        a = 0.5;
-        b = 1.5;
+        const double a = 0.5;
+        const double b = 1.5;
 
         Console.WriteLine("");
         Console.WriteLine("  PDF parameter A =      " + a + "");
@@ -288,10 +263,10 @@ internal partial class Program
             x[i] = Weibull.weibull_discrete_sample(a, b, ref seed);
         }
 
-        mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
-        variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
-        xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
-        xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
+        double mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
+        double variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
+        double xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+        double xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
         Console.WriteLine("");
         Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");

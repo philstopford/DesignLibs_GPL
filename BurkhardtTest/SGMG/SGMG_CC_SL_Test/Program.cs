@@ -78,9 +78,9 @@ internal static class Program
         Console.WriteLine("SGMG_WRITE_TESTS");
         Console.WriteLine("  Call SGMG_WRITE_TEST with various arguments.");
 
-        int dim_num = 2;
+        const int dim_num = 2;
 
-        int level_max = 2;
+        const int level_max = 2;
 
         int[] rule = new int[dim_num];
         rule[0] = 1;
@@ -105,9 +105,9 @@ internal static class Program
         gw_compute_weights[0] = ClenshawCurtis.clenshaw_curtis_compute_weights_np;
         gw_compute_weights[1] = ClenshawCurtis.clenshaw_curtis_compute_weights_np;
 
-        double tol = 0.0000001;
+        const double tol = 0.0000001;
 
-        string file_name = "sgmg_cc_sl";
+        const string file_name = "sgmg_cc_sl";
 
         sgmg_create_rule(dim_num, level_max, rule, growth, np,
             p, gw_compute_points, gw_compute_weights, tol, file_name);

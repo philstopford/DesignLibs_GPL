@@ -71,22 +71,8 @@ internal static class Program
         //
     {
         int element;
-        string element_filename;
-        int[] element_node;
-        int element_num;
-        int element_order;
         int i;
-        int node_dim;
-        string node_filename;
-        int node_num;
-        double[] node_xyz;
         string prefix;
-        double[] quad;
-        double[] value;
-        int value_dim;
-        string value_filename;
-        int value_num;
-        double[] volume;
 
         Console.WriteLine("");
         Console.WriteLine("TET_MESH_QUAD:");
@@ -111,15 +97,15 @@ internal static class Program
         //
         //  Create the filenames.
         //
-        node_filename = prefix + "_nodes.txt";
-        element_filename = prefix + "_elements.txt";
-        value_filename = prefix + "_values.txt";
+        string node_filename = prefix + "_nodes.txt";
+        string element_filename = prefix + "_elements.txt";
+        string value_filename = prefix + "_values.txt";
         //
         //  Read the node data.
         //
         TableHeader h = typeMethods.r8mat_header_read(node_filename);
-        node_dim = h.m;
-        node_num = h.n;
+        int node_dim = h.m;
+        int node_num = h.n;
 
         Console.WriteLine("");
         Console.WriteLine("  Read the header of \"" + node_filename + "\".");
@@ -127,7 +113,7 @@ internal static class Program
         Console.WriteLine("  Spatial dimension NODE_DIM = " + node_dim + "");
         Console.WriteLine("  Number of nodes NODE_NUM  = " + node_num + "");
 
-        node_xyz = typeMethods.r8mat_data_read(node_filename, node_dim, node_num);
+        double[] node_xyz = typeMethods.r8mat_data_read(node_filename, node_dim, node_num);
 
         Console.WriteLine("");
         Console.WriteLine("  Read the data in \"" + node_filename + "\".");
@@ -138,8 +124,8 @@ internal static class Program
         //  Read the element data.
         //
         h = typeMethods.i4mat_header_read(element_filename);
-        element_order = h.m;
-        element_num = h.n;
+        int element_order = h.m;
+        int element_num = h.n;
 
         Console.WriteLine("");
         Console.WriteLine(" Read the header of \"" + element_filename + "\".");
@@ -147,7 +133,7 @@ internal static class Program
         Console.WriteLine("  Element order      = " + element_order + "");
         Console.WriteLine("  Number of elements = " + element_num + "");
 
-        element_node = typeMethods.i4mat_data_read(element_filename,
+        int[] element_node = typeMethods.i4mat_data_read(element_filename,
             element_order, element_num);
 
         Console.WriteLine("");
@@ -159,8 +145,8 @@ internal static class Program
         //  Read the vaue data.
         //
         h = typeMethods.r8mat_header_read(value_filename);
-        value_dim = h.m;
-        value_num = h.n;
+        int value_dim = h.m;
+        int value_num = h.n;
 
         Console.WriteLine("");
         Console.WriteLine("  Read the header of \"" + value_filename + "\".");
@@ -176,7 +162,7 @@ internal static class Program
             return;
         }
 
-        value = typeMethods.r8mat_data_read(value_filename, value_dim, value_num);
+        double[] value = typeMethods.r8mat_data_read(value_filename, value_dim, value_num);
 
         Console.WriteLine("");
         Console.WriteLine("  Read the data in \"" + value_filename + "\".");
@@ -190,7 +176,7 @@ internal static class Program
         //
         //  Compute the tetrahedron volumes.
         //
-        volume = new double[element_num];
+        double[] volume = new double[element_num];
 
         for (element = 0; element < element_num; element++)
         {
@@ -230,7 +216,7 @@ internal static class Program
         //
         //  Compute the integral estimate.
         //
-        quad = new double[value_dim];
+        double[] quad = new double[value_dim];
 
         for (i = 0; i < value_dim; i++)
         {

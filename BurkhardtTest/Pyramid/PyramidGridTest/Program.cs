@@ -109,7 +109,7 @@ internal static class Program
         Console.WriteLine("  PYRAMID_UNIT_GRID determines a unit pyramid");
         Console.WriteLine("  grid with N+1 points along each edge.");
 
-        int n = 4;
+        const int n = 4;
         typeMethods.r8_print(n, "  Grid parameter N:");
 
         int ng = Grid.pyramid_grid_size(n);
@@ -146,7 +146,7 @@ internal static class Program
         Console.WriteLine("  PYRAMID_UNIT_GRID_PLOT plots a unit pyramid");
         Console.WriteLine("  grid with N+1 points along each edge.");
 
-        int n = 5;
+        const int n = 5;
         typeMethods.r8_print(n, "  Grid parameter N:");
 
         int ng = Grid.pyramid_grid_size(n);
@@ -154,7 +154,7 @@ internal static class Program
 
         double[] pg = Grid.pyramid_unit_grid(n, ng);
 
-        string header = "pyramid_unit";
+        const string header = "pyramid_unit";
         Grid.pyramid_unit_grid_plot(n, ng, pg, header);
     }
 }

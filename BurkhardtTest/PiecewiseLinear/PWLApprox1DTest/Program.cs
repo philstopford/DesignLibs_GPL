@@ -124,11 +124,10 @@ internal static class Program
         //
         //  #1:  Does approximant come close to function at data points?
         //
-        int ni = nd;
-        double[] xi = typeMethods.r8vec_copy_new(ni, xd);
-        double[] yi = Approx1D.pwl_interp_1d(nc, xc, yc, ni, xi);
+        double[] xi = typeMethods.r8vec_copy_new(nd, xd);
+        double[] yi = Approx1D.pwl_interp_1d(nc, xc, yc, nd, xi);
 
-        double app_error = typeMethods.r8vec_norm_affine(ni, yi, yd) / ni;
+        double app_error = typeMethods.r8vec_norm_affine(nd, yi, yd) / nd;
 
         Console.WriteLine("");
         Console.WriteLine("  L2 approximation error averaged per data node = " + app_error + "");

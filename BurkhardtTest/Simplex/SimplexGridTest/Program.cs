@@ -241,7 +241,7 @@ internal static class Program
         Console.WriteLine("  that uses N+1 points on a side,");
         Console.WriteLine("  in an M-dimensional simplex.");
 
-        int n = 5;
+        const int n = 5;
 
         typeMethods.r8mat_transpose_print(m, m + 1, v, "  Simplex vertices:");
 

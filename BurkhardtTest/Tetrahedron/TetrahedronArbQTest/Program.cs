@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using Burkardt.PolynomialNS;
 using Burkardt.TetrahedronNS;
@@ -42,17 +43,13 @@ internal static class Program
         //    Volume 59, 2010, pages 663-676.
         //
     {
-        int degree;
-        string header;
-        int n;
-
         Console.WriteLine("");
         Console.WriteLine("TETRAHEDRON_ARBQ_RULE_TEST");
         Console.WriteLine("  Test the TETRAHEDRON_ARBQ_RULE library.");
 
-        degree = 8;
-        n = QuadratureRule.tetrahedron_arbq_size(degree);
-        header = "tetrahedron08";
+        int degree = 8;
+        int n = QuadratureRule.tetrahedron_arbq_size(degree);
+        string header = "tetrahedron08";
 
         test01(degree, n);
 
@@ -104,23 +101,19 @@ internal static class Program
         //    Input, int N, the number of nodes.
         //
     {
-        double d;
         int j;
-        double volume;
-        double[] w;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
         Console.WriteLine("  Quadrature rule for a tetrahedron.");
         Console.WriteLine("  Polynomial exactness degree DEGREE = " + degree + "");
 
-        volume = Math.Sqrt(8.0) / 3.0;
+        double volume = Math.Sqrt(8.0) / 3.0;
         //
         //  Retrieve and print a symmetric quadrature rule.
         //
-        x = new double[3 * n];
-        w = new double[n];
+        double[] x = new double[3 * n];
+        double[] w = new double[n];
 
         QuadratureRule.tetrahedron_arbq(degree, n, ref x, ref w);
 
@@ -132,14 +125,14 @@ internal static class Program
         Console.WriteLine("");
         for (j = 0; j < n; j++)
         {
-            Console.WriteLine(j.ToString().PadLeft(4) + "  "
-                                                      + w[j].ToString().PadLeft(14) + "  "
-                                                      + x[0 + j * 3].ToString().PadLeft(14) + "  "
-                                                      + x[1 + j * 3].ToString().PadLeft(14) + "  "
-                                                      + x[2 + j * 3].ToString().PadLeft(14) + "");
+            Console.WriteLine(j.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                      + w[j].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                                                      + x[0 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                                                      + x[1 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                                                      + x[2 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
-        d = typeMethods.r8vec_sum(n, w);
+        double d = typeMethods.r8vec_sum(n, w);
 
         Console.WriteLine("   Sum    " + d + "");
         Console.WriteLine("  Volume  " + volume + "");
@@ -186,9 +179,6 @@ internal static class Program
     {
         int i;
         List<string> rule_unit = new();
-        string rule_filename;
-        double[] w;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02");
@@ -198,14 +188,14 @@ internal static class Program
         //
         //  Retrieve a quadrature rule.
         //
-        x = new double[3 * n];
-        w = new double[n];
+        double[] x = new double[3 * n];
+        double[] w = new double[n];
 
         QuadratureRule.tetrahedron_arbq(degree, n, ref x, ref w);
         //
         //  Write the points and weights to a file.
         //
-        rule_filename = header + ".txt";
+        string rule_filename = header + ".txt";
 
         for (i = 0; i < n; i++)
         {
@@ -259,9 +249,6 @@ internal static class Program
         //    Input, string HEADER, an identifier for the filenames.
         //
     {
-        double[] w;
-        double[] x;
-
         Console.WriteLine("");
         Console.WriteLine("TEST03");
         Console.WriteLine("  Get a quadrature rule for the tetrahedron.");
@@ -270,8 +257,8 @@ internal static class Program
         //
         //  Retrieve a symmetric quadrature rule.
         //
-        x = new double[3 * n];
-        w = new double[n];
+        double[] x = new double[3 * n];
+        double[] w = new double[n];
 
         QuadratureRule.tetrahedron_arbq(degree, n, ref x, ref w);
         //
@@ -317,15 +304,8 @@ internal static class Program
         //    Input, int N, the number of nodes to be used by the rule.
         //
     {
-        double d;
         int i;
         int j;
-        int npols;
-        double[] pols;
-        double[] rints;
-        double volume;
-        double[] w;
-        double[] x;
         double[] z = new double[3];
 
         Console.WriteLine("");
@@ -336,13 +316,13 @@ internal static class Program
         //
         //  Retrieve a quadrature rule.
         //
-        x = new double[3 * n];
-        w = new double[n];
+        double[] x = new double[3 * n];
+        double[] w = new double[n];
 
         QuadratureRule.tetrahedron_arbq(degree, n, ref x, ref w);
 
-        npols = (degree + 1) * (degree + 2) * (degree + 3) / 6;
-        rints = new double[npols];
+        int npols = (degree + 1) * (degree + 2) * (degree + 3) / 6;
+        double[] rints = new double[npols];
 
         for (j = 0; j < npols; j++)
         {
@@ -355,7 +335,7 @@ internal static class Program
             z[1] = x[1 + i * 3];
             z[2] = x[2 + i * 3];
 
-            pols = Polynomial.ortho3eva(degree, z);
+            double[] pols = Polynomial.ortho3eva(degree, z);
 
             for (j = 0; j < npols; j++)
             {
@@ -363,9 +343,9 @@ internal static class Program
             }
         }
 
-        volume = Math.Sqrt(8.0) / 3.0;
+        double volume = Math.Sqrt(8.0) / 3.0;
 
-        d = 0.0;
+        double d = 0.0;
         d = Math.Pow(rints[0] - Math.Sqrt(volume), 2);
         for (i = 1; i < npols; i++)
         {

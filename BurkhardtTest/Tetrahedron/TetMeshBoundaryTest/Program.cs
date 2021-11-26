@@ -47,27 +47,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string boundary_element_filename;
-        int[] boundary_element_node;
         int boundary_element_num = 0;
         int boundary_element_order = 0;
-        string boundary_node_filename;
-        int[] boundary_node_index;
-        int[] boundary_node_mask;
-        string boundary_node_mask_filename;
         int boundary_node_num = 0;
-        double[] boundary_node_xyz;
-        int dim_num;
-        string element_filename;
-        int[] element_node;
-        int element_num;
-        int element_order;
         int i;
         int j;
-        int j2;
-        int node_num;
-        string node_filename;
-        double[] node_xyz;
         string prefix;
 
         Console.WriteLine("");
@@ -99,17 +83,17 @@ internal static class Program
         //
         //  Create the filenames.
         //
-        node_filename = prefix + "_nodes.txt";
-        element_filename = prefix + "_elements.txt";
-        boundary_node_mask_filename = prefix + "_boundary_node_mask.txt";
-        boundary_node_filename = prefix + "_boundary_nodes.txt";
-        boundary_element_filename = prefix + "_boundary_elements.txt";
+        string node_filename = prefix + "_nodes.txt";
+        string element_filename = prefix + "_elements.txt";
+        string boundary_node_mask_filename = prefix + "_boundary_node_mask.txt";
+        string boundary_node_filename = prefix + "_boundary_nodes.txt";
+        string boundary_element_filename = prefix + "_boundary_elements.txt";
         //
         //  Read the nodes.
         //
         TableHeader h = typeMethods.r8mat_header_read(node_filename);
-        dim_num = h.m;
-        node_num = h.n;
+        int dim_num = h.m;
+        int node_num = h.n;
 
         Console.WriteLine("");
         Console.WriteLine("  Read the header of \"" + node_filename + "\".");
@@ -126,7 +110,7 @@ internal static class Program
         Console.WriteLine("  Spatial dimension = " + dim_num + "");
         Console.WriteLine("  Number of nodes   = " + node_num + "");
 
-        node_xyz = typeMethods.r8mat_data_read(node_filename, dim_num, node_num);
+        double[] node_xyz = typeMethods.r8mat_data_read(node_filename, dim_num, node_num);
 
         Console.WriteLine("");
         Console.WriteLine("  Read the data in \"" + node_filename + "\".");
@@ -137,8 +121,8 @@ internal static class Program
         //  Read the elements.
         //
         h = typeMethods.i4mat_header_read(element_filename);
-        element_order = h.m;
-        element_num = h.n;
+        int element_order = h.m;
+        int element_num = h.n;
 
         Console.WriteLine("");
         Console.WriteLine("  Read the header of \"" + element_filename + "\".");
@@ -155,7 +139,7 @@ internal static class Program
         Console.WriteLine("  Element order = " + element_order + "");
         Console.WriteLine("  Number of tetras  = " + element_num + "");
 
-        element_node = typeMethods.i4mat_data_read(element_filename, element_order,
+        int[] element_node = typeMethods.i4mat_data_read(element_filename, element_order,
             element_num);
 
         Console.WriteLine("");
@@ -170,7 +154,7 @@ internal static class Program
         //
         //  Count the boundary faces and nodes.
         //
-        boundary_node_mask = new int[node_num];
+        int[] boundary_node_mask = new int[node_num];
 
         TetMesh_Boundary.tet_mesh_boundary_count(element_order, element_num, element_node,
             node_num, ref boundary_node_num, ref boundary_element_num, ref boundary_node_mask);
@@ -182,9 +166,9 @@ internal static class Program
         //
         //  Set the boundary nodes and write them out.
         //
-        boundary_node_xyz = new double[dim_num * boundary_node_num];
+        double[] boundary_node_xyz = new double[dim_num * boundary_node_num];
 
-        j2 = 0;
+        int j2 = 0;
         for (j = 0; j < node_num; j++)
         {
             switch (boundary_node_mask[j])
@@ -219,7 +203,7 @@ internal static class Program
         //
         //  Compute the reduced indices for the boundary nodes.
         //
-        boundary_node_index = typeMethods.i4vec_cum(node_num, boundary_node_mask);
+        int[] boundary_node_index = typeMethods.i4vec_cum(node_num, boundary_node_mask);
         //
         //  Subtract 1 so boundary node indices are zero-based.
         //
@@ -238,7 +222,7 @@ internal static class Program
             _ => boundary_element_order
         };
 
-        boundary_element_node = TetMesh_Boundary.tet_mesh_boundary_set(element_order, element_num,
+        int[] boundary_element_node = TetMesh_Boundary.tet_mesh_boundary_set(element_order, element_num,
             element_node, boundary_element_order, boundary_element_num);
 
         for (j = 0; j < boundary_element_num; j++)

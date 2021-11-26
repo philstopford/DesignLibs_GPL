@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Types;
 
 namespace TetrahedronMonteCarloTest;
@@ -76,11 +77,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int f_num = 6;
-        int i;
-        int p_num;
-        double[] result;
-        int seed;
+        const int f_num = 6;
         double[] t =
         {
             1.0, 0.0, 0.0,
@@ -98,26 +95,27 @@ internal static class Program
         Console.WriteLine("  Use an increasing number of points P_NUM.");
         Console.WriteLine("  Note that the sample routine is a \"bad\" sampler.");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("     P_NUM      X^2             X*Y             X*Z" + 
                           "             Y^2             Y*Z             Z^2");
         Console.WriteLine("");
 
-        p_num = 1;
+        int p_num = 1;
 
         while (p_num <= 65536)
         {
             MonteCarlo.TetrahedronSampleResult tmp = MonteCarlo.tetrahedron_monte_carlo(t, p_num, f_num,
                 MonteCarlo.tetrahedron_unit_sample_01, Integrand.tetrahedron_integrand_03, ref seed);
-            result = tmp.result;
+            double[] result = tmp.result;
             seed = tmp.seed;
 
-            string cout = "  " + p_num.ToString().PadLeft(8);
+            string cout = "  " + p_num.ToString(CultureInfo.InvariantCulture).PadLeft(8);
+            int i;
             for (i = 0; i < f_num; i++)
             {
-                cout += "  " + result[i].ToString().PadLeft(14);
+                cout += "  " + result[i].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -148,11 +146,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int f_num = 6;
-        int i;
-        int p_num;
-        double[] result;
-        int seed;
+        const int f_num = 6;
         double[] t =
         {
             1.0, 0.0, 0.0,
@@ -170,26 +164,27 @@ internal static class Program
         Console.WriteLine("  Use an increasing number of points P_NUM.");
         Console.WriteLine("  Note that the sample routine is a good sampler.");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("     P_NUM      X^2             X*Y             X*Z" + 
                           "             Y^2             Y*Z             Z^2");
         Console.WriteLine("");
 
-        p_num = 1;
+        int p_num = 1;
 
         while (p_num <= 65536)
         {
             MonteCarlo.TetrahedronSampleResult tmp = MonteCarlo.tetrahedron_monte_carlo(t, p_num, f_num,
                 MonteCarlo.tetrahedron_unit_sample_02, Integrand.tetrahedron_integrand_03, ref seed);
-            result = tmp.result;
+            double[] result = tmp.result;
             seed = tmp.seed;
 
-            string cout = "  " + p_num.ToString().PadLeft(8);
+            string cout = "  " + p_num.ToString(CultureInfo.InvariantCulture).PadLeft(8);
+            int i;
             for (i = 0; i < f_num; i++)
             {
-                cout += "  " + result[i].ToString().PadLeft(14);
+                cout += "  " + result[i].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -219,11 +214,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int f_num = 6;
-        int i;
-        int p_num;
-        double[] result;
-        int seed;
+        const int f_num = 6;
         double[] t =
         {
             1.0, 0.0, 0.0,
@@ -241,26 +232,27 @@ internal static class Program
         Console.WriteLine("  Use an increasing number of points P_NUM.");
         Console.WriteLine("  Note that the sample routine is a good sampler.");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("     P_NUM      X^2             X*Y             X*Z" + 
                           "             Y^2             Y*Z             Z^2");
         Console.WriteLine("");
 
-        p_num = 1;
+        int p_num = 1;
 
         while (p_num <= 65536)
         {
             MonteCarlo.TetrahedronSampleResult tmp = MonteCarlo.tetrahedron_monte_carlo(t, p_num, f_num,
                 MonteCarlo.tetrahedron_unit_sample_03, Integrand.tetrahedron_integrand_03, ref seed);
-            result = tmp.result;
+            double[] result = tmp.result;
             seed = tmp.seed;
 
-            string cout = "  " + p_num.ToString().PadLeft(8);
+            string cout = "  " + p_num.ToString(CultureInfo.InvariantCulture).PadLeft(8);
+            int i;
             for (i = 0; i < f_num; i++)
             {
-                cout += "  " + result[i].ToString().PadLeft(14);
+                cout += "  " + result[i].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -290,11 +282,8 @@ internal static class Program
         //    John Burkardt
         //
     {
+        // ReSharper disable once ConvertToConstant.Local
         int f_num = 6;
-        int i;
-        int p_num;
-        double[] result;
-        int seed;
         double[] t =
         {
             1.0, 0.0, 0.0,
@@ -312,26 +301,27 @@ internal static class Program
         Console.WriteLine("  Use an increasing number of points P_NUM.");
         Console.WriteLine("  Note that the sample routine is a good sampler.");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("     P_NUM      X^2             X*Y             X*Z" + 
                           "             Y^2             Y*Z             Z^2");
         Console.WriteLine("");
 
-        p_num = 1;
+        int p_num = 1;
 
         while (p_num <= 65536)
         {
             MonteCarlo.TetrahedronSampleResult tmp = MonteCarlo.tetrahedron_monte_carlo(t, p_num, f_num,
                 MonteCarlo.tetrahedron_unit_sample_04, Integrand.tetrahedron_integrand_03, ref seed);
-            result = tmp.result;
+            double[] result = tmp.result;
             seed = tmp.seed;
 
-            string cout = "  " + p_num.ToString().PadLeft(8);
+            string cout = "  " + p_num.ToString(CultureInfo.InvariantCulture).PadLeft(8);
+            int i;
             for (i = 0; i < f_num; i++)
             {
-                cout += "  " + result[i].ToString().PadLeft(14);
+                cout += "  " + result[i].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -361,11 +351,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int f_num = 6;
-        int i;
-        int p_num;
-        double[] result;
-        int seed;
+        const int f_num = 6;
         double[] t =
         {
             1.0, 2.0, 3.0,
@@ -383,7 +369,7 @@ internal static class Program
         Console.WriteLine("  Use an increasing number of points P_NUM.");
         Console.WriteLine("  Note that the sample routine is a bad sampler.");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         typeMethods.r8mat_transpose_print(3, 4, t, "  Tetrahedron vertices:");
 
@@ -391,19 +377,20 @@ internal static class Program
         Console.WriteLine("     P_NUM");
         Console.WriteLine("");
 
-        p_num = 1;
+        int p_num = 1;
 
         while (p_num <= 65536)
         {
             MonteCarlo.TetrahedronSampleResult tmp = MonteCarlo.tetrahedron_monte_carlo(t, p_num, f_num,
                 MonteCarlo.tetrahedron_unit_sample_01, tetrahedron_integrand_user, ref seed);
-            result = tmp.result;
+            double[] result = tmp.result;
             seed = tmp.seed;
 
-            string cout = "  " + p_num.ToString().PadLeft(8);
+            string cout = "  " + p_num.ToString(CultureInfo.InvariantCulture).PadLeft(8);
+            int i;
             for (i = 0; i < f_num; i++)
             {
-                cout += "  " + result[i].ToString().PadLeft(14);
+                cout += "  " + result[i].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -434,11 +421,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int f_num = 6;
-        int i;
-        int p_num;
-        double[] result;
-        int seed;
+        const int f_num = 6;
         double[] t =
         {
             1.0, 2.0, 3.0,
@@ -456,7 +439,7 @@ internal static class Program
         Console.WriteLine("  Use an increasing number of points P_NUM.");
         Console.WriteLine("  Note that the sample routine is a good sampler.");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         typeMethods.r8mat_transpose_print(3, 4, t, "  Tetrahedron vertices:");
 
@@ -464,19 +447,20 @@ internal static class Program
         Console.WriteLine("     P_NUM");
         Console.WriteLine("");
 
-        p_num = 1;
+        int p_num = 1;
 
         while (p_num <= 65536)
         {
             MonteCarlo.TetrahedronSampleResult tmp = MonteCarlo.tetrahedron_monte_carlo(t, p_num, f_num,
                 MonteCarlo.tetrahedron_unit_sample_02, tetrahedron_integrand_user, ref seed);
-            result = tmp.result;
+            double[] result = tmp.result;
             seed = tmp.seed;
 
-            string cout = "  " + p_num.ToString().PadLeft(8);
+            string cout = "  " + p_num.ToString(CultureInfo.InvariantCulture).PadLeft(8);
+            int i;
             for (i = 0; i < f_num; i++)
             {
-                cout += "  " + result[i].ToString().PadLeft(14);
+                cout += "  " + result[i].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -507,11 +491,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int f_num = 6;
-        int i;
-        int p_num;
-        double[] result;
-        int seed;
+        const int f_num = 6;
         double[] t =
         {
             1.0, 2.0, 3.0,
@@ -529,7 +509,7 @@ internal static class Program
         Console.WriteLine("  Use an increasing number of points P_NUM.");
         Console.WriteLine("  Note that the sample routine is a good sampler.");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         typeMethods.r8mat_transpose_print(3, 4, t, "  Tetrahedron vertices:");
 
@@ -537,19 +517,20 @@ internal static class Program
         Console.WriteLine("     P_NUM");
         Console.WriteLine("");
 
-        p_num = 1;
+        int p_num = 1;
 
         while (p_num <= 65536)
         {
             MonteCarlo.TetrahedronSampleResult tmp = MonteCarlo.tetrahedron_monte_carlo(t, p_num, f_num,
                 MonteCarlo.tetrahedron_unit_sample_03, tetrahedron_integrand_user, ref seed);
-            result = tmp.result;
+            double[] result = tmp.result;
             seed = tmp.seed;
 
-            string cout = "  " + p_num.ToString().PadLeft(8);
+            string cout = "  " + p_num.ToString(CultureInfo.InvariantCulture).PadLeft(8);
+            int i;
             for (i = 0; i < f_num; i++)
             {
-                cout += "  " + result[i].ToString().PadLeft(14);
+                cout += "  " + result[i].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -580,11 +561,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int f_num = 6;
-        int i;
-        int p_num;
-        double[] result;
-        int seed;
+        const int f_num = 6;
         double[] t =
         {
             1.0, 2.0, 3.0,
@@ -602,7 +579,7 @@ internal static class Program
         Console.WriteLine("  Use an increasing number of points P_NUM.");
         Console.WriteLine("  Note that the sample routine is a good sampler.");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         typeMethods.r8mat_transpose_print(3, 4, t, "  Tetrahedron vertices:");
 
@@ -610,19 +587,20 @@ internal static class Program
         Console.WriteLine("     P_NUM");
         Console.WriteLine("");
 
-        p_num = 1;
+        int p_num = 1;
 
         while (p_num <= 65536)
         {
             MonteCarlo.TetrahedronSampleResult tmp = MonteCarlo.tetrahedron_monte_carlo(t, p_num, f_num,
                 MonteCarlo.tetrahedron_unit_sample_04, tetrahedron_integrand_user, ref seed);
-            result = tmp.result;
+            double[] result = tmp.result;
             seed = tmp.seed;
 
-            string cout = "  " + p_num.ToString().PadLeft(8);
+            string cout = "  " + p_num.ToString(CultureInfo.InvariantCulture).PadLeft(8);
+            int i;
             for (i = 0; i < f_num; i++)
             {
-                cout += "  " + result[i].ToString().PadLeft(14);
+                cout += "  " + result[i].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -664,9 +642,8 @@ internal static class Program
         //
     {
         int j;
-        double[] fp;
 
-        fp = new double[f_num * p_num];
+        double[] fp = new double[f_num * p_num];
 
         for (j = 0; j < p_num; j++)
         {

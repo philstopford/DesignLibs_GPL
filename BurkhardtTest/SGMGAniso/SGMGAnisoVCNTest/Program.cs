@@ -181,7 +181,7 @@ internal static class Program
         int dim;
         double q;
         SGMGAniso.SGMGAData data = new();
-        string cout = "";
+        string cout;
 
         int[] level_1d = new int[dim_num];
         int[] level_1d_max = new int[dim_num];
@@ -444,7 +444,7 @@ internal static class Program
     {
         int dim;
         SGMGAniso.SGMGAData data = new();
-        string cout = "";
+        string cout;
 
         int[] level_1d = new int[dim_num];
         int[] level_1d_max = new int[dim_num];
@@ -691,7 +691,7 @@ internal static class Program
         int dim;
         double q;
         SGMGAniso.SGMGAData data = new();
-        string cout = "";
+        string cout;
 
         int[] level_1d = new int[dim_num];
         int[] level_1d_max = new int[dim_num];

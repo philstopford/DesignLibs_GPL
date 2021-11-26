@@ -127,7 +127,7 @@ internal static class Program
         //
         //  Write the data.
         //
-        string filename = "hexahexa_2x2x2.mesh";
+        const string filename = "hexahexa_2x2x2.mesh";
 
         Mesh.mesh_write(filename, dim, vertices, edges, triangles,
             quadrilaterals, tetrahedrons, hexahedrons, vertex_coordinate,
@@ -202,7 +202,7 @@ internal static class Program
         //
         //  Write the data.
         //
-        string filename = "cyl248.mesh";
+        const string filename = "cyl248.mesh";
 
         Mesh.mesh_write(filename, dim, vertices, edges, triangles,
             quadrilaterals, tetrahedrons, hexahedrons, vertex_coordinate,

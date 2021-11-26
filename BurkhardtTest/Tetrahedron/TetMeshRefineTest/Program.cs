@@ -42,21 +42,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int dim_num = 0;
-        int[] edge_data;
-        int[] element_node1 = new int[1];
         int[] element_node2 = new int[1];
-        int element_num1 = 0;
         int element_num2 = 0;
-        int element_order = 0;
-        string input_node_filename;
-        string input_element_filename;
-        int node_num1 = 0;
         int node_num2 = 0;
-        double[] node_xyz1 = new double[1];
         double[] node_xyz2 = new double[1];
-        string output_node_filename;
-        string output_element_filename;
         string prefix;
 
         Console.WriteLine("");
@@ -97,16 +86,16 @@ internal static class Program
         //
         //  Create the filenames.
         //
-        input_node_filename = prefix + "_nodes.txt";
-        input_element_filename = prefix + "_elements.txt";
-        output_node_filename = prefix + "_ref_nodes.txt";
-        output_element_filename = prefix + "_ref_elements.txt";
+        string input_node_filename = prefix + "_nodes.txt";
+        string input_element_filename = prefix + "_elements.txt";
+        string output_node_filename = prefix + "_ref_nodes.txt";
+        string output_element_filename = prefix + "_ref_elements.txt";
         //
         //  Read the node data.
         //
         TableHeader h = typeMethods.r8mat_header_read(input_node_filename);
-        dim_num = h.m;
-        node_num1 = h.n;
+        int dim_num = h.m;
+        int node_num1 = h.n;
 
         if (dim_num != 3)
         {
@@ -122,7 +111,7 @@ internal static class Program
         Console.WriteLine("  Spatial dimension = " + dim_num + "");
         Console.WriteLine("  Number of nodes   = " + node_num1 + "");
 
-        node_xyz1 = typeMethods.r8mat_data_read(input_node_filename, dim_num,
+        double[] node_xyz1 = typeMethods.r8mat_data_read(input_node_filename, dim_num,
             node_num1);
 
         Console.WriteLine("");
@@ -134,8 +123,8 @@ internal static class Program
         //  Read the tet mesh data.
         //
         h = typeMethods.i4mat_header_read(input_element_filename);
-        element_order = h.m;
-        element_num1 = h.n;
+        int element_order = h.m;
+        int element_num1 = h.n;
 
         switch (element_order)
         {
@@ -161,7 +150,7 @@ internal static class Program
         Console.WriteLine("  Tetrahedron order = " + element_order + "");
         Console.WriteLine("  Number of tetras  = " + element_num1 + "");
 
-        element_node1 = typeMethods.i4mat_data_read(input_element_filename, element_order,
+        int[] element_node1 = typeMethods.i4mat_data_read(input_element_filename, element_order,
             element_num1);
 
         Console.WriteLine("");
@@ -179,7 +168,7 @@ internal static class Program
             //  Compute the refined mesh.
             //
             case 4:
-                edge_data = new int[5 * 6 * element_num1];
+                int[] edge_data = new int[5 * 6 * element_num1];
 
                 TetMesh_Refine.tet_mesh_order4_refine_size(node_num1, element_num1, element_node1,
                     ref node_num2, ref element_num2, ref edge_data);
@@ -194,7 +183,9 @@ internal static class Program
                     element_node1, node_num2, element_num2, edge_data, ref node_xyz2, ref element_node2);
                 break;
             case 10:
+            {
                 break;
+            }
         }
 
         //

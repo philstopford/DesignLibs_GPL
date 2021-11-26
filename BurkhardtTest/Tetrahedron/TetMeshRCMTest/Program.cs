@@ -66,25 +66,9 @@ internal static class Program
         int[] adj = new int[1];
         int adj_num = 0;
         int[] adj_row = new int[1];
-        int bandwidth;
-        int base_internal;
-        int base_user;
-        bool debug = false;
-        int dim_num;
-        int[] element_node;
-        int element_num;
-        int element_order;
+        const bool debug = false;
         int i;
-        string node_filename;
-        string element_filename;
         int j;
-        int node;
-        int node_num;
-        double[] node_xyz;
-        string node_rcm_filename;
-        string element_rcm_filename;
-        int[] perm;
-        int[] perm_inv;
         string prefix;
 
         Console.WriteLine("");
@@ -118,16 +102,16 @@ internal static class Program
         //
         //  Create the filenames.
         //
-        node_filename = prefix + "_nodes.txt";
-        element_filename = prefix + "_elements.txt";
-        node_rcm_filename = prefix + "_rcm_nodes.txt";
-        element_rcm_filename = prefix + "_rcm_elements.txt";
+        string node_filename = prefix + "_nodes.txt";
+        string element_filename = prefix + "_elements.txt";
+        string node_rcm_filename = prefix + "_rcm_nodes.txt";
+        string element_rcm_filename = prefix + "_rcm_elements.txt";
         //
         //  Read the node data.
         //
         TableHeader h = typeMethods.r8mat_header_read(node_filename);
-        dim_num = h.m;
-        node_num = h.n;
+        int dim_num = h.m;
+        int node_num = h.n;
 
         Console.WriteLine("");
         Console.WriteLine("  Read the header of \"" + node_filename + "\".");
@@ -135,7 +119,7 @@ internal static class Program
         Console.WriteLine("  Spatial dimension DIM_NUM =  " + dim_num + "");
         Console.WriteLine("  Number of points NODE_NUM  = " + node_num + "");
 
-        node_xyz = typeMethods.r8mat_data_read(node_filename, dim_num, node_num);
+        double[] node_xyz = typeMethods.r8mat_data_read(node_filename, dim_num, node_num);
 
         Console.WriteLine("");
         Console.WriteLine("  Read the data in \"" + node_filename + "\".");
@@ -146,8 +130,8 @@ internal static class Program
         //  Read the tet mesh data.
         //
         h = typeMethods.i4mat_header_read(element_filename);
-        element_order = h.m;
-        element_num = h.n;
+        int element_order = h.m;
+        int element_num = h.n;
 
         if (element_order != 4 && element_order != 10)
         {
@@ -163,7 +147,7 @@ internal static class Program
         Console.WriteLine("  Tetrahedron order = " + element_order + "");
         Console.WriteLine("  Number of tetras  = " + element_num + "");
 
-        element_node = typeMethods.i4mat_data_read(element_filename, element_order,
+        int[] element_node = typeMethods.i4mat_data_read(element_filename, element_order,
             element_num);
 
         Console.WriteLine("");
@@ -174,7 +158,7 @@ internal static class Program
         //
         //  If the element information is 1-based, make it 0-based.
         //
-        base_user = TetMesh.tet_mesh_base_zero(node_num, element_order,
+        int base_user = TetMesh.tet_mesh_base_zero(node_num, element_order,
             element_num, ref element_node);
 
         if (base_user != 0 && base_user != 1)
@@ -262,18 +246,18 @@ internal static class Program
         //
         //  Compute the bandwidth.
         //
-        bandwidth = AdjacencyMatrix.adj_bandwidth(node_num, adj_num, adj_row, adj);
+        int bandwidth = AdjacencyMatrix.adj_bandwidth(node_num, adj_num, adj_row, adj);
 
         Console.WriteLine("");
         Console.WriteLine("  ADJ bandwidth = " + bandwidth + "");
         //
         //  GENRCM computes the RCM permutation.
         //
-        perm = GenRCM.genrcm(node_num, adj_num, adj_row, adj);
+        int[] perm = GenRCM.genrcm(node_num, adj_num, adj_row, adj);
         //
         //  Compute the inverse permutation.
         //
-        perm_inv = typeMethods.perm_inverse3(node_num, perm);
+        int[] perm_inv = typeMethods.perm_inverse3(node_num, perm);
 
         switch (node_num)
         {
@@ -304,7 +288,7 @@ internal static class Program
         //
         //  Permute the nodes in NODE_XYZ.
         //
-        base_internal = 0;
+        int base_internal = 0;
         typeMethods.r8col_permute(dim_num, node_num, perm, base_internal, node_xyz);
         //
         //  Permute the node indices in ELEMENT_NODE.
@@ -313,7 +297,7 @@ internal static class Program
         {
             for (i = 0; i < element_order; i++)
             {
-                node = element_node[i + j * element_order];
+                int node = element_node[i + j * element_order];
                 element_node[i + j * element_order] = perm_inv[node];
             }
         }

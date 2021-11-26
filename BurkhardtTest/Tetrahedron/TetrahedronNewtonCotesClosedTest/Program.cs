@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.TetrahedronNS;
 
 namespace TetrahedronNewtonCotesClosedTest;
@@ -67,10 +68,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int degree;
-        int order_num;
         int rule;
-        int rule_num;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
@@ -78,7 +76,7 @@ internal static class Program
         Console.WriteLine("  TETRAHEDRON_NCC_DEGREE returns the degree of a rule;");
         Console.WriteLine("  TETRAHEDRON_NCC_ORDER_NUM returns the order of a rule.");
 
-        rule_num = NewtonCotesClosed.tetrahedron_ncc_rule_num();
+        int rule_num = NewtonCotesClosed.tetrahedron_ncc_rule_num();
 
         Console.WriteLine("");
         Console.WriteLine("  Number of available rules = " + rule_num + "");
@@ -88,11 +86,11 @@ internal static class Program
 
         for (rule = 1; rule <= rule_num; rule++)
         {
-            order_num = NewtonCotesClosed.tetrahedron_ncc_order_num(rule);
-            degree = NewtonCotesClosed.tetrahedron_ncc_degree(rule);
-            Console.WriteLine("  " + rule.ToString().PadLeft(8)
-                                   + "  " + degree.ToString().PadLeft(8)
-                                   + "  " + order_num.ToString().PadLeft(8) + "");
+            int order_num = NewtonCotesClosed.tetrahedron_ncc_order_num(rule);
+            int degree = NewtonCotesClosed.tetrahedron_ncc_degree(rule);
+            Console.WriteLine("  " + rule.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + degree.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + order_num.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
 
     }
@@ -118,14 +116,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int dim_num = 3;
-        int order;
-        int order_num;
+        const int dim_num = 3;
         int rule;
-        int rule_num;
-        double[] wtab;
-        double wtab_sum;
-        double[] xyztab;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02");
@@ -135,7 +127,7 @@ internal static class Program
         Console.WriteLine("  In this test, we simply check that the weights");
         Console.WriteLine("  sum to 1.");
 
-        rule_num = NewtonCotesClosed.tetrahedron_ncc_rule_num();
+        int rule_num = NewtonCotesClosed.tetrahedron_ncc_rule_num();
 
         Console.WriteLine("");
         Console.WriteLine("  Number of available rules = " + rule_num + "");
@@ -146,21 +138,22 @@ internal static class Program
 
         for (rule = 1; rule <= rule_num; rule++)
         {
-            order_num = NewtonCotesClosed.tetrahedron_ncc_order_num(rule);
+            int order_num = NewtonCotesClosed.tetrahedron_ncc_order_num(rule);
 
-            xyztab = new double[dim_num * order_num];
-            wtab = new double[order_num];
+            double[] xyztab = new double[dim_num * order_num];
+            double[] wtab = new double[order_num];
 
             NewtonCotesClosed.tetrahedron_ncc_rule(rule, order_num, ref xyztab, ref wtab);
 
-            wtab_sum = 0.0;
+            double wtab_sum = 0.0;
+            int order;
             for (order = 0; order < order_num; order++)
             {
                 wtab_sum += wtab[order];
             }
 
-            Console.WriteLine("  " + rule.ToString().PadLeft(8)
-                                   + "  " + wtab_sum.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + rule.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + wtab_sum.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -186,12 +179,6 @@ internal static class Program
         //
     {
         int rule;
-        int rule_num;
-        int suborder;
-        int suborder_num;
-        double[] suborder_w;
-        double[] suborder_xyz;
-        double xyz_sum;
 
         Console.WriteLine("");
         Console.WriteLine("TEST03");
@@ -202,7 +189,7 @@ internal static class Program
         Console.WriteLine("  quadrature point, the barycentric coordinates");
         Console.WriteLine("  add up to 1.");
 
-        rule_num = NewtonCotesClosed.tetrahedron_ncc_rule_num();
+        int rule_num = NewtonCotesClosed.tetrahedron_ncc_rule_num();
 
         Console.WriteLine("");
         Console.WriteLine("      Rule    Suborder    Sum of coordinates");
@@ -210,23 +197,24 @@ internal static class Program
 
         for (rule = 1; rule <= rule_num; rule++)
         {
-            suborder_num = NewtonCotesClosed.tetrahedron_ncc_suborder_num(rule);
+            int suborder_num = NewtonCotesClosed.tetrahedron_ncc_suborder_num(rule);
 
-            suborder_xyz = new double[4 * suborder_num];
-            suborder_w = new double[suborder_num];
+            double[] suborder_xyz = new double[4 * suborder_num];
+            double[] suborder_w = new double[suborder_num];
 
             NewtonCotesClosed.tetrahedron_ncc_subrule(rule, suborder_num, ref suborder_xyz, ref suborder_w);
 
             Console.WriteLine("");
-            Console.WriteLine("  " + rule.ToString().PadLeft(8)
-                                   + "  " + suborder_num.ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + rule.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + suborder_num.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
 
+            int suborder;
             for (suborder = 0; suborder < suborder_num; suborder++)
             {
-                xyz_sum = suborder_xyz[0 + suborder * 4]
-                          + suborder_xyz[1 + suborder * 4]
-                          + suborder_xyz[2 + suborder * 4]
-                          + suborder_xyz[3 + suborder * 4];
+                double xyz_sum = suborder_xyz[0 + suborder * 4]
+                                 + suborder_xyz[1 + suborder * 4]
+                                 + suborder_xyz[2 + suborder * 4]
+                                 + suborder_xyz[3 + suborder * 4];
                 Console.WriteLine("                    "
                                   + "  " + xyz_sum.ToString("0.################").PadLeft(25) + "");
             }
@@ -255,25 +243,7 @@ internal static class Program
         //
     {
         int a;
-        int b;
-        int c;
-        double coef;
-        int dim_num = 3;
-        double err;
-        double exact;
-        int i;
-        int order;
-        int order_num;
-        double quad;
-        int rule;
-        int rule_num;
-        double value = 0;
-        double volume;
-        double[] wtab;
-        double x;
-        double[] xyztab;
-        double y;
-        double z;
+        const int dim_num = 3;
 
         Console.WriteLine("");
         Console.WriteLine("TEST04");
@@ -283,26 +253,29 @@ internal static class Program
         Console.WriteLine("  This routine uses those rules to estimate the");
         Console.WriteLine("  integral of monomomials in the unit tetrahedron.");
 
-        rule_num = NewtonCotesClosed.tetrahedron_ncc_rule_num();
+        int rule_num = NewtonCotesClosed.tetrahedron_ncc_rule_num();
 
-        volume = 1.0 / 6.0;
+        const double volume = 1.0 / 6.0;
 
         for (a = 0; a <= 6; a++)
         {
+            int b;
             for (b = 0; b <= 6 - a; b++)
             {
+                int c;
                 for (c = 0; c <= 6 - a - b; c++)
                 {
                     //
                     //  Multiplying X**A * Y**B * Z**C by COEF will give us an integrand
                     //  whose integral is exactly 1.  This makes the error calculations easy.
                     //
-                    coef = 1.0;
+                    double coef = 1.0;
 
                     //      for ( i = 1; i <= a; i++ )
                     //      {
                     //        coef = coef * i / i;
                     //      }
+                    int i;
                     for (i = a + 1; i <= a + b; i++)
                     {
                         coef = coef * i / (i - a);
@@ -327,26 +300,28 @@ internal static class Program
                     Console.WriteLine("      Rule       QUAD           ERROR");
                     Console.WriteLine("");
 
+                    int rule;
                     for (rule = 1; rule <= rule_num; rule++)
                     {
-                        order_num = NewtonCotesClosed.tetrahedron_ncc_order_num(rule);
+                        int order_num = NewtonCotesClosed.tetrahedron_ncc_order_num(rule);
 
-                        xyztab = new double[dim_num * order_num];
-                        wtab = new double[order_num];
+                        double[] xyztab = new double[dim_num * order_num];
+                        double[] wtab = new double[order_num];
 
                         NewtonCotesClosed.tetrahedron_ncc_rule(rule, order_num, ref xyztab, ref wtab);
 
-                        quad = 0.0;
+                        double quad = 0.0;
 
+                        int order;
                         for (order = 0; order < order_num; order++)
                         {
-                            x = xyztab[0 + order * dim_num];
-                            y = xyztab[1 + order * dim_num];
-                            z = xyztab[2 + order * dim_num];
+                            double x = xyztab[0 + order * dim_num];
+                            double y = xyztab[1 + order * dim_num];
+                            double z = xyztab[2 + order * dim_num];
                             //
                             //  Some tedious calculations to avoid 0**0 complaints.
                             //
-                            value = coef;
+                            double value = coef;
 
                             if (a != 0)
                             {
@@ -368,12 +343,12 @@ internal static class Program
 
                         quad = volume * quad;
 
-                        exact = 1.0;
-                        err = Math.Abs(exact - quad);
+                        double exact = 1.0;
+                        double err = Math.Abs(exact - quad);
 
-                        Console.WriteLine("  " + rule.ToString().PadLeft(8)
-                                               + "  " + quad.ToString().PadLeft(14)
-                                               + "  " + err.ToString().PadLeft(14) + "");
+                        Console.WriteLine("  " + rule.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                               + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                               + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
                     }
                 }
@@ -402,8 +377,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
-        int NODE_NUM = 4;
+        const int DIM_NUM = 3;
+        const int NODE_NUM = 4;
 
         int node;
         double[] node_xyz =
@@ -421,13 +396,6 @@ internal static class Program
             4.0, 5.0, 5.0
         };
         int order;
-        int order_num;
-        int rule;
-        double volume;
-        double volume2;
-        double[] w;
-        double[] xyz;
-        double[] xyz2;
 
         Console.WriteLine("");
         Console.WriteLine("TEST06");
@@ -435,13 +403,13 @@ internal static class Program
         Console.WriteLine("  on the unit (reference) tetrahedron to a rule on ");
         Console.WriteLine("  an arbitrary (physical) tetrahedron.");
 
-        rule = 3;
+        const int rule = 3;
 
-        order_num = NewtonCotesClosed.tetrahedron_ncc_order_num(rule);
+        int order_num = NewtonCotesClosed.tetrahedron_ncc_order_num(rule);
 
-        xyz = new double[DIM_NUM * order_num];
-        xyz2 = new double[DIM_NUM * order_num];
-        w = new double[order_num];
+        double[] xyz = new double[DIM_NUM * order_num];
+        double[] xyz2 = new double[DIM_NUM * order_num];
+        double[] w = new double[order_num];
 
         NewtonCotesClosed.tetrahedron_ncc_rule(rule, order_num, ref xyz, ref w);
         //
@@ -453,13 +421,13 @@ internal static class Program
 
         for (node = 0; node < NODE_NUM; node++)
         {
-            Console.WriteLine("  " + (node + 1).ToString().PadLeft(8)
-                                   + "  " + node_xyz[0 + node * DIM_NUM].ToString().PadLeft(14)
-                                   + "  " + node_xyz[1 + node * DIM_NUM].ToString().PadLeft(14)
-                                   + "  " + node_xyz[2 + node * DIM_NUM].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + (node + 1).ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + node_xyz[0 + node * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + node_xyz[1 + node * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + node_xyz[2 + node * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
-        volume = Tetrahedron.tetrahedron_volume(node_xyz);
+        double volume = Tetrahedron.tetrahedron_volume(node_xyz);
 
         Console.WriteLine("");
         Console.WriteLine("  Rule " + rule + " for reference tetrahedron");
@@ -470,11 +438,11 @@ internal static class Program
 
         for (order = 0; order < order_num; order++)
         {
-            Console.WriteLine("  " + order.ToString().PadLeft(8)
-                                   + "  " + xyz[0 + order * DIM_NUM].ToString().PadLeft(14)
-                                   + "  " + xyz[1 + order * DIM_NUM].ToString().PadLeft(14)
-                                   + "  " + xyz[2 + order * DIM_NUM].ToString().PadLeft(14)
-                                   + "  " + w[order].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + xyz[0 + order * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + xyz[1 + order * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + xyz[2 + order * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + w[order].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         //
@@ -490,13 +458,13 @@ internal static class Program
 
         for (node = 0; node < NODE_NUM; node++)
         {
-            Console.WriteLine("  " + (node + 1).ToString().PadLeft(8)
-                                   + "  " + node_xyz2[0 + node * DIM_NUM].ToString().PadLeft(14)
-                                   + "  " + node_xyz2[1 + node * DIM_NUM].ToString().PadLeft(14)
-                                   + "  " + node_xyz2[2 + node * DIM_NUM].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + (node + 1).ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + node_xyz2[0 + node * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + node_xyz2[1 + node * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + node_xyz2[2 + node * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
-        volume2 = Tetrahedron.tetrahedron_volume(node_xyz2);
+        double volume2 = Tetrahedron.tetrahedron_volume(node_xyz2);
 
         Console.WriteLine("");
         Console.WriteLine("  Rule " + rule + " for physical tetrahedron");
@@ -507,11 +475,11 @@ internal static class Program
 
         for (order = 0; order < order_num; order++)
         {
-            Console.WriteLine("  " + order.ToString().PadLeft(8)
-                                   + "  " + xyz2[0 + order * DIM_NUM].ToString().PadLeft(14)
-                                   + "  " + xyz2[1 + order * DIM_NUM].ToString().PadLeft(14)
-                                   + "  " + xyz2[2 + order * DIM_NUM].ToString().PadLeft(14)
-                                   + "  " + w[order].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + xyz2[0 + order * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + xyz2[1 + order * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + xyz2[2 + order * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + w[order].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -536,34 +504,26 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int dim_num = 3;
+        const int dim_num = 3;
         int o;
-        int order_num;
-        int rule;
         int s;
-        int[] suborder;
-        int suborder_num;
-        double[] suborder_w;
-        double[] suborder_xyz;
-        double[] w;
-        double[] xyz;
 
         Console.WriteLine("");
         Console.WriteLine("TEST06");
         Console.WriteLine("  TETRAHEDRON_NCC_RULE returns the points and weights");
         Console.WriteLine("  of an NCC rule for the tetrahedron.");
 
-        rule = 4;
+        const int rule = 4;
 
         Console.WriteLine("");
         Console.WriteLine("  In this test, we simply print rule " + rule + "");
 
-        suborder_num = NewtonCotesClosed.tetrahedron_ncc_suborder_num(rule);
+        int suborder_num = NewtonCotesClosed.tetrahedron_ncc_suborder_num(rule);
 
-        suborder = NewtonCotesClosed.tetrahedron_ncc_suborder(rule, suborder_num);
+        int[] suborder = NewtonCotesClosed.tetrahedron_ncc_suborder(rule, suborder_num);
 
-        suborder_w = new double[suborder_num];
-        suborder_xyz = new double[4 * suborder_num];
+        double[] suborder_w = new double[suborder_num];
+        double[] suborder_xyz = new double[4 * suborder_num];
 
         NewtonCotesClosed.tetrahedron_ncc_subrule(rule, suborder_num, ref suborder_xyz, ref suborder_w);
 
@@ -577,19 +537,19 @@ internal static class Program
 
         for (s = 0; s < suborder_num; s++)
         {
-            Console.WriteLine("  " + (s + 1).ToString().PadLeft(4)
-                                   + "  " + suborder[s].ToString().PadLeft(4)
-                                   + "  " + suborder_w[s].ToString().PadLeft(8)
-                                   + "  " + suborder_xyz[0 + s * 4].ToString().PadLeft(8)
-                                   + "  " + suborder_xyz[1 + s * 4].ToString().PadLeft(8)
-                                   + "  " + suborder_xyz[2 + s * 4].ToString().PadLeft(8)
+            Console.WriteLine("  " + (s + 1).ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + suborder[s].ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + suborder_w[s].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + suborder_xyz[0 + s * 4].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + suborder_xyz[1 + s * 4].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + suborder_xyz[2 + s * 4].ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "  " + suborder_xyz[3 + s * 4].ToString("0.####").PadLeft(8) + "");
         }
 
-        order_num = NewtonCotesClosed.tetrahedron_ncc_order_num(rule);
+        int order_num = NewtonCotesClosed.tetrahedron_ncc_order_num(rule);
 
-        xyz = new double[dim_num * order_num];
-        w = new double[order_num];
+        double[] xyz = new double[dim_num * order_num];
+        double[] w = new double[order_num];
 
         NewtonCotesClosed.tetrahedron_ncc_rule(rule, order_num, ref xyz, ref w);
 
@@ -603,10 +563,10 @@ internal static class Program
 
         for (o = 0; o < order_num; o++)
         {
-            Console.WriteLine("  " + (o + 1).ToString().PadLeft(4)
-                                   + "  " + w[o].ToString().PadLeft(8)
-                                   + "  " + xyz[0 + o * 3].ToString().PadLeft(8)
-                                   + "  " + xyz[1 + o * 3].ToString().PadLeft(8)
+            Console.WriteLine("  " + (o + 1).ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + w[o].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + xyz[0 + o * 3].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + xyz[1 + o * 3].ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "  " + xyz[2 + o * 3].ToString("0.####").PadLeft(8) + "");
         }
     }

@@ -74,8 +74,8 @@ internal static class Program
         Console.WriteLine("SGMGA_ANISO_BALANCE_TESTS");
         Console.WriteLine("  Call SGMGA_ANISO_BALANCE_TEST with various arguments.");
 
-        int test_num = 5;
-        int dim_num = 5;
+        const int test_num = 5;
+        const int dim_num = 5;
         double[] level_weight = new double[dim_num];
 
         double alpha_max = 10.0;

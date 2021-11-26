@@ -1220,11 +1220,10 @@ internal static class Program
     {
         int[] e = new int[3];
         int i;
-        double value = 0;
 
         polyterm_exponent("GET", e);
 
-        value = 1.0;
+        double value = 1.0;
         for (i = 0; i < 3; i++)
         {
             if (e[i] != 0)

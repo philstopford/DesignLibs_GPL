@@ -46,17 +46,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string input_element_filename;
-        int node_num1 = 0;
         int node_num2 = 0;
-        string output_element_filename;
         string prefix;
-        int[] tetra_node1;
-        int[] tetra_node2;
-        int tetra_num1 = 0;
         int tetra_num2 = 0;
-        int tetra_order1;
-        int tetra_order2 = 4;
+        const int tetra_order2 = 4;
 
         Console.WriteLine("");
         Console.WriteLine("TET_MESH_Q2L");
@@ -89,14 +82,14 @@ internal static class Program
         //
         //  Create the filenames.
         //
-        input_element_filename = prefix + "_elements.txt";
-        output_element_filename = prefix + "_q2l_elements.txt";
+        string input_element_filename = prefix + "_elements.txt";
+        string output_element_filename = prefix + "_q2l_elements.txt";
         //
         //  Read the tet mesh data.
         //
         TableHeader h = typeMethods.i4mat_header_read(input_element_filename);
-        tetra_order1 = h.m;
-        tetra_num1 = h.n;
+        int tetra_order1 = h.m;
+        int tetra_num1 = h.n;
 
         if (tetra_order1 != 10)
         {
@@ -112,7 +105,7 @@ internal static class Program
         Console.WriteLine("  Tetrahedron order = " + tetra_order1 + "");
         Console.WriteLine("  Number of tetras  = " + tetra_num1 + "");
 
-        tetra_node1 = typeMethods.i4mat_data_read(input_element_filename, tetra_order1,
+        int[] tetra_node1 = typeMethods.i4mat_data_read(input_element_filename, tetra_order1,
             tetra_num1);
 
         Console.WriteLine("");
@@ -124,7 +117,7 @@ internal static class Program
         //  Set the number of linear tetrahedrons:
         //  We didn't read in the node data, so set that count to 0.
         //
-        node_num1 = 0;
+        int node_num1 = 0;
 
         TetMesh_Q2L.tet_mesh_order10_to_order4_size(node_num1, tetra_num1,
             ref node_num2, ref tetra_num2);
@@ -133,7 +126,7 @@ internal static class Program
         //
         //  Allocate space.
         //
-        tetra_node2 = new int[tetra_order2 * tetra_num2];
+        int[] tetra_node2 = new int[tetra_order2 * tetra_num2];
         //
         //  Convert the data.
         //

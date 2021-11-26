@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.MonomialNS;
 using Burkardt.TetrahedronNS;
 using Burkardt.Types;
@@ -65,17 +66,9 @@ internal static class Program
         //
     {
         int[] e = new int[3];
-        double error;
-        double exact;
         int i;
-        int j;
-        int k;
-        int m = 3;
-        int n = 4192;
-        double result;
-        int seed;
-        double[] value;
-        double[] x;
+        const int m = 3;
+        const int n = 4192;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
@@ -84,8 +77,8 @@ internal static class Program
         //
         //  Get sample points.
         //
-        seed = 123456789;
-        x = Integrals.tetrahedron01_sample(n, ref seed);
+        int seed = 123456789;
+        double[] x = Integrals.tetrahedron01_sample(n, ref seed);
 
         Console.WriteLine("");
         Console.WriteLine("  Number of sample points used is " + n + "");
@@ -99,26 +92,28 @@ internal static class Program
         for (i = 0; i <= 3; i++)
         {
             e[0] = i;
+            int j;
             for (j = 0; j <= 3; j++)
             {
                 e[1] = j;
+                int k;
                 for (k = 0; k <= 3; k++)
                 {
                     e[2] = k;
 
-                    value = Monomial.monomial_value(m, n, e, x);
+                    double[] value = Monomial.monomial_value(m, n, e, x);
 
-                    result = Integrals.tetrahedron01_volume() * typeMethods.r8vec_sum(n, value)
-                             / n;
-                    exact = Integrals.tetrahedron01_monomial_integral(e);
-                    error = Math.Abs(result - exact);
+                    double result = Integrals.tetrahedron01_volume() * typeMethods.r8vec_sum(n, value)
+                                    / n;
+                    double exact = Integrals.tetrahedron01_monomial_integral(e);
+                    double error = Math.Abs(result - exact);
 
-                    Console.WriteLine("  " + e[0].ToString().PadLeft(2)
-                                           + "  " + e[1].ToString().PadLeft(2)
-                                           + "  " + e[2].ToString().PadLeft(2)
-                                           + "  " + result.ToString().PadLeft(14)
-                                           + "  " + exact.ToString().PadLeft(14)
-                                           + "  " + error.ToString().PadLeft(10) + "");
+                    Console.WriteLine("  " + e[0].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                           + "  " + e[1].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                           + "  " + e[2].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                           + "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                           + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                           + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
                 }
             }

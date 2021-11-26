@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Composition;
 using Burkardt.Table;
 using Burkardt.TetrahedronNS;
@@ -37,30 +38,10 @@ internal static class Program
     {
         int degree;
         int degree_max;
-        int dim;
-        int dim_num;
-        int dim_num2;
-        int dim_num3;
         bool error = false;
-        int[] expon;
-        int h;
         int last = 0;
-        bool more;
         int point;
-        int point_num;
-        int point_num2;
-        int point_num3;
-        double quad_error;
         string quad_filename;
-        string quad_r_filename;
-        string quad_w_filename;
-        string quad_x_filename;
-        double[] r;
-        int t;
-        double volume;
-        double[] w;
-        double[] x;
-        double[] x_ref;
 
         Console.WriteLine("");
         Console.WriteLine("TETRAHEDRON_EXACTNESS");
@@ -92,9 +73,9 @@ internal static class Program
         //    the quadrature W file;
         //    the quadrature R file;
         //
-        quad_r_filename = quad_filename + "_r.txt";
-        quad_w_filename = quad_filename + "_w.txt";
-        quad_x_filename = quad_filename + "_x.txt";
+        string quad_r_filename = quad_filename + "_r.txt";
+        string quad_w_filename = quad_filename + "_w.txt";
+        string quad_x_filename = quad_filename + "_x.txt";
         //
         //  The second command line argument is the maximum degree.
         //
@@ -127,8 +108,8 @@ internal static class Program
         //  Read the X file.
         //
         TableHeader th = typeMethods.r8mat_header_read(quad_x_filename);
-        dim_num = th.m;
-        point_num = th.n;
+        int dim_num = th.m;
+        int point_num = th.n;
 
         Console.WriteLine("");
         Console.WriteLine("  Spatial dimension = " + dim_num + "");
@@ -142,13 +123,13 @@ internal static class Program
             return;
         }
 
-        x = typeMethods.r8mat_data_read(quad_x_filename, dim_num, point_num);
+        double[] x = typeMethods.r8mat_data_read(quad_x_filename, dim_num, point_num);
         //
         //  Read the W file.
         //
         th = typeMethods.r8mat_header_read(quad_w_filename);
-        dim_num2 = th.m;
-        point_num2 = th.n;
+        int dim_num2 = th.m;
+        int point_num2 = th.n;
         if (dim_num2 != 1)
         {
             Console.WriteLine("");
@@ -167,13 +148,13 @@ internal static class Program
             return;
         }
 
-        w = typeMethods.r8mat_data_read(quad_w_filename, 1, point_num);
+        double[] w = typeMethods.r8mat_data_read(quad_w_filename, 1, point_num);
         //
         //  Read the R file.
         //
         th = typeMethods.r8mat_header_read(quad_r_filename);
-        dim_num3 = th.m;
-        point_num3 = th.n;
+        int dim_num3 = th.m;
+        int point_num3 = th.n;
 
         if (dim_num3 != dim_num)
         {
@@ -193,11 +174,11 @@ internal static class Program
             return;
         }
 
-        r = typeMethods.r8mat_data_read(quad_r_filename, dim_num, 4);
+        double[] r = typeMethods.r8mat_data_read(quad_r_filename, dim_num, 4);
         //
         //  Rescale the weights.
         //
-        volume = Tetrahedron.tetrahedron_volume(r);
+        double volume = Tetrahedron.tetrahedron_volume(r);
 
         for (point = 0; point < point_num; point++)
         {
@@ -207,13 +188,13 @@ internal static class Program
         //
         //  Translate the abscissas.
         //
-        x_ref = new double[dim_num * point_num];
+        double[] x_ref = new double[dim_num * point_num];
 
         Tetrahedron.tetrahedron_order4_physical_to_reference(r, point_num, x, ref x_ref);
         //
         //  Explore the monomials.
         //
-        expon = new int[dim_num];
+        int[] expon = new int[dim_num];
 
         Console.WriteLine("");
         Console.WriteLine("      Error    Degree  Exponents");
@@ -221,21 +202,22 @@ internal static class Program
 
         for (degree = 0; degree <= degree_max; degree++)
         {
-            more = false;
-            h = 0;
-            t = 0;
+            bool more = false;
+            int h = 0;
+            int t = 0;
 
             for (;;)
             {
                 Comp.comp_next(degree, dim_num, ref expon, ref more, ref h, ref t);
 
-                quad_error = QuadratureRule.tet01_monomial_quadrature(dim_num, expon, point_num, x_ref,
+                double quad_error = QuadratureRule.tet01_monomial_quadrature(dim_num, expon, point_num, x_ref,
                     w);
 
-                string cout = "  " + quad_error.ToString().PadLeft(12)
+                string cout = "  " + quad_error.ToString(CultureInfo.InvariantCulture).PadLeft(12)
                                    + "     " + degree.ToString().PadLeft(2)
                                    + "  ";
 
+                int dim;
                 for (dim = 0; dim < dim_num; dim++)
                 {
                     cout += expon[dim].ToString().PadLeft(3);

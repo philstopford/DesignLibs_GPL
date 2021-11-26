@@ -249,7 +249,7 @@ internal static class Program
         double[] xyi = new double[2 * 25];
         double[] yi = new double[25];
 
-        int g = 2;
+        const int g = 2;
         int nd = Data_2D.g00_size(g);
 
         Console.WriteLine("");

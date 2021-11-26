@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Table;
 using Burkardt.TetrahedronNS;
 using Burkardt.Types;
@@ -44,12 +45,8 @@ internal static class Program
         double[] bc = new double[3];
         double[] bd = new double[3];
         double[] cd = new double[3];
-        double[] centroid;
         double[] circum_center = new double[3];
         double circum_radius = 0;
-        double[] dihedral_angles;
-        int dim_num;
-        double[] edge_length;
         double[] face_angles = new double[3 * 4];
         double[] face_areas = new double[4];
         int i;
@@ -57,15 +54,6 @@ internal static class Program
         double[] in_center = new double[3];
         double in_radius = 0;
         string node_filename;
-        int node_num;
-        double[] node_xyz;
-        double quality1;
-        double quality2;
-        double quality3;
-        double quality4;
-        const double r8_pi = 3.141592653589793;
-        double[] solid_angles;
-        double volume;
 
         Console.WriteLine("");
 
@@ -84,8 +72,8 @@ internal static class Program
         //  Read the node data.
         //
         TableHeader h = typeMethods.r8mat_header_read(node_filename);
-        dim_num = h.m;
-        node_num = h.n;
+        int dim_num = h.m;
+        int node_num = h.n;
 
         Console.WriteLine("");
         Console.WriteLine("  Read the header of \"" + node_filename + "\".");
@@ -114,7 +102,7 @@ internal static class Program
             return;
         }
 
-        node_xyz = typeMethods.r8mat_data_read(node_filename, dim_num, node_num);
+        double[] node_xyz = typeMethods.r8mat_data_read(node_filename, dim_num, node_num);
 
         Console.WriteLine("");
         Console.WriteLine("  Read the data in \"" + node_filename + "\".");
@@ -128,29 +116,29 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  CIRCUM_RADIUS = " + circum_radius + "");
         Console.WriteLine("  CIRCUM_CENTER: "
-                          + "  " + circum_center[0].ToString().PadLeft(14)
-                          + "  " + circum_center[1].ToString().PadLeft(14)
-                          + "  " + circum_center[2].ToString().PadLeft(14) + "");
+                          + "  " + circum_center[0].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + circum_center[1].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + circum_center[2].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         //
         //  CENTROID
         //
-        centroid = Properties.tetrahedron_centroid(node_xyz);
+        double[] centroid = Properties.tetrahedron_centroid(node_xyz);
 
         Console.WriteLine("");
         Console.WriteLine("  CENTROID: "
-                          + "  " + centroid[0].ToString().PadLeft(14)
-                          + "  " + centroid[1].ToString().PadLeft(14)
-                          + "  " + centroid[2].ToString().PadLeft(14) + "");
+                          + "  " + centroid[0].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + centroid[1].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + centroid[2].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         //
         //  DIHEDRAL ANGLES
         //
-        dihedral_angles = Properties.tetrahedron_dihedral_angles(node_xyz);
+        double[] dihedral_angles = Properties.tetrahedron_dihedral_angles(node_xyz);
 
         typeMethods.r8vec_print(6, dihedral_angles, "  DIHEDRAL_ANGLES (radians)");
 
         for (i = 0; i < 6; i++)
         {
-            dihedral_angles[i] = dihedral_angles[i] * 180.0 / r8_pi;
+            dihedral_angles[i] = dihedral_angles[i] * 180.0 / Math.PI;
         }
 
         typeMethods.r8vec_print(6, dihedral_angles, "  DIHEDRAL_ANGLES (degrees)");
@@ -169,7 +157,7 @@ internal static class Program
         //
         //  EDGE LENGTHS
         //
-        edge_length = Properties.tetrahedron_edge_length(node_xyz);
+        double[] edge_length = Properties.tetrahedron_edge_length(node_xyz);
 
         typeMethods.r8vec_print(6, edge_length, "  EDGE_LENGTHS");
         //
@@ -183,7 +171,7 @@ internal static class Program
         {
             for (i = 0; i < 3; i++)
             {
-                face_angles[i + j * 3] = face_angles[i + j * 3] * 180.0 / r8_pi;
+                face_angles[i + j * 3] = face_angles[i + j * 3] * 180.0 / Math.PI;
             }
         }
 
@@ -202,47 +190,47 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  IN_RADIUS = " + in_radius + "");
         Console.WriteLine("  IN_CENTER: "
-                          + "  " + in_center[0].ToString().PadLeft(14)
-                          + "  " + in_center[1].ToString().PadLeft(14)
-                          + "  " + in_center[2].ToString().PadLeft(14) + "");
+                          + "  " + in_center[0].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + in_center[1].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + in_center[2].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         //
         //  QUALITY1
         //
-        quality1 = Properties.tetrahedron_quality1(node_xyz);
+        double quality1 = Properties.tetrahedron_quality1(node_xyz);
 
         Console.WriteLine("");
         Console.WriteLine("  QUALITY1 = " + quality1 + "");
         //
         //  QUALITY2
         //
-        quality2 = Properties.tetrahedron_quality2(node_xyz);
+        double quality2 = Properties.tetrahedron_quality2(node_xyz);
 
         Console.WriteLine("");
         Console.WriteLine("  QUALITY2 = " + quality2 + "");
         //
         //  QUALITY3
         //
-        quality3 = Properties.tetrahedron_quality3(node_xyz);
+        double quality3 = Properties.tetrahedron_quality3(node_xyz);
 
         Console.WriteLine("");
         Console.WriteLine("  QUALITY3 = " + quality3 + "");
         //
         //  QUALITY4
         //
-        quality4 = Properties.tetrahedron_quality4(node_xyz);
+        double quality4 = Properties.tetrahedron_quality4(node_xyz);
 
         Console.WriteLine("");
         Console.WriteLine("  QUALITY4 = " + quality4 + "");
         //
         //  SOLID ANGLES
         //
-        solid_angles = Properties.tetrahedron_solid_angles(node_xyz);
+        double[] solid_angles = Properties.tetrahedron_solid_angles(node_xyz);
 
         typeMethods.r8vec_print(4, solid_angles, "  SOLID_ANGLES (steradians)");
         //
         //  VOLUME
         //
-        volume = Tetrahedron.tetrahedron_volume(node_xyz);
+        double volume = Tetrahedron.tetrahedron_volume(node_xyz);
 
         Console.WriteLine("");
         Console.WriteLine("  VOLUME = " + volume + "");

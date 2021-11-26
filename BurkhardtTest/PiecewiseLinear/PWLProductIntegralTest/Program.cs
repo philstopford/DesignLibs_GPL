@@ -232,14 +232,14 @@ internal static class Program
             g_v[i] = 2.0 * Math.Cos(g_x[i]);
         }
 
-        double a = 0.0;
+        const double a = 0.0;
         for (i = 0; i <= 6; i++)
         {
             double b = i * Math.PI / 6.0;
             double integral = ProductIntegral.pwl_product_integral(a, b, F_NUM, f_x, f_v,
                 G_NUM, g_x, g_v);
             double exact = -(Math.Cos(2.0 * b) - Math.Cos(2.0 * a)) / 2.0;
-            int quad_num = 2000;
+            const int quad_num = 2000;
             double quad = ProductIntegral.pwl_product_quad(a, b, F_NUM, f_x, f_v, G_NUM,
                 g_x, g_v, quad_num);
             Console.WriteLine("  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(10)

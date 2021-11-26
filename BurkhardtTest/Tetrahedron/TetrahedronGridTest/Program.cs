@@ -65,9 +65,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string filename = "tetrahedron_grid_test01.xyz";
-        int n;
-        int ng;
+        const string filename = "tetrahedron_grid_test01.xyz";
         double[] t =
         {
             0.0, 0.0, 0.0,
@@ -75,21 +73,20 @@ internal static class Program
             0.0, 1.0, 0.0,
             0.0, 0.0, 1.0
         };
-        double[] tg;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01:");
         Console.WriteLine("  TETRAHEDRON_GRID can define a tetrahedral grid");
         Console.WriteLine("  with N+1 points on a side, based on any tetrahedron.");
 
-        n = 10;
+        int n = 10;
         Console.WriteLine("  N = " + n + "");
 
-        ng = Grid.tetrahedron_grid_count(n);
+        int ng = Grid.tetrahedron_grid_count(n);
 
         typeMethods.r8mat_print(3, 4, t, "  Tetrahedron vertices:");
 
-        tg = Grid.tetrahedron_grid(n, t, ng);
+        double[] tg = Grid.tetrahedron_grid(n, t, ng);
 
         typeMethods.r83vec_print_part(ng, tg, 20, "  Part of the grid point array:");
 

@@ -245,7 +245,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int NODE_NUM = 4;
+        const int NODE_NUM = 4;
 
         int node;
         double[] node_xyz =
@@ -270,7 +270,7 @@ internal static class Program
         Console.WriteLine("  on the unit (reference) tetrahedron to a rule on ");
         Console.WriteLine("  an arbitrary (physical) tetrahedron.");
 
-        int rule = 2;
+        const int rule = 2;
 
         int order_num = KeastRule.keast_order_num(rule);
 
@@ -462,7 +462,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  In this test, we simply print a rule.");
 
-        int rule = 10;
+        const int rule = 10;
         int degree = KeastRule.keast_degree(rule);
         int order_num = KeastRule.keast_order_num(rule);
 

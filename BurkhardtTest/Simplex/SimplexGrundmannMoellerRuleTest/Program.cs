@@ -79,8 +79,8 @@ internal static class Program
     {
         int i;
         int j;
-        int m = 2;
-        int n = 10;
+        const int m = 2;
+        const int n = 10;
         int seed = 123456789;
         double[] t =
         {

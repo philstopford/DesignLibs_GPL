@@ -412,7 +412,7 @@ internal static class Program
                 double[] p = new double[np_sum];
                 Func<int, int, double[], double[], double[]>[] gw_compute_points = new Func<int, int, double[], double[], double[]>[dim_num];
 
-                int j = 0;
+                const int j = 0;
                 int dim;
                 for (dim = 0; dim < dim_num; dim++)
                 {

@@ -1970,7 +1970,7 @@ internal static class Program
     {
         const int np = 0;
         int order;
-        int order_max = 10;
+        const int order_max = 10;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02");
@@ -4396,8 +4396,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int M = 3;
-        int N = 22;
+        const int M = 3;
+        const int N = 22;
 
         double[] a =
         {
@@ -4436,7 +4436,7 @@ internal static class Program
 
         typeMethods.r8mat_transpose_print(M, N, a, "  The unsorted R8COL (transposed):");
 
-        double tol = 0.25;
+        const double tol = 0.25;
 
         Console.WriteLine("");
         Console.WriteLine("  Using tolerance = " + tol + "");
@@ -4843,8 +4843,8 @@ internal static class Program
 
             int ns = 10 * (n - 1) + 1;
 
-            double xlo = -5.0;
-            double xhi = +5.0;
+            const double xlo = -5.0;
+            const double xhi = +5.0;
             double[] x = typeMethods.r8vec_chebyshev_new(n, xlo, xhi);
 
             int i;
@@ -5347,7 +5347,7 @@ internal static class Program
         double[] xd = new double[nd];
         double[] yd = new double[nd];
 
-        int ndp = 2 * n - 1;
+        const int ndp = 2 * n - 1;
         double[] xdp = new double[ndp];
         double[] ydp = new double[ndp];
 
@@ -5362,7 +5362,7 @@ internal static class Program
         /*
         Now sample the interpolant at NS points, which include data values.
         */
-        int ns = 4 * (n - 1) + 1;
+        const int ns = 4 * (n - 1) + 1;
         double[] ys = new double[ns];
         double[] ysp = new double[ns];
 

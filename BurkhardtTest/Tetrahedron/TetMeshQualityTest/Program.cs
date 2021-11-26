@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Table;
 using Burkardt.TetrahedronNS;
 using Burkardt.Types;
@@ -40,18 +41,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int dim_num = 0;
-        string element_filename;
-        int[] element_node;
-        int element_num = 0;
-        int element_order;
-        int[] histo_gram;
-        int histo_num = 0;
         int i;
-        string node_filename;
-        int node_num = 0;
-        int[] node_order;
-        double[] node_xyz;
         string prefix;
         double value_max = 0;
         double value_mean = 0;
@@ -83,14 +73,14 @@ internal static class Program
         //
         //  Create the filenames.
         //
-        node_filename = prefix + "_nodes.txt";
-        element_filename = prefix + "_elements.txt";
+        string node_filename = prefix + "_nodes.txt";
+        string element_filename = prefix + "_elements.txt";
         //
         //  Read the node data.
         //
         TableHeader h = typeMethods.r8mat_header_read(node_filename);
-        dim_num = h.m;
-        node_num = h.n;
+        int dim_num = h.m;
+        int node_num = h.n;
 
         Console.WriteLine("");
         Console.WriteLine("  Read the header of \"" + node_filename + "\".");
@@ -106,7 +96,7 @@ internal static class Program
             return;
         }
 
-        node_xyz = typeMethods.r8mat_data_read(node_filename, dim_num, node_num);
+        double[] node_xyz = typeMethods.r8mat_data_read(node_filename, dim_num, node_num);
 
         Console.WriteLine("");
         Console.WriteLine("  Read the data in \"" + node_filename + "\".");
@@ -118,8 +108,8 @@ internal static class Program
         //
         h = typeMethods.i4mat_header_read(element_filename);
 
-        element_order = h.m;
-        element_num = h.n;
+        int element_order = h.m;
+        int element_num = h.n;
 
         if (element_order != 4)
         {
@@ -135,7 +125,7 @@ internal static class Program
         Console.WriteLine("  Element order      = " + element_order + "");
         Console.WriteLine("  Number of elements = " + element_num + "");
 
-        element_node = typeMethods.i4mat_data_read(element_filename, element_order,
+        int[] element_node = typeMethods.i4mat_data_read(element_filename, element_order,
             element_num);
 
         Console.WriteLine("");
@@ -158,53 +148,53 @@ internal static class Program
             element_node, ref value_min, ref value_mean, ref value_max, ref value_var);
 
         Console.WriteLine("  Quality measure 1 = "
-                          + "  " + value_min.ToString().PadLeft(10)
-                          + "  " + value_mean.ToString().PadLeft(10)
-                          + "  " + value_max.ToString().PadLeft(10)
-                          + "  " + value_var.ToString().PadLeft(10) + "");
+                          + "  " + value_min.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + value_mean.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + value_max.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + value_var.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
         TetMesh.tet_mesh_quality2(node_num, node_xyz, element_order, element_num,
             element_node, ref value_min, ref value_mean, ref value_max, ref value_var);
 
         Console.WriteLine("  Quality measure 2 = "
-                          + "  " + value_min.ToString().PadLeft(10)
-                          + "  " + value_mean.ToString().PadLeft(10)
-                          + "  " + value_max.ToString().PadLeft(10)
-                          + "  " + value_var.ToString().PadLeft(10) + "");
+                          + "  " + value_min.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + value_mean.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + value_max.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + value_var.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
         TetMesh.tet_mesh_quality3(node_num, node_xyz, element_order, element_num,
             element_node, ref value_min, ref value_mean, ref value_max, ref value_var);
 
         Console.WriteLine("  Quality measure 3 = "
-                          + "  " + value_min.ToString().PadLeft(10)
-                          + "  " + value_mean.ToString().PadLeft(10)
-                          + "  " + value_max.ToString().PadLeft(10)
-                          + "  " + value_var.ToString().PadLeft(10) + "");
+                          + "  " + value_min.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + value_mean.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + value_max.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + value_var.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
         TetMesh.tet_mesh_quality4(node_num, node_xyz, element_order, element_num,
             element_node, ref value_min, ref value_mean, ref value_max, ref value_var);
 
         Console.WriteLine("  Quality measure 4 = "
-                          + "  " + value_min.ToString().PadLeft(10)
-                          + "  " + value_mean.ToString().PadLeft(10)
-                          + "  " + value_max.ToString().PadLeft(10)
-                          + "  " + value_var.ToString().PadLeft(10) + "");
+                          + "  " + value_min.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + value_mean.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + value_max.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + value_var.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
         TetMesh.tet_mesh_quality5(node_num, node_xyz, element_order, element_num,
             element_node, ref value_min, ref value_mean, ref value_max, ref value_var);
 
         Console.WriteLine("  Quality measure 5 = "
-                          + "  " + value_min.ToString().PadLeft(10)
-                          + "  " + value_mean.ToString().PadLeft(10)
-                          + "  " + value_max.ToString().PadLeft(10)
-                          + "  " + value_var.ToString().PadLeft(10) + "");
+                          + "  " + value_min.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + value_mean.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + value_max.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                          + "  " + value_var.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
-        node_order = TetMesh.tet_mesh_node_order(element_order, element_num, element_node,
+        int[] node_order = TetMesh.tet_mesh_node_order(element_order, element_num, element_node,
             node_num);
 
-        histo_num = typeMethods.i4vec_max(node_num, node_order);
+        int histo_num = typeMethods.i4vec_max(node_num, node_order);
 
-        histo_gram = typeMethods.i4vec_histogram(node_num, node_order, histo_num);
+        int[] histo_gram = typeMethods.i4vec_histogram(node_num, node_order, histo_num);
 
         Console.WriteLine("");
         Console.WriteLine("  Here is a numerical histogram of the order of");
@@ -221,8 +211,8 @@ internal static class Program
         {
             if (histo_gram[i] != 0)
             {
-                Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                       + "  " + histo_gram[i].ToString().PadLeft(6) + "");
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                       + "  " + histo_gram[i].ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
             }
         }
 

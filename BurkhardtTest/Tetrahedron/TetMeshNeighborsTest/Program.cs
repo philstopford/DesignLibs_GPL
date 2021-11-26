@@ -43,13 +43,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] element_neighbor;
-        int[] element_node;
-        int element_num = 0;
-        int element_order = 0;
-        int node_num = 0;
-        string element_filename;
-        string neighbor_filename;
+        const int node_num = 0;
         string prefix;
 
         Console.WriteLine("");
@@ -79,14 +73,14 @@ internal static class Program
         //
         //  Create the filenames.
         //
-        element_filename = prefix + "_elements.txt";
-        neighbor_filename = prefix + "_element_neighbors.txt";
+        string element_filename = prefix + "_elements.txt";
+        string neighbor_filename = prefix + "_element_neighbors.txt";
         //
         //  Read the tet mesh data.
         //
         TableHeader h = typeMethods.i4mat_header_read(element_filename);
-        element_order = h.m;
-        element_num = h.n;
+        int element_order = h.m;
+        int element_num = h.n;
 
         if (element_order != 4 && element_order != 10)
         {
@@ -102,7 +96,7 @@ internal static class Program
         Console.WriteLine("  Tetrahedron order = " + element_order + "");
         Console.WriteLine("  Number of tetras  = " + element_num + "");
 
-        element_node = typeMethods.i4mat_data_read(element_filename, element_order,
+        int[] element_node = typeMethods.i4mat_data_read(element_filename, element_order,
             element_num);
 
         Console.WriteLine("");
@@ -117,7 +111,7 @@ internal static class Program
         //
         //  Compute the neighbor information.
         //
-        element_neighbor = TetMesh_Neighbors.tet_mesh_neighbor_tets(element_order, element_num,
+        int[] element_neighbor = TetMesh_Neighbors.tet_mesh_neighbor_tets(element_order, element_num,
             element_node);
 
         typeMethods.i4mat_transpose_print_some(4, element_num,

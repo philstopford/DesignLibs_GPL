@@ -350,9 +350,9 @@ internal static class Program
         //
         //  Plot the mesh.
         //
-        int node_show = 2;
-        int element_show = 2;
-        string output_filename = "q4_mesh_ex1.eps";
+        const int node_show = 2;
+        const int element_show = 2;
+        const string output_filename = "q4_mesh_ex1.eps";
 
         Plot.plot_q4_mesh(node_num, element_num, node_xy, element_node,
             node_show, element_show, output_filename);
@@ -411,9 +411,9 @@ internal static class Program
         //
         //  Plot the mesh.
         //
-        int node_show = 2;
-        int element_show = 2;
-        string output_filename = "q4_mesh_ex2.eps";
+        const int node_show = 2;
+        const int element_show = 2;
+        const string output_filename = "q4_mesh_ex2.eps";
 
         Plot.plot_q4_mesh(node_num, element_num, node_xy, element_node,
             node_show, element_show, output_filename);
@@ -603,7 +603,7 @@ internal static class Program
         Burkardt.Values.QuadMesh.example1_q4_mesh(node_num, element_num, ref node_xy, ref element_node,
             ref element_neighbor);
 
-        int sample_num = 20;
+        const int sample_num = 20;
 
         double[] sample_xy = new double[2 * sample_num];
         int[] sample_element = new int[sample_num];
@@ -661,7 +661,7 @@ internal static class Program
         Console.WriteLine("  SAMPLE_QUAD computes N random points in a quadrilateral.");
         Console.WriteLine("  Write them to a file.");
 
-        int n = 5000;
+        const int n = 5000;
 
         int seed = 123456789;
 

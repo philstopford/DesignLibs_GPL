@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.ODENS;
 
 namespace HermitePolyChaosExpansionTest;
@@ -63,21 +64,13 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double alpha_mu;
-        double alpha_sigma;
         int i;
-        int np = 4;
-        int nt = 200;
-        double[] t;
-        double tf;
-        double ti;
-        double[] u;
-        double[] uex;
-        double ui;
+        const int np = 4;
+        const int nt = 200;
 
-        t = new double[nt + 1];
-        u = new double[(nt + 1) * (np + 1)];
-        uex = new double[nt + 1];
+        double[] t = new double[nt + 1];
+        double[] u = new double[(nt + 1) * (np + 1)];
+        double[] uex = new double[nt + 1];
 
         Console.WriteLine("");
         Console.WriteLine("PCE_ODE_HERMITE_TEST01:");
@@ -87,11 +80,11 @@ internal static class Program
         Console.WriteLine("    u' = - alpha * u,");
         Console.WriteLine("    u(0) = 1.");
 
-        ti = 0.0;
-        tf = 2.0;
-        ui = 1.0;
-        alpha_mu = 0.0;
-        alpha_sigma = 1.0;
+        const double ti = 0.0;
+        const double tf = 2.0;
+        const double ui = 1.0;
+        const double alpha_mu = 0.0;
+        const double alpha_sigma = 1.0;
 
         Console.WriteLine("");
         Console.WriteLine("  Initial time         TI = " + ti + "");
@@ -119,11 +112,11 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i <= nt; i += 10)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + t[i].ToString().PadLeft(6)
-                                   + "  " + uex[i].ToString().PadLeft(14)
-                                   + "  " + u[i + 0 * (nt + 1)].ToString().PadLeft(14)
-                                   + "  " + Math.Abs(uex[i] - u[i + 0 * (nt + 1)]).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + t[i].ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + uex[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + u[i + 0 * (nt + 1)].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(uex[i] - u[i + 0 * (nt + 1)]).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -148,19 +141,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double alpha_mu;
-        double alpha_sigma;
         double[] ep = new double[6];
         int np;
-        int nt = 2000;
-        double[] t;
-        double tf;
-        double ti;
-        double[] u;
-        double uexf;
-        double ui;
+        const int nt = 2000;
 
-        t = new double[nt + 1];
+        double[] t = new double[nt + 1];
 
         Console.WriteLine("");
         Console.WriteLine("PCE_ODE_HERMITE_TEST02:");
@@ -169,11 +154,11 @@ internal static class Program
         Console.WriteLine("    u' = - alpha * u,");
         Console.WriteLine("    u(0) = 1.");
 
-        ti = 0.0;
-        tf = 2.0;
-        ui = 1.0;
-        alpha_mu = 0.0;
-        alpha_sigma = 1.0;
+        const double ti = 0.0;
+        const double tf = 2.0;
+        const double ui = 1.0;
+        const double alpha_mu = 0.0;
+        const double alpha_sigma = 1.0;
 
         Console.WriteLine("");
         Console.WriteLine("  Initial time         TI = " + ti + "");
@@ -183,11 +168,11 @@ internal static class Program
         Console.WriteLine("  E(ALPHA)       ALPHA_MU = " + alpha_mu + "");
         Console.WriteLine("  STD(ALPHA)  ALPHA_SIGMA = " + alpha_sigma + "");
 
-        uexf = ui * Math.Exp(tf * tf / 2.0);
+        double uexf = ui * Math.Exp(tf * tf / 2.0);
 
         for (np = 0; np <= 5; np++)
         {
-            u = new double[(nt + 1) * (np + 1)];
+            double[] u = new double[(nt + 1) * (np + 1)];
 
             HermitePolyChaosExpansion.pce_ode_hermite(ti, tf, nt, ui, np, alpha_mu, alpha_sigma, ref t, ref u);
 
@@ -203,9 +188,9 @@ internal static class Program
         Console.WriteLine("");
         for (np = 0; np <= 5; np++)
         {
-            Console.WriteLine("  " + np.ToString().PadLeft(4)
-                                   + "  " + ep[np].ToString().PadLeft(14)
-                                   + "  " + Math.Log(ep[np]).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + np.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + ep[np].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Log(ep[np]).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 }

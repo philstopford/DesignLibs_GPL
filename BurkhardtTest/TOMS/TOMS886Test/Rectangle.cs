@@ -7,7 +7,7 @@ using Burkardt.Types;
 
 namespace TOMS886Test;
 
-internal class RectangleTest
+internal static class RectangleTest
 {
     public static void rectangle()
         //****************************************************************************80
@@ -105,35 +105,19 @@ internal class RectangleTest
         //    Local, double ESTERR, the estimated error.
         //
     {
-        int DEGMAX = 60;
-        int NTG1MX = 100;
-        int NPDMAX = (DEGMAX + 1) * (DEGMAX + 2) / 2;
-        int NTGMAX = NTG1MX * NTG1MX;
+        const int DEGMAX = 60;
+        const int NTG1MX = 100;
+        const int NPDMAX = (DEGMAX + 1) * (DEGMAX + 2) / 2;
+        const int NTGMAX = NTG1MX * NTG1MX;
 
-        double a1;
-        double a2;
-        double b1;
-        double b2;
         double[] c0 = new double[(DEGMAX + 2) * (DEGMAX + 2)];
-        int deg;
-        int degmax = DEGMAX;
         double esterr = 0;
-        int family;
-        string filename;
-        double fmax;
-        double fmin;
         double[] fpd = new double[NPDMAX];
-        double fxy;
         int i;
         double[] intftg = new double[NTGMAX];
-        double ixy;
         double maxdev;
-        double maxerr;
-        double mean;
         int npd = 0;
         int ntg = 0;
-        int ntg1;
-        int ntgmax = NTGMAX;
         List<string> output = new();
         double[] pd1 = new double[NPDMAX];
         double[] pd2 = new double[NPDMAX];
@@ -145,29 +129,19 @@ internal class RectangleTest
         double x;
         double y;
 
-        a1 = 0.0;
-        a2 = 0.0;
-        b1 = 1.0;
-        b2 = 1.0;
-        family = 1;
-        deg = 60;
-        ntg1 = 100;
+        const double a1 = 0.0;
+        const double a2 = 0.0;
+        const double b1 = 1.0;
+        const double b2 = 1.0;
+        const int family = 1;
+        const int deg = 60;
+        const int ntg1 = 100;
 
         Console.WriteLine("");
         Console.WriteLine("RECTANGLE:");
         Console.WriteLine("  Interpolation of the Franke function");
         Console.WriteLine("  on the unit square [0,1] x [0,1]");
         Console.WriteLine("  of degree = " + deg + "");
-
-        if (degmax < deg)
-        {
-            Console.WriteLine("");
-            Console.WriteLine("RECTANGLE - Fatal error!");
-            Console.WriteLine("  DEGMAX < DEG.");
-            Console.WriteLine("  DEG =    " + deg + "");
-            Console.WriteLine("  DEGMAX = " + degmax + "");
-            return;
-        }
 
         //
         //  Build the first family of Padua points in the square [-1,1]^2
@@ -186,7 +160,7 @@ internal class RectangleTest
         //
         //  Write X, Y, F(X,Y) to a file.
         //
-        filename = "rectangle_fpd.txt";
+        string filename = "rectangle_fpd.txt";
         output.Clear();
         for (i = 0; i < npd; i++)
         {
@@ -204,11 +178,11 @@ internal class RectangleTest
         //  Compute the matrix C0 of the coefficients in the bivariate
         //  orthonormal Chebyshev basis
         //
-        Padua.padua2(deg, degmax, npd, wpd, fpd, raux1, raux2, ref c0, ref esterr);
+        Padua.padua2(deg, DEGMAX, npd, wpd, fpd, raux1, raux2, ref c0, ref esterr);
         //    
         //  Evaluate the target points in the region.
         //
-        target(a1, b1, a2, b2, ntg1, ntgmax, ref tg1, ref tg2, ref ntg);
+        target(a1, b1, a2, b2, ntg1, NTGMAX, ref tg1, ref tg2, ref ntg);
         //    
         //  Evaluate the interpolant at the target points.
         //
@@ -216,7 +190,7 @@ internal class RectangleTest
         {
             x = isigm1(tg1[i], tg2[i], a1, a2, b1, b2, family, deg);
             y = isigm2(tg1[i], tg2[i], a1, a2, b1, b2, family, deg);
-            intftg[i] = Padua.pd2val(deg, degmax, c0, x, y);
+            intftg[i] = Padua.pd2val(deg, DEGMAX, c0, x, y);
         }
 
         //
@@ -252,22 +226,22 @@ internal class RectangleTest
         //
         //  Compute the error relative to the max deviation from the mean.
         //
-        maxerr = 0.0;
-        mean = 0.0;
-        fmax = -typeMethods.r8_huge();
-        fmin = +typeMethods.r8_huge();
+        double maxerr = 0.0;
+        double mean = 0.0;
+        double fmax = -typeMethods.r8_huge();
+        double fmin = +typeMethods.r8_huge();
 
         for (i = 0; i < ntg; i++)
         {
-            fxy = Franke.franke(tg1[i], tg2[i]);
-            ixy = intftg[i];
+            double fxy = Franke.franke(tg1[i], tg2[i]);
+            double ixy = intftg[i];
             maxerr = Math.Max(maxerr, Math.Abs(fxy - ixy));
             mean += fxy;
             fmax = Math.Max(fmax, fxy);
             fmin = Math.Min(fmin, fxy);
         }
 
-        if (fmax == fmin)
+        if (Math.Abs(fmax - fmin) <= double.Epsilon)
         {
             maxdev = 1.0;
         }
@@ -343,13 +317,9 @@ internal class RectangleTest
         //    point in the rectangle.
         //
     {
-        double pi = 3.1415926535897931;
-        double theta;
-        double value = 0;
-
-        theta = (2 * (deg % 2) - 1)
-            * (double) (family - 1) * pi / 2.0;
-        value = t1 * Math.Cos(theta) - t2 * Math.Sin(theta);
+        double theta = (2 * (deg % 2) - 1)
+            * (double) (family - 1) * Math.PI / 2.0;
+        double value = t1 * Math.Cos(theta) - t2 * Math.Sin(theta);
         value = ((b1 - a1) * value + (b1 + a1)) / 2.0;
 
         return value;
@@ -408,15 +378,10 @@ internal class RectangleTest
         //    point in the square.
         //
     {
-        double isigm2;
-        const double pi = 3.1415926535897931;
-        double theta;
-        double value = 0;
-
-        theta = (2 * (deg % 2) - 1)
-            * (double) (family - 1) * pi / 2.0;
-        value = (2.0 * sigma1 - (b1 + a1)) / (b1 - a1);
-        isigm2 = (2.0 * sigma2 - (b2 + a2)) / (b2 - a2);
+        double theta = (2 * (deg % 2) - 1)
+            * (double) (family - 1) * Math.PI / 2.0;
+        double value = (2.0 * sigma1 - (b1 + a1)) / (b1 - a1);
+        double isigm2 = (2.0 * sigma2 - (b2 + a2)) / (b2 - a2);
         value = value * Math.Cos(theta) + isigm2 * Math.Sin(theta);
 
         return value;
@@ -474,13 +439,9 @@ internal class RectangleTest
         //    point in the rectangle.
         //
     {
-        const double pi = 3.1415926535897931;
-        double theta;
-        double value = 0;
-
-        theta = (2 * (deg % 2) - 1)
-            * (double) (family - 1) * pi / 2.0;
-        value = t1 * Math.Sin(theta) + t2 * Math.Cos(theta);
+        double theta = (2 * (deg % 2) - 1)
+            * (double) (family - 1) * Math.PI / 2.0;
+        double value = t1 * Math.Sin(theta) + t2 * Math.Cos(theta);
         value = ((b2 - a2) * value + (b2 + a2)) / 2.0;
 
         return value;
@@ -540,15 +501,10 @@ internal class RectangleTest
         //    point in the rectangle.
         //
     {
-        double isigm1;
-        const double pi = 3.1415926535897931;
-        double theta;
-        double value = 0;
-
-        theta = (2 * (deg % 2) - 1)
-            * (double) (family - 1) * pi / 2.0;
-        isigm1 = (2.0 * sigma1 - (b1 + a1)) / (b1 - a1);
-        value = (2.0 * sigma2 - (b2 + a2)) / (b2 - a2);
+        double theta = (2 * (deg % 2) - 1)
+            * (double) (family - 1) * Math.PI / 2.0;
+        double isigm1 = (2.0 * sigma1 - (b1 + a1)) / (b1 - a1);
+        double value = (2.0 * sigma2 - (b2 + a2)) / (b2 - a2);
         value = -isigm1 * Math.Sin(theta) + value * Math.Cos(theta);
 
         return value;
@@ -607,7 +563,6 @@ internal class RectangleTest
         //
     {
         int i;
-        int j;
 
         switch (ntg1)
         {
@@ -633,6 +588,7 @@ internal class RectangleTest
 
         for (i = 1; i <= ntg1; i++)
         {
+            int j;
             for (j = 1; j <= ntg1; j++)
             {
                 tg1[ntg] = a1 + (j - 1) * (b1 - a1)

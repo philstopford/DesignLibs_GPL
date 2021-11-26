@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Chebyshev;
 using Burkardt.ChebyshevNS;
 
@@ -69,16 +70,14 @@ internal static class Program
         //
     {
         int i;
-        int j;
-        int nf = 5;
-        int npl = 10;
-        double[] x;
+        const int nf = 5;
+        const int npl = 10;
 
         Console.WriteLine("");
         Console.WriteLine("CHEBY_TEST");
         Console.WriteLine("  CHEBY computes the Chebyshev series for several functions.");
 
-        x = Chebyshev.cheby(nf, npl, functn);
+        double[] x = Chebyshev.cheby(nf, npl, functn);
 
         Console.WriteLine("");
         Console.WriteLine("          Sin(x)          Cos(x)        Sin(2x)         Cos(2x)           X^5");
@@ -87,9 +86,10 @@ internal static class Program
         for (i = 0; i < npl; i++)
         {
             string cout = "";
+            int j;
             for (j = 0; j < nf; j++)
             {
-                cout += "  " + x[i + j * npl].ToString().PadLeft(14);
+                cout += "  " + x[i + j * npl].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -119,19 +119,16 @@ internal static class Program
     {
         int i;
         int j;
-        int nf = 5;
-        int npl = 10;
-        double[] x;
-        double[] x2;
-        double[] x3;
+        const int nf = 5;
+        const int npl = 10;
 
         Console.WriteLine("");
         Console.WriteLine("DFRNT_TEST");
         Console.WriteLine("  DFRNT computes the Chebyshev series for the derivative");
         Console.WriteLine("  of several functions.");
 
-        x = Chebyshev.cheby(nf, npl, functn);
-        x2 = new double[npl];
+        double[] x = Chebyshev.cheby(nf, npl, functn);
+        double[] x2 = new double[npl];
 
         for (j = 0; j < nf; j++)
         {
@@ -140,7 +137,7 @@ internal static class Program
                 x2[i] = x[i + j * npl];
             }
 
-            x3 = ChebyshevSeries.dfrnt(x2, npl);
+            double[] x3 = ChebyshevSeries.dfrnt(x2, npl);
             for (i = 0; i < npl; i++)
             {
                 x[i + j * npl] = x3[i];
@@ -158,7 +155,7 @@ internal static class Program
             string cout = "";
             for (j = 0; j < nf; j++)
             {
-                cout += "  " + x[i + j * npl].ToString().PadLeft(14);
+                cout += "  " + x[i + j * npl].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -186,29 +183,22 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double fval;
-        double[] fxj;
-        int i;
         int j;
-        int k;
-        int nf = 5;
-        int npl = 10;
-        int nx;
-        double[] x;
-        double[] x2;
-        double xval;
+        const int nf = 5;
+        const int npl = 10;
 
-        nx = 6;
+        const int nx = 6;
 
         Console.WriteLine("");
         Console.WriteLine("ECHEB_TEST");
         Console.WriteLine("  ECHEB evaluates a Chebyshev series.");
 
-        x = Chebyshev.cheby(nf, npl, functn);
-        x2 = new double[npl];
+        double[] x = Chebyshev.cheby(nf, npl, functn);
+        double[] x2 = new double[npl];
 
         for (j = 0; j < nf; j++)
         {
+            int i;
             for (i = 0; i < npl; i++)
             {
                 x2[i] = x[i + j * npl];
@@ -236,17 +226,18 @@ internal static class Program
 
             Console.WriteLine("");
 
+            int k;
             for (k = 0; k < nx; k++)
             {
-                xval = 2.0 * k / (nx - 1) - 1.0;
+                double xval = 2.0 * k / (nx - 1) - 1.0;
 
-                fxj = functn(xval);
+                double[] fxj = functn(xval);
 
-                fval = ChebyshevSeries.echeb(xval, x2, npl);
+                double fval = ChebyshevSeries.echeb(xval, x2, npl);
 
-                Console.WriteLine("  " + xval.ToString().PadLeft(14)
-                                       + "  " + fxj[j].ToString().PadLeft(14)
-                                       + "  " + fval.ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + xval.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + fxj[j].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + fval.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
     }
@@ -272,29 +263,22 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double fval;
-        double[] fxj;
-        int i;
         int j;
-        int k;
-        int nf = 5;
-        int npl = 10;
-        int nx;
-        double[] x;
-        double[] x2;
-        double xval;
+        const int nf = 5;
+        const int npl = 10;
 
-        nx = 6;
+        const int nx = 6;
 
         Console.WriteLine("");
         Console.WriteLine("EDCHEB_TEST");
         Console.WriteLine("  EDCHEB evaluates the derivative of a Chebyshev series.");
 
-        x = Chebyshev.cheby(nf, npl, functn);
-        x2 = new double[npl];
+        double[] x = Chebyshev.cheby(nf, npl, functn);
+        double[] x2 = new double[npl];
 
         for (j = 0; j < nf; j++)
         {
+            int i;
             for (i = 0; i < npl; i++)
             {
                 x2[i] = x[i + j * npl];
@@ -322,17 +306,18 @@ internal static class Program
 
             Console.WriteLine("");
 
+            int k;
             for (k = 0; k < nx; k++)
             {
-                xval = 2.0 * k / (nx - 1) - 1.0;
+                double xval = 2.0 * k / (nx - 1) - 1.0;
 
-                fxj = functn_d(xval);
+                double[] fxj = functn_d(xval);
 
-                fval = ChebyshevSeries.edcheb(xval, x2, npl);
+                double fval = ChebyshevSeries.edcheb(xval, x2, npl);
 
-                Console.WriteLine("  " + xval.ToString().PadLeft(14)
-                                       + "  " + fxj[j].ToString().PadLeft(14)
-                                       + "  " + fval.ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + xval.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + fxj[j].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + fval.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
     }
@@ -359,12 +344,8 @@ internal static class Program
         //
     {
         int i;
-        int nf = 5;
-        int npl = 10;
-        double[] x;
-        double[] x1;
-        double[] x2;
-        double[] x3;
+        const int nf = 5;
+        const int npl = 10;
 
         Console.WriteLine("");
         Console.WriteLine("MLTPLY_TEST");
@@ -373,10 +354,10 @@ internal static class Program
         Console.WriteLine("  Multiply series for SIN(X) and COS(X)");
         Console.WriteLine("  and compare with series for 1/2*SIN(2X).");
 
-        x = Chebyshev.cheby(nf, npl, functn);
+        double[] x = Chebyshev.cheby(nf, npl, functn);
 
-        x1 = new double[npl];
-        x2 = new double[npl];
+        double[] x1 = new double[npl];
+        double[] x2 = new double[npl];
 
         for (i = 0; i < npl; i++)
         {
@@ -385,7 +366,7 @@ internal static class Program
             x[i + 2 * npl] = 0.5 * x[i + 2 * npl];
         }
 
-        x3 = ChebyshevSeries.mltply_new(x1, x2, npl);
+        double[] x3 = ChebyshevSeries.mltply_new(x1, x2, npl);
 
         Console.WriteLine("");
         Console.WriteLine("          Sin(x)          Cos(x)       1/2*Sin(2x)         RESULT");
@@ -393,10 +374,10 @@ internal static class Program
 
         for (i = 0; i < npl; i++)
         {
-            Console.WriteLine("  " + x[i + 0 * npl].ToString().PadLeft(14)
-                                   + "  " + x[i + 1 * npl].ToString().PadLeft(14)
-                                   + "  " + x[i + 2 * npl].ToString().PadLeft(14)
-                                   + "  " + x3[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x[i + 0 * npl].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + x[i + 1 * npl].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + x[i + 2 * npl].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + x3[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -423,19 +404,16 @@ internal static class Program
     {
         int i;
         int j;
-        int nf = 5;
-        int npl = 10;
-        double[] x;
-        double[] x2;
-        double[] x3;
+        const int nf = 5;
+        const int npl = 10;
 
         Console.WriteLine("");
         Console.WriteLine("NTGRT_TEST");
         Console.WriteLine("  NTGRT computes the Chebyshev series for the indefinite");
         Console.WriteLine("  integral of several functions.");
 
-        x = Chebyshev.cheby(nf, npl, functn);
-        x2 = new double[npl];
+        double[] x = Chebyshev.cheby(nf, npl, functn);
+        double[] x2 = new double[npl];
 
         for (j = 0; j < nf; j++)
         {
@@ -444,7 +422,7 @@ internal static class Program
                 x2[i] = x[i + j * npl];
             }
 
-            x3 = ChebyshevSeries.ntgrt(x2, npl);
+            double[] x3 = ChebyshevSeries.ntgrt(x2, npl);
             for (i = 0; i < npl; i++)
             {
                 x[i + j * npl] = x3[i];
@@ -462,7 +440,7 @@ internal static class Program
             string cout = "";
             for (j = 0; j < nf; j++)
             {
-                cout += "  " + x[i + j * npl].ToString().PadLeft(14);
+                cout += "  " + x[i + j * npl].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -496,9 +474,7 @@ internal static class Program
         //    Output, double FXJ[5], the derivative values.
         //
     {
-        double[] fxj;
-
-        fxj = new double[5];
+        double[] fxj = new double[5];
 
         fxj[0] = Math.Sin(x);
         fxj[1] = Math.Cos(x);
@@ -536,9 +512,7 @@ internal static class Program
         //    Output, double FXJ[5], the derivative values.
         //
     {
-        double[] fxj;
-
-        fxj = new double[5];
+        double[] fxj = new double[5];
 
         fxj[0] = Math.Cos(x);
         fxj[1] = -Math.Sin(x);

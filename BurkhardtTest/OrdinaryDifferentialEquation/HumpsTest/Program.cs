@@ -65,22 +65,17 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
         int i;
-        int n;
-        double[] x;
-        double[] y;
 
         Console.WriteLine("");
         Console.WriteLine("humps_antideriv_test");
         Console.WriteLine("  Test humps_antideriv.");
 
-        a = 0.0;
-        b = 2.0;
-        n = 101;
-        x = new double[n];
-        y = new double[n];
+        const double a = 0.0;
+        const double b = 2.0;
+        const int n = 101;
+        double[] x = new double[n];
+        double[] y = new double[n];
         for (i = 0; i < n; i++)
         {
             x[i] = ((n - i) * a + i * b) / (n - 1);
@@ -111,22 +106,17 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
         int i;
-        int n;
-        double[] x;
-        double[] y;
 
         Console.WriteLine("");
         Console.WriteLine("humps_fun_test");
         Console.WriteLine("  Test humps_fun.");
 
-        a = 0.0;
-        b = 2.0;
-        n = 101;
-        x = new double[n];
-        y = new double[n];
+        const double a = 0.0;
+        const double b = 2.0;
+        const int n = 101;
+        double[] x = new double[n];
+        double[] y = new double[n];
         for (i = 0; i < n; i++)
         {
             x[i] = ((n - i) * a + i * b) / (n - 1);
@@ -157,22 +147,17 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
         int i;
-        int n;
-        double[] x;
-        double[] y;
 
         Console.WriteLine("");
         Console.WriteLine("humps_deriv_test");
         Console.WriteLine("  Test humps_deriv.");
 
-        a = 0.0;
-        b = 2.0;
-        n = 101;
-        x = new double[n];
-        y = new double[n];
+        const double a = 0.0;
+        const double b = 2.0;
+        const int n = 101;
+        double[] x = new double[n];
+        double[] y = new double[n];
         for (i = 0; i < n; i++)
         {
             x[i] = ((n - i) * a + i * b) / (n - 1);
@@ -203,22 +188,17 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
         int i;
-        int n;
-        double[] x;
-        double[] y;
 
         Console.WriteLine("");
         Console.WriteLine("humps_deriv2_test");
         Console.WriteLine("  Test humps_deriv2.");
 
-        a = 0.0;
-        b = 2.0;
-        n = 101;
-        x = new double[n];
-        y = new double[n];
+        const double a = 0.0;
+        const double b = 2.0;
+        const int n = 101;
+        double[] x = new double[n];
+        double[] y = new double[n];
         for (i = 0; i < n; i++)
         {
             x[i] = ((n - i) * a + i * b) / (n - 1);

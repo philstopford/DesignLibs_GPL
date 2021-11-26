@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using Burkardt.ODENS;
 using Burkardt.Types;
@@ -33,19 +34,13 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string command_filename = "lorenz_ode_commands.txt";
+        const string command_filename = "lorenz_ode_commands.txt";
         List<string> command_unit = new();
-        string data_filename = "lorenz_ode_data.txt";
+        const string data_filename = "lorenz_ode_data.txt";
         List<string> data_unit = new();
-        double dt;
-        int i;
         int j;
-        int m = 3;
-        int n = 200000;
-        double[] t;
-        double t_final;
-        double[] x;
-        double[] xnew;
+        const int m = 3;
+        const int n = 200000;
 
         Console.WriteLine("");
         Console.WriteLine("LORENZ_ODE");
@@ -54,13 +49,13 @@ internal static class Program
         //
         //  Data
         //
-        t_final = 40.0;
-        dt = t_final / n;
+        double t_final = 40.0;
+        double dt = t_final / n;
         //
         //  Store the initial conditions in entry 0.
         //
-        t = typeMethods.r8vec_linspace_new(n + 1, 0.0, t_final);
-        x = new double[m * (n + 1)];
+        double[] t = typeMethods.r8vec_linspace_new(n + 1, 0.0, t_final);
+        double[] x = new double[m * (n + 1)];
         x[0 + 0 * m] = 8.0;
         x[0 + 1 * m] = 1.0;
         x[0 + 2 * m] = 1.0;
@@ -69,7 +64,8 @@ internal static class Program
         //
         for (j = 0; j < n; j++)
         {
-            xnew = RungeKutta.rk4vec(t[j], m, x, dt, Lorenz.lorenz_rhs, index: +j * m);
+            double[] xnew = RungeKutta.rk4vec(t[j], m, x, dt, Lorenz.lorenz_rhs, index: +j * m);
+            int i;
             for (i = 0; i < m; i++)
             {
                 x[i + (j + 1) * m] = xnew[i];
@@ -81,10 +77,10 @@ internal static class Program
         //
         for (j = 0; j <= n; j += 50)
         {
-            data_unit.Add("  " + t[j].ToString().PadLeft(14)
-                               + "  " + x[0 + j * m].ToString().PadLeft(14)
-                               + "  " + x[1 + j * m].ToString().PadLeft(14)
-                               + "  " + x[2 + j * m].ToString().PadLeft(14) + "");
+            data_unit.Add("  " + t[j].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                               + "  " + x[0 + j * m].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                               + "  " + x[1 + j * m].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                               + "  " + x[2 + j * m].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         File.WriteAllLines(data_filename, data_unit);

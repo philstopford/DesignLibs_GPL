@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Function;
 using Burkardt.WFunction;
 
@@ -36,28 +37,22 @@ internal static class Program
         //    Volume 21, Number 2, June 1995, pages 172-181.
         //
     {
-        double dx;
-        int n;
-        int nbits;
-        double xmax;
-        double xmin;
-
         Console.WriteLine("");
         Console.WriteLine("TOMS743_TEST");
         Console.WriteLine("  Test the TOMS743 library.");
 
-        nbits = NBITS.nbits_compute();
+        int nbits = NBITS.nbits_compute();
         Console.WriteLine("");
         Console.WriteLine("  Number of bits in mantissa - 1 = " + nbits + "");
 
         test01(nbits);
 
-        dx = +1.0E-09;
-        n = 10;
+        const double dx = +1.0E-09;
+        int n = 10;
         test02(nbits, dx, n);
 
-        xmin = 0.0;
-        xmax = 1.0E+20;
+        const double xmin = 0.0;
+        const double xmax = 1.0E+20;
         n = 20;
         test03(nbits, xmin, xmax, n);
         Console.WriteLine("");
@@ -104,7 +99,6 @@ internal static class Program
             3E-4, 4E-4, 5E-4, 6E-4, 7E-4, 8E-4, 9E-4, 1E-3, 2E-3, 3E-3,
             4E-3, 5E-3, 6E-3, 7E-3, 8E-3, 9E-3, 1E-2
         };
-        double em;
         int i;
         int nd;
         int nerror = 0;
@@ -403,7 +397,6 @@ internal static class Program
                           "   W(x) (EXACT)   Digits Correct");
         Console.WriteLine("");
 
-        Bisect.BisectData bdata = new();
         WAPRData wdata = new();
 
         for (i = 0; i < 68; i++)
@@ -411,7 +404,7 @@ internal static class Program
             switch (dx1[i])
             {
                 case 0.0:
-                    em = -Math.Exp(-1.0);
+                    double em = -Math.Exp(-1.0);
                     w = WAPR.wapr(ref wdata, em, 0, ref nerror, 0);
                     break;
                 default:
@@ -419,7 +412,7 @@ internal static class Program
                     break;
             }
 
-            if (w == wp1[i])
+            if (Math.Abs(w - wp1[i]) <= double.Epsilon)
             {
                 nd = (int) (Math.Log10(Math.Pow(2.0, nbits)) + 0.5);
             }
@@ -431,7 +424,7 @@ internal static class Program
             Console.WriteLine(dx1[i].ToString("0.########").PadLeft(17)
                               + w.ToString("0.########").PadLeft(17)
                               + wp1[i].ToString("0.########").PadLeft(17) + "      "
-                              + nd.ToString().PadLeft(3) + "");
+                              + nd.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "");
         }
 
         //
@@ -447,7 +440,7 @@ internal static class Program
         for (i = 0; i < 20; i++)
         {
             w = WAPR.wapr(ref wdata, x2[i], 0, ref nerror, 0);
-            if (w == wp2[i])
+            if (Math.Abs(w - wp2[i]) <= double.Epsilon)
             {
                 nd = (int) (Math.Log10(Math.Pow(2.0, nbits)) + 0.5);
             }
@@ -459,13 +452,13 @@ internal static class Program
             Console.WriteLine(x2[i].ToString("0.########").PadLeft(17)
                               + w.ToString("0.########").PadLeft(17)
                               + wp2[i].ToString("0.########").PadLeft(17) + "      "
-                              + nd.ToString().PadLeft(3) + "");
+                              + nd.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "");
         }
 
         for (i = 0; i < 20; i++)
         {
             w = WAPR.wapr(ref wdata, -x2[i], 0, ref nerror, 0);
-            if (w == wp2[20 + i])
+            if (Math.Abs(w - wp2[20 + i]) <= double.Epsilon)
             {
                 nd = (int) (Math.Log10(Math.Pow(2.0, nbits)) + 0.5);
             }
@@ -477,7 +470,7 @@ internal static class Program
             Console.WriteLine((-x2[i]).ToString("0.########").PadLeft(17)
                               + w.ToString("0.########").PadLeft(17)
                               + wp2[20 + i].ToString("0.########").PadLeft(17) + "      "
-                              + nd.ToString().PadLeft(3) + "");
+                              + nd.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "");
         }
 
         //
@@ -493,7 +486,7 @@ internal static class Program
         for (i = 0; i < 10; i++)
         {
             w = WAPR.wapr(ref wdata, x3[i], 0, ref nerror, 0);
-            if (w == wp3[i])
+            if (Math.Abs(w - wp3[i]) <= double.Epsilon)
             {
                 nd = (int) (Math.Log10(Math.Pow(2.0, nbits)) + 0.5);
             }
@@ -505,7 +498,7 @@ internal static class Program
             Console.WriteLine(x3[i].ToString("0.########").PadLeft(17)
                               + w.ToString("0.########").PadLeft(17)
                               + wp3[i].ToString("0.########").PadLeft(17) + "      "
-                              + nd.ToString().PadLeft(3) + "");
+                              + nd.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "");
         }
 
         //
@@ -521,7 +514,7 @@ internal static class Program
         for (i = 0; i < 68; i++)
         {
             w = WAPR.wapr(ref wdata, dx1[i], 1, ref nerror, 1);
-            if (w == wm1[i])
+            if (Math.Abs(w - wm1[i]) <= double.Epsilon)
             {
                 nd = (int) (Math.Log10(Math.Pow(2.0, nbits)) + 0.5);
             }
@@ -533,7 +526,7 @@ internal static class Program
             Console.WriteLine(dx1[i].ToString("0.########").PadLeft(17)
                               + w.ToString("0.########").PadLeft(17)
                               + wm1[i].ToString("0.########").PadLeft(17) + "      "
-                              + nd.ToString().PadLeft(3) + "");
+                              + nd.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "");
         }
 
         //
@@ -554,7 +547,7 @@ internal static class Program
                 case > 0.0:
                 {
                     w = WAPR.wapr(ref wdata, -dx1[i], 1, ref nerror, 0);
-                    if (w == wm2[i])
+                    if (Math.Abs(w - wm2[i]) <= double.Epsilon)
                     {
                         nd = (int) (Math.Log10(Math.Pow(2.0, nbits)) + 0.5);
                     }
@@ -566,7 +559,7 @@ internal static class Program
                     Console.WriteLine((-dx1[i]).ToString("0.########").PadLeft(17)
                                       + w.ToString("0.########").PadLeft(17)
                                       + wm2[i].ToString("0.########").PadLeft(17) + "      "
-                                      + nd.ToString().PadLeft(3) + "");
+                                      + nd.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "");
                     break;
                 }
             }
@@ -605,17 +598,13 @@ internal static class Program
         //
     {
         int i;
-        int ifmt;
         int iw;
-        int l;
         int nd;
         int ner = 0;
         int nerror = 0;
         double w;
         double we;
         double x;
-        double xmax;
-        double xmin;
         Bisect.BisectData bdata = new();
         WAPRData wdata = new();
 
@@ -623,10 +612,10 @@ internal static class Program
         Console.WriteLine("TEST02");
         Console.WriteLine("  Input X is the offset from -exp(-1).");
 
-        l = 1;
-        ifmt = 0;
-        xmax = n * dx - Math.Exp(-1.0);
-        xmin = 0.0;
+        int l = 1;
+        int ifmt = 0;
+        double xmax = n * dx - Math.Exp(-1.0);
+        double xmin = 0.0;
 
         switch (xmax)
         {
@@ -682,7 +671,7 @@ internal static class Program
                             break;
                     }
 
-                    if (w == we)
+                    if (Math.Abs(w - we) <= double.Epsilon)
                     {
                         nd = (int) (Math.Log10(Math.Pow(2.0, nbits)) + 0.5);
                     }
@@ -694,7 +683,7 @@ internal static class Program
                     Console.WriteLine(x.ToString("0.########").PadLeft(17)
                                       + w.ToString("0.########").PadLeft(17)
                                       + we.ToString("0.########").PadLeft(17) + "      "
-                                      + nd.ToString().PadLeft(3) + "");
+                                      + nd.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "");
                     break;
                 }
             }
@@ -746,7 +735,7 @@ internal static class Program
                                     break;
                             }
 
-                            if (w == we)
+                            if (Math.Abs(w - we) <= double.Epsilon)
                             {
                                 nd = (int) (Math.Log10(Math.Pow(2.0, nbits)) + 0.5);
                             }
@@ -758,7 +747,7 @@ internal static class Program
                             Console.WriteLine(x.ToString("0.########").PadLeft(17)
                                               + w.ToString("0.########").PadLeft(17)
                                               + we.ToString("0.########").PadLeft(17) + "      "
-                                              + nd.ToString().PadLeft(3) + "");
+                                              + nd.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "");
                             break;
                         }
                     }
@@ -802,15 +791,11 @@ internal static class Program
         //    in the range at which arguments are to be chosen.
         //
     {
-        double dx;
         int i;
-        int ifmt;
         int iw;
-        int l;
         int nd;
         int ner = 0;
         int nerror = 0;
-        double temp;
         double w;
         double we;
         double x;
@@ -822,17 +807,15 @@ internal static class Program
         Console.WriteLine("TEST03");
         Console.WriteLine("  Input X is the argument.");
 
-        l = 0;
-        ifmt = 1;
+        const int l = 0;
+        const int ifmt = 1;
 
         if (xmax < xmin)
         {
-            temp = xmin;
-            xmin = xmax;
-            xmax = temp;
+            (xmin, xmax) = (xmax, xmin);
         }
 
-        dx = (xmax - xmin) / n;
+        double dx = (xmax - xmin) / n;
         xmin -= dx;
 
         switch (xmax)
@@ -889,7 +872,7 @@ internal static class Program
                             break;
                     }
 
-                    if (w == we)
+                    if (Math.Abs(w - we) <= double.Epsilon)
                     {
                         nd = (int) (Math.Log10(Math.Pow(2.0, nbits)) + 0.5);
                     }
@@ -901,7 +884,7 @@ internal static class Program
                     Console.WriteLine(x.ToString("0.########").PadLeft(17)
                                       + w.ToString("0.########").PadLeft(17)
                                       + we.ToString("0.########").PadLeft(17) + "      "
-                                      + nd.ToString().PadLeft(3) + "");
+                                      + nd.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "");
                     break;
                 }
             }
@@ -951,7 +934,7 @@ internal static class Program
                                     break;
                             }
 
-                            if (w == we)
+                            if (Math.Abs(w - we) <= double.Epsilon)
                             {
                                 nd = (int) (Math.Log10(Math.Pow(2.0, nbits)) + 0.5);
                             }
@@ -963,7 +946,7 @@ internal static class Program
                             Console.WriteLine(x.ToString("0.########").PadLeft(17)
                                               + w.ToString("0.########").PadLeft(17)
                                               + we.ToString("0.########").PadLeft(17) + "      "
-                                              + nd.ToString().PadLeft(3) + "");
+                                              + nd.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "");
                             break;
                         }
                     }

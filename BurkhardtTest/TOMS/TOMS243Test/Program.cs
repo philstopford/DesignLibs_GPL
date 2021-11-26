@@ -28,8 +28,6 @@ internal static class Program
         //
     {
         Complex fx1 = new(0, 0);
-        Complex fx2;
-        int n_data;
         Complex x = new(0, 0);
 
         Console.WriteLine("");
@@ -40,7 +38,7 @@ internal static class Program
         Console.WriteLine("                                               FX computed");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         while (true)
         {
@@ -51,7 +49,7 @@ internal static class Program
                 break;
             }
 
-            fx2 = TOMS.toms243(x);
+            Complex fx2 = TOMS.toms243(x);
 
             Console.WriteLine("  ( "
                               + x.Real.ToString("0.####").PadLeft(8) + ","

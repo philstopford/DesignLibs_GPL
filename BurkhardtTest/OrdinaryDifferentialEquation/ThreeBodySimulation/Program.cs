@@ -72,45 +72,33 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double abserr;
-        int flag;
         int i;
-        int neqn = 12;
-        double relerr;
+        const int neqn = 12;
         int step;
-        int step_num = 630;
-        double t;
-        string t_filename = "simple_rkf45_t.txt";
-        double t_out;
-        double t_start;
-        double t_stop;
-        double[] ts;
-        double[] y;
-        string y_filename = "simple_rkf45_y.txt";
-        double[] yp;
-        double[] ys;
+        const int step_num = 630;
+        const string t_filename = "simple_rkf45_t.txt";
+        const string y_filename = "simple_rkf45_y.txt";
         RungeKuttaFehlberg.r8RKFData data = new();
 
-        ts = new double[step_num + 1];
-        y = new double[neqn];
-        yp = new double[neqn];
-        ys = new double[neqn * (step_num + 1)];
+        double[] ts = new double[step_num + 1];
+        double[] y = new double[neqn];
+        double[] yp = new double[neqn];
+        double[] ys = new double[neqn * (step_num + 1)];
 
         Console.WriteLine("");
         Console.WriteLine("SIMPLE_RKF45_RUN");
         Console.WriteLine("  Simulate the planar three-body problem as an ODE system");
         Console.WriteLine("  using RKF45 for the ODE integration.");
 
-        abserr = 1.0E-10;
-        relerr = 1.0E-10;
+        const double abserr = 1.0E-10;
+        double relerr = 1.0E-10;
 
-        flag = 1;
+        int flag = 1;
 
-        t_start = 0.0;
-        t_stop = 63.0;
+        const double t_start = 0.0;
+        const double t_stop = 63.0;
 
-        t = 0.0;
-        t_out = 0.0;
+        double t = 0.0;
 
         y[0] = 1.0;
         y[1] = -1.0;
@@ -140,9 +128,9 @@ internal static class Program
                  + (step - 1) * t_stop)
                 / step_num;
 
-            t_out = ((step_num - step) * t_start
-                     + step * t_stop)
-                    / step_num;
+            double t_out = ((step_num - step) * t_start
+                            + step * t_stop)
+                           / step_num;
 
             flag = RungeKuttaFehlberg.r8_rkf45(ref data, simple_f, neqn, ref y, ref yp, ref t, t_out, ref relerr,
                 abserr, flag);
@@ -208,35 +196,22 @@ internal static class Program
         //    Output, double YP[NEQN], the value of the derivatives.
         //
     {
-        double m0;
-        double m1;
-        double m2;
-        double n0;
-        double n1;
-        double n2;
-        double x0;
-        double x1;
-        double x2;
-        double y0;
-        double y1;
-        double y2;
+        const double m0 = 5.0;
+        const double m1 = 3.0;
+        const double m2 = 4.0;
 
-        m0 = 5.0;
-        m1 = 3.0;
-        m2 = 4.0;
+        double x0 = y[0];
+        double y0 = y[1];
 
-        x0 = y[0];
-        y0 = y[1];
+        double x1 = y[4];
+        double y1 = y[5];
 
-        x1 = y[4];
-        y1 = y[5];
+        double x2 = y[8];
+        double y2 = y[9];
 
-        x2 = y[8];
-        y2 = y[9];
-
-        n0 = Math.Sqrt(Math.Pow(Math.Pow(x2 - x1, 2) + Math.Pow(y2 - y1, 2), 3));
-        n1 = Math.Sqrt(Math.Pow(Math.Pow(x0 - x2, 2) + Math.Pow(y0 - y2, 2), 3));
-        n2 = Math.Sqrt(Math.Pow(Math.Pow(x1 - x0, 2) + Math.Pow(y1 - y0, 2), 3));
+        double n0 = Math.Sqrt(Math.Pow(Math.Pow(x2 - x1, 2) + Math.Pow(y2 - y1, 2), 3));
+        double n1 = Math.Sqrt(Math.Pow(Math.Pow(x0 - x2, 2) + Math.Pow(y0 - y2, 2), 3));
+        double n2 = Math.Sqrt(Math.Pow(Math.Pow(x1 - x0, 2) + Math.Pow(y1 - y0, 2), 3));
 
         yp[0] = y[2];
         yp[1] = y[3];

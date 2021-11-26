@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.TOMSNS;
 using Burkardt.Types;
 
@@ -30,15 +31,12 @@ internal static class Program
         //    John Burkardt
         //
     {
-        bool inside;
-        int n = 5;
+        const int n = 5;
         int test;
-        int test_num = 4;
+        const int test_num = 4;
         double[] x = { 0.0,  1.0,  2.0,  1.0,  0.0 };
-        double x0;
         double[] x0_test = { 1.0, 3.0, 0.0, 0.5 };
         double[] y = { 0.0, 0.0, 1.0, 2.0, 2.0 };
-        double y0;
         double[] y0_test = { 1.0, 4.0, 2.0, -0.25 };
 
         Console.WriteLine("");
@@ -53,13 +51,13 @@ internal static class Program
 
         for ( test = 0; test < test_num; test++ )
         {
-            x0 = x0_test[test];
-            y0 = y0_test[test];
+            double x0 = x0_test[test];
+            double y0 = y0_test[test];
  
-            inside = TOMS.point_in_polygon ( n, x, y, x0, y0 );
+            bool inside = TOMS.point_in_polygon ( n, x, y, x0, y0 );
 
-            Console.WriteLine("  " + x0.ToString().PadLeft(8)
-                                   + "  " + y0.ToString().PadLeft(8)
+            Console.WriteLine("  " + x0.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + y0.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "       " + inside + "");
         }
         //

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 
 namespace Spring2ODE;
@@ -58,18 +59,13 @@ internal static class Program
         //    None
         //
     {
-        double c;
-        string command_filename = "spring_ode2_commands.txt";
+        const string command_filename = "spring_ode2_commands.txt";
         List<string> command_unit = new();
-        string data_filename = "spring_ode2_data.txt";
+        const string data_filename = "spring_ode2_data.txt";
         List<string> data_unit = new();
-        double dt;
         int i;
-        double k;
-        double m;
-        int n = 101;
+        const int n = 101;
         double[] t = new double[101];
-        double t_final;
         double[] v = new double[101];
         double[] x = new double[101];
 
@@ -80,11 +76,11 @@ internal static class Program
         //
         //  Data
         //
-        m = 1.0;
-        k = 1.0;
-        c = 0.3;
-        t_final = 20.0f;
-        dt = t_final / (n - 1);
+        const double m = 1.0;
+        const double k = 1.0;
+        const double c = 0.3;
+        const double t_final = 20.0f;
+        double dt = t_final / (n - 1);
         //
         //  Store the initial conditions in entry 0.
         //
@@ -107,9 +103,9 @@ internal static class Program
         //
         for (i = 0; i < n; i++)
         {
-            data_unit.Add("  " + t[i].ToString().PadLeft(14)
-                               + "  " + x[i].ToString().PadLeft(14)
-                               + "  " + v[i].ToString().PadLeft(14) + "");
+            data_unit.Add("  " + t[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                               + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                               + "  " + v[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         File.WriteAllLines(data_filename, data_unit);

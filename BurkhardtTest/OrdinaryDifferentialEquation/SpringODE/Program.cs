@@ -59,19 +59,8 @@ internal static class Program
         //    None
         //
     {
-        float c;
-        float dt;
         int i;
-        int j;
-        float k;
-        float m;
-        int n;
         int p = 0;
-        float t_final;
-        float v;
-        float v_old;
-        float x;
-        float x_old;
         char[] z = new char[21];
 
         Console.WriteLine("");
@@ -82,24 +71,24 @@ internal static class Program
         //
         //  Data
         //
-        m = 1.0f;
-        k = 1.0f;
-        c = 0.3f;
-        t_final = 20.0f;
-        n = 100;
-        dt = t_final / n;
+        float m = 1.0f;
+        float k = 1.0f;
+        float c = 0.3f;
+        float t_final = 20.0f;
+        int n = 100;
+        float dt = t_final / n;
         //
         //  Initial conditions.
         //
-        x = 1.0f;
-        v = 0.0f;
+        float x = 1.0f;
+        float v = 0.0f;
         //
         //  Compute the approximate solution at equally spaced times.
         //
         for (i = 0; i <= n; i++)
         {
-            x_old = x;
-            v_old = v;
+            float x_old = x;
+            float v_old = v;
 
             //  t = ( float ) ( i ) * t_final / ( float ) ( n );
             x = x_old + dt * v_old;
@@ -118,6 +107,7 @@ internal static class Program
             //
             //  Fill in the next line of the plot, placing 'x' in the p position.
             //
+            int j;
             for (j = 0; j <= 20; j++)
             {
                 z[j] = (i % 10) switch

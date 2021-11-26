@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.ODENS;
 
 namespace ODETest;
@@ -64,18 +65,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double abserr;
         int i;
-        int iflag;
         int[] iwork = new int[5];
-        int neqn = 2;
-        double pi = 3.141592653589793;
-        double relerr;
-        int step_num = 12;
-        double t;
-        double tout;
-        double[] work;
-        double[] y;
+        const int neqn = 2;
+        const int step_num = 12;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
@@ -85,25 +78,25 @@ internal static class Program
         Console.WriteLine("      T           Y(1)         Y(2)");
         Console.WriteLine("");
 
-        abserr = 0.00001;
-        relerr = 0.00001;
+        const double abserr = 0.00001;
+        const double relerr = 0.00001;
 
-        iflag = 1;
+        int iflag = 1;
 
-        t = 0.0;
-        y = new double[neqn];
+        double t = 0.0;
+        double[] y = new double[neqn];
         y[0] = 1.0;
         y[1] = 0.0;
 
-        Console.WriteLine("  " + t.ToString().PadLeft(8)
-                               + "  " + y[0].ToString().PadLeft(14)
-                               + "  " + y[1].ToString().PadLeft(14) + "");
+        Console.WriteLine("  " + t.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                               + "  " + y[0].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                               + "  " + y[1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
-        work = new double[100 + 21 * neqn];
+        double[] work = new double[100 + 21 * neqn];
 
         for (i = 1; i <= step_num; i++)
         {
-            tout = i * 2.0 * pi / step_num;
+            double tout = i * 2.0 * Math.PI / step_num;
 
             ODE.ode(f01, neqn, y, ref t, tout, relerr, abserr, ref iflag, ref work, ref iwork);
 
@@ -115,9 +108,9 @@ internal static class Program
                 break;
             }
 
-            Console.WriteLine("  " + t.ToString().PadLeft(8)
-                                   + "  " + y[0].ToString().PadLeft(14)
-                                   + "  " + y[1].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + t.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + y[0].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + y[1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -142,18 +135,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double abserr;
         int i;
-        int iflag;
         int[] iwork = new int[5];
-        int neqn = 2;
-        double pi = 3.141592653589793;
-        double relerr;
-        int step_num = 12;
-        double t;
-        double tout;
-        double[] work;
-        double[] y;
+        const int neqn = 2;
+        const int step_num = 12;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02");
@@ -166,25 +151,25 @@ internal static class Program
         Console.WriteLine("      T           Y(1)         Y(2)");
         Console.WriteLine("");
 
-        abserr = 0.00001;
-        relerr = 0.00001;
+        const double abserr = 0.00001;
+        const double relerr = 0.00001;
 
-        iflag = 1;
+        int iflag = 1;
 
-        t = 0.0;
-        y = new double[neqn];
+        double t = 0.0;
+        double[] y = new double[neqn];
         y[0] = 1.0;
         y[1] = 0.0;
 
-        Console.WriteLine("  " + t.ToString().PadLeft(8)
-                               + "  " + y[0].ToString().PadLeft(14)
-                               + "  " + y[1].ToString().PadLeft(14) + "");
+        Console.WriteLine("  " + t.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                               + "  " + y[0].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                               + "  " + y[1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
-        work = new double[100 + 21 * neqn];
+        double[] work = new double[100 + 21 * neqn];
 
         for (i = 1; i <= step_num; i++)
         {
-            tout = -(double) i * 2.0 * pi / step_num;
+            double tout = -(double) i * 2.0 * Math.PI / step_num;
 
             ODE.ode(f01, neqn, y, ref t, tout, relerr, abserr, ref iflag, ref work, ref iwork);
 
@@ -196,9 +181,9 @@ internal static class Program
                 break;
             }
 
-            Console.WriteLine("  " + t.ToString().PadLeft(8)
-                                   + "  " + y[0].ToString().PadLeft(14)
-                                   + "  " + y[1].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + t.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + y[0].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + y[1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }

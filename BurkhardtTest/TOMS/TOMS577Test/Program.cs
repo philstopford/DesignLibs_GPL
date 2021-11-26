@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Elliptic;
 
 namespace TOMS577Test;
@@ -81,8 +82,6 @@ internal static class Program
         //    C++ version by John Burkardt.
         //
     {
-        double eliptc;
-        double errtol;
         int i;
         int ierr = 0;
         double[] x =
@@ -187,17 +186,17 @@ internal static class Program
         Console.WriteLine("              X                          Y                         RC(X,Y)");
         Console.WriteLine("");
 
-        errtol = 1.0E-3;
+        const double errtol = 1.0E-3;
 
         for (i = 0; i < 43; i++)
         {
-            eliptc = Integral.rc(x[i], y[i], errtol, ref ierr);
-            string cout = "  " + x[i].ToString(/*"0.################"*/).PadLeft(27)
-                               + "  " + y[i].ToString(/*"0.################"*/).PadLeft(27);
+            double eliptc = Integral.rc(x[i], y[i], errtol, ref ierr);
+            string cout = "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(27)
+                               + "  " + y[i].ToString(CultureInfo.InvariantCulture).PadLeft(27);
             switch (ierr)
             {
                 case 0:
-                    Console.WriteLine(cout + eliptc.ToString(/*"0.################"*/).PadLeft(27) + "");
+                    Console.WriteLine(cout + eliptc.ToString(CultureInfo.InvariantCulture).PadLeft(27) + "");
                     break;
                 default:
                     Console.WriteLine("  ***Error***");
@@ -237,18 +236,13 @@ internal static class Program
         //    C++ version by John Burkardt.
         //
     {
-        double errtol;
         int i;
-        double ibmarc;
         double ibmlog;
         int ierr = 0;
-        int ipower;
         int j;
         int m;
-        double myarc;
         double mylog;
         double v;
-        double w;
         double x;
         double[] x_vec =
         {
@@ -267,7 +261,6 @@ internal static class Program
             1.0E+75
         };
         double y;
-        double z;
 
         Console.WriteLine("");
         Console.WriteLine("RC_TEST2");
@@ -278,7 +271,7 @@ internal static class Program
         Console.WriteLine("     X                From LOG                   From RC");
         Console.WriteLine("");
 
-        errtol = 1.0E-3;
+        const double errtol = 1.0E-3;
 
         for (j = 1; j <= 10; j++)
         {
@@ -310,7 +303,7 @@ internal static class Program
 
         for (i = 0; i < 16; i++)
         {
-            ipower = -75 + 10 * i;
+            int ipower = -75 + 10 * i;
             x = Math.Pow(10.0, ipower);
             y = (1.0 + x) / 2.0;
             v = x / y;
@@ -328,10 +321,10 @@ internal static class Program
         for (m = 0; m < 13; m++)
         {
             x = x_vec[m];
-            z = 1.0 / x;
-            w = z + x;
-            myarc = Math.Sqrt(x) * Integral.rc(z, w, errtol, ref ierr);
-            ibmarc = Math.Atan(x);
+            double z = 1.0 / x;
+            double w = z + x;
+            double myarc = Math.Sqrt(x) * Integral.rc(z, w, errtol, ref ierr);
+            double ibmarc = Math.Atan(x);
             Console.WriteLine(x.ToString("0.#").PadLeft(8)
                               + ibmarc.ToString("0.################").PadLeft(27)
                               + myarc.ToString("0.################").PadLeft(27) + "");
@@ -377,8 +370,6 @@ internal static class Program
         //    C++ version by John Burkardt.
         //
     {
-        double eliptc;
-        double errtol;
         int i;
         int ierr = 0;
         double[] x =
@@ -483,18 +474,18 @@ internal static class Program
                           "                          Z                         RD(X,Y,Z)");
         Console.WriteLine("");
 
-        errtol = 1.0E-03;
+        const double errtol = 1.0E-03;
 
         for (i = 0; i < 27; i++)
         {
-            eliptc = Integral.rd(x[i], y[i], z[i], errtol, ref ierr);
-            string cout = x[i].ToString(/*"0.################"*/).PadLeft(27)
-                          + y[i].ToString(/*"0.################"*/).PadLeft(27)
-                          + z[i].ToString(/*"0.################"*/).PadLeft(27);
+            double eliptc = Integral.rd(x[i], y[i], z[i], errtol, ref ierr);
+            string cout = x[i].ToString(CultureInfo.InvariantCulture).PadLeft(27)
+                          + y[i].ToString(CultureInfo.InvariantCulture).PadLeft(27)
+                          + z[i].ToString(CultureInfo.InvariantCulture).PadLeft(27);
             switch (ierr)
             {
                 case 0:
-                    Console.WriteLine(cout + eliptc.ToString(/*"0.################"*/).PadLeft(27) + "");
+                    Console.WriteLine(cout + eliptc.ToString(CultureInfo.InvariantCulture).PadLeft(27) + "");
                     break;
                 default:
                     Console.WriteLine(cout + "  ***Error***");
@@ -541,8 +532,6 @@ internal static class Program
         //    C++ version by John Burkardt.
         //
     {
-        double eliptc;
-        double errtol;
         int i;
         int ierr = 0;
         double[] x =
@@ -731,18 +720,18 @@ internal static class Program
                           "                          Z                         RF(X,Y,Z)");
         Console.WriteLine(" ");
 
-        errtol = 1.0E-3;
+        const double errtol = 1.0E-3;
 
         for (i = 0; i < 55; i++)
         {
-            string cout = x[i].ToString(/*"0.################"*/).PadLeft(27)
-                          + y[i].ToString(/*"0.################"*/).PadLeft(27)
-                          + z[i].ToString(/*"0.################"*/).PadLeft(27);
-            eliptc = Integral.rf(x[i], y[i], z[i], errtol, ref ierr);
+            string cout = x[i].ToString(CultureInfo.InvariantCulture).PadLeft(27)
+                          + y[i].ToString(CultureInfo.InvariantCulture).PadLeft(27)
+                          + z[i].ToString(CultureInfo.InvariantCulture).PadLeft(27);
+            double eliptc = Integral.rf(x[i], y[i], z[i], errtol, ref ierr);
             switch (ierr)
             {
                 case 0:
-                    Console.WriteLine(cout + " " + eliptc.ToString(/*"0.################"*/).PadLeft(27) + "");
+                    Console.WriteLine(cout + " " + eliptc.ToString(CultureInfo.InvariantCulture).PadLeft(27) + "");
                     break;
                 default:
                     Console.WriteLine(cout + "  ***Error***");
@@ -790,8 +779,6 @@ internal static class Program
         //    C++ version by John Burkardt.
         //
     {
-        double eliptc;
-        double errtol;
         int i;
         int ierr = 0;
 
@@ -989,19 +976,19 @@ internal static class Program
                           "                         RJ(X,Y,Z,P)");
         Console.WriteLine("");
 
-        errtol = 1.0E-3;
+        const double errtol = 1.0E-3;
 
         for (i = 0; i < 42; i++)
         {
-            eliptc = Integral.rj(x[i], y[i], z[i], p[i], errtol, ref ierr);
-            string cout = x[i].ToString(/*"0.################"*/).PadLeft(27)
-                          + y[i].ToString(/*"0.################"*/).PadLeft(27)
-                          + z[i].ToString(/*"0.################"*/).PadLeft(27)
-                          + p[i].ToString(/*"0.################"*/).PadLeft(27);
+            double eliptc = Integral.rj(x[i], y[i], z[i], p[i], errtol, ref ierr);
+            string cout = x[i].ToString(CultureInfo.InvariantCulture).PadLeft(27)
+                          + y[i].ToString(CultureInfo.InvariantCulture).PadLeft(27)
+                          + z[i].ToString(CultureInfo.InvariantCulture).PadLeft(27)
+                          + p[i].ToString(CultureInfo.InvariantCulture).PadLeft(27);
             switch (ierr)
             {
                 case 0:
-                    Console.WriteLine(cout + eliptc.ToString(/*"0.################"*/).PadLeft(27) + "");
+                    Console.WriteLine(cout + eliptc.ToString(CultureInfo.InvariantCulture).PadLeft(27) + "");
                     break;
                 default:
                     Console.WriteLine(cout + "  ***Error***");

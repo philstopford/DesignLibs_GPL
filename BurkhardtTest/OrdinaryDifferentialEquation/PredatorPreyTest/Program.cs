@@ -29,7 +29,6 @@ internal static class Program
         double beta = 0;
         double delta = 0;
         double gamma = 0;
-        int n;
         double[] p0 = new double[2];
         double[] tspan = new double[2];
 
@@ -50,7 +49,7 @@ internal static class Program
         tspan[1] = 5.0;
         p0[0] = 5000.0;
         p0[1] = 100.0;
-        n = 200;
+        int n = 200;
 
         PredatorPrey.predator_prey_euler ( tspan, p0, n );
         PredatorPrey.predator_prey_midpoint ( tspan, p0, n );

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Types;
 
 namespace TOMS097Test;
@@ -179,7 +180,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 6;
+        const int N = 6;
 
         double[] a =
         {
@@ -192,7 +193,6 @@ internal static class Program
         };
         int i;
         int j;
-        int n = N;
         string cout = "";
 
         Console.WriteLine("");
@@ -213,38 +213,38 @@ internal static class Program
         Console.WriteLine("  Initial direct-link distance matrix:");
         Console.WriteLine("");
 
-        for (i = 0; i < n; i++)
+        for (i = 0; i < N; i++)
         {
-            for (j = 0; j < n; j++)
+            for (j = 0; j < N; j++)
             {
-                cout += a[i + j * n].ToString().PadLeft(10);
+                cout += a[i + j * N].ToString(CultureInfo.InvariantCulture).PadLeft(10);
             }
 
             Console.WriteLine(cout);
             cout = "";
         }
 
-        for (j = 0; j < n; j++)
+        for (j = 0; j < N; j++)
         {
-            for (i = 0; i < n; i++)
+            for (i = 0; i < N; i++)
             {
-                a[i + j * n] = a[i + j * n] switch
+                a[i + j * N] = a[i + j * N] switch
                 {
                     -1.0 => typeMethods.r8_huge(),
-                    _ => a[i + j * n]
+                    _ => a[i + j * N]
                 };
             }
         }
 
-        typeMethods.r8mat_shortest_path(n, ref a);
+        typeMethods.r8mat_shortest_path(N, ref a);
 
-        for (j = 0; j < n; j++)
+        for (j = 0; j < N; j++)
         {
-            for (i = 0; i < n; i++)
+            for (i = 0; i < N; i++)
             {
-                if (a[i + j * n] == typeMethods.r8_huge())
+                if (Math.Abs(a[i + j * N] - typeMethods.r8_huge()) <= double.Epsilon)
                 {
-                    a[i + j * n] = -1.0;
+                    a[i + j * N] = -1.0;
                 }
             }
         }
@@ -260,11 +260,11 @@ internal static class Program
         Console.WriteLine("");
 
         cout = "";
-        for (i = 0; i < n; i++)
+        for (i = 0; i < N; i++)
         {
-            for (j = 0; j < n; j++)
+            for (j = 0; j < N; j++)
             {
-                cout += a[i + j * n].ToString().PadLeft(10);
+                cout += a[i + j * N].ToString(CultureInfo.InvariantCulture).PadLeft(10);
             }
 
             Console.WriteLine(cout);

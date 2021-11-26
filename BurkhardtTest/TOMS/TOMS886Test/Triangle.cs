@@ -7,7 +7,7 @@ using Burkardt.Types;
 
 namespace TOMS886Test;
 
-public class TriangleTest
+public static class TriangleTest
 {
     public static void triangle()
 
@@ -105,30 +105,19 @@ public class TriangleTest
         //    Local, double ESTERR, the estimated error.
         //
     {
-        int DEGMAX = 60;
-        int NTG1MX = 100;
-        int NPDMAX = (DEGMAX + 1) * (DEGMAX + 2) / 2;
-        int NTGMAX = NTG1MX * NTG1MX - NTG1MX + 1;
+        const int DEGMAX = 60;
+        const int NTG1MX = 100;
+        const int NPDMAX = (DEGMAX + 1) * (DEGMAX + 2) / 2;
+        const int NTGMAX = NTG1MX * NTG1MX - NTG1MX + 1;
 
         double[] c0 = new double[(DEGMAX + 2) * (DEGMAX + 2)];
-        int deg;
-        int degmax = DEGMAX;
         double esterr = 0;
-        string filename;
-        double fmax;
-        double fmin;
         double[] fpd = new double[NPDMAX];
-        double fxy;
         int i;
         double[] intftg = new double[NTGMAX];
-        double ixy;
         double maxdev;
-        double maxerr;
-        double mean;
         int npd = 0;
         int ntg = 0;
-        int ntg1;
-        int ntgmax = NTGMAX;
         List<string> output = new();
         double[] pd1 = new double[NPDMAX];
         double[] pd2 = new double[NPDMAX];
@@ -136,40 +125,24 @@ public class TriangleTest
         double[] raux2 = new double[(DEGMAX + 1) * (DEGMAX + 2)];
         double[] tg1 = new double[NTGMAX];
         double[] tg2 = new double[NTGMAX];
-        double u1;
-        double u2;
-        double v1;
-        double v2;
-        double w1;
-        double w2;
         double[] wpd = new double[NPDMAX];
         double x;
         double y;
 
-        u1 = 0.0;
-        u2 = 0.0;
-        v1 = 1.0;
-        v2 = 0.0;
-        w1 = 0.0;
-        w2 = 1.0;
-        deg = 60;
-        ntg1 = 100;
+        const double u1 = 0.0;
+        const double u2 = 0.0;
+        const double v1 = 1.0;
+        const double v2 = 0.0;
+        const double w1 = 0.0;
+        const double w2 = 1.0;
+        const int deg = 60;
+        const int ntg1 = 100;
 
         Console.WriteLine("");
         Console.WriteLine("TRIANGLE:");
         Console.WriteLine("  Interpolation of the Franke function");
         Console.WriteLine("  on the unit triangle T((0,0),(1,0),(0,1))");
         Console.WriteLine("  at degree = " + deg + "");
-
-        if (degmax < deg)
-        {
-            Console.WriteLine("");
-            Console.WriteLine("TRIANGLE - Fatal error!");
-            Console.WriteLine("  DEGMAX < DEG.");
-            Console.WriteLine("  DEG =    " + deg + "");
-            Console.WriteLine("  DEGMAX = " + degmax + "");
-            return;
-        }
 
         //
         //  Build the first family of Padua points in the square [-1,1]^2
@@ -188,7 +161,7 @@ public class TriangleTest
         //
         //  Write X, Y, F(X,Y) to a file.
         //
-        filename = "triangle_fpd.txt";
+        string filename = "triangle_fpd.txt";
         for (i = 0; i < npd; i++)
         {
             x = sigma1(pd1[i], pd2[i], u1, u2, v1, v2, w1, w2);
@@ -205,11 +178,11 @@ public class TriangleTest
         //  Compute the matrix C0 of the coefficients in the bivariate
         //  orthonormal Chebyshev basis
         //
-        Padua.padua2(deg, degmax, npd, wpd, fpd, raux1, raux2, ref c0, ref esterr);
+        Padua.padua2(deg, DEGMAX, npd, wpd, fpd, raux1, raux2, ref c0, ref esterr);
         //    
         //  Build the set of target points on T(U,V,W)
         //
-        target(u1, u2, v1, v2, w1, w2, ntg1, ntgmax, ref tg1, ref tg2, ref ntg);
+        target(u1, u2, v1, v2, w1, w2, ntg1, NTGMAX, ref tg1, ref tg2, ref ntg);
         //    
         //  Evaluate the interpolant at the target points.
         //
@@ -217,7 +190,7 @@ public class TriangleTest
         {
             x = isigm1(tg1[i], tg2[i], u1, u2, v1, v2, w1, w2);
             y = isigm2(tg1[i], tg2[i], u1, u2, v1, v2, w1, w2);
-            intftg[i] = Padua.pd2val(deg, degmax, c0, x, y);
+            intftg[i] = Padua.pd2val(deg, DEGMAX, c0, x, y);
         }
 
         //
@@ -249,22 +222,22 @@ public class TriangleTest
         //
         //  Compute the error relative to the max deviation from the mean.
         //
-        maxerr = 0.0;
-        mean = 0.0;
-        fmax = -typeMethods.r8_huge();
-        fmin = +typeMethods.r8_huge();
+        double maxerr = 0.0;
+        double mean = 0.0;
+        double fmax = -typeMethods.r8_huge();
+        double fmin = +typeMethods.r8_huge();
 
         for (i = 0; i < ntg; i++)
         {
-            fxy = Franke.franke(tg1[i], tg2[i]);
-            ixy = intftg[i];
+            double fxy = Franke.franke(tg1[i], tg2[i]);
+            double ixy = intftg[i];
             maxerr = Math.Max(maxerr, Math.Abs(fxy - ixy));
             mean += fxy;
             fmax = Math.Max(fmax, fxy);
             fmin = Math.Min(fmin, fxy);
         }
 
-        if (fmax == fmin)
+        if (Math.Abs(fmax - fmin) <= double.Epsilon)
         {
             maxdev = 1.0;
         }
@@ -394,19 +367,15 @@ public class TriangleTest
         //    point in the square.
         //
     {
-        double rho1;
-        double rho2;
-        double value = 0;
+        double rho1 = (sigma1 * (w2 - u2) - sigma2 * (w1 - u1)
+                          + (w1 - u1) * u2 - (w2 - u2) * u1) /
+                      ((v1 - u1) * (w2 - u2) - (v2 - u2) * (w1 - u1));
 
-        rho1 = (sigma1 * (w2 - u2) - sigma2 * (w1 - u1)
-                   + (w1 - u1) * u2 - (w2 - u2) * u1) /
-               ((v1 - u1) * (w2 - u2) - (v2 - u2) * (w1 - u1));
+        double rho2 = (sigma1 * (v2 - u2) - sigma2 * (v1 - u1)
+                          + (v1 - u1) * u2 - (v2 - u2) * u1) /
+                      ((w1 - u1) * (v2 - u2) - (w2 - u2) * (v1 - u1));
 
-        rho2 = (sigma1 * (v2 - u2) - sigma2 * (v1 - u1)
-                   + (v1 - u1) * u2 - (v2 - u2) * u1) /
-               ((w1 - u1) * (v2 - u2) - (w2 - u2) * (v1 - u1));
-
-        value = rho2 switch
+        double value = rho2 switch
         {
             1.0 => 0.0,
             _ => 2.0 * rho1 / (1.0 - rho2) - 1.0
@@ -519,14 +488,11 @@ public class TriangleTest
         //    point in the triangle.
         //
     {
-        double rho2;
-        double value = 0;
+        double rho2 = (sigma1 * (v2 - u2) -
+                          sigma2 * (v1 - u1) + (v1 - u1) * u2 - (v2 - u2) * u1) /
+                      ((w1 - u1) * (v2 - u2) - (w2 - u2) * (v1 - u1));
 
-        rho2 = (sigma1 * (v2 - u2) -
-                   sigma2 * (v1 - u1) + (v1 - u1) * u2 - (v2 - u2) * u1) /
-               ((w1 - u1) * (v2 - u2) - (w2 - u2) * (v1 - u1));
-
-        value = rho2 switch
+        double value = rho2 switch
         {
             1.0 => 1.0,
             _ => 2.0 * rho2 - 1.0

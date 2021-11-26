@@ -7,7 +7,7 @@ using Burkardt.Types;
 
 namespace TOMS886Test;
 
-internal class EllipseTest
+internal static class EllipseTest
 {
     public static void ellipse()
         //****************************************************************************80
@@ -106,34 +106,19 @@ internal class EllipseTest
         //    Local, double ESTERR, the estimated error.
         //
     {
-        int DEGMAX = 60;
-        int NTG1MX = 100;
-        int NPDMAX = (DEGMAX + 1) * (DEGMAX + 2) / 2;
-        int NTGMAX = NTG1MX * NTG1MX - 2 * NTG1MX + 2;
+        const int DEGMAX = 60;
+        const int NTG1MX = 100;
+        const int NPDMAX = (DEGMAX + 1) * (DEGMAX + 2) / 2;
+        const int NTGMAX = NTG1MX * NTG1MX - 2 * NTG1MX + 2;
 
-        double alpha;
-        double beta;
         double[] c0 = new double[(DEGMAX + 2) * (DEGMAX + 2)];
-        double c1;
-        double c2;
-        int deg;
-        int degmax = DEGMAX;
         double esterr = 0;
-        string filename;
-        double fmax;
-        double fmin;
         double[] fpd = new double[NPDMAX];
-        double fxy;
         int i;
         double[] intftg = new double[NTGMAX];
-        double ixy;
         double maxdev;
-        double maxerr;
-        double mean;
         int npd = 0;
         int ntg = 0;
-        int ntg1;
-        int ntgmax = NTGMAX;
         List<string> output = new();
         double[] pd1 = new double[NPDMAX];
         double[] pd2 = new double[NPDMAX];
@@ -145,28 +130,18 @@ internal class EllipseTest
         double x;
         double y;
 
-        alpha = 0.5;
-        beta = 0.5;
-        c1 = 0.5;
-        c2 = 0.5;
-        deg = 60;
-        ntg1 = 100;
+        const double alpha = 0.5;
+        const double beta = 0.5;
+        const double c1 = 0.5;
+        const double c2 = 0.5;
+        const int deg = 60;
+        const int ntg1 = 100;
 
         Console.WriteLine("");
         Console.WriteLine("ELLIPSE:");
         Console.WriteLine("  Interpolation of the Franke function");
         Console.WriteLine("  on the disk with center = (0.5,0.5) and radius = 0.5");
         Console.WriteLine("  of degree = " + deg + "");
-
-        if (degmax < deg)
-        {
-            Console.WriteLine("");
-            Console.WriteLine("ELLIPSE - Fatal error!");
-            Console.WriteLine("  DEGMAX < DEG.");
-            Console.WriteLine("  DEG =    " + deg + "");
-            Console.WriteLine("  DEGMAX = " + degmax + "");
-            return;
-        }
 
         //   
         //  Build the first family of Padua points in the square [-1,1]^2.
@@ -185,7 +160,7 @@ internal class EllipseTest
         //
         //  Write X, Y, F(X,Y) to a file.
         //
-        filename = "ellipse_fpd.txt";
+        string filename = "ellipse_fpd.txt";
         for (i = 0; i < npd; i++)
         {
             x = sigma1(pd1[i], pd2[i], c1, c2, alpha, beta);
@@ -202,11 +177,11 @@ internal class EllipseTest
         //  Compute the matrix C0 of the coefficients in the bivariate
         //  orthonormal Chebyshev basis.
         //
-        Padua.padua2(deg, degmax, npd, wpd, fpd, raux1, raux2, ref c0, ref esterr);
+        Padua.padua2(deg, DEGMAX, npd, wpd, fpd, raux1, raux2, ref c0, ref esterr);
         //    
         //  Evaluate the target points in the region.
         //
-        target(c1, c2, alpha, beta, ntg1, ntgmax, ref tg1, ref tg2, ref ntg);
+        target(c1, c2, alpha, beta, ntg1, NTGMAX, ref tg1, ref tg2, ref ntg);
         //
         //  Evaluate the interpolant at the target points.
         //
@@ -214,7 +189,7 @@ internal class EllipseTest
         {
             x = isigm1(tg1[i], tg2[i], c1, c2, alpha, beta);
             y = isigm2(tg1[i], tg2[i], c1, c2, alpha, beta);
-            intftg[i] = Padua.pd2val(deg, degmax, c0, x, y);
+            intftg[i] = Padua.pd2val(deg, DEGMAX, c0, x, y);
         }
 
         //
@@ -248,22 +223,22 @@ internal class EllipseTest
         //
         //  Compute the error relative to the max deviation from the mean.
         //   
-        maxerr = 0.0;
-        mean = 0.0;
-        fmax = -typeMethods.r8_huge();
-        fmin = +typeMethods.r8_huge();
+        double maxerr = 0.0;
+        double mean = 0.0;
+        double fmax = -typeMethods.r8_huge();
+        double fmin = +typeMethods.r8_huge();
 
         for (i = 0; i < ntg; i++)
         {
-            fxy = Franke.franke(tg1[i], tg2[i]);
-            ixy = intftg[i];
+            double fxy = Franke.franke(tg1[i], tg2[i]);
+            double ixy = intftg[i];
             maxerr = Math.Max(maxerr, Math.Abs(fxy - ixy));
             mean += fxy;
             fmax = Math.Max(fmax, fxy);
             fmin = Math.Min(fmin, fxy);
         }
 
-        if (fmax == fmin)
+        if (Math.Abs(fmax - fmin) <= double.Epsilon)
         {
             maxdev = 1.0;
         }
@@ -391,9 +366,9 @@ internal class EllipseTest
         //    point in the square.
         //
     {
-        double value = 0;
+        double value;
 
-        if (sigma2 == c2)
+        if (Math.Abs(sigma2 - c2) <= double.Epsilon)
         {
             value = 1.0;
         }
@@ -508,9 +483,9 @@ internal class EllipseTest
         //    point in the square.
         //
     {
-        double value = 0;
+        double value;
 
-        if (sigma2 == c2)
+        if (Math.Abs(sigma2 - c2) <= double.Epsilon)
         {
             value = (c1 - sigma1) / alpha;
         }
@@ -666,10 +641,6 @@ internal class EllipseTest
         //    Output, int &NTG, the number of target points computed.
         //
     {
-        int i;
-        int j;
-        double t;
-
         switch (ntg1)
         {
             case < 2:
@@ -690,14 +661,14 @@ internal class EllipseTest
             return;
         }
 
-        i = 1;
-        j = 1;
+        int i = 1;
+        int j = 1;
         ntg = 0;
 
         tg1[ntg] = alpha * (-1.0 + (i - 1) * 2.0
             / (ntg1 - 1)) + c1;
 
-        t = -1.0 + (i - 1) * 2.0 / (ntg1 - 1);
+        double t = -1.0 + (i - 1) * 2.0 / (ntg1 - 1);
 
         tg2[ntg] = beta * (-1.0 + (j - 1) * 2.0
             / (ntg1 - 1)) * Math.Sqrt(1.0 - t * t) + c2;

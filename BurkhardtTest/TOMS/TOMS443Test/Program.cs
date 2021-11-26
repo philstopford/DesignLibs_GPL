@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.WFunction;
 
 namespace TOMS443Test;
@@ -64,9 +65,7 @@ internal static class Program
         //
     {
         double en = 0;
-        int n_data;
         double w1 = 0;
-        double w2;
         double x = 0;
 
         Console.WriteLine("");
@@ -77,7 +76,7 @@ internal static class Program
         Console.WriteLine("          X             Exact             Computed      Error");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -88,16 +87,16 @@ internal static class Program
                 break;
             }
 
-            w2 = x switch
+            double w2 = x switch
             {
                 0.0 => 0.0,
                 _ => Lambert.wew_a(x, ref en)
             };
 
-            Console.WriteLine(x.ToString().PadLeft(14) + "  "
-                                                       + w1.ToString().PadLeft(16) + "  "
-                                                       + w2.ToString().PadLeft(16) + "  "
-                                                       + Math.Abs(w1 - w2).ToString().PadLeft(10) + "");
+            Console.WriteLine(x.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                                                       + w1.ToString(CultureInfo.InvariantCulture).PadLeft(16) + "  "
+                                                       + w2.ToString(CultureInfo.InvariantCulture).PadLeft(16) + "  "
+                                                       + Math.Abs(w1 - w2).ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
     }
@@ -124,9 +123,7 @@ internal static class Program
         //
     {
         double en = 0;
-        int n_data;
         double w1 = 0;
-        double w2;
         double x = 0;
 
         Console.WriteLine("");
@@ -137,7 +134,7 @@ internal static class Program
         Console.WriteLine("          X             Exact             Computed      Error");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -148,16 +145,16 @@ internal static class Program
                 break;
             }
 
-            w2 = x switch
+            double w2 = x switch
             {
                 0.0 => 0.0,
                 _ => Lambert.wew_b(x, ref en)
             };
 
-            Console.WriteLine(x.ToString().PadLeft(14) + "  "
-                                                       + w1.ToString().PadLeft(16) + "  "
-                                                       + w2.ToString().PadLeft(16) + "  "
-                                                       + Math.Abs(w1 - w2).ToString().PadLeft(10) + "");
+            Console.WriteLine(x.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                                                       + w1.ToString(CultureInfo.InvariantCulture).PadLeft(16) + "  "
+                                                       + w2.ToString(CultureInfo.InvariantCulture).PadLeft(16) + "  "
+                                                       + Math.Abs(w1 - w2).ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
     }

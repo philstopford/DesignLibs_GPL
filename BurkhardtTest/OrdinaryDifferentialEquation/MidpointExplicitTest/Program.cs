@@ -28,7 +28,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int n;
         double[] tspan = new double[2];
         double[] y0 = new double[2];
 
@@ -40,7 +39,7 @@ internal static class Program
         tspan[1] = 5.0;
         y0[0] = 5000.0;
         y0[1] = 100.0;
-        n = 200;
+        int n = 200;
         predator_prey_midpoint_explicit_test(tspan, y0, n);
 
         tspan[0] = 0.0;
@@ -97,9 +96,7 @@ internal static class Program
         //    double PREDATOR_PREY_DERIV[2]: the right hand side of the 2 ODE's.
         //
     {
-        double[] drfdt;
-
-        drfdt = new double[2];
+        double[] drfdt = new double[2];
 
         drfdt[0] = 2.0 * rf[rfIndex + 0] - 0.001 * rf[rfIndex + 0] * rf[rfIndex + 1];
         drfdt[1] = -10.0 * rf[rfIndex + 1] + 0.002 * rf[rfIndex + 0] * rf[rfIndex + 1];
@@ -182,29 +179,25 @@ internal static class Program
         //    int N: the number of time steps.
         //
     {
-        string command_filename;
         List<string> command = new();
-        string data_filename;
         List<string> data = new();
-        string header = "predator_prey_midpoint_explicit";
+        const string header = "predator_prey_midpoint_explicit";
         int i;
         const int m = 2;
-        double[] pout;
-        double[] t;
 
         Console.WriteLine("");
         Console.WriteLine("predator_prey_midpoint_test");
         Console.WriteLine("  A pair of ordinary differential equations for a population");
         Console.WriteLine("  of predators and prey are solved using midpoint_explicit().");
 
-        t = new double[n + 1];
-        pout = new double[(n + 1) * m];
+        double[] t = new double[n + 1];
+        double[] pout = new double[(n + 1) * m];
 
         MidpointExplicit.midpoint_explicit(predator_prey_deriv, tspan, p0, n, m, ref t, ref pout);
         //
         //  Create the data file.
         //
-        data_filename = header + "_data.txt";
+        string data_filename = header + "_data.txt";
 
         for (i = 0; i < n; i++)
         {
@@ -220,7 +213,7 @@ internal static class Program
         //
         //  Create the command file.
         //
-        command_filename = header + "_commands.txt";
+        string command_filename = header + "_commands.txt";
 
         command.Add("# " + command_filename + "");
         command.Add("#");
@@ -274,9 +267,7 @@ internal static class Program
         //    double DYDT[1]: the derivative value.
         //
     {
-        double[] dydt;
-
-        dydt = new double[1];
+        double[] dydt = new double[1];
 
         dydt[0] = 50.0 * (Math.Cos(t) - y[yindex + 0]);
 
@@ -320,9 +311,8 @@ internal static class Program
         //
     {
         int i;
-        double[] y;
 
-        y = new double[n];
+        double[] y = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -362,23 +352,19 @@ internal static class Program
         //    int N: the number of steps to take.
         //
     {
-        int m = 1;
+        const int m = 1;
         const int n2 = 101;
-        double[] t1;
-        double[] t2;
-        double[] y1;
-        double[] y2;
 
         Console.WriteLine("");
         Console.WriteLine("stiff_midpoint_explicit_test");
         Console.WriteLine("  Solve stiff ODE using the midpoint_explicit method.");
 
-        t1 = new double[n + 1];
-        y1 = new double[n + 1];
+        double[] t1 = new double[n + 1];
+        double[] y1 = new double[n + 1];
         MidpointExplicit.midpoint_explicit(stiff_deriv, tspan, y0, n, m, ref t1, ref y1);
 
-        t2 = typeMethods.r8vec_linspace_new(n2, tspan[0], tspan[1]);
-        y2 = stiff_exact(n2, t2);
+        double[] t2 = typeMethods.r8vec_linspace_new(n2, tspan[0], tspan[1]);
+        double[] y2 = stiff_exact(n2, t2);
 
         plot2(n + 1, t1, y1, n2, t2, y2, "stiff_midpoint_explicit",
             "Stiff ODE: midpoint explicit method");
@@ -420,16 +406,13 @@ internal static class Program
         //    string TITLE: a title to appear in the plot.
         //
     {
-        string command_filename;
         List<string> command = new();
-        string data1_filename;
-        string data2_filename;
         List<string> data = new();
         int i;
         //
         //  Create the data files.
         //
-        data1_filename = header + "_data1.txt";
+        string data1_filename = header + "_data1.txt";
         for (i = 0; i < n1; i++)
         {
             data.Add("  " + t1[i] + "  " + y1[i] + "");
@@ -438,7 +421,7 @@ internal static class Program
         File.WriteAllLines(data1_filename, data);
         data.Clear();
 
-        data2_filename = header + "_data2.txt";
+        string data2_filename = header + "_data2.txt";
         for (i = 0; i < n2; i++)
         {
             data.Add("  " + t2[i] + "  " + y2[i] + "");
@@ -453,7 +436,7 @@ internal static class Program
         //
         //  Create the command file.
         //
-        command_filename = header + "_commands.txt";
+        string command_filename = header + "_commands.txt";
 
         command.Add("# " + command_filename + "");
         command.Add("#");

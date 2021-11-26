@@ -69,14 +69,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] c;
-        int i;
-        int k = 3;
+        const int k = 3;
         int l;
-        int lmax;
-        int n = 5;
+        const int n = 5;
 
-        lmax = FullertonLib.i4_binom(n, k);
+        int lmax = FullertonLib.i4_binom(n, k);
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
@@ -99,8 +96,9 @@ internal static class Program
 
         for (l = 1; l <= lmax; l++)
         {
-            c = Comb.comb(n, k, l);
+            int[] c = Comb.comb(n, k, l);
             string cout = "  " + l.ToString().PadLeft(4) + ":  ";
+            int i;
             for (i = 0; i < k; i++)
             {
                 cout += "  " + c[i].ToString().PadLeft(4);
@@ -131,16 +129,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] c;
-        int i;
         int j;
-        int k = 3;
-        int l;
-        int lmax;
-        int n = 5;
-        int seed;
+        const int k = 3;
+        const int n = 5;
 
-        lmax = FullertonLib.i4_binom(n, k);
+        int lmax = FullertonLib.i4_binom(n, k);
 
         Console.WriteLine("");
         Console.WriteLine("TEST02");
@@ -161,13 +154,14 @@ internal static class Program
 
         Console.WriteLine("");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         for (j = 1; j <= 10; j++)
         {
-            l = UniformRNG.i4_uniform_ab(1, lmax, ref seed);
-            c = Comb.comb(n, k, l);
+            int l = UniformRNG.i4_uniform_ab(1, lmax, ref seed);
+            int[] c = Comb.comb(n, k, l);
             string cout = "  " + l.ToString().PadLeft(4) + ":  ";
+            int i;
             for (i = 0; i < k; i++)
             {
                 cout += "  " + c[i].ToString().PadLeft(4);
@@ -198,16 +192,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] c;
-        int i;
         int j;
-        int k = 3;
-        int l;
-        int lmax;
-        int n = 25;
-        int seed;
+        const int k = 3;
+        const int n = 25;
 
-        lmax = FullertonLib.i4_binom(n, k);
+        int lmax = FullertonLib.i4_binom(n, k);
 
         Console.WriteLine("");
         Console.WriteLine("TEST03");
@@ -228,13 +217,14 @@ internal static class Program
 
         Console.WriteLine("");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         for (j = 1; j <= 10; j++)
         {
-            l = UniformRNG.i4_uniform_ab(1, lmax, ref seed);
-            c = Comb.comb(n, k, l);
+            int l = UniformRNG.i4_uniform_ab(1, lmax, ref seed);
+            int[] c = Comb.comb(n, k, l);
             string cout = "  " + l.ToString().PadLeft(4) + ":  ";
+            int i;
             for (i = 0; i < k; i++)
             {
                 cout += "  " + c[i].ToString().PadLeft(4);
@@ -265,16 +255,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] c;
-        int i;
         int j;
-        int k = 3;
-        int l;
-        int lmax;
-        int n = 100;
-        int seed;
+        const int k = 3;
+        const int n = 100;
 
-        lmax = FullertonLib.i4_binom(n, k);
+        int lmax = FullertonLib.i4_binom(n, k);
 
         Console.WriteLine("");
         Console.WriteLine("TEST04");
@@ -295,13 +280,14 @@ internal static class Program
 
         Console.WriteLine("");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         for (j = 1; j <= 10; j++)
         {
-            l = UniformRNG.i4_uniform_ab(1, lmax, ref seed);
-            c = Comb.comb(n, k, l);
+            int l = UniformRNG.i4_uniform_ab(1, lmax, ref seed);
+            int[] c = Comb.comb(n, k, l);
             string cout = "  " + l.ToString().PadLeft(4) + ":  ";
+            int i;
             for (i = 0; i < k; i++)
             {
                 cout += "  " + c[i].ToString().PadLeft(4);
@@ -332,16 +318,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] c;
-        int i;
         int j;
-        int k = 10;
-        int l;
-        int lmax;
-        int n = 100;
-        int seed;
+        const int k = 10;
+        const int n = 100;
 
-        lmax = FullertonLib.i4_binom(n, k);
+        int lmax = FullertonLib.i4_binom(n, k);
 
         Console.WriteLine("");
         Console.WriteLine("TEST05");
@@ -370,13 +351,14 @@ internal static class Program
 
         Console.WriteLine("");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         for (j = 1; j <= 10; j++)
         {
-            l = UniformRNG.i4_uniform_ab(1, lmax, ref seed);
-            c = Comb.comb(n, k, l);
+            int l = UniformRNG.i4_uniform_ab(1, lmax, ref seed);
+            int[] c = Comb.comb(n, k, l);
             string cout = "  " + l.ToString().PadLeft(4) + ":  ";
+            int i;
             for (i = 0; i < k; i++)
             {
                 cout += "  " + c[i].ToString().PadLeft(4);

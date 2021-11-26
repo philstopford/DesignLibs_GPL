@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.TOMSNS;
 
 namespace TOMS178Test;
@@ -63,18 +64,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] endpt;
-        double eps;
         int i;
-        int it;
-        int itermax;
-        int nvars = 2;
-        double rho;
-        double[] startpt;
-        double value = 0;
+        const int nvars = 2;
 
-        endpt = new double[nvars];
-        startpt = new double[nvars];
+        double[] endpt = new double[nvars];
+        double[] startpt = new double[nvars];
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
@@ -91,22 +85,22 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < nvars; i++)
         {
-            Console.WriteLine("  " + (i + 1).ToString().PadLeft(8)
-                                   + "  " + startpt[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + (i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + startpt[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
-        value = rosenbrock(startpt, nvars);
+        double value = rosenbrock(startpt, nvars);
 
         Console.WriteLine("");
         Console.WriteLine("  F(X) = " + value + "");
         //
         //  Call HOOKE.
         //
-        itermax = 5000;
-        rho = 0.5;
-        eps = 1.0E-06;
+        int itermax = 5000;
+        double rho = 0.5;
+        double eps = 1.0E-06;
 
-        it = TOMS.hooke(nvars, startpt, ref endpt, rho, eps, itermax, rosenbrock);
+        int it = TOMS.hooke(nvars, startpt, ref endpt, rho, eps, itermax, rosenbrock);
         //
         //  Results.
         //
@@ -117,8 +111,8 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < nvars; i++)
         {
-            Console.WriteLine("  " + (i + 1).ToString().PadLeft(8)
-                                   + "  " + endpt[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + (i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + endpt[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         value = rosenbrock(endpt, nvars);
@@ -153,18 +147,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] endpt;
-        double eps;
         int i;
-        int it;
-        int itermax;
-        int nvars = 4;
-        double rho;
-        double[] startpt;
-        double value = 0;
+        const int nvars = 4;
 
-        endpt = new double[nvars];
-        startpt = new double[nvars];
+        double[] endpt = new double[nvars];
+        double[] startpt = new double[nvars];
 
         Console.WriteLine("");
         Console.WriteLine("TEST02");
@@ -184,22 +171,22 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < nvars; i++)
         {
-            Console.WriteLine("  " + (i + 1).ToString().PadLeft(8)
-                                   + "  " + startpt[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + (i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + startpt[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
-        value = woods(startpt, nvars);
+        double value = woods(startpt, nvars);
 
         Console.WriteLine("");
         Console.WriteLine("  F(X) = " + value + "");
         //
         //  Call HOOKE.
         //
-        itermax = 5000;
-        rho = 0.5;
-        eps = 1.0E-06;
+        int itermax = 5000;
+        double rho = 0.5;
+        double eps = 1.0E-06;
 
-        it = TOMS.hooke(nvars, startpt, ref endpt, rho, eps, itermax, woods);
+        int it = TOMS.hooke(nvars, startpt, ref endpt, rho, eps, itermax, woods);
         //
         //  Results.
         //
@@ -210,8 +197,8 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < nvars; i++)
         {
-            Console.WriteLine("  " + (i + 1).ToString().PadLeft(8)
-                                   + "  " + endpt[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + (i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + endpt[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         value = woods(endpt, nvars);
@@ -292,31 +279,21 @@ internal static class Program
         //    Output, real WOODS, the value of the function.
         //
     {
-        double s1;
-        double s2;
-        double s3;
-        double t1;
-        double t2;
-        double t3;
-        double t4;
-        double t5;
-        double value = 0;
+        double s1 = x[1] - x[0] * x[0];
+        double s2 = 1.0 - x[0];
+        double s3 = x[1] - 1.0;
+        double t1 = x[3] - x[2] * x[2];
+        double t2 = 1.0 - x[2];
+        double t3 = x[3] - 1.0;
+        double t4 = s3 + t3;
+        double t5 = s3 - t3;
 
-        s1 = x[1] - x[0] * x[0];
-        s2 = 1.0 - x[0];
-        s3 = x[1] - 1.0;
-        t1 = x[3] - x[2] * x[2];
-        t2 = 1.0 - x[2];
-        t3 = x[3] - 1.0;
-        t4 = s3 + t3;
-        t5 = s3 - t3;
-
-        value = 100.0 * s1 * s1
-                + s2 * s2
-                + 90.0 * t1 * t1
-                + t2 * t2
-                + 10.0 * t4 * t4
-                + 0.1 * t5 * t5;
+        double value = 100.0 * s1 * s1
+                       + s2 * s2
+                       + 90.0 * t1 * t1
+                       + t2 * t2
+                       + 10.0 * t4 * t4
+                       + 0.1 * t5 * t5;
 
         return value;
     }

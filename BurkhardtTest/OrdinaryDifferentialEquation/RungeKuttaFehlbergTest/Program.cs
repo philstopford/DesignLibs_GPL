@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.ODENS.RungeKuttaFehlberg;
 using Burkardt.Types;
 
@@ -72,18 +73,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        float abserr;
-        int flag;
         int i_step;
-        int n_step;
-        int neqn;
-        float relerr;
-        float t;
-        float t_out;
-        float t_start;
-        float t_stop;
-        float[] y;
-        float[] yp;
         RungeKuttaFehlberg.r4RKFData data = new();
 
         Console.WriteLine("");
@@ -93,23 +83,22 @@ internal static class Program
         Console.WriteLine("  Y' = 0.25 * Y * ( 1 - Y / 20 )");
         Console.WriteLine("");
 
-        neqn = 1;
+        const int neqn = 1;
 
-        y = new float[neqn];
-        yp = new float[neqn];
+        float[] y = new float[neqn];
+        float[] yp = new float[neqn];
 
-        abserr = (float) Math.Sqrt(typeMethods.r4_epsilon());
-        relerr = (float) Math.Sqrt(typeMethods.r4_epsilon());
+        float abserr = (float) Math.Sqrt(typeMethods.r4_epsilon());
+        float relerr = (float) Math.Sqrt(typeMethods.r4_epsilon());
 
-        flag = 1;
+        int flag = 1;
 
-        t_start = 0.0f;
-        t_stop = 20.0f;
+        const float t_start = 0.0f;
+        const float t_stop = 20.0f;
 
-        n_step = 5;
+        const int n_step = 5;
 
-        t = 0.0f;
-        t_out = 0.0f;
+        float t = 0.0f;
         y[0] = 1.0f;
         yp = r4_f1(t, y, yp);
 
@@ -117,13 +106,12 @@ internal static class Program
         Console.WriteLine("FLAG             T          Y         Y'          Y_Exact         Error");
         Console.WriteLine("");
 
-        Console.WriteLine(flag.ToString().PadLeft(4) + "  "
-                                                     + t.ToString().PadLeft(12) + "  "
-                                                     + y[0].ToString().PadLeft(12) + "  "
-                                                     + yp[0].ToString().PadLeft(12) + "  "
-                                                     + r4_y1x(t).ToString().PadLeft(12) + "  "
-                                                     + (y[0] - r4_y1x(t)).ToString().PadLeft(12) + "");
-        ;
+        Console.WriteLine(flag.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                     + t.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                     + y[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                     + yp[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                     + r4_y1x(t).ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                     + (y[0] - r4_y1x(t)).ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
 
         for (i_step = 1; i_step <= n_step; i_step++)
         {
@@ -131,19 +119,19 @@ internal static class Program
                  + (i_step - 1) * t_stop)
                 / n_step;
 
-            t_out = ((n_step - i_step) * t_start
-                     + i_step * t_stop)
-                    / n_step;
+            float t_out = ((n_step - i_step) * t_start
+                                 + i_step * t_stop)
+                                / n_step;
 
             flag = RungeKuttaFehlberg.r4_rkf45(ref data, r4_f1, neqn, ref y, ref yp, ref t, t_out, ref relerr, abserr,
                 flag);
 
-            Console.WriteLine(flag.ToString().PadLeft(4) + "  "
-                                                         + t.ToString().PadLeft(12) + "  "
-                                                         + y[0].ToString().PadLeft(12) + "  "
-                                                         + yp[0].ToString().PadLeft(12) + "  "
-                                                         + r4_y1x(t).ToString().PadLeft(12) + "  "
-                                                         + (y[0] - r4_y1x(t)).ToString().PadLeft(12) + "");
+            Console.WriteLine(flag.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                         + t.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                         + y[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                         + yp[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                         + r4_y1x(t).ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                         + (y[0] - r4_y1x(t)).ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -168,18 +156,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        float abserr;
-        int flag;
         int i_step;
-        int n_step;
-        int neqn;
-        float relerr;
-        float t;
-        float t_out;
-        float t_start;
-        float t_stop;
-        float[] y;
-        float[] yp;
         RungeKuttaFehlberg.r4RKFData data = new();
 
         Console.WriteLine("");
@@ -195,23 +172,22 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Z\" = - Z.");
 
-        neqn = 2;
+        const int neqn = 2;
 
-        y = new float[neqn];
-        yp = new float[neqn];
+        float[] y = new float[neqn];
+        float[] yp = new float[neqn];
 
-        abserr = (float) Math.Sqrt(typeMethods.r4_epsilon());
-        relerr = (float) Math.Sqrt(typeMethods.r4_epsilon());
+        float abserr = (float) Math.Sqrt(typeMethods.r4_epsilon());
+        float relerr = (float) Math.Sqrt(typeMethods.r4_epsilon());
 
-        flag = 1;
+        int flag = 1;
 
-        t_start = 0.0f;
-        t_stop = 2.0f * 3.14159265f;
+        const float t_start = 0.0f;
+        const float t_stop = 2.0f * 3.14159265f;
 
-        n_step = 12;
+        const int n_step = 12;
 
-        t = 0.0f;
-        t_out = 0.0f;
+        float t = 0.0f;
 
         y[0] = 1.0f;
         y[1] = 0.0f;
@@ -220,10 +196,10 @@ internal static class Program
         Console.WriteLine("FLAG             T          Y(1)       Y(2)");
         Console.WriteLine("");
 
-        Console.WriteLine(flag.ToString().PadLeft(4) + "  "
-                                                     + t.ToString().PadLeft(12) + "  "
-                                                     + y[0].ToString().PadLeft(12) + "  "
-                                                     + y[1].ToString().PadLeft(12) + "");
+        Console.WriteLine(flag.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                     + t.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                     + y[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                     + y[1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
 
         for (i_step = 1; i_step <= n_step; i_step++)
         {
@@ -231,17 +207,17 @@ internal static class Program
                  + (i_step - 1) * t_stop)
                 / n_step;
 
-            t_out = ((n_step - i_step) * t_start
-                     + i_step * t_stop)
-                    / n_step;
+            float t_out = ((n_step - i_step) * t_start
+                           + i_step * t_stop)
+                          / n_step;
 
             flag = RungeKuttaFehlberg.r4_rkf45(ref data, r4_f2, neqn, ref y, ref yp, ref t, t_out, ref relerr, abserr,
                 flag);
 
-            Console.WriteLine(flag.ToString().PadLeft(4) + "  "
-                                                         + t.ToString().PadLeft(12) + "  "
-                                                         + y[0].ToString().PadLeft(12) + "  "
-                                                         + y[1].ToString().PadLeft(12) + "");
+            Console.WriteLine(flag.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                         + t.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                         + y[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                         + y[1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -266,17 +242,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int NEQN = 1;
+        const int NEQN = 1;
 
-        float abserr;
-        int flag;
         int i_step;
-        int n_step;
-        float relerr;
-        float t;
-        float t_out;
-        float t_start;
-        float t_stop;
         float[] y = new float[NEQN];
         float[] yp = new float[NEQN];
         RungeKuttaFehlberg.r4RKFData data = new();
@@ -290,18 +258,17 @@ internal static class Program
         Console.WriteLine("  This routine uses the SINGLE STEP mode.");
         Console.WriteLine("");
 
-        abserr = (float) Math.Sqrt(typeMethods.r4_epsilon());
-        relerr = (float) Math.Sqrt(typeMethods.r4_epsilon());
+        float abserr = (float) Math.Sqrt(typeMethods.r4_epsilon());
+        float relerr = (float) Math.Sqrt(typeMethods.r4_epsilon());
 
-        flag = -1;
+        int flag = -1;
 
-        t_start = 0.0f;
-        t_stop = 20.0f;
+        const float t_start = 0.0f;
+        const float t_stop = 20.0f;
 
-        n_step = 5;
+        const int n_step = 5;
 
-        t = 0.0f;
-        t_out = 0.0f;
+        float t = 0.0f;
         y[0] = 1.0f;
         yp = r4_f1(t, y, yp);
 
@@ -309,13 +276,12 @@ internal static class Program
         Console.WriteLine("FLAG             T          Y         Y'        Y_Exact         Error");
         Console.WriteLine("");
 
-        Console.WriteLine(flag.ToString().PadLeft(4) + "  "
-                                                     + t.ToString().PadLeft(12) + "  "
-                                                     + y[0].ToString().PadLeft(12) + "  "
-                                                     + yp[0].ToString().PadLeft(12) + "  "
-                                                     + r4_y1x(t).ToString().PadLeft(12) + "  "
-                                                     + (y[0] - r4_y1x(t)).ToString().PadLeft(12) + "");
-        ;
+        Console.WriteLine(flag.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                     + t.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                     + y[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                     + yp[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                     + r4_y1x(t).ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                     + (y[0] - r4_y1x(t)).ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
 
         for (i_step = 1; i_step <= n_step; i_step++)
         {
@@ -323,21 +289,21 @@ internal static class Program
                  + (i_step - 1) * t_stop)
                 / n_step;
 
-            t_out = ((n_step - i_step) * t_start
-                     + i_step * t_stop)
-                    / n_step;
+            float t_out = ((n_step - i_step) * t_start
+                           + i_step * t_stop)
+                          / n_step;
 
             while (flag < 0)
             {
                 flag = RungeKuttaFehlberg.r4_rkf45(ref data, r4_f1, NEQN, ref y, ref yp, ref t, t_out, ref relerr, abserr,
                     flag);
 
-                Console.WriteLine(flag.ToString().PadLeft(4) + "  "
-                                                             + t.ToString().PadLeft(12) + "  "
-                                                             + y[0].ToString().PadLeft(12) + "  "
-                                                             + yp[0].ToString().PadLeft(12) + "  "
-                                                             + r4_y1x(t).ToString().PadLeft(12) + "  "
-                                                             + (y[0] - r4_y1x(t)).ToString().PadLeft(12) + "");
+                Console.WriteLine(flag.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                             + t.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                             + y[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                             + yp[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                             + r4_y1x(t).ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                             + (y[0] - r4_y1x(t)).ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             }
 
             flag = -2;
@@ -367,17 +333,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int NEQN = 1;
+        const int NEQN = 1;
 
-        double abserr;
-        int flag;
         int i_step;
-        int n_step;
-        double relerr;
-        double t;
-        double t_out;
-        double t_start;
-        double t_stop;
         double[] y = new double[NEQN];
         double[] yp = new double[NEQN];
         RungeKuttaFehlberg.r8RKFData data = new();
@@ -389,18 +347,17 @@ internal static class Program
         Console.WriteLine("  Y' = 0.25 * Y * ( 1 - Y / 20 )");
         Console.WriteLine("");
 
-        abserr = Math.Sqrt(typeMethods.r8_epsilon());
-        relerr = Math.Sqrt(typeMethods.r8_epsilon());
+        double abserr = Math.Sqrt(typeMethods.r8_epsilon());
+        double relerr = Math.Sqrt(typeMethods.r8_epsilon());
 
-        flag = 1;
+        int flag = 1;
 
-        t_start = 0.0;
-        t_stop = 20.0;
+        const double t_start = 0.0;
+        const double t_stop = 20.0;
 
-        n_step = 5;
+        const int n_step = 5;
 
-        t = 0.0;
-        t_out = 0.0;
+        double t = 0.0;
         y[0] = 1.0;
         yp = r8_f1(t, y, yp);
 
@@ -408,13 +365,12 @@ internal static class Program
         Console.WriteLine("FLAG             T          Y         Y'          Y_Exact         Error");
         Console.WriteLine("");
 
-        Console.WriteLine(flag.ToString().PadLeft(4) + "  "
-                                                     + t.ToString().PadLeft(12) + "  "
-                                                     + y[0].ToString().PadLeft(12) + "  "
-                                                     + yp[0].ToString().PadLeft(12) + "  "
-                                                     + r8_y1x(t).ToString().PadLeft(12) + "  "
-                                                     + (y[0] - r8_y1x(t)).ToString().PadLeft(12) + "");
-        ;
+        Console.WriteLine(flag.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                     + t.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                     + y[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                     + yp[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                     + r8_y1x(t).ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                     + (y[0] - r8_y1x(t)).ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
 
         for (i_step = 1; i_step <= n_step; i_step++)
         {
@@ -422,19 +378,19 @@ internal static class Program
                  + (i_step - 1) * t_stop)
                 / n_step;
 
-            t_out = ((n_step - i_step) * t_start
-                     + i_step * t_stop)
-                    / n_step;
+            double t_out = ((n_step - i_step) * t_start
+                            + i_step * t_stop)
+                           / n_step;
 
             flag = RungeKuttaFehlberg.r8_rkf45(ref data, r8_f1, NEQN, ref y, ref yp, ref t, t_out, ref relerr, abserr,
                 flag);
 
-            Console.WriteLine(flag.ToString().PadLeft(4) + "  "
-                                                         + t.ToString().PadLeft(12) + "  "
-                                                         + y[0].ToString().PadLeft(12) + "  "
-                                                         + yp[0].ToString().PadLeft(12) + "  "
-                                                         + r8_y1x(t).ToString().PadLeft(12) + "  "
-                                                         + (y[0] - r8_y1x(t)).ToString().PadLeft(12) + "");
+            Console.WriteLine(flag.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                         + t.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                         + y[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                         + yp[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                         + r8_y1x(t).ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                         + (y[0] - r8_y1x(t)).ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
     }
@@ -460,17 +416,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int NEQN = 2;
+        const int NEQN = 2;
 
-        double abserr;
-        int flag;
         int i_step;
-        int n_step;
-        double relerr;
-        double t;
-        double t_out;
-        double t_start;
-        double t_stop;
         double[] y = new double[NEQN];
         double[] yp = new double[NEQN];
         RungeKuttaFehlberg.r8RKFData data = new();
@@ -483,18 +431,17 @@ internal static class Program
         Console.WriteLine("  Y'(2) = -Y(1)");
         Console.WriteLine("");
 
-        abserr = Math.Sqrt(typeMethods.r8_epsilon());
-        relerr = Math.Sqrt(typeMethods.r8_epsilon());
+        double abserr = Math.Sqrt(typeMethods.r8_epsilon());
+        double relerr = Math.Sqrt(typeMethods.r8_epsilon());
 
-        flag = 1;
+        int flag = 1;
 
-        t_start = 0.0;
-        t_stop = 2.0 * 3.14159265;
+        const double t_start = 0.0;
+        const double t_stop = 2.0 * 3.14159265;
 
-        n_step = 12;
+        const int n_step = 12;
 
-        t = 0.0;
-        t_out = 0.0;
+        double t = 0.0;
 
         y[0] = 1.0;
         y[1] = 0.0;
@@ -504,10 +451,10 @@ internal static class Program
         Console.WriteLine("FLAG             T          Y(1)       Y(2)");
         Console.WriteLine("");
 
-        Console.WriteLine(flag.ToString().PadLeft(4) + "  "
-                                                     + t.ToString().PadLeft(12) + "  "
-                                                     + y[0].ToString().PadLeft(12) + "  "
-                                                     + y[1].ToString().PadLeft(12) + "");
+        Console.WriteLine(flag.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                     + t.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                     + y[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                     + y[1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
 
         for (i_step = 1; i_step <= n_step; i_step++)
         {
@@ -515,17 +462,17 @@ internal static class Program
                  + (i_step - 1) * t_stop)
                 / n_step;
 
-            t_out = ((n_step - i_step) * t_start
-                     + i_step * t_stop)
-                    / n_step;
+            double t_out = ((n_step - i_step) * t_start
+                            + i_step * t_stop)
+                           / n_step;
 
             flag = RungeKuttaFehlberg.r8_rkf45(ref data, r8_f2, NEQN, ref y, ref yp, ref t, t_out, ref relerr, abserr,
                 flag);
 
-            Console.WriteLine(flag.ToString().PadLeft(4) + "  "
-                                                         + t.ToString().PadLeft(12) + "  "
-                                                         + y[0].ToString().PadLeft(12) + "  "
-                                                         + y[1].ToString().PadLeft(12) + "");
+            Console.WriteLine(flag.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                         + t.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                         + y[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                         + y[1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -550,17 +497,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int NEQN = 1;
+        const int NEQN = 1;
 
-        double abserr;
-        int flag;
         int i_step;
-        int n_step;
-        double relerr;
-        double t;
-        double t_out;
-        double t_start;
-        double t_stop;
         double[] y = new double[NEQN];
         double[] yp = new double[NEQN];
         RungeKuttaFehlberg.r8RKFData data = new();
@@ -574,18 +513,17 @@ internal static class Program
         Console.WriteLine("  This routine uses the SINGLE STEP mode.");
         Console.WriteLine("");
 
-        abserr = Math.Sqrt(typeMethods.r8_epsilon());
-        relerr = Math.Sqrt(typeMethods.r8_epsilon());
+        double abserr = Math.Sqrt(typeMethods.r8_epsilon());
+        double relerr = Math.Sqrt(typeMethods.r8_epsilon());
 
-        flag = -1;
+        int flag = -1;
 
-        t_start = 0.0;
-        t_stop = 20.0;
+        const double t_start = 0.0;
+        const double t_stop = 20.0;
 
-        n_step = 5;
+        const int n_step = 5;
 
-        t = 0.0;
-        t_out = 0.0;
+        double t = 0.0;
         y[0] = 1.0;
         yp = r8_f1(t, y, yp);
 
@@ -593,13 +531,12 @@ internal static class Program
         Console.WriteLine("FLAG             T          Y         Y'        Y_Exact         Error");
         Console.WriteLine("");
 
-        Console.WriteLine(flag.ToString().PadLeft(4) + "  "
-                                                     + t.ToString().PadLeft(12) + "  "
-                                                     + y[0].ToString().PadLeft(12) + "  "
-                                                     + yp[0].ToString().PadLeft(12) + "  "
-                                                     + r8_y1x(t).ToString().PadLeft(12) + "  "
-                                                     + (y[0] - r8_y1x(t)).ToString().PadLeft(12) + "");
-        ;
+        Console.WriteLine(flag.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                     + t.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                     + y[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                     + yp[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                     + r8_y1x(t).ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                                     + (y[0] - r8_y1x(t)).ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
 
         for (i_step = 1; i_step <= n_step; i_step++)
         {
@@ -607,9 +544,9 @@ internal static class Program
                  + (i_step - 1) * t_stop)
                 / n_step;
 
-            t_out = ((n_step - i_step) * t_start
-                     + i_step * t_stop)
-                    / n_step;
+            double t_out = ((n_step - i_step) * t_start
+                            + i_step * t_stop)
+                           / n_step;
 
             while (flag < 0)
             {
@@ -617,11 +554,11 @@ internal static class Program
                     flag);
 
                 Console.WriteLine(flag + "  "
-                                       + t.ToString().PadLeft(12) + "  "
-                                       + y[0].ToString().PadLeft(12) + "  "
-                                       + yp[0].ToString().PadLeft(12) + "  "
-                                       + r8_y1x(t).ToString().PadLeft(12) + "  "
-                                       + (y[0] - r8_y1x(t)).ToString().PadLeft(12) + "");
+                                       + t.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                       + y[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                       + yp[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                       + r8_y1x(t).ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                       + (y[0] - r8_y1x(t)).ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             }
 
             flag = -2;
@@ -685,9 +622,7 @@ internal static class Program
         //    Output, float R4_Y1X, the exact solution.
         //
     {
-        float value;
-
-        value = (float) (20.0 / (1.0 + 19.0 * Math.Exp(-0.25 * t)));
+        float value = (float) (20.0 / (1.0 + 19.0 * Math.Exp(-0.25 * t)));
 
         return value;
     }

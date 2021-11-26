@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Quadrature;
 using Burkardt.Weight;
 
@@ -169,18 +170,7 @@ internal static class Program
         //    C++ version by John Burkardt.
         //
     {
-        double alpha;
-        double beta;
         int i;
-        int key;
-        int kind;
-        int lu;
-        int[] mlt;
-        int[] ndx;
-        int nt;
-        int nwts;
-        double pi = 3.14159265358979323846264338327950;
-        double[] t;
 
         Console.WriteLine("  ----------------------------------------");
         Console.WriteLine("");
@@ -189,21 +179,21 @@ internal static class Program
         //
         //  Number of knots.
         //
-        nt = 5;
+        int nt = 5;
         //
         //  Set the knots in the default interval [-1,+1].
         //
-        t = new double[nt];
+        double[] t = new double[nt];
 
         for (i = 1; i <= nt; i++)
         {
-            t[i - 1] = Math.Cos((2 * i - 1) * pi / (2 * nt));
+            t[i - 1] = Math.Cos((2 * i - 1) * Math.PI / (2 * nt));
         }
 
         //
         //  Set the knot multiplicities.
         //
-        mlt = new int[nt];
+        int[] mlt = new int[nt];
         for (i = 0; i < nt; i++)
         {
             mlt[i] = 2;
@@ -212,7 +202,7 @@ internal static class Program
         //
         //  Set the size of the weights array.
         //
-        nwts = 0;
+        int nwts = 0;
         for (i = 0; i < nt; i++)
         {
             nwts += mlt[i];
@@ -221,27 +211,27 @@ internal static class Program
         //
         //  Because KEY = 1, NDX will be set up for us.
         //
-        ndx = new int[nt];
+        int[] ndx = new int[nt];
         //
         //  KEY = 1 indicates that the WTS array should hold the weights
         //  in the usual order.
         //
-        key = 1;
+        const int key = 1;
         //
         //  Request Legendre weight function.
         //
-        kind = 1;
+        const int kind = 1;
         //
         //  ALPHA, BETA not used in Legendre weight function but set anyway.
         //
-        alpha = 0.0;
-        beta = 0.0;
+        const double alpha = 0.0;
+        const double beta = 0.0;
         //
         //  LU controls printing.
         //  A positive value requests that we compute and print weights, and
         //  conduct a moments check.
         //
-        lu = 6;
+        const int lu = 6;
         //
         //  This call returns the WTS array.
         //
@@ -270,20 +260,7 @@ internal static class Program
         //    C++ version by John Burkardt.
         //
     {
-        double a;
-        double alpha;
-        double b;
-        double beta;
-        int i;
-        int key;
         int kind;
-        int lu;
-        int[] mlt;
-        int[] ndx;
-        int nt;
-        int nwts;
-        double[] t;
-        double[] wts;
 
         Console.WriteLine("  ----------------------------------------");
         Console.WriteLine("");
@@ -298,11 +275,12 @@ internal static class Program
             //
             //  Number of knots.
             //
-            nt = 5;
+            const int nt = 5;
             //
             //  Set parameters ALPHA and BETA.
             //
-            alpha = 0.5;
+            const double alpha = 0.5;
+            double beta;
             if (kind != 8)
             {
                 beta = 2.0;
@@ -315,14 +293,14 @@ internal static class Program
             //
             //  Set A and B.
             //
-            a = -0.5;
-            b = 2.0;
+            const double a = -0.5;
+            const double b = 2.0;
             //
             //  Have CGQF compute the knots and weights.
             //
-            lu = 6;
-            t = new double[nt];
-            wts = new double[nt];
+            int lu = 6;
+            double[] t = new double[nt];
+            double[] wts = new double[nt];
 
             Console.WriteLine("");
             Console.WriteLine("  Knots and weights of Gauss quadrature formula");
@@ -333,7 +311,8 @@ internal static class Program
             //
             //  Set the knot multiplicities.
             //
-            mlt = new int[nt];
+            int[] mlt = new int[nt];
+            int i;
             for (i = 0; i < nt; i++)
             {
                 mlt[i] = 2;
@@ -342,7 +321,7 @@ internal static class Program
             //
             //  Set the size of the weights array.
             //
-            nwts = 0;
+            int nwts = 0;
             for (i = 0; i < nt; i++)
             {
                 nwts += mlt[i];
@@ -356,12 +335,12 @@ internal static class Program
             //
             //  Because KEY = 1, NDX will be set up for us.
             //
-            ndx = new int[nt];
+            int[] ndx = new int[nt];
             //
             //  KEY = 1 indicates that the WTS array should hold the weights
             //  in the usual order.
             //
-            key = 1;
+            const int key = 1;
             //
             //  LU controls printing.
             //  A positive value requests that we compute and print weights, and
@@ -400,16 +379,7 @@ internal static class Program
         //    C++ version by John Burkardt.
         //
     {
-        double alpha;
-        double beta;
         int i;
-        int kind;
-        int[] mlt;
-        int nt;
-        double pi = 3.14159265358979323846264338327950;
-        double qfsum;
-        double qfsx;
-        double[] t;
 
         Console.WriteLine("  ----------------------------------------");
         Console.WriteLine("");
@@ -418,21 +388,21 @@ internal static class Program
         //
         //  Number of knots.
         //
-        nt = 5;
+        int nt = 5;
         //
         //  Set the knots in the default interval [-1,+1].
         //
-        t = new double[nt];
+        double[] t = new double[nt];
 
         for (i = 1; i <= nt; i++)
         {
-            t[i - 1] = Math.Cos((2 * i - 1) * pi / (2 * nt));
+            t[i - 1] = Math.Cos((2 * i - 1) * Math.PI / (2 * nt));
         }
 
         //
         //  Set the knot multiplicities.
         //
-        mlt = new int[nt];
+        int[] mlt = new int[nt];
         for (i = 0; i < nt; i++)
         {
             mlt[i] = 2;
@@ -441,23 +411,23 @@ internal static class Program
         //
         //  Set KIND to the Legendre weight function.
         //
-        kind = 1;
+        int kind = 1;
         //
         //  ALPHA, BETA not used in Legendre weight function but set anyway.
         //
-        alpha = 0.0;
-        beta = 0.0;
+        double alpha = 0.0;
+        double beta = 0.0;
         //
         //  Call CEIQFS to set up the quadrature formula and evaluate it on F.
         //
-        qfsum = CEIQFS.ceiqfs(nt, t, mlt, kind, alpha, beta, f);
+        double qfsum = CEIQFS.ceiqfs(nt, t, mlt, kind, alpha, beta, f);
 
         Console.WriteLine("");
         Console.WriteLine("  Integral of sin(x) on -1, 1 by Fejer type rule");
         Console.WriteLine("  with " + nt + " points of multiplicity 2.");
         Console.WriteLine("  Quadrature formula:" + qfsum.ToString("0.################").PadLeft(24) + "");
 
-        qfsx = Math.Cos(-1.0) - Math.Cos(1.0);
+        double qfsx = Math.Cos(-1.0) - Math.Cos(1.0);
         Console.WriteLine("  Exact value       :" + qfsx.ToString("0.################").PadLeft(24) + "");
         Console.WriteLine("  Error             :" + Math.Abs(qfsum - qfsx) + "");
     }
@@ -484,18 +454,7 @@ internal static class Program
         //    C++ version by John Burkardt.
         //
     {
-        double a;
-        double alpha;
-        double b;
-        double beta;
         int i;
-        int kind;
-        int[] mlt;
-        int nt;
-        double pi = 3.14159265358979323846264338327950;
-        double qfsum;
-        double qfsx;
-        double[] t;
 
         Console.WriteLine("  ----------------------------------------");
         Console.WriteLine("");
@@ -504,21 +463,21 @@ internal static class Program
         //
         //  Number of knots.
         //
-        nt = 5;
+        const int nt = 5;
         //
         //  Set the knots in the default interval [-1,+1].
         //
-        t = new double[nt];
+        double[] t = new double[nt];
 
         for (i = 1; i <= nt; i++)
         {
-            t[i - 1] = Math.Cos((2 * i - 1) * pi / (2 * nt));
+            t[i - 1] = Math.Cos((2 * i - 1) * Math.PI / (2 * nt));
         }
 
         //
         //  Set the knot multiplicities.
         //
-        mlt = new int[nt];
+        int[] mlt = new int[nt];
         for (i = 0; i < nt; i++)
         {
             mlt[i] = 2;
@@ -527,17 +486,17 @@ internal static class Program
         //
         //  Set KIND to the Legendre weight function.
         //
-        kind = 1;
+        const int kind = 1;
         //
         //  ALPHA, BETA not used in Legendre weight function but set anyway.
         //
-        alpha = 0.0;
-        beta = 0.0;
+        const double alpha = 0.0;
+        const double beta = 0.0;
         //
         //  Set nonstandard interval A, B.
         //
-        a = -0.5;
-        b = 2.0;
+        const double a = -0.5;
+        const double b = 2.0;
         //
         //  Shift knots from [-1,1] to [A,B].
         //
@@ -549,7 +508,7 @@ internal static class Program
         //
         //  Call CEIQF to set up the quadrature formula and evaluate it on F.
         //
-        qfsum = CEIQF.ceiqf(nt, t, mlt, kind, alpha, beta, a, b, f);
+        double qfsum = CEIQF.ceiqf(nt, t, mlt, kind, alpha, beta, a, b, f);
 
         Console.WriteLine("");
         Console.WriteLine("  Integral of sin(x) from " + a + " to " + b + "");
@@ -557,7 +516,7 @@ internal static class Program
         Console.WriteLine("  of multiplicity 2.");
         Console.WriteLine("  Quadrature formula:" + qfsum.ToString("0.################").PadLeft(24) + "");
 
-        qfsx = Math.Cos(a) - Math.Cos(b);
+        double qfsx = Math.Cos(a) - Math.Cos(b);
         Console.WriteLine("  Exact value       :" + qfsx.ToString("0.################").PadLeft(24) + "");
         Console.WriteLine("  Error             :" + Math.Abs(qfsum - qfsx) + "");
 
@@ -585,14 +544,7 @@ internal static class Program
         //    C++ version by John Burkardt.
         //
     {
-        double alpha;
-        double beta;
         int i;
-        int kind;
-        int lu;
-        int nt;
-        double pi = 3.14159265358979323846264338327950;
-        double[] t;
 
         Console.WriteLine("  ----------------------------------------");
         Console.WriteLine("");
@@ -601,32 +553,32 @@ internal static class Program
         //
         //  Number of knots.
         //
-        nt = 5;
+        int nt = 5;
         //
         //  Set the knots in the default interval [-1,+1].
         //
-        t = new double[nt];
+        double[] t = new double[nt];
 
         for (i = 1; i <= nt; i++)
         {
-            t[i - 1] = Math.Cos((2 * i - 1) * pi / (2 * nt));
+            t[i - 1] = Math.Cos((2 * i - 1) * Math.PI / (2 * nt));
         }
 
         //
         //  Request Legendre weight function.
         //
-        kind = 1;
+        const int kind = 1;
         //
         //  ALPHA, BETA not used in Legendre weight function but set anyway.
         //
-        alpha = 0.0;
-        beta = 0.0;
+        const double alpha = 0.0;
+        const double beta = 0.0;
         //
         //  LU controls printing.
         //  A positive value requests that we compute and print weights, and
         //  conduct a moments check.
         //
-        lu = 6;
+        const int lu = 6;
         //
         //  This call returns the WTS array.
         //
@@ -655,19 +607,7 @@ internal static class Program
         //    C++ version by John Burkardt.
         //
     {
-        double a;
-        double alpha;
-        double b;
-        double beta;
         int i;
-        int kind;
-        int lu;
-        int nt;
-        double pi = 3.14159265358979323846264338327950;
-        double qfsum;
-        double qfsx;
-        double[] t;
-        double[] wts;
 
         Console.WriteLine("  ----------------------------------------");
         Console.WriteLine("");
@@ -676,31 +616,31 @@ internal static class Program
         //
         //  Number of knots.
         //
-        nt = 5;
+        const int nt = 5;
         //
         //  Set the knots in the default interval [-1,+1].
         //
-        t = new double[nt];
+        double[] t = new double[nt];
 
         for (i = 1; i <= nt; i++)
         {
-            t[i - 1] = Math.Cos((2 * i - 1) * pi / (2 * nt));
+            t[i - 1] = Math.Cos((2 * i - 1) * Math.PI / (2 * nt));
         }
 
         //
         //  Set KIND to the Legendre weight function.
         //
-        kind = 1;
+        const int kind = 1;
         //
         //  ALPHA, BETA not used in Legendre weight function but set anyway.
         //
-        alpha = 0.0;
-        beta = 0.0;
+        const double alpha = 0.0;
+        const double beta = 0.0;
         //
         //  Set nonstandard interval A, B.
         //
-        a = -0.5;
-        b = 2.0;
+        const double a = -0.5;
+        const double b = 2.0;
         //
         //  Shift knots from [-1,1] to [A,B].
         //
@@ -712,15 +652,15 @@ internal static class Program
         //
         //  LU controls printout.
         //
-        lu = 6;
+        const int lu = 6;
         //
         //  Call CLIQF to set up the quadrature formula.
         //
-        wts = CLIQF.cliqf(nt, t, kind, alpha, beta, a, b, lu);
+        double[] wts = CLIQF.cliqf(nt, t, kind, alpha, beta, a, b, lu);
         //
         //  Call EIQFS to evaluate the quadrature formula.
         //
-        qfsum = EIQFS.eiqfs(nt, t, wts, f);
+        double qfsum = EIQFS.eiqfs(nt, t, wts, f);
 
         Console.WriteLine("");
         Console.WriteLine("  Integral of sin(x) from " + a + " to " + b + "");
@@ -728,7 +668,7 @@ internal static class Program
         Console.WriteLine("  of multiplicity 1.");
         Console.WriteLine("  Quadrature formula:" + qfsum.ToString("0.################").PadLeft(24) + "");
 
-        qfsx = Math.Cos(a) - Math.Cos(b);
+        double qfsx = Math.Cos(a) - Math.Cos(b);
         Console.WriteLine("  Exact value       :" + qfsx.ToString("0.################").PadLeft(24) + "");
         Console.WriteLine("  Error             :" + Math.Abs(qfsum - qfsx) + "");
     }
@@ -755,15 +695,6 @@ internal static class Program
         //    C++ version by John Burkardt.
         //
     {
-        double a;
-        double alpha;
-        double b;
-        double beta;
-        int kind;
-        int nt;
-        double qfsum;
-        double qfsx;
-
         Console.WriteLine("  ----------------------------------------");
         Console.WriteLine("");
         Console.WriteLine("TEST07");
@@ -771,32 +702,32 @@ internal static class Program
         //
         //  Number of knots.
         //
-        nt = 12;
+        const int nt = 12;
         //
         //  Request exponential weight function.
         //
-        kind = 7;
+        const int kind = 7;
         //
         //  Set ALPHA and BETA.
         //
-        alpha = 1.0;
-        beta = 0.0;
+        const double alpha = 1.0;
+        const double beta = 0.0;
         //
         //  Set interval [A,B].
         //
-        a = -0.5;
-        b = 2.0;
+        const double a = -0.5;
+        const double b = 2.0;
         //
         //  Call CEGQF to compute and evaluate the Gauss quadrature formula.
         //
-        qfsum = CEGQF.cegqf(nt, kind, alpha, beta, a, b, f);
+        double qfsum = CEGQF.cegqf(nt, kind, alpha, beta, a, b, f);
 
         Console.WriteLine("");
         Console.WriteLine("  Integral of x*sin(x) from " + a + " to " + b + "");
         Console.WriteLine("  by Gauss-exponential rule with " + nt + " points");
         Console.WriteLine("  Quadrature formula:" + qfsum.ToString("0.################").PadLeft(24) + "");
 
-        qfsx = (b - a) * 0.5 * (Math.Cos(a) - Math.Cos(b))
+        double qfsx = (b - a) * 0.5 * (Math.Cos(a) - Math.Cos(b))
             + Math.Sin(b) + Math.Sin(a) - 2.0 * Math.Sin((a + b) / 2.0);
 
         Console.WriteLine("  Exact value       :" + qfsx.ToString("0.################").PadLeft(24) + "");
@@ -825,13 +756,6 @@ internal static class Program
         //    C++ version by John Burkardt.
         //
     {
-        double alpha;
-        double beta;
-        int kind;
-        int nt;
-        double qfsum;
-        double qfsx;
-
         Console.WriteLine("  ----------------------------------------");
         Console.WriteLine("");
         Console.WriteLine("TEST08");
@@ -839,27 +763,27 @@ internal static class Program
         //
         //  Number of knots.
         //
-        nt = 12;
+        const int nt = 12;
         //
         //  Request exponential weight function.
         //
-        kind = 7;
+        const int kind = 7;
         //
         //  Set ALPHA and BETA.
         //
-        alpha = 1.0;
-        beta = 0.0;
+        const double alpha = 1.0;
+        const double beta = 0.0;
         //
         //  Call CEGQFS to compute and evaluate the Gauss quadrature formula.
         //
-        qfsum = CEGQFS.cegqfs(nt, kind, alpha, beta, f);
+        double qfsum = CEGQFS.cegqfs(nt, kind, alpha, beta, f);
 
         Console.WriteLine("");
         Console.WriteLine("  Integral of x*sin(x) from -1 to +1");
         Console.WriteLine("  by Gauss-exponential rule with " + nt + " points.");
         Console.WriteLine("  Quadrature formula: " + qfsum.ToString("0.################").PadLeft(24) + "");
 
-        qfsx = Math.Cos(-1.0) - Math.Cos(+1.0);
+        double qfsx = Math.Cos(-1.0) - Math.Cos(+1.0);
 
         Console.WriteLine("  Exact value       :" + qfsx.ToString("0.################").PadLeft(24) + "");
         Console.WriteLine("  Error             :" + Math.Abs(qfsum - qfsx) + "");
@@ -886,25 +810,17 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double alpha;
-        double beta;
-        int io;
-        int kind;
-        int nt;
-        double[] t;
-        double[] wts;
-
         Console.WriteLine("");
         Console.WriteLine("TEST09");
         Console.WriteLine("  Call CGQFS to compute generalized Hermite rules.");
 
-        nt = 15;
-        kind = 6;
-        alpha = 1.0;
-        beta = 0.0;
-        io = -6;
-        t = new double[nt];
-        wts = new double[nt];
+        const int nt = 15;
+        const int kind = 6;
+        const double alpha = 1.0;
+        const double beta = 0.0;
+        const int io = -6;
+        double[] t = new double[nt];
+        double[] wts = new double[nt];
 
         Console.WriteLine("");
         Console.WriteLine("  NT = " + nt + "");
@@ -935,8 +851,6 @@ internal static class Program
         //
     {
         int i;
-        double[] t;
-        double[] wts;
 
         Console.WriteLine("");
         Console.WriteLine("TEST10");
@@ -946,8 +860,8 @@ internal static class Program
         Console.WriteLine("  ALPHA = " + alpha + "");
         Console.WriteLine("  BETA  = " + beta + "");
 
-        t = new double[nt];
-        wts = new double[nt];
+        double[] t = new double[nt];
+        double[] wts = new double[nt];
 
         CDGQF.cdgqf(nt, kind, alpha, beta, ref t, ref wts);
 
@@ -956,7 +870,7 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < nt; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
                                    + "  " + t[i].ToString("0.################").PadLeft(24)
                                    + "  " + wts[i].ToString("0.################").PadLeft(24) + "");
         }
@@ -984,9 +898,6 @@ internal static class Program
         //
     {
         int i;
-        int lo;
-        double[] t;
-        double[] wts;
 
         Console.WriteLine("");
         Console.WriteLine("CGQF_TEST");
@@ -999,9 +910,9 @@ internal static class Program
         Console.WriteLine("  A =     " + a + "");
         Console.WriteLine("  B  =    " + b + "");
 
-        lo = 0;
-        t = new double[nt];
-        wts = new double[nt];
+        const int lo = 0;
+        double[] t = new double[nt];
+        double[] wts = new double[nt];
 
         CGQF.cgqf(nt, kind, alpha, beta, a, b, lo, ref t, ref wts);
 
@@ -1010,7 +921,7 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < nt; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
                                    + "  " + t[i].ToString("0.################").PadLeft(24)
                                    + "  " + wts[i].ToString("0.################").PadLeft(24) + "");
         }
@@ -1037,15 +948,10 @@ internal static class Program
         //    John Burkardt.
         //
     {
-        double alpha;
-        double beta;
-        int kind;
-        int m;
-
-        m = 5;
-        kind = 1;
-        alpha = 0.0;
-        beta = 0.0;
+        int m = 5;
+        int kind = 1;
+        double alpha = 0.0;
+        double beta = 0.0;
         wm_tester(m, kind, alpha, beta);
 
         m = 5;
@@ -1150,9 +1056,8 @@ internal static class Program
         //
     {
         int i;
-        double[] w;
 
-        w = WM.wm(m, kind, alpha, beta);
+        double[] w = WM.wm(m, kind, alpha, beta);
 
         Console.WriteLine("");
         Console.WriteLine("WM_TESTER:");
@@ -1164,8 +1069,8 @@ internal static class Program
         for (i = 0; i < m; i++)
         {
             Console.WriteLine("   "
-                              + "  " + i.ToString().PadLeft(2)
-                              + "  " + w[i].ToString().PadLeft(14) + "");
+                              + "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                              + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -1213,10 +1118,9 @@ internal static class Program
         //    Output, double F, the value of the I-th derivative of F at X.
         //
     {
-        int l;
         double value = 0;
 
-        l = i % 4;
+        int l = i % 4;
 
         value = l switch
         {

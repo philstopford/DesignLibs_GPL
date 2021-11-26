@@ -63,9 +63,7 @@ internal static class Program
         //
     {
         double fx = 0;
-        double fx2;
         int ifault = 0;
-        int n_data;
         double x = 0;
 
         Console.WriteLine("");
@@ -80,7 +78,7 @@ internal static class Program
                           + "(Tabulated)               (ALOGAM)                DIFF");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -91,7 +89,7 @@ internal static class Program
                 break;
             }
 
-            fx2 = Algorithms.alogam(x, ref ifault);
+            double fx2 = Algorithms.alogam(x, ref ifault);
 
             Console.WriteLine("  " + x.ToString("0.################").PadLeft(24)
                                    + "  " + fx.ToString("0.################").PadLeft(24)

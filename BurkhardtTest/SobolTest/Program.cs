@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Sobol;
 using Burkardt.Uniform;
 
@@ -66,11 +67,11 @@ internal static class Program
             int k = i ^ j;
 
             string cout = "  ";
-            string t = i.ToString().PadLeft(6) + "  ";
+            string t = i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
             cout += t; 
-            t = j.ToString().PadLeft(6) + "  ";
+            t = j.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
             cout += t; 
-            t = k.ToString().PadLeft(6) + "  ";
+            t = k.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
             cout += t; 
             Console.WriteLine(cout);
         }
@@ -99,7 +100,7 @@ internal static class Program
     {
         int seed = 123456789;
 
-        Console.WriteLine();;
+        Console.WriteLine();
         Console.WriteLine("I4_BIT_HI1_TEST");
         Console.WriteLine("  I4_BIT_HI1 returns the location of the high bit in an integer.");
         Console.WriteLine();
@@ -112,9 +113,9 @@ internal static class Program
             int j = SobolSampler.i4_bit_hi1 ( i );
 
             string cout = "  ";
-            string t = i.ToString().PadLeft(6) + "  ";
+            string t = i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
             cout += t;
-            t = j.ToString().PadLeft(6);
+            t = j.ToString(CultureInfo.InvariantCulture).PadLeft(6);
             cout += t;
             Console.WriteLine(cout);
         }
@@ -143,7 +144,7 @@ internal static class Program
     {
         int seed = 123456789;
 
-        Console.WriteLine();;
+        Console.WriteLine();
         Console.WriteLine("I4_BIT_LO0_TEST");
         Console.WriteLine("  I4_BIT_LO0 returns the location of the low 0 bit in an integer.");
         Console.WriteLine();
@@ -156,9 +157,9 @@ internal static class Program
             int j = SobolSampler.i4_bit_lo0 ( i );
 
             string cout = "  ";
-            string t = i.ToString().PadLeft(6) + "  ";
+            string t = i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
             cout += t;
-            t = j.ToString().PadLeft(6);
+            t = j.ToString(CultureInfo.InvariantCulture).PadLeft(6);
             cout += t;
             Console.WriteLine(cout);
         }
@@ -218,13 +219,13 @@ internal static class Program
                     case >= 95:
                     {
                         string cout = "";
-                        string t = seed_in.ToString().PadLeft(6) + "  ";
+                        string t = seed_in.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
                         cout += t;
-                        t = seed_out.ToString().PadLeft(6) + "  ";
+                        t = seed_out.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
                         cout += t;
                         for (int j = 0; j < dim_num; j++ )
                         {
-                            t = config.quasi[j].ToString().PadLeft(14) + "  ";
+                            t = config.quasi[j].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  ";
                             cout += t;
                         }
                         Console.WriteLine(cout);
@@ -287,13 +288,13 @@ internal static class Program
             int res = SobolSampler.i4_sobol ( DIM_NUM, ref config);
             int seed_out = config.seed;
             string cout = "";
-            string t = seed_in.ToString().PadLeft(6) + "  ";
+            string t = seed_in.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
             cout += t;
-            t = seed_out.ToString().PadLeft(6) + "  ";
+            t = seed_out.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
             cout += t;
             for (int j = 0; j < DIM_NUM; j++ )
             {
-                t = config.quasi[j].ToString().PadLeft(14) + "  ";
+                t = config.quasi[j].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  ";
                 cout += t;
             }
             Console.WriteLine(cout);
@@ -315,13 +316,13 @@ internal static class Program
             int res = SobolSampler.i4_sobol ( DIM_NUM, ref config);
             int seed_out = config.seed;
             string cout = "";
-            string t = seed_in.ToString().PadLeft(6) + "  ";
+            string t = seed_in.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
             cout += t;
-            t = seed_out.ToString().PadLeft(6) + "  ";
+            t = seed_out.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
             cout += t;
             for (int j = 0; j < DIM_NUM; j++ )
             {
-                t = config.quasi[j].ToString().PadLeft(14) + "  ";
+                t = config.quasi[j].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  ";
                 cout += t;
             }
             Console.WriteLine(cout);
@@ -343,13 +344,13 @@ internal static class Program
             int res = SobolSampler.i4_sobol ( DIM_NUM, ref config);
             int seed_out = config.seed;
             string cout = "";
-            string t = seed_in.ToString().PadLeft(6) + "  ";
+            string t = seed_in.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
             cout += t;
-            t = seed_out.ToString().PadLeft(6) + "  ";
+            t = seed_out.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
             cout += t;
             for (int j = 0; j < DIM_NUM; j++ )
             {
-                t = config.quasi[j].ToString().PadLeft(14) + "  ";
+                t = config.quasi[j].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  ";
                 cout += t;
             }
             Console.WriteLine(cout);
@@ -371,13 +372,13 @@ internal static class Program
             int res = SobolSampler.i4_sobol ( DIM_NUM, ref config);
             int seed_out = config.seed;
             string cout = "";
-            string t = seed_in.ToString().PadLeft(6) + "  ";
+            string t = seed_in.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
             cout += t;
-            t = seed_out.ToString().PadLeft(6) + "  ";
+            t = seed_out.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
             cout += t;
             for (int j = 0; j < DIM_NUM; j++ )
             {
-                t = config.quasi[j].ToString().PadLeft(14) + "  ";
+                t = config.quasi[j].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  ";
                 cout += t;
             }
             Console.WriteLine(cout);
@@ -422,11 +423,11 @@ internal static class Program
             long k = i ^ j;
 
             string cout = "  ";
-            string t = i.ToString().PadLeft(6) + "  ";
+            string t = i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
             cout += t;
-            t = j.ToString().PadLeft(6) + "  ";
+            t = j.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
             cout += t;
-            t = k.ToString().PadLeft(6);
+            t = k.ToString(CultureInfo.InvariantCulture).PadLeft(6);
             cout += t;
             Console.WriteLine(cout);
         }
@@ -468,8 +469,8 @@ internal static class Program
             int j = SobolSampler.i8_bit_hi1 ( i );
 
             string cout = "  ";
-            string t = i.ToString().PadLeft(6) + "  ";
-            t += j.ToString().PadLeft(6);
+            string t = i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
+            t += j.ToString(CultureInfo.InvariantCulture).PadLeft(6);
             cout += t;
             Console.WriteLine(cout);
         }
@@ -512,8 +513,8 @@ internal static class Program
             int j = SobolSampler.i8_bit_lo0 ( i );
 
             string cout = "  ";
-            string t = i.ToString().PadLeft(6) + "  ";
-            t += j.ToString().PadLeft(6);
+            string t = i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
+            t += j.ToString(CultureInfo.InvariantCulture).PadLeft(6);
             cout += t;
             Console.WriteLine(cout);
         }
@@ -571,12 +572,12 @@ internal static class Program
                     case <= 11:
                     case >= 95:
                     {
-                        string cout = seed_in.ToString().PadLeft(6) + "  ";
-                        string t = seed_out.ToString().PadLeft(6) + "  ";
+                        string cout = seed_in.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
+                        string t = seed_out.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
                         cout += t;
                         for (int j = 0; j < dim_num; j++ )
                         {
-                            t = config.quasi[j].ToString().PadLeft(14) + "  ";
+                            t = config.quasi[j].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  ";
                             cout += t;
                         }
                         Console.WriteLine(cout);
@@ -636,12 +637,12 @@ internal static class Program
             long seed_in = config.seed;
             int res = SobolSampler.i8_sobol ( DIM_NUM, ref config );
             long seed_out = config.seed;
-            string cout = seed_in.ToString().PadLeft(6) + "  ";
-            string t = seed_out.ToString().PadLeft(6) + "  ";
+            string cout = seed_in.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
+            string t = seed_out.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
             cout += t;
             for (int j = 0; j < DIM_NUM; j++ )
             {
-                t = config.quasi[j].ToString().PadLeft(14) + "  ";
+                t = config.quasi[j].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  ";
                 cout += t;
             }
             Console.WriteLine(cout);
@@ -662,12 +663,12 @@ internal static class Program
             long seed_in = config.seed;
             int res = SobolSampler.i8_sobol ( DIM_NUM, ref config );
             long seed_out = config.seed;
-            string cout = seed_in.ToString().PadLeft(6) + "  ";
-            string t = seed_out.ToString().PadLeft(6) + "  ";
+            string cout = seed_in.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
+            string t = seed_out.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
             cout += t;
             for (int j = 0; j < DIM_NUM; j++ )
             {
-                t = config.quasi[j].ToString().PadLeft(14) + "  ";
+                t = config.quasi[j].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  ";
                 cout += t;
             }
             Console.WriteLine(cout);
@@ -688,12 +689,12 @@ internal static class Program
             long seed_in = config.seed;
             int res = SobolSampler.i8_sobol ( DIM_NUM, ref config );
             long seed_out = config.seed;
-            string cout = seed_in.ToString().PadLeft(6) + "  ";
-            string t = seed_out.ToString().PadLeft(6) + "  ";
+            string cout = seed_in.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
+            string t = seed_out.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
             cout += t;
             for (int j = 0; j < DIM_NUM; j++ )
             {
-                t = config.quasi[j].ToString().PadLeft(14) + "  ";
+                t = config.quasi[j].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  ";
                 cout += t;
             }
             Console.WriteLine(cout);
@@ -714,12 +715,12 @@ internal static class Program
             long seed_in = config.seed;
             int res = SobolSampler.i8_sobol ( DIM_NUM, ref config );
             long seed_out = config.seed;
-            string cout = seed_in.ToString().PadLeft(6) + "  ";
-            string t = seed_out.ToString().PadLeft(6) + "  ";
+            string cout = seed_in.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
+            string t = seed_out.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
             cout += t;
             for (int j = 0; j < DIM_NUM; j++ )
             {
-                t = config.quasi[j].ToString().PadLeft(14) + "  ";
+                t = config.quasi[j].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  ";
                 cout += t;
             }
             Console.WriteLine(cout);

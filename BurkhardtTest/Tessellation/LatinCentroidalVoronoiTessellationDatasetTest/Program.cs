@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Sampling;
 using Burkardt.SolveNS;
 using Burkardt.Tessellation;
@@ -103,9 +104,8 @@ internal static class Program
         int batch;
         double cvt_energy = 0;
         double cvt_it_diff = 0;
-        int cvt_it;
         int cvt_it_num;
-        bool debug = true;
+        const bool debug = true;
         int dim_num;
         string input_file_name = "";
         int init;
@@ -114,14 +114,11 @@ internal static class Program
         int lat_it;
         int lat_it_num;
         int n;
-        int n_total;
         string output_file_name = "";
         double[] r;
-        bool reset;
         int sample;
         int sample_num;
         string sample_string;
-        int seed;
         int seed_init;
         RegionData rdata = new();
         LCVData ldata = new();
@@ -264,7 +261,7 @@ internal static class Program
                 return;
         }
 
-        seed = seed_init;
+        int seed = seed_init;
 
         Console.WriteLine("");
         Console.WriteLine("  INIT is the method of initializing the data:");
@@ -613,9 +610,9 @@ internal static class Program
                 r = typeMethods.r8table_data_read(input_file_name, dim_num, n);
                 break;
             default:
-                n_total = n;
+                int n_total = n;
                 r = new double[dim_num * n];
-                reset = true;
+                bool reset = true;
 
                 Region.region_sampler(ref rdata, dim_num, n, n_total, ref r, init, reset, ref seed);
                 break;
@@ -641,6 +638,7 @@ internal static class Program
                     break;
             }
 
+            int cvt_it;
             for (cvt_it = 1; cvt_it <= cvt_it_num; cvt_it++)
             {
                 LatinCentroidalVoronoi.cvt_iteration(ref ldata, dim_num, n, ref r, sample_num, sample, ref seed,
@@ -649,8 +647,8 @@ internal static class Program
                 switch (debug)
                 {
                     case true:
-                        Console.WriteLine("  " + cvt_it.ToString().PadLeft(8)
-                                               + "  " + cvt_it_diff.ToString().PadLeft(14) + "");
+                        Console.WriteLine("  " + cvt_it.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                               + "  " + cvt_it_diff.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                         break;
                 }
             }
@@ -668,9 +666,9 @@ internal static class Program
 
             lat_energy = Cluster.cluster_energy(ref rdata, dim_num, n, r, sample_num, sample, ref seed);
 
-            Console.WriteLine("  " + lat_it.ToString().PadLeft(8)
-                                   + "  " + cvt_energy.ToString().PadLeft(14)
-                                   + "  " + lat_energy.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + lat_it.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + cvt_energy.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + lat_energy.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         //

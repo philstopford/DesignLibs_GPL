@@ -78,39 +78,29 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 10;
-        int DIM_NUM = 2;
+        const int N = 10;
+        const int DIM_NUM = 2;
 
-        int batch;
         double energy = 0;
-        int init;
-        string init_string;
         double it_diff = 0;
-        int it_fixed;
-        int it_max;
         int it_num = 0;
         double[] r = new double[DIM_NUM * N];
-        int sample;
-        int sample_num;
-        string sample_string;
-        int seed;
-        int seed_init;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
         Console.WriteLine("  CVT computes a Centroidal Voronoi Tessellation.");
 
-        batch = 1000;
-        init = 0;
-        init_string = "uniform";
-        it_max = 40;
-        it_fixed = 1;
-        sample = 0;
-        sample_num = 10000;
-        sample_string = "uniform";
-        seed = 123456789;
+        const int batch = 1000;
+        const int init = 0;
+        const string init_string = "uniform";
+        const int it_max = 40;
+        const int it_fixed = 1;
+        const int sample = 0;
+        const int sample_num = 10000;
+        const string sample_string = "uniform";
+        int seed = 123456789;
 
-        seed_init = seed;
+        int seed_init = seed;
 
         CVTHaltonData data = new(DIM_NUM);
 
@@ -157,40 +147,30 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 10;
-        int DIM_NUM = 2;
+        const int N = 10;
+        const int DIM_NUM = 2;
 
-        int batch;
         double energy = 0;
-        int init;
-        string init_string;
         double it_diff = 0;
-        int it_fixed;
-        int it_max;
         int it_num = 0;
         double[] r = new double[DIM_NUM * N];
-        int sample;
-        int sample_num;
-        string sample_string;
-        int seed;
-        int seed_init;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02");
         Console.WriteLine("  CVT computes a Centroidal Voronoi Tessellation.");
         Console.WriteLine("  Repeat test 1, but with twice the number of iterations.");
 
-        batch = 1000;
-        init = 0;
-        init_string = "uniform";
-        it_max = 80;
-        it_fixed = 1;
-        sample = 0;
-        sample_num = 10000;
-        sample_string = "uniform";
-        seed = 123456789;
+        const int batch = 1000;
+        const int init = 0;
+        const string init_string = "uniform";
+        const int it_max = 80;
+        const int it_fixed = 1;
+        const int sample = 0;
+        const int sample_num = 10000;
+        const string sample_string = "uniform";
+        int seed = 123456789;
 
-        seed_init = seed;
+        int seed_init = seed;
 
         CVTHaltonData data = new(DIM_NUM);
 
@@ -237,40 +217,30 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 10;
-        int DIM_NUM = 2;
+        const int N = 10;
+        const int DIM_NUM = 2;
 
-        int batch;
         double energy = 0;
-        int init;
-        string init_string;
         double it_diff = 0;
-        int it_fixed;
-        int it_max;
         int it_num = 0;
         double[] r = new double[DIM_NUM * N];
-        int sample;
-        int sample_num;
-        string sample_string;
-        int seed;
-        int seed_init;
 
         Console.WriteLine("");
         Console.WriteLine("TEST03");
         Console.WriteLine("  CVT computes a Centroidal Voronoi Tessellation.");
         Console.WriteLine("  Repeat test 1, but with 100 times the sample points.");
 
-        batch = 1000;
-        init = 0;
-        init_string = "uniform";
-        it_max = 40;
-        it_fixed = 1;
-        sample = 0;
-        sample_num = 1000000;
-        sample_string = "uniform";
-        seed = 123456789;
+        const int batch = 1000;
+        const int init = 0;
+        const string init_string = "uniform";
+        const int it_max = 40;
+        const int it_fixed = 1;
+        const int sample = 0;
+        const int sample_num = 1000000;
+        const string sample_string = "uniform";
+        int seed = 123456789;
 
-        seed_init = seed;
+        int seed_init = seed;
 
         CVTHaltonData data = new(DIM_NUM);
 
@@ -317,40 +287,30 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 10;
-        int DIM_NUM = 2;
+        const int N = 10;
+        const int DIM_NUM = 2;
 
-        int batch;
         double energy = 0;
-        int init;
-        string init_string;
         double it_diff = 0;
-        int it_fixed;
-        int it_max;
         int it_num = 0;
         double[] r = new double[DIM_NUM * N];
-        int sample;
-        int sample_num;
-        string sample_string;
-        int seed;
-        int seed_init;
 
         Console.WriteLine("");
         Console.WriteLine("TEST04");
         Console.WriteLine("  CVT computes a Centroidal Voronoi Tessellation.");
         Console.WriteLine("  Repeat test 1, but with Halton sampling.");
 
-        batch = 1000;
-        init = 0;
-        init_string = "uniform";
-        it_max = 40;
-        it_fixed = 1;
-        sample = 1;
-        sample_num = 10000;
-        sample_string = "halton";
-        seed = 123456789;
+        const int batch = 1000;
+        const int init = 0;
+        const string init_string = "uniform";
+        const int it_max = 40;
+        const int it_fixed = 1;
+        const int sample = 1;
+        const int sample_num = 10000;
+        const string sample_string = "halton";
+        int seed = 123456789;
 
-        seed_init = seed;
+        int seed_init = seed;
 
         CVTHaltonData data = new(DIM_NUM);
 
@@ -397,40 +357,30 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 10;
-        int DIM_NUM = 2;
+        const int N = 10;
+        const int DIM_NUM = 2;
 
-        int batch;
         double energy = 0;
-        int init;
-        string init_string;
         double it_diff = 0;
-        int it_fixed;
-        int it_max;
         int it_num = 0;
         double[] r = new double[DIM_NUM * N];
-        int sample;
-        int sample_num;
-        string sample_string;
-        int seed;
-        int seed_init;
 
         Console.WriteLine("");
         Console.WriteLine("TEST05");
         Console.WriteLine("  CVT computes a Centroidal Voronoi Tessellation.");
         Console.WriteLine("  Repeat test 1, but with grid sampling.");
 
-        batch = 1000;
-        init = 0;
-        init_string = "uniform";
-        it_max = 40;
-        it_fixed = 1;
-        sample = 2;
-        sample_num = 10000;
-        sample_string = "grid";
-        seed = 123456789;
+        const int batch = 1000;
+        const int init = 0;
+        const string init_string = "uniform";
+        const int it_max = 40;
+        const int it_fixed = 1;
+        const int sample = 2;
+        const int sample_num = 10000;
+        const string sample_string = "grid";
+        int seed = 123456789;
 
-        seed_init = seed;
+        int seed_init = seed;
 
         CVTHaltonData data = new(DIM_NUM);
 
@@ -477,40 +427,30 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 10;
-        int DIM_NUM = 2;
+        const int N = 10;
+        const int DIM_NUM = 2;
 
-        int batch;
         double energy = 0;
-        int init;
-        string init_string;
         double it_diff = 0;
-        int it_fixed;
-        int it_max;
         int it_num = 0;
         double[] r = new double[DIM_NUM * N];
-        int sample;
-        int sample_num;
-        string sample_string;
-        int seed;
-        int seed_init;
 
         Console.WriteLine("");
         Console.WriteLine("TEST06");
         Console.WriteLine("  CVT computes a Centroidal Voronoi Tessellation.");
         Console.WriteLine("  Repeat test 1, but with C++ RANDOM sampling.");
 
-        batch = 1000;
-        init = 0;
-        init_string = "uniform";
-        it_max = 40;
-        it_fixed = 1;
-        sample = -1;
-        sample_num = 10000;
-        sample_string = "random";
-        seed = 123456789;
+        const int batch = 1000;
+        const int init = 0;
+        const string init_string = "uniform";
+        const int it_max = 40;
+        const int it_fixed = 1;
+        const int sample = -1;
+        const int sample_num = 10000;
+        const string sample_string = "random";
+        int seed = 123456789;
 
-        seed_init = seed;
+        int seed_init = seed;
 
         CVTHaltonData data = new(DIM_NUM);
 
@@ -557,40 +497,30 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 10;
-        int DIM_NUM = 2;
+        const int N = 10;
+        const int DIM_NUM = 2;
 
-        int batch;
         double energy = 0;
-        int init;
-        string init_string;
         double it_diff = 0;
-        int it_fixed;
-        int it_max;
         int it_num = 0;
         double[] r = new double[DIM_NUM * N];
-        int sample;
-        int sample_num;
-        string sample_string;
-        int seed;
-        int seed_init;
 
         Console.WriteLine("");
         Console.WriteLine("TEST07");
         Console.WriteLine("  CVT computes a Centroidal Voronoi Tessellation.");
         Console.WriteLine("  Repeat test 1 with a different seed.");
 
-        batch = 1000;
-        init = 0;
-        init_string = "uniform";
-        it_max = 40;
-        it_fixed = 1;
-        sample = 0;
-        sample_num = 10000;
-        sample_string = "uniform";
-        seed = 987654321;
+        const int batch = 1000;
+        const int init = 0;
+        const string init_string = "uniform";
+        const int it_max = 40;
+        const int it_fixed = 1;
+        const int sample = 0;
+        const int sample_num = 10000;
+        const string sample_string = "uniform";
+        int seed = 987654321;
 
-        seed_init = seed;
+        int seed_init = seed;
 
         CVTHaltonData data = new(DIM_NUM);
 
@@ -637,40 +567,30 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 10;
-        int DIM_NUM = 2;
+        const int N = 10;
+        const int DIM_NUM = 2;
 
-        int batch;
         double energy = 0;
-        int init;
-        string init_string;
         double it_diff = 0;
-        int it_fixed;
-        int it_max;
         int it_num = 0;
         double[] r = new double[DIM_NUM * N];
-        int sample;
-        int sample_num;
-        string sample_string;
-        int seed;
-        int seed_init;
 
         Console.WriteLine("");
         Console.WriteLine("TEST08");
         Console.WriteLine("  CVT computes a Centroidal Voronoi Tessellation.");
         Console.WriteLine("  Repeat test 1 with a different batch size.");
 
-        batch = 5;
-        init = 0;
-        init_string = "uniform";
-        it_max = 40;
-        it_fixed = 1;
-        sample = 0;
-        sample_num = 10000;
-        sample_string = "uniform";
-        seed = 123456789;
+        const int batch = 5;
+        const int init = 0;
+        const string init_string = "uniform";
+        const int it_max = 40;
+        const int it_fixed = 1;
+        const int sample = 0;
+        const int sample_num = 10000;
+        const string sample_string = "uniform";
+        int seed = 123456789;
 
-        seed_init = seed;
+        int seed_init = seed;
 
         CVTHaltonData data = new(DIM_NUM);
 
@@ -717,44 +637,33 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 10;
-        int DIM_NUM = 2;
+        const int N = 10;
+        const int DIM_NUM = 2;
 
-        int batch;
         double energy = 0;
-        int init;
-        string init_string;
         double it_diff = 0;
-        int it_fixed;
-        int it_max;
         int it_num = 0;
         double[] r = new double[DIM_NUM * N];
-        int sample;
-        int sample_num;
-        string sample_string;
-        int seed;
-        int seed_init;
 
         Console.WriteLine("");
         Console.WriteLine("TEST09");
         Console.WriteLine("  CVT computes a Centroidal Voronoi Tessellation.");
         Console.WriteLine("  Repeat test 1, but with IT_FIXED = IT_MAX.");
 
-        batch = 1000;
-        init = 0;
-        init_string = "uniform";
-        it_max = 40;
-        it_fixed = it_max;
-        sample = 0;
-        sample_num = 10000;
-        sample_string = "uniform";
-        seed = 123456789;
+        const int batch = 1000;
+        const int init = 0;
+        const string init_string = "uniform";
+        const int it_max = 40;
+        const int sample = 0;
+        const int sample_num = 10000;
+        const string sample_string = "uniform";
+        int seed = 123456789;
 
-        seed_init = seed;
+        int seed_init = seed;
 
         CVTHaltonData data = new(DIM_NUM);
 
-        CentroidalVoronoi.cvt(ref data, DIM_NUM, N, batch, init, sample, sample_num, it_max, it_fixed,
+        CentroidalVoronoi.cvt(ref data, DIM_NUM, N, batch, init, sample, sample_num, it_max, it_max,
             ref seed, ref r, ref it_num, ref it_diff, ref energy);
 
         Console.WriteLine("");
@@ -764,7 +673,7 @@ internal static class Program
         Console.WriteLine("  Current SEED =             " + seed + "");
         Console.WriteLine("  INIT =                    \"" + init_string + "\".");
         Console.WriteLine("  Max iterations IT_MAX =    " + it_max + "");
-        Console.WriteLine("  IT_FIXED (fixed samples) = " + it_fixed + "");
+        Console.WriteLine("  IT_FIXED (fixed samples) = " + it_max + "");
         Console.WriteLine("  Iterations IT_NUM =        " + it_num + "");
         Console.WriteLine("  Difference IT_DIFF =       " + it_diff + "");
         Console.WriteLine("  CVT ENERGY =               " + energy + "");
@@ -797,40 +706,30 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 100;
-        int DIM_NUM = 3;
+        const int N = 100;
+        const int DIM_NUM = 3;
 
-        int batch;
         double energy = 0;
-        int init;
-        string init_string;
         double it_diff = 0;
-        int it_fixed;
-        int it_max;
         int it_num = 0;
         double[] r = new double[DIM_NUM * N];
-        int sample;
-        int sample_num;
-        string sample_string;
-        int seed;
-        int seed_init;
 
         Console.WriteLine("");
         Console.WriteLine("TEST10");
         Console.WriteLine("  CVT computes a Centroidal Voronoi Tessellation.");
         Console.WriteLine("  Compute 100 points in 3D.");
 
-        batch = 1000;
-        init = 0;
-        init_string = "uniform";
-        it_max = 40;
-        it_fixed = 1;
-        sample = 0;
-        sample_num = 10000;
-        sample_string = "uniform";
-        seed = 123456789;
+        const int batch = 1000;
+        const int init = 0;
+        const string init_string = "uniform";
+        const int it_max = 40;
+        const int it_fixed = 1;
+        const int sample = 0;
+        const int sample_num = 10000;
+        const string sample_string = "uniform";
+        int seed = 123456789;
 
-        seed_init = seed;
+        int seed_init = seed;
 
         CVTHaltonData data = new(DIM_NUM);
 
@@ -887,27 +786,14 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 16;
-        int DIM_NUM = 2;
+        const int N = 16;
+        const int DIM_NUM = 2;
 
-        int batch;
         double energy = 0;
-        int i;
-        int init;
-        string init_string;
         double it_diff = 0;
-        int it_fixed;
-        int it_max;
         int it_num = 0;
         int j;
-        int ngrid;
         double[] r = new double[DIM_NUM * N];
-        int rank;
-        int sample;
-        int sample_num;
-        string sample_string;
-        int seed;
-        int seed_init;
         int[] tuple = new int[DIM_NUM];
 
         Console.WriteLine("");
@@ -917,22 +803,22 @@ internal static class Program
         Console.WriteLine("  In this test, we initialize the generators to");
         Console.WriteLine("  grid points; this is an unstable CVT solution.");
 
-        batch = 1000;
-        init = 4;
-        init_string = "user initialization";
-        it_max = 40;
-        it_fixed = 1;
-        sample = 0;
-        sample_num = 1000;
-        sample_string = "uniform";
-        seed = 123456789;
+        const int batch = 1000;
+        const int init = 4;
+        const string init_string = "user initialization";
+        const int it_max = 40;
+        const int it_fixed = 1;
+        const int sample = 0;
+        const int sample_num = 1000;
+        const string sample_string = "uniform";
+        int seed = 123456789;
 
-        seed_init = seed;
+        int seed_init = seed;
         //
         //  Initialize the tuple generator.
         //
-        rank = -1;
-        ngrid = 4;
+        int rank = -1;
+        const int ngrid = 4;
 
         CVTHaltonData data = new(DIM_NUM);
 
@@ -944,6 +830,7 @@ internal static class Program
         {
             rank = j;
             BTuple.tuple_next_fast(ref data.tupledata, ngrid, DIM_NUM, rank, ref tuple);
+            int i;
             for (i = 0; i < DIM_NUM; i++)
             {
                 r[i + j * DIM_NUM] = (2 * tuple[i] - 1)
@@ -997,23 +884,13 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 10;
-        int DIM_NUM = 2;
+        const int N = 10;
+        const int DIM_NUM = 2;
 
-        int batch;
         double energy = 0;
-        int init;
-        string init_string;
         double it_diff = 0;
-        int it_fixed;
-        int it_max;
         int it_num = 0;
         double[] r = new double[DIM_NUM * N];
-        int sample;
-        int sample_num;
-        string sample_string;
-        int seed;
-        int seed_init;
 
         Console.WriteLine("");
         Console.WriteLine("TEST12");
@@ -1060,17 +937,17 @@ internal static class Program
         //
         //  Run #1.
         //
-        batch = 1000;
-        init = -1;
-        init_string = "random";
-        it_max = 0;
-        it_fixed = 1;
-        sample = 0;
-        sample_num = 10000;
-        sample_string = "uniform";
-        seed = 100000;
+        int batch = 1000;
+        int init = -1;
+        string init_string = "random";
+        int it_max = 0;
+        int it_fixed = 1;
+        int sample = 0;
+        int sample_num = 10000;
+        string sample_string = "uniform";
+        int seed = 100000;
 
-        seed_init = seed;
+        int seed_init = seed;
 
         CVTHaltonData data = new(DIM_NUM);
 
@@ -1191,24 +1068,14 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 100;
-        int DIM_NUM = 2;
+        const int N = 100;
+        const int DIM_NUM = 2;
 
-        int batch;
         double energy = 0;
-        string file_out_name = "cvt_circle.txt";
-        int init;
-        string init_string;
+        const string file_out_name = "cvt_circle.txt";
         double it_diff = 0;
-        int it_fixed;
-        int it_max;
         int it_num = 0;
         double[] r = new double[DIM_NUM * N];
-        int sample;
-        int sample_num;
-        string sample_string;
-        int seed;
-        int seed_init;
 
         Console.WriteLine("");
         Console.WriteLine("TEST13");
@@ -1217,17 +1084,17 @@ internal static class Program
         Console.WriteLine("  which allows the user to define the geometry and");
         Console.WriteLine("  density implicitly, by returning sample points.");
 
-        batch = 1000;
-        init = 3;
-        init_string = "user";
-        it_max = 40;
-        it_fixed = 1;
-        sample = 3;
-        sample_num = 10000;
-        sample_string = "user";
-        seed = 123456789;
+        const int batch = 1000;
+        const int init = 3;
+        string init_string = "user";
+        const int it_max = 40;
+        const int it_fixed = 1;
+        const int sample = 3;
+        const int sample_num = 10000;
+        const string sample_string = "user";
+        int seed = 123456789;
 
-        seed_init = seed;
+        int seed_init = seed;
 
         CVTHaltonData data = new(DIM_NUM);
 
@@ -1274,39 +1141,29 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 10;
-        int DIM_NUM = 1;
+        const int N = 10;
+        const int DIM_NUM = 1;
 
-        int batch;
         double energy = 0;
-        int init;
-        string init_string;
         double it_diff = 0;
-        int it_fixed;
-        int it_max;
         int it_num = 0;
-        double[] r = new double[DIM_NUM * N];
-        int sample;
-        int sample_num;
-        string sample_string;
-        int seed;
-        int seed_init;
+        double[] r = new double[N];
 
         Console.WriteLine("");
         Console.WriteLine("TEST14");
         Console.WriteLine("  Generate a CVT in the interval [0,1] using 10 points.");
 
-        batch = 10000;
-        init = 0;
-        init_string = "uniform";
-        it_max = 40;
-        it_fixed = 1;
-        sample = 0;
-        sample_num = 10000;
-        sample_string = "uniform";
-        seed = 123456789;
+        const int batch = 10000;
+        const int init = 0;
+        const string init_string = "uniform";
+        const int it_max = 40;
+        const int it_fixed = 1;
+        const int sample = 0;
+        const int sample_num = 10000;
+        const string sample_string = "uniform";
+        int seed = 123456789;
 
-        seed_init = seed;
+        int seed_init = seed;
 
         CVTHaltonData data = new(DIM_NUM);
 

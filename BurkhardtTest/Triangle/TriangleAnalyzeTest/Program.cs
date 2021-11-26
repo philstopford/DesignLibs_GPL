@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Table;
 using Burkardt.Types;
 
@@ -37,23 +38,14 @@ internal static class Program
         //
     {
         double[] angles = new double[3];
-        double area;
-        double[] centroid;
         double[] circum_center = new double[2];
         double circum_radius = 0;
-        int dim_num;
-        double[] edge_length;
         bool flag = false;
         int i;
         double[] in_center = new double[2];
         double in_radius = 0;
         string node_filename;
-        int node_num;
-        double[] node_xy;
-        int orientation;
         double[] ortho_center = new double[2];
-        double r8_pi = 3.141592653589793;
-        double quality;
 
         Console.WriteLine("");
         Console.WriteLine("TRIANGLE_ANALYZE:");
@@ -74,8 +66,8 @@ internal static class Program
         //  Read the node data.
         //
         TableHeader h = typeMethods.r8mat_header_read(node_filename);
-        dim_num = h.m;
-        node_num = h.n;
+        int dim_num = h.m;
+        int node_num = h.n;
 
         Console.WriteLine("");
         Console.WriteLine("  Read the header of \"" + node_filename + "\".");
@@ -99,7 +91,7 @@ internal static class Program
             return;
         }
 
-        node_xy = typeMethods.r8mat_data_read(node_filename, dim_num, node_num);
+        double[] node_xy = typeMethods.r8mat_data_read(node_filename, dim_num, node_num);
 
         Console.WriteLine("");
         Console.WriteLine("  Read the data in \"" + node_filename + "\".");
@@ -114,26 +106,26 @@ internal static class Program
 
         for (i = 0; i < 3; i++)
         {
-            angles[i] = angles[i] * 180.0 / r8_pi;
+            angles[i] = angles[i] * 180.0 / Math.PI;
         }
 
         typeMethods.r8vec_print(3, angles, "  ANGLES (degrees):");
         //
         //  AREA
         //
-        area = typeMethods.triangle_area_2d(node_xy);
+        double area = typeMethods.triangle_area_2d(node_xy);
 
         Console.WriteLine("");
         Console.WriteLine("  AREA: " + area + "");
         //
         //  CENTROID
         //
-        centroid = typeMethods.triangle_centroid_2d(node_xy);
+        double[] centroid = typeMethods.triangle_centroid_2d(node_xy);
 
         Console.WriteLine("");
         Console.WriteLine("  CENTROID: "
-                          + "  " + centroid[0].ToString().PadLeft(14)
-                          + "  " + centroid[1].ToString().PadLeft(14) + "");
+                          + "  " + centroid[0].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + centroid[1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         //
         //  CIRCUM_CIRCLE
         //
@@ -142,12 +134,12 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  CIRCUM_RADIUS: " + circum_radius + "");
         Console.WriteLine("  CIRCUM_CENTER: "
-                          + "  " + circum_center[0].ToString().PadLeft(14)
-                          + "  " + circum_center[1].ToString().PadLeft(14) + "");
+                          + "  " + circum_center[0].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + circum_center[1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         //
         //  EDGE LENGTHS
         //
-        edge_length = typeMethods.triangle_edge_length_2d(node_xy);
+        double[] edge_length = typeMethods.triangle_edge_length_2d(node_xy);
 
         typeMethods.r8vec_print(3, edge_length, "  EDGE_LENGTHS:");
         //
@@ -158,12 +150,12 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  IN_RADIUS: " + in_radius + "");
         Console.WriteLine("  IN_CENTER: "
-                          + "  " + in_center[0].ToString().PadLeft(14)
-                          + "  " + in_center[1].ToString().PadLeft(14) + "");
+                          + "  " + in_center[0].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + in_center[1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         //
         //  ORIENTATION
         //
-        orientation = typeMethods.triangle_orientation_2d(node_xy);
+        int orientation = typeMethods.triangle_orientation_2d(node_xy);
 
         Console.WriteLine("");
         switch (orientation)
@@ -196,15 +188,15 @@ internal static class Program
             default:
                 Console.WriteLine("");
                 Console.WriteLine("  ORTHO_CENTER: "
-                                  + "  " + ortho_center[0].ToString().PadLeft(14)
-                                  + "  " + ortho_center[1].ToString().PadLeft(14) + "");
+                                  + "  " + ortho_center[0].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                  + "  " + ortho_center[1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                 break;
         }
 
         //
         //  QUALITY
         //
-        quality = typeMethods.triangle_quality_2d(node_xy);
+        double quality = typeMethods.triangle_quality_2d(node_xy);
 
         Console.WriteLine("");
         Console.WriteLine("  QUALITY: " + quality + "");

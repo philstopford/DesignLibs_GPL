@@ -66,30 +66,24 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
-        double h;
-        string header = "test01";
-        int it_num;
-        int n = 25;
-        int seed;
-        double[] x;
+        const string header = "test01";
+        const int n = 25;
 
         Console.WriteLine("");
         Console.WriteLine("LINE_CVT_LLOYD_TEST01:");
         Console.WriteLine("  Test the unconstrained computation.");
 
-        a = 0.0;
-        b = 1.0;
-        it_num = 200;
-        seed = 123456789;
-        x = UniformRNG.r8vec_uniform_ab_new(n, a, b, ref seed);
+        const double a = 0.0;
+        const double b = 1.0;
+        const int it_num = 200;
+        int seed = 123456789;
+        double[] x = UniformRNG.r8vec_uniform_ab_new(n, a, b, ref seed);
 
         Console.WriteLine("");
         Console.WriteLine("  Use " + n + " points in the interval [" + a + "," + b + "]");
         Console.WriteLine("  Number of iterations to take is " + it_num + "");
         Console.WriteLine("  Call this calculation '" + header + "'");
-        h = (b - a) / (n - 1);
+        const double h = (b - a) / (n - 1);
         Console.WriteLine("  Expect a uniform spacing of " + h + "");
 
         typeMethods.r8vec_print(n, x, "  Initial generators:");
@@ -120,30 +114,24 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
-        double h;
-        string header = "test02";
-        int it_num;
-        int n = 25;
-        int seed;
-        double[] x;
+        const string header = "test02";
+        const int n = 25;
 
         Console.WriteLine("");
         Console.WriteLine("LINE_CVT_LLOYD_TEST02:");
         Console.WriteLine("  Test the constrained computation.");
 
-        a = 0.0;
-        b = 1.0;
-        it_num = 200;
-        seed = 123456789;
-        x = UniformRNG.r8vec_uniform_ab_new(n, a, b, ref seed);
+        const double a = 0.0;
+        const double b = 1.0;
+        const int it_num = 200;
+        int seed = 123456789;
+        double[] x = UniformRNG.r8vec_uniform_ab_new(n, a, b, ref seed);
 
         Console.WriteLine("");
         Console.WriteLine("  Use " + n + " points in the interval [" + a + "," + b + "]");
         Console.WriteLine("  Number of iterations to take is " + it_num + "");
         Console.WriteLine("  Call this calculation '" + header + "'");
-        h = (b - a) / n;
+        const double h = (b - a) / n;
         Console.WriteLine("  Expect a uniform spacing of " + h + "");
 
         typeMethods.r8vec_print(n, x, "  Initial generators:");
@@ -174,32 +162,26 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
-        double h;
-        string header = "test03";
-        int it_num;
-        int n = 25;
-        int seed;
-        double[] x;
+        const string header = "test03";
+        const int n = 25;
 
         Console.WriteLine("");
         Console.WriteLine("LINE_CVT_LLOYD_TEST03:");
         Console.WriteLine("  Test the unconstrained computation.");
         Console.WriteLine("  SORT the random initial values before use.");
 
-        a = 0.0;
-        b = 1.0;
-        it_num = 200;
-        seed = 123456789;
-        x = UniformRNG.r8vec_uniform_ab_new(n, a, b, ref seed);
+        const double a = 0.0;
+        const double b = 1.0;
+        const int it_num = 200;
+        int seed = 123456789;
+        double[] x = UniformRNG.r8vec_uniform_ab_new(n, a, b, ref seed);
         typeMethods.r8vec_sort_insert_a(n, ref x);
 
         Console.WriteLine("");
         Console.WriteLine("  Use " + n + " points in the interval [" + a + "," + b + "]");
         Console.WriteLine("  Number of iterations to take is " + it_num + "");
         Console.WriteLine("  Call this calculation '" + header + "'");
-        h = (b - a) / (n - 1);
+        double h = (b - a) / (n - 1);
         Console.WriteLine("  Expect a uniform spacing of " + h + "");
 
         typeMethods.r8vec_print(n, x, "  Initial generators:");
@@ -230,32 +212,26 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
-        double h;
         string header = "test04";
-        int it_num;
-        int n = 25;
-        int seed;
-        double[] x;
+        const int n = 25;
 
         Console.WriteLine("");
         Console.WriteLine("LINE_CVT_LLOYD_TEST04:");
         Console.WriteLine("  Test the constrained computation.");
         Console.WriteLine("  SORT the initial points before use.");
 
-        a = 0.0;
-        b = 1.0;
-        it_num = 200;
-        seed = 123456789;
-        x = UniformRNG.r8vec_uniform_ab_new(n, a, b, ref seed);
+        const double a = 0.0;
+        const double b = 1.0;
+        const int it_num = 200;
+        int seed = 123456789;
+        double[] x = UniformRNG.r8vec_uniform_ab_new(n, a, b, ref seed);
         typeMethods.r8vec_sort_insert_a(n, ref x);
 
         Console.WriteLine("");
         Console.WriteLine("  Use " + n + " points in the interval [" + a + "," + b + "]");
         Console.WriteLine("  Number of iterations to take is " + it_num + "");
         Console.WriteLine("  Call this calculation '" + header + "'");
-        h = (b - a) / n;
+        const double h = (b - a) / n;
         Console.WriteLine("  Expect a uniform spacing of " + h + "");
 
         typeMethods.r8vec_print(n, x, "  Initial generators:");

@@ -2,7 +2,7 @@
 using Burkardt.Graph;
 using Burkardt.PolynomialNS;
 using Burkardt.Types;
-
+using static System.Globalization.CultureInfo;
 using Integrals = Burkardt.TriangleNS.Integrals;
 
 namespace TriangleIntegralsTest;
@@ -102,9 +102,9 @@ internal static class Program
         for (k = 1; k <= 20; k++)
         {
             typeMethods.i4_to_pascal(k, ref i, ref j);
-            Console.WriteLine("  " + k.ToString().PadLeft(4)
-                                   + "    " + i.ToString().PadLeft(4)
-                                   + "  " + j.ToString().PadLeft(4) + "");
+            Console.WriteLine("  " + k.ToString(InvariantCulture).PadLeft(4)
+                                   + "    " + i.ToString(InvariantCulture).PadLeft(4)
+                                   + "  " + j.ToString(InvariantCulture).PadLeft(4) + "");
         }
     }
 
@@ -129,7 +129,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int d;
         int k;
 
         Console.WriteLine("");
@@ -142,9 +141,9 @@ internal static class Program
 
         for (k = 1; k <= 20; k++)
         {
-            d = typeMethods.i4_to_pascal_degree(k);
-            Console.WriteLine("  " + k.ToString().PadLeft(4)
-                                   + "    " + d.ToString().PadLeft(4) + "");
+            int d = typeMethods.i4_to_pascal_degree(k);
+            Console.WriteLine("  " + k.ToString(InvariantCulture).PadLeft(4)
+                                   + "    " + d.ToString(InvariantCulture).PadLeft(4) + "");
         }
     }
 
@@ -170,9 +169,6 @@ internal static class Program
         //
     {
         int d;
-        int i;
-        int j;
-        int k;
 
         Console.WriteLine("");
         Console.WriteLine("PASCAL_TO_I4_TEST");
@@ -184,13 +180,14 @@ internal static class Program
 
         for (d = 0; d <= 4; d++)
         {
+            int i;
             for (i = d; 0 <= i; i--)
             {
-                j = d - i;
-                k = typeMethods.pascal_to_i4(i, j);
-                Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                       + "  " + j.ToString().PadLeft(4)
-                                       + "    " + k.ToString().PadLeft(4) + "");
+                int j = d - i;
+                int k = typeMethods.pascal_to_i4(i, j);
+                Console.WriteLine("  " + i.ToString(InvariantCulture).PadLeft(4)
+                                       + "  " + j.ToString(InvariantCulture).PadLeft(4)
+                                       + "    " + k.ToString(InvariantCulture).PadLeft(4) + "");
             }
 
             Console.WriteLine("");
@@ -218,21 +215,18 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int n1 = 2;
-        int n4 = 3;
+        const int n1 = 2;
+        const int n4 = 3;
 
-        int d1 = 1;
-        int d2;
-        int d3 = 2;
-        int d4 = 2;
-        int d5;
-        int d6 = 6;
+        const int d1 = 1;
+        const int d3 = 2;
+        const int d4 = 2;
+        const int d6 = 6;
 
         double[] p1 =  {
                 1.0, 2.0, 3.0
             }
             ;
-        double[] p2;
         double[] p3 =  {
                 1.0, 4.0, 6.0, 4.0, 12.0, 9.0
             }
@@ -241,7 +235,6 @@ internal static class Program
                 1.0, -2.0, 3.0, -4.0, +5.0, -6.0
             }
             ;
-        double[] p5;
         double[] p6 =  {
                 1.0,
                 -6.0, 9.0,
@@ -264,8 +257,8 @@ internal static class Program
         Console.WriteLine("");
         typeMethods.poly_print(d1, ref p1, "  p1(x,y)");
 
-        d2 = n1 * d1;
-        p2 = typeMethods.poly_power(d1, p1, n1);
+        int d2 = n1 * d1;
+        double[] p2 = typeMethods.poly_power(d1, p1, n1);
         Console.WriteLine("");
         typeMethods.poly_print(d2, ref p2, "  p2(x,y) = p1(x,y)^2");
 
@@ -285,8 +278,8 @@ internal static class Program
         Console.WriteLine("");
         typeMethods.poly_print(d4, ref p4, "  p4(x,y)");
 
-        d5 = n4 * d4;
-        p5 = typeMethods.poly_power(d4, p4, n4);
+        const int d5 = n4 * d4;
+        double[] p5 = typeMethods.poly_power(d4, p4, n4);
         Console.WriteLine("");
         typeMethods.poly_print(d5, ref p5, "  p5(x,y) = p1(x,y)^3");
 
@@ -315,21 +308,18 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int n1 = 2;
-        int n4 = 3;
+        const int n1 = 2;
+        const int n4 = 3;
 
-        int d1 = 1;
-        int d2 = d1 * n1;
-        int d3 = 2;
-        int d4 = 1;
-        int d5 = d4 * n4;
-        int d6 = 3;
+        const int d1 = 1;
+        const int d3 = 2;
+        const int d4 = 1;
+        const int d6 = 3;
 
         double[] p1 =  {
                 1.0, 2.0, 3.0
             }
             ;
-        double[] p2;
         double[] p3 =  {
                 1.0, 4.0, 6.0, 4.0, 12.0, 9.0
             }
@@ -338,7 +328,6 @@ internal static class Program
                 2.0, -1.0, 3.0
             }
             ;
-        double[] p5;
         double[] p6 =  {
                 8.0, -12.0, 36.0, 6.0, -36.0, 54.0, -1.0, 9.0, -27.0, 27.0
             }
@@ -356,9 +345,9 @@ internal static class Program
         Console.WriteLine("");
         typeMethods.poly_print(d1, ref p1, "  p1(x,y)");
 
-        p2 = typeMethods.poly_power_linear(d1, p1, n1);
+        double[] p2 = typeMethods.poly_power_linear(d1, p1, n1);
         Console.WriteLine("");
-        typeMethods.poly_print(d2, ref p2, "  p2(x,y) = p1(x,y)^n");
+        typeMethods.poly_print(n1, ref p2, "  p2(x,y) = p1(x,y)^n");
 
         Console.WriteLine("");
         typeMethods.poly_print(d3, ref p3, "  Correct answer");
@@ -371,9 +360,9 @@ internal static class Program
         Console.WriteLine("");
         typeMethods.poly_print(d4, ref p4, "  p4(x,y)");
 
-        p5 = typeMethods.poly_power_linear(d4, p4, n4);
+        double[] p5 = typeMethods.poly_power_linear(d4, p4, n4);
         Console.WriteLine("");
-        typeMethods.poly_print(d5, ref p5, "  p5(x,y) = p4(x,y)^3");
+        typeMethods.poly_print(n4, ref p5, "  p5(x,y) = p4(x,y)^3");
 
         Console.WriteLine("");
         typeMethods.poly_print(d6, ref p6, "  Correct answer");
@@ -476,15 +465,13 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int d1 = 1;
-        int d2 = 1;
-        int d3;
-        int d4 = d1 + d2;
+        const int d1 = 1;
+        const int d2 = 1;
+        const int d4 = d1 + d2;
 
-        int d5 = 2;
-        int d6 = 2;
-        int d7;
-        int d8 = d5 + d6;
+        const int d5 = 2;
+        const int d6 = 2;
+        const int d8 = d5 + d6;
 
         double[] p1 =  {
                 1.0, 2.0, 3.0
@@ -494,7 +481,6 @@ internal static class Program
                 4.0, 5.0, 0.0
             }
             ;
-        double[] p3;
         double[] p4 =  {
                 4.0, 13.0, 12.0, 10.0, 15.0, 0.0
             }
@@ -507,7 +493,6 @@ internal static class Program
                 7.0, 0.0, 0.0, 3.0, 0.0, 0.0
             }
             ;
-        double[] p7;
         double[] p8 =  {
                 7.0,
                 -14.0, 21.0,
@@ -532,8 +517,8 @@ internal static class Program
         Console.WriteLine("");
         typeMethods.poly_print(d2, ref p2, "  p2(x,y)");
 
-        d3 = d1 + d2;
-        p3 = typeMethods.poly_product(d1, p1, d2, p2);
+        int d3 = d1 + d2;
+        double[] p3 = typeMethods.poly_product(d1, p1, d2, p2);
         Console.WriteLine("");
         typeMethods.poly_print(d3, ref p3, "  p3(x,y) = p1(x,y) * p2(x,y)");
 
@@ -555,8 +540,8 @@ internal static class Program
         Console.WriteLine("");
         typeMethods.poly_print(d6, ref p6, "  p6(x,y)");
 
-        d7 = d5 + d6;
-        p7 = typeMethods.poly_product(d5, p5, d6, p6);
+        int d7 = d5 + d6;
+        double[] p7 = typeMethods.poly_product(d5, p5, d6, p6);
         Console.WriteLine("");
         typeMethods.poly_print(d7, ref p7, "  p7(x,y) = p5(x,y) * p6(x,y)");
 
@@ -585,28 +570,26 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int M = 6;
-        int N = 4;
+        const int M = 6;
+        const int N = 4;
 
         double[] a = new double[M * N];
-        int i;
         int j;
-        int m = M;
-        int n = N;
 
         Console.WriteLine("");
         Console.WriteLine("R8MAT_PRINT_TEST");
         Console.WriteLine("  R8MAT_PRINT prints an R8MAT.");
 
-        for (j = 0; j < n; j++)
+        for (j = 0; j < N; j++)
         {
-            for (i = 0; i < m; i++)
+            int i;
+            for (i = 0; i < M; i++)
             {
-                a[i + j * m] = (i + 1) * 10 + j + 1;
+                a[i + j * M] = (i + 1) * 10 + j + 1;
             }
         }
 
-        typeMethods.r8mat_print(m, n, a, "  The R8MAT:");
+        typeMethods.r8mat_print(M, N, a, "  The R8MAT:");
     }
 
     private static void r8mat_print_some_test()
@@ -630,28 +613,26 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int M = 6;
-        int N = 4;
+        const int M = 6;
+        const int N = 4;
 
         double[] a = new double[M * N];
-        int i;
         int j;
-        int m = M;
-        int n = N;
 
         Console.WriteLine("");
         Console.WriteLine("R8MAT_PRINT_SOME_TEST");
         Console.WriteLine("  R8MAT_PRINT_SOME prints some of an R8MAT.");
 
-        for (j = 0; j < n; j++)
+        for (j = 0; j < N; j++)
         {
-            for (i = 0; i < m; i++)
+            int i;
+            for (i = 0; i < M; i++)
             {
-                a[i + j * m] = (i + 1) * 10 + j + 1;
+                a[i + j * M] = (i + 1) * 10 + j + 1;
             }
         }
 
-        typeMethods.r8mat_print_some(m, n, a, 2, 1, 4, 2, "  The R8MAT, rows 2:4, cols 1:2:");
+        typeMethods.r8mat_print_some(M, N, a, 2, 1, 4, 2, "  The R8MAT, rows 2:4, cols 1:2:");
     }
 
     private static void rs_to_xy_map_test()
@@ -694,8 +675,6 @@ internal static class Program
                 0.0, 1.0
             }
             ;
-        double x;
-        double y;
 
         Console.WriteLine("");
         Console.WriteLine("RS_TO_XY_MAP_TEST:");
@@ -721,8 +700,8 @@ internal static class Program
         Console.WriteLine("");
         for (j = 0; j < 3; j++)
         {
-            x = a + b * tr[0 + j * 2] + c * tr[1 + j * 2];
-            y = d + e * tr[0 + j * 2] + f * tr[1 + j * 2];
+            double x = a + b * tr[0 + j * 2] + c * tr[1 + j * 2];
+            double y = d + e * tr[0 + j * 2] + f * tr[1 + j * 2];
             Console.WriteLine("  V(" + j + ") = (" + x + "," + y + ")");
         }
     }
@@ -748,11 +727,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double angled;
-        double angler;
-        double area;
         int i;
-        double r;
         const double r8_pi = 3.141592653589793;
         double[] t =  {
                 0.0, 0.0,
@@ -772,7 +747,7 @@ internal static class Program
         Console.WriteLine("    (X3,Y3) = (0,1)");
         Console.WriteLine("  where angle will sweep from 0 to 360 degrees.");
 
-        r = 2.0;
+        double r = 2.0;
 
         Console.WriteLine("");
         Console.WriteLine("   I      Angle         X2          Y2          Area");
@@ -780,16 +755,16 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i <= 24; i++)
         {
-            angled = i * 180.0 / 12.0;
-            angler = i * r8_pi / 12.0;
+            double angled = i * 180.0 / 12.0;
+            double angler = i * r8_pi / 12.0;
             t[0 + 1 * 2] = r * Math.Cos(angler);
             t[1 + 1 * 2] = r * Math.Sin(angler);
-            area = Integrals.triangle_area(t);
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + angled.ToString().PadLeft(10)
-                                   + "  " + t[0 + 1 * 2].ToString().PadLeft(10)
-                                   + "  " + t[1 + 1 * 2].ToString().PadLeft(10)
-                                   + "  " + area.ToString().PadLeft(10) + "");
+            double area = Integrals.triangle_area(t);
+            Console.WriteLine("  " + i.ToString(InvariantCulture).PadLeft(2)
+                                   + "  " + angled.ToString(InvariantCulture).PadLeft(10)
+                                   + "  " + t[0 + 1 * 2].ToString(InvariantCulture).PadLeft(10)
+                                   + "  " + t[1 + 1 * 2].ToString(InvariantCulture).PadLeft(10)
+                                   + "  " + area.ToString(InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -814,10 +789,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int i;
-        int j;
-        double q;
-        double q2;
         double[] t1 =  {
                 0.0, 0.0,
                 1.0, 0.0,
@@ -850,8 +821,8 @@ internal static class Program
         //
         //  Test 1:
         //
-        i = 1;
-        j = 0;
+        int i = 1;
+        int j = 0;
 
         Console.WriteLine("");
         Console.WriteLine("  Triangle vertices:");
@@ -860,8 +831,8 @@ internal static class Program
         Console.WriteLine("    (" + t1[0 + 2 * 2] + "," + t1[1 + 2 * 2] + ")");
         Console.WriteLine("  Integrand = x^" + i + " * y^" + j + "");
 
-        q = Integrals.triangle_monomial_integral(i, j, t1);
-        q2 = 1.0 / 6.0;
+        double q = Integrals.triangle_monomial_integral(i, j, t1);
+        double q2 = 1.0 / 6.0;
 
         Console.WriteLine("  Computed Q = " + q + "");
         Console.WriteLine("  Exact Q =    " + q2 + "");
@@ -963,8 +934,6 @@ internal static class Program
                 0.0, 0.0,-40.0, 6.0, 0.0, 0.0
             }
             ;
-        double q;
-        double q2;
         double[] t1 =  {
                 0.0, 0.0,
                 1.0, 0.0,
@@ -1006,8 +975,8 @@ internal static class Program
 
         typeMethods.poly_print(d1, ref p1, "  Integrand p1(x,y)");
 
-        q = Integrals.triangle_poly_integral(d1, p1, t1);
-        q2 = 1.0 / 6.0;
+        double q = Integrals.triangle_poly_integral(d1, p1, t1);
+        double q2 = 1.0 / 6.0;
 
         Console.WriteLine("  Computed Q = " + q + "");
         Console.WriteLine("  Exact Q =    " + q2 + "");
@@ -1087,9 +1056,6 @@ internal static class Program
         //
     {
         int d;
-        int i;
-        int j;
-        double q;
 
         Console.WriteLine("");
         Console.WriteLine("TRIANGLE01_MONOMIAL_INTEGRAL_TEST");
@@ -1102,12 +1068,13 @@ internal static class Program
         for (d = 0; d <= 5; d++)
         {
             Console.WriteLine("");
+            int i;
             for (i = 0; i <= d; i++)
             {
-                j = d - i;
-                q = Integrals.triangle01_monomial_integral(i, j);
-                Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                       + "  " + j.ToString().PadLeft(2)
+                int j = d - i;
+                double q = Integrals.triangle01_monomial_integral(i, j);
+                Console.WriteLine("  " + i.ToString(InvariantCulture).PadLeft(2)
+                                       + "  " + j.ToString(InvariantCulture).PadLeft(2)
                                        + "  " + q + "");
             }
         }
@@ -1142,7 +1109,6 @@ internal static class Program
         int i = 0;
         int j = 0;
         int k;
-        int km1;
         int m_max = (d_max + 1) * (d_max + 2) / 2;
         int m1 = (d1 + 1) * (d1 + 2) / 2;
         int m2 = (d2 + 1) * (d2 + 2) / 2;
@@ -1159,14 +1125,12 @@ internal static class Program
                 1.0, -2.0, 3.0, -4.0, 5.0, -6.0
             }
             ;
-        double q;
-        double q2;
         double[] qm = new double[28];
 
         for (k = 1; k <= m_max; k++)
         {
             typeMethods.i4_to_pascal(k, ref i, ref j);
-            km1 = k - 1;
+            int km1 = k - 1;
             qm[km1] = Integrals.triangle01_monomial_integral(i, j);
         }
 
@@ -1177,10 +1141,10 @@ internal static class Program
 
         Console.WriteLine("");
         typeMethods.poly_print(d1, ref p1, "  p(x,y)");
-        q = Integrals.triangle01_poly_integral(d1, p1);
+        double q = Integrals.triangle01_poly_integral(d1, p1);
         Console.WriteLine("");
         Console.WriteLine("  Q =         " + q + "");
-        q2 = typeMethods.r8vec_dot_product(m1, p1, qm);
+        double q2 = typeMethods.r8vec_dot_product(m1, p1, qm);
         Console.WriteLine("  Q (exact) = " + q2 + "");
 
         Console.WriteLine("");
@@ -1221,29 +1185,21 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double q;
-        double x1;
-        double x2;
-        double x3;
-        double y1;
-        double y2;
-        double y3;
-
         Console.WriteLine("");
         Console.WriteLine("TRIANGLE_XY_INTEGRAL_TEST");
         Console.WriteLine("  TRIANGLE_XY_INTEGRAL determines Q, the integral of the");
         Console.WriteLine("  monomial X*Y over a triangle (X1,Y1), (X2,Y2), (X3,Y3).");
 
-        x1 = 0.0;
-        y1 = 0.0;
+        double x1 = 0.0;
+        double y1 = 0.0;
 
-        x2 = 1.0;
-        y2 = 0.0;
+        double x2 = 1.0;
+        double y2 = 0.0;
 
-        x3 = 1.0;
-        y3 = 2.0;
+        double x3 = 1.0;
+        double y3 = 2.0;
 
-        q = Integrals.triangle_xy_integral(x1, y1, x2, y2, x3, y3);
+        double q = Integrals.triangle_xy_integral(x1, y1, x2, y2, x3, y3);
 
         Console.WriteLine("");
         Console.WriteLine("  (X1,Y1) = (" + x1 + "," + y1 + ")");
@@ -1292,10 +1248,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int i;
-        int j;
         int k;
-        int t;
 
         Console.WriteLine("");
         Console.WriteLine("TRINOMIAL_TEST");
@@ -1308,15 +1261,17 @@ internal static class Program
 
         for (k = 0; k <= 4; k++)
         {
+            int j;
             for (j = 0; j <= 4; j++)
             {
+                int i;
                 for (i = 0; i <= 4; i++)
                 {
-                    t = Trinomial.trinomial(i, j, k);
-                    Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                           + "  " + j.ToString().PadLeft(4)
-                                           + "  " + k.ToString().PadLeft(4)
-                                           + "  " + t.ToString().PadLeft(8) + "");
+                    int t = Trinomial.trinomial(i, j, k);
+                    Console.WriteLine("  " + i.ToString(InvariantCulture).PadLeft(4)
+                                           + "  " + j.ToString(InvariantCulture).PadLeft(4)
+                                           + "  " + k.ToString(InvariantCulture).PadLeft(4)
+                                           + "  " + t.ToString(InvariantCulture).PadLeft(8) + "");
                 }
             }
         }
@@ -1350,8 +1305,6 @@ internal static class Program
         double e = 0;
         double f = 0;
         int j;
-        double r;
-        double s;
         double[] t =  {
                 2.0, 0.0,
                 3.0, 4.0,
@@ -1383,8 +1336,8 @@ internal static class Program
         Console.WriteLine("");
         for (j = 0; j < 3; j++)
         {
-            r = a + b * t[0 + j * 2] + c * t[1 + j * 2];
-            s = d + e * t[0 + j * 2] + f * t[1 + j * 2];
+            double r = a + b * t[0 + j * 2] + c * t[1 + j * 2];
+            double s = d + e * t[0 + j * 2] + f * t[1 + j * 2];
             Console.WriteLine("  V[" + j + "] = (" + r + "," + s + ")");
         }
     }

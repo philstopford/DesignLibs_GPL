@@ -68,54 +68,38 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] a;
-        double[] b;
-        string command_filename;
         List<string> command = new();
-        string data_filename;
         List<string> data = new();
         int i;
         int it;
-        int it_num;
         int j;
-        double[] m_plot;
-        double[] ml_plot;
-        int n;
-        double[] r_plot;
-        double[] rl_plot;
-        double[] s_plot;
-        double t;
-        double w = 0.5;
-        double[] x;
-        double[] x_exact;
-        double[] x_new;
-        double[] x_plot;
+        const double w = 0.5;
 
         Console.WriteLine("");
         Console.WriteLine("JACOBI_TEST01:");
 
-        it_num = 2000;
-        n = 33;
+        const int it_num = 2000;
+        const int n = 33;
         //
         //  Set the matrix A.
         //
-        a = Matrix.dif2(n, n);
+        double[] a = Matrix.dif2(n, n);
         //
         //  Determine the right hand side vector B.
         //
-        x_exact = new double[n];
+        double[] x_exact = new double[n];
         for (i = 0; i < n; i++)
         {
-            t = i / (double) (n - 1);
+            double t = i / (double) (n - 1);
             x_exact[i] = Math.Exp(t) * (t - 1) * t;
             //   x_exact[i] = ( double ) ( i + 1 );
         }
 
-        b = typeMethods.r8mat_mv_new(n, n, a, x_exact);
+        double[] b = typeMethods.r8mat_mv_new(n, n, a, x_exact);
         //
         //  Set the initial estimate for the solution.
         //
-        x = new double[n];
+        double[] x = new double[n];
         for (i = 0; i < n; i++)
         {
             x[i] = 0.0;
@@ -124,10 +108,10 @@ internal static class Program
         //
         //  Allocate plot arrays.
         //
-        m_plot = new double[it_num + 1];
-        r_plot = new double[it_num + 1];
-        s_plot = new double[it_num + 1];
-        x_plot = new double[n * (it_num + 1)];
+        double[] m_plot = new double[it_num + 1];
+        double[] r_plot = new double[it_num + 1];
+        double[] s_plot = new double[it_num + 1];
+        double[] x_plot = new double[n * (it_num + 1)];
         //
         //  Initialize plot arrays.
         //
@@ -148,7 +132,7 @@ internal static class Program
         //
         for (it = 1; it <= it_num; it++)
         {
-            x_new = Jacobi.jacobi1(n, a, b, x);
+            double[] x_new = Jacobi.jacobi1(n, a, b, x);
 
             r_plot[it] = typeMethods.r8mat_residual_norm(n, n, a, x_new, b);
             //
@@ -175,7 +159,7 @@ internal static class Program
         //
         //  Plot the residual.
         //
-        rl_plot = new double[it_num + 1];
+        double[] rl_plot = new double[it_num + 1];
         for (j = 0; j <= it_num; j++)
         {
             rl_plot[j] = Math.Log(r_plot[j]);
@@ -184,7 +168,7 @@ internal static class Program
         //
         //  Create the data file.
         //
-        data_filename = "residual_data.txt";
+        string data_filename = "residual_data.txt";
             
         for (j = 0; j <= it_num; j++)
         {
@@ -199,7 +183,7 @@ internal static class Program
         //
         //  Create the command file.
         //
-        command_filename = "residual_commands.txt";
+        string command_filename = "residual_commands.txt";
 
         command.Add("# residual_commands.txt");
         command.Add("#");
@@ -222,7 +206,7 @@ internal static class Program
         //
         //  Plot the average point motion.
         //
-        ml_plot = new double[it_num + 1];
+        double[] ml_plot = new double[it_num + 1];
         for (j = 0; j <= it_num; j++)
         {
             ml_plot[j] = Math.Log(m_plot[j]);

@@ -43,11 +43,7 @@ internal static class Program
         double b;
         double beta;
         string filename;
-        int kind;
         int order;
-        double[] r;
-        double[] w;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("JACOBI_RULE");
@@ -168,15 +164,15 @@ internal static class Program
         //
         //  Construct the rule.
         //
-        w = new double[order];
-        x = new double[order];
+        double[] w = new double[order];
+        double[] x = new double[order];
 
-        kind = 4;
+        int kind = 4;
         CGQF.cgqf(order, kind, alpha, beta, a, b, ref x, ref w);
         //
         //  Write the rule.
         //
-        r = new double[2];
+        double[] r = new double[2];
         r[0] = a;
         r[1] = b;
 

@@ -72,14 +72,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int df;
-        int it_max;
         int it_num = 0;
-        double[] lambda;
-        int n;
         int rot_num = 0;
-        double[] v;
-        double[] w;
 
         Console.WriteLine("");
         Console.WriteLine("WISHART_UNIT_SAMPLE_TEST:");
@@ -88,9 +82,9 @@ internal static class Program
         //
         //  Set the parameters and call.
         //
-        n = 5;
-        df = 8;
-        w = Wishart.wishart_unit_sample(n, df);
+        int n = 5;
+        int df = 8;
+        double[] w = Wishart.wishart_unit_sample(n, df);
         typeMethods.r8mat_print(n, n, w, "  Wishart.wishart_unit_sample ( 5, 8 ):");
         //
         //  Calling again yields a new matrix.
@@ -114,9 +108,9 @@ internal static class Program
         //
         //  What is the eigendecomposition of the matrix?
         //
-        it_max = 50;
-        v = new double[n * n];
-        lambda = new double[n];
+        int it_max = 50;
+        double[] v = new double[n * n];
+        double[] lambda = new double[n];
 
         Jacobi.jacobi_eigenvalue(n, w, it_max, ref v, ref lambda, ref it_num, ref rot_num);
         typeMethods.r8mat_print(n, n, v, "  Eigenvectors of previous matrix:");
@@ -144,15 +138,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int df;
-        int it_max;
         int it_num = 0;
-        double[] lambda;
-        int n;
         int rot_num = 0;
-        double[] t;
-        double[] v;
-        double[] w;
 
         Console.WriteLine("");
         Console.WriteLine("BARTLETT_UNIT_SAMPLE_TEST:");
@@ -161,9 +148,9 @@ internal static class Program
         //
         //   Set the parameters and call.
         //
-        n = 5;
-        df = 8;
-        t = Bartlett.bartlett_unit_sample(n, df);
+        int n = 5;
+        int df = 8;
+        double[] t = Bartlett.bartlett_unit_sample(n, df);
         typeMethods.r8mat_print(n, n, t, "  Bartlett.bartlett_unit_sample ( 5, 8 ):");
         //
         //   Calling again yields a new matrix.
@@ -187,11 +174,11 @@ internal static class Program
         //
         //   What is the eigendecomposition of the matrix T' * T?
         //
-        w = typeMethods.r8mat_mtm_new(n, n, n, t, t);
+        double[] w = typeMethods.r8mat_mtm_new(n, n, n, t, t);
 
-        it_max = 50;
-        v = new double[n * n];
-        lambda = new double[n];
+        int it_max = 50;
+        double[] v = new double[n * n];
+        double[] lambda = new double[n];
 
         Jacobi.jacobi_eigenvalue(n, w, it_max, ref v, ref lambda, ref it_num, ref rot_num);
         typeMethods.r8mat_print(n, n, v, "  Eigenvectors of previous matrix:");
@@ -219,13 +206,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int df;
-        double diff;
-        int n;
-        double[] t;
-        double[] tt;
-        double[] w;
-
         Console.WriteLine("");
         Console.WriteLine("WISHART_TEST03:");
         Console.WriteLine("  Verify that, if using the same set of random numbers,");
@@ -236,18 +216,18 @@ internal static class Program
         //
         //   Set the parameters.
         //
-        n = 5;
-        df = 8;
-        w = Wishart.wishart_unit_sample(n, df);
-        t = Bartlett.bartlett_unit_sample(n, df);
+        int n = 5;
+        int df = 8;
+        double[] w = Wishart.wishart_unit_sample(n, df);
+        double[] t = Bartlett.bartlett_unit_sample(n, df);
         //
         //   Compute T' * T.
         //
-        tt = typeMethods.r8mat_mtm_new(n, n, n, t, t);
+        double[] tt = typeMethods.r8mat_mtm_new(n, n, n, t, t);
         //
         //   Compare T'T to W.
         //
-        diff = typeMethods.r8mat_norm_fro_affine(n, n, w, tt);
+        double diff = typeMethods.r8mat_norm_fro_affine(n, n, w, tt);
         Console.WriteLine("");
         Console.WriteLine("  Frobenius norm of error is " + diff + "");
     }
@@ -273,11 +253,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int df;
-        int it_max;
         int it_num = 0;
-        double[] lambda;
-        int n;
         int rot_num = 0;
         //
         //  Note that R is an upper triangular matrix,
@@ -289,13 +265,10 @@ internal static class Program
                 3.0, 2.0, 6.0
             }
             ;
-        double[] sigma;
         double[] sigma_diag =  {
                 1.0, 2.0, 3.0, 4.0, 5.0
             }
             ;
-        double[] v;
-        double[] w;
 
         Console.WriteLine("");
         Console.WriteLine("WISHART_TEST04:");
@@ -304,10 +277,10 @@ internal static class Program
         //
         //   Set the parameters and call.
         //
-        n = 5;
-        df = 8;
-        sigma = typeMethods.r8mat_identity_new(n);
-        w = Wishart.wishart_sample(n, df, sigma);
+        int n = 5;
+        int df = 8;
+        double[] sigma = typeMethods.r8mat_identity_new(n);
+        double[] w = Wishart.wishart_sample(n, df, sigma);
         typeMethods.r8mat_print(n, n, w, "  Wishart.wishart_sample ( 5, 8, Identity ):");
         //
         //   Calling again yields a new matrix.
@@ -332,9 +305,9 @@ internal static class Program
         //
         //   What is the eigendecomposition of this matrix?
         //
-        it_max = 50;
-        v = new double[n * n];
-        lambda = new double[n];
+        int it_max = 50;
+        double[] v = new double[n * n];
+        double[] lambda = new double[n];
 
         Jacobi.jacobi_eigenvalue(n, w, it_max, ref v, ref lambda, ref it_num, ref rot_num);
         typeMethods.r8mat_print(n, n, v, "  Eigenvectors of previous matrix:");
@@ -362,11 +335,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int df;
-        int it_max;
         int it_num = 0;
-        double[] lambda;
-        int n;
         //
         //  Note that R is an upper triangular matrix,
         //  whose entries here are listed in column major order.
@@ -378,14 +347,10 @@ internal static class Program
             }
             ;
         int rot_num = 0;
-        double[] sigma;
         double[] sigma_diag =  {
                 1.0, 2.0, 3.0, 4.0, 5.0
             }
             ;
-        double[] t;
-        double[] v;
-        double[] w;
 
         Console.WriteLine("");
         Console.WriteLine("WISHART_TEST05:");
@@ -394,10 +359,10 @@ internal static class Program
         //
         //   Set the parameters and call.
         //
-        n = 5;
-        df = 8;
-        sigma = typeMethods.r8mat_identity_new(n);
-        t = Bartlett.bartlett_sample(n, df, sigma);
+        int n = 5;
+        int df = 8;
+        double[] sigma = typeMethods.r8mat_identity_new(n);
+        double[] t = Bartlett.bartlett_sample(n, df, sigma);
         typeMethods.r8mat_print(n, n, t, "  Bartlett.bartlett_sample ( 5, 8, Identity ):");
         //
         //   Calling again yields a new matrix.
@@ -422,10 +387,10 @@ internal static class Program
         //
         //   What is the eigendecomposition of T' * T?
         //
-        w = typeMethods.r8mat_mtm_new(n, n, n, t, t);
-        it_max = 50;
-        v = new double[n * n];
-        lambda = new double[n];
+        double[] w = typeMethods.r8mat_mtm_new(n, n, n, t, t);
+        int it_max = 50;
+        double[] v = new double[n * n];
+        double[] lambda = new double[n];
 
         Jacobi.jacobi_eigenvalue(n, w, it_max, ref v, ref lambda, ref it_num, ref rot_num);
         typeMethods.r8mat_print(n, n, v, "  Eigenvectors of previous matrix:");
@@ -453,9 +418,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int df;
-        double diff;
-        int n;
         //
         //  Note that R is an upper triangular matrix,
         //  whose entries here are listed in column major order.
@@ -466,10 +428,6 @@ internal static class Program
                 3.0, 2.0, 6.0
             }
             ;
-        double[] sigma;
-        double[] t;
-        double[] tt;
-        double[] w;
 
         Console.WriteLine("");
         Console.WriteLine("WISHART_TEST06:");
@@ -481,26 +439,26 @@ internal static class Program
         //
         //   Set the parameters.
         //
-        n = 3;
-        df = 5;
-        sigma = typeMethods.r8mat_mtm_new(n, n, n, r, r);
+        int n = 3;
+        int df = 5;
+        double[] sigma = typeMethods.r8mat_mtm_new(n, n, n, r, r);
         typeMethods.r8mat_print(n, n, sigma, "  Covariance SIGMA:");
         //
         //   Initialize the random number package and compute W.
         //
-        w = Wishart.wishart_sample(n, df, sigma);
+        double[] w = Wishart.wishart_sample(n, df, sigma);
         //
         //   Initialize the random number package again, and compute T.
         //
-        t = Bartlett.bartlett_sample(n, df, sigma);
+        double[] t = Bartlett.bartlett_sample(n, df, sigma);
         //
         //   Compute T' * T.
         //
-        tt = typeMethods.r8mat_mtm_new(n, n, n, t, t);
+        double[] tt = typeMethods.r8mat_mtm_new(n, n, n, t, t);
         //
         //   Compare T'T to W.
         //
-        diff = typeMethods.r8mat_norm_fro_affine(n, n, w, tt);
+        double diff = typeMethods.r8mat_norm_fro_affine(n, n, w, tt);
         Console.WriteLine("");
         Console.WriteLine("  Frobenius norm of error is " + diff + "");
     }
@@ -526,11 +484,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int df;
-        double diff;
-        double divisor;
         int i;
-        int n;
         //
         //  Note that R is an upper triangular matrix,
         //  whose entries here are listed in column major order.
@@ -541,10 +495,6 @@ internal static class Program
                 3.0, 2.0, 6.0
             }
             ;
-        int sample_num;
-        double[] sigma;
-        double[] w;
-        double[] w_average;
 
         Console.WriteLine("");
         Console.WriteLine("WISHART_TEST07:");
@@ -555,24 +505,24 @@ internal static class Program
         //
         //   Set the parameters.
         //
-        n = 3;
+        int n = 3;
         Console.WriteLine("  Fix N = " + n + "");
-        df = 5;
+        int df = 5;
         Console.WriteLine("  Fix DF = " + df + "");
-        sigma = typeMethods.r8mat_mtm_new(n, n, n, r, r);
+        double[] sigma = typeMethods.r8mat_mtm_new(n, n, n, r, r);
         typeMethods.r8mat_print(n, n, sigma, "  Fix covariance SIGMA:");
         //
         //   Sample many times and average.
         //
-        sample_num = 1000;
-        w_average = typeMethods.r8mat_zero_new(n, n);
+        int sample_num = 1000;
+        double[] w_average = typeMethods.r8mat_zero_new(n, n);
         for (i = 1; i <= sample_num; i++)
         {
-            w = Wishart.wishart_sample(n, df, sigma);
+            double[] w = Wishart.wishart_sample(n, df, sigma);
             typeMethods.r8mat_add(n, n, w, ref w_average);
         }
 
-        divisor = sample_num;
+        double divisor = sample_num;
         typeMethods.r8mat_divide(n, n, divisor, ref w_average);
         //
         //   Compare SIGMA and W_SAMPLE / DF.
@@ -582,7 +532,7 @@ internal static class Program
 
         typeMethods.r8mat_print(n, n, w_average, "  W_Average / DF: ");
 
-        diff = typeMethods.r8mat_norm_fro_affine(n, n, sigma, w_average);
+        double diff = typeMethods.r8mat_norm_fro_affine(n, n, sigma, w_average);
         Console.WriteLine("");
         Console.WriteLine("  Frobenius norm of SIGMA-W_average/DF = " + diff + "");
     }
@@ -608,14 +558,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int df;
-        double diff;
-        double[] ident;
-        double[] m;
-        int n;
-        double[] w;
-        double[] wm;
-
         Console.WriteLine("");
         Console.WriteLine("WISHART_TEST08:");
         Console.WriteLine("  Verify that, if using the same set of random numbers,");
@@ -626,19 +568,19 @@ internal static class Program
         //
         //   Set the parameters.
         //
-        n = 5;
-        df = 8;
-        w = Wishart.wishart_unit_sample(n, df);
-        m = Wishart.wishart_unit_sample_inverse(n, df);
+        int n = 5;
+        int df = 8;
+        double[] w = Wishart.wishart_unit_sample(n, df);
+        double[] m = Wishart.wishart_unit_sample_inverse(n, df);
         //
         //   Compute W * M.
         //
-        wm = typeMethods.r8mat_mm_new(n, n, n, w, m);
+        double[] wm = typeMethods.r8mat_mm_new(n, n, n, w, m);
         //
         //   Compare M * W to I.
         //
-        ident = typeMethods.r8mat_identity_new(n);
-        diff = typeMethods.r8mat_norm_fro_affine(n, n, wm, ident);
+        double[] ident = typeMethods.r8mat_identity_new(n);
+        double diff = typeMethods.r8mat_norm_fro_affine(n, n, wm, ident);
         Console.WriteLine("");
         Console.WriteLine("  Frobenius norm of error is " + diff + "");
     }
@@ -664,11 +606,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int df;
-        double diff;
-        double[] ident;
-        double[] m;
-        int n;
         //
         //  Note that R is an upper triangular matrix,
         //  whose entries here are listed in column major order.
@@ -681,9 +618,6 @@ internal static class Program
                 1.0, 3.0, 3.0, 2.0, 6.0
             }
             ;
-        double[] sigma;
-        double[] w;
-        double[] wm;
 
         Console.WriteLine("");
         Console.WriteLine("WISHART_TEST09:");
@@ -695,21 +629,21 @@ internal static class Program
         //
         //   Set the parameters.
         //
-        n = 5;
-        df = 8;
-        sigma = typeMethods.r8mat_mtm_new(n, n, n, r, r);
+        int n = 5;
+        int df = 8;
+        double[] sigma = typeMethods.r8mat_mtm_new(n, n, n, r, r);
 
-        w = Wishart.wishart_sample(n, df, sigma);
-        m = Wishart.wishart_sample_inverse(n, df, sigma);
+        double[] w = Wishart.wishart_sample(n, df, sigma);
+        double[] m = Wishart.wishart_sample_inverse(n, df, sigma);
         //
         //   Compute W * M.
         //
-        wm = typeMethods.r8mat_mm_new(n, n, n, w, m);
+        double[] wm = typeMethods.r8mat_mm_new(n, n, n, w, m);
         //
         //   Compare M * W to I.
         //
-        ident = typeMethods.r8mat_identity_new(n);
-        diff = typeMethods.r8mat_norm_fro_affine(n, n, wm, ident);
+        double[] ident = typeMethods.r8mat_identity_new(n);
+        double diff = typeMethods.r8mat_norm_fro_affine(n, n, wm, ident);
         Console.WriteLine("");
         Console.WriteLine("  Frobenius norm of error is " + diff + "");
     }

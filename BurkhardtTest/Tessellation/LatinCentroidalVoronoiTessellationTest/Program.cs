@@ -31,7 +31,6 @@ internal static class Program
         //
     {
         int i;
-        int sample_function_cvt;
 
         Console.WriteLine("");
         Console.WriteLine("LCVT_TEST");
@@ -39,7 +38,7 @@ internal static class Program
 
         for (i = -1; i <= 2; i++)
         {
-            sample_function_cvt = i;
+            int sample_function_cvt = i;
             test01(sample_function_cvt);
         }
 
@@ -72,17 +71,16 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int M = 2;
-        int N = 25;
+        const int M = 2;
+        const int N = 25;
         LCVData ldata = new(M);
 
         double[] generator = new double[M * N];
         int i;
-        int latin_steps = 3;
-        int sample_function_init = 0;
-        int sample_num_cvt = 100000;
-        int sample_num_steps = 50;
-        int seed;
+        const int latin_steps = 3;
+        const int sample_function_init = 0;
+        const int sample_num_cvt = 100000;
+        const int sample_num_steps = 50;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
@@ -95,7 +93,7 @@ internal static class Program
         //  GET_SEED can be used to produce a different seed on each run.
         //  But using a fixed seed is useful for debugging.
         //
-        seed = entropyRNG.RNG.nextint();
+        int seed = entropyRNG.RNG.nextint();
 
         seed = 123456789;
 
@@ -178,20 +176,18 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int M = 2;
-        int N = 25;
+        const int M = 2;
+        const int N = 25;
         LCVData ldata = new(M);
 
         double[] generator = new double[M * N];
         int i;
-        int latin_steps = 3;
-        int ngrid;
+        const int latin_steps = 3;
         int rank;
-        int sample_function_cvt = 0;
-        int sample_function_init = 3;
-        int sample_num_cvt = 100000;
-        int sample_num_steps = 50;
-        int seed;
+        const int sample_function_cvt = 0;
+        const int sample_function_init = 3;
+        const int sample_num_cvt = 100000;
+        const int sample_num_steps = 50;
         int[] tuple = new int[M];
 
         Console.WriteLine("");
@@ -205,7 +201,7 @@ internal static class Program
         //  GET_SEED can be used to produce a different seed on each run.
         //  But using a fixed seed is useful for debugging.
         //
-        seed = entropyRNG.RNG.nextint();
+        int seed = entropyRNG.RNG.nextint();
 
         seed = 123456789;
 
@@ -254,7 +250,7 @@ internal static class Program
         Console.WriteLine("  Number of sample points = " + sample_num_cvt + "");
         Console.WriteLine("  Number of sample steps =  " + sample_num_steps + "");
 
-        ngrid = 5;
+        int ngrid = 5;
 
         for (rank = 0; rank <= N - 1; rank++)
         {

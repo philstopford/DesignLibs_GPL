@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.IntegralNS;
 using Burkardt.Types;
 
@@ -73,13 +74,8 @@ internal static class Program
     {
         double a = 0;
         double b = 0;
-        double e;
         double fx1 = 0;
-        double fx2;
-        double[] fx2_vec;
-        int m;
         int n = 0;
-        int n_data;
         double x = 0;
         double[] x_vec = new double[1];
 
@@ -93,7 +89,7 @@ internal static class Program
                           "     N     A     B        X           J(N,A,B,X)                    J(N,A,B,X)                     Error");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -104,19 +100,19 @@ internal static class Program
                 break;
             }
 
-            m = 1;
+            int m = 1;
             x_vec[0] = x;
-            fx2_vec = Polynomial.j_polynomial(m, n, a, b, x_vec);
-            fx2 = fx2_vec[0 + n * 1];
-            e = fx1 - fx2;
+            double[] fx2_vec = Polynomial.j_polynomial(m, n, a, b, x_vec);
+            double fx2 = fx2_vec[0 + n * 1];
+            double e = fx1 - fx2;
 
-            Console.WriteLine("  " + n.ToString().PadLeft(4)
-                                   + "  " + a.ToString().PadLeft(6)
-                                   + "  " + b.ToString().PadLeft(6)
-                                   + "  " + x.ToString().PadLeft(6)
-                                   + "  " + fx1.ToString().PadLeft(24)
-                                   + "  " + fx2.ToString().PadLeft(24)
-                                   + "  " + e.ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + b.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + fx1.ToString(CultureInfo.InvariantCulture).PadLeft(24)
+                                   + "  " + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(24)
+                                   + "  " + e.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
 
         }
     }
@@ -142,22 +138,16 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
         double[] a_test =  {
                 0.5, 1.0, 2.0
             }
             ;
-        double b;
         double[] b_test =  {
                 0.5, 1.5, 0.5
             }
             ;
-        int degree;
-        double[] hz;
         int test;
-        int test_num = 3;
-        string title;
-        double[] z;
+        const int test_num = 3;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02:");
@@ -166,19 +156,20 @@ internal static class Program
 
         for (test = 0; test < test_num; test++)
         {
-            a = a_test[test];
-            b = b_test[test];
+            double a = a_test[test];
+            double b = b_test[test];
 
+            int degree;
             for (degree = 1; degree <= 5; degree++)
             {
-                z = Polynomial.j_polynomial_zeros(degree, a, b);
-                title = "Zeros for J(" + degree.ToString() + ","
-                        + a.ToString() + "," + b.ToString() + ")";
+                double[] z = Polynomial.j_polynomial_zeros(degree, a, b);
+                string title = "Zeros for J(" + degree.ToString(CultureInfo.InvariantCulture) + ","
+                               + a.ToString(CultureInfo.InvariantCulture) + "," + b.ToString(CultureInfo.InvariantCulture) + ")";
                 typeMethods.r8vec_print(degree, z, title);
 
-                hz = Polynomial.j_polynomial(degree, degree, a, b, z);
-                title = "Evaluate J(" + degree.ToString() + ","
-                        + a.ToString() + "," + b.ToString() + ")";
+                double[] hz = Polynomial.j_polynomial(degree, degree, a, b, z);
+                title = "Evaluate J(" + degree.ToString(CultureInfo.InvariantCulture) + ","
+                        + a.ToString(CultureInfo.InvariantCulture) + "," + b.ToString(CultureInfo.InvariantCulture) + ")";
                 typeMethods.r8vec_print(degree, hz, title, aIndex:  + degree * degree);
             }
         }
@@ -205,30 +196,19 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
         int i;
-        int j;
-        double[] ji;
-        double[] jj;
-        int k;
-        int n;
-        double q;
-        double q_exact;
-        double[] w;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST03:");
         Console.WriteLine("  J_QUADRATURE_RULE computes the quadrature rule");
         Console.WriteLine("  associated with J(n,a,b,x);");
 
-        n = 7;
-        a = 1.0;
-        b = 2.5;
+        const int n = 7;
+        const double a = 1.0;
+        const double b = 2.5;
 
-        x = new double[n];
-        w = new double[n];
+        double[] x = new double[n];
+        double[] w = new double[n];
 
         Quadrature.j_quadrature_rule(n, a, b, ref x, ref w);
 
@@ -244,21 +224,23 @@ internal static class Program
 
         for (i = 0; i <= 5; i++)
         {
-            ji = Polynomial.j_polynomial(n, i, a, b, x);
+            double[] ji = Polynomial.j_polynomial(n, i, a, b, x);
+            int j;
             for (j = i; j <= 5; j++)
             {
-                jj = Polynomial.j_polynomial(n, j, a, b, x);
-                q = 0.0;
+                double[] jj = Polynomial.j_polynomial(n, j, a, b, x);
+                double q = 0.0;
+                int k;
                 for (k = 0; k < n; k++)
                 {
                     q += w[k] * ji[k + i * n] * jj[k + j * n];
                 }
 
-                q_exact = Integral.j_double_product_integral(i, j, a, b);
-                Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                       + "  " + j.ToString().PadLeft(2)
-                                       + "  " + q.ToString().PadLeft(14)
-                                       + "  " + q_exact.ToString().PadLeft(14) + "");
+                double q_exact = Integral.j_double_product_integral(i, j, a, b);
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + q_exact.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
     }
@@ -284,19 +266,15 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
         int i;
-        int j;
-        double q;
 
         Console.WriteLine("");
         Console.WriteLine("TEST04:");
         Console.WriteLine("  J_DOUBLE_PRODUCT_INTEGRAL returns the weighted integral of");
         Console.WriteLine("  J(i,a,b,x) * J(j,a,b,x);");
 
-        a = 1.0;
-        b = 2.5;
+        const double a = 1.0;
+        const double b = 2.5;
 
         Console.WriteLine("");
         Console.WriteLine("    Q = Integral (-1<x<+1) J(i,a,b,x) J(j,a,b,x) (1-x)^a (1+x)^b dx");
@@ -306,12 +284,13 @@ internal static class Program
 
         for (i = 0; i <= 5; i++)
         {
+            int j;
             for (j = i; j <= 5; j++)
             {
-                q = Integral.j_double_product_integral(i, j, a, b);
-                Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                       + "  " + j.ToString().PadLeft(2)
-                                       + "  " + q.ToString().PadLeft(14) + "");
+                double q = Integral.j_double_product_integral(i, j, a, b);
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
     }

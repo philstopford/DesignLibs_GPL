@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.TriangleNS;
 using Burkardt.Types;
 
@@ -68,10 +69,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int order;
-        int precision;
         int rule;
-        int rule_num;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
@@ -79,7 +77,7 @@ internal static class Program
         Console.WriteLine("  LYNESS_DEGREE returns the degree of a rule;");
         Console.WriteLine("  LYNESS_ORDER_NUM returns the order of a rule.");
 
-        rule_num = LynessRule.lyness_rule_num();
+        int rule_num = LynessRule.lyness_rule_num();
 
         Console.WriteLine("");
         Console.WriteLine("  Number of available rules = " + rule_num + "");
@@ -89,11 +87,11 @@ internal static class Program
 
         for (rule = 0; rule <= rule_num; rule++)
         {
-            order = LynessRule.lyness_order(rule);
-            precision = LynessRule.lyness_precision(rule);
-            Console.WriteLine("  " + rule.ToString().PadLeft(8)
-                                   + "  " + order.ToString().PadLeft(8)
-                                   + "  " + precision.ToString().PadLeft(8) + "");
+            int order = LynessRule.lyness_order(rule);
+            int precision = LynessRule.lyness_precision(rule);
+            Console.WriteLine("  " + rule.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + precision.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
     }
 
@@ -118,12 +116,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int order;
         int rule;
-        int rule_num;
-        double[] w;
-        double w_sum;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02");
@@ -133,7 +126,7 @@ internal static class Program
         Console.WriteLine("  In this test, we simply check that the weights");
         Console.WriteLine("  sum to 1.");
 
-        rule_num = LynessRule.lyness_rule_num();
+        int rule_num = LynessRule.lyness_rule_num();
 
         Console.WriteLine("");
         Console.WriteLine("  Number of available rules = " + rule_num + "");
@@ -143,17 +136,17 @@ internal static class Program
 
         for (rule = 0; rule <= rule_num; rule++)
         {
-            order = LynessRule.lyness_order(rule);
+            int order = LynessRule.lyness_order(rule);
 
-            x = new double[2 * order];
-            w = new double[order];
+            double[] x = new double[2 * order];
+            double[] w = new double[order];
 
             LynessRule.lyness_rule(rule, order, ref w, ref x);
 
-            w_sum = typeMethods.r8vec_sum(order, w);
+            double w_sum = typeMethods.r8vec_sum(order, w);
 
-            Console.WriteLine("  " + rule.ToString().PadLeft(8)
-                                   + "  " + w_sum.ToString().PadLeft(25) + "");
+            Console.WriteLine("  " + rule.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + w_sum.ToString(CultureInfo.InvariantCulture).PadLeft(25) + "");
         }
     }
 
@@ -179,12 +172,6 @@ internal static class Program
         //
     {
         int rule;
-        int rule_num;
-        int suborder;
-        int suborder_num;
-        double[] sub_w;
-        double[] sub_xyz;
-        double xyz_sum;
 
         Console.WriteLine("");
         Console.WriteLine("TEST03");
@@ -195,26 +182,27 @@ internal static class Program
         Console.WriteLine("  quadrature point, the barycentric coordinates");
         Console.WriteLine("  sum to 1.");
 
-        rule_num = LynessRule.lyness_rule_num();
+        int rule_num = LynessRule.lyness_rule_num();
 
         Console.WriteLine("");
         Console.WriteLine("      Rule   Suborder    Sum of coordinates");
 
         for (rule = 0; rule < rule_num; rule++)
         {
-            suborder_num = LynessRule.lyness_suborder_num(rule);
+            int suborder_num = LynessRule.lyness_suborder_num(rule);
 
-            sub_w = new double[suborder_num];
-            sub_xyz = new double[3 * suborder_num];
+            double[] sub_w = new double[suborder_num];
+            double[] sub_xyz = new double[3 * suborder_num];
 
             LynessRule.lyness_subrule(rule, suborder_num, ref sub_xyz, ref sub_w);
 
             Console.WriteLine("");
-            Console.WriteLine("  " + rule.ToString().PadLeft(8)
-                                   + "  " + suborder_num.ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + rule.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + suborder_num.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
+            int suborder;
             for (suborder = 0; suborder < suborder_num; suborder++)
             {
-                xyz_sum = typeMethods.r8vec_sum(3, sub_xyz, +3 * suborder);
+                double xyz_sum = typeMethods.r8vec_sum(3, sub_xyz, +3 * suborder);
                 Console.WriteLine("                           " + xyz_sum + "");
             }
         }
@@ -242,11 +230,6 @@ internal static class Program
         //
     {
         int j;
-        int order;
-        int precision;
-        int rule;
-        double[] w;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST04");
@@ -255,17 +238,17 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  In this test, we simply print a rule.");
 
-        rule = 18;
-        order = LynessRule.lyness_order(rule);
-        precision = LynessRule.lyness_precision(rule);
+        int rule = 18;
+        int order = LynessRule.lyness_order(rule);
+        int precision = LynessRule.lyness_precision(rule);
 
         Console.WriteLine("");
         Console.WriteLine("  Rule =      " + rule + "");
         Console.WriteLine("  Order =     " + order + "");
         Console.WriteLine("  Precision = " + precision + "");
 
-        w = new double[order];
-        x = new double[2 * order];
+        double[] w = new double[order];
+        double[] x = new double[2 * order];
 
         LynessRule.lyness_rule(rule, order, ref w, ref x);
 
@@ -275,7 +258,7 @@ internal static class Program
 
         for (j = 0; j < order; j++)
         {
-            Console.WriteLine("  " + j.ToString().PadLeft(4)
+            Console.WriteLine("  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(4)
                                    + "  " + w[j].ToString("0.################").PadLeft(24)
                                    + "  " + x[0 + j * 2].ToString("0.################").PadLeft(24)
                                    + "  " + x[1 + j * 2].ToString("0.################").PadLeft(24) + "");
@@ -303,17 +286,12 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int order;
-        int precision;
         double[] r =
         {
             0.0, 0.0,
             1.0, 0.0,
             0.0, 1.0
         };
-        int rule;
-        double[] w;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST05");
@@ -322,17 +300,17 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  In this test, we simply print a rule.");
 
-        rule = 18;
-        order = LynessRule.lyness_order(rule);
-        precision = LynessRule.lyness_precision(rule);
+        const int rule = 18;
+        int order = LynessRule.lyness_order(rule);
+        int precision = LynessRule.lyness_precision(rule);
 
         Console.WriteLine("");
         Console.WriteLine("  Rule =      " + rule + "");
         Console.WriteLine("  Order =     " + order + "");
         Console.WriteLine("  Precision = " + precision + "");
 
-        w = new double[order];
-        x = new double[2 * order];
+        double[] w = new double[order];
+        double[] x = new double[2 * order];
 
         LynessRule.lyness_rule(rule, order, ref w, ref x);
 
@@ -366,23 +344,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int a;
-        double area;
-        int b;
-        double coef;
         int degree;
-        int degree_max = 10;
-        double err;
-        double exact;
-        int i;
-        int j;
-        int order;
-        double quad;
-        int rule;
-        int rule_num;
+        const int degree_max = 10;
         double value = 0;
-        double[] w;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST06");
@@ -392,20 +356,22 @@ internal static class Program
         Console.WriteLine("  This routine uses those rules to estimate the");
         Console.WriteLine("  integral of monomomials in the unit triangle.");
 
-        rule_num = LynessRule.lyness_rule_num();
+        int rule_num = LynessRule.lyness_rule_num();
 
-        area = 0.5;
+        double area = 0.5;
 
         for (degree = 0; degree <= degree_max; degree++)
         {
+            int a;
             for (a = 0; a <= degree; a++)
             {
-                b = degree - a;
+                int b = degree - a;
                 //
                 //  Multiplying X^A * Y^B by COEF will give us an integrand
                 //  whose integral is exactly 1.  This makes the error calculations easy.
                 //
-                coef = (a + b + 2) * (double) (a + b + 1);
+                double coef = (a + b + 2) * (double) (a + b + 1);
+                int i;
                 for (i = 1; i <= b; i++)
                 {
                     coef = coef * (a + i) / i;
@@ -417,17 +383,19 @@ internal static class Program
                 Console.WriteLine("      Rule       QUAD           ERROR");
                 Console.WriteLine("");
 
+                int rule;
                 for (rule = 0; rule <= rule_num; rule++)
                 {
-                    order = LynessRule.lyness_order(rule);
+                    int order = LynessRule.lyness_order(rule);
 
-                    w = new double[order];
-                    x = new double[2 * order];
+                    double[] w = new double[order];
+                    double[] x = new double[2 * order];
 
                     LynessRule.lyness_rule(rule, order, ref w, ref x);
 
-                    quad = 0.0;
+                    double quad = 0.0;
 
+                    int j;
                     for (j = 0; j < order; j++)
                     {
                         switch (a)
@@ -458,10 +426,10 @@ internal static class Program
 
                     quad = area * quad;
 
-                    exact = 1.0;
-                    err = Math.Abs(exact - quad);
+                    double exact = 1.0;
+                    double err = Math.Abs(exact - quad);
 
-                    Console.WriteLine("  " + rule.ToString().PadLeft(8)
+                    Console.WriteLine("  " + rule.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                            + "  " + quad.ToString("0.######").PadLeft(14)
                                            + "  " + err.ToString("0.##").PadLeft(10) + "");
 

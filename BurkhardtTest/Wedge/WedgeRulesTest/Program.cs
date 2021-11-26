@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Composition;
 using Burkardt.MonomialNS;
 using Burkardt.Types;
@@ -32,13 +33,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int degree_max;
-
         Console.WriteLine("");
         Console.WriteLine("WEDGE_FELIPPA_RULE_TEST");
         Console.WriteLine("  Test the WEDGE_FELIPPA_RULE library.");
 
-        degree_max = 4;
+        const int degree_max = 4;
 
         test01(degree_max);
         test02(degree_max);
@@ -78,10 +77,7 @@ internal static class Program
         //
     {
         int alpha;
-        int beta;
         int[] expon = new int[3];
-        int gamma;
-        double value = 0;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
@@ -97,17 +93,19 @@ internal static class Program
         for (alpha = 0; alpha <= degree_max; alpha++)
         {
             expon[0] = alpha;
+            int beta;
             for (beta = 0; beta <= degree_max - alpha; beta++)
             {
                 expon[1] = beta;
+                int gamma;
                 for (gamma = 0; gamma <= degree_max - alpha - beta; gamma++)
                 {
                     expon[2] = gamma;
-                    value = QuadratureRule.wedge_integral(expon);
-                    Console.WriteLine(expon[0].ToString().PadLeft(8) + "  "
-                                                                     + expon[1].ToString().PadLeft(8) + "  "
-                                                                     + expon[2].ToString().PadLeft(8) + "  "
-                                                                     + value.ToString().PadLeft(14) + "");
+                    double value = QuadratureRule.wedge_integral(expon);
+                    Console.WriteLine(expon[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                                                                     + expon[1].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                                                                     + expon[2].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                                                                     + value.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                 }
             }
         }
@@ -139,35 +137,26 @@ internal static class Program
         //    monomials to check.
         //
     {
-        int dim_num = 3;
+        const int dim_num = 3;
         int[] expon = new int[3];
         int h = 0;
-        int line_order;
         int[] line_order_array =  {
                 1, 2, 2, 3, 2, 3, 4
             }
             ;
-        bool more;
-        int order;
-        double quad;
         int t = 0;
-        int test;
-        int test_num = 7;
-        int triangle_order;
+        const int test_num = 7;
         int[] triangle_order_array =  {
                 1, 3, -3, 6, -6, 7, 12
             }
             ;
-        double[] v;
-        double[] w;
-        double[] xyz;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02");
         Console.WriteLine("  For the unit wedge,");
         Console.WriteLine("  we approximate monomial integrals with WEDG_UNIT_RULE.");
 
-        more = false;
+        bool more = false;
 
         SubCompData data = new();
             
@@ -187,32 +176,34 @@ internal static class Program
 
             Console.WriteLine("");
             Console.WriteLine("  Monomial exponents:   "
-                              + expon[0].ToString().PadLeft(2) + "  "
-                              + expon[1].ToString().PadLeft(2) + "  "
-                              + expon[2].ToString().PadLeft(2) + "");
+                              + expon[0].ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  "
+                              + expon[1].ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  "
+                              + expon[2].ToString(CultureInfo.InvariantCulture).PadLeft(2) + "");
             Console.WriteLine("");
 
+            int test;
+            double quad;
             for (test = 0; test < test_num; test++)
             {
-                line_order = line_order_array[test];
-                triangle_order = triangle_order_array[test];
+                int line_order = line_order_array[test];
+                int triangle_order = triangle_order_array[test];
 
-                order = line_order * Math.Abs(triangle_order);
+                int order = line_order * Math.Abs(triangle_order);
 
-                w = new double[order];
-                xyz = new double[dim_num * order];
+                double[] w = new double[order];
+                double[] xyz = new double[dim_num * order];
                 QuadratureRule.wedge_rule(line_order, triangle_order, ref w, ref xyz);
-                v = Monomial.monomial_value(dim_num, order, expon, xyz);
+                double[] v = Monomial.monomial_value(dim_num, order, expon, xyz);
                 quad = QuadratureRule.wedge_volume() * typeMethods.r8vec_dot_product(order, w, v);
-                Console.WriteLine(triangle_order.ToString().PadLeft(6) + "  "
-                                                                       + line_order.ToString().PadLeft(6) + "  "
-                                                                       + quad.ToString().PadLeft(14) + "");
+                Console.WriteLine(triangle_order.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                                       + line_order.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                                       + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
             Console.WriteLine("");
             quad = QuadratureRule.wedge_integral(expon);
             Console.WriteLine("   Exact        "
-                              + quad.ToString().PadLeft(14) + "");
+                              + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             if (!more)
             {
@@ -245,21 +236,17 @@ internal static class Program
         //  Parameters:
         //
     {
-        int dim_num = 3;
-        int line_order;
+        const int dim_num = 3;
         int[] line_order_array =  {
                 1, 2, 2, 3, 2, 3, 4
             }
             ;
-        int order;
         int rule;
-        int rule_num = 7;
-        int triangle_order;
+        const int rule_num = 7;
         int[] triangle_order_array =  {
                 1, 3, -3, 6, -6, 7, 12
             }
             ;
-        double[] w;
         string w_filename = "";
         double[] x;
         string x_filename = "";
@@ -307,20 +294,20 @@ internal static class Program
                     break;
             }
 
-            line_order = line_order_array[rule];
-            triangle_order = triangle_order_array[rule];
+            int line_order = line_order_array[rule];
+            int triangle_order = triangle_order_array[rule];
 
-            order = line_order * Math.Abs(triangle_order);
+            int order = line_order * Math.Abs(triangle_order);
 
-            w = new double[order];
+            double[] w = new double[order];
             x = new double[dim_num * order];
             QuadratureRule.wedge_rule(line_order, triangle_order, ref w, ref x);
             typeMethods.r8mat_write(w_filename, 1, order, w);
             typeMethods.r8mat_write(x_filename, dim_num, order, x);
-            Console.WriteLine(rule.ToString().PadLeft(6) + "  "
-                                                         + triangle_order.ToString().PadLeft(6) + "  "
-                                                         + line_order.ToString().PadLeft(6) + "  "
-                                                         + order.ToString().PadLeft(6) + "  "
+            Console.WriteLine(rule.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                         + triangle_order.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                         + line_order.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                         + order.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
                                                          + w_filename + "  "
                                                          + x_filename + "");
 

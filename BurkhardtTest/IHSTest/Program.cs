@@ -48,8 +48,8 @@ internal static class Program
         //
     {
         int dim_num;
-        int duplication = 5;
-        int point_num = 10;
+        const int duplication = 5;
+        const int point_num = 10;
 
         Console.WriteLine();
         Console.WriteLine("TEST01");
@@ -113,10 +113,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int dim_num = 2;
-        int point_num = 10;
-
-        double opt;
+        const int dim_num = 2;
+        const int point_num = 10;
 
         Console.WriteLine();
         Console.WriteLine("TEST02");
@@ -126,9 +124,9 @@ internal static class Program
         Console.WriteLine("  Demonstrate the code for a fixed number of points");
         Console.WriteLine("  and dimension, but vary the duplication value.");
 
-        opt = point_num /
-              Math.Pow ( point_num,
-                  1.0E+00 / dim_num );
+        double opt = point_num /
+                     Math.Pow ( point_num,
+                         1.0E+00 / dim_num );
 
         Console.WriteLine();
         Console.WriteLine("  Spatial dimension =        " + dim_num);
@@ -181,8 +179,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int dim_num = 2;
-        int duplication = 5;
+        const int dim_num = 2;
+        const int duplication = 5;
 
         Console.WriteLine();
         Console.WriteLine("TEST03");
@@ -276,10 +274,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int dim_num = 17;
-        int point_num = 1000;
+        const int dim_num = 17;
+        const int point_num = 1000;
 
-        int duplication = 5;
+        const int duplication = 5;
 
         Console.WriteLine();
         Console.WriteLine("TEST04");

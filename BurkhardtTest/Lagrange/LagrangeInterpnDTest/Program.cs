@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Lagrange;
 using Burkardt.Types;
 using Burkardt.Uniform;
@@ -85,20 +86,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] a;
-        double[] b;
         int i;
         int j;
-        int m;
-        int[] n_1d;
-        int nd;
-        int ni;
-        int seed;
-        double[] xd;
-        double[] xi;
-        double[] zd;
-        double[] ze;
-        double[] zi;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01:");
@@ -106,25 +95,25 @@ internal static class Program
         Console.WriteLine("  LAGRANGE_INTERP_ND_GRID sets the interpolant.");
         Console.WriteLine("  LAGRANGE_INTERP_ND_VALUE evaluates it.");
 
-        m = 1;
+        int m = 1;
 
-        n_1d = new int[m];
+        int[] n_1d = new int[m];
         for (i = 0; i < m; i++)
         {
             n_1d[i] = 5;
         }
 
-        a = new double[m];
-        b = new double[m];
+        double[] a = new double[m];
+        double[] b = new double[m];
         for (i = 0; i < m; i++)
         {
             a[i] = 0.0;
             b[i] = 1.0;
         }
 
-        nd = LagrangenD.lagrange_interp_nd_size(m, n_1d);
-        xd = LagrangenD.lagrange_interp_nd_grid(m, n_1d, a, b, nd);
-        zd = f_sinr(m, nd, xd);
+        int nd = LagrangenD.lagrange_interp_nd_size(m, n_1d);
+        double[] xd = LagrangenD.lagrange_interp_nd_grid(m, n_1d, a, b, nd);
+        double[] zd = f_sinr(m, nd, xd);
         //
         //  Evaluate.
         //
@@ -132,17 +121,17 @@ internal static class Program
         Console.WriteLine("         Zinterp          Zexact      Error");
         Console.WriteLine("");
 
-        ni = 5;
-        seed = 123456789;
-        xi = UniformRNG.r8mat_uniform_01_new(m, ni, ref seed);
-        ze = f_sinr(m, ni, xi);
-        zi = LagrangenD.lagrange_interp_nd_value(m, n_1d, a, b, nd, zd, ni, xi);
+        int ni = 5;
+        int seed = 123456789;
+        double[] xi = UniformRNG.r8mat_uniform_01_new(m, ni, ref seed);
+        double[] ze = f_sinr(m, ni, xi);
+        double[] zi = LagrangenD.lagrange_interp_nd_value(m, n_1d, a, b, nd, zd, ni, xi);
 
         for (j = 0; j < ni; j++)
         {
-            Console.WriteLine("  " + zi[j].ToString().PadLeft(14)
-                                   + "  " + ze[j].ToString().PadLeft(14)
-                                   + "  " + Math.Abs(zi[j] - ze[j]).ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + zi[j].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + ze[j].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(zi[j] - ze[j]).ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -167,20 +156,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] a;
-        double[] b;
         int i;
         int j;
-        int m;
-        int[] n_1d;
-        int nd;
-        int ni;
-        int seed;
-        double[] xd;
-        double[] xi;
-        double[] zd;
-        double[] ze;
-        double[] zi;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02:");
@@ -188,25 +165,25 @@ internal static class Program
         Console.WriteLine("  LAGRANGE_INTERP_ND_GRID sets the interpolant.");
         Console.WriteLine("  LAGRANGE_INTERP_ND_VALUE evaluates it.");
 
-        m = 2;
+        const int m = 2;
 
-        n_1d = new int[m];
+        int[] n_1d = new int[m];
         for (i = 0; i < m; i++)
         {
             n_1d[i] = 5;
         }
 
-        a = new double[m];
-        b = new double[m];
+        double[] a = new double[m];
+        double[] b = new double[m];
         for (i = 0; i < m; i++)
         {
             a[i] = 0.0;
             b[i] = 1.0;
         }
 
-        nd = LagrangenD.lagrange_interp_nd_size(m, n_1d);
-        xd = LagrangenD.lagrange_interp_nd_grid(m, n_1d, a, b, nd);
-        zd = f_sinr(m, nd, xd);
+        int nd = LagrangenD.lagrange_interp_nd_size(m, n_1d);
+        double[] xd = LagrangenD.lagrange_interp_nd_grid(m, n_1d, a, b, nd);
+        double[] zd = f_sinr(m, nd, xd);
         //
         //  Evaluate.
         //
@@ -214,17 +191,17 @@ internal static class Program
         Console.WriteLine("         Zinterp          Zexact      Error");
         Console.WriteLine("");
 
-        ni = 5;
-        seed = 123456789;
-        xi = UniformRNG.r8mat_uniform_01_new(m, ni, ref seed);
-        ze = f_sinr(m, ni, xi);
-        zi = LagrangenD.lagrange_interp_nd_value(m, n_1d, a, b, nd, zd, ni, xi);
+        int ni = 5;
+        int seed = 123456789;
+        double[] xi = UniformRNG.r8mat_uniform_01_new(m, ni, ref seed);
+        double[] ze = f_sinr(m, ni, xi);
+        double[] zi = LagrangenD.lagrange_interp_nd_value(m, n_1d, a, b, nd, zd, ni, xi);
 
         for (j = 0; j < ni; j++)
         {
-            Console.WriteLine("  " + zi[j].ToString().PadLeft(14)
-                                   + "  " + ze[j].ToString().PadLeft(14)
-                                   + "  " + Math.Abs(zi[j] - ze[j]).ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + zi[j].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + ze[j].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(zi[j] - ze[j]).ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -249,20 +226,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] a;
-        double[] b;
         int i;
         int j;
-        int m;
-        int[] n_1d;
-        int nd;
-        int ni;
-        int seed;
-        double[] xd;
-        double[] xi;
-        double[] zd;
-        double[] ze;
-        double[] zi;
 
         Console.WriteLine("");
         Console.WriteLine("TEST03:");
@@ -270,25 +235,25 @@ internal static class Program
         Console.WriteLine("  LAGRANGE_INTERP_ND_GRID sets the interpolant.");
         Console.WriteLine("  LAGRANGE_INTERP_ND_VALUE evaluates it.");
 
-        m = 3;
+        const int m = 3;
 
-        n_1d = new int[m];
+        int[] n_1d = new int[m];
         for (i = 0; i < m; i++)
         {
             n_1d[i] = 5;
         }
 
-        a = new double[m];
-        b = new double[m];
+        double[] a = new double[m];
+        double[] b = new double[m];
         for (i = 0; i < m; i++)
         {
             a[i] = 0.0;
             b[i] = 1.0;
         }
 
-        nd = LagrangenD.lagrange_interp_nd_size(m, n_1d);
-        xd = LagrangenD.lagrange_interp_nd_grid(m, n_1d, a, b, nd);
-        zd = f_sinr(m, nd, xd);
+        int nd = LagrangenD.lagrange_interp_nd_size(m, n_1d);
+        double[] xd = LagrangenD.lagrange_interp_nd_grid(m, n_1d, a, b, nd);
+        double[] zd = f_sinr(m, nd, xd);
         //
         //  Evaluate.
         //
@@ -296,17 +261,17 @@ internal static class Program
         Console.WriteLine("         Zinterp          Zexact      Error");
         Console.WriteLine("");
 
-        ni = 5;
-        seed = 123456789;
-        xi = UniformRNG.r8mat_uniform_01_new(m, ni, ref seed);
-        ze = f_sinr(m, ni, xi);
-        zi = LagrangenD.lagrange_interp_nd_value(m, n_1d, a, b, nd, zd, ni, xi);
+        int ni = 5;
+        int seed = 123456789;
+        double[] xi = UniformRNG.r8mat_uniform_01_new(m, ni, ref seed);
+        double[] ze = f_sinr(m, ni, xi);
+        double[] zi = LagrangenD.lagrange_interp_nd_value(m, n_1d, a, b, nd, zd, ni, xi);
 
         for (j = 0; j < ni; j++)
         {
-            Console.WriteLine("  " + zi[j].ToString().PadLeft(14)
-                                   + "  " + ze[j].ToString().PadLeft(14)
-                                   + "  " + Math.Abs(zi[j] - ze[j]).ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + zi[j].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + ze[j].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(zi[j] - ze[j]).ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -331,44 +296,30 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] a;
-        double[] b;
-        double e;
         int i;
         int l;
-        int m;
-        int[] n_1d;
-        int nd;
-        int ni;
-        int order;
-        int seed;
-        double[] xd;
-        double[] xi;
-        double[] zd;
-        double[] ze;
-        double[] zi;
 
         Console.WriteLine("");
         Console.WriteLine("TEST04:");
         Console.WriteLine("  Interpolate in 3D, using orders.");
         Console.WriteLine("  Use a sequence of increasing orders.");
 
-        m = 3;
+        const int m = 3;
 
-        n_1d = new int[m];
+        int[] n_1d = new int[m];
 
-        a = new double[m];
-        b = new double[m];
+        double[] a = new double[m];
+        double[] b = new double[m];
         for (i = 0; i < m; i++)
         {
             a[i] = 0.0;
             b[i] = 1.0;
         }
 
-        ni = 20;
-        seed = 123456789;
-        xi = UniformRNG.r8mat_uniform_01_new(m, ni, ref seed);
-        ze = f_sinr(m, ni, xi);
+        int ni = 20;
+        int seed = 123456789;
+        double[] xi = UniformRNG.r8mat_uniform_01_new(m, ni, ref seed);
+        double[] ze = f_sinr(m, ni, xi);
 
         Console.WriteLine("");
         Console.WriteLine("  Level     Order   Average Error");
@@ -376,7 +327,7 @@ internal static class Program
 
         for (l = 1; l <= 5; l++)
         {
-            order = l switch
+            int order = l switch
             {
                 0 => 1,
                 _ => (int) Math.Pow(2, l) + 1
@@ -387,19 +338,19 @@ internal static class Program
                 n_1d[i] = order;
             }
 
-            nd = LagrangenD.lagrange_interp_nd_size(m, n_1d);
-            xd = LagrangenD.lagrange_interp_nd_grid(m, n_1d, a, b, nd);
-            zd = f_sinr(m, nd, xd);
+            int nd = LagrangenD.lagrange_interp_nd_size(m, n_1d);
+            double[] xd = LagrangenD.lagrange_interp_nd_grid(m, n_1d, a, b, nd);
+            double[] zd = f_sinr(m, nd, xd);
             //
             //  Evaluate.
             //
-            zi = LagrangenD.lagrange_interp_nd_value(m, n_1d, a, b, nd, zd, ni, xi);
+            double[] zi = LagrangenD.lagrange_interp_nd_value(m, n_1d, a, b, nd, zd, ni, xi);
 
-            e = typeMethods.r8vec_norm_affine(ni, zi, ze) / ni;
+            double e = typeMethods.r8vec_norm_affine(ni, zi, ze) / ni;
 
-            Console.WriteLine("  " + l.ToString().PadLeft(5)
-                                   + "  " + nd.ToString().PadLeft(5)
-                                   + "  " + e.ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + l.ToString(CultureInfo.InvariantCulture).PadLeft(5)
+                                   + "  " + nd.ToString(CultureInfo.InvariantCulture).PadLeft(5)
+                                   + "  " + e.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -424,20 +375,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] a;
-        double[] b;
         int i;
-        int[] ind;
         int j;
-        int m;
-        int nd;
-        int ni;
-        int seed;
-        double[] xd;
-        double[] xi;
-        double[] zd;
-        double[] ze;
-        double[] zi;
 
         Console.WriteLine("");
         Console.WriteLine("TEST05:");
@@ -445,25 +384,25 @@ internal static class Program
         Console.WriteLine("  LAGRANGE_INTERP_ND_GRID2 sets the interpolant.");
         Console.WriteLine("  LAGRANGE_INTERP_ND_VALUE2 evaluates it.");
 
-        m = 1;
+        const int m = 1;
 
-        ind = new int[m];
+        int[] ind = new int[m];
         for (i = 0; i < m; i++)
         {
             ind[i] = 2;
         }
 
-        a = new double[m];
-        b = new double[m];
+        double[] a = new double[m];
+        double[] b = new double[m];
         for (i = 0; i < m; i++)
         {
             a[i] = 0.0;
             b[i] = 1.0;
         }
 
-        nd = LagrangenD.lagrange_interp_nd_size2(m, ind);
-        xd = LagrangenD.lagrange_interp_nd_grid2(m, ind, a, b, nd);
-        zd = f_sinr(m, nd, xd);
+        int nd = LagrangenD.lagrange_interp_nd_size2(m, ind);
+        double[] xd = LagrangenD.lagrange_interp_nd_grid2(m, ind, a, b, nd);
+        double[] zd = f_sinr(m, nd, xd);
         //
         //  Evaluate.
         //
@@ -471,17 +410,17 @@ internal static class Program
         Console.WriteLine("         Zinterp          Zexact      Error");
         Console.WriteLine("");
 
-        ni = 5;
-        seed = 123456789;
-        xi = UniformRNG.r8mat_uniform_01_new(m, ni, ref seed);
-        ze = f_sinr(m, ni, xi);
-        zi = LagrangenD.lagrange_interp_nd_value2(m, ind, a, b, nd, zd, ni, xi);
+        int ni = 5;
+        int seed = 123456789;
+        double[] xi = UniformRNG.r8mat_uniform_01_new(m, ni, ref seed);
+        double[] ze = f_sinr(m, ni, xi);
+        double[] zi = LagrangenD.lagrange_interp_nd_value2(m, ind, a, b, nd, zd, ni, xi);
 
         for (j = 0; j < ni; j++)
         {
-            Console.WriteLine("  " + zi[j].ToString().PadLeft(14)
-                                   + "  " + ze[j].ToString().PadLeft(14)
-                                   + "  " + Math.Abs(zi[j] - ze[j]).ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + zi[j].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + ze[j].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(zi[j] - ze[j]).ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -506,20 +445,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] a;
-        double[] b;
         int i;
-        int[] ind;
         int j;
-        int m;
-        int nd;
-        int ni;
-        int seed;
-        double[] xd;
-        double[] xi;
-        double[] zd;
-        double[] ze;
-        double[] zi;
 
         Console.WriteLine("");
         Console.WriteLine("TEST06:");
@@ -527,25 +454,25 @@ internal static class Program
         Console.WriteLine("  LAGRANGE_INTERP_ND_GRID2 sets the interpolant.");
         Console.WriteLine("  LAGRANGE_INTERP_ND_VALUE2 evaluates it.");
 
-        m = 2;
+        const int m = 2;
 
-        ind = new int[m];
+        int[] ind = new int[m];
         for (i = 0; i < m; i++)
         {
             ind[i] = 2;
         }
 
-        a = new double[m];
-        b = new double[m];
+        double[] a = new double[m];
+        double[] b = new double[m];
         for (i = 0; i < m; i++)
         {
             a[i] = 0.0;
             b[i] = 1.0;
         }
 
-        nd = LagrangenD.lagrange_interp_nd_size2(m, ind);
-        xd = LagrangenD.lagrange_interp_nd_grid2(m, ind, a, b, nd);
-        zd = f_sinr(m, nd, xd);
+        int nd = LagrangenD.lagrange_interp_nd_size2(m, ind);
+        double[] xd = LagrangenD.lagrange_interp_nd_grid2(m, ind, a, b, nd);
+        double[] zd = f_sinr(m, nd, xd);
         //
         //  Evaluate.
         //
@@ -553,17 +480,17 @@ internal static class Program
         Console.WriteLine("         Zinterp          Zexact      Error");
         Console.WriteLine("");
 
-        ni = 5;
-        seed = 123456789;
-        xi = UniformRNG.r8mat_uniform_01_new(m, ni, ref seed);
-        ze = f_sinr(m, ni, xi);
-        zi = LagrangenD.lagrange_interp_nd_value2(m, ind, a, b, nd, zd, ni, xi);
+        int ni = 5;
+        int seed = 123456789;
+        double[] xi = UniformRNG.r8mat_uniform_01_new(m, ni, ref seed);
+        double[] ze = f_sinr(m, ni, xi);
+        double[] zi = LagrangenD.lagrange_interp_nd_value2(m, ind, a, b, nd, zd, ni, xi);
 
         for (j = 0; j < ni; j++)
         {
-            Console.WriteLine("  " + zi[j].ToString().PadLeft(14)
-                                   + "  " + ze[j].ToString().PadLeft(14)
-                                   + "  " + Math.Abs(zi[j] - ze[j]).ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + zi[j].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + ze[j].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(zi[j] - ze[j]).ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -588,20 +515,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] a;
-        double[] b;
         int i;
-        int[] ind;
         int j;
-        int m;
-        int nd;
-        int ni;
-        int seed;
-        double[] xd;
-        double[] xi;
-        double[] zd;
-        double[] ze;
-        double[] zi;
 
         Console.WriteLine("");
         Console.WriteLine("TEST07:");
@@ -609,25 +524,25 @@ internal static class Program
         Console.WriteLine("  LAGRANGE_INTERP_ND_GRID2 sets the interpolant.");
         Console.WriteLine("  LAGRANGE_INTERP_ND_VALUE2 evaluates it.");
 
-        m = 3;
+        int m = 3;
 
-        ind = new int[m];
+        int[] ind = new int[m];
         for (i = 0; i < m; i++)
         {
             ind[i] = 2;
         }
 
-        a = new double[m];
-        b = new double[m];
+        double[] a = new double[m];
+        double[] b = new double[m];
         for (i = 0; i < m; i++)
         {
             a[i] = 0.0;
             b[i] = 1.0;
         }
 
-        nd = LagrangenD.lagrange_interp_nd_size2(m, ind);
-        xd = LagrangenD.lagrange_interp_nd_grid2(m, ind, a, b, nd);
-        zd = f_sinr(m, nd, xd);
+        int nd = LagrangenD.lagrange_interp_nd_size2(m, ind);
+        double[] xd = LagrangenD.lagrange_interp_nd_grid2(m, ind, a, b, nd);
+        double[] zd = f_sinr(m, nd, xd);
         //
         //  Evaluate.
         //
@@ -635,17 +550,17 @@ internal static class Program
         Console.WriteLine("         Zinterp          Zexact      Error");
         Console.WriteLine("");
 
-        ni = 5;
-        seed = 123456789;
-        xi = UniformRNG.r8mat_uniform_01_new(m, ni, ref seed);
-        ze = f_sinr(m, ni, xi);
-        zi = LagrangenD.lagrange_interp_nd_value2(m, ind, a, b, nd, zd, ni, xi);
+        int ni = 5;
+        int seed = 123456789;
+        double[] xi = UniformRNG.r8mat_uniform_01_new(m, ni, ref seed);
+        double[] ze = f_sinr(m, ni, xi);
+        double[] zi = LagrangenD.lagrange_interp_nd_value2(m, ind, a, b, nd, zd, ni, xi);
 
         for (j = 0; j < ni; j++)
         {
-            Console.WriteLine("  " + zi[j].ToString().PadLeft(14)
-                                   + "  " + ze[j].ToString().PadLeft(14)
-                                   + "  " + Math.Abs(zi[j] - ze[j]).ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + zi[j].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + ze[j].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(zi[j] - ze[j]).ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -670,43 +585,30 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] a;
-        double[] b;
-        double e;
         int i;
-        int[] ind;
         int l;
-        int m;
-        int nd;
-        int ni;
-        int seed;
-        double[] xd;
-        double[] xi;
-        double[] zd;
-        double[] ze;
-        double[] zi;
 
         Console.WriteLine("");
         Console.WriteLine("TEST08:");
         Console.WriteLine("  Interpolate in 3D, using levels.");
         Console.WriteLine("  Use a sequence of increasing levels.");
 
-        m = 3;
+        const int m = 3;
 
-        ind = new int[m];
+        int[] ind = new int[m];
 
-        a = new double[m];
-        b = new double[m];
+        double[] a = new double[m];
+        double[] b = new double[m];
         for (i = 0; i < m; i++)
         {
             a[i] = 0.0;
             b[i] = 1.0;
         }
 
-        ni = 20;
-        seed = 123456789;
-        xi = UniformRNG.r8mat_uniform_01_new(m, ni, ref seed);
-        ze = f_sinr(m, ni, xi);
+        int ni = 20;
+        int seed = 123456789;
+        double[] xi = UniformRNG.r8mat_uniform_01_new(m, ni, ref seed);
+        double[] ze = f_sinr(m, ni, xi);
 
         Console.WriteLine("");
         Console.WriteLine("  Level     Order   Average Error");
@@ -719,19 +621,19 @@ internal static class Program
                 ind[i] = l;
             }
 
-            nd = LagrangenD.lagrange_interp_nd_size2(m, ind);
-            xd = LagrangenD.lagrange_interp_nd_grid2(m, ind, a, b, nd);
-            zd = f_sinr(m, nd, xd);
+            int nd = LagrangenD.lagrange_interp_nd_size2(m, ind);
+            double[] xd = LagrangenD.lagrange_interp_nd_grid2(m, ind, a, b, nd);
+            double[] zd = f_sinr(m, nd, xd);
             //
             //  Evaluate.
             //
-            zi = LagrangenD.lagrange_interp_nd_value2(m, ind, a, b, nd, zd, ni, xi);
+            double[] zi = LagrangenD.lagrange_interp_nd_value2(m, ind, a, b, nd, zd, ni, xi);
 
-            e = typeMethods.r8vec_norm_affine(ni, zi, ze) / ni;
+            double e = typeMethods.r8vec_norm_affine(ni, zi, ze) / ni;
 
-            Console.WriteLine("  " + l.ToString().PadLeft(5)
-                                   + "  " + nd.ToString().PadLeft(5)
-                                   + "  " + e.ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + l.ToString(CultureInfo.InvariantCulture).PadLeft(5)
+                                   + "  " + nd.ToString(CultureInfo.InvariantCulture).PadLeft(5)
+                                   + "  " + e.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
         }
     }
@@ -757,21 +659,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] a;
-        double[] b;
-        double e;
         int i;
         int l;
-        int m;
-        int[] n_1d;
-        int nd;
-        int ni;
-        int seed;
-        double[] xd;
-        double[] xi;
-        double[] zd;
-        double[] ze;
-        double[] zi;
 
         Console.WriteLine("");
         Console.WriteLine("TEST09:");
@@ -781,22 +670,22 @@ internal static class Program
         Console.WriteLine("  The interpoland is a polynomial of degrees 3, 5, 2");
         Console.WriteLine("  so our orders need to be at least 4, 6, 3 to match it.");
 
-        m = 3;
+        const int m = 3;
 
-        n_1d = new int[m];
+        int[] n_1d = new int[m];
 
-        a = new double[m];
-        b = new double[m];
+        double[] a = new double[m];
+        double[] b = new double[m];
         for (i = 0; i < m; i++)
         {
             a[i] = 0.0;
             b[i] = 1.0;
         }
 
-        ni = 20;
-        seed = 123456789;
-        xi = UniformRNG.r8mat_uniform_01_new(m, ni, ref seed);
-        ze = f_poly352(m, ni, xi);
+        int ni = 20;
+        int seed = 123456789;
+        double[] xi = UniformRNG.r8mat_uniform_01_new(m, ni, ref seed);
+        double[] ze = f_poly352(m, ni, xi);
 
         Console.WriteLine("");
         Console.WriteLine("  Level     Orders   Average Error");
@@ -858,21 +747,21 @@ internal static class Program
                     break;
             }
 
-            nd = LagrangenD.lagrange_interp_nd_size(m, n_1d);
-            xd = LagrangenD.lagrange_interp_nd_grid(m, n_1d, a, b, nd);
-            zd = f_poly352(m, nd, xd);
+            int nd = LagrangenD.lagrange_interp_nd_size(m, n_1d);
+            double[] xd = LagrangenD.lagrange_interp_nd_grid(m, n_1d, a, b, nd);
+            double[] zd = f_poly352(m, nd, xd);
             //
             //  Evaluate.
             //
-            zi = LagrangenD.lagrange_interp_nd_value(m, n_1d, a, b, nd, zd, ni, xi);
+            double[] zi = LagrangenD.lagrange_interp_nd_value(m, n_1d, a, b, nd, zd, ni, xi);
 
-            e = typeMethods.r8vec_norm_affine(ni, zi, ze) / ni;
+            double e = typeMethods.r8vec_norm_affine(ni, zi, ze) / ni;
 
-            Console.WriteLine("  " + l.ToString().PadLeft(5)
-                                   + "  " + n_1d[0].ToString().PadLeft(5)
-                                   + "  " + n_1d[1].ToString().PadLeft(5)
-                                   + "  " + n_1d[2].ToString().PadLeft(5)
-                                   + "  " + e.ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + l.ToString(CultureInfo.InvariantCulture).PadLeft(5)
+                                   + "  " + n_1d[0].ToString(CultureInfo.InvariantCulture).PadLeft(5)
+                                   + "  " + n_1d[1].ToString(CultureInfo.InvariantCulture).PadLeft(5)
+                                   + "  " + n_1d[2].ToString(CultureInfo.InvariantCulture).PadLeft(5)
+                                   + "  " + e.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
         }
     }
@@ -908,16 +797,14 @@ internal static class Program
         //    Output, double F_SINR[N], the value of the function at each point.
         //
     {
-        int i;
         int j;
-        double r;
-        double[] z;
 
-        z = new double[n];
+        double[] z = new double[n];
 
         for (j = 0; j < n; j++)
         {
-            r = 0.0;
+            double r = 0.0;
+            int i;
             for (i = 0; i < m; i++)
             {
                 r += Math.Pow(x[i + j * m], 2);
@@ -966,9 +853,8 @@ internal static class Program
         //
     {
         int j;
-        double[] z;
 
-        z = new double[n];
+        double[] z = new double[n];
 
         for (j = 0; j < n; j++)
         {

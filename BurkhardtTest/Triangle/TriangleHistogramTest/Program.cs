@@ -54,20 +54,9 @@ internal static class Program
     {
         int d;
         string data_filename;
-        int data_num;
-        double[] data_xy;
-        int dim_num;
-        int[] histo;
-        double histo_ave;
-        int histo_max;
-        int histo_min;
-        double histo_std;
         int i;
-        int j;
         int k;
         int n;
-        int sub_num;
-        int t;
 
         Console.WriteLine("");
         Console.WriteLine("TRIANGLE_HISTOGRAM");
@@ -109,8 +98,8 @@ internal static class Program
         //  Read the DATA_XY data.
         //
         TableHeader h = typeMethods.r8mat_header_read(data_filename);
-        dim_num = h.m;
-        data_num = h.n;
+        int dim_num = h.m;
+        int data_num = h.n;
 
         Console.WriteLine("");
         Console.WriteLine("  Read the header of \"" + data_filename + "\".");
@@ -126,7 +115,7 @@ internal static class Program
             return;
         }
 
-        data_xy = typeMethods.r8mat_data_read(data_filename, dim_num, data_num);
+        double[] data_xy = typeMethods.r8mat_data_read(data_filename, dim_num, data_num);
 
         Console.WriteLine("");
         Console.WriteLine("  Read the data in \"" + data_filename + "\".");
@@ -154,8 +143,8 @@ internal static class Program
         //
         //  Prepare the histogram.
         //
-        sub_num = n * n;
-        histo = new int[sub_num + 1];
+        int sub_num = n * n;
+        int[] histo = new int[sub_num + 1];
         for (i = 0; i < sub_num + 1; i++)
         {
             histo[i] = 0;
@@ -168,9 +157,10 @@ internal static class Program
         for (d = 0; d < data_num; d++)
         {
             i = (int) (data_xy[0 + d * 2] * n) + 1;
-            j = (int) (data_xy[1 + d * 2] * n) + 1;
+            int j = (int) (data_xy[1 + d * 2] * n) + 1;
             k = (int) ((1.0 - data_xy[0 + d * 2] - data_xy[1 + d * 2]) * n) + 1;
 
+            int t;
             if (i < 1 || n < i ||
                 j < 1 || n < j ||
                 k < 1 || n < k)
@@ -191,10 +181,10 @@ internal static class Program
         //
         //  Histogram statistics.
         //
-        histo_ave = typeMethods.i4vec_mean(sub_num, histo);
-        histo_max = typeMethods.i4vec_max(sub_num, histo);
-        histo_min = typeMethods.i4vec_min(sub_num, histo);
-        histo_std = typeMethods.i4vec_std(sub_num, histo);
+        double histo_ave = typeMethods.i4vec_mean(sub_num, histo);
+        int histo_max = typeMethods.i4vec_max(sub_num, histo);
+        int histo_min = typeMethods.i4vec_min(sub_num, histo);
+        double histo_std = typeMethods.i4vec_std(sub_num, histo);
         //
         //  Print the histogram.
         //

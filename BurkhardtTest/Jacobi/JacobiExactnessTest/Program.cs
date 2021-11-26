@@ -43,20 +43,8 @@ internal static class Program
         double beta;
         int degree;
         int degree_max;
-        int dim_num;
-        int dim_num2;
         int i;
-        int order;
-        int point_num;
-        int point_num2;
-        double quad_error;
         string quad_filename;
-        string quad_r_filename;
-        string quad_w_filename;
-        string quad_x_filename;
-        double[] r;
-        double[] w;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("JACOBI_EXACTNESS");
@@ -87,9 +75,9 @@ internal static class Program
         //    the quadrature W file;
         //    the quadrature R file;
         //
-        quad_w_filename = quad_filename + "_w.txt";
-        quad_x_filename = quad_filename + "_x.txt";
-        quad_r_filename = quad_filename + "_r.txt";
+        string quad_w_filename = quad_filename + "_w.txt";
+        string quad_x_filename = quad_filename + "_x.txt";
+        string quad_r_filename = quad_filename + "_r.txt";
         //
         //  Get the maximum degree:
         //
@@ -153,8 +141,8 @@ internal static class Program
         //  Read the X file.
         //
         TableHeader h = typeMethods.r8mat_header_read(quad_x_filename);
-        dim_num = h.m;
-        order = h.n;
+        int dim_num = h.m;
+        int order = h.n;
 
         if (dim_num != 1)
         {
@@ -169,13 +157,13 @@ internal static class Program
         Console.WriteLine("  Spatial dimension = " + dim_num + "");
         Console.WriteLine("  Number of points  = " + order + "");
 
-        x = typeMethods.r8mat_data_read(quad_x_filename, dim_num, order);
+        double[] x = typeMethods.r8mat_data_read(quad_x_filename, dim_num, order);
         //
         //  Read the W file.
         //
         h = typeMethods.r8mat_header_read(quad_w_filename);
-        dim_num2 = h.m;
-        point_num = h.n;
+        int dim_num2 = h.m;
+        int point_num = h.n;
 
         if (dim_num2 != 1)
         {
@@ -195,13 +183,13 @@ internal static class Program
             return;
         }
 
-        w = typeMethods.r8mat_data_read(quad_w_filename, dim_num, order);
+        double[] w = typeMethods.r8mat_data_read(quad_w_filename, dim_num, order);
         //
         //  Read the R file.
         //
         h = typeMethods.r8mat_header_read(quad_r_filename);
         dim_num2 = h.m;
-        point_num2 = h.n;
+        int point_num2 = h.n;
 
         if (dim_num2 != dim_num)
         {
@@ -221,7 +209,7 @@ internal static class Program
             return;
         }
 
-        r = typeMethods.r8mat_data_read(quad_r_filename, dim_num, point_num2);
+        double[] r = typeMethods.r8mat_data_read(quad_r_filename, dim_num, point_num2);
         //
         //  Print the input quadrature rule.
         //
@@ -277,7 +265,7 @@ internal static class Program
 
         for (degree = 0; degree <= degree_max; degree++)
         {
-            quad_error = JacobiQuadrature.monomial_quadrature_jacobi(degree, alpha, beta,
+            double quad_error = JacobiQuadrature.monomial_quadrature_jacobi(degree, alpha, beta,
                 order, w, x);
 
             Console.WriteLine("  " + quad_error.ToString("0.################").PadLeft(24)

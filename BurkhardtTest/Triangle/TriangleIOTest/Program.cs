@@ -64,12 +64,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] node_att;
         int node_att_num = 0;
-        double[] node_coord;
         int node_dim = 0;
-        string node_file = "example.node";
-        int[] node_marker;
+        const string node_file = "example.node";
         int node_marker_num = 0;
         int node_num = 0;
 
@@ -92,9 +89,9 @@ internal static class Program
         //
         //  Allocate memory for node data.
         //
-        node_coord = new double[node_dim * node_num];
-        node_att = new double[node_att_num * node_num];
-        node_marker = new int[node_marker_num * node_num];
+        double[] node_coord = new double[node_dim * node_num];
+        double[] node_att = new double[node_att_num * node_num];
+        int[] node_marker = new int[node_marker_num * node_num];
         //
         //  Get the node data.
         //
@@ -142,10 +139,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] element_att;
         int element_att_num = 0;
-        string element_file = "example.ele";
-        int[] element_node;
+        const string element_file = "example.ele";
         int element_num = 0;
         int element_order = 0;
 
@@ -167,8 +162,8 @@ internal static class Program
         //
         //  Allocate memory.
         //
-        element_node = new int[element_order * element_num];
-        element_att = new double[element_att_num * element_num];
+        int[] element_node = new int[element_order * element_num];
+        double[] element_att = new double[element_att_num * element_num];
         //
         //  Get the data.
         //
@@ -213,12 +208,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] node_att;
         int node_att_num = 0;
-        double[] node_coord;
         int node_dim = 0;
-        string node_file = "example.node";
-        int[] node_marker;
+        const string node_file = "example.node";
         int node_marker_num = 0;
         int node_num = 0;
 
@@ -243,9 +235,9 @@ internal static class Program
         //
         //  Allocate memory.
         //
-        node_coord = new double[node_dim * node_num];
-        node_att = new double[node_att_num * node_num];
-        node_marker = new int[node_marker_num * node_num];
+        double[] node_coord = new double[node_dim * node_num];
+        double[] node_att = new double[node_att_num * node_num];
+        int[] node_marker = new int[node_marker_num * node_num];
         //
         //  Get the data.
         //
@@ -285,10 +277,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] element_att;
         int element_att_num = 0;
-        string element_file = "example.ele";
-        int[] element_node;
+        const string element_file = "example.ele";
         int element_num = 0;
         int element_order = 0;
 
@@ -312,8 +302,8 @@ internal static class Program
         //
         //  Allocate memory.
         //
-        element_node = new int[element_order * element_num];
-        element_att = new double[element_att_num * element_num];
+        int[] element_node = new int[element_order * element_num];
+        double[] element_att = new double[element_att_num * element_num];
         //
         //  Get the data.
         //

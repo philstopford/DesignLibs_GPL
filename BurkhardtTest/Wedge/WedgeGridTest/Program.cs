@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 
 using Grid = Burkardt.Wedge.Grid;
@@ -66,11 +67,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] g;
         int j;
-        int n = 5;
-        int ng;
-        string output_filename;
+        const int n = 5;
         List<string> output_unit = new();
 
         Console.WriteLine("");
@@ -82,24 +80,24 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Grid order N = " + n + "");
 
-        ng = Grid.wedge_grid_size(n);
+        int ng = Grid.wedge_grid_size(n);
 
         Console.WriteLine("  Grid count NG = " + ng + "");
 
-        g = Grid.wedge_grid(n, ng);
+        double[] g = Grid.wedge_grid(n, ng);
 
         Console.WriteLine("");
         Console.WriteLine("     J      X                Y               Z");
         Console.WriteLine("");
         for (j = 0; j < ng; j++)
         {
-            Console.WriteLine(j.ToString().PadLeft(6) + "  "
-                                                      + g[0 + j * 3].ToString().PadLeft(14) + "  "
-                                                      + g[1 + j * 3].ToString().PadLeft(14) + "  "
-                                                      + g[2 + j * 3].ToString().PadLeft(14) + "");
+            Console.WriteLine(j.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                      + g[0 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                                                      + g[1 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                                                      + g[2 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
-        output_filename = "wedge_grid.xy";
+        string output_filename = "wedge_grid.xy";
 
         for (j = 0; j < ng; j++)
         {
@@ -135,10 +133,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] g;
-        string header;
-        int n = 5;
-        int ng;
+        const int n = 5;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02");
@@ -148,13 +143,13 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Grid order N = " + n + "");
 
-        ng = Grid.wedge_grid_size(n);
+        int ng = Grid.wedge_grid_size(n);
 
         Console.WriteLine("  Grid count NG = " + ng + "");
 
-        g = Grid.wedge_grid(n, ng);
+        double[] g = Grid.wedge_grid(n, ng);
 
-        header = "wedge";
+        string header = "wedge";
 
         Grid.wedge_grid_plot(n, ng, g, header);
     }

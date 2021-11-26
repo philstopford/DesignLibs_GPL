@@ -65,7 +65,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 4;
+        const int N = 4;
 
         double[] a =  {
                 4.0, -30.0, 60.0, -35.0,
@@ -75,10 +75,7 @@ internal static class Program
             }
             ;
         double[] d = new double[N];
-        double error_frobenius;
-        int it_max;
         int it_num = 0;
-        int n = N;
         int rot_num = 0;
         double[] v = new double[N * N];
 
@@ -88,23 +85,23 @@ internal static class Program
         Console.WriteLine("  JACOBI_EIGENVALUE computes the eigenvalues D");
         Console.WriteLine("  and eigenvectors V so that A * V = D * V.");
 
-        typeMethods.r8mat_print(n, n, a, "  Input matrix A:");
+        typeMethods.r8mat_print(N, N, a, "  Input matrix A:");
 
-        it_max = 100;
+        const int it_max = 100;
 
-        Jacobi.jacobi_eigenvalue(n, a, it_max, ref v, ref d, ref it_num, ref rot_num);
+        Jacobi.jacobi_eigenvalue(N, a, it_max, ref v, ref d, ref it_num, ref rot_num);
 
         Console.WriteLine("");
         Console.WriteLine("  Number of iterations = " + it_num + "");
         Console.WriteLine("  Number of rotations  = " + rot_num + "");
 
-        typeMethods.r8vec_print(n, d, "  Eigenvalues D:");
+        typeMethods.r8vec_print(N, d, "  Eigenvalues D:");
 
-        typeMethods.r8mat_print(n, n, v, "  Eigenvector matrix V:");
+        typeMethods.r8mat_print(N, N, v, "  Eigenvector matrix V:");
         //
         //  Compute eigentest.
         //
-        error_frobenius = typeMethods.r8mat_is_eigen_right(n, n, a, v, d);
+        double error_frobenius = typeMethods.r8mat_is_eigen_right(N, N, a, v, d);
         Console.WriteLine("");
         Console.WriteLine("  Frobenius norm error in eigensystem A*V-D*V = "
                           + error_frobenius + "");
@@ -131,7 +128,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 4;
+        const int N = 4;
 
         double[] a =  {
                 4.0, 0.0, 0.0, 0.0,
@@ -141,10 +138,7 @@ internal static class Program
             }
             ;
         double[] d = new double[N];
-        double error_frobenius;
-        int it_max;
         int it_num = 0;
-        int n = N;
         int rot_num = 0;
         double[] v = new double[N * N];
 
@@ -156,23 +150,23 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("As a sanity check, input a diagonal matrix.");
 
-        typeMethods.r8mat_print(n, n, a, "  Input matrix A:");
+        typeMethods.r8mat_print(N, N, a, "  Input matrix A:");
 
-        it_max = 100;
+        const int it_max = 100;
 
-        Jacobi.jacobi_eigenvalue(n, a, it_max, ref v, ref d, ref it_num, ref rot_num);
+        Jacobi.jacobi_eigenvalue(N, a, it_max, ref v, ref d, ref it_num, ref rot_num);
 
         Console.WriteLine("");
         Console.WriteLine("  Number of iterations = " + it_num + "");
         Console.WriteLine("  Number of rotations  = " + rot_num + "");
 
-        typeMethods.r8vec_print(n, d, "  Eigenvalues D:");
+        typeMethods.r8vec_print(N, d, "  Eigenvalues D:");
 
-        typeMethods.r8mat_print(n, n, v, "  Eigenvector matrix V:");
+        typeMethods.r8mat_print(N, N, v, "  Eigenvector matrix V:");
         //
         //  Compute eigentest.
         //
-        error_frobenius = typeMethods.r8mat_is_eigen_right(n, n, a, v, d);
+        double error_frobenius = typeMethods.r8mat_is_eigen_right(N, N, a, v, d);
         Console.WriteLine("");
         Console.WriteLine("  Frobenius norm error in eigensystem A*V-D*V = "
                           + error_frobenius + "");
@@ -199,16 +193,12 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 5;
+        const int N = 5;
 
         double[] a = new double[N * N];
         double[] d = new double[N];
-        double error_frobenius;
-        int i;
-        int it_max;
         int it_num = 0;
         int j;
-        int n = N;
         int rot_num = 0;
         double[] v = new double[N * N];
 
@@ -220,42 +210,43 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Use the discretized second derivative matrix.");
 
-        for (j = 0; j < n; j++)
+        for (j = 0; j < N; j++)
         {
-            for (i = 0; i < n; i++)
+            int i;
+            for (i = 0; i < N; i++)
             {
                 if (i == j)
                 {
-                    a[i + j * n] = -2.0;
+                    a[i + j * N] = -2.0;
                 }
                 else if (i == j + 1 || i == j - 1)
                 {
-                    a[i + j * n] = 1.0;
+                    a[i + j * N] = 1.0;
                 }
                 else
                 {
-                    a[i + j * n] = 0.0;
+                    a[i + j * N] = 0.0;
                 }
             }
         }
 
-        typeMethods.r8mat_print(n, n, a, "  Input matrix A:");
+        typeMethods.r8mat_print(N, N, a, "  Input matrix A:");
 
-        it_max = 100;
+        const int it_max = 100;
 
-        Jacobi.jacobi_eigenvalue(n, a, it_max, ref v, ref d, ref it_num, ref rot_num);
+        Jacobi.jacobi_eigenvalue(N, a, it_max, ref v, ref d, ref it_num, ref rot_num);
 
         Console.WriteLine("");
         Console.WriteLine("  Number of iterations = " + it_num + "");
         Console.WriteLine("  Number of rotations  = " + rot_num + "");
 
-        typeMethods.r8vec_print(n, d, "  Eigenvalues D:");
+        typeMethods.r8vec_print(N, d, "  Eigenvalues D:");
 
-        typeMethods.r8mat_print(n, n, v, "  Eigenvector matrix V:");
+        typeMethods.r8mat_print(N, N, v, "  Eigenvector matrix V:");
         //
         //  Compute eigentest.
         //
-        error_frobenius = typeMethods.r8mat_is_eigen_right(n, n, a, v, d);
+        double error_frobenius = typeMethods.r8mat_is_eigen_right(N, N, a, v, d);
         Console.WriteLine("");
         Console.WriteLine("  Frobenius norm error in eigensystem A*V-D*V = "
                           + error_frobenius + "");

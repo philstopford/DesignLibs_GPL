@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.MonomialNS;
 using Burkardt.Types;
 
@@ -81,19 +82,15 @@ internal static class Program
             ;
         int i;
         int j;
-        int m = 3;
-        int n;
+        const int m = 3;
         double result;
-        int seed;
-        double[] value;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
         Console.WriteLine("  Use WEDGE01_SAMPLE for a Monte Carlo estimate of an");
         Console.WriteLine("  integral over the interior of the unit wedge in 3D.");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("         N        1               X               Y " + 
@@ -101,11 +98,11 @@ internal static class Program
                           "        X^3");
         Console.WriteLine("");
 
-        n = 1;
+        int n = 1;
 
         while (n <= 65536)
         {
-            x = MonteCarlo.wedge01_sample(n, ref seed);
+            double[] x = MonteCarlo.wedge01_sample(n, ref seed);
 
             string cout = "  " + n.ToString().PadLeft(8);
 
@@ -116,10 +113,10 @@ internal static class Program
                     e[i] = e_test[i + j * m];
                 }
 
-                value = Monomial.monomial_value(m, n, e, x);
+                double[] value = Monomial.monomial_value(m, n, e, x);
 
                 result = MonteCarlo.wedge01_volume() * typeMethods.r8vec_sum(n, value) / n;
-                cout += "  " + result.ToString().PadLeft(14);
+                cout += "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -137,7 +134,7 @@ internal static class Program
             }
 
             result = MonteCarlo.wedge01_integral(e);
-            cout2 += "  " + result.ToString().PadLeft(14);
+            cout2 += "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(14);
         }
 
         Console.WriteLine(cout2);

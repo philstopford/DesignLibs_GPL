@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.TriangleNS;
 using Burkardt.Types;
 
@@ -77,10 +78,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int f_num = 3;
-        int p_num;
-        double[] result;
-        int seed;
+        const int f_num = 3;
         double[] t =
         {
             1.0, 0.0,
@@ -97,23 +95,23 @@ internal static class Program
         Console.WriteLine("  Use an increasing number of points P_NUM.");
         Console.WriteLine("  Note that the sample routine is a \"bad\" sampler.");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("     P_NUM      X^2             X*Y             Y^2");
         Console.WriteLine("");
 
-        p_num = 1;
+        int p_num = 1;
 
         while (p_num <= 65536)
         {
-            result = MonteCarlo.triangle_monte_carlo(t, p_num, f_num, MonteCarlo.triangle_unit_sample_01,
+            double[] result = MonteCarlo.triangle_monte_carlo(t, p_num, f_num, MonteCarlo.triangle_unit_sample_01,
                 MonteCarlo.triangle_integrand_03, ref seed);
 
-            Console.WriteLine("  " + p_num.ToString().PadLeft(8)
-                                   + "  " + result[0].ToString().PadLeft(14)
-                                   + "  " + result[1].ToString().PadLeft(14)
-                                   + "  " + result[2].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + p_num.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + result[0].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + result[1].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + result[2].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             p_num = 2 * p_num;
         }
@@ -140,10 +138,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int f_num = 3;
-        int p_num;
-        double[] result;
-        int seed;
+        const int f_num = 3;
         double[] t =
         {
             1.0, 0.0,
@@ -160,23 +155,23 @@ internal static class Program
         Console.WriteLine("  Use an increasing number of points P_NUM.");
         Console.WriteLine("  Note that the sample routine is a good sampler.");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("     P_NUM      X^2             X*Y             Y^2");
         Console.WriteLine("");
 
-        p_num = 1;
+        int p_num = 1;
 
         while (p_num <= 65536)
         {
-            result = MonteCarlo.triangle_monte_carlo(t, p_num, f_num, MonteCarlo.triangle_unit_sample_02,
+            double[] result = MonteCarlo.triangle_monte_carlo(t, p_num, f_num, MonteCarlo.triangle_unit_sample_02,
                 MonteCarlo.triangle_integrand_03, ref seed);
 
-            Console.WriteLine("  " + p_num.ToString().PadLeft(8)
-                                   + "  " + result[0].ToString().PadLeft(14)
-                                   + "  " + result[1].ToString().PadLeft(14)
-                                   + "  " + result[2].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + p_num.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + result[0].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + result[1].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + result[2].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             p_num = 2 * p_num;
         }
@@ -203,10 +198,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int f_num = 3;
-        int p_num;
-        double[] result;
-        int seed;
+        const int f_num = 3;
         double[] t =
         {
             1.0, 0.0,
@@ -223,23 +215,23 @@ internal static class Program
         Console.WriteLine("  Use an increasing number of points P_NUM.");
         Console.WriteLine("  Note that the sample routine is a good sampler.");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("     P_NUM      X^2             X*Y             Y^2");
         Console.WriteLine("");
 
-        p_num = 1;
+        int p_num = 1;
 
         while (p_num <= 65536)
         {
-            result = MonteCarlo.triangle_monte_carlo(t, p_num, f_num, MonteCarlo.triangle_unit_sample_03,
+            double[] result = MonteCarlo.triangle_monte_carlo(t, p_num, f_num, MonteCarlo.triangle_unit_sample_03,
                 MonteCarlo.triangle_integrand_03, ref seed);
 
-            Console.WriteLine("  " + p_num.ToString().PadLeft(8)
-                                   + "  " + result[0].ToString().PadLeft(14)
-                                   + "  " + result[1].ToString().PadLeft(14)
-                                   + "  " + result[2].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + p_num.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + result[0].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + result[1].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + result[2].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             p_num = 2 * p_num;
 
@@ -267,10 +259,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int f_num = 3;
-        int p_num;
-        double[] result;
-        int seed;
+        const int f_num = 3;
         double[] t =
         {
             1.0, 0.0,
@@ -287,23 +276,23 @@ internal static class Program
         Console.WriteLine("  Use an increasing number of points P_NUM.");
         Console.WriteLine("  Note that the sample routine is a good sampler.");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("     P_NUM      X^2             X*Y             Y^2");
         Console.WriteLine("");
 
-        p_num = 1;
+        int p_num = 1;
 
         while (p_num <= 65536)
         {
-            result = MonteCarlo.triangle_monte_carlo(t, p_num, f_num, MonteCarlo.triangle_unit_sample_04,
+            double[] result = MonteCarlo.triangle_monte_carlo(t, p_num, f_num, MonteCarlo.triangle_unit_sample_04,
                 MonteCarlo.triangle_integrand_03, ref seed);
 
-            Console.WriteLine("  " + p_num.ToString().PadLeft(8)
-                                   + "  " + result[0].ToString().PadLeft(14)
-                                   + "  " + result[1].ToString().PadLeft(14)
-                                   + "  " + result[2].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + p_num.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + result[0].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + result[1].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + result[2].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             p_num = 2 * p_num;
         }
@@ -330,11 +319,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int f_num = 8;
-        int i;
-        int p_num;
-        double[] result;
-        int seed;
+        const int f_num = 8;
         double[] t =
         {
             4.0, 1.0,
@@ -351,7 +336,7 @@ internal static class Program
         Console.WriteLine("  Use an increasing number of points P_NUM.");
         Console.WriteLine("  Note that the sample routine is a \"bad\" sampler.");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         typeMethods.r8mat_transpose_print(2, 3, t, "  Triangle vertices:");
 
@@ -359,17 +344,18 @@ internal static class Program
         Console.WriteLine("     P_NUM");
         Console.WriteLine("");
 
-        p_num = 1;
+        int p_num = 1;
 
         while (p_num <= 65536)
         {
-            result = MonteCarlo.triangle_monte_carlo(t, p_num, f_num, MonteCarlo.triangle_unit_sample_01,
+            double[] result = MonteCarlo.triangle_monte_carlo(t, p_num, f_num, MonteCarlo.triangle_unit_sample_01,
                 triangle_integrand_user, ref seed);
 
-            string tmp = "  " + p_num.ToString().PadLeft(8);
+            string tmp = "  " + p_num.ToString(CultureInfo.InvariantCulture).PadLeft(8);
+            int i;
             for (i = 0; i < f_num; i++)
             {
-                tmp += "  " + result[i].ToString().PadLeft(12);
+                tmp += "  " + result[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(tmp);
@@ -399,11 +385,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int f_num = 8;
-        int i;
-        int p_num;
-        double[] result;
-        int seed;
+        const int f_num = 8;
         double[] t =
         {
             4.0, 1.0,
@@ -420,7 +402,7 @@ internal static class Program
         Console.WriteLine("  Use an increasing number of points P_NUM.");
         Console.WriteLine("  Note that the sample routine is a \"good\" sampler.");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         typeMethods.r8mat_transpose_print(2, 3, t, "  Triangle vertices:");
 
@@ -428,17 +410,18 @@ internal static class Program
         Console.WriteLine("     P_NUM");
         Console.WriteLine("");
 
-        p_num = 1;
+        int p_num = 1;
 
         while (p_num <= 65536)
         {
-            result = MonteCarlo.triangle_monte_carlo(t, p_num, f_num, MonteCarlo.triangle_unit_sample_02,
+            double[] result = MonteCarlo.triangle_monte_carlo(t, p_num, f_num, MonteCarlo.triangle_unit_sample_02,
                 triangle_integrand_user, ref seed);
 
-            string tmp = "  " + p_num.ToString().PadLeft(8);
+            string tmp = "  " + p_num.ToString(CultureInfo.InvariantCulture).PadLeft(8);
+            int i;
             for (i = 0; i < f_num; i++)
             {
-                tmp += "  " + result[i].ToString().PadLeft(12);
+                tmp += "  " + result[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(tmp);
@@ -468,11 +451,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int f_num = 8;
-        int i;
-        int p_num;
-        double[] result;
-        int seed;
+        const int f_num = 8;
         double[] t =
         {
             4.0, 1.0,
@@ -489,7 +468,7 @@ internal static class Program
         Console.WriteLine("  Use an increasing number of points P_NUM.");
         Console.WriteLine("  Note that the sample routine is a \"good\" sampler.");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         typeMethods.r8mat_transpose_print(2, 3, t, "  Triangle vertices:");
 
@@ -497,17 +476,18 @@ internal static class Program
         Console.WriteLine("     P_NUM");
         Console.WriteLine("");
 
-        p_num = 1;
+        int p_num = 1;
 
         while (p_num <= 65536)
         {
-            result = MonteCarlo.triangle_monte_carlo(t, p_num, f_num, MonteCarlo.triangle_unit_sample_03,
+            double[] result = MonteCarlo.triangle_monte_carlo(t, p_num, f_num, MonteCarlo.triangle_unit_sample_03,
                 triangle_integrand_user, ref seed);
 
-            string tmp = "  " + p_num.ToString().PadLeft(8);
+            string tmp = "  " + p_num.ToString(CultureInfo.InvariantCulture).PadLeft(8);
+            int i;
             for (i = 0; i < f_num; i++)
             {
-                tmp += "  " + result[i].ToString().PadLeft(12);
+                tmp += "  " + result[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(tmp);
@@ -537,11 +517,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int f_num = 8;
-        int i;
-        int p_num;
-        double[] result;
-        int seed;
+        const int f_num = 8;
         double[] t =
         {
             4.0, 1.0,
@@ -558,7 +534,7 @@ internal static class Program
         Console.WriteLine("  Use an increasing number of points P_NUM.");
         Console.WriteLine("  Note that the sample routine is a \"good\" sampler.");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         typeMethods.r8mat_transpose_print(2, 3, t, "  Triangle vertices:");
 
@@ -566,17 +542,18 @@ internal static class Program
         Console.WriteLine("     P_NUM");
         Console.WriteLine("");
 
-        p_num = 1;
+        int p_num = 1;
 
         while (p_num <= 65536)
         {
-            result = MonteCarlo.triangle_monte_carlo(t, p_num, f_num, MonteCarlo.triangle_unit_sample_04,
+            double[] result = MonteCarlo.triangle_monte_carlo(t, p_num, f_num, MonteCarlo.triangle_unit_sample_04,
                 triangle_integrand_user, ref seed);
 
-            string tmp = "  " + p_num.ToString().PadLeft(8);
+            string tmp = "  " + p_num.ToString(CultureInfo.InvariantCulture).PadLeft(8);
+            int i;
             for (i = 0; i < f_num; i++)
             {
-                tmp += "  " + result[i].ToString().PadLeft(12);
+                tmp += "  " + result[i].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(tmp);
@@ -616,10 +593,9 @@ internal static class Program
         //    Output, double FP(F_NUM,P_NUM), the integrand values.
         //
     {
-        double[] fp;
         int j;
 
-        fp = new double[f_num * p_num];
+        double[] fp = new double[f_num * p_num];
 
         for (j = 0; j < p_num; j++)
         {

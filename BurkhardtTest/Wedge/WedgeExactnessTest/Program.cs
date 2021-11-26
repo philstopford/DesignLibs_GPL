@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Composition;
 using Burkardt.MonomialNS;
 using Burkardt.Table;
@@ -42,24 +43,7 @@ internal static class Program
     {
         int degree;
         int degree_max;
-        int dim;
-        int dim_num;
-        int dim_num2;
-        double exact;
-        int[] expon;
-        int h;
-        bool more;
-        int order;
-        int order2;
-        double quad;
-        double quad_error;
         string quad_filename;
-        string quad_w_filename;
-        string quad_x_filename;
-        int t;
-        double[] v;
-        double[] w;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("WEDGE_EXACTNESS");
@@ -86,8 +70,8 @@ internal static class Program
         //    the quadrature X file;
         //    the quadrature W file;
         //
-        quad_w_filename = quad_filename + "_w.txt";
-        quad_x_filename = quad_filename + "_x.txt";
+        string quad_w_filename = quad_filename + "_w.txt";
+        string quad_x_filename = quad_filename + "_x.txt";
         //
         //  The second command line argument is the maximum degree.
         //
@@ -116,8 +100,8 @@ internal static class Program
         //  Read the X file.
         //
         TableHeader hd = typeMethods.r8mat_header_read(quad_x_filename);
-        dim_num = hd.m;
-        order = hd.n;
+        int dim_num = hd.m;
+        int order = hd.n;
 
         Console.WriteLine("");
         Console.WriteLine("  Spatial dimension = " + dim_num + "");
@@ -131,13 +115,13 @@ internal static class Program
             return;
         }
 
-        x = typeMethods.r8mat_data_read(quad_x_filename, dim_num, order);
+        double[] x = typeMethods.r8mat_data_read(quad_x_filename, dim_num, order);
         //
         //  Read the W file.
         //
         hd = typeMethods.r8mat_header_read(quad_w_filename);
-        dim_num2 = hd.m;
-        order2 = hd.n;
+        int dim_num2 = hd.m;
+        int order2 = hd.n;
 
         if (dim_num2 != 1)
         {
@@ -157,11 +141,11 @@ internal static class Program
             return;
         }
 
-        w = typeMethods.r8mat_data_read(quad_w_filename, 1, order);
+        double[] w = typeMethods.r8mat_data_read(quad_w_filename, 1, order);
         //
         //  Explore the monomials.
         //
-        expon = new int[dim_num];
+        int[] expon = new int[dim_num];
 
         Console.WriteLine("");
         Console.WriteLine("      Error    Degree  Exponents");
@@ -169,26 +153,27 @@ internal static class Program
 
         for (degree = 0; degree <= degree_max; degree++)
         {
-            more = false;
-            h = 0;
-            t = 0;
+            bool more = false;
+            int h = 0;
+            int t = 0;
 
             for (;;)
             {
                 Comp.comp_next(degree, dim_num, ref expon, ref more, ref h, ref t);
 
-                v = Monomial.monomial_value(dim_num, order, expon, x);
+                double[] v = Monomial.monomial_value(dim_num, order, expon, x);
 
-                quad = Integrals.wedge01_volume() * typeMethods.r8vec_dot_product(order, w, v);
+                double quad = Integrals.wedge01_volume() * typeMethods.r8vec_dot_product(order, w, v);
 
-                exact = Integrals.wedge01_integral(expon);
+                double exact = Integrals.wedge01_integral(expon);
 
-                quad_error = Math.Abs(quad - exact);
+                double quad_error = Math.Abs(quad - exact);
 
-                string cout = "  " + quad_error.ToString().PadLeft(12)
+                string cout = "  " + quad_error.ToString(CultureInfo.InvariantCulture).PadLeft(12)
                                    + "     " + degree.ToString().PadLeft(2)
                                    + "  ";
 
+                int dim;
                 for (dim = 0; dim < dim_num; dim++)
                 {
                     cout += expon[dim].ToString().PadLeft(3);

@@ -83,7 +83,7 @@ internal static class Program
         Console.WriteLine("  f1(7) = 4.");
         Console.WriteLine("  f1(8) = 0.");
 
-        int x0 = 2;
+        const int x0 = 2;
         Console.WriteLine("");
         Console.WriteLine("  Starting argument X0 = " + x0 + "");
 
@@ -170,7 +170,7 @@ internal static class Program
         Console.WriteLine("  Test CYCLE_BRENT for F2().");
         Console.WriteLine("  f2(i) = mod ( 22 * i + 1, 72 ).");
 
-        int x0 = 0;
+        const int x0 = 0;
         Console.WriteLine("");
         Console.WriteLine("  Starting argument X0 = " + x0 + "");
 
@@ -251,7 +251,7 @@ internal static class Program
         Console.WriteLine("  Test CYCLE_BRENT for F3().");
         Console.WriteLine("  f3(i) = mod ( 123 * i + 456, 100000 ).");
 
-        int x0 = 789;
+        const int x0 = 789;
         Console.WriteLine("");
         Console.WriteLine("  Starting argument X0 = " + x0 + "");
 
@@ -330,7 +330,7 @@ internal static class Program
         Console.WriteLine("  Test CYCLE_BRENT for F4().");
         Console.WriteLine("  f4(i) = mod ( 31421 * i + 6927, 65536 ).");
 
-        int x0 = 1;
+        const int x0 = 1;
         Console.WriteLine("");
         Console.WriteLine("  Starting argument X0 = " + x0 + "");
 
@@ -397,7 +397,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int i;
         int lam = 0;
         int mu = 0;
 
@@ -419,7 +418,7 @@ internal static class Program
         Console.WriteLine("  Reported distance to first cycle element is " + mu + "");
         Console.WriteLine("  Expected value is 0");
 
-        i = 0;
+        int i = 0;
         x0 = 1;
         Console.WriteLine("  " + i + "  " + x0 + "");
         for (i = 1; i <= 10; i++)

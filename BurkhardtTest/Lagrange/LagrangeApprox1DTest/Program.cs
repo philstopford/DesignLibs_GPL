@@ -38,15 +38,14 @@ internal static class Program
                 0, 1, 2, 3, 4, 8, 16
             }
             ;
-        int m_test_num = 7;
+        const int m_test_num = 7;
         int nd;
         int[] nd_test =  {
                 16, 64, 1000
             }
             ;
-        int nd_test_num = 3;
+        const int nd_test_num = 3;
         int prob;
-        int prob_num;
 
         Console.WriteLine("");
         Console.WriteLine("LAGRANGE_APPROX_1D_TEST:");
@@ -55,7 +54,7 @@ internal static class Program
         Console.WriteLine("  The QR_SOLVE library is needed.");
         Console.WriteLine("  These tests need the TEST_INTERP_1D library.");
 
-        prob_num = Data_1D.p00_prob_num();
+        int prob_num = Data_1D.p00_prob_num();
 
         for (prob = 1; prob <= prob_num; prob++)
         {
@@ -121,26 +120,17 @@ internal static class Program
         //    Input, int ND, the number of data points.
         //
     {
-        double a;
-        double b;
-        double int_error;
-        int ni;
-        double[] xd;
-        double[] xi;
-        double[] yd;
-        double[] yi;
-
         Console.WriteLine("");
         Console.WriteLine("TEST02:");
         Console.WriteLine("  Approximate evenly spaced data from TEST_INTERP_1D problem #" + prob + "");
         Console.WriteLine("  Use polynomial approximant of degree " + m + "");
         Console.WriteLine("  Number of data points = " + nd + "");
 
-        a = 0.0;
-        b = 1.0;
-        xd = typeMethods.r8vec_linspace_new(nd, a, b);
+        const double a = 0.0;
+        const double b = 1.0;
+        double[] xd = typeMethods.r8vec_linspace_new(nd, a, b);
 
-        yd = Data_1D.p00_f(prob, nd, xd);
+        double[] yd = Data_1D.p00_f(prob, nd, xd);
 
         switch (nd)
         {
@@ -152,11 +142,11 @@ internal static class Program
         //
         //  #1:  Does approximant come close to function at data points?
         //
-        ni = nd;
-        xi = typeMethods.r8vec_copy_new(ni, xd);
-        yi = Lagrange1D.lagrange_approx_1d(m, nd, xd, yd, ni, xi);
+        int ni = nd;
+        double[] xi = typeMethods.r8vec_copy_new(ni, xd);
+        double[] yi = Lagrange1D.lagrange_approx_1d(m, nd, xd, yd, ni, xi);
 
-        int_error = typeMethods.r8vec_norm_affine(nd, yi, yd) / ni;
+        double int_error = typeMethods.r8vec_norm_affine(nd, yi, yd) / ni;
 
         Console.WriteLine("");
         Console.WriteLine("  L2 approximation error averaged per data node = " + int_error + "");
@@ -191,26 +181,17 @@ internal static class Program
         //    Input, int ND, the number of data points.
         //
     {
-        double a;
-        double b;
-        double int_error;
-        int ni;
-        double[] xd;
-        double[] xi;
-        double[] yd;
-        double[] yi;
-
         Console.WriteLine("");
         Console.WriteLine("TEST03:");
         Console.WriteLine("  Approximate Chebyshev-spaced data from TEST_INTERP_1D problem #" + prob + "");
         Console.WriteLine("  Use polynomial approximant of degree " + m + "");
         Console.WriteLine("  Number of data points = " + nd + "");
 
-        a = 0.0;
-        b = 1.0;
-        xd = typeMethods.r8vec_cheby_extreme_new(nd, a, b);
+        const double a = 0.0;
+        const double b = 1.0;
+        double[] xd = typeMethods.r8vec_cheby_extreme_new(nd, a, b);
 
-        yd = Data_1D.p00_f(prob, nd, xd);
+        double[] yd = Data_1D.p00_f(prob, nd, xd);
 
         switch (nd)
         {
@@ -222,11 +203,11 @@ internal static class Program
         //
         //  #1:  Does interpolant match function at interpolation points?
         //
-        ni = nd;
-        xi = typeMethods.r8vec_copy_new(ni, xd);
-        yi = Lagrange1D.lagrange_approx_1d(m, nd, xd, yd, ni, xi);
+        int ni = nd;
+        double[] xi = typeMethods.r8vec_copy_new(ni, xd);
+        double[] yi = Lagrange1D.lagrange_approx_1d(m, nd, xd, yd, ni, xi);
 
-        int_error = typeMethods.r8vec_norm_affine(nd, yi, yd) / ni;
+        double int_error = typeMethods.r8vec_norm_affine(nd, yi, yd) / ni;
 
         Console.WriteLine("");
         Console.WriteLine("  L2 approximation error averaged per data node = " + int_error + "");

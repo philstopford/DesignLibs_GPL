@@ -65,8 +65,8 @@ internal static class Program
             //    John Burkardt
             //
         {
-            int dim_num = 3;
-            double[] range = new [] {
+            const int dim_num = 3;
+            double[] range = {
                 0.0, 10.0,  5.0,
                 1.0, 11.0, 15.0 };
 
@@ -108,8 +108,8 @@ internal static class Program
             //    John Burkardt
             //
         {
-            int dim_num = 4;
-            string file_out_name = "box_behnken_04_33.txt";
+            const int dim_num = 4;
+            const string file_out_name = "box_behnken_04_33.txt";
             double[] range = {
                 0.0, 0.0, 0.0, 0.0,
                 1.0, 1.0, 1.0, 1.0 };

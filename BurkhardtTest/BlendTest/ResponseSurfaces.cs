@@ -2,7 +2,7 @@
 
 namespace BlendTest;
 
-internal partial class Program
+internal static partial class Program
 {
     private static double identity_r ( double r, int i )
         //****************************************************************************80
@@ -150,7 +150,7 @@ internal partial class Program
                 xi = s;
                 break;
             default:
-                Console.WriteLine();;
+                Console.WriteLine();
                 Console.WriteLine("IDENTITY_RS - Fatal error!");
                 Console.WriteLine("  Illegal component index I = " + i);
                 xi = 0.0;
@@ -207,7 +207,7 @@ internal partial class Program
                 xi = t;
                 break;
             default:
-                Console.WriteLine();;
+                Console.WriteLine();
                 Console.WriteLine("IDENTITY_RST - Fatal error!");
                 Console.WriteLine("  Illegal component index I = " + i);
                 xi = 0.0;
@@ -259,7 +259,7 @@ internal partial class Program
                 xi = 2.0 * r + 1.0;
                 break;
             default:
-                Console.WriteLine();;
+                Console.WriteLine();
                 Console.WriteLine("STRETCH_R - Fatal error!");
                 Console.WriteLine("  Illegal component index I = " + i);
                 xi = 0.0;
@@ -315,7 +315,7 @@ internal partial class Program
                 xi = 4.0 * s + 2.0;
                 break;
             default:
-                Console.WriteLine();;
+                Console.WriteLine();
                 Console.WriteLine("STRETCH_RS - Fatal error!");
                 Console.WriteLine("  Illegal component index I = " + i);
                 xi = 0.0;
@@ -373,7 +373,7 @@ internal partial class Program
                 xi = 6.0 * t + 3.0;
                 break;
             default:
-                Console.WriteLine();;
+                Console.WriteLine();
                 Console.WriteLine("STRETCH_RST - Fatal error!");
                 Console.WriteLine("  Illegal component index I = " + i);
                 xi = 0.0;

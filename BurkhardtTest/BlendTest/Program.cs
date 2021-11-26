@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Blend;
 
 namespace BlendTest;
 
-internal partial class Program
+internal static partial class Program
 {
     private static void Main()
     {
@@ -70,25 +71,25 @@ internal partial class Program
         double r = 0.0;
         x = Blend.blend_r_0dn ( r, x, n, identity_r );
         string cout = "  ";
-        string t = r.ToString().PadLeft(8) + "  ";
+        string t = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += t;
-        cout += x[0].ToString().PadLeft(8);
+        cout += x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         Console.WriteLine(cout);
 
         r = 1.0;
         x = Blend.blend_r_0dn ( r, x, n, identity_r );
         cout = "  ";
-        t = r.ToString().PadLeft(8) + "  ";
+        t = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += t;
-        cout += x[0].ToString().PadLeft(8);
+        cout += x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         Console.WriteLine(cout);
 
         r = 0.5;
         x = Blend.blend_r_0dn ( r, x, n, identity_r );
         cout = "  ";
-        t = r.ToString().PadLeft(8) + "  ";
+        t = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += t;
-        cout += x[0].ToString().PadLeft(8);
+        cout += x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         Console.WriteLine(cout);
     }
 
@@ -125,27 +126,27 @@ internal partial class Program
         double s = 0.0;
         x = Blend.blend_rs_0dn ( r, s, x, n, identity_rs );
         string cout =  "  ";
-        string t = r.ToString().PadLeft(8) + "  ";
+        string t = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += t;
-        t = s.ToString().PadLeft(8) + "  ";
+        t = s.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += t;
-        t = x[0].ToString().PadLeft(8) + "  ";
+        t = x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += t;
-        t = x[1].ToString().PadLeft(8);
-        cout += t.ToString().PadLeft(8);
+        t = x[1].ToString(CultureInfo.InvariantCulture).PadLeft(8);
+        cout += t.ToString(CultureInfo.InvariantCulture).PadLeft(8);
         Console.WriteLine(cout);
 
         r = 1.0;
         s = 0.0;
         x = Blend.blend_rs_0dn ( r, s, x, n, identity_rs );
         cout =  "  ";
-        t = r.ToString().PadLeft(8) + "  ";
+        t = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += t;
-        t = s.ToString().PadLeft(8) + "  ";
+        t = s.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += t;
-        t = x[0].ToString().PadLeft(8) + "  ";
+        t = x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += t;
-        t = x[1].ToString().PadLeft(8);
+        t = x[1].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         cout += t;
         Console.WriteLine(cout);
 
@@ -153,13 +154,13 @@ internal partial class Program
         s = 1.0;
         x = Blend.blend_rs_0dn ( r, s, x, n, identity_rs );
         cout =  "  ";
-        t = r.ToString().PadLeft(8) + "  ";
+        t = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += t;
-        t = s.ToString().PadLeft(8) + "  ";
+        t = s.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += t;
-        t = x[0].ToString().PadLeft(8) + "  ";
+        t = x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += t;
-        t = x[1].ToString().PadLeft(8);
+        t = x[1].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         cout += t;
         Console.WriteLine(cout);
 
@@ -167,13 +168,13 @@ internal partial class Program
         s = 1.0;
         x = Blend.blend_rs_0dn ( r, s, x, n, identity_rs );
         cout =  "  ";
-        t = r.ToString().PadLeft(8) + "  ";
+        t = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += t;
-        t = s.ToString().PadLeft(8) + "  ";
+        t = s.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += t;
-        t = x[0].ToString().PadLeft(8) + "  ";
+        t = x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += t;
-        t = x[1].ToString().PadLeft(8);
+        t = x[1].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         cout += t;
         Console.WriteLine(cout);
 
@@ -181,13 +182,13 @@ internal partial class Program
         s = 0.5;
         x = Blend.blend_rs_0dn ( r, s, x, n, identity_rs );
         cout =  "  ";
-        t = r.ToString().PadLeft(8) + "  ";
+        t = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += t;
-        t = s.ToString().PadLeft(8) + "  ";
+        t = s.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += t;
-        t = x[0].ToString().PadLeft(8) + "  ";
+        t = x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += t;
-        t = x[1].ToString().PadLeft(8);
+        t = x[1].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         cout += t;
         Console.WriteLine(cout);
     }
@@ -225,13 +226,13 @@ internal partial class Program
         double s = 0.0;
         x = Blend.blend_rs_1dn ( r, s, x, n, identity_rs );
         string cout =  "  ";
-        string t = r.ToString().PadLeft(8) + "  ";
+        string t = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += t;
-        t = s.ToString().PadLeft(8) + "  ";
+        t = s.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += t;
-        t = x[0].ToString().PadLeft(8) + "  ";
+        t = x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += t;
-        t = x[1].ToString().PadLeft(8);
+        t = x[1].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         cout += t;
         Console.WriteLine(cout);
 
@@ -239,13 +240,13 @@ internal partial class Program
         s = 0.0;
         x = Blend.blend_rs_1dn ( r, s, x, n, identity_rs );
         cout =  "  ";
-        t = r.ToString().PadLeft(8) + "  ";
+        t = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += t;
-        t = s.ToString().PadLeft(8) + "  ";
+        t = s.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += t;
-        t = x[0].ToString().PadLeft(8) + "  ";
+        t = x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += t;
-        t = x[1].ToString().PadLeft(8);
+        t = x[1].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         cout += t;
         Console.WriteLine(cout);
 
@@ -253,13 +254,13 @@ internal partial class Program
         s = 1.0;
         x = Blend.blend_rs_1dn ( r, s, x, n, identity_rs );
         cout =  "  ";
-        t = r.ToString().PadLeft(8) + "  ";
+        t = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += t;
-        t = s.ToString().PadLeft(8) + "  ";
+        t = s.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += t;
-        t = x[0].ToString().PadLeft(8) + "  ";
+        t = x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += t;
-        t = x[1].ToString().PadLeft(8);
+        t = x[1].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         cout += t;
         Console.WriteLine(cout);
 
@@ -267,13 +268,13 @@ internal partial class Program
         s = 1.0;
         x = Blend.blend_rs_1dn ( r, s, x, n, identity_rs );
         cout =  "  ";
-        t = r.ToString().PadLeft(8) + "  ";
+        t = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += t;
-        t = s.ToString().PadLeft(8) + "  ";
+        t = s.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += t;
-        t = x[0].ToString().PadLeft(8) + "  ";
+        t = x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += t;
-        t = x[1].ToString().PadLeft(8);
+        t = x[1].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         cout += t;
         Console.WriteLine(cout);
 
@@ -281,13 +282,13 @@ internal partial class Program
         s = 0.5;
         x = Blend.blend_rs_1dn ( r, s, x, n, identity_rs );
         cout =  "  ";
-        t = r.ToString().PadLeft(8) + "  ";
+        t = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += t;
-        t = s.ToString().PadLeft(8) + "  ";
+        t = s.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += t;
-        t = x[0].ToString().PadLeft(8) + "  ";
+        t = x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += t;
-        t = x[1].ToString().PadLeft(8);
+        t = x[1].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         cout += t;
         Console.WriteLine(cout);
     }
@@ -326,17 +327,17 @@ internal partial class Program
         double t = 0.0;
         x = Blend.blend_rst_0dn ( r, s, t, x, n, identity_rst );
         string cout =  "  ";
-        string ts = r.ToString().PadLeft(8) + "  ";
+        string ts = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = s.ToString().PadLeft(8) + "  ";
+        ts = s.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = t.ToString().PadLeft(8) + "  ";
+        ts = t.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[0].ToString().PadLeft(8) + "  ";
+        ts = x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[1].ToString().PadLeft(8) + "  ";
+        ts = x[1].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[2].ToString().PadLeft(8);
+        ts = x[2].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         cout += ts;
         Console.WriteLine(cout);
 
@@ -345,17 +346,17 @@ internal partial class Program
         t = 0.0;
         x = Blend.blend_rst_0dn ( r, s, t, x, n, identity_rst );
         cout =  "  ";
-        ts = r.ToString().PadLeft(8) + "  ";
+        ts = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = s.ToString().PadLeft(8) + "  ";
+        ts = s.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = t.ToString().PadLeft(8) + "  ";
+        ts = t.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[0].ToString().PadLeft(8) + "  ";
+        ts = x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[1].ToString().PadLeft(8) + "  ";
+        ts = x[1].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[2].ToString().PadLeft(8);
+        ts = x[2].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         cout += ts;
         Console.WriteLine(cout);
 
@@ -364,17 +365,17 @@ internal partial class Program
         t = 0.0;
         x = Blend.blend_rst_0dn ( r, s, t, x, n, identity_rst );
         cout =  "  ";
-        ts = r.ToString().PadLeft(8) + "  ";
+        ts = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = s.ToString().PadLeft(8) + "  ";
+        ts = s.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = t.ToString().PadLeft(8) + "  ";
+        ts = t.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[0].ToString().PadLeft(8) + "  ";
+        ts = x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[1].ToString().PadLeft(8) + "  ";
+        ts = x[1].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[2].ToString().PadLeft(8);
+        ts = x[2].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         cout += ts;
         Console.WriteLine(cout);
 
@@ -383,17 +384,17 @@ internal partial class Program
         t = 1.0;
         x = Blend.blend_rst_0dn ( r, s, t, x, n, identity_rst );
         cout =  "  ";
-        ts = r.ToString().PadLeft(8) + "  ";
+        ts = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = s.ToString().PadLeft(8) + "  ";
+        ts = s.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = t.ToString().PadLeft(8) + "  ";
+        ts = t.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[0].ToString().PadLeft(8) + "  ";
+        ts = x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[1].ToString().PadLeft(8) + "  ";
+        ts = x[1].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[2].ToString().PadLeft(8);
+        ts = x[2].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         cout += ts;
         Console.WriteLine(cout);
 
@@ -402,17 +403,17 @@ internal partial class Program
         t = 1.0;
         x = Blend.blend_rst_0dn ( r, s, t, x, n, identity_rst );
         cout =  "  ";
-        ts = r.ToString().PadLeft(8) + "  ";
+        ts = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = s.ToString().PadLeft(8) + "  ";
+        ts = s.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = t.ToString().PadLeft(8) + "  ";
+        ts = t.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[0].ToString().PadLeft(8) + "  ";
+        ts = x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[1].ToString().PadLeft(8) + "  ";
+        ts = x[1].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[2].ToString().PadLeft(8);
+        ts = x[2].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         cout += ts;
         Console.WriteLine(cout);
 
@@ -421,17 +422,17 @@ internal partial class Program
         t = 0.5;
         x = Blend.blend_rst_0dn ( r, s, t, x, n, identity_rst );
         cout =  "  ";
-        ts = r.ToString().PadLeft(8) + "  ";
+        ts = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = s.ToString().PadLeft(8) + "  ";
+        ts = s.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = t.ToString().PadLeft(8) + "  ";
+        ts = t.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[0].ToString().PadLeft(8) + "  ";
+        ts = x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[1].ToString().PadLeft(8) + "  ";
+        ts = x[1].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[2].ToString().PadLeft(8);
+        ts = x[2].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         cout += ts;
         Console.WriteLine(cout);
     }
@@ -470,17 +471,17 @@ internal partial class Program
         double t = 0.0;
         x = Blend.blend_rst_1dn ( r, s, t, x, n, identity_rst );
         string cout =  "  ";
-        string ts = r.ToString().PadLeft(8) + "  ";
+        string ts = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = s.ToString().PadLeft(8) + "  ";
+        ts = s.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = t.ToString().PadLeft(8) + "  ";
+        ts = t.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[0].ToString().PadLeft(8) + "  ";
+        ts = x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[1].ToString().PadLeft(8) + "  ";
+        ts = x[1].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[2].ToString().PadLeft(8);
+        ts = x[2].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         cout += ts;
         Console.WriteLine(cout);
 
@@ -489,17 +490,17 @@ internal partial class Program
         t = 0.0;
         x = Blend.blend_rst_1dn ( r, s, t, x, n, identity_rst );
         cout =  "  ";
-        ts = r.ToString().PadLeft(8) + "  ";
+        ts = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = s.ToString().PadLeft(8) + "  ";
+        ts = s.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = t.ToString().PadLeft(8) + "  ";
+        ts = t.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[0].ToString().PadLeft(8) + "  ";
+        ts = x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[1].ToString().PadLeft(8) + "  ";
+        ts = x[1].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[2].ToString().PadLeft(8);
+        ts = x[2].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         cout += ts;
         Console.WriteLine(cout);
 
@@ -508,17 +509,17 @@ internal partial class Program
         t = 0.0;
         x = Blend.blend_rst_1dn ( r, s, t, x, n, identity_rst );
         cout =  "  ";
-        ts = r.ToString().PadLeft(8) + "  ";
+        ts = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = s.ToString().PadLeft(8) + "  ";
+        ts = s.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = t.ToString().PadLeft(8) + "  ";
+        ts = t.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[0].ToString().PadLeft(8) + "  ";
+        ts = x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[1].ToString().PadLeft(8) + "  ";
+        ts = x[1].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[2].ToString().PadLeft(8);
+        ts = x[2].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         cout += ts;
         Console.WriteLine(cout);
 
@@ -527,17 +528,17 @@ internal partial class Program
         t = 1.0;
         x = Blend.blend_rst_1dn ( r, s, t, x, n, identity_rst );
         cout =  "  ";
-        ts = r.ToString().PadLeft(8) + "  ";
+        ts = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = s.ToString().PadLeft(8) + "  ";
+        ts = s.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = t.ToString().PadLeft(8) + "  ";
+        ts = t.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[0].ToString().PadLeft(8) + "  ";
+        ts = x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[1].ToString().PadLeft(8) + "  ";
+        ts = x[1].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[2].ToString().PadLeft(8);
+        ts = x[2].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         cout += ts;
         Console.WriteLine(cout);
 
@@ -546,17 +547,17 @@ internal partial class Program
         t = 1.0;
         x = Blend.blend_rst_1dn ( r, s, t, x, n, identity_rst );
         cout =  "  ";
-        ts = r.ToString().PadLeft(8) + "  ";
+        ts = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = s.ToString().PadLeft(8) + "  ";
+        ts = s.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = t.ToString().PadLeft(8) + "  ";
+        ts = t.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[0].ToString().PadLeft(8) + "  ";
+        ts = x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[1].ToString().PadLeft(8) + "  ";
+        ts = x[1].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[2].ToString().PadLeft(8);
+        ts = x[2].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         cout += ts;
         Console.WriteLine(cout);
 
@@ -565,17 +566,17 @@ internal partial class Program
         t = 0.5;
         x = Blend.blend_rst_1dn ( r, s, t, x, n, identity_rst );
         cout =  "  ";
-        ts = r.ToString().PadLeft(8) + "  ";
+        ts = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = s.ToString().PadLeft(8) + "  ";
+        ts = s.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = t.ToString().PadLeft(8) + "  ";
+        ts = t.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[0].ToString().PadLeft(8) + "  ";
+        ts = x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[1].ToString().PadLeft(8) + "  ";
+        ts = x[1].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[2].ToString().PadLeft(8);
+        ts = x[2].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         cout += ts;
         Console.WriteLine(cout);
     }
@@ -615,17 +616,17 @@ internal partial class Program
         double t = 0.0;
         x = Blend.blend_rst_2dn ( r, s, t, x, n, identity_rst );
         string cout =  "  ";
-        string ts = r.ToString().PadLeft(8) + "  ";
+        string ts = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = s.ToString().PadLeft(8) + "  ";
+        ts = s.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = t.ToString().PadLeft(8) + "  ";
+        ts = t.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[0].ToString().PadLeft(8) + "  ";
+        ts = x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[1].ToString().PadLeft(8) + "  ";
+        ts = x[1].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[2].ToString().PadLeft(8);
+        ts = x[2].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         cout += ts.PadLeft(8);
         Console.WriteLine(cout);
             
@@ -634,17 +635,17 @@ internal partial class Program
         t = 0.0;
         x = Blend.blend_rst_2dn ( r, s, t, x, n, identity_rst );
         cout =  "  ";
-        ts = r.ToString().PadLeft(8) + "  ";
+        ts = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = s.ToString().PadLeft(8) + "  ";
+        ts = s.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = t.ToString().PadLeft(8) + "  ";
+        ts = t.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[0].ToString().PadLeft(8) + "  ";
+        ts = x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[1].ToString().PadLeft(8) + "  ";
+        ts = x[1].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[2].ToString().PadLeft(8);
+        ts = x[2].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         cout += ts;
         Console.WriteLine(cout);
 
@@ -653,17 +654,17 @@ internal partial class Program
         t = 0.0;
         x = Blend.blend_rst_2dn ( r, s, t, x, n, identity_rst );
         cout =  "  ";
-        ts = r.ToString().PadLeft(8) + "  ";
+        ts = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = s.ToString().PadLeft(8) + "  ";
+        ts = s.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = t.ToString().PadLeft(8) + "  ";
+        ts = t.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[0].ToString().PadLeft(8) + "  ";
+        ts = x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[1].ToString().PadLeft(8) + "  ";
+        ts = x[1].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[2].ToString().PadLeft(8);
+        ts = x[2].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         cout += ts;
         Console.WriteLine(cout);
 
@@ -672,17 +673,17 @@ internal partial class Program
         t = 1.0;
         x = Blend.blend_rst_2dn ( r, s, t, x, n, identity_rst );
         cout =  "  ";
-        ts = r.ToString().PadLeft(8) + "  ";
+        ts = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = s.ToString().PadLeft(8) + "  ";
+        ts = s.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = t.ToString().PadLeft(8) + "  ";
+        ts = t.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[0].ToString().PadLeft(8) + "  ";
+        ts = x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[1].ToString().PadLeft(8) + "  ";
+        ts = x[1].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[2].ToString().PadLeft(8);
+        ts = x[2].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         cout += ts;
         Console.WriteLine(cout);
 
@@ -691,17 +692,17 @@ internal partial class Program
         t = 1.0;
         x = Blend.blend_rst_2dn ( r, s, t, x, n, identity_rst );
         cout =  "  ";
-        ts = r.ToString().PadLeft(8) + "  ";
+        ts = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = s.ToString().PadLeft(8) + "  ";
+        ts = s.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = t.ToString().PadLeft(8) + "  ";
+        ts = t.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[0].ToString().PadLeft(8) + "  ";
+        ts = x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[1].ToString().PadLeft(8) + "  ";
+        ts = x[1].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[2].ToString().PadLeft(8);
+        ts = x[2].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         cout += ts;
         Console.WriteLine(cout);
 
@@ -710,17 +711,17 @@ internal partial class Program
         t = 0.5;
         x = Blend.blend_rst_2dn ( r, s, t, x, n, identity_rst );
         cout =  "  ";
-        ts = r.ToString().PadLeft(8) + "  ";
+        ts = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = s.ToString().PadLeft(8) + "  ";
+        ts = s.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = t.ToString().PadLeft(8) + "  ";
+        ts = t.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[0].ToString().PadLeft(8) + "  ";
+        ts = x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[1].ToString().PadLeft(8) + "  ";
+        ts = x[1].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[2].ToString().PadLeft(8);
+        ts = x[2].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         cout += ts;
         Console.WriteLine(cout);
     }
@@ -757,27 +758,27 @@ internal partial class Program
         double r = 0.0;
         x = Blend.blend_r_0dn ( r, x, n, stretch_r );
         string cout =  "  ";
-        string ts = r.ToString().PadLeft(8) + "  ";
+        string ts = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[0].ToString().PadLeft(8) + "  ";
+        ts = x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
         Console.WriteLine(cout);
 
         r = 1.0;
         x = Blend.blend_r_0dn ( r, x, n, stretch_r );
         cout =  "  ";
-        ts = r.ToString().PadLeft(8) + "  ";
+        ts = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[0].ToString().PadLeft(8) + "  ";
+        ts = x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
         Console.WriteLine(cout);
 
         r = 0.5;
         x = Blend.blend_r_0dn ( r, x, n, stretch_r );
         cout =  "  ";
-        ts = r.ToString().PadLeft(8) + "  ";
+        ts = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[0].ToString().PadLeft(8) + "  ";
+        ts = x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
         Console.WriteLine(cout);
     }
@@ -815,13 +816,13 @@ internal partial class Program
         double s = 0.0;
         x = Blend.blend_rs_0dn ( r, s, x, n, stretch_rs );
         string cout =  "  ";
-        string ts = r.ToString().PadLeft(8) + "  ";
+        string ts = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = s.ToString().PadLeft(8) + "  ";
+        ts = s.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[0].ToString().PadLeft(8) + "  ";
+        ts = x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[1].ToString().PadLeft(8);
+        ts = x[1].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         cout += ts;
         Console.WriteLine(cout);
 
@@ -829,13 +830,13 @@ internal partial class Program
         s = 0.0;
         x = Blend.blend_rs_0dn ( r, s, x, n, stretch_rs );
         cout =  "  ";
-        ts = r.ToString().PadLeft(8) + "  ";
+        ts = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = s.ToString().PadLeft(8) + "  ";
+        ts = s.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[0].ToString().PadLeft(8) + "  ";
+        ts = x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[1].ToString().PadLeft(8);
+        ts = x[1].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         cout += ts;
         Console.WriteLine(cout);
 
@@ -843,13 +844,13 @@ internal partial class Program
         s = 1.0;
         x = Blend.blend_rs_0dn ( r, s, x, n, stretch_rs );
         cout =  "  ";
-        ts = r.ToString().PadLeft(8) + "  ";
+        ts = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = s.ToString().PadLeft(8) + "  ";
+        ts = s.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[0].ToString().PadLeft(8) + "  ";
+        ts = x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[1].ToString().PadLeft(8);
+        ts = x[1].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         cout += ts;
         Console.WriteLine(cout);
 
@@ -857,13 +858,13 @@ internal partial class Program
         s = 1.0;
         x = Blend.blend_rs_0dn ( r, s, x, n, stretch_rs );
         cout =  "  ";
-        ts = r.ToString().PadLeft(8) + "  ";
+        ts = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = s.ToString().PadLeft(8) + "  ";
+        ts = s.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[0].ToString().PadLeft(8) + "  ";
+        ts = x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[1].ToString().PadLeft(8);
+        ts = x[1].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         cout += ts;
         Console.WriteLine(cout);
 
@@ -871,13 +872,13 @@ internal partial class Program
         s = 0.5;
         x = Blend.blend_rs_0dn ( r, s, x, n, stretch_rs );
         cout =  "  ";
-        ts = r.ToString().PadLeft(8) + "  ";
+        ts = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = s.ToString().PadLeft(8) + "  ";
+        ts = s.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[0].ToString().PadLeft(8) + "  ";
+        ts = x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[1].ToString().PadLeft(8);
+        ts = x[1].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         cout += ts;
         Console.WriteLine(cout);
     }
@@ -915,13 +916,13 @@ internal partial class Program
         double s = 0.0;
         x = Blend.blend_rs_1dn ( r, s, x, n, stretch_rs );
         string cout =  "  ";
-        string ts = r.ToString().PadLeft(8) + "  ";
+        string ts = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = s.ToString().PadLeft(8) + "  ";
+        ts = s.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[0].ToString().PadLeft(8) + "  ";
+        ts = x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[1].ToString().PadLeft(8);
+        ts = x[1].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         cout += ts;
         Console.WriteLine(cout);
 
@@ -929,13 +930,13 @@ internal partial class Program
         s = 0.0;
         x = Blend.blend_rs_1dn ( r, s, x, n, stretch_rs );
         cout =  "  ";
-        ts = r.ToString().PadLeft(8) + "  ";
+        ts = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = s.ToString().PadLeft(8) + "  ";
+        ts = s.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[0].ToString().PadLeft(8) + "  ";
+        ts = x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[1].ToString().PadLeft(8);
+        ts = x[1].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         cout += ts;
         Console.WriteLine(cout);
 
@@ -943,13 +944,13 @@ internal partial class Program
         s = 1.0;
         x = Blend.blend_rs_1dn ( r, s, x, n, stretch_rs );
         cout =  "  ";
-        ts = r.ToString().PadLeft(8) + "  ";
+        ts = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = s.ToString().PadLeft(8) + "  ";
+        ts = s.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[0].ToString().PadLeft(8) + "  ";
+        ts = x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[1].ToString().PadLeft(8);
+        ts = x[1].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         cout += ts;
         Console.WriteLine(cout);
 
@@ -957,13 +958,13 @@ internal partial class Program
         s = 1.0;
         x = Blend.blend_rs_1dn ( r, s, x, n, stretch_rs );
         cout =  "  ";
-        ts = r.ToString().PadLeft(8) + "  ";
+        ts = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = s.ToString().PadLeft(8) + "  ";
+        ts = s.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[0].ToString().PadLeft(8) + "  ";
+        ts = x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[1].ToString().PadLeft(8);
+        ts = x[1].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         cout += ts;
         Console.WriteLine(cout);
 
@@ -971,13 +972,13 @@ internal partial class Program
         s = 0.5;
         x = Blend.blend_rs_1dn ( r, s, x, n, stretch_rs );
         cout =  "  ";
-        ts = r.ToString().PadLeft(8) + "  ";
+        ts = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = s.ToString().PadLeft(8) + "  ";
+        ts = s.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[0].ToString().PadLeft(8) + "  ";
+        ts = x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[1].ToString().PadLeft(8);
+        ts = x[1].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         cout += ts;
         Console.WriteLine(cout);
     }
@@ -1016,17 +1017,17 @@ internal partial class Program
         double t = 0.0;
         x = Blend.blend_rst_0dn ( r, s, t, x, n, stretch_rst );
         string cout =  "  ";
-        string ts = r.ToString().PadLeft(8) + "  ";
+        string ts = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = s.ToString().PadLeft(8) + "  ";
+        ts = s.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = t.ToString().PadLeft(8) + "  ";
+        ts = t.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[0].ToString().PadLeft(8) + "  ";
+        ts = x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[1].ToString().PadLeft(8) + "  ";
+        ts = x[1].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[2].ToString().PadLeft(8);
+        ts = x[2].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         cout += ts;
         Console.WriteLine(cout);
             
@@ -1035,17 +1036,17 @@ internal partial class Program
         t = 0.0;
         x = Blend.blend_rst_0dn ( r, s, t, x, n, stretch_rst );
         cout =  "  ";
-        ts = r.ToString().PadLeft(8) + "  ";
+        ts = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = s.ToString().PadLeft(8) + "  ";
+        ts = s.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = t.ToString().PadLeft(8) + "  ";
+        ts = t.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[0].ToString().PadLeft(8) + "  ";
+        ts = x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[1].ToString().PadLeft(8) + "  ";
+        ts = x[1].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[2].ToString().PadLeft(8);
+        ts = x[2].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         cout += ts;
         Console.WriteLine(cout);
 
@@ -1054,17 +1055,17 @@ internal partial class Program
         t = 0.0;
         x = Blend.blend_rst_0dn ( r, s, t, x, n, stretch_rst );
         cout =  "  ";
-        ts = r.ToString().PadLeft(8) + "  ";
+        ts = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = s.ToString().PadLeft(8) + "  ";
+        ts = s.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = t.ToString().PadLeft(8) + "  ";
+        ts = t.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[0].ToString().PadLeft(8) + "  ";
+        ts = x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[1].ToString().PadLeft(8) + "  ";
+        ts = x[1].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[2].ToString().PadLeft(8);
+        ts = x[2].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         cout += ts;
         Console.WriteLine(cout);
 
@@ -1073,17 +1074,17 @@ internal partial class Program
         t = 1.0;
         x = Blend.blend_rst_0dn ( r, s, t, x, n, stretch_rst );
         cout =  "  ";
-        ts = r.ToString().PadLeft(8) + "  ";
+        ts = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = s.ToString().PadLeft(8) + "  ";
+        ts = s.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = t.ToString().PadLeft(8) + "  ";
+        ts = t.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[0].ToString().PadLeft(8) + "  ";
+        ts = x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[1].ToString().PadLeft(8) + "  ";
+        ts = x[1].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[2].ToString().PadLeft(8);
+        ts = x[2].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         cout += ts;
         Console.WriteLine(cout);
 
@@ -1092,17 +1093,17 @@ internal partial class Program
         t = 1.0;
         x = Blend.blend_rst_0dn ( r, s, t, x, n, stretch_rst );
         cout =  "  ";
-        ts = r.ToString().PadLeft(8) + "  ";
+        ts = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = s.ToString().PadLeft(8) + "  ";
+        ts = s.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = t.ToString().PadLeft(8) + "  ";
+        ts = t.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[0].ToString().PadLeft(8) + "  ";
+        ts = x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[1].ToString().PadLeft(8) + "  ";
+        ts = x[1].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[2].ToString().PadLeft(8);
+        ts = x[2].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         cout += ts;
         Console.WriteLine(cout);
 
@@ -1111,17 +1112,17 @@ internal partial class Program
         t = 0.5;
         x = Blend.blend_rst_0dn ( r, s, t, x, n, stretch_rst );
         cout =  "  ";
-        ts = r.ToString().PadLeft(8) + "  ";
+        ts = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = s.ToString().PadLeft(8) + "  ";
+        ts = s.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = t.ToString().PadLeft(8) + "  ";
+        ts = t.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[0].ToString().PadLeft(8) + "  ";
+        ts = x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[1].ToString().PadLeft(8) + "  ";
+        ts = x[1].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[2].ToString().PadLeft(8);
+        ts = x[2].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         cout += ts;
         Console.WriteLine(cout);
     }
@@ -1160,17 +1161,17 @@ internal partial class Program
         double t = 0.0;
         x = Blend.blend_rst_1dn ( r, s, t, x, n, stretch_rst );
         string cout =  "  ";
-        string ts = r.ToString().PadLeft(8) + "  ";
+        string ts = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = s.ToString().PadLeft(8) + "  ";
+        ts = s.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = t.ToString().PadLeft(8) + "  ";
+        ts = t.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[0].ToString().PadLeft(8) + "  ";
+        ts = x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[1].ToString().PadLeft(8) + "  ";
+        ts = x[1].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[2].ToString().PadLeft(8);
+        ts = x[2].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         cout += ts;
         Console.WriteLine(cout);
 
@@ -1179,17 +1180,17 @@ internal partial class Program
         t = 0.0;
         x = Blend.blend_rst_1dn ( r, s, t, x, n, stretch_rst );
         cout =  "  ";
-        ts = r.ToString().PadLeft(8) + "  ";
+        ts = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = s.ToString().PadLeft(8) + "  ";
+        ts = s.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = t.ToString().PadLeft(8) + "  ";
+        ts = t.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[0].ToString().PadLeft(8) + "  ";
+        ts = x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[1].ToString().PadLeft(8) + "  ";
+        ts = x[1].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[2].ToString().PadLeft(8);
+        ts = x[2].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         cout += ts;
         Console.WriteLine(cout);
 
@@ -1198,17 +1199,17 @@ internal partial class Program
         t = 0.0;
         x = Blend.blend_rst_1dn ( r, s, t, x, n, stretch_rst );
         cout =  "  ";
-        ts = r.ToString().PadLeft(8) + "  ";
+        ts = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = s.ToString().PadLeft(8) + "  ";
+        ts = s.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = t.ToString().PadLeft(8) + "  ";
+        ts = t.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[0].ToString().PadLeft(8) + "  ";
+        ts = x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[1].ToString().PadLeft(8) + "  ";
+        ts = x[1].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[2].ToString().PadLeft(8);
+        ts = x[2].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         cout += ts;
         Console.WriteLine(cout);
 
@@ -1217,17 +1218,17 @@ internal partial class Program
         t = 1.0;
         x = Blend.blend_rst_1dn ( r, s, t, x, n, stretch_rst );
         cout =  "  ";
-        ts = r.ToString().PadLeft(8) + "  ";
+        ts = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = s.ToString().PadLeft(8) + "  ";
+        ts = s.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = t.ToString().PadLeft(8) + "  ";
+        ts = t.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[0].ToString().PadLeft(8) + "  ";
+        ts = x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[1].ToString().PadLeft(8) + "  ";
+        ts = x[1].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[2].ToString().PadLeft(8);
+        ts = x[2].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         cout += ts;
         Console.WriteLine(cout);
 
@@ -1236,17 +1237,17 @@ internal partial class Program
         t = 1.0;
         x = Blend.blend_rst_1dn ( r, s, t, x, n, stretch_rst );
         cout =  "  ";
-        ts = r.ToString().PadLeft(8) + "  ";
+        ts = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = s.ToString().PadLeft(8) + "  ";
+        ts = s.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = t.ToString().PadLeft(8) + "  ";
+        ts = t.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[0].ToString().PadLeft(8) + "  ";
+        ts = x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[1].ToString().PadLeft(8) + "  ";
+        ts = x[1].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[2].ToString().PadLeft(8);
+        ts = x[2].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         cout += ts;
         Console.WriteLine(cout);
 
@@ -1255,17 +1256,17 @@ internal partial class Program
         t = 0.5;
         x = Blend.blend_rst_1dn ( r, s, t, x, n, stretch_rst );
         cout =  "  ";
-        ts = r.ToString().PadLeft(8) + "  ";
+        ts = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = s.ToString().PadLeft(8) + "  ";
+        ts = s.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = t.ToString().PadLeft(8) + "  ";
+        ts = t.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[0].ToString().PadLeft(8) + "  ";
+        ts = x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[1].ToString().PadLeft(8) + "  ";
+        ts = x[1].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[2].ToString().PadLeft(8);
+        ts = x[2].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         cout += ts;
         Console.WriteLine(cout);
     }
@@ -1304,17 +1305,17 @@ internal partial class Program
         double t = 0.0;
         x = Blend.blend_rst_2dn ( r, s, t, x, n, stretch_rst );
         string cout =  "  ";
-        string ts = r.ToString().PadLeft(8) + "  ";
+        string ts = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = s.ToString().PadLeft(8) + "  ";
+        ts = s.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = t.ToString().PadLeft(8) + "  ";
+        ts = t.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[0].ToString().PadLeft(8) + "  ";
+        ts = x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[1].ToString().PadLeft(8) + "  ";
+        ts = x[1].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[2].ToString().PadLeft(8);
+        ts = x[2].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         cout += ts;
         Console.WriteLine(cout);
 
@@ -1323,17 +1324,17 @@ internal partial class Program
         t = 0.0;
         x = Blend.blend_rst_2dn ( r, s, t, x, n, stretch_rst );
         cout =  "  ";
-        ts = r.ToString().PadLeft(8) + "  ";
+        ts = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = s.ToString().PadLeft(8) + "  ";
+        ts = s.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = t.ToString().PadLeft(8) + "  ";
+        ts = t.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[0].ToString().PadLeft(8) + "  ";
+        ts = x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[1].ToString().PadLeft(8) + "  ";
+        ts = x[1].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[2].ToString().PadLeft(8);
+        ts = x[2].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         cout += ts;
         Console.WriteLine(cout);
 
@@ -1342,17 +1343,17 @@ internal partial class Program
         t = 0.0;
         x = Blend.blend_rst_2dn ( r, s, t, x, n, stretch_rst );
         cout =  "  ";
-        ts = r.ToString().PadLeft(8) + "  ";
+        ts = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = s.ToString().PadLeft(8) + "  ";
+        ts = s.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = t.ToString().PadLeft(8) + "  ";
+        ts = t.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[0].ToString().PadLeft(8) + "  ";
+        ts = x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[1].ToString().PadLeft(8) + "  ";
+        ts = x[1].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[2].ToString().PadLeft(8);
+        ts = x[2].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         cout += ts;
         Console.WriteLine(cout);
 
@@ -1361,17 +1362,17 @@ internal partial class Program
         t = 1.0;
         x = Blend.blend_rst_2dn ( r, s, t, x, n, stretch_rst );
         cout =  "  ";
-        ts = r.ToString().PadLeft(8) + "  ";
+        ts = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = s.ToString().PadLeft(8) + "  ";
+        ts = s.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = t.ToString().PadLeft(8) + "  ";
+        ts = t.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[0].ToString().PadLeft(8) + "  ";
+        ts = x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[1].ToString().PadLeft(8) + "  ";
+        ts = x[1].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[2].ToString().PadLeft(8);
+        ts = x[2].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         cout += ts;
         Console.WriteLine(cout);
 
@@ -1380,17 +1381,17 @@ internal partial class Program
         t = 1.0;
         x = Blend.blend_rst_2dn ( r, s, t, x, n, stretch_rst );
         cout =  "  ";
-        ts = r.ToString().PadLeft(8) + "  ";
+        ts = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = s.ToString().PadLeft(8) + "  ";
+        ts = s.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = t.ToString().PadLeft(8) + "  ";
+        ts = t.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[0].ToString().PadLeft(8) + "  ";
+        ts = x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[1].ToString().PadLeft(8) + "  ";
+        ts = x[1].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[2].ToString().PadLeft(8);
+        ts = x[2].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         cout += ts;
         Console.WriteLine(cout);
 
@@ -1399,17 +1400,17 @@ internal partial class Program
         t = 0.5;
         x = Blend.blend_rst_2dn ( r, s, t, x, n, stretch_rst );
         cout =  "  ";
-        ts = r.ToString().PadLeft(8) + "  ";
+        ts = r.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = s.ToString().PadLeft(8) + "  ";
+        ts = s.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = t.ToString().PadLeft(8) + "  ";
+        ts = t.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[0].ToString().PadLeft(8) + "  ";
+        ts = x[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[1].ToString().PadLeft(8) + "  ";
+        ts = x[1].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
         cout += ts;
-        ts = x[2].ToString().PadLeft(8);
+        ts = x[2].ToString(CultureInfo.InvariantCulture).PadLeft(8);
         cout += ts;
         Console.WriteLine(cout);
     }
@@ -1456,9 +1457,9 @@ internal partial class Program
         for (int i = 0; i < m; i++ )
         {
             string cout = "  ";
-            string t = i.ToString().PadLeft(6) + "  ";
+            string t = i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  ";
             cout += t;
-            t = x_[i].ToString().PadLeft(8);
+            t = x_[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             cout += t;
             Console.WriteLine(cout);
         }
@@ -1503,21 +1504,21 @@ internal partial class Program
         double r = i / ( double ) ( m1 - 1 );
         double s = j / ( double ) ( m2 - 1 );
         double temp = cubic_rs ( r, s, 1 );
-        x[i*m2+j] = temp;
+        x[j] = temp;
 
         i = m1 - 1;
         j = 0;
         r = i / ( double ) ( m1 - 1 );
         s = j / ( double ) ( m2 - 1 );
         temp = cubic_rs ( r, s, 1 );
-        x[i*m2+j] = temp;
+        x[i*m2] = temp;
 
         i = 0;
         j = m2 - 1;
         r = i / ( double ) ( m1 - 1 );
         s = j / ( double ) ( m2 - 1 );
         temp = cubic_rs ( r, s, 1 );
-        x[i*m2+j] = temp;
+        x[j] = temp;
 
         i = m1 - 1;
         j = m2 - 1;
@@ -1535,13 +1536,13 @@ internal partial class Program
         for ( i = 0; i < m1; i++ )
         {
             string cout = "  ";
-            string t = x_[i*m2].ToString().PadLeft(8) + "  ";
+            string t = x_[i*m2].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
             cout += t;
-            t = x_[i*m2+1].ToString().PadLeft(8) + "  ";
+            t = x_[i*m2+1].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
             cout += t;
-            t = x_[i*m2+2].ToString().PadLeft(8) + "  ";
+            t = x_[i*m2+2].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
             cout += t;
-            t = x_[i*m2+3].ToString().PadLeft(8);
+            t = x_[i*m2+3].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             cout += t;
             Console.WriteLine(cout);
         }
@@ -1620,13 +1621,13 @@ internal partial class Program
         for (int i = 0; i < m1; i++ )
         {
             string cout = "  ";
-            string t = x_[i*m2].ToString().PadLeft(8) + "  ";
+            string t = x_[i*m2].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
             cout += t;
-            t = x_[i*m2+1].ToString().PadLeft(8) + "  ";
+            t = x_[i*m2+1].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
             cout += t;
-            t = x_[i*m2+2].ToString().PadLeft(8) + "  ";
+            t = x_[i*m2+2].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
             cout += t;
-            t = x_[i*m2+3].ToString().PadLeft(8);
+            t = x_[i*m2+3].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             cout += t;
             Console.WriteLine(cout);
         }
@@ -1715,11 +1716,11 @@ internal partial class Program
             for (int i = 0; i < m1; i++)
             {
                 string cout = "  ";
-                string t = x[(i * m3 + 0) * m2 + k].ToString().PadLeft(8) + "  ";
+                string t = x[(i * m3 + 0) * m2 + k].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
                 cout += t;
-                t = x[(i * m3 + 1) * m2 + k].ToString().PadLeft(8) + "  ";
+                t = x[(i * m3 + 1) * m2 + k].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
                 cout += t;
-                t = x[(i * m3 + 2) * m2 + k].ToString().PadLeft(8);
+                t = x[(i * m3 + 2) * m2 + k].ToString(CultureInfo.InvariantCulture).PadLeft(8);
                 cout += t;
                 Console.WriteLine(cout);
             }
@@ -1739,11 +1740,11 @@ internal partial class Program
             for (int i = 0; i < m1; i++ )
             {
                 string cout = "  ";
-                string t = x[(i * m3 + 0) * m2 + k].ToString().PadLeft(8) + "  ";
+                string t = x[(i * m3 + 0) * m2 + k].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
                 cout += t;
-                t = x[(i * m3 + 1) * m2 + k].ToString().PadLeft(8) + "  ";
+                t = x[(i * m3 + 1) * m2 + k].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
                 cout += t;
-                t = x[(i * m3 + 2) * m2 + k].ToString().PadLeft(8);
+                t = x[(i * m3 + 2) * m2 + k].ToString(CultureInfo.InvariantCulture).PadLeft(8);
                 cout += t;
                 Console.WriteLine(cout);
             }
@@ -1777,11 +1778,11 @@ internal partial class Program
             for (int i = 0; i < m1; i++ )
             {
                 string cout = "  ";
-                string t = x[(i * m3 + 0) * m2 + k].ToString().PadLeft(8) + "  ";
+                string t = x[(i * m3 + 0) * m2 + k].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
                 cout += t;
-                t = x[(i * m3 + 1) * m2 + k].ToString().PadLeft(8) + "  ";
+                t = x[(i * m3 + 1) * m2 + k].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
                 cout += t;
-                t = x[(i * m3 + 2) * m2 + k].ToString().PadLeft(8);
+                t = x[(i * m3 + 2) * m2 + k].ToString(CultureInfo.InvariantCulture).PadLeft(8);
                 cout += t;
                 Console.WriteLine(cout);
             }
@@ -1870,11 +1871,11 @@ internal partial class Program
             for (int i = 0; i < m1; i++ )
             {
                 string cout = "  ";
-                string t = x[(i * m3 + 0) * m2 + k].ToString().PadLeft(8) + "  ";
+                string t = x[(i * m3 + 0) * m2 + k].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
                 cout += t;
-                t = x[(i * m3 + 1) * m2 + k].ToString().PadLeft(8) + "  ";
+                t = x[(i * m3 + 1) * m2 + k].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
                 cout += t;
-                t = x[(i * m3 + 2) * m2 + k].ToString().PadLeft(8);
+                t = x[(i * m3 + 2) * m2 + k].ToString(CultureInfo.InvariantCulture).PadLeft(8);
                 cout += t;
                 Console.WriteLine(cout);
             }
@@ -1894,11 +1895,11 @@ internal partial class Program
             for (int i = 0; i < m1; i++ )
             {
                 string cout = "  ";
-                string t = x[(i * m3 + 0) * m2 + k].ToString().PadLeft(8) + "  ";
+                string t = x[(i * m3 + 0) * m2 + k].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
                 cout += t;
-                t = x[(i * m3 + 1) * m2 + k].ToString().PadLeft(8) + "  ";
+                t = x[(i * m3 + 1) * m2 + k].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
                 cout += t;
-                t = x[(i * m3 + 2) * m2 + k].ToString().PadLeft(8);
+                t = x[(i * m3 + 2) * m2 + k].ToString(CultureInfo.InvariantCulture).PadLeft(8);
                 cout += t;
                 Console.WriteLine(cout);
             }
@@ -1932,11 +1933,11 @@ internal partial class Program
             for (int i = 0; i < m1; i++ )
             {
                 string cout = "  ";
-                string t = x[(i * m3 + 0) * m2 + k].ToString().PadLeft(8) + "  ";
+                string t = x[(i * m3 + 0) * m2 + k].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
                 cout += t;
-                t = x[(i * m3 + 1) * m2 + k].ToString().PadLeft(8) + "  ";
+                t = x[(i * m3 + 1) * m2 + k].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
                 cout += t;
-                t = x[(i * m3 + 2) * m2 + k].ToString().PadLeft(8);
+                t = x[(i * m3 + 2) * m2 + k].ToString(CultureInfo.InvariantCulture).PadLeft(8);
                 cout += t;
                 Console.WriteLine(cout);
             }
@@ -2017,11 +2018,11 @@ internal partial class Program
             for ( int i = 0; i < m1; i++ )
             {
                 string cout = "  ";
-                string t = x[(i * m3 + 0) * m2 + k].ToString().PadLeft(8) + "  ";
+                string t = x[(i * m3 + 0) * m2 + k].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
                 cout += t;
-                t = x[(i * m3 + 1) * m2 + k].ToString().PadLeft(8) + "  ";
+                t = x[(i * m3 + 1) * m2 + k].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
                 cout += t;
-                t = x[(i * m3 + 2) * m2 + k].ToString().PadLeft(8);
+                t = x[(i * m3 + 2) * m2 + k].ToString(CultureInfo.InvariantCulture).PadLeft(8);
                 cout += t;
                 Console.WriteLine(cout);
             }
@@ -2041,11 +2042,11 @@ internal partial class Program
             for ( int i = 0; i < m1; i++ )
             {
                 string cout = "  ";
-                string t = x[(i * m3 + 0) * m2 + k].ToString().PadLeft(8) + "  ";
+                string t = x[(i * m3 + 0) * m2 + k].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
                 cout += t;
-                t = x[(i * m3 + 1) * m2 + k].ToString().PadLeft(8) + "  ";
+                t = x[(i * m3 + 1) * m2 + k].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
                 cout += t;
-                t = x[(i * m3 + 2) * m2 + k].ToString().PadLeft(8);
+                t = x[(i * m3 + 2) * m2 + k].ToString(CultureInfo.InvariantCulture).PadLeft(8);
                 cout += t;
                 Console.WriteLine(cout);
             }
@@ -2079,11 +2080,11 @@ internal partial class Program
             for ( int i = 0; i < m1; i++ )
             {
                 string cout = "  ";
-                string t = x[(i * m3 + 0) * m2 + k].ToString().PadLeft(8) + "  ";
+                string t = x[(i * m3 + 0) * m2 + k].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
                 cout += t;
-                t = x[(i * m3 + 1) * m2 + k].ToString().PadLeft(8) + "  ";
+                t = x[(i * m3 + 1) * m2 + k].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  ";
                 cout += t;
-                t = x[(i * m3 + 2) * m2 + k].ToString().PadLeft(8);
+                t = x[(i * m3 + 2) * m2 + k].ToString(CultureInfo.InvariantCulture).PadLeft(8);
                 cout += t;
                 Console.WriteLine(cout);
             }

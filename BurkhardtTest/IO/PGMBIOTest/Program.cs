@@ -29,13 +29,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        bool error;
-
         Console.WriteLine("");
         Console.WriteLine("PGMB_IO_TEST:");
         Console.WriteLine("  Test the PGMB_IO library.");
 
-        error = test01();
+        bool error = test01();
 
         switch (error)
         {
@@ -87,15 +85,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        bool error;
-        string file_out_name = "pgmb_io_test01.pgm";
-        int[] g;
+        const string file_out_name = "pgmb_io_test01.pgm";
         int i;
-        int indexg;
-        int j;
-        int maxg;
-        int xsize = 300;
-        int ysize = 300;
+        const int xsize = 300;
+        const int ysize = 300;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01:");
@@ -104,9 +97,9 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Writing the file \"" + file_out_name + "\".");
 
-        g = new int[xsize * ysize];
+        int[] g = new int[xsize * ysize];
 
-        error = PGMB.pgmb_example(xsize, ysize, ref g);
+        bool error = PGMB.pgmb_example(xsize, ysize, ref g);
 
         switch (error)
         {
@@ -114,17 +107,18 @@ internal static class Program
                 Console.WriteLine("");
                 Console.WriteLine("TEST01 - Fatal error!");
                 Console.WriteLine("  PGMB_EXAMPLE failed!");
-                return error;
+                return true;
         }
 
         Console.WriteLine("");
         Console.WriteLine("  PGMB_EXAMPLE has set up the data.");
 
-        maxg = 0;
-        indexg = 0;
+        int maxg = 0;
+        int indexg = 0;
 
         for (i = 0; i < xsize; i++)
         {
+            int j;
             for (j = 0; j < ysize; j++)
             {
                 if (maxg < g[indexg])
@@ -183,8 +177,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        bool error;
-        string file_in_name = "pgmb_io_test02.pgm";
+        const string file_in_name = "pgmb_io_test02.pgm";
         int[] g = null;
         int maxg = 0;
         int xsize = 0;
@@ -198,7 +191,7 @@ internal static class Program
         //
         //  Create a data file to read.
         //
-        error = PGMB.pgmb_write_test(file_in_name);
+        bool error = PGMB.pgmb_write_test(file_in_name);
 
         switch (error)
         {

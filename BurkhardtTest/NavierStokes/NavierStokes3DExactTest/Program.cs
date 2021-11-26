@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.NavierStokesNS;
 using Burkardt.Types;
 using Burkardt.Uniform;
@@ -68,21 +69,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int n;
-        double nu;
-        double[] p;
-        int seed;
-        double[] t;
-        double[] u;
-        double[] v;
-        double[] w;
-        double[] x;
-        double xyz_hi;
-        double xyz_lo;
-        double[] y;
-        double[] z;
-
-        nu = 0.25;
+        const double nu = 0.25;
 
         Console.WriteLine("");
         Console.WriteLine("UVWP_BURGERS_TEST");
@@ -92,21 +79,21 @@ internal static class Program
         Console.WriteLine("  cube centered at (0,0,0) with 'radius' 1.0.");
         Console.WriteLine("  Viscosity = " + nu + "");
 
-        n = 1000;
+        const int n = 1000;
 
-        p = new double[n];
-        u = new double[n];
-        v = new double[n];
-        w = new double[n];
+        double[] p = new double[n];
+        double[] u = new double[n];
+        double[] v = new double[n];
+        double[] w = new double[n];
 
-        xyz_lo = -1.0;
-        xyz_hi = +1.0;
-        seed = 123456789;
+        const double xyz_lo = -1.0;
+        const double xyz_hi = +1.0;
+        int seed = 123456789;
 
-        x = UniformRNG.r8vec_uniform_ab_new(n, xyz_lo, xyz_hi, ref seed);
-        y = UniformRNG.r8vec_uniform_ab_new(n, xyz_lo, xyz_hi, ref seed);
-        z = UniformRNG.r8vec_uniform_ab_new(n, xyz_lo, xyz_hi, ref seed);
-        t = typeMethods.r8vec_zeros_new(n);
+        double[] x = UniformRNG.r8vec_uniform_ab_new(n, xyz_lo, xyz_hi, ref seed);
+        double[] y = UniformRNG.r8vec_uniform_ab_new(n, xyz_lo, xyz_hi, ref seed);
+        double[] z = UniformRNG.r8vec_uniform_ab_new(n, xyz_lo, xyz_hi, ref seed);
+        double[] t = typeMethods.r8vec_zeros_new(n);
 
         Burgers.uvwp_burgers(nu, n, x, y, z, t, ref u, ref v, ref w, ref p);
 
@@ -114,17 +101,17 @@ internal static class Program
         Console.WriteLine("           Minimum       Maximum");
         Console.WriteLine("");
         Console.WriteLine("  U:  "
-                          + "  " + typeMethods.r8vec_amin(n, u).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_amax(n, u).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_amin(n, u).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_amax(n, u).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  V:  "
-                          + "  " + typeMethods.r8vec_amin(n, v).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_amax(n, v).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_amin(n, v).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_amax(n, v).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  W:  "
-                          + "  " + typeMethods.r8vec_amin(n, w).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_amax(n, w).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_amin(n, w).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_amax(n, w).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  P:  "
-                          + "  " + typeMethods.r8vec_amin(n, p).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_amax(n, p).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_amin(n, p).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_amax(n, p).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
     }
 
     private static void resid_burgers_test()
@@ -148,21 +135,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int n;
-        double nu;
-        double[] pr;
-        int seed;
-        double[] t;
-        double[] ur;
-        double[] vr;
-        double[] wr;
-        double[] x;
-        double xyz_hi;
-        double xyz_lo;
-        double[] y;
-        double[] z;
-
-        nu = 0.25;
+        const double nu = 0.25;
 
         Console.WriteLine("");
         Console.WriteLine("RESID_BURGERS_TEST");
@@ -172,21 +145,21 @@ internal static class Program
         Console.WriteLine("  the cube centered at (0,0,0) with 'radius' 1.0,");
         Console.WriteLine("  Viscosity = " + nu + "");
 
-        n = 1000;
+        const int n = 1000;
 
-        pr = new double[n];
-        ur = new double[n];
-        vr = new double[n];
-        wr = new double[n];
+        double[] pr = new double[n];
+        double[] ur = new double[n];
+        double[] vr = new double[n];
+        double[] wr = new double[n];
 
-        xyz_lo = -1.0;
-        xyz_hi = +1.0;
-        seed = 123456789;
+        const double xyz_lo = -1.0;
+        const double xyz_hi = +1.0;
+        int seed = 123456789;
 
-        x = UniformRNG.r8vec_uniform_ab_new(n, xyz_lo, xyz_hi, ref seed);
-        y = UniformRNG.r8vec_uniform_ab_new(n, xyz_lo, xyz_hi, ref seed);
-        z = UniformRNG.r8vec_uniform_ab_new(n, xyz_lo, xyz_hi, ref seed);
-        t = typeMethods.r8vec_zeros_new(n);
+        double[] x = UniformRNG.r8vec_uniform_ab_new(n, xyz_lo, xyz_hi, ref seed);
+        double[] y = UniformRNG.r8vec_uniform_ab_new(n, xyz_lo, xyz_hi, ref seed);
+        double[] z = UniformRNG.r8vec_uniform_ab_new(n, xyz_lo, xyz_hi, ref seed);
+        double[] t = typeMethods.r8vec_zeros_new(n);
 
         Burgers.resid_burgers(nu, n, x, y, z, t, ref ur, ref vr, ref wr, ref pr);
 
@@ -194,17 +167,17 @@ internal static class Program
         Console.WriteLine("           Minimum       Maximum");
         Console.WriteLine("");
         Console.WriteLine("  Ur:  "
-                          + "  " + typeMethods.r8vec_amin(n, ur).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_amax(n, ur).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_amin(n, ur).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_amax(n, ur).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  Vr:  "
-                          + "  " + typeMethods.r8vec_amin(n, vr).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_amax(n, vr).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_amin(n, vr).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_amax(n, vr).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  Wr:  "
-                          + "  " + typeMethods.r8vec_amin(n, wr).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_amax(n, wr).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_amin(n, wr).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_amax(n, wr).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  Pr:  "
-                          + "  " + typeMethods.r8vec_amin(n, pr).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_amax(n, pr).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_amin(n, pr).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_amax(n, pr).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
     }
 
     private static void uvwp_ethier_test()
@@ -228,24 +201,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double d;
-        int n;
-        double[] p;
-        const double r8_pi = 3.141592653589793;
-        int seed;
-        double[] t;
-        double[] u;
-        double[] v;
-        double[] w;
-        double[] x;
-        double xyz_hi;
-        double xyz_lo;
-        double[] y;
-        double[] z;
-
-        a = r8_pi / 4.0;
-        d = r8_pi / 2.0;
+        double a = Math.PI / 4.0;
+        double d = Math.PI / 2.0;
 
         Console.WriteLine("");
         Console.WriteLine("UVWP_ETHIER_TEST");
@@ -256,21 +213,21 @@ internal static class Program
         Console.WriteLine("  Parameter A = " + a + "");
         Console.WriteLine("  Parameter D = " + d + "");
 
-        n = 1000;
+        const int n = 1000;
 
-        p = new double[n];
-        u = new double[n];
-        v = new double[n];
-        w = new double[n];
+        double[] p = new double[n];
+        double[] u = new double[n];
+        double[] v = new double[n];
+        double[] w = new double[n];
 
-        xyz_lo = -1.0;
-        xyz_hi = +1.0;
-        seed = 123456789;
+        const double xyz_lo = -1.0;
+        const double xyz_hi = +1.0;
+        int seed = 123456789;
 
-        x = UniformRNG.r8vec_uniform_ab_new(n, xyz_lo, xyz_hi, ref seed);
-        y = UniformRNG.r8vec_uniform_ab_new(n, xyz_lo, xyz_hi, ref seed);
-        z = UniformRNG.r8vec_uniform_ab_new(n, xyz_lo, xyz_hi, ref seed);
-        t = typeMethods.r8vec_zeros_new(n);
+        double[] x = UniformRNG.r8vec_uniform_ab_new(n, xyz_lo, xyz_hi, ref seed);
+        double[] y = UniformRNG.r8vec_uniform_ab_new(n, xyz_lo, xyz_hi, ref seed);
+        double[] z = UniformRNG.r8vec_uniform_ab_new(n, xyz_lo, xyz_hi, ref seed);
+        double[] t = typeMethods.r8vec_zeros_new(n);
 
         Ethier.uvwp_ethier(a, d, n, x, y, z, t, ref u, ref v, ref w, ref p);
 
@@ -278,17 +235,17 @@ internal static class Program
         Console.WriteLine("           Minimum       Maximum");
         Console.WriteLine("");
         Console.WriteLine("  U:  "
-                          + "  " + typeMethods.r8vec_amin(n, u).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_amax(n, u).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_amin(n, u).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_amax(n, u).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  V:  "
-                          + "  " + typeMethods.r8vec_amin(n, v).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_amax(n, v).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_amin(n, v).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_amax(n, v).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  W:  "
-                          + "  " + typeMethods.r8vec_amin(n, w).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_amax(n, w).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_amin(n, w).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_amax(n, w).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  P:  "
-                          + "  " + typeMethods.r8vec_amin(n, p).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_amax(n, p).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_amin(n, p).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_amax(n, p).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
     }
 
     private static void resid_ethier_test()
@@ -312,24 +269,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double d;
-        int n;
-        double[] pr;
-        const double r8_pi = 3.141592653589793;
-        int seed;
-        double[] t;
-        double[] ur;
-        double[] vr;
-        double[] wr;
-        double[] x;
-        double xyz_hi;
-        double xyz_lo;
-        double[] y;
-        double[] z;
-
-        a = r8_pi / 4.0;
-        d = r8_pi / 2.0;
+        double a = Math.PI / 4.0;
+        double d = Math.PI / 2.0;
 
         Console.WriteLine("");
         Console.WriteLine("RESID_ETHIER_TEST");
@@ -340,21 +281,21 @@ internal static class Program
         Console.WriteLine("  Parameter A = " + a + "");
         Console.WriteLine("  Parameter D = " + d + "");
 
-        n = 1000;
+        const int n = 1000;
 
-        pr = new double[n];
-        ur = new double[n];
-        vr = new double[n];
-        wr = new double[n];
+        double[] pr = new double[n];
+        double[] ur = new double[n];
+        double[] vr = new double[n];
+        double[] wr = new double[n];
 
-        xyz_lo = -1.0;
-        xyz_hi = +1.0;
-        seed = 123456789;
+        const double xyz_lo = -1.0;
+        const double xyz_hi = +1.0;
+        int seed = 123456789;
 
-        x = UniformRNG.r8vec_uniform_ab_new(n, xyz_lo, xyz_hi, ref seed);
-        y = UniformRNG.r8vec_uniform_ab_new(n, xyz_lo, xyz_hi, ref seed);
-        z = UniformRNG.r8vec_uniform_ab_new(n, xyz_lo, xyz_hi, ref seed);
-        t = typeMethods.r8vec_zeros_new(n);
+        double[] x = UniformRNG.r8vec_uniform_ab_new(n, xyz_lo, xyz_hi, ref seed);
+        double[] y = UniformRNG.r8vec_uniform_ab_new(n, xyz_lo, xyz_hi, ref seed);
+        double[] z = UniformRNG.r8vec_uniform_ab_new(n, xyz_lo, xyz_hi, ref seed);
+        double[] t = typeMethods.r8vec_zeros_new(n);
 
         Ethier.resid_ethier(a, d, n, x, y, z, t, ref ur, ref vr, ref wr, ref pr);
 
@@ -362,17 +303,17 @@ internal static class Program
         Console.WriteLine("           Minimum       Maximum");
         Console.WriteLine("");
         Console.WriteLine("  Ur:  "
-                          + "  " + typeMethods.r8vec_amin(n, ur).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_amax(n, ur).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_amin(n, ur).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_amax(n, ur).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  Vr:  "
-                          + "  " + typeMethods.r8vec_amin(n, vr).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_amax(n, vr).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_amin(n, vr).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_amax(n, vr).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  Wr:  "
-                          + "  " + typeMethods.r8vec_amin(n, wr).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_amax(n, wr).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_amin(n, wr).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_amax(n, wr).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  Pr:  "
-                          + "  " + typeMethods.r8vec_amin(n, pr).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_amax(n, pr).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_amin(n, pr).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_amax(n, pr).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
     }
 }

@@ -29,13 +29,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        bool error;
-
         Console.WriteLine("");
         Console.WriteLine("PPMA_IO_TEST:");
         Console.WriteLine("  Test the PPMA_IO library.");
 
-        error = test01();
+        bool error = test01();
 
         switch (error)
         {
@@ -84,13 +82,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] b;
-        bool error;
-        string file_out_name = "test01.ascii.ppm";
-        int[] g;
-        int[] r;
-        int xsize = 300;
-        int ysize = 300;
+        const string file_out_name = "test01.ascii.ppm";
+        const int xsize = 300;
+        const int ysize = 300;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01:");
@@ -99,11 +93,11 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Writing the file \"" + file_out_name + "\".");
 
-        r = new int[xsize * ysize];
-        g = new int[xsize * ysize];
-        b = new int[xsize * ysize];
+        int[] r = new int[xsize * ysize];
+        int[] g = new int[xsize * ysize];
+        int[] b = new int[xsize * ysize];
 
-        error = PPM_ASCII.ppma_example(xsize, ysize, ref r, ref g, ref b);
+        bool error = PPM_ASCII.ppma_example(xsize, ysize, ref r, ref g, ref b);
 
         switch (error)
         {
@@ -111,7 +105,7 @@ internal static class Program
                 Console.WriteLine("");
                 Console.WriteLine("TEST01 - Fatal error!");
                 Console.WriteLine("  PPMA_EXAMPLE failed!");
-                return error;
+                return true;
         }
 
         Console.WriteLine("");
@@ -125,7 +119,7 @@ internal static class Program
                 Console.WriteLine("");
                 Console.WriteLine("TEST01 - Fatal error!");
                 Console.WriteLine("  PPMA_WRITE failed!");
-                return error;
+                return true;
         }
 
         Console.WriteLine("");
@@ -141,13 +135,13 @@ internal static class Program
                 Console.WriteLine("");
                 Console.WriteLine("TEST01 - Fatal error!");
                 Console.WriteLine("  PPMA_READ_TEST failed to read the file we wrote!");
-                return error;
+                return true;
         }
 
         Console.WriteLine("");
         Console.WriteLine("  PPMA_READ_TEST was able to read the file we wrote.");
 
-        return error;
+        return false;
     }
 
     private static bool test02()
@@ -172,11 +166,8 @@ internal static class Program
         //
     {
         int[] b = new int[1];
-        bool error;
-        string file_in_name = "test02.ascii.ppm";
+        const string file_in_name = "test02.ascii.ppm";
         int[] g = new int[1];
-        int i;
-        int j;
         int k;
         int[] r = new int[1];
         int rgb_max = 0;
@@ -191,7 +182,7 @@ internal static class Program
         //
         //  Create a data file to read.
         //
-        error = PPM_ASCII.ppma_write_test(file_in_name);
+        bool error = PPM_ASCII.ppma_write_test(file_in_name);
 
         switch (error)
         {
@@ -199,7 +190,7 @@ internal static class Program
                 Console.WriteLine("");
                 Console.WriteLine("TEST02");
                 Console.WriteLine("  PPMA_WRITE_TEST failed!");
-                return error;
+                return true;
         }
 
         Console.WriteLine("");
@@ -225,8 +216,8 @@ internal static class Program
         Console.WriteLine("");
         for (k = 0; k < 10; k++)
         {
-            i = ((9 - k) * 0 + k * (xsize - 1)) / 9;
-            j = ((9 - k) * 0 + k * (ysize - 1)) / 9;
+            int i = ((9 - k) * 0 + k * (xsize - 1)) / 9;
+            int j = ((9 - k) * 0 + k * (ysize - 1)) / 9;
             Console.WriteLine(i.ToString().PadLeft(4) + "  "
                                                       + j.ToString().PadLeft(4) + "  "
                                                       + r[i * ysize + j].ToString().PadLeft(4) + "  "

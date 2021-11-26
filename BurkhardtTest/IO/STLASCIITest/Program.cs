@@ -144,12 +144,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        bool error;
-        int[] face_node;
-        double[] face_normal;
         int face_num = 0;
         int node_num = 0;
-        double[] node_xyz;
         int solid_num = 0;
         int text_num = 0;
         STL_ASCII.STLData data = new();
@@ -160,11 +156,11 @@ internal static class Program
 
         STL_ASCII.stla_size(input_file_name, ref solid_num, ref node_num, ref face_num, ref text_num);
 
-        face_node = new int[3 * face_num];
-        face_normal = new double[3 * face_num];
-        node_xyz = new double[3 * node_num];
+        int[] face_node = new int[3 * face_num];
+        double[] face_normal = new double[3 * face_num];
+        double[] node_xyz = new double[3 * node_num];
 
-        error = STL_ASCII.stla_read(ref data, input_file_name, node_num, face_num, ref node_xyz,
+        bool error = STL_ASCII.stla_read(ref data, input_file_name, node_num, face_num, ref node_xyz,
             ref face_node, ref face_normal);
 
         switch (error)
@@ -204,8 +200,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int FACE_NUM = 12;
-        int NODE_NUM = 8;
+        const int FACE_NUM = 12;
+        const int NODE_NUM = 8;
 
         int[] face_node =
         {
@@ -248,14 +244,13 @@ internal static class Program
             0.0, 1.0, 1.0,
             1.0, 1.0, 1.0
         };
-        int offset;
         STL_ASCII.STLData data = new();
 
         Console.WriteLine("");
         Console.WriteLine("TEST04");
         Console.WriteLine("  STLA_WRITE writes an ASCII STL file.");
 
-        offset = 1;
+        const int offset = 1;
         STL_ASCII.stla_offset_set(ref data, offset);
 
         STL_ASCII.stla_write(ref data, output_file_name, NODE_NUM, FACE_NUM, node_xyz,
@@ -288,10 +283,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int FACE_NUM = 12;
-        int NODE_NUM = 8;
+        const int FACE_NUM = 12;
+        const int NODE_NUM = 8;
 
-        double dot_max;
         int face;
         int[] face_node =
         {
@@ -323,7 +317,6 @@ internal static class Program
             +1.0, 0.0, 0.0,
             +1.0, 0.0, 0.0
         };
-        double[] face_normal2;
         double[] node_xyz =
         {
             0.0, 0.0, 0.0,
@@ -335,10 +328,9 @@ internal static class Program
             0.0, 1.0, 1.0,
             1.0, 1.0, 1.0
         };
-        int offset;
         STL_ASCII.STLData data = new();
 
-        offset = 1;
+        const int offset = 1;
         STL_ASCII.stla_offset_set(ref data, offset);
 
         Console.WriteLine("");
@@ -350,7 +342,7 @@ internal static class Program
         Console.WriteLine("  We now call STLA_FACE_NORMAL_COMPUTE to");
         Console.WriteLine("  recompute the normals.");
 
-        face_normal2 = STL_ASCII.stla_face_normal_compute(ref data, NODE_NUM, FACE_NUM, node_xyz,
+        double[] face_normal2 = STL_ASCII.stla_face_normal_compute(ref data, NODE_NUM, FACE_NUM, node_xyz,
             face_node);
 
         Console.WriteLine("");
@@ -358,7 +350,7 @@ internal static class Program
         Console.WriteLine("    |1 - dot ( n1, n2 )|");
         Console.WriteLine("  where n1 and n2 are the exact and computed normals.");
 
-        dot_max = 0.0;
+        double dot_max = 0.0;
 
         for (face = 0; face < FACE_NUM; face++)
         {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using Burkardt.NiederreiterNS;
 using Burkardt.PolynomialNS;
@@ -183,9 +184,8 @@ internal static class Program
         //
     {
         int j;
-        int value;
 
-        value = -1;
+        int value = -1;
 
         if (tab[tab_max - 1] < n)
         {
@@ -194,11 +194,13 @@ internal static class Program
 
         for (j = i; j <= tab_max; j++)
         {
-            if (tab[j - 1] == n)
+            if (tab[j - 1] != n)
             {
-                value = j;
-                return value;
+                continue;
             }
+
+            value = j;
+            return value;
         }
 
         return value;
@@ -265,18 +267,11 @@ internal static class Program
         //    be calculated for a given field.
         //
     {
-        int SIEVE_MAX = 400;
+        const int SIEVE_MAX = 400;
 
-        int i;
-        int j;
-        int k;
-        int l;
         int[] monpol = new int[SIEVE_MAX];
         int n;
-        int npols = 50;
-        int[] pi;
-        int[] pj;
-        int[] pk;
+        const int npols = 50;
         bool[] sieve = new bool[SIEVE_MAX];
 
         if (q_init is <= 1 or > Polynomial.PLY.Q_MAX)
@@ -306,9 +301,9 @@ internal static class Program
         //
         //  Set up the sieve containing only monic polynomials.
         //
-        i = 0;
-        j = 1;
-        k = ply.Q;
+        int i = 0;
+        int j = 1;
+        int k = ply.Q;
 
         for (n = 1; n <= SIEVE_MAX; n++)
         {
@@ -329,7 +324,7 @@ internal static class Program
         //  Write out the irreducible polynomials as they are found.
         //
         n = 0;
-        output.Add(ply.Q.ToString().PadLeft(3) + "");
+        output.Add(ply.Q.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "");
 
         for (i = 1; i <= SIEVE_MAX; i++)
         {
@@ -337,12 +332,13 @@ internal static class Program
             {
                 case true:
                 {
-                    pi = Polynomial.itop(ref ply, monpol[i - 1]);
+                    int[] pi = Polynomial.itop(ref ply, monpol[i - 1]);
                     k = pi[0];
-                    string cout = k.ToString().PadLeft(3);
+                    string cout = k.ToString(CultureInfo.InvariantCulture).PadLeft(3);
+                    int l;
                     for (l = 0; l <= k; l++)
                     {
-                        cout += pi[l + 1].ToString().PadLeft(3);
+                        cout += pi[l + 1].ToString(CultureInfo.InvariantCulture).PadLeft(3);
                     }
 
                     output.Add(cout);
@@ -355,8 +351,8 @@ internal static class Program
 
                     for (j = i; j <= SIEVE_MAX; j++)
                     {
-                        pj = Polynomial.itop(ref ply, monpol[j - 1]);
-                        pk = Polynomial.plymul(ref ply, pi, pj);
+                        int[] pj = Polynomial.itop(ref ply, monpol[j - 1]);
+                        int[] pk = Polynomial.plymul(ref ply, pi, pj);
 
                         k = find(Polynomial.ptoi(ref ply, pk), monpol, j, SIEVE_MAX);
 
@@ -473,14 +469,11 @@ internal static class Program
 
     private static void niederreiter()
     {
-        int base_;
-        int dim_num;
-
         Console.WriteLine("");
         Console.WriteLine("NIEDERREITER_TEST");
         Console.WriteLine("  Test the NIEDERREITER routines.");
 
-        base_ = 2;
+        int base_ = 2;
         test01(base_);
 
         base_ = 3;
@@ -496,7 +489,7 @@ internal static class Program
         test02(base_);
 
         base_ = 2;
-        dim_num = 20;
+        int dim_num = 20;
         test03(base_, dim_num);
 
         base_ = 2;
@@ -567,7 +560,6 @@ internal static class Program
     {
         int[,] gfadd = new int [Polynomial.PLY.Q_MAX, Polynomial.PLY.Q_MAX];
         int[,] gfmul = new int [Polynomial.PLY.Q_MAX, Polynomial.PLY.Q_MAX];
-        int i;
         int[,] irrply =
         {
             {4, 2, 1, 1, 1, 0, 0, 0},
@@ -581,10 +573,6 @@ internal static class Program
         };
         int j;
         int[] modply = new int[Polynomial.PLY.DEG_MAX + 2];
-        int[] pi;
-        int[] pj;
-        int[] pk;
-        int[] pl;
 
         if (q_init is <= 1 or > Polynomial.PLY.Q_MAX)
         {
@@ -613,7 +601,7 @@ internal static class Program
         //
         //  Next find a suitable irreducible polynomial and copy it to array MODPLY.
         //
-        i = 1;
+        int i = 1;
 
         while (irrply[i - 1, -2 + 2] != q_init)
         {
@@ -652,16 +640,16 @@ internal static class Program
         //  is treated as a polynomial with coefficients handled mod P.
         //  Multiplication of polynomials is mod MODPLY.
         //
-        pl = new int[Polynomial.PLY.DEG_MAX + 2];
+        int[] pl = new int[Polynomial.PLY.DEG_MAX + 2];
 
         for (i = 1; i < q_init; i++)
         {
-            pi = Polynomial.itop(i, ply.P);
+            int[] pi = Polynomial.itop(i, ply.P);
 
             for (j = 1; j <= i; j++)
             {
-                pj = Polynomial.itop(j, ply.P);
-                pk = Polynomial.plyadd(ref ply, pi, pj);
+                int[] pj = Polynomial.itop(j, ply.P);
+                int[] pk = Polynomial.plyadd(ref ply, pi, pj);
                 gfadd[i, j] = Polynomial.ptoi(pk, ply.P);
                 gfadd[j, i] = gfadd[i, j];
 
@@ -833,13 +821,8 @@ internal static class Program
     {
         const int dim_max = 4;
 
-        int dim;
         int dim_num;
-        int i;
         double[] r = new double[dim_max];
-        int seed;
-        int seed_in;
-        int seed_out;
         Niederreiter.NiederReiterData data = new();
 
         Console.WriteLine("");
@@ -853,7 +836,7 @@ internal static class Program
 
         for (dim_num = 2; dim_num <= dim_max; dim_num++)
         {
-            seed = 0;
+            int seed = 0;
 
             Console.WriteLine("");
             Console.WriteLine("  Using dimension DIM_NUM =   " + dim_num + "");
@@ -861,21 +844,23 @@ internal static class Program
             Console.WriteLine("    Seed    Seed     Niederreiter");
             Console.WriteLine("      In     Out");
             Console.WriteLine("");
+            int i;
             for (i = 0; i <= 110; i++)
             {
-                seed_in = seed;
+                int seed_in = seed;
                 Niederreiter.niederreiter(ref data, dim_num, base_, ref seed, ref r);
-                seed_out = seed;
+                int seed_out = seed;
                 switch (i)
                 {
                     case <= 11:
                     case >= 95:
                     {
-                        string cout = "  " + seed_in.ToString().PadLeft(8)
-                                           + "  " + seed_out.ToString().PadLeft(8);
+                        string cout = "  " + seed_in.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + seed_out.ToString(CultureInfo.InvariantCulture).PadLeft(8);
+                        int dim;
                         for (dim = 0; dim < dim_num; dim++)
                         {
-                            cout += "  " + r[dim].ToString().PadLeft(10);
+                            cout += "  " + r[dim].ToString(CultureInfo.InvariantCulture).PadLeft(10);
                         }
 
                         Console.WriteLine(cout);
@@ -921,10 +906,9 @@ internal static class Program
         int dim;
         int i;
         double[] r = new double[dim_num];
-        int seed;
         int seed_in;
         int seed_out;
-        string cout = "";
+        string cout;
         Niederreiter.NiederReiterData data = new();
 
         Console.WriteLine("");
@@ -940,7 +924,7 @@ internal static class Program
         Console.WriteLine("  Using base_ BASE =           " + base_ + "");
         Console.WriteLine("  Using dimension DIM_NUM =   " + dim_num + "");
 
-        seed = 0;
+        int seed = 0;
 
         Console.WriteLine("");
         Console.WriteLine("    Seed    Seed     Niederreiter");
@@ -951,11 +935,11 @@ internal static class Program
             seed_in = seed;
             Niederreiter.niederreiter(ref data, dim_num, base_, ref seed, ref r);
             seed_out = seed;
-            cout = "  " + seed_in.ToString().PadLeft(8)
-                        + "  " + seed_out.ToString().PadLeft(8);
+            cout = "  " + seed_in.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                        + "  " + seed_out.ToString(CultureInfo.InvariantCulture).PadLeft(8);
             for (dim = 0; dim < dim_num; dim++)
             {
-                cout += "  " + r[dim].ToString().PadLeft(10);
+                cout += "  " + r[dim].ToString(CultureInfo.InvariantCulture).PadLeft(10);
             }
 
             Console.WriteLine(cout);
@@ -976,11 +960,11 @@ internal static class Program
             seed_in = seed;
             Niederreiter.niederreiter(ref data, dim_num, base_, ref seed, ref r);
             seed_out = seed;
-            cout = "  " + seed_in.ToString().PadLeft(8)
-                        + "  " + seed_out.ToString().PadLeft(8);
+            cout = "  " + seed_in.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                        + "  " + seed_out.ToString(CultureInfo.InvariantCulture).PadLeft(8);
             for (dim = 0; dim < dim_num; dim++)
             {
-                cout += "  " + r[dim].ToString().PadLeft(10);
+                cout += "  " + r[dim].ToString(CultureInfo.InvariantCulture).PadLeft(10);
             }
 
             Console.WriteLine(cout);
@@ -1001,11 +985,11 @@ internal static class Program
             seed_in = seed;
             Niederreiter.niederreiter(ref data, dim_num, base_, ref seed, ref r);
             seed_out = seed;
-            cout = "  " + seed_in.ToString().PadLeft(8)
-                        + "  " + seed_out.ToString().PadLeft(8);
+            cout = "  " + seed_in.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                        + "  " + seed_out.ToString(CultureInfo.InvariantCulture).PadLeft(8);
             for (dim = 0; dim < dim_num; dim++)
             {
-                cout += "  " + r[dim].ToString().PadLeft(8);
+                cout += "  " + r[dim].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
 
             Console.WriteLine(cout);
@@ -1027,11 +1011,11 @@ internal static class Program
             seed_in = seed;
             Niederreiter.niederreiter(ref data, dim_num, base_, ref seed, ref r);
             seed_out = seed;
-            cout = "  " + seed_in.ToString().PadLeft(8)
-                        + "  " + seed_out.ToString().PadLeft(8);
+            cout = "  " + seed_in.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                        + "  " + seed_out.ToString(CultureInfo.InvariantCulture).PadLeft(8);
             for (dim = 0; dim < dim_num; dim++)
             {
-                cout += "  " + r[dim].ToString().PadLeft(10);
+                cout += "  " + r[dim].ToString(CultureInfo.InvariantCulture).PadLeft(10);
             }
 
             Console.WriteLine(cout);
@@ -1073,12 +1057,7 @@ internal static class Program
         //    Input, int DIM, the spatial dimension.
         //
     {
-        int dim;
         int i;
-        double[] r;
-        int seed;
-        int seed_in;
-        int seed_out;
         Niederreiter.NiederReiterData data = new();
 
         Console.WriteLine("");
@@ -1095,24 +1074,24 @@ internal static class Program
         Console.WriteLine("  Using base_ BASE =           " + base_ + "");
         Console.WriteLine("  Using dimension DIM_NUM =   " + dim_num + "");
 
-        seed = 0;
-        r = new double[dim_num];
+        int seed = 0;
+        double[] r = new double[dim_num];
 
         Console.WriteLine("");
         Console.WriteLine("    Seed    Seed     Niederreiter");
         Console.WriteLine("      In     Out");
         Console.WriteLine("");
-        string cout = "";
         for (i = 0; i <= 10; i++)
         {
-            seed_in = seed;
+            int seed_in = seed;
             Niederreiter.niederreiter(ref data, dim_num, base_, ref seed, ref r);
-            seed_out = seed;
-            cout = "  " + seed_in.ToString().PadLeft(8)
-                        + "  " + seed_out.ToString().PadLeft(8);
+            int seed_out = seed;
+            string cout = "  " + seed_in.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                               + "  " + seed_out.ToString(CultureInfo.InvariantCulture).PadLeft(8);
+            int dim;
             for (dim = 0; dim < dim_num; dim++)
             {
-                cout += "  " + r[dim].ToString().PadLeft(10);
+                cout += "  " + r[dim].ToString(CultureInfo.InvariantCulture).PadLeft(10);
                 switch ((dim + 1) % 5)
                 {
                     case 0 when dim != dim_num:

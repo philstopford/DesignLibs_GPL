@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.NavierStokesNS;
 using Burkardt.Types;
 using Burkardt.Uniform;
@@ -111,22 +112,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int n;
-        double nu;
-        double[] p;
-        double rho;
-        int seed;
-        double t;
-        double[] u;
-        double[] v;
-        double[] x;
-        double r8_hi;
-        double r8_lo;
-        double[] y;
-
-        nu = 1.0;
-        rho = 1.0;
-        t = 1.0;
+        const double nu = 1.0;
+        const double rho = 1.0;
+        const double t = 1.0;
 
         Console.WriteLine("");
         Console.WriteLine("uvp_gms_test");
@@ -137,18 +125,18 @@ internal static class Program
         Console.WriteLine("  Kinematic viscosity NU = " + nu + "");
         Console.WriteLine("  Fluid density RHO = " + rho + "");
 
-        n = 1000;
+        const int n = 1000;
 
-        p = new double[n];
-        u = new double[n];
-        v = new double[n];
+        double[] p = new double[n];
+        double[] u = new double[n];
+        double[] v = new double[n];
 
-        r8_lo = -1.0;
-        r8_hi = 1.0;
-        seed = 123456789;
+        const double r8_lo = -1.0;
+        const double r8_hi = 1.0;
+        int seed = 123456789;
 
-        x = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
-        y = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
+        double[] x = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
+        double[] y = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
 
         GMS.uvp_gms(nu, rho, n, x, y, t, ref u, ref v, ref p);
 
@@ -156,14 +144,14 @@ internal static class Program
         Console.WriteLine("           Minimum       Maximum");
         Console.WriteLine("");
         Console.WriteLine("  U:"
-                          + "  " + typeMethods.r8vec_min(n, u).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_max(n, u).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_min(n, u).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_max(n, u).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  V:"
-                          + "  " + typeMethods.r8vec_min(n, v).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_max(n, v).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_min(n, v).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_max(n, v).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  P:"
-                          + "  " + typeMethods.r8vec_min(n, p).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_max(n, p).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_min(n, p).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_max(n, p).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
     }
 
@@ -189,21 +177,10 @@ internal static class Program
         //
     {
         int i;
-        int n;
-        double nu;
-        double[] p;
-        double r8_hi;
-        double r8_lo;
-        double rho;
-        double t;
-        double[] u;
-        double[] v;
-        double[] x;
-        double[] y;
 
-        nu = 1.0;
-        rho = 1.0;
-        t = 1.0;
+        const double nu = 1.0;
+        const double rho = 1.0;
+        const double t = 1.0;
 
         Console.WriteLine("");
         Console.WriteLine("uvp_gms_test2");
@@ -214,16 +191,16 @@ internal static class Program
         Console.WriteLine("  Kinematic viscosity NU = " + nu + "");
         Console.WriteLine("  Fluid density RHO = " + rho + "");
 
-        n = 400;
+        const int n = 400;
 
-        p = new double[n];
-        u = new double[n];
-        v = new double[n];
-        x = new double[n];
-        y = new double[n];
+        double[] p = new double[n];
+        double[] u = new double[n];
+        double[] v = new double[n];
+        double[] x = new double[n];
+        double[] y = new double[n];
 
-        r8_lo = -1.0;
-        r8_hi = 1.0;
+        const double r8_lo = -1.0;
+        const double r8_hi = 1.0;
 
         typeMethods.r8vec_linspace(100, r8_lo, r8_hi, ref x);
         for (i = 0; i < 100; i++)
@@ -257,14 +234,14 @@ internal static class Program
         Console.WriteLine("           Minimum       Maximum");
         Console.WriteLine("");
         Console.WriteLine("  U:"
-                          + "  " + typeMethods.r8vec_min(n, u).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_max(n, u).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_min(n, u).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_max(n, u).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  V:"
-                          + "  " + typeMethods.r8vec_min(n, v).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_max(n, v).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_min(n, v).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_max(n, v).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  P:"
-                          + "  " + typeMethods.r8vec_min(n, p).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_max(n, p).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_min(n, p).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_max(n, p).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
     }
 
@@ -289,22 +266,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] f;
-        double[] g;
-        double[] h;
-        int n;
-        double nu;
-        double rho;
-        int seed;
-        double t;
-        double[] x;
-        double r8_hi;
-        double r8_lo;
-        double[] y;
-
-        nu = 1.0;
-        rho = 1.0;
-        t = 1.0;
+        const double nu = 1.0;
+        const double rho = 1.0;
+        const double t = 1.0;
 
         Console.WriteLine("");
         Console.WriteLine("rhs_gms_test");
@@ -315,18 +279,18 @@ internal static class Program
         Console.WriteLine("  Kinematic viscosity NU = " + nu + "");
         Console.WriteLine("  Fluid density RHO = " + rho + "");
 
-        n = 1000;
+        const int n = 1000;
 
-        f = new double[n];
-        g = new double[n];
-        h = new double[n];
+        double[] f = new double[n];
+        double[] g = new double[n];
+        double[] h = new double[n];
 
-        r8_lo = -1.0;
-        r8_hi = 1.0;
-        seed = 123456789;
+        const double r8_lo = -1.0;
+        const double r8_hi = 1.0;
+        int seed = 123456789;
 
-        x = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
-        y = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
+        double[] x = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
+        double[] y = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
 
         GMS.rhs_gms(nu, rho, n, x, y, t, ref f, ref g, ref h);
 
@@ -334,14 +298,14 @@ internal static class Program
         Console.WriteLine("           Minimum       Maximum");
         Console.WriteLine("");
         Console.WriteLine("  F:"
-                          + "  " + typeMethods.r8vec_min(n, f).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_max(n, f).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_min(n, f).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_max(n, f).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  G:"
-                          + "  " + typeMethods.r8vec_min(n, g).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_max(n, g).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_min(n, g).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_max(n, g).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  H:"
-                          + "  " + typeMethods.r8vec_min(n, h).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_max(n, h).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_min(n, h).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_max(n, h).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
     }
 
@@ -366,22 +330,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int n;
-        double nu;
-        double[] pr;
-        double rho;
-        int seed;
-        double t;
-        double[] ur;
-        double[] vr;
-        double[] x;
-        double r8_hi;
-        double r8_lo;
-        double[] y;
-
-        nu = 1.0;
-        rho = 1.0;
-        t = 1.0;
+        const double nu = 1.0;
+        const double rho = 1.0;
+        const double t = 1.0;
 
         Console.WriteLine("");
         Console.WriteLine("resid_gms_test");
@@ -392,18 +343,18 @@ internal static class Program
         Console.WriteLine("  Kinematic viscosity NU = " + nu + "");
         Console.WriteLine("  Fluid density RHO = " + rho + "");
 
-        n = 1000;
+        int n = 1000;
 
-        pr = new double[n];
-        ur = new double[n];
-        vr = new double[n];
+        double[] pr = new double[n];
+        double[] ur = new double[n];
+        double[] vr = new double[n];
 
-        r8_lo = -1.0;
-        r8_hi = 1.0;
-        seed = 123456789;
+        const double r8_lo = -1.0;
+        const double r8_hi = 1.0;
+        int seed = 123456789;
 
-        x = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
-        y = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
+        double[] x = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
+        double[] y = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
 
         GMS.resid_gms(nu, rho, n, x, y, t, ref ur, ref vr, ref pr);
 
@@ -411,14 +362,14 @@ internal static class Program
         Console.WriteLine("           Minimum       Maximum");
         Console.WriteLine("");
         Console.WriteLine("  Ur:"
-                          + "  " + typeMethods.r8vec_amin(n, ur).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_amax(n, ur).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_amin(n, ur).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_amax(n, ur).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  Vr:"
-                          + "  " + typeMethods.r8vec_amin(n, vr).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_amax(n, vr).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_amin(n, vr).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_amax(n, vr).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  Pr:"
-                          + "  " + typeMethods.r8vec_amin(n, pr).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_amax(n, pr).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_amin(n, pr).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_amax(n, pr).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
     }
 
@@ -443,27 +394,12 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string header;
-        int n;
-        double nu;
-        double[] p;
-        double rho;
-        double s;
-        double t;
-        double[] u;
-        double[] v;
-        double[] x;
-        double x_hi;
-        double x_lo;
-        int x_num = 21;
-        double[] y;
-        double y_hi;
-        double y_lo;
-        int y_num = 21;
+        const int x_num = 21;
+        const int y_num = 21;
 
-        nu = 1.0;
-        rho = 1.0;
-        t = 1.0;
+        const double nu = 1.0;
+        const double rho = 1.0;
+        const double t = 1.0;
 
         Console.WriteLine("");
         Console.WriteLine("gnuplot_gms_test:");
@@ -471,27 +407,27 @@ internal static class Program
         Console.WriteLine("  Generate a velocity field on a regular grid.");
         Console.WriteLine("  Store in GNUPLOT data and command files.");
 
-        x_lo = -1.0;
-        x_hi = 1.0;
+        const double x_lo = -1.0;
+        const double x_hi = 1.0;
 
-        y_lo = -1.0;
-        y_hi = 1.0;
+        const double y_lo = -1.0;
+        const double y_hi = 1.0;
 
-        x = new double[x_num * y_num];
-        y = new double[x_num * y_num];
+        double[] x = new double[x_num * y_num];
+        double[] y = new double[x_num * y_num];
 
         NavierStokes2DExact.grid_2d(x_num, x_lo, x_hi, y_num, y_lo, y_hi, ref x, ref y);
 
-        n = x_num * y_num;
+        int n = x_num * y_num;
 
-        u = new double[x_num * y_num];
-        v = new double[x_num * y_num];
-        p = new double[x_num * y_num];
+        double[] u = new double[x_num * y_num];
+        double[] v = new double[x_num * y_num];
+        double[] p = new double[x_num * y_num];
 
         GMS.uvp_gms(nu, rho, n, x, y, t, ref u, ref v, ref p);
 
-        header = "gms";
-        s = 0.25;
+        string header = "gms";
+        const double s = 0.25;
         NavierStokes2DExact.ns2de_gnuplot(header, n, x, y, u, v, p, s);
 
     }
@@ -517,21 +453,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int n;
-        double nu;
-        double[] p;
-        double rho;
-        int seed;
-        double t;
-        double[] u;
-        double[] v;
-        double[] x;
-        double r8_hi;
-        double r8_lo;
-        double[] y;
-
-        nu = 1.0;
-        rho = 1.0;
+        const double nu = 1.0;
+        const double rho = 1.0;
 
         Console.WriteLine("");
         Console.WriteLine("uvp_lukas_test");
@@ -541,19 +464,19 @@ internal static class Program
         Console.WriteLine("  Kinematic viscosity NU = " + nu + "");
         Console.WriteLine("  Fluid density RHO = " + rho + "");
 
-        n = 1000;
+        const int n = 1000;
 
-        p = new double[n];
-        u = new double[n];
-        v = new double[n];
+        double[] p = new double[n];
+        double[] u = new double[n];
+        double[] v = new double[n];
 
-        r8_lo = 0.0;
-        r8_hi = 1.0;
-        seed = 123456789;
+        const double r8_lo = 0.0;
+        const double r8_hi = 1.0;
+        int seed = 123456789;
 
-        x = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
-        y = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
-        t = 0.0;
+        double[] x = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
+        double[] y = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
+        const double t = 0.0;
 
         LukasBystricky.uvp_lukas(nu, rho, n, x, y, t, ref u, ref v, ref p);
 
@@ -561,14 +484,14 @@ internal static class Program
         Console.WriteLine("           Minimum       Maximum");
         Console.WriteLine("");
         Console.WriteLine("  U:"
-                          + "  " + typeMethods.r8vec_min(n, u).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_max(n, u).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_min(n, u).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_max(n, u).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  V:"
-                          + "  " + typeMethods.r8vec_min(n, v).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_max(n, v).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_min(n, v).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_max(n, v).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  P:"
-                          + "  " + typeMethods.r8vec_min(n, p).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_max(n, p).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_min(n, p).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_max(n, p).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
     }
 
@@ -594,21 +517,10 @@ internal static class Program
         //
     {
         int i;
-        int n;
-        double nu;
-        double[] p;
-        double r8_hi;
-        double r8_lo;
-        double rho;
-        double t;
-        double[] u;
-        double[] v;
-        double[] x;
-        double[] y;
 
-        nu = 1.0;
-        rho = 1.0;
-        t = 0.0;
+        const double nu = 1.0;
+        const double rho = 1.0;
+        const double t = 0.0;
 
         Console.WriteLine("");
         Console.WriteLine("uvp_lukas_test2");
@@ -619,16 +531,16 @@ internal static class Program
         Console.WriteLine("  Kinematic viscosity NU = " + nu + "");
         Console.WriteLine("  Fluid density RHO = " + rho + "");
 
-        n = 400;
+        const int n = 400;
 
-        p = new double[n];
-        u = new double[n];
-        v = new double[n];
-        x = new double[n];
-        y = new double[n];
+        double[] p = new double[n];
+        double[] u = new double[n];
+        double[] v = new double[n];
+        double[] x = new double[n];
+        double[] y = new double[n];
 
-        r8_lo = 0.0;
-        r8_hi = 1.0;
+        const double r8_lo = 0.0;
+        const double r8_hi = 1.0;
 
         typeMethods.r8vec_linspace(100, r8_lo, r8_hi, ref x);
         for (i = 0; i < 100; i++)
@@ -662,14 +574,14 @@ internal static class Program
         Console.WriteLine("           Minimum       Maximum");
         Console.WriteLine("");
         Console.WriteLine("  U:"
-                          + "  " + typeMethods.r8vec_min(n, u).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_max(n, u).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_min(n, u).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_max(n, u).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  V:"
-                          + "  " + typeMethods.r8vec_min(n, v).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_max(n, v).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_min(n, v).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_max(n, v).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  P:"
-                          + "  " + typeMethods.r8vec_min(n, p).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_max(n, p).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_min(n, p).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_max(n, p).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
     }
 
@@ -694,21 +606,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] f;
-        double[] g;
-        double[] h;
-        int n;
-        double nu;
-        double rho;
-        int seed;
-        double t;
-        double[] x;
-        double r8_hi;
-        double r8_lo;
-        double[] y;
-
-        nu = 1.0;
-        rho = 1.0;
+        const double nu = 1.0;
+        const double rho = 1.0;
 
         Console.WriteLine("");
         Console.WriteLine("rhs_lukas_test");
@@ -718,19 +617,19 @@ internal static class Program
         Console.WriteLine("  Kinematic viscosity NU = " + nu + "");
         Console.WriteLine("  Fluid density RHO = " + rho + "");
 
-        n = 1000;
+        const int n = 1000;
 
-        f = new double[n];
-        g = new double[n];
-        h = new double[n];
+        double[] f = new double[n];
+        double[] g = new double[n];
+        double[] h = new double[n];
 
-        r8_lo = 0.0;
-        r8_hi = 1.0;
-        seed = 123456789;
+        const double r8_lo = 0.0;
+        const double r8_hi = 1.0;
+        int seed = 123456789;
 
-        x = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
-        y = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
-        t = 0.0;
+        double[] x = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
+        double[] y = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
+        const double t = 0.0;
 
         LukasBystricky.rhs_lukas(nu, rho, n, x, y, t, ref f, ref g, ref h);
 
@@ -738,14 +637,14 @@ internal static class Program
         Console.WriteLine("           Minimum       Maximum");
         Console.WriteLine("");
         Console.WriteLine("  F:"
-                          + "  " + typeMethods.r8vec_min(n, f).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_max(n, f).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_min(n, f).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_max(n, f).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  G:"
-                          + "  " + typeMethods.r8vec_min(n, g).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_max(n, g).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_min(n, g).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_max(n, g).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  H:"
-                          + "  " + typeMethods.r8vec_min(n, h).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_max(n, h).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_min(n, h).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_max(n, h).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
     }
 
@@ -770,21 +669,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int n;
-        double nu;
-        double[] pr;
-        double rho;
-        int seed;
-        double t;
-        double[] ur;
-        double[] vr;
-        double[] x;
-        double r8_hi;
-        double r8_lo;
-        double[] y;
-
-        nu = 1.0;
-        rho = 1.0;
+        const double nu = 1.0;
+        const double rho = 1.0;
 
         Console.WriteLine("");
         Console.WriteLine("resid_lukas_test");
@@ -794,19 +680,19 @@ internal static class Program
         Console.WriteLine("  Kinematic viscosity NU = " + nu + "");
         Console.WriteLine("  Fluid density RHO = " + rho + "");
 
-        n = 1000;
+        const int n = 1000;
 
-        pr = new double[n];
-        ur = new double[n];
-        vr = new double[n];
+        double[] pr = new double[n];
+        double[] ur = new double[n];
+        double[] vr = new double[n];
 
-        r8_lo = 0.0;
-        r8_hi = 1.0;
-        seed = 123456789;
+        const double r8_lo = 0.0;
+        const double r8_hi = 1.0;
+        int seed = 123456789;
 
-        x = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
-        y = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
-        t = 0.0;
+        double[] x = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
+        double[] y = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
+        const double t = 0.0;
 
         LukasBystricky.resid_lukas(nu, rho, n, x, y, t, ref ur, ref vr, ref pr);
 
@@ -814,14 +700,14 @@ internal static class Program
         Console.WriteLine("           Minimum       Maximum");
         Console.WriteLine("");
         Console.WriteLine("  Ur:"
-                          + "  " + typeMethods.r8vec_amin(n, ur).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_amax(n, ur).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_amin(n, ur).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_amax(n, ur).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  Vr:"
-                          + "  " + typeMethods.r8vec_amin(n, vr).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_amax(n, vr).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_amin(n, vr).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_amax(n, vr).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  Pr:"
-                          + "  " + typeMethods.r8vec_amin(n, pr).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_amax(n, pr).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_amin(n, pr).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_amax(n, pr).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
     }
 
@@ -846,23 +732,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string header;
-        int n;
-        double nu;
-        double[] p;
-        double rho;
-        double s;
-        double t;
-        double[] u;
-        double[] v;
-        double[] x;
-        double x_hi;
-        double x_lo;
-        int x_num = 21;
-        double[] y;
-        double y_hi;
-        double y_lo;
-        int y_num = 21;
+        const int x_num = 21;
+        const int y_num = 21;
 
         Console.WriteLine("");
         Console.WriteLine("gnuplot_lukas_test:");
@@ -870,30 +741,30 @@ internal static class Program
         Console.WriteLine("  Generate a velocity field on a regular grid.");
         Console.WriteLine("  Store in GNUPLOT data and command files.");
 
-        x_lo = 0.0;
-        x_hi = 1.0;
+        const double x_lo = 0.0;
+        const double x_hi = 1.0;
 
-        y_lo = 0.0;
-        y_hi = 1.0;
+        const double y_lo = 0.0;
+        const double y_hi = 1.0;
 
-        x = new double[x_num * y_num];
-        y = new double[x_num * y_num];
+        double[] x = new double[x_num * y_num];
+        double[] y = new double[x_num * y_num];
 
         NavierStokes2DExact.grid_2d(x_num, x_lo, x_hi, y_num, y_lo, y_hi, ref x, ref y);
 
-        nu = 1.0;
-        rho = 1.0;
-        n = x_num * y_num;
-        t = 0.0;
+        const double nu = 1.0;
+        const double rho = 1.0;
+        const int n = x_num * y_num;
+        const double t = 0.0;
 
-        u = new double[x_num * y_num];
-        v = new double[x_num * y_num];
-        p = new double[x_num * y_num];
+        double[] u = new double[x_num * y_num];
+        double[] v = new double[x_num * y_num];
+        double[] p = new double[x_num * y_num];
 
         LukasBystricky.uvp_lukas(nu, rho, n, x, y, t, ref u, ref v, ref p);
 
-        header = "lukas";
-        s = 0.25;
+        const string header = "lukas";
+        const double s = 0.25;
         NavierStokes2DExact.ns2de_gnuplot(header, n, x, y, u, v, p, s);
 
     }
@@ -919,23 +790,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int n;
-        double nu;
-        double[] p;
-        double rho;
-        int seed;
-        double t;
-        double[] u;
-        double[] v;
-        double[] x;
-        double x_hi;
-        double x_lo;
-        double[] y;
-        double y_hi;
-        double y_lo;
-
-        nu = 1.0;
-        rho = 1.0;
+        const double nu = 1.0;
+        const double rho = 1.0;
 
         Console.WriteLine("");
         Console.WriteLine("uvp_poiseuille_test");
@@ -945,21 +801,21 @@ internal static class Program
         Console.WriteLine("  Kinematic viscosity NU = " + nu + "");
         Console.WriteLine("  Fluid density RHO = " + rho + "");
 
-        n = 1000;
+        const int n = 1000;
 
-        p = new double[n];
-        u = new double[n];
-        v = new double[n];
+        double[] p = new double[n];
+        double[] u = new double[n];
+        double[] v = new double[n];
 
-        x_lo = 0.0;
-        x_hi = 6.0;
-        y_lo = -1.0;
-        y_hi = +1.0;
-        seed = 123456789;
+        const double x_lo = 0.0;
+        const double x_hi = 6.0;
+        const double y_lo = -1.0;
+        const double y_hi = +1.0;
+        int seed = 123456789;
 
-        x = UniformRNG.r8vec_uniform_ab_new(n, x_lo, x_hi, ref seed);
-        y = UniformRNG.r8vec_uniform_ab_new(n, y_lo, y_hi, ref seed);
-        t = 0.0;
+        double[] x = UniformRNG.r8vec_uniform_ab_new(n, x_lo, x_hi, ref seed);
+        double[] y = UniformRNG.r8vec_uniform_ab_new(n, y_lo, y_hi, ref seed);
+        const double t = 0.0;
 
         Poiseuille.uvp_poiseuille(nu, rho, n, x, y, t, ref u, ref v, ref p);
 
@@ -967,14 +823,14 @@ internal static class Program
         Console.WriteLine("           Minimum       Maximum");
         Console.WriteLine("");
         Console.WriteLine("  U:"
-                          + "  " + typeMethods.r8vec_min(n, u).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_max(n, u).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_min(n, u).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_max(n, u).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  V:"
-                          + "  " + typeMethods.r8vec_min(n, v).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_max(n, v).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_min(n, v).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_max(n, v).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  P:"
-                          + "  " + typeMethods.r8vec_min(n, p).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_max(n, p).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_min(n, p).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_max(n, p).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
     }
 
@@ -1000,23 +856,10 @@ internal static class Program
         //
     {
         int i;
-        int n;
-        double nu;
-        double[] p;
-        double rho;
-        double t;
-        double[] u;
-        double[] v;
-        double[] x;
-        double x_hi;
-        double x_lo;
-        double[] y;
-        double y_hi;
-        double y_lo;
 
-        nu = 1.0;
-        rho = 1.0;
-        t = 0.0;
+        const double nu = 1.0;
+        const double rho = 1.0;
+        const double t = 0.0;
 
         Console.WriteLine("");
         Console.WriteLine("uvp_poiseuille_test2");
@@ -1027,18 +870,18 @@ internal static class Program
         Console.WriteLine("  Kinematic viscosity NU = " + nu + "");
         Console.WriteLine("  Fluid density RHO = " + rho + "");
 
-        n = 400;
+        const int n = 400;
 
-        p = new double[n];
-        u = new double[n];
-        v = new double[n];
-        x = new double[n];
-        y = new double[n];
+        double[] p = new double[n];
+        double[] u = new double[n];
+        double[] v = new double[n];
+        double[] x = new double[n];
+        double[] y = new double[n];
 
-        x_lo = 0.0;
-        x_hi = 6.0;
-        y_lo = -1.0;
-        y_hi = +1.0;
+        const double x_lo = 0.0;
+        const double x_hi = 6.0;
+        const double y_lo = -1.0;
+        const double y_hi = +1.0;
 
         typeMethods.r8vec_linspace(100, x_lo, x_hi, ref x);
         for (i = 0; i < 100; i++)
@@ -1072,14 +915,14 @@ internal static class Program
         Console.WriteLine("           Minimum       Maximum");
         Console.WriteLine("");
         Console.WriteLine("  U:"
-                          + "  " + typeMethods.r8vec_min(n, u).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_max(n, u).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_min(n, u).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_max(n, u).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  V:"
-                          + "  " + typeMethods.r8vec_min(n, v).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_max(n, v).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_min(n, v).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_max(n, v).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  P:"
-                          + "  " + typeMethods.r8vec_min(n, p).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_max(n, p).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_min(n, p).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_max(n, p).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
     }
 
@@ -1104,23 +947,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] f;
-        double[] g;
-        double[] h;
-        int n;
-        double nu;
-        double rho;
-        int seed;
-        double t;
-        double[] x;
-        double x_hi;
-        double x_lo;
-        double[] y;
-        double y_hi;
-        double y_lo;
-
-        nu = 1.0;
-        rho = 1.0;
+        const double nu = 1.0;
+        const double rho = 1.0;
 
         Console.WriteLine("");
         Console.WriteLine("rhs_poiseuille_test");
@@ -1130,21 +958,21 @@ internal static class Program
         Console.WriteLine("  Kinematic viscosity NU = " + nu + "");
         Console.WriteLine("  Fluid density RHO = " + rho + "");
 
-        n = 1000;
+        const int n = 1000;
 
-        f = new double[n];
-        g = new double[n];
-        h = new double[n];
+        double[] f = new double[n];
+        double[] g = new double[n];
+        double[] h = new double[n];
 
-        x_lo = 0.0;
-        x_hi = 6.0;
-        y_lo = -1.0;
-        y_hi = +1.0;
-        seed = 123456789;
+        const double x_lo = 0.0;
+        const double x_hi = 6.0;
+        const double y_lo = -1.0;
+        const double y_hi = +1.0;
+        int seed = 123456789;
 
-        x = UniformRNG.r8vec_uniform_ab_new(n, x_lo, x_hi, ref seed);
-        y = UniformRNG.r8vec_uniform_ab_new(n, y_lo, y_hi, ref seed);
-        t = 0.0;
+        double[] x = UniformRNG.r8vec_uniform_ab_new(n, x_lo, x_hi, ref seed);
+        double[] y = UniformRNG.r8vec_uniform_ab_new(n, y_lo, y_hi, ref seed);
+        const double t = 0.0;
 
         Poiseuille.rhs_poiseuille(nu, rho, n, x, y, t, ref f, ref g, ref h);
 
@@ -1152,14 +980,14 @@ internal static class Program
         Console.WriteLine("           Minimum       Maximum");
         Console.WriteLine("");
         Console.WriteLine("  F:"
-                          + "  " + typeMethods.r8vec_min(n, f).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_max(n, f).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_min(n, f).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_max(n, f).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  G:"
-                          + "  " + typeMethods.r8vec_min(n, g).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_max(n, g).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_min(n, g).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_max(n, g).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  H:"
-                          + "  " + typeMethods.r8vec_min(n, h).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_max(n, h).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_min(n, h).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_max(n, h).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
     }
 
@@ -1184,23 +1012,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int n;
-        double nu;
-        double[] pr;
-        double rho;
-        int seed;
-        double t;
-        double[] ur;
-        double[] vr;
-        double[] x;
-        double x_hi;
-        double x_lo;
-        double[] y;
-        double y_hi;
-        double y_lo;
-
-        nu = 1.0;
-        rho = 1.0;
+        const double nu = 1.0;
+        const double rho = 1.0;
 
         Console.WriteLine("");
         Console.WriteLine("resid_poiseuille_test");
@@ -1210,21 +1023,21 @@ internal static class Program
         Console.WriteLine("  Kinematic viscosity NU = " + nu + "");
         Console.WriteLine("  Fluid density RHO = " + rho + "");
 
-        n = 1000;
+        const int n = 1000;
 
-        pr = new double[n];
-        ur = new double[n];
-        vr = new double[n];
+        double[] pr = new double[n];
+        double[] ur = new double[n];
+        double[] vr = new double[n];
 
-        x_lo = 0.0;
-        x_hi = 6.0;
-        y_lo = -1.0;
-        y_hi = +1.0;
-        seed = 123456789;
+        const double x_lo = 0.0;
+        const double x_hi = 6.0;
+        const double y_lo = -1.0;
+        const double y_hi = +1.0;
+        int seed = 123456789;
 
-        x = UniformRNG.r8vec_uniform_ab_new(n, x_lo, x_hi, ref seed);
-        y = UniformRNG.r8vec_uniform_ab_new(n, y_lo, y_hi, ref seed);
-        t = 0.0;
+        double[] x = UniformRNG.r8vec_uniform_ab_new(n, x_lo, x_hi, ref seed);
+        double[] y = UniformRNG.r8vec_uniform_ab_new(n, y_lo, y_hi, ref seed);
+        const double t = 0.0;
 
         Poiseuille.resid_poiseuille(nu, rho, n, x, y, t, ref ur, ref vr, ref pr);
 
@@ -1232,14 +1045,14 @@ internal static class Program
         Console.WriteLine("           Minimum       Maximum");
         Console.WriteLine("");
         Console.WriteLine("  Ur:"
-                          + "  " + typeMethods.r8vec_amin(n, ur).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_amax(n, ur).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_amin(n, ur).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_amax(n, ur).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  Vr:"
-                          + "  " + typeMethods.r8vec_amin(n, vr).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_amax(n, vr).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_amin(n, vr).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_amax(n, vr).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  Pr:"
-                          + "  " + typeMethods.r8vec_amin(n, pr).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_amax(n, pr).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_amin(n, pr).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_amax(n, pr).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
     }
 
@@ -1264,23 +1077,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string header;
-        int n;
-        double nu;
-        double[] p;
-        double rho;
-        double s;
-        double t;
-        double[] u;
-        double[] v;
-        double[] x;
-        double x_hi;
-        double x_lo;
-        int x_num = 21;
-        double[] y;
-        double y_hi;
-        double y_lo;
-        int y_num = 21;
+        const int x_num = 21;
+        const int y_num = 21;
 
         Console.WriteLine("");
         Console.WriteLine("gnuplot_poiseuille_test:");
@@ -1288,30 +1086,30 @@ internal static class Program
         Console.WriteLine("  Generate a velocity field on a regular grid.");
         Console.WriteLine("  Store in GNUPLOT data and command files.");
 
-        x_lo = 0.0;
-        x_hi = 6.0;
+        const double x_lo = 0.0;
+        const double x_hi = 6.0;
 
-        y_lo = -1.0;
-        y_hi = +1.0;
+        const double y_lo = -1.0;
+        const double y_hi = +1.0;
 
-        x = new double[x_num * y_num];
-        y = new double[x_num * y_num];
+        double[] x = new double[x_num * y_num];
+        double[] y = new double[x_num * y_num];
 
         NavierStokes2DExact.grid_2d(x_num, x_lo, x_hi, y_num, y_lo, y_hi, ref x, ref y);
 
-        nu = 1.0;
-        rho = 1.0;
-        n = x_num * y_num;
-        t = 0.0;
+        const double nu = 1.0;
+        const double rho = 1.0;
+        const int n = x_num * y_num;
+        const double t = 0.0;
 
-        u = new double[x_num * y_num];
-        v = new double[x_num * y_num];
-        p = new double[x_num * y_num];
+        double[] u = new double[x_num * y_num];
+        double[] v = new double[x_num * y_num];
+        double[] p = new double[x_num * y_num];
 
         Poiseuille.uvp_poiseuille(nu, rho, n, x, y, t, ref u, ref v, ref p);
 
-        header = "poiseuille";
-        s = 5.00;
+        const string header = "poiseuille";
+        const double s = 5.00;
         NavierStokes2DExact.ns2de_gnuplot(header, n, x, y, u, v, p, s);
 
     }
@@ -1340,23 +1138,10 @@ internal static class Program
         int i;
         int j;
         int k;
-        int n;
-        double nu;
-        double[] p;
         double p_norm;
-        double rho;
-        int seed;
         double t;
-        double[] u;
         double u_norm;
-        double[] v;
         double v_norm;
-        double[] x;
-        double x_hi;
-        double x_lo;
-        double[] y;
-        double y_hi;
-        double y_lo;
 
         Console.WriteLine("");
         Console.WriteLine("PARAMETER_poiseuille_test");
@@ -1364,20 +1149,20 @@ internal static class Program
         Console.WriteLine("  Monitor solution norms over time for various");
         Console.WriteLine("  values of NU, RHO.");
 
-        n = 1000;
+        const int n = 1000;
 
-        u = new double[n];
-        v = new double[n];
-        p = new double[n];
+        double[] u = new double[n];
+        double[] v = new double[n];
+        double[] p = new double[n];
 
-        x_lo = 0.0;
-        x_hi = 6.0;
-        y_lo = -1.0;
-        y_hi = +1.0;
-        seed = 123456789;
+        const double x_lo = 0.0;
+        const double x_hi = 6.0;
+        const double y_lo = -1.0;
+        const double y_hi = +1.0;
+        int seed = 123456789;
 
-        x = UniformRNG.r8vec_uniform_ab_new(n, x_lo, x_hi, ref seed);
-        y = UniformRNG.r8vec_uniform_ab_new(n, y_lo, y_hi, ref seed);
+        double[] x = UniformRNG.r8vec_uniform_ab_new(n, x_lo, x_hi, ref seed);
+        double[] y = UniformRNG.r8vec_uniform_ab_new(n, y_lo, y_hi, ref seed);
         //
         //  Vary RHO.
         //
@@ -1387,8 +1172,8 @@ internal static class Program
         Console.WriteLine("     RHO         NU           T     ||U||       ||V||       ||P||");
         Console.WriteLine("");
 
-        nu = 1.0;
-        rho = 1.0;
+        double nu = 1.0;
+        double rho = 1.0;
 
         for (j = 1; j <= 3; j++)
         {
@@ -1402,12 +1187,12 @@ internal static class Program
                 v_norm = typeMethods.r8vec_norm_l2(n, v) / n;
                 p_norm = typeMethods.r8vec_norm_l2(n, p) / n;
 
-                Console.WriteLine("  " + rho.ToString().PadLeft(10)
-                                       + "  " + nu.ToString().PadLeft(10)
-                                       + "  " + t.ToString().PadLeft(8)
-                                       + "  " + u_norm.ToString().PadLeft(10)
-                                       + "  " + v_norm.ToString().PadLeft(10)
-                                       + "  " + p_norm.ToString().PadLeft(10) + "");
+                Console.WriteLine("  " + rho.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + nu.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + t.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + u_norm.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + v_norm.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + p_norm.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
             }
 
             Console.WriteLine("");
@@ -1438,12 +1223,12 @@ internal static class Program
                 v_norm = typeMethods.r8vec_norm_l2(n, v) / n;
                 p_norm = typeMethods.r8vec_norm_l2(n, p) / n;
 
-                Console.WriteLine("  " + rho.ToString().PadLeft(10)
-                                       + "  " + nu.ToString().PadLeft(10)
-                                       + "  " + t.ToString().PadLeft(8)
-                                       + "  " + u_norm.ToString().PadLeft(10)
-                                       + "  " + v_norm.ToString().PadLeft(10)
-                                       + "  " + p_norm.ToString().PadLeft(10) + "");
+                Console.WriteLine("  " + rho.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + nu.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + t.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + u_norm.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + v_norm.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + p_norm.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
             }
 
             Console.WriteLine("");
@@ -1474,21 +1259,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int n;
-        double nu;
-        double[] p;
-        double rho;
-        int seed;
-        double t;
-        double[] u;
-        double[] v;
-        double[] x;
-        double r8_hi;
-        double r8_lo;
-        double[] y;
-
-        nu = 1.0;
-        rho = 1.0;
+        const double nu = 1.0;
+        const double rho = 1.0;
 
         Console.WriteLine("");
         Console.WriteLine("uvp_spiral_test");
@@ -1498,19 +1270,19 @@ internal static class Program
         Console.WriteLine("  Kinematic viscosity NU = " + nu + "");
         Console.WriteLine("  Fluid density RHO = " + rho + "");
 
-        n = 1000;
+        const int n = 1000;
 
-        p = new double[n];
-        u = new double[n];
-        v = new double[n];
+        double[] p = new double[n];
+        double[] u = new double[n];
+        double[] v = new double[n];
 
-        r8_lo = 0.0;
-        r8_hi = 1.0;
-        seed = 123456789;
+        const double r8_lo = 0.0;
+        const double r8_hi = 1.0;
+        int seed = 123456789;
 
-        x = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
-        y = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
-        t = 0.0;
+        double[] x = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
+        double[] y = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
+        const double t = 0.0;
 
         Spiral.uvp_spiral(nu, rho, n, x, y, t, ref u, ref v, ref p);
 
@@ -1518,14 +1290,14 @@ internal static class Program
         Console.WriteLine("           Minimum       Maximum");
         Console.WriteLine("");
         Console.WriteLine("  U:"
-                          + "  " + typeMethods.r8vec_min(n, u).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_max(n, u).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_min(n, u).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_max(n, u).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  V:"
-                          + "  " + typeMethods.r8vec_min(n, v).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_max(n, v).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_min(n, v).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_max(n, v).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  P:"
-                          + "  " + typeMethods.r8vec_min(n, p).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_max(n, p).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_min(n, p).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_max(n, p).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
     }
 
@@ -1551,21 +1323,10 @@ internal static class Program
         //
     {
         int i;
-        int n;
-        double nu;
-        double[] p;
-        double r8_hi;
-        double r8_lo;
-        double rho;
-        double t;
-        double[] u;
-        double[] v;
-        double[] x;
-        double[] y;
 
-        nu = 1.0;
-        rho = 1.0;
-        t = 0.0;
+        const double nu = 1.0;
+        const double rho = 1.0;
+        const double t = 0.0;
 
         Console.WriteLine("");
         Console.WriteLine("uvp_spiral_test2");
@@ -1576,16 +1337,16 @@ internal static class Program
         Console.WriteLine("  Kinematic viscosity NU = " + nu + "");
         Console.WriteLine("  Fluid density RHO = " + rho + "");
 
-        n = 400;
+        const int n = 400;
 
-        p = new double[n];
-        u = new double[n];
-        v = new double[n];
-        x = new double[n];
-        y = new double[n];
+        double[] p = new double[n];
+        double[] u = new double[n];
+        double[] v = new double[n];
+        double[] x = new double[n];
+        double[] y = new double[n];
 
-        r8_lo = 0.0;
-        r8_hi = 1.0;
+        double r8_lo = 0.0;
+        double r8_hi = 1.0;
 
         typeMethods.r8vec_linspace(100, r8_lo, r8_hi, ref x);
         for (i = 0; i < 100; i++)
@@ -1619,14 +1380,14 @@ internal static class Program
         Console.WriteLine("           Minimum       Maximum");
         Console.WriteLine("");
         Console.WriteLine("  U:"
-                          + "  " + typeMethods.r8vec_min(n, u).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_max(n, u).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_min(n, u).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_max(n, u).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  V:"
-                          + "  " + typeMethods.r8vec_min(n, v).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_max(n, v).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_min(n, v).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_max(n, v).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  P:"
-                          + "  " + typeMethods.r8vec_min(n, p).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_max(n, p).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_min(n, p).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_max(n, p).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
     }
 
@@ -1651,21 +1412,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] f;
-        double[] g;
-        double[] h;
-        int n;
-        double nu;
-        double rho;
-        int seed;
-        double t;
-        double[] x;
-        double r8_hi;
-        double r8_lo;
-        double[] y;
-
-        nu = 1.0;
-        rho = 1.0;
+        const double nu = 1.0;
+        const double rho = 1.0;
 
         Console.WriteLine("");
         Console.WriteLine("rhs_spiral_test");
@@ -1675,19 +1423,19 @@ internal static class Program
         Console.WriteLine("  Kinematic viscosity NU = " + nu + "");
         Console.WriteLine("  Fluid density RHO = " + rho + "");
 
-        n = 1000;
+        const int n = 1000;
 
-        f = new double[n];
-        g = new double[n];
-        h = new double[n];
+        double[] f = new double[n];
+        double[] g = new double[n];
+        double[] h = new double[n];
 
-        r8_lo = 0.0;
-        r8_hi = 1.0;
-        seed = 123456789;
+        const double r8_lo = 0.0;
+        const double r8_hi = 1.0;
+        int seed = 123456789;
 
-        x = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
-        y = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
-        t = 0.0;
+        double[] x = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
+        double[] y = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
+        const double t = 0.0;
 
         Spiral.rhs_spiral(nu, rho, n, x, y, t, ref f, ref g, ref h);
 
@@ -1695,14 +1443,14 @@ internal static class Program
         Console.WriteLine("           Minimum       Maximum");
         Console.WriteLine("");
         Console.WriteLine("  F:"
-                          + "  " + typeMethods.r8vec_min(n, f).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_max(n, f).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_min(n, f).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_max(n, f).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  G:"
-                          + "  " + typeMethods.r8vec_min(n, g).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_max(n, g).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_min(n, g).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_max(n, g).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  H:"
-                          + "  " + typeMethods.r8vec_min(n, h).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_max(n, h).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_min(n, h).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_max(n, h).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
     }
 
@@ -1727,21 +1475,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int n;
-        double nu;
-        double[] pr;
-        double rho;
-        int seed;
-        double t;
-        double[] ur;
-        double[] vr;
-        double[] x;
-        double r8_hi;
-        double r8_lo;
-        double[] y;
-
-        nu = 1.0;
-        rho = 1.0;
+        const double nu = 1.0;
+        const double rho = 1.0;
 
         Console.WriteLine("");
         Console.WriteLine("resid_spiral_test");
@@ -1751,19 +1486,19 @@ internal static class Program
         Console.WriteLine("  Kinematic viscosity NU = " + nu + "");
         Console.WriteLine("  Fluid density RHO = " + rho + "");
 
-        n = 1000;
+        const int n = 1000;
 
-        pr = new double[n];
-        ur = new double[n];
-        vr = new double[n];
+        double[] pr = new double[n];
+        double[] ur = new double[n];
+        double[] vr = new double[n];
 
-        r8_lo = 0.0;
-        r8_hi = 1.0;
-        seed = 123456789;
+        const double r8_lo = 0.0;
+        const double r8_hi = 1.0;
+        int seed = 123456789;
 
-        x = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
-        y = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
-        t = 0.0;
+        double[] x = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
+        double[] y = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
+        const double t = 0.0;
 
         Spiral.resid_spiral(nu, rho, n, x, y, t, ref ur, ref vr, ref pr);
 
@@ -1771,14 +1506,14 @@ internal static class Program
         Console.WriteLine("           Minimum       Maximum");
         Console.WriteLine("");
         Console.WriteLine("  Ur:"
-                          + "  " + typeMethods.r8vec_amin(n, ur).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_amax(n, ur).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_amin(n, ur).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_amax(n, ur).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  Vr:"
-                          + "  " + typeMethods.r8vec_amin(n, vr).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_amax(n, vr).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_amin(n, vr).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_amax(n, vr).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  Pr:"
-                          + "  " + typeMethods.r8vec_amin(n, pr).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_amax(n, pr).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_amin(n, pr).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_amax(n, pr).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
     }
 
@@ -1803,23 +1538,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string header;
-        int n;
-        double nu;
-        double[] p;
-        double rho;
-        double s;
-        double t;
-        double[] u;
-        double[] v;
-        double[] x;
-        double x_hi;
-        double x_lo;
-        int x_num = 21;
-        double[] y;
-        double y_hi;
-        double y_lo;
-        int y_num = 21;
+        const int x_num = 21;
+        const int y_num = 21;
 
         Console.WriteLine("");
         Console.WriteLine("gnuplot_spiral_test:");
@@ -1827,30 +1547,30 @@ internal static class Program
         Console.WriteLine("  Generate a velocity field on a regular grid.");
         Console.WriteLine("  Store in GNUPLOT data and command files.");
 
-        x_lo = 0.0;
-        x_hi = 1.0;
+        const double x_lo = 0.0;
+        const double x_hi = 1.0;
 
-        y_lo = 0.0;
-        y_hi = 1.0;
+        const double y_lo = 0.0;
+        const double y_hi = 1.0;
 
-        x = new double[x_num * y_num];
-        y = new double[x_num * y_num];
+        double[] x = new double[x_num * y_num];
+        double[] y = new double[x_num * y_num];
 
         NavierStokes2DExact.grid_2d(x_num, x_lo, x_hi, y_num, y_lo, y_hi, ref x, ref y);
 
-        nu = 1.0;
-        rho = 1.0;
-        n = x_num * y_num;
-        t = 0.0;
+        const double nu = 1.0;
+        const double rho = 1.0;
+        const int n = x_num * y_num;
+        const double t = 0.0;
 
-        u = new double[x_num * y_num];
-        v = new double[x_num * y_num];
-        p = new double[x_num * y_num];
+        double[] u = new double[x_num * y_num];
+        double[] v = new double[x_num * y_num];
+        double[] p = new double[x_num * y_num];
 
         Spiral.uvp_spiral(nu, rho, n, x, y, t, ref u, ref v, ref p);
 
-        header = "spiral";
-        s = 5.00;
+        const string header = "spiral";
+        const double s = 5.00;
         NavierStokes2DExact.ns2de_gnuplot(header, n, x, y, u, v, p, s);
 
     }
@@ -1879,21 +1599,10 @@ internal static class Program
         int i;
         int j;
         int k;
-        int n;
-        double nu;
-        double[] p;
         double p_norm;
-        double rho;
-        int seed;
         double t;
-        double[] u;
         double u_norm;
-        double[] v;
         double v_norm;
-        double[] x;
-        double r8_hi;
-        double r8_lo;
-        double[] y;
 
         Console.WriteLine("");
         Console.WriteLine("PARAMETER_spiral_test");
@@ -1901,18 +1610,18 @@ internal static class Program
         Console.WriteLine("  Monitor solution norms over time for various");
         Console.WriteLine("  values of NU, RHO.");
 
-        n = 1000;
+        const int n = 1000;
 
-        u = new double[n];
-        v = new double[n];
-        p = new double[n];
+        double[] u = new double[n];
+        double[] v = new double[n];
+        double[] p = new double[n];
 
-        r8_lo = 0.0;
-        r8_hi = 1.0;
-        seed = 123456789;
+        const double r8_lo = 0.0;
+        const double r8_hi = 1.0;
+        int seed = 123456789;
 
-        x = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
-        y = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
+        double[] x = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
+        double[] y = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
         //
         //  Vary RHO.
         //
@@ -1922,8 +1631,8 @@ internal static class Program
         Console.WriteLine("     RHO         NU           T     ||U||       ||V||       ||P||");
         Console.WriteLine("");
 
-        nu = 1.0;
-        rho = 1.0;
+        double nu = 1.0;
+        double rho = 1.0;
 
         for (j = 1; j <= 3; j++)
         {
@@ -1937,12 +1646,12 @@ internal static class Program
                 v_norm = typeMethods.r8vec_norm_l2(n, v) / n;
                 p_norm = typeMethods.r8vec_norm_l2(n, p) / n;
 
-                Console.WriteLine("  " + rho.ToString().PadLeft(10)
-                                       + "  " + nu.ToString().PadLeft(10)
-                                       + "  " + t.ToString().PadLeft(8)
-                                       + "  " + u_norm.ToString().PadLeft(10)
-                                       + "  " + v_norm.ToString().PadLeft(10)
-                                       + "  " + p_norm.ToString().PadLeft(10) + "");
+                Console.WriteLine("  " + rho.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + nu.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + t.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + u_norm.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + v_norm.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + p_norm.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
             }
 
             Console.WriteLine("");
@@ -1973,12 +1682,12 @@ internal static class Program
                 v_norm = typeMethods.r8vec_norm_l2(n, v) / n;
                 p_norm = typeMethods.r8vec_norm_l2(n, p) / n;
 
-                Console.WriteLine("  " + rho.ToString().PadLeft(10)
-                                       + "  " + nu.ToString().PadLeft(10)
-                                       + "  " + t.ToString().PadLeft(8)
-                                       + "  " + u_norm.ToString().PadLeft(10)
-                                       + "  " + v_norm.ToString().PadLeft(10)
-                                       + "  " + p_norm.ToString().PadLeft(10) + "");
+                Console.WriteLine("  " + rho.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + nu.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + t.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + u_norm.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + v_norm.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + p_norm.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
             }
 
             Console.WriteLine("");
@@ -2009,21 +1718,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int n;
-        double nu;
-        double[] p;
-        double rho;
-        int seed;
-        double t;
-        double[] u;
-        double[] v;
-        double[] x;
-        double r8_hi;
-        double r8_lo;
-        double[] y;
-
-        nu = 1.0;
-        rho = 1.0;
+        const double nu = 1.0;
+        const double rho = 1.0;
 
         Console.WriteLine("");
         Console.WriteLine("uvp_taylor_test");
@@ -2034,19 +1730,19 @@ internal static class Program
         Console.WriteLine("  Kinematic viscosity NU = " + nu + "");
         Console.WriteLine("  Fluid density RHO = " + rho + "");
 
-        n = 1000;
+        const int n = 1000;
 
-        p = new double[n];
-        u = new double[n];
-        v = new double[n];
+        double[] p = new double[n];
+        double[] u = new double[n];
+        double[] v = new double[n];
 
-        r8_lo = 0.5;
-        r8_hi = +2.5;
-        seed = 123456789;
+        const double r8_lo = 0.5;
+        const double r8_hi = +2.5;
+        int seed = 123456789;
 
-        x = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
-        y = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
-        t = 0.0;
+        double[] x = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
+        double[] y = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
+        const double t = 0.0;
 
         Taylor.uvp_taylor(nu, rho, n, x, y, t, ref u, ref v, ref p);
 
@@ -2054,14 +1750,14 @@ internal static class Program
         Console.WriteLine("           Minimum       Maximum");
         Console.WriteLine("");
         Console.WriteLine("  U:"
-                          + "  " + typeMethods.r8vec_min(n, u).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_max(n, u).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_min(n, u).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_max(n, u).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  V:"
-                          + "  " + typeMethods.r8vec_min(n, v).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_max(n, v).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_min(n, v).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_max(n, v).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  P:"
-                          + "  " + typeMethods.r8vec_min(n, p).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_max(n, p).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_min(n, p).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_max(n, p).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
     }
 
@@ -2087,21 +1783,10 @@ internal static class Program
         //
     {
         int i;
-        int n;
-        double nu;
-        double[] p;
-        double r8_hi;
-        double r8_lo;
-        double rho;
-        double t;
-        double[] u;
-        double[] v;
-        double[] x;
-        double[] y;
 
-        nu = 1.0;
-        rho = 1.0;
-        t = 0.0;
+        const double nu = 1.0;
+        const double rho = 1.0;
+        const double t = 0.0;
 
         Console.WriteLine("");
         Console.WriteLine("uvp_taylor_test2");
@@ -2113,16 +1798,16 @@ internal static class Program
         Console.WriteLine("  Kinematic viscosity NU = " + nu + "");
         Console.WriteLine("  Fluid density RHO = " + rho + "");
 
-        n = 400;
+        const int n = 400;
 
-        p = new double[n];
-        u = new double[n];
-        v = new double[n];
-        x = new double[n];
-        y = new double[n];
+        double[] p = new double[n];
+        double[] u = new double[n];
+        double[] v = new double[n];
+        double[] x = new double[n];
+        double[] y = new double[n];
 
-        r8_lo = 0.5;
-        r8_hi = +2.5;
+        const double r8_lo = 0.5;
+        const double r8_hi = +2.5;
 
         typeMethods.r8vec_linspace(100, r8_lo, r8_hi, ref x);
         for (i = 0; i < 100; i++)
@@ -2156,14 +1841,14 @@ internal static class Program
         Console.WriteLine("           Minimum       Maximum");
         Console.WriteLine("");
         Console.WriteLine("  U:"
-                          + "  " + typeMethods.r8vec_min(n, u).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_max(n, u).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_min(n, u).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_max(n, u).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  V:"
-                          + "  " + typeMethods.r8vec_min(n, v).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_max(n, v).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_min(n, v).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_max(n, v).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  P:"
-                          + "  " + typeMethods.r8vec_min(n, p).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_max(n, p).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_min(n, p).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_max(n, p).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
     }
 
@@ -2188,21 +1873,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] f;
-        double[] g;
-        double[] h;
-        int n;
-        double nu;
-        double rho;
-        int seed;
-        double t;
-        double[] x;
-        double r8_hi;
-        double r8_lo;
-        double[] y;
-
-        nu = 1.0;
-        rho = 1.0;
+        const double nu = 1.0;
+        const double rho = 1.0;
 
         Console.WriteLine("");
         Console.WriteLine("rhs_taylor_test");
@@ -2213,19 +1885,19 @@ internal static class Program
         Console.WriteLine("  Kinematic viscosity NU = " + nu + "");
         Console.WriteLine("  Fluid density RHO = " + rho + "");
 
-        n = 1000;
+        const int n = 1000;
 
-        f = new double[n];
-        g = new double[n];
-        h = new double[n];
+        double[] f = new double[n];
+        double[] g = new double[n];
+        double[] h = new double[n];
 
-        r8_lo = 0.5;
-        r8_hi = +2.5;
-        seed = 123456789;
+        const double r8_lo = 0.5;
+        const double r8_hi = +2.5;
+        int seed = 123456789;
 
-        x = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
-        y = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
-        t = 0.0;
+        double[] x = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
+        double[] y = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
+        const double t = 0.0;
 
         Taylor.rhs_taylor(nu, rho, n, x, y, t, ref f, ref g, ref h);
 
@@ -2233,14 +1905,14 @@ internal static class Program
         Console.WriteLine("           Minimum       Maximum");
         Console.WriteLine("");
         Console.WriteLine("  F:"
-                          + "  " + typeMethods.r8vec_min(n, f).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_max(n, f).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_min(n, f).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_max(n, f).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  G:"
-                          + "  " + typeMethods.r8vec_min(n, g).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_max(n, g).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_min(n, g).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_max(n, g).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  H:"
-                          + "  " + typeMethods.r8vec_min(n, h).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_max(n, h).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_min(n, h).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_max(n, h).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
     }
 
@@ -2265,21 +1937,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int n;
-        double nu;
-        double[] pr;
-        double rho;
-        int seed;
-        double t;
-        double[] ur;
-        double[] vr;
-        double[] x;
-        double r8_hi;
-        double r8_lo;
-        double[] y;
-
-        nu = 1.0;
-        rho = 1.0;
+        const double nu = 1.0;
+        const double rho = 1.0;
 
         Console.WriteLine("");
         Console.WriteLine("resid_taylor_test");
@@ -2290,19 +1949,24 @@ internal static class Program
         Console.WriteLine("  Kinematic viscosity NU = " + nu + "");
         Console.WriteLine("  Fluid density RHO = " + rho + "");
 
-        n = 1000;
+        const int n = 1000;
 
-        pr = new double[n];
-        ur = new double[n];
-        vr = new double[n];
+        double[] pr = new double[n];
+        double[] ur = new double[n];
+        if (ur == null)
+        {
+            throw new ArgumentNullException(nameof(ur));
+        }
 
-        r8_lo = 0.5;
-        r8_hi = +2.5;
-        seed = 123456789;
+        double[] vr = new double[n];
 
-        x = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
-        y = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
-        t = 0.0;
+        const double r8_lo = 0.5;
+        const double r8_hi = +2.5;
+        int seed = 123456789;
+
+        double[] x = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
+        double[] y = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
+        const double t = 0.0;
 
         Taylor.resid_taylor(nu, rho, n, x, y, t, ref ur, ref vr, ref pr);
 
@@ -2310,14 +1974,14 @@ internal static class Program
         Console.WriteLine("           Minimum       Maximum");
         Console.WriteLine("");
         Console.WriteLine("  Ur:"
-                          + "  " + typeMethods.r8vec_amin(n, ur).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_amax(n, ur).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_amin(n, ur).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_amax(n, ur).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  Vr:"
-                          + "  " + typeMethods.r8vec_amin(n, vr).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_amax(n, vr).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_amin(n, vr).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_amax(n, vr).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  Pr:"
-                          + "  " + typeMethods.r8vec_amin(n, pr).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_amax(n, pr).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_amin(n, pr).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_amax(n, pr).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
     }
 
@@ -2342,23 +2006,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string header;
-        int n;
-        double nu;
-        double[] p;
-        double rho;
-        double s;
-        double t;
-        double[] u;
-        double[] v;
-        double[] x;
-        double x_hi;
-        double x_lo;
-        int x_num = 21;
-        double[] y;
-        double y_hi;
-        double y_lo;
-        int y_num = 21;
+        const int x_num = 21;
+        const int y_num = 21;
 
         Console.WriteLine("");
         Console.WriteLine("gnuplot_taylor_test:");
@@ -2366,30 +2015,30 @@ internal static class Program
         Console.WriteLine("  Generate a Taylor vortex velocity field on a regular grid.");
         Console.WriteLine("  Store in GNUPLOT data and command files.");
 
-        x_lo = 0.5;
-        x_hi = 2.5;
+        const double x_lo = 0.5;
+        const double x_hi = 2.5;
 
-        y_lo = 0.5;
-        y_hi = 2.5;
+        const double y_lo = 0.5;
+        const double y_hi = 2.5;
 
-        x = new double[x_num * y_num];
-        y = new double[x_num * y_num];
+        double[] x = new double[x_num * y_num];
+        double[] y = new double[x_num * y_num];
 
         NavierStokes2DExact.grid_2d(x_num, x_lo, x_hi, y_num, y_lo, y_hi, ref x, ref y);
 
-        nu = 1.0;
-        rho = 1.0;
-        n = x_num * y_num;
-        t = 0.0;
+        const double nu = 1.0;
+        const double rho = 1.0;
+        const int n = x_num * y_num;
+        const double t = 0.0;
 
-        u = new double[x_num * y_num];
-        v = new double[x_num * y_num];
-        p = new double[x_num * y_num];
+        double[] u = new double[x_num * y_num];
+        double[] v = new double[x_num * y_num];
+        double[] p = new double[x_num * y_num];
 
         Taylor.uvp_taylor(nu, rho, n, x, y, t, ref u, ref v, ref p);
 
-        header = "taylor";
-        s = 0.10;
+        const string header = "taylor";
+        const double s = 0.10;
         NavierStokes2DExact.ns2de_gnuplot(header, n, x, y, u, v, p, s);
 
     }
@@ -2418,21 +2067,10 @@ internal static class Program
         int i;
         int j;
         int k;
-        int n;
-        double nu;
-        double[] p;
         double p_norm;
-        double rho;
-        int seed;
         double t;
-        double[] u;
         double u_norm;
-        double[] v;
         double v_norm;
-        double[] x;
-        double r8_hi;
-        double r8_lo;
-        double[] y;
 
         Console.WriteLine("");
         Console.WriteLine("PARAMETER_taylor_test");
@@ -2440,18 +2078,18 @@ internal static class Program
         Console.WriteLine("  Monitor solution norms over time for various");
         Console.WriteLine("  values of NU, RHO.");
 
-        n = 1000;
+        const int n = 1000;
 
-        u = new double[n];
-        v = new double[n];
-        p = new double[n];
+        double[] u = new double[n];
+        double[] v = new double[n];
+        double[] p = new double[n];
 
-        r8_lo = 0.5;
-        r8_hi = +2.5;
-        seed = 123456789;
+        const double r8_lo = 0.5;
+        const double r8_hi = +2.5;
+        int seed = 123456789;
 
-        x = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
-        y = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
+        double[] x = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
+        double[] y = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
         //
         //  Vary RHO.
         //
@@ -2461,8 +2099,8 @@ internal static class Program
         Console.WriteLine("     RHO         NU           T     ||U||       ||V||       ||P||");
         Console.WriteLine("");
 
-        nu = 1.0;
-        rho = 1.0;
+        double nu = 1.0;
+        double rho = 1.0;
 
         for (j = 1; j <= 3; j++)
         {
@@ -2476,12 +2114,12 @@ internal static class Program
                 v_norm = typeMethods.r8vec_norm_l2(n, v) / n;
                 p_norm = typeMethods.r8vec_norm_l2(n, p) / n;
 
-                Console.WriteLine("  " + rho.ToString().PadLeft(10)
-                                       + "  " + nu.ToString().PadLeft(10)
-                                       + "  " + t.ToString().PadLeft(8)
-                                       + "  " + u_norm.ToString().PadLeft(10)
-                                       + "  " + v_norm.ToString().PadLeft(10)
-                                       + "  " + p_norm.ToString().PadLeft(10) + "");
+                Console.WriteLine("  " + rho.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + nu.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + t.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + u_norm.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + v_norm.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + p_norm.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
             }
 
             Console.WriteLine("");
@@ -2512,12 +2150,12 @@ internal static class Program
                 v_norm = typeMethods.r8vec_norm_l2(n, v) / n;
                 p_norm = typeMethods.r8vec_norm_l2(n, p) / n;
 
-                Console.WriteLine("  " + rho.ToString().PadLeft(10)
-                                       + "  " + nu.ToString().PadLeft(10)
-                                       + "  " + t.ToString().PadLeft(8)
-                                       + "  " + u_norm.ToString().PadLeft(10)
-                                       + "  " + v_norm.ToString().PadLeft(10)
-                                       + "  " + p_norm.ToString().PadLeft(10) + "");
+                Console.WriteLine("  " + rho.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + nu.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + t.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + u_norm.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + v_norm.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + p_norm.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
             }
 
             Console.WriteLine("");
@@ -2548,21 +2186,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int n;
-        double nu;
-        double[] p;
-        double rho;
-        int seed;
-        double t;
-        double[] u;
-        double[] v;
-        double[] x;
-        double r8_hi;
-        double r8_lo;
-        double[] y;
-
-        nu = 1.0;
-        rho = 1.0;
+        const double nu = 1.0;
+        const double rho = 1.0;
 
         Console.WriteLine("");
         Console.WriteLine("uvp_vortex_test");
@@ -2573,19 +2198,19 @@ internal static class Program
         Console.WriteLine("  Kinematic viscosity NU = " + nu + "");
         Console.WriteLine("  Fluid density RHO = " + rho + "");
 
-        n = 1000;
+        const int n = 1000;
 
-        p = new double[n];
-        u = new double[n];
-        v = new double[n];
+        double[] p = new double[n];
+        double[] u = new double[n];
+        double[] v = new double[n];
 
-        r8_lo = 0.5;
-        r8_hi = +1.5;
-        seed = 123456789;
+        const double r8_lo = 0.5;
+        const double r8_hi = +1.5;
+        int seed = 123456789;
 
-        x = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
-        y = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
-        t = 0.0;
+        double[] x = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
+        double[] y = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
+        const double t = 0.0;
 
         Vortex.uvp_vortex(nu, rho, n, x, y, t, ref u, ref v, ref p);
 
@@ -2593,14 +2218,14 @@ internal static class Program
         Console.WriteLine("           Minimum       Maximum");
         Console.WriteLine("");
         Console.WriteLine("  U:"
-                          + "  " + typeMethods.r8vec_min(n, u).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_max(n, u).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_min(n, u).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_max(n, u).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  V:"
-                          + "  " + typeMethods.r8vec_min(n, v).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_max(n, v).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_min(n, v).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_max(n, v).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  P:"
-                          + "  " + typeMethods.r8vec_min(n, p).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_max(n, p).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_min(n, p).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_max(n, p).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
     }
 
@@ -2626,21 +2251,10 @@ internal static class Program
         //
     {
         int i;
-        int n;
-        double nu;
-        double[] p;
-        double r8_hi;
-        double r8_lo;
-        double rho;
-        double t;
-        double[] u;
-        double[] v;
-        double[] x;
-        double[] y;
 
-        nu = 1.0;
-        rho = 1.0;
-        t = 0.0;
+        const double nu = 1.0;
+        const double rho = 1.0;
+        const double t = 0.0;
 
         Console.WriteLine("");
         Console.WriteLine("uvp_vortex_test2");
@@ -2652,16 +2266,16 @@ internal static class Program
         Console.WriteLine("  Kinematic viscosity NU = " + nu + "");
         Console.WriteLine("  Fluid density RHO = " + rho + "");
 
-        n = 400;
+        const int n = 400;
 
-        p = new double[n];
-        u = new double[n];
-        v = new double[n];
-        x = new double[n];
-        y = new double[n];
+        double[] p = new double[n];
+        double[] u = new double[n];
+        double[] v = new double[n];
+        double[] x = new double[n];
+        double[] y = new double[n];
 
-        r8_lo = 0.5;
-        r8_hi = +1.5;
+        const double r8_lo = 0.5;
+        const double r8_hi = +1.5;
 
         typeMethods.r8vec_linspace(100, r8_lo, r8_hi, ref x);
         for (i = 0; i < 100; i++)
@@ -2695,14 +2309,14 @@ internal static class Program
         Console.WriteLine("           Minimum       Maximum");
         Console.WriteLine("");
         Console.WriteLine("  U:"
-                          + "  " + typeMethods.r8vec_min(n, u).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_max(n, u).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_min(n, u).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_max(n, u).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  V:"
-                          + "  " + typeMethods.r8vec_min(n, v).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_max(n, v).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_min(n, v).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_max(n, v).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  P:"
-                          + "  " + typeMethods.r8vec_min(n, p).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_max(n, p).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_min(n, p).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_max(n, p).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
     }
 
@@ -2727,21 +2341,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] f;
-        double[] g;
-        double[] h;
-        int n;
-        double nu;
-        double rho;
-        int seed;
-        double t;
-        double[] x;
-        double r8_hi;
-        double r8_lo;
-        double[] y;
-
-        nu = 1.0;
-        rho = 1.0;
+        const double nu = 1.0;
+        const double rho = 1.0;
 
         Console.WriteLine("");
         Console.WriteLine("rhs_vortex_test");
@@ -2752,19 +2353,19 @@ internal static class Program
         Console.WriteLine("  Kinematic viscosity NU = " + nu + "");
         Console.WriteLine("  Fluid density RHO = " + rho + "");
 
-        n = 1000;
+        const int n = 1000;
 
-        f = new double[n];
-        g = new double[n];
-        h = new double[n];
+        double[] f = new double[n];
+        double[] g = new double[n];
+        double[] h = new double[n];
 
-        r8_lo = 0.5;
-        r8_hi = +1.5;
-        seed = 123456789;
+        const double r8_lo = 0.5;
+        const double r8_hi = +1.5;
+        int seed = 123456789;
 
-        x = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
-        y = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
-        t = 0.0;
+        double[] x = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
+        double[] y = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
+        const double t = 0.0;
 
         Vortex.rhs_vortex(nu, rho, n, x, y, t, ref f, ref g, ref h);
 
@@ -2772,14 +2373,14 @@ internal static class Program
         Console.WriteLine("           Minimum       Maximum");
         Console.WriteLine("");
         Console.WriteLine("  F:"
-                          + "  " + typeMethods.r8vec_min(n, f).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_max(n, f).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_min(n, f).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_max(n, f).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  G:"
-                          + "  " + typeMethods.r8vec_min(n, g).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_max(n, g).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_min(n, g).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_max(n, g).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  H:"
-                          + "  " + typeMethods.r8vec_min(n, h).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_max(n, h).ToString().PadLeft(14) + "");
+                          + "  " + typeMethods.r8vec_min(n, h).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_max(n, h).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
     }
 
@@ -2804,21 +2405,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int n;
-        double nu;
-        double[] pr;
-        double rho;
-        int seed;
-        double t;
-        double[] ur;
-        double[] vr;
-        double[] x;
-        double r8_hi;
-        double r8_lo;
-        double[] y;
-
-        nu = 1.0;
-        rho = 1.0;
+        const double nu = 1.0;
+        const double rho = 1.0;
 
         Console.WriteLine("");
         Console.WriteLine("resid_vortex_test");
@@ -2829,19 +2417,19 @@ internal static class Program
         Console.WriteLine("  Kinematic viscosity NU = " + nu + "");
         Console.WriteLine("  Fluid density RHO = " + rho + "");
 
-        n = 1000;
+        const int n = 1000;
 
-        pr = new double[n];
-        ur = new double[n];
-        vr = new double[n];
+        double[] pr = new double[n];
+        double[] ur = new double[n];
+        double[] vr = new double[n];
 
-        r8_lo = 0.5;
-        r8_hi = +1.5;
-        seed = 123456789;
+        const double r8_lo = 0.5;
+        const double r8_hi = +1.5;
+        int seed = 123456789;
 
-        x = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
-        y = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
-        t = 0.0;
+        double[] x = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
+        double[] y = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
+        const double t = 0.0;
 
         Vortex.resid_vortex(nu, rho, n, x, y, t, ref ur, ref vr, ref pr);
 
@@ -2849,16 +2437,16 @@ internal static class Program
         Console.WriteLine("           Minimum       Maximum");
         Console.WriteLine("");
         Console.WriteLine("  Ur:"
-                          + "  " + typeMethods.r8vec_amin(n, ur).ToString().PadLeft(14).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_amax(n, ur).ToString().PadLeft(14).ToString().PadLeft(14) +
+                          + "  " + typeMethods.r8vec_amin(n, ur).ToString(CultureInfo.InvariantCulture).PadLeft(14).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_amax(n, ur).ToString(CultureInfo.InvariantCulture).PadLeft(14).ToString(CultureInfo.InvariantCulture).PadLeft(14) +
                           "");
         Console.WriteLine("  Vr:"
-                          + "  " + typeMethods.r8vec_amin(n, vr).ToString().PadLeft(14).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_amax(n, vr).ToString().PadLeft(14).ToString().PadLeft(14) +
+                          + "  " + typeMethods.r8vec_amin(n, vr).ToString(CultureInfo.InvariantCulture).PadLeft(14).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_amax(n, vr).ToString(CultureInfo.InvariantCulture).PadLeft(14).ToString(CultureInfo.InvariantCulture).PadLeft(14) +
                           "");
         Console.WriteLine("  Pr:"
-                          + "  " + typeMethods.r8vec_amin(n, pr).ToString().PadLeft(14).ToString().PadLeft(14)
-                          + "  " + typeMethods.r8vec_amax(n, pr).ToString().PadLeft(14).ToString().PadLeft(14) +
+                          + "  " + typeMethods.r8vec_amin(n, pr).ToString(CultureInfo.InvariantCulture).PadLeft(14).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                          + "  " + typeMethods.r8vec_amax(n, pr).ToString(CultureInfo.InvariantCulture).PadLeft(14).ToString(CultureInfo.InvariantCulture).PadLeft(14) +
                           "");
 
     }
@@ -2884,23 +2472,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string header;
-        int n;
-        double nu;
-        double[] p;
-        double rho;
-        double s;
-        double t;
-        double[] u;
-        double[] v;
-        double[] x;
-        double x_hi;
-        double x_lo;
-        int x_num = 21;
-        double[] y;
-        double y_hi;
-        double y_lo;
-        int y_num = 21;
+        const int x_num = 21;
+        const int y_num = 21;
 
         Console.WriteLine("");
         Console.WriteLine("gnuplot_vortex_test:");
@@ -2908,30 +2481,30 @@ internal static class Program
         Console.WriteLine("  Generate a Vortex vortex velocity field on a regular grid.");
         Console.WriteLine("  Store in GNUPLOT data and command files.");
 
-        x_lo = 0.5;
-        x_hi = 1.5;
+        const double x_lo = 0.5;
+        const double x_hi = 1.5;
 
-        y_lo = 0.5;
-        y_hi = 1.5;
+        const double y_lo = 0.5;
+        const double y_hi = 1.5;
 
-        x = new double[x_num * y_num];
-        y = new double[x_num * y_num];
+        double[] x = new double[x_num * y_num];
+        double[] y = new double[x_num * y_num];
 
         NavierStokes2DExact.grid_2d(x_num, x_lo, x_hi, y_num, y_lo, y_hi, ref x, ref y);
 
-        nu = 1.0;
-        rho = 1.0;
-        n = x_num * y_num;
-        t = 0.0;
+        const double nu = 1.0;
+        const double rho = 1.0;
+        const int n = x_num * y_num;
+        const double t = 0.0;
 
-        u = new double[x_num * y_num];
-        v = new double[x_num * y_num];
-        p = new double[x_num * y_num];
+        double[] u = new double[x_num * y_num];
+        double[] v = new double[x_num * y_num];
+        double[] p = new double[x_num * y_num];
 
         Vortex.uvp_vortex(nu, rho, n, x, y, t, ref u, ref v, ref p);
 
-        header = "vortex";
-        s = 0.10;
+        const string header = "vortex";
+        const double s = 0.10;
         NavierStokes2DExact.ns2de_gnuplot(header, n, x, y, u, v, p, s);
 
     }
@@ -2960,21 +2533,10 @@ internal static class Program
         int i;
         int j;
         int k;
-        int n;
-        double nu;
-        double[] p;
         double p_norm;
-        double rho;
-        int seed;
         double t;
-        double[] u;
         double u_norm;
-        double[] v;
         double v_norm;
-        double[] x;
-        double r8_hi;
-        double r8_lo;
-        double[] y;
 
         Console.WriteLine("");
         Console.WriteLine("PARAMETER_vortex_test");
@@ -2982,18 +2544,18 @@ internal static class Program
         Console.WriteLine("  Monitor solution norms over time for various");
         Console.WriteLine("  values of NU, RHO.");
 
-        n = 1000;
+        const int n = 1000;
 
-        u = new double[n];
-        v = new double[n];
-        p = new double[n];
+        double[] u = new double[n];
+        double[] v = new double[n];
+        double[] p = new double[n];
 
-        r8_lo = 0.5;
-        r8_hi = +1.5;
-        seed = 123456789;
+        const double r8_lo = 0.5;
+        const double r8_hi = +1.5;
+        int seed = 123456789;
 
-        x = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
-        y = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
+        double[] x = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
+        double[] y = UniformRNG.r8vec_uniform_ab_new(n, r8_lo, r8_hi, ref seed);
         //
         //  Vary RHO.
         //
@@ -3003,8 +2565,8 @@ internal static class Program
         Console.WriteLine("     RHO         NU           T     ||U||       ||V||       ||P||");
         Console.WriteLine("");
 
-        nu = 1.0;
-        rho = 1.0;
+        double nu = 1.0;
+        double rho = 1.0;
 
         for (j = 1; j <= 3; j++)
         {
@@ -3018,12 +2580,12 @@ internal static class Program
                 v_norm = typeMethods.r8vec_norm_l2(n, v) / n;
                 p_norm = typeMethods.r8vec_norm_l2(n, p) / n;
 
-                Console.WriteLine("  " + rho.ToString().PadLeft(10)
-                                       + "  " + nu.ToString().PadLeft(10)
-                                       + "  " + t.ToString().PadLeft(8)
-                                       + "  " + u_norm.ToString().PadLeft(10)
-                                       + "  " + v_norm.ToString().PadLeft(10)
-                                       + "  " + p_norm.ToString().PadLeft(10) + "");
+                Console.WriteLine("  " + rho.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + nu.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + t.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + u_norm.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + v_norm.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + p_norm.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
             }
 
             Console.WriteLine("");
@@ -3054,12 +2616,12 @@ internal static class Program
                 v_norm = typeMethods.r8vec_norm_l2(n, v) / n;
                 p_norm = typeMethods.r8vec_norm_l2(n, p) / n;
 
-                Console.WriteLine("  " + rho.ToString().PadLeft(10)
-                                       + "  " + nu.ToString().PadLeft(10)
-                                       + "  " + t.ToString().PadLeft(8)
-                                       + "  " + u_norm.ToString().PadLeft(10)
-                                       + "  " + v_norm.ToString().PadLeft(10)
-                                       + "  " + p_norm.ToString().PadLeft(10) + "");
+                Console.WriteLine("  " + rho.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + nu.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + t.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + u_norm.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + v_norm.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + p_norm.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
             }
 
             Console.WriteLine("");

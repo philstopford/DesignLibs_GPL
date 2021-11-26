@@ -25,8 +25,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string filename;
-
         Console.WriteLine("");
         Console.WriteLine("MESH_IO_TEST");
         Console.WriteLine("  Test the MESH_IO library.");
@@ -37,7 +35,7 @@ internal static class Program
         //
         //  Read and print the sizes of file hexahexa_2x2x2.mesh.
         //
-        filename = "hexahexa_2x2x2.mesh";
+        string filename = "hexahexa_2x2x2.mesh";
         test03(filename);
         //
         //  Create the file cyl248.mesh
@@ -83,24 +81,11 @@ internal static class Program
         //
     {
         int dim = 0;
-        int[] edge_label;
-        int[] edge_vertex;
         int edges = 0;
-        string filename;
-        int[] hexahedron_label;
-        int[] hexahedron_vertex;
         int hexahedrons = 0;
-        int[] quadrilateral_label;
-        int[] quadrilateral_vertex;
         int quadrilaterals = 0;
-        int[] tetrahedron_label;
-        int[] tetrahedron_vertex;
         int tetrahedrons = 0;
-        int[] triangle_label;
-        int[] triangle_vertex;
         int triangles = 0;
-        double[] vertex_coordinate;
-        int[] vertex_label;
         int vertices = 0;
 
         Console.WriteLine("");
@@ -114,18 +99,18 @@ internal static class Program
         //
         //  Allocate memory.
         //
-        edge_label = new int[edges];
-        edge_vertex = new int[2 * edges];
-        hexahedron_label = new int[hexahedrons];
-        hexahedron_vertex = new int[8 * hexahedrons];
-        quadrilateral_label = new int[quadrilaterals];
-        quadrilateral_vertex = new int[4 * quadrilaterals];
-        tetrahedron_label = new int[tetrahedrons];
-        tetrahedron_vertex = new int[4 * tetrahedrons];
-        triangle_label = new int[triangles];
-        triangle_vertex = new int[3 * triangles];
-        vertex_coordinate = new double[3 * vertices];
-        vertex_label = new int[vertices];
+        int[] edge_label = new int[edges];
+        int[] edge_vertex = new int[2 * edges];
+        int[] hexahedron_label = new int[hexahedrons];
+        int[] hexahedron_vertex = new int[8 * hexahedrons];
+        int[] quadrilateral_label = new int[quadrilaterals];
+        int[] quadrilateral_vertex = new int[4 * quadrilaterals];
+        int[] tetrahedron_label = new int[tetrahedrons];
+        int[] tetrahedron_vertex = new int[4 * tetrahedrons];
+        int[] triangle_label = new int[triangles];
+        int[] triangle_vertex = new int[3 * triangles];
+        double[] vertex_coordinate = new double[3 * vertices];
+        int[] vertex_label = new int[vertices];
         //
         //  Get the data.
         //
@@ -137,7 +122,7 @@ internal static class Program
         //
         //  Write the data.
         //
-        filename = "hexahexa_2x2x2.mesh";
+        string filename = "hexahexa_2x2x2.mesh";
 
         Mesh.mesh_write(filename, dim, vertices, edges, triangles,
             quadrilaterals, tetrahedrons, hexahedrons, vertex_coordinate,
@@ -169,24 +154,11 @@ internal static class Program
         //
     {
         int dim = 0;
-        int[] edge_label;
-        int[] edge_vertex;
         int edges = 0;
-        string filename;
-        int[] hexahedron_label;
-        int[] hexahedron_vertex;
         int hexahedrons = 0;
-        int[] quadrilateral_label;
-        int[] quadrilateral_vertex;
         int quadrilaterals = 0;
-        int[] tetrahedron_label;
-        int[] tetrahedron_vertex;
         int tetrahedrons = 0;
-        int[] triangle_label;
-        int[] triangle_vertex;
         int triangles = 0;
-        double[] vertex_coordinate;
-        int[] vertex_label;
         int vertices = 0;
 
         Console.WriteLine("");
@@ -200,18 +172,18 @@ internal static class Program
         //
         //  Allocate memory.
         //
-        edge_label = new int[edges];
-        edge_vertex = new int[2 * edges];
-        hexahedron_label = new int[hexahedrons];
-        hexahedron_vertex = new int[8 * hexahedrons];
-        quadrilateral_label = new int[quadrilaterals];
-        quadrilateral_vertex = new int[4 * quadrilaterals];
-        tetrahedron_label = new int[tetrahedrons];
-        tetrahedron_vertex = new int[4 * tetrahedrons];
-        triangle_label = new int[triangles];
-        triangle_vertex = new int[3 * triangles];
-        vertex_coordinate = new double[3 * vertices];
-        vertex_label = new int[vertices];
+        int[] edge_label = new int[edges];
+        int[] edge_vertex = new int[2 * edges];
+        int[] hexahedron_label = new int[hexahedrons];
+        int[] hexahedron_vertex = new int[8 * hexahedrons];
+        int[] quadrilateral_label = new int[quadrilaterals];
+        int[] quadrilateral_vertex = new int[4 * quadrilaterals];
+        int[] tetrahedron_label = new int[tetrahedrons];
+        int[] tetrahedron_vertex = new int[4 * tetrahedrons];
+        int[] triangle_label = new int[triangles];
+        int[] triangle_vertex = new int[3 * triangles];
+        double[] vertex_coordinate = new double[3 * vertices];
+        int[] vertex_label = new int[vertices];
         //
         //  Get the data.
         //
@@ -223,7 +195,7 @@ internal static class Program
         //
         //  Write the data.
         //
-        filename = "cyl248.mesh";
+        string filename = "cyl248.mesh";
 
         Mesh.mesh_write(filename, dim, vertices, edges, triangles,
             quadrilaterals, tetrahedrons, hexahedrons, vertex_coordinate,
@@ -305,23 +277,11 @@ internal static class Program
         //
     {
         int dim = 0;
-        int[] edge_label;
-        int[] edge_vertex;
         int edges = 0;
-        int[] hexahedron_label;
-        int[] hexahedron_vertex;
         int hexahedrons = 0;
-        int[] quadrilateral_label;
-        int[] quadrilateral_vertex;
         int quadrilaterals = 0;
-        int[] tetrahedron_label;
-        int[] tetrahedron_vertex;
         int tetrahedrons = 0;
-        int[] triangle_label;
-        int[] triangle_vertex;
         int triangles = 0;
-        double[] vertex_coordinate;
-        int[] vertex_label;
         int vertices = 0;
 
         Console.WriteLine("");
@@ -335,18 +295,18 @@ internal static class Program
         //
         //  Allocate memory.
         //
-        edge_label = new int[edges];
-        edge_vertex = new int[2 * edges];
-        hexahedron_label = new int[hexahedrons];
-        hexahedron_vertex = new int[8 * hexahedrons];
-        quadrilateral_label = new int[quadrilaterals];
-        quadrilateral_vertex = new int[4 * quadrilaterals];
-        tetrahedron_label = new int[tetrahedrons];
-        tetrahedron_vertex = new int[4 * tetrahedrons];
-        triangle_label = new int[triangles];
-        triangle_vertex = new int[3 * triangles];
-        vertex_coordinate = new double[3 * vertices];
-        vertex_label = new int[vertices];
+        int[] edge_label = new int[edges];
+        int[] edge_vertex = new int[2 * edges];
+        int[] hexahedron_label = new int[hexahedrons];
+        int[] hexahedron_vertex = new int[8 * hexahedrons];
+        int[] quadrilateral_label = new int[quadrilaterals];
+        int[] quadrilateral_vertex = new int[4 * quadrilaterals];
+        int[] tetrahedron_label = new int[tetrahedrons];
+        int[] tetrahedron_vertex = new int[4 * tetrahedrons];
+        int[] triangle_label = new int[triangles];
+        int[] triangle_vertex = new int[3 * triangles];
+        double[] vertex_coordinate = new double[3 * vertices];
+        int[] vertex_label = new int[vertices];
         //
         //  Read the data.
         //

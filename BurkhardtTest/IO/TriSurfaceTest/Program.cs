@@ -149,13 +149,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
-        int NODE_NUM = 8;
+        const int DIM_NUM = 3;
+        const int NODE_NUM = 8;
 
-        int dim_num = DIM_NUM;
-        int node_num = NODE_NUM;
-        int order_num = 3;
-        int triangle_num = 12;
+        const int order_num = 3;
+        const int triangle_num = 12;
 
         double[] node_xyz =
         {
@@ -188,7 +186,7 @@ internal static class Program
         Console.WriteLine("TEST03");
         Console.WriteLine("  TRI_SURFACE_WRITE writes TRI_SURFACE data to two files.");
 
-        TriSurface.tri_surface_write(node_file_name, triangle_file_name, dim_num, node_num,
+        TriSurface.tri_surface_write(node_file_name, triangle_file_name, DIM_NUM, NODE_NUM,
             order_num, triangle_num, node_xyz, triangle_node);
 
         Console.WriteLine("");

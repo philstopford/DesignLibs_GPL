@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.IO;
 
 namespace XYTest;
@@ -69,10 +70,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int POINT_NUM = 300;
+        const int POINT_NUM = 300;
 
-        string file_name = "xy_io_prb_01.xy";
-        int point_num = POINT_NUM;
+        const string file_name = "xy_io_prb_01.xy";
         double[] xy = new double[2 * POINT_NUM];
 
         Console.WriteLine("");
@@ -80,16 +80,16 @@ internal static class Program
         Console.WriteLine("  XY_EXAMPLE sets up sample XY data.");
         Console.WriteLine("  XY_WRITE writes an XY file.");
 
-        XY.xy_example(point_num, ref xy);
+        XY.xy_example(POINT_NUM, ref xy);
 
         Console.WriteLine("");
         Console.WriteLine("  XY_EXAMPLE has created the data.");
 
-        XY.xy_write(file_name, point_num, xy);
+        XY.xy_write(file_name, POINT_NUM, xy);
 
         Console.WriteLine("");
         Console.WriteLine("  XY_WRITE wrote the header and data for \"" + file_name + "\"");
-        Console.WriteLine("  Number of points = " + point_num + "");
+        Console.WriteLine("  Number of points = " + POINT_NUM + "");
         Console.WriteLine();
     }
 
@@ -114,8 +114,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string file_name = "xy_io_prb_02.xy";
-        int i;
+        const string file_name = "xy_io_prb_02.xy";
         int k;
         int point_num = 0;
         double[] xy = null;
@@ -142,10 +141,10 @@ internal static class Program
         Console.WriteLine("");
         for (k = 0; k <= 9; k++)
         {
-            i = ((9 - k) * 0 + k * (point_num - 1)) / 9;
-            Console.WriteLine(i.ToString().PadLeft(4) + "  "
-                                                      + xy[0 + i * 2].ToString().PadLeft(10) + "  "
-                                                      + xy[1 + i * 2].ToString().PadLeft(10) + "");
+            int i = ((9 - k) * 0 + k * (point_num - 1)) / 9;
+            Console.WriteLine(i.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                      + xy[0 + i * 2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                                                      + xy[1 + i * 2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -170,14 +169,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] line_data;
-        int[] line_pointer;
         int line_data_num = 0;
         int line_num = 0;
         int point_num = 0;
-        double[] xy;
-        string xy_filename = "house.xy";
-        string xyl_filename = "house.xyl";
+        const string xy_filename = "house.xy";
+        const string xyl_filename = "house.xyl";
 
         Console.WriteLine("");
         Console.WriteLine("TEST03");
@@ -192,9 +188,9 @@ internal static class Program
         Console.WriteLine("  Number of lines      = " + line_num + "");
         Console.WriteLine("  Number of line items = " + line_data_num + "");
 
-        line_data = new int[line_data_num];
-        line_pointer = new int[line_num + 1];
-        xy = new double[2 * point_num];
+        int[] line_data = new int[line_data_num];
+        int[] line_pointer = new int[line_num + 1];
+        double[] xy = new double[2 * point_num];
 
         XY.xyl_example(point_num, line_num, line_data_num, ref xy, ref line_pointer, ref line_data);
 
@@ -231,16 +227,12 @@ internal static class Program
         //
     {
         int i;
-        int j;
         int line;
-        int[] line_data;
-        int[] line_pointer;
         int line_data_num = 0;
         int line_num = 0;
         int point_num = 0;
-        double[] xy;
-        string xy_filename = "house.xy";
-        string xyl_filename = "house.xyl";
+        const string xy_filename = "house.xy";
+        const string xyl_filename = "house.xyl";
 
         Console.WriteLine("");
         Console.WriteLine("TEST04");
@@ -257,7 +249,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Number of points     = " + point_num + "");
 
-        xy = new double[2 * point_num];
+        double[] xy = new double[2 * point_num];
 
         XY.xy_data_read(xy_filename, point_num, ref xy);
 
@@ -267,9 +259,9 @@ internal static class Program
 
         for (i = 0; i < point_num; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + xy[0 + 2 * i].ToString().PadLeft(10)
-                                   + "  " + xy[1 + 2 * i].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + xy[0 + 2 * i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + xy[1 + 2 * i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         Console.WriteLine("");
@@ -281,8 +273,8 @@ internal static class Program
         Console.WriteLine("  Number of lines      = " + line_num + "");
         Console.WriteLine("  Number of line items = " + line_data_num + "");
 
-        line_data = new int[line_data_num];
-        line_pointer = new int[line_num + 1];
+        int[] line_data = new int[line_data_num];
+        int[] line_pointer = new int[line_num + 1];
 
         XY.xyl_data_read(xyl_filename, line_num, line_data_num, ref line_pointer, ref line_data);
 
@@ -292,9 +284,9 @@ internal static class Program
 
         for (line = 0; line < line_num; line++)
         {
-            Console.WriteLine("  " + line.ToString().PadLeft(4)
-                                   + "  " + line_pointer[line].ToString().PadLeft(8)
-                                   + "  " + (line_pointer[line + 1] - 1).ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + line.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + line_pointer[line].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + (line_pointer[line + 1] - 1).ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
 
         Console.WriteLine("");
@@ -303,10 +295,11 @@ internal static class Program
 
         for (line = 0; line < line_num; line++)
         {
-            string cout = "  " + line.ToString().PadLeft(4) + "  ";
+            string cout = "  " + line.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
+            int j;
             for (j = line_pointer[line]; j < line_pointer[line + 1]; j++)
             {
-                cout += "  " + line_data[j].ToString().PadLeft(8);
+                cout += "  " + line_data[j].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
 
             Console.WriteLine(cout);
@@ -334,14 +327,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] face_data;
-        int[] face_pointer;
         int face_data_num = 0;
         int face_num = 0;
         int point_num = 0;
-        double[] xy;
-        string xy_filename = "annulus.xy";
-        string xyf_filename = "annulus.xyf";
+        const string xy_filename = "annulus.xy";
+        const string xyf_filename = "annulus.xyf";
 
         Console.WriteLine("");
         Console.WriteLine("TEST05");
@@ -356,9 +346,9 @@ internal static class Program
         Console.WriteLine("  Number of faces      = " + face_num + "");
         Console.WriteLine("  Number of face items = " + face_data_num + "");
 
-        face_data = new int[face_data_num];
-        face_pointer = new int[face_num + 1];
-        xy = new double[2 * point_num];
+        int[] face_data = new int[face_data_num];
+        int[] face_pointer = new int[face_num + 1];
+        double[] xy = new double[2 * point_num];
 
         XY.xyf_example(point_num, face_num, face_data_num, ref xy, ref face_pointer, ref face_data);
 
@@ -394,16 +384,12 @@ internal static class Program
         //
     {
         int face;
-        int[] face_data;
-        int[] face_pointer;
         int face_data_num = 0;
         int face_num = 0;
         int i;
-        int j;
         int point_num = 0;
-        double[] xy;
-        string xy_filename = "annulus.xy";
-        string xyf_filename = "annulus.xyf";
+        const string xy_filename = "annulus.xy";
+        const string xyf_filename = "annulus.xyf";
 
         Console.WriteLine("");
         Console.WriteLine("TEST06");
@@ -420,7 +406,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Number of points     = " + point_num + "");
 
-        xy = new double[2 * point_num];
+        double[] xy = new double[2 * point_num];
 
         XY.xy_data_read(xy_filename, point_num, ref xy);
 
@@ -430,9 +416,9 @@ internal static class Program
 
         for (i = 0; i < point_num; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + xy[0 + 2 * i].ToString().PadLeft(10)
-                                   + "  " + xy[1 + 2 * i].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + xy[0 + 2 * i].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + xy[1 + 2 * i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         Console.WriteLine("");
@@ -444,8 +430,8 @@ internal static class Program
         Console.WriteLine("  Number of faces      = " + face_num + "");
         Console.WriteLine("  Number of face items = " + face_data_num + "");
 
-        face_data = new int[face_data_num];
-        face_pointer = new int[face_num + 1];
+        int[] face_data = new int[face_data_num];
+        int[] face_pointer = new int[face_num + 1];
 
         XY.xyf_data_read(xyf_filename, face_num, face_data_num, ref face_pointer, ref face_data);
 
@@ -455,9 +441,9 @@ internal static class Program
 
         for (face = 0; face < face_num; face++)
         {
-            Console.WriteLine("  " + face.ToString().PadLeft(4)
-                                   + "  " + face_pointer[face].ToString().PadLeft(8)
-                                   + "  " + (face_pointer[face + 1] - 1).ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + face.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + face_pointer[face].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + (face_pointer[face + 1] - 1).ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
 
         Console.WriteLine("");
@@ -466,10 +452,11 @@ internal static class Program
 
         for (face = 0; face < face_num; face++)
         {
-            string cout = "  " + face.ToString().PadLeft(4) + "  ";
+            string cout = "  " + face.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
+            int j;
             for (j = face_pointer[face]; j < face_pointer[face + 1]; j++)
             {
-                cout += "  " + face_data[j].ToString().PadLeft(8);
+                cout += "  " + face_data[j].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
 
             Console.WriteLine(cout);

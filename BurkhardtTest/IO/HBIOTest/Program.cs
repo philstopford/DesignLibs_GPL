@@ -155,7 +155,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int indcrd = 8;
+        const int indcrd = 8;
         char[] indfmt = "(16I5)".ToCharArray();
         Array.Resize(ref indfmt, 17);
 
@@ -165,15 +165,15 @@ internal static class Program
         char[] mxtype = "PUA".ToCharArray();
         Array.Resize(ref mxtype, 4);
 
-        int ncol = 32;
-        int neltvl = 0;
-        int nnzero = 126;
-        int nrhs = 0;
-        int nrhsix = 0;
-        int nrow = 32;
+        const int ncol = 32;
+        const int neltvl = 0;
+        const int nnzero = 126;
+        const int nrhs = 0;
+        const int nrhsix = 0;
+        const int nrow = 32;
         List<string> output = new();
-        string output_file = "rua_32_header.txt";
-        int ptrcrd = 3;
+        const string output_file = "rua_32_header.txt";
+        const int ptrcrd = 3;
         char[] ptrfmt = new char[17]; // "(16I5)"
         ptrfmt[0] = '(';
         ptrfmt[1] = '1';
@@ -181,15 +181,15 @@ internal static class Program
         ptrfmt[3] = 'I';
         ptrfmt[4] = '5';
         ptrfmt[5] = ')';
-        int rhscrd = 0;
+        const int rhscrd = 0;
         char[] rhsfmt = " ".ToCharArray();
         Array.Resize(ref rhsfmt, 21);
         char[] rhstyp = "   ".ToCharArray();
         Array.Resize(ref rhstyp, 4);
         char[] title = "1Real unsymmetric assembled matrix based on IBM32".ToCharArray();
         Array.Resize(ref title, 73);
-        int totcrd = 11;
-        int valcrd = 0;
+        const int totcrd = 11;
+        const int valcrd = 0;
         char[] valfmt = " ".ToCharArray();
         Array.Resize(ref valfmt, 21);
 
@@ -236,7 +236,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] colptr = null;
         int indcrd = 0;
         char[] indfmt = null;
         string[] input;
@@ -284,7 +283,7 @@ internal static class Program
             ref valcrd, ref rhscrd, ref mxtype, ref nrow, ref ncol, ref nnzero, ref neltvl, ref ptrfmt,
             ref indfmt, ref valfmt, ref rhsfmt, ref rhstyp, ref nrhs, ref nrhsix);
 
-        colptr = new int[ncol + 1];
+        int[] colptr = new int[ncol + 1];
 
         switch (mxtype[2])
         {
@@ -340,9 +339,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int NCOL = 32;
-        int NELTVL = 0;
-        int NNZERO = 126;
+        const int NCOL = 32;
+        const int NELTVL = 0;
+        const int NNZERO = 126;
 
         int[] colptr =
         {
@@ -425,7 +424,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] colptr = null;
         int indcrd = 0;
         char[] indfmt = null;
         string[] input;
@@ -442,12 +440,12 @@ internal static class Program
         int rhscrd = 0;
         char[] rhsfmt = null;
         char[] rhstyp = null;
-        int[] rowind = null;
+        int[] rowind;
         char[] title = null;
         int totcrd = 0;
         int valcrd = 0;
         char[] valfmt = null;
-        double[] values = null;
+        double[] values;
         int inputIndex = 0;
 
         Console.WriteLine("");
@@ -474,7 +472,7 @@ internal static class Program
             ref valcrd, ref rhscrd, ref mxtype, ref nrow, ref ncol, ref nnzero, ref neltvl, ref ptrfmt,
             ref indfmt, ref valfmt, ref rhsfmt, ref rhstyp, ref nrhs, ref nrhsix);
 
-        colptr = new int[ncol + 1];
+        int[] colptr = new int[ncol + 1];
 
         switch (mxtype[2])
         {
@@ -548,14 +546,14 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int NELTVL = 0;
-        int NNZERO = 126;
+        const int NELTVL = 0;
+        const int NNZERO = 126;
 
         char[] mxtype = "RUA".ToCharArray();
         Array.Resize(ref mxtype, 4);
         List<string> output = new();
-        string output_file = "rua_32_values.txt";
-        int valcrd = 13;
+        const string output_file = "rua_32_values.txt";
+        const int valcrd = 13;
         char[] valfmt = "(10F7.1)".ToCharArray();
         Array.Resize(ref valfmt, 21);
         double[] values =
@@ -631,9 +629,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] colptr = null;
-        double[] exact = null;
-        double[] guess = null;
         int indcrd = 0;
         char[] indfmt = null;
         string[] input;
@@ -654,12 +649,12 @@ internal static class Program
         char[] rhstyp = null;
         double[] rhsval = null;
         double[] rhsvec = null;
-        int[] rowind = null;
+        int[] rowind;
         char[] title = null;
         int totcrd = 0;
         int valcrd = 0;
         char[] valfmt = null;
-        double[] values = null;
+        double[] values;
         int inputIndex = 0;
 
         Console.WriteLine("");
@@ -689,7 +684,7 @@ internal static class Program
             ref valcrd, ref rhscrd, ref mxtype, ref nrow, ref ncol, ref nnzero, ref neltvl, ref ptrfmt,
             ref indfmt, ref valfmt, ref rhsfmt, ref rhstyp, ref nrhs, ref nrhsix);
 
-        colptr = new int[ncol + 1];
+        int[] colptr = new int[ncol + 1];
 
         switch (mxtype[2])
         {
@@ -789,7 +784,7 @@ internal static class Program
                     case 'G':
                         Console.WriteLine("  Reading the starting guesses.");
 
-                        guess = new double[nrow * nrhs];
+                        double[] guess = new double[nrow * nrhs];
 
                         HB.hb_guess_read(input, ref inputIndex, nrow, nrhs, rhscrd, rhsfmt, rhstyp, ref guess);
 
@@ -805,7 +800,7 @@ internal static class Program
                     case 'X':
                         Console.WriteLine("  Reading the exact solutions.");
 
-                        exact = new double[nrow * nrhs];
+                        double[] exact = new double[nrow * nrhs];
 
                         HB.hb_exact_read(input, ref inputIndex, nrow, nrhs, rhscrd, rhsfmt, rhstyp, ref exact);
 
@@ -840,10 +835,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int NNZERO = 126;
-        int NRHS = 1;
-        int NRHSIX = 0;
-        int NROW = 32;
+        const int NNZERO = 126;
+        const int NRHS = 1;
+        const int NRHSIX = 0;
+        const int NROW = 32;
 
         double[] exact =
         {
@@ -852,7 +847,7 @@ internal static class Program
             21.0, 22.0, 23.0, 24.0, 25.0, 26.0, 27.0, 28.0, 29.0, 30.0,
             31.0, 32.0
         };
-        Array.Resize(ref exact, NROW * NRHS);
+        Array.Resize(ref exact, NROW);
 
         double[] guess =
         {
@@ -870,12 +865,12 @@ internal static class Program
         Array.Resize(ref mxtype, 4);
 
         List<string> output = new();
-        string output_file = "rua_32_rhs.txt";
+        const string output_file = "rua_32_rhs.txt";
 
         char[] ptrfmt = "(16I5)".ToCharArray();
         Array.Resize(ref ptrfmt, 17);
 
-        int rhscrd = 12;
+        const int rhscrd = 12;
         char[] rhsfmt = "(10F7.1)".ToCharArray();
         Array.Resize(ref rhsfmt, 21);
 
@@ -1078,12 +1073,12 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int NCOL = 32;
-        int NELTVL = 0;
-        int NNZERO = 126;
-        int NRHS = 1;
-        int NRHSIX = 0;
-        int NROW = 32;
+        const int NCOL = 32;
+        const int NELTVL = 0;
+        const int NNZERO = 126;
+        const int NRHS = 1;
+        const int NRHSIX = 0;
+        const int NROW = 32;
 
         int[] colptr =
         {
@@ -1112,7 +1107,7 @@ internal static class Program
         };
         Array.Resize(ref guess, NROW * NRHS);
 
-        int indcrd = 8;
+        const int indcrd = 8;
         char[] indfmt = "(16I5)".ToCharArray();
         Array.Resize(ref indfmt, 17);
 
@@ -1121,14 +1116,14 @@ internal static class Program
 
         char[] mxtype = "RUA".ToCharArray();
         Array.Resize(ref mxtype, 4);
-        string output_file = "rua_32_file.txt";
+        const string output_file = "rua_32_file.txt";
         List<string> output = new();
-        int ptrcrd = 3;
+        const int ptrcrd = 3;
 
         char[] ptrfmt = "(16I5)".ToCharArray();
         Array.Resize(ref ptrfmt, 17);
 
-        int rhscrd = 12;
+        const int rhscrd = 12;
 
         char[] rhsfmt = "(10F7.1)".ToCharArray();
         Array.Resize(ref rhsfmt, 21);
@@ -1170,8 +1165,8 @@ internal static class Program
         char[] title = "1Real unsymmetric assembled matrix based on IBM32".ToCharArray();
         Array.Resize(ref title, 73);
 
-        int totcrd = 36;
-        int valcrd = 13;
+        const int totcrd = 36;
+        const int valcrd = 13;
 
         char[] valfmt = "(10F7.1)".ToCharArray();
         Array.Resize(ref valfmt, 21);
@@ -1241,12 +1236,12 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int NCOL = 32;
-        int NELTVL = 0;
-        int NNZERO = 126;
-        int NRHS = 2;
-        int NRHSIX = 0;
-        int NROW = 32;
+        const int NCOL = 32;
+        const int NELTVL = 0;
+        const int NNZERO = 126;
+        const int NRHS = 2;
+        const int NRHSIX = 0;
+        const int NROW = 32;
 
         int[] colptr =
         {
@@ -1283,7 +1278,7 @@ internal static class Program
         };
         Array.Resize(ref guess, NROW * NRHS);
 
-        int indcrd = 8;
+        const int indcrd = 8;
         char[] indfmt = "(16I5)".ToCharArray();
         Array.Resize(ref indfmt, 17);
 
@@ -1293,20 +1288,19 @@ internal static class Program
         char[] mxtype = "RUA".ToCharArray();
         Array.Resize(ref mxtype, 4);
 
-        string output_file = "rua_32_ax.txt";
+        const string output_file = "rua_32_ax.txt";
         List<string> output = new();
 
-        int ptrcrd = 3;
+        const int ptrcrd = 3;
         char[] ptrfmt = "(16I5)".ToCharArray();
         Array.Resize(ref ptrfmt, 17);
 
-        int rhscrd = 12;
+        const int rhscrd = 12;
         char[] rhsfmt = "(10F7.1)".ToCharArray();
         Array.Resize(ref rhsfmt, 21);
 
         int[] rhsind = null;
         int[] rhsptr = null;
-        double[] rhsval;
 
         char[] rhstyp = "FGX".ToCharArray();
         Array.Resize(ref rhstyp, 4);
@@ -1334,8 +1328,8 @@ internal static class Program
         char[] title = "1Real unsymmetric assembled matrix based on IBM32".ToCharArray();
         Array.Resize(ref title, 73);
 
-        int totcrd = 36;
-        int valcrd = 13;
+        const int totcrd = 36;
+        const int valcrd = 13;
         char[] valfmt = "(10F7.1)".ToCharArray();
         Array.Resize(ref valfmt, 21);
 
@@ -1387,7 +1381,7 @@ internal static class Program
         Console.WriteLine("  The second vector X is all 1's.  A*X should be");
         Console.WriteLine("  the sum of the entries of each row.");
 
-        rhsval = HB.hb_matvec_a_mem(NROW, NCOL, NNZERO, NRHS, colptr, rowind, values,
+        double[] rhsval = HB.hb_matvec_a_mem(NROW, NCOL, NNZERO, NRHS, colptr, rowind, values,
             exact);
 
         typeMethods.r8mat_print(NROW, NRHS, rhsval, "  The product vectors A*X");
@@ -1423,12 +1417,12 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int NCOL = 32;
-        int NELTVL = 0;
-        int NNZERO = 126;
-        int NRHS = 2;
-        int NRHSIX = 0;
-        int NROW = 32;
+        const int NCOL = 32;
+        const int NELTVL = 0;
+        const int NNZERO = 126;
+        const int NRHS = 2;
+        const int NRHSIX = 0;
+        const int NROW = 32;
 
         int[] colptr =
         {
@@ -1465,7 +1459,7 @@ internal static class Program
         };
         Array.Resize(ref guess, NROW * NRHS);
 
-        int indcrd = 8;
+        const int indcrd = 8;
         char[] indfmt = "(16I5)".ToCharArray();
         Array.Resize(ref indfmt, 17);
 
@@ -1475,21 +1469,20 @@ internal static class Program
         char[] mxtype = "RUA".ToCharArray();
         Array.Resize(ref mxtype, 4);
 
-        string output_file = "rua_32_xa.txt";
+        const string output_file = "rua_32_xa.txt";
         List<string> output = new();
-        int ptrcrd = 3;
+        const int ptrcrd = 3;
 
         char[] ptrfmt = "(16I5)".ToCharArray();
         Array.Resize(ref ptrfmt, 17);
 
-        int rhscrd = 12;
+        const int rhscrd = 12;
 
         char[] rhsfmt = "(10F7.1)".ToCharArray();
         Array.Resize(ref rhsfmt, 21);
 
         int[] rhsind = null;
         int[] rhsptr = null;
-        double[] rhsval;
 
         char[] rhstyp = "FGX".ToCharArray();
         Array.Resize(ref rhstyp, 4);
@@ -1515,8 +1508,8 @@ internal static class Program
 
         char[] title = "1Real unsymmetric assembled matrix based on IBM32".ToCharArray();
         Array.Resize(ref title, 73);
-        int totcrd = 36;
-        int valcrd = 13;
+        const int totcrd = 36;
+        const int valcrd = 13;
         char[] valfmt = "(10F7.1)".ToCharArray();
         Array.Resize(ref valfmt, 21);
 
@@ -1568,7 +1561,7 @@ internal static class Program
         Console.WriteLine("  The second vector X is all 1's.  A'*X should be");
         Console.WriteLine("  the sum of the entries of each column.");
 
-        rhsval = HB.hb_vecmat_a_mem(NROW, NCOL, NNZERO, NRHS, colptr, rowind, values,
+        double[] rhsval = HB.hb_vecmat_a_mem(NROW, NCOL, NNZERO, NRHS, colptr, rowind, values,
             exact);
 
         typeMethods.r8mat_print(NCOL, NRHS, rhsval, "  The product vectors A'*X");

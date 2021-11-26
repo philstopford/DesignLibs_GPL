@@ -29,13 +29,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        bool error;
-
         Console.WriteLine("");
         Console.WriteLine("PBMB_IO_TEST:");
         Console.WriteLine("  Test the PBMB_IO library.");
 
-        error = test01();
+        bool error = test01();
 
         switch (error)
         {
@@ -84,11 +82,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] b = null;
-        bool error;
         string file_out_name = "pbmb_io_prb_01.pbm";
-        int xsize = 300;
-        int ysize = 300;
+        const int xsize = 300;
+        const int ysize = 300;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01:");
@@ -97,9 +93,9 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Writing the file \"" + file_out_name + "\".");
 
-        b = new int[xsize * ysize];
+        int[] b = new int[xsize * ysize];
 
-        error = PBMB.pbmb_example(xsize, ysize, ref b);
+        bool error = PBMB.pbmb_example(xsize, ysize, ref b);
 
         switch (error)
         {
@@ -107,7 +103,7 @@ internal static class Program
                 Console.WriteLine("");
                 Console.WriteLine("TEST01 - Fatal error!");
                 Console.WriteLine("  PBMB_EXAMPLE failed!");
-                return error;
+                return true;
         }
 
         Console.WriteLine("");
@@ -158,8 +154,7 @@ internal static class Program
         //
     {
         int[] b = null;
-        bool error;
-        string file_in_name = "pbmb_io_prb_02.pbm";
+        const string file_in_name = "pbmb_io_prb_02.pbm";
         int xsize = 0;
         int ysize = 0;
 
@@ -171,7 +166,7 @@ internal static class Program
         //
         //  Create a data file to read.
         //
-        error = PBMB.pbmb_write_test(file_in_name);
+        bool error = PBMB.pbmb_write_test(file_in_name);
 
         switch (error)
         {

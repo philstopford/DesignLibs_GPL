@@ -34,28 +34,15 @@ internal static class Program
         //    for a particular pixel.
         //
     {
-        int[] b;
-        int c;
-        int c_max;
-        int[] count;
-        int count_max = 400;
-        string filename = "mandelbrot.ppm";
-        int[] g;
+        const int count_max = 400;
+        const string filename = "mandelbrot.ppm";
         int i;
         int j;
-        int k;
-        int n = 501;
-        int[] r;
-        double x;
-        double x_max = 1.25;
-        double x_min = -2.25;
-        double x1;
-        double x2;
-        double y;
-        double y_max = 1.75;
-        double y_min = -1.75;
-        double y1;
-        double y2;
+        const int n = 501;
+        const double x_max = 1.25;
+        const double x_min = -2.25;
+        const double y_max = 1.75;
+        const double y_min = -1.75;
 
         Console.WriteLine("");
         Console.WriteLine("MANDELBROT");
@@ -76,29 +63,30 @@ internal static class Program
         //
         //  Carry out the iteration for each pixel, determining COUNT.
         //
-        count = new int[n * n];
+        int[] count = new int[n * n];
 
         for (i = 0; i < n; i++)
         {
             for (j = 0; j < n; j++)
             {
-                x = (j * x_max
-                     + (n - j - 1) * x_min)
-                    / (n - 1);
+                double x = (j * x_max
+                            + (n - j - 1) * x_min)
+                           / (n - 1);
 
-                y = (i * y_max
-                     + (n - i - 1) * y_min)
-                    / (n - 1);
+                double y = (i * y_max
+                            + (n - i - 1) * y_min)
+                           / (n - 1);
 
                 count[i + j * n] = 0;
 
-                x1 = x;
-                y1 = y;
+                double x1 = x;
+                double y1 = y;
 
+                int k;
                 for (k = 1; k <= count_max; k++)
                 {
-                    x2 = x1 * x1 - y1 * y1 + x;
-                    y2 = 2 * x1 * y1 + y;
+                    double x2 = x1 * x1 - y1 * y1 + x;
+                    double y2 = 2 * x1 * y1 + y;
 
                     if (x2 is < -2.0 or > 2.0 || y2 is < -2.0 or > 2.0)
                     {
@@ -115,7 +103,7 @@ internal static class Program
         //
         //  Determine the coloring of each pixel.
         //
-        c_max = 0;
+        int c_max = 0;
         for (j = 0; j < n; j++)
         {
             for (i = 0; i < n; i++)
@@ -130,16 +118,15 @@ internal static class Program
         //
         //  Set the image data.
         //
-        r = new int[n * n];
-        g = new int[n * n];
-        b = new int[n * n];
-        int index = 0;
+        int[] r = new int[n * n];
+        int[] g = new int[n * n];
+        int[] b = new int[n * n];
 
         for (i = 0; i < n; i++)
         {
             for (j = 0; j < n; j++)
             {
-                index = i + j * n;
+                int index = i + j * n;
                 switch (count[i + j * n] % 2)
                 {
                     case 1:
@@ -149,7 +136,7 @@ internal static class Program
                         break;
                     default:
                     {
-                        c = (int) (255.0 * Math.Sqrt(Math.Sqrt(Math.Sqrt(
+                        int c = (int) (255.0 * Math.Sqrt(Math.Sqrt(Math.Sqrt(
                             count[i + j * n] / (double) c_max))));
                         int v = 3 * c / 5;
                         r[index] = v;

@@ -63,10 +63,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] b;
-        string file_out_name = "pbma_io_prb_01.ascii.pbm";
-        int xsize = 300;
-        int ysize = 300;
+        const string file_out_name = "pbma_io_prb_01.ascii.pbm";
+        const int xsize = 300;
+        const int ysize = 300;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01:");
@@ -75,7 +74,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Writing the file \"" + file_out_name + "\".");
 
-        b = new int[xsize * ysize];
+        int[] b = new int[xsize * ysize];
 
         PBMA.pbma_example(xsize, ysize, ref b);
 
@@ -119,9 +118,7 @@ internal static class Program
         //
     {
         int[] b = null;
-        string file_in_name = "pbma_io_prb_02.ascii.pbm";
-        int i;
-        int j;
+        const string file_in_name = "pbma_io_prb_02.ascii.pbm";
         int k;
         int xsize = 0;
         int ysize = 0;
@@ -149,8 +146,8 @@ internal static class Program
 
         for (k = 0; k <= 29; k++)
         {
-            i = ((29 - k) * 0 + k * (xsize - 1)) / 29;
-            j = ((29 - k) * 0 + k * (ysize - 1)) / 29;
+            int i = ((29 - k) * 0 + k * (xsize - 1)) / 29;
+            int j = ((29 - k) * 0 + k * (ysize - 1)) / 29;
             Console.WriteLine(i.ToString().PadLeft(4) + "  "
                                                       + j.ToString().PadLeft(4) + "  "
                                                       + b[i * ysize + j].ToString().PadLeft(6) + "");

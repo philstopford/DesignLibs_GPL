@@ -39,10 +39,9 @@ internal static class Program
         //    FILE.PGMA is the name of the output ASCII PGM file to be created.
         //  
     {
-        bool error;
         string file_in_name;
         string file_out_name;
-        bool verbose = false;
+        const bool verbose = false;
 
         switch (verbose)
         {
@@ -86,7 +85,7 @@ internal static class Program
             file_out_name = Console.ReadLine();
         }
 
-        error = PGMB.pgmb_to_pgma(file_in_name, file_out_name);
+        bool error = PGMB.pgmb_to_pgma(file_in_name, file_out_name);
 
         switch (error)
         {

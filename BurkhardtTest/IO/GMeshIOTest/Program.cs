@@ -64,13 +64,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] element_node;
         int element_num = 0;
         int element_order = 0;
-        string gmsh_filename = "example_2d.msh";
+        const string gmsh_filename = "example_2d.msh";
         int m = 0;
         int node_num = 0;
-        double[] node_x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01:");
@@ -92,9 +90,9 @@ internal static class Program
         //
         //  Get the data.
         //
-        node_x = Mesh2D.gmsh_mesh2d_node_data_example(node_num, m);
+        double[] node_x = Mesh2D.gmsh_mesh2d_node_data_example(node_num, m);
 
-        element_node = Mesh2D.gmsh_mesh2d_element_data_example(element_num, element_order);
+        int[] element_node = Mesh2D.gmsh_mesh2d_element_data_example(element_num, element_order);
         //
         //  Print some of the data.
         //
@@ -134,13 +132,11 @@ internal static class Program
         //   John Burkardt
         //
     {
-        int[] element_node;
         int element_num = 0;
         int element_order = 0;
-        string gmsh_filename = "example_2d.msh";
+        const string gmsh_filename = "example_2d.msh";
         int m = 0;
         int node_num = 0;
-        double[] node_x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02:");
@@ -163,8 +159,8 @@ internal static class Program
         //
         //  Allocate memory.
         //
-        node_x = new double[m * node_num];
-        element_node = new int[element_order * element_num];
+        double[] node_x = new double[m * node_num];
+        int[] element_node = new int[element_order * element_num];
         //
         //  Get the data.
         //

@@ -64,10 +64,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string output_name = "pgma_io_test01.ascii.pgm";
-        int[] g;
-        int xsize = 300;
-        int ysize = 300;
+        const string output_name = "pgma_io_test01.ascii.pgm";
+        const int xsize = 300;
+        const int ysize = 300;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01:");
@@ -76,7 +75,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Writing the file \"" + output_name + "\".");
 
-        g = new int[xsize * ysize];
+        int[] g = new int[xsize * ysize];
 
         PGMA.pgma_example(xsize, ysize, ref g);
 
@@ -118,10 +117,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string input_name = "pgma_io_test02.ascii.pgm";
+        const string input_name = "pgma_io_test02.ascii.pgm";
         int[] g = new int[1];
-        int i;
-        int j;
         int k;
         int maxg = 0;
         int xsize = 0;
@@ -152,8 +149,8 @@ internal static class Program
         Console.WriteLine("");
         for (k = 0; k <= 9; k++)
         {
-            i = ((9 - k) * 0 + k * (xsize - 1)) / 9;
-            j = ((9 - k) * 0 + k * (ysize - 1)) / 9;
+            int i = ((9 - k) * 0 + k * (xsize - 1)) / 9;
+            int j = ((9 - k) * 0 + k * (ysize - 1)) / 9;
             Console.WriteLine(i.ToString().PadLeft(4) + "  "
                                                       + j.ToString().PadLeft(4) + "  "
                                                       + g[i * ysize + j].ToString().PadLeft(6) + "");
@@ -181,10 +178,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int NGRAY = 11;
+        const int NGRAY = 11;
 
-        string output_name = "pgma_io_test03.ascii.pgm";
-        int[] g;
+        const string output_name = "pgma_io_test03.ascii.pgm";
         double[] gray =
         {
             0.000, 0.291, 0.434, 0.540, 0.629,
@@ -192,10 +188,8 @@ internal static class Program
             1.000
         };
         int i;
-        int j;
-        int k;
-        int xsize = 300;
-        int ysize = 300;
+        const int xsize = 300;
+        const int ysize = 300;
 
         Console.WriteLine("");
         Console.WriteLine("TEST03:");
@@ -204,13 +198,14 @@ internal static class Program
         Console.WriteLine("  In this example, we make a sort of grayscale");
         Console.WriteLine("  checkerboard.");
 
-        g = new int[xsize * ysize];
+        int[] g = new int[xsize * ysize];
 
         for (i = 0; i < xsize; i++)
         {
+            int j;
             for (j = 0; j < ysize; j++)
             {
-                k = (i + j) * NGRAY / Math.Min(xsize, ysize);
+                int k = (i + j) * NGRAY / Math.Min(xsize, ysize);
                 k %= NGRAY;
                 g[i * ysize + j] = (int) (255.0E+00 * gray[k]);
             }

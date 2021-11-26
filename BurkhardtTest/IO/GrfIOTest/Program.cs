@@ -64,11 +64,8 @@ internal static class Program
         //
     {
         int edge_num = 0;
-        int[] edge_data;
-        int[] edge_pointer;
         int node_num = 0;
-        string output_filename = "coxeter.grf";
-        double[] xy;
+        const string output_filename = "coxeter.grf";
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
@@ -79,9 +76,9 @@ internal static class Program
 
         Grf.grf_header_print(node_num, edge_num);
 
-        edge_data = new int[edge_num];
-        edge_pointer = new int[node_num + 1];
-        xy = new double[2 * node_num];
+        int[] edge_data = new int[edge_num];
+        int[] edge_pointer = new int[node_num + 1];
+        double[] xy = new double[2 * node_num];
 
         Grf.grf_example(node_num, edge_num, ref edge_pointer, ref edge_data, ref xy);
 
@@ -114,11 +111,8 @@ internal static class Program
         //
     {
         int edge_num = 0;
-        string input_filename = "coxeter.grf";
-        int[] edge_data;
-        int[] edge_pointer;
+        const string input_filename = "coxeter.grf";
         int node_num = 0;
-        double[] xy;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02");
@@ -132,9 +126,9 @@ internal static class Program
 
         Grf.grf_header_print(node_num, edge_num);
 
-        edge_pointer = new int[node_num + 1];
-        edge_data = new int[edge_num];
-        xy = new double[2 * node_num];
+        int[] edge_pointer = new int[node_num + 1];
+        int[] edge_data = new int[edge_num];
+        double[] xy = new double[2 * node_num];
 
         Grf.grf_data_read(input_filename, node_num, edge_num, ref edge_pointer,
             ref edge_data, ref xy);

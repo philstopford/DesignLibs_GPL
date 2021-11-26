@@ -29,17 +29,15 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string filename;
-
         Console.WriteLine("");
         Console.WriteLine("OBJ_IO_TEST:");
         Console.WriteLine("  Test the OBJ_IO library.");
 
-        filename = "cube.obj";
+        string filename = "cube.obj";
         test01(filename);
 
         filename = "cube.obj";
-        //test02 ( filename );
+        test02 ( filename );
 
         filename = "cube_normals.obj";
         test03(filename);
@@ -110,12 +108,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] face_node;
         int face_num = 0;
-        int[] face_order;
         int node_num = 0;
-        double[] node_xyz;
-        double[] normal_vector;
         int normal_num = 0;
         int order_max = 0;
 
@@ -125,10 +119,10 @@ internal static class Program
 
         WavefrontOBJ.obj_size(input_file_name, ref node_num, ref face_num, ref normal_num, ref order_max);
 
-        face_node = new int[order_max * face_num];
-        face_order = new int[face_num];
-        node_xyz = new double[3 * node_num];
-        normal_vector = new double[3 * normal_num];
+        int[] face_node = new int[order_max * face_num];
+        int[] face_order = new int[face_num];
+        double[] node_xyz = new double[3 * node_num];
+        double[] normal_vector = new double[3 * normal_num];
 
         //obj_read ( input_file_name, node_num, face_num, normal_num, 
         //  order_max, node_xyz, face_order, face_node, normal_vector, vertex_normal );
@@ -174,12 +168,12 @@ internal static class Program
             2, 4, 6,
             6, 4, 8
         };
-        int face_num = 12;
+        const int face_num = 12;
         int[] face_order =
         {
             3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3
         };
-        int node_num = 8;
+        const int node_num = 8;
         double[] node_xyz =
         {
             0.0, 0.0, 0.0,
@@ -191,7 +185,7 @@ internal static class Program
             0.0, 1.0, 1.0,
             1.0, 1.0, 1.0
         };
-        int normal_num = 6;
+        const int normal_num = 6;
         double[] normal_vector =
         {
             0.0, 0.0, 1.0,
@@ -201,7 +195,7 @@ internal static class Program
             1.0, 0.0, 0.0,
             -1.0, 0.0, 0.0
         };
-        int order_max = 3;
+        const int order_max = 3;
         int[] vertex_normal =
         {
             2, 2, 2,

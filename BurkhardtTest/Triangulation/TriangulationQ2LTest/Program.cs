@@ -64,14 +64,6 @@ internal static class Program
         //
     {
         string prefix;
-        string element_filename;
-        string element_q2l_filename;
-        int[] triangle_node1;
-        int[] triangle_node2;
-        int triangle_num1;
-        int triangle_num2;
-        int triangle_order1;
-        int triangle_order2;
 
         Console.WriteLine("");
 
@@ -106,14 +98,14 @@ internal static class Program
         //
         //  Create the filenames.
         //
-        element_filename = prefix + "_elements.txt";
-        element_q2l_filename = prefix + "_q2l_elements.txt";
+        string element_filename = prefix + "_elements.txt";
+        string element_q2l_filename = prefix + "_q2l_elements.txt";
         //
         //  Read the data.
         //
         TableHeader h = typeMethods.i4mat_header_read(element_filename);
-        triangle_order1 = h.m;
-        triangle_num1 = h.n;
+        int triangle_order1 = h.m;
+        int triangle_num1 = h.n;
 
         if (triangle_order1 != 6)
         {
@@ -129,7 +121,7 @@ internal static class Program
         Console.WriteLine("  Triangle order TRIANGLE_ORDER1 = " + triangle_order1 + "");
         Console.WriteLine("  Number of triangles TRIANGLE_NUM1 = " + triangle_num1 + "");
 
-        triangle_node1 = typeMethods.i4mat_data_read(element_filename,
+        int[] triangle_node1 = typeMethods.i4mat_data_read(element_filename,
             triangle_order1, triangle_num1);
 
         Console.WriteLine("");
@@ -140,12 +132,12 @@ internal static class Program
         //
         //  Set the number of linear triangles:
         //
-        triangle_num2 = 4 * triangle_num1;
-        triangle_order2 = 3;
+        int triangle_num2 = 4 * triangle_num1;
+        int triangle_order2 = 3;
         //
         //  Convert the data.
         //
-        triangle_node2 = Conversion.triangulation_order6_to_order3(triangle_num1,
+        int[] triangle_node2 = Conversion.triangulation_order6_to_order3(triangle_num1,
             triangle_node1);
 
         typeMethods.i4mat_transpose_print(triangle_order2, triangle_num2,

@@ -41,7 +41,6 @@ public static partial class TriangulationSampleData
     {
         int[] hull = new int[4];
         int hull_num = 0;
-        int i;
         int j;
         double[] xy_random = new double[2*4];
 
@@ -69,6 +68,7 @@ public static partial class TriangulationSampleData
         //
         for ( j = 0; j < 4; j++ )
         {
+            int i;
             for ( i = 0; i < 2; i++ )
             {
                 xy[i+j*2] = xy_random[i+(hull[j]-1)*2];

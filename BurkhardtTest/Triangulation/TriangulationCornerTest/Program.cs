@@ -43,40 +43,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double area;
-        int dim_num;
-        int i;
-        int j;
-        int j1;
-        int j2;
-        int j3;
-        int j4;
-        int n1_index;
-        int n2_index;
-        int negative;
         int[] negative_total = new int[4];
-        int neighbor;
-        int node;
-        string node_filename;
-        int node_num;
-        double[] node_xy;
-        int node1;
-        int node2;
-        int node3;
-        string node_corner_filename;
-        string element_corner_filename;
         string prefix;
         int t1_to_t2 = 0;
-        int t2_to_t1 = 0;
         double[] t3 = new double[2 * 3];
-        int triangle;
-        string element_filename;
-        int[] triangle_neighbor;
-        int[] triangle_node;
-        int triangle_num;
-        int triangle_order;
-        int triangle1;
-        int triangle2;
 
         Console.WriteLine("");
         Console.WriteLine("TRIANGULATION_CORNER");
@@ -109,16 +79,16 @@ internal static class Program
             //
             //  Create the filenames.
             //
-            node_filename = prefix + "_nodes.txt";
-            element_filename = prefix + "_elements.txt";
-            node_corner_filename = prefix + "_corner_nodes.txt";
-            element_corner_filename = prefix + "_corner_triangles.txt";
+            string node_filename = prefix + "_nodes.txt";
+            string element_filename = prefix + "_elements.txt";
+            string node_corner_filename = prefix + "_corner_nodes.txt";
+            string element_corner_filename = prefix + "_corner_triangles.txt";
             //
             //  Read the node data.
             //
             TableHeader h = typeMethods.r8mat_header_read(node_filename);
-            dim_num = h.m;
-            node_num = h.n;
+            int dim_num = h.m;
+            int node_num = h.n;
 
             Console.WriteLine("");
             Console.WriteLine("  Read the header of \"" + node_filename + "\".");
@@ -126,7 +96,7 @@ internal static class Program
             Console.WriteLine("  Spatial dimension DIM_NUM = " + dim_num + "");
             Console.WriteLine("  Number of nodes NODE_NUM  = " + node_num + "");
 
-            node_xy = typeMethods.r8mat_data_read(node_filename, dim_num, node_num);
+            double[] node_xy = typeMethods.r8mat_data_read(node_filename, dim_num, node_num);
 
             Console.WriteLine("");
             Console.WriteLine("  Read the data in \"" + node_filename + "\".");
@@ -137,8 +107,8 @@ internal static class Program
             //  Read the element data.
             //
             h = typeMethods.i4mat_header_read(element_filename);
-            triangle_order = h.m;
-            triangle_num = h.n;
+            int triangle_order = h.m;
+            int triangle_num = h.n;
 
             if (triangle_order != 3 && triangle_order != 6)
             {
@@ -154,7 +124,7 @@ internal static class Program
             Console.WriteLine("  Triangle order TRIANGLE_ORDER     = " + triangle_order + "");
             Console.WriteLine("  Number of triangles TRIANGLE_NUM  = " + triangle_num + "");
 
-            triangle_node = typeMethods.i4mat_data_read(element_filename,
+            int[] triangle_node = typeMethods.i4mat_data_read(element_filename,
                 triangle_order, triangle_num);
 
             Console.WriteLine("");
@@ -169,7 +139,7 @@ internal static class Program
             //
             //  Create the triangle neighbor array.
             //
-            triangle_neighbor = new int[3 * triangle_num];
+            int[] triangle_neighbor = new int[3 * triangle_num];
 
             switch (triangle_order)
             {
@@ -188,6 +158,9 @@ internal static class Program
             //
             typeMethods.i4vec_zero(4, ref negative_total);
 
+            int negative;
+            int neighbor;
+            int triangle;
             for (triangle = 0; triangle < triangle_num; triangle++)
             {
                 negative = 0;
@@ -207,6 +180,7 @@ internal static class Program
             Console.WriteLine("");
             Console.WriteLine("  Number of boundary sides     Number of triangles");
             Console.WriteLine("");
+            int i;
             for (i = 0; i < 4; i++)
             {
                 Console.WriteLine("            " + i.ToString().PadLeft(8)
@@ -241,8 +215,10 @@ internal static class Program
                             //
                             negative = 0;
 
+                            int node;
                             for (triangle = 0; triangle < triangle_num; triangle++)
                             {
+                                int j;
                                 for (j = 0; j < 3; j++)
                                 {
                                     for (i = 0; i < 2; i++)
@@ -252,7 +228,7 @@ internal static class Program
                                     }
                                 }
 
-                                area = typeMethods.triangle_area_2d(t3);
+                                double area = typeMethods.triangle_area_2d(t3);
 
                                 switch (area)
                                 {
@@ -301,6 +277,7 @@ internal static class Program
                             //
                             //  Now consider each triangle that has exactly two boundary sides.
                             //
+                            int triangle1;
                             for (triangle1 = 0; triangle1 < triangle_num; triangle1++)
                             {
                                 negative = 0;
@@ -318,7 +295,7 @@ internal static class Program
                                 {
                                     case 2:
                                     {
-                                        triangle2 = -1;
+                                        int triangle2 = -1;
 
                                         for (neighbor = 0; neighbor < 3; neighbor++)
                                         {
@@ -334,7 +311,7 @@ internal static class Program
                                         Console.WriteLine("  Adjusting triangle " + triangle1 + 1
                                                           + " using triangle " + triangle2 + 1 + "");
 
-                                        t2_to_t1 = -1;
+                                        int t2_to_t1 = -1;
                                         for (neighbor = 0; neighbor < 3; neighbor++)
                                         {
                                             if (triangle_neighbor[neighbor + triangle2 * 3] - 1 == triangle1)
@@ -343,11 +320,11 @@ internal static class Program
                                             }
                                         }
 
-                                        n1_index = typeMethods.i4_wrap(t1_to_t2 - 1, 0, 2);
+                                        int n1_index = typeMethods.i4_wrap(t1_to_t2 - 1, 0, 2);
                                         node = triangle_node[n1_index + triangle1 * triangle_order];
 
                                         n1_index = typeMethods.i4_wrap(t1_to_t2 + 1, 0, 2);
-                                        n2_index = typeMethods.i4_wrap(t2_to_t1 - 1, 0, 2);
+                                        int n2_index = typeMethods.i4_wrap(t2_to_t1 - 1, 0, 2);
                                         triangle_node[n1_index + triangle1 * triangle_order]
                                             = triangle_node[n2_index + triangle2 * triangle_order];
 
@@ -361,13 +338,13 @@ internal static class Program
                                                 //
                                                 //  Adjust coordinates of the new midside node.
                                                 //
-                                                j1 = typeMethods.i4_wrap(t1_to_t2 - 1, 0, 2);
-                                                j2 = typeMethods.i4_wrap(t1_to_t2 + 3, 3, 5);
-                                                j3 = typeMethods.i4_wrap(t2_to_t1 - 1, 0, 2);
+                                                int j1 = typeMethods.i4_wrap(t1_to_t2 - 1, 0, 2);
+                                                int j2 = typeMethods.i4_wrap(t1_to_t2 + 3, 3, 5);
+                                                int j3 = typeMethods.i4_wrap(t2_to_t1 - 1, 0, 2);
 
-                                                node1 = triangle_node[j1 + triangle1 * triangle_order] - 1;
-                                                node2 = triangle_node[j2 + triangle1 * triangle_order] - 1;
-                                                node3 = triangle_node[j3 + triangle2 * triangle_order] - 1;
+                                                int node1 = triangle_node[j1 + triangle1 * triangle_order] - 1;
+                                                int node2 = triangle_node[j2 + triangle1 * triangle_order] - 1;
+                                                int node3 = triangle_node[j3 + triangle2 * triangle_order] - 1;
 
                                                 node_xy[0 + node2 * 2] = 0.5 * (node_xy[0 + node1 * 2] + node_xy[0 + node3 * 2]);
                                                 node_xy[1 + node2 * 2] = 0.5 * (node_xy[1 + node1 * 2] + node_xy[1 + node3 * 2]);
@@ -377,7 +354,7 @@ internal static class Program
                                                 j1 = typeMethods.i4_wrap(t1_to_t2 + 4, 3, 5);
                                                 j2 = typeMethods.i4_wrap(t1_to_t2 + 3, 3, 5);
                                                 j3 = typeMethods.i4_wrap(t2_to_t1 + 4, 3, 5);
-                                                j4 = typeMethods.i4_wrap(t2_to_t1 + 3, 3, 5);
+                                                int j4 = typeMethods.i4_wrap(t2_to_t1 + 3, 3, 5);
 
                                                 node
                                                     = triangle_node[j1 + triangle1 * triangle_order];

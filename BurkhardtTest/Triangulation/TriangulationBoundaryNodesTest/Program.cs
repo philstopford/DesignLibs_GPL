@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.MeshNS;
 using Burkardt.Table;
 using Burkardt.TriangulationNS;
@@ -45,22 +46,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] boundarynode;
-        string boundarynode_filename;
-        int dim_num;
-        string element_filename;
         int j;
         int node;
         bool[] node_boundary = null;
-        int node_boundary_num;
-        string node_filename;
-        int node_num;
-        double[] node_xy;
-        int node2;
         string prefix;
-        int[] triangle_node;
-        int triangle_num;
-        int triangle_order;
 
         Console.WriteLine("");
         Console.WriteLine("TRIANGULATION_BOUNDARY_NODES");
@@ -94,15 +83,15 @@ internal static class Program
         //
         //  Create the filenames.
         //
-        node_filename = prefix + "_nodes.txt";
-        element_filename = prefix + "_elements.txt";
-        boundarynode_filename = prefix + "_boundary_nodes.txt";
+        string node_filename = prefix + "_nodes.txt";
+        string element_filename = prefix + "_elements.txt";
+        string boundarynode_filename = prefix + "_boundary_nodes.txt";
         //
         //  Read the node coordinates.
         //
         TableHeader h = typeMethods.r8mat_header_read(node_filename);
-        dim_num = h.m;
-        node_num = h.n;
+        int dim_num = h.m;
+        int node_num = h.n;
 
         Console.WriteLine("");
         Console.WriteLine("  Read the header of \"" + node_filename + "\".");
@@ -110,7 +99,7 @@ internal static class Program
         Console.WriteLine("  Spatial dimension DIM_NUM = " + dim_num + "");
         Console.WriteLine("  Number of nodes NODE_NUM  = " + node_num + "");
 
-        node_xy = typeMethods.r8mat_data_read(node_filename, dim_num, node_num);
+        double[] node_xy = typeMethods.r8mat_data_read(node_filename, dim_num, node_num);
 
         Console.WriteLine("");
         Console.WriteLine("  Read the data in \"" + node_filename + "\".");
@@ -121,8 +110,8 @@ internal static class Program
         //  Read the element data.
         //
         h = typeMethods.i4mat_header_read(element_filename);
-        triangle_order = h.m;
-        triangle_num = h.n;
+        int triangle_order = h.m;
+        int triangle_num = h.n;
 
         Console.WriteLine("");
         Console.WriteLine(" Read the header of \"" + element_filename + "\".");
@@ -130,7 +119,7 @@ internal static class Program
         Console.WriteLine("  Triangle order TRIANGLE_ORDER = " + triangle_order + "");
         Console.WriteLine("  Number of triangles TRIANGLE_NUM  = " + triangle_num + "");
 
-        triangle_node = typeMethods.i4mat_data_read(element_filename,
+        int[] triangle_node = typeMethods.i4mat_data_read(element_filename,
             triangle_order, triangle_num);
 
         Console.WriteLine("");
@@ -155,7 +144,7 @@ internal static class Program
         //
         //  Print the data
         //
-        node_boundary_num = 0;
+        int node_boundary_num = 0;
         for (node = 0; node < node_num; node++)
         {
             switch (node_boundary[node])
@@ -180,16 +169,16 @@ internal static class Program
                 Console.WriteLine("   Index   Index         X and Y Coordinates");
                 Console.WriteLine("");
 
-                node2 = 0;
+                int node2 = 0;
                 for (node = 0; node < node_num; node++)
                 {
                     switch (node_boundary[node])
                     {
                         case true:
-                            Console.WriteLine("  " + node2.ToString().PadLeft(8)
-                                                   + "  " + node.ToString().PadLeft(8)
-                                                   + "  " + node_xy[0 + node * 2].ToString().PadLeft(14)
-                                                   + "  " + node_xy[1 + node * 2].ToString().PadLeft(14) + "");
+                            Console.WriteLine("  " + node2.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                                   + "  " + node.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                                   + "  " + node_xy[0 + node * 2].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                                   + "  " + node_xy[1 + node * 2].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                             node2 += 1;
                             break;
                     }
@@ -202,7 +191,7 @@ internal static class Program
         //
         //  Write the output file.
         //
-        boundarynode = new int[node_num];
+        int[] boundarynode = new int[node_num];
         for (j = 0; j < node_num; j++)
         {
             boundarynode[j] = node_boundary[j] switch

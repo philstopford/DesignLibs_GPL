@@ -69,13 +69,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 3;
+        const int N = 3;
 
-        double[] a;
         double[] alpha = {1.0, 2.0, 3.0};
         double[] beta = {10.0, 20.0, 30.0};
-        int n = N;
-        int n2;
 
         Console.WriteLine("");
         Console.WriteLine("BIVAND1_TEST:");
@@ -83,12 +80,12 @@ internal static class Program
         Console.WriteLine("  associated with polynomials of");
         Console.WriteLine("  total degree less than N.");
 
-        typeMethods.r8vec_print(n, alpha, "  Vandermonde vector ALPHA:");
-        typeMethods.r8vec_print(n, beta, "  Vandermonde vector BETA:");
+        typeMethods.r8vec_print(N, alpha, "  Vandermonde vector ALPHA:");
+        typeMethods.r8vec_print(N, beta, "  Vandermonde vector BETA:");
 
-        a = VandermondeMatrix.bivand1(n, alpha, beta);
+        double[] a = VandermondeMatrix.bivand1(N, alpha, beta);
 
-        n2 = n * (n + 1) / 2;
+        const int n2 = N * (N + 1) / 2;
         typeMethods.r8mat_print(n2, n2, a, "  Bidimensional Vandermonde matrix:");
 
     }
@@ -114,25 +111,22 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 3;
+        const int N = 3;
 
-        double[] a;
         double[] alpha = {1.0, 2.0, 3.0};
         double[] beta = {10.0, 20.0, 30.0};
-        int n = N;
-        int n2;
 
         Console.WriteLine("");
         Console.WriteLine("BIVAND2_TEST:");
         Console.WriteLine("  Compute a bidimensional Vandermonde matrix");
         Console.WriteLine("  associated with polynomials of maximum degree less than N.");
 
-        typeMethods.r8vec_print(n, alpha, "  Vandermonde vector ALPHA:");
-        typeMethods.r8vec_print(n, beta, "  Vandermonde vector BETA:");
+        typeMethods.r8vec_print(N, alpha, "  Vandermonde vector ALPHA:");
+        typeMethods.r8vec_print(N, beta, "  Vandermonde vector BETA:");
 
-        a = VandermondeMatrix.bivand2(n, alpha, beta);
+        double[] a = VandermondeMatrix.bivand2(N, alpha, beta);
 
-        n2 = n * n;
+        int n2 = N * N;
         typeMethods.r8mat_print(n2, n2, a, "  Bidimensional Vandermonde matrix:");
 
     }
@@ -158,16 +152,12 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 5;
+        const int N = 5;
 
-        double[] a;
         double[] alpha = null;
         double[] alpha1 = {0.0, 1.0, 2.0, 3.0, 4.0};
-        double[] b;
-        int n = N;
         int seed = 12345;
         int test;
-        double[] x;
         double[] x1 = {5.0, 3.0, 4.0, 1.0, 2.0};
 
         Console.WriteLine("");
@@ -178,21 +168,21 @@ internal static class Program
         {
             alpha = test switch
             {
-                1 => typeMethods.r8vec_copy_new(n, alpha1),
-                2 => UniformRNG.r8vec_uniform_01_new(n, ref seed),
+                1 => typeMethods.r8vec_copy_new(N, alpha1),
+                2 => UniformRNG.r8vec_uniform_01_new(N, ref seed),
                 _ => alpha
             };
 
-            typeMethods.r8vec_print(n, alpha, "  Vandermonde vector ALPHA:");
+            typeMethods.r8vec_print(N, alpha, "  Vandermonde vector ALPHA:");
 
-            a = VandermondeMatrix.vand1(n, alpha);
+            double[] a = VandermondeMatrix.vand1(N, alpha);
 
-            x = typeMethods.r8vec_copy_new(n, x1);
-            b = typeMethods.r8mat_mtv_new(n, n, a, x);
-            typeMethods.r8vec_print(n, b, "  Right hand side B:");
+            double[] x = typeMethods.r8vec_copy_new(N, x1);
+            double[] b = typeMethods.r8mat_mtv_new(N, N, a, x);
+            typeMethods.r8vec_print(N, b, "  Right hand side B:");
 
-            x = VandermondeMatrix.dvand(n, alpha, b);
-            typeMethods.r8vec_print(n, x, "  Solution X:");
+            x = VandermondeMatrix.dvand(N, alpha, b);
+            typeMethods.r8vec_print(N, x, "  Solution X:");
         }
     }
 
@@ -217,19 +207,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 5;
+        const int N = 5;
 
-        double[] a;
         double[] alpha = null;
         double[] alpha1 = {0.0, 1.0, 2.0, 3.0, 4.0};
-        double[] b;
-        double[] c;
-        double[] m;
-        int n = N;
-        int nsub;
-        int seed;
         int test;
-        double[] x;
         double[] x1 = {5.0, 3.0, 4.0, 1.0, 2.0};
 
         Console.WriteLine("");
@@ -244,27 +226,28 @@ internal static class Program
             switch (test)
             {
                 case 1:
-                    alpha = typeMethods.r8vec_copy_new(n, alpha1);
+                    alpha = typeMethods.r8vec_copy_new(N, alpha1);
                     break;
                 case 2:
-                    seed = 123456789;
-                    alpha = UniformRNG.r8vec_uniform_01_new(n, ref seed);
+                    int seed = 123456789;
+                    alpha = UniformRNG.r8vec_uniform_01_new(N, ref seed);
                     break;
             }
 
-            typeMethods.r8vec_print(n, alpha, "  Vandermonde vector ALPHA:");
+            typeMethods.r8vec_print(N, alpha, "  Vandermonde vector ALPHA:");
 
-            a = VandermondeMatrix.vand1(n, alpha);
+            double[] a = VandermondeMatrix.vand1(N, alpha);
 
-            x = typeMethods.r8vec_copy_new(n, x1);
-            b = typeMethods.r8mat_mtv_new(n, n, a, x);
-            typeMethods.r8vec_print(n, b, "  Right hand side B:");
+            double[] x = typeMethods.r8vec_copy_new(N, x1);
+            double[] b = typeMethods.r8mat_mtv_new(N, N, a, x);
+            typeMethods.r8vec_print(N, b, "  Right hand side B:");
 
-            x = new double[n];
-            c = new double[n];
-            m = new double[n];
+            x = new double[N];
+            double[] c = new double[N];
+            double[] m = new double[N];
 
-            for (nsub = 1; nsub <= n; nsub++)
+            int nsub;
+            for (nsub = 1; nsub <= N; nsub++)
             {
                 VandermondeMatrix.dvandprg(nsub, alpha, b, ref x, ref c, ref m);
                 typeMethods.r8vec_print(nsub, x, "  Solution X:");
@@ -293,16 +276,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 5;
+        const int N = 5;
 
-        double[] a;
         double[] alpha = null;
         double[] alpha1 = {0.0, 1.0, 2.0, 3.0, 4.0};
-        double[] b;
-        int n = N;
-        int seed;
         int test;
-        double[] x;
         double[] x1 = {5.0, 3.0, 4.0, 1.0, 2.0};
 
         Console.WriteLine("");
@@ -314,24 +292,24 @@ internal static class Program
             switch (test)
             {
                 case 1:
-                    alpha = typeMethods.r8vec_copy_new(n, alpha1);
+                    alpha = typeMethods.r8vec_copy_new(N, alpha1);
                     break;
                 case 2:
-                    seed = 123456789;
-                    alpha = UniformRNG.r8vec_uniform_01_new(n, ref seed);
+                    int seed = 123456789;
+                    alpha = UniformRNG.r8vec_uniform_01_new(N, ref seed);
                     break;
             }
 
-            typeMethods.r8vec_print(n, alpha, "  Vandermonde vector ALPHA:");
+            typeMethods.r8vec_print(N, alpha, "  Vandermonde vector ALPHA:");
 
-            a = VandermondeMatrix.vand1(n, alpha);
+            double[] a = VandermondeMatrix.vand1(N, alpha);
 
-            x = typeMethods.r8vec_copy_new(n, x1);
-            b = typeMethods.r8mat_mv_new(n, n, a, x);
-            typeMethods.r8vec_print(n, b, "  Right hand side B:");
+            double[] x = typeMethods.r8vec_copy_new(N, x1);
+            double[] b = typeMethods.r8mat_mv_new(N, N, a, x);
+            typeMethods.r8vec_print(N, b, "  Right hand side B:");
 
-            x = VandermondeMatrix.pvand(n, alpha, b);
-            typeMethods.r8vec_print(n, x, "  Solution X:");
+            x = VandermondeMatrix.pvand(N, alpha, b);
+            typeMethods.r8vec_print(N, x, "  Solution X:");
 
         }
     }
@@ -357,19 +335,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 5;
+        const int N = 5;
 
-        double[] a;
         double[] alpha = null;
         double[] alpha1 = {0.0, 1.0, 2.0, 3.0, 4.0};
-        double[] b;
-        double[] c;
-        double[] m;
-        int n = N;
-        int nsub;
-        int seed;
         int test;
-        double[] x;
         double[] x1 = {5.0, 3.0, 4.0, 1.0, 2.0};
 
         Console.WriteLine("");
@@ -381,27 +351,28 @@ internal static class Program
             switch (test)
             {
                 case 1:
-                    alpha = typeMethods.r8vec_copy_new(n, alpha1);
+                    alpha = typeMethods.r8vec_copy_new(N, alpha1);
                     break;
                 case 2:
-                    seed = 123456789;
-                    alpha = UniformRNG.r8vec_uniform_01_new(n, ref seed);
+                    int seed = 123456789;
+                    alpha = UniformRNG.r8vec_uniform_01_new(N, ref seed);
                     break;
             }
 
-            typeMethods.r8vec_print(n, alpha, "  Vandermonde vector ALPHA:");
+            typeMethods.r8vec_print(N, alpha, "  Vandermonde vector ALPHA:");
 
-            a = VandermondeMatrix.vand1(n, alpha);
+            double[] a = VandermondeMatrix.vand1(N, alpha);
 
-            x = typeMethods.r8vec_copy_new(n, x1);
-            b = typeMethods.r8mat_mv_new(n, n, a, x);
-            typeMethods.r8vec_print(n, b, "  Right hand side B:");
+            double[] x = typeMethods.r8vec_copy_new(N, x1);
+            double[] b = typeMethods.r8mat_mv_new(N, N, a, x);
+            typeMethods.r8vec_print(N, b, "  Right hand side B:");
 
-            x = new double[n];
-            c = new double[n];
-            m = new double[n];
+            x = new double[N];
+            double[] c = new double[N];
+            double[] m = new double[N];
 
-            for (nsub = 1; nsub <= n; nsub++)
+            int nsub;
+            for (nsub = 1; nsub <= N; nsub++)
             {
                 VandermondeMatrix.pvandprg(nsub, alpha, b, ref x, ref c, ref m);
                 typeMethods.r8vec_print(nsub, x, "  Solution X:");

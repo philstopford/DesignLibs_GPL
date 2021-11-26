@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.MatrixNS;
 using Burkardt.Types;
 using Burkardt.Uniform;
@@ -73,18 +74,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] a;
-        double[] b;
-        double e;
         int i;
-        int[] ipvt;
-        int job;
-        int n;
-        int nx;
-        int ny;
-        int seed;
-        double[] x1;
-        double[] x2;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
@@ -92,48 +82,48 @@ internal static class Program
         Console.WriteLine("  defined by WATHEN_GE.");
         Console.WriteLine("");
 
-        nx = 4;
-        ny = 4;
+        const int nx = 4;
+        const int ny = 4;
         Console.WriteLine("  Elements in X direction NX = " + nx + "");
         Console.WriteLine("  Elements in Y direction NY = " + ny + "");
         Console.WriteLine("  Number of elements = " + nx * ny + "");
         //
         //  Compute the number of unknowns.
         //
-        n = WathenMatrix.wathen_order(nx, ny);
+        int n = WathenMatrix.wathen_order(nx, ny);
         Console.WriteLine("  Number of nodes N = " + n + "");
         //
         //  Set up a random solution X.
         //
-        seed = 123456789;
-        x1 = UniformRNG.r8vec_uniform_01_new(n, ref seed);
+        int seed = 123456789;
+        double[] x1 = UniformRNG.r8vec_uniform_01_new(n, ref seed);
         //
         //  Compute the matrix.
         //
         seed = 123456789;
-        a = WathenMatrix.wathen_ge(nx, ny, n, ref seed);
+        double[] a = WathenMatrix.wathen_ge(nx, ny, n, ref seed);
         //
         //  Compute the corresponding right hand side B.
         //
-        b = MatbyVector.mv_ge(n, n, a, x1);
+        double[] b = MatbyVector.mv_ge(n, n, a, x1);
         //
         //  Solve the linear system.
         //
-        ipvt = new int[n];
+        int[] ipvt = new int[n];
         Matrix.dgefa(ref a, n, n, ref ipvt);
 
-        x2 = new double[n];
+        double[] x2 = new double[n];
         for (i = 0; i < n; i++)
         {
             x2[i] = b[i];
         }
 
-        job = 0;
+        int job = 0;
         Matrix.dgesl(a, n, n, ipvt, ref x2, job);
         //
         //  Compute the maximum solution error.
         //
-        e = typeMethods.r8vec_diff_norm_li(n, x1, x2);
+        double e = typeMethods.r8vec_diff_norm_li(n, x1, x2);
         Console.WriteLine("  Maximum solution error is " + e + "");
     }
 
@@ -290,14 +280,14 @@ internal static class Program
             //
             //  Report.
             //
-            Console.WriteLine(nx.ToString().PadLeft(6) + "      "
-                                                       + (nx * ny).ToString().PadLeft(4) + "  "
-                                                       + n.ToString().PadLeft(6) + "  "
-                                                       + storage_ge.ToString().PadLeft(8) + "  "
-                                                       + bw1.ToString().PadLeft(8) + "  "
-                                                       + bw2.ToString().PadLeft(8) + "  "
-                                                       + storage_gb.ToString().PadLeft(8) + "  "
-                                                       + storage_sparse.ToString().PadLeft(8) + "");
+            Console.WriteLine(nx.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "      "
+                                                       + (nx * ny).ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                       + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                       + storage_ge.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                                                       + bw1.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                                                       + bw2.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                                                       + storage_gb.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                                                       + storage_sparse.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
             //
             //  Ready for next iteration.
             //
@@ -327,23 +317,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] a;
-        double[] b;
-        double e;
-        int i;
-        int[] ipvt;
-        int job;
-        int n;
-        int nx;
-        int ny;
-        int seed;
-        int storage_ge;
-        DateTime t0;
-        TimeSpan t1;
-        TimeSpan t2;
         int test;
-        double[] x1;
-        double[] x2;
 
         Console.WriteLine("");
         Console.WriteLine("TEST06");
@@ -354,63 +328,64 @@ internal static class Program
         Console.WriteLine("    NX  Elements   Nodes   Storage    Assembly      Factor      Error");
         Console.WriteLine("");
 
-        nx = 1;
-        ny = 1;
+        int nx = 1;
+        int ny = 1;
 
         for (test = 1; test <= 6; test++)
         {
             //
             //  Compute the number of unknowns.
             //
-            n = WathenMatrix.wathen_order(nx, ny);
-            storage_ge = n * n;
+            int n = WathenMatrix.wathen_order(nx, ny);
+            int storage_ge = n * n;
             //
             //  Set up a random solution X1.
             //
-            seed = 123456789;
-            x1 = UniformRNG.r8vec_uniform_01_new(n, ref seed);
+            int seed = 123456789;
+            double[] x1 = UniformRNG.r8vec_uniform_01_new(n, ref seed);
             //
             //  Compute the matrix, and measure the storage required.
             //
             seed = 123456789;
 
-            t0 = DateTime.Now;
-            a = WathenMatrix.wathen_ge(nx, ny, n, ref seed);
-            t1 = DateTime.Now - t0;
+            DateTime t0 = DateTime.Now;
+            double[] a = WathenMatrix.wathen_ge(nx, ny, n, ref seed);
+            TimeSpan t1 = DateTime.Now - t0;
             //
             //  Compute the corresponding right hand side B.
             //
-            b = MatbyVector.mv_ge(n, n, a, x1);
+            double[] b = MatbyVector.mv_ge(n, n, a, x1);
             //
             //  Solve the system.
             //
-            ipvt = new int[n];
-            x2 = new double[n];
+            int[] ipvt = new int[n];
+            double[] x2 = new double[n];
+            int i;
             for (i = 0; i < n; i++)
             {
                 x2[i] = b[i];
             }
 
-            job = 0;
+            int job = 0;
 
             t0 = DateTime.Now;
             Matrix.dgefa(ref a, n, n, ref ipvt);
             Matrix.dgesl(a, n, n, ipvt, ref x2, job);
-            t2 = DateTime.Now - t0;
+            TimeSpan t2 = DateTime.Now - t0;
             //
             //  Compute the maximum solution error.
             //
-            e = typeMethods.r8vec_diff_norm_li(n, x1, x2);
+            double e = typeMethods.r8vec_diff_norm_li(n, x1, x2);
             //
             //  Report.
             //
-            Console.WriteLine(nx.ToString().PadLeft(6) + "      "
-                                                       + (nx * ny).ToString().PadLeft(4) + "  "
-                                                       + n.ToString().PadLeft(6) + "  "
-                                                       + storage_ge.ToString().PadLeft(8) + "  "
-                                                       + t1.TotalSeconds.ToString().PadLeft(10) + "  "
-                                                       + t2.TotalSeconds.ToString().PadLeft(10) + "  "
-                                                       + e.ToString().PadLeft(10) + "");
+            Console.WriteLine(nx.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "      "
+                                                       + (nx * ny).ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                       + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                       + storage_ge.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                                                       + t1.TotalSeconds.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                                                       + t2.TotalSeconds.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                                                       + e.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
             //
             //  Ready for next iteration.
             //
@@ -440,27 +415,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] a;
-        double[] b;
-        double e;
-        int i;
-        int[] ipvt;
-        int job;
-        int lda;
         int md = 0;
         int ml = 0;
         int mu = 0;
-        int n;
-        int nx;
-        int ny;
-        int seed;
-        int storage_gb;
-        DateTime t0;
-        TimeSpan t1;
-        TimeSpan t2;
         int test;
-        double[] x1;
-        double[] x2;
 
         Console.WriteLine("");
         Console.WriteLine("TEST07");
@@ -471,67 +429,72 @@ internal static class Program
         Console.WriteLine("    NX  Elements   Nodes   Storage    Assembly      Factor      Error");
         Console.WriteLine("");
 
-        nx = 1;
-        ny = 1;
+        int nx = 1;
+        int ny = 1;
 
         for (test = 1; test <= 6; test++)
         {
             //
             //  Compute the number of unknowns.
             //
-            n = WathenMatrix.wathen_order(nx, ny);
+            int n = WathenMatrix.wathen_order(nx, ny);
             //
             //  Compute the bandwidth.
             //
             WathenMatrix.wathen_bandwidth(nx, ny, ref ml, ref md, ref mu);
-            storage_gb = (2 * ml + mu + 1) * n;
+            int 
+            
+            
+            
+                storage_gb = (2 * ml + mu + 1) * n;
             //
             //  Set up a random solution X1.
             //
-            seed = 123456789;
-            x1 = UniformRNG.r8vec_uniform_01_new(n, ref seed);
+            int seed = 123456789;
+            double[] x1 = UniformRNG.r8vec_uniform_01_new(n, ref seed);
             //
             //  Compute the matrix.
             //
             seed = 123456789;
-            t0 = DateTime.Now;
-            a = WathenMatrix.wathen_gb(nx, ny, n, ref seed);
-            t1 = DateTime.Now - t0;
+            DateTime t0 = DateTime.Now;
+            double[] a = WathenMatrix.wathen_gb(nx, ny, n, ref seed);
+            TimeSpan t1 = DateTime.Now - t0;
             //
             //  Compute the corresponding right hand side B.
             //
-            b = MatbyVector.mv_gb(n, n, ml, mu, a, x1);
+            double[] b = MatbyVector.mv_gb(n, n, ml, mu, a, x1);
             //
             //  Solve the system.
             //
-            lda = 2 * ml + mu + 1;
-            ipvt = new int[n];
-            x2 = new double[n];
+            int lda = 2 * ml + mu + 1;
+            int[] ipvt = new int[n];
+            double[] x2 = new double[n];
+            int i;
             for (i = 0; i < n; i++)
             {
                 x2[i] = b[i];
             }
 
-            job = 0;
+            int job = 0;
 
             t0 = DateTime.Now;
             Matrix.dgbfa(ref a, lda, n, ml, mu, ref ipvt);
             Matrix.dgbsl(a, lda, n, ml, mu, ipvt, ref x2, job);
-            t2 = DateTime.Now - t0;
+            TimeSpan t2 = DateTime.Now - t0;
             //
             //  Compute the maximum solution error.
             //
-            e = typeMethods.r8vec_diff_norm_li(n, x1, x2);
+            double e = typeMethods.r8vec_diff_norm_li(n, x1, x2);
             //
             //  Report.
             //
-            Console.WriteLine(nx.ToString().PadLeft(6) + "      "
-                                                       + (nx * ny).ToString().PadLeft(4) + "  "
-                                                       + n.ToString().PadLeft(6) + "  "
-                                                       + storage_gb.ToString().PadLeft(8) + "  "
-                                                       + t1.TotalSeconds.ToString().PadLeft(10) + "  "
-                                                       + t2.TotalSeconds.ToString().PadLeft(10) + "  "
-                                                       + e.ToString().PadLeft(10) + "");
+            Console.WriteLine(nx.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "      "
+                                                       + (nx * ny).ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                       + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                       + storage_gb.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                                                       + t1.TotalSeconds.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                                                       + t2.TotalSeconds.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                                                       + e.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
             //
             //  Ready for next iteration.
             //
@@ -561,28 +524,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] a;
-        double[] b;
-        double e;
-        int i;
-        int[] ipvt;
-        int job;
-        int lda;
         int md = 0;
         int ml = 0;
         int mu = 0;
-        int n;
-        int nx;
-        int ny;
-        int seed;
-        int storage_gb;
-        int storage_ge;
-        DateTime t0;
-        TimeSpan t1;
-        TimeSpan t2;
         int test;
-        double[] x1;
-        double[] x2;
 
         Console.WriteLine("");
         Console.WriteLine("TEST08");
@@ -593,70 +538,72 @@ internal static class Program
         Console.WriteLine("                   NX  Elements   Nodes   Storage    "
                           + "  Assembly      Factor      Error");
 
-        nx = 1;
-        ny = 1;
+        int nx = 1;
+        int ny = 1;
 
         for (test = 1; test <= 6; test++)
         {
             //
             //  Compute the number of unknowns.
             //
-            n = WathenMatrix.wathen_order(nx, ny);
-            storage_ge = n * n;
+            int n = WathenMatrix.wathen_order(nx, ny);
+            int storage_ge = n * n;
             //
             //  Set up a random solution X1.
             //
-            seed = 123456789;
-            x1 = UniformRNG.r8vec_uniform_01_new(n, ref seed);
+            int seed = 123456789;
+            double[] x1 = UniformRNG.r8vec_uniform_01_new(n, ref seed);
             //
             //  Compute the matrix.
             //
             seed = 123456789;
-            t0 = DateTime.Now;
-            a = WathenMatrix.wathen_ge(nx, ny, n, ref seed);
-            t1 = DateTime.Now - t0;
+            DateTime t0 = DateTime.Now;
+            double[] a = WathenMatrix.wathen_ge(nx, ny, n, ref seed);
+            TimeSpan t1 = DateTime.Now - t0;
             //
             //  Compute the corresponding right hand side B.
             //
-            b = MatbyVector.mv_ge(n, n, a, x1);
+            double[] b = MatbyVector.mv_ge(n, n, a, x1);
             //
             //  Solve the system.
             //
-            ipvt = new int[n];
-            x2 = new double[n];
+            int[] ipvt = new int[n];
+            double[] x2 = new double[n];
+            int i;
             for (i = 0; i < n; i++)
             {
                 x2[i] = b[i];
             }
 
-            job = 0;
+            int job = 0;
 
             t0 = DateTime.Now;
             Matrix.dgefa(ref a, n, n, ref ipvt);
             Matrix.dgesl(a, n, n, ipvt, ref x2, job);
-            t2 = DateTime.Now - t0;
+            TimeSpan t2 = DateTime.Now - t0;
             //
             //  Compute the maximum solution error.
             //
-            e = typeMethods.r8vec_diff_norm_li(n, x1, x2);
+            double e = typeMethods.r8vec_diff_norm_li(n, x1, x2);
             //
             //  Report.
             //
             Console.WriteLine("");
             Console.WriteLine("  WATHEN_GE      "
-                              + nx.ToString().PadLeft(6) + "      "
-                              + (nx * ny).ToString().PadLeft(4) + "  "
-                              + n.ToString().PadLeft(6) + "  "
-                              + storage_ge.ToString().PadLeft(8) + "  "
-                              + t1.TotalSeconds.ToString().PadLeft(10) + "  "
-                              + t2.TotalSeconds.ToString().PadLeft(10) + "  "
-                              + e.ToString().PadLeft(10) + "");
+                              + nx.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "      "
+                              + (nx * ny).ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + storage_ge.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + t1.TotalSeconds.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                              + t2.TotalSeconds.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                              + e.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
             //
             //  Compute the bandwidth.
             //
             WathenMatrix.wathen_bandwidth(nx, ny, ref ml, ref md, ref mu);
-            storage_gb = (2 * ml + mu + 1) * n;
+            int 
+                storage_gb = (2 * ml + mu + 1) * n;
             //
             //  Set up a random solution X1.
             //
@@ -676,7 +623,7 @@ internal static class Program
             //
             //  Solve the system.
             //
-            lda = 2 * ml + mu + 1;
+            int lda = 2 * ml + mu + 1;
             ipvt = new int[n];
             x2 = new double[n];
             for (i = 0; i < n; i++)
@@ -698,13 +645,13 @@ internal static class Program
             //  Report.
             //
             Console.WriteLine("  WATHEN_GB      "
-                              + nx.ToString().PadLeft(6) + "      "
-                              + (nx * ny).ToString().PadLeft(4) + "  "
-                              + n.ToString().PadLeft(6) + "  "
-                              + storage_gb.ToString().PadLeft(8) + "  "
-                              + t1.TotalSeconds.ToString().PadLeft(10) + "  "
-                              + t2.TotalSeconds.ToString().PadLeft(10) + "  "
-                              + e.ToString().PadLeft(10) + "");
+                              + nx.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "      "
+                              + (nx * ny).ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                              + n.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + storage_gb.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + t1.TotalSeconds.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                              + t2.TotalSeconds.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                              + e.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
             //
             //  Ready for next iteration.
             //
@@ -734,16 +681,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] a;
-        double[] b;
-        double e;
         int i;
-        int n;
-        int nx;
-        int ny;
-        int seed;
-        double[] x1;
-        double[] x2;
 
         Console.WriteLine("");
         Console.WriteLine("TEST10");
@@ -751,35 +689,35 @@ internal static class Program
         Console.WriteLine("  defined by WATHEN_GE and CG_GE.");
         Console.WriteLine("");
 
-        nx = 1;
-        ny = 1;
+        const int nx = 1;
+        const int ny = 1;
         Console.WriteLine("  Elements in X direction NX = " + nx + "");
         Console.WriteLine("  Elements in Y direction NY = " + ny + "");
         Console.WriteLine("  Number of elements = " + nx * ny + "");
         //
         //  Compute the number of unknowns.
         //
-        n = WathenMatrix.wathen_order(nx, ny);
+        int n = WathenMatrix.wathen_order(nx, ny);
         Console.WriteLine("  Number of nodes N = " + n + "");
         //
         //  Set up a random solution X.
         //
-        seed = 123456789;
-        x1 = UniformRNG.r8vec_uniform_01_new(n, ref seed);
+        int seed = 123456789;
+        double[] x1 = UniformRNG.r8vec_uniform_01_new(n, ref seed);
         //
         //  Compute the matrix.
         //
         seed = 123456789;
-        a = WathenMatrix.wathen_ge(nx, ny, n, ref seed);
+        double[] a = WathenMatrix.wathen_ge(nx, ny, n, ref seed);
         //
         //  Compute the corresponding right hand side B.
         //
 
-        b = MatbyVector.mv_ge(n, n, a, x1);
+        double[] b = MatbyVector.mv_ge(n, n, a, x1);
         //
         //  Solve the linear system.
         //
-        x2 = new double[n];
+        double[] x2 = new double[n];
         for (i = 0; i < n; i++)
         {
             x2[i] = 1.0;
@@ -789,7 +727,7 @@ internal static class Program
         //
         //  Compute the maximum solution error.
         //
-        e = typeMethods.r8vec_diff_norm_li(n, x1, x2);
+        double e = typeMethods.r8vec_diff_norm_li(n, x1, x2);
         Console.WriteLine("  Maximum solution error is " + e + "");
     }
 
@@ -814,19 +752,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] a;
-        double[] b;
-        int[] col;
-        double e;
         int i;
-        int n;
-        int nx;
-        int ny;
-        int nz_num;
-        int[] row;
-        int seed;
-        double[] x1;
-        double[] x2;
 
         Console.WriteLine("");
         Console.WriteLine("TEST11");
@@ -834,41 +760,41 @@ internal static class Program
         Console.WriteLine("  defined by WATHEN_ST and CG_ST.");
         Console.WriteLine("");
 
-        nx = 1;
-        ny = 1;
+        const int nx = 1;
+        const int ny = 1;
         Console.WriteLine("  Elements in X direction NX = " + nx + "");
         Console.WriteLine("  Elements in Y direction NY = " + ny + "");
         Console.WriteLine("  Number of elements = " + nx * ny + "");
         //
         //  Compute the number of unknowns.
         //
-        n = WathenMatrix.wathen_order(nx, ny);
+        int n = WathenMatrix.wathen_order(nx, ny);
         Console.WriteLine("  Number of nodes N = " + n + "");
         //
         //  Set up a random solution X1.
         //
-        seed = 123456789;
-        x1 = UniformRNG.r8vec_uniform_01_new(n, ref seed);
+        int seed = 123456789;
+        double[] x1 = UniformRNG.r8vec_uniform_01_new(n, ref seed);
         //
         //  Compute the matrix size.
         //
-        nz_num = WathenMatrix.wathen_st_size(nx, ny);
+        int nz_num = WathenMatrix.wathen_st_size(nx, ny);
         Console.WriteLine("  Number of nonzeros NZ_NUM = " + nz_num + "");
         //
         //  Compute the matrix.
         //
         seed = 123456789;
-        row = new int[nz_num];
-        col = new int[nz_num];
-        a = WathenMatrix.wathen_st(nx, ny, nz_num, ref seed, ref row, ref col);
+        int[] row = new int[nz_num];
+        int[] col = new int[nz_num];
+        double[] a = WathenMatrix.wathen_st(nx, ny, nz_num, ref seed, ref row, ref col);
         //
         //  Compute the corresponding right hand side B.
         //
-        b = MatbyVector.mv_st(n, n, nz_num, row, col, a, x1);
+        double[] b = MatbyVector.mv_st(n, n, nz_num, row, col, a, x1);
         //
         //  Solve the linear system.
         //
-        x2 = new double[n];
+        double[] x2 = new double[n];
         for (i = 0; i < n; i++)
         {
             x2[i] = 1.0;
@@ -878,7 +804,7 @@ internal static class Program
         //
         //  Compute the maximum solution error.
         //
-        e = typeMethods.r8vec_diff_norm_li(n, x1, x2);
+        double e = typeMethods.r8vec_diff_norm_li(n, x1, x2);
         Console.WriteLine("  Maximum solution error is " + e + "");
     }
 
@@ -903,19 +829,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] a;
-        double[] b;
-        double e;
         int i;
         int md = 0;
         int ml = 0;
         int mu = 0;
-        int n;
-        int nx;
-        int ny;
-        int seed;
-        double[] x1;
-        double[] x2;
 
         Console.WriteLine("");
         Console.WriteLine("TEST115");
@@ -923,15 +840,15 @@ internal static class Program
         Console.WriteLine("  using WATHEN_GB and CG_GB.");
         Console.WriteLine("");
 
-        nx = 4;
-        ny = 4;
+        const int nx = 4;
+        const int ny = 4;
         Console.WriteLine("  Elements in X direction NX = " + nx + "");
         Console.WriteLine("  Elements in Y direction NY = " + ny + "");
         Console.WriteLine("  Number of elements = " + nx * ny + "");
         //
         //  Compute the number of unknowns.
         //
-        n = WathenMatrix.wathen_order(nx, ny);
+        int n = WathenMatrix.wathen_order(nx, ny);
         Console.WriteLine("  Number of nodes N = " + n + "");
         //
         //  Compute the bandwidth.
@@ -942,21 +859,21 @@ internal static class Program
         //
         //  Set up a random solution X1.
         //
-        seed = 123456789;
-        x1 = UniformRNG.r8vec_uniform_01_new(n, ref seed);
+        int seed = 123456789;
+        double[] x1 = UniformRNG.r8vec_uniform_01_new(n, ref seed);
         //
         //  Compute the matrix.
         //
         seed = 123456789;
-        a = WathenMatrix.wathen_gb(nx, ny, n, ref seed);
+        double[] a = WathenMatrix.wathen_gb(nx, ny, n, ref seed);
         //
         //  Compute the corresponding right hand side B.
         //
-        b = MatbyVector.mv_gb(n, n, ml, mu, a, x1);
+        double[] b = MatbyVector.mv_gb(n, n, ml, mu, a, x1);
         //
         //  Solve the linear system.
         //
-        x2 = new double[n];
+        double[] x2 = new double[n];
         for (i = 0; i < n; i++)
         {
             x2[i] = 1.0;
@@ -966,7 +883,7 @@ internal static class Program
         //
         //  Compute the maximum solution error.
         //
-        e = typeMethods.r8vec_diff_norm_li(n, x1, x2);
+        double e = typeMethods.r8vec_diff_norm_li(n, x1, x2);
         Console.WriteLine("  Maximum solution error is " + e + "");
     }
 
@@ -991,42 +908,37 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int i;
         int j;
-        int k;
-        int n;
-        int nx;
-        int ny;
-        double[] xy;
 
         Console.WriteLine("");
         Console.WriteLine("wathen_xy_test");
         Console.WriteLine("  wathen_xy returns the (X,Y) coordinates of nodes in the");
         Console.WriteLine("  Wathen finite element system.");
 
-        nx = 3;
-        ny = 3;
-        n = WathenMatrix.wathen_order(nx, ny);
-        xy = WathenMatrix.wathen_xy(nx, ny, n);
+        const int nx = 3;
+        const int ny = 3;
+        int n = WathenMatrix.wathen_order(nx, ny);
+        double[] xy = WathenMatrix.wathen_xy(nx, ny, n);
 
         Console.WriteLine("");
         Console.WriteLine("   k   i   j         x          y");
         Console.WriteLine("");
 
-        k = 0;
+        int k = 0;
         for (j = 0; j <= 2 * ny; j++)
         {
+            int i;
             switch (j % 2)
             {
                 case 0:
                 {
                     for (i = 0; i <= 2 * ny; i++)
                     {
-                        Console.WriteLine("  " + k.ToString().PadLeft(2)
-                                               + "  " + i.ToString().PadLeft(2)
-                                               + "  " + j.ToString().PadLeft(2)
-                                               + "  " + xy[k].ToString().PadLeft(8)
-                                               + "  " + xy[k + n].ToString().PadLeft(8) + "");
+                        Console.WriteLine("  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                               + "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                               + "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                               + "  " + xy[k].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                               + "  " + xy[k + n].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
                         k += 1;
                     }
 
@@ -1036,11 +948,11 @@ internal static class Program
                 {
                     for (i = 0; i <= ny; i++)
                     {
-                        Console.WriteLine("  " + k.ToString().PadLeft(2)
-                                               + "  " + i.ToString().PadLeft(2)
-                                               + "  " + j.ToString().PadLeft(2)
-                                               + "  " + xy[k].ToString().PadLeft(8)
-                                               + "  " + xy[k + n].ToString().PadLeft(8) + "");
+                        Console.WriteLine("  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                               + "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                               + "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                               + "  " + xy[k].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                               + "  " + xy[k + n].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
                         k += 1;
                     }
 

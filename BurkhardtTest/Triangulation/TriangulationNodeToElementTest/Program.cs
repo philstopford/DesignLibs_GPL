@@ -50,25 +50,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int dim_num;
-        string element_filename;
-        int[] element_node;
-        int element_num;
-        int element_order;
-        double[] element_value;
-        string element_value_filename;
         int i;
         int j;
         int k;
-        int ni;
-        string node_filename;
-        int node_num;
-        double[] node_xy;
         string prefix;
-        int value_dim;
-        string value_filename;
-        int value_num;
-        double[] value;
 
         Console.WriteLine("TRIANGULATION_NODE_TO_ELEMENT");
         Console.WriteLine("  Average nodal data to create element data.");
@@ -97,23 +82,23 @@ internal static class Program
         //
         //  Create the filenames.
         //
-        node_filename = prefix + "_nodes.txt";
-        element_filename = prefix + "_elements.txt";
-        element_value_filename = prefix + "element_values.txt";
-        value_filename = prefix + "_values.txt";
+        string node_filename = prefix + "_nodes.txt";
+        string element_filename = prefix + "_elements.txt";
+        string element_value_filename = prefix + "element_values.txt";
+        string value_filename = prefix + "_values.txt";
         //
         //  Read the node data.
         //
         TableHeader h = typeMethods.r8mat_header_read(node_filename);
-        dim_num = h.m;
-        node_num = h.n;
+        int dim_num = h.m;
+        int node_num = h.n;
         Console.WriteLine("");
         Console.WriteLine("  Read the header of \"" + node_filename + "\".");
         Console.WriteLine("");
         Console.WriteLine("  Spatial dimension DIM_NUM = " + dim_num + "");
         Console.WriteLine("  Number of nodes NODE_NUM  = " + node_num + "");
 
-        node_xy = typeMethods.r8mat_data_read(node_filename, dim_num, node_num);
+        double[] node_xy = typeMethods.r8mat_data_read(node_filename, dim_num, node_num);
 
         Console.WriteLine("");
         Console.WriteLine("  Read the data in \"" + node_filename + "\".");
@@ -124,8 +109,8 @@ internal static class Program
         //  Read the element data.
         //
         h = typeMethods.i4mat_header_read(element_filename);
-        element_order = h.m;
-        element_num = h.n;
+        int element_order = h.m;
+        int element_num = h.n;
 
         Console.WriteLine("");
         Console.WriteLine(" Read the header of \"" + element_filename + "\".");
@@ -133,7 +118,7 @@ internal static class Program
         Console.WriteLine("  Element order ELEMENT_ORDER = " + element_order + "");
         Console.WriteLine("  Number of elements ELEMENT_NUM  = " + element_num + "");
 
-        element_node = typeMethods.i4mat_data_read(element_filename,
+        int[] element_node = typeMethods.i4mat_data_read(element_filename,
             element_order, element_num);
 
         Console.WriteLine("");
@@ -145,8 +130,8 @@ internal static class Program
         //  Read the node value data.
         //
         h = typeMethods.r8mat_header_read(value_filename);
-        value_dim = h.m;
-        value_num = h.n;
+        int value_dim = h.m;
+        int value_num = h.n;
 
         Console.WriteLine("");
         Console.WriteLine("  Read the header of \"" + value_filename + "\".");
@@ -154,7 +139,7 @@ internal static class Program
         Console.WriteLine("  Number of values per node VALUE_DIM = " + value_dim + "");
         Console.WriteLine("  Number of values VALUE_NUM  = " + value_num + "");
 
-        value = typeMethods.r8mat_data_read(value_filename, value_dim, value_num);
+        double[] value = typeMethods.r8mat_data_read(value_filename, value_dim, value_num);
 
         Console.WriteLine("");
         Console.WriteLine("  Read the data in \"" + value_filename + "\".");
@@ -168,7 +153,7 @@ internal static class Program
         //
         //  Create the element values data.
         //
-        element_value = new double[value_dim * element_num];
+        double[] element_value = new double[value_dim * element_num];
 
         for (j = 0; j < element_num; j++)
         {
@@ -182,7 +167,7 @@ internal static class Program
         {
             for (i = 0; i < element_order; i++)
             {
-                ni = element_node[i + j * element_order];
+                int ni = element_node[i + j * element_order];
                 for (k = 0; k < value_dim; k++)
                 {
                     element_value[k + j * value_dim] += value[k + ni * value_dim];

@@ -81,33 +81,11 @@ internal static class Program
 
     private static void testp15(string[] args)
     {
-        double[] coord;
-        int dim_num;
-        string element_filename;
-        string element_mask_filename;
         int i;
         int input_node;
-        bool[] input_node_mask;
-        int input_node_num;
-        double[] input_node_xy;
-        int[] input_to_output_node;
-        bool[] input_triangle_mask;
-        int[] input_triangle_node;
-        int input_triangle_num;
-        bool mask;
-        int node;
-        string node_filename;
-        string node_mask_filename;
-        int[] nodes;
         int order;
-        int output_node;
-        int output_node_num;
-        double[] output_node_xy;
-        int[] output_triangle_node;
-        int output_triangle_num;
         string prefix;
         int triangle;
-        int triangle_order;
 
         Console.WriteLine("");
         Console.WriteLine("TRIANGULATION_MASK");
@@ -142,16 +120,16 @@ internal static class Program
         //
         //  Create the filenames.
         //
-        node_filename = prefix + "_nodes.txt";
-        element_filename = prefix + "_elements.txt";
-        node_mask_filename = prefix + "_mask_nodes.txt";
-        element_mask_filename = prefix + "_mask_elements.txt";
+        string node_filename = prefix + "_nodes.txt";
+        string element_filename = prefix + "_elements.txt";
+        string node_mask_filename = prefix + "_mask_nodes.txt";
+        string element_mask_filename = prefix + "_mask_elements.txt";
         //
         //  Read the node data.
         //
         TableHeader h = typeMethods.r8mat_header_read(node_filename);
-        dim_num = h.m;
-        input_node_num = h.n;
+        int dim_num = h.m;
+        int input_node_num = h.n;
 
         Console.WriteLine("");
         Console.WriteLine("  Read the header of \"" + node_filename + "\".");
@@ -159,7 +137,7 @@ internal static class Program
         Console.WriteLine("  Spatial dimension DIM_NUM = " + dim_num + "");
         Console.WriteLine("  Number of nodes NODE_NUM =  " + input_node_num + "");
 
-        input_node_xy = typeMethods.r8mat_data_read(node_filename, dim_num,
+        double[] input_node_xy = typeMethods.r8mat_data_read(node_filename, dim_num,
             input_node_num);
 
         Console.WriteLine("");
@@ -171,8 +149,8 @@ internal static class Program
         //  Read the node data.
         //
         h = typeMethods.i4mat_header_read(element_filename);
-        triangle_order = h.m;
-        input_triangle_num = h.n;
+        int triangle_order = h.m;
+        int input_triangle_num = h.n;
 
         if (triangle_order != 3 && triangle_order != 6)
         {
@@ -189,7 +167,7 @@ internal static class Program
         Console.WriteLine("  Number of triangles TRIANGLE_NUM = "
                           + input_triangle_num + "");
 
-        input_triangle_node = typeMethods.i4mat_data_read(element_filename,
+        int[] input_triangle_node = typeMethods.i4mat_data_read(element_filename,
             triangle_order, input_triangle_num);
 
         Console.WriteLine("");
@@ -206,11 +184,11 @@ internal static class Program
         //
         //  Mask the triangles.
         //
-        coord = new double[dim_num * triangle_order];
-        input_triangle_mask = new bool[input_triangle_num];
-        nodes = new int[triangle_order];
+        double[] coord = new double[dim_num * triangle_order];
+        bool[] input_triangle_mask = new bool[input_triangle_num];
+        int[] nodes = new int[triangle_order];
 
-        output_triangle_num = 0;
+        int output_triangle_num = 0;
 
         for (triangle = 0; triangle < input_triangle_num; triangle++)
         {
@@ -227,7 +205,7 @@ internal static class Program
                 }
             }
 
-            mask = P15.triangle_mask(dim_num, triangle_order, nodes, coord);
+            bool mask = P15.triangle_mask(dim_num, triangle_order, nodes, coord);
 
             input_triangle_mask[triangle] = mask;
 
@@ -250,7 +228,7 @@ internal static class Program
         //
         //  Determine which nodes are being used.
         //
-        input_node_mask = new bool[input_node_num];
+        bool[] input_node_mask = new bool[input_node_num];
 
         for (input_node = 0; input_node < input_node_num; input_node++)
         {
@@ -265,7 +243,7 @@ internal static class Program
                 {
                     for (order = 0; order < triangle_order; order++)
                     {
-                        node = input_triangle_node[order + triangle * triangle_order];
+                        int node = input_triangle_node[order + triangle * triangle_order];
                         input_node_mask[node - 1] = false;
                     }
 
@@ -282,14 +260,14 @@ internal static class Program
                 break;
         }
 
-        input_to_output_node = new int[input_node_num];
+        int[] input_to_output_node = new int[input_node_num];
 
         for (input_node = 0; input_node < input_node_num; input_node++)
         {
             input_to_output_node[input_node] = -1;
         }
 
-        output_node_num = 0;
+        int output_node_num = 0;
         for (input_node = 0; input_node < input_node_num; input_node++)
         {
             switch (input_node_mask[input_node])
@@ -304,7 +282,7 @@ internal static class Program
         //
         //  Write the unmasked triangles.
         //
-        output_triangle_node = new int[triangle_order * output_triangle_num];
+        int[] output_triangle_node = new int[triangle_order * output_triangle_num];
 
         output_triangle_num = 0;
 
@@ -336,7 +314,7 @@ internal static class Program
         //
         //  Write the unmasked nodes.
         //
-        output_node_xy = new double[dim_num * output_node_num];
+        double[] output_node_xy = new double[dim_num * output_node_num];
 
         for (input_node = 0; input_node < input_node_num; input_node++)
         {
@@ -344,7 +322,7 @@ internal static class Program
             {
                 case false:
                 {
-                    output_node = input_to_output_node[input_node];
+                    int output_node = input_to_output_node[input_node];
                     for (i = 0; i < dim_num; i++)
                     {
                         output_node_xy[i + (output_node - 1) * dim_num] =
@@ -391,33 +369,11 @@ internal static class Program
 
     private static void testsmall(string[] args)
     {
-        double[] coord;
-        int dim_num;
-        string element_filename;
-        string element_mask_filename;
         int i;
         int input_node;
-        bool[] input_node_mask;
-        int input_node_num;
-        double[] input_node_xy;
-        int[] input_to_output_node;
-        bool[] input_triangle_mask;
-        int[] input_triangle_node;
-        int input_triangle_num;
-        bool mask;
-        int node;
-        string node_filename;
-        string node_mask_filename;
-        int[] nodes;
         int order;
-        int output_node;
-        int output_node_num;
-        double[] output_node_xy;
-        int[] output_triangle_node;
-        int output_triangle_num;
         string prefix;
         int triangle;
-        int triangle_order;
 
         Console.WriteLine("");
         Console.WriteLine("TRIANGULATION_MASK");
@@ -452,16 +408,16 @@ internal static class Program
         //
         //  Create the filenames.
         //
-        node_filename = prefix + "_nodes.txt";
-        element_filename = prefix + "_elements.txt";
-        node_mask_filename = prefix + "_mask_nodes.txt";
-        element_mask_filename = prefix + "_mask_elements.txt";
+        string node_filename = prefix + "_nodes.txt";
+        string element_filename = prefix + "_elements.txt";
+        string node_mask_filename = prefix + "_mask_nodes.txt";
+        string element_mask_filename = prefix + "_mask_elements.txt";
         //
         //  Read the node data.
         //
         TableHeader h = typeMethods.r8mat_header_read(node_filename);
-        dim_num = h.m;
-        input_node_num = h.n;
+        int dim_num = h.m;
+        int input_node_num = h.n;
 
         Console.WriteLine("");
         Console.WriteLine("  Read the header of \"" + node_filename + "\".");
@@ -469,7 +425,7 @@ internal static class Program
         Console.WriteLine("  Spatial dimension DIM_NUM = " + dim_num + "");
         Console.WriteLine("  Number of nodes NODE_NUM =  " + input_node_num + "");
 
-        input_node_xy = typeMethods.r8mat_data_read(node_filename, dim_num,
+        double[] input_node_xy = typeMethods.r8mat_data_read(node_filename, dim_num,
             input_node_num);
 
         Console.WriteLine("");
@@ -481,8 +437,8 @@ internal static class Program
         //  Read the node data.
         //
         h = typeMethods.i4mat_header_read(element_filename);
-        triangle_order = h.m;
-        input_triangle_num = h.n;
+        int triangle_order = h.m;
+        int input_triangle_num = h.n;
 
         if (triangle_order != 3 && triangle_order != 6)
         {
@@ -499,7 +455,7 @@ internal static class Program
         Console.WriteLine("  Number of triangles TRIANGLE_NUM = "
                           + input_triangle_num + "");
 
-        input_triangle_node = typeMethods.i4mat_data_read(element_filename,
+        int[] input_triangle_node = typeMethods.i4mat_data_read(element_filename,
             triangle_order, input_triangle_num);
 
         Console.WriteLine("");
@@ -516,11 +472,11 @@ internal static class Program
         //
         //  Mask the triangles.
         //
-        coord = new double[dim_num * triangle_order];
-        input_triangle_mask = new bool[input_triangle_num];
-        nodes = new int[triangle_order];
+        double[] coord = new double[dim_num * triangle_order];
+        bool[] input_triangle_mask = new bool[input_triangle_num];
+        int[] nodes = new int[triangle_order];
 
-        output_triangle_num = 0;
+        int output_triangle_num = 0;
 
         for (triangle = 0; triangle < input_triangle_num; triangle++)
         {
@@ -537,7 +493,7 @@ internal static class Program
                 }
             }
 
-            mask = Small.triangle_mask(dim_num, triangle_order, nodes, coord);
+            bool mask = Small.triangle_mask(dim_num, triangle_order, nodes, coord);
 
             input_triangle_mask[triangle] = mask;
 
@@ -560,7 +516,7 @@ internal static class Program
         //
         //  Determine which nodes are being used.
         //
-        input_node_mask = new bool[input_node_num];
+        bool[] input_node_mask = new bool[input_node_num];
 
         for (input_node = 0; input_node < input_node_num; input_node++)
         {
@@ -575,7 +531,7 @@ internal static class Program
                 {
                     for (order = 0; order < triangle_order; order++)
                     {
-                        node = input_triangle_node[order + triangle * triangle_order];
+                        int node = input_triangle_node[order + triangle * triangle_order];
                         input_node_mask[node - 1] = false;
                     }
 
@@ -592,14 +548,14 @@ internal static class Program
                 break;
         }
 
-        input_to_output_node = new int[input_node_num];
+        int[] input_to_output_node = new int[input_node_num];
 
         for (input_node = 0; input_node < input_node_num; input_node++)
         {
             input_to_output_node[input_node] = -1;
         }
 
-        output_node_num = 0;
+        int output_node_num = 0;
         for (input_node = 0; input_node < input_node_num; input_node++)
         {
             switch (input_node_mask[input_node])
@@ -614,7 +570,7 @@ internal static class Program
         //
         //  Write the unmasked triangles.
         //
-        output_triangle_node = new int[triangle_order * output_triangle_num];
+        int[] output_triangle_node = new int[triangle_order * output_triangle_num];
 
         output_triangle_num = 0;
 
@@ -646,7 +602,7 @@ internal static class Program
         //
         //  Write the unmasked nodes.
         //
-        output_node_xy = new double[dim_num * output_node_num];
+        double[] output_node_xy = new double[dim_num * output_node_num];
 
         for (input_node = 0; input_node < input_node_num; input_node++)
         {
@@ -654,7 +610,7 @@ internal static class Program
             {
                 case false:
                 {
-                    output_node = input_to_output_node[input_node];
+                    int output_node = input_to_output_node[input_node];
                     for (i = 0; i < dim_num; i++)
                     {
                         output_node_xy[i + (output_node - 1) * dim_num] =

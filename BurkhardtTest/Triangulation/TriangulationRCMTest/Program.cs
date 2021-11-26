@@ -63,24 +63,8 @@ internal static class Program
         int[] adj = null;
         int adj_num = 0;
         int[] adj_row = null;
-        int bandwidth;
-        int dim_num;
-        int i;
-        string node_filename;
-        string element_filename;
         int j;
-        int node;
-        int node_num;
-        double[] node_xy = null;
-        string node_rcm_filename;
-        string element_rcm_filename;
-        int[] perm;
-        int[] perm_inv;
         string prefix;
-        int triangle_num;
-        int triangle_order;
-        int[] triangle_neighbor;
-        int[] triangle_node;
 
         Console.WriteLine("");
 
@@ -114,16 +98,16 @@ internal static class Program
         //
         //  Create the filenames.
         //
-        node_filename = prefix + "_nodes.txt";
-        element_filename = prefix + "_elements.txt";
-        node_rcm_filename = prefix + "_rcm_nodes.txt";
-        element_rcm_filename = prefix + "_rcm_elements.txt";
+        string node_filename = prefix + "_nodes.txt";
+        string element_filename = prefix + "_elements.txt";
+        string node_rcm_filename = prefix + "_rcm_nodes.txt";
+        string element_rcm_filename = prefix + "_rcm_elements.txt";
         //
         //  Read the node data.
         //
         TableHeader h = typeMethods.r8mat_header_read(node_filename);
-        dim_num = h.m;
-        node_num = h.n;
+        int dim_num = h.m;
+        int node_num = h.n;
 
         Console.WriteLine("");
         Console.WriteLine("  Read the header of \"" + node_filename + "\".");
@@ -131,7 +115,7 @@ internal static class Program
         Console.WriteLine("  Spatial dimension DIM_NUM = " + dim_num + "");
         Console.WriteLine("  Number of nodes NODE_NUM =  " + node_num + "");
 
-        node_xy = typeMethods.r8mat_data_read(node_filename, dim_num, node_num);
+        double[] node_xy = typeMethods.r8mat_data_read(node_filename, dim_num, node_num);
 
         Console.WriteLine("");
         Console.WriteLine("  Read the data in \"" + node_filename + "\".");
@@ -142,8 +126,8 @@ internal static class Program
         //  Read the element data.
         //
         h = typeMethods.i4mat_header_read(element_filename);
-        triangle_order = h.m;
-        triangle_num = h.n;
+        int triangle_order = h.m;
+        int triangle_num = h.n;
 
         Console.WriteLine("");
         Console.WriteLine("  Read the header of \"" + element_filename + "\".");
@@ -159,7 +143,7 @@ internal static class Program
             return;
         }
 
-        triangle_node = typeMethods.i4mat_data_read(element_filename,
+        int[] triangle_node = typeMethods.i4mat_data_read(element_filename,
             triangle_order, triangle_num);
 
         Console.WriteLine("");
@@ -174,7 +158,7 @@ internal static class Program
         //
         //  Create the element neighbor array.
         //
-        triangle_neighbor = NeighborElements.triangulation_neighbor_triangles(triangle_order,
+        int[] triangle_neighbor = NeighborElements.triangulation_neighbor_triangles(triangle_order,
             triangle_num, triangle_node);
         switch (triangle_order)
         {
@@ -213,18 +197,18 @@ internal static class Program
                 break;
         }
 
-        bandwidth = AdjacencyMatrix.adj_bandwidth(node_num, adj_num, adj_row, adj);
+        int bandwidth = AdjacencyMatrix.adj_bandwidth(node_num, adj_num, adj_row, adj);
 
         Console.WriteLine("");
         Console.WriteLine("  ADJ bandwidth = " + bandwidth + "");
         //
         //  Compute the RCM permutation.
         //
-        perm = new int[node_num];
+        int[] perm = new int[node_num];
 
         perm = Burkardt.Graph.GenRCM.genrcm(node_num, adj_num, adj_row, adj);
 
-        perm_inv = new int[node_num];
+        int[] perm_inv = new int[node_num];
 
         typeMethods.perm_inverse3(node_num, perm, ref perm_inv);
 
@@ -242,9 +226,10 @@ internal static class Program
         //
         for (j = 0; j < triangle_num; j++)
         {
+            int i;
             for (i = 0; i < triangle_order; i++)
             {
-                node = triangle_node[i + j * triangle_order];
+                int node = triangle_node[i + j * triangle_order];
                 triangle_node[i + j * triangle_order] = perm_inv[node - 1];
             }
         }

@@ -45,10 +45,10 @@ public static partial class TriangulationSampleData
         //    on each side.  Negative values indicate edges that lie on the exterior.
         //
     {
-        int DIM_NUM = 2;
-        int NODE_NUM = 48;
-        int TRIANGLE_NUM = 16;
-        int TRIANGLE_ORDER = 6;
+        const int DIM_NUM = 2;
+        const int NODE_NUM = 48;
+        const int TRIANGLE_NUM = 16;
+        const int TRIANGLE_ORDER = 6;
 
         int i;
         int j;

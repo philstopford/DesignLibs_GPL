@@ -55,24 +55,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double area;
-        int dim_num;
-        int i;
-        int j;
-        int node;
-        string node_filename;
-        int node_num;
-        double[] node_xy;
         string prefix;
         double[] t3 = new double[2 * 3];
         int triangle;
-        string element_filename;
-        int triangle_negative_num;
-        int[] triangle_node;
-        int triangle_num;
-        int triangle_order;
-        string element_orient_filename;
-        int triangle_zero_num;
 
         Console.WriteLine("");
         Console.WriteLine("TRIANGULATION_ORIENT");
@@ -104,22 +89,22 @@ internal static class Program
         //
         //  Create the filenames.
         //
-        node_filename = prefix + "_nodes.txt";
-        element_filename = prefix + "_elements.txt";
-        element_orient_filename = prefix + "_orient_elements.txt";
+        string node_filename = prefix + "_nodes.txt";
+        string element_filename = prefix + "_elements.txt";
+        string element_orient_filename = prefix + "_orient_elements.txt";
         //
         //  Read the node data.
         //
         TableHeader h = typeMethods.r8mat_header_read(node_filename);
-        dim_num = h.m;
-        node_num = h.n;
+        int dim_num = h.m;
+        int node_num = h.n;
         Console.WriteLine("");
         Console.WriteLine("  Read the header of \"" + node_filename + "\".");
         Console.WriteLine("");
         Console.WriteLine("  Spatial dimension DIM_NUM = " + dim_num + "");
         Console.WriteLine("  Number of nodes NODE_NUM  = " + node_num + "");
 
-        node_xy = typeMethods.r8mat_data_read(node_filename, dim_num, node_num);
+        double[] node_xy = typeMethods.r8mat_data_read(node_filename, dim_num, node_num);
 
         Console.WriteLine("");
         Console.WriteLine("  Read the data in \"" + node_filename + "\".");
@@ -130,8 +115,8 @@ internal static class Program
         //  Read the element data.
         //
         h = typeMethods.i4mat_header_read(element_filename);
-        triangle_order = h.m;
-        triangle_num = h.n;
+        int triangle_order = h.m;
+        int triangle_num = h.n;
 
         if (triangle_order != 3 && triangle_order != 6)
         {
@@ -147,7 +132,7 @@ internal static class Program
         Console.WriteLine("  Triangle order TRIANGLE_ORDER = " + triangle_order + "");
         Console.WriteLine("  Number of triangles TRIANGLE_NUM  = " + triangle_num + "");
 
-        triangle_node = typeMethods.i4mat_data_read(element_filename,
+        int[] triangle_node = typeMethods.i4mat_data_read(element_filename,
             triangle_order, triangle_num);
 
         Console.WriteLine("");
@@ -162,11 +147,13 @@ internal static class Program
         //
         //  Compute the area, and reorient if necessary.
         //
-        triangle_negative_num = 0;
-        triangle_zero_num = 0;
+        int triangle_negative_num = 0;
+        int triangle_zero_num = 0;
 
         for (triangle = 0; triangle < triangle_num; triangle++)
         {
+            int j;
+            int i;
             for (j = 0; j < 3; j++)
             {
                 for (i = 0; i < 2; i++)
@@ -175,7 +162,7 @@ internal static class Program
                 }
             }
 
-            area = typeMethods.triangle_area_2d(t3);
+            double area = typeMethods.triangle_area_2d(t3);
 
             switch (area)
             {
@@ -183,7 +170,7 @@ internal static class Program
                 {
                     triangle_negative_num += 1;
 
-                    node = triangle_node[1 + triangle * triangle_order];
+                    int node = triangle_node[1 + triangle * triangle_order];
                     triangle_node[1 + triangle * triangle_order] = triangle_node[2 + triangle * triangle_order];
                     triangle_node[2 + triangle * triangle_order] = node;
 

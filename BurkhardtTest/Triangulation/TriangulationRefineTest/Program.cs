@@ -43,23 +43,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        bool debug = true;
-        int dim_num;
-        int[] edge_data;
-        string element_filename;
-        string element_ref_filename;
-        string node_filename;
-        int node_num1 = 0;
+        const bool debug = true;
         int node_num2 = 0;
-        string node_ref_filename;
-        double[] node_xy1;
-        double[] node_xy2;
         string prefix;
-        int triangle_num1 = 0;
         int triangle_num2 = 0;
-        int triangle_order;
-        int[] triangle_node1;
-        int[] triangle_node2;
 
         Console.WriteLine("");
         Console.WriteLine("TRIANGULATION_REFINE");
@@ -101,16 +88,16 @@ internal static class Program
         //
         //  Create the filenames.
         //
-        node_filename = prefix + "_nodes.txt";
-        element_filename = prefix + "_elements.txt";
-        node_ref_filename = prefix + "_ref_nodes.txt";
-        element_ref_filename = prefix + "_ref_elements.txt";
+        string node_filename = prefix + "_nodes.txt";
+        string element_filename = prefix + "_elements.txt";
+        string node_ref_filename = prefix + "_ref_nodes.txt";
+        string element_ref_filename = prefix + "_ref_elements.txt";
         //
         //  Read the node data.
         //
         TableHeader h = typeMethods.r8mat_header_read(node_filename);
-        dim_num = h.m;
-        node_num1 = h.n;
+        int dim_num = h.m;
+        int node_num1 = h.n;
 
         Console.WriteLine("");
         Console.WriteLine("  Read the header of \"" + node_filename + "\".");
@@ -118,7 +105,7 @@ internal static class Program
         Console.WriteLine("  Spatial dimension DIM_NUM = " + dim_num + "");
         Console.WriteLine("  Number of nodes NODE_NUM1 = " + node_num1 + "");
 
-        node_xy1 = typeMethods.r8mat_data_read(node_filename, dim_num, node_num1);
+        double[] node_xy1 = typeMethods.r8mat_data_read(node_filename, dim_num, node_num1);
 
         Console.WriteLine("");
         Console.WriteLine("  Read the data in \"" + node_filename + "\".");
@@ -129,8 +116,8 @@ internal static class Program
         //  Read the element data.
         //
         h = typeMethods.i4mat_header_read(element_filename);
-        triangle_order = h.m;
-        triangle_num1 = h.n;
+        int triangle_order = h.m;
+        int triangle_num1 = h.n;
 
         if (triangle_order != 3 && triangle_order != 6)
         {
@@ -146,7 +133,7 @@ internal static class Program
         Console.WriteLine("  Triangle order TRIANGLE_ORDER = " + triangle_order + "");
         Console.WriteLine("  Number of triangles TRIANGLE_NUM1  = " + triangle_num1 + "");
 
-        triangle_node1 = typeMethods.i4mat_data_read(element_filename,
+        int[] triangle_node1 = typeMethods.i4mat_data_read(element_filename,
             triangle_order, triangle_num1);
 
         Console.WriteLine("");
@@ -161,7 +148,7 @@ internal static class Program
         //
         //  Determine the size of the refined mesh.
         //
-        edge_data = new int[5 * 3 * triangle_num1];
+        int[] edge_data = new int[5 * 3 * triangle_num1];
 
         switch (triangle_order)
         {
@@ -180,8 +167,8 @@ internal static class Program
         Console.WriteLine("  Number of triangles in refined mesh =  "
                           + triangle_num2 + "");
 
-        node_xy2 = new double[dim_num * node_num2];
-        triangle_node2 = new int[triangle_order * triangle_num2];
+        double[] node_xy2 = new double[dim_num * node_num2];
+        int[] triangle_node2 = new int[triangle_order * triangle_num2];
         switch (triangle_order)
         {
             //

@@ -76,13 +76,13 @@ public static class Small
         double[] centroid = new double[2];
         int dim;
         bool mask;
-        int order;
         //
         //  Compute the centroid.
         //
         for (dim = 0; dim < 2; dim++)
         {
             centroid[dim] = 0.0;
+            int order;
             for (order = 0; order < triangle_order; order++)
             {
                 centroid[dim] += coord[dim + order * dim_num];

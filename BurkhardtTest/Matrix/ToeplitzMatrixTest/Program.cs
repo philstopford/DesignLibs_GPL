@@ -66,10 +66,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-
-        double[] b;
-        double[] l;
-        int n = 3;
+        const int n = 3;
         double[] t =
         {
             1.0, 0.5, -0.375
@@ -83,10 +80,10 @@ internal static class Program
 
         typeMethods.r8vec_print(n, t, "  First row of Toeplitz matrix T:");
 
-        l = ToeplitzMatrix.t_cholesky_lower(n, t);
+        double[] l = ToeplitzMatrix.t_cholesky_lower(n, t);
         typeMethods.r8mat_print(n, n, l, "  Computed lower Cholesky factor L:");
 
-        b = typeMethods.r8mat_mmt_new(n, n, n, l, l);
+        double[] b = typeMethods.r8mat_mmt_new(n, n, n, l, l);
         typeMethods.r8mat_print(n, n, b, "  Product LL':");
 
     }
@@ -112,15 +109,13 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] b;
         double[] g =
         {
             1.0, 0.0,
             0.5, 0.5,
             -0.375, -0.375
         };
-        double[] l;
-        int n = 3;
+        const int n = 3;
 
         Console.WriteLine("");
         Console.WriteLine("TOEP_CHOLESKY_LOWER_TEST");
@@ -130,10 +125,10 @@ internal static class Program
 
         typeMethods.r8mat_print(2, n, g, "  Compressed Toeplitz matrix G:");
 
-        l = ToeplitzMatrix.toep_cholesky_lower(n, g);
+        double[] l = ToeplitzMatrix.toep_cholesky_lower(n, g);
         typeMethods.r8mat_print(n, n, l, "  Computed lower Cholesky factor L:");
 
-        b = typeMethods.r8mat_mmt_new(n, n, n, l, l);
+        double[] b = typeMethods.r8mat_mmt_new(n, n, n, l, l);
         typeMethods.r8mat_print(n, n, b, "  Product LL':");
     }
 
@@ -164,9 +159,7 @@ internal static class Program
             0.5, 1.0, 0.5,
             -0.375, 0.5, 1.0
         };
-        double[] b;
-        double[] l;
-        int n = 3;
+        const int n = 3;
 
         Console.WriteLine("");
         Console.WriteLine("TOEPLITZ_CHOLESKY_LOWER_TEST");
@@ -176,10 +169,10 @@ internal static class Program
 
         typeMethods.r8mat_print(n, n, a, "  Toeplitz matrix A:");
 
-        l = ToeplitzMatrix.toeplitz_cholesky_lower(n, a);
+        double[] l = ToeplitzMatrix.toeplitz_cholesky_lower(n, a);
         typeMethods.r8mat_print(n, n, l, "  Computed lower Cholesky factor L:");
 
-        b = typeMethods.r8mat_mmt_new(n, n, n, l, l);
+        double[] b = typeMethods.r8mat_mmt_new(n, n, n, l, l);
         typeMethods.r8mat_print(n, n, b, "  Product LL':");
 
     }
@@ -205,9 +198,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] b;
-        int n = 3;
-        double[] r;
+        const int n = 3;
         double[] t =
         {
             1.0, 0.5, -0.375
@@ -221,10 +212,10 @@ internal static class Program
 
         typeMethods.r8vec_print(n, t, "  First row of Toeplitz matrix T:");
 
-        r = ToeplitzMatrix.t_cholesky_upper(n, t);
+        double[] r = ToeplitzMatrix.t_cholesky_upper(n, t);
         typeMethods.r8mat_print(n, n, r, "  Computed upper Cholesky factor R:");
 
-        b = typeMethods.r8mat_mtm_new(n, n, n, r, r);
+        double[] b = typeMethods.r8mat_mtm_new(n, n, n, r, r);
         typeMethods.r8mat_print(n, n, b, "  Product R'R:");
     }
 
@@ -249,15 +240,13 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] b;
         double[] g =
         {
             1.0, 0.0,
             0.5, 0.5,
             -0.375, -0.375
         };
-        int n = 3;
-        double[] r;
+        const int n = 3;
 
         Console.WriteLine("");
         Console.WriteLine("TOEP_CHOLESKY_UPPER_TEST");
@@ -267,10 +256,10 @@ internal static class Program
 
         typeMethods.r8mat_print(2, n, g, "  Compressed Toeplitz matrix G:");
 
-        r = ToeplitzMatrix.toep_cholesky_upper(n, g);
+        double[] r = ToeplitzMatrix.toep_cholesky_upper(n, g);
         typeMethods.r8mat_print(n, n, r, "  Computed upper Cholesky factor R:");
 
-        b = typeMethods.r8mat_mtm_new(n, n, n, r, r);
+        double[] b = typeMethods.r8mat_mtm_new(n, n, n, r, r);
         typeMethods.r8mat_print(n, n, b, "  Product R'R:");
     }
 
@@ -301,9 +290,7 @@ internal static class Program
             0.5, 1.0, 0.5,
             -0.375, 0.5, 1.0
         };
-        double[] b;
-        int n = 3;
-        double[] r;
+        const int n = 3;
 
         Console.WriteLine("");
         Console.WriteLine("TOEPLITZ_CHOLESKY_UPPER_TEST");
@@ -313,10 +300,10 @@ internal static class Program
 
         typeMethods.r8mat_print(n, n, a, "  Toeplitz matrix A:");
 
-        r = ToeplitzMatrix.toeplitz_cholesky_upper(n, a);
+        double[] r = ToeplitzMatrix.toeplitz_cholesky_upper(n, a);
         typeMethods.r8mat_print(n, n, r, "  Computed upper Cholesky factor R:");
 
-        b = typeMethods.r8mat_mtm_new(n, n, n, r, r);
+        double[] b = typeMethods.r8mat_mtm_new(n, n, n, r, r);
         typeMethods.r8mat_print(n, n, b, "  Product R'R:");
     }
 }

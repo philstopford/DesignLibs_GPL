@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt;
 using Burkardt.IO;
 using Burkardt.MeasureNS;
@@ -117,11 +118,8 @@ internal static class Program
         double alpha_min = 0;
         int hole_num = 0;
         int node_num = 0;
-        double[] node_xy;
         int triangle_num = 0;
-        int[] triangle_node;
-        int[] triangle_neighbor;
-        int triangle_order = 3;
+        const int triangle_order = 3;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
@@ -134,9 +132,9 @@ internal static class Program
         //
         //  Allocate space.
         //
-        node_xy = new double[2 * node_num];
-        triangle_node = new int [triangle_order * triangle_num];
-        triangle_neighbor = new int[3 * triangle_num];
+        double[] node_xy = new double[2 * node_num];
+        int[] triangle_node = new int [triangle_order * triangle_num];
+        int[] triangle_neighbor = new int[3 * triangle_num];
         //
         //  Get the triangulation data.
         //
@@ -182,11 +180,8 @@ internal static class Program
         double area_std = 0;
         int hole_num = 0;
         int node_num = 0;
-        double[] node_xy;
         int triangle_num = 0;
-        int[] triangle_node;
-        int[] triangle_neighbor;
-        int triangle_order = 3;
+        const int triangle_order = 3;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02");
@@ -199,9 +194,9 @@ internal static class Program
         //
         //  Allocate space.
         //
-        node_xy = new double[2 * node_num];
-        triangle_node = new int [triangle_order * triangle_num];
-        triangle_neighbor = new int[3 * triangle_num];
+        double[] node_xy = new double[2 * node_num];
+        int[] triangle_node = new int [triangle_order * triangle_num];
+        int[] triangle_neighbor = new int[3 * triangle_num];
         //
         //  Get the triangulation data.
         //
@@ -252,9 +247,8 @@ internal static class Program
         double alpha_min_unswapped = 0;
         double[] node_xy = new double[2 * 4];
         int seed = 123456789;
-        bool swap;
         int test;
-        int test_num = 10;
+        const int test_num = 10;
         int[] triangle_node = new int[3 * 2];
 
         Console.WriteLine("");
@@ -276,7 +270,7 @@ internal static class Program
             //
             //  Does it need swapping?
             //
-            swap = Delauney.delaunay_swap_test(node_xy);
+            bool swap = Delauney.delaunay_swap_test(node_xy);
             //
             //  Compute ALPHA_MIN unswapped.
             //
@@ -310,8 +304,8 @@ internal static class Program
             }
 
             Console.WriteLine("     " + swap
-                                      + "  " + alpha_min_unswapped.ToString().PadLeft(10)
-                                      + "  " + alpha_min_swapped.ToString().PadLeft(10) + "");
+                                      + "  " + alpha_min_unswapped.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                      + "  " + alpha_min_swapped.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -346,11 +340,9 @@ internal static class Program
         double alpha_min_unswapped = 0;
         double[] node_xy = new double[2 * 4];
         int seed = 123456789;
-        bool swap;
         int test;
-        int test_num = 10;
+        const int test_num = 10;
         int[] triangle_node = new int[3 * 2];
-        int value;
 
         Console.WriteLine("");
         Console.WriteLine("TEST026");
@@ -371,13 +363,13 @@ internal static class Program
             //
             //  Does it need swapping?
             //
-            value = typeMethods.diaedg(
+            int value = typeMethods.diaedg(
                 node_xy[0 + 0 * 2], node_xy[1 + 0 * 2],
                 node_xy[0 + 1 * 2], node_xy[1 + 1 * 2],
                 node_xy[0 + 2 * 2], node_xy[1 + 2 * 2],
                 node_xy[0 + 3 * 2], node_xy[1 + 3 * 2]);
 
-            swap = value switch
+            bool swap = value switch
             {
                 1 => false,
                 _ => true
@@ -416,8 +408,8 @@ internal static class Program
             }
 
             Console.WriteLine("     " + swap
-                                      + "  " + alpha_min_unswapped.ToString().PadLeft(10)
-                                      + "  " + alpha_min_swapped.ToString().PadLeft(10) + "");
+                                      + "  " + alpha_min_unswapped.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                      + "  " + alpha_min_swapped.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -442,11 +434,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int NODE_NUM = 15;
-        int TEST_NUM = 4;
+        const int DIM_NUM = 2;
+        const int NODE_NUM = 15;
+        const int TEST_NUM = 4;
 
-        int node;
         int[] node_rep = new int[NODE_NUM];
         double[] node_xy =  {
                 0.0, 0.0,
@@ -466,10 +457,7 @@ internal static class Program
                 1.0, 4.5
             }
             ;
-        int rep;
-        int rep_num;
         int test;
-        double tolerance;
         double[] tolerance_test =  {
                 0.01, 0.75, 1.2, 1.5
             }
@@ -484,7 +472,7 @@ internal static class Program
 
         for (test = 0; test < TEST_NUM; test++)
         {
-            tolerance = tolerance_test[test];
+            double tolerance = tolerance_test[test];
 
             Node.node_merge(DIM_NUM, NODE_NUM, node_xy, tolerance, ref node_rep);
 
@@ -494,10 +482,11 @@ internal static class Program
             Console.WriteLine("      Node  Representatives:");
             Console.WriteLine("");
 
+            int node;
             for (node = 0; node < NODE_NUM; node++)
             {
-                Console.WriteLine("  " + node.ToString().PadLeft(8)
-                                       + "  " + node_rep[node].ToString().PadLeft(8) + "");
+                Console.WriteLine("  " + node.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + node_rep[node].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
             }
 
             //
@@ -509,7 +498,7 @@ internal static class Program
 
             typeMethods.i4vec_sort_heap_a(NODE_NUM, ref node_rep);
 
-            rep_num = 0;
+            int rep_num = 0;
 
             for (node = 0; node < NODE_NUM; node++)
             {
@@ -519,11 +508,11 @@ internal static class Program
                         continue;
                 }
 
-                rep = node_rep[node];
+                int rep = node_rep[node];
 
-                Console.WriteLine("  " + rep_num.ToString().PadLeft(8)
-                                       + "  " + node_xy[0 + rep * 2].ToString().PadLeft(12)
-                                       + "  " + node_xy[1 + rep * 2].ToString().PadLeft(12) + "");
+                Console.WriteLine("  " + rep_num.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + node_xy[0 + rep * 2].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                       + "  " + node_xy[1 + rep * 2].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
 
                 rep_num += 1;
             }
@@ -551,15 +540,12 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int NODE_NUM = 15;
-        int TRIANGLE_NUM = 4;
-        int VARIABLE_NUM = 36;
+        const int NODE_NUM = 15;
+        const int TRIANGLE_NUM = 4;
+        const int VARIABLE_NUM = 36;
 
         int[] adj_col = new int[VARIABLE_NUM + 1];
-        int adj_num;
-        int[] adj_row;
-        string file_name = "ns_triangulation.eps";
-        int node_show;
+        const string file_name = "ns_triangulation.eps";
         int[] node_p_variable =  {
                 3, -1, 8, -1, 13,
                 -1, -1, -1, -1,
@@ -602,10 +588,6 @@ internal static class Program
                 4.0, 0.0
             }
             ;
-        int num;
-        int r;
-        int rhi;
-        int rlo;
         int[] triangle_neighbor =  {
                 -1, 2, -1,
                 3, 1, 4,
@@ -620,7 +602,6 @@ internal static class Program
                 10, 15, 12, 13, 14, 11
             }
             ;
-        int triangle_show;
         int variable;
 
         Console.WriteLine("");
@@ -637,8 +618,8 @@ internal static class Program
         //
         //  Plot the example.
         //
-        node_show = 2;
-        triangle_show = 2;
+        int node_show = 2;
+        const int triangle_show = 2;
 
         Plot.triangulation_order6_plot(file_name, NODE_NUM, node_xy,
             TRIANGLE_NUM, triangle_node, node_show, triangle_show);
@@ -650,7 +631,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Number of variables is " + VARIABLE_NUM + "");
 
-        adj_num = NavierStokes.ns_adj_count(NODE_NUM, TRIANGLE_NUM, VARIABLE_NUM, triangle_node,
+        int adj_num = NavierStokes.ns_adj_count(NODE_NUM, TRIANGLE_NUM, VARIABLE_NUM, triangle_node,
             triangle_neighbor, node_u_variable, node_v_variable, node_p_variable);
 
         Console.WriteLine("");
@@ -675,18 +656,18 @@ internal static class Program
 
         for (variable = 0; variable < VARIABLE_NUM; variable++)
         {
-            num = adj_col[variable + 1] - adj_col[variable];
+            int num = adj_col[variable + 1] - adj_col[variable];
 
-            Console.WriteLine("  " + (variable + 1).ToString().PadLeft(8)
-                                   + "  " + adj_col[variable].ToString().PadLeft(8)
-                                   + "  " + (adj_col[variable + 1] - 1).ToString().PadLeft(8)
-                                   + "  " + num.ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + (variable + 1).ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + adj_col[variable].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + (adj_col[variable + 1] - 1).ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + num.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
 
         //
         //  Get the variable adjacencies.
         //
-        adj_row = new int[adj_num];
+        int[] adj_row = new int[adj_num];
 
         NavierStokes.ns_adj_row_set(NODE_NUM, TRIANGLE_NUM, VARIABLE_NUM, triangle_node,
             triangle_neighbor, node_u_variable, node_v_variable, node_p_variable,
@@ -703,18 +684,19 @@ internal static class Program
 
         for (variable = 0; variable < VARIABLE_NUM; variable++)
         {
-            rlo = adj_col[variable] - 1;
-            rhi = adj_col[variable + 1] - 2;
+            int rlo = adj_col[variable] - 1;
+            int rhi = adj_col[variable + 1] - 2;
 
             if (variable <= 2 || VARIABLE_NUM - 4 <= variable)
             {
                 Console.WriteLine("");
 
+                int r;
                 for (r = rlo; r <= rhi; r++)
                 {
-                    Console.WriteLine("  " + (r + 1).ToString().PadLeft(8)
-                                           + "  " + adj_row[r].ToString().PadLeft(8)
-                                           + "  " + (variable + 1).ToString().PadLeft(8) + "");
+                    Console.WriteLine("  " + (r + 1).ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + adj_row[r].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + (variable + 1).ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
                 }
             }
 
@@ -768,11 +750,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int NODE_NUM = 12;
-        int DIM_NUM = 2;
+        const int NODE_NUM = 12;
+        const int DIM_NUM = 2;
 
         int triangle_num = 0;
-        int[] triangle_node;
         double[] node_xy =  {
                 7.0, 3.0,
                 4.0, 7.0,
@@ -796,7 +777,7 @@ internal static class Program
 
         typeMethods.r8mat_transpose_print(DIM_NUM, NODE_NUM, node_xy, "  The nodes:");
 
-        triangle_node = Points.points_delaunay_naive_2d(NODE_NUM, node_xy, ref triangle_num);
+        int[] triangle_node = Points.points_delaunay_naive_2d(NODE_NUM, node_xy, ref triangle_num);
 
         Console.WriteLine("");
         Console.WriteLine("  Number of triangles is TRIANGLE_NUM = " + triangle_num + "");
@@ -843,10 +824,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int NODE_NUM = 12;
-        int DIM_NUM = 2;
+        const int NODE_NUM = 12;
+        const int DIM_NUM = 2;
 
-        int i;
         int j;
         int[] ival = new int[NODE_NUM];
         int nval = 0;
@@ -881,11 +861,12 @@ internal static class Program
         for (j = 0; j < nval; j++)
         {
             string cout = "  "
-                          + j.ToString().PadLeft(3) + "  "
-                          + ival[j].ToString().PadLeft(3) + "  ";
+                          + j.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "  "
+                          + ival[j].ToString(CultureInfo.InvariantCulture).PadLeft(3) + "  ";
+            int i;
             for (i = 0; i < DIM_NUM; i++)
             {
-                cout += "  " + node_xy[i + (ival[j] - 1) * DIM_NUM].ToString().PadLeft(14);
+                cout += "  " + node_xy[i + (ival[j] - 1) * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -920,15 +901,12 @@ internal static class Program
     {
         int hole_num = 0;
         int node_num = 0;
-        double[] node_xy;
         double q_area = 0;
         double q_ave = 0;
         double q_max = 0;
         double q_min = 0;
         int triangle_num = 0;
-        int[] triangle_node;
-        int[] triangle_neighbor;
-        int triangle_order = 3;
+        const int triangle_order = 3;
 
         Console.WriteLine("");
         Console.WriteLine("TEST07");
@@ -941,9 +919,9 @@ internal static class Program
         //
         //  Allocate space.
         //
-        node_xy = new double[2 * node_num];
-        triangle_node = new int [triangle_order * triangle_num];
-        triangle_neighbor = new int[3 * triangle_num];
+        double[] node_xy = new double[2 * node_num];
+        int[] triangle_node = new int [triangle_order * triangle_num];
+        int[] triangle_neighbor = new int[3 * triangle_num];
         //
         //  Get the triangulation data.
         //
@@ -983,9 +961,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int NODE_NUM = 9;
+        const int NODE_NUM = 9;
 
-        int error;
         double[] node_xy =  {
                 0.0, 0.0,
                 0.0, 1.0,
@@ -1009,7 +986,7 @@ internal static class Program
         //
         //  Set up the Delaunay triangulation.
         //
-        error = Delauney.r8tris2(NODE_NUM, ref node_xy, ref triangle_num, ref triangle_node,
+        int error = Delauney.r8tris2(NODE_NUM, ref node_xy, ref triangle_num, ref triangle_node,
             ref triangle_neighbor);
 
         switch (error)
@@ -1052,13 +1029,12 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 10;
+        const int N = 10;
 
         int j;
         double[] phy = new double[2 * N];
         double[] ref_ = new double [2 * N];
         double[] ref2 = new double[2 * N];
-        int seed;
         double[] t =  {
                 1.0, 1.0,
                 3.0, 1.0,
@@ -1066,7 +1042,7 @@ internal static class Program
             }
             ;
 
-        seed = 123456789;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("TEST09");
@@ -1087,14 +1063,14 @@ internal static class Program
 
         for (j = 0; j < N; j++)
         {
-            Console.WriteLine("  " + ref_[0 + j * 2].ToString().PadLeft(10)
-                                   + "  " + ref_[ 1 + j * 2].ToString().PadLeft(10)
+            Console.WriteLine("  " + ref_[0 + j * 2].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + ref_[ 1 + j * 2].ToString(CultureInfo.InvariantCulture).PadLeft(10)
                                    + "  "
-                                   + "  " + phy[0 + j * 2].ToString().PadLeft(10)
-                                   + "  " + phy[1 + j * 2].ToString().PadLeft(10)
+                                   + "  " + phy[0 + j * 2].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + phy[1 + j * 2].ToString(CultureInfo.InvariantCulture).PadLeft(10)
                                    + "  "
-                                   + "  " + ref2[0 + j * 2].ToString().PadLeft(10)
-                                   + "  " + ref2[1 + j * 2].ToString().PadLeft(10) + "");
+                                   + "  " + ref2[0 + j * 2].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + ref2[1 + j * 2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -1119,13 +1095,12 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 10;
+        const int N = 10;
 
         int j;
         double[] phy = new double[2 * N];
         double[] ref_ = new double[2 * N];
         double[] ref2 = new double[2 * N];
-        int seed;
         double[] t =  {
                 7.0, 2.0,
                 9.0, 2.0,
@@ -1136,7 +1111,7 @@ internal static class Program
             }
             ;
 
-        seed = 123456789;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("TEST10");
@@ -1157,14 +1132,14 @@ internal static class Program
 
         for (j = 0; j < N; j++)
         {
-            Console.WriteLine("  " + ref_[0 + j * 2].ToString().PadLeft(10)
-                                   + "  " + ref_[1 + j * 2].ToString().PadLeft(10)
+            Console.WriteLine("  " + ref_[0 + j * 2].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + ref_[1 + j * 2].ToString(CultureInfo.InvariantCulture).PadLeft(10)
                                    + "  "
-                                   + "  " + phy[0 + j * 2].ToString().PadLeft(10)
-                                   + "  " + phy[1 + j * 2].ToString().PadLeft(10)
+                                   + "  " + phy[0 + j * 2].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + phy[1 + j * 2].ToString(CultureInfo.InvariantCulture).PadLeft(10)
                                    + "  "
-                                   + "  " + ref2[0 + j * 2].ToString().PadLeft(10)
-                                   + "  " + ref2[1 + j * 2].ToString().PadLeft(10) + "");
+                                   + "  " + ref2[0 + j * 2].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + ref2[1 + j * 2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -1189,11 +1164,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int NODE_NUM = 36;
-        int TRIANGLE_NUM = 41;
-        int TRIANGLE_ORDER = 3;
+        const int NODE_NUM = 36;
+        const int TRIANGLE_NUM = 41;
+        const int TRIANGLE_ORDER = 3;
 
-        int[] node_order;
         int[] triangle_node =  {
                 1, 8, 7,
                 1, 2, 8,
@@ -1244,7 +1218,7 @@ internal static class Program
         Console.WriteLine("  TRIANGULATION_NODE_ORDER computes the order");
         Console.WriteLine("  of the nodes in a triangulation.");
 
-        node_order = NodeOrder.triangulation_node_order(TRIANGLE_ORDER, TRIANGLE_NUM,
+        int[] node_order = NodeOrder.triangulation_node_order(TRIANGLE_ORDER, TRIANGLE_NUM,
             triangle_node, NODE_NUM);
 
         typeMethods.i4vec_print(NODE_NUM, node_order, "  NODE ORDER:");
@@ -1271,17 +1245,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] adj;
-        int adj_num;
-        int[] adj_col;
         int hole_num = 0;
-        int k;
         int node;
         int node_num = 0;
-        double[] node_xy;
-        int[] triangle_neighbor;
-        int[] triangle_node;
-        int triangle_order = 3;
+        const int triangle_order = 3;
         int triangle_num = 0;
 
         Console.WriteLine("");
@@ -1294,10 +1261,10 @@ internal static class Program
         //
         TriangulationSampleData.triangulation_order3_example1_size(ref node_num, ref triangle_num, ref hole_num);
 
-        adj_col = new int[node_num + 1];
-        node_xy = new double[2 * node_num];
-        triangle_neighbor = new int[3 * triangle_num];
-        triangle_node = new int[triangle_order * triangle_num];
+        int[] adj_col = new int[node_num + 1];
+        double[] node_xy = new double[2 * node_num];
+        int[] triangle_neighbor = new int[3 * triangle_num];
+        int[] triangle_node = new int[triangle_order * triangle_num];
         //
         //  Get the example data.
         //
@@ -1306,7 +1273,7 @@ internal static class Program
         //
         //  Get the count of the adjacencies.
         //
-        adj_num = Adjacency.triangulation_order3_adj_count(node_num, triangle_num,
+        int adj_num = Adjacency.triangulation_order3_adj_count(node_num, triangle_num,
             triangle_node, triangle_neighbor, adj_col);
 
         Console.WriteLine("");
@@ -1317,15 +1284,15 @@ internal static class Program
         Console.WriteLine("");
         for (node = 1; node <= node_num; node++)
         {
-            Console.WriteLine("  " + node.ToString().PadLeft(8)
-                                   + "  " + adj_col[node - 1].ToString().PadLeft(8)
-                                   + "  " + (adj_col[node] - 1).ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + node.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + adj_col[node - 1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + (adj_col[node] - 1).ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
 
         //
         //  Get the adjacencies.
         //
-        adj = Adjacency.triangulation_order3_adj_set(node_num, triangle_num, triangle_node,
+        int[] adj = Adjacency.triangulation_order3_adj_set(node_num, triangle_num, triangle_node,
             triangle_neighbor, adj_num, adj_col);
         //
         //  Print the adjacencies.
@@ -1336,9 +1303,10 @@ internal static class Program
             Console.WriteLine("  Nodes adjacent to node " + node + "");
             Console.WriteLine("");
 
+            int k;
             for (k = adj_col[node - 1]; k <= adj_col[node] - 1; k++)
             {
-                Console.WriteLine("  " + adj[k - 1].ToString().PadLeft(8) + "");
+                Console.WriteLine("  " + adj[k - 1].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
             }
         }
     }
@@ -1365,17 +1333,10 @@ internal static class Program
         //
     {
         int adj;
-        int adj_num = 0;
-        int[] adj_col;
         int hole_num = 0;
-        int[] ia;
-        int[] ja;
         int node;
         int node_num = 0;
-        double[] node_xy;
-        int[] triangle_neighbor;
-        int[] triangle_node;
-        int triangle_order = 3;
+        const int triangle_order = 3;
         int triangle_num = 0;
 
         Console.WriteLine("");
@@ -1389,10 +1350,10 @@ internal static class Program
         //
         TriangulationSampleData.triangulation_order3_example1_size(ref node_num, ref triangle_num, ref hole_num);
 
-        adj_col = new int[node_num + 1];
-        node_xy = new double[2 * node_num];
-        triangle_neighbor = new int[3 * triangle_num];
-        triangle_node = new int[triangle_order * triangle_num];
+        int[] adj_col = new int[node_num + 1];
+        double[] node_xy = new double[2 * node_num];
+        int[] triangle_neighbor = new int[3 * triangle_num];
+        int[] triangle_node = new int[triangle_order * triangle_num];
         //
         //  Get the example data.
         //
@@ -1401,7 +1362,7 @@ internal static class Program
         //
         //  Get the count of the adjacencies.
         //
-        adj_num = Adjacency.triangulation_order3_adj_count(node_num, triangle_num,
+        int adj_num = Adjacency.triangulation_order3_adj_count(node_num, triangle_num,
             triangle_node, triangle_neighbor, adj_col);
 
         Console.WriteLine("");
@@ -1412,16 +1373,16 @@ internal static class Program
         Console.WriteLine("");
         for (node = 1; node <= node_num; node++)
         {
-            Console.WriteLine("  " + node.ToString().PadLeft(8)
-                                   + "  " + adj_col[node - 1].ToString().PadLeft(8)
-                                   + "  " + (adj_col[node] - 1).ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + node.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + adj_col[node - 1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + (adj_col[node] - 1).ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
 
         //
         //  Get the adjacencies.
         //
-        ia = new int[adj_num];
-        ja = new int[adj_num];
+        int[] ia = new int[adj_num];
+        int[] ja = new int[adj_num];
 
         Adjacency.triangulation_order3_adj_set2(node_num, triangle_num, triangle_node,
             triangle_neighbor, adj_num, adj_col, ia, ja);
@@ -1433,9 +1394,9 @@ internal static class Program
         Console.WriteLine("");
         for (adj = 0; adj < adj_num; adj++)
         {
-            Console.WriteLine("  " + (adj + 1).ToString().PadLeft(8)
-                                   + "  (" + ia[adj].ToString().PadLeft(2)
-                                   + "," + ja[adj].ToString().PadLeft(2) + ")");
+            Console.WriteLine("  " + (adj + 1).ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  (" + ia[adj].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "," + ja[adj].ToString(CultureInfo.InvariantCulture).PadLeft(2) + ")");
         }
     }
 
@@ -1478,10 +1439,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int ELEMENT_NUM = 46;
-        int NODE_NUM = 48;
+        const int ELEMENT_NUM = 46;
+        const int NODE_NUM = 48;
 
-        int[] adj;
         int[] element_node =  {
                 1, 2, 9,
                 2, 10, 9,
@@ -1531,10 +1491,8 @@ internal static class Program
                 40, 48, 47
             }
             ;
-        int element_num = ELEMENT_NUM;
         int i;
         int j;
-        int node_num = NODE_NUM;
 
         Console.WriteLine("");
         Console.WriteLine("TEST127");
@@ -1542,7 +1500,7 @@ internal static class Program
         Console.WriteLine("  TRIANGULATION_ORDER3_ADJACENCY sets the full");
         Console.WriteLine("  adjacency matrix.");
 
-        for (j = 0; j < element_num; j++)
+        for (j = 0; j < ELEMENT_NUM; j++)
         {
             for (i = 0; i < 3; i++)
             {
@@ -1550,7 +1508,7 @@ internal static class Program
             }
         }
 
-        adj = Adjacency.triangulation_order3_adjacency(node_num, element_num, element_node);
+        int[] adj = Adjacency.triangulation_order3_adjacency(NODE_NUM, ELEMENT_NUM, element_node);
 
         Console.WriteLine("");
         Console.WriteLine("  Adjacency matrix:");
@@ -1558,12 +1516,12 @@ internal static class Program
         Console.WriteLine("                1         2         3         4       ");
         Console.WriteLine("      012345678901234567890123456789012345678901234567");
         Console.WriteLine("");
-        for (i = 0; i < node_num; i++)
+        for (i = 0; i < NODE_NUM; i++)
         {
-            string cout = "  " + i.ToString().PadLeft(2) + "  ";
-            for (j = 0; j < node_num; j++)
+            string cout = "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  ";
+            for (j = 0; j < NODE_NUM; j++)
             {
-                cout += adj[i + j * node_num];
+                cout += adj[i + j * NODE_NUM];
             }
 
             Console.WriteLine(cout);
@@ -1591,12 +1549,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int NODE_NUM = 36;
-        int TRIANGLE_NUM = 41;
+        const int NODE_NUM = 36;
+        const int TRIANGLE_NUM = 41;
 
-        int boundary_edge_num;
-        string file_name = "triangulation_order3_plot2.eps";
-        int node_show = 2;
+        const string file_name = "triangulation_order3_plot2.eps";
+        const int node_show = 2;
         double[] node_xy =  {
                 0.0, 0.0,
                 1.0, 0.0,
@@ -1680,7 +1637,7 @@ internal static class Program
                 31, 32, 36
             }
             ;
-        int triangle_show = 2;
+        const int triangle_show = 2;
 
         Console.WriteLine("");
         Console.WriteLine("TEST13");
@@ -1696,7 +1653,7 @@ internal static class Program
         Console.WriteLine("  An Encapsulated PostScript image of this");
         Console.WriteLine("  triangulation is in \"" + file_name + "\".");
 
-        boundary_edge_num = Boundary.triangulation_order3_boundary_edge_count(
+        int boundary_edge_num = Boundary.triangulation_order3_boundary_edge_count(
             TRIANGLE_NUM, triangle_node);
 
         Console.WriteLine("");
@@ -1725,10 +1682,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int boundary_num;
-        int hole_num = 2;
-        int node_num = 36;
-        int triangle_num = 41;
+        const int hole_num = 2;
+        const int node_num = 36;
+        const int triangle_num = 41;
 
         Console.WriteLine("");
         Console.WriteLine("TEST14");
@@ -1741,7 +1697,7 @@ internal static class Program
         Console.WriteLine("  Number of triangles =      " + triangle_num + "");
         Console.WriteLine("  Number of holes =          " + hole_num + "");
 
-        boundary_num = Boundary.triangulation_order3_boundary_edge_count_euler(node_num,
+        int boundary_num = Boundary.triangulation_order3_boundary_edge_count_euler(node_num,
             triangle_num, hole_num);
 
         Console.WriteLine("  Number of boundary edges = " + boundary_num + "");
@@ -1768,10 +1724,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int NODE_NUM = 36;
-        int TRIANGLE_NUM = 41;
+        const int NODE_NUM = 36;
+        const int TRIANGLE_NUM = 41;
 
-        bool[] node_boundary;
         int[] triangle_node =  {
                 1, 8, 7,
                 1, 2, 8,
@@ -1823,7 +1778,7 @@ internal static class Program
         Console.WriteLine("  TRIANGULATION_ORDER3_BOUNDARY_NODE determines which");
         Console.WriteLine("  nodes lie on the boundary of a triangulation.");
 
-        node_boundary = Boundary.triangulation_order3_boundary_node(NODE_NUM, TRIANGLE_NUM,
+        bool[] node_boundary = Boundary.triangulation_order3_boundary_node(NODE_NUM, TRIANGLE_NUM,
             triangle_node);
 
         typeMethods.lvec_print(NODE_NUM, node_boundary, "    Node  BN?");
@@ -1850,14 +1805,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int NODE_NUM = 13;
-        int TRIANGLE_NUM = 16;
-        int TRIANGLE_ORDER = 3;
+        const int NODE_NUM = 13;
+        const int TRIANGLE_NUM = 16;
+        const int TRIANGLE_ORDER = 3;
 
-        int ierror;
-        int isave;
-        int node_num2;
-        int triangle_num2;
         int[] triangle_node =  {
                 3, 4, 1,
                 3, 1, 2,
@@ -1888,13 +1839,13 @@ internal static class Program
         //
         //  Pass all tests.
         //
-        ierror = Check.triangulation_order3_check(NODE_NUM, TRIANGLE_NUM, triangle_node);
+        int ierror = Check.triangulation_order3_check(NODE_NUM, TRIANGLE_NUM, triangle_node);
 
         Console.WriteLine("  Error code = " + ierror + "");
         //
         //  Fail test 1.
         //
-        node_num2 = 2;
+        int node_num2 = 2;
 
         ierror = Check.triangulation_order3_check(node_num2, TRIANGLE_NUM,
             triangle_node);
@@ -1903,7 +1854,7 @@ internal static class Program
         //
         //  Fail test 2.
         //
-        triangle_num2 = 0;
+        int triangle_num2 = 0;
 
         ierror = Check.triangulation_order3_check(NODE_NUM, triangle_num2,
             triangle_node);
@@ -1912,7 +1863,7 @@ internal static class Program
         //
         //  Fail test 3.
         //
-        isave = triangle_node[1 + 4 * 3];
+        int isave = triangle_node[1 + 4 * 3];
         triangle_node[1 + 4 * 3] = 0;
 
         ierror = Check.triangulation_order3_check(NODE_NUM, TRIANGLE_NUM, triangle_node);
@@ -1991,10 +1942,7 @@ internal static class Program
     {
         int hole_num = 0;
         int node_num = 0;
-        double[] node_xy;
-        int[] triangle_node;
-        int[] triangle_neighbor;
-        int triangle_order = 3;
+        const int triangle_order = 3;
         int triangle_num = 0;
 
         Console.WriteLine("");
@@ -2010,9 +1958,9 @@ internal static class Program
         //
         TriangulationSampleData.triangulation_order3_example1_size(ref node_num, ref triangle_num, ref hole_num);
 
-        node_xy = new double[2 * node_num];
-        triangle_node = new int[triangle_order * triangle_num];
-        triangle_neighbor = new int[3 * triangle_num];
+        double[] node_xy = new double[2 * node_num];
+        int[] triangle_node = new int[triangle_order * triangle_num];
+        int[] triangle_neighbor = new int[3 * triangle_num];
         //
         //  Get the data.
         //
@@ -2044,9 +1992,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int TRIANGLE_NUM = 16;
+        const int TRIANGLE_NUM = 16;
 
-        int s1;
         int s2 = 0;
         int t1;
         int t2 = 0;
@@ -2081,15 +2028,16 @@ internal static class Program
 
         for (t1 = 1; t1 <= TRIANGLE_NUM; t1++)
         {
+            int s1;
             for (s1 = 1; s1 <= 3; s1++)
             {
                 Neighbor.triangulation_order3_neighbor(TRIANGLE_NUM, ref triangle_node,
                     t1, s1, ref t2, ref s2);
 
-                Console.WriteLine("  " + t1.ToString().PadLeft(4)
-                                       + "  " + s1.ToString().PadLeft(4)
-                                       + "  " + t2.ToString().PadLeft(4)
-                                       + "  " + s2.ToString().PadLeft(4) + "");
+                Console.WriteLine("  " + t1.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + s1.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + t2.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + s2.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "");
             }
         }
     }
@@ -2137,7 +2085,6 @@ internal static class Program
                 10, 6, 11
             }
             ;
-        int[] triangle_neighbor;
 
         Console.WriteLine("");
         Console.WriteLine("TEST19");
@@ -2147,7 +2094,7 @@ internal static class Program
         typeMethods.i4mat_transpose_print(TRIANGLE_ORDER, TRIANGLE_NUM, triangle_node,
             "  Elements:");
 
-        triangle_neighbor = NeighborElements.triangulation_neighbor_elements(TRIANGLE_ORDER,
+        int[] triangle_neighbor = NeighborElements.triangulation_neighbor_elements(TRIANGLE_ORDER,
             TRIANGLE_NUM, triangle_node);
 
         typeMethods.i4mat_transpose_print(3, TRIANGLE_NUM, triangle_neighbor,
@@ -2175,16 +2122,13 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string file_name = "triangulation_order3_plot.eps";
+        const string file_name = "triangulation_order3_plot.eps";
         int hole_num = 0;
-        int node_show = 0;
+        const int node_show = 0;
         int node_num = 0;
-        double[] node_xy;
-        int triangle_show = 2;
-        int[] triangle_neighbor;
-        int[] triangle_node;
+        const int triangle_show = 2;
         int triangle_num = 0;
-        int triangle_order = 3;
+        const int triangle_order = 3;
 
         Console.WriteLine("");
         Console.WriteLine("TEST20");
@@ -2201,9 +2145,9 @@ internal static class Program
         //
         //  Allocate space.
         //
-        node_xy = new double[2 * node_num];
-        triangle_node = new int[triangle_order * triangle_num];
-        triangle_neighbor = new int[3 * triangle_num];
+        double[] node_xy = new double[2 * node_num];
+        int[] triangle_node = new int[triangle_order * triangle_num];
+        int[] triangle_neighbor = new int[3 * triangle_num];
         //
         //  Get the example data.
         //
@@ -2320,18 +2264,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int QUAD_NUM = 6;
+        const int QUAD_NUM = 6;
 
-        int i;
-        int j;
-        int k;
-        int n;
-        int n11;
-        int n12;
-        int n21;
-        int n22;
-        int node_num;
-        double[] node_xy;
         double quad_value = 0;
         double[] quad_w =  {
                 0.1666666666666666,
@@ -2353,12 +2287,8 @@ internal static class Program
             ;
         double region_area = 0;
         int test;
-        int[] triangle_node;
-        int test_num = 4;
-        int triangle_order = 3;
-        int triangle_num;
-        double x;
-        double y;
+        const int test_num = 4;
+        const int triangle_order = 3;
 
         Console.WriteLine("");
         Console.WriteLine("TEST213");
@@ -2375,18 +2305,20 @@ internal static class Program
             //
             //  Set up the grid.
             //
-            n = (int)Math.Pow(2, test - 1);
-            node_num = (n + 1) * (n + 1);
+            int n = (int)Math.Pow(2, test - 1);
+            int node_num = (n + 1) * (n + 1);
 
-            node_xy = new double[2 * node_num];
+            double[] node_xy = new double[2 * node_num];
 
-            k = 0;
+            int k = 0;
+            int j;
+            int i;
             for (j = 1; j <= n + 1; j++)
             {
-                y = (j - 1) / (double) (n + 1 - 1);
+                double y = (j - 1) / (double) (n + 1 - 1);
                 for (i = 1; i <= n + 1; i++)
                 {
-                    x = (i - 1) / (double) (n + 1 - 1);
+                    double x = (i - 1) / (double) (n + 1 - 1);
                     node_xy[0 + k * 2] = x;
                     node_xy[1 + k * 2] = y;
                     k += 1;
@@ -2396,19 +2328,19 @@ internal static class Program
             //
             //  Set up the triangulation.
             //
-            triangle_num = 2 * n * n;
+            int triangle_num = 2 * n * n;
 
-            triangle_node = new int[triangle_order * triangle_num];
+            int[] triangle_node = new int[triangle_order * triangle_num];
 
             k = 0;
             for (j = 1; j <= n; j++)
             {
                 for (i = 1; i <= n; i++)
                 {
-                    n11 = i + (j - 1) * (n + 1);
-                    n12 = i + (j + 1 - 1) * (n + 1);
-                    n21 = i + 1 + (j - 1) * (n + 1);
-                    n22 = i + 1 + (j + 1 - 1) * (n + 1);
+                    int n11 = i + (j - 1) * (n + 1);
+                    int n12 = i + (j + 1 - 1) * (n + 1);
+                    int n21 = i + 1 + (j - 1) * (n + 1);
+                    int n22 = i + 1 + (j + 1 - 1) * (n + 1);
 
                     triangle_node[0 + k * 3] = n11;
                     triangle_node[1 + k * 3] = n21;
@@ -2429,10 +2361,10 @@ internal static class Program
                 triangle_num, triangle_node, quad_fun, QUAD_NUM, quad_xy, quad_w,
                 ref quad_value, ref region_area);
 
-            Console.WriteLine("  " + node_num.ToString().PadLeft(8)
-                                   + "  " + triangle_num.ToString().PadLeft(8)
-                                   + "  " + quad_value.ToString().PadLeft(14)
-                                   + "  " + region_area.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + node_num.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + triangle_num.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + quad_value.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + region_area.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -2498,12 +2430,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int NODE_NUM1 = 5;
-        int TRIANGLE_NUM1 = 3;
-        int TRIANGLE_ORDER = 3;
+        const int DIM_NUM = 2;
+        const int NODE_NUM1 = 5;
+        const int TRIANGLE_NUM1 = 3;
+        const int TRIANGLE_ORDER = 3;
 
-        int[] edge_data;
         int node_num2 = 0;
         double[] node_xy1 =  {
                 0.0, 0.0,
@@ -2513,14 +2444,12 @@ internal static class Program
                 0.5, 1.5
             }
             ;
-        double[] node_xy2;
         int[] triangle_node1 =  {
                 1, 2, 3,
                 4, 3, 2,
                 3, 4, 5
             }
             ;
-        int[] triangle_node2;
         int triangle_num2 = 0;
 
         Console.WriteLine("");
@@ -2541,7 +2470,7 @@ internal static class Program
         typeMethods.i4mat_transpose_print(TRIANGLE_ORDER, TRIANGLE_NUM1, triangle_node1,
             "  The triangles:");
 
-        edge_data = new int[5 * 3 * TRIANGLE_NUM1];
+        int[] edge_data = new int[5 * 3 * TRIANGLE_NUM1];
 
         Console.WriteLine("");
         Console.WriteLine("  Sizing the refined mesh:");
@@ -2558,8 +2487,8 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Computing the refined mesh:");
 
-        node_xy2 = new double[DIM_NUM * node_num2];
-        triangle_node2 = new int[TRIANGLE_ORDER * triangle_num2];
+        double[] node_xy2 = new double[DIM_NUM * node_num2];
+        int[] triangle_node2 = new int[TRIANGLE_ORDER * triangle_num2];
 
         Refine.triangulation_order3_refine_compute(NODE_NUM1, TRIANGLE_NUM1,
             node_xy1, triangle_node1, node_num2, triangle_num2, edge_data, ref node_xy2,
@@ -2593,26 +2522,16 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int NODE_NUM = 13;
-        int TEST_NUM = 10;
-        int TRIANGLE_ORDER = 3;
+        const int DIM_NUM = 2;
+        const int NODE_NUM = 13;
+        const int TEST_NUM = 10;
+        const int TRIANGLE_ORDER = 3;
 
         double alpha = 0;
         double beta = 0;
-        double d1;
-        double d2;
-        double d3;
-        double dist;
         double dnear = 0;
         int edge = 0;
-        int error;
         double gamma = 0;
-        int i;
-        int i1;
-        int i2;
-        int i3;
-        int nnear;
         double[] node_xy =  {
                 0.0, 0.0,
                 2.0, 2.0,
@@ -2630,7 +2549,6 @@ internal static class Program
             }
             ;
         double[] p = new double[DIM_NUM];
-        int seed;
         int step_num = 0;
         int[] td = new int[TEST_NUM];
         int test;
@@ -2652,7 +2570,7 @@ internal static class Program
         //
         //  Set up the Delaunay triangulation.
         //
-        error = Delauney.r8tris2(NODE_NUM, ref node_xy, ref triangle_num, ref triangle_node,
+        int error = Delauney.r8tris2(NODE_NUM, ref node_xy, ref triangle_num, ref triangle_node,
             ref triangle_neighbor);
 
         switch (error)
@@ -2670,7 +2588,7 @@ internal static class Program
         //
         //  Get the test points.
         //
-        seed = 123456789;
+        int seed = 123456789;
 
         Sample.triangulation_order3_sample(NODE_NUM, node_xy, triangle_num,
             triangle_node, TEST_NUM, ref seed, ref xd, ref td);
@@ -2683,23 +2601,24 @@ internal static class Program
             
         for (test = 0; test < TEST_NUM; test++)
         {
+            int i;
             for (i = 0; i < DIM_NUM; i++)
             {
                 p[i] = xd[(i + test * DIM_NUM + xd.Length) % xd.Length];
             }
 
-            nnear = Helpers.points_point_near_naive_nd(DIM_NUM, NODE_NUM, node_xy,
+            int nnear = Helpers.points_point_near_naive_nd(DIM_NUM, NODE_NUM, node_xy,
                 p, ref dnear);
 
             Console.WriteLine("");
             Console.WriteLine("  XD       "
-                              + p[0].ToString().PadLeft(8) + "  "
-                              + p[1].ToString().PadLeft(8) + "");
+                              + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
             Console.WriteLine("  Naive    "
-                              + node_xy[0 + (nnear - 1) * DIM_NUM].ToString().PadLeft(8) + "  "
-                              + node_xy[1 + (nnear - 1) * DIM_NUM].ToString().PadLeft(8) + "  "
-                              + dnear.ToString().PadLeft(8) + "  "
-                              + nnear.ToString().PadLeft(8) + "");
+                              + node_xy[0 + (nnear - 1) * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + node_xy[1 + (nnear - 1) * DIM_NUM].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + dnear.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + nnear.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
 
             Search.triangulation_search_delaunay_a(ref data, NODE_NUM, node_xy, TRIANGLE_ORDER, triangle_num,
                 triangle_node, triangle_neighbor, p, ref triangle_index,
@@ -2713,16 +2632,16 @@ internal static class Program
                     continue;
             }
 
-            i1 = triangle_node[0 + (triangle_index - 1) * TRIANGLE_ORDER];
-            d1 = Math.Sqrt(Math.Pow(p[0] - node_xy[0 + i1 * 2], 2)
-                           + Math.Pow(p[1] - node_xy[1 + i1 * 2], 2));
+            int i1 = triangle_node[0 + (triangle_index - 1) * TRIANGLE_ORDER];
+            double d1 = Math.Sqrt(Math.Pow(p[0] - node_xy[0 + i1 * 2], 2)
+                                  + Math.Pow(p[1] - node_xy[1 + i1 * 2], 2));
 
-            dist = d1;
+            double dist = d1;
             nnear = i1;
 
-            i2 = triangle_node[1 + (triangle_index - 1) * TRIANGLE_ORDER];
-            d2 = Math.Sqrt(Math.Pow(p[0] - node_xy[0 + i2 * 2], 2)
-                           + Math.Pow(p[1] - node_xy[1 + i2 * 2], 2));
+            int i2 = triangle_node[1 + (triangle_index - 1) * TRIANGLE_ORDER];
+            double d2 = Math.Sqrt(Math.Pow(p[0] - node_xy[0 + i2 * 2], 2)
+                                  + Math.Pow(p[1] - node_xy[1 + i2 * 2], 2));
 
             if (d2 < dist)
             {
@@ -2730,9 +2649,9 @@ internal static class Program
                 nnear = i2;
             }
 
-            i3 = triangle_node[2 + (triangle_index - 1) * TRIANGLE_ORDER];
-            d3 = Math.Sqrt(Math.Pow(p[0] - node_xy[0 + i3 * 2], 2)
-                           + Math.Pow(p[1] - node_xy[1 + i3 * 2], 2));
+            int i3 = triangle_node[2 + (triangle_index - 1) * TRIANGLE_ORDER];
+            double d3 = Math.Sqrt(Math.Pow(p[0] - node_xy[0 + i3 * 2], 2)
+                                  + Math.Pow(p[1] - node_xy[1 + i3 * 2], 2));
 
             if (d3 < dist)
             {
@@ -2741,11 +2660,11 @@ internal static class Program
             }
 
             Console.WriteLine("  Delaunay "
-                              + node_xy[0 + nnear * 2].ToString().PadLeft(9) + "  "
-                              + node_xy[1 + nnear * 2].ToString().PadLeft(9) + "  "
-                              + dnear.ToString().PadLeft(9) + "  "
-                              + (nnear + 1).ToString().PadLeft(9)
-                              + step_num.ToString().PadLeft(9) + "");
+                              + node_xy[0 + nnear * 2].ToString(CultureInfo.InvariantCulture).PadLeft(9) + "  "
+                              + node_xy[1 + nnear * 2].ToString(CultureInfo.InvariantCulture).PadLeft(9) + "  "
+                              + dnear.ToString(CultureInfo.InvariantCulture).PadLeft(9) + "  "
+                              + (nnear + 1).ToString(CultureInfo.InvariantCulture).PadLeft(9)
+                              + step_num.ToString(CultureInfo.InvariantCulture).PadLeft(9) + "");
         }
     }
 
@@ -2770,15 +2689,14 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int NODE_NUM = 13;
-        int TEST_NUM = 10;
-        int TRIANGLE_ORDER = 3;
+        const int DIM_NUM = 2;
+        const int NODE_NUM = 13;
+        const int TEST_NUM = 10;
+        const int TRIANGLE_ORDER = 3;
 
         double alpha = 0;
         double beta = 0;
         int edge = 0;
-        int error;
         double gamma = 0;
         double[] node_xy =  {
                 0.0, 0.0,
@@ -2801,7 +2719,6 @@ internal static class Program
         int step_num = 0;
         int[] t_test = new int[TEST_NUM];
         int test;
-        int triangle_index1 = 0;
         int triangle_index2 = 0;
         int[] triangle_neighbor = new int[3 * 2 * NODE_NUM];
         int[] triangle_node = new int[TRIANGLE_ORDER * 2 * NODE_NUM];
@@ -2818,7 +2735,7 @@ internal static class Program
         //
         //  Set up the Delaunay triangulation.
         //
-        error = Delauney.r8tris2(NODE_NUM, ref node_xy, ref triangle_num, ref triangle_node,
+        int error = Delauney.r8tris2(NODE_NUM, ref node_xy, ref triangle_num, ref triangle_node,
             ref triangle_neighbor);
 
         switch (error)
@@ -2847,18 +2764,18 @@ internal static class Program
             
         for (test = 0; test < TEST_NUM; test++)
         {
-            triangle_index1 = Search.triangulation_search_naive(NODE_NUM, node_xy,
+            int triangle_index1 = Search.triangulation_search_naive(NODE_NUM, node_xy,
                 TRIANGLE_ORDER, triangle_num, triangle_node, p_test, pIndex: + DIM_NUM * test);
 
             Search.triangulation_search_delaunay_a(ref data, NODE_NUM, node_xy, TRIANGLE_ORDER,
                 triangle_num, triangle_node, triangle_neighbor, p_test,
                 ref triangle_index2, ref alpha, ref beta, ref gamma, ref edge, ref step_num, pIndex:  + DIM_NUM * test);
 
-            Console.WriteLine("  " + p_test[(0 + test * DIM_NUM + p_test.Length) % p_test.Length].ToString().PadLeft(10)
-                                   + "  " + p_test[(1 + test * DIM_NUM + p_test.Length) % p_test.Length].ToString().PadLeft(10)
-                                   + "  " + triangle_index1.ToString().PadLeft(8)
-                                   + "  " + triangle_index2.ToString().PadLeft(8)
-                                   + "  " + step_num.ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + p_test[(0 + test * DIM_NUM + p_test.Length) % p_test.Length].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + p_test[(1 + test * DIM_NUM + p_test.Length) % p_test.Length].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + triangle_index1.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + triangle_index2.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + step_num.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
 
         }
     }
@@ -2884,17 +2801,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] adj;
-        int adj_num;
-        int[] adj_col;
         int hole_num = 0;
-        int k;
         int node;
         int node_num = 0;
-        double[] node_xy;
-        int[] triangle_neighbor;
-        int[] triangle_node;
-        int triangle_order = 6;
+        const int triangle_order = 6;
         int triangle_num = 0;
 
         Console.WriteLine("");
@@ -2907,10 +2817,10 @@ internal static class Program
         //
         TriangulationSampleData.triangulation_order6_example1_size(ref node_num, ref triangle_num, ref hole_num);
 
-        adj_col = new int[node_num + 1];
-        node_xy = new double[2 * node_num];
-        triangle_neighbor = new int[3 * triangle_num];
-        triangle_node = new int[triangle_order * triangle_num];
+        int[] adj_col = new int[node_num + 1];
+        double[] node_xy = new double[2 * node_num];
+        int[] triangle_neighbor = new int[3 * triangle_num];
+        int[] triangle_node = new int[triangle_order * triangle_num];
         //
         //  Get the example data.
         //
@@ -2919,7 +2829,7 @@ internal static class Program
         //
         //  Get the count of the adjacencies.
         //
-        adj_num = Adjacency.triangulation_order6_adj_count(node_num, triangle_num,
+        int adj_num = Adjacency.triangulation_order6_adj_count(node_num, triangle_num,
             triangle_node, ref triangle_neighbor, ref adj_col);
 
         Console.WriteLine("");
@@ -2930,15 +2840,15 @@ internal static class Program
         Console.WriteLine("");
         for (node = 1; node <= node_num; node++)
         {
-            Console.WriteLine("  " + node.ToString().PadLeft(8)
-                                   + "  " + adj_col[node - 1].ToString().PadLeft(8)
-                                   + "  " + (adj_col[node] - 1).ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + node.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + adj_col[node - 1].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + (adj_col[node] - 1).ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
 
         //
         //  Get the adjacencies.
         //
-        adj = Adjacency.triangulation_order6_adj_set(node_num, triangle_num, triangle_node,
+        int[] adj = Adjacency.triangulation_order6_adj_set(node_num, triangle_num, triangle_node,
             triangle_neighbor, adj_num, adj_col);
         //
         //  Print the adjacencies.
@@ -2949,9 +2859,10 @@ internal static class Program
             Console.WriteLine("  Nodes adjacent to node " + node + "");
             Console.WriteLine("");
 
+            int k;
             for (k = adj_col[node - 1]; k <= adj_col[node] - 1; k++)
             {
-                Console.WriteLine("  " + adj[k - 1].ToString().PadLeft(8) + "");
+                Console.WriteLine("  " + adj[k - 1].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
             }
         }
     }
@@ -2977,15 +2888,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int boundary_edge_num;
-        int dim_num = 2;
+        const int dim_num = 2;
         int hole_num = 0;
         int node_num = 0;
-        double[] node_xy;
-        int[] triangle_node;
-        int[] triangle_neighbor;
         int triangle_num = 0;
-        int triangle_order = 6;
+        const int triangle_order = 6;
 
         Console.WriteLine("");
         Console.WriteLine("TEST23");
@@ -2995,14 +2902,14 @@ internal static class Program
 
         TriangulationSampleData.triangulation_order6_example1_size(ref node_num, ref triangle_num, ref hole_num);
 
-        node_xy = new double[dim_num * node_num];
-        triangle_node = new int[triangle_order * triangle_num];
-        triangle_neighbor = new int[3 * triangle_num];
+        double[] node_xy = new double[dim_num * node_num];
+        int[] triangle_node = new int[triangle_order * triangle_num];
+        int[] triangle_neighbor = new int[3 * triangle_num];
 
         TriangulationSampleData.triangulation_order6_example1(node_num, triangle_num, ref node_xy,
             ref triangle_node, ref triangle_neighbor);
 
-        boundary_edge_num = Boundary.triangulation_order6_boundary_edge_count(triangle_num,
+        int boundary_edge_num = Boundary.triangulation_order6_boundary_edge_count(triangle_num,
             triangle_node);
 
         Console.WriteLine("");
@@ -3078,19 +2985,15 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string file_name = "triangulation_order6_plot.eps";
+        const string file_name = "triangulation_order6_plot.eps";
         int i;
-        int dim_num = 2;
+        const int dim_num = 2;
         int hole_num = 0;
-        bool[] node_boundary;
         int node_num = 0;
-        int node_show = 2;
-        double[] node_xy;
+        const int node_show = 2;
         int triangle_num = 0;
-        int[] triangle_node;
-        int[] triangle_neighbor;
-        int triangle_order = 6;
-        int triangle_show = 2;
+        const int triangle_order = 6;
+        const int triangle_show = 2;
 
         Console.WriteLine("");
         Console.WriteLine("TEST25");
@@ -3101,9 +3004,9 @@ internal static class Program
 
         TriangulationSampleData.triangulation_order6_example1_size(ref node_num, ref triangle_num, ref hole_num);
 
-        node_xy = new double[dim_num * node_num];
-        triangle_node = new int[triangle_order * triangle_num];
-        triangle_neighbor = new int[3 * triangle_num];
+        double[] node_xy = new double[dim_num * node_num];
+        int[] triangle_node = new int[triangle_order * triangle_num];
+        int[] triangle_neighbor = new int[3 * triangle_num];
 
         TriangulationSampleData.triangulation_order6_example1(node_num, triangle_num, ref node_xy,
             ref triangle_node, ref triangle_neighbor);
@@ -3116,9 +3019,8 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  An Encapsulated PostScript image of this");
         Console.WriteLine("  triangulation is in \"" + file_name + "\"");
-        ;
 
-        node_boundary = Boundary.triangulation_order6_boundary_node(node_num, triangle_num,
+        bool[] node_boundary = Boundary.triangulation_order6_boundary_node(node_num, triangle_num,
             triangle_node);
 
         Console.WriteLine("");
@@ -3128,7 +3030,7 @@ internal static class Program
         for (i = 1; i <= node_num; i++)
         {
             Console.WriteLine("  "
-                              + i.ToString().PadLeft(6) + "  "
+                              + i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
                               + node_boundary[i - 1] + "");
         }
     }
@@ -3156,11 +3058,8 @@ internal static class Program
     {
         int hole_num = 0;
         int node_num= 0;
-        double[] node_xy;
-        int[] triangle_neighbor;
-        int[] triangle_node;
         int triangle_num= 0;
-        int triangle_order = 6;
+        const int triangle_order = 6;
 
         Console.WriteLine("");
         Console.WriteLine("TEST26");
@@ -3169,9 +3068,9 @@ internal static class Program
 
         TriangulationSampleData.triangulation_order6_example1_size(ref node_num, ref triangle_num, ref hole_num);
 
-        node_xy = new double[2 * node_num];
-        triangle_neighbor = new int[3 * triangle_num];
-        triangle_node = new int[triangle_order * triangle_num];
+        double[] node_xy = new double[2 * node_num];
+        int[] triangle_neighbor = new int[3 * triangle_num];
+        int[] triangle_node = new int[triangle_order * triangle_num];
 
         TriangulationSampleData.triangulation_order6_example1(node_num, triangle_num, ref node_xy,
             ref triangle_node, ref triangle_neighbor);
@@ -3201,12 +3100,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int NODE_NUM1 = 12;
-        int TRIANGLE_NUM1 = 3;
-        int TRIANGLE_ORDER = 6;
+        const int DIM_NUM = 2;
+        const int NODE_NUM1 = 12;
+        const int TRIANGLE_NUM1 = 3;
+        const int TRIANGLE_ORDER = 6;
 
-        int[] edge_data = new int[1];
         int node_num2 = 0;
         double[] node_xy1 =  {
                 0.0, 0.0,
@@ -3223,14 +3121,12 @@ internal static class Program
                 1.5, 2.5
             }
             ;
-        double[] node_xy2;
         int[] triangle_node1 =  {
                 1, 2, 3, 6, 8, 7,
                 4, 3, 2, 9, 10, 8,
                 3, 4, 5, 10, 12, 11
             }
             ;
-        int[] triangle_node2;
         int triangle_num2 = 0;
 
         Console.WriteLine("");
@@ -3251,7 +3147,7 @@ internal static class Program
         typeMethods.i4mat_transpose_print(TRIANGLE_ORDER, TRIANGLE_NUM1, triangle_node1,
             "  The triangles:");
 
-        edge_data = new int[5 * 3 * TRIANGLE_NUM1];
+        int[] edge_data = new int[5 * 3 * TRIANGLE_NUM1];
 
         Console.WriteLine("");
         Console.WriteLine("  Sizing the refined mesh:");
@@ -3268,8 +3164,8 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Computing the refined mesh:");
 
-        node_xy2 = new double[DIM_NUM * node_num2];
-        triangle_node2 = new int[TRIANGLE_ORDER * triangle_num2];
+        double[] node_xy2 = new double[DIM_NUM * node_num2];
+        int[] triangle_node2 = new int[TRIANGLE_ORDER * triangle_num2];
 
         Refine.triangulation_order6_refine_compute(NODE_NUM1, TRIANGLE_NUM1,
             node_xy1, triangle_node1, node_num2, triangle_num2, edge_data, ref node_xy2,
@@ -3305,14 +3201,9 @@ internal static class Program
         //
     {
         int hole_num = 0;
-        int midside_num;
         int node_num = 0;
-        double[] node_xy;
-        int[] triangle_neighbor;
-        int[] triangle_node;
         int triangle_num = 0;
-        int triangle_order = 6;
-        int vertex_num;
+        const int triangle_order = 6;
 
         Console.WriteLine("");
         Console.WriteLine("TEST27");
@@ -3322,17 +3213,17 @@ internal static class Program
 
         TriangulationSampleData.triangulation_order6_example1_size(ref node_num, ref triangle_num, ref hole_num);
 
-        node_xy = new double[2 * node_num];
-        triangle_neighbor = new int[3 * triangle_num];
-        triangle_node = new int[triangle_order * triangle_num];
+        double[] node_xy = new double[2 * node_num];
+        int[] triangle_neighbor = new int[3 * triangle_num];
+        int[] triangle_node = new int[triangle_order * triangle_num];
 
         TriangulationSampleData.triangulation_order6_example1(node_num, triangle_num, ref node_xy,
             ref triangle_node, ref triangle_neighbor);
 
-        vertex_num = VertexCount.triangulation_order6_vertex_count(triangle_num,
+        int vertex_num = VertexCount.triangulation_order6_vertex_count(triangle_num,
             triangle_node);
 
-        midside_num = node_num - vertex_num;
+        int midside_num = node_num - vertex_num;
 
         Console.WriteLine("");
         Console.WriteLine("  Number of nodes =         " + node_num + "");
@@ -3361,16 +3252,15 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int NEIGHBOR_NUM = 4;
-        int NODE_NUM = 5;
+        const int NEIGHBOR_NUM = 4;
+        const int NODE_NUM = 5;
 
-        double area;
-        double area_correct = 0.5;
+        const double area_correct = 0.5;
         int[] neighbor_index =  {
                 0, 1, 2, 3
             }
             ;
-        int node = 4;
+        const int node = 4;
         double[] node_xy =  {
                 0.0, 0.0,
                 1.0, 0.0,
@@ -3385,7 +3275,7 @@ internal static class Program
         Console.WriteLine("  VORONOI_POLYGON_AREA computes the area of");
         Console.WriteLine("  a finite Voronoi polygon.");
 
-        area = Voronoi.voronoi_polygon_area(node, NEIGHBOR_NUM, neighbor_index,
+        double area = Voronoi.voronoi_polygon_area(node, NEIGHBOR_NUM, neighbor_index,
             NODE_NUM, node_xy);
 
         Console.WriteLine("");
@@ -3414,10 +3304,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int NEIGHBOR_NUM = 4;
-        int NODE_NUM = 5;
+        const int NEIGHBOR_NUM = 4;
+        const int NODE_NUM = 5;
 
-        double[] centroid;
         double[] centroid_exact =  {
                 0.5, 0.5
             }
@@ -3426,7 +3315,7 @@ internal static class Program
                 0, 1, 2, 3
             }
             ;
-        int node = 4;
+        const int node = 4;
         double[] node_xy =  {
                 0.0, 0.0,
                 1.0, 0.0,
@@ -3442,16 +3331,16 @@ internal static class Program
         Console.WriteLine("  a finite Voronoi polygon.");
         Console.WriteLine();
 
-        centroid = Voronoi.voronoi_polygon_centroid(node, NEIGHBOR_NUM,
+        double[] centroid = Voronoi.voronoi_polygon_centroid(node, NEIGHBOR_NUM,
             neighbor_index, NODE_NUM, node_xy);
 
         Console.WriteLine("");
         Console.WriteLine("  The computed centroid is "
-                          + centroid[0].ToString().PadLeft(10) + "  "
-                          + centroid[1].ToString().PadLeft(10) + "");
+                          + centroid[0].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                          + centroid[1].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         Console.WriteLine("  The correct centroid is  "
-                          + centroid_exact[0].ToString().PadLeft(10) + "  "
-                          + centroid_exact[1].ToString().PadLeft(10) + "");
+                          + centroid_exact[0].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                          + centroid_exact[1].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
     }
 
     private static void test33()
@@ -3475,15 +3364,15 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int NEIGHBOR_NUM = 4;
-        int NODE_NUM = 5;
+        const int DIM_NUM = 2;
+        const int NEIGHBOR_NUM = 4;
+        const int NODE_NUM = 5;
 
         int[] neighbor_index =  {
                 0, 1, 2, 3
             }
             ;
-        int node = 4;
+        const int node = 4;
         double[] v = new double[DIM_NUM * NEIGHBOR_NUM];
         double[] node_xy =  {
                 0.0, 0.0,

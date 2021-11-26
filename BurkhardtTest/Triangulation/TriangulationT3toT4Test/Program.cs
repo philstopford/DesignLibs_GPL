@@ -43,24 +43,9 @@ internal static class Program
         //
     {
         int dim;
-        int dim_num;
         int element;
-        string element_t3_filename;
-        string element_t4_filename;
-        int[] element_node_t3;
-        int[] element_node_t4;
-        int element_num;
-        int element_order_t3;
-        int element_order_t4;
         int i;
-        int j;
         int node;
-        string node_t3_filename;
-        string node_t4_filename;
-        int node_num_t3;
-        int node_num_t4;
-        double[] node_xy_t3;
-        double[] node_xy_t4;
         string prefix;
 
         Console.WriteLine("");
@@ -95,16 +80,16 @@ internal static class Program
         //
         //  Create the filenames.
         //
-        node_t3_filename = prefix + "_nodes.txt";
-        element_t3_filename = prefix + "_elements.txt";
-        node_t4_filename = prefix + "_t4_nodes.txt";
-        element_t4_filename = prefix + "_t4_elements.txt";
+        string node_t3_filename = prefix + "_nodes.txt";
+        string element_t3_filename = prefix + "_elements.txt";
+        string node_t4_filename = prefix + "_t4_nodes.txt";
+        string element_t4_filename = prefix + "_t4_elements.txt";
         //
         //  Read the node data.
         //
         TableHeader h = typeMethods.r8mat_header_read(node_t3_filename);
-        dim_num = h.m;
-        node_num_t3 = h.n;
+        int dim_num = h.m;
+        int node_num_t3 = h.n;
 
         Console.WriteLine("");
         Console.WriteLine("  Read the header of \"" + node_t3_filename + "\".");
@@ -112,7 +97,7 @@ internal static class Program
         Console.WriteLine("  Spatial dimension DIM_NUM = " + dim_num + "");
         Console.WriteLine("  Number of nodes NODE_NUM_T3  = " + node_num_t3 + "");
 
-        node_xy_t3 = typeMethods.r8mat_data_read(node_t3_filename, dim_num, node_num_t3);
+        double[] node_xy_t3 = typeMethods.r8mat_data_read(node_t3_filename, dim_num, node_num_t3);
 
         Console.WriteLine("");
         Console.WriteLine("  Read the data in \"" + node_t3_filename + "\".");
@@ -123,8 +108,8 @@ internal static class Program
         //  Read the element data.
         //
         h = typeMethods.i4mat_header_read(element_t3_filename);
-        element_order_t3 = h.m;
-        element_num = h.n;
+        int element_order_t3 = h.m;
+        int element_num = h.n;
 
         if (element_order_t3 != 3)
         {
@@ -140,7 +125,7 @@ internal static class Program
         Console.WriteLine("  Triangle order ELEMENT_ORDER_T3 = " + element_order_t3 + "");
         Console.WriteLine("  Number of elements ELEMENT_NUM  = " + element_num + "");
 
-        element_node_t3 = typeMethods.i4mat_data_read(element_t3_filename, element_order_t3,
+        int[] element_node_t3 = typeMethods.i4mat_data_read(element_t3_filename, element_order_t3,
             element_num);
 
         Console.WriteLine("");
@@ -155,11 +140,11 @@ internal static class Program
         //
         //  Allocate space.
         //
-        node_num_t4 = node_num_t3 + element_num;
-        element_order_t4 = 4;
+        int node_num_t4 = node_num_t3 + element_num;
+        int element_order_t4 = 4;
 
-        node_xy_t4 = new double[dim_num * node_num_t4];
-        element_node_t4 = new int[element_order_t4 * element_num];
+        double[] node_xy_t4 = new double[dim_num * node_num_t4];
+        int[] element_node_t4 = new int[element_order_t4 * element_num];
         //
         //  Create the centroid nodes.
         //
@@ -189,7 +174,7 @@ internal static class Program
                 node_xy_t4[dim + node * dim_num] = 0.0;
                 for (i = 0; i < 3; i++)
                 {
-                    j = element_node_t3[i + element * element_order_t3] - 1;
+                    int j = element_node_t3[i + element * element_order_t3] - 1;
                     node_xy_t4[(dim + node * dim_num + node_xy_t4.Length ) % node_xy_t4.Length] += node_xy_t3[(dim + j * dim_num + node_xy_t3.Length ) % node_xy_t3.Length];
                 }
 

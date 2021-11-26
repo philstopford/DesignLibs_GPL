@@ -82,17 +82,9 @@ internal static class Program
         double area_ratio = 0;
         double area_std = 0;
         int area_zero = 0;
-        string element_filename;
-        int[] element_node;
-        int element_num;
-        int element_order;
         int m = 0;
         int ml = 0;
         int mu = 0;
-        int node_dim;
-        string node_filename;
-        int node_num;
-        double[] node_xy;
         string prefix;
         double q_area = 0;
         double q_ave = 0;
@@ -122,14 +114,14 @@ internal static class Program
         //
         //  Create the filenames.
         //
-        node_filename = prefix + "_nodes.txt";
-        element_filename = prefix + "_elements.txt";
+        string node_filename = prefix + "_nodes.txt";
+        string element_filename = prefix + "_elements.txt";
         //
         //  Read the node data.
         //
         TableHeader h = typeMethods.r8mat_header_read(node_filename);
-        node_dim = h.m;
-        node_num = h.n;
+        int node_dim = h.m;
+        int node_num = h.n;
 
         Console.WriteLine("");
         Console.WriteLine("  Read the header of \"" + node_filename + "\".");
@@ -137,7 +129,7 @@ internal static class Program
         Console.WriteLine("  Spatial dimension NODE_DIM = " + node_dim + "");
         Console.WriteLine("  Number of nodes NODE_NUM  = " + node_num + "");
 
-        node_xy = typeMethods.r8mat_data_read(node_filename, node_dim, node_num);
+        double[] node_xy = typeMethods.r8mat_data_read(node_filename, node_dim, node_num);
 
         Console.WriteLine("");
         Console.WriteLine("  Read the data in \"" + node_filename + "\".");
@@ -148,8 +140,8 @@ internal static class Program
         //  Read the triangulation data.
         //
         h = typeMethods.i4mat_header_read(element_filename);
-        element_order = h.m;
-        element_num = h.n;
+        int element_order = h.m;
+        int element_num = h.n;
 
         Console.WriteLine("");
         Console.WriteLine(" Read the header of \"" + element_filename + "\".");
@@ -157,7 +149,7 @@ internal static class Program
         Console.WriteLine("  Element order      = " + element_order + "");
         Console.WriteLine("  Number of elements = " + element_num + "");
 
-        element_node = typeMethods.i4mat_data_read(element_filename,
+        int[] element_node = typeMethods.i4mat_data_read(element_filename,
             element_order, element_num);
 
         Console.WriteLine("");

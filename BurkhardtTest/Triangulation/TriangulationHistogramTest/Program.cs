@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.MeshNS;
 using Burkardt.Table;
 using Burkardt.TriangulationNS;
@@ -58,22 +59,8 @@ internal static class Program
         //
     {
         string data_filename;
-        int data_num = 0;
-        double[] data_xy;
-        int dim_num = 0;
         int element;
-        double[] element_area;
-        int[] element_hit;
-        string element_filename;
-        int[] element_node;
-        int element_num = 0;
-        int element_order = 0;
-        string node_filename;
-        int node_num;
-        double[] node_xy;
         string prefix;
-        double triangulation_area;
-        int triangulation_hit;
 
         Console.WriteLine("");
         Console.WriteLine("TRIANGULATION_HISTOGRAM:");
@@ -113,21 +100,21 @@ internal static class Program
         //
         //  Create the filenames.
         //
-        node_filename = prefix + "_nodes.txt";
-        element_filename = prefix + "_elements.txt";
+        string node_filename = prefix + "_nodes.txt";
+        string element_filename = prefix + "_elements.txt";
         //
         //  Read the node data.
         //
         TableHeader h = typeMethods.r8mat_header_read(node_filename);
-        dim_num = h.m;
-        node_num = h.n;
+        int dim_num = h.m;
+        int node_num = h.n;
         Console.WriteLine("");
         Console.WriteLine("  Read the header of \"" + node_filename + "\".");
         Console.WriteLine("");
         Console.WriteLine("  Spatial dimension DIM_NUM = " + dim_num + "");
         Console.WriteLine("  Number of nodes NODE_NUM  = " + node_num + "");
 
-        node_xy = typeMethods.r8mat_data_read(node_filename, dim_num, node_num);
+        double[] node_xy = typeMethods.r8mat_data_read(node_filename, dim_num, node_num);
 
         Console.WriteLine("");
         Console.WriteLine("  Read the data in \"" + node_filename + "\".");
@@ -138,8 +125,8 @@ internal static class Program
         //  Read the element data.
         //
         h = typeMethods.i4mat_header_read(element_filename);
-        element_order = h.m;
-        element_num = h.n;
+        int element_order = h.m;
+        int element_num = h.n;
 
         Console.WriteLine("");
         Console.WriteLine(" Read the header of \"" + element_filename + "\".");
@@ -147,7 +134,7 @@ internal static class Program
         Console.WriteLine("  Triangle order ELEMENT_ORDER = " + element_order + "");
         Console.WriteLine("  Number of triangles ELEMENT_NUM  = " + element_num + "");
 
-        element_node = typeMethods.i4mat_data_read(element_filename, element_order,
+        int[] element_node = typeMethods.i4mat_data_read(element_filename, element_order,
             element_num);
 
         Console.WriteLine("");
@@ -164,7 +151,7 @@ internal static class Program
         //
         h = typeMethods.r8mat_header_read(data_filename);
         dim_num = h.m;
-        data_num = h.n;
+        int data_num = h.n;
 
         Console.WriteLine("");
         Console.WriteLine("  Read the header of \"" + data_filename + "\".");
@@ -172,7 +159,7 @@ internal static class Program
         Console.WriteLine("  Spatial dimension DIM_NUM = " + dim_num + "");
         Console.WriteLine("  Number of data points DATA_NUM  = " + data_num + "");
 
-        data_xy = typeMethods.r8mat_data_read(data_filename, dim_num, data_num);
+        double[] data_xy = typeMethods.r8mat_data_read(data_filename, dim_num, data_num);
 
         Console.WriteLine("");
         Console.WriteLine("  Read the data in \"" + data_filename + "\".");
@@ -182,16 +169,16 @@ internal static class Program
         //
         //  Compute the triangle areas.
         //
-        element_area = new double[element_num];
+        double[] element_area = new double[element_num];
 
-        triangulation_area = Triangulation.triangulation_areas(node_num, node_xy, element_order,
+        double triangulation_area = Triangulation.triangulation_areas(node_num, node_xy, element_order,
             element_num, element_node, element_area);
         //
         //  Count the hits.
         //
-        element_hit = new int[element_num];
+        int[] element_hit = new int[element_num];
 
-        triangulation_hit = Hits.triangulation_hits(node_num, node_xy, element_order,
+        int triangulation_hit = Hits.triangulation_hits(node_num, node_xy, element_order,
             element_num, element_node, data_num, data_xy, ref element_hit);
         //
         //  Print the histogram.
@@ -209,20 +196,20 @@ internal static class Program
         Console.WriteLine("");
         for (element = 0; element < element_num; element++)
         {
-            Console.WriteLine("  " + element.ToString().PadLeft(8)
-                                   + "  " + element_area[element].ToString().PadLeft(14)
-                                   + "  " + element_hit[element].ToString().PadLeft(8)
-                                   + "  " + (element_area[element] / triangulation_area).ToString().PadLeft(14)
+            Console.WriteLine("  " + element.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + element_area[element].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + element_hit[element].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + (element_area[element] / triangulation_area).ToString(CultureInfo.InvariantCulture).PadLeft(14)
                                    + "  " + (element_hit[element]
-                                             / (double) triangulation_hit).ToString().PadLeft(14) + "");
+                                             / (double) triangulation_hit).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         Console.WriteLine("");
         Console.WriteLine("  " + "   Total"
-                               + "  " + triangulation_area.ToString().PadLeft(14)
-                               + "  " + triangulation_hit.ToString().PadLeft(8)
-                               + "  " + 1.0.ToString().PadLeft(14)
-                               + "  " + 1.0.ToString().PadLeft(14) + "");
+                               + "  " + triangulation_area.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                               + "  " + triangulation_hit.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                               + "  " + 1.0.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                               + "  " + 1.0.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
         Console.WriteLine("");
         Console.WriteLine("TRIANGULATION_HISTOGRAM:");

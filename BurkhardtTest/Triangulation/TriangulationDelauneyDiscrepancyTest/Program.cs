@@ -68,17 +68,7 @@ internal static class Program
         int angle_max_triangle = 0;
         double angle_min = 0;
         int angle_min_triangle = 0;
-        double discrepancy;
-        int dim_num;
-        string node_filename;
-        int node_num;
-        double[] node_xy;
         string prefix;
-        string element_filename;
-        int[] triangle_neighbor;
-        int[] triangle_node;
-        int triangle_num;
-        int triangle_order;
 
         Console.WriteLine("");
         Console.WriteLine("TRIANGULATION_DELAUNAY_DISCREPANCY:");
@@ -115,14 +105,14 @@ internal static class Program
         //
         //  Create the filenames.
         //
-        node_filename = prefix + "_nodes.txt";
-        element_filename = prefix + "_elements.txt";
+        string node_filename = prefix + "_nodes.txt";
+        string element_filename = prefix + "_elements.txt";
         //
         //  Read the node data.
         //
         TableHeader h = typeMethods.r8mat_header_read(node_filename );
-        dim_num = h.m;
-        node_num = h.n;
+        int dim_num = h.m;
+        int node_num = h.n;
 
         Console.WriteLine("");
         Console.WriteLine("  Read the header of \"" + node_filename + "\".");
@@ -130,7 +120,7 @@ internal static class Program
         Console.WriteLine("  Spatial dimension DIM_NUM = " + dim_num + "");
         Console.WriteLine("  Number of nodes NODE_NUM  = " + node_num + "");
 
-        node_xy = typeMethods.r8mat_data_read(node_filename, dim_num, node_num);
+        double[] node_xy = typeMethods.r8mat_data_read(node_filename, dim_num, node_num);
 
         Console.WriteLine("");
         Console.WriteLine("  Read the data in \"" + node_filename + "\".");
@@ -141,8 +131,8 @@ internal static class Program
         //  Read the triangulation data.
         //
         h = typeMethods.i4mat_header_read(element_filename );
-        triangle_order = h.m;
-        triangle_num = h.n;
+        int triangle_order = h.m;
+        int triangle_num = h.n;
 
         Console.WriteLine("");
         Console.WriteLine(" Read the header of \"" + element_filename + "\".");
@@ -150,7 +140,7 @@ internal static class Program
         Console.WriteLine("  Triangle order TRIANGLE_ORDER = " + triangle_order + "");
         Console.WriteLine("  Number of triangles TRIANGLE_NUM  = " + triangle_num + "");
 
-        triangle_node = typeMethods.i4mat_data_read(element_filename, triangle_order, triangle_num);
+        int[] triangle_node = typeMethods.i4mat_data_read(element_filename, triangle_order, triangle_num);
 
         Console.WriteLine("");
         Console.WriteLine("  Read the data in \"" + element_filename + "\".");
@@ -164,7 +154,7 @@ internal static class Program
         //
         //  Create the triangle neighbors.
         //
-        triangle_neighbor = NeighborElements.triangulation_neighbor_triangles(triangle_order,
+        int[] triangle_neighbor = NeighborElements.triangulation_neighbor_triangles(triangle_order,
             triangle_num, triangle_node);
 
         //
@@ -183,7 +173,7 @@ internal static class Program
         //
         //  Now we are ready to check.
         //
-        discrepancy = Delauney.triangulation_delaunay_discrepancy_compute(node_num, node_xy,
+        double discrepancy = Delauney.triangulation_delaunay_discrepancy_compute(node_num, node_xy,
             triangle_order, triangle_num, triangle_node, triangle_neighbor, ref angle_min,
             ref angle_min_triangle, ref angle_max, ref angle_max_triangle);
 

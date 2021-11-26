@@ -33,12 +33,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int j;
-        int m;
         int[] m_test = {0, 1, 2, 3, 4, 5, 9, 12};
-        int m_test_num = 8;
+        const int m_test_num = 8;
         int prob;
-        int prob_num;
 
         Console.WriteLine("");
         Console.WriteLine("VANDERMONDE_APPROX_1D_TEST:");
@@ -47,12 +44,13 @@ internal static class Program
         Console.WriteLine("  The QR_SOLVE library is needed.");
         Console.WriteLine("  The test needs the TEST_INTERP libary.");
 
-        prob_num = Data_1D.p00_prob_num();
+        int prob_num = Data_1D.p00_prob_num();
         for (prob = 1; prob <= prob_num; prob++)
         {
+            int j;
             for (j = 0; j < m_test_num; j++)
             {
-                m = m_test[j];
+                int m = m_test[j];
                 test01(prob, m);
             }
         }
@@ -90,33 +88,17 @@ internal static class Program
         //    Input, int M, the polynomial degree.
         //
     {
-        double[] a;
-        double app_error;
-        double[] c;
-        bool debug = false;
+        const bool debug = false;
         int i;
-        double ld;
-        double li;
-        int nd;
-        int ni;
-        double[] xd;
-        double[] xi;
-        double xmax;
-        double xmin;
-        double[] xy;
-        double[] yd;
-        double[] yi;
-        double ymax;
-        double ymin;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01:");
         Console.WriteLine("  Approximate data from TEST_INTERP problem #" + prob + "");
 
-        nd = TestInterp.p00_data_num(prob);
+        int nd = TestInterp.p00_data_num(prob);
         Console.WriteLine("  Number of data points = " + nd + "");
 
-        xy = TestInterp.p00_data(prob, 2, nd);
+        double[] xy = TestInterp.p00_data(prob, 2, nd);
 
         switch (debug)
         {
@@ -125,8 +107,8 @@ internal static class Program
                 break;
         }
 
-        xd = new double[nd];
-        yd = new double[nd];
+        double[] xd = new double[nd];
+        double[] yd = new double[nd];
         for (i = 0; i < nd; i++)
         {
             xd[i] = xy[0 + i * 2];
@@ -138,19 +120,19 @@ internal static class Program
         //
         Console.WriteLine("  Using polynomial approximant of degree " + m + "");
 
-        a = VandermondeMatrix.vandermonde_approx_1d_matrix(nd, m, xd);
+        double[] a = VandermondeMatrix.vandermonde_approx_1d_matrix(nd, m, xd);
         //
         //  Solve linear system.
         //
-        c = QRSolve.qr_solve(nd, m + 1, a, yd);
+        double[] c = QRSolve.qr_solve(nd, m + 1, a, yd);
         //
         //  #1:  Does approximant match function at data points?
         //
-        ni = nd;
-        xi = typeMethods.r8vec_copy_new(ni, xd);
-        yi = Polynomial.r8poly_values(m, c, ni, xi);
+        int ni = nd;
+        double[] xi = typeMethods.r8vec_copy_new(ni, xd);
+        double[] yi = Polynomial.r8poly_values(m, c, ni, xi);
 
-        app_error = typeMethods.r8vec_norm_affine(ni, yi, yd) / ni;
+        double app_error = typeMethods.r8vec_norm_affine(ni, yi, yd) / ni;
 
         Console.WriteLine("");
         Console.WriteLine("  L2 data approximation error = " + app_error + "");
@@ -160,24 +142,24 @@ internal static class Program
         //  Assume data is sorted, and normalize X and Y dimensions by (XMAX-XMIN) and
         //  (YMAX-YMIN).
         //
-        xmin = typeMethods.r8vec_min(nd, xd);
-        xmax = typeMethods.r8vec_max(nd, xd);
-        ymin = typeMethods.r8vec_min(nd, yd);
-        ymax = typeMethods.r8vec_max(nd, yd);
+        double xmin = typeMethods.r8vec_min(nd, xd);
+        double xmax = typeMethods.r8vec_max(nd, xd);
+        double ymin = typeMethods.r8vec_min(nd, yd);
+        double ymax = typeMethods.r8vec_max(nd, yd);
 
         ni = 501;
         xi = typeMethods.r8vec_linspace_new(ni, xmin, xmax);
 
         yi = Polynomial.r8poly_values(m, c, ni, xi);
 
-        ld = 0.0;
+        double ld = 0.0;
         for (i = 0; i < nd - 1; i++)
         {
             ld += Math.Sqrt(Math.Pow((xd[i + 1] - xd[i]) / (xmax - xmin), 2)
                             + Math.Pow((yd[i + 1] - yd[i]) / (ymax - ymin), 2));
         }
 
-        li = 0.0;
+        double li = 0.0;
         for (i = 0; i < ni - 1; i++)
         {
             li += Math.Sqrt(Math.Pow((xi[i + 1] - xi[i]) / (xmax - xmin), 2)

@@ -26,16 +26,13 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
-
         Console.WriteLine("");
         Console.WriteLine("zero_rc_test()");
         Console.WriteLine("  zero_rc() seeks a root of a function F(X)");
         Console.WriteLine("  in an interval [A,B] using reverse communication.");
 
-        a = 1.0;
-        b = 2.0;
+        double a = 1.0;
+        double b = 2.0;
         example_test(a, b, f_01, "f_01(x) = sin ( x ) - x / 2");
 
         a = 0.0;

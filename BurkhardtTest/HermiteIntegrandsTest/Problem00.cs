@@ -183,22 +183,16 @@ public static class Problem00
         //    Output, double P00_GAUSS_HERMITE, the approximate integral.
         //
     {
-        double[] f_vec;
-        int option;
-        double result;
-        double[] weight;
-        double[] xtab;
-
-        f_vec = new double[order];
-        weight = new double[order];
-        xtab = new double[order];
+        double[] f_vec = new double[order];
+        double[] weight = new double[order];
+        double[] xtab = new double[order];
 
         GaussHermite.hermite_compute(order, ref xtab, ref weight);
 
-        option = 1;
+        const int option = 1;
         p00_fun(ref data, problem, option, order, xtab, ref f_vec);
 
-        result = typeMethods.r8vec_dot_product(order, weight, f_vec);
+        double result = typeMethods.r8vec_dot_product(order, weight, f_vec);
 
         return result;
     }
@@ -245,26 +239,18 @@ public static class Problem00
         //    Output, double P00_MONTE_CARLO, the approximate integral.
         //
     {
-        double[] f_vec;
-        int option;
-        const double r8_pi = 3.141592653589793;
-        double result;
-        int seed;
-        double weight;
-        double[] x_vec;
-
-        seed = 123456789;
+        int seed = 123456789;
         typeMethods.r8vecNormalData ndata = new();
-        x_vec = typeMethods.r8vec_normal_01_new(order, ref ndata, ref seed);
+        double[] x_vec = typeMethods.r8vec_normal_01_new(order, ref ndata, ref seed);
 
-        option = 2;
-        f_vec = new double[order];
+        const int option = 2;
+        double[] f_vec = new double[order];
 
         p00_fun(ref data, problem, option, order, x_vec, ref f_vec);
 
-        weight = order / Math.Sqrt(r8_pi) / Math.Sqrt(2.0);
+        double weight = order / Math.Sqrt(Math.PI) / Math.Sqrt(2.0);
 
-        result = typeMethods.r8vec_sum(order, f_vec) / weight;
+        double result = typeMethods.r8vec_sum(order, f_vec) / weight;
 
         return result;
     }
@@ -294,9 +280,7 @@ public static class Problem00
         //    Output, int P00_PROBLEM_NUM, the number of test problems.
         //
     {
-        int problem_num;
-
-        problem_num = 8;
+        const int problem_num = 8;
 
         return problem_num;
     }
@@ -421,17 +405,14 @@ public static class Problem00
         //
     {
         double[] f_vec = new double[2];
-        int n_too_many = 100000;
-        int option;
-        int order;
-        double result;
+        const int n_too_many = 100000;
         double[] xtab = new double[2];
 
-        option = 0;
+        const int option = 0;
         n = 0;
 
-        result = 0.0;
-        order = 1;
+        double result = 0.0;
+        int order = 1;
         xtab[0] = 0.0;
         p00_fun(ref data, problem, option, order, xtab, ref f_vec);
         result += h * f_vec[0];
@@ -458,13 +439,15 @@ public static class Problem00
             //
             //  Just in case things go crazy.
             //
-            if (n_too_many <= n)
+            if (n_too_many > n)
             {
-                Console.WriteLine("");
-                Console.WriteLine("P00_TURING - Warning!");
-                Console.WriteLine("  Number of steps exceeded N_TOO_MANY = " + n_too_many + "");
-                break;
+                continue;
             }
+
+            Console.WriteLine("");
+            Console.WriteLine("P00_TURING - Warning!");
+            Console.WriteLine("  Number of steps exceeded N_TOO_MANY = " + n_too_many + "");
+            break;
 
         }
 

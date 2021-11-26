@@ -29,11 +29,9 @@ public static class Problem07
         //    Output, double P07_EXACT, the value of the integral.
         //
     {
-        double e_sqrt_sqrt = 1.2840254166877414841;
-        double exact;
-        const double r8_pi = 3.141592653589793;
+        const double e_sqrt_sqrt = 1.2840254166877414841;
 
-        exact = 0.25 * Math.Sqrt(r8_pi) / e_sqrt_sqrt;
+        double exact = 0.25 * Math.Sqrt(Math.PI) / e_sqrt_sqrt;
 
         return exact;
     }
@@ -137,9 +135,7 @@ public static class Problem07
         //    Output, string P07_TITLE, the title of the problem.
         //
     {
-        string title;
-
-        title = "x^2 cos ( x ) exp(-x*x)";
+        const string title = "x^2 cos ( x ) exp(-x*x)";
 
         return title;
     }

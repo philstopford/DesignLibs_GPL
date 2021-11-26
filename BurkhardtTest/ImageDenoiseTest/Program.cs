@@ -64,14 +64,12 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] g;
         int g_max = 0;
-        int[] g2;
-        string input_filename = "glassware_noisy.ascii.pgm";
+        const string input_filename = "glassware_noisy.ascii.pgm";
         string[] input_unit;
         int m = 0;
         int n = 0;
-        string output_filename = "glassware_median_news.ascii.pgm";
+        const string output_filename = "glassware_median_news.ascii.pgm";
 
         Console.WriteLine("");
         Console.WriteLine("TEST01:");
@@ -105,11 +103,11 @@ internal static class Program
         Console.WriteLine("  Number of columns =       " + n + "");
         Console.WriteLine("  Maximum pixel intensity = " + g_max + "");
 
-        g = new int[m * n];
+        int[] g = new int[m * n];
 
         PGMA.pgma_read_data(input_unit, ref index, m, n, ref g);
 
-        g2 = NEWS.gray_median_news(m, n, g);
+        int[] g2 = NEWS.gray_median_news(m, n, g);
         //
         //  Write the denoised images.
         //

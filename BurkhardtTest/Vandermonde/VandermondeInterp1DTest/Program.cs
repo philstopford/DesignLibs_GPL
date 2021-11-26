@@ -36,7 +36,6 @@ internal static class Program
         //
     {
         int prob;
-        int prob_num;
 
         Console.WriteLine("");
         Console.WriteLine("VANDERMONDE_INTERP_1D_TEST:");
@@ -52,7 +51,7 @@ internal static class Program
 
         vandermonde_value_1d_test();
 
-        prob_num = TestInterp.p00_prob_num();
+        int prob_num = TestInterp.p00_prob_num();
 
         for (prob = 1; prob <= prob_num; prob++)
         {
@@ -91,8 +90,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] cd;
-        int nd = 5;
+        const int nd = 5;
         double[] xd = {0.0, 1.0, 2.0, 3.0, 4.0};
         double[] yd = {24.0, 0.0, 0.0, 0.0, 0.0};
 
@@ -102,7 +100,7 @@ internal static class Program
 
         typeMethods.r8vec2_print(nd, xd, yd, "  Interpolation data:");
 
-        cd = Vandermonde.vandermonde_coef_1d(nd, xd, yd);
+        double[] cd = Vandermonde.vandermonde_coef_1d(nd, xd, yd);
 
         typeMethods.r8vec_print(nd, cd, "  Vandermonde interpolant coefficients:");
 
@@ -131,15 +129,14 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] ad;
-        int nd = 4;
+        const int nd = 4;
         double[] xd = {-1.0, 2.0, 3.0, 5.0};
 
         Console.WriteLine("");
         Console.WriteLine("VANDERMONDE_MATRIX_1D_TEST");
         Console.WriteLine("  VANDERMONDE_MATRIX_1D sets the Vandermonde matrix for 1D interpolation.");
 
-        ad = Vandermonde.vandermonde_matrix_1d(nd, xd);
+        double[] ad = Vandermonde.vandermonde_matrix_1d(nd, xd);
 
         typeMethods.r8mat_print(nd, nd, ad, "  Vandermonde matrix:");
     }
@@ -166,12 +163,8 @@ internal static class Program
         //
     {
         double[] cd = {24.0, -50.0, +35.0, -10.0, 1.0};
-        int nd = 5;
-        int ni = 16;
-        double x_hi;
-        double x_lo;
-        double[] xi;
-        double[] yi;
+        const int nd = 5;
+        const int ni = 16;
 
         Console.WriteLine("");
         Console.WriteLine("VANDERMONDE_VALUE_1D_TEST");
@@ -179,11 +172,11 @@ internal static class Program
 
         typeMethods.r8poly_print(nd - 1, cd, "  The polynomial:");
 
-        x_lo = 0.0;
-        x_hi = 5.0;
-        xi = typeMethods.r8vec_linspace_new(ni, x_lo, x_hi);
+        const double x_lo = 0.0;
+        const double x_hi = 5.0;
+        double[] xi = typeMethods.r8vec_linspace_new(ni, x_lo, x_hi);
 
-        yi = Vandermonde.vandermonde_value_1d(nd, cd, ni, xi);
+        double[] yi = Vandermonde.vandermonde_value_1d(nd, cd, ni, xi);
 
         typeMethods.r8vec2_print(ni, xi, yi, "  X, P(X):");
 
@@ -210,34 +203,17 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] ad;
-        bool debug = false;
-        double[] cd;
-        double condition;
+        const bool debug = false;
         int i;
-        double int_error;
-        double ld;
-        double li;
-        int nd;
-        int ni;
-        double[] xd;
-        double[] xi;
-        double xmax;
-        double xmin;
-        double[] xy;
-        double[] yd;
-        double[] yi;
-        double ymax;
-        double ymin;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01:");
         Console.WriteLine("  Interpolate data from TEST_INTERP problem #" + prob + "");
 
-        nd = TestInterp.p00_data_num(prob);
+        int nd = TestInterp.p00_data_num(prob);
         Console.WriteLine("  Number of data points = " + nd + "");
 
-        xy = TestInterp.p00_data(prob, 2, nd);
+        double[] xy = TestInterp.p00_data(prob, 2, nd);
 
         switch (debug)
         {
@@ -246,8 +222,8 @@ internal static class Program
                 break;
         }
 
-        xd = new double[nd];
-        yd = new double[nd];
+        double[] xd = new double[nd];
+        double[] yd = new double[nd];
 
         for (i = 0; i < nd; i++)
         {
@@ -258,24 +234,24 @@ internal static class Program
         //
         //  Compute Vandermonde matrix and get condition number.
         //
-        ad = Vandermonde.vandermonde_matrix_1d(nd, xd);
+        double[] ad = Vandermonde.vandermonde_matrix_1d(nd, xd);
 
-        condition = Matrix.condition_hager(nd, ad);
+        double condition = Matrix.condition_hager(nd, ad);
 
         Console.WriteLine("");
         Console.WriteLine("  Condition of Vandermonde matrix is " + condition + "");
         //
         //  Solve linear system.
         //
-        cd = QRSolve.qr_solve(nd, nd, ad, yd);
+        double[] cd = QRSolve.qr_solve(nd, nd, ad, yd);
         //
         //  #1:  Does interpolant match function at interpolation points?
         //
-        ni = nd;
-        xi = typeMethods.r8vec_copy_new(ni, xd);
-        yi = Vandermonde.vandermonde_value_1d(nd, cd, ni, xi);
+        int ni = nd;
+        double[] xi = typeMethods.r8vec_copy_new(ni, xd);
+        double[] yi = Vandermonde.vandermonde_value_1d(nd, cd, ni, xi);
 
-        int_error = typeMethods.r8vec_norm_affine(ni, yi, yd) / ni;
+        double int_error = typeMethods.r8vec_norm_affine(ni, yi, yd) / ni;
 
         Console.WriteLine("");
         Console.WriteLine("  L2 interpolation error averaged per interpolant node = " + int_error + "");
@@ -285,23 +261,23 @@ internal static class Program
         //  Assume data is sorted, and normalize X and Y dimensions by (XMAX-XMIN) and
         //  (YMAX-YMIN).
         //
-        xmin = typeMethods.r8vec_min(nd, xd);
-        xmax = typeMethods.r8vec_max(nd, xd);
-        ymin = typeMethods.r8vec_min(nd, yd);
-        ymax = typeMethods.r8vec_max(nd, yd);
+        double xmin = typeMethods.r8vec_min(nd, xd);
+        double xmax = typeMethods.r8vec_max(nd, xd);
+        double ymin = typeMethods.r8vec_min(nd, yd);
+        double ymax = typeMethods.r8vec_max(nd, yd);
 
         ni = 501;
         xi = typeMethods.r8vec_linspace_new(ni, xmin, xmax);
         yi = Vandermonde.vandermonde_value_1d(nd, cd, ni, xi);
 
-        ld = 0.0;
+        double ld = 0.0;
         for (i = 0; i < nd - 1; i++)
         {
             ld += Math.Sqrt(Math.Pow((xd[i + 1] - xd[i]) / (xmax - xmin), 2)
                             + Math.Pow((yd[i + 1] - yd[i]) / (ymax - ymin), 2));
         }
 
-        li = 0.0;
+        double li = 0.0;
         for (i = 0; i < ni - 1; i++)
         {
             li += Math.Sqrt(Math.Pow((xi[i + 1] - xi[i]) / (xmax - xmin), 2)
@@ -339,26 +315,11 @@ internal static class Program
         //    Input, int PROB, the problem index.
         //
     {
-        double[] ad;
-        double[] cd;
-        string command_filename;
         List<string> command_unit = new();
-        string data_filename;
         List<string> data_unit = new();
         int i;
-        string interp_filename;
         List<string> interp_unit = new();
         int j;
-        int nd;
-        int ni;
-        string output_filename;
-        double[] xd;
-        double[] xi;
-        double xmax;
-        double xmin;
-        double[] xy;
-        double[] yd;
-        double[] yi;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02:");
@@ -366,15 +327,15 @@ internal static class Program
         Console.WriteLine("  for the interpolating polynomial.");
         Console.WriteLine("  Interpolate data from TEST_INTERP problem #" + prob + "");
 
-        nd = TestInterp.p00_data_num(prob);
+        int nd = TestInterp.p00_data_num(prob);
         Console.WriteLine("  Number of data points = " + nd + "");
 
-        xy = TestInterp.p00_data(prob, 2, nd);
+        double[] xy = TestInterp.p00_data(prob, 2, nd);
 
         typeMethods.r8mat_transpose_print(2, nd, xy, "  Data array:");
 
-        xd = new double[nd];
-        yd = new double[nd];
+        double[] xd = new double[nd];
+        double[] yd = new double[nd];
 
         for (i = 0; i < nd; i++)
         {
@@ -385,15 +346,15 @@ internal static class Program
         //
         //  Compute Vandermonde matrix and get condition number.
         //
-        ad = Vandermonde.vandermonde_matrix_1d(nd, xd);
+        double[] ad = Vandermonde.vandermonde_matrix_1d(nd, xd);
         //
         //  Solve linear system.
         //
-        cd = QRSolve.qr_solve(nd, nd, ad, yd);
+        double[] cd = QRSolve.qr_solve(nd, nd, ad, yd);
         //
         //  Create data file.
         //
-        data_filename = "data" + prob + ".txt";
+        string data_filename = "data" + prob + ".txt";
         for (j = 0; j < nd; j++)
         {
             data_unit.Add("  " + xd[j]
@@ -406,13 +367,13 @@ internal static class Program
         //
         //  Create interp file.
         //
-        ni = 501;
-        xmin = typeMethods.r8vec_min(nd, xd);
-        xmax = typeMethods.r8vec_max(nd, xd);
-        xi = typeMethods.r8vec_linspace_new(ni, xmin, xmax);
-        yi = Vandermonde.vandermonde_value_1d(nd, cd, ni, xi);
+        int ni = 501;
+        double xmin = typeMethods.r8vec_min(nd, xd);
+        double xmax = typeMethods.r8vec_max(nd, xd);
+        double[] xi = typeMethods.r8vec_linspace_new(ni, xmin, xmax);
+        double[] yi = Vandermonde.vandermonde_value_1d(nd, cd, ni, xi);
 
-        interp_filename = "interp" + prob + ".txt";
+        string interp_filename = "interp" + prob + ".txt";
         for (j = 0; j < ni; j++)
         {
             interp_unit.Add("  " + xi[j]
@@ -424,9 +385,9 @@ internal static class Program
         //
         //  Plot the data and the interpolant.
         //
-        command_filename = "commands" + prob + ".txt";
+        string command_filename = "commands" + prob + ".txt";
 
-        output_filename = "plot" + prob + ".png";
+        string output_filename = "plot" + prob + ".png";
 
         command_unit.Add("# " + command_filename + "");
         command_unit.Add("#");

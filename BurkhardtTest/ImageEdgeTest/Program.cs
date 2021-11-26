@@ -32,16 +32,13 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] e;
-        int[] g;
-        int[] g_histo;
         int g_max = 0;
         int i;
-        string input_filename = "coins.ascii.pgm";
+        const string input_filename = "coins.ascii.pgm";
         string[] input_unit;
         int m = 0;
         int n = 0;
-        string output_filename = "coin_edges.ascii.pbm";
+        const string output_filename = "coin_edges.ascii.pbm";
 
         Console.WriteLine("");
         Console.WriteLine("IMAGE_EDGE_TEST");
@@ -73,12 +70,12 @@ internal static class Program
         Console.WriteLine("  Number of columns =       " + n + "");
         Console.WriteLine("  Maximum pixel intensity = " + g_max + "");
 
-        g = new int[m * n];
+        int[] g = new int[m * n];
 
         PGMA.pgma_read_data(input_unit, ref inputIndex, m, n, ref g);
 
 
-        g_histo = typeMethods.i4mat_histogram(m, n, g, 255);
+        int[] g_histo = typeMethods.i4mat_histogram(m, n, g, 255);
 
         Console.WriteLine("");
         Console.WriteLine(" Gray     Count");
@@ -89,7 +86,7 @@ internal static class Program
                                    + "  " + g_histo[i].ToString().PadLeft(8) + "");
         }
 
-        e = NEWS.news(m, n, g);
+        int[] e = NEWS.news(m, n, g);
         //
         //  Write the edge information as a portable BIT map (0/1).
         //

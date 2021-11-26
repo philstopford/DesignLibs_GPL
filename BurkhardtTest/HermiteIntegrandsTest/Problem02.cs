@@ -29,10 +29,7 @@ public static class Problem02
         //    Output, double P02_EXACT, the value of the integral.
         //
     {
-        double exact;
-        const double r8_pi = 3.141592653589793;
-
-        exact = Math.Sqrt(r8_pi);
+        double exact = Math.Sqrt(Math.PI);
 
         return exact;
     }
@@ -134,9 +131,7 @@ public static class Problem02
         //    Output, string P02_TITLE, the title of the problem.
         //
     {
-        string title;
-
-        title = "exp(-x*x)";
+        const string title = "exp(-x*x)";
 
         return title;
     }

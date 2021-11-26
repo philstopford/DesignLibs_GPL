@@ -29,11 +29,9 @@ public static class Problem01
         //    Output, double P01_EXACT, the value of the integral.
         //
     {
-        double exact;
-        double omega = 1.0;
-        const double r8_pi = 3.141592653589793;
+        const double omega = 1.0;
 
-        exact = Math.Sqrt(r8_pi) * Math.Exp(-omega * omega);
+        double exact = Math.Sqrt(Math.PI) * Math.Exp(-omega * omega);
 
         return exact;
     }
@@ -148,9 +146,7 @@ public static class Problem01
         //    Output, string P01_TITLE, the title of the problem.
         //
     {
-        string title;
-
-        title = "exp(-x*x) * cos(2*omega*x)";
+        const string title = "exp(-x*x) * cos(2*omega*x)";
 
         return title;
     }

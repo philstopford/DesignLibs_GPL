@@ -33,13 +33,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int j;
-        int m;
         int[] m_test = {0, 1, 2, 4, 8};
-        int m_test_num = 5;
-        int grid;
+        const int m_test_num = 5;
         int prob;
-        int prob_num;
 
         Console.WriteLine("");
         Console.WriteLine("VANDERMONDE_APPROX_2D_TEST:");
@@ -48,14 +44,15 @@ internal static class Program
         Console.WriteLine("  The R8LIB library is needed.");
         Console.WriteLine("  This test also needs the TEST_INTERP_2D library.");
 
-        prob_num = Data_2D.f00_num();
+        int prob_num = Data_2D.f00_num();
 
         for (prob = 1; prob <= prob_num; prob++)
         {
-            grid = 1;
+            int grid = 1;
+            int j;
             for (j = 0; j < m_test_num; j++)
             {
-                m = m_test[j];
+                int m = m_test[j];
                 test01(prob, grid, m);
             }
         }
@@ -96,33 +93,20 @@ internal static class Program
         //    Input, int M, the total polynomial degree.
         //
     {
-        double[] a;
-        double app_error;
-        double[] c;
-        int nd;
-        int ni;
-        int tm;
-        double[] xd;
-        double[] xi;
-        double[] yd;
-        double[] yi;
-        double[] zd;
-        double[] zi;
-
         Console.WriteLine("");
         Console.WriteLine("TEST01:");
         Console.WriteLine("  Approximate data from TEST_INTERP_2D problem #" + prob + "");
         Console.WriteLine("  Use grid from TEST_INTERP_2D with index #" + grd + "");
         Console.WriteLine("  Using polynomial approximant of total degree " + m + "");
 
-        nd = Data_2D.g00_size(grd);
+        int nd = Data_2D.g00_size(grd);
         Console.WriteLine("  Number of data points = " + nd + "");
 
-        xd = new double[nd];
-        yd = new double[nd];
+        double[] xd = new double[nd];
+        double[] yd = new double[nd];
         Data_2D.g00_xy(grd, nd, ref xd, ref yd);
 
-        zd = new double[nd];
+        double[] zd = new double[nd];
         Data_2D.f00_f0(prob, nd, xd, yd, ref zd);
 
         switch (nd)
@@ -135,21 +119,21 @@ internal static class Program
         //
         //  Compute the Vandermonde matrix.
         //
-        tm = typeMethods.triangle_num(m + 1);
-        a = VandermondeMatrix.vandermonde_approx_2d_matrix(nd, m, tm, xd, yd);
+        int tm = typeMethods.triangle_num(m + 1);
+        double[] a = VandermondeMatrix.vandermonde_approx_2d_matrix(nd, m, tm, xd, yd);
         //
         //  Solve linear system.
         //
-        c = QRSolve.qr_solve(nd, tm, a, zd);
+        double[] c = QRSolve.qr_solve(nd, tm, a, zd);
         //
         //  #1:  Does approximant match function at data points?
         //
-        ni = nd;
-        xi = typeMethods.r8vec_copy_new(ni, xd);
-        yi = typeMethods.r8vec_copy_new(ni, yd);
-        zi = Polynomial.r8poly_values_2d(m, c, ni, xi, yi);
+        int ni = nd;
+        double[] xi = typeMethods.r8vec_copy_new(ni, xd);
+        double[] yi = typeMethods.r8vec_copy_new(ni, yd);
+        double[] zi = Polynomial.r8poly_values_2d(m, c, ni, xi, yi);
 
-        app_error = typeMethods.r8vec_norm_affine(ni, zi, zd) / ni;
+        double app_error = typeMethods.r8vec_norm_affine(ni, zi, zd) / ni;
 
         Console.WriteLine("");
         Console.WriteLine("  L2 data approximation error = " + app_error + "");

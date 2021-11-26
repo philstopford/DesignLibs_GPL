@@ -51,7 +51,7 @@ public static class Problem06
                 exact = (m % 2) switch
                 {
                     1 => 0.0,
-                    _ => typeMethods.i4_factorial2(m - 1) * Math.Sqrt(r8_pi) / Math.Pow(2.0, m / 2)
+                    _ => typeMethods.i4_factorial2(m - 1) * Math.Sqrt(r8_pi) / Math.Pow(2.0, (double)m / 2)
                 };
 
                 break;
@@ -236,9 +236,7 @@ public static class Problem06
         //    Output, string P06_TITLE, the title of the problem.
         //
     {
-        string title;
-
-        title = "x^m exp(-x*x)";
+        const string title = "x^m exp(-x*x)";
 
         return title;
     }

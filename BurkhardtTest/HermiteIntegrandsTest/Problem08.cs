@@ -33,9 +33,7 @@ public static class Problem08
         //    Output, double P08_EXACT, the value of the integral.
         //
     {
-        double exact;
-
-        exact = 3.0088235661136433510;
+        const double exact = 3.0088235661136433510;
 
         return exact;
     }
@@ -137,9 +135,7 @@ public static class Problem08
         //    Output, string P08_TITLE, the title of the problem.
         //
     {
-        string title;
-
-        title = "sqrt(1+x*x/2) * exp(-x*x/2)";
+        const string title = "sqrt(1+x*x/2) * exp(-x*x/2)";
 
         return title;
     }

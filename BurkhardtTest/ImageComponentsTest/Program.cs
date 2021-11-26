@@ -66,7 +66,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 28;
+        const int N = 28;
 
         int[] a =
         {
@@ -75,9 +75,7 @@ internal static class Program
             0, 1, 6, 0, 0, 0, 4, 0
         };
         int[] c = new int[N];
-        int component_num;
         int j;
-        int n = N;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
@@ -88,14 +86,14 @@ internal static class Program
         Console.WriteLine("  A:");
         Console.WriteLine("");
         string cout = "    ";
-        for (j = 0; j < n; j++)
+        for (j = 0; j < N; j++)
         {
             cout += a[j];
         }
 
         Console.WriteLine(cout);
 
-        component_num = ImageComponents.i4vec_components(n, a, ref c);
+        int component_num = ImageComponents.i4vec_components(N, a, ref c);
 
         Console.WriteLine("");
         Console.WriteLine("  Number of components = " + component_num + "");
@@ -103,7 +101,7 @@ internal static class Program
         Console.WriteLine("  C:");
         Console.WriteLine("");
         cout = "    ";
-        for (j = 0; j < n; j++)
+        for (j = 0; j < N; j++)
         {
             cout += c[j];
         }
@@ -132,8 +130,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int M = 9;
-        int N = 17;
+        const int M = 9;
+        const int N = 17;
 
         int[] a =
         {
@@ -155,12 +153,8 @@ internal static class Program
             0, 1, 0, 0, 1, 0, 1, 1, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0
         };
-        int[] c;
-        int component_num;
         int i;
         int j;
-        int m = M;
-        int n = N;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02");
@@ -171,20 +165,20 @@ internal static class Program
         Console.WriteLine("  A:");
         Console.WriteLine("");
         string cout = "";
-        for (i = 0; i < m; i++)
+        for (i = 0; i < M; i++)
         {
             cout = "    ";
-            for (j = 0; j < n; j++)
+            for (j = 0; j < N; j++)
             {
-                cout += a[i + j * m];
+                cout += a[i + j * M];
             }
 
             Console.WriteLine(cout);
         }
 
-        c = new int[m * n];
+        int[] c = new int[M * N];
 
-        component_num = ImageComponents.i4mat_components(m, n, a, ref c);
+        int component_num = ImageComponents.i4mat_components(M, N, a, ref c);
 
         Console.WriteLine("");
         Console.WriteLine("  Number of components = " + component_num + "");
@@ -192,12 +186,12 @@ internal static class Program
         Console.WriteLine("  C:");
         Console.WriteLine("");
         cout = "";
-        for (i = 0; i < m; i++)
+        for (i = 0; i < M; i++)
         {
             cout = "    ";
-            for (j = 0; j < n; j++)
+            for (j = 0; j < N; j++)
             {
-                cout += c[i + j * m];
+                cout += c[i + j * M];
             }
 
             Console.WriteLine(cout);
@@ -233,26 +227,16 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int L = 64;
-        int M = 64;
-        int N = 26;
+        const int L = 64;
+        const int M = 64;
+        const int N = 26;
 
         int[] a = new int[L * M * N];
         int[] c = new int[L * M * N];
-        int component_num;
-        string filename;
         int i;
-        int[] indices;
         int j;
         int j1;
         int k;
-        int l = L;
-        int m = M;
-        int m1 = 0;
-        int n = N;
-        int n1 = 0;
-        int[] s;
-        int s_total;
 
         Console.WriteLine("");
         Console.WriteLine("TEST03");
@@ -260,17 +244,17 @@ internal static class Program
         Console.WriteLine("  components in a 3D integer block.");
 
         Console.WriteLine("");
-        Console.WriteLine("  A is a 3D block of order " + l
-                                                        + " * " + m
-                                                        + " * " + n + "");
+        Console.WriteLine("  A is a 3D block of order " + L
+                                                        + " * " + M
+                                                        + " * " + N + "");
 
-        for (k = 0; k < n; k++)
+        for (k = 0; k < N; k++)
         {
-            for (j = 0; j < m; j++)
+            for (j = 0; j < M; j++)
             {
-                for (i = 0; i < l; i++)
+                for (i = 0; i < L; i++)
                 {
-                    a[i + j * l + k * l * m] = 0;
+                    a[i + j * L + k * L * M] = 0;
                 }
             }
         }
@@ -278,20 +262,20 @@ internal static class Program
         //
         //  Retrieve the indices of nonzero data in A by reading a file.
         //
-        filename = "indices.txt";
+        string filename = "indices.txt";
 
         TableHeader h = typeMethods.i4mat_header_read(filename);
-        m1 = h.m;
-        n1 = h.n;
+        int m1 = h.m;
+        int n1 = h.n;
 
-        indices = typeMethods.i4mat_data_read(filename, m1, n1);
+        int[] indices = typeMethods.i4mat_data_read(filename, m1, n1);
 
         for (j1 = 0; j1 < n1; j1++)
         {
             i = indices[0 + j1 * 3] - 1;
             j = indices[1 + j1 * 3] - 1;
             k = indices[2 + j1 * 3] - 1;
-            a[i + j * l + k * l * m] = 1;
+            a[i + j * L + k * L * M] = 1;
         }
 
         Console.WriteLine("");
@@ -299,9 +283,9 @@ internal static class Program
         //
         //  Determine the components.
         //
-        component_num = ImageComponents.i4block_components(l, m, n, a, ref c);
+        int component_num = ImageComponents.i4block_components(L, M, N, a, ref c);
 
-        s = new int[component_num];
+        int[] s = new int[component_num];
 
         for (i = 0; i < component_num; i++)
         {
@@ -311,15 +295,15 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Number of components = " + component_num + "");
 
-        for (k = 0; k < n; k++)
+        for (k = 0; k < N; k++)
         {
-            for (j = 0; j < m; j++)
+            for (j = 0; j < M; j++)
             {
-                for (i = 0; i < l; i++)
+                for (i = 0; i < L; i++)
                 {
-                    if (c[i + j * l + k * l * m] != 0)
+                    if (c[i + j * L + k * L * M] != 0)
                     {
-                        s[c[i + j * l + k * l * m] - 1] += 1;
+                        s[c[i + j * L + k * L * M] - 1] += 1;
                     }
                 }
             }
@@ -328,7 +312,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Component  Size");
         Console.WriteLine("");
-        s_total = 0;
+        int s_total = 0;
         for (i = 0; i < component_num; i++)
         {
             Console.WriteLine("  " + (i + 1).ToString().PadLeft(4)

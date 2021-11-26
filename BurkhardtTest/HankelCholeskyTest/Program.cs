@@ -61,19 +61,10 @@ internal static class Program
         //
     {
         int flag = 0;
-        double[] h;
-        double[] hanti;
         int i;
         int j;
-        double[] l;
-        double[] lii;
-        double[] liim1;
-        int n;
-        double[] r1;
-        double[] r2;
-        int seed;
 
-        n = 5;
+        int n = 5;
 
         Console.WriteLine("");
         Console.WriteLine("HANKEL_CHOLESKY_UPPER_TEST");
@@ -83,16 +74,17 @@ internal static class Program
         //
         //  Get a Hankel matrix that is symmetric positive definite.
         //
-        seed = 123456789;
-        lii = UniformRNG.r8vec_uniform_01_new(n, ref seed);
-        liim1 = UniformRNG.r8vec_uniform_01_new(n - 1, ref seed);
-        l = HankelCholesky.hankel_spd_cholesky_lower(n, lii, liim1);
-        h = typeMethods.r8mat_mmt_new(n, n, n, l, l);
+        int seed = 123456789;
+        double[] lii = UniformRNG.r8vec_uniform_01_new(n, ref seed);
+        
+        double[] liim1 = UniformRNG.r8vec_uniform_01_new(n - 1, ref seed);
+        double[] l = HankelCholesky.hankel_spd_cholesky_lower(n, lii, liim1);
+        double[] h = typeMethods.r8mat_mmt_new(n, n, n, l, l);
         typeMethods.r8mat_print(n, n, h, "  The Hankel matrix H:");
         //
         //  Compute R using R8MAT_CHOLESKY_FACTOR_UPPER.
         //
-        r1 = typeMethods.r8mat_cholesky_factor_upper(n, h, ref flag);
+        double[] r1 = typeMethods.r8mat_cholesky_factor_upper(n, h, ref flag);
         if (flag != 0)
         {
             Console.WriteLine("");
@@ -106,7 +98,7 @@ internal static class Program
         //
         //  Compute R using HANKEL_CHOLESKY.
         //
-        hanti = new double[2 * n - 1];
+        double[] hanti = new double[2 * n - 1];
         for (i = 0; i < n; i++)
         {
             hanti[i] = h[i + 0 * n];
@@ -117,7 +109,7 @@ internal static class Program
             hanti[n - 1 + j] = h[n - 1 + j * n];
         }
 
-        r2 = HankelCholesky.hankel_cholesky_upper(n, hanti);
+        double[] r2 = HankelCholesky.hankel_cholesky_upper(n, hanti);
         typeMethods.r8mat_print(n, n, r2, "  R computed by HANKEL_CHOLESKY:");
     }
 }

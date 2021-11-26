@@ -29,10 +29,7 @@ public static class Problem05
         //    Output, double P05_EXACT, the estimated value of the integral.
         //
     {
-        double exact;
-        const double r8_pi = 3.141592653589793;
-
-        exact = r8_pi / 3.0;
+        const double exact = Math.PI / 3.0;
 
         return exact;
     }
@@ -134,9 +131,7 @@ public static class Problem05
         //    Output, string P05_TITLE, the title of the problem.
         //
     {
-        string title;
-
-        title = "1/( (1+x^2) sqrt(4+3x^2) )";
+        const string title = "1/( (1+x^2) sqrt(4+3x^2) )";
 
         return title;
     }

@@ -29,10 +29,7 @@ public static class Problem04
         //    Output, double P04_EXACT, the estimated value of the integral.
         //
     {
-        double exact;
-        const double r8_pi = 3.141592653589793;
-
-        exact = Math.Sqrt(r8_pi / 2.0);
+        double exact = Math.Sqrt(Math.PI / 2.0);
 
         return exact;
     }
@@ -134,9 +131,7 @@ public static class Problem04
         //    Output, string P04_TITLE, the title of the problem.
         //
     {
-        string title;
-
-        title = "sin(x^2)";
+        const string title = "sin(x^2)";
 
         return title;
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.SolveNS;
 using Burkardt.Types;
 
@@ -26,16 +27,13 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
-
         Console.WriteLine("");
         Console.WriteLine("zero_test():");
         Console.WriteLine("  zero() seeks a root of a function F(X)");
         Console.WriteLine("  in an interval [A,B].");
 
-        a = 1.0;
-        b = 2.0;
+        double a = 1.0;
+        double b = 2.0;
         zero_example(a, b, f_01, "f_01(x) = sin ( x ) - x / 2");
 
         a = 0.0;
@@ -93,30 +91,25 @@ internal static class Program
         //
     {
         int calls = 0;
-        double fa;
-        double fb;
-        double fz;
-        double t;
-        double z;
 
-        t = typeMethods.r8_epsilon();
+        double t = typeMethods.r8_epsilon();
 
-        z = Zero.zero(a, b, t, f, ref calls);
-        fz = f(z);
-        fa = f(a);
-        fb = f(b);
+        double z = Zero.zero(a, b, t, f, ref calls);
+        double fz = f(z);
+        double fa = f(a);
+        double fb = f(b);
 
         Console.WriteLine("");
         Console.WriteLine("  " + title + "");
         Console.WriteLine("");
         Console.WriteLine("           A                 Z             B");
         Console.WriteLine("         F(A)              F(Z)          F(B)");
-        Console.WriteLine("  " + a.ToString().PadLeft(14)
-                               + "  " + z.ToString().PadLeft(14)
-                               + "  " + b.ToString().PadLeft(14) + "");
-        Console.WriteLine("  " + fa.ToString().PadLeft(14)
-                               + "  " + fz.ToString().PadLeft(14)
-                               + "  " + fb.ToString().PadLeft(14) + "");
+        Console.WriteLine("  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                               + "  " + z.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                               + "  " + b.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+        Console.WriteLine("  " + fa.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                               + "  " + fz.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                               + "  " + fb.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  Number of calls to F = " + calls + "");
     }
 

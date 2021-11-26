@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace HermiteIntegrandsTest;
 
@@ -66,15 +67,13 @@ internal static class Program
         //
     {
         int problem;
-        int problem_num;
-        string title;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
         Console.WriteLine("  P00_PROBLEM_NUM returns the number of problems.");
         Console.WriteLine("  P00_TITLE returns the title of a problem.");
 
-        problem_num = Problem00.p00_problem_num();
+        int problem_num = Problem00.p00_problem_num();
 
         Console.WriteLine("");
         Console.WriteLine("  P00_PROBLEM_NUM: number of problems is " + problem_num + "");
@@ -84,9 +83,9 @@ internal static class Program
 
         for (problem = 1; problem <= problem_num; problem++)
         {
-            title = Problem00.p00_title(problem);
+            string title = Problem00.p00_title(problem);
 
-            Console.WriteLine("  " + problem.ToString().PadLeft(8)
+            Console.WriteLine("  " + problem.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "  \"" + title + "\".");
         }
     }
@@ -112,19 +111,16 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double exact;
-        int m;
         int problem;
-        int problem_num;
         Problem00.p00Data data = new();
 
         Console.WriteLine("");
         Console.WriteLine("TEST02");
         Console.WriteLine("  P00_EXACT returns the \"exact\" integral.");
 
-        problem_num = Problem00.p00_problem_num();
+        int problem_num = Problem00.p00_problem_num();
 
-        m = 4;
+        int m = 4;
         Problem06.p06_param(ref data.p6data, 'S', 'M', ref m);
 
         Console.WriteLine("");
@@ -133,9 +129,9 @@ internal static class Program
 
         for (problem = 1; problem <= problem_num; problem++)
         {
-            exact = Problem00.p00_exact(ref data, problem);
+            double exact = Problem00.p00_exact(ref data, problem);
 
-            Console.WriteLine("  " + problem.ToString().PadLeft(8)
+            Console.WriteLine("  " + problem.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "  " + exact.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -161,14 +157,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double error;
-        double estimate;
-        double exact;
-        int m;
-        int order;
-        int order_log;
         int problem;
-        int problem_num;
 
         Problem00.p00Data data = new();
 
@@ -177,9 +166,9 @@ internal static class Program
         Console.WriteLine("  P00_GAUSS_HERMITE applies a Gauss-Hermite rule");
         Console.WriteLine("  to estimate an integral on (-oo,+oo).");
 
-        problem_num = Problem00.p00_problem_num();
+        int problem_num = Problem00.p00_problem_num();
 
-        m = 4;
+        int m = 4;
         Problem06.p06_param(ref data.p6data, 'S', 'M', ref  m);
 
         Console.WriteLine("");
@@ -187,20 +176,21 @@ internal static class Program
 
         for (problem = 1; problem <= problem_num; problem++)
         {
-            exact = Problem00.p00_exact(ref data, problem);
+            double exact = Problem00.p00_exact(ref data, problem);
 
-            order = 1;
+            int order = 1;
 
             Console.WriteLine("");
 
+            int order_log;
             for (order_log = 0; order_log <= 6; order_log++)
             {
-                estimate = Problem00.p00_gauss_hermite(ref data, problem, order);
+                double estimate = Problem00.p00_gauss_hermite(ref data, problem, order);
 
-                error = Math.Abs(exact - estimate);
+                double error = Math.Abs(exact - estimate);
 
-                Console.WriteLine("  " + problem.ToString().PadLeft(8)
-                                       + "  " + order.ToString().PadLeft(8)
+                Console.WriteLine("  " + problem.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                        + "  " + estimate.ToString("0.######").PadLeft(14)
                                        + "  " + exact.ToString("0.######").PadLeft(14)
                                        + "  " + error.ToString("0.######").PadLeft(14) + "");
@@ -231,15 +221,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double error;
-        double estimate;
-        double exact;
-        double h;
-        int m;
         int n = 0;
-        int order_log;
-        int problem;
-        int problem_num;
         int test;
         double tol = 0;
 
@@ -250,9 +232,9 @@ internal static class Program
         Console.WriteLine("  P00_TURING applies a Turing procedure");
         Console.WriteLine("  to estimate an integral on (-oo,+oo).");
 
-        problem_num = Problem00.p00_problem_num();
+        int problem_num = Problem00.p00_problem_num();
 
-        m = 4;
+        int m = 4;
         Problem06.p06_param(ref data.p6data, 'S', 'M', ref m);
 
         for (test = 1; test <= 2; test++)
@@ -269,23 +251,25 @@ internal static class Program
             Console.WriteLine("");
             Console.WriteLine(    "   Problem     Order          Estimate        Exact          Error");
 
+            int problem;
             for (problem = 1; problem <= problem_num; problem++)
             {
-                exact = Problem00.p00_exact(ref data, problem);
+                double exact = Problem00.p00_exact(ref data, problem);
 
-                h = 1.0;
+                double h = 1.0;
 
                 Console.WriteLine("");
 
+                int order_log;
                 for (order_log = 0; order_log <= 6; order_log++)
                 {
-                    estimate = Problem00.p00_turing(ref data, problem, h, tol, ref n);
+                    double estimate = Problem00.p00_turing(ref data, problem, h, tol, ref n);
 
-                    error = Math.Abs(exact - estimate);
+                    double error = Math.Abs(exact - estimate);
 
-                    Console.WriteLine("  " + problem.ToString().PadLeft(8)
-                                           + "  " + h.ToString().PadLeft(10)
-                                           + "  " + n.ToString().PadLeft(8)
+                    Console.WriteLine("  " + problem.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + h.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                           + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                            + "  " + estimate.ToString("0.######").PadLeft(14)
                                            + "  " + exact.ToString("0.######").PadLeft(14)
                                            + "  " + error.ToString("0.######").PadLeft(14) + "");
@@ -317,12 +301,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double error;
-        double estimate;
-        double exact;
         int m;
-        int order;
-        int problem;
 
         Problem00.p00Data data = new();
 
@@ -331,7 +310,7 @@ internal static class Program
         Console.WriteLine("  P00_GAUSS_HERMITE applies a Gauss-Hermite rule to");
         Console.WriteLine("  estimate the integral x^m exp(-x*x) over (-oo,+oo).");
 
-        problem = 6;
+        const int problem = 6;
 
         Console.WriteLine("");
         Console.WriteLine("         M     Order      Estimate        Exact           Error");
@@ -340,21 +319,22 @@ internal static class Program
         {
             Problem06.p06_param(ref data.p6data, 'S', 'M', ref  m);
 
-            exact = Problem00.p00_exact(ref data, problem);
+            double exact = Problem00.p00_exact(ref data, problem);
 
             Console.WriteLine("");
 
+            int order;
             for (order = 1; order <= 3 + m / 2; order++)
             {
-                estimate = Problem00.p00_gauss_hermite(ref data, problem, order);
+                double estimate = Problem00.p00_gauss_hermite(ref data, problem, order);
 
-                error = Math.Abs(exact - estimate);
+                double error = Math.Abs(exact - estimate);
 
-                Console.WriteLine("  " + m.ToString().PadLeft(8)
-                                       + "  " + order.ToString().PadLeft(8)
-                                       + "  " + estimate.ToString().PadLeft(14)
-                                       + "  " + exact.ToString().PadLeft(14)
-                                       + "  " + error.ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + estimate.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
     }
@@ -380,14 +360,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double error;
-        double estimate;
-        double exact;
-        int m;
-        int order;
-        int order_log;
         int problem;
-        int problem_num;
 
         Problem00.p00Data data = new();
 
@@ -396,9 +369,9 @@ internal static class Program
         Console.WriteLine("  P00_MONTE_CARLO uses a weighted form of the Monte Carlo method");
         Console.WriteLine("  to estimate a Hermite integral on (-oo,+oo).");
 
-        problem_num = Problem00.p00_problem_num();
+        int problem_num = Problem00.p00_problem_num();
 
-        m = 4;
+        int m = 4;
         Problem06.p06_param(ref data.p6data, 'S', 'M', ref  m);
 
         Console.WriteLine("");
@@ -406,20 +379,21 @@ internal static class Program
 
         for (problem = 1; problem <= problem_num; problem++)
         {
-            exact = Problem00.p00_exact(ref data, problem);
+            double exact = Problem00.p00_exact(ref data, problem);
 
-            order = 128;
+            int order = 128;
 
             Console.WriteLine("");
 
+            int order_log;
             for (order_log = 0; order_log <= 6; order_log++)
             {
-                estimate = Problem00.p00_monte_carlo(ref data, problem, order);
+                double estimate = Problem00.p00_monte_carlo(ref data, problem, order);
 
-                error = Math.Abs(exact - estimate);
+                double error = Math.Abs(exact - estimate);
 
-                Console.WriteLine("  " + problem.ToString().PadLeft(8)
-                                       + "  " + order.ToString().PadLeft(8)
+                Console.WriteLine("  " + problem.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                        + "  " + estimate.ToString("0.######").PadLeft(14)
                                        + "  " + exact.ToString("0.######").PadLeft(14)
                                        + "  " + error.ToString("0.######").PadLeft(14) + "");

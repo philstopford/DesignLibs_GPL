@@ -29,12 +29,10 @@ public static class Problem03
         //    Output, double P03_EXACT, the value of the integral.
         //
     {
-        double exact;
-        double p = 1.0;
-        double q = 3.0;
-        const double r8_pi = 3.141592653589793;
+        const double p = 1.0;
+        const double q = 3.0;
 
-        exact = r8_pi / (q * Math.Sin(r8_pi * p / q));
+        double exact = Math.PI / (q * Math.Sin(Math.PI * p / q));
 
         return exact;
     }
@@ -138,9 +136,7 @@ public static class Problem03
         //    Output, string P03_TITLE, the title of the problem.
         //
     {
-        string title;
-
-        title = "exp(-px) / ( 1 + exp(-qx) )";
+        const string title = "exp(-px) / ( 1 + exp(-qx) )";
 
         return title;
     }

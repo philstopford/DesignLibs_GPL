@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Sequence;
 using Burkardt.Types;
 
@@ -66,10 +67,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int i;
-        int j;
         int m;
-        double[] r;
 
         Console.WriteLine("");
         Console.WriteLine("HALTON_TEST");
@@ -83,13 +81,15 @@ internal static class Program
             Console.WriteLine("");
             Console.WriteLine("  Use M = " + m + "");
             Console.WriteLine("");
+            int i;
             for (i = 0; i <= 10; i++)
             {
-                r = Halton.halton(i, m);
-                string cout = "  " + i.ToString().PadLeft(3);
+                double[] r = Halton.halton(i, m);
+                string cout = "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(3);
+                int j;
                 for (j = 0; j < m; j++)
                 {
-                    cout += "  " + r[j].ToString().PadLeft(14);
+                    cout += "  " + r[j].ToString(CultureInfo.InvariantCulture).PadLeft(14);
                 }
 
                 Console.WriteLine(cout);
@@ -129,7 +129,6 @@ internal static class Program
             ;
         int i;
         int j;
-        int m;
         double[] r;
 
         Console.WriteLine("");
@@ -137,13 +136,13 @@ internal static class Program
         Console.WriteLine("  HALTON_BASE returns the I-th element of an M-dimensional");
         Console.WriteLine("  Halton sequence, using user-specified bases.");
 
-        m = 3;
+        int m = 3;
         Console.WriteLine("");
         Console.WriteLine("  M = " + m + "");
         string cout = "  B:";
         for (j = 0; j < m; j++)
         {
-            cout += "  " + b1[j].ToString().PadLeft(14);
+            cout += "  " + b1[j].ToString(CultureInfo.InvariantCulture).PadLeft(14);
         }
 
         Console.WriteLine(cout);
@@ -151,10 +150,10 @@ internal static class Program
         for (i = 0; i <= 10; i++)
         {
             r = Halton.halton_base(i, m, b1);
-            cout = "  " + i.ToString().PadLeft(3);
+            cout = "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(3);
             for (j = 0; j < m; j++)
             {
-                cout += "  " + r[j].ToString().PadLeft(14);
+                cout += "  " + r[j].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -167,7 +166,7 @@ internal static class Program
         cout = "  B:";
         for (j = 0; j < m; j++)
         {
-            cout += "  " + b2[j].ToString().PadLeft(14);
+            cout += "  " + b2[j].ToString(CultureInfo.InvariantCulture).PadLeft(14);
         }
 
         Console.WriteLine(cout);
@@ -175,10 +174,10 @@ internal static class Program
         for (i = 0; i <= 10; i++)
         {
             r = Halton.halton_base(i, m, b2);
-            cout = "  " + i.ToString().PadLeft(3);
+            cout = "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(3);
             for (j = 0; j < m; j++)
             {
-                cout += "  " + r[j].ToString().PadLeft(14);
+                cout += "  " + r[j].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -208,10 +207,6 @@ internal static class Program
         //
     {
         int i;
-        int i2;
-        int j;
-        int m;
-        double[] r;
 
         Console.WriteLine("");
         Console.WriteLine("HALTON_INVERSE_TEST");
@@ -220,19 +215,20 @@ internal static class Program
         Console.WriteLine("    I        R=HALTON(I,3)  HALTON_INVERSE(R,3)");
         Console.WriteLine("");
 
-        m = 3;
+        int m = 3;
 
         for (i = 0; i <= 10; i++)
         {
-            r = Halton.halton(i, m);
-            i2 = Halton.halton_inverse(r, m);
-            string cout = "  " + i.ToString().PadLeft(3);
+            double[] r = Halton.halton(i, m);
+            int i2 = Halton.halton_inverse(r, m);
+            string cout = "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(3);
+            int j;
             for (j = 0; j < m; j++)
             {
-                cout += "  " + r[j].ToString().PadLeft(14);
+                cout += "  " + r[j].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
-            Console.WriteLine(cout + "  " + i2.ToString().PadLeft(3) + "");
+            Console.WriteLine(cout + "  " + i2.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "");
                 
         }
     }

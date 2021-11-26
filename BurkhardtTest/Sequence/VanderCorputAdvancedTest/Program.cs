@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Sequence;
 
 namespace VanderCorputAdvancedTest;
@@ -71,8 +72,6 @@ internal static class Program
         //
     {
         int i;
-        double r;
-        int seed;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
@@ -88,12 +87,12 @@ internal static class Program
 
         for (i = 1; i <= 10; i++)
         {
-            seed = VanDerCorput.van_der_corput_seed_get();
+            int seed = VanDerCorput.van_der_corput_seed_get();
 
-            r = VanDerCorput.van_der_corput();
+            double r = VanDerCorput.van_der_corput();
 
-            Console.WriteLine(seed.ToString().PadLeft(6) + "  "
-                                                         + r.ToString().PadLeft(10) + "");
+            Console.WriteLine(seed.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                         + r.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
     }
@@ -119,12 +118,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 0;
+        const int N = 1;
 
-        int base_;
         int i;
-        double[] r = new double[N];
-        int seed;
+        double[] r = Array.Empty<double>();
 
         Console.WriteLine("");
         Console.WriteLine("TEST02");
@@ -133,10 +130,10 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  In this test, we call VAN_DER_CORPUT_SEQUENCE once.");
 
-        base_ = 2;
+        const int base_ = 2;
         VanDerCorput.van_der_corput_base_set(base_);
 
-        seed = 0;
+        const int seed = 0;
         VanDerCorput.van_der_corput_seed_set(seed);
 
         VanDerCorput.van_der_corput_sequence(N, ref r);
@@ -147,8 +144,8 @@ internal static class Program
 
         for (i = 0; i < N; i++)
         {
-            Console.WriteLine(i.ToString().PadLeft(6) + "  "
-                                                      + r[i].ToString().PadLeft(10) + "");
+            Console.WriteLine(i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                      + r[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
     }
@@ -174,12 +171,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int NMAX = 10;
+        const int NMAX = 10;
 
         int i;
-        int n;
         double[] r = new double[NMAX];
-        int seed;
 
         Console.WriteLine("");
         Console.WriteLine("TEST03");
@@ -197,16 +192,16 @@ internal static class Program
         Console.WriteLine("  We start at element 0 and compute 10 elements.");
         Console.WriteLine("");
 
-        seed = 0;
+        int seed = 0;
         VanDerCorput.van_der_corput_seed_set(seed);
 
-        n = NMAX;
+        int n = NMAX;
         VanDerCorput.van_der_corput_sequence(n, ref r);
 
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine((seed + i).ToString().PadLeft(6) + " "
-                                                               + r[i].ToString().PadLeft(10) + "");
+            Console.WriteLine((seed + i).ToString(CultureInfo.InvariantCulture).PadLeft(6) + " "
+                                                               + r[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         seed = VanDerCorput.van_der_corput_seed_get();
@@ -226,8 +221,8 @@ internal static class Program
 
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine((seed + i).ToString().PadLeft(6) + " "
-                                                               + r[i].ToString().PadLeft(10) + "");
+            Console.WriteLine((seed + i).ToString(CultureInfo.InvariantCulture).PadLeft(6) + " "
+                                                               + r[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         seed = VanDerCorput.van_der_corput_seed_get();
@@ -247,8 +242,8 @@ internal static class Program
 
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine((seed + i).ToString().PadLeft(6) + " "
-                                                               + r[i].ToString().PadLeft(10) + "");
+            Console.WriteLine((seed + i).ToString(CultureInfo.InvariantCulture).PadLeft(6) + " "
+                                                               + r[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         seed = VanDerCorput.van_der_corput_seed_get();
@@ -268,8 +263,8 @@ internal static class Program
 
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine((seed + i).ToString().PadLeft(6) + " "
-                                                               + r[i].ToString().PadLeft(10) + "");
+            Console.WriteLine((seed + i).ToString(CultureInfo.InvariantCulture).PadLeft(6) + " "
+                                                               + r[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         seed = VanDerCorput.van_der_corput_seed_get();
@@ -300,10 +295,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int base_;
         int i;
         double r;
-        int seed;
 
         Console.WriteLine("");
         Console.WriteLine("TEST04");
@@ -317,10 +310,10 @@ internal static class Program
         Console.WriteLine("  with the default base, then change the base,");
         Console.WriteLine("  reset the seed, and recompute the sequence.");
 
-        seed = 0;
+        int seed = 0;
         VanDerCorput.van_der_corput_seed_set(seed);
 
-        base_ = VanDerCorput.van_der_corput_base_get();
+        int base_ = VanDerCorput.van_der_corput_base_get();
 
         Console.WriteLine("");
         Console.WriteLine("  VAN_DER_CORPUT_BASE_GET: Current base is " + base_ + "");
@@ -333,8 +326,8 @@ internal static class Program
             seed = VanDerCorput.van_der_corput_seed_get();
             r = VanDerCorput.van_der_corput();
 
-            Console.WriteLine(seed.ToString().PadLeft(6) + "  "
-                                                         + r.ToString().PadLeft(10) + "");
+            Console.WriteLine(seed.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                         + r.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         base_ = 3;
@@ -356,8 +349,8 @@ internal static class Program
             seed = VanDerCorput.van_der_corput_seed_get();
             r = VanDerCorput.van_der_corput();
 
-            Console.WriteLine(seed.ToString().PadLeft(6) + "  "
-                                                         + r.ToString().PadLeft(10) + "");
+            Console.WriteLine(seed.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                         + r.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         base_ = 4;
@@ -379,8 +372,8 @@ internal static class Program
             seed = VanDerCorput.van_der_corput_seed_get();
             r = VanDerCorput.van_der_corput();
 
-            Console.WriteLine(seed.ToString().PadLeft(6) + "  "
-                                                         + r.ToString().PadLeft(10) + "");
+            Console.WriteLine(seed.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                         + r.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
     }
@@ -406,10 +399,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int base_;
         int i;
         double r;
-        int seed;
 
         Console.WriteLine("");
         Console.WriteLine("TEST045");
@@ -423,10 +414,10 @@ internal static class Program
         Console.WriteLine("  starting with the default seed, then check the seed,");
         Console.WriteLine("  reset the seed, and recompute the sequence.");
 
-        base_ = 2;
+        int base_ = 2;
         VanDerCorput.van_der_corput_base_set(base_);
 
-        seed = 0;
+        int seed = 0;
         VanDerCorput.van_der_corput_seed_set(seed);
 
         Console.WriteLine("");
@@ -447,8 +438,8 @@ internal static class Program
 
             r = VanDerCorput.van_der_corput();
 
-            Console.WriteLine(seed.ToString().PadLeft(6) + "  "
-                                                         + r.ToString().PadLeft(10) + "");
+            Console.WriteLine(seed.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                         + r.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         seed = VanDerCorput.van_der_corput_seed_get();
@@ -472,8 +463,8 @@ internal static class Program
 
             r = VanDerCorput.van_der_corput();
 
-            Console.WriteLine(seed.ToString().PadLeft(6) + "  "
-                                                         + r.ToString().PadLeft(10) + "");
+            Console.WriteLine(seed.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                         + r.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         seed = VanDerCorput.van_der_corput_seed_get();
@@ -497,11 +488,9 @@ internal static class Program
 
             r = VanDerCorput.van_der_corput();
 
-            Console.WriteLine(seed.ToString().PadLeft(6) + "  "
-                                                         + r.ToString().PadLeft(10) + "");
+            Console.WriteLine(seed.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                         + r.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
-
-        ;
     }
 
     private static void test05()
@@ -526,8 +515,6 @@ internal static class Program
         //
     {
         int base_;
-        double r;
-        int seed;
 
         Console.WriteLine("");
         Console.WriteLine("TEST05");
@@ -542,15 +529,16 @@ internal static class Program
         {
 
             Console.WriteLine("");
-            Console.WriteLine(base_.ToString().PadLeft(6) + "");
+            Console.WriteLine(base_.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
 
+            int seed;
             for (seed = 0; seed <= 10; seed++)
             {
-                r = VanDerCorput.i4_to_van_der_corput(seed, base_);
+                double r = VanDerCorput.i4_to_van_der_corput(seed, base_);
 
                 Console.WriteLine("        "
-                                  + seed.ToString().PadLeft(6) + "  "
-                                  + r.ToString().PadLeft(10) + "");
+                                  + seed.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                  + r.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
             }
 
         }
@@ -577,12 +565,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 10;
+        const int N = 10;
 
         int base_;
-        int i;
         double[] r = new double[N];
-        int seed;
 
         Console.WriteLine("");
         Console.WriteLine("TEST06");
@@ -597,18 +583,19 @@ internal static class Program
         {
 
             Console.WriteLine("");
-            Console.WriteLine(base_.ToString().PadLeft(6) + "");
+            Console.WriteLine(base_.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
 
-            seed = 0;
+            int seed = 0;
 
             VanDerCorput.i4_to_van_der_corput_sequence(seed, base_, N, ref r);
 
+            int i;
             for (i = 0; i < N; i++)
             {
 
                 Console.WriteLine("        "
-                                  + (seed + i).ToString().PadLeft(6) + "  "
-                                  + r[i].ToString().PadLeft(10) + "");
+                                  + (seed + i).ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                  + r[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
             }
 
         }
@@ -635,9 +622,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int i;
         int n;
-        int[] r;
 
         Console.WriteLine("");
         Console.WriteLine("TEST09");
@@ -649,11 +634,12 @@ internal static class Program
 
         for (n = 1; n <= 20; n++)
         {
-            r = VanDerCorput.vdc_numerator_sequence(n);
-            string cout = "  " + n.ToString().PadLeft(2) + ":";
+            int[] r = VanDerCorput.vdc_numerator_sequence(n);
+            string cout = "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(2) + ":";
+            int i;
             for (i = 0; i < n; i++)
             {
-                cout += "  " + r[i].ToString().PadLeft(2);
+                cout += "  " + r[i].ToString(CultureInfo.InvariantCulture).PadLeft(2);
             }
 
             Console.WriteLine(cout);

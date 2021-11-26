@@ -37,22 +37,13 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int dim_num = 0;
-        double estimate;
-        double error;
+        int dim_num;
         double exact = 0;
-        double[] fx;
-        int i;
-        int j;
         int n = 0;
         int n_more = 0;
         int n_log2;
-        int n_log2_max = 25;
-        double quad;
-        double quad_more;
+        const int n_log2_max = 25;
         int seed;
-        double volume;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("HYPERBALL_VOLUME_MONTE_CARLO:");
@@ -102,8 +93,8 @@ internal static class Program
         Console.WriteLine("    Log(N)         N      Estimate         Error");
         Console.WriteLine("");
 
-        quad = 0.0;
-        volume = Math.Pow(2.0, dim_num);
+        double quad = 0.0;
+        double volume = Math.Pow(2.0, dim_num);
 
         for (n_log2 = 0; n_log2 <= n_log2_max; n_log2++)
         {
@@ -122,21 +113,23 @@ internal static class Program
                     break;
             }
 
-            x = UniformRNG.r8mat_uniform_01_new(dim_num, n_more, ref seed);
+            double[] x = UniformRNG.r8mat_uniform_01_new(dim_num, n_more, ref seed);
             //
             //  Rescale X from [0,1] to [-1,1].
             //
+            int j;
             for (j = 0; j < n_more; j++)
             {
+                int i;
                 for (i = 0; i < dim_num; i++)
                 {
                     x[i + j * dim_num] = 2.0 * x[i + j * dim_num] - 1.0;
                 }
             }
 
-            fx = Montecarlo.hyperball01_indicator(dim_num, n_more, x);
+            double[] fx = Montecarlo.hyperball01_indicator(dim_num, n_more, x);
 
-            quad_more = typeMethods.r8vec_sum(n_more, fx);
+            double quad_more = typeMethods.r8vec_sum(n_more, fx);
 
             //
             //  Incorporate the new data into the totals.
@@ -144,9 +137,9 @@ internal static class Program
             n += n_more;
             quad += quad_more;
 
-            estimate = volume * quad / n;
+            double estimate = volume * quad / n;
             exact = Montecarlo.hyperball01_volume(dim_num);
-            error = Math.Abs(exact - estimate);
+            double error = Math.Abs(exact - estimate);
             Console.WriteLine("  " + n_log2.ToString().PadLeft(8)
                                    + "  " + n.ToString().PadLeft(8)
                                    + "  " + estimate.ToString("0.##########").PadLeft(16)

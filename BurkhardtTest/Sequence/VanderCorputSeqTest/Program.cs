@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Sequence;
 using Burkardt.Types;
 
@@ -64,9 +65,6 @@ internal static class Program
         //
     {
         int i;
-        double r2;
-        double r3;
-        double r5;
 
         Console.WriteLine("");
         Console.WriteLine("VDC_BASE_TEST");
@@ -78,13 +76,13 @@ internal static class Program
 
         for (i = -10; i <= 10; i++)
         {
-            r2 = VanDerCorput.vdc_base(i, 2);
-            r3 = VanDerCorput.vdc_base(i, 3);
-            r5 = VanDerCorput.vdc_base(i, 5);
-            Console.WriteLine("  " + i.ToString().PadLeft(3)
-                                   + "        " + r2.ToString().PadLeft(14)
-                                   + "  " + r3.ToString().PadLeft(14)
-                                   + "  " + r5.ToString().PadLeft(14) + "");
+            double r2 = VanDerCorput.vdc_base(i, 2);
+            double r3 = VanDerCorput.vdc_base(i, 3);
+            double r5 = VanDerCorput.vdc_base(i, 5);
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(3)
+                                   + "        " + r2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + r3.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + r5.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -111,8 +109,6 @@ internal static class Program
         //
     {
         int i;
-        int i2;
-        double r;
 
         Console.WriteLine("");
         Console.WriteLine("VDC_INVERSE_TEST");
@@ -123,11 +119,11 @@ internal static class Program
 
         for (i = -10; i <= 10; i++)
         {
-            r = VanDerCorput.vdc(i);
-            i2 = VanDerCorput.vdc_inverse(r);
-            Console.WriteLine("  " + i.ToString().PadLeft(3)
-                                   + "  " + r.ToString().PadLeft(14)
-                                   + "  " + i2.ToString().PadLeft(3) + "");
+            double r = VanDerCorput.vdc(i);
+            int i2 = VanDerCorput.vdc_inverse(r);
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(3)
+                                   + "  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + i2.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "");
         }
 
     }
@@ -153,26 +149,21 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int i1;
-        int i2;
-        int n;
-        double[] r;
-
         Console.WriteLine("");
         Console.WriteLine("VDC_SEQUENCE_TEST");
         Console.WriteLine("  VDC_SEQUENCE returns elements I1 through I2 of");
         Console.WriteLine("  a van der Corput sequence.");
 
-        i1 = 7;
-        i2 = 7;
-        n = Math.Abs(i2 - i1) + 1;
-        r = VanDerCorput.vdc_sequence(i1, i2);
+        int i1 = 7;
+        int i2 = 7;
+        int n = 1;
+        double[] r = VanDerCorput.vdc_sequence(i1, i2);
         Console.WriteLine("");
         typeMethods.r8vec_transpose_print(n, r, "  R=VDC_SEQUENCE(  7,  7):");
 
         i1 = 0;
         i2 = 8;
-        n = Math.Abs(i2 - i1) + 1;
+        n = i2 + 1;
         r = VanDerCorput.vdc_sequence(i1, i2);
         Console.WriteLine("");
         typeMethods.r8vec_transpose_print(n, r, "  R=VDC_SEQUENCE(  0,  8):");
@@ -222,7 +213,6 @@ internal static class Program
         //
     {
         int i;
-        double r;
 
         Console.WriteLine("");
         Console.WriteLine("VDC_TEST");
@@ -233,9 +223,9 @@ internal static class Program
 
         for (i = -10; i <= 10; i++)
         {
-            r = VanDerCorput.vdc(i);
-            Console.WriteLine("  " + i.ToString().PadLeft(3)
-                                   + "  " + r.ToString().PadLeft(14) + "");
+            double r = VanDerCorput.vdc(i);
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(3)
+                                   + "  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }

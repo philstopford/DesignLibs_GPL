@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Sequence;
 using Burkardt.Types;
 
@@ -65,11 +66,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int i;
-        int j;
         int m;
-        int n;
-        double[] r;
 
         Console.WriteLine("");
         Console.WriteLine("HAMMERSLEY_TEST");
@@ -78,7 +75,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("    I          HAMMERSLEY(I)");
 
-        n = 16;
+        int n = 16;
 
         for (m = 1; m <= 3; m++)
         {
@@ -86,13 +83,15 @@ internal static class Program
             Console.WriteLine("  Use M = " + m + "");
             Console.WriteLine("      N = " + n + "");
             Console.WriteLine("");
+            int i;
             for (i = 0; i <= 10; i++)
             {
-                string cout = "  " + i.ToString().PadLeft(3);
-                r = Hammersley.hammersley(i, m, n);
+                string cout = "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(3);
+                double[] r = Hammersley.hammersley(i, m, n);
+                int j;
                 for (j = 0; j < m; j++)
                 {
-                    cout += "  " + r[j].ToString().PadLeft(14);;
+                    cout += "  " + r[j].ToString(CultureInfo.InvariantCulture).PadLeft(14);
                 }
 
                 Console.WriteLine(cout);
@@ -122,11 +121,6 @@ internal static class Program
         //
     {
         int i;
-        int i2;
-        int j;
-        int m;
-        int n;
-        double[] r;
 
         Console.WriteLine("");
         Console.WriteLine("HAMMERSLEY_INVERSE_TEST");
@@ -135,20 +129,21 @@ internal static class Program
         Console.WriteLine("    I        R=HAMMERSLEY(I,3)  HAMMERSLEY_INVERSE(R,3)");
         Console.WriteLine("");
 
-        m = 3;
-        n = 16;
+        int m = 3;
+        int n = 16;
 
         for (i = 0; i <= 10; i++)
         {
-            string cout = "  " + i.ToString().PadLeft(3);
-            r = Hammersley.hammersley(i, m, n);
+            string cout = "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(3);
+            double[] r = Hammersley.hammersley(i, m, n);
+            int j;
             for (j = 0; j < m; j++)
             {
-                cout += "  " + r[j].ToString().PadLeft(14);;
+                cout += "  " + r[j].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
-            i2 = Hammersley.hammersley_inverse(r, m, n);
-            Console.WriteLine(cout + "  " + i2.ToString().PadLeft(3) + "");
+            int i2 = Hammersley.hammersley_inverse(r, m, n);
+            Console.WriteLine(cout + "  " + i2.ToString(CultureInfo.InvariantCulture).PadLeft(3) + "");
         }
     }
 
@@ -174,7 +169,6 @@ internal static class Program
         //
     {
         int m;
-        int n;
         double[] r;
 
         Console.WriteLine("");
@@ -182,7 +176,7 @@ internal static class Program
         Console.WriteLine("  HAMMERSLEY_SEQUENCE returns the elements I1 through I2");
         Console.WriteLine("  of an M-dimensional Hammersley sequence.");
 
-        n = 16;
+        int n = 16;
 
         for (m = 1; m <= 3; m++)
         {

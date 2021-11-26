@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Probability;
 using Burkardt.Types;
 
@@ -27,19 +28,11 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        int SAMPLE_NUM = 1000;
+        const int SAMPLE_NUM = 1000;
 
-        double a;
-        double b;
-        double c;
         int j;
-        double[] mean;
         int seed = 123456789;
-        double variance;
         double[] x = new double [2 * SAMPLE_NUM];
-        double[] xmax;
-        double[] xmin;
-        double[] y;
 
         Console.WriteLine("");
         Console.WriteLine("DISK_SAMPLE");
@@ -47,28 +40,28 @@ internal static partial class Program
         Console.WriteLine("  DISK_SAMPLE samples the Disk distribution;");
         Console.WriteLine("  DISK_VARIANCE returns the Disk variance;");
 
-        a = 10.0;
-        b = 4.0;
-        c = 3.0;
+        const double a = 10.0;
+        const double b = 4.0;
+        const double c = 3.0;
 
         Console.WriteLine("");
         Console.WriteLine("  PDF parameter A =      " + a + "");
         Console.WriteLine("  PDF parameter B =      " + b + "");
         Console.WriteLine("  PDF parameter C =      " + c + "");
 
-        mean = Disk.disk_mean(a, b, c);
-        variance = Disk.disk_variance(a, b, c);
+        double[] mean = Disk.disk_mean(a, b, c);
+        double variance = Disk.disk_variance(a, b, c);
 
         Console.WriteLine("");
         Console.WriteLine("  Disk mean ="
-                          + "  " + mean[0].ToString().PadLeft(12)
-                          + "  " + mean[1].ToString().PadLeft(12) + "");
-        Console.WriteLine("  Disk variance = " + variance.ToString().PadLeft(12) + "");
+                          + "  " + mean[0].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                          + "  " + mean[1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
+        Console.WriteLine("  Disk variance = " + variance.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
 
 
         for (j = 0; j < SAMPLE_NUM; j++)
         {
-            y = Disk.disk_sample(a, b, c, ref seed);
+            double[] y = Disk.disk_sample(a, b, c, ref seed);
             x[0 + j * 2] = y[0];
             x[1 + j * 2] = y[1];
         }
@@ -83,22 +76,22 @@ internal static partial class Program
 
 
         mean = typeMethods.r8row_mean(2, SAMPLE_NUM, x);
-        xmax = typeMethods.r8row_max(2, SAMPLE_NUM, x);
-        xmin = typeMethods.r8row_min(2, SAMPLE_NUM, x);
+        double[] xmax = typeMethods.r8row_max(2, SAMPLE_NUM, x);
+        double[] xmin = typeMethods.r8row_min(2, SAMPLE_NUM, x);
 
         Console.WriteLine("");
         Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
         Console.WriteLine("  Sample mean =     "
-                          + mean[0].ToString().PadLeft(12) + "  "
-                          + mean[1].ToString().PadLeft(12) + "");
+                          + mean[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                          + mean[1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         Console.WriteLine("  Sample variance = "
-                          + variance.ToString().PadLeft(12) + "");
+                          + variance.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         Console.WriteLine("  Sample maximum =  "
-                          + xmax[0].ToString().PadLeft(12) + "  "
-                          + xmax[1].ToString().PadLeft(12) + "");
+                          + xmax[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                          + xmax[1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         Console.WriteLine("  Sample minimum =  "
-                          + xmin[0].ToString().PadLeft(12) + "  "
-                          + xmin[1].ToString().PadLeft(12) + "");
+                          + xmin[0].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                          + xmin[1].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
 
     }
 }

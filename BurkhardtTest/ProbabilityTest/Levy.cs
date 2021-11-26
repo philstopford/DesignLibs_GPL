@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Probability;
 
 namespace ProbabilityTest;
@@ -26,14 +27,8 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        double a;
-        double b;
-        double cdf;
         int i;
-        double pdf;
         int seed = 123456789;
-        double x;
-        double x2;
 
         Console.WriteLine("");
         Console.WriteLine("LEVY_CDF_TEST");
@@ -41,8 +36,8 @@ internal static partial class Program
         Console.WriteLine("  LEVY_CDF_INV inverts the Levy CDF.");
         Console.WriteLine("  LEVY_PDF evaluates the Levy PDF;");
 
-        a = 1.0;
-        b = 2.0;
+        const double a = 1.0;
+        const double b = 2.0;
 
         Console.WriteLine("");
         Console.WriteLine("  PDF parameter A =      " + a + "");
@@ -54,16 +49,16 @@ internal static partial class Program
 
         for (i = 1; i <= 10; i++)
         {
-            x = Levy.levy_sample(a, b, ref seed);
-            pdf = Levy.levy_pdf(x, a, b);
-            cdf = Levy.levy_cdf(x, a, b);
-            x2 = Levy.levy_cdf_inv(cdf, a, b);
+            double x = Levy.levy_sample(a, b, ref seed);
+            double pdf = Levy.levy_pdf(x, a, b);
+            double cdf = Levy.levy_cdf(x, a, b);
+            double x2 = Levy.levy_cdf_inv(cdf, a, b);
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + pdf.ToString().PadLeft(12) + "  "
-                              + cdf.ToString().PadLeft(12) + "  "
-                              + x2.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
         

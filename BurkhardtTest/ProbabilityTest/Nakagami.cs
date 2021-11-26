@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Probability;
 
 namespace ProbabilityTest;
@@ -26,14 +27,7 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        double a;
-        double b;
-        double c;
-        double cdf;
         int i;
-        double pdf;
-        double x;
-        double x2;
 
         Console.WriteLine("");
         Console.WriteLine("NAKAGAMI_CDF_TEST");
@@ -41,9 +35,9 @@ internal static partial class Program
         Console.WriteLine("  NAKAGAMI_CDF_INV inverts the Nakagami CDF;");
         Console.WriteLine("  NAKAGAMI_PDF evaluates the Nakagami PDF;");
 
-        a = 1.0;
-        b = 2.0;
-        c = 3.0;
+        const double a = 1.0;
+        const double b = 2.0;
+        const double c = 3.0;
 
         Console.WriteLine("");
         Console.WriteLine("  PDF parameter A =      " + a + "");
@@ -64,15 +58,15 @@ internal static partial class Program
 
         for (i = 1; i <= 10; i++)
         {
-            x = a + b * Math.Sqrt(i / c / 10.0);
-            pdf = Nakagami.nakagami_pdf(x, a, b, c);
-            cdf = Nakagami.nakagami_cdf(x, a, b, c);
-            x2 = Nakagami.nakagami_cdf_inv(cdf, a, b, c);
+            double x = a + b * Math.Sqrt(i / c / 10.0);
+            double pdf = Nakagami.nakagami_pdf(x, a, b, c);
+            double cdf = Nakagami.nakagami_cdf(x, a, b, c);
+            double x2 = Nakagami.nakagami_cdf_inv(cdf, a, b, c);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(12)
-                                   + "  " + pdf.ToString().PadLeft(12)
-                                   + "  " + cdf.ToString().PadLeft(12)
-                                   + "  " + x2.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + x2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -97,20 +91,14 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        double a;
-        double b;
-        double c;
-        double mean;
-        double variance;
-
         Console.WriteLine("");
         Console.WriteLine("NAKAGAMI_SAMPLE_TEST");
         Console.WriteLine("  NAKAGAMI_MEAN evaluates the Nakagami mean;");
         Console.WriteLine("  NAKAGAMI_VARIANCE evaluates the Nakagami variance;");
 
-        a = 1.0;
-        b = 2.0;
-        c = 3.0;
+        const double a = 1.0;
+        const double b = 2.0;
+        const double c = 3.0;
 
         Console.WriteLine("");
         Console.WriteLine("  PDF parameter A =      " + a + "");
@@ -125,8 +113,8 @@ internal static partial class Program
             return;
         }
 
-        mean = Nakagami.nakagami_mean(a, b, c);
-        variance = Nakagami.nakagami_variance(a, b, c);
+        double mean = Nakagami.nakagami_mean(a, b, c);
+        double variance = Nakagami.nakagami_variance(a, b, c);
 
         Console.WriteLine("");
         Console.WriteLine("  PDF mean =      " + mean + "");

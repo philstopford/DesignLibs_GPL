@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Probability;
 using Burkardt.Types;
 
@@ -28,12 +29,8 @@ internal static partial class Program
 //
 
     {
-        double cdf;
         int i;
-        double pdf;
         int seed = 123456789;
-        double x;
-        double x2;
 
         Console.WriteLine("");
         Console.WriteLine("LORENTZ_CDF_TEST");
@@ -47,16 +44,16 @@ internal static partial class Program
 
         for (i = 1; i <= 10; i++)
         {
-            x = Lorentz.lorentz_sample(ref seed);
-            pdf = Lorentz.lorentz_pdf(x);
-            cdf = Lorentz.lorentz_cdf(x);
-            x2 = Lorentz.lorentz_cdf_inv(cdf);
+            double x = Lorentz.lorentz_sample(ref seed);
+            double pdf = Lorentz.lorentz_pdf(x);
+            double cdf = Lorentz.lorentz_cdf(x);
+            double x2 = Lorentz.lorentz_cdf_inv(cdf);
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + pdf.ToString().PadLeft(12) + "  "
-                              + cdf.ToString().PadLeft(12) + "  "
-                              + x2.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
     }
@@ -82,15 +79,11 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        int SAMPLE_NUM = 1000;
+        const int SAMPLE_NUM = 1000;
 
         int i;
-        double mean;
         int seed = 123456789;
-        double variance;
         double[] x = new double [SAMPLE_NUM];
-        double xmax;
-        double xmin;
 
         Console.WriteLine("");
         Console.WriteLine("LORENTZ_SAMPLE_TEST");
@@ -98,8 +91,8 @@ internal static partial class Program
         Console.WriteLine("  LORENTZ_SAMPLE samples the Lorentz distribution;");
         Console.WriteLine("  LORENTZ_VARIANCE computes the Lorentz variance.");
 
-        mean = Lorentz.lorentz_mean();
-        variance = Lorentz.lorentz_variance();
+        double mean = Lorentz.lorentz_mean();
+        double variance = Lorentz.lorentz_variance();
 
         Console.WriteLine("");
         Console.WriteLine("  PDF mean =     " + mean + "");
@@ -112,8 +105,8 @@ internal static partial class Program
 
         mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
         variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
-        xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
-        xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
+        double xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+        double xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
         Console.WriteLine("");
         Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");

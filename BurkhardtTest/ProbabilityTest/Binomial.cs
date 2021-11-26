@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Probability;
 using Burkardt.Types;
 
@@ -27,14 +28,8 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        int a;
-        double b;
-        double cdf;
         int i;
-        double pdf;
         int seed = 123456789;
-        int x;
-        int x2;
 
         Console.WriteLine("");
         Console.WriteLine("BINOMIAL_CDF_TEST");
@@ -42,8 +37,8 @@ internal static partial class Program
         Console.WriteLine("  BINOMIAL_CDF_INV inverts the Binomial CDF.");
         Console.WriteLine("  BINOMIAL_PDF evaluates the Binomial PDF;");
 
-        a = 5;
-        b = 0.65;
+        const int a = 5;
+        const double b = 0.65;
 
         Console.WriteLine("");
         Console.WriteLine("  PDF parameter A =      " + a + "");
@@ -63,16 +58,16 @@ internal static partial class Program
 
         for (i = 1; i <= 10; i++)
         {
-            x = Binomial.binomial_sample(a, b, ref seed);
-            pdf = Binomial.binomial_pdf(x, a, b);
-            cdf = Binomial.binomial_cdf(x, a, b);
-            x2 = Binomial.binomial_cdf_inv(cdf, a, b);
+            int x = Binomial.binomial_sample(a, b, ref seed);
+            double pdf = Binomial.binomial_pdf(x, a, b);
+            double cdf = Binomial.binomial_cdf(x, a, b);
+            int x2 = Binomial.binomial_cdf_inv(cdf, a, b);
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + pdf.ToString().PadLeft(12) + "  "
-                              + cdf.ToString().PadLeft(12) + "  "
-                              + x2.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
     }
@@ -98,17 +93,11 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        int SAMPLE_NUM = 1000;
+        const int SAMPLE_NUM = 1000;
 
-        int a;
-        double b;
         int i;
-        double mean;
         int seed = 123456789;
-        double variance;
         int[] x = new int [SAMPLE_NUM];
-        int xmax;
-        int xmin;
 
         Console.WriteLine("");
         Console.WriteLine("BINOMIAL_SAMPLE_TEST");
@@ -116,8 +105,8 @@ internal static partial class Program
         Console.WriteLine("  BINOMIAL_SAMPLE samples the Binomial distribution;");
         Console.WriteLine("  BINOMIAL_VARIANCE computes the Binomial variance;");
 
-        a = 5;
-        b = 0.30;
+        const int a = 5;
+        const double b = 0.30;
 
         Console.WriteLine("");
         Console.WriteLine("  PDF parameter A =      " + a + "");
@@ -131,8 +120,8 @@ internal static partial class Program
             return;
         }
 
-        mean = Binomial.binomial_mean(a, b);
-        variance = Binomial.binomial_variance(a, b);
+        double mean = Binomial.binomial_mean(a, b);
+        double variance = Binomial.binomial_variance(a, b);
 
         Console.WriteLine("");
         Console.WriteLine("  PDF mean =     " + mean + "");
@@ -145,8 +134,8 @@ internal static partial class Program
 
         mean = typeMethods.i4vec_mean(SAMPLE_NUM, x);
         variance = typeMethods.i4vec_variance(SAMPLE_NUM, x);
-        xmax = typeMethods.i4vec_max(SAMPLE_NUM, x);
-        xmin = typeMethods.i4vec_min(SAMPLE_NUM, x);
+        int xmax = typeMethods.i4vec_max(SAMPLE_NUM, x);
+        int xmin = typeMethods.i4vec_min(SAMPLE_NUM, x);
 
         Console.WriteLine("");
         Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");

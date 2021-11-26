@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Probability;
 using Burkardt.Types;
 
@@ -27,13 +28,8 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        double cdf;
         int i;
-        int m;
-        int n;
-        double pdf;
         int seed = 123456789;
-        double x;
 
         Console.WriteLine("");
         Console.WriteLine("F_CDF_TEST");
@@ -41,8 +37,8 @@ internal static partial class Program
         Console.WriteLine("  F_PDF evaluates the F PDF;");
         Console.WriteLine("  F_SAMPLE samples the F PDF;");
 
-        m = 1;
-        n = 1;
+        const int m = 1;
+        const int n = 1;
 
         Console.WriteLine("");
         Console.WriteLine("  PDF parameter M = " + m + "");
@@ -62,14 +58,14 @@ internal static partial class Program
 
         for (i = 1; i <= 10; i++)
         {
-            x = FProb.f_sample(m, n, ref seed);
-            pdf = FProb.f_pdf(x, m, n);
-            cdf = FProb.f_cdf(x, m, n);
+            double x = FProb.f_sample(m, n, ref seed);
+            double pdf = FProb.f_pdf(x, m, n);
+            double cdf = FProb.f_cdf(x, m, n);
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + pdf.ToString().PadLeft(12) + "  "
-                              + cdf.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -94,17 +90,11 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        int SAMPLE_NUM = 1000;
+        const int SAMPLE_NUM = 1000;
 
         int i;
-        int m;
-        double mean;
-        int n;
         int seed = 123456789;
-        double variance;
         double[] x = new double [SAMPLE_NUM];
-        double xmax;
-        double xmin;
 
         Console.WriteLine("");
         Console.WriteLine("F_SAMPLE_TEST");
@@ -112,8 +102,8 @@ internal static partial class Program
         Console.WriteLine("  F_SAMPLE samples the F distribution;");
         Console.WriteLine("  F_VARIANCE computes the F variance;");
 
-        m = 8;
-        n = 6;
+        const int m = 8;
+        const int n = 6;
 
         Console.WriteLine("");
         Console.WriteLine("  PDF parameter M = " + m + "");
@@ -127,8 +117,8 @@ internal static partial class Program
             return;
         }
 
-        mean = FProb.f_mean(m, n);
-        variance = FProb.f_variance(m, n);
+        double mean = FProb.f_mean(m, n);
+        double variance = FProb.f_variance(m, n);
 
         Console.WriteLine("");
         Console.WriteLine("  PDF mean =     " + mean + "");
@@ -141,8 +131,8 @@ internal static partial class Program
 
         mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
         variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
-        xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
-        xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
+        double xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+        double xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
         Console.WriteLine("");
         Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Probability;
 using Burkardt.Types;
 
@@ -27,13 +28,8 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        double alpha;
-        double cdf;
         int i;
-        double pdf;
         int seed = 123456789;
-        double x;
-        double x2;
 
         Console.WriteLine("");
         Console.WriteLine("FRECHET_CDF_TEST");
@@ -41,7 +37,7 @@ internal static partial class Program
         Console.WriteLine("  FRECHET_CDF_INV inverts the Frechet CDF.");
         Console.WriteLine("  FRECHET_PDF evaluates the Frechet PDF;");
 
-        alpha = 3.0;
+        const double alpha = 3.0;
 
         Console.WriteLine("");
         Console.WriteLine("  PDF parameter ALPHA =  " + alpha + "");
@@ -52,16 +48,16 @@ internal static partial class Program
 
         for (i = 1; i <= 10; i++)
         {
-            x = Frechet.frechet_sample(alpha, ref seed);
-            pdf = Frechet.frechet_pdf(x, alpha);
-            cdf = Frechet.frechet_cdf(x, alpha);
-            x2 = Frechet.frechet_cdf_inv(cdf, alpha);
+            double x = Frechet.frechet_sample(alpha, ref seed);
+            double pdf = Frechet.frechet_pdf(x, alpha);
+            double cdf = Frechet.frechet_cdf(x, alpha);
+            double x2 = Frechet.frechet_cdf_inv(cdf, alpha);
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + pdf.ToString().PadLeft(12) + "  "
-                              + cdf.ToString().PadLeft(12) + "  "
-                              + x2.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
     }
@@ -87,16 +83,11 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        int SAMPLE_NUM = 1000;
+        const int SAMPLE_NUM = 1000;
 
-        double alpha;
         int i;
-        double mean;
         int seed = 123456789;
-        double variance;
         double[] x = new double [SAMPLE_NUM];
-        double xmax;
-        double xmin;
 
         Console.WriteLine("");
         Console.WriteLine("FRECHET_SAMPLE_TEST");
@@ -104,13 +95,13 @@ internal static partial class Program
         Console.WriteLine("  FRECHET_SAMPLE samples the Frechet distribution;");
         Console.WriteLine("  FRECHET_VARIANCE computes the Frechet variance;");
 
-        alpha = 3.0;
+        const double alpha = 3.0;
 
         Console.WriteLine("");
         Console.WriteLine("  PDF parameter ALPHA =  " + alpha + "");
 
-        mean = Frechet.frechet_mean(alpha);
-        variance = Frechet.frechet_variance(alpha);
+        double mean = Frechet.frechet_mean(alpha);
+        double variance = Frechet.frechet_variance(alpha);
 
         Console.WriteLine("");
         Console.WriteLine("  PDF mean =     " + mean + "");
@@ -123,8 +114,8 @@ internal static partial class Program
 
         mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
         variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
-        xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
-        xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
+        double xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+        double xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
         Console.WriteLine("");
         Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Probability;
 using Burkardt.Types;
 
@@ -27,19 +28,15 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        int A = 6;
+        const int A = 6;
 
         double[] b =
             {
                 1.0, 2.0, 6.0, 2.0, 4.0, 1.0
             }
             ;
-        double cdf;
         int i;
-        double pdf;
         int seed = 123456789;
-        int x;
-        int x2;
 
         Console.WriteLine("");
         Console.WriteLine("DISCRETE_CDF_TEST");
@@ -66,16 +63,16 @@ internal static partial class Program
 
         for (i = 1; i <= 10; i++)
         {
-            x = Discrete.discrete_sample(A, b, ref seed);
-            pdf = Discrete.discrete_pdf(x, A, b);
-            cdf = Discrete.discrete_cdf(x, A, b);
-            x2 = Discrete.discrete_cdf_inv(cdf, A, b);
+            int x = Discrete.discrete_sample(A, b, ref seed);
+            double pdf = Discrete.discrete_pdf(x, A, b);
+            double cdf = Discrete.discrete_cdf(x, A, b);
+            int x2 = Discrete.discrete_cdf_inv(cdf, A, b);
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + pdf.ToString().PadLeft(12) + "  "
-                              + cdf.ToString().PadLeft(12) + "  "
-                              + x2.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
     }
@@ -101,8 +98,8 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        int A = 6;
-        int SAMPLE_NUM = 1000;
+        const int A = 6;
+        const int SAMPLE_NUM = 1000;
 
         double[] b =
             {
@@ -110,12 +107,8 @@ internal static partial class Program
             }
             ;
         int i;
-        double mean;
         int seed = 123456789;
-        double variance;
         int[] x = new int[SAMPLE_NUM];
-        int xmax;
-        int xmin;
 
         Console.WriteLine("");
         Console.WriteLine("DISCRETE_SAMPLE_TEST");
@@ -135,8 +128,8 @@ internal static partial class Program
             return;
         }
 
-        mean = Discrete.discrete_mean(A, b);
-        variance = Discrete.discrete_variance(A, b);
+        double mean = Discrete.discrete_mean(A, b);
+        double variance = Discrete.discrete_variance(A, b);
 
         Console.WriteLine("");
         Console.WriteLine("  PDF mean =     " + mean + "");
@@ -149,8 +142,8 @@ internal static partial class Program
 
         mean = typeMethods.i4vec_mean(SAMPLE_NUM, x);
         variance = typeMethods.i4vec_variance(SAMPLE_NUM, x);
-        xmax = typeMethods.i4vec_max(SAMPLE_NUM, x);
-        xmin = typeMethods.i4vec_min(SAMPLE_NUM, x);
+        int xmax = typeMethods.i4vec_max(SAMPLE_NUM, x);
+        int xmin = typeMethods.i4vec_min(SAMPLE_NUM, x);
 
         Console.WriteLine("");
         Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");

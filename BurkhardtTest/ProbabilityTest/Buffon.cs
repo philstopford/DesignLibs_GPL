@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Probability;
 using Burkardt.Types;
 
@@ -27,13 +28,7 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        double a;
-        double b;
         int i;
-        int j;
-        int k;
-        double l;
-        double pdf;
 
         Console.WriteLine("");
         Console.WriteLine("BUFFON_BOX_PDF_TEST tests BUFFON_BOX_PDF.");
@@ -47,18 +42,20 @@ internal static partial class Program
 
         for (i = 1; i <= 5; i++)
         {
-            a = i;
+            double a = i;
+            int j;
             for (j = 1; j <= 5; j++)
             {
-                b = j;
+                double b = j;
+                int k;
                 for (k = 0; k <= 5; k++)
                 {
-                    l = k * Math.Min(a, b) / 5.0;
-                    pdf = Buffon.buffon_box_pdf(a, b, l);
-                    Console.WriteLine("  " + a.ToString().PadLeft(8)
-                                           + "  " + b.ToString().PadLeft(8)
-                                           + "  " + l.ToString().PadLeft(8)
-                                           + "  " + pdf.ToString().PadLeft(14) + "");
+                    double l = k * Math.Min(a, b) / 5.0;
+                    double pdf = Buffon.buffon_box_pdf(a, b, l);
+                    Console.WriteLine("  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + b.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + l.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                 }
 
                 Console.WriteLine("");
@@ -87,25 +84,17 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        int TEST_NUM = 4;
+        const int TEST_NUM = 4;
 
-        double a;
-        double b;
-        double err;
-        int hits;
-        double l;
-        double pi = 3.141592653589793238462643;
-        double pi_est;
         int test;
-        int trial_num;
         int[] trial_num_test =  {
                 10, 100, 10000, 1000000
             }
             ;
 
-        a = 1.0;
-        b = 1.0;
-        l = 1.0;
+        const double a = 1.0;
+        const double b = 1.0;
+        const double l = 1.0;
 
         Console.WriteLine("");
         Console.WriteLine("BUFFON_BOX_SAMPLE_TEST");
@@ -125,22 +114,22 @@ internal static partial class Program
 
         for (test = 0; test < TEST_NUM; test++)
         {
-            trial_num = trial_num_test[test];
+            int trial_num = trial_num_test[test];
 
-            hits = Buffon.buffon_box_sample(a, b, l, trial_num);
+            int hits = Buffon.buffon_box_sample(a, b, l, trial_num);
 
-            pi_est = hits switch
+            double pi_est = hits switch
             {
                 > 0 => (2.0 * l * (a + b) - l * l) * trial_num / (a * b * hits),
                 _ => typeMethods.r8_huge()
             };
 
-            err = Math.Abs(pi_est - pi);
+            double err = Math.Abs(pi_est - Math.PI);
 
-            Console.WriteLine("  " + trial_num.ToString().PadLeft(8)
-                                   + "  " + hits.ToString().PadLeft(8)
-                                   + "  " + pi_est.ToString().PadLeft(14)
-                                   + "  " + err.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + trial_num.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + hits.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + pi_est.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -166,11 +155,7 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        double a;
         int i;
-        int k;
-        double l;
-        double pdf;
 
         Console.WriteLine("");
         Console.WriteLine("BUFFON_PDF_TEST");
@@ -184,14 +169,15 @@ internal static partial class Program
 
         for (i = 1; i <= 5; i++)
         {
-            a = i;
+            double a = i;
+            int k;
             for (k = 0; k <= 5; k++)
             {
-                l = k * a / 5.0;
-                pdf = Buffon.buffon_pdf(a, l);
-                Console.WriteLine("  " + a.ToString().PadLeft(8)
-                                       + "  " + l.ToString().PadLeft(8)
-                                       + "  " + pdf.ToString().PadLeft(14)+ "");
+                double l = k * a / 5.0;
+                double pdf = Buffon.buffon_pdf(a, l);
+                Console.WriteLine("  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + l.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(14)+ "");
             }
 
             Console.WriteLine("");
@@ -219,22 +205,15 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        int TEST_NUM = 4;
+        const int TEST_NUM = 4;
 
-        double a;
-        double err;
-        int hits;
-        double l;
-        double pi = 3.141592653589793238462643;
-        double pi_est;
         int test;
-        int trial_num;
         int[] trial_num_test =  {
             10, 100, 10000, 1000000
         };
 
-        a = 1.0;
-        l = 1.0;
+        const double a = 1.0;
+        const double l = 1.0;
 
         Console.WriteLine("");
         Console.WriteLine("BUFFON_SAMPLE_TEST");
@@ -253,22 +232,22 @@ internal static partial class Program
 
         for (test = 0; test < TEST_NUM; test++)
         {
-            trial_num = trial_num_test[test];
+            int trial_num = trial_num_test[test];
 
-            hits = Buffon.buffon_sample(a, l, trial_num);
+            int hits = Buffon.buffon_sample(a, l, trial_num);
 
-            pi_est = hits switch
+            double pi_est = hits switch
             {
                 > 0 => 2.0 * l * trial_num / (a * hits),
                 _ => typeMethods.r8_huge()
             };
 
-            err = Math.Abs(pi_est - pi);
+            double err = Math.Abs(pi_est - Math.PI);
 
-            Console.WriteLine("  " + trial_num.ToString().PadLeft(8)
-                                   + "  " + hits.ToString().PadLeft(8)
-                                   + "  " + pi_est.ToString().PadLeft(14)
-                                   + "  " + err.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + trial_num.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + hits.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + pi_est.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 

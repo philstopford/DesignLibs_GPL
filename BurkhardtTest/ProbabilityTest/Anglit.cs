@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Probability;
 using Burkardt.Types;
 
@@ -27,12 +28,8 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        double cdf;
         int i;
-        double pdf;
         int seed = 123456789;
-        double x;
-        double x2;
 
         Console.WriteLine("");
         Console.WriteLine("ANGLIT_CDF_TEST");
@@ -46,16 +43,16 @@ internal static partial class Program
 
         for (i = 1; i <= 10; i++)
         {
-            x = Anglit.anglit_sample(ref seed);
-            pdf = Anglit.anglit_pdf(x);
-            cdf = Anglit.anglit_cdf(x);
-            x2 = Anglit.anglit_cdf_inv(cdf);
+            double x = Anglit.anglit_sample(ref seed);
+            double pdf = Anglit.anglit_pdf(x);
+            double cdf = Anglit.anglit_cdf(x);
+            double x2 = Anglit.anglit_cdf_inv(cdf);
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + pdf.ToString().PadLeft(12) + "  "
-                              + cdf.ToString().PadLeft(12) + "  "
-                              + x2.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -80,15 +77,11 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        int SAMPLE_NUM = 1000;
+        const int SAMPLE_NUM = 1000;
 
         int i;
-        double mean;
         int seed = 123456789;
-        double variance;
         double[] x = new double[SAMPLE_NUM];
-        double xmax;
-        double xmin;
 
         Console.WriteLine("");
         Console.WriteLine("ANGLIT_SAMPLE_TEST");
@@ -96,8 +89,8 @@ internal static partial class Program
         Console.WriteLine("  ANGLIT_SAMPLE samples the Anglit distribution;");
         Console.WriteLine("  ANGLIT_VARIANCE computes the Anglit variance.");
 
-        mean = Anglit.anglit_mean();
-        variance = Anglit.anglit_variance();
+        double mean = Anglit.anglit_mean();
+        double variance = Anglit.anglit_variance();
 
         Console.WriteLine("");
         Console.WriteLine("  PDF mean =     " + mean + "");
@@ -110,8 +103,8 @@ internal static partial class Program
 
         mean = typeMethods.r8vec_mean(i, x);
         variance = typeMethods.r8vec_variance(i, x);
-        xmax = typeMethods.r8vec_max(i, x);
-        xmin = typeMethods.r8vec_min(i, x);
+        double xmax = typeMethods.r8vec_max(i, x);
+        double xmin = typeMethods.r8vec_min(i, x);
 
         Console.WriteLine("");
         Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Probability;
 using Burkardt.Types;
 
@@ -27,15 +28,8 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        double a;
-        double b;
-        double c;
-        double cdf;
         int i;
-        double pdf;
         int seed = 123456789;
-        double x;
-        double x2;
 
         Console.WriteLine("");
         Console.WriteLine("CHI_CDF_TEST");
@@ -43,9 +37,9 @@ internal static partial class Program
         Console.WriteLine("  CHI_CDF_INV inverts the Chi CDF.");
         Console.WriteLine("  CHI_PDF evaluates the Chi PDF;");
 
-        a = 1.0;
-        b = 2.0;
-        c = 3.0;
+        double a = 1.0;
+        double b = 2.0;
+        double c = 3.0;
 
         Console.WriteLine("");
         Console.WriteLine("  PDF parameter A =      " + a + "");
@@ -66,16 +60,16 @@ internal static partial class Program
 
         for (i = 1; i <= 10; i++)
         {
-            x = Chi.chi_sample(a, b, c, ref seed);
-            pdf = Chi.chi_pdf(x, a, b, c);
-            cdf = Chi.chi_cdf(x, a, b, c);
-            x2 = Chi.chi_cdf_inv(cdf, a, b, c);
+            double x = Chi.chi_sample(a, b, c, ref seed);
+            double pdf = Chi.chi_pdf(x, a, b, c);
+            double cdf = Chi.chi_cdf(x, a, b, c);
+            double x2 = Chi.chi_cdf_inv(cdf, a, b, c);
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + pdf.ToString().PadLeft(12) + "  "
-                              + cdf.ToString().PadLeft(12) + "  "
-                              + x2.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -100,18 +94,11 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        int SAMPLE_NUM = 1000;
+        const int SAMPLE_NUM = 1000;
 
-        double a;
-        double b;
-        double c;
         int i;
-        double mean;
         int seed = 123456789;
-        double variance;
         double[] x = new double[SAMPLE_NUM];
-        double xmax;
-        double xmin;
 
         Console.WriteLine("");
         Console.WriteLine("CHI_SAMPLE_TEST");
@@ -119,9 +106,9 @@ internal static partial class Program
         Console.WriteLine("  CHI_SAMPLE samples the Chi distribution;");
         Console.WriteLine("  CHI_VARIANCE computes the Chi variance;");
 
-        a = 1.0;
-        b = 2.0;
-        c = 3.0;
+        const double a = 1.0;
+        const double b = 2.0;
+        const double c = 3.0;
 
         Console.WriteLine("");
         Console.WriteLine("  PDF parameter A =      " + a + "");
@@ -136,8 +123,8 @@ internal static partial class Program
             return;
         }
 
-        mean = Chi.chi_mean(a, b, c);
-        variance = Chi.chi_variance(a, b, c);
+        double mean = Chi.chi_mean(a, b, c);
+        double variance = Chi.chi_variance(a, b, c);
 
         Console.WriteLine("");
         Console.WriteLine("  PDF mean =     " + mean + "");
@@ -150,8 +137,8 @@ internal static partial class Program
 
         mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
         variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
-        xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
-        xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
+        double xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+        double xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
         Console.WriteLine("");
         Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
@@ -183,13 +170,8 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        double a;
-        double cdf;
         int i;
-        double pdf;
         int seed = 123456789;
-        double x;
-        double x2;
 
         Console.WriteLine("");
         Console.WriteLine("CHI_SQUARE_CDF_TEST");
@@ -197,7 +179,7 @@ internal static partial class Program
         Console.WriteLine("  CHI_SQUARE_CDF_INV inverts the Chi Square CDF.");
         Console.WriteLine("  CHI_SQUARE_PDF evaluates the Chi Square PDF;");
 
-        a = 4.0E+00;
+        const double a = 4.0E+00;
 
         Console.WriteLine("");
         Console.WriteLine("  PDF parameter A =             " + a + "");
@@ -216,16 +198,16 @@ internal static partial class Program
 
         for (i = 1; i <= 10; i++)
         {
-            x = Chi.chi_square_sample(a, ref seed);
-            pdf = Chi.chi_square_pdf(x, a);
-            cdf = Chi.chi_square_cdf(x, a);
-            x2 = Chi.chi_square_cdf_inv(cdf, a);
+            double x = Chi.chi_square_sample(a, ref seed);
+            double pdf = Chi.chi_square_pdf(x, a);
+            double cdf = Chi.chi_square_cdf(x, a);
+            double x2 = Chi.chi_square_cdf_inv(cdf, a);
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + pdf.ToString().PadLeft(12) + "  "
-                              + cdf.ToString().PadLeft(12) + "  "
-                              + x2.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -250,16 +232,11 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        int SAMPLE_NUM = 1000;
+        const int SAMPLE_NUM = 1000;
 
-        double a;
         int j;
-        double mean;
         int seed = 123456789;
-        double variance;
         double[] x = new double[SAMPLE_NUM];
-        double xmax;
-        double xmin;
 
         Console.WriteLine("");
         Console.WriteLine("CHI_SQUARE_SAMPLE_TEST");
@@ -267,7 +244,7 @@ internal static partial class Program
         Console.WriteLine("  CHI_SQUARE_SAMPLE samples the Chi Square distribution;");
         Console.WriteLine("  CHI_SQUARE_VARIANCE computes the Chi Square variance.");
 
-        a = 10.0E+00;
+        double a = 10.0E+00;
 
         Console.WriteLine("");
         Console.WriteLine("  PDF parameter A =             " + a + "");
@@ -280,8 +257,8 @@ internal static partial class Program
             return;
         }
 
-        mean = Chi.chi_square_mean(a);
-        variance = Chi.chi_square_variance(a);
+        double mean = Chi.chi_square_mean(a);
+        double variance = Chi.chi_square_variance(a);
 
         Console.WriteLine("  PDF mean =                    " + mean + "");
         Console.WriteLine("  PDF variance =                " + variance + "");
@@ -293,8 +270,8 @@ internal static partial class Program
 
         mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
         variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
-        xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
-        xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
+        double xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+        double xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
         Console.WriteLine("");
         Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
@@ -326,18 +303,11 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        int SAMPLE_NUM = 1000;
+        const int SAMPLE_NUM = 1000;
 
-        double a;
-        double b;
         int i;
-        double mean;
-        int seed;
-        int seed_init = 123456789;
-        double variance;
+        const int seed_init = 123456789;
         double[] x = new double [SAMPLE_NUM];
-        double xmax;
-        double xmin;
 
         Console.WriteLine("");
         Console.WriteLine("CHI_SQUARE_NONCENTRAL_SAMPLE_TEST");
@@ -345,8 +315,8 @@ internal static partial class Program
         Console.WriteLine("  CHI_SQUARE_NONCENTRAL_SAMPLE samples the Chi Square Noncentral distribution;");
         Console.WriteLine("  CHI_SQUARE_NONCENTRAL_VARIANCE computes the Chi Square Noncentral variance;");
 
-        a = 3.0;
-        b = 2.0;
+        const double a = 3.0;
+        const double b = 2.0;
 
         Console.WriteLine("");
         Console.WriteLine("  PDF parameter A =      " + a + "");
@@ -360,14 +330,14 @@ internal static partial class Program
             return;
         }
 
-        mean = Chi.chi_square_noncentral_mean(a, b);
-        variance = Chi.chi_square_noncentral_variance(a, b);
+        double mean = Chi.chi_square_noncentral_mean(a, b);
+        double variance = Chi.chi_square_noncentral_variance(a, b);
 
         Console.WriteLine("");
         Console.WriteLine("  PDF mean =     " + mean + "");
         Console.WriteLine("  PDF variance = " + variance + "");
 
-        seed = seed_init;
+        int seed = seed_init;
 
         for (i = 0; i < SAMPLE_NUM; i++)
         {
@@ -376,8 +346,8 @@ internal static partial class Program
 
         mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
         variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
-        xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
-        xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
+        double xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+        double xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
         Console.WriteLine("");
         Console.WriteLine("  Initial seed =     " + seed_init + "");

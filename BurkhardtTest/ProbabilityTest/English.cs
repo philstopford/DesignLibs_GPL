@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Probability;
 using Burkardt.Types;
 
@@ -27,12 +28,7 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        char c;
-        char c2;
-        double cdf;
         int i;
-        double pdf;
-        int seed;
 
         Console.WriteLine("");
         Console.WriteLine("ENGLISH_LETTER_CDF_TEST");
@@ -40,7 +36,7 @@ internal static partial class Program
         Console.WriteLine("  ENGLISH_LETTER_CDF_INV inverts the English Letter CDF.");
         Console.WriteLine("  ENGLISH_LETTER_PDF evaluates the English Letter PDF;");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("   C              PDF             CDF    CDF_INV");
@@ -48,14 +44,14 @@ internal static partial class Program
 
         for (i = 1; i <= 10; i++)
         {
-            c = English.english_letter_sample(ref seed);
-            pdf = English.english_letter_pdf(c);
-            cdf = English.english_letter_cdf(c);
-            c2 = English.english_letter_cdf_inv(cdf);
+            char c = English.english_letter_sample(ref seed);
+            double pdf = English.english_letter_pdf(c);
+            double cdf = English.english_letter_cdf(c);
+            char c2 = English.english_letter_cdf_inv(cdf);
 
             Console.WriteLine("  '" + c + "'"
-                              + "  " + pdf.ToString().PadLeft(14)
-                              + "  " + cdf.ToString().PadLeft(14)
+                              + "  " + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                              + "  " + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(14)
                               + "  '" + c2 + "'");
         }
     }
@@ -81,12 +77,8 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        double cdf;
         int i;
-        double pdf;
         int seed = 123456789;
-        int x;
-        int x2;
 
         Console.WriteLine("");
         Console.WriteLine("ENGLISH_SENTENCE_LENGTH_CDF_TEST");
@@ -100,18 +92,18 @@ internal static partial class Program
 
         for (i = 1; i <= 10; i++)
         {
-            x = English.english_sentence_length_sample(ref seed);
+            int x = English.english_sentence_length_sample(ref seed);
 
-            pdf = English.english_sentence_length_pdf(x);
+            double pdf = English.english_sentence_length_pdf(x);
 
-            cdf = English.english_sentence_length_cdf(x);
+            double cdf = English.english_sentence_length_cdf(x);
 
-            x2 = English.english_sentence_length_cdf_inv(cdf);
+            int x2 = English.english_sentence_length_cdf_inv(cdf);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(12)
-                                   + "  " + pdf.ToString().PadLeft(12)
-                                   + "  " + cdf.ToString().PadLeft(12)
-                                   + "  " + x2.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + x2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -136,15 +128,11 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        int SAMPLE_NUM = 1000;
+        const int SAMPLE_NUM = 1000;
 
         int i;
-        double mean;
         int seed = 123456789;
-        double variance;
         int[] x = new int[SAMPLE_NUM];
-        int xmax;
-        int xmin;
 
         Console.WriteLine("");
         Console.WriteLine("ENGLISH_SENTENCE_LENGTH_SAMPLE_TEST");
@@ -152,8 +140,8 @@ internal static partial class Program
         Console.WriteLine("  ENGLISH_SENTENCE_LENGTH_SAMPLE samples the English Sentence Length distribution;");
         Console.WriteLine("  ENGLISH_SENTENCE_LENGTH_VARIANCE computes the English Sentence Length variance.");
 
-        mean = English.english_sentence_length_mean();
-        variance = English.english_sentence_length_variance();
+        double mean = English.english_sentence_length_mean();
+        double variance = English.english_sentence_length_variance();
 
         Console.WriteLine("");
         Console.WriteLine("  PDF mean =                    " + mean + "");
@@ -166,8 +154,8 @@ internal static partial class Program
 
         mean = typeMethods.i4vec_mean(SAMPLE_NUM, x);
         variance = typeMethods.i4vec_variance(SAMPLE_NUM, x);
-        xmax = typeMethods.i4vec_max(SAMPLE_NUM, x);
-        xmin = typeMethods.i4vec_min(SAMPLE_NUM, x);
+        int xmax = typeMethods.i4vec_max(SAMPLE_NUM, x);
+        int xmin = typeMethods.i4vec_min(SAMPLE_NUM, x);
 
         Console.WriteLine("");
         Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
@@ -199,12 +187,8 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        double cdf;
         int i;
-        double pdf;
         int seed = 123456789;
-        int x;
-        int x2;
 
         Console.WriteLine("");
         Console.WriteLine("ENGLISH_WORD_LENGTH_CDF_TEST");
@@ -218,18 +202,18 @@ internal static partial class Program
 
         for (i = 1; i <= 10; i++)
         {
-            x = English.english_word_length_sample(ref seed);
+            int x = English.english_word_length_sample(ref seed);
 
-            pdf = English.english_word_length_pdf(x);
+            double pdf = English.english_word_length_pdf(x);
 
-            cdf = English.english_word_length_cdf(x);
+            double cdf = English.english_word_length_cdf(x);
 
-            x2 = English.english_word_length_cdf_inv(cdf);
+            int x2 = English.english_word_length_cdf_inv(cdf);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(12)
-                                   + "  " + pdf.ToString().PadLeft(12)
-                                   + "  " + cdf.ToString().PadLeft(12)
-                                   + "  " + x2.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + x2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -253,15 +237,11 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        int SAMPLE_NUM = 1000;
+        const int SAMPLE_NUM = 1000;
 
         int i;
-        double mean;
         int seed = 123456789;
-        double variance;
         int[] x = new int[SAMPLE_NUM];
-        int xmax;
-        int xmin;
 
         Console.WriteLine("");
         Console.WriteLine("ENGLISH_WORD_LENGTH_SAMPLE_TEST");
@@ -269,8 +249,8 @@ internal static partial class Program
         Console.WriteLine("  ENGLISH_WORD_LENGTH_SAMPLE samples the English Word Lengthdistribution;");
         Console.WriteLine("  ENGLISH_WORD_LENGTH_VARIANCE computes the English Word Lengthvariance.");
 
-        mean = English.english_word_length_mean();
-        variance = English.english_word_length_variance();
+        double mean = English.english_word_length_mean();
+        double variance = English.english_word_length_variance();
 
         Console.WriteLine("");
         Console.WriteLine("  PDF mean =                    " + mean + "");
@@ -283,8 +263,8 @@ internal static partial class Program
 
         mean = typeMethods.i4vec_mean(SAMPLE_NUM, x);
         variance = typeMethods.i4vec_variance(SAMPLE_NUM, x);
-        xmax = typeMethods.i4vec_max(SAMPLE_NUM, x);
-        xmin = typeMethods.i4vec_min(SAMPLE_NUM, x);
+        int xmax = typeMethods.i4vec_max(SAMPLE_NUM, x);
+        int xmin = typeMethods.i4vec_min(SAMPLE_NUM, x);
 
         Console.WriteLine("");
         Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");

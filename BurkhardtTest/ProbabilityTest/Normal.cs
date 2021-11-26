@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.CDFLib;
 using Burkardt.Probability;
 using Burkardt.Types;
@@ -28,12 +29,8 @@ internal static partial class Program
         //    John Burkardt
         //
     {
-        double cdf;
         int i;
-        double pdf;
         int seed = 123456789;
-        double x;
-        double x2;
 
         Console.WriteLine("");
         Console.WriteLine("Normal.normal_01_cdf_TEST");
@@ -47,10 +44,10 @@ internal static partial class Program
 
         for (i = 1; i <= 10; i++)
         {
-            x = Normal.normal_01_sample(ref seed);
-            pdf = Normal.normal_01_pdf(x);
-            cdf = Normal.normal_01_cdf(x);
-            x2 = Normal.normal_01_cdf_inv(cdf);
+            double x = Normal.normal_01_sample(ref seed);
+            double pdf = Normal.normal_01_pdf(x);
+            double cdf = Normal.normal_01_cdf(x);
+            double x2 = Normal.normal_01_cdf_inv(cdf);
 
             Console.WriteLine("  "
                               + x.ToString("0.################").PadLeft(24) + "  "
@@ -81,14 +78,9 @@ internal static partial class Program
         //    John Burkardt
         //
     {
-        int SAMPLE_NUM = 1000;
+        const int SAMPLE_NUM = 1000;
 
-        double mean;
         int seed = 123456789;
-        double variance;
-        double[] x;
-        double xmax;
-        double xmin;
 
         Console.WriteLine("");
         Console.WriteLine("Normal.normal_01_sampleS_TEST");
@@ -96,19 +88,19 @@ internal static partial class Program
         Console.WriteLine("  Normal.normal_01_sampleS samples the Normal 01 distribution;");
         Console.WriteLine("  Normal.normal_01_variance computes the Normal 01 variance;");
 
-        mean = Normal.normal_01_mean();
-        variance = Normal.normal_01_variance();
+        double mean = Normal.normal_01_mean();
+        double variance = Normal.normal_01_variance();
 
         Console.WriteLine("");
         Console.WriteLine("  PDF mean =     " + mean + "");
         Console.WriteLine("  PDF variance = " + variance + "");
 
-        x = Normal.normal_01_samples(SAMPLE_NUM, ref seed);
+        double[] x = Normal.normal_01_samples(SAMPLE_NUM, ref seed);
 
         mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
         variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
-        xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
-        xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
+        double xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+        double xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
         Console.WriteLine("");
         Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
@@ -140,14 +132,8 @@ internal static partial class Program
         //    John Burkardt
         //
     {
-        double cdf;
         int i;
-        double mu;
-        double pdf;
         int seed = 123456789;
-        double sigma;
-        double x;
-        double x2;
 
         Console.WriteLine("");
         Console.WriteLine("NORMAL_CDF_TEST");
@@ -155,8 +141,8 @@ internal static partial class Program
         Console.WriteLine("  NORMAL_CDF_INV inverts the Normal CDF.");
         Console.WriteLine("  NORMAL_PDF evaluates the Normal PDF;");
 
-        mu = 100.0;
-        sigma = 15.0;
+        const double mu = 100.0;
+        const double sigma = 15.0;
 
         Console.WriteLine("");
         Console.WriteLine("  PDF parameter MU =    " + mu + "");
@@ -176,16 +162,16 @@ internal static partial class Program
 
         for (i = 1; i <= 10; i++)
         {
-            x = Normal.normal_sample(mu, sigma, ref seed);
-            pdf = Normal.normal_pdf(x, mu, sigma);
-            cdf = CDF.normal_cdf(x, mu, sigma);
-            x2 = CDF.normal_cdf_inv(cdf, mu, sigma);
+            double x = Normal.normal_sample(mu, sigma, ref seed);
+            double pdf = Normal.normal_pdf(x, mu, sigma);
+            double cdf = CDF.normal_cdf(x, mu, sigma);
+            double x2 = CDF.normal_cdf_inv(cdf, mu, sigma);
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + pdf.ToString().PadLeft(12) + "  "
-                              + cdf.ToString().PadLeft(12) + "  "
-                              + x2.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
     }
@@ -211,16 +197,9 @@ internal static partial class Program
         //    John Burkardt
         //
     {
-        int SAMPLE_NUM = 1000;
+        const int SAMPLE_NUM = 1000;
 
-        double mean;
-        double mu;
         int seed = 123456789;
-        double sigma;
-        double variance;
-        double[] x;
-        double xmax;
-        double xmin;
 
         Console.WriteLine("");
         Console.WriteLine("NORMAL_SAMPLES_TEST");
@@ -228,8 +207,8 @@ internal static partial class Program
         Console.WriteLine("  NORMAL_SAMPLES samples the Normal distribution;");
         Console.WriteLine("  NORMAL_VARIANCE computes the Normal variance;");
 
-        mu = 100.0;
-        sigma = 15.0;
+        const double mu = 100.0;
+        const double sigma = 15.0;
 
         Console.WriteLine("");
         Console.WriteLine("  PDF parameter MU=     " + mu + "");
@@ -243,19 +222,19 @@ internal static partial class Program
             return;
         }
 
-        mean = Normal.normal_mean(mu, sigma);
-        variance = Normal.normal_variance(mu, sigma);
+        double mean = Normal.normal_mean(mu, sigma);
+        double variance = Normal.normal_variance(mu, sigma);
 
         Console.WriteLine("");
         Console.WriteLine("  PDF mean =     " + mean + "");
         Console.WriteLine("  PDF variance = " + variance + "");
 
-        x = Normal.normal_samples(SAMPLE_NUM, mu, sigma, ref seed);
+        double[] x = Normal.normal_samples(SAMPLE_NUM, mu, sigma, ref seed);
 
         mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
         variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
-        xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
-        xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
+        double xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+        double xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
         Console.WriteLine("");
         Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
@@ -287,22 +266,13 @@ internal static partial class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
-        double cdf;
         int i;
-        double mu;
-        double pdf;
-        double s;
-        int seed;
-        double x;
-        double x2;
 
-        a = 50.0;
-        b = 150.0;
-        mu = 100.0;
-        s = 25.0;
-        seed = 123456789;
+        const double a = 50.0;
+        const double b = 150.0;
+        const double mu = 100.0;
+        const double s = 25.0;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("NORMAL_TRUNCATED_AB_CDF_TEST");
@@ -322,18 +292,18 @@ internal static partial class Program
 
         for (i = 1; i <= 10; i++)
         {
-            x = Truncated.normal_truncated_ab_sample(mu, s, a, b, ref seed);
+            double x = Truncated.normal_truncated_ab_sample(mu, s, a, b, ref seed);
 
-            pdf = Truncated.normal_truncated_ab_pdf(x, mu, s, a, b);
+            double pdf = Truncated.normal_truncated_ab_pdf(x, mu, s, a, b);
 
-            cdf = CDF.normal_truncated_ab_cdf(x, mu, s, a, b);
+            double cdf = CDF.normal_truncated_ab_cdf(x, mu, s, a, b);
 
-            x2 = CDF.normal_truncated_ab_cdf_inv(cdf, mu, s, a, b);
+            double x2 = CDF.normal_truncated_ab_cdf_inv(cdf, mu, s, a, b);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + pdf.ToString().PadLeft(14)
-                                   + "  " + cdf.ToString().PadLeft(14)
-                                   + "  " + x2.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + x2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -358,24 +328,15 @@ internal static partial class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
         int i;
-        double mean;
-        double mu;
-        double s;
-        int sample_num = 1000;
-        int seed;
-        double variance;
+        const int sample_num = 1000;
         double[] x = new double[sample_num];
-        double xmax;
-        double xmin;
 
-        a = 50.0;
-        b = 150.0;
-        mu = 100.0;
-        s = 25.0;
-        seed = 123456789;
+        const double a = 50.0;
+        const double b = 150.0;
+        const double mu = 100.0;
+        const double s = 25.0;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("NORMAL_TRUNCATED_AB_SAMPLE_TEST");
@@ -389,9 +350,9 @@ internal static partial class Program
         Console.WriteLine("  The parent distribution is truncated to");
         Console.WriteLine("  the interval [" + a + "," + b + "]");
 
-        mean = Truncated.normal_truncated_ab_mean(mu, s, a, b);
+        double mean = Truncated.normal_truncated_ab_mean(mu, s, a, b);
 
-        variance = Truncated.normal_truncated_ab_variance(mu, s, a, b);
+        double variance = Truncated.normal_truncated_ab_variance(mu, s, a, b);
 
         Console.WriteLine("");
         Console.WriteLine("  PDF mean      =               " + mean + "");
@@ -404,8 +365,8 @@ internal static partial class Program
 
         mean = typeMethods.r8vec_mean(sample_num, x);
         variance = typeMethods.r8vec_variance(sample_num, x);
-        xmax = typeMethods.r8vec_max(sample_num, x);
-        xmin = typeMethods.r8vec_min(sample_num, x);
+        double xmax = typeMethods.r8vec_max(sample_num, x);
+        double xmin = typeMethods.r8vec_min(sample_num, x);
 
         Console.WriteLine("");
         Console.WriteLine("  Sample size =     " + sample_num + "");
@@ -437,20 +398,12 @@ internal static partial class Program
         //    John Burkardt
         //
     {
-        double a;
-        double cdf;
         int i;
-        double mu;
-        double pdf;
-        double s;
-        int seed;
-        double x;
-        double x2;
 
-        a = 50.0;
-        mu = 100.0;
-        s = 25.0;
-        seed = 123456789;
+        const double a = 50.0;
+        const double mu = 100.0;
+        const double s = 25.0;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("NORMAL_TRUNCATED_A_CDF_TEST");
@@ -470,18 +423,18 @@ internal static partial class Program
 
         for (i = 1; i <= 10; i++)
         {
-            x = Truncated.normal_truncated_a_sample(mu, s, a, ref seed);
+            double x = Truncated.normal_truncated_a_sample(mu, s, a, ref seed);
 
-            pdf = Truncated.normal_truncated_a_pdf(x, mu, s, a);
+            double pdf = Truncated.normal_truncated_a_pdf(x, mu, s, a);
 
-            cdf = CDF.normal_truncated_a_cdf(x, mu, s, a);
+            double cdf = CDF.normal_truncated_a_cdf(x, mu, s, a);
 
-            x2 = CDF.normal_truncated_a_cdf_inv(cdf, mu, s, a);
+            double x2 = CDF.normal_truncated_a_cdf_inv(cdf, mu, s, a);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + pdf.ToString().PadLeft(14)
-                                   + "  " + cdf.ToString().PadLeft(14)
-                                   + "  " + x2.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + x2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -507,22 +460,14 @@ internal static partial class Program
         //    John Burkardt
         //
     {
-        double a;
         int i;
-        double mean;
-        double mu;
-        double s;
-        int sample_num = 1000;
-        int seed;
-        double variance;
+        const int sample_num = 1000;
         double[] x = new double[sample_num];
-        double xmax;
-        double xmin;
 
-        a = 50.0;
-        mu = 100.0;
-        s = 25.0;
-        seed = 123456789;
+        const double a = 50.0;
+        const double mu = 100.0;
+        const double s = 25.0;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("NORMAL_TRUNCATED_A_SAMPLE_TEST");
@@ -536,9 +481,9 @@ internal static partial class Program
         Console.WriteLine("  The parent distribution is truncated to");
         Console.WriteLine("  the interval [" + a + ",+oo]");
 
-        mean = Truncated.normal_truncated_a_mean(mu, s, a);
+        double mean = Truncated.normal_truncated_a_mean(mu, s, a);
 
-        variance = Truncated.normal_truncated_a_variance(mu, s, a);
+        double variance = Truncated.normal_truncated_a_variance(mu, s, a);
 
         Console.WriteLine("");
         Console.WriteLine("  PDF mean      =               " + mean + "");
@@ -551,8 +496,8 @@ internal static partial class Program
 
         mean = typeMethods.r8vec_mean(sample_num, x);
         variance = typeMethods.r8vec_variance(sample_num, x);
-        xmax = typeMethods.r8vec_max(sample_num, x);
-        xmin = typeMethods.r8vec_min(sample_num, x);
+        double xmax = typeMethods.r8vec_max(sample_num, x);
+        double xmin = typeMethods.r8vec_min(sample_num, x);
 
         Console.WriteLine("");
         Console.WriteLine("  Sample size =     " + sample_num + "");
@@ -584,20 +529,12 @@ internal static partial class Program
         //    John Burkardt
         //
     {
-        double b;
-        double cdf;
         int i;
-        double mu;
-        double pdf;
-        double s;
-        int seed;
-        double x;
-        double x2;
 
-        b = 150.0;
-        mu = 100.0;
-        s = 25.0;
-        seed = 123456789;
+        const double b = 150.0;
+        const double mu = 100.0;
+        const double s = 25.0;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("NORMAL_TRUNCATED_B_CDF_TEST");
@@ -617,18 +554,18 @@ internal static partial class Program
 
         for (i = 1; i <= 10; i++)
         {
-            x = Truncated.normal_truncated_b_sample(mu, s, b, ref seed);
+            double x = Truncated.normal_truncated_b_sample(mu, s, b, ref seed);
 
-            pdf = Truncated.normal_truncated_b_pdf(x, mu, s, b);
+            double pdf = Truncated.normal_truncated_b_pdf(x, mu, s, b);
 
-            cdf = CDF.normal_truncated_b_cdf(x, mu, s, b);
+            double cdf = CDF.normal_truncated_b_cdf(x, mu, s, b);
 
-            x2 = CDF.normal_truncated_b_cdf_inv(cdf, mu, s, b);
+            double x2 = CDF.normal_truncated_b_cdf_inv(cdf, mu, s, b);
 
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + pdf.ToString().PadLeft(14)
-                                   + "  " + cdf.ToString().PadLeft(14)
-                                   + "  " + x2.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + x2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -653,22 +590,14 @@ internal static partial class Program
         //    John Burkardt
         //
     {
-        double b;
         int i;
-        double mean;
-        double mu;
-        double s;
-        int sample_num = 1000;
-        int seed;
-        double variance;
+        const int sample_num = 1000;
         double[] x = new double[sample_num];
-        double xmax;
-        double xmin;
 
-        b = 150.0;
-        mu = 100.0;
-        s = 25.0;
-        seed = 123456789;
+        const double b = 150.0;
+        const double mu = 100.0;
+        const double s = 25.0;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("NORMAL_TRUNCATED_B_SAMPLE_TEST");
@@ -682,9 +611,9 @@ internal static partial class Program
         Console.WriteLine("  The parent distribution is truncated to");
         Console.WriteLine("  the interval [-oo," + b + "]");
 
-        mean = Truncated.normal_truncated_b_mean(mu, s, b);
+        double mean = Truncated.normal_truncated_b_mean(mu, s, b);
 
-        variance = Truncated.normal_truncated_b_variance(mu, s, b);
+        double variance = Truncated.normal_truncated_b_variance(mu, s, b);
 
         Console.WriteLine("");
         Console.WriteLine("  PDF mean      =               " + mean + "");
@@ -697,8 +626,8 @@ internal static partial class Program
 
         mean = typeMethods.r8vec_mean(sample_num, x);
         variance = typeMethods.r8vec_variance(sample_num, x);
-        xmax = typeMethods.r8vec_max(sample_num, x);
-        xmin = typeMethods.r8vec_min(sample_num, x);
+        double xmax = typeMethods.r8vec_max(sample_num, x);
+        double xmin = typeMethods.r8vec_min(sample_num, x);
 
         Console.WriteLine("");
         Console.WriteLine("  Sample size =     " + sample_num + "");

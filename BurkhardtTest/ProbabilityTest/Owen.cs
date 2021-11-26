@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Probability;
 
 namespace ProbabilityTest;
@@ -51,10 +52,10 @@ internal static partial class Program
             double t2 = Owen.tfn(h, a);
 
             Console.WriteLine("  "
-                              + h.ToString().PadLeft(14) + "  "
-                              + a.ToString().PadLeft(14) + "  "
-                              + t2.ToString().PadLeft(14) + "  "
-                              + t.ToString().PadLeft(14) + "");
+                              + h.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                              + a.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                              + t2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                              + t.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
         

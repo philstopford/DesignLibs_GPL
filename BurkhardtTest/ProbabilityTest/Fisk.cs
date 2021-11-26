@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Probability;
 using Burkardt.Types;
 
@@ -27,15 +28,8 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        double a;
-        double b;
-        double c;
-        double cdf;
         int i;
-        double pdf;
         int seed = 123456789;
-        double x;
-        double x2;
 
         Console.WriteLine("");
         Console.WriteLine("FISK_CDF_TEST");
@@ -43,9 +37,9 @@ internal static partial class Program
         Console.WriteLine("  FISK_CDF_INV inverts the Fisk CDF.");
         Console.WriteLine("  FISK_PDF evaluates the Fisk PDF;");
 
-        a = 1.0;
-        b = 2.0;
-        c = 3.0;
+        const double a = 1.0;
+        const double b = 2.0;
+        const double c = 3.0;
 
         Console.WriteLine("");
         Console.WriteLine("  PDF parameter A =      " + a + "");
@@ -66,16 +60,16 @@ internal static partial class Program
 
         for (i = 1; i <= 10; i++)
         {
-            x = Fisk.fisk_sample(a, b, c, ref seed);
-            pdf = Fisk.fisk_pdf(x, a, b, c);
-            cdf = Fisk.fisk_cdf(x, a, b, c);
-            x2 = Fisk.fisk_cdf_inv(cdf, a, b, c);
+            double x = Fisk.fisk_sample(a, b, c, ref seed);
+            double pdf = Fisk.fisk_pdf(x, a, b, c);
+            double cdf = Fisk.fisk_cdf(x, a, b, c);
+            double x2 = Fisk.fisk_cdf_inv(cdf, a, b, c);
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + pdf.ToString().PadLeft(12) + "  "
-                              + cdf.ToString().PadLeft(12) + "  "
-                              + x2.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
     }
@@ -101,18 +95,11 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        int SAMPLE_NUM = 1000;
+        const int SAMPLE_NUM = 1000;
 
-        double a;
-        double b;
-        double c;
         int i;
-        double mean;
         int seed = 123456789;
-        double variance;
         double[] x = new double [SAMPLE_NUM];
-        double xmax;
-        double xmin;
 
         Console.WriteLine("");
         Console.WriteLine("FISK_SAMPLE_TEST");
@@ -120,9 +107,9 @@ internal static partial class Program
         Console.WriteLine("  FISK_SAMPLE samples the Fisk distribution;");
         Console.WriteLine("  FISK_VARIANCE computes the Fisk variance;");
 
-        a = 1.0;
-        b = 2.0;
-        c = 3.0;
+        const double a = 1.0;
+        const double b = 2.0;
+        const double c = 3.0;
 
         Console.WriteLine("");
         Console.WriteLine("  PDF parameter A =      " + a + "");
@@ -137,8 +124,8 @@ internal static partial class Program
             return;
         }
 
-        mean = Fisk.fisk_mean(a, b, c);
-        variance = Fisk.fisk_variance(a, b, c);
+        double mean = Fisk.fisk_mean(a, b, c);
+        double variance = Fisk.fisk_variance(a, b, c);
 
         Console.WriteLine("");
         Console.WriteLine("  PDF mean =     " + mean + "");
@@ -151,8 +138,8 @@ internal static partial class Program
 
         mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
         variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
-        xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
-        xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
+        double xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+        double xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
         Console.WriteLine("");
         Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");

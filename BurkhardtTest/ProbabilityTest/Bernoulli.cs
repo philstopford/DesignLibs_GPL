@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Probability;
 using Burkardt.Types;
 
@@ -27,13 +28,8 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        double a;
-        double cdf;
         int i;
-        double pdf;
         int seed = 123456789;
-        int x;
-        int x2;
 
         Console.WriteLine("");
         Console.WriteLine("BERNOULLI_CDF_TEST");
@@ -41,7 +37,7 @@ internal static partial class Program
         Console.WriteLine("  BERNOULLI_CDF_INV inverts the Bernoulli CDF;");
         Console.WriteLine("  BERNOULLI_PDF evaluates the Bernoulli PDF.");
 
-        a = 0.75E+00;
+        double a = 0.75E+00;
 
         Console.WriteLine("");
         Console.WriteLine("  PDF parameter A =             " + a + "");
@@ -60,16 +56,16 @@ internal static partial class Program
 
         for (i = 1; i <= 10; i++)
         {
-            x = Bernoulli.bernoulli_sample(a, ref seed);
-            pdf = Bernoulli.bernoulli_pdf(x, a);
-            cdf = Bernoulli.bernoulli_cdf(x, a);
-            x2 = Bernoulli.bernoulli_cdf_inv(cdf, a);
+            int x = Bernoulli.bernoulli_sample(a, ref seed);
+            double pdf = Bernoulli.bernoulli_pdf(x, a);
+            double cdf = Bernoulli.bernoulli_cdf(x, a);
+            int x2 = Bernoulli.bernoulli_cdf_inv(cdf, a);
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + pdf.ToString().PadLeft(12) + "  "
-                              + cdf.ToString().PadLeft(12) + "  "
-                              + x2.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -94,16 +90,11 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        int SAMPLE_NUM = 1000;
+        const int SAMPLE_NUM = 1000;
 
-        double a;
         int i;
-        double mean;
         int seed = 123456789;
-        double variance;
         int[] x = new int [SAMPLE_NUM];
-        int xmax;
-        int xmin;
 
         Console.WriteLine("");
         Console.WriteLine("BERNOULLI_SAMPLE_TEST");
@@ -111,7 +102,7 @@ internal static partial class Program
         Console.WriteLine("  BERNOULLI_SAMPLE samples the Bernoulli distribution;");
         Console.WriteLine("  BERNOULLI_VARIANCE computes the Bernoulli variance.");
 
-        a = 0.75E+00;
+        double a = 0.75E+00;
 
         Console.WriteLine("");
         Console.WriteLine("  PDF parameter A = " + a + "");
@@ -124,8 +115,8 @@ internal static partial class Program
             return;
         }
 
-        mean = Bernoulli.bernoulli_mean(a);
-        variance = Bernoulli.bernoulli_variance(a);
+        double mean = Bernoulli.bernoulli_mean(a);
+        double variance = Bernoulli.bernoulli_variance(a);
 
         Console.WriteLine("  PDF mean = " + mean + "");
         Console.WriteLine("  PDF variance = " + variance + "");
@@ -137,8 +128,8 @@ internal static partial class Program
 
         mean = typeMethods.i4vec_mean(i, x);
         variance = typeMethods.i4vec_variance(i, x);
-        xmax = typeMethods.i4vec_max(i, x);
-        xmin = typeMethods.i4vec_min(i, x);
+        int xmax = typeMethods.i4vec_max(i, x);
+        int xmin = typeMethods.i4vec_min(i, x);
 
         Console.WriteLine("");
         Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Probability;
 using Burkardt.Types;
 
@@ -27,13 +28,8 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        int TEST_NUM = 3;
+        const int TEST_NUM = 3;
 
-        double a;
-        double b;
-        double cdf;
-        int i;
-        double pdf;
         int seed = 123456789;
         int test_i;
         double[] test_a =  {
@@ -44,8 +40,6 @@ internal static partial class Program
                 1.0, 0.5, 0.0
             }
             ;
-        double x;
-        double x2;
 
         Console.WriteLine("");
         Console.WriteLine("DIPOLE_CDF_TEST");
@@ -55,8 +49,8 @@ internal static partial class Program
 
         for (test_i = 0; test_i < TEST_NUM; test_i++)
         {
-            a = test_a[test_i];
-            b = test_b[test_i];
+            double a = test_a[test_i];
+            double b = test_b[test_i];
 
             Console.WriteLine("");
             Console.WriteLine("  PDF parameter A =      " + a + "");
@@ -74,18 +68,19 @@ internal static partial class Program
             Console.WriteLine("       X            PDF           CDF            CDF_INV");
             Console.WriteLine("");
 
+            int i;
             for (i = 1; i <= 10; i++)
             {
-                x = Dipole.dipole_sample(a, b, ref seed);
-                pdf = Dipole.dipole_pdf(x, a, b);
-                cdf = Dipole.dipole_cdf(x, a, b);
-                x2 = Dipole.dipole_cdf_inv(cdf, a, b);
+                double x = Dipole.dipole_sample(a, b, ref seed);
+                double pdf = Dipole.dipole_pdf(x, a, b);
+                double cdf = Dipole.dipole_cdf(x, a, b);
+                double x2 = Dipole.dipole_cdf_inv(cdf, a, b);
 
                 Console.WriteLine("  "
-                                  + x.ToString().PadLeft(12) + "  "
-                                  + pdf.ToString().PadLeft(12) + "  "
-                                  + cdf.ToString().PadLeft(12) + "  "
-                                  + x2.ToString().PadLeft(12) + "");
+                                  + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                  + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                  + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                                  + x2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             }
 
         }
@@ -112,13 +107,9 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        int SAMPLE_NUM = 1000;
-        int TEST_NUM = 3;
+        const int SAMPLE_NUM = 1000;
+        const int TEST_NUM = 3;
 
-        double a;
-        double b;
-        int i;
-        double mean;
         int seed = 123456789;
         double[] test_a =  {
                 0.0, Math.PI / 4.0, Math.PI / 2.0
@@ -129,10 +120,7 @@ internal static partial class Program
             }
             ;
         int test_i;
-        double variance;
         double[] x = new double[SAMPLE_NUM];
-        double xmax;
-        double xmin;
 
         Console.WriteLine("");
         Console.WriteLine("DIPOLE_SAMPLE_TEST");
@@ -140,8 +128,8 @@ internal static partial class Program
 
         for (test_i = 0; test_i < TEST_NUM; test_i++)
         {
-            a = test_a[test_i];
-            b = test_b[test_i];
+            double a = test_a[test_i];
+            double b = test_b[test_i];
 
             Console.WriteLine("");
             Console.WriteLine("  PDF parameter A =      " + a + "");
@@ -155,15 +143,16 @@ internal static partial class Program
                 return;
             }
 
+            int i;
             for (i = 0; i < SAMPLE_NUM; i++)
             {
                 x[i] = Dipole.dipole_sample(a, b, ref seed);
             }
 
-            mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
-            variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
-            xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
-            xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
+            double mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
+            double variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
+            double xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+            double xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
             Console.WriteLine("");
             Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");

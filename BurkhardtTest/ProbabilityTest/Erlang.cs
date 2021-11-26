@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Probability;
 using Burkardt.Types;
 
@@ -27,15 +28,8 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        double a;
-        double b;
-        int c;
-        double cdf;
         int i;
-        double pdf;
         int seed = 123456789;
-        double x;
-        double x2;
 
         Console.WriteLine("");
         Console.WriteLine("ERLANG_CDF_TEST");
@@ -43,9 +37,9 @@ internal static partial class Program
         Console.WriteLine("  ERLANG_CDF_INV inverts the Erlang CDF.");
         Console.WriteLine("  ERLANG_PDF evaluates the Erlang PDF;");
 
-        a = 1.0;
-        b = 2.0;
-        c = 3;
+        const double a = 1.0;
+        const double b = 2.0;
+        const int c = 3;
 
         Console.WriteLine("");
         Console.WriteLine("  PDF parameter A =      " + a + "");
@@ -66,16 +60,16 @@ internal static partial class Program
 
         for (i = 1; i <= 10; i++)
         {
-            x = Erlang.erlang_sample(a, b, c, ref seed);
-            pdf = Erlang.erlang_pdf(x, a, b, c);
-            cdf = Erlang.erlang_cdf(x, a, b, c);
-            x2 = Erlang.erlang_cdf_inv(cdf, a, b, c);
+            double x = Erlang.erlang_sample(a, b, c, ref seed);
+            double pdf = Erlang.erlang_pdf(x, a, b, c);
+            double cdf = Erlang.erlang_cdf(x, a, b, c);
+            double x2 = Erlang.erlang_cdf_inv(cdf, a, b, c);
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + pdf.ToString().PadLeft(12) + "  "
-                              + cdf.ToString().PadLeft(12) + "  "
-                              + x2.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
     }
@@ -101,18 +95,11 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        int SAMPLE_NUM = 1000;
+        const int SAMPLE_NUM = 1000;
 
-        double a;
-        double b;
-        int c;
         int i;
-        double mean;
         int seed = 123456789;
-        double variance;
         double[] x = new double [SAMPLE_NUM];
-        double xmax;
-        double xmin;
 
         Console.WriteLine("");
         Console.WriteLine("ERLANG_SAMPLE_TEST");
@@ -120,9 +107,9 @@ internal static partial class Program
         Console.WriteLine("  ERLANG_SAMPLE samples the Erlang distribution;");
         Console.WriteLine("  ERLANG_VARIANCE computes the Erlang variance;");
 
-        a = 1.0;
-        b = 2.0;
-        c = 3;
+        const double a = 1.0;
+        const double b = 2.0;
+        const int c = 3;
 
         Console.WriteLine("");
         Console.WriteLine("  PDF parameter A =      " + a + "");
@@ -137,8 +124,8 @@ internal static partial class Program
             return;
         }
 
-        mean = Erlang.erlang_mean(a, b, c);
-        variance = Erlang.erlang_variance(a, b, c);
+        double mean = Erlang.erlang_mean(a, b, c);
+        double variance = Erlang.erlang_variance(a, b, c);
 
         Console.WriteLine("");
         Console.WriteLine("  PDF mean =     " + mean + "");
@@ -151,8 +138,8 @@ internal static partial class Program
 
         mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
         variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
-        xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
-        xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
+        double xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+        double xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
         Console.WriteLine("");
         Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");

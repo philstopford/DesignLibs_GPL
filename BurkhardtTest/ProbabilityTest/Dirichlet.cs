@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Probability;
 using Burkardt.Types;
 
@@ -27,8 +28,8 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        int N = 3;
-        int SAMPLE_NUM = 1000;
+        const int N = 3;
+        const int SAMPLE_NUM = 1000;
 
         double[] a =  {
                 0.250, 0.500, 1.250
@@ -36,14 +37,8 @@ internal static partial class Program
             ;
         int i;
         int j;
-        double[] mean;
-        double[] m2;
         int seed = 123456789;
-        double[] variance;
         double[] x = new double[N * SAMPLE_NUM];
-        double[] xmax;
-        double[] xmin;
-        double[] y;
 
         Console.WriteLine("");
         Console.WriteLine("DIRICHLET_SAMPLE");
@@ -64,18 +59,18 @@ internal static partial class Program
             return;
         }
 
-        mean = Dirichlet.dirichlet_mean(N, a);
-        variance = Dirichlet.dirichlet_variance(N, a);
+        double[] mean = Dirichlet.dirichlet_mean(N, a);
+        double[] variance = Dirichlet.dirichlet_variance(N, a);
         typeMethods.r8vec_print(N, mean, "  PDF mean:");
         typeMethods.r8vec_print(N, variance, "  PDF variance:");
 
-        m2 = Dirichlet.dirichlet_moment2(N, a);
+        double[] m2 = Dirichlet.dirichlet_moment2(N, a);
 
         typeMethods.r8mat_print(N, N, m2, "  Second moment matrix:");
 
         for (j = 0; j < SAMPLE_NUM; j++)
         {
-            y = Dirichlet.dirichlet_sample(N, a, ref seed);
+            double[] y = Dirichlet.dirichlet_sample(N, a, ref seed);
             for (i = 0; i < N; i++)
             {
                 x[i + j * N] = y[i];
@@ -84,8 +79,8 @@ internal static partial class Program
 
         mean = typeMethods.r8row_mean(N, SAMPLE_NUM, x);
         variance = typeMethods.r8row_variance(N, SAMPLE_NUM, x);
-        xmax = typeMethods.r8row_max(N, SAMPLE_NUM, x);
-        xmin = typeMethods.r8row_min(N, SAMPLE_NUM, x);
+        double[] xmax = typeMethods.r8row_max(N, SAMPLE_NUM, x);
+        double[] xmin = typeMethods.r8row_min(N, SAMPLE_NUM, x);
 
         Console.WriteLine("");
         Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
@@ -96,11 +91,11 @@ internal static partial class Program
         for (i = 0; i < N; i++)
         {
             Console.WriteLine("  "
-                              + i.ToString().PadLeft(6) + "  "
-                              + mean[i].ToString().PadLeft(12) + "  "
-                              + variance[i].ToString().PadLeft(12) + "  "
-                              + xmax[i].ToString().PadLeft(12) + "  "
-                              + xmin[i].ToString().PadLeft(12) + "");
+                              + i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + mean[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + variance[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + xmax[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + xmin[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -125,13 +120,12 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        int N = 3;
+        const int N = 3;
 
         double[] a =  {
                 0.250, 0.500, 1.250
             }
             ;
-        double pdf;
         double[] x =  {
                 0.500, 0.125, 0.375
             }
@@ -156,7 +150,7 @@ internal static partial class Program
 
         typeMethods.r8vec_print(N, x, "  PDF argument X:");
 
-        pdf = Dirichlet.dirichlet_pdf(x, N, a);
+        double pdf = Dirichlet.dirichlet_pdf(x, N, a);
 
         Console.WriteLine("");
         Console.WriteLine("  PDF value = " + pdf + "");
@@ -183,9 +177,9 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        int COMP_NUM = 2;
-        int ELEM_NUM = 3;
-        int SAMPLE_NUM = 1000;
+        const int COMP_NUM = 2;
+        const int ELEM_NUM = 3;
+        const int SAMPLE_NUM = 1000;
 
         double[] a =  {
                 0.250, 0.500, 1.250,
@@ -199,13 +193,8 @@ internal static partial class Program
             ;
         int i;
         int j;
-        double[] mean;
         int seed = 123456789;
-        double[] variance;
         double[] x = new double [ELEM_NUM * SAMPLE_NUM];
-        double[] xmax;
-        double[] xmin;
-        double[] y;
 
         Console.WriteLine("");
         Console.WriteLine("DIRICHLET_MIX_SAMPLE_TEST");
@@ -226,13 +215,13 @@ internal static partial class Program
             return;
         }
 
-        mean = Dirichlet.dirichlet_mix_mean(COMP_NUM, ELEM_NUM, a, comp_weight);
+        double[] mean = Dirichlet.dirichlet_mix_mean(COMP_NUM, ELEM_NUM, a, comp_weight);
 
         typeMethods.r8vec_print(ELEM_NUM, mean, "  PDF mean:");
 
         for (j = 0; j < SAMPLE_NUM; j++)
         {
-            y = Dirichlet.dirichlet_mix_sample(COMP_NUM, ELEM_NUM, a, comp_weight, ref seed,
+            double[] y = Dirichlet.dirichlet_mix_sample(COMP_NUM, ELEM_NUM, a, comp_weight, ref seed,
                 ref comp);
 
             for (i = 0; i < ELEM_NUM; i++)
@@ -242,9 +231,9 @@ internal static partial class Program
         }
 
         mean = typeMethods.r8row_mean(ELEM_NUM, SAMPLE_NUM, x);
-        variance = typeMethods.r8row_variance(ELEM_NUM, SAMPLE_NUM, x);
-        xmax = typeMethods.r8row_max(ELEM_NUM, SAMPLE_NUM, x);
-        xmin = typeMethods.r8row_min(ELEM_NUM, SAMPLE_NUM, x);
+        double[] variance = typeMethods.r8row_variance(ELEM_NUM, SAMPLE_NUM, x);
+        double[] xmax = typeMethods.r8row_max(ELEM_NUM, SAMPLE_NUM, x);
+        double[] xmin = typeMethods.r8row_min(ELEM_NUM, SAMPLE_NUM, x);
 
         Console.WriteLine("");
         Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
@@ -255,11 +244,11 @@ internal static partial class Program
         for (i = 0; i < ELEM_NUM; i++)
         {
             Console.WriteLine("  "
-                              + i.ToString().PadLeft(6) + "  "
-                              + mean[i].ToString().PadLeft(12) + "  "
-                              + variance[i].ToString().PadLeft(12) + "  "
-                              + xmax[i].ToString().PadLeft(12) + "  "
-                              + xmin[i].ToString().PadLeft(12) + "");
+                              + i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + mean[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + variance[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + xmax[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + xmin[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -283,8 +272,8 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        int COMP_NUM = 2;
-        int ELEM_NUM = 3;
+        const int COMP_NUM = 2;
+        const int ELEM_NUM = 3;
 
         double[] a =  {
                 0.250, 0.500, 1.250,
@@ -295,7 +284,6 @@ internal static partial class Program
                 1.0, 2.0
             }
             ;
-        double pdf;
         double[] x =  {
                 0.500, 0.125, 0.375
             }
@@ -327,7 +315,7 @@ internal static partial class Program
 
         Console.WriteLine();
 
-        pdf = Dirichlet.dirichlet_mix_pdf(x, COMP_NUM, ELEM_NUM, a, comp_weight);
+        double pdf = Dirichlet.dirichlet_mix_pdf(x, COMP_NUM, ELEM_NUM, a, comp_weight);
 
         Console.WriteLine("");
         Console.WriteLine("  PDF value =           " + pdf + "");

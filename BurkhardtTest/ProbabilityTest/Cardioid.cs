@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Probability;
 using Burkardt.Types;
 
@@ -27,14 +28,10 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        double a = 0.0;
-        double b = 0.25;
-        double cdf;
+        const double a = 0.0;
+        const double b = 0.25;
         int i;
-        double pdf;
         int seed = 123456789;
-        double x;
-        double x2;
 
         Console.WriteLine("");
         Console.WriteLine("CARDIOID_CDF_TEST");
@@ -60,14 +57,14 @@ internal static partial class Program
 
         for (i = 0; i < 10; i++)
         {
-            x = Cardioid.cardioid_sample(a, b, ref seed);
-            pdf = Cardioid.cardioid_pdf(x, a, b);
-            cdf = Cardioid.cardioid_cdf(x, a, b);
-            x2 = Cardioid.cardioid_cdf_inv(cdf, a, b);
-            Console.WriteLine("  " + x.ToString().PadLeft(12)
-                                   + "  " + pdf.ToString().PadLeft(12)
-                                   + "  " + cdf.ToString().PadLeft(12)
-                                   + "  " + x2.ToString().PadLeft(12) + "");
+            double x = Cardioid.cardioid_sample(a, b, ref seed);
+            double pdf = Cardioid.cardioid_pdf(x, a, b);
+            double cdf = Cardioid.cardioid_cdf(x, a, b);
+            double x2 = Cardioid.cardioid_cdf_inv(cdf, a, b);
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + x2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -92,17 +89,13 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        int SAMPLE_NUM = 1000;
+        const int SAMPLE_NUM = 1000;
 
-        double a = 0.0;
-        double b = 0.25;
+        const double a = 0.0;
+        const double b = 0.25;
         int i;
-        double mean;
         int seed = 123456789;
-        double variance;
         double[] x = new double [SAMPLE_NUM];
-        double xmax;
-        double xmin;
 
         Console.WriteLine("");
         Console.WriteLine("CARDIOID_SAMPLE_TEST");
@@ -122,8 +115,8 @@ internal static partial class Program
             return;
         }
 
-        mean = Cardioid.cardioid_mean(a, b);
-        variance = Cardioid.cardioid_variance(a, b);
+        double mean = Cardioid.cardioid_mean(a, b);
+        double variance = Cardioid.cardioid_variance(a, b);
 
         Console.WriteLine("");
         Console.WriteLine("  PDF mean =                    " + mean + "");
@@ -136,8 +129,8 @@ internal static partial class Program
 
         mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
         variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
-        xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
-        xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
+        double xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+        double xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
         Console.WriteLine("");
         Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");

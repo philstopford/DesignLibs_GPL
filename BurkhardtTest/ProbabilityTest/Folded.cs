@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Probability;
 using Burkardt.Types;
 
@@ -27,14 +28,8 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        double a;
-        double b;
-        double cdf;
         int i;
-        double pdf;
         int seed = 123456789;
-        double x;
-        double x2;
 
         Console.WriteLine("");
         Console.WriteLine("FOLDED_NORMAL_CDF_TEST");
@@ -42,8 +37,8 @@ internal static partial class Program
         Console.WriteLine("  FOLDED_NORMAL_CDF_INV inverts the Folded Normal CDF.");
         Console.WriteLine("  FOLDED_NORMAL_PDF evaluates the Folded Normal PDF;");
 
-        a = 2.0;
-        b = 3.0;
+        const double a = 2.0;
+        const double b = 3.0;
 
         Console.WriteLine("");
         Console.WriteLine("  PDF parameter A =      " + a + "");
@@ -63,16 +58,16 @@ internal static partial class Program
 
         for (i = 1; i <= 10; i++)
         {
-            x = Folded.folded_normal_sample(a, b, ref seed);
-            pdf = Folded.folded_normal_pdf(x, a, b);
-            cdf = Folded.folded_normal_cdf(x, a, b);
-            x2 = Folded.folded_normal_cdf_inv(cdf, a, b);
+            double x = Folded.folded_normal_sample(a, b, ref seed);
+            double pdf = Folded.folded_normal_pdf(x, a, b);
+            double cdf = Folded.folded_normal_cdf(x, a, b);
+            double x2 = Folded.folded_normal_cdf_inv(cdf, a, b);
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + pdf.ToString().PadLeft(12) + "  "
-                              + cdf.ToString().PadLeft(12) + "  "
-                              + x2.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
     }
@@ -98,17 +93,11 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        int SAMPLE_NUM = 1000;
+        const int SAMPLE_NUM = 1000;
 
-        double a;
-        double b;
         int i;
-        double mean;
         int seed = 123456789;
-        double variance;
         double[] x = new double [SAMPLE_NUM];
-        double xmax;
-        double xmin;
 
         Console.WriteLine("");
         Console.WriteLine("FOLDED_NORMAL_SAMPLE_TEST");
@@ -116,8 +105,8 @@ internal static partial class Program
         Console.WriteLine("  FOLDED_NORMAL_SAMPLE samples the Folded Normal distribution;");
         Console.WriteLine("  FOLDED_NORMAL_VARIANCE computes the Folded Normal variance;");
 
-        a = 2.0;
-        b = 3.0;
+        const double a = 2.0;
+        const double b = 3.0;
 
         Console.WriteLine("");
         Console.WriteLine("  PDF parameter A =      " + a + "");
@@ -131,8 +120,8 @@ internal static partial class Program
             return;
         }
 
-        mean = Folded.folded_normal_mean(a, b);
-        variance = Folded.folded_normal_variance(a, b);
+        double mean = Folded.folded_normal_mean(a, b);
+        double variance = Folded.folded_normal_variance(a, b);
 
         Console.WriteLine("");
         Console.WriteLine("  PDF mean =     " + mean + "");
@@ -145,8 +134,8 @@ internal static partial class Program
 
         mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
         variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
-        xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
-        xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
+        double xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+        double xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
         Console.WriteLine("");
         Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");

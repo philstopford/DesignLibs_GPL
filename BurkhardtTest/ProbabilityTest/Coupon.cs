@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Probability;
 
 namespace ProbabilityTest;
@@ -26,9 +27,6 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        int box_num;
-        double cdf;
-        double pdf;
         int type_num;
 
         Console.WriteLine("");
@@ -44,14 +42,15 @@ internal static partial class Program
             Console.WriteLine("");
             Console.WriteLine("   BOX_NUM      PDF             CDF");
             Console.WriteLine("");
-            cdf = 0.0;
+            double cdf = 0.0;
+            int box_num;
             for (box_num = 1; box_num <= 20; box_num++)
             {
-                pdf = Coupon.coupon_complete_pdf(type_num, box_num);
+                double pdf = Coupon.coupon_complete_pdf(type_num, box_num);
                 cdf += pdf;
-                Console.WriteLine("  " + box_num.ToString().PadLeft(8)
-                                       + "  " + pdf.ToString().PadLeft(14)
-                                       + "  " + cdf.ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + box_num.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
     }
@@ -77,13 +76,10 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        int N_TRIAL = 10;
-        int MAX_TYPE = 25;
+        const int N_TRIAL = 10;
+        const int MAX_TYPE = 25;
 
-        double average;
         int[] coupon = new int[MAX_TYPE];
-        double expect;
-        int i;
         int n_coupon = 0;
         int n_type;
         int seed = 123456789;
@@ -97,18 +93,19 @@ internal static partial class Program
         {
             Console.WriteLine("");
             Console.WriteLine("  Number of coupon types is " + n_type + "");
-            expect = n_type * Math.Log(n_type);
+            double expect = n_type * Math.Log(n_type);
             Console.WriteLine("  Expected wait is about " + expect + "");
             Console.WriteLine("");
 
-            average = 0.0;
+            double average = 0.0;
+            int i;
             for (i = 1; i <= N_TRIAL; i++)
             {
                 Coupon.coupon_sample(n_type, ref seed, ref coupon, ref n_coupon);
 
                 Console.WriteLine("  "
-                                  + i.ToString().PadLeft(6) + "  "
-                                  + n_coupon.ToString().PadLeft(6) + "");
+                                  + i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                  + n_coupon.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
 
                 average += n_coupon;
             }

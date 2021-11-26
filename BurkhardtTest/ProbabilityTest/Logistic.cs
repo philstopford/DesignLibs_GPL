@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Probability;
 using Burkardt.Types;
 
@@ -27,14 +28,8 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        double a;
-        double b;
-        double cdf;
         int i;
-        double pdf;
         int seed = 123456789;
-        double x;
-        double x2;
 
         Console.WriteLine("");
         Console.WriteLine("LOGISTIC_CDF_TEST");
@@ -42,8 +37,8 @@ internal static partial class Program
         Console.WriteLine("  LOGISTIC_CDF_INV inverts the Logistic CDF.");
         Console.WriteLine("  LOGISTIC_PDF evaluates the Logistic PDF;");
 
-        a = 1.0;
-        b = 2.0;
+        const double a = 1.0;
+        const double b = 2.0;
 
         Console.WriteLine("");
         Console.WriteLine("  PDF parameter A =      " + a + "");
@@ -63,16 +58,16 @@ internal static partial class Program
 
         for (i = 1; i <= 10; i++)
         {
-            x = Logistic.logistic_sample(a, b, ref seed);
-            pdf = Logistic.logistic_pdf(x, a, b);
-            cdf = Logistic.logistic_cdf(x, a, b);
-            x2 = Logistic.logistic_cdf_inv(cdf, a, b);
+            double x = Logistic.logistic_sample(a, b, ref seed);
+            double pdf = Logistic.logistic_pdf(x, a, b);
+            double cdf = Logistic.logistic_cdf(x, a, b);
+            double x2 = Logistic.logistic_cdf_inv(cdf, a, b);
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + pdf.ToString().PadLeft(12) + "  "
-                              + cdf.ToString().PadLeft(12) + "  "
-                              + x2.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -97,17 +92,11 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        int SAMPLE_NUM = 1000;
+        const int SAMPLE_NUM = 1000;
 
-        double a;
-        double b;
         int i;
-        double mean;
         int seed = 123456789;
-        double variance;
         double[] x = new double [SAMPLE_NUM];
-        double xmax;
-        double xmin;
 
         Console.WriteLine("");
         Console.WriteLine("LOGISTIC_SAMPLE_TEST");
@@ -115,8 +104,8 @@ internal static partial class Program
         Console.WriteLine("  LOGISTIC_SAMPLE samples the Logistic distribution;");
         Console.WriteLine("  LOGISTIC_VARIANCE computes the Logistic variance;");
 
-        a = 2.0;
-        b = 3.0;
+        const double a = 2.0;
+        const double b = 3.0;
 
         Console.WriteLine("");
         Console.WriteLine("  PDF parameter A =      " + a + "");
@@ -130,8 +119,8 @@ internal static partial class Program
             return;
         }
 
-        mean = Logistic.logistic_mean(a, b);
-        variance = Logistic.logistic_variance(a, b);
+        double mean = Logistic.logistic_mean(a, b);
+        double variance = Logistic.logistic_variance(a, b);
 
         Console.WriteLine("");
         Console.WriteLine("  PDF mean =     " + mean + "");
@@ -144,8 +133,8 @@ internal static partial class Program
 
         mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
         variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
-        xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
-        xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
+        double xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+        double xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
         Console.WriteLine("");
         Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");

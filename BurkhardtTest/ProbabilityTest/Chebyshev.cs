@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Probability;
 using Burkardt.Types;
 
@@ -27,12 +28,8 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        double cdf;
         int i;
-        double pdf;
         int seed = 123456789;
-        double x;
-        double x2;
 
         Console.WriteLine("");
         Console.WriteLine("CHEBYSHEV1_CDF_TEST");
@@ -47,16 +44,16 @@ internal static partial class Program
 
         for (i = 1; i <= 10; i++)
         {
-            x = Chebyshevi.chebyshev1_sample(ref seed);
-            pdf = Chebyshevi.chebyshev1_pdf(x);
-            cdf = Chebyshevi.chebyshev1_cdf(x);
-            x2 = Chebyshevi.chebyshev1_cdf_inv(cdf);
+            double x = Chebyshevi.chebyshev1_sample(ref seed);
+            double pdf = Chebyshevi.chebyshev1_pdf(x);
+            double cdf = Chebyshevi.chebyshev1_cdf(x);
+            double x2 = Chebyshevi.chebyshev1_cdf_inv(cdf);
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + pdf.ToString().PadLeft(12) + "  "
-                              + cdf.ToString().PadLeft(12) + "  "
-                              + x2.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
     }
@@ -82,15 +79,11 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        int SAMPLE_NUM = 1000;
+        const int SAMPLE_NUM = 1000;
 
         int i;
-        double mean;
         int seed = 123456789;
-        double variance;
         double[] x = new double[SAMPLE_NUM];
-        double xmax;
-        double xmin;
 
         Console.WriteLine("");
         Console.WriteLine("CHEBYSHEV1_SAMPLE_TEST");
@@ -98,8 +91,8 @@ internal static partial class Program
         Console.WriteLine("  CHEBYSHEV1_SAMPLE samples the Chebyshev1 distribution;");
         Console.WriteLine("  CHEBYSHEV1_VARIANCE computes the Chebyshev1 variance.");
 
-        mean = Chebyshevi.chebyshev1_mean();
-        variance = Chebyshevi.chebyshev1_variance();
+        double mean = Chebyshevi.chebyshev1_mean();
+        double variance = Chebyshevi.chebyshev1_variance();
 
         Console.WriteLine("");
         Console.WriteLine("  PDF mean =     " + mean + "");
@@ -112,8 +105,8 @@ internal static partial class Program
 
         mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
         variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
-        xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
-        xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
+        double xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+        double xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
         Console.WriteLine("");
         Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");

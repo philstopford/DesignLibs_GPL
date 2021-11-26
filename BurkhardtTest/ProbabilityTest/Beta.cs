@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Probability;
 using Burkardt.Types;
 
@@ -27,14 +28,8 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        double a;
-        double b;
-        double cdf;
         int i;
-        double pdf;
         int seed = 123456789;
-        double x;
-        double x2;
 
         Console.WriteLine("");
         Console.WriteLine("BETA_CDF_TEST");
@@ -42,8 +37,8 @@ internal static partial class Program
         Console.WriteLine("  BETA_CDF_INV inverts the Beta CDF.");
         Console.WriteLine("  BETA_PDF evaluates the Beta PDF;");
 
-        a = 12.0;
-        b = 12.0;
+        const double a = 12.0;
+        const double b = 12.0;
 
         Console.WriteLine("");
         Console.WriteLine("  PDF parameter A =      " + a + "");
@@ -63,17 +58,17 @@ internal static partial class Program
 
         for (i = 1; i <= 10; i++)
         {
-            x = Beta.beta_sample(a, b, ref seed);
-            pdf = Beta.beta_pdf(x, a, b);
-            cdf = Beta.beta_cdf(x, a, b);
-            x2 = Beta.beta_cdf_inv(cdf, a, b);
+            double x = Beta.beta_sample(a, b, ref seed);
+            double pdf = Beta.beta_pdf(x, a, b);
+            double cdf = Beta.beta_cdf(x, a, b);
+            double x2 = Beta.beta_cdf_inv(cdf, a, b);
 
-            Console.WriteLine("  " + a.ToString().PadLeft(12)
-                                   + "  " + b.ToString().PadLeft(12)
-                                   + "  " + x.ToString().PadLeft(12)
-                                   + "  " + pdf.ToString().PadLeft(12)
-                                   + "  " + cdf.ToString().PadLeft(12)
-                                   + "  " + x2.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + b.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + x2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
     }
@@ -126,11 +121,11 @@ internal static partial class Program
             double fx2 = Beta.beta_inc(a, b, x);
 
             Console.WriteLine("  "
-                              + a.ToString().PadLeft(8) + "  "
-                              + b.ToString().PadLeft(8) + "  "
-                              + x.ToString().PadLeft(8) + "  "
-                              + fx.ToString().PadLeft(16) + "  "
-                              + fx2.ToString().PadLeft(16) + "");
+                              + a.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + b.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                              + fx.ToString(CultureInfo.InvariantCulture).PadLeft(16) + "  "
+                              + fx2.ToString(CultureInfo.InvariantCulture).PadLeft(16) + "");
         }
 
     }
@@ -156,17 +151,11 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        int SAMPLE_NUM = 1000;
+        const int SAMPLE_NUM = 1000;
 
-        double a;
-        double b;
         int i;
-        double mean;
         int seed = 123456789;
-        double variance;
         double[] x = new double[SAMPLE_NUM];
-        double xmax;
-        double xmin;
 
         Console.WriteLine("");
         Console.WriteLine("BETA_SAMPLE_TEST");
@@ -174,8 +163,8 @@ internal static partial class Program
         Console.WriteLine("  BETA_SAMPLE samples the Beta distribution;");
         Console.WriteLine("  BETA_VARIANCE computes the Beta variance;");
 
-        a = 2.0;
-        b = 3.0;
+        const double a = 2.0;
+        const double b = 3.0;
 
         Console.WriteLine("");
         Console.WriteLine("  PDF parameter A =      " + a + "");
@@ -189,8 +178,8 @@ internal static partial class Program
             return;
         }
 
-        mean = Beta.beta_mean(a, b);
-        variance = Beta.beta_variance(a, b);
+        double mean = Beta.beta_mean(a, b);
+        double variance = Beta.beta_variance(a, b);
 
         Console.WriteLine("");
         Console.WriteLine("  PDF mean =     " + mean + "");
@@ -203,8 +192,8 @@ internal static partial class Program
 
         mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
         variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
-        xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
-        xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
+        double xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+        double xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
         Console.WriteLine("");
         Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");
@@ -236,15 +225,8 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        double a;
-        double b;
-        int c;
-        double cdf;
         int i;
-        double pdf;
         int seed = 123456789;
-        int x;
-        int x2;
 
         Console.WriteLine("");
         Console.WriteLine("BETA_BINOMIAL_CDF_TEST");
@@ -252,9 +234,9 @@ internal static partial class Program
         Console.WriteLine("  BETA_BINOMIAL_CDF_INV inverts the Beta Binomial CDF.");
         Console.WriteLine("  BETA_BINOMIAL_PDF evaluates the Beta Binomial PDF;");
 
-        a = 2.0;
-        b = 3.0;
-        c = 4;
+        const double a = 2.0;
+        const double b = 3.0;
+        const int c = 4;
 
         Console.WriteLine("");
         Console.WriteLine("  PDF parameter A =      " + a + "");
@@ -275,16 +257,16 @@ internal static partial class Program
 
         for (i = 1; i <= 10; i++)
         {
-            x = Beta.beta_binomial_sample(a, b, c, ref seed);
-            pdf = Beta.beta_binomial_pdf(x, a, b, c);
-            cdf = Beta.beta_binomial_cdf(x, a, b, c);
-            x2 = Beta.beta_binomial_cdf_inv(cdf, a, b, c);
+            int x = Beta.beta_binomial_sample(a, b, c, ref seed);
+            double pdf = Beta.beta_binomial_pdf(x, a, b, c);
+            double cdf = Beta.beta_binomial_cdf(x, a, b, c);
+            int x2 = Beta.beta_binomial_cdf_inv(cdf, a, b, c);
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + pdf.ToString().PadLeft(12) + "  "
-                              + cdf.ToString().PadLeft(12) + "  "
-                              + x2.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -309,18 +291,11 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        int SAMPLE_NUM = 1000;
+        const int SAMPLE_NUM = 1000;
 
-        double a;
-        double b;
-        int c;
         int i;
-        double mean;
         int seed = 123456789;
-        double variance;
         int[] x = new int[SAMPLE_NUM];
-        int xmax;
-        int xmin;
 
         Console.WriteLine("");
         Console.WriteLine("BETA_BINOMIAL_SAMPLE_TEST");
@@ -328,9 +303,9 @@ internal static partial class Program
         Console.WriteLine("  BETA_BINOMIAL_SAMPLE samples the Beta Binomial distribution;");
         Console.WriteLine("  BETA_BINOMIAL_VARIANCE computes the Beta Binomial variance;");
 
-        a = 2.0;
-        b = 3.0;
-        c = 4;
+        const double a = 2.0;
+        const double b = 3.0;
+        const int c = 4;
 
         Console.WriteLine("");
         Console.WriteLine("  PDF parameter A =      " + a + "");
@@ -345,8 +320,8 @@ internal static partial class Program
             return;
         }
 
-        mean = Beta.beta_binomial_mean(a, b, c);
-        variance = Beta.beta_binomial_variance(a, b, c);
+        double mean = Beta.beta_binomial_mean(a, b, c);
+        double variance = Beta.beta_binomial_variance(a, b, c);
 
         Console.WriteLine("");
         Console.WriteLine("  PDF mean =     " + mean + "");
@@ -359,8 +334,8 @@ internal static partial class Program
 
         mean = typeMethods.i4vec_mean(SAMPLE_NUM, x);
         variance = typeMethods.i4vec_variance(SAMPLE_NUM, x);
-        xmax = typeMethods.i4vec_max(SAMPLE_NUM, x);
-        xmin = typeMethods.i4vec_min(SAMPLE_NUM, x);
+        int xmax = typeMethods.i4vec_max(SAMPLE_NUM, x);
+        int xmin = typeMethods.i4vec_min(SAMPLE_NUM, x);
 
         Console.WriteLine("");
         Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");

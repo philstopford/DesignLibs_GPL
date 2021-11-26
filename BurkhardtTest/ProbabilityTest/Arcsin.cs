@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Probability;
 using Burkardt.Types;
 
@@ -27,13 +28,8 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        double a;
-        double cdf;
         int i;
-        double pdf;
         int seed = 123456789;
-        double x;
-        double x2;
 
         Console.WriteLine("");
         Console.WriteLine("ARCSIN_CDF_TEST");
@@ -41,7 +37,7 @@ internal static partial class Program
         Console.WriteLine("  ARCSIN_CDF_INV inverts the Arcsin CDF.");
         Console.WriteLine("  ARCSIN_PDF evaluates the Arcsin PDF;");
 
-        a = 1.0E+00;
+        double a = 1.0E+00;
 
         Console.WriteLine("");
         Console.WriteLine("  PDF parameter A =             " + a + "");
@@ -60,16 +56,16 @@ internal static partial class Program
 
         for (i = 1; i <= 10; i++)
         {
-            x = Arcsin.arcsin_sample(a, ref seed);
-            pdf = Arcsin.arcsin_pdf(x, a);
-            cdf = Arcsin.arcsin_cdf(x, a);
-            x2 = Arcsin.arcsin_cdf_inv(cdf, a);
+            double x = Arcsin.arcsin_sample(a, ref seed);
+            double pdf = Arcsin.arcsin_pdf(x, a);
+            double cdf = Arcsin.arcsin_cdf(x, a);
+            double x2 = Arcsin.arcsin_cdf_inv(cdf, a);
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + pdf.ToString().PadLeft(12) + "  "
-                              + cdf.ToString().PadLeft(12) + "  "
-                              + x2.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -94,17 +90,12 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        int SAMPLE_NUM = 1000;
+        const int SAMPLE_NUM = 1000;
 
         double a = 0;
         int i;
-        int j;
-        double mean;
         int seed = 123456789;
-        double variance;
         double[] x = new double[SAMPLE_NUM];
-        double xmax;
-        double xmin;
 
         Console.WriteLine("");
         Console.WriteLine("ARCSIN_SAMPLE_TEST");
@@ -132,12 +123,13 @@ internal static partial class Program
                 return;
             }
 
-            mean = Arcsin.arcsin_mean(a);
-            variance = Arcsin.arcsin_variance(a);
+            double mean = Arcsin.arcsin_mean(a);
+            double variance = Arcsin.arcsin_variance(a);
 
             Console.WriteLine("  PDF mean =                    " + mean + "");
             Console.WriteLine("  PDF variance =                " + variance + "");
 
+            int j;
             for (j = 0; j < SAMPLE_NUM; j++)
             {
                 x[j] = Arcsin.arcsin_sample(a, ref seed);
@@ -145,8 +137,8 @@ internal static partial class Program
 
             mean = typeMethods.r8vec_mean(j, x);
             variance = typeMethods.r8vec_variance(j, x);
-            xmax = typeMethods.r8vec_max(j, x);
-            xmin = typeMethods.r8vec_min(j, x);
+            double xmax = typeMethods.r8vec_max(j, x);
+            double xmin = typeMethods.r8vec_min(j, x);
 
             Console.WriteLine("");
             Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");

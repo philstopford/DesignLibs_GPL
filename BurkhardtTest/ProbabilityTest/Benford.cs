@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Probability;
 
 namespace ProbabilityTest;
@@ -27,7 +28,6 @@ internal static partial class Program
 //
     {
         double cdf;
-        double cdf2;
         int n;
         double pdf;
 
@@ -39,16 +39,16 @@ internal static partial class Program
         Console.WriteLine("       N          CDF(N)          CDF(N) by summing");
         Console.WriteLine("");
 
-        cdf2 = 0.0;
+        double cdf2 = 0.0;
         for (n = 1; n <= 9; n++)
         {
             cdf = Benford.benford_cdf(n);
             pdf = Benford.benford_pdf(n);
             cdf2 += pdf;
-            Console.WriteLine("  " + n.ToString().PadLeft(6)
-                                   + "  " + pdf.ToString().PadLeft(14)
-                                   + "  " + cdf.ToString().PadLeft(14)
-                                   + "  " + cdf2.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + cdf2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         Console.WriteLine("");
@@ -61,10 +61,10 @@ internal static partial class Program
             cdf = Benford.benford_cdf(n);
             pdf = Benford.benford_pdf(n);
             cdf2 += pdf;
-            Console.WriteLine("  " + n.ToString().PadLeft(6)
-                                   + "  " + pdf.ToString().PadLeft(14)
-                                   + "  " + cdf.ToString().PadLeft(14)
-                                   + "  " + cdf2.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + cdf2.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -103,8 +103,8 @@ internal static partial class Program
         for (n = 1; n <= 9; n++)
         {
             pdf = Benford.benford_pdf(n);
-            Console.WriteLine("  " + n.ToString().PadLeft(6)
-                                   + "  " + pdf.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         Console.WriteLine("");
@@ -114,8 +114,8 @@ internal static partial class Program
         for (n = 10; n <= 99; n++)
         {
             pdf = Benford.benford_pdf(n);
-            Console.WriteLine("  " + n.ToString().PadLeft(6)
-                                   + "  " + pdf.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 

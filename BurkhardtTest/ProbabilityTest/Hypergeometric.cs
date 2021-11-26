@@ -27,21 +27,14 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        double cdf;
-        int l;
-        int m;
-        int n;
-        double pdf;
-        int x;
-
         Console.WriteLine("");
         Console.WriteLine("HYPERGEOMETRIC_CDF_TEST");
         Console.WriteLine("  HYPERGEOMETRIC_CDF evaluates the Hypergeometric CDF.");
         Console.WriteLine("  HYPERGEOMETRIC_PDF evaluates the Hypergeometric PDF.");
 
-        n = 10;
-        m = 7;
-        l = 100;
+        const int n = 10;
+        const int m = 7;
+        const int l = 100;
 
         Console.WriteLine("");
         Console.WriteLine("  Total number of balls L =         " + l + "");
@@ -56,11 +49,11 @@ internal static partial class Program
             return;
         }
 
-        x = 7;
+        int x = 7;
 
-        pdf = Hypergeometric.hypergeometric_pdf(x, n, m, l);
+        double pdf = Hypergeometric.hypergeometric_pdf(x, n, m, l);
 
-        cdf = Hypergeometric.hypergeometric_cdf(x, n, m, l);
+        double cdf = Hypergeometric.hypergeometric_cdf(x, n, m, l);
 
         Console.WriteLine("  PDF argument X =                " + x + "");
         Console.WriteLine("  PDF value =                   = " + pdf + "");
@@ -88,18 +81,11 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        int SAMPLE_NUM = 1000;
+        const int SAMPLE_NUM = 1000;
 
         int j;
-        int l;
-        int m;
-        double mean;
-        int n;
         int seed = 123456789;
-        double variance;
         int[] x = new int[SAMPLE_NUM];
-        int xmax;
-        int xmin;
 
         Console.WriteLine("");
         Console.WriteLine("HYPERGEOMETRIC_SAMPLE_TEST");
@@ -107,9 +93,9 @@ internal static partial class Program
         Console.WriteLine("  HYPERGEOMETRIC_SAMPLE samples the Hypergeometric distribution;");
         Console.WriteLine("  HYPERGEOMETRIC_VARIANCE computes the Hypergeometric variance.");
 
-        n = 10;
-        m = 7;
-        l = 100;
+        const int n = 10;
+        const int m = 7;
+        const int l = 100;
 
         Console.WriteLine("");
         Console.WriteLine("  Total number of balls L =         " + l + "");
@@ -124,8 +110,8 @@ internal static partial class Program
             return;
         }
 
-        mean = Hypergeometric.hypergeometric_mean(n, m, l);
-        variance = Hypergeometric.hypergeometric_variance(n, m, l);
+        double mean = Hypergeometric.hypergeometric_mean(n, m, l);
+        double variance = Hypergeometric.hypergeometric_variance(n, m, l);
 
         Console.WriteLine("  PDF mean =                    " + mean + "");
         Console.WriteLine("  PDF variance =                " + variance + "");
@@ -137,8 +123,8 @@ internal static partial class Program
 
         mean = typeMethods.i4vec_mean(SAMPLE_NUM, x);
         variance = typeMethods.i4vec_variance(SAMPLE_NUM, x);
-        xmax = typeMethods.i4vec_max(SAMPLE_NUM, x);
-        xmin = typeMethods.i4vec_min(SAMPLE_NUM, x);
+        int xmax = typeMethods.i4vec_max(SAMPLE_NUM, x);
+        int xmin = typeMethods.i4vec_min(SAMPLE_NUM, x);
 
         Console.WriteLine("");
         Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Probability;
 
 namespace ProbabilityTest;
@@ -26,15 +27,11 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        int j;
         double kappa = 0;
         double[] mu = new double[3];
-        int n = 10;
-        double pdf;
-        int seed;
+        const int n = 10;
         int test;
-        int test_num = 3;
-        double[] x;
+        const int test_num = 3;
 
         Console.WriteLine("");
         Console.WriteLine("FISHER_SAMPLE_TEST");
@@ -76,18 +73,19 @@ internal static partial class Program
             Console.WriteLine("      X                         PDF");
             Console.WriteLine("");
 
-            seed = 123456789;
+            int seed = 123456789;
 
+            int j;
             for (j = 0; j < n; j++)
             {
-                x = Fisher.fisher_sample(kappa, mu, 1, ref seed);
+                double[] x = Fisher.fisher_sample(kappa, mu, 1, ref seed);
 
-                pdf = Fisher.fisher_pdf(x, kappa, mu);
+                double pdf = Fisher.fisher_pdf(x, kappa, mu);
 
-                Console.WriteLine("  " + x[0].ToString().PadLeft(10)
-                                       + "  " + x[1].ToString().PadLeft(10)
-                                       + "  " + x[2].ToString().PadLeft(10)
-                                       + "  " + pdf.ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + x[0].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + x[1].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + x[2].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
 
             }

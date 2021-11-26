@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Probability;
 using Burkardt.Types;
 
@@ -27,10 +28,7 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        double cdf;
         int n;
-        int n2;
-        double pdf;
 
         Console.WriteLine("");
         Console.WriteLine("BIRTHDAY_CDF_TEST");
@@ -44,16 +42,16 @@ internal static partial class Program
 
         for (n = 1; n <= 30; n++)
         {
-            pdf = Birthday.birthday_pdf(n);
+            double pdf = Birthday.birthday_pdf(n);
 
-            cdf = Birthday.birthday_cdf(n);
+            double cdf = Birthday.birthday_cdf(n);
 
-            n2 = Birthday.birthday_cdf_inv(cdf);
+            int n2 = Birthday.birthday_cdf_inv(cdf);
 
-            Console.WriteLine("  " + n.ToString().PadLeft(8)
-                                   + "  " + pdf.ToString().PadLeft(14)
-                                   + "  " + cdf.ToString().PadLeft(14)
-                                   + "  " + n2.ToString().PadLeft(8)+ "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + n2.ToString(CultureInfo.InvariantCulture).PadLeft(8)+ "");
         }
     }
 
@@ -79,14 +77,11 @@ internal static partial class Program
 //
     {
         int i;
-        double mean;
         int n;
-        int nsample = 10000;
-        double pdf;
-        int seed;
+        const int nsample = 10000;
         int[] x = new int [nsample];
 
-        seed = 12345678;
+        int seed = 12345678;
 
         Console.WriteLine("");
         Console.WriteLine("BIRTHDAY_SAMPLE_TEST");
@@ -102,11 +97,11 @@ internal static partial class Program
                 x[i] = Birthday.birthday_sample(n, ref seed);
             }
 
-            mean = typeMethods.i4vec_mean(nsample, x);
-            pdf = Birthday.birthday_pdf(n);
-            Console.WriteLine("  " + n.ToString().PadLeft(2)
-                                   + "  " + mean.ToString().PadLeft(14)
-                                   + "  " + pdf.ToString().PadLeft(14) + "");
+            double mean = typeMethods.i4vec_mean(nsample, x);
+            double pdf = Birthday.birthday_pdf(n);
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + mean.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 

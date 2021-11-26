@@ -26,18 +26,14 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        double cdf;
-        int n;
-        double x;
-
         Console.WriteLine("");
         Console.WriteLine("ANGLE_CDF_TEST");
         Console.WriteLine("  ANGLE_CDF evaluates the Angle CDF;");
 
-        n = 5;
-        x = 0.50E+00;
+        const int n = 5;
+        const double x = 0.50E+00;
 
-        cdf = Angle.angle_cdf(x, n);
+        double cdf = Angle.angle_cdf(x, n);
 
         Console.WriteLine("");
         Console.WriteLine("  Parameter N =     " + n + "");
@@ -66,18 +62,14 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        int n;
-        double pdf;
-        double x;
-
         Console.WriteLine("");
         Console.WriteLine("ANGLE_PDF_TEST");
         Console.WriteLine("  ANGLE_PDF evaluates the Angle PDF;");
 
-        n = 5;
-        x = 0.50E+00;
+        const int n = 5;
+        const double x = 0.50E+00;
 
-        pdf = Angle.angle_pdf(x, n);
+        double pdf = Angle.angle_pdf(x, n);
 
         Console.WriteLine("");
         Console.WriteLine("  Parameter N =    " + n + "");
@@ -106,15 +98,12 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        double mean;
-        int n;
-
         Console.WriteLine("");
         Console.WriteLine("ANGLE_MEAN_TEST");
         Console.WriteLine("  ANGLIT_MEAN computes the Angle mean;");
 
-        n = 5;
-        mean = Angle.angle_mean(n);
+        const int n = 5;
+        double mean = Angle.angle_mean(n);
 
         Console.WriteLine("");
         Console.WriteLine("  Parameter N = " + n + "");

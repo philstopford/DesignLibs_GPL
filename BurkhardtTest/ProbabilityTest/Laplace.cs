@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Probability;
 using Burkardt.Types;
 
@@ -27,14 +28,8 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        double a;
-        double b;
-        double cdf;
         int i;
-        double pdf;
         int seed = 123456789;
-        double x;
-        double x2;
 
         Console.WriteLine("");
         Console.WriteLine("LAPLACE_CDF_TEST");
@@ -42,8 +37,8 @@ internal static partial class Program
         Console.WriteLine("  LAPLACE_CDF_INV inverts the Laplace CDF.");
         Console.WriteLine("  LAPLACE_PDF evaluates the Laplace PDF;");
 
-        a = 1.0;
-        b = 2.0;
+        const double a = 1.0;
+        const double b = 2.0;
 
         Console.WriteLine("");
         Console.WriteLine("  PDF parameter A =      " + a + "");
@@ -63,16 +58,16 @@ internal static partial class Program
 
         for (i = 1; i <= 10; i++)
         {
-            x = Laplace.laplace_sample(a, b, ref seed);
-            pdf = Laplace.laplace_pdf(x, a, b);
-            cdf = Laplace.laplace_cdf(x, a, b);
-            x2 = Laplace.laplace_cdf_inv(cdf, a, b);
+            double x = Laplace.laplace_sample(a, b, ref seed);
+            double pdf = Laplace.laplace_pdf(x, a, b);
+            double cdf = Laplace.laplace_cdf(x, a, b);
+            double x2 = Laplace.laplace_cdf_inv(cdf, a, b);
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + pdf.ToString().PadLeft(12) + "  "
-                              + cdf.ToString().PadLeft(12) + "  "
-                              + x2.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -97,17 +92,11 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        int SAMPLE_NUM = 1000;
+        const int SAMPLE_NUM = 1000;
 
-        double a;
-        double b;
         int i;
-        double mean;
         int seed = 123456789;
-        double variance;
         double[] x = new double [SAMPLE_NUM];
-        double xmax;
-        double xmin;
 
         Console.WriteLine("");
         Console.WriteLine("LAPLACE_SAMPLE_TEST");
@@ -115,8 +104,8 @@ internal static partial class Program
         Console.WriteLine("  LAPLACE_SAMPLE samples the Laplace distribution;");
         Console.WriteLine("  LAPLACE_VARIANCE computes the Laplace variance;");
 
-        a = 1.0;
-        b = 2.0;
+        double a = 1.0;
+        double b = 2.0;
 
         Console.WriteLine("");
         Console.WriteLine("  PDF parameter A =      " + a + "");
@@ -130,8 +119,8 @@ internal static partial class Program
             return;
         }
 
-        mean = Laplace.laplace_mean(a, b);
-        variance = Laplace.laplace_variance(a, b);
+        double mean = Laplace.laplace_mean(a, b);
+        double variance = Laplace.laplace_variance(a, b);
 
         Console.WriteLine("");
         Console.WriteLine("  PDF mean =     " + mean + "");
@@ -144,8 +133,8 @@ internal static partial class Program
 
         mean = typeMethods.r8vec_mean(SAMPLE_NUM, x);
         variance = typeMethods.r8vec_variance(SAMPLE_NUM, x);
-        xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
-        xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
+        double xmax = typeMethods.r8vec_max(SAMPLE_NUM, x);
+        double xmin = typeMethods.r8vec_min(SAMPLE_NUM, x);
 
         Console.WriteLine("");
         Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Probability;
 using Burkardt.Types;
 
@@ -27,11 +28,7 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        int a;
-        double cdf;
-        double pdf;
         int x;
-        int x2;
 
         Console.WriteLine("");
         Console.WriteLine("DERANGED_CDF_TEST");
@@ -39,7 +36,7 @@ internal static partial class Program
         Console.WriteLine("  DERANGED_CDF_INV inverts the Deranged CDF.");
         Console.WriteLine("  DERANGED_PDF evaluates the Deranged PDF;");
 
-        a = 7;
+        const int a = 7;
 
         Console.WriteLine("");
         Console.WriteLine("  PDF parameter A =             " + a + "");
@@ -58,15 +55,15 @@ internal static partial class Program
 
         for (x = 0; x <= a; x++)
         {
-            pdf = Deranged.deranged_pdf(x, a);
-            cdf = Deranged.deranged_cdf(x, a);
-            x2 = Deranged.deranged_cdf_inv(cdf, a);
+            double pdf = Deranged.deranged_pdf(x, a);
+            double cdf = Deranged.deranged_cdf(x, a);
+            int x2 = Deranged.deranged_cdf_inv(cdf, a);
 
             Console.WriteLine("  "
-                              + x.ToString().PadLeft(12) + "  "
-                              + pdf.ToString().PadLeft(12) + "  "
-                              + cdf.ToString().PadLeft(12) + "  "
-                              + x2.ToString().PadLeft(12) + "");
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + pdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + cdf.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x2.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -91,16 +88,11 @@ internal static partial class Program
 //    John Burkardt
 //
     {
-        int SAMPLE_NUM = 1000;
+        const int SAMPLE_NUM = 1000;
 
-        int a;
         int j;
-        double mean;
         int seed = 123456789;
-        double variance;
         int[] x = new int[SAMPLE_NUM];
-        int xmax;
-        int xmin;
 
         Console.WriteLine("");
         Console.WriteLine("DERANGED_SAMPLE_TEST");
@@ -108,7 +100,7 @@ internal static partial class Program
         Console.WriteLine("  DERANGED_SAMPLE samples the Deranged distribution;");
         Console.WriteLine("  DERANGED_VARIANCE computes the Deranged variance.");
 
-        a = 7;
+        const int a = 7;
 
         Console.WriteLine("");
         Console.WriteLine("  PDF parameter A =             " + a + "");
@@ -121,8 +113,8 @@ internal static partial class Program
             return;
         }
 
-        mean = Deranged.deranged_mean(a);
-        variance = Deranged.deranged_variance(a);
+        double mean = Deranged.deranged_mean(a);
+        double variance = Deranged.deranged_variance(a);
 
         Console.WriteLine("  PDF mean =                    " + mean + "");
         Console.WriteLine("  PDF variance =                " + variance + "");
@@ -134,8 +126,8 @@ internal static partial class Program
 
         mean = typeMethods.i4vec_mean(SAMPLE_NUM, x);
         variance = typeMethods.i4vec_variance(SAMPLE_NUM, x);
-        xmax = typeMethods.i4vec_max(SAMPLE_NUM, x);
-        xmin = typeMethods.i4vec_min(SAMPLE_NUM, x);
+        int xmax = typeMethods.i4vec_max(SAMPLE_NUM, x);
+        int xmin = typeMethods.i4vec_min(SAMPLE_NUM, x);
 
         Console.WriteLine("");
         Console.WriteLine("  Sample size =     " + SAMPLE_NUM + "");

@@ -30,7 +30,6 @@ internal static class Program
         //
     {
         int prob;
-        int prob_num;
 
         Console.WriteLine("");
         Console.WriteLine("NEWTON_INTERP_1D_TEST:");
@@ -42,7 +41,7 @@ internal static class Program
 
         newton_value_1d_test();
 
-        prob_num = Data_1D.p00_prob_num();
+        int prob_num = Data_1D.p00_prob_num();
 
         for (prob = 1; prob <= prob_num; prob++)
         {
@@ -76,8 +75,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] cd;
-        int nd = 5;
+        const int nd = 5;
         double[] xd = {0.0, 1.0, 2.0, 3.0, 4.0};
         double[] yd = {24.0, 0.0, 0.0, 0.0, 0.0};
 
@@ -87,7 +85,7 @@ internal static class Program
 
         typeMethods.r8vec2_print(nd, xd, yd, "  Interpolation data:");
 
-        cd = Newton1D.newton_coef_1d(nd, xd, yd);
+        double[] cd = Newton1D.newton_coef_1d(nd, xd, yd);
 
         typeMethods.r8vec_print(nd, cd, "  Newton interpolant coefficients:");
     }
@@ -114,13 +112,9 @@ internal static class Program
         //
     {
         double[] cd = {24.0, -24.0, +12.0, -4.0, 1.0};
-        int nd = 5;
-        int ni = 16;
-        double x_hi;
-        double x_lo;
+        const int nd = 5;
+        const int ni = 16;
         double[] xd = {0.0, 1.0, 2.0, 3.0, 4.0};
-        double[] xi;
-        double[] yi;
 
         Console.WriteLine("");
         Console.WriteLine("NEWTON_VALUE_1D_TEST");
@@ -128,10 +122,10 @@ internal static class Program
 
         typeMethods.r8vec2_print(nd, xd, cd, "  The Newton interpolant data:");
 
-        x_lo = 0.0;
-        x_hi = 5.0;
-        xi = typeMethods.r8vec_linspace_new(ni, x_lo, x_hi);
-        yi = Newton1D.newton_value_1d(nd, xd, cd, ni, xi);
+        const double x_lo = 0.0;
+        const double x_hi = 5.0;
+        double[] xi = typeMethods.r8vec_linspace_new(ni, x_lo, x_hi);
+        double[] yi = Newton1D.newton_value_1d(nd, xd, cd, ni, xi);
 
         typeMethods.r8vec2_print(ni, xi, yi, "  Newton interpolant values:");
     }
@@ -157,42 +151,23 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] cd;
-        string command_filename;
         List<string> command_unit = new();
-        string data_filename;
         List<string> data_unit = new();
         int i;
-        double interp_error;
-        string interp_filename;
         List<string> interp_unit = new();
         int j;
-        double ld;
-        double li;
-        int nd;
-        int ni;
-        string output_filename;
-        double[] xd;
-        double[] xi;
-        double xmax;
-        double xmin;
-        double[] xy;
-        double[] yd;
-        double[] yi;
-        double ymax;
-        double ymin;
 
         Console.WriteLine("");
         Console.WriteLine("NEWTON_INTERP_1D_TEST01:");
         Console.WriteLine("  Interpolate data from TEST_INTERP problem #" + prob + "");
 
-        nd = TestInterp.p00_data_num(prob);
+        int nd = TestInterp.p00_data_num(prob);
         Console.WriteLine("  Number of data points = " + nd + "");
 
-        xy = TestInterp.p00_data(prob, 2, nd);
+        double[] xy = TestInterp.p00_data(prob, 2, nd);
 
-        xd = new double[nd];
-        yd = new double[nd];
+        double[] xd = new double[nd];
+        double[] yd = new double[nd];
 
         for (i = 0; i < nd; i++)
         {
@@ -204,15 +179,15 @@ internal static class Program
         //
         //  Get the Newton coefficients.
         //
-        cd = Newton1D.newton_coef_1d(nd, xd, yd);
+        double[] cd = Newton1D.newton_coef_1d(nd, xd, yd);
         //
         //  #1:  Does interpolant match function at interpolation points?
         //
-        ni = nd;
-        xi = typeMethods.r8vec_copy_new(ni, xd);
-        yi = Newton1D.newton_value_1d(nd, xd, cd, ni, xi);
+        int ni = nd;
+        double[] xi = typeMethods.r8vec_copy_new(ni, xd);
+        double[] yi = Newton1D.newton_value_1d(nd, xd, cd, ni, xi);
 
-        interp_error = typeMethods.r8vec_norm_affine(ni, yi, yd) / ni;
+        double interp_error = typeMethods.r8vec_norm_affine(ni, yi, yd) / ni;
 
         Console.WriteLine("");
         Console.WriteLine("  L2 interpolation error averaged per interpolant node = " + interp_error + "");
@@ -222,23 +197,23 @@ internal static class Program
         //  Assume data is sorted, and normalize X and Y dimensions by (XMAX-XMIN) and
         //  (YMAX-YMIN).
         //
-        xmin = typeMethods.r8vec_min(nd, xd);
-        xmax = typeMethods.r8vec_max(nd, xd);
-        ymin = typeMethods.r8vec_min(nd, yd);
-        ymax = typeMethods.r8vec_max(nd, yd);
+        double xmin = typeMethods.r8vec_min(nd, xd);
+        double xmax = typeMethods.r8vec_max(nd, xd);
+        double ymin = typeMethods.r8vec_min(nd, yd);
+        double ymax = typeMethods.r8vec_max(nd, yd);
 
         ni = 501;
         xi = typeMethods.r8vec_linspace_new(ni, xmin, xmax);
         yi = Newton1D.newton_value_1d(nd, xd, cd, ni, xi);
 
-        ld = 0.0;
+        double ld = 0.0;
         for (i = 0; i < nd - 1; i++)
         {
             ld += Math.Sqrt(Math.Pow((xd[i + 1] - xd[i]) / (xmax - xmin), 2)
                             + Math.Pow((yd[i + 1] - yd[i]) / (ymax - ymin), 2));
         }
 
-        li = 0.0;
+        double li = 0.0;
         for (i = 0; i < ni - 1; i++)
         {
             li += Math.Sqrt(Math.Pow((xi[i + 1] - xi[i]) / (xmax - xmin), 2)
@@ -252,7 +227,7 @@ internal static class Program
         //
         //  Create data file.
         //
-        data_filename = "data" + prob + ".txt";
+        string data_filename = "data" + prob + ".txt";
         for (j = 0; j < nd; j++)
         {
             data_unit.Add("  " + xd[j]
@@ -271,7 +246,12 @@ internal static class Program
         xi = typeMethods.r8vec_linspace_new(ni, xmin, xmax);
         yi = Newton1D.newton_value_1d(nd, xd, cd, ni, xi);
 
-        interp_filename = "interp" + prob + ".txt";
+        string interp_filename = "interp" + prob + ".txt";
+        if (interp_filename == null)
+        {
+            throw new ArgumentNullException(nameof(interp_filename));
+        }
+
         for (j = 0; j < ni; j++)
         {
             interp_unit.Add("  " + xi[j]
@@ -283,9 +263,9 @@ internal static class Program
         //
         //  Plot the data and the interpolant.
         //
-        command_filename = "commands" + prob + ".txt";
+        string command_filename = "commands" + prob + ".txt";
 
-        output_filename = "plot" + prob + ".png";
+        string output_filename = "plot" + prob + ".png";
 
         command_unit.Add("# " + command_filename + "");
         command_unit.Add("#");

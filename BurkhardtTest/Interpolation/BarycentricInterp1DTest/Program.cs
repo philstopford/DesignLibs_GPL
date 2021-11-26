@@ -37,9 +37,8 @@ internal static class Program
                 4, 8, 16, 32, 64, 1000
             }
             ;
-        int nd_test_num = 6;
+        const int nd_test_num = 6;
         int prob;
-        int prob_num;
 
         Console.WriteLine("");
         Console.WriteLine("BARYCENTRIC_INTERP_1D_TEST:");
@@ -47,7 +46,7 @@ internal static class Program
         Console.WriteLine("  The R8LIB library is needed.");
         Console.WriteLine("  The tests need the TEST_INTERP_1D library.");
 
-        prob_num = Data_1D.p00_prob_num();
+        int prob_num = Data_1D.p00_prob_num();
 
         for (prob = 1; prob <= prob_num; prob++)
         {
@@ -109,15 +108,6 @@ internal static class Program
         //    Input, int ND, the number of data points to use.
         //
     {
-        double a;
-        double b;
-        double int_error;
-        int ni;
-        double[] xd;
-        double[] xi;
-        double[] yd;
-        double[] yi;
-
         Console.WriteLine("");
         Console.WriteLine("LAGCHEBY1_INTERP_1D_TEST:");
         Console.WriteLine("  LAGCHEBY1_INTERP_1D uses Chebyshev Type 1 spacing for data points.");
@@ -126,10 +116,10 @@ internal static class Program
         //
         //  Define the data.
         //
-        a = 0.0;
-        b = +1.0;
-        xd = typeMethods.r8vec_cheby1space_new(nd, a, b);
-        yd = Data_1D.p00_f(prob, nd, xd);
+        double a = 0.0;
+        double b = +1.0;
+        double[] xd = typeMethods.r8vec_cheby1space_new(nd, a, b);
+        double[] yd = Data_1D.p00_f(prob, nd, xd);
 
         switch (nd)
         {
@@ -141,11 +131,11 @@ internal static class Program
         //
         //  #1:  Does the interpolant match the function at the interpolation points?
         //
-        ni = nd;
-        xi = typeMethods.r8vec_copy_new(ni, xd);
-        yi = BarycentricInterp1D.lagcheby1_interp_1d(nd, xd, yd, ni, xi);
+        int ni = nd;
+        double[] xi = typeMethods.r8vec_copy_new(ni, xd);
+        double[] yi = BarycentricInterp1D.lagcheby1_interp_1d(nd, xd, yd, ni, xi);
 
-        int_error = typeMethods.r8vec_norm_affine(ni, yi, yd) / ni;
+        double int_error = typeMethods.r8vec_norm_affine(ni, yi, yd) / ni;
 
         Console.WriteLine("");
         Console.WriteLine("  L2 interpolation error averaged per interpolant node = " + int_error + "");
@@ -179,15 +169,6 @@ internal static class Program
         //    Input, int ND, the number of data points to use.
         //
     {
-        double a;
-        double b;
-        double int_error;
-        int ni;
-        double[] xd;
-        double[] xi;
-        double[] yd;
-        double[] yi;
-
         Console.WriteLine("");
         Console.WriteLine("LAGCHEBY2_INTERP_1D_TEST:");
         Console.WriteLine("  LAGCHEBY2_INTERP_1D uses Chebyshev Type 2 spacing for data points.");
@@ -196,10 +177,10 @@ internal static class Program
         //
         //  Define the data.
         //
-        a = 0.0;
-        b = +1.0;
-        xd = typeMethods.r8vec_cheby2space_new(nd, a, b);
-        yd = Data_1D.p00_f(prob, nd, xd);
+        const double a = 0.0;
+        const double b = +1.0;
+        double[] xd = typeMethods.r8vec_cheby2space_new(nd, a, b);
+        double[] yd = Data_1D.p00_f(prob, nd, xd);
 
         switch (nd)
         {
@@ -211,11 +192,10 @@ internal static class Program
         //
         //  #1:  Does the interpolant match the function at the interpolation points?
         //
-        ni = nd;
-        xi = typeMethods.r8vec_copy_new(ni, xd);
-        yi = BarycentricInterp1D.lagcheby2_interp_1d(nd, xd, yd, ni, xi);
+        double[] xi = typeMethods.r8vec_copy_new(nd, xd);
+        double[] yi = BarycentricInterp1D.lagcheby2_interp_1d(nd, xd, yd, nd, xi);
 
-        int_error = typeMethods.r8vec_norm_affine(ni, yi, yd) / ni;
+        double int_error = typeMethods.r8vec_norm_affine(nd, yi, yd) / nd;
 
         Console.WriteLine("");
         Console.WriteLine("  L2 interpolation error averaged per interpolant node = " + int_error + "");
@@ -249,15 +229,6 @@ internal static class Program
         //    Input, int ND, the number of data points to use.
         //
     {
-        double a;
-        double b;
-        double int_error;
-        int ni;
-        double[] xd;
-        double[] xi;
-        double[] yd;
-        double[] yi;
-
         Console.WriteLine("");
         Console.WriteLine("LAGEVEN_INTERP_1D_TEST:");
         Console.WriteLine("  LAGEVEN_INTERP_1D uses even spacing for data points.");
@@ -266,10 +237,10 @@ internal static class Program
         //
         //  Define the data.
         //
-        a = 0.0;
-        b = +1.0;
-        xd = typeMethods.r8vec_midspace_new(nd, a, b);
-        yd = Data_1D.p00_f(prob, nd, xd);
+        const double a = 0.0;
+        const double b = +1.0;
+        double[] xd = typeMethods.r8vec_midspace_new(nd, a, b);
+        double[] yd = Data_1D.p00_f(prob, nd, xd);
 
         switch (nd)
         {
@@ -281,11 +252,10 @@ internal static class Program
         //
         //  #1:  Does the interpolant match the function at the interpolation points?
         //
-        ni = nd;
-        xi = typeMethods.r8vec_copy_new(ni, xd);
-        yi = BarycentricInterp1D.lageven_interp_1d(nd, xd, yd, ni, xi);
+        double[] xi = typeMethods.r8vec_copy_new(nd, xd);
+        double[] yi = BarycentricInterp1D.lageven_interp_1d(nd, xd, yd, nd, xi);
 
-        int_error = typeMethods.r8vec_norm_affine(ni, yi, yd) / ni;
+        double int_error = typeMethods.r8vec_norm_affine(nd, yi, yd) / nd;
 
         Console.WriteLine("");
         Console.WriteLine("  L2 interpolation error averaged per interpolant node = " + int_error + "");

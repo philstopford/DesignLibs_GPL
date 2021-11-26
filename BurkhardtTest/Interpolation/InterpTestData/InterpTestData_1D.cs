@@ -97,7 +97,7 @@ public static class Data_1D
 //    Output, int P00_PROB_NUM, the number of problems.
 //
     {
-        int prob_num = 8;
+        const int prob_num = 8;
 
         return prob_num;
     }
@@ -238,7 +238,7 @@ public static class Data_1D
 //    Output, string P01_TITLE, the title of the problem.
 //
     {
-        string title = "f(x) = steps -1/2/1 at [0,1/3], [1/3,4/5], [4/5,1].";
+        const string title = "f(x) = steps -1/2/1 at [0,1/3], [1/3,4/5], [4/5,1].";
 
         return title;
     }
@@ -313,7 +313,7 @@ public static class Data_1D
 //    Output, string P02_TITLE, the title of the problem.
 //
     {
-        string title = "f(x) = (1-3x), x < 1/3 (6x-2) if 1/3 < x";
+        const string title = "f(x) = (1-3x), x < 1/3 (6x-2) if 1/3 < x";
 
         return title;
     }
@@ -386,7 +386,7 @@ public static class Data_1D
 //    Output, string P03_TITLE, the title of the problem.
 //
     {
-        string title = "f(x) = x (10*x-1) (5x-2) (5x-2) (4x-3.4) (x-1)";
+        const string title = "f(x) = x (10*x-1) (5x-2) (5x-2) (4x-3.4) (x-1)";
 
         return title;
     }
@@ -458,7 +458,7 @@ public static class Data_1D
 //    Output, string P04_TITLE, the title of the problem.
 //
     {
-        string title = "f(x) = atan ( 40 * x - 15 )";
+        const string title = "f(x) = atan ( 40 * x - 15 )";
 
         return title;
     }
@@ -533,7 +533,7 @@ public static class Data_1D
 //    Output, string P05_TITLE, the title of the problem.
 //
     {
-        string title = "f(x) = cos(7*x)+5*cos(11.2*x)-2*cos(14*x)+5*cos(31.5*x)+7*cos(63*x).";
+        const string title = "f(x) = cos(7*x)+5*cos(11.2*x)-2*cos(14*x)+5*cos(31.5*x)+7*cos(63*x).";
 
         return title;
     }
@@ -614,7 +614,7 @@ public static class Data_1D
 //    Output, string P06_TITLE, the title of the problem.
 //
     {
-        string title = "f(x) = exp ( - ( 4*x-1 )^2 )";
+        const string title = "f(x) = exp ( - ( 4*x-1 )^2 )";
 
         return title;
     }
@@ -700,7 +700,7 @@ public static class Data_1D
 //    Output, string P07_TITLE, the title of the problem.
 //
     {
-        string title = "f(x) = exp ( 2 x ) if x < 0.5, 0 otherwise";
+        const string title = "f(x) = exp ( 2 x ) if x < 0.5, 0 otherwise";
 
         return title;
     }
@@ -774,7 +774,7 @@ public static class Data_1D
 //    Output, string P09_TITLE, the title of the problem.
 //
     {
-        string title = "f(x) = 1 / ( 1 + ( 10 * (x-1/2) )^2 )";
+        const string title = "f(x) = 1 / ( 1 + ( 10 * (x-1/2) )^2 )";
 
         return title;
     }

@@ -33,18 +33,16 @@ internal static class Program
         //   John Burkardt
         //
     {
-        int ni;
         int prob;
-        int prob_num;
 
         Console.WriteLine("");
         Console.WriteLine("NEAREST_INTERP_1D_TEST:");
         Console.WriteLine("  Test the NEAREST_INTERP_1D library.");
         Console.WriteLine("  The test needs the TEST_INTERP library.");
 
-        prob_num = Data_1D.p00_prob_num();
+        int prob_num = Data_1D.p00_prob_num();
 
-        ni = 11;
+        int ni = 11;
         for (prob = 1; prob <= prob_num; prob++)
         {
             nearest_interp_1d_test01(prob, ni);
@@ -88,27 +86,18 @@ internal static class Program
         //    Input, int NI, the number of interpolation points.
         //
     {
-        double[] d;
         int j;
-        int nd;
-        string title;
-        double[] xd;
-        double[] xi;
-        double xd_max;
-        double xd_min;
-        double[] yd;
-        double[] yi;
 
         Console.WriteLine("");
         Console.WriteLine("NEAREST_INTERP_1D_TEST01");
         Console.WriteLine("  Sample the nearest neighbor interpolant for problem # " + prob + "");
 
-        nd = TestInterp.p00_data_num(prob);
+        int nd = TestInterp.p00_data_num(prob);
 
-        d = TestInterp.p00_data(prob, 2, nd);
+        double[] d = TestInterp.p00_data(prob, 2, nd);
 
-        xd = new double[nd];
-        yd = new double[nd];
+        double[] xd = new double[nd];
+        double[] yd = new double[nd];
 
         for (j = 0; j < nd; j++)
         {
@@ -116,13 +105,13 @@ internal static class Program
             yd[j] = d[1 + j * 2];
         }
 
-        xd_min = typeMethods.r8vec_min(nd, xd);
-        xd_max = typeMethods.r8vec_max(nd, xd);
+        double xd_min = typeMethods.r8vec_min(nd, xd);
+        double xd_max = typeMethods.r8vec_max(nd, xd);
 
-        xi = typeMethods.r8vec_linspace_new(ni, xd_min, xd_max);
-        yi = Nearest1D.nearest_interp_1d(nd, xd, yd, ni, xi);
+        double[] xi = typeMethods.r8vec_linspace_new(ni, xd_min, xd_max);
+        double[] yi = Nearest1D.nearest_interp_1d(nd, xd, yd, ni, xi);
 
-        title = "X, Y for problem " + prob;
+        string title = "X, Y for problem " + prob;
 
         typeMethods.r8vec2_print(ni, xi, yi, title);
     }
@@ -152,39 +141,25 @@ internal static class Program
         //    Input, int PROB, the index of the problem.
         //
     {
-        string command_filename;
         List<string> command_unit = new();
-        string data_filename;
         List<string> data_unit = new();
         int i;
-        double interp_error;
-        string interp_filename;
         List<string> interp_unit = new();
         int j;
-        int nd;
-        int ni;
-        string output_filename;
-        double[] xd;
-        double[] xi;
-        double xmax;
-        double xmin;
-        double[] xy;
-        double[] yd;
-        double[] yi;
 
         Console.WriteLine("");
         Console.WriteLine("NEAREST_INTERP_1D_TEST02:");
         Console.WriteLine("  Interpolate data from TEST_INTERP problem #" + prob + "");
 
-        nd = TestInterp.p00_data_num(prob);
+        int nd = TestInterp.p00_data_num(prob);
         Console.WriteLine("  Number of data points = " + nd + "");
 
-        xy = TestInterp.p00_data(prob, 2, nd);
+        double[] xy = TestInterp.p00_data(prob, 2, nd);
 
         typeMethods.r8mat_transpose_print(2, nd, xy, "  Data array:");
 
-        xd = new double[nd];
-        yd = new double[nd];
+        double[] xd = new double[nd];
+        double[] yd = new double[nd];
         for (i = 0; i < nd; i++)
         {
             xd[i] = xy[0 + i * 2];
@@ -194,23 +169,23 @@ internal static class Program
         //
         //  #1:  Does interpolant match function at interpolation points?
         //
-        ni = nd;
-        xi = new double[ni];
+        int ni = nd;
+        double[] xi = new double[ni];
         for (i = 0; i < ni; i++)
         {
             xi[i] = xd[i];
         }
 
-        yi = Nearest1D.nearest_interp_1d(nd, xd, yd, ni, xi);
+        double[] yi = Nearest1D.nearest_interp_1d(nd, xd, yd, ni, xi);
 
-        interp_error = typeMethods.r8vec_diff_norm(ni, yi, yd) / ni;
+        double interp_error = typeMethods.r8vec_diff_norm(ni, yi, yd) / ni;
 
         Console.WriteLine("");
         Console.WriteLine("  Node-averaged L2 interpolation error = " + interp_error + "");
         //
         //  Create data file.
         //
-        data_filename = "data" + prob + ".txt";
+        string data_filename = "data" + prob + ".txt";
         for (j = 0; j < nd; j++)
         {
             data_unit.Add("  " + xd[j]
@@ -225,12 +200,12 @@ internal static class Program
         //
 
         ni = 501;
-        xmin = typeMethods.r8vec_min(nd, xd);
-        xmax = typeMethods.r8vec_max(nd, xd);
+        double xmin = typeMethods.r8vec_min(nd, xd);
+        double xmax = typeMethods.r8vec_max(nd, xd);
         xi = typeMethods.r8vec_linspace_new(ni, xmin, xmax);
         yi = Nearest1D.nearest_interp_1d(nd, xd, yd, ni, xi);
 
-        interp_filename = "interp" + prob + ".txt";
+        string interp_filename = "interp" + prob + ".txt";
         for (j = 0; j < ni; j++)
         {
             interp_unit.Add("  " + xi[j]
@@ -242,9 +217,9 @@ internal static class Program
         //
         //  Plot the data and the interpolant.
         //
-        command_filename = "commands" + prob + ".txt";
+        string command_filename = "commands" + prob + ".txt";
 
-        output_filename = "plot" + prob + ".png";
+        string output_filename = "plot" + prob + ".png";
 
         command_unit.Add("# " + command_filename + "");
         command_unit.Add("#");

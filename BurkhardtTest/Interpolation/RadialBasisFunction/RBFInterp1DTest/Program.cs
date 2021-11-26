@@ -31,15 +31,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int i;
-        int nd;
         int prob;
-        int prob_num;
-        double r0;
-        double[] xd;
-        double xmax;
-        double xmin;
-        double[] xy;
 
         Console.WriteLine("");
         Console.WriteLine("RBF_INTERP_1D_TEST:");
@@ -47,24 +39,25 @@ internal static class Program
         Console.WriteLine("  The R8LIB library is needed.");
         Console.WriteLine("  The test needs the TEST_INTERP library.");
 
-        prob_num = TestInterp.p00_prob_num();
+        int prob_num = TestInterp.p00_prob_num();
 
         for (prob = 1; prob <= prob_num; prob++)
         {
             //
             //  Determine an appropriate value of R0, the spacing parameter.
             //
-            nd = TestInterp.p00_data_num(prob);
-            xy = TestInterp.p00_data(prob, 2, nd);
-            xd = new double[nd];
+            int nd = TestInterp.p00_data_num(prob);
+            double[] xy = TestInterp.p00_data(prob, 2, nd);
+            double[] xd = new double[nd];
+            int i;
             for (i = 0; i < nd; i++)
             {
                 xd[i] = xy[0 + i * 2];
             }
 
-            xmax = typeMethods.r8vec_max(nd, xd);
-            xmin = typeMethods.r8vec_min(nd, xd);
-            r0 = (xmax - xmin) / (nd - 1);
+            double xmax = typeMethods.r8vec_max(nd, xd);
+            double xmin = typeMethods.r8vec_min(nd, xd);
+            double r0 = (xmax - xmin) / (nd - 1);
 
             test01(prob, RadialBasisFunctions.phi1, "phi1", r0);
             test01(prob, RadialBasisFunctions.phi2, "phi2", r0);
@@ -115,24 +108,8 @@ internal static class Program
         //    a small multiple of the average distance between points.
         //
     {
-        bool debug = false;
+        const bool debug = false;
         int i;
-        double int_error;
-        double ld;
-        double li;
-        int m;
-        int nd;
-        int ni;
-        double[] w;
-        double[] xd;
-        double[] xi;
-        double xmax;
-        double xmin;
-        double[] xy;
-        double[] yd;
-        double[] yi;
-        double ymax;
-        double ymin;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01:");
@@ -140,10 +117,10 @@ internal static class Program
         Console.WriteLine("  using radial basis function \"" + phi_name + "\".");
         Console.WriteLine("  Scale factor R0 = " + r0 + "");
 
-        nd = TestInterp.p00_data_num(prob);
+        int nd = TestInterp.p00_data_num(prob);
         Console.WriteLine("  Number of data points = " + nd + "");
 
-        xy = TestInterp.p00_data(prob, 2, nd);
+        double[] xy = TestInterp.p00_data(prob, 2, nd);
 
         switch (debug)
         {
@@ -152,23 +129,23 @@ internal static class Program
                 break;
         }
 
-        xd = new double[nd];
-        yd = new double[nd];
+        double[] xd = new double[nd];
+        double[] yd = new double[nd];
         for (i = 0; i < nd; i++)
         {
             xd[i] = xy[0 + i * 2];
             yd[i] = xy[1 + i * 2];
         }
 
-        m = 1;
-        w = RadialBasisFunctions.rbf_weight(m, nd, xd, r0, phi, yd);
+        int m = 1;
+        double[] w = RadialBasisFunctions.rbf_weight(m, nd, xd, r0, phi, yd);
         //
         //  #1:  Does interpolant match function at interpolation points?
         //
-        ni = nd;
-        xi = typeMethods.r8vec_copy_new(ni, xd);
-        yi = RadialBasisFunctions.rbf_interp(m, nd, xd, r0, phi, w, ni, xi);
-        int_error = typeMethods.r8vec_norm_affine(ni, yi, yd) / ni;
+        int ni = nd;
+        double[] xi = typeMethods.r8vec_copy_new(ni, xd);
+        double[] yi = RadialBasisFunctions.rbf_interp(m, nd, xd, r0, phi, w, ni, xi);
+        double int_error = typeMethods.r8vec_norm_affine(ni, yi, yd) / ni;
 
         Console.WriteLine("");
         Console.WriteLine("  L2 interpolation error averaged per interpolant node = " + int_error + "");
@@ -178,23 +155,23 @@ internal static class Program
         //  Assume data is sorted, and normalize X and Y dimensions by (XMAX-XMIN) and
         //  (YMAX-YMIN).
         //
-        xmax = typeMethods.r8vec_max(nd, xd);
-        xmin = typeMethods.r8vec_min(nd, xd);
-        ymax = typeMethods.r8vec_max(nd, yd);
-        ymin = typeMethods.r8vec_min(nd, yd);
+        double xmax = typeMethods.r8vec_max(nd, xd);
+        double xmin = typeMethods.r8vec_min(nd, xd);
+        double ymax = typeMethods.r8vec_max(nd, yd);
+        double ymin = typeMethods.r8vec_min(nd, yd);
 
         ni = 501;
         xi = typeMethods.r8vec_linspace_new(ni, xmin, xmax);
         yi = RadialBasisFunctions.rbf_interp(m, nd, xd, r0, phi, w, ni, xi);
 
-        ld = 0.0;
+        double ld = 0.0;
         for (i = 0; i < nd - 1; i++)
         {
             ld += Math.Sqrt(Math.Pow((xd[i + 1] - xd[i]) / (xmax - xmin), 2)
                             + Math.Pow((yd[i + 1] - yd[i]) / (ymax - ymin), 2));
         }
 
-        li = 0.0;
+        double li = 0.0;
         for (i = 0; i < ni - 1; i++)
         {
             li += Math.Sqrt(Math.Pow((xi[i + 1] - xi[i]) / (xmax - xmin), 2)

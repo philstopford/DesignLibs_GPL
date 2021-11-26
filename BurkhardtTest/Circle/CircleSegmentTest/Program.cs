@@ -90,7 +90,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("          R               H               Area");
         Console.WriteLine("");
-        double r = 1.0;
+        const double r = 1.0;
         double h = 1.0;
         for (i = 0; i <= 10; i++)
         {
@@ -212,7 +212,7 @@ internal static class Program
         Console.WriteLine("  Plot " + data_num + " points from several segments.");
         Console.WriteLine("");
 
-        double r = 1.0;
+        const double r = 1.0;
         double theta = Math.PI;
 
         for (test = 1; test <= 4; test++)

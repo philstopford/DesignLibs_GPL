@@ -66,16 +66,6 @@ internal static class Program
         double[] a = new double[3];
         double[] b = new double[3];
         int l;
-        int n;
-        int nx;
-        int ny;
-        int nz;
-        int p_max;
-        int t;
-        double[] w;
-        double[] x;
-        double[] y;
-        double[] z;
 
         a[0] = -1.0;
         a[1] = -1.0;
@@ -97,20 +87,20 @@ internal static class Program
 
         for (l = 0; l <= 5; l++)
         {
-            nx = l + 1;
-            ny = l + 1;
-            nz = l + 1;
-            n = nx * ny * nz;
-            t = 2 * l + 1;
+            int nx = l + 1;
+            int ny = l + 1;
+            int nz = l + 1;
+            int n = nx * ny * nz;
+            int t = 2 * l + 1;
 
-            x = new double[n];
-            y = new double[n];
-            z = new double[n];
-            w = new double[n];
+            double[] x = new double[n];
+            double[] y = new double[n];
+            double[] z = new double[n];
+            double[] w = new double[n];
 
             legendre_3d_set(a, b, nx, ny, nz, ref x, ref y, ref z, ref w);
 
-            p_max = t + 1;
+            int p_max = t + 1;
             Exactness.legendre_3d_exactness(a, b, n, x, y, z, w, p_max);
         }
     }
@@ -138,15 +128,6 @@ internal static class Program
     {
         double[] a = new double[3];
         double[] b = new double[3];
-        int n;
-        int nx;
-        int ny;
-        int nz;
-        int p_max;
-        double[] w;
-        double[] x;
-        double[] y;
-        double[] z;
 
         a[0] = -1.0;
         a[1] = -1.0;
@@ -165,19 +146,19 @@ internal static class Program
         Console.WriteLine("  Exactness: 3 = 2 * min ( 2, 3, 4 ) - 1");
         Console.WriteLine("  Order: N = 2 * 3 * 4");
 
-        nx = 2;
-        ny = 3;
-        nz = 4;
-        n = nx * ny * nz;
+        const int nx = 2;
+        const int ny = 3;
+        const int nz = 4;
+        int n = nx * ny * nz;
 
-        x = new double[n];
-        y = new double[n];
-        z = new double[n];
-        w = new double[n];
+        double[] x = new double[n];
+        double[] y = new double[n];
+        double[] z = new double[n];
+        double[] w = new double[n];
 
         legendre_3d_set(a, b, nx, ny, nz, ref x, ref y, ref z, ref w);
 
-        p_max = 4;
+        const int p_max = 4;
 
         Exactness.legendre_3d_exactness(a, b, n, x, y, z, w, p_max);
     }
@@ -233,26 +214,19 @@ internal static class Program
         int i;
         int j;
         int k;
-        int l;
-        double[] wx;
-        double[] wy;
-        double[] wz;
-        double[] xx;
-        double[] yy;
-        double[] zz;
         //
         //  Get the rules for [-1,+1].
         //
-        xx = new double[nx];
-        wx = new double[nx];
+        double[] xx = new double[nx];
+        double[] wx = new double[nx];
         legendre_set(nx, ref xx, ref wx);
 
-        yy = new double[ny];
-        wy = new double[ny];
+        double[] yy = new double[ny];
+        double[] wy = new double[ny];
         legendre_set(ny, ref yy, ref wy);
 
-        zz = new double[nz];
-        wz = new double[nz];
+        double[] zz = new double[nz];
+        double[] wz = new double[nz];
         legendre_set(nz, ref zz, ref wz);
         //
         //  Adjust from [-1,+1] to [A,B].
@@ -284,7 +258,7 @@ internal static class Program
         //
         //  Compute the product rule.
         //
-        l = 0;
+        int l = 0;
         for (k = 0; k < nz; k++)
         {
             for (j = 0; j < ny; j++)

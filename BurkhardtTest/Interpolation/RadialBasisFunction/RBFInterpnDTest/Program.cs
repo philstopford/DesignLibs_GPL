@@ -69,25 +69,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double app_error;
-        double b;
-        double[] fd;
-        double[] fe;
-        double[] fi;
         int i;
-        double int_error;
         int j;
-        int m = 2;
-        int n1d = 5;
-        int nd;
-        int ni;
-        double r0;
-        int seed;
-        double[] w;
-        double[] x1d;
-        double[] xd;
-        double[] xi;
+        const int m = 2;
+        const int n1d = 5;
         typeMethods.r8vecDPData data = new();
 
         Console.WriteLine("");
@@ -96,12 +81,12 @@ internal static class Program
         Console.WriteLine("  RBF_INTERP_ND evaluates the RBF interpolant.");
         Console.WriteLine("  Use the multiquadratic basis function PHI1(R).");
 
-        a = 0.0;
-        b = 2.0;
+        double a = 0.0;
+        double b = 2.0;
 
-        x1d = typeMethods.r8vec_linspace_new(n1d, a, b);
-        nd = (int) Math.Pow(n1d, m);
-        xd = new double[m * nd];
+        double[] x1d = typeMethods.r8vec_linspace_new(n1d, a, b);
+        int nd = (int) Math.Pow(n1d, m);
+        double[] xd = new double[m * nd];
 
         for (i = 0; i < m; i++)
         {
@@ -110,12 +95,12 @@ internal static class Program
 
         typeMethods.r8mat_transpose_print(m, nd, xd, "  The product points:");
 
-        r0 = (b - a) / n1d;
+        double r0 = (b - a) / n1d;
 
         Console.WriteLine("");
         Console.WriteLine("  Scale factor R0 = " + r0 + "");
 
-        fd = new double[nd];
+        double[] fd = new double[nd];
         for (j = 0; j < nd; j++)
         {
             fd[j] = xd[0 + j * m] * xd[1 + j * m] * Math.Exp(-xd[0 + j * m] * xd[1 + j * m]);
@@ -123,18 +108,18 @@ internal static class Program
 
         typeMethods.r8vec_print(nd, fd, "  Function data:");
 
-        w = RadialBasisFunctions.rbf_weight(m, nd, xd, r0, RadialBasisFunctions.phi1, fd);
+        double[] w = RadialBasisFunctions.rbf_weight(m, nd, xd, r0, RadialBasisFunctions.phi1, fd);
 
         typeMethods.r8vec_print(nd, w, "  Weight vector:");
         //
         //  #1: Interpolation test.  Does interpolant match function at interpolation points?
         //
-        ni = nd;
-        xi = typeMethods.r8mat_copy_new(m, ni, xd);
+        int ni = nd;
+        double[] xi = typeMethods.r8mat_copy_new(m, ni, xd);
 
-        fi = RadialBasisFunctions.rbf_interp_nd(m, nd, xd, r0, RadialBasisFunctions.phi1, w, ni, xi);
+        double[] fi = RadialBasisFunctions.rbf_interp_nd(m, nd, xd, r0, RadialBasisFunctions.phi1, w, ni, xi);
 
-        int_error = typeMethods.r8vec_norm_affine(nd, fd, fi) / nd;
+        double int_error = typeMethods.r8vec_norm_affine(nd, fd, fi) / nd;
 
         Console.WriteLine("");
         Console.WriteLine("  L2 interpolation error averaged per interpolant node = " + int_error + "");
@@ -143,19 +128,19 @@ internal static class Program
         //  #2: Approximation test.  Estimate the integral (f-interp(f))^2.
         //
         ni = 1000;
-        seed = 123456789;
+        int seed = 123456789;
 
         xi = UniformRNG.r8mat_uniform_ab_new(m, ni, a, b, ref seed);
 
         fi = RadialBasisFunctions.rbf_interp_nd(m, nd, xd, r0, RadialBasisFunctions.phi1, w, ni, xi);
 
-        fe = new double[ni];
+        double[] fe = new double[ni];
         for (j = 0; j < ni; j++)
         {
             fe[j] = xi[0 + j * m] * xi[1 + j * m] * Math.Exp(-xi[0 + j * m] * xi[1 + j * m]);
         }
 
-        app_error = Math.Pow(b - a, m) * typeMethods.r8vec_norm_affine(ni, fi, fe) / ni;
+        double app_error = Math.Pow(b - a, m) * typeMethods.r8vec_norm_affine(ni, fi, fe) / ni;
 
         Console.WriteLine("");
         Console.WriteLine("  L2 approximation error averaged per 1000 samples = " + app_error + "");
@@ -183,25 +168,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double app_error;
-        double b;
-        double[] fd;
-        double[] fe;
-        double[] fi;
         int i;
-        double int_error;
         int j;
-        int m = 2;
-        int n1d = 5;
-        int nd;
-        int ni;
-        double r0;
-        int seed;
-        double[] w;
-        double[] x1d;
-        double[] xd;
-        double[] xi;
+        const int m = 2;
+        const int n1d = 5;
         typeMethods.r8vecDPData data = new();
 
         Console.WriteLine("");
@@ -210,12 +180,12 @@ internal static class Program
         Console.WriteLine("  RBF_INTERP_ND evaluates the RBF interpolant.");
         Console.WriteLine("  Use the inverse multiquadratic basis function PHI2(R).");
 
-        a = 0.0;
-        b = 2.0;
+        const double a = 0.0;
+        const double b = 2.0;
 
-        x1d = typeMethods.r8vec_linspace_new(n1d, a, b);
-        nd = (int) Math.Pow(n1d, m);
-        xd = new double[m * nd];
+        double[] x1d = typeMethods.r8vec_linspace_new(n1d, a, b);
+        int nd = (int) Math.Pow(n1d, m);
+        double[] xd = new double[m * nd];
 
         for (i = 0; i < m; i++)
         {
@@ -224,12 +194,12 @@ internal static class Program
 
         typeMethods.r8mat_transpose_print(m, nd, xd, "  The product points:");
 
-        r0 = (b - a) / n1d;
+        double r0 = (b - a) / n1d;
 
         Console.WriteLine("");
         Console.WriteLine("  Scale factor R0 = " + r0 + "");
 
-        fd = new double[nd];
+        double[] fd = new double[nd];
         for (j = 0; j < nd; j++)
         {
             fd[j] = xd[0 + j * m] * xd[1 + j * m] * Math.Exp(-xd[0 + j * m] * xd[1 + j * m]);
@@ -237,18 +207,18 @@ internal static class Program
 
         typeMethods.r8vec_print(nd, fd, "  Function data:");
 
-        w = RadialBasisFunctions.rbf_weight(m, nd, xd, r0, RadialBasisFunctions.phi2, fd);
+        double[] w = RadialBasisFunctions.rbf_weight(m, nd, xd, r0, RadialBasisFunctions.phi2, fd);
 
         typeMethods.r8vec_print(nd, w, "  Weight vector:");
         //
         //  #1: Interpolation test.  Does interpolant match function at interpolation points?
         //
-        ni = nd;
-        xi = typeMethods.r8mat_copy_new(m, ni, xd);
+        int ni = nd;
+        double[] xi = typeMethods.r8mat_copy_new(m, ni, xd);
 
-        fi = RadialBasisFunctions.rbf_interp_nd(m, nd, xd, r0, RadialBasisFunctions.phi2, w, ni, xi);
+        double[] fi = RadialBasisFunctions.rbf_interp_nd(m, nd, xd, r0, RadialBasisFunctions.phi2, w, ni, xi);
 
-        int_error = typeMethods.r8vec_norm_affine(nd, fd, fi) / nd;
+        double int_error = typeMethods.r8vec_norm_affine(nd, fd, fi) / nd;
 
         Console.WriteLine("");
         Console.WriteLine("  L2 interpolation error averaged per interpolant node = " + int_error + "");
@@ -257,19 +227,19 @@ internal static class Program
         //  #2: Approximation test.  Estimate the integral (f-interp(f))^2.
         //
         ni = 1000;
-        seed = 123456789;
+        int seed = 123456789;
 
         xi = UniformRNG.r8mat_uniform_ab_new(m, ni, a, b, ref seed);
 
         fi = RadialBasisFunctions.rbf_interp_nd(m, nd, xd, r0, RadialBasisFunctions.phi2, w, ni, xi);
 
-        fe = new double[ni];
+        double[] fe = new double[ni];
         for (j = 0; j < ni; j++)
         {
             fe[j] = xi[0 + j * m] * xi[1 + j * m] * Math.Exp(-xi[0 + j * m] * xi[1 + j * m]);
         }
 
-        app_error = Math.Pow(b - a, m) * typeMethods.r8vec_norm_affine(ni, fi, fe) / ni;
+        double app_error = Math.Pow(b - a, m) * typeMethods.r8vec_norm_affine(ni, fi, fe) / ni;
 
         Console.WriteLine("");
         Console.WriteLine("  L2 approximation error averaged per 1000 samples = " + app_error + "");
@@ -297,25 +267,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double app_error;
-        double b;
-        double[] fd;
-        double[] fe;
-        double[] fi;
         int i;
-        double int_error;
         int j;
-        int m = 2;
-        int n1d = 5;
-        int nd;
-        int ni;
-        double r0;
-        int seed;
-        double[] w;
-        double[] x1d;
-        double[] xd;
-        double[] xi;
+        const int m = 2;
+        const int n1d = 5;
         typeMethods.r8vecDPData data = new();
 
         Console.WriteLine("");
@@ -324,12 +279,13 @@ internal static class Program
         Console.WriteLine("  RBF_INTERP_ND evaluates the RBF interpolant.");
         Console.WriteLine("  Use the thin-plate spline basis function PHI3(R).");
 
-        a = 0.0;
-        b = 2.0;
+        const double a = 0.0;
+        // ReSharper disable once ConvertToConstant.Local
+        double b = 2.0;
 
-        x1d = typeMethods.r8vec_linspace_new(n1d, a, b);
-        nd = (int) Math.Pow(n1d, m);
-        xd = new double[m * nd];
+        double[] x1d = typeMethods.r8vec_linspace_new(n1d, a, b);
+        int nd = (int) Math.Pow(n1d, m);
+        double[] xd = new double[m * nd];
 
         for (i = 0; i < m; i++)
         {
@@ -338,12 +294,12 @@ internal static class Program
 
         typeMethods.r8mat_transpose_print(m, nd, xd, "  The product points:");
 
-        r0 = (b - a) / n1d;
+        double r0 = (b - a) / n1d;
 
         Console.WriteLine("");
         Console.WriteLine("  Scale factor R0 = " + r0 + "");
 
-        fd = new double[nd];
+        double[] fd = new double[nd];
         for (j = 0; j < nd; j++)
         {
             fd[j] = xd[0 + j * m] * xd[1 + j * m] * Math.Exp(-xd[0 + j * m] * xd[1 + j * m]);
@@ -351,18 +307,18 @@ internal static class Program
 
         typeMethods.r8vec_print(nd, fd, "  Function data:");
 
-        w = RadialBasisFunctions.rbf_weight(m, nd, xd, r0, RadialBasisFunctions.phi3, fd);
+        double[] w = RadialBasisFunctions.rbf_weight(m, nd, xd, r0, RadialBasisFunctions.phi3, fd);
 
         typeMethods.r8vec_print(nd, w, "  Weight vector:");
         //
         //  #1: Interpolation test.  Does interpolant match function at interpolation points?
         //
-        ni = nd;
-        xi = typeMethods.r8mat_copy_new(m, ni, xd);
+        int ni = nd;
+        double[] xi = typeMethods.r8mat_copy_new(m, ni, xd);
 
-        fi = RadialBasisFunctions.rbf_interp_nd(m, nd, xd, r0, RadialBasisFunctions.phi3, w, ni, xi);
+        double[] fi = RadialBasisFunctions.rbf_interp_nd(m, nd, xd, r0, RadialBasisFunctions.phi3, w, ni, xi);
 
-        int_error = typeMethods.r8vec_norm_affine(nd, fd, fi) / nd;
+        double int_error = typeMethods.r8vec_norm_affine(nd, fd, fi) / nd;
 
         Console.WriteLine("");
         Console.WriteLine("  L2 interpolation error averaged per interpolant node = " + int_error + "");
@@ -371,19 +327,19 @@ internal static class Program
         //  #2: Approximation test.  Estimate the integral (f-interp(f))^2.
         //
         ni = 1000;
-        seed = 123456789;
+        int seed = 123456789;
 
         xi = UniformRNG.r8mat_uniform_ab_new(m, ni, a, b, ref seed);
 
         fi = RadialBasisFunctions.rbf_interp_nd(m, nd, xd, r0, RadialBasisFunctions.phi3, w, ni, xi);
 
-        fe = new double[ni];
+        double[] fe = new double[ni];
         for (j = 0; j < ni; j++)
         {
             fe[j] = xi[0 + j * m] * xi[1 + j * m] * Math.Exp(-xi[0 + j * m] * xi[1 + j * m]);
         }
 
-        app_error = Math.Pow(b - a, m) * typeMethods.r8vec_norm_affine(ni, fi, fe) / ni;
+        double app_error = Math.Pow(b - a, m) * typeMethods.r8vec_norm_affine(ni, fi, fe) / ni;
 
         Console.WriteLine("");
         Console.WriteLine("  L2 approximation error averaged per 1000 samples = " + app_error + "");
@@ -411,25 +367,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double app_error;
-        double b;
-        double[] fd;
-        double[] fe;
-        double[] fi;
         int i;
-        double int_error;
         int j;
-        int m = 2;
-        int n1d = 5;
-        int nd;
-        int ni;
-        double r0;
-        int seed;
-        double[] w;
-        double[] x1d;
-        double[] xd;
-        double[] xi;
+        const int m = 2;
+        const int n1d = 5;
         typeMethods.r8vecDPData data = new();
 
         Console.WriteLine("");
@@ -438,12 +379,12 @@ internal static class Program
         Console.WriteLine("  RBF_INTERP_ND evaluates the RBF interpolant.");
         Console.WriteLine("  Use the gaussian basis function PHI4(R).");
 
-        a = 0.0;
-        b = 2.0;
+        const double a = 0.0;
+        const double b = 2.0;
 
-        x1d = typeMethods.r8vec_linspace_new(n1d, a, b);
-        nd = (int) Math.Pow(n1d, m);
-        xd = new double[m * nd];
+        double[] x1d = typeMethods.r8vec_linspace_new(n1d, a, b);
+        int nd = (int) Math.Pow(n1d, m);
+        double[] xd = new double[m * nd];
 
         for (i = 0; i < m; i++)
         {
@@ -452,12 +393,12 @@ internal static class Program
 
         typeMethods.r8mat_transpose_print(m, nd, xd, "  The product points:");
 
-        r0 = (b - a) / n1d;
+        double r0 = (b - a) / n1d;
 
         Console.WriteLine("");
         Console.WriteLine("  Scale factor R0 = " + r0 + "");
 
-        fd = new double[nd];
+        double[] fd = new double[nd];
         for (j = 0; j < nd; j++)
         {
             fd[j] = xd[0 + j * m] * xd[1 + j * m] * Math.Exp(-xd[0 + j * m] * xd[1 + j * m]);
@@ -465,18 +406,18 @@ internal static class Program
 
         typeMethods.r8vec_print(nd, fd, "  Function data:");
 
-        w = RadialBasisFunctions.rbf_weight(m, nd, xd, r0, RadialBasisFunctions.phi4, fd);
+        double[] w = RadialBasisFunctions.rbf_weight(m, nd, xd, r0, RadialBasisFunctions.phi4, fd);
 
         typeMethods.r8vec_print(nd, w, "  Weight vector:");
         //
         //  #1: Interpolation test.  Does interpolant match function at interpolation points?
         //
-        ni = nd;
-        xi = typeMethods.r8mat_copy_new(m, ni, xd);
+        int ni = nd;
+        double[] xi = typeMethods.r8mat_copy_new(m, ni, xd);
 
-        fi = RadialBasisFunctions.rbf_interp_nd(m, nd, xd, r0, RadialBasisFunctions.phi4, w, ni, xi);
+        double[] fi = RadialBasisFunctions.rbf_interp_nd(m, nd, xd, r0, RadialBasisFunctions.phi4, w, ni, xi);
 
-        int_error = typeMethods.r8vec_norm_affine(nd, fd, fi) / nd;
+        double int_error = typeMethods.r8vec_norm_affine(nd, fd, fi) / nd;
 
         Console.WriteLine("");
         Console.WriteLine("  L2 interpolation error averaged per interpolant node = " + int_error + "");
@@ -485,19 +426,19 @@ internal static class Program
         //  #2: Approximation test.  Estimate the integral (f-interp(f))^2.
         //
         ni = 1000;
-        seed = 123456789;
+        int seed = 123456789;
 
         xi = UniformRNG.r8mat_uniform_ab_new(m, ni, a, b, ref seed);
 
         fi = RadialBasisFunctions.rbf_interp_nd(m, nd, xd, r0, RadialBasisFunctions.phi4, w, ni, xi);
 
-        fe = new double[ni];
+        double[] fe = new double[ni];
         for (j = 0; j < ni; j++)
         {
             fe[j] = xi[0 + j * m] * xi[1 + j * m] * Math.Exp(-xi[0 + j * m] * xi[1 + j * m]);
         }
 
-        app_error = Math.Pow(b - a, m) * typeMethods.r8vec_norm_affine(ni, fi, fe) / ni;
+        double app_error = Math.Pow(b - a, m) * typeMethods.r8vec_norm_affine(ni, fi, fe) / ni;
 
         Console.WriteLine("");
         Console.WriteLine("  L2 approximation error averaged per 1000 samples = " + app_error + "");

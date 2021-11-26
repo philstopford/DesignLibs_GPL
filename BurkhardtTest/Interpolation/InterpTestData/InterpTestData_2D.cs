@@ -815,9 +815,7 @@ public static class Data_2D
         //    Output, string FT, the function title.
         //
     {
-        string ft;
-
-        ft = "Saddle";
+        string ft = "Saddle";
 
         return ft;
     }
@@ -1604,17 +1602,13 @@ public static class Data_2D
         //
     {
         int i;
-        double t1;
-        double t2;
-        double t3;
-        double t4;
 
         for (i = 0; i < n; i++)
         {
-            t1 = Math.Exp((10.0 - 20.0 * x[i]) / 3.0);
-            t2 = Math.Exp((10.0 - 20.0 * y[i]) / 3.0);
-            t3 = 1.0 / (1.0 + t1);
-            t4 = 1.0 / (1.0 + t2);
+            double t1 = Math.Exp((10.0 - 20.0 * x[i]) / 3.0);
+            double t2 = Math.Exp((10.0 - 20.0 * y[i]) / 3.0);
+            double t3 = 1.0 / (1.0 + t1);
+            double t4 = 1.0 / (1.0 + t2);
             f[i] = Math.Pow(Math.Pow(20.0 / 3.0, 3) * t1 * t2, 2)
                    * Math.Pow(t3 * t4, 5)
                    * (t1 - 2.0 * t3) * (t2 - 2.0 * t4);
@@ -1650,17 +1644,13 @@ public static class Data_2D
         //
     {
         int i;
-        double t1;
-        double t2;
-        double t3;
-        double t4;
 
         for (i = 0; i < n; i++)
         {
-            t1 = Math.Exp((10.0 - 20.0 * x[i]) / 3.0);
-            t2 = Math.Exp((10.0 - 20.0 * y[i]) / 3.0);
-            t3 = 1.0 / (1.0 + t1);
-            t4 = 1.0 / (1.0 + t2);
+            double t1 = Math.Exp((10.0 - 20.0 * x[i]) / 3.0);
+            double t2 = Math.Exp((10.0 - 20.0 * y[i]) / 3.0);
+            double t3 = 1.0 / (1.0 + t1);
+            double t4 = 1.0 / (1.0 + t2);
 
             fx[i] = Math.Pow(20.0 / 3.0 * t1, 2) * Math.Pow(20.0 / 3.0 * t3, 5)
                                                  * (2.0 * t1 - 3.0 * t3 - 5.0 + 12.0 * t3 * t3)
@@ -1705,21 +1695,15 @@ public static class Data_2D
         //
     {
         int i;
-        double t1;
-        double t2;
-        double t3;
-        double t4;
-        double t5;
-        double t6;
 
         for (i = 0; i < n; i++)
         {
-            t1 = Math.Exp((10.0 - 20.0 * x[i]) / 3.0);
-            t2 = Math.Exp((10.0 - 20.0 * y[i]) / 3.0);
-            t3 = 1.0 / (1.0 + t1);
-            t4 = 1.0 / (1.0 + t2);
-            t5 = 20.0 / 3.0;
-            t6 = Math.Pow(t5 * t1 * t2, 2) * Math.Pow(t5 * t3 * t4, 5);
+            double t1 = Math.Exp((10.0 - 20.0 * x[i]) / 3.0);
+            double t2 = Math.Exp((10.0 - 20.0 * y[i]) / 3.0);
+            double t3 = 1.0 / (1.0 + t1);
+            double t4 = 1.0 / (1.0 + t2);
+            double t5 = 20.0 / 3.0;
+            double t6 = Math.Pow(t5 * t1 * t2, 2) * Math.Pow(t5 * t3 * t4, 5);
 
             fxx[i] = t5 * t6 * (t2 - 2.0 * t4)
                      * (((-84.0 * t3 + 78.0) * t3 + 23.0) * t3
@@ -1793,16 +1777,13 @@ public static class Data_2D
         //
     {
         int i;
-        double t1;
-        double t2;
-        double t3;
 
         for (i = 0; i < n; i++)
         {
-            t1 = Math.Sqrt(Math.Pow(80.0 * x[i] - 40.0, 2)
-                           + Math.Pow(90.0 * y[i] - 45.0, 2));
-            t2 = Math.Exp(-0.04 * t1);
-            t3 = Math.Cos(0.15 * t1);
+            double t1 = Math.Sqrt(Math.Pow(80.0 * x[i] - 40.0, 2)
+                                  + Math.Pow(90.0 * y[i] - 45.0, 2));
+            double t2 = Math.Exp(-0.04 * t1);
+            double t3 = Math.Cos(0.15 * t1);
 
             f[i] = t2 * t3;
         }
@@ -1837,15 +1818,11 @@ public static class Data_2D
         //
     {
         int i;
-        double t1;
-        double t2;
-        double t3;
-        double t4;
 
         for (i = 0; i < n; i++)
         {
-            t1 = Math.Sqrt(Math.Pow(80.0 * x[i] - 40.0, 2)
-                           + Math.Pow(90.0 * y[i] - 45.0, 2));
+            double t1 = Math.Sqrt(Math.Pow(80.0 * x[i] - 40.0, 2)
+                                  + Math.Pow(90.0 * y[i] - 45.0, 2));
 
             switch (t1)
             {
@@ -1854,9 +1831,9 @@ public static class Data_2D
                     fy[i] = 0.0;
                     break;
                 default:
-                    t2 = Math.Exp(-0.04 * t1);
-                    t3 = Math.Cos(0.15 * t1);
-                    t4 = Math.Sin(0.15 * t1);
+                    double t2 = Math.Exp(-0.04 * t1);
+                    double t3 = Math.Cos(0.15 * t1);
+                    double t4 = Math.Sin(0.15 * t1);
                     fx[i] = -t2 * (12.0 * t4 + 3.2 * t3)
                                 * (80.0 * x[i] - 40.0) / t1;
                     fy[i] = -t2 * (13.5 * t4 + 3.6 * t3)
@@ -1896,16 +1873,11 @@ public static class Data_2D
         //
     {
         int i;
-        double t1;
-        double t2;
-        double t3;
-        double t4;
-        double t5;
 
         for (i = 0; i < n; i++)
         {
-            t1 = Math.Sqrt(Math.Pow(80.0 * x[i] - 40.0, 2)
-                           + Math.Pow(90.0 * y[i] - 45.0, 2));
+            double t1 = Math.Sqrt(Math.Pow(80.0 * x[i] - 40.0, 2)
+                                  + Math.Pow(90.0 * y[i] - 45.0, 2));
 
             switch (t1)
             {
@@ -1915,10 +1887,10 @@ public static class Data_2D
                     fyy[i] = 0.0;
                     break;
                 default:
-                    t2 = Math.Exp(-0.04 * t1);
-                    t3 = Math.Cos(0.15 * t1);
-                    t4 = Math.Sin(0.15 * t1);
-                    t5 = t2 / Math.Pow(t1, 3);
+                    double t2 = Math.Exp(-0.04 * t1);
+                    double t3 = Math.Cos(0.15 * t1);
+                    double t4 = Math.Sin(0.15 * t1);
+                    double t5 = t2 / Math.Pow(t1, 3);
 
                     fxx[i] = t5 * (t1 * (76.8 * t4 - 133.76 * t3)
                                       * Math.Pow(80.0 * x[i] - 40.0, 2)
@@ -2165,13 +2137,11 @@ public static class Data_2D
         //
     {
         int i;
-        double r;
-        double t;
 
         for (i = 0; i < n; i++)
         {
-            r = Math.Sqrt(x[i] * x[i] + y[i] * y[i]);
-            t = Math.Atan2(y[i], x[i]);
+            double r = Math.Sqrt(x[i] * x[i] + y[i] * y[i]);
+            double t = Math.Atan2(y[i], x[i]);
 
             f[i] = 1.5 * (0.8 * r
                           + 0.35 * Math.Sin(2.4 * Math.PI * r / Math.Sqrt(2.0)))
@@ -2289,7 +2259,7 @@ public static class Data_2D
         //    Output, string FT, the function title.
         //
     {
-        string ft = "Vicente Romero function";
+        const string ft = "Vicente Romero function";
 
         return ft;
     }
@@ -2441,7 +2411,7 @@ public static class Data_2D
         //    Output, string FT, the function title.
         //
     {
-        string ft = "Rescaled Runge function";
+        const string ft = "Rescaled Runge function";
 
         return ft;
     }
@@ -2470,7 +2440,7 @@ public static class Data_2D
         //   Output, int GRID_NUM, the number of grids.
         //
     {
-        int grid_num = 5;
+        const int grid_num = 5;
 
         return grid_num;
     }
@@ -2670,7 +2640,7 @@ public static class Data_2D
         //    Output, int GN, the grid size.
         //
     {
-        int gn = 100;
+        const int gn = 100;
 
         return gn;
     }
@@ -2699,7 +2669,7 @@ public static class Data_2D
         //    Output, string GT, the grid title.
         //
     {
-        string gt = "Franke's 100 node set";
+        const string gt = "Franke's 100 node set";
 
         return gt;
     }
@@ -2812,7 +2782,7 @@ public static class Data_2D
         //    Output, int GN, the grid size.
         //
     {
-        int gn = 33;
+        const int gn = 33;
 
         return gn;
     }
@@ -2841,7 +2811,7 @@ public static class Data_2D
         //    Output, string GT, the grid title.
         //
     {
-        string gt = "Franke's 33 node set";
+        const string gt = "Franke's 33 node set";
 
         return gt;
     }
@@ -2928,7 +2898,7 @@ public static class Data_2D
         //    Output, int GN, the grid size.
         //
     {
-        int gn = 25;
+        const int gn = 25;
 
         return gn;
     }
@@ -2957,7 +2927,7 @@ public static class Data_2D
         //    Output, string GT, the grid title.
         //
     {
-        string gt = "Lawson's 25 node set";
+        const string gt = "Lawson's 25 node set";
 
         return gt;
     }
@@ -3040,7 +3010,7 @@ public static class Data_2D
         //    Output, int GN, the grid size.
         //
     {
-        int gn = 100;
+        const int gn = 100;
 
         return gn;
     }
@@ -3069,7 +3039,7 @@ public static class Data_2D
         //    Output, string GT, the grid title.
         //
     {
-        string gt = "Random 100 node set";
+        const string gt = "Random 100 node set";
 
         return gt;
     }
@@ -3181,7 +3151,7 @@ public static class Data_2D
         //    Output, int GN, the grid size.
         //
     {
-        int gn = 81;
+        const int gn = 81;
 
         return gn;
     }
@@ -3210,7 +3180,7 @@ public static class Data_2D
         //    Output, string GT, the grid title.
         //
     {
-        string gt = "Gridded 81 node set";
+        const string gt = "Gridded 81 node set";
 
         return gt;
     }

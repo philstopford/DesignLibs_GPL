@@ -38,14 +38,13 @@ public static class TestInterp
 //    Output, double DATA_COPY_NEW[M*N], the copy of A1.
 //
     {
-        double[] a2;
-        int i;
         int j;
 
-        a2 = new double[m * n];
+        double[] a2 = new double[m * n];
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 a2[i + j * m] = a1[i + j * m];
@@ -54,7 +53,6 @@ public static class TestInterp
 
         return a2;
     }
-//****************************************************************************80
 
     public static double[] p00_data(int prob, int dim_num, int data_num)
 
@@ -256,7 +254,6 @@ public static class TestInterp
 
         return dim_num;
     }
-//****************************************************************************80
 
     public static int p00_prob_num()
 
@@ -283,7 +280,7 @@ public static class TestInterp
 //    Output, int P00_PROB_NUM, the number of test problems.
 //
     {
-        int prob_num = 8;
+        const int prob_num = 8;
 
         return prob_num;
     }
@@ -379,7 +376,6 @@ public static class TestInterp
 //    Output, double P01_DATA[DIM_NUM*DATA_NUM], the data.
 //
     {
-        double[] p_data;
         double[] p_data_save = {
                 0.0, 4.0,
                 1.0, 5.0,
@@ -402,7 +398,7 @@ public static class TestInterp
             }
             ;
 
-        p_data = data_copy_new(dim_num, data_num, p_data_save);
+        double[] p_data = data_copy_new(dim_num, data_num, p_data_save);
 
         return p_data;
     }
@@ -432,7 +428,7 @@ public static class TestInterp
 //    Output, int P01_DATA_NUM, the number of data points.
 //
     {
-        int data_num = 18;
+        const int data_num = 18;
 
         return data_num;
     }
@@ -463,7 +459,7 @@ public static class TestInterp
 //    dependent variables.
 //
     {
-        int dim_num = 2;
+        const int dim_num = 2;
 
         return dim_num;
     }
@@ -543,7 +539,6 @@ public static class TestInterp
 //    Output, double P02_DATA[DIM_NUM*DATA_NUM], the data.
 //
     {
-        double[] p_data;
         double[] p_data_save = {
                 0.00, 0.00,
                 1.34, 5.00,
@@ -566,7 +561,7 @@ public static class TestInterp
             }
             ;
 
-        p_data = data_copy_new(dim_num, data_num, p_data_save);
+        double[] p_data = data_copy_new(dim_num, data_num, p_data_save);
 
         return p_data;
     }
@@ -596,7 +591,7 @@ public static class TestInterp
 //    Output, int P02_DATA_NUM, the number of data points.
 //
     {
-        int data_num = 18;
+        const int data_num = 18;
 
         return data_num;
     }
@@ -627,7 +622,7 @@ public static class TestInterp
 //    dependent variables.
 //
     {
-        int dim_num = 2;
+        const int dim_num = 2;
 
         return dim_num;
     }
@@ -703,8 +698,6 @@ public static class TestInterp
 //    Output, double P03_DATA[DIM_NUM*DATA_NUM], the data.
 //
     {
-        double[] p_data;
-
         double[] p_data_save = {
                 0.0, 0.0,
                 2.0, 10.0,
@@ -720,7 +713,7 @@ public static class TestInterp
             }
             ;
 
-        p_data = data_copy_new(dim_num, data_num, p_data_save);
+        double[] p_data = data_copy_new(dim_num, data_num, p_data_save);
 
         return p_data;
     }
@@ -750,7 +743,7 @@ public static class TestInterp
 //    Output, int P03_DATA_NUM, the number of data points.
 //
     {
-        int data_num = 11;
+        const int data_num = 11;
 
         return data_num;
     }
@@ -781,7 +774,7 @@ public static class TestInterp
 //    dependent variables.
 //
     {
-        int dim_num = 2;
+        const int dim_num = 2;
 
         return dim_num;
     }
@@ -856,7 +849,6 @@ public static class TestInterp
 //    Output, double P04_DATA[DIM_NUM*DATA_NUM], the data.
 //
     {
-        double[] p_data;
         double[] p_data_save = {
                 0.00, 0.00,
                 0.05, 0.70,
@@ -869,7 +861,7 @@ public static class TestInterp
             }
             ;
 
-        p_data = data_copy_new(dim_num, data_num, p_data_save);
+        double[] p_data = data_copy_new(dim_num, data_num, p_data_save);
 
         return p_data;
     }
@@ -899,7 +891,7 @@ public static class TestInterp
 //    Output, int P04_DATA_NUM, the number of data points.
 //
     {
-        int data_num = 8;
+        const int data_num = 8;
 
         return data_num;
     }
@@ -930,7 +922,7 @@ public static class TestInterp
 //    dependent variables.
 //
     {
-        int dim_num = 2;
+        const int dim_num = 2;
 
         return dim_num;
     }
@@ -1005,7 +997,6 @@ public static class TestInterp
 //    Output, double P05_DATA[DIM_NUM*DATA_NUM], the data.
 //
     {
-        double[] p_data;
         double[] p_data_save = {
                 0.00, 0.00,
                 0.10, 0.90,
@@ -1019,7 +1010,7 @@ public static class TestInterp
             }
             ;
 
-        p_data = data_copy_new(dim_num, data_num, p_data_save);
+        double[] p_data = data_copy_new(dim_num, data_num, p_data_save);
 
         return p_data;
     }
@@ -1049,7 +1040,7 @@ public static class TestInterp
 //    Output, int P05_DATA_NUM, the number of data points.
 //
     {
-        int data_num = 9;
+        const int data_num = 9;
 
         return data_num;
     }
@@ -1080,7 +1071,7 @@ public static class TestInterp
 //    dependent variables.
 //
     {
-        int dim_num = 2;
+        const int dim_num = 2;
 
         return dim_num;
     }
@@ -1156,7 +1147,6 @@ public static class TestInterp
 //    Output, double P06_DATA[DIM_NUM*DATA_NUM], the data.
 //
     {
-        double[] p_data;
         double[] p_data_save = {
                 595.0, 0.644,
                 605.0, 0.622,
@@ -1210,7 +1200,7 @@ public static class TestInterp
             }
             ;
 
-        p_data = data_copy_new(dim_num, data_num, p_data_save);
+        double[] p_data = data_copy_new(dim_num, data_num, p_data_save);
 
         return p_data;
     }
@@ -1240,7 +1230,7 @@ public static class TestInterp
 //    Output, int P06_DATA_NUM, the number of data points.
 //
     {
-        int data_num = 49;
+        const int data_num = 49;
 
         return data_num;
     }
@@ -1271,7 +1261,7 @@ public static class TestInterp
 //    dependent variables.
 //
     {
-        int dim_num = 2;
+        const int dim_num = 2;
 
         return dim_num;
     }
@@ -1355,7 +1345,6 @@ public static class TestInterp
 //    Output, double P07_DATA[DIM_NUM*DATA_NUM], the data.
 //
     {
-        double[] p_data;
         double[] p_data_save = {
                 0.0, 1.0,
                 1.0, 2.0,
@@ -1364,7 +1353,7 @@ public static class TestInterp
             }
             ;
 
-        p_data = data_copy_new(dim_num, data_num, p_data_save);
+        double[] p_data = data_copy_new(dim_num, data_num, p_data_save);
 
         return p_data;
     }
@@ -1394,7 +1383,7 @@ public static class TestInterp
 //    Output, int P07_DATA_NUM, the number of data points.
 //
     {
-        int data_num = 4;
+        const int data_num = 4;
 
         return data_num;
     }
@@ -1425,7 +1414,7 @@ public static class TestInterp
 //    dependent variables.
 //
     {
-        int dim_num = 2;
+        const int dim_num = 2;
 
         return dim_num;
     }
@@ -1492,7 +1481,6 @@ public static class TestInterp
 //    Output, double P08_DATA[DIM_NUM*DATA_NUM], the data.
 //
     {
-        double[] p_data;
         double[] p_data_save = {
                 -1.0, 1.00,
                 -0.8, 0.64,
@@ -1509,7 +1497,7 @@ public static class TestInterp
             }
             ;
 
-        p_data = data_copy_new(dim_num, data_num, p_data_save);
+        double[] p_data = data_copy_new(dim_num, data_num, p_data_save);
 
         return p_data;
     }
@@ -1539,7 +1527,7 @@ public static class TestInterp
 //    Output, int P08_DATA_NUM, the number of data points.
 //
     {
-        int data_num = 12;
+        const int data_num = 12;
 
         return data_num;
     }
@@ -1570,7 +1558,7 @@ public static class TestInterp
 //    dependent variables.
 //
     {
-        int dim_num = 2;
+        const int dim_num = 2;
 
         return dim_num;
     }

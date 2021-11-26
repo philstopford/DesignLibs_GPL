@@ -32,8 +32,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int option;
-
         Console.WriteLine("");
         Console.WriteLine("LAGRANGE_ND_TEST");
         Console.WriteLine("  Test the LAGRANGE_ND library.");
@@ -49,7 +47,7 @@ internal static class Program
         test09();
         test10();
 
-        option = 0;
+        int option = 0;
         test11(option);
 
         option = 1;
@@ -84,17 +82,15 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int d;
         int n1;
         int n2;
-        int v;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
         Console.WriteLine("  MONO_BETWEEN_ENUM can enumerate the number of monomials");
         Console.WriteLine("  in D variables, of total degree between N1 and N2.");
 
-        d = 3;
+        int d = 3;
         Console.WriteLine("");
         Console.WriteLine("  Using spatial dimension D = " + d + "");
         Console.WriteLine("");
@@ -111,7 +107,7 @@ internal static class Program
             cout = "  " + n1.ToString().PadLeft(2) + " |";
             for (n2 = 0; n2 <= 8; n2++)
             {
-                v = Monomial.mono_between_enum(d, n1, n2);
+                int v = Monomial.mono_between_enum(d, n1, n2);
                 cout += "  " + v.ToString().PadLeft(4);
             }
 
@@ -142,7 +138,6 @@ internal static class Program
     {
         int d;
         int n;
-        int v;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02");
@@ -163,7 +158,7 @@ internal static class Program
             cout = "  " + d.ToString().PadLeft(2) + " |";
             for (n = 0; n <= 8; n++)
             {
-                v = Monomial.mono_total_enum(d, n);
+                int v = Monomial.mono_total_enum(d, n);
                 cout += "  " + v.ToString().PadLeft(4);
             }
 
@@ -194,7 +189,6 @@ internal static class Program
     {
         int d;
         int n;
-        int v;
 
         Console.WriteLine("");
         Console.WriteLine("TEST03");
@@ -215,7 +209,7 @@ internal static class Program
             cout = "  " + d.ToString().PadLeft(2) + " |";
             for (n = 0; n <= 8; n++)
             {
-                v = Monomial.mono_upto_enum(d, n);
+                int v = Monomial.mono_upto_enum(d, n);
                 cout += " " + v.ToString().PadLeft(5);
             }
 
@@ -244,11 +238,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int d = 3;
-        int i;
-        int j;
-        int n1;
-        int n2;
+        const int d = 3;
         int[] x = new int[3];
 
         Console.WriteLine("");
@@ -260,8 +250,8 @@ internal static class Program
         Console.WriteLine("  We start the process with (0,0,...,0,N1).");
         Console.WriteLine("  The process ends with (N2,0,...,0,0)");
 
-        n1 = 2;
-        n2 = 3;
+        const int n1 = 2;
+        const int n2 = 3;
 
         Console.WriteLine("");
         Console.WriteLine("  Let D =  " + d + "");
@@ -273,11 +263,12 @@ internal static class Program
         x[1] = 0;
         x[2] = n1;
 
-        j = 1;
+        int j = 1;
 
         for (;;)
         {
             string cout = "  " + j.ToString().PadLeft(2) + ":";
+            int i;
             for (i = 0; i < d; i++)
             {
                 cout += "  " + x[i].ToString().PadLeft(1);
@@ -316,22 +307,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] c;
-        int d;
-        int[] e;
-        double error;
         int i;
         int j;
-        string label;
-        int n;
-        int nd;
         int o;
-        double[] pc;
-        int[] pe;
-        int[] po;
-        int r;
-        double[] v;
-        double[] value;
         double[] xd =  {
                 0.0, 1.0, 2.0, 3.0, 4.0
             }
@@ -347,18 +325,18 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  As a special demonstration, this code runs in 1D");
 
-        nd = 5;
+        int nd = 5;
 
-        d = 1;
-        n = 4;
-        r = Monomial.mono_upto_enum(d, n);
+        int d = 1;
+        int n = 4;
+        int r = Monomial.mono_upto_enum(d, n);
 
-        pc = new double[nd * r];
-        pe = new int[nd * r];
-        po = new int[nd];
+        double[] pc = new double[nd * r];
+        int[] pe = new int[nd * r];
+        int[] po = new int[nd];
 
-        c = new double[r];
-        e = new int[r];
+        double[] c = new double[r];
+        int[] e = new int[r];
 
         Console.WriteLine("");
         Console.WriteLine("  Spatial dimension D = " + d + "");
@@ -385,14 +363,14 @@ internal static class Program
                 e[j] = pe[i + j * nd];
             }
 
-            label =  "  P(" + i + ")(x) =";
+            string label = "  P(" + i + ")(x) =";
             Polynomial.polynomial_print(d, o, c, e, label);
         }
 
         //
         //  Evaluate the polynomials at XD.
         //
-        value = new double[nd * nd];
+        double[] value = new double[nd * nd];
 
         for (i = 0; i < nd; i++)
         {
@@ -403,7 +381,7 @@ internal static class Program
                 e[j] = pe[i + j * nd];
             }
 
-            v = Polynomial.polynomial_value(d, o, c, e, nd, xd);
+            double[] v = Polynomial.polynomial_value(d, o, c, e, nd, xd);
 
             for (j = 0; j < nd; j++)
             {
@@ -411,7 +389,7 @@ internal static class Program
             }
         }
 
-        error = typeMethods.r8mat_is_identity(nd, value);
+        double error = typeMethods.r8mat_is_identity(nd, value);
         Console.WriteLine("");
         Console.WriteLine("  Frobenius norm of Lagrange matrix error = " + error + "");
     }
@@ -437,22 +415,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] c;
-        int d;
-        int[] e;
-        double error;
         int i;
         int j;
-        string label;
-        int n;
-        int nd;
         int o;
-        double[] pc;
-        int[] pe;
-        int[] po;
-        int r;
-        double[] v;
-        double[] value;
         double[] xd =  {
                 0.0, 0.0,
                 1.0, 0.0,
@@ -473,18 +438,18 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  The data points are the grid nodes of a triangle.");
 
-        nd = 6;
+        int nd = 6;
 
-        d = 2;
-        n = 2;
-        r = Monomial.mono_upto_enum(d, n);
+        int d = 2;
+        int n = 2;
+        int r = Monomial.mono_upto_enum(d, n);
 
-        pc = new double[nd * r];
-        pe = new int[nd * r];
-        po = new int[nd];
+        double[] pc = new double[nd * r];
+        int[] pe = new int[nd * r];
+        int[] po = new int[nd];
 
-        c = new double[r];
-        e = new int[r];
+        double[] c = new double[r];
+        int[] e = new int[r];
 
         Console.WriteLine("");
         Console.WriteLine("  Spatial dimension D = " + d + "");
@@ -511,14 +476,14 @@ internal static class Program
                 e[j] = pe[i + j * nd];
             }
 
-            label = "  P(" + i + ")(x) =";
+            string label = "  P(" + i + ")(x) =";
             Polynomial.polynomial_print(d, o, c, e, label);
         }
 
         //
         //  Evaluate the polynomials at XD.
         //
-        value = new double[nd * nd];
+        double[] value = new double[nd * nd];
 
         for (i = 0; i < nd; i++)
         {
@@ -529,7 +494,7 @@ internal static class Program
                 e[j] = pe[i + j * nd];
             }
 
-            v = Polynomial.polynomial_value(d, o, c, e, nd, xd);
+            double[] v = Polynomial.polynomial_value(d, o, c, e, nd, xd);
 
             for (j = 0; j < nd; j++)
             {
@@ -537,7 +502,7 @@ internal static class Program
             }
         }
 
-        error = typeMethods.r8mat_is_identity(nd, value);
+        double error = typeMethods.r8mat_is_identity(nd, value);
         Console.WriteLine("");
         Console.WriteLine("  Frobenius norm of Lagrange matrix error = " + error + "");
     }
@@ -563,22 +528,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] c;
-        int d;
-        int[] e;
-        double error;
         int i;
         int j;
-        string label;
-        int n;
-        int nd;
         int o;
-        double[] pc;
-        int[] pe;
-        int[] po;
-        int r;
-        double[] v;
-        double[] value;
         double[] xd =  {
                 0.0, 0.0, 0.0,
                 1.0, 0.0, 0.0,
@@ -603,18 +555,18 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  The data points are the grid nodes of a tetrahedron.");
 
-        nd = 10;
+        int nd = 10;
 
-        d = 3;
-        n = 2;
-        r = Monomial.mono_upto_enum(d, n);
+        int d = 3;
+        int n = 2;
+        int r = Monomial.mono_upto_enum(d, n);
 
-        pc = new double[nd * r];
-        pe = new int[nd * r];
-        po = new int[nd];
+        double[] pc = new double[nd * r];
+        int[] pe = new int[nd * r];
+        int[] po = new int[nd];
 
-        c = new double[r];
-        e = new int[r];
+        double[] c = new double[r];
+        int[] e = new int[r];
 
         Console.WriteLine("");
         Console.WriteLine("  Spatial dimension D = " + d + "");
@@ -641,14 +593,14 @@ internal static class Program
                 e[j] = pe[i + j * nd];
             }
 
-            label = "  P(" + i + ")(x) =";
+            string label = "  P(" + i + ")(x) =";
             Polynomial.polynomial_print(d, o, c, e, label);
         }
 
         //
         //  Evaluate the polynomials at XD.
         //
-        value = new double[nd * nd];
+        double[] value = new double[nd * nd];
 
         for (i = 0; i < nd; i++)
         {
@@ -659,7 +611,7 @@ internal static class Program
                 e[j] = pe[i + j * nd];
             }
 
-            v = Polynomial.polynomial_value(d, o, c, e, nd, xd);
+            double[] v = Polynomial.polynomial_value(d, o, c, e, nd, xd);
 
             for (j = 0; j < nd; j++)
             {
@@ -667,7 +619,7 @@ internal static class Program
             }
         }
 
-        error = typeMethods.r8mat_is_identity(nd, value);
+        double error = typeMethods.r8mat_is_identity(nd, value);
         Console.WriteLine("");
         Console.WriteLine("  Frobenius norm of Lagrange matrix error = " + error + "");
     }
@@ -693,22 +645,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] c;
-        int d;
-        int[] e;
-        double error;
         int i;
         int j;
-        string label;
-        int n;
-        int nd;
         int o;
-        double[] pc;
-        int[] pe;
-        int[] po;
-        int r;
-        double[] v;
-        double[] value;
         double[] xd =  {
                 0.0, 0.0,
                 -1.0, 0.0,
@@ -729,18 +668,18 @@ internal static class Program
         Console.WriteLine("  For this example, the data points are the same as those");
         Console.WriteLine("  used by the level 1 Clenshaw Curtis sparse grid in 2D.");
 
-        nd = 5;
+        int nd = 5;
 
-        d = 2;
-        n = 2;
-        r = Monomial.mono_upto_enum(d, n);
+        int d = 2;
+        int n = 2;
+        int r = Monomial.mono_upto_enum(d, n);
 
-        pc = new double[nd * r];
-        pe = new int[nd * r];
-        po = new int[nd];
+        double[] pc = new double[nd * r];
+        int[] pe = new int[nd * r];
+        int[] po = new int[nd];
 
-        c = new double[r];
-        e = new int[r];
+        double[] c = new double[r];
+        int[] e = new int[r];
 
         Console.WriteLine("");
         Console.WriteLine("  Spatial dimension D = " + d + "");
@@ -768,14 +707,14 @@ internal static class Program
                 e[j] = pe[i + j * nd];
             }
 
-            label = "  P(" + i + ")(x) =";
+            string label = "  P(" + i + ")(x) =";
             Polynomial.polynomial_print(d, o, c, e, label);
         }
 
         //
         //  Evaluate the polynomials at XD.
         //
-        value = new double[nd * nd];
+        double[] value = new double[nd * nd];
 
         for (i = 0; i < nd; i++)
         {
@@ -786,7 +725,7 @@ internal static class Program
                 e[j] = pe[i + j * nd];
             }
 
-            v = Polynomial.polynomial_value(d, o, c, e, nd, xd);
+            double[] v = Polynomial.polynomial_value(d, o, c, e, nd, xd);
 
             for (j = 0; j < nd; j++)
             {
@@ -796,7 +735,7 @@ internal static class Program
                 
         }
 
-        error = typeMethods.r8mat_is_identity(nd, value);
+        double error = typeMethods.r8mat_is_identity(nd, value);
         Console.WriteLine("");
         Console.WriteLine("  Frobenius norm of Lagrange matrix error = " + error + "");
     }
@@ -823,22 +762,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] c;
-        int d;
-        int[] e;
-        double error;
         int i;
         int j;
-        string label;
-        int n;
-        int nd;
         int o;
-        double[] pc;
-        int[] pe;
-        int[] po;
-        int r;
-        double[] v;
-        double[] value;
         double[] xd =  {
                 0.0, 0.0, 0.0,
                 -1.0, 0.0, 0.0,
@@ -879,18 +805,18 @@ internal static class Program
         Console.WriteLine("  For this example, the data points are the same as those");
         Console.WriteLine("  used by the level 2 Clenshaw Curtis sparse grid in 3D.");
 
-        nd = 25;
+        int nd = 25;
 
-        d = 3;
-        n = 4;
-        r = Monomial.mono_upto_enum(d, n);
+        int d = 3;
+        int n = 4;
+        int r = Monomial.mono_upto_enum(d, n);
 
-        pc = new double[nd * r];
-        pe = new int[nd * r];
-        po = new int[nd];
+        double[] pc = new double[nd * r];
+        int[] pe = new int[nd * r];
+        int[] po = new int[nd];
 
-        c = new double[r];
-        e = new int[r];
+        double[] c = new double[r];
+        int[] e = new int[r];
 
         Console.WriteLine("");
         Console.WriteLine("  Spatial dimension D = " + d + "");
@@ -918,14 +844,14 @@ internal static class Program
                 e[j] = pe[i + j * nd];
             }
 
-            label = "  P(" + i + ")(x) =";
+            string label = "  P(" + i + ")(x) =";
             Polynomial.polynomial_print(d, o, c, e, label);
         }
 
         //
         //  Evaluate the polynomials at XD.
         //
-        value = new double[nd * nd];
+        double[] value = new double[nd * nd];
 
         for (i = 0; i < nd; i++)
         {
@@ -936,7 +862,7 @@ internal static class Program
                 e[j] = pe[i + j * nd];
             }
 
-            v = Polynomial.polynomial_value(d, o, c, e, nd, xd);
+            double[] v = Polynomial.polynomial_value(d, o, c, e, nd, xd);
 
             for (j = 0; j < nd; j++)
             {
@@ -946,7 +872,7 @@ internal static class Program
                 
         }
 
-        error = typeMethods.r8mat_is_identity(nd, value);
+        double error = typeMethods.r8mat_is_identity(nd, value);
         Console.WriteLine("");
         Console.WriteLine("  Frobenius norm of Lagrange matrix error = " + error + "");
     }
@@ -972,27 +898,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] c;
-        int d;
-        int[] e;
-        double error;
-        double f;
         int i;
         int j;
-        int k;
-        string label;
-        int n;
-        int nd;
-        int ni;
         int o;
-        double[] pc;
-        double[] pd;
-        int[] pe;
-        int pn;
-        int[] po;
-        int r;
-        double[] v;
-        double[] value;
         double[] xd =  {
                 0.0, 0.0,
                 -1.0, 0.0,
@@ -1009,8 +917,6 @@ internal static class Program
                 0.5, 0.0
             }
             ;
-        double[] xyi;
-        double[] zi;
 
         Console.WriteLine("");
         Console.WriteLine("TEST10");
@@ -1023,19 +929,19 @@ internal static class Program
         Console.WriteLine("  For this example, the data points are the same as those");
         Console.WriteLine("  used by the level 2 Clenshaw Curtis sparse grid in 2D.");
 
-        nd = 13;
-        ni = 11 * 11;
+        int nd = 13;
+        int ni = 11 * 11;
 
-        d = 2;
-        n = 4;
-        r = Monomial.mono_upto_enum(d, n);
+        int d = 2;
+        int n = 4;
+        int r = Monomial.mono_upto_enum(d, n);
 
-        pc = new double[nd * r];
-        pe = new int[nd * r];
-        po = new int[nd];
+        double[] pc = new double[nd * r];
+        int[] pe = new int[nd * r];
+        int[] po = new int[nd];
 
-        c = new double[r];
-        e = new int[r];
+        double[] c = new double[r];
+        int[] e = new int[r];
 
         Console.WriteLine("");
         Console.WriteLine("  Spatial dimension D = " + d + "");
@@ -1062,14 +968,14 @@ internal static class Program
                 e[j] = pe[i + j * nd];
             }
 
-            label = "  P(" + i + ")(x) =";
+            string label = "  P(" + i + ")(x) =";
             Polynomial.polynomial_print(d, o, c, e, label);
         }
 
         //
         //  Evaluate the polynomials at XD.
         //
-        value = new double[nd * nd];
+        double[] value = new double[nd * nd];
 
         for (i = 0; i < nd; i++)
         {
@@ -1080,7 +986,7 @@ internal static class Program
                 e[j] = pe[i + j * nd];
             }
 
-            v = Polynomial.polynomial_value(d, o, c, e, nd, xd);
+            double[] v = Polynomial.polynomial_value(d, o, c, e, nd, xd);
 
             for (j = 0; j < nd; j++)
             {
@@ -1090,13 +996,13 @@ internal static class Program
                 
         }
 
-        error = typeMethods.r8mat_is_identity(nd, value);
+        double error = typeMethods.r8mat_is_identity(nd, value);
         Console.WriteLine("");
         Console.WriteLine("  Frobenius norm of Lagrange matrix error = " + error + "");
         //
         //  Evaluate a function at the data points.
         //
-        pd = new double[nd];
+        double[] pd = new double[nd];
         for (i = 0; i < nd; i++)
         {
             pd[i] = Math.Sin(xd[0 + i * 2]) * Math.Cos(xd[1 + i * 2]);
@@ -1105,9 +1011,9 @@ internal static class Program
         //
         //  Compare exact function and interpolant at a grid of points.
         //
-        xyi = new double[2 * ni];
+        double[] xyi = new double[2 * ni];
 
-        k = 0;
+        int k = 0;
         for (j = 1; j <= 11; j++)
         {
             for (i = 1; i <= 11; i++)
@@ -1122,13 +1028,13 @@ internal static class Program
             }
         }
 
-        pn = nd;
-        zi = MultivariateLagrange.interpolant_value(d, r, pn, po, pc, pe, pd, ni, xyi);
+        int pn = nd;
+        double[] zi = MultivariateLagrange.interpolant_value(d, r, pn, po, pc, pe, pd, ni, xyi);
 
         error = 0.0;
         for (k = 0; k < ni; k++)
         {
-            f = Math.Sin(xyi[0 + k * 2]) * Math.Cos(xyi[1 + k * 2]);
+            double f = Math.Sin(xyi[0 + k * 2]) * Math.Cos(xyi[1 + k * 2]);
             if (error < Math.Abs(zi[k] - f))
             {
                 error = Math.Abs(zi[k] - f);
@@ -1166,28 +1072,12 @@ internal static class Program
         //    1, use Legendre products, 1, y, x, (3y^2-1)/2, xy, (3^x^2-1), (5y^3-3)/2,...
         //
     {
-        double[] c;
-        int d;
-        int[] e;
-        double error;
-        double f;
         int i;
         int j;
-        int k;
-        string label;
-        int n;
         int n2 = 0;
-        int nd;
-        int ni;
         int o;
         double[] pc = new double[1];
-        double[] pd;
         int[] pe = new int[1];
-        int pn;
-        int[] po;
-        int r;
-        double[] v;
-        double[] value;
         double[] xd =  {
                 0.0000000000000000, 0.0000000000000000,
                 -1.0000000000000000, 0.0000000000000000,
@@ -1256,8 +1146,6 @@ internal static class Program
                 0.0000000000000000, 0.9807852804032304
             }
             ;
-        double[] xyi;
-        double[] zi;
 
         Console.WriteLine("");
         Console.WriteLine("LAGRANGE_ND_TEST11");
@@ -1274,12 +1162,12 @@ internal static class Program
         Console.WriteLine("  For this example, the data points are the same as those");
         Console.WriteLine("  used by the level 2 Clenshaw Curtis sparse grid in 2D.");
 
-        nd = 65;
-        ni = 11 * 11;
+        int nd = 65;
+        int ni = 11 * 11;
 
-        d = 2;
-        n = 10;
-        po = new int[nd];
+        int d = 2;
+        int n = 10;
+        int[] po = new int[nd];
 
         Console.WriteLine("");
         Console.WriteLine("  Spatial dimension D = " + d + "");
@@ -1297,10 +1185,10 @@ internal static class Program
             Console.WriteLine("  LAGRANGE_PARTIAL3 increased N to " + n2 + "");
         }
 
-        r = Monomial.mono_upto_enum(d, n2);
+        int r = Monomial.mono_upto_enum(d, n2);
         Console.WriteLine("  Number of monomials R = " + r + "");
-        c = new double[r];
-        e = new int[r];
+        double[] c = new double[r];
+        int[] e = new int[r];
         //
         //  Print the polynomials.
         //
@@ -1318,14 +1206,14 @@ internal static class Program
                 e[j] = pe[i + j * nd];
             }
 
-            label = "  P(" + i + ")(x) =";
+            string label = "  P(" + i + ")(x) =";
             Polynomial.polynomial_print(d, o, c, e, label);
         }
 
         //
         //  Evaluate the polynomials at XD.
         //
-        value = new double[nd * nd];
+        double[] value = new double[nd * nd];
 
         for (i = 0; i < nd; i++)
         {
@@ -1336,7 +1224,7 @@ internal static class Program
                 e[j] = pe[i + j * nd];
             }
 
-            v = Polynomial.polynomial_value(d, o, c, e, nd, xd);
+            double[] v = Polynomial.polynomial_value(d, o, c, e, nd, xd);
 
             for (j = 0; j < nd; j++)
             {
@@ -1346,13 +1234,13 @@ internal static class Program
                 
         }
 
-        error = typeMethods.r8mat_is_identity(nd, value);
+        double error = typeMethods.r8mat_is_identity(nd, value);
         Console.WriteLine("");
         Console.WriteLine("  Frobenius norm of Lagrange matrix error = " + error + "");
         //
         //  Evaluate a function at the data points.
         //
-        pd = new double[nd];
+        double[] pd = new double[nd];
         for (i = 0; i < nd; i++)
         {
             pd[i] = Math.Exp(xd[0 + i * 2] * xd[1 + i * 2]);
@@ -1361,9 +1249,9 @@ internal static class Program
         //
         //  Compare exact function and interpolant at a grid of points.
         //
-        xyi = new double[2 * ni];
+        double[] xyi = new double[2 * ni];
 
-        k = 0;
+        int k = 0;
         for (j = 1; j <= 11; j++)
         {
             for (i = 1; i <= 11; i++)
@@ -1378,13 +1266,13 @@ internal static class Program
             }
         }
 
-        pn = nd;
-        zi = MultivariateLagrange.interpolant_value(d, r, pn, po, pc, pe, pd, ni, xyi);
+        int pn = nd;
+        double[] zi = MultivariateLagrange.interpolant_value(d, r, pn, po, pc, pe, pd, ni, xyi);
 
         error = 0.0;
         for (k = 0; k < ni; k++)
         {
-            f = Math.Exp(xyi[0 + k * 2] * xyi[1 + k * 2]);
+            double f = Math.Exp(xyi[0 + k * 2] * xyi[1 + k * 2]);
             if (error < Math.Abs(zi[k] - f))
             {
                 error = Math.Abs(zi[k] - f);

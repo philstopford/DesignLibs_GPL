@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Cube;
 using Burkardt.Types;
 
@@ -79,14 +80,12 @@ internal static class Program
             }
             ;
         int i;
-        int n;
         int[] ns =  {
                 3, 3, 3
             }
             ;
-        double[] x;
 
-        n = ns[0] * ns[1] * ns[2];
+        int n = ns[0] * ns[1] * ns[2];
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
@@ -99,14 +98,14 @@ internal static class Program
         for (i = 0; i < 3; i++)
         {
             Console.WriteLine(
-                i.ToString().PadLeft(6) + "  "
-                                        + ns[i].ToString().PadLeft(4) + "  "
-                                        + c[i].ToString().PadLeft(4) + "  "
-                                        + a[i].ToString().PadLeft(8) + "  "
-                                        + b[i].ToString().PadLeft(8) + "");
+                i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                        + ns[i].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                        + c[i].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                        + a[i].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                                        + b[i].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
 
-        x = Grid.cube_grid(n, ns, a, b, c);
+        double[] x = Grid.cube_grid(n, ns, a, b, c);
         typeMethods.r8mat_transpose_print(3, n, x, "  Grid points:");
     }
 
@@ -144,14 +143,12 @@ internal static class Program
             }
             ;
         int i;
-        int n;
         int[] ns =  {
                 4, 2, 3
             }
             ;
-        double[] x;
 
-        n = ns[0] * ns[1] * ns[2];
+        int n = ns[0] * ns[1] * ns[2];
 
         Console.WriteLine("");
         Console.WriteLine("TEST02");
@@ -164,14 +161,14 @@ internal static class Program
         for (i = 0; i < 3; i++)
         {
             Console.WriteLine(
-                i.ToString().PadLeft(6) + "  "
-                                        + ns[i].ToString().PadLeft(4) + "  "
-                                        + c[i].ToString().PadLeft(4) + "  "
-                                        + a[i].ToString().PadLeft(8) + "  "
-                                        + b[i].ToString().PadLeft(8) + "");
+                i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                        + ns[i].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                        + c[i].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                        + a[i].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                                        + b[i].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
 
-        x = Grid.cube_grid(n, ns, a, b, c);
+        double[] x = Grid.cube_grid(n, ns, a, b, c);
         typeMethods.r8mat_transpose_print(3, n, x, "  Grid points:");
     }
 
@@ -209,14 +206,12 @@ internal static class Program
             }
             ;
         int i;
-        int n;
         int[] ns =  {
                 3, 3, 3
             }
             ;
-        double[] x;
 
-        n = ns[0] * ns[1] * ns[2];
+        int n = ns[0] * ns[1] * ns[2];
 
         Console.WriteLine("");
         Console.WriteLine("TEST03");
@@ -229,14 +224,14 @@ internal static class Program
         for (i = 0; i < 3; i++)
         {
             Console.WriteLine(
-                i.ToString().PadLeft(6) + "  "
-                                        + ns[i].ToString().PadLeft(4) + "  "
-                                        + c[i].ToString().PadLeft(4) + "  "
-                                        + a[i].ToString().PadLeft(8) + "  "
-                                        + b[i].ToString().PadLeft(8) + "");
+                i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                        + ns[i].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                        + c[i].ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                        + a[i].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                                        + b[i].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
 
-        x = Grid.cube_grid(n, ns, a, b, c);
+        double[] x = Grid.cube_grid(n, ns, a, b, c);
         typeMethods.r8mat_transpose_print(3, n, x, "  Grid points:");
     }
 }

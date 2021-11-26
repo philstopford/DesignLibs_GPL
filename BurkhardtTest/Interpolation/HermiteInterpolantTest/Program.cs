@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.PolynomialNS;
 using Burkardt.Types;
 using Burkardt.Uniform;
@@ -109,24 +110,20 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 3;
+        const int N = 3;
 
         int i;
-        int n = N;
-        double[] x;
-        double[] y;
-        double[] yp;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02");
         Console.WriteLine("  HERMITE computes the Hermite interpolant to data.");
         Console.WriteLine("  Here, f(x) = 6 + 5x + 4x^2 + 3x^3 + 2x^4 + x^5.");
 
-        x = new double[n];
-        y = new double[n];
-        yp = new double[n];
+        double[] x = new double[N];
+        double[] y = new double[N];
+        double[] yp = new double[N];
 
-        for (i = 0; i < n; i++)
+        for (i = 0; i < N; i++)
         {
             x[i] = i;
 
@@ -143,7 +140,7 @@ internal static class Program
                         5.0)));
         }
 
-        Hermite.hermite_demo(n, x, y, yp);
+        Hermite.hermite_demo(N, x, y, yp);
 
     }
 
@@ -168,15 +165,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 3;
+        const int N = 3;
 
-        double[] c;
         int i;
-        int n = N;
-        int seed;
-        double[] x;
-        double[] y;
-        double[] yp;
 
         Console.WriteLine("");
         Console.WriteLine("TEST03");
@@ -184,20 +175,20 @@ internal static class Program
         Console.WriteLine("  Here, f(x) is a fifth order polynomial with random");
         Console.WriteLine("  coefficients, and the abscissas are random.");
 
-        c = new double[2 * n];
-        x = new double[n];
-        y = new double[n];
-        yp = new double[n];
+        double[] c = new double[2 * N];
+        double[] x = new double[N];
+        double[] y = new double[N];
+        double[] yp = new double[N];
 
-        seed = 123456789;
+        int seed = 123456789;
 
-        UniformRNG.r8vec_uniform_01(n, ref seed, ref x);
-        typeMethods.r8vec_print(n, x, "  Random abscissas");
+        UniformRNG.r8vec_uniform_01(N, ref seed, ref x);
+        typeMethods.r8vec_print(N, x, "  Random abscissas");
 
-        UniformRNG.r8vec_uniform_01(2 * n, ref seed, ref c);
-        typeMethods.r8vec_print(2 * n, c, "  Random polynomial coefficients.");
+        UniformRNG.r8vec_uniform_01(2 * N, ref seed, ref c);
+        typeMethods.r8vec_print(2 * N, c, "  Random polynomial coefficients.");
 
-        for (i = 0; i < n; i++)
+        for (i = 0; i < N; i++)
         {
             y[i] = c[0] + x[i] * (
                 c[1] + x[i] * (
@@ -212,7 +203,7 @@ internal static class Program
                         c[5] * 5.0)));
         }
 
-        Hermite.hermite_demo(n, x, y, yp);
+        Hermite.hermite_demo(N, x, y, yp);
     }
 
     private static void test04()
@@ -236,25 +227,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int i;
-        double max_dif;
         int n;
-        int nd;
-        int ndp;
-        int ns;
-        double[] x;
-        double[] xd;
-        double[] xdp;
-        double[] xs;
-        double xhi;
-        double xlo;
-        double xt;
-        double[] y;
-        double[] yd;
-        double[] ydp;
-        double[] yp;
-        double[] ys;
-        double yt;
 
         Console.WriteLine("");
         Console.WriteLine("TEST04");
@@ -268,23 +241,24 @@ internal static class Program
 
         for (n = 3; n <= 15; n += 2)
         {
-            y = new double[n];
-            yp = new double[n];
+            double[] y = new double[n];
+            double[] yp = new double[n];
 
-            nd = 2 * n;
-            xd = new double[nd];
-            yd = new double[nd];
+            int nd = 2 * n;
+            double[] xd = new double[nd];
+            double[] yd = new double[nd];
 
-            ndp = 2 * n - 1;
-            xdp = new double[ndp];
-            ydp = new double[ndp];
+            int ndp = 2 * n - 1;
+            double[] xdp = new double[ndp];
+            double[] ydp = new double[ndp];
 
-            ns = 10 * (n - 1) + 1;
+            int ns = 10 * (n - 1) + 1;
 
-            xlo = -5.0;
-            xhi = +5.0;
-            x = typeMethods.r8vec_linspace_new(n, xlo, xhi);
+            double xlo = -5.0;
+            double xhi = +5.0;
+            double[] x = typeMethods.r8vec_linspace_new(n, xlo, xhi);
 
+            int i;
             for (i = 0; i < n; i++)
             {
                 y[i] = 1.0 / (1.0 + x[i] * x[i]);
@@ -295,20 +269,20 @@ internal static class Program
             //
             //  Compare exact and interpolant at sample points.
             //
-            xs = typeMethods.r8vec_linspace_new(ns, xlo, xhi);
+            double[] xs = typeMethods.r8vec_linspace_new(ns, xlo, xhi);
 
-            ys = Dif.dif_vals(nd, xd, yd, ns, xs);
+            double[] ys = Dif.dif_vals(nd, xd, yd, ns, xs);
 
-            max_dif = 0.0;
+            double max_dif = 0.0;
             for (i = 0; i < ns; i++)
             {
-                xt = xs[i];
-                yt = 1.0 / (1.0 + xt * xt);
+                double xt = xs[i];
+                double yt = 1.0 / (1.0 + xt * xt);
                 max_dif = Math.Max(max_dif, Math.Abs(ys[i] - yt));
             }
 
-            Console.WriteLine("  " + n.ToString().PadLeft(4)
-                                   + "  " + max_dif.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + max_dif.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
         }
 
@@ -335,25 +309,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int i;
-        double max_dif;
         int n;
-        int nd;
-        int ndp;
-        int ns;
-        double[] x;
-        double[] xd;
-        double[] xdp;
-        double[] xs;
-        double xhi;
-        double xlo;
-        double xt;
-        double[] y;
-        double[] yd;
-        double[] ydp;
-        double[] yp;
-        double[] ys;
-        double yt;
 
         Console.WriteLine("");
         Console.WriteLine("TEST05");
@@ -367,23 +323,24 @@ internal static class Program
 
         for (n = 3; n <= 15; n += 2)
         {
-            y = new double[n];
-            yp = new double[n];
+            double[] y = new double[n];
+            double[] yp = new double[n];
 
-            nd = 2 * n;
-            xd = new double[nd];
-            yd = new double[nd];
+            int nd = 2 * n;
+            double[] xd = new double[nd];
+            double[] yd = new double[nd];
 
-            ndp = 2 * n - 1;
-            xdp = new double[ndp];
-            ydp = new double[ndp];
+            int ndp = 2 * n - 1;
+            double[] xdp = new double[ndp];
+            double[] ydp = new double[ndp];
 
-            ns = 10 * (n - 1) + 1;
+            int ns = 10 * (n - 1) + 1;
 
-            xlo = -5.0;
-            xhi = +5.0;
-            x = typeMethods.r8vec_chebyshev_new(n, xlo, xhi);
+            double xlo = -5.0;
+            double xhi = +5.0;
+            double[] x = typeMethods.r8vec_chebyshev_new(n, xlo, xhi);
 
+            int i;
             for (i = 0; i < n; i++)
             {
                 y[i] = 1.0 / (1.0 + x[i] * x[i]);
@@ -394,20 +351,20 @@ internal static class Program
             //
             //  Compare exact and interpolant at sample points.
             //
-            xs = typeMethods.r8vec_linspace_new(ns, xlo, xhi);
+            double[] xs = typeMethods.r8vec_linspace_new(ns, xlo, xhi);
 
-            ys = Dif.dif_vals(nd, xd, yd, ns, xs);
+            double[] ys = Dif.dif_vals(nd, xd, yd, ns, xs);
 
-            max_dif = 0.0;
+            double max_dif = 0.0;
             for (i = 0; i < ns; i++)
             {
-                xt = xs[i];
-                yt = 1.0 / (1.0 + xt * xt);
+                double xt = xs[i];
+                double yt = 1.0 / (1.0 + xt * xt);
                 max_dif = Math.Max(max_dif, Math.Abs(ys[i] - yt));
             }
 
-            Console.WriteLine("  " + n.ToString().PadLeft(4)
-                                   + "  " + max_dif.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + max_dif.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
         }
     }
@@ -433,20 +390,12 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int ND = 2;
+        const int ND = 2;
 
-        double f01;
-        double f02;
-        double f11;
-        double f12;
         int j;
-        int nd = ND;
         double[] xd = {0.0, 10.0};
-        double xv;
         double[] yd = new double[ND];
-        double yh;
         double[] ypd = new double[ND];
-        double yv;
 
         Console.WriteLine("");
         Console.WriteLine("TEST06:");
@@ -459,7 +408,7 @@ internal static class Program
         //  and compute the Hermite global polynomial interpolant based on two 
         //  abscissas:
         //
-        for (j = 0; j < nd; j++)
+        for (j = 0; j < ND; j++)
         {
             yd[j] = Math.Pow(xd[j], 3) + Math.Pow(xd[j], 2) + xd[j] + 1.0;
             ypd[j] = 3.0 * Math.Pow(xd[j], 2) + 2.0 * xd[j] + 1.0;
@@ -470,11 +419,11 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("     XD         Y(XD)      Y'(XD)");
         Console.WriteLine("");
-        for (j = 0; j < nd; j++)
+        for (j = 0; j < ND; j++)
         {
-            Console.WriteLine("  " + xd[j].ToString().PadLeft(10)
-                                   + "  " + yd[j].ToString().PadLeft(10)
-                                   + "  " + ypd[j].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + xd[j].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + yd[j].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + ypd[j].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         Console.WriteLine("");
@@ -483,20 +432,20 @@ internal static class Program
 
         for (j = 0; j <= 10; j++)
         {
-            xv = j;
+            double xv = j;
 
-            yv = Math.Pow(xv, 3) + Math.Pow(xv, 2) + xv + 1.0;
+            double yv = Math.Pow(xv, 3) + Math.Pow(xv, 2) + xv + 1.0;
 
-            f01 = Hermite.hermite_basis_0(2, xd, 0, xv);
-            f11 = Hermite.hermite_basis_1(2, xd, 0, xv);
-            f02 = Hermite.hermite_basis_0(2, xd, 1, xv);
-            f12 = Hermite.hermite_basis_1(2, xd, 1, xv);
+            double f01 = Hermite.hermite_basis_0(2, xd, 0, xv);
+            double f11 = Hermite.hermite_basis_1(2, xd, 0, xv);
+            double f02 = Hermite.hermite_basis_0(2, xd, 1, xv);
+            double f12 = Hermite.hermite_basis_1(2, xd, 1, xv);
 
-            yh = yd[0] * f01 + ypd[0] * f11 + yd[1] * f02 + ypd[1] * f12;
+            double yh = yd[0] * f01 + ypd[0] * f11 + yd[1] * f02 + ypd[1] * f12;
 
-            Console.WriteLine("  " + xv.ToString().PadLeft(10)
-                                   + "  " + yv.ToString().PadLeft(10)
-                                   + "  " + yh.ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + xv.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + yv.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + yh.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -521,14 +470,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
         int i;
-        int k;
-        int n;
-        double q;
-        double[] w;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST07:");
@@ -537,22 +479,22 @@ internal static class Program
         Console.WriteLine("  and returns N pairs of quadrature weights");
         Console.WriteLine("  for function and derivative values at the abscissas.");
 
-        n = 3;
-        a = 0.0;
-        b = 10.0;
-        x = typeMethods.r8vec_linspace_new(n, a, b);
-        w = Hermite.hermite_interpolant_rule(n, a, b, x);
+        int n = 3;
+        double a = 0.0;
+        double b = 10.0;
+        double[] x = typeMethods.r8vec_linspace_new(n, a, b);
+        double[] w = Hermite.hermite_interpolant_rule(n, a, b, x);
 
         Console.WriteLine("");
         Console.WriteLine("     I       X               W(F(X))        W(F'(X))");
         Console.WriteLine("");
-        k = 0;
+        int k = 0;
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + x[i].ToString().PadLeft(14)
-                                   + "  " + w[k].ToString().PadLeft(14)
-                                   + "  " + w[k + 1].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + w[k].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + w[k + 1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             k += 2;
         }
 
@@ -560,7 +502,7 @@ internal static class Program
         Console.WriteLine("  Use the quadrature rule over interval " + a + " to " + b + "");
         Console.WriteLine("");
 
-        q = 0.0;
+        double q = 0.0;
         k = 0;
         for (i = 0; i < n; i++)
         {
@@ -613,10 +555,10 @@ internal static class Program
         k = 0;
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + x[i].ToString().PadLeft(14)
-                                   + "  " + w[k].ToString().PadLeft(14)
-                                   + "  " + w[k + 1].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + w[k].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + w[k + 1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             k += 2;
         }
 
@@ -677,10 +619,10 @@ internal static class Program
         k = 0;
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + x[i].ToString().PadLeft(14)
-                                   + "  " + w[k].ToString().PadLeft(14)
-                                   + "  " + w[k + 1].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + w[k].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + w[k + 1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             k += 2;
         }
 
@@ -741,10 +683,10 @@ internal static class Program
         k = 0;
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + x[i].ToString().PadLeft(14)
-                                   + "  " + w[k].ToString().PadLeft(14)
-                                   + "  " + w[k + 1].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + w[k].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + w[k + 1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             k += 2;
         }
 
@@ -805,10 +747,10 @@ internal static class Program
         k = 0;
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + x[i].ToString().PadLeft(14)
-                                   + "  " + w[k].ToString().PadLeft(14)
-                                   + "  " + w[k + 1].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + w[k].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + w[k + 1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             k += 2;
         }
 
@@ -879,20 +821,6 @@ internal static class Program
         //
     {
         int i;
-        int n;
-        int nd;
-        int ndp;
-        int ns;
-        double[] x;
-        double[] xd;
-        double[] xdp;
-        double[] xs;
-        double[] y;
-        double[] yd;
-        double[] ydp;
-        double[] yp;
-        double[] ys;
-        double[] ysp;
 
         Console.WriteLine("");
         Console.WriteLine("TEST08");
@@ -900,19 +828,19 @@ internal static class Program
         Console.WriteLine("  HERMITE_INTERPOLANT_VALUE evaluates it.");
         Console.WriteLine("  Consider data for y=sin(x) at x=0,1,2,3,4.");
 
-        n = 5;
-        y = new double[n];
-        yp = new double[n];
+        const int n = 5;
+        double[] y = new double[n];
+        double[] yp = new double[n];
 
-        nd = 2 * n;
-        xd = new double[nd];
-        yd = new double[nd];
+        const int nd = 2 * n;
+        double[] xd = new double[nd];
+        double[] yd = new double[nd];
 
-        ndp = 2 * n - 1;
-        xdp = new double[ndp];
-        ydp = new double[ndp];
+        const int ndp = 2 * n - 1;
+        double[] xdp = new double[ndp];
+        double[] ydp = new double[ndp];
 
-        x = typeMethods.r8vec_linspace_new(n, 0.0, 4.0);
+        double[] x = typeMethods.r8vec_linspace_new(n, 0.0, 4.0);
         for (i = 0; i < n; i++)
         {
             y[i] = Math.Sin(x[i]);
@@ -923,11 +851,11 @@ internal static class Program
         /*
         Now sample the interpolant at NS points, which include data values.
         */
-        ns = 4 * (n - 1) + 1;
-        ys = new double[ns];
-        ysp = new double[ns];
+        const int ns = 4 * (n - 1) + 1;
+        double[] ys = new double[ns];
+        double[] ysp = new double[ns];
 
-        xs = typeMethods.r8vec_linspace_new(ns, 0.0, 4.0);
+        double[] xs = typeMethods.r8vec_linspace_new(ns, 0.0, 4.0);
 
         Hermite.hermite_interpolant_value(nd, xd, yd, xdp, ydp, ns, xs, ref ys, ref ysp);
 
@@ -943,12 +871,12 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < ns; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + xs[i].ToString().PadLeft(14)
-                                   + "  " + Math.Sin(xs[i]).ToString().PadLeft(14)
-                                   + "  " + ys[i].ToString().PadLeft(14)
-                                   + "  " + Math.Cos(xs[i]).ToString().PadLeft(14)
-                                   + "  " + ysp[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + xs[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Sin(xs[i]).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + ys[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Cos(xs[i]).ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + ysp[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }

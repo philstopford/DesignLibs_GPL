@@ -31,9 +31,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int g;
         int prob;
-        int prob_num;
 
         Console.WriteLine("");
         Console.WriteLine("RBF_INTERP_2D_TEST:");
@@ -41,8 +39,8 @@ internal static class Program
         Console.WriteLine("  The R8LIB library is required.");
         Console.WriteLine("  This test also needs the TEST_INTERP_2D library.");
 
-        prob_num = Data_2D.f00_num();
-        g = 1;
+        int prob_num = Data_2D.f00_num();
+        const int g = 1;
 
         for (prob = 1; prob <= prob_num; prob++)
         {
@@ -94,26 +92,8 @@ internal static class Program
         //    Input, string PHI_NAME, the name of the radial basis function.
         //
     {
-        bool debug = false;
-        double e;
+        const bool debug = false;
         int i;
-        double int_error;
-        int m;
-        int nd;
-        int ni;
-        double r0;
-        double volume;
-        double[] w;
-        double[] xd;
-        double xmax;
-        double xmin;
-        double[] xyd;
-        double[] xyi;
-        double[] yd;
-        double ymax;
-        double ymin;
-        double[] zd;
-        double[] zi;
 
         Console.WriteLine("");
         Console.WriteLine("RBF_INTERP_2D_TEST01:");
@@ -121,14 +101,14 @@ internal static class Program
         Console.WriteLine("  using grid #" + g + "");
         Console.WriteLine("  using radial basis function \"" + phi_name + "\".");
 
-        nd = Data_2D.g00_size(g);
+        int nd = Data_2D.g00_size(g);
         Console.WriteLine("  Number of data points = " + nd + "");
 
-        xd = new double[nd];
-        yd = new double[nd];
+        double[] xd = new double[nd];
+        double[] yd = new double[nd];
         Data_2D.g00_xy(g, nd, ref xd, ref yd);
 
-        zd = new double[nd];
+        double[] zd = new double[nd];
         Data_2D.f00_f0(prob, nd, xd, yd, ref zd);
 
         switch (debug)
@@ -138,8 +118,8 @@ internal static class Program
                 break;
         }
 
-        m = 2;
-        xyd = new double[2 * nd];
+        const int m = 2;
+        double[] xyd = new double[2 * nd];
 
         for (i = 0; i < nd; i++)
         {
@@ -147,27 +127,26 @@ internal static class Program
             xyd[1 + i * 2] = yd[i];
         }
 
-        xmax = typeMethods.r8vec_max(nd, xd);
-        xmin = typeMethods.r8vec_min(nd, xd);
-        ymax = typeMethods.r8vec_max(nd, yd);
-        ymin = typeMethods.r8vec_min(nd, yd);
-        volume = (xmax - xmin) * (ymax - ymin);
+        double xmax = typeMethods.r8vec_max(nd, xd);
+        double xmin = typeMethods.r8vec_min(nd, xd);
+        double ymax = typeMethods.r8vec_max(nd, yd);
+        double ymin = typeMethods.r8vec_min(nd, yd);
+        double volume = (xmax - xmin) * (ymax - ymin);
 
-        e = 1.0 / m;
-        r0 = Math.Pow(volume / nd, e);
+        const double e = 1.0 / m;
+        double r0 = Math.Pow(volume / nd, e);
 
         Console.WriteLine("  Setting R0 = " + r0 + "");
 
-        w = RadialBasisFunctions.rbf_weight(m, nd, xyd, r0, phi, zd);
+        double[] w = RadialBasisFunctions.rbf_weight(m, nd, xyd, r0, phi, zd);
         //
         //  #1:  Does interpolant match function at interpolation points?
         //
-        ni = nd;
-        xyi = typeMethods.r8mat_copy_new(2, ni, xyd);
+        double[] xyi = typeMethods.r8mat_copy_new(2, nd, xyd);
 
-        zi = RadialBasisFunctions.rbf_interp(m, nd, xyd, r0, phi, w, ni, xyi);
+        double[] zi = RadialBasisFunctions.rbf_interp(m, nd, xyd, r0, phi, w, nd, xyi);
 
-        int_error = typeMethods.r8vec_norm_affine(ni, zi, zd) / ni;
+        double int_error = typeMethods.r8vec_norm_affine(nd, zi, zd) / nd;
 
         Console.WriteLine("");
         Console.WriteLine("  L2 interpolation error averaged per interpolant node = "

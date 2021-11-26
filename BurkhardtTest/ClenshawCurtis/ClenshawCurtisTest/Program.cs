@@ -40,11 +40,6 @@ internal static class Program
         double b;
         string filename;
         int n;
-        double[] r;
-        double[] w;
-        double[] x;
-        double x_max;
-        double x_min;
 
         Console.WriteLine("");
         Console.WriteLine("CCN_RULE");
@@ -135,16 +130,16 @@ internal static class Program
         //
         //  Construct the rule.
         //
-        r = new double[2];
+        double[] r = new double[2];
 
         r[0] = a;
         r[1] = b;
 
-        x = ClenshawCurtis.ccn_compute_points_new(n);
+        double[] x = ClenshawCurtis.ccn_compute_points_new(n);
 
-        x_min = -1.0;
-        x_max = +1.0;
-        w = ClenshawCurtis.nc_compute_new(n, x_min, x_max, x);
+        const double x_min = -1.0;
+        const double x_max = +1.0;
+        double[] w = ClenshawCurtis.nc_compute_new(n, x_min, x_max, x);
         //
         //  Rescale the rule.
         //

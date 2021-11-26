@@ -142,11 +142,13 @@ public static class Data_nD
         for (i = nos - 1; 0 <= i; i--)
         {
             err += Math.Abs(dos[i]);
-            if (eta < err)
+            if (!(eta < err))
             {
-                value = i + 1;
-                return value;
+                continue;
             }
+
+            value = i + 1;
+            return value;
         }
 
         value = i;
@@ -373,7 +375,7 @@ public static class Data_nD
 //   Output, int P00_PROB_NUM, the number of test functions.
 //
     {
-        int prob_num = 6;
+        const int prob_num = 6;
 
         return prob_num;
     }
@@ -762,7 +764,7 @@ public static class Data_nD
 //    Output, string P01_TITLE, the title of the problem.
 //
     {
-        string title = "Oscillatory";
+        const string title = "Oscillatory";
 
         return title;
     }
@@ -997,7 +999,7 @@ public static class Data_nD
 //    Output, string P02_TITLE, the title of the problem.
 //
     {
-        string title = "Product Peak";
+        const string title = "Product Peak";
 
         return title;
     }
@@ -1243,7 +1245,7 @@ public static class Data_nD
 //    Output, string P03_TITLE, the title of the problem.
 //
     {
-        string title = "Corner Peak";
+        const string title = "Corner Peak";
 
         return title;
     }
@@ -1476,7 +1478,7 @@ public static class Data_nD
 //    Output, string P04_TITLE, the title of the problem.
 //
     {
-        string title = "Gaussian";
+        const string title = "Gaussian";
 
         return title;
     }
@@ -1735,7 +1737,7 @@ public static class Data_nD
 //    Output, string P05_TITLE, the title of the problem.
 //
     {
-        string title = "Continuous";
+        const string title = "Continuous";
 
         return title;
     }
@@ -2061,7 +2063,7 @@ public static class Data_nD
 //    Output, string P06_TITLE, the title of the problem.
 //
     {
-        string title = "Discontinuous";
+        const string title = "Discontinuous";
 
         return title;
     }
@@ -2133,7 +2135,6 @@ public static class Data_nD
 //
     {
         int i;
-        int j;
 
         if (m2 < m1)
         {
@@ -2172,6 +2173,7 @@ public static class Data_nD
                     if (i == 0)
                     {
                         rank = 0;
+                        int j;
                         for (j = 0; j < n; j++)
                         {
                             x[j] = m1;

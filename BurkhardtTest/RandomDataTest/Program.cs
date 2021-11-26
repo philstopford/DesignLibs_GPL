@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Grid;
 using Burkardt.RandomNS;
 using Burkardt.Sequence;
@@ -109,10 +110,7 @@ internal static class Program
         //
     {
         int dim_num;
-        int n;
         string output_filename = "dummy.txt";
-        int seed;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST005:");
@@ -122,8 +120,9 @@ internal static class Program
 
         for (dim_num = 2; dim_num <= 3; dim_num++)
         {
-            seed = 123456789;
-            n = 10000;
+            int seed = 123456789;
+            int n = 10000;
+            
             output_filename = dim_num switch
             {
                 2 => "bad_in_triangle.txt",
@@ -136,7 +135,7 @@ internal static class Program
             Console.WriteLine("  Number of points N =         " + n + "");
             Console.WriteLine("  Initial random number SEED = " + seed + "");
 
-            x = BRandom.bad_in_simplex01(dim_num, n, ref seed);
+            double[] x = BRandom.bad_in_simplex01(dim_num, n, ref seed);
 
             typeMethods.r8mat_write(output_filename, dim_num, n, x);
 
@@ -166,12 +165,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int N = 100;
+        const int DIM_NUM = 2;
+        const int N = 100;
 
-        string output_filename = "brownian.txt";
+        const string output_filename = "brownian.txt";
         int seed = 123456789;
-        double[] x;
         typeMethods.r8NormalData data = new();
 
         Console.WriteLine("");
@@ -182,7 +180,7 @@ internal static class Program
         Console.WriteLine("  Number of points N =         " + N + "");
         Console.WriteLine("  Initial random number SEED = " + seed + "");
 
-        x = BRandom.brownian(DIM_NUM, N, ref data, ref seed);
+        double[] x = BRandom.brownian(DIM_NUM, N, ref data, ref seed);
 
         Console.WriteLine("  Final random number SEED =   " + seed + "");
 
@@ -218,8 +216,6 @@ internal static class Program
     {
         int i;
         int seed = 123456789;
-        int seed_in;
-        double x;
         typeMethods.r8NormalData data = new();
 
         Console.WriteLine("");
@@ -233,13 +229,13 @@ internal static class Program
 
         for (i = 1; i <= 10; i++)
         {
-            seed_in = seed;
-            x = typeMethods.r8_normal_01(ref data, ref seed);
+            int seed_in = seed;
+            double x = typeMethods.r8_normal_01(ref data, ref seed);
 
             Console.WriteLine("  "
-                              + seed_in.ToString().PadLeft(12) + "  "
-                              + seed.ToString().PadLeft(12) + "  "
-                              + x.ToString().PadLeft(12) + "");
+                              + seed_in.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + seed.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -266,8 +262,6 @@ internal static class Program
     {
         int i;
         int seed = 123456789;
-        int seed_in;
-        double x;
 
         Console.WriteLine("");
         Console.WriteLine("R8_UNIFORM_01_TEST:");
@@ -280,13 +274,13 @@ internal static class Program
 
         for (i = 1; i <= 10; i++)
         {
-            seed_in = seed;
-            x = UniformRNG.r8_uniform_01(ref seed);
+            int seed_in = seed;
+            double x = UniformRNG.r8_uniform_01(ref seed);
 
             Console.WriteLine("  "
-                              + seed_in.ToString().PadLeft(12) + "  "
-                              + seed.ToString().PadLeft(12) + "  "
-                              + x.ToString().PadLeft(12) + "");
+                              + seed_in.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + seed.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "  "
+                              + x.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -311,13 +305,12 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int N = 85;
+        const int DIM_NUM = 2;
+        const int N = 85;
 
-        int center = 1;
-        string output_filename = "grid_in_cube01.txt";
+        const int center = 1;
+        const string output_filename = "grid_in_cube01.txt";
         int seed = 123456789;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST04");
@@ -328,7 +321,7 @@ internal static class Program
         Console.WriteLine("  CENTER option =              " + center + "");
         Console.WriteLine("  Initial random number SEED = " + seed + "");
 
-        x = Grid.grid_in_cube01(DIM_NUM, N, center, ref seed);
+        double[] x = Grid.grid_in_cube01(DIM_NUM, N, center, ref seed);
 
         Console.WriteLine("  Final random number SEED =   " + seed + "");
 
@@ -360,12 +353,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int N = 400;
+        const int DIM_NUM = 2;
+        const int N = 400;
 
-        string output_filename = "halton_in_circle01_accept.txt";
+        const string output_filename = "halton_in_circle01_accept.txt";
         int seed = 123456789;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST05");
@@ -376,7 +368,7 @@ internal static class Program
         Console.WriteLine("  Number of points N =         " + N + "");
         Console.WriteLine("  Initial random number SEED = " + seed + "");
 
-        x = Halton.halton_in_circle01_accept(DIM_NUM, N, ref seed);
+        double[] x = Halton.halton_in_circle01_accept(DIM_NUM, N, ref seed);
 
         Console.WriteLine("  Final random number SEED =   " + seed + "");
 
@@ -407,12 +399,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int N = 400;
+        const int DIM_NUM = 2;
+        const int N = 400;
 
-        string output_filename = "halton_in_circle01_map.txt";
+        const string output_filename = "halton_in_circle01_map.txt";
         int seed = 123456789;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST06");
@@ -423,7 +414,7 @@ internal static class Program
         Console.WriteLine("  Number of points N =         " + N + "");
         Console.WriteLine("  Initial random number SEED = " + seed + "");
 
-        x = Halton.halton_in_circle01_map(DIM_NUM, N, ref seed);
+        double[] x = Halton.halton_in_circle01_map(DIM_NUM, N, ref seed);
 
         Console.WriteLine("  Final random number SEED =   " + seed + "");
 
@@ -454,12 +445,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int N = 100;
+        const int DIM_NUM = 2;
+        const int N = 100;
 
-        string output_filename = "halton_in_cube01.txt";
+        const string output_filename = "halton_in_cube01.txt";
         int seed = 123456789;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST07");
@@ -470,7 +460,7 @@ internal static class Program
         Console.WriteLine("  Number of points N =         " + N + "");
         Console.WriteLine("  Initial random number SEED = " + seed + "");
 
-        x = Halton.halton_in_cube01(DIM_NUM, N, ref seed);
+        double[] x = Halton.halton_in_cube01(DIM_NUM, N, ref seed);
 
         Console.WriteLine("  Final random number SEED =   " + seed + "");
 
@@ -501,12 +491,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int N = 100;
+        const int DIM_NUM = 2;
+        const int N = 100;
 
-        string output_filename = "hammersley_in_cube01.txt";
+        const string output_filename = "hammersley_in_cube01.txt";
         int seed = 123456789;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST08");
@@ -517,7 +506,7 @@ internal static class Program
         Console.WriteLine("  Number of points N =         " + N + "");
         Console.WriteLine("  Initial random number SEED = " + seed + "");
 
-        x = Hammersley.hammersley_in_cube01(DIM_NUM, N, ref seed);
+        double[] x = Hammersley.hammersley_in_cube01(DIM_NUM, N, ref seed);
 
         Console.WriteLine("  Final random number SEED =   " + seed + "");
 
@@ -548,13 +537,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int N = 1000;
+        const int DIM_NUM = 2;
+        const int N = 1000;
 
-        string output_filename = "normal.txt";
+        const string output_filename = "normal.txt";
         int i;
-        int info;
-        int j;
         double[] mu =  {
                 6.0, 100.0
             }
@@ -565,7 +552,6 @@ internal static class Program
                 5.0, 2.0, 2.0, 1.0
             }
             ;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST09");
@@ -583,13 +569,14 @@ internal static class Program
 
         for (i = 0; i < DIM_NUM; i++)
         {
+            int j;
             for (j = 0; j < DIM_NUM; j++)
             {
                 r[i + j * DIM_NUM] = v[i + j * DIM_NUM];
             }
         }
 
-        info = typeMethods.r8po_fa(ref r, DIM_NUM, DIM_NUM);
+        int info = typeMethods.r8po_fa(ref r, DIM_NUM, DIM_NUM);
 
         if (info != 0)
         {
@@ -601,7 +588,7 @@ internal static class Program
 
         typeMethods.r8mat_print(DIM_NUM, DIM_NUM, r, "  Cholesky factor R:");
 
-        x = Normal.normal(DIM_NUM, N, r, mu, ref seed);
+        double[] x = Normal.normal(DIM_NUM, N, r, mu, ref seed);
 
         Console.WriteLine("  Final random number SEED =   " + seed + "");
 
@@ -634,12 +621,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int N = 2000;
+        const int DIM_NUM = 2;
+        const int N = 2000;
 
-        string output_filename = "normal_circular.txt";
+        const string output_filename = "normal_circular.txt";
         int seed = 123456789;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST10");
@@ -650,7 +636,7 @@ internal static class Program
         Console.WriteLine("  Number of points N =         " + N + "");
         Console.WriteLine("  Initial random number SEED = " + seed + "");
 
-        x = Normal.normal_circular(DIM_NUM, N, ref seed);
+        double[] x = Normal.normal_circular(DIM_NUM, N, ref seed);
 
         Console.WriteLine("  Final random number SEED =   " + seed + "");
 
@@ -683,12 +669,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int N = 1000;
+        const int DIM_NUM = 2;
+        const int N = 1000;
 
-        string output_filename = "normal_simple.txt";
+        const string output_filename = "normal_simple.txt";
         int seed = 123456789;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST11");
@@ -700,7 +685,7 @@ internal static class Program
         Console.WriteLine("  Number of points N =         " + N + "");
         Console.WriteLine("  Initial random number SEED = " + seed + "");
 
-        x = Normal.normal_simple(DIM_NUM, N, ref seed);
+        double[] x = Normal.normal_simple(DIM_NUM, N, ref seed);
 
         Console.WriteLine("  Final random number SEED =   " + seed + "");
 
@@ -733,18 +718,17 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int N = 400;
+        const int DIM_NUM = 2;
+        const int N = 400;
 
-        string output_filename = "uniform_in_annulus.txt";
+        const string output_filename = "uniform_in_annulus.txt";
         double[] pc =  {
                 10.0, 5.0
             }
             ;
-        double r1 = 1.0;
-        double r2 = 3.0;
+        const double r1 = 1.0;
+        const double r2 = 3.0;
         int seed = 123456789;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST115");
@@ -759,7 +743,7 @@ internal static class Program
         Console.WriteLine("  Outer radius is R2 =         " + r2 + "");
         Console.WriteLine("  Initial random number SEED = " + seed + "");
 
-        x = Annulus.uniform_in_annulus(pc, r1, r2, N, ref seed);
+        double[] x = Annulus.uniform_in_annulus(pc, r1, r2, N, ref seed);
 
         Console.WriteLine("  Final random number SEED =   " + seed + "");
 
@@ -790,18 +774,17 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int N = 400;
+        const int DIM_NUM = 2;
+        const int N = 400;
 
-        string output_filename = "uniform_in_annulus_accept.txt";
+        const string output_filename = "uniform_in_annulus_accept.txt";
         double[] pc =  {
                 10.0, 5.0
             }
             ;
-        double r1 = 1.0;
-        double r2 = 3.0;
+        const double r1 = 1.0;
+        const double r2 = 3.0;
         int seed = 123456789;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST12");
@@ -815,7 +798,7 @@ internal static class Program
         Console.WriteLine("  Outer radius is R2 =         " + r2 + "");
         Console.WriteLine("  Initial random number SEED = " + seed + "");
 
-        x = Annulus.uniform_in_annulus_accept(pc, r1, r2, N, ref seed);
+        double[] x = Annulus.uniform_in_annulus_accept(pc, r1, r2, N, ref seed);
 
         Console.WriteLine("  Final random number SEED =   " + seed + "");
 
@@ -846,20 +829,19 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int N = 400;
+        const int DIM_NUM = 2;
+        const int N = 400;
 
-        string output_filename = "uniform_in_annulus_sector.txt";
+        const string output_filename = "uniform_in_annulus_sector.txt";
         double[] pc =  {
                 10.0, 5.0
             }
             ;
-        double r1 = 1.0;
-        double r2 = 3.0;
+        const double r1 = 1.0;
+        const double r2 = 3.0;
         int seed = 123456789;
-        double theta1 = 0.0;
-        double theta2 = 1.5707964;
-        double[] x;
+        const double theta1 = 0.0;
+        const double theta2 = 1.5707964;
 
         Console.WriteLine("");
         Console.WriteLine("TEST125");
@@ -875,7 +857,7 @@ internal static class Program
         Console.WriteLine("  THETA2 =                     " + theta2 + "");
         Console.WriteLine("  Initial random number SEED = " + seed + "");
 
-        x = Annulus.uniform_in_annulus_sector(pc, r1, r2, theta1, theta2, N, ref seed);
+        double[] x = Annulus.uniform_in_annulus_sector(pc, r1, r2, theta1, theta2, N, ref seed);
 
         Console.WriteLine("  Final random number SEED =   " + seed + "");
 
@@ -906,12 +888,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int N = 400;
+        const int DIM_NUM = 2;
+        const int N = 400;
 
-        string output_filename = "uniform_in_circle01_map.txt";
+        const string output_filename = "uniform_in_circle01_map.txt";
         int seed = 123456789;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST13");
@@ -922,7 +903,7 @@ internal static class Program
         Console.WriteLine("  Number of points N =         " + N + "");
         Console.WriteLine("  Initial random number SEED = " + seed + "");
 
-        x = Circle.uniform_in_circle01_map(N, ref seed);
+        double[] x = Circle.uniform_in_circle01_map(N, ref seed);
 
         Console.WriteLine("  Final random number SEED =   " + seed + "");
 
@@ -953,12 +934,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int N = 1000;
+        const int DIM_NUM = 2;
+        const int N = 1000;
 
-        string output_filename = "uniform_in_cube01.txt";
+        const string output_filename = "uniform_in_cube01.txt";
         int seed = 123456789;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST14");
@@ -969,7 +949,7 @@ internal static class Program
         Console.WriteLine("  Number of points N =         " + N + "");
         Console.WriteLine("  Initial random number SEED = " + seed + "");
 
-        x = Cube.uniform_in_cube01(DIM_NUM, N, ref seed);
+        double[] x = Cube.uniform_in_cube01(DIM_NUM, N, ref seed);
 
         Console.WriteLine("  Final random number SEED =   " + seed + "");
 
@@ -1000,24 +980,18 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int N = 1000;
+        const int DIM_NUM = 2;
+        const int N = 1000;
 
         double[] a =  {
                 3.0, 1.0, 1.0, 2.0
             }
             ;
-        int fail_num;
-        string output_filename = "uniform_in_ellipsoid_map.txt";
-        int i;
+        const string output_filename = "uniform_in_ellipsoid_map.txt";
         int j;
-        int k;
-        double r = 1.0;
-        double r2;
+        const double r = 1.0;
         int seed = 123456789;
         typeMethods.r8vecNormalData data = new();
-        int success_num;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST15");
@@ -1028,7 +1002,7 @@ internal static class Program
         Console.WriteLine("  Number of points N =         " + N + "");
         Console.WriteLine("  Initial random number SEED = " + seed + "");
 
-        x = Ellipsoid.uniform_in_ellipsoid_map(DIM_NUM, N, a, r, ref data, ref seed);
+        double[] x = Ellipsoid.uniform_in_ellipsoid_map(DIM_NUM, N, a, r, ref data, ref seed);
 
         Console.WriteLine("  Final random number SEED =   " + seed + "");
 
@@ -1039,15 +1013,17 @@ internal static class Program
         //
         //  Test the data.
         //
-        fail_num = 0;
-        success_num = 0;
+        int fail_num = 0;
+        int success_num = 0;
 
         for (j = 0; j < N; j++)
         {
 
-            r2 = 0.0;
+            double r2 = 0.0;
+            int i;
             for (i = 0; i < DIM_NUM; i++)
             {
+                int k;
                 for (k = 0; k < DIM_NUM; k++)
                 {
                     r2 += x[i + j * DIM_NUM] * a[i + k * DIM_NUM] * x[k + j * DIM_NUM];
@@ -1095,10 +1071,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int N = 1000;
+        const int DIM_NUM = 2;
+        const int N = 1000;
 
-        string output_filename = "uniform_in_parallelogram_map.txt";
+        const string output_filename = "uniform_in_parallelogram_map.txt";
         int seed = 123456789;
         double[] v1 =  {
                 0.75E+00, 0.90E+00
@@ -1113,7 +1089,6 @@ internal static class Program
             }
             ;
         double[] v4 = new double[DIM_NUM];
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST16");
@@ -1133,7 +1108,7 @@ internal static class Program
         Console.WriteLine("  V3 = " + v3[0] + ", " + v3[1] + "");
         Console.WriteLine("  V4 = " + v4[0] + ", " + v4[1] + "");
 
-        x = Parallelogram.uniform_in_parallelogram_map(v1, v2, v3, N, ref seed);
+        double[] x = Parallelogram.uniform_in_parallelogram_map(v1, v2, v3, N, ref seed);
 
         Console.WriteLine("  Final random number SEED =   " + seed + "");
 
@@ -1166,11 +1141,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int N = 1000;
-        int NV = 10;
+        const int DIM_NUM = 2;
+        const int N = 1000;
+        const int NV = 10;
 
-        string output_filename = "uniform_in_polygon_map.txt";
+        const string output_filename = "uniform_in_polygon_map.txt";
         int seed = 123456789;
         double[] v =  {
                 0.0E+00, 0.0E+00,
@@ -1185,7 +1160,6 @@ internal static class Program
                 0.3E+00, 0.4E+00
             }
             ;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST17");
@@ -1198,7 +1172,7 @@ internal static class Program
 
         typeMethods.r8mat_print(DIM_NUM, NV, v, "  Polygonal vertices:");
 
-        x = Polygon.uniform_in_polygon_map(NV, v, N, ref seed);
+        double[] x = Polygon.uniform_in_polygon_map(NV, v, N, ref seed);
 
         Console.WriteLine("  Final random number SEED =   " + seed + "");
 
@@ -1231,16 +1205,15 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int N = 300;
+        const int DIM_NUM = 2;
+        const int N = 300;
 
-        string output_filename = "uniform_in_sector_map.txt";
-        double r1 = 1.0;
-        double r2 = 2.0;
+        const string output_filename = "uniform_in_sector_map.txt";
+        const double r1 = 1.0;
+        const double r2 = 2.0;
         int seed = 123456789;
-        double t1 = 0.78;
-        double t2 = 2.35;
-        double[] x;
+        const double t1 = 0.78;
+        const double t2 = 2.35;
 
         Console.WriteLine("");
         Console.WriteLine("TEST18");
@@ -1256,7 +1229,7 @@ internal static class Program
         Console.WriteLine("  Number of points N =         " + N + "");
         Console.WriteLine("  Initial random number SEED = " + seed + "");
 
-        x = Sector.uniform_in_sector_map(r1, r2, t1, t2, N, ref seed);
+        double[] x = Sector.uniform_in_sector_map(r1, r2, t1, t2, N, ref seed);
 
         Console.WriteLine("  Final random number SEED =   " + seed + "");
 
@@ -1287,12 +1260,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int N = 1000;
+        const int DIM_NUM = 2;
+        const int N = 1000;
 
-        string output_filename = "uniform_in_simplex01_map.txt";
+        const string output_filename = "uniform_in_simplex01_map.txt";
         int seed = 123456789;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST19");
@@ -1303,7 +1275,7 @@ internal static class Program
         Console.WriteLine("  Number of points N =         " + N + "");
         Console.WriteLine("  Initial random number SEED = " + seed + "");
 
-        x = Simplex.uniform_in_simplex01_map(DIM_NUM, N, ref seed);
+        double[] x = Simplex.uniform_in_simplex01_map(DIM_NUM, N, ref seed);
 
         Console.WriteLine("  Final random number SEED =   " + seed + "");
 
@@ -1334,13 +1306,12 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int N = 1000;
+        const int DIM_NUM = 2;
+        const int N = 1000;
 
-        string output_filename = "uniform_in_sphere01_map.txt";
+        const string output_filename = "uniform_in_sphere01_map.txt";
         int seed = 123456789;
         typeMethods.r8vecNormalData data = new();
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST20");
@@ -1351,7 +1322,7 @@ internal static class Program
         Console.WriteLine("  Number of points N =         " + N + "");
         Console.WriteLine("  Initial random number SEED = " + seed + "");
 
-        x = Sphere.uniform_in_sphere01_map(DIM_NUM, N, ref data, ref seed);
+        double[] x = Sphere.uniform_in_sphere01_map(DIM_NUM, N, ref data, ref seed);
 
         Console.WriteLine("  Final random number SEED =   " + seed + "");
 
@@ -1382,10 +1353,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
-        int N = 1000;
+        const int DIM_NUM = 3;
+        const int N = 1000;
 
-        string output_filename = "uniform_in_tetrahedron.txt";
+        const string output_filename = "uniform_in_tetrahedron.txt";
         int seed = 123456789;
         double[] v =  {
                 1.0, 2.0, 3.0,
@@ -1394,7 +1365,6 @@ internal static class Program
                 3.0, 2.0, 5.0
             }
             ;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST205");
@@ -1407,7 +1377,7 @@ internal static class Program
 
         typeMethods.r8mat_print(3, 4, v, "  Tetrahedron vertices:");
 
-        x = Tetrahedron.uniform_in_tetrahedron(v, N, ref seed);
+        double[] x = Tetrahedron.uniform_in_tetrahedron(v, N, ref seed);
 
         Console.WriteLine("  Final random number SEED =   " + seed + "");
 
@@ -1438,10 +1408,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int N = 1000;
+        const int DIM_NUM = 2;
+        const int N = 1000;
 
-        string output_filename = "uniform_in_triangle_map1.txt";
+        const string output_filename = "uniform_in_triangle_map1.txt";
         int seed = 123456789;
         double[] v1 =  {
                 0.75E+00, 0.90E+00
@@ -1455,7 +1425,6 @@ internal static class Program
                 0.95E+00, 0.65E+00
             }
             ;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("UNIFORM_IN_TRIANGLE_MAP1_TEST");
@@ -1471,7 +1440,7 @@ internal static class Program
         Console.WriteLine("  V2 = " + v2[0] + ", " + v2[1] + "");
         Console.WriteLine("  V3 = " + v3[0] + ", " + v3[1] + "");
 
-        x = Triangle.uniform_in_triangle_map1(v1, v2, v3, N, ref seed);
+        double[] x = Triangle.uniform_in_triangle_map1(v1, v2, v3, N, ref seed);
 
         Console.WriteLine("  Final random number SEED =   " + seed + "");
 
@@ -1502,10 +1471,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int N = 1000;
+        const int DIM_NUM = 2;
+        const int N = 1000;
 
-        string output_filename = "uniform_in_triangle_map2.txt";
+        const string output_filename = "uniform_in_triangle_map2.txt";
         int seed = 123456789;
         double[] v1 =  {
                 0.75E+00, 0.90E+00
@@ -1519,7 +1488,6 @@ internal static class Program
                 0.95E+00, 0.65E+00
             }
             ;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST22");
@@ -1535,7 +1503,7 @@ internal static class Program
         Console.WriteLine("  V2 = " + v2[0] + ", " + v2[1] + "");
         Console.WriteLine("  V3 = " + v3[0] + ", " + v3[1] + "");
 
-        x = Triangle.uniform_in_triangle_map2(v1, v2, v3, N, ref seed);
+        double[] x = Triangle.uniform_in_triangle_map2(v1, v2, v3, N, ref seed);
 
         Console.WriteLine("  Final random number SEED =   " + seed + "");
 
@@ -1566,12 +1534,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int N = 2000;
+        const int DIM_NUM = 2;
+        const int N = 2000;
 
-        string output_filename = "uniform_in_triangle01_map.txt";
+        const string output_filename = "uniform_in_triangle01_map.txt";
         int seed = 123456789;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST23");
@@ -1582,7 +1549,7 @@ internal static class Program
         Console.WriteLine("  Number of points N =         " + N + "");
         Console.WriteLine("  Initial random number SEED = " + seed + "");
 
-        x = Triangle.uniform_in_triangle01_map(N, ref seed);
+        double[] x = Triangle.uniform_in_triangle01_map(N, ref seed);
 
         Console.WriteLine("  Final random number SEED =   " + seed + "");
 
@@ -1613,12 +1580,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int M = 2;
-        int N = 200;
+        const int M = 2;
+        const int N = 200;
 
-        string output_filename = "uniform_on_cube01.txt";
+        const string output_filename = "uniform_on_cube01.txt";
         int seed = 123456789;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST235");
@@ -1629,7 +1595,7 @@ internal static class Program
         Console.WriteLine("  Number of points N =         " + N + "");
         Console.WriteLine("  Initial random number SEED = " + seed + "");
 
-        x = Cube.uniform_on_cube01(M, N, ref seed);
+        double[] x = Cube.uniform_on_cube01(M, N, ref seed);
 
         Console.WriteLine("  Final random number SEED =   " + seed + "");
 
@@ -1660,18 +1626,17 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int N = 200;
+        const int DIM_NUM = 2;
+        const int N = 200;
 
         double[] a =  {
                 3.0, 1.0, 1.0, 2.0
             }
             ;
-        string output_filename = "uniform_on_ellipsoid_map.txt";
-        double r = 1.0;
+        const string output_filename = "uniform_on_ellipsoid_map.txt";
+        const double r = 1.0;
         int seed = 123456789;
         typeMethods.r8vecNormalData data = new();
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST24");
@@ -1682,7 +1647,7 @@ internal static class Program
         Console.WriteLine("  Number of points N =         " + N + "");
         Console.WriteLine("  Initial random number SEED = " + seed + "");
 
-        x = Ellipsoid.uniform_on_ellipsoid_map(DIM_NUM, N, a, r, ref data, ref seed);
+        double[] x = Ellipsoid.uniform_on_ellipsoid_map(DIM_NUM, N, a, r, ref data, ref seed);
 
         Console.WriteLine("  Final random number SEED =   " + seed + "");
 
@@ -1713,13 +1678,12 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
-        int N = 50;
+        const int DIM_NUM = 3;
+        const int N = 50;
 
-        string output_filename = "uniform_on_hemisphere01_phong.txt";
-        int m = 2;
+        const string output_filename = "uniform_on_hemisphere01_phong.txt";
+        const int m = 2;
         int seed = 123456789;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST245");
@@ -1731,7 +1695,7 @@ internal static class Program
         Console.WriteLine("  Phong exponent M =           " + m + "");
         Console.WriteLine("  Initial random number SEED = " + seed + "");
 
-        x = Sphere.uniform_on_hemisphere01_phong(N, m, ref seed);
+        double[] x = Sphere.uniform_on_hemisphere01_phong(N, m, ref seed);
 
         Console.WriteLine("  Final random number SEED =   " + seed + "");
 
@@ -1762,12 +1726,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int N = 50;
+        const int DIM_NUM = 2;
+        const int N = 50;
 
-        string output_filename = "uniform_on_simplex01_map.txt";
+        const string output_filename = "uniform_on_simplex01_map.txt";
         int seed = 123456789;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST25");
@@ -1778,7 +1741,7 @@ internal static class Program
         Console.WriteLine("  Number of points N =         " + N + "");
         Console.WriteLine("  Initial random number SEED = " + seed + "");
 
-        x = Simplex.uniform_on_simplex01_map(DIM_NUM, N, ref seed);
+        double[] x = Simplex.uniform_on_simplex01_map(DIM_NUM, N, ref seed);
 
         Console.WriteLine("  Final random number SEED =   " + seed + "");
 
@@ -1809,13 +1772,12 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int N = 50;
+        const int DIM_NUM = 2;
+        const int N = 50;
 
-        string output_filename = "uniform_on_sphere01_map.txt";
+        const string output_filename = "uniform_on_sphere01_map.txt";
         int seed = 123456789;
         typeMethods.r8vecNormalData data = new();
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST26");
@@ -1826,7 +1788,7 @@ internal static class Program
         Console.WriteLine("  Number of points N =         " + N + "");
         Console.WriteLine("  Initial random number SEED = " + seed + "");
 
-        x = Sphere.uniform_on_sphere01_map(DIM_NUM, N, ref data, ref seed);
+        double[] x = Sphere.uniform_on_sphere01_map(DIM_NUM, N, ref data, ref seed);
 
         Console.WriteLine("  Final random number SEED =   " + seed + "");
 
@@ -1857,20 +1819,15 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 50;
+        const int N = 50;
 
-        string output_filename = "uniform_on_sphere01_patch_tp.txt";
-        double phi1;
-        double phi2;
+        const string output_filename = "uniform_on_sphere01_patch_tp.txt";
         int seed = 123456789;
-        double theta1;
-        double theta2;
-        double[] tp;
 
-        phi1 = 75.0 * (Math.PI / 180.0);
-        phi2 = 90.0 * (Math.PI / 180.0);
-        theta1 = 0.0 * (Math.PI / 360.0);
-        theta2 = 30.0 * (Math.PI / 360.0);
+        const double phi1 = 75.0 * (Math.PI / 180.0);
+        const double phi2 = 90.0 * (Math.PI / 180.0);
+        const double theta1 = 0.0 * (Math.PI / 360.0);
+        const double theta2 = 30.0 * (Math.PI / 360.0);
 
         Console.WriteLine("");
         Console.WriteLine("TEST264");
@@ -1886,7 +1843,7 @@ internal static class Program
         Console.WriteLine("  Longitudinal angle THETA2 =  " + theta2 + "");
         Console.WriteLine("  Initial random number SEED = " + seed + "");
 
-        tp = Sphere.uniform_on_sphere01_patch_tp(N, phi1, phi2, theta1, theta2, ref seed);
+        double[] tp = Sphere.uniform_on_sphere01_patch_tp(N, phi1, phi2, theta1, theta2, ref seed);
 
         Console.WriteLine("  Final random number SEED =   " + seed + "");
 
@@ -1917,21 +1874,16 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
-        int N = 50;
+        const int DIM_NUM = 3;
+        const int N = 50;
 
-        string output_filename = "uniform_on_sphere01_patch_xyz.txt";
-        double phi1;
-        double phi2;
+        const string output_filename = "uniform_on_sphere01_patch_xyz.txt";
         int seed = 123456789;
-        double theta1;
-        double theta2;
-        double[] x;
 
-        phi1 = 75.0 * (Math.PI / 180.0);
-        phi2 = 90.0 * (Math.PI / 180.0);
-        theta1 = 0.0 * (Math.PI / 360.0);
-        theta2 = 30.0 * (Math.PI / 360.0);
+        const double phi1 = 75.0 * (Math.PI / 180.0);
+        const double phi2 = 90.0 * (Math.PI / 180.0);
+        const double theta1 = 0.0 * (Math.PI / 360.0);
+        const double theta2 = 30.0 * (Math.PI / 360.0);
 
         Console.WriteLine("");
         Console.WriteLine("TEST265");
@@ -1946,7 +1898,7 @@ internal static class Program
         Console.WriteLine("  Longitudinal angle THETA2 =  " + theta2 + "");
         Console.WriteLine("  Initial random number SEED = " + seed + "");
 
-        x = Sphere.uniform_on_sphere01_patch_xyz(N, phi1, phi2, theta1, theta2, ref seed);
+        double[] x = Sphere.uniform_on_sphere01_patch_xyz(N, phi1, phi2, theta1, theta2, ref seed);
 
         Console.WriteLine("  Final random number SEED =   " + seed + "");
 
@@ -1977,16 +1929,15 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int DIM_NUM = 3;
-        int N = 500;
+        const int DIM_NUM = 3;
+        const int N = 500;
 
-        string output_filename = "uniform_on_sphere01_triangle_xyz.txt";
+        const string output_filename = "uniform_on_sphere01_triangle_xyz.txt";
         int seed = 123456789;
         typeMethods.r8vecNormalData data = new();
         double[] v1;
         double[] v2;
         double[] v3;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST267");
@@ -2021,7 +1972,7 @@ internal static class Program
         Console.WriteLine("  V2: (" + v2[0] + ", " + v2[1] + ", " + v2[2] + ")");
         Console.WriteLine("  V3: (" + v3[0] + ", " + v3[1] + ", " + v3[2] + ")");
 
-        x = Sphere.uniform_on_sphere01_triangle_xyz(N, v1, v2, v3, ref seed);
+        double[] x = Sphere.uniform_on_sphere01_triangle_xyz(N, v1, v2, v3, ref seed);
 
         Console.WriteLine("");
         Console.WriteLine("  Final random number SEED =   " + seed + "");
@@ -2053,12 +2004,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int N = 400;
+        const int DIM_NUM = 2;
+        const int N = 400;
 
-        string output_filename = "uniform_walk.txt";
+        const string output_filename = "uniform_walk.txt";
         int seed = 123456789;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST27:");
@@ -2068,7 +2018,7 @@ internal static class Program
         Console.WriteLine("  Number of points N =         " + N + "");
         Console.WriteLine("  Initial random number SEED = " + seed + "");
 
-        x = Walk.uniform_walk(DIM_NUM, N, ref seed);
+        double[] x = Walk.uniform_walk(DIM_NUM, N, ref seed);
 
         Console.WriteLine("  Final random number SEED =   " + seed + "");
 

@@ -84,17 +84,13 @@ internal static class Program
 //    John Burkardt
 //
     {
-        double[] lb;
-        int nd = 4;
-        int ni = 21;
-        double p = 2.0;
-        double x_max;
-        double x_min;
+        const int nd = 4;
+        const int ni = 21;
+        const double p = 2.0;
         double[] xd =  {
                 0.0, 2.0, 5.0, 10.0
             }
             ;
-        double[] xi;
 
         Console.WriteLine("");
         Console.WriteLine("SHEPARD_BASIS_1D_TEST:");
@@ -103,11 +99,11 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Using power P = " + p + "");
 
-        x_min = 0.0;
-        x_max = 10.0;
-        xi = typeMethods.r8vec_linspace_new(ni, x_min, x_max);
+        const double x_min = 0.0;
+        const double x_max = 10.0;
+        double[] xi = typeMethods.r8vec_linspace_new(ni, x_min, x_max);
 
-        lb = Shepard.shepard_basis_1d(nd, xd, p, ni, xi);
+        double[] lb = Shepard.shepard_basis_1d(nd, xd, p, ni, xi);
 
         typeMethods.r8mat_print(ni, nd, lb, "  The Shepard basis functions:");
 
@@ -138,9 +134,8 @@ internal static class Program
 //    John Burkardt
 //
     {
-        int nd = 4;
-        int ni = 21;
-        double p;
+        const int nd = 4;
+        const int ni = 21;
         double[] xd =  {
                 0.0, 2.0, 5.0, 10.0
             }
@@ -154,12 +149,12 @@ internal static class Program
         Console.WriteLine("SHEPARD_VALUE_1D_TEST:");
         Console.WriteLine("  SHEPARD_VALUE_1D evaluates a Shepard 1D interpolant.");
 
-        p = 2.0;
+        const double p = 2.0;
         Console.WriteLine("");
         Console.WriteLine("  Using power P = " + p + "");
 
-        double x_min = 0.0;
-        double x_max = 10.0;
+        const double x_min = 0.0;
+        const double x_max = 10.0;
         double[] xi = typeMethods.r8vec_linspace_new(ni, x_min, x_max);
 
         double[] yi = Shepard.shepard_value_1d(nd, xd, yd, p, ni, xi);
@@ -188,34 +183,19 @@ internal static class Program
 //    John Burkardt
 //
     {
-        int dim_num;
-        double int_error;
         int i;
-        double ld;
-        double li;
-        int nd;
-        int ni;
-        double[] xd;
-        double[] xi;
-        double xmax;
-        double xmin;
-        double[] xy;
-        double[] yd;
-        double[] yi;
-        double ymax;
-        double ymin;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01:");
         Console.WriteLine("  Interpolate data from TEST_INTERP problem #" + prob + "");
         Console.WriteLine("  using Shepard interpolation with P = " + p + "");
 
-        dim_num = TestInterp.p00_dim_num(prob);
+        int dim_num = TestInterp.p00_dim_num(prob);
 
-        nd = TestInterp.p00_data_num(prob);
+        int nd = TestInterp.p00_data_num(prob);
         Console.WriteLine("  Number of data points = " + nd + "");
 
-        xy = TestInterp.p00_data(prob, dim_num, nd);
+        double[] xy = TestInterp.p00_data(prob, dim_num, nd);
 
         switch (p)
         {
@@ -224,8 +204,8 @@ internal static class Program
                 break;
         }
 
-        xd = new double[nd];
-        yd = new double[nd];
+        double[] xd = new double[nd];
+        double[] yd = new double[nd];
 
         for (i = 0; i < nd; i++)
         {
@@ -236,16 +216,16 @@ internal static class Program
 //
 //  #1:  Does interpolant match function at interpolation points?
 //
-        ni = nd;
-        xi = new double[ni];
+        int ni = nd;
+        double[] xi = new double[ni];
         for (i = 0; i < ni; i++)
         {
             xi[i] = xd[i];
         }
 
-        yi = Shepard.shepard_value_1d(nd, xd, yd, p, ni, xi);
+        double[] yi = Shepard.shepard_value_1d(nd, xd, yd, p, ni, xi);
 
-        int_error = typeMethods.r8vec_norm_affine(nd, yi, yd) / ni;
+        double int_error = typeMethods.r8vec_norm_affine(nd, yi, yd) / ni;
 
         Console.WriteLine("");
         Console.WriteLine("  L2 interpolation error averaged per interpolant node = "
@@ -256,23 +236,23 @@ internal static class Program
 //  Assume data is sorted, and normalize X and Y dimensions by (XMAX-XMIN) and
 //  (YMAX-YMIN).
 //
-        xmin = typeMethods.r8vec_min(nd, xd);
-        xmax = typeMethods.r8vec_max(nd, xd);
-        ymin = typeMethods.r8vec_min(nd, yd);
-        ymax = typeMethods.r8vec_max(nd, yd);
+        double xmin = typeMethods.r8vec_min(nd, xd);
+        double xmax = typeMethods.r8vec_max(nd, xd);
+        double ymin = typeMethods.r8vec_min(nd, yd);
+        double ymax = typeMethods.r8vec_max(nd, yd);
 
         ni = 501;
         xi = typeMethods.r8vec_linspace_new(ni, xmin, xmax);
         yi = Shepard.shepard_value_1d(nd, xd, yd, p, ni, xi);
 
-        ld = 0.0;
+        double ld = 0.0;
         for (i = 0; i < nd - 1; i++)
         {
             ld += Math.Sqrt(Math.Pow((xd[i + 1] - xd[i]) / (xmax - xmin), 2)
                             + Math.Pow((yd[i + 1] - yd[i]) / (ymax - ymin), 2));
         }
 
-        li = 0.0;
+        double li = 0.0;
         for (i = 0; i < ni - 1; i++)
         {
             li += Math.Sqrt(Math.Pow((xi[i + 1] - xi[i]) / (xmax - xmin), 2)

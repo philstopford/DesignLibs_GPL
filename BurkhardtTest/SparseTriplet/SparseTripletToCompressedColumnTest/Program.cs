@@ -121,9 +121,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int NST = 12;
+        const int NST = 12;
 
-        double[] acc;
         double[] ast =  {
                 2.0, 3.0,
                 3.0, 4.0, 6.0,
@@ -132,10 +131,6 @@ internal static class Program
                 4.0, 2.0, 1.0
             }
             ;
-        int[] ccc;
-        int i_max;
-        int i_min;
-        int[] icc;
         int[] ist =  {
                 1, 1,
                 2, 2, 2,
@@ -144,8 +139,6 @@ internal static class Program
                 5, 5, 5
             }
             ;
-        int j_max;
-        int j_min;
         int[] jst =  {
                 1, 2,
                 1, 3, 5,
@@ -154,10 +147,8 @@ internal static class Program
                 2, 3, 5
             }
             ;
-        int m = 5;
-        int n = 5;
-        int ncc;
-        int nst = NST;
+        const int m = 5;
+        const int n = 5;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
@@ -165,39 +156,39 @@ internal static class Program
         Console.WriteLine("  ST:  sparse triplet,    I, J,  A.");
         Console.WriteLine("  CCS: compressed column, I, CC, A.");
 
-        i_min = typeMethods.i4vec_min(nst, ist);
-        i_max = typeMethods.i4vec_max(nst, ist);
-        j_min = typeMethods.i4vec_min(nst, jst);
-        j_max = typeMethods.i4vec_max(nst, jst);
+        int i_min = typeMethods.i4vec_min(NST, ist);
+        int i_max = typeMethods.i4vec_max(NST, ist);
+        int j_min = typeMethods.i4vec_min(NST, jst);
+        int j_max = typeMethods.i4vec_max(NST, jst);
 
-        SparseTriplet.st_header_print(i_min, i_max, j_min, j_max, m, n, nst);
+        SparseTriplet.st_header_print(i_min, i_max, j_min, j_max, m, n, NST);
         //
         //  Decrement the 1-based data.
         //
-        typeMethods.i4vec_dec(nst, ref ist);
-        typeMethods.i4vec_dec(nst, ref jst);
+        typeMethods.i4vec_dec(NST, ref ist);
+        typeMethods.i4vec_dec(NST, ref jst);
         //
         //  Print the ST matrix.
         //
-        SparseTriplet.st_print(m, n, nst, ist, jst, ast, "  The matrix in ST format:");
+        SparseTriplet.st_print(m, n, NST, ist, jst, ast, "  The matrix in ST format:");
         //
         //  Get the CCS size.
         //
-        ncc = SparseTriplet.st_to_ccs_size(nst, ist, jst);
+        int ncc = SparseTriplet.st_to_ccs_size(NST, ist, jst);
 
         Console.WriteLine("");
         Console.WriteLine("  Number of CCS values = " + ncc + "");
         //
         //  Create the CCS indices.
         //
-        icc = new int[ncc];
-        ccc = new int[n + 1];
+        int[] icc = new int[ncc];
+        int[] ccc = new int[n + 1];
 
-        SparseTriplet.st_to_ccs_index(nst, ist, jst, ncc, n, ref icc, ref ccc);
+        SparseTriplet.st_to_ccs_index(NST, ist, jst, ncc, n, ref icc, ref ccc);
         //
         //  Create the CCS values.
         //
-        acc = SparseTriplet.st_to_ccs_values(nst, ist, jst, ast, ncc, n, icc, ccc);
+        double[] acc = SparseTriplet.st_to_ccs_values(NST, ist, jst, ast, ncc, n, icc, ccc);
         //
         //  Print the CCS matrix.
         //
@@ -229,20 +220,13 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] acc;
-        double[] ast;
-        int[] ccc;
-        string filename_st = "west_st.txt";
+        const string filename_st = "west_st.txt";
         int i_max = 0;
         int i_min = 0;
-        int[] icc;
-        int[] ist;
         int j_max = 0;
         int j_min = 0;
-        int[] jst;
         int m = 0;
         int n = 0;
-        int ncc;
         int nst = 0;
 
         Console.WriteLine("");
@@ -260,9 +244,9 @@ internal static class Program
         //
         //  Allocate space.
         //
-        ist = new int[nst];
-        jst = new int[nst];
-        ast = new double[nst];
+        int[] ist = new int[nst];
+        int[] jst = new int[nst];
+        double[] ast = new double[nst];
         //
         //  Read the ST matrix.
         //
@@ -279,21 +263,21 @@ internal static class Program
         //
         //  Get the CCS size.
         //
-        ncc = SparseTriplet.st_to_ccs_size(nst, ist, jst);
+        int ncc = SparseTriplet.st_to_ccs_size(nst, ist, jst);
 
         Console.WriteLine("");
         Console.WriteLine("  Number of CCS values = " + ncc + "");
         //
         //  Create the CCS indices.
         //
-        icc = new int[ncc];
-        ccc = new int[n + 1];
+        int[] icc = new int[ncc];
+        int[] ccc = new int[n + 1];
 
         SparseTriplet.st_to_ccs_index(nst, ist, jst, ncc, n, ref icc, ref ccc);
         //
         //  Create the CCS values.
         //
-        acc = SparseTriplet.st_to_ccs_values(nst, ist, jst, ast, ncc, n, icc, ccc);
+        double[] acc = SparseTriplet.st_to_ccs_values(nst, ist, jst, ast, ncc, n, icc, ccc);
         //
         //  Print the CCS matrix.
         //
@@ -325,23 +309,16 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] acc;
-        double[] ast;
-        int[] ccc;
-        string filename_acc = "west_acc.txt";
-        string filename_ccc = "west_ccc.txt";
-        string filename_icc = "west_icc.txt";
-        string filename_st = "west_st.txt";
+        const string filename_acc = "west_acc.txt";
+        const string filename_ccc = "west_ccc.txt";
+        const string filename_icc = "west_icc.txt";
+        const string filename_st = "west_st.txt";
         int i_max = 0;
         int i_min = 0;
-        int[] icc;
-        int[] ist;
         int j_max = 0;
         int j_min = 0;
-        int[] jst;
         int m = 0;
         int n = 0;
-        int ncc = 0;
         int nst = 0;
 
         Console.WriteLine("");
@@ -363,9 +340,9 @@ internal static class Program
         //
         //  Allocate space.
         //
-        ist = new int[nst];
-        jst = new int[nst];
-        ast = new double[nst];
+        int[] ist = new int[nst];
+        int[] jst = new int[nst];
+        double[] ast = new double[nst];
         //
         //  Read the ST matrix.
         //
@@ -378,21 +355,21 @@ internal static class Program
         //
         //  Get the CCS size.
         //
-        ncc = SparseTriplet.st_to_ccs_size(nst, ist, jst);
+        int ncc = SparseTriplet.st_to_ccs_size(nst, ist, jst);
 
         Console.WriteLine("");
         Console.WriteLine("  Number of CCS values = " + ncc + "");
         //
         //  Create the CCS indices.
         //
-        icc = new int[ncc];
-        ccc = new int[n + 1];
+        int[] icc = new int[ncc];
+        int[] ccc = new int[n + 1];
 
         SparseTriplet.st_to_ccs_index(nst, ist, jst, ncc, n, ref icc, ref ccc);
         //
         //  Create the CCS values.
         //
-        acc = SparseTriplet.st_to_ccs_values(nst, ist, jst, ast, ncc, n, icc, ccc);
+        double[] acc = SparseTriplet.st_to_ccs_values(nst, ist, jst, ast, ncc, n, icc, ccc);
         //
         //  Write the CCS matrix.
         //
@@ -426,28 +403,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] acc;
-        double[] ast;
-        double[] b1;
-        double[] b2;
-        int[] ccc;
-        int i_max;
-        int i_min;
-        int[] icc;
-        int[] ist;
-        int j_max;
-        int j_min;
-        int[] jst;
-        int m;
-        int n;
-        int ncc;
-        int nst;
-        int nx;
-        int ny;
-        double r;
-        int seed;
-        double[] x;
-
         Console.WriteLine("");
         Console.WriteLine("TEST04");
         Console.WriteLine("  Convert a sparse matrix from ST to CCS format.");
@@ -459,67 +414,66 @@ internal static class Program
         //
         //  Get the size of the ST matrix.
         //
-        nx = 3;
-        ny = 3;
-        nst = SparseTriplet.wathen_st_size(nx, ny);
+        const int nx = 3;
+        const int ny = 3;
+        int nst = SparseTriplet.wathen_st_size(nx, ny);
 
         Console.WriteLine("");
         Console.WriteLine("  Number of ST values = " + nst + "");
         //
         //  Set the formal matrix size
         //
-        m = 3 * nx * ny + 2 * nx + 2 * ny + 1;
-        n = m;
+        const int m = 3 * nx * ny + 2 * nx + 2 * ny + 1;
         //
         //  Set a random vector.
         //
-        seed = 123456789;
-        x = UniformRNG.r8vec_uniform_01_new(n, ref seed);
+        int seed = 123456789;
+        double[] x = UniformRNG.r8vec_uniform_01_new(m, ref seed);
         //
         //  Allocate space.
         //
-        ist = new int[nst];
-        jst = new int[nst];
+        int[] ist = new int[nst];
+        int[] jst = new int[nst];
         //
         //  Create the ST matrix.
         //
         seed = 123456789;
-        ast = SparseTriplet.wathen_st(nx, ny, nst, ref seed, ref ist, ref jst);
+        double[] ast = SparseTriplet.wathen_st(nx, ny, nst, ref seed, ref ist, ref jst);
 
-        i_min = typeMethods.i4vec_min(nst, ist);
-        i_max = typeMethods.i4vec_max(nst, ist);
-        j_min = typeMethods.i4vec_min(nst, jst);
-        j_max = typeMethods.i4vec_max(nst, jst);
+        int i_min = typeMethods.i4vec_min(nst, ist);
+        int i_max = typeMethods.i4vec_max(nst, ist);
+        int j_min = typeMethods.i4vec_min(nst, jst);
+        int j_max = typeMethods.i4vec_max(nst, jst);
 
-        SparseTriplet.st_header_print(i_min, i_max, j_min, j_max, m, n, nst);
+        SparseTriplet.st_header_print(i_min, i_max, j_min, j_max, m, m, nst);
         //
         //  Compute B1 = AST * X
         //
-        b1 = SparseTriplet.st_mv(m, n, nst, ist, jst, ast, x);
+        double[] b1 = SparseTriplet.st_mv(m, m, nst, ist, jst, ast, x);
         //
         //  Get the CCS size.
         //
-        ncc = SparseTriplet.st_to_ccs_size(nst, ist, jst);
+        int ncc = SparseTriplet.st_to_ccs_size(nst, ist, jst);
 
         Console.WriteLine("  Number of CCS values = " + ncc + "");
         //
         //  Create the CCS indices.
         //
-        icc = new int[ncc];
-        ccc = new int[n + 1];
-        SparseTriplet.st_to_ccs_index(nst, ist, jst, ncc, n, ref icc, ref ccc);
+        int[] icc = new int[ncc];
+        int[] ccc = new int[m + 1];
+        SparseTriplet.st_to_ccs_index(nst, ist, jst, ncc, m, ref icc, ref ccc);
         //
         //  Create the CCS values.
         //
-        acc = SparseTriplet.st_to_ccs_values(nst, ist, jst, ast, ncc, n, icc, ccc);
+        double[] acc = SparseTriplet.st_to_ccs_values(nst, ist, jst, ast, ncc, m, icc, ccc);
         //
         //  Compute B2 = ACC * X.
         //
-        b2 = CompressedColumnStorage.ccs_mv(m, n, ncc, icc, ccc, acc, x);
+        double[] b2 = CompressedColumnStorage.ccs_mv(m, m, ncc, icc, ccc, acc, x);
         //
         //  Compare B1 and B2.
         //
-        r = typeMethods.r8vec_diff_norm(m, b1, b2);
+        double r = typeMethods.r8vec_diff_norm(m, b1, b2);
         Console.WriteLine("  || ACC*X - AST*X|| = " + r + "");
     }
 }

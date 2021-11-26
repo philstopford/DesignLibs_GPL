@@ -86,22 +86,18 @@ internal static class Program
                 21.0
             }
             ;
-        int i_max;
-        int i_min;
         int[] ist =  {
                 5, 1, 1, 3, 1, 5, 5, 2, 3, 4, 2
             }
             ;
-        int j_max;
-        int j_min;
         int[] jst =  {
                 1, 2, 1, 3, 5, 3, 5, 2, 5, 4, 1
             }
             ;
-        int m = 5;
-        int n = 5;
-        int nst = 11;
-        string output_filename = "a5by5_r8.st";
+        const int m = 5;
+        const int n = 5;
+        const int nst = 11;
+        const string output_filename = "a5by5_r8.st";
 
         Console.WriteLine("");
         Console.WriteLine("R8ST_WRITE_TEST");
@@ -110,10 +106,10 @@ internal static class Program
         typeMethods.i4vec_dec(nst, ref ist);
         typeMethods.i4vec_dec(nst, ref jst);
 
-        i_min = typeMethods.i4vec_min(nst, ist);
-        i_max = typeMethods.i4vec_max(nst, ist);
-        j_min = typeMethods.i4vec_min(nst, jst);
-        j_max = typeMethods.i4vec_max(nst, jst);
+        int i_min = typeMethods.i4vec_min(nst, ist);
+        int i_max = typeMethods.i4vec_max(nst, ist);
+        int j_min = typeMethods.i4vec_min(nst, jst);
+        int j_max = typeMethods.i4vec_max(nst, jst);
 
         typeMethods.r8st_header_print(i_min, i_max, j_min, j_max, m, n, nst);
 
@@ -147,14 +143,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] ast;
         int i_max = 0;
         int i_min = 0;
-        string input_filename = "kershaw_r8.st";
-        int[] ist;
+        const string input_filename = "kershaw_r8.st";
         int j_max = 0;
         int j_min = 0;
-        int[] jst;
         int m = 0;
         int n = 0;
         int nst = 0;
@@ -170,9 +163,9 @@ internal static class Program
 
         typeMethods.r8st_header_print(i_min, i_max, j_min, j_max, m, n, nst);
 
-        ast = new double[nst];
-        ist = new int[nst];
-        jst = new int[nst];
+        double[] ast = new double[nst];
+        int[] ist = new int[nst];
+        int[] jst = new int[nst];
 
         typeMethods.r8st_data_read(input_filename, m, n, nst, ref ist, ref jst, ref ast);
 
@@ -221,30 +214,26 @@ internal static class Program
                 21.0
             }
             ;
-        int i_max;
-        int i_min;
         int[] ist =  {
                 5, 1, 1, 3, 1, 5, 5, 2, 3, 4, 2
             }
             ;
-        int j_max;
-        int j_min;
         int[] jst =  {
                 1, 2, 1, 3, 5, 3, 5, 2, 5, 4, 1
             }
             ;
-        int m = 5;
-        int n = 5;
-        int nst = 11;
+        const int m = 5;
+        const int n = 5;
+        const int nst = 11;
 
         Console.WriteLine("");
         Console.WriteLine("R8ST_SORT_A_TEST");
         Console.WriteLine("  R8ST_SORT_A sorts an R8ST matrix by columns.");
 
-        i_min = typeMethods.i4vec_min(nst, ist);
-        i_max = typeMethods.i4vec_max(nst, ist);
-        j_min = typeMethods.i4vec_min(nst, jst);
-        j_max = typeMethods.i4vec_max(nst, jst);
+        int i_min = typeMethods.i4vec_min(nst, ist);
+        int i_max = typeMethods.i4vec_max(nst, ist);
+        int j_min = typeMethods.i4vec_min(nst, jst);
+        int j_max = typeMethods.i4vec_max(nst, jst);
 
         typeMethods.r8st_header_print(i_min, i_max, j_min, j_max, m, n, nst);
 

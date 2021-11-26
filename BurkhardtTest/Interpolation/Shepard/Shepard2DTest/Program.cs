@@ -31,17 +31,13 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int g;
-        int j;
-        double p;
         double[] p_test =
             {
                 1.0, 2.0, 4.0, 8.0
             }
             ;
-        int p_test_num = 4;
+        const int p_test_num = 4;
         int prob;
-        int prob_num;
 
         Console.WriteLine("");
         Console.WriteLine("SHEPARD_INTERP_2D_TEST:");
@@ -49,14 +45,15 @@ internal static class Program
         Console.WriteLine("  The R8LIB library is needed.");
         Console.WriteLine("  This test also needs the TEST_INTERP_2D library.");
 
-        prob_num = Data_2D.f00_num();
-        g = 1;
+        int prob_num = Data_2D.f00_num();
+        int g = 1;
 
         for (prob = 1; prob <= prob_num; prob++)
         {
+            int j;
             for (j = 0; j < p_test_num; j++)
             {
-                p = p_test[j];
+                double p = p_test[j];
                 test01(prob, g, p);
             }
         }
@@ -96,16 +93,7 @@ internal static class Program
         //    Input, double P, the power used in the distance weighting.
         //
     {
-        bool debug = false;
-        double int_error;
-        int nd;
-        int ni;
-        double[] xd;
-        double[] xi;
-        double[] yd;
-        double[] yi;
-        double[] zd;
-        double[] zi;
+        const bool debug = false;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01:");
@@ -113,14 +101,14 @@ internal static class Program
         Console.WriteLine("  using grid #" + g + "");
         Console.WriteLine("  using Shepard interpolation with P = " + p + "");
 
-        nd = Data_2D.g00_size(g);
+        int nd = Data_2D.g00_size(g);
         Console.WriteLine("  Number of data points = " + nd + "");
 
-        xd = new double[nd];
-        yd = new double[nd];
+        double[] xd = new double[nd];
+        double[] yd = new double[nd];
         Data_2D.g00_xy(g, nd, ref xd, ref yd);
 
-        zd = new double[nd];
+        double[] zd = new double[nd];
         Data_2D.f00_f0(prob, nd, xd, yd, ref zd);
 
         switch (debug)
@@ -133,13 +121,13 @@ internal static class Program
         //
         //  #1:  Does interpolant match function at interpolation points?
         //
-        ni = nd;
-        xi = typeMethods.r8vec_copy_new(ni, xd);
-        yi = typeMethods.r8vec_copy_new(ni, yd);
+        int ni = nd;
+        double[] xi = typeMethods.r8vec_copy_new(ni, xd);
+        double[] yi = typeMethods.r8vec_copy_new(ni, yd);
 
-        zi = Shepard.shepard_interp_2d(nd, xd, yd, zd, p, ni, xi, yi);
+        double[] zi = Shepard.shepard_interp_2d(nd, xd, yd, zd, p, ni, xi, yi);
 
-        int_error = typeMethods.r8vec_norm_affine(ni, zi, zd) / ni;
+        double int_error = typeMethods.r8vec_norm_affine(ni, zi, zd) / ni;
 
         Console.WriteLine("");
         Console.WriteLine("  L2 interpolation error averaged per interpolant node = " + int_error + "");

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt;
 using Burkardt.SolveNS;
 
@@ -68,15 +69,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
-        double dx;
-        double dx_tol;
-        double fx;
-        double fx_tol;
-        int it;
-        int it_max;
-        int job;
         double x;
         BisectionRC.BisectionData data = new();
 
@@ -85,15 +77,15 @@ internal static class Program
         Console.WriteLine("  Demonstrate BISECTION_RC on a simple example.");
         Console.WriteLine("  The function is evaluated in a separate routine.");
 
-        fx_tol = 1.0E-08;
-        dx_tol = 1.0E-06;
-        it = 0;
-        it_max = 30;
+        const double fx_tol = 1.0E-08;
+        const double dx_tol = 1.0E-06;
+        int it = 0;
+        const int it_max = 30;
 
-        a = 0.0;
-        b = 1.0;
-        fx = 0.0;
-        job = 0;
+        double a = 0.0;
+        double b = 1.0;
+        double fx = 0.0;
+        int job = 0;
 
         Console.WriteLine("");
         Console.WriteLine("     I      X               FX              DX");
@@ -114,16 +106,16 @@ internal static class Program
 
             fx = f01(x);
 
-            dx = it switch
+            double dx = it switch
             {
                 <= 2 => Math.Abs(b - a),
                 _ => 0.5 * Math.Abs(b - a)
             };
 
-            Console.WriteLine("  " + it.ToString().PadLeft(4)
-                                   + "  " + x.ToString().PadLeft(14)
-                                   + "  " + fx.ToString().PadLeft(14)
-                                   + "  " + dx.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + it.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + dx.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             if (Math.Abs(fx) <= fx_tol)
             {
@@ -139,19 +131,21 @@ internal static class Program
                 break;
             }
 
-            if (it_max <= it)
+            if (it_max > it)
             {
-                Console.WriteLine("");
-                Console.WriteLine("  Reached iteration limit.");
-                break;
+                continue;
             }
+
+            Console.WriteLine("");
+            Console.WriteLine("  Reached iteration limit.");
+            break;
 
         }
 
         Console.WriteLine("");
-        Console.WriteLine("  A = " + a.ToString().PadLeft(14) + " F(A) = " + f01(a) + "");
-        Console.WriteLine("  X = " + x.ToString().PadLeft(14) + " F(X) = " + f01(x) + "");
-        Console.WriteLine("  B = " + b.ToString().PadLeft(14) + " F(B) = " + f01(b) + "");
+        Console.WriteLine("  A = " + a.ToString(CultureInfo.InvariantCulture).PadLeft(14) + " F(A) = " + f01(a) + "");
+        Console.WriteLine("  X = " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14) + " F(X) = " + f01(x) + "");
+        Console.WriteLine("  B = " + b.ToString(CultureInfo.InvariantCulture).PadLeft(14) + " F(B) = " + f01(b) + "");
 
     }
 
@@ -182,9 +176,7 @@ internal static class Program
         //    Output, double F01, the function value.
         //
     {
-        double value = 0;
-
-        value = Math.Cos(x) - x;
+        double value = Math.Cos(x) - x;
 
         return value;
     }
@@ -210,15 +202,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
-        double dx;
-        double dx_tol;
-        double fx;
-        double fx_tol;
-        int it;
-        int it_max;
-        int job;
         double x;
         BisectionRC.BisectionData data = new();
 
@@ -227,15 +210,15 @@ internal static class Program
         Console.WriteLine("  Demonstrate BISECTION_RC on a simple example.");
         Console.WriteLine("  The function is evaluated within this routine.");
 
-        fx_tol = 1.0E-09;
-        dx_tol = 1.0E-09;
-        it = 0;
-        it_max = 30;
+        const double fx_tol = 1.0E-09;
+        const double dx_tol = 1.0E-09;
+        int it = 0;
+        const int it_max = 30;
 
-        a = 0.0;
-        b = 1.0;
-        fx = 0.0;
-        job = 0;
+        double a = 0.0;
+        double b = 1.0;
+        double fx = 0.0;
+        int job = 0;
 
         Console.WriteLine("");
         Console.WriteLine("     I      X               FX              DX");
@@ -256,16 +239,16 @@ internal static class Program
 
             fx = Math.Cos(100.0 * x) - 4.0 * Helpers.Erf(30.0 * x - 10.0);
 
-            dx = it switch
+            double dx = it switch
             {
                 <= 2 => Math.Abs(b - a),
                 _ => 0.5 * Math.Abs(b - a)
             };
 
-            Console.WriteLine("  " + it.ToString().PadLeft(4)
-                                   + "  " + x.ToString().PadLeft(14)
-                                   + "  " + fx.ToString().PadLeft(14)
-                                   + "  " + dx.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + it.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + dx.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             if (Math.Abs(fx) <= fx_tol)
             {
@@ -281,22 +264,24 @@ internal static class Program
                 break;
             }
 
-            if (it_max <= it)
+            if (it_max > it)
             {
-                Console.WriteLine("");
-                Console.WriteLine("  Reached iteration limit.");
-                break;
+                continue;
             }
+
+            Console.WriteLine("");
+            Console.WriteLine("  Reached iteration limit.");
+            break;
 
         }
 
         Console.WriteLine("");
         fx = Math.Cos(100.0 * a) - 4.0 * Helpers.Erf(30.0 * a - 10.0);
-        Console.WriteLine("  A = " + a.ToString().PadLeft(14) + ", F(A) = " + fx.ToString().PadLeft(14) + "");
+        Console.WriteLine("  A = " + a.ToString(CultureInfo.InvariantCulture).PadLeft(14) + ", F(A) = " + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         fx = Math.Cos(100.0 * x) - 4.0 * Helpers.Erf(30.0 * x - 10.0);
-        Console.WriteLine("  X = " + x.ToString().PadLeft(14) + ", F(X) = " + fx.ToString().PadLeft(14) + "");
+        Console.WriteLine("  X = " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14) + ", F(X) = " + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         fx = Math.Cos(100.0 * b) - 4.0 * Helpers.Erf(30.0 * b - 10.0);
-        Console.WriteLine("  B = " + b.ToString().PadLeft(14) + ", F(B) = " + fx.ToString().PadLeft(14) + "");
+        Console.WriteLine("  B = " + b.ToString(CultureInfo.InvariantCulture).PadLeft(14) + ", F(B) = " + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
     }
 
@@ -321,18 +306,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double alpha = 0.0;
-        double b;
-        double beta = 0.25;
+        const double alpha = 0.0;
+        const double beta = 0.25;
         double cdf;
-        double dx;
-        double dx_tol;
-        double fx;
-        double fx_tol;
-        int it;
-        int it_max;
-        int job;
         double x;
         BisectionRC.BisectionData data = new();
 
@@ -358,16 +334,16 @@ internal static class Program
         Console.WriteLine("  * BETA =  " + beta + "");
         Console.WriteLine("  determine the value X where the Cardioid CDF is exactly 0.75.");
 
-        fx_tol = 1.0E-05;
-        dx_tol = 1.0E-08;
-        it = 0;
-        it_max = 30;
+        const double fx_tol = 1.0E-05;
+        const double dx_tol = 1.0E-08;
+        int it = 0;
+        const int it_max = 30;
 
-        job = 0;
-        a = -Math.PI;
-        b = +Math.PI;
+        int job = 0;
+        double a = -Math.PI;
+        double b = +Math.PI;
 
-        fx = 0.0;
+        double fx = 0.0;
 
         Console.WriteLine("");
         Console.WriteLine("     I      X               FX              DX");
@@ -389,16 +365,16 @@ internal static class Program
             cdf = (Math.PI + x - alpha + 2.0 * beta * Math.Sin(x - alpha)) / (2.0 * Math.PI);
             fx = cdf - 0.75;
 
-            dx = it switch
+            double dx = it switch
             {
                 <= 2 => Math.Abs(b - a),
                 _ => 0.5 * Math.Abs(b - a)
             };
 
-            Console.WriteLine("  " + it.ToString().PadLeft(4)
-                                   + "  " + x.ToString().PadLeft(14)
-                                   + "  " + fx.ToString().PadLeft(14)
-                                   + "  " + dx.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + it.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + dx.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             if (Math.Abs(fx) <= fx_tol)
             {
@@ -414,25 +390,27 @@ internal static class Program
                 break;
             }
 
-            if (it_max <= it)
+            if (it_max > it)
             {
-                Console.WriteLine("");
-                Console.WriteLine("  Reached iteration limit.");
-                break;
+                continue;
             }
+
+            Console.WriteLine("");
+            Console.WriteLine("  Reached iteration limit.");
+            break;
 
         }
 
         Console.WriteLine("");
         cdf = (Math.PI + a - alpha + 2.0 * beta * Math.Sin(a - alpha)) / (2.0 * Math.PI);
         fx = cdf - 0.75;
-        Console.WriteLine("  A = " + a.ToString().PadLeft(14) + ", F(A) = " + fx.ToString().PadLeft(14) + "");
+        Console.WriteLine("  A = " + a.ToString(CultureInfo.InvariantCulture).PadLeft(14) + ", F(A) = " + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         cdf = (Math.PI + x - alpha + 2.0 * beta * Math.Sin(x - alpha)) / (2.0 * Math.PI);
         fx = cdf - 0.75;
-        Console.WriteLine("  X = " + x.ToString().PadLeft(14) + ", F(X) = " + fx.ToString().PadLeft(14) + "");
+        Console.WriteLine("  X = " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14) + ", F(X) = " + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         cdf = (Math.PI + b - alpha + 2.0 * beta * Math.Sin(b - alpha)) / (2.0 * Math.PI);
         fx = cdf - 0.75;
-        Console.WriteLine("  B = " + b.ToString().PadLeft(14) + ", F(B) = " + fx.ToString().PadLeft(14) + "");
+        Console.WriteLine("  B = " + b.ToString(CultureInfo.InvariantCulture).PadLeft(14) + ", F(B) = " + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
         Console.WriteLine("");
         Console.WriteLine("  Look at the actual cardioid CDF value now:");
@@ -472,19 +450,6 @@ internal static class Program
         //    ebook: http://www.mathworks.com/moler/chapters.html
         //
     {
-        double a;
-        double alpha;
-        double b;
-        double dx;
-        double dx_tol;
-        double fx;
-        double fx_tol;
-        int it;
-        int it_max;
-        int job;
-        double t;
-        double tc;
-        double ti;
         double x;
         BisectionRC.BisectionData data = new();
 
@@ -510,24 +475,24 @@ internal static class Program
         //
         //  Problem parameters.
         //
-        ti = 20.0;
-        tc = -15.0;
-        t = 60.0 * 24.0 * 60.0 * 60.0;
-        alpha = 0.000000138;
+        const double ti = 20.0;
+        const double tc = -15.0;
+        const double t = 60.0 * 24.0 * 60.0 * 60.0;
+        const double alpha = 0.000000138;
         //
         //  Iteration parameters.
         //
-        fx_tol = 1.0E-09;
-        dx_tol = 1.0E-09;
-        it = 0;
-        it_max = 30;
-        job = 0;
-        fx = 0.0;
+        const double fx_tol = 1.0E-09;
+        const double dx_tol = 1.0E-09;
+        int it = 0;
+        const int it_max = 30;
+        int job = 0;
+        double fx = 0.0;
         //
         //  Initial guess for interval.
         //
-        a = 0.0;
-        b = 1000.0;
+        double a = 0.0;
+        double b = 1000.0;
 
         Console.WriteLine("");
         Console.WriteLine("     I      X               FX              DX");
@@ -548,16 +513,16 @@ internal static class Program
 
             fx = tc + (ti - tc) * Helpers.Erf(0.5 * x / Math.Sqrt(alpha * t));
 
-            dx = it switch
+            double dx = it switch
             {
                 <= 2 => Math.Abs(b - a),
                 _ => 0.5 * Math.Abs(b - a)
             };
 
-            Console.WriteLine("  " + it.ToString().PadLeft(4)
-                                   + "  " + x.ToString().PadLeft(14)
-                                   + "  " + fx.ToString().PadLeft(14)
-                                   + "  " + dx.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + it.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + dx.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             if (Math.Abs(fx) <= fx_tol)
             {
@@ -573,12 +538,14 @@ internal static class Program
                 break;
             }
 
-            if (it_max <= it)
+            if (it_max > it)
             {
-                Console.WriteLine("");
-                Console.WriteLine("  Reached iteration limit.");
-                break;
+                continue;
             }
+
+            Console.WriteLine("");
+            Console.WriteLine("  Reached iteration limit.");
+            break;
 
         }
 
@@ -643,21 +610,6 @@ internal static class Program
         //    ebook: http://www.mathworks.com/moler/chapters.html
         //
     {
-        double ad;
-        double ar;
-        double bd;
-        double br;
-        double dx;
-        double dx_tol;
-        double e;
-        double fx;
-        double fx_tol;
-        int it;
-        int it_max;
-        int job;
-        double md;
-        double mr;
-        double xd;
         double xr;
         BisectionRC.BisectionData data = new();
 
@@ -687,9 +639,9 @@ internal static class Program
         //
         //  Problem parameters.
         //
-        md = 24.851090;
-        mr = md * Math.PI / 180.0;
-        e = 0.1;
+        const double md = 24.851090;
+        const double mr = md * Math.PI / 180.0;
+        const double e = 0.1;
 
         Console.WriteLine("");
         Console.WriteLine("  Given eccentricity E = " + e + "");
@@ -700,21 +652,20 @@ internal static class Program
         //
         //  Iteration parameters.
         //
-        fx_tol = 1.0E-09;
-        dx_tol = 1.0E-09;
-        it = 0;
-        ;
-        it_max = 30;
-        job = 0;
-        fx = 0.0;
+        const double fx_tol = 1.0E-09;
+        const double dx_tol = 1.0E-09;
+        int it = 0;
+        const int it_max = 30;
+        int job = 0;
+        double fx = 0.0;
         //
         //  Initial guess for interval.
         //
-        ad = 0.0;
-        bd = 180.0;
+        double ad = 0.0;
+        double bd = 180.0;
 
-        ar = ad * Math.PI / 180.0;
-        br = bd * Math.PI / 180.0;
+        double ar = ad * Math.PI / 180.0;
+        double br = bd * Math.PI / 180.0;
 
         Console.WriteLine("");
         Console.WriteLine("     I      X               FX              DX");
@@ -735,16 +686,16 @@ internal static class Program
 
             fx = xr - mr - e * Math.Sin(xr);
 
-            dx = it switch
+            double dx = it switch
             {
                 <= 2 => Math.Abs(br - ar),
                 _ => 0.5 * Math.Abs(br - ar)
             };
 
-            Console.WriteLine("  " + it.ToString().PadLeft(4)
-                                   + "  " + xr.ToString().PadLeft(14)
-                                   + "  " + fx.ToString().PadLeft(14)
-                                   + "  " + dx.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + it.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + xr.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + dx.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             if (Math.Abs(fx) <= fx_tol)
             {
@@ -760,12 +711,14 @@ internal static class Program
                 break;
             }
 
-            if (it_max <= it)
+            if (it_max > it)
             {
-                Console.WriteLine("");
-                Console.WriteLine("  Reached iteration limit.");
-                break;
+                continue;
             }
+
+            Console.WriteLine("");
+            Console.WriteLine("  Reached iteration limit.");
+            break;
 
         }
 
@@ -780,7 +733,7 @@ internal static class Program
         Console.WriteLine("  B = " + br + ", F(B) = " + fx + "");
 
         ad = ar * 180.0 / Math.PI;
-        xd = xr * 180.0 / Math.PI;
+        double xd = xr * 180.0 / Math.PI;
         bd = br * 180.0 / Math.PI;
 
         Console.WriteLine("");

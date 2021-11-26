@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace PolygonIntegralsTest;
 
@@ -69,23 +70,19 @@ internal static class Program
             5.0, 4.0,
             30.66666666666667, 22.0, 18.66666666666666
         };
-        double alpha_pq;
-        int k;
         double[] mu_exact =
         {
             1.0,
             0.0, 0.0,
             5.666666666666667, 2.0, 2.666666666666667
         };
-        double mu_pq;
-        int n = 4;
+        const int n = 4;
         double[] nu_exact =
         {
             40.0,
             200.0, 160.0,
             1226.66666666666667, 880.0, 746.66666666666666
         };
-        double nu_pq;
         int p;
         int q;
         int s;
@@ -105,17 +102,17 @@ internal static class Program
         Console.WriteLine("   P   Q             Nu(P,Q)");
         Console.WriteLine("            Computed         Exact");
         Console.WriteLine("");
-        k = 0;
+        int k = 0;
         for (s = 0; s <= 2; s++)
         {
             for (p = s; 0 <= p; p--)
             {
                 q = s - p;
-                nu_pq = Integrals.moment(n, x, y, p, q);
-                Console.WriteLine("  " + p.ToString().PadLeft(2)
-                                       + "  " + q.ToString().PadLeft(2)
-                                       + "  " + nu_pq.ToString().PadLeft(14)
-                                       + "  " + nu_exact[k].ToString().PadLeft(14) + "");
+                double nu_pq = Integrals.moment(n, x, y, p, q);
+                Console.WriteLine("  " + p.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + nu_pq.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + nu_exact[k].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                 k += 1;
             }
         }
@@ -130,11 +127,11 @@ internal static class Program
             for (p = s; 0 <= p; p--)
             {
                 q = s - p;
-                alpha_pq = Integrals.moment_normalized(n, x, y, p, q);
-                Console.WriteLine("  " + p.ToString().PadLeft(2)
-                                       + "  " + q.ToString().PadLeft(2)
-                                       + "  " + alpha_pq.ToString().PadLeft(14)
-                                       + "  " + alpha_exact[k].ToString().PadLeft(14) + "");
+                double alpha_pq = Integrals.moment_normalized(n, x, y, p, q);
+                Console.WriteLine("  " + p.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + alpha_pq.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + alpha_exact[k].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                 k += 1;
             }
         }
@@ -149,11 +146,11 @@ internal static class Program
             for (p = s; 0 <= p; p--)
             {
                 q = s - p;
-                mu_pq = Integrals.moment_central(n, x, y, p, q);
-                Console.WriteLine("  " + p.ToString().PadLeft(2)
-                                       + "  " + q.ToString().PadLeft(2)
-                                       + "  " + mu_pq.ToString().PadLeft(14)
-                                       + "  " + mu_exact[k].ToString().PadLeft(14) + "");
+                double mu_pq = Integrals.moment_central(n, x, y, p, q);
+                Console.WriteLine("  " + p.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + mu_pq.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + mu_exact[k].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                 k += 1;
             }
         }

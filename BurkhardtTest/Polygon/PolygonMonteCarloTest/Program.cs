@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.MonomialNS;
 using Burkardt.Polygon;
 using Burkardt.Types;
@@ -85,18 +86,14 @@ internal static class Program
             6, 0
         };
         int j;
-        int n;
         double result;
-        int seed;
-        double[] value;
-        double[] x;
         string cout;
         Console.WriteLine("");
         Console.WriteLine("TEST01");
         Console.WriteLine("  Use POLYGON_SAMPLE to estimate integrals");
         Console.WriteLine("  over the interior of a polygon in 2D.");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("         N" +
@@ -108,23 +105,23 @@ internal static class Program
                           "             Y^4" +
                           "           X^6");
 
-        n = 1;
+        int n = 1;
 
         while (n <= 65536)
         {
-            x = MonteCarlo.polygon_sample(nv, v, n, ref seed);
+            double[] x = MonteCarlo.polygon_sample(nv, v, n, ref seed);
 
-            cout = "  " + n.ToString().PadLeft(8);
+            cout = "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(8);
 
             for (j = 0; j < 7; j++)
             {
                 e[0] = e_test[0 + j * 2];
                 e[1] = e_test[1 + j * 2];
 
-                value = Monomial.monomial_value(2, n, e, x);
+                double[] value = Monomial.monomial_value(2, n, e, x);
 
                 result = MonteCarlo.polygon_area(nv, v) * typeMethods.r8vec_sum(n, value) / n;
-                cout += "  " + result.ToString().PadLeft(14);
+                cout += "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -141,7 +138,7 @@ internal static class Program
             e[1] = e_test[1 + j * 2];
 
             result = MonteCarlo.polygon_monomial_integral(nv, v, e);
-            cout += "  " + result.ToString().PadLeft(14);
+            cout += "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(14);
         }
 
         Console.WriteLine(cout);

@@ -28,25 +28,9 @@ internal static class Program
         //
     {
         int dim_num;
-        int dim_num_1d;
         bool error = false;
         int last = 0;
-        int point_num;
-        int point_num_1d;
-        int point_num_1d2;
         string quad_1d_filename;
-        string quad_r_1d_filename;
-        string quad_r_filename;
-        string quad_w_1d_filename;
-        string quad_w_filename;
-        string quad_x_1d_filename;
-        string quad_x_filename;
-        double[] r;
-        double[] r_1d;
-        double[] w;
-        double[] w_1d;
-        double[] x;
-        double[] x_1d;
 
         Console.WriteLine("");
         Console.WriteLine("POWER_RULE");
@@ -75,9 +59,9 @@ internal static class Program
         //    the quadrature W file;
         //    the quadrature R file;
         //
-        quad_x_1d_filename = quad_1d_filename + "_x.txt";
-        quad_w_1d_filename = quad_1d_filename + "_w.txt";
-        quad_r_1d_filename = quad_1d_filename + "_r.txt";
+        string quad_x_1d_filename = quad_1d_filename + "_x.txt";
+        string quad_w_1d_filename = quad_1d_filename + "_w.txt";
+        string quad_r_1d_filename = quad_1d_filename + "_r.txt";
         //
         //  The second command line argument is the spatial dimension.
         //
@@ -110,8 +94,8 @@ internal static class Program
         //  Read the X file.
         //
         TableHeader h = typeMethods.r8mat_header_read(quad_x_1d_filename);
-        dim_num_1d = h.m;
-        point_num_1d = h.n;
+        int dim_num_1d = h.m;
+        int point_num_1d = h.n;
 
         if (dim_num_1d != 1)
         {
@@ -125,14 +109,14 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Number of points in 1D rule = " + point_num_1d + "");
 
-        x_1d = typeMethods.r8mat_data_read(quad_x_1d_filename, dim_num_1d, point_num_1d);
+        double[] x_1d = typeMethods.r8mat_data_read(quad_x_1d_filename, dim_num_1d, point_num_1d);
         //
         //  Read the W file.
         //
         h = typeMethods.r8mat_header_read(quad_w_1d_filename);
 
         dim_num_1d = h.m;
-        point_num_1d2 = h.n;
+        int point_num_1d2 = h.n;
 
         if (dim_num_1d != 1)
         {
@@ -152,7 +136,7 @@ internal static class Program
             return;
         }
 
-        w_1d = typeMethods.r8mat_data_read(quad_w_1d_filename, dim_num_1d, point_num_1d);
+        double[] w_1d = typeMethods.r8mat_data_read(quad_w_1d_filename, dim_num_1d, point_num_1d);
         //
         //  Read the R file.
         //
@@ -178,29 +162,29 @@ internal static class Program
             return;
         }
 
-        r_1d = typeMethods.r8mat_data_read(quad_r_1d_filename, 1, 2);
+        double[] r_1d = typeMethods.r8mat_data_read(quad_r_1d_filename, 1, 2);
         //
         //  Determine size of the rule.
         //
-        point_num = PowerQuadrature.power_rule_size(point_num_1d, dim_num);
+        int point_num = PowerQuadrature.power_rule_size(point_num_1d, dim_num);
 
         Console.WriteLine("");
         Console.WriteLine("  Number of points in rule = " + point_num + "");
         //
         //  Compute the rule.
         //
-        w = new double [point_num];
-        x = new double [dim_num * point_num];
-        r = new double [dim_num * 2];
+        double[] w = new double [point_num];
+        double[] x = new double [dim_num * point_num];
+        double[] r = new double [dim_num * 2];
 
         PowerQuadrature.power_rule_set(point_num_1d, x_1d, w_1d, r_1d, dim_num, point_num,
             ref x, ref w, ref r);
         //
         //  Write rule to files.
         //
-        quad_x_filename = "power_x.txt";
-        quad_w_filename = "power_w.txt";
-        quad_r_filename = "power_r.txt";
+        string quad_x_filename = "power_x.txt";
+        string quad_w_filename = "power_w.txt";
+        string quad_r_filename = "power_r.txt";
 
         Console.WriteLine("");
         Console.WriteLine("  Creating quadrature rule X file = \""

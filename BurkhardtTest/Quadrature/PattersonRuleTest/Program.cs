@@ -48,9 +48,6 @@ internal static class Program
         double b;
         string filename;
         int order;
-        double[] r;
-        double[] w;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("PATTERSON_RULE");
@@ -144,9 +141,9 @@ internal static class Program
         //
         //  Construct the rule.
         //
-        r = new double[2];
-        w = new double[order];
-        x = new double[order];
+        double[] r = new double[2];
+        double[] w = new double[order];
+        double[] x = new double[order];
 
         r[0] = a;
         r[1] = b;

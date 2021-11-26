@@ -66,24 +66,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int bin_num = 30;
-        string command_filename;
+        const int bin_num = 30;
         List<string> command = new();
-        string data_filename;
         List<string> data = new();
-        int event_num = 1000;
-        int[] f_bin;
+        const int event_num = 1000;
         int i;
-        int j;
-        double lambda;
-        int seed;
-        double[] t;
-        double[] w;
-        double w_ave;
-        double[] w_bin;
-        double w_max;
-        double w_min;
-        double width;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01:");
@@ -94,20 +81,20 @@ internal static class Program
         Console.WriteLine("  LAMBDA events occur per unit time.");
         Console.WriteLine("  Run until you have observed EVENT_NUM events.");
 
-        lambda = 0.5;
-        seed = 123456789;
+        double lambda = 0.5;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("  LAMBDA = " + lambda + "");
         Console.WriteLine("  EVENT_NUM = " + event_num + "");
 
-        t = new double[event_num + 1];
-        w = new double[event_num + 1];
+        double[] t = new double[event_num + 1];
+        double[] w = new double[event_num + 1];
         Poisson.poisson_fixed_events(lambda, event_num, ref seed, ref t, ref w);
 
-        w_min = typeMethods.r8vec_min(event_num + 1, w);
-        w_max = typeMethods.r8vec_max(event_num + 1, w);
-        w_ave = typeMethods.r8vec_mean(event_num + 1, w);
+        double w_min = typeMethods.r8vec_min(event_num + 1, w);
+        double w_max = typeMethods.r8vec_max(event_num + 1, w);
+        double w_ave = typeMethods.r8vec_mean(event_num + 1, w);
 
         Console.WriteLine("");
         Console.WriteLine("  Minimum wait = " + w_min + "");
@@ -135,7 +122,7 @@ internal static class Program
         //
         //  Create the data file.
         //
-        data_filename = "poisson_timeline_data.txt";
+        string data_filename = "poisson_timeline_data.txt";
 
         for (i = 0; i <= event_num; i++)
         {
@@ -149,7 +136,7 @@ internal static class Program
         //
         //  Create the command file.
         //
-        command_filename = "poisson_timeline_commands.txt";
+        string command_filename = "poisson_timeline_commands.txt";
 
         command.Add("# poisson_timeline_commands.txt");
         command.Add("#");
@@ -175,8 +162,8 @@ internal static class Program
         w_min = typeMethods.r8vec_min(event_num + 1, w);
         w_max = typeMethods.r8vec_max(event_num + 1, w);
 
-        w_bin = typeMethods.r8vec_midspace_new(bin_num, w_min, w_max);
-        f_bin = new int[bin_num];
+        double[] w_bin = typeMethods.r8vec_midspace_new(bin_num, w_min, w_max);
+        int[] f_bin = new int[bin_num];
 
         for (i = 0; i < bin_num; i++)
         {
@@ -185,7 +172,7 @@ internal static class Program
 
         for (i = 0; i < event_num; i++)
         {
-            j = 1 + (int)(bin_num * (w[i] - w_min) / (w_max - w_min));
+            int j = 1 + (int)(bin_num * (w[i] - w_min) / (w_max - w_min));
             j = Math.Min(j, bin_num-1);
             f_bin[j] += 1;
         }
@@ -225,7 +212,7 @@ internal static class Program
         command.Add("set title 'Waiting Times Observed Over Fixed Time'");
         command.Add("set grid");
         command.Add("set style fill solid");
-        width = 0.85 * (w_max - w_min) / bin_num;
+        double width = 0.85 * (w_max - w_min) / bin_num;
         command.Add("plot 'poisson_times_data.txt' using 1:2:(" + width + ") with boxes");
         command.Add("quit");
 
@@ -255,29 +242,16 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int bin_num = 30;
-        string command_filename;
+        const int bin_num = 30;
         List<string> command = new();
-        string data_filename;
         List<string> data = new();
-        int[] f_bin;
         int i;
-        double lambda;
-        int[] n;
-        double[] n_bin;
-        double n_max;
-        double n_mean;
-        double n_min;
-        double n_var;
-        int seed;
-        double t;
         int test;
-        int test_num = 20000;
-        double w;
+        const int test_num = 20000;
 
-        lambda = 0.5;
-        t = 1000.0;
-        seed = 123456789;
+        const double lambda = 0.5;
+        const double t = 1000.0;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02:");
@@ -290,26 +264,26 @@ internal static class Program
         Console.WriteLine("  Run for a total of " + t + " time units.");
         Console.WriteLine("  LAMBDA = " + lambda + "");
 
-        n = new int[test_num];
+        int[] n = new int[test_num];
 
         for (test = 0; test < test_num; test++)
         {
             n[test] = Poisson.poisson_fixed_time(lambda, t, ref seed);
         }
 
-        n_mean = typeMethods.i4vec_mean(test_num, n);
-        n_var = typeMethods.i4vec_variance(test_num, n);
+        double n_mean = typeMethods.i4vec_mean(test_num, n);
+        double n_var = typeMethods.i4vec_variance(test_num, n);
         Console.WriteLine("");
         Console.WriteLine("  Mean number of events = " + n_mean + "");
         Console.WriteLine("  Variance = " + n_var + "");
         Console.WriteLine("  STD = " + Math.Sqrt(n_var) + "");
 
-        n_min = typeMethods.i4vec_min(test_num, n);
-        n_max = typeMethods.i4vec_max(test_num, n);
+        double n_min = typeMethods.i4vec_min(test_num, n);
+        double n_max = typeMethods.i4vec_max(test_num, n);
 
-        n_bin = typeMethods.r8vec_midspace_new(bin_num, n_min, n_max);
+        double[] n_bin = typeMethods.r8vec_midspace_new(bin_num, n_min, n_max);
 
-        f_bin = new int[bin_num];
+        int[] f_bin = new int[bin_num];
         for (i = 0; i < bin_num; i++)
         {
             f_bin[i] = 0;
@@ -326,7 +300,7 @@ internal static class Program
         //
         //  Create the data file.
         //
-        data_filename = "poisson_events_data.txt";
+        const string data_filename = "poisson_events_data.txt";
 
         data.Clear();
 
@@ -342,7 +316,7 @@ internal static class Program
         //
         //  Create the command file.
         //
-        command_filename = "poisson_events_commands.txt";
+        const string command_filename = "poisson_events_commands.txt";
 
         command.Clear();
         command.Add("# poisson_events_commands.txt");
@@ -357,7 +331,7 @@ internal static class Program
         command.Add("set title 'Number of Poisson Events Over Fixed Time'");
         command.Add("set grid");
         command.Add("set style fill solid");
-        w = 0.85 * (n_max - n_min) / bin_num;
+        double w = 0.85 * (n_max - n_min) / bin_num;
         command.Add("plot 'poisson_events_data.txt' using 1:2:(" + w + ") with boxes");
         command.Add("quit");
 

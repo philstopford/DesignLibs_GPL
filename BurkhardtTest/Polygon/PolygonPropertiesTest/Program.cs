@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Polygon;
 using Burkardt.Types;
 
@@ -93,9 +94,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] angle;
         int i;
-        int n = 6;
+        const int n = 6;
         double[] v =
         {
             0.0, 0.0,
@@ -115,7 +115,7 @@ internal static class Program
 
         typeMethods.r8mat_transpose_print(2, n, v, "  The polygon vertices:");
 
-        angle = Properties.polygon_angles(n, v);
+        double[] angle = Properties.polygon_angles(n, v);
 
         Console.WriteLine("");
         Console.WriteLine("  Polygonal angles in degrees:");
@@ -123,8 +123,8 @@ internal static class Program
 
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine(i.ToString().PadLeft(8) + "  "
-                                                      + typeMethods.r8_degrees(angle[i]).ToString().PadLeft(14) +
+            Console.WriteLine(i.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                                                      + typeMethods.r8_degrees(angle[i]).ToString(CultureInfo.InvariantCulture).PadLeft(14) +
                                                       "");
         }
     }
@@ -150,11 +150,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double area;
-        double area_exact1 = 2.0;
-        double area_exact2 = 6.0;
-        int n1 = 4;
-        int n2 = 8;
+        const double area_exact1 = 2.0;
+        const double area_exact2 = 6.0;
+        const int n1 = 4;
+        const int n2 = 8;
         double[] v1 =
         {
             1.0, 0.0,
@@ -181,7 +180,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Number of polygonal vertices = " + n1 + "");
         typeMethods.r8mat_transpose_print(2, n1, v1, "  The polygon vertices:");
-        area = Properties.polygon_area(n1, v1);
+        double area = Properties.polygon_area(n1, v1);
         Console.WriteLine("");
         Console.WriteLine("  Exact area is        " + area_exact1 + "");
         Console.WriteLine("  The computed area is " + area + "");
@@ -217,11 +216,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double area;
-        double area_exact1 = 2.0;
-        double area_exact2 = 6.0;
-        int n1 = 4;
-        int n2 = 8;
+        const double area_exact1 = 2.0;
+        const double area_exact2 = 6.0;
+        const int n1 = 4;
+        const int n2 = 8;
         double[] v1 =
         {
             1.0, 0.0,
@@ -248,7 +246,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Number of polygonal vertices = " + n1 + "");
         typeMethods.r8mat_transpose_print(2, n1, v1, "  The polygon vertices:");
-        area = Properties.polygon_area_2(n1, v1);
+        double area = Properties.polygon_area_2(n1, v1);
         Console.WriteLine("");
         Console.WriteLine("  Exact area is        " + area_exact1 + "");
         Console.WriteLine("  The computed area is " + area + "");
@@ -284,8 +282,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] centroid;
-        int n = 4;
+        const int n = 4;
         double[] v =
         {
             1.0, 0.0,
@@ -300,7 +297,7 @@ internal static class Program
 
         typeMethods.r8mat_transpose_print(2, n, v, "  The polygon vertices:");
 
-        centroid = Properties.polygon_centroid(n, v);
+        double[] centroid = Properties.polygon_centroid(n, v);
         typeMethods.r8vec_print(2, centroid, "  POLYGON_CENTROID:");
     }
 
@@ -325,8 +322,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] centroid;
-        int n = 4;
+        const int n = 4;
         double[] v =
         {
             1.0, 0.0,
@@ -341,7 +337,7 @@ internal static class Program
 
         typeMethods.r8mat_transpose_print(2, n, v, "  The polygon vertices:");
 
-        centroid = Properties.polygon_centroid_2(n, v);
+        double[] centroid = Properties.polygon_centroid_2(n, v);
         typeMethods.r8vec_print(2, centroid, "  POLYGON_CENTROID_2:");
     }
 
@@ -366,8 +362,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        bool inside;
-        int n = 5;
+        const int n = 5;
         double[] p = new double[2];
         double[] p_test =
         {
@@ -377,7 +372,7 @@ internal static class Program
             0.5, -0.25
         };
         int test;
-        int test_num = 4;
+        const int test_num = 4;
         double[] v =
         {
             0.0, 0.0,
@@ -402,10 +397,10 @@ internal static class Program
             p[0] = p_test[0 + test * 2];
             p[1] = p_test[1 + test * 2];
 
-            inside = Properties.polygon_contains_point(n, v, p);
+            bool inside = Properties.polygon_contains_point(n, v, p);
 
-            Console.WriteLine(p[0].ToString().PadLeft(14) + "  "
-                                                          + p[1].ToString().PadLeft(14) + "  "
+            Console.WriteLine(p[0].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                                                          + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
                                                           + inside + "");
         }
 
@@ -432,8 +427,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        bool inside;
-        int n = 5;
+        const int n = 5;
         double[] p = new double[2];
         double[] p_test =
         {
@@ -443,7 +437,7 @@ internal static class Program
             0.5, -0.25
         };
         int test;
-        int test_num = 4;
+        const int test_num = 4;
         double[] v =
         {
             0.0, 0.0,
@@ -468,10 +462,10 @@ internal static class Program
             p[0] = p_test[0 + test * 2];
             p[1] = p_test[1 + test * 2];
 
-            inside = Properties.polygon_contains_point_2(n, v, p);
+            bool inside = Properties.polygon_contains_point_2(n, v, p);
 
-            Console.WriteLine(p[0].ToString().PadLeft(14) + "  "
-                                                          + p[1].ToString().PadLeft(14) + "  "
+            Console.WriteLine(p[0].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                                                          + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
                                                           + inside + "");
         }
     }
@@ -497,9 +491,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double diameter;
-        double diameter_exact = 2.0;
-        int n = 4;
+        const double diameter_exact = 2.0;
+        const int n = 4;
         double[] v =
         {
             1.0, 0.0,
@@ -514,7 +507,7 @@ internal static class Program
 
         typeMethods.r8mat_transpose_print(2, n, v, "  The polygon vertices:");
 
-        diameter = Properties.polygon_diameter(n, v);
+        double diameter = Properties.polygon_diameter(n, v);
 
         Console.WriteLine("");
         Console.WriteLine("  Diameter ( computed ) " + diameter + "");
@@ -543,8 +536,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double h;
-        int n = 4;
+        const int n = 4;
         double[] v =
         {
             1.0, 1.0,
@@ -552,20 +544,19 @@ internal static class Program
             2.0, 4.0,
             1.0, 3.0
         };
-        double[] w;
 
         Console.WriteLine("");
         Console.WriteLine("POLGON_EXPAND_TEST");
         Console.WriteLine("  POLYGON_EXPAND expands a polygon by an amount H.");
 
-        h = 0.5;
+        double h = 0.5;
 
         typeMethods.r8mat_transpose_print(2, n, v, "  The polygon vertices:");
 
         Console.WriteLine("");
         Console.WriteLine("  The expansion amount H = " + h + "");
 
-        w = Properties.polygon_expand(n, v, h);
+        double[] w = Properties.polygon_expand(n, v, h);
 
         typeMethods.r8mat_transpose_print(2, n, w, "  The expanded polygon:");
 
@@ -594,7 +585,6 @@ internal static class Program
     {
         double area = 0;
         int n;
-        double radin = 0;
         double radout = 0;
         double side = 0;
 
@@ -607,7 +597,7 @@ internal static class Program
         {
             Console.WriteLine("");
             Console.WriteLine("  Number of polygonal sides = " + n + "");
-            radin = 1.0;
+            const double radin = 1.0;
             Console.WriteLine("");
             Console.WriteLine("  Assuming RADIN = " + radin + "");
             Properties.polygon_inrad_data(n, radin, ref area, ref radout, ref side);
@@ -638,9 +628,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int n1 = 4;
-        int n2 = 3;
-        double result;
+        const int n1 = 4;
+        const int n2 = 3;
         double[] v1 =
         {
             0.0, 0.0,
@@ -661,7 +650,7 @@ internal static class Program
 
         typeMethods.r8mat_transpose_print(2, n1, v1, "  The polygon vertices:");
 
-        result = Properties.polygon_integral_1(n1, v1);
+        double result = Properties.polygon_integral_1(n1, v1);
         Console.WriteLine("");
         Console.WriteLine("    1    " + result + "");
 
@@ -694,9 +683,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int n1 = 4;
-        int n2 = 3;
-        double result;
+        const int n1 = 4;
+        const int n2 = 3;
         double[] v1 =
         {
             0.0, 0.0,
@@ -717,7 +705,7 @@ internal static class Program
 
         typeMethods.r8mat_transpose_print(2, n1, v1, "  The polygon vertices:");
 
-        result = Properties.polygon_integral_x(n1, v1);
+        double result = Properties.polygon_integral_x(n1, v1);
         Console.WriteLine("");
         Console.WriteLine("    x    " + result + "");
 
@@ -750,9 +738,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int n1 = 4;
-        int n2 = 3;
-        double result;
+        const int n1 = 4;
+        const int n2 = 3;
         double[] v1 =
         {
             0.0, 0.0,
@@ -773,7 +760,7 @@ internal static class Program
 
         typeMethods.r8mat_transpose_print(2, n1, v1, "  The polygon vertices:");
 
-        result = Properties.polygon_integral_xx(n1, v1);
+        double result = Properties.polygon_integral_xx(n1, v1);
         Console.WriteLine("");
         Console.WriteLine("    x^2  " + result + "");
 
@@ -806,9 +793,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int n1 = 4;
-        int n2 = 3;
-        double result;
+        const int n1 = 4;
+        const int n2 = 3;
         double[] v1 =
         {
             0.0, 0.0,
@@ -829,7 +815,7 @@ internal static class Program
 
         typeMethods.r8mat_transpose_print(2, n1, v1, "  The polygon vertices:");
 
-        result = Properties.polygon_integral_xy(n1, v1);
+        double result = Properties.polygon_integral_xy(n1, v1);
         Console.WriteLine("");
         Console.WriteLine("    x*y  " + result + "");
 
@@ -862,9 +848,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int n1 = 4;
-        int n2 = 3;
-        double result;
+        const int n1 = 4;
+        const int n2 = 3;
         double[] v1 =
         {
             0.0, 0.0,
@@ -885,7 +870,7 @@ internal static class Program
 
         typeMethods.r8mat_transpose_print(2, n1, v1, "  The polygon vertices:");
 
-        result = Properties.polygon_integral_y(n1, v1);
+        double result = Properties.polygon_integral_y(n1, v1);
         Console.WriteLine("");
         Console.WriteLine("    y    " + result + "");
 
@@ -918,9 +903,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int n1 = 4;
-        int n2 = 3;
-        double result;
+        const int n1 = 4;
+        const int n2 = 3;
         double[] v1 =
         {
             0.0, 0.0,
@@ -941,7 +925,7 @@ internal static class Program
 
         typeMethods.r8mat_transpose_print(2, n1, v1, "  The polygon vertices:");
 
-        result = Properties.polygon_integral_yy(n1, v1);
+        double result = Properties.polygon_integral_yy(n1, v1);
         Console.WriteLine("");
         Console.WriteLine("    y^2  " + result + "");
 
@@ -973,24 +957,21 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double angle = 0;
-        int i = 0;
         int n = 0;
-        int n01 = 1;
-        int n02 = 2;
-        int n03 = 3;
-        int n04 = 3;
-        int n05 = 3;
-        int n06 = 4;
-        int n07 = 5;
-        int n08 = 5;
-        int n09 = 6;
-        int n10 = 6;
-        int n11 = 8;
+        const int n01 = 1;
+        const int n02 = 2;
+        const int n03 = 3;
+        const int n04 = 3;
+        const int n05 = 3;
+        const int n06 = 4;
+        const int n07 = 5;
+        const int n08 = 5;
+        const int n09 = 6;
+        const int n10 = 6;
+        const int n11 = 8;
         const double r8_pi = 3.141592653589793;
-        int result = 0;
         int test;
-        int test_num = 11;
+        const int test_num = 11;
         string title = "";
         double[] v = null;
         double[] v01 =
@@ -1035,8 +1016,6 @@ internal static class Program
             1.0, 1.0,
             0.0, 1.0
         };
-        double[] v08;
-        double[] v09;
         double[] v10 =
         {
             0.0, 0.0,
@@ -1064,6 +1043,8 @@ internal static class Program
 
         for (test = 1; test <= test_num; test++)
         {
+            double angle = 0;
+            int i;
             switch (test)
             {
                 case 1:
@@ -1104,7 +1085,7 @@ internal static class Program
                 case 8:
                 {
                     n = n08;
-                    v08 = new double[2 * n];
+                    double[] v08 = new double[2 * n];
                     for (i = 0; i < n; i++)
                     {
                         angle = i * 4.0 * r8_pi / n;
@@ -1119,7 +1100,7 @@ internal static class Program
                 case 9:
                 {
                     n = n09;
-                    v09 = new double[2 * n];
+                    double[] v09 = new double[2 * n];
                     for (i = 0; i < n; i++)
                     {
                         angle = i * 2.0 * r8_pi / n;
@@ -1144,7 +1125,7 @@ internal static class Program
             }
 
             typeMethods.r8mat_transpose_print(2, n, v, title);
-            result = Properties.polygon_is_convex(n, v);
+            int result = Properties.polygon_is_convex(n, v);
 
             switch (result)
             {
@@ -1185,23 +1166,19 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double area;
-        int b;
-        int i;
-
         Console.WriteLine("");
         Console.WriteLine("POLYGON_LATTICE_AREA_TEST");
         Console.WriteLine("  POLYGON_LATTICE_AREA returns the area");
         Console.WriteLine("  of a polygon, measured in lattice points.");
 
-        i = 5;
-        b = 6;
+        const int i = 5;
+        const int b = 6;
 
         Console.WriteLine("");
         Console.WriteLine("  Number of interior lattice points = " + i + "");
         Console.WriteLine("  Number of boundary lattice points = " + b + "");
 
-        area = Properties.polygon_lattice_area(i, b);
+        double area = Properties.polygon_lattice_area(i, b);
 
         Console.WriteLine("  Area of polygon is " + area + "");
     }
@@ -1230,7 +1207,6 @@ internal static class Program
         double area = 0;
         int n;
         double radin = 0;
-        double radout = 0;
         double side = 0;
 
         Console.WriteLine("");
@@ -1242,7 +1218,7 @@ internal static class Program
         {
             Console.WriteLine("");
             Console.WriteLine("  Number of polygonal sides = " + n + "");
-            radout = 1.0;
+            const double radout = 1.0;
             Console.WriteLine("");
             Console.WriteLine("  Assuming RADOUT = " + radout + "");
             Properties.polygon_outrad_data(n, radout, ref area, ref radin, ref side);
@@ -1273,9 +1249,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int n1 = 4;
-        int n2 = 3;
-        double result;
+        const int n1 = 4;
+        const int n2 = 3;
         double[] v1 =
         {
             0.0, 0.0,
@@ -1296,7 +1271,7 @@ internal static class Program
 
         typeMethods.r8mat_transpose_print(2, n1, v1, "  Vertices of polygon V1:");
 
-        result = Properties.polygon_perimeter(n1, v1);
+        double result = Properties.polygon_perimeter(n1, v1);
         Console.WriteLine("");
         Console.WriteLine("    Perimeter = " + result + "");
 
@@ -1329,10 +1304,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double hmax;
         int i;
-        int n1 = 4;
-        int n2 = 3;
+        const int n1 = 4;
+        const int n2 = 3;
         double[] v1 =
         {
             0.0, 0.0,
@@ -1346,7 +1320,6 @@ internal static class Program
             4.0, 3.0,
             2.0, 5.0
         };
-        double value = 0;
 
         Console.WriteLine("");
         Console.WriteLine("POLYGON_PERIMETER_QUAD_TEST");
@@ -1356,8 +1329,8 @@ internal static class Program
 
         typeMethods.r8mat_transpose_print(2, n1, v1, "  Vertices of polygon V1:");
 
-        hmax = 0.5;
-        value = Properties.polygon_perimeter_quad(n1, v1, hmax, f1);
+        double hmax = 0.5;
+        double value = Properties.polygon_perimeter_quad(n1, v1, hmax, f1);
         Console.WriteLine("");
         Console.WriteLine("  Using HMAX = " + hmax + ", estimated integral of 1 over perimeter = " + value + "");
 
@@ -1411,9 +1384,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double value = 0;
-
-        value = 1.0;
+        const double value = 1.0;
 
         return value;
     }
@@ -1439,9 +1410,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double value = 0;
-
-        value = x * x;
+        double value = x * x;
 
         return value;
     }
@@ -1467,8 +1436,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double dist;
-        int n = 3;
+        const int n = 3;
         double[] p = new double[2];
         double[] p_test =
         {
@@ -1498,10 +1466,10 @@ internal static class Program
         {
             p[0] = p_test[0 + test * 2];
             p[1] = p_test[1 + test * 2];
-            dist = Properties.polygon_point_dist(n, v, p);
-            Console.WriteLine("  " + p[0].ToString().PadLeft(14)
-                                   + "  " + p[1].ToString().PadLeft(14)
-                                   + "  " + dist.ToString().PadLeft(14) + "");
+            double dist = Properties.polygon_point_dist(n, v, p);
+            Console.WriteLine("  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + dist.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -1526,7 +1494,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int n = 3;
+        const int n = 3;
         double[] p = new double[2];
         double[] p_test =
         {
@@ -1534,7 +1502,6 @@ internal static class Program
             2.0, 3.0,
             -2.0, -1.0
         };
-        double[] pn;
         double[] v =
         {
             1.0, 1.0,
@@ -1557,11 +1524,11 @@ internal static class Program
         {
             p[0] = p_test[0 + test * 2];
             p[1] = p_test[1 + test * 2];
-            pn = Properties.polygon_point_near(n, v, p);
-            Console.WriteLine("  " + p[0].ToString().PadLeft(14)
-                                   + "  " + p[1].ToString().PadLeft(14)
-                                   + "  " + pn[0].ToString().PadLeft(14)
-                                   + "  " + pn[1].ToString().PadLeft(14) + "");
+            double[] pn = Properties.polygon_point_near(n, v, p);
+            Console.WriteLine("  " + p[0].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + p[1].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + pn[0].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + pn[1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -1587,9 +1554,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int n = 20;
-        int nv = 6;
-        int seed;
+        const int n = 20;
+        const int nv = 6;
         double[] v =
         {
             0.0, 0.0,
@@ -1599,15 +1565,14 @@ internal static class Program
             1.0, 2.0,
             0.0, 1.0
         };
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("POLYGON_SAMPLE_TEST");
         Console.WriteLine("  POLYGON_SAMPLE samples a polygon.");
 
-        seed = 123456789;
+        int seed = 123456789;
 
-        x = Properties.polygon_sample(nv, v, n, ref seed);
+        double[] x = Properties.polygon_sample(nv, v, n, ref seed);
 
         typeMethods.r8mat_transpose_print(2, n, x, "  Sample points:");
 
@@ -1638,7 +1603,6 @@ internal static class Program
         int n;
         double radin = 0;
         double radout = 0;
-        double side = 0;
 
         Console.WriteLine("");
         Console.WriteLine("POLYGON_SIDE_DATA_TEST");
@@ -1649,7 +1613,7 @@ internal static class Program
         {
             Console.WriteLine("");
             Console.WriteLine("  Number of polygonal sides = " + n + "");
-            side = 1.0;
+            double side = 1.0;
             Console.WriteLine("");
             Console.WriteLine("  Assuming SIDE = " + side + "");
             Properties.polygon_side_data(n, side, ref area, ref radin, ref radout);
@@ -1684,8 +1648,7 @@ internal static class Program
         //
     {
         int j;
-        int n = 10;
-        int[] triangles;
+        const int n = 10;
         double[] x =
         {
             8.0, 7.0, 6.0, 5.0, 4.0,
@@ -1702,7 +1665,7 @@ internal static class Program
         Console.WriteLine("  POLYGON_TRIANGULATE triangulates a polygon.");
         Console.WriteLine("  Here, we triangulate the comb_10 polygon.");
 
-        triangles = Triangulate.polygon_triangulate(n, x, y);
+        int[] triangles = Triangulate.polygon_triangulate(n, x, y);
 
         Console.WriteLine("");
         Console.WriteLine("  Triangles:");
@@ -1710,10 +1673,10 @@ internal static class Program
 
         for (j = 0; j < n - 2; j++)
         {
-            Console.WriteLine("  " + j.ToString().PadLeft(2) + ":  "
-                              + "  " + triangles[0 + j * 3].ToString().PadLeft(2)
-                              + "  " + triangles[1 + j * 3].ToString().PadLeft(2)
-                              + "  " + triangles[2 + j * 3].ToString().PadLeft(2) + "");
+            Console.WriteLine("  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(2) + ":  "
+                              + "  " + triangles[0 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                              + "  " + triangles[1 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                              + "  " + triangles[2 + j * 3].ToString(CultureInfo.InvariantCulture).PadLeft(2) + "");
         }
     }
 }

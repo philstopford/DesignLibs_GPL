@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using Burkardt.Uniform;
 
@@ -47,23 +48,15 @@ internal static class Program
         //    John Burkardt.
         //
     {
-        double[] acc;
-        DateTime ctime;
         double dt;
         double e0 = 0;
-        double[] force;
         double kinetic = 0;
-        double mass = 1.0;
+        const double mass = 1.0;
         int nd;
         int np;
-        double[] pos;
         double potential = 0;
         int step;
         int step_num;
-        int step_print;
-        int step_print_index;
-        int step_print_num;
-        double[] vel;
 
         Console.WriteLine("");
         Console.WriteLine("MD");
@@ -135,10 +128,10 @@ internal static class Program
         //
         //  Allocate memory.
         //
-        acc = new double[nd * np];
-        force = new double[nd * np];
-        pos = new double[nd * np];
-        vel = new double[nd * np];
+        double[] acc = new double[nd * np];
+        double[] force = new double[nd * np];
+        double[] pos = new double[nd * np];
+        double[] vel = new double[nd * np];
         //
         //  This is the main time stepping loop:
         //    Compute forces and energies,
@@ -154,11 +147,11 @@ internal static class Program
         Console.WriteLine("                Energy P        Energy K       Relative Energy Error");
         Console.WriteLine("");
 
-        step_print = 0;
-        step_print_index = 0;
-        step_print_num = 10;
+        int step_print = 0;
+        int step_print_index = 0;
+        const int step_print_num = 10;
 
-        ctime = DateTime.Now;
+        DateTime ctime = DateTime.Now;
 
         for (step = 0; step <= step_num; step++)
         {
@@ -180,15 +173,17 @@ internal static class Program
                 _ => e0
             };
 
-            if (step == step_print)
+            if (step != step_print)
             {
-                Console.WriteLine("  " + step.ToString().PadLeft(8)
-                                       + "  " + potential.ToString().PadLeft(14)
-                                       + "  " + kinetic.ToString().PadLeft(14)
-                                       + "  " + ((potential + kinetic - e0) / e0).ToString().PadLeft(14) + "");
-                step_print_index += 1;
-                step_print = step_print_index * step_num / step_print_num;
+                continue;
             }
+
+            Console.WriteLine("  " + step.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + potential.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + kinetic.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + ((potential + kinetic - e0) / e0).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
+            step_print_index += 1;
+            step_print = step_print_index * step_num / step_print_num;
 
         }
 
@@ -258,12 +253,8 @@ internal static class Program
         //    Output, double &KIN, the total kinetic energy.
         //
     {
-        double d;
-        double d2;
-        int i;
-        int j;
         int k;
-        double PI2 = Math.PI / 2.0;
+        const double PI2 = Math.PI / 2.0;
         double[] rij = new double[3];
 
         pot = 0.0;
@@ -274,34 +265,31 @@ internal static class Program
             //
             //  Compute the potential energy and forces.
             //
+            int i;
             for (i = 0; i < nd; i++)
             {
                 f[i + k * nd] = 0.0;
             }
 
+            int j;
             for (j = 0; j < np; j++)
             {
-                if (k != j)
+                if (k == j)
                 {
-                    d = dist(nd, pos.Skip(+k * nd).ToArray(), pos.Skip(+j * nd).ToArray(), ref rij);
-                    //
-                    //  Attribute half of the potential energy to particle J.
-                    //
-                    if (d < PI2)
-                    {
-                        d2 = d;
-                    }
-                    else
-                    {
-                        d2 = PI2;
-                    }
+                    continue;
+                }
 
-                    pot += 0.5 * Math.Pow(Math.Sin(d2), 2);
+                double d = dist(nd, pos.Skip(+k * nd).ToArray(), pos.Skip(+j * nd).ToArray(), ref rij);
+                //
+                //  Attribute half of the potential energy to particle J.
+                //
+                double d2 = d < PI2 ? d : PI2;
 
-                    for (i = 0; i < nd; i++)
-                    {
-                        f[i + k * nd] -= rij[i] * Math.Sin(2.0 * d2) / d;
-                    }
+                pot += 0.5 * Math.Pow(Math.Sin(d2), 2);
+
+                for (i = 0; i < nd; i++)
+                {
+                    f[i + k * nd] -= rij[i] * Math.Sin(2.0 * d2) / d;
                 }
             }
 
@@ -348,10 +336,9 @@ internal static class Program
         //    Output, double D, the Euclidean norm of the displacement.
         //
     {
-        double d;
         int i;
 
-        d = 0.0;
+        double d = 0.0;
         for (i = 0; i < nd; i++)
         {
             dr[i] = r1[i] - r2[i];
@@ -398,11 +385,10 @@ internal static class Program
     {
         int i;
         int j;
-        int seed;
         //
         //  Set the positions.
         //
-        seed = 123456789;
+        int seed = 123456789;
         UniformRNG.r8mat_uniform_ab(nd, np, 0.0, 10.0, ref seed, ref pos);
         //
         //  Set the velocities.
@@ -477,14 +463,13 @@ internal static class Program
         //    Input, double DT, the time step.
         //
     {
-        int i;
         int j;
-        double rmass;
 
-        rmass = 1.0 / mass;
+        double rmass = 1.0 / mass;
 
         for (j = 0; j < np; j++)
         {
+            int i;
             for (i = 0; i < nd; i++)
             {
                 pos[i + j * nd] = pos[i + j * nd] + vel[i + j * nd] * dt + 0.5 * acc[i + j * nd] * dt * dt;

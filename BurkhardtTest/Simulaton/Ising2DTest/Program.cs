@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.PlotNS;
 using Burkardt.Types;
 using Burkardt.Uniform;
@@ -36,7 +37,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] c1;
         int i;
         int iterations;
         int m;
@@ -115,14 +115,14 @@ internal static class Program
         string cout = "";
         for (i = 0; i < 5; i++)
         {
-            cout += prob[i].ToString().PadLeft(10);
+            cout += prob[i].ToString(CultureInfo.InvariantCulture).PadLeft(10);
         }
 
         Console.WriteLine(cout);
         //
         //  Initialize the system.
         //
-        c1 = ising_2d_initialize(m, n, thresh, ref seed);
+        int[] c1 = ising_2d_initialize(m, n, thresh, ref seed);
         //
         //  Write the initial state to a gnuplot file.
         //
@@ -179,21 +179,17 @@ internal static class Program
         //    that agree.  1, 2, 3, 4, or 5.
         //
     {
-        int i;
-        int im;
-        int ip;
         int j;
-        int jm;
-        int jp;
 
         for (j = 0; j < n; j++)
         {
-            jp = typeMethods.i4_wrap(j + 1, 0, n - 1);
-            jm = typeMethods.i4_wrap(j - 1, 0, n - 1);
+            int jp = typeMethods.i4_wrap(j + 1, 0, n - 1);
+            int jm = typeMethods.i4_wrap(j - 1, 0, n - 1);
+            int i;
             for (i = 0; i < m; i++)
             {
-                ip = typeMethods.i4_wrap(i + 1, 0, m - 1);
-                im = typeMethods.i4_wrap(i - 1, 0, m - 1);
+                int ip = typeMethods.i4_wrap(i + 1, 0, m - 1);
+                int im = typeMethods.i4_wrap(i - 1, 0, m - 1);
                 c5[i + j * m] = c1[i + j * m] + c1[ip + j * m] + c1[im + j * m] + c1[i + jm * m] + c1[i + jp * m];
                 c5[i + j * m] = c1[i + j * m] switch
                 {
@@ -236,19 +232,15 @@ internal static class Program
         //    Output, in ISING_2D_INITIALIZE[M*N], the initial Ising array.
         //
     {
-        int[] c1;
-        int i;
         int j;
-        double[] r;
 
-        r = new double[m * n];
+        double[] r = UniformRNG.r8mat_uniform_01(m, n, ref seed);
 
-        r = UniformRNG.r8mat_uniform_01(m, n, ref seed);
-
-        c1 = new int[m * n];
+        int[] c1 = new int[m * n];
 
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 if (r[i + j * m] <= thresh)
@@ -294,12 +286,7 @@ internal static class Program
         //    Input, int C1[M*N], the current state of the system.
         //
     {
-        int i;
         int j;
-        int pos_count;
-        double pos_percent;
-        int neg_count;
-        double neg_percent;
 
         switch (step)
         {
@@ -311,9 +298,10 @@ internal static class Program
                 break;
         }
 
-        pos_count = 0;
+        int pos_count = 0;
         for (j = 0; j < n; j++)
         {
+            int i;
             for (i = 0; i < m; i++)
             {
                 switch (c1[i + j * m])
@@ -325,15 +313,15 @@ internal static class Program
             }
         }
 
-        neg_count = m * n - pos_count;
-        pos_percent = 100 * pos_count / (double) (m * n);
-        neg_percent = 100 * neg_count / (double) (m * n);
+        int neg_count = m * n - pos_count;
+        double pos_percent = 100 * pos_count / (double) (m * n);
+        double neg_percent = 100 * neg_count / (double) (m * n);
 
-        Console.WriteLine("  " + step.ToString().PadLeft(4)
-                               + "  " + pos_count.ToString().PadLeft(6)
-                               + "  " + pos_percent.ToString().PadLeft(6)
-                               + "  " + neg_count.ToString().PadLeft(6)
-                               + "  " + neg_percent.ToString().PadLeft(6) + "");
+        Console.WriteLine("  " + step.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                               + "  " + pos_count.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                               + "  " + pos_percent.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                               + "  " + neg_count.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                               + "  " + neg_percent.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
     }
 
     private static void neighbor_2d_stats ( int step, int m, int n, int[] c1, int[] c5 )
@@ -393,12 +381,12 @@ internal static class Program
                 stats[c5[i+j*m]-1+5] += 1;
             }
         }
-        string cout = "  " + step.ToString().PadLeft(4);
+        string cout = "  " + step.ToString(CultureInfo.InvariantCulture).PadLeft(4);
         for ( i = - 5; i <= 5; i++ )
         {
             if ( i != 0 )
             {
-                cout += "  " + stats[i+5].ToString().PadLeft(4);
+                cout += "  " + stats[i+5].ToString(CultureInfo.InvariantCulture).PadLeft(4);
             }
         }
         Console.WriteLine(cout);
@@ -442,17 +430,11 @@ internal static class Program
         //
         //    Input/output, int C1[M*N], the current state.
     {
-        int[] c5;
-        int i;
-        int j;
-        double[] r;
-        int step;
+        const bool debug = false;
 
-        c5 = new int[m * n];
+        int[] c5 = new int[m * n];
 
-        r = new double[m * n];
-
-        step = 0;
+        int step = 0;
         ising_2d_stats(step, m, n, c1);
 
         for (step = 1; step <= iterations; step++)
@@ -462,7 +444,7 @@ internal static class Program
             //
             ising_2d_agree(m, n, c1, ref c5);
 
-            switch (false)
+            switch (debug)
             {
                 case true:
                     neighbor_2d_stats(step, m, n, c1, c5);
@@ -472,10 +454,12 @@ internal static class Program
             //
             //  Determine the chances of flipping cell (I,J).
             //
-            r = UniformRNG.r8mat_uniform_01(m, n, ref seed);
+            double[] r = UniformRNG.r8mat_uniform_01(m, n, ref seed);
 
+            int j;
             for (j = 0; j < n; j++)
             {
+                int i;
                 for (i = 0; i < m; i++)
                 {
                     if (r[i + j * m] < prob[c5[i + j * m] - 1])

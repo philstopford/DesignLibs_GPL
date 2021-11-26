@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using Burkardt.Noise;
 using Burkardt.Types;
@@ -32,24 +33,19 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double alpha;
         int i;
-        int n;
-        double q_d;
-        int seed_init;
 
         Console.WriteLine("");
         Console.WriteLine("COLORED_NOISE_TEST");
         Console.WriteLine("  Test the COLORED_NOISE library.");
 
-        n = 128;
-        q_d = 1.0;
-        alpha = 0.00;
-        seed_init = 123456789;
+        const int n = 128;
+        const double q_d = 1.0;
+        const int seed_init = 123456789;
 
         for (i = 0; i <= 8; i++)
         {
-            alpha = 0.25 * i;
+            double alpha = 0.25 * i;
             test01(n, q_d, alpha, seed_init);
         }
 
@@ -91,13 +87,10 @@ internal static class Program
         //
     {
         int i;
-        string output_filename;
         List<string> output_unit = new();
-        int seed;
-        double[] x;
         typeMethods.r8NormalData data = new();
 
-        output_filename = "alpha_" + alpha.ToString("0000.##") + ".txt";
+        string output_filename = "alpha_" + alpha.ToString("0000.##") + ".txt";
         //
         //  Report parameters.
         //
@@ -108,9 +101,9 @@ internal static class Program
         Console.WriteLine("  Variance is " + q_d + "");
         Console.WriteLine("  Initial random number seed = " + seed_init + "");
 
-        seed = seed_init;
+        int seed = seed_init;
 
-        x = Colored.f_alpha(n, q_d, alpha, ref data, ref seed);
+        double[] x = Colored.f_alpha(n, q_d, alpha, ref data, ref seed);
         //
         //  Print no more than 10 entries of the data.
         //
@@ -121,7 +114,7 @@ internal static class Program
 
         for (i = 0; i < n; i++)
         {
-            output_unit.Add(x[i].ToString());
+            output_unit.Add(x[i].ToString(CultureInfo.InvariantCulture));
         }
 
         File.WriteAllLines(output_filename, output_unit);

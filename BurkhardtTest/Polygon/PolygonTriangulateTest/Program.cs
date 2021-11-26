@@ -79,8 +79,7 @@ internal static class Program
         //    06 May 2014
         //
     {
-        int n = 10;
-        int[] triangles;
+        const int n = 10;
         double[] x =
         {
             8.0, 7.0, 6.0, 5.0, 4.0,
@@ -96,7 +95,7 @@ internal static class Program
         Console.WriteLine("TEST01");
         Console.WriteLine("  Triangulate the comb_10 polygon.");
 
-        triangles = Triangulate.polygon_triangulate(n, x, y);
+        int[] triangles = Triangulate.polygon_triangulate(n, x, y);
 
         typeMethods.i4mat_transpose_print(3, n - 2, triangles, "  Triangles");
     }
@@ -122,20 +121,12 @@ internal static class Program
         //    John Burkardt.
         //
     {
-        string element_filename;
         int i;
-        int n = 0;
-        string node_filename;
-        int triangle_num;
-        int[] triangles;
-        double[] x;
-        double[] xy;
-        double[] y;
         //
         //  Create filenames.
         //
-        node_filename = prefix + "_nodes.txt";
-        element_filename = prefix + "_elements.txt";
+        string node_filename = prefix + "_nodes.txt";
+        string element_filename = prefix + "_elements.txt";
 
         Console.WriteLine("");
         Console.WriteLine("TEST02");
@@ -145,25 +136,25 @@ internal static class Program
         //
         TableHeader h = typeMethods.r8mat_header_read(node_filename);
 
-        n = h.n;
+        int n = h.n;
 
-        xy = typeMethods.r8mat_data_read(node_filename, 2, n);
+        double[] xy = typeMethods.r8mat_data_read(node_filename, 2, n);
         //
         //  Get the triangulation.
         //
-        x = new double[n];
-        y = new double[n];
+        double[] x = new double[n];
+        double[] y = new double[n];
         for (i = 0; i < n; i++)
         {
             x[i] = xy[0 + i * 2];
             y[i] = xy[1 + i * 2];
         }
 
-        triangles = Triangulate.polygon_triangulate(n, x, y);
+        int[] triangles = Triangulate.polygon_triangulate(n, x, y);
         //
         //  Write the triangulation to a file.
         //
-        triangle_num = n - 2;
+        int triangle_num = n - 2;
         typeMethods.i4mat_write(element_filename, 3, triangle_num, triangles);
 
         Console.WriteLine("  Write triangulation to \"" + element_filename + "\"");
@@ -190,31 +181,19 @@ internal static class Program
         //    John Burkardt.
         //
     {
-        string command_filename;
         List<string> command_unit = new();
-        string diagonal_filename;
         List<string> diagonal_unit = new();
-        string edge_filename;
         List<string> edge_unit = new();
         int i;
         int j;
-        int j2;
-        int n;
-        int node;
-        string node_filename;
-        string plot_filename;
-        int[] triangles;
-        double[] x;
-        double[] xy;
-        double[] y;
         //
         //  Create filenames.
         //
-        node_filename = prefix + "_nodes.txt";
-        edge_filename = prefix + "_edges.txt";
-        diagonal_filename = prefix + "_diagonals.txt";
-        command_filename = prefix + "_commands.txt";
-        plot_filename = prefix + ".png";
+        string node_filename = prefix + "_nodes.txt";
+        string edge_filename = prefix + "_edges.txt";
+        string diagonal_filename = prefix + "_diagonals.txt";
+        string command_filename = prefix + "_commands.txt";
+        string plot_filename = prefix + ".png";
 
         Console.WriteLine("");
         Console.WriteLine("TEST03");
@@ -223,27 +202,27 @@ internal static class Program
         //  Read the node coordinates.
         //
         TableHeader h = typeMethods.r8mat_header_read(node_filename);
-        n = h.n;
+        int n = h.n;
 
-        xy = typeMethods.r8mat_data_read(node_filename, 2, n);
+        double[] xy = typeMethods.r8mat_data_read(node_filename, 2, n);
         //
         //  Get the triangulation.
         //
-        x = new double[n];
-        y = new double[n];
+        double[] x = new double[n];
+        double[] y = new double[n];
         for (i = 0; i < n; i++)
         {
             x[i] = xy[0 + i * 2];
             y[i] = xy[1 + i * 2];
         }
 
-        triangles = Triangulate.polygon_triangulate(n, x, y);
+        int[] triangles = Triangulate.polygon_triangulate(n, x, y);
         //
         //  Plot the edges.
         //
         for (j = 0; j < n + 1; j++)
         {
-            j2 = j % n;
+            int j2 = j % n;
             edge_unit.Add(xy[0 + j2 * 2] + "  "
                                          + xy[1 + j2 * 2] + "");
         }
@@ -258,7 +237,7 @@ internal static class Program
         {
             for (i = 0; i < 2; i++)
             {
-                node = triangles[i + j * 3];
+                int node = triangles[i + j * 3];
                 diagonal_unit.Add(xy[0 + node * 2] + "  "
                                                    + xy[1 + node * 2] + "");
             }

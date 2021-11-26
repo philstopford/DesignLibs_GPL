@@ -118,32 +118,28 @@ internal static class Program
         //    Local, double X1, X2, the left and right spatial endpoints.
         //
     {
-        int m = 30;
-        int n = 40;
+        const int m = 30;
+        const int n = 40;
 
-        double alpha;
-        double c = 0.25;
+        const double c = 0.25;
         List<string> command_unit = new();
         List<string> data_unit = new();
-        double dt;
-        double dx;
         int i;
         int j;
-        double t;
-        double t1 = 0.0;
-        double t2 = 3.0;
+        const double t1 = 0.0;
+        const double t2 = 3.0;
         double[,] u = new double[m + 1, n + 1];
         double x;
-        double x1 = 0.0;
-        double x2 = 1.0;
+        const double x1 = 0.0;
+        const double x2 = 1.0;
 
         Console.WriteLine("");
         Console.WriteLine("STRING_SIMULATION:");
         Console.WriteLine("  Simulate the behavior of a vibrating string.");
 
-        dx = (x2 - x1) / n;
-        dt = (t2 - t1) / m;
-        alpha = Math.Pow(c * dt / dx, 2);
+        const double dx = (x2 - x1) / n;
+        const double dt = (t2 - t1) / m;
+        double alpha = Math.Pow(c * dt / dx, 2);
         Console.WriteLine("  ALPHA = ( C * dT / dX )^2 = " + alpha + "");
         switch (alpha)
         {
@@ -206,7 +202,7 @@ internal static class Program
 
         for (i = 0; i <= m; i++)
         {
-            t = i * dt;
+            double t = i * dt;
             for (j = 0; j <= n; j++)
             {
                 x = j * dx;
@@ -308,9 +304,7 @@ internal static class Program
         //    at time 0 and location X.
         //
     {
-        double value = 0;
-
-        value = 0.0;
+        const double value = 0.0;
 
         return value;
     }

@@ -68,8 +68,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int n;
-        int ng;
         int nv;
 
         Console.WriteLine("");
@@ -85,9 +83,10 @@ internal static class Program
             Console.WriteLine("");
             Console.WriteLine("   N     NG");
             Console.WriteLine("");
+            int n;
             for (n = 0; n <= 5; n++)
             {
-                ng = Grid.polygon_grid_count(n, nv);
+                int ng = Grid.polygon_grid_count(n, nv);
                 Console.WriteLine("  " + n.ToString().PadLeft(2)
                                        + "  " + ng.ToString().PadLeft(5) + "");
             }
@@ -115,18 +114,13 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string filename;
-        int n;
-        int ng;
-        int nv = 3;
-        string prefix;
+        const int nv = 3;
         double[] v =
         {
             0.0, 0.0,
             1.0, 0.0,
             0.5, 0.86602540378443860
         };
-        double[] xg;
 
         Console.WriteLine("");
         Console.WriteLine("POLYGON_GRID_POINTS_TEST01:");
@@ -139,8 +133,8 @@ internal static class Program
         //
         //  Count the grid points.
         //
-        n = 5;
-        ng = Grid.polygon_grid_count(n, nv);
+        int n = 5;
+        int ng = Grid.polygon_grid_count(n, nv);
 
         Console.WriteLine("");
         Console.WriteLine("  N = " + n + "");
@@ -148,19 +142,19 @@ internal static class Program
         //
         //  Compute the grid points.
         //
-        xg = Grid.polygon_grid_points(n, nv, v, ng);
+        double[] xg = Grid.polygon_grid_points(n, nv, v, ng);
 
         typeMethods.r8mat_transpose_print(2, ng, xg, "  The grid point array:");
         //
         //  Display the points.
         //
-        prefix = "triangle";
+        string prefix = "triangle";
 
         Grid.polygon_grid_display(n, nv, v, ng, xg, prefix);
         //
         //  Write the points to a file.
         //
-        filename = "triangle.xy";
+        string filename = "triangle.xy";
 
         typeMethods.r8mat_write(filename, 2, ng, xg);
 
@@ -189,11 +183,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string filename;
-        int n;
-        int ng;
-        int nv = 4;
-        string prefix;
+        const int nv = 4;
         double[] v =
         {
             1.0, 1.0,
@@ -201,7 +191,6 @@ internal static class Program
             4.0, 3.0,
             0.0, 5.0
         };
-        double[] xg;
 
         Console.WriteLine("");
         Console.WriteLine("POLYGON_GRID_POINTS_TEST02:");
@@ -217,8 +206,8 @@ internal static class Program
         //
         //  Count the grid points.
         //
-        n = 7;
-        ng = Grid.polygon_grid_count(n, nv);
+        int n = 7;
+        int ng = Grid.polygon_grid_count(n, nv);
 
         Console.WriteLine("");
         Console.WriteLine("  N = " + n + "");
@@ -226,19 +215,19 @@ internal static class Program
         //
         //  Compute the grid points.
         //
-        xg = Grid.polygon_grid_points(n, nv, v, ng);
+        double[] xg = Grid.polygon_grid_points(n, nv, v, ng);
 
         typeMethods.r8mat_transpose_print(2, ng, xg, "  The grid point array:");
         //
         //  Display the points.
         //
-        prefix = "quad";
+        string prefix = "quad";
 
         Grid.polygon_grid_display(n, nv, v, ng, xg, prefix);
         //
         //  Write the points to a file.
         //
-        filename = "quad.xy";
+        string filename = "quad.xy";
 
         typeMethods.r8mat_write(filename, 2, ng, xg);
 
@@ -268,11 +257,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string filename;
-        int n;
-        int ng;
-        int nv = 6;
-        string prefix;
+        const int nv = 6;
         double[] v =
         {
             0.0, 0.0,
@@ -282,7 +267,6 @@ internal static class Program
             1.0, 2.0,
             0.0, 2.0
         };
-        double[] xg;
 
         Console.WriteLine("");
         Console.WriteLine("POLYGON_GRID_POINTS_TEST03:");
@@ -299,8 +283,8 @@ internal static class Program
         //
         //  Count the grid points.
         //
-        n = 5;
-        ng = Grid.polygon_grid_count(n, nv);
+        int n = 5;
+        int ng = Grid.polygon_grid_count(n, nv);
 
         Console.WriteLine("");
         Console.WriteLine("  N = " + n + "");
@@ -308,19 +292,19 @@ internal static class Program
         //
         //  Compute the grid points.
         //
-        xg = Grid.polygon_grid_points(n, nv, v, ng);
+        double[] xg = Grid.polygon_grid_points(n, nv, v, ng);
 
         typeMethods.r8mat_transpose_print(2, ng, xg, "  The grid point array:");
         //
         //  Display the points.
         //
-        prefix = "ell";
+        string prefix = "ell";
 
         Grid.polygon_grid_display(n, nv, v, ng, xg, prefix);
         //
         //  Write the points to a file.
         //
-        filename = "ell.xy";
+        string filename = "ell.xy";
 
         typeMethods.r8mat_write(filename, 2, ng, xg);
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Noise;
 
 namespace PinkNoiseTest;
@@ -65,10 +66,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int i;
         int m;
-        int q;
-        int q_in;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
@@ -84,14 +82,15 @@ internal static class Program
             Console.WriteLine("");
             Console.WriteLine("   M  Qin  Qout");
             Console.WriteLine("");
+            int i;
             for (i = -5; i < 3 * m; i++)
             {
-                q = i;
-                q_in = q;
+                int q = i;
+                int q_in = q;
                 Pink.wrap2(m, ref q);
-                Console.WriteLine("  " + m.ToString().PadLeft(2)
-                                       + "  " + q_in.ToString().PadLeft(2)
-                                       + "  " + q.ToString().PadLeft(2) + "");
+                Console.WriteLine("  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + q_in.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "");
             }
         }
     }
@@ -117,10 +116,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int i;
         int m;
-        int q;
-        int q_in;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02");
@@ -134,15 +130,16 @@ internal static class Program
             Console.WriteLine("");
             Console.WriteLine("   I   M  Qin  Qout");
             Console.WriteLine("");
-            q = m;
+            int q = m;
+            int i;
             for (i = 1; i <= 3 * (m + 1); i++)
             {
-                q_in = q;
+                int q_in = q;
                 Pink.cdelay2(m, ref q);
-                Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                       + "  " + m.ToString().PadLeft(2)
-                                       + "  " + q_in.ToString().PadLeft(2)
-                                       + "  " + q.ToString().PadLeft(2) + "");
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + q_in.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "");
             }
         }
     }
@@ -169,10 +166,6 @@ internal static class Program
         //
     {
         int d;
-        int i;
-        int q;
-        double u;
-        double y;
 
         Console.WriteLine("");
         Console.WriteLine("TEST03");
@@ -185,16 +178,17 @@ internal static class Program
             Console.WriteLine("");
             Console.WriteLine("   I   D   Q      U           Y");
             Console.WriteLine("");
-            u = 0.5;
-            q = 3;
+            double u = 0.5;
+            int q = 3;
+            int i;
             for (i = 1; i <= 20; i++)
             {
-                y = Pink.ranh(d, ref u, ref q);
-                Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                       + "  " + d.ToString().PadLeft(2)
-                                       + "  " + q.ToString().PadLeft(2)
-                                       + "  " + u.ToString().PadLeft(10)
-                                       + "  " + y.ToString().PadLeft(10) + "");
+                double y = Pink.ranh(d, ref u, ref q);
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + d.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + u.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + y.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
             }
         }
     }
@@ -221,11 +215,6 @@ internal static class Program
         //
     {
         int b;
-        int i;
-        int[] q;
-        int rep;
-        double[] u;
-        double y;
 
         Console.WriteLine("");
         Console.WriteLine("TEST04");
@@ -234,10 +223,12 @@ internal static class Program
 
         for (b = 1; b < 32; b *= 2)
         {
-            u = new double[b];
-            q = new int[b];
+            double[] u = new double[b];
+            int[] q = new int[b];
+            int rep;
             for (rep = 1; rep <= 4; rep++)
             {
+                int i;
                 for (i = 0; i < b; i++)
                 {
                     u[i] = entropyRNG.RNG.nextdouble() - 0.5;
@@ -254,10 +245,10 @@ internal static class Program
 
                 for (i = 1; i <= 20; i++)
                 {
-                    y = Pink.ran1f(b, ref u, ref q);
-                    Console.WriteLine("  " + b.ToString().PadLeft(2)
-                                           + "  " + i.ToString().PadLeft(2)
-                                           + "  " + y.ToString().PadLeft(10) + "");
+                    double y = Pink.ran1f(b, ref u, ref q);
+                    Console.WriteLine("  " + b.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                           + "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                           + "  " + y.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
                 }
             }
         }

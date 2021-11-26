@@ -4,7 +4,7 @@ using Burkardt.Uniform;
 
 namespace ComboTest;
 
-internal partial class Program
+internal static partial class Program
 {
     private static void i4vec_backtrack_test()
 
@@ -27,17 +27,11 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int found_num;
         int i;
-        int indx;
-        int k;
-        int n = 8;
-        int maxstack = 100;
+        const int n = 8;
+        const int maxstack = 100;
         int[] ncan = new int[8];
-        int nstack;
         int[] stacks = new int[100];
-        int t;
-        int total;
         int[] w =  {
                 15, 22, 14, 26, 32, 9, 16, 8
             }
@@ -55,27 +49,28 @@ internal partial class Program
         Console.WriteLine("  X(I) is 0 or 1 if the entry is skipped or used.");
         Console.WriteLine("");
 
-        t = 53;
+        const int t = 53;
 
         for (i = 0; i < n; i++)
         {
             x[i] = 0;
         }
 
-        indx = 0;
-        k = 0;
-        nstack = 0;
+        int indx = 0;
+        int k = 0;
+        int nstack = 0;
         for (i = 0; i < n; i++)
         {
             ncan[i] = 0;
         }
 
-        found_num = 0;
+        int found_num = 0;
 
         for (;;)
         {
             typeMethods.i4vec_backtrack(n, maxstack, stacks, ref x, ref indx, ref k, ref nstack, ref ncan);
 
+            int total;
             if (indx == 1)
             {
                 found_num += 1;
@@ -113,36 +108,43 @@ internal partial class Program
             {
                 total = typeMethods.i4vec_dot_product(k - 1, w, x);
 
-                if (t < total)
+                switch (total)
                 {
-                    ncan[k - 1] = 0;
-                }
-                else if (t == total)
-                {
-                    ncan[k - 1] += 1;
-                    stacks[nstack] = 0;
-                    nstack += 1;
-                }
-                else if (total < t && k < n)
-                {
-                    ncan[k - 1] += 1;
-                    stacks[nstack] = 0;
-                    nstack += 1;
+                    case > t:
+                        ncan[k - 1] = 0;
+                        break;
+                    case t:
+                        ncan[k - 1] += 1;
+                        stacks[nstack] = 0;
+                        nstack += 1;
+                        break;
+                    case < t when k < n:
+                    {
+                        ncan[k - 1] += 1;
+                        stacks[nstack] = 0;
+                        nstack += 1;
 
-                    if (total + w[k - 1] <= t)
-                    {
+                        if (total + w[k - 1] > t)
+                        {
+                            continue;
+                        }
+
                         ncan[k - 1] += 1;
                         stacks[nstack] = 1;
                         nstack += 1;
+                        break;
                     }
-                }
-                else if (total < t && k == n)
-                {
-                    if (total + w[k - 1] == t)
+                    case < t when k == n:
                     {
+                        if (total + w[k - 1] != t)
+                        {
+                            continue;
+                        }
+
                         ncan[k - 1] += 1;
                         stacks[nstack] = 1;
                         nstack += 1;
+                        break;
                     }
                 }
             }
@@ -176,29 +178,23 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int[] a;
-        int[] b;
-        int d;
-        int hi;
-        int lo;
-        int n = 5;
-        int seed;
+        const int n = 5;
 
         Console.WriteLine("");
         Console.WriteLine("I4VEC_DOT_PRODUCT_TEST");
         Console.WriteLine("  I4VEC_DOT_PRODUCT computes the dot product of two I4VECs.");
 
-        lo = 0;
-        hi = 10;
-        seed = 123456789;
+        const int lo = 0;
+        const int hi = 10;
+        int seed = 123456789;
 
-        a = UniformRNG.i4vec_uniform_ab_new(n, lo, hi, ref seed);
+        int[] a = UniformRNG.i4vec_uniform_ab_new(n, lo, hi, ref seed);
         typeMethods.i4vec_print(n, a, "  The vector A:");
 
-        b = UniformRNG.i4vec_uniform_ab_new(n, lo, hi, ref seed);
+        int[] b = UniformRNG.i4vec_uniform_ab_new(n, lo, hi, ref seed);
         typeMethods.i4vec_print(n, b, "  The vector B:");
 
-        d = typeMethods.i4vec_dot_product(n, a, b);
+        int d = typeMethods.i4vec_dot_product(n, a, b);
         Console.WriteLine("");
         Console.WriteLine("  The dot product is " + d + "");
     }
@@ -224,22 +220,18 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int n;
-        int npart;
-        int[] x;
-
         Console.WriteLine("");
         Console.WriteLine("I4VEC_PART1_NEW_TEST:");
         Console.WriteLine("  I4VEC_PART1_NEW partitions an integer N into NPART parts.");
 
-        n = 17;
-        npart = 5;
+        const int n = 17;
+        const int npart = 5;
 
         Console.WriteLine("");
         Console.WriteLine("  Partition N = " + n + " into NPART = " + npart + " parts:");
         Console.WriteLine("");
 
-        x = typeMethods.i4vec_part1_new(n, npart);
+        int[] x = typeMethods.i4vec_part1_new(n, npart);
 
         typeMethods.i4vec_print(npart, x, "  The partition:");
     }
@@ -265,17 +257,13 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int n;
-        int npart;
-        int[] x;
-
         Console.WriteLine("");
         Console.WriteLine("I4VEC_PART2_TEST:");
         Console.WriteLine("  I4VEC_PART2 partitions an integer N into NPART parts.");
 
-        n = 17;
-        npart = 5;
-        x = new int[npart];
+        const int n = 17;
+        const int npart = 5;
+        int[] x = new int[npart];
 
         Console.WriteLine("");
         Console.WriteLine("  Partition N = " + n + " into NPART = " + npart + " parts:");
@@ -307,22 +295,18 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int n;
-        int npart;
-        int[] x;
-
         Console.WriteLine("");
         Console.WriteLine("I4VEC_PART2_NEW_TEST:");
         Console.WriteLine("  I4VEC_PART2_NEW partitions an integer N into NPART parts.");
 
-        n = 17;
-        npart = 5;
+        const int n = 17;
+        const int npart = 5;
 
         Console.WriteLine("");
         Console.WriteLine("  Partition N = " + n + " into NPART = " + npart + " parts:");
         Console.WriteLine("");
 
-        x = typeMethods.i4vec_part2_new(n, npart);
+        int[] x = typeMethods.i4vec_part2_new(n, npart);
 
         typeMethods.i4vec_print(npart, x, "  The partition:");
     }
@@ -352,9 +336,7 @@ internal partial class Program
                 0, 1, 1, 2, 3, 4, 5, 6, 7, 8
             }
             ;
-        int b;
-        int index;
-        int n = 10;
+        const int n = 10;
 
         Console.WriteLine("");
         Console.WriteLine("I4VEC_SEARCH_BINARY_A_TEST");
@@ -362,12 +344,12 @@ internal partial class Program
 
         typeMethods.i4vec_print(n, a, "  Ascending sorted I4VEC:");
 
-        b = 5;
+        const int b = 5;
 
         Console.WriteLine("");
         Console.WriteLine("  Now search for an instance of the value " + b + "");
 
-        index = typeMethods.i4vec_search_binary_a(n, a, b);
+        int index = typeMethods.i4vec_search_binary_a(n, a, b);
 
         Console.WriteLine("");
         switch (index)
@@ -402,28 +384,25 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int N = 10;
+        const int N = 10;
 
         int[] a =  {
                 8, 7, 6, 5, 4, 3, 2, 1, 1, 0
             }
             ;
-        int b;
-        int index;
-        int n = N;
 
         Console.WriteLine("");
         Console.WriteLine("I4VEC_SEARCH_BINARY_D_TEST");
         Console.WriteLine("  I4VEC_SEARCH_BINARY_D searches a descending sorted I4VEC.");
 
-        typeMethods.i4vec_print(n, a, "  Descending sorted I4VEC:");
+        typeMethods.i4vec_print(N, a, "  Descending sorted I4VEC:");
 
-        b = 5;
+        const int b = 5;
 
         Console.WriteLine("");
         Console.WriteLine("  Now search for an instance of the value " + b + "");
 
-        index = typeMethods.i4vec_search_binary_d(n, a, b);
+        int index = typeMethods.i4vec_search_binary_d(N, a, b);
 
         Console.WriteLine("");
         switch (index)
@@ -462,7 +441,7 @@ internal partial class Program
                 6, 7, 1, 0, 4, 3, 2, 1, 5, 8
             }
             ;
-        int n = 10;
+        const int n = 10;
 
         Console.WriteLine("");
         Console.WriteLine("I4VEC_SORT_INSERT_A_TEST");
@@ -500,7 +479,7 @@ internal partial class Program
                 6, 7, 1, 0, 4, 3, 2, 1, 5, 8
             }
             ;
-        int n = 10;
+        const int n = 10;
 
         Console.WriteLine("");
         Console.WriteLine("I4VEC_SORT_INSERT_D_TEST");
@@ -534,11 +513,10 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int a = -100;
-        int b = 200;
-        int n = 20;
+        const int a = -100;
+        const int b = 200;
+        const int n = 20;
         int seed = 123456789;
-        int[] v;
 
         Console.WriteLine("");
         Console.WriteLine("I4VEC_UNIFORM_AB_NEW_TEST");
@@ -551,7 +529,7 @@ internal partial class Program
         Console.WriteLine("  The initial seed is " + seed + "");
         Console.WriteLine("");
 
-        v = UniformRNG.i4vec_uniform_ab_new(n, a, b, ref seed);
+        int[] v = UniformRNG.i4vec_uniform_ab_new(n, a, b, ref seed);
 
         typeMethods.i4vec_print(n, v, "  The random vector:");
     }

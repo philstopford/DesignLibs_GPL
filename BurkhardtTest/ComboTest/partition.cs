@@ -4,7 +4,7 @@ using Burkardt.Types;
 
 namespace ComboTest;
 
-internal partial class Program
+internal static partial class Program
 {
     private static void partition_greedy_test()
 
@@ -27,7 +27,7 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int N = 10;
+        const int N = 10;
 
         int[] a1 =  {
                 2, 10, 3, 8, 5, 7, 9, 5, 3, 2
@@ -38,8 +38,6 @@ internal partial class Program
             }
             ;
         int i;
-        int[] indx;
-        int n = N;
         int[] sums = new int[2];
 
         Console.WriteLine("");
@@ -48,7 +46,7 @@ internal partial class Program
         Console.WriteLine("  two subsets with nearly equal sum.");
         Console.WriteLine("");
 
-        indx = Ranking.partition_greedy(n, ref a1);
+        int[] indx = Ranking.partition_greedy(N, ref a1);
 
         Console.WriteLine("");
         Console.WriteLine("");
@@ -57,7 +55,7 @@ internal partial class Program
         sums[0] = 0;
         sums[1] = 0;
 
-        for (i = 0; i < n; i++)
+        for (i = 0; i < N; i++)
         {
             switch (indx[i])
             {
@@ -79,7 +77,7 @@ internal partial class Program
         Console.WriteLine("  " + sums[0].ToString().PadLeft(4)
                                + "  " + sums[1].ToString().PadLeft(4) + "");
             
-        indx = Ranking.partition_greedy(n, ref a2);
+        indx = Ranking.partition_greedy(N, ref a2);
 
         Console.WriteLine("");
         Console.WriteLine("");
@@ -89,7 +87,7 @@ internal partial class Program
         sums[0] = 0;
         sums[1] = 0;
 
-        for (i = 0; i < n; i++)
+        for (i = 0; i < N; i++)
         {
             switch (indx[i])
             {
@@ -134,7 +132,6 @@ internal partial class Program
         //
     {
         int n;
-        int nmax;
 
         Console.WriteLine("");
         Console.WriteLine("PARTN_ENUM_TEST");
@@ -146,6 +143,7 @@ internal partial class Program
         for (n = 0; n <= 10; n++)
         {
             string cout = "  " + n.ToString().PadLeft(2) + ":  ";
+            int nmax;
             for (nmax = 1; nmax <= Math.Min(n, 6); nmax++)
             {
                 cout += "  " + Ranking.partn_enum(n, nmax).ToString().PadLeft(6);
@@ -205,7 +203,6 @@ internal partial class Program
                 6, 4, 4, 1
             }
             ;
-        bool check;
         int n = 0;
         int nmax = 0;
         int npart = 0;
@@ -277,7 +274,7 @@ internal partial class Program
             Console.WriteLine("  Maximum entry NMAX = " + nmax + "");
             Console.WriteLine("  Number of parts NPART = " + npart + "");
             typeMethods.i4vec_transpose_print(npart, a, "");
-            check = Ranking.partn_sf_check(n, nmax, npart, a);
+            bool check = Ranking.partn_sf_check(n, nmax, npart, a);
             Console.WriteLine("  Check = " + check + "");
         }
     }
@@ -303,26 +300,21 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int[] b;
         int i;
-        int n;
-        int nmax;
         int npart = 0;
         int npart2 = 0;
-        int rank;
         int rank_old;
-        int[] t;
 
         Console.WriteLine("");
         Console.WriteLine("PARTN_SUCCESSOR_TEST");
         Console.WriteLine("  PARTN_SUCCESSOR lists partitions of N with maximum element NMAX:");
         Console.WriteLine("");
 
-        n = 11;
-        nmax = 4;
-        t = new int[n];
+        const int n = 11;
+        const int nmax = 4;
+        int[] t = new int[n];
 
-        rank = -1;
+        int rank = -1;
 
         for (;;)
         {
@@ -364,7 +356,7 @@ internal partial class Program
                 break;
             }
 
-            b = Ranking.part_sf_conjugate(n, npart, t, ref npart2);
+            int[] b = Ranking.part_sf_conjugate(n, npart, t, ref npart2);
 
             typeMethods.i4vec_reverse(npart2, ref b);
 

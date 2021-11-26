@@ -4,7 +4,7 @@ using Burkardt.Types;
 
 namespace ComboTest;
 
-internal partial class Program
+internal static partial class Program
 {
     private static void setpart_check_test()
 
@@ -27,8 +27,6 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        bool check;
-        int i;
         int[] index = new int[1];
         int[] index1 =  {
                 2, 5, 8
@@ -54,8 +52,6 @@ internal partial class Program
                 2, 5, 8
             }
             ;
-        int j;
-        int jlo;
         int m = 0;
         int nsub = 0;
         int[] s = new int[1];
@@ -136,10 +132,12 @@ internal partial class Program
             Console.WriteLine("  M = " + m + "");
             Console.WriteLine("  NSUB = " + nsub + "");
             Console.WriteLine("");
-            jlo = 0;
+            int jlo = 0;
+            int i;
             for (i = 0; i < nsub; i++)
             {
                 string cout = "";
+                int j;
                 for (j = jlo; j <= index[i] - 1; j++)
                 {
                     cout += "  " + s[j];
@@ -149,7 +147,7 @@ internal partial class Program
                 jlo = index[i];
             }
 
-            check = Ranking.setpart_check(m, nsub, s, index);
+            bool check = Ranking.setpart_check(m, nsub, s, index);
             Console.WriteLine("  CHECK = " + check + "");
         }
     }
@@ -176,7 +174,6 @@ internal partial class Program
         //
     {
         int n;
-        int npart;
 
         Console.WriteLine("");
         Console.WriteLine("SETPART_ENUM_TEST");
@@ -187,7 +184,7 @@ internal partial class Program
         //
         for (n = 1; n <= 6; n++)
         {
-            npart = Ranking.setpart_enum(n);
+            int npart = Ranking.setpart_enum(n);
             Console.WriteLine("  " + n.ToString().PadLeft(4)
                                    + "  " + npart.ToString().PadLeft(4) + "");
         }
@@ -215,15 +212,12 @@ internal partial class Program
         //
     {
         int i;
-        int j;
-        int jlo;
-        int[] f;
         int[] index =  {
                 6, 7, 8
             }
             ;
-        int m = 8;
-        int nsub = 3;
+        const int m = 8;
+        const int nsub = 3;
         int[] s =  {
                 1, 2, 3, 4, 5, 7, 6, 8
             }
@@ -237,10 +231,11 @@ internal partial class Program
         Console.WriteLine("");
         Console.WriteLine("  Set partition");
         Console.WriteLine("");
-        jlo = 1;
+        int jlo = 1;
         for (i = 1; i <= nsub; i++)
         {
             string cout = "";
+            int j;
             for (j = jlo; j <= index[i - 1]; j++)
             {
                 cout += "  " + s[j - 1].ToString().PadLeft(4);
@@ -253,7 +248,7 @@ internal partial class Program
         //
         //  Convert the set partition to an RGF.
         //
-        f = Ranking.setpart_to_rgf(m, nsub, s, index);
+        int[] f = Ranking.setpart_to_rgf(m, nsub, s, index);
 
         typeMethods.i4vec_transpose_print(m, f, "  Corresponding RGF:");
     }

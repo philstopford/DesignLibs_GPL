@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt;
 using Burkardt.DifferNS;
 using Burkardt.Types;
@@ -77,12 +78,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] a;
-        double[] b;
         int i;
         int info = 0;
-        int job;
-        int n = 4;
+        const int n = 4;
         double[] stencil =  {
                 2.5, 3.3, -1.3, 0.5
             }
@@ -91,30 +89,28 @@ internal static class Program
                 1.0, 2.0, 3.0, 4.0
             }
             ;
-        double[] x1;
-        double[] x2;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
         Console.WriteLine("  Demonstrate that the DIFFER matrix is 'really'");
         Console.WriteLine("  a Vandermonde matrix.");
 
-        a = Differ.differ_matrix(n, stencil);
+        double[] a = Differ.differ_matrix(n, stencil);
         typeMethods.r8mat_print(n, n, a, "  Stencil matrix:");
-        b = typeMethods.r8mat_mv_new(n, n, a, x);
+        double[] b = typeMethods.r8mat_mv_new(n, n, a, x);
         //
         //  Set up and solve the DIFFER system.
         //
         a = Differ.differ_matrix(n, stencil);
-        x1 = typeMethods.r8mat_fs_new(n, a, b);
+        double[] x1 = typeMethods.r8mat_fs_new(n, a, b);
 
         typeMethods.r8vec_print(n, x1, "  Solution of DIFFER system:");
         //
         //  R8VM_SL solves the related Vandermonde system.
         //  A simple transformation gives us the solution to the DIFFER system.
         //
-        job = 0;
-        x2 = typeMethods.r8vm_sl_new(n, stencil, b, job, ref info);
+        const int job = 0;
+        double[] x2 = typeMethods.r8vm_sl_new(n, stencil, b, job, ref info);
 
         if (info != 0)
         {
@@ -155,14 +151,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] a;
-        double[] b;
-        double err;
         int n;
         const int N_MAX = 8;
-        int seed;
-        int test;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02");
@@ -170,20 +160,21 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("   N    Inverse error");
 
-        seed = 123456789;
+        int seed = 123456789;
 
         for (n = 2; n <= N_MAX; n++)
         {
             Console.WriteLine("");
 
+            int test;
             for (test = 1; test <= 5; test++)
             {
-                x = UniformRNG.r8vec_uniform_01_new(n, ref seed);
-                a = Differ.differ_matrix(n, x);
-                b = Differ.differ_inverse(n, x);
-                err = Helpers.inverse_error(n, a, b);
+                double[] x = UniformRNG.r8vec_uniform_01_new(n, ref seed);
+                double[] a = Differ.differ_matrix(n, x);
+                double[] b = Differ.differ_inverse(n, x);
+                double err = Helpers.inverse_error(n, a, b);
                 Console.WriteLine("  " + n.ToString().PadLeft(2)
-                                       + "  " + err.ToString().PadLeft(14) + "");
+                                       + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
     }
@@ -213,20 +204,12 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] a;
-        double[] b;
-        double[] c;
-        double df;
-        double dfdx;
-        double dx;
         int i;
-        int n = 4;
-        int order;
+        const int n = 4;
         double[] stencil =  {
                 -3.0, -2.0, -1.0, 1.0
             }
             ;
-        double x0;
 
         Console.WriteLine("");
         Console.WriteLine("TEST03");
@@ -234,31 +217,31 @@ internal static class Program
         //
         //  Compute the coefficients for a specific stencil.
         //
-        b = new double[n];
+        double[] b = new double[n];
         for (i = 0; i < n; i++)
         {
             b[i] = 0.0;
         }
 
-        order = 1;
+        const int order = 1;
         b[order - 1] = 1.0;
-        a = Differ.differ_matrix(n, stencil);
-        c = typeMethods.r8mat_fs_new(n, a, b);
+        double[] a = Differ.differ_matrix(n, stencil);
+        double[] c = typeMethods.r8mat_fs_new(n, a, b);
 
         typeMethods.r8vec_print(n, c, "  Solution of DIFFER system:");
         //
         //  Use the coefficients C to estimate the first derivative of EXP(X)
         //  at X0, using a spacing of DX = 0.1.
         //
-        x0 = 1.3;
-        dx = 0.1;
-        df = 0.0;
+        const double x0 = 1.3;
+        const double dx = 0.1;
+        double df = 0.0;
         for (i = 0; i < n; i++)
         {
             df += c[i] * (Math.Exp(x0 + stencil[i] * dx) - Math.Exp(x0));
         }
 
-        dfdx = df / dx;
+        double dfdx = df / dx;
 
         Console.WriteLine("");
         Console.WriteLine("  DFDX =         " + dfdx + "");
@@ -291,14 +274,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] c;
-        double h;
-        string label;
-        int n;
-        int o;
-        int p;
-        double[] x;
-
         Console.WriteLine("");
         Console.WriteLine("TEST04");
         Console.WriteLine("  DIFFER_FORWARD,");
@@ -307,20 +282,20 @@ internal static class Program
         Console.WriteLine("  approximations of the O-th derivative,");
         Console.WriteLine("  with error of order H^P, for a uniform spacing of H.");
 
-        h = 1.0;
+        double h = 1.0;
         Console.WriteLine("");
         Console.WriteLine("  Use a spacing of H = " + h + " for all examples.");
         //
         //  Forward difference approximation to the third derivative with error of O(h).
         //
-        o = 3;
-        p = 1;
-        n = o + p;
-        c = new double[n];
-        x = new double[n];
+        int o = 3;
+        int p = 1;
+        int n = o + p;
+        double[] c = new double[n];
+        double[] x = new double[n];
         Differ.differ_forward(h, o, p, ref c, ref x);
-        label = "  Forward difference coefficients, O = " + o.ToString()
-                                                          + ", P = " + p.ToString();
+        string label = "  Forward difference coefficients, O = " + o.ToString()
+                                                                 + ", P = " + p.ToString();
         typeMethods.r8vec2_print(n, x, c, label);
         //
         //  Backward difference approximation to the third derivative with error of O(h).
@@ -422,15 +397,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] c;
-        double h;
         int i;
-        string label;
-        int n;
-        int o;
-        int p;
-        double[] x;
-        double x0;
 
         Console.WriteLine("");
         Console.WriteLine("TEST05");
@@ -441,26 +408,26 @@ internal static class Program
         //
         //  Let X0 = 1.0.
         //
-        x0 = 0.0;
-        h = 1.0;
+        double x0 = 0.0;
+        double h = 1.0;
         Console.WriteLine("");
         Console.WriteLine("  Use a spacing of H = " + h + " for all examples.");
         //
         //  Forward difference approximation to the third derivative with error of O(h).
         //
-        o = 3;
-        p = 1;
-        n = o + p;
-        c = new double[n];
-        x = new double[n];
+        int o = 3;
+        int p = 1;
+        int n = o + p;
+        double[] c = new double[n];
+        double[] x = new double[n];
         for (i = 0; i < n; i++)
         {
             x[i] = i * h;
         }
 
         Differ.differ_stencil(x0, o, p, x, ref c);
-        label = "  Forward difference coefficients, O = " + o.ToString()
-                                                          + ", P = " + p.ToString();
+        string label = "  Forward difference coefficients, O = " + o.ToString()
+                                                                 + ", P = " + p.ToString();
         typeMethods.r8vec2_print(n, x, c, label);
         //
         //  Backward difference approximation to the third derivative with error of O(h).

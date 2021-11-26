@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Types;
 
 namespace ComboTest;
 
-internal partial class Program
+internal static partial class Program
 {
     private static void r8_choose_test ( )
 
@@ -26,8 +27,6 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        double cnk;
-        int k;
         int n;
 
         Console.WriteLine("");
@@ -39,16 +38,16 @@ internal partial class Program
         for ( n = 0; n <= 5; n++ )
         {
             Console.WriteLine("");
+            int k;
             for ( k = 0; k <= n; k++ )
             {
-                cnk = typeMethods.r8_choose ( n, k );
+                double cnk = typeMethods.r8_choose ( n, k );
                 Console.WriteLine(n.ToString().PadLeft(10) + "  "
                                                            + k.ToString().PadLeft(8) + "  "
-                                                           + cnk.ToString().PadLeft(14) + "");
+                                                           + cnk.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
     }
-    //****************************************************************************80
 
     private static void r8_gamma_log_test ( )
 
@@ -72,8 +71,6 @@ internal partial class Program
         //
     {
         double fx1 = 0;
-        double fx2;
-        int n_data;
         double x = 0;
 
         Console.WriteLine("");
@@ -83,7 +80,7 @@ internal partial class Program
         Console.WriteLine("      X            GAMMA_LOG(X)     R8_GAMMA_LOG(X)");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for ( ; ; )
         {
@@ -93,8 +90,8 @@ internal partial class Program
             {
                 break;
             }
-            fx2 = typeMethods.r8_gamma_log ( x );
-            Console.WriteLine("  " + x.ToString().PadLeft(12)
+            double fx2 = typeMethods.r8_gamma_log ( x );
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(12)
                                    + "  " + fx1.ToString("0.################").PadLeft(24)
                                    + "  " + fx2.ToString("0.################").PadLeft(24) + "");
         }

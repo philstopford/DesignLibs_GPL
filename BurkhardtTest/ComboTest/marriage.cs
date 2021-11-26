@@ -3,7 +3,7 @@ using Burkardt.RankingNS;
 
 namespace ComboTest;
 
-internal partial class Program
+internal static partial class Program
 {
     private static void marriage_test ( )
 
@@ -26,12 +26,9 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int N = 5;
+        const int N = 5;
 
-        int[] fiancee;
         int i;
-        int n = N;
-        int[] next;
         int[] prefer = {
             2, 1, 2, 1, 5, 
             5, 2, 3, 3, 3, 
@@ -50,28 +47,28 @@ internal partial class Program
         Console.WriteLine("  MARRIAGE arranges a set of stable marriages");
         Console.WriteLine("  given a set of preferences.");
 
-        fiancee = new int[n];
-        next = new int[n];
+        int[] fiancee = new int[N];
+        int[] next = new int[N];
 
-        Ranking.marriage ( n, prefer, rank, ref fiancee, ref next );
+        Ranking.marriage ( N, prefer, rank, ref fiancee, ref next );
 
         Console.WriteLine("");
         Console.WriteLine("  Man, Wife's rank, Wife");
         Console.WriteLine("");
-        for ( i = 1; i <= n; i++ )
+        for ( i = 1; i <= N; i++ )
         {
             Console.WriteLine("  " + i.ToString().PadLeft(4)
                                    + "  " + next[i-1].ToString().PadLeft(4)
-                                   + "  " + prefer[i-1+(next[i-1]-1)*n].ToString().PadLeft(4) + "");
+                                   + "  " + prefer[i-1+(next[i-1]-1)*N].ToString().PadLeft(4) + "");
         }
 
         Console.WriteLine("");
         Console.WriteLine("  Woman, Husband's rank, Husband");
         Console.WriteLine("");
-        for ( i = 1; i <= n; i++ )
+        for ( i = 1; i <= N; i++ )
         {
             Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + rank[i-1+(fiancee[i-1]-1)*n].ToString().PadLeft(4)
+                                   + "  " + rank[i-1+(fiancee[i-1]-1)*N].ToString().PadLeft(4)
                                    + "  " + fiancee[i-1].ToString().PadLeft(4) + "");
         }
 

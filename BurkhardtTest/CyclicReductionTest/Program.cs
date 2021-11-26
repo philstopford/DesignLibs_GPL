@@ -64,15 +64,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] a;
-        double[] a_cr;
-        double[] b;
-        bool debug = true;
+        const bool debug = true;
         int i;
         int j;
-        int n = 5;
-        int nb = 2;
-        double[] x;
+        const int n = 5;
+        const int nb = 2;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02");
@@ -84,7 +80,7 @@ internal static class Program
         //
         //  Set the matrix.
         //
-        a = new double[3 * n];
+        double[] a = new double[3 * n];
 
         a[0 + 0 * 3] = 0.0;
         for (j = 1; j < n; j++)
@@ -114,7 +110,7 @@ internal static class Program
         //
         //  Factor the matrix once.
         //
-        a_cr = typeMethods.r83_cr_fa(n, a);
+        double[] a_cr = typeMethods.r83_cr_fa(n, a);
 
         switch (debug)
         {
@@ -126,7 +122,7 @@ internal static class Program
         //
         //  Solve 2 systems simultaneously.
         //
-        b = new double[n * nb];
+        double[] b = new double[n * nb];
 
         for (i = 0; i < n - 1; i++)
         {
@@ -145,7 +141,7 @@ internal static class Program
         //
         //  Solve the linear systems.
         //
-        x = typeMethods.r83_cr_sls(n, a_cr, nb, b);
+        double[] x = typeMethods.r83_cr_sls(n, a_cr, nb, b);
 
         typeMethods.r8mat_print_some(n, nb, x, 1, 1, 10, nb, "  Solutions:");
     }
@@ -171,13 +167,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] a;
-        double[] a_cr;
-        double[] b;
-        bool debug = false;
+        const bool debug = true;
         int j;
-        int n = 10;
-        double[] x;
+        const int n = 10;
 
         Console.WriteLine("");
         Console.WriteLine("TEST03");
@@ -191,7 +183,7 @@ internal static class Program
         //
         //  Set the matrix values.
         //
-        a = new double[3 * n];
+        double[] a = new double[3 * n];
 
         a[0 + 0 * 3] = 0.0;
         for (j = 2; j <= n; j++)
@@ -221,11 +213,11 @@ internal static class Program
         //
         //  Set the desired solution.
         //
-        x = typeMethods.r8vec_indicator_new(n);
+        double[] x = typeMethods.r8vec_indicator_new(n);
         //
         //  Compute the corresponding right hand side.
         //
-        b = typeMethods.r83_mxv_new(n, a, x);
+        double[] b = typeMethods.r83_mxv_new(n, a, x);
 
         switch (debug)
         {
@@ -237,7 +229,7 @@ internal static class Program
         //
         //  Factor the matrix.
         //
-        a_cr = typeMethods.r83_cr_fa(n, a);
+        double[] a_cr = typeMethods.r83_cr_fa(n, a);
 
         switch (debug)
         {

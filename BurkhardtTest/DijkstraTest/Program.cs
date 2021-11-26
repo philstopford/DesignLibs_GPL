@@ -38,10 +38,8 @@ internal static class Program
         //    C++ version by John Burkardt.
         //
     {
-        int NV = 6;
+        const int NV = 6;
         int i;
-        int j;
-        int[] mind;
         int[][] ohd = new int [NV][];
 
         Console.WriteLine("");
@@ -62,6 +60,7 @@ internal static class Program
         for (i = 0; i < NV; i++)
         {
             string cout = "";
+            int j;
             for (j = 0; j < NV; j++)
             {
                 if (ohd[i][j] == typeMethods.i4_huge())
@@ -80,7 +79,7 @@ internal static class Program
         //
         //  Carry out the algorithm.
         //
-        mind = Dijkstra.dijkstra_distance(ohd);
+        int[] mind = Dijkstra.dijkstra_distance(ohd);
         //
         //  Print the results.
         //

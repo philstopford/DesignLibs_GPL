@@ -4,7 +4,7 @@ using Burkardt.Types;
 
 namespace ComboTest;
 
-internal partial class Program
+internal static partial class Program
 {
     private static void npart_enum_test()
 
@@ -28,7 +28,6 @@ internal partial class Program
         //
     {
         int n;
-        int part_num;
 
         Console.WriteLine("");
         Console.WriteLine("NPART_ENUM_TEST");
@@ -40,6 +39,7 @@ internal partial class Program
         for (n = 0; n <= 10; n++)
         {
             string cout = "  " + n.ToString().PadLeft(2) + ":  ";
+            int part_num;
             for (part_num = 1; part_num <= Math.Min(n, 6); part_num++)
             {
                 cout += "  " + Ranking.npart_enum(n, part_num).ToString().PadLeft(6);
@@ -70,16 +70,13 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int n;
-        int npart;
-        int rank;
         int[] t =  {
                 1, 5, 6
             }
             ;
 
-        n = 12;
-        npart = 3;
+        const int n = 12;
+        const int npart = 3;
 
         Console.WriteLine("");
         Console.WriteLine("NPART_RSF_LEX_RANK_TEST:");
@@ -89,7 +86,7 @@ internal partial class Program
 
         typeMethods.i4vec_transpose_print(npart, t, "  Element to be ranked:");
 
-        rank = Ranking.npart_rsf_lex_rank(n, npart, t);
+        int rank = Ranking.npart_rsf_lex_rank(n, npart, t);
 
         Console.WriteLine("");
         Console.WriteLine("  Rank is computed as " + rank + "");
@@ -116,14 +113,9 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int i;
-        int n;
-        int npart = 3;
-        int rank;
-        int rank_old;
-        int[] t;
+        const int npart = 3;
 
-        n = 12;
+        const int n = 12;
 
         Console.WriteLine("");
         Console.WriteLine("NPART_RSF_LEX_SUCCESSOR_TEST");
@@ -131,13 +123,13 @@ internal partial class Program
         Console.WriteLine("  partitions of N with NPART parts");
         Console.WriteLine("  in reverse standard form:");
 
-        t = new int[npart];
+        int[] t = new int[npart];
 
-        rank = -1;
+        int rank = -1;
 
         for (;;)
         {
-            rank_old = rank;
+            int rank_old = rank;
 
             Ranking.npart_rsf_lex_successor(n, npart, ref t, ref rank);
 
@@ -147,6 +139,7 @@ internal partial class Program
             }
 
             string cout = "  " + rank.ToString().PadLeft(4);
+            int i;
             for (i = 0; i < npart; i++)
             {
                 cout += "  " + t[i].ToString().PadLeft(4);
@@ -177,23 +170,17 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int n;
-        int npart;
-        int rank;
-        int[] t;
-
-
         Console.WriteLine("");
         Console.WriteLine("NPART_RSF_LEX_UNRANK_TEST");
         Console.WriteLine("  NPART_RSF_LEX_UNRANK unranks");
         Console.WriteLine("  partitions of N with NPART parts");
         Console.WriteLine("  in reverse standard form:");
 
-        rank = 4;
-        n = 12;
-        npart = 3;
+        const int rank = 4;
+        const int n = 12;
+        const int npart = 3;
 
-        t = Ranking.npart_rsf_lex_unrank(rank, n, npart);
+        int[] t = Ranking.npart_rsf_lex_unrank(rank, n, npart);
 
         typeMethods.i4vec_transpose_print(npart, t, "  The element of rank 4:");
     }
@@ -220,10 +207,9 @@ internal partial class Program
         //
     {
         int i;
-        int n = 12;
-        int npart = 3;
+        const int n = 12;
+        const int npart = 3;
         int seed = 123456789;
-        int[] t;
 
         Console.WriteLine("");
         Console.WriteLine("NPART_RSF_LEX_RANDOM_TEST");
@@ -234,7 +220,7 @@ internal partial class Program
 
         for (i = 1; i <= 10; i++)
         {
-            t = Ranking.npart_rsf_lex_random(n, npart, ref seed);
+            int[] t = Ranking.npart_rsf_lex_random(n, npart, ref seed);
             typeMethods.i4vec_transpose_print(npart, t, "");
         }
     }
@@ -260,25 +246,21 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int i;
-        int n = 12;
-        int npart = 3;
-        int rank;
-        int rank_old;
-        int[] t;
+        const int n = 12;
+        const int npart = 3;
 
         Console.WriteLine("");
         Console.WriteLine("NPART_SF_LEX_SUCCESSOR_TEST");
         Console.WriteLine("  NPART_SF_LEX_SUCCESSOR lists");
         Console.WriteLine("  Partitions of N with NPART parts.");
 
-        t = new int[npart];
+        int[] t = new int[npart];
 
-        rank = -1;
+        int rank = -1;
 
         for (;;)
         {
-            rank_old = rank;
+            int rank_old = rank;
 
             Ranking.npart_sf_lex_successor(n, npart, ref t, ref rank);
 
@@ -288,6 +270,7 @@ internal partial class Program
             }
 
             string cout = "  " + rank.ToString().PadLeft(4);
+            int i;
             for (i = 0; i < npart; i++)
             {
                 cout += "  " + t[i].ToString().PadLeft(4);
@@ -319,17 +302,15 @@ internal partial class Program
         //
     {
         int i;
-        int j;
-        int maxn = 10;
-        int maxpart = 5;
-        int[] p;
+        const int maxn = 10;
+        const int maxpart = 5;
 
         Console.WriteLine("");
         Console.WriteLine("NPART_TABLE_TEST");
         Console.WriteLine("  NPART_TABLE tabulates partitions");
         Console.WriteLine("  of N with NPART parts;");
 
-        p = Ranking.npart_table(maxn, maxpart);
+        int[] p = Ranking.npart_table(maxn, maxpart);
 
         Console.WriteLine("");
         Console.WriteLine("   I     1      2      3      4      5");
@@ -338,6 +319,7 @@ internal partial class Program
         for (i = 0; i <= maxn; i++)
         {
             string cout = "  " + i.ToString().PadLeft(2);
+            int j;
             for (j = 0; j <= maxpart; j++)
             {
                 cout += "  " + p[i + j * (maxn + 1)].ToString().PadLeft(4);

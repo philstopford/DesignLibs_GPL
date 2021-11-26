@@ -4,7 +4,7 @@ using Burkardt.Types;
 
 namespace ComboTest;
 
-internal partial class Program
+internal static partial class Program
 {
     private static void gray_code_check_test()
 
@@ -27,9 +27,6 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        bool check;
-        int i;
-        int n;
         int test;
         int[] t = new int[1];
         int[] t3 =  {
@@ -46,7 +43,7 @@ internal partial class Program
 
         for (test = 1; test <= 3; test++)
         {
-            n = 5;
+            const int n = 5;
 
             switch (test)
             {
@@ -57,10 +54,11 @@ internal partial class Program
                     break;
             }
 
-            check = typeMethods.gray_code_check(n, t3);
+            bool check = typeMethods.gray_code_check(n, t3);
             string cout = "      " + check.ToString().PadLeft(1)
                                    + "  " + n.ToString().PadLeft(2)
                                    + ":  ";
+            int i;
             for (i = 0; i < n; i++)
             {
                 cout += "  " + t[i].ToString().PadLeft(2);
@@ -92,7 +90,6 @@ internal partial class Program
         //
     {
         int n;
-        int ngray;
 
         Console.WriteLine("");
         Console.WriteLine("GRAY_CODE_ENUM_TEST");
@@ -102,7 +99,7 @@ internal partial class Program
         Console.WriteLine("");
         for (n = 0; n <= 10; n++)
         {
-            ngray = typeMethods.gray_code_enum(n);
+            int ngray = typeMethods.gray_code_enum(n);
             Console.WriteLine("  " + n.ToString().PadLeft(2)
                                    + "  " + ngray.ToString().PadLeft(6) + "");
         }
@@ -129,8 +126,7 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int n = 5;
-        int rank;
+        const int n = 5;
         int[] t =  {
                 1, 1, 0, 0, 0
             }
@@ -140,7 +136,7 @@ internal partial class Program
         Console.WriteLine("GRAY_CODE_RANK_TEST");
         Console.WriteLine("  GRAY_CODE_RANK ranks a Gray code.");
 
-        rank = Ranking.gray_code_rank(n, t);
+        int rank = Ranking.gray_code_rank(n, t);
 
         typeMethods.i4vec_transpose_print(n, t, "  Element to be ranked:");
 
@@ -169,23 +165,17 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int i;
-        int n;
-        int rank;
-        int rank_old;
-        int[] t;
-
         Console.WriteLine("");
         Console.WriteLine("GRAY_CODE_SUCCESSOR_TEST");
         Console.WriteLine("  GRAY_CODE_SUCCESSOR lists Gray codes one by one.");
 
-        n = 5;
-        t = new int[n];
-        rank = -1;
+        const int n = 5;
+        int[] t = new int[n];
+        int rank = -1;
 
         for (;;)
         {
-            rank_old = rank;
+            int rank_old = rank;
 
             typeMethods.gray_code_successor(n, ref t, ref rank);
 
@@ -195,6 +185,7 @@ internal partial class Program
             }
 
             string cout = "  " + rank.ToString().PadLeft(4);
+            int i;
             for (i = 0; i < n; i++)
             {
                 cout += "  " + t[i].ToString().PadLeft(4);
@@ -226,20 +217,16 @@ internal partial class Program
         //
     {
         int i;
-        int n;
-        int ngray;
-        int rank;
-        int[] t;
 
         Console.WriteLine("");
         Console.WriteLine("GRAY_CODE_UNRANK_TEST");
         Console.WriteLine("  GRAY_CODE_UNRANK unranks a Gray code.");
 
-        n = 5;
-        ngray = typeMethods.gray_code_enum(n);
-        rank = ngray / 2;
+        const int n = 5;
+        int ngray = typeMethods.gray_code_enum(n);
+        int rank = ngray / 2;
 
-        t =Ranking. gray_code_unrank(rank, n);
+        int[] t = Ranking. gray_code_unrank(rank, n);
 
         Console.WriteLine("");
         Console.WriteLine("  The element of rank " + rank + "");

@@ -74,22 +74,17 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double delta;
-        double delta_tol;
         double fx = 0;
         int k = 0;
-        int k_max;
-        int m = 2;
-        double[] x;
-        double[] x0;
+        const int m = 2;
 
-        x0 = new double[m];
+        double[] x0 = new double[m];
         Console.WriteLine("");
         Console.WriteLine("BEALE_TEST:");
         Console.WriteLine("  Test COMPASS_SEARCH with the Beale function.");
-        delta_tol = 0.00001;
-        delta = 0.1;
-        k_max = 20000;
+        const double delta_tol = 0.00001;
+        const double delta = 0.1;
+        const int k_max = 20000;
 
         x0[0] = 1.0;
         x0[1] = 1.0;
@@ -97,14 +92,13 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  F(X0) = " + beale(m, x0) + "");
 
-        x = CompassSearch.compass_search(beale, m, x0, delta_tol, delta, k_max, ref fx, ref k);
+        double[] x = CompassSearch.compass_search(beale, m, x0, delta_tol, delta, k_max, ref fx, ref k);
         typeMethods.r8vec_print(m, x, "  Estimated minimizer X1:");
         Console.WriteLine("");
         Console.WriteLine("  F(X1) = " + fx + " number of steps = " + k + "");
         //
         //  Repeat with more difficult start.
         //
-        x = new double[m];
         x0[0] = 1.0;
         x0[1] = 4.0;
         typeMethods.r8vec_print(m, x0, "  Initial point X0:");
@@ -148,22 +142,17 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double delta;
-        double delta_tol;
         double fx = 0;
         int k = 0;
-        int k_max;
-        int m = 2;
-        double[] x;
-        double[] x0;
+        const int m = 2;
 
-        x0 = new double[m];
+        double[] x0 = new double[m];
         Console.WriteLine("");
         Console.WriteLine("BOHACH1_TEST:");
         Console.WriteLine("  Test COMPASS_SEARCH with the Bohachevsky function #1.");
-        delta_tol = 0.00001;
-        delta = 0.3;
-        k_max = 20000;
+        const double delta_tol = 0.00001;
+        const double delta = 0.3;
+        const int k_max = 20000;
 
         x0[0] = 0.5;
         x0[1] = 1.0;
@@ -171,7 +160,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  F(X0) = " + bohach1(m, x0) + "");
 
-        x = CompassSearch.compass_search(bohach1, m, x0, delta_tol, delta, k_max, ref fx, ref k);
+        double[] x = CompassSearch.compass_search(bohach1, m, x0, delta_tol, delta, k_max, ref fx, ref k);
         typeMethods.r8vec_print(m, x, "  Estimated minimizer X1:");
         Console.WriteLine("");
         Console.WriteLine("  F(X1) = " + fx
@@ -208,22 +197,17 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double delta;
-        double delta_tol;
         double fx = 0;
         int k = 0;
-        int k_max;
-        int m = 2;
-        double[] x;
-        double[] x0;
+        const int m = 2;
 
-        x0 = new double[m];
+        double[] x0 = new double[m];
         Console.WriteLine("");
         Console.WriteLine("BOHACH2_TEST:");
         Console.WriteLine("  Test COMPASS_SEARCH with the Bohachevsky function #2.");
-        delta_tol = 0.00001;
-        delta = 0.3;
-        k_max = 20000;
+        const double delta_tol = 0.00001;
+        const double delta = 0.3;
+        const int k_max = 20000;
 
         x0[0] = 0.6;
         x0[1] = 1.3;
@@ -231,7 +215,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  F(X0) = " + bohach2(m, x0) + "");
 
-        x = CompassSearch.compass_search(bohach2, m, x0, delta_tol, delta, k_max, ref fx, ref k);
+        double[] x = CompassSearch.compass_search(bohach2, m, x0, delta_tol, delta, k_max, ref fx, ref k);
         typeMethods.r8vec_print(m, x, "  Estimated minimizer X1:");
         Console.WriteLine("");
         Console.WriteLine("  F(X1) = " + fx + " number of steps = " + k + "");
@@ -267,22 +251,17 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double delta;
-        double delta_tol;
         double fx = 0;
         int k = 0;
-        int k_max;
-        int m = 2;
-        double[] x;
-        double[] x0;
+        const int m = 2;
 
-        x0 = new double[m];
+        double[] x0 = new double[m];
         Console.WriteLine("");
         Console.WriteLine("BROYDEN_TEST:");
         Console.WriteLine("  Test COMPASS_SEARCH with the Broyden function.");
-        delta_tol = 0.00001;
-        delta = 0.3;
-        k_max = 20000;
+        const double delta_tol = 0.00001;
+        const double delta = 0.3;
+        const int k_max = 20000;
 
         x0[0] = -0.9;
         x0[1] = -1.0;
@@ -290,7 +269,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  F(X0) = " + broyden(m, x0) + "");
 
-        x = CompassSearch.compass_search(broyden, m, x0, delta_tol, delta, k_max, ref fx, ref k);
+        double[] x = CompassSearch.compass_search(broyden, m, x0, delta_tol, delta, k_max, ref fx, ref k);
         typeMethods.r8vec_print(m, x, "  Estimated minimizer X1:");
         Console.WriteLine("");
         Console.WriteLine("  F(X1) = " + fx + " number of steps = " + k + "");
@@ -326,22 +305,17 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double delta;
-        double delta_tol;
         double fx = 0;
         int k = 0;
-        int k_max;
-        int m = 4;
-        double[] x;
-        double[] x0;
+        const int m = 4;
 
-        x0 = new double[m];
+        double[] x0 = new double[m];
         Console.WriteLine("");
         Console.WriteLine("EXTENDED_ROSENBROCK_TEST:");
         Console.WriteLine("  Test COMPASS_SEARCH with the extended Rosenbrock function.");
-        delta_tol = 0.00001;
-        delta = 0.3;
-        k_max = 20000;
+        const double delta_tol = 0.00001;
+        const double delta = 0.3;
+        const int k_max = 20000;
 
         x0[0] = -1.2;
         x0[1] = 1.0;
@@ -351,7 +325,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  F(X0) = " + extended_rosenbrock(m, x0) + "");
 
-        x = CompassSearch.compass_search(extended_rosenbrock, m, x0, delta_tol, delta, k_max, ref fx, ref k);
+        double[] x = CompassSearch.compass_search(extended_rosenbrock, m, x0, delta_tol, delta, k_max, ref fx, ref k);
         typeMethods.r8vec_print(m, x, "  Estimated minimizer X1:");
         Console.WriteLine("");
         Console.WriteLine("  F(X1) = " + fx + " number of steps = " + k + "");
@@ -389,22 +363,17 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double delta;
-        double delta_tol;
         double fx = 0;
         int k = 0;
-        int k_max;
-        int m = 2;
-        double[] x;
-        double[] x0;
+        const int m = 2;
 
-        x0 = new double[m];
+        double[] x0 = new double[m];
         Console.WriteLine("");
         Console.WriteLine("GOLDSTEIN_PRICE_TEST:");
         Console.WriteLine("  Test COMPASS_SEARCH with the Goldstein-Price function.");
-        delta_tol = 0.00001;
-        delta = 0.3;
-        k_max = 20000;
+        const double delta_tol = 0.00001;
+        const double delta = 0.3;
+        const int k_max = 20000;
 
         x0[0] = -0.5;
         x0[1] = 0.25;
@@ -412,7 +381,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  F(X0) = " + goldstein_price(m, x0) + "");
 
-        x = CompassSearch.compass_search(goldstein_price, m, x0, delta_tol, delta, k_max, ref fx, ref k);
+        double[] x = CompassSearch.compass_search(goldstein_price, m, x0, delta_tol, delta, k_max, ref fx, ref k);
         typeMethods.r8vec_print(m, x, "  Estimated minimizer X1:");
         Console.WriteLine("");
         Console.WriteLine("  F(X1) = " + fx + " number of steps = " + k + "");
@@ -461,22 +430,17 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double delta;
-        double delta_tol;
         double fx =0;
         int k = 0;
-        int k_max;
-        int m = 2;
-        double[] x;
-        double[] x0;
+        const int m = 2;
 
-        x0 = new double[m];
+        double[] x0 = new double[m];
         Console.WriteLine("");
         Console.WriteLine("HIMMELBLAU_TEST:");
         Console.WriteLine("  Test COMPASS_SEARCH with the Himmelblau function.");
-        delta_tol = 0.00001;
-        delta = 0.3;
-        k_max = 20000;
+        const double delta_tol = 0.00001;
+        const double delta = 0.3;
+        const int k_max = 20000;
 
         x0[0] = 1.0;
         x0[1] = 1.0;
@@ -484,7 +448,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  F(X0) = " + himmelblau(m, x0) + "");
 
-        x = CompassSearch.compass_search(himmelblau, m, x0, delta_tol, delta, k_max, ref fx, ref k);
+        double[] x = CompassSearch.compass_search(himmelblau, m, x0, delta_tol, delta, k_max, ref fx, ref k);
         typeMethods.r8vec_print(m, x, "  Estimated minimizer X1:");
         Console.WriteLine("");
         Console.WriteLine("  F(X1) = " + fx + " number of steps = " + k + "");
@@ -574,22 +538,17 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double delta;
-        double delta_tol;
         double fx = 0;
         int k = 0;
-        int k_max;
-        int m = 2;
-        double[] x;
-        double[] x0;
+        const int m = 2;
 
-        x0 = new double[m];
+        double[] x0 = new double[m];
         Console.WriteLine("");
         Console.WriteLine("LOCAL_TEST:");
         Console.WriteLine("  Test COMPASS_SEARCH with the Local function.");
-        delta_tol = 0.00001;
-        delta = 0.3;
-        k_max = 20000;
+        const double delta_tol = 0.00001;
+        const double delta = 0.3;
+        const int k_max = 20000;
 
         x0[0] = 1.0;
         x0[1] = 1.0;
@@ -597,7 +556,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  F(X0) = " + local(m, x0) + "");
 
-        x = CompassSearch.compass_search(local, m, x0, delta_tol, delta, k_max, ref fx, ref k);
+        double[] x = CompassSearch.compass_search(local, m, x0, delta_tol, delta, k_max, ref fx, ref k);
         typeMethods.r8vec_print(m, x, "  Estimated minimizer X1:");
         Console.WriteLine("");
         Console.WriteLine("  F(X1) = " + fx + " number of steps = " + k + "");
@@ -655,36 +614,26 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
-        double delta;
-        double delta_tol;
         double fx = 0;
         int k = 0;
-        int k_max;
-        int m = 2;
-        double phi;
-        double tau;
-        double theta;
-        double[] x;
-        double[] x0;
+        const int m = 2;
 
-        x0 = new double[m];
+        double[] x0 = new double[m];
         Console.WriteLine("");
         Console.WriteLine("MCKINNON_TEST:");
         Console.WriteLine("  Test COMPASS_SEARCH with the McKinnon function.");
-        delta_tol = 0.00001;
-        delta = 0.3;
-        k_max = 20000;
+        const double delta_tol = 0.00001;
+        const double delta = 0.3;
+        const int k_max = 20000;
         //
         //  Test 1
         //
-        a = (1.0 + Math.Sqrt(33.0)) / 8.0;
-        b = (1.0 - Math.Sqrt(33.0)) / 8.0;
+        double a = (1.0 + Math.Sqrt(33.0)) / 8.0;
+        double b = (1.0 - Math.Sqrt(33.0)) / 8.0;
 
-        phi = 10.0;
-        tau = 1.0;
-        theta = 15.0;
+        double phi = 10.0;
+        double tau = 1.0;
+        double theta = 15.0;
 
         mckinnon_parameters("set", ref phi, ref tau, ref theta);
 
@@ -695,7 +644,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  F(X0) = " + mckinnon(m, x0) + "");
 
-        x = CompassSearch.compass_search(mckinnon, m, x0, delta_tol, delta, k_max, ref fx, ref k);
+        double[] x = CompassSearch.compass_search(mckinnon, m, x0, delta_tol, delta, k_max, ref fx, ref k);
         typeMethods.r8vec_print(m, x, "  Estimated minimizer X1:");
         Console.WriteLine("");
         Console.WriteLine("  F(X1) = " + fx + " number of steps = " + k + "");
@@ -789,22 +738,17 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double delta;
-        double delta_tol;
         double fx = 0;
         int k = 0;
-        int k_max;
-        int m = 4;
-        double[] x;
-        double[] x0;
+        const int m = 4;
 
-        x0 = new double[m];
+        double[] x0 = new double[m];
         Console.WriteLine("");
         Console.WriteLine("POWELL_TEST:");
         Console.WriteLine("  Test COMPASS_SEARCH with the Powell function.");
-        delta_tol = 0.00001;
-        delta = 0.3;
-        k_max = 20000;
+        const double delta_tol = 0.00001;
+        const double delta = 0.3;
+        const int k_max = 20000;
 
         x0[0] = 3.0;
         x0[1] = -1.0;
@@ -814,7 +758,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  F(X0) = " + powell(m, x0) + "");
 
-        x = CompassSearch.compass_search(powell, m, x0, delta_tol, delta, k_max, ref fx, ref k);
+        double[] x = CompassSearch.compass_search(powell, m, x0, delta_tol, delta, k_max, ref fx, ref k);
         typeMethods.r8vec_print(m, x, "  Estimated minimizer X1:");
         Console.WriteLine("");
         Console.WriteLine("  F(X1) = " + fx + " number of steps = " + k + "");
@@ -852,22 +796,17 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double delta;
-        double delta_tol;
         double fx = 0;
         int k = 0;
-        int k_max;
-        int m = 2;
-        double[] x;
-        double[] x0;
+        const int m = 2;
 
-        x0 = new double[m];
+        double[] x0 = new double[m];
         Console.WriteLine("");
         Console.WriteLine("ROSENBROCK_TEST:");
         Console.WriteLine("  Test COMPASS_SEARCH with the Rosenbrock function.");
-        delta_tol = 0.00001;
-        delta = 0.3;
-        k_max = 20000;
+        const double delta_tol = 0.00001;
+        const double delta = 0.3;
+        const int k_max = 20000;
 
         x0[0] = -1.2;
         x0[1] = 1.0;
@@ -875,7 +814,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  F(X0) = " + rosenbrock(m, x0) + "");
 
-        x = CompassSearch.compass_search(rosenbrock, m, x0, delta_tol, delta, k_max, ref fx, ref k);
+        double[] x = CompassSearch.compass_search(rosenbrock, m, x0, delta_tol, delta, k_max, ref fx, ref k);
         typeMethods.r8vec_print(m, x, "  Estimated minimizer X1:");
         Console.WriteLine("");
         Console.WriteLine("  F(X1) = " + fx + " number of steps = " + k + "");
@@ -953,16 +892,11 @@ internal static class Program
         //    Output, double BEALE, the value of the function at X.
         //
     {
-        double f;
-        double f1;
-        double f2;
-        double f3;
+        double f1 = 1.5 - x[0] * (1.0 - x[1]);
+        double f2 = 2.25 - x[0] * (1.0 - Math.Pow(x[1], 2));
+        double f3 = 2.625 - x[0] * (1.0 - Math.Pow(x[1], 3));
 
-        f1 = 1.5 - x[0] * (1.0 - x[1]);
-        f2 = 2.25 - x[0] * (1.0 - Math.Pow(x[1], 2));
-        f3 = 2.625 - x[0] * (1.0 - Math.Pow(x[1], 3));
-
-        f = f1 * f1 + f2 * f2 + f3 * f3;
+        double f = f1 * f1 + f2 * f2 + f3 * f3;
 
         return f;
     }
@@ -1016,12 +950,9 @@ internal static class Program
         //    Output, double BOHACH1, the value of the function at X.
         //
     {
-        double f;
-        double pi = 3.141592653589793;
-
-        f = x[0] * x[0] - 0.3 * Math.Cos(3.0 * pi * x[0])
-            + 2.0 * x[1] * x[1] - 0.4 * Math.Cos(4.0 * pi * x[1])
-            + 0.7;
+        double f = x[0] * x[0] - 0.3 * Math.Cos(3.0 * Math.PI * x[0])
+                   + 2.0 * x[1] * x[1] - 0.4 * Math.Cos(4.0 * Math.PI * x[1])
+                   + 0.7;
 
         return f;
     }
@@ -1075,13 +1006,10 @@ internal static class Program
         //    Output, double BOHACH2, the value of the function at X.
         //
     {
-        double f;
-        double pi = 3.141592653589793;
-
-        f = x[0] * x[0]
-            + 2.0 * x[1] * x[1]
-            - 0.3 * Math.Cos(3.0 * pi * x[0]) * Math.Cos(4.0 * pi * x[1])
-            + 0.3;
+        double f = x[0] * x[0]
+                   + 2.0 * x[1] * x[1]
+                   - 0.3 * Math.Cos(3.0 * Math.PI * x[0]) * Math.Cos(4.0 * Math.PI * x[1])
+                   + 0.3;
 
         return f;
     }
@@ -1141,17 +1069,12 @@ internal static class Program
         //    Output, double BROYDEN, the value of the function at X.
         //
     {
-        double f;
-        double f1;
-        double f2;
-        double p;
+        double f1 = Math.Abs((3.0 - x[0]) * x[0] - 2.0 * x[1] + 1.0);
+        double f2 = Math.Abs((3.0 - 2.0 * x[1]) * x[1] - x[0] + 1.0);
 
-        f1 = Math.Abs((3.0 - x[0]) * x[0] - 2.0 * x[1] + 1.0);
-        f2 = Math.Abs((3.0 - 2.0 * x[1]) * x[1] - x[0] + 1.0);
+        const double p = 3.0 / 7.0;
 
-        p = 3.0 / 7.0;
-
-        f = Math.Pow(f1, p) + Math.Pow(f2, p);
+        double f = Math.Pow(f1, p) + Math.Pow(f2, p);
 
         return f;
     }
@@ -1200,17 +1123,14 @@ internal static class Program
         //    Output, double EXTENDED_ROSENBROCK, the value of the function at X.
         //
     {
-        double f;
-        double f1;
-        double f2;
         int i;
 
-        f = 0.0;
+        double f = 0.0;
 
         for (i = 0; i < m - 1; i += 2)
         {
-            f1 = 1.0 - x[i];
-            f2 = 10.0 * (x[i + 1] - x[i] * x[i]);
+            double f1 = 1.0 - x[i];
+            double f2 = 10.0 * (x[i + 1] - x[i] * x[i]);
             f = f + f1 * f1 + f2 * f2;
         }
 
@@ -1267,23 +1187,17 @@ internal static class Program
         //    Output, double GOLDSTEIN_PRICE, the value of the function at X.
         //
     {
-        double a;
-        double b;
-        double c;
-        double d;
-        double f;
+        double a = x[0] + x[1] + 1.0;
 
-        a = x[0] + x[1] + 1.0;
+        double b = 19.0 - 14.0 * x[0] + 3.0 * x[0] * x[0] - 14.0 * x[1]
+                   + 6.0 * x[0] * x[1] + 3.0 * x[1] * x[1];
 
-        b = 19.0 - 14.0 * x[0] + 3.0 * x[0] * x[0] - 14.0 * x[1]
-            + 6.0 * x[0] * x[1] + 3.0 * x[1] * x[1];
+        double c = 2.0 * x[0] - 3.0 * x[1];
 
-        c = 2.0 * x[0] - 3.0 * x[1];
-
-        d = 18.0 - 32.0 * x[0] + 12.0 * x[0] * x[0] + 48.0 * x[1]
+        double d = 18.0 - 32.0 * x[0] + 12.0 * x[0] * x[0] + 48.0 * x[1]
             - 36.0 * x[0] * x[1] + 27.0 * x[1] * x[1];
 
-        f = (1.0 + a * a * b) * (30.0 + c * c * d);
+        double f = (1.0 + a * a * b) * (30.0 + c * c * d);
 
         return f;
     }
@@ -1341,10 +1255,8 @@ internal static class Program
         //    Output, double HIMMELBLAU, the value of the function at X.
         //
     {
-        double f;
-
-        f = Math.Pow(x[0] * x[0] + x[1] - 11.0, 2)
-            + Math.Pow(x[0] + x[1] * x[1] - 7.0, 2);
+        double f = Math.Pow(x[0] * x[0] + x[1] - 11.0, 2)
+                   + Math.Pow(x[0] + x[1] * x[1] - 7.0, 2);
 
         return f;
     }
@@ -1404,11 +1316,9 @@ internal static class Program
         //    Output, double LOCAL, the value of the function at X.
         //
     {
-        double f;
-
-        f = Math.Pow(x[0] * x[0] + 12.0 * x[1] - 1.0, 2)
-            + Math.Pow(49.0 * x[0] * x[0] + 49.0 * x[1] * x[1] + 84.0 * x[0]
-                + 2324.0 * x[1] - 681.0, 2);
+        double f = Math.Pow(x[0] * x[0] + 12.0 * x[1] - 1.0, 2)
+                   + Math.Pow(49.0 * x[0] * x[0] + 49.0 * x[1] * x[1] + 84.0 * x[0]
+                       + 2324.0 * x[1] - 681.0, 2);
 
         return f;
     }
@@ -1484,14 +1394,13 @@ internal static class Program
         //    Output, double MCKINNON, the value of the function at X.
         //
     {
-        double f;
         double phi = 0;
         double tau = 0;
         double theta = 0;
 
         mckinnon_parameters("get", ref phi, ref tau, ref theta);
 
-        f = x[0] switch
+        double f = x[0] switch
         {
             <= 0.0 => theta * phi * Math.Pow(Math.Abs(x[0]), tau) + x[1] * (1.0 + x[1]),
             _ => theta * Math.Pow(x[0], tau) + x[1] * (1.0 + x[1])
@@ -1602,18 +1511,12 @@ internal static class Program
         //    Output, double POWELL, the value of the function at X.
         //
     {
-        double f;
-        double f1;
-        double f2;
-        double f3;
-        double f4;
+        double f1 = x[0] + 10.0 * x[1];
+        double f2 = x[2] - x[3];
+        double f3 = x[1] - 2.0 * x[2];
+        double f4 = x[0] - x[3];
 
-        f1 = x[0] + 10.0 * x[1];
-        f2 = x[2] - x[3];
-        f3 = x[1] - 2.0 * x[2];
-        f4 = x[0] - x[3];
-
-        f = f1 * f1 + f2 * f2 + f3 * f3 + f4 * f4;
+        double f = f1 * f1 + f2 * f2 + f3 * f3 + f4 * f4;
 
         return f;
     }
@@ -1662,9 +1565,7 @@ internal static class Program
         //    Output, double ROSENBROCK, the value of the function at X.
         //
     {
-        double f;
-
-        f = Math.Pow(1.0 - x[0], 2) + 100.0 * Math.Pow(x[1] - x[0] * x[0], 2);
+        double f = Math.Pow(1.0 - x[0], 2) + 100.0 * Math.Pow(x[1] - x[0] * x[0], 2);
 
         return f;
     }

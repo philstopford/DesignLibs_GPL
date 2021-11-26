@@ -5,7 +5,7 @@ using Burkardt.Types;
 
 namespace ComboTest;
 
-internal partial class Program
+internal static partial class Program
 {
     private static void cycle_check_test()
 
@@ -28,8 +28,6 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        bool check;
-        int i;
         int[] index = new int[1];
         int[] index1 =  {
                 1, 4, 3
@@ -51,8 +49,6 @@ internal partial class Program
                 1, 4, 3
             }
             ;
-        int j;
-        int jlo;
         int n = 0;
         int ncycle = 0;
         int[] t = new int[1];
@@ -128,10 +124,12 @@ internal partial class Program
             Console.WriteLine("  Permutation in cycle form:");
             Console.WriteLine("  Number of cycles is " + ncycle + "");
             Console.WriteLine("");
-            jlo = 0;
+            int jlo = 0;
+            int i;
             for (i = 0; i < ncycle; i++)
             {
                 string cout = "    ";
+                int j;
                 for (j = jlo; j < jlo + index[i]; j++)
                 {
                     cout += "  " + t[j];
@@ -141,7 +139,7 @@ internal partial class Program
                 jlo += index[i];
             }
 
-            check = Ranking.cycle_check(n, ncycle, t, index);
+            bool check = Ranking.cycle_check(n, ncycle, t, index);
             Console.WriteLine("  Check = " + check + "");
         }
     }
@@ -168,15 +166,10 @@ internal partial class Program
         //
     {
         int i;
-        int j;
-        int jlo;
         int[] index =  {
                 5, 1, 1
             }
             ;
-        int n = 7;
-        int ncycle;
-        int[] p;
         int[] t =  {
                 4, 2, 5, 3, 1, 6, 7
             }
@@ -187,17 +180,18 @@ internal partial class Program
         Console.WriteLine("  CYCLE_TO_PERM converts a permutation from");
         Console.WriteLine("  cycle to array form;");
 
-        n = 7;
-        ncycle = 3;
+        const int n = 7;
+        const int ncycle = 3;
 
         Console.WriteLine("");
         Console.WriteLine("  Cycle form:");
         Console.WriteLine("  Number of cycles is " + ncycle + "");
         Console.WriteLine("");
-        jlo = 0;
+        int jlo = 0;
         for (i = 1; i <= ncycle; i++)
         {
             string cout = "";
+            int j;
             for (j = jlo + 1; j <= jlo + index[i - 1]; j++)
             {
                 cout += "  " + t[j - 1].ToString().PadLeft(4);
@@ -207,7 +201,7 @@ internal partial class Program
             jlo += index[i - 1];
         }
 
-        p = Ranking.cycle_to_perm(n, ncycle, t, index);
+        int[] p = Ranking.cycle_to_perm(n, ncycle, t, index);
 
         Permutation.perm_print(n, p, "  Corresponding permutation:");
     }

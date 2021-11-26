@@ -4,7 +4,7 @@ using Burkardt.Types;
 
 namespace ComboTest;
 
-internal partial class Program
+internal static partial class Program
 {
     private static void tableau_check_test()
 
@@ -25,7 +25,6 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        bool check;
         int n = 0;
         int[] t = new int[1];
         int[] t1 =  {
@@ -95,7 +94,7 @@ internal partial class Program
             }
 
             Console.WriteLine("");
-            check = Ranking.tableau_check(n, t);
+            bool check = Ranking.tableau_check(n, t);
             Console.WriteLine("      Check = " + check + "");
             typeMethods.i4mat_print(2, n, t, "  Tableau:");
         }
@@ -123,7 +122,6 @@ internal partial class Program
         //
     {
         int n;
-        int tableau_num;
 
         Console.WriteLine("");
         Console.WriteLine("TABLEAU_ENUM_TEST");
@@ -131,7 +129,7 @@ internal partial class Program
 
         for (n = 0; n <= 10; n++)
         {
-            tableau_num = Ranking.tableau_enum(n);
+            int tableau_num = Ranking.tableau_enum(n);
             Console.WriteLine("  " + n.ToString().PadLeft(2)
                                    + "  " + tableau_num.ToString().PadLeft(6) + "");
         }
@@ -158,8 +156,7 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int n = 4;
-        int[] t;
+        const int n = 4;
         int[] tab =  {
                 1, 3, 2, 4, 5, 7, 6, 8
             }
@@ -172,7 +169,7 @@ internal partial class Program
 
         typeMethods.i4mat_print(2, n, tab, "  Tableau");
 
-        t = Ranking.tableau_to_bal_seq(n, tab);
+        int[] t = Ranking.tableau_to_bal_seq(n, tab);
 
         typeMethods.i4vec_transpose_print(2 * n, t, "  Balanced sequence:");
     }

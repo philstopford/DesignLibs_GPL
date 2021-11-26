@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Types;
 
 namespace ComboTest;
 
-internal partial class Program
+internal static partial class Program
 {
     private static void r8vec_backtrack_test()
 
@@ -26,17 +27,11 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int found_num;
         int i;
-        int indx;
-        int k;
-        int n = 8;
-        int maxstack = 100;
+        const int n = 8;
+        const int maxstack = 100;
         int[] ncan = new int[8];
-        int nstack;
         double[] stacks = new double[100];
-        double t;
-        double total;
         double[] w =  {
                 15.0, 22.0, 14.0, 26.0, 32.0, 9.0, 16.0, 8.0
             }
@@ -54,41 +49,42 @@ internal partial class Program
         Console.WriteLine("  X(I) is 0.0 or 1.0 if the entry is skipped or used.");
         Console.WriteLine("");
 
-        t = 53.0;
+        const double t = 53.0;
 
         for (i = 0; i < n; i++)
         {
             x[i] = 0.0;
         }
 
-        indx = 0;
-        k = 0;
-        nstack = 0;
+        int indx = 0;
+        int k = 0;
+        int nstack = 0;
         for (i = 0; i < n; i++)
         {
             ncan[i] = 0;
         }
 
-        found_num = 0;
+        int found_num = 0;
 
         for (;;)
         {
             typeMethods.r8vec_backtrack(n, maxstack, stacks, ref x, ref indx, ref k, ref nstack, ref ncan);
 
+            double total;
             if (indx == 1)
             {
                 found_num += 1;
                 string cout = "  " + found_num.ToString().PadLeft(2) + "   ";
 
                 total = typeMethods.r8vec_dot_product(n, w, x);
-                cout += "  " + total.ToString().PadLeft(8) + ":  ";
+                cout += "  " + total.ToString(CultureInfo.InvariantCulture).PadLeft(8) + ":  ";
 
                 for (i = 0; i < n; i++)
                 {
                     switch (x[i])
                     {
                         case 1.0:
-                            cout += "  " + w[i].ToString().PadLeft(8);
+                            cout += "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(8);
                             break;
                     }
                 }
@@ -116,32 +112,43 @@ internal partial class Program
                 {
                     ncan[k - 1] = 0;
                 }
-                else if (t == total)
+                else if (Math.Abs(t - total) <= double.Epsilon)
                 {
                     ncan[k - 1] += 1;
                     stacks[nstack] = 0.0;
                     nstack += 1;
                 }
-                else if (total < t && k < n)
+                else
                 {
-                    ncan[k - 1] += 1;
-                    stacks[nstack] = 0.0;
-                    nstack += 1;
+                    switch (total)
+                    {
+                        case < t when k < n:
+                        {
+                            ncan[k - 1] += 1;
+                            stacks[nstack] = 0.0;
+                            nstack += 1;
 
-                    if (total + w[k - 1] <= t)
-                    {
-                        ncan[k - 1] += 1;
-                        stacks[nstack] = 1.0;
-                        nstack += 1;
-                    }
-                }
-                else if (total < t && k == n)
-                {
-                    if (total + w[k - 1] == t)
-                    {
-                        ncan[k - 1] += 1;
-                        stacks[nstack] = 1.0;
-                        nstack += 1;
+                            if (!(total + w[k - 1] <= t))
+                            {
+                                continue;
+                            }
+
+                            ncan[k - 1] += 1;
+                            stacks[nstack] = 1.0;
+                            nstack += 1;
+                            break;
+                        }
+                        case < t when k == n:
+                        {
+                            if (Math.Abs(total + w[k - 1] - t) <= double.Epsilon)
+                            {
+                                ncan[k - 1] += 1;
+                                stacks[nstack] = 1.0;
+                                nstack += 1;
+                            }
+
+                            break;
+                        }
                     }
                 }
             }

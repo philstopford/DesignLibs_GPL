@@ -3,7 +3,7 @@ using Burkardt.RankingNS;
 
 namespace ComboTest;
 
-internal partial class Program
+internal static partial class Program
 {
     private static void bell_numbers_test ( )
 
@@ -26,12 +26,10 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int[] b;
         int bn = 0;
         int n = 0;
-        int n_data;
 
-        n_data = 0;
+        int n_data = 0;
 
         Console.WriteLine("");
         Console.WriteLine("BELL_NUMBERS_TEST");
@@ -47,7 +45,7 @@ internal partial class Program
             {
                 break;
             }
-            b = Ranking.bell_numbers ( n );
+            int[] b = Ranking.bell_numbers ( n );
             Console.WriteLine("  " + n.ToString().PadLeft(8)
                                    + "  " + bn.ToString().PadLeft(12)
                                    + "  " + b[n].ToString().PadLeft(12) + "");

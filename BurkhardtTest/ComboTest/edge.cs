@@ -4,7 +4,7 @@ using Burkardt.Types;
 
 namespace ComboTest;
 
-internal partial class Program
+internal static partial class Program
 {
     private static void edge_check_test()
 
@@ -27,7 +27,6 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        bool check;
         int edge_num = 0;
         int[] edge_list = new int[1];
         int[] edge_list1 =  {
@@ -107,7 +106,7 @@ internal partial class Program
             }
 
             Console.WriteLine("");
-            check = Ranking.edge_check(node_num, edge_num, edge_list);
+            bool check = Ranking.edge_check(node_num, edge_num, edge_list);
             Console.WriteLine("      " + check.ToString().PadLeft(2)
                                        + "     " + node_num.ToString().PadLeft(2)
                                        + "     " + edge_num.ToString().PadLeft(2) + "");
@@ -137,25 +136,22 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int[] d;
         int[] edge =  {
                 1, 2, 2, 3, 4,
                 2, 3, 4, 4, 5
             }
             ;
-        int edge_num;
-        int node_num;
 
         Console.WriteLine("");
         Console.WriteLine("EDGE_DEGREE_TEST");
         Console.WriteLine("  EDGE_DEGREE determines the degree of each node in a graph.");
 
-        node_num = 5;
-        edge_num = 5;
+        int node_num = 5;
+        int edge_num = 5;
 
         typeMethods.i4mat_print(2, edge_num, edge, "  The edge array:");
 
-        d = Ranking.edge_degree(node_num, edge_num, edge);
+        int[] d = Ranking.edge_degree(node_num, edge_num, edge);
 
         typeMethods.i4vec_print(node_num, d, "  The degree vector:");
 
@@ -182,7 +178,6 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int edge_num;
         int node_num;
 
         Console.WriteLine("");
@@ -195,7 +190,7 @@ internal partial class Program
 
         for (node_num = 1; node_num <= 10; node_num++)
         {
-            edge_num = Ranking.edge_enum(node_num);
+            int edge_num = Ranking.edge_enum(node_num);
             Console.WriteLine("       "
                               + "  " + node_num.ToString().PadLeft(2)
                               + "    "

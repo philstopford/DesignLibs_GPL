@@ -3,7 +3,7 @@ using Burkardt.RankingNS;
 
 namespace ComboTest;
 
-internal partial class Program
+internal static partial class Program
 {
     private static void dist_enum_test()
 
@@ -27,7 +27,6 @@ internal partial class Program
         //
     {
         int m;
-        int n;
 
         Console.WriteLine("");
         Console.WriteLine("DIST_ENUM_TEST");
@@ -41,6 +40,7 @@ internal partial class Program
         {
             string cout = "  " + m.ToString().PadLeft(2)
                                + ":  ";
+            int n;
             for (n = 0; n <= 5; n++)
             {
                 cout += "  " + Ranking.dist_enum(m, n).ToString().PadLeft(6);
@@ -71,19 +71,11 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int i;
-        int idist;
-        int k;
-        int leftmost;
-        int m;
-        bool more;
-        int[] q;
-
-        k = 3;
-        m = 5;
-        q = new int[k];
-        leftmost = 0;
-        more = false;
+        const int k = 3;
+        const int m = 5;
+        int[] q = new int[k];
+        int leftmost = 0;
+        bool more = false;
 
         Console.WriteLine("");
         Console.WriteLine("DIST_NEXT_TEST");
@@ -96,7 +88,7 @@ internal partial class Program
         Console.WriteLine("    distributions is            " + Ranking.dist_enum(k, m) + "");
         Console.WriteLine("");
 
-        idist = 0;
+        int idist = 0;
 
         for (;;)
         {
@@ -109,6 +101,7 @@ internal partial class Program
 
             idist += 1;
             string cout = "  " + idist.ToString().PadLeft(4);
+            int i;
             for (i = 0; i < k; i++)
             {
                 cout += "  " + q[i].ToString().PadLeft(2);

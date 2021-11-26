@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.RankingNS;
 
 namespace ComboTest;
 
-internal partial class Program
+internal static partial class Program
 {
     private static void knapsack_01_test()
 
@@ -26,12 +27,11 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int N = 5;
+        const int N = 5;
 
         int i;
         double mass = 0;
-        double mass_limit = 26.0;
-        int n = N;
+        const double mass_limit = 26.0;
         double[] p =  {
                 24.0, 13.0, 23.0, 15.0, 16.0
             }
@@ -50,45 +50,45 @@ internal partial class Program
         Console.WriteLine("");
         Console.WriteLine("  Object, Profit, Mass, Profit Density");
         Console.WriteLine("");
-        for (i = 0; i < n; i++)
+        for (i = 0; i < N; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                   + "  " + p[i].ToString().PadLeft(7)
-                                   + "  " + w[i].ToString().PadLeft(7)
-                                   + "  " + (p[i] / w[i]).ToString().PadLeft(7) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + p[i].ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + (p[i] / w[i]).ToString(CultureInfo.InvariantCulture).PadLeft(7) + "");
         }
 
-        Ranking.knapsack_reorder(n, ref p, ref w);
+        Ranking.knapsack_reorder(N, ref p, ref w);
 
         Console.WriteLine("");
         Console.WriteLine("  After reordering by Profit Density:");
         Console.WriteLine("");
         Console.WriteLine("  Object, Profit, Mass, Profit Density");
         Console.WriteLine("");
-        for (i = 0; i < n; i++)
+        for (i = 0; i < N; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                   + "  " + p[i].ToString().PadLeft(7)
-                                   + "  " + w[i].ToString().PadLeft(7)
-                                   + "  " + (p[i] / w[i]).ToString().PadLeft(7) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + p[i].ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + (p[i] / w[i]).ToString(CultureInfo.InvariantCulture).PadLeft(7) + "");
         }
 
         Console.WriteLine("");
         Console.WriteLine("  Total mass restriction is " + mass_limit + "");
 
-        Ranking.knapsack_01(n, mass_limit, ref p, ref w, ref x, ref mass, ref profit);
+        Ranking.knapsack_01(N, mass_limit, ref p, ref w, ref x, ref mass, ref profit);
 
         Console.WriteLine("");
         Console.WriteLine("  Object, Density, Choice, Profit, Mass");
         Console.WriteLine("");
 
-        for (i = 0; i < n; i++)
+        for (i = 0; i < N; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                   + "  " + (p[i] / w[i]).ToString().PadLeft(7)
-                                   + "  " + x[i].ToString().PadLeft(7)
-                                   + "  " + (x[i] * p[i]).ToString().PadLeft(7)
-                                   + "  " + (x[i] * w[i]).ToString().PadLeft(7) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + (p[i] / w[i]).ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + (x[i] * p[i]).ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + (x[i] * w[i]).ToString(CultureInfo.InvariantCulture).PadLeft(7) + "");
         }
 
         Console.WriteLine("");
@@ -117,12 +117,11 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int N = 5;
+        const int N = 5;
 
         int i;
         double mass = 0;
-        double mass_limit = 26.0;
-        int n = N;
+        const double mass_limit = 26.0;
         double[] p =  {
                 24.0, 13.0, 23.0, 15.0, 16.0
             }
@@ -141,43 +140,43 @@ internal partial class Program
         Console.WriteLine("");
         Console.WriteLine("  Object, Profit, Mass, Profit Density");
         Console.WriteLine("");
-        for (i = 0; i < n; i++)
+        for (i = 0; i < N; i++)
         {
-            Console.WriteLine("  " + (i + 1).ToString().PadLeft(4)
-                                   + "  " + p[i].ToString().PadLeft(7)
-                                   + "  " + w[i].ToString().PadLeft(7)
-                                   + "  " + (p[i] / w[i]).ToString().PadLeft(7) + "");
+            Console.WriteLine("  " + (i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + p[i].ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + (p[i] / w[i]).ToString(CultureInfo.InvariantCulture).PadLeft(7) + "");
         }
 
-        Ranking.knapsack_reorder(n, ref p, ref w);
+        Ranking.knapsack_reorder(N, ref p, ref w);
 
         Console.WriteLine("");
         Console.WriteLine("  After reordering by Profit Density:");
         Console.WriteLine("");
         Console.WriteLine("  Object, Profit, Mass, Profit Density");
         Console.WriteLine("");
-        for (i = 0; i < n; i++)
+        for (i = 0; i < N; i++)
         {
-            Console.WriteLine("  " + (i + 1).ToString().PadLeft(4)
-                                   + "  " + p[i].ToString().PadLeft(7)
-                                   + "  " + w[i].ToString().PadLeft(7)
-                                   + "  " + (p[i] / w[i]).ToString().PadLeft(7) + "");
+            Console.WriteLine("  " + (i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + p[i].ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + (p[i] / w[i]).ToString(CultureInfo.InvariantCulture).PadLeft(7) + "");
         }
 
         Console.WriteLine("");
         Console.WriteLine("  Total mass restriction is " + mass_limit + "");
 
-        Ranking.knapsack_rational(n, mass_limit, p, w, ref x, ref mass, ref profit);
+        Ranking.knapsack_rational(N, mass_limit, p, w, ref x, ref mass, ref profit);
 
         Console.WriteLine("");
         Console.WriteLine("  Object, Density, Choice, Profit, Mass");
         Console.WriteLine("");
-        for (i = 0; i < n; i++)
+        for (i = 0; i < N; i++)
         {
-            Console.WriteLine("  " + (i + 1).ToString().PadLeft(4)
-                                   + "  " + (p[i] / w[i]).ToString().PadLeft(7)
-                                   + "  " + (x[i] * p[i]).ToString().PadLeft(7)
-                                   + "  " + (x[i] * w[i]).ToString().PadLeft(7) + "");
+            Console.WriteLine("  " + (i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + (p[i] / w[i]).ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + (x[i] * p[i]).ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + (x[i] * w[i]).ToString(CultureInfo.InvariantCulture).PadLeft(7) + "");
         }
 
         Console.WriteLine("");
@@ -207,7 +206,7 @@ internal partial class Program
         //
     {
         int i;
-        int n = 5;
+        const int n = 5;
         double[] p =  {
                 24.0, 13.0, 23.0, 15.0, 16.0
             }
@@ -226,10 +225,10 @@ internal partial class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                   + "  " + p[i].ToString().PadLeft(7)
-                                   + "  " + w[i].ToString().PadLeft(7)
-                                   + "  " + (p[i] / w[i]).ToString().PadLeft(7) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + p[i].ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + (p[i] / w[i]).ToString(CultureInfo.InvariantCulture).PadLeft(7) + "");
         }
 
         Ranking.knapsack_reorder(n, ref p, ref w);
@@ -241,10 +240,10 @@ internal partial class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                   + "  " + p[i].ToString().PadLeft(7)
-                                   + "  " + w[i].ToString().PadLeft(7)
-                                   + "  " + (p[i] / w[i]).ToString().PadLeft(7) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + p[i].ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(7)
+                                   + "  " + (p[i] / w[i]).ToString(CultureInfo.InvariantCulture).PadLeft(7) + "");
         }
     }
 }

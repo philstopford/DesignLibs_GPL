@@ -2,7 +2,7 @@
 
 namespace ComboTest;
 
-internal partial class Program
+internal static partial class Program
 {
     private static void Main()
         //****************************************************************************80

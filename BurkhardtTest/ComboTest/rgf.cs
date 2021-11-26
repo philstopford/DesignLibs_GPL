@@ -4,7 +4,7 @@ using Burkardt.Types;
 
 namespace ComboTest;
 
-internal partial class Program
+internal static partial class Program
 {
     private static void rgf_check_test()
 
@@ -27,7 +27,6 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        bool check;
         int[] f = new int[1];
         int[] f1 =  {
                 -1
@@ -80,7 +79,7 @@ internal partial class Program
 
             Console.WriteLine("");
             typeMethods.i4vec_transpose_print(m, f, "  RGF:");
-            check = Ranking.rgf_check(m, f);
+            bool check = Ranking.rgf_check(m, f);
             Console.WriteLine("  CHECK = " + check + "");
         }
     }
@@ -107,7 +106,6 @@ internal partial class Program
         //
     {
         int n;
-        int rgf_num;
 
         Console.WriteLine("");
         Console.WriteLine("RGF_ENUM_TEST");
@@ -118,7 +116,7 @@ internal partial class Program
 
         for (n = 0; n <= 10; n++)
         {
-            rgf_num = Ranking.rgf_enum(n);
+            int rgf_num = Ranking.rgf_enum(n);
             Console.WriteLine("  " + n.ToString().PadLeft(2)
                                    + "  " + rgf_num.ToString().PadLeft(6) + "");
         }
@@ -145,10 +143,8 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int[] d;
         int i;
-        int j;
-        int m = 6;
+        const int m = 6;
 
         Console.WriteLine("");
         Console.WriteLine("RGF_G_TABLE_TEST");
@@ -156,11 +152,12 @@ internal partial class Program
         Console.WriteLine("  growth functions.");
         Console.WriteLine("");
 
-        d = Ranking.rgf_g_table(m);
+        int[] d = Ranking.rgf_g_table(m);
 
         for (i = 0; i <= m; i++)
         {
             string cout = "";
+            int j;
             for (j = 0; j <= m - i; j++)
             {
                 cout += "  " + d[i + j * (m + 1)].ToString().PadLeft(4);
@@ -195,8 +192,7 @@ internal partial class Program
                 1, 2, 1, 3
             }
             ;
-        int m = 4;
-        int rank;
+        const int m = 4;
 
         Console.WriteLine("");
         Console.WriteLine("RGF_RANK_TEST");
@@ -204,7 +200,7 @@ internal partial class Program
 
         typeMethods.i4vec_transpose_print(m, f, "  Element to be ranked:");
 
-        rank = Ranking.rgf_rank(m, f);
+        int rank = Ranking.rgf_rank(m, f);
 
         Console.WriteLine("");
         Console.WriteLine("  Rank is computed as " + rank + "");
@@ -231,23 +227,19 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int[] f;
-        int i;
-        int m = 4;
-        int rank;
-        int rank_old;
+        const int m = 4;
 
         Console.WriteLine("");
         Console.WriteLine("RGF_SUCCESSOR_TEST");
         Console.WriteLine("  RGF_SUCCESSOR lists restricted growth functions:");
 
-        f = new int[m];
+        int[] f = new int[m];
 
-        rank = -1;
+        int rank = -1;
 
         for (;;)
         {
-            rank_old = rank;
+            int rank_old = rank;
 
             Ranking.rgf_successor(m, ref f, ref rank);
 
@@ -257,6 +249,7 @@ internal partial class Program
             }
 
             string cout = "  " + rank.ToString().PadLeft(4);
+            int i;
             for (i = 0; i < m; i++)
             {
                 cout += "  " + f[i].ToString().PadLeft(4);
@@ -288,16 +281,12 @@ internal partial class Program
         //
     {
         int i;
-        int j;
-        int jlo;
         int[] f =  {
                 1, 1, 1, 1, 1, 2, 1, 3
             }
             ;
-        int[] index;
-        int m = 8;
+        const int m = 8;
         int nsub = 0;
-        int[] s;
 
         Console.WriteLine("");
         Console.WriteLine("RGF_TO_SETPART_TEST");
@@ -308,18 +297,19 @@ internal partial class Program
         //
         //  Convert the RGF to a set partition.
         //
-        s = new int[m];
-        index = new int[m];
+        int[] s = new int[m];
+        int[] index = new int[m];
 
         Ranking.rgf_to_setpart(m, f, ref nsub, ref s, ref index);
 
         Console.WriteLine("");
         Console.WriteLine("  Corresponding set partition");
         Console.WriteLine("");
-        jlo = 1;
+        int jlo = 1;
         for (i = 1; i <= nsub; i++)
         {
             string cout = "";
+            int j;
             for (j = jlo; j <= index[i - 1]; j++)
             {
                 cout += "  " + s[j - 1].ToString().PadLeft(4);
@@ -351,18 +341,15 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int[] f;
-        int m;
-        int rank;
-
         Console.WriteLine("");
         Console.WriteLine("RGF_UNRANK_TEST");
         Console.WriteLine("  RGF_UNRANK unranks restricted growth functions:");
 
-        rank = 7;
+        const int rank = 7;
+        int m;
         m = 4;
 
-        f = Ranking.rgf_unrank(rank, m);
+        int[] f = Ranking.rgf_unrank(rank, m);
 
         Console.WriteLine("");
         Console.WriteLine("  The element of rank " + rank + "");

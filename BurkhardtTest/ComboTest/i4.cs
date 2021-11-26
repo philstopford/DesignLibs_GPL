@@ -4,7 +4,7 @@ using Burkardt.Uniform;
 
 namespace ComboTest;
 
-internal partial class Program
+internal static partial class Program
 {
     private static void i4_choose_test()
 
@@ -28,7 +28,6 @@ internal partial class Program
         //
     {
         int i;
-        int j;
 
         Console.WriteLine("");
         Console.WriteLine("I4_CHOOSE_TEST");
@@ -36,6 +35,7 @@ internal partial class Program
 
         for (i = -1; i <= 5; i++)
         {
+            int j;
             for (j = -1; j <= 5; j++)
             {
                 Console.WriteLine("  " + i.ToString().PadLeft(4)
@@ -67,7 +67,6 @@ internal partial class Program
         //
     {
         int fx = 0;
-        int fx2;
         int n = 0;
         int x = 0;
 
@@ -92,7 +91,7 @@ internal partial class Program
                 continue;
             }
 
-            fx2 = typeMethods.i4_factorial(x);
+            int fx2 = typeMethods.i4_factorial(x);
 
             Console.WriteLine("  " + x.ToString().PadLeft(4)
                                    + "  " + fx.ToString().PadLeft(12)
@@ -122,10 +121,8 @@ internal partial class Program
         //
     {
         int f1 = 0;
-        int f2;
         int m = 0;
         int n = 0;
-        int n_data = 0;
 
         Console.WriteLine("");
         Console.WriteLine("I4_FALL_TEST");
@@ -134,7 +131,7 @@ internal partial class Program
         Console.WriteLine("         M         N     Exact  I4_Fall(M,N)");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         while (true)
         {
@@ -145,7 +142,7 @@ internal partial class Program
                 break;
             }
 
-            f2 = typeMethods.i4_fall(m, n);
+            int f2 = typeMethods.i4_fall(m, n);
 
             Console.WriteLine("  " + m.ToString().PadLeft(8)
                                    + "  " + n.ToString().PadLeft(8)
@@ -175,10 +172,9 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int a = -100;
-        int b = 200;
+        const int a = -100;
+        const int b = 200;
         int i;
-        int j;
         int seed = 123456789;
 
         Console.WriteLine("");
@@ -194,7 +190,7 @@ internal partial class Program
 
         for (i = 1; i <= 20; i++)
         {
-            j = UniformRNG.i4_uniform_ab(a, b, ref seed);
+            int j = UniformRNG.i4_uniform_ab(a, b, ref seed);
 
             Console.WriteLine("  " + i.ToString().PadLeft(8)
                                    + "  " + j.ToString().PadLeft(8) + "");

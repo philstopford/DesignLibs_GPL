@@ -4,7 +4,7 @@ using Burkardt.Types;
 
 namespace ComboTest;
 
-internal partial class Program
+internal static partial class Program
 {
     private static void part_enum_test()
 
@@ -87,7 +87,6 @@ internal partial class Program
                 1, 4, 4, 6
             }
             ;
-        bool check;
         int n = 0;
         int npart = 0;
         int test;
@@ -137,7 +136,7 @@ internal partial class Program
             Console.WriteLine("  Partition of N = " + n + "");
             Console.WriteLine("  Number of parts NPART = " + npart + "");
             typeMethods.i4vec_transpose_print(npart, a, "");
-            check = Ranking.part_rsf_check(n, npart, a);
+            bool check = Ranking.part_rsf_check(n, npart, a);
             Console.WriteLine("  Check = " + check + "");
         }
     }
@@ -188,7 +187,6 @@ internal partial class Program
                 6, 4, 4, 1
             }
             ;
-        bool check;
         int n = 0;
         int npart = 0;
         int test;
@@ -238,7 +236,7 @@ internal partial class Program
             Console.WriteLine("  Partition of N = " + n + "");
             Console.WriteLine("  Number of parts NPART = " + npart + "");
             typeMethods.i4vec_transpose_print(npart, a, "");
-            check = Ranking.part_sf_check(n, npart, a);
+            bool check = Ranking.part_sf_check(n, npart, a);
             Console.WriteLine("  Check = " + check + "");
         }
     }
@@ -264,24 +262,20 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int i;
-        int n = 8;
+        const int n = 8;
         int npart = 0;
-        int rank;
-        int rank_old;
-        int[] t;
 
         Console.WriteLine("");
         Console.WriteLine("PART_SUCCESSOR_TEST");
         Console.WriteLine("  PART_SUCCESSOR produces partitions of N,");
 
-        t = new int[n];
+        int[] t = new int[n];
 
-        rank = -1;
+        int rank = -1;
 
         for (;;)
         {
-            rank_old = rank;
+            int rank_old = rank;
 
             Ranking.part_successor(n, ref npart, ref t, ref rank);
 
@@ -291,6 +285,7 @@ internal partial class Program
             }
 
             string cout = "  " + rank.ToString().PadLeft(4);
+            int i;
             for (i = 0; i < npart; i++)
             {
                 cout += "  " + t[i].ToString().PadLeft(4);
@@ -321,14 +316,9 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int[] b;
-        int i;
-        int n = 8;
+        const int n = 8;
         int npart = 0;
         int npartb = 0;
-        int rank = 0;
-        int rank_old;
-        int[] t;
 
         Console.WriteLine("");
         Console.WriteLine("PART_SF_CONJUGATE_TEST");
@@ -338,13 +328,13 @@ internal partial class Program
         //
         //  List.
         //
-        t = new int[n];
+        int[] t = new int[n];
 
-        rank = -1;
+        int rank = -1;
 
         for (;;)
         {
-            rank_old = rank;
+            int rank_old = rank;
 
             Ranking.part_successor(n, ref npart, ref t, ref rank);
 
@@ -354,6 +344,7 @@ internal partial class Program
             }
 
             string cout = "  " + rank.ToString().PadLeft(4);
+            int i;
             for (i = 0; i < npart; i++)
             {
                 cout += "  " + t[i].ToString().PadLeft(4);
@@ -361,7 +352,7 @@ internal partial class Program
 
             Console.WriteLine(cout);
 
-            b = Ranking.part_sf_conjugate(n, npart, t, ref npartb);
+            int[] b = Ranking.part_sf_conjugate(n, npart, t, ref npartb);
             typeMethods.i4vec_transpose_print(npartb, b, "  Con:");
         }
     }
@@ -387,7 +378,7 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int N = 8;
+        const int N = 8;
 
         int[] a =  {
                 2, 2, 2, 1, 1, 0, 0, 0
@@ -401,31 +392,29 @@ internal partial class Program
                 2, 2, 1, 1, 1, 1, 0, 0
             }
             ;
-        int n = N;
-        int nparta = 5;
-        int npartb = 6;
-        int npartc = 6;
-        int result;
+        const int nparta = 5;
+        const int npartb = 6;
+        const int npartc = 6;
 
         Console.WriteLine("");
         Console.WriteLine("PART_SF_MAJORIZE_TEST");
         Console.WriteLine("  PART_SF_MAJORIZE determines if one partition");
         Console.WriteLine("  majorizes another.");
         Console.WriteLine("");
-        Console.WriteLine("  Partitions of N = " + n + "");
+        Console.WriteLine("  Partitions of N = " + N + "");
         Console.WriteLine("");
         typeMethods.i4vec_transpose_print(nparta, a, "  A: ");
         typeMethods.i4vec_transpose_print(npartb, b, "  B: ");
         typeMethods.i4vec_transpose_print(npartc, c, "  C: ");
 
-        result = Ranking.part_sf_majorize(n, nparta, a, npartb, b);
+        int result = Ranking.part_sf_majorize(N, nparta, a, npartb, b);
         Console.WriteLine("");
         Console.WriteLine("  A compare B: " + result + "");
-        result = Ranking.part_sf_majorize(n, npartb, b, npartc, c);
+        result = Ranking.part_sf_majorize(N, npartb, b, npartc, c);
         Console.WriteLine("  B compare C: " + result + "");
-        result = Ranking.part_sf_majorize(n, npartc, c, nparta, a);
+        result = Ranking.part_sf_majorize(N, npartc, c, nparta, a);
         Console.WriteLine("  C compare A: " + result + "");
-        result = Ranking.part_sf_majorize(n, npartc, c, npartc, c);
+        result = Ranking.part_sf_majorize(N, npartc, c, npartc, c);
         Console.WriteLine("  C compare C: " + result + "");
     }
 
@@ -451,14 +440,13 @@ internal partial class Program
         //
     {
         int i;
-        int maxn = 10;
-        int[] p;
+        const int maxn = 10;
 
         Console.WriteLine("");
         Console.WriteLine("PART_TABLE_TEST");
         Console.WriteLine("  PART_TABLE tabulates partitions of N.");
 
-        p = Ranking.part_table(maxn);
+        int[] p = Ranking.part_table(maxn);
 
         Console.WriteLine("");
 

@@ -4,7 +4,7 @@ using Burkardt.Types;
 
 namespace ComboTest;
 
-internal partial class Program
+internal static partial class Program
 {
     private static void ksubset_colex_check_test()
 
@@ -27,7 +27,6 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        bool check;
         int k = 0;
         int n = 0;
         int[] s = new int[1];
@@ -94,7 +93,7 @@ internal partial class Program
                     break;
             }
 
-            check = Ranking.ksubset_colex_check(k, n, s);
+            bool check = Ranking.ksubset_colex_check(k, n, s);
             typeMethods.i4vec_transpose_print(k, s, "  Subset:");
             Console.WriteLine("  N = " + n + ", K = " + k + "");
             Console.WriteLine("  Check = " + check + "");
@@ -122,9 +121,6 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int k;
-        int n;
-        int rank;
         int[] t =  {
                 5, 3, 1
             }
@@ -136,11 +132,11 @@ internal partial class Program
         Console.WriteLine("  K-subsets of an N set,");
         Console.WriteLine("  using the colexicographic ordering:");
 
-        k = 3;
-        n = 5;
+        const int k = 3;
+        const int n = 5;
         typeMethods.i4vec_transpose_print(k, t, "  Element to be ranked:");
 
-        rank = Ranking.ksubset_colex_rank(k, n, t);
+        int rank = Ranking.ksubset_colex_rank(k, n, t);
 
         Console.WriteLine("");
         Console.WriteLine("  Rank is computed as " + rank + "");
@@ -167,27 +163,20 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int i;
-        int k;
-        int n;
-        int rank;
-        int rank_old;
-        int[] t = new int[1];
-
         Console.WriteLine("");
         Console.WriteLine("KSUBSET_COLEX_SUCCESSOR_TEST");
         Console.WriteLine("  KSUBSET_COLEX_SUCCESSOR lists");
         Console.WriteLine("  K-subsets of an N set using the colexicographic ordering:");
 
-        k = 3;
-        n = 5;
-        t = new int[k];
+        const int k = 3;
+        const int n = 5;
+        int[] t = new int[k];
 
-        rank = -1;
+        int rank = -1;
 
         for (;;)
         {
-            rank_old = rank;
+            int rank_old = rank;
 
             Ranking.ksubset_colex_successor(k, n, ref t, ref rank);
 
@@ -197,6 +186,7 @@ internal partial class Program
             }
 
             string cout = "  " + rank.ToString().PadLeft(4);
+            int i;
             for (i = 0; i < k; i++)
             {
                 cout += "  " + t[i].ToString().PadLeft(4);
@@ -227,22 +217,17 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int k;
-        int n;
-        int rank;
-        int[] t;
-
         Console.WriteLine("");
         Console.WriteLine("KSUBSET_COLEX_UNRANK_TEST");
         Console.WriteLine("  KSUBSET_COLEX_UNRANK unranks");
         Console.WriteLine("  K-subsets of an N set");
         Console.WriteLine("  using the colexicographic ordering.");
 
-        rank = 5;
-        k = 3;
-        n = 5;
+        const int rank = 5;
+        const int k = 3;
+        const int n = 5;
 
-        t = Ranking.ksubset_colex_unrank(rank, k, n);
+        int[] t = Ranking.ksubset_colex_unrank(rank, k, n);
 
         Console.WriteLine("");
         Console.WriteLine("  The element of rank " + rank + "");
@@ -271,7 +256,6 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int k;
         int n;
 
         Console.WriteLine("");
@@ -285,6 +269,7 @@ internal partial class Program
         {
             string cout = "  " + n.ToString().PadLeft(2)
                                + ":  ";
+            int k;
             for (k = 0; k <= Math.Min(n, 5); k++)
             {
                 cout += "  " + Ranking.ksubset_enum(k, n).ToString().PadLeft(6);
@@ -315,7 +300,6 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        bool check;
         int k = 0;
         int n = 0;
         int[] s = new int[1];
@@ -382,7 +366,7 @@ internal partial class Program
                     break;
             }
 
-            check = Ranking.ksubset_lex_check(k, n, s);
+            bool check = Ranking.ksubset_lex_check(k, n, s);
             typeMethods.i4vec_transpose_print(k, s, "  Subset:");
             Console.WriteLine("  N = " + n + ", K = " + k + "");
             Console.WriteLine("  Check = " + check + "");
@@ -410,9 +394,6 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int k;
-        int n;
-        int rank;
         int[] t =  {
                 1, 4, 5
             }
@@ -424,11 +405,11 @@ internal partial class Program
         Console.WriteLine("  K-subsets of an N set,");
         Console.WriteLine("  using the lexicographic ordering:");
 
-        k = 3;
-        n = 5;
+        const int k = 3;
+        const int n = 5;
         typeMethods.i4vec_transpose_print(k, t, "  Element to be ranked:");
 
-        rank = Ranking.ksubset_lex_rank(k, n, t);
+        int rank = Ranking.ksubset_lex_rank(k, n, t);
 
         Console.WriteLine("");
         Console.WriteLine("  Rank is computed as " + rank + "");
@@ -455,27 +436,20 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int i;
-        int k;
-        int n;
-        int rank;
-        int rank_old;
-        int[] t = new int[1];
-
         Console.WriteLine("");
         Console.WriteLine("KSUBSET_LEX_SUCCESSOR_TEST");
         Console.WriteLine("  KSUBSET_LEX_SUCCESSOR lists");
         Console.WriteLine("  K-subsets of an N set using the lexicographic ordering:");
 
-        k = 3;
-        n = 5;
-        t = new int[k];
+        const int k = 3;
+        const int n = 5;
+        int[] t = new int[k];
 
-        rank = -1;
+        int rank = -1;
 
         for (;;)
         {
-            rank_old = rank;
+            int rank_old = rank;
 
             Ranking.ksubset_lex_successor(k, n, ref t, ref rank);
 
@@ -485,6 +459,7 @@ internal partial class Program
             }
 
             string cout = "  " + rank.ToString().PadLeft(4);
+            int i;
             for (i = 0; i < k; i++)
             {
                 cout += "  " + t[i].ToString().PadLeft(4);
@@ -515,22 +490,17 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int k;
-        int n;
-        int rank;
-        int[] t;
-
         Console.WriteLine("");
         Console.WriteLine("KSUBSET_LEX_UNRANK_TEST");
         Console.WriteLine("  KSUBSET_LEX_UNRANK unranks");
         Console.WriteLine("  K-subsets of an N set");
         Console.WriteLine("  using the lexicographic ordering.");
 
-        rank = 5;
-        k = 3;
-        n = 5;
+        const int rank = 5;
+        const int k = 3;
+        const int n = 5;
 
-        t = Ranking.ksubset_lex_unrank(rank, k, n);
+        int[] t = Ranking.ksubset_lex_unrank(rank, k, n);
 
         Console.WriteLine("");
         Console.WriteLine("  The element of rank " + rank + "");
@@ -559,9 +529,6 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int k;
-        int n;
-        int rank;
         int[] t =  {
                 2, 4, 5
             }
@@ -573,11 +540,11 @@ internal partial class Program
         Console.WriteLine("  K-subsets of an N set,");
         Console.WriteLine("  using the revolving door ordering:");
 
-        k = 3;
-        n = 5;
+        const int k = 3;
+        const int n = 5;
         typeMethods.i4vec_transpose_print(k, t, "  Element to be ranked:");
 
-        rank = Ranking.ksubset_revdoor_rank(k, n, t);
+        int rank = Ranking.ksubset_revdoor_rank(k, n, t);
 
         Console.WriteLine("");
         Console.WriteLine("  Rank is computed as " + rank + "");
@@ -604,27 +571,20 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int i;
-        int k;
-        int n;
-        int rank;
-        int rank_old;
-        int[] t;
-
         Console.WriteLine("");
         Console.WriteLine("KSUBSET_REVDOOR_SUCCESSOR_TEST");
         Console.WriteLine("  KSUBSET_REVDOOR_SUCCESSOR lists");
         Console.WriteLine("  K-subsets of an N set using the revolving door ordering:");
 
-        k = 3;
-        n = 5;
-        t = new int[k];
+        const int k = 3;
+        const int n = 5;
+        int[] t = new int[k];
 
-        rank = -1;
+        int rank = -1;
 
         for (;;)
         {
-            rank_old = rank;
+            int rank_old = rank;
 
             Ranking.ksubset_revdoor_successor(k, n, ref t, ref rank);
 
@@ -634,6 +594,7 @@ internal partial class Program
             }
 
             string cout = "  " + rank.ToString().PadLeft(4);
+            int i;
             for (i = 0; i < k; i++)
             {
                 cout += "  " + t[i].ToString().PadLeft(4);
@@ -664,22 +625,17 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int k;
-        int n;
-        int rank;
-        int[] t;
-
         Console.WriteLine("");
         Console.WriteLine("KSUBSET_REVDOOR_UNRANK_TEST");
         Console.WriteLine("  KSUBSET_REVDOOR_UNRANK unranks");
         Console.WriteLine("  K-subsets of an N set");
         Console.WriteLine("  using the revolving door ordering.");
 
-        rank = 5;
-        k = 3;
-        n = 5;
+        const int rank = 5;
+        const int k = 3;
+        const int n = 5;
 
-        t = Ranking.ksubset_revdoor_unrank(rank, k, n);
+        int[] t = Ranking.ksubset_revdoor_unrank(rank, k, n);
 
         Console.WriteLine("");
         Console.WriteLine("  The element of rank " + rank + "");

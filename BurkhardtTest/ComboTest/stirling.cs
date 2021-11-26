@@ -4,7 +4,7 @@ using Burkardt.Types;
 
 namespace ComboTest;
 
-internal partial class Program
+internal static partial class Program
 {
     private static void stirling_numbers1_test ( )
 
@@ -27,16 +27,15 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int maxm = 6;
-        int maxn = 6;
-        int[] s;
+        const int maxm = 6;
+        const int maxn = 6;
 
         Console.WriteLine("");
         Console.WriteLine("STIRLING_NUMBERS1_TEST");
         Console.WriteLine("  STIRLING_NUMBERS1 computes a table of Stirling");
         Console.WriteLine("  numbers of the first kind.");
 
-        s = Ranking.stirling_numbers1 ( maxm, maxn );
+        int[] s = Ranking.stirling_numbers1 ( maxm, maxn );
 
         typeMethods.i4mat_print ( maxm + 1, maxn + 1, s, "  Stirling number of first kind" ); 
     }
@@ -62,16 +61,15 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int maxm = 6;
-        int maxn = 6;
-        int[] s;
+        const int maxm = 6;
+        const int maxn = 6;
 
         Console.WriteLine("");
         Console.WriteLine("STIRLING_NUMBERS2_TEST");
         Console.WriteLine("  STIRLING_NUMBERS2 computes a table of Stirling");
         Console.WriteLine("  numbers of the second kind.");
 
-        s = Ranking.stirling_numbers2 ( maxm, maxn );
+        int[] s = Ranking.stirling_numbers2 ( maxm, maxn );
 
         typeMethods.i4mat_print ( maxm + 1, maxn + 1, s, "  Stirling number of second kind" ); 
     }

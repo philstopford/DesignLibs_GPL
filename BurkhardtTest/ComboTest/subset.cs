@@ -5,7 +5,7 @@ using Burkardt.Types;
 
 namespace ComboTest;
 
-internal partial class Program
+internal static partial class Program
 {
     private static void subset_check_test()
 
@@ -28,11 +28,9 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        bool check;
         int n = 0;
         int[] s = new int[1];
-        int[] s1 =  {
-            }
+        int[] s1 = Array.Empty<int>()
             ;
         int[] s2 =  {
                 1, 2, 0
@@ -66,7 +64,7 @@ internal partial class Program
                     break;
             }
 
-            check = Subset.subset_check(n, s);
+            bool check = Subset.subset_check(n, s);
             typeMethods.i4vec_transpose_print(n, s, "  Subset:");
             Console.WriteLine("  Check = " + check + "");
         }
@@ -93,8 +91,7 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int n = 5;
-        int rank;
+        const int n = 5;
         int[] t =  {
                 0, 1, 0, 1, 0
             }
@@ -107,7 +104,7 @@ internal partial class Program
 
         typeMethods.i4vec_transpose_print(n, t, "  Element to be ranked:");
 
-        rank = Ranking.subset_colex_rank(n, t);
+        int rank = Ranking.subset_colex_rank(n, t);
 
         Console.WriteLine("");
         Console.WriteLine("  Rank is computed as " + rank + "");
@@ -134,24 +131,20 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int i;
-        int n = 5;
-        int rank;
-        int rank_old;
-        int[] t;
+        const int n = 5;
 
         Console.WriteLine("");
         Console.WriteLine("SUBSET_COLEX_SUCCESSOR_TEST");
         Console.WriteLine("  SUBSET_COLEX_SUCCESSOR lists subsets of a set,");
         Console.WriteLine("  using the colexicographic ordering.");
 
-        t = new int[n];
+        int[] t = new int[n];
 
-        rank = -1;
+        int rank = -1;
 
         for (;;)
         {
-            rank_old = rank;
+            int rank_old = rank;
 
             Subset.subset_colex_successor(n, ref t, ref rank);
 
@@ -161,6 +154,7 @@ internal partial class Program
             }
 
             string cout = "  " + rank.ToString().PadLeft(4);
+            int i;
             for (i = 0; i < n; i++)
             {
                 cout += "  " + t[i].ToString().PadLeft(4);
@@ -191,19 +185,15 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int n;
-        int rank;
-        int[] t;
-
         Console.WriteLine("");
         Console.WriteLine("SUBSET_COLEX_UNRANK_TEST");
         Console.WriteLine("  SUBSET_COLEX_UNRANK unranks subsets of a set,");
         Console.WriteLine("  using the colexicographic ordering.");
 
-        rank = 10;
-        n = 5;
+        const int rank = 10;
+        const int n = 5;
 
-        t = Ranking.subset_colex_unrank(rank, n);
+        int[] t = Ranking.subset_colex_unrank(rank, n);
 
         typeMethods.i4vec_transpose_print(n, t, "  The element of rank 10:");
     }
@@ -229,22 +219,17 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int n;
-        int[] s1;
-        int[] s2;
-        int seed;
-
         Console.WriteLine("");
         Console.WriteLine("SUBSET_COMPLEMENT_TEST");
         Console.WriteLine("  SUBSET_COMPLEMENT returns the complement of a subset.");
         Console.WriteLine("");
-        n = 5;
-        seed = 123456789;
+        const int n = 5;
+        int seed = 123456789;
 
-        s1 = Subset.subset_random(n, ref seed);
+        int[] s1 = Subset.subset_random(n, ref seed);
         typeMethods.i4vec_transpose_print(n, s1, "  Subset S1:            ");
 
-        s2 = Subset.subset_complement(n, s1);
+        int[] s2 = Subset.subset_complement(n, s1);
         typeMethods.i4vec_transpose_print(n, s2, "  S2 = complement of S1:");
     }
 
@@ -269,27 +254,21 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int distance;
-        int n;
-        int[] s1;
-        int[] s2;
-        int seed;
-
         Console.WriteLine("");
         Console.WriteLine("SUBSET_DISTANCE_TEST");
         Console.WriteLine("  SUBSET_DISTANCE returns the distance between two subsets.");
         Console.WriteLine("");
 
-        n = 5;
-        seed = 123456789;
+        const int n = 5;
+        int seed = 123456789;
 
-        s1 = Subset.subset_random(n, ref seed);
+        int[] s1 = Subset.subset_random(n, ref seed);
         typeMethods.i4vec_transpose_print(n, s1, "  Subset S1:");
 
-        s2 = Subset.subset_random(n, ref seed);
+        int[] s2 = Subset.subset_random(n, ref seed);
         typeMethods.i4vec_transpose_print(n, s2, "  Subset S2:");
 
-        distance = Subset.subset_distance(n, s1, s2);
+        int distance = Subset.subset_distance(n, s1, s2);
         Console.WriteLine("");
         Console.WriteLine("  Distance = " + distance + "");
     }
@@ -316,7 +295,6 @@ internal partial class Program
         //
     {
         int n;
-        int subset_num;
 
         Console.WriteLine("");
         Console.WriteLine("SUBSET_ENUM_TEST");
@@ -325,7 +303,7 @@ internal partial class Program
 
         for (n = 0; n <= 10; n++)
         {
-            subset_num = Subset.subset_enum(n);
+            int subset_num = Subset.subset_enum(n);
             Console.WriteLine("  " + n.ToString().PadLeft(2)
                                    + "  " + subset_num.ToString().PadLeft(6) + "");
         }
@@ -352,27 +330,21 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int n;
-        int[] s1;
-        int[] s2;
-        int[] s3;
-        int seed;
-
         Console.WriteLine("");
         Console.WriteLine("SUBSET_INTERSECT_TEST");
         Console.WriteLine("  SUBSET_INTERSECT returns the intersection of two subsets.");
         Console.WriteLine("");
 
-        n = 7;
-        seed = 123456789;
+        const int n = 7;
+        int seed = 123456789;
 
-        s1 = Subset.subset_random(n, ref seed);
+        int[] s1 = Subset.subset_random(n, ref seed);
         typeMethods.i4vec_transpose_print(n, s1, "  Subset S1:");
 
-        s2 = Subset.subset_random(n, ref seed);
+        int[] s2 = Subset.subset_random(n, ref seed);
         typeMethods.i4vec_transpose_print(n, s2, "  Subset S2:");
 
-        s3 = Subset.subset_intersect(n, s1, s2);
+        int[] s3 = Subset.subset_intersect(n, s1, s2);
         typeMethods.i4vec_transpose_print(n, s3, "  Intersect:");
     }
 
@@ -397,8 +369,6 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int n;
-        int rank;
         int[] t =  {
                 0, 1, 0, 1, 0
             }
@@ -409,10 +379,10 @@ internal partial class Program
         Console.WriteLine("  SUBSET_LEX_RANK ranks subsets of a set,");
         Console.WriteLine("  using the lexicographic ordering.");
 
-        n = 5;
+        const int n = 5;
         typeMethods.i4vec_transpose_print(n, t, "  Element to be ranked:");
 
-        rank = Ranking.subset_lex_rank(n, t);
+        int rank = Ranking.subset_lex_rank(n, t);
 
         Console.WriteLine("");
         Console.WriteLine("  Rank is computed as " + rank + "");
@@ -439,11 +409,7 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int i;
-        int n = 5;
-        int rank;
-        int rank_old;
-        int[] t;
+        const int n = 5;
 
         Console.WriteLine("");
         Console.WriteLine("SUBSET_LEX_SUCCESSOR_TEST");
@@ -451,13 +417,13 @@ internal partial class Program
         Console.WriteLine("  subsets of a set,");
         Console.WriteLine("  using the lexicographic ordering,");
 
-        t = new int[n];
+        int[] t = new int[n];
 
-        rank = -1;
+        int rank = -1;
 
         for (;;)
         {
-            rank_old = rank;
+            int rank_old = rank;
 
             Subset.subset_lex_successor(n, ref t, ref rank);
 
@@ -467,6 +433,7 @@ internal partial class Program
             }
 
             string cout = "  " + rank.ToString().PadLeft(4);
+            int i;
             for (i = 0; i < n; i++)
             {
                 cout += "  " + t[i].ToString().PadLeft(4);
@@ -497,9 +464,7 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int n = 5;
-        int rank;
-        int[] t;
+        const int n = 5;
 
         Console.WriteLine("");
         Console.WriteLine("SUBSET_LEX_UNRANK_TEST");
@@ -507,9 +472,9 @@ internal partial class Program
         Console.WriteLine("  subsets of a set,");
         Console.WriteLine("  using the lexicographic ordering:");
 
-        rank = 10;
+        const int rank = 10;
 
-        t = Ranking.subset_lex_unrank(rank, n);
+        int[] t = Ranking.subset_lex_unrank(rank, n);
 
         typeMethods.i4vec_transpose_print(n, t, "  The element of rank 10:");
     }
@@ -536,20 +501,17 @@ internal partial class Program
         //
     {
         int i;
-        int n;
-        int[] s;
-        int seed;
 
         Console.WriteLine("");
         Console.WriteLine("SUBSET_RANDOM_TEST");
         Console.WriteLine("  SUBSET_RANDOM returns a random subset.");
 
-        n = 5;
-        seed = 123456789;
+        const int n = 5;
+        int seed = 123456789;
 
         for (i = 0; i < 10; i++)
         {
-            s = Subset.subset_random(n, ref seed);
+            int[] s = Subset.subset_random(n, ref seed);
             typeMethods.i4vec_transpose_print(n, s, "  Subset:");
         }
     }
@@ -575,27 +537,21 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int n;
-        int[] s1;
-        int[] s2;
-        int[] s3;
-        int seed;
-
         Console.WriteLine("");
         Console.WriteLine("SUBSET_UNION_TEST");
         Console.WriteLine("  SUBSET_UNION returns the union of two subsets.");
         Console.WriteLine("");
 
-        n = 7;
-        seed = 123456789;
+        const int n = 7;
+        int seed = 123456789;
 
-        s1 = Subset.subset_random(n, ref seed);
+        int[] s1 = Subset.subset_random(n, ref seed);
         typeMethods.i4vec_transpose_print(n, s1, "  Subset S1:");
 
-        s2 = Subset.subset_random(n, ref seed);
+        int[] s2 = Subset.subset_random(n, ref seed);
         typeMethods.i4vec_transpose_print(n, s2, "  Subset S2:");
 
-        s3 = Subset.subset_union(n, s1, s2);
+        int[] s3 = Subset.subset_union(n, s1, s2);
         typeMethods.i4vec_transpose_print(n, s3, "  Union:    ");
 
     }
@@ -621,22 +577,17 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int n;
-        int[] s;
-        int seed;
-        int weight;
-
         Console.WriteLine("");
         Console.WriteLine("SUBSET_WEIGHT_TEST");
         Console.WriteLine("  SUBSET_WEIGHT returns the weight of a subset.");
 
-        n = 5;
-        seed = 123456789;
+        const int n = 5;
+        int seed = 123456789;
 
-        s = Subset.subset_random(n, ref seed);
+        int[] s = Subset.subset_random(n, ref seed);
         typeMethods.i4vec_transpose_print(n, s, "  Subset S:");
 
-        weight = Subset.subset_weight(n, s);
+        int weight = Subset.subset_weight(n, s);
         Console.WriteLine("");
         Console.WriteLine("  Weight = " + weight + "");
     }
@@ -662,27 +613,21 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int n;
-        int[] s1;
-        int[] s2;
-        int[] s3;
-        int seed;
-
         Console.WriteLine("");
         Console.WriteLine("SUBSET_XOR_TEST");
         Console.WriteLine("  SUBSET_XOR returns the exclusive OR of two subsets.");
         Console.WriteLine("");
 
-        n = 7;
-        seed = 123456789;
+        const int n = 7;
+        int seed = 123456789;
 
-        s1 = Subset.subset_random(n, ref seed);
+        int[] s1 = Subset.subset_random(n, ref seed);
         typeMethods.i4vec_transpose_print(n, s1, "  Subset S1:");
 
-        s2 = Subset.subset_random(n, ref seed);
+        int[] s2 = Subset.subset_random(n, ref seed);
         typeMethods.i4vec_transpose_print(n, s2, "  Subset S2:");
 
-        s3 = Subset.subset_xor(n, s1, s2);
+        int[] s3 = Subset.subset_xor(n, s1, s2);
         typeMethods.i4vec_transpose_print(n, s3, "  XOR:      ");
     }
 
@@ -707,7 +652,7 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int N = 7;
+        const int N = 7;
 
         int[] a =  {
                 12, 8, 11, 30, 8, 3, 7
@@ -715,9 +660,7 @@ internal partial class Program
             ;
         int i;
         int[] index = new int[N];
-        int n = N;
-        int sum_achieved;
-        int sum_desired = 17;
+        const int sum_desired = 17;
 
         Console.WriteLine("");
         Console.WriteLine("SUBSETSUMSWAP_TEST");
@@ -726,13 +669,13 @@ internal partial class Program
         Console.WriteLine("");
         Console.WriteLine("  The desired sum is " + sum_desired + "");
 
-        sum_achieved = Subset.subsetsum_swap(n, ref a, sum_desired, ref index);
+        int sum_achieved = Subset.subsetsum_swap(N, ref a, sum_desired, ref index);
 
         Console.WriteLine("");
         Console.WriteLine("    A(I), INDEX(I)");
         Console.WriteLine("");
 
-        for (i = 0; i < n; i++)
+        for (i = 0; i < N; i++)
         {
             Console.WriteLine("  " + a[i].ToString().PadLeft(5)
                                    + "  " + index[i].ToString().PadLeft(5) + "");

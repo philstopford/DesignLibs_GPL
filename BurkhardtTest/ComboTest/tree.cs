@@ -5,7 +5,7 @@ using Burkardt.Uniform;
 
 namespace ComboTest;
 
-internal partial class Program
+internal static partial class Program
 {
     private static void tree_check_test()
 
@@ -28,7 +28,6 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        bool check;
         int n = 0;
         int test;
         int[] t = new int[1];
@@ -82,7 +81,7 @@ internal partial class Program
                     break;
             }
 
-            check = Ranking.tree_check(n, t);
+            bool check = Ranking.tree_check(n, t);
             Console.WriteLine("       " + check.ToString().PadLeft(2) + "");
             typeMethods.i4mat_print(2, n - 1, t, "  Tree:");
         }
@@ -110,7 +109,6 @@ internal partial class Program
         //
     {
         int n;
-        int tree_num;
 
         Console.WriteLine("");
         Console.WriteLine("TREE_ENUM_TEST");
@@ -118,7 +116,7 @@ internal partial class Program
 
         for (n = 0; n <= 10; n++)
         {
-            tree_num = Ranking.tree_enum(n);
+            int tree_num = Ranking.tree_enum(n);
             Console.WriteLine("  " + n.ToString().PadLeft(2)
                                    + "  " + tree_num.ToString().PadLeft(6) + "");
         }
@@ -145,8 +143,6 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int n;
-        int rank;
         int[] t =  {
                 4, 3,
                 3, 1,
@@ -159,10 +155,10 @@ internal partial class Program
         Console.WriteLine("  TREE_RANK ranks trees.");
 
 
-        n = 4;
+        const int n = 4;
         typeMethods.i4mat_print(2, n - 1, t, "  Tree to be ranked:");
 
-        rank = Ranking.tree_rank(n, t);
+        int rank = Ranking.tree_rank(n, t);
 
         Console.WriteLine("");
         Console.WriteLine("  Rank is computed as " + rank + "");
@@ -189,23 +185,19 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int j;
-        int n = 4;
-        int rank;
-        int rank_old;
-        int[] t = new int[1];
+        const int n = 4;
 
         Console.WriteLine("");
         Console.WriteLine("TREE_SUCCESSOR_TEST");
         Console.WriteLine("  TREE_SUCCESSOR lists trees.");
 
-        t = new int[2 * (n - 1)];
+        int[] t = new int[2 * (n - 1)];
 
-        rank = -1;
+        int rank = -1;
 
         for (;;)
         {
-            rank_old = rank;
+            int rank_old = rank;
 
             Ranking.tree_successor(n, ref t, ref rank);
 
@@ -215,6 +207,7 @@ internal partial class Program
             }
 
             string cout = "  " + rank.ToString().PadLeft(4);
+            int j;
             for (j = 0; j < n - 1; j++)
             {
                 cout += "  " + t[0 + j * 2].ToString().PadLeft(4);
@@ -252,35 +245,28 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int i4_hi;
-        int i4_lo;
-        int j;
-        int n = 5;
-        int[] p;
-        int pruefer_num;
-        int rank;
+        const int n = 5;
         int seed = 123456789;
-        int[] t;
         int test;
-        int test_num = 5;
+        const int test_num = 5;
 
         Console.WriteLine("");
         Console.WriteLine("TREE_TO_PRUEFER_TEST");
         Console.WriteLine("  TREE_TO_PRUEFER converts a tree to a Pruefer code.");
 
-        pruefer_num = Ranking.pruefer_enum(n);
+        int pruefer_num = Ranking.pruefer_enum(n);
 
-        i4_lo = 0;
-        i4_hi = pruefer_num - 1;
+        const int i4_lo = 0;
+        int i4_hi = pruefer_num - 1;
 
         for (test = 1; test <= test_num; test++)
         {
             //
             //  Pick a "random" Pruefer code.
             //
-            rank = UniformRNG.i4_uniform_ab(i4_lo, i4_hi, ref seed);
+            int rank = UniformRNG.i4_uniform_ab(i4_lo, i4_hi, ref seed);
 
-            p = Ranking.pruefer_unrank(rank, n);
+            int[] p = Ranking.pruefer_unrank(rank, n);
 
             Console.WriteLine("");
             Console.WriteLine("  Random Pruefer code of rank " + rank + "");
@@ -288,11 +274,12 @@ internal partial class Program
             //
             //  Convert the Pruefer code to a tree.
             //
-            t = Ranking.pruefer_to_tree_new(n, p);
+            int[] t = Ranking.pruefer_to_tree_new(n, p);
 
             Console.WriteLine("");
             Console.WriteLine("  Edge list for the corresponding tree:");
             Console.WriteLine("");
+            int j;
             for (j = 0; j < n - 1; j++)
             {
                 Console.WriteLine("  " + j.ToString().PadLeft(2)
@@ -332,18 +319,14 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int n;
-        int rank;
-        int[] t;
-
         Console.WriteLine("");
         Console.WriteLine("TREE_UNRANK_TEST");
         Console.WriteLine("  TREE_UNRANK unranks trees.");
 
-        rank = 8;
-        n = 4;
+        const int rank = 8;
+        const int n = 4;
 
-        t = Ranking.tree_unrank(rank, n);
+        int[] t = Ranking.tree_unrank(rank, n);
 
         typeMethods.i4mat_print(2, n - 1, t, "  The tree of rank 8:");
     }

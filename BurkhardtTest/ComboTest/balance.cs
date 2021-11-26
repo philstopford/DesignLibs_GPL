@@ -4,7 +4,7 @@ using Burkardt.Types;
 
 namespace ComboTest;
 
-internal partial class Program
+internal static partial class Program
 {
     private static void bal_seq_check_test()
 
@@ -27,9 +27,6 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        bool check;
-        int i;
-        int n;
         int test;
         int[] t = new int[1];
         int[] t1 =  {
@@ -54,7 +51,7 @@ internal partial class Program
 
         for (test = 1; test <= 3; test++)
         {
-            n = 5;
+            const int n = 5;
 
             t = test switch
             {
@@ -64,10 +61,11 @@ internal partial class Program
                 _ => t
             };
 
-            check = Ranking.bal_seq_check(n, t);
+            bool check = Ranking.bal_seq_check(n, t);
             string cout = "    "
                           + "  " + check.ToString().PadLeft(1)
                           + "  " + n.ToString().PadLeft(2);
+            int i;
             for (i = 0; i < 2 * n; i++)
             {
                 cout += "  " + t[i].ToString().PadLeft(2);
@@ -99,7 +97,6 @@ internal partial class Program
         //
     {
         int n;
-        int bal_seq_num;
 
         Console.WriteLine("");
         Console.WriteLine("BAL_SEQ_ENUM_TEST");
@@ -107,7 +104,7 @@ internal partial class Program
 
         for (n = 0; n <= 10; n++)
         {
-            bal_seq_num = Ranking.bal_seq_enum(n);
+            int bal_seq_num = Ranking.bal_seq_enum(n);
             Console.WriteLine("  " + n.ToString().PadLeft(2)
                                    + "  " + bal_seq_num.ToString().PadLeft(6) + "");
         }
@@ -134,8 +131,6 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int n;
-        int rank;
         int[] t =  {
                 0, 0, 1, 0, 1, 1, 0, 0, 1, 1
             }
@@ -145,8 +140,8 @@ internal partial class Program
         Console.WriteLine("BAL_SEQ_RANK_TEST");
         Console.WriteLine("  BAL_SEQ_RANK ranks a balanced sequence of N items.");
 
-        n = 5;
-        rank = Ranking.bal_seq_rank(n, t);
+        const int n = 5;
+        int rank = Ranking.bal_seq_rank(n, t);
 
         typeMethods.i4vec_transpose_print(2 * n, t, "  Element to be ranked:");
         Console.WriteLine("");
@@ -174,24 +169,18 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int i;
-        int n;
-        int rank;
-        int rank_old;
-        int[] t;
-
         Console.WriteLine("");
         Console.WriteLine("BAL_SEQ_SUCCESSOR_TEST:");
         Console.WriteLine("  BAL_SEQ_SUCCESSOR lists balanced sequences of N items, one at a time.");
 
-        n = 5;
-        t = new int[2 * n];
+        const int n = 5;
+        int[] t = new int[2 * n];
 
-        rank = -1;
+        int rank = -1;
 
         for (;;)
         {
-            rank_old = rank;
+            int rank_old = rank;
 
             Ranking.bal_seq_successor(n, ref t, ref rank);
 
@@ -201,6 +190,7 @@ internal partial class Program
             }
 
             string cout = "  " + rank.ToString().PadLeft(4);
+            int i;
             for (i = 0; i < 2 * n; i++)
             {
                 cout += "  " + t[i].ToString().PadLeft(4);
@@ -231,10 +221,7 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int n = 4;
-        int rank;
-        int[] t;
-        int[] tab;
+        const int n = 4;
 
         Console.WriteLine("");
         Console.WriteLine("BAL_SEQ_TO_TABLEAU_TEST");
@@ -243,9 +230,9 @@ internal partial class Program
         //
         //  Pick a random balanced sequence.
         //
-        rank = 7;
+        const int rank = 7;
 
-        t = Ranking.bal_seq_unrank(rank, n);
+        int[] t = Ranking.bal_seq_unrank(rank, n);
 
         Console.WriteLine("");
         Console.WriteLine("  Random balanced sequence:");
@@ -254,7 +241,7 @@ internal partial class Program
         //
         //  Convert to a tableau.
         //
-        tab = Ranking.bal_seq_to_tableau(n, t);
+        int[] tab = Ranking.bal_seq_to_tableau(n, t);
 
         typeMethods.i4mat_print(2, n, tab, "  Corresponding tableau");
     }
@@ -280,18 +267,14 @@ internal partial class Program
         //    John Burkardt
         //
     {
-        int n;
-        int rank;
-        int[] t;
-
         Console.WriteLine("");
         Console.WriteLine("BAL_SEQ_UNRANK_TEST:");
         Console.WriteLine("  BAL_SEQ_UNRANK unranks a balanced sequence of N items.");
 
-        rank = 21;
-        n = 5;
+        const int rank = 21;
+        const int n = 5;
 
-        t = Ranking.bal_seq_unrank(rank, n);
+        int[] t = Ranking.bal_seq_unrank(rank, n);
         Console.WriteLine("");
         Console.WriteLine("  The element of rank " + rank + "");
         Console.WriteLine("");

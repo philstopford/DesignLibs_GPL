@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.SolveNS;
 
 namespace rootsRCTest;
@@ -30,16 +31,10 @@ internal static class Program
         //
     {
         double ferr = 0;
-        double[] fx;
         int i;
-        int it;
-        int it_max = 30;
+        const int it_max = 30;
         int j;
-        int n = 4;
-        double[] q;
-        double[] x;
-        double[] xnew;
-        string cout = "";
+        const int n = 4;
 
         Console.WriteLine("");
         Console.WriteLine("ROOTS_RC_TEST:");
@@ -47,10 +42,10 @@ internal static class Program
         Console.WriteLine("  ROOTS_RC seeks a solution of");
         Console.WriteLine("  the N-dimensional nonlinear system F(X) = 0.");
 
-        fx = new double[n];
-        q = new double[(2 * n + 2) * (n + 2)];
-        x = new double[n];
-        xnew = new double[n];
+        double[] fx = new double[n];
+        double[] q = new double[(2 * n + 2) * (n + 2)];
+        double[] x = new double[n];
+        double[] xnew = new double[n];
 
         Console.WriteLine("");
         Console.WriteLine("       FERR          X");
@@ -72,7 +67,7 @@ internal static class Program
             xnew[i] = 1.0;
         }
 
-        it = 0;
+        int it = 0;
 
         for (;;)
         {
@@ -87,15 +82,15 @@ internal static class Program
                 fx[i] = 10.0 * (x[i] - x[i - 1] * x[i - 1]);
             }
 
-            cout = it switch
+            string cout = it switch
             {
                 0 => "                ",
-                _ => "  " + ferr.ToString().PadLeft(14)
+                _ => "  " + ferr.ToString(CultureInfo.InvariantCulture).PadLeft(14)
             };
 
             for (i = 0; i < n; i++)
             {
-                cout += "  " + x[i].ToString().PadLeft(14);
+                cout += "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);

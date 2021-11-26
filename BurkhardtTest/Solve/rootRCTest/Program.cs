@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.SolveNS;
 
 namespace rootRCTest;
@@ -30,12 +31,8 @@ internal static class Program
         //
     {
         double ferr = 0;
-        double fx;
         int i;
-        int it;
-        int it_max;
         double[] q = new double[9];
-        double x;
         double xerr = 0;
 
         Console.WriteLine("");
@@ -48,32 +45,32 @@ internal static class Program
         //
         //  Initialization.
         //
-        it = 0;
-        it_max = 30;
+        int it = 0;
+        const int it_max = 30;
         for ( i = 0; i < 9; i++ )
         {
             q[i] = 0.0;
         }
-        x = - 2.1;
+        double x = - 2.1;
         //
         //  Each call takes one more step of improvement.
         //
         for ( ; ; )
         {
-            fx = Math.Cos ( x ) - x;
+            double fx = Math.Cos ( x ) - x;
 
             switch (it)
             {
                 case 0:
-                    Console.WriteLine("  " + x.ToString().PadLeft(14)
+                    Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
                                            + "  " + "              "
-                                           + "  " + fx.ToString().PadLeft(14) + "");
+                                           + "  " + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                     break;
                 default:
-                    Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                           + "  " + xerr.ToString().PadLeft(14)
-                                           + "  " + fx.ToString().PadLeft(14)
-                                           + "  " + ferr.ToString().PadLeft(14) + "");
+                    Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                           + "  " + xerr.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                           + "  " + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                           + "  " + ferr.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                     break;
             }
 

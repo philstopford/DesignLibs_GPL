@@ -98,37 +98,30 @@ internal static class Program
         //    Input, int M, the dimension of the polynomial space.
         //
     {
-        int N = 5001;
+        const int N = 5001;
 
-        double a;
-        double b;
-        int n = N;
         int nf = 0;
-        double[] wf;
-        double wf_sum;
-        double[] x;
-        double[] xf;
 
-        a = -1.0;
-        b = +1.0;
-        x = typeMethods.r8vec_linspace_new(n, a, b);
+        const double a = -1.0;
+        const double b = +1.0;
+        double[] x = typeMethods.r8vec_linspace_new(N, a, b);
 
         Console.WriteLine("");
         Console.WriteLine("TEST01:");
         Console.WriteLine("  Seek Fekete points in [" + a + "," + b + "]");
-        Console.WriteLine("  using " + n + " equally spaced sample points");
+        Console.WriteLine("  using " + N + " equally spaced sample points");
         Console.WriteLine("  for polynomials of degree M = " + m + "");
         Console.WriteLine("  using the monomial basis and uniform weight.");
 
-        wf = new double[m];
-        xf = new double[m];
-        LineFekete.line_fekete_monomial(m, a, b, n, x, ref nf, ref xf, ref wf);
+        double[] wf = new double[m];
+        double[] xf = new double[m];
+        LineFekete.line_fekete_monomial(m, a, b, N, x, ref nf, ref xf, ref wf);
 
         Console.WriteLine("");
         Console.WriteLine("  NF = " + nf + "");
         typeMethods.r8vec_print(nf, xf, "  Estimated Fekete points XF:");
 
-        wf_sum = typeMethods.r8vec_sum(nf, wf);
+        double wf_sum = typeMethods.r8vec_sum(nf, wf);
         Console.WriteLine("");
         Console.WriteLine("  Sum(WF) = " + wf_sum + "");
     }
@@ -165,36 +158,29 @@ internal static class Program
         //    Input, int M, the dimension of the polynomial space.
         //
     {
-        int N = 5001;
+        const int N = 5001;
 
-        double a;
-        double b;
-        int n = N;
         int nf = 0;
-        double[] wf;
-        double wf_sum;
-        double[] x;
-        double[] xf;
 
-        a = -1.0;
-        b = +1.0;
-        x = typeMethods.r8vec_linspace_new(n, a, b);
+        const double a = -1.0;
+        const double b = +1.0;
+        double[] x = typeMethods.r8vec_linspace_new(N, a, b);
 
         Console.WriteLine("");
         Console.WriteLine("TEST02:");
         Console.WriteLine("  Seek Fekete points in [" + a + "," + b + "]");
-        Console.WriteLine("  using " + n + " equally spaced sample points");
+        Console.WriteLine("  using " + N + " equally spaced sample points");
         Console.WriteLine("  for polynomials of degree M = " + m + "");
         Console.WriteLine("  with the Chebyshev basis.");
 
-        wf = new double[m];
-        xf = new double[m];
-        LineFekete.line_fekete_chebyshev(m, a, b, n, x, ref nf, ref xf, ref wf);
+        double[] wf = new double[m];
+        double[] xf = new double[m];
+        LineFekete.line_fekete_chebyshev(m, a, b, N, x, ref nf, ref xf, ref wf);
 
         Console.WriteLine("");
         Console.WriteLine("  NF = " + nf + "");
         typeMethods.r8vec_print(nf, xf, "  Estimated Fekete points XF:");
-        wf_sum = typeMethods.r8vec_sum(nf, wf);
+        double wf_sum = typeMethods.r8vec_sum(nf, wf);
         Console.WriteLine("");
         Console.WriteLine("  Sum(WF) = " + wf_sum + "");
     }
@@ -224,36 +210,29 @@ internal static class Program
         //    Input, int M, the dimension of the polynomial space.
         //
     {
-        int N = 5001;
+        const int N = 5001;
 
-        double a;
-        double b;
-        int n = N;
         int nf = 0;
-        double[] wf;
-        double wf_sum;
-        double[] x;
-        double[] xf;
 
-        a = -1.0;
-        b = +1.0;
-        x = typeMethods.r8vec_linspace_new(n, a, b);
+        const double a = -1.0;
+        const double b = +1.0;
+        double[] x = typeMethods.r8vec_linspace_new(N, a, b);
 
         Console.WriteLine("");
         Console.WriteLine("TEST03:");
         Console.WriteLine("  Seek Fekete points in [" + a + "," + b + "]");
-        Console.WriteLine("  using " + n + " equally spaced sample points");
+        Console.WriteLine("  using " + N + " equally spaced sample points");
         Console.WriteLine("  for polynomials of degree M = " + m + "");
         Console.WriteLine("  with the Legendre basis and uniform weight.");
 
-        wf = new double[m];
-        xf = new double[m];
-        LineFekete.line_fekete_legendre(m, a, b, n, x, ref nf, ref xf, ref wf);
+        double[] wf = new double[m];
+        double[] xf = new double[m];
+        LineFekete.line_fekete_legendre(m, a, b, N, x, ref nf, ref xf, ref wf);
 
         Console.WriteLine("");
         Console.WriteLine("  NF = " + nf + "");
         typeMethods.r8vec_print(nf, xf, "  Estimated Fekete points XF:");
-        wf_sum = typeMethods.r8vec_sum(nf, wf);
+        double wf_sum = typeMethods.r8vec_sum(nf, wf);
         Console.WriteLine("");
         Console.WriteLine("  Sum(WF) = " + wf_sum + "");
     }

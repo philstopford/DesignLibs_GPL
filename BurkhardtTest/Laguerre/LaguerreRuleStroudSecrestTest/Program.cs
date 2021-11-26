@@ -40,7 +40,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a = 0.0;
+        const double a = 0.0;
         int option;
         int order;
         string output;

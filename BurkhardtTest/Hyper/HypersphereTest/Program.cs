@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.HyperGeometry.HypersphereNS;
 using Burkardt.Types;
 using Burkardt.Uniform;
@@ -69,16 +70,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] c;
-        double err;
         int m;
-        int n;
-        double[] r;
-        int seed;
-        int test;
-        double[] theta;
-        double[] x;
-        double[] x2;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
@@ -91,26 +83,27 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  M    || X - X2 ||");
 
-        seed = 123456789;
+        int seed = 123456789;
 
-        n = 1;
-        r = new double[n];
+        const int n = 1;
+        double[] r = new double[n];
 
         for (m = 1; m <= 5; m++)
         {
             Console.WriteLine("");
 
-            theta = new double[(m - 1) * n];
+            double[] theta = new double[(m - 1) * n];
 
+            int test;
             for (test = 1; test <= 5; test++)
             {
-                x = UniformRNG.r8mat_uniform_01_new(m, n, ref seed);
-                c = UniformRNG.r8vec_uniform_01_new(m, ref seed);
+                double[] x = UniformRNG.r8mat_uniform_01_new(m, n, ref seed);
+                double[] c = UniformRNG.r8vec_uniform_01_new(m, ref seed);
                 Hypersphere.cartesian_to_hypersphere(m, n, c, x, ref r, ref theta);
-                x2 = Hypersphere.hypersphere_to_cartesian(m, n, c, r, theta);
-                err = typeMethods.r8mat_norm_fro_affine(m, n, x, x2);
-                Console.WriteLine("  " + m.ToString().PadLeft(2)
-                                       + "  " + err.ToString().PadLeft(14) + "");
+                double[] x2 = Hypersphere.hypersphere_to_cartesian(m, n, c, r, theta);
+                double err = typeMethods.r8mat_norm_fro_affine(m, n, x, x2);
+                Console.WriteLine("  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
     }
@@ -137,25 +130,22 @@ internal static class Program
         //
     {
         int m;
-        int n;
-        int seed;
-        int test;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02");
         Console.WriteLine("  HYPERSPHERE_01_SURFACE_UNIFORM samples uniformly from the");
         Console.WriteLine("  surface of the unit hypersphere");
 
-        seed = 123456789;
+        int seed = 123456789;
         typeMethods.r8vecNormalData data = new();
 
-        n = 1;
+        const int n = 1;
         for (m = 1; m <= 5; m++)
         {
+            int test;
             for (test = 1; test <= 3; test++)
             {
-                x = Hypersphere.hypersphere_01_surface_uniform(m, n, ref data, ref seed);
+                double[] x = Hypersphere.hypersphere_01_surface_uniform(m, n, ref data, ref seed);
                 typeMethods.r8vec_transpose_print(m, x, "  Random hypersphere point:");
             }
         }
@@ -183,9 +173,7 @@ internal static class Program
         //
     {
         double area = 0;
-        double area2;
         int m = 0;
-        int n_data;
 
         Console.WriteLine("");
         Console.WriteLine("TEST03:");
@@ -196,7 +184,7 @@ internal static class Program
         Console.WriteLine("              Area        Area");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -207,11 +195,11 @@ internal static class Program
                 break;
             }
 
-            area2 = Hypersphere.hypersphere_01_area(m);
+            double area2 = Hypersphere.hypersphere_01_area(m);
 
-            Console.WriteLine("  " + m.ToString().PadLeft(6)
-                                   + "  " + area.ToString().PadLeft(10)
-                                   + "  " + area2.ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + area.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + area2.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -237,9 +225,7 @@ internal static class Program
         //
     {
         int m = 0;
-        int n_data;
         double volume = 0;
-        double volume2;
 
         Console.WriteLine("");
         Console.WriteLine("TEST04:");
@@ -251,7 +237,7 @@ internal static class Program
         Console.WriteLine("              Volume      Volume");
         Console.WriteLine("");
 
-        n_data = 0;
+        int n_data = 0;
 
         for (;;)
         {
@@ -262,11 +248,11 @@ internal static class Program
                 break;
             }
 
-            volume2 = Hypersphere.hypersphere_01_volume(m);
+            double volume2 = Hypersphere.hypersphere_01_volume(m);
 
-            Console.WriteLine("  " + m.ToString().PadLeft(6)
-                                   + "  " + volume.ToString().PadLeft(10)
-                                   + "  " + volume2.ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + volume.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + volume2.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -291,12 +277,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double area;
         int m;
-        double r;
-        double volume;
 
-        r = 1.5;
+        const double r = 1.5;
 
         Console.WriteLine("");
         Console.WriteLine("TEST05");
@@ -313,12 +296,12 @@ internal static class Program
 
         for (m = 1; m <= 20; m++)
         {
-            area = Hypersphere.hypersphere_area(m, r);
-            volume = Hypersphere.hypersphere_volume(m, r);
-            Console.WriteLine("  " + m.ToString().PadLeft(3)
-                                   + "  " + area.ToString().PadLeft(14)
-                                   + "  " + volume.ToString().PadLeft(14)
-                                   + "  " + (area / volume).ToString().PadLeft(14) + "");
+            double area = Hypersphere.hypersphere_area(m, r);
+            double volume = Hypersphere.hypersphere_volume(m, r);
+            Console.WriteLine("  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(3)
+                                   + "  " + area.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + volume.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + (area / volume).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -343,14 +326,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double err;
         int m;
-        int n;
-        int seed;
-        int test;
-        double[] x1;
-        double[] x2;
-        double[] x3;
 
         Console.WriteLine("");
         Console.WriteLine("TEST06");
@@ -365,21 +341,22 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  M    || X1 - X3 ||");
 
-        seed = 123456789;
+        int seed = 123456789;
         typeMethods.r8vecNormalData data = new();
 
-        n = 1;
+        const int n = 1;
         for (m = 2; m <= 5; m++)
         {
             Console.WriteLine("");
+            int test;
             for (test = 1; test <= 5; test++)
             {
-                x1 = Hypersphere.hypersphere_01_surface_uniform(m, n, ref data, ref seed);
-                x2 = Hypersphere.hypersphere_stereograph(m, n, x1);
-                x3 = Hypersphere.hypersphere_stereograph_inverse(m, n, x2);
-                err = typeMethods.r8mat_norm_fro_affine(m, n, x1, x3);
-                Console.WriteLine("  " + m.ToString().PadLeft(2)
-                                       + "  " + err.ToString().PadLeft(14) + "");
+                double[] x1 = Hypersphere.hypersphere_01_surface_uniform(m, n, ref data, ref seed);
+                double[] x2 = Hypersphere.hypersphere_stereograph(m, n, x1);
+                double[] x3 = Hypersphere.hypersphere_stereograph_inverse(m, n, x2);
+                double err = typeMethods.r8mat_norm_fro_affine(m, n, x1, x3);
+                Console.WriteLine("  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
     }

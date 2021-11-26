@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace LineNewtonCotesQuadratureTest;
 
@@ -64,16 +65,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
-        int i;
         int n;
-        double[] w;
-        double w_sum;
-        double[] x;
 
-        a = -1.0;
-        b = +1.0;
+        const double a = -1.0;
+        const double b = +1.0;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
@@ -82,24 +77,25 @@ internal static class Program
 
         for (n = 1; n <= 12; n++)
         {
-            x = new double[n];
-            w = new double[n];
+            double[] x = new double[n];
+            double[] w = new double[n];
 
             NewtonCotesQuadrature.line_ncc_rule(n, a, b, x, ref w);
             Console.WriteLine("");
             Console.WriteLine("  Newton-Cotes (Closed) Rule #" + n + "");
             Console.WriteLine("   I       X(I)            W(I)");
             Console.WriteLine("");
-            w_sum = 0.0;
+            double w_sum = 0.0;
+            int i;
             for (i = 0; i < n; i++)
             {
-                Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                       + "  " + x[i].ToString().PadLeft(14)
-                                       + "  " + w[i].ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                       + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + w[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                 w_sum += Math.Abs(w[i]);
             }
 
-            Console.WriteLine("        Sum(|W)|) =  " + w_sum.ToString().PadLeft(14) + "");
+            Console.WriteLine("        Sum(|W)|) =  " + w_sum.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -124,19 +120,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
-        double error;
-        double exact;
-        int i;
         int n;
-        double q;
-        double[] w;
-        double[] x;
 
-        a = 0.0;
-        b = +1.0;
-        exact = Math.Exp(b) - Math.Exp(a);
+        const double a = 0.0;
+        const double b = +1.0;
+        double exact = Math.Exp(b) - Math.Exp(a);
 
         Console.WriteLine("");
         Console.WriteLine("TEST02");
@@ -152,21 +140,22 @@ internal static class Program
 
         for (n = 1; n <= 22; n++)
         {
-            x = new double[n];
-            w = new double[n];
+            double[] x = new double[n];
+            double[] w = new double[n];
 
             NewtonCotesQuadrature.line_ncc_rule(n, a, b, x, ref w);
 
-            q = 0.0;
+            double q = 0.0;
+            int i;
             for (i = 0; i < n; i++)
             {
                 q += w[i] * Math.Exp(x[i]);
             }
 
-            error = Math.Abs(exact - q);
-            Console.WriteLine("  " + n.ToString().PadLeft(2)
-                                   + "  " + q.ToString().PadLeft(14)
-                                   + "  " + error.ToString().PadLeft(14) + "");
+            double error = Math.Abs(exact - q);
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 }

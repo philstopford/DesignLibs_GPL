@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Linpack;
 using Burkardt.MatrixNS;
 using Burkardt.Uniform;
@@ -101,17 +102,14 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 4;
-        int LDA = N;
+        const int N = 4;
+        const int LDA = N;
 
         double[] a = new double[LDA * N];
         double[] b = new double[LDA * N];
         int i;
-        int info;
         int[] ipvt = new int[N];
         int j;
-        int job;
-        int k;
         double[] work = new double[N];
         string cout;
 
@@ -156,7 +154,7 @@ internal static class Program
             cout = "";
             for (j = 1; j <= N; j++)
             {
-                cout += "  " + a[i - 1 + (j - 1) * LDA].ToString().PadLeft(12);
+                cout += "  " + a[i - 1 + (j - 1) * LDA].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
@@ -168,14 +166,14 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Decompose the matrix.");
 
-        job = 0;
+        int job = 0;
 
         for (i = 0; i < N; i++)
         {
             ipvt[i] = 0;
         }
 
-        info = DCHDC.dchdc(ref a, LDA, N, work, ref ipvt, job);
+        int info = DCHDC.dchdc(ref a, LDA, N, work, ref ipvt, job);
 
         if (info != N)
         {
@@ -208,7 +206,7 @@ internal static class Program
             cout = "";
             for (j = 1; j <= N; j++)
             {
-                cout += "  " + a[i - 1 + (j - 1) * LDA].ToString().PadLeft(12);
+                cout += "  " + a[i - 1 + (j - 1) * LDA].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
@@ -222,6 +220,7 @@ internal static class Program
             for (j = 1; j <= N; j++)
             {
                 b[i - 1 + (j - 1) * LDA] = 0.0;
+                int k;
                 for (k = 1; k <= N; k++)
                 {
                     b[i - 1 + (j - 1) * LDA] += a[k - 1 + (i - 1) * LDA] * a[k - 1 + (j - 1) * LDA];
@@ -238,7 +237,7 @@ internal static class Program
             cout = "";
             for (j = 1; j <= N; j++)
             {
-                cout += "  " + b[i - 1 + (j - 1) * LDA].ToString().PadLeft(12);
+                cout += "  " + b[i - 1 + (j - 1) * LDA].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
@@ -267,20 +266,15 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 5;
-        int LDA = N;
-        int NZ = 1;
+        const int N = 5;
+        const int NZ = 1;
 
-        double[] a = new double[LDA * N];
-        double[] b = new double[LDA * N];
+        double[] a = new double[N * N];
+        double[] b = new double[N * N];
         double[] c = new double[N];
         int i;
-        int info;
         int[] ipvt = new int[N];
         int j;
-        int job;
-        int k;
-        int l;
         double[] s = new double[N];
         double[] work = new double[N];
         double[] z = new double[N];
@@ -301,19 +295,19 @@ internal static class Program
             {
                 if (i == j - 1)
                 {
-                    a[i - 1 + (j - 1) * LDA] = -1.0;
+                    a[i - 1 + (j - 1) * N] = -1.0;
                 }
                 else if (i == j)
                 {
-                    a[i - 1 + (j - 1) * LDA] = 2.0;
+                    a[i - 1 + (j - 1) * N] = 2.0;
                 }
                 else if (i == j + 1)
                 {
-                    a[i - 1 + (j - 1) * LDA] = -1.0;
+                    a[i - 1 + (j - 1) * N] = -1.0;
                 }
                 else
                 {
-                    a[i - 1 + (j - 1) * LDA] = 0.0;
+                    a[i - 1 + (j - 1) * N] = 0.0;
                 }
             }
         }
@@ -332,7 +326,7 @@ internal static class Program
             cout = "";
             for (j = 1; j <= N; j++)
             {
-                cout += "  " + a[i - 1 + (j - 1) * LDA].ToString().PadLeft(12);
+                cout += "  " + a[i - 1 + (j - 1) * N].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
@@ -345,7 +339,7 @@ internal static class Program
         cout = "";
         for (i = 1; i <= N; i++)
         {
-            cout += "  " + z[i - 1].ToString().PadLeft(12);
+            cout += "  " + z[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(12);
         }
 
         //
@@ -354,14 +348,14 @@ internal static class Program
         Console.WriteLine(cout);
         Console.WriteLine("  Decompose the matrix.");
 
-        job = 0;
+        int job = 0;
 
         for (i = 0; i < N; i++)
         {
             ipvt[i] = 0;
         }
 
-        info = DCHDC.dchdc(ref a, LDA, N, work, ref ipvt, job);
+        int info = DCHDC.dchdc(ref a, N, N, work, ref ipvt, job);
 
         if (info != N)
         {
@@ -378,7 +372,7 @@ internal static class Program
         {
             for (j = 1; j <= i - 1; j++)
             {
-                a[i - 1 + (j - 1) * LDA] = 0.0;
+                a[i - 1 + (j - 1) * N] = 0.0;
             }
         }
 
@@ -394,7 +388,7 @@ internal static class Program
             cout = "";
             for (j = 1; j <= N; j++)
             {
-                cout += "  " + a[i - 1 + (j - 1) * LDA].ToString().PadLeft(12);
+                cout += "  " + a[i - 1 + (j - 1) * N].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
@@ -403,15 +397,15 @@ internal static class Program
         //
         //  Right circular shift columns L through K.
         //
-        k = 1;
-        l = 3;
+        int k = 1;
+        int l = 3;
 
         Console.WriteLine("");
         Console.WriteLine("  Right circular shift columns K  = " + k +
                           " through L = " + l + "");
 
         job = 1;
-        DCHEX.dchex(ref a, LDA, N, k, l, ref z, N, NZ, ref c, ref s, job);
+        DCHEX.dchex(ref a, N, N, k, l, ref z, N, NZ, ref c, ref s, job);
         //
         //  Left circular shift columns K+1 through L.
         //
@@ -420,7 +414,7 @@ internal static class Program
                           " through L = " + l + "");
 
         job = 2;
-        DCHEX.dchex(ref a, LDA, N, k + 1, l, ref z, N, NZ, ref c, ref s, job);
+        DCHEX.dchex(ref a, N, N, k + 1, l, ref z, N, NZ, ref c, ref s, job);
         //
         //  Print the factorization.
         //
@@ -433,7 +427,7 @@ internal static class Program
             cout = "";
             for (j = 1; j <= N; j++)
             {
-                cout += "  " + a[i - 1 + (j - 1) * LDA].ToString().PadLeft(12);
+                cout += "  " + a[i - 1 + (j - 1) * N].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
@@ -446,7 +440,7 @@ internal static class Program
         cout = "";
         for (i = 1; i <= N; i++)
         {
-            cout += "  " + z[i - 1].ToString().PadLeft(12);
+            cout += "  " + z[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(12);
         }
 
         Console.WriteLine(cout);
@@ -457,10 +451,10 @@ internal static class Program
         {
             for (j = 1; j <= N; j++)
             {
-                b[i - 1 + (j - 1) * LDA] = 0.0;
+                b[i - 1 + (j - 1) * N] = 0.0;
                 for (k = 1; k <= N; k++)
                 {
-                    b[i - 1 + (j - 1) * LDA] += a[k - 1 + (i - 1) * LDA] * a[k - 1 + (j - 1) * LDA];
+                    b[i - 1 + (j - 1) * N] += a[k - 1 + (i - 1) * N] * a[k - 1 + (j - 1) * N];
                 }
             }
         }
@@ -474,7 +468,7 @@ internal static class Program
             cout = "";
             for (j = 1; j <= N; j++)
             {
-                cout += "  " + b[i - 1 + (j - 1) * LDA].ToString().PadLeft(12);
+                cout += "  " + b[i - 1 + (j - 1) * N].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
@@ -502,20 +496,16 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int P = 20;
-        int LDR = P;
-        int NZ = 1;
+        const int P = 20;
+        const int NZ = 1;
 
         double[] b = new double[P];
         double[] c = new double[P];
         int i;
         int j;
-        int job;
-        double[] r = new double[LDR * P];
+        double[] r = new double[P * P];
         double[] rho = new double[NZ];
-        double[] row = new double[P];
         double[] s = new double[P];
-        int seed;
         double[] x = new double[P];
         double[] y = new double[NZ];
         double[] z = new double[P * NZ];
@@ -536,7 +526,7 @@ internal static class Program
         {
             for (i = 1; i <= P; i++)
             {
-                r[i - 1 + (j - 1) * LDR] = 0.0;
+                r[i - 1 + (j - 1) * P] = 0.0;
             }
         }
 
@@ -557,11 +547,11 @@ internal static class Program
         //  Use DCHUD to form R, Z and RHO by adding X and Y a row at a time.
         //  X is a row of the least squares matrix and Y the right hand side.
         //
-        seed = 123456789;
+        int seed = 123456789;
 
         for (i = 1; i <= P; i++)
         {
-            row = UniformRNG.r8mat_uniform_01(1, P, ref seed);
+            double[] row = UniformRNG.r8mat_uniform_01(1, P, ref seed);
             y[0] = 0.0;
             for (j = 1; j <= P; j++)
             {
@@ -569,7 +559,7 @@ internal static class Program
             }
 
             rho[0] = 0.0;
-            DCHUD.dchud(ref r, LDR, P, row, ref z, P, NZ, y, ref rho, ref c, ref s);
+            DCHUD.dchud(ref r, P, P, row, ref z, P, NZ, y, ref rho, ref c, ref s);
         }
 
         //
@@ -582,9 +572,9 @@ internal static class Program
                 b[i - 1] = z[i - 1 + (j - 1) * P];
             }
 
-            job = 01;
+            int job = 01;
 
-            DTRSL.dtrsl(r, LDR, P, ref b, job);
+            DTRSL.dtrsl(r, P, P, ref b, job);
 
             Console.WriteLine("");
             Console.WriteLine("  Solution vector # " + j + "");
@@ -595,8 +585,8 @@ internal static class Program
             {
                 if (i <= 5 || P - 5 < i)
                 {
-                    Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                           + "  " + b[i - 1].ToString().PadLeft(14) + "");
+                    Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                           + "  " + b[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                 }
 
                 switch (i)
@@ -630,16 +620,14 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 10;
-        int ML = 1;
-        int MU = 1;
-        int LDA = 2 * ML + MU + 1;
+        const int N = 10;
+        const int ML = 1;
+        const int MU = 1;
+        const int LDA = 2 * ML + MU + 1;
 
         double[] a = new double[LDA * N];
         int[] ipivot = new int[N];
         int j;
-        int m;
-        double rcond;
         double[] z = new double[N];
 
         Console.WriteLine("");
@@ -650,7 +638,7 @@ internal static class Program
         //
         //  Set the matrix A.
         //
-        m = ML + MU + 1;
+        int m = ML + MU + 1;
         Console.WriteLine("  The bandwidth of the matrix is " + m + "");
 
         for (j = 1; j <= N; j++)
@@ -666,7 +654,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Estimate the condition.");
 
-        rcond = DGBCO.dgbco(ref a, LDA, N, ML, MU, ref ipivot, z);
+        double rcond = DGBCO.dgbco(ref a, LDA, N, ML, MU, ref ipivot, z);
 
         Console.WriteLine("");
         Console.WriteLine("  Estimated reciprocal condition = " + rcond + "");
@@ -720,19 +708,16 @@ internal static class Program
         //    matrix, which must be at least 2*ML+MU+1.
         //
     {
-        int N = 10;
-        int ML = 1;
-        int MU = 1;
-        int LDA = 2 * ML + MU + 1;
+        const int N = 10;
+        const int ML = 1;
+        const int MU = 1;
+        const int LDA = 2 * ML + MU + 1;
 
         double[] a = new double[LDA * N];
         double[] b = new double[N];
         int i;
-        int info;
         int[] ipivot = new int[N];
         int j;
-        int job;
-        int m;
 
         Console.WriteLine("");
         Console.WriteLine("TEST05");
@@ -753,7 +738,7 @@ internal static class Program
         //
         //  Set the matrix A.
         //
-        m = ML + MU + 1;
+        int m = ML + MU + 1;
         Console.WriteLine("  The bandwidth of the matrix is " + m + "");
 
         for (j = 1; j <= N; j++)
@@ -769,7 +754,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Factor the matrix.");
 
-        info = DGBFA.dgbfa(ref a, LDA, N, ML, MU, ref ipivot);
+        int info = DGBFA.dgbfa(ref a, LDA, N, ML, MU, ref ipivot);
 
         if (info != 0)
         {
@@ -784,7 +769,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Solve the linear system.");
 
-        job = 0;
+        const int job = 0;
         DGBSL.dgbsl(a, LDA, N, ML, MU, ipivot, ref b, job);
         //
         //  Print the results.
@@ -798,8 +783,8 @@ internal static class Program
         {
             if (i <= 5 || N - 5 < i)
             {
-                Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                       + "  " + b[i - 1].ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                       + "  " + b[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
             switch (i)
@@ -851,18 +836,13 @@ internal static class Program
         //
     {
         const int N_MAX = 128;
-        int ML = 1;
-        int MU = 1;
-        int LDA = 2 * ML + MU + 1;
+        const int ML = 1;
+        const int MU = 1;
+        const int LDA = 2 * ML + MU + 1;
 
         double[] a = new double[LDA * N_MAX];
         double[] det = new double[2];
-        int i;
-        int info;
         int[] ipivot = new int[N_MAX];
-        int j;
-        int m;
-        int n;
         int n_log;
 
         Console.WriteLine("");
@@ -879,18 +859,20 @@ internal static class Program
         //
         //  Set the matrix A.
         //
-        m = ML + MU + 1;
+        int m = ML + MU + 1;
         Console.WriteLine("  The bandwidth of the matrix is " + m + "");
         Console.WriteLine("");
         Console.WriteLine("       N    Mantissa       Exponent");
         Console.WriteLine("");
 
-        n = 1;
+        int n = 1;
 
         for (n_log = 1; n_log <= 7; n_log++)
         {
             n = 2 * n;
 
+            int i;
+            int j;
             for (j = 1; j <= n; j++)
             {
                 for (i = 1; i <= LDA; i++)
@@ -917,7 +899,7 @@ internal static class Program
                 a[i - j + ML + MU + (j - 1) * LDA] = -1.0;
             }
 
-            info = DGBFA.dgbfa(ref a, LDA, n, ML, MU, ref ipivot);
+            int info = DGBFA.dgbfa(ref a, LDA, n, ML, MU, ref ipivot);
 
             if (info != 0)
             {
@@ -927,9 +909,9 @@ internal static class Program
 
             DGBDI.dgbdi(a, LDA, n, ML, MU, ipivot, ref det);
 
-            Console.WriteLine("  " + n.ToString().PadLeft(6)
-                                   + "  " + det[0].ToString().PadLeft(14)
-                                   + "  " + det[1].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + det[0].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + det[1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -958,22 +940,16 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 100;
-        int ML = 25;
-        int MU = 25;
-        int LDA = 2 * ML + MU + 1;
+        const int N = 100;
+        const int ML = 25;
+        const int MU = 25;
+        const int LDA = 2 * ML + MU + 1;
 
         double[] a = new double[LDA * N];
         double[] b = new double[N];
         int i;
-        int ihi;
-        int ilo;
-        int info;
         int[] ipivot = new int[N];
         int j;
-        int job;
-        int m;
-        double temp;
 
         Console.WriteLine("");
         Console.WriteLine("TEST07");
@@ -986,15 +962,15 @@ internal static class Program
         //
         //  We want to try a problem with a significant bandwidth.
         //
-        m = ML + MU + 1;
+        int m = ML + MU + 1;
         Console.WriteLine("  The bandwidth of the matrix is " + m + "");
 
         for (j = 1; j <= N; j++)
         {
-            ilo = Math.Max(1, j - MU);
-            ihi = Math.Min(N, j + ML);
+            int ilo = Math.Max(1, j - MU);
+            int ihi = Math.Min(N, j + ML);
 
-            temp = 0.0;
+            double temp = 0.0;
             for (i = ilo; i <= ihi; i++)
             {
                 a[i - j + m - 1 + (j - 1) * LDA] = -1.0;
@@ -1012,7 +988,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Factor the matrix.");
 
-        info = DGBFA.dgbfa(ref a, LDA, N, ML, MU, ref ipivot);
+        int info = DGBFA.dgbfa(ref a, LDA, N, ML, MU, ref ipivot);
 
         if (info != 0)
         {
@@ -1027,7 +1003,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Solve the linear system.");
 
-        job = 0;
+        int job = 0;
         DGBSL.dgbsl(a, LDA, N, ML, MU, ipivot, ref b, job);
         //
         //  Print the results.
@@ -1041,8 +1017,8 @@ internal static class Program
         {
             if (i <= 5 || N - 5 < i)
             {
-                Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                       + "  " + b[i - 1].ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                       + "  " + b[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
             switch (i)
@@ -1079,18 +1055,15 @@ internal static class Program
         //    LDA defines the maximum matrix size we will use.
         //
     {
-        int LDA = 10;
+        const int LDA = 10;
 
         double[] a = new double[LDA * LDA];
         double[] b = new double[LDA];
         int i;
         int[] ipvt = new int[LDA];
-        int job;
-        int n;
-        double rcond;
         double[] z = new double[LDA];
 
-        n = 3;
+        int n = 3;
 
         Console.WriteLine("");
         Console.WriteLine("TEST08");
@@ -1119,7 +1092,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Factor the matrix.");
 
-        rcond = DGECO.dgeco(ref a, LDA, n, ref ipvt, ref z);
+        double rcond = DGECO.dgeco(ref a, LDA, n, ref ipvt, ref z);
 
         Console.WriteLine("  The reciprocal matrix condition number = " + rcond + "");
 
@@ -1142,7 +1115,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Solve the linear system.");
 
-        job = 0;
+        int job = 0;
         DGESL.dgesl(a, LDA, n, ipvt, ref b, job);
         //
         //  Print the results.
@@ -1153,7 +1126,7 @@ internal static class Program
         Console.WriteLine("");
         for (i = 1; i <= n; i++)
         {
-            Console.WriteLine("  " + b[i - 1].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + b[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         //
@@ -1185,7 +1158,7 @@ internal static class Program
         Console.WriteLine("");
         for (i = 1; i <= n; i++)
         {
-            Console.WriteLine("  " + b[i - 1].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + b[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         //
@@ -1217,7 +1190,7 @@ internal static class Program
         Console.WriteLine("");
         for (i = 1; i <= n; i++)
         {
-            Console.WriteLine("  " + b[i - 1].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + b[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -1255,12 +1228,8 @@ internal static class Program
         };
         double[] det = new double[2];
         int i;
-        int info;
         int[] ipvt = new int[N];
-        int j;
-        int job;
         double[] work = new double[N];
-        string cout;
 
         Console.WriteLine("");
         Console.WriteLine("TEST09");
@@ -1274,7 +1243,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Factor the matrix.");
 
-        info = DGEFA.dgefa(ref a, LDA, N, ref ipvt);
+        int info = DGEFA.dgefa(ref a, LDA, N, ref ipvt);
 
         if (info != 0)
         {
@@ -1288,7 +1257,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Get the inverse and determinant.");
 
-        job = 11;
+        int job = 11;
         DGEDI.dgedi(ref a, LDA, N, ipvt, ref det, work, job);
 
         Console.WriteLine("");
@@ -1300,10 +1269,11 @@ internal static class Program
 
         for (i = 1; i <= N; i++)
         {
-            cout = "";
+            string cout = "";
+            int j;
             for (j = 1; j <= N; j++)
             {
-                cout += "  " + a[i - 1 + (j - 1) * LDA].ToString().PadLeft(12);
+                cout += "  " + a[i - 1 + (j - 1) * LDA].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
@@ -1352,10 +1322,7 @@ internal static class Program
         };
         double[] b = {6.0, 15.0, 15.0};
         int i;
-        int info;
         int[] ipvt = new int[N];
-        int j;
-        int job;
         string cout;
 
         Console.WriteLine("");
@@ -1373,9 +1340,10 @@ internal static class Program
         for (i = 1; i <= N; i++)
         {
             cout = "";
+            int j;
             for (j = 1; j <= N; j++)
             {
-                cout += "  " + a[i - 1 + (j - 1) * LDA].ToString().PadLeft(14);
+                cout += "  " + a[i - 1 + (j - 1) * LDA].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -1387,7 +1355,7 @@ internal static class Program
         cout = "";
         for (i = 1; i <= N; i++)
         {
-            cout += "  " + b[i - 1].ToString().PadLeft(14);
+            cout += "  " + b[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(14);
         }
 
         Console.WriteLine(cout);
@@ -1397,7 +1365,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Factor the matrix.");
 
-        info = DGEFA.dgefa(ref a, LDA, N, ref ipvt);
+        int info = DGEFA.dgefa(ref a, LDA, N, ref ipvt);
 
         if (info != 0)
         {
@@ -1408,7 +1376,7 @@ internal static class Program
         //
         //  Solve the system.
         //
-        job = 0;
+        int job = 0;
         DGESL.dgesl(a, LDA, N, ipvt, ref b, job);
 
         Console.WriteLine("");
@@ -1419,7 +1387,7 @@ internal static class Program
         cout = "";
         for (i = 1; i <= N; i++)
         {
-            cout += "  " + b[i - 1].ToString().PadLeft(14);
+            cout += "  " + b[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(14);
         }
 
         Console.WriteLine(cout);
@@ -1450,16 +1418,13 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 100;
-        int LDA = N;
+        const int N = 100;
 
-        double[] a = new double[LDA * N];
+        double[] a = new double[N * N];
         double[] b = new double[N];
         int i;
-        int info;
         int[] ipvt = new int[N];
         int j;
-        int job;
 
         Console.WriteLine("");
         Console.WriteLine("TEST11");
@@ -1496,11 +1461,11 @@ internal static class Program
             {
                 if (i == j)
                 {
-                    a[i - 1 + (j - 1) * LDA] = N;
+                    a[i - 1 + (j - 1) * N] = N;
                 }
                 else
                 {
-                    a[i - 1 + (j - 1) * LDA] = -1.0;
+                    a[i - 1 + (j - 1) * N] = -1.0;
                 }
             }
         }
@@ -1511,7 +1476,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Factor the matrix.");
 
-        info = DGEFA.dgefa(ref a, LDA, N, ref ipvt);
+        int info = DGEFA.dgefa(ref a, N, N, ref ipvt);
 
         if (info != 0)
         {
@@ -1525,8 +1490,8 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Solve the factored system.");
 
-        job = 0;
-        DGESL.dgesl(a, LDA, N, ipvt, ref b, job);
+        int job = 0;
+        DGESL.dgesl(a, N, N, ipvt, ref b, job);
         //
         //  Print the results.
         //
@@ -1539,8 +1504,8 @@ internal static class Program
         {
             if (i <= 5 || N - 5 < i)
             {
-                Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                       + "  " + b[i - 1].ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                       + "  " + b[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
             switch (i)
@@ -1574,14 +1539,13 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 100;
+        const int N = 100;
 
         double[] b = new double[N];
         double[] c = new double[N];
         double[] d = new double[N];
         double[] e = new double[N];
         int i;
-        int info;
 
         Console.WriteLine("");
         Console.WriteLine("TEST12");
@@ -1624,7 +1588,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Factor the matrix and solve the system.");
 
-        info = DGTSL.dgtsl(N, ref c, ref d, ref e, ref b);
+        int info = DGTSL.dgtsl(N, ref c, ref d, ref e, ref b);
 
         if (info != 0)
         {
@@ -1645,8 +1609,8 @@ internal static class Program
         {
             if (i <= 5 || N - 5 < i)
             {
-                Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                       + "  " + b[i - 1].ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                       + "  " + b[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
             switch (i)
@@ -1679,13 +1643,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 10;
-        int LDA = 2;
+        const int N = 10;
+        const int LDA = 2;
 
         double[] a = new double[LDA * N];
         int j;
-        int m;
-        double rcond;
         double[] z = new double[N];
 
         Console.WriteLine("");
@@ -1696,7 +1658,7 @@ internal static class Program
         //
         //  Set the number of nonzero diagonals.
         //
-        m = 1;
+        const int m = 1;
         //
         //  Set the value of the subdiagonal and diagonal.
         //
@@ -1709,7 +1671,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Estimate the condition.");
 
-        rcond = DPBCO.dpbco(ref a, LDA, N, m, ref z);
+        double rcond = DPBCO.dpbco(ref a, LDA, N, m, ref z);
 
         Console.WriteLine("");
         Console.WriteLine("  Reciprocal condition  = " + rcond + "");
@@ -1738,14 +1700,10 @@ internal static class Program
         //
     {
         const int N_MAX = 128;
-        int LDA = 2;
+        const int LDA = 2;
 
         double[] a = new double[LDA * N_MAX];
         double[] det = new double[2];
-        int info;
-        int j;
-        int m;
-        int n;
         int n_log;
 
         Console.WriteLine("");
@@ -1761,19 +1719,20 @@ internal static class Program
         //
         //  Set the number of  nonzero diagonals.
         //
-        m = 1;
+        int m = 1;
 
         Console.WriteLine("");
         Console.WriteLine("       N    Mantissa       Exponent");
         Console.WriteLine("");
 
-        n = 1;
+        int n = 1;
 
         for (n_log = 1; n_log <= 7; n_log++)
         {
             n = 2 * n;
 
             a[0 + 0 * LDA] = 0.0;
+            int j;
             for (j = 2; j <= n; j++)
             {
                 a[0 + (j - 1) * LDA] = -1.0;
@@ -1784,7 +1743,7 @@ internal static class Program
                 a[1 + (j - 1) * LDA] = 2.0;
             }
 
-            info = DPBFA.dpbfa(ref a, LDA, n, m);
+            int info = DPBFA.dpbfa(ref a, LDA, n, m);
 
             if (info != 0)
             {
@@ -1794,9 +1753,9 @@ internal static class Program
 
             DPBDI.dpbdi(a, LDA, n, m, ref det);
 
-            Console.WriteLine("  " + n.ToString().PadLeft(6)
-                                   + "  " + det[0].ToString().PadLeft(14)
-                                   + "  " + det[1].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + det[0].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + det[1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -1825,14 +1784,12 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 10;
-        int LDA = 2;
+        const int N = 10;
+        const int LDA = 2;
         double[] a = new double[LDA * N];
         double[] b = new double[N];
         int i;
-        int info;
         int j;
-        int m;
 
         Console.WriteLine("");
         Console.WriteLine("TEST15");
@@ -1871,7 +1828,7 @@ internal static class Program
         //
         //  Set the number of nonzero diagonals.
         //
-        m = 1;
+        int m = 1;
         //
         //  Set the value of the subdiagonal and diagonal.
         //
@@ -1887,7 +1844,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Factor the matrix.");
 
-        info = DPBFA.dpbfa(ref a, LDA, N, m);
+        int info = DPBFA.dpbfa(ref a, LDA, N, m);
 
         if (info != 0)
         {
@@ -1914,8 +1871,8 @@ internal static class Program
         {
             if (i <= 5 || N - 5 < i)
             {
-                Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                       + "  " + b[i - 1].ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                       + "  " + b[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
             switch (i)
@@ -1948,13 +1905,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 5;
-        int LDA = N;
+        const int N = 5;
 
-        double[] a = new double[LDA * N];
+        double[] a = new double[N * N];
         int i;
         int j;
-        double rcond;
         double[] z = new double[N];
 
         Console.WriteLine("");
@@ -1969,29 +1924,29 @@ internal static class Program
         {
             for (i = 0; i < N; i++)
             {
-                a[i + j * LDA] = 0.0;
+                a[i + j * N] = 0.0;
             }
         }
 
         for (i = 1; i <= N; i++)
         {
-            a[i - 1 + (i - 1) * LDA] = 2.0;
-            a[i - 1 + (i - 2) * LDA] = i switch
+            a[i - 1 + (i - 1) * N] = 2.0;
+            a[i - 1 + (i - 2) * N] = i switch
             {
                 > 1 => -1.0,
-                _ => a[i - 1 + (i - 2) * LDA]
+                _ => a[i - 1 + (i - 2) * N]
             };
 
             if (i < N)
             {
-                a[i - 1 + i * LDA] = -1.0;
+                a[i - 1 + i * N] = -1.0;
             }
         }
 
         Console.WriteLine("");
         Console.WriteLine("  Estimate the condition.");
 
-        rcond = DPOCO.dpoco(ref a, LDA, N, ref z);
+        double rcond = DPOCO.dpoco(ref a, N, N, ref z);
 
         Console.WriteLine("");
         Console.WriteLine("  Reciprocal condition  = " + rcond + "");
@@ -2024,16 +1979,12 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 5;
-        int LDA = N;
+        const int N = 5;
 
-        double[] a = new double[LDA * N];
+        double[] a = new double[N * N];
         double[] det = new double[2];
         int i;
-        int info;
         int j;
-        int job;
-        string cout;
 
         Console.WriteLine("");
         Console.WriteLine("TEST17");
@@ -2048,22 +1999,22 @@ internal static class Program
         {
             for (i = 0; i < N; i++)
             {
-                a[i + j * LDA] = 0.0;
+                a[i + j * N] = 0.0;
             }
         }
 
         for (i = 1; i <= N; i++)
         {
-            a[i - 1 + (i - 1) * LDA] = 2.0;
-            a[i - 1 + (i - 2) * LDA] = i switch
+            a[i - 1 + (i - 1) * N] = 2.0;
+            a[i - 1 + (i - 2) * N] = i switch
             {
                 > 1 => -1.0,
-                _ => a[i - 1 + (i - 2) * LDA]
+                _ => a[i - 1 + (i - 2) * N]
             };
 
             if (i < N)
             {
-                a[i - 1 + i * LDA] = -1.0;
+                a[i - 1 + i * N] = -1.0;
             }
         }
 
@@ -2073,7 +2024,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Factor the matrix.");
 
-        info = DPOFA.dpofa(ref a, LDA, N);
+        int info = DPOFA.dpofa(ref a, N, N);
 
         if (info != 0)
         {
@@ -2087,8 +2038,8 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Get the determinant and inverse.");
 
-        job = 11;
-        DPODI.dpodi(ref a, LDA, N, ref det, job);
+        const int job = 11;
+        DPODI.dpodi(ref a, N, N, ref det, job);
         //
         //  Print the results.
         //
@@ -2103,10 +2054,10 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  First row of inverse:");
         Console.WriteLine("");
-        cout = "";
+        string cout = "";
         for (j = 1; j <= N; j++)
         {
-            cout += "  " + a[0 + (j - 1) * LDA].ToString().PadLeft(12);
+            cout += "  " + a[0 + (j - 1) * N].ToString(CultureInfo.InvariantCulture).PadLeft(12);
         }
 
         Console.WriteLine(cout);
@@ -2140,7 +2091,6 @@ internal static class Program
         double[] a = new double[LDA * N];
         double[] b = new double[N];
         int i;
-        int info;
         int j;
         double[] x = new double[N];
 
@@ -2199,7 +2149,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Factor the matrix.");
 
-        info = DPOFA.dpofa(ref a, LDA, N);
+        int info = DPOFA.dpofa(ref a, LDA, N);
 
         if (info != 0)
         {
@@ -2223,8 +2173,8 @@ internal static class Program
         {
             if (i <= 5 || N - 5 < i)
             {
-                Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                       + "  " + b[i - 1].ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                       + "  " + b[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
             switch (i)
@@ -2258,13 +2208,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 5;
+        const int N = 5;
 
         double[] a = new double[N * (N + 1) / 2];
-        int i;
         int j;
-        int k;
-        double rcond;
         double[] z = new double[N];
 
         Console.WriteLine("");
@@ -2275,9 +2222,10 @@ internal static class Program
         //
         //  Set the matrix A.
         //
-        k = 0;
+        int k = 0;
         for (j = 1; j <= N; j++)
         {
+            int i;
             for (i = 1; i <= j; i++)
             {
                 k += 1;
@@ -2302,7 +2250,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Estimate the condition number.");
 
-        rcond = DPPCO.dppco(ref a, N, ref z);
+        double rcond = DPPCO.dppco(ref a, N, ref z);
 
         Console.WriteLine("");
         Console.WriteLine("  Reciprocal condition number = " + rcond + "");
@@ -2334,17 +2282,13 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 5;
+        const int N = 5;
 
         double[] a = new double[N * (N + 1) / 2];
         double[] b = new double[N * N];
         double[] det = new double[2];
         int i;
-        int info;
         int j;
-        int job;
-        int k;
-        string cout;
 
         Console.WriteLine("");
         Console.WriteLine("TEST20");
@@ -2355,7 +2299,7 @@ internal static class Program
         //
         //  Set the matrix A.
         //
-        k = 0;
+        int k = 0;
         for (j = 1; j <= N; j++)
         {
             for (i = 1; i <= j; i++)
@@ -2382,7 +2326,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Factor the matrix.");
 
-        info = DPPFA.dppfa(ref a, N);
+        int info = DPPFA.dppfa(ref a, N);
 
         if (info != 0)
         {
@@ -2397,7 +2341,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Get the determinant and inverse.");
 
-        job = 11;
+        int job = 11;
         DPPDI.dppdi(ref a, N, ref det, job);
         //
         //  Print the results.
@@ -2427,10 +2371,10 @@ internal static class Program
 
         for (i = 1; i <= N; i++)
         {
-            cout = "";
+            string cout = "";
             for (j = 1; j <= N; j++)
             {
-                cout += "  " + b[i - 1 + (j - 1) * N].ToString().PadLeft(12);
+                cout += "  " + b[i - 1 + (j - 1) * N].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
@@ -2463,14 +2407,12 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 20;
+        const int N = 20;
 
         double[] a = new double[N * (N + 1) / 2];
         double[] b = new double[N];
         int i;
-        int info;
         int j;
-        int k;
         double[] x = new double[N];
 
         Console.WriteLine("");
@@ -2495,7 +2437,7 @@ internal static class Program
         //
         //  Set the matrix A.
         //
-        k = 0;
+        int k = 0;
         for (j = 1; j <= N; j++)
         {
             for (i = 1; i <= j; i++)
@@ -2525,7 +2467,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Factor the matrix.");
 
-        info = DPPFA.dppfa(ref a, N);
+        int info = DPPFA.dppfa(ref a, N);
 
         if (info != 0)
         {
@@ -2550,8 +2492,8 @@ internal static class Program
         {
             if (i <= 5 || N - 5 < i)
             {
-                Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                       + "  " + b[i - 1].ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                       + "  " + b[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
             switch (i)
@@ -2661,8 +2603,8 @@ internal static class Program
         {
             if (i <= 5 || N - 5 < i)
             {
-                Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                       + "  " + b[i - 1].ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                       + "  " + b[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
             switch (i)
@@ -2699,9 +2641,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 3;
-        int P = 3;
-        int LDA = N;
+        const int N = 3;
+        const int P = 3;
 
         double[] a =
         {
@@ -2709,13 +2650,10 @@ internal static class Program
             1.0, 0.0, 1.0,
             0.0, 1.0, 1.0
         };
-        double[] b = new double[LDA * P];
+        double[] b = new double[N * P];
         int i;
-        int info;
         int[] ipvt = new int[P];
         int j;
-        int job;
-        int k;
         double[] q = new double[N * N];
         double[] qraux = new double[P];
         double[] qty = new double[N];
@@ -2745,7 +2683,7 @@ internal static class Program
             cout = "";
             for (j = 1; j <= P; j++)
             {
-                cout += "  " + a[i - 1 + (j - 1) * LDA].ToString().PadLeft(12);
+                cout += "  " + a[i - 1 + (j - 1) * N].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
@@ -2757,13 +2695,13 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Decompose the matrix.");
 
-        job = 0;
+        int job = 0;
         for (j = 1; j <= P; j++)
         {
             ipvt[j - 1] = 0;
         }
 
-        DQRDC.dqrdc(ref a, LDA, N, P, ref qraux, ref ipvt, work, job);
+        DQRDC.dqrdc(ref a, N, N, P, ref qraux, ref ipvt, work, job);
         //
         //  Print out what DQRDC has stored in A...
         //
@@ -2776,7 +2714,7 @@ internal static class Program
             cout = "";
             for (j = 1; j <= P; j++)
             {
-                cout += "  " + a[i - 1 + (j - 1) * LDA].ToString().PadLeft(12);
+                cout += "  " + a[i - 1 + (j - 1) * N].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
@@ -2793,7 +2731,7 @@ internal static class Program
         cout = "";
         for (i = 1; i <= N; i++)
         {
-            cout += "  " + qraux[i - 1].ToString().PadLeft(12);
+            cout += "  " + qraux[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(12);
         }
 
         Console.WriteLine(cout);
@@ -2810,7 +2748,7 @@ internal static class Program
                 }
                 else
                 {
-                    r[i - 1 + (j - 1) * N] = a[i - 1 + (j - 1) * LDA];
+                    r[i - 1 + (j - 1) * N] = a[i - 1 + (j - 1) * N];
                 }
             }
         }
@@ -2824,7 +2762,7 @@ internal static class Program
             cout = "";
             for (j = 1; j <= P; j++)
             {
-                cout += "  " + r[i - 1 + (j - 1) * LDA].ToString().PadLeft(12);
+                cout += "  " + r[i - 1 + (j - 1) * N].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
@@ -2851,7 +2789,7 @@ internal static class Program
             //
             //  Ask DQRSL to tell us what Q*Y is.
             //
-            info = DQRSL.dqrsl(a, LDA, N, P, qraux, y, ref qy, ref qty, ref b, ref rsd, ref xb, job);
+            int info = DQRSL.dqrsl(a, N, N, P, qraux, y, ref qy, ref qty, ref b, ref rsd, ref xb, job);
 
             if (info != 0)
             {
@@ -2880,7 +2818,7 @@ internal static class Program
             cout = "";
             for (j = 1; j <= N; j++)
             {
-                cout += "  " + q[i - 1 + (j - 1) * N].ToString().PadLeft(12);
+                cout += "  " + q[i - 1 + (j - 1) * N].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
@@ -2893,10 +2831,11 @@ internal static class Program
         {
             for (j = 1; j <= P; j++)
             {
-                b[i - 1 + (j - 1) * LDA] = 0.0;
+                b[i - 1 + (j - 1) * N] = 0.0;
+                int k;
                 for (k = 1; k <= N; k++)
                 {
-                    b[i - 1 + (j - 1) * LDA] += q[i - 1 + (k - 1) * N] * r[k - 1 + (j - 1) * N];
+                    b[i - 1 + (j - 1) * N] += q[i - 1 + (k - 1) * N] * r[k - 1 + (j - 1) * N];
                 }
             }
         }
@@ -2913,7 +2852,7 @@ internal static class Program
             cout = "";
             for (j = 1; j <= P; j++)
             {
-                cout += "  " + b[i - 1 + (j - 1) * LDA].ToString().PadLeft(12);
+                cout += "  " + b[i - 1 + (j - 1) * N].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
@@ -2946,9 +2885,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 5;
-        int P = 3;
-        int LDA = N;
+        const int N = 5;
+        const int P = 3;
 
         double[] a =
         {
@@ -2962,10 +2900,8 @@ internal static class Program
             -3.02, 4.4914286, -0.72857143
         };
         int i;
-        int info;
         int[] ipvt = new int[N];
         int j;
-        int job;
         double[] qraux = new double[P];
         double[] qty = new double[N];
         double[] qy = new double[N];
@@ -2980,7 +2916,6 @@ internal static class Program
             3.1,
             1.2
         };
-        string cout;
 
         Console.WriteLine("");
         Console.WriteLine("DQRSL_TEST");
@@ -2993,10 +2928,10 @@ internal static class Program
 
         for (i = 0; i < N; i++)
         {
-            cout = "";
+            string cout = "";
             for (j = 0; j < P; j++)
             {
-                cout += "  " + a[i + j * LDA].ToString().PadLeft(12);
+                cout += "  " + a[i + j * N].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
@@ -3008,20 +2943,20 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine(" Decompose the matrix.");
 
-        job = 0;
+        int job = 0;
 
         for (j = 0; j < P; j++)
         {
             ipvt[j] = 0;
         }
 
-        DQRDC.dqrdc(ref a, LDA, N, P, ref qraux, ref ipvt, work, job);
+        DQRDC.dqrdc(ref a, N, N, P, ref qraux, ref ipvt, work, job);
         //
         //  Call DQRSL to compute the least squares solution A*x=b.
         //
         job = 110;
 
-        info = DQRSL.dqrsl(a, LDA, N, P, qraux, y, ref qy, ref qty, ref b, ref r, ref xb, job);
+        int info = DQRSL.dqrsl(a, N, N, P, qraux, y, ref qy, ref qty, ref b, ref r, ref xb, job);
 
         if (info != 0)
         {
@@ -3037,8 +2972,8 @@ internal static class Program
 
         for (i = 0; i < P; i++)
         {
-            Console.WriteLine("  " + b[i].ToString().PadLeft(14)
-                                   + "  " + b2[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + b[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + b2[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }
@@ -3064,14 +2999,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 100;
-        int LDA = N;
+        const int N = 100;
 
-        double[] a = new double[LDA * N];
+        double[] a = new double[N * N];
         int i;
         int[] ipvt = new int[N];
-        int j;
-        double rcond;
         double[] z = new double[N];
 
         Console.WriteLine("");
@@ -3084,19 +3016,20 @@ internal static class Program
         //
         for (i = 1; i <= N; i++)
         {
+            int j;
             for (j = 1; j <= N; j++)
             {
                 if (i == j)
                 {
-                    a[i - 1 + (j - 1) * LDA] = 2.0;
+                    a[i - 1 + (j - 1) * N] = 2.0;
                 }
                 else if (j == i + 1)
                 {
-                    a[i - 1 + (j - 1) * LDA] = -1.0;
+                    a[i - 1 + (j - 1) * N] = -1.0;
                 }
                 else
                 {
-                    a[i - 1 + (j - 1) * LDA] = 0.0;
+                    a[i - 1 + (j - 1) * N] = 0.0;
                 }
             }
         }
@@ -3107,7 +3040,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Estimate the condition.");
 
-        rcond = DSICO.dsico(ref a, LDA, N, ref ipvt, ref z);
+        double rcond = DSICO.dsico(ref a, N, N, ref ipvt, ref z);
 
         Console.WriteLine("");
         Console.WriteLine("  Estimated reciprocal condition = " + rcond + "");
@@ -3139,15 +3072,12 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 100;
-        int LDA = N;
+        const int N = 100;
 
-        double[] a = new double[LDA * N];
+        double[] a = new double[N * N];
         double[] b = new double[N];
         int i;
-        int info;
         int[] ipvt = new int[N];
-        int j;
 
         Console.WriteLine("");
         Console.WriteLine("TEST25");
@@ -3167,19 +3097,20 @@ internal static class Program
 
         for (i = 1; i <= N; i++)
         {
+            int j;
             for (j = 1; j <= N; j++)
             {
                 if (i == j)
                 {
-                    a[i - 1 + (j - 1) * LDA] = 2.0;
+                    a[i - 1 + (j - 1) * N] = 2.0;
                 }
                 else if (j == i + 1)
                 {
-                    a[i - 1 + (j - 1) * LDA] = -1.0;
+                    a[i - 1 + (j - 1) * N] = -1.0;
                 }
                 else
                 {
-                    a[i - 1 + (j - 1) * LDA] = 0.0;
+                    a[i - 1 + (j - 1) * N] = 0.0;
                 }
             }
         }
@@ -3190,7 +3121,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Factor the matrix.");
 
-        info = DSIFA.dsifa(ref a, LDA, N, ref ipvt);
+        int info = DSIFA.dsifa(ref a, N, N, ref ipvt);
 
         if (info != 0)
         {
@@ -3204,7 +3135,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Solve the linear system.");
 
-        DSISL.dsisl(a, LDA, N, ipvt, ref b);
+        DSISL.dsisl(a, N, N, ipvt, ref b);
         //
         //  Print the result.
         //
@@ -3217,8 +3148,8 @@ internal static class Program
         {
             if (i <= 5 || N - 5 < i)
             {
-                Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                       + "  " + b[i - 1].ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                       + "  " + b[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
             switch (i)
@@ -3252,14 +3183,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 100;
+        const int N = 100;
 
         double[] a = new double[N * (N + 1) / 2];
-        int i;
         int[] ipvt = new int[N];
         int j;
-        int k;
-        double rcond;
         double[] z = new double[N];
 
         Console.WriteLine("");
@@ -3270,9 +3198,10 @@ internal static class Program
         //
         //  Assign values to the matrix A.
         //
-        k = 0;
+        int k = 0;
         for (j = 1; j <= N; j++)
         {
+            int i;
             for (i = 1; i <= j; i++)
             {
                 k += 1;
@@ -3297,7 +3226,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Estimate the condition.");
 
-        rcond = DSPCO.dspco(ref a, N, ref ipvt, ref z);
+        double rcond = DSPCO.dspco(ref a, N, ref ipvt, ref z);
 
         Console.WriteLine("");
         Console.WriteLine("  Estimated reciprocal condition = " + rcond + "");
@@ -3328,15 +3257,13 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 100;
+        const int N = 100;
 
         double[] a = new double[N * (N + 1) / 2];
         double[] b = new double[N];
         int i;
-        int info;
         int[] ipvt = new int[N];
         int j;
-        int k;
 
         Console.WriteLine("");
         Console.WriteLine("TEST27");
@@ -3354,7 +3281,7 @@ internal static class Program
 
         b[N - 1] = N + 1;
 
-        k = 0;
+        int k = 0;
         for (j = 1; j <= N; j++)
         {
             for (i = 1; i <= j; i++)
@@ -3381,7 +3308,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Factor the matrix.");
 
-        info = DSPFA.dspfa(ref a, N, ref ipvt);
+        int info = DSPFA.dspfa(ref a, N, ref ipvt);
 
         if (info != 0)
         {
@@ -3408,8 +3335,8 @@ internal static class Program
         {
             if (i <= 5 || N - 5 < i)
             {
-                Console.WriteLine("  " + i.ToString().PadLeft(6)
-                                       + "  " + b[i - 1].ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                       + "  " + b[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
             switch (i)
@@ -3449,7 +3376,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int M = 6;
+        const int M = 6;
         int N = 4;
 
         double[] a = new double[M * N];
@@ -3459,18 +3386,12 @@ internal static class Program
         //
         double[] e = new double[M + N];
         int i;
-        int info;
         int j;
-        int job;
         int k;
-        int lda;
-        int ldu;
-        int ldv;
         //
         //  S must be dimensioned at least maximum(M+1,N).
         //
         double[] s = new double[M + N];
-        int seed;
         double[] sigma = new double[M * N];
         double[] u = new double[M * M];
         double[] v = new double[N * N];
@@ -3489,7 +3410,7 @@ internal static class Program
         //
         //  Set A.
         //
-        seed = 123456789;
+        int seed = 123456789;
 
         a = UniformRNG.r8mat_uniform_01(M, N, ref seed);
 
@@ -3502,7 +3423,7 @@ internal static class Program
             cout = "";
             for (j = 1; j <= N; j++)
             {
-                cout += "  " + a[i - 1 + (j - 1) * M].ToString().PadLeft(10);
+                cout += "  " + a[i - 1 + (j - 1) * M].ToString(CultureInfo.InvariantCulture).PadLeft(10);
             }
 
             Console.WriteLine(cout);
@@ -3514,12 +3435,12 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Decompose the matrix.");
 
-        job = 11;
-        lda = M;
-        ldu = M;
-        ldv = N;
+        int job = 11;
+        int lda = M;
+        int ldu = M;
+        int ldv = N;
 
-        info = DSVDC.dsvdc(ref a, lda, M, N, ref s, ref e, ref u, ldu, ref v, ldv, work, job);
+        int info = DSVDC.dsvdc(ref a, lda, M, N, ref s, ref e, ref u, ldu, ref v, ldv, work, job);
 
         if (info != 0)
         {
@@ -3536,8 +3457,8 @@ internal static class Program
         for (i = 1; i <= Math.Min(M, N); i++)
         {
             Console.WriteLine("  "
-                              + (i + 1).ToString().PadLeft(4) + "  "
-                              + s[i - 1].ToString().PadLeft(14) + "");
+                              + (i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                              + s[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         Console.WriteLine("");
@@ -3549,7 +3470,7 @@ internal static class Program
             cout = "";
             for (j = 1; j <= M; j++)
             {
-                cout += "  " + u[i - 1 + (j - 1) * M].ToString().PadLeft(10);
+                cout += "  " + u[i - 1 + (j - 1) * M].ToString(CultureInfo.InvariantCulture).PadLeft(10);
             }
 
             Console.WriteLine(cout);
@@ -3564,7 +3485,7 @@ internal static class Program
             cout = "";
             for (j = 1; j <= N; j++)
             {
-                cout += "  " + v[i - 1 + (j - 1) * N].ToString().PadLeft(10);
+                cout += "  " + v[i - 1 + (j - 1) * N].ToString(CultureInfo.InvariantCulture).PadLeft(10);
             }
 
             Console.WriteLine(cout);
@@ -3621,7 +3542,7 @@ internal static class Program
             cout = "";
             for (j = 1; j <= N; j++)
             {
-                cout += "  " + a[i - 1 + (j - 1) * M].ToString().PadLeft(10);
+                cout += "  " + a[i - 1 + (j - 1) * M].ToString(CultureInfo.InvariantCulture).PadLeft(10);
             }
 
             Console.WriteLine(cout);
@@ -3650,17 +3571,13 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 5;
-        int LDA = N;
+        const int N = 5;
 
-        double[] a = new double[LDA * N];
         int i;
         int j;
-        int job;
-        double rcond;
         int seed = 123456789;
         double[] z = new double[N];
-        string cout = "";
+        string cout;
 
         Console.WriteLine("");
         Console.WriteLine("TEST29");
@@ -3671,13 +3588,13 @@ internal static class Program
         //
         //  Lower triangular matrix A.
         //
-        a = UniformRNG.r8mat_uniform_01(LDA, N, ref seed);
+        double[] a = UniformRNG.r8mat_uniform_01(N, N, ref seed);
 
         for (i = 1; i <= N; i++)
         {
             for (j = i + 1; j <= N; j++)
             {
-                a[i - 1 + (j - 1) * LDA] = 0.0;
+                a[i - 1 + (j - 1) * N] = 0.0;
             }
         }
 
@@ -3690,27 +3607,27 @@ internal static class Program
             cout = "";
             for (j = 1; j <= N; j++)
             {
-                cout += "  " + a[i - 1 + (j - 1) * LDA].ToString().PadLeft(12);
+                cout += "  " + a[i - 1 + (j - 1) * N].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
         }
 
-        job = 0;
-        rcond = DTRCO.dtrco(a, LDA, N, ref z, job);
+        int job = 0;
+        double rcond = DTRCO.dtrco(a, N, N, ref z, job);
 
         Console.WriteLine("");
         Console.WriteLine("  The reciprocal condition number = " + rcond + "");
         //
         //  Upper triangular matrix A.
         //
-        a = UniformRNG.r8mat_uniform_01(LDA, N, ref seed);
+        a = UniformRNG.r8mat_uniform_01(N, N, ref seed);
 
         for (i = 1; i <= N; i++)
         {
             for (j = 1; j <= i - 1; j++)
             {
-                a[i - 1 + (j - 1) * LDA] = 0.0;
+                a[i - 1 + (j - 1) * N] = 0.0;
             }
         }
 
@@ -3723,7 +3640,7 @@ internal static class Program
             cout = "";
             for (j = 1; j <= N; j++)
             {
-                cout += "  " + a[i - 1 + (j - 1) * LDA].ToString().PadLeft(12);
+                cout += "  " + a[i - 1 + (j - 1) * N].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
@@ -3731,7 +3648,7 @@ internal static class Program
 
         job = 1;
 
-        rcond = DTRCO.dtrco(a, LDA, N, ref z, job);
+        rcond = DTRCO.dtrco(a, N, N, ref z, job);
 
         Console.WriteLine("");
         Console.WriteLine("  The reciprocal condition number = " + rcond + "");
@@ -3759,14 +3676,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 5;
-        int LDA = N;
+        const int N = 5;
 
-        double[] a = new double[LDA * N];
         double[] det = new double[2];
         int i;
         int j;
-        int job;
         int seed = 123456789;
         string cout;
 
@@ -3778,13 +3692,13 @@ internal static class Program
         //
         //  Lower triangular matrix A.
         //
-        a = UniformRNG.r8mat_uniform_01(N, N, ref seed);
+        double[] a = UniformRNG.r8mat_uniform_01(N, N, ref seed);
 
         for (i = 1; i <= N; i++)
         {
             for (j = i + 1; j <= N; j++)
             {
-                a[i - 1 + (j - 1) * LDA] = 0.0;
+                a[i - 1 + (j - 1) * N] = 0.0;
             }
         }
 
@@ -3797,15 +3711,15 @@ internal static class Program
             cout = "";
             for (j = 1; j <= N; j++)
             {
-                cout += "  " + a[i - 1 + (j - 1) * LDA].ToString().PadLeft(12);
+                cout += "  " + a[i - 1 + (j - 1) * N].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
         }
 
-        job = 110;
+        int job = 110;
 
-        DTRDI.dtrdi(ref a, LDA, N, ref det, job);
+        DTRDI.dtrdi(ref a, N, N, ref det, job);
 
         Console.WriteLine("");
         Console.WriteLine("  The determinant = " + det[0] + " * 10^(" + det[1] + ").");
@@ -3819,7 +3733,7 @@ internal static class Program
             cout = "";
             for (j = 1; j <= N; j++)
             {
-                cout += "  " + a[i - 1 + (j - 1) * LDA].ToString().PadLeft(12);
+                cout += "  " + a[i - 1 + (j - 1) * N].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
@@ -3834,7 +3748,7 @@ internal static class Program
         {
             for (j = 1; j <= i - 1; j++)
             {
-                a[i - 1 + (j - 1) * LDA] = 0.0;
+                a[i - 1 + (j - 1) * N] = 0.0;
             }
         }
 
@@ -3847,7 +3761,7 @@ internal static class Program
             cout = "";
             for (j = 1; j <= N; j++)
             {
-                cout += "  " + a[i - 1 + (j - 1) * LDA].ToString().PadLeft(12);
+                cout += "  " + a[i - 1 + (j - 1) * N].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
@@ -3855,7 +3769,7 @@ internal static class Program
 
         job = 111;
 
-        DTRDI.dtrdi(ref a, LDA, N, ref det, job);
+        DTRDI.dtrdi(ref a, N, N, ref det, job);
 
         Console.WriteLine("");
         Console.WriteLine("  The determinant = " + det[0] + " * 10^(" + det[1] + ").");
@@ -3869,7 +3783,7 @@ internal static class Program
             cout = "";
             for (j = 1; j <= N; j++)
             {
-                cout += "  " + a[i - 1 + (j - 1) * LDA].ToString().PadLeft(12);
+                cout += "  " + a[i - 1 + (j - 1) * N].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout);
@@ -3902,14 +3816,12 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 5;
-        int LDA = 5;
+        const int N = 5;
+        const int LDA = 5;
 
-        double[] a = new double[LDA * N];
         double[] b = new double[N];
         int i;
         int j;
-        int job;
         int seed = 123456789;
         double[] x = new double[N];
 
@@ -3921,7 +3833,7 @@ internal static class Program
         //
         //  Lower triangular matrix A.
         //
-        a = UniformRNG.r8mat_uniform_01(N, N, ref seed);
+        double[] a = UniformRNG.r8mat_uniform_01(N, N, ref seed);
 
         for (i = 1; i <= N; i++)
         {
@@ -3949,7 +3861,7 @@ internal static class Program
         Console.WriteLine("  For a lower triangular matrix A,");
         Console.WriteLine("  solve A * x = b");
 
-        job = 00;
+        int job = 00;
 
         DTRSL.dtrsl(a, LDA, N, ref b, job);
 
@@ -3960,8 +3872,8 @@ internal static class Program
         for (i = 1; i <= N; i++)
         {
             Console.WriteLine("  "
-                              + i.ToString().PadLeft(6) + "  "
-                              + b[i - 1].ToString().PadLeft(14) + "");
+                              + i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + b[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         for (i = 1; i <= N; i++)
@@ -3988,8 +3900,8 @@ internal static class Program
         for (i = 1; i <= N; i++)
         {
             Console.WriteLine("  "
-                              + i.ToString().PadLeft(6) + "  "
-                              + b[i - 1].ToString().PadLeft(14) + "");
+                              + i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + b[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         //
@@ -4034,8 +3946,8 @@ internal static class Program
         for (i = 1; i <= N; i++)
         {
             Console.WriteLine("  "
-                              + i.ToString().PadLeft(6) + "  "
-                              + b[i - 1].ToString().PadLeft(14) + "");
+                              + i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + b[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         for (i = 1; i <= N; i++)
@@ -4062,8 +3974,8 @@ internal static class Program
         for (i = 1; i <= N; i++)
         {
             Console.WriteLine("  "
-                              + i.ToString().PadLeft(6) + "  "
-                              + b[i - 1].ToString().PadLeft(14) + "");
+                              + i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                              + b[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
     }

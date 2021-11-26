@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.SolveNS;
 using Burkardt.Types;
 
@@ -26,16 +27,13 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
-
         Console.WriteLine("");
         Console.WriteLine("local_min_test():");
         Console.WriteLine("  local_min() seeks a local minimizer of a function F(X)");
         Console.WriteLine("  in an interval [A,B].");
 
-        a = 0.0;
-        b = 3.141592653589793;
+        double a = 0.0;
+        double b = Math.PI;
         local_min_example(a, b, g_01,
             "g_01(x) = ( x - 2 ) * ( x - 2 ) + 1");
 
@@ -109,29 +107,25 @@ internal static class Program
         //
     {
         int calls = 0;
-        double fa;
-        double fb;
-        double fx;
-        double t;
         double x = 0;
 
-        t = Math.Sqrt(typeMethods.r8_epsilon());
+        double t = Math.Sqrt(typeMethods.r8_epsilon());
 
-        fx = LocalMinimum.local_min(a, b, t, f, ref x, ref calls);
-        fa = f(a);
-        fb = f(b);
+        double fx = LocalMinimum.local_min(a, b, t, f, ref x, ref calls);
+        double fa = f(a);
+        double fb = f(b);
 
         Console.WriteLine("");
         Console.WriteLine("  " + title + "");
         Console.WriteLine("");
         Console.WriteLine("           A                 X             B");
         Console.WriteLine("         F(A)              F(X)          F(B)");
-        Console.WriteLine("  " + a.ToString().PadLeft(14)
-                               + "  " + x.ToString().PadLeft(14)
-                               + "  " + b.ToString().PadLeft(14) + "");
+        Console.WriteLine("  " + a.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                               + "  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                               + "  " + b.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  " + fa
-                               + "  " + fx.ToString().PadLeft(14)
-                               + "  " + fb.ToString().PadLeft(14) + "");
+                               + "  " + fx.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                               + "  " + fb.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("  Number of calls to F = " + calls + "");
     }
 

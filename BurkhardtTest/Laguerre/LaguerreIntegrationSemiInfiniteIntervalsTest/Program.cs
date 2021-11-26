@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Laguerre;
 
 namespace LaguerreIntegrationSemiInfiniteIntervalsTest;
@@ -67,15 +68,13 @@ internal static class Program
         //
     {
         int problem;
-        int problem_num;
-        string title;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
         Console.WriteLine("  P00_PROBLEM_NUM returns the number of problems.");
         Console.WriteLine("  P00_TITLE returns the title of a problem.");
 
-        problem_num = Integrands.p00_problem_num();
+        int problem_num = Integrands.p00_problem_num();
 
         Console.WriteLine("");
         Console.WriteLine("  P00_PROBLEM_NUM: number of problems is " + problem_num + "");
@@ -85,9 +84,9 @@ internal static class Program
 
         for (problem = 1; problem <= problem_num; problem++)
         {
-            title = Integrands.p00_title(problem);
+            string title = Integrands.p00_title(problem);
 
-            Console.WriteLine("  " + problem.ToString().PadLeft(8)
+            Console.WriteLine("  " + problem.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "  \"" + title + "\".");
         }
     }
@@ -113,10 +112,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double alpha;
-        double exact;
         int problem;
-        int problem_num;
         Integrands.p00Data data = new();
 
         Console.WriteLine("");
@@ -124,7 +120,7 @@ internal static class Program
         Console.WriteLine("  P00_ALPHA returns the lower limit of integration.");
         Console.WriteLine("  P00_EXACT returns the \"exact\" integral.");
 
-        problem_num = Integrands.p00_problem_num();
+        int problem_num = Integrands.p00_problem_num();
 
         Console.WriteLine("");
         Console.WriteLine("   Problem       ALPHA           EXACT");
@@ -132,12 +128,12 @@ internal static class Program
 
         for (problem = 1; problem <= problem_num; problem++)
         {
-            alpha = Integrands.p00_alpha(problem);
+            double alpha = Integrands.p00_alpha(problem);
 
-            exact = Integrands.p00_exact(ref data, problem);
+            double exact = Integrands.p00_exact(ref data, problem);
 
-            Console.WriteLine("  " + problem.ToString().PadLeft(8)
-                                   + "  " + alpha.ToString().PadLeft(14)
+            Console.WriteLine("  " + problem.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + alpha.ToString(CultureInfo.InvariantCulture).PadLeft(14)
                                    + "  " + exact.ToString("0.################").PadLeft(24) + "");
         }
     }
@@ -163,13 +159,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double error;
-        double estimate;
-        double exact;
-        int order;
-        int order_log;
         int problem;
-        int problem_num;
         Integrands.p00Data data = new();
 
         Console.WriteLine("");
@@ -177,7 +167,7 @@ internal static class Program
         Console.WriteLine("  P00_GAUSS_LAGUERRE applies a Gauss-Laguerre rule");
         Console.WriteLine("  to estimate an integral on [ALPHA,+oo).");
 
-        problem_num = Integrands.p00_problem_num();
+        int problem_num = Integrands.p00_problem_num();
 
         Console.WriteLine("");
         Console.WriteLine("                              Exact");
@@ -185,23 +175,24 @@ internal static class Program
 
         for (problem = 1; problem <= problem_num; problem++)
         {
-            exact = Integrands.p00_exact(ref data, problem);
+            double exact = Integrands.p00_exact(ref data, problem);
 
-            order = 1;
+            int order = 1;
 
             Console.WriteLine("");
-            Console.WriteLine("  " + problem.ToString().PadLeft(8)
+            Console.WriteLine("  " + problem.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "  " + "        "
                                    + "  " + exact.ToString("0.######").PadLeft(14) + "");
 
+            int order_log;
             for (order_log = 0; order_log <= 6; order_log++)
             {
-                estimate = Integrands.p00_gauss_laguerre(ref data, problem, order);
+                double estimate = Integrands.p00_gauss_laguerre(ref data, problem, order);
 
-                error = Math.Abs(exact - estimate);
+                double error = Math.Abs(exact - estimate);
 
                 Console.WriteLine("  " + "        "
-                                       + "  " + order.ToString().PadLeft(8)
+                                       + "  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                        + "  " + estimate.ToString("0.######").PadLeft(14)
                                        + "  " + error.ToString("0.######").PadLeft(14) + "");
 
@@ -231,13 +222,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double error;
-        double estimate;
-        double exact;
-        int order;
-        int order_log;
         int problem;
-        int problem_num;
         Integrands.p00Data data = new();
 
         Console.WriteLine("");
@@ -247,7 +232,7 @@ internal static class Program
         Console.WriteLine("  as a transformed integral on (0,exp(-ALPHA)],");
         Console.WriteLine("  and applying a Gauss-Legendre rule.");
 
-        problem_num = Integrands.p00_problem_num();
+        int problem_num = Integrands.p00_problem_num();
 
         Console.WriteLine("");
         Console.WriteLine("                              Exact");
@@ -255,23 +240,24 @@ internal static class Program
 
         for (problem = 1; problem <= problem_num; problem++)
         {
-            exact = Integrands.p00_exact(ref data, problem);
+            double exact = Integrands.p00_exact(ref data, problem);
 
-            order = 1;
+            int order = 1;
 
             Console.WriteLine("");
-            Console.WriteLine("  " + problem.ToString().PadLeft(8)
+            Console.WriteLine("  " + problem.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "  " + "        "
                                    + "  " + exact.ToString("0.######").PadLeft(14) + "");
 
+            int order_log;
             for (order_log = 0; order_log <= 6; order_log++)
             {
-                estimate = Integrands.p00_exp_transform(ref data, problem, order);
+                double estimate = Integrands.p00_exp_transform(ref data, problem, order);
 
-                error = Math.Abs(exact - estimate);
+                double error = Math.Abs(exact - estimate);
 
                 Console.WriteLine("  " + "        "
-                                       + "  " + order.ToString().PadLeft(8)
+                                       + "  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                        + "  " + estimate.ToString("0.######").PadLeft(14)
                                        + "  " + error.ToString("0.######").PadLeft(14) + "");
 
@@ -301,13 +287,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double error;
-        double estimate;
-        double exact;
-        int order;
-        int order_log;
         int problem;
-        int problem_num;
         Integrands.p00Data data = new();
 
         Console.WriteLine("");
@@ -317,7 +297,7 @@ internal static class Program
         Console.WriteLine("  as a transformed integral on (0,1/(1+ALPHA)],");
         Console.WriteLine("  and applying a Gauss-Legendre rule.");
 
-        problem_num = Integrands.p00_problem_num();
+        int problem_num = Integrands.p00_problem_num();
 
         Console.WriteLine("");
         Console.WriteLine("                              Exact");
@@ -325,23 +305,24 @@ internal static class Program
 
         for (problem = 1; problem <= problem_num; problem++)
         {
-            exact = Integrands.p00_exact(ref data, problem);
+            double exact = Integrands.p00_exact(ref data, problem);
 
-            order = 1;
+            int order = 1;
 
             Console.WriteLine("");
-            Console.WriteLine("  " + problem.ToString().PadLeft(8)
+            Console.WriteLine("  " + problem.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                    + "  " + "        "
                                    + "  " + exact.ToString("0.######").PadLeft(14) + "");
 
+            int order_log;
             for (order_log = 0; order_log <= 6; order_log++)
             {
-                estimate = Integrands.p00_rat_transform(ref data, problem, order);
+                double estimate = Integrands.p00_rat_transform(ref data, problem, order);
 
-                error = Math.Abs(exact - estimate);
+                double error = Math.Abs(exact - estimate);
 
                 Console.WriteLine("  " + "        "
-                                       + "  " + order.ToString().PadLeft(8)
+                                       + "  " + order.ToString(CultureInfo.InvariantCulture).PadLeft(8)
                                        + "  " + estimate.ToString("0.######").PadLeft(14)
                                        + "  " + error.ToString("0.######").PadLeft(14) + "");
 

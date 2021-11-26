@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Numerics;
 using Burkardt.BLAS;
 using Burkardt.Linpack;
@@ -107,18 +108,14 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 3;
+        const int N = 3;
 
         Complex[] a = new Complex[N * N];
         Complex[] c = new Complex[N * N];
         int i;
-        int info;
         int[] ipvt = new int[N];
         int j;
-        int job;
-        int k;
-        int lda;
-        lda = N;
+        int lda = N;
         string cout;
 
         Console.WriteLine("");
@@ -130,9 +127,9 @@ internal static class Program
         //
         //  Set the values of the matrix A.
         //
-        a[0 + 0 * lda] = new Complex(2.5281, 0.0000);
-        a[1 + 0 * lda] = new Complex(2.1341, 0.2147);
-        a[2 + 0 * lda] = new Complex(2.4187, -0.2932);
+        a[0] = new Complex(2.5281, 0.0000);
+        a[1] = new Complex(2.1341, 0.2147);
+        a[2] = new Complex(2.4187, -0.2932);
 
         a[0 + 1 * lda] = new Complex(2.1341, -0.2147);
         a[1 + 1 * lda] = new Complex(3.0371, 0.0000);
@@ -151,7 +148,7 @@ internal static class Program
             cout = "";
             for (j = 0; j < N; j++)
             {
-                cout += "  " + a[i + j * lda].ToString().PadLeft(20);
+                cout += "  " + a[i + j * lda].ToString(CultureInfo.InvariantCulture).PadLeft(20);
             }
 
             Console.WriteLine(cout);
@@ -163,13 +160,13 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Decompose the matrix.");
 
-        job = 0;
+        int job = 0;
         for (i = 0; i < N; i++)
         {
             ipvt[i] = 0;
         }
 
-        info = ZCHDC.zchdc(ref a, lda, N, ref ipvt, job);
+        int info = ZCHDC.zchdc(ref a, lda, N, ref ipvt, job);
 
         if (info != N)
         {
@@ -202,7 +199,7 @@ internal static class Program
             cout = "";
             for (j = 0; j < N; j++)
             {
-                cout += "  " + a[i + j * lda].ToString().PadLeft(20);
+                cout += "  " + a[i + j * lda].ToString(CultureInfo.InvariantCulture).PadLeft(20);
             }
 
             Console.WriteLine(cout);
@@ -216,6 +213,7 @@ internal static class Program
             for (j = 0; j < N; j++)
             {
                 c[i + j * N] = new Complex(0.0, 0.0);
+                int k;
                 for (k = 0; k < N; k++)
                 {
                     c[i + j * N] += Complex.Conjugate(a[k + i * lda]) * a[k + j * lda];
@@ -232,7 +230,7 @@ internal static class Program
             cout = "";
             for (j = 0; j < N; j++)
             {
-                cout += "  " + c[i + j * N].ToString().PadLeft(20);
+                cout += "  " + c[i + j * N].ToString(CultureInfo.InvariantCulture).PadLeft(20);
             }
 
             Console.WriteLine(cout);
@@ -261,27 +259,21 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 3;
-        int NZ = 1;
+        const int N = 3;
+        const int NZ = 1;
 
         Complex[] a = new Complex[N * N];
         Complex[] b = new Complex[N * N];
         double[] c = new double[N];
         int i;
-        int info;
         int[] ipvt = new int[N];
         int j;
-        int job;
-        int k;
-        int l;
-        int lda;
-        int ldz;
         Complex[] s = new Complex[N];
         Complex[] z = new Complex[N * NZ];
         string cout;
 
-        lda = N;
-        ldz = N;
+        int lda = N;
+        int ldz = N;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02");
@@ -292,9 +284,9 @@ internal static class Program
         //
         //  Set the values of the matrix A.
         //
-        a[0 + 0 * lda] = new Complex(2.5281, 0.0000);
-        a[1 + 0 * lda] = new Complex(2.1341, 0.2147);
-        a[2 + 0 * lda] = new Complex(2.4187, -0.2932);
+        a[0] = new Complex(2.5281, 0.0000);
+        a[1] = new Complex(2.1341, 0.2147);
+        a[2] = new Complex(2.4187, -0.2932);
 
         a[0 + 1 * lda] = new Complex(2.1341, -0.2147);
         a[1 + 1 * lda] = new Complex(3.0371, 0.0000);
@@ -313,7 +305,7 @@ internal static class Program
             cout = "";
             for (j = 0; j < N; j++)
             {
-                cout += "  " + a[i + j * lda].ToString().PadLeft(20);
+                cout += "  " + a[i + j * lda].ToString(CultureInfo.InvariantCulture).PadLeft(20);
             }
 
             Console.WriteLine(cout);
@@ -330,7 +322,7 @@ internal static class Program
 
         for (i = 0; i < N; i++)
         {
-            Console.WriteLine("  " + z[i].ToString().PadLeft(20) + "");
+            Console.WriteLine("  " + z[i].ToString(CultureInfo.InvariantCulture).PadLeft(20) + "");
         }
 
         //
@@ -339,13 +331,13 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Decompose the matrix.");
 
-        job = 0;
+        int job = 0;
         for (i = 0; i < N; i++)
         {
             ipvt[i] = 0;
         }
 
-        info = ZCHDC.zchdc(ref a, lda, N, ref ipvt, job);
+        int info = ZCHDC.zchdc(ref a, lda, N, ref ipvt, job);
 
         if (info != N)
         {
@@ -378,7 +370,7 @@ internal static class Program
             cout = "";
             for (j = 0; j < N; j++)
             {
-                cout += "  " + a[i + j * lda].ToString().PadLeft(20);
+                cout += "  " + a[i + j * lda].ToString(CultureInfo.InvariantCulture).PadLeft(20);
             }
 
             Console.WriteLine(cout);
@@ -387,8 +379,8 @@ internal static class Program
         //
         //  Right circular shift columns L through K.
         //
-        k = 1;
-        l = 3;
+        int k = 1;
+        int l = 3;
 
         Console.WriteLine("");
         Console.WriteLine("  Right circular shift rows and columns K  = " + k
@@ -429,7 +421,7 @@ internal static class Program
             cout = "";
             for (j = 0; j < N; j++)
             {
-                cout += "  " + a[i + j * lda].ToString().PadLeft(20);
+                cout += "  " + a[i + j * lda].ToString(CultureInfo.InvariantCulture).PadLeft(20);
             }
 
             Console.WriteLine(cout);
@@ -441,7 +433,7 @@ internal static class Program
 
         for (i = 0; i < N; i++)
         {
-            Console.WriteLine("  " + z[i].ToString().PadLeft(20) + "");
+            Console.WriteLine("  " + z[i].ToString(CultureInfo.InvariantCulture).PadLeft(20) + "");
         }
 
         //
@@ -470,7 +462,7 @@ internal static class Program
             cout = "";
             for (j = 0; j < N; j++)
             {
-                cout += "  " + b[i + j * lda].ToString().PadLeft(20);
+                cout += "  " + b[i + j * lda].ToString(CultureInfo.InvariantCulture).PadLeft(20);
             }
 
             Console.WriteLine(cout);
@@ -498,27 +490,19 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int P = 20;
-        int NZ = 1;
+        const int P = 20;
+        const int NZ = 1;
 
         Complex[] b = new Complex[P];
         double[] c = new double[P];
         int i;
         int j;
-        int job;
-        int ldr;
-        int ldz;
         Complex[] r = new Complex[P * P];
         double[] rho = new double[NZ];
-        Complex[] row;
         Complex[] s = new Complex[P];
-        int seed;
         Complex[] x = new Complex[P];
         Complex[] y = new Complex[NZ];
         Complex[] z = new Complex[P * NZ];
-
-        ldr = P;
-        ldz = P;
 
         Console.WriteLine("");
         Console.WriteLine("TEST03");
@@ -537,7 +521,7 @@ internal static class Program
         {
             for (i = 0; i < P; i++)
             {
-                r[i + j * ldr] = new Complex(0.0, 0.0);
+                r[i + j * P] = new Complex(0.0, 0.0);
             }
         }
 
@@ -545,7 +529,7 @@ internal static class Program
         {
             for (i = 0; i < P; i++)
             {
-                z[i + j * ldz] = new Complex(0.0, 0.0);
+                z[i + j * P] = new Complex(0.0, 0.0);
             }
         }
 
@@ -558,14 +542,14 @@ internal static class Program
         //  Use ZCHUD to form R, Z and RHO by adding X and Y a row at a time.
         //  X is a row of the least squares matrix and Y the right hand side.
         //
-        seed = 123456789;
+        int seed = 123456789;
 
         for (i = 1; i <= P; i++)
         {
-            row = UniformRNG.c8vec_uniform_01_new(P, ref seed);
+            Complex[] row = UniformRNG.c8vec_uniform_01_new(P, ref seed);
             y[0] = BLAS1Z.zdotu(P, row, 1, x, 1);
             rho[0] = 0.0;
-            ZCHUD.zchud(ref r, ldr, P, row, ref z, ldz, NZ, ref y, ref rho, ref c, ref s);
+            ZCHUD.zchud(ref r, P, P, row, ref z, P, NZ, ref y, ref rho, ref c, ref s);
         }
 
         //
@@ -575,12 +559,12 @@ internal static class Program
         {
             for (i = 1; i <= P; i++)
             {
-                b[i - 1] = z[i - 1 + (j - 1) * ldz];
+                b[i - 1] = z[i - 1 + (j - 1) * P];
             }
 
-            job = 1;
+            int job = 1;
 
-            ZTRSL.ztrsl(r, ldr, P, ref b, job);
+            ZTRSL.ztrsl(r, P, P, ref b, job);
 
             Console.WriteLine("");
             Console.WriteLine("  Solution vector # " + j + "");
@@ -591,8 +575,8 @@ internal static class Program
             {
                 if (i <= 5 || P - 5 < i)
                 {
-                    Console.WriteLine("  " + i.ToString().PadLeft(8)
-                                           + "  " + b[i - 1].ToString().PadLeft(20) + "");
+                    Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                           + "  " + b[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(20) + "");
                 }
 
                 switch (i)
@@ -626,25 +610,17 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 3;
-        int ML = 1;
-        int MU = 1;
+        const int N = 3;
+        const int ML = 1;
+        const int MU = 1;
 
         Complex[] a = new Complex[(2 * ML + MU + 1) * N];
         Complex[] a_save = new Complex[N * N];
         int i;
-        int i1;
-        int i2;
         int[] ipvt = new int[N];
         int j;
-        int k;
-        int lda;
-        int m;
-        double rcond;
-        int seed;
-        string cout;
 
-        lda = 2 * ML + MU + 1;
+        const int lda = 2 * ML + MU + 1;
 
         Console.WriteLine("");
         Console.WriteLine("TEST04");
@@ -666,17 +642,17 @@ internal static class Program
             }
         }
 
-        m = ML + MU + 1;
+        int m = ML + MU + 1;
 
-        seed = 123456789;
+        int seed = 123456789;
 
         for (j = 1; j <= N; j++)
         {
-            i1 = Math.Max(1, j - MU);
-            i2 = Math.Min(N, j + ML);
+            int i1 = Math.Max(1, j - MU);
+            int i2 = Math.Min(N, j + ML);
             for (i = i1; i <= i2; i++)
             {
-                k = i - j + m;
+                int k = i - j + m;
                 a[k - 1 + (j - 1) * lda] = UniformRNG.c8_uniform_01(ref seed);
                 a_save[i - 1 + (j - 1) * N] = a[k - 1 + (j - 1) * lda];
             }
@@ -688,10 +664,10 @@ internal static class Program
 
         for (i = 0; i < N; i++)
         {
-            cout = "";
+            string cout = "";
             for (j = 0; j < N; j++)
             {
-                cout += "  " + a_save[i + j * N].ToString().PadLeft(20);
+                cout += "  " + a_save[i + j * N].ToString(CultureInfo.InvariantCulture).PadLeft(20);
             }
 
             Console.WriteLine(cout);
@@ -700,7 +676,7 @@ internal static class Program
         //
         //  Factor the matrix A.
         //
-        rcond = ZGBCO.zgbco(ref a, lda, N, ML, MU, ref ipvt);
+        double rcond = ZGBCO.zgbco(ref a, lda, N, ML, MU, ref ipvt);
 
         Console.WriteLine("");
         Console.WriteLine("  Estimated reciprocal condition RCOND = " + rcond + "");
@@ -727,28 +703,18 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 3;
-        int ML = 1;
-        int MU = 1;
+        const int N = 3;
+        const int ML = 1;
+        const int MU = 1;
 
         Complex[] a = new Complex[(2 * ML + MU + 1) * N];
         Complex[] a_save = new Complex[N * N];
         Complex[] b = new Complex[N];
         int i;
-        int i1;
-        int i2;
-        int info;
         int[] ipvt = new int[N];
         int j;
-        int job;
-        int k;
-        int lda;
-        int m;
-        int seed;
-        Complex[] x;
-        string cout;
 
-        lda = 2 * ML + MU + 1;
+        const int lda = 2 * ML + MU + 1;
 
         Console.WriteLine("");
         Console.WriteLine("TEST05");
@@ -770,17 +736,17 @@ internal static class Program
             }
         }
 
-        m = ML + MU + 1;
+        int m = ML + MU + 1;
 
-        seed = 123456789;
+        int seed = 123456789;
 
         for (j = 1; j <= N; j++)
         {
-            i1 = Math.Max(1, j - MU);
-            i2 = Math.Min(N, j + ML);
+            int i1 = Math.Max(1, j - MU);
+            int i2 = Math.Min(N, j + ML);
             for (i = i1; i <= i2; i++)
             {
-                k = i - j + m;
+                int k = i - j + m;
                 a[k - 1 + (j - 1) * lda] = UniformRNG.c8_uniform_01(ref seed);
                 a_save[i - 1 + (j - 1) * N] = a[k - 1 + (j - 1) * lda];
             }
@@ -792,10 +758,10 @@ internal static class Program
 
         for (i = 0; i < N; i++)
         {
-            cout = "";
+            string cout = "";
             for (j = 0; j < N; j++)
             {
-                cout += "  " + a_save[i + j * N].ToString().PadLeft(20);
+                cout += "  " + a_save[i + j * N].ToString(CultureInfo.InvariantCulture).PadLeft(20);
             }
 
             Console.WriteLine(cout);
@@ -804,7 +770,7 @@ internal static class Program
         //
         //  Set the values of the right hand side vector B.
         //
-        x = UniformRNG.c8vec_uniform_01_new(N, ref seed);
+        Complex[] x = UniformRNG.c8vec_uniform_01_new(N, ref seed);
 
         for (i = 0; i < N; i++)
         {
@@ -821,13 +787,13 @@ internal static class Program
 
         for (i = 0; i < N; i++)
         {
-            Console.WriteLine("  " + b[i].ToString().PadLeft(20) + "");
+            Console.WriteLine("  " + b[i].ToString(CultureInfo.InvariantCulture).PadLeft(20) + "");
         }
 
         //
         //  Factor the matrix A.
         //
-        info = ZGBFA.zgbfa(ref a, lda, N, ML, MU, ref ipvt);
+        int info = ZGBFA.zgbfa(ref a, lda, N, ML, MU, ref ipvt);
 
         if (info != 0)
         {
@@ -839,7 +805,7 @@ internal static class Program
         //
         //  Solve the system.
         //
-        job = 0;
+        int job = 0;
         ZGBSL.zgbsl(a, lda, N, ML, MU, ipvt, ref b, job);
 
         Console.WriteLine("");
@@ -849,9 +815,8 @@ internal static class Program
 
         for (i = 0; i < N; i++)
         {
-            Console.WriteLine("  " + b[i].ToString().PadLeft(20)
-                                   + "  " + x[i].ToString().PadLeft(20) + "");
-            ;
+            Console.WriteLine("  " + b[i].ToString(CultureInfo.InvariantCulture).PadLeft(20)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(20) + "");
         }
     }
 
@@ -876,26 +841,18 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 3;
-        int ML = 1;
-        int MU = 1;
+        const int N = 3;
+        const int ML = 1;
+        const int MU = 1;
 
         Complex[] a = new Complex[(2 * ML + MU + 1) * N];
         Complex[] a_save = new Complex[N * N];
         Complex[] det = new Complex[2];
         int i;
-        int i1;
-        int i2;
-        int info;
         int[] ipvt = new int[N];
         int j;
-        int k;
-        int lda;
-        int m;
-        int seed;
-        string cout;
 
-        lda = 2 * ML + MU + 1;
+        const int lda = 2 * ML + MU + 1;
         Console.WriteLine("");
         Console.WriteLine("TEST06");
         Console.WriteLine("  For a complex general band storage matrix:");
@@ -916,17 +873,17 @@ internal static class Program
             }
         }
 
-        m = ML + MU + 1;
+        int m = ML + MU + 1;
 
-        seed = 123456789;
+        int seed = 123456789;
 
         for (j = 1; j <= N; j++)
         {
-            i1 = Math.Max(1, j - MU);
-            i2 = Math.Min(N, j + ML);
+            int i1 = Math.Max(1, j - MU);
+            int i2 = Math.Min(N, j + ML);
             for (i = i1; i <= i2; i++)
             {
-                k = i - j + m;
+                int k = i - j + m;
                 a[k - 1 + (j - 1) * lda] = UniformRNG.c8_uniform_01(ref seed);
                 a_save[i - 1 + (j - 1) * N] = a[k - 1 + (j - 1) * lda];
             }
@@ -938,10 +895,10 @@ internal static class Program
 
         for (i = 0; i < N; i++)
         {
-            cout = "";
+            string cout = "";
             for (j = 0; j < N; j++)
             {
-                cout += "  " + a_save[i + j * N].ToString().PadLeft(20);
+                cout += "  " + a_save[i + j * N].ToString(CultureInfo.InvariantCulture).PadLeft(20);
             }
 
             Console.WriteLine(cout);
@@ -950,7 +907,7 @@ internal static class Program
         //
         //  Factor the matrix A.
         //
-        info = ZGBFA.zgbfa(ref a, lda, N, ML, MU, ref ipvt);
+        int info = ZGBFA.zgbfa(ref a, lda, N, ML, MU, ref ipvt);
 
         if (info != 0)
         {
@@ -990,18 +947,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 3;
+        const int N = 3;
 
-        Complex[] a;
         int i;
         int[] ipvt = new int[N];
-        int j;
-        int lda;
-        double rcond;
-        int seed;
-        string cout;
-
-        lda = N;
 
         Console.WriteLine("");
         Console.WriteLine("TEST07");
@@ -1013,9 +962,9 @@ internal static class Program
         //
         //  Set the values of the matrix A.
         //
-        seed = 123456789;
+        int seed = 123456789;
 
-        a = UniformRNG.c8mat_uniform_01_new(N, N, ref seed);
+        Complex[] a = UniformRNG.c8mat_uniform_01_new(N, N, ref seed);
 
         Console.WriteLine("");
         Console.WriteLine("  The matrix:");
@@ -1023,10 +972,11 @@ internal static class Program
 
         for (i = 0; i < N; i++)
         {
-            cout = "";
+            string cout = "";
+            int j;
             for (j = 0; j < N; j++)
             {
-                cout += "  " + a[i + j * N].ToString().PadLeft(20);
+                cout += "  " + a[i + j * N].ToString(CultureInfo.InvariantCulture).PadLeft(20);
             }
 
             Console.WriteLine(cout);
@@ -1035,7 +985,7 @@ internal static class Program
         //
         //  Factor the matrix A.
         //
-        rcond = ZGECO.zgeco(ref a, lda, N, ref ipvt);
+        double rcond = ZGECO.zgeco(ref a, N, N, ref ipvt);
 
         Console.WriteLine("");
         Console.WriteLine("  Estimated reciprocal condition RCOND = " + rcond + "");
@@ -1062,21 +1012,12 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 3;
+        const int N = 3;
 
-        Complex[] a;
         Complex[] b = new Complex[N];
         int i;
-        int info;
         int[] ipvt = new int[N];
         int j;
-        int job;
-        int lda;
-        int seed;
-        Complex[] x;
-        string cout;
-
-        lda = N;
 
         Console.WriteLine("");
         Console.WriteLine("TEST08");
@@ -1088,9 +1029,9 @@ internal static class Program
         //
         //  Set the values of the matrix A.
         //
-        seed = 123456789;
+        int seed = 123456789;
 
-        a = UniformRNG.c8mat_uniform_01_new(N, N, ref seed);
+        Complex[] a = UniformRNG.c8mat_uniform_01_new(N, N, ref seed);
 
         Console.WriteLine("");
         Console.WriteLine("  The matrix:");
@@ -1098,10 +1039,10 @@ internal static class Program
 
         for (i = 0; i < N; i++)
         {
-            cout = "";
+            string cout = "";
             for (j = 0; j < N; j++)
             {
-                cout += "  " + a[i + j * N].ToString().PadLeft(20);
+                cout += "  " + a[i + j * N].ToString(CultureInfo.InvariantCulture).PadLeft(20);
             }
 
             Console.WriteLine(cout);
@@ -1110,7 +1051,7 @@ internal static class Program
         //
         //  Set the values of the right hand side vector B.
         //
-        x = UniformRNG.c8vec_uniform_01_new(N, ref seed);
+        Complex[] x = UniformRNG.c8vec_uniform_01_new(N, ref seed);
 
         for (i = 0; i < N; i++)
         {
@@ -1127,13 +1068,13 @@ internal static class Program
 
         for (i = 0; i < N; i++)
         {
-            Console.WriteLine("  " + b[i].ToString().PadLeft(20) + "");
+            Console.WriteLine("  " + b[i].ToString(CultureInfo.InvariantCulture).PadLeft(20) + "");
         }
 
         //
         //  Factor the matrix A.
         //
-        info = ZGEFA.zgefa(ref a, lda, N, ref ipvt);
+        int info = ZGEFA.zgefa(ref a, N, N, ref ipvt);
 
         if (info != 0)
         {
@@ -1145,8 +1086,8 @@ internal static class Program
         //
         //  Solve the system.
         //
-        job = 0;
-        ZGESL.zgesl(a, lda, N, ipvt, ref b, job);
+        int job = 0;
+        ZGESL.zgesl(a, N, N, ipvt, ref b, job);
 
         Console.WriteLine("");
         Console.WriteLine("  Computed                     Exact");
@@ -1155,9 +1096,8 @@ internal static class Program
 
         for (i = 0; i < N; i++)
         {
-            Console.WriteLine("  " + b[i].ToString().PadLeft(20)
-                                   + "  " + x[i].ToString().PadLeft(20) + "");
-            ;
+            Console.WriteLine("  " + b[i].ToString(CultureInfo.InvariantCulture).PadLeft(20)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(20) + "");
         }
     }
 
@@ -1182,23 +1122,15 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 3;
+        const int N = 3;
 
-        Complex[] a;
         Complex[] a_save = new Complex[N * N];
         Complex[] c = new Complex[N * N];
         Complex[] det = new Complex[2];
         int i;
-        int info;
         int[] ipvt = new int[N];
         int j;
-        int job;
-        int k;
-        int lda;
-        int seed;
         string cout;
-
-        lda = N;
 
         Console.WriteLine("");
         Console.WriteLine("TEST09");
@@ -1210,9 +1142,9 @@ internal static class Program
         //
         //  Set the values of the matrix A.
         //
-        seed = 123456789;
+        int seed = 123456789;
 
-        a = UniformRNG.c8mat_uniform_01_new(N, N, ref seed);
+        Complex[] a = UniformRNG.c8mat_uniform_01_new(N, N, ref seed);
 
         for (i = 0; i < N; i++)
         {
@@ -1231,7 +1163,7 @@ internal static class Program
             cout = "";
             for (j = 0; j < N; j++)
             {
-                cout += "  " + a[i + j * N].ToString().PadLeft(20);
+                cout += "  " + a[i + j * N].ToString(CultureInfo.InvariantCulture).PadLeft(20);
             }
 
             Console.WriteLine(cout);
@@ -1240,7 +1172,7 @@ internal static class Program
         //
         //  Factor the matrix A.
         //
-        info = ZGEFA.zgefa(ref a, lda, N, ref ipvt);
+        int info = ZGEFA.zgefa(ref a, N, N, ref ipvt);
 
         if (info != 0)
         {
@@ -1252,8 +1184,8 @@ internal static class Program
         //
         //  Get the determinant.
         //
-        job = 10;
-        ZGEDI.zgedi(ref a, lda, N, ipvt, ref det, job);
+        int job = 10;
+        ZGEDI.zgedi(ref a, N, N, ipvt, ref det, job);
 
         Console.WriteLine("");
         Console.WriteLine("  Determinant = " + det[0]
@@ -1262,10 +1194,11 @@ internal static class Program
         //  Get the inverse.
         //
         job = 01;
-        ZGEDI.zgedi(ref a, lda, N, ipvt, ref det, job);
+        ZGEDI.zgedi(ref a, N, N, ipvt, ref det, job);
 
         for (i = 0; i < N; i++)
         {
+            int k;
             for (k = 0; k < N; k++)
             {
                 c[i + k * N] = 0.0;
@@ -1285,7 +1218,7 @@ internal static class Program
             cout = "";
             for (j = 0; j < N; j++)
             {
-                cout += "  " + c[i + j * N].ToString().PadLeft(20);
+                cout += "  " + c[i + j * N].ToString(CultureInfo.InvariantCulture).PadLeft(20);
             }
 
             Console.WriteLine(cout);
@@ -1313,14 +1246,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 10;
+        const int N = 10;
 
         Complex[] b = new Complex[N];
-        Complex[] c;
         Complex[] d = new Complex[N];
-        Complex[] e;
         int i;
-        int seed;
         Complex[] x = new Complex[N];
 
         Console.WriteLine("");
@@ -1332,12 +1262,12 @@ internal static class Program
         //
         //  Set the matrix.
         //
-        seed = 123456789;
+        int seed = 123456789;
 
-        c = UniformRNG.c8vec_uniform_01_new(N, ref seed);
+        Complex[] c = UniformRNG.c8vec_uniform_01_new(N, ref seed);
         c[0] = new Complex(0.0, 0.0);
 
-        e = UniformRNG.c8vec_uniform_01_new(N, ref seed);
+        Complex[] e = UniformRNG.c8vec_uniform_01_new(N, ref seed);
         e[N - 1] = new Complex(0.0, 0.0);
 
         for (i = 1; i <= N; i++)
@@ -1385,8 +1315,8 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < N; i++)
         {
-            Console.WriteLine("  " + b[i].ToString().PadLeft(26)
-                                   + "  " + x[i].ToString().PadLeft(26) + "");
+            Console.WriteLine("  " + b[i].ToString(CultureInfo.InvariantCulture).PadLeft(26)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(26) + "");
         }
     }
 
@@ -1411,18 +1341,12 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 3;
+        const int N = 3;
 
         Complex[] a = new Complex[N * N];
         int i;
         int[] ipvt = new int[N];
         int j;
-        int lda;
-        double rcond;
-        int seed;
-        string cout;
-
-        lda = N;
 
         Console.WriteLine("");
         Console.WriteLine("TEST11");
@@ -1434,15 +1358,15 @@ internal static class Program
         //
         //  Set the values of the matrix A.
         //
-        seed = 123456789;
+        int seed = 123456789;
 
         for (i = 0; i < N; i++)
         {
-            a[i + i * lda] = new Complex(UniformRNG.r8_uniform_01(ref seed), 0.0);
+            a[i + i * N] = new Complex(UniformRNG.r8_uniform_01(ref seed), 0.0);
             for (j = i + 1; j < N; j++)
             {
-                a[i + j * lda] = UniformRNG.c8_uniform_01(ref seed);
-                a[j + i * lda] = Complex.Conjugate(a[i + j * lda]);
+                a[i + j * N] = UniformRNG.c8_uniform_01(ref seed);
+                a[j + i * N] = Complex.Conjugate(a[i + j * N]);
             }
         }
 
@@ -1452,10 +1376,10 @@ internal static class Program
 
         for (i = 0; i < N; i++)
         {
-            cout = "";
+            string cout = "";
             for (j = 0; j < N; j++)
             {
-                cout += "  " + a[i + j * N].ToString().PadLeft(20);
+                cout += "  " + a[i + j * N].ToString(CultureInfo.InvariantCulture).PadLeft(20);
             }
 
             Console.WriteLine(cout);
@@ -1464,7 +1388,7 @@ internal static class Program
         //
         //  Factor the matrix A.
         //
-        rcond = ZHICO.zhico(ref a, lda, N, ref ipvt);
+        double rcond = ZHICO.zhico(ref a, N, N, ref ipvt);
 
         Console.WriteLine("");
         Console.WriteLine("  Estimated reciprocal condition RCOND = " + rcond + "");
@@ -1492,20 +1416,13 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 3;
+        const int N = 3;
 
         Complex[] a = new Complex[N * N];
         Complex[] b = new Complex[N];
         int i;
-        int info;
         int[] ipvt = new int[N];
         int j;
-        int lda;
-        int seed;
-        Complex[] x;
-        string cout;
-
-        lda = N;
 
         Console.WriteLine("");
         Console.WriteLine("TEST12");
@@ -1517,15 +1434,15 @@ internal static class Program
         //
         //  Set the values of the matrix A.
         //
-        seed = 123456789;
+        int seed = 123456789;
 
         for (i = 0; i < N; i++)
         {
-            a[i + i * lda] = new Complex(UniformRNG.r8_uniform_01(ref seed), 0.0);
+            a[i + i * N] = new Complex(UniformRNG.r8_uniform_01(ref seed), 0.0);
             for (j = i + 1; j < N; j++)
             {
-                a[i + j * lda] = UniformRNG.c8_uniform_01(ref seed);
-                a[j + i * lda] = Complex.Conjugate(a[i + j * lda]);
+                a[i + j * N] = UniformRNG.c8_uniform_01(ref seed);
+                a[j + i * N] = Complex.Conjugate(a[i + j * N]);
             }
         }
 
@@ -1535,10 +1452,10 @@ internal static class Program
 
         for (i = 0; i < N; i++)
         {
-            cout = "";
+            string cout = "";
             for (j = 0; j < N; j++)
             {
-                cout += "  " + a[i + j * N].ToString().PadLeft(20);
+                cout += "  " + a[i + j * N].ToString(CultureInfo.InvariantCulture).PadLeft(20);
             }
 
             Console.WriteLine(cout);
@@ -1547,7 +1464,7 @@ internal static class Program
         //
         //  Set the values of the right hand side vector B.
         //
-        x = UniformRNG.c8vec_uniform_01_new(N, ref seed);
+        Complex[] x = UniformRNG.c8vec_uniform_01_new(N, ref seed);
 
         for (i = 0; i < N; i++)
         {
@@ -1564,13 +1481,13 @@ internal static class Program
 
         for (i = 0; i < N; i++)
         {
-            Console.WriteLine("  " + b[i].ToString().PadLeft(20) + "");
+            Console.WriteLine("  " + b[i].ToString(CultureInfo.InvariantCulture).PadLeft(20) + "");
         }
 
         //
         //  Factor the matrix A.
         //
-        info = ZHIFA.zhifa(ref a, lda, N, ref ipvt);
+        int info = ZHIFA.zhifa(ref a, N, N, ref ipvt);
 
         if (info != 0)
         {
@@ -1582,7 +1499,7 @@ internal static class Program
         //
         //  Solve the system.
         //
-        ZHISL.zhisl(a, lda, N, ipvt, ref b);
+        ZHISL.zhisl(a, N, N, ipvt, ref b);
 
         Console.WriteLine("");
         Console.WriteLine("  Computed                     Exact");
@@ -1590,8 +1507,8 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < N; i++)
         {
-            Console.WriteLine("  " + b[i].ToString().PadLeft(26)
-                                   + "  " + x[i].ToString().PadLeft(26) + "");
+            Console.WriteLine("  " + b[i].ToString(CultureInfo.InvariantCulture).PadLeft(26)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(26) + "");
         }
     }
 
@@ -1616,7 +1533,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 3;
+        const int N = 3;
 
         Complex[] a = new Complex[N * N];
         Complex[] a_save = new Complex[N * N];
@@ -1624,16 +1541,9 @@ internal static class Program
         double[] det = new double[2];
         int i;
         int[] inert = new int[3];
-        int info;
         int[] ipvt = new int[N];
         int j;
-        int job;
-        int k;
-        int lda;
-        int seed;
         string cout;
-
-        lda = N;
 
         Console.WriteLine("");
         Console.WriteLine("TEST13");
@@ -1646,15 +1556,15 @@ internal static class Program
         //
         //  Set the values of the matrix A.
         //
-        seed = 123456789;
+        int seed = 123456789;
 
         for (i = 0; i < N; i++)
         {
-            a[i + i * lda] = new Complex(UniformRNG.r8_uniform_01(ref seed), 0.0);
+            a[i + i * N] = new Complex(UniformRNG.r8_uniform_01(ref seed), 0.0);
             for (j = i + 1; j < N; j++)
             {
-                a[i + j * lda] = UniformRNG.c8_uniform_01(ref seed);
-                a[j + i * lda] = Complex.Conjugate(a[i + j * lda]);
+                a[i + j * N] = UniformRNG.c8_uniform_01(ref seed);
+                a[j + i * N] = Complex.Conjugate(a[i + j * N]);
             }
         }
 
@@ -1662,7 +1572,7 @@ internal static class Program
         {
             for (j = 0; j < N; j++)
             {
-                a_save[i + j * lda] = a[i + j * lda];
+                a_save[i + j * N] = a[i + j * N];
             }
         }
 
@@ -1675,7 +1585,7 @@ internal static class Program
             cout = "";
             for (j = 0; j < N; j++)
             {
-                cout += "  " + a[i + j * lda].ToString().PadLeft(20);
+                cout += "  " + a[i + j * N].ToString(CultureInfo.InvariantCulture).PadLeft(20);
             }
 
             Console.WriteLine(cout);
@@ -1684,7 +1594,7 @@ internal static class Program
         //
         //  Factor the matrix A.
         //
-        info = ZHIFA.zhifa(ref a, lda, N, ref ipvt);
+        int info = ZHIFA.zhifa(ref a, N, N, ref ipvt);
 
         if (info != 0)
         {
@@ -1696,8 +1606,8 @@ internal static class Program
         //
         //  Get the determinant.
         //
-        job = 10;
-        ZHIDI.zhidi(ref a, lda, N, ipvt, ref det, ref inert, job);
+        int job = 10;
+        ZHIDI.zhidi(ref a, N, N, ipvt, ref det, ref inert, job);
 
         Console.WriteLine("");
         Console.WriteLine("  Determinant = " + det[0]
@@ -1706,7 +1616,7 @@ internal static class Program
         //  Get the inertia.
         //
         job = 100;
-        ZHIDI.zhidi(ref a, lda, N, ipvt, ref det, ref inert, job);
+        ZHIDI.zhidi(ref a, N, N, ipvt, ref det, ref inert, job);
 
         Console.WriteLine("");
         Console.WriteLine("  The inertia:");
@@ -1721,7 +1631,7 @@ internal static class Program
         //  Get the inverse.
         //
         job = 1;
-        ZHIDI.zhidi(ref a, lda, N, ipvt, ref det, ref inert, job);
+        ZHIDI.zhidi(ref a, N, N, ipvt, ref det, ref inert, job);
         //
         //  Only the upper triangle is set, so the user must set up the
         //  lower triangle:
@@ -1730,18 +1640,19 @@ internal static class Program
         {
             for (j = 0; j < i; j++)
             {
-                a[i + j * lda] = Complex.Conjugate(a[j + i * lda]);
+                a[i + j * N] = Complex.Conjugate(a[j + i * N]);
             }
         }
 
         for (i = 0; i < N; i++)
         {
+            int k;
             for (k = 0; k < N; k++)
             {
-                c[i + k * lda] = 0.0;
+                c[i + k * N] = 0.0;
                 for (j = 0; j < N; j++)
                 {
-                    c[i + k * lda] += a[i + j * lda] * a_save[j + k * lda];
+                    c[i + k * N] += a[i + j * N] * a_save[j + k * N];
                 }
             }
         }
@@ -1755,7 +1666,7 @@ internal static class Program
             cout = "";
             for (j = 0; j < N; j++)
             {
-                cout += "  " + c[i + j * lda].ToString().PadLeft(20);
+                cout += "  " + c[i + j * N].ToString(CultureInfo.InvariantCulture).PadLeft(20);
             }
 
             Console.WriteLine(cout);
@@ -1783,17 +1694,13 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 3;
+        const int N = 3;
 
         Complex[] a = new Complex[N * (N + 1) / 2];
         Complex[] a_save = new Complex[N * N];
         int i;
         int[] ipvt = new int[N];
         int j;
-        int k;
-        double rcond;
-        int seed;
-        string cout;
 
         Console.WriteLine("");
         Console.WriteLine("TEST14");
@@ -1806,8 +1713,8 @@ internal static class Program
         //
         //  Set the values of the matrix A.
         //
-        k = 0;
-        seed = 123456789;
+        int k = 0;
+        int seed = 123456789;
 
         for (j = 0; j < N; j++)
         {
@@ -1830,10 +1737,10 @@ internal static class Program
 
         for (i = 0; i < N; i++)
         {
-            cout = "";
+            string cout = "";
             for (j = 0; j < N; j++)
             {
-                cout += "  " + a_save[i + j * N].ToString().PadLeft(20);
+                cout += "  " + a_save[i + j * N].ToString(CultureInfo.InvariantCulture).PadLeft(20);
             }
 
             Console.WriteLine(cout);
@@ -1842,7 +1749,7 @@ internal static class Program
         //
         //  Factor the matrix A.
         //
-        rcond = ZHPCO.zhpco(ref a, N, ref ipvt);
+        double rcond = ZHPCO.zhpco(ref a, N, ref ipvt);
 
         Console.WriteLine("");
         Console.WriteLine("  Estimated reciprocal condition RCOND = " + rcond + "");
@@ -1870,19 +1777,14 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 3;
+        const int N = 3;
 
         Complex[] a = new Complex[N * (N + 1) / 2];
         Complex[] a_save = new Complex[N * N];
         Complex[] b = new Complex[N];
         int i;
-        int info;
         int[] ipvt = new int[N];
         int j;
-        int k;
-        int seed;
-        Complex[] x;
-        string cout;
 
         Console.WriteLine("");
         Console.WriteLine("TEST15");
@@ -1895,8 +1797,8 @@ internal static class Program
         //
         //  Set the values of the matrix A.
         //
-        k = 0;
-        seed = 123456789;
+        int k = 0;
+        int seed = 123456789;
 
         for (j = 0; j < N; j++)
         {
@@ -1919,10 +1821,10 @@ internal static class Program
 
         for (i = 0; i < N; i++)
         {
-            cout = "";
+            string cout = "";
             for (j = 0; j < N; j++)
             {
-                cout += "  " + a_save[i + j * N].ToString().PadLeft(20);
+                cout += "  " + a_save[i + j * N].ToString(CultureInfo.InvariantCulture).PadLeft(20);
             }
 
             Console.WriteLine(cout);
@@ -1931,7 +1833,7 @@ internal static class Program
         //
         //  Set the values of the right hand side vector B.
         //
-        x = UniformRNG.c8vec_uniform_01_new(N, ref seed);
+        Complex[] x = UniformRNG.c8vec_uniform_01_new(N, ref seed);
 
         for (i = 0; i < N; i++)
         {
@@ -1948,13 +1850,13 @@ internal static class Program
 
         for (i = 0; i < N; i++)
         {
-            Console.WriteLine("  " + b[i].ToString().PadLeft(20) + "");
+            Console.WriteLine("  " + b[i].ToString(CultureInfo.InvariantCulture).PadLeft(20) + "");
         }
 
         //
         //  Factor the matrix A.
         //
-        info = ZHPFA.zhpfa(ref a, N, ref ipvt);
+        int info = ZHPFA.zhpfa(ref a, N, ref ipvt);
 
         if (info != 0)
         {
@@ -1974,8 +1876,8 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < N; i++)
         {
-            Console.WriteLine("  " + b[i].ToString().PadLeft(26)
-                                   + "  " + x[i].ToString().PadLeft(26) + "");
+            Console.WriteLine("  " + b[i].ToString(CultureInfo.InvariantCulture).PadLeft(26)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(26) + "");
         }
     }
 
@@ -2000,7 +1902,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 3;
+        const int N = 3;
 
         Complex[] a = new Complex[N * (N + 1) / 2];
         Complex[] a_save = new Complex[N * N];
@@ -2009,12 +1911,8 @@ internal static class Program
         double[] det = new double[2];
         int i;
         int[] inert = new int[3];
-        int info;
         int[] ipvt = new int[N];
         int j;
-        int job;
-        int k;
-        int seed;
         string cout;
 
         Console.WriteLine("");
@@ -2029,8 +1927,8 @@ internal static class Program
         //
         //  Set the values of the matrix A.
         //
-        k = 0;
-        seed = 123456789;
+        int k = 0;
+        int seed = 123456789;
 
         for (j = 0; j < N; j++)
         {
@@ -2056,7 +1954,7 @@ internal static class Program
             cout = "";
             for (j = 0; j < N; j++)
             {
-                cout += "  " + a_save[i + j * N].ToString().PadLeft(20);
+                cout += "  " + a_save[i + j * N].ToString(CultureInfo.InvariantCulture).PadLeft(20);
             }
 
             Console.WriteLine(cout);
@@ -2065,7 +1963,7 @@ internal static class Program
         //
         //  Factor the matrix A.
         //
-        info = ZHPFA.zhpfa(ref a, N, ref ipvt);
+        int info = ZHPFA.zhpfa(ref a, N, ref ipvt);
 
         if (info != 0)
         {
@@ -2077,7 +1975,7 @@ internal static class Program
         //
         //  Get the determinant.
         //
-        job = 10;
+        int job = 10;
         ZHPDI.zhpdi(ref a, N, ipvt, ref det, ref inert, job);
 
         Console.WriteLine("");
@@ -2095,7 +1993,7 @@ internal static class Program
 
         for (i = 0; i < 3; i++)
         {
-            Console.WriteLine("  " + inert[i].ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + inert[i].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
 
         //
@@ -2142,7 +2040,7 @@ internal static class Program
             cout = "";
             for (j = 0; j < N; j++)
             {
-                cout += "  " + c[i + j * N].ToString().PadLeft(20);
+                cout += "  " + c[i + j * N].ToString(CultureInfo.InvariantCulture).PadLeft(20);
             }
 
             Console.WriteLine(cout);
@@ -2170,15 +2068,13 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 3;
-        int M = 1;
+        const int N = 3;
+        const int M = 1;
 
         Complex[] a = new Complex[(M + 1) * N];
         int info = 0;
-        int lda;
-        double rcond;
 
-        lda = M + 1;
+        const int lda = M + 1;
 
         Console.WriteLine("");
         Console.WriteLine("TEST17");
@@ -2188,11 +2084,11 @@ internal static class Program
         //
         //  Set the value of the superdiagonal and diagonal.
         //
-        a[0 + 0 * lda] = new Complex(0.0000, 0.0000);
+        a[0] = new Complex(0.0000, 0.0000);
         a[0 + 1 * lda] = new Complex(2.1341, -0.2147);
         a[0 + 2 * lda] = new Complex(2.0905, 1.1505);
 
-        a[1 + 0 * lda] = new Complex(4.5281, 0.0000);
+        a[1] = new Complex(4.5281, 0.0000);
         a[1 + 1 * lda] = new Complex(5.0371, 0.0000);
         a[1 + 2 * lda] = new Complex(4.7638, 0.0000);
         //
@@ -2201,7 +2097,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Estimate the condition.");
 
-        rcond = ZPBCO.zpbco(ref a, lda, N, M, ref info);
+        double rcond = ZPBCO.zpbco(ref a, lda, N, M, ref info);
 
         if (info != 0)
         {
@@ -2236,15 +2132,13 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 3;
-        int M = 1;
+        const int N = 3;
+        const int M = 1;
 
         Complex[] a = new Complex[(M + 1) * N];
         double[] det = new double[2];
-        int info;
-        int lda;
 
-        lda = M + 1;
+        const int lda = M + 1;
 
         Console.WriteLine("");
         Console.WriteLine("TEST18");
@@ -2255,15 +2149,15 @@ internal static class Program
         //
         //  Set the value of the superdiagonal and diagonal.
         //
-        a[0 + 0 * lda] = new Complex(0.0000, 0.0000);
+        a[0] = new Complex(0.0000, 0.0000);
         a[0 + 1 * lda] = new Complex(2.1341, -0.2147);
         a[0 + 2 * lda] = new Complex(2.0905, 1.1505);
 
-        a[1 + 0 * lda] = new Complex(4.5281, 0.0000);
+        a[1] = new Complex(4.5281, 0.0000);
         a[1 + 1 * lda] = new Complex(5.0371, 0.0000);
         a[1 + 2 * lda] = new Complex(4.7638, 0.0000);
 
-        info = ZPBFA.zpbfa(ref a, lda, N, M);
+        int info = ZPBFA.zpbfa(ref a, lda, N, M);
 
         if (info != 0)
         {
@@ -2299,16 +2193,14 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 3;
-        int M = 1;
+        const int N = 3;
+        const int M = 1;
 
         Complex[] a = new Complex[(M + 1) * N];
         Complex[] b = new Complex[N];
         int i;
-        int info;
-        int lda;
 
-        lda = M + 1;
+        const int lda = M + 1;
 
         Console.WriteLine("");
         Console.WriteLine("TEST19");
@@ -2319,11 +2211,11 @@ internal static class Program
         //
         //  Set the value of the superdiagonal and diagonal.
         //
-        a[0 + 0 * lda] = new Complex(0.0000, 0.0000);
+        a[0] = new Complex(0.0000, 0.0000);
         a[0 + 1 * lda] = new Complex(2.1341, -0.2147);
         a[0 + 2 * lda] = new Complex(2.0905, 1.1505);
 
-        a[1 + 0 * lda] = new Complex(4.5281, 0.0000);
+        a[1] = new Complex(4.5281, 0.0000);
         a[1 + 1 * lda] = new Complex(5.0371, 0.0000);
         a[1 + 2 * lda] = new Complex(4.7638, 0.0000);
         //
@@ -2338,7 +2230,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Factor the matrix.");
 
-        info = ZPBFA.zpbfa(ref a, lda, N, M);
+        int info = ZPBFA.zpbfa(ref a, lda, N, M);
 
         if (info != 0)
         {
@@ -2363,7 +2255,7 @@ internal static class Program
 
         for (i = 0; i < N; i++)
         {
-            Console.WriteLine("  " + b[i].ToString().PadLeft(20) + "");
+            Console.WriteLine("  " + b[i].ToString(CultureInfo.InvariantCulture).PadLeft(20) + "");
         }
     }
 
@@ -2388,14 +2280,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 3;
+        const int N = 3;
 
         Complex[] a = new Complex[N * N];
         int info = 0;
-        int lda;
-        double rcond;
-
-        lda = N;
 
         Console.WriteLine("");
         Console.WriteLine("TEST20");
@@ -2422,7 +2310,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Estimate the condition.");
 
-        rcond = ZPOCO.zpoco(ref a, lda, N, ref info);
+        double rcond = ZPOCO.zpoco(ref a, N, N, ref info);
 
         Console.WriteLine("");
         Console.WriteLine("  Reciprocal condition  = " + rcond + "");
@@ -2455,17 +2343,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 3;
+        const int N = 3;
 
         Complex[] a = new Complex[N * N];
         double[] det = new double[2];
-        int info;
         int j;
-        int job;
-        int lda;
-        string cout;
-
-        lda = N;
 
         Console.WriteLine("");
         Console.WriteLine("TEST21");
@@ -2493,7 +2375,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Factor the matrix.");
 
-        info = ZPOFA.zpofa(ref a, lda, N);
+        int info = ZPOFA.zpofa(ref a, N, N);
 
         if (info != 0)
         {
@@ -2508,8 +2390,8 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Get the determinant and inverse.");
 
-        job = 11;
-        ZPODI.zpodi(ref a, lda, N, ref det, job);
+        int job = 11;
+        ZPODI.zpodi(ref a, N, N, ref det, job);
         //
         //  Print the results.
         //
@@ -2525,10 +2407,10 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  First row of inverse:");
         Console.WriteLine("");
-        cout = "";
+        string cout = "";
         for (j = 0; j < N; j++)
         {
-            cout += "  " + a[0 + j * N].ToString().PadLeft(20);
+            cout += "  " + a[0 + j * N].ToString(CultureInfo.InvariantCulture).PadLeft(20);
         }
 
         Console.WriteLine(cout);
@@ -2561,17 +2443,12 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 3;
+        const int N = 3;
 
         Complex[] a = new Complex[N * N];
         Complex[] b = new Complex[N];
         int i;
-        int info;
-        int j;
-        int lda;
         Complex[] x = new Complex[N];
-
-        lda = N;
 
         Console.WriteLine("");
         Console.WriteLine("TEST22");
@@ -2604,6 +2481,7 @@ internal static class Program
         for (i = 0; i < N; i++)
         {
             b[i] = 0.0;
+            int j;
             for (j = 0; j < N; j++)
             {
                 b[i] += a[i + j * N] * x[j];
@@ -2616,7 +2494,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Factor the matrix.");
 
-        info = ZPOFA.zpofa(ref a, lda, N);
+        int info = ZPOFA.zpofa(ref a, N, N);
 
         if (info != 0)
         {
@@ -2631,7 +2509,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Solve the linear system.");
 
-        ZPOSL.zposl(a, lda, N, ref b);
+        ZPOSL.zposl(a, N, N, ref b);
         //
         //  Print the result.
         //
@@ -2642,7 +2520,7 @@ internal static class Program
 
         for (i = 0; i < N; i++)
         {
-            Console.WriteLine("  " + b[i].ToString().PadLeft(20) + "");
+            Console.WriteLine("  " + b[i].ToString(CultureInfo.InvariantCulture).PadLeft(20) + "");
         }
 
     }
@@ -2668,11 +2546,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 3;
+        const int N = 3;
 
         Complex[] a = new Complex[N * (N + 1) / 2];
         int info = 0;
-        double rcond;
 
         Console.WriteLine("");
         Console.WriteLine("TEST23");
@@ -2697,7 +2574,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Estimate the condition number.");
 
-        rcond = ZPPCO.zppco(ref a, N, ref info);
+        double rcond = ZPPCO.zppco(ref a, N, ref info);
 
         Console.WriteLine("");
         Console.WriteLine("  Reciprocal condition number = " + rcond + "");
@@ -2730,17 +2607,13 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 3;
+        const int N = 3;
 
         Complex[] a = new Complex[N * (N + 1) / 2];
         Complex[] b = new Complex[N * N];
         double[] det = new double[2];
         int i;
-        int info;
         int j;
-        int job;
-        int k;
-        string cout;
 
         Console.WriteLine("");
         Console.WriteLine("TEST24");
@@ -2766,7 +2639,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Factor the matrix.");
 
-        info = ZPPFA.zppfa(ref a, N);
+        int info = ZPPFA.zppfa(ref a, N);
 
         if (info != 0)
         {
@@ -2781,7 +2654,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Get the determinant and inverse.");
 
-        job = 11;
+        int job = 11;
         ZPPDI.zppdi(ref a, N, ref det, job);
         //
         //  Print the results.
@@ -2794,7 +2667,7 @@ internal static class Program
         //  which is actually symmetric.  Thus, the lower half could be
         //  produced by copying from the upper half.
         //
-        k = 0;
+        int k = 0;
         for (j = 0; j < N; j++)
         {
             for (i = 0; i <= j; i++)
@@ -2810,10 +2683,10 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < N; i++)
         {
-            cout = "";
+            string cout = "";
             for (j = 0; j < N; j++)
             {
-                cout += "  " + b[i + j * N].ToString().PadLeft(20);
+                cout += "  " + b[i + j * N].ToString(CultureInfo.InvariantCulture).PadLeft(20);
             }
 
             Console.WriteLine(cout);
@@ -2847,12 +2720,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 3;
+        const int N = 3;
 
         Complex[] a = new Complex[N * (N + 1) / 2];
         Complex[] b = new Complex[N];
         int i;
-        int info;
 
         Console.WriteLine("");
         Console.WriteLine("TEST25");
@@ -2882,7 +2754,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Factor the matrix.");
 
-        info = ZPPFA.zppfa(ref a, N);
+        int info = ZPPFA.zppfa(ref a, N);
 
         if (info != 0)
         {
@@ -2908,7 +2780,7 @@ internal static class Program
 
         for (i = 0; i < N; i++)
         {
-            Console.WriteLine("  " + b[i].ToString().PadLeft(20) + "");
+            Console.WriteLine("  " + b[i].ToString(CultureInfo.InvariantCulture).PadLeft(20) + "");
         }
 
     }
@@ -2939,7 +2811,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 3;
+        const int N = 3;
 
         Complex[] b = new Complex[N];
         Complex[] d = new Complex[N];
@@ -2985,7 +2857,7 @@ internal static class Program
 
         for (i = 0; i < N; i++)
         {
-            Console.WriteLine("  " + b[i].ToString().PadLeft(26) + "");
+            Console.WriteLine("  " + b[i].ToString(CultureInfo.InvariantCulture).PadLeft(26) + "");
         }
 
     }
@@ -3015,30 +2887,22 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 3;
-        int P = 3;
+        const int N = 3;
+        const int P = 3;
 
-        Complex[] a;
         Complex[] b = new Complex[N * P];
         int i;
-        int info;
         int[] ipvt = new int[P];
         int j;
-        int job;
-        int k;
-        int lda;
         Complex[] q = new Complex[N * N];
         Complex[] qraux = new Complex[P];
         Complex[] qty = new Complex[N];
         Complex[] qy = new Complex[N];
         Complex[] r = new Complex[N * P];
         Complex[] rsd = new Complex[N];
-        int seed;
         Complex[] xb = new Complex[N];
         Complex[] y = new Complex[N];
         string cout;
-
-        lda = N;
 
         Console.WriteLine("");
         Console.WriteLine("ZQRDC_TEST");
@@ -3049,9 +2913,9 @@ internal static class Program
         //
         //  Set the values of the matrix A.
         //
-        seed = 123456789;
+        int seed = 123456789;
 
-        a = UniformRNG.c8mat_uniform_01_new(N, P, ref seed);
+        Complex[] a = UniformRNG.c8mat_uniform_01_new(N, P, ref seed);
 
         Console.WriteLine("");
         Console.WriteLine("  The matrix A is");
@@ -3062,7 +2926,7 @@ internal static class Program
             cout = "";
             for (j = 0; j < P; j++)
             {
-                cout += "  " + a[i + j * lda].ToString().PadLeft(20);
+                cout += "  " + a[i + j * N].ToString(CultureInfo.InvariantCulture).PadLeft(20);
             }
 
             Console.WriteLine(cout);
@@ -3074,13 +2938,13 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Decompose the matrix.");
 
-        job = 0;
+        int job = 0;
         for (i = 0; i < P; i++)
         {
             ipvt[i] = 0;
         }
 
-        ZQRDC.zqrdc(ref a, lda, N, P, ref qraux, ref ipvt, job);
+        ZQRDC.zqrdc(ref a, N, N, P, ref qraux, ref ipvt, job);
         //
         //  Print out what ZQRDC has stored in A...
         //
@@ -3093,7 +2957,7 @@ internal static class Program
             cout = "";
             for (j = 0; j < P; j++)
             {
-                cout += "  " + a[i + j * lda].ToString().PadLeft(20);
+                cout += "  " + a[i + j * N].ToString(CultureInfo.InvariantCulture).PadLeft(20);
             }
 
             Console.WriteLine(cout);
@@ -3109,7 +2973,7 @@ internal static class Program
 
         for (i = 0; i < N; i++)
         {
-            Console.WriteLine("  " + qraux[i].ToString().PadLeft(20) + "");
+            Console.WriteLine("  " + qraux[i].ToString(CultureInfo.InvariantCulture).PadLeft(20) + "");
         }
 
         //
@@ -3121,11 +2985,11 @@ internal static class Program
             {
                 if (j < i)
                 {
-                    r[i + j * lda] = new Complex(0.0, 0.0);
+                    r[i + j * N] = new Complex(0.0, 0.0);
                 }
                 else
                 {
-                    r[i + j * lda] = a[i + j * lda];
+                    r[i + j * N] = a[i + j * N];
                 }
             }
         }
@@ -3139,7 +3003,7 @@ internal static class Program
             cout = "";
             for (j = 0; j < P; j++)
             {
-                cout += "  " + r[i + j * N].ToString().PadLeft(20);
+                cout += "  " + r[i + j * N].ToString(CultureInfo.InvariantCulture).PadLeft(20);
             }
 
             Console.WriteLine(cout);
@@ -3166,7 +3030,7 @@ internal static class Program
             //
             //  Ask ZQRSL to tell us what Q*Y is.
             //
-            info = ZQRSL.zqrsl(a, lda, N, P, qraux, y, ref qy, ref qty, ref b, ref rsd, ref xb, job);
+            int info = ZQRSL.zqrsl(a, N, N, P, qraux, y, ref qy, ref qty, ref b, ref rsd, ref xb, job);
 
             if (info != 0)
             {
@@ -3195,7 +3059,7 @@ internal static class Program
             cout = "";
             for (j = 0; j < N; j++)
             {
-                cout += "  " + q[i + j * N].ToString().PadLeft(20);
+                cout += "  " + q[i + j * N].ToString(CultureInfo.InvariantCulture).PadLeft(20);
             }
 
             Console.WriteLine(cout);
@@ -3209,6 +3073,7 @@ internal static class Program
             for (j = 0; j < P; j++)
             {
                 b[i + j * N] = new Complex(0.0, 0.0);
+                int k;
                 for (k = 0; k < N; k++)
                 {
                     b[i + j * N] += q[i + k * N] * r[k + j * N];
@@ -3230,7 +3095,7 @@ internal static class Program
             cout = "";
             for (j = 0; j < P; j++)
             {
-                cout += "  " + b[i + j * N].ToString().PadLeft(20);
+                cout += "  " + b[i + j * N].ToString(CultureInfo.InvariantCulture).PadLeft(20);
             }
 
             Console.WriteLine(cout);
@@ -3258,18 +3123,12 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 3;
+        const int N = 3;
 
         Complex[] a = new Complex[N * N];
         int i;
         int[] ipvt = new int[N];
         int j;
-        int lda;
-        double rcond;
-        int seed;
-        string cout;
-
-        lda = N;
 
         Console.WriteLine("");
         Console.WriteLine("TEST28");
@@ -3281,15 +3140,15 @@ internal static class Program
         //
         //  Set the values of the matrix A.
         //
-        seed = 123456789;
+        int seed = 123456789;
 
         for (i = 0; i < N; i++)
         {
-            a[i + i * lda] = UniformRNG.c8_uniform_01(ref seed);
+            a[i + i * N] = UniformRNG.c8_uniform_01(ref seed);
             for (j = i + 1; j < N; j++)
             {
-                a[i + j * lda] = UniformRNG.c8_uniform_01(ref seed);
-                a[j + i * lda] = a[i + j * lda];
+                a[i + j * N] = UniformRNG.c8_uniform_01(ref seed);
+                a[j + i * N] = a[i + j * N];
             }
         }
 
@@ -3299,10 +3158,10 @@ internal static class Program
 
         for (i = 0; i < N; i++)
         {
-            cout = "";
+            string cout = "";
             for (j = 0; j < N; j++)
             {
-                cout += "  " + a[i + j * lda].ToString().PadLeft(20);
+                cout += "  " + a[i + j * N].ToString(CultureInfo.InvariantCulture).PadLeft(20);
             }
 
             Console.WriteLine(cout);
@@ -3311,7 +3170,7 @@ internal static class Program
         //
         //  Factor the matrix A.
         //
-        rcond = ZSICO.zsico(ref a, lda, N, ref ipvt);
+        double rcond = ZSICO.zsico(ref a, N, N, ref ipvt);
 
         Console.WriteLine("");
         Console.WriteLine("  Estimated reciprocal condition RCOND = " + rcond + "");
@@ -3339,20 +3198,14 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 3;
+        const int N = 3;
 
         Complex[] a = new Complex[N * N];
         Complex[] b = new Complex[N];
         int i;
-        int info;
         int[] ipvt = new int[N];
         int j;
-        int lda;
-        int seed;
         Complex[] x = new Complex[N];
-        string cout;
-
-        lda = N;
 
         Console.WriteLine("");
         Console.WriteLine("TEST29");
@@ -3364,15 +3217,15 @@ internal static class Program
         //
         //  Set the values of the matrix A.
         //
-        seed = 123456789;
+        int seed = 123456789;
 
         for (i = 0; i < N; i++)
         {
-            a[i + i * lda] = UniformRNG.c8_uniform_01(ref seed);
+            a[i + i * N] = UniformRNG.c8_uniform_01(ref seed);
             for (j = i + 1; j < N; j++)
             {
-                a[i + j * lda] = UniformRNG.c8_uniform_01(ref seed);
-                a[j + i * lda] = a[i + j * lda];
+                a[i + j * N] = UniformRNG.c8_uniform_01(ref seed);
+                a[j + i * N] = a[i + j * N];
             }
         }
 
@@ -3382,10 +3235,10 @@ internal static class Program
 
         for (i = 0; i < N; i++)
         {
-            cout = "";
+            string cout = "";
             for (j = 0; j < N; j++)
             {
-                cout += "  " + a[i + j * lda].ToString().PadLeft(20);
+                cout += "  " + a[i + j * N].ToString(CultureInfo.InvariantCulture).PadLeft(20);
             }
 
             Console.WriteLine(cout);
@@ -3404,7 +3257,7 @@ internal static class Program
             b[i] = 0.0;
             for (j = 0; j < N; j++)
             {
-                b[i] += a[i + j * lda] * x[j];
+                b[i] += a[i + j * N] * x[j];
             }
         }
 
@@ -3414,13 +3267,13 @@ internal static class Program
 
         for (i = 0; i < N; i++)
         {
-            Console.WriteLine("  " + b[i].ToString().PadLeft(20) + "");
+            Console.WriteLine("  " + b[i].ToString(CultureInfo.InvariantCulture).PadLeft(20) + "");
         }
 
         //
         //  Factor the matrix A.
         //
-        info = ZSIFA.zsifa(ref a, lda, N, ref ipvt);
+        int info = ZSIFA.zsifa(ref a, N, N, ref ipvt);
 
         if (info != 0)
         {
@@ -3432,7 +3285,7 @@ internal static class Program
         //
         //  Solve the system.
         //
-        ZSISL.zsisl(a, lda, N, ipvt, ref b);
+        ZSISL.zsisl(a, N, N, ipvt, ref b);
 
         Console.WriteLine("");
         Console.WriteLine("  Computed                     Exact");
@@ -3441,9 +3294,8 @@ internal static class Program
 
         for (i = 0; i < N; i++)
         {
-            Console.WriteLine("  " + b[i].ToString().PadLeft(20)
-                                   + "  " + x[i].ToString().PadLeft(20) + "");
-            ;
+            Console.WriteLine("  " + b[i].ToString(CultureInfo.InvariantCulture).PadLeft(20)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(20) + "");
         }
 
     }
@@ -3469,23 +3321,16 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 3;
+        const int N = 3;
 
         Complex[] a = new Complex[N * N];
         Complex[] a_save = new Complex[N * N];
         Complex[] c = new Complex[N * N];
         Complex[] det = new Complex[2];
         int i;
-        int info;
         int[] ipvt = new int[N];
         int j;
-        int job;
-        int k;
-        int lda;
-        int seed;
         string cout;
-
-        lda = N;
 
         Console.WriteLine("");
         Console.WriteLine("TEST30");
@@ -3497,15 +3342,15 @@ internal static class Program
         //
         //  Set the values of the matrix A.
         //
-        seed = 123456789;
+        int seed = 123456789;
 
         for (i = 0; i < N; i++)
         {
-            a[i + i * lda] = UniformRNG.c8_uniform_01(ref seed);
+            a[i + i * N] = UniformRNG.c8_uniform_01(ref seed);
             for (j = i + 1; j < N; j++)
             {
-                a[i + j * lda] = UniformRNG.c8_uniform_01(ref seed);
-                a[j + i * lda] = a[i + j * lda];
+                a[i + j * N] = UniformRNG.c8_uniform_01(ref seed);
+                a[j + i * N] = a[i + j * N];
             }
         }
 
@@ -3513,7 +3358,7 @@ internal static class Program
         {
             for (j = 0; j < N; j++)
             {
-                a_save[i + j * lda] = a[i + j * lda];
+                a_save[i + j * N] = a[i + j * N];
             }
         }
 
@@ -3526,7 +3371,7 @@ internal static class Program
             cout = "";
             for (j = 0; j < N; j++)
             {
-                cout += "  " + a[i + j * lda].ToString().PadLeft(20);
+                cout += "  " + a[i + j * N].ToString(CultureInfo.InvariantCulture).PadLeft(20);
             }
 
             Console.WriteLine(cout);
@@ -3535,7 +3380,7 @@ internal static class Program
         //
         //  Factor the matrix A.
         //
-        info = ZSIFA.zsifa(ref a, lda, N, ref ipvt);
+        int info = ZSIFA.zsifa(ref a, N, N, ref ipvt);
 
         if (info != 0)
         {
@@ -3547,8 +3392,8 @@ internal static class Program
         //
         //  Get the determinant.
         //
-        job = 10;
-        ZSIDI.zsidi(ref a, lda, N, ipvt, ref det, job);
+        int job = 10;
+        ZSIDI.zsidi(ref a, N, N, ipvt, ref det, job);
 
         Console.WriteLine("");
         Console.WriteLine("  Determinant = " + det[0]
@@ -3557,7 +3402,7 @@ internal static class Program
         //  Get the inverse.
         //
         job = 1;
-        ZSIDI.zsidi(ref a, lda, N, ipvt, ref det, job);
+        ZSIDI.zsidi(ref a, N, N, ipvt, ref det, job);
         //
         //  Only the upper triangle is set, so the user must set up the
         //  lower triangle:
@@ -3566,12 +3411,13 @@ internal static class Program
         {
             for (j = 0; j < i; j++)
             {
-                a[i + j * lda] = a[j + i * lda];
+                a[i + j * N] = a[j + i * N];
             }
         }
 
         for (i = 0; i < N; i++)
         {
+            int k;
             for (k = 0; k < N; k++)
             {
                 c[i + k * N] = 0.0;
@@ -3591,7 +3437,7 @@ internal static class Program
             cout = "";
             for (j = 0; j < N; j++)
             {
-                cout += "  " + c[i + j * N].ToString().PadLeft(20);
+                cout += "  " + c[i + j * N].ToString(CultureInfo.InvariantCulture).PadLeft(20);
             }
 
             Console.WriteLine(cout);
@@ -3620,17 +3466,13 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 3;
+        const int N = 3;
 
         Complex[] a = new Complex[N * (N + 1) / 2];
         Complex[] a_save = new Complex[N * N];
         int i;
         int[] ipvt = new int[N];
         int j;
-        int k;
-        double rcond;
-        int seed;
-        string cout;
 
         Console.WriteLine("");
         Console.WriteLine("TEST31");
@@ -3643,8 +3485,8 @@ internal static class Program
         //
         //  Set the values of the packed matrix A.
         //
-        k = 0;
-        seed = 123456789;
+        int k = 0;
+        int seed = 123456789;
 
         for (j = 0; j < N; j++)
         {
@@ -3685,10 +3527,10 @@ internal static class Program
 
         for (i = 0; i < N; i++)
         {
-            cout = "";
+            string cout = "";
             for (j = 0; j < N; j++)
             {
-                cout += "  " + a_save[i + j * N].ToString().PadLeft(20);
+                cout += "  " + a_save[i + j * N].ToString(CultureInfo.InvariantCulture).PadLeft(20);
             }
 
             Console.WriteLine(cout);
@@ -3697,7 +3539,7 @@ internal static class Program
         //
         //  Factor the matrix A.
         //
-        rcond = ZSPCO.zspco(ref a, N, ref ipvt);
+        double rcond = ZSPCO.zspco(ref a, N, ref ipvt);
 
         Console.WriteLine("");
         Console.WriteLine("  Estimated reciprocal condition RCOND = " + rcond + "");
@@ -3725,19 +3567,14 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 3;
+        const int N = 3;
 
         Complex[] a = new Complex[N * (N + 1) / 2];
         Complex[] a_save = new Complex[N * N];
         Complex[] b = new Complex[N];
         int i;
-        int info;
         int[] ipvt = new int[N];
         int j;
-        int k;
-        int seed;
-        Complex[] x;
-        string cout;
 
         Console.WriteLine("");
         Console.WriteLine("TEST32");
@@ -3750,8 +3587,8 @@ internal static class Program
         //
         //  Set the values of the packed matrix A.
         //
-        k = 0;
-        seed = 123456789;
+        int k = 0;
+        int seed = 123456789;
 
         for (j = 0; j < N; j++)
         {
@@ -3792,10 +3629,10 @@ internal static class Program
 
         for (i = 0; i < N; i++)
         {
-            cout = "";
+            string cout = "";
             for (j = 0; j < N; j++)
             {
-                cout += "  " + a_save[i + j * N].ToString().PadLeft(20);
+                cout += "  " + a_save[i + j * N].ToString(CultureInfo.InvariantCulture).PadLeft(20);
             }
 
             Console.WriteLine(cout);
@@ -3804,7 +3641,7 @@ internal static class Program
         //
         //  Set the values of the right hand side vector B.
         //
-        x = UniformRNG.c8vec_uniform_01_new(N, ref seed);
+        Complex[] x = UniformRNG.c8vec_uniform_01_new(N, ref seed);
 
         for (i = 0; i < N; i++)
         {
@@ -3821,13 +3658,13 @@ internal static class Program
 
         for (i = 0; i < N; i++)
         {
-            Console.WriteLine("  " + b[i].ToString().PadLeft(20) + "");
+            Console.WriteLine("  " + b[i].ToString(CultureInfo.InvariantCulture).PadLeft(20) + "");
         }
 
         //
         //  Factor the matrix A.
         //
-        info = ZSPFA.zspfa(ref a, N, ref ipvt);
+        int info = ZSPFA.zspfa(ref a, N, ref ipvt);
 
         if (info != 0)
         {
@@ -3848,9 +3685,8 @@ internal static class Program
 
         for (i = 0; i < N; i++)
         {
-            Console.WriteLine("  " + b[i].ToString().PadLeft(20)
-                                   + "  " + x[i].ToString().PadLeft(20) + "");
-            ;
+            Console.WriteLine("  " + b[i].ToString(CultureInfo.InvariantCulture).PadLeft(20)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(20) + "");
         }
     }
 
@@ -3875,7 +3711,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 3;
+        const int N = 3;
 
         Complex[] a = new Complex[N * (N + 1) / 2];
         Complex[] a_save = new Complex[N * N];
@@ -3883,12 +3719,8 @@ internal static class Program
         Complex[] c = new Complex[N * N];
         Complex[] det = new Complex[2];
         int i;
-        int info;
         int[] ipvt = new int[N];
         int j;
-        int job;
-        int k;
-        int seed;
         string cout;
 
         Console.WriteLine("");
@@ -3902,8 +3734,8 @@ internal static class Program
         //
         //  Set the values of the packed matrix A.
         //
-        k = 0;
-        seed = 123456789;
+        int k = 0;
+        int seed = 123456789;
 
         for (j = 0; j < N; j++)
         {
@@ -3947,7 +3779,7 @@ internal static class Program
             cout = "";
             for (j = 0; j < N; j++)
             {
-                cout += "  " + a_save[i + j * N].ToString().PadLeft(20);
+                cout += "  " + a_save[i + j * N].ToString(CultureInfo.InvariantCulture).PadLeft(20);
             }
 
             Console.WriteLine(cout);
@@ -3956,7 +3788,7 @@ internal static class Program
         //
         //  Factor the matrix A.
         //
-        info = ZSPFA.zspfa(ref a, N, ref ipvt);
+        int info = ZSPFA.zspfa(ref a, N, ref ipvt);
 
         if (info != 0)
         {
@@ -3968,7 +3800,7 @@ internal static class Program
         //
         //  Get the determinant.
         //
-        job = 10;
+        int job = 10;
         ZSPDI.zspdi(ref a, N, ipvt, ref det, job);
 
         Console.WriteLine("");
@@ -4021,7 +3853,7 @@ internal static class Program
             cout = "";
             for (j = 0; j < N; j++)
             {
-                cout += "  " + c[i + j * N].ToString().PadLeft(20);
+                cout += "  " + c[i + j * N].ToString(CultureInfo.InvariantCulture).PadLeft(20);
             }
 
             Console.WriteLine(cout);
@@ -4056,27 +3888,19 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int M = 4;
-        int N = 3;
+        const int M = 4;
+        const int N = 3;
 
-        Complex[] a;
         //
         //  E should be dimensioned at least the maximum of M+1 and N.
         //
         Complex[] e = new Complex[M + N];
         int i;
-        int info;
         int j;
-        int lda;
-        int ldu;
-        int ldv;
-        int job;
-        int k;
         //
         //  S should be dimensioned at least the maximum of M+1 and N.
         //
         Complex[] s = new Complex[M + N];
-        int seed;
         Complex[] u = new Complex[M * M];
         Complex[] v = new Complex[N * N];
         string cout = "";
@@ -4092,10 +3916,10 @@ internal static class Program
         //
         //  Set A.
         //
-        seed = 123456789;
-        lda = M;
+        int seed = 123456789;
+        int lda = M;
 
-        a = UniformRNG.c8mat_uniform_01_new(M, N, ref seed);
+        Complex[] a = UniformRNG.c8mat_uniform_01_new(M, N, ref seed);
 
         Console.WriteLine("");
         Console.WriteLine("  The matrix A:");
@@ -4105,7 +3929,7 @@ internal static class Program
         {
             for (j = 0; j < N; j++)
             {
-                cout += "  " + a[i + j * lda].ToString().PadLeft(20);
+                cout += "  " + a[i + j * lda].ToString(CultureInfo.InvariantCulture).PadLeft(20);
             }
 
             Console.WriteLine(cout);
@@ -4118,11 +3942,11 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Decompose the matrix.");
 
-        job = 11;
-        ldu = M;
-        ldv = N;
+        int job = 11;
+        int ldu = M;
+        int ldv = N;
 
-        info = ZSVDC.zsvdc(ref a, lda, M, N, ref s, ref e, ref u, ldu, ref v, ldv, job);
+        int info = ZSVDC.zsvdc(ref a, lda, M, N, ref s, ref e, ref u, ldu, ref v, ldv, job);
 
         if (info != 0)
         {
@@ -4138,8 +3962,8 @@ internal static class Program
 
         for (i = 0; i < Math.Min(M, N); i++)
         {
-            Console.WriteLine("  " + (i + 1).ToString().PadLeft(8)
-                                   + s[i].ToString().PadLeft(20) + "");
+            Console.WriteLine("  " + (i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + s[i].ToString(CultureInfo.InvariantCulture).PadLeft(20) + "");
         }
 
         Console.WriteLine("");
@@ -4150,7 +3974,7 @@ internal static class Program
         {
             for (j = 0; j < M; j++)
             {
-                cout += "  " + u[i + j * ldu].ToString().PadLeft(20);
+                cout += "  " + u[i + j * ldu].ToString(CultureInfo.InvariantCulture).PadLeft(20);
             }
 
             Console.WriteLine(cout);
@@ -4165,7 +3989,7 @@ internal static class Program
         {
             for (j = 0; j < N; j++)
             {
-                cout += "  " + v[i + j * ldv].ToString().PadLeft(20);
+                cout += "  " + v[i + j * ldv].ToString(CultureInfo.InvariantCulture).PadLeft(20);
             }
 
             Console.WriteLine(cout);
@@ -4177,6 +4001,7 @@ internal static class Program
             for (j = 0; j < N; j++)
             {
                 a[i + j * lda] = new Complex(0.0, 0.0);
+                int k;
                 for (k = 0; k < Math.Min(M, N); k++)
                 {
                     a[i + j * lda] += u[i + k * ldu] * s[k] * Complex.Conjugate(v[j + k * ldv]);
@@ -4192,7 +4017,7 @@ internal static class Program
         {
             for (j = 0; j < N; j++)
             {
-                cout += "  " + a[i + j * lda].ToString().PadLeft(20);
+                cout += "  " + a[i + j * lda].ToString(CultureInfo.InvariantCulture).PadLeft(20);
             }
 
             Console.WriteLine(cout);
@@ -4227,23 +4052,15 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int M = 4;
-        int N = 4;
+        const int M = 4;
+        const int N = 4;
 
-        Complex[] a;
         //
         //  E must be dimensioned at least the maximum of M+1 and N.
         //
         Complex[] e = new Complex[M + N];
-        Complex I;
         int i;
-        int info;
         int j;
-        int lda;
-        int ldu;
-        int ldv;
-        int job;
-        int k;
         //
         //  S must be dimensioned at least the maximum of M+1 and N.
         //
@@ -4264,10 +4081,10 @@ internal static class Program
         //
         //  Set A.
         //
-        I = new Complex(0.0, 1.0);
+        Complex I = new Complex(0.0, 1.0);
 
-        lda = M;
-        a = new Complex[M * N];
+        int lda = M;
+        Complex[] a = new Complex[M * N];
 
         a[0 + 0 * M] = 1.0;
         a[1 + 0 * M] = -I;
@@ -4298,7 +4115,7 @@ internal static class Program
             cout = "";
             for (j = 0; j < N; j++)
             {
-                cout += "  " + a[i + j * lda].ToString().PadLeft(20);
+                cout += "  " + a[i + j * lda].ToString(CultureInfo.InvariantCulture).PadLeft(20);
             }
 
             Console.WriteLine(cout);
@@ -4310,11 +4127,11 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Decompose the matrix.");
 
-        job = 11;
-        ldu = M;
-        ldv = N;
+        int job = 11;
+        int ldu = M;
+        int ldv = N;
 
-        info = ZSVDC.zsvdc(ref a, lda, M, N, ref s, ref e, ref u, ldu, ref v, ldv, job);
+        int info = ZSVDC.zsvdc(ref a, lda, M, N, ref s, ref e, ref u, ldu, ref v, ldv, job);
 
         if (info != 0)
         {
@@ -4330,8 +4147,8 @@ internal static class Program
 
         for (i = 0; i < Math.Min(M, N); i++)
         {
-            Console.WriteLine("  " + (i + 1).ToString().PadLeft(8)
-                                   + s[i].ToString().PadLeft(20) + "");
+            Console.WriteLine("  " + (i + 1).ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + s[i].ToString(CultureInfo.InvariantCulture).PadLeft(20) + "");
         }
 
         Console.WriteLine("");
@@ -4343,7 +4160,7 @@ internal static class Program
         {
             for (j = 0; j < M; j++)
             {
-                cout += "  " + u[i + j * ldu].ToString().PadLeft(20);
+                cout += "  " + u[i + j * ldu].ToString(CultureInfo.InvariantCulture).PadLeft(20);
             }
 
             Console.WriteLine(cout);
@@ -4358,7 +4175,7 @@ internal static class Program
         {
             for (j = 0; j < N; j++)
             {
-                cout += "  " + v[i + j * ldv].ToString().PadLeft(20);
+                cout += "  " + v[i + j * ldv].ToString(CultureInfo.InvariantCulture).PadLeft(20);
             }
 
             Console.WriteLine(cout);
@@ -4370,6 +4187,7 @@ internal static class Program
             for (j = 0; j < N; j++)
             {
                 a[i + j * lda] = new Complex(0.0, 0.0);
+                int k;
                 for (k = 0; k < Math.Min(M, N); k++)
                 {
                     a[i + j * lda] += u[i + k * ldu] * s[k] * Complex.Conjugate(v[j + k * ldv]);
@@ -4385,7 +4203,7 @@ internal static class Program
         {
             for (j = 0; j < N; j++)
             {
-                cout += "  " + a[i + j * lda].ToString().PadLeft(20);
+                cout += "  " + a[i + j * lda].ToString(CultureInfo.InvariantCulture).PadLeft(20);
             }
 
             Console.WriteLine(cout);
@@ -4414,17 +4232,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 3;
+        const int N = 3;
 
         Complex[] a = new Complex[N * N];
         int i;
-        int j;
-        int job;
-        int lda;
-        double rcond;
-        int seed;
-
-        lda = N;
 
         Console.WriteLine("");
         Console.WriteLine("TEST35");
@@ -4435,26 +4246,27 @@ internal static class Program
         //
         //  Set the matrix.
         //
-        seed = 123456789;
+        int seed = 123456789;
 
         for (i = 0; i < N; i++)
         {
+            int j;
             for (j = 0; j <= i; j++)
             {
-                a[i + j * lda] = UniformRNG.c8_uniform_01(ref seed);
+                a[i + j * N] = UniformRNG.c8_uniform_01(ref seed);
             }
 
             for (j = i + 1; j < N; j++)
             {
-                a[i + j * lda] = new Complex(0.0, 0.0);
+                a[i + j * N] = new Complex(0.0, 0.0);
             }
         }
 
         //
         //  Get the condition of the lower triangular matrix.
         //
-        job = 0;
-        rcond = ZTRCO.ztrco(a, lda, N, job);
+        int job = 0;
+        double rcond = ZTRCO.ztrco(a, N, N, job);
 
         Console.WriteLine("");
         Console.WriteLine("  Estimated reciprocal condition RCOND = " + rcond + "");
@@ -4482,7 +4294,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 3;
+        const int N = 3;
 
         Complex[] a = new Complex[N * N];
         Complex[] a_save = new Complex[N * N];
@@ -4490,13 +4302,6 @@ internal static class Program
         Complex[] det = new Complex[2];
         int i;
         int j;
-        int job;
-        int k;
-        int lda;
-        int seed;
-        string cout;
-
-        lda = N;
 
         Console.WriteLine("");
         Console.WriteLine("TEST36");
@@ -4507,18 +4312,18 @@ internal static class Program
         //
         //  Set the matrix.
         //
-        seed = 123456789;
+        int seed = 123456789;
 
         for (i = 0; i < N; i++)
         {
             for (j = 0; j <= i; j++)
             {
-                a[i + j * lda] = UniformRNG.c8_uniform_01(ref seed);
+                a[i + j * N] = UniformRNG.c8_uniform_01(ref seed);
             }
 
             for (j = i + 1; j < N; j++)
             {
-                a[i + j * lda] = new Complex(0.0, 0.0);
+                a[i + j * N] = new Complex(0.0, 0.0);
             }
         }
 
@@ -4526,15 +4331,15 @@ internal static class Program
         {
             for (j = 0; j < N; j++)
             {
-                a_save[i + j * lda] = a[i + j * lda];
+                a_save[i + j * N] = a[i + j * N];
             }
         }
 
         //
         //  Get the determinant of the lower triangular matrix.
         //
-        job = 100;
-        ZTRDI.ztrdi(ref a, lda, N, ref det, job);
+        int job = 100;
+        ZTRDI.ztrdi(ref a, N, N, ref det, job);
 
         Console.WriteLine("");
         Console.WriteLine("  Determinant = " + det[0]
@@ -4543,16 +4348,17 @@ internal static class Program
         //  Get the inverse of the lower triangular matrix.
         //
         job = 10;
-        ZTRDI.ztrdi(ref a, lda, N, ref det, job);
+        ZTRDI.ztrdi(ref a, N, N, ref det, job);
 
         for (i = 0; i < N; i++)
         {
+            int k;
             for (k = 0; k < N; k++)
             {
-                c[i + k * lda] = 0.0;
+                c[i + k * N] = 0.0;
                 for (j = 0; j < N; j++)
                 {
-                    c[i + k * lda] += a[i + j * lda] * a_save[j + k * lda];
+                    c[i + k * N] += a[i + j * N] * a_save[j + k * N];
                 }
             }
         }
@@ -4563,10 +4369,10 @@ internal static class Program
 
         for (i = 0; i < N; i++)
         {
-            cout = "";
+            string cout = "";
             for (j = 0; j < N; j++)
             {
-                cout += "  " + c[i + j * lda].ToString().PadLeft(20);
+                cout += "  " + c[i + j * N].ToString(CultureInfo.InvariantCulture).PadLeft(20);
             }
 
             Console.WriteLine(cout);
@@ -4595,18 +4401,13 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 10;
+        const int N = 10;
 
         Complex[] a = new Complex[N * N];
         Complex[] b = new Complex[N];
         int i;
         int j;
-        int job;
-        int lda;
-        int seed;
         Complex[] x = new Complex[N];
-
-        lda = N;
 
         Console.WriteLine("");
         Console.WriteLine("TEST37");
@@ -4617,18 +4418,18 @@ internal static class Program
         //
         //  Set the matrix.
         //
-        seed = 123456789;
+        int seed = 123456789;
 
         for (i = 0; i < N; i++)
         {
             for (j = 0; j <= i; j++)
             {
-                a[i + j * lda] = UniformRNG.c8_uniform_01(ref seed);
+                a[i + j * N] = UniformRNG.c8_uniform_01(ref seed);
             }
 
             for (j = i + 1; j < N; j++)
             {
-                a[i + j * lda] = new Complex(0.0, 0.0);
+                a[i + j * N] = new Complex(0.0, 0.0);
             }
         }
 
@@ -4655,8 +4456,8 @@ internal static class Program
         //
         //  Solve the lower triangular system.
         //
-        job = 0;
-        ZTRSL.ztrsl(a, lda, N, ref b, job);
+        int job = 0;
+        ZTRSL.ztrsl(a, N, N, ref b, job);
 
         Console.WriteLine("");
         Console.WriteLine("  Computed                     Exact");
@@ -4664,8 +4465,8 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < N; i++)
         {
-            Console.WriteLine("  " + b[i].ToString().PadLeft(26)
-                                   + "  " + x[i].ToString().PadLeft(26) + "");
+            Console.WriteLine("  " + b[i].ToString(CultureInfo.InvariantCulture).PadLeft(26)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(26) + "");
         }
 
     }

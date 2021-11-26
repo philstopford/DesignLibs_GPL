@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Linpack;
 using Burkardt.Types;
 
@@ -26,30 +27,13 @@ internal static class Program
         //    N is the problem size.
         //
     {
-        int N = 1000;
-        int LDA = N + 1;
+        const int N = 1000;
+        const int LDA = N + 1;
 
-        double[] a;
-        double a_max;
-        double[] b;
-        double b_max;
-        double cray = 0.056;
-        double eps;
+        const double cray = 0.056;
         int i;
-        int info;
-        int[] ipvt;
         int j;
-        int job;
-        double ops;
-        double[] resid;
-        double resid_max;
-        double residn;
-        double[] rhs;
-        DateTime t1;
-        DateTime t2;
         double[] time = new double[6];
-        double total;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("LINPACK_BENCH");
@@ -59,18 +43,18 @@ internal static class Program
         Console.WriteLine("  Matrix order N               = " + N + "");
         Console.WriteLine("  Leading matrix dimension LDA = " + LDA + "");
 
-        ops = 2 * N * N * N / 3.0 + 2.0 * (N * N);
+        double ops = 2 * N * N * N / 3.0 + 2.0 * (N * N);
         //
         //  Allocate space for arrays.
         //
-        a = typeMethods.r8mat_gen(LDA, N);
-        b = new double[N];
-        ipvt = new int[N];
-        resid = new double[N];
-        rhs = new double[N];
-        x = new double[N];
+        double[] a = typeMethods.r8mat_gen(LDA, N);
+        double[] b = new double[N];
+        int[] ipvt = new int[N];
+        double[] resid = new double[N];
+        double[] rhs = new double[N];
+        double[] x = new double[N];
 
-        a_max = 0.0;
+        double a_max = 0.0;
         for (j = 0; j < N; j++)
         {
             for (i = 0; i < N; i++)
@@ -93,9 +77,9 @@ internal static class Program
             }
         }
 
-        t1 = DateTime.Now;
+        DateTime t1 = DateTime.Now;
 
-        info = DGEFA.dgefa(ref a, LDA, N, ref ipvt);
+        int info = DGEFA.dgefa(ref a, LDA, N, ref ipvt);
 
         if (info != 0)
         {
@@ -106,19 +90,18 @@ internal static class Program
             return;
         }
 
-        t2 = DateTime.Now;
-        ;
+        DateTime t2 = DateTime.Now;
         time[0] = (t2 - t1).TotalSeconds;
 
         t1 = DateTime.Now;
 
-        job = 0;
+        int job = 0;
         DGESL.dgesl(a, LDA, N, ipvt, ref b, job);
 
         t2 = DateTime.Now;
         time[1] = (t2 - t1).TotalSeconds;
 
-        total = time[0] + time[1];
+        double total = time[0] + time[1];
 
         //
         //  Compute a residual to verify results.
@@ -148,21 +131,21 @@ internal static class Program
             }
         }
 
-        resid_max = 0.0;
+        double resid_max = 0.0;
         for (i = 0; i < N; i++)
         {
             resid_max = Math.Max(resid_max, Math.Abs(resid[i]));
         }
 
-        b_max = 0.0;
+        double b_max = 0.0;
         for (i = 0; i < N; i++)
         {
             b_max = Math.Max(b_max, Math.Abs(b[i]));
         }
 
-        eps = typeMethods.r8_epsilon();
+        double eps = typeMethods.r8_epsilon();
 
-        residn = resid_max / (N * a_max * b_max * eps);
+        double residn = resid_max / (N * a_max * b_max * eps);
 
         time[2] = total;
         time[3] = total switch
@@ -177,20 +160,20 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("     Norm. Resid      Resid           MACHEP         X[1]          X[N]");
         Console.WriteLine("");
-        Console.WriteLine(residn.ToString().PadLeft(14) + "  "
-                                                        + resid_max.ToString().PadLeft(14) + "  "
-                                                        + eps.ToString().PadLeft(14) + "  "
-                                                        + b[0].ToString().PadLeft(14) + "  "
-                                                        + b[N - 1].ToString().PadLeft(14) + "");
+        Console.WriteLine(residn.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                                                        + resid_max.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                                                        + eps.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                                                        + b[0].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                                                        + b[N - 1].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         Console.WriteLine("");
         Console.WriteLine("      Factor     Solve      Total     MFLOPS       Unit      Cray-Ratio");
         Console.WriteLine("");
-        Console.WriteLine(time[0].ToString().PadLeft(9) + "  "
-                                                        + time[1].ToString().PadLeft(9) + "  "
-                                                        + time[2].ToString().PadLeft(9) + "  "
-                                                        + time[3].ToString().PadLeft(9) + "  "
-                                                        + time[4].ToString().PadLeft(9) + "  "
-                                                        + time[5].ToString().PadLeft(9) + "");
+        Console.WriteLine(time[0].ToString(CultureInfo.InvariantCulture).PadLeft(9) + "  "
+                                                        + time[1].ToString(CultureInfo.InvariantCulture).PadLeft(9) + "  "
+                                                        + time[2].ToString(CultureInfo.InvariantCulture).PadLeft(9) + "  "
+                                                        + time[3].ToString(CultureInfo.InvariantCulture).PadLeft(9) + "  "
+                                                        + time[4].ToString(CultureInfo.InvariantCulture).PadLeft(9) + "  "
+                                                        + time[5].ToString(CultureInfo.InvariantCulture).PadLeft(9) + "");
 
         Console.WriteLine("");
         Console.WriteLine("LINPACK_BENCH");

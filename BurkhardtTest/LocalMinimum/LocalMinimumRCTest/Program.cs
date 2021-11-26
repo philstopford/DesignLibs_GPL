@@ -25,17 +25,14 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
-
         Console.WriteLine("");
         Console.WriteLine("local_min_rc_test():");
         Console.WriteLine("  local_min_rc() seeks a local minimizer of a function F(X)");
         Console.WriteLine("  in an interval [A,B], using reverse communication.");
 
 
-        a = 0.0;
-        b = 3.141592653589793;
+        double a = 0.0;
+        double b = 3.141592653589793;
         example_test(a, b, g_01, "g_01(x) = ( x - 2 ) * ( x - 2 ) + 1");
 
         a = 0.0;
@@ -102,22 +99,15 @@ internal static class Program
         //    string TITLE, a title for the problem.
         //
     {
-        double a2;
-        double arg;
-        double b2;
-        int status;
-        int step;
-        double value = 0;
-
         Console.WriteLine("");
         Console.WriteLine("  " + title + "");
         Console.WriteLine("");
         Console.WriteLine("  Step      X                          F(X)");
         Console.WriteLine("");
-        step = 0;
+        int step = 0;
 
-        arg = a;
-        value = f(arg);
+        double arg = a;
+        double value = f(arg);
         Console.WriteLine("  " + step.ToString().PadLeft(4)
                                + "  " + arg.ToString("0.################").PadLeft(24)
                                + "  " + value.ToString("0.################").PadLeft(24) + "");
@@ -128,9 +118,9 @@ internal static class Program
                                + "  " + arg.ToString("0.################").PadLeft(24)
                                + "  " + value.ToString("0.################").PadLeft(24) + "");
 
-        a2 = a;
-        b2 = b;
-        status = 0;
+        double a2 = a;
+        double b2 = b;
+        int status = 0;
 
         LocalMinimum.LocalMinimumData data = new();
 

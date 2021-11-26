@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.MonomialNS;
 using Burkardt.Types;
 using Burkardt.Uniform;
@@ -67,18 +68,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] e;
-        double error;
-        double exact;
-        int i;
-        int m = 3;
-        int n = 4192;
-        double result;
-        int seed;
+        const int m = 3;
+        const int n = 4192;
         int test;
-        int test_num = 20;
-        double[] value;
-        double[] x;
+        const int test_num = 20;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
@@ -87,9 +80,9 @@ internal static class Program
         //
         //  Get sample points.
         //
-        seed = 123456789;
+        int seed = 123456789;
         typeMethods.r8vecNormalData data = new();
-        x = Integrals.hypersphere01_sample(m, n, ref data, ref seed);
+        double[] x = Integrals.hypersphere01_sample(m, n, ref data, ref seed);
 
         Console.WriteLine("");
         Console.WriteLine("  Number of sample points used is " + n + "");
@@ -105,19 +98,20 @@ internal static class Program
 
         for (test = 1; test <= test_num; test++)
         {
-            e = UniformRNG.i4vec_uniform_ab_new(m, 0, 4, ref seed);
+            int[] e = UniformRNG.i4vec_uniform_ab_new(m, 0, 4, ref seed);
 
+            int i;
             for (i = 0; i < m; i++)
             {
                 e[i] *= 2;
             }
 
-            value = Monomial.monomial_value(m, n, e, x);
+            double[] value = Monomial.monomial_value(m, n, e, x);
 
-            result = Integrals.hypersphere01_area(m) * typeMethods.r8vec_sum(n, value)
-                     / n;
-            exact = Integrals.hypersphere01_monomial_integral(m, e);
-            error = Math.Abs(result - exact);
+            double result = Integrals.hypersphere01_area(m) * typeMethods.r8vec_sum(n, value)
+                            / n;
+            double exact = Integrals.hypersphere01_monomial_integral(m, e);
+            double error = Math.Abs(result - exact);
 
             Console.WriteLine("  " + e[0]
                                    + "  " + e[1]
@@ -150,18 +144,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] e;
-        double error;
-        double exact;
-        int i;
-        int m = 6;
-        int n = 4192;
-        double result;
-        int seed;
+        const int m = 6;
+        const int n = 4192;
         int test;
-        int test_num = 20;
-        double[] value;
-        double[] x;
+        const int test_num = 20;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02");
@@ -170,9 +156,9 @@ internal static class Program
         //
         //  Get sample points.
         //
-        seed = 123456789;
+        int seed = 123456789;
         typeMethods.r8vecNormalData data = new();
-        x = Integrals.hypersphere01_sample(m, n, ref data, ref seed);
+        double[] x = Integrals.hypersphere01_sample(m, n, ref data, ref seed);
 
         Console.WriteLine("");
         Console.WriteLine("  Number of sample points used is " + n + "");
@@ -188,29 +174,30 @@ internal static class Program
 
         for (test = 1; test <= test_num; test++)
         {
-            e = UniformRNG.i4vec_uniform_ab_new(m, 0, 3, ref seed);
+            int[] e = UniformRNG.i4vec_uniform_ab_new(m, 0, 3, ref seed);
 
+            int i;
             for (i = 0; i < m; i++)
             {
                 e[i] *= 2;
             }
 
-            value = Monomial.monomial_value(m, n, e, x);
+            double[] value = Monomial.monomial_value(m, n, e, x);
 
-            result = Integrals.hypersphere01_area(m) * typeMethods.r8vec_sum(n, value)
-                     / n;
-            exact = Integrals.hypersphere01_monomial_integral(m, e);
-            error = Math.Abs(result - exact);
+            double result = Integrals.hypersphere01_area(m) * typeMethods.r8vec_sum(n, value)
+                            / n;
+            double exact = Integrals.hypersphere01_monomial_integral(m, e);
+            double error = Math.Abs(result - exact);
 
-            Console.WriteLine("  " + e[0].ToString().PadLeft(2)
-                                   + "  " + e[1].ToString().PadLeft(2)
-                                   + "  " + e[2].ToString().PadLeft(2)
-                                   + "  " + e[3].ToString().PadLeft(2)
-                                   + "  " + e[4].ToString().PadLeft(2)
-                                   + "  " + e[5].ToString().PadLeft(2)
-                                   + "  " + result.ToString().PadLeft(14)
-                                   + "  " + exact.ToString().PadLeft(14)
-                                   + "  " + error.ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + e[0].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + e[1].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + e[2].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + e[3].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + e[4].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + e[5].ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + result.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + exact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + error.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 }

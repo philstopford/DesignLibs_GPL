@@ -79,13 +79,9 @@ internal static class Program
         };
         int i;
         int j;
-        int m = 3;
-        int n;
+        const int m = 3;
         double result;
-        int seed;
-        double[] value;
-        double[] x;
-        string cout = "";
+        string cout;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
@@ -94,7 +90,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Spatial dimension M = " + m + "");
 
-        seed = 123456789;
+        int seed = 123456789;
         typeMethods.r8vecNormalData data = new();
 
         Console.WriteLine("");
@@ -102,11 +98,11 @@ internal static class Program
                           "             Z^2             X^4            X^2Y^2          Z^4");
         Console.WriteLine("");
 
-        n = 1;
+        int n = 1;
 
         while (n <= 65536)
         {
-            x = MonteCarlo.hypersphere01_sample(m, n, ref data, ref seed);
+            double[] x = MonteCarlo.hypersphere01_sample(m, n, ref data, ref seed);
             cout = "  " + n.ToString().PadLeft(8);
             for (j = 0; j < 7; j++)
             {
@@ -115,7 +111,7 @@ internal static class Program
                     e[i] = e_test[i + j * m];
                 }
 
-                value = Monomial.monomial_value(m, n, e, x);
+                double[] value = Monomial.monomial_value(m, n, e, x);
 
                 result = MonteCarlo.hypersphere01_area(m) * typeMethods.r8vec_sum(n, value) / n;
                 cout += "  " + result.ToString("0.##########").PadLeft(14);
@@ -178,13 +174,9 @@ internal static class Program
         };
         int i;
         int j;
-        int m = 6;
-        int n;
+        const int m = 6;
         double result;
-        int seed;
-        double[] value;
-        double[] x;
-        string cout = "";
+        string cout;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02");
@@ -193,7 +185,7 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Spatial dimension M = " + m + "");
 
-        seed = 123456789;
+        int seed = 123456789;
         typeMethods.r8vecNormalData data = new();
 
         Console.WriteLine("");
@@ -207,11 +199,11 @@ internal static class Program
                           "         Z^6");
         Console.WriteLine("");
 
-        n = 1;
+        int n = 1;
 
         while (n <= 65536)
         {
-            x = MonteCarlo.hypersphere01_sample(m, n, ref data, ref seed);
+            double[] x = MonteCarlo.hypersphere01_sample(m, n, ref data, ref seed);
             cout = "  " + n.ToString().PadLeft(8);
             for (j = 0; j < 7; j++)
             {
@@ -220,7 +212,7 @@ internal static class Program
                     e[i] = e_test[i + j * m];
                 }
 
-                value = Monomial.monomial_value(m, n, e, x);
+                double[] value = Monomial.monomial_value(m, n, e, x);
 
                 result = MonteCarlo.hypersphere01_area(m) * typeMethods.r8vec_sum(n, value) / n;
                 cout += "  " + result.ToString("0.##########").PadLeft(14);

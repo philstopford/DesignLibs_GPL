@@ -37,15 +37,9 @@ internal static class Program
         //
     {
         double a;
-        double alpha;
         double b;
-        double beta;
         string filename;
-        int kind;
         int order;
-        double[] r;
-        double[] w;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("LEGENDRE_RULE");
@@ -66,8 +60,8 @@ internal static class Program
         //
         //  Initialize parameters;
         //
-        alpha = 0.0;
-        beta = 0.0;
+        double alpha = 0.0;
+        double beta = 0.0;
         //
         //  Get ORDER.
         //
@@ -135,15 +129,15 @@ internal static class Program
         //
         //  Construct the rule.
         //
-        w = new double[order];
-        x = new double[order];
+        double[] w = new double[order];
+        double[] x = new double[order];
 
-        kind = 1;
+        int kind = 1;
         CGQF.cgqf(order, kind, alpha, beta, a, b, ref x, ref w);
         //
         //  Write the rule.
         //
-        r = new double[2];
+        double[] r = new double[2];
         r[0] = a;
         r[1] = b;
 

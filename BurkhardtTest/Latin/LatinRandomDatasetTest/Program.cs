@@ -46,8 +46,6 @@ internal static class Program
     {
         int m;
         int n;
-        string output_filename;
-        double[] r;
         int seed;
 
 
@@ -111,13 +109,13 @@ internal static class Program
         //
         //  Compute the data.
         //
-        r = Random.latin_random_new(m, n, ref seed);
+        double[] r = Random.latin_random_new(m, n, ref seed);
         //
         //  Write it to a file.
         //
 
-        output_filename = "latin_random_" + m + "_"
-                          + n + ".txt";
+        string output_filename = "latin_random_" + m + "_"
+                                 + n + ".txt";
 
         typeMethods.r8mat_write(output_filename, m, n, r);
 

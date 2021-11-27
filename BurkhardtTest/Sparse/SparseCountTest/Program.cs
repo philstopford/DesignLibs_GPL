@@ -37,21 +37,16 @@ internal static class Program
 //    Volume 46, Number 5, 2008, pages 2309-2345.
 //
     {
-        int dim_max;
-        int dim_min;
-        int level_max_max;
-        int level_max_min;
-
         Console.WriteLine("");
         Console.WriteLine("SPARSE_COUNT_TEST");
         Console.WriteLine("  Test the SPARSE_COUNT library.");
 //
 //  CC_SE
 //
-        dim_min = 1;
-        dim_max = 5;
-        level_max_min = 0;
-        level_max_max = 10;
+        int dim_min = 1;
+        int dim_max = 5;
+        int level_max_min = 0;
+        int level_max_max = 10;
         test01(dim_min, dim_max, level_max_min, level_max_max);
 
         dim_min = 6;
@@ -789,7 +784,6 @@ internal static class Program
     {
         int dim_num;
         int level_max;
-        int point_num;
 
         Console.WriteLine("");
         Console.WriteLine("TEST10");
@@ -817,7 +811,7 @@ internal static class Program
             cout = "    " + level_max.ToString().PadLeft(4);
             for (dim_num = dim_min; dim_num <= dim_max; dim_num++)
             {
-                point_num = SparseCount.own_o_size(dim_num, level_max);
+                int point_num = SparseCount.own_o_size(dim_num, level_max);
                 cout += "  " + point_num.ToString().PadLeft(10);
             }
 

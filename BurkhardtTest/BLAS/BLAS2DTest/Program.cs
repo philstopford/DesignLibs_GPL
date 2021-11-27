@@ -165,12 +165,11 @@ internal static class Program
         Console.WriteLine("  DGER computes A := A + alpha * x * y'");
         Console.WriteLine("  for a general matrix A.");
 
-        int m = 5;
-        int n = 4;
-        double alpha = 2.0;
-        char trans = 'N';
-        int lda = m;
-        double[] a = BLASData.r8mat_test(trans, lda, m, n);
+        const int m = 5;
+        const int n = 4;
+        const double alpha = 2.0;
+        const char trans = 'N';
+        double[] a = BLASData.r8mat_test(trans, m, m, n);
 
         double[] x = new double[m];
         for (int i = 0; i < m; i++)
@@ -178,7 +177,7 @@ internal static class Program
             x[i] = i + 1;
         }
 
-        int incx = 1;
+        const int incx = 1;
 
         double[] y = new double[n];
         for (int i = 0; i < n; i++)
@@ -186,13 +185,13 @@ internal static class Program
             y[i] = 10 * (i + 1);
         }
 
-        int incy = 1;
+        const int incy = 1;
 
         typeMethods.r8mat_print(m, n, a, "  Matrix A:");
         typeMethods.r8vec_print(m, x, "  Vector X:");
         typeMethods.r8vec_print(n, y, "  Vector Y:");
 
-        BLAS2D.dger(m, n, alpha, x, incx, y, incy, ref a, lda);
+        BLAS2D.dger(m, n, alpha, x, incx, y, incy, ref a, m);
 
         typeMethods.r8mat_print(m, n, a, "  Result A = A + alpha * x * y");
     }
@@ -218,9 +217,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int lda = 5;
-        int m = 5;
-        int n = 5;
+        const int lda = 5;
+        const int m = 5;
+        const int n = 5;
 
         double[] a = new double[lda * n];
         double[] x = new double[n];
@@ -232,7 +231,7 @@ internal static class Program
 
         for (int test = 1; test <= 2; test++)
         {
-            char uplo = 'U';
+            const char uplo = 'U';
 
             char trans = test switch
             {
@@ -240,7 +239,7 @@ internal static class Program
                 _ => 'T'
             };
 
-            char diag = 'N';
+            const char diag = 'N';
 
             for (int j = 0; j < n; j++)
             {
@@ -255,7 +254,7 @@ internal static class Program
                 }
             }
 
-            int incx = 1;
+            const int incx = 1;
             for (int i = 0; i < n; i++)
             {
                 x[i] = i + 1;

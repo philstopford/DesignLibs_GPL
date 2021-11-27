@@ -34,37 +34,29 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
-        int n = 11;
-        double[] u;
-        string u_file;
-        double ua;
-        double ub;
-        double[] x;
-        string x_file;
+        const int n = 11;
 
         Console.WriteLine("");
         Console.WriteLine("PROBLEM1:");
         Console.WriteLine("  A test problem for FD1D_HEAT_STEADY.");
 
-        a = 0.0;
-        b = 1.0;
+        const double a = 0.0;
+        const double b = 1.0;
 
-        x = typeMethods.r8vec_even(n, a, b);
+        double[] x = typeMethods.r8vec_even(n, a, b);
 
-        ua = 0.0;
-        ub = 1.0;
+        const double ua = 0.0;
+        const double ub = 1.0;
 
-        u = FD1D_Heat_Steady.fd1d_heat_steady(n, a, b, ua, ub, k1, f1, x);
+        double[] u = FD1D_Heat_Steady.fd1d_heat_steady(n, a, b, ua, ub, k1, f1, x);
 
-        x_file = "problem1_nodes.txt";
+        const string x_file = "problem1_nodes.txt";
         typeMethods.r8mat_write(x_file, 1, n, x);
 
         Console.WriteLine("");
         Console.WriteLine("  X data written to \"" + x_file + "\".");
 
-        u_file = "problem1_values.txt";
+        const string u_file = "problem1_values.txt";
         typeMethods.r8mat_write(u_file, 1, n, u);
 
         Console.WriteLine("  U data written to \"" + u_file + "\".");
@@ -104,7 +96,7 @@ internal static class Program
         //    Output, double K1, the value of K(X).
         //
     {
-        double value = 1.0;
+        const double value = 1.0;
 
         return value;
     }
@@ -136,7 +128,7 @@ internal static class Program
         //    Output, double F1, the value of F(X).
         //
     {
-        double value = 0.0;
+        const double value = 0.0;
 
         return value;
     }
@@ -161,15 +153,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
-        int n = 11;
-        double[] u;
-        string u_file;
-        double ua;
-        double ub;
-        double[] x;
-        string x_file;
+        const int n = 11;
 
         Console.WriteLine("");
         Console.WriteLine("PROBLEM2:");
@@ -177,23 +161,23 @@ internal static class Program
         Console.WriteLine("  A test problem for FD1D_HEAT_STEADY.");
         Console.WriteLine("  Low K, then high K, then moderate K.");
 
-        a = 0.0;
-        b = 1.0;
+        const double a = 0.0;
+        const double b = 1.0;
 
-        x = typeMethods.r8vec_even(n, a, b);
+        double[] x = typeMethods.r8vec_even(n, a, b);
 
-        ua = 0.0;
-        ub = 1.0;
+        const double ua = 0.0;
+        const double ub = 1.0;
 
-        u = FD1D_Heat_Steady.fd1d_heat_steady(n, a, b, ua, ub, k2, f2, x);
+        double[] u = FD1D_Heat_Steady.fd1d_heat_steady(n, a, b, ua, ub, k2, f2, x);
 
-        x_file = "problem2_nodes.txt";
+        const string x_file = "problem2_nodes.txt";
         typeMethods.r8mat_write(x_file, 1, n, x);
 
         Console.WriteLine("");
         Console.WriteLine("  X data written to \"" + x_file + "\".");
 
-        u_file = "problem2_values.txt";
+        const string u_file = "problem2_values.txt";
         typeMethods.r8mat_write(u_file, 1, n, u);
 
         Console.WriteLine("  U data written to \"" + u_file + "\".");
@@ -270,7 +254,7 @@ internal static class Program
         //    Output, double F2, the value of F(X).
         //
     {
-        double value = 0.0;
+        const double value = 0.0;
 
         return value;
     }
@@ -295,15 +279,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
-        int n = 21;
-        double[] u;
-        string u_file;
-        double ua;
-        double ub;
-        double[] x;
-        string x_file;
+        const int n = 21;
 
         Console.WriteLine("");
         Console.WriteLine("PROBLEM3:");
@@ -311,23 +287,23 @@ internal static class Program
         Console.WriteLine("  A test problem for FD1D_HEAT_STEADY.");
         Console.WriteLine("  Interior source term.");
 
-        a = 0.0;
-        b = 1.0;
+        const double a = 0.0;
+        const double b = 1.0;
 
-        x = typeMethods.r8vec_even(n, a, b);
+        double[] x = typeMethods.r8vec_even(n, a, b);
 
-        ua = 0.0;
-        ub = 100.0;
+        const double ua = 0.0;
+        const double ub = 100.0;
 
-        u = FD1D_Heat_Steady.fd1d_heat_steady(n, a, b, ua, ub, k3, f3, x);
+        double[] u = FD1D_Heat_Steady.fd1d_heat_steady(n, a, b, ua, ub, k3, f3, x);
 
-        x_file = "problem3_nodes.txt";
+        const string x_file = "problem3_nodes.txt";
         typeMethods.r8mat_write(x_file, 1, n, x);
 
         Console.WriteLine("");
         Console.WriteLine("  X data written to \"" + x_file + "\".");
 
-        u_file = "problem3_values.txt";
+        const string u_file = "problem3_values.txt";
         typeMethods.r8mat_write(u_file, 1, n, u);
 
         Console.WriteLine("  U data written to \"" + u_file + "\".");
@@ -367,7 +343,7 @@ internal static class Program
         //    Output, double K3, the value of K(X).
         //
     {
-        double value = 1.0;
+        const double value = 1.0;
 
         return value;
     }
@@ -429,38 +405,30 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
-        int n = 21;
-        double[] u;
-        string u_file;
-        double ua;
-        double ub;
-        double[] x;
-        string x_file;
+        const int n = 21;
 
         Console.WriteLine("");
         Console.WriteLine("PROBLEM4:");
         Console.WriteLine("  A test problem for FD1D_HEAT_STEADY.");
         Console.WriteLine("  A heat source and a heat sink.");
 
-        a = 0.0;
-        b = 1.0;
+        const double a = 0.0;
+        const double b = 1.0;
 
-        x = typeMethods.r8vec_even(n, a, b);
+        double[] x = typeMethods.r8vec_even(n, a, b);
 
-        ua = 0.0;
-        ub = 1.0;
+        const double ua = 0.0;
+        const double ub = 1.0;
 
-        u = FD1D_Heat_Steady.fd1d_heat_steady(n, a, b, ua, ub, k4, f4, x);
+        double[] u = FD1D_Heat_Steady.fd1d_heat_steady(n, a, b, ua, ub, k4, f4, x);
 
-        x_file = "problem4_nodes.txt";
+        const string x_file = "problem4_nodes.txt";
         typeMethods.r8mat_write(x_file, 1, n, x);
 
         Console.WriteLine("");
         Console.WriteLine("  X data written to \"" + x_file + "\".");
 
-        u_file = "problem4_values.txt";
+        const string u_file = "problem4_values.txt";
         typeMethods.r8mat_write(u_file, 1, n, u);
 
         Console.WriteLine("  U data written to \"" + u_file + "\".");
@@ -500,7 +468,7 @@ internal static class Program
         //    Output, double K4, the value of K(X).
         //
     {
-        double value = 1.0;
+        const double value = 1.0;
 
         return value;
     }

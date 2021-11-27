@@ -89,42 +89,32 @@ internal static class Program
         //    coordinates of the quadrature points in each element.
         */
     {
-        int NNODES = 6;
-        int NQ = 3;
-        int NX = 7;
-        int NY = 7;
-        int ELEMENT_NUM = (NX - 1) * (NY - 1) * 2;
-        int NODE_NUM = (2 * NX - 1) * (2 * NY - 1);
+        const int NNODES = 6;
+        const int NQ = 3;
+        const int NX = 7;
+        const int NY = 7;
+        const int ELEMENT_NUM = (NX - 1) * (NY - 1) * 2;
+        const int NODE_NUM = (2 * NX - 1) * (2 * NY - 1);
 
-        double[] a;
-        double[] c;
         double eh1 = 0;
         double el2 = 0;
         double[] element_area = new double[ELEMENT_NUM];
         int[] element_node = new int[NNODES * ELEMENT_NUM];
-        double[] f;
-        int ib;
-        int ierr;
         int[] indx = new int[NODE_NUM];
-        int job;
-        string node_eps_file_name = "fem2d_poisson_rectangle_nodes.eps";
-        string node_txt_file_name = "fem2d_poisson_rectangle_nodes.txt";
-        bool node_label;
-        int node_show;
+        const string node_eps_file_name = "fem2d_poisson_rectangle_nodes.eps";
+        const string node_txt_file_name = "fem2d_poisson_rectangle_nodes.txt";
         double[] node_xy = new double[2 * NODE_NUM];
         int nunk = 0;
-        int[] pivot;
-        string solution_txt_file_name = "fem2d_poisson_rectangle_solution.txt";
-        int triangle_show;
-        string triangulation_eps_file_name = "fem2d_poisson_rectangle_elements.eps";
-        string triangulation_txt_file_name = "fem2d_poisson_rectangle_elements.txt";
+        const string solution_txt_file_name = "fem2d_poisson_rectangle_solution.txt";
+        const string triangulation_eps_file_name = "fem2d_poisson_rectangle_elements.eps";
+        const string triangulation_txt_file_name = "fem2d_poisson_rectangle_elements.txt";
         double[] wq = new double[NQ];
-        double xl = 0.0E+00;
+        const double xl = 0.0E+00;
         double[] xq = new double[NQ * ELEMENT_NUM];
-        double xr = 1.0E+00;
-        double yb = 0.0E+00;
+        const double xr = 1.0E+00;
+        const double yb = 0.0E+00;
         double[] yq = new double[NQ * ELEMENT_NUM];
-        double yt = 1.0E+00;
+        const double yt = 1.0E+00;
 
         Console.WriteLine("");
         Console.WriteLine("FEM2D_POISSON_RECTANGLE:");
@@ -175,7 +165,7 @@ internal static class Program
         //
         //  Determine the bandwidth of the coefficient matrix.
         //
-        ib = Matrix.bandwidth(NNODES, ELEMENT_NUM, element_node, NODE_NUM, indx);
+        int ib = Matrix.bandwidth(NNODES, ELEMENT_NUM, element_node, NODE_NUM, indx);
 
         Console.WriteLine("");
         Console.WriteLine("  Total bandwidth is " + 3 * ib + 1 + "");
@@ -185,7 +175,7 @@ internal static class Program
             //  Make an EPS picture of the nodes.
             //
             case <= 10 when NY <= 10:
-                node_label = true;
+                bool node_label = true;
                 typeMethods.nodes_plot(node_eps_file_name, NODE_NUM, node_xy, node_label);
 
                 Console.WriteLine("");
@@ -214,8 +204,8 @@ internal static class Program
             //  Make a picture of the elements.
             //
             case <= 10 when NY <= 10:
-                node_show = 1;
-                triangle_show = 2;
+                int node_show = 1;
+                int triangle_show = 2;
 
                 Plot.triangulation_order6_plot(triangulation_eps_file_name, NODE_NUM,
                     node_xy, ELEMENT_NUM, element_node, node_show, triangle_show);
@@ -244,9 +234,9 @@ internal static class Program
         //
         //  Allocate space for the coefficient matrix A and right hand side F.
         //
-        a = new double[(3 * ib + 1) * nunk];
-        f = new double[nunk];
-        pivot = new int[nunk];
+        double[] a = new double[(3 * ib + 1) * nunk];
+        double[] f = new double[nunk];
+        int[] pivot = new int[nunk];
         //
         //  Assemble the coefficient matrix A and the right-hand side F of the
         //  finite element equations.
@@ -276,7 +266,7 @@ internal static class Program
         //
         //  Solve the linear system using a banded solver.
         //
-        ierr = Matrix.dgb_fa(nunk, ib, ib, ref a, ref pivot);
+        int ierr = Matrix.dgb_fa(nunk, ib, ib, ref a, ref pivot);
 
         if (ierr != 0)
         {
@@ -289,8 +279,8 @@ internal static class Program
             return;
         }
 
-        job = 0;
-        c = Matrix.dgb_sl(nunk, ib, ib, a, pivot, f, job);
+        int job = 0;
+        double[] c = Matrix.dgb_sl(nunk, ib, ib, a, pivot, f, job);
 
         typeMethods.r8vec_print_some(nunk, c, 10, "  Part of the solution vector:");
         //

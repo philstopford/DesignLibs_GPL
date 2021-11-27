@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Composition;
 using Burkardt.Quadrature;
 using Burkardt.Sparse;
@@ -40,23 +41,16 @@ internal static class Program
         //    Volume 46, Number 5, 2008, pages 2309-2345.
         //
     {
-        int dim_max;
-        int dim_min;
-        int dim_num;
-        int level_max;
-        int level_max_max;
-        int level_max_min;
-
         Console.WriteLine("");
         Console.WriteLine("SPARSE_GRID_CC_TEST");
         Console.WriteLine("  Test the SPARSE_GRID_CC library.");
         //
         //  Count number of points in sparse rule from DIM_MIN to DIM_MAX, LEVEL_MAX_MAX.
         //
-        dim_min = 1;
-        dim_max = 5;
-        level_max_min = 0;
-        level_max_max = 10;
+        int dim_min = 1;
+        int dim_max = 5;
+        int level_max_min = 0;
+        int level_max_max = 10;
         test01(dim_min, dim_max, level_max_min, level_max_max);
 
         Console.WriteLine("");
@@ -142,8 +136,8 @@ internal static class Program
         //
         //  Show how to write a rule to a file.
         //
-        dim_num = 2;
-        level_max = 3;
+        int dim_num = 2;
+        int level_max = 3;
 
         test06(dim_num, level_max);
 
@@ -186,7 +180,6 @@ internal static class Program
     {
         int dim_num;
         int level_max;
-        int point_num;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
@@ -199,7 +192,7 @@ internal static class Program
         string cout = "   DIM: ";
         for (dim_num = dim_min; dim_num <= dim_max; dim_num++)
         {
-            cout += "  " + dim_num.ToString().PadLeft(8);
+            cout += "  " + dim_num.ToString(CultureInfo.InvariantCulture).PadLeft(8);
         }
 
         Console.WriteLine(cout);
@@ -209,11 +202,11 @@ internal static class Program
 
         for (level_max = level_max_min; level_max <= level_max_max; level_max++)
         {
-            cout = "    " + level_max.ToString().PadLeft(4);
+            cout = "    " + level_max.ToString(CultureInfo.InvariantCulture).PadLeft(4);
             for (dim_num = dim_min; dim_num <= dim_max; dim_num++)
             {
-                point_num = Grid_ClenshawCurtis.sparse_grid_cfn_size(dim_num, level_max);
-                cout += "  " + point_num.ToString().PadLeft(8);
+                int point_num = Grid_ClenshawCurtis.sparse_grid_cfn_size(dim_num, level_max);
+                cout += "  " + point_num.ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
 
             Console.WriteLine(cout);
@@ -253,7 +246,6 @@ internal static class Program
     {
         int dim_num;
         int level_max;
-        int point_num;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
@@ -266,7 +258,7 @@ internal static class Program
         string cout = "   DIM: ";
         for (dim_num = dim_min; dim_num <= dim_max; dim_num++)
         {
-            cout += "  " + dim_num.ToString().PadLeft(8);
+            cout += "  " + dim_num.ToString(CultureInfo.InvariantCulture).PadLeft(8);
         }
 
         Console.WriteLine(cout);
@@ -276,11 +268,11 @@ internal static class Program
 
         for (level_max = level_max_min; level_max <= level_max_max; level_max++)
         {
-            cout = "    " + level_max.ToString().PadLeft(4);
+            cout = "    " + level_max.ToString(CultureInfo.InvariantCulture).PadLeft(4);
             for (dim_num = dim_min; dim_num <= dim_max; dim_num++)
             {
-                point_num = Grid_ClenshawCurtis.sparse_grid_ccs_size(dim_num, level_max);
-                cout += "  " + point_num.ToString().PadLeft(8);
+                int point_num = Grid_ClenshawCurtis.sparse_grid_ccs_size(dim_num, level_max);
+                cout += "  " + point_num.ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
 
             Console.WriteLine(cout);
@@ -322,10 +314,7 @@ internal static class Program
         //    Input, int LEVEL_MAX, the level.
         //
     {
-        int dim;
-        int[] grid_index;
         int point;
-        int point_num;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02:");
@@ -339,14 +328,14 @@ internal static class Program
         Console.WriteLine("  LEVEL_MAX = " + level_max + "");
         Console.WriteLine("  Spatial dimension DIM_NUM = " + dim_num + "");
 
-        point_num = Grid_ClenshawCurtis.sparse_grid_cfn_size(dim_num, level_max);
+        int point_num = Grid_ClenshawCurtis.sparse_grid_cfn_size(dim_num, level_max);
 
         Console.WriteLine("");
         Console.WriteLine("  Number of unique points in the grid = " + point_num + "");
         //
         //  Compute the orders and points.
         //
-        grid_index = Grid_ClenshawCurtis.sparse_grid_cc_index(dim_num, level_max, point_num);
+        int[] grid_index = Grid_ClenshawCurtis.sparse_grid_cc_index(dim_num, level_max, point_num);
         //
         //  Now we're done.  Print the merged grid data.
         //
@@ -355,10 +344,11 @@ internal static class Program
         Console.WriteLine("");
         for (point = 0; point < point_num; point++)
         {
-            string cout = "  " + point.ToString().PadLeft(4) + "  ";
+            string cout = "  " + point.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
+            int dim;
             for (dim = 0; dim < dim_num; dim++)
             {
-                cout += grid_index[dim + point * dim_num].ToString().PadLeft(6);
+                cout += grid_index[dim + point * dim_num].ToString(CultureInfo.InvariantCulture).PadLeft(6);
             }
 
             Console.WriteLine(cout);
@@ -392,11 +382,7 @@ internal static class Program
         //    Input, int LEVEL_MAX, the level.
         //
     {
-        int dim;
-        double[] grid_point;
-        double[] grid_weight;
         int point;
-        int point_num;
 
         Console.WriteLine("");
         Console.WriteLine("TEST03:");
@@ -407,15 +393,15 @@ internal static class Program
         //
         //  Determine the number of points.
         //
-        point_num = Grid_ClenshawCurtis.sparse_grid_cfn_size(dim_num, level_max);
+        int point_num = Grid_ClenshawCurtis.sparse_grid_cfn_size(dim_num, level_max);
 
         Console.WriteLine("");
         Console.WriteLine("  Number of unique points in the grid = " + point_num + "");
         //
         //  Allocate space for the weights and points.
         //
-        grid_weight = new double[point_num];
-        grid_point = new double[dim_num * point_num];
+        double[] grid_weight = new double[point_num];
+        double[] grid_point = new double[dim_num * point_num];
         //
         //  Compute the weights and points.
         //
@@ -428,8 +414,8 @@ internal static class Program
         Console.WriteLine("");
         for (point = 0; point < point_num; point++)
         {
-            Console.WriteLine("  " + point.ToString().PadLeft(4)
-                                   + " " + grid_weight[point].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + point.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + " " + grid_weight[point].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         Console.WriteLine("");
@@ -437,10 +423,11 @@ internal static class Program
         Console.WriteLine("");
         for (point = 0; point < point_num; point++)
         {
-            string cout = "  " + point.ToString().PadLeft(4);
+            string cout = "  " + point.ToString(CultureInfo.InvariantCulture).PadLeft(4);
+            int dim;
             for (dim = 0; dim < dim_num; dim++)
             {
-                cout += " " + grid_point[dim + point * dim_num].ToString().PadLeft(10);
+                cout += " " + grid_point[dim + point * dim_num].ToString(CultureInfo.InvariantCulture).PadLeft(10);
             }
 
             Console.WriteLine(cout);
@@ -480,13 +467,7 @@ internal static class Program
         //    Input, int LEVEL_MAX, the level.
         //
     {
-        double[] grid_point;
-        double[] grid_weight;
         int point;
-        int point_num;
-        double weight_sum;
-        double weight_sum_error;
-        double weight_sum_exact;
 
         Console.WriteLine("");
         Console.WriteLine("TEST04:");
@@ -500,15 +481,15 @@ internal static class Program
         //
         //  Determine the number of points.
         //
-        point_num = Grid_ClenshawCurtis.sparse_grid_cfn_size(dim_num, level_max);
+        int point_num = Grid_ClenshawCurtis.sparse_grid_cfn_size(dim_num, level_max);
 
         Console.WriteLine("");
         Console.WriteLine("  Number of unique points in the grid = " + point_num + "");
         //
         //  Allocate space for the weights and points.
         //
-        grid_weight = new double[point_num];
-        grid_point = new double[dim_num * point_num];
+        double[] grid_weight = new double[point_num];
+        double[] grid_point = new double[dim_num * point_num];
         //
         //  Compute the weights and points.
         //
@@ -516,22 +497,22 @@ internal static class Program
         //
         //  Sum the weights.
         //
-        weight_sum = 0.0;
+        double weight_sum = 0.0;
         for (point = 0; point < point_num; point++)
         {
             weight_sum += grid_weight[point];
         }
 
-        weight_sum_exact = Math.Pow(2.0, dim_num);
+        double weight_sum_exact = Math.Pow(2.0, dim_num);
 
-        weight_sum_error = Math.Abs(weight_sum - weight_sum_exact);
+        double weight_sum_error = Math.Abs(weight_sum - weight_sum_exact);
 
         Console.WriteLine("");
         Console.WriteLine("    Weight sum     Exact sum    Difference");
         Console.WriteLine("");
-        Console.WriteLine("  " + weight_sum.ToString().PadLeft(12)
-                               + "  " + weight_sum_exact.ToString().PadLeft(12)
-                               + "  " + weight_sum_error.ToString().PadLeft(12) + "");
+        Console.WriteLine("  " + weight_sum.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                               + "  " + weight_sum_exact.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                               + "  " + weight_sum_error.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
 
     }
 
@@ -577,16 +558,9 @@ internal static class Program
     {
         int degree;
         int dim;
-        int[] expon;
-        double[] grid_point;
-        double[] grid_weight;
         int h = 0;
-        bool more;
         int point;
-        int point_num;
-        double quad_error;
         int t = 0;
-        double volume;
 
         Console.WriteLine("");
         Console.WriteLine("TEST05");
@@ -603,15 +577,15 @@ internal static class Program
         //
         //  Determine the number of points in the rule.
         //
-        point_num = Grid_ClenshawCurtis.sparse_grid_cfn_size(dim_num, level_max);
+        int point_num = Grid_ClenshawCurtis.sparse_grid_cfn_size(dim_num, level_max);
 
         Console.WriteLine("");
         Console.WriteLine("  Number of unique points in the grid = " + point_num + "");
         //
         //  Allocate space for the weights and points.
         //
-        grid_weight = new double[point_num];
-        grid_point = new double[dim_num * point_num];
+        double[] grid_weight = new double[point_num];
+        double[] grid_point = new double[dim_num * point_num];
         //
         //  Compute the weights and points.
         //
@@ -620,7 +594,7 @@ internal static class Program
         //
         //  Rescale the weights, and translate the abscissas.
         //
-        volume = Math.Pow(2.0, dim_num);
+        double volume = Math.Pow(2.0, dim_num);
 
         for (point = 0; point < point_num; point++)
         {
@@ -639,7 +613,7 @@ internal static class Program
         //
         //  Explore the monomials.
         //
-        expon = new int[dim_num];
+        int[] expon = new int[dim_num];
 
         Console.WriteLine("");
         Console.WriteLine("      Error      Total   Monomial");
@@ -648,22 +622,22 @@ internal static class Program
 
         for (degree = 0; degree <= degree_max; degree++)
         {
-            more = false;
+            bool more = false;
 
             for (;;)
             {
                 Comp.comp_next(degree, dim_num, ref expon, ref more, ref h, ref t);
 
-                quad_error = MonomialQuadrature.monomial_quadrature(dim_num, expon, point_num,
+                double quad_error = MonomialQuadrature.monomial_quadrature(dim_num, expon, point_num,
                     grid_weight, grid_point);
 
-                string cout = "  " + quad_error.ToString().PadLeft(12)
-                                   + "     " + degree.ToString().PadLeft(2)
+                string cout = "  " + quad_error.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "     " + degree.ToString(CultureInfo.InvariantCulture).PadLeft(2)
                                    + "      ";
 
                 for (dim = 0; dim < dim_num; dim++)
                 {
-                    cout += expon[dim].ToString().PadLeft(2);
+                    cout += expon[dim].ToString(CultureInfo.InvariantCulture).PadLeft(2);
                 }
 
                 Console.WriteLine(cout);
@@ -707,13 +681,6 @@ internal static class Program
         //
     {
         int dim;
-        int point_num;
-        double[] r;
-        string r_filename;
-        double[] w;
-        string w_filename;
-        double[] x;
-        string x_filename;
 
         Console.WriteLine("");
         Console.WriteLine("TEST06:");
@@ -726,13 +693,13 @@ internal static class Program
         //
         //  Determine the number of points.
         //
-        point_num = Grid_ClenshawCurtis.sparse_grid_cfn_size(dim_num, level_max);
+        int point_num = Grid_ClenshawCurtis.sparse_grid_cfn_size(dim_num, level_max);
         //
         //  Allocate space for the weights and points.
         //
-        r = new double[dim_num * 2];
-        w = new double[point_num];
-        x = new double[dim_num * point_num];
+        double[] r = new double[dim_num * 2];
+        double[] w = new double[point_num];
+        double[] x = new double[dim_num * point_num];
         //
         //  Compute the weights and points.
         //
@@ -746,12 +713,12 @@ internal static class Program
         //
         //  Write the data out.
         //
-        r_filename = "cc_d" + dim_num + "_level"
-                     + level_max + "_r.txt";
-        w_filename = "cc_d" + dim_num + "_level"
-                     + level_max + "_w.txt";
-        x_filename = "cc_d" + dim_num + "_level"
-                     + level_max + "_x.txt";
+        string r_filename = "cc_d" + dim_num + "_level"
+                            + level_max + "_r.txt";
+        string w_filename = "cc_d" + dim_num + "_level"
+                            + level_max + "_w.txt";
+        string x_filename = "cc_d" + dim_num + "_level"
+                            + level_max + "_x.txt";
 
         typeMethods.r8mat_write(r_filename, dim_num, 2, r);
         typeMethods.r8mat_write(w_filename, 1, point_num, w);

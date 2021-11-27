@@ -64,22 +64,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double cfl;
-        double dt;
-        double[] h;
-        double[] h_new;
-        double[] hmat;
         int i;
-        int j;
-        double k;
-        double[] t;
-        double t_max;
-        double t_min;
-        int t_num;
-        double[] x;
-        double x_max;
-        double x_min;
-        int x_num;
 
         Console.WriteLine("");
         Console.WriteLine("FD1D_HEAT_EXPLICIT_TEST01:");
@@ -92,36 +77,36 @@ internal static class Program
         //
         //  Heat coefficient.
         //
-        k = 0.002;
+        const double k = 0.002;
         //
         //  X_NUM is the number of equally spaced nodes to use between 0 and 1.
         //
-        x_num = 21;
-        x_min = 0.0;
-        x_max = 1.0;
-        x = typeMethods.r8vec_linspace_new(x_num, x_min, x_max);
+        const int x_num = 21;
+        const double x_min = 0.0;
+        const double x_max = 1.0;
+        double[] x = typeMethods.r8vec_linspace_new(x_num, x_min, x_max);
         //
         //  T_NUM is the number of equally spaced time points between 0 and 10.0.
         //
-        t_num = 201;
-        t_min = 0.0;
-        t_max = 80.0;
-        dt = (t_max - t_min) / (t_num - 1);
-        t = typeMethods.r8vec_linspace_new(t_num, t_min, t_max);
+        const int t_num = 201;
+        const double t_min = 0.0;
+        const double t_max = 80.0;
+        double dt = (t_max - t_min) / (t_num - 1);
+        double[] t = typeMethods.r8vec_linspace_new(t_num, t_min, t_max);
         //
         //  Get the CFL coefficient.
         //
-        cfl = FD1D_Heat_Explicit.fd1d_heat_explicit_cfl(k, t_num, t_min, t_max, x_num, x_min, x_max);
+        double cfl = FD1D_Heat_Explicit.fd1d_heat_explicit_cfl(k, t_num, t_min, t_max, x_num, x_min, x_max);
         //
         //  Running the code produces an array H of temperatures H(t,x),
         //  and vectors x and t.
         //
-        h = ic_test01(x_num, x, t[0]);
+        double[] h = ic_test01(x_num, x, t[0]);
         bc_test01(x_num, x, t[0], h);
 
-        hmat = new double[x_num * t_num];
+        double[] hmat = new double[x_num * t_num];
 
-        j = 0;
+        int j = 0;
         for (i = 0; i < x_num; i++)
         {
             hmat[i + j * x_num] = h[i];
@@ -129,7 +114,7 @@ internal static class Program
 
         for (j = 1; j < t_num; j++)
         {
-            h_new = FD1D_Heat_Explicit.fd1d_heat_explicit(x_num, x, t[j - 1], dt, cfl, rhs_test01, bc_test01, h);
+            double[] h_new = FD1D_Heat_Explicit.fd1d_heat_explicit(x_num, x, t[j - 1], dt, cfl, rhs_test01, bc_test01, h);
 
             for (i = 0; i < x_num; i++)
             {
@@ -218,9 +203,8 @@ internal static class Program
         //
     {
         int j;
-        double[] h;
 
-        h = new double[x_num];
+        double[] h = new double[x_num];
 
         for (j = 0; j < x_num; j++)
         {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.ClenshawCurtisNS;
 using Burkardt.Composition;
 using Burkardt.IntegralNS;
@@ -101,15 +102,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int d;
-        double e;
-        double exact;
-        double[] fx;
         int l;
-        int n;
-        double q;
-        double[] w;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("CCL_TEST:");
@@ -119,28 +112,28 @@ internal static class Program
         Console.WriteLine("   Level   Nodes    Estimate  Error");
         Console.WriteLine("");
 
-        d = 1;
-        exact = Integral.fu_integral(d);
+        const int d = 1;
+        double exact = Integral.fu_integral(d);
 
         for (l = 1; l <= 5; l++)
         {
-            n = ClenshawCurtis.ccl_order(l);
+            int n = ClenshawCurtis.ccl_order(l);
 
-            x = new double[n];
-            w = new double[n];
+            double[] x = new double[n];
+            double[] w = new double[n];
 
             ClenshawCurtis.cc(n, x, w);
 
-            fx = Integral.fu_value(d, n, x);
+            double[] fx = Integral.fu_value(d, n, x);
 
-            q = typeMethods.r8vec_dot_product(n, w, fx);
+            double q = typeMethods.r8vec_dot_product(n, w, fx);
 
-            e = Math.Abs(q - exact) / exact;
+            double e = Math.Abs(q - exact) / exact;
 
-            Console.WriteLine("  " + l.ToString().PadLeft(2)
-                                   + "  " + n.ToString().PadLeft(6)
-                                   + "  " + q.ToString().PadLeft(14)
-                                   + "  " + e.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + l.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + e.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
         }
     }
@@ -172,27 +165,13 @@ internal static class Program
         //    Local, int MAXK, the maximum level to check.
         //
     {
-        int d;
-        double error_mc;
-        double error_sg;
-        double estimate;
-        double[] fx;
         int k;
-        int maxk;
-        int n;
         int n2 = 0;
-        int r;
-        double[] s;
-        int s_num;
-        int seed;
-        double trueval;
-        double[] w;
-        double[] x;
 
-        d = 10;
-        maxk = 7;
+        const int d = 10;
+        const int maxk = 7;
 
-        trueval = Integral.fu_integral(d);
+        double trueval = Integral.fu_integral(d);
 
         Console.WriteLine("");
         Console.WriteLine("CCL_SPARSE_TEST:");
@@ -207,22 +186,23 @@ internal static class Program
             //
             //  Compute sparse grid estimate.
             //
-            n = Grid_NodesWeights.nwspgr_size(ClenshawCurtis.ccl_order, d, k);
+            int n = Grid_NodesWeights.nwspgr_size(ClenshawCurtis.ccl_order, d, k);
 
-            x = new double[d * n];
-            w = new double[n];
+            double[] x = new double[d * n];
+            double[] w = new double[n];
 
             Grid_NodesWeights.nwspgr(ClenshawCurtis.cc, ClenshawCurtis.ccl_order, d, k, n, ref n2, ref x, ref w);
 
-            fx = Integral.fu_value(d, n2, x);
-            estimate = typeMethods.r8vec_dot_product(n2, w, fx);
-            error_sg = Math.Abs((estimate - trueval) / trueval);
+            double[] fx = Integral.fu_value(d, n2, x);
+            double estimate = typeMethods.r8vec_dot_product(n2, w, fx);
+            double error_sg = Math.Abs((estimate - trueval) / trueval);
             //
             //  Compute 1000 Monte Carlo estimates with same number of points, and average.
             //
-            s_num = 1000;
-            s = new double[s_num];
-            seed = 123456789;
+            const int s_num = 1000;
+            double[] s = new double[s_num];
+            int seed = 123456789;
+            int r;
             for (r = 0; r < 1000; r++)
             {
                 x = UniformRNG.r8mat_uniform_01_new(d, n2, ref seed);
@@ -230,7 +210,7 @@ internal static class Program
                 s[r] = typeMethods.r8vec_sum(n2, fx) / n2;
             }
 
-            error_mc = 0.0;
+            double error_mc = 0.0;
             for (r = 0; r < s_num; r++)
             {
                 error_mc += Math.Pow(s[r] - trueval, 2);
@@ -238,11 +218,11 @@ internal static class Program
 
             error_mc = Math.Sqrt(error_mc / s_num) / trueval;
 
-            Console.WriteLine("  " + d.ToString().PadLeft(2)
-                                   + "  " + k.ToString().PadLeft(5)
-                                   + "  " + n2.ToString().PadLeft(6)
-                                   + "  " + error_sg.ToString().PadLeft(10)
-                                   + "  " + error_mc.ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + d.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(5)
+                                   + "  " + n2.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + error_sg.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + error_mc.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
         }
     }
@@ -268,15 +248,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int d;
-        double e;
-        double exact;
-        double[] fx;
         int l;
-        int n;
-        double q;
-        double[] w;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("CCS_TEST:");
@@ -286,28 +258,28 @@ internal static class Program
         Console.WriteLine("   Level   Nodes    Estimate  Error");
         Console.WriteLine("");
 
-        d = 1;
-        exact = Integral.fu_integral(d);
+        const int d = 1;
+        double exact = Integral.fu_integral(d);
 
         for (l = 1; l <= 5; l++)
         {
-            n = ClenshawCurtis.ccs_order(l);
+            int n = ClenshawCurtis.ccs_order(l);
 
-            x = new double[n];
-            w = new double[n];
+            double[] x = new double[n];
+            double[] w = new double[n];
 
             ClenshawCurtis.cc(n, x, w);
 
-            fx = Integral.fu_value(d, n, x);
+            double[] fx = Integral.fu_value(d, n, x);
 
-            q = typeMethods.r8vec_dot_product(n, w, fx);
+            double q = typeMethods.r8vec_dot_product(n, w, fx);
 
-            e = Math.Abs(q - exact) / exact;
+            double e = Math.Abs(q - exact) / exact;
 
-            Console.WriteLine("  " + l.ToString().PadLeft(2)
-                                   + "  " + n.ToString().PadLeft(6)
-                                   + "  " + q.ToString().PadLeft(14)
-                                   + "  " + e.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + l.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + e.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
         }
     }
@@ -339,27 +311,13 @@ internal static class Program
         //    Local, int MAXK, the maximum level to check.
         //
     {
-        int d;
-        double error_mc;
-        double error_sg;
-        double estimate;
-        double[] fx;
         int k;
-        int maxk;
-        int n;
         int n2 = 0;
-        int r;
-        double[] s;
-        int s_num;
-        int seed;
-        double trueval;
-        double[] w;
-        double[] x;
 
-        d = 10;
-        maxk = 7;
+        const int d = 10;
+        const int maxk = 7;
 
-        trueval = Integral.fu_integral(d);
+        double trueval = Integral.fu_integral(d);
 
         Console.WriteLine("");
         Console.WriteLine("CCS_SPARSE_TEST:");
@@ -374,22 +332,23 @@ internal static class Program
             //
             //  Compute sparse grid estimate.
             //
-            n = Grid_NodesWeights.nwspgr_size(ClenshawCurtis.ccs_order, d, k);
+            int n = Grid_NodesWeights.nwspgr_size(ClenshawCurtis.ccs_order, d, k);
 
-            x = new double[d * n];
-            w = new double[n];
+            double[] x = new double[d * n];
+            double[] w = new double[n];
 
             Grid_NodesWeights.nwspgr(ClenshawCurtis.cc, ClenshawCurtis.ccs_order, d, k, n, ref n2, ref x, ref w);
 
-            fx = Integral.fu_value(d, n2, x);
-            estimate = typeMethods.r8vec_dot_product(n2, w, fx);
-            error_sg = Math.Abs((estimate - trueval) / trueval);
+            double[] fx = Integral.fu_value(d, n2, x);
+            double estimate = typeMethods.r8vec_dot_product(n2, w, fx);
+            double error_sg = Math.Abs((estimate - trueval) / trueval);
             //
             //  Compute 1000 Monte Carlo estimates with same number of points, and average.
             //
-            s_num = 1000;
-            s = new double[s_num];
-            seed = 123456789;
+            const int s_num = 1000;
+            double[] s = new double[s_num];
+            int seed = 123456789;
+            int r;
             for (r = 0; r < 1000; r++)
             {
                 x = UniformRNG.r8mat_uniform_01_new(d, n2, ref seed);
@@ -397,7 +356,7 @@ internal static class Program
                 s[r] = typeMethods.r8vec_sum(n2, fx) / n2;
             }
 
-            error_mc = 0.0;
+            double error_mc = 0.0;
             for (r = 0; r < s_num; r++)
             {
                 error_mc += Math.Pow(s[r] - trueval, 2);
@@ -405,11 +364,11 @@ internal static class Program
 
             error_mc = Math.Sqrt(error_mc / s_num) / trueval;
 
-            Console.WriteLine("  " + d.ToString().PadLeft(2)
-                                   + "  " + k.ToString().PadLeft(5)
-                                   + "  " + n2.ToString().PadLeft(6)
-                                   + "  " + error_sg.ToString().PadLeft(10)
-                                   + "  " + error_mc.ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + d.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(5)
+                                   + "  " + n2.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + error_sg.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + error_mc.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
         }
     }
@@ -435,15 +394,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int d;
-        double e;
-        double exact;
-        double[] fx;
         int l;
-        int n;
-        double q;
-        double[] w;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("CCE_TEST:");
@@ -453,28 +404,28 @@ internal static class Program
         Console.WriteLine("   Level   Nodes    Estimate  Error");
         Console.WriteLine("");
 
-        d = 1;
-        exact = Integral.fu_integral(d);
+        const int d = 1;
+        double exact = Integral.fu_integral(d);
 
         for (l = 1; l <= 5; l++)
         {
-            n = ClenshawCurtis.cce_order(l);
+            int n = ClenshawCurtis.cce_order(l);
 
-            x = new double[n];
-            w = new double[n];
+            double[] x = new double[n];
+            double[] w = new double[n];
 
             ClenshawCurtis.cc(n, x, w);
 
-            fx = Integral.fu_value(d, n, x);
+            double[] fx = Integral.fu_value(d, n, x);
 
-            q = typeMethods.r8vec_dot_product(n, w, fx);
+            double q = typeMethods.r8vec_dot_product(n, w, fx);
 
-            e = Math.Abs(q - exact) / exact;
+            double e = Math.Abs(q - exact) / exact;
 
-            Console.WriteLine("  " + l.ToString().PadLeft(2)
-                                   + "  " + n.ToString().PadLeft(6)
-                                   + "  " + q.ToString().PadLeft(14)
-                                   + "  " + e.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + l.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + e.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
         }
     }
@@ -506,27 +457,13 @@ internal static class Program
         //    Local, int MAXK, the maximum level to check.
         //
     {
-        int d;
-        double error_mc;
-        double error_sg;
-        double estimate;
-        double[] fx;
         int k;
-        int maxk;
-        int n;
         int n2 = 0;
-        int r;
-        double[] s;
-        int s_num;
-        int seed;
-        double trueval;
-        double[] w;
-        double[] x;
 
-        d = 10;
-        maxk = 7;
+        const int d = 10;
+        const int maxk = 7;
 
-        trueval = Integral.fu_integral(d);
+        double trueval = Integral.fu_integral(d);
 
         Console.WriteLine("");
         Console.WriteLine("CCE_SPARSE_TEST:");
@@ -541,22 +478,23 @@ internal static class Program
             //
             //  Compute sparse grid estimate.
             //
-            n = Grid_NodesWeights.nwspgr_size(ClenshawCurtis.cce_order, d, k);
+            int n = Grid_NodesWeights.nwspgr_size(ClenshawCurtis.cce_order, d, k);
 
-            x = new double[d * n];
-            w = new double[n];
+            double[] x = new double[d * n];
+            double[] w = new double[n];
 
             Grid_NodesWeights.nwspgr(ClenshawCurtis.cc, ClenshawCurtis.cce_order, d, k, n, ref n2, ref x, ref w);
 
-            fx = Integral.fu_value(d, n2, x);
-            estimate = typeMethods.r8vec_dot_product(n2, w, fx);
-            error_sg = Math.Abs((estimate - trueval) / trueval);
+            double[] fx = Integral.fu_value(d, n2, x);
+            double estimate = typeMethods.r8vec_dot_product(n2, w, fx);
+            double error_sg = Math.Abs((estimate - trueval) / trueval);
             //
             //  Compute 1000 Monte Carlo estimates with same number of points, and average.
             //
-            s_num = 1000;
-            s = new double[s_num];
-            seed = 123456789;
+            const int s_num = 1000;
+            double[] s = new double[s_num];
+            int seed = 123456789;
+            int r;
             for (r = 0; r < 1000; r++)
             {
                 x = UniformRNG.r8mat_uniform_01_new(d, n2, ref seed);
@@ -564,7 +502,7 @@ internal static class Program
                 s[r] = typeMethods.r8vec_sum(n2, fx) / n2;
             }
 
-            error_mc = 0.0;
+            double error_mc = 0.0;
             for (r = 0; r < s_num; r++)
             {
                 error_mc += Math.Pow(s[r] - trueval, 2);
@@ -572,11 +510,11 @@ internal static class Program
 
             error_mc = Math.Sqrt(error_mc / s_num) / trueval;
 
-            Console.WriteLine("  " + d.ToString().PadLeft(2)
-                                   + "  " + k.ToString().PadLeft(5)
-                                   + "  " + n2.ToString().PadLeft(6)
-                                   + "  " + error_sg.ToString().PadLeft(10)
-                                   + "  " + error_mc.ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + d.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(5)
+                                   + "  " + n2.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + error_sg.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + error_mc.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
         }
     }
@@ -602,26 +540,20 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int d;
-
-        int[] fs;
-        int norm;
-        int seq_num;
-
         Console.WriteLine("");
         Console.WriteLine("GET_SEQ_TEST");
         Console.WriteLine("  GET_SEQ returns all D-dimensional vectors that sum to NORM.");
 
-        d = 3;
-        norm = 6;
+        const int d = 3;
+        const int norm = 6;
 
         Console.WriteLine("");
         Console.WriteLine("  D = " + d + "");
         Console.WriteLine("  NORM = " + norm + "");
 
-        seq_num = Comp.num_seq(norm - d, d);
+        int seq_num = Comp.num_seq(norm - d, d);
 
-        fs = Comp.get_seq(d, norm, seq_num);
+        int[] fs = Comp.get_seq(d, norm, seq_num);
 
         typeMethods.i4mat_print(seq_num, d, fs, "  The compositions");
 
@@ -648,15 +580,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int d;
-        double e;
-        double exact;
-        double[] fx;
         int l;
-        int n;
-        double q;
-        double[] w;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("");
@@ -666,27 +590,26 @@ internal static class Program
         Console.WriteLine("   Level   Nodes    Estimate  Error");
         Console.WriteLine("");
 
-        d = 1;
-        exact = Integral.fn_integral(d);
+        const int d = 1;
+        double exact = Integral.fn_integral(d);
 
         for (l = 1; l <= 5; l++)
         {
-            n = l;
-            x = new double[n];
-            w = new double[n];
+            double[] x = new double[l];
+            double[] w = new double[l];
 
-            GaussQuadrature.gqn(n, x, w);
+            GaussQuadrature.gqn(l, x, w);
 
-            fx = Integral.fn_value(d, n, x);
+            double[] fx = Integral.fn_value(d, l, x);
 
-            q = typeMethods.r8vec_dot_product(n, w, fx);
+            double q = typeMethods.r8vec_dot_product(l, w, fx);
 
-            e = Math.Abs(q - exact) / exact;
+            double e = Math.Abs(q - exact) / exact;
 
-            Console.WriteLine("  " + l.ToString().PadLeft(2)
-                                   + "  " + n.ToString().PadLeft(6)
-                                   + "  " + q.ToString().PadLeft(14)
-                                   + "  " + e.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + l.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + l.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + e.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
 
         }
@@ -719,28 +642,14 @@ internal static class Program
         //    Local, int MAXK, the maximum level to check.
         //
     {
-        int d;
-        double error_mc;
-        double error_sg;
-        double estimate;
-        double[] fx;
         int k;
-        int maxk;
-        int n;
         int n2 = 0;
-        int r;
-        double[] s;
-        int s_num;
-        int seed;
-        double trueval;
-        double[] w;
-        double[] x;
         typeMethods.r8vecNormalData data = new();
 
-        d = 10;
-        maxk = 7;
+        const int d = 10;
+        const int maxk = 7;
 
-        trueval = Integral.fn_integral(d);
+        double trueval = Integral.fn_integral(d);
 
         Console.WriteLine("");
         Console.WriteLine("GQN_SPARSE_TEST:");
@@ -755,21 +664,22 @@ internal static class Program
             //
             //  Compute sparse grid estimate.
             //
-            n = Grid_NodesWeights.nwspgr_size(GaussQuadrature.gqn_order, d, k);
-            x = new double[d * n];
-            w = new double[n];
+            int n = Grid_NodesWeights.nwspgr_size(GaussQuadrature.gqn_order, d, k);
+            double[] x = new double[d * n];
+            double[] w = new double[n];
             Grid_NodesWeights.nwspgr(GaussQuadrature.gqn, GaussQuadrature.gqn_order, d, k, n, ref n2, ref x, ref w);
-            fx = Integral.fn_value(d, n2, x);
-            estimate = typeMethods.r8vec_dot_product(n2, w, fx);
+            double[] fx = Integral.fn_value(d, n2, x);
+            double estimate = typeMethods.r8vec_dot_product(n2, w, fx);
 
-            error_sg = Math.Abs((estimate - trueval) / trueval);
+            double error_sg = Math.Abs((estimate - trueval) / trueval);
 
             //
             //  Compute 1000 Monte Carlo estimates with same number of points, and average.
             //
-            s_num = 1000;
-            s = new double[s_num];
-            seed = 123456789;
+            const int s_num = 1000;
+            double[] s = new double[s_num];
+            int seed = 123456789;
+            int r;
             for (r = 0; r < 1000; r++)
             {
                 x = typeMethods.r8mat_normal_01_new(d, n2, ref data, ref seed);
@@ -777,7 +687,7 @@ internal static class Program
                 s[r] = typeMethods.r8vec_sum(n2, fx) / n2;
             }
 
-            error_mc = 0.0;
+            double error_mc = 0.0;
             for (r = 0; r < s_num; r++)
             {
                 error_mc += Math.Pow(s[r] - trueval, 2);
@@ -785,11 +695,11 @@ internal static class Program
 
             error_mc = Math.Sqrt(error_mc / s_num) / trueval;
 
-            Console.WriteLine("  " + d.ToString().PadLeft(2)
-                                   + "  " + k.ToString().PadLeft(5)
-                                   + "  " + n2.ToString().PadLeft(6)
-                                   + "  " + error_sg.ToString().PadLeft(10)
-                                   + "  " + error_mc.ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + d.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(5)
+                                   + "  " + n2.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + error_sg.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + error_mc.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
         }
     }
@@ -821,17 +731,11 @@ internal static class Program
         //    Local, int MAXK, the maximum level to check.
         //
     {
-        int d;
-        int j;
         int k;
-        int maxk;
-        int n;
         int n2 = 0;
-        double[] w;
-        double[] x;
 
-        d = 2;
-        maxk = 4;
+        const int d = 2;
+        const int maxk = 4;
 
         Console.WriteLine("");
         Console.WriteLine("GQN2_SPARSE_TEST:");
@@ -845,19 +749,20 @@ internal static class Program
             Console.WriteLine("     J      W                X               Y");
             Console.WriteLine("");
 
-            n = Grid_NodesWeights.nwspgr_size(GaussQuadrature.gqn2_order, d, k);
+            int n = Grid_NodesWeights.nwspgr_size(GaussQuadrature.gqn2_order, d, k);
 
-            x = new double[d * n];
-            w = new double[n];
+            double[] x = new double[d * n];
+            double[] w = new double[n];
             Grid_NodesWeights.nwspgr(GaussQuadrature.gqn, GaussQuadrature.gqn2_order, d, k, n, ref n2, ref x,
                 ref w);
 
+            int j;
             for (j = 0; j < n2; j++)
             {
-                Console.WriteLine("  " + j.ToString().PadLeft(4)
-                                       + "  " + w[j].ToString().PadLeft(14)
-                                       + "  " + x[0 + j * d].ToString().PadLeft(14)
-                                       + "  " + x[1 + j * d].ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + w[j].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + x[0 + j * d].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + x[1 + j * d].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
         }
@@ -884,15 +789,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int d;
-        double e;
-        double exact;
-        double[] fx;
         int l;
-        int n;
-        double q;
-        double[] w;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("GQU_TEST:");
@@ -901,27 +798,26 @@ internal static class Program
         Console.WriteLine("   Level   Nodes    Estimate  Error");
         Console.WriteLine("");
 
-        d = 1;
-        exact = Integral.fu_integral(d);
+        const int d = 1;
+        double exact = Integral.fu_integral(d);
 
         for (l = 1; l <= 5; l++)
         {
-            n = l;
-            x = new double[n];
-            w = new double[n];
+            double[] x = new double[l];
+            double[] w = new double[l];
 
-            GaussQuadrature.gqu(n, x, w);
+            GaussQuadrature.gqu(l, x, w);
 
-            fx = Integral.fu_value(d, n, x);
+            double[] fx = Integral.fu_value(d, l, x);
 
-            q = typeMethods.r8vec_dot_product(n, w, fx);
+            double q = typeMethods.r8vec_dot_product(l, w, fx);
 
-            e = Math.Abs(q - exact) / exact;
+            double e = Math.Abs(q - exact) / exact;
 
-            Console.WriteLine("  " + l.ToString().PadLeft(2)
-                                   + "  " + n.ToString().PadLeft(6)
-                                   + "  " + q.ToString().PadLeft(14)
-                                   + "  " + e.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + l.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + l.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + e.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
         }
     }
@@ -953,27 +849,13 @@ internal static class Program
         //    Local, int MAXK, the maximum level to check.
         //
     {
-        int d;
-        double error_mc;
-        double error_sg;
-        double estimate;
-        double[] fx;
         int k;
-        int maxk;
-        int n;
         int n2 = 0;
-        int r;
-        double[] s;
-        int s_num;
-        int seed;
-        double trueval;
-        double[] w;
-        double[] x;
 
-        d = 10;
-        maxk = 7;
+        const int d = 10;
+        const int maxk = 7;
 
-        trueval = Integral.fu_integral(d);
+        double trueval = Integral.fu_integral(d);
 
         Console.WriteLine("");
         Console.WriteLine("GQU_SPARSE_TEST:");
@@ -988,19 +870,20 @@ internal static class Program
             //
             //  Compute sparse grid estimate.
             //
-            n = Grid_NodesWeights.nwspgr_size(GaussQuadrature.gqu_order, d, k);
-            x = new double[d * n];
-            w = new double[n];
+            int n = Grid_NodesWeights.nwspgr_size(GaussQuadrature.gqu_order, d, k);
+            double[] x = new double[d * n];
+            double[] w = new double[n];
             Grid_NodesWeights.nwspgr(GaussQuadrature.gqu, GaussQuadrature.gqu_order, d, k, n, ref n2, ref x, ref w);
-            fx = Integral.fu_value(d, n2, x);
-            estimate = typeMethods.r8vec_dot_product(n2, w, fx);
-            error_sg = Math.Abs((estimate - trueval) / trueval);
+            double[] fx = Integral.fu_value(d, n2, x);
+            double estimate = typeMethods.r8vec_dot_product(n2, w, fx);
+            double error_sg = Math.Abs((estimate - trueval) / trueval);
             //
             //  Compute 1000 Monte Carlo estimates with same number of points, and average.
             //
-            s_num = 1000;
-            s = new double[s_num];
-            seed = 123456789;
+            int s_num = 1000;
+            double[] s = new double[s_num];
+            int seed = 123456789;
+            int r;
             for (r = 0; r < 1000; r++)
             {
                 x = UniformRNG.r8mat_uniform_01_new(d, n2, ref seed);
@@ -1008,7 +891,7 @@ internal static class Program
                 s[r] = typeMethods.r8vec_sum(n2, fx) / n2;
             }
 
-            error_mc = 0.0;
+            double error_mc = 0.0;
             for (r = 0; r < s_num; r++)
             {
                 error_mc += Math.Pow(s[r] - trueval, 2);
@@ -1016,11 +899,11 @@ internal static class Program
 
             error_mc = Math.Sqrt(error_mc / s_num) / trueval;
 
-            Console.WriteLine("  " + d.ToString().PadLeft(2)
-                                   + "  " + k.ToString().PadLeft(5)
-                                   + "  " + n2.ToString().PadLeft(6)
-                                   + "  " + error_sg.ToString().PadLeft(14)
-                                   + "  " + error_mc.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + d.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(5)
+                                   + "  " + n2.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + error_sg.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + error_mc.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
         }
     }
@@ -1046,15 +929,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int d;
-        double e;
-        double exact;
-        double[] fx;
         int l;
-        int n;
-        double q;
-        double[] w;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("KPN_TEST:");
@@ -1063,26 +938,26 @@ internal static class Program
         Console.WriteLine("   Level   Nodes    Estimate  Error");
         Console.WriteLine("");
 
-        d = 1;
-        exact = Integral.fn_integral(d);
+        const int d = 1;
+        double exact = Integral.fn_integral(d);
 
         for (l = 1; l <= 5; l++)
         {
-            n = KronrodPatterson.kpn_order(l);
-            x = new double[n];
-            w = new double[n];
+            int n = KronrodPatterson.kpn_order(l);
+            double[] x = new double[n];
+            double[] w = new double[n];
             KronrodPatterson.kpn(n, x, w);
 
-            fx = Integral.fn_value(d, n, x);
+            double[] fx = Integral.fn_value(d, n, x);
 
-            q = typeMethods.r8vec_dot_product(n, w, fx);
+            double q = typeMethods.r8vec_dot_product(n, w, fx);
 
-            e = Math.Abs(q - exact) / exact;
+            double e = Math.Abs(q - exact) / exact;
 
-            Console.WriteLine("  " + l.ToString().PadLeft(2)
-                                   + "  " + n.ToString().PadLeft(6)
-                                   + "  " + q.ToString().PadLeft(14)
-                                   + "  " + e.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + l.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + e.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
         }
     }
@@ -1114,28 +989,14 @@ internal static class Program
         //    Local, int MAXK, the maximum level to check.
         //
     {
-        int d;
-        double error_mc;
-        double error_sg;
-        double estimate;
-        double[] fx;
         int k;
-        int maxk;
-        int n;
         int n2 = 0;
-        int r;
-        double[] s;
-        int s_num;
-        int seed;
-        double trueval;
-        double[] w;
-        double[] x;
         typeMethods.r8vecNormalData data = new();
 
-        d = 10;
-        maxk = 7;
+        const int d = 10;
+        const int maxk = 7;
 
-        trueval = Integral.fn_integral(d);
+        double trueval = Integral.fn_integral(d);
 
         Console.WriteLine("");
         Console.WriteLine("KPN_SPARSE_TEST:");
@@ -1150,22 +1011,23 @@ internal static class Program
             //
             //  Compute sparse grid estimate.
             //
-            n = Grid_NodesWeights.nwspgr_size(KronrodPatterson.kpn_order, d, k);
-            x = new double[d * n];
-            w = new double[n];
+            int n = Grid_NodesWeights.nwspgr_size(KronrodPatterson.kpn_order, d, k);
+            double[] x = new double[d * n];
+            double[] w = new double[n];
             Grid_NodesWeights.nwspgr(KronrodPatterson.kpn, KronrodPatterson.kpn_order, d, k, n, ref n2, ref x,
                 ref w);
-            fx = Integral.fn_value(d, n2, x);
-            estimate = typeMethods.r8vec_dot_product(n2, w, fx);
+            double[] fx = Integral.fn_value(d, n2, x);
+            double estimate = typeMethods.r8vec_dot_product(n2, w, fx);
 
-            error_sg = Math.Abs((estimate - trueval) / trueval);
+            double error_sg = Math.Abs((estimate - trueval) / trueval);
 
             //
             //  Compute 1000 Monte Carlo estimates with same number of points, and average.
             //
-            s_num = 1000;
-            s = new double[s_num];
-            seed = 123456789;
+            int s_num = 1000;
+            double[] s = new double[s_num];
+            int seed = 123456789;
+            int r;
             for (r = 0; r < 1000; r++)
             {
                 x = typeMethods.r8mat_normal_01_new(d, n2, ref data, ref seed);
@@ -1173,7 +1035,7 @@ internal static class Program
                 s[r] = typeMethods.r8vec_sum(n2, fx) / n2;
             }
 
-            error_mc = 0.0;
+            double error_mc = 0.0;
             for (r = 0; r < s_num; r++)
             {
                 error_mc += Math.Pow(s[r] - trueval, 2);
@@ -1181,11 +1043,11 @@ internal static class Program
 
             error_mc = Math.Sqrt(error_mc / s_num) / trueval;
 
-            Console.WriteLine("  " + d.ToString().PadLeft(2)
-                                   + "  " + k.ToString().PadLeft(5)
-                                   + "  " + n2.ToString().PadLeft(6)
-                                   + "  " + error_sg.ToString().PadLeft(10)
-                                   + "  " + error_mc.ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + d.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(5)
+                                   + "  " + n2.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + error_sg.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + error_mc.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
         }
     }
@@ -1211,15 +1073,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int d;
-        double e;
-        double exact;
-        double[] fx;
         int l;
-        int n;
-        double q;
-        double[] w;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("KPU_TEST:");
@@ -1228,26 +1082,26 @@ internal static class Program
         Console.WriteLine("   Level   Nodes    Estimate  Error");
         Console.WriteLine("");
 
-        d = 1;
-        exact = Integral.fu_integral(d);
+        const int d = 1;
+        double exact = Integral.fu_integral(d);
 
         for (l = 1; l <= 5; l++)
         {
-            n = KronrodPatterson.kpu_order(l);
-            x = new double[n];
-            w = new double[n];
+            int n = KronrodPatterson.kpu_order(l);
+            double[] x = new double[n];
+            double[] w = new double[n];
             KronrodPatterson.kpu(n, x, w);
 
-            fx = Integral.fu_value(d, n, x);
+            double[] fx = Integral.fu_value(d, n, x);
 
-            q = typeMethods.r8vec_dot_product(n, w, fx);
+            double q = typeMethods.r8vec_dot_product(n, w, fx);
 
-            e = Math.Abs(q - exact) / exact;
+            double e = Math.Abs(q - exact) / exact;
 
-            Console.WriteLine("  " + l.ToString().PadLeft(2)
-                                   + "  " + n.ToString().PadLeft(6)
-                                   + "  " + q.ToString().PadLeft(14)
-                                   + "  " + e.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + l.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + q.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + e.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
         }
     }
@@ -1279,27 +1133,13 @@ internal static class Program
         //    Local, int MAXK, the maximum level to check.
         //
     {
-        int d;
-        double error_mc;
-        double error_sg;
-        double estimate;
-        double[] fx;
         int k;
-        int maxk;
-        int n;
         int n2 = 0;
-        int r;
-        double[] s;
-        int s_num;
-        int seed;
-        double trueval;
-        double[] w;
-        double[] x;
 
-        d = 10;
-        maxk = 7;
+        const int d = 10;
+        const int maxk = 7;
 
-        trueval = Integral.fu_integral(d);
+        double trueval = Integral.fu_integral(d);
 
         Console.WriteLine("");
         Console.WriteLine("KPU_SPARSE_TEST:");
@@ -1314,20 +1154,21 @@ internal static class Program
             //
             //  Compute sparse grid estimate.
             //
-            n = Grid_NodesWeights.nwspgr_size(KronrodPatterson.kpu_order, d, k);
-            x = new double[d * n];
-            w = new double[n];
+            int n = Grid_NodesWeights.nwspgr_size(KronrodPatterson.kpu_order, d, k);
+            double[] x = new double[d * n];
+            double[] w = new double[n];
             Grid_NodesWeights.nwspgr(KronrodPatterson.kpu, KronrodPatterson.kpu_order, d, k, n, ref n2, ref x,
                 ref w);
-            fx = Integral.fu_value(d, n2, x);
-            estimate = typeMethods.r8vec_dot_product(n2, w, fx);
-            error_sg = Math.Abs((estimate - trueval) / trueval);
+            double[] fx = Integral.fu_value(d, n2, x);
+            double estimate = typeMethods.r8vec_dot_product(n2, w, fx);
+            double error_sg = Math.Abs((estimate - trueval) / trueval);
             //
             //  Compute 1000 Monte Carlo estimates with same number of points, and average.
             //
-            s_num = 1000;
-            s = new double[s_num];
-            seed = 123456789;
+            int s_num = 1000;
+            double[] s = new double[s_num];
+            int seed = 123456789;
+            int r;
             for (r = 0; r < 1000; r++)
             {
                 x = UniformRNG.r8mat_uniform_01_new(d, n2, ref seed);
@@ -1335,7 +1176,7 @@ internal static class Program
                 s[r] = typeMethods.r8vec_sum(n2, fx) / n2;
             }
 
-            error_mc = 0.0;
+            double error_mc = 0.0;
             for (r = 0; r < s_num; r++)
             {
                 error_mc += Math.Pow(s[r] - trueval, 2);
@@ -1343,11 +1184,11 @@ internal static class Program
 
             error_mc = Math.Sqrt(error_mc / s_num) / trueval;
 
-            Console.WriteLine("  " + d.ToString().PadLeft(2)
-                                   + "  " + k.ToString().PadLeft(5)
-                                   + "  " + n2.ToString().PadLeft(6)
-                                   + "  " + error_sg.ToString().PadLeft(10)
-                                   + "  " + error_mc.ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + d.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(5)
+                                   + "  " + n2.ToString(CultureInfo.InvariantCulture).PadLeft(6)
+                                   + "  " + error_sg.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + error_mc.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
 
         }
     }
@@ -1373,22 +1214,18 @@ internal static class Program
         //    John Burkardt.
         //
     {
-        int dim;
-        int k;
-        int r_size;
-
         Console.WriteLine("");
         Console.WriteLine("NWSPGR_SIZE_TEST:");
         Console.WriteLine("  NWSPGR_SIZE returns the size of a sparse grid, based on either:");
         Console.WriteLine("  one of the built-in 1D rules, or a family of 1D rules");
         Console.WriteLine("  supplied by the user.");
 
-        dim = 2;
-        k = 3;
+        int dim = 2;
+        int k = 3;
         Console.WriteLine("");
         Console.WriteLine("  Kronrod-Patterson, [0,1], Dim " + dim + ", Level " + k + ", Symmetric");
         Console.WriteLine("");
-        r_size = Grid_NodesWeights.nwspgr_size(KronrodPatterson.kpu_order, dim, k);
+        int r_size = Grid_NodesWeights.nwspgr_size(KronrodPatterson.kpu_order, dim, k);
         Console.WriteLine("  Full          " + r_size + "");
 
         dim = 2;
@@ -1432,18 +1269,18 @@ internal static class Program
         string cout = " Dim: ";
         for (dim = 1; dim <= 10; dim++)
         {
-            cout += "  " + dim.ToString().PadLeft(6);
+            cout += "  " + dim.ToString(CultureInfo.InvariantCulture).PadLeft(6);
         }
 
         Console.WriteLine(cout);
         Console.WriteLine("Level");
         for (k = 1; k <= 5; k++)
         {
-            cout = "  " + k.ToString().PadLeft(2) + "  ";
+            cout = "  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  ";
             for (dim = 1; dim <= 10; dim++)
             {
                 r_size = Grid_NodesWeights.nwspgr_size(ClenshawCurtis.cce_order, dim, k);
-                cout += "  " + r_size.ToString().PadLeft(6);
+                cout += "  " + r_size.ToString(CultureInfo.InvariantCulture).PadLeft(6);
             }
 
             Console.WriteLine(cout);
@@ -1471,13 +1308,7 @@ internal static class Program
         //    John Burkardt.
         //
     {
-        int dim;
-        int k;
-        double[] nodes;
-        int r_size;
         int s_size = 0;
-        DateTime t1;
-        double[] weights;
 
         Console.WriteLine("");
         Console.WriteLine("  This function measures the time in seconds required by NWSPGR");
@@ -1485,15 +1316,15 @@ internal static class Program
         Console.WriteLine("  one of the built-in 1D rules, or a family of 1D rules");
         Console.WriteLine("  supplied by the user.");
 
-        dim = 20;
-        k = 5;
+        int dim = 20;
+        int k = 5;
         Console.WriteLine("");
         Console.WriteLine("  Kronrod-Patterson, [0,1], Dim " + dim + ", Level " + k + ", Symmetric");
         Console.WriteLine("");
-        r_size = Grid_NodesWeights.nwspgr_size(KronrodPatterson.kpu_order, dim, k);
-        nodes = new double[dim * r_size];
-        weights = new double[r_size];
-        t1 = DateTime.Now;
+        int r_size = Grid_NodesWeights.nwspgr_size(KronrodPatterson.kpu_order, dim, k);
+        double[] nodes = new double[dim * r_size];
+        double[] weights = new double[r_size];
+        DateTime t1 = DateTime.Now;
         Grid_NodesWeights.nwspgr(KronrodPatterson.kpu, KronrodPatterson.kpu_order, dim, k, r_size, ref s_size,
             ref nodes, ref weights);
         Console.WriteLine("  Full          " + (DateTime.Now - t1).TotalSeconds + "");
@@ -1559,14 +1390,14 @@ internal static class Program
         string cout = " Dim: ";
         for (dim = 1; dim <= 10; dim++)
         {
-            cout += "  " + dim.ToString().PadLeft(6);
+            cout += "  " + dim.ToString(CultureInfo.InvariantCulture).PadLeft(6);
         }
 
         Console.WriteLine(cout);
         Console.WriteLine("Level");
         for (k = 1; k <= 5; k++)
         {
-            cout = "  " + k.ToString().PadLeft(2) + "  ";
+            cout = "  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  ";
             for (dim = 1; dim <= 10; dim++)
             {
                 r_size = Grid_NodesWeights.nwspgr_size(ClenshawCurtis.cce_order, dim, k);
@@ -1575,7 +1406,7 @@ internal static class Program
                 t1 = DateTime.Now;
                 Grid_NodesWeights.nwspgr(ClenshawCurtis.cc, ClenshawCurtis.cce_order, dim, k, r_size, ref s_size,
                     ref nodes, ref weights);
-                cout += "  " + (DateTime.Now - t1).TotalSeconds.ToString().PadLeft(10);
+                cout += "  " + (DateTime.Now - t1).TotalSeconds.ToString(CultureInfo.InvariantCulture).PadLeft(10);
             }
 
             Console.WriteLine(cout);
@@ -1585,14 +1416,14 @@ internal static class Program
         cout = " Dim: ";
         for (dim = 11; dim <= 20; dim++)
         {
-            cout += "  " + dim.ToString().PadLeft(6);
+            cout += "  " + dim.ToString(CultureInfo.InvariantCulture).PadLeft(6);
         }
 
         Console.WriteLine(cout);
         Console.WriteLine("Level");
         for (k = 1; k <= 5; k++)
         {
-            cout = "  " + k.ToString().PadLeft(2) + "  ";
+            cout = "  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "  ";
             for (dim = 11; dim <= 20; dim++)
             {
                 r_size = Grid_NodesWeights.nwspgr_size(ClenshawCurtis.cce_order, dim, k);
@@ -1601,7 +1432,7 @@ internal static class Program
                 t1 = DateTime.Now;
                 Grid_NodesWeights.nwspgr(ClenshawCurtis.cc, ClenshawCurtis.cce_order, dim, k, r_size, ref s_size,
                     ref nodes, ref weights);
-                cout += "  " + (DateTime.Now - t1).TotalSeconds.ToString().PadLeft(10);
+                cout += "  " + (DateTime.Now - t1).TotalSeconds.ToString(CultureInfo.InvariantCulture).PadLeft(10);
             }
 
             Console.WriteLine(cout);
@@ -1629,12 +1460,7 @@ internal static class Program
         //    John Burkardt.
         //
     {
-        int dim;
-        int k;
-        double[] nodes;
-        int r_size;
         int s_size = 0;
-        double[] weights;
 
         Console.WriteLine("");
         Console.WriteLine("NWSPGR_TEST:");
@@ -1642,11 +1468,11 @@ internal static class Program
         Console.WriteLine("  one of the built-in 1D rules, or a family of 1D rules");
         Console.WriteLine("  supplied by the user.");
 
-        dim = 2;
-        k = 3;
-        r_size = Grid_NodesWeights.nwspgr_size(KronrodPatterson.kpu_order, dim, k);
-        nodes = new double[dim * r_size];
-        weights = new double[r_size];
+        int dim = 2;
+        int k = 3;
+        int r_size = Grid_NodesWeights.nwspgr_size(KronrodPatterson.kpu_order, dim, k);
+        double[] nodes = new double[dim * r_size];
+        double[] weights = new double[r_size];
         Grid_NodesWeights.nwspgr(KronrodPatterson.kpu, KronrodPatterson.kpu_order, dim, k, r_size, ref s_size,
             ref nodes, ref weights);
         QuadratureRule.quad_rule_print(dim, s_size, nodes, weights, "  Kronrod-Patterson, [0,1], Dim 2, Level 3");
@@ -1713,7 +1539,6 @@ internal static class Program
         //
     {
         int ap;
-        int k;
         int[] kpn_order =
         {
             1, 3, 9, 19, 35
@@ -1742,10 +1567,10 @@ internal static class Program
             rp = 2 * l - 1;
             o = l;
             ap = 2 * o - 1;
-            Console.WriteLine("  " + l.ToString().PadLeft(2)
-                                   + "  " + rp.ToString().PadLeft(2)
-                                   + "  " + ap.ToString().PadLeft(2)
-                                   + "  " + o.ToString().PadLeft(2) + "");
+            Console.WriteLine("  " + l.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + rp.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + ap.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "");
         }
 
         Console.WriteLine("");
@@ -1760,10 +1585,10 @@ internal static class Program
             rp = 2 * l - 1;
             o = l;
             ap = 2 * o - 1;
-            Console.WriteLine("  " + l.ToString().PadLeft(2)
-                                   + "  " + rp.ToString().PadLeft(2)
-                                   + "  " + ap.ToString().PadLeft(2)
-                                   + "  " + o.ToString().PadLeft(2) + "");
+            Console.WriteLine("  " + l.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + rp.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + ap.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "");
         }
 
         Console.WriteLine("");
@@ -1773,7 +1598,7 @@ internal static class Program
         Console.WriteLine("   L  RP  AP   O");
         Console.WriteLine("");
 
-        k = 1;
+        int k = 1;
         o = 1;
         ap = 1;
 
@@ -1809,10 +1634,10 @@ internal static class Program
                 }
             }
 
-            Console.WriteLine("  " + l.ToString().PadLeft(2)
-                                   + "  " + rp.ToString().PadLeft(2)
-                                   + "  " + ap.ToString().PadLeft(2)
-                                   + "  " + o.ToString().PadLeft(2) + "");
+            Console.WriteLine("  " + l.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + rp.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + ap.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "");
         }
 
         Console.WriteLine("");
@@ -1833,10 +1658,10 @@ internal static class Program
                 ap = (3 * o + 1) / 2;
             }
 
-            Console.WriteLine("  " + l.ToString().PadLeft(2)
-                                   + "  " + rp.ToString().PadLeft(2)
-                                   + "  " + ap.ToString().PadLeft(2)
-                                   + "  " + o.ToString().PadLeft(2) + "");
+            Console.WriteLine("  " + l.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + rp.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + ap.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + o.ToString(CultureInfo.InvariantCulture).PadLeft(2) + "");
         }
     }
 
@@ -1867,9 +1692,8 @@ internal static class Program
         //    Local, int MAXK, the maximum level to check.
         //
     {
-        int test_num = 3;
+        const int test_num = 3;
 
-        int dim;
         int[] dim_test = { 5, 5, 3 };
         double[] nodes1 =
         {
@@ -1901,11 +1725,9 @@ internal static class Program
             0.0, 0.741964, 1.0, 1.73205, 2.33441, 0.0, 0.0, 1.0, 1.73205, 0.0, 1.0, 0.0,
             0.0, 0.0, 1.0, 1.73205, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0
         };
-        int r;
         int[] r_test = { 6, 21, 23 };
         int r2 = 0;
         int test;
-        double x0;
 
         Console.WriteLine("");
         Console.WriteLine("SYMMETRIC_SPARSE_SIZE_TEST");
@@ -1920,12 +1742,12 @@ internal static class Program
         Console.WriteLine("       DIM         R        R2");
         Console.WriteLine("");
 
-        x0 = 0.0;
+        double x0 = 0.0;
 
         for (test = 0; test < test_num; test++)
         {
-            r = r_test[test];
-            dim = dim_test[test];
+            int r = r_test[test];
+            int dim = dim_test[test];
             r2 = test switch
             {
                 0 => SparseRule.symmetric_sparse_size(r, dim, nodes1, x0),
@@ -1934,9 +1756,9 @@ internal static class Program
                 _ => r2
             };
 
-            Console.WriteLine("  " + dim.ToString().PadLeft(8)
-                                   + "  " + r.ToString().PadLeft(8)
-                                   + "  " + r2.ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + dim.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + r.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + r2.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
     }
 
@@ -1961,25 +1783,16 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int d;
         int i;
-        int j;
-        int n;
-        int n1d;
-        int order1 = 2;
-        int order2 = 3;
-        int order3 = 2;
-        int[] order1d;
-        double[] w1d;
-        double[] wnd;
+        const int order1 = 2;
+        const int order2 = 3;
+        const int order3 = 2;
         double[] w1_1d = { 1.0, 1.0 };
         double[] w2_1d = { 0.25, 0.50, 0.25 };
         double[] w3_1d = { 2.50, 2.50 };
         double[] x1_1d = { -1.0, +1.0 };
         double[] x2_1d = { 2.0, 2.5, 3.0 };
         double[] x3_1d = { 10.0, 15.0 };
-        double[] x1d;
-        double[] xnd;
 
         Console.WriteLine("");
         Console.WriteLine("TENSOR_PRODUCT_TEST:");
@@ -1988,20 +1801,20 @@ internal static class Program
         //
         //  1D rule.
         //
-        d = 1;
-        order1d = new int[d];
+        int d = 1;
+        int[] order1d = new int[d];
 
         order1d[0] = order1;
 
-        n1d = typeMethods.i4vec_sum(d, order1d);
-        x1d = new double[n1d];
-        w1d = new double[n1d];
+        int n1d = typeMethods.i4vec_sum(d, order1d);
+        double[] x1d = new double[n1d];
+        double[] w1d = new double[n1d];
 
-        n = typeMethods.i4vec_product(d, order1d);
-        xnd = new double[d * n];
-        wnd = new double[n];
+        int n = typeMethods.i4vec_product(d, order1d);
+        double[] xnd = new double[n];
+        double[] wnd = new double[n];
 
-        j = 0;
+        int j = 0;
         for (i = 0; i < order1; i++)
         {
             x1d[j] = x1_1d[i];
@@ -2117,21 +1930,13 @@ internal static class Program
         //   John Burkardt
         //
     {
-        int d;
-        int nc;
-        int np;
         int[] nr = { 2, 3, 2 };
-        int[] roff;
-        double[] wc;
-        double[] wp;
         double[] w1_1d = { 1.0, 1.0 };
         double[] w2_1d = { 0.25, 0.50, 0.25 };
         double[] w3_1d = { 2.50, 2.50 };
         double[] x1_1d = { -1.0, +1.0 };
         double[] x2_1d = { 2.0, 2.5, 3.0 };
         double[] x3_1d = { 10.0, 15.0 };
-        double[] xc;
-        double[] xp;
 
         Console.WriteLine("");
         Console.WriteLine("TENSOR_PRODUCT_TEST_CELL:");
@@ -2140,19 +1945,19 @@ internal static class Program
         //
         //  We can construct ROFF once and for all.
         //
-        roff = typeMethods.r8cvv_offset(3, nr);
+        int[] roff = typeMethods.r8cvv_offset(3, nr);
         //
         //  1D rule.
         //
-        d = 1;
-        nc = typeMethods.i4vec_sum(d, nr);
-        xc = new double[nc];
+        int d = 1;
+        int nc = typeMethods.i4vec_sum(d, nr);
+        double[] xc = new double[nc];
         typeMethods.r8cvv_rset(nc, xc, d, roff, 0, x1_1d);
-        wc = new double[nc];
+        double[] wc = new double[nc];
         typeMethods.r8cvv_rset(nc, wc, d, roff, 0, w1_1d);
-        np = typeMethods.i4vec_product(d, nr);
-        xp = new double[d * np];
-        wp = new double[np];
+        int np = typeMethods.i4vec_product(d, nr);
+        double[] xp = new double[np];
+        double[] wp = new double[np];
         typeMethods.tensor_product_cell(nc, xc, wc, d, nr, roff, np, ref xp, ref wp);
         QuadratureRule.quad_rule_print(d, np, xp, wp, "  A 1D rule over [-1,+1]:");
 

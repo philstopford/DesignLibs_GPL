@@ -125,35 +125,11 @@ internal static class Program
         //    of QUAD_NUM greater than 3 may be appropriate.
         //
     {
-        double[] a;
-        bool debug = false;
-        int dim_num;
-        string element_eps_filename;
-        string element_filename;
-        int[] element_node;
-        int element_num;
-        int element_order;
-        int element_show;
-        double[] f;
-        int ib;
-        int ierr;
-        int job;
+        const bool debug = false;
         int node;
-        bool[] node_boundary;
-        int[] node_condition;
-        string node_eps_filename;
-        string node_filename;
-        bool node_label;
-        int node_num;
-        int node_show;
         double[] node_r = null;
-        double[] node_u;
-        double[] node_xy;
-        int[] pivot;
         string prefix;
-        int quad_num = 7;
-        string solution_filename;
-        double temp;
+        const int quad_num = 7;
 
         Console.WriteLine("");
         Console.WriteLine("FEM2D_POISSON:");
@@ -192,11 +168,11 @@ internal static class Program
         //
         //  Create the file names.
         //
-        node_filename = prefix + "_nodes.txt";
-        element_filename = prefix + "_elements.txt";
-        node_eps_filename = prefix + "_nodes.eps";
-        element_eps_filename = prefix + "_elements.eps";
-        solution_filename = prefix + "_solution.txt";
+        string node_filename = prefix + "_nodes.txt";
+        string element_filename = prefix + "_elements.txt";
+        string node_eps_filename = prefix + "_nodes.eps";
+        string element_eps_filename = prefix + "_elements.eps";
+        string solution_filename = prefix + "_solution.txt";
 
         Console.WriteLine("");
         Console.WriteLine("  Node file is \"" + node_filename + "\".");
@@ -206,14 +182,14 @@ internal static class Program
         //
         TableHeader h = typeMethods.r8mat_header_read(node_filename);
 
-        dim_num = h.m;
-        node_num = h.n;
+        int dim_num = h.m;
+        int node_num = h.n;
 
         Console.WriteLine("  Number of nodes =          " + node_num + "");
 
-        node_condition = new int[node_num];
+        int[] node_condition = new int[node_num];
 
-        node_xy = typeMethods.r8mat_data_read(node_filename, dim_num, node_num);
+        double[] node_xy = typeMethods.r8mat_data_read(node_filename, dim_num, node_num);
 
         typeMethods.r8mat_transpose_print_some(dim_num, node_num, node_xy, 1, 1, 2, 10,
             "  First 10 nodes");
@@ -221,8 +197,8 @@ internal static class Program
         //  Read the element description file.
         //
         h = typeMethods.i4mat_header_read(element_filename);
-        element_order = h.m;
-        element_num = h.n;
+        int element_order = h.m;
+        int element_num = h.n;
 
         Console.WriteLine("");
         Console.WriteLine("  Element order =            " + element_order + "");
@@ -237,7 +213,7 @@ internal static class Program
             return;
         }
 
-        element_node = typeMethods.i4mat_data_read(element_filename, element_order,
+        int[] element_node = typeMethods.i4mat_data_read(element_filename, element_order,
             element_num);
 
         typeMethods.i4mat_transpose_print_some(3, element_num,
@@ -249,7 +225,7 @@ internal static class Program
         //  Determine which nodes are boundary nodes and which have a
         //  finite element unknown.  Then set the boundary values.
         //
-        node_boundary = Boundary.triangulation_order3_boundary_node(node_num, element_num,
+        bool[] node_boundary = Boundary.triangulation_order3_boundary_node(node_num, element_num,
             element_node);
 
         switch (debug)
@@ -275,7 +251,7 @@ internal static class Program
         //
         //  Determine the bandwidth of the coefficient matrix.
         //
-        ib = Matrix.bandwidth(element_num, element_node);
+        int ib = Matrix.bandwidth(element_num, element_node);
 
         Console.WriteLine("");
         Console.WriteLine("  The matrix half bandwidth is " + ib + "");
@@ -288,7 +264,7 @@ internal static class Program
             //
             case <= 1000:
             {
-                node_label = node_num switch
+                bool node_label = node_num switch
                 {
                     <= 100 => true,
                     _ => false
@@ -306,6 +282,8 @@ internal static class Program
             //
             case <= 1000:
             {
+                int element_show;
+                int node_show;
                 switch (node_num)
                 {
                     case <= 100:
@@ -327,10 +305,10 @@ internal static class Program
         //
         //  Allocate space for the coefficient matrix A and right hand side F.
         //
-        a = new double[(3 * ib + 1) * node_num];
-        f = new double[node_num];
-        node_u = new double[node_num];
-        pivot = new int[node_num];
+        double[] a = new double[(3 * ib + 1) * node_num];
+        double[] f = new double[node_num];
+        double[] node_u = new double[node_num];
+        int[] pivot = new int[node_num];
         //
         //  Assemble the finite element coefficient matrix A and the right-hand side F.
         //
@@ -387,7 +365,7 @@ internal static class Program
         //
         //  Solve the linear system using a banded solver.
         //
-        ierr = Matrix.dgb_fa(node_num, ib, ib, ref a, ref pivot);
+        int ierr = Matrix.dgb_fa(node_num, ib, ib, ref a, ref pivot);
 
         if (ierr != 0)
         {
@@ -400,7 +378,7 @@ internal static class Program
             return;
         }
 
-        job = 0;
+        int job = 0;
 
         node_u = Matrix.dgb_sl(node_num, ib, ib, a, pivot, f, job);
 
@@ -436,7 +414,7 @@ internal static class Program
             _ => node_r
         };
 
-        temp = typeMethods.r8vec_amax(node_num, node_r);
+        double temp = typeMethods.r8vec_amax(node_num, node_r);
 
         Console.WriteLine("");
         Console.WriteLine("  Maximum absolute residual = " + temp + "");

@@ -98,8 +98,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 5;
-        int NCC = 12;
+        const int N = 5;
+        const int NCC = 12;
 
         double[] acc =  {
                 2.0, 3.0,
@@ -121,10 +121,7 @@ internal static class Program
                 2, 5
             }
             ;
-        int m = N;
-        int n = N;
-        int ncc = NCC;
-        string prefix = "simple";
+        const string prefix = "simple";
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
@@ -133,22 +130,22 @@ internal static class Program
         //  Full storage statistics
         //
         Console.WriteLine("");
-        Console.WriteLine("  Full rows    M = " + m + "");
-        Console.WriteLine("  Full columns N = " + n + "");
-        Console.WriteLine("  Full storage   = " + m * n + "");
+        Console.WriteLine("  Full rows    M = " + N + "");
+        Console.WriteLine("  Full columns N = " + N + "");
+        Console.WriteLine("  Full storage   = " + N * N + "");
         //
         //  Decrement the 1-based data.
         //
-        typeMethods.i4vec_dec(n + 1, ref ccc);
-        typeMethods.i4vec_dec(ncc, ref icc);
+        typeMethods.i4vec_dec(N + 1, ref ccc);
+        typeMethods.i4vec_dec(NCC, ref icc);
         //
         //  Print the CCS matrix.
         //
-        CompressedColumnStorage.ccs_print(m, n, ncc, icc, ccc, acc, "  The matrix in 0-based CCS format:");
+        CompressedColumnStorage.ccs_print(N, N, NCC, icc, ccc, acc, "  The matrix in 0-based CCS format:");
         //
         //  Write the matrix to 3 files.
         //
-        CompressedColumnStorage.ccs_write(prefix, ncc, n, icc, ccc, acc);
+        CompressedColumnStorage.ccs_write(prefix, NCC, N, icc, ccc, acc);
 
     }
 
@@ -175,7 +172,7 @@ internal static class Program
     {
         int n = 0;
         int ncc = 0;
-        string prefix = "simple";
+        const string prefix = "simple";
 
         Console.WriteLine("");
         Console.WriteLine("TEST02");

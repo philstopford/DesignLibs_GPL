@@ -45,24 +45,12 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double[] a3;
-        double b;
-        string command_filename = "fd1d_advection_diffusion_steady_commands.txt";
+        const string command_filename = "fd1d_advection_diffusion_steady_commands.txt";
         List<string> command_unit = new();
-        string data_filename = "fd1d_advection_diffusion_steady_data.txt";
+        const string data_filename = "fd1d_advection_diffusion_steady_data.txt";
         List<string> data_unit = new();
-        double dx;
-        double[] f;
         int i;
         int j;
-        double k;
-        int nx;
-        double r;
-        double[] u;
-        double v;
-        double[] w;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("FD1D_ADVECTION_DIFFUSION_STEADY:");
@@ -81,19 +69,19 @@ internal static class Program
         //
         //  Physical constants.
         //
-        v = 1.0;
-        k = 0.05;
+        const double v = 1.0;
+        const double k = 0.05;
         Console.WriteLine("");
         Console.WriteLine("  Diffusivity K = " + k + "");
         Console.WriteLine("  Velocity V    = " + v + "");
         //
         //  Spatial discretization.
         //
-        nx = 101;
-        a = 0.0;
-        b = 1.0;
-        dx = (b - a) / (nx - 1);
-        x = typeMethods.r8vec_linspace_new(nx, a, b);
+        const int nx = 101;
+        const double a = 0.0;
+        const double b = 1.0;
+        const double dx = (b - a) / (nx - 1);
+        double[] x = typeMethods.r8vec_linspace_new(nx, a, b);
 
         Console.WriteLine("  Number of nodes NX = " + nx + "");
         Console.WriteLine("  DX = " + dx + "");
@@ -102,8 +90,8 @@ internal static class Program
         //  Set up the tridiagonal linear system corresponding to the boundary 
         //  conditions and advection-diffusion equation.
         //
-        a3 = new double[nx * 3];
-        f = new double[nx];
+        double[] a3 = new double[nx * 3];
+        double[] f = new double[nx];
 
         a3[0 + 1 * nx] = 1.0;
         f[0] = 0.0;
@@ -119,13 +107,13 @@ internal static class Program
         a3[nx - 1 + 1 * nx] = 1.0;
         f[nx - 1] = 1.0;
 
-        u = Trisolve.trisolve(nx, a3, f);
+        double[] u = Trisolve.trisolve(nx, a3, f);
         //
         //  The exact solution to the differential equation is known.
         //
-        r = v * (b - a) / k;
+        double r = v * (b - a) / k;
 
-        w = new double[nx];
+        double[] w = new double[nx];
 
         for (i = 0; i < nx; i++)
         {

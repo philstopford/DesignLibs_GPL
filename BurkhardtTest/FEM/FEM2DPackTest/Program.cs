@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt;
 using Burkardt.FEM;
 using Burkardt.Graph;
@@ -94,35 +95,30 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] element_node;
-        int element_num;
-        int element_order;
         int m = 0;
         int ml = 0;
         int mu = 0;
-        int nelemx;
-        int nelemy;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
         Console.WriteLine("  BANDWIDTH_MESH computes the geometric bandwidth:");
         Console.WriteLine("  of a finite element mesh.");
 
-        nelemx = 2;
-        nelemy = 6;
+        const int nelemx = 2;
+        const int nelemy = 6;
 
         Console.WriteLine("");
         Console.WriteLine("  NELEMX = " + nelemx + "");
         Console.WriteLine("  NELEMY = " + nelemy + "");
 
-        element_order = 6;
-        element_num = Grid.grid_element_num("T6", nelemx, nelemy);
+        const int element_order = 6;
+        int element_num = Grid.grid_element_num("T6", nelemx, nelemy);
 
         Console.WriteLine("");
         Console.WriteLine("  ELEMENT_ORDER = " + element_order + "");
         Console.WriteLine("  ELEMENT_NUM   = " + element_num + "");
 
-        element_node = Grid.grid_t6_element(nelemx, nelemy);
+        int[] element_node = Grid.grid_t6_element(nelemx, nelemy);
 
         Grid.grid_print(element_order, element_num, element_node);
 
@@ -155,22 +151,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int[] element_node;
-        int element_num = 0;
-        int element_order = 0;
-        int i;
-        int ihi;
-        int ilo;
         int m = 0;
         int ml = 0;
         int mu = 0;
-        int nelemx;
-        int nelemy;
         int node;
-        int node_num;
-        int[] var;
-        int[] var_node;
-        int var_num;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02");
@@ -180,36 +164,36 @@ internal static class Program
         Console.WriteLine("  NS_T6_VAR_SET sets them,");
         Console.WriteLine("  BANDWIDTH_VAR computes the variable bandwidth.");
 
-        nelemx = 2;
-        nelemy = 6;
+        const int nelemx = 2;
+        const int nelemy = 6;
 
         Console.WriteLine("");
         Console.WriteLine("  NELEMX = " + nelemx + "");
         Console.WriteLine("  NELEMY = " + nelemy + "");
 
-        element_order = 6;
-        element_num = Grid.grid_element_num("T6", nelemx, nelemy);
-        node_num = Grid.grid_node_num("T6", nelemx, nelemy);
+        int element_order = 6;
+        int element_num = Grid.grid_element_num("T6", nelemx, nelemy);
+        int node_num = Grid.grid_node_num("T6", nelemx, nelemy);
 
         Console.WriteLine("");
         Console.WriteLine("  ELEMENT_ORDER = " + element_order + "");
         Console.WriteLine("  ELEMENT_NUM   = " + element_num + "");
         Console.WriteLine("  NODE_NUM      = " + node_num + "");
 
-        element_node = Grid.grid_t6_element(nelemx, nelemy);
+        int[] element_node = Grid.grid_t6_element(nelemx, nelemy);
 
         Grid.grid_print(element_order, element_num, element_node);
 
-        var_node = new int[node_num + 1];
+        int[] var_node = new int[node_num + 1];
 
-        var_num = NavierStokes.ns_t6_var_count(element_num, element_node, node_num, ref var_node);
+        int var_num = NavierStokes.ns_t6_var_count(element_num, element_node, node_num, ref var_node);
 
         Console.WriteLine("");
         Console.WriteLine("  Number of variables VAR_NUM = " + var_num + "");
 
         typeMethods.i4vec_print(node_num + 1, var_node, "  VAR_NODE pointer vector:");
 
-        var = NavierStokes.ns_t6_var_set(element_num, element_node, node_num, var_node,
+        int[] var = NavierStokes.ns_t6_var_set(element_num, element_node, node_num, var_node,
             var_num);
 
         Console.WriteLine("");
@@ -218,15 +202,16 @@ internal static class Program
 
         for (node = 0; node < node_num; node++)
         {
-            ilo = var_node[node];
-            ihi = var_node[node + 1] - 1;
+            int ilo = var_node[node];
+            int ihi = var_node[node + 1] - 1;
 
-            string cout = "  " + node.ToString().PadLeft(8);
+            string cout = "  " + node.ToString(CultureInfo.InvariantCulture).PadLeft(8);
             cout += "  ";
 
+            int i;
             for (i = ilo; i <= ihi; i++)
             {
-                cout += "  " + var[i - 1].ToString().PadLeft(8);
+                cout += "  " + var[i - 1].ToString(CultureInfo.InvariantCulture).PadLeft(8);
             }
 
             Console.WriteLine(cout);
@@ -336,22 +321,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int NELEMX = 7;
-        int NELEMY = 5;
+        const int NELEMX = 7;
+        const int NELEMY = 5;
 
-        double angle;
-        double[] c;
-        int col;
-        double[] dcdx;
-        double dcdx_exact;
-        double[] dcdy;
-        double dcdy_exact;
-        int[] element_node;
-        int element_num;
-        int node;
-        int node_num;
-        double[] node_xy;
-        double r;
         int row;
         double x;
         double y;
@@ -363,36 +335,37 @@ internal static class Program
         //
         //  How many elements are there?
         //
-        element_num = Grid.grid_t3_element_num(NELEMX, NELEMY);
+        int element_num = Grid.grid_t3_element_num(NELEMX, NELEMY);
         //
         //  How many nodes are there?
         //
-        node_num = Grid.grid_t3_node_num(NELEMX, NELEMY);
+        int node_num = Grid.grid_t3_node_num(NELEMX, NELEMY);
 
-        c = new double[node_num];
-        dcdx = new double[node_num];
-        dcdy = new double[node_num];
-        node_xy = new double[2 * node_num];
+        double[] c = new double[node_num];
+        double[] dcdx = new double[node_num];
+        double[] dcdy = new double[node_num];
+        double[] node_xy = new double[2 * node_num];
         //
         //  Get the nodes that make up each element.
         //
-        element_node = Grid.grid_t3_element(NELEMX, NELEMY);
+        int[] element_node = Grid.grid_t3_element(NELEMX, NELEMY);
         //
         //  Generate the coordinates of the nodes.
         //
-        node = 0;
+        int node = 0;
 
         for (row = 0; row <= NELEMY; row++)
         {
-            r = ((NELEMY - row) * 1.0
-                 + +row * 3.0)
-                / NELEMY;
+            double r = ((NELEMY - row) * 1.0
+                        + +row * 3.0)
+                       / NELEMY;
 
+            int col;
             for (col = 0; col <= NELEMX; col++)
             {
-                angle = ((NELEMX - col) * 135.0
-                         + +col * 45.0)
-                        / NELEMX;
+                double angle = ((NELEMX - col) * 135.0
+                                + +col * 45.0)
+                               / NELEMX;
 
                 angle = Helpers.degrees_to_radians(angle);
 
@@ -427,19 +400,19 @@ internal static class Program
             x = node_xy[0 + node * 2];
             y = node_xy[1 + node * 2];
 
-            dcdx_exact = Math.Cos(x) * (1.0 * y * y);
-            dcdy_exact = Math.Sin(x) * 2.0 * y;
+            double dcdx_exact = Math.Cos(x) * (1.0 * y * y);
+            double dcdy_exact = Math.Sin(x) * 2.0 * y;
 
             Console.WriteLine("");
-            Console.WriteLine("  " + c[node].ToString().PadLeft(14)
-                                   + "  " + node_xy[0 + node * 2].ToString().PadLeft(14)
-                                   + "  " + node_xy[1 + node * 2].ToString().PadLeft(14) + node_xy[1 + node * 2] + "");
+            Console.WriteLine("  " + c[node].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + node_xy[0 + node * 2].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + node_xy[1 + node * 2].ToString(CultureInfo.InvariantCulture).PadLeft(14) + node_xy[1 + node * 2] + "");
             Console.WriteLine("  " + "              "
-                                   + "  " + dcdx[node].ToString().PadLeft(14)
-                                   + "  " + dcdy[node].ToString().PadLeft(14) + "");
+                                   + "  " + dcdx[node].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + dcdy[node].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             Console.WriteLine("  " + "              "
-                                   + "  " + dcdx_exact.ToString().PadLeft(14)
-                                   + "  " + dcdy_exact.ToString().PadLeft(14) + dcdy_exact + "");
+                                   + "  " + dcdx_exact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + dcdy_exact.ToString(CultureInfo.InvariantCulture).PadLeft(14) + dcdy_exact + "");
         }
     }
 
@@ -464,24 +437,19 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int NELEMX = 7;
-        int NELEMY = 5;
+        const int NELEMX = 7;
+        const int NELEMY = 5;
 
-        int ELEMENT_NUM = NELEMX* NELEMY;
-        int NODE_NUM = ( NELEMX + 1 ) *(NELEMY + 1);
+        const int ELEMENT_NUM = NELEMX* NELEMY;
+        const int NODE_NUM = ( NELEMX + 1 ) *(NELEMY + 1);
 
-        double angle;
-        string code = "Q4";
-        int col;
+        const string code = "Q4";
         int element;
         bool[] element_mask = new bool[ELEMENT_NUM];
-        int[] element_node;
-        int element_show = 2;
-        string file_name = "fem2d_pack_prb_q4.eps";
-        int node;
-        int node_show = 2;
+        const int element_show = 2;
+        const string file_name = "fem2d_pack_prb_q4.eps";
+        const int node_show = 2;
         double[] node_xy = new double[2 * NODE_NUM];
-        double r;
         int row;
 
         Console.WriteLine("");
@@ -489,21 +457,22 @@ internal static class Program
         Console.WriteLine("  ELEMENTS_EPS creates an Encapsulated PostScript");
         Console.WriteLine("  file containing an image of a mesh.");
 
-        element_node = Grid.grid_q4_element(NELEMX, NELEMY);
+        int[] element_node = Grid.grid_q4_element(NELEMX, NELEMY);
 
-        node = 0;
+        int node = 0;
 
         for (row = 0; row <= NELEMY; row++)
         {
-            r = ((NELEMY - row) * 1.0
-                 + +row * 3.0)
-                / NELEMY;
+            double r = ((NELEMY - row) * 1.0
+                        + +row * 3.0)
+                       / NELEMY;
 
+            int col;
             for (col = 0; col <= NELEMX; col++)
             {
-                angle = ((NELEMX - col) * 135.0
-                         + +col * 45.0)
-                        / NELEMX;
+                double angle = ((NELEMX - col) * 135.0
+                                + +col * 45.0)
+                               / NELEMX;
 
                 angle = Helpers.degrees_to_radians(angle);
 
@@ -545,24 +514,19 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int NELEMX = 7;
-        int NELEMY = 5;
+        const int NELEMX = 7;
+        const int NELEMY = 5;
 
-        int ELEMENT_NUM = 2 * NELEMX * NELEMY;
-        int NODE_NUM = ( NELEMX + 1 ) *(NELEMY + 1);
+        const int ELEMENT_NUM = 2 * NELEMX * NELEMY;
+        const int NODE_NUM = ( NELEMX + 1 ) *(NELEMY + 1);
 
-        double angle;
-        string code = "T3";
-        int col;
+        const string code = "T3";
         int element;
         bool[] element_mask = new bool[ELEMENT_NUM];
-        int[] element_node;
-        int element_show = 2;
-        string file_name = "fem2d_pack_prb_t3.eps";
-        int node;
-        int node_show = 2;
+        const int element_show = 2;
+        const string file_name = "fem2d_pack_prb_t3.eps";
+        const int node_show = 2;
         double[] node_xy = new double[2 * NODE_NUM];
-        double r;
         int row;
 
         Console.WriteLine("");
@@ -570,21 +534,22 @@ internal static class Program
         Console.WriteLine("  ELEMENTS_EPS creates an Encapsulated PostScript");
         Console.WriteLine("  file containing an image of a mesh.");
 
-        element_node = Grid.grid_t3_element(NELEMX, NELEMY);
+        int[] element_node = Grid.grid_t3_element(NELEMX, NELEMY);
 
-        node = 0;
+        int node = 0;
 
         for (row = 0; row <= NELEMY; row++)
         {
-            r = ((NELEMY - row) * 1.0
-                 + +row * 3.0)
-                / NELEMY;
+            double r = ((NELEMY - row) * 1.0
+                        + +row * 3.0)
+                       / NELEMY;
 
+            int col;
             for (col = 0; col <= NELEMX; col++)
             {
-                angle = ((NELEMX - col) * 135.0
-                         + +col * 45.0)
-                        / NELEMX;
+                double angle = ((NELEMX - col) * 135.0
+                                + +col * 45.0)
+                               / NELEMX;
 
                 angle = Helpers.degrees_to_radians(angle);
 
@@ -625,22 +590,14 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int NELEMX = 7;
-        int NELEMY = 5;
+        const int NELEMX = 7;
+        const int NELEMY = 5;
 
-        string code = "T4";
-        int col;
+        const string code = "T4";
         int element;
-        bool[] element_mask;
-        int[] element_node;
-        int element_num;
-        int element_show = 1;
+        const int element_show = 1;
         string file_name = "fem2d_pack_prb_t4.eps";
-        int i;
-        int node;
-        int node_num;
-        int node_show = 2;
-        double[] node_xy;
+        const int node_show = 2;
         int row;
         double x;
         double y;
@@ -652,21 +609,21 @@ internal static class Program
         //
         //  How many elements are there?
         //
-        element_num = Grid.grid_t4_element_num(NELEMX, NELEMY);
+        int element_num = Grid.grid_t4_element_num(NELEMX, NELEMY);
 
-        element_mask = new bool[element_num];
+        bool[] element_mask = new bool[element_num];
         //
         //  How many nodes are there?
         //
-        node_num = Grid.grid_t4_node_num(NELEMX, NELEMY);
+        int node_num = Grid.grid_t4_node_num(NELEMX, NELEMY);
 
-        node_xy = new double[2 * node_num];
+        double[] node_xy = new double[2 * node_num];
         //
         //  Get the nodes that make up each element.
         //
-        element_node = Grid.grid_t4_element(NELEMX, NELEMY);
+        int[] element_node = Grid.grid_t4_element(NELEMX, NELEMY);
 
-        node = 0;
+        int node = 0;
 
         for (row = 0; row <= NELEMY; row++)
         {
@@ -674,6 +631,7 @@ internal static class Program
                  + +row * 6.0)
                 / (3 * NELEMY);
 
+            int col;
             for (col = 0; col <= NELEMX; col++)
             {
                 x = ((2 * NELEMX - col) * 0.0
@@ -700,6 +658,7 @@ internal static class Program
         {
             x = 0.0;
             y = 0.0;
+            int i;
             for (i = 0; i < 3; i++)
             {
                 node = element_node[i + element * 4];
@@ -747,24 +706,19 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int NELEMX = 6;
-        int NELEMY = 6;
+        const int NELEMX = 6;
+        const int NELEMY = 6;
 
-        int ELEMENT_NUM = 2 * NELEMX * NELEMY;
-        int NODE_NUM = (2 * NELEMX + 1) * (2 * NELEMY + 1);
+        const int ELEMENT_NUM = 2 * NELEMX * NELEMY;
+        const int NODE_NUM = (2 * NELEMX + 1) * (2 * NELEMY + 1);
 
-        string code = "T6";
-        int col;
+        const string code = "T6";
         int element;
         bool[] element_mask = new bool[ELEMENT_NUM];
-        int[] element_node;
-        int element_show = 2;
-        string file_name = "fem2d_pack_prb_t6.eps";
-        int node;
-        int node_show = 2;
+        const int element_show = 2;
+        const string file_name = "fem2d_pack_prb_t6.eps";
+        const int node_show = 2;
         double[] node_xy = new double[2 * NODE_NUM];
-        double x;
-        double y;
         int row;
 
         Console.WriteLine("");
@@ -772,21 +726,22 @@ internal static class Program
         Console.WriteLine("  ELEMENTS_EPS creates an Encapsulated PostScript");
         Console.WriteLine("  file containing an image of a mesh.");
 
-        element_node = Grid.grid_t6_element(NELEMX, NELEMY);
+        int[] element_node = Grid.grid_t6_element(NELEMX, NELEMY);
 
-        node = 0;
+        int node = 0;
 
         for (row = 0; row <= 2 * NELEMY; row++)
         {
-            y = ((2 * NELEMY - row) * 0.0
-                 + +row * 6.0)
-                / (2 * NELEMY);
+            double y = ((2 * NELEMY - row) * 0.0
+                        + +row * 6.0)
+                       / (2 * NELEMY);
 
+            int col;
             for (col = 0; col <= 2 * NELEMX; col++)
             {
-                x = ((2 * NELEMX - col) * 0.0
-                     + +col * 6.0)
-                    / (2 * NELEMX);
+                double x = ((2 * NELEMX - col) * 0.0
+                            + +col * 6.0)
+                           / (2 * NELEMX);
 
                 node_xy[0 + node * 2] = x;
                 node_xy[1 + node * 2] = y;
@@ -834,10 +789,8 @@ internal static class Program
         //
     {
         int node;
-        int node_num;
-        double[] node_xy;
-        int num_x = 5;
-        int num_y = 3;
+        const int num_x = 5;
+        const int num_y = 3;
 
         Console.WriteLine("");
         Console.WriteLine("TEST105");
@@ -845,17 +798,17 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  NUM_X =    " + num_x + "");
         Console.WriteLine("  NUM_Y =    " + num_y + "");
-        node_num = num_x * num_y;
+        int node_num = num_x * num_y;
         Console.WriteLine("  NODE_NUM = " + node_num + "");
         Console.WriteLine("");
 
-        node_xy = Grid.grid_nodes_01(num_x, num_y);
+        double[] node_xy = Grid.grid_nodes_01(num_x, num_y);
 
         for (node = 0; node < node_num; node++)
         {
-            Console.WriteLine("  " + node.ToString().PadLeft(8)
-                                   + "  " + node_xy[0 + node * 2].ToString().PadLeft(14)
-                                   + "  " + node_xy[1 + node * 2].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + node.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + node_xy[0 + node * 2].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + node_xy[1 + node * 2].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -1015,10 +968,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int ELEMENT_NUM = 8;
-        int NODE_NUM = 9;
+        const int ELEMENT_NUM = 8;
+        const int NODE_NUM = 9;
 
-        double[] a;
         int[] element_node =  {
                 1, 4, 2,
                 5, 2, 4,
@@ -1049,7 +1001,7 @@ internal static class Program
         Console.WriteLine("  a finite element system using T3 elements");
         Console.WriteLine("  (linear triangles).");
 
-        a = Mass.mass_matrix_t3(NODE_NUM, ELEMENT_NUM, element_node, node_xy);
+        double[] a = Mass.mass_matrix_t3(NODE_NUM, ELEMENT_NUM, element_node, node_xy);
 
         typeMethods.r8mat_print(NODE_NUM, NODE_NUM, a, "  The T3 mass matrix:");
     }
@@ -1075,10 +1027,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int ELEMENT_NUM = 2;
-        int NODE_NUM = 9;
+        const int ELEMENT_NUM = 2;
+        const int NODE_NUM = 9;
 
-        double[] a;
         int[] element_node =  {
                 1, 3, 7, 2, 5, 4,
                 9, 7, 3, 8, 5, 6
@@ -1103,7 +1054,7 @@ internal static class Program
         Console.WriteLine("  a finite element system using T6 elements");
         Console.WriteLine("  (quadratic triangles).");
 
-        a = Mass.mass_matrix_t6(NODE_NUM, ELEMENT_NUM, element_node, node_xy);
+        double[] a = Mass.mass_matrix_t6(NODE_NUM, ELEMENT_NUM, element_node, node_xy);
 
         typeMethods.r8mat_print(NODE_NUM, NODE_NUM, a, "  The T6 mass matrix:");
 
@@ -1130,14 +1081,12 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 10;
+        const int N = 10;
 
-        int i;
         int j;
         double[] phy = new double[2 * N];
         double[] ref_ = new double[ 2 * N];
         double[] ref2 = new double[2 * N];
-        int seed;
         double[] t =  {
                 1.0, 1.0,
                 3.0, 1.0,
@@ -1145,7 +1094,7 @@ internal static class Program
             }
             ;
 
-        seed = 123456789;
+        int seed = 123456789;
 
         Console.WriteLine("");
         Console.WriteLine("TEST15");
@@ -1160,6 +1109,7 @@ internal static class Program
 
         for (j = 0; j < N; j++)
         {
+            int i;
             for (i = 0; i < 2; i++)
             {
                 ref_[i +j * 2] = UniformRNG.r8_uniform_01(ref seed);
@@ -1186,12 +1136,12 @@ internal static class Program
 
         for (j = 0; j < N; j++)
         {
-            Console.WriteLine("  " + ref_[0 + j * 2].ToString().PadLeft(10)
-                                   + "  " + ref_[1 + j * 2].ToString().PadLeft(10)
-                                   + "  " + phy[0 + j * 2].ToString().PadLeft(10)  
-                                   + "  " + phy[1 + j * 2].ToString().PadLeft(10) 
-                                   + "  " + ref2[0 + j * 2].ToString().PadLeft(10)
-                                   + "  " + ref2[1 + j * 2].ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + ref_[0 + j * 2].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + ref_[1 + j * 2].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + phy[0 + j * 2].ToString(CultureInfo.InvariantCulture).PadLeft(10)  
+                                   + "  " + phy[1 + j * 2].ToString(CultureInfo.InvariantCulture).PadLeft(10) 
+                                   + "  " + ref2[0 + j * 2].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + ref2[1 + j * 2].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -1216,7 +1166,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 16;
+        const int N = 16;
 
         int j;
         double[] phy = new double[2 * N];
@@ -1262,10 +1212,10 @@ internal static class Program
 
         for (j = 0; j < N; j++)
         {
-            Console.WriteLine("  " + ref_[0 + j * 2].ToString().PadLeft(8) 
-                                   + "  " + ref_[1 + j * 2].ToString().PadLeft(8)
-                                   + "  " + phy[0 + j * 2].ToString().PadLeft(8)
-                                   + "  " + phy[1 + j * 2].ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + ref_[0 + j * 2].ToString(CultureInfo.InvariantCulture).PadLeft(8) 
+                                   + "  " + ref_[1 + j * 2].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + phy[0 + j * 2].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + phy[1 + j * 2].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
     }
 
@@ -1335,15 +1285,10 @@ internal static class Program
         //
     {
         int element;
-        int[] element_node;
-        int element_num;
-        int element_order = 4;
-        int nelemx = 8;
-        int nelemy = 8;
+        const int element_order = 4;
+        const int nelemx = 8;
+        const int nelemy = 8;
         int node;
-        int node_num;
-        double[] node_xyz;
-        int order;
 
         Console.WriteLine("");
         Console.WriteLine("TEST19");
@@ -1356,14 +1301,14 @@ internal static class Program
         Console.WriteLine("  SPHERE_GRID_Q4_NODE_XYZ returns the coordinates");
         Console.WriteLine("    of nodes in the grid.");
 
-        element_num = Burkardt.SphereNS.Grid.sphere_grid_q4_element_num(nelemx, nelemy);
-        node_num = Burkardt.SphereNS.Grid.sphere_grid_q4_node_num(nelemx, nelemy);
+        int element_num = Burkardt.SphereNS.Grid.sphere_grid_q4_element_num(nelemx, nelemy);
+        int node_num = Burkardt.SphereNS.Grid.sphere_grid_q4_node_num(nelemx, nelemy);
 
         Console.WriteLine("");
         Console.WriteLine("  Expected number of nodes =    " + node_num + "");
         Console.WriteLine("  Expected number of elements = " + element_num + "");
 
-        element_node = Burkardt.SphereNS.Grid.sphere_grid_q4_element(nelemx, nelemy);
+        int[] element_node = Burkardt.SphereNS.Grid.sphere_grid_q4_element(nelemx, nelemy);
 
         Console.WriteLine("");
         Console.WriteLine("  The elements and their nodes:");
@@ -1371,16 +1316,17 @@ internal static class Program
 
         for (element = 0; element < element_num; element++)
         {
-            string cout = "  " + (element + 1).ToString().PadLeft(4) + "  ";
+            string cout = "  " + (element + 1).ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
+            int order;
             for (order = 0; order < element_order; order++)
             {
-                cout += "  " + element_node[order + element * element_order].ToString().PadLeft(4);
+                cout += "  " + element_node[order + element * element_order].ToString(CultureInfo.InvariantCulture).PadLeft(4);
             }
 
             Console.WriteLine(cout);
         }
 
-        node_xyz = Burkardt.SphereNS.Grid.sphere_grid_q4_node_xyz(nelemx, nelemy);
+        double[] node_xyz = Burkardt.SphereNS.Grid.sphere_grid_q4_node_xyz(nelemx, nelemy);
 
         Console.WriteLine("");
         Console.WriteLine("  The node coordinates:");
@@ -1388,10 +1334,10 @@ internal static class Program
 
         for (node = 0; node < node_num; node++)
         {
-            Console.WriteLine("  " + (node + 1).ToString().PadLeft(4)
-                                   + "  " + node_xyz[0 + node * 3].ToString().PadLeft(12)
-                                   + "  " + node_xyz[1 + node * 3].ToString().PadLeft(12)
-                                   + "  " + node_xyz[2 + node * 3].ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + (node + 1).ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + node_xyz[0 + node * 3].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + node_xyz[1 + node * 3].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + node_xyz[2 + node * 3].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
         //
@@ -1425,15 +1371,10 @@ internal static class Program
         //
     {
         int element;
-        int[] element_node;
-        int element_num;
-        int element_order = 9;
-        int nelemx = 3;
-        int nelemy = 4;
+        const int element_order = 9;
+        const int nelemx = 3;
+        const int nelemy = 4;
         int node;
-        int node_num;
-        double[] node_xyz;
-        int order;
 
         Console.WriteLine("");
         Console.WriteLine("TEST20");
@@ -1446,14 +1387,14 @@ internal static class Program
         Console.WriteLine("  SPHERE_GRID_Q9_NODE_XYZ returns the coordinates");
         Console.WriteLine("    of nodes in the grid.");
 
-        element_num = Burkardt.SphereNS.Grid.sphere_grid_q9_element_num(nelemx, nelemy);
-        node_num = Burkardt.SphereNS.Grid.sphere_grid_q9_node_num(nelemx, nelemy);
+        int element_num = Burkardt.SphereNS.Grid.sphere_grid_q9_element_num(nelemx, nelemy);
+        int node_num = Burkardt.SphereNS.Grid.sphere_grid_q9_node_num(nelemx, nelemy);
 
         Console.WriteLine("");
         Console.WriteLine("  Expected number of nodes =    " + node_num + "");
         Console.WriteLine("  Expected number of elements = " + element_num + "");
 
-        element_node = Burkardt.SphereNS.Grid.sphere_grid_q9_element(nelemx, nelemy);
+        int[] element_node = Burkardt.SphereNS.Grid.sphere_grid_q9_element(nelemx, nelemy);
 
         Console.WriteLine("");
         Console.WriteLine("  The elements and their nodes:");
@@ -1461,16 +1402,17 @@ internal static class Program
 
         for (element = 0; element < element_num; element++)
         {
-            string cout = "  " + (element + 1).ToString().PadLeft(4) + "  ";
+            string cout = "  " + (element + 1).ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
+            int order;
             for (order = 0; order < element_order; order++)
             {
-                cout += "  " + element_node[order + element * element_order].ToString().PadLeft(4) ;
+                cout += "  " + element_node[order + element * element_order].ToString(CultureInfo.InvariantCulture).PadLeft(4) ;
             }
 
             Console.WriteLine(cout);
         }
 
-        node_xyz = Burkardt.SphereNS.Grid.sphere_grid_q9_node_xyz(nelemx, nelemy);
+        double[] node_xyz = Burkardt.SphereNS.Grid.sphere_grid_q9_node_xyz(nelemx, nelemy);
 
         Console.WriteLine("");
         Console.WriteLine("  The node coordinates:");
@@ -1478,10 +1420,10 @@ internal static class Program
 
         for (node = 0; node < node_num; node++)
         {
-            Console.WriteLine("  " + (node + 1).ToString().PadLeft(4)
-                                   + "  " + node_xyz[0 + node * 3].ToString().PadLeft(12)
-                                   + "  " + node_xyz[1 + node * 3].ToString().PadLeft(12)
-                                   + "  " + node_xyz[2 + node * 3].ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + (node + 1).ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + node_xyz[0 + node * 3].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + node_xyz[1 + node * 3].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + node_xyz[2 + node * 3].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
         //
@@ -1514,19 +1456,11 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int element;
-        int[] element_node;
-        int element_num;
-        int element_order = 16;
-        int i;
-        int ilo;
+        const int element_order = 16;
         int j;
-        int k;
-        int nelemx = 2;
-        int nelemy = 2;
+        const int nelemx = 2;
+        const int nelemy = 2;
         int node;
-        int node_num;
-        double[] node_xyz;
 
         Console.WriteLine("");
         Console.WriteLine("TEST21");
@@ -1539,41 +1473,44 @@ internal static class Program
         Console.WriteLine("  SPHERE_GRID_Q16_NODE_XYZ returns the coordinates");
         Console.WriteLine("    of nodes in the grid.");
 
-        element_num = Burkardt.SphereNS.Grid.sphere_grid_q16_element_num(nelemx, nelemy);
-        node_num = Burkardt.SphereNS.Grid.sphere_grid_q16_node_num(nelemx, nelemy);
+        int element_num = Burkardt.SphereNS.Grid.sphere_grid_q16_element_num(nelemx, nelemy);
+        int node_num = Burkardt.SphereNS.Grid.sphere_grid_q16_node_num(nelemx, nelemy);
 
         Console.WriteLine("");
         Console.WriteLine("  Expected number of nodes =    " + node_num + "");
         Console.WriteLine("  Expected number of elements = " + element_num + "");
 
-        element_node = Burkardt.SphereNS.Grid.sphere_grid_q16_element(nelemx, nelemy);
+        int[] element_node = Burkardt.SphereNS.Grid.sphere_grid_q16_element(nelemx, nelemy);
 
         Console.WriteLine("");
         Console.WriteLine("  The elements and their nodes, listed in a way");
         Console.WriteLine("  that suggests their geometry:");
         Console.WriteLine("");
 
-        element = element_num;
+        int element = element_num;
 
         for (j = 1; j <= nelemy; j++)
         {
+            int i;
             for (i = 1; i <= nelemx; i++)
             {
                 element -= 1;
                 Console.WriteLine("");
 
-                    
+
+                int ilo;
                 for (ilo = 12; 0 <= ilo; ilo -= 4)
                 {
                     string cout = ilo switch
                     {
-                        12 => "  " + (element + 1).ToString().PadLeft(4),
+                        12 => "  " + (element + 1).ToString(CultureInfo.InvariantCulture).PadLeft(4),
                         _ => "      "
                     };
 
+                    int k;
                     for (k = ilo; k <= ilo + 3; k++)
                     {
-                        cout += "  " + element_node[k + element * element_order].ToString().PadLeft(4);
+                        cout += "  " + element_node[k + element * element_order].ToString(CultureInfo.InvariantCulture).PadLeft(4);
                     }
 
                     Console.WriteLine(cout);
@@ -1581,7 +1518,7 @@ internal static class Program
             }
         }
 
-        node_xyz = Burkardt.SphereNS.Grid.sphere_grid_q16_node_xyz(nelemx, nelemy);
+        double[] node_xyz = Burkardt.SphereNS.Grid.sphere_grid_q16_node_xyz(nelemx, nelemy);
 
         Console.WriteLine("");
         Console.WriteLine("  The node coordinates:");
@@ -1589,10 +1526,10 @@ internal static class Program
 
         for (node = 0; node < node_num; node++)
         {
-            Console.WriteLine("  " + (node + 1).ToString().PadLeft(4)
-                                   + "  " + node_xyz[0 + node * 3].ToString().PadLeft(12) 
-                                   + "  " + node_xyz[1 + node * 3].ToString().PadLeft(12)
-                                   + "  " + node_xyz[2 + node * 3].ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + (node + 1).ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + node_xyz[0 + node * 3].ToString(CultureInfo.InvariantCulture).PadLeft(12) 
+                                   + "  " + node_xyz[1 + node * 3].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + node_xyz[2 + node * 3].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
         //
@@ -1626,20 +1563,14 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int dim;
-        int dim_num = 3;
+        const int dim_num = 3;
         int element;
-        string element_file_name = "sphere_t3_elements.txt";
-        int[] element_node;
-        int element_num;
-        int element_order = 3;
-        int nelemx = 8;
-        int nelemy = 8;
+        const string element_file_name = "sphere_t3_elements.txt";
+        const int element_order = 3;
+        const int nelemx = 8;
+        const int nelemy = 8;
         int node;
-        int node_num;
-        string node_file_name = "sphere_t3_nodes.txt";
-        double[] node_xyz;
-        int order;
+        const string node_file_name = "sphere_t3_nodes.txt";
 
         Console.WriteLine("");
         Console.WriteLine("TEST22");
@@ -1652,8 +1583,8 @@ internal static class Program
         Console.WriteLine("  SPHERE_GRID_T3_NODE_XYZ returns the coordinates");
         Console.WriteLine("    of nodes in the grid.");
 
-        element_num = Burkardt.SphereNS.Grid.sphere_grid_t3_element_num(nelemx, nelemy);
-        node_num = Burkardt.SphereNS.Grid.sphere_grid_t3_node_num(nelemx, nelemy);
+        int element_num = Burkardt.SphereNS.Grid.sphere_grid_t3_element_num(nelemx, nelemy);
+        int node_num = Burkardt.SphereNS.Grid.sphere_grid_t3_node_num(nelemx, nelemy);
 
         Console.WriteLine("");
         Console.WriteLine("  Expected number of nodes =    " + node_num + "");
@@ -1661,7 +1592,7 @@ internal static class Program
         //
         //  Generate the ELEMENT_NODE array, print it, and write it to a file.
         //
-        element_node = Burkardt.SphereNS.Grid.sphere_grid_t3_element(nelemx, nelemy);
+        int[] element_node = Burkardt.SphereNS.Grid.sphere_grid_t3_element(nelemx, nelemy);
 
         Console.WriteLine("");
         Console.WriteLine("  The elements and their nodes:");
@@ -1669,10 +1600,11 @@ internal static class Program
 
         for (element = 0; element < element_num; element++)
         {
-            string cout = "  " + (element + 1).ToString().PadLeft(4) + "  ";
+            string cout = "  " + (element + 1).ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
+            int order;
             for (order = 0; order < element_order; order++)
             {
-                cout += "  " + element_node[order + element * element_order].ToString().PadLeft(4);
+                cout += "  " + element_node[order + element * element_order].ToString(CultureInfo.InvariantCulture).PadLeft(4);
             }
 
             Console.WriteLine(cout);
@@ -1683,7 +1615,7 @@ internal static class Program
         //
         //  Generate the NODE_XYZ array, print it, and write it to a file.
         //
-        node_xyz = Burkardt.SphereNS.Grid.sphere_grid_t3_node_xyz(nelemx, nelemy);
+        double[] node_xyz = Burkardt.SphereNS.Grid.sphere_grid_t3_node_xyz(nelemx, nelemy);
 
         Console.WriteLine("");
         Console.WriteLine("  The node coordinates:");
@@ -1691,10 +1623,11 @@ internal static class Program
 
         for (node = 0; node < node_num; node++)
         {
-            string cout1 = "  " + (node + 1).ToString().PadLeft(4);
+            string cout1 = "  " + (node + 1).ToString(CultureInfo.InvariantCulture).PadLeft(4);
+            int dim;
             for (dim = 0; dim < dim_num; dim++)
             {
-                cout1 += "  " + node_xyz[dim + node * 3].ToString().PadLeft(12);
+                cout1 += "  " + node_xyz[dim + node * 3].ToString(CultureInfo.InvariantCulture).PadLeft(12);
             }
 
             Console.WriteLine(cout1);
@@ -1728,15 +1661,10 @@ internal static class Program
         //
     {
         int element;
-        int[] element_node;
-        int element_num;
-        int element_order = 6;
-        int nelemx = 3;
-        int nelemy = 4;
+        const int element_order = 6;
+        const int nelemx = 3;
+        const int nelemy = 4;
         int node;
-        int node_num;
-        double[] node_xyz;
-        int order;
 
         Console.WriteLine("");
         Console.WriteLine("TEST23");
@@ -1749,14 +1677,14 @@ internal static class Program
         Console.WriteLine("  SPHERE_GRID_T6_NODE_XYZ returns the coordinates");
         Console.WriteLine("    of nodes in the grid.");
 
-        element_num = Burkardt.SphereNS.Grid.sphere_grid_t6_element_num(nelemx, nelemy);
-        node_num = Burkardt.SphereNS.Grid.sphere_grid_t6_node_num(nelemx, nelemy);
+        int element_num = Burkardt.SphereNS.Grid.sphere_grid_t6_element_num(nelemx, nelemy);
+        int node_num = Burkardt.SphereNS.Grid.sphere_grid_t6_node_num(nelemx, nelemy);
 
         Console.WriteLine("");
         Console.WriteLine("  Expected number of nodes =    " + node_num + "");
         Console.WriteLine("  Expected number of elements = " + element_num + "");
 
-        element_node = Burkardt.SphereNS.Grid.sphere_grid_t6_element(nelemx, nelemy);
+        int[] element_node = Burkardt.SphereNS.Grid.sphere_grid_t6_element(nelemx, nelemy);
 
         Console.WriteLine("");
         Console.WriteLine("  The elements and their nodes:");
@@ -1764,16 +1692,17 @@ internal static class Program
 
         for (element = 0; element < element_num; element++)
         {
-            string cout = "  " + (element + 1).ToString().PadLeft(4) + "  ";
+            string cout = "  " + (element + 1).ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  ";
+            int order;
             for (order = 0; order < element_order; order++)
             {
-                cout += "  " + element_node[order + element * element_order].ToString().PadLeft(4);
+                cout += "  " + element_node[order + element * element_order].ToString(CultureInfo.InvariantCulture).PadLeft(4);
             }
 
             Console.WriteLine(cout);
         }
 
-        node_xyz = Burkardt.SphereNS.Grid.sphere_grid_t6_node_xyz(nelemx, nelemy);
+        double[] node_xyz = Burkardt.SphereNS.Grid.sphere_grid_t6_node_xyz(nelemx, nelemy);
 
         Console.WriteLine("");
         Console.WriteLine("  The node coordinates:");
@@ -1781,10 +1710,10 @@ internal static class Program
 
         for (node = 0; node < node_num; node++)
         {
-            Console.WriteLine("  " + (node + 1).ToString().PadLeft(4)
-                                   + "  " + node_xyz[0 + node * 3].ToString().PadLeft(12)
-                                   + "  " + node_xyz[1 + node * 3].ToString().PadLeft(12)
-                                   + "  " + node_xyz[2 + node * 3].ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + (node + 1).ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + node_xyz[0 + node * 3].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + node_xyz[1 + node * 3].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + node_xyz[2 + node * 3].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
 
         //
@@ -1818,18 +1747,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int ORDER_MAX = 64;
+        const int ORDER_MAX = 64;
 
         int a;
-        int b;
-        double coef;
-        double err;
-        double exact;
-        int i;
-        int order;
-        double quad;
-        int rule;
-        int rule_max = 20;
+        const int rule_max = 20;
         double value = 0;
         double[] weight = new double[ORDER_MAX];
         double[] xtab = new double[ORDER_MAX];
@@ -1843,9 +1764,11 @@ internal static class Program
 
         for (a = 0; a <= 10; a++)
         {
+            int b;
             for (b = 0; b <= 10 - a; b++)
             {
-                coef = (a + b + 2) * (double) (a + b + 1);
+                double coef = (a + b + 2) * (double) (a + b + 1);
+                int i;
                 for (i = 1; i <= b; i++)
                 {
                     coef = coef * (a + i) / i;
@@ -1857,13 +1780,14 @@ internal static class Program
                 Console.WriteLine("  Rule       QUAD           ERROR");
                 Console.WriteLine("");
 
+                int rule;
                 for (rule = 1; rule <= rule_max; rule++)
                 {
-                    order = Triangle.triangle_unit_size(rule);
+                    int order = Triangle.triangle_unit_size(rule);
 
                     Triangle.triangle_unit_set(rule, xtab, ytab, weight);
 
-                    quad = 0.0;
+                    double quad = 0.0;
 
                     for (i = 0; i < order; i++)
                     {
@@ -1893,12 +1817,12 @@ internal static class Program
                         quad += 0.5 * weight[i] * value;
                     }
 
-                    exact = 1.0;
-                    err = Math.Abs(exact - quad);
+                    double exact = 1.0;
+                    double err = Math.Abs(exact - quad);
 
-                    Console.WriteLine("  " + rule.ToString().PadLeft(4)
-                                           + "  " + quad.ToString().PadLeft(14)
-                                           + "  " + err.ToString().PadLeft(14) + "");
+                    Console.WriteLine("  " + rule.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                           + "  " + quad.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                           + "  " + err.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                 }
             }
         }

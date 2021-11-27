@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using BLASTestData;
 using Burkardt.Types;
 using Burkardt.Uniform;
@@ -67,13 +68,11 @@ internal static class Program
 //    John Burkardt
 //
     {
-        int job;
-
         Console.WriteLine("");
         Console.WriteLine("DMACH_TEST");
         Console.WriteLine("  DMACH returns some approximate machine numbers.");
         Console.WriteLine("");
-        job = 1;
+        int job = 1;
         Console.WriteLine("  DMACH(1) = EPS =  " + BLASData.dmach(job) + "");
         job = 2;
         Console.WriteLine("  DMACH(2) = TINY = " + BLASData.dmach(job) + "");
@@ -117,8 +116,8 @@ internal static class Program
         {
             float r4 = UniformRNG.r4_uniform_ab(r4_lo, r4_hi, ref seed);
             float r4_absolute = Math.Abs(r4);
-            Console.WriteLine("  " + r4.ToString().PadLeft(10)
-                                   + "  " + r4_absolute.ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + r4.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + r4_absolute.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -158,8 +157,8 @@ internal static class Program
         for (int test = 0; test < TEST_NUM; test++)
         {
             float x = x_test[test];
-            Console.WriteLine("  " + x.ToString().PadLeft(8)
-                                   + "  " + typeMethods.r4_sign(x).ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + typeMethods.r4_sign(x).ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
     }
 
@@ -200,8 +199,8 @@ internal static class Program
         {
             double r8 = UniformRNG.r8_uniform_ab(r8_lo, r8_hi, ref seed);
             double r8_absolute = Math.Abs(r8);
-            Console.WriteLine("  " + r8.ToString().PadLeft(10)
-                                   + "  " + r8_absolute.ToString().PadLeft(10) + "");
+            Console.WriteLine("  " + r8.ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                   + "  " + r8_absolute.ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
     }
 
@@ -241,8 +240,8 @@ internal static class Program
         for (int test = 0; test < TEST_NUM; test++)
         {
             double x = x_test[test];
-            Console.WriteLine("  " + x.ToString().PadLeft(8)
-                                   + "  " + typeMethods.r8_sign(x).ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + typeMethods.r8_sign(x).ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
         }
     }
 }

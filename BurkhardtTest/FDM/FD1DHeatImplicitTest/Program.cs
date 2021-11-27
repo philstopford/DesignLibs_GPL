@@ -61,29 +61,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] a;
-        double[] b;
-        double[] fvec;
-        bool header;
         int i;
         int j;
-        int job;
-        double k;
-        double[] t;
-        double t_delt;
-        string t_file;
-        double t_max;
-        double t_min;
-        int t_num;
-        double[] u;
-        string u_file;
-        double w;
-        double[] x;
-        double x_delt;
-        string x_file;
-        double x_max;
-        double x_min;
-        int x_num;
 
         Console.WriteLine("");
         Console.WriteLine("FD1D_HEAT_IMPLICIT");
@@ -107,16 +86,16 @@ internal static class Program
         Console.WriteLine("  A first order backward Euler difference approximation");
         Console.WriteLine("  is used for Ut.");
 
-        k = 5.0E-07;
+        const double k = 5.0E-07;
         //
         //  Set X values.
         //
-        x_min = 0.0;
-        x_max = 0.3;
-        x_num = 11;
-        x_delt = (x_max - x_min) / (x_num - 1);
+        const double x_min = 0.0;
+        const double x_max = 0.3;
+        const int x_num = 11;
+        const double x_delt = (x_max - x_min) / (x_num - 1);
 
-        x = new double[x_num];
+        double[] x = new double[x_num];
 
         for (i = 0; i < x_num; i++)
         {
@@ -128,12 +107,12 @@ internal static class Program
         // 
         //  Set T values.
         //
-        t_min = 0.0;
-        t_max = 22000.0;
-        t_num = 51;
-        t_delt = (t_max - t_min) / (t_num - 1);
+        const double t_min = 0.0;
+        const double t_max = 22000.0;
+        const int t_num = 51;
+        const double t_delt = (t_max - t_min) / (t_num - 1);
 
-        t = new double[t_num];
+        double[] t = new double[t_num];
 
         for (j = 0; j < t_num; j++)
         {
@@ -145,16 +124,16 @@ internal static class Program
         //
         //  Set the initial data, for time T_MIN.
         //
-        u = new double[x_num * t_num];
+        double[] u = new double[x_num * t_num];
 
         u0(x_min, x_max, t_min, x_num, x, ref u);
         //
         //  The matrix A does not change with time.  We can set it once,
         //  factor it once, and solve repeatedly.
         //
-        w = k * t_delt / x_delt / x_delt;
+        double w = k * t_delt / x_delt / x_delt;
 
-        a = new double[3 * x_num];
+        double[] a = new double[3 * x_num];
 
         a[0 + 0 * 3] = 0.0;
 
@@ -177,8 +156,8 @@ internal static class Program
         //
         typeMethods.r83_np_fa(x_num, ref a);
 
-        b = new double[x_num];
-        fvec = new double[x_num];
+        double[] b = new double[x_num];
+        double[] fvec = new double[x_num];
 
         for (j = 1; j < t_num; j++)
         {
@@ -196,7 +175,7 @@ internal static class Program
 
             b[x_num - 1] = ub(x_min, x_max, t_min, t[j]);
 
-            job = 0;
+            int job = 0;
             fvec = typeMethods.r83_np_sl(x_num, a, b, job);
 
             for (i = 0; i < x_num; i++)
@@ -205,22 +184,19 @@ internal static class Program
             }
         }
 
-        x_file = "x.txt";
-        header = false;
-        DTable.dtable_write(x_file, 1, x_num, x, header);
+        const string x_file = "x.txt";
+        DTable.dtable_write(x_file, 1, x_num, x, false);
 
         Console.WriteLine("");
         Console.WriteLine("  X data written to \"" + x_file + "\".");
 
-        t_file = "t.txt";
-        header = false;
-        DTable.dtable_write(t_file, 1, t_num, t, header);
+        const string t_file = "t.txt";
+        DTable.dtable_write(t_file, 1, t_num, t, false);
 
         Console.WriteLine("  T data written to \"" + t_file + "\".");
 
-        u_file = "u.txt";
-        header = false;
-        DTable.dtable_write(u_file, x_num, t_num, u, header);
+        const string u_file = "u.txt";
+        DTable.dtable_write(u_file, x_num, t_num, u, false);
 
         Console.WriteLine("  U data written to \"" + u_file + "\".");
 
@@ -348,7 +324,7 @@ internal static class Program
         //    Output, double UA, the prescribed value of U(A,T).
         //
     {
-        double value = 20.0;
+        const double value = 20.0;
 
         return value;
     }
@@ -384,7 +360,7 @@ internal static class Program
         //    Output, double UB, the prescribed value of U(B,T).
         //
     {
-        double value = 20.0;
+        const double value = 20.0;
 
         return value;
     }

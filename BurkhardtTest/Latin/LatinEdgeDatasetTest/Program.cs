@@ -46,8 +46,6 @@ internal static class Program
     {
         int m;
         int n;
-        string output_filename;
-        double[] r;
         int seed;
 
 
@@ -104,15 +102,15 @@ internal static class Program
         //
         //  Compute the data.
         //
-        r = new double[m * n];
+        double[] r = new double[m * n];
 
         r = LatinVariants.latin_edge(m, n, ref seed);
         //
         //  Write it to a file.
         //
 
-        output_filename = "latin_edge_" + m + "_"
-                          + n + ".txt";
+        string output_filename = "latin_edge_" + m + "_"
+                                 + n + ".txt";
 
         typeMethods.r8mat_write(output_filename, m, n, r);
 

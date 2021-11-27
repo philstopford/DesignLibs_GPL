@@ -89,7 +89,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] table;
         //
         //  Need to create the output file name from the input filename.
         //
@@ -103,7 +102,7 @@ internal static class Program
         Console.WriteLine("  Spatial dimension M = " + header.m );
         Console.WriteLine("  Number of points N  = " + header.n);
 
-        table = typeMethods.r8mat_data_read ( input_filename, header.m, header.n );
+        double[] table = typeMethods.r8mat_data_read ( input_filename, header.m, header.n );
 
         Console.WriteLine();
         Console.WriteLine("  Read the data in \"" + input_filename + "\".");

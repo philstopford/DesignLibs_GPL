@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.FDM;
 using Burkardt.Types;
 
@@ -6,7 +7,7 @@ namespace FDM1DBVPTest;
 
 internal static class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
         //****************************************************************************80
         //
         //  Purpose:
@@ -73,15 +74,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string filename;
         int i;
-        int n = 21;
-        double[] u;
-        double[] u2;
-        double[] uexact;
-        double[] x;
-        double x1 = 0.0;
-        double x2 = 1.0;
+        const int n = 21;
+        const double x1 = 0.0;
+        const double x2 = 1.0;
 
         Console.WriteLine("");
         Console.WriteLine("FD1D_BVP_TEST01");
@@ -95,11 +91,11 @@ internal static class Program
         Console.WriteLine("  X1 = " + x1 + "");
         Console.WriteLine("  X2 = " + x2 + "");
 
-        x = typeMethods.r8vec_even(n, x1, x2);
+        double[] x = typeMethods.r8vec_even(n, x1, x2);
 
-        u = FDM_1D_BVP.fd1d_bvp(n, a1, a1prime, c1, f1, x);
+        double[] u = FDM_1D_BVP.fd1d_bvp(n, a1, a1prime, c1, f1, x);
 
-        uexact = exact1(n, x);
+        double[] uexact = exact1(n, x);
 
         Console.WriteLine("");
         Console.WriteLine("     I         X        U             Uexact         Error");
@@ -107,11 +103,11 @@ internal static class Program
 
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + x[i].ToString().PadLeft(8)
-                                   + "  " + u[i].ToString().PadLeft(12)
-                                   + "  " + uexact[i].ToString().PadLeft(12)
-                                   + "  " + Math.Abs(u[i] - uexact[i]).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + uexact[i].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + Math.Abs(u[i] - uexact[i]).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         Console.WriteLine("");
@@ -134,20 +130,20 @@ internal static class Program
 
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + x[i].ToString().PadLeft(8)
-                                   + "  " + u[i].ToString().PadLeft(12)
-                                   + "  " + uexact[i].ToString().PadLeft(12)
-                                   + "  " + Math.Abs(u[i] - uexact[i]).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + uexact[i].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + Math.Abs(u[i] - uexact[i]).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         //
         //  Write the data to files.
         //
-        filename = "fd1d_bvp_test01_nodes.txt";
+        string filename = "fd1d_bvp_test01_nodes.txt";
         typeMethods.r8mat_write(filename, n, 1, x);
 
-        u2 = new double[n * 2];
+        double[] u2 = new double[n * 2];
         for (i = 0; i < n; i++)
         {
             u2[i + 0 * n] = u[i];
@@ -187,15 +183,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string filename;
         int i;
-        int n = 11;
-        double[] u;
-        double[] u2;
-        double[] uexact;
-        double[] x;
-        double x1 = 0.0;
-        double x2 = 1.0;
+        const int n = 11;
+        const double x1 = 0.0;
+        const double x2 = 1.0;
 
         Console.WriteLine("");
         Console.WriteLine("FD1D_BVP_TEST02");
@@ -209,11 +200,11 @@ internal static class Program
         Console.WriteLine("  X1 = " + x1 + "");
         Console.WriteLine("  X2 = " + x2 + "");
 
-        x = typeMethods.r8vec_even(n, x1, x2);
+        double[] x = typeMethods.r8vec_even(n, x1, x2);
 
-        u = FDM_1D_BVP.fd1d_bvp(n, a1, a1prime, c2, f2, x);
+        double[] u = FDM_1D_BVP.fd1d_bvp(n, a1, a1prime, c2, f2, x);
 
-        uexact = exact1(n, x);
+        double[] uexact = exact1(n, x);
 
         Console.WriteLine("");
         Console.WriteLine("     I         X        U             Uexact         Error");
@@ -221,20 +212,20 @@ internal static class Program
 
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + x[i].ToString().PadLeft(8)
-                                   + "  " + u[i].ToString().PadLeft(12)
-                                   + "  " + uexact[i].ToString().PadLeft(12)
-                                   + "  " + Math.Abs(u[i] - uexact[i]).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + uexact[i].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + Math.Abs(u[i] - uexact[i]).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         //
         //  Write the data to files.
         //
-        filename = "fd1d_bvp_test02_nodes.txt";
+        string filename = "fd1d_bvp_test02_nodes.txt";
         typeMethods.r8mat_write(filename, n, 1, x);
 
-        u2 = new double[n * 2];
+        double[] u2 = new double[n * 2];
         for (i = 0; i < n; i++)
         {
             u2[i + 0 * n] = u[i];
@@ -274,15 +265,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string filename;
         int i;
-        int n = 11;
-        double[] u;
-        double[] u2;
-        double[] uexact;
-        double[] x;
-        double x1 = 0.0;
-        double x2 = 1.0;
+        const int n = 11;
+        const double x1 = 0.0;
+        const double x2 = 1.0;
 
         Console.WriteLine("");
         Console.WriteLine("FD1D_BVP_TEST03");
@@ -296,11 +282,11 @@ internal static class Program
         Console.WriteLine("  X1 = " + x1 + "");
         Console.WriteLine("  X2 = " + x2 + "");
 
-        x = typeMethods.r8vec_even(n, x1, x2);
+        double[] x = typeMethods.r8vec_even(n, x1, x2);
 
-        u = FDM_1D_BVP.fd1d_bvp(n, a1, a1prime, c3, f3, x);
+        double[] u = FDM_1D_BVP.fd1d_bvp(n, a1, a1prime, c3, f3, x);
 
-        uexact = exact1(n, x);
+        double[] uexact = exact1(n, x);
 
         Console.WriteLine("");
         Console.WriteLine("     I         X        U             Uexact         Error");
@@ -308,20 +294,20 @@ internal static class Program
 
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + x[i].ToString().PadLeft(8)
-                                   + "  " + u[i].ToString().PadLeft(12)
-                                   + "  " + uexact[i].ToString().PadLeft(12)
-                                   + "  " + Math.Abs(u[i] - uexact[i]).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + uexact[i].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + Math.Abs(u[i] - uexact[i]).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         //
         //  Write the data to files.
         //
-        filename = "fd1d_bvp_test03_nodes.txt";
+        string filename = "fd1d_bvp_test03_nodes.txt";
         typeMethods.r8mat_write(filename, n, 1, x);
 
-        u2 = new double[n * 2];
+        double[] u2 = new double[n * 2];
         for (i = 0; i < n; i++)
         {
             u2[i + 0 * n] = u[i];
@@ -362,15 +348,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string filename;
         int i;
-        int n = 11;
-        double[] u;
-        double[] u2;
-        double[] uexact;
-        double[] x;
-        double x1 = 0.0;
-        double x2 = 1.0;
+        const int n = 11;
+        const double x1 = 0.0;
+        const double x2 = 1.0;
 
         Console.WriteLine("");
         Console.WriteLine("FD1D_BVP_TEST04");
@@ -384,11 +365,11 @@ internal static class Program
         Console.WriteLine("  X1 = " + x1 + "");
         Console.WriteLine("  X2 = " + x2 + "");
 
-        x = typeMethods.r8vec_even(n, x1, x2);
+        double[] x = typeMethods.r8vec_even(n, x1, x2);
 
-        u = FDM_1D_BVP.fd1d_bvp(n, a2, a2prime, c1, f4, x);
+        double[] u = FDM_1D_BVP.fd1d_bvp(n, a2, a2prime, c1, f4, x);
 
-        uexact = exact1(n, x);
+        double[] uexact = exact1(n, x);
 
         Console.WriteLine("");
         Console.WriteLine("     I         X        U             Uexact         Error");
@@ -396,20 +377,20 @@ internal static class Program
 
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + x[i].ToString().PadLeft(8)
-                                   + "  " + u[i].ToString().PadLeft(12)
-                                   + "  " + uexact[i].ToString().PadLeft(12)
-                                   + "  " + Math.Abs(u[i] - uexact[i]).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + uexact[i].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + Math.Abs(u[i] - uexact[i]).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         //
         //  Write the data to files.
         //
-        filename = "fd1d_bvp_test04_nodes.txt";
+        string filename = "fd1d_bvp_test04_nodes.txt";
         typeMethods.r8mat_write(filename, n, 1, x);
 
-        u2 = new double[n * 2];
+        double[] u2 = new double[n * 2];
         for (i = 0; i < n; i++)
         {
             u2[i + 0 * n] = u[i];
@@ -450,15 +431,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string filename;
         int i;
-        int n = 11;
-        double[] u;
-        double[] u2;
-        double[] uexact;
-        double[] x;
-        double x1 = 0.0;
-        double x2 = 1.0;
+        const int n = 11;
+        const double x1 = 0.0;
+        const double x2 = 1.0;
 
         Console.WriteLine("");
         Console.WriteLine("FD1D_BVP_TEST05");
@@ -477,11 +453,11 @@ internal static class Program
         Console.WriteLine("  X1 = " + x1 + "");
         Console.WriteLine("  X2 = " + x2 + "");
 
-        x = typeMethods.r8vec_even(n, x1, x2);
+        double[] x = typeMethods.r8vec_even(n, x1, x2);
 
-        u = FDM_1D_BVP.fd1d_bvp(n, a3, a3prime, c1, f5, x);
+        double[] u = FDM_1D_BVP.fd1d_bvp(n, a3, a3prime, c1, f5, x);
 
-        uexact = exact1(n, x);
+        double[] uexact = exact1(n, x);
 
         Console.WriteLine("");
         Console.WriteLine("     I         X        U             Uexact         Error");
@@ -489,20 +465,20 @@ internal static class Program
 
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + x[i].ToString().PadLeft(8)
-                                   + "  " + u[i].ToString().PadLeft(12)
-                                   + "  " + uexact[i].ToString().PadLeft(12)
-                                   + "  " + Math.Abs(u[i] - uexact[i]).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + uexact[i].ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + Math.Abs(u[i] - uexact[i]).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         //
         //  Write the data to files.
         //
-        filename = "fd1d_bvp_test05_nodes.txt";
+        string filename = "fd1d_bvp_test05_nodes.txt";
         typeMethods.r8mat_write(filename, n, 1, x);
 
-        u2 = new double[n * 2];
+        double[] u2 = new double[n * 2];
         for (i = 0; i < n; i++)
         {
             u2[i + 0 * n] = u[i];

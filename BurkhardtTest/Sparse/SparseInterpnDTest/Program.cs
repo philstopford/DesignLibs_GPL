@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Composition;
 using Burkardt.Interpolation;
 using Burkardt.Lagrange;
@@ -33,16 +34,13 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int m;
-        int sparse_max;
-
         Console.WriteLine(" ");
         Console.WriteLine("SPARSE_INTERP_ND_TEST");
         Console.WriteLine("  Test the SPARSE_INTERP_ND library.");
         Console.WriteLine("  The R8LIB library is also required.");
 
-        m = 1;
-        sparse_max = 9;
+        int m = 1;
+        int sparse_max = 9;
         test01(m, sparse_max);
 
         m = 2;
@@ -148,30 +146,10 @@ internal static class Program
         //    Local, double ZPI[NI], one set of Lagrange interpolant values at XI.
         //
     {
-        double[] a;
-        double app_error;
-        double[] b;
-        int[] c;
         int h = 0;
         int i;
-        int[] ind;
-        int l;
         int l_max;
-        int l_min;
-        bool more;
-        int nd;
-        int nd_total;
-        int ni;
-        int seed;
-        int sparse_min;
         int t = 0;
-        int[] w;
-        double[] xd;
-        double[] xi;
-        double[] zd;
-        double[] ze;
-        double[] zi;
-        double[] zpi;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01:");
@@ -192,8 +170,8 @@ internal static class Program
         //
         //  Define the region.
         //
-        a = new double[m];
-        b = new double[m];
+        double[] a = new double[m];
+        double[] b = new double[m];
 
         for (i = 0; i < m; i++)
         {
@@ -204,13 +182,13 @@ internal static class Program
         //
         //  Define the interpolation evaluation information.
         //
-        ni = 100;
-        seed = 123456789;
-        xi = UniformRNG.r8mat_uniform_abvec_new(m, ni, a, b, ref seed);
+        const int ni = 100;
+        int seed = 123456789;
+        double[] xi = UniformRNG.r8mat_uniform_abvec_new(m, ni, a, b, ref seed);
 
         Console.WriteLine("  Number of interpolation points is NI = " + ni + "");
 
-        ze = f_sinr(m, ni, xi);
+        double[] ze = f_sinr(m, ni, xi);
         //
         //  Compute a sequence of sparse grid interpolants of increasing level.
         //
@@ -218,15 +196,15 @@ internal static class Program
         Console.WriteLine("   L     Order    ApproxError");
         Console.WriteLine("");
 
-        ind = new int[m];
-        zi = new double[ni];
+        int[] ind = new int[m];
+        double[] zi = new double[ni];
 
-        sparse_min = 0;
+        const int sparse_min = 0;
 
         for (l_max = sparse_min; l_max <= sparse_max; l_max++)
         {
-            c = new int[l_max + 1];
-            w = new int[l_max + 1];
+            int[] c = new int[l_max + 1];
+            int[] w = new int[l_max + 1];
             Smolyak.smolyak_coefficients(l_max, m, ref c, ref w);
 
             for (i = 0; i < ni; i++)
@@ -234,13 +212,14 @@ internal static class Program
                 zi[i] = 0.0;
             }
 
-            nd_total = 0;
+            int nd_total = 0;
 
-            l_min = Math.Max(l_max + 1 - m, 0);
+            int l_min = Math.Max(l_max + 1 - m, 0);
 
+            int l;
             for (l = l_min; l <= l_max; l++)
             {
-                more = false;
+                bool more = false;
                 while (true)
                 {
                     //
@@ -250,13 +229,13 @@ internal static class Program
                     //
                     //  Count the grid, find its points, evaluate the data there.
                     //
-                    nd = LagrangenD.lagrange_interp_nd_size2(m, ind);
-                    xd = LagrangenD.lagrange_interp_nd_grid2(m, ind, a, b, nd);
-                    zd = f_sinr(m, nd, xd);
+                    int nd = LagrangenD.lagrange_interp_nd_size2(m, ind);
+                    double[] xd = LagrangenD.lagrange_interp_nd_grid2(m, ind, a, b, nd);
+                    double[] zd = f_sinr(m, nd, xd);
                     //
                     //  Use the grid to evaluate the interpolant.
                     //
-                    zpi = LagrangenD.lagrange_interp_nd_value2(m, ind, a, b, nd, zd, ni, xi);
+                    double[] zpi = LagrangenD.lagrange_interp_nd_value2(m, ind, a, b, nd, zd, ni, xi);
                     //
                     //  Weighted the interpolant values and add to the sparse grid interpolant.
                     //
@@ -276,11 +255,11 @@ internal static class Program
             //
             //  Compare sparse interpolant and exact function at interpolation points.
             //
-            app_error = typeMethods.r8vec_norm_affine(ni, zi, ze) / ni;
+            double app_error = typeMethods.r8vec_norm_affine(ni, zi, ze) / ni;
 
-            Console.WriteLine("  " + l.ToString().PadLeft(2)
-                                   + "  " + nd_total.ToString().PadLeft(8)
-                                   + "  " + app_error.ToString().PadLeft(8) + "");
+            Console.WriteLine("  " + l.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + nd_total.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + app_error.ToString(CultureInfo.InvariantCulture).PadLeft(8) + "");
 
         }
     }
@@ -316,16 +295,14 @@ internal static class Program
         //    Output, double F_SINR[N], the value of the function at each point.
         //
     {
-        int i;
         int j;
-        double r;
-        double[] z;
 
-        z = new double[n];
+        double[] z = new double[n];
 
         for (j = 0; j < n; j++)
         {
-            r = 0.0;
+            double r = 0.0;
+            int i;
             for (i = 0; i < m; i++)
             {
                 r += x[i + j * m] * x[i + j * m];

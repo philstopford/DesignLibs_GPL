@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.MatrixNS;
 using Burkardt.SolveNS;
 using Burkardt.Types;
@@ -67,25 +68,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double angle;
-        double[] b;
-        double bnrm2;
-        double err;
         int i;
-        int it;
-        int it_max;
-        int job;
-        int n = 21;
-        double[] p;
-        double pi = 3.141592653589793;
-        double[] q;
-        double[] r;
+        const int n = 21;
         double rnrm2;
-        double t;
-        double tol;
-        double[] x;
-        double[] x_exact;
-        double[] z;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
@@ -94,14 +79,14 @@ internal static class Program
         //  In order to specify the right hand side, pick an exact solution,
         //  and multiply by the matrix.
         //
-        x_exact = new double[n];
+        double[] x_exact = new double[n];
         for (i = 0; i < n; i++)
         {
-            angle = 2.0 * pi * i / (n - 1);
+            double angle = 2.0 * Math.PI * i / (n - 1);
             x_exact[i] = Math.Sin(angle);
         }
 
-        b = new double[n];
+        double[] b = new double[n];
 
         for (i = 0; i < n; i++)
         {
@@ -121,7 +106,7 @@ internal static class Program
         //
         //  Here is the initial guess for the solution.
         //
-        x = new double[n];
+        double[] x = new double[n];
         for (i = 0; i < n; i++)
         {
             x[i] = 0.0;
@@ -130,10 +115,10 @@ internal static class Program
         //
         //  Parameters for the stopping test.
         //
-        it = 0;
-        it_max = 30;
-        tol = 1.0E-05;
-        bnrm2 = 0.0;
+        int it = 0;
+        int it_max = 30;
+        double tol = 1.0E-05;
+        double bnrm2 = 0.0;
         for (i = 0; i < n; i++)
         {
             bnrm2 += b[i] * b[i];
@@ -143,12 +128,12 @@ internal static class Program
         //
         //  Set parameters for the CG_RC code.
         //
-        r = new double[n];
-        z = new double[n];
-        p = new double[n];
-        q = new double[n];
+        double[] r = new double[n];
+        double[] z = new double[n];
+        double[] p = new double[n];
+        double[] q = new double[n];
 
-        job = 1;
+        int job = 1;
         //
         //  Repeatedly call the CG_RC code, and on return, do what JOB tells you.
         //
@@ -251,10 +236,10 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Number of iterations was " + it + "");
         Console.WriteLine("  Estimated error is " + rnrm2 + "");
-        err = 0.0;
+        double err = 0.0;
         for (i = 0; i < n; i++)
         {
-            t = Math.Abs(x_exact[i] - x[i]);
+            double t = Math.Abs(x_exact[i] - x[i]);
             if (err < t)
             {
                 err = t;
@@ -268,10 +253,10 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + x[i].ToString().PadLeft(14)
-                                   + "  " + x_exact[i].ToString().PadLeft(14)
-                                   + "  " + b[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + x_exact[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + b[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -296,69 +281,49 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] a;
-        double[] ax;
-        double[] b;
-        double bnrm2;
-        double err;
         int i;
-        int it;
-        int it_max;
-        int job;
-        int n;
-        int nx;
-        int ny;
-        double[] p;
-        double[] q;
-        double[] r;
         double rnrm2;
-        int seed;
-        double t;
-        double tol;
-        double[] x;
-        double[] x_exact;
-        double[] z;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02");
         Console.WriteLine("  Use CG_RC to solve a linear system");
         Console.WriteLine("  involving the Wathen matrix.");
 
-        nx = 5;
-        ny = 4;
+        const int nx = 5;
+        const int ny = 4;
 
         Console.WriteLine("");
         Console.WriteLine("  NX = " + nx + "");
         Console.WriteLine("  NY = " + ny + "");
 
-        n = WathenMatrix.wathen_order(nx, ny);
+        int n = WathenMatrix.wathen_order(nx, ny);
 
         Console.WriteLine("  N  = " + n + "");
 
-        a = WathenMatrix.wathen(nx, ny, n);
+        double[] a = WathenMatrix.wathen(nx, ny, n);
 
-        seed = 123456789;
-        x_exact = UniformRNG.r8vec_uniform_01_new(n, ref seed);
+        int seed = 123456789;
+        double[] x_exact = UniformRNG.r8vec_uniform_01_new(n, ref seed);
 
-        b = new double[n];
+        double[] b = new double[n];
         typeMethods.r8mat_mv(n, n, a, x_exact, ref b);
         //
         //  Here is the initial guess for the solution.
         //
-        x = new double[n];
+        double[] x = new double[n];
         for (i = 0; i < n; i++)
         {
             x[i] = 0.0;
         }
 
-        ax = new double[n];
+        double[] ax = new double[n];
         //
         //  Parameters for the stopping test.
         //
-        it = 0;
-        it_max = 30;
-        tol = 1.0E-05;
-        bnrm2 = 0.0;
+        int it = 0;
+        const int it_max = 30;
+        const double tol = 1.0E-05;
+        double bnrm2 = 0.0;
         for (i = 0; i < n; i++)
         {
             bnrm2 += b[i] * b[i];
@@ -368,11 +333,11 @@ internal static class Program
         //
         //  Set parameters for the CG_RC code.
         //
-        r = new double[n];
-        z = new double[n];
-        p = new double[n];
-        q = new double[n];
-        job = 1;
+        double[] r = new double[n];
+        double[] z = new double[n];
+        double[] p = new double[n];
+        double[] q = new double[n];
+        int job = 1;
         //
         //  Repeatedly call the CG_RC code, and on return, do what JOB tells you.
         //
@@ -453,10 +418,10 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Number of iterations was " + it + "");
         Console.WriteLine("  Estimated error is " + rnrm2 + "");
-        err = 0.0;
+        double err = 0.0;
         for (i = 0; i < n; i++)
         {
-            t = Math.Abs(x_exact[i] - x[i]);
+            double t = Math.Abs(x_exact[i] - x[i]);
             if (err < t)
             {
                 err = t;
@@ -470,10 +435,10 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < n; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + x[i].ToString().PadLeft(14)
-                                   + "  " + x_exact[i].ToString().PadLeft(14)
-                                   + "  " + b[i].ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + x_exact[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + b[i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 }

@@ -65,15 +65,15 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string header = "wathen_ge";
+        const string header = "wathen_ge";
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
         Console.WriteLine("  SPY_GE generates a sparsity plot for a matrix stored");
         Console.WriteLine("  in general (GE) format.");
 
-        int nx = 5;
-        int ny = 5;
+        const int nx = 5;
+        const int ny = 5;
         int n = WathenMatrix.wathen_order(nx, ny);
         int seed = 123456789;
         double[] a = WathenMatrix.wathen_ge(nx, ny, n, ref seed);
@@ -150,7 +150,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string header = "20x30";
+        const string header = "20x30";
 
         Console.WriteLine("");
         Console.WriteLine("TEST03");
@@ -158,8 +158,8 @@ internal static class Program
         Console.WriteLine("  in general (GE) format.");
         Console.WriteLine("  Just to orient ourselves, generate an upper triangular matrix.");
 
-        int m = 20;
-        int n = 30;
+        const int m = 20;
+        const int n = 30;
         double[] a = new double[m * n];
 
         for (int i = 0; i < m; i++)

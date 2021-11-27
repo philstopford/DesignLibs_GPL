@@ -71,13 +71,10 @@ public static class BLASData
 //    Output, double DMACH, the requested value.
 //
     {
-        double eps;
-        double huge;
-        double s;
         double tiny;
-        double value = 0;
+        double value;
 
-        eps = 1.0;
+        double eps = 1.0;
         for (;;)
         {
             value = 1.0 + eps / 2.0;
@@ -89,7 +86,7 @@ public static class BLASData
             eps /= 2.0;
         }
 
-        s = 1.0;
+        double s = 1.0;
 
         for (;;)
         {
@@ -104,7 +101,7 @@ public static class BLASData
         }
 
         tiny = tiny / eps * 100.0;
-        huge = 1.0 / tiny;
+        double huge = 1.0 / tiny;
 
         switch (job)
         {
@@ -191,13 +188,10 @@ public static class BLASData
 //    Output, float SMACH, the requested value.
 //
     {
-        float eps;
-        float huge;
-        float s;
         float tiny;
         float value;
 
-        eps = 1.0f;
+        float eps = 1.0f;
         for (;;)
         {
             value = 1.0f + eps / 2.0f;
@@ -209,7 +203,7 @@ public static class BLASData
             eps /= 2.0f;
         }
 
-        s = 1.0f;
+        float s = 1.0f;
 
         for (;;)
         {
@@ -224,7 +218,7 @@ public static class BLASData
         }
 
         tiny = tiny / eps * 100.0f;
-        huge = 1.0f / tiny;
+        float huge = 1.0f / tiny;
 
         switch (job)
         {

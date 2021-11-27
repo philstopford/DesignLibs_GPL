@@ -59,8 +59,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int DIM_NUM = 2;
-        int POINT_NUM = 10;
+        const int DIM_NUM = 2;
+        const int POINT_NUM = 10;
 
         Console.WriteLine();
         Console.WriteLine("TEST01");

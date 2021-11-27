@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Types;
 
 namespace FD1DBurgersLAXTest;
@@ -29,23 +30,8 @@ internal static class Program
         //    None
         //
     {
-        double a;
-        double b;
-        double dt;
-        double dx;
         int i;
-        int ihi;
         int ilo;
-        int n;
-        double stability;
-        int step;
-        int step_num;
-        double t;
-        double t_init;
-        double t_last;
-        double[] un;
-        double[] uo;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("FD1D_BURGERS_LAX:");
@@ -68,14 +54,14 @@ internal static class Program
         //
         //  Set and report the problem parameters.
         //
-        n = 41;
-        a = -1.0;
-        b = +1.0;
-        dx = (b - a) / (n - 1);
-        step_num = 80;
-        t_init = 0.0;
-        t_last = 1.0;
-        dt = (t_last - t_init) / step_num;
+        const int n = 41;
+        const double a = -1.0;
+        const double b = +1.0;
+        const double dx = (b - a) / (n - 1);
+        const int step_num = 80;
+        const double t_init = 0.0;
+        const double t_last = 1.0;
+        const double dt = (t_last - t_init) / step_num;
 
         Console.WriteLine("");
         Console.WriteLine("  " + a + " <= X <= " + b + "");
@@ -86,21 +72,21 @@ internal static class Program
         Console.WriteLine("  Number of time steps = " + step_num + "");
         Console.WriteLine("  DT = " + dt + "");
 
-        un = new double[n];
-        uo = new double[n];
+        double[] un = new double[n];
+        double[] uo = new double[n];
 
-        x = typeMethods.r8vec_even(n, a, b);
+        double[] x = typeMethods.r8vec_even(n, a, b);
 
         Console.WriteLine("");
         Console.WriteLine("  X:");
         Console.WriteLine("");
         for (ilo = 0; ilo < n; ilo += 5)
         {
-            ihi = Math.Min(ilo + 5, n - 1);
+            int ihi = Math.Min(ilo + 5, n - 1);
             string cout = "";
             for (i = ilo; i <= ihi; i++)
             {
-                cout += "  " + x[i].ToString().PadLeft(14);
+                cout += "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -110,13 +96,13 @@ internal static class Program
         //  Set the initial condition,
         //  and apply boundary conditions to first and last entries.
         //
-        step = 0;
-        t = t_init;
+        int step = 0;
+        double t = t_init;
         u_init(n, x, t, ref un);
         un[0] = u_a(x[0], t);
         un[n - 1] = u_b(x[n - 1], t);
 
-        stability = dt / dx * typeMethods.r8vec_amax(n, un);
+        double stability = dt / dx * typeMethods.r8vec_amax(n, un);
         report(step, step_num, n, x, t, un, stability);
         //
         //  Use the Lax-Wendroff method.
@@ -196,8 +182,6 @@ internal static class Program
         //    no greater than 1.
         //
     {
-        int i;
-        int ihi;
         int ilo;
 
         Console.WriteLine("");
@@ -207,11 +191,12 @@ internal static class Program
         Console.WriteLine("");
         for (ilo = 0; ilo < n; ilo += 5)
         {
-            ihi = Math.Min(ilo + 4, n - 1);
+            int ihi = Math.Min(ilo + 4, n - 1);
             string cout = "";
+            int i;
             for (i = ilo; i <= ihi; i++)
             {
-                cout += "  " + u[i].ToString().PadLeft(14);
+                cout += "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(14);
             }
 
             Console.WriteLine(cout);
@@ -245,7 +230,7 @@ internal static class Program
         //    Output, double U_A, the prescribed value of U(X,T).
         //
     {
-        double ua = +0.5;
+        const double ua = +0.5;
 
         return ua;
     }
@@ -277,7 +262,7 @@ internal static class Program
         //    Output, double U_B, the prescribed value of U(X,T).
         //
     {
-        double ub = -0.5;
+        const double ub = -0.5;
 
         return ub;
     }
@@ -314,22 +299,16 @@ internal static class Program
         //
     {
         int i;
-        double r8_pi = 3.141592653589793;
-        double q;
-        double r;
-        double s;
-        double ua;
-        double ub;
 
-        ua = u_a(x[0], t);
-        ub = u_b(x[n - 1], t);
+        double ua = u_a(x[0], t);
+        double ub = u_b(x[n - 1], t);
 
-        q = 2.0 * (ua - ub) / r8_pi;
-        r = (ua + ub) / 2.0;
+        double q = 2.0 * (ua - ub) / Math.PI;
+        double r = (ua + ub) / 2.0;
         //
         //  S can be varied.  It is the slope of the initial condition at the midpoint.
         //
-        s = 1.0;
+        const double s = 1.0;
 
         for (i = 0; i < n; i++)
         {

@@ -59,11 +59,6 @@ internal static class Program
 //    John Burkardt
 //
     {
-        double[][] a;
-        double[] b;
-        int n;
-        double[] x;
-
         Console.WriteLine("");
         Console.WriteLine("TEST01");
         Console.WriteLine("  Set up a linear system, and solve it by calling a function.");
@@ -82,11 +77,11 @@ internal static class Program
 //
 //  Define the array size.
 //
-        n = 3;
+        int n = 3;
 //
 //  Create the array that will contain the matrix.
 //
-        a = typeMethods.r8rmat_new(n, n);
+        double[][] a = typeMethods.r8rmat_new(n, n);
 //
 //  Set the array values.
 //
@@ -104,7 +99,7 @@ internal static class Program
 //
 //  Create the right hand side.
 //
-        b = new double[n];
+        double[] b = new double[n];
 //
 //  Set the right hand side values.
 //
@@ -114,7 +109,7 @@ internal static class Program
 //
 //  Request the solution of A*x=b.
 //
-        x = Solve.r8rmat_fs_new(n, a, b);
+        double[] x = Solve.r8rmat_fs_new(n, a, b);
 
         typeMethods.r8vec_print(n, x, "  Solution:");
     }

@@ -496,7 +496,7 @@ internal static class Program
                               + variance[elem_i].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
-        int init = 1;
+        const int init = 1;
         double[] alpha = new double[ELEM_NUM];
         double[] g = new double[ELEM_NUM];
         double[] v = new double[ELEM_NUM * ELEM_NUM];
@@ -745,7 +745,7 @@ internal static class Program
         //
         //  Try to recover the values of ALPHA.
         //
-        int init = 1;
+        const int init = 1;
         double[] v = new double[ELEM_NUM * ELEM_NUM];
         double[] g = new double[ELEM_NUM];
 

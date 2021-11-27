@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using Burkardt.Diffusion;
 using Burkardt.Types;
@@ -108,8 +109,8 @@ internal static class Program
         //
         for (int j = 0; j < np; j++)
         {
-            data_unit.Add("  " + xp[j].ToString().PadLeft(14)
-                               + "  " + vp[j].ToString().PadLeft(14) + "");
+            data_unit.Add("  " + xp[j].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                               + "  " + vp[j].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         File.WriteAllLines(data_filename, data_unit);
@@ -202,8 +203,8 @@ internal static class Program
         //
         for (int j = 0; j < n; j++)
         {
-            data_unit.Add("  " + x[j].ToString().PadLeft(14)
-                               + "  " + dc[j].ToString().PadLeft(14) + "");
+            data_unit.Add("  " + x[j].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                               + "  " + dc[j].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         File.WriteAllLines(data_filename, data_unit);
@@ -308,9 +309,9 @@ internal static class Program
         {
             for (int i = 0; i < nx; i++)
             {
-                data_unit.Add("  " + xmat[i + j * nx].ToString().PadLeft(14)
-                                   + "  " + ymat[i + j * nx].ToString().PadLeft(14)
-                                   + "  " + dc[i + j * nx].ToString().PadLeft(14) + "");
+                data_unit.Add("  " + xmat[i + j * nx].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + ymat[i + j * nx].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + dc[i + j * nx].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
 
@@ -418,9 +419,9 @@ internal static class Program
         {
             for (int i = 0; i < nx; i++)
             {
-                data_unit.Add("  " + xmat[i + j * nx].ToString().PadLeft(14)
-                                   + "  " + ymat[i + j * nx].ToString().PadLeft(14)
-                                   + "  " + dc[i + j * nx].ToString().PadLeft(14));
+                data_unit.Add("  " + xmat[i + j * nx].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + ymat[i + j * nx].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + dc[i + j * nx].ToString(CultureInfo.InvariantCulture).PadLeft(14));
             }
         }
 
@@ -534,9 +535,9 @@ internal static class Program
         {
             for (int i = 0; i < nx; i++)
             {
-                data_unit.Add("  " + xmat[i + j * nx].ToString().PadLeft(14)
-                                   + "  " + ymat[i + j * nx].ToString().PadLeft(14)
-                                   + "  " + dc[i + j * nx].ToString().PadLeft(14) + "");
+                data_unit.Add("  " + xmat[i + j * nx].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + ymat[i + j * nx].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + dc[i + j * nx].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
 
@@ -598,19 +599,12 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
-        double c;
-        double d;
-        int h;
-        int w;
-
-        h = 5;
-        w = 4;
-        a = -1.0;
-        b = +1.0;
-        c = -1.0;
-        d = +1.0;
+        const int h = 5;
+        const int w = 4;
+        const double a = -1.0;
+        const double b = +1.0;
+        const double c = -1.0;
+        const double d = +1.0;
         diffusivity_2d_pwc_contour(h, w, a, b, c, d);
     }
 
@@ -639,20 +633,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string command_filename = "diffusivity_2d_pwc_commands.txt";
+        const string command_filename = "diffusivity_2d_pwc_commands.txt";
         List<string> command_unit = new();
-        string data_filename = "diffusivity_2d_pwc_data.txt";
+        const string data_filename = "diffusivity_2d_pwc_data.txt";
         List<string> data_unit = new();
-        int n;
-        int nx;
-        int ny;
-        double[] omega;
-        double[] rho;
-        int seed;
-        double[] xmat;
-        double[] xvec;
-        double[] ymat;
-        double[] yvec;
 
         Console.WriteLine("");
         Console.WriteLine("diffusivity_2d_pwc_contour");
@@ -661,28 +645,28 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  Underlying grid is " + w + " elements wide (X) and " + h + " high (Y)");
 
-        nx = 101;
-        ny = 101;
+        const int nx = 101;
+        const int ny = 101;
         //
         //  Set the spatial grid.
         //
-        xvec = typeMethods.r8vec_linspace_new(nx, a, b);
-        yvec = typeMethods.r8vec_linspace_new(ny, c, d);
+        double[] xvec = typeMethods.r8vec_linspace_new(nx, a, b);
+        double[] yvec = typeMethods.r8vec_linspace_new(ny, c, d);
 
-        xmat = new double[nx * ny];
-        ymat = new double[nx * ny];
+        double[] xmat = new double[nx * ny];
+        double[] ymat = new double[nx * ny];
         typeMethods.r8vec_mesh_2d(nx, ny, xvec, yvec, ref xmat, ref ymat);
         //
         //  Sample OMEGA.
         //
-        seed = 123456789;
-        omega = UniformRNG.r8vec_uniform_ab_new(h * w, 0.5, 1.5, ref seed);
+        int seed = 123456789;
+        double[] omega = UniformRNG.r8vec_uniform_ab_new(h * w, 0.5, 1.5, ref seed);
 
-        n = nx * ny;
+        int n = nx * ny;
         //
         //  Compute the diffusivity field.
         //
-        rho = Stochastic.diffusivity_2d_pwc(h, w, a, b, c, d, omega, n, xmat, ymat);
+        double[] rho = Stochastic.diffusivity_2d_pwc(h, w, a, b, c, d, omega, n, xmat, ymat);
         //
         //  Create a data file.
         //
@@ -690,9 +674,9 @@ internal static class Program
         {
             for (int i = 0; i < nx; i++)
             {
-                data_unit.Add("  " + xmat[i + j * nx].ToString().PadLeft(14)
-                                   + "  " + ymat[i + j * nx].ToString().PadLeft(14)
-                                   + "  " + rho[i + j * nx].ToString().PadLeft(14) + "");
+                data_unit.Add("  " + xmat[i + j * nx].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + ymat[i + j * nx].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + rho[i + j * nx].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
         }

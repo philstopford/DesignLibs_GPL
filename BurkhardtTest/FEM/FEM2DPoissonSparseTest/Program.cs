@@ -135,34 +135,12 @@ internal static class Program
         //    of QUAD_NUM greater than 3 may be appropriate.
         //
     {
-        double[] a;
-        int[] adj_col;
-        bool debug = false;
-        int dim_num;
-        string element_filename;
-        int[] element_neighbor;
-        int[] element_node;
-        int element_num;
-        int element_order;
-        double[] f;
-        int[] ia;
-        int itr_max;
-        int[] ja;
-        int mr;
+        const bool debug = false;
         int node;
-        bool[] node_boundary;
-        int[] node_condition;
-        string node_filename;
-        int node_num;
         double[] node_u = null;
-        double[] node_xy;
-        int nz_num;
         string prefix;
-        int quad_num = 3;
+        const int quad_num = 3;
         int seed = 123456789;
-        string solution_filename;
-        double tol_abs;
-        double tol_rel;
 
         Console.WriteLine("");
         Console.WriteLine("FEM2D_POISSON_SPARSE:");
@@ -202,9 +180,9 @@ internal static class Program
         //
         //  Create the file names.
         //
-        node_filename = prefix + "_nodes.txt";
-        element_filename = prefix + "_elements.txt";
-        solution_filename = prefix + "_values.txt";
+        string node_filename = prefix + "_nodes.txt";
+        string element_filename = prefix + "_elements.txt";
+        string solution_filename = prefix + "_values.txt";
 
         Console.WriteLine("");
         Console.WriteLine("  Node file is \"" + node_filename + "\".");
@@ -213,14 +191,14 @@ internal static class Program
         //  Read the node coordinate file.
         //
         TableHeader h = typeMethods.r8mat_header_read(node_filename);
-        dim_num = h.m;
-        node_num = h.n;
+        int dim_num = h.m;
+        int node_num = h.n;
 
         Console.WriteLine("  Number of nodes =          " + node_num + "");
 
-        node_condition = new int[node_num];
+        int[] node_condition = new int[node_num];
 
-        node_xy = typeMethods.r8mat_data_read(node_filename, dim_num, node_num);
+        double[] node_xy = typeMethods.r8mat_data_read(node_filename, dim_num, node_num);
 
         typeMethods.r8mat_transpose_print_some(dim_num, node_num, node_xy, 1, 1, 2, 10,
             "  First 10 nodes");
@@ -228,8 +206,8 @@ internal static class Program
         //  Read the triangle description file.
         //
         h = typeMethods.i4mat_header_read(element_filename);
-        element_order = h.m;
-        element_num = h.n;
+        int element_order = h.m;
+        int element_num = h.n;
 
         Console.WriteLine("");
         Console.WriteLine("  Element order =            " + element_order + "");
@@ -244,7 +222,7 @@ internal static class Program
             return;
         }
 
-        element_node = typeMethods.i4mat_data_read(element_filename, element_order,
+        int[] element_node = typeMethods.i4mat_data_read(element_filename, element_order,
             element_num);
 
         typeMethods.i4mat_transpose_print_some(3, element_num,
@@ -256,7 +234,7 @@ internal static class Program
         //  Determine which nodes are boundary nodes and which have a
         //  finite element unknown.  Then set the boundary values.
         //
-        node_boundary = Boundary.triangulation_order3_boundary_node(node_num, element_num,
+        bool[] node_boundary = Boundary.triangulation_order3_boundary_node(node_num, element_num,
             element_node);
         //
         //  Determine the node conditions.
@@ -275,15 +253,15 @@ internal static class Program
         //  Determine the element neighbor array, just so we can estimate
         //  the nonzeros.
         //
-        element_neighbor = new int[3 * element_num];
+        int[] element_neighbor = new int[3 * element_num];
 
         element_neighbor = Neighbor.triangulation_order3_neighbor_triangles(element_num, element_node);
         //
         //  Count the number of nonzeros.
         //
-        adj_col = new int[node_num + 1];
+        int[] adj_col = new int[node_num + 1];
 
-        nz_num = Adjacency.triangulation_order3_adj_count(node_num, element_num,
+        int nz_num = Adjacency.triangulation_order3_adj_count(node_num, element_num,
             element_node, element_neighbor, adj_col);
 
         Console.WriteLine("");
@@ -291,8 +269,8 @@ internal static class Program
         //
         //  Set up the sparse row and column index vectors.
         //
-        ia = new int[nz_num];
-        ja = new int[nz_num];
+        int[] ia = new int[nz_num];
+        int[] ja = new int[nz_num];
 
         Adjacency.triangulation_order3_adj_set2(node_num, element_num, element_node,
             element_neighbor, nz_num, adj_col, ia, ja);
@@ -300,8 +278,8 @@ internal static class Program
         //
         //  Allocate space for the coefficient matrix A and right hand side F.
         //
-        a = new double[nz_num];
-        f = new double[node_num];
+        double[] a = new double[nz_num];
+        double[] f = new double[node_num];
         //
         //  Assemble the finite element coefficient matrix A and the right-hand side F.
         //
@@ -370,10 +348,10 @@ internal static class Program
         //
         UniformRNG.r8vec_uniform_01(node_num, ref seed, ref node_u);
 
-        itr_max = 20;
-        mr = 20;
-        tol_abs = 0.000001;
-        tol_rel = 0.000001;
+        int itr_max = 20;
+        int mr = 20;
+        double tol_abs = 0.000001;
+        double tol_rel = 0.000001;
 
         RestartedGeneralizedMinimumResidual.mgmres(a, ia, ja, ref node_u, f, node_num, nz_num, itr_max, mr, tol_abs,
             tol_rel);

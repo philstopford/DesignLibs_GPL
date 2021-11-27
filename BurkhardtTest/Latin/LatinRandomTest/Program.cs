@@ -71,8 +71,8 @@ internal static class Program
         //    Input/output, int &SEED, a seed for the random number generator.
         //
     {
-        int m = 2;
-        int n = 10;
+        const int m = 2;
+        const int n = 10;
 
         Console.WriteLine();
         Console.WriteLine("TEST01");

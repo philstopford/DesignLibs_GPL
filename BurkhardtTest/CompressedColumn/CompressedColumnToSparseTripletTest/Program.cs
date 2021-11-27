@@ -96,8 +96,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 5;
-        int NCC = 12;
+        const int N = 5;
+        const int NCC = 12;
 
         double[] acc =  {
                 2.0, 3.0,
@@ -107,7 +107,6 @@ internal static class Program
                 6.0, 1.0
             }
             ;
-        double[] ast;
         int[] ccc =  {
                 1, 3, 6, 10, 11, 13
             }
@@ -120,11 +119,7 @@ internal static class Program
                 2, 5
             }
             ;
-        int[] ist;
-        int[] jst;
-        int m = 5;
-        int n = N;
-        int ncc = NCC;
+        const int m = 5;
         int nst = 0;
 
         Console.WriteLine("");
@@ -133,19 +128,19 @@ internal static class Program
         //
         //  Print the CCS matrix.
         //
-        CompressedColumnStorage.ccs_print(m, n, ncc, icc, ccc, acc, "  The CCS matrix:");
+        CompressedColumnStorage.ccs_print(m, N, NCC, icc, ccc, acc, "  The CCS matrix:");
         //
         //  Convert it.
         //
-        ist = new int[ncc];
-        jst = new int[ncc];
-        ast = new double[ncc];
+        int[] ist = new int[NCC];
+        int[] jst = new int[NCC];
+        double[] ast = new double[NCC];
 
-        CompressedColumnStorage.ccs_to_st(m, n, ncc, icc, ccc, acc, ref nst, ref ist, ref jst, ref ast);
+        CompressedColumnStorage.ccs_to_st(m, N, NCC, icc, ccc, acc, ref nst, ref ist, ref jst, ref ast);
         //
         //  Print the ST matrix.
         //
-        SparseTriplet.st_print(m, n, nst, ist, jst, ast, "  The ST matrix:");
+        SparseTriplet.st_print(m, N, nst, ist, jst, ast, "  The ST matrix:");
     }
 
     private static void test02()
@@ -202,8 +197,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 5;
-        int NCC = 12;
+        const int N = 5;
+        const int NCC = 12;
 
         double[] acc =  {
                 2.0, 3.0,
@@ -213,7 +208,6 @@ internal static class Program
                 6.0, 1.0
             }
             ;
-        double[] ast;
         int[] ccc =  {
                 0, 2, 5, 9, 10, 12
             }
@@ -226,11 +220,7 @@ internal static class Program
                 1, 4
             }
             ;
-        int[] ist;
-        int[] jst;
-        int m = 5;
-        int n = N;
-        int ncc = NCC;
+        const int m = 5;
         int nst = 0;
 
         Console.WriteLine("");
@@ -239,18 +229,18 @@ internal static class Program
         //
         //  Print the CCS matrix.
         //
-        CompressedColumnStorage.ccs_print(m, n, ncc, icc, ccc, acc, "  The CCS matrix:");
+        CompressedColumnStorage.ccs_print(m, N, NCC, icc, ccc, acc, "  The CCS matrix:");
         //
         //  Convert it.
         //
-        ist = new int[ncc];
-        jst = new int[ncc];
-        ast = new double[ncc];
+        int[] ist = new int[NCC];
+        int[] jst = new int[NCC];
+        double[] ast = new double[NCC];
 
-        CompressedColumnStorage.ccs_to_st(m, n, ncc, icc, ccc, acc, ref nst, ref ist, ref jst, ref ast);
+        CompressedColumnStorage.ccs_to_st(m, N, NCC, icc, ccc, acc, ref nst, ref ist, ref jst, ref ast);
         //
         //  Print the ST matrix.
         //
-        SparseTriplet.st_print(m, n, nst, ist, jst, ast, "  The ST matrix:");
+        SparseTriplet.st_print(m, N, nst, ist, jst, ast, "  The ST matrix:");
     }
 }

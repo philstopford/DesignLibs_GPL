@@ -66,21 +66,6 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] a;
-        double alpha;
-        double[] b;
-        double beta;
-        double[] c;
-        int k;
-        int lda;
-        int ldb;
-        int ldc;
-        int m;
-        int n;
-        char transa;
-        char transb;
-        char transc;
-
         Console.WriteLine("");
         Console.WriteLine("DGEMM_TEST");
         Console.WriteLine("  DGEMM carries out matrix multiplications");
@@ -96,20 +81,20 @@ internal static class Program
         //
         //  C = alpha * A * B + beta * C.
         //
-        transa = 'N';
-        transb = 'N';
-        transc = 'N';
-        m = 4;
-        n = 5;
-        k = 3;
-        alpha = 2.0;
-        lda = m;
-        a = BLASData.r8mat_test(transa, lda, m, k);
-        ldb = k;
-        b = BLASData.r8mat_test(transb, ldb, k, n);
-        beta = 3.0;
-        ldc = m;
-        c = BLASData.r8mat_test(transc, ldc, m, n);
+        char transa = 'N';
+        char transb = 'N';
+        char transc = 'N';
+        int m = 4;
+        int n = 5;
+        int k = 3;
+        double alpha = 2.0;
+        int lda = m;
+        double[] a = BLASData.r8mat_test(transa, lda, m, k);
+        int ldb = k;
+        double[] b = BLASData.r8mat_test(transb, ldb, k, n);
+        double beta = 3.0;
+        int ldc = m;
+        double[] c = BLASData.r8mat_test(transc, ldc, m, n);
 
         BLAS3D.dgemm(transa, transb, m, n, k, alpha, a, lda, b, ldb, beta, ref c, ldc);
 
@@ -204,20 +189,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] a;
-        double alpha;
-        double[] b;
-        char diag;
         int i;
         int j;
-        int lda;
-        int ldb;
-        int m;
-        int n;
-        char side;
-        char transa;
-        char transb;
-        char uplo;
 
         Console.WriteLine("");
         Console.WriteLine("DTRMM_TEST");
@@ -229,17 +202,17 @@ internal static class Program
         //
         //  B = alpha * A * B.
         //
-        side = 'L';
-        uplo = 'U';
-        transa = 'N';
-        diag = 'N';
-        m = 4;
-        n = 5;
-        alpha = 2.0;
-        lda = m;
-        ldb = m;
+        char side = 'L';
+        char uplo = 'U';
+        char transa = 'N';
+        char diag = 'N';
+        int m = 4;
+        int n = 5;
+        double alpha = 2.0;
+        int lda = m;
+        int ldb = m;
 
-        a = new double[lda * m];
+        double[] a = new double[lda * m];
         for (j = 0; j < m; j++)
         {
             for (i = 0; i <= j; i++)
@@ -253,8 +226,8 @@ internal static class Program
             }
         }
 
-        transb = 'N';
-        b = BLASData.r8mat_test(transb, ldb, m, n);
+        char transb = 'N';
+        double[] b = BLASData.r8mat_test(transb, ldb, m, n);
 
         BLAS3D.dtrmm(side, uplo, transa, diag, m, n, alpha, a, lda, ref b, ldb);
 
@@ -317,20 +290,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] a;
-        double alpha;
-        double[] b;
-        char diag;
         int i;
         int j;
-        int lda;
-        int ldb;
-        int m;
-        int n;
-        char side;
-        char transa;
-        char transb;
-        char uplo;
 
         Console.WriteLine("");
         Console.WriteLine("DTRSM_TEST");
@@ -344,17 +305,17 @@ internal static class Program
         //
         //  Solve A * X = alpha * B.
         //
-        side = 'L';
-        uplo = 'U';
-        transa = 'N';
-        diag = 'N';
-        m = 4;
-        n = 5;
-        alpha = 2.0;
-        lda = m;
-        ldb = m;
+        char side = 'L';
+        char uplo = 'U';
+        char transa = 'N';
+        char diag = 'N';
+        int m = 4;
+        int n = 5;
+        double alpha = 2.0;
+        int lda = m;
+        int ldb = m;
 
-        a = new double[lda * m];
+        double[] a = new double[lda * m];
 
         for (j = 0; j < m; j++)
         {
@@ -369,8 +330,8 @@ internal static class Program
             }
         }
 
-        transb = 'N';
-        b = BLASData.r8mat_test(transb, ldb, m, n);
+        char transb = 'N';
+        double[] b = BLASData.r8mat_test(transb, ldb, m, n);
 
         BLAS3D.dtrsm(side, uplo, transa, diag, m, n, alpha, a, lda, ref b, ldb);
 

@@ -50,29 +50,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        string fem_element_filename;
-        int[] fem_element_neighbor = new int[1];
-        int[] fem_element_node;
-        int fem_element_num;
-        int fem_element_order;
-        int fem_node_dim;
-        string fem_node_filename;
-        int fem_node_num;
-        double[] fem_node_xy;
+        int[] fem_element_neighbor;
         string fem_prefix;
-        double[] fem_value;
-        int fem_value_dim;
-        string fem_value_filename;
-        int fem_value_num;
-        int sample_node_dim;
-        string sample_node_filename;
-        int sample_node_num;
-        double[] sample_node_xy;
         string sample_prefix;
-        double[] sample_value;
-        int sample_value_dim;
-        string sample_value_filename;
-        int sample_value_num;
 
         Console.WriteLine("");
         Console.WriteLine("FEM2D_SAMPLE");
@@ -108,20 +88,20 @@ internal static class Program
         //
         //  Create the filenames.
         //
-        fem_node_filename = fem_prefix + "_nodes.txt";
-        fem_element_filename = fem_prefix + "_elements.txt";
-        fem_value_filename = fem_prefix + "_values.txt";
+        string fem_node_filename = fem_prefix + "_nodes.txt";
+        string fem_element_filename = fem_prefix + "_elements.txt";
+        string fem_value_filename = fem_prefix + "_values.txt";
 
-        sample_node_filename = sample_prefix + "_nodes.txt";
-        sample_value_filename = sample_prefix + "_values.txt";
+        string sample_node_filename = sample_prefix + "_nodes.txt";
+        string sample_value_filename = sample_prefix + "_values.txt";
         //
         //  Read the FEM data.
         //
         TableHeader h = typeMethods.r8mat_header_read(fem_node_filename);
-        fem_node_dim = h.m;
-        fem_node_num = h.n;
+        int fem_node_dim = h.m;
+        int fem_node_num = h.n;
 
-        fem_node_xy = typeMethods.r8mat_data_read(fem_node_filename, fem_node_dim, fem_node_num);
+        double[] fem_node_xy = typeMethods.r8mat_data_read(fem_node_filename, fem_node_dim, fem_node_num);
 
         Console.WriteLine("");
         Console.WriteLine("  The FEM node dimension is        " + fem_node_dim + "");
@@ -136,18 +116,18 @@ internal static class Program
         }
 
         h = typeMethods.i4mat_header_read(fem_element_filename);
-        fem_element_order = h.m;
-        fem_element_num = h.n;
+        int fem_element_order = h.m;
+        int fem_element_num = h.n;
 
-        fem_element_node = typeMethods.i4mat_data_read(fem_element_filename, fem_element_order,
+        int[] fem_element_node = typeMethods.i4mat_data_read(fem_element_filename, fem_element_order,
             fem_element_num);
 
         Console.WriteLine("  The FEM element order is         " + fem_element_order + "");
         Console.WriteLine("  The FEM element number is        " + fem_element_num + "");
 
         h = typeMethods.r8mat_header_read(fem_value_filename);
-        fem_value_dim = h.m;
-        fem_value_num = h.n;
+        int fem_value_dim = h.m;
+        int fem_value_num = h.n;
 
         Console.WriteLine("  The FEM value order is           " + fem_value_dim + "");
         Console.WriteLine("  the FEM value number is          " + fem_value_num + "");
@@ -160,7 +140,7 @@ internal static class Program
             return;
         }
 
-        fem_value = typeMethods.r8mat_data_read(fem_value_filename, fem_value_dim, fem_value_num);
+        double[] fem_value = typeMethods.r8mat_data_read(fem_value_filename, fem_value_dim, fem_value_num);
         switch (fem_element_order)
         {
             //
@@ -187,10 +167,10 @@ internal static class Program
         //  Read the SAMPLE node data.
         //
         h = typeMethods.r8mat_header_read(sample_node_filename);
-        sample_node_dim = h.m;
-        sample_node_num = h.n;
+        int sample_node_dim = h.m;
+        int sample_node_num = h.n;
 
-        sample_node_xy = typeMethods.r8mat_data_read(sample_node_filename, sample_node_dim,
+        double[] sample_node_xy = typeMethods.r8mat_data_read(sample_node_filename, sample_node_dim,
             sample_node_num);
 
         Console.WriteLine("");
@@ -208,10 +188,10 @@ internal static class Program
         //
         //  Compute the SAMPLE values.
         //
-        sample_value_dim = fem_value_dim;
-        sample_value_num = sample_node_num;
+        int sample_value_dim = fem_value_dim;
+        int sample_value_num = sample_node_num;
 
-        sample_value = FEM_2D_Evaluate.fem2d_evaluate(fem_node_num, fem_node_xy, fem_element_order,
+        double[] sample_value = FEM_2D_Evaluate.fem2d_evaluate(fem_node_num, fem_node_xy, fem_element_order,
             fem_element_num, fem_element_node, fem_element_neighbor, fem_value_dim,
             fem_value, sample_node_num, sample_node_xy);
         //

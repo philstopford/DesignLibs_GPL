@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.SolveNS;
 using Burkardt.Uniform;
 
@@ -74,23 +75,17 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 20;
-        int NZ_NUM = 3 * N - 2;
+        const int N = 20;
+        const int NZ_NUM = 3 * N - 2;
 
         double[] a = new double[NZ_NUM];
         int i;
         int[] ia = new int[NZ_NUM];
         int itr_max = 0;
         int[] ja = new int[NZ_NUM];
-        int k;
         int mr = 0;
-        int n = N;
-        int nz_num = NZ_NUM;
         double[] rhs = new double[N];
         int test;
-        double tol_abs = 0;
-        double tol_rel = 0;
-        double x_error = 0;
         double[] x_estimate = new double[N];
         double[] x_exact = new double[N];
 
@@ -101,9 +96,9 @@ internal static class Program
         //  Set the matrix.
         //  Note that we use zero based index values in IA and JA.
         //
-        k = 0;
+        int k = 0;
 
-        for (i = 0; i < n; i++)
+        for (i = 0; i < N; i++)
         {
             switch (i)
             {
@@ -120,29 +115,31 @@ internal static class Program
             a[k] = 2.0;
             k += 1;
 
-            if (i < n - 1)
+            if (i >= N - 1)
             {
-                ia[k] = i;
-                ja[k] = i + 1;
-                a[k] = -1.0;
-                k += 1;
+                continue;
             }
+
+            ia[k] = i;
+            ja[k] = i + 1;
+            a[k] = -1.0;
+            k += 1;
 
         }
 
         //
         //  Set the right hand side:
         //
-        for (i = 0; i < n - 1; i++)
+        for (i = 0; i < N - 1; i++)
         {
             rhs[i] = 0.0;
         }
 
-        rhs[N - 1] = n + 1;
+        rhs[N - 1] = N + 1;
         //
         //  Set the exact solution.
         //
-        for (i = 0; i < n; i++)
+        for (i = 0; i < N; i++)
         {
             x_exact[i] = i + 1;
         }
@@ -152,13 +149,13 @@ internal static class Program
             //
             //  Set the initial solution estimate.
             //
-            for (i = 0; i < n; i++)
+            for (i = 0; i < N; i++)
             {
                 x_estimate[i] = 0.0;
             }
 
-            x_error = 0.0;
-            for (i = 0; i < n; i++)
+            double x_error = 0.0;
+            for (i = 0; i < N; i++)
             {
                 x_error += Math.Pow(x_exact[i] - x_estimate[i], 2);
             }
@@ -181,21 +178,21 @@ internal static class Program
                     break;
             }
 
-            tol_abs = 1.0E-08;
-            tol_rel = 1.0E-08;
+            const double tol_abs = 1.0E-08;
+            const double tol_rel = 1.0E-08;
 
             Console.WriteLine("");
             Console.WriteLine("  Test " + test + "");
-            Console.WriteLine("  Matrix order N = " + n + "");
+            Console.WriteLine("  Matrix order N = " + N + "");
             Console.WriteLine("  Inner iteration limit = " + mr + "");
             Console.WriteLine("  Outer iteration limit = " + itr_max + "");
             Console.WriteLine("  Initial X_ERROR = " + x_error + "");
 
-            RestartedGeneralizedMinimumResidual.mgmres_st(n, nz_num, ia, ja, a, ref x_estimate, rhs, itr_max, mr,
+            RestartedGeneralizedMinimumResidual.mgmres_st(N, NZ_NUM, ia, ja, a, ref x_estimate, rhs, itr_max, mr,
                 tol_abs, tol_rel);
 
             x_error = 0.0;
-            for (i = 0; i < n; i++)
+            for (i = 0; i < N; i++)
             {
                 x_error += Math.Pow(x_exact[i] - x_estimate[i], 2);
             }
@@ -240,8 +237,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 9;
-        int NZ_NUM = 23;
+        const int N = 9;
+        const int NZ_NUM = 23;
 
         double[] a =
         {
@@ -255,7 +252,6 @@ internal static class Program
             -1.0, 2.0, -1.0,
             -1.0, 2.0
         };
-        int i;
         int[] ia =
         {
             0, 0,
@@ -268,7 +264,6 @@ internal static class Program
             7, 7, 7,
             8, 8
         };
-        int itr_max;
         int[] ja =
         {
             0, 3,
@@ -281,9 +276,6 @@ internal static class Program
             6, 7, 8,
             7, 8
         };
-        int mr;
-        int n = N;
-        int nz_num = NZ_NUM;
         double[] rhs =
         {
             1.0,
@@ -298,9 +290,6 @@ internal static class Program
         };
         int seed = 123456789;
         int test;
-        double tol_abs;
-        double tol_rel;
-        double x_error;
         double[] x_estimate = new double[1];
         double[] x_exact =
         {
@@ -318,10 +307,11 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("TEST02");
         Console.WriteLine("  Test MGMRES_ST on matrix that is not quite the -1,2,-1 matrix,");
-        Console.WriteLine("  of order N = " + n + "");
+        Console.WriteLine("  of order N = " + N + "");
 
         for (test = 1; test <= 2; test++)
         {
+            int i;
             switch (test)
             {
                 case 1:
@@ -330,8 +320,8 @@ internal static class Program
                     Console.WriteLine("  First try, use zero initial vector:");
                     Console.WriteLine("");
 
-                    x_estimate = new double[n];
-                    for (i = 0; i < n; i++)
+                    x_estimate = new double[N];
+                    for (i = 0; i < N; i++)
                     {
                         x_estimate[i] = 0.0;
                     }
@@ -343,15 +333,15 @@ internal static class Program
                     Console.WriteLine("  Second try, use random initial vector:");
                     Console.WriteLine("");
 
-                    UniformRNG.r8vec_uniform_01(n, ref seed, ref x_estimate);
+                    UniformRNG.r8vec_uniform_01(N, ref seed, ref x_estimate);
                     break;
             }
 
             //
             //  Set the initial solution estimate.
             //
-            x_error = 0.0;
-            for (i = 0; i < n; i++)
+            double x_error = 0.0;
+            for (i = 0; i < N; i++)
             {
                 x_error += Math.Pow(x_exact[i] - x_estimate[i], 2);
             }
@@ -360,12 +350,12 @@ internal static class Program
 
             Console.WriteLine("  Before solving, X_ERROR = " + x_error + "");
 
-            itr_max = 20;
-            mr = n - 1;
-            tol_abs = 1.0E-08;
-            tol_rel = 1.0E-08;
+            const int itr_max = 20;
+            const int mr = N - 1;
+            const double tol_abs = 1.0E-08;
+            const double tol_rel = 1.0E-08;
 
-            RestartedGeneralizedMinimumResidual.mgmres_st(n, nz_num, ia, ja, a, ref x_estimate, rhs, itr_max, mr,
+            RestartedGeneralizedMinimumResidual.mgmres_st(N, NZ_NUM, ia, ja, a, ref x_estimate, rhs, itr_max, mr,
                 tol_abs, tol_rel);
 
             x_error = 0.0;
@@ -381,10 +371,10 @@ internal static class Program
             Console.WriteLine("");
             Console.WriteLine("  Final solution estimate:");
             Console.WriteLine("");
-            for (i = 0; i < n; i++)
+            for (i = 0; i < N; i++)
             {
                 Console.WriteLine("  " + i.ToString().PadLeft(8)
-                                       + "  " + x_estimate[i].ToString().PadLeft(12) + "");
+                                       + "  " + x_estimate[i].ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
             }
         }
     }
@@ -421,23 +411,17 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 20;
-        int NZ_NUM = 3 * N - 2;
+        const int N = 20;
+        const int NZ_NUM = 3 * N - 2;
 
         double[] a = new double[NZ_NUM];
         int i;
         int[] ia = new int[N + 1];
         int itr_max = 0;
         int[] ja = new int[NZ_NUM];
-        int k;
         int mr = 0;
-        int n = N;
-        int nz_num = NZ_NUM;
         double[] rhs = new double[N];
         int test;
-        double tol_abs = 0;
-        double tol_rel = 0;
-        double x_error = 0;
         double[] x_estimate = new double[N];
         double[] x_exact = new double[N];
 
@@ -448,12 +432,12 @@ internal static class Program
         //  Set the matrix.
         //  Note that we use zero based index valuesin IA and JA.
         //
-        k = 0;
+        int k = 0;
         ia[0] = 0;
 
         Console.WriteLine("");
         Console.WriteLine("  ia[" + 0 + "] = " + ia[0] + "");
-        for (i = 0; i < n; i++)
+        for (i = 0; i < N; i++)
         {
             ia[i + 1] = ia[i];
             switch (i)
@@ -485,16 +469,16 @@ internal static class Program
         //
         //  Set the right hand side:
         //
-        for (i = 0; i < n - 1; i++)
+        for (i = 0; i < N - 1; i++)
         {
             rhs[i] = 0.0;
         }
 
-        rhs[n - 1] = n + 1;
+        rhs[N - 1] = N + 1;
         //
         //  Set the exact solution.
         //
-        for (i = 0; i < n; i++)
+        for (i = 0; i < N; i++)
         {
             x_exact[i] = i + 1;
         }
@@ -504,13 +488,13 @@ internal static class Program
             //
             //  Set the initial solution estimate.
             //
-            for (i = 0; i < n; i++)
+            for (i = 0; i < N; i++)
             {
                 x_estimate[i] = 0.0;
             }
 
-            x_error = 0.0;
-            for (i = 0; i < n; i++)
+            double x_error = 0.0;
+            for (i = 0; i < N; i++)
             {
                 x_error += Math.Pow(x_exact[i] - x_estimate[i], 2);
             }
@@ -533,22 +517,22 @@ internal static class Program
                     break;
             }
 
-            tol_abs = 1.0E-08;
-            tol_rel = 1.0E-08;
+            const double tol_abs = 1.0E-08;
+            const double tol_rel = 1.0E-08;
 
             Console.WriteLine("");
             Console.WriteLine("  Test " + test + "");
-            Console.WriteLine("  Matrix order N = " + n + "");
+            Console.WriteLine("  Matrix order N = " + N + "");
             Console.WriteLine("  Inner iteration limit = " + mr + "");
             Console.WriteLine("  Outer iteration limit = " + itr_max + "");
             Console.WriteLine("  Initial X_ERROR = " + x_error + "");
 
-            RestartedGeneralizedMinimumResidual.pmgmres_ilu_cr(n, nz_num, ia, ja, a, ref x_estimate, rhs, itr_max,
+            RestartedGeneralizedMinimumResidual.pmgmres_ilu_cr(N, NZ_NUM, ia, ja, a, ref x_estimate, rhs, itr_max,
                 mr,
                 tol_abs, tol_rel);
 
             x_error = 0.0;
-            for (i = 0; i < n; i++)
+            for (i = 0; i < N; i++)
             {
                 x_error += Math.Pow(x_exact[i] - x_estimate[i], 2);
             }
@@ -580,8 +564,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int N = 5;
-        int NZ_NUM = 9;
+        const int N = 5;
+        const int NZ_NUM = 9;
 
         double[] a =
         {
@@ -603,13 +587,8 @@ internal static class Program
             1, 4
         };
         int mr = 0;
-        int n = N;
-        int nz_num = NZ_NUM;
         double[] rhs = {14.0, 4.0, 12.0, 16.0, 27.0};
         int test;
-        double tol_abs = 0;
-        double tol_rel = 0;
-        double x_error = 0;
         double[] x_estimate = new double[N];
         double[] x_exact = {1.0, 2.0, 3.0, 4.0, 5.0};
 
@@ -618,7 +597,7 @@ internal static class Program
         Console.WriteLine("  Test PMGMRES_ILU_CR on a simple 5 x 5 matrix.");
 
         Console.WriteLine("");
-        for (i = 0; i < n + 1; i++)
+        for (i = 0; i < N + 1; i++)
         {
             Console.WriteLine("  ia[" + i + "] = " + ia[i] + "");
         }
@@ -628,13 +607,13 @@ internal static class Program
             //
             //  Set the initial solution estimate.
             //
-            for (i = 0; i < n; i++)
+            for (i = 0; i < N; i++)
             {
                 x_estimate[i] = 0.0;
             }
 
-            x_error = 0.0;
-            for (i = 0; i < n; i++)
+            double x_error = 0.0;
+            for (i = 0; i < N; i++)
             {
                 x_error += Math.Pow(x_exact[i] - x_estimate[i], 2);
             }
@@ -657,22 +636,22 @@ internal static class Program
                     break;
             }
 
-            tol_abs = 1.0E-08;
-            tol_rel = 1.0E-08;
+            const double tol_abs = 1.0E-08;
+            const double tol_rel = 1.0E-08;
 
             Console.WriteLine("");
             Console.WriteLine("  Test " + test + "");
-            Console.WriteLine("  Matrix order N = " + n + "");
+            Console.WriteLine("  Matrix order N = " + N + "");
             Console.WriteLine("  Inner iteration limit = " + mr + "");
             Console.WriteLine("  Outer iteration limit = " + itr_max + "");
             Console.WriteLine("  Initial X_ERROR = " + x_error + "");
 
-            RestartedGeneralizedMinimumResidual.pmgmres_ilu_cr(n, nz_num, ia, ja, a, ref x_estimate, rhs, itr_max,
+            RestartedGeneralizedMinimumResidual.pmgmres_ilu_cr(N, NZ_NUM, ia, ja, a, ref x_estimate, rhs, itr_max,
                 mr,
                 tol_abs, tol_rel);
 
             x_error = 0.0;
-            for (i = 0; i < n; i++)
+            for (i = 0; i < N; i++)
             {
                 x_error += Math.Pow(x_exact[i] - x_estimate[i], 2);
             }

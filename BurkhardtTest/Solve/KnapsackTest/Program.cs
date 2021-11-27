@@ -69,24 +69,21 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int c;
         int i;
-        int n = 6;
-        int[] s;
-        int t;
+        const int n = 6;
         int[] w =
         {
             16, 17, 23, 24, 39, 40
         };
 
-        c = 100;
+        const int c = 100;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01:");
         Console.WriteLine("  Knapsack maximum capacity is " + c + "");
         Console.WriteLine("  Come as close as possible to filling the knapsack.");
 
-        s = Knapsack.knapsack_01(n, w, c);
+        int[] s = Knapsack.knapsack_01(n, w, c);
 
         Console.WriteLine("");
         Console.WriteLine("   # 0/1  Weight");
@@ -98,7 +95,7 @@ internal static class Program
                                                       + w[i].ToString().PadLeft(4) + "");
         }
 
-        t = 0;
+        int t = 0;
         for (i = 0; i < n; i++)
         {
             t += s[i] * w[i];

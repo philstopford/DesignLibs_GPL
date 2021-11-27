@@ -9,7 +9,6 @@ internal static class Program
     private static void Main()
     {
         Console.WriteLine();
-        ;
         Console.WriteLine("LATIN_COVER_TEST:");
         Console.WriteLine("  Test the LATIN_COVER library.");
 

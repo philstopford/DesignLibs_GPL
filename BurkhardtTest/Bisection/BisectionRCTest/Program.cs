@@ -708,12 +708,14 @@ internal static class Program
                 break;
             }
 
-            if (it_max <= it)
+            if (it_max > it)
             {
-                Console.WriteLine("");
-                Console.WriteLine("  Reached iteration limit.");
-                break;
+                continue;
             }
+
+            Console.WriteLine("");
+            Console.WriteLine("  Reached iteration limit.");
+            break;
 
         }
 

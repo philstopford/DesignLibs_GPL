@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt;
 using Burkardt.SolveNS;
 
@@ -66,56 +67,17 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int nx = 17;
-        int ny = 17;
+        const int nx = 17;
+        const int ny = 17;
 
-        double[] a;
-        double area;
-        double[] b;
-        double[] c;
-        double dqidx;
-        double dqidy;
-        double dqjdx;
-        double dqjdy;
         int e;
-        int[] element_node;
-        int element_num;
         int i;
-        int i1;
-        int i2;
-        int i3;
         int j;
-        int j2;
-        int k;
-        int node_num;
-        int nq1;
-        int nq2;
-        int nti1;
-        int nti2;
-        int nti3;
-        int ntj1;
-        int ntj2;
-        int ntj3;
-        int q1;
-        int q2;
-        double qi;
-        int ti1;
-        int ti2;
-        int ti3;
-        int tj1;
-        int tj2;
-        int tj3;
-        double rhs;
         double u;
-        double wq;
-        double[] x;
-        double xl = 0.0;
-        double xq;
-        double xr = 1.0;
-        double[] y;
-        double yb = 0.0;
-        double yq;
-        double yt = 1.0;
+        const double xl = 0.0;
+        const double xr = 1.0;
+        const double yb = 0.0;
+        const double yt = 1.0;
 
         Console.WriteLine("");
         Console.WriteLine("FEM2D_POISSON_RECTANGLE_LINEAR");
@@ -152,14 +114,14 @@ internal static class Program
         //        +--------------------
         //          I= 1  I= 2 ... I=10
         //
-        node_num = nx * ny;
+        const int node_num = nx * ny;
 
         Console.WriteLine("  Number of nodes =          " + node_num + "");
 
-        x = new double[node_num];
-        y = new double[node_num];
+        double[] x = new double[node_num];
+        double[] y = new double[node_num];
 
-        k = 0;
+        int k = 0;
         for (j = 1; j <= ny; j++)
         {
             for (i = 1; i <= nx; i++)
@@ -195,11 +157,11 @@ internal static class Program
         //    |  1\|  3\|  5\| 7 \|                   |17 \|
         //    1----2----3----4----5----6----7----8----9---10
         //
-        element_num = 2 * (nx - 1) * (ny - 1);
+        const int element_num = 2 * (nx - 1) * (ny - 1);
 
         Console.WriteLine("  Number of elements =       " + element_num + "");
 
-        element_node = new int[3 * element_num];
+        int[] element_node = new int[3 * element_num];
 
         k = 0;
 
@@ -223,8 +185,8 @@ internal static class Program
         //  Assemble the coefficient matrix A and the right-hand side B of the
         //  finite element equations, ignoring boundary conditions.
         //
-        a = new double[node_num * node_num];
-        b = new double[node_num];
+        double[] a = new double[node_num * node_num];
+        double[] b = new double[node_num];
 
         for (i = 0; i < node_num; i++)
         {
@@ -241,65 +203,68 @@ internal static class Program
 
         for (e = 0; e < element_num; e++)
         {
-            i1 = element_node[0 + e * 3];
-            i2 = element_node[1 + e * 3];
-            i3 = element_node[2 + e * 3];
-            area = 0.5 *
-                   (x[i1] * (y[i2] - y[i3])
-                    + x[i2] * (y[i3] - y[i1])
-                    + x[i3] * (y[i1] - y[i2]));
+            int i1 = element_node[0 + e * 3];
+            int i2 = element_node[1 + e * 3];
+            int i3 = element_node[2 + e * 3];
+            double area = 0.5 *
+                          (x[i1] * (y[i2] - y[i3])
+                           + x[i2] * (y[i3] - y[i1])
+                           + x[i3] * (y[i1] - y[i2]));
             //
             //  Consider each quadrature point.
             //  Here, we use the midside nodes as quadrature points.
             //
+            int q1;
             for (q1 = 0; q1 < 3; q1++)
             {
-                q2 = (q1 + 1) % 3;
+                int q2 = (q1 + 1) % 3;
 
-                nq1 = element_node[q1 + e * 3];
-                nq2 = element_node[q2 + e * 3];
+                int nq1 = element_node[q1 + e * 3];
+                int nq2 = element_node[q2 + e * 3];
 
-                xq = 0.5 * (x[nq1] + x[nq2]);
-                yq = 0.5 * (y[nq1] + y[nq2]);
-                wq = 1.0 / 3.0;
+                double xq = 0.5 * (x[nq1] + x[nq2]);
+                double yq = 0.5 * (y[nq1] + y[nq2]);
+                const double wq = 1.0 / 3.0;
                 //
                 //  Consider each test function in the element.
                 //
+                int ti1;
                 for (ti1 = 0; ti1 < 3; ti1++)
                 {
-                    ti2 = (ti1 + 1) % 3;
-                    ti3 = (ti1 + 2) % 3;
+                    int ti2 = (ti1 + 1) % 3;
+                    int ti3 = (ti1 + 2) % 3;
 
-                    nti1 = element_node[ti1 + e * 3];
-                    nti2 = element_node[ti2 + e * 3];
-                    nti3 = element_node[ti3 + e * 3];
+                    int nti1 = element_node[ti1 + e * 3];
+                    int nti2 = element_node[ti2 + e * 3];
+                    int nti3 = element_node[ti3 + e * 3];
 
-                    qi = 0.5 * (
+                    double qi = 0.5 * (
                         (x[nti3] - x[nti2]) * (yq - y[nti2])
                         - (y[nti3] - y[nti2]) * (xq - x[nti2])) / area;
-                    dqidx = -0.5 * (y[nti3] - y[nti2]) / area;
-                    dqidy = 0.5 * (x[nti3] - x[nti2]) / area;
+                    double dqidx = -0.5 * (y[nti3] - y[nti2]) / area;
+                    double dqidy = 0.5 * (x[nti3] - x[nti2]) / area;
 
-                    rhs = 2.0 * Math.PI * Math.PI * Math.Sin(Math.PI * xq) * Math.Sin(Math.PI * yq);
+                    double rhs = 2.0 * Math.PI * Math.PI * Math.Sin(Math.PI * xq) * Math.Sin(Math.PI * yq);
 
                     b[nti1] += area * wq * rhs * qi;
                     //
                     //  Consider each basis function in the element.
                     //
+                    int tj1;
                     for (tj1 = 0; tj1 < 3; tj1++)
                     {
-                        tj2 = (tj1 + 1) % 3;
-                        tj3 = (tj1 + 2) % 3;
+                        int tj2 = (tj1 + 1) % 3;
+                        int tj3 = (tj1 + 2) % 3;
 
-                        ntj1 = element_node[tj1 + e * 3];
-                        ntj2 = element_node[tj2 + e * 3];
-                        ntj3 = element_node[tj3 + e * 3];
+                        int ntj1 = element_node[tj1 + e * 3];
+                        int ntj2 = element_node[tj2 + e * 3];
+                        int ntj3 = element_node[tj3 + e * 3];
 
                         //        qj = 0.5 * (
                         //            ( x[ntj3] - x[ntj2] ) * ( yq - y[ntj2] )
                         //          - ( y[ntj3] - y[ntj2] ) * ( xq - x[ntj2] ) ) / area;
-                        dqjdx = -0.5 * (y[ntj3] - y[ntj2]) / area;
-                        dqjdy = 0.5 * (x[ntj3] - x[ntj2]) / area;
+                        double dqjdx = -0.5 * (y[ntj3] - y[ntj2]) / area;
+                        double dqjdy = 0.5 * (x[ntj3] - x[ntj2]) / area;
 
                         a[nti1 + ntj1 * node_num] += area * wq * (dqidx * dqjdx + dqidy * dqjdy);
                     }
@@ -322,6 +287,7 @@ internal static class Program
                 {
                     ExactResult res = exact(x[k], y[k]);
                     u = res.u;
+                    int j2;
                     for (j2 = 0; j2 < node_num; j2++)
                     {
                         a[k + j2 * node_num] = 0.0;
@@ -339,7 +305,7 @@ internal static class Program
         //
         //  The solution is returned in C.
         //
-        c = Solve.r8ge_fs_new(node_num, a, b);
+        double[] c = Solve.r8ge_fs_new(node_num, a, b);
         //
         //  COMPARE computed and exact solutions.
         //
@@ -358,14 +324,14 @@ internal static class Program
                 ExactResult res = exact(x[k], y[k]);
                 u = res.u;
 
-                Console.WriteLine("  " + k.ToString().PadLeft(4)
-                                       + "  " + i.ToString().PadLeft(4)
-                                       + "  " + j.ToString().PadLeft(4)
-                                       + "  " + x[k].ToString().PadLeft(10)
-                                       + "  " + y[k].ToString().PadLeft(10)
-                                       + "  " + u.ToString().PadLeft(14)
-                                       + "  " + c[k].ToString().PadLeft(14)
-                                       + "  " + Math.Abs(u - c[k]).ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + k.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + x[k].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + y[k].ToString(CultureInfo.InvariantCulture).PadLeft(10)
+                                       + "  " + u.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + c[k].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + Math.Abs(u - c[k]).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
                 k += 1;
             }

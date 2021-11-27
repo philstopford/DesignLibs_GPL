@@ -33,14 +33,12 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double w;
-
         Console.WriteLine("");
         Console.WriteLine("SOR_TEST");
             
         Console.WriteLine("  Test the SOR library.");
 
-        w = 0.5;
+        double w = 0.5;
         sor_test01(w);
 
         w = 1.0;
@@ -81,45 +79,30 @@ internal static class Program
         //    0 < W < 2 is required.
         //
     {
-        double[] a;
         double[] b = new double[1];
-        string command_filename;
         List<string> command = new();
-        string data_filename;
         List<string> data = new();
         int i;
         int it;
-        int it_num;
         int j;
-        double[] m_plot;
-        double[] ml_plot;
-        int n;
-        double[] r_plot;
-        double[] rl_plot;
-        double[] s_plot;
-        double t;
-        double[] x;
-        double[] x_exact;
-        double[] x_new;
-        double[] x_plot;
 
         Console.WriteLine("");
         Console.WriteLine("SOR1_TEST01:");
         Console.WriteLine("  Relaxation parameter W = " + w + "");
 
-        it_num = 2000;
-        n = 33;
+        const int it_num = 2000;
+        const int n = 33;
         //
         //  Set the matrix A.
         //
-        a = Matrix.dif2(n, n);
+        double[] a = Matrix.dif2(n, n);
         //
         //  Determine the right hand side vector B.
         //
-        x_exact = new double[n];
+        double[] x_exact = new double[n];
         for (i = 0; i < n; i++)
         {
-            t = i / (double)(n - 1);
+            double t = i / (double)(n - 1);
             x_exact[i] = Math.Exp(t) * (t - 1) * t;
             //   x_exact[i] = ( double ) ( i + 1 );
         }
@@ -128,7 +111,7 @@ internal static class Program
         //
         //  Set the initial estimate for the solution.
         //
-        x = new double[n];
+        double[] x = new double[n];
         for (i = 0; i < n; i++)
         {
             x[i] = 0.0;
@@ -137,10 +120,10 @@ internal static class Program
         //
         //  Allocate plot arrays.
         //
-        m_plot = new double[it_num + 1];
-        r_plot = new double[it_num + 1];
-        s_plot = new double[it_num + 1];
-        x_plot = new double[n * (it_num + 1)];
+        double[] m_plot = new double[it_num + 1];
+        double[] r_plot = new double[it_num + 1];
+        double[] s_plot = new double[it_num + 1];
+        double[] x_plot = new double[n * (it_num + 1)];
         //
         //  Initialize plot arrays.
         //
@@ -161,7 +144,7 @@ internal static class Program
         //
         for (it = 1; it <= it_num; it++)
         {
-            x_new = SuccessiveOverRelaxation.sor1(n, a, b, x, w);
+            double[] x_new = SuccessiveOverRelaxation.sor1(n, a, b, x, w);
 
             r_plot[it] = typeMethods.r8mat_residual_norm(n, n, a, x_new, b);
             //
@@ -184,7 +167,7 @@ internal static class Program
         //
         //  Plot the residual.
         //
-        rl_plot = new double[it_num + 1];
+        double[] rl_plot = new double[it_num + 1];
         for (j = 0; j <= it_num; j++)
         {
             rl_plot[j] = Math.Log(r_plot[j]);
@@ -193,7 +176,7 @@ internal static class Program
         //
         //  Create the data file.
         //
-        data_filename = "residual_data.txt";
+        string data_filename = "residual_data.txt";
 
         for (j = 0; j <= it_num; j++)
         {
@@ -209,7 +192,7 @@ internal static class Program
         //
         //  Create the command file.
         //
-        command_filename = "residual_commands.txt";
+        string command_filename = "residual_commands.txt";
 
         command.Add("# residual_commands.txt");
         command.Add("#");
@@ -233,7 +216,7 @@ internal static class Program
         //
         //  Plot the average point motion.
         //
-        ml_plot = new double[it_num + 1];
+        double[] ml_plot = new double[it_num + 1];
         for (j = 0; j <= it_num; j++)
         {
             ml_plot[j] = Math.Log(m_plot[j]);

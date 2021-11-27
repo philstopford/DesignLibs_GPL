@@ -76,22 +76,16 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int call_num;
         int[] choice = new int[8];
-        int factor;
-        int i;
-        int n = 8;
-        int n2;
+        const int n = 8;
         bool reject = false;
-        int result;
-        int target;
         int[] targets =
             {
                 73, 299, -3
             }
             ;
         int test;
-        int test_num = 3;
+        const int test_num = 3;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
@@ -101,12 +95,13 @@ internal static class Program
 
         for (test = 0; test < test_num; test++)
         {
-            target = targets[test];
+            int target = targets[test];
             Console.WriteLine("");
             Console.WriteLine("  TARGET = " + target + "");
-            call_num = 0;
-            n2 = -1;
+            int call_num = 0;
+            int n2 = -1;
 
+            int i;
             for (;;)
             {
                 BacktrackBinary.backbin_rc(n, reject, ref n2, ref choice);
@@ -121,13 +116,13 @@ internal static class Program
                 //
                 //  Evaluate the integer determined by the choices.
                 //
-                factor = 1;
+                int factor = 1;
                 for (i = n; n2 < i; i--)
                 {
                     factor *= 2;
                 }
 
-                result = 0;
+                int result = 0;
                 for (i = 0; i < n2; i++)
                 {
                     result = result * 2 + choice[i];
@@ -182,14 +177,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int call_num;
         int[] choice = new int[8];
-        int i;
-        int n = 8;
-        int n2;
+        const int n = 8;
         bool reject = false;
-        int result;
-        int target = 53;
+        const int target = 53;
         int[] w =
             {
                 15, 22, 14, 26, 32, 9, 16, 8
@@ -205,8 +196,8 @@ internal static class Program
         Console.WriteLine("");
         Console.WriteLine("  TARGET = " + target + "");
         Console.WriteLine("");
-        call_num = 0;
-        n2 = -1;
+        int call_num = 0;
+        int n2 = -1;
 
         for (;;)
         {
@@ -221,7 +212,8 @@ internal static class Program
             //
             //  Evaluate the partial sum.
             //
-            result = 0;
+            int result = 0;
+            int i;
             for (i = 0; i < n2; i++)
             {
                 result += choice[i] * w[i];

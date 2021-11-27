@@ -35,26 +35,12 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double a;
-        double b;
-        double c;
-        string command_filename = "advection_commands.txt";
+        const string command_filename = "advection_commands.txt";
         List<string> command_unit = new();
-        string data_filename = "advection_data.txt";
+        const string data_filename = "advection_data.txt";
         List<string> data_unit = new();
-        double dt;
-        double dx;
         int i;
         int j;
-        int jm1;
-        int jp1;
-        int nx;
-        int nt;
-        int nt_step;
-        double t;
-        double[] u;
-        double[] unew;
-        double[] x;
 
         Console.WriteLine("");
         Console.WriteLine("FD1D_ADVECTION_LAX:");
@@ -72,18 +58,18 @@ internal static class Program
         Console.WriteLine("    du/dt = (u(t+dt,x)-0.5*u(t,x-dx)-0.5*u(t,x+dx))/dt");
         Console.WriteLine("    du/dx = (u(t,x+dx)-u(t,x-dx))/2/dx");
 
-        nx = 101;
-        dx = 1.0 / (nx - 1);
-        a = 0.0;
-        b = 1.0;
-        x = typeMethods.r8vec_linspace_new(nx, a, b);
-        nt = 1000;
-        dt = 1.0 / nt;
-        c = 1.0;
+        const int nx = 101;
+        const double dx = 1.0 / (nx - 1);
+        const double a = 0.0;
+        const double b = 1.0;
+        double[] x = typeMethods.r8vec_linspace_new(nx, a, b);
+        const int nt = 1000;
+        const double dt = 1.0 / nt;
+        const double c = 1.0;
 
-        u = InitialCondition.initial_condition(nx, x);
+        double[] u = InitialCondition.initial_condition(nx, x);
 
-        t = 0.0;
+        double t = 0.0;
         data_unit.Add("  " + x[0]
                            + "  " + t
                            + "  " + u[0] + "");
@@ -96,7 +82,7 @@ internal static class Program
 
         data_unit.Add("");
 
-        nt_step = 100;
+        int nt_step = 100;
 
         Console.WriteLine("");
         Console.WriteLine("  Number of nodes NX = " + nx + "");
@@ -104,14 +90,14 @@ internal static class Program
         Console.WriteLine("  Constant velocity C = " + c + "");
         Console.WriteLine("  CFL condition: dt (" + dt + ") <= dx / c (" + dx / c + ")");
 
-        unew = new double[nx];
+        double[] unew = new double[nx];
 
         for (i = 0; i < nt; i++)
         {
             for (j = 0; j < nx; j++)
             {
-                jm1 = typeMethods.i4_wrap(j - 1, 0, nx - 1);
-                jp1 = typeMethods.i4_wrap(j + 1, 0, nx - 1);
+                int jm1 = typeMethods.i4_wrap(j - 1, 0, nx - 1);
+                int jp1 = typeMethods.i4_wrap(j + 1, 0, nx - 1);
                 unew[j] = 0.5 * u[jp1] + 0.5 * u[jm1]
                           - c * dt / dx / 2.0 * (u[jp1] - u[jm1]);
             }
@@ -121,19 +107,21 @@ internal static class Program
                 u[j] = unew[j];
             }
 
-            if (i == nt_step - 1)
+            if (i != nt_step - 1)
             {
-                t = i * dt;
-                for (j = 0; j < nx; j++)
-                {
-                    data_unit.Add("  " + x[j]
-                                       + "  " + t
-                                       + "  " + u[j] + "");
-                }
-
-                data_unit.Add("");
-                nt_step += 100;
+                continue;
             }
+
+            t = i * dt;
+            for (j = 0; j < nx; j++)
+            {
+                data_unit.Add("  " + x[j]
+                                   + "  " + t
+                                   + "  " + u[j] + "");
+            }
+
+            data_unit.Add("");
+            nt_step += 100;
         }
 
         //

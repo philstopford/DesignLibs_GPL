@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.Probability;
 using Burkardt.SolveNS;
 using Burkardt.Types;
@@ -69,24 +70,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] a;
-        double[] b;
-        double b_norm;
         int flag = 0;
-        int i;
-        int m;
-        int n;
         int prob;
-        int prob_num;
-        double[] r1;
-        double r1_norm;
-        double[] r2;
-        double r2_norm;
-        double x_diff_norm;
-        double[] x1;
-        double x1_norm;
-        double[] x2;
-        double x2_norm;
 
         Console.WriteLine("");
         Console.WriteLine("NORMAL_SOLVE_TEST");
@@ -97,7 +82,7 @@ internal static class Program
         Console.WriteLine("  NORMAL_SOLVE cannot be applied when N < M,");
         Console.WriteLine("  or if the matrix does not have full column rank.");
 
-        prob_num = ProbabilityFunctions.p00_prob_num();
+        int prob_num = ProbabilityFunctions.p00_prob_num();
 
         Console.WriteLine("");
         Console.WriteLine("  Number of problems = " + prob_num + "");
@@ -110,67 +95,68 @@ internal static class Program
             //
             //  Get problem size.
             //
-            m = ProbabilityFunctions.p00_m(prob);
-            n = ProbabilityFunctions.p00_n(prob);
+            int m = ProbabilityFunctions.p00_m(prob);
+            int n = ProbabilityFunctions.p00_n(prob);
             //
             //  Retrieve problem data.
             //
-            a = ProbabilityFunctions.p00_a(prob, m, n);
-            b = ProbabilityFunctions.p00_b(prob, m);
-            x1 = ProbabilityFunctions.p00_x(prob, n);
+            double[] a = ProbabilityFunctions.p00_a(prob, m, n);
+            double[] b = ProbabilityFunctions.p00_b(prob, m);
+            double[] x1 = ProbabilityFunctions.p00_x(prob, n);
 
-            b_norm = typeMethods.r8vec_norm(m, b);
-            x1_norm = typeMethods.r8vec_norm(n, x1);
-            r1 = typeMethods.r8mat_mv_new(m, n, a, x1);
+            double b_norm = typeMethods.r8vec_norm(m, b);
+            double x1_norm = typeMethods.r8vec_norm(n, x1);
+            double[] r1 = typeMethods.r8mat_mv_new(m, n, a, x1);
+            int i;
             for (i = 0; i < m; i++)
             {
                 r1[i] -= b[i];
             }
 
-            r1_norm = typeMethods.r8vec_norm(m, r1);
+            double r1_norm = typeMethods.r8vec_norm(m, r1);
             //
             //  Use NORMAL_SOLVE on the problem.
             //
-            x2 = NormalSolve.normal_solve(m, n, a, b, ref flag);
+            double[] x2 = NormalSolve.normal_solve(m, n, a, b, ref flag);
 
             if (flag != 0)
             {
-                Console.WriteLine("  " + prob.ToString().PadLeft(5)
-                                       + "  " + m.ToString().PadLeft(4)
-                                       + "  " + n.ToString().PadLeft(4)
-                                       + "  " + b_norm.ToString().PadLeft(12)
+                Console.WriteLine("  " + prob.ToString(CultureInfo.InvariantCulture).PadLeft(5)
+                                       + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + b_norm.ToString(CultureInfo.InvariantCulture).PadLeft(12)
                                        + "  " + "------------"
-                                       + "  " + x1_norm.ToString().PadLeft(12)
+                                       + "  " + x1_norm.ToString(CultureInfo.InvariantCulture).PadLeft(12)
                                        + "  " + "------------"
-                                       + "  " + r1_norm.ToString().PadLeft(12)
+                                       + "  " + r1_norm.ToString(CultureInfo.InvariantCulture).PadLeft(12)
                                        + "  " + "------------" + "");
             }
             else
             {
-                x2_norm = typeMethods.r8vec_norm(n, x2);
-                r2 = typeMethods.r8mat_mv_new(m, n, a, x2);
+                double x2_norm = typeMethods.r8vec_norm(n, x2);
+                double[] r2 = typeMethods.r8mat_mv_new(m, n, a, x2);
                 for (i = 0; i < m; i++)
                 {
                     r2[i] -= b[i];
                 }
 
-                r2_norm = typeMethods.r8vec_norm(m, r2);
+                double r2_norm = typeMethods.r8vec_norm(m, r2);
                 //
                 //  Compare tabulated and computed solutions.
                 //
-                x_diff_norm = typeMethods.r8vec_norm_affine(n, x1, x2);
+                double x_diff_norm = typeMethods.r8vec_norm_affine(n, x1, x2);
                 //
                 //  Report results for this problem.
                 //
-                Console.WriteLine("  " + prob.ToString().PadLeft(5)
-                                       + "  " + m.ToString().PadLeft(4)
-                                       + "  " + n.ToString().PadLeft(4)
-                                       + "  " + b_norm.ToString().PadLeft(12)
-                                       + "  " + x_diff_norm.ToString().PadLeft(12)
-                                       + "  " + x1_norm.ToString().PadLeft(12)
-                                       + "  " + x2_norm.ToString().PadLeft(12)
-                                       + "  " + r1_norm.ToString().PadLeft(12)
-                                       + "  " + r2_norm.ToString().PadLeft(12) + "");
+                Console.WriteLine("  " + prob.ToString(CultureInfo.InvariantCulture).PadLeft(5)
+                                       + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + b_norm.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                       + "  " + x_diff_norm.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                       + "  " + x1_norm.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                       + "  " + x2_norm.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                       + "  " + r1_norm.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                       + "  " + r2_norm.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
 
             }
 
@@ -199,23 +185,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] a;
-        double[] b;
-        double b_norm;
-        int i;
-        int m;
-        int n;
         int prob;
-        int prob_num;
-        double[] r1;
-        double r1_norm;
-        double[] r2;
-        double r2_norm;
-        double x_diff_norm;
-        double[] x1;
-        double x1_norm;
-        double[] x2;
-        double x2_norm;
 
         Console.WriteLine("");
         Console.WriteLine("QR_SOLVE_TEST");
@@ -223,7 +193,7 @@ internal static class Program
         Console.WriteLine("  solves a linear system A*x = b in the least squares sense.");
         Console.WriteLine("  Compare a tabulated solution X1 to the QR_SOLVE result X2.");
 
-        prob_num = ProbabilityFunctions.p00_prob_num();
+        int prob_num = ProbabilityFunctions.p00_prob_num();
 
         Console.WriteLine("");
         Console.WriteLine("  Number of problems = " + prob_num + "");
@@ -236,53 +206,54 @@ internal static class Program
             //
             //  Get problem size.
             //
-            m = ProbabilityFunctions.p00_m(prob);
-            n = ProbabilityFunctions.p00_n(prob);
+            int m = ProbabilityFunctions.p00_m(prob);
+            int n = ProbabilityFunctions.p00_n(prob);
             //
             //  Retrieve problem data.
             //
-            a = ProbabilityFunctions.p00_a(prob, m, n);
-            b = ProbabilityFunctions.p00_b(prob, m);
-            x1 = ProbabilityFunctions.p00_x(prob, n);
+            double[] a = ProbabilityFunctions.p00_a(prob, m, n);
+            double[] b = ProbabilityFunctions.p00_b(prob, m);
+            double[] x1 = ProbabilityFunctions.p00_x(prob, n);
 
-            b_norm = typeMethods.r8vec_norm(m, b);
-            x1_norm = typeMethods.r8vec_norm(n, x1);
-            r1 = typeMethods.r8mat_mv_new(m, n, a, x1);
+            double b_norm = typeMethods.r8vec_norm(m, b);
+            double x1_norm = typeMethods.r8vec_norm(n, x1);
+            double[] r1 = typeMethods.r8mat_mv_new(m, n, a, x1);
+            int i;
             for (i = 0; i < m; i++)
             {
                 r1[i] -= b[i];
             }
 
-            r1_norm = typeMethods.r8vec_norm(m, r1);
+            double r1_norm = typeMethods.r8vec_norm(m, r1);
             //
             //  Use QR_SOLVE on the problem.
             //
-            x2 = QRSolve.qr_solve(m, n, a, b);
+            double[] x2 = QRSolve.qr_solve(m, n, a, b);
 
-            x2_norm = typeMethods.r8vec_norm(n, x2);
-            r2 = typeMethods.r8mat_mv_new(m, n, a, x2);
+            double x2_norm = typeMethods.r8vec_norm(n, x2);
+            double[] r2 = typeMethods.r8mat_mv_new(m, n, a, x2);
             for (i = 0; i < m; i++)
             {
                 r2[i] -= b[i];
             }
 
-            r2_norm = typeMethods.r8vec_norm(m, r2);
+            double r2_norm = typeMethods.r8vec_norm(m, r2);
             //
             //  Compare tabulated and computed solutions.
             //
-            x_diff_norm = typeMethods.r8vec_norm_affine(n, x1, x2);
+            double x_diff_norm = typeMethods.r8vec_norm_affine(n, x1, x2);
             //
             //  Report results for this problem.
             //
-            Console.WriteLine("  " + prob.ToString().PadLeft(5)
-                                   + "  " + m.ToString().PadLeft(4)
-                                   + "  " + n.ToString().PadLeft(4)
-                                   + "  " + b_norm.ToString().PadLeft(12)
-                                   + "  " + x_diff_norm.ToString().PadLeft(12)
-                                   + "  " + x1_norm.ToString().PadLeft(12)
-                                   + "  " + x2_norm.ToString().PadLeft(12)
-                                   + "  " + r1_norm.ToString().PadLeft(12)
-                                   + "  " + r2_norm.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + prob.ToString(CultureInfo.InvariantCulture).PadLeft(5)
+                                   + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + b_norm.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + x_diff_norm.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + x1_norm.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + x2_norm.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + r1_norm.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + r2_norm.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -307,23 +278,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] a;
-        double[] b;
-        double b_norm;
-        int i;
-        int m;
-        int n;
         int prob;
-        int prob_num;
-        double[] r1;
-        double r1_norm;
-        double[] r2;
-        double r2_norm;
-        double x_diff_norm;
-        double[] x1;
-        double x1_norm;
-        double[] x2;
-        double x2_norm;
 
         Console.WriteLine("");
         Console.WriteLine("SVD_SOLVE_TEST");
@@ -331,7 +286,7 @@ internal static class Program
         Console.WriteLine("  solves a linear system A*x = b in the least squares sense.");
         Console.WriteLine("  Compare a tabulated solution X1 to the SVD_SOLVE result X2.");
 
-        prob_num = ProbabilityFunctions.p00_prob_num();
+        int prob_num = ProbabilityFunctions.p00_prob_num();
 
         Console.WriteLine("");
         Console.WriteLine("  Number of problems = " + prob_num + "");
@@ -344,53 +299,54 @@ internal static class Program
             //
             //  Get problem size.
             //
-            m = ProbabilityFunctions.p00_m(prob);
-            n = ProbabilityFunctions.p00_n(prob);
+            int m = ProbabilityFunctions.p00_m(prob);
+            int n = ProbabilityFunctions.p00_n(prob);
             //
             //  Retrieve problem data.
             //
-            a = ProbabilityFunctions.p00_a(prob, m, n);
-            b = ProbabilityFunctions.p00_b(prob, m);
-            x1 = ProbabilityFunctions.p00_x(prob, n);
+            double[] a = ProbabilityFunctions.p00_a(prob, m, n);
+            double[] b = ProbabilityFunctions.p00_b(prob, m);
+            double[] x1 = ProbabilityFunctions.p00_x(prob, n);
 
-            b_norm = typeMethods.r8vec_norm(m, b);
-            x1_norm = typeMethods.r8vec_norm(n, x1);
-            r1 = typeMethods.r8mat_mv_new(m, n, a, x1);
+            double b_norm = typeMethods.r8vec_norm(m, b);
+            double x1_norm = typeMethods.r8vec_norm(n, x1);
+            double[] r1 = typeMethods.r8mat_mv_new(m, n, a, x1);
+            int i;
             for (i = 0; i < m; i++)
             {
                 r1[i] -= b[i];
             }
 
-            r1_norm = typeMethods.r8vec_norm(m, r1);
+            double r1_norm = typeMethods.r8vec_norm(m, r1);
             //
             //  Use SVD_SOLVE on the problem.
             //
-            x2 = SVDSolve.svd_solve(m, n, a, b);
+            double[] x2 = SVDSolve.svd_solve(m, n, a, b);
 
-            x2_norm = typeMethods.r8vec_norm(n, x2);
-            r2 = typeMethods.r8mat_mv_new(m, n, a, x2);
+            double x2_norm = typeMethods.r8vec_norm(n, x2);
+            double[] r2 = typeMethods.r8mat_mv_new(m, n, a, x2);
             for (i = 0; i < m; i++)
             {
                 r2[i] -= b[i];
             }
 
-            r2_norm = typeMethods.r8vec_norm(m, r2);
+            double r2_norm = typeMethods.r8vec_norm(m, r2);
             //
             //  Compare tabulated and computed solutions.
             //
-            x_diff_norm = typeMethods.r8vec_norm_affine(n, x1, x2);
+            double x_diff_norm = typeMethods.r8vec_norm_affine(n, x1, x2);
             //
             //  Report results for this problem.
             //
-            Console.WriteLine("  " + prob.ToString().PadLeft(5)
-                                   + "  " + m.ToString().PadLeft(4)
-                                   + "  " + n.ToString().PadLeft(4)
-                                   + "  " + b_norm.ToString().PadLeft(12)
-                                   + "  " + x_diff_norm.ToString().PadLeft(12)
-                                   + "  " + x1_norm.ToString().PadLeft(12)
-                                   + "  " + x2_norm.ToString().PadLeft(12)
-                                   + "  " + r1_norm.ToString().PadLeft(12)
-                                   + "  " + r2_norm.ToString().PadLeft(12) + "");
+            Console.WriteLine("  " + prob.ToString(CultureInfo.InvariantCulture).PadLeft(5)
+                                   + "  " + m.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + b_norm.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + x_diff_norm.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + x1_norm.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + x2_norm.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + r1_norm.ToString(CultureInfo.InvariantCulture).PadLeft(12)
+                                   + "  " + r2_norm.ToString(CultureInfo.InvariantCulture).PadLeft(12) + "");
         }
     }
 
@@ -415,27 +371,19 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] a;
         double[] b =  {
                 1.0, 2.3, 4.6, 3.1, 1.2
             }
             ;
         int i;
-        int ind;
-        int itask;
-        int j;
-        int[] jpvt;
         int kr = 0;
-        int m = 5;
-        int n = 3;
-        double[] qraux;
-        double tol;
-        double[] x;
+        const int m = 5;
+        const int n = 3;
 
-        a = new double[m * n];
-        jpvt = new int[n];
-        qraux = new double[n];
-        x = new double[n];
+        double[] a = new double[m * n];
+        int[] jpvt = new int[n];
+        double[] qraux = new double[n];
+        double[] x = new double[n];
         //
         //  Set up least-squares problem
         //  quadratic model, equally-spaced points
@@ -447,13 +395,14 @@ internal static class Program
         for (i = 0; i < m; i++)
         {
             a[i + 0 * m] = 1.0;
+            int j;
             for (j = 1; j < n; j++)
             {
                 a[i + j * m] = a[i + (j - 1) * m] * (i + 1);
             }
         }
 
-        tol = 1.0E-06;
+        double tol = 1.0E-06;
 
         typeMethods.r8mat_print(m, n, a, "  Coefficient matrix A:");
 
@@ -461,8 +410,8 @@ internal static class Program
         //
         //  Solve least-squares problem
         //
-        itask = 1;
-        ind = QRSolve.dqrls(ref a, m, m, n, tol, ref kr, b, ref x, ref b, jpvt, qraux, itask);
+        int itask = 1;
+        int ind = QRSolve.dqrls(ref a, m, m, n, tol, ref kr, b, ref x, ref b, jpvt, qraux, itask);
         //
         //  Print results
         //

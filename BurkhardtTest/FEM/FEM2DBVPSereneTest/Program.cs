@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.FEM;
 using Burkardt.MatrixNS;
 using Burkardt.Types;
@@ -72,24 +73,8 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double e1;
-        double e2;
-        double h1s;
-        int i;
-        int inc;
-        int j;
-        int k;
-        int nx = 5;
-        int ny = 5;
-        bool show11;
-        double[] u;
-        double uexact;
-        double[] x;
-        double x_first;
-        double x_last;
-        double[] y;
-        double y_first;
-        double y_last;
+        const int nx = 5;
+        const int ny = 5;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
@@ -105,16 +90,16 @@ internal static class Program
         //
         //  Geometry definitions.
         //
-        x_first = 0.0;
-        x_last = 1.0;
-        x = typeMethods.r8vec_linspace_new(nx, x_first, x_last);
+        double x_first = 0.0;
+        double x_last = 1.0;
+        double[] x = typeMethods.r8vec_linspace_new(nx, x_first, x_last);
 
-        y_first = 0.0;
-        y_last = 1.0;
-        y = typeMethods.r8vec_linspace_new(ny, y_first, y_last);
+        const double y_first = 0.0;
+        const double y_last = 1.0;
+        double[] y = typeMethods.r8vec_linspace_new(ny, y_first, y_last);
 
-        show11 = false;
-        u = FEM_2D_BVP_Serene.fem2d_bvp_serene(nx, ny, a1, c1, f1, x, y, show11);
+        const bool show11 = false;
+        double[] u = FEM_2D_BVP_Serene.fem2d_bvp_serene(nx, ny, a1, c1, f1, x, y, show11);
 
         switch (nx * ny)
         {
@@ -124,26 +109,28 @@ internal static class Program
                 Console.WriteLine("     I     J    X         Y               U               Uexact     Error");
                 Console.WriteLine("");
 
-                k = 0;
+                int k = 0;
 
+                int j;
                 for (j = 0; j < ny; j++)
                 {
-                    inc = (j % 2) switch
+                    int inc = (j % 2) switch
                     {
                         0 => 1,
                         _ => 2
                     };
 
+                    int i;
                     for (i = 0; i < nx; i += inc)
                     {
-                        uexact = exact1(x[i], y[j]);
-                        Console.WriteLine(i.ToString().PadLeft(4) + "  "
-                                                                  + j.ToString().PadLeft(4) + "  "
-                                                                  + x[i].ToString().PadLeft(8) + "  "
-                                                                  + y[j].ToString().PadLeft(8) + "  "
-                                                                  + u[k].ToString().PadLeft(14) + "  "
-                                                                  + uexact.ToString().PadLeft(14) + "  "
-                                                                  + Math.Abs(u[k] - uexact).ToString().PadLeft(14) + "");
+                        double uexact = exact1(x[i], y[j]);
+                        Console.WriteLine(i.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                                  + j.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                                  + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                                                                  + y[j].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                                                                  + u[k].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                                                                  + uexact.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                                                                  + Math.Abs(u[k] - uexact).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                         k += 1;
                     }
                 }
@@ -152,9 +139,9 @@ internal static class Program
             }
         }
 
-        e1 = FEM_2D_BVP_Serene.fem2d_l1_error_serene(nx, ny, x, y, u, exact1);
-        e2 = FEM_2D_BVP_Serene.fem2d_l2_error_serene(nx, ny, x, y, u, exact1);
-        h1s = FEM_2D_BVP_Serene.fem2d_h1s_error_serene(nx, ny, x, y, u, exact_ux1, exact_uy1);
+        double e1 = FEM_2D_BVP_Serene.fem2d_l1_error_serene(nx, ny, x, y, u, exact1);
+        double e2 = FEM_2D_BVP_Serene.fem2d_l2_error_serene(nx, ny, x, y, u, exact1);
+        double h1s = FEM_2D_BVP_Serene.fem2d_h1s_error_serene(nx, ny, x, y, u, exact_ux1, exact_uy1);
 
         Console.WriteLine("");
         Console.WriteLine("  l1 norm of error  = " + e1 + "");
@@ -189,9 +176,7 @@ internal static class Program
         //    Output, double A1, the value of A(X,Y).
         //
     {
-        double value = 0;
-
-        value = 1.0;
+        const double value = 1.0;
 
         return value;
     }
@@ -223,9 +208,7 @@ internal static class Program
         //    Output, double C1, the value of C(X,Y).
         //
     {
-        double value = 0;
-
-        value = 0.0;
+        const double value = 0.0;
 
         return value;
     }
@@ -257,9 +240,7 @@ internal static class Program
         //    Output, double EXACT1, the value of U(X,Y).
         //
     {
-        double value = 0;
-
-        value = x * (1.0 - x) * y * (1.0 - y);
+        double value = x * (1.0 - x) * y * (1.0 - y);
 
         return value;
     }
@@ -291,9 +272,7 @@ internal static class Program
         //    Output, double EXACT_UX1, the value of dUdX(X,Y).
         //
     {
-        double value = 0;
-
-        value = (1.0 - 2.0 * x) * (y - y * y);
+        double value = (1.0 - 2.0 * x) * (y - y * y);
 
         return value;
     }
@@ -325,9 +304,7 @@ internal static class Program
         //    Output, double EXACT_UY1, the value of dUdY(X,Y).
         //
     {
-        double value = 0;
-
-        value = (x - x * x) * (1.0 - 2.0 * y);
+        double value = (x - x * x) * (1.0 - 2.0 * y);
 
         return value;
     }
@@ -359,10 +336,8 @@ internal static class Program
         //    Output, double F1, the value of F(X,Y).
         //
     {
-        double value = 0;
-
-        value = 2.0 * x * (1.0 - x)
-                + 2.0 * y * (1.0 - y);
+        double value = 2.0 * x * (1.0 - x)
+                       + 2.0 * y * (1.0 - y);
 
         return value;
     }
@@ -389,21 +364,12 @@ internal static class Program
         //
     {
         int i;
-        int j;
-        int seed;
-        double[] v;
-        double[] vx;
-        double[] vy;
-        double xe;
         double xq;
-        double xw;
         double[] xx =  {
                 2.0, 1.0, 0.0, 0.0, 0.0, 1.0, 2.0, 2.0
             }
             ;
-        double yn;
         double yq;
-        double ys;
         double[] yy =  {
                 5.0, 5.0, 5.0, 4.0, 3.0, 3.0, 3.0, 4.0
             }
@@ -419,16 +385,17 @@ internal static class Program
         Console.WriteLine("  The matrix Aij = V(j)(X(i),Y(i)) should be the identity.");
         Console.WriteLine("");
 
-        xw = 0.0;
-        ys = 3.0;
-        xe = 2.0;
-        yn = 5.0;
+        double xw = 0.0;
+        double ys = 3.0;
+        double xe = 2.0;
+        double yn = 5.0;
 
         for (i = 0; i < 8; i++)
         {
             xq = xx[i];
             yq = yy[i];
-            v = FEM_2D_BVP_Serene.basis_serene(xq, yq, xw, ys, xe, yn, xx, yy);
+            FEM_2D_BVP_Serene.basis_serene(xq, yq, xw, ys, xe, yn, xx, yy);
+            int j;
             for (j = 0; j < 8; j++)
             {
             }
@@ -443,7 +410,7 @@ internal static class Program
         Console.WriteLine("  The vectors dVdX(1:8)(X,Y) and dVdY(1:8)(X,Y)");
         Console.WriteLine("  should both sum to zero for any (X,Y).");
 
-        seed = 123456789;
+        int seed = 123456789;
         xq = 2.0 * UniformRNG.r8_uniform_01(ref seed);
         yq = 3.0 + 2.0 * UniformRNG.r8_uniform_01(ref seed);
         xw = 0.0;
@@ -451,8 +418,8 @@ internal static class Program
         xe = 2.0;
         yn = 5.0;
 
-        vx = FEM_2D_BVP_Serene.basis_dx_serene(xq, yq, xw, ys, xe, yn, xx, yy);
-        vy = FEM_2D_BVP_Serene.basis_dy_serene(xq, yq, xw, ys, xe, yn, xx, yy);
+        double[] vx = FEM_2D_BVP_Serene.basis_dx_serene(xq, yq, xw, ys, xe, yn, xx, yy);
+        double[] vy = FEM_2D_BVP_Serene.basis_dy_serene(xq, yq, xw, ys, xe, yn, xx, yy);
 
         Console.WriteLine("");
         Console.WriteLine("  Random evaluation point is (" + xq + "," + yq + ")");
@@ -461,15 +428,15 @@ internal static class Program
         Console.WriteLine("");
         for (i = 0; i < 8; i++)
         {
-            Console.WriteLine(i.ToString().PadLeft(6) + "  "
-                                                      + vx[i].ToString().PadLeft(10) + "  "
-                                                      + vy[i].ToString().PadLeft(10) + "");
+            Console.WriteLine(i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                      + vx[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                                                      + vy[i].ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
         }
 
         Console.WriteLine("");
         Console.WriteLine("  Sum:  "
-                          + typeMethods.r8vec_sum(8, vx).ToString().PadLeft(10) + "  "
-                          + typeMethods.r8vec_sum(8, vy).ToString().PadLeft(10) + "");
+                          + typeMethods.r8vec_sum(8, vx).ToString(CultureInfo.InvariantCulture).PadLeft(10) + "  "
+                          + typeMethods.r8vec_sum(8, vy).ToString(CultureInfo.InvariantCulture).PadLeft(10) + "");
     }
 
     private static void test03()
@@ -497,26 +464,10 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double[] amat;
-        double e1;
-        double e2;
-        double h1s;
         int i;
-        int inc;
         int j;
-        int k;
-        int nx = 5;
-        int ny = 5;
-        double scale;
-        bool show11;
-        double[] u;
-        double uexact;
-        double[] x;
-        double x_first;
-        double x_last;
-        double[] y;
-        double y_first;
-        double y_last;
+        const int nx = 5;
+        const int ny = 5;
 
         Console.WriteLine("");
         Console.WriteLine("TEST03");
@@ -535,16 +486,15 @@ internal static class Program
         //
         //  Geometry definitions.
         //
-        x_first = 0.0;
-        x_last = 1.0;
-        x = typeMethods.r8vec_linspace_new(nx, x_first, x_last);
+        const double x_first = 0.0;
+        const double x_last = 1.0;
+        double[] x = typeMethods.r8vec_linspace_new(nx, x_first, x_last);
 
-        y_first = 0.0;
-        y_last = 1.0;
-        y = typeMethods.r8vec_linspace_new(ny, y_first, y_last);
+        const double y_first = 0.0;
+        const double y_last = 1.0;
+        double[] y = typeMethods.r8vec_linspace_new(ny, y_first, y_last);
 
-        show11 = true;
-        u = FEM_2D_BVP_Serene.fem2d_bvp_serene(nx, ny, a3, c3, f3, x, y, show11);
+        double[] u = FEM_2D_BVP_Serene.fem2d_bvp_serene(nx, ny, a3, c3, f3, x, y, true);
 
         switch (nx * ny)
         {
@@ -554,11 +504,11 @@ internal static class Program
                 Console.WriteLine("     I     J    X         Y               U               Uexact     Error");
                 Console.WriteLine("");
 
-                k = 0;
+                int k = 0;
 
                 for (j = 0; j < ny; j++)
                 {
-                    inc = (j % 2) switch
+                    int inc = (j % 2) switch
                     {
                         0 => 1,
                         _ => 2
@@ -566,14 +516,14 @@ internal static class Program
 
                     for (i = 0; i < nx; i += inc)
                     {
-                        uexact = exact3(x[i], y[j]);
-                        Console.WriteLine(i.ToString().PadLeft(4) + "  "
-                                                                  + j.ToString().PadLeft(4) + "  "
-                                                                  + x[i].ToString().PadLeft(8) + "  "
-                                                                  + y[j].ToString().PadLeft(8) + "  "
-                                                                  + u[k].ToString().PadLeft(14) + "  "
-                                                                  + uexact.ToString().PadLeft(14) + "  "
-                                                                  + Math.Abs(u[k] - uexact).ToString().PadLeft(14) + "");
+                        double uexact = exact3(x[i], y[j]);
+                        Console.WriteLine(i.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                                  + j.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                                  + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                                                                  + y[j].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                                                                  + u[k].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                                                                  + uexact.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                                                                  + Math.Abs(u[k] - uexact).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
                         k += 1;
                     }
                 }
@@ -582,9 +532,9 @@ internal static class Program
             }
         }
 
-        e1 = FEM_2D_BVP_Serene.fem2d_l1_error_serene(nx, ny, x, y, u, exact3);
-        e2 = FEM_2D_BVP_Serene.fem2d_l2_error_serene(nx, ny, x, y, u, exact3);
-        h1s = FEM_2D_BVP_Serene.fem2d_h1s_error_serene(nx, ny, x, y, u, exact_ux3, exact_uy3);
+        double e1 = FEM_2D_BVP_Serene.fem2d_l1_error_serene(nx, ny, x, y, u, exact3);
+        double e2 = FEM_2D_BVP_Serene.fem2d_l2_error_serene(nx, ny, x, y, u, exact3);
+        double h1s = FEM_2D_BVP_Serene.fem2d_h1s_error_serene(nx, ny, x, y, u, exact_ux3, exact_uy3);
 
         Console.WriteLine("");
         Console.WriteLine("  l1 norm of error  = " + e1 + "");
@@ -603,9 +553,9 @@ internal static class Program
         //    4     5
         //    6  7  8
         //    
-        amat = WathenMatrix.wathen(1, 1, 8);
+        double[] amat = WathenMatrix.wathen(1, 1, 8);
 
-        scale = 0.5 * amat[0 + 2 * 8];
+        double scale = 0.5 * amat[0 + 2 * 8];
         for (j = 0; j < 8; j++)
         {
             for (i = 0; i < 8; i++)

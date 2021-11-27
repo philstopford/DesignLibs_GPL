@@ -153,8 +153,8 @@ internal static class Program
 //    differential equation is being solved.
 //
     {
-        int NSUB = 5;
-        int NL = 2;
+        const int NSUB = 5;
+        const int NL = 2;
 
         double[] adiag = new double[NSUB + 1];
         double[] aleft = new double[NSUB + 1];

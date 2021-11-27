@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using Burkardt.FEM;
 using Burkardt.Types;
@@ -97,16 +98,7 @@ internal static class Program
 //
         {
             int i;
-            int n = 11;
-            double e1;
-            double e2;
-            double h1s;
-            double mx;
-            double[] u;
-            double uexact;
-            double[] x;
-            double x_first;
-            double x_last;
+            const int n = 11;
 
             Console.WriteLine("");
             Console.WriteLine("TEST00");
@@ -121,11 +113,11 @@ internal static class Program
 //
 //  Geometry definitions.
 //
-            x_first = 0.0;
-            x_last = 1.0;
-            x = typeMethods.r8vec_linspace_new(n, x_first, x_last);
+            double x_first = 0.0;
+            double x_last = 1.0;
+            double[] x = typeMethods.r8vec_linspace_new(n, x_first, x_last);
 
-            u = FEM_1D_BVP.fem1d_bvp_linear(n, FEM_Test_Methods.a00, FEM_Test_Methods.c00, FEM_Test_Methods.f00, x);
+            double[] u = FEM_1D_BVP.fem1d_bvp_linear(n, FEM_Test_Methods.a00, FEM_Test_Methods.c00, FEM_Test_Methods.f00, x);
 
             Console.WriteLine("");
             Console.WriteLine("     I    X         U         Uexact    Error");
@@ -133,18 +125,18 @@ internal static class Program
 
             for (i = 0; i < n; i++)
             {
-                uexact = FEM_Test_Methods.exact00(x[i]);
-                Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                       + "  " + x[i].ToString().PadLeft(8)
-                                       + "  " + u[i].ToString().PadLeft(14)
-                                       + "  " + uexact.ToString().PadLeft(14)
-                                       + "  " + Math.Abs(u[i] - uexact).ToString().PadLeft(14) + "");
+                double uexact = FEM_Test_Methods.exact00(x[i]);
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + uexact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + Math.Abs(u[i] - uexact).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
-            e1 = FEM_Error.l1_error(n, x, u, FEM_Test_Methods.exact00);
-            e2 = FEM_Error.l2_error_linear(n, x, u, FEM_Test_Methods.exact00);
-            h1s = FEM_Error.h1s_error_linear(n, x, u, FEM_Test_Methods.exact_ux00);
-            mx = FEM_Error.max_error_linear(n, x, u, FEM_Test_Methods.exact00);
+            double e1 = FEM_Error.l1_error(n, x, u, FEM_Test_Methods.exact00);
+            double e2 = FEM_Error.l2_error_linear(n, x, u, FEM_Test_Methods.exact00);
+            double h1s = FEM_Error.h1s_error_linear(n, x, u, FEM_Test_Methods.exact_ux00);
+            double mx = FEM_Error.max_error_linear(n, x, u, FEM_Test_Methods.exact00);
             Console.WriteLine("");
             Console.WriteLine("  l1 norm of error  = " + e1 + "");
             Console.WriteLine("  L2 norm of error  = " + e2 + "");
@@ -187,16 +179,7 @@ internal static class Program
 //
         {
             int i;
-            int n = 11;
-            double e1;
-            double e2;
-            double h1s;
-            double mx;
-            double[] u;
-            double uexact;
-            double[] x;
-            double x_first;
-            double x_last;
+            const int n = 11;
 
             Console.WriteLine("");
             Console.WriteLine("TEST01");
@@ -211,11 +194,11 @@ internal static class Program
 //
 //  Geometry definitions.
 //
-            x_first = 0.0;
-            x_last = 1.0;
-            x = typeMethods.r8vec_linspace_new(n, x_first, x_last);
+            double x_first = 0.0;
+            double x_last = 1.0;
+            double[] x = typeMethods.r8vec_linspace_new(n, x_first, x_last);
 
-            u = FEM_1D_BVP.fem1d_bvp_linear(n, FEM_Test_Methods.a1, FEM_Test_Methods.c1, FEM_Test_Methods.f1, x);
+            double[] u = FEM_1D_BVP.fem1d_bvp_linear(n, FEM_Test_Methods.a1, FEM_Test_Methods.c1, FEM_Test_Methods.f1, x);
 
             Console.WriteLine("");
             Console.WriteLine("     I    X         U         Uexact    Error");
@@ -223,18 +206,18 @@ internal static class Program
 
             for (i = 0; i < n; i++)
             {
-                uexact = FEM_Test_Methods.exact1(x[i]);
-                Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                       + "  " + x[i].ToString().PadLeft(8)
-                                       + "  " + u[i].ToString().PadLeft(14)
-                                       + "  " + uexact.ToString().PadLeft(14)
-                                       + "  " + Math.Abs(u[i] - uexact).ToString().PadLeft(14) + "");
+                double uexact = FEM_Test_Methods.exact1(x[i]);
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + uexact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + Math.Abs(u[i] - uexact).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
-            e1 = FEM_Error.l1_error(n, x, u, FEM_Test_Methods.exact1);
-            e2 = FEM_Error.l2_error_linear(n, x, u, FEM_Test_Methods.exact1);
-            h1s = FEM_Error.h1s_error_linear(n, x, u, FEM_Test_Methods.exact_ux1);
-            mx = FEM_Error.max_error_linear(n, x, u, FEM_Test_Methods.exact1);
+            double e1 = FEM_Error.l1_error(n, x, u, FEM_Test_Methods.exact1);
+            double e2 = FEM_Error.l2_error_linear(n, x, u, FEM_Test_Methods.exact1);
+            double h1s = FEM_Error.h1s_error_linear(n, x, u, FEM_Test_Methods.exact_ux1);
+            double mx = FEM_Error.max_error_linear(n, x, u, FEM_Test_Methods.exact1);
             Console.WriteLine("");
             Console.WriteLine("  l1 norm of error  = " + e1 + "");
             Console.WriteLine("  L2 norm of error  = " + e2 + "");
@@ -277,16 +260,7 @@ internal static class Program
 //
         {
             int i;
-            int n = 11;
-            double e1;
-            double e2;
-            double h1s;
-            double mx;
-            double[] u;
-            double uexact;
-            double[] x;
-            double x_first;
-            double x_last;
+            const int n = 11;
 
             Console.WriteLine("");
             Console.WriteLine("TEST02");
@@ -301,11 +275,11 @@ internal static class Program
 //
 //  Geometry definitions.
 //
-            x_first = 0.0;
-            x_last = 1.0;
-            x = typeMethods.r8vec_linspace_new(n, x_first, x_last);
+            const double x_first = 0.0;
+            const double x_last = 1.0;
+            double[] x = typeMethods.r8vec_linspace_new(n, x_first, x_last);
 
-            u = FEM_1D_BVP.fem1d_bvp_linear(n, FEM_Test_Methods.a2, FEM_Test_Methods.c2, FEM_Test_Methods.f2, x);
+            double[] u = FEM_1D_BVP.fem1d_bvp_linear(n, FEM_Test_Methods.a2, FEM_Test_Methods.c2, FEM_Test_Methods.f2, x);
 
             Console.WriteLine("");
             Console.WriteLine("     I    X         U         Uexact    Error");
@@ -313,18 +287,18 @@ internal static class Program
 
             for (i = 0; i < n; i++)
             {
-                uexact = FEM_Test_Methods.exact2(x[i]);
-                Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                       + "  " + x[i].ToString().PadLeft(8)
-                                       + "  " + u[i].ToString().PadLeft(14)
-                                       + "  " + uexact.ToString().PadLeft(14)
-                                       + "  " + Math.Abs(u[i] - uexact).ToString().PadLeft(14) + "");
+                double uexact = FEM_Test_Methods.exact2(x[i]);
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + uexact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + Math.Abs(u[i] - uexact).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
-            e1 = FEM_Error.l1_error(n, x, u, FEM_Test_Methods.exact2);
-            e2 = FEM_Error.l2_error_linear(n, x, u, FEM_Test_Methods.exact2);
-            h1s = FEM_Error.h1s_error_linear(n, x, u, FEM_Test_Methods.exact_ux2);
-            mx = FEM_Error.max_error_linear(n, x, u, FEM_Test_Methods.exact2);
+            double e1 = FEM_Error.l1_error(n, x, u, FEM_Test_Methods.exact2);
+            double e2 = FEM_Error.l2_error_linear(n, x, u, FEM_Test_Methods.exact2);
+            double h1s = FEM_Error.h1s_error_linear(n, x, u, FEM_Test_Methods.exact_ux2);
+            double mx = FEM_Error.max_error_linear(n, x, u, FEM_Test_Methods.exact2);
             Console.WriteLine("");
             Console.WriteLine("  l1 norm of error  = " + e1 + "");
             Console.WriteLine("  L2 norm of error  = " + e2 + "");
@@ -366,16 +340,7 @@ internal static class Program
 //
         {
             int i;
-            int n = 11;
-            double e1;
-            double e2;
-            double h1s;
-            double mx;
-            double[] u;
-            double uexact;
-            double[] x;
-            double x_first;
-            double x_last;
+            const int n = 11;
 
             Console.WriteLine("");
             Console.WriteLine("TEST03");
@@ -390,11 +355,11 @@ internal static class Program
 //
 //  Geometry definitions.
 //
-            x_first = 0.0;
-            x_last = 1.0;
-            x = typeMethods.r8vec_linspace_new(n, x_first, x_last);
+            const double x_first = 0.0;
+            const double x_last = 1.0;
+            double[] x = typeMethods.r8vec_linspace_new(n, x_first, x_last);
 
-            u = FEM_1D_BVP.fem1d_bvp_linear(n, FEM_Test_Methods.a3, FEM_Test_Methods.c3, FEM_Test_Methods.f3, x);
+            double[] u = FEM_1D_BVP.fem1d_bvp_linear(n, FEM_Test_Methods.a3, FEM_Test_Methods.c3, FEM_Test_Methods.f3, x);
 
             Console.WriteLine("");
             Console.WriteLine("     I    X         U         Uexact    Error");
@@ -402,18 +367,18 @@ internal static class Program
 
             for (i = 0; i < n; i++)
             {
-                uexact = FEM_Test_Methods.exact3(x[i]);
-                Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                       + "  " + x[i].ToString().PadLeft(8)
-                                       + "  " + u[i].ToString().PadLeft(14)
-                                       + "  " + uexact.ToString().PadLeft(14)
-                                       + "  " + Math.Abs(u[i] - uexact).ToString().PadLeft(14) + "");
+                double uexact = FEM_Test_Methods.exact3(x[i]);
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + uexact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + Math.Abs(u[i] - uexact).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
-            e1 = FEM_Error.l1_error(n, x, u, FEM_Test_Methods.exact3);
-            e2 = FEM_Error.l2_error_linear(n, x, u, FEM_Test_Methods.exact3);
-            h1s = FEM_Error.h1s_error_linear(n, x, u, FEM_Test_Methods.exact_ux3);
-            mx = FEM_Error.max_error_linear(n, x, u, FEM_Test_Methods.exact3);
+            double e1 = FEM_Error.l1_error(n, x, u, FEM_Test_Methods.exact3);
+            double e2 = FEM_Error.l2_error_linear(n, x, u, FEM_Test_Methods.exact3);
+            double h1s = FEM_Error.h1s_error_linear(n, x, u, FEM_Test_Methods.exact_ux3);
+            double mx = FEM_Error.max_error_linear(n, x, u, FEM_Test_Methods.exact3);
             Console.WriteLine("");
             Console.WriteLine("  l1 norm of error  = " + e1 + "");
             Console.WriteLine("  L2 norm of error  = " + e2 + "");
@@ -454,16 +419,7 @@ internal static class Program
 //
         {
             int i;
-            int n = 11;
-            double e1;
-            double e2;
-            double h1s;
-            double mx;
-            double[] u;
-            double uexact;
-            double[] x;
-            double x_first;
-            double x_last;
+            const int n = 11;
 
             Console.WriteLine("");
             Console.WriteLine("TEST04");
@@ -478,11 +434,11 @@ internal static class Program
 //
 //  Geometry definitions.
 //
-            x_first = 0.0;
-            x_last = 1.0;
-            x = typeMethods.r8vec_linspace_new(n, x_first, x_last);
+            double x_first = 0.0;
+            double x_last = 1.0;
+            double[] x = typeMethods.r8vec_linspace_new(n, x_first, x_last);
 
-            u = FEM_1D_BVP.fem1d_bvp_linear(n, FEM_Test_Methods.a4, FEM_Test_Methods.c4, FEM_Test_Methods.f4, x);
+            double[] u = FEM_1D_BVP.fem1d_bvp_linear(n, FEM_Test_Methods.a4, FEM_Test_Methods.c4, FEM_Test_Methods.f4, x);
 
             Console.WriteLine("");
             Console.WriteLine("     I    X         U         Uexact    Error");
@@ -490,18 +446,18 @@ internal static class Program
 
             for (i = 0; i < n; i++)
             {
-                uexact = FEM_Test_Methods.exact4(x[i]);
-                Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                       + "  " + x[i].ToString().PadLeft(8)
-                                       + "  " + u[i].ToString().PadLeft(14)
-                                       + "  " + uexact.ToString().PadLeft(14)
-                                       + "  " + Math.Abs(u[i] - uexact).ToString().PadLeft(14) + "");
+                double uexact = FEM_Test_Methods.exact4(x[i]);
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + uexact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + Math.Abs(u[i] - uexact).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
-            e1 = FEM_Error.l1_error(n, x, u, FEM_Test_Methods.exact4);
-            e2 = FEM_Error.l2_error_linear(n, x, u, FEM_Test_Methods.exact4);
-            h1s = FEM_Error.h1s_error_linear(n, x, u, FEM_Test_Methods.exact_ux4);
-            mx = FEM_Error.max_error_linear(n, x, u, FEM_Test_Methods.exact4);
+            double e1 = FEM_Error.l1_error(n, x, u, FEM_Test_Methods.exact4);
+            double e2 = FEM_Error.l2_error_linear(n, x, u, FEM_Test_Methods.exact4);
+            double h1s = FEM_Error.h1s_error_linear(n, x, u, FEM_Test_Methods.exact_ux4);
+            double mx = FEM_Error.max_error_linear(n, x, u, FEM_Test_Methods.exact4);
             Console.WriteLine("");
             Console.WriteLine("  l1 norm of error  = " + e1 + "");
             Console.WriteLine("  L2 norm of error  = " + e2 + "");
@@ -543,16 +499,7 @@ internal static class Program
 //
         {
             int i;
-            int n = 11;
-            double e1;
-            double e2;
-            double h1s;
-            double mx;
-            double[] u;
-            double uexact;
-            double[] x;
-            double x_first;
-            double x_last;
+            const int n = 11;
 
             Console.WriteLine("");
             Console.WriteLine("TEST05");
@@ -571,11 +518,11 @@ internal static class Program
 //
 //  Geometry definitions.
 //
-            x_first = 0.0;
-            x_last = 1.0;
-            x = typeMethods.r8vec_linspace_new(n, x_first, x_last);
+            double x_first = 0.0;
+            double x_last = 1.0;
+            double[] x = typeMethods.r8vec_linspace_new(n, x_first, x_last);
 
-            u = FEM_1D_BVP.fem1d_bvp_linear(n, FEM_Test_Methods.a5, FEM_Test_Methods.c5, FEM_Test_Methods.f5, x);
+            double[] u = FEM_1D_BVP.fem1d_bvp_linear(n, FEM_Test_Methods.a5, FEM_Test_Methods.c5, FEM_Test_Methods.f5, x);
 
             Console.WriteLine("");
             Console.WriteLine("     I    X         U         Uexact    Error");
@@ -583,18 +530,18 @@ internal static class Program
 
             for (i = 0; i < n; i++)
             {
-                uexact = FEM_Test_Methods.exact5(x[i]);
-                Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                       + "  " + x[i].ToString().PadLeft(8)
-                                       + "  " + u[i].ToString().PadLeft(14)
-                                       + "  " + uexact.ToString().PadLeft(14)
-                                       + "  " + Math.Abs(u[i] - uexact).ToString().PadLeft(14) + "");
+                double uexact = FEM_Test_Methods.exact5(x[i]);
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + uexact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + Math.Abs(u[i] - uexact).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
-            e1 = FEM_Error.l1_error(n, x, u, FEM_Test_Methods.exact5);
-            e2 = FEM_Error.l2_error_linear(n, x, u, FEM_Test_Methods.exact5);
-            h1s = FEM_Error.h1s_error_linear(n, x, u, FEM_Test_Methods.exact_ux5);
-            mx = FEM_Error.max_error_linear(n, x, u, FEM_Test_Methods.exact5);
+            double e1 = FEM_Error.l1_error(n, x, u, FEM_Test_Methods.exact5);
+            double e2 = FEM_Error.l2_error_linear(n, x, u, FEM_Test_Methods.exact5);
+            double h1s = FEM_Error.h1s_error_linear(n, x, u, FEM_Test_Methods.exact_ux5);
+            double mx = FEM_Error.max_error_linear(n, x, u, FEM_Test_Methods.exact5);
             Console.WriteLine("");
             Console.WriteLine("  l1 norm of error  = " + e1 + "");
             Console.WriteLine("  L2 norm of error  = " + e2 + "");
@@ -635,15 +582,6 @@ internal static class Program
 //
         {
             int i;
-            int n;
-            double e1;
-            double e2;
-            double h1s;
-            double mx;
-            double[] u;
-            double[] x;
-            double x_first;
-            double x_last;
 
             Console.WriteLine("");
             Console.WriteLine("TEST06");
@@ -659,29 +597,29 @@ internal static class Program
             Console.WriteLine("     N        l1 error      L2 error      Seminorm error  Maxnorm error");
             Console.WriteLine("");
 
-            n = 11;
+            int n = 11;
             for (i = 0; i <= 4; i++)
             {
 //
 //  Geometry definitions.
 //
-                x_first = 0.0;
-                x_last = 1.0;
-                x = typeMethods.r8vec_linspace_new(n, x_first, x_last);
+                double x_first = 0.0;
+                double x_last = 1.0;
+                double[] x = typeMethods.r8vec_linspace_new(n, x_first, x_last);
 
-                u = FEM_1D_BVP.fem1d_bvp_linear(n, FEM_Test_Methods.a6, FEM_Test_Methods.c6, FEM_Test_Methods.f6,
+                double[] u = FEM_1D_BVP.fem1d_bvp_linear(n, FEM_Test_Methods.a6, FEM_Test_Methods.c6, FEM_Test_Methods.f6,
                     x);
 
-                e1 = FEM_Error.l1_error(n, x, u, FEM_Test_Methods.exact6);
-                e2 = FEM_Error.l2_error_linear(n, x, u, FEM_Test_Methods.exact6);
-                h1s = FEM_Error.h1s_error_linear(n, x, u, FEM_Test_Methods.exact_ux6);
-                mx = FEM_Error.max_error_linear(n, x, u, FEM_Test_Methods.exact6);
+                double e1 = FEM_Error.l1_error(n, x, u, FEM_Test_Methods.exact6);
+                double e2 = FEM_Error.l2_error_linear(n, x, u, FEM_Test_Methods.exact6);
+                double h1s = FEM_Error.h1s_error_linear(n, x, u, FEM_Test_Methods.exact_ux6);
+                double mx = FEM_Error.max_error_linear(n, x, u, FEM_Test_Methods.exact6);
 
-                Console.WriteLine("  " + n.ToString().PadLeft(4)
-                                       + "  " + e1.ToString().PadLeft(14)
-                                       + "  " + e2.ToString().PadLeft(14)
-                                       + "  " + h1s.ToString().PadLeft(14)
-                                       + "  " + mx.ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + e1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + e2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + h1s.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + mx.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
                 n = 2 * (n - 1) + 1;
 
@@ -723,15 +661,6 @@ internal static class Program
 //
         {
             int i;
-            int n;
-            double e1;
-            double e2;
-            double h1s;
-            double mx;
-            double[] u;
-            double[] x;
-            double x_first;
-            double x_last;
 
             Console.WriteLine("");
             Console.WriteLine("TEST07");
@@ -744,29 +673,29 @@ internal static class Program
             Console.WriteLine("     N        l1 error      L2 error      Seminorm error  Maxnorm error");
             Console.WriteLine("");
 
-            n = 11;
+            int n = 11;
             for (i = 0; i <= 4; i++)
             {
 //
 //  Geometry definitions.
 //
-                x_first = 0.0;
-                x_last = 1.0;
-                x = typeMethods.r8vec_linspace_new(n, x_first, x_last);
+                double x_first = 0.0;
+                double x_last = 1.0;
+                double[] x = typeMethods.r8vec_linspace_new(n, x_first, x_last);
 
-                u = FEM_1D_BVP.fem1d_bvp_linear(n, FEM_Test_Methods.a7, FEM_Test_Methods.c7, FEM_Test_Methods.f7,
+                double[] u = FEM_1D_BVP.fem1d_bvp_linear(n, FEM_Test_Methods.a7, FEM_Test_Methods.c7, FEM_Test_Methods.f7,
                     x);
 
-                e1 = FEM_Error.l1_error(n, x, u, FEM_Test_Methods.exact7);
-                e2 = FEM_Error.l2_error_linear(n, x, u, FEM_Test_Methods.exact7);
-                h1s = FEM_Error.h1s_error_linear(n, x, u, FEM_Test_Methods.exact_ux7);
-                mx = FEM_Error.max_error_linear(n, x, u, FEM_Test_Methods.exact7);
+                double e1 = FEM_Error.l1_error(n, x, u, FEM_Test_Methods.exact7);
+                double e2 = FEM_Error.l2_error_linear(n, x, u, FEM_Test_Methods.exact7);
+                double h1s = FEM_Error.h1s_error_linear(n, x, u, FEM_Test_Methods.exact_ux7);
+                double mx = FEM_Error.max_error_linear(n, x, u, FEM_Test_Methods.exact7);
 
-                Console.WriteLine("  " + n.ToString().PadLeft(4)
-                                       + "  " + e1.ToString().PadLeft(14)
-                                       + "  " + e2.ToString().PadLeft(14)
-                                       + "  " + h1s.ToString().PadLeft(14)
-                                       + "  " + mx.ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + e1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + e2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + h1s.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + mx.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
                 n = 2 * (n - 1) + 1;
 
@@ -806,16 +735,7 @@ internal static class Program
 //
         {
             int i;
-            int n = 11;
-            double e1;
-            double e2;
-            double h1s;
-            double mx;
-            double[] u;
-            double uexact;
-            double[] x;
-            double x_first;
-            double x_last;
+            const int n = 11;
 
             Console.WriteLine("");
             Console.WriteLine("TEST08");
@@ -832,11 +752,11 @@ internal static class Program
 //
 //  Geometry definitions.
 //
-            x_first = 0.0;
-            x_last = 1.0;
-            x = typeMethods.r8vec_linspace_new(n, x_first, x_last);
+            double x_first = 0.0;
+            double x_last = 1.0;
+            double[] x = typeMethods.r8vec_linspace_new(n, x_first, x_last);
 
-            u = FEM_1D_BVP.fem1d_bvp_linear(n, FEM_Test_Methods.a8, FEM_Test_Methods.c8, FEM_Test_Methods.f8, x);
+            double[] u = FEM_1D_BVP.fem1d_bvp_linear(n, FEM_Test_Methods.a8, FEM_Test_Methods.c8, FEM_Test_Methods.f8, x);
 
             Console.WriteLine("");
             Console.WriteLine("     I    X         U         Uexact    Error");
@@ -844,18 +764,18 @@ internal static class Program
 
             for (i = 0; i < n; i++)
             {
-                uexact = FEM_Test_Methods.exact8(x[i]);
-                Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                       + "  " + x[i].ToString().PadLeft(8)
-                                       + "  " + u[i].ToString().PadLeft(14)
-                                       + "  " + uexact.ToString().PadLeft(14)
-                                       + "  " + Math.Abs(u[i] - uexact).ToString().PadLeft(14) + "");
+                double uexact = FEM_Test_Methods.exact8(x[i]);
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + uexact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + Math.Abs(u[i] - uexact).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
-            e1 = FEM_Error.l1_error(n, x, u, FEM_Test_Methods.exact8);
-            e2 = FEM_Error.l2_error_linear(n, x, u, FEM_Test_Methods.exact8);
-            h1s = FEM_Error.h1s_error_linear(n, x, u, FEM_Test_Methods.exact_ux8);
-            mx = FEM_Error.max_error_linear(n, x, u, FEM_Test_Methods.exact8);
+            double e1 = FEM_Error.l1_error(n, x, u, FEM_Test_Methods.exact8);
+            double e2 = FEM_Error.l2_error_linear(n, x, u, FEM_Test_Methods.exact8);
+            double h1s = FEM_Error.h1s_error_linear(n, x, u, FEM_Test_Methods.exact_ux8);
+            double mx = FEM_Error.max_error_linear(n, x, u, FEM_Test_Methods.exact8);
             Console.WriteLine("");
             Console.WriteLine("  l1 norm of error  = " + e1 + "");
             Console.WriteLine("  L2 norm of error  = " + e2 + "");
@@ -896,16 +816,7 @@ internal static class Program
 //
         {
             int i;
-            int n = 11;
-            double e1;
-            double e2;
-            double h1s;
-            double mx;
-            double[] u;
-            double uexact;
-            double[] x;
-            double x_first;
-            double x_last;
+            const int n = 11;
 
             Console.WriteLine("");
             Console.WriteLine("TEST09");
@@ -922,11 +833,11 @@ internal static class Program
 //
 //  Geometry definitions.
 //
-            x_first = 0.0;
-            x_last = 1.0;
-            x = typeMethods.r8vec_linspace_new(n, x_first, x_last);
+            double x_first = 0.0;
+            double x_last = 1.0;
+            double[] x = typeMethods.r8vec_linspace_new(n, x_first, x_last);
 
-            u = FEM_1D_BVP.fem1d_bvp_linear(n, FEM_Test_Methods.a9, FEM_Test_Methods.c9, FEM_Test_Methods.f9, x);
+            double[] u = FEM_1D_BVP.fem1d_bvp_linear(n, FEM_Test_Methods.a9, FEM_Test_Methods.c9, FEM_Test_Methods.f9, x);
 
             Console.WriteLine("");
             Console.WriteLine("     I    X         U         Uexact    Error");
@@ -934,18 +845,18 @@ internal static class Program
 
             for (i = 0; i < n; i++)
             {
-                uexact = FEM_Test_Methods.exact9(x[i]);
-                Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                       + "  " + x[i].ToString().PadLeft(8)
-                                       + "  " + u[i].ToString().PadLeft(14)
-                                       + "  " + uexact.ToString().PadLeft(14)
-                                       + "  " + Math.Abs(u[i] - uexact).ToString().PadLeft(14) + "");
+                double uexact = FEM_Test_Methods.exact9(x[i]);
+                Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                       + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + uexact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + Math.Abs(u[i] - uexact).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
-            e1 = FEM_Error.l1_error(n, x, u, FEM_Test_Methods.exact9);
-            e2 = FEM_Error.l2_error_linear(n, x, u, FEM_Test_Methods.exact9);
-            h1s = FEM_Error.h1s_error_linear(n, x, u, FEM_Test_Methods.exact_ux9);
-            mx = FEM_Error.max_error_linear(n, x, u, FEM_Test_Methods.exact9);
+            double e1 = FEM_Error.l1_error(n, x, u, FEM_Test_Methods.exact9);
+            double e2 = FEM_Error.l2_error_linear(n, x, u, FEM_Test_Methods.exact9);
+            double h1s = FEM_Error.h1s_error_linear(n, x, u, FEM_Test_Methods.exact_ux9);
+            double mx = FEM_Error.max_error_linear(n, x, u, FEM_Test_Methods.exact9);
             Console.WriteLine("");
             Console.WriteLine("  l1 norm of error  = " + e1 + "");
             Console.WriteLine("  L2 norm of error  = " + e2 + "");
@@ -992,30 +903,11 @@ internal static class Program
 //    LC: QA401.O44.
 //
         {
-            string command_filename;
-            List<string> command_unit;
-            string data_filename;
-            List<string> data_unit;
             int e_log;
-            int e_log_max = 6;
-            double[] h_plot;
+            const int e_log_max = 6;
             double h1;
-            double[] h1_plot;
             double l2;
-            double[] l2_plot;
             double mx;
-            double[] mx_plot;
-            int n;
-            int ne;
-            int ne1;
-            int ne2;
-            int[] ne_plot;
-            string output_filename;
-            double r;
-            double[] u;
-            double[] x;
-            double x_hi;
-            double x_lo;
 
             Console.WriteLine("");
             Console.WriteLine("TEST10");
@@ -1029,22 +921,22 @@ internal static class Program
             Console.WriteLine(" log(E)    E         L2error         H1error        Maxerror");
             Console.WriteLine("");
 
-            h_plot = new double[e_log_max + 1];
-            h1_plot = new double[e_log_max + 1];
-            l2_plot = new double[e_log_max + 1];
-            mx_plot = new double[e_log_max + 1];
-            ne_plot = new int[e_log_max + 1];
+            double[] h_plot = new double[e_log_max + 1];
+            double[] h1_plot = new double[e_log_max + 1];
+            double[] l2_plot = new double[e_log_max + 1];
+            double[] mx_plot = new double[e_log_max + 1];
+            int[] ne_plot = new int[e_log_max + 1];
 
             for (e_log = 0; e_log <= e_log_max; e_log++)
             {
-                ne = (int) Math.Pow(2, e_log);
+                int ne = (int) Math.Pow(2, e_log);
 
-                n = ne + 1;
-                x_lo = 0.0;
-                x_hi = 1.0;
-                x = typeMethods.r8vec_linspace_new(n, x_lo, x_hi);
+                int n = ne + 1;
+                const double x_lo = 0.0;
+                const double x_hi = 1.0;
+                double[] x = typeMethods.r8vec_linspace_new(n, x_lo, x_hi);
 
-                u = FEM_1D_BVP.fem1d_bvp_linear(n, FEM_Test_Methods.a10, FEM_Test_Methods.c10, FEM_Test_Methods.f10,
+                double[] u = FEM_1D_BVP.fem1d_bvp_linear(n, FEM_Test_Methods.a10, FEM_Test_Methods.c10, FEM_Test_Methods.f10,
                     x);
 
                 ne_plot[e_log] = ne;
@@ -1060,11 +952,11 @@ internal static class Program
                 mx = FEM_Error.max_error_linear(n, x, u, FEM_Test_Methods.exact10);
                 mx_plot[e_log] = mx;
 
-                Console.WriteLine("  " + e_log.ToString().PadLeft(4)
-                                       + "  " + ne.ToString().PadLeft(4)
-                                       + "  " + l2.ToString().PadLeft(14)
-                                       + "  " + h1.ToString().PadLeft(14)
-                                       + "  " + mx.ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + e_log.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + ne.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + l2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + h1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + mx.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             }
 
@@ -1074,27 +966,27 @@ internal static class Program
 
             for (e_log = 0; e_log < e_log_max; e_log++)
             {
-                ne1 = ne_plot[e_log];
-                ne2 = ne_plot[e_log + 1];
-                r = ne2 / (double) ne1;
+                int ne1 = ne_plot[e_log];
+                int ne2 = ne_plot[e_log + 1];
+                double r = ne2 / (double) ne1;
                 l2 = l2_plot[e_log] / l2_plot[e_log + 1];
                 l2 = Math.Log(l2) / Math.Log(r);
                 h1 = h1_plot[e_log] / h1_plot[e_log + 1];
                 h1 = Math.Log(h1) / Math.Log(r);
                 mx = mx_plot[e_log] / mx_plot[e_log + 1];
                 mx = Math.Log(mx) / Math.Log(r);
-                Console.WriteLine("  " + e_log.ToString().PadLeft(4)
-                                       + "  " + ne1.ToString().PadLeft(4) + " /" + ne2.ToString().PadLeft(4)
-                                       + "  " + l2.ToString().PadLeft(14)
-                                       + "  " + h1.ToString().PadLeft(14)
-                                       + "  " + mx.ToString().PadLeft(14) + "");
+                Console.WriteLine("  " + e_log.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + ne1.ToString(CultureInfo.InvariantCulture).PadLeft(4) + " /" + ne2.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                       + "  " + l2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + h1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                       + "  " + mx.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
 
 //
 //  Create the data file.
 //
-            data_filename = "data.txt";
-            data_unit = new List<string>();
+            string data_filename = "data.txt";
+            List<string> data_unit = new List<string>();
             for (e_log = 0; e_log <= e_log_max; e_log++)
             {
                 data_unit.Add("  " + ne_plot[e_log]
@@ -1110,11 +1002,11 @@ internal static class Program
 //
 //  Plot the L2 error as a function of NE.
 //
-            command_filename = "commands_l2.txt";
+            string command_filename = "commands_l2.txt";
 
-            command_unit = new List<string>();
+            List<string> command_unit = new List<string>();
 
-            output_filename = "l2.png";
+            string output_filename = "l2.png";
 
             command_unit.Add("# " + command_filename + "");
             command_unit.Add("#");

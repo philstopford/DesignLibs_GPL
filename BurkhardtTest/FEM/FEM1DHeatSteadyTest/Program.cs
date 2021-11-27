@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.FEM;
 using Burkardt.Types;
 
@@ -67,15 +68,8 @@ internal static class Program
 //    John Burkardt
 //
     {
-        double a;
-        double b;
         int i;
-        int n = 11;
-        double[] u;
-        double ua;
-        double ub;
-        double uexact;
-        double[] x;
+        const int n = 11;
 
         Console.WriteLine("");
         Console.WriteLine("FEM1D_HEAT_STEADY_TEST01");
@@ -85,11 +79,11 @@ internal static class Program
 //
 //  Geometry definitions.
 //
-        a = 0.0;
-        b = 1.0;
-        ua = 0.0;
-        ub = 0.0;
-        x = typeMethods.r8vec_even_new(n, a, b);
+        const double a = 0.0;
+        const double b = 1.0;
+        const double ua = 0.0;
+        const double ub = 0.0;
+        double[] x = typeMethods.r8vec_even_new(n, a, b);
 
         Console.WriteLine("");
         Console.WriteLine("  Number of nodes = " + n + "");
@@ -98,7 +92,7 @@ internal static class Program
         Console.WriteLine("  Prescribed U(A) = " + ua + "");
         Console.WriteLine("  Prescribed U(B) = " + ub + "");
 
-        u = FEM_1D_Heat_Steady.fem1d_heat_steady(n, a, b, ua, ub, FEM_Test_Methods.k1, FEM_Test_Methods.f1, x);
+        double[] u = FEM_1D_Heat_Steady.fem1d_heat_steady(n, a, b, ua, ub, FEM_Test_Methods.k1, FEM_Test_Methods.f1, x);
 
         Console.WriteLine("");
         Console.WriteLine("     I         X          U                Uexact      Error");
@@ -106,12 +100,12 @@ internal static class Program
 
         for (i = 0; i < n; i++)
         {
-            uexact = FEM_Test_Methods.exact1(x[i]);
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + x[i].ToString().PadLeft(8)
-                                   + "  " + u[i].ToString().PadLeft(14)
-                                   + "  " + uexact.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(u[i] - uexact).ToString().PadLeft(14) + "");
+            double uexact = FEM_Test_Methods.exact1(x[i]);
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + uexact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(u[i] - uexact).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 }

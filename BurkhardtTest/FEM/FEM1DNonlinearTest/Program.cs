@@ -184,8 +184,8 @@ internal static class Program
 //    differential equation is being solved.
 //
     {
-        int N = 10;
-        int NL = 2;
+        const int N = 10;
+        const int NL = 2;
 
         double[] adiag = new double[N + 1];
         double[] aleft = new double[N + 1];

@@ -44,23 +44,7 @@ internal static class Program
         //    John Burkardt
         //
         {
-            double[] element_att;
-            int element_att_num;
-            int[] element_node = new int[1];
-            int element_num;
-            int element_order;
-            string fem_element_filename;
-            string fem_node_filename;
-            int m;
-            double[] node_att;
-            int node_att_num;
-            int[] node_marker;
-            int node_marker_num;
-            int node_num;
-            double[] node_x;
             string prefix;
-            string triangle_element_filename;
-            string triangle_node_filename;
 
             Console.WriteLine("");
             Console.WriteLine("FEM_TO_TRIANGLE");
@@ -93,16 +77,16 @@ internal static class Program
             //
             //  Create the filenames.
             //
-            fem_node_filename = prefix + "_nodes.txt";
-            fem_element_filename = prefix + "_elements.txt";
-            triangle_node_filename = prefix + ".node";
-            triangle_element_filename = prefix + ".ele";
+            string fem_node_filename = prefix + "_nodes.txt";
+            string fem_element_filename = prefix + "_elements.txt";
+            string triangle_node_filename = prefix + ".node";
+            string triangle_element_filename = prefix + ".ele";
             //
             //  Read the node data.
             //
             TableHeader h = typeMethods.r8mat_header_read(fem_node_filename);
-            node_num = h.n;
-            m = h.m;
+            int node_num = h.n;
+            int m = h.m;
 
             Console.WriteLine("");
             Console.WriteLine("  Read the header of \"" + fem_node_filename + "\".");
@@ -118,7 +102,7 @@ internal static class Program
                 return;
             }
 
-            node_x = typeMethods.r8mat_data_read(fem_node_filename, m, node_num);
+            double[] node_x = typeMethods.r8mat_data_read(fem_node_filename, m, node_num);
 
             Console.WriteLine("");
             Console.WriteLine("  Read the data in \"" + fem_node_filename + "\".");
@@ -129,8 +113,8 @@ internal static class Program
             //  Read the element data.
             //
             h = typeMethods.i4mat_header_read(fem_element_filename);
-            element_order = h.m;
-            element_num = h.n;
+            int element_order = h.m;
+            int element_num = h.n;
 
 
             Console.WriteLine("");
@@ -147,7 +131,7 @@ internal static class Program
                 return;
             }
 
-            element_node = typeMethods.i4mat_data_read(fem_element_filename, element_order,
+            int[] element_node = typeMethods.i4mat_data_read(fem_element_filename, element_order,
                 element_num);
 
             Console.WriteLine("");
@@ -162,8 +146,8 @@ internal static class Program
             //
             //  Write out the TRIANGLE version of the data.
             //
-            element_att_num = 0;
-            element_att = new double[1];
+            int element_att_num = 0;
+            double[] element_att = new double[1];
 
             Triangle.triangle_element_write(triangle_element_filename, element_num,
                 element_order, element_att_num, element_node, element_att);
@@ -171,10 +155,10 @@ internal static class Program
             Console.WriteLine("");
             Console.WriteLine("  Created the TRIANGLE element file \"" + triangle_element_filename + "\".");
 
-            node_att_num = 0;
-            node_att = new double[1];
-            node_marker_num = 0;
-            node_marker = new int[1];
+            int node_att_num = 0;
+            double[] node_att = new double[1];
+            int node_marker_num = 0;
+            int[] node_marker = new int[1];
 
             Triangle.triangle_node_write(triangle_node_filename, node_num, m,
                 node_att_num, node_marker_num, node_x, node_att, node_marker);

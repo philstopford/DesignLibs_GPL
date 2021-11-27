@@ -88,15 +88,15 @@ internal static class Program
 //    Local, double QUAD_X[QUAD_NUM], the quadrature abscissas.
 //
     {
-        int NP = 2;
-        int QUAD_NUM = 10;
+        const int NP = 2;
+        const int QUAD_NUM = 10;
 
         double[] a = new double[NP + 1];
         double[] alpha = new double[NP];
         double[] beta = new double[NP];
         double[] f = new double[NP + 1];
-        int nprint = 10;
-        int problem = 2;
+        const int nprint = 10;
+        const int problem = 2;
         double[] quad_w = new double[QUAD_NUM];
         double[] quad_x = new double[QUAD_NUM];
 

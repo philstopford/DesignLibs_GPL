@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.FEM;
 using Burkardt.Types;
 
@@ -67,21 +68,9 @@ internal static class Program
         //    John Burkardt
         //
     {
-        double e1;
-        double e2;
-        double h1s;
-        int i;
         int j;
-        int nx = 3;
-        int ny = 3;
-        double[] u;
-        double uexact;
-        double[] x;
-        double x_first;
-        double x_last;
-        double[] y;
-        double y_first;
-        double y_last;
+        const int nx = 3;
+        const int ny = 3;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
@@ -97,15 +86,15 @@ internal static class Program
         //
         //  Geometry definitions.
         //
-        x_first = 0.0;
-        x_last = 1.0;
-        x = typeMethods.r8vec_even_new(nx, x_first, x_last);
+        const double x_first = 0.0;
+        const double x_last = 1.0;
+        double[] x = typeMethods.r8vec_even_new(nx, x_first, x_last);
 
-        y_first = 0.0;
-        y_last = 1.0;
-        y = typeMethods.r8vec_even_new(ny, y_first, y_last);
+        const double y_first = 0.0;
+        const double y_last = 1.0;
+        double[] y = typeMethods.r8vec_even_new(ny, y_first, y_last);
 
-        u = FEM_2D_BVP_Linear.fem2d_bvp_linear(nx, ny, a1, c1, f1, x, y);
+        double[] u = FEM_2D_BVP_Linear.fem2d_bvp_linear(nx, ny, a1, c1, f1, x, y);
 
         Console.WriteLine("");
         Console.WriteLine("     I     J    X         Y         U         Uexact    Error");
@@ -113,22 +102,23 @@ internal static class Program
 
         for (j = 0; j < ny; j++)
         {
+            int i;
             for (i = 0; i < nx; i++)
             {
-                uexact = exact1(x[i], y[j]);
-                Console.WriteLine(i.ToString().PadLeft(6) + "  "
-                                                          + j.ToString().PadLeft(4) + "  "
-                                                          + x[i].ToString().PadLeft(8) + "  "
-                                                          + y[j].ToString().PadLeft(8) + "  "
-                                                          + u[i + j * nx].ToString().PadLeft(14) + "  "
-                                                          + uexact.ToString().PadLeft(14) + "  "
-                                                          + Math.Abs(u[i + j * nx] - uexact).ToString().PadLeft(14) + "");
+                double uexact = exact1(x[i], y[j]);
+                Console.WriteLine(i.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "  "
+                                                                                      + j.ToString(CultureInfo.InvariantCulture).PadLeft(4) + "  "
+                                                                                      + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                                                                                      + y[j].ToString(CultureInfo.InvariantCulture).PadLeft(8) + "  "
+                                                                                      + u[i + j * nx].ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                                                                                      + uexact.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "  "
+                                                                                      + Math.Abs(u[i + j * nx] - uexact).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
             }
         }
 
-        e1 = FEM_2D_BVP_Linear.fem2d_l1_error(nx, ny, x, y, u, exact1);
-        e2 = FEM_2D_BVP_Linear.fem2d_l2_error_linear(nx, ny, x, y, u, exact1);
-        h1s = FEM_2D_BVP_Linear.fem2d_h1s_error_linear(nx, ny, x, y, u, exact_ux1, exact_uy1);
+        double e1 = FEM_2D_BVP_Linear.fem2d_l1_error(nx, ny, x, y, u, exact1);
+        double e2 = FEM_2D_BVP_Linear.fem2d_l2_error_linear(nx, ny, x, y, u, exact1);
+        double h1s = FEM_2D_BVP_Linear.fem2d_h1s_error_linear(nx, ny, x, y, u, exact_ux1, exact_uy1);
         Console.WriteLine("");
         Console.WriteLine("  l1 norm of error  = " + e1 + "");
         Console.WriteLine("  L2 norm of error  = " + e2 + "");
@@ -163,7 +153,7 @@ internal static class Program
         //    Output, double A1, the value of A(X,Y).
         //
     {
-        double value = 1.0;
+        const double value = 1.0;
 
         return value;
     }

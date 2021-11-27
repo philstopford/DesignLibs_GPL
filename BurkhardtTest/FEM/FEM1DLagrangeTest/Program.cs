@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.FEM;
 using Burkardt.Quadrature;
 using Burkardt.Types;
@@ -97,10 +98,10 @@ internal static class Program
                 e3 += w[i] / (1.0 + 25.0 * x[i] * x[i]);
             }
 
-            Console.WriteLine("  " + n.ToString().PadLeft(2)
-                                   + "  " + e1.ToString().PadLeft(14)
-                                   + "  " + e2.ToString().PadLeft(14)
-                                   + "  " + e3.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + e1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + e2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + e3.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 
@@ -125,23 +126,15 @@ internal static class Program
 //
     {
         int i;
-        int j;
-        double[] li;
-        int nd;
-        int ni;
-        double[] xd;
-        double xhi;
-        double[] xi;
-        double xlo;
 
         Console.WriteLine("");
         Console.WriteLine("LAGRANGE_VALUE_TEST");
         Console.WriteLine("  LAGRANGE_VALUE evaluates the Lagrange basis polynomials.");
 
-        nd = 5;
-        xlo = 0.0;
-        xhi = nd - 1;
-        xd = typeMethods.r8vec_linspace_new(nd, xlo, xhi);
+        const int nd = 5;
+        const double xlo = 0.0;
+        const double xhi = nd - 1;
+        double[] xd = typeMethods.r8vec_linspace_new(nd, xlo, xhi);
 
         typeMethods.r8vec_print(nd, xd, "  Lagrange basis points:");
 //
@@ -152,18 +145,19 @@ internal static class Program
                           "       L4(X)       L5(X)");
         Console.WriteLine("");
 
-        ni = 2 * nd - 1;
-        xi = typeMethods.r8vec_linspace_new(ni, xlo, xhi);
+        int ni = 2 * nd - 1;
+        double[] xi = typeMethods.r8vec_linspace_new(ni, xlo, xhi);
 
-        li = FEM_1D_Lagrange.lagrange_value(nd, xd, ni, xi);
+        double[] li = FEM_1D_Lagrange.lagrange_value(nd, xd, ni, xi);
 
         for (i = 0; i < ni; i++)
         {
-            string cout = "  " + i.ToString().PadLeft(2)
-                               + "  " + xi[i].ToString().PadLeft(10);
+            string cout = "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                               + "  " + xi[i].ToString(CultureInfo.InvariantCulture).PadLeft(10);
+            int j;
             for (j = 0; j < nd; j++)
             {
-                cout += "  " + li[i + j * ni].ToString().PadLeft(10);
+                cout += "  " + li[i + j * ni].ToString(CultureInfo.InvariantCulture).PadLeft(10);
             }
 
             Console.WriteLine(cout);
@@ -191,23 +185,15 @@ internal static class Program
 //
     {
         int i;
-        int j;
-        double[] lpi;
-        int nd;
-        int ni;
-        double[] xd;
-        double xhi;
-        double[] xi;
-        double xlo;
 
         Console.WriteLine("");
         Console.WriteLine("LAGRANGE_DERIVATIVE_TEST");
         Console.WriteLine("  LAGRANGE_DERIVATIVE evaluates the Lagrange basis derivative.");
 
-        nd = 5;
-        xlo = 0.0;
-        xhi = nd - 1;
-        xd = typeMethods.r8vec_linspace_new(nd, xlo, xhi);
+        const int nd = 5;
+        const double xlo = 0.0;
+        const double xhi = nd - 1;
+        double[] xd = typeMethods.r8vec_linspace_new(nd, xlo, xhi);
 
         typeMethods.r8vec_print(nd, xd, "  Lagrange basis points:");
 //
@@ -218,17 +204,18 @@ internal static class Program
                           "      L4'(X)      L5'(X)");
         Console.WriteLine("");
 
-        ni = 2 * nd - 1;
-        xi = typeMethods.r8vec_linspace_new(ni, xlo, xhi);
-        lpi = FEM_1D_Lagrange.lagrange_derivative(nd, xd, ni, xi);
+        int ni = 2 * nd - 1;
+        double[] xi = typeMethods.r8vec_linspace_new(ni, xlo, xhi);
+        double[] lpi = FEM_1D_Lagrange.lagrange_derivative(nd, xd, ni, xi);
 
         for (i = 0; i < ni; i++)
         {
-            string cout = "  " + i.ToString().PadLeft(2)
-                               + "  " +xi[i].ToString().PadLeft(10);
+            string cout = "  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                               + "  " +xi[i].ToString(CultureInfo.InvariantCulture).PadLeft(10);
+            int j;
             for (j = 0; j < nd; j++)
             {
-                cout += lpi[i + j * ni].ToString().PadLeft(10);
+                cout += lpi[i + j * ni].ToString(CultureInfo.InvariantCulture).PadLeft(10);
             }
 
             Console.WriteLine(cout);
@@ -269,17 +256,8 @@ internal static class Program
 //    Input, int Q_NUM, the number of quadrature points.
 //
     {
-        double[] a;
-        double[] b;
         int i;
         int j;
-        double[] k;
-        double[] m;
-        double[] u;
-        double[] u_e;
-        double[] x;
-        double x_hi;
-        double x_lo;
 
         Console.WriteLine("");
         Console.WriteLine("FEM1D_LAGRANGE_STIFFNESS_TEST");
@@ -297,17 +275,17 @@ internal static class Program
         Console.WriteLine("  Number of mesh points = " + x_num + "");
         Console.WriteLine("  Number of quadrature points = " + q_num + "");
 
-        x_lo = 0.0;
-        x_hi = 1.0;
-        x = typeMethods.r8vec_linspace_new(x_num, x_lo, x_hi);
+        const double x_lo = 0.0;
+        const double x_hi = 1.0;
+        double[] x = typeMethods.r8vec_linspace_new(x_num, x_lo, x_hi);
 
-        a = new double[x_num * x_num];
-        m = new double[x_num * x_num];
-        b = new double[x_num];
+        double[] a = new double[x_num * x_num];
+        double[] m = new double[x_num * x_num];
+        double[] b = new double[x_num];
 
         FEM_1D_Lagrange.fem1d_lagrange_stiffness(x_num, x, q_num, FEM_Test_Methods.f, ref a, ref m, ref b);
 
-        k = new double[x_num * x_num];
+        double[] k = new double[x_num * x_num];
 
         for (j = 0; j < x_num; j++)
         {
@@ -333,9 +311,9 @@ internal static class Program
         k[x_num - 1 + (x_num - 1) * x_num] = 1.0;
         b[x_num - 1] = 0.0;
 
-        u = typeMethods.r8mat_fs_new(x_num, k, b);
+        double[] u = typeMethods.r8mat_fs_new(x_num, k, b);
 
-        u_e = FEM_Test_Methods.exact(x_num, x);
+        double[] u_e = FEM_Test_Methods.exact(x_num, x);
 
         Console.WriteLine("");
         Console.WriteLine("   I      X             U              U(exact)         Error");
@@ -343,11 +321,11 @@ internal static class Program
 
         for (i = 0; i < x_num; i++)
         {
-            Console.WriteLine("  " + i.ToString().PadLeft(2)
-                                   + "  " + x[i].ToString().PadLeft(8)
-                                   + "  " + u[i].ToString().PadLeft(14)
-                                   + "  " + u_e[i].ToString().PadLeft(14)
-                                   + "  " + Math.Abs(u[i] - u_e[i]).ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(2)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + u_e[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(u[i] - u_e[i]).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 }

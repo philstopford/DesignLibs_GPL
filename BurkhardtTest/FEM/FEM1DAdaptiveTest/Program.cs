@@ -267,9 +267,9 @@ internal static class Program
         //    problem.
         //
     {
-        int NL = 2;
-        int NMAX = 30;
-        int NQUAD = 2;
+        const int NL = 2;
+        const int NMAX = 30;
+        const int NQUAD = 2;
 
         double[] adiag = new double[NMAX + 1];
         double[] aleft = new double[NMAX + 1];

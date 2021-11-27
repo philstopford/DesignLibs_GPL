@@ -65,14 +65,14 @@ internal static class Program
             //
         {
             int dim_num = 0;
-            string element_file_name = "ell_elements.txt";
+            const string element_file_name = "ell_elements.txt";
             int[] element_node = new int[1];
             int element_num = 0;
             int element_order = 0;
             double[] node_coord = new double[1];
-            string node_coord_file_name = "ell_nodes.txt";
+            const string node_coord_file_name = "ell_nodes.txt";
             double[] node_data = new double[1];
-            string node_data_file_name = "ell_values.txt";
+            const string node_data_file_name = "ell_values.txt";
             int node_data_num = 0;
             int node_num = 0;
 
@@ -130,13 +130,13 @@ internal static class Program
             //    John Burkardt
             //
         {
-            int DIM_NUM = 2;
-            int NODE_NUM = 5;
-            int ELEMENT_NUM = 3;
-            int ELEMENT_ORDER = 3;
-            int NODE_DATA_NUM = 2;
+            const int DIM_NUM = 2;
+            const int NODE_NUM = 5;
+            const int ELEMENT_NUM = 3;
+            const int ELEMENT_ORDER = 3;
+            const int NODE_DATA_NUM = 2;
 
-            string element_file_name = "tiny_elements.txt";
+            const string element_file_name = "tiny_elements.txt";
             int[] element_node =  {
                     1, 2, 4,
                     5, 4, 2,
@@ -151,7 +151,7 @@ internal static class Program
                     1.0, 1.0
                 }
                 ;
-            string node_coord_file_name = "tiny_nodes.txt";
+            const string node_coord_file_name = "tiny_nodes.txt";
             double[] node_data =  {
                     1.0, 0.0,
                     0.8, 0.2,
@@ -160,7 +160,7 @@ internal static class Program
                     0.5, 0.5
                 }
                 ;
-            string node_data_file_name = "tiny_values.txt";
+            const string node_data_file_name = "tiny_values.txt";
 
             Console.WriteLine("");
             Console.WriteLine("FEM_TEST02");

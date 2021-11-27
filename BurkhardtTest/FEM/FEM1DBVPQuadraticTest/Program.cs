@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using Burkardt.FEM;
 using Burkardt.Types;
@@ -72,16 +73,7 @@ internal static class Program
         //
     {
         int i;
-        int n = 11;
-        double e1;
-        double e2;
-        double h1s;
-        double mx;
-        double[] u;
-        double uexact;
-        double[] x;
-        double x_first;
-        double x_last;
+        const int n = 11;
 
         Console.WriteLine("");
         Console.WriteLine("TEST00");
@@ -96,11 +88,11 @@ internal static class Program
         //
         //  Geometry definitions.
         //
-        x_first = 0.0;
-        x_last = 1.0;
-        x = typeMethods.r8vec_linspace_new(n, x_first, x_last);
+        double x_first = 0.0;
+        double x_last = 1.0;
+        double[] x = typeMethods.r8vec_linspace_new(n, x_first, x_last);
 
-        u = FEM_1D_BVP_Quadratic.fem1d_bvp_quadratic(n, a00, c00, f00, x);
+        double[] u = FEM_1D_BVP_Quadratic.fem1d_bvp_quadratic(n, a00, c00, f00, x);
 
         Console.WriteLine("");
         Console.WriteLine("     I    X         U         Uexact    Error");
@@ -108,18 +100,18 @@ internal static class Program
 
         for (i = 0; i < n; i++)
         {
-            uexact = exact00(x[i]);
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + x[i].ToString().PadLeft(8)
-                                   + "  " + u[i].ToString().PadLeft(14)
-                                   + "  " + uexact.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(u[i] - uexact).ToString().PadLeft(14) + "");
+            double uexact = exact00(x[i]);
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + uexact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(u[i] - uexact).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
-        e1 = FEM_Error.l1_error(n, x, u, exact00);
-        e2 = FEM_Error.l2_error_quadratic(n, x, u, exact00);
-        h1s = FEM_Error.h1s_error_quadratic(n, x, u, exact_ux00);
-        mx = FEM_Error.max_error_quadratic(n, x, u, exact00);
+        double e1 = FEM_Error.l1_error(n, x, u, exact00);
+        double e2 = FEM_Error.l2_error_quadratic(n, x, u, exact00);
+        double h1s = FEM_Error.h1s_error_quadratic(n, x, u, exact_ux00);
+        double mx = FEM_Error.max_error_quadratic(n, x, u, exact00);
         Console.WriteLine("");
         Console.WriteLine("  l1 norm of error  = " + e1 + "");
         Console.WriteLine("  L2 norm of error  = " + e2 + "");
@@ -333,15 +325,6 @@ internal static class Program
     {
         int i;
         int n = 11;
-        double e1;
-        double e2;
-        double h1s;
-        double mx;
-        double[] u;
-        double uexact;
-        double[] x;
-        double x_first;
-        double x_last;
 
         Console.WriteLine("");
         Console.WriteLine("TEST01");
@@ -356,11 +339,11 @@ internal static class Program
         //
         //  Geometry definitions.
         //
-        x_first = 0.0;
-        x_last = 1.0;
-        x = typeMethods.r8vec_linspace_new(n, x_first, x_last);
+        const double x_first = 0.0;
+        const double x_last = 1.0;
+        double[] x = typeMethods.r8vec_linspace_new(n, x_first, x_last);
 
-        u = FEM_1D_BVP_Quadratic.fem1d_bvp_quadratic(n, a1, c1, f1, x);
+        double[] u = FEM_1D_BVP_Quadratic.fem1d_bvp_quadratic(n, a1, c1, f1, x);
 
         Console.WriteLine("");
         Console.WriteLine("     I    X         U         Uexact    Error");
@@ -368,18 +351,18 @@ internal static class Program
 
         for (i = 0; i < n; i++)
         {
-            uexact = exact1(x[i]);
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + x[i].ToString().PadLeft(8)
-                                   + "  " + u[i].ToString().PadLeft(14)
-                                   + "  " + uexact.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(u[i] - uexact).ToString().PadLeft(14) + "");
+            double uexact = exact1(x[i]);
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + uexact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(u[i] - uexact).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
-        e1 = FEM_Error.l1_error(n, x, u, exact1);
-        e2 = FEM_Error.l2_error_quadratic(n, x, u, exact1);
-        h1s = FEM_Error.h1s_error_quadratic(n, x, u, exact_ux1);
-        mx = FEM_Error.max_error_quadratic(n, x, u, exact1);
+        double e1 = FEM_Error.l1_error(n, x, u, exact1);
+        double e2 = FEM_Error.l2_error_quadratic(n, x, u, exact1);
+        double h1s = FEM_Error.h1s_error_quadratic(n, x, u, exact_ux1);
+        double mx = FEM_Error.max_error_quadratic(n, x, u, exact1);
         Console.WriteLine("");
         Console.WriteLine("  l1 norm of error  = " + e1 + "");
         Console.WriteLine("  L2 norm of error  = " + e2 + "");
@@ -592,16 +575,7 @@ internal static class Program
         //
     {
         int i;
-        int n = 11;
-        double e1;
-        double e2;
-        double h1s;
-        double mx;
-        double[] u;
-        double uexact;
-        double[] x;
-        double x_first;
-        double x_last;
+        const int n = 11;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02");
@@ -616,11 +590,11 @@ internal static class Program
         //
         //  Geometry definitions.
         //
-        x_first = 0.0;
-        x_last = 1.0;
-        x = typeMethods.r8vec_linspace_new(n, x_first, x_last);
+        double x_first = 0.0;
+        double x_last = 1.0;
+        double[] x = typeMethods.r8vec_linspace_new(n, x_first, x_last);
 
-        u = FEM_1D_BVP_Quadratic.fem1d_bvp_quadratic(n, a2, c2, f2, x);
+        double[] u = FEM_1D_BVP_Quadratic.fem1d_bvp_quadratic(n, a2, c2, f2, x);
 
         Console.WriteLine("");
         Console.WriteLine("     I    X         U         Uexact    Error");
@@ -628,18 +602,18 @@ internal static class Program
 
         for (i = 0; i < n; i++)
         {
-            uexact = exact2(x[i]);
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + x[i].ToString().PadLeft(8)
-                                   + "  " + u[i].ToString().PadLeft(14)
-                                   + "  " + uexact.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(u[i] - uexact).ToString().PadLeft(14) + "");
+            double uexact = exact2(x[i]);
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + uexact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(u[i] - uexact).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
-        e1 = FEM_Error.l1_error(n, x, u, exact2);
-        e2 = FEM_Error.l2_error_quadratic(n, x, u, exact2);
-        h1s = FEM_Error.h1s_error_quadratic(n, x, u, exact_ux2);
-        mx = FEM_Error.max_error_quadratic(n, x, u, exact2);
+        double e1 = FEM_Error.l1_error(n, x, u, exact2);
+        double e2 = FEM_Error.l2_error_quadratic(n, x, u, exact2);
+        double h1s = FEM_Error.h1s_error_quadratic(n, x, u, exact_ux2);
+        double mx = FEM_Error.max_error_quadratic(n, x, u, exact2);
         Console.WriteLine("");
         Console.WriteLine("  l1 norm of error  = " + e1 + "");
         Console.WriteLine("  L2 norm of error  = " + e2 + "");
@@ -852,16 +826,7 @@ internal static class Program
         //
     {
         int i;
-        int n = 11;
-        double e1;
-        double e2;
-        double h1s;
-        double mx;
-        double[] u;
-        double uexact;
-        double[] x;
-        double x_first;
-        double x_last;
+        const int n = 11;
 
         Console.WriteLine("");
         Console.WriteLine("TEST03");
@@ -876,11 +841,11 @@ internal static class Program
         //
         //  Geometry definitions.
         //
-        x_first = 0.0;
-        x_last = 1.0;
-        x = typeMethods.r8vec_linspace_new(n, x_first, x_last);
+        const double x_first = 0.0;
+        const double x_last = 1.0;
+        double[] x = typeMethods.r8vec_linspace_new(n, x_first, x_last);
 
-        u = FEM_1D_BVP_Quadratic.fem1d_bvp_quadratic(n, a3, c3, f3, x);
+        double[] u = FEM_1D_BVP_Quadratic.fem1d_bvp_quadratic(n, a3, c3, f3, x);
 
         Console.WriteLine("");
         Console.WriteLine("     I    X         U         Uexact    Error");
@@ -888,18 +853,18 @@ internal static class Program
 
         for (i = 0; i < n; i++)
         {
-            uexact = exact3(x[i]);
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + x[i].ToString().PadLeft(8)
-                                   + "  " + u[i].ToString().PadLeft(14)
-                                   + "  " + uexact.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(u[i] - uexact).ToString().PadLeft(14) + "");
+            double uexact = exact3(x[i]);
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + uexact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(u[i] - uexact).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
-        e1 = FEM_Error.l1_error(n, x, u, exact3);
-        e2 = FEM_Error.l2_error_quadratic(n, x, u, exact3);
-        h1s = FEM_Error.h1s_error_quadratic(n, x, u, exact_ux3);
-        mx = FEM_Error.max_error_quadratic(n, x, u, exact3);
+        double e1 = FEM_Error.l1_error(n, x, u, exact3);
+        double e2 = FEM_Error.l2_error_quadratic(n, x, u, exact3);
+        double h1s = FEM_Error.h1s_error_quadratic(n, x, u, exact_ux3);
+        double mx = FEM_Error.max_error_quadratic(n, x, u, exact3);
         Console.WriteLine("");
         Console.WriteLine("  l1 norm of error  = " + e1 + "");
         Console.WriteLine("  L2 norm of error  = " + e2 + "");
@@ -1112,16 +1077,7 @@ internal static class Program
         //
     {
         int i;
-        int n = 11;
-        double e1;
-        double e2;
-        double h1s;
-        double mx;
-        double[] u;
-        double uexact;
-        double[] x;
-        double x_first;
-        double x_last;
+        const int n = 11;
 
         Console.WriteLine("");
         Console.WriteLine("TEST04");
@@ -1136,11 +1092,11 @@ internal static class Program
         //
         //  Geometry definitions.
         //
-        x_first = 0.0;
-        x_last = 1.0;
-        x = typeMethods.r8vec_linspace_new(n, x_first, x_last);
+        double x_first = 0.0;
+        double x_last = 1.0;
+        double[] x = typeMethods.r8vec_linspace_new(n, x_first, x_last);
 
-        u = FEM_1D_BVP_Quadratic.fem1d_bvp_quadratic(n, a4, c4, f4, x);
+        double[] u = FEM_1D_BVP_Quadratic.fem1d_bvp_quadratic(n, a4, c4, f4, x);
 
         Console.WriteLine("");
         Console.WriteLine("     I    X         U         Uexact    Error");
@@ -1148,18 +1104,18 @@ internal static class Program
 
         for (i = 0; i < n; i++)
         {
-            uexact = exact4(x[i]);
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + x[i].ToString().PadLeft(8)
-                                   + "  " + u[i].ToString().PadLeft(14)
-                                   + "  " + uexact.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(u[i] - uexact).ToString().PadLeft(14) + "");
+            double uexact = exact4(x[i]);
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + uexact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(u[i] - uexact).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
-        e1 = FEM_Error.l1_error(n, x, u, exact4);
-        e2 = FEM_Error.l2_error_quadratic(n, x, u, exact4);
-        h1s = FEM_Error.h1s_error_quadratic(n, x, u, exact_ux4);
-        mx = FEM_Error.max_error_quadratic(n, x, u, exact4);
+        double e1 = FEM_Error.l1_error(n, x, u, exact4);
+        double e2 = FEM_Error.l2_error_quadratic(n, x, u, exact4);
+        double h1s = FEM_Error.h1s_error_quadratic(n, x, u, exact_ux4);
+        double mx = FEM_Error.max_error_quadratic(n, x, u, exact4);
         Console.WriteLine("");
         Console.WriteLine("  l1 norm of error  = " + e1 + "");
         Console.WriteLine("  L2 norm of error  = " + e2 + "");
@@ -1372,16 +1328,7 @@ internal static class Program
         //
     {
         int i;
-        int n = 11;
-        double e1;
-        double e2;
-        double h1s;
-        double mx;
-        double[] u;
-        double uexact;
-        double[] x;
-        double x_first;
-        double x_last;
+        const int n = 11;
 
         Console.WriteLine("");
         Console.WriteLine("TEST05");
@@ -1400,11 +1347,11 @@ internal static class Program
         //
         //  Geometry definitions.
         //
-        x_first = 0.0;
-        x_last = 1.0;
-        x = typeMethods.r8vec_linspace_new(n, x_first, x_last);
+        double x_first = 0.0;
+        double x_last = 1.0;
+        double[] x = typeMethods.r8vec_linspace_new(n, x_first, x_last);
 
-        u = FEM_1D_BVP_Quadratic.fem1d_bvp_quadratic(n, a5, c5, f5, x);
+        double[] u = FEM_1D_BVP_Quadratic.fem1d_bvp_quadratic(n, a5, c5, f5, x);
 
         Console.WriteLine("");
         Console.WriteLine("     I    X         U         Uexact    Error");
@@ -1412,18 +1359,18 @@ internal static class Program
 
         for (i = 0; i < n; i++)
         {
-            uexact = exact5(x[i]);
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + x[i].ToString().PadLeft(8)
-                                   + "  " + u[i].ToString().PadLeft(14)
-                                   + "  " + uexact.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(u[i] - uexact).ToString().PadLeft(14) + "");
+            double uexact = exact5(x[i]);
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + uexact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(u[i] - uexact).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
-        e1 = FEM_Error.l1_error(n, x, u, exact5);
-        e2 = FEM_Error.l2_error_quadratic(n, x, u, exact5);
-        h1s = FEM_Error.h1s_error_quadratic(n, x, u, exact_ux5);
-        mx = FEM_Error.max_error_quadratic(n, x, u, exact5);
+        double e1 = FEM_Error.l1_error(n, x, u, exact5);
+        double e2 = FEM_Error.l2_error_quadratic(n, x, u, exact5);
+        double h1s = FEM_Error.h1s_error_quadratic(n, x, u, exact_ux5);
+        double mx = FEM_Error.max_error_quadratic(n, x, u, exact5);
         Console.WriteLine("");
         Console.WriteLine("  l1 norm of error  = " + e1 + "");
         Console.WriteLine("  L2 norm of error  = " + e2 + "");
@@ -1640,15 +1587,6 @@ internal static class Program
         //
     {
         int i;
-        int n;
-        double e1;
-        double e2;
-        double h1s;
-        double mx;
-        double[] u;
-        double[] x;
-        double x_first;
-        double x_last;
 
         Console.WriteLine("");
         Console.WriteLine("TEST06");
@@ -1664,28 +1602,28 @@ internal static class Program
         Console.WriteLine("     N        l1 error      L2 error      Seminorm error  Maxnorm error");
         Console.WriteLine("");
 
-        n = 11;
+        int n = 11;
         for (i = 0; i <= 4; i++)
         {
             //
             //  Geometry definitions.
             //
-            x_first = 0.0;
-            x_last = 1.0;
-            x = typeMethods.r8vec_linspace_new(n, x_first, x_last);
+            double x_first = 0.0;
+            double x_last = 1.0;
+            double[] x = typeMethods.r8vec_linspace_new(n, x_first, x_last);
 
-            u = FEM_1D_BVP_Quadratic.fem1d_bvp_quadratic(n, a6, c6, f6, x);
+            double[] u = FEM_1D_BVP_Quadratic.fem1d_bvp_quadratic(n, a6, c6, f6, x);
 
-            e1 = FEM_Error.l1_error(n, x, u, exact6);
-            e2 = FEM_Error.l2_error_quadratic(n, x, u, exact6);
-            h1s = FEM_Error.h1s_error_quadratic(n, x, u, exact_ux6);
-            mx = FEM_Error.max_error_quadratic(n, x, u, exact6);
+            double e1 = FEM_Error.l1_error(n, x, u, exact6);
+            double e2 = FEM_Error.l2_error_quadratic(n, x, u, exact6);
+            double h1s = FEM_Error.h1s_error_quadratic(n, x, u, exact_ux6);
+            double mx = FEM_Error.max_error_quadratic(n, x, u, exact6);
 
-            Console.WriteLine("  " + n.ToString().PadLeft(4)
-                                   + "  " + e1.ToString().PadLeft(14)
-                                   + "  " + e2.ToString().PadLeft(14)
-                                   + "  " + h1s.ToString().PadLeft(14)
-                                   + "  " + mx.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + e1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + e2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + h1s.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + mx.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             n = 2 * (n - 1) + 1;
         }
@@ -1895,15 +1833,6 @@ internal static class Program
         //
     {
         int i;
-        int n;
-        double e1;
-        double e2;
-        double h1s;
-        double mx;
-        double[] u;
-        double[] x;
-        double x_first;
-        double x_last;
 
         Console.WriteLine("");
         Console.WriteLine("TEST07");
@@ -1916,28 +1845,28 @@ internal static class Program
         Console.WriteLine("     N        l1 error      L2 error      Seminorm error  Maxnorm error");
         Console.WriteLine("");
 
-        n = 11;
+        int n = 11;
         for (i = 0; i <= 4; i++)
         {
             //
             //  Geometry definitions.
             //
-            x_first = 0.0;
-            x_last = 1.0;
-            x = typeMethods.r8vec_linspace_new(n, x_first, x_last);
+            double x_first = 0.0;
+            double x_last = 1.0;
+            double[] x = typeMethods.r8vec_linspace_new(n, x_first, x_last);
 
-            u = FEM_1D_BVP_Quadratic.fem1d_bvp_quadratic(n, a7, c7, f7, x);
+            double[] u = FEM_1D_BVP_Quadratic.fem1d_bvp_quadratic(n, a7, c7, f7, x);
 
-            e1 = FEM_Error.l1_error(n, x, u, exact7);
-            e2 = FEM_Error.l2_error_quadratic(n, x, u, exact7);
-            h1s = FEM_Error.h1s_error_quadratic(n, x, u, exact_ux7);
-            mx = FEM_Error.max_error_quadratic(n, x, u, exact7);
+            double e1 = FEM_Error.l1_error(n, x, u, exact7);
+            double e2 = FEM_Error.l2_error_quadratic(n, x, u, exact7);
+            double h1s = FEM_Error.h1s_error_quadratic(n, x, u, exact_ux7);
+            double mx = FEM_Error.max_error_quadratic(n, x, u, exact7);
 
-            Console.WriteLine("  " + n.ToString().PadLeft(4)
-                                   + "  " + e1.ToString().PadLeft(14)
-                                   + "  " + e2.ToString().PadLeft(14)
-                                   + "  " + mx.ToString().PadLeft(14)
-                                   + "  " + h1s.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + n.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + e1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + e2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + mx.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + h1s.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
             n = 2 * (n - 1) + 1;
         }
@@ -1971,13 +1900,9 @@ internal static class Program
         //    Output, double A7, the value of A(X).
         //
     {
-        double alpha;
-        double value = 0;
-        double x0;
-
-        alpha = 30.0;
-        x0 = 1.0 / 3.0;
-        value = 1.0 / alpha + alpha * Math.Pow(x - x0, 2);
+        const double alpha = 30.0;
+        const double x0 = 1.0 / 3.0;
+        double value = 1.0 / alpha + alpha * Math.Pow(x - x0, 2);
 
         return value;
     }
@@ -2043,14 +1968,10 @@ internal static class Program
         //    Output, double EXACT7, the value of U(X).
         //
     {
-        double alpha;
-        double value = 0;
-        double x0;
-
-        alpha = 30.0;
-        x0 = 1.0 / 3.0;
-        value = (1.0 - x)
-                * (Math.Atan(alpha * (x - x0)) + Math.Atan(alpha * x0));
+        const double alpha = 30.0;
+        const double x0 = 1.0 / 3.0;
+        double value = (1.0 - x)
+                       * (Math.Atan(alpha * (x - x0)) + Math.Atan(alpha * x0));
 
         return value;
     }
@@ -2082,14 +2003,10 @@ internal static class Program
         //    Output, double EXACT_UX7, the value of U(X).
         //
     {
-        double alpha;
-        double value = 0;
-        double x0;
-
-        alpha = 30.0;
-        x0 = 1.0 / 3.0;
-        value = -Math.Atan(alpha * (x - x0)) - Math.Atan(alpha * x0)
-                + (1.0 - x) * alpha / (1.0 + alpha * alpha * Math.Pow(x - x0, 2));
+        const double alpha = 30.0;
+        const double x0 = 1.0 / 3.0;
+        double value = -Math.Atan(alpha * (x - x0)) - Math.Atan(alpha * x0)
+                       + (1.0 - x) * alpha / (1.0 + alpha * alpha * Math.Pow(x - x0, 2));
 
 
         return value;
@@ -2122,13 +2039,9 @@ internal static class Program
         //    Output, double F7, the value of F(X).
         //
     {
-        double alpha;
-        double value = 0;
-        double x0;
-
-        alpha = 30.0;
-        x0 = 1.0 / 3.0;
-        value = 2.0 * (1.0 + alpha * (x - x0) *
+        const double alpha = 30.0;
+        const double x0 = 1.0 / 3.0;
+        double value = 2.0 * (1.0 + alpha * (x - x0) *
             (Math.Atan(alpha * (x - x0)) + Math.Atan(alpha * x0)));
 
         return value;
@@ -2168,16 +2081,7 @@ internal static class Program
         //
     {
         int i;
-        int n = 11;
-        double e1;
-        double e2;
-        double h1s;
-        double mx;
-        double[] u;
-        double uexact;
-        double[] x;
-        double x_first;
-        double x_last;
+        const int n = 11;
 
         Console.WriteLine("");
         Console.WriteLine("TEST08");
@@ -2194,11 +2098,11 @@ internal static class Program
         //
         //  Geometry definitions.
         //
-        x_first = 0.0;
-        x_last = 1.0;
-        x = typeMethods.r8vec_linspace_new(n, x_first, x_last);
+        double x_first = 0.0;
+        double x_last = 1.0;
+        double[] x = typeMethods.r8vec_linspace_new(n, x_first, x_last);
 
-        u = FEM_1D_BVP_Quadratic.fem1d_bvp_quadratic(n, a8, c8, f8, x);
+        double[] u = FEM_1D_BVP_Quadratic.fem1d_bvp_quadratic(n, a8, c8, f8, x);
 
         Console.WriteLine("");
         Console.WriteLine("     I    X         U         Uexact    Error");
@@ -2206,18 +2110,18 @@ internal static class Program
 
         for (i = 0; i < n; i++)
         {
-            uexact = exact8(x[i]);
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + x[i].ToString().PadLeft(8)
-                                   + "  " + u[i].ToString().PadLeft(14)
-                                   + "  " + uexact.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(u[i] - uexact).ToString().PadLeft(14) + "");
+            double uexact = exact8(x[i]);
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + uexact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(u[i] - uexact).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
-        e1 = FEM_Error.l1_error(n, x, u, exact8);
-        e2 = FEM_Error.l2_error_quadratic(n, x, u, exact8);
-        h1s = FEM_Error.h1s_error_quadratic(n, x, u, exact_ux8);
-        mx = FEM_Error.max_error_quadratic(n, x, u, exact8);
+        double e1 = FEM_Error.l1_error(n, x, u, exact8);
+        double e2 = FEM_Error.l2_error_quadratic(n, x, u, exact8);
+        double h1s = FEM_Error.h1s_error_quadratic(n, x, u, exact_ux8);
+        double mx = FEM_Error.max_error_quadratic(n, x, u, exact8);
         Console.WriteLine("");
         Console.WriteLine("  l1 norm of error  = " + e1 + "");
         Console.WriteLine("  L2 norm of error  = " + e2 + "");
@@ -2435,16 +2339,7 @@ internal static class Program
         //
     {
         int i;
-        int n = 11;
-        double e1;
-        double e2;
-        double h1s;
-        double mx;
-        double[] u;
-        double uexact;
-        double[] x;
-        double x_first;
-        double x_last;
+        const int n = 11;
 
         Console.WriteLine("");
         Console.WriteLine("TEST09");
@@ -2461,11 +2356,11 @@ internal static class Program
         //
         //  Geometry definitions.
         //
-        x_first = 0.0;
-        x_last = 1.0;
-        x = typeMethods.r8vec_linspace_new(n, x_first, x_last);
+        double x_first = 0.0;
+        double x_last = 1.0;
+        double[] x = typeMethods.r8vec_linspace_new(n, x_first, x_last);
 
-        u = FEM_1D_BVP_Quadratic.fem1d_bvp_quadratic(n, a9, c9, f9, x);
+        double[] u = FEM_1D_BVP_Quadratic.fem1d_bvp_quadratic(n, a9, c9, f9, x);
 
         Console.WriteLine("");
         Console.WriteLine("     I    X         U         Uexact    Error");
@@ -2473,18 +2368,18 @@ internal static class Program
 
         for (i = 0; i < n; i++)
         {
-            uexact = exact9(x[i]);
-            Console.WriteLine("  " + i.ToString().PadLeft(4)
-                                   + "  " + x[i].ToString().PadLeft(8)
-                                   + "  " + u[i].ToString().PadLeft(14)
-                                   + "  " + uexact.ToString().PadLeft(14)
-                                   + "  " + Math.Abs(u[i] - uexact).ToString().PadLeft(14) + "");
+            double uexact = exact9(x[i]);
+            Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + x[i].ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + u[i].ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + uexact.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + Math.Abs(u[i] - uexact).ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
-        e1 = FEM_Error.l1_error(n, x, u, exact9);
-        e2 = FEM_Error.l2_error_quadratic(n, x, u, exact9);
-        h1s = FEM_Error.h1s_error_quadratic(n, x, u, exact_ux9);
-        mx = FEM_Error.max_error_quadratic(n, x, u, exact9);
+        double e1 = FEM_Error.l1_error(n, x, u, exact9);
+        double e2 = FEM_Error.l2_error_quadratic(n, x, u, exact9);
+        double h1s = FEM_Error.h1s_error_quadratic(n, x, u, exact_ux9);
+        double mx = FEM_Error.max_error_quadratic(n, x, u, exact9);
         Console.WriteLine("");
         Console.WriteLine("  l1 norm of error  = " + e1 + "");
         Console.WriteLine("  L2 norm of error  = " + e2 + "");
@@ -2708,30 +2603,13 @@ internal static class Program
         //    LC: QA401.O44.
         //
     {
-        string command_filename;
         List<string> command_unit = new();
-        string data_filename;
         List<string> data_unit = new();
         int e_log;
-        int e_log_max = 6;
-        double[] h_plot;
+        const int e_log_max = 6;
         double h1;
-        double[] h1_plot;
         double l2;
-        double[] l2_plot;
         double mx;
-        double[] mx_plot;
-        int n;
-        int ne;
-        int ne1;
-        int ne2;
-        int[] ne_plot;
-        string output_filename;
-        double r;
-        double[] u;
-        double[] x;
-        double x_hi;
-        double x_lo;
 
         Console.WriteLine("");
         Console.WriteLine("TEST10");
@@ -2745,22 +2623,22 @@ internal static class Program
         Console.WriteLine(" log(E)    E         L2error         H1error        Maxerror");
         Console.WriteLine("");
 
-        h_plot = new double[e_log_max + 1];
-        h1_plot = new double[e_log_max + 1];
-        l2_plot = new double[e_log_max + 1];
-        mx_plot = new double[e_log_max + 1];
-        ne_plot = new int[e_log_max + 1];
+        double[] h_plot = new double[e_log_max + 1];
+        double[] h1_plot = new double[e_log_max + 1];
+        double[] l2_plot = new double[e_log_max + 1];
+        double[] mx_plot = new double[e_log_max + 1];
+        int[] ne_plot = new int[e_log_max + 1];
 
         for (e_log = 0; e_log <= e_log_max; e_log++)
         {
-            ne = (int) Math.Pow(2, e_log + 1);
+            int ne = (int) Math.Pow(2, e_log + 1);
 
-            n = ne + 1;
-            x_lo = 0.0;
-            x_hi = 1.0;
-            x = typeMethods.r8vec_linspace_new(n, x_lo, x_hi);
+            int n = ne + 1;
+            const double x_lo = 0.0;
+            const double x_hi = 1.0;
+            double[] x = typeMethods.r8vec_linspace_new(n, x_lo, x_hi);
 
-            u = FEM_1D_BVP_Quadratic.fem1d_bvp_quadratic(n, a10, c10, f10, x);
+            double[] u = FEM_1D_BVP_Quadratic.fem1d_bvp_quadratic(n, a10, c10, f10, x);
 
             ne_plot[e_log] = ne;
 
@@ -2775,11 +2653,11 @@ internal static class Program
             mx = FEM_Error.max_error_quadratic(n, x, u, exact10);
             mx_plot[e_log] = mx;
 
-            Console.WriteLine("  " + e_log.ToString().PadLeft(4)
-                                   + "  " + ne.ToString().PadLeft(4)
-                                   + "  " + l2.ToString().PadLeft(14)
-                                   + "  " + h1.ToString().PadLeft(14)
-                                   + "  " + mx.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + e_log.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + ne.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + l2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + h1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + mx.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
 
         }
 
@@ -2789,26 +2667,26 @@ internal static class Program
 
         for (e_log = 0; e_log < e_log_max; e_log++)
         {
-            ne1 = ne_plot[e_log];
-            ne2 = ne_plot[e_log + 1];
-            r = ne2 / (double) ne1;
+            int ne1 = ne_plot[e_log];
+            int ne2 = ne_plot[e_log + 1];
+            double r = ne2 / (double) ne1;
             l2 = l2_plot[e_log] / l2_plot[e_log + 1];
             l2 = Math.Log(l2) / Math.Log(r);
             h1 = h1_plot[e_log] / h1_plot[e_log + 1];
             h1 = Math.Log(h1) / Math.Log(r);
             mx = mx_plot[e_log] / mx_plot[e_log + 1];
             mx = Math.Log(mx) / Math.Log(r);
-            Console.WriteLine("  " + e_log.ToString().PadLeft(4)
-                                   + "  " + ne1.ToString().PadLeft(4) + " /" + ne2.ToString().PadLeft(4)
-                                   + "  " + l2.ToString().PadLeft(14)
-                                   + "  " + h1.ToString().PadLeft(14)
-                                   + "  " + mx.ToString().PadLeft(14) + "");
+            Console.WriteLine("  " + e_log.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + ne1.ToString(CultureInfo.InvariantCulture).PadLeft(4) + " /" + ne2.ToString(CultureInfo.InvariantCulture).PadLeft(4)
+                                   + "  " + l2.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + h1.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + mx.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
 
         //
         //  Create the data file.
         //
-        data_filename = "data.txt";
+        string data_filename = "data.txt";
         for (e_log = 0; e_log <= e_log_max; e_log++)
         {
             data_unit.Add("  " + ne_plot[e_log]
@@ -2824,9 +2702,9 @@ internal static class Program
         //
         //  Plot the L2 error as a function of NE.
         //
-        command_filename = "commands_l2.txt";
+        string command_filename = "commands_l2.txt";
 
-        output_filename = "l2.png";
+        string output_filename = "l2.png";
 
         command_unit.Add("# " + command_filename + "");
         command_unit.Add("#");
@@ -2932,9 +2810,7 @@ internal static class Program
         //    Output, double A10, the value of A(X).
         //
     {
-        double value = 0;
-
-        value = 1.0;
+        const double value = 1.0;
 
         return value;
     }
@@ -2966,9 +2842,7 @@ internal static class Program
         //    Output, double C10, the value of C(X).
         //
     {
-        double value = 0;
-
-        value = 1.0;
+        const double value = 1.0;
 
         return value;
     }
@@ -3000,9 +2874,7 @@ internal static class Program
         //    Output, double EXACT10, the value of U(X).
         //
     {
-        double value = 0;
-
-        value = x - Math.Sinh(x) / Math.Sinh(1.0);
+        double value = x - Math.Sinh(x) / Math.Sinh(1.0);
 
         return value;
     }
@@ -3034,9 +2906,7 @@ internal static class Program
         //    Output, double EXACT_UX10, the value of dUdX(X).
         //
     {
-        double value = 0;
-
-        value = 1.0 - Math.Cosh(x) / Math.Sinh(1.0);
+        double value = 1.0 - Math.Cosh(x) / Math.Sinh(1.0);
 
         return value;
     }
@@ -3068,10 +2938,6 @@ internal static class Program
         //    Output, double F10, the value of F(X).
         //
     {
-        double value = 0;
-
-        value = x;
-
-        return value;
+        return x;
     }
 }

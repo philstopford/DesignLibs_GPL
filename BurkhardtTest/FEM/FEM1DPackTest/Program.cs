@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Burkardt.FEM;
 using Burkardt.Types;
 using Burkardt.Uniform;
@@ -68,9 +69,8 @@ internal static class Program
 //    None
 //
     {
-        int NODE_NUM = 4;
+        const int NODE_NUM = 4;
 
-        int node_num = NODE_NUM;
         double[] node_x =  {
                 1.0, 2.0, 4.0, 4.5
             }
@@ -87,28 +87,28 @@ internal static class Program
         Console.WriteLine("  Test that the basis functions, evaluated at the nodes,");
         Console.WriteLine("  form the identity matrix.");
         Console.WriteLine("");
-        Console.WriteLine("  Number of nodes = " + node_num + "");
+        Console.WriteLine("  Number of nodes = " + NODE_NUM + "");
 
         Console.WriteLine("");
         Console.WriteLine("  Node coordinates:");
         Console.WriteLine("");
-        for (int j = 0; j < node_num; j++)
+        for (int j = 0; j < NODE_NUM; j++)
         {
-            Console.WriteLine("  " + j.ToString().PadLeft(8)
-                                   + "  " + node_x[j].ToString().PadLeft(7) + "");
+            Console.WriteLine("  " + j.ToString(CultureInfo.InvariantCulture).PadLeft(8)
+                                   + "  " + node_x[j].ToString(CultureInfo.InvariantCulture).PadLeft(7) + "");
         }
 
-        for (int j = 0; j < node_num; j++)
+        for (int j = 0; j < NODE_NUM; j++)
         {
             x = node_x[j];
-            phi = LocalBasis.local_basis_1d(node_num, node_x, x);
-            for (int i = 0; i < node_num; i++)
+            phi = LocalBasis.local_basis_1d(NODE_NUM, node_x, x);
+            for (int i = 0; i < NODE_NUM; i++)
             {
-                phi_matrix[i + j * node_num] = phi[i];
+                phi_matrix[i + j * NODE_NUM] = phi[i];
             }
         }
 
-        typeMethods.r8mat_print(node_num, node_num, phi_matrix, "  A(I,J) = PHI(I) at node (J):");
+        typeMethods.r8mat_print(NODE_NUM, NODE_NUM, phi_matrix, "  A(I,J) = PHI(I) at node (J):");
 
         int seed = 123456789;
 
@@ -121,10 +121,10 @@ internal static class Program
         for (int j = 1; j <= 5; j++)
         {
             x = UniformRNG.r8_uniform(1.0, 4.5, ref seed);
-            phi = LocalBasis.local_basis_1d(node_num, node_x, x);
-            double s = typeMethods.r8vec_sum(node_num, phi);
-            Console.WriteLine("  " + x.ToString().PadLeft(14)
-                                   + "  " + s.ToString().PadLeft(14) + "");
+            phi = LocalBasis.local_basis_1d(NODE_NUM, node_x, x);
+            double s = typeMethods.r8vec_sum(NODE_NUM, phi);
+            Console.WriteLine("  " + x.ToString(CultureInfo.InvariantCulture).PadLeft(14)
+                                   + "  " + s.ToString(CultureInfo.InvariantCulture).PadLeft(14) + "");
         }
     }
 }

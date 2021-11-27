@@ -327,7 +327,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int n = 100000;
+        const int n = 100000;
 
         float[] u = new float[n];
 
@@ -521,7 +521,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int n = 100000;
+        const int n = 100000;
 
         double[] u = new double[n];
 
@@ -718,7 +718,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int n = 100000;
+        const int n = 100000;
 
         double[] u = new double[n];
 

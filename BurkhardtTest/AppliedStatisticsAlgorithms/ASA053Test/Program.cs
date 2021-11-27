@@ -104,7 +104,7 @@ internal static class Program
         //    John Burkardt
         //
     {
-        int NP = 3;
+        const int NP = 3;
 
         double[] d =  {
                 3.0,
@@ -112,22 +112,21 @@ internal static class Program
                 1.0, 2.0, 5.0
             }
             ;
-        int np = NP;
-        int test_num = 100000;
+        const int test_num = 100000;
 
         Console.WriteLine("");
         Console.WriteLine("TEST02");
         Console.WriteLine("  Generate many Wishart deviates.");
         Console.WriteLine("  Compare to D' * D * np / n");
-        int n = 2;
-        int npp = np * (np + 1) / 2;
+        const int n = 2;
+        const int npp = NP * (NP + 1) / 2;
         int seed = 123456789;
 
         Console.WriteLine("");
-        Console.WriteLine("  The number of variables is " + np + "");
+        Console.WriteLine("  The number of variables is " + NP + "");
         Console.WriteLine("  The number of degrees of freedom is " + n + "");
 
-        typeMethods.r8utp_print(np, d, "  The upper Cholesky factor:");
+        typeMethods.r8utp_print(NP, d, "  The upper Cholesky factor:");
 
         double[] s_average = new double[npp];
 
@@ -138,7 +137,7 @@ internal static class Program
 
         for (int i = 1; i <= test_num; i++)
         {
-            double[] sa = Algorithms.wshrt(d, n, np, ref seed);
+            double[] sa = Algorithms.wshrt(d, n, NP, ref seed);
             for (int j = 0; j < npp; j++)
             {
                 s_average[j] += sa[j];
@@ -150,30 +149,30 @@ internal static class Program
             s_average[j] /= test_num;
         }
 
-        typeMethods.r8pp_print(np, s_average, "  The averaged matrix:");
+        typeMethods.r8pp_print(NP, s_average, "  The averaged matrix:");
         //
         //  Compare the result to ( D' * D ) * np / n.
         //
-        double[] sigma = new double[np * np];
+        double[] sigma = new double[NP * NP];
 
-        for (int i = 0; i < np; i++)
+        for (int i = 0; i < NP; i++)
         {
-            for (int j = 0; j < np; j++)
+            for (int j = 0; j < NP; j++)
             {
-                sigma[i + j * np] = 0.0;
+                sigma[i + j * NP] = 0.0;
                 int k;
                 for (k = 0; k <= Math.Min(i, j); k++)
                 {
                     int ki = k + i * (i + 1) / 2;
                     int kj = k + j * (j + 1) / 2;
-                    sigma[i + j * np] += d[ki] * d[kj];
+                    sigma[i + j * NP] += d[ki] * d[kj];
                 }
 
-                sigma[i + j * np] = sigma[i + j * np] * np / n;
+                sigma[i + j * NP] = sigma[i + j * NP] * NP / n;
             }
         }
 
-        typeMethods.r8mat_print(np, np, sigma, "  Expected result:");
+        typeMethods.r8mat_print(NP, NP, sigma, "  Expected result:");
 
     }
 

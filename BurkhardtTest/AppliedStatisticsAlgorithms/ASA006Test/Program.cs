@@ -274,7 +274,7 @@ internal static class Program
         //
     {
         const int N_MAX = 15;
-        int NN_MAX = N_MAX * (N_MAX + 1) / 2;
+        const int NN_MAX = N_MAX * (N_MAX + 1) / 2;
 
         double[] a = new double[NN_MAX];
         int[] b = new int[N_MAX];

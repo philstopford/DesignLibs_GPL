@@ -69,7 +69,7 @@ internal static class Program
         int ifault = 0;
         int numres = 0;
 
-        int n = 2;
+        const int n = 2;
 
         double[] start = new double[n];
         double[] step = new double[n];
@@ -205,15 +205,15 @@ internal static class Program
         start[2] =   0.0;
         start[3] =   1.0;
 
-        double reqmin = 1.0E-08;
+        const double reqmin = 1.0E-08;
 
         step[0] = 1.0;
         step[1] = 1.0;
         step[2] = 1.0;
         step[3] = 1.0;
 
-        int konvge = 10;
-        int kcount = 500;
+        const int konvge = 10;
+        const int kcount = 500;
 
         Console.WriteLine("");
         Console.WriteLine("  Starting point X:");
@@ -342,8 +342,8 @@ internal static class Program
         step[1] = 1.0;
         step[2] = 1.0;
 
-        int konvge = 10;
-        int kcount = 500;
+        const int konvge = 10;
+        const int kcount = 500;
 
         Console.WriteLine("");
         Console.WriteLine("  Starting point X:");
@@ -458,7 +458,7 @@ internal static class Program
         int ifault = 0;
         int numres = 0;
 
-        int n = 10;
+        const int n = 10;
 
         double[] start = new double[n];
         double[] step = new double[n];
@@ -473,15 +473,15 @@ internal static class Program
             start[i] = 1.0;
         }
 
-        double reqmin = 1.0E-08;
+        const double reqmin = 1.0E-08;
 
         for (int i = 0; i < n; i++ )
         {
             step[i] = 1.0;
         }
 
-        int konvge = 10;
-        int kcount = 500;
+        const int konvge = 10;
+        const int kcount = 500;
 
         Console.WriteLine("");
         Console.WriteLine("  Starting point X:");

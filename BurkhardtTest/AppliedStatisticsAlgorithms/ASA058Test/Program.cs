@@ -117,10 +117,9 @@ internal static class Program
         //
         //  Compute the clusters.
         //
-        int nz = 1;
-        int k2 = K;
+        const int nz = 1;
 
-        Algorithms.clustr(x, ref d, ref dev, ref b, f, ref e, N, M, K, nz, k2);
+        Algorithms.clustr(x, ref d, ref dev, ref b, f, ref e, N, M, K, nz, K);
 
         Console.WriteLine("");
         Console.WriteLine("  Cluster  Population  Energy");

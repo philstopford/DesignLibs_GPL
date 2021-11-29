@@ -4,9 +4,9 @@ public static partial class SobolSampler
 {
     public partial class SobolConfigLarge
     {
-        public static readonly int DIM_MAX = 40;
-        public static readonly int DIM_MAX2 = 1111;
-        public static readonly int LOG_MAX = 62;
+        public const int DIM_MAX = 40;
+        public const int DIM_MAX2 = 1111;
+        public const int LOG_MAX = 62;
             
         public long seed { get; set; }
         public long atmost { get; set; }

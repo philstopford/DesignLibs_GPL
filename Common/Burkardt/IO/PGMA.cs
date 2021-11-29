@@ -508,7 +508,6 @@ public static class PGMA
         //  Compute the maximum.
         //
         int maxg = 0;
-        int[] indexg = g;
         int gIndex = 0;
 
         for (j = 0; j < ysize; j++)
@@ -516,9 +515,9 @@ public static class PGMA
             int i;
             for (i = 0; i < xsize; i++)
             {
-                if (maxg < indexg[gIndex])
+                if (maxg < g[gIndex])
                 {
-                    maxg = indexg[gIndex];
+                    maxg = g[gIndex];
                 }
 
                 gIndex++;

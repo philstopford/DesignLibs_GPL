@@ -277,8 +277,8 @@ public static class Mesh2D
             _ => element_type
         };
 
-        int tag_num = 2;
-        int tag1 = 0;
+        const int tag_num = 2;
+        const int tag1 = 0;
         gmsh.Add("$Elements");
         gmsh.Add(element_num + "");
         for (element = 0; element < element_num; element++)

@@ -82,11 +82,13 @@ public static class Jump
         {
             double r = PDF.r8_uniform_01_sample();
 
-            if (1.0 - cr[cr_index] < r)
+            if (!(1.0 - cr[cr_index] < r))
             {
-                jump_dim[jump_num] = i;
-                jump_num += 1;
+                continue;
             }
+
+            jump_dim[jump_num] = i;
+            jump_num += 1;
         }
 
         jumprate = (gen_index % jumpstep) switch

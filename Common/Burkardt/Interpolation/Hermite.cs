@@ -100,12 +100,14 @@ public static class Hermite
 
         for (j = 0; j < n; j++)
         {
-            if (j != i)
+            if (j == i)
             {
-                factor[j] = 1.0;
-                lpp += 2.0 * typeMethods.r8vec_product(n, factor);
-                factor[j] = x[i] - x[j];
+                continue;
             }
+
+            factor[j] = 1.0;
+            lpp += 2.0 * typeMethods.r8vec_product(n, factor);
+            factor[j] = x[i] - x[j];
         }
 
         double value = (1.0 - (xv - x[i]) * lpp / lp) * li * li;
@@ -287,23 +289,22 @@ public static class Hermite
         //
         //  Verify interpolation claim!
         //
-        int nv = n;
-        double[] xv = new double[nv];
-        double[] yv = new double[nv];
-        double[] yvp = new double[nv];
+        double[] xv = new double[n];
+        double[] yv = new double[n];
+        double[] yvp = new double[n];
 
-        for (i = 0; i < nv; i++)
+        for (i = 0; i < n; i++)
         {
             xv[i] = x[i];
         }
 
-        hermite_interpolant_value(nd, xd, yd, xdp, ydp, nv, xv, ref yv, ref yvp);
+        hermite_interpolant_value(nd, xd, yd, xdp, ydp, n, xv, ref yv, ref yvp);
 
         Console.WriteLine("");
         Console.WriteLine("  Data Versus Interpolant:");
         Console.WriteLine("              X           Y           H           YP          HP");
         Console.WriteLine("");
-        for (i = 0; i < nv; i++)
+        for (i = 0; i < n; i++)
         {
             Console.WriteLine("  " + i.ToString(CultureInfo.InvariantCulture).PadLeft(4)
                                    + "  " + xv[i].ToString(CultureInfo.InvariantCulture).PadLeft(10)

@@ -1150,11 +1150,13 @@ public static partial class FullertonLib
             te = -x * te / fk;
             t = te / (ae + fk);
             s += t;
-            if (Math.Abs(t) < data.eps * Math.Abs(s))
+            if (!(Math.Abs(t) < data.eps * Math.Abs(s)))
             {
-                converged = true;
-                break;
+                continue;
             }
+
+            converged = true;
+            break;
         }
 
         switch (converged)

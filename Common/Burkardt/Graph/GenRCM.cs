@@ -377,12 +377,14 @@ public static class GenRCM
                 {
                     int nbr = adj[(j - 1 + adj.Length) % adj.Length];
 
-                    if (mask[(nbr - 1 + mask.Length) % mask.Length] != 0)
+                    if (mask[(nbr - 1 + mask.Length) % mask.Length] == 0)
                     {
-                        iccsze += 1;
-                        level[levelIndex + (iccsze - 1)] = nbr;
-                        mask[(nbr - 1 + mask.Length) % mask.Length] = 0;
+                        continue;
                     }
+
+                    iccsze += 1;
+                    level[levelIndex + (iccsze - 1)] = nbr;
+                    mask[(nbr - 1 + mask.Length) % mask.Length] = 0;
                 }
             }
 
@@ -625,12 +627,14 @@ public static class GenRCM
                 {
                     nbr = adj[(j - 1 + adj.Length) % adj.Length];
 
-                    if (mask[(nbr - 1 + mask.Length) % mask.Length] != 0)
+                    if (mask[(nbr - 1 + mask.Length) % mask.Length] == 0)
                     {
-                        lnbr += 1;
-                        mask[(nbr - 1 + mask.Length) % mask.Length] = 0;
-                        perm[permIndex + (lnbr - 1)] = nbr;
+                        continue;
                     }
+
+                    lnbr += 1;
+                    mask[(nbr - 1 + mask.Length) % mask.Length] = 0;
+                    perm[permIndex + (lnbr - 1)] = nbr;
                 }
 
                 //
@@ -832,11 +836,13 @@ public static class GenRCM
                         }
                     }
 
-                    if (ndeg < mindeg)
+                    if (ndeg >= mindeg)
                     {
-                        root = node;
-                        mindeg = ndeg;
+                        continue;
                     }
+
+                    root = node;
+                    mindeg = ndeg;
                 }
             }
 

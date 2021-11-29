@@ -126,17 +126,19 @@ public static class CR
                 break;
             default:
             {
-                int n = 1;
+                const int n = 1;
                 int[] tmp_index = PDF.i4vec_multinomial_sample(n, cr_prob, cr_num);
 
                 int i;
                 for (i = 0; i < cr_num; i++)
                 {
-                    if (tmp_index[i] == 1)
+                    if (tmp_index[i] != 1)
                     {
-                        cr_index = i;
-                        break;
+                        continue;
                     }
+
+                    cr_index = i;
+                    break;
                 }
 
                 break;

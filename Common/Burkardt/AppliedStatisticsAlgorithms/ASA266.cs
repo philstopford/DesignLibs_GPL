@@ -130,7 +130,7 @@ public static partial class Algorithms
         //    Output, double DIGAMMA, the value of the digamma function at X.
         //
     {
-        double euler_mascheroni = 0.57721566490153286060;
+        const double euler_mascheroni = 0.57721566490153286060;
         switch (x)
         {
             //
@@ -396,14 +396,16 @@ public static partial class Algorithms
                 sum2 += x[i + j * ix];
             }
 
-            if (gamma <= Math.Abs(sum2 - 1.0))
+            if (!(gamma <= Math.Abs(sum2 - 1.0)))
             {
-                ifault = 4;
-                niter = i;
-                Console.WriteLine("");
-                Console.WriteLine("DIRICHLET_ESTIMATE - Fatal error!");
-                Console.WriteLine("  Row I does not sum to 1.");
+                continue;
             }
+
+            ifault = 4;
+            niter = i;
+            Console.WriteLine("");
+            Console.WriteLine("DIRICHLET_ESTIMATE - Fatal error!");
+            Console.WriteLine("  Row I does not sum to 1.");
         }
 
         ifault = 0;
@@ -600,7 +602,11 @@ public static partial class Algorithms
             //
             s = typeMethods.r8vec_dot_product(k, g, work2);
 
-            if (s < chi2)
+            if (!(s < chi2))
+            {
+                continue;
+            }
+
             {
                 eps = gammad(s / 2.0, rk / 2.0, ref ifault2);
 
@@ -1015,8 +1021,8 @@ public static partial class Algorithms
     {
         double cdf = UniformRNG.r8_uniform_01(ref seed);
 
-        double a = 0.0;
-        double b = 1.0;
+        const double a = 0.0;
+        const double b = 1.0;
         double x = exponential_cdf_inv(cdf, a, b);
 
         return x;

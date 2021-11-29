@@ -1,6 +1,6 @@
 ﻿namespace Burkardt.Values;
 
-public class Zeta
+public static class Zeta
 {
     public static void zeta_values(ref int n_data, ref int n, ref double zeta)
 

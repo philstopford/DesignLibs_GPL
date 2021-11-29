@@ -281,11 +281,13 @@ public static class MultivariateLagrange
 
                 value = Polynomial.polynomial_value(d, o, c, e, 1, xd, xIndex: + k * d);
 
-                if (value[0] != 0.0)
+                if (value[0] == 0.0)
                 {
-                    i = j;
-                    break;
+                    continue;
                 }
+
+                i = j;
+                break;
             }
 
             if (i == r + 1)
@@ -622,11 +624,13 @@ public static class MultivariateLagrange
 
                 value = Polynomial.polynomial_value(d, o, c, e, 1, xd, xIndex: + k * d);
 
-                if (Math.Abs(value_max) <= Math.Abs(value[0]))
+                if (!(Math.Abs(value_max) <= Math.Abs(value[0])))
                 {
-                    i = j;
-                    value_max = value[0];
+                    continue;
                 }
+
+                i = j;
+                value_max = value[0];
 
             }
 
@@ -963,11 +967,13 @@ public static class MultivariateLagrange
 
                 value = Polynomial.polynomial_value(d, o, c, e, 1, xd, xIndex: + k * d);
 
-                if (value[0] != 0.0)
+                if (value[0] == 0.0)
                 {
-                    i = j;
-                    break;
+                    continue;
                 }
+
+                i = j;
+                break;
 
             }
 
@@ -1307,11 +1313,13 @@ public static class MultivariateLagrange
 
                 value = Polynomial.polynomial_value(d, o, c, e, 1, xd, xIndex: + k * d);
 
-                if (Math.Abs(value_max) <= Math.Abs(value[0]))
+                if (!(Math.Abs(value_max) <= Math.Abs(value[0])))
                 {
-                    i = j;
-                    value_max = value[0];
+                    continue;
                 }
+
+                i = j;
+                value_max = value[0];
             }
 
             if (i == r + 1)
@@ -1571,7 +1579,7 @@ public static class MultivariateLagrange
         //  Search for the appropriate interpolation space.
         //
         n2 = n;
-        double tol = 0.0001;
+        const double tol = 0.0001;
 
         for (;;)
         {
@@ -1804,11 +1812,13 @@ public static class MultivariateLagrange
 
                 value = Polynomial.polynomial_value(d, o, c, e, 1, xd, xIndex: + k * d);
 
-                if (Math.Abs(value_max) <= Math.Abs(value[0]))
+                if (!(Math.Abs(value_max) <= Math.Abs(value[0])))
                 {
-                    i = j;
-                    value_max = value[0];
+                    continue;
                 }
+
+                i = j;
+                value_max = value[0];
             }
 
             //

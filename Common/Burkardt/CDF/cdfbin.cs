@@ -389,9 +389,7 @@ public static partial class CDF
                 //  Calculating S
                 //
                 s = 5.0e0;
-                double T5= atol;
-                double T6= tol;
-                E0000E0001.dstinv(ref data, K2, xn, K3, K3, K4, T5, T6);
+                E0000E0001.dstinv(ref data, K2, xn, K3, K3, K4, atol, tol);
                 data.status = 0;
                 data.x = s;
                 E0000E0001.dinvr(ref data);
@@ -446,11 +444,7 @@ public static partial class CDF
                 //  Calculating XN
                 //
                 xn = 5.0e0;
-                double T7= zero;
-                double T8= inf;
-                double T9= atol;
-                double T10= tol;
-                E0000E0001.dstinv(ref data, T7, T8, K3, K3, K4, T9, T10);
+                E0000E0001.dstinv(ref data, zero, inf, K3, K3, K4, atol, tol);
                 data.status = 0;
                 data.x = xn;
                 E0000E0001.dinvr(ref data);
@@ -504,9 +498,7 @@ public static partial class CDF
                 //
                 //  Calculating PR and OMPR
                 //
-                double T12= atol;
-                double T13= tol;
-                E0000E0001.dstzr(ref data, K2, K11, T12, T13);
+                E0000E0001.dstzr(ref data, K2, K11, atol, tol);
                 switch (qporq)
                 {
                     case false:

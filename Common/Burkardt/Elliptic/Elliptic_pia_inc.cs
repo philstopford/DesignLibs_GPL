@@ -46,9 +46,9 @@ public static class PIA_inc
         double sp = Math.Sin(phi);
         double x = cp * cp;
         double y = (1.0 - k * sp) * (1.0 + k * sp);
-        double z = 1.0;
+        const double z = 1.0;
         double p = 1.0 - n * sp * sp;
-        double errtol = 1.0E-03;
+        const double errtol = 1.0E-03;
 
         double value1 = Integral.rf(x, y, z, errtol, ref ierr);
 

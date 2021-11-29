@@ -284,11 +284,13 @@ public static class BLAS1Z
             smax = BLAS0.zabs1(x[index + 0]);
             for (i = 1; i < n; i++)
             {
-                if (smax < BLAS0.zabs1(x[index + i]))
+                if (!(smax < BLAS0.zabs1(x[index + i])))
                 {
-                    value = i + 1;
-                    smax = BLAS0.zabs1(x[index + i]);
+                    continue;
                 }
+
+                value = i + 1;
+                smax = BLAS0.zabs1(x[index + i]);
             }
         }
 

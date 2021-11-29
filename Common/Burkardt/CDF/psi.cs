@@ -86,7 +86,7 @@ public static partial class CDF
         //
         double xmax1 = ipmpar(K1);
         xmax1 = Math.Min(xmax1, 1.0e0 / dpmpar(K2));
-        double xsmall = 1e-9;
+        const double xsmall = 1e-9;
         double x = xx;
         double aug = 0.0e0;
         switch (x)

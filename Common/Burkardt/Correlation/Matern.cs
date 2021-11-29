@@ -63,7 +63,7 @@ public static partial class Correlation
     {
         int i;
 
-        double nu = 2.5;
+        const double nu = 2.5;
 
         double[] c = new double[n];
 

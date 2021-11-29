@@ -453,23 +453,27 @@ public static partial class Algorithms
                         //  for possible transfer of point I.   Otherwise, we need to consider
                         //  all possible clusters.
                         //
-                        if ((i < live[l1 - 1] || i < live[l2 - 1]) && l != l1 && l != ll)
+                        if ((i >= live[l1 - 1] && i >= live[l2 - 1]) || l == l1 || l == ll)
                         {
-                            double rr = r2 / an2[l - 1];
-
-                            double dc = 0.0;
-                            for (int j = 1; j <= n; j++)
-                            {
-                                double dd = a[i - 1 + (j - 1) * m] - c[l - 1 + (j - 1) * k];
-                                dc += dd * dd;
-                            }
-
-                            if (dc < rr)
-                            {
-                                r2 = dc * an2[l - 1];
-                                l2 = l;
-                            }
+                            continue;
                         }
+
+                        double rr = r2 / an2[l - 1];
+
+                        double dc = 0.0;
+                        for (int j = 1; j <= n; j++)
+                        {
+                            double dd = a[i - 1 + (j - 1) * m] - c[l - 1 + (j - 1) * k];
+                            dc += dd * dd;
+                        }
+
+                        if (!(dc < rr))
+                        {
+                            continue;
+                        }
+
+                        r2 = dc * an2[l - 1];
+                        l2 = l;
                     }
 
                     //

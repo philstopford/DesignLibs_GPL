@@ -251,10 +251,7 @@ public static partial class CDF
                 //     Calculating X
                 //
                 data.x = 5.0e0;
-                double T2 = inf;
-                double T5 = atol;
-                double T6 = tol;
-                E0000E0001.dstinv(ref data, K1, T2, K3, K3, K4, T5, T6);
+                E0000E0001.dstinv(ref data, K1, inf, K3, K3, K4, atol, tol);
                 data.status = 0;
                 E0000E0001.dinvr(ref data);
                 S140:
@@ -297,11 +294,7 @@ public static partial class CDF
                 //     Calculating DF
                 //
                 df = 5.0e0;
-                double T7 = zero;
-                double T8 = inf;
-                double T9 = atol;
-                double T10 = tol;
-                E0000E0001.dstinv(ref data, T7, T8, K3, K3, K4, T9, T10);
+                E0000E0001.dstinv(ref data, zero, inf, K3, K3, K4, atol, tol);
                 data.status = 0;
                 data.x = df;
                 E0000E0001.dinvr(ref data);
@@ -346,10 +339,7 @@ public static partial class CDF
                 //     Calculating PNONC
                 //
                 pnonc = 5.0e0;
-                double T11 = tent4;
-                double T12 = atol;
-                double T13 = tol;
-                E0000E0001.dstinv(ref data, K1, T11, K3, K3, K4, T12, T13);
+                E0000E0001.dstinv(ref data, K1, tent4, K3, K3, K4, atol, tol);
                 data.status = 0;
                 data.x = pnonc;
                 E0000E0001.dinvr(ref data);

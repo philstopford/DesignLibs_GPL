@@ -202,11 +202,13 @@ public static partial class Slow
             a[i] /= n;
             b[i] /= n;
 
-            if (n % 2 == 1 || i != n / 2 - 1)
+            if (n % 2 != 1 && i == n / 2 - 1)
             {
-                a[i] = 2.0f * a[i];
-                b[i] = 2.0f * b[i];
+                continue;
             }
+
+            a[i] = 2.0f * a[i];
+            b[i] = 2.0f * b[i];
         }
     }
 

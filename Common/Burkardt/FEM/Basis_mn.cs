@@ -134,7 +134,7 @@ public static class Basis_mn
         //    None
         //
     {
-        int NODE_NUM = 4;
+        const int NODE_NUM = 4;
 
         double[] dphidx = new double[NODE_NUM * NODE_NUM];
         double[] dphidy = new double[NODE_NUM * NODE_NUM];
@@ -579,7 +579,7 @@ public static class Basis_mn
         //  Parameters:
         //
     {
-        int NODE_NUM = 4;
+        const int NODE_NUM = 4;
 
         double[] dphidx = new double[NODE_NUM * NODE_NUM];
         double[] dphidy = new double[NODE_NUM * NODE_NUM];

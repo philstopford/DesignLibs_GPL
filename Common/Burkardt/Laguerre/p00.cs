@@ -489,7 +489,7 @@ public static partial class Integrands
 
         double alpha = p00_alpha(problem);
 
-        double alpha2 = 0.0;
+        const double alpha2 = 0.0;
         QuadratureRule.laguerre_compute(order, ref xtab, ref weight, alpha2);
 
         for (i = 0; i < order; i++)

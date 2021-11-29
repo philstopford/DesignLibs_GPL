@@ -1894,12 +1894,7 @@ public static class Geometry
         double test4 = (q2[1] - q1[1]) * (q2[0] - p1[0])
                        - (q2[0] - q1[0]) * (q2[1] - p1[1]);
 
-        if (test4 != 0.0)
-        {
-            return false;
-        }
-
-        return true;
+        return test4 == 0.0;
     }
 
     public static void lines_exp_int_2d(double[] p1, double[] p2, double[] p3, double[] p4,
@@ -1944,7 +1939,7 @@ public static class Geometry
         //    the intersection point.  Otherwise, P = 0.
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
         double a1 = 0.0;
         double a2 = 0.0;
@@ -1952,8 +1947,6 @@ public static class Geometry
         double b2 = 0.0;
         double c1 = 0.0;
         double c2 = 0.0;
-        bool point_1 = false;
-        bool point_2 = false;
 
         ival = 0;
         p[0] = 0.0;
@@ -1961,9 +1954,9 @@ public static class Geometry
         //
         //  Check whether either line is a point.
         //
-        point_1 = typeMethods.r8vec_eq(DIM_NUM, p1, p2, p1Index, p2Index);
+        bool point_1 = typeMethods.r8vec_eq(DIM_NUM, p1, p2, p1Index, p2Index);
 
-        point_2 = typeMethods.r8vec_eq(DIM_NUM, p3, p4, p3Index, p4Index);
+        bool point_2 = typeMethods.r8vec_eq(DIM_NUM, p3, p4, p3Index, p4Index);
 
         switch (point_1)
         {

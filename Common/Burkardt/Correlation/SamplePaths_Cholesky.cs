@@ -166,7 +166,7 @@ public static partial class SamplePaths
         //
         //  Choose N equally spaced sample points from 0 to RHOMAX.
         //
-        double rhomin = 0.0;
+        const double rhomin = 0.0;
         double[] rho_vec = typeMethods.r8vec_linspace_new(n, rhomin, rhomax);
         //
         //  Evaluate the correlation function.

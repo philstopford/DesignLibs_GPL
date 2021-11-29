@@ -355,11 +355,7 @@ public static partial class CDF
                 //
                 shape = 5.0e0;
                 xscale = data.x * scale;
-                double T3 = zero;
-                double T4 = inf;
-                double T7 = atol;
-                double T8 = tol;
-                E0000E0001.dstinv(ref data, T3, T4, K5, K5, K6, T7, T8);
+                E0000E0001.dstinv(ref data, zero, inf, K5, K5, K6, atol, tol);
                 data.status = 0;
                 data.x = shape;
                 E0000E0001.dinvr(ref data);

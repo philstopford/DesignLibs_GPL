@@ -82,11 +82,13 @@ public static class CNF
                     continue;
             }
 
-            if (0 < typeMethods.s_len_trim(tmp))
+            if (0 >= typeMethods.s_len_trim(tmp))
             {
-                line = tmp;
-                break;
+                continue;
             }
+
+            line = tmp;
+            break;
         }
 
         switch (line)
@@ -340,11 +342,13 @@ public static class CNF
             //
             //  The formula is false if any clause is false.
             //
-            if (!c_val)
+            if (c_val)
             {
-                f_val = false;
-                break;
+                continue;
             }
+
+            f_val = false;
+            break;
         }
 
         return f_val;
@@ -416,11 +420,13 @@ public static class CNF
                     continue;
             }
 
-            if (0 < typeMethods.s_len_trim(tmp))
+            if (0 >= typeMethods.s_len_trim(tmp))
             {
-                line = tmp;
-                break;
+                continue;
             }
+
+            line = tmp;
+            break;
         }
 
         switch (line)

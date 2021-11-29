@@ -4,7 +4,7 @@ using Burkardt.Uniform;
 
 namespace Burkardt.TetrahedronNS;
 
-public class Tetrahedron
+public static class Tetrahedron
 {
     public static void reference_to_physical_t4 ( double[] t, int n, double[] ref_, ref double[] phy )
 

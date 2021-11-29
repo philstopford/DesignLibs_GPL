@@ -315,10 +315,7 @@ public static partial class CDF
                 //  Calculating X
                 //
                 data.x = 5.0e0;
-                double T3= inf;
-                double T6= atol;
-                double T7= tol;
-                E0000E0001.dstinv(ref data, K2, T3, K4, K4, K5, T6, T7);
+                E0000E0001.dstinv(ref data, K2, inf, K4, K4, K5, atol, tol);
                 data.status = 0;
                 E0000E0001.dinvr(ref data);
                 S230:
@@ -380,11 +377,7 @@ public static partial class CDF
                 //  Calculating DF
                 //
                 df = 5.0e0;
-                double T8= zero;
-                double T9= inf;
-                double T10= atol;
-                double T11= tol;
-                E0000E0001.dstinv(ref data, T8, T9, K4, K4, K5, T10, T11);
+                E0000E0001.dstinv(ref data, zero, inf, K4, K4, K5, atol, tol);
                 data.status = 0;
                 data.x = df;
                 E0000E0001.dinvr(ref data);

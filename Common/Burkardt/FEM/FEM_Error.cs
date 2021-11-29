@@ -64,9 +64,8 @@ public static class FEM_Error
 
         for (e = 0; e < e_num; e++)
         {
-            int l = e;
-            double xl = x[l];
-            double ul = u[l];
+            double xl = x[e];
+            double ul = u[e];
 
             int r = e + 1;
             double xr = x[r];

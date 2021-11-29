@@ -429,12 +429,14 @@ public static partial class FullertonLib
             tmp1 = tmp * betain;
             tmp1 *= beta;
 
-            if (Math.Abs(tmp1 - y) <= double.Epsilon && Math.Abs(tmp - y) > double.Epsilon)
+            if (!(Math.Abs(tmp1 - y) <= double.Epsilon) || !(Math.Abs(tmp - y) > double.Epsilon))
             {
-                nxres = 3;
-                xmin = y;
-                break;
+                continue;
             }
+
+            nxres = 3;
+            xmin = y;
+            break;
 
         }
 

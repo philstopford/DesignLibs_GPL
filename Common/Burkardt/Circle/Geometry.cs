@@ -1968,19 +1968,21 @@ public static class Geometry
         //
         //  Is the point inside the (full) circle?
         //
-        if (Math.Pow(p[0] - pc[0], 2) + Math.Pow(p[1] - pc[1], 2) <= r * r)
+        if (!(Math.Pow(p[0] - pc[0], 2) + Math.Pow(p[1] - pc[1], 2) <= r * r))
         {
-            //
-            //  Is the point's angle within the arc's range?
-            //  Try to force the angles to lie between 0 and 2 * PI.
-            //
-            double theta = typeMethods.r8_atan(p[1] - pc[1], p[0] - pc[0]);
+            return inside;
+        }
 
-            if (typeMethods.r8_modp(theta - theta1, 2.0 * Math.PI) <=
-                typeMethods.r8_modp(theta2 - theta1, 2.0 * Math.PI))
-            {
-                inside = true;
-            }
+        //
+        //  Is the point's angle within the arc's range?
+        //  Try to force the angles to lie between 0 and 2 * PI.
+        //
+        double theta = typeMethods.r8_atan(p[1] - pc[1], p[0] - pc[0]);
+
+        if (typeMethods.r8_modp(theta - theta1, 2.0 * Math.PI) <=
+            typeMethods.r8_modp(theta2 - theta1, 2.0 * Math.PI))
+        {
+            inside = true;
         }
 
         return inside;

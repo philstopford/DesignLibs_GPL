@@ -507,7 +507,7 @@ public static class WavefrontOBJ
                 break;
         }
 
-        double w = 1.0;
+        const double w = 1.0;
         for (node = 0; node < node_num; node++)
         {
             string tmp = "v";

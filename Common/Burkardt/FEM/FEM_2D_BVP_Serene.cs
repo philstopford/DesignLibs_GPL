@@ -762,7 +762,7 @@ public static class FEM_2D_BVP_Serene
         //    Output, double FEM2D_BVP_H1S, the estimated seminorm of the error.
         //
     {
-        int QUAD_NUM = 3;
+        const int QUAD_NUM = 3;
 
         double[] abscissa =  {
                 -0.774596669241483377035853079956,

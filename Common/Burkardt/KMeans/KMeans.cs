@@ -122,11 +122,13 @@ public static class KMeans
                     point_energy += Math.Pow(point[i + j * dim_num] - cluster_center[i + k * dim_num], 2);
                 }
 
-                if (point_energy < point_energy_min)
+                if (!(point_energy < point_energy_min))
                 {
-                    point_energy_min = point_energy;
-                    cluster[j] = k;
+                    continue;
                 }
+
+                point_energy_min = point_energy;
+                cluster[j] = k;
             }
         }
 
@@ -236,23 +238,27 @@ public static class KMeans
 
                 for (k = 0; k < cluster_num; k++)
                 {
-                    if (k != il)
+                    if (k == il)
                     {
-                        double de = 0.0;
-                        for (i = 0; i < dim_num; i++)
-                        {
-                            de += Math.Pow(point[i + j * dim_num] - cluster_center[i + k * dim_num], 2);
-                        }
-
-                        de = de * cluster_population[k]
-                             / (cluster_population[k] + 1);
-
-                        if (de < dc)
-                        {
-                            dc = de;
-                            ir = k;
-                        }
+                        continue;
                     }
+
+                    double de = 0.0;
+                    for (i = 0; i < dim_num; i++)
+                    {
+                        de += Math.Pow(point[i + j * dim_num] - cluster_center[i + k * dim_num], 2);
+                    }
+
+                    de = de * cluster_population[k]
+                         / (cluster_population[k] + 1);
+
+                    if (!(de < dc))
+                    {
+                        continue;
+                    }
+
+                    dc = de;
+                    ir = k;
                 }
 
                 //
@@ -294,20 +300,22 @@ public static class KMeans
                 {
                     k = cluster[j2];
 
-                    if (k == il || k == ir)
+                    if (k != il && k != ir)
                     {
-                        f[j2] = 0.0;
-                        for (i = 0; i < dim_num; i++)
-                        {
-                            f[j2] += Math.Pow(point[i + j2 * dim_num] - cluster_center[i + k * dim_num], 2);
-                        }
-
-                        f[j2] = cluster_population[k] switch
-                        {
-                            > 1 => f[j2] * cluster_population[k] / (cluster_population[k] - 1),
-                            _ => f[j2]
-                        };
+                        continue;
                     }
+
+                    f[j2] = 0.0;
+                    for (i = 0; i < dim_num; i++)
+                    {
+                        f[j2] += Math.Pow(point[i + j2 * dim_num] - cluster_center[i + k * dim_num], 2);
+                    }
+
+                    f[j2] = cluster_population[k] switch
+                    {
+                        > 1 => f[j2] * cluster_population[k] / (cluster_population[k] - 1),
+                        _ => f[j2]
+                    };
                 }
 
                 swap += 1;
@@ -813,22 +821,26 @@ public static class KMeans
                         //
                         //  Otherwise, we need to consider all possible clusters.
                         //
-                        if ((j < live[l1] || j < live[l]) && l != l1 && l != ll)
+                        if ((j >= live[l1] && j >= live[l]) || l == l1 || l == ll)
                         {
-                            double rr = r2 / an2[l];
-
-                            double dc = 0.0;
-                            for (i = 0; i < dim_num; i++)
-                            {
-                                dc += Math.Pow(point[i + j * dim_num] - cluster_center[i + l * dim_num], 2);
-                            }
-
-                            if (dc < rr)
-                            {
-                                r2 = dc * an2[l];
-                                l2 = l;
-                            }
+                            continue;
                         }
+
+                        double rr = r2 / an2[l];
+
+                        double dc = 0.0;
+                        for (i = 0; i < dim_num; i++)
+                        {
+                            dc += Math.Pow(point[i + j * dim_num] - cluster_center[i + l * dim_num], 2);
+                        }
+
+                        if (!(dc < rr))
+                        {
+                            continue;
+                        }
+
+                        r2 = dc * an2[l];
+                        l2 = l;
                     }
 
                     //
@@ -1220,11 +1232,13 @@ public static class KMeans
                     point_energy += Math.Pow(point[i + j * dim_num] - cluster_center[i + k * dim_num], 2);
                 }
 
-                if (point_energy < point_energy_min)
+                if (!(point_energy < point_energy_min))
                 {
-                    point_energy_min = point_energy;
-                    cluster[j] = k;
+                    continue;
                 }
+
+                point_energy_min = point_energy;
+                cluster[j] = k;
             }
         }
 
@@ -1554,11 +1568,13 @@ public static class KMeans
                     point_energy += Math.Pow(point[i + j * dim_num] - cluster_center[i + k * dim_num], 2);
                 }
 
-                if (point_energy < point_energy_min)
+                if (!(point_energy < point_energy_min))
                 {
-                    point_energy_min = point_energy;
-                    cluster[j] = k;
+                    continue;
                 }
+
+                point_energy_min = point_energy;
+                cluster[j] = k;
             }
         }
 
@@ -1669,21 +1685,25 @@ public static class KMeans
 
                 for (k = 0; k < cluster_num; k++)
                 {
-                    if (k != il)
+                    if (k == il)
                     {
-                        double de = 0.0;
-                        for (i = 0; i < dim_num; i++)
-                        {
-                            de += Math.Pow(point[i + j * dim_num] - cluster_center[i + k * dim_num], 2)
-                                * cluster_weight[k] / (cluster_weight[k] + weight[j]);
-                        }
-
-                        if (de < dc)
-                        {
-                            dc = de;
-                            ir = k;
-                        }
+                        continue;
                     }
+
+                    double de = 0.0;
+                    for (i = 0; i < dim_num; i++)
+                    {
+                        de += Math.Pow(point[i + j * dim_num] - cluster_center[i + k * dim_num], 2)
+                            * cluster_weight[k] / (cluster_weight[k] + weight[j]);
+                    }
+
+                    if (!(de < dc))
+                    {
+                        continue;
+                    }
+
+                    dc = de;
+                    ir = k;
                 }
 
                 //
@@ -1728,18 +1748,20 @@ public static class KMeans
                 {
                     k = cluster[j];
 
-                    if (k == il || k == ir)
+                    if (k != il && k != ir)
                     {
-                        f[j] = 0.0;
-                        for (i = 0; i < dim_num; i++)
-                        {
-                            f[j] += Math.Pow(point[i + j * dim_num] - cluster_center[i + k * dim_num], 2);
-                        }
+                        continue;
+                    }
 
-                        if (weight[j] < cluster_weight[k])
-                        {
-                            f[j] = f[j] * cluster_weight[k] / (cluster_weight[k] - weight[j]);
-                        }
+                    f[j] = 0.0;
+                    for (i = 0; i < dim_num; i++)
+                    {
+                        f[j] += Math.Pow(point[i + j * dim_num] - cluster_center[i + k * dim_num], 2);
+                    }
+
+                    if (weight[j] < cluster_weight[k])
+                    {
+                        f[j] = f[j] * cluster_weight[k] / (cluster_weight[k] - weight[j]);
                     }
                 }
 
@@ -1938,11 +1960,13 @@ public static class KMeans
                     point_energy += Math.Pow(point[i + j * dim_num] - cluster_center[i + k * dim_num], 2);
                 }
 
-                if (point_energy < point_energy_min)
+                if (!(point_energy < point_energy_min))
                 {
-                    point_energy_min = point_energy;
-                    cluster[j] = k;
+                    continue;
                 }
+
+                point_energy_min = point_energy;
+                cluster[j] = k;
             }
         }
 
@@ -1975,12 +1999,14 @@ public static class KMeans
 
         for (k = 0; k < cluster_num; k++)
         {
-            if (cluster_weight[k] != 0.0)
+            if (cluster_weight[k] == 0.0)
             {
-                for (i = 0; i < dim_num; i++)
-                {
-                    cluster_center[i + k * dim_num] /= cluster_weight[k];
-                }
+                continue;
+            }
+
+            for (i = 0; i < dim_num; i++)
+            {
+                cluster_center[i + k * dim_num] /= cluster_weight[k];
             }
         }
 

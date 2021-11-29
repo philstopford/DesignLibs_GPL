@@ -133,11 +133,13 @@ public static class GelmanRubin
 
         for (par_index = 0; par_index < par_num; par_index++)
         {
-            if (gr_threshold < gr[par_index + gr_count * par_num])
+            if (!(gr_threshold < gr[par_index + gr_count * par_num]))
             {
-                gr_conv = false;
-                break;
+                continue;
             }
+
+            gr_conv = false;
+            break;
         }
 
         switch (gr_conv)

@@ -54,13 +54,15 @@ public static class Piecewise
                 int id;
                 for ( id = 1; id < nd; id++ )
                 {
-                    if ( xv[iv] < xd[id] )
+                    if (!(xv[iv] < xd[id]))
                     {
-                        yv[iv] = ( ( xd[id] - xv[iv]            ) * yd[id-1] 
-                                   + (          xv[iv] - xd[id-1] ) * yd[id] ) 
-                                 / ( xd[id]          - xd[id-1] );
-                        break;
+                        continue;
                     }
+
+                    yv[iv] = ( ( xd[id] - xv[iv]            ) * yd[id-1] 
+                               + (          xv[iv] - xd[id-1] ) * yd[id] ) 
+                             / ( xd[id]          - xd[id-1] );
+                    break;
                 }
             }
         }

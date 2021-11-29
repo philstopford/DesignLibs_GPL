@@ -244,7 +244,7 @@ public static partial class Algorithms
         //    Output, double *DET, the determinant of the matrix.
         //
     {
-        double eta = 1.0E-09;
+        const double eta = 1.0E-09;
 
         ifault = 0;
         nullty = 0;

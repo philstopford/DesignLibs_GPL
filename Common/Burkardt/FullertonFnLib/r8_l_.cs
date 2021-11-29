@@ -220,11 +220,13 @@ public static partial class FullertonLib
             r = -t / ((xma + 2.0 * fk) * (xpa + 2.0 * fk) + t);
             p = r * p;
             s += p;
-            if (Math.Abs(p) < data.eps * s)
+            if (!(Math.Abs(p) < data.eps * s))
             {
-                double value = a * alx - x + Math.Log(s / xpa);
-                return value;
+                continue;
             }
+
+            double value = a * alx - x + Math.Log(s / xpa);
+            return value;
         }
 
         Console.WriteLine("");
@@ -325,12 +327,14 @@ public static partial class FullertonLib
             r = t / ((ax + fk) * (a1x + fk) - t);
             p = r * p;
             s += p;
-            if (Math.Abs(p) < data.eps * s)
+            if (!(Math.Abs(p) < data.eps * s))
             {
-                double hstar = 1.0 - x * s / a1x;
-                double value = -x - algap1 - Math.Log(hstar);
-                return value;
+                continue;
             }
+
+            double hstar = 1.0 - x * s / a1x;
+            double value = -x - algap1 - Math.Log(hstar);
+            return value;
         }
 
         Console.WriteLine("");
@@ -626,13 +630,15 @@ public static partial class FullertonLib
 
         value = sqpi2l + (x - 0.5) * Math.Log(y) - x - Math.Log(sinpiy) - r8_lgmc(ref data.lgmcdata, y);
 
-        if (Math.Abs((x - r8_aint(x - 0.5)) * value / x) < data.dxrel)
+        if (!(Math.Abs((x - r8_aint(x - 0.5)) * value / x) < data.dxrel))
         {
-            Console.WriteLine("");
-            Console.WriteLine("R8_LNGAM - Warning!");
-            Console.WriteLine("  Result is half precision because");
-            Console.WriteLine("  X is too near a negative int.");
+            return value;
         }
+
+        Console.WriteLine("");
+        Console.WriteLine("R8_LNGAM - Warning!");
+        Console.WriteLine("  Result is half precision because");
+        Console.WriteLine("  X is too near a negative int.");
 
         return value;
     }

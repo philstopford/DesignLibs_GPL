@@ -116,8 +116,8 @@ public static class Integral
 
             if (Math.Abs(sn) < errtol)
             {
-                double c1 = 1.0 / 7.0;
-                double c2 = 9.0 / 22.0;
+                const double c1 = 1.0 / 7.0;
+                const double c2 = 9.0 / 22.0;
                 double s = sn * sn * (0.3 + sn * (c1 + sn * (0.375 + sn * c2)));
                 value = (1.0 + s) / Math.Sqrt(mu);
                 return value;
@@ -255,10 +255,10 @@ public static class Integral
 
             if (epslon < errtol)
             {
-                double c1 = 3.0 / 14.0;
-                double c2 = 1.0 / 6.0;
-                double c3 = 9.0 / 22.0;
-                double c4 = 3.0 / 26.0;
+                const double c1 = 3.0 / 14.0;
+                const double c2 = 1.0 / 6.0;
+                const double c3 = 9.0 / 22.0;
+                const double c4 = 3.0 / 26.0;
                 double ea = xndev * yndev;
                 double eb = zndev * zndev;
                 double ec = ea - eb;
@@ -405,9 +405,9 @@ public static class Integral
 
             if (epslon < errtol)
             {
-                double c1 = 1.0 / 24.0;
-                double c2 = 3.0 / 44.0;
-                double c3 = 1.0 / 14.0;
+                const double c1 = 1.0 / 24.0;
+                const double c2 = 3.0 / 44.0;
+                const double c3 = 1.0 / 14.0;
                 double e2 = xndev * yndev - zndev * zndev;
                 double e3 = xndev * yndev * zndev;
                 double s = 1.0 + (c1 * e2 - 0.1 - c2 * e3) * e2 + c3 * e3;

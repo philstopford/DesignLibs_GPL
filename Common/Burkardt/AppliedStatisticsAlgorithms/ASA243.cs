@@ -354,11 +354,13 @@ public static partial class Algorithms
                 break;
             }
 
-            if (itrmax < en)
+            if (!(itrmax < en))
             {
-                ifault = 1;
-                break;
+                continue;
             }
+
+            ifault = 1;
+            break;
         }
 
         value += alnorm(del, true);

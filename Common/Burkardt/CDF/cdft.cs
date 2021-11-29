@@ -262,11 +262,8 @@ public static partial class CDF
                 //  Get initial approximation for T
                 //
                 t = dt1(p, q, df);
-                double T2 = -inf;
-                double T3 = inf;
-                double T6 = atol;
-                double T7 = tol;
-                E0000E0001.dstinv(ref data, T2, T3, K4, K4, K5, T6, T7);
+                const double T2 = -inf;
+                E0000E0001.dstinv(ref data, T2, inf, K4, K4, K5, atol, tol);
                 data.status = 0;
                 data.x = t;
                 E0000E0001.dinvr(ref data);
@@ -321,11 +318,7 @@ public static partial class CDF
                 //  Computing DF
                 //
                 df = 5.0e0;
-                double T8 = zero;
-                double T9 = maxdf;
-                double T10 = atol;
-                double T11 = tol;
-                E0000E0001.dstinv(ref data, T8, T9, K4, K4, K5, T10, T11);
+                E0000E0001.dstinv(ref data, zero, maxdf, K4, K4, K5, atol, tol);
                 data.status = 0;
                 data.x = df;
                 E0000E0001.dinvr(ref data);

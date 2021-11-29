@@ -585,7 +585,7 @@ public static partial class ChebyshevPolynomial
         //
         //  Create the data file.
         //
-        string data_filename = "v_polynomial_data.txt";
+        const string data_filename = "v_polynomial_data.txt";
         for (i = 0; i < m; i++)
         {
             string line = x[i].ToString(CultureInfo.InvariantCulture);
@@ -604,7 +604,7 @@ public static partial class ChebyshevPolynomial
         //
         //  Plot the selected data.
         //
-        string command_filename = "v_polynomial_commands.txt";
+        const string command_filename = "v_polynomial_commands.txt";
 
         command_unit.Add("# " + command_filename + "");
         command_unit.Add("#");
@@ -689,7 +689,7 @@ public static partial class ChebyshevPolynomial
                 value = 0.0;
                 break;
             default:
-                int m = 1;
+                const int m = 1;
                 x_vec[0] = x;
 
                 double[] v_vec = v_polynomial(m, n, x_vec);

@@ -110,7 +110,7 @@ public static partial class Integrands
         //    Output, double P12_FUN[N], the function values.
         //
     {
-        double exponent_min = -80.0;
+        const double exponent_min = -80.0;
         int i;
 
         double[] f = new double[n];

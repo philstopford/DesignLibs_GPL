@@ -132,24 +132,28 @@ public static class HMeans
         //
         for (j = 0; j < point_num; j++)
         {
-            if (cluster[j] < 0 || cluster_num <= cluster[j])
+            if (cluster[j] >= 0 && cluster_num > cluster[j])
             {
-                point_energy_min = typeMethods.r8_huge();
+                continue;
+            }
 
-                for (k = 0; k < cluster_num; k++)
+            point_energy_min = typeMethods.r8_huge();
+
+            for (k = 0; k < cluster_num; k++)
+            {
+                point_energy = 0.0;
+                for (i = 0; i < dim_num; i++)
                 {
-                    point_energy = 0.0;
-                    for (i = 0; i < dim_num; i++)
-                    {
-                        point_energy += Math.Pow(point[i + j * dim_num] - cluster_center[i + k * dim_num], 2);
-                    }
-
-                    if (point_energy < point_energy_min)
-                    {
-                        point_energy_min = point_energy;
-                        cluster[j] = k;
-                    }
+                    point_energy += Math.Pow(point[i + j * dim_num] - cluster_center[i + k * dim_num], 2);
                 }
+
+                if (!(point_energy < point_energy_min))
+                {
+                    continue;
+                }
+
+                point_energy_min = point_energy;
+                cluster[j] = k;
             }
         }
 
@@ -178,11 +182,13 @@ public static class HMeans
                         point_energy += Math.Pow(point[i + j * dim_num] - cluster_center[i + k2 * dim_num], 2);
                     }
 
-                    if (point_energy < point_energy_min)
+                    if (!(point_energy < point_energy_min))
                     {
-                        point_energy_min = point_energy;
-                        cluster[j] = k2;
+                        continue;
                     }
+
+                    point_energy_min = point_energy;
+                    cluster[j] = k2;
                 }
 
                 if (k != cluster[j])
@@ -420,23 +426,27 @@ public static class HMeans
         //
         for (j = 0; j < point_num; j++)
         {
-            if (cluster[j] < 0 || cluster_num <= cluster[j])
+            if (cluster[j] >= 0 && cluster_num > cluster[j])
             {
-                point_energy_min = typeMethods.r8_huge();
-                for (k = 0; k < cluster_num; k++)
-                {
-                    point_energy = 0.0;
-                    for (i = 0; i < dim_num; i++)
-                    {
-                        point_energy += Math.Pow(point[i + j * dim_num] - cluster_center[i + k * dim_num], 2);
-                    }
+                continue;
+            }
 
-                    if (point_energy < point_energy_min)
-                    {
-                        point_energy_min = point_energy;
-                        cluster[j] = k;
-                    }
+            point_energy_min = typeMethods.r8_huge();
+            for (k = 0; k < cluster_num; k++)
+            {
+                point_energy = 0.0;
+                for (i = 0; i < dim_num; i++)
+                {
+                    point_energy += Math.Pow(point[i + j * dim_num] - cluster_center[i + k * dim_num], 2);
                 }
+
+                if (!(point_energy < point_energy_min))
+                {
+                    continue;
+                }
+
+                point_energy_min = point_energy;
+                cluster[j] = k;
             }
         }
 
@@ -466,11 +476,13 @@ public static class HMeans
                         point_energy += Math.Pow(point[i + j * dim_num] - cluster_center[i + k2 * dim_num], 2);
                     }
 
-                    if (point_energy < point_energy_min)
+                    if (!(point_energy < point_energy_min))
                     {
-                        point_energy_min = point_energy;
-                        cluster[j] = k2;
+                        continue;
                     }
+
+                    point_energy_min = point_energy;
+                    cluster[j] = k2;
                 }
 
                 if (k != cluster[j])
@@ -715,24 +727,28 @@ public static class HMeans
         //
         for (j = 0; j < point_num; j++)
         {
-            if (cluster[j] < 0 || cluster_num <= cluster[j])
+            if (cluster[j] >= 0 && cluster_num > cluster[j])
             {
-                point_energy_min = typeMethods.r8_huge();
+                continue;
+            }
 
-                for (k = 0; k < cluster_num; k++)
+            point_energy_min = typeMethods.r8_huge();
+
+            for (k = 0; k < cluster_num; k++)
+            {
+                point_energy = 0.0;
+                for (i = 0; i < dim_num; i++)
                 {
-                    point_energy = 0.0;
-                    for (i = 0; i < dim_num; i++)
-                    {
-                        point_energy += Math.Pow(point[i + j * dim_num] - cluster_center[i + k * dim_num], 2);
-                    }
-
-                    if (point_energy < point_energy_min)
-                    {
-                        point_energy_min = point_energy;
-                        cluster[j] = k;
-                    }
+                    point_energy += Math.Pow(point[i + j * dim_num] - cluster_center[i + k * dim_num], 2);
                 }
+
+                if (!(point_energy < point_energy_min))
+                {
+                    continue;
+                }
+
+                point_energy_min = point_energy;
+                cluster[j] = k;
             }
         }
 
@@ -762,11 +778,13 @@ public static class HMeans
                         point_energy += Math.Pow(point[i + j * dim_num] - cluster_center[i + k2 * dim_num], 2);
                     }
 
-                    if (point_energy < point_energy_min)
+                    if (!(point_energy < point_energy_min))
                     {
-                        point_energy_min = point_energy;
-                        cluster[j] = k2;
+                        continue;
                     }
+
+                    point_energy_min = point_energy;
+                    cluster[j] = k2;
                 }
 
                 if (k != cluster[j])
@@ -1031,23 +1049,27 @@ public static class HMeans
         //
         for (j = 0; j < point_num; j++)
         {
-            if (cluster[j] < 0 || cluster_num <= cluster[j])
+            if (cluster[j] >= 0 && cluster_num > cluster[j])
             {
-                point_energy_min = typeMethods.r8_huge();
-                for (k = 0; k < cluster_num; k++)
-                {
-                    point_energy = 0.0;
-                    for (i = 0; i < dim_num; i++)
-                    {
-                        point_energy += Math.Pow(point[i + j * dim_num] - cluster_center[i + k * dim_num], 2);
-                    }
+                continue;
+            }
 
-                    if (point_energy < point_energy_min)
-                    {
-                        point_energy_min = point_energy;
-                        cluster[j] = k;
-                    }
+            point_energy_min = typeMethods.r8_huge();
+            for (k = 0; k < cluster_num; k++)
+            {
+                point_energy = 0.0;
+                for (i = 0; i < dim_num; i++)
+                {
+                    point_energy += Math.Pow(point[i + j * dim_num] - cluster_center[i + k * dim_num], 2);
                 }
+
+                if (!(point_energy < point_energy_min))
+                {
+                    continue;
+                }
+
+                point_energy_min = point_energy;
+                cluster[j] = k;
             }
         }
 
@@ -1078,11 +1100,13 @@ public static class HMeans
                         point_energy += Math.Pow(point[i + j * dim_num] - cluster_center[i + k2 * dim_num], 2);
                     }
 
-                    if (point_energy < point_energy_min)
+                    if (!(point_energy < point_energy_min))
                     {
-                        point_energy_min = point_energy;
-                        cluster[j] = k2;
+                        continue;
                     }
+
+                    point_energy_min = point_energy;
+                    cluster[j] = k2;
                 }
 
                 if (k != cluster[j])

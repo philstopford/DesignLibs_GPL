@@ -2,7 +2,7 @@
 
 namespace Burkardt.Elliptic;
 
-public class FA
+public static class FA
 {
     public static double evaluate(double a)
 

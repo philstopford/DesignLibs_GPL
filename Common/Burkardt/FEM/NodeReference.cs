@@ -301,10 +301,10 @@ public static class NodeReference
         //    Output, ref double AREA, the area of the element.
         //
     {
-        double a = 0.0;
-        double b = 1.0 / 3.0;
-        double c = 2.0 / 3.0;
-        double d = 1.0;
+        const double a = 0.0;
+        const double b = 1.0 / 3.0;
+        const double c = 2.0 / 3.0;
+        const double d = 1.0;
 
         r[0] = a;
         r[1] = b;

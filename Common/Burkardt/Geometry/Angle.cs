@@ -774,7 +774,7 @@ public static class Angle
         //    ray is of zero length, then ANGLEI_deg_2D is returned as 0.
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
         double[] p = new double[DIM_NUM];
         double value = 0;
@@ -847,7 +847,7 @@ public static class Angle
         //    ray is of zero length, then ANGLEI_RAD_2D is returned as 0.
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
         double[] p = new double[DIM_NUM];
         double value = 0;

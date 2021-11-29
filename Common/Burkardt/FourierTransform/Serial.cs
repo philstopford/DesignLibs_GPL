@@ -269,10 +269,7 @@ public static class Serial
         for (j = 0; j < lj; j++)
         {
             int jw = j * mj;
-            int ja = jw;
-            int jb = ja;
             int jc = j * mj2;
-            int jd = jc;
 
             wjw[0] = w[(wIndex + jw * 2 + 0) % w.Length];
 
@@ -285,16 +282,16 @@ public static class Serial
             int k;
             for (k = 0; k < mj; k++)
             {
-                c[(cIndex + (jc + k) * 2 + 0) % c.Length] = a[(aIndex + (ja + k) * 2 + 0) % a.Length] +
-                                                            b[(bIndex + (jb + k) * 2 + 0) % b.Length];
-                c[(cIndex + (jc + k) * 2 + 1) % c.Length] = a[(aIndex + (ja + k) * 2 + 1) % a.Length] +
-                                                            b[(bIndex + (jb + k) * 2 + 1) % b.Length];
+                c[(cIndex + (jc + k) * 2 + 0) % c.Length] = a[(aIndex + (jw + k) * 2 + 0) % a.Length] +
+                                                            b[(bIndex + (jw + k) * 2 + 0) % b.Length];
+                c[(cIndex + (jc + k) * 2 + 1) % c.Length] = a[(aIndex + (jw + k) * 2 + 1) % a.Length] +
+                                                            b[(bIndex + (jw + k) * 2 + 1) % b.Length];
 
-                double ambr = a[(aIndex + (ja + k) * 2 + 0) % a.Length] - b[(bIndex + (jb + k) * 2 + 0) % b.Length];
-                double ambu = a[(aIndex + (ja + k) * 2 + 1) % a.Length] - b[(bIndex + (jb + k) * 2 + 1) % b.Length];
+                double ambr = a[(aIndex + (jw + k) * 2 + 0) % a.Length] - b[(bIndex + (jw + k) * 2 + 0) % b.Length];
+                double ambu = a[(aIndex + (jw + k) * 2 + 1) % a.Length] - b[(bIndex + (jw + k) * 2 + 1) % b.Length];
 
-                d[(dIndex + (jd + k) * 2 + 0) % d.Length] = wjw[0] * ambr - wjw[1] * ambu;
-                d[(dIndex + (jd + k) * 2 + 1) % d.Length] = wjw[1] * ambr + wjw[0] * ambu;
+                d[(dIndex + (jc + k) * 2 + 0) % d.Length] = wjw[0] * ambr - wjw[1] * ambu;
+                d[(dIndex + (jc + k) * 2 + 1) % d.Length] = wjw[1] * ambr + wjw[0] * ambu;
             }
         }
     }

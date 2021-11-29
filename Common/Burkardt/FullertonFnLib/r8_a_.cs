@@ -605,7 +605,7 @@ public static partial class FullertonLib
                 0.0000000000000000000000000000000544
             }
             ;
-        double pi34 = 2.35619449019234492884698253745962716313;
+        const double pi34 = 2.35619449019234492884698253745962716313;
         double z;
 
         switch (data.nan20)

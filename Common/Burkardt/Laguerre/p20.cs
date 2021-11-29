@@ -162,7 +162,7 @@ public static partial class Integrands
         //    Output, string P20_TITLE, the title of the problem.
         //
     {
-        string title = "1 / ( 2^beta * ( ( x - 1 )^2 + (1/4)^beta ) * ( x - 2 ) )";
+        const string title = "1 / ( 2^beta * ( ( x - 1 )^2 + (1/4)^beta ) * ( x - 2 ) )";
 
         return title;
     }

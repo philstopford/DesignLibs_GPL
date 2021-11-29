@@ -93,10 +93,9 @@ public static partial class Integral
         //    Output, double FN_INTEGRAL, the integral value.
         //
     {
-        int exponent = 6;
-        double value = 0;
+        const int exponent = 6;
 
-        value = typeMethods.i4_factorial2 ( exponent - 1 );
+        double value = typeMethods.i4_factorial2 ( exponent - 1 );
 
         return value;
     }
@@ -132,7 +131,7 @@ public static partial class Integral
         //    Output, double FN_VALUE[N], the function values.
         //
     {
-        int exponent = 6;
+        const int exponent = 6;
         int i;
 
         double[] fx = new double[n];
@@ -431,10 +430,9 @@ public static partial class Integral
         //    Output, double HE_TRIPLE_PRODUCT_INTEGRAL, the value of the integral.
         //
     {
-        int s;
         double value = 0;
 
-        s = ( i + j + k ) / 2;
+        int s = ( i + j + k ) / 2;
 
         if ( s < i || s < j || s < k )
         {

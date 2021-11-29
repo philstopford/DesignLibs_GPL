@@ -219,11 +219,13 @@ public static class Chain
         double avg_max = avg[0];
         for (j = 1; j < chain_num; j++)
         {
-            if (avg_max < avg[j])
+            if (!(avg_max < avg[j]))
             {
-                best = j;
-                avg_max = avg[j];
+                continue;
             }
+
+            best = j;
+            avg_max = avg[j];
         }
 
         //
@@ -248,20 +250,22 @@ public static class Chain
         int outlier_num = 0;
         for (j = 0; j < chain_num; j++)
         {
-            if (avg[j] < q1 - 2.0 * qr)
+            if (!(avg[j] < q1 - 2.0 * qr))
             {
-                outlier_num += 1;
-                int i;
-                for (i = 0; i < par_num; i++)
-                {
-                    z[i + j * par_num + gen_index * par_num * chain_num] =
-                        z[i + best * par_num + gen_index * par_num * chain_num];
-                }
+                continue;
+            }
 
-                for (k = klo; k <= gen_index; k++)
-                {
-                    fit[j + k * chain_num] = fit[best + k * chain_num];
-                }
+            outlier_num += 1;
+            int i;
+            for (i = 0; i < par_num; i++)
+            {
+                z[i + j * par_num + gen_index * par_num * chain_num] =
+                    z[i + best * par_num + gen_index * par_num * chain_num];
+            }
+
+            for (k = klo; k <= gen_index; k++)
+            {
+                fit[j + k * chain_num] = fit[best + k * chain_num];
             }
         }
 

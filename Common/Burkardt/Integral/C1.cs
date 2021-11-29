@@ -69,7 +69,7 @@ public static class C1
         double arg1 = - alpha;
         double arg2 = 1.0 + c;
         double arg3 = 2.0 + alpha + c;
-        double arg4 = - 1.0;
+        const double arg4 = - 1.0;
 
         double value1 = typeMethods.r8_hyper_2f1 ( arg1, arg2, arg3, arg4 );
 

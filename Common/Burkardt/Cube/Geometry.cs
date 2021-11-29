@@ -527,7 +527,7 @@ public static class Geometry
         //    by the outward normal at the face.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
         double a = Math.Sqrt(1.0 / 3.0);
 

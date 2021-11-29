@@ -64,7 +64,7 @@ public static class Restart
             //
             //  Assume only one generation.
             //
-            int gen_index = 0;
+            const int gen_index = 0;
             //
             //  Read the final fitness and parameter values for each chain.
             //

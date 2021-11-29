@@ -2,7 +2,7 @@
 
 namespace Burkardt.FEM;
 
-public class PhysicalToRef
+public static class PhysicalToRef
 {
     public static void physical_to_reference_t3(double[] t, int n, double[] phy, ref double[] ref_ )
 

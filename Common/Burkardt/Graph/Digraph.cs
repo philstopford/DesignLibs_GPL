@@ -114,11 +114,13 @@ public static class Digraph
 
         for (i = 1; i <= nnode; i++)
         {
-            if (trail[i - 1] != endnod[i - 1])
+            if (trail[i - 1] == endnod[i - 1])
             {
-                success = false;
-                return;
+                continue;
             }
+
+            success = false;
+            return;
         }
 
         //

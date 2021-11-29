@@ -290,10 +290,7 @@ public static partial class CDF
                 //  Calculating F
                 //
                 f = 5.0e0;
-                double T2 = inf;
-                double T5 = atol;
-                double T6 = tol;
-                E0000E0001.dstinv(ref data, K1, T2, K3, K3, K4, T5, T6);
+                E0000E0001.dstinv(ref data, K1, inf, K3, K3, K4, atol, tol);
                 data.status = 0;
                 data.x = f;
                 E0000E0001.dinvr(ref data);
@@ -338,11 +335,7 @@ public static partial class CDF
                 //  Calculating DFN
                 //
                 dfn = 5.0e0;
-                double T7 = zero;
-                double T8 = inf;
-                double T9 = atol;
-                double T10 = tol;
-                E0000E0001.dstinv(ref data, T7, T8, K3, K3, K4, T9, T10);
+                E0000E0001.dstinv(ref data, zero, inf, K3, K3, K4, atol, tol);
                 data.status = 0;
                 data.x = dfn;
                 E0000E0001.dinvr(ref data);
@@ -387,11 +380,7 @@ public static partial class CDF
                 //     Calculating DFD
                 //
                 dfd = 5.0e0;
-                double T11 = zero;
-                double T12 = inf;
-                double T13 = atol;
-                double T14 = tol;
-                E0000E0001.dstinv(ref data, T11, T12, K3, K3, K4, T13, T14);
+                E0000E0001.dstinv(ref data, zero, inf, K3, K3, K4, atol, tol);
                 data.status = 0;
                 data.x = dfd;
                 E0000E0001.dinvr(ref data);
@@ -436,10 +425,7 @@ public static partial class CDF
                 //     Calculating PHONC
                 //
                 phonc = 5.0e0;
-                double T15 = tent4;
-                double T16 = atol;
-                double T17 = tol;
-                E0000E0001.dstinv(ref data, K1, T15, K3, K3, K4, T16, T17);
+                E0000E0001.dstinv(ref data, K1, tent4, K3, K3, K4, atol, tol);
                 data.status = 0;
                 data.x = phonc;
                 E0000E0001.dinvr(ref data);

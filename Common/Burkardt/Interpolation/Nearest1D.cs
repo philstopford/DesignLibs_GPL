@@ -59,11 +59,13 @@ public static class Nearest1D
             for ( j = 1; j < nd; j++ )
             {
                 double d2 = Math.Abs ( xi[i] - xd[j] );
-                if ( d2 < d )
+                if (!(d2 < d))
                 {
-                    k = j;
-                    d = d2;
+                    continue;
                 }
+
+                k = j;
+                d = d2;
             }
             yi[i] = yd[k];
         }

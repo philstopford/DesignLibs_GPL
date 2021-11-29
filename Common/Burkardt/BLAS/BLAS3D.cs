@@ -294,13 +294,15 @@ public static class BLAS3D
 
                     for (l = 0; l < k; l++)
                     {
-                        if (b[l + j * ldb] != 0.0)
+                        if (b[l + j * ldb] == 0.0)
                         {
-                            temp = alpha * b[l + j * ldb];
-                            for (i = 0; i < m; i++)
-                            {
-                                c[i + j * ldc] += temp * a[i + l * lda];
-                            }
+                            continue;
+                        }
+
+                        temp = alpha * b[l + j * ldb];
+                        for (i = 0; i < m; i++)
+                        {
+                            c[i + j * ldc] += temp * a[i + l * lda];
                         }
                     }
                 }

@@ -147,7 +147,7 @@ public static class Daub14
         double[] z = new double[n];
 
         int m = 4;
-        int q = (p - 1) / 2;
+        const int q = (p - 1) / 2;
 
         while (m <= n)
         {

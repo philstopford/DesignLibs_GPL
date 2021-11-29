@@ -88,10 +88,9 @@ public static class FibonacciLattice
           //    Output, double F_01_2D, the value of the function at X.
           //
      {
-          double e = 2.718281828459045;
-          double value = 0;
+          const double e = 2.718281828459045;
 
-          value = x[1] * Math.Exp(x[0] * x[1]) / (e - 2.0);
+          double value = x[1] * Math.Exp(x[0] * x[1]) / (e - 2.0);
 
           return value;
      }
@@ -710,7 +709,7 @@ public static class FibonacciLattice
           z[0] = 1;
           z[1] = Helpers.fibonacci(k - 1);
 
-          double two_pi = 2.0 * Math.PI;
+          const double two_pi = 2.0 * Math.PI;
 
           for (j = 0; j <= m - 1; j++)
           {
@@ -915,13 +914,15 @@ public static class FibonacciLattice
                //
                //  If this result is the smallest so far, save the corresponding Z.
                //
-               if (q0 < q0_min)
+               if (!(q0 < q0_min))
                {
-                    q0_min = q0;
-                    for (dim = 0; dim < dim_num; dim++)
-                    {
-                         z_min[dim] = z[dim];
-                    }
+                    continue;
+               }
+
+               q0_min = q0;
+               for (dim = 0; dim < dim_num; dim++)
+               {
+                    z_min[dim] = z[dim];
                }
           }
 

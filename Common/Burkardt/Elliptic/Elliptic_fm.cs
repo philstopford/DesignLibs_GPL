@@ -1,6 +1,6 @@
 ﻿namespace Burkardt.Elliptic;
 
-public class FM
+public static class FM
 {
     public static double evaluate(double m)
 

@@ -655,11 +655,13 @@ public static class PBMB
 
                 indexb++;
 
-                if ( (i+1)%8 == 0 || i == xsize - 1 )
+                if ((i + 1) % 8 != 0 && i != xsize - 1)
                 {
-                    file_out.Write(c);
-                    c = 0;
+                    continue;
                 }
+
+                file_out.Write(c);
+                c = 0;
             }
         }
         return false;
@@ -733,8 +735,8 @@ public static class PBMB
         //
         //  Set the data.
         //
-        int xsize = 250;
-        int ysize = 150;
+        const int xsize = 250;
+        const int ysize = 150;
 
         int[] barray = new int [xsize * ysize];
 

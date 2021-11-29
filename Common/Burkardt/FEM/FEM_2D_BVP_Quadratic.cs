@@ -165,56 +165,60 @@ public static class FEM_2D_BVP_Quadratic
                                 int jl2;
                                 for (il2 = 0; il2 < 3; il2++)
                                 {
-                                    if (il2 != il)
+                                    if (il2 == il)
                                     {
-                                        v[k] = v[k] * (xq - xx[il2]) / (xx[il] - xx[il2]);
-                                        t = 1.0 / (xx[il] - xx[il2]);
-                                        int il3;
-                                        for (il3 = 0; il3 < 3; il3++)
-                                        {
-                                            if (il3 != il && il3 != il2)
-                                            {
-                                                t = t * (xq - xx[il3]) / (xx[il] - xx[il3]);
-                                            }
-                                        }
-
-                                        for (jl2 = 0; jl2 < 3; jl2++)
-                                        {
-                                            if (jl2 != jl)
-                                            {
-                                                t = t * (yq - yy[jl2]) / (yy[jl] - yy[jl2]);
-                                            }
-                                        }
-
-                                        vx[k] += t;
+                                        continue;
                                     }
+
+                                    v[k] = v[k] * (xq - xx[il2]) / (xx[il] - xx[il2]);
+                                    t = 1.0 / (xx[il] - xx[il2]);
+                                    int il3;
+                                    for (il3 = 0; il3 < 3; il3++)
+                                    {
+                                        if (il3 != il && il3 != il2)
+                                        {
+                                            t = t * (xq - xx[il3]) / (xx[il] - xx[il3]);
+                                        }
+                                    }
+
+                                    for (jl2 = 0; jl2 < 3; jl2++)
+                                    {
+                                        if (jl2 != jl)
+                                        {
+                                            t = t * (yq - yy[jl2]) / (yy[jl] - yy[jl2]);
+                                        }
+                                    }
+
+                                    vx[k] += t;
                                 }
 
                                 for (jl2 = 0; jl2 < 3; jl2++)
                                 {
-                                    if (jl2 != jl)
+                                    if (jl2 == jl)
                                     {
-                                        v[k] = v[k] * (yq - yy[jl2]) / (yy[jl] - yy[jl2]);
-                                        t = 1.0 / (yy[jl] - yy[jl2]);
-                                        for (il2 = 0; il2 < 3; il2++)
-                                        {
-                                            if (il2 != il)
-                                            {
-                                                t = t * (xq - xx[il2]) / (xx[il] - xx[il2]);
-                                            }
-                                        }
-
-                                        int jl3;
-                                        for (jl3 = 0; jl3 < 3; jl3++)
-                                        {
-                                            if (jl3 != jl && jl3 != jl2)
-                                            {
-                                                t = t * (yq - yy[jl3]) / (yy[jl] - yy[jl3]);
-                                            }
-                                        }
-
-                                        vy[k] += t;
+                                        continue;
                                     }
+
+                                    v[k] = v[k] * (yq - yy[jl2]) / (yy[jl] - yy[jl2]);
+                                    t = 1.0 / (yy[jl] - yy[jl2]);
+                                    for (il2 = 0; il2 < 3; il2++)
+                                    {
+                                        if (il2 != il)
+                                        {
+                                            t = t * (xq - xx[il2]) / (xx[il] - xx[il2]);
+                                        }
+                                    }
+
+                                    int jl3;
+                                    for (jl3 = 0; jl3 < 3; jl3++)
+                                    {
+                                        if (jl3 != jl && jl3 != jl2)
+                                        {
+                                            t = t * (yq - yy[jl3]) / (yy[jl] - yy[jl3]);
+                                        }
+                                    }
+
+                                    vy[k] += t;
                                 }
 
                                 k += 1;
@@ -334,7 +338,7 @@ public static class FEM_2D_BVP_Quadratic
         //    the error.
         //
     {
-        int QUAD_NUM = 3;
+        const int QUAD_NUM = 3;
 
         double[] abscissa =  {
                 -0.774596669241483377035853079956,
@@ -432,54 +436,58 @@ public static class FEM_2D_BVP_Quadratic
                                 int il2;
                                 for (il2 = 0; il2 < 3; il2++)
                                 {
-                                    if (il2 != il)
+                                    if (il2 == il)
                                     {
-                                        t = 1.0 / (xx[il] - xx[il2]);
-                                        int il3;
-                                        for (il3 = 0; il3 < 3; il3++)
-                                        {
-                                            if (il3 != il && il3 != il2)
-                                            {
-                                                t = t * (xq - xx[il3]) / (xx[il] - xx[il3]);
-                                            }
-                                        }
-
-                                        for (jl2 = 0; jl2 < 3; jl2++)
-                                        {
-                                            if (jl2 != jl)
-                                            {
-                                                t = t * (yq - yy[jl2]) / (yy[jl] - yy[jl2]);
-                                            }
-                                        }
-
-                                        vx[k] += t;
+                                        continue;
                                     }
+
+                                    t = 1.0 / (xx[il] - xx[il2]);
+                                    int il3;
+                                    for (il3 = 0; il3 < 3; il3++)
+                                    {
+                                        if (il3 != il && il3 != il2)
+                                        {
+                                            t = t * (xq - xx[il3]) / (xx[il] - xx[il3]);
+                                        }
+                                    }
+
+                                    for (jl2 = 0; jl2 < 3; jl2++)
+                                    {
+                                        if (jl2 != jl)
+                                        {
+                                            t = t * (yq - yy[jl2]) / (yy[jl] - yy[jl2]);
+                                        }
+                                    }
+
+                                    vx[k] += t;
                                 }
 
                                 for (jl2 = 0; jl2 < 3; jl2++)
                                 {
-                                    if (jl2 != jl)
+                                    if (jl2 == jl)
                                     {
-                                        t = 1.0 / (yy[jl] - yy[jl2]);
-                                        for (il2 = 0; il2 < 3; il2++)
-                                        {
-                                            if (il2 != il)
-                                            {
-                                                t = t * (xq - xx[il2]) / (xx[il] - xx[il2]);
-                                            }
-                                        }
-
-                                        int jl3;
-                                        for (jl3 = 0; jl3 < 3; jl3++)
-                                        {
-                                            if (jl3 != jl && jl3 != jl2)
-                                            {
-                                                t = t * (yq - yy[jl3]) / (yy[jl] - yy[jl3]);
-                                            }
-                                        }
-
-                                        vy[k] += t;
+                                        continue;
                                     }
+
+                                    t = 1.0 / (yy[jl] - yy[jl2]);
+                                    for (il2 = 0; il2 < 3; il2++)
+                                    {
+                                        if (il2 != il)
+                                        {
+                                            t = t * (xq - xx[il2]) / (xx[il] - xx[il2]);
+                                        }
+                                    }
+
+                                    int jl3;
+                                    for (jl3 = 0; jl3 < 3; jl3++)
+                                    {
+                                        if (jl3 != jl && jl3 != jl2)
+                                        {
+                                            t = t * (yq - yy[jl3]) / (yy[jl] - yy[jl3]);
+                                        }
+                                    }
+
+                                    vy[k] += t;
                                 }
 
                                 uxq += u[node[k]] * vx[k];

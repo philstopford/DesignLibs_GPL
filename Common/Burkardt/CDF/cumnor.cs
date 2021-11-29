@@ -118,8 +118,7 @@ public static partial class CDF
         //
         double eps = dpmpar(K1) * 0.5e0;
         double min = dpmpar(K2);
-        double x = arg;
-        double y = Math.Abs(x);
+        double y = Math.Abs(arg);
         switch (y)
         {
             case <= thrsh:
@@ -130,7 +129,7 @@ public static partial class CDF
                 xsq = zero;
                 if (y > eps)
                 {
-                    xsq = x * x;
+                    xsq = arg * arg;
                 }
 
                 xnum = a[4] * xsq;
@@ -141,7 +140,7 @@ public static partial class CDF
                     xden = (xden + b[i]) * xsq;
                 }
 
-                result = x * (xnum + a[3]) / (xden + b[3]);
+                result = arg * (xnum + a[3]) / (xden + b[3]);
                 temp = result;
                 result = half + temp;
                 ccum = half - temp;
@@ -165,7 +164,7 @@ public static partial class CDF
                 del = (y - xsq) * (y + xsq);
                 result = Math.Exp(-(xsq * xsq * half)) * Math.Exp(-(del * half)) * result;
                 ccum = one - result;
-                if (x > zero)
+                if (arg > zero)
                 {
                     temp = result;
                     result = ccum;
@@ -178,7 +177,7 @@ public static partial class CDF
             default:
             {
                 result = zero;
-                xsq = one / (x * x);
+                xsq = one / (arg * arg);
                 xnum = p[5] * xsq;
                 xden = xsq;
                 for (i = 0; i < 4; i++)
@@ -189,11 +188,11 @@ public static partial class CDF
 
                 result = xsq * (xnum + p[4]) / (xden + q[4]);
                 result = (sqrpi - result) / y;
-                xsq = Math.Truncate(x * sixten) / sixten;
-                del = (x - xsq) * (x + xsq);
+                xsq = Math.Truncate(arg * sixten) / sixten;
+                del = (arg - xsq) * (arg + xsq);
                 result = Math.Exp(-(xsq * xsq * half)) * Math.Exp(-(del * half)) * result;
                 ccum = one - result;
-                if (x > zero)
+                if (arg > zero)
                 {
                     temp = result;
                     result = ccum;

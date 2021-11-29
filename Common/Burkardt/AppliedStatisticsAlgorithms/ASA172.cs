@@ -185,14 +185,16 @@ public static partial class Algorithms
 
                 for (i = 1; i < kdim; i++)
                 {
-                    if (iprod[i] / iprod[i - 1] < ivec[i])
+                    if (iprod[i] / iprod[i - 1] >= ivec[i])
                     {
-                        ifault = 2;
-                        Console.WriteLine("");
-                        Console.WriteLine("SIMDO - Fatal error!");
-                        Console.WriteLine("  An entry of IVEC is out of bounds.");
-                        return ifault;
+                        continue;
                     }
+
+                    ifault = 2;
+                    Console.WriteLine("");
+                    Console.WriteLine("SIMDO - Fatal error!");
+                    Console.WriteLine("  An entry of IVEC is out of bounds.");
+                    return ifault;
                 }
 
                 jsub = ivec[0];

@@ -1159,9 +1159,9 @@ public static class Segments
 
         double dr = segment_point_dist_3d(p1, p2, pn2);
 
-        double tl = 0.0;
-        double tm = 0.5;
-        double tr = 1.0;
+        const double tl = 0.0;
+        const double tm = 0.5;
+        const double tr = 1.0;
 
         dl *= dl;
         dm *= dm;
@@ -1294,10 +1294,10 @@ public static class Segments
         //    If FLAG = 1, then P5 is a point of intersection.
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
         int ival = 0;
-        double tol = 0.001;
+        const double tol = 0.001;
         double[] u = new double[DIM_NUM];
         //
         //  Find the intersection of the two lines.
@@ -1444,60 +1444,62 @@ public static class Segments
 
                 for (j = 0; j < vec_num; j++)
                 {
-                    if (string_num < string_[j])
+                    if (string_num >= string_[j])
                     {
-                        if (Math.Abs(x1val - p1[0 + j * 2]) <= double.Epsilon && Math.Abs(y1val - p1[1 + j * 2]) <= double.Epsilon)
-                        {
-                            jval -= 1;
-                            order[j] = jval;
-                            string_[j] = string_num;
-                            x1val = p2[0 + j * 2];
-                            y1val = p2[1 + j * 2];
-                            match += 1;
+                        continue;
+                    }
 
-                            temp = p1[0 + j * 2];
-                            p1[0 + j * 2] = p2[0 + j * 2];
-                            p2[0 + j * 2] = temp;
+                    if (Math.Abs(x1val - p1[0 + j * 2]) <= double.Epsilon && Math.Abs(y1val - p1[1 + j * 2]) <= double.Epsilon)
+                    {
+                        jval -= 1;
+                        order[j] = jval;
+                        string_[j] = string_num;
+                        x1val = p2[0 + j * 2];
+                        y1val = p2[1 + j * 2];
+                        match += 1;
 
-                            temp = p1[1 + j * 2];
-                            p1[1 + j * 2] = p2[1 + j * 2];
-                            p2[1 + j * 2] = temp;
-                        }
-                        else if (Math.Abs(x1val - p2[0 + j * 2]) <= double.Epsilon && Math.Abs(y1val - p2[1 + j * 2]) <= double.Epsilon)
-                        {
-                            jval -= 1;
-                            order[j] = jval;
-                            string_[j] = string_num;
-                            x1val = p1[0 + j * 2];
-                            y1val = p1[1 + j * 2];
-                            match += 1;
-                        }
-                        else if (Math.Abs(x2val - p1[0 + j * 2]) <= double.Epsilon && Math.Abs(y2val - p1[1 + j * 2]) <= double.Epsilon)
-                        {
-                            kval += 1;
-                            order[j] = kval;
-                            string_[j] = string_num;
-                            x2val = p2[0 + j * 2];
-                            y2val = p2[1 + j * 2];
-                            match += 1;
-                        }
-                        else if (Math.Abs(x2val - p2[0 + j * 2]) <= double.Epsilon && Math.Abs(y2val - p2[1 + j * 2]) <= double.Epsilon)
-                        {
-                            kval += 1;
-                            order[j] = kval;
-                            string_[j] = string_num;
-                            x2val = p1[0 + j * 2];
-                            y2val = p1[1 + j * 2];
-                            match += 1;
+                        temp = p1[0 + j * 2];
+                        p1[0 + j * 2] = p2[0 + j * 2];
+                        p2[0 + j * 2] = temp;
 
-                            temp = p1[0 + j * 2];
-                            p1[0 + j * 2] = p2[0 + j * 2];
-                            p2[0 + j * 2] = temp;
+                        temp = p1[1 + j * 2];
+                        p1[1 + j * 2] = p2[1 + j * 2];
+                        p2[1 + j * 2] = temp;
+                    }
+                    else if (Math.Abs(x1val - p2[0 + j * 2]) <= double.Epsilon && Math.Abs(y1val - p2[1 + j * 2]) <= double.Epsilon)
+                    {
+                        jval -= 1;
+                        order[j] = jval;
+                        string_[j] = string_num;
+                        x1val = p1[0 + j * 2];
+                        y1val = p1[1 + j * 2];
+                        match += 1;
+                    }
+                    else if (Math.Abs(x2val - p1[0 + j * 2]) <= double.Epsilon && Math.Abs(y2val - p1[1 + j * 2]) <= double.Epsilon)
+                    {
+                        kval += 1;
+                        order[j] = kval;
+                        string_[j] = string_num;
+                        x2val = p2[0 + j * 2];
+                        y2val = p2[1 + j * 2];
+                        match += 1;
+                    }
+                    else if (Math.Abs(x2val - p2[0 + j * 2]) <= double.Epsilon && Math.Abs(y2val - p2[1 + j * 2]) <= double.Epsilon)
+                    {
+                        kval += 1;
+                        order[j] = kval;
+                        string_[j] = string_num;
+                        x2val = p1[0 + j * 2];
+                        y2val = p1[1 + j * 2];
+                        match += 1;
 
-                            temp = p1[1 + j * 2];
-                            p1[1 + j * 2] = p2[1 + j * 2];
-                            p2[1 + j * 2] = temp;
-                        }
+                        temp = p1[0 + j * 2];
+                        p1[0 + j * 2] = p2[0 + j * 2];
+                        p2[0 + j * 2] = temp;
+
+                        temp = p1[1 + j * 2];
+                        p1[1 + j * 2] = p2[1 + j * 2];
+                        p2[1 + j * 2] = temp;
                     }
                 }
 
@@ -1527,13 +1529,15 @@ public static class Segments
 
             for (i = 0; i < vec_num; i++)
             {
-                if (string_num < string_[i])
+                if (string_num >= string_[i])
                 {
-                    seed = i;
-                    string_num += 1;
-                    string_[i] = string_num;
-                    break;
+                    continue;
                 }
+
+                seed = i;
+                string_num += 1;
+                string_[i] = string_num;
+                break;
             }
 
             if (seed == 0)
@@ -1550,11 +1554,13 @@ public static class Segments
         //
         for (i = 0; i < vec_num; i++)
         {
-            if (vec_num < string_[i])
+            if (vec_num >= string_[i])
             {
-                string_num += 1;
-                string_[i] = string_num;
+                continue;
             }
+
+            string_num += 1;
+            string_[i] = string_num;
         }
 
         //

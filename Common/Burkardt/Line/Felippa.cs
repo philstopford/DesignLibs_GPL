@@ -310,7 +310,7 @@ public static class Felippa
         //    Output, double X[1], the abscissas.
         //
     {
-        int order = 1;
+        const int order = 1;
         double[] w_save = {2.0};
         double[] x_save = {0.0};
 
@@ -359,7 +359,7 @@ public static class Felippa
         //    Output, double X[2], the abscissas.
         //
     {
-        int order = 2;
+        const int order = 2;
         double[] w_save =
         {
             1.0000000000000000000,
@@ -416,7 +416,7 @@ public static class Felippa
         //    Output, double X[3], the abscissas.
         //
     {
-        int order = 3;
+        const int order = 3;
         double[] w_save =
         {
             0.55555555555555555556,
@@ -475,7 +475,7 @@ public static class Felippa
         //    Output, double X[4], the abscissas.
         //
     {
-        int order = 4;
+        const int order = 4;
         double[] w_save =
         {
             0.34785484513745385737,
@@ -536,7 +536,7 @@ public static class Felippa
         //    Output, double X[5], the abscissas.
         //
     {
-        int order = 5;
+        const int order = 5;
         double[] w_save =
         {
             0.23692688505618908751,

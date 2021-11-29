@@ -45,7 +45,7 @@ public static partial class Algorithms
         //    Output, double ALNGAM, the logarithm of the gamma function of X.
         //
     {
-        double alr2pi = 0.918938533204673;
+        const double alr2pi = 0.918938533204673;
         double[] r1 =
             {
                 -2.66685511495,
@@ -586,22 +586,20 @@ public static partial class Algorithms
             0.4869533
         };
         double value;
-        //
-        //  Test for X near zero.
-        //
-        if (Math.Abs(x) < tv1)
+        switch (Math.Abs(x))
         {
-            value = tp * Math.Atan(fx);
-            return value;
-        }
-
-        //
-        //  Test for large values of abs(X).
-        //
-        if (tv2 < Math.Abs(x))
-        {
-            value = 0.0;
-            return value;
+            //
+            //  Test for X near zero.
+            //
+            case < tv1:
+                value = tp * Math.Atan(fx);
+                return value;
+            //
+            //  Test for large values of abs(X).
+            //
+            case > tv2:
+                value = 0.0;
+                return value;
         }
 
         //
@@ -714,13 +712,15 @@ public static partial class Algorithms
             y = 2.0 * y - 1.0;
             double s = x * x + y * y;
 
-            if (s <= 1.0)
+            if (!(s <= 1.0))
             {
-                s = Math.Sqrt(-2.0 * Math.Log(s) / s);
-                u1 = x * s;
-                u2 = y * s;
-                break;
+                continue;
             }
+
+            s = Math.Sqrt(-2.0 * Math.Log(s) / s);
+            u1 = x * s;
+            u2 = y * s;
+            break;
         }
     }
 
@@ -766,22 +766,22 @@ public static partial class Algorithms
         //    equal to PPND is P.
         //
     {
-        double a0 = 2.50662823884;
-        double a1 = -18.61500062529;
-        double a2 = 41.39119773534;
-        double a3 = -25.44106049637;
-        double b1 = -8.47351093090;
-        double b2 = 23.08336743743;
-        double b3 = -21.06224101826;
-        double b4 = 3.13082909833;
-        double c0 = -2.78718931138;
-        double c1 = -2.29796479134;
-        double c2 = 4.85014127135;
-        double c3 = 2.32121276858;
-        double d1 = 3.54388924762;
-        double d2 = 1.63706781897;
+        const double a0 = 2.50662823884;
+        const double a1 = -18.61500062529;
+        const double a2 = 41.39119773534;
+        const double a3 = -25.44106049637;
+        const double b1 = -8.47351093090;
+        const double b2 = 23.08336743743;
+        const double b3 = -21.06224101826;
+        const double b4 = 3.13082909833;
+        const double c0 = -2.78718931138;
+        const double c1 = -2.29796479134;
+        const double c2 = 4.85014127135;
+        const double c3 = 2.32121276858;
+        const double d1 = 3.54388924762;
+        const double d2 = 1.63706781897;
         double r;
-        double split = 0.42;
+        const double split = 0.42;
         double value = 0;
 
         ifault = 0;
@@ -1006,7 +1006,7 @@ public static partial class Algorithms
         //    Beta function ratio.
         //
     {
-        double acu = 0.1E-14;
+        const double acu = 0.1E-14;
         bool indx;
         double pp;
         double qq;
@@ -1161,12 +1161,12 @@ public static partial class Algorithms
         double a;
         double arg;
         double c;
-        double elimit = -88.0;
-        double oflo = 1.0E+37;
-        double plimit = 1000.0;
+        const double elimit = -88.0;
+        const double oflo = 1.0E+37;
+        const double plimit = 1000.0;
         double pn1;
-        double tol = 1.0E-14;
-        double xbig = 1.0E+08;
+        const double tol = 1.0E-14;
+        const double xbig = 1.0E+08;
 
         double value = 0.0;
         switch (x)
@@ -1287,13 +1287,15 @@ public static partial class Algorithms
                 //
                 //  Re-scale terms in continued fraction if terms are large.
                 //
-                if (oflo <= Math.Abs(pn5))
+                if (!(oflo <= Math.Abs(pn5)))
                 {
-                    pn1 /= oflo;
-                    pn2 /= oflo;
-                    pn3 /= oflo;
-                    pn4 /= oflo;
+                    continue;
                 }
+
+                pn1 /= oflo;
+                pn2 /= oflo;
+                pn3 /= oflo;
+                pn4 /= oflo;
             }
 
             arg += Math.Log(value);
@@ -1360,14 +1362,14 @@ public static partial class Algorithms
         //    Output, double GAMAIN, the value of the incomplete gamma ratio.
         //
     {
-        double acu = 1.0E-08;
+        const double acu = 1.0E-08;
         double gin;
-        double oflo = 1.0E+37;
+        const double oflo = 1.0E+37;
         double[] pn = new double[6];
         double rn;
         double term;
-        double uflo = 1.0E-37;
-        double value = 0;
+        const double uflo = 1.0E-37;
+        double value;
 
         ifault = 0;
         switch (p)
@@ -1483,7 +1485,11 @@ public static partial class Algorithms
                 pn[i] = pn[i + 2];
             }
 
-            if (oflo <= Math.Abs(pn[4]))
+            if (!(oflo <= Math.Abs(pn[4])))
+            {
+                continue;
+            }
+
             {
                 for (int i = 0; i < 4; i++)
                 {
@@ -1541,9 +1547,9 @@ public static partial class Algorithms
         //    Gamma integral.
         //
     {
-        double e = 1.0E-09;
-        double uflo = 1.0E-37;
-        double value = 0;
+        const double e = 1.0E-09;
+        const double uflo = 1.0E-37;
+        double value;
         switch (x)
         {
             //
@@ -1748,23 +1754,23 @@ public static partial class Algorithms
         //    at Z.
         //
     {
-        double cutoff = 7.071;
-        double p0 = 220.2068679123761;
-        double p1 = 221.2135961699311;
-        double p2 = 112.0792914978709;
-        double p3 = 33.91286607838300;
-        double p4 = 6.373962203531650;
-        double p5 = 0.7003830644436881;
-        double p6 = 0.03526249659989109;
-        double q0 = 440.4137358247522;
-        double q1 = 793.8265125199484;
-        double q2 = 637.3336333788311;
-        double q3 = 296.5642487796737;
-        double q4 = 86.78073220294608;
-        double q5 = 16.06417757920695;
-        double q6 = 1.755667163182642;
-        double q7 = 0.08838834764831844;
-        double root2pi = 2.506628274631001;
+        const double cutoff = 7.071;
+        const double p0 = 220.2068679123761;
+        const double p1 = 221.2135961699311;
+        const double p2 = 112.0792914978709;
+        const double p3 = 33.91286607838300;
+        const double p4 = 6.373962203531650;
+        const double p5 = 0.7003830644436881;
+        const double p6 = 0.03526249659989109;
+        const double q0 = 440.4137358247522;
+        const double q1 = 793.8265125199484;
+        const double q2 = 637.3336333788311;
+        const double q3 = 296.5642487796737;
+        const double q4 = 86.78073220294608;
+        const double q5 = 16.06417757920695;
+        const double q6 = 1.755667163182642;
+        const double q7 = 0.08838834764831844;
+        const double root2pi = 2.506628274631001;
 
         double zabs = Math.Abs(z);
         switch (zabs)
@@ -2005,51 +2011,51 @@ public static partial class Algorithms
         //
     {
         double a;
-        double aa = 0.6931471806;
-        double c1 = 0.01;
-        double c2 = 0.222222;
-        double c3 = 0.32;
-        double c4 = 0.4;
-        double c5 = 1.24;
-        double c6 = 2.2;
-        double c7 = 4.67;
-        double c8 = 6.66;
-        double c9 = 6.73;
-        double c10 = 13.32;
-        double c11 = 60.0;
-        double c12 = 70.0;
-        double c13 = 84.0;
-        double c14 = 105.0;
-        double c15 = 120.0;
-        double c16 = 127.0;
-        double c17 = 140.0;
-        double c18 = 175.0;
-        double c19 = 210.0;
-        double c20 = 252.0;
-        double c21 = 264.0;
-        double c22 = 294.0;
-        double c23 = 346.0;
-        double c24 = 420.0;
-        double c25 = 462.0;
-        double c26 = 606.0;
-        double c27 = 672.0;
-        double c28 = 707.0;
-        double c29 = 735.0;
-        double c30 = 889.0;
-        double c31 = 932.0;
-        double c32 = 966.0;
-        double c33 = 1141.0;
-        double c34 = 1182.0;
-        double c35 = 1278.0;
-        double c36 = 1740.0;
-        double c37 = 2520.0;
-        double c38 = 5040.0;
+        const double aa = 0.6931471806;
+        const double c1 = 0.01;
+        const double c2 = 0.222222;
+        const double c3 = 0.32;
+        const double c4 = 0.4;
+        const double c5 = 1.24;
+        const double c6 = 2.2;
+        const double c7 = 4.67;
+        const double c8 = 6.66;
+        const double c9 = 6.73;
+        const double c10 = 13.32;
+        const double c11 = 60.0;
+        const double c12 = 70.0;
+        const double c13 = 84.0;
+        const double c14 = 105.0;
+        const double c15 = 120.0;
+        const double c16 = 127.0;
+        const double c17 = 140.0;
+        const double c18 = 175.0;
+        const double c19 = 210.0;
+        const double c20 = 252.0;
+        const double c21 = 264.0;
+        const double c22 = 294.0;
+        const double c23 = 346.0;
+        const double c24 = 420.0;
+        const double c25 = 462.0;
+        const double c26 = 606.0;
+        const double c27 = 672.0;
+        const double c28 = 707.0;
+        const double c29 = 735.0;
+        const double c30 = 889.0;
+        const double c31 = 932.0;
+        const double c32 = 966.0;
+        const double c33 = 1141.0;
+        const double c34 = 1182.0;
+        const double c35 = 1278.0;
+        const double c36 = 1740.0;
+        const double c37 = 2520.0;
+        const double c38 = 5040.0;
         double ch;
-        double e = 0.5E-06;
+        const double e = 0.5E-06;
         int if1 = 0;
-        int maxit = 20;
-        double pmax = 0.999998;
-        double pmin = 0.000002;
+        const int maxit = 20;
+        const double pmax = 0.999998;
+        const double pmin = 0.000002;
         double p1;
         double p2;
         double q;
@@ -2059,7 +2065,7 @@ public static partial class Algorithms
         //
         double value = -1.0;
 
-        if (p < pmin || pmax < p)
+        if (p is < pmin or > pmax)
         {
             ifault = 1;
             return value;
@@ -2163,11 +2169,13 @@ public static partial class Algorithms
             ch += t * (1.0 + 0.5 * t * s1 - b * c * (s1 - b *
                 (s2 - b * (s3 - b * (s4 - b * (s5 - b * s6))))));
 
-            if (e < Math.Abs(q / ch - 1.0))
+            if (!(e < Math.Abs(q / ch - 1.0)))
             {
-                value = ch;
-                return value;
+                continue;
             }
+
+            value = ch;
+            return value;
         }
 
         ifault = 4;

@@ -6,14 +6,14 @@ public static partial class FullertonLib
 {
     public class r8KnusData
     {
-        public double aln2 = 0.69314718055994530941723212145818;
+        public const double aln2 = 0.69314718055994530941723212145818;
         public double alnbig;
         public double alneps;
         public double alnsml;
         public int ntc0k;
         public int ntznu1;
-        public double euler = 0.57721566490153286060651209008240;
-        public double sqpi2 = +1.2533141373155002512078826424055;
+        public const double euler = 0.57721566490153286060651209008240;
+        public const double sqpi2 = +1.2533141373155002512078826424055;
         public double xnusml;
         public double xsml;
 
@@ -183,11 +183,11 @@ public static partial class FullertonLib
                 //
                 //  carefully find (x/2)^xnu and z^xnu where z = x*x/4.
                 //
-                double alnz = 2.0 * (Math.Log(x) - data.aln2);
+                double alnz = 2.0 * (Math.Log(x) - r8KnusData.aln2);
 
                 if (x <= xnu)
                 {
-                    if (data.alnbig < -0.5 * xnu * alnz - data.aln2 - Math.Log(xnu))
+                    if (data.alnbig < -0.5 * xnu * alnz - r8KnusData.aln2 - Math.Log(xnu))
                     {
                         Console.WriteLine("");
                         Console.WriteLine("R8_KNUS - Fatal error!");
@@ -215,7 +215,7 @@ public static partial class FullertonLib
                 double c0 = ztov switch
                 {
                     >= 0.5 when data.xnusml < v => -0.75 + r8_csevl(8.0 * v * v - 1.0, c0kcs, data.ntc0k),
-                    _ => -data.euler
+                    _ => -r8KnusData.euler
                 };
 
                 alpha[0] = ztov switch
@@ -262,7 +262,7 @@ public static partial class FullertonLib
                 double expx = Math.Exp(x);
                 bknu = expx * bknu / x2tov;
 
-                if (data.alnbig < -0.5 * (xnu + 1.0) * alnz - 2.0 * data.aln2)
+                if (data.alnbig < -0.5 * (xnu + 1.0) * alnz - 2.0 * r8KnusData.aln2)
                 {
                     iswtch = 1;
                     return;
@@ -289,7 +289,7 @@ public static partial class FullertonLib
 
                 if (1.0 / data.xsml < x)
                 {
-                    bknu = data.sqpi2 / sqrtx;
+                    bknu = r8KnusData.sqpi2 / sqrtx;
                     bknu1 = bknu;
                     return;
                 }
@@ -316,7 +316,7 @@ public static partial class FullertonLib
                     switch (a[1])
                     {
                         case 0.0:
-                            result = data.sqpi2 * (16.0 * x + xmu + 7.0) / (16.0 * x * sqrtx);
+                            result = r8KnusData.sqpi2 * (16.0 * x + xmu + 7.0) / (16.0 * x * sqrtx);
                             break;
                         default:
                         {
@@ -353,7 +353,7 @@ public static partial class FullertonLib
 
                             }
 
-                            result = data.sqpi2 * beta[nterms - 1] / (sqrtx * alpha[nterms - 1]);
+                            result = r8KnusData.sqpi2 * beta[nterms - 1] / (sqrtx * alpha[nterms - 1]);
                             break;
                         }
                     }

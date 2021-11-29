@@ -266,7 +266,7 @@ public static class Shape
         //    by the outward normal at the face.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
         int i;
         int j;

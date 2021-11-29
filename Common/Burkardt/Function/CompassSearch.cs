@@ -125,13 +125,15 @@ public static class CompassSearch
             //
             //  If no decrease occurred, reduce DELTA.
             //
-            if (!decrease)
+            if (decrease)
             {
-                delta /= 2.0;
-                if (delta < delta_tol)
-                {
-                    break;
-                }
+                continue;
+            }
+
+            delta /= 2.0;
+            if (delta < delta_tol)
+            {
+                break;
             }
         }
         return x;

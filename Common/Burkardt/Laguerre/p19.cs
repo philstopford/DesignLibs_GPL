@@ -29,7 +29,7 @@ public static partial class Integrands
         //    Output, double P19_ALPHA, the value of ALPHA.
         //
     {
-        double alpha = 0.0;
+        const double alpha = 0.0;
 
         return alpha;
     }
@@ -155,7 +155,7 @@ public static partial class Integrands
         //    Output, string P19_TITLE, the title of the problem.
         //
     {
-        string title = "x^(beta-1) / ( 1 + 10 x )^2";
+        const string title = "x^(beta-1) / ( 1 + 10 x )^2";
 
         return title;
     }

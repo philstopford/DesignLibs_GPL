@@ -3,7 +3,7 @@ using Burkardt.Types;
 
 namespace Burkardt.TriangleNS;
 
-public class Triangle
+public static class Triangle
 {
 
     public static int tri_augment(int v_num, ref int[] nodtri)

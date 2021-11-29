@@ -59,14 +59,16 @@ public static partial class Correlation
         for (i = 0; i < n; i++)
         {
             double e = Math.Abs(c[i + i * n] - 1.0);
-            if (tol < e)
+            if (!(tol < e))
             {
-                Console.WriteLine("");
-                Console.WriteLine("CORRELATION_TO_COVARIANCE - Fatal error!");
-                Console.WriteLine("  Input matrix C has non-unit diagonal entries.");
-                Console.WriteLine("  Error on row " + i + " is " + e + "");
-                return null;
+                continue;
             }
+
+            Console.WriteLine("");
+            Console.WriteLine("CORRELATION_TO_COVARIANCE - Fatal error!");
+            Console.WriteLine("  Input matrix C has non-unit diagonal entries.");
+            Console.WriteLine("  Error on row " + i + " is " + e + "");
+            return null;
         }
 
         //

@@ -158,20 +158,19 @@ public static class Dual
                 //
                 //  Set IPREV:= INEXT.
                 //
-                int iprev = inext;
                 //
                 //  Search for the occurrence of the edge FACE-IPREV.
                 //  ROW and COL are 1-based indices.
                 //
                 typeMethods.i4col_find_pair_wrap(face_order_max, face_num, face_point, face,
-                    iprev, ref row, ref col);
+                    inext, ref row, ref col);
 
                 switch (row)
                 {
                     case <= 0:
                         Console.WriteLine("");
                         Console.WriteLine("DUAL_SHAPE_3D - Fatal error!");
-                        Console.WriteLine("  No edge from node " + iprev + "");
+                        Console.WriteLine("  No edge from node " + inext + "");
                         Console.WriteLine("  to node " + face + "");
                         return;
                 }

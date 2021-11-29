@@ -185,7 +185,7 @@ public static partial class Algorithms
         //
         r = 1.0 - pp;
         t = 1.0 - qq;
-        double yprev = 0.0;
+        const double yprev = 0.0;
         double sq = 1.0;
         double prev = 1.0;
 

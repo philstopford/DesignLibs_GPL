@@ -557,43 +557,45 @@ public static partial class Algorithms
 //
 //  Find the next column.
 //
-            if (rsort[irc - 1] != irc)
+            if (rsort[irc - 1] == irc)
             {
-                for (jrc = irc + 1; jrc <= nrow; jrc++)
+                continue;
+            }
+
+            for (jrc = irc + 1; jrc <= nrow; jrc++)
+            {
+                if (rsort[jrc - 1] == irc)
                 {
-                    if (rsort[jrc - 1] == irc)
-                    {
-                        break;
-                    }
+                    break;
                 }
+            }
 
-                i = rmod[irc - 1];
-                rmod[irc - 1] = rmod[jrc - 1];
-                rmod[jrc - 1] = i;
+            i = rmod[irc - 1];
+            rmod[irc - 1] = rmod[jrc - 1];
+            rmod[jrc - 1] = i;
 
-                i = rsort[irc - 1];
-                rsort[irc - 1] = rsort[jrc - 1];
-                rsort[jrc - 1] = i;
+            i = rsort[irc - 1];
+            rsort[irc - 1] = rsort[jrc - 1];
+            rsort[jrc - 1] = i;
 //
 //  Switch the columns of IMAT.
 //
-                for (j = 0; j < nrow * nrow; j += nrow)
-                {
-                    i = imat[irc + j - 1];
-                    imat[irc + j - 1] = imat[jrc + j - 1];
-                    imat[jrc + j - 1] = i;
-                }
+            for (j = 0; j < nrow * nrow; j += nrow)
+            {
+                i = imat[irc + j - 1];
+                imat[irc + j - 1] = imat[jrc + j - 1];
+                imat[jrc + j - 1] = i;
+            }
 
 //
 //  Switch the diagonal elements of MAT (others are zero).
 //
-                kirc = (irc - 1) * nrow + irc;
-                kjrc = (jrc - 1) * nrow + jrc;
+            kirc = (irc - 1) * nrow + irc;
+            kjrc = (jrc - 1) * nrow + jrc;
 
-                i = mat[kirc - 1];
-                mat[kirc - 1] = mat[kjrc - 1];
-                mat[kjrc - 1] = i;
-            }
+            i = mat[kirc - 1];
+            mat[kirc - 1] = mat[kjrc - 1];
+            mat[kjrc - 1] = i;
         }
     }
 }

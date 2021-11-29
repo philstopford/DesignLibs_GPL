@@ -869,8 +869,8 @@ public static class XY
         //    Output, int *FACE_DATA_NUM, the number of face items.
         //
     {
-        int n_t = 13;
-        int n_r = 5;
+        const int n_t = 13;
+        const int n_r = 5;
 
         face_data_num = 4 * (n_t - 1) * (n_r - 1);
         face_num = (n_t - 1) * (n_r - 1);

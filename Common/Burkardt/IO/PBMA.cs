@@ -617,15 +617,12 @@ public static class PBMA
         //    Input, string FILE_OUT_NAME, the name of the file.
         //
     {
-        int[] b;
-        int ysize;
-
-        int xsize = 200;
-        ysize = 200;
+        const int xsize = 200;
+        const int ysize = 200;
         //
         //  Allocate memory.
         //
-        b = new int[xsize * ysize];
+        int[] b = new int[xsize * ysize];
         //
         //  Set the data.
         //

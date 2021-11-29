@@ -1613,8 +1613,7 @@ public static class FEM_1D_Adaptive
                 _ => f[j - 2]
             };
 
-            double ury;
-            ury = n - 1 <= j ? ur : f[j];
+            double ury = n - 1 <= j ? ur : f[j];
 
             //
             //  Assemble the matrix for the sub-problem.

@@ -6,8 +6,7 @@ public static class bivariatenormal
 {
     public class BivnorData
     {
-        public int idig = 15;
-
+        public const int idig = 15;
     }
     public static double bivnor( ref BivnorData data, double ah, double ak, double r)
 
@@ -120,7 +119,7 @@ public static class bivariatenormal
 
         double sqr = Math.Sqrt(rr);
 
-        switch (data.idig)
+        switch (BivnorData.idig)
         {
             case 15:
                 con = twopi * 1.0E-15 / 2.0;
@@ -129,7 +128,7 @@ public static class bivariatenormal
             {
                 con = twopi / 2.0;
                 int i;
-                for (i = 1; i <= data.idig; i++)
+                for (i = 1; i <= BivnorData.idig; i++)
                 {
                     con /= 10.0;
                 }

@@ -309,10 +309,7 @@ public static partial class CDF
                 //  Calculating F
                 //
                 f = 5.0e0;
-                double T3 = inf;
-                double T6 = atol;
-                double T7 = tol;
-                E0000E0001.dstinv(ref data, K2, T3, K4, K4, K5, T6, T7);
+                E0000E0001.dstinv(ref data, K2, inf, K4, K4, K5, atol, tol);
                 data.status = 0;
                 data.x = f;
                 E0000E0001.dinvr(ref data);
@@ -371,11 +368,8 @@ public static partial class CDF
             //
             case 3:
             {
-                double T8 = 1.0;
-                double T9 = inf;
-                double T10 = atol;
-                double T11 = tol;
-                E0000E0001.dstinv(ref data, T8, T9, K4, K4, K5, T10, T11);
+                const double T8 = 1.0;
+                E0000E0001.dstinv(ref data, T8, inf, K4, K4, K5, atol, tol);
 
                 data.status = 0;
                 dfn = 5.0;
@@ -426,11 +420,8 @@ public static partial class CDF
             //
             case 4:
             {
-                double T12 = 1.0;
-                double T13 = inf;
-                double T14 = atol;
-                double T15 = tol;
-                E0000E0001.dstinv(ref data, T12, T13, K4, K4, K5, T14, T15);
+                const double T12 = 1.0;
+                E0000E0001.dstinv(ref data, T12, inf, K4, K4, K5, atol, tol);
 
                 data.status = 0;
                 dfd = 5.0;

@@ -509,23 +509,15 @@ public static partial class CDF
         //    7, Y = B = 0.
         //
     {
-        double a0 = 0;
-        double b0 = 0;
-        int K1 = 1;
-        double eps = 0;
-        double lambda = 0;
-        double t = 0;
-        double x0 = 0;
-        double y0 = 0;
-        double z = 0;
+        const int K1 = 1;
+        double lambda;
 
-        int ierr1 = 0, ind = 0, n = 0;
-        double T2 = 0, T3 = 0, T4 = 0, T5 = 0;
+        int ierr1 = 0, n;
         //
         //  EPS IS A MACHINE DEPENDENT CONSTANT. EPS IS THE SMALLEST
         //  NUMBER FOR WHICH 1.0 + EPS .GT. 1.0
         //
-        eps = dpmpar(K1);
+        double eps = dpmpar(K1);
         w = w1 = 0.0e0;
         if (a < 0.0e0 || b < 0.0e0)
         {
@@ -552,7 +544,7 @@ public static partial class CDF
                 goto S300;
         }
 
-        z = x + y - 0.5e0 - 0.5e0;
+        double z = x + y - 0.5e0 - 0.5e0;
         if (Math.Abs(z) > 3.0e0 * eps)
         {
             goto S310;
@@ -589,11 +581,11 @@ public static partial class CDF
             goto S260;
         }
 
-        ind = 0;
-        a0 = a;
-        b0 = b;
-        x0 = x;
-        y0 = y;
+        int ind = 0;
+        double a0 = a;
+        double b0 = b;
+        double x0 = x;
+        double y0 = y;
         switch (Math.Min(a0, b0))
         {
             case > 1.0e0:
@@ -773,7 +765,7 @@ public static partial class CDF
         w = 0.5e0 + (0.5e0 - w1);
         goto S250;
         S130:
-        T2 = 15.0e0 * eps;
+        double T2 = 15.0e0 * eps;
         w = beta_frac(a0, b0, x0, y0, lambda, T2);
         w1 = 0.5e0 + (0.5e0 - w);
         goto S250;
@@ -781,7 +773,7 @@ public static partial class CDF
         w1 = beta_up(b0, a0, y0, x0, n, eps);
         b0 += n;
         S150:
-        T3 = 15.0e0 * eps;
+        double T3 = 15.0e0 * eps;
         beta_grat(b0, a0, y0, x0, ref w1, T3, ref ierr1);
         w = 0.5e0 + (0.5e0 - w1);
         goto S250;
@@ -817,12 +809,12 @@ public static partial class CDF
         w += beta_up(a0, b0, x0, y0, n, eps);
         a0 += n;
         S190:
-        T4 = 15.0e0 * eps;
+        double T4 = 15.0e0 * eps;
         beta_grat(a0, b0, x0, y0, ref w, T4, ref ierr1);
         w1 = 0.5e0 + (0.5e0 - w);
         goto S250;
         S200:
-        T5 = 100.0e0 * eps;
+        double T5 = 100.0e0 * eps;
         w = beta_asym(a0, b0, lambda, T5);
         w1 = 0.5e0 + (0.5e0 - w);
         goto S250;
@@ -858,9 +850,7 @@ public static partial class CDF
                 return;
         }
 
-        t = w;
-        w = w1;
-        w1 = t;
+        (w, w1) = (w1, w);
         return;
         S260:
         //

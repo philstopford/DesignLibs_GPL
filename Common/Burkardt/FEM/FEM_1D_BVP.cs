@@ -130,10 +130,9 @@ public static class FEM_1D_BVP
 
         for (e = 0; e < e_num; e++)
         {
-            int l = e;
             int r = e + 1;
 
-            double xl = x[l];
+            double xl = x[e];
             double xr = x[r];
 
             int q;
@@ -155,11 +154,11 @@ public static class FEM_1D_BVP
                 double cxq = c(xq);
                 double fxq = f(xq);
 
-                amat[l + l * n] += wq * (vlp * axq * vlp + vl * cxq * vl);
-                amat[l + r * n] += wq * (vlp * axq * vrp + vl * cxq * vr);
-                b[l] += wq * (vl * fxq);
+                amat[e + e * n] += wq * (vlp * axq * vlp + vl * cxq * vl);
+                amat[e + r * n] += wq * (vlp * axq * vrp + vl * cxq * vr);
+                b[e] += wq * (vl * fxq);
 
-                amat[r + l * n] += wq * (vrp * axq * vlp + vr * cxq * vl);
+                amat[r + e * n] += wq * (vrp * axq * vlp + vr * cxq * vl);
                 amat[r + r * n] += wq * (vrp * axq * vrp + vr * cxq * vr);
                 b[r] += wq * (vr * fxq);
             }

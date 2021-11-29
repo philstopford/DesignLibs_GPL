@@ -632,62 +632,66 @@ public static class BesselJ
                                     //
                                     //  To avoid overflow, divide P*S by TOVER.  Calculate P*S until 1 < ABS(P).
                                     //
-                                    if (tover < p)
+                                    if (!(tover < p))
                                     {
-                                        tover = enten;
-                                        p /= tover;
-                                        plast /= tover;
-                                        double psave = p;
-                                        double psavel = plast;
-                                        nstart = n + 1;
+                                        continue;
+                                    }
 
-                                        for (;;)
-                                        {
-                                            n += 1;
-                                            en += two;
-                                            pold = plast;
-                                            plast = p;
-                                            p = en * plast / x - pold;
-                                            if (one < p)
-                                            {
-                                                break;
-                                            }
-                                        }
+                                    tover = enten;
+                                    p /= tover;
+                                    plast /= tover;
+                                    double psave = p;
+                                    double psavel = plast;
+                                    nstart = n + 1;
 
-                                        tempb = en / x;
-                                        //
-                                        //  Calculate backward test and find NCALC, the highest N such that
-                                        //  the test is passed.
-                                        //
-                                        test = pold * plast * (half - half / (tempb * tempb));
-                                        test /= ensig;
-                                        p = plast * tover;
-                                        n -= 1;
-                                        en -= two;
-                                        nend = nb < n ? nb : n;
-
-                                        for (l = nstart; l <= nend; l++)
-                                        {
-                                            pold = psavel;
-                                            psavel = psave;
-                                            psave = en * psavel / x - pold;
-                                            if (test < psave * psavel)
-                                            {
-                                                ncalc = l - 1;
-                                                jump = true;
-                                                break;
-                                            }
-                                        }
-
-                                        if (jump)
+                                    for (;;)
+                                    {
+                                        n += 1;
+                                        en += two;
+                                        pold = plast;
+                                        plast = p;
+                                        p = en * plast / x - pold;
+                                        if (one < p)
                                         {
                                             break;
                                         }
+                                    }
 
-                                        ncalc = nend;
+                                    tempb = en / x;
+                                    //
+                                    //  Calculate backward test and find NCALC, the highest N such that
+                                    //  the test is passed.
+                                    //
+                                    test = pold * plast * (half - half / (tempb * tempb));
+                                    test /= ensig;
+                                    p = plast * tover;
+                                    n -= 1;
+                                    en -= two;
+                                    nend = nb < n ? nb : n;
+
+                                    for (l = nstart; l <= nend; l++)
+                                    {
+                                        pold = psavel;
+                                        psavel = psave;
+                                        psave = en * psavel / x - pold;
+                                        if (!(test < psave * psavel))
+                                        {
+                                            continue;
+                                        }
+
+                                        ncalc = l - 1;
                                         jump = true;
                                         break;
                                     }
+
+                                    if (jump)
+                                    {
+                                        break;
+                                    }
+
+                                    ncalc = nend;
+                                    jump = true;
+                                    break;
                                 }
 
                                 switch (jump)
@@ -772,23 +776,25 @@ public static class BesselJ
                                     tempa = en * tempb / x - tempc;
                                     m = 2 - m;
 
-                                    if (m != 0)
+                                    if (m == 0)
                                     {
-                                        em -= one;
-                                        alp2em = em + em + alpha;
-                                        if (n == 1)
-                                        {
-                                            break;
-                                        }
-
-                                        alpem = alpem switch
-                                        {
-                                            zero => one,
-                                            _ => em - one + alpha
-                                        };
-
-                                        sum = (sum + tempa * alp2em) * alpem / em;
+                                        continue;
                                     }
+
+                                    em -= one;
+                                    alp2em = em + em + alpha;
+                                    if (n == 1)
+                                    {
+                                        break;
+                                    }
+
+                                    alpem = alpem switch
+                                    {
+                                        zero => one,
+                                        _ => em - one + alpha
+                                    };
+
+                                    sum = (sum + tempa * alp2em) * alpem / em;
                                 }
 
                                 break;
@@ -922,18 +928,20 @@ public static class BesselJ
                                 b[n - 1] = en * b[n] / x - b[n + 1];
                                 m = 2 - m;
 
-                                if (m != 0)
+                                if (m == 0)
                                 {
-                                    em -= one;
-                                    alp2em = em + em + alpha;
-                                    alpem = alpem switch
-                                    {
-                                        zero => one,
-                                        _ => em - one + alpha
-                                    };
-
-                                    sum = (sum + b[n - 1] * alp2em) * alpem / em;
+                                    continue;
                                 }
+
+                                em -= one;
+                                alp2em = em + em + alpha;
+                                alpem = alpem switch
+                                {
+                                    zero => one,
+                                    _ => em - one + alpha
+                                };
+
+                                sum = (sum + b[n - 1] * alp2em) * alpem / em;
                             }
                         }
 

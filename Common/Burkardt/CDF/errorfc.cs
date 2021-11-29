@@ -36,7 +36,7 @@ public static partial class CDF
         //    error function.
         //
     {
-        double c = .564189583547756e0;
+        const double c = .564189583547756e0;
         double[] a =  {
                 .771058495001320e-04,-.133733772997339e-02,.323076579225834e-01,
                 .479137145607681e-01,.128379167095513e+00

@@ -29,7 +29,7 @@ public static partial class Integrands
         //    Output, double P18_ALPHA, the value of ALPHA.
         //
     {
-        double alpha = 0.0;
+        const double alpha = 0.0;
 
         return alpha;
     }

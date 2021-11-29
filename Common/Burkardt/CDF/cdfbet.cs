@@ -382,9 +382,7 @@ public static partial class CDF
                 //
                 //  Calculating X and Y
                 //
-                double T4 = atol;
-                double T5 = tol;
-                E0000E0001.dstzr(ref data, K2, K3, T4, T5);
+                E0000E0001.dstzr(ref data, K2, K3, atol, tol);
                 switch (qporq)
                 {
                     case false:
@@ -456,11 +454,7 @@ public static partial class CDF
                 //  Computing A
                 //
                 a = 5.0e0;
-                double T6 = zero;
-                double T7 = inf;
-                double T10 = atol;
-                double T11 = tol;
-                E0000E0001.dstinv(ref data, T6, T7, K8, K8, K9, T10, T11);
+                E0000E0001.dstinv(ref data, zero, inf, K8, K8, K9, atol, tol);
                 data.status = 0;
                 data.x = a;
                 E0000E0001.dinvr(ref data);
@@ -515,11 +509,7 @@ public static partial class CDF
                 //  Computing B
                 //
                 b = 5.0e0;
-                double T12 = zero;
-                double T13 = inf;
-                double T14 = atol;
-                double T15 = tol;
-                E0000E0001.dstinv(ref data, T12, T13, K8, K8, K9, T14, T15);
+                E0000E0001.dstinv(ref data, zero, inf, K8, K8, K9, atol, tol);
                 data.status = 0;
                 data.x = b;
                 E0000E0001.dinvr(ref data);

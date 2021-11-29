@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Burkardt.Types;
 
 namespace Burkardt.GMesh;
@@ -350,13 +351,7 @@ public static class IO
                 */
 
                 string[] tokens = text.Split(' ');
-                foreach (string t in tokens)
-                {
-                    if (t != "")
-                    {
-                        element_order++;
-                    }
-                }
+                element_order += tokens.Count(t => t != "");
 
                 element_order -= 5;
                 break;

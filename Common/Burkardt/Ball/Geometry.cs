@@ -218,7 +218,7 @@ public static class Geometry
         //
     {
         const double r = 1.0;
-        double volume = 4.0 * Math.PI * r * r * r / 3.0;
+        const double volume = 4.0 * Math.PI * r * r * r / 3.0;
 
         return volume;
     }

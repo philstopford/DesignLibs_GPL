@@ -66,7 +66,7 @@ public static partial class Algorithms
         //    Output, double &T, the value of the function.
         //
     {
-        int N_MAX = 28;
+        const int N_MAX = 28;
 
         double[] a_vec =
             {

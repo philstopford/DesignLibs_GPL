@@ -824,7 +824,7 @@ public static class Bins
         //
     {
         int i;
-        int ndim = 2;
+        const int ndim = 2;
 
         for (i = 0; i < ndim; i++)
         {
@@ -886,7 +886,7 @@ public static class Bins
         //    Output, double CMIN[2], CMAX[2], the minimum and maximum limits on the bin.
         //
     {
-        int NDIM = 2;
+        const int NDIM = 2;
 
         int i;
 
@@ -934,7 +934,7 @@ public static class Bins
         //    Output, double CMIN[3], CMAX[3], the minimum and maximum limits on the bin.
         //
     {
-        int NDIM = 3;
+        const int NDIM = 3;
 
         int i;
 
@@ -983,7 +983,7 @@ public static class Bins
         //    Output, double CMIN[3], CMAX[3], the minimum and maximum limits on the bin.
         //
     {
-        int NDIM = 3;
+        const int NDIM = 3;
 
         int i;
 
@@ -1305,11 +1305,13 @@ public static class Bins
             int i;
             for (i = 0; i < n; i++)
             {
-                if (p[i] == seek)
+                if (p[i] != seek)
                 {
-                    found = true;
-                    break;
+                    continue;
                 }
+
+                found = true;
+                break;
             }
 
             switch (found)
@@ -1474,11 +1476,13 @@ public static class Bins
                 d += (ptest[i] - pset[i + j * NDIM]) * (ptest[i] - pset[i + j * NDIM]);
             }
 
-            if (d < d_min)
+            if (!(d < d_min))
             {
-                d_min = d;
-                p_min = j;
+                continue;
             }
+
+            d_min = d;
+            p_min = j;
         }
 
         d_min = Math.Sqrt(d_min);
@@ -1542,11 +1546,13 @@ public static class Bins
                 d += (ptest[i] - pset[i + j * NDIM]) * (ptest[i] - pset[i + j * NDIM]);
             }
 
-            if (d < d_min)
+            if (!(d < d_min))
             {
-                d_min = d;
-                p_min = j;
+                continue;
             }
+
+            d_min = d;
+            p_min = j;
         }
 
         d_min = Math.Sqrt(d_min);
@@ -1609,11 +1615,13 @@ public static class Bins
                 d += (ptest[i] - pset[i + j * ndim]) * (ptest[i] - pset[i + j * ndim]);
             }
 
-            if (d < d_min)
+            if (!(d < d_min))
             {
-                d_min = d;
-                p_min = j;
+                continue;
             }
+
+            d_min = d;
+            p_min = j;
         }
 
         d_min = Math.Sqrt(d_min);
@@ -1683,11 +1691,13 @@ public static class Bins
                          * (ptest[i + test * NDIM] - pset[i + set * NDIM]);
                 }
 
-                if (d < d_min)
+                if (!(d < d_min))
                 {
-                    d_min = d;
-                    nearest[test] = set;
+                    continue;
                 }
+
+                d_min = d;
+                nearest[test] = set;
             }
         }
 
@@ -1734,36 +1744,35 @@ public static class Bins
         //    nearest point in PSET to each point in PTEST.
         //
     {
-        int NDIM = 3;
+        const int NDIM = 3;
 
-        double d;
-        double d_min;
-        int i;
-        int[] nearest;
-        int set;
         int test;
 
-        nearest = new int[ntest];
+        int[] nearest = new int[ntest];
 
         for (test = 0; test < ntest; test++)
         {
-            d_min = typeMethods.r8_huge();
+            double d_min = typeMethods.r8_huge();
             nearest[test] = -1;
 
+            int set;
             for (set = 0; set < nset; set++)
             {
-                d = 0.0;
+                double d = 0.0;
+                int i;
                 for (i = 0; i < NDIM; i++)
                 {
                     d += (ptest[i + test * NDIM] - pset[i + set * NDIM])
                          * (ptest[i + test * NDIM] - pset[i + set * NDIM]);
                 }
 
-                if (d < d_min)
+                if (!(d < d_min))
                 {
-                    d_min = d;
-                    nearest[test] = set;
+                    continue;
                 }
+
+                d_min = d;
+                nearest[test] = set;
             }
         }
 

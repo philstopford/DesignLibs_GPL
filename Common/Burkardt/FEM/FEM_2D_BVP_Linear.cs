@@ -59,7 +59,7 @@ public static class FEM_2D_BVP_Linear
         //    which are also the value of the computed solution at the mesh points.
         //
     {
-        int QUAD_NUM = 3;
+        const int QUAD_NUM = 3;
 
         double[] abscissa =
         {
@@ -99,19 +99,17 @@ public static class FEM_2D_BVP_Linear
 
         for (ex = 0; ex < nx - 1; ex++)
         {
-            int w = ex;
             int e = ex + 1;
 
-            double xw = x[w];
+            double xw = x[ex];
             double xe = x[e];
 
             int ey;
             for (ey = 0; ey < ny - 1; ey++)
             {
-                int s = ey;
                 int n = ey + 1;
 
-                double ys = y[s];
+                double ys = y[ey];
                 double yn = y[n];
 
                 int sw = ey * nx + ex;
@@ -326,19 +324,17 @@ public static class FEM_2D_BVP_Linear
 
         for (ex = 0; ex < nx - 1; ex++)
         {
-            int w = ex;
             int e = ex + 1;
 
-            double xw = x[w];
+            double xw = x[ex];
             double xe = x[e];
 
             int ey;
             for (ey = 0; ey < ny - 1; ey++)
             {
-                int s = ey;
                 int n = ey + 1;
 
-                double ys = y[s];
+                double ys = y[ey];
                 double yn = y[n];
 
                 int qx;
@@ -372,10 +368,10 @@ public static class FEM_2D_BVP_Linear
                         //
                         //  Note that the south-west component of U is stored in U(W,S), not U(S,W)!
                         //
-                        double uxq = u[w + s * nx] * vswx + u[e + s * nx] * vsex
-                                                          + u[w + n * nx] * vnwx + u[e + n * nx] * vnex;
-                        double uyq = u[w + s * nx] * vswy + u[e + s * nx] * vsey
-                                                          + u[w + n * nx] * vnwy + u[e + n * nx] * vney;
+                        double uxq = u[ex + ey * nx] * vswx + u[e + ey * nx] * vsex
+                                                            + u[ex + n * nx] * vnwx + u[e + n * nx] * vnex;
+                        double uyq = u[ex + ey * nx] * vswy + u[e + ey * nx] * vsey
+                                                            + u[ex + n * nx] * vnwy + u[e + n * nx] * vney;
 
                         double exq = exact_ux(xq, yq);
                         double eyq = exact_uy(xq, yq);
@@ -527,19 +523,17 @@ public static class FEM_2D_BVP_Linear
         //
         for (ex = 0; ex < nx - 1; ex++)
         {
-            int w = ex;
             int e = ex + 1;
 
-            double xw = x[w];
+            double xw = x[ex];
             double xe = x[e];
 
             int ey;
             for (ey = 0; ey < ny - 1; ey++)
             {
-                int s = ey;
                 int n = ey + 1;
 
-                double ys = y[s];
+                double ys = y[ey];
                 double yn = y[n];
 
                 int qx;
@@ -566,8 +560,8 @@ public static class FEM_2D_BVP_Linear
                         //
                         //  Note that the south-west component of U is stored in U(W,S), not U(S,W)!
                         //
-                        double uq = u[w + s * nx] * vsw + u[e + s * nx] * vse
-                                                        + u[w + n * nx] * vnw + u[e + n * nx] * vne;
+                        double uq = u[ex + ey * nx] * vsw + u[e + ey * nx] * vse
+                                                          + u[ex + n * nx] * vnw + u[e + n * nx] * vne;
                         double eq = exact(xq, yq);
 
                         e2 += wq * Math.Pow(uq - eq, 2);

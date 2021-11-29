@@ -4,7 +4,7 @@ using Burkardt.Types;
 
 namespace Burkardt.Sequence;
 
-public class Tribonacci
+public static class Tribonacci
 {
     public static int tribonacci_direct(int n)
 

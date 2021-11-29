@@ -633,7 +633,7 @@ public static partial class ChebyshevPolynomial
         int j;
         const int m = 501;
 
-        double a = -1.0;
+        const double a = -1.0;
         const double b = +1.0;
 
         double[] x = typeMethods.r8vec_linspace_new(m, a, b);
@@ -664,7 +664,7 @@ public static partial class ChebyshevPolynomial
         //
         //  Plot the selected data.
         //
-        string command_filename = "u_polynomial_commands.txt";
+        const string command_filename = "u_polynomial_commands.txt";
 
         command_unit.Add("# " + command_filename + "");
         command_unit.Add("#");
@@ -750,7 +750,7 @@ public static partial class ChebyshevPolynomial
                 value = 0.0;
                 break;
             default:
-                int m = 1;
+                const int m = 1;
                 x_vec[0] = x;
 
                 double[] v_vec = u_polynomial(m, n, x_vec);

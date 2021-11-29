@@ -73,32 +73,34 @@ public static partial class FullertonLib
 
         double value = 0.0;
 
-        if (x != 0.0)
+        if (x == 0.0)
         {
-            r8_upak(Math.Abs(x), ref y, ref n);
-            int ixpnt = n / 3;
-            int irem = n - 3 * ixpnt + 3;
-
-            value = 0.439581 + y * (
-                0.928549 + y * (
-                    -0.512653 + y *
-                    0.144586));
-
-            int iter;
-            for (iter = 1; iter <= data.niter; iter++)
-            {
-                double vsq = value * value;
-                value += (y - value * vsq) / (3.0 * vsq);
-            }
-
-            value = x switch
-            {
-                < 0.0 => -Math.Abs(value),
-                _ => +Math.Abs(value)
-            };
-
-            value = r8_pak( ref data.pakdata, cbrt2[irem - 1] * value, ixpnt);
+            return value;
         }
+
+        r8_upak(Math.Abs(x), ref y, ref n);
+        int ixpnt = n / 3;
+        int irem = n - 3 * ixpnt + 3;
+
+        value = 0.439581 + y * (
+            0.928549 + y * (
+                -0.512653 + y *
+                0.144586));
+
+        int iter;
+        for (iter = 1; iter <= data.niter; iter++)
+        {
+            double vsq = value * value;
+            value += (y - value * vsq) / (3.0 * vsq);
+        }
+
+        value = x switch
+        {
+            < 0.0 => -Math.Abs(value),
+            _ => +Math.Abs(value)
+        };
+
+        value = r8_pak( ref data.pakdata, cbrt2[irem - 1] * value, ixpnt);
 
         return value;
     }

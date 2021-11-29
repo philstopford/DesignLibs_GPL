@@ -69,8 +69,8 @@ public static partial class Algorithms
                 2.27238449892691845833e-2, 7.74545014278341407640e-4
             }
             ;
-        double const1 = 0.180625;
-        double const2 = 1.6;
+        const double const1 = 0.180625;
+        const double const2 = 1.6;
         double[] d = {
                 1.0, 2.05319162663775882187,
                 1.67638483018380384940, 6.89767334985100004550e-1,

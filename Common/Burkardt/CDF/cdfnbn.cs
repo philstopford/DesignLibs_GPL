@@ -385,10 +385,7 @@ public static partial class CDF
                 //     Calculating S
                 //
                 s = 5.0e0;
-                double T3 = inf;
-                double T6 = atol;
-                double T7 = tol;
-                E0000E0001.dstinv(ref data, K2, T3, K4, K4, K5, T6, T7);
+                E0000E0001.dstinv(ref data, K2, inf, K4, K4, K5, atol, tol);
                 data.status = 0;
                 data.x = s;
                 E0000E0001.dinvr(ref data);
@@ -443,10 +440,7 @@ public static partial class CDF
                 //     Calculating XN
                 //
                 xn = 5.0e0;
-                double T8 = inf;
-                double T9 = atol;
-                double T10 = tol;
-                E0000E0001.dstinv(ref data, K2, T8, K4, K4, K5, T9, T10);
+                E0000E0001.dstinv(ref data, K2, inf, K4, K4, K5, atol, tol);
                 data.status = 0;
                 data.x = xn;
                 E0000E0001.dinvr(ref data);

@@ -51,7 +51,7 @@ public static partial class Algorithms
 
         d = 0.0;
         ifault = 0;
-        double tol = 0.0001;
+        const double tol = 0.0001;
 
         switch (n)
         {

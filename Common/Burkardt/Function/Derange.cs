@@ -298,7 +298,7 @@ public static class Derange
         //    Output, int DERANGE_ENUM3, the number of derangements of N objects.
         //
     {
-        double E = 2.718281828459045;
+        const double E = 2.718281828459045;
 
         int value = n switch
         {
@@ -377,12 +377,14 @@ public static class Derange
 
         for (ican = 0; ican < nfree; ican++)
         {
-            if (ifree[ican] != k - 1)
+            if (ifree[ican] == k - 1)
             {
-                ncan[k - 1] += 1;
-                stack[nstack] = ifree[ican];
-                nstack += 1;
+                continue;
             }
+
+            ncan[k - 1] += 1;
+            stack[nstack] = ifree[ican];
+            nstack += 1;
         }
 
     }

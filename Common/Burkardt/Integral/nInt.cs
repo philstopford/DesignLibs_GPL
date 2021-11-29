@@ -256,7 +256,7 @@ public static class nInt
                 return 1;
         }
 
-        double a2 = 25.0 / 324.0;
+        const double a2 = 25.0 / 324.0;
         double a3 = Math.Sqrt(0.6);
         double en = dim_num;
         double a0 = (25.0 * en * en - 115.0 * en + 162.0) / 162.0;

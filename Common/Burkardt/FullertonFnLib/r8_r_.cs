@@ -282,7 +282,7 @@ public static partial class FullertonLib
         //
         //  Put a new value into T(J).
         //
-        double r = 0.0;
+        const double r = 0.0;
         t[j] = r8_rand(r, ref ix0, ref ix1);
 
         return value;

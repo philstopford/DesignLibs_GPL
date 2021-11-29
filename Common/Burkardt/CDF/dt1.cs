@@ -73,8 +73,7 @@ public static partial class CDF
             >= 0.5e0 => sum,
             _ => -sum
         };
-        double dt1 = xp;
 
-        return dt1;
+        return xp;
     }
 }

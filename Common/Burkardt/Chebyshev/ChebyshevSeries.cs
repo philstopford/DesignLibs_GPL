@@ -267,7 +267,7 @@ public static class ChebyshevSeries
 
         double[] ww = mltply_new(x, xx, npl);
 
-        double s = -1.0;
+        const double s = -1.0;
         typeMethods.r8vec_scale(s, npl, ref ww);
         ww[0] += 2.0;
 

@@ -98,7 +98,7 @@ public static class Sample
         //  Used to calculate E following a uniform distribution on (-B,+B).
         //  Because B is currently zero, the noise term is suppressed.
         //
-        double b = 0.0;
+        const double b = 0.0;
         //
         //  Pick pairs of other chains for crossover.
         //
@@ -147,8 +147,8 @@ public static class Sample
         //
         double[] eps = new double[par_num];
 
-        double av = 0.0;
-        double sd = 1.0E-10;
+        const double av = 0.0;
+        const double sd = 1.0E-10;
         for (i = 0; i < par_num; i++)
         {
             eps[i] = PDF.r8_normal_sample(av, sd);

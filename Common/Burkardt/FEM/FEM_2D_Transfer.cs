@@ -138,15 +138,14 @@ public static class FEM_2D_Transfer
             int quad;
             for (quad = 0; quad < quad_num; quad++)
             {
-                int q1 = quad;
                 int q2 = (quad + 1) % quad_num;
 
-                int nq1 = fem_element_node[q1 + element * fem_element_order];
+                int nq1 = fem_element_node[quad + element * fem_element_order];
                 int nq2 = fem_element_node[q2 + element * fem_element_order];
 
                 double xq = 0.5 * (fem_node_xy[0 + nq1 * 2] + fem_node_xy[0 + nq2 * 2]);
                 double yq = 0.5 * (fem_node_xy[1 + nq1 * 2] + fem_node_xy[1 + nq2 * 2]);
-                double wq = 1.0 / 3.0;
+                const double wq = 1.0 / 3.0;
                 //
                 //  Consider each test function in the element.
                 //

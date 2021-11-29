@@ -2547,8 +2547,8 @@ public static class Grid
         Console.WriteLine("");
         Console.WriteLine("  GRID_TEST: Test the grid routine for element " + code + "");
 
-        int nelemx = 3;
-        int nelemy = 2;
+        const int nelemx = 3;
+        const int nelemy = 2;
 
         switch (code)
         {

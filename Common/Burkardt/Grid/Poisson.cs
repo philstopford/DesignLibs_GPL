@@ -192,10 +192,10 @@ public static class Poisson
         //
         //  Initialization.
         //
-        int it = 4;
+        const int it = 4;
         it_num = 0;
-        double tol = 0.0001;
-        double utol = 0.7;
+        const double tol = 0.0001;
+        const double utol = 0.7;
         int m = n;
         //
         //  Set the nodes.

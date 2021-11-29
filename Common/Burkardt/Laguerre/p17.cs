@@ -155,7 +155,7 @@ public static partial class Integrands
         //    Output, string P17_TITLE, the title of the problem.
         //
     {
-        string title = "exp ( - x / 2^beta ) * cos ( x ) / Math.Sqrt ( x )";
+        const string title = "exp ( - x / 2^beta ) * cos ( x ) / Math.Sqrt ( x )";
 
         return title;
     }

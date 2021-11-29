@@ -928,7 +928,7 @@ public static class BLAS1D
         int l;
         int ll;
         int ls = 0;
-        int maxit = 30;
+        const int maxit = 30;
         double sn = 0;
         double t;
         //
@@ -1236,11 +1236,13 @@ public static class BLAS1D
                 test = Math.Abs(s[l - 1]) + Math.Abs(s[l]);
                 ztest = test + Math.Abs(e[l - 1]);
 
-                if (Math.Abs(ztest - test) <= double.Epsilon)
+                if (!(Math.Abs(ztest - test) <= double.Epsilon))
                 {
-                    e[l - 1] = 0.0;
-                    break;
+                    continue;
                 }
+
+                e[l - 1] = 0.0;
+                break;
             }
 
             int kase = 0;
@@ -1273,11 +1275,13 @@ public static class BLAS1D
 
                     ztest = test + Math.Abs(s[ls - 1]);
 
-                    if (Math.Abs(ztest - test) <= double.Epsilon)
+                    if (!(Math.Abs(ztest - test) <= double.Epsilon))
                     {
-                        s[ls - 1] = 0.0;
-                        break;
+                        continue;
                     }
+
+                    s[ls - 1] = 0.0;
+                    break;
 
                 }
 
@@ -1709,11 +1713,13 @@ public static class BLAS1D
 
                 for (i = 1; i < n; i++)
                 {
-                    if (dmax < Math.Abs(dx[i + index]))
+                    if (!(dmax < Math.Abs(dx[i + index])))
                     {
-                        value = i + 1;
-                        dmax = Math.Abs(dx[i + index]);
+                        continue;
                     }
+
+                    value = i + 1;
+                    dmax = Math.Abs(dx[i + index]);
                 }
 
                 break;

@@ -114,7 +114,7 @@ public static class ZGECO
         //
         //  Solve hermitian(U)*W = E.
         //
-        Complex ek = new Complex(1.0, 0.0);
+        Complex ek = new(1.0, 0.0);
         for (i = 0; i < n; i++)
         {
             z[i] = new Complex(0.0, 0.0);
@@ -215,12 +215,14 @@ public static class ZGECO
                 BLAS1Z.zaxpy(n - k, t, a, 1, ref z, 1, xIndex: +k + (k - 1) * lda, yIndex: +k);
             }
 
-            if (1.0 < typeMethods.zabs1(z[k - 1]))
+            if (!(1.0 < typeMethods.zabs1(z[k - 1])))
             {
-                s = 1.0 / typeMethods.zabs1(z[k - 1]);
-                BLAS1Z.zdscal(n, s, ref z, 1);
-                ynorm = s * ynorm;
+                continue;
             }
+
+            s = 1.0 / typeMethods.zabs1(z[k - 1]);
+            BLAS1Z.zdscal(n, s, ref z, 1);
+            ynorm = s * ynorm;
         }
 
         s = 1.0 / BLAS1Z.dzasum(n, z, 1);

@@ -657,36 +657,41 @@ public static class Geometry
 
             for (i = 1; i <= node_num; i++)
             {
-                if (i != q && (Math.Abs(node_xy[0 + (i - 1) * 2] - q_xy[0]) > double.Epsilon || Math.Abs(node_xy[1 + (i - 1) * 2] - q_xy[1]) > double.Epsilon))
+                if (i == q || (!(Math.Abs(node_xy[0 + (i - 1) * 2] - q_xy[0]) > double.Epsilon) &&
+                               !(Math.Abs(node_xy[1 + (i - 1) * 2] - q_xy[1]) > double.Epsilon)))
                 {
-                    double angle = Angle.angle_rad_2d(p_xy, q_xy, node_xy, p3Index: +(i - 1) * 2);
+                    continue;
+                }
 
-                    if (r == 0 || angle_max < angle)
+                double angle = Angle.angle_rad_2d(p_xy, q_xy, node_xy, p3Index: +(i - 1) * 2);
+
+                if (r == 0 || angle_max < angle)
+                {
+                    r = i;
+                    r_xy[0] = node_xy[0 + (r - 1) * 2];
+                    r_xy[1] = node_xy[1 + (r - 1) * 2];
+                    angle_max = angle;
+                }
+                //
+                //  In case of ties, choose the nearer point.
+                //
+                else if (Math.Abs(angle - angle_max) <= double.Epsilon)
+                {
+                    double di = Math.Sqrt(Math.Pow(node_xy[0 + (i - 1) * 2] - q_xy[0], 2)
+                                          + Math.Pow(node_xy[1 + (i - 1) * 2] - q_xy[1], 2));
+
+                    double dr = Math.Sqrt(Math.Pow(r_xy[0] - q_xy[0], 2)
+                                          + Math.Pow(r_xy[1] - q_xy[1], 2));
+
+                    if (!(di < dr))
                     {
-                        r = i;
-                        r_xy[0] = node_xy[0 + (r - 1) * 2];
-                        r_xy[1] = node_xy[1 + (r - 1) * 2];
-                        angle_max = angle;
+                        continue;
                     }
-                    //
-                    //  In case of ties, choose the nearer point.
-                    //
-                    else if (Math.Abs(angle - angle_max) <= double.Epsilon)
-                    {
-                        double di = Math.Sqrt(Math.Pow(node_xy[0 + (i - 1) * 2] - q_xy[0], 2)
-                                              + Math.Pow(node_xy[1 + (i - 1) * 2] - q_xy[1], 2));
 
-                        double dr = Math.Sqrt(Math.Pow(r_xy[0] - q_xy[0], 2)
-                                              + Math.Pow(r_xy[1] - q_xy[1], 2));
-
-                        if (di < dr)
-                        {
-                            r = i;
-                            r_xy[0] = node_xy[0 + (r - 1) * 2];
-                            r_xy[1] = node_xy[1 + (r - 1) * 2];
-                            angle_max = angle;
-                        }
-                    }
+                    r = i;
+                    r_xy[0] = node_xy[0 + (r - 1) * 2];
+                    r_xy[1] = node_xy[1 + (r - 1) * 2];
+                    angle_max = angle;
                 }
             }
 

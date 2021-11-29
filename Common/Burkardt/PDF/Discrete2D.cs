@@ -72,12 +72,14 @@ public static class Discrete2D
                 int k;
                 for (k = 0; k < n; k++)
                 {
-                    if (low <= u[k] && u[k] <= high)
+                    if (!(low <= u[k]) || !(u[k] <= high))
                     {
-                        double[] r = UniformRNG.r8vec_uniform_01_new(2, ref seed);
-                        xy[0 + k * 2] = (i + r[0]) / n1;
-                        xy[1 + k * 2] = (j + r[1]) / n2;
+                        continue;
                     }
+
+                    double[] r = UniformRNG.r8vec_uniform_01_new(2, ref seed);
+                    xy[0 + k * 2] = (i + r[0]) / n1;
+                    xy[1 + k * 2] = (j + r[1]) / n2;
                 }
 
                 low = high;

@@ -83,7 +83,7 @@ public class GCCellref : GCElement
 
     private void pMinimum(GeoLibPoint p)
     {
-        GeoLibPoint pos1 = new GeoLibPoint(p.X - point.X, p.Y - point.Y);
+        GeoLibPoint pos1 = new(p.X - point.X, p.Y - point.Y);
         pos1.Y = trans.mirror_x switch
         {
             true => -pos1.Y,
@@ -155,7 +155,7 @@ public class GCCellref : GCElement
 
     private void pMaximum(GeoLibPoint p)
     {
-        GeoLibPoint pos1 = new GeoLibPoint(p.X - point.X, p.Y - point.Y);
+        GeoLibPoint pos1 = new(p.X - point.X, p.Y - point.Y);
         pos1.Y = trans.mirror_x switch
         {
             true => -pos1.Y,

@@ -1133,7 +1133,7 @@ public static class Laguerre
         //
         //  Define the zero-th moment.
         //
-        double zemu = 1.0;
+        const double zemu = 1.0;
         //
         //  Define the Jacobi matrix.
         //

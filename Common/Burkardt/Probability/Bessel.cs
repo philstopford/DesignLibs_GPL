@@ -474,12 +474,9 @@ public static class Bessel
             3.7510433111922824643E-05
         };
         const double rec15 = 6.6666666666666666666E-02;
-        double sump;
-        double sumq;
         const double two25 = 225.0;
         double value;
         const double xmax = 713.987;
-        double xx;
         const double zero = 0.0;
 
         double x = Math.Abs(arg);
@@ -492,6 +489,9 @@ public static class Bessel
         }
         else
         {
+            double sump;
+            double sumq;
+            double xx;
             switch (x)
             {
                 //

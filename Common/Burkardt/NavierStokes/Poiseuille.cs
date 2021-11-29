@@ -56,21 +56,21 @@ public static class Poiseuille
         for ( i = 0; i < n; i++ )
         {
             double u = 1.0 - y[i] * y[i];
-            double dudt = 0.0;
-            double dudx = 0.0;
-            double dudxx = 0.0;
+            const double dudt = 0.0;
+            const double dudx = 0.0;
+            const double dudxx = 0.0;
             double dudy = - 2.0 * y[i];
-            double dudyy = - 2.0;
+            const double dudyy = - 2.0;
 
-            double v = 0.0;
-            double dvdt = 0.0;
-            double dvdx = 0.0;
-            double dvdxx = 0.0;
-            double dvdy = 0.0;
-            double dvdyy = 0.0;
+            const double v = 0.0;
+            const double dvdt = 0.0;
+            const double dvdx = 0.0;
+            const double dvdxx = 0.0;
+            const double dvdy = 0.0;
+            const double dvdyy = 0.0;
 
             double dpdx = - 2.0 * rho * nu;
-            double dpdy = 0.0;
+            const double dpdy = 0.0;
             //
             //  Evaluate the residuals.
             //

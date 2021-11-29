@@ -1410,11 +1410,13 @@ public static class QRSolve
 
                     b[j - 1] /= a[j - 1 + (j - 1) * lda];
 
-                    if (j != 1)
+                    if (j == 1)
                     {
-                        t = -b[j - 1];
-                        BLAS1D.daxpy(j - 1, t, a, 1, ref b, 1, + 0 + (j - 1) * lda);
+                        continue;
                     }
+
+                    t = -b[j - 1];
+                    BLAS1D.daxpy(j - 1, t, a, 1, ref b, 1, + 0 + (j - 1) * lda);
                 }
 
                 break;

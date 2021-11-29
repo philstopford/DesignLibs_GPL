@@ -101,39 +101,41 @@ public static class ZPODI
         //
         //  Compute inverse(R).
         //
-        if (job % 10 != 0)
+        if (job % 10 == 0)
         {
-            int j;
-            int k;
-            Complex t;
-            for (k = 1; k <= n; k++)
-            {
-                a[k - 1 + (k - 1) * lda] = new Complex(1.0, 0.0) / a[k - 1 + (k - 1) * lda];
-                t = -a[k - 1 + (k - 1) * lda];
-                BLAS1Z.zscal(k - 1, t, ref a, 1, index: +0 + (k - 1) * lda);
+            return;
+        }
 
-                for (j = k + 1; j <= n; j++)
-                {
-                    t = a[k - 1 + (j - 1) * lda];
-                    a[k - 1 + (j - 1) * lda] = new Complex(0.0, 0.0);
-                    BLAS1Z.zaxpy(k, t, a, 1, ref a, 1, xIndex: +0 + (k - 1) * lda, yIndex: +0 + (j - 1) * lda);
-                }
+        int j;
+        int k;
+        Complex t;
+        for (k = 1; k <= n; k++)
+        {
+            a[k - 1 + (k - 1) * lda] = new Complex(1.0, 0.0) / a[k - 1 + (k - 1) * lda];
+            t = -a[k - 1 + (k - 1) * lda];
+            BLAS1Z.zscal(k - 1, t, ref a, 1, index: +0 + (k - 1) * lda);
+
+            for (j = k + 1; j <= n; j++)
+            {
+                t = a[k - 1 + (j - 1) * lda];
+                a[k - 1 + (j - 1) * lda] = new Complex(0.0, 0.0);
+                BLAS1Z.zaxpy(k, t, a, 1, ref a, 1, xIndex: +0 + (k - 1) * lda, yIndex: +0 + (j - 1) * lda);
+            }
+        }
+
+        //
+        //  Form inverse(R) * hermitian(inverse(R)).
+        //
+        for (j = 1; j <= n; j++)
+        {
+            for (k = 1; k <= j - 1; k++)
+            {
+                t = Complex.Conjugate(a[k - 1 + (j - 1) * lda]);
+                BLAS1Z.zaxpy(k, t, a, 1, ref a, 1, xIndex: +0 + (j - 1) * lda, yIndex: +0 + (k - 1) * lda);
             }
 
-            //
-            //  Form inverse(R) * hermitian(inverse(R)).
-            //
-            for (j = 1; j <= n; j++)
-            {
-                for (k = 1; k <= j - 1; k++)
-                {
-                    t = Complex.Conjugate(a[k - 1 + (j - 1) * lda]);
-                    BLAS1Z.zaxpy(k, t, a, 1, ref a, 1, xIndex: +0 + (j - 1) * lda, yIndex: +0 + (k - 1) * lda);
-                }
-
-                t = Complex.Conjugate(a[j - 1 + (j - 1) * lda]);
-                BLAS1Z.zscal(j, t, ref a, 1, index: +0 + (j - 1) * lda);
-            }
+            t = Complex.Conjugate(a[j - 1 + (j - 1) * lda]);
+            BLAS1Z.zscal(j, t, ref a, 1, index: +0 + (j - 1) * lda);
         }
     }
 

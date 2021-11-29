@@ -109,50 +109,52 @@ public static class ZGEDI
         //
         //  Compute inverse(U).
         //
-        if (job % 10 != 0)
+        if (job % 10 == 0)
         {
-            Complex[] work = new Complex[n];
+            return;
+        }
 
-            int j;
-            Complex t;
-            int k;
-            for (k = 1; k <= n; k++)
+        Complex[] work = new Complex[n];
+
+        int j;
+        Complex t;
+        int k;
+        for (k = 1; k <= n; k++)
+        {
+            a[k - 1 + (k - 1) * lda] = new Complex(1.0, 0.0) / a[k - 1 + (k - 1) * lda];
+            t = -a[k - 1 + (k - 1) * lda];
+            BLAS1Z.zscal(k - 1, t, ref a, 1, index: +0 + (k - 1) * lda);
+
+            for (j = k + 1; j <= n; j++)
             {
-                a[k - 1 + (k - 1) * lda] = new Complex(1.0, 0.0) / a[k - 1 + (k - 1) * lda];
-                t = -a[k - 1 + (k - 1) * lda];
-                BLAS1Z.zscal(k - 1, t, ref a, 1, index: +0 + (k - 1) * lda);
+                t = a[k - 1 + (j - 1) * lda];
+                a[k - 1 + (j - 1) * lda] = new Complex(0.0, 0.0);
+                BLAS1Z.zaxpy(k, t, a, 1, ref a, 1, xIndex: +0 + (k - 1) * lda, yIndex: +0 + (j - 1) * lda);
+            }
+        }
 
-                for (j = k + 1; j <= n; j++)
-                {
-                    t = a[k - 1 + (j - 1) * lda];
-                    a[k - 1 + (j - 1) * lda] = new Complex(0.0, 0.0);
-                    BLAS1Z.zaxpy(k, t, a, 1, ref a, 1, xIndex: +0 + (k - 1) * lda, yIndex: +0 + (j - 1) * lda);
-                }
+        //
+        //  Form inverse(U) * inverse(L).
+        //
+        for (k = n - 1; 1 <= k; k--)
+        {
+            for (i = k + 1; i <= n; i++)
+            {
+                work[i - 1] = a[i - 1 + (k - 1) * lda];
+                a[i - 1 + (k - 1) * lda] = new Complex(0.0, 0.0);
             }
 
-            //
-            //  Form inverse(U) * inverse(L).
-            //
-            for (k = n - 1; 1 <= k; k--)
+            for (j = k + 1; j <= n; j++)
             {
-                for (i = k + 1; i <= n; i++)
-                {
-                    work[i - 1] = a[i - 1 + (k - 1) * lda];
-                    a[i - 1 + (k - 1) * lda] = new Complex(0.0, 0.0);
-                }
+                t = work[j - 1];
+                BLAS1Z.zaxpy(n, t, a, 1, ref a, 1, xIndex: +0 + (j - 1) * lda, yIndex: +0 + (k - 1) * lda);
+            }
 
-                for (j = k + 1; j <= n; j++)
-                {
-                    t = work[j - 1];
-                    BLAS1Z.zaxpy(n, t, a, 1, ref a, 1, xIndex: +0 + (j - 1) * lda, yIndex: +0 + (k - 1) * lda);
-                }
+            int l = ipvt[k - 1];
 
-                int l = ipvt[k - 1];
-
-                if (l != k)
-                {
-                    BLAS1Z.zswap(n, ref a, 1, ref a, 1, xIndex: +0 + (k - 1) * lda, yIndex: +0 + (l - 1) * lda);
-                }
+            if (l != k)
+            {
+                BLAS1Z.zswap(n, ref a, 1, ref a, 1, xIndex: +0 + (k - 1) * lda, yIndex: +0 + (l - 1) * lda);
             }
         }
     }

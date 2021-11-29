@@ -403,7 +403,7 @@ public static partial class PDF
                 return 1;
         }
 
-        double arg1 = 1.0;
+        const double arg1 = 1.0;
         double arg2 = df / 2.0;
 
         double value = 2.0 * r8_gamma_sample(arg1, arg2);
@@ -1179,7 +1179,7 @@ public static partial class PDF
         //    Output, double R8_INVCHI_SAMPLE, the sample of the PDF.
         //
     {
-        double a = 0.5;
+        const double a = 0.5;
         double b = 0.5 * df;
         double value = r8_gamma_sample(a, b);
 

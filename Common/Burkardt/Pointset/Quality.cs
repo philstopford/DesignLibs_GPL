@@ -827,11 +827,13 @@ public static class Quality
                                * ( s[i+js*dim_num] - r[i+jr*dim_num] );
                 }
 
-                if ( jr == 0 || dist_sq < dist_sq_min )
+                if (jr != 0 && !(dist_sq < dist_sq_min))
                 {
-                    dist_sq_min = dist_sq;
-                    nearest[js] = jr;
+                    continue;
                 }
+
+                dist_sq_min = dist_sq;
+                nearest[js] = jr;
             }
         }
     }
@@ -927,20 +929,21 @@ public static class Quality
             int j2;
             for (j2 = 0; j2 < n; j2++)
             {
-                if (j2 != j1)
+                if (j2 == j1)
                 {
+                    continue;
+                }
 
-                    double dist_sq = 0.0;
-                    int i;
-                    for (i = 0; i < dim_num; i++)
-                    {
-                        dist_sq += Math.Pow(z[i + j1 * dim_num] - z[i + j2 * dim_num], 2);
-                    }
+                double dist_sq = 0.0;
+                int i;
+                for (i = 0; i < dim_num; i++)
+                {
+                    dist_sq += Math.Pow(z[i + j1 * dim_num] - z[i + j2 * dim_num], 2);
+                }
 
-                    if (dist_sq < dist_sq_min)
-                    {
-                        dist_sq_min = dist_sq;
-                    }
+                if (dist_sq < dist_sq_min)
+                {
+                    dist_sq_min = dist_sq;
                 }
 
             }
@@ -1803,18 +1806,20 @@ public static class Quality
                 int j2;
                 for (j2 = 0; j2 < n; j2++)
                 {
-                    if (j2 != j1)
+                    if (j2 == j1)
                     {
-                        double distance_j = 0.0;
-                        for (i = 0; i < dim_num; i++)
-                        {
-                            distance_j += Math.Pow(z[i + j1 * dim_num] - z[i + j2 * dim_num], 2);
-                        }
-
-                        distance_j = Math.Sqrt(distance_j);
-
-                        radius_i = status[j2] == FREE ? Math.Min(radius_i, distance_j / 2.0) : Math.Min(radius_i, distance_j - radius[j2]);
+                        continue;
                     }
+
+                    double distance_j = 0.0;
+                    for (i = 0; i < dim_num; i++)
+                    {
+                        distance_j += Math.Pow(z[i + j1 * dim_num] - z[i + j2 * dim_num], 2);
+                    }
+
+                    distance_j = Math.Sqrt(distance_j);
+
+                    radius_i = status[j2] == FREE ? Math.Min(radius_i, distance_j / 2.0) : Math.Min(radius_i, distance_j - radius[j2]);
                 }
 
                 if (!(radius_i < radius_min))

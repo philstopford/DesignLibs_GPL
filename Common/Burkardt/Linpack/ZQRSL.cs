@@ -270,15 +270,17 @@ public static class ZQRSL
             {
                 for (j = 1; j <= ju; j++)
                 {
-                    if (typeMethods.zabs1(qraux[j - 1]) != 0.0)
+                    if (typeMethods.zabs1(qraux[j - 1]) == 0.0)
                     {
-                        temp = x[j - 1 + (j - 1) * ldx];
-                        x[j - 1 + (j - 1) * ldx] = qraux[j - 1];
-                        t = -BLAS1Z.zdotc(n - j + 1, x, 1, qty, 1, xIndex: +j - 1 + (j - 1) * ldx, yIndex: +j - 1) /
-                            x[j - 1 + (j - 1) * ldx];
-                        BLAS1Z.zaxpy(n - j + 1, t, x, 1, ref qty, 1, xIndex: +j - 1 + (j - 1) * ldx, yIndex: +j - 1);
-                        x[j - 1 + (j - 1) * ldx] = temp;
+                        continue;
                     }
+
+                    temp = x[j - 1 + (j - 1) * ldx];
+                    x[j - 1 + (j - 1) * ldx] = qraux[j - 1];
+                    t = -BLAS1Z.zdotc(n - j + 1, x, 1, qty, 1, xIndex: +j - 1 + (j - 1) * ldx, yIndex: +j - 1) /
+                        x[j - 1 + (j - 1) * ldx];
+                    BLAS1Z.zaxpy(n - j + 1, t, x, 1, ref qty, 1, xIndex: +j - 1 + (j - 1) * ldx, yIndex: +j - 1);
+                    x[j - 1 + (j - 1) * ldx] = temp;
                 }
 
                 break;
@@ -372,53 +374,59 @@ public static class ZQRSL
 
                     b[j - 1] /= x[j - 1 + (j - 1) * ldx];
 
-                    if (j != 1)
+                    if (j == 1)
                     {
-                        t = -b[j - 1];
-                        BLAS1Z.zaxpy(j - 1, t, x, 1, ref b, 1, xIndex: +0 + (j - 1) * ldx);
+                        continue;
                     }
+
+                    t = -b[j - 1];
+                    BLAS1Z.zaxpy(j - 1, t, x, 1, ref b, 1, xIndex: +0 + (j - 1) * ldx);
                 }
 
                 break;
             }
         }
 
-        if (cr || cxb)
+        if (!cr && !cxb)
         {
-            //
-            //  Compute RSD or XB as required.
-            //
-            for (jj = 1; jj <= ju; jj++)
+            return info;
+        }
+
+        //
+        //  Compute RSD or XB as required.
+        //
+        for (jj = 1; jj <= ju; jj++)
+        {
+            j = ju - jj + 1;
+
+            if (typeMethods.zabs1(qraux[j - 1]) == 0.0)
             {
-                j = ju - jj + 1;
-
-                if (typeMethods.zabs1(qraux[j - 1]) != 0.0)
-                {
-                    temp = x[j - 1 + (j - 1) * ldx];
-                    x[j - 1 + (j - 1) * ldx] = qraux[j - 1];
-
-                    switch (cr)
-                    {
-                        case true:
-                            t = -BLAS1Z.zdotc(n - j + 1, x, 1, rsd, 1, xIndex: +j - 1 + (j - 1) * ldx, yIndex: +j - 1)
-                                / x[j - 1 + (j - 1) * ldx];
-                            BLAS1Z.zaxpy(n - j + 1, t, x, 1, ref rsd, 1, xIndex: +j - 1 + (j - 1) * ldx,
-                                yIndex: +j - 1);
-                            break;
-                    }
-
-                    switch (cxb)
-                    {
-                        case true:
-                            t = -BLAS1Z.zdotc(n - j + 1, x, 1, xb, 1, xIndex: +j - 1 + (j - 1) * ldx, yIndex: +j - 1)
-                                / x[j - 1 + (j - 1) * ldx];
-                            BLAS1Z.zaxpy(n - j + 1, t, x, 1, ref xb, 1, xIndex: +j - 1 + (j - 1) * ldx, yIndex: +j - 1);
-                            break;
-                    }
-
-                    x[j - 1 + (j - 1) * ldx] = temp;
-                }
+                continue;
             }
+
+            temp = x[j - 1 + (j - 1) * ldx];
+            x[j - 1 + (j - 1) * ldx] = qraux[j - 1];
+
+            switch (cr)
+            {
+                case true:
+                    t = -BLAS1Z.zdotc(n - j + 1, x, 1, rsd, 1, xIndex: +j - 1 + (j - 1) * ldx, yIndex: +j - 1)
+                        / x[j - 1 + (j - 1) * ldx];
+                    BLAS1Z.zaxpy(n - j + 1, t, x, 1, ref rsd, 1, xIndex: +j - 1 + (j - 1) * ldx,
+                        yIndex: +j - 1);
+                    break;
+            }
+
+            switch (cxb)
+            {
+                case true:
+                    t = -BLAS1Z.zdotc(n - j + 1, x, 1, xb, 1, xIndex: +j - 1 + (j - 1) * ldx, yIndex: +j - 1)
+                        / x[j - 1 + (j - 1) * ldx];
+                    BLAS1Z.zaxpy(n - j + 1, t, x, 1, ref xb, 1, xIndex: +j - 1 + (j - 1) * ldx, yIndex: +j - 1);
+                    break;
+            }
+
+            x[j - 1 + (j - 1) * ldx] = temp;
         }
 
         return info;

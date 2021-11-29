@@ -68,14 +68,14 @@ public static partial class Slow
             for (j2 = 0; j2 < n2; j2++)
             {
                 double theta2 = 2.0 * Math.PI * (i2 * j2) / n2;
-                Complex cs2 = new Complex(Math.Cos(theta2), -Math.Sin(theta2));
+                Complex cs2 = new(Math.Cos(theta2), -Math.Sin(theta2));
                 for (i1 = 0; i1 < n1; i1++)
                 {
                     int j1;
                     for (j1 = 0; j1 < n1; j1++)
                     {
                         double theta1 = 2.0 * Math.PI * (i1 * j1) / n1;
-                        Complex cs1 = new Complex(Math.Cos(theta1), -Math.Sin(theta1));
+                        Complex cs1 = new(Math.Cos(theta1), -Math.Sin(theta1));
                         x[i1 + i2 * n1] += y[j1 + j2 * n1] * cs1 * cs2;
                     }
                 }
@@ -156,14 +156,14 @@ public static partial class Slow
             for (j2 = 0; j2 < n2; j2++)
             {
                 double theta2 = -2.0 * Math.PI * (i2 * j2) / n2;
-                Complex cs2 = new Complex(Math.Cos(theta2), -Math.Sin(theta2));
+                Complex cs2 = new(Math.Cos(theta2), -Math.Sin(theta2));
                 for (i1 = 0; i1 < n1; i1++)
                 {
                     int j1;
                     for (j1 = 0; j1 < n1; j1++)
                     {
                         double theta1 = -2.0 * Math.PI * (i1 * j1) / n1;
-                        Complex cs1 = new Complex(Math.Cos(theta1), -Math.Sin(theta1));
+                        Complex cs1 = new(Math.Cos(theta1), -Math.Sin(theta1));
                         y[i1 + i2 * n1] += x[j1 + j2 * n1] * cs1 * cs2;
                     }
                 }

@@ -186,7 +186,7 @@ public static class ZGBCO
         //
         //  Solve hermitian(U) * W = E.
         //
-        Complex ek = new Complex(1.0, 0.0);
+        Complex ek = new(1.0, 0.0);
 
         for (j = 1; j <= n; j++)
         {
@@ -303,12 +303,14 @@ public static class ZGBCO
                 BLAS1Z.zaxpy(lm, t, abd, 1, ref z, 1, xIndex: +m + (k - 1) * lda, yIndex: +k);
             }
 
-            if (1.0 < typeMethods.zabs1(z[k - 1]))
+            if (!(1.0 < typeMethods.zabs1(z[k - 1])))
             {
-                s = 1.0 / typeMethods.zabs1(z[k - 1]);
-                BLAS1Z.zdscal(n, s, ref z, 1);
-                ynorm = s * ynorm;
+                continue;
             }
+
+            s = 1.0 / typeMethods.zabs1(z[k - 1]);
+            BLAS1Z.zdscal(n, s, ref z, 1);
+            ynorm = s * ynorm;
         }
 
         s = 1.0 / BLAS1Z.dzasum(n, z, 1);

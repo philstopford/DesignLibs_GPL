@@ -95,7 +95,7 @@ public static partial class TOMS
             }
         }
 
-        Complex value = new Complex ( c, d );
+        Complex value = new( c, d );
 
         return value;
     }

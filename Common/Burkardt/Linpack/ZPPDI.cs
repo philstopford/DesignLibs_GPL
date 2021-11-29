@@ -97,59 +97,61 @@ public static class ZPPDI
         //
         //  Compute inverse ( R ).
         //
-        if (job % 10 != 0)
+        if (job % 10 == 0)
         {
-            int kk = 0;
+            return;
+        }
 
-            int k1;
-            int kj;
-            int k;
-            Complex t;
-            int j;
-            int j1;
-            for (k = 1; k <= n; k++)
+        int kk = 0;
+
+        int k1;
+        int kj;
+        int k;
+        Complex t;
+        int j;
+        int j1;
+        for (k = 1; k <= n; k++)
+        {
+            k1 = kk + 1;
+            kk += k;
+            ap[kk - 1] = new Complex(1.0, 0.0) / ap[kk - 1];
+            t = -ap[kk - 1];
+            BLAS1Z.zscal(k - 1, t, ref ap, 1, index: + k1 - 1);
+            int kp1 = k + 1;
+            j1 = kk + 1;
+            kj = kk + k;
+
+            for (j = kp1; j <= n; j++)
             {
-                k1 = kk + 1;
-                kk += k;
-                ap[kk - 1] = new Complex(1.0, 0.0) / ap[kk - 1];
-                t = -ap[kk - 1];
-                BLAS1Z.zscal(k - 1, t, ref ap, 1, index: + k1 - 1);
-                int kp1 = k + 1;
-                j1 = kk + 1;
-                kj = kk + k;
+                t = ap[kj - 1];
+                ap[kj - 1] = new Complex(0.0, 0.0);
+                BLAS1Z.zaxpy(k, t, ap, 1, ref ap, 1, xIndex: + k1 - 1, yIndex: + j1 - 1);
+                j1 += j;
+                kj += j;
+            }
+        }
 
-                for (j = kp1; j <= n; j++)
-                {
-                    t = ap[kj - 1];
-                    ap[kj - 1] = new Complex(0.0, 0.0);
-                    BLAS1Z.zaxpy(k, t, ap, 1, ref ap, 1, xIndex: + k1 - 1, yIndex: + j1 - 1);
-                    j1 += j;
-                    kj += j;
-                }
+        //
+        //  Form inverse ( R ) * hermitian ( inverse ( R ) ).
+        //
+        int jj = 0;
+        for (j = 1; j <= n; j++)
+        {
+            j1 = jj + 1;
+            jj += j;
+            k1 = 1;
+            kj = j1;
+
+            for (k = 1; k <= j - 1; k++)
+            {
+                t = Complex.Conjugate(ap[kj - 1]);
+                BLAS1Z.zaxpy(k, t, ap, 1, ref ap, 1, xIndex: + j1 - 1, yIndex: k1 - 1);
+                k1 += k;
+                kj += 1;
             }
 
-            //
-            //  Form inverse ( R ) * hermitian ( inverse ( R ) ).
-            //
-            int jj = 0;
-            for (j = 1; j <= n; j++)
-            {
-                j1 = jj + 1;
-                jj += j;
-                k1 = 1;
-                kj = j1;
-
-                for (k = 1; k <= j - 1; k++)
-                {
-                    t = Complex.Conjugate(ap[kj - 1]);
-                    BLAS1Z.zaxpy(k, t, ap, 1, ref ap, 1, xIndex: + j1 - 1, yIndex: k1 - 1);
-                    k1 += k;
-                    kj += 1;
-                }
-
-                t = Complex.Conjugate(ap[jj - 1]);
-                BLAS1Z.zscal(j, t, ref ap, 1, index: + j1 - 1);
-            }
+            t = Complex.Conjugate(ap[jj - 1]);
+            BLAS1Z.zscal(j, t, ref ap, 1, index: + j1 - 1);
         }
     }
 

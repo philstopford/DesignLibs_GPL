@@ -48,8 +48,8 @@ public static class MidpointFixed
 
         double dt = ( tspan[1] - tspan[0] ) / n;
 
-        int it_max = 10;
-        double theta = 0.5;
+        const int it_max = 10;
+        const double theta = 0.5;
 
         t[0] = tspan[0];
         int j = 0;

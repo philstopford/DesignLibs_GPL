@@ -410,7 +410,7 @@ public static class Index
         //    Output, int INDEX123, the index of element (I,J,K).
         //
     {
-        int index_min = 1;
+        const int index_min = 1;
 
         int value = index_min
                     + (i - i_min)
@@ -772,7 +772,7 @@ public static class Index
         //    Output, int INDEX4321, the index of (I1,I2,I3,I4).
         //
     {
-        int index_min = 1;
+        const int index_min = 1;
 
         int value = index_min
                     + (i4 - i4_min)
@@ -1607,16 +1607,18 @@ public static class Index
 
                 for (i = 0; i < n; i++)
                 {
-                    if (hi[i] < lo[i])
+                    if (hi[i] >= lo[i])
                     {
-                        more = false;
-                        Console.WriteLine("");
-                        Console.WriteLine("INDEX_NEXT2 - Fatal error!");
-                        Console.WriteLine("  Entry " + i + " of HI is " + hi[i] + "");
-                        Console.WriteLine("  Entry " + i + " of LO is " + lo[i] + "");
-                        Console.WriteLine("  but LO(I) <= HI(I) is required.");
-                        return;
+                        continue;
                     }
+
+                    more = false;
+                    Console.WriteLine("");
+                    Console.WriteLine("INDEX_NEXT2 - Fatal error!");
+                    Console.WriteLine("  Entry " + i + " of HI is " + hi[i] + "");
+                    Console.WriteLine("  Entry " + i + " of LO is " + lo[i] + "");
+                    Console.WriteLine("  but LO(I) <= HI(I) is required.");
+                    return;
                 }
 
                 break;

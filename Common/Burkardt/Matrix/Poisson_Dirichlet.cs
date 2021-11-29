@@ -236,21 +236,23 @@ public static partial class Matrix
 
         for (node = 0; node < node_num; node++)
         {
-            if (node_condition[node] == DIRICHLET)
+            if (node_condition[node] != DIRICHLET)
             {
-                int column_low = Math.Max(node + 1 - ib, 1);
-                int column_high = Math.Min(node + 1 + ib, node_num);
-
-                int column;
-                for (column = column_low; column <= column_high; column++)
-                {
-                    a[node + 1 - column + 2 * ib + (column - 1) * (3 * ib + 1)] = 0.0;
-                }
-
-                a[2 * ib + node * (3 * ib + 1)] = 1.0;
-
-                f[node] = node_bc[node];
+                continue;
             }
+
+            int column_low = Math.Max(node + 1 - ib, 1);
+            int column_high = Math.Min(node + 1 + ib, node_num);
+
+            int column;
+            for (column = column_low; column <= column_high; column++)
+            {
+                a[node + 1 - column + 2 * ib + (column - 1) * (3 * ib + 1)] = 0.0;
+            }
+
+            a[2 * ib + node * (3 * ib + 1)] = 1.0;
+
+            f[node] = node_bc[node];
         }
     }
 

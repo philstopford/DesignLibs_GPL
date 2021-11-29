@@ -139,7 +139,7 @@ public static class ZSPCO
         //
         //  Solve U*D*W = E.
         //
-        Complex ek = new Complex(1.0, 0.0);
+        Complex ek = new(1.0, 0.0);
         for (j = 0; j < n; j++)
         {
             z[j] = new Complex(0.0, 0.0);

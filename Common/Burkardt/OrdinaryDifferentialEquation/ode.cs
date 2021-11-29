@@ -1405,13 +1405,15 @@ public static class ODE
             h = temp2 * h;
             k = knew;
 
-            if (Math.Abs(h) < fouru * Math.Abs(x))
+            if (!(Math.Abs(h) < fouru * Math.Abs(x)))
             {
-                crash = true;
-                h = Math.Abs(fouru * Math.Abs(x)) * typeMethods.r8_sign(h);
-                eps += eps;
-                return;
+                continue;
             }
+
+            crash = true;
+            h = Math.Abs(fouru * Math.Abs(x)) * typeMethods.r8_sign(h);
+            eps += eps;
+            return;
         }
 
         //

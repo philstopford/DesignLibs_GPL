@@ -215,11 +215,13 @@ public static class DCHDC
                 int l;
                 for (l = k + 1; l <= pu; l++)
                 {
-                    if (maxdia < a[l - 1 + (l - 1) * lda])
+                    if (!(maxdia < a[l - 1 + (l - 1) * lda]))
                     {
-                        maxdia = a[l - 1 + (l - 1) * lda];
-                        maxl = l;
+                        continue;
                     }
+
+                    maxdia = a[l - 1 + (l - 1) * lda];
+                    maxl = l;
                 }
             }
 

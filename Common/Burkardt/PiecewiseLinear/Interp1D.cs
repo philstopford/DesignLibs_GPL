@@ -185,12 +185,14 @@ public static class Interp1D
                 int k;
                 for (k = 1; k < nd; k++)
                 {
-                    if (xd[k - 1] <= xi[i] && xi[i] <= xd[k])
+                    if (!(xd[k - 1] <= xi[i]) || !(xi[i] <= xd[k]))
                     {
-                        t = (xi[i] - xd[k - 1]) / (xd[k] - xd[k - 1]);
-                        yi[i] = (1.0 - t) * yd[k - 1] + t * yd[k];
-                        break;
+                        continue;
                     }
+
+                    t = (xi[i] - xd[k - 1]) / (xd[k] - xd[k - 1]);
+                    yi[i] = (1.0 - t) * yd[k - 1] + t * yd[k];
+                    break;
                 }
             }
         }

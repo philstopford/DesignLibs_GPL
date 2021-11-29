@@ -75,7 +75,7 @@ public static class Niederreiter
     //
     //    Global, double RECIP = 1.0 / Q^NFIGS.
     //
-    private static int DIM_MAX = 50;
+    private const int DIM_MAX = 50;
 
     //const int FIG_MAX = 20;
     private const int FIG_MAX = 31;
@@ -352,9 +352,7 @@ public static class Niederreiter
         const int arbit = 1;
         int[] h = new int[DEG_MAX + 2];
         int i;
-        const int nonzer = 1;
         int r;
-        int term;
 
         //e = px[0];
         //
@@ -389,47 +387,20 @@ public static class Niederreiter
         //  The limit condition on Kj does not seem very relevant
         //  in this program.
         //
-        int kj = bigm;
         //
         //  Now choose values of V in accordance with the conditions in
         //  section 3.3
         //
-        for (i = 0; i < kj; i++)
+        for (i = 0; i < bigm; i++)
         {
             v[i] = 0;
         }
 
-        v[kj] = 1;
+        v[bigm] = 1;
 
-        if (kj < bigm)
+        for (i = bigm + 1; i <= m - 1; i++)
         {
-            term = sub[0, h[kj + 1]];
-
-            for (r = kj + 1; r <= bigm - 1; r++)
-            {
-                v[r] = arbit;
-                //
-                //  Check the condition of section 3.3,
-                //  remembering that the H's have the opposite sign.
-                //
-                term = sub[term, mul[h[r + 1], v[r]]];
-            }
-
-            //
-            //  Now V(BIGM) is anything but TERM.
-            //
-            v[bigm] = add[nonzer, term];
-            for (i = bigm + 1; i <= m - 1; i++)
-            {
-                v[i] = arbit;
-            }
-        }
-        else
-        {
-            for (i = kj + 1; i <= m - 1; i++)
-            {
-                v[i] = arbit;
-            }
+            v[i] = arbit;
         }
 
         //
@@ -438,7 +409,7 @@ public static class Niederreiter
         //
         for (r = 0; r <= v_max - m; r++)
         {
-            term = 0;
+            int term = 0;
             for (i = 0; i <= m - 1; i++)
             {
                 term = sub[term, mul[b[i + 1], v[r + i]]];
@@ -792,7 +763,7 @@ public static class Niederreiter
     {
         if (data.dim_num_save < 1 || dim_num != data.dim_num_save || seed <= 0)
         {
-            int skip = 1;
+            const int skip = 1;
 
             inlo(dim_num, base_, skip);
 

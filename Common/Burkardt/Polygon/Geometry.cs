@@ -846,7 +846,7 @@ public static class Geometry
         //    is inside the polygon or on its boundary, and FALSE otherwise.
         //
     {
-        int DIM_NUM = 2;
+        const int DIM_NUM = 2;
 
         int i;
         double[] t = new double[DIM_NUM * 3];
@@ -1441,12 +1441,14 @@ public static class Geometry
         //
         double normal_norm = typeMethods.r8vec_norm(DIM_NUM, normal);
 
-        if (normal_norm != 0.0)
+        if (normal_norm == 0.0)
         {
-            for (i = 0; i < DIM_NUM; i++)
-            {
-                normal[i] /= normal_norm;
-            }
+            return normal;
+        }
+
+        for (i = 0; i < DIM_NUM; i++)
+        {
+            normal[i] /= normal_norm;
         }
 
         return normal;
@@ -2267,17 +2269,19 @@ public static class Geometry
                     //
                     //  Interpolate or extrapolate in an interval.
                     //
-                    if (t <= trite || i == n - 1)
+                    if (!(t <= trite) && i != n - 1)
                     {
-                        double s = (t - tleft) / (trite - tleft);
-                        for (j = 0; j < dim_num; j++)
-                        {
-                            pt[j] = (1.0 - s) * p[j + (i - 1) * dim_num]
-                                    + s * p[j + i * dim_num];
-                        }
-
-                        break;
+                        continue;
                     }
+
+                    double s = (t - tleft) / (trite - tleft);
+                    for (j = 0; j < dim_num; j++)
+                    {
+                        pt[j] = (1.0 - s) * p[j + (i - 1) * dim_num]
+                                + s * p[j + i * dim_num];
+                    }
+
+                    break;
                 }
 
                 break;

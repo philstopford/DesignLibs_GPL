@@ -441,7 +441,7 @@ internal static class Program
                                    + "  " + y[i].Imaginary.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
         }
 
-        Complex s = new Complex(0.50, -1.00);
+        Complex s = new(0.50, -1.00);
 
         Console.WriteLine("");
         Console.WriteLine("  The scalar multiplier is: " + s + "");
@@ -1048,7 +1048,7 @@ internal static class Program
                                    + "  " + x[i].Imaginary.ToString(CultureInfo.InvariantCulture).PadLeft(6) + "");
         }
 
-        Complex da = new Complex(5.0, 0.0);
+        Complex da = new(5.0, 0.0);
         BLAS1Z.zscal(N, da, ref x, 1);
         Console.WriteLine("");
         Console.WriteLine("  ZSCAL ( N, (" + da + "), X, 1 )");

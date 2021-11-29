@@ -282,7 +282,7 @@ public static class Normal
         //    Output, double MEAN, the mean of the PDF.
         //
     {
-        double mean = 0.0;
+        const double mean = 0.0;
 
         return mean;
     }

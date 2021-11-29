@@ -182,11 +182,13 @@ public static class DQRDC
                 int maxj = l;
                 for (j = l; j <= pu; j++)
                 {
-                    if (maxnrm < qraux[j - 1])
+                    if (!(maxnrm < qraux[j - 1]))
                     {
-                        maxnrm = qraux[j - 1];
-                        maxj = j;
+                        continue;
                     }
+
+                    maxnrm = qraux[j - 1];
+                    maxj = j;
                 }
 
                 if (maxj != l)

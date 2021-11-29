@@ -4081,7 +4081,7 @@ internal static class Program
         //
         //  Set A.
         //
-        Complex I = new Complex(0.0, 1.0);
+        Complex I = new(0.0, 1.0);
 
         int lda = M;
         Complex[] a = new Complex[M * N];

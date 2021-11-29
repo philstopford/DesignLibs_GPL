@@ -217,21 +217,25 @@ public static class TQL2
             p = d[i];
             for (j = ii; j < n; j++)
             {
-                if (d[j] < p)
+                if (!(d[j] < p))
                 {
-                    k = j;
-                    p = d[j];
+                    continue;
                 }
+
+                k = j;
+                p = d[j];
             }
 
-            if (k != i)
+            if (k == i)
             {
-                d[k] = d[i];
-                d[i] = p;
-                for (j = 0; j < n; j++)
-                {
-                    (z[j + i * n], z[j + k * n]) = (z[j + k * n], z[j + i * n]);
-                }
+                continue;
+            }
+
+            d[k] = d[i];
+            d[i] = p;
+            for (j = 0; j < n; j++)
+            {
+                (z[j + i * n], z[j + k * n]) = (z[j + k * n], z[j + i * n]);
             }
         }
 

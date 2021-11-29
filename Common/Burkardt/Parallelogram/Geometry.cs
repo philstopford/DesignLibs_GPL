@@ -385,16 +385,12 @@ public static class Geometry
                 break;
         }
 
-        if (dott < 0.0 || dotb < dott)
-        {
-            return false;
-        }
+        return !(dott < 0.0) && !(dotb < dott);
 
         //
         //  V = ALPHA * V1 + BETA * V2, where both ALPHA and BETA are between
         //  0 and 1.
         //
-        return true;
     }
 
     public static double parallelogram_point_dist_3d(double[] p1, double[] p2, double[] p3,

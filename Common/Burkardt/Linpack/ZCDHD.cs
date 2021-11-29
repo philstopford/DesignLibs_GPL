@@ -162,7 +162,7 @@ public static class ZCDHD
         //
         for (j = 1; j <= p; j++)
         {
-            Complex xx = new Complex(0.0, 0.0);
+            Complex xx = new(0.0, 0.0);
             for (ii = 1; ii <= j; ii++)
             {
                 i = j - ii + 1;

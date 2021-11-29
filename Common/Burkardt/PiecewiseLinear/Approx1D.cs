@@ -125,11 +125,13 @@ public static class Approx1D
             int k = nc - 2;
             for (j = 1; j < nc - 1; j++)
             {
-                if (xd[i] < xc[j])
+                if (!(xd[i] < xc[j]))
                 {
-                    k = j - 1;
-                    break;
+                    continue;
                 }
+
+                k = j - 1;
+                break;
             }
 
             double t = (xd[i] - xc[k]) / (xc[k + 1] - xc[k]);
@@ -217,12 +219,14 @@ public static class Approx1D
                 int k;
                 for (k = 1; k < nd; k++)
                 {
-                    if (xd[k - 1] <= xi[i] && xi[i] <= xd[k])
+                    if (!(xd[k - 1] <= xi[i]) || !(xi[i] <= xd[k]))
                     {
-                        t = (xi[i] - xd[k - 1]) / (xd[k] - xd[k - 1]);
-                        yi[i] = (1.0 - t) * yd[k - 1] + t * yd[k];
-                        break;
+                        continue;
                     }
+
+                    t = (xi[i] - xd[k - 1]) / (xd[k] - xd[k - 1]);
+                    yi[i] = (1.0 - t) * yd[k - 1] + t * yd[k];
+                    break;
                 }
             }
         }

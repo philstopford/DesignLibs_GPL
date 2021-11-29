@@ -145,7 +145,6 @@ public static class Planck
 //    Output, double PLANCK_PDF, the value of the PDF.
 //
     {
-        double k;
         double pdf;
 
         switch (x)
@@ -154,7 +153,7 @@ public static class Planck
                 pdf = 0.0;
                 break;
             default:
-                k = Helpers.Gamma(b + 1.0) * typeMethods.r8_zeta(b + 1.0);
+                double k = Helpers.Gamma(b + 1.0) * typeMethods.r8_zeta(b + 1.0);
                 pdf = Math.Pow(a, b + 1.0) * Math.Pow(x, b) / (Math.Exp(a * x) - 1.0) / k;
                 break;
         }

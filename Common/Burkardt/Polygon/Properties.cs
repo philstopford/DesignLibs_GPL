@@ -2342,12 +2342,14 @@ public static class Properties
 
             double dist2 = Math.Sqrt(Math.Pow(pn2[0] - p[0], 2) + Math.Pow(pn2[1] - p[1], 2));
 
-            if (dist2 < dist)
+            if (!(dist2 < dist))
             {
-                dist = dist2;
-                pn[0] = pn2[0];
-                pn[1] = pn2[1];
+                continue;
             }
+
+            dist = dist2;
+            pn[0] = pn2[0];
+            pn[1] = pn2[1];
         }
 
         return pn;

@@ -535,7 +535,7 @@ public static class BLAS1Z
     {
         int i;
 
-        Complex value = new Complex(0.0, 0.0);
+        Complex value = new(0.0, 0.0);
 
         switch (n)
         {
@@ -637,7 +637,7 @@ public static class BLAS1Z
     {
         int i;
 
-        Complex value = new Complex(0.0, 0.0);
+        Complex value = new(0.0, 0.0);
 
         switch (n)
         {

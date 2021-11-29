@@ -169,12 +169,14 @@ public static partial class Matrix
 
                             l = pivot[k - 1];
 
-                            if (l != k)
+                            if (l == k)
                             {
-                                t = x[l - 1];
-                                x[l - 1] = x[k - 1];
-                                x[k - 1] = t;
+                                continue;
                             }
+
+                            t = x[l - 1];
+                            x[l - 1] = x[k - 1];
+                            x[k - 1] = t;
                         }
 
                         break;

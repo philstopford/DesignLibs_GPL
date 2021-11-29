@@ -1334,7 +1334,7 @@ public static class Chi
         double x1 = chi_square_sample(a1, ref seed);
 
         double a2 = Math.Sqrt(b);
-        double b2 = 1.0;
+        const double b2 = 1.0;
         double x2 = Normal.normal_sample(a2, b2, ref seed);
 
         double x = x1 + x2 * x2;

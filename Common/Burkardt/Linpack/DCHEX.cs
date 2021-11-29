@@ -264,12 +264,14 @@ public static class DCHEX
                         }
                     }
 
-                    if (j < l)
+                    if (j >= l)
                     {
-                        jj = j - k + 1;
-                        t = s[jj - 1];
-                        BLAS1D.drotg(ref r[j - 1 + (j - 1) * ldr], ref t, ref c[jj - 1], ref s[jj - 1]);
+                        continue;
                     }
+
+                    jj = j - k + 1;
+                    t = s[jj - 1];
+                    BLAS1D.drotg(ref r[j - 1 + (j - 1) * ldr], ref t, ref c[jj - 1], ref s[jj - 1]);
                 }
 
                 //

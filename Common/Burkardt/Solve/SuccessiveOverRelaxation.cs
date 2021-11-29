@@ -1,6 +1,6 @@
 ﻿namespace Burkardt.SolveNS;
 
-public class SuccessiveOverRelaxation
+public static class SuccessiveOverRelaxation
 {
     public static double[] sor1 ( int n, double[] a, double[] b, double[] x, double w )
 

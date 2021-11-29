@@ -59,7 +59,6 @@ public static class Congruence
         //
         error = false;
         int x = 0;
-        int y;
         switch (a)
         {
             //
@@ -198,7 +197,7 @@ public static class Congruence
         //
         //  Step 4: Now go backwards to solve X * A_MAG + Y * B_MAG = 1.
         //
-        y = 0;
+        int y = 0;
         for (k = n; 2 <= k; k--)
         {
             x = y;

@@ -84,7 +84,7 @@ public static partial class Matrix
 
         PARCHK.parchk(kind, 2 * m - 1, alpha, beta);
 
-        double temp2 = 0.5;
+        const double temp2 = 0.5;
 
         if (500.0 * temp < Math.Abs(Math.Pow(Helpers.Gamma(temp2), 2) - Math.PI))
         {

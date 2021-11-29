@@ -1734,7 +1734,7 @@ public static class Geometry
         //    Output, double P1[3], P2[3], P3[3], three points on the plane.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
         double[] pn = new double[DIM_NUM];
         double[] pp = new double[DIM_NUM];
@@ -2755,7 +2755,7 @@ public static class Geometry
         //    Output, double P1[3], P2[3], P3[3], three points that lie on the plane.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
         double[] pq = new double[DIM_NUM];
         double[] pr = new double[DIM_NUM];
@@ -2817,7 +2817,7 @@ public static class Geometry
         //    Output, double *A, *B, *C, *D, parameters that define the implicit plane.
         //
     {
-        int DIM_NUM = 3;
+        const int DIM_NUM = 3;
 
         a = pn[0];
         b = pn[1];

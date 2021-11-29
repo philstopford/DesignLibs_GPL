@@ -104,11 +104,13 @@ public static class MatrixProduct
                     int cost3 = cost2[i - 1 + (k - 2) * n] + cost2[k - 1 + (i + j - 1) * n]
                                                            + rank[i - 1] * rank[k - 1] * rank[i + j];
 
-                    if (cost3 < cost2[i - 1 + (i + j - 1) * n])
+                    if (cost3 >= cost2[i - 1 + (i + j - 1) * n])
                     {
-                        cost2[i - 1 + (i + j - 1) * n] = cost3;
-                        best[i - 1 + (i + j - 1) * n] = k;
+                        continue;
                     }
+
+                    cost2[i - 1 + (i + j - 1) * n] = cost3;
+                    best[i - 1 + (i + j - 1) * n] = k;
                 }
             }
         }

@@ -39,7 +39,7 @@ internal static class Program
 
         double a = 0.0;
         double b = 0.0;
-        Complex z = new Complex(a, b);
+        Complex z = new(a, b);
         driver(z);
 
         a = 1.0;

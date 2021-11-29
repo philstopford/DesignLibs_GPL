@@ -45,7 +45,7 @@ public static partial class typeMethods
         //  a constant term.
         //
         int d2 = 0;
-        int m2 = 1 * 2 / 2;
+        const int m2 = 1 * 2 / 2;
         double[] p2 = new double[m2];
         p2[0] = 1.0;
         //

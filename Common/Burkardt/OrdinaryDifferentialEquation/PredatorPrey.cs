@@ -258,7 +258,7 @@ public static class PredatorPrey
         //
         //  Create the command file.
         //
-        string command_filename = header + "_commands.txt";
+        const string command_filename = header + "_commands.txt";
 
         command.Add("# " + command_filename + "");
         command.Add("#");
@@ -373,7 +373,7 @@ public static class PredatorPrey
         //
         //  Create the data file.
         //
-        string data_filename = header + "_data.txt";
+        const string data_filename = header + "_data.txt";
 
         for (i = 0; i < n; i++)
         {

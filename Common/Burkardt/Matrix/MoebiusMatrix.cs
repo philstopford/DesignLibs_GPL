@@ -53,7 +53,6 @@ public static class MoebiusMatrix
     {
         int i;
         int j;
-        int[] p2;
 
         int[] p1 = new int[n];
 //
@@ -108,7 +107,7 @@ public static class MoebiusMatrix
 //
 //  Compute the inverse permutation.
 //
-        p2 = Permutation.perm0_inverse ( n, p1 );
+        int[] p2 = Permutation.perm0_inverse ( n, p1 );
 //
 //  Unpermute the rows and columns of MU.
 //

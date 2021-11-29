@@ -385,19 +385,21 @@ public static partial class Minpack
             double sum;
             for (j = 0; j < n; j++)
             {
-                if (fjac[fjacIndex + j + j * ldfjac] != 0.0)
+                if (fjac[fjacIndex + j + j * ldfjac] == 0.0)
                 {
-                    sum = 0.0;
-                    for (i = j; i < n; i++)
-                    {
-                        sum += fjac[fjacIndex + i + j * ldfjac] * qtf[qtfIndex + i];
-                    }
+                    continue;
+                }
 
-                    temp = -sum / fjac[fjacIndex + j + j * ldfjac];
-                    for (i = j; i < n; i++)
-                    {
-                        qtf[qtfIndex + i] += fjac[fjacIndex + i + j * ldfjac] * temp;
-                    }
+                sum = 0.0;
+                for (i = j; i < n; i++)
+                {
+                    sum += fjac[fjacIndex + i + j * ldfjac] * qtf[qtfIndex + i];
+                }
+
+                temp = -sum / fjac[fjacIndex + j + j * ldfjac];
+                for (i = j; i < n; i++)
+                {
+                    qtf[qtfIndex + i] += fjac[fjacIndex + i + j * ldfjac] * temp;
                 }
             }
 
@@ -849,16 +851,16 @@ public static partial class Minpack
         int maxfev = 200 * (n + 1);
         int ml = n - 1;
         int mu = n - 1;
-        double epsfcn = 0.0;
+        const double epsfcn = 0.0;
         for (j = 0; j < n; j++)
         {
             wa[j] = 1.0;
         }
 
-        int mode = 2;
-        double factor = 100.0;
-        int nprint = 0;
-        int nfev = 0;
+        const int mode = 2;
+        const double factor = 100.0;
+        const int nprint = 0;
+        const int nfev = 0;
         int lr = n * (n + 1) / 2;
         int index = 6 * n + lr;
 

@@ -180,11 +180,13 @@ public static class ZQRDC
 
                 for (j = l; j <= pu; j++)
                 {
-                    if (maxnrm < qraux[j - 1].Real)
+                    if (!(maxnrm < qraux[j - 1].Real))
                     {
-                        maxnrm = qraux[j - 1].Real;
-                        maxj = j;
+                        continue;
                     }
+
+                    maxnrm = qraux[j - 1].Real;
+                    maxj = j;
                 }
 
                 if (maxj != l)
@@ -201,68 +203,72 @@ public static class ZQRDC
 
             qraux[l - 1] = new Complex(0.0, 0.0);
 
-            if (l != n)
+            if (l == n)
             {
-                //
-                //  Compute the Householder transformation for column L.
-                //
-                Complex nrmxl = new Complex(BLAS1Z.dznrm2(n - l + 1, x, 1, index: + l - 1 + (l - 1) * ldx), 0.0);
+                continue;
+            }
 
-                if (typeMethods.zabs1(nrmxl) != 0.0)
+            //
+            //  Compute the Householder transformation for column L.
+            //
+            Complex nrmxl = new(BLAS1Z.dznrm2(n - l + 1, x, 1, index: + l - 1 + (l - 1) * ldx), 0.0);
+
+            if (typeMethods.zabs1(nrmxl) == 0.0)
+            {
+                continue;
+            }
+
+            if (typeMethods.zabs1(x[l - 1 + (l - 1) * ldx]) != 0.0)
+            {
+                nrmxl = typeMethods.zsign2(nrmxl, x[l - 1 + (l - 1) * ldx]);
+            }
+
+            Complex t = new Complex(1.0, 0.0) / nrmxl;
+            BLAS1Z.zscal(n - l + 1, t, ref x, 1, index: + l - 1 + (l - 1) * ldx);
+            x[l - 1 + (l - 1) * ldx] = new Complex(1.0, 0.0) + x[l - 1 + (l - 1) * ldx];
+            //
+            //  Apply the transformation to the remaining columns,
+            //  updating the norms.
+            //
+            for (j = l + 1; j <= p; j++)
+            {
+                t = -BLAS1Z.zdotc(n - l + 1, x, 1, x, 1, xIndex: + l - 1 + (l - 1) * ldx, yIndex: + l - 1 + (j - 1) * ldx)
+                    / x[l - 1 + (l - 1) * ldx];
+                BLAS1Z.zaxpy(n - l + 1, t, x, 1, ref x, 1, xIndex: + l - 1 + (l - 1) * ldx, yIndex: + l - 1 + (j - 1) * ldx);
+
+                if (j < pl || pu < j)
                 {
-                    if (typeMethods.zabs1(x[l - 1 + (l - 1) * ldx]) != 0.0)
-                    {
-                        nrmxl = typeMethods.zsign2(nrmxl, x[l - 1 + (l - 1) * ldx]);
-                    }
+                    continue;
+                }
 
-                    Complex t = new Complex(1.0, 0.0) / nrmxl;
-                    BLAS1Z.zscal(n - l + 1, t, ref x, 1, index: + l - 1 + (l - 1) * ldx);
-                    x[l - 1 + (l - 1) * ldx] = new Complex(1.0, 0.0) + x[l - 1 + (l - 1) * ldx];
-                    //
-                    //  Apply the transformation to the remaining columns,
-                    //  updating the norms.
-                    //
-                    for (j = l + 1; j <= p; j++)
-                    {
-                        t = -BLAS1Z.zdotc(n - l + 1, x, 1, x, 1, xIndex: + l - 1 + (l - 1) * ldx, yIndex: + l - 1 + (j - 1) * ldx)
-                            / x[l - 1 + (l - 1) * ldx];
-                        BLAS1Z.zaxpy(n - l + 1, t, x, 1, ref x, 1, xIndex: + l - 1 + (l - 1) * ldx, yIndex: + l - 1 + (j - 1) * ldx);
+                if (typeMethods.zabs1(qraux[j - 1]) == 0.0)
+                {
+                    continue;
+                }
 
-                        if (j < pl || pu < j)
-                        {
-                            continue;
-                        }
+                double tt = 1.0 - Math.Pow(Complex.Abs(x[l - 1 + (j - 1) * ldx]) / qraux[j - 1].Real, 2);
+                tt = Math.Max(tt, 0.0);
+                t = new Complex(tt, 0.0);
+                tt = 1.0 + 0.05 * tt
+                                * Math.Pow(qraux[j - 1].Real / work[j - 1].Real, 2);
 
-                        if (typeMethods.zabs1(qraux[j - 1]) == 0.0)
-                        {
-                            continue;
-                        }
-
-                        double tt = 1.0 - Math.Pow(Complex.Abs(x[l - 1 + (j - 1) * ldx]) / qraux[j - 1].Real, 2);
-                        tt = Math.Max(tt, 0.0);
-                        t = new Complex(tt, 0.0);
-                        tt = 1.0 + 0.05 * tt
-                                        * Math.Pow(qraux[j - 1].Real / work[j - 1].Real, 2);
-
-                        if (Math.Abs(tt - 1.0) > double.Epsilon)
-                        {
-                            qraux[j - 1] *= Complex.Sqrt(t);
-                        }
-                        else
-                        {
-                            qraux[j - 1] =
-                                new Complex(BLAS1Z.dznrm2(n - l, x, 1, index: + l + (j - 1) * ldx), 0.0);
-                            work[j - 1] = qraux[j - 1];
-                        }
-                    }
-
-                    //
-                    //  Save the transformation.
-                    //
-                    qraux[l - 1] = x[l - 1 + (l - 1) * ldx];
-                    x[l - 1 + (l - 1) * ldx] = -nrmxl;
+                if (Math.Abs(tt - 1.0) > double.Epsilon)
+                {
+                    qraux[j - 1] *= Complex.Sqrt(t);
+                }
+                else
+                {
+                    qraux[j - 1] =
+                        new Complex(BLAS1Z.dznrm2(n - l, x, 1, index: + l + (j - 1) * ldx), 0.0);
+                    work[j - 1] = qraux[j - 1];
                 }
             }
+
+            //
+            //  Save the transformation.
+            //
+            qraux[l - 1] = x[l - 1 + (l - 1) * ldx];
+            x[l - 1 + (l - 1) * ldx] = -nrmxl;
         }
     }
 

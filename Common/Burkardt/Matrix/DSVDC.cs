@@ -455,11 +455,13 @@ public static class DSVDC
 
                     ztest = test + Math.Abs(s[ls - 1]);
 
-                    if (Math.Abs(ztest - test) <= double.Epsilon)
+                    if (!(Math.Abs(ztest - test) <= double.Epsilon))
                     {
-                        s[ls - 1] = 0.0;
-                        break;
+                        continue;
                     }
+
+                    s[ls - 1] = 0.0;
+                    break;
 
                 }
 

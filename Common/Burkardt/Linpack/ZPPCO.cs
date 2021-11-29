@@ -137,7 +137,7 @@ public static class ZPPCO
         //
         //  Solve hermitian(R)*W = E.
         //
-        Complex ek = new Complex(1.0, 0.0);
+        Complex ek = new(1.0, 0.0);
         for (j = 0; j < n; j++)
         {
             z[j] = new Complex(0.0, 0.0);

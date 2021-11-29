@@ -166,7 +166,7 @@ public static class RungeKuttaFehlberg
         public int kflag = -1000;
         public int kop = -1;
         public float relerr_save = -1.0f;
-        public float remin = 1.0E-12f;
+        public const float remin = 1.0E-12f;
         public int nfe = -1;
     }
 
@@ -492,7 +492,7 @@ public static class RungeKuttaFehlberg
         //  to avoid limiting precision difficulties arising from impossible 
         //  accuracy requests.
         //
-        float relerr_min = 2.0f * typeMethods.r4_epsilon() + data.remin;
+        float relerr_min = 2.0f * typeMethods.r4_epsilon() + r4RKFData.remin;
         //
         //  Is the relative error tolerance too small?
         //
@@ -550,14 +550,16 @@ public static class RungeKuttaFehlberg
                 for (k = 0; k < neqn; k++)
                 {
                     float tol = relerr * Math.Abs(y[k]) + abserr;
-                    if (0.0 < tol)
+                    if (!(0.0 < tol))
                     {
-                        toln = tol;
-                        float ypk = Math.Abs(yp[k]);
-                        if (tol < ypk * Math.Pow(data.h, 5))
-                        {
-                            data.h = (float) Math.Pow(tol / ypk, 0.2);
-                        }
+                        continue;
+                    }
+
+                    toln = tol;
+                    float ypk = Math.Abs(yp[k]);
+                    if (tol < ypk * Math.Pow(data.h, 5))
+                    {
+                        data.h = (float) Math.Pow(tol / ypk, 0.2);
                     }
                 }
 
@@ -767,12 +769,14 @@ public static class RungeKuttaFehlberg
 
                 data.h = s * data.h;
 
-                if (Math.Abs(data.h) < hmin)
+                if (!(Math.Abs(data.h) < hmin))
                 {
-                    data.kflag = 6;
-                    flag_return = 6;
-                    return flag_return;
+                    continue;
                 }
+
+                data.kflag = 6;
+                flag_return = 6;
+                return flag_return;
 
             }
 
@@ -992,7 +996,7 @@ public static class RungeKuttaFehlberg
         public int kop = -1;
         public int nfe = -1;
         public double relerr_save = -1.0;
-        public double remin = 1.0E-12;
+        public const double remin = 1.0E-12;
     }
 
     public static int r8_rkf45(ref r8RKFData data, Func<double, double[], double[], double[]> f, int neqn,
@@ -1332,7 +1336,7 @@ public static class RungeKuttaFehlberg
         //  to avoid limiting precision difficulties arising from impossible 
         //  accuracy requests.
         //
-        double relerr_min = 2.0 * typeMethods.r8_epsilon() + data.remin;
+        double relerr_min = 2.0 * typeMethods.r8_epsilon() + r8RKFData.remin;
         //
         //  Is the relative error tolerance too small?
         //
@@ -1610,12 +1614,14 @@ public static class RungeKuttaFehlberg
 
                 data.h = s * data.h;
 
-                if (Math.Abs(data.h) < hmin)
+                if (!(Math.Abs(data.h) < hmin))
                 {
-                    data.kflag = 6;
-                    flag_return = 6;
-                    return flag_return;
+                    continue;
                 }
+
+                data.kflag = 6;
+                flag_return = 6;
+                return flag_return;
 
             }
 

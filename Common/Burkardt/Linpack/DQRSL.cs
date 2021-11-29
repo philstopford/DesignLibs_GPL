@@ -276,15 +276,17 @@ public static class DQRSL
             {
                 for (j = 1; j <= ju; j++)
                 {
-                    if (qraux[j - 1] != 0.0)
+                    if (qraux[j - 1] == 0.0)
                     {
-                        temp = a[j - 1 + (j - 1) * lda];
-                        a[j - 1 + (j - 1) * lda] = qraux[j - 1];
-                        t = -BLAS1D.ddot(n - j + 1, a, 1, qty, 1, xIndex: +j - 1 + (j - 1) * lda, yIndex: +j - 1) /
-                            a[j - 1 + (j - 1) * lda];
-                        BLAS1D.daxpy(n - j + 1, t, a, 1, ref qty, 1, xIndex: +j - 1 + (j - 1) * lda, yIndex: +j - 1);
-                        a[j - 1 + (j - 1) * lda] = temp;
+                        continue;
                     }
+
+                    temp = a[j - 1 + (j - 1) * lda];
+                    a[j - 1 + (j - 1) * lda] = qraux[j - 1];
+                    t = -BLAS1D.ddot(n - j + 1, a, 1, qty, 1, xIndex: +j - 1 + (j - 1) * lda, yIndex: +j - 1) /
+                        a[j - 1 + (j - 1) * lda];
+                    BLAS1D.daxpy(n - j + 1, t, a, 1, ref qty, 1, xIndex: +j - 1 + (j - 1) * lda, yIndex: +j - 1);
+                    a[j - 1 + (j - 1) * lda] = temp;
                 }
 
                 break;
@@ -378,11 +380,13 @@ public static class DQRSL
 
                     b[j - 1] /= a[j - 1 + (j - 1) * lda];
 
-                    if (j != 1)
+                    if (j == 1)
                     {
-                        t = -b[j - 1];
-                        BLAS1D.daxpy(j - 1, t, a, 1, ref b, 1, xIndex: +0 + (j - 1) * lda);
+                        continue;
                     }
+
+                    t = -b[j - 1];
+                    BLAS1D.daxpy(j - 1, t, a, 1, ref b, 1, xIndex: +0 + (j - 1) * lda);
                 }
 
                 break;
@@ -392,39 +396,43 @@ public static class DQRSL
         //
         //  Compute RSD or AB as required.
         //
-        if (cr || cab)
+        if (!cr && !cab)
         {
-            for (jj = 1; jj <= ju; jj++)
+            return info;
+        }
+
+        for (jj = 1; jj <= ju; jj++)
+        {
+            j = ju - jj + 1;
+
+            if (qraux[j - 1] == 0.0)
             {
-                j = ju - jj + 1;
-
-                if (qraux[j - 1] != 0.0)
-                {
-                    temp = a[j - 1 + (j - 1) * lda];
-                    a[j - 1 + (j - 1) * lda] = qraux[j - 1];
-
-                    switch (cr)
-                    {
-                        case true:
-                            t = -BLAS1D.ddot(n - j + 1, a, 1, rsd, 1, xIndex: +j - 1 + (j - 1) * lda, yIndex: +j - 1)
-                                / a[j - 1 + (j - 1) * lda];
-                            BLAS1D.daxpy(n - j + 1, t, a, 1, ref rsd, 1, xIndex: +j - 1 + (j - 1) * lda,
-                                yIndex: +j - 1);
-                            break;
-                    }
-
-                    switch (cab)
-                    {
-                        case true:
-                            t = -BLAS1D.ddot(n - j + 1, a, 1, ab, 1, xIndex: +j - 1 + (j - 1) * lda, yIndex: +j - 1)
-                                / a[j - 1 + (j - 1) * lda];
-                            BLAS1D.daxpy(n - j + 1, t, a, 1, ref ab, 1, xIndex: +j - 1 + (j - 1) * lda, yIndex: +j - 1);
-                            break;
-                    }
-
-                    a[j - 1 + (j - 1) * lda] = temp;
-                }
+                continue;
             }
+
+            temp = a[j - 1 + (j - 1) * lda];
+            a[j - 1 + (j - 1) * lda] = qraux[j - 1];
+
+            switch (cr)
+            {
+                case true:
+                    t = -BLAS1D.ddot(n - j + 1, a, 1, rsd, 1, xIndex: +j - 1 + (j - 1) * lda, yIndex: +j - 1)
+                        / a[j - 1 + (j - 1) * lda];
+                    BLAS1D.daxpy(n - j + 1, t, a, 1, ref rsd, 1, xIndex: +j - 1 + (j - 1) * lda,
+                        yIndex: +j - 1);
+                    break;
+            }
+
+            switch (cab)
+            {
+                case true:
+                    t = -BLAS1D.ddot(n - j + 1, a, 1, ab, 1, xIndex: +j - 1 + (j - 1) * lda, yIndex: +j - 1)
+                        / a[j - 1 + (j - 1) * lda];
+                    BLAS1D.daxpy(n - j + 1, t, a, 1, ref ab, 1, xIndex: +j - 1 + (j - 1) * lda, yIndex: +j - 1);
+                    break;
+            }
+
+            a[j - 1 + (j - 1) * lda] = temp;
         }
 
         return info;

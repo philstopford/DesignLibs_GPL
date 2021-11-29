@@ -4,7 +4,7 @@ using Burkardt.Types;
 
 namespace Burkardt.Sparse;
 
-public class SparseCount
+public static class SparseCount
 {
     public static int cc_se_size(int dim_num, int level_max)
         //****************************************************************************80

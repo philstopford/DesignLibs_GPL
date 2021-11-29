@@ -222,11 +222,13 @@ public static class ZCHDC
                 int l;
                 for (l = k + 1; l <= pu; l++)
                 {
-                    if (maxdia < a[l - 1 + (l - 1) * lda].Real)
+                    if (!(maxdia < a[l - 1 + (l - 1) * lda].Real))
                     {
-                        maxdia = a[l - 1 + (l - 1) * lda].Real;
-                        maxl = l;
+                        continue;
                     }
+
+                    maxdia = a[l - 1 + (l - 1) * lda].Real;
+                    maxl = l;
                 }
             }
 

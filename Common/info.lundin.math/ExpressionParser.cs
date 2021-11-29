@@ -37,7 +37,7 @@ public class ExpressionParser
         Expressions = new ExpressionDictionary();
 
         // Add all valid operators.
-        DefaultOperators operators = new DefaultOperators();
+        DefaultOperators operators = new();
         ops = new Dictionary<string, Operator>();
 
         foreach (Operator op in operators.Operators)

@@ -104,7 +104,7 @@ public static class HermitePolyChaosExpansion
 
                 double term = -alpha_mu * u1[k];
 
-                int i = 1;
+                const int i = 1;
                 for (j = 0; j <= np; j++)
                 {
                     double tp = Integral.he_triple_product_integral(i, j, k);

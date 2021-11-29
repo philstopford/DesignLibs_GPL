@@ -146,11 +146,13 @@ public static class YoungTableau
                 {
                     lambda[a[i - 1] - 1] += 1;
 
-                    if (a[i - 1] < a[i - 2])
+                    if (a[i - 1] >= a[i - 2])
                     {
-                        isave = i;
-                        break;
+                        continue;
                     }
+
+                    isave = i;
+                    break;
 
                 }
 
@@ -165,13 +167,15 @@ public static class YoungTableau
 
                 for (i = n; 1 <= i; i--)
                 {
-                    if (lambda[i - 1] == it)
+                    if (lambda[i - 1] != it)
                     {
-                        a[isave - 1] = i;
-                        lambda[i - 1] -= 1;
-                        it = isave - 1;
-                        break;
+                        continue;
                     }
+
+                    a[isave - 1] = i;
+                    lambda[i - 1] -= 1;
+                    it = isave - 1;
+                    break;
 
                 }
 
@@ -216,11 +220,13 @@ public static class YoungTableau
 
         for (j = 1; j < n; j++)
         {
-            if (a[j] < a[j - 1])
+            if (a[j] >= a[j - 1])
             {
-                more = true;
-                return;
+                continue;
             }
+
+            more = true;
+            return;
         }
 
         more = false;
@@ -277,11 +283,13 @@ public static class YoungTableau
             int j;
             for (j = 0; j < n; j++)
             {
-                if (a[j] == row_i)
+                if (a[j] != row_i)
                 {
-                    jarray[row_length] = j;
-                    row_length += 1;
+                    continue;
                 }
+
+                jarray[row_length] = j;
+                row_length += 1;
 
             }
 

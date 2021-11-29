@@ -77,7 +77,7 @@ public static class DPODI
         {
             det[0] = 1.0;
             det[1] = 0.0;
-            double s = 10.0;
+            const double s = 10.0;
 
             int i;
             for (i = 1; i <= n; i++)

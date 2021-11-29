@@ -453,19 +453,21 @@ public static class NavierStokes
             //
             triangle2 = triangle_neighbor[2 + triangle * 3];
 
-            if (triangle2 < 0 || triangle < triangle2)
+            if (triangle2 >= 0 && triangle >= triangle2)
             {
-                adj_col[u1] += 5;
-                adj_col[v1] += 5;
-                adj_col[p1] += 5;
-
-                adj_col[u3] += 5;
-                adj_col[v3] += 5;
-                adj_col[p3] += 5;
-
-                adj_col[u6] += 6;
-                adj_col[v6] += 6;
+                continue;
             }
+
+            adj_col[u1] += 5;
+            adj_col[v1] += 5;
+            adj_col[p1] += 5;
+
+            adj_col[u3] += 5;
+            adj_col[v3] += 5;
+            adj_col[p3] += 5;
+
+            adj_col[u6] += 6;
+            adj_col[v6] += 6;
 
         }
 
@@ -1024,32 +1026,34 @@ public static class NavierStokes
             //
             triangle2 = triangle_neighbor[2 + triangle * 3];
 
-            if (triangle2 < 0 || triangle < triangle2)
+            if (triangle2 >= 0 && triangle >= triangle2)
             {
-                ns_adj_insert(u1, u3, variable_num, adj_num, ref adj_col_free, ref adj_row);
-                ns_adj_insert(u1, v3, variable_num, adj_num, ref adj_col_free, ref adj_row);
-                ns_adj_insert(u1, p3, variable_num, adj_num, ref adj_col_free, ref adj_row);
-                ns_adj_insert(v1, u3, variable_num, adj_num, ref adj_col_free, ref adj_row);
-                ns_adj_insert(v1, v3, variable_num, adj_num, ref adj_col_free, ref adj_row);
-                ns_adj_insert(v1, p3, variable_num, adj_num, ref adj_col_free, ref adj_row);
-                ns_adj_insert(p1, u3, variable_num, adj_num, ref adj_col_free, ref adj_row);
-                ns_adj_insert(p1, v3, variable_num, adj_num, ref adj_col_free, ref adj_row);
-                ns_adj_insert(p1, p3, variable_num, adj_num, ref adj_col_free, ref adj_row);
-
-                ns_adj_insert(u1, u6, variable_num, adj_num, ref adj_col_free, ref adj_row);
-                ns_adj_insert(u1, v6, variable_num, adj_num, ref adj_col_free, ref adj_row);
-                ns_adj_insert(v1, u6, variable_num, adj_num, ref adj_col_free, ref adj_row);
-                ns_adj_insert(v1, v6, variable_num, adj_num, ref adj_col_free, ref adj_row);
-                ns_adj_insert(p1, u6, variable_num, adj_num, ref adj_col_free, ref adj_row);
-                ns_adj_insert(p1, v6, variable_num, adj_num, ref adj_col_free, ref adj_row);
-
-                ns_adj_insert(u3, u6, variable_num, adj_num, ref adj_col_free, ref adj_row);
-                ns_adj_insert(u3, v6, variable_num, adj_num, ref adj_col_free, ref adj_row);
-                ns_adj_insert(v3, u6, variable_num, adj_num, ref adj_col_free, ref adj_row);
-                ns_adj_insert(v3, v6, variable_num, adj_num, ref adj_col_free, ref adj_row);
-                ns_adj_insert(p3, u6, variable_num, adj_num, ref adj_col_free, ref adj_row);
-                ns_adj_insert(p3, v6, variable_num, adj_num, ref adj_col_free, ref adj_row);
+                continue;
             }
+
+            ns_adj_insert(u1, u3, variable_num, adj_num, ref adj_col_free, ref adj_row);
+            ns_adj_insert(u1, v3, variable_num, adj_num, ref adj_col_free, ref adj_row);
+            ns_adj_insert(u1, p3, variable_num, adj_num, ref adj_col_free, ref adj_row);
+            ns_adj_insert(v1, u3, variable_num, adj_num, ref adj_col_free, ref adj_row);
+            ns_adj_insert(v1, v3, variable_num, adj_num, ref adj_col_free, ref adj_row);
+            ns_adj_insert(v1, p3, variable_num, adj_num, ref adj_col_free, ref adj_row);
+            ns_adj_insert(p1, u3, variable_num, adj_num, ref adj_col_free, ref adj_row);
+            ns_adj_insert(p1, v3, variable_num, adj_num, ref adj_col_free, ref adj_row);
+            ns_adj_insert(p1, p3, variable_num, adj_num, ref adj_col_free, ref adj_row);
+
+            ns_adj_insert(u1, u6, variable_num, adj_num, ref adj_col_free, ref adj_row);
+            ns_adj_insert(u1, v6, variable_num, adj_num, ref adj_col_free, ref adj_row);
+            ns_adj_insert(v1, u6, variable_num, adj_num, ref adj_col_free, ref adj_row);
+            ns_adj_insert(v1, v6, variable_num, adj_num, ref adj_col_free, ref adj_row);
+            ns_adj_insert(p1, u6, variable_num, adj_num, ref adj_col_free, ref adj_row);
+            ns_adj_insert(p1, v6, variable_num, adj_num, ref adj_col_free, ref adj_row);
+
+            ns_adj_insert(u3, u6, variable_num, adj_num, ref adj_col_free, ref adj_row);
+            ns_adj_insert(u3, v6, variable_num, adj_num, ref adj_col_free, ref adj_row);
+            ns_adj_insert(v3, u6, variable_num, adj_num, ref adj_col_free, ref adj_row);
+            ns_adj_insert(v3, v6, variable_num, adj_num, ref adj_col_free, ref adj_row);
+            ns_adj_insert(p3, u6, variable_num, adj_num, ref adj_col_free, ref adj_row);
+            ns_adj_insert(p3, v6, variable_num, adj_num, ref adj_col_free, ref adj_row);
         }
 
         //

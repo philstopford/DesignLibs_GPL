@@ -4,9 +4,10 @@ namespace Burkardt.NiederreiterNS;
 
 public static class Niederreiter2
 {
-    private static int MAXDEG = 50;
-    private static int DIM_MAX = 20;
-    private static int NBITS = 31;
+    private const int MAXDEG = 50;
+    private const int DIM_MAX = 20;
+    private const int NBITS = 31;
+
     public static void calcc2(ref NiederReiter2CalcData data, int dim_num, ref int[,] cj)
 
         //****************************************************************************80
@@ -246,8 +247,8 @@ public static class Niederreiter2
 
     public class NiederReiter2CalcData
     {
-        public int arbit = 1;
-        public int nonzer = 1;
+        public const int arbit = 1;
+        public const int nonzer = 1;
     }
         
     public static void calcv2(ref NiederReiter2CalcData data, int maxv, int px_deg, int[] px, int[,] add,
@@ -344,7 +345,6 @@ public static class Niederreiter2
             h[i] = b[i];
         }
 
-        int bigm = h_deg;
         //
         //  Multiply B by PX so B becomes PX**J.
         //  In section 2.3, the values of Bi are defined with a minus sign:
@@ -362,24 +362,23 @@ public static class Niederreiter2
         //  The limit condition on Kj does not seem very relevant
         //  in this program.
         //
-        int kj = bigm;
         //
         //  Choose values of V in accordance with the conditions in section 3.3.
         //
-        for (r = 0; r < kj; r++)
+        for (r = 0; r < h_deg; r++)
         {
             v[r] = 0;
         }
 
-        v[kj] = 1;
+        v[h_deg] = 1;
 
-        if (kj < bigm)
+        if (h_deg < h_deg)
         {
-            term = sub[0,h[kj]];
+            term = sub[0,h[h_deg]];
 
-            for (r = kj + 1; r <= bigm - 1; r++)
+            for (r = h_deg + 1; r <= h_deg - 1; r++)
             {
-                v[r] = data.arbit;
+                v[r] = NiederReiter2CalcData.arbit;
                 //
                 //  Check the condition of section 3.3,
                 //  remembering that the H's have the opposite sign.
@@ -391,18 +390,18 @@ public static class Niederreiter2
             //
             //  Now V(BIGM) is anything but TERM.
             //
-            v[bigm] = add[data.nonzer,term];
+            v[h_deg] = add[NiederReiter2CalcData.nonzer,term];
 
-            for (r = bigm + 1; r <= m - 1; r++)
+            for (r = h_deg + 1; r <= m - 1; r++)
             {
-                v[r] = data.arbit;
+                v[r] = NiederReiter2CalcData.arbit;
             }
         }
         else
         {
-            for (r = kj + 1; r <= m - 1; r++)
+            for (r = h_deg + 1; r <= m - 1; r++)
             {
-                v[r] = data.arbit;
+                v[r] = NiederReiter2CalcData.arbit;
             }
 
         }
@@ -785,8 +784,8 @@ public static class Niederreiter2
     {
         int i;
         int j;
-        int p = 2;
-        int q = 2;
+        const int p = 2;
+        const int q = 2;
         //
         for (i = 0; i < q; i++)
         {

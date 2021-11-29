@@ -217,7 +217,7 @@ public class TreeParser
 
         int i = 0, p = 0;
         string tmp = null;
-        StringBuilder str = new StringBuilder(exp);
+        StringBuilder str = new(exp);
 
         int l = exp.Length;
 
@@ -298,7 +298,7 @@ public class TreeParser
 
         int p;
 
-        StringBuilder newstr = new StringBuilder(exp);
+        StringBuilder newstr = new(exp);
 
         int i = p = 0;
         int len = exp.Length;
@@ -609,7 +609,7 @@ public class TreeParser
     {
         int i = 0;
         int len = str.Length;
-        StringBuilder nstr = new StringBuilder(len);
+        StringBuilder nstr = new(len);
 
         while (i < len)
         {
@@ -700,7 +700,7 @@ public class TreeParser
         int prec;
         int len = exp.Length;
 
-        StringBuilder str = new StringBuilder();
+        StringBuilder str = new();
 
         int i = index;
 

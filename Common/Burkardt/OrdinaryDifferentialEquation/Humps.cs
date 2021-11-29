@@ -133,9 +133,9 @@ public static class Humps
         double u2 = -2.0 * (x - 0.9);
         double v2 = typeMethods.r8_square(typeMethods.r8_square(x - 0.9) + 0.04);
 
-        double u1p = -2.0;
+        const double u1p = -2.0;
         double v1p = 2.0 * (typeMethods.r8_square(x - 0.3) + 0.01) * 2.0 * (x - 0.3);
-        double u2p = -2.0;
+        const double u2p = -2.0;
         double v2p = 2.0 * (typeMethods.r8_square(x - 0.9) + 0.04) * 2.0 * (x - 0.9);
 
         double ypp = (u1p * v1 - u1 * v1p) / v1 / v1

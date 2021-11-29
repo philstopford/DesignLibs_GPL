@@ -986,7 +986,7 @@ internal static class Program
 //  Create the data file.
 //
             string data_filename = "data.txt";
-            List<string> data_unit = new List<string>();
+            List<string> data_unit = new();
             for (e_log = 0; e_log <= e_log_max; e_log++)
             {
                 data_unit.Add("  " + ne_plot[e_log]
@@ -1004,7 +1004,7 @@ internal static class Program
 //
             string command_filename = "commands_l2.txt";
 
-            List<string> command_unit = new List<string>();
+            List<string> command_unit = new();
 
             string output_filename = "l2.png";
 

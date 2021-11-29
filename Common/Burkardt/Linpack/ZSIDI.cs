@@ -106,19 +106,21 @@ public static class ZSIDI
 
                     det[0] *= d;
 
-                    if (typeMethods.zabs1(det[0]) != 0.0)
+                    if (typeMethods.zabs1(det[0]) == 0.0)
                     {
-                        while (typeMethods.zabs1(det[0]) < 1.0)
-                        {
-                            det[0] *= new Complex(10.0, 0.0);
-                            det[1] -= new Complex(1.0, 0.0);
-                        }
+                        continue;
+                    }
 
-                        while (10.0 <= typeMethods.zabs1(det[0]))
-                        {
-                            det[0] /= new Complex(10.0, 0.0);
-                            det[1] += new Complex(1.0, 0.0);
-                        }
+                    while (typeMethods.zabs1(det[0]) < 1.0)
+                    {
+                        det[0] *= new Complex(10.0, 0.0);
+                        det[1] -= new Complex(1.0, 0.0);
+                    }
+
+                    while (10.0 <= typeMethods.zabs1(det[0]))
+                    {
+                        det[0] /= new Complex(10.0, 0.0);
+                        det[1] += new Complex(1.0, 0.0);
                     }
                 }
 

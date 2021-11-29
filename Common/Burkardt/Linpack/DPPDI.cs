@@ -68,7 +68,7 @@ public static class DPPDI
         {
             det[0] = 1.0;
             det[1] = 0.0;
-            double s = 10.0;
+            const double s = 10.0;
             int ii = 0;
 
             int i;

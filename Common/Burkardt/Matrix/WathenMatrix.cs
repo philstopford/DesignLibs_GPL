@@ -136,7 +136,7 @@ public static class WathenMatrix
                     int kcol;
                     for (kcol = 0; kcol < 8; kcol++)
                     {
-                        double rho = 1.0;
+                        const double rho = 1.0;
 
                         if (node[krow] < 0 || n <= node[krow] ||
                             node[kcol] < 0 || n <= node[kcol])

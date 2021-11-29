@@ -240,11 +240,13 @@ public static class DTRCO
                 _ => 1
             };
 
-            if (kk < n)
+            if (kk >= n)
             {
-                w = -z[k - 1];
-                BLAS1D.daxpy(n - kk, w, t, 1, ref z, 1, xIndex: +i1 - 1 + (k - 1) * ldt, yIndex: +i1 - 1);
+                continue;
             }
+
+            w = -z[k - 1];
+            BLAS1D.daxpy(n - kk, w, t, 1, ref z, 1, xIndex: +i1 - 1 + (k - 1) * ldt, yIndex: +i1 - 1);
         }
 
         //

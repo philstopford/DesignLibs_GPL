@@ -99,64 +99,66 @@ public static class ZTRDI
         //
         //  Compute inverse of upper triangular matrix.
         //
-        if (job / 10 % 10 != 0)
+        if (job / 10 % 10 == 0)
         {
-            Complex temp;
-            int j;
-            int k;
-            if (job % 10 != 0)
+            return info;
+        }
+
+        Complex temp;
+        int j;
+        int k;
+        if (job % 10 != 0)
+        {
+            info = 0;
+
+            for (k = 0; k < n; k++)
             {
-                info = 0;
-
-                for (k = 0; k < n; k++)
+                if (typeMethods.zabs1(t[k + k * ldt]) == 0.0)
                 {
-                    if (typeMethods.zabs1(t[k + k * ldt]) == 0.0)
-                    {
-                        info = k + 1;
-                        break;
-                    }
+                    info = k + 1;
+                    break;
+                }
 
-                    t[k + k * ldt] = new Complex(1.0, 0.0) / t[k + k * ldt];
-                    temp = -t[k + k * ldt];
-                    BLAS1Z.zscal(k, temp, ref t, 1, index: +0 + k * ldt);
+                t[k + k * ldt] = new Complex(1.0, 0.0) / t[k + k * ldt];
+                temp = -t[k + k * ldt];
+                BLAS1Z.zscal(k, temp, ref t, 1, index: +0 + k * ldt);
 
-                    for (j = k + 1; j < n; j++)
-                    {
-                        temp = t[k + j * ldt];
-                        t[k + j * ldt] = new Complex(0.0, 0.0);
-                        BLAS1Z.zaxpy(k + 1, temp, t, 1, ref t, 1, xIndex: +0 + k * ldt, yIndex: +0 + j * ldt);
-                    }
+                for (j = k + 1; j < n; j++)
+                {
+                    temp = t[k + j * ldt];
+                    t[k + j * ldt] = new Complex(0.0, 0.0);
+                    BLAS1Z.zaxpy(k + 1, temp, t, 1, ref t, 1, xIndex: +0 + k * ldt, yIndex: +0 + j * ldt);
                 }
             }
-            //
-            //  Compute inverse of lower triangular matrix.
-            //
-            else
+        }
+        //
+        //  Compute inverse of lower triangular matrix.
+        //
+        else
+        {
+            info = 0;
+
+            for (k = n - 1; 0 <= k; k--)
             {
-                info = 0;
-
-                for (k = n - 1; 0 <= k; k--)
+                if (typeMethods.zabs1(t[k + k * ldt]) == 0.0)
                 {
-                    if (typeMethods.zabs1(t[k + k * ldt]) == 0.0)
-                    {
-                        info = k + 1;
-                        break;
-                    }
+                    info = k + 1;
+                    break;
+                }
 
-                    t[k + k * ldt] = new Complex(1.0, 0.0) / t[k + k * ldt];
+                t[k + k * ldt] = new Complex(1.0, 0.0) / t[k + k * ldt];
 
-                    if (k != n - 1)
-                    {
-                        temp = -t[k + k * ldt];
-                        BLAS1Z.zscal(n - k - 1, temp, ref t, 1, index: +k + 1 + k * ldt);
-                    }
+                if (k != n - 1)
+                {
+                    temp = -t[k + k * ldt];
+                    BLAS1Z.zscal(n - k - 1, temp, ref t, 1, index: +k + 1 + k * ldt);
+                }
 
-                    for (j = 0; j < k; j++)
-                    {
-                        temp = t[k + j * ldt];
-                        t[k + j * ldt] = new Complex(0.0, 0.0);
-                        BLAS1Z.zaxpy(n - k, temp, t, 1, ref t, 1, xIndex: +k + k * ldt, yIndex: +k + j * ldt);
-                    }
+                for (j = 0; j < k; j++)
+                {
+                    temp = t[k + j * ldt];
+                    t[k + j * ldt] = new Complex(0.0, 0.0);
+                    BLAS1Z.zaxpy(n - k, temp, t, 1, ref t, 1, xIndex: +k + k * ldt, yIndex: +k + j * ldt);
                 }
             }
         }

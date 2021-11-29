@@ -49,7 +49,7 @@ public static partial class FullertonLib
 
         double cs = Math.Cos(x);
 
-        Complex value = new Complex(cs * Math.Cosh(y), -Math.Sin(x) * Math.Sinh(y));
+        Complex value = new(cs * Math.Cosh(y), -Math.Sin(x) * Math.Sinh(y));
 
         return value;
     }
@@ -98,7 +98,7 @@ public static partial class FullertonLib
 
         double sn = Math.Sin(x);
 
-        Complex value = new Complex(sn * Math.Cosh(y), Math.Cos(x) * Math.Sinh(y));
+        Complex value = new(sn * Math.Cosh(y), Math.Cos(x) * Math.Sinh(y));
 
         return value;
     }

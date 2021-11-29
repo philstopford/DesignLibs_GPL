@@ -281,17 +281,19 @@ public static partial class PDF
                     }
                 }
 
-                if (v <= f)
+                if (!(v <= f))
                 {
-                    ix = pp switch
-                    {
-                        > 0.5 => n - ix,
-                        _ => ix
-                    };
-
-                    value = ix;
-                    return value;
+                    continue;
                 }
+
+                ix = pp switch
+                {
+                    > 0.5 => n - ix,
+                    _ => ix
+                };
+
+                value = ix;
+                return value;
             }
             else
             {
@@ -337,17 +339,19 @@ public static partial class PDF
                                                   + (13860.0 - (462.0 - (132.0 - (99.0 - 140.0
                                                       / w2) / w2) / w2) / w2) / w / 166320.0;
 
-                if (alv <= t)
+                if (!(alv <= t))
                 {
-                    ix = pp switch
-                    {
-                        > 0.5 => n - ix,
-                        _ => ix
-                    };
-
-                    value = ix;
-                    return value;
+                    continue;
                 }
+
+                ix = pp switch
+                {
+                    > 0.5 => n - ix,
+                    _ => ix
+                };
+
+                value = ix;
+                return value;
             }
         }
     }

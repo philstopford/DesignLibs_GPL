@@ -114,7 +114,7 @@ public static class ZTRCO
         //
         //  Solve hermitian(T)*Y = E.
         //
-        Complex ek = new Complex(1.0, 0.0);
+        Complex ek = new(1.0, 0.0);
         Complex[] z = new Complex[n];
         for (i = 0; i < n; i++)
         {
@@ -230,11 +230,13 @@ public static class ZTRCO
                 _ => 1
             };
 
-            if (kk < n)
+            if (kk >= n)
             {
-                w = -z[k - 1];
-                BLAS1Z.zaxpy(n - kk, w, t, 1, ref z, 1, xIndex: +i1 - 1 + (k - 1) * ldt, yIndex: +i1 - 1);
+                continue;
             }
+
+            w = -z[k - 1];
+            BLAS1Z.zaxpy(n - kk, w, t, 1, ref z, 1, xIndex: +i1 - 1 + (k - 1) * ldt, yIndex: +i1 - 1);
         }
 
         //

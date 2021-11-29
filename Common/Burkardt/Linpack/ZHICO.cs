@@ -131,7 +131,7 @@ public static class ZHICO
         //
         //  Solve U*D*W = E.
         //
-        Complex ek = new Complex(1.0, 0.0);
+        Complex ek = new(1.0, 0.0);
         for (i = 0; i < n; i++)
         {
             z[i] = new Complex(0.0, 0.0);

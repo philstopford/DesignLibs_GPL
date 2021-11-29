@@ -76,7 +76,7 @@ public static class IMTQLX
         int m = 0;
         double p;
 
-        double prec = 2.2204460492503131e-16;
+        const double prec = 2.2204460492503131e-16;
 
         switch (n)
         {
@@ -177,21 +177,25 @@ public static class IMTQLX
 
             for (j = ii; j <= n; j++)
             {
-                if (d[j - 1] < p)
+                if (!(d[j - 1] < p))
                 {
-                    k = j;
-                    p = d[j - 1];
+                    continue;
                 }
+
+                k = j;
+                p = d[j - 1];
             }
 
-            if (k != i)
+            if (k == i)
             {
-                d[k - 1] = d[i - 1];
-                d[i - 1] = p;
-                p = z[i - 1];
-                z[i - 1] = z[k - 1];
-                z[k - 1] = p;
+                continue;
             }
+
+            d[k - 1] = d[i - 1];
+            d[i - 1] = p;
+            p = z[i - 1];
+            z[i - 1] = z[k - 1];
+            z[k - 1] = p;
         }
     }
 }

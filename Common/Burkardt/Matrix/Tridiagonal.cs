@@ -179,7 +179,7 @@ public static class Tridiagonal
         for (i = 0; i < n; i++)
         {
             double angle = (i + 1) * Math.PI / (n + 1);
-            Complex arg = new Complex(x * z, 0.0);
+            Complex arg = new(x * z, 0.0);
             lambda[i] = y + 2.0 * Complex.Sqrt(arg) * Math.Cos(angle);
         }
 

@@ -434,8 +434,15 @@ public partial class Tess
         MeshUtils.Edge up = face._anEdge;
         Debug.Assert(up._Lnext != up && up._Lnext._Lnext != up);
 
-        while (Geom.VertLeq(up._Dst, up._Org)) up = up._Lprev;
-        while (Geom.VertLeq(up._Org, up._Dst)) up = up._Lnext;
+        while (Geom.VertLeq(up._Dst, up._Org))
+        {
+            up = up._Lprev;
+        }
+
+        while (Geom.VertLeq(up._Org, up._Dst))
+        {
+            up = up._Lnext;
+        }
 
         MeshUtils.Edge lo = up._Lprev;
 
@@ -449,7 +456,7 @@ public partial class Tess
                 while (lo._Lnext != up && (Geom.EdgeGoesLeft(lo._Lnext)
                                            || Geom.EdgeSign(lo._Org, lo._Dst, lo._Lnext._Dst) <= 0.0f))
                 {
-                    lo = _mesh.Connect(_pool, lo._Lnext, lo)._Sym;
+                    lo = Mesh.Connect(_pool, lo._Lnext, lo)._Sym;
                 }
                 lo = lo._Lprev;
             }
@@ -459,7 +466,7 @@ public partial class Tess
                 while (lo._Lnext != up && (Geom.EdgeGoesRight(up._Lprev)
                                            || Geom.EdgeSign(up._Dst, up._Org, up._Lprev._Org) >= 0.0f))
                 {
-                    up = _mesh.Connect(_pool, up, up._Lprev)._Sym;
+                    up = Mesh.Connect(_pool, up, up._Lprev)._Sym;
                 }
                 up = up._Lnext;
             }
@@ -470,7 +477,7 @@ public partial class Tess
         Debug.Assert(lo._Lnext != up);
         while (lo._Lnext._Lnext != up)
         {
-            lo = _mesh.Connect(_pool, lo._Lnext, lo)._Sym;
+            lo = Mesh.Connect(_pool, lo._Lnext, lo)._Sym;
         }
     }
 
@@ -512,7 +519,7 @@ public partial class Tess
             switch (f._inside)
             {
                 case false:
-                    _mesh.ZapFace(_pool, f);
+                    Mesh.ZapFace(_pool, f);
                     break;
             }
         }
@@ -549,7 +556,7 @@ public partial class Tess
                         e._winding = 0;
                         break;
                     default:
-                        _mesh.Delete(_pool, e);
+                        Mesh.Delete(_pool, e);
                         break;
                 }
             }
@@ -557,7 +564,7 @@ public partial class Tess
 
     }
 
-    private int GetNeighbourFace(MeshUtils.Edge edge)
+    private static int GetNeighbourFace(MeshUtils.Edge edge)
     {
         return edge._Rface switch
         {
@@ -662,12 +669,14 @@ public partial class Tess
         // Output vertices.
         for (v = _mesh._vHead._next; v != _mesh._vHead; v = v._next)
         {
-            if (v._n != Undef)
+            if (v._n == Undef)
             {
-                // Store coordinate
-                _vertices[v._n].Position = v._coords;
-                _vertices[v._n].Data = v._data;
+                continue;
             }
+
+            // Store coordinate
+            _vertices[v._n].Position = v._coords;
+            _vertices[v._n].Data = v._data;
         }
 
         // Output indices.
@@ -864,7 +873,7 @@ public partial class Tess
             {
                 case null:
                     e = _mesh.MakeEdge(_pool);
-                    _mesh.Splice(_pool, e, e._Sym);
+                    Mesh.Splice(_pool, e, e._Sym);
                     break;
                 default:
                     // Create a new vertex and edge which immediately follow e

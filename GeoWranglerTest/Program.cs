@@ -3,12 +3,11 @@ using geoWrangler;
 
 namespace GeoWranglerTest;
 
-internal class Program
+internal static class Program
 {
-    private static void Main(string[] args)
+    private static void Main()
     {
-        GeoLibPointF[] source = new GeoLibPointF[]
-        {
+        GeoLibPointF[] source = {
             new(0.02985, 0.18999),
             new(0.00864, 0.21120),
             new(0.01217, 0.21474),

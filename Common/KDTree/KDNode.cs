@@ -281,7 +281,7 @@ public class KDNode<T>
 
         // Don't let the split value be the same as the upper value as
         // can happen due to rounding errors!
-        if (fSplitValue == tMaxBound[iSplitDimension])
+        if (Math.Abs(fSplitValue - tMaxBound[iSplitDimension]) <= double.Epsilon)
         {
             fSplitValue = tMinBound[iSplitDimension];
         }

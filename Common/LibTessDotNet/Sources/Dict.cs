@@ -40,9 +40,9 @@ internal class Dict<TValue> where TValue : class
         internal TValue _key;
         internal Node _prev, _next;
 
-        public TValue Key { get { return _key; } }
-        public Node Prev { get { return _prev; } }
-        public Node Next { get { return _next; } }
+        public TValue Key => _key;
+        public Node Prev => _prev;
+        public Node Next => _next;
     }
 
     public delegate bool LessOrEqual(TValue lhs, TValue rhs);

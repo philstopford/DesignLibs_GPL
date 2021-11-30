@@ -74,7 +74,7 @@ internal static class Geom
     /// The calculation is extremely accurate and stable, even when v
     /// is very close to u or w.  In particular if we set v->t = 0 and
     /// let r be the negated result (this evaluates (uw)(v->s)), then
-    /// r is guaranteed to satisfy MIN(u->t,w->t) <= r <= MAX(u->t,w->t).
+    /// r is guaranteed to satisfy MIN(u->t,w->t) &lt;= r &lt;= MAX(u->t,w->t).
     /// </summary>
     public static double EdgeEval(MeshUtils.Vertex u, MeshUtils.Vertex v, MeshUtils.Vertex w)
     {
@@ -93,7 +93,7 @@ internal static class Geom
 
     /// <summary>
     /// Returns a number whose sign matches EdgeEval(u,v,w) but which
-    /// is cheaper to evaluate. Returns > 0, == 0 , or < 0
+    /// is cheaper to evaluate. Returns &gt; 0, == 0 , or &lt; 0
     /// as v is above, on, or below the edge uw.
     /// </summary>
     public static double EdgeSign(MeshUtils.Vertex u, MeshUtils.Vertex v, MeshUtils.Vertex w)

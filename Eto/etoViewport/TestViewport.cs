@@ -1289,10 +1289,15 @@ public class TestViewport : GLSurface
                         case true:
                         {
                             while (WorldToScreen(new SizeF(spacing, 0.0f)).Width > 12.0f)
+                            {
                                 spacing /= 10.0f;
+                            }
 
                             while (WorldToScreen(new SizeF(spacing, 0.0f)).Width < 4.0f)
+                            {
                                 spacing *= 10.0f;
+                            }
+
                             break;
                         }
                     }
@@ -1476,10 +1481,15 @@ public class TestViewport : GLSurface
                     case true:
                     {
                         while (WorldToScreen(new SizeF(spacing, 0.0f)).Width > 12.0f)
+                        {
                             spacing /= 10.0f;
+                        }
 
                         while (WorldToScreen(new SizeF(spacing, 0.0f)).Width < 4.0f)
+                        {
                             spacing *= 10.0f;
+                        }
+
                         break;
                     }
                 }

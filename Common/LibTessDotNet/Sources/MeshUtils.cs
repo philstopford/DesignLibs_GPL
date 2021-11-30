@@ -34,13 +34,13 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-
+using System.Linq;
 using Real = System.Double;
 namespace LibTessDotNet.Double;
 
 public struct Vec3
 {
-    public readonly static Vec3 Zero = new();
+    public static readonly Vec3 Zero = new();
 
     public double X, Y, Z;
 
@@ -161,12 +161,9 @@ public class DefaultTypePool<T> : ITypePool where T : class, Pooled<T>, new()
         lock (_pool)
         {
 #if DEBUG
-            foreach (T other in _pool)
+            if (_pool.Any(other => other == obj))
             {
-                if (other == obj)
-                {
-                    throw new InvalidOperationException("object already pooled");
-                }
+                throw new InvalidOperationException("object already pooled");
             }
 #endif
             _pool.Enqueue(obj as T);
@@ -382,7 +379,8 @@ internal static class MeshUtils
         internal Edge _Dnext { get => _Rprev._Sym;
             set => _Rprev._Sym = value;
         }
-        internal Edge _Rnext { get { return _Oprev._Sym; } set => _Oprev._Sym = value;
+        internal Edge _Rnext { get => _Oprev._Sym;
+            set => _Oprev._Sym = value;
         }
 
         internal static void EnsureFirst(ref Edge e)

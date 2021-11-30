@@ -47,7 +47,7 @@ internal class PriorityQueue<TValue> where TValue : class
     private int _size, _max;
     private bool _initialized;
 
-    public bool Empty { get { return _size == 0 && _heap.Empty; } }
+    public bool Empty => _size == 0 && _heap.Empty;
 
     public PriorityQueue(int initialSize, PriorityHeap<TValue>.LessOrEqual leq)
     {
@@ -64,7 +64,7 @@ internal class PriorityQueue<TValue> where TValue : class
     private class StackItem
     {
         internal int p, r;
-    };
+    }
 
     private static void Swap(ref int a, ref int b)
     {

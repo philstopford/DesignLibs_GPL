@@ -141,7 +141,7 @@ internal class Mesh : Pooled<Mesh>
     /// If eDst == eOrg->Onext, the new vertex will have a single edge.
     /// If eDst == eOrg->Oprev, the old vertex will have a single edge.
     /// </summary>
-    public void Splice(IPool pool, MeshUtils.Edge eOrg, MeshUtils.Edge eDst)
+    public static void Splice(IPool pool, MeshUtils.Edge eOrg, MeshUtils.Edge eDst)
     {
         if (eOrg == eDst)
         {
@@ -193,7 +193,7 @@ internal class Mesh : Pooled<Mesh>
     /// the newly created loop will contain eDel->Dst. If the deletion of eDel
     /// would create isolated vertices, those are deleted as well.
     /// </summary>
-    public void Delete(IPool pool, MeshUtils.Edge eDel)
+    public static void Delete(IPool pool, MeshUtils.Edge eDel)
     {
         MeshUtils.Edge eDelSym = eDel._Sym;
 
@@ -253,7 +253,7 @@ internal class Mesh : Pooled<Mesh>
     /// Creates a new edge such that eNew == eOrg.Lnext and eNew.Dst is a newly created vertex.
     /// eOrg and eNew will have the same left face.
     /// </summary>
-    public MeshUtils.Edge AddEdgeVertex(IPool pool, MeshUtils.Edge eOrg)
+    public static MeshUtils.Edge AddEdgeVertex(IPool pool, MeshUtils.Edge eOrg)
     {
         MeshUtils.Edge eNew = MeshUtils.MakeEdge(pool, eOrg);
         MeshUtils.Edge eNewSym = eNew._Sym;
@@ -303,7 +303,7 @@ internal class Mesh : Pooled<Mesh>
     /// If (eOrg->Lnext == eDst), the old face is reduced to a single edge.
     /// If (eOrg->Lnext->Lnext == eDst), the old face is reduced to two edges.
     /// </summary>
-    public MeshUtils.Edge Connect(IPool pool, MeshUtils.Edge eOrg, MeshUtils.Edge eDst)
+    public static MeshUtils.Edge Connect(IPool pool, MeshUtils.Edge eOrg, MeshUtils.Edge eDst)
     {
         MeshUtils.Edge eNew = MeshUtils.MakeEdge(pool, eOrg);
         MeshUtils.Edge eNewSym = eNew._Sym;
@@ -346,7 +346,7 @@ internal class Mesh : Pooled<Mesh>
     /// An entire mesh can be deleted by zapping its faces, one at a time,
     /// in any order. Zapped faces cannot be used in further mesh operations!
     /// </summary>
-    public void ZapFace(IPool pool, MeshUtils.Face fZap)
+    public static void ZapFace(IPool pool, MeshUtils.Face fZap)
     {
         MeshUtils.Edge eStart = fZap._anEdge;
 
@@ -420,7 +420,7 @@ internal class Mesh : Pooled<Mesh>
                 MeshUtils.Edge eNext = eCur._Lnext;
                 MeshUtils.Edge eSym = eCur._Sym;
 
-                if (eSym is {_Lface: {_inside: true}})
+                if (eSym is {_Lface._inside: true})
                 {
                     // Try to merge the neighbour faces if the resulting polygons
                     // does not exceed maximum number of vertices.

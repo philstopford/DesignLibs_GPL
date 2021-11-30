@@ -315,7 +315,7 @@ public class TreeParser
                         newstr[i + p] = '*';
                         // insert the rest
                         newstr.Insert(i + p + 1, "10^");
-                        p = p + 3; // buffer growed by 3 chars
+                        p += 3; // buffer growed by 3 chars
                     }
                 }
             }

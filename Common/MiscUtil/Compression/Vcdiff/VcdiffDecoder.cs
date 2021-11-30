@@ -111,7 +111,10 @@ public sealed class VcdiffDecoder
     {
         ReadHeader();
 
-        while (DecodeWindow()) ;
+        while (DecodeWindow())
+        {
+            ;
+        }
     }
 
     /// <summary>

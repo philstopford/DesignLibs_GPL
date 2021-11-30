@@ -31,11 +31,5 @@ public class FutureProxy<T> : IFuture<T>
     /// <summary>
     /// Returns the value of the Future
     /// </summary>
-    public T Value
-    {
-        get
-        {
-            return fetcher();
-        }
-    }
+    public T Value => fetcher();
 }

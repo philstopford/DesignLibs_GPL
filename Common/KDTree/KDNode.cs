@@ -87,7 +87,7 @@ public class KDNode<T>
     /// <summary>
     /// Is this KDNode a leaf or not?
     /// </summary>
-    public bool IsLeaf { get { return tPoints != null; } }
+    public bool IsLeaf => tPoints != null;
 
     /// <summary>
     /// Insert a new point into this leaf node.

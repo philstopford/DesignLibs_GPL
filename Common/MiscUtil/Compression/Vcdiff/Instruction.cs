@@ -7,22 +7,13 @@ namespace MiscUtil.Compression.Vcdiff;
 internal struct Instruction
 {
     private readonly InstructionType type;
-    internal InstructionType Type
-    {
-        get { return type; }
-    }
+    internal InstructionType Type => type;
 
     private readonly byte size;
-    internal byte Size
-    {
-        get { return size; }
-    }
+    internal byte Size => size;
 
     private readonly byte mode;
-    internal byte Mode
-    {
-        get { return mode; }
-    }
+    internal byte Mode => mode;
 
     internal Instruction(InstructionType type, byte size, byte mode)
     {

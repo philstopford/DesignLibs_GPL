@@ -8,6 +8,6 @@ public static class commonRNG
     { "System.Random", "Mersenne Twister", "Crypto"/*, "SIMD Fast Mersenne Twister",
 										   "Rei SIMD Fast Mersenne Twister", "Rei Mersenne Twister", "Rei Linear Congruential Generator"*/
     };
-    public enum rngIndex { system_random, mtwister, crypto/*, sfmt, rei_sfmt, rei_mt, rei_lcg*/ };
+    public enum rngIndex { system_random, mtwister, crypto/*, sfmt, rei_sfmt, rei_mt, rei_lcg*/ }
 
 }

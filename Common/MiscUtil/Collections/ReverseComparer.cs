@@ -16,10 +16,7 @@ public sealed class ReverseComparer<T> : IComparer<T>
     /// Returns the original comparer; this can be useful to avoid multiple
     /// reversals.
     /// </summary>
-    public IComparer<T> OriginalComparer
-    {
-        get { return originalComparer; }
-    }
+    public IComparer<T> OriginalComparer => originalComparer;
 
     /// <summary>
     /// Creates a new reversing comparer.

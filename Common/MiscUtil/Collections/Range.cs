@@ -22,46 +22,31 @@ public sealed class Range<T>
     /// <summary>
     /// The start of the range.
     /// </summary>
-    public T Start
-    {
-        get { return start; }
-    }
+    public T Start => start;
 
     private readonly T end;
     /// <summary>
     /// The end of the range.
     /// </summary>
-    public T End
-    {
-        get { return end; }
-    }
+    public T End => end;
 
     private readonly IComparer<T> comparer;
     /// <summary>
     /// Comparer to use for comparisons
     /// </summary>
-    public IComparer<T> Comparer
-    {
-        get { return comparer; }
-    }
+    public IComparer<T> Comparer => comparer;
 
     private readonly bool includesStart;
     /// <summary>
     /// Whether or not this range includes the start point
     /// </summary>
-    public bool IncludesStart
-    {
-        get { return includesStart; }
-    }
+    public bool IncludesStart => includesStart;
 
     private readonly bool includesEnd;
     /// <summary>
     /// Whether or not this range includes the end point
     /// </summary>
-    public bool IncludesEnd
-    {
-        get { return includesEnd; }
-    }
+    public bool IncludesEnd => includesEnd;
 
     /// <summary>
     /// Constructs a new inclusive range using the default comparer

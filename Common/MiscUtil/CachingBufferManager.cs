@@ -214,7 +214,7 @@ public sealed class CachingBufferManager : IBufferManager
         /// </summary>
         public int MaxBuffersPerSizeBand
         {
-            get { return maxBuffersPerSizeBand; }
+            get => maxBuffersPerSizeBand;
             set
             {
                 maxBuffersPerSizeBand = value switch
@@ -234,7 +234,7 @@ public sealed class CachingBufferManager : IBufferManager
         /// </summary>
         public int MinBufferSize
         {
-            get { return minBufferSize; }
+            get => minBufferSize;
             set
             {
                 minBufferSize = value switch
@@ -255,8 +255,8 @@ public sealed class CachingBufferManager : IBufferManager
         /// </summary>
         public bool ClearAfterUse
         {
-            get { return clearAfterUse; }
-            set { clearAfterUse = value; }
+            get => clearAfterUse;
+            set => clearAfterUse = value;
         }
 
         private double scalingFactor = 2.0;
@@ -268,7 +268,7 @@ public sealed class CachingBufferManager : IBufferManager
         /// </summary>
         public double ScalingFactor
         {
-            get { return scalingFactor; }
+            get => scalingFactor;
             set
             {
                 scalingFactor = value switch
@@ -291,7 +291,7 @@ public sealed class CachingBufferManager : IBufferManager
         /// </summary>
         public int MaxBufferSize
         {
-            get { return maxBufferSize; }
+            get => maxBufferSize;
             set
             {
                 maxBufferSize = value switch
@@ -309,7 +309,7 @@ public sealed class CachingBufferManager : IBufferManager
         /// </summary>
         public BufferUnavailableAction ActionOnBufferUnavailable
         {
-            get { return actionOnBufferUnavailable; }
+            get => actionOnBufferUnavailable;
             set
             {
                 actionOnBufferUnavailable = Enum.IsDefined(typeof(BufferUnavailableAction), value) switch

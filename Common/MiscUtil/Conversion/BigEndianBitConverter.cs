@@ -24,10 +24,7 @@ public sealed class BigEndianBitConverter : EndianBitConverter
     /// <summary>
     /// Indicates the byte order ("endianess") in which data is converted using this class.
     /// </summary>
-    public sealed override Endianness Endianness
-    {
-        get { return Endianness.BigEndian; }
-    }
+    public sealed override Endianness Endianness => Endianness.BigEndian;
 
     /// <summary>
     /// Copies the specified number of bytes from value to buffer, starting at index.

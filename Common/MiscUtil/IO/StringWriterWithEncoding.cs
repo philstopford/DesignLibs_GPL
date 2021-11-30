@@ -83,12 +83,5 @@ public class StringWriterWithEncoding : StringWriter
     /// <summary>
     /// Gets the Encoding in which the output is written.
     /// </summary>
-    public override Encoding Encoding
-    {
-        get
-        {
-            return encoding;
-        }
-    }
-
+    public override Encoding Encoding => encoding;
 }

@@ -482,7 +482,7 @@ public class GCCell
                     return;
                 }
 
-                if (elementList[f].isBox() && elementList[f].@select)
+                if (elementList[f].isBox() && elementList[f].select)
                 {
                     GCPolygon p = elementList[f].convertToPolygons()[0];
                     p.map(m);
@@ -495,7 +495,7 @@ public class GCCell
                     {
                         elementList[f] = p;
                     }
-                    elementList[f].@select = true;
+                    elementList[f].select = true;
                 }
                 else
                 {
@@ -552,7 +552,7 @@ public class GCCell
                     return;
                 }
 
-                if (elementList[f].isBox() && elementList[f].@select)
+                if (elementList[f].isBox() && elementList[f].select)
                 {
                     GCPolygon p = elementList[f].convertToPolygons()[0];
                     p.map(m);
@@ -565,7 +565,7 @@ public class GCCell
                     {
                         elementList[f] = p;
                     }
-                    elementList[f].@select = true;
+                    elementList[f].select = true;
                 }
                 else
                 {
@@ -616,7 +616,7 @@ public class GCCell
                     return;
                 }
 
-                if (elementList[f].isBox() && elementList[f].@select)
+                if (elementList[f].isBox() && elementList[f].select)
                 {
                     GCPolygon p = elementList[f].convertToPolygons()[0];
                     p.map(m);
@@ -629,7 +629,7 @@ public class GCCell
                     {
                         elementList[f] = p;
                     }
-                    elementList[f].@select = true;
+                    elementList[f].select = true;
                 }
                 else
                 {

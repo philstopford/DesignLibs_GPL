@@ -16,29 +16,20 @@ public class RangeIterator<T> : IEnumerable<T>
     /// <summary>
     /// Returns the range this object iterates over
     /// </summary>
-    public Range<T> Range
-    {
-        get { return range; }
-    }
+    public Range<T> Range => range;
 
     private readonly Func<T, T> step;
     /// <summary>
     /// Returns the step function used for this range
     /// </summary>
-    public Func<T, T> Step
-    {
-        get { return step; }
-    }
+    public Func<T, T> Step => step;
 
     private readonly bool ascending;
     /// <summary>
     /// Returns whether or not this iterator works up from the start point (ascending)
     /// or down from the end point (descending)
     /// </summary>
-    public bool Ascending
-    {
-        get { return ascending; }
-    }
+    public bool Ascending => ascending;
 
     /// <summary>
     /// Creates an ascending iterator over the given range with the given step function

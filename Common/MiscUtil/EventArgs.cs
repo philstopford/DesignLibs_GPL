@@ -11,10 +11,8 @@ public class EventArgs<T> : System.EventArgs
     /// <summary>
     /// The typed value of the EventArgs&lt;T&gt;
     /// </summary>
-    public T Value
-    {
-        get { return value; }
-    }
+    public T Value => value;
+
     /// <summary>
     /// Creates a new EventArgs&lt;T&gt; with the specified value.
     /// </summary>

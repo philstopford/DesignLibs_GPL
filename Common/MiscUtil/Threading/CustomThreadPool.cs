@@ -300,13 +300,7 @@ public class CustomThreadPool
     /// <summary>
     /// The total number of threads in the pool at the present time.
     /// </summary>
-    public int TotalThreads
-    {
-        get
-        {
-            return totalThreads;
-        }
-    }
+    public int TotalThreads => totalThreads;
 
     private ThreadPriority workerThreadPriority = ThreadPriority.Normal;
     /// <summary>

@@ -9,15 +9,14 @@ partial class EditableLookup<TKey, TElement>
     {
         private readonly TKey key;
         private List<TElement> items = new();
-        public TKey Key { get { return key; } }
+        public TKey Key => key;
+
         public LookupGrouping(TKey key)
         {
             this.key = key;
         }
-        public int Count
-        {
-            get { return items.Count; }
-        }
+        public int Count => items.Count;
+
         public void Add(TElement item)
         {
             items.Add(item);

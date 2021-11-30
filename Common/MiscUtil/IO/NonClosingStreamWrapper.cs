@@ -30,10 +30,7 @@ public sealed class NonClosingStreamWrapper : Stream
     /// <summary>
     /// Stream wrapped by this wrapper
     /// </summary>
-    public Stream BaseStream
-    {
-        get { return stream; }
-    }
+    public Stream BaseStream => stream;
 
     /// <summary>
     /// Whether this stream has been closed or not
@@ -107,26 +104,17 @@ public sealed class NonClosingStreamWrapper : Stream
     /// <summary>
     /// Indicates whether or not the underlying stream can be read from.
     /// </summary>
-    public override bool CanRead
-    {
-        get { return closed ? false : stream.CanRead; }
-    }
+    public override bool CanRead => closed ? false : stream.CanRead;
 
     /// <summary>
     /// Indicates whether or not the underlying stream supports seeking.
     /// </summary>
-    public override bool CanSeek
-    {
-        get { return closed ? false : stream.CanSeek; }
-    }
+    public override bool CanSeek => closed ? false : stream.CanSeek;
 
     /// <summary>
     /// Indicates whether or not the underlying stream can be written to.
     /// </summary>
-    public override bool CanWrite
-    {
-        get { return closed ? false : stream.CanWrite; }
-    }
+    public override bool CanWrite => closed ? false : stream.CanWrite;
 
     /// <summary>
     /// This method is not proxied to the underlying stream; instead, the wrapper

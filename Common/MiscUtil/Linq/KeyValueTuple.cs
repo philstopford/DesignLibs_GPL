@@ -12,17 +12,13 @@ public struct KeyValueTuple<TKey, T>
     /// <summary>
     /// The key for the tuple
     /// </summary>
-    public TKey Key
-    {
-        get { return key; }
-    }
+    public TKey Key => key;
+
     /// <summary>
     /// The value for the tuple
     /// </summary>
-    public T Value
-    {
-        get { return value; }
-    }
+    public T Value => value;
+
     /// <summary>
     /// Creates a new tuple with the given key and value
     /// </summary>
@@ -46,24 +42,18 @@ public struct KeyValueTuple<TKey, T1, T2>
     /// <summary>
     /// The key for the tuple
     /// </summary>
-    public TKey Key
-    {
-        get { return key; }
-    }
+    public TKey Key => key;
+
     /// <summary>
     /// The first value
     /// </summary>
-    public T1 Value1
-    {
-        get { return value1; }
-    }
+    public T1 Value1 => value1;
+
     /// <summary>
     /// The second value
     /// </summary>
-    public T2 Value2
-    {
-        get { return value2; }
-    }
+    public T2 Value2 => value2;
+
     /// <summary>
     /// Creates a new tuple with the given key and values
     /// </summary>
@@ -90,31 +80,23 @@ public struct KeyValueTuple<TKey, T1, T2, T3>
     /// <summary>
     /// The key for the tuple
     /// </summary>
-    public TKey Key
-    {
-        get { return key; }
-    }
+    public TKey Key => key;
+
     /// <summary>
     /// The first value
     /// </summary>
-    public T1 Value1
-    {
-        get { return value1; }
-    }
+    public T1 Value1 => value1;
+
     /// <summary>
     /// The second value
     /// </summary>
-    public T2 Value2
-    {
-        get { return value2; }
-    }
+    public T2 Value2 => value2;
+
     /// <summary>
     /// The third value
     /// </summary>
-    public T3 Value3
-    {
-        get { return value3; }
-    }
+    public T3 Value3 => value3;
+
     /// <summary>
     /// Creates a new tuple with the given key and values
     /// </summary>
@@ -145,38 +127,28 @@ public struct KeyValueTuple<TKey, T1, T2, T3, T4>
     /// <summary>
     /// The key for the tuple
     /// </summary>
-    public TKey Key
-    {
-        get { return key; }
-    }
+    public TKey Key => key;
+
     /// <summary>
     /// The first value
     /// </summary>
-    public T1 Value1
-    {
-        get { return value1; }
-    }
+    public T1 Value1 => value1;
+
     /// <summary>
     /// The second value
     /// </summary>
-    public T2 Value2
-    {
-        get { return value2; }
-    }
+    public T2 Value2 => value2;
+
     /// <summary>
     /// The third value
     /// </summary>
-    public T3 Value3
-    {
-        get { return value3; }
-    }
+    public T3 Value3 => value3;
+
     /// <summary>
     /// The fourth value
     /// </summary>
-    public T4 Value4
-    {
-        get { return value4; }
-    }
+    public T4 Value4 => value4;
+
     /// <summary>
     /// Creates a new tuple with the given key and values
     /// </summary>

@@ -19,14 +19,11 @@ internal class CachedBuffer : IBuffer
 
     internal bool Available
     {
-        get { return available; }
-        set { available = value; }
+        get => available;
+        set => available = value;
     }
 
-    public byte[] Bytes
-    {
-        get { return data; }
-    }
+    public byte[] Bytes => data;
 
     public void Dispose()
     {

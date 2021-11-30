@@ -140,10 +140,7 @@ public sealed partial class EditableLookup<TKey, TElement> : ILookup<TKey, TElem
     /// <summary>
     /// Returns the number of dictinct keys in the lookup
     /// </summary>
-    public int Count
-    {
-        get { return groups.Count; }
-    }
+    public int Count => groups.Count;
 
     private static readonly IEnumerable<TElement> Empty = Array.Empty<TElement>();
     /// <summary>

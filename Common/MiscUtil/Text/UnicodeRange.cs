@@ -130,111 +130,111 @@ public static class UnicodeRange
     private static readonly Range<char> halfwidthandFullwidthForms = CreateRange('\ufff0', '\uffff');
 
 #pragma warning disable 1591
-    public static Range<char> BasicLatin { get { return basicLatin; } }
-    public static Range<char> Latin1Supplement { get { return latin1Supplement; } }
-    public static Range<char> LatinExtendedA { get { return latinExtendedA; } }
-    public static Range<char> LatinExtendedB { get { return latinExtendedB; } }
-    public static Range<char> IpaExtensions { get { return ipaExtensions; } }
-    public static Range<char> SpacingModifierLetters { get { return spacingModifierLetters; } }
-    public static Range<char> CombiningDiacriticalMarks { get { return combiningDiacriticalMarks; } }
-    public static Range<char> GreekAndCoptic { get { return greekAndCoptic; } }
-    public static Range<char> Cyrillic { get { return cyrillic; } }
-    public static Range<char> CyrillicSupplement { get { return cyrillicSupplement; } }
-    public static Range<char> Armenian { get { return armenian; } }
-    public static Range<char> Hebrew { get { return hebrew; } }
-    public static Range<char> Arabic { get { return arabic; } }
-    public static Range<char> Syriac { get { return syriac; } }
-    public static Range<char> Thaana { get { return thaana; } }
-    public static Range<char> Devangari { get { return devangari; } }
-    public static Range<char> Bengali { get { return bengali; } }
-    public static Range<char> Gurmukhi { get { return gurmukhi; } }
-    public static Range<char> Gujarati { get { return gujarati; } }
-    public static Range<char> Oriya { get { return oriya; } }
-    public static Range<char> Tamil { get { return tamil; } }
-    public static Range<char> Telugu { get { return telugu; } }
-    public static Range<char> Kannada { get { return kannada; } }
-    public static Range<char> Malayalam { get { return malayalam; } }
-    public static Range<char> Sinhala { get { return sinhala; } }
-    public static Range<char> Thai { get { return thai; } }
-    public static Range<char> Lao { get { return lao; } }
-    public static Range<char> Tibetan { get { return tibetan; } }
-    public static Range<char> Myanmar { get { return myanmar; } }
-    public static Range<char> Georgian { get { return georgian; } }
-    public static Range<char> HangulJamo { get { return hangulJamo; } }
-    public static Range<char> Ethiopic { get { return ethiopic; } }
-    public static Range<char> Cherokee { get { return cherokee; } }
-    public static Range<char> UnifiedCanadianAboriginalSyllabics { get { return unifiedCanadianAboriginalSyllabics; } }
-    public static Range<char> Ogham { get { return ogham; } }
-    public static Range<char> Runic { get { return runic; } }
-    public static Range<char> Tagalog { get { return tagalog; } }
-    public static Range<char> Hanunoo { get { return hanunoo; } }
-    public static Range<char> Buhid { get { return buhid; } }
-    public static Range<char> Tagbanwa { get { return tagbanwa; } }
-    public static Range<char> Khmer { get { return khmer; } }
-    public static Range<char> Mongolian { get { return mongolian; } }
-    public static Range<char> Limbu { get { return limbu; } }
-    public static Range<char> TaiLe { get { return taiLe; } }
-    public static Range<char> KhmerSymbols { get { return khmerSymbols; } }
-    public static Range<char> PhoneticExtensions { get { return phoneticExtensions; } }
-    public static Range<char> LatinExtendedAdditional { get { return latinExtendedAdditional; } }
-    public static Range<char> GreekExtended { get { return greekExtended; } }
-    public static Range<char> GeneralPunctuation { get { return generalPunctuation; } }
-    public static Range<char> SuperscriptsandSubscripts { get { return superscriptsandSubscripts; } }
-    public static Range<char> CurrencySymbols { get { return currencySymbols; } }
-    public static Range<char> CombiningDiacriticalMarksforSymbols { get { return combiningDiacriticalMarksforSymbols; } }
-    public static Range<char> LetterlikeSymbols { get { return letterlikeSymbols; } }
-    public static Range<char> NumberForms { get { return numberForms; } }
-    public static Range<char> Arrows { get { return arrows; } }
-    public static Range<char> MathematicalOperators { get { return mathematicalOperators; } }
-    public static Range<char> MiscellaneousTechnical { get { return miscellaneousTechnical; } }
-    public static Range<char> ControlPictures { get { return controlPictures; } }
-    public static Range<char> OpticalCharacterRecognition { get { return opticalCharacterRecognition; } }
-    public static Range<char> EnclosedAlphanumerics { get { return enclosedAlphanumerics; } }
-    public static Range<char> BoxDrawing { get { return boxDrawing; } }
-    public static Range<char> BlockElements { get { return blockElements; } }
-    public static Range<char> GeometricShapes { get { return geometricShapes; } }
-    public static Range<char> MiscellaneousSymbols { get { return miscellaneousSymbols; } }
-    public static Range<char> Dingbats { get { return dingbats; } }
-    public static Range<char> MiscellaneousMathematicalSymbolsA { get { return miscellaneousMathematicalSymbolsA; } }
-    public static Range<char> SupplementalArrowsA { get { return supplementalArrowsA; } }
-    public static Range<char> BraillePatterns { get { return braillePatterns; } }
-    public static Range<char> SupplementalArrowsB { get { return supplementalArrowsB; } }
-    public static Range<char> MiscellaneousMathematicalSymbolsB { get { return miscellaneousMathematicalSymbolsB; } }
-    public static Range<char> SupplementalMathematicalOperators { get { return supplementalMathematicalOperators; } }
-    public static Range<char> MiscellaneousSymbolsandArrows { get { return miscellaneousSymbolsandArrows; } }
-    public static Range<char> CjkRadicalsSupplement { get { return cjkRadicalsSupplement; } }
-    public static Range<char> KangxiRadicals { get { return kangxiRadicals; } }
-    public static Range<char> IdeographicDescriptionCharacters { get { return ideographicDescriptionCharacters; } }
-    public static Range<char> CjkSymbolsandPunctuation { get { return cjkSymbolsandPunctuation; } }
-    public static Range<char> Hiragana { get { return hiragana; } }
-    public static Range<char> Katakana { get { return katakana; } }
-    public static Range<char> Bopomofo { get { return bopomofo; } }
-    public static Range<char> HangulCompatibilityJamo { get { return hangulCompatibilityJamo; } }
-    public static Range<char> Kanbun { get { return kanbun; } }
-    public static Range<char> BopomofoExtended { get { return bopomofoExtended; } }
-    public static Range<char> KatakanaPhoneticExtensions { get { return katakanaPhoneticExtensions; } }
-    public static Range<char> EnclosedCjkLettersandMonths { get { return enclosedCjkLettersandMonths; } }
-    public static Range<char> CjkCompatibility { get { return cjkCompatibility; } }
-    public static Range<char> CjkUnifiedIdeographsExtensionA { get { return cjkUnifiedIdeographsExtensionA; } }
-    public static Range<char> YijingHexagramSymbols { get { return yijingHexagramSymbols; } }
-    public static Range<char> CjkUnifiedIdeographs { get { return cjkUnifiedIdeographs; } }
-    public static Range<char> YiSyllables { get { return yiSyllables; } }
-    public static Range<char> YiRadicals { get { return yiRadicals; } }
-    public static Range<char> HangulSyllables { get { return hangulSyllables; } }
-    public static Range<char> HighSurrogates { get { return highSurrogates; } }
-    public static Range<char> HighPrivateUseSurrogates { get { return highPrivateUseSurrogates; } }
-    public static Range<char> LowSurrogates { get { return lowSurrogates; } }
-    public static Range<char> PrivateUse { get { return privateUse; } }
-    public static Range<char> PrivateUseArea { get { return privateUseArea; } }
-    public static Range<char> CjkCompatibilityIdeographs { get { return cjkCompatibilityIdeographs; } }
-    public static Range<char> AlphabeticPresentationForms { get { return alphabeticPresentationForms; } }
-    public static Range<char> ArabicPresentationFormsA { get { return arabicPresentationFormsA; } }
-    public static Range<char> VariationSelectors { get { return variationSelectors; } }
-    public static Range<char> CombiningHalfMarks { get { return combiningHalfMarks; } }
-    public static Range<char> CjkCompatibilityForms { get { return cjkCompatibilityForms; } }
-    public static Range<char> SmallFormVariants { get { return smallFormVariants; } }
-    public static Range<char> ArabicPresentationFormsB { get { return arabicPresentationFormsB; } }
-    public static Range<char> HalfwidthandFullwidthForms { get { return halfwidthandFullwidthForms; } }
+    public static Range<char> BasicLatin => basicLatin;
+    public static Range<char> Latin1Supplement => latin1Supplement;
+    public static Range<char> LatinExtendedA => latinExtendedA;
+    public static Range<char> LatinExtendedB => latinExtendedB;
+    public static Range<char> IpaExtensions => ipaExtensions;
+    public static Range<char> SpacingModifierLetters => spacingModifierLetters;
+    public static Range<char> CombiningDiacriticalMarks => combiningDiacriticalMarks;
+    public static Range<char> GreekAndCoptic => greekAndCoptic;
+    public static Range<char> Cyrillic => cyrillic;
+    public static Range<char> CyrillicSupplement => cyrillicSupplement;
+    public static Range<char> Armenian => armenian;
+    public static Range<char> Hebrew => hebrew;
+    public static Range<char> Arabic => arabic;
+    public static Range<char> Syriac => syriac;
+    public static Range<char> Thaana => thaana;
+    public static Range<char> Devangari => devangari;
+    public static Range<char> Bengali => bengali;
+    public static Range<char> Gurmukhi => gurmukhi;
+    public static Range<char> Gujarati => gujarati;
+    public static Range<char> Oriya => oriya;
+    public static Range<char> Tamil => tamil;
+    public static Range<char> Telugu => telugu;
+    public static Range<char> Kannada => kannada;
+    public static Range<char> Malayalam => malayalam;
+    public static Range<char> Sinhala => sinhala;
+    public static Range<char> Thai => thai;
+    public static Range<char> Lao => lao;
+    public static Range<char> Tibetan => tibetan;
+    public static Range<char> Myanmar => myanmar;
+    public static Range<char> Georgian => georgian;
+    public static Range<char> HangulJamo => hangulJamo;
+    public static Range<char> Ethiopic => ethiopic;
+    public static Range<char> Cherokee => cherokee;
+    public static Range<char> UnifiedCanadianAboriginalSyllabics => unifiedCanadianAboriginalSyllabics;
+    public static Range<char> Ogham => ogham;
+    public static Range<char> Runic => runic;
+    public static Range<char> Tagalog => tagalog;
+    public static Range<char> Hanunoo => hanunoo;
+    public static Range<char> Buhid => buhid;
+    public static Range<char> Tagbanwa => tagbanwa;
+    public static Range<char> Khmer => khmer;
+    public static Range<char> Mongolian => mongolian;
+    public static Range<char> Limbu => limbu;
+    public static Range<char> TaiLe => taiLe;
+    public static Range<char> KhmerSymbols => khmerSymbols;
+    public static Range<char> PhoneticExtensions => phoneticExtensions;
+    public static Range<char> LatinExtendedAdditional => latinExtendedAdditional;
+    public static Range<char> GreekExtended => greekExtended;
+    public static Range<char> GeneralPunctuation => generalPunctuation;
+    public static Range<char> SuperscriptsandSubscripts => superscriptsandSubscripts;
+    public static Range<char> CurrencySymbols => currencySymbols;
+    public static Range<char> CombiningDiacriticalMarksforSymbols => combiningDiacriticalMarksforSymbols;
+    public static Range<char> LetterlikeSymbols => letterlikeSymbols;
+    public static Range<char> NumberForms => numberForms;
+    public static Range<char> Arrows => arrows;
+    public static Range<char> MathematicalOperators => mathematicalOperators;
+    public static Range<char> MiscellaneousTechnical => miscellaneousTechnical;
+    public static Range<char> ControlPictures => controlPictures;
+    public static Range<char> OpticalCharacterRecognition => opticalCharacterRecognition;
+    public static Range<char> EnclosedAlphanumerics => enclosedAlphanumerics;
+    public static Range<char> BoxDrawing => boxDrawing;
+    public static Range<char> BlockElements => blockElements;
+    public static Range<char> GeometricShapes => geometricShapes;
+    public static Range<char> MiscellaneousSymbols => miscellaneousSymbols;
+    public static Range<char> Dingbats => dingbats;
+    public static Range<char> MiscellaneousMathematicalSymbolsA => miscellaneousMathematicalSymbolsA;
+    public static Range<char> SupplementalArrowsA => supplementalArrowsA;
+    public static Range<char> BraillePatterns => braillePatterns;
+    public static Range<char> SupplementalArrowsB => supplementalArrowsB;
+    public static Range<char> MiscellaneousMathematicalSymbolsB => miscellaneousMathematicalSymbolsB;
+    public static Range<char> SupplementalMathematicalOperators => supplementalMathematicalOperators;
+    public static Range<char> MiscellaneousSymbolsandArrows => miscellaneousSymbolsandArrows;
+    public static Range<char> CjkRadicalsSupplement => cjkRadicalsSupplement;
+    public static Range<char> KangxiRadicals => kangxiRadicals;
+    public static Range<char> IdeographicDescriptionCharacters => ideographicDescriptionCharacters;
+    public static Range<char> CjkSymbolsandPunctuation => cjkSymbolsandPunctuation;
+    public static Range<char> Hiragana => hiragana;
+    public static Range<char> Katakana => katakana;
+    public static Range<char> Bopomofo => bopomofo;
+    public static Range<char> HangulCompatibilityJamo => hangulCompatibilityJamo;
+    public static Range<char> Kanbun => kanbun;
+    public static Range<char> BopomofoExtended => bopomofoExtended;
+    public static Range<char> KatakanaPhoneticExtensions => katakanaPhoneticExtensions;
+    public static Range<char> EnclosedCjkLettersandMonths => enclosedCjkLettersandMonths;
+    public static Range<char> CjkCompatibility => cjkCompatibility;
+    public static Range<char> CjkUnifiedIdeographsExtensionA => cjkUnifiedIdeographsExtensionA;
+    public static Range<char> YijingHexagramSymbols => yijingHexagramSymbols;
+    public static Range<char> CjkUnifiedIdeographs => cjkUnifiedIdeographs;
+    public static Range<char> YiSyllables => yiSyllables;
+    public static Range<char> YiRadicals => yiRadicals;
+    public static Range<char> HangulSyllables => hangulSyllables;
+    public static Range<char> HighSurrogates => highSurrogates;
+    public static Range<char> HighPrivateUseSurrogates => highPrivateUseSurrogates;
+    public static Range<char> LowSurrogates => lowSurrogates;
+    public static Range<char> PrivateUse => privateUse;
+    public static Range<char> PrivateUseArea => privateUseArea;
+    public static Range<char> CjkCompatibilityIdeographs => cjkCompatibilityIdeographs;
+    public static Range<char> AlphabeticPresentationForms => alphabeticPresentationForms;
+    public static Range<char> ArabicPresentationFormsA => arabicPresentationFormsA;
+    public static Range<char> VariationSelectors => variationSelectors;
+    public static Range<char> CombiningHalfMarks => combiningHalfMarks;
+    public static Range<char> CjkCompatibilityForms => cjkCompatibilityForms;
+    public static Range<char> SmallFormVariants => smallFormVariants;
+    public static Range<char> ArabicPresentationFormsB => arabicPresentationFormsB;
+    public static Range<char> HalfwidthandFullwidthForms => halfwidthandFullwidthForms;
 #pragma warning restore 1591
 
     /// <summary>

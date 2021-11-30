@@ -247,10 +247,6 @@ public class OVPSettings
 
 	public void setBaseZoom(float val)
 	{
-		if (base_zoom == val)
-		{
-			return;
-		}
 		base_zoom = val;
 	}
 	public void setZoomFactor(float val)
@@ -280,10 +276,6 @@ public class OVPSettings
 
 	public void setZoomStep(int val)
 	{
-		if (zoomStep == val)
-		{
-			return;
-		}
 		zoomStep = val;
 	}
 
@@ -314,13 +306,13 @@ public class OVPSettings
 
 	private void pUpdateColors(Color newColor)
 	{
-		for (int poly = 0; poly < polyList.Count; poly++)
+		foreach (ovp_Poly t in polyList)
 		{
-			polyList[poly].color = newColor;
+			t.color = newColor;
 		}
-		for (int poly = 0; poly < tessPolyList.Count; poly++)
+		foreach (ovp_Poly t in tessPolyList)
 		{
-			tessPolyList[poly].color = newColor;
+			t.color = newColor;
 		}
 		changed = true;
 	}
@@ -494,7 +486,7 @@ public class OVPSettings
 		changed = true;
 	}
 
-	private PointF[] clockwiseOrder(PointF[] iPoints)
+	private static PointF[] clockwiseOrder(PointF[] iPoints)
 	{
 		// Based on stackoverflow.com/questions/1165647/how-to-determine-if-a-list-of-polygon-points-are-in-clockwise-order
 		// Shoelace formula.
@@ -533,20 +525,23 @@ public class OVPSettings
 		return iPoints;
 	}
 
-	private PointF[] checkPoly(PointF[] poly)
+	private static PointF[] checkPoly(PointF[] poly)
 	{
 		PointF[] source = poly.ToArray();
 
-		if (poly[0].X != poly[^1].X && poly[0].Y != poly[^1].Y)
+		if (!(Math.Abs(poly[0].X - poly[^1].X) > double.Epsilon) ||
+		    !(Math.Abs(poly[0].Y - poly[^1].Y) > double.Epsilon))
 		{
-			PointF[] tempPoly = new PointF[poly.Length + 1];
-			for (int pt = 0; pt < poly.Length; pt++)
-			{
-				tempPoly[pt] = new PointF(poly[pt].X, poly[pt].Y);
-			}
-			tempPoly[^1] = new PointF(tempPoly[0].X, tempPoly[0].Y);
-			source = tempPoly.ToArray();
+			return source;
 		}
+
+		PointF[] tempPoly = new PointF[poly.Length + 1];
+		for (int pt = 0; pt < poly.Length; pt++)
+		{
+			tempPoly[pt] = new PointF(poly[pt].X, poly[pt].Y);
+		}
+		tempPoly[^1] = new PointF(tempPoly[0].X, tempPoly[0].Y);
+		source = tempPoly.ToArray();
 
 		return source;
 	}

@@ -18,8 +18,8 @@ public class ProducerGrouping<TKey, TElement> : IProducerGrouping<TKey, TElement
     /// <seealso cref="MiscUtil.Linq.IDataProducer&lt;T&gt;.DataProduced"/>
     public event Action<TElement> DataProduced
     {
-        add { source.DataProduced += value; }
-        remove { source.DataProduced -= value; }
+        add => source.DataProduced += value;
+        remove => source.DataProduced -= value;
     }
 
     /// <summary>
@@ -30,17 +30,14 @@ public class ProducerGrouping<TKey, TElement> : IProducerGrouping<TKey, TElement
     /// <seealso cref="MiscUtil.Linq.IDataProducer&lt;T&gt;.EndOfData"/>
     public event Action EndOfData
     {
-        add { source.EndOfData += value; }
-        remove { source.EndOfData -= value; }
+        add => source.EndOfData += value;
+        remove => source.EndOfData -= value;
     }
 
     /// <summary>
     /// The key for this grouping.
     /// </summary>
-    public TKey Key
-    {
-        get { return key; }
-    }
+    public TKey Key => key;
 
     /// <summary>
     /// Constructs a new grouping with the given key

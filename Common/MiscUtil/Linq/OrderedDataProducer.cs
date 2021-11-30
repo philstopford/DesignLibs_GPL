@@ -15,15 +15,9 @@ internal class OrderedDataProducer<T> : IOrderedDataProducer<T>
     private readonly IComparer<T> comparer;
     private List<T> buffer;
 
-    public IDataProducer<T> BaseProducer
-    {
-        get { return baseProducer; }
-    }
+    public IDataProducer<T> BaseProducer => baseProducer;
 
-    public IComparer<T> Comparer
-    {
-        get { return comparer; }
-    }
+    public IComparer<T> Comparer => comparer;
 
     public event Action<T> DataProduced;
     public event Action EndOfData;

@@ -20,10 +20,7 @@ public struct VertexPositionColor
 {
 	private static uint _SizeInBytes = (uint)Marshal.SizeOf(typeof(VertexPositionColor));
 
-	public static uint SizeInBytes
-	{
-		get => _SizeInBytes;
-	}
+	public static uint SizeInBytes => _SizeInBytes;
 
 	private Vector3 Position;
 	private RgbaFloat Color;
@@ -104,7 +101,7 @@ public class VeldridDriver
 	private ResourceSet ViewMatrixSet;
 
 	private bool Ready;
-	private float pointWidth = 0.50f;
+	private const float pointWidth = 0.50f;
 	private bool hasFocus;
 	private bool keyHandlerApplied;
 
@@ -190,7 +187,7 @@ public class VeldridDriver
 	{
 		// int oX = (int)((x - ovpSettings.getCameraX() / (ovpSettings.getZoomFactor() * ovpSettings.getBaseZoom())) + Surface.RenderWidth / 2);
 
-		double oX_2 = Surface.RenderWidth / 2;
+		double oX_2 = (double)Surface.RenderWidth / 2;
 		double oX_3 = ovpSettings.getCameraX() / (ovpSettings.getZoomFactor() * ovpSettings.getBaseZoom());
 		double oX_4 = x;
 
@@ -198,7 +195,7 @@ public class VeldridDriver
 
 		// int oY = (int)((y - ovpSettings.getCameraY() / (ovpSettings.getZoomFactor() * ovpSettings.getBaseZoom())) + Surface.RenderHeight / 2);
 
-		double oY_2 = Surface.RenderHeight / 2;
+		double oY_2 = (double)Surface.RenderHeight / 2;
 		double oY_3 = ovpSettings.getCameraY() / (ovpSettings.getZoomFactor() * ovpSettings.getBaseZoom());
 		double oY_4 = y;
 
@@ -223,15 +220,15 @@ public class VeldridDriver
 
 	private PointF ScreenToWorld(float x, float y)
 	{
-		double oX_2 = Surface.RenderWidth / 2;
+		double oX_2 = (double)Surface.RenderWidth / 2;
 		double oX_3 = ovpSettings.getCameraX() / (ovpSettings.getZoomFactor() * ovpSettings.getBaseZoom());
 		double oX_4 = x;
 
 		double oXC = oX_4 - oX_2 + oX_3;
 
 
-		return new PointF((x - Surface.RenderWidth / 2) * (ovpSettings.getZoomFactor() * ovpSettings.getBaseZoom()) + ovpSettings.getCameraX(),
-			(Surface.RenderHeight / 2 - y) * (ovpSettings.getZoomFactor() * ovpSettings.getBaseZoom()) + ovpSettings.getCameraY());
+		return new PointF((x - (float)Surface.RenderWidth / 2) * (ovpSettings.getZoomFactor() * ovpSettings.getBaseZoom()) + ovpSettings.getCameraX(),
+			((float)Surface.RenderHeight / 2 - y) * (ovpSettings.getZoomFactor() * ovpSettings.getBaseZoom()) + ovpSettings.getCameraY());
 	}
 
 	private void downHandler(object sender, MouseEventArgs e)
@@ -381,9 +378,9 @@ public class VeldridDriver
 				for (int poly = 0; poly < ovpSettings.polyList.Count; poly++)
 				{
 					KDTree<PointF> pTree = new(2, ovpSettings.polyListPtCount[poly] + 1); // add one for the midpoint.
-					for (int pt = 0; pt < ovpSettings.polyList[poly].poly.Length; pt++)
+					foreach (PointF t1 in ovpSettings.polyList[poly].poly)
 					{
-						PointF t = new(ovpSettings.polyList[poly].poly[pt].X, ovpSettings.polyList[poly].poly[pt].Y);
+						PointF t = new(t1.X, t1.Y);
 						pTree.AddPoint(new double[] { t.X, t.Y }, t);
 					}
 
@@ -428,9 +425,9 @@ public class VeldridDriver
 						for (int line = 0; line < ovpSettings.lineList.Count; line++)
 						{
 							KDTree<PointF> pTree = new(2, ovpSettings.lineListPtCount[line] + 1); // add one for the midpoint.
-							for (int pt = 0; pt < ovpSettings.lineList[line].poly.Length; pt++)
+							foreach (PointF t1 in ovpSettings.lineList[line].poly)
 							{
-								PointF t = new(ovpSettings.lineList[line].poly[pt].X, ovpSettings.lineList[line].poly[pt].Y);
+								PointF t = new(t1.X, t1.Y);
 								pTree.AddPoint(new double[] { t.X, t.Y }, t);
 							}
 
@@ -473,10 +470,7 @@ public class VeldridDriver
 		{
 			case MouseButtons.Alternate:
 			{
-				if (menu != null)
-				{
-					menu.Show(Surface);
-				}
+				menu?.Show(Surface);
 
 				break;
 			}
@@ -678,27 +672,29 @@ public class VeldridDriver
 		{
 			for (int poly = 0; poly < ovpSettings.polyList.Count; poly++)
 			{
-				if (index == -1 || ovpSettings.polySourceIndex[poly] == index && ovpSettings.polyMask[poly])
+				if (index != -1 && (ovpSettings.polySourceIndex[poly] != index || !ovpSettings.polyMask[poly]))
 				{
-					switch (set)
-					{
-						case false:
-							minX = ovpSettings.polyList[poly].poly[0].X;
-							maxX = ovpSettings.polyList[poly].poly[0].X;
-							minY = ovpSettings.polyList[poly].poly[0].Y;
-							maxY = ovpSettings.polyList[poly].poly[0].Y;
-							set = true;
-							break;
-					}
-					float tMinX = ovpSettings.polyList[poly].poly.Min(p => p.X);
-					float tMaxX = ovpSettings.polyList[poly].poly.Max(p => p.X);
-					float tMinY = ovpSettings.polyList[poly].poly.Min(p => p.Y);
-					float tMaxY = ovpSettings.polyList[poly].poly.Max(p => p.Y);
-					minX = Math.Min(minX, tMinX);
-					maxX = Math.Max(maxX, tMaxX);
-					minY = Math.Min(minY, tMinY);
-					maxY = Math.Max(maxY, tMaxY);
+					continue;
 				}
+
+				switch (set)
+				{
+					case false:
+						minX = ovpSettings.polyList[poly].poly[0].X;
+						maxX = ovpSettings.polyList[poly].poly[0].X;
+						minY = ovpSettings.polyList[poly].poly[0].Y;
+						maxY = ovpSettings.polyList[poly].poly[0].Y;
+						set = true;
+						break;
+				}
+				float tMinX = ovpSettings.polyList[poly].poly.Min(p => p.X);
+				float tMaxX = ovpSettings.polyList[poly].poly.Max(p => p.X);
+				float tMinY = ovpSettings.polyList[poly].poly.Min(p => p.Y);
+				float tMaxY = ovpSettings.polyList[poly].poly.Max(p => p.Y);
+				minX = Math.Min(minX, tMinX);
+				maxX = Math.Max(maxX, tMaxX);
+				minY = Math.Min(minY, tMinY);
+				maxY = Math.Max(maxY, tMaxY);
 			}
 		}
 
@@ -706,27 +702,29 @@ public class VeldridDriver
 		{
 			for (int line = 0; line < ovpSettings.lineList.Count; line++)
 			{
-				if (index == -1 || ovpSettings.lineSourceIndex[line] == index && ovpSettings.lineMask[line])
+				if (index != -1 && (ovpSettings.lineSourceIndex[line] != index || !ovpSettings.lineMask[line]))
 				{
-					switch (set)
-					{
-						case false:
-							minX = ovpSettings.lineList[line].poly[0].X;
-							maxX = ovpSettings.lineList[line].poly[0].X;
-							minY = ovpSettings.lineList[line].poly[0].Y;
-							maxY = ovpSettings.lineList[line].poly[0].Y;
-							set = true;
-							break;
-					}
-					float tMinX = ovpSettings.lineList[line].poly.Min(p => p.X);
-					float tMaxX = ovpSettings.lineList[line].poly.Max(p => p.X);
-					float tMinY = ovpSettings.lineList[line].poly.Min(p => p.Y);
-					float tMaxY = ovpSettings.lineList[line].poly.Max(p => p.Y);
-					minX = Math.Min(minX, tMinX);
-					maxX = Math.Max(maxX, tMaxX);
-					minY = Math.Min(minY, tMinY);
-					maxY = Math.Max(maxY, tMaxY);
+					continue;
 				}
+
+				switch (set)
+				{
+					case false:
+						minX = ovpSettings.lineList[line].poly[0].X;
+						maxX = ovpSettings.lineList[line].poly[0].X;
+						minY = ovpSettings.lineList[line].poly[0].Y;
+						maxY = ovpSettings.lineList[line].poly[0].Y;
+						set = true;
+						break;
+				}
+				float tMinX = ovpSettings.lineList[line].poly.Min(p => p.X);
+				float tMaxX = ovpSettings.lineList[line].poly.Max(p => p.X);
+				float tMinY = ovpSettings.lineList[line].poly.Min(p => p.Y);
+				float tMaxY = ovpSettings.lineList[line].poly.Max(p => p.Y);
+				minX = Math.Min(minX, tMinX);
+				maxX = Math.Max(maxX, tMaxX);
+				minY = Math.Min(minY, tMinY);
+				maxY = Math.Max(maxY, tMaxY);
 			}
 		}
 
@@ -817,24 +815,26 @@ public class VeldridDriver
 						new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G, ovpSettings.polyList[poly].color.B, alpha)));
 					counter++;
 
-					if (ovpSettings.drawPoints())
+					if (!ovpSettings.drawPoints())
 					{
-						tFirst.Add(tCounter);
-						pointsList.Add(new VertexPositionColor(new Vector3(ovpSettings.polyList[poly].poly[pt].X - pointWidth / 2.0f, ovpSettings.polyList[poly].poly[pt].Y - pointWidth / 2.0f, 1.0f), new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G, ovpSettings.polyList[poly].color.B, alpha)));
-						tCounter++;
-						pointsList.Add(new VertexPositionColor(new Vector3(ovpSettings.polyList[poly].poly[pt].X - pointWidth / 2.0f, ovpSettings.polyList[poly].poly[pt].Y + pointWidth / 2.0f, 1.0f), new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G, ovpSettings.polyList[poly].color.B, alpha)));
-						tCounter++;
-						pointsList.Add(new VertexPositionColor(new Vector3(ovpSettings.polyList[poly].poly[pt].X + pointWidth / 2.0f, ovpSettings.polyList[poly].poly[pt].Y - pointWidth / 2.0f, 1.0f), new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G, ovpSettings.polyList[poly].color.B, alpha)));
-						tCounter++;
-
-						tFirst.Add(tCounter);
-						pointsList.Add(new VertexPositionColor(new Vector3(ovpSettings.polyList[poly].poly[pt].X + pointWidth / 2.0f, ovpSettings.polyList[poly].poly[pt].Y - pointWidth / 2.0f, 1.0f), new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G, ovpSettings.polyList[poly].color.B, alpha)));
-						tCounter++;
-						pointsList.Add(new VertexPositionColor(new Vector3(ovpSettings.polyList[poly].poly[pt].X - pointWidth / 2.0f, ovpSettings.polyList[poly].poly[pt].Y + pointWidth / 2.0f, 1.0f), new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G, ovpSettings.polyList[poly].color.B, alpha)));
-						tCounter++;
-						pointsList.Add(new VertexPositionColor(new Vector3(ovpSettings.polyList[poly].poly[pt].X + pointWidth / 2.0f, ovpSettings.polyList[poly].poly[pt].Y + pointWidth / 2.0f, 1.0f), new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G, ovpSettings.polyList[poly].color.B, alpha)));
-						tCounter++;
+						continue;
 					}
+
+					tFirst.Add(tCounter);
+					pointsList.Add(new VertexPositionColor(new Vector3(ovpSettings.polyList[poly].poly[pt].X - pointWidth / 2.0f, ovpSettings.polyList[poly].poly[pt].Y - pointWidth / 2.0f, 1.0f), new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G, ovpSettings.polyList[poly].color.B, alpha)));
+					tCounter++;
+					pointsList.Add(new VertexPositionColor(new Vector3(ovpSettings.polyList[poly].poly[pt].X - pointWidth / 2.0f, ovpSettings.polyList[poly].poly[pt].Y + pointWidth / 2.0f, 1.0f), new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G, ovpSettings.polyList[poly].color.B, alpha)));
+					tCounter++;
+					pointsList.Add(new VertexPositionColor(new Vector3(ovpSettings.polyList[poly].poly[pt].X + pointWidth / 2.0f, ovpSettings.polyList[poly].poly[pt].Y - pointWidth / 2.0f, 1.0f), new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G, ovpSettings.polyList[poly].color.B, alpha)));
+					tCounter++;
+
+					tFirst.Add(tCounter);
+					pointsList.Add(new VertexPositionColor(new Vector3(ovpSettings.polyList[poly].poly[pt].X + pointWidth / 2.0f, ovpSettings.polyList[poly].poly[pt].Y - pointWidth / 2.0f, 1.0f), new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G, ovpSettings.polyList[poly].color.B, alpha)));
+					tCounter++;
+					pointsList.Add(new VertexPositionColor(new Vector3(ovpSettings.polyList[poly].poly[pt].X - pointWidth / 2.0f, ovpSettings.polyList[poly].poly[pt].Y + pointWidth / 2.0f, 1.0f), new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G, ovpSettings.polyList[poly].color.B, alpha)));
+					tCounter++;
+					pointsList.Add(new VertexPositionColor(new Vector3(ovpSettings.polyList[poly].poly[pt].X + pointWidth / 2.0f, ovpSettings.polyList[poly].poly[pt].Y + pointWidth / 2.0f, 1.0f), new RgbaFloat(ovpSettings.polyList[poly].color.R, ovpSettings.polyList[poly].color.G, ovpSettings.polyList[poly].color.B, alpha)));
+					tCounter++;
 				}
 				polyVertexCount[poly] = (uint)(counter - previouscounter); // set our vertex count for the polygon.
 			}
@@ -903,10 +903,7 @@ public class VeldridDriver
 					float alpha = ovpSettings.lineList[poly].alpha;
 					float polyZ = poly * polyZStep;
 					lineFirst[poly] = (uint)lineList.Count;
-					for (int pt = 0; pt < ovpSettings.lineList[poly].poly.Length; pt++)
-					{
-						lineList.Add(new VertexPositionColor(new Vector3(ovpSettings.lineList[poly].poly[pt].X, ovpSettings.lineList[poly].poly[pt].Y, polyZ), new RgbaFloat(ovpSettings.lineList[poly].color.R, ovpSettings.lineList[poly].color.G, ovpSettings.lineList[poly].color.B, alpha)));
-					}
+					lineList.AddRange(ovpSettings.lineList[poly].poly.Select(t => new VertexPositionColor(new Vector3(t.X, t.Y, polyZ), new RgbaFloat(ovpSettings.lineList[poly].color.R, ovpSettings.lineList[poly].color.G, ovpSettings.lineList[poly].color.B, alpha))));
 					lineVertexCount[poly] = (uint)ovpSettings.lineList[poly].poly.Length; // set our vertex count for the polygon.
 				}
 
@@ -921,172 +918,176 @@ public class VeldridDriver
 
 	private void drawGrid()
 	{
-		if (ovpSettings.drawGrid())
+		if (!ovpSettings.drawGrid())
 		{
-			float spacing = ovpSettings.gridSpacing();
-			if (ovpSettings.isGridDynamic())
-			{
-				while (WorldToScreen(new SizeF(spacing, 0.0f)).Width > 12.0f)
-				{
-					spacing /= 10.0f;
-				}
+			return;
+		}
 
-				while (WorldToScreen(new SizeF(spacing, 0.0f)).Width < 4.0f)
-				{
-					spacing *= 10.0f;
-				}
+		float spacing = ovpSettings.gridSpacing();
+		if (ovpSettings.isGridDynamic())
+		{
+			while (WorldToScreen(new SizeF(spacing, 0.0f)).Width > 12.0f)
+			{
+				spacing /= 10.0f;
 			}
 
-			float zoom = ovpSettings.getZoomFactor() * ovpSettings.getBaseZoom();
-			float x = ovpSettings.getCameraX();
-			float y = ovpSettings.getCameraY();
-
-			List<VertexPositionColor> grid = new();
-
-			if (WorldToScreen(new SizeF(spacing, 0.0f)).Width >= 4.0f)
+			while (WorldToScreen(new SizeF(spacing, 0.0f)).Width < 4.0f)
 			{
-				int k = 0;
-				for (float i = 0; i > -(Surface.RenderWidth * zoom) + x; i -= spacing)
-				{
-					float r = 0.0f;
-					float g = 0.0f;
-					float b = 0.0f;
-					switch (k)
-					{
-						case <= 9:
-							r = ovpSettings.minorGridColor.R;
-							g = ovpSettings.minorGridColor.G;
-							b = ovpSettings.minorGridColor.B;
-							break;
-						case 10:
-							r = ovpSettings.majorGridColor.R;
-							g = ovpSettings.majorGridColor.G;
-							b = ovpSettings.majorGridColor.B;
-							k = 0;
-							break;
-					}
-
-					k++;
-					grid.Add(new VertexPositionColor(new Vector3(i, y + zoom * Surface.RenderHeight, gridZ), new RgbaFloat(r, g, b, 1.0f)));
-					grid.Add(new VertexPositionColor(new Vector3(i, y + zoom * -Surface.RenderHeight, gridZ), new RgbaFloat(r, g, b, 1.0f)));
-				}
-				k = 0;
-				for (float i = 0; i < Surface.RenderWidth * zoom + x; i += spacing)
-				{
-					float r = 0.0f;
-					float g = 0.0f;
-					float b = 0.0f;
-					switch (k)
-					{
-						case <= 9:
-							r = ovpSettings.minorGridColor.R;
-							g = ovpSettings.minorGridColor.G;
-							b = ovpSettings.minorGridColor.B;
-							break;
-						case 10:
-							r = ovpSettings.majorGridColor.R;
-							g = ovpSettings.majorGridColor.G;
-							b = ovpSettings.majorGridColor.B;
-							k = 0;
-							break;
-					}
-
-					k++;
-					grid.Add(new VertexPositionColor(new Vector3(i, y + zoom * Surface.RenderHeight, gridZ), new RgbaFloat(r, g, b, 1.0f)));
-					grid.Add(new VertexPositionColor(new Vector3(i, y + zoom * -Surface.RenderHeight, gridZ), new RgbaFloat(r, g, b, 1.0f)));
-				}
-				k = 0;
-				for (float i = 0; i > -(Surface.RenderHeight * zoom) + y; i -= spacing)
-				{
-					float r = 0.0f;
-					float g = 0.0f;
-					float b = 0.0f;
-					switch (k)
-					{
-						case <= 9:
-							r = ovpSettings.minorGridColor.R;
-							g = ovpSettings.minorGridColor.G;
-							b = ovpSettings.minorGridColor.B;
-							break;
-						case 10:
-							r = ovpSettings.majorGridColor.R;
-							g = ovpSettings.majorGridColor.G;
-							b = ovpSettings.majorGridColor.B;
-							k = 0;
-							break;
-					}
-
-					k++;
-					grid.Add(new VertexPositionColor(new Vector3(x + zoom * Surface.RenderWidth, i, gridZ), new RgbaFloat(r, g, b, 1.0f)));
-					grid.Add(new VertexPositionColor(new Vector3(x + zoom * -Surface.RenderWidth, i, gridZ), new RgbaFloat(r, g, b, 1.0f)));
-				}
-				k = 0;
-				for (float i = 0; i < Surface.RenderHeight * zoom + y; i += spacing)
-				{
-					float r = 0.0f;
-					float g = 0.0f;
-					float b = 0.0f;
-					switch (k)
-					{
-						case <= 9:
-							r = ovpSettings.minorGridColor.R;
-							g = ovpSettings.minorGridColor.G;
-							b = ovpSettings.minorGridColor.B;
-							break;
-						case 10:
-							r = ovpSettings.majorGridColor.R;
-							g = ovpSettings.majorGridColor.G;
-							b = ovpSettings.majorGridColor.B;
-							k = 0;
-							break;
-					}
-
-					k++;
-					grid.Add(new VertexPositionColor(new Vector3(x + zoom * Surface.RenderWidth, i, gridZ), new RgbaFloat(r, g, b, 1.0f)));
-					grid.Add(new VertexPositionColor(new Vector3(x + zoom * -Surface.RenderWidth, i, gridZ), new RgbaFloat(r, g, b, 1.0f)));
-				}
+				spacing *= 10.0f;
 			}
+		}
 
-			uint gridCount = (uint)grid.Count;
+		float zoom = ovpSettings.getZoomFactor() * ovpSettings.getBaseZoom();
+		float x = ovpSettings.getCameraX();
+		float y = ovpSettings.getCameraY();
 
-			switch (gridCount)
+		List<VertexPositionColor> grid = new();
+
+		if (WorldToScreen(new SizeF(spacing, 0.0f)).Width >= 4.0f)
+		{
+			int k = 0;
+			for (float i = 0; i > -(Surface.RenderWidth * zoom) + x; i -= spacing)
 			{
-				case > 0:
+				float r = 0.0f;
+				float g = 0.0f;
+				float b = 0.0f;
+				switch (k)
 				{
-					gridIndices = new uint[gridCount];
-					for (uint i = 0; i < gridIndices.Length; i++)
-					{
-						gridIndices[i] = i;
-					}
-
-					updateBuffer(ref GridVertexBuffer, grid.ToArray(), VertexPositionColor.SizeInBytes, BufferUsage.VertexBuffer);
-					updateBuffer(ref GridIndexBuffer, gridIndices, sizeof(uint), BufferUsage.IndexBuffer);
-					break;
+					case <= 9:
+						r = ovpSettings.minorGridColor.R;
+						g = ovpSettings.minorGridColor.G;
+						b = ovpSettings.minorGridColor.B;
+						break;
+					case 10:
+						r = ovpSettings.majorGridColor.R;
+						g = ovpSettings.majorGridColor.G;
+						b = ovpSettings.majorGridColor.B;
+						k = 0;
+						break;
 				}
-				default:
-					GridVertexBuffer = null;
-					GridIndexBuffer = null;
-					break;
+
+				k++;
+				grid.Add(new VertexPositionColor(new Vector3(i, y + zoom * Surface.RenderHeight, gridZ), new RgbaFloat(r, g, b, 1.0f)));
+				grid.Add(new VertexPositionColor(new Vector3(i, y + zoom * -Surface.RenderHeight, gridZ), new RgbaFloat(r, g, b, 1.0f)));
 			}
+			k = 0;
+			for (float i = 0; i < Surface.RenderWidth * zoom + x; i += spacing)
+			{
+				float r = 0.0f;
+				float g = 0.0f;
+				float b = 0.0f;
+				switch (k)
+				{
+					case <= 9:
+						r = ovpSettings.minorGridColor.R;
+						g = ovpSettings.minorGridColor.G;
+						b = ovpSettings.minorGridColor.B;
+						break;
+					case 10:
+						r = ovpSettings.majorGridColor.R;
+						g = ovpSettings.majorGridColor.G;
+						b = ovpSettings.majorGridColor.B;
+						k = 0;
+						break;
+				}
+
+				k++;
+				grid.Add(new VertexPositionColor(new Vector3(i, y + zoom * Surface.RenderHeight, gridZ), new RgbaFloat(r, g, b, 1.0f)));
+				grid.Add(new VertexPositionColor(new Vector3(i, y + zoom * -Surface.RenderHeight, gridZ), new RgbaFloat(r, g, b, 1.0f)));
+			}
+			k = 0;
+			for (float i = 0; i > -(Surface.RenderHeight * zoom) + y; i -= spacing)
+			{
+				float r = 0.0f;
+				float g = 0.0f;
+				float b = 0.0f;
+				switch (k)
+				{
+					case <= 9:
+						r = ovpSettings.minorGridColor.R;
+						g = ovpSettings.minorGridColor.G;
+						b = ovpSettings.minorGridColor.B;
+						break;
+					case 10:
+						r = ovpSettings.majorGridColor.R;
+						g = ovpSettings.majorGridColor.G;
+						b = ovpSettings.majorGridColor.B;
+						k = 0;
+						break;
+				}
+
+				k++;
+				grid.Add(new VertexPositionColor(new Vector3(x + zoom * Surface.RenderWidth, i, gridZ), new RgbaFloat(r, g, b, 1.0f)));
+				grid.Add(new VertexPositionColor(new Vector3(x + zoom * -Surface.RenderWidth, i, gridZ), new RgbaFloat(r, g, b, 1.0f)));
+			}
+			k = 0;
+			for (float i = 0; i < Surface.RenderHeight * zoom + y; i += spacing)
+			{
+				float r = 0.0f;
+				float g = 0.0f;
+				float b = 0.0f;
+				switch (k)
+				{
+					case <= 9:
+						r = ovpSettings.minorGridColor.R;
+						g = ovpSettings.minorGridColor.G;
+						b = ovpSettings.minorGridColor.B;
+						break;
+					case 10:
+						r = ovpSettings.majorGridColor.R;
+						g = ovpSettings.majorGridColor.G;
+						b = ovpSettings.majorGridColor.B;
+						k = 0;
+						break;
+				}
+
+				k++;
+				grid.Add(new VertexPositionColor(new Vector3(x + zoom * Surface.RenderWidth, i, gridZ), new RgbaFloat(r, g, b, 1.0f)));
+				grid.Add(new VertexPositionColor(new Vector3(x + zoom * -Surface.RenderWidth, i, gridZ), new RgbaFloat(r, g, b, 1.0f)));
+			}
+		}
+
+		uint gridCount = (uint)grid.Count;
+
+		switch (gridCount)
+		{
+			case > 0:
+			{
+				gridIndices = new uint[gridCount];
+				for (uint i = 0; i < gridIndices.Length; i++)
+				{
+					gridIndices[i] = i;
+				}
+
+				updateBuffer(ref GridVertexBuffer, grid.ToArray(), VertexPositionColor.SizeInBytes, BufferUsage.VertexBuffer);
+				updateBuffer(ref GridIndexBuffer, gridIndices, sizeof(uint), BufferUsage.IndexBuffer);
+				break;
+			}
+			default:
+				GridVertexBuffer = null;
+				GridIndexBuffer = null;
+				break;
 		}
 	}
 
 	private void drawAxes()
 	{
-		if (ovpSettings.drawAxes())
+		if (!ovpSettings.drawAxes())
 		{
-			float zoom = ovpSettings.getBaseZoom() * ovpSettings.getZoomFactor();
-			VertexPositionColor[] axesArray = new VertexPositionColor[4];
-			axesArray[0] = new VertexPositionColor(new Vector3(0.0f, ovpSettings.getCameraY() + Surface.RenderHeight * zoom, axisZ), new RgbaFloat(ovpSettings.axisColor.R, ovpSettings.axisColor.G, ovpSettings.axisColor.B, 1.0f));
-			axesArray[1] = new VertexPositionColor(new Vector3(0.0f, ovpSettings.getCameraY() - Surface.RenderHeight * zoom, axisZ), new RgbaFloat(ovpSettings.axisColor.R, ovpSettings.axisColor.G, ovpSettings.axisColor.B, 1.0f));
-			axesArray[2] = new VertexPositionColor(new Vector3(ovpSettings.getCameraX() + Surface.RenderWidth * zoom, 0.0f, axisZ), new RgbaFloat(ovpSettings.axisColor.R, ovpSettings.axisColor.G, ovpSettings.axisColor.B, 1.0f));
-			axesArray[3] = new VertexPositionColor(new Vector3(ovpSettings.getCameraX() - Surface.RenderWidth * zoom, 0.0f, axisZ), new RgbaFloat(ovpSettings.axisColor.R, ovpSettings.axisColor.G, ovpSettings.axisColor.B, 1.0f));
-
-			axesIndices = new uint[4] { 0, 1, 2, 3 };
-
-			updateBuffer(ref AxesVertexBuffer, axesArray, VertexPositionColor.SizeInBytes, BufferUsage.VertexBuffer);
-			updateBuffer(ref AxesIndexBuffer, axesIndices, sizeof(uint), BufferUsage.IndexBuffer);
+			return;
 		}
+
+		float zoom = ovpSettings.getBaseZoom() * ovpSettings.getZoomFactor();
+		VertexPositionColor[] axesArray = new VertexPositionColor[4];
+		axesArray[0] = new VertexPositionColor(new Vector3(0.0f, ovpSettings.getCameraY() + Surface.RenderHeight * zoom, axisZ), new RgbaFloat(ovpSettings.axisColor.R, ovpSettings.axisColor.G, ovpSettings.axisColor.B, 1.0f));
+		axesArray[1] = new VertexPositionColor(new Vector3(0.0f, ovpSettings.getCameraY() - Surface.RenderHeight * zoom, axisZ), new RgbaFloat(ovpSettings.axisColor.R, ovpSettings.axisColor.G, ovpSettings.axisColor.B, 1.0f));
+		axesArray[2] = new VertexPositionColor(new Vector3(ovpSettings.getCameraX() + Surface.RenderWidth * zoom, 0.0f, axisZ), new RgbaFloat(ovpSettings.axisColor.R, ovpSettings.axisColor.G, ovpSettings.axisColor.B, 1.0f));
+		axesArray[3] = new VertexPositionColor(new Vector3(ovpSettings.getCameraX() - Surface.RenderWidth * zoom, 0.0f, axisZ), new RgbaFloat(ovpSettings.axisColor.R, ovpSettings.axisColor.G, ovpSettings.axisColor.B, 1.0f));
+
+		axesIndices = new uint[4] { 0, 1, 2, 3 };
+
+		updateBuffer(ref AxesVertexBuffer, axesArray, VertexPositionColor.SizeInBytes, BufferUsage.VertexBuffer);
+		updateBuffer(ref AxesIndexBuffer, axesIndices, sizeof(uint), BufferUsage.IndexBuffer);
 	}
 
 	/// <summary>
@@ -1161,10 +1162,10 @@ public class VeldridDriver
 
 		float zoom = ovpSettings.getZoomFactor() * ovpSettings.getBaseZoom();
 
-		float left = ovpSettings.getCameraX() - Surface.RenderWidth / 2 * zoom;
-		float right = ovpSettings.getCameraX() + Surface.RenderWidth / 2 * zoom;
-		float bottom = ovpSettings.getCameraY() + Surface.RenderHeight / 2 * zoom;
-		float top = ovpSettings.getCameraY() - Surface.RenderHeight / 2 * zoom;
+		float left = ovpSettings.getCameraX() - (float)Surface.RenderWidth / 2 * zoom;
+		float right = ovpSettings.getCameraX() + (float)Surface.RenderWidth / 2 * zoom;
+		float bottom = ovpSettings.getCameraY() + (float)Surface.RenderHeight / 2 * zoom;
+		float top = ovpSettings.getCameraY() - (float)Surface.RenderHeight / 2 * zoom;
 
 		ViewMatrix = Matrix4x4.CreateOrthographicOffCenter(left, right, bottom, top, 0.0f, 1.0f);
 		CommandList.UpdateBuffer(ViewBuffer, 0, ViewMatrix);
@@ -1321,9 +1322,9 @@ public class VeldridDriver
 						CommandList.SetGraphicsResourceSet(0, ViewMatrixSet);
 						CommandList.SetGraphicsResourceSet(1, ModelMatrixSet);
 
-						for (int l = 0; l < pointsFirst.Length; l++)
+						foreach (uint t in pointsFirst)
 						{
-							CommandList.Draw(3, 1, pointsFirst[l], 0);
+							CommandList.Draw(3, 1, t, 0);
 						}
 					}
 					catch (Exception)
@@ -1435,8 +1436,6 @@ public class VeldridDriver
 			case GraphicsBackend.OpenGL:
 				options.FixClipSpaceZ = true;
 				options.InvertVertexOutputY = true;
-				break;
-			default:
 				break;
 		}
 

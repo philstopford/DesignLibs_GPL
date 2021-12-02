@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Eto.Forms" Version="2.6.0-ci-20211113.1455266255" />
+    <PackageReference Include="Eto.Forms" Version="2.6.1-ci-20211202.1529715902" />
     <PackageReference Include="Eto.Veldrid" Version="0.1.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.2">
       <PrivateAssets>all</PrivateAssets>

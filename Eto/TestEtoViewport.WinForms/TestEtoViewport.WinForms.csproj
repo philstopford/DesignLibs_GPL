@@ -20,7 +20,7 @@
 
   <ItemGroup>
     <PackageReference Include="Eto.OpenTK.WinForms" Version="0.1.2" />
-    <PackageReference Include="Eto.Platform.Windows" Version="2.6.0-ci-20211113.1455266255" />
+    <PackageReference Include="Eto.Platform.Windows" Version="2.6.1-ci-20211202.1529715902" />
   </ItemGroup>
 
   <ItemGroup>

@@ -62,6 +62,13 @@ public static partial class GeoWrangler
             decomp[i] = pClose(decomp[i]);
             odecomp[i] = decomp[i].ToList();
         }
+        // Outer areas
+        List<double> outerAreas = new();
+
+        foreach (Path p in decomp[(int)type.outer])
+        {
+            outerAreas.Add(Clipper.Area(p));
+        }
         
         // So here, things get annoying. We can have nested donuts, which means that we have outers fully covered by cutters (from the larger donut).
         // Unless we massage things, these get killed as the cutters are applied en-masse to outers in the keyholer.
@@ -89,17 +96,23 @@ public static partial class GeoWrangler
         
         // If we lost area, we probably had a cutter fully cover up one or more of our polygons.
         double lostArea = origArea - newArea;
-
+        
         if (lostArea > 0)
         {
+            // Track whether we are looking at the outer-most outer, and avoid touching it.
+            bool bypassOuter = false;
             // We need to find out which cutters might have completely killed one or more outers and figure out a plan.
             for (int oIndex = 0; oIndex < odecomp[(int) type.outer].Count; oIndex++)
             {
-                Path tOuter = odecomp[(int) type.outer][oIndex];
+                Path tOuter = odecomp[(int) type.outer][oIndex].ToList();
                 double outerArea = Clipper.Area(tOuter);
-                if (outerArea > lostArea)
+                if (!bypassOuter && (outerArea > lostArea))
                 {
-                    continue;
+                    if (Math.Abs(outerArea - outerAreas.Max()) <= double.Epsilon)
+                    {
+                        bypassOuter = true;
+                        continue;
+                    }
                 }
                 Paths tCutters = new();
                 // Do any cutters cover up our outer?
@@ -108,7 +121,7 @@ public static partial class GeoWrangler
                     Paths test = new();
                     Clipper c = new();
                     c.AddPath(tOuter, PolyType.ptSubject, true);
-                    c.AddPath(odecomp[(int) type.cutter][cIndex], PolyType.ptClip, true);
+                    c.AddPath(odecomp[(int) type.cutter][cIndex].ToList(), PolyType.ptClip, true);
                     c.Execute(ClipType.ctDifference, test);
                     double area = 0;
                     foreach (Path t in test)
@@ -126,13 +139,17 @@ public static partial class GeoWrangler
 
                 Paths tOuters = new() {tOuter};
 
-                Paths tRet = pMakeKeyHole(tOuters, tCutters, customSizing, extension,
+                Paths tRet = pMakeKeyHole(tOuters.ToList(), tCutters.ToList(), customSizing, extension,
                     angularTolerance);
 
-                ret.AddRange(tRet);
+                ret.AddRange(tRet.ToList());
             }
+            
+            // Screen ret for any duplicates and remove them.
+            ret = pClockwiseAndReorder(ret.ToList());
+            ret = removeDuplicatePaths(ret.ToList());
         }
-
+        
         switch (ret.Count)
         {
             case 0:

@@ -4,6 +4,7 @@ using LibTessDotNet.Double;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using utility;
 
 namespace geoWrangler;
 
@@ -1121,4 +1122,29 @@ public static partial class GeoWrangler
 
         return pPointFsFromPaths(pClockwiseAndReorder(keyHoled), scaling);
     }
+
+    public static Paths removeDuplicatePaths(Paths source)
+    {
+        return pRemoveDuplicatePaths(source);
+    }
+    
+    private static Paths pRemoveDuplicatePaths(Paths source)
+    {
+        Paths ret = new();
+        List<string> polyHashCodes = new();
+
+        foreach (Path p in source)
+        {
+            string polyHash = Utils.GetMD5Hash(p);
+            if (polyHashCodes.IndexOf(polyHash) != -1)
+            {
+                continue;
+            }
+            polyHashCodes.Add(polyHash);
+            ret.Add(p.ToList());
+        }
+
+        return ret;
+    }
+    
 }

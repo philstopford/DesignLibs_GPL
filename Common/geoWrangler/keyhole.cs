@@ -56,11 +56,82 @@ public static partial class GeoWrangler
         }
 
         Paths[] decomp = pGetDecomposed(input);
+        Paths[] odecomp = new Paths[decomp.Length];
         for (int i = 0; i < decomp.Length; i++)
         {
             decomp[i] = pClose(decomp[i]);
+            odecomp[i] = decomp[i].ToList();
         }
+        
+        // So here, things get annoying. We can have nested donuts, which means that we have outers fully covered by cutters (from the larger donut).
+        // Unless we massage things, these get killed as the cutters are applied en-masse to outers in the keyholer.
+        
+        // First, we'll run the keyholer as usual.
         Paths ret = pMakeKeyHole(decomp[(int)type.outer], decomp[(int)type.cutter], customSizing, extension, angularTolerance);
+
+        double origArea = 0;
+        List<double> origAreas = new();
+        foreach (Path t in sliverGapRemoval(source))
+        {
+            double tArea = Clipper.Area(t);
+            origAreas.Add(tArea);
+            origArea += tArea;
+        }
+
+        double newArea = 0;
+        List<double> newAreas = new();
+        foreach (Path t in sliverGapRemoval(ret))
+        {
+            double tArea = Clipper.Area(t);
+            newAreas.Add(tArea);
+            newArea += tArea;
+        }
+        
+        // If we lost area, we probably had a cutter fully cover up one or more of our polygons.
+        double lostArea = origArea - newArea;
+
+        if (lostArea > 0)
+        {
+            // We need to find out which cutters might have completely killed one or more outers and figure out a plan.
+            for (int oIndex = 0; oIndex < odecomp[(int) type.outer].Count; oIndex++)
+            {
+                Path tOuter = odecomp[(int) type.outer][oIndex];
+                double outerArea = Clipper.Area(tOuter);
+                if (outerArea > lostArea)
+                {
+                    continue;
+                }
+                Paths tCutters = new();
+                // Do any cutters cover up our outer?
+                for (int cIndex = 0; cIndex < odecomp[(int) type.cutter].Count; cIndex++)
+                {
+                    Paths test = new();
+                    Clipper c = new();
+                    c.AddPath(tOuter, PolyType.ptSubject, true);
+                    c.AddPath(odecomp[(int) type.cutter][cIndex], PolyType.ptClip, true);
+                    c.Execute(ClipType.ctDifference, test);
+                    double area = 0;
+                    foreach (Path t in test)
+                    {
+                        area += Clipper.Area(t);
+                    }
+
+                    // If area is zero, the cutter fully covered the outer and we need to skip it.
+                    if ((area != 0) && (area <= lostArea))
+                    {
+                        tCutters.Add(odecomp[(int) type.cutter][cIndex]);
+                    }
+
+                }
+
+                Paths tOuters = new() {tOuter};
+
+                Paths tRet = pMakeKeyHole(tOuters, tCutters, customSizing, extension,
+                    angularTolerance);
+
+                ret.AddRange(tRet);
+            }
+        }
 
         switch (ret.Count)
         {
@@ -158,7 +229,7 @@ public static partial class GeoWrangler
                 outers.Clear();
                 outers.AddRange(new_outers.Where(t1 => Clipper.Orientation(t1) == outerOrient));
             }
-
+            
             return pClockwiseAndReorder(outers);
         }
         catch (Exception)

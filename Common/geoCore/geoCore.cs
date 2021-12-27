@@ -478,9 +478,12 @@ public class GeoCore
             source++;
         }
 
+        drawingField = new GCDrawingfield(sourceGeoCore.getDrawing());
+
         structures = sourceGeoCore.structures.ToList();
         valid = sourceGeoCore.valid;
         activeStructure = sourceGeoCore.activeStructure;
+        layerNames = sourceGeoCore.layerNames;
         genLDList();
     }
 

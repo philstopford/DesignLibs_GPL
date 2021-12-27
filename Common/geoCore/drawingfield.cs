@@ -68,6 +68,32 @@ public class GCDrawingfield
         libname = name;
     }
 
+    public GCDrawingfield(GCDrawingfield drawing)
+    {
+        pGCDrawingfield(drawing);
+    }
+
+    private void pGCDrawingfield(GCDrawingfield drawing)
+    {
+        cellList = drawing.cellList.ToList();
+        accyear = drawing.accyear;
+        accmonth = drawing.accmonth;
+        accday = drawing.accday;
+        acchour = drawing.acchour;
+        accmin = drawing.accmin;
+        accsec = drawing.accsec;
+        modyear = drawing.modyear;
+        modmonth = drawing.modmonth;
+        modday = drawing.modday;
+        modhour = drawing.modhour;
+        modmin = drawing.modmin;
+        modsec = drawing.modsec;
+        active_cell = drawing.active_cell;
+        databaseunits = drawing.databaseunits;
+        libname = drawing.libname;
+        userunits = drawing.userunits;
+    }
+    
     public GCCell findCell(string s)
     {
         return pFindCell(s);

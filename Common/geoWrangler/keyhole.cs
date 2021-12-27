@@ -33,6 +33,12 @@ public static partial class GeoWrangler
 
     private static Paths pMakeKeyHole(Paths source, double customSizing = 0, double extension = 0, double angularTolerance = 0)
     {
+        // Reconcile any overlapping geometry.
+        Clipper c = new ()
+        {
+            PreserveCollinear = true
+        };
+        
         switch (source.Count)
         {
             case < 1:
@@ -119,7 +125,7 @@ public static partial class GeoWrangler
                 for (int cIndex = 0; cIndex < odecomp[(int) type.cutter].Count; cIndex++)
                 {
                     Paths test = new();
-                    Clipper c = new();
+                    c.Clear();
                     c.AddPath(tOuter, PolyType.ptSubject, true);
                     c.AddPath(odecomp[(int) type.cutter][cIndex].ToList(), PolyType.ptClip, true);
                     c.Execute(ClipType.ctDifference, test);
@@ -155,6 +161,11 @@ public static partial class GeoWrangler
             case 0:
                 return source; // something blew up. Send back the original geometry.
             default:
+                
+                // Remove any overlapping duplicate polygons.
+                c.AddPaths(ret, PolyType.ptSubject, true);
+                c.Execute(ClipType.ctUnion, ret, PolyFillType.pftPositive, PolyFillType.pftPositive);
+
                 ret = pClose(ret);
 
                 return ret;

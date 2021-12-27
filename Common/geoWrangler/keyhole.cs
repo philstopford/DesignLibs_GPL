@@ -161,12 +161,21 @@ public static partial class GeoWrangler
             case 0:
                 return source; // something blew up. Send back the original geometry.
             default:
-                
-                // Remove any overlapping duplicate polygons.
-                c.AddPaths(ret, PolyType.ptSubject, true);
-                c.Execute(ClipType.ctUnion, ret, PolyFillType.pftPositive, PolyFillType.pftPositive);
 
-                ret = pClose(ret);
+                // Remove any overlapping duplicate polygons.
+                Paths cleaned = new();
+                c.AddPaths(ret, PolyType.ptSubject, true);
+                c.Execute(ClipType.ctUnion, cleaned, PolyFillType.pftPositive, PolyFillType.pftPositive);
+
+                switch (cleaned.Count)
+                {
+                    default:
+                        ret = pClose(cleaned);
+                        break;
+                    case 0:
+                        ret = pClose(ret);
+                        break;
+                }
 
                 return ret;
         }

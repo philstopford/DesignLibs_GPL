@@ -243,8 +243,7 @@ public static partial class GeoWrangler
                 if (cutPathIndex != -1)
                 {
                     // Offset our cutter and assign to the clipping scenario.
-                    // Fudge factor for custom sizing based on recent tests.
-                    Paths sPaths = pInflateEdge(clipped[cutPathIndex], customSizing * 2);
+                    Paths sPaths = pInflateEdge(clipped[cutPathIndex], customSizing);
 
                     extraCutters.AddRange(new Paths(sPaths));
                 }

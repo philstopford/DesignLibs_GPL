@@ -13,8 +13,8 @@ public static partial class GeoWrangler
 {
     // Sizing is used to define the keyhole width (default) and will be used for the sliver/gap removal.
     // Use of a custom value will cause headaches.
-    private const double sizing = 500;
-    private const double default_nudge = 1.03;
+    public const double keyhole_sizing = 500;
+    private const double keyhole_extension_default = 1.03;
 
     public static Paths makeKeyHole(Paths outers, Paths cutters, double customSizing = 0, double extension = 0, double angularTolerance = 0)
     {
@@ -47,7 +47,7 @@ public static partial class GeoWrangler
 
         customSizing = customSizing switch
         {
-            0 => sizing,
+            0 => keyhole_sizing,
             _ => customSizing
         };
 
@@ -185,7 +185,7 @@ public static partial class GeoWrangler
     {
         customSizing = customSizing switch
         {
-            0 => sizing,
+            0 => keyhole_sizing,
             _ => customSizing
         };
 
@@ -279,7 +279,7 @@ public static partial class GeoWrangler
     {
         customSizing = customSizing switch
         {
-            0 => sizing,
+            0 => keyhole_sizing,
             _ => customSizing
         };
         // Force clockwise, which should get us something consistent to work with.
@@ -302,8 +302,8 @@ public static partial class GeoWrangler
         dy /= length;
 
         // Extend the line slightly.
-        edge[0] = new IntPoint((long)(edge[0].X - Math.Abs(dx * sizing)), (long)(edge[0].Y - Math.Abs(dy * sizing)));
-        edge[1] = new IntPoint((long)(edge[1].X + Math.Abs(dx * sizing)), (long)(edge[1].Y + Math.Abs(dy * sizing)));
+        edge[0] = new IntPoint((long)(edge[0].X - Math.Abs(dx * keyhole_sizing)), (long)(edge[0].Y - Math.Abs(dy * keyhole_sizing)));
+        edge[1] = new IntPoint((long)(edge[1].X + Math.Abs(dx * keyhole_sizing)), (long)(edge[1].Y + Math.Abs(dy * keyhole_sizing)));
 
         ClipperOffset co = new() {PreserveCollinear = true};
         co.AddPath(edge, JoinType.jtMiter, EndType.etOpenSquare);
@@ -328,7 +328,7 @@ public static partial class GeoWrangler
     {
         customSizing = customSizing switch
         {
-            0 => sizing,
+            0 => keyhole_sizing,
             _ => customSizing
         };
         // Remove gaps, then remove slivers. Same process, different direction for sizing.
@@ -400,7 +400,7 @@ public static partial class GeoWrangler
     {
         customSizing = customSizing switch
         {
-            0 => sizing,
+            0 => keyhole_sizing,
             _ => customSizing
         };
         double oArea = source.Sum(t => Clipper.Area(t));
@@ -419,13 +419,13 @@ public static partial class GeoWrangler
     {
         customSizing = customSizing switch
         {
-            0 => sizing,
+            0 => keyhole_sizing,
             _ => customSizing
         };
 
         extension = extension switch
         {
-            0 => default_nudge,
+            0 => keyhole_extension_default,
             _ => extension
         };
 
@@ -460,7 +460,7 @@ public static partial class GeoWrangler
 
         customSizing = customSizing switch
         {
-            0 => sizing,
+            0 => keyhole_sizing,
             _ => customSizing
         };
         double sourceArea = Clipper.Area(source);

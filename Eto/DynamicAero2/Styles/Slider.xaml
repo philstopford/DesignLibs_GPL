@@ -1,5 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:eto="clr-namespace:Eto.Wpf.Forms.Controls;assembly=Eto.Wpf"                                        
+                    >
     <ControlTemplate x:Key="SliderThumbHorizontalDefault" TargetType="{x:Type Thumb}">
         <Grid 
          HorizontalAlignment="Center" 
@@ -359,4 +361,13 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+
+    <Style x:Key="{x:Type eto:SliderHandler}"
+       BasedOn="{StaticResource {x:Type Slider}}"
+       TargetType="{x:Type eto:SliderHandler}"/>
+
+    <Style x:Key="{x:Type eto:EtoSlider}"
+       BasedOn="{StaticResource {x:Type Slider}}"
+       TargetType="{x:Type eto:EtoSlider}"/>
+
 </ResourceDictionary>

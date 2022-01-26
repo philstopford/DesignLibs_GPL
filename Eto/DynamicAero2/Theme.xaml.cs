@@ -1,33 +1,29 @@
 ﻿using System;
 using System.Windows;
 
-namespace DynamicAero2;
-
-partial class Theme
+namespace DynamicAero2
 {
-    private ThemeColor color;
-    public ThemeColor Color
+    partial class Theme
     {
-        get => color;
-        set
+        ThemeColor color;
+        public ThemeColor Color
         {
-            if (color == value)
+            get => color;
+            set
             {
-                return;
+                if (color == value) return;
+                color = value;
+                SetColor(color);
             }
-
-            color = value;
-            SetColor(color);
         }
-    }
 
-    public Theme()
-    {
-        InitializeComponent();
-    }
-
-    private void SetColor(ThemeColor color)
-    {
-        MergedDictionaries[0] = new ResourceDictionary { Source = new Uri($"/DynamicAero2;component/Brushes/{color}.xaml", UriKind.Relative) };
+        public Theme()
+        {
+            InitializeComponent();
+        }
+        void SetColor(ThemeColor color)
+        {
+            MergedDictionaries[0] = new ResourceDictionary() { Source = new Uri($"/DynamicAero2;component/Brushes/{color}.xaml", UriKind.Relative) };
+        }
     }
 }

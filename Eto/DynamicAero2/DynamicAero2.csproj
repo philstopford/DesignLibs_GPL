@@ -1,17 +1,17 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
 
   <PropertyGroup>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>True</UseWPF>
   </PropertyGroup>
 
   <ItemGroup>
-    <Page Remove="Styles\Panel.xaml" />
+    <PackageReference Include="Extended.Wpf.Toolkit" Version="3.6.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Eto.Platform.Wpf" Version="2.6.1-ci-20220104.1651622530" />
-    <PackageReference Include="Extended.Wpf.Toolkit" Version="3.6.0" />
+    <ProjectReference Include="..\src\Eto.Wpf\Eto.Wpf.csproj" />
+    <ProjectReference Include="..\src\Eto\Eto.csproj" />
   </ItemGroup>
 
   <ItemGroup>

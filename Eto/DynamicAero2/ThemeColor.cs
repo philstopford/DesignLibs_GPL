@@ -1,9 +1,10 @@
-﻿namespace DynamicAero2;
-
-public enum ThemeColor
+﻿namespace DynamicAero2
 {
-    NormalColor,
-    Black,
-    Dark,
-    Light
+    public enum ThemeColor
+    {
+        NormalColor,
+        Black,
+        Dark,
+        Light,
+    }
 }

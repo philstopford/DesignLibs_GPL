@@ -9,6 +9,7 @@
         <Setter Property="Background" Value="{DynamicResource TextBox.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource TextBox.Static.Border}"/>
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+        <Setter Property="CaretBrush" Value="{DynamicResource TextBox.Static.Caret}"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="KeyboardNavigation.TabNavigation" Value="None"/>
         <Setter Property="HorizontalContentAlignment" Value="Left"/>
@@ -154,8 +155,18 @@
        BasedOn="{StaticResource {x:Type TextBox}}"
        TargetType="{x:Type eto:EtoTextBox}"/>
 
+    <Style x:Key="{x:Type eto:TextBoxHandler}"
+       BasedOn="{StaticResource {x:Type TextBox}}"
+       TargetType="{x:Type eto:TextBoxHandler}"/>
+
     <Style x:Key="{x:Type eto:PasswordBoxHandler}"
        BasedOn="{StaticResource {x:Type PasswordBox}}"
        TargetType="{x:Type eto:PasswordBoxHandler}"/>
+
+    <Style x:Key="{x:Type eto:GridViewHandler}"
+       BasedOn="{StaticResource {x:Type TextBox}}"
+       TargetType="{x:Type eto:GridViewHandler}"/>
+
+
 
 </ResourceDictionary>

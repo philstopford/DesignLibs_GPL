@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using ClipperLib;
+using ClipperLib1;
 using geoLib;
 using geoWrangler;
 using geoCoreLib;

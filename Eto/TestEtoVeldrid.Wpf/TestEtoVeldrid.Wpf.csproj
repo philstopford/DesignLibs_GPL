@@ -7,8 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Eto.Veldrid\src\Eto.Veldrid.Wpf\Eto.Veldrid.Wpf.csproj" />
-    <ProjectReference Include="..\..\..\Eto\src\Eto.Wpf\Eto.Wpf.csproj" />
     <ProjectReference Include="..\TestEtoVeldrid\TestEtoVeldrid.csproj" />
   </ItemGroup>
 

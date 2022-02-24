@@ -23,13 +23,13 @@
   </ItemGroup>
   
   <ItemGroup>
+    <PackageReference Include="Eto.Veldrid" Version="0.1.0" />
     <PackageReference Include="Unofficial.LibTessDotNet" Version="2.0.2" />
     <PackageReference Include="Veldrid" Version="4.9.0-gffcf1cdb33" />
     <PackageReference Include="Veldrid.SPIRV" Version="1.0.14" />
   </ItemGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Eto.Veldrid\src\Eto.Veldrid\Eto.Veldrid.csproj" />
     <ProjectReference Include="..\..\..\Eto\src\Eto\Eto.csproj" />
     <ProjectReference Include="..\..\Common\KDTree\KDTree.csproj" />
     <ProjectReference Include="..\..\Common\utility\utility.csproj" />

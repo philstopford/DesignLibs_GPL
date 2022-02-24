@@ -32,97 +32,11 @@
     </Style>
 
     <Style x:Key="{x:Type Label}"
-       BasedOn="{StaticResource {x:Type Label}}"
+       BasedOn="{StaticResource BaseLabelStyle}"
        TargetType="{x:Type Label}"/>
 
-    <Style x:Key="{x:Type Frame}"
-       BasedOn="{StaticResource {x:Type Label}}"
-       TargetType="{x:Type Frame}"/>
-
-    <Style x:Key="{x:Type Border}"
-       BasedOn="{StaticResource {x:Type Label}}"
-       TargetType="{x:Type Border}"/>
-
-    <Style x:Key="{x:Type Panel}"
-       BasedOn="{StaticResource {x:Type Label}}"
-       TargetType="{x:Type Panel}"/>
-
-    <Style x:Key="{x:Type eto:ImageViewHandler}"
-       BasedOn="{StaticResource {x:Type Label}}"
-       TargetType="{x:Type eto:ImageViewHandler}"/>
-
-    <Style x:Key="{x:Type Grid}"
-       BasedOn="{StaticResource {x:Type Label}}"
-       TargetType="{x:Type Grid}"/>
-
-    <Style x:Key="{x:Type eto:ExpanderHandler}"
-       BasedOn="{StaticResource {x:Type Label}}"
-       TargetType="{x:Type eto:ExpanderHandler}"/>
-
-    <Style x:Key="{x:Type eto:PanelHandler}"
-       BasedOn="{StaticResource {x:Type Label}}"
-       TargetType="{x:Type eto:PanelHandler}"/>
-
-    <Style x:Key="{x:Type eto:SplitterHandler}"
-       BasedOn="{StaticResource {x:Type Label}}"
-       TargetType="{x:Type eto:SplitterHandler}"/>
-
-    <Style x:Key="{x:Type eto:EtoExpander}"
-       BasedOn="{StaticResource {x:Type Label}}"
-       TargetType="{x:Type eto:EtoExpander}"/>
-
-    <Style x:Key="{x:Type eto:EtoGrid}"
-       BasedOn="{StaticResource {x:Type Label}}"
-       TargetType="{x:Type eto:EtoGrid}"/>
-
-    <Style x:Key="{x:Type eto:ScrollableHandler}"
-       BasedOn="{StaticResource {x:Type Label}}"
-       TargetType="{x:Type eto:ScrollableHandler}"/>
-
     <Style x:Key="{x:Type eto:EtoLabel}"
-       BasedOn="{StaticResource {x:Type Label}}"
+       BasedOn="{StaticResource BaseLabelStyle}"
        TargetType="{x:Type eto:EtoLabel}"/>
-    <Style x:Key="{x:Type eto:LabelHandler}"
-       BasedOn="{StaticResource {x:Type Label}}"
-       TargetType="{x:Type eto:LabelHandler}"/>
 
-    <Style x:Key="{x:Type mwc:DateTimePicker}"
-       BasedOn="{StaticResource {x:Type Label}}"
-       TargetType="{x:Type mwc:DateTimePicker}"/>
-
-    <Style x:Key="{x:Type mwc:DateTimeUpDown}"
-       BasedOn="{StaticResource {x:Type Label}}"
-       TargetType="{x:Type mwc:DateTimeUpDown}"/>
-
-    <Style x:Key="{x:Type mwc:ColorPicker}"
-       BasedOn="{StaticResource {x:Type Label}}"
-       TargetType="{x:Type mwc:ColorPicker}"/>
-
-    <Style x:Key="{x:Type swf:Panel}"
-       BasedOn="{StaticResource {x:Type Label}}"
-       TargetType="{x:Type swf:Panel}"/>
-
-    <Style x:Key="{x:Type swf:Control}"
-       BasedOn="{StaticResource {x:Type Label}}"
-       TargetType="{x:Type swf:Control}"/>
-
-    <Style x:Key="{x:Type swf:UserControl}"
-       BasedOn="{StaticResource {x:Type Label}}"
-       TargetType="{x:Type swf:UserControl}"/>
-
-    <Style x:Key="{x:Type swf:ContainerControl}"
-       BasedOn="{StaticResource {x:Type Label}}"
-       TargetType="{x:Type swf:ContainerControl}"/>
-
-    <Style x:Key="{x:Type swf:Form}"
-       BasedOn="{StaticResource {x:Type Label}}"
-       TargetType="{x:Type swf:Form}"/>
-
-    <Style x:Key="{x:Type swf:FixedPanel}"
-       BasedOn="{StaticResource {x:Type Label}}"
-       TargetType="{x:Type swf:FixedPanel}"/>
-
-    <Style x:Key="{x:Type swf:Padding}"
-       BasedOn="{StaticResource {x:Type Label}}"
-       TargetType="{x:Type swf:Padding}"/>
 </ResourceDictionary>

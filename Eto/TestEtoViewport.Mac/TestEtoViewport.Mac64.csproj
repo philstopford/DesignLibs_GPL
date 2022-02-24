@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Eto.OpenTK.Mac64" Version="0.1.2" />
+    <PackageReference Include="Eto.Platform.Mac64" Version="2.6.1-ci-20220104.1651622530" />
   </ItemGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

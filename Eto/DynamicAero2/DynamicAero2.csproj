@@ -10,8 +10,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Eto\src\Eto.Wpf\Eto.Wpf.csproj" />
-    <ProjectReference Include="..\..\..\Eto\src\Eto\Eto.csproj" />
+    <ProjectReference Include="..\src\Eto.Wpf\Eto.Wpf.csproj" />
+    <ProjectReference Include="..\src\Eto\Eto.csproj" />
   </ItemGroup>
 
   <ItemGroup>

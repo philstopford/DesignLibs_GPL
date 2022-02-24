@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Eto\src\Eto.WinForms\Eto.WinForms.csproj" />
     <ProjectReference Include="..\TestEtoViewport\TestEtoViewport.csproj" />
   </ItemGroup>
 
@@ -20,7 +21,6 @@
 
   <ItemGroup>
     <PackageReference Include="Eto.OpenTK.WinForms" Version="0.1.2" />
-    <PackageReference Include="Eto.Platform.Windows" Version="2.6.1-ci-20220104.1651622530" />
   </ItemGroup>
 
   <ItemGroup>

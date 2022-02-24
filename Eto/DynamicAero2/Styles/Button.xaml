@@ -92,17 +92,5 @@
     <Style x:Key="{x:Type eto:EtoButton}"
        BasedOn="{StaticResource BaseButtonStyle}"
        TargetType="{x:Type eto:EtoButton}"/>
-
-    <Style x:Key="{x:Type eto:LinkButtonHandler}"
-       BasedOn="{StaticResource BaseButtonStyle}"
-       TargetType="{x:Type eto:LinkButtonHandler}"/>
-
-    <Style x:Key="{x:Type eto:NumericStepperHandler}"
-       BasedOn="{StaticResource BaseButtonStyle}"
-       TargetType="{x:Type eto:NumericStepperHandler}"/>
-
-    <Style x:Key="{x:Type mwc:DoubleUpDown}"
-       BasedOn="{StaticResource BaseButtonStyle}"
-       TargetType="{x:Type mwc:DoubleUpDown}"/>
-
+    
 </ResourceDictionary>

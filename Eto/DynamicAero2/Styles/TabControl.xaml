@@ -92,5 +92,4 @@
        BasedOn="{StaticResource {x:Type TabControl}}"
        TargetType="{x:Type eto:EtoTabControl}"/>
 
-
 </ResourceDictionary>

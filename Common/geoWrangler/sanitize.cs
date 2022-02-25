@@ -170,12 +170,20 @@ public static partial class GeoWrangler
             // Now to start the re-indexing.
             for (int pt = reIndexStart; pt < iPoints.Count; pt++)
             {
-                tempList.Add(new Point64(iPoints[pt].X, iPoints[pt].Y, iPoints[pt].Z));
+                Point64 tmp = new Point64(iPoints[pt].X, iPoints[pt].Y)
+                {
+                    Z = iPoints[pt].Z
+                };
+                tempList.Add(new Point64(tmp));
             }
             // Ensure we close the shape by hitting the reIndexStart point again, since we will possibly have pushed it to the beginning of the shape.
             for (int pt = 0; pt <= reIndexStart; pt++)
             {
-                tempList.Add(new Point64(iPoints[pt].X, iPoints[pt].Y, iPoints[pt].Z));
+                Point64 tmp = new Point64(iPoints[pt].X, iPoints[pt].Y)
+                {
+                    Z = iPoints[pt].Z
+                };
+                tempList.Add(new Point64(tmp));
             }
 
             iPoints = tempList.ToList();
@@ -298,10 +306,11 @@ public static partial class GeoWrangler
     {
         List<Point64> iPoly = pathFromPoint(iPoints, 1);
         Clipper c = new();
-        c.AddPath(iPoly, PolyType.ptClip, true);
-        c.AddPath(iPoly, PolyType.ptSubject, true);
-        List<List<Point64>> oPoly = new();
-        c.Execute(ClipType.ctIntersection, oPoly, PolyFillType.pftEvenOdd, PolyFillType.pftEvenOdd);
+        c.AddClip(iPoly);
+        c.AddSubject(iPoly);
+        PolyTree pt = new();
+        c.Execute(ClipType.Intersection, FillRule.EvenOdd, pt);
+        Paths oPoly = ClipperFunc.PolyTreeToPaths(pt);
 
         GeoLibPoint[] working = pointFromPath(oPoly[0], 1);
 
@@ -1007,7 +1016,7 @@ public static partial class GeoWrangler
 
         foreach (Path t in source)
         {
-            if (Clipper.Orientation(t) == Clipper.Orientation(source[0]))
+            if (ClipperFunc.Orientation(t) == ClipperFunc.Orientation(source[0]))
             {
                 outers.Add(new Path(t));
             }
@@ -1079,7 +1088,7 @@ public static partial class GeoWrangler
                     trianglePath.Add(tmpPt);
                 }
 
-                if (Clipper.Orientation(trianglePath))
+                if (ClipperFunc.Orientation(trianglePath))
                 {
                     cPaths.Add(trianglePath.ToList());
                 }
@@ -1090,10 +1099,12 @@ public static partial class GeoWrangler
             }
 
             // Add paths to the clipper.	
-            c.AddPaths(cPaths, PolyType.ptSubject, true);
-            c.AddPaths(aPaths, PolyType.ptClip, true);
+            c.AddSubject(cPaths);
+            c.AddClip(aPaths);
 
-            c.Execute(ClipType.ctUnion, retPaths, PolyFillType.pftNonZero, PolyFillType.pftNonZero);
+            PolyTree pt = new();
+            c.Execute(ClipType.Union, FillRule.NonZero, pt);
+            retPaths = ClipperFunc.PolyTreeToPaths(pt);
 
             retPaths = pClose(retPaths);
 
@@ -1114,9 +1125,11 @@ public static partial class GeoWrangler
     {
         Paths sourcePaths = pPathsFromPointFs(source, scaling);
         Clipper c = new();
-        c.AddPaths(sourcePaths, PolyType.ptSubject, true);
+        c.AddSubject(sourcePaths);
         Paths solution = new();
-        c.Execute(ClipType.ctUnion, solution);
+        PolyTree pt = new();
+        c.Execute(ClipType.Union, FillRule.EvenOdd, pt);
+        solution = ClipperFunc.PolyTreeToPaths(pt);
 
         Paths keyHoled = pMakeKeyHole(solution, customSizing: customSizing, extension: extension);
 

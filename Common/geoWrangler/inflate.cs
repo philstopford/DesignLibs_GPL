@@ -8,6 +8,7 @@ namespace geoWrangler;
 
 using Path = List<Point64>;
 using Paths = List<List<Point64>>;
+using PathsD = List<List<PointD>>;
 
 public static partial class GeoWrangler
 {
@@ -33,13 +34,11 @@ public static partial class GeoWrangler
             {
                 new Point64(source[i].X, source[i].Y), new Point64(source[i + 1].X, source[i + 1].Y)
             };
-            co.AddPath(o, JoinType.jtMiter, EndType.etClosedLine);
+            co.AddPath(o, JoinType.Miter, EndType.Closed);
 
             int offsetVal = width / 2;
 
-            Paths solution = new();
-
-            co.Execute(ref solution, offsetVal);
+            Paths solution = ClipperFunc.PathsFromPathsD(co.Execute(offsetVal));
 
             allSolutions.Add(new Path(solution[0]));
 
@@ -56,9 +55,9 @@ public static partial class GeoWrangler
         }
 
         Clipper c = new();
-        c.AddPaths(allSolutions, PolyType.ptSubject, true);
+        c.AddSubject(allSolutions);
 
-        IntRect b = ClipperBase.GetBounds(allSolutions);
+        Rect64 b = ClipperFunc.GetBounds(allSolutions);
 
         Path bPath = new()
         {
@@ -68,10 +67,12 @@ public static partial class GeoWrangler
             new Point64(b.right, b.bottom)
         };
 
-        c.AddPaths(new Paths { bPath }, PolyType.ptClip, true);
+        c.AddClip(new Paths { bPath });
 
         Paths union = new();
-        c.Execute(ClipType.ctIntersection, union, PolyFillType.pftPositive);
+        PolyTree pt = new();
+        c.Execute(ClipType.Intersection, FillRule.Positive, pt);
+        union = ClipperFunc.PolyTreeToPaths(pt);
 
         GeoLibPoint[] ret;
         if (union.Any())

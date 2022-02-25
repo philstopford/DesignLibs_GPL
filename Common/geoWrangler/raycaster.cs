@@ -173,14 +173,14 @@ public class RayCast
             _ => po_inner.MaxDegreeOfParallelism
         };
 
-        Parallel.For(0, ptCount, po_outer, pt =>
+        Parallel.For((long) 0, ptCount, po_outer, pt =>
         {
             Point64 currentEdgeNormal = normals[pt];
             Point64 previousEdgeNormal = previousNormals[pt];
 
             Point64 averagedEdgeNormal;
 
-            Point64 startPoint = new(emissionPath[pt]);
+            Point64 startPoint = new(emissionPath[(int)pt]);
 
             // Get average angle for this vertex based on angles from line segments.
             // http://stackoverflow.com/questions/1243614/how-do-i-calculate-the-normal-vector-of-a-line-segment
@@ -336,29 +336,27 @@ public class RayCast
             previousEdgeNormal = new Point64(currentEdgeNormal.X, currentEdgeNormal.Y);
 
             object resultLock = new();
-            Parallel.For(0, rays.Count, po_inner, ray =>
+            Parallel.For( (long) 0, rays.Count, po_inner, ray =>
                 {
                     Clipper d = new();
                     if (sideRayFallOff != falloff.none)
                     {
                         d.ZFillFunction = prox_ZFillCallback;
                     }
-                    d.AddPath(rays[ray], PolyType.ptSubject, false);
-                    d.AddPaths(collisionPaths, PolyType.ptClip, true);
+                    d.AddSubject(rays[(int)ray], true);
+                    d.AddClip(collisionPaths);
                     PolyTree polyTree = new();
+                    Paths tmpLine = new();
                     switch (invert)
                     {
                         case true:
-                            d.Execute(ClipType.ctIntersection, polyTree);
+                            d.Execute(ClipType.Intersection, FillRule.EvenOdd, polyTree, out tmpLine);
                             break;
                         default:
-                            d.Execute(ClipType.ctDifference, polyTree);
+                            d.Execute(ClipType.Difference, FillRule.EvenOdd, polyTree, out tmpLine);
                             break;
                     }
-
-                    // There is no matching order in the return output here, so we have to take this odd approach.
-                    Paths tmpLine = Clipper.OpenPathsFromPolyTree(polyTree);
-
+                    // There is no order in tmpLine so we need to review.
                     int tmpLineCount = tmpLine.Count;
 
                     switch (tmpLineCount)

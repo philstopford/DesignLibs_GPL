@@ -14,6 +14,7 @@
 *******************************************************************************/
 
 
+using System;
 using System.Collections.Generic;
 
 namespace ClipperLib2
@@ -94,6 +95,57 @@ namespace ClipperLib2
         co.AddPaths(paths, JoinType.Round, EndType.Polygon);
       return co.Execute(delta);
     }
+
+    public static Paths PathsFromPathsD(PathsD pd)
+    {
+      Paths ret = new();
+
+      foreach (PathD t in pd)
+      {
+        Path rp = new();
+        for (int j = 0; j < t.Count; j++)
+        {
+          rp.Add(new Point64(Convert.ToInt64(t[j].x), Convert.ToInt64(t[j].y)));
+        }
+        ret.Add(rp);
+      }
+      
+      return ret;
+    }
+    
+    public static Paths SimplifyPolygon(Path poly,
+      FillRule fillType = FillRule.EvenOdd, bool preserveColinear = false)
+    {
+      Clipper c = new()
+      {
+        /*
+        StrictlySimple = true,
+        PreserveCollinear = preserveColinear
+        */
+      };
+      c.AddSubject(poly);
+      PolyTree pt = new();
+      c.Execute(ClipType.Union, fillType, pt);
+      return PolyTreeToPaths(pt);
+    }
+    //------------------------------------------------------------------------------
+
+    public static Paths SimplifyPolygons(Paths polys,
+      FillRule fillType = FillRule.EvenOdd, bool preserveColinear = false)
+    {
+      Clipper c = new()
+      {
+        /*
+        StrictlySimple = true,
+        PreserveCollinear = preserveColinear
+        */
+      };
+      c.AddSubject(polys);
+      PolyTree pt = new();
+      c.Execute(ClipType.Union, fillType, pt);
+      return PolyTreeToPaths(pt);
+    }
+
     
     public static Rect64 GetBounds(Paths paths)
     {

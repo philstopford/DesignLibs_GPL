@@ -314,9 +314,7 @@ public static partial class GeoWrangler
 
         ClipperOffset co = new() {PreserveCollinear = true};
         co.AddPath(edge, JoinType.Miter, EndType.Square);
-        PolyTree solution = new();
-        solution = co.Execute(ref solution, customSizing);
-        Paths sPaths = ClipperFunc.PolyTreeToPaths(solution);
+        Paths sPaths = ClipperFunc.PathsFromPathsD(co.Execute(customSizing));
 
         return sPaths;
     }
@@ -375,7 +373,7 @@ public static partial class GeoWrangler
         }
 
         // Clean-up the geometry.
-        ret = Clipper.SimplifyPolygons(ret);
+        ret = ClipperFunc.SimplifyPolygons(ret);
 
         // Validate orientations.
         bool gR_orient_gw = isClockwise(ret[0]);
@@ -438,17 +436,13 @@ public static partial class GeoWrangler
 
         // Used to try and avoid residual fragments; empirically derived.
         customSizing *= extension;
-
-        Paths cGeometry = new();
-
+        
         ClipperOffset co = new() {PreserveCollinear = !maySimplify};
         co.AddPaths(source, joinType, EndType.Closed);
-        PathsD out_ = co.Execute(customSizing);
-        cGeometry = pathsDToPaths(out_);
+        Paths cGeometry = ClipperFunc.PathsFromPathsD(co.Execute(customSizing));
         co.Clear();
         co.AddPaths(cGeometry.ToList(), joinType, EndType.Closed);
-        out_ = co.Execute(-customSizing); // Size back to original dimensions
-        cGeometry = pathsDToPaths(out_);
+        cGeometry = ClipperFunc.PathsFromPathsD(co.Execute(-customSizing)); // Size back to original dimensions
 
         double newArea = cGeometry.Sum(t => ClipperFunc.Area(t));
 
@@ -464,8 +458,6 @@ public static partial class GeoWrangler
 
     private static Paths pRemoveFragments(Path source, double customSizing, bool maySimplify = false, JoinType joinType = JoinType.Miter)
     {
-        Paths cGeometry = new();
-
         customSizing = customSizing switch
         {
             0 => keyhole_sizing,
@@ -475,12 +467,10 @@ public static partial class GeoWrangler
 
         ClipperOffset co = new() {PreserveCollinear = !maySimplify};
         co.AddPath(source, joinType, EndType.Closed);
-        PathsD out_ = co.Execute(customSizing);
-        cGeometry = pathsDToPaths(out_);
+        Paths cGeometry = ClipperFunc.PathsFromPathsD(co.Execute(customSizing));
         co.Clear();
         co.AddPaths(cGeometry.ToList(), joinType, EndType.Closed);
-        out_ = co.Execute(-customSizing); // Size back to original dimensions
-        cGeometry = pathsDToPaths(out_);
+        cGeometry = ClipperFunc.PathsFromPathsD(co.Execute(-customSizing)); // Size back to original dimensions
 
         double newArea = 0;
         foreach (Path t in cGeometry)

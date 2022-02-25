@@ -34,12 +34,14 @@ public static partial class GeoWrangler
         // Reconcile each path separately to get a clean representation.
         foreach (Path t1 in source)
         {
-            double a1 = Clipper.Area(t1);
+            double a1 = ClipperFunc.Area(t1);
             c.Clear();
-            c.AddPath(t1, PolyType.ptSubject, true);
+            c.AddSubject(t1);
             Paths t = new();
-            c.Execute(ClipType.ctUnion, t);
-            double a2 = t.Sum(t2 => Clipper.Area(t2));
+            PolyTree pt = new();
+            c.Execute(ClipType.Union, FillRule.EvenOdd, pt);
+            t = ClipperFunc.PolyTreeToPaths(pt);
+            double a2 = t.Sum(t2 => ClipperFunc.Area(t2));
 
             switch (Math.Abs(Math.Abs(a1) - Math.Abs(a2)))
             {
@@ -50,19 +52,20 @@ public static partial class GeoWrangler
                 default:
                 {
                     // Orientation tracking.
-                    bool origOrient = Clipper.Orientation(t1);
+                    bool origOrient = ClipperFunc.Orientation(t1);
 
-                    c.AddPaths(source, PolyType.ptSubject, true);
+                    c.AddSubject(source);
 
                     Paths cR = new();
                     // Non-zero here means that we also reconcile self-intersections without odd-even causing holes; positive only respects a certain orientation (unlike non-zero)
                     // Union is cheaper than finding the bounding box and using intersection; test-bed showed identical results.
-                    c.Execute(ClipType.ctUnion, cR, PolyFillType.pftNonZero);
+                    c.Execute(ClipType.Union, FillRule.NonZero, pt);
+                    cR = ClipperFunc.PolyTreeToPaths(pt);
 
                     int crCount = cR.Count;
 
                     // Review orientation. Fix if needed.
-                    if (Clipper.Orientation(cR[0]) != origOrient)
+                    if (ClipperFunc.Orientation(cR[0]) != origOrient)
                     {
 #if !GWSINGLETHREADED
                         Parallel.For(0, crCount, j =>
@@ -88,7 +91,7 @@ public static partial class GeoWrangler
             case > 1:
             {
                 // Need to reverse the orientations if Clipper indicates false here.
-                bool reverse = !Clipper.Orientation(ret[0]);
+                bool reverse = !ClipperFunc.Orientation(ret[0]);
 
                 switch (reverse)
                 {
@@ -111,18 +114,21 @@ public static partial class GeoWrangler
                 }
 
                 Paths[] decomp = pGetDecomposed(ret);
+                PolyTree pt = new();
 
-                c.AddPaths(decomp[(int)type.outer], PolyType.ptSubject, true);
-                c.AddPaths(decomp[(int)type.cutter], PolyType.ptClip, true);
+                c.AddSubject(decomp[(int)type.outer]);
+                c.AddClip(decomp[(int)type.cutter]);
 
-                c.Execute(ClipType.ctDifference, ret, PolyFillType.pftPositive, PolyFillType.pftNegative);
+                c.Execute(ClipType.Difference, FillRule.Positive, pt);//, ret, PolyFillType.pftPositive, PolyFillType.pftNegative);
+                ret = ClipperFunc.PolyTreeToPaths(pt);
 
                 switch (ret.Count)
                 {
                     // Assume tone is wrong. We should not trigger this with the 'reverse' handling above.
                     case 0:
                         ret.Clear();
-                        c.Execute(ClipType.ctDifference, ret);
+                        c.Execute(ClipType.Difference, FillRule.EvenOdd, pt);
+                        ret = ClipperFunc.PolyTreeToPaths(pt);
                         break;
                 }
 
@@ -149,7 +155,7 @@ public static partial class GeoWrangler
         foreach (Path t in source)
         {
             int r = (int)type.outer;
-            if (!Clipper.Orientation(t))
+            if (!ClipperFunc.Orientation(t))
             {
                 r = (int)type.cutter;
             }
@@ -264,15 +270,14 @@ public static partial class GeoWrangler
             {
                 break;
             }
-            c.AddPath(t, PolyType.ptSubject, false);
-            c.AddPath(lPoly, PolyType.ptClip, true);
+            c.AddSubject(t, true);
+            c.AddClip(lPoly);
 
             PolyTree pt = new();
+            Paths p = new();
 
-            c.Execute(ClipType.ctIntersection, pt);
+            c.Execute(ClipType.Intersection, FillRule.EvenOdd, pt, out p);
             c.Clear();
-
-            Paths p = Clipper.OpenPathsFromPolyTree(pt);
 
             int pCount = p.Count;
 
@@ -427,20 +432,20 @@ public static partial class GeoWrangler
             {
                 // Turn the new edges into cutters and slice. Not terribly elegant and we're relying on rounding to squash notches later.
                 ClipperOffset co = new();
-                co.AddPaths(newEdges, JoinType.jtMiter, EndType.etOpenSquare);
-                PolyTree tp = new();
-                co.Execute(ref tp, 1.0);
+                co.AddPaths(newEdges, JoinType.Miter, EndType.Square);
 
-                Paths cutters = Clipper.ClosedPathsFromPolyTree(tp);
-
+                Paths cutters = ClipperFunc.PathsFromPathsD(co.Execute(1.0));
+                
                 c.Clear();
 
-                c.AddPath(lPoly, PolyType.ptSubject, true);
+                c.AddSubject(lPoly);
 
                 // Take first cutter only - we only cut once, no matter how many potential cutters we have.
-                c.AddPath(cutters[0], PolyType.ptClip, true);
+                c.AddClip(cutters[0]);
                 Paths f = new();
-                c.Execute(ClipType.ctDifference, f, PolyFillType.pftEvenOdd, PolyFillType.pftEvenOdd);
+                PolyTree pt = new();
+                c.Execute(ClipType.Difference, FillRule.EvenOdd, pt);
+                f = ClipperFunc.PolyTreeToPaths(pt);
 
                 final = pointsFromPaths(f, scaling);
 

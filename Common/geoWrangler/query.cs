@@ -221,10 +221,11 @@ public static partial class GeoWrangler
         Paths rationalizedSecondLayer = b.Select(t => clockwise( /*Clipper.CleanPolygon*/t)).ToList();
 
         // Intersection should not matter based on order.
-        Paths intersectionPaths = new();
-        c.AddPaths(rationalizedSecondLayer, PolyType.ptClip, true);
-        c.AddPaths(rationalizedFirstLayer, PolyType.ptSubject, true);
-        c.Execute(ClipType.ctUnion, intersectionPaths);
+        PolyTree pt = new();
+        c.AddClip(rationalizedSecondLayer);
+        c.AddSubject(rationalizedFirstLayer);
+        c.Execute(ClipType.Union, FillRule.EvenOdd, pt);
+        Paths intersectionPaths = ClipperFunc.PolyTreeToPaths(pt);
 
         // Force clockwise.
         foreach (Path t in intersectionPaths)
@@ -273,9 +274,9 @@ public static partial class GeoWrangler
             }
                 
             // Check based on area. This seems to be needed - the above doesn't do the right thing every time.
-            double overlapArea = Math.Abs(Clipper.Area(intersectionPath));
-            double clipArea = Math.Abs(Clipper.Area(rationalizedSecondLayer[0]));
-            double subjArea = Math.Abs(Clipper.Area(rationalizedFirstLayer[0]));
+            double overlapArea = Math.Abs(ClipperFunc.Area(intersectionPath));
+            double clipArea = Math.Abs(ClipperFunc.Area(rationalizedSecondLayer[0]));
+            double subjArea = Math.Abs(ClipperFunc.Area(rationalizedFirstLayer[0]));
 
             if (Math.Abs(overlapArea - clipArea) <= double.Epsilon || Math.Abs(overlapArea - subjArea) <= double.Epsilon)
             {

@@ -58,7 +58,7 @@ public static partial class GeoWrangler
                 break;
             default:
             {
-                IntRect bounds = ClipperBase.GetBounds(sourcePaths);
+                Rect64 bounds = ClipperFunc.GetBounds(sourcePaths);
                 firstLayerBP.Add(new Point64(bounds.left, bounds.bottom));
                 firstLayerBP.Add(new Point64(bounds.left, bounds.top));
                 firstLayerBP.Add(new Point64(bounds.right, bounds.top));
@@ -70,12 +70,14 @@ public static partial class GeoWrangler
 
         Clipper c = new() {PreserveCollinear = false};
 
-        c.AddPath(firstLayerBP, PolyType.ptSubject, true);
+        c.AddSubject(firstLayerBP);
         // Add hole polygons from our paths
-        c.AddPaths(sourcePaths, PolyType.ptClip, true);
+        c.AddClip(sourcePaths);
 
         Paths cutters = new();
-        c.Execute(ClipType.ctDifference, cutters);
+        PolyTree pt = new();
+        c.Execute(ClipType.Difference, FillRule.EvenOdd, pt);
+        cutters = ClipperFunc.PolyTreeToPaths(pt);
 
         switch (useTriangulation)
         {

@@ -22,23 +22,27 @@ namespace ClipperLib2
   {
     public long X;
     public long Y;
+    public long Z;
 
     public Point64(long x, long y)
     {
       this.X = x;
       this.Y = y;
+      this.Z = 0;
     }
 
     public Point64(Point64 p)
     {
       this.X = p.X;
       this.Y = p.Y;
+      this.Z = p.Z;
     }
 
     public Point64(double x, double y)
     {
       this.X = (long)Math.Round(x);
       this.Y = (long)Math.Round(y);
+      this.Z = 0;
     }
 
     public static bool operator ==(Point64 lhs, Point64 rhs)

@@ -29,6 +29,12 @@ namespace ClipperLib2
       this.Y = y;
     }
 
+    public Point64(Point64 p)
+    {
+      this.X = p.X;
+      this.Y = p.Y;
+    }
+
     public Point64(double x, double y)
     {
       this.X = (long)Math.Round(x);

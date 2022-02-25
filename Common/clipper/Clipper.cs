@@ -118,6 +118,10 @@ namespace ClipperLib2
       return a;
     }
 
+    public static bool Orientation(Path poly)
+    {
+      return Area(poly) >= 0;
+    }
     public static double Area(PathD path)
     {
       double a = 0.0;

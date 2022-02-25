@@ -94,6 +94,50 @@ namespace ClipperLib2
         co.AddPaths(paths, JoinType.Round, EndType.Polygon);
       return co.Execute(delta);
     }
+    
+    public static Rect64 GetBounds(Paths paths)
+    {
+      int i = 0, cnt = paths.Count;
+      while (i < cnt && paths[i].Count == 0)
+      {
+        i++;
+      }
+
+      if (i == cnt)
+      {
+        return new Rect64(0, 0, 0, 0);
+      }
+
+      Rect64 result = new()
+      {
+        left = paths[i][0].X
+      };
+      result.right = result.left;
+      result.top = paths[i][0].Y;
+      result.bottom = result.top;
+      for (; i < cnt; i++)
+      for (int j = 0; j < paths[i].Count; j++)
+      {
+        if (paths[i][j].X < result.left)
+        {
+          result.left = paths[i][j].X;
+        }
+        else if (paths[i][j].X > result.right)
+        {
+          result.right = paths[i][j].X;
+        }
+
+        if (paths[i][j].Y < result.top)
+        {
+          result.top = paths[i][j].Y;
+        }
+        else if (paths[i][j].Y > result.bottom)
+        {
+          result.bottom = paths[i][j].Y;
+        }
+      }
+      return result;
+    }
 
     public static double Area(Path path)
     {

@@ -1,4 +1,4 @@
-﻿using ClipperLib1;
+﻿using ClipperLib2;
 using geoLib;
 using LibTessDotNet.Double;
 using System;
@@ -8,8 +8,8 @@ using utility;
 
 namespace geoWrangler;
 
-using Path = List<IntPoint>;
-using Paths = List<List<IntPoint>>;
+using Path = List<Point64>;
+using Paths = List<List<Point64>>;
 
 public static partial class GeoWrangler
 {
@@ -170,12 +170,12 @@ public static partial class GeoWrangler
             // Now to start the re-indexing.
             for (int pt = reIndexStart; pt < iPoints.Count; pt++)
             {
-                tempList.Add(new IntPoint(iPoints[pt].X, iPoints[pt].Y, iPoints[pt].Z));
+                tempList.Add(new Point64(iPoints[pt].X, iPoints[pt].Y, iPoints[pt].Z));
             }
             // Ensure we close the shape by hitting the reIndexStart point again, since we will possibly have pushed it to the beginning of the shape.
             for (int pt = 0; pt <= reIndexStart; pt++)
             {
-                tempList.Add(new IntPoint(iPoints[pt].X, iPoints[pt].Y, iPoints[pt].Z));
+                tempList.Add(new Point64(iPoints[pt].X, iPoints[pt].Y, iPoints[pt].Z));
             }
 
             iPoints = tempList.ToList();
@@ -296,11 +296,11 @@ public static partial class GeoWrangler
 
     private static GeoLibPoint[] pSimplify(GeoLibPoint[] iPoints)
     {
-        List<IntPoint> iPoly = pathFromPoint(iPoints, 1);
+        List<Point64> iPoly = pathFromPoint(iPoints, 1);
         Clipper c = new();
         c.AddPath(iPoly, PolyType.ptClip, true);
         c.AddPath(iPoly, PolyType.ptSubject, true);
-        List<List<IntPoint>> oPoly = new();
+        List<List<Point64>> oPoly = new();
         c.Execute(ClipType.ctIntersection, oPoly, PolyFillType.pftEvenOdd, PolyFillType.pftEvenOdd);
 
         GeoLibPoint[] working = pointFromPath(oPoly[0], 1);
@@ -358,7 +358,7 @@ public static partial class GeoWrangler
 
         for (int pt = 0; pt < source.Count; pt++)
         {
-            IntPoint interSection_A, interSection_B, interSection_C;
+            Point64 interSection_A, interSection_B, interSection_C;
             switch (pt)
             {
                 // Assess angle.
@@ -390,7 +390,7 @@ public static partial class GeoWrangler
 
             if (pt == 0 || Math.Abs(theta - 180) > angularTolerance)
             {
-                ret.Add(new IntPoint(source[pt]));
+                ret.Add(new Point64(source[pt]));
             }
         }
         return ret;
@@ -918,7 +918,7 @@ public static partial class GeoWrangler
         }
         if (source[0].X != source[^1].X || source[0].Y != source[^1].Y)
         {
-            source.Add(new IntPoint(source[0]));
+            source.Add(new Point64(source[0]));
         }
         return source;
     }
@@ -1075,7 +1075,7 @@ public static partial class GeoWrangler
                 Path trianglePath = new();
                 for (int p = 0; p < polysize; p++)
                 {
-                    IntPoint tmpPt = new((long)tess.Vertices[tess.Elements[i * polysize + p]].Position.X, (long)tess.Vertices[tess.Elements[i * polysize + p]].Position.Y);
+                    Point64 tmpPt = new((long)tess.Vertices[tess.Elements[i * polysize + p]].Position.X, (long)tess.Vertices[tess.Elements[i * polysize + p]].Position.Y);
                     trianglePath.Add(tmpPt);
                 }
 

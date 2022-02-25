@@ -1,4 +1,4 @@
-﻿using ClipperLib1;
+﻿using ClipperLib2;
 using geoLib;
 using System;
 using System.Collections.Generic;
@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace geoWrangler;
 
-using Path = List<IntPoint>;
-using Paths = List<List<IntPoint>>;
+using Path = List<Point64>;
+using Paths = List<List<Point64>>;
 
 public static partial class GeoWrangler
 {
@@ -289,7 +289,7 @@ public static partial class GeoWrangler
                         double aDist = double.MaxValue;
                         double bDist = double.MaxValue;
                         // See whether the start or end point exists in the lPoly geometry. If not, we should drop this path from the list.
-                        foreach (IntPoint t1 in lPoly)
+                        foreach (Point64 t1 in lPoly)
                         {
                             if (abort)
                             {

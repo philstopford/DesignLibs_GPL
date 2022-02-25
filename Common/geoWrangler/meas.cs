@@ -1,4 +1,4 @@
-﻿using ClipperLib1;
+﻿using ClipperLib2;
 using geoLib;
 using System;
 using utility;
@@ -7,24 +7,24 @@ namespace geoWrangler;
 
 public static partial class GeoWrangler
 {
-    public static IntPoint intPoint_distanceBetweenPoints(IntPoint pt1, IntPoint pt2)
+    public static Point64 Point64_distanceBetweenPoints(Point64 pt1, Point64 pt2)
     {
-        return pIntPoint_distanceBetweenPoints(pt1, pt2);
+        return pPoint64_distanceBetweenPoints(pt1, pt2);
     }
 
-    private static IntPoint pIntPoint_distanceBetweenPoints(IntPoint pt1, IntPoint pt2)
+    private static Point64 pPoint64_distanceBetweenPoints(Point64 pt1, Point64 pt2)
     {
         long x_Distance = pt1.X - pt2.X;
         long y_Distance = pt1.Y - pt2.Y;
-        return new IntPoint(x_Distance, y_Distance);
+        return new Point64(x_Distance, y_Distance);
     }
 
-    public static double distanceBetweenPoints(IntPoint pt1, IntPoint pt2)
+    public static double distanceBetweenPoints(Point64 pt1, Point64 pt2)
     {
         return pDistanceBetweenPoints(pt1, pt2);
     }
 
-    private static double pDistanceBetweenPoints(IntPoint pt1, IntPoint pt2)
+    private static double pDistanceBetweenPoints(Point64 pt1, Point64 pt2)
     {
         return Math.Sqrt(Utils.myPow(pt1.X - pt2.X, 2) + Utils.myPow(pt1.Y - pt2.Y, 2));
     }
@@ -71,15 +71,15 @@ public static partial class GeoWrangler
         return ret;
     }
 
-    public static double angleBetweenPoints(IntPoint interSection_A, IntPoint interSection_B, IntPoint interSection_C, bool allowNegative = false)
+    public static double angleBetweenPoints(Point64 interSection_A, Point64 interSection_B, Point64 interSection_C, bool allowNegative = false)
     {
         return pAngleBetweenPoints(interSection_A, interSection_B, interSection_C, allowNegative);
     }
 
-    private static double pAngleBetweenPoints(IntPoint interSection_A, IntPoint interSection_B, IntPoint interSection_C, bool allowNegative)
+    private static double pAngleBetweenPoints(Point64 interSection_A, Point64 interSection_B, Point64 interSection_C, bool allowNegative)
     {
-        IntPoint cBVector = new(interSection_B.X - interSection_C.X, interSection_B.Y - interSection_C.Y);
-        IntPoint cAVector = new(interSection_A.X - interSection_C.X, interSection_A.Y - interSection_C.Y);
+        Point64 cBVector = new(interSection_B.X - interSection_C.X, interSection_B.Y - interSection_C.Y);
+        Point64 cAVector = new(interSection_A.X - interSection_C.X, interSection_A.Y - interSection_C.Y);
 
         long xComponents = cBVector.X * cAVector.X;
         long yComponents = cBVector.Y * cAVector.Y;

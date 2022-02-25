@@ -1,12 +1,12 @@
-﻿using ClipperLib1;
+﻿using ClipperLib2;
 using geoLib;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace geoWrangler;
 
-using Path = List<IntPoint>;
-using Paths = List<List<IntPoint>>;
+using Path = List<Point64>;
+using Paths = List<List<Point64>>;
 
 public static partial class GeoWrangler
 {
@@ -37,11 +37,11 @@ public static partial class GeoWrangler
         switch (sourcePaths.Count)
         {
             case 1 when !useBounds:
-                sourcePaths[0].Add(new IntPoint(-int.MaxValue, -int.MaxValue));
-                sourcePaths[0].Add(new IntPoint(-int.MaxValue, int.MaxValue));
-                sourcePaths[0].Add(new IntPoint(int.MaxValue, int.MaxValue));
-                sourcePaths[0].Add(new IntPoint(int.MaxValue, -int.MaxValue));
-                sourcePaths[0].Add(new IntPoint(-int.MaxValue, -int.MaxValue));
+                sourcePaths[0].Add(new Point64(-int.MaxValue, -int.MaxValue));
+                sourcePaths[0].Add(new Point64(-int.MaxValue, int.MaxValue));
+                sourcePaths[0].Add(new Point64(int.MaxValue, int.MaxValue));
+                sourcePaths[0].Add(new Point64(int.MaxValue, -int.MaxValue));
+                sourcePaths[0].Add(new Point64(-int.MaxValue, -int.MaxValue));
 
                 return sourcePaths.ToList();
         }
@@ -50,20 +50,20 @@ public static partial class GeoWrangler
         switch (useBounds)
         {
             case false:
-                firstLayerBP.Add(new IntPoint(-int.MaxValue, -int.MaxValue));
-                firstLayerBP.Add(new IntPoint(-int.MaxValue, int.MaxValue));
-                firstLayerBP.Add(new IntPoint(int.MaxValue, int.MaxValue));
-                firstLayerBP.Add(new IntPoint(int.MaxValue, -int.MaxValue));
-                firstLayerBP.Add(new IntPoint(-int.MaxValue, -int.MaxValue));
+                firstLayerBP.Add(new Point64(-int.MaxValue, -int.MaxValue));
+                firstLayerBP.Add(new Point64(-int.MaxValue, int.MaxValue));
+                firstLayerBP.Add(new Point64(int.MaxValue, int.MaxValue));
+                firstLayerBP.Add(new Point64(int.MaxValue, -int.MaxValue));
+                firstLayerBP.Add(new Point64(-int.MaxValue, -int.MaxValue));
                 break;
             default:
             {
                 IntRect bounds = ClipperBase.GetBounds(sourcePaths);
-                firstLayerBP.Add(new IntPoint(bounds.left, bounds.bottom));
-                firstLayerBP.Add(new IntPoint(bounds.left, bounds.top));
-                firstLayerBP.Add(new IntPoint(bounds.right, bounds.top));
-                firstLayerBP.Add(new IntPoint(bounds.right, bounds.bottom));
-                firstLayerBP.Add(new IntPoint(bounds.left, bounds.bottom));
+                firstLayerBP.Add(new Point64(bounds.left, bounds.bottom));
+                firstLayerBP.Add(new Point64(bounds.left, bounds.top));
+                firstLayerBP.Add(new Point64(bounds.right, bounds.top));
+                firstLayerBP.Add(new Point64(bounds.right, bounds.bottom));
+                firstLayerBP.Add(new Point64(bounds.left, bounds.bottom));
                 break;
             }
         }

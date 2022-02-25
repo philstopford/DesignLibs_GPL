@@ -1,4 +1,4 @@
-﻿using ClipperLib1;
+﻿using ClipperLib2;
 using geoLib;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace geoWrangler;
 
-using Path = List<IntPoint>;
-using Paths = List<List<IntPoint>>;
+using Path = List<Point64>;
+using Paths = List<List<Point64>>;
 
 public static partial class GeoWrangler
 {
@@ -31,7 +31,7 @@ public static partial class GeoWrangler
             ClipperOffset co = new();
             Path o = new()
             {
-                new IntPoint(source[i].X, source[i].Y), new IntPoint(source[i + 1].X, source[i + 1].Y)
+                new Point64(source[i].X, source[i].Y), new Point64(source[i + 1].X, source[i + 1].Y)
             };
             co.AddPath(o, JoinType.jtMiter, EndType.etClosedLine);
 
@@ -46,10 +46,10 @@ public static partial class GeoWrangler
             // Need to add a patch polygon to link the segments.
             Path patchPoly = new()
             {
-                new IntPoint(source[i + 1].X - offsetVal, source[i + 1].Y - offsetVal),
-                new IntPoint(source[i + 1].X - offsetVal, source[i + 1].Y + offsetVal),
-                new IntPoint(source[i + 1].X + offsetVal, source[i + 1].Y + offsetVal),
-                new IntPoint(source[i + 1].X + offsetVal, source[i + 1].Y - offsetVal)
+                new Point64(source[i + 1].X - offsetVal, source[i + 1].Y - offsetVal),
+                new Point64(source[i + 1].X - offsetVal, source[i + 1].Y + offsetVal),
+                new Point64(source[i + 1].X + offsetVal, source[i + 1].Y + offsetVal),
+                new Point64(source[i + 1].X + offsetVal, source[i + 1].Y - offsetVal)
             };
 
             allSolutions.Add(new Path(patchPoly));
@@ -62,10 +62,10 @@ public static partial class GeoWrangler
 
         Path bPath = new()
         {
-            new IntPoint(b.left, b.bottom),
-            new IntPoint(b.left, b.top),
-            new IntPoint(b.right, b.top),
-            new IntPoint(b.right, b.bottom)
+            new Point64(b.left, b.bottom),
+            new Point64(b.left, b.top),
+            new Point64(b.right, b.top),
+            new Point64(b.right, b.bottom)
         };
 
         c.AddPaths(new Paths { bPath }, PolyType.ptClip, true);
@@ -77,7 +77,7 @@ public static partial class GeoWrangler
         if (union.Any())
         {
             // We should only have one result.
-            union[0].Add(new IntPoint(union[0][0])); // force a close - it wasn't done in the Boolean.
+            union[0].Add(new Point64(union[0][0])); // force a close - it wasn't done in the Boolean.
             ret = pointFromPath(union[0], 1);
         }
         else

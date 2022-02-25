@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using ClipperLib1;
+using ClipperLib2;
 using geoLib;
 using geoWrangler;
 using geoCoreLib;
@@ -9,8 +9,8 @@ using PartitionTestGeometrySource;
 
 namespace partitionTest;
 
-using Path = List<IntPoint>;
-using Paths = List<List<IntPoint>>;
+using Path = List<Point64>;
+using Paths = List<List<Point64>>;
 
 internal class Program
 {
@@ -157,10 +157,11 @@ internal class Program
         Paths paths = GeoWrangler.pathsFromPointFs(incoming, 10000);
 
         Clipper c = new();
-        c.AddPaths(paths, PolyType.ptSubject, true);
+        c.AddSubject(paths);
         Paths ret = new();
-
-        c.Execute(ClipType.ctUnion, ret);
+        PolyTree pt = new();
+        c.Execute(ClipType.Union, FillRule.EvenOdd, pt);
+        ret = ClipperFunc.PolyTreeToPaths(pt);
 
         List<GeoLibPointF[]> done = GeoWrangler.pointFsFromPaths(ret, 10000);
     }

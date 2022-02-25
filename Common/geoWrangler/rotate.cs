@@ -1,4 +1,4 @@
-﻿using ClipperLib1;
+﻿using ClipperLib2;
 using geoLib;
 using System;
 using System.Collections.Generic;
@@ -137,12 +137,12 @@ public static partial class GeoWrangler
         return rotated;
     }
 
-    public static IntPoint Rotate(IntPoint pivot, IntPoint point, double angleDegree)
+    public static Point64 Rotate(Point64 pivot, Point64 point, double angleDegree)
     {
         return pRotate(pivot, point, angleDegree);
     }
 
-    private static IntPoint pRotate(IntPoint pivot, IntPoint point, double angleDegree)
+    private static Point64 pRotate(Point64 pivot, Point64 point, double angleDegree)
     {
         switch (Math.Abs(angleDegree))
         {
@@ -157,7 +157,7 @@ public static partial class GeoWrangler
         double y = pivot.Y + ((point.X - pivot.X) * Math.Sin(angle) +
                               (point.Y - pivot.Y) * Math.Cos(angle));
 
-        IntPoint rotated = new(x, y, point.Z);
+        Point64 rotated = new(x, y, point.Z);
         return rotated;
     }
 

@@ -1,4 +1,4 @@
-﻿using ClipperLib1;
+﻿using ClipperLib2;
 using geoLib;
 using System;
 using System.Collections.Generic;
@@ -6,8 +6,8 @@ using System.Linq;
 
 namespace geoWrangler;
 
-using Path = List<IntPoint>;
-using Paths = List<List<IntPoint>>;
+using Path = List<Point64>;
+using Paths = List<List<Point64>>;
 
 public static partial class GeoWrangler
 {
@@ -457,9 +457,9 @@ public static partial class GeoWrangler
         for (int pt = 0; pt <= finalIndex; pt++)
         {
             // Assess angle.
-            IntPoint interSection_A;
-            IntPoint interSection_B;
-            IntPoint interSection_C;
+            Point64 interSection_A;
+            Point64 interSection_B;
+            Point64 interSection_C;
             switch (pt)
             {
                 case 0:

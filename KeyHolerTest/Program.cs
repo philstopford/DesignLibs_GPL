@@ -1,11 +1,11 @@
-﻿using ClipperLib1;
+﻿using ClipperLib2;
 using geoWrangler;
 using System.Collections.Generic;
 
 namespace KeyHolerTest;
 
-using Path = List<IntPoint>;
-using Paths = List<List<IntPoint>>;
+using Path = List<Point64>;
+using Paths = List<List<Point64>>;
 
 internal class Program
 {
@@ -77,20 +77,20 @@ internal class Program
     {
         Path outer = new()
         {
-            new IntPoint(-200000, -200000),
-            new IntPoint(200000, -200000),
-            new IntPoint(200000, 200000),
-            new IntPoint(-200000, 200000),
-            new IntPoint(-200000, -200000)
+            new Point64(-200000, -200000),
+            new Point64(200000, -200000),
+            new Point64(200000, 200000),
+            new Point64(-200000, 200000),
+            new Point64(-200000, -200000)
         };
 
         Path inner1 = new()
         {
-            new IntPoint(-100000, -100000),
-            new IntPoint(-100000, 100000),
-            new IntPoint(100000, 100000),
-            new IntPoint(100000, -100000),
-            new IntPoint(-100000, -100000)
+            new Point64(-100000, -100000),
+            new Point64(-100000, 100000),
+            new Point64(100000, 100000),
+            new Point64(100000, -100000),
+            new Point64(-100000, -100000)
         };
 
         // Segment the paths to match real-world case.
@@ -111,9 +111,11 @@ internal class Program
         // Generate sliver geometry.
         Paths sL = new();
         Clipper c = new();
-        c.AddPath(outer, PolyType.ptSubject, true);
-        c.AddPaths(kH, PolyType.ptClip, true);
-        c.Execute(ClipType.ctDifference, sL);
+        c.AddSubject(outer);
+        c.AddClip(kH);
+        PolyTree pt = new PolyTree();
+        c.Execute(ClipType.Difference, FillRule.EvenOdd, pt);
+        sL = ClipperFunc.PolyTreeToPaths(pt);
 
         // Gap removal test
         Paths gR = GeoWrangler.gapRemoval(kH, 100);
@@ -126,29 +128,29 @@ internal class Program
     {
         Path outer = new()
         {
-            new IntPoint(-300000, -200000),
-            new IntPoint(300000, -200000),
-            new IntPoint(300000, 200000),
-            new IntPoint(-300000, 200000),
-            new IntPoint(-300000, -200000)
+            new Point64(-300000, -200000),
+            new Point64(300000, -200000),
+            new Point64(300000, 200000),
+            new Point64(-300000, 200000),
+            new Point64(-300000, -200000)
         };
 
         Path inner1 = new()
         {
-            new IntPoint(-200000, -100000),
-            new IntPoint(-200000, 100000),
-            new IntPoint(-100000, 100000),
-            new IntPoint(-100000, -100000),
-            new IntPoint(-200000, -100000)
+            new Point64(-200000, -100000),
+            new Point64(-200000, 100000),
+            new Point64(-100000, 100000),
+            new Point64(-100000, -100000),
+            new Point64(-200000, -100000)
         };
 
         Path inner2 = new()
         {
-            new IntPoint(100000, -100000),
-            new IntPoint(100000, 100000),
-            new IntPoint(200000, 100000),
-            new IntPoint(200000, -100000),
-            new IntPoint(100000, -100000)
+            new Point64(100000, -100000),
+            new Point64(100000, 100000),
+            new Point64(200000, 100000),
+            new Point64(200000, -100000),
+            new Point64(100000, -100000)
         };
 
         // Segment the paths to match real-world case.
@@ -171,9 +173,11 @@ internal class Program
         // Generate sliver geometry.
         Paths sL = new();
         Clipper c = new();
-        c.AddPath(outer, PolyType.ptSubject, true);
-        c.AddPaths(kH, PolyType.ptClip, true);
-        c.Execute(ClipType.ctDifference, sL);
+        c.AddSubject(outer);
+        c.AddClip(kH );
+        PolyTree pt = new PolyTree();
+        c.Execute(ClipType.Difference, FillRule.EvenOdd, pt);
+        sL = ClipperFunc.PolyTreeToPaths(pt);
 
         // Gap removal test
         Paths gR = GeoWrangler.gapRemoval(kH, 100);
@@ -186,29 +190,29 @@ internal class Program
     {
         Path outer = new()
         {
-            new IntPoint(0, 0),
-            new IntPoint(400000, 00000),
-            new IntPoint(400000, 400000),
-            new IntPoint(0, 400000),
-            new IntPoint(0, 0)
+            new Point64(0, 0),
+            new Point64(400000, 00000),
+            new Point64(400000, 400000),
+            new Point64(0, 400000),
+            new Point64(0, 0)
         };
 
         Path inner1 = new()
         {
-            new IntPoint(50000, 150000),
-            new IntPoint(50000, 250000),
-            new IntPoint(350000, 250000),
-            new IntPoint(350000, 150000),
-            new IntPoint(50000, 150000)
+            new Point64(50000, 150000),
+            new Point64(50000, 250000),
+            new Point64(350000, 250000),
+            new Point64(350000, 150000),
+            new Point64(50000, 150000)
         };
 
         Path inner2 = new()
         {
-            new IntPoint(150000, 50000),
-            new IntPoint(150000, 350000),
-            new IntPoint(250000, 350000),
-            new IntPoint(250000, 50000),
-            new IntPoint(150000, 50000)
+            new Point64(150000, 50000),
+            new Point64(150000, 350000),
+            new Point64(250000, 350000),
+            new Point64(250000, 50000),
+            new Point64(150000, 50000)
         };
 
         Paths kHSource = new()
@@ -230,15 +234,19 @@ internal class Program
         // Generate sliver geometry.
         Clipper c = new();
         Paths sL = new();
-        c.AddPath(outer, PolyType.ptSubject, true);
-        c.AddPaths(kH, PolyType.ptClip, true);
-        c.Execute(ClipType.ctDifference, sL);
+        PolyTree pt = new();
+        c.AddSubject(outer);
+        c.AddClip(kH);
+        c.Execute(ClipType.Difference, FillRule.EvenOdd, pt);
+        sL = ClipperFunc.PolyTreeToPaths(pt);
 
         c.Clear();
         Paths sL2 = new();
-        c.AddPath(outer, PolyType.ptSubject, true);
-        c.AddPaths(kH2, PolyType.ptClip, true);
-        c.Execute(ClipType.ctDifference, sL2);
+        pt.Clear();
+        c.AddSubject(outer);
+        c.AddClip(kH2);
+        c.Execute(ClipType.Difference, FillRule.EvenOdd, pt);
+        sL2 = ClipperFunc.PolyTreeToPaths(pt);
 
         // Gap removal test
         Paths gR = GeoWrangler.gapRemoval(kH, 100);
@@ -263,19 +271,19 @@ internal class Program
     {
         Path outer = new()
         {
-            new IntPoint(0, 0),
-            new IntPoint(110000, 0),
-            new IntPoint(110000, 50000),
-            new IntPoint(50000, 50000),
-            new IntPoint(50000, 150000),
-            new IntPoint(150000, 150000),
-            new IntPoint(150000, 50000),
-            new IntPoint(90000, 50000),
-            new IntPoint(90000, 0),
-            new IntPoint(200000, 0),
-            new IntPoint(200000, 200000),
-            new IntPoint(0, 200000),
-            new IntPoint(0, 0)
+            new Point64(0, 0),
+            new Point64(110000, 0),
+            new Point64(110000, 50000),
+            new Point64(50000, 50000),
+            new Point64(50000, 150000),
+            new Point64(150000, 150000),
+            new Point64(150000, 50000),
+            new Point64(90000, 50000),
+            new Point64(90000, 0),
+            new Point64(200000, 0),
+            new Point64(200000, 200000),
+            new Point64(0, 200000),
+            new Point64(0, 0)
         };
 
         // decomposer test
@@ -291,25 +299,30 @@ internal class Program
         {
             PreserveCollinear = true
         };
-        c.AddPath(outer, PolyType.ptSubject, true);
+        c.AddSubject(outer);
 
         // no good
         Paths unionRes = new();
-        c.Execute(ClipType.ctUnion, unionRes);
+        PolyTree pt = new();
+        c.Execute(ClipType.Union, FillRule.EvenOdd, pt);
+        unionRes = ClipperFunc.PolyTreeToPaths(pt);
         Paths unionRes_kH = GeoWrangler.makeKeyHole(unionRes);
         Paths unionResc = GeoWrangler.close(unionRes);
         Paths unionResc_kH = GeoWrangler.makeKeyHole(unionResc);
 
         // seems good - get keyhole
         Paths unionResP = new();
-        c.Execute(ClipType.ctUnion, unionResP, PolyFillType.pftPositive);
+        pt.Clear();
+        c.Execute(ClipType.Union, FillRule.Positive, pt);
+        unionResP = ClipperFunc.PolyTreeToPaths(pt);
         Paths unionResP_kH = GeoWrangler.makeKeyHole(unionResP);
         Paths unionResPc = GeoWrangler.close(unionResP);
         Paths unionResPc_kH = GeoWrangler.makeKeyHole(unionResPc);
 
         // seems good - get keyhole
         Paths unionResNZ = new();
-        c.Execute(ClipType.ctUnion, unionResNZ, PolyFillType.pftNonZero);
+        c.Execute(ClipType.Union, FillRule.NonZero, pt);
+        unionResNZ = ClipperFunc.PolyTreeToPaths(pt);
         Paths unionResNZ_kH = GeoWrangler.makeKeyHole(unionResNZ);
         Paths unionResNZc = GeoWrangler.close(unionResNZ);
         Paths unionResNZc_kH = GeoWrangler.makeKeyHole(unionResNZc);
@@ -329,55 +342,64 @@ internal class Program
 
         // no good - no result
         Paths intRes = new();
-        c.Execute(ClipType.ctIntersection, intRes);
+        pt.Clear();
+        c.Execute(ClipType.Intersection, FillRule.EvenOdd, pt);
+        intRes = ClipperFunc.PolyTreeToPaths(pt);
         Paths intRes_kH = GeoWrangler.makeKeyHole(intRes);
         Paths intResc = GeoWrangler.close(intRes);
         Paths intResc_kH = GeoWrangler.makeKeyHole(intResc);
 
         // no good - no result
         Paths intResP = new();
-        c.Execute(ClipType.ctIntersection, intResP, PolyFillType.pftPositive);
+        pt.Clear();
+        c.Execute(ClipType.Intersection, FillRule.Positive, pt);
+        intResP = ClipperFunc.PolyTreeToPaths(pt);
         Paths intResP_kH = GeoWrangler.makeKeyHole(intResP);
         Paths intResPc = GeoWrangler.close(intResP);
         Paths intResPc_kH = GeoWrangler.makeKeyHole(intResPc);
 
         // no good - no result
         Paths intResNZ = new();
-        c.Execute(ClipType.ctIntersection, intResNZ, PolyFillType.pftNonZero);
+        pt.Clear();
+        c.Execute(ClipType.Intersection, FillRule.NonZero, pt);
+        intResNZ = ClipperFunc.PolyTreeToPaths(pt);
         Paths intResNZ_kH = GeoWrangler.makeKeyHole(intResNZ);
         Paths intResNZc = GeoWrangler.close(intResNZ);
         Paths intResNZc_kH = GeoWrangler.makeKeyHole(intResNZc);
 
-        IntRect bounds = ClipperBase.GetBounds(new Paths { outer });
+        Rect64 bounds = ClipperFunc.GetBounds(new Paths { outer });
         Path bb = new()
         {
-            new IntPoint(bounds.left, bounds.bottom),
-            new IntPoint(bounds.left, bounds.top),
-            new IntPoint(bounds.right, bounds.top),
-            new IntPoint(bounds.right, bounds.bottom)
+            new Point64(bounds.left, bounds.bottom),
+            new Point64(bounds.left, bounds.top),
+            new Point64(bounds.right, bounds.top),
+            new Point64(bounds.right, bounds.bottom)
         };
 
         c.Clear();
-        c.AddPath(bb, PolyType.ptSubject, true);
-        c.AddPath(outer, PolyType.ptClip, true);
+        c.AddSubject(bb);
+        c.AddClip(outer);
 
         // no good - overlap region is a gap.
         Paths intRes2 = new();
-        c.Execute(ClipType.ctIntersection, intRes2);
+        c.Execute(ClipType.Intersection, FillRule.EvenOdd, pt);
+        intRes2 = ClipperFunc.PolyTreeToPaths(pt);
         Paths intRes2_kH = GeoWrangler.makeKeyHole(intRes2);
         Paths intRes2c = GeoWrangler.close(intRes2);
         Paths intRes2c_kH = GeoWrangler.makeKeyHole(intRes2c);
 
         // seems good - get keyhole
         Paths intRes2P = new();
-        c.Execute(ClipType.ctIntersection, intRes2P, PolyFillType.pftPositive);
+        c.Execute(ClipType.Intersection, FillRule.Positive, pt);
+        intRes2P = ClipperFunc.PolyTreeToPaths(pt);
         Paths intRes2P_kH = GeoWrangler.makeKeyHole(intRes2P);
         Paths intRes2Pc = GeoWrangler.close(intRes2P);
         Paths intRes2Pc_kH = GeoWrangler.makeKeyHole(intRes2Pc);
 
         // seems good - get keyhole
         Paths intRes2NZ = new();
-        c.Execute(ClipType.ctIntersection, intRes2NZ, PolyFillType.pftNonZero);
+        c.Execute(ClipType.Intersection, FillRule.NonZero, pt);
+        intRes2NZ = ClipperFunc.PolyTreeToPaths(pt);
         Paths intRes2NZ_kH = GeoWrangler.makeKeyHole(intRes2NZ);
         Paths intRes2NZc = GeoWrangler.close(intRes2NZ);
         Paths intRes2NZc_kH = GeoWrangler.makeKeyHole(intRes2NZc);
@@ -387,19 +409,19 @@ internal class Program
     {
         Path outer = new()
         {
-            new IntPoint(0, 0),
-            new IntPoint(110000, 0),
-            new IntPoint(110000, 50000),
-            new IntPoint(50000, 50000),
-            new IntPoint(50000, 150000),
-            new IntPoint(150000, 150000),
-            new IntPoint(150000, 50000),
-            new IntPoint(90000, 50000),
-            new IntPoint(90000, 0),
-            new IntPoint(200000, 0),
-            new IntPoint(200000, 200000),
-            new IntPoint(0, 200000),
-            new IntPoint(0, 0)
+            new Point64(0, 0),
+            new Point64(110000, 0),
+            new Point64(110000, 50000),
+            new Point64(50000, 50000),
+            new Point64(50000, 150000),
+            new Point64(150000, 150000),
+            new Point64(150000, 50000),
+            new Point64(90000, 50000),
+            new Point64(90000, 0),
+            new Point64(200000, 0),
+            new Point64(200000, 200000),
+            new Point64(0, 200000),
+            new Point64(0, 0)
         };
 
         outer.Reverse();
@@ -417,25 +439,29 @@ internal class Program
         {
             PreserveCollinear = true
         };
-        c.AddPath(outer, PolyType.ptSubject, true);
+        c.AddSubject(outer);
 
         // no good - overlap region is a gap.
         Paths unionRes = new();
-        c.Execute(ClipType.ctUnion, unionRes);
+        PolyTree pt = new();
+        c.Execute(ClipType.Union, FillRule.EvenOdd, pt);
+        unionRes = ClipperFunc.PolyTreeToPaths(pt);
         Paths unionRes_kH = GeoWrangler.makeKeyHole(unionRes);
         Paths unionResc = GeoWrangler.close(unionRes);
         Paths unionResc_kH = GeoWrangler.makeKeyHole(unionResc);
 
         // no good - no result
         Paths unionResP = new();
-        c.Execute(ClipType.ctUnion, unionResP, PolyFillType.pftPositive);
+        c.Execute(ClipType.Union, FillRule.Positive, pt);
+        unionResP = ClipperFunc.PolyTreeToPaths(pt);
         Paths unionResP_kH = GeoWrangler.makeKeyHole(unionResP);
         Paths unionResPc = GeoWrangler.close(unionResP);
         Paths unionResPc_kH = GeoWrangler.makeKeyHole(unionResPc);
 
         // seems good - get keyhole
         Paths unionResNZ = new();
-        c.Execute(ClipType.ctUnion, unionResNZ, PolyFillType.pftNonZero);
+        c.Execute(ClipType.Union, FillRule.NonZero, pt);
+        unionResNZ = ClipperFunc.PolyTreeToPaths(pt);
         Paths unionResNZ_kH = GeoWrangler.makeKeyHole(unionResNZ);
         Paths unionResNZc = GeoWrangler.close(unionResNZ);
         Paths unionResNZc_kH = GeoWrangler.makeKeyHole(unionResNZc);
@@ -455,55 +481,61 @@ internal class Program
 
         // no good - no result
         Paths intRes = new();
-        c.Execute(ClipType.ctIntersection, intRes);
+        c.Execute(ClipType.Intersection, FillRule.EvenOdd, pt);
+        intRes = ClipperFunc.PolyTreeToPaths(pt);
         Paths intRes_kH = GeoWrangler.makeKeyHole(intRes);
         Paths intResc = GeoWrangler.close(intRes);
         Paths intResc_kH = GeoWrangler.makeKeyHole(intResc);
 
         // no good - no result
         Paths intResP = new();
-        c.Execute(ClipType.ctIntersection, intResP, PolyFillType.pftPositive);
+        c.Execute(ClipType.Intersection, FillRule.Positive, pt);
+        intResP = ClipperFunc.PolyTreeToPaths(pt);
         Paths intResP_kH = GeoWrangler.makeKeyHole(intResP);
         Paths intResPc = GeoWrangler.close(intResP);
         Paths intResPc_kH = GeoWrangler.makeKeyHole(intResPc);
 
         // no good - no result
         Paths intResNZ = new();
-        c.Execute(ClipType.ctIntersection, intResNZ, PolyFillType.pftNonZero);
+        c.Execute(ClipType.Intersection, FillRule.NonZero, pt);
+        intResNZ = ClipperFunc.PolyTreeToPaths(pt);
         Paths intResNZ_kH = GeoWrangler.makeKeyHole(intResNZ);
         Paths intResNZc = GeoWrangler.close(intResNZ);
         Paths intResNZc_kH = GeoWrangler.makeKeyHole(intResNZc);
 
-        IntRect bounds = ClipperBase.GetBounds(new Paths { outer });
+        Rect64 bounds = ClipperFunc.GetBounds(new Paths { outer });
         Path bb = new()
         {
-            new IntPoint(bounds.left, bounds.bottom),
-            new IntPoint(bounds.left, bounds.top),
-            new IntPoint(bounds.right, bounds.top),
-            new IntPoint(bounds.right, bounds.bottom)
+            new Point64(bounds.left, bounds.bottom),
+            new Point64(bounds.left, bounds.top),
+            new Point64(bounds.right, bounds.top),
+            new Point64(bounds.right, bounds.bottom)
         };
 
         c.Clear();
-        c.AddPath(bb, PolyType.ptSubject, true);
-        c.AddPath(outer, PolyType.ptClip, true);
+        c.AddSubject(bb);
+        c.AddClip(outer);
 
         // no good - overlap region is a gap.
         Paths intRes2 = new();
-        c.Execute(ClipType.ctIntersection, intRes2);
+        c.Execute(ClipType.Intersection, FillRule.EvenOdd, pt);
+        intRes2 = ClipperFunc.PolyTreeToPaths(pt);
         Paths intRes2_kH = GeoWrangler.makeKeyHole(intRes2);
         Paths intRes2c = GeoWrangler.close(intRes2);
         Paths intRes2c_kH = GeoWrangler.makeKeyHole(intRes2c);
 
         // no good - no result
         Paths intRes2P = new();
-        c.Execute(ClipType.ctIntersection, intRes2P, PolyFillType.pftPositive);
+        c.Execute(ClipType.Intersection, FillRule.Positive, pt);
+        intRes2P = ClipperFunc.PolyTreeToPaths(pt);
         Paths intRes2P_kH = GeoWrangler.makeKeyHole(intRes2P);
         Paths intRes2Pc = GeoWrangler.close(intRes2P);
         Paths intRes2Pc_kH = GeoWrangler.makeKeyHole(intRes2Pc);
 
         // seems good - get keyhole
         Paths intRes2NZ = new();
-        c.Execute(ClipType.ctIntersection, intRes2NZ, PolyFillType.pftNonZero);
+        c.Execute(ClipType.Intersection, FillRule.NonZero, pt);
+        intRes2NZ = ClipperFunc.PolyTreeToPaths(pt);
         Paths intRes2NZ_kH = GeoWrangler.makeKeyHole(intRes2NZ);
         Paths intRes2NZc = GeoWrangler.close(intRes2NZ);
         Paths intRes2NZc_kH = GeoWrangler.makeKeyHole(intRes2NZc);
@@ -514,24 +546,24 @@ internal class Program
         // Manually create the sliver.
         Path outer = new()
         {
-            new IntPoint(-200000, -200000),
-            new IntPoint(300000, -200000),
-            new IntPoint(300000, 200000),
-            new IntPoint(-200000, 200000),
-            new IntPoint(-200000, -99900),
-            new IntPoint(-300000, -99900),
-            new IntPoint(-300000, -100100),
-            new IntPoint(-200000, -100100),
-            new IntPoint(-200000, -200000)
+            new Point64(-200000, -200000),
+            new Point64(300000, -200000),
+            new Point64(300000, 200000),
+            new Point64(-200000, 200000),
+            new Point64(-200000, -99900),
+            new Point64(-300000, -99900),
+            new Point64(-300000, -100100),
+            new Point64(-200000, -100100),
+            new Point64(-200000, -200000)
         };
 
         Path inner1 = new()
         {
-            new IntPoint(100000, -100000),
-            new IntPoint(100000, 100000),
-            new IntPoint(200000, 100000),
-            new IntPoint(200000, -100000),
-            new IntPoint(100000, -100000)
+            new Point64(100000, -100000),
+            new Point64(100000, 100000),
+            new Point64(200000, 100000),
+            new Point64(200000, -100000),
+            new Point64(100000, -100000)
         };
 
         // Segment the paths to match real-world case.
@@ -559,38 +591,38 @@ internal class Program
     {
         Path outer1 = new()
         {
-            new IntPoint(-200000, -200000),
-            new IntPoint(200000, -200000),
-            new IntPoint(200000, 200000),
-            new IntPoint(-200000, 200000),
-            new IntPoint(-200000, -200000)
+            new Point64(-200000, -200000),
+            new Point64(200000, -200000),
+            new Point64(200000, 200000),
+            new Point64(-200000, 200000),
+            new Point64(-200000, -200000)
         };
 
         Path inner1 = new()
         {
-            new IntPoint(-100000, -100000),
-            new IntPoint(-100000, 100000),
-            new IntPoint(100000, 100000),
-            new IntPoint(100000, -100000),
-            new IntPoint(-100000, -100000)
+            new Point64(-100000, -100000),
+            new Point64(-100000, 100000),
+            new Point64(100000, 100000),
+            new Point64(100000, -100000),
+            new Point64(-100000, -100000)
         };
 
         Path outer2 = new()
         {
-            new IntPoint(-200000, 400000),
-            new IntPoint(200000, 400000),
-            new IntPoint(200000, 800000),
-            new IntPoint(-200000, 800000),
-            new IntPoint(-200000, 400000)
+            new Point64(-200000, 400000),
+            new Point64(200000, 400000),
+            new Point64(200000, 800000),
+            new Point64(-200000, 800000),
+            new Point64(-200000, 400000)
         };
 
         Path inner2 = new()
         {
-            new IntPoint(-100000, 500000),
-            new IntPoint(-100000, 700000),
-            new IntPoint(100000, 700000),
-            new IntPoint(100000, 500000),
-            new IntPoint(-100000, 500000)
+            new Point64(-100000, 500000),
+            new Point64(-100000, 700000),
+            new Point64(100000, 700000),
+            new Point64(100000, 500000),
+            new Point64(-100000, 500000)
         };
 
         Paths kHSource = new()
@@ -606,11 +638,13 @@ internal class Program
 
         // Generate sliver geometry.
         Paths sL = new();
+        PolyTree pt = new();
         Clipper c = new();
-        c.AddPath(outer1, PolyType.ptSubject, true);
-        c.AddPath(outer2, PolyType.ptSubject, true);
-        c.AddPaths(kH, PolyType.ptClip, true);
-        c.Execute(ClipType.ctDifference, sL);
+        c.AddSubject(outer1);
+        c.AddSubject(outer2);
+        c.AddClip(kH);
+        c.Execute(ClipType.Difference, FillRule.EvenOdd, pt);
+        sL = ClipperFunc.PolyTreeToPaths(pt);
 
         // Gap removal test
         Paths gR = GeoWrangler.gapRemoval(kH, 100);
@@ -625,24 +659,24 @@ internal class Program
         // Manually create the sliver.
         Path outer = new()
         {
-            new IntPoint(-200000, -200000),
-            new IntPoint(300000, -200000),
-            new IntPoint(300000, 200000),
-            new IntPoint(-200000, 200000),
-            new IntPoint(-200000, -99900),
-            new IntPoint(-300000, -99900),
-            new IntPoint(-300000, -100100),
-            new IntPoint(-200000, -100100),
-            new IntPoint(-200000, -200000)
+            new Point64(-200000, -200000),
+            new Point64(300000, -200000),
+            new Point64(300000, 200000),
+            new Point64(-200000, 200000),
+            new Point64(-200000, -99900),
+            new Point64(-300000, -99900),
+            new Point64(-300000, -100100),
+            new Point64(-200000, -100100),
+            new Point64(-200000, -200000)
         };
 
         Path inner1 = new()
         {
-            new IntPoint(100000, -100000),
-            new IntPoint(100000, 100000),
-            new IntPoint(200000, 100000),
-            new IntPoint(200000, -100000),
-            new IntPoint(100000, -100000)
+            new Point64(100000, -100000),
+            new Point64(100000, 100000),
+            new Point64(200000, 100000),
+            new Point64(200000, -100000),
+            new Point64(100000, -100000)
         };
 
         Paths kHSource = new()
@@ -654,20 +688,20 @@ internal class Program
         // Island 2 - simple single hole
         Path outer2 = new()
         {
-            new IntPoint(-200000, 400000),
-            new IntPoint(200000, 400000),
-            new IntPoint(200000, 800000),
-            new IntPoint(-200000, 800000),
-            new IntPoint(-200000, 400000)
+            new Point64(-200000, 400000),
+            new Point64(200000, 400000),
+            new Point64(200000, 800000),
+            new Point64(-200000, 800000),
+            new Point64(-200000, 400000)
         };
 
         Path inner2 = new()
         {
-            new IntPoint(-100000, 500000),
-            new IntPoint(-100000, 700000),
-            new IntPoint(100000, 700000),
-            new IntPoint(100000, 500000),
-            new IntPoint(-100000, 500000)
+            new Point64(-100000, 500000),
+            new Point64(-100000, 700000),
+            new Point64(100000, 700000),
+            new Point64(100000, 500000),
+            new Point64(-100000, 500000)
         };
 
         kHSource.Add(outer2);
@@ -676,29 +710,29 @@ internal class Program
         // Island 3 - dual hole hole
         Path outer3 = new()
         {
-            new IntPoint(-300000, 1200000),
-            new IntPoint(300000, 1200000),
-            new IntPoint(300000, 1600000),
-            new IntPoint(-300000, 1600000),
-            new IntPoint(-300000, 1200000)
+            new Point64(-300000, 1200000),
+            new Point64(300000, 1200000),
+            new Point64(300000, 1600000),
+            new Point64(-300000, 1600000),
+            new Point64(-300000, 1200000)
         };
 
         Path inner3_1 = new()
         {
-            new IntPoint(-200000, 1300000),
-            new IntPoint(-200000, 1500000),
-            new IntPoint(-100000, 1500000),
-            new IntPoint(-100000, 1300000),
-            new IntPoint(-200000, 1300000)
+            new Point64(-200000, 1300000),
+            new Point64(-200000, 1500000),
+            new Point64(-100000, 1500000),
+            new Point64(-100000, 1300000),
+            new Point64(-200000, 1300000)
         };
 
         Path inner3_2 = new()
         {
-            new IntPoint(100000, 1300000),
-            new IntPoint(100000, 1500000),
-            new IntPoint(200000, 1500000),
-            new IntPoint(200000, 1300000),
-            new IntPoint(100000, 1300000)
+            new Point64(100000, 1300000),
+            new Point64(100000, 1500000),
+            new Point64(200000, 1500000),
+            new Point64(200000, 1300000),
+            new Point64(100000, 1300000)
         };
 
         kHSource.Add(outer3);
@@ -719,51 +753,51 @@ internal class Program
         Paths paths = new();
         Path path_1 = new()
         {
-            new IntPoint(50000, 0),
-            new IntPoint(0, 0),
-            new IntPoint(0, 155000),
-            new IntPoint(50000, 155000),
-            new IntPoint(50000, 0)
+            new Point64(50000, 0),
+            new Point64(0, 0),
+            new Point64(0, 155000),
+            new Point64(50000, 155000),
+            new Point64(50000, 0)
         };
         paths.Add(path_1);
 
         Path path_2 = new()
         {
-            new IntPoint(35000, 135000),
-            new IntPoint(35000, 150000),
-            new IntPoint(5000, 150000),
-            new IntPoint(5000, 135000),
-            new IntPoint(35000, 135000)
+            new Point64(35000, 135000),
+            new Point64(35000, 150000),
+            new Point64(5000, 150000),
+            new Point64(5000, 135000),
+            new Point64(35000, 135000)
         };
         paths.Add(path_2);
 
         Path path_3 = new()
         {
-            new IntPoint(22000, 95000),
-            new IntPoint(22000, 125000),
-            new IntPoint(5000, 125000),
-            new IntPoint(5000, 95000),
-            new IntPoint(22000, 95000)
+            new Point64(22000, 95000),
+            new Point64(22000, 125000),
+            new Point64(5000, 125000),
+            new Point64(5000, 95000),
+            new Point64(22000, 95000)
         };
         paths.Add(path_3);
 
         Path path_4 = new()
         {
-            new IntPoint(35000, 45000),
-            new IntPoint(35000, 75000),
-            new IntPoint(5000, 75000),
-            new IntPoint(5000, 45000),
-            new IntPoint(35000, 45000)
+            new Point64(35000, 45000),
+            new Point64(35000, 75000),
+            new Point64(5000, 75000),
+            new Point64(5000, 45000),
+            new Point64(35000, 45000)
         };
         paths.Add(path_4);
 
         Path path_5 = new()
         {
-            new IntPoint(35000, 5000),
-            new IntPoint(35000, 35000),
-            new IntPoint(5000, 35000),
-            new IntPoint(5000, 5000),
-            new IntPoint(35000, 5000)
+            new Point64(35000, 5000),
+            new Point64(35000, 35000),
+            new Point64(5000, 35000),
+            new Point64(5000, 5000),
+            new Point64(35000, 5000)
         };
         paths.Add(path_5);
 

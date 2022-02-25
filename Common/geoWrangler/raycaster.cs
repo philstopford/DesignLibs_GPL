@@ -1,4 +1,4 @@
-﻿using ClipperLib1;
+﻿using ClipperLib2;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +8,8 @@ using utility;
 
 namespace geoWrangler;
 
-using Path = List<IntPoint>;
-using Paths = List<List<IntPoint>>;
+using Path = List<Point64>;
+using Paths = List<List<Point64>>;
 
 public class RayCast
 {
@@ -18,7 +18,7 @@ public class RayCast
 
     public enum forceSingleDirection { no, vertical, horizontal } // No and horizontal are treated the same in this code at the moment; leaving these to make the code more readable and intent clearer.
 
-    private void prox_ZFillCallback(IntPoint bot1, IntPoint top1, IntPoint bot2, IntPoint top2, ref IntPoint pt)
+    private void prox_ZFillCallback(Point64 bot1, Point64 top1, Point64 bot2, Point64 top2, ref Point64 pt)
     {
         pt.Z = bot1.Z;
     }
@@ -28,12 +28,12 @@ public class RayCast
 
     // Corner projection is default and takes an orthogonal ray out from the corner. Setting to false causes an averaged normal to be generated.
 
-    public RayCast(Path emissionPath, Paths collisionPaths, long max, bool projectCorners = true, bool invert = false, int multisampleRayCount = 0, bool runOuterLoopThreaded = false, bool runInnerLoopThreaded = false, IntPoint startOffset = new(), IntPoint endOffset = new(), falloff sideRayFallOff = falloff.none, double sideRayFallOffMultiplier = 1.0f, forceSingleDirection dirOverride = forceSingleDirection.no)
+    public RayCast(Path emissionPath, Paths collisionPaths, long max, bool projectCorners = true, bool invert = false, int multisampleRayCount = 0, bool runOuterLoopThreaded = false, bool runInnerLoopThreaded = false, Point64 startOffset = new(), Point64 endOffset = new(), falloff sideRayFallOff = falloff.none, double sideRayFallOffMultiplier = 1.0f, forceSingleDirection dirOverride = forceSingleDirection.no)
     {
         rayCast(emissionPath, collisionPaths, max, projectCorners, invert, multisampleRayCount, runOuterLoopThreaded, runInnerLoopThreaded, startOffset, endOffset, sideRayFallOff, sideRayFallOffMultiplier, dirOverride);
     }
 
-    public RayCast(Path emissionPath, Path collisionPath, long max, bool projectCorners = true, bool invert = false, int multisampleRayCount = 0, bool runOuterLoopThreaded = false, bool runInnerLoopThreaded = false, IntPoint startOffset = new(), IntPoint endOffset = new(), falloff sideRayFallOff = falloff.none, double sideRayFallOffMultiplier = 1.0f, forceSingleDirection dirOverride = forceSingleDirection.no)
+    public RayCast(Path emissionPath, Path collisionPath, long max, bool projectCorners = true, bool invert = false, int multisampleRayCount = 0, bool runOuterLoopThreaded = false, bool runInnerLoopThreaded = false, Point64 startOffset = new(), Point64 endOffset = new(), falloff sideRayFallOff = falloff.none, double sideRayFallOffMultiplier = 1.0f, forceSingleDirection dirOverride = forceSingleDirection.no)
     {
         rayCast(emissionPath, new Paths { collisionPath }, max, projectCorners, invert, multisampleRayCount, runOuterLoopThreaded, runInnerLoopThreaded, startOffset, endOffset, sideRayFallOff, sideRayFallOffMultiplier, dirOverride);
     }
@@ -72,7 +72,7 @@ public class RayCast
         return GeoWrangler.distanceBetweenPoints(clippedLines[ray][0], clippedLines[ray][clippedLines[ray].Count - 1]);
     }
 
-    private void rayCast(Path emissionPath, Paths collisionPaths, long maxRayLength, bool projectCorners, bool invert, int multisampleRayCount, bool runOuterLoopThreaded, bool runInnerLoopThreaded, IntPoint startOffset, IntPoint endOffset, falloff sideRayFallOff, double sideRayFallOffMultiplier, forceSingleDirection dirOverride)
+    private void rayCast(Path emissionPath, Paths collisionPaths, long maxRayLength, bool projectCorners, bool invert, int multisampleRayCount, bool runOuterLoopThreaded, bool runInnerLoopThreaded, Point64 startOffset, Point64 endOffset, falloff sideRayFallOff, double sideRayFallOffMultiplier, forceSingleDirection dirOverride)
     {
         // Setting this to true, we shorten rays with the falloff. False means we reduce the contribution to the average instead.
         const bool truncateRaysByWeight = false;
@@ -93,8 +93,8 @@ public class RayCast
 
         // Pre-calculate these for the threading to be an option.
         // This is a serial evaluation as we need both the previous and the current normal for each point.
-        IntPoint[] normals = new IntPoint[ptCount];
-        IntPoint[] previousNormals = new IntPoint[ptCount];
+        Point64[] normals = new Point64[ptCount];
+        Point64[] previousNormals = new Point64[ptCount];
         for (int pt = 0; pt < ptCount; pt++)
         {
             // Start point
@@ -130,7 +130,7 @@ public class RayCast
                 }
             }
 
-            normals[pt] = new IntPoint(-dx, -dy);
+            normals[pt] = new Point64(-dx, -dy);
 
             switch (pt)
             {
@@ -150,7 +150,7 @@ public class RayCast
                             break;
                     }
 
-                    previousNormals[pt] = new IntPoint(-dx, -dy);
+                    previousNormals[pt] = new Point64(-dx, -dy);
                     break;
                 }
                 default:
@@ -175,12 +175,12 @@ public class RayCast
 
         Parallel.For(0, ptCount, po_outer, pt =>
         {
-            IntPoint currentEdgeNormal = normals[pt];
-            IntPoint previousEdgeNormal = previousNormals[pt];
+            Point64 currentEdgeNormal = normals[pt];
+            Point64 previousEdgeNormal = previousNormals[pt];
 
-            IntPoint averagedEdgeNormal;
+            Point64 averagedEdgeNormal;
 
-            IntPoint startPoint = new(emissionPath[pt]);
+            Point64 startPoint = new(emissionPath[pt]);
 
             // Get average angle for this vertex based on angles from line segments.
             // http://stackoverflow.com/questions/1243614/how-do-i-calculate-the-normal-vector-of-a-line-segment
@@ -198,7 +198,7 @@ public class RayCast
                         tX = -tX;
                         tY = -tY;
                     }
-                    averagedEdgeNormal = new IntPoint(tX, tY);
+                    averagedEdgeNormal = new Point64(tX, tY);
                     break;
                 }
                 default:
@@ -206,12 +206,12 @@ public class RayCast
                     switch (invert)
                     {
                         case true:
-                            currentEdgeNormal = new IntPoint(currentEdgeNormal.X, -currentEdgeNormal.Y);
-                            previousEdgeNormal = new IntPoint(previousEdgeNormal.X, -previousEdgeNormal.Y);
+                            currentEdgeNormal = new Point64(currentEdgeNormal.X, -currentEdgeNormal.Y);
+                            previousEdgeNormal = new Point64(previousEdgeNormal.X, -previousEdgeNormal.Y);
                             break;
                     }
                     // Average out our normals
-                    averagedEdgeNormal = new IntPoint((previousEdgeNormal.X + currentEdgeNormal.X) / 2, (previousEdgeNormal.Y + currentEdgeNormal.Y) / 2);
+                    averagedEdgeNormal = new Point64((previousEdgeNormal.X + currentEdgeNormal.X) / 2, (previousEdgeNormal.Y + currentEdgeNormal.Y) / 2);
                     break;
                 }
             }
@@ -243,7 +243,7 @@ public class RayCast
             }
             endPointDeltaX *= -1;
 
-            IntPoint endPoint = new(endPointDeltaY + startPoint.X, endPointDeltaX + startPoint.Y);
+            Point64 endPoint = new(endPointDeltaY + startPoint.X, endPointDeltaX + startPoint.Y);
 
             if (sideRayFallOff != falloff.none)
             {
@@ -251,7 +251,7 @@ public class RayCast
             }
 
             Paths rays = new();
-            Path line = new() {new IntPoint(startPoint), new IntPoint(endPoint)};
+            Path line = new() {new Point64(startPoint), new Point64(endPoint)};
             rays.Add(line/*.ToList()*/);
 
             double angleStep = 90.0f / (1 + multisampleRayCount);
@@ -261,7 +261,7 @@ public class RayCast
                 // Add more samples, each n-degrees rotated from the nominal ray
                 double rayAngle = (sample + 1) * angleStep;
 
-                IntPoint endPoint_f = endPoint;
+                Point64 endPoint_f = endPoint;
 
                 double weight_val = 1.0f;
                 switch (sideRayFallOff)
@@ -296,25 +296,25 @@ public class RayCast
 
                 endPoint_f = truncateRaysByWeight switch
                 {
-                    true => new IntPoint(startPoint.X + weight_val * endPointDeltaY,
+                    true => new Point64(startPoint.X + weight_val * endPointDeltaY,
                         startPoint.Y + weight_val * endPointDeltaX),
                     _ => endPoint_f
                 };
 
-                IntPoint sPoint = new(startPoint.X, startPoint.Y);
+                Point64 sPoint = new(startPoint.X, startPoint.Y);
 
                 if (sideRayFallOff != falloff.none)
                 {
                     endPoint_f.Z = Convert.ToInt64(weight_val * 1E4);
                     sPoint.Z = endPoint_f.Z;
                 }
-                IntPoint endPoint1 = GeoWrangler.Rotate(startPoint, endPoint_f, rayAngle);
-                IntPoint endPoint2 = GeoWrangler.Rotate(startPoint, endPoint_f, -rayAngle);
+                Point64 endPoint1 = GeoWrangler.Rotate(startPoint, endPoint_f, rayAngle);
+                Point64 endPoint2 = GeoWrangler.Rotate(startPoint, endPoint_f, -rayAngle);
 
                 // The order of line1 below is important, but I'm not yet sure why. If you change it, the expansion becomes asymmetrical on a square (lower section gets squashed).
-                Path line1 = new() {new IntPoint(endPoint1), new IntPoint(sPoint)};
+                Path line1 = new() {new Point64(endPoint1), new Point64(sPoint)};
                 rays.Add(line1);
-                Path line2 = new() {new IntPoint(sPoint), new IntPoint(endPoint2)};
+                Path line2 = new() {new Point64(sPoint), new Point64(endPoint2)};
                 rays.Add(line2);
             }
 
@@ -333,7 +333,7 @@ public class RayCast
             long[] resultY = new long[rays.Count];
             double[] weight = new double[rays.Count];
 
-            previousEdgeNormal = new IntPoint(currentEdgeNormal.X, currentEdgeNormal.Y);
+            previousEdgeNormal = new Point64(currentEdgeNormal.X, currentEdgeNormal.Y);
 
             object resultLock = new();
             Parallel.For(0, rays.Count, po_inner, ray =>
@@ -533,7 +533,7 @@ public class RayCast
                 }
             }
 
-            resultPath.Add(new IntPoint(xAv, yAv));
+            resultPath.Add(new Point64(xAv, yAv));
             Monitor.Enter(clippedLinesLock);
             try
             {

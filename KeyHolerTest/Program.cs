@@ -295,10 +295,7 @@ internal class Program
         Paths kHSource = new() {outer};
         Paths kH = GeoWrangler.makeKeyHole(kHSource);
 
-        Clipper c = new()
-        {
-            PreserveCollinear = true
-        };
+        Clipper c = new();
         c.AddSubject(outer);
 
         // no good
@@ -328,14 +325,25 @@ internal class Program
         Paths unionResNZc_kH = GeoWrangler.makeKeyHole(unionResNZc);
 
         // no good - no result
-        Paths simplifyRes = new();
-        simplifyRes = Clipper.SimplifyPolygon(outer, preserveColinear: false);
+        pt.Clear();
+        c.Clear();
+        c.AddSubject(outer);
+        c.Execute(ClipType.Union, FillRule.EvenOdd, pt);
+        Paths simplifyRes = ClipperFunc.PolyTreeToPaths(pt);
+        for (int p = 0; p < simplifyRes.Count; p++)
+        {
+            simplifyRes[p] = GeoWrangler.stripColinear(simplifyRes[p]);
+        }
+        
         Paths simplifyRes_kH = GeoWrangler.makeKeyHole(simplifyRes);
         Paths simplifyResc = GeoWrangler.close(simplifyRes);
         Paths simplifyResc_kH = GeoWrangler.makeKeyHole(simplifyResc);
 
-        Paths simplifyRes2 = new();
-        simplifyRes2 = Clipper.SimplifyPolygon(outer, preserveColinear: true);
+        pt.Clear();
+        c.Clear();
+        c.AddSubject(outer);
+        c.Execute(ClipType.Union, FillRule.EvenOdd, pt);
+        Paths simplifyRes2 = ClipperFunc.PolyTreeToPaths(pt);
         Paths simplifyRes2_kH = GeoWrangler.makeKeyHole(simplifyRes2);
         Paths simplifyRes2c = GeoWrangler.close(simplifyRes2);
         Paths simplifyRes2c_kH = GeoWrangler.makeKeyHole(simplifyRes2c);
@@ -435,10 +443,7 @@ internal class Program
         Paths kHSource = new() {outer};
         Paths kH = GeoWrangler.makeKeyHole(kHSource);
 
-        Clipper c = new()
-        {
-            PreserveCollinear = true
-        };
+        Clipper c = new();
         c.AddSubject(outer);
 
         // no good - overlap region is a gap.
@@ -467,14 +472,24 @@ internal class Program
         Paths unionResNZc_kH = GeoWrangler.makeKeyHole(unionResNZc);
 
         // no good - overlap region is a gap.
-        Paths simplifyRes = new();
-        simplifyRes = Clipper.SimplifyPolygon(outer, preserveColinear: false);
+        pt.Clear();
+        c.Clear();
+        c.AddSubject(outer);
+        c.Execute(ClipType.Union, FillRule.EvenOdd, pt);
+        Paths simplifyRes = ClipperFunc.PolyTreeToPaths(pt);
+        for (int p = 0; p < simplifyRes.Count; p++)
+        {
+            simplifyRes[p] = GeoWrangler.stripColinear(simplifyRes[p]);
+        }
         Paths simplifyRes_kH = GeoWrangler.makeKeyHole(simplifyRes);
         Paths simplifyResc = GeoWrangler.close(simplifyRes);
         Paths simplifyResc_kH = GeoWrangler.makeKeyHole(simplifyResc);
 
-        Paths simplifyRes2 = new();
-        simplifyRes2 = Clipper.SimplifyPolygon(outer, preserveColinear: true);
+        pt.Clear();
+        c.Clear();
+        c.AddSubject(outer);
+        c.Execute(ClipType.Union, FillRule.EvenOdd, pt);
+        Paths simplifyRes2 = ClipperFunc.PolyTreeToPaths(pt);
         Paths simplifyRes2_kH = GeoWrangler.makeKeyHole(simplifyRes2);
         Paths simplifyRes2c = GeoWrangler.close(simplifyRes2);
         Paths simplifyRes2c_kH = GeoWrangler.makeKeyHole(simplifyRes2c);

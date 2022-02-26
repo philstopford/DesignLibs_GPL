@@ -112,41 +112,7 @@ namespace ClipperLib2
       
       return ret;
     }
-    
-    public static Paths SimplifyPolygon(Path poly,
-      FillRule fillType = FillRule.EvenOdd, bool preserveColinear = false)
-    {
-      Clipper c = new()
-      {
-        /*
-        StrictlySimple = true,
-        PreserveCollinear = preserveColinear
-        */
-      };
-      c.AddSubject(poly);
-      PolyTree pt = new();
-      c.Execute(ClipType.Union, fillType, pt);
-      return PolyTreeToPaths(pt);
-    }
-    //------------------------------------------------------------------------------
 
-    public static Paths SimplifyPolygons(Paths polys,
-      FillRule fillType = FillRule.EvenOdd, bool preserveColinear = false)
-    {
-      Clipper c = new()
-      {
-        /*
-        StrictlySimple = true,
-        PreserveCollinear = preserveColinear
-        */
-      };
-      c.AddSubject(polys);
-      PolyTree pt = new();
-      c.Execute(ClipType.Union, fillType, pt);
-      return PolyTreeToPaths(pt);
-    }
-
-    
     public static Rect64 GetBounds(Paths paths)
     {
       int i = 0, cnt = paths.Count;

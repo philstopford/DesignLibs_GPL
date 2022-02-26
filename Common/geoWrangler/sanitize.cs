@@ -1073,7 +1073,7 @@ public static partial class GeoWrangler
             tess.Tessellate(wr, ElementType.Polygons, polysize);
 
             // Iterate triangles and create output geometry. We'll use clipper to simplify the output geometry.	
-            Clipper c = new() {PreserveCollinear = true};
+            Clipper c = new();
             Paths retPaths = new();
 
             Paths cPaths = new();

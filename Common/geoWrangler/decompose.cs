@@ -29,7 +29,7 @@ public static partial class GeoWrangler
 
         Paths ret = new();
 
-        Clipper c = new() {PreserveCollinear = true};
+        Clipper c = new();
 
         // Reconcile each path separately to get a clean representation.
         foreach (Path t1 in source)

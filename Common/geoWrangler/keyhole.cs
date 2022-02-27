@@ -16,7 +16,7 @@ public static partial class GeoWrangler
     // Use of a custom value will cause headaches.
     public const double keyhole_sizing = 500;
     private const double keyhole_extension_default = 1.03;
-    // Clipper 2 will not merge glancing contacts so we need to shift to provide an overlap
+    // Clipper 2 will not merge glancing contacts so we need to shift to provide an overlap. Value here is arbitrary and subject to more testing may change.
     public const double clipper_glancingContact_fudge = 1.1;
 
     public static Paths makeKeyHole(Paths outers, Paths cutters, double customSizing = 0, double extension = 0, double angularTolerance = 0)

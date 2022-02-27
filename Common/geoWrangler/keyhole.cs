@@ -247,6 +247,22 @@ public static partial class GeoWrangler
 
                     extraCutters.AddRange(new Paths(sPaths));
                 }
+                
+                // Review orientations.
+                for (int p = 0; p < cutters.Count; p++)
+                {
+                    if (ClipperFunc.IsClockwise(cutters[p]))
+                    {
+                        cutters[p] = ClipperFunc.ReversePath(cutters[p]);
+                    }
+                }
+                for (int p = 0; p < extraCutters.Count; p++)
+                {
+                    if (ClipperFunc.IsClockwise(extraCutters[p]))
+                    {
+                        extraCutters[p] = ClipperFunc.ReversePath(extraCutters[p]);
+                    }
+                }
 
                 Clipper c = new();
                 c.AddSubject(cutters);
@@ -254,7 +270,7 @@ public static partial class GeoWrangler
 
                 Paths mergedCutters = new();
                 PolyTree pt = new ();
-                c.Execute(ClipType.Union, FillRule.Negative, pt);
+                c.Execute(ClipType.Union, FillRule.EvenOdd, pt);
                 mergedCutters = ClipperFunc.PolyTreeToPaths(pt);
 
                 c.Clear();
@@ -306,11 +322,11 @@ public static partial class GeoWrangler
         dy /= length;
 
         // Extend the line slightly.
-        edge[0] = new Point64((long)(edge[0].X - Math.Abs(dx * keyhole_sizing)), (long)(edge[0].Y - Math.Abs(dy * keyhole_sizing)));
-        edge[1] = new Point64((long)(edge[1].X + Math.Abs(dx * keyhole_sizing)), (long)(edge[1].Y + Math.Abs(dy * keyhole_sizing)));
+        edge[0] = new Point64((long)(edge[0].X - Math.Abs(dx * keyhole_sizing)), (long)(edge[0].Y + Math.Abs(2 * dy * keyhole_sizing)));
+        edge[1] = new Point64((long)(edge[1].X + Math.Abs(dx * keyhole_sizing)), (long)(edge[1].Y - Math.Abs(2 * dy * keyhole_sizing)));
 
         ClipperOffset co = new();
-        co.AddPath(edge, JoinType.Miter, EndType.Square);
+        co.AddPath(edge, JoinType.Square, EndType.Polygon);
         Paths sPaths = ClipperFunc.PathsFromPathsD(co.Execute(customSizing));
 
         return sPaths;

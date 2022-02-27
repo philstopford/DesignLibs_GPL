@@ -11447,33 +11447,7 @@
               <option value="6727" />
             </endOffsets>
           </properties>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/KeyHolerTest/Program.cs</url>
-          <line>170</line>
-          <properties documentPath="D:\development\git\DesignLibs_GPL\KeyHolerTest\Program.cs" initialLine="170" containingFunctionPresentation="method 'multiTest'">
-            <startOffsets>
-              <option value="6209" />
-            </startOffsets>
-            <endOffsets>
-              <option value="6265" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Common/geoWrangler/keyhole.cs</url>
-          <line>270</line>
-          <properties documentPath="D:\development\git\DesignLibs_GPL\Common\geoWrangler\keyhole.cs" initialLine="270" containingFunctionPresentation="method 'pMakeKeyHole'">
-            <startOffsets>
-              <option value="10338" />
-            </startOffsets>
-            <endOffsets>
-              <option value="10353" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="12" />
+          <option name="timeStamp" value="20" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

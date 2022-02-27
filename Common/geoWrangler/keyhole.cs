@@ -16,6 +16,8 @@ public static partial class GeoWrangler
     // Use of a custom value will cause headaches.
     public const double keyhole_sizing = 500;
     private const double keyhole_extension_default = 1.03;
+    // Clipper 2 will not merge glancing contacts so we need to shift to provide an overlap
+    public const double clipper_glancingContact_fudge = 1.1;
 
     public static Paths makeKeyHole(Paths outers, Paths cutters, double customSizing = 0, double extension = 0, double angularTolerance = 0)
     {
@@ -322,8 +324,8 @@ public static partial class GeoWrangler
         dy /= length;
 
         // Extend the line slightly.
-        edge[0] = new Point64((long)(edge[0].X - Math.Abs(dx * keyhole_sizing)), (long)(edge[0].Y + Math.Abs(2 * dy * keyhole_sizing)));
-        edge[1] = new Point64((long)(edge[1].X + Math.Abs(dx * keyhole_sizing)), (long)(edge[1].Y - Math.Abs(2 * dy * keyhole_sizing)));
+        edge[0] = new Point64((long)(edge[0].X - Math.Abs(clipper_glancingContact_fudge * dx * keyhole_sizing)), (long)(edge[0].Y + Math.Abs(clipper_glancingContact_fudge * dy * keyhole_sizing)));
+        edge[1] = new Point64((long)(edge[1].X + Math.Abs(clipper_glancingContact_fudge * dx * keyhole_sizing)), (long)(edge[1].Y - Math.Abs(clipper_glancingContact_fudge * dy * keyhole_sizing)));
 
         ClipperOffset co = new();
         co.AddPath(edge, JoinType.Square, EndType.Polygon);

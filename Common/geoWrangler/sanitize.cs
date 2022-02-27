@@ -1016,7 +1016,7 @@ public static partial class GeoWrangler
 
         foreach (Path t in source)
         {
-            if (ClipperFunc.Orientation(t) == ClipperFunc.Orientation(source[0]))
+            if (ClipperFunc.IsClockwise(t) == ClipperFunc.IsClockwise(source[0]))
             {
                 outers.Add(new Path(t));
             }
@@ -1088,7 +1088,7 @@ public static partial class GeoWrangler
                     trianglePath.Add(tmpPt);
                 }
 
-                if (ClipperFunc.Orientation(trianglePath))
+                if (ClipperFunc.IsClockwise(trianglePath))
                 {
                     cPaths.Add(trianglePath.ToList());
                 }

@@ -34,7 +34,7 @@ public static partial class GeoWrangler
             {
                 new Point64(source[i].X, source[i].Y), new Point64(source[i + 1].X, source[i + 1].Y)
             };
-            co.AddPath(o, JoinType.Miter, EndType.Closed);
+            co.AddPath(o, JoinType.Miter, EndType.Joined);
 
             int offsetVal = width / 2;
 

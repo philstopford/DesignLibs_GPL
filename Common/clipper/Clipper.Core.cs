@@ -1,7 +1,7 @@
 ﻿/*******************************************************************************
 * Author    :  Angus Johnson                                                   *
 * Version   :  10.0 (release candidate 1) - also known as Clipper2             *
-* Date      :  19 February 2022                                                *
+* Date      :  27 February 2022                                                *
 * Website   :  http://www.angusj.com                                           *
 * Copyright :  Angus Johnson 2010-2022                                         *
 * Purpose   :  Core structures and functions for the Clipper Library           *
@@ -24,35 +24,42 @@ namespace ClipperLib2
     public long Y;
     public long Z;
 
-    public Point64(long x, long y)
+    public Point64(Point64 pt)
+    {
+      this.X = pt.X;
+      this.Y = pt.Y;
+      this.Z = pt.Z;
+    }
+
+    public Point64(long x, long y, long z = 0)
     {
       this.X = x;
       this.Y = y;
-      this.Z = 0;
+      this.Z = z;
     }
 
-    public Point64(Point64 p)
-    {
-      this.X = p.X;
-      this.Y = p.Y;
-      this.Z = p.Z;
-    }
-
-    public Point64(double x, double y)
+    public Point64(double x, double y, double z = 0)
     {
       this.X = (long)Math.Round(x);
       this.Y = (long)Math.Round(y);
-      this.Z = 0;
+      this.Z = (long)Math.Round(z);
+    }
+
+    public Point64(PointD pt)
+    {
+      this.X = (long)Math.Round(pt.x);
+      this.Y = (long)Math.Round(pt.y);
+      this.Z = (long)Math.Round(pt.z);
     }
 
     public static bool operator ==(Point64 lhs, Point64 rhs)
     {
-      return lhs.X == rhs.X && lhs.Y == rhs.Y;
+      return lhs.X == rhs.X && lhs.Y == rhs.Y && lhs.Z == rhs.Z;
     }
 
     public static bool operator !=(Point64 lhs, Point64 rhs)
     {
-      return lhs.X != rhs.X || lhs.Y != rhs.Y;
+      return lhs.X != rhs.X || lhs.Y != rhs.Y || lhs.Z != rhs.Z;
     }
 
     public override bool Equals(object obj)
@@ -75,27 +82,44 @@ namespace ClipperLib2
   {
     public double x;
     public double y;
+    public double z;
 
-    public PointD(long x, long y)
+    public PointD(PointD pt)
     {
-      this.x = x;
-      this.y = y;
+      this.x = pt.x;
+      this.y = pt.y;
+      this.z = pt.z;
     }
 
-    public PointD(double x, double y)
+    public PointD(Point64 pt)
+    {
+      this.x = pt.X;
+      this.y = pt.Y;
+      this.z = pt.Z;
+    }
+
+    public PointD(long x, long y, long z = 0)
     {
       this.x = x;
       this.y = y;
+      this.z = z;
+    }
+
+    public PointD(double x, double y, double z = 0)
+    {
+      this.x = x;
+      this.y = y;
+      this.z = z;
     }
 
     public static bool operator ==(PointD lhs, PointD rhs)
     {
-      return lhs.x == rhs.x && lhs.y == rhs.y;
+      return (Math.Abs(lhs.x - rhs.x) <= Double.Epsilon) && (Math.Abs(lhs.y - rhs.y) <= Double.Epsilon) && (Math.Abs(lhs.z - rhs.z) <= Double.Epsilon);
     }
 
     public static bool operator !=(PointD lhs, PointD rhs)
     {
-      return lhs.x != rhs.x || lhs.y != rhs.y;
+      return (Math.Abs(lhs.x - rhs.x) > Double.Epsilon) || (Math.Abs(lhs.y - rhs.y) > Double.Epsilon) || (Math.Abs(lhs.z - rhs.z) > Double.Epsilon);
     }
 
     public override bool Equals(object obj)
@@ -280,42 +304,6 @@ namespace ClipperLib2
           (dy1 * (seg2b.X - seg1a.X) - dx1 * (seg2b.Y - seg1a.Y)) < 0) &&
           ((dy2 * (seg1a.X - seg2a.X) - dx2 * (seg1a.Y - seg2a.Y)) *
           (dy2 * (seg1b.X - seg2a.X) - dx2 * (seg1b.Y - seg2a.Y)) < 0));
-    }
-
-    public static Path ReversePath(Path path)
-    {
-      int cntMin1 = path.Count - 1;
-      Path result = new Path(cntMin1 + 1);
-      for (int i = 0; i <= cntMin1; i++)
-        result.Add(path[cntMin1 - i]);
-      return result;
-    }
-
-    public static PathD ReversePath(PathD path)
-    {
-      int cntMin1 = path.Count - 1;
-      PathD result = new PathD(cntMin1 + 1);
-      for (int i = 0; i <= cntMin1; i++)
-        result.Add(path[cntMin1 - i]);
-      return result;
-    }
-
-    public static Paths ReversePaths(Paths paths)
-    {
-      int cnt = paths.Count;
-      Paths result = new Paths(cnt);
-      for (int i = 0; i < cnt; i++)
-        result.Add(ReversePath(paths[i]));
-      return result;
-    }
-
-    public static PathsD ReversePaths(PathsD paths)
-    {
-      int cnt = paths.Count;
-      PathsD result = new PathsD(cnt);
-      for (int i = 0; i < cnt; i++)
-        result.Add(ReversePath(paths[i]));
-      return result;
     }
 
   } //InternalClipperFuncs

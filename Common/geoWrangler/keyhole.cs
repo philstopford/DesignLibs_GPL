@@ -191,7 +191,7 @@ public static partial class GeoWrangler
 
         try
         {
-            bool outerOrient = ClipperFunc.Orientation(outers[0]);
+            bool outerOrient = ClipperFunc.IsClockwise(outers[0]);
             // Use raycaster to project from holes to outer, to try and find a keyhole path that is minimal length, and ideally orthogonal.
             foreach (Path t in cutters)
             {
@@ -254,7 +254,7 @@ public static partial class GeoWrangler
 
                 Paths mergedCutters = new();
                 PolyTree pt = new ();
-                c.Execute(ClipType.Union, FillRule.EvenOdd, pt);
+                c.Execute(ClipType.Union, FillRule.Negative, pt);
                 mergedCutters = ClipperFunc.PolyTreeToPaths(pt);
 
                 c.Clear();
@@ -268,7 +268,7 @@ public static partial class GeoWrangler
                 new_outers = ClipperFunc.PolyTreeToPaths(pt);
 
                 outers.Clear();
-                outers.AddRange(new_outers.Where(t1 => ClipperFunc.Orientation(t1) == outerOrient));
+                outers.AddRange(new_outers.Where(t1 => ClipperFunc.IsClockwise(t1) == outerOrient));
             }
             
             return pClockwiseAndReorder(outers);
@@ -359,7 +359,7 @@ public static partial class GeoWrangler
         }
 
         bool orig_orient_gw = isClockwise(source[0]);
-        bool orig_orient_c = ClipperFunc.Orientation(source[0]);
+        bool orig_orient_c = ClipperFunc.IsClockwise(source[0]);
 
         Paths ret = pRemoveFragments(source, customSizing, extension, maySimplify);
 
@@ -382,7 +382,7 @@ public static partial class GeoWrangler
         
         // Validate orientations.
         bool gR_orient_gw = isClockwise(ret[0]);
-        bool gR_orient_c = ClipperFunc.Orientation(ret[0]);
+        bool gR_orient_c = ClipperFunc.IsClockwise(ret[0]);
 
         bool reverseNeeded = gR_orient_gw != orig_orient_gw || gR_orient_c != orig_orient_c;
 
@@ -443,7 +443,7 @@ public static partial class GeoWrangler
         customSizing *= extension;
         
         ClipperOffset co = new();
-        co.AddPaths(source, joinType, EndType.Closed);
+        co.AddPaths(source, joinType, EndType.Polygon);
         Paths cGeometry = ClipperFunc.PathsFromPathsD(co.Execute(customSizing));
         if (maySimplify)
         {
@@ -454,7 +454,7 @@ public static partial class GeoWrangler
             cGeometry = ClipperFunc.PolyTreeToPaths(pt);
         }
         co.Clear();
-        co.AddPaths(cGeometry.ToList(), joinType, EndType.Closed);
+        co.AddPaths(cGeometry.ToList(), joinType, EndType.Polygon);
         cGeometry = ClipperFunc.PathsFromPathsD(co.Execute(-customSizing)); // Size back to original dimensions
         if (maySimplify)
         {
@@ -487,7 +487,7 @@ public static partial class GeoWrangler
         double sourceArea = ClipperFunc.Area(source);
 
         ClipperOffset co = new();
-        co.AddPath(source, joinType, EndType.Closed);
+        co.AddPath(source, joinType, EndType.Polygon);
         Paths cGeometry = ClipperFunc.PathsFromPathsD(co.Execute(customSizing));
         if (maySimplify)
         {
@@ -498,7 +498,7 @@ public static partial class GeoWrangler
             cGeometry = ClipperFunc.PolyTreeToPaths(pt);
         }
         co.Clear();
-        co.AddPaths(cGeometry.ToList(), joinType, EndType.Closed);
+        co.AddPaths(cGeometry.ToList(), joinType, EndType.Polygon);
         cGeometry = ClipperFunc.PathsFromPathsD(co.Execute(-customSizing)); // Size back to original dimensions
         if (maySimplify)
         {
@@ -532,8 +532,8 @@ public static partial class GeoWrangler
                     case > 0 when newArea < 0:
                     {
                         // Multi-path handling gets interesting. The first path is assumed to be the outer. Let's compare that with the original geometry. If the orientation is different, reverse the full set.
-                        bool orientation = ClipperFunc.Orientation(source);
-                        bool origCG0_o = ClipperFunc.Orientation(cGeometry[0]);
+                        bool orientation = ClipperFunc.IsClockwise(source);
+                        bool origCG0_o = ClipperFunc.IsClockwise(cGeometry[0]);
                         foreach (Path t in cGeometry.Where(t => origCG0_o != orientation))
                         {
                             t.Reverse();

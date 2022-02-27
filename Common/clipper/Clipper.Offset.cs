@@ -1,7 +1,7 @@
 ﻿/*******************************************************************************
 * Author    :  Angus Johnson                                                   *
 * Version   :  10.0 (release candidate 1) - also known as Clipper2             *
-* Date      :  19 February 2022                                                *
+* Date      :  27 February 2022                                                *
 * Website   :  http://www.angusj.com                                           *
 * Copyright :  Angus Johnson 2010-2022                                         *
 * Purpose   :  Offsets both open and closed paths (ie polylines & polygons).   *
@@ -19,7 +19,7 @@ namespace ClipperLib2
 	using PathsD = List<List<PointD>>;
 
   public enum JoinType { Square, Round, Miter };
-  public enum EndType { Polygon, Closed, Butt, Square, Round };
+  public enum EndType { Polygon, Joined, Butt, Square, Round };
 
   internal struct PathGroup
   {
@@ -92,6 +92,44 @@ namespace ClipperLib2
       int cnt = paths.Count;
       if (cnt == 0) return;
       _pathGroups.Add(new PathGroup(paths, joinType, endType));
+    }
+
+    public PathsD Execute(double delta)
+    {
+      PathsD solution = new PathsD();
+
+      if (Math.Abs(delta) < InternalClipperFunc.floatingPointTolerance)
+      {
+        foreach (PathGroup group in _pathGroups)
+        {
+          foreach (PathD path in group._inPaths)
+            solution.Add(path);
+        }
+        return solution;
+      }
+
+      _tmpLimit = (MiterLimit <= 1 ? 2 : 2 / ClipperFunc.Sqr(MiterLimit));
+
+      _minEdgeLen = (MinimumEdgeLength < InternalClipperFunc.floatingPointTolerance ?
+        InternalClipperFunc.defaultMinimumEdgeLength : MinimumEdgeLength);
+
+      foreach (PathGroup group in _pathGroups)
+        DoGroupOffset(group, delta);
+
+      foreach (PathGroup group in _pathGroups)
+      {
+        foreach (PathD path in group._outPaths)
+          solution.Add(path);
+      }
+
+      if (MergeGroups)
+      {
+        //clean up self-intersections ...
+        ClipperD c = new ClipperD();
+        c.AddSubject(solution);
+        c.Execute(ClipType.Union, FillRule.Positive, out solution);
+      }
+      return solution;
     }
 
     internal static PointD GetUnitNormal(PointD pt1, PointD pt2)
@@ -247,7 +285,7 @@ namespace ClipperLib2
     private void OffsetOpenJoined(PathGroup group, PathD path)
     {
       OffsetPolygon(group, path);
-      path = InternalClipperFunc.ReversePath(path);
+      path = ClipperFunc.ReversePath(path);
       BuildNormals(path);
       OffsetPolygon(group, path);
     }
@@ -310,7 +348,7 @@ namespace ClipperLib2
     private void DoGroupOffset(PathGroup group, double delta)
     {
       if (group._endType != EndType.Polygon) delta = Math.Abs(delta) / 2;
-      bool isClosedPaths = group._endType == EndType.Polygon || group._endType == EndType.Closed;
+      bool isClosedPaths = group._endType == EndType.Polygon || group._endType == EndType.Joined;
       bool isClockwise;
 
       if (isClosedPaths)
@@ -319,7 +357,7 @@ namespace ClipperLib2
         //designated orientation for outer polygons (needed for tidy-up clipping)
         int lowestIdx = GetLowestPolygonIdx(group._inPaths);
         if (lowestIdx < 0) return;
-        isClockwise = ClipperFunc.Area(group._inPaths[lowestIdx]) > 0;
+        isClockwise = ClipperFunc.IsClockwise(group._inPaths[lowestIdx]);
         if (!isClockwise) delta = -delta;
       }
       else
@@ -369,7 +407,7 @@ namespace ClipperLib2
         {
           BuildNormals(path);
           if (group._endType == EndType.Polygon) OffsetPolygon(group, path);
-          else if (group._endType == EndType.Closed) OffsetOpenJoined(group, path);
+          else if (group._endType == EndType.Joined) OffsetOpenJoined(group, path);
           else OffsetOpenPath(group, path, group._endType);
         }
 
@@ -377,7 +415,7 @@ namespace ClipperLib2
           group._outPaths.Add(group._outPath);
       }
       if (!isClockwise)
-        group._outPaths = InternalClipperFunc.ReversePaths(group._outPaths);
+        group._outPaths = ClipperFunc.ReversePaths(group._outPaths);
 
       if (!MergeGroups)
       {
@@ -387,45 +425,6 @@ namespace ClipperLib2
         c.Execute(ClipType.Union, FillRule.Positive, out group._outPaths);
       }
     }
-
-    public PathsD Execute(double delta)
-    {
-      PathsD solution = new PathsD();
-
-      if (Math.Abs(delta) < InternalClipperFunc.floatingPointTolerance)
-      {
-        foreach(PathGroup group in _pathGroups)
-        {
-          foreach (PathD path in group._inPaths)
-            solution.Add(path);
-        }
-        return solution;
-      }
-
-      _tmpLimit = (MiterLimit <= 1 ? 2 : 2 / ClipperFunc.Sqr(MiterLimit));
-
-      _minEdgeLen = (MinimumEdgeLength < InternalClipperFunc.floatingPointTolerance ?
-        InternalClipperFunc.defaultMinimumEdgeLength : MinimumEdgeLength);
-
-      foreach(PathGroup group in _pathGroups)
-        DoGroupOffset(group, delta);
-
-      foreach (PathGroup group in _pathGroups)
-      {
-        foreach (PathD path in group._outPaths)
-          solution.Add(path);
-      }
-
-      if (MergeGroups)
-      {
-        //clean up self-intersections ...
-        ClipperD c = new ClipperD();
-        c.AddSubject(solution);
-        c.Execute(ClipType.Union, FillRule.Positive, out solution);
-      }
-      return solution;
-    }
-
   }
 
 } //namespace

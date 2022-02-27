@@ -37,7 +37,7 @@ public static class Clipper2Test
         };
         
         ClipperOffset co = new();
-        co.AddPaths(kHSource, JoinType.Miter, EndType.Closed);
+        co.AddPaths(kHSource, JoinType.Miter, EndType.Polygon);
         Paths out_ = ClipperFunc.PathsFromPathsD(co.Execute(keyhole_sizing));
         
         Console.WriteLine("Out count: " + out_.Count);

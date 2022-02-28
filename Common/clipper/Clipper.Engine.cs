@@ -1,4 +1,7 @@
-﻿/*******************************************************************************
+﻿//use_xyz: adds a Z member to IntPoint. Adds a minor cost to performance.
+#define use_xyz
+
+/*******************************************************************************
 * Author    :  Angus Johnson                                                   *
 * Version   :  10.0 (release candidate 1) - also known as Clipper2             *
 * Date      :  27 February 2022                                                *
@@ -11,6 +14,7 @@
 using System;
 using System.Collections.Generic;
 
+
 namespace ClipperLib2
 {
 
@@ -18,6 +22,7 @@ namespace ClipperLib2
 	using Paths = List<List<Point64>>;
 	using PathD = List<PointD>;
 	using PathsD = List<List<PointD>>;
+
 
 	enum VertexFlags
 	{
@@ -134,6 +139,31 @@ namespace ClipperLib2
 
 	public class Clipper
 	{
+#if use_xyz
+    public delegate void ZFillCallback(Point64 bot1, Point64 top1,
+        Point64 bot2, Point64 top2, ref Point64 pt);
+    public ZFillCallback ZFillFunction { get; set; }
+#endif
+
+#if use_xyz
+		internal void SetZ(ref Point64 pt, Active e1, Active e2)
+		{
+			switch (ZFillFunction)
+			{
+				/*pt.Z != 0 ||*/
+				case null:
+					return;
+				default:
+					/*else if (pt == e1.Bot) pt.Z = e1.Bot.Z;
+			else if (pt == e1.Top) pt.Z = e1.Top.Z;
+			else if (pt == e2.Bot) pt.Z = e2.Bot.Z;
+			else if (pt == e2.Top) pt.Z = e2.Top.Z;
+			else*/
+					ZFillFunction(e1.bot, e1.top, e2.bot, e2.top, ref pt);
+					break;
+			}
+		}
+#endif
 
 		private ClipType _cliptype;
 		private FillRule _fillrule;
@@ -156,6 +186,9 @@ namespace ClipperLib2
 			_vertexList = new List<Vertex>();
 			_outrecList = new List<OutRec>();
 			_scanlineList = new List<long>();
+#if use_xyz
+        ZFillFunction = null;
+#endif
 		}
 
 		static bool IsOdd(int val)
@@ -1414,6 +1447,10 @@ namespace ClipperLib2
 		private void IntersectEdges(Active ae1, Active ae2, 
 			Point64 pt, bool orientation_check_required = false)
 		{
+#if use_xyz
+			SetZ(ref pt, ae1, ae2);
+#endif
+			
 			//MANAGE OPEN PATH INTERSECTIONS SEPARATELY ...
 			if (_hasOpenPaths && (IsOpen(ae1) || IsOpen(ae2)))
 			{
@@ -2316,8 +2353,36 @@ namespace ClipperLib2
 	{
 		private const double defaultScale = 100.0;
 		private readonly double _scale;
+#if use_xyz
+    public delegate void ZFillCallback(Point64 bot1, Point64 top1,
+        Point64 bot2, Point64 top2, ref PointD pt);
+    public ZFillCallback ZFillFunction { get; set; }
+#endif
+
+#if use_xyz
+		internal void SetZ(ref PointD pt, Active e1, Active e2)
+		{
+			switch (ZFillFunction)
+			{
+				/*pt.Z != 0 ||*/
+				case null:
+					return;
+				default:
+					/*else if (pt == e1.Bot) pt.Z = e1.Bot.Z;
+			else if (pt == e1.Top) pt.Z = e1.Top.Z;
+			else if (pt == e2.Bot) pt.Z = e2.Bot.Z;
+			else if (pt == e2.Top) pt.Z = e2.Top.Z;
+			else*/
+					ZFillFunction(e1.bot, e1.top, e2.bot, e2.top, ref pt);
+					break;
+			}
+		}
+#endif
 		public ClipperD(double scale = 0)
 		{
+#if use_xyz
+        ZFillFunction = null;
+#endif
 			if (scale == 0) this._scale = defaultScale;
 			else this._scale = scale;
 		}

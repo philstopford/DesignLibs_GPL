@@ -38,7 +38,8 @@ public static class Clipper2Test
         
         ClipperOffset co = new();
         co.AddPaths(kHSource, JoinType.Miter, EndType.Polygon);
-        Paths out_ = ClipperFunc.PathsFromPathsD(co.Execute(keyhole_sizing));
+        // ClipperLib2 specifies full width in offset for open path, unlike version 1
+        Paths out_ = ClipperFunc.PathsFromPathsD(co.Execute(2*keyhole_sizing));
         
         Console.WriteLine("Out count: " + out_.Count);
 
@@ -71,7 +72,8 @@ public static class Clipper2Test
         ClipperOffset co = new ClipperOffset();
         co.AddPaths(newEdges, JoinType.Miter, EndType.Square);
         PolyTree tp = new();
-        Paths cutters = ClipperFunc.PathsFromPathsD(co.Execute( 2));
+        // ClipperLib2 specifies full width in offset for open path, unlike version 1
+        Paths cutters = ClipperFunc.PathsFromPathsD(co.Execute( 2.0));
         
         Clipper c = new Clipper();
         c.AddSubject(lPoly);

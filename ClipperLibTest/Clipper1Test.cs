@@ -43,4 +43,44 @@ public static class Clipper1Test
         Console.WriteLine("Out count: " + out_.Count);
         
     }
+
+    public static void offsetTest()
+    {
+        Path lPoly = new ()
+        {
+            new IntPoint(0, 0),
+            new IntPoint(0, 500000),
+            new IntPoint(100000, 500000),
+            new IntPoint(100000, 200000),
+            new IntPoint(600000, 200000),
+            new IntPoint(600000, 0),
+            new IntPoint(0, 0)
+        };
+
+        Path newEdge = new()
+        {
+            new IntPoint(100000, 200000),
+            new IntPoint(100000, 0)
+        };
+
+        Paths newEdges = new()
+        {
+            newEdge
+        };
+
+        ClipperOffset co = new ClipperOffset();
+        co.AddPaths(newEdges, JoinType.jtMiter, EndType.etOpenSquare);
+        PolyTree tp = new();
+        co.Execute(ref tp, 1.0);
+
+        Paths cutters = Clipper.ClosedPathsFromPolyTree(tp);
+
+        Clipper c = new Clipper();
+        c.AddPath(lPoly, PolyType.ptSubject, true);
+        c.AddPaths(cutters, PolyType.ptClip, true);
+        Paths solution = new();
+        c.Execute(ClipType.ctDifference, solution);
+
+    }
+    
 }

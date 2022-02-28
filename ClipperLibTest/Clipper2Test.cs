@@ -71,7 +71,7 @@ public static class Clipper2Test
         ClipperOffset co = new ClipperOffset();
         co.AddPaths(newEdges, JoinType.Miter, EndType.Square);
         PolyTree tp = new();
-        Paths cutters = ClipperFunc.PathsFromPathsD(co.Execute( 1.0));
+        Paths cutters = ClipperFunc.PathsFromPathsD(co.Execute( 2));
         
         Clipper c = new Clipper();
         c.AddSubject(lPoly);

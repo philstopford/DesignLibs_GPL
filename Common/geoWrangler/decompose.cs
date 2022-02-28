@@ -434,7 +434,8 @@ public static partial class GeoWrangler
                 ClipperOffset co = new();
                 co.AddPaths(newEdges, JoinType.Miter, EndType.Square);
 
-                Paths cutters = ClipperFunc.PathsFromPathsD(co.Execute(1.0));
+                // ClipperLib2 line offset value is the full width, not a per-side value as before.
+                Paths cutters = ClipperFunc.PathsFromPathsD(co.Execute(2.0));
                 
                 c.Clear();
 

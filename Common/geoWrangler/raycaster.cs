@@ -15,6 +15,7 @@ public class RayCast
 {
     private Paths clippedLines;
     private Paths castLines;
+    object resultLock = new();
 
     public enum forceSingleDirection { no, vertical, horizontal } // No and horizontal are treated the same in this code at the moment; leaving these to make the code more readable and intent clearer.
 
@@ -173,7 +174,8 @@ public class RayCast
             _ => po_inner.MaxDegreeOfParallelism
         };
 
-        Parallel.For((long) 0, ptCount, po_outer, pt =>
+        for (int pt = 0; pt < ptCount; pt++)
+        // Parallel.For((long) 0, ptCount, po_outer, pt =>
         {
             Point64 currentEdgeNormal = normals[pt];
             Point64 previousEdgeNormal = previousNormals[pt];
@@ -335,8 +337,8 @@ public class RayCast
 
             previousEdgeNormal = new Point64(currentEdgeNormal.X, currentEdgeNormal.Y);
 
-            object resultLock = new();
-            Parallel.For( (long) 0, rays.Count, po_inner, ray =>
+            for (int ray = 0; ray < rays.Count; ray++)
+            //Parallel.For( (int) 0, rays.Count, po_inner, ray =>
                 {
                     Clipper d = new();
                     if (sideRayFallOff != falloff.none)
@@ -350,14 +352,22 @@ public class RayCast
                     switch (invert)
                     {
                         case true:
-                            d.Execute(ClipType.Intersection, FillRule.EvenOdd, polyTree, out tmpLine);
+                            d.Execute(ClipType.Intersection, FillRule.EvenOdd, polyTree, tmpLine);
                             break;
                         default:
-                            d.Execute(ClipType.Difference, FillRule.EvenOdd, polyTree, out tmpLine);
+                            d.Execute(ClipType.Difference, FillRule.EvenOdd, polyTree, tmpLine);
                             break;
                     }
                     // There is no order in tmpLine so we need to review.
-                    int tmpLineCount = tmpLine.Count;
+                    int tmpLineCount;
+                    try
+                    {
+                        tmpLineCount = tmpLine.Count;
+                    }
+                    catch
+                    {
+                        tmpLineCount = 0;
+                    }
 
                     switch (tmpLineCount)
                     {
@@ -413,7 +423,14 @@ public class RayCast
                         }
                     }
 
-                    tmpLineCount = tmpLine.Count;
+                    try
+                    {
+                        tmpLineCount = tmpLine.Count;
+                    }
+                    catch
+                    {
+                        tmpLineCount = 0;
+                    }
 
                     for (int tL = 0; tL < tmpLineCount; tL++)
                     {
@@ -449,7 +466,7 @@ public class RayCast
                         }
                     }
                 }
-            );
+            //);
 
             Path resultPath = new() {startPoint};
 
@@ -541,7 +558,8 @@ public class RayCast
             {
                 Monitor.Exit(clippedLinesLock);
             }
-        });
+        }
+        //);
 
         // Convert the array back to a list.
         clippedLines = clippedLines_.ToList();

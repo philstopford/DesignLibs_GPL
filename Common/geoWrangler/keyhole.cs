@@ -328,8 +328,8 @@ public static partial class GeoWrangler
         edge[1] = new Point64((long)(edge[1].X + Math.Abs(clipper_glancingContact_fudge * dx * keyhole_sizing)), (long)(edge[1].Y - Math.Abs(clipper_glancingContact_fudge * dy * keyhole_sizing)));
 
         ClipperOffset co = new();
-        co.AddPath(edge, JoinType.Square, EndType.Polygon);
-        Paths sPaths = ClipperFunc.PathsFromPathsD(co.Execute(2 * customSizing));
+        co.AddPath(edge, JoinType.Square, EndType.Square);
+        Paths sPaths = ClipperFunc.Paths(co.Execute(2 * customSizing));
 
         return sPaths;
     }
@@ -462,7 +462,7 @@ public static partial class GeoWrangler
         
         ClipperOffset co = new();
         co.AddPaths(source, joinType, EndType.Polygon);
-        Paths cGeometry = ClipperFunc.PathsFromPathsD(co.Execute(2 * customSizing));
+        Paths cGeometry = ClipperFunc.Paths(co.Execute(customSizing));
         if (maySimplify)
         {
             Clipper c = new();
@@ -473,7 +473,7 @@ public static partial class GeoWrangler
         }
         co.Clear();
         co.AddPaths(cGeometry.ToList(), joinType, EndType.Polygon);
-        cGeometry = ClipperFunc.PathsFromPathsD(co.Execute(-2 * customSizing)); // Size back to original dimensions
+        cGeometry = ClipperFunc.Paths(co.Execute(-customSizing)); // Size back to original dimensions
         if (maySimplify)
         {
             Clipper c = new();
@@ -506,7 +506,7 @@ public static partial class GeoWrangler
 
         ClipperOffset co = new();
         co.AddPath(source, joinType, EndType.Polygon);
-        Paths cGeometry = ClipperFunc.PathsFromPathsD(co.Execute(2 * customSizing));
+        Paths cGeometry = ClipperFunc.Paths(co.Execute(customSizing));
         if (maySimplify)
         {
             Clipper c = new();
@@ -517,7 +517,7 @@ public static partial class GeoWrangler
         }
         co.Clear();
         co.AddPaths(cGeometry.ToList(), joinType, EndType.Polygon);
-        cGeometry = ClipperFunc.PathsFromPathsD(co.Execute(-2 * customSizing)); // Size back to original dimensions
+        cGeometry = ClipperFunc.Paths(co.Execute(-customSizing)); // Size back to original dimensions
         if (maySimplify)
         {
             Clipper c = new();

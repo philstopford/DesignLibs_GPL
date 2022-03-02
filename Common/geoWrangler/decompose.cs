@@ -276,7 +276,7 @@ public static partial class GeoWrangler
             PolyTree pt = new();
             Paths p = new();
 
-            c.Execute(ClipType.Intersection, FillRule.EvenOdd, pt, out p);
+            c.Execute(ClipType.Intersection, FillRule.EvenOdd, pt, p);
             c.Clear();
 
             int pCount = p.Count;
@@ -434,11 +434,15 @@ public static partial class GeoWrangler
                 ClipperOffset co = new();
                 co.AddPaths(newEdges, JoinType.Miter, EndType.Square);
 
-                // ClipperLib2 line offset value is the full width, not a per-side value as before.
-                Paths cutters = ClipperFunc.PathsFromPathsD(co.Execute(2.0));
+                Paths cutters = ClipperFunc.Paths(co.Execute(1.0));
                 
                 c.Clear();
 
+                cutters[0][0]= new Point64(100001,200001);
+                cutters[0][1]= new Point64(99999,200001);
+                cutters[0][2]= new Point64(99999,-1);
+                cutters[0][3]= new Point64(100001,-1);
+                
                 c.AddSubject(lPoly);
 
                 // Take first cutter only - we only cut once, no matter how many potential cutters we have.

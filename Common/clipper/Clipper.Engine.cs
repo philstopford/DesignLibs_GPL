@@ -1,10 +1,9 @@
-﻿//use_xyz: adds a Z member to IntPoint. Adds a minor cost to performance.
-#define use_xyz
+﻿#define use_xyz
 
 /*******************************************************************************
 * Author    :  Angus Johnson                                                   *
-* Version   :  10.0 (release candidate 1) - also known as Clipper2             *
-* Date      :  27 February 2022                                                *
+* Version   :  10.0 (beta) - also known as Clipper2                            *
+* Date      :  1 March 2022                                                    *
 * Website   :  http://www.angusj.com                                           *
 * Copyright :  Angus Johnson 2010-2022                                         *
 * Purpose   :  This is the main polygon clipping module                        *
@@ -14,15 +13,13 @@
 using System;
 using System.Collections.Generic;
 
-
 namespace ClipperLib2
 {
 
-	using Path = List<Point64>;
-	using Paths = List<List<Point64>>;
+	using Path64 = List<Point64>;
+	using Paths64 = List<List<Point64>>;
 	using PathD = List<PointD>;
 	using PathsD = List<List<PointD>>;
-
 
 	enum VertexFlags
 	{
@@ -144,27 +141,6 @@ namespace ClipperLib2
         Point64 bot2, Point64 top2, ref Point64 pt);
     public ZFillCallback ZFillFunction { get; set; }
 #endif
-
-#if use_xyz
-		internal void SetZ(ref Point64 pt, Active e1, Active e2)
-		{
-			switch (ZFillFunction)
-			{
-				/*pt.Z != 0 ||*/
-				case null:
-					return;
-				default:
-					/*else if (pt == e1.Bot) pt.Z = e1.Bot.Z;
-			else if (pt == e1.Top) pt.Z = e1.Top.Z;
-			else if (pt == e2.Bot) pt.Z = e2.Bot.Z;
-			else if (pt == e2.Top) pt.Z = e2.Top.Z;
-			else*/
-					ZFillFunction(e1.bot, e1.top, e2.bot, e2.top, ref pt);
-					break;
-			}
-		}
-#endif
-
 		private ClipType _cliptype;
 		private FillRule _fillrule;
 		private Active _actives;
@@ -186,9 +162,6 @@ namespace ClipperLib2
 			_vertexList = new List<Vertex>();
 			_outrecList = new List<OutRec>();
 			_scanlineList = new List<long>();
-#if use_xyz
-        ZFillFunction = null;
-#endif
 		}
 
 		static bool IsOdd(int val)
@@ -711,7 +684,7 @@ namespace ClipperLib2
 			_minimaList.Add(lm);
 		}
 
-		private void AddPathToVertexList(Path path, PathType polytype, bool is_open)
+		private void AddPathToVertexList(Path64 path, PathType polytype, bool is_open)
 		{
 			int path_len = path.Count;
 			if (!is_open)
@@ -810,17 +783,17 @@ namespace ClipperLib2
 			}
 		}
 
-		public void AddSubject(Path path, bool is_open = false)
+		public void AddSubject(Path64 path, bool is_open = false)
 		{
 			AddPath(path, PathType.Subject, is_open);
 		}
 
-		public void AddClip(Path path)
+		public void AddClip(Path64 path)
 		{
 			AddPath(path, PathType.Clip, false);
 		}
 
-		internal void AddPath(Path path, PathType polytype, bool is_open = false)
+		internal void AddPath(Path64 path, PathType polytype, bool is_open = false)
 		{
 			if (is_open)
 			{
@@ -832,17 +805,17 @@ namespace ClipperLib2
 			AddPathToVertexList(path, polytype, is_open);
 		}
 
-		public void AddSubject(Paths paths, bool is_open = false)
+		public void AddSubject(Paths64 paths, bool is_open = false)
 		{
 			AddPaths(paths, PathType.Subject, is_open);
 		}
 
-		public void AddClip(Paths paths)
+		public void AddClip(Paths64 paths)
 		{
 			AddPaths(paths, PathType.Clip, false);
 		}
 
-		internal void AddPaths(Paths paths, PathType polytype, bool is_open = false)
+		internal void AddPaths(Paths64 paths, PathType polytype, bool is_open = false)
 		{
 			if (is_open)
 			{
@@ -1447,10 +1420,6 @@ namespace ClipperLib2
 		private void IntersectEdges(Active ae1, Active ae2, 
 			Point64 pt, bool orientation_check_required = false)
 		{
-#if use_xyz
-			SetZ(ref pt, ae1, ae2);
-#endif
-			
 			//MANAGE OPEN PATH INTERSECTIONS SEPARATELY ...
 			if (_hasOpenPaths && (IsOpen(ae1) || IsOpen(ae2)))
 			{
@@ -1685,12 +1654,14 @@ namespace ClipperLib2
 		}
 
 		public bool Execute(ClipType clipType, FillRule fillRule, 
-			out Paths solution_closed, out Paths solution_open)
+			Paths64 solution_closed, Paths64 solution_open)
 		{
+			solution_closed.Clear(); 
+			solution_open.Clear();
 			try
 			{
 				ExecuteInternal(clipType, fillRule);
-				BuildPaths(out solution_closed, out solution_open);
+				BuildPaths(solution_closed, solution_open);
 			}
 			catch {
 				solution_closed = null;
@@ -1700,28 +1671,29 @@ namespace ClipperLib2
 			return (solution_closed != null || solution_open != null); 
 		}
 
-		public bool Execute(ClipType clipType, FillRule fillRule, out Paths solution_closed)
+		public bool Execute(ClipType clipType, FillRule fillRule, Paths64 solution_closed)
 		{
-			return Execute(clipType, fillRule, out solution_closed, out _);
+			return Execute(clipType, fillRule, solution_closed, new Paths64());
 		}
 
-		public bool Execute(ClipType clipType, FillRule fillRule, PolyTree polytree, out Paths openPaths)
+		public bool Execute(ClipType clipType, FillRule fillRule, PolyTree polytree, Paths64 openPaths)
 		{
 			polytree.Clear();
+			openPaths.Clear();
 			bool success = false;
 			try
 			{
 				ExecuteInternal(clipType, fillRule);
-				success = BuildTree(polytree, out openPaths);
+				success = BuildTree(polytree, openPaths);
 			}
-			catch { openPaths = null; }
+			catch { }
 			CleanUp();
 			return success;
 		}
 
 		public bool Execute(ClipType clipType, FillRule fillRule, PolyTree polytree)
     {
-			return Execute(clipType, fillRule, polytree, out _);
+			return Execute(clipType, fillRule, polytree, new Paths64());
     }
 
 		void DoIntersections(long top_y)
@@ -1961,7 +1933,8 @@ namespace ClipperLib2
 			if (is_max && !IsOpenEnd(horz))
 				max_pair = GetMaximaPair(horz);
 
-			bool is_left_to_right = ResetHorzDirection(horz, max_pair, out long horz_left, out long horz_right);
+			bool is_left_to_right = 
+				ResetHorzDirection(horz, max_pair, out long horz_left, out long horz_right);
 
 			if (IsHotEdge(horz))
 				AddOutPt(horz, new Point64(horz.curr_x, horz.bot.Y));
@@ -2138,7 +2111,7 @@ namespace ClipperLib2
 			return (prev_e != null ? prev_e.next_in_ael : _actives);
 		}
 
-		private static void CleanPath(Path path)
+		private static void CleanPath(Path64 path)
 		{
 			Point64 prev;
 			int cnt = path.Count;
@@ -2157,7 +2130,7 @@ namespace ClipperLib2
 			if (j < path.Count) path.RemoveRange(j, path.Count - j);
 		}
 
-		private static int SelfIntersectIdx(Path path)
+		private static int SelfIntersectIdx(Path64 path)
 		{
 			int cnt = path.Count;
 			if (cnt < 4) return -1;
@@ -2168,29 +2141,32 @@ namespace ClipperLib2
 			return -1;
 		}
 
-		private static bool InternalSplitSelfIntersect(Path path, int idx, out Path path1, out Path path2)
+		private static bool InternalSplitSelfIntersect(Path64 path, int idx, Path64 path1, Path64 path2)
 		{
-			path1 = null;
-			path2 = null;
+			path1.Clear();
+			path2.Clear();
 			int cnt = path.Count;
 			if (idx < 0 || idx >= cnt) return false;
 			if (!InternalClipperFunc.IntersectPoint(path[idx], path[(idx + 1) % cnt],
 				path[(idx + 2) % cnt], path[(idx + 3) % cnt], out PointD ip)) return false;
-			path2 = new Path { path[(idx + 1) % cnt], path[(idx + 2) % cnt], new Point64(ip.x, ip.y) };
-			path1 = new Path(cnt - 1);
+			path2.Add(path[(idx + 1) % cnt]);
+			path2.Add(path[(idx + 2) % cnt]);
+			path2.Add(new Point64(ip.x, ip.y));
+			path1.Capacity = cnt - 1;
 			for (int i = 0; i < cnt - 2; i++)
 				path1.Add(path[(idx + 3 + i) % cnt]);
 			path1.Add(new Point64(ip.x, ip.y));
 			return true;
 		}
 
-		private bool SplitSelfIntersect(Path path, out Paths extras)
+		private bool SplitSelfIntersect(Path64 path, Paths64 extras)
 		{
 			bool has_spit = false;
-			extras = new Paths();
+			extras.Clear();
 			double a1, a2;
 			int j = SelfIntersectIdx(path);
-			while (j >= 0 && InternalSplitSelfIntersect(path, j, out Path p, out Path extra))
+			Path64 p = new Path64(), extra = new Path64();
+			while (j >= 0 && InternalSplitSelfIntersect(path, j, p, extra))
 			{
 				has_spit = true;
 				a1 = ClipperFunc.Area(p);
@@ -2211,12 +2187,11 @@ namespace ClipperLib2
 			return has_spit;
 		}
 
-		internal bool BuildPath(OutPt op, bool is_open, out Path path, out Paths extras)
+		internal bool BuildPath(OutPt op, bool is_open, Path64 path, Paths64 extras)
 		{
-			path = null; extras = null;
 			int cnt = PointCount(op);
 			if (cnt < 2) return false;
-			path = new Path(cnt);
+			path.Clear();
 			Point64 last_pt = op.pt;
 			path.Add(last_pt);
 			op = op.next;
@@ -2233,17 +2208,15 @@ namespace ClipperLib2
 			if (is_open) return path.Count > 1;
 
 			CleanPath(path);
-			SplitSelfIntersect(path, out extras);
+			SplitSelfIntersect(path, extras);
 			return path.Count > 2;
 		}
 
-		protected bool BuildPaths(out Paths solution_closed, out Paths solution_open)
+		protected bool BuildPaths(Paths64 solution_closed, Paths64 solution_open)
 		{
 			bool built = false;
-			solution_closed = new Paths();
-			solution_open = new Paths();
-			Path path;
-			Paths extras;
+			solution_closed.Clear();
+			solution_open.Clear();
 			try
 			{
 				solution_closed.Capacity = _outrecList.Count;
@@ -2254,14 +2227,16 @@ namespace ClipperLib2
 					OutRec outrec = _outrecList[j];
 					if (outrec.pts == null) continue;
 
+					Path64 path = new Path64();
+					Paths64 extras = new Paths64();
 					if (outrec.state == OutRecState.Open)
 					{
-						if (BuildPath(outrec.pts.next, true, out path, out extras))
+						if (BuildPath(outrec.pts.next, true, path, extras))
 							solution_open.Add(path);
 					}
 					else
 					{
-						if (BuildPath(outrec.pts.next, false, out path, out extras))
+						if (BuildPath(outrec.pts.next, false, path, extras))
 							solution_closed.Add(path);
 						if (extras != null)
 							for (int i = 0; i < extras.Count; i++)
@@ -2274,10 +2249,11 @@ namespace ClipperLib2
 			return built;
 		}
 
-		protected bool BuildTree(PolyPathBase polytree, out Paths solution_open)
+		protected bool BuildTree(PolyPathBase polytree, Paths64 solution_open)
 		{
 			polytree.Clear();
-			solution_open = new Paths(_outrecList.Count);
+			solution_open.Clear();
+			solution_open.Capacity = _outrecList.Count;
 			try
 			{
 				for (int i = 0; i < _outrecList.Count; i++)
@@ -2297,7 +2273,9 @@ namespace ClipperLib2
 					if (outrec.pts == null) continue;
 					bool isOpenPath = outrec.state == OutRecState.Open;
 
-					if (!BuildPath(outrec.pts.next, isOpenPath, out Path path, out Paths extras)) continue;
+					Path64 path = new Path64(); 
+					Paths64 extras = new Paths64();
+					if (!BuildPath(outrec.pts.next, isOpenPath, path, extras)) continue;
 					
 					if (isOpenPath) { 
 						solution_open.Add(path);
@@ -2353,45 +2331,17 @@ namespace ClipperLib2
 	{
 		private const double defaultScale = 100.0;
 		private readonly double _scale;
-#if use_xyz
-    public delegate void ZFillCallback(Point64 bot1, Point64 top1,
-        Point64 bot2, Point64 top2, ref PointD pt);
-    public ZFillCallback ZFillFunction { get; set; }
-#endif
-
-#if use_xyz
-		internal void SetZ(ref PointD pt, Active e1, Active e2)
-		{
-			switch (ZFillFunction)
-			{
-				/*pt.Z != 0 ||*/
-				case null:
-					return;
-				default:
-					/*else if (pt == e1.Bot) pt.Z = e1.Bot.Z;
-			else if (pt == e1.Top) pt.Z = e1.Top.Z;
-			else if (pt == e2.Bot) pt.Z = e2.Bot.Z;
-			else if (pt == e2.Top) pt.Z = e2.Top.Z;
-			else*/
-					ZFillFunction(e1.bot, e1.top, e2.bot, e2.top, ref pt);
-					break;
-			}
-		}
-#endif
 		public ClipperD(double scale = 0)
 		{
-#if use_xyz
-        ZFillFunction = null;
-#endif
 			if (scale == 0) this._scale = defaultScale;
 			else this._scale = scale;
 		}
 
-		public new void AddPath(Path _, PathType __, bool ___) =>
+		public new void AddPath(Path64 _, PathType __, bool ___) =>
 			throw new ClipperLibException("Error in ClipperD.AddPath - must use PathD parameter");
-		public new void AddPaths(Paths _, PathType __, bool ___) =>
+		public new void AddPaths(Paths64 _, PathType __, bool ___) =>
 			throw new ClipperLibException("Error in ClipperD.AddPaths - must use PathsD parameter");
-		public new void AddSubject(Path _, bool __) =>
+		public new void AddSubject(Path64 _, bool __) =>
 			throw new ClipperLibException("Error in ClipperD.AddPaths - must use PathsD parameter");
 
 		public void AddSubject(PathD path, bool is_open = false)
@@ -2413,50 +2363,51 @@ namespace ClipperLib2
 			base.AddPaths(ClipperFunc.ScalePaths(paths, _scale), PathType.Clip, false);
 		}
 
-		public new bool Execute(ClipType _, FillRule __, out Paths ___) =>
+		public new bool Execute(ClipType _, FillRule __, Paths64 ___) =>
 			throw new ClipperLibException("Error in ClipperD.Execute - must use PathsD parameter");
 
-		public new bool Execute(ClipType _, FillRule __, out Paths ___, out Paths ____) =>
+		public new bool Execute(ClipType _, FillRule __, Paths64 ___, Paths64 ____) =>
 			throw new ClipperLibException("Error in ClipperD.Execute - must use PathsD parameter");
 
 		public bool Execute(ClipType clipType, FillRule fillRule,
-			out PathsD solution_closed, out PathsD solution_open)
+			PathsD solution_closed, PathsD solution_open)
 		{
 			double invScale = 1 / _scale;
-			bool res = base.Execute(clipType, fillRule, out Paths sol_closed, out Paths sol_open);
-			solution_closed = ClipperFunc.ScalePaths(sol_closed, invScale);
-			solution_open = ClipperFunc.ScalePaths(sol_open, invScale);
+			Paths64 sol_closed = new Paths64(), sol_open = new Paths64();
+			bool res = base.Execute(clipType, fillRule, sol_closed, sol_open);
+			ClipperFunc.ScalePaths(sol_closed, invScale, ref solution_closed);
+			ClipperFunc.ScalePaths(sol_open, invScale, ref solution_open);
 			return res;
 		}
 
-		public bool Execute(ClipType clipType, FillRule fillRule, out PathsD solution_closed)
+		public bool Execute(ClipType clipType, FillRule fillRule, PathsD solution_closed)
 		{
-			return Execute(clipType, fillRule, out solution_closed, out _);
+			return Execute(clipType, fillRule, solution_closed, new PathsD());
 		}
 
-		public bool Execute(ClipType clipType, FillRule fillRule, PolyTreeD polytree, out PathsD openPaths)
+		public bool Execute(ClipType clipType, FillRule fillRule, PolyTreeD polytree, PathsD openPaths)
 		{
 			polytree.Clear();
 			polytree._scale = _scale;
 			double invScale = 1 / _scale;
-			openPaths = null;
-			Paths oPaths = null;
+			openPaths.Clear();
+			Paths64 oPaths = new Paths64();
 			bool success = false;
 			try
 			{
 				ExecuteInternal(clipType, fillRule);
-				success = BuildTree(polytree, out oPaths);
+				success = BuildTree(polytree, oPaths);
 			}
 			catch { }
 			CleanUp();
-			if (oPaths != null)
-				openPaths = ClipperFunc.ScalePaths(oPaths, invScale);
+			if (oPaths.Count > 0)
+				ClipperFunc.ScalePaths(oPaths, invScale, ref openPaths);
 			return success;
 		}
 
 		public bool Execute(ClipType clipType, FillRule fillRule, PolyTreeD polytree)
 		{
-			return Execute(clipType, fillRule, polytree, out _);
+			return Execute(clipType, fillRule, polytree, new PathsD());
 		}
 
 	}
@@ -2482,7 +2433,7 @@ namespace ClipperLib2
 
 		public int ChildCount { get => _childs.Count; }
 
-		internal abstract PolyPathBase AddChild(Path p);
+		internal abstract PolyPathBase AddChild(Path64 p);
 	
 		public PolyPathBase GetChild(int idx)
 		{
@@ -2498,9 +2449,9 @@ namespace ClipperLib2
 
 	public class PolyPath : PolyPathBase
 	{
-    public Path Polygon { get; private set; }
+    public Path64 Polygon { get; private set; }
 		public PolyPath(PolyPathBase parent = null) : base(parent) { }
-		internal override PolyPathBase AddChild(Path p)
+		internal override PolyPathBase AddChild(Path64 p)
 		{
 			PolyPathBase newChild = new PolyPath(this);
 			(newChild as PolyPath).Polygon = p;
@@ -2514,7 +2465,7 @@ namespace ClipperLib2
 		internal double _scale;
 		public PathD Polygon { get; private set; }
 		public PolyPathD(PolyPathBase parent = null) : base(parent) { }
-		internal override PolyPathBase AddChild(Path p)
+		internal override PolyPathBase AddChild(Path64 p)
 		{
 			PolyPathBase newChild = new PolyPathD(this);
 			(newChild as PolyPathD)._scale = _scale;

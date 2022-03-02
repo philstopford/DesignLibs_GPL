@@ -3,16 +3,54 @@ using ClipperLib2;
 
 namespace ClipperLib2Test;
 
-using Path = List<Point64>;
-using Paths = List<List<Point64>>;
+using Path64 = List<Point64>;
+using Paths64 = List<List<Point64>>;
 
 public static class Clipper2Test
 {
     const double keyhole_sizing = 500;
+    
+    public static void test2()
+    {
+        Paths64 rays2 = new()
+        {
+            new Path64() {new Point64(100000, 200000), new Point64(100000, -9800000)}
+        };
+
+        Paths64 rays = new()
+        {
+            new Path64() {new Point64(100000, 500000), new Point64(10100000, 500000)}
+        };
+
+        Paths64 collisionPaths = new()
+        {
+            new Path64()
+            {
+                new Point64(0, 0),
+                new Point64(0, 500000),
+                new Point64(100000, 500000),
+                new Point64(100000, 200000),
+                new Point64(600000, 200000),
+                new Point64(600000, 800000),
+                new Point64(1200000, 800000),
+                new Point64(1200000, 0),
+                new Point64(0, 0)
+
+            }
+        };
+
+        Clipper c = new Clipper();
+        c.AddSubject(rays, true);
+        c.AddClip(collisionPaths);
+        PolyTree pt = new PolyTree();
+        Paths64 solution = new();
+        c.Execute(ClipType.Intersection, FillRule.EvenOdd, pt, solution);
+    }
+    
     public static void test1()
     {
         Console.WriteLine("Clipper2 Test1");
-        Path outer = new()
+        Path64 outer = new()
         {
             new Point64(-200000, -200000),
             new Point64(200000, -200000),
@@ -21,7 +59,7 @@ public static class Clipper2Test
             new Point64(-200000, -200000)
         };
 
-        Path inner1 = new()
+        Path64 inner1 = new()
         {
             new Point64(-100000, -100000),
             new Point64(-100000, 100000),
@@ -30,7 +68,7 @@ public static class Clipper2Test
             new Point64(-100000, -100000)
         };
 
-        Paths kHSource = new()
+        Paths64 kHSource = new()
         {
             outer,
             inner1
@@ -39,7 +77,7 @@ public static class Clipper2Test
         ClipperOffset co = new();
         co.AddPaths(kHSource, JoinType.Miter, EndType.Polygon);
         // ClipperLib2 specifies full width in offset for open path, unlike version 1
-        Paths out_ = ClipperFunc.PathsFromPathsD(co.Execute(2*keyhole_sizing));
+        Paths64 out_ = ClipperFunc.Paths(co.Execute(2*keyhole_sizing));
         
         Console.WriteLine("Out count: " + out_.Count);
 
@@ -47,7 +85,7 @@ public static class Clipper2Test
     
     public static void offsetTest()
     {
-        Path lPoly = new ()
+        Path64 lPoly = new ()
         {
             new Point64(0, 0),
             new Point64(0, 500000),
@@ -58,13 +96,13 @@ public static class Clipper2Test
             new Point64(0, 0)
         };
 
-        Path newEdge = new()
+        Path64 newEdge = new()
         {
             new Point64(100000, 200000),
             new Point64(100000, 0)
         };
 
-        Paths newEdges = new()
+        Paths64 newEdges = new()
         {
             newEdge
         };
@@ -73,13 +111,13 @@ public static class Clipper2Test
         co.AddPaths(newEdges, JoinType.Miter, EndType.Square);
         PolyTree tp = new();
         // ClipperLib2 specifies full width in offset for open path, unlike version 1
-        Paths cutters = ClipperFunc.PathsFromPathsD(co.Execute( 2.0));
+        Paths64 cutters = ClipperFunc.Paths(co.Execute( 2.0));
         
         Clipper c = new Clipper();
         c.AddSubject(lPoly);
         c.AddClip(cutters);
         c.Execute(ClipType.Difference, FillRule.EvenOdd, tp);
-        Paths solution = ClipperFunc.PolyTreeToPaths(tp);
+        Paths64 solution = ClipperFunc.PolyTreeToPaths(tp);
 
     }
 }

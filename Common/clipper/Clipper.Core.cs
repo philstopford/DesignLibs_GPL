@@ -9,15 +9,9 @@
 *******************************************************************************/
 
 using System;
-using System.Collections.Generic;
 
 namespace ClipperLib2
 {
-  using Path = List<Point64>;
-  using Paths = List<List<Point64>>;
-  using PathD = List<PointD>;
-  using PathsD = List<List<PointD>>;
-
   public struct Point64
   {
     public long X;
@@ -54,12 +48,12 @@ namespace ClipperLib2
 
     public static bool operator ==(Point64 lhs, Point64 rhs)
     {
-      return lhs.X == rhs.X && lhs.Y == rhs.Y && lhs.Z == rhs.Z;
+      return lhs.X == rhs.X && lhs.Y == rhs.Y;
     }
 
     public static bool operator !=(Point64 lhs, Point64 rhs)
     {
-      return lhs.X != rhs.X || lhs.Y != rhs.Y || lhs.Z != rhs.Z;
+      return lhs.X != rhs.X || lhs.Y != rhs.Y;
     }
 
     public override bool Equals(object obj)
@@ -112,14 +106,19 @@ namespace ClipperLib2
       this.z = z;
     }
 
+    private static bool IsAlmostZero(double value)
+    {
+      return (Math.Abs(value) <= 1E-15);
+    }
+
     public static bool operator ==(PointD lhs, PointD rhs)
     {
-      return (Math.Abs(lhs.x - rhs.x) <= Double.Epsilon) && (Math.Abs(lhs.y - rhs.y) <= Double.Epsilon) && (Math.Abs(lhs.z - rhs.z) <= Double.Epsilon);
+      return IsAlmostZero(lhs.x - rhs.x) && IsAlmostZero(lhs.y - rhs.y);
     }
 
     public static bool operator !=(PointD lhs, PointD rhs)
     {
-      return (Math.Abs(lhs.x - rhs.x) > Double.Epsilon) || (Math.Abs(lhs.y - rhs.y) > Double.Epsilon) || (Math.Abs(lhs.z - rhs.z) > Double.Epsilon);
+      return !IsAlmostZero(lhs.x - rhs.x) || !IsAlmostZero(lhs.y - rhs.y);
     }
 
     public override bool Equals(object obj)

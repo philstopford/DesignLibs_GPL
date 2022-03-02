@@ -44,6 +44,37 @@ public static class Clipper1Test
         
     }
 
+    public static void test2()
+    {
+        Paths rays = new()
+        {
+            new Path() {new IntPoint(100000, 200000), new IntPoint(100000, -9800000)}
+        };
+
+        Paths collisionPaths = new()
+        {
+            new Path()
+            {
+                new IntPoint(0, 0),
+                new IntPoint(0, 500000),
+                new IntPoint(100000, 500000),
+                new IntPoint(100000, 200000),
+                new IntPoint(600000, 200000),
+                new IntPoint(600000, 800000),
+                new IntPoint(1200000, 800000),
+                new IntPoint(1200000, 0),
+                new IntPoint(0, 0)
+
+            }
+        };
+
+        Clipper c = new Clipper();
+        c.AddPaths(rays, PolyType.ptSubject, false);
+        c.AddPaths(collisionPaths, PolyType.ptClip, true);
+        PolyTree pt = new PolyTree();
+        c.Execute(ClipType.ctIntersection, pt);
+        Paths solution = Clipper.OpenPathsFromPolyTree(pt);
+    }
     public static void offsetTest()
     {
         Path lPoly = new ()

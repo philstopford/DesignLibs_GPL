@@ -38,7 +38,7 @@ public static partial class GeoWrangler
 
             int offsetVal = width / 2;
 
-            Paths solution = ClipperFunc.PathsFromPathsD(co.Execute(offsetVal));
+            Paths solution = ClipperFunc.Paths (co.Execute(offsetVal));
 
             allSolutions.Add(new Path(solution[0]));
 

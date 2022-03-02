@@ -674,13 +674,13 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;
   }
-}]]></component>
-  <component name="RunManager" selected=".NET Project.partitionTest">
+}</component>
+  <component name="RunManager" selected=".NET Project.ClipperLibTest">
     <configuration name="ASA005Test" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -11435,35 +11435,58 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/partitionTest/Program.cs</url>
-          <line>84</line>
-          <properties documentPath="D:\development\git\DesignLibs_GPL\partitionTest\Program.cs" initialLine="84" containingFunctionPresentation="method 'partOne'">
+          <line>92</line>
+          <properties documentPath="D:\development\git\DesignLibs_GPL\partitionTest\Program.cs" initialLine="92" containingFunctionPresentation="method 'partOne'">
             <startOffsets>
-              <option value="2021" />
+              <option value="2335" />
             </startOffsets>
             <endOffsets>
-              <option value="2129" />
+              <option value="2436" />
             </endOffsets>
           </properties>
-          <option name="timeStamp" value="6" />
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/partitionTest/Program.cs</url>
+          <line>94</line>
+          <properties documentPath="D:\development\git\DesignLibs_GPL\partitionTest\Program.cs" initialLine="94" containingFunctionPresentation="method 'partOne'">
+            <startOffsets>
+              <option value="2446" />
+            </startOffsets>
+            <endOffsets>
+              <option value="2471" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="22" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Common/clipper/Clipper.Engine.cs</url>
-          <line>1450</line>
-          <properties documentPath="D:\development\git\DesignLibs_GPL\Common\clipper\Clipper.Engine.cs" initialLine="1450" containingFunctionPresentation="method 'IntersectEdges'">
+          <line>1056</line>
+          <properties documentPath="D:\development\git\DesignLibs_GPL\Common\clipper\Clipper.Engine.cs" initialLine="1056" containingFunctionPresentation="method 'IsValidAelOrder'">
             <startOffsets>
-              <option value="36715" />
+              <option value="26519" />
             </startOffsets>
             <endOffsets>
-              <option value="36738" />
+              <option value="26532" />
             </endOffsets>
           </properties>
-          <option name="timeStamp" value="7" />
+          <option name="timeStamp" value="24" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <watches-manager>
       <configuration name="DotNetProject">
         <watch expression="x" />
+        <watch expression="new System.Collections.Generic.ICollectionDebugView&lt;ClipperLib1.IntPoint&gt;(new System.Collections.Generic.ICollectionDebugView&lt;System.Collections.Generic.List&lt;ClipperLib1.IntPoint&gt;&gt;(rays).Items[0]).Items[0]" />
+        <watch expression="rays" />
+        <watch expression="new System.Collections.Generic.ICollectionDebugView&lt;System.Collections.Generic.List&lt;ClipperLib2.Point64&gt;&gt;(rays).Items[0]" />
+        <watch expression="new System.Collections.Generic.ICollectionDebugView&lt;System.Collections.Generic.List&lt;ClipperLib2.Point64&gt;&gt;(rays).Items[1]" />
+        <watch expression="new System.Collections.Generic.ICollectionDebugView&lt;System.Collections.Generic.List&lt;ClipperLib2.Point64&gt;&gt;(rays).Items[2]" />
+        <watch expression="new System.Collections.Generic.ICollectionDebugView&lt;System.Collections.Generic.List&lt;ClipperLib2.Point64&gt;&gt;(rays).Items[3]" />
+        <watch expression="new System.Collections.Generic.ICollectionDebugView&lt;System.Collections.Generic.List&lt;ClipperLib2.Point64&gt;&gt;(rays).Items[4]" />
+        <watch expression="new System.Collections.Generic.ICollectionDebugView&lt;System.Collections.Generic.List&lt;ClipperLib2.Point64&gt;&gt;(rays).Items[5]" />
+        <watch expression="new System.Collections.Generic.ICollectionDebugView&lt;System.Collections.Generic.List&lt;ClipperLib2.Point64&gt;&gt;(rays).Items[6]" />
+        <watch expression="new System.Collections.Generic.ICollectionDebugView&lt;System.Collections.Generic.List&lt;ClipperLib1.IntPoint&gt;&gt;(cutters).Items[0]" />
       </configuration>
     </watches-manager>
   </component>

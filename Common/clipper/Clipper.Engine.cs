@@ -179,20 +179,14 @@ namespace ClipperLib2
 				outrec.state = OutRecState.Outer;
 		}
 
-		private static bool IsHotEdge(Active ae)
+		static bool IsHotEdge(Active ae)
 		{
 			return ae.outrec != null;
 		}
 
-		private static bool IsOpen(Active ae)
+		static bool IsOpen(Active ae)
 		{
 			return ae.local_min.is_open;
-		}
-
-		private static bool IsOpenEnd(Active ae)
-		{
-			return ae.local_min.is_open && 
-				(ae.vertex_top.flags & (VertexFlags.OpenStart | VertexFlags.OpenEnd)) != VertexFlags.None;
 		}
 
 		static Active GetPrevHotEdge(Active ae)
@@ -1344,7 +1338,7 @@ namespace ClipperLib2
 			ae2.outrec.pts = null;
 			ae2.outrec.owner = ae1.outrec;  //this may be redundant
 
-			if (IsOpenEnd(ae1))
+			if (IsOpen(ae1) && ((ae1.local_min.vertex.flags & (VertexFlags.OpenStart | VertexFlags.OpenEnd)) != VertexFlags.None))
 			{
 				ae2.outrec.pts = ae1.outrec.pts;
 				ae1.outrec.pts = null;
@@ -1904,8 +1898,7 @@ namespace ClipperLib2
 		{
 			Point64 pt;
 			//with closed paths, simplify consecutive horizontals into a 'single' edge ...
-			bool horzIsOpen = IsOpen(horz);
-			if (!horzIsOpen)
+			if (!IsOpen(horz))
 			{
 				pt = horz.bot;
 				while (!IsMaxima(horz) && NextVertex(horz).pt.Y == pt.Y)
@@ -1921,7 +1914,8 @@ namespace ClipperLib2
 
 			Active max_pair = null;
 			bool is_max = IsMaxima(horz);
-			if (is_max && !IsOpenEnd(horz))
+			if (is_max && (!IsOpen(horz) ||
+				((horz.vertex_top.flags & (VertexFlags.OpenStart | VertexFlags.OpenEnd)) == VertexFlags.None)))
 				max_pair = GetMaximaPair(horz);
 
 			bool is_left_to_right = ResetHorzDirection(horz, max_pair, out long horz_left, out long horz_right);
@@ -1952,7 +1946,7 @@ namespace ClipperLib2
 					}
 					//if horzEdge is a maxima, keep going until we reach
 					//its maxima pair, otherwise check for break conditions
-					if (!is_max || IsOpenEnd(horz))
+					if (!is_max)
 					{
 						//otherwise stop when 'ae' is beyond the end of the horizontal line
 						if ((is_left_to_right && ae.curr_x > horz_right) ||
@@ -2053,7 +2047,8 @@ namespace ClipperLib2
 			Active next_e, prev_e, max_pair;
 			prev_e = ae.prev_in_ael;
 			next_e = ae.next_in_ael;
-			if (IsOpenEnd(ae))
+			if (IsOpen(ae) &&
+				((ae.vertex_top.flags & (VertexFlags.OpenStart | VertexFlags.OpenEnd)) != VertexFlags.None))
 			{
 				if (IsHotEdge(ae))
 					AddOutPt(ae, ae.top);
@@ -2466,7 +2461,7 @@ namespace ClipperLib2
 		public double Scale { get { return _scale; } }
 	}
 
-	public class ClipperLibException : Exception
+	class ClipperLibException : Exception
 	{
 		public ClipperLibException(string description) : base(description) { }
 	}

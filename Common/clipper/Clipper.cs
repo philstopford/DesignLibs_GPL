@@ -7,10 +7,10 @@
 * Purpose   :  This module contains simple functions that will likely cover    *
 *              most polygon boolean and offsetting needs, while also avoiding  *
 *              the complexities of the other modules in this clipping library. *
-* Thanks    :  Special thanks to Thong Nguyen (https://nguyen.mn/) and to      *
+*Thanks     :  Special thanks to Thong Nguyen (https://nguyen.mn/) and to      *
 *              Guus Kuiper (https://www.guuskuiper.nl/) for their invaluable   *
 *              assistance in this C# Clipper port.                             *
-* License   :  http://www.boost.org/LICENSE_1_0.txt                            *
+*License   :  http://www.boost.org/LICENSE_1_0.txt                             *
 *******************************************************************************/
 
 

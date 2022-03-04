@@ -13,6 +13,7 @@ using System.Collections.Generic;
 
 namespace ClipperLib2
 {
+
   using Path = List<Point64>;
   using Paths = List<List<Point64>>;
   using PathD = List<PointD>;
@@ -144,48 +145,21 @@ namespace ClipperLib2
       return bottom <= top || right <= left;
     }
 
-  }
-
-  public struct RectD
-  {
-    public double left;
-    public double top;
-    public double right;
-    public double bottom;
-
-    public RectD(double l, double t, double r, double b)
+    public void Inflate(long dx, long dy)
     {
-      left = l;
-      top = t;
-      right = r;
-      bottom = b;
+      left -= dx;
+      right += dx;
+      top -= dy;
+      bottom += dy;
     }
 
-    public RectD(RectD rec)
+    public void Offset(long dx, long dy)
     {
-      left = rec.left;
-      top = rec.top;
-      right = rec.right;
-      bottom = rec.bottom;
+      left += dx;
+      right += dx;
+      top += dy;
+      bottom += dy;
     }
-
-    public double Width
-    {
-      get => right - left;
-      set => right = left + value;
-    }
-
-    public double Height
-    {
-      get => bottom - top;
-      set => bottom = top + value;
-    }
-
-    public bool IsEmpty()
-    {
-      return bottom <= top || right <= left;
-    }
-
   }
 
   //Note: all clipping operations except for Difference are commutative.
@@ -272,30 +246,12 @@ namespace ClipperLib2
           (dy2 * (seg1b.X - seg2a.X) - dx2 * (seg1b.Y - seg2a.Y)) < 0));
     }
 
-    public static Path ReversePath(Path path)
-    {
-      int cntMin1 = path.Count - 1;
-      Path result = new Path(cntMin1 + 1);
-      for (int i = 0; i <= cntMin1; i++)
-        result.Add(path[cntMin1 - i]);
-      return result;
-    }
-
     public static PathD ReversePath(PathD path)
     {
-      int cntMin1 = path.Count - 1;
-      PathD result = new PathD(cntMin1 + 1);
+      int cntMin1 = path.Count -1;
+      PathD result = new PathD(cntMin1 +1);
       for (int i = 0; i <= cntMin1; i++)
         result.Add(path[cntMin1 - i]);
-      return result;
-    }
-
-    public static Paths ReversePaths(Paths paths)
-    {
-      int cnt = paths.Count;
-      Paths result = new Paths(cnt);
-      for (int i = 0; i < cnt; i++)
-        result.Add(ReversePath(paths[i]));
       return result;
     }
 

@@ -9,6 +9,43 @@ using Paths = List<List<IntPoint>>;
 public static class Clipper1Test
 {
     const double keyhole_sizing = 500;
+
+    public static void test3()
+    {
+        Path lPoly = new Path() {
+        new IntPoint(0,0),
+        new IntPoint(0,200000),
+        new IntPoint(200000,200000),
+        new IntPoint(200000,500000),
+        new IntPoint(0,500000),
+        new IntPoint(0,1100000),
+        new IntPoint(1000000,1100000),
+        new IntPoint(1000000,800000),
+        new IntPoint(800000,800000),
+        new IntPoint(800000,600000),
+        new IntPoint(1000000,600000),
+        new IntPoint(1000000,0),
+        new IntPoint(0,0)
+        };
+
+        Path t = new () {
+        new IntPoint(0,200000),
+        new IntPoint(0,-9800000)
+        };
+
+        Clipper c = new();
+
+        c.AddPath(t, PolyType.ptSubject, false);
+        c.AddPath(lPoly, PolyType.ptClip, true);
+
+        PolyTree pt = new();
+        Paths p = new();
+
+        c.Execute(ClipType.ctIntersection, pt);
+        Paths solution = Clipper.OpenPathsFromPolyTree(pt);
+ 
+    }
+
     public static void test1()
     {
         Console.WriteLine("Clipper1 Test1");

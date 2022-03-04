@@ -57,7 +57,7 @@ using System.Linq;
 //using System.IO;            //debugging with streamReader & StreamWriter
 //using System.Windows.Forms; //debugging to clipboard
 
-namespace ClipperLib1;
+namespace ClipperLib;
 
 #if use_int32
   using cInt = Int32;

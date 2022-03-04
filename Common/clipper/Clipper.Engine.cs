@@ -365,6 +365,11 @@ namespace ClipperLib2
 			return ((ae.vertex_top.flags & VertexFlags.LocalMax) != VertexFlags.None);
 		}
 
+		static bool IsMaxima(Vertex vert)
+		{
+			return ((vert.flags & VertexFlags.LocalMax) != VertexFlags.None);
+		}
+		
 		private Active GetMaximaPair(Active ae)
 		{
 			Active ae2;
@@ -1034,11 +1039,21 @@ namespace ClipperLib2
 			{
 				if (op1.pt == op2.pt)
 				{
+					if (IsMaxima(op1) || IsMaxima(op2)) return true; // give up :)
 					pt = op1.pt;
 					op1 = NextVertex(op1, IsLeftBound(a1));
 					op2 = NextVertex(op2, IsLeftBound(a2));
 				}
-				else if (op1.pt.Y >= op2.pt.Y)
+				else if (IsHorizontal(a1))
+				{
+					if (IsHorizontal(a2)) return a1.top.X < a2.top.X;
+					else return IsHeadingLeftHorz(a1);
+				}
+				else if (IsHorizontal(a2)) 
+				{ 
+					return IsHeadingRightHorz(a2); 
+				}
+                else if (op1.pt.Y >= op2.pt.Y)
 				{
 					pt = op1.pt;
 					op1 = NextVertex(op1, IsLeftBound(a1));

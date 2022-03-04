@@ -3,10 +3,13 @@
 /*******************************************************************************
 * Author    :  Angus Johnson                                                   *
 * Version   :  10.0 (beta) - also known as Clipper2                            *
-* Date      :  1 March 2022                                                    *
+* Date      :  4 March 2022                                                    *
 * Website   :  http://www.angusj.com                                           *
 * Copyright :  Angus Johnson 2010-2022                                         *
 * Purpose   :  This is the main polygon clipping module                        *
+* Thanks    :  Special thanks to Thong Nguyen (https://nguyen.mn/) and to      *
+*              Guus Kuiper (https://www.guuskuiper.nl/) for their invaluable   *
+*              assistance in this C# Clipper port.                             *
 * License   :  http://www.boost.org/LICENSE_1_0.txt                            *
 *******************************************************************************/
 

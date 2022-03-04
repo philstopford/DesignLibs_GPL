@@ -680,7 +680,7 @@
     <property name="settings.editor.selected.configurable" value="preferences.sourceCode.C#" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
-  <component name="RunManager" selected=".NET Project.TestEtoVeldrid.Wpf">
+  <component name="RunManager" selected=".NET Project.partitionTest">
     <configuration name="ASA005Test" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -11336,13 +11336,40 @@
               <option value="2875" />
             </endOffsets>
           </properties>
-          <option name="timeStamp" value="13" />
+          <option name="timeStamp" value="14" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Common/geoWrangler/decompose.cs</url>
+          <line>251</line>
+          <properties documentPath="D:\development\git\DesignLibs_GPL\Common\geoWrangler\decompose.cs" initialLine="251" containingFunctionPresentation="method 'decompose_poly_to_rectangles'">
+            <startOffsets>
+              <option value="8398" />
+            </startOffsets>
+            <endOffsets>
+              <option value="8649" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="19" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Common/geoWrangler/decompose.cs</url>
+          <line>233</line>
+          <properties documentPath="D:\development\git\DesignLibs_GPL\Common\geoWrangler\decompose.cs" initialLine="233" containingFunctionPresentation="method 'pRectangular_decomposition'">
+            <startOffsets>
+              <option value="7812" />
+            </startOffsets>
+            <endOffsets>
+              <option value="7813" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="20" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <watches-manager>
       <configuration name="DotNetProject">
         <watch expression="x" />
+        <watch expression="rays" />
       </configuration>
     </watches-manager>
   </component>

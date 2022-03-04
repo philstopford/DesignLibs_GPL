@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Eto\src\Eto.Wpf\Eto.Wpf.csproj" />
     <ProjectReference Include="..\TestEtoViewport\TestEtoViewport.csproj" />
   </ItemGroup>
 

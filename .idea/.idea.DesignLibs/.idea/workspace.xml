@@ -588,6 +588,7 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/184721741f1cbf7b652ab87e592df39ce069dbafd53b4c4d315218be55b12/Parallel.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/198a6261cebc324728dcc4c178edc5f2894123f711722c80e8557cbfd27651/ThrowHelper.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/f3b9684f72bc2cc435eb694f7cc86eca8c240d2d1cefa1e8697a61f1f2f27f/SafeFileHandle.Windows.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/f4708639776589f5ac2739f6fcbfc67343b1f9dac51cc1dbfdb003eef77cc1c/Monitor.CoreCLR.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BurkhardtTest/FEM/FEM1DBVPTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
@@ -680,7 +681,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager" selected=".NET Project.ClipperLibTest">
+  <component name="RunManager" selected=".NET Project.partitionTest">
     <configuration name="ASA005Test" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -11435,42 +11436,42 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/partitionTest/Program.cs</url>
-          <line>92</line>
-          <properties documentPath="D:\development\git\DesignLibs_GPL\partitionTest\Program.cs" initialLine="92" containingFunctionPresentation="method 'partOne'">
+          <line>112</line>
+          <properties documentPath="D:\development\git\DesignLibs_GPL\partitionTest\Program.cs" initialLine="112" containingFunctionPresentation="method 'partOne'">
             <startOffsets>
-              <option value="2335" />
+              <option value="3070" />
             </startOffsets>
             <endOffsets>
-              <option value="2436" />
+              <option value="3173" />
             </endOffsets>
           </properties>
-          <option name="timeStamp" value="1" />
+          <option name="timeStamp" value="40" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/partitionTest/Program.cs</url>
-          <line>94</line>
-          <properties documentPath="D:\development\git\DesignLibs_GPL\partitionTest\Program.cs" initialLine="94" containingFunctionPresentation="method 'partOne'">
+          <url>file://$PROJECT_DIR$/Common/geoWrangler/decompose.cs</url>
+          <line>434</line>
+          <properties documentPath="D:\development\git\DesignLibs_GPL\Common\geoWrangler\decompose.cs" initialLine="434" containingFunctionPresentation="method 'decompose_poly_to_rectangles'">
             <startOffsets>
-              <option value="2446" />
+              <option value="14659" />
             </startOffsets>
             <endOffsets>
-              <option value="2471" />
+              <option value="14672" />
             </endOffsets>
           </properties>
-          <option name="timeStamp" value="22" />
+          <option name="timeStamp" value="42" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Common/clipper/Clipper.Engine.cs</url>
-          <line>1056</line>
-          <properties documentPath="D:\development\git\DesignLibs_GPL\Common\clipper\Clipper.Engine.cs" initialLine="1056" containingFunctionPresentation="method 'IsValidAelOrder'">
+          <url>file://$PROJECT_DIR$/Common/geoWrangler/decompose.cs</url>
+          <line>268</line>
+          <properties documentPath="D:\development\git\DesignLibs_GPL\Common\geoWrangler\decompose.cs" initialLine="268" containingFunctionPresentation="method 'decompose_poly_to_rectangles'">
             <startOffsets>
-              <option value="26519" />
+              <option value="9140" />
             </startOffsets>
             <endOffsets>
-              <option value="26532" />
+              <option value="9150" />
             </endOffsets>
           </properties>
-          <option name="timeStamp" value="24" />
+          <option name="timeStamp" value="44" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -11487,6 +11488,12 @@
         <watch expression="new System.Collections.Generic.ICollectionDebugView&lt;System.Collections.Generic.List&lt;ClipperLib2.Point64&gt;&gt;(rays).Items[5]" />
         <watch expression="new System.Collections.Generic.ICollectionDebugView&lt;System.Collections.Generic.List&lt;ClipperLib2.Point64&gt;&gt;(rays).Items[6]" />
         <watch expression="new System.Collections.Generic.ICollectionDebugView&lt;System.Collections.Generic.List&lt;ClipperLib1.IntPoint&gt;&gt;(cutters).Items[0]" />
+        <watch expression="cutters" />
+        <watch expression="new System.Collections.Generic.ICollectionDebugView&lt;System.Collections.Generic.List&lt;ClipperLib2.Point64&gt;&gt;(cutters).Items[0]" />
+        <watch expression="new System.Collections.Generic.ICollectionDebugView&lt;ClipperLib2.Point64&gt;(new System.Collections.Generic.ICollectionDebugView&lt;System.Collections.Generic.List&lt;ClipperLib2.Point64&gt;&gt;(cutters).Items[0]).Items[0]" />
+        <watch expression="new System.Collections.Generic.ICollectionDebugView&lt;ClipperLib2.Point64&gt;(new System.Collections.Generic.ICollectionDebugView&lt;System.Collections.Generic.List&lt;ClipperLib2.Point64&gt;&gt;(cutters).Items[0]).Items[1]" />
+        <watch expression="new System.Collections.Generic.ICollectionDebugView&lt;ClipperLib2.Point64&gt;(new System.Collections.Generic.ICollectionDebugView&lt;System.Collections.Generic.List&lt;ClipperLib2.Point64&gt;&gt;(cutters).Items[0]).Items[2]" />
+        <watch expression="new System.Collections.Generic.ICollectionDebugView&lt;ClipperLib2.Point64&gt;(new System.Collections.Generic.ICollectionDebugView&lt;System.Collections.Generic.List&lt;ClipperLib2.Point64&gt;&gt;(cutters).Items[0]).Items[3]" />
       </configuration>
     </watches-manager>
   </component>

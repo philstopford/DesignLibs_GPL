@@ -430,18 +430,17 @@ public static partial class GeoWrangler
         {
             case > 0 when !abort:
             {
+                if (((newEdges[0][0].X == -40 * scaling) && (newEdges[0][0].Y == 30 * scaling)) || ((newEdges[0][1].X == -40 * scaling) && (newEdges[0][1].Y == 30 * scaling)))
+                {
+                    int hold = 1;
+                }
                 // Turn the new edges into cutters and slice. Not terribly elegant and we're relying on rounding to squash notches later.
                 ClipperOffset co = new();
                 co.AddPaths(newEdges, JoinType.Miter, EndType.Square);
 
-                Paths cutters = ClipperFunc.Paths(co.Execute(1.0));
+                Paths cutters = ClipperFunc.Paths(co.Execute(40.0));
                 
                 c.Clear();
-
-                cutters[0][0]= new Point64(100001,200001);
-                cutters[0][1]= new Point64(99999,200001);
-                cutters[0][2]= new Point64(99999,-1);
-                cutters[0][3]= new Point64(100001,-1);
                 
                 c.AddSubject(lPoly);
 

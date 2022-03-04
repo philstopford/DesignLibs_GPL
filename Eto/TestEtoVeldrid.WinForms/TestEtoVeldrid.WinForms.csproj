@@ -6,12 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Eto.Veldrid\src\Eto.Veldrid.WinForms\Eto.Veldrid.WinForms.csproj" />
+    <ProjectReference Include="..\..\..\Eto\src\Eto.WinForms\Eto.WinForms.csproj" />
     <ProjectReference Include="..\TestEtoVeldrid\TestEtoVeldrid.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Eto.Platform.Windows" Version="2.6.1-ci-20220104.1651622530" />
-    <PackageReference Include="Eto.Veldrid.WinForms" Version="0.1.0" />
   </ItemGroup>
 
   <ItemGroup>

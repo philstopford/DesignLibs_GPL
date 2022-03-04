@@ -18,12 +18,8 @@
     <DefineConstants>TRACE;NOVELDRID</DefineConstants>
   </PropertyGroup>
 
-
   <ItemGroup>
-    <PackageReference Include="Eto.Platform.Gtk" Version="2.6.1-ci-20220104.1651622530" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\..\..\Eto\src\Eto.Gtk\Eto.Gtk.csproj" />
     <ProjectReference Include="..\TestEtoViewport\TestEtoViewport.csproj" />
   </ItemGroup>
   

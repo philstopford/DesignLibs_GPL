@@ -13,10 +13,11 @@
 
   <ItemGroup>
     <PackageReference Include="Eto.Platform.Gtk" Version="2.6.1-ci-20220104.1651622530" />
-    <PackageReference Include="Eto.Veldrid.Gtk" Version="0.1.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Eto.Veldrid\src\Eto.Veldrid.Gtk\Eto.Veldrid.Gtk.csproj" />
+    <ProjectReference Include="..\..\..\Eto\src\Eto.Gtk\Eto.Gtk.csproj" />
     <ProjectReference Include="..\TestEtoVeldrid\TestEtoVeldrid.csproj" />
   </ItemGroup>
   

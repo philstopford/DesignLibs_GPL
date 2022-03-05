@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using ClipperLib2;
+﻿using ClipperLib2;
 using geoLib;
 using geoWrangler;
 using geoCoreLib;

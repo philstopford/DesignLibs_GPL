@@ -11381,68 +11381,29 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/ClipperLibTest/Clipper1Test.cs</url>
-          <line>86</line>
+          <line>117</line>
           <properties documentPath="D:\development\git\DesignLibs_GPL\ClipperLibTest\Clipper1Test.cs" initialLine="46" containingFunctionPresentation="method 'test3'">
             <startOffsets>
-              <option value="2402" />
+              <option value="3293" />
             </startOffsets>
             <endOffsets>
-              <option value="2403" />
+              <option value="3294" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="51" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/decompositionTest/Program.cs</url>
-          <line>101</line>
-          <properties documentPath="D:\development\git\DesignLibs_GPL\decompositionTest\Program.cs" initialLine="101" containingFunctionPresentation="method 'partOne'">
-            <startOffsets>
-              <option value="2706" />
-            </startOffsets>
-            <endOffsets>
-              <option value="2807" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="54" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/ClipperLibTest/Clipper1Test.cs</url>
-          <line>50</line>
-          <properties documentPath="D:\development\git\DesignLibs_GPL\ClipperLibTest\Clipper1Test.cs" initialLine="47" containingFunctionPresentation="method 'test4'">
-            <startOffsets>
-              <option value="1467" />
-            </startOffsets>
-            <endOffsets>
-              <option value="1468" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="58" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/ClipperLibTest/Clipper2Test.cs</url>
-          <line>48</line>
+          <line>78</line>
           <properties documentPath="D:\development\git\DesignLibs_GPL\ClipperLibTest\Clipper2Test.cs" initialLine="48" containingFunctionPresentation="method 'test4'">
             <startOffsets>
-              <option value="1319" />
+              <option value="2109" />
             </startOffsets>
             <endOffsets>
-              <option value="1320" />
+              <option value="2110" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="59" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/decompositionTest/Program.cs</url>
-          <line>103</line>
-          <properties documentPath="D:\development\git\DesignLibs_GPL\decompositionTest\Program.cs" initialLine="103" containingFunctionPresentation="method 'partOne'">
-            <startOffsets>
-              <option value="2817" />
-            </startOffsets>
-            <endOffsets>
-              <option value="2842" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="63" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

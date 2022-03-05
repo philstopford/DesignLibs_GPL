@@ -9,7 +9,44 @@ using Paths64 = List<List<Point64>>;
 public static class Clipper2Test
 {
     const double keyhole_sizing = 500;
-    
+
+    public static void test4()
+    {
+        Path64 lPoly = new()
+        {
+            new Point64(200000, 0),
+            new Point64(200000, 1100000),
+            new Point64(1000000, 1100000),
+            new Point64(1000000, 800000),
+            new Point64(800000, 800000),
+            new Point64(800000, 0),
+            new Point64(200000, 0)
+        };
+
+        Paths64 t = new()
+        {
+            new Path64()
+            {
+                new Point64(800000, 800000),
+                new Point64(800000, 1100000)
+            }
+        };
+        
+        // Turn the new edges into cutters and slice. Not terribly elegant and we're relying on rounding to squash notches later.
+        ClipperOffset co = new();
+        co.AddPaths(t, JoinType.Miter, EndType.Square);
+
+        Paths64 cutters = ClipperFunc.Paths(co.Execute(2.0));
+
+        Clipper c = new();
+
+        c.AddSubject(lPoly);
+
+        // Take first cutter only - we only cut once, no matter how many potential cutters we have.
+        c.AddClip(cutters[0]);
+        Paths64 f = new();
+        c.Execute(ClipType.Difference, FillRule.EvenOdd, f);
+    }
     public static void test3()
     {
         Path64 lPoly = new Path64() {

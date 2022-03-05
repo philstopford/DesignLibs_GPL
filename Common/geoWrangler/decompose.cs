@@ -248,6 +248,8 @@ public static partial class GeoWrangler
     {
         Path lPoly = pathFromPoint(pClockwiseAndReorder(_poly), scaling);
 
+        lPoly = close(lPoly);
+
         switch (_poly.Length)
         {
             case 5 when orthogonal(stripTerminators(_poly, false), angularTolerance):
@@ -327,7 +329,7 @@ public static partial class GeoWrangler
             {
                 continue;
             }
-
+            
             {
                 int pCount_ = p.Count;
                 for (int p_ = pCount_ - 1; p_ >= 0; p_--)
@@ -438,7 +440,7 @@ public static partial class GeoWrangler
                 ClipperOffset co = new();
                 co.AddPaths(newEdges, JoinType.Miter, EndType.Square);
 
-                Paths cutters = ClipperFunc.Paths(co.Execute(40.0));
+                Paths cutters = ClipperFunc.Paths(co.Execute(2.0));
                 
                 c.Clear();
                 

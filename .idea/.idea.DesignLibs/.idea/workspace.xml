@@ -605,6 +605,7 @@
     <setting file="file://$PROJECT_DIR$/Common/Burkardt/Sobol/SobolDataLarge.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/198a6261cebc324728dcc4c178edc5f2894123f711722c80e8557cbfd27651/ThrowHelper.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BurkhardtTest/FEM/FEM1DBVPTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/16e6dcaab0be4156ad31af88b1ed8700a20270/7d/4ddbb26e/Buffer.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BurkhardtTest/FEM/FEM2DBVPLinearTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BurkhardtTest/Sphere/SphereTriangleMonteCarloTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Common/Burkardt/Sphere/LebedevRule.cs" root0="FORCE_HIGHLIGHTING" />
@@ -11375,80 +11376,73 @@
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/partitionTest/Program.cs</url>
           <line>104</line>
-          <properties documentPath="D:\development\git\DesignLibs_GPL\partitionTest\Program.cs" initialLine="104" containingFunctionPresentation="method 'partOne'">
-            <startOffsets>
-              <option value="2773" />
-            </startOffsets>
-            <endOffsets>
-              <option value="2874" />
-            </endOffsets>
-          </properties>
+          <properties documentPath="D:\development\git\DesignLibs_GPL\partitionTest\Program.cs" initialLine="104" containingFunctionPresentation="method 'partOne'" />
           <option name="timeStamp" value="46" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Common/geoWrangler/decompose.cs</url>
-          <line>220</line>
-          <properties documentPath="D:\development\git\DesignLibs_GPL\Common\geoWrangler\decompose.cs" initialLine="220" containingFunctionPresentation="method 'pRectangular_decomposition'">
-            <startOffsets>
-              <option value="7023" />
-            </startOffsets>
-            <endOffsets>
-              <option value="7161" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="48" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Common/geoWrangler/decompose.cs</url>
-          <line>262</line>
-          <properties documentPath="D:\development\git\DesignLibs_GPL\Common\geoWrangler\decompose.cs" initialLine="262" containingFunctionPresentation="method 'decompose_poly_to_rectangles'">
-            <startOffsets>
-              <option value="9032" />
-            </startOffsets>
-            <endOffsets>
-              <option value="9055" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="49" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Common/geoWrangler/decompose.cs</url>
-          <line>279</line>
-          <properties documentPath="D:\development\git\DesignLibs_GPL\Common\geoWrangler\decompose.cs" initialLine="279" containingFunctionPresentation="method 'decompose_poly_to_rectangles'">
-            <startOffsets>
-              <option value="9414" />
-            </startOffsets>
-            <endOffsets>
-              <option value="9424" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="50" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/ClipperLibTest/Clipper1Test.cs</url>
-          <line>46</line>
+          <line>86</line>
           <properties documentPath="D:\development\git\DesignLibs_GPL\ClipperLibTest\Clipper1Test.cs" initialLine="46" containingFunctionPresentation="method 'test3'">
             <startOffsets>
-              <option value="1118" />
+              <option value="2402" />
             </startOffsets>
             <endOffsets>
-              <option value="1119" />
+              <option value="2403" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="51" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/ClipperLibTest/Clipper2Test.cs</url>
-          <line>45</line>
-          <properties documentPath="D:\development\git\DesignLibs_GPL\ClipperLibTest\Clipper2Test.cs" initialLine="45" containingFunctionPresentation="method 'test3'">
+          <url>file://$PROJECT_DIR$/decompositionTest/Program.cs</url>
+          <line>101</line>
+          <properties documentPath="D:\development\git\DesignLibs_GPL\decompositionTest\Program.cs" initialLine="101" containingFunctionPresentation="method 'partOne'">
             <startOffsets>
-              <option value="1035" />
+              <option value="2706" />
             </startOffsets>
             <endOffsets>
-              <option value="1036" />
+              <option value="2807" />
             </endOffsets>
           </properties>
-          <option name="timeStamp" value="52" />
+          <option name="timeStamp" value="54" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/ClipperLibTest/Clipper1Test.cs</url>
+          <line>50</line>
+          <properties documentPath="D:\development\git\DesignLibs_GPL\ClipperLibTest\Clipper1Test.cs" initialLine="47" containingFunctionPresentation="method 'test4'">
+            <startOffsets>
+              <option value="1467" />
+            </startOffsets>
+            <endOffsets>
+              <option value="1468" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="58" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/ClipperLibTest/Clipper2Test.cs</url>
+          <line>48</line>
+          <properties documentPath="D:\development\git\DesignLibs_GPL\ClipperLibTest\Clipper2Test.cs" initialLine="48" containingFunctionPresentation="method 'test4'">
+            <startOffsets>
+              <option value="1319" />
+            </startOffsets>
+            <endOffsets>
+              <option value="1320" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="59" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/decompositionTest/Program.cs</url>
+          <line>103</line>
+          <properties documentPath="D:\development\git\DesignLibs_GPL\decompositionTest\Program.cs" initialLine="103" containingFunctionPresentation="method 'partOne'">
+            <startOffsets>
+              <option value="2817" />
+            </startOffsets>
+            <endOffsets>
+              <option value="2842" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="63" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

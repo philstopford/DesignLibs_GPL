@@ -10,6 +10,37 @@ public static class Clipper1Test
 {
     const double keyhole_sizing = 500;
 
+    public static void test5()
+    {
+        Path lPoly = new()
+        {
+            new IntPoint(200000, 0),
+            new IntPoint(200000, 1100000),
+            new IntPoint(1000000, 1100000),
+            new IntPoint(1000000, 800000),
+            new IntPoint(800000, 800000),
+            new IntPoint(800000, 0),
+            new IntPoint(200000, 0)
+        };
+
+        Path t = new()
+        {
+            new IntPoint(0, 0),
+            new IntPoint(0, 2000000),
+            new IntPoint(2000000, 2000000),
+            new IntPoint(2000000, 0),
+            new IntPoint(0, 0)
+        };
+
+        Clipper c = new Clipper();
+        c.PreserveCollinear = true;
+        c.StrictlySimple = false;
+        c.AddPath(lPoly, PolyType.ptSubject, true);
+        c.AddPath(t, PolyType.ptClip, true);
+
+        Paths solution = new();
+        c.Execute(ClipType.ctIntersection, solution);
+    }
     public static void test4()
     {
         Path lPoly = new()

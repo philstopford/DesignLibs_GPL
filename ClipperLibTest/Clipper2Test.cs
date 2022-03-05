@@ -10,6 +10,36 @@ public static class Clipper2Test
 {
     const double keyhole_sizing = 500;
 
+    public static void test5()
+    {
+        Path64 lPoly = new()
+        {
+            new Point64(200000, 0),
+            new Point64(200000, 1100000),
+            new Point64(1000000, 1100000),
+            new Point64(1000000, 800000),
+            new Point64(800000, 800000),
+            new Point64(800000, 0),
+            new Point64(200000, 0)
+        };
+
+        Path64 t = new()
+        {
+            new Point64(0, 0),
+            new Point64(0, 2000000),
+            new Point64(2000000, 2000000),
+            new Point64(2000000, 0),
+            new Point64(0, 0)
+        };
+
+        Clipper c = new Clipper();
+        c.AddSubject(lPoly);
+        c.AddClip(t);
+
+        Paths64 solution = new();
+        c.Execute(ClipType.Intersection, FillRule.EvenOdd, solution);
+    }
+    
     public static void test4()
     {
         Path64 lPoly = new()

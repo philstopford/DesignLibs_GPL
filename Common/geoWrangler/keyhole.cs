@@ -245,7 +245,7 @@ public static partial class GeoWrangler
                 if (cutPathIndex != -1)
                 {
                     // Offset our cutter and assign to the clipping scenario.
-                    Paths sPaths = pInflateEdge(clipped[cutPathIndex], customSizing);
+                    Paths sPaths = pCreateCutter(clipped[cutPathIndex], customSizing);
 
                     extraCutters.AddRange(new Paths(sPaths));
                 }
@@ -297,36 +297,16 @@ public static partial class GeoWrangler
         }
     }
 
-    private static Paths pInflateEdge(Path edge, double customSizing)
+    private static Paths pCreateCutter(Path edge, double customSizing)
     {
         customSizing = customSizing switch
         {
             0 => keyhole_sizing,
             _ => customSizing
         };
-        // Force clockwise, which should get us something consistent to work with.
 
-        double dTmp0 = pDistanceBetweenPoints(new Point64(0, 0), edge[0]);
-        double dTmp1 = pDistanceBetweenPoints(new Point64(0, 0), edge[1]);
-
-        if (dTmp1 < dTmp0)
-        {
-            edge.Reverse();
-        }
-
-        // Get sorted out for dx, dy and normalization.
-        double dx = edge[0].X - edge[1].X;
-        double dy = edge[0].Y - edge[1].Y;
-
-        double length = Math.Sqrt(Utils.myPow(dx, 2) + Utils.myPow(dy, 2));
-
-        dx /= length;
-        dy /= length;
-
-        // Extend the line slightly.
-        edge[0] = new Point64((long)(edge[0].X - Math.Abs(clipper_glancingContact_fudge * dx * keyhole_sizing)), (long)(edge[0].Y + Math.Abs(clipper_glancingContact_fudge * dy * keyhole_sizing)));
-        edge[1] = new Point64((long)(edge[1].X + Math.Abs(clipper_glancingContact_fudge * dx * keyhole_sizing)), (long)(edge[1].Y - Math.Abs(clipper_glancingContact_fudge * dy * keyhole_sizing)));
-
+        edge = pExtendEdge(edge, clipper_glancingContact_fudge * keyhole_sizing);
+        
         ClipperOffset co = new();
         co.AddPath(edge, JoinType.Square, EndType.Square);
         Paths sPaths = ClipperFunc.Paths(co.Execute(2 * customSizing));

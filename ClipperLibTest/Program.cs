@@ -5,6 +5,9 @@ using ClipperLib2Test;
 
 Console.WriteLine("Comparison tests for Clipper 1 and Clipper 2");
 
+Clipper1Test.zFillCallbackTest();
+Clipper2Test.zFillCallbackTest();
+
 Clipper1Test.coincident_openPathTest();
 Clipper2Test.coincident_openPathTest();
 

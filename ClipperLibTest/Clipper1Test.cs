@@ -10,6 +10,43 @@ public static class Clipper1Test
 {
     const double keyhole_sizing = 500;
 
+    private static void zFillTest(IntPoint bot1, IntPoint top1, IntPoint bot2, IntPoint top2, ref IntPoint pt)
+    {
+        pt.Z = -1;
+    }
+    public static void zFillCallbackTest()
+    {
+        Path outer = new()
+        {
+            new(-1000, -1000),
+            new(-1000, 1000),
+            new(1000, 1000),
+            new(1000, -1000),
+            new(100, -1000),
+            new(-100, -1000),
+        };
+        
+        Path cutter = new()
+        {
+            new(-100, -1100),
+            new(-100, -1000),
+            new(-100, -900),
+            new(100, -900),
+            new(100, -1000),
+            new(100, -1100),
+        };
+
+        Clipper c = new();
+
+        c.ZFillFunction = zFillTest;
+
+        c.AddPath(outer, PolyType.ptSubject, true);
+        c.AddPath(cutter, PolyType.ptClip, true);
+
+        Paths solution = new();
+        c.Execute(ClipType.ctIntersection, solution);
+    }
+    
     public static void coincident_openPathTest()
     {
         Path lPoly = new()

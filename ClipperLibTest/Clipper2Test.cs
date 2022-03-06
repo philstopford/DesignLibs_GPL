@@ -34,7 +34,7 @@ public static class Clipper2Test
 
         Clipper c = new();
 
-        c.zFillFunc = zFillTest;
+        c.ZFill = zFillTest;
 
         c.AddSubject(outer);
         c.AddClip(cutter);
@@ -57,9 +57,10 @@ public static class Clipper2Test
 
         Path64 t = new()
         {
+            new Point64(200001, 1),
             new Point64(200000, 0),
             new Point64(200000, 2000000),
-            new Point64(200001, 2000000)
+            new Point64(200001, 1100000-1),
         };
 
         Clipper c = new();

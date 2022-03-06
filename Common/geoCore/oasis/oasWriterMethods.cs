@@ -358,7 +358,7 @@ public partial class oasWriter
                 switch (p.X)
                 {
                     case >= 0:
-                        i = 0;
+                        i = ((int)p.X << 4);
                         break;
                     default:
                         i = 2;

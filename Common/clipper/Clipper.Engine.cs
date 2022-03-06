@@ -1,6 +1,4 @@
-﻿#define USINGZ
-
-/*******************************************************************************
+﻿/*******************************************************************************
 * Author    :  Angus Johnson                                                   *
 * Version   :  10.0 (beta) - also known as Clipper2                            *
 * Date      :  6 March 2022                                                    *
@@ -157,7 +155,7 @@ namespace ClipperLib2
 #if USINGZ
     public delegate void ZCallback(Point64 bot1, Point64 top1,
 				Point64 bot2, Point64 top2, ref Point64 intersectPt);
-    public ZCallback zFillFunc { get; set; }
+    public ZCallback ZFill { get; set; }
 #endif
 
 		public Clipper()
@@ -177,12 +175,25 @@ namespace ClipperLib2
 
 		private void SetZ(ref Point64 intersectPt, Active e1, Active e2)
 		{
-			if (zFillFunc == null) return;
-			else if (XYCoordsEqual(intersectPt, e1.bot)) intersectPt.Z = e1.bot.Z;
-			else if (XYCoordsEqual(intersectPt, e2.bot)) intersectPt.Z = e2.bot.Z;
-			else if (XYCoordsEqual(intersectPt, e1.top)) intersectPt.Z = e1.top.Z;
-			else if (XYCoordsEqual(intersectPt, e2.top)) intersectPt.Z = e2.top.Z;
-			else zFillFunc(e1.bot, e1.top, e2.bot, e2.top, ref intersectPt);
+			if (ZFill == null) return;
+			//prioritize subject vertices over clip vertices
+			//and pass the subject vertices before clip vertices in the callback
+			Active e3, e4;
+			if (e1.local_min.polytype == PathType.Subject) 
+			{
+				e3 = e1;
+				e4 = e2;
+			}
+      else 
+			{ 
+				e3 = e2;
+				e4 = e1;
+			}
+			if (XYCoordsEqual(intersectPt, e3.bot)) intersectPt.Z = e3.bot.Z;
+			else if (XYCoordsEqual(intersectPt, e3.top)) intersectPt.Z = e3.top.Z;
+			else if (XYCoordsEqual(intersectPt, e4.bot)) intersectPt.Z = e4.bot.Z;
+			else if (XYCoordsEqual(intersectPt, e4.top)) intersectPt.Z = e4.top.Z;
+			else ZFill(e3.bot, e3.top, e4.bot, e4.top, ref intersectPt);
 		}
 #endif
 
@@ -377,14 +388,6 @@ namespace ClipperLib2
 				return ae.vertex_top.next;
 		}
 
-		static Vertex NextVertex(Vertex op, bool going_forward)
-		{
-			if (going_forward)
-				return op.next;
-			else
-				return op.prev;
-		}
-
 		static bool IsClockwise(OutPt op)
 		{
 			return InternalClipperFunc.CrossProduct(op.prev.pt, op.pt, op.next.pt) >= 0;
@@ -393,11 +396,6 @@ namespace ClipperLib2
 		static bool IsMaxima(Active ae)
 		{
 			return ((ae.vertex_top.flags & VertexFlags.LocalMax) != VertexFlags.None);
-		}
-
-		static bool IsMaxima(Vertex vert)
-		{
-			return ((vert.flags & VertexFlags.LocalMax) != VertexFlags.None);
 		}
 
 		private Active GetMaximaPair(Active ae)
@@ -2393,10 +2391,12 @@ namespace ClipperLib2
 	{
 		private const double defaultScale = 100.0;
 		private readonly double _scale;
+		private readonly double _invScale;
 		public ClipperD(double scale = 0)
 		{
 			if (scale == 0) this._scale = defaultScale;
 			else this._scale = scale;
+			_invScale = 1 / _scale;
 		}
 
 		public new void AddPath(Path64 _, PathType __, bool ___) =>
@@ -2447,11 +2447,10 @@ namespace ClipperLib2
 		public bool Execute(ClipType clipType, FillRule fillRule,
 			PathsD solution_closed, PathsD solution_open)
 		{
-			double invScale = 1 / _scale;
 			Paths64 sol_closed = new Paths64(), sol_open = new Paths64();
 			bool res = base.Execute(clipType, fillRule, sol_closed, sol_open);
-			ClipperFunc.ScalePaths(sol_closed, invScale, ref solution_closed);
-			ClipperFunc.ScalePaths(sol_open, invScale, ref solution_open);
+			ClipperFunc.ScalePaths(sol_closed, _invScale, ref solution_closed);
+			ClipperFunc.ScalePaths(sol_open, _invScale, ref solution_open);
 			return res;
 		}
 
@@ -2463,8 +2462,7 @@ namespace ClipperLib2
 		public bool Execute(ClipType clipType, FillRule fillRule, PolyTreeD polytree, PathsD openPaths)
 		{
 			polytree.Clear();
-			polytree._scale = _scale;
-			double invScale = 1 / _scale;
+			(polytree as PolyPathD).Scale = _scale;
 			openPaths.Clear();
 			Paths64 oPaths = new Paths64();
 			bool success = false;
@@ -2476,7 +2474,7 @@ namespace ClipperLib2
 			catch { }
 			CleanUp();
 			if (oPaths.Count > 0)
-				ClipperFunc.ScalePaths(oPaths, invScale, ref openPaths);
+				ClipperFunc.ScalePaths(oPaths, _invScale, ref openPaths);
 			return success;
 		}
 
@@ -2537,14 +2535,14 @@ namespace ClipperLib2
 
 	public class PolyPathD : PolyPathBase
 	{
-		internal double _scale;
+		internal double Scale { get; set; }
 		public PathD Polygon { get; private set; }
 		public PolyPathD(PolyPathBase parent = null) : base(parent) { }
 		internal override PolyPathBase AddChild(Path64 p)
 		{
 			PolyPathBase newChild = new PolyPathD(this);
-			(newChild as PolyPathD)._scale = _scale;
-			(newChild as PolyPathD).Polygon = ClipperFunc.ScalePath(p, 1/_scale);
+			(newChild as PolyPathD).Scale = Scale;
+			(newChild as PolyPathD).Polygon = ClipperFunc.ScalePath(p, 1/Scale);
 			_childs.Add(newChild);
 			return newChild;
 		}
@@ -2554,7 +2552,7 @@ namespace ClipperLib2
 
 	public class PolyTreeD : PolyPathD
 	{
-		public double Scale { get { return _scale; } }
+		public new double Scale { get => base.Scale; }
 	}
 
 	public class ClipperLibException : Exception

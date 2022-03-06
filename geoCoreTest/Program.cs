@@ -11,9 +11,9 @@ internal class Program
 
     private static void Main(string[] args)
     {
-        //test_basic();
-        //test_cellrefarray_basic();
-        // test_cellrefarray_nested();
+        test_1();
+        test_cellrefarray_basic();
+        test_cellrefarray_nested();
         test_cell_export();
         test_cell_export_complex();
     }

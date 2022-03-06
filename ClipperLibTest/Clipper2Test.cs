@@ -10,7 +10,7 @@ public static class Clipper2Test
 {
     const double keyhole_sizing = 500;
 
-    public static void test5()
+    public static void coincident_openPathTest()
     {
         Path64 lPoly = new()
         {
@@ -25,22 +25,50 @@ public static class Clipper2Test
 
         Path64 t = new()
         {
-            new Point64(0, 0),
-            new Point64(0, 2000000),
-            new Point64(2000000, 2000000),
-            new Point64(2000000, 0),
-            new Point64(0, 0)
+            new Point64(200000, 0),
+            new Point64(200000, 2000000),
+            new Point64(200001, 2000000)
         };
 
-        Clipper c = new Clipper();
-        c.AddSubject(lPoly);
-        c.AddClip(t);
+        Clipper c = new();
+        c.AddClip(lPoly);
+        c.AddOpenSubject(t);
 
+        Paths64 open = new();
         Paths64 solution = new();
-        c.Execute(ClipType.Intersection, FillRule.EvenOdd, solution);
+        c.Execute(ClipType.Intersection, FillRule.EvenOdd, solution, open);
+        
+        Path64 t2 = new()
+        {
+            new Point64(200000, 2000000),
+            new Point64(200000, 0),
+            new Point64(200001, 0),
+        };
+
+        Clipper c2 = new();
+        c2.AddClip(lPoly);
+        c2.AddOpenSubject(t2);
+
+        Paths64 open2 = new();
+        Paths64 solution2 = new();
+        c2.Execute(ClipType.Intersection, FillRule.EvenOdd, solution2, open2);
+        
+        Path64 t3 = new()
+        {
+            new Point64(200000, 0),
+            new Point64(900000, 0),
+        };
+
+        Clipper c3 = new();
+        c3.AddClip(lPoly);
+        c3.AddOpenSubject(t3);
+
+        Paths64 open3 = new();
+        Paths64 solution3 = new();
+        c3.Execute(ClipType.Intersection, FillRule.EvenOdd, solution3, open3);
     }
     
-    public static void test4()
+    public static void keyHole_test2()
     {
         Path64 lPoly = new()
         {
@@ -77,7 +105,7 @@ public static class Clipper2Test
         Paths64 f = new();
         c.Execute(ClipType.Difference, FillRule.EvenOdd, f);
     }
-    public static void test3()
+    public static void openPath_clipTest1()
     {
         Path64 lPoly = new Path64() {
         new Point64(0,0),
@@ -111,9 +139,8 @@ public static class Clipper2Test
         c.Execute(ClipType.Intersection, FillRule.EvenOdd, pt, p);
  
     }
-
-
-    public static void test2()
+    
+    public static void openPath_clipTest2()
     {
         Paths64 rays2 = new()
         {
@@ -150,7 +177,7 @@ public static class Clipper2Test
         c.Execute(ClipType.Intersection, FillRule.EvenOdd, pt, solution);
     }
     
-    public static void test1()
+    public static void keyHole_test1()
     {
         Console.WriteLine("Clipper2 Test1");
         Path64 outer = new()

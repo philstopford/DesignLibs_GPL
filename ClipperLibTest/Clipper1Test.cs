@@ -10,7 +10,7 @@ public static class Clipper1Test
 {
     const double keyhole_sizing = 500;
 
-    public static void test5()
+    public static void coincident_openPathTest()
     {
         Path lPoly = new()
         {
@@ -25,23 +25,45 @@ public static class Clipper1Test
 
         Path t = new()
         {
-            new IntPoint(0, 0),
-            new IntPoint(0, 2000000),
-            new IntPoint(2000000, 2000000),
-            new IntPoint(2000000, 0),
-            new IntPoint(0, 0)
+            new IntPoint(200000, 0),
+            new IntPoint(200000, 2000000),
         };
 
-        Clipper c = new Clipper();
-        c.PreserveCollinear = true;
-        c.StrictlySimple = false;
-        c.AddPath(lPoly, PolyType.ptSubject, true);
-        c.AddPath(t, PolyType.ptClip, true);
+        Clipper c = new()
+        {
+            PreserveCollinear = true,
+            StrictlySimple = false
+        };
+        c.AddPath(lPoly, PolyType.ptClip, true);
+        c.AddPath(t, PolyType.ptSubject, false);
 
-        Paths solution = new();
-        c.Execute(ClipType.ctIntersection, solution);
+        PolyTree pt = new();
+        c.Execute(ClipType.ctIntersection, pt);
+        Paths solution = Clipper.OpenPathsFromPolyTree(pt);
+        
+        Path t2 = new()
+        {
+            new IntPoint(200000, 2000000),
+            new IntPoint(200000, 0),
+            new IntPoint(200001, 1),
+        };
+
+        Clipper c2 = new()
+        {
+            PreserveCollinear = true,
+            StrictlySimple = false
+        };
+        
+        c2.AddPath(lPoly, PolyType.ptClip, true);
+        c2.AddPath(t2, PolyType.ptSubject, false);
+
+        PolyTree pt2 = new();
+        c2.Execute(ClipType.ctIntersection, pt2);
+        Paths solution2 = Clipper.OpenPathsFromPolyTree(pt2);
+        
+        
     }
-    public static void test4()
+    public static void keyHole_test2()
     {
         Path lPoly = new()
         {
@@ -81,9 +103,9 @@ public static class Clipper1Test
         c.Execute(ClipType.ctDifference, f, PolyFillType.pftEvenOdd, PolyFillType.pftEvenOdd);
     }
     
-    public static void test3()
+    public static void openPath_clipTest1()
     {
-        Path lPoly = new Path() {
+        Path lPoly = new() {
         new IntPoint(0,0),
         new IntPoint(0,200000),
         new IntPoint(200000,200000),
@@ -117,7 +139,7 @@ public static class Clipper1Test
  
     }
 
-    public static void test1()
+    public static void keyHole_test1()
     {
         Console.WriteLine("Clipper1 Test1");
         Path outer = new()
@@ -152,7 +174,7 @@ public static class Clipper1Test
         
     }
 
-    public static void test2()
+    public static void openPath_clipTest2()
     {
         Paths rays = new()
         {

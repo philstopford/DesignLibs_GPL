@@ -102,7 +102,7 @@ public static class Clipper2Test
 
         Clipper c = new();
 
-        c.AddSubject(t, true);
+        c.AddOpenSubject(t);
         c.AddClip(lPoly);
 
         PolyTree pt = new();
@@ -143,7 +143,7 @@ public static class Clipper2Test
         };
 
         Clipper c = new Clipper();
-        c.AddSubject(rays, true);
+        c.AddOpenSubject(rays);
         c.AddClip(collisionPaths);
         PolyTree pt = new PolyTree();
         Paths64 solution = new();

@@ -1,7 +1,8 @@
-﻿/*******************************************************************************
+﻿#define USINGZ
+/*******************************************************************************
 * Author    :  Angus Johnson                                                   *
 * Version   :  10.0 (release candidate 1) - also known as Clipper2             *
-* Date      :  27 February 2022                                                *
+* Date      :  2 March 2022                                                    *
 * Website   :  http://www.angusj.com                                           *
 * Copyright :  Angus Johnson 2010-2022                                         *
 * Purpose   :  Core structures and functions for the Clipper Library           *
@@ -12,38 +13,77 @@ using System;
 
 namespace ClipperLib2
 {
+
   public struct Point64
   {
     public long X;
     public long Y;
+
+#if USINGZ
     public long Z;
+
+  public Point64(Point64 pt)
+    {
+      X = pt.X;
+      Y = pt.Y;
+      Z = pt.Z;
+    }
+
+    public Point64(long x, long y, long z = 0)
+    {
+      X = x;
+      Y = y;
+      Z = z;
+    }
+
+    public Point64(double x, double y, double z = 0.0)
+    {
+      X = (long)Math.Round(x);
+      Y = (long)Math.Round(y);
+      Z = (long)Math.Round(z);
+    }
+
+    public Point64(PointD pt)
+    {
+      X = (long)Math.Round(pt.x);
+      Y = (long)Math.Round(pt.y);
+      Z = (long)Math.Round(pt.z);
+    }
+
+    public static bool operator ==(Point64 lhs, Point64 rhs)
+    {
+      return lhs.X == rhs.X && lhs.Y == rhs.Y && lhs.Z == rhs.Z;
+    }
+
+    public static bool operator !=(Point64 lhs, Point64 rhs)
+    {
+      return lhs.X != rhs.X || lhs.Y != rhs.Y || lhs.Z != rhs.Z;
+    }
+
+#else
 
     public Point64(Point64 pt)
     {
       this.X = pt.X;
       this.Y = pt.Y;
-      this.Z = pt.Z;
     }
 
-    public Point64(long x, long y, long z = 0)
+    public Point64(long x, long y)
     {
       this.X = x;
       this.Y = y;
-      this.Z = z;
     }
 
-    public Point64(double x, double y, double z = 0)
+    public Point64(double x, double y)
     {
       this.X = (long)Math.Round(x);
       this.Y = (long)Math.Round(y);
-      this.Z = (long)Math.Round(z);
     }
 
     public Point64(PointD pt)
     {
       this.X = (long)Math.Round(pt.x);
       this.Y = (long)Math.Round(pt.y);
-      this.Z = (long)Math.Round(pt.z);
     }
 
     public static bool operator ==(Point64 lhs, Point64 rhs)
@@ -56,6 +96,7 @@ namespace ClipperLib2
       return lhs.X != rhs.X || lhs.Y != rhs.Y;
     }
 
+#endif
     public override bool Equals(object obj)
     {
       if (obj is Point64 p)
@@ -76,20 +117,22 @@ namespace ClipperLib2
   {
     public double x;
     public double y;
+
+#if USINGZ
     public double z;
 
     public PointD(PointD pt)
     {
-      this.x = pt.x;
-      this.y = pt.y;
-      this.z = pt.z;
+      x = pt.x;
+      y = pt.y;
+      z = pt.z;
     }
 
     public PointD(Point64 pt)
     {
-      this.x = pt.X;
-      this.y = pt.Y;
-      this.z = pt.Z;
+      x = pt.X;
+      y = pt.Y;
+      z = pt.Z;
     }
 
     public PointD(long x, long y, long z = 0)
@@ -105,6 +148,34 @@ namespace ClipperLib2
       this.y = y;
       this.z = z;
     }
+
+#else
+
+    public PointD(PointD pt)
+    {
+      this.x = pt.x;
+      this.y = pt.y;
+    }
+
+    public PointD(Point64 pt)
+    {
+      this.x = pt.X;
+      this.y = pt.Y;
+    }
+
+    public PointD(long x, long y)
+    {
+      this.x = x;
+      this.y = y;
+    }
+
+    public PointD(double x, double y)
+    {
+      this.x = x;
+      this.y = y;
+    }
+
+#endif
 
     private static bool IsAlmostZero(double value)
     {

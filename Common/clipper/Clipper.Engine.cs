@@ -1,9 +1,9 @@
-﻿#define use_xyz
+﻿#define USINGZ
 
 /*******************************************************************************
 * Author    :  Angus Johnson                                                   *
 * Version   :  10.0 (beta) - also known as Clipper2                            *
-* Date      :  4 March 2022                                                    *
+* Date      :  6 March 2022                                                    *
 * Website   :  http://www.angusj.com                                           *
 * Copyright :  Angus Johnson 2010-2022                                         *
 * Purpose   :  This is the main polygon clipping module                        *
@@ -11,7 +11,8 @@
 *              Guus Kuiper (https://www.guuskuiper.nl/) for their invaluable   *
 *              assistance in this C# Clipper port.                             *
 * License   :  http://www.boost.org/LICENSE_1_0.txt                            *
-*******************************************************************************/
+
+ *******************************************************************************/
 
 using System;
 using System.Collections.Generic;
@@ -139,11 +140,7 @@ namespace ClipperLib2
 
 	public class Clipper
 	{
-#if use_xyz
-    public delegate void ZFillCallback(Point64 bot1, Point64 top1,
-        Point64 bot2, Point64 top2, ref Point64 pt);
-    public ZFillCallback ZFillFunction { get; set; }
-#endif
+
 		private ClipType _cliptype;
 		private FillRule _fillrule;
 		private Active _actives;
@@ -157,6 +154,11 @@ namespace ClipperLib2
 		private Boolean _hasOpenPaths;
 		private int _currentLocMin;
 		private long _currentBotY;
+#if USINGZ
+    public delegate void ZCallback(Point64 bot1, Point64 top1,
+				Point64 bot2, Point64 top2, ref Point64 intersectPt);
+    public ZCallback zFillFunc { get; set; }
+#endif
 
 		public Clipper()
 		{
@@ -166,6 +168,23 @@ namespace ClipperLib2
 			_outrecList = new List<OutRec>();
 			_scanlineList = new List<long>();
 		}
+
+#if USINGZ
+		private bool XYCoordsEqual(Point64 pt1, Point64 pt2)
+    {
+			return (pt1.X == pt2.X && pt1.Y == pt2.Y);
+    }
+
+		private void SetZ(ref Point64 intersectPt, Active e1, Active e2)
+		{
+			if (zFillFunc == null) return;
+			else if (XYCoordsEqual(intersectPt, e1.bot)) intersectPt.Z = e1.bot.Z;
+			else if (XYCoordsEqual(intersectPt, e2.bot)) intersectPt.Z = e2.bot.Z;
+			else if (XYCoordsEqual(intersectPt, e1.top)) intersectPt.Z = e1.top.Z;
+			else if (XYCoordsEqual(intersectPt, e2.top)) intersectPt.Z = e2.top.Z;
+			else zFillFunc(e1.bot, e1.top, e2.bot, e2.top, ref intersectPt);
+		}
+#endif
 
 		static bool IsOdd(int val)
 		{
@@ -350,6 +369,14 @@ namespace ClipperLib2
 				return ae.vertex_top.prev;
 		}
 
+		static Vertex PrevVertex(Active ae)
+		{
+			if (IsLeftBound(ae))
+				return ae.vertex_top.prev; 
+			else
+				return ae.vertex_top.next;
+		}
+
 		static Vertex NextVertex(Vertex op, bool going_forward)
 		{
 			if (going_forward)
@@ -372,7 +399,7 @@ namespace ClipperLib2
 		{
 			return ((vert.flags & VertexFlags.LocalMax) != VertexFlags.None);
 		}
-		
+
 		private Active GetMaximaPair(Active ae)
 		{
 			Active ae2;
@@ -791,9 +818,14 @@ namespace ClipperLib2
 			}
 		}
 
-		public void AddSubject(Path64 path, bool is_open = false)
+		public void AddSubject(Path64 path)
 		{
-			AddPath(path, PathType.Subject, is_open);
+			AddPath(path, PathType.Subject, false);
+		}
+
+		public void AddOpenSubject(Path64 path)
+		{
+			AddPath(path, PathType.Subject, true);
 		}
 
 		public void AddClip(Path64 path)
@@ -813,9 +845,14 @@ namespace ClipperLib2
 			AddPathToVertexList(path, polytype, is_open);
 		}
 
-		public void AddSubject(Paths64 paths, bool is_open = false)
+		public void AddSubject(Paths64 paths)
 		{
-			AddPaths(paths, PathType.Subject, is_open);
+			AddPaths(paths, PathType.Subject, false);
+		}
+
+		public void AddOpenSubject(Paths64 paths)
+		{
+			AddPaths(paths, PathType.Subject, true);
 		}
 
 		public void AddClip(Paths64 paths)
@@ -835,8 +872,6 @@ namespace ClipperLib2
 			for (int i = 0; i < paths.Count; i++)
 				AddPathToVertexList(paths[i], polytype, is_open);
 		}
-
-
 
 		private bool IsContributingClosed(Active ae)
 		{
@@ -1022,57 +1057,49 @@ namespace ClipperLib2
 
 		private bool IsValidAelOrder(Active a1, Active a2)
 		{
-			Point64 pt;
-			Vertex op1, op2;
-			double d;
-
 			if (a2.curr_x != a1.curr_x)
 				return a2.curr_x > a1.curr_x;
 
+			Point64 pt;
 			if (a1.bot.Y < a2.bot.Y)
-				d = InternalClipperFunc.CrossProduct(a1.bot, a1.top, a2.bot);
-			else if (a2.bot.Y < a1.bot.Y)
-				d = InternalClipperFunc.CrossProduct(a2.bot, a2.top, a1.bot);
-			else d = 0.0;
+				pt = a1.bot; else
+				pt = a2.bot;
 
-			op1 = a1.vertex_top;
-			op2 = a2.vertex_top;
+			double d = InternalClipperFunc.CrossProduct(a1.top, pt, a2.top);
+			if (d < 0) return true;
+			else if (d > 0) return false;
 
-			while (d == 0)
+			//edges must be collinear to get here
+
+			//for starting open paths, place them according to
+			//the direction they're about to turn
+			if (IsOpen(a1) && !IsMaxima(a1) && (a1.bot.Y <= a2.bot.Y) &&
+				!IsSamePolyType(a1, a2) && (a1.top.Y > a2.top.Y))
+					return InternalClipperFunc.CrossProduct(
+						a1.bot, a1.top, NextVertex(a1).pt) <= 0;
+			else if (IsOpen(a2) && !IsMaxima(a2) && (a2.bot.Y <= a1.bot.Y) && 
+				!IsSamePolyType(a1, a2) && (a2.top.Y > a1.top.Y))	
+					return InternalClipperFunc.CrossProduct(
+						a2.bot, a2.top, NextVertex(a2).pt) >= 0;
+
+			bool a1IsNewEdge = !IsOpen(a1) && 
+				(a1.bot.Y <= a2.bot.Y) && PrevVertex(a1) == a1.local_min.vertex;
+			bool a2IsNewEdge = !IsOpen(a2) && 
+				(a2.bot.Y <= a1.bot.Y) && PrevVertex(a2) == a2.local_min.vertex;
+
+			if (IsHorizontal(a1))
 			{
-				if (op1.pt == op2.pt)
-				{
-					if (IsMaxima(op1) || IsMaxima(op2)) return true; // give up :)
-					pt = op1.pt;
-					op1 = NextVertex(op1, IsLeftBound(a1));
-					op2 = NextVertex(op2, IsLeftBound(a2));
-				}
-				else if (IsHorizontal(a1))
-				{
-					if (IsHorizontal(a2)) return a1.top.X < a2.top.X;
-					else return IsHeadingLeftHorz(a1);
-				}
-				else if (IsHorizontal(a2)) 
-				{ 
-					return IsHeadingRightHorz(a2); 
-				}
-                else if (op1.pt.Y >= op2.pt.Y)
-				{
-					pt = op1.pt;
-					op1 = NextVertex(op1, IsLeftBound(a1));
-				}
-				else
-				{
-					pt = op2.pt;
-					op2 = NextVertex(op2, IsLeftBound(a2));
-				}
-
-				if (op1.pt.Y > pt.Y || op2.pt.Y > pt.Y)
-					d = -1.0;
-				else //force a break to avoid an endless loop
-					d = InternalClipperFunc.CrossProduct(op1.pt, pt, op2.pt);
+				if (IsHorizontal(a2)) return a1.top.X < a2.top.X;
+				else return a1.top.X < a1.bot.X;
 			}
-			return d < 0;
+			else if (IsHorizontal(a2)) return a2.top.X > a2.bot.X;
+			//New *left edges* prefer placement to the right of collinear edges to
+			//preserve proximity with their corresponding *right edges*. *Right edges*
+			//likewise prefer left placement. With open edges and collinearity,
+			//placement is undefined.
+			else if (a2IsNewEdge) return IsLeftBound(a2);
+			else if (a1IsNewEdge) return !IsLeftBound(a1);
+			else return true; //open edge and undefined, let's stop here
 		}
 
 		private void InsertLeftEdge(Active ae)
@@ -1181,8 +1208,7 @@ namespace ClipperLib2
 				}
 
 				bool contributing;
-				InsertLeftEdge(left_bound);  ///////
-																		 //todo: further validation of position in AEL ???
+				InsertLeftEdge(left_bound);
 
 				if (IsOpen(left_bound))
 				{
@@ -1268,9 +1294,7 @@ namespace ClipperLib2
 		{
 			if (!IsOpen(ae1) && (IsFront(ae1) == IsFront(ae2)))
 				if (!FixSides(ae1)) FixSides(ae2);
-
 			OutPt op = AddOutPt(ae1, pt);
-			// AddOutPt(ae2, pt); //this may no Int64er be necessary
 
 			if (ae1.outrec == ae2.outrec)
 			{
@@ -1442,41 +1466,44 @@ namespace ClipperLib2
 			if (_hasOpenPaths && (IsOpen(ae1) || IsOpen(ae2)))
 			{
 				if (IsOpen(ae1) && IsOpen(ae2)) return;
-				Active edge_o, edge_c;
+				Active openEdge, closedEdge;
 				if (IsOpen(ae1))
 				{
-					edge_o = ae1;
-					edge_c = ae2;
+					openEdge = ae1;
+					closedEdge = ae2;
 				}
 				else
 				{
-					edge_o = ae2;
-					edge_c = ae1;
+					openEdge = ae2;
+					closedEdge = ae1;
 				}
 
 				switch (_cliptype)
 				{
 					case ClipType.Intersection:
 					case ClipType.Difference:
-						if (IsSamePolyType(edge_o, edge_c) || (Math.Abs(edge_c.wind_cnt) != 1)) return;
+						if (IsSamePolyType(openEdge, closedEdge) || (Math.Abs(closedEdge.wind_cnt) != 1)) return;
 						break;
 					case ClipType.Union:
-						if (IsHotEdge(edge_o) != ((Math.Abs(edge_c.wind_cnt) != 1) || (IsHotEdge(edge_o) != (edge_c.wind_cnt != 0)))) return;  //just works!
+						if (IsHotEdge(openEdge) != ((Math.Abs(closedEdge.wind_cnt) != 1) || (IsHotEdge(openEdge) != (closedEdge.wind_cnt != 0)))) return;  //just works!
 						break;
 					case ClipType.Xor:
-						if (Math.Abs(edge_c.wind_cnt) != 1) return;
+						if (Math.Abs(closedEdge.wind_cnt) != 1) return;
 						break;
 					case ClipType.None:
 						throw new ClipperLibException("Error in IntersectEdges - ClipType is None!");
 				}
 				//toggle contribution ...
-				if (IsHotEdge(edge_o))
+				if (IsHotEdge(openEdge))
 				{
-					AddOutPt(edge_o, pt);
-					edge_o.outrec = null;
+#if USINGZ
+					SetZ(ref pt, ae1, ae2);
+#endif
+					AddOutPt(openEdge, pt);
+					openEdge.outrec = null;
 				}
 				else
-					StartOpenPath(edge_o, pt);
+					StartOpenPath(openEdge, pt);
 				return;
 			}
 
@@ -1543,6 +1570,9 @@ namespace ClipperLib2
 			//if both edges are 'hot' ...
 			if (IsHotEdge(ae1) && IsHotEdge(ae2))
 			{
+#if USINGZ
+				SetZ(ref pt, ae1, ae2);
+#endif
 				if ((old_e1_windcnt != 0 && old_e1_windcnt != 1) || (old_e2_windcnt != 0 && old_e2_windcnt != 1) ||
 					(ae1.local_min.polytype != ae2.local_min.polytype && _cliptype != ClipType.Xor))
 				{
@@ -1564,11 +1594,17 @@ namespace ClipperLib2
 			//if one or other edge is 'hot' ...
 			else if (IsHotEdge(ae1))
 			{
+#if USINGZ
+				SetZ(ref pt, ae1, ae2);
+#endif
 				AddOutPt(ae1, pt);
 				SwapOutrecs(ae1, ae2);
 			}
 			else if (IsHotEdge(ae2))
 			{
+#if USINGZ
+				SetZ(ref pt, ae1, ae2);
+#endif
 				AddOutPt(ae2, pt);
 				SwapOutrecs(ae1, ae2);
 			}
@@ -1593,9 +1629,16 @@ namespace ClipperLib2
 
 				if (!IsSamePolyType(ae1, ae2))
 				{
+#if USINGZ
+					SetZ(ref pt, ae1, ae2);
+#endif
 					AddLocalMinPoly(ae1, ae2, pt, false, orientation_check_required);
 				}
 				else if (old_e1_windcnt == 1 && old_e2_windcnt == 1)
+				{
+#if USINGZ
+					SetZ(ref pt, ae1, ae2);
+#endif
 					switch (_cliptype)
 					{
 						case ClipType.Intersection:
@@ -1617,8 +1660,9 @@ namespace ClipperLib2
 							AddLocalMinPoly(ae1, ae2, pt, false, orientation_check_required);
 							break;
 						default:
-							break;  // delphi2cpp translation note: no warnings
+							break;
 					}
+				}
 			}
 		}
 
@@ -2359,21 +2403,34 @@ namespace ClipperLib2
 			throw new ClipperLibException("Error in ClipperD.AddPath - must use PathD parameter");
 		public new void AddPaths(Paths64 _, PathType __, bool ___) =>
 			throw new ClipperLibException("Error in ClipperD.AddPaths - must use PathsD parameter");
-		public new void AddSubject(Path64 _, bool __) =>
+		public new void AddSubject(Path64 _) =>
+			throw new ClipperLibException("Error in ClipperD.AddPaths - must use PathsD parameter");
+		public new void AddOpenSubject(Path64 _) =>
 			throw new ClipperLibException("Error in ClipperD.AddPaths - must use PathsD parameter");
 
-		public void AddSubject(PathD path, bool is_open = false)
+		public void AddSubject(PathD path)
 		{
-			base.AddPath(ClipperFunc.ScalePath(path, _scale), PathType.Subject, is_open);
+			base.AddPath(ClipperFunc.ScalePath(path, _scale), PathType.Subject, false);
 		}
+
+		public void AddOpenSubject(PathD path)
+		{
+			base.AddPath(ClipperFunc.ScalePath(path, _scale), PathType.Subject, true);
+		}
+
 		public void AddClip(PathD path)
 		{
 			base.AddPath(ClipperFunc.ScalePath(path, _scale), PathType.Clip, false);
 		}
 
-		public void AddSubject(PathsD paths, bool is_open = false)
+		public void AddSubject(PathsD paths)
 		{
-			base.AddPaths(ClipperFunc.ScalePaths(paths, _scale), PathType.Subject, is_open);
+			base.AddPaths(ClipperFunc.ScalePaths(paths, _scale), PathType.Subject, false);
+		}
+
+		public void AddOpenSubject(PathsD paths)
+		{
+			base.AddPaths(ClipperFunc.ScalePaths(paths, _scale), PathType.Subject, true);
 		}
 
 		public void AddClip(PathsD paths)

@@ -272,7 +272,7 @@ public static partial class GeoWrangler
             {
                 break;
             }
-            c.AddSubject(t, true);
+            c.AddOpenSubject(t);
             c.AddClip(lPoly);
 
             PolyTree pt = new();

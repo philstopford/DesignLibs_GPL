@@ -339,13 +339,13 @@ public class RayCast
 
             for (int ray = 0; ray < rays.Count; ray++)
             //Parallel.For( (int) 0, rays.Count, po_inner, ray =>
-                {
+            {
                     Clipper d = new();
                     if (sideRayFallOff != falloff.none)
                     {
-                        d.ZFillFunction = prox_ZFillCallback;
+                        d.zFillFunc = prox_ZFillCallback;
                     }
-                    d.AddSubject(rays[(int)ray], true);
+                    d.AddOpenSubject(rays[(int)ray]);
                     d.AddClip(collisionPaths);
                     PolyTree polyTree = new();
                     Paths tmpLine = new();

@@ -552,8 +552,7 @@ public static partial class GeoWrangler
         }
         return ret;
     }
-
-
+    
     public static GeoLibPoint[]  removeDuplicates(GeoLibPoint[] source)
     {
         return pRemoveDuplicates(source).ToArray();
@@ -590,8 +589,7 @@ public static partial class GeoWrangler
 
         return ret;
     }
-
-
+    
     public static GeoLibPointF[] removeDuplicates(GeoLibPointF[] source)
     {
         return pRemoveDuplicates(source).ToArray();

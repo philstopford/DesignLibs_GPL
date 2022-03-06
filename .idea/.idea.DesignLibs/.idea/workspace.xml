@@ -677,7 +677,7 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="RunManager" selected=".NET Project.decompositionTest">
+  <component name="RunManager" selected=".NET Project.geoCoreTest">
     <configuration name="ASA005Test" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -11393,17 +11393,30 @@
           <option name="timeStamp" value="51" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/ClipperLibTest/Clipper2Test.cs</url>
-          <line>78</line>
-          <properties documentPath="D:\development\git\DesignLibs_GPL\ClipperLibTest\Clipper2Test.cs" initialLine="48" containingFunctionPresentation="method 'test4'">
+          <url>file://$PROJECT_DIR$/decompositionTest/Program.cs</url>
+          <line>99</line>
+          <properties documentPath="D:\development\git\DesignLibs_GPL\decompositionTest\Program.cs" initialLine="99" containingFunctionPresentation="method 'partOne'">
             <startOffsets>
-              <option value="2109" />
+              <option value="2671" />
             </startOffsets>
             <endOffsets>
-              <option value="2110" />
+              <option value="2696" />
             </endOffsets>
           </properties>
-          <option name="timeStamp" value="59" />
+          <option name="timeStamp" value="66" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/geoCoreTest/Program.cs</url>
+          <line>357</line>
+          <properties documentPath="D:\development\git\DesignLibs_GPL\geoCoreTest\Program.cs" initialLine="357" containingFunctionPresentation="method 'defineAndWrite_Polygon'">
+            <startOffsets>
+              <option value="12218" />
+            </startOffsets>
+            <endOffsets>
+              <option value="12277" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="71" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

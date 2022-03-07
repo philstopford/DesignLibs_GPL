@@ -21,18 +21,14 @@ public static class Clipper1Test
             new(-1000, -1000),
             new(-1000, 1000),
             new(1000, 1000),
-            new(1000, -1000),
-            new(100, -1000),
-            new(-100, -1000),
+            new(1000, -1000)
         };
         
         Path cutter = new()
         {
             new(-100, -1100),
-            new(-100, -1000),
             new(-100, -900),
             new(100, -900),
-            new(100, -1000),
             new(100, -1100),
         };
 
@@ -51,19 +47,16 @@ public static class Clipper1Test
     {
         Path lPoly = new()
         {
-            new IntPoint(200000, 0),
-            new IntPoint(200000, 1100000),
-            new IntPoint(1000000, 1100000),
-            new IntPoint(1000000, 800000),
-            new IntPoint(800000, 800000),
-            new IntPoint(800000, 0),
-            new IntPoint(200000, 0)
+            new(-1000, -1000),
+            new(-1000, 1000),
+            new(1000, 1000),
+            new(1000, -1000)
         };
 
         Path t = new()
         {
-            new IntPoint(200000, 0),
-            new IntPoint(200000, 2000000),
+            new (-1000, -1100),
+            new (-1000, 500),
         };
 
         Clipper c = new()
@@ -80,9 +73,9 @@ public static class Clipper1Test
         
         Path t2 = new()
         {
-            new IntPoint(200000, 2000000),
-            new IntPoint(200000, 0),
-            new IntPoint(200001, 1),
+            new (-1000, -1100),
+            new (-1000, 500),
+            new (-900, 500),
         };
 
         Clipper c2 = new()
@@ -97,8 +90,53 @@ public static class Clipper1Test
         PolyTree pt2 = new();
         c2.Execute(ClipType.ctIntersection, pt2);
         Paths solution2 = Clipper.OpenPathsFromPolyTree(pt2);
+
+        Path t2b = new()
+        {
+            new (-900, 500),
+            new (-1000, 500),
+            new (-1000, -1100),
+        };
+
+        Clipper c2b = new()
+        {
+            PreserveCollinear = true,
+            StrictlySimple = false
+        };
         
-        
+        c2b.AddPath(lPoly, PolyType.ptClip, true);
+        c2b.AddPath(t2b, PolyType.ptSubject, false);
+
+        PolyTree pt2b = new();
+        c2b.Execute(ClipType.ctIntersection, pt2b);
+        Paths solution2b = Clipper.OpenPathsFromPolyTree(pt2b);
+
+
+        Path t3 = new();
+        int x = 0;
+        int y = -1100;
+        while (y < 1200)
+        {
+            t3.Add(new()
+            {
+                X = x,
+                Y = y
+            });
+            y += 100;
+        }
+        Clipper c3 = new()
+        {
+            PreserveCollinear = true,
+            StrictlySimple = false
+        };
+        c3.ZFillFunction = zFillTest;
+        c3.AddPath(lPoly, PolyType.ptClip, true);
+        c3.AddPath(t3, PolyType.ptSubject, false);
+
+        PolyTree pt3 = new();
+        c3.Execute(ClipType.ctIntersection, pt3);
+        Paths solution3 = Clipper.OpenPathsFromPolyTree(pt3);
+
     }
     public static void keyHole_test2()
     {

@@ -11407,29 +11407,29 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/ClipperLibTest/Clipper2Test.cs</url>
-          <line>876</line>
-          <properties documentPath="D:\development\git\DesignLibs_GPL\ClipperLibTest\Clipper2Test.cs" initialLine="876" containingFunctionPresentation="method 'rightChordTest'">
+          <line>120</line>
+          <properties documentPath="D:\development\git\DesignLibs_GPL\ClipperLibTest\Clipper2Test.cs" initialLine="104" containingFunctionPresentation="method 'coincident_openPathTest'">
             <startOffsets>
-              <option value="26473" />
+              <option value="2807" />
             </startOffsets>
             <endOffsets>
-              <option value="26474" />
+              <option value="2808" />
             </endOffsets>
           </properties>
-          <option name="timeStamp" value="86" />
+          <option name="timeStamp" value="76" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/ClipperLibTest/Clipper1Test.cs</url>
-          <line>871</line>
-          <properties documentPath="D:\development\git\DesignLibs_GPL\ClipperLibTest\Clipper1Test.cs" initialLine="871" containingFunctionPresentation="method 'rightChordTest'">
+          <line>139</line>
+          <properties documentPath="D:\development\git\DesignLibs_GPL\ClipperLibTest\Clipper1Test.cs" initialLine="139" containingFunctionPresentation="method 'coincident_openPathTest'">
             <startOffsets>
-              <option value="26603" />
+              <option value="3361" />
             </startOffsets>
             <endOffsets>
-              <option value="26604" />
+              <option value="3362" />
             </endOffsets>
           </properties>
-          <option name="timeStamp" value="87" />
+          <option name="timeStamp" value="78" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -11452,6 +11452,10 @@
         <watch expression="new System.Collections.Generic.ICollectionDebugView&lt;ClipperLib2.Point64&gt;(new System.Collections.Generic.ICollectionDebugView&lt;System.Collections.Generic.List&lt;ClipperLib2.Point64&gt;&gt;(cutters).Items[0]).Items[1]" />
         <watch expression="new System.Collections.Generic.ICollectionDebugView&lt;ClipperLib2.Point64&gt;(new System.Collections.Generic.ICollectionDebugView&lt;System.Collections.Generic.List&lt;ClipperLib2.Point64&gt;&gt;(cutters).Items[0]).Items[2]" />
         <watch expression="new System.Collections.Generic.ICollectionDebugView&lt;ClipperLib2.Point64&gt;(new System.Collections.Generic.ICollectionDebugView&lt;System.Collections.Generic.List&lt;ClipperLib2.Point64&gt;&gt;(cutters).Items[0]).Items[3]" />
+        <watch expression="open2" />
+        <watch expression="new System.Collections.Generic.ICollectionDebugView&lt;System.Collections.Generic.List&lt;ClipperLib2.Point64&gt;&gt;(open2).Items[0]" />
+        <watch expression="new System.Collections.Generic.ICollectionDebugView&lt;ClipperLib2.Point64&gt;(new System.Collections.Generic.ICollectionDebugView&lt;System.Collections.Generic.List&lt;ClipperLib2.Point64&gt;&gt;(open2).Items[0]).Items[0]" />
+        <watch expression="new System.Collections.Generic.ICollectionDebugView&lt;ClipperLib2.Point64&gt;(new System.Collections.Generic.ICollectionDebugView&lt;System.Collections.Generic.List&lt;ClipperLib2.Point64&gt;&gt;(open2).Items[0]).Items[1]" />
       </configuration>
     </watches-manager>
   </component>

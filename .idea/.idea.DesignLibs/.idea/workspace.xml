@@ -11406,30 +11406,30 @@
           <option name="timeStamp" value="71" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/ClipperLibTest/Clipper2Test.cs</url>
-          <line>52</line>
-          <properties documentPath="D:\development\git\DesignLibs_GPL\ClipperLibTest\Clipper2Test.cs" initialLine="37" containingFunctionPresentation="method 'coincident_openPathTest'">
+          <url>file://$PROJECT_DIR$/ClipperLibTest/Clipper1Test.cs</url>
+          <line>568</line>
+          <properties documentPath="D:\development\git\DesignLibs_GPL\ClipperLibTest\Clipper1Test.cs" initialLine="567" containingFunctionPresentation="method 'leftChordTest'">
             <startOffsets>
-              <option value="1295" />
+              <option value="16519" />
             </startOffsets>
             <endOffsets>
-              <option value="1296" />
+              <option value="16520" />
             </endOffsets>
           </properties>
-          <option name="timeStamp" value="74" />
+          <option name="timeStamp" value="84" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/ClipperLibTest/Clipper2Test.cs</url>
-          <line>124</line>
-          <properties documentPath="D:\development\git\DesignLibs_GPL\ClipperLibTest\Clipper2Test.cs" initialLine="110" containingFunctionPresentation="method 'openPath_clipTest1'">
+          <line>572</line>
+          <properties documentPath="D:\development\git\DesignLibs_GPL\ClipperLibTest\Clipper2Test.cs" initialLine="572" containingFunctionPresentation="method 'leftChordTest'">
             <startOffsets>
-              <option value="3289" />
+              <option value="16436" />
             </startOffsets>
             <endOffsets>
-              <option value="3290" />
+              <option value="16437" />
             </endOffsets>
           </properties>
-          <option name="timeStamp" value="75" />
+          <option name="timeStamp" value="85" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

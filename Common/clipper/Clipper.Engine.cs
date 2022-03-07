@@ -176,10 +176,11 @@ namespace ClipperLib2
 		private void SetZ(ref Point64 intersectPt, Active e1, Active e2)
 		{
 			if (ZFill == null) return;
+			
 			//prioritize subject vertices over clip vertices
 			//and pass the subject vertices before clip vertices in the callback
 			Active e3, e4;
-			if (e1.local_min.polytype == PathType.Subject) 
+			if (GetPolyType(e1) == PathType.Subject) 
 			{
 				e3 = e1;
 				e4 = e2;
@@ -193,7 +194,7 @@ namespace ClipperLib2
 			else if (XYCoordsEqual(intersectPt, e3.top)) intersectPt.Z = e3.top.Z;
 			else if (XYCoordsEqual(intersectPt, e4.bot)) intersectPt.Z = e4.bot.Z;
 			else if (XYCoordsEqual(intersectPt, e4.top)) intersectPt.Z = e4.top.Z;
-			else ZFill(e3.bot, e3.top, e4.bot, e4.top, ref intersectPt);
+			ZFill(e3.bot, e3.top, e4.bot, e4.top, ref intersectPt);
 		}
 #endif
 

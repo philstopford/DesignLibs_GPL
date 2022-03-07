@@ -11406,30 +11406,30 @@
           <option name="timeStamp" value="71" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/ClipperLibTest/Clipper1Test.cs</url>
-          <line>568</line>
-          <properties documentPath="D:\development\git\DesignLibs_GPL\ClipperLibTest\Clipper1Test.cs" initialLine="567" containingFunctionPresentation="method 'leftChordTest'">
+          <url>file://$PROJECT_DIR$/ClipperLibTest/Clipper2Test.cs</url>
+          <line>876</line>
+          <properties documentPath="D:\development\git\DesignLibs_GPL\ClipperLibTest\Clipper2Test.cs" initialLine="876" containingFunctionPresentation="method 'rightChordTest'">
             <startOffsets>
-              <option value="16519" />
+              <option value="26473" />
             </startOffsets>
             <endOffsets>
-              <option value="16520" />
+              <option value="26474" />
             </endOffsets>
           </properties>
-          <option name="timeStamp" value="84" />
+          <option name="timeStamp" value="86" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/ClipperLibTest/Clipper2Test.cs</url>
-          <line>572</line>
-          <properties documentPath="D:\development\git\DesignLibs_GPL\ClipperLibTest\Clipper2Test.cs" initialLine="572" containingFunctionPresentation="method 'leftChordTest'">
+          <url>file://$PROJECT_DIR$/ClipperLibTest/Clipper1Test.cs</url>
+          <line>871</line>
+          <properties documentPath="D:\development\git\DesignLibs_GPL\ClipperLibTest\Clipper1Test.cs" initialLine="871" containingFunctionPresentation="method 'rightChordTest'">
             <startOffsets>
-              <option value="16436" />
+              <option value="26603" />
             </startOffsets>
             <endOffsets>
-              <option value="16437" />
+              <option value="26604" />
             </endOffsets>
           </properties>
-          <option name="timeStamp" value="85" />
+          <option name="timeStamp" value="87" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

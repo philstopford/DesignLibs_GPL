@@ -561,6 +561,27 @@ public static class Clipper2Test
           new(-460000,-390000),
           };
 
+        // Let's see if we can track the origin of the chords.
+        for (int p = 0; p < a.Count; p++)
+        {
+            a[p] = new()
+            {
+                X = a[p].X,
+                Y = a[p].Y,
+                Z = 1
+            };
+        }
+
+        for (int p = 0; p < testPath.Count; p++)
+        {
+            testPath[p] = new()
+            {
+                X = testPath[p].X,
+                Y = testPath[p].Y,
+                Z = 2
+            };
+        }
+
         Clipper c = new();
         c.ZFill = zFillTest;
         c.AddOpenSubject(testPath);
@@ -864,6 +885,27 @@ public static class Clipper2Test
             new(-459735, -379537),
             new(-460000, -390000),
         };
+
+        // Let's see if we can track the origin of the chords.
+        for (int p = 0; p < a.Count; p++)
+        {
+            a[p] = new()
+            {
+                X = a[p].X,
+                Y = a[p].Y,
+                Z = 1
+            };
+        }
+
+        for (int p = 0; p < testPath.Count; p++)
+        {
+            testPath[p] = new()
+            {
+                X = testPath[p].X,
+                Y = testPath[p].Y,
+                Z = 2
+            };
+        }
 
         Clipper c = new();
         c.ZFill = zFillTest;

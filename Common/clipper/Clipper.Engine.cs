@@ -175,7 +175,7 @@ namespace ClipperLib2
 			return (pt1.X == pt2.X && pt1.Y == pt2.Y);
     }
 
-		private void SetZ(ref Point64 intersectPt, Active e1, Active e2)
+		private void SetZ(Active e1, Active e2, ref Point64 intersectPt)
 		{
 			if (ZFill == null) return;
 			
@@ -1259,7 +1259,7 @@ namespace ClipperLib2
 			return true;
 		}
 
-		private void AddLocalMinPoly(Active ae1, Active ae2, Point64 pt, 
+		private OutPt AddLocalMinPoly(Active ae1, Active ae2, Point64 pt, 
 			bool is_new = false, bool orientation_check_required = false)
 		{
 
@@ -1287,15 +1287,14 @@ namespace ClipperLib2
 			}
 			OutPt op = new OutPt(pt);
 			outrec.pts = op;
-
-			//nb: currently ae1.NextInAEL == ae2 but this could change immediately on return
+			return op;
 		}
 
-		private void AddLocalMaxPoly(Active ae1, Active ae2, Point64 pt, bool force = false)
+		private OutPt AddLocalMaxPoly(Active ae1, Active ae2, Point64 pt)
 		{
 			if (!IsOpen(ae1) && (IsFront(ae1) == IsFront(ae2)))
 				if (!FixSides(ae1)) FixSides(ae2);
-			OutPt op = AddOutPt(ae1, pt, true);
+			OutPt op = AddOutPt(ae1, pt);
 
 			if (ae1.outrec == ae2.outrec)
 			{
@@ -1324,6 +1323,7 @@ namespace ClipperLib2
 				JoinOutrecPaths(ae1, ae2);
 			else
 				JoinOutrecPaths(ae2, ae1);
+			return op;
 		}
 
 		private void JoinOutrecPaths(Active ae1, Active ae2)
@@ -1404,7 +1404,7 @@ namespace ClipperLib2
 			ae2.outrec = null;
 		}
 
-		private OutPt AddOutPt(Active ae, Point64 pt, bool force = false)
+		private OutPt AddOutPt(Active ae, Point64 pt)
 		{
 			OutPt new_op;
 
@@ -1415,20 +1415,8 @@ namespace ClipperLib2
 			OutPt op_front = outrec.pts;
 			OutPt op_back = op_front.next;
 
-			if (to_front && (pt == op_front.pt))
-			{
-				new_op = op_front;
-#if USINGZ
-				if (force) new_op.pt = pt;
-#endif
-			}
-			else if (!to_front && (pt == op_back.pt))
-			{
-				new_op = op_back;
-#if USINGZ
-				if (force) new_op.pt = pt;
-#endif
-			}
+			if (to_front && (pt == op_front.pt)) new_op = op_front;
+			else if (!to_front && (pt == op_back.pt)) new_op = op_back;
 			else
 			{
 				new_op = new OutPt(pt);
@@ -1441,7 +1429,7 @@ namespace ClipperLib2
 			return new_op;
 		}
 
-		private void StartOpenPath(Active ae, Point64 pt)
+		private OutPt StartOpenPath(Active ae, Point64 pt)
 		{
 
 			OutRec outrec = new OutRec();
@@ -1458,6 +1446,7 @@ namespace ClipperLib2
 
 			OutPt op = new OutPt(pt);
 			outrec.pts = op;
+			return op;
 		}
 
 		private void UpdateEdgeIntoAEL(Active ae)
@@ -1507,16 +1496,16 @@ namespace ClipperLib2
 				//toggle contribution ...
 				if (IsHotEdge(openEdge))
 				{
+					OutPt op = AddOutPt(openEdge, pt);
 #if USINGZ
-					SetZ(ref pt, ae1, ae2);
+					SetZ(ae1, ae2, ref op.pt);
 #endif
-					AddOutPt(openEdge, pt, true);
 					openEdge.outrec = null;
 				}
 				else
 				{
 #if USINGZ
-					SetZ(ref pt, ae1, ae2);
+					SetZ(ae1, ae2, ref pt);
 #endif
 					StartOpenPath(openEdge, pt);
 				}
@@ -1586,45 +1575,50 @@ namespace ClipperLib2
 			//if both edges are 'hot' ...
 			if (IsHotEdge(ae1) && IsHotEdge(ae2))
 			{
-#if USINGZ
-				SetZ(ref pt, ae1, ae2);
-#endif
 				if ((old_e1_windcnt != 0 && old_e1_windcnt != 1) || (old_e2_windcnt != 0 && old_e2_windcnt != 1) ||
 					(ae1.local_min.polytype != ae2.local_min.polytype && _cliptype != ClipType.Xor))
 				{
-					AddLocalMaxPoly(ae1, ae2, pt, true);
+					OutPt op = AddLocalMaxPoly(ae1, ae2, pt);
+#if USINGZ
+					SetZ(ae1, ae2, ref op.pt);
+#endif
 				}
 				else if (IsFront(ae1) || (ae1.outrec == ae2.outrec))
 				{
-					AddLocalMaxPoly(ae1, ae2, pt, true);
-					AddLocalMinPoly(ae1, ae2, pt, true);
+					OutPt op1 = AddLocalMaxPoly(ae1, ae2, pt);
+					OutPt op2 = AddLocalMinPoly(ae1, ae2, pt);
 #if USINGZ
-					SetZ(ref ae1.outrec.pts.pt, ae1, ae2);
+					SetZ(ae1, ae2, ref op1.pt);
+					SetZ(ae1, ae2, ref op2.pt);
 #endif
 				}
 				else
 				{
 					//right & left bounds touching, NOT maxima & minima ...
-					AddOutPt(ae1, pt, true);
-					AddOutPt(ae2, pt, true);
+					OutPt op1 = AddOutPt(ae1, pt);
+					OutPt op2 = AddOutPt(ae2, pt);
+#if USINGZ
+					SetZ(ae1, ae2, ref op1.pt);
+					SetZ(ae1, ae2, ref op2.pt);
+#endif
 					SwapOutrecs(ae1, ae2);
 				}
 			}
 			//if one or other edge is 'hot' ...
 			else if (IsHotEdge(ae1))
 			{
+				OutPt op = AddOutPt(ae1, pt);
 #if USINGZ
-				SetZ(ref pt, ae1, ae2);
+				SetZ(ae1, ae2, ref op.pt);
 #endif
-				AddOutPt(ae1, pt, true);
 				SwapOutrecs(ae1, ae2);
 			}
 			else if (IsHotEdge(ae2))
 			{
+				OutPt op = AddOutPt(ae2, pt);
 #if USINGZ
-				SetZ(ref pt, ae1, ae2);
+				SetZ(ae1, ae2, ref op.pt);
 #endif
-				AddOutPt(ae2, pt, true);
 				SwapOutrecs(ae1, ae2);
 			}
 			else
@@ -1648,41 +1642,40 @@ namespace ClipperLib2
 
 				if (!IsSamePolyType(ae1, ae2))
 				{
-					AddLocalMinPoly(ae1, ae2, pt, false, orientation_check_required);
+					OutPt op = AddLocalMinPoly(ae1, ae2, pt, false, orientation_check_required);
 #if USINGZ
-					SetZ(ref ae1.outrec.pts.pt, ae1, ae2);
+					SetZ(ae1, ae2, ref op.pt);
 #endif
 				}
 				else if (old_e1_windcnt == 1 && old_e2_windcnt == 1)
 				{
-#if USINGZ
-					SetZ(ref pt, ae1, ae2);
-#endif
+					OutPt op = null;
 					switch (_cliptype)
 					{
-						case ClipType.Intersection:
-							if (e1Wc2 > 0 && e2Wc2 > 0)
-								AddLocalMinPoly(ae1, ae2, pt, false, orientation_check_required);
-							break;
 						case ClipType.Union:
 							if (e1Wc2 <= 0 && e2Wc2 <= 0)
-								AddLocalMinPoly(ae1, ae2, pt, false, orientation_check_required);
+								op = AddLocalMinPoly(ae1, ae2, pt, false, orientation_check_required);
 							break;
+
 						case ClipType.Difference:
 							if (((GetPolyType(ae1) == PathType.Clip) && (e1Wc2 > 0) && (e2Wc2 > 0)) ||
 									((GetPolyType(ae1) == PathType.Subject) && (e1Wc2 <= 0) && (e2Wc2 <= 0)))
 							{
-								AddLocalMinPoly(ae1, ae2, pt, false, orientation_check_required);
+								op = AddLocalMinPoly(ae1, ae2, pt, false, orientation_check_required);
 							}
 							break;
+
 						case ClipType.Xor:
-							AddLocalMinPoly(ae1, ae2, pt, false, orientation_check_required);
+							op = AddLocalMinPoly(ae1, ae2, pt, false, orientation_check_required);
 							break;
-						default:
+
+						default:	//ClipType.Intersection:
+							if (e1Wc2 > 0 && e2Wc2 > 0)
+								op = AddLocalMinPoly(ae1, ae2, pt, false, orientation_check_required);
 							break;
 					}
 #if USINGZ
-					SetZ(ref ae1.outrec.pts.pt, ae1, ae2);
+					SetZ(ae1, ae2, ref op.pt);
 #endif
 
 				}

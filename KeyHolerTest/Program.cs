@@ -106,22 +106,20 @@ internal class Program
         };
 
         // Generate keyholed geometry
-        Paths kH = GeoWrangler.makeKeyHole(kHSource);
+        Paths kH = GeoWrangler.makeKeyHole(kHSource, customSizing:2000);
 
         // Generate sliver geometry.
         Paths sL = new();
         Clipper c = new();
         c.AddSubject(outer);
         c.AddClip(kH);
-        PolyTree pt = new PolyTree();
-        c.Execute(ClipType.Difference, FillRule.EvenOdd, pt);
-        sL = ClipperFunc.PolyTreeToPaths(pt);
+        c.Execute(ClipType.Difference, FillRule.EvenOdd, sL);
 
         // Gap removal test
-        Paths gR = GeoWrangler.gapRemoval(kH, 500);
+        Paths gR = GeoWrangler.gapRemoval(kH, 1000);
 
         // Sliver removal test
-        Paths sR = GeoWrangler.gapRemoval(sL, -500);
+        Paths sR = GeoWrangler.gapRemoval(sL, -1000);
     }
 
     private static void multiTest()
@@ -168,7 +166,7 @@ internal class Program
         };
 
         // Generate keyholed geometry
-        Paths kH = GeoWrangler.makeKeyHole(new Paths(kHSource));
+        Paths kH = GeoWrangler.makeKeyHole(new Paths(kHSource),1500);
 
         // Generate sliver geometry.
         Paths sL = new();

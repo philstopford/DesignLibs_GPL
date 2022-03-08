@@ -75,14 +75,9 @@ public static partial class GeoWrangler
         c.AddClip(sourcePaths);
 
         Paths cutters = new();
-        PolyTree pt = new();
-        c.Execute(ClipType.Difference, FillRule.EvenOdd, pt);
-        cutters = ClipperFunc.PolyTreeToPaths(pt);
+        c.Execute(ClipType.Difference, FillRule.EvenOdd, cutters);
 
-        for (int p = 0; p < cutters.Count; p++)
-        {
-            cutters[p] = pStripColinear(cutters[p]);
-        }
+        cutters = pStripColinear(cutters);
 
         switch (useTriangulation)
         {

@@ -15,7 +15,6 @@ public class RayCast
 {
     private Paths clippedLines;
     private Paths castLines;
-    object resultLock = new();
 
     public enum forceSingleDirection { no, vertical, horizontal } // No and horizontal are treated the same in this code at the moment; leaving these to make the code more readable and intent clearer.
 
@@ -174,15 +173,14 @@ public class RayCast
             _ => po_inner.MaxDegreeOfParallelism
         };
 
-        for (int pt = 0; pt < ptCount; pt++)
-        // Parallel.For((long) 0, ptCount, po_outer, pt =>
+        Parallel.For(0, ptCount, po_outer, pt =>
         {
             Point64 currentEdgeNormal = normals[pt];
             Point64 previousEdgeNormal = previousNormals[pt];
 
             Point64 averagedEdgeNormal;
 
-            Point64 startPoint = new(emissionPath[(int)pt]);
+            Point64 startPoint = new(emissionPath[pt]);
 
             // Get average angle for this vertex based on angles from line segments.
             // http://stackoverflow.com/questions/1243614/how-do-i-calculate-the-normal-vector-of-a-line-segment
@@ -337,37 +335,30 @@ public class RayCast
 
             previousEdgeNormal = new Point64(currentEdgeNormal.X, currentEdgeNormal.Y);
 
-            for (int ray = 0; ray < rays.Count; ray++)
-            //Parallel.For( (int) 0, rays.Count, po_inner, ray =>
-            {
+            object resultLock = new();
+            Parallel.For(0, rays.Count, po_inner, ray =>
+                {
                     Clipper d = new();
                     if (sideRayFallOff != falloff.none)
                     {
                         d.ZFill = prox_ZFillCallback;
                     }
-                    d.AddOpenSubject(rays[(int)ray]);
+                    d.AddOpenSubject(rays[ray]);
                     d.AddClip(collisionPaths);
-                    PolyTree polyTree = new();
+                    Paths unused = new();
                     Paths tmpLine = new();
                     switch (invert)
                     {
                         case true:
-                            d.Execute(ClipType.Intersection, FillRule.EvenOdd, polyTree, tmpLine);
+                            d.Execute(ClipType.Intersection, FillRule.EvenOdd, unused, tmpLine);
                             break;
                         default:
-                            d.Execute(ClipType.Difference, FillRule.EvenOdd, polyTree, tmpLine);
+                            d.Execute(ClipType.Difference, FillRule.EvenOdd, unused, tmpLine);
                             break;
                     }
-                    // There is no order in tmpLine so we need to review.
-                    int tmpLineCount;
-                    try
-                    {
-                        tmpLineCount = tmpLine.Count;
-                    }
-                    catch
-                    {
-                        tmpLineCount = 0;
-                    }
+
+                    // There is no matching order in the return output here, so we have to take this odd approach.
+                    int tmpLineCount = tmpLine.Count;
 
                     switch (tmpLineCount)
                     {
@@ -423,14 +414,7 @@ public class RayCast
                         }
                     }
 
-                    try
-                    {
-                        tmpLineCount = tmpLine.Count;
-                    }
-                    catch
-                    {
-                        tmpLineCount = 0;
-                    }
+                    tmpLineCount = tmpLine.Count;
 
                     for (int tL = 0; tL < tmpLineCount; tL++)
                     {
@@ -466,7 +450,7 @@ public class RayCast
                         }
                     }
                 }
-            //);
+            );
 
             Path resultPath = new() {startPoint};
 
@@ -558,8 +542,7 @@ public class RayCast
             {
                 Monitor.Exit(clippedLinesLock);
             }
-        }
-        //);
+        });
 
         // Convert the array back to a list.
         clippedLines = clippedLines_.ToList();

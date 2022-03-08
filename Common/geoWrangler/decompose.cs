@@ -38,9 +38,7 @@ public static partial class GeoWrangler
             c.Clear();
             c.AddSubject(t1);
             Paths t = new();
-            PolyTree pt = new();
-            c.Execute(ClipType.Union, FillRule.EvenOdd, pt);
-            t = ClipperFunc.PolyTreeToPaths(pt);
+            c.Execute(ClipType.Union, FillRule.EvenOdd, t);
             double a2 = t.Sum(t2 => ClipperFunc.Area(t2));
 
             switch (Math.Abs(Math.Abs(a1) - Math.Abs(a2)))
@@ -59,8 +57,7 @@ public static partial class GeoWrangler
                     Paths cR = new();
                     // Non-zero here means that we also reconcile self-intersections without odd-even causing holes; positive only respects a certain orientation (unlike non-zero)
                     // Union is cheaper than finding the bounding box and using intersection; test-bed showed identical results.
-                    c.Execute(ClipType.Union, FillRule.NonZero, pt);
-                    cR = ClipperFunc.PolyTreeToPaths(pt);
+                    c.Execute(ClipType.Union, FillRule.NonZero, cR);
 
                     int crCount = cR.Count;
 
@@ -114,21 +111,18 @@ public static partial class GeoWrangler
                 }
 
                 Paths[] decomp = pGetDecomposed(ret);
-                PolyTree pt = new();
 
                 c.AddSubject(decomp[(int)type.outer]);
                 c.AddClip(decomp[(int)type.cutter]);
 
-                c.Execute(ClipType.Difference, FillRule.Positive, pt);//, ret, PolyFillType.pftPositive, PolyFillType.pftNegative);
-                ret = ClipperFunc.PolyTreeToPaths(pt);
+                c.Execute(ClipType.Difference, FillRule.EvenOdd, ret);//, PolyFillType.pftPositive, PolyFillType.pftNegative);
 
                 switch (ret.Count)
                 {
                     // Assume tone is wrong. We should not trigger this with the 'reverse' handling above.
                     case 0:
                         ret.Clear();
-                        c.Execute(ClipType.Difference, FillRule.EvenOdd, pt);
-                        ret = ClipperFunc.PolyTreeToPaths(pt);
+                        c.Execute(ClipType.Difference, FillRule.EvenOdd, ret);
                         break;
                 }
 
@@ -248,8 +242,6 @@ public static partial class GeoWrangler
     {
         Path lPoly = pathFromPoint(pClockwiseAndReorder(_poly), scaling);
 
-        lPoly = close(lPoly);
-
         switch (_poly.Length)
         {
             case 5 when orthogonal(stripTerminators(_poly, false), angularTolerance):
@@ -280,7 +272,7 @@ public static partial class GeoWrangler
 
             c.Execute(ClipType.Intersection, FillRule.EvenOdd, pt, p);
             c.Clear();
-
+            
             int pCount = p.Count;
 
             switch (pCount)
@@ -329,7 +321,7 @@ public static partial class GeoWrangler
             {
                 continue;
             }
-            
+
             {
                 int pCount_ = p.Count;
                 for (int p_ = pCount_ - 1; p_ >= 0; p_--)
@@ -432,26 +424,22 @@ public static partial class GeoWrangler
         {
             case > 0 when !abort:
             {
-                if (((newEdges[0][0].X == -40 * scaling) && (newEdges[0][0].Y == 30 * scaling)) || ((newEdges[0][1].X == -40 * scaling) && (newEdges[0][1].Y == 30 * scaling)))
-                {
-                    int hold = 1;
-                }
                 // Turn the new edges into cutters and slice. Not terribly elegant and we're relying on rounding to squash notches later.
                 ClipperOffset co = new();
                 co.AddPaths(newEdges, JoinType.Miter, EndType.Square);
+                PolyTree tp = new();
+                
 
-                Paths cutters = ClipperFunc.Paths(co.Execute(2.0));
-                
+                Paths cutters = ClipperFunc.Paths(co.Execute(1.0));
+
                 c.Clear();
-                
+
                 c.AddSubject(lPoly);
 
                 // Take first cutter only - we only cut once, no matter how many potential cutters we have.
                 c.AddClip(cutters[0]);
                 Paths f = new();
-                PolyTree pt = new();
-                c.Execute(ClipType.Difference, FillRule.EvenOdd, pt);
-                f = ClipperFunc.PolyTreeToPaths(pt);
+                c.Execute(ClipType.Difference, FillRule.EvenOdd, f);
 
                 final = pointsFromPaths(f, scaling);
 

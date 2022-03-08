@@ -221,11 +221,10 @@ public static partial class GeoWrangler
         Paths rationalizedSecondLayer = b.Select(t => clockwise( /*Clipper.CleanPolygon*/t)).ToList();
 
         // Intersection should not matter based on order.
-        PolyTree pt = new();
+        Paths intersectionPaths = new();
         c.AddClip(rationalizedSecondLayer);
         c.AddSubject(rationalizedFirstLayer);
-        c.Execute(ClipType.Union, FillRule.EvenOdd, pt);
-        Paths intersectionPaths = ClipperFunc.PolyTreeToPaths(pt);
+        c.Execute(ClipType.Union, FillRule.EvenOdd, intersectionPaths);
 
         // Force clockwise.
         foreach (Path t in intersectionPaths)

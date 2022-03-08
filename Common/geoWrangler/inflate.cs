@@ -1,16 +1,13 @@
-﻿using System;
-using ClipperLib2;
+﻿using ClipperLib2;
 using geoLib;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using utility;
 
 namespace geoWrangler;
 
 using Path = List<Point64>;
 using Paths = List<List<Point64>>;
-using PathsD = List<List<PointD>>;
 
 public static partial class GeoWrangler
 {
@@ -40,7 +37,7 @@ public static partial class GeoWrangler
 
             int offsetVal = width / 2;
 
-            Paths solution = ClipperFunc.Paths (co.Execute(offsetVal));
+            Paths solution = ClipperFunc.Paths(co.Execute(offsetVal));
 
             allSolutions.Add(new Path(solution[0]));
 
@@ -69,12 +66,10 @@ public static partial class GeoWrangler
             new Point64(b.right, b.bottom)
         };
 
-        c.AddClip(new Paths { bPath });
+        c.AddClip(bPath);
 
         Paths union = new();
-        PolyTree pt = new();
-        c.Execute(ClipType.Intersection, FillRule.Positive, pt);
-        union = ClipperFunc.PolyTreeToPaths(pt);
+        c.Execute(ClipType.Intersection, FillRule.Positive, union);
 
         GeoLibPoint[] ret;
         if (union.Any())
@@ -181,38 +176,5 @@ public static partial class GeoWrangler
         );
 #endif
         return pointarray;
-    }
-    
-    public static Path extendEdge(Path edge, double factor)
-    {
-        return pExtendEdge(edge, factor);
-    }
-    
-    private static Path pExtendEdge(Path edge, double factor)
-    {
-        // Force clockwise, which should get us something consistent to work with.
-
-        double dTmp0 = pDistanceBetweenPoints(new Point64(0, 0), edge[0]);
-        double dTmp1 = pDistanceBetweenPoints(new Point64(0, 0), edge[1]);
-
-        if (dTmp1 < dTmp0)
-        {
-            edge.Reverse();
-        }
-
-        // Get sorted out for dx, dy and normalization.
-        double dx = edge[0].X - edge[1].X;
-        double dy = edge[0].Y - edge[1].Y;
-
-        double length = Math.Sqrt(Utils.myPow(dx, 2) + Utils.myPow(dy, 2));
-
-        dx /= length;
-        dy /= length;
-
-        // Extend the line slightly.
-        edge[0] = new Point64((long)(edge[0].X - Math.Abs(factor * dx)), (long)(edge[0].Y + Math.Abs(factor * dy)));
-        edge[1] = new Point64((long)(edge[1].X + Math.Abs(factor * dx)), (long)(edge[1].Y - Math.Abs(factor * dy)));
-
-        return edge;
     }
 }

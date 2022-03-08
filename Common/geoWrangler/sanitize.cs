@@ -170,20 +170,12 @@ public static partial class GeoWrangler
             // Now to start the re-indexing.
             for (int pt = reIndexStart; pt < iPoints.Count; pt++)
             {
-                Point64 tmp = new Point64(iPoints[pt].X, iPoints[pt].Y)
-                {
-                    Z = iPoints[pt].Z
-                };
-                tempList.Add(new Point64(tmp));
+                tempList.Add(new Point64(iPoints[pt].X, iPoints[pt].Y, iPoints[pt].Z));
             }
             // Ensure we close the shape by hitting the reIndexStart point again, since we will possibly have pushed it to the beginning of the shape.
             for (int pt = 0; pt <= reIndexStart; pt++)
             {
-                Point64 tmp = new Point64(iPoints[pt].X, iPoints[pt].Y)
-                {
-                    Z = iPoints[pt].Z
-                };
-                tempList.Add(new Point64(tmp));
+                tempList.Add(new Point64(iPoints[pt].X, iPoints[pt].Y, iPoints[pt].Z));
             }
 
             iPoints = tempList.ToList();
@@ -306,11 +298,9 @@ public static partial class GeoWrangler
     {
         List<Point64> iPoly = pathFromPoint(iPoints, 1);
         Clipper c = new();
-        c.AddClip(iPoly);
         c.AddSubject(iPoly);
-        PolyTree pt = new();
-        c.Execute(ClipType.Intersection, FillRule.EvenOdd, pt);
-        Paths oPoly = ClipperFunc.PolyTreeToPaths(pt);
+        List<List<Point64>> oPoly = new();
+        c.Execute(ClipType.Intersection, FillRule.EvenOdd, oPoly);
 
         GeoLibPoint[] working = pointFromPath(oPoly[0], 1);
 
@@ -346,6 +336,11 @@ public static partial class GeoWrangler
     }
 
     public static Paths stripColinear(Paths source, double angularTolerance = 0.0f)
+    {
+        return pStripColinear(source, angularTolerance);
+    }
+    
+    private static Paths pStripColinear(Paths source, double angularTolerance = 0.0f)
     {
         return source.Select(t => pStripColinear(t, angularTolerance)).ToList();
     }
@@ -553,53 +548,7 @@ public static partial class GeoWrangler
         return ret;
     }
 
-    public static Paths removeDuplicates(Paths source)
-    {
-        return pRemoveDuplicates(source);
-    }
-    
-    private static Paths pRemoveDuplicates(Paths source)
-    {
-        Paths ret = new();
-        for (int i = 0; i < source.Count; i++)
-        {
-            ret.Add(pRemoveDuplicates(source[i]));
-        }
 
-        return ret;
-    }
-
-    public static Path removeDuplicates(Path source)
-    {
-        return pRemoveDuplicates(source);
-    }
-    private static Path pRemoveDuplicates(Path source)
-    {
-        Path ret = new Path();
-        switch (source.Count)
-        {
-            case > 0:
-            {
-                ret.Add(new Point64(source[0]));
-                int retIndex = 1;
-                for (int i = 1; i < source.Count; i++)
-                {
-                    if (source[i].X == ret[retIndex - 1].X && source[i].Y == ret[retIndex - 1].Y)
-                    {
-                        continue;
-                    }
-
-                    ret.Add(new Point64(source[i]));
-                    retIndex++;
-                }
-
-                break;
-            }
-        }
-
-        return ret;
-    }
-    
     public static GeoLibPoint[]  removeDuplicates(GeoLibPoint[] source)
     {
         return pRemoveDuplicates(source).ToArray();
@@ -636,7 +585,8 @@ public static partial class GeoWrangler
 
         return ret;
     }
-    
+
+
     public static GeoLibPointF[] removeDuplicates(GeoLibPointF[] source)
     {
         return pRemoveDuplicates(source).ToArray();
@@ -1147,9 +1097,7 @@ public static partial class GeoWrangler
             c.AddSubject(cPaths);
             c.AddClip(aPaths);
 
-            PolyTree pt = new();
-            c.Execute(ClipType.Union, FillRule.NonZero, pt);
-            retPaths = ClipperFunc.PolyTreeToPaths(pt);
+            c.Execute(ClipType.Union, FillRule.NonZero, retPaths);
 
             retPaths = pClose(retPaths);
 
@@ -1172,9 +1120,7 @@ public static partial class GeoWrangler
         Clipper c = new();
         c.AddSubject(sourcePaths);
         Paths solution = new();
-        PolyTree pt = new();
-        c.Execute(ClipType.Union, FillRule.EvenOdd, pt);
-        solution = ClipperFunc.PolyTreeToPaths(pt);
+        c.Execute(ClipType.Union, FillRule.EvenOdd, solution);
 
         Paths keyHoled = pMakeKeyHole(solution, customSizing: customSizing, extension: extension);
 

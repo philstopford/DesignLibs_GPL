@@ -8,7 +8,6 @@ namespace geoWrangler;
 
 using Path = List<Point64>;
 using Paths = List<List<Point64>>;
-using PathsD = List<List<PointD>>;
 
 public static partial class GeoWrangler
 {
@@ -16,8 +15,6 @@ public static partial class GeoWrangler
     // Use of a custom value will cause headaches.
     public const double keyhole_sizing = 500;
     private const double keyhole_extension_default = 1.03;
-    // Clipper 2 will not merge glancing contacts so we need to shift to provide an overlap. Value here is arbitrary and subject to more testing may change.
-    public const double clipper_glancingContact_fudge = 1.1;
 
     public static Paths makeKeyHole(Paths outers, Paths cutters, double customSizing = 0, double extension = 0, double angularTolerance = 0)
     {
@@ -124,12 +121,11 @@ public static partial class GeoWrangler
                 // Do any cutters cover up our outer?
                 for (int cIndex = 0; cIndex < odecomp[(int) type.cutter].Count; cIndex++)
                 {
-                    PolyTree pt = new();
+                    Paths test = new();
                     c.Clear();
                     c.AddSubject(tOuter);
                     c.AddClip(odecomp[(int) type.cutter][cIndex].ToList());
-                    c.Execute(ClipType.Difference, FillRule.EvenOdd, pt);
-                    Paths test = ClipperFunc.PolyTreeToPaths(pt);
+                    c.Execute(ClipType.Difference, FillRule.EvenOdd, test);
                     double area = 0;
                     foreach (Path t in test)
                     {
@@ -164,10 +160,9 @@ public static partial class GeoWrangler
             default:
 
                 // Remove any overlapping duplicate polygons.
-                PolyTree pt = new();
+                Paths cleaned = new();
                 c.AddSubject(ret);
-                c.Execute(ClipType.Union, FillRule.Positive, pt);
-                Paths cleaned = ClipperFunc.PolyTreeToPaths(pt);
+                c.Execute(ClipType.Union, FillRule.Positive, cleaned);
 
                 switch (cleaned.Count)
                 {
@@ -245,11 +240,11 @@ public static partial class GeoWrangler
                 if (cutPathIndex != -1)
                 {
                     // Offset our cutter and assign to the clipping scenario.
-                    Paths sPaths = pCreateCutter(clipped[cutPathIndex], customSizing);
+                    Paths sPaths = pInflateEdge(clipped[cutPathIndex], customSizing);
 
                     extraCutters.AddRange(new Paths(sPaths));
                 }
-                
+
                 // Review orientations.
                 for (int p = 0; p < cutters.Count; p++)
                 {
@@ -265,25 +260,21 @@ public static partial class GeoWrangler
                         extraCutters[p] = ClipperFunc.ReversePath(extraCutters[p]);
                     }
                 }
-
+                
                 Clipper c = new();
                 c.AddSubject(cutters);
                 c.AddClip(extraCutters);
 
                 Paths mergedCutters = new();
-                PolyTree pt = new ();
-                c.Execute(ClipType.Union, FillRule.EvenOdd, pt);
-                mergedCutters = ClipperFunc.PolyTreeToPaths(pt);
+                c.Execute(ClipType.Union, FillRule.EvenOdd, mergedCutters);
 
                 c.Clear();
                 c.AddSubject(outers);
                 c.AddClip(mergedCutters);
 
                 // Reduce our geometry back to the simplest form.
-                pt.Clear();
                 Paths new_outers = new();
-                c.Execute(ClipType.Difference, FillRule.EvenOdd, pt);//, PolyFillType.pftNonZero, PolyFillType.pftNegative);
-                new_outers = ClipperFunc.PolyTreeToPaths(pt);
+                c.Execute(ClipType.Difference, FillRule.EvenOdd, new_outers);//, PolyFillType.pftNonZero, PolyFillType.pftNegative);
 
                 outers.Clear();
                 outers.AddRange(new_outers.Where(t1 => ClipperFunc.IsClockwise(t1) == outerOrient));
@@ -297,19 +288,40 @@ public static partial class GeoWrangler
         }
     }
 
-    private static Paths pCreateCutter(Path edge, double customSizing)
+    private static Paths pInflateEdge(Path edge, double customSizing)
     {
         customSizing = customSizing switch
         {
             0 => keyhole_sizing,
             _ => customSizing
         };
+        // Force clockwise, which should get us something consistent to work with.
 
-        edge = pExtendEdge(edge, clipper_glancingContact_fudge * keyhole_sizing);
-        
+        double dTmp0 = pDistanceBetweenPoints(new Point64(0, 0), edge[0]);
+        double dTmp1 = pDistanceBetweenPoints(new Point64(0, 0), edge[1]);
+
+        if (dTmp1 < dTmp0)
+        {
+            edge.Reverse();
+        }
+
+        // Get sorted out for dx, dy and normalization.
+        double dx = edge[0].X - edge[1].X;
+        double dy = edge[0].Y - edge[1].Y;
+
+        double length = Math.Sqrt(Utils.myPow(dx, 2) + Utils.myPow(dy, 2));
+
+        dx /= length;
+        dy /= length;
+
+        // Extend the line slightly.
+        edge[0] = new Point64((long)(edge[0].X - Math.Abs(dx * keyhole_sizing)), (long)(edge[0].Y - Math.Abs(dy * keyhole_sizing)));
+        edge[1] = new Point64((long)(edge[1].X + Math.Abs(dx * keyhole_sizing)), (long)(edge[1].Y + Math.Abs(dy * keyhole_sizing)));
+
         ClipperOffset co = new();
-        co.AddPath(edge, JoinType.Square, EndType.Square);
-        Paths sPaths = ClipperFunc.Paths(co.Execute(2 * customSizing));
+        co.AddPath(edge, JoinType.Miter, EndType.Square);
+        
+        Paths sPaths = ClipperFunc.Paths(co.Execute(customSizing));
 
         return sPaths;
     }
@@ -368,16 +380,12 @@ public static partial class GeoWrangler
         }
 
         // Clean-up the geometry.
-        PolyTree pt = new();
         Clipper c = new();
         c.AddSubject(ret);
-        c.Execute(ClipType.Union, FillRule.EvenOdd, pt);
-        ret = ClipperFunc.PolyTreeToPaths(pt);
-        for (int p = 0; p < ret.Count; p++)
-        {
-            ret[p] = pStripColinear(ret[p]);
-        }
-        
+        c.Execute(ClipType.Union, FillRule.EvenOdd, ret);
+
+        ret = stripColinear(ret);
+
         // Validate orientations.
         bool gR_orient_gw = isClockwise(ret[0]);
         bool gR_orient_c = ClipperFunc.IsClockwise(ret[0]);
@@ -439,28 +447,20 @@ public static partial class GeoWrangler
 
         // Used to try and avoid residual fragments; empirically derived.
         customSizing *= extension;
-        
+
+        Paths cGeometry = new();
+
         ClipperOffset co = new();
         co.AddPaths(source, joinType, EndType.Polygon);
-        Paths cGeometry = ClipperFunc.Paths(co.Execute(customSizing));
-        if (maySimplify)
-        {
-            Clipper c = new();
-            PolyTree pt = new();
-            c.AddSubject(cGeometry);
-            c.Execute(ClipType.Union, FillRule.EvenOdd, pt);
-            cGeometry = ClipperFunc.PolyTreeToPaths(pt);
-        }
+        cGeometry = ClipperFunc.Paths(co.Execute(customSizing));
         co.Clear();
         co.AddPaths(cGeometry.ToList(), joinType, EndType.Polygon);
+        cGeometry.Clear();
         cGeometry = ClipperFunc.Paths(co.Execute(-customSizing)); // Size back to original dimensions
+
         if (maySimplify)
         {
-            Clipper c = new();
-            PolyTree pt = new();
-            c.AddSubject(cGeometry);
-            c.Execute(ClipType.Union, FillRule.EvenOdd, pt);
-            cGeometry = ClipperFunc.PolyTreeToPaths(pt);
+            cGeometry = stripColinear(cGeometry);
         }
 
         double newArea = cGeometry.Sum(t => ClipperFunc.Area(t));
@@ -477,6 +477,8 @@ public static partial class GeoWrangler
 
     private static Paths pRemoveFragments(Path source, double customSizing, bool maySimplify = false, JoinType joinType = JoinType.Miter)
     {
+        Paths cGeometry = new();
+
         customSizing = customSizing switch
         {
             0 => keyhole_sizing,
@@ -486,25 +488,15 @@ public static partial class GeoWrangler
 
         ClipperOffset co = new();
         co.AddPath(source, joinType, EndType.Polygon);
-        Paths cGeometry = ClipperFunc.Paths(co.Execute(customSizing));
-        if (maySimplify)
-        {
-            Clipper c = new();
-            PolyTree pt = new();
-            c.AddSubject(cGeometry);
-            c.Execute(ClipType.Union, FillRule.EvenOdd, pt);
-            cGeometry = ClipperFunc.PolyTreeToPaths(pt);
-        }
+        cGeometry = ClipperFunc.Paths(co.Execute(customSizing));
         co.Clear();
         co.AddPaths(cGeometry.ToList(), joinType, EndType.Polygon);
+        cGeometry.Clear();
         cGeometry = ClipperFunc.Paths(co.Execute(-customSizing)); // Size back to original dimensions
+
         if (maySimplify)
         {
-            Clipper c = new();
-            PolyTree pt = new();
-            c.AddSubject(cGeometry);
-            c.Execute(ClipType.Union, FillRule.EvenOdd, pt);
-            cGeometry = ClipperFunc.PolyTreeToPaths(pt);
+            cGeometry = stripColinear(cGeometry);
         }
 
         double newArea = 0;

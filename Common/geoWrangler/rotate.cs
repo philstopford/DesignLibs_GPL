@@ -157,8 +157,7 @@ public static partial class GeoWrangler
         double y = pivot.Y + ((point.X - pivot.X) * Math.Sin(angle) +
                               (point.Y - pivot.Y) * Math.Cos(angle));
 
-        Point64 rotated = new(x, y);
-        rotated.Z = point.Z;
+        Point64 rotated = new(x, y, point.Z);
         return rotated;
     }
 

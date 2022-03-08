@@ -677,7 +677,7 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="RunManager" selected=".NET Project.ClipperLibTest">
+  <component name="RunManager" selected=".NET Project.KeyHolerTest">
     <configuration name="ASA005Test" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -11407,29 +11407,29 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/ClipperLibTest/Clipper2Test.cs</url>
-          <line>120</line>
-          <properties documentPath="D:\development\git\DesignLibs_GPL\ClipperLibTest\Clipper2Test.cs" initialLine="104" containingFunctionPresentation="method 'coincident_openPathTest'">
+          <line>612</line>
+          <properties documentPath="D:\development\git\DesignLibs_GPL\ClipperLibTest\Clipper2Test.cs" initialLine="612" containingFunctionPresentation="method 'leftChordTest'">
             <startOffsets>
-              <option value="2807" />
+              <option value="17198" />
             </startOffsets>
             <endOffsets>
-              <option value="2808" />
+              <option value="17199" />
             </endOffsets>
           </properties>
-          <option name="timeStamp" value="76" />
+          <option name="timeStamp" value="79" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/ClipperLibTest/Clipper1Test.cs</url>
-          <line>139</line>
-          <properties documentPath="D:\development\git\DesignLibs_GPL\ClipperLibTest\Clipper1Test.cs" initialLine="139" containingFunctionPresentation="method 'coincident_openPathTest'">
+          <url>file://$PROJECT_DIR$/ClipperLibTest/Clipper2Test.cs</url>
+          <line>937</line>
+          <properties documentPath="D:\development\git\DesignLibs_GPL\ClipperLibTest\Clipper2Test.cs" initialLine="937" containingFunctionPresentation="method 'rightChordTest'">
             <startOffsets>
-              <option value="3361" />
+              <option value="27716" />
             </startOffsets>
             <endOffsets>
-              <option value="3362" />
+              <option value="27717" />
             </endOffsets>
           </properties>
-          <option name="timeStamp" value="78" />
+          <option name="timeStamp" value="80" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -11456,6 +11456,7 @@
         <watch expression="new System.Collections.Generic.ICollectionDebugView&lt;System.Collections.Generic.List&lt;ClipperLib2.Point64&gt;&gt;(open2).Items[0]" />
         <watch expression="new System.Collections.Generic.ICollectionDebugView&lt;ClipperLib2.Point64&gt;(new System.Collections.Generic.ICollectionDebugView&lt;System.Collections.Generic.List&lt;ClipperLib2.Point64&gt;&gt;(open2).Items[0]).Items[0]" />
         <watch expression="new System.Collections.Generic.ICollectionDebugView&lt;ClipperLib2.Point64&gt;(new System.Collections.Generic.ICollectionDebugView&lt;System.Collections.Generic.List&lt;ClipperLib2.Point64&gt;&gt;(open2).Items[0]).Items[1]" />
+        <watch expression="new System.Collections.Generic.ICollectionDebugView&lt;ClipperLib2.Point64&gt;(new System.Collections.Generic.ICollectionDebugView&lt;System.Collections.Generic.List&lt;ClipperLib2.Point64&gt;&gt;(sR).Items[0]).Items[4]" />
       </configuration>
     </watches-manager>
   </component>

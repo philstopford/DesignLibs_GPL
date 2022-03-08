@@ -296,14 +296,18 @@ public static partial class GeoWrangler
             _ => customSizing
         };
         // Force clockwise, which should get us something consistent to work with.
+        edge = pClockwise(edge);
+        edge.Reverse();
 
+        /*
         double dTmp0 = pDistanceBetweenPoints(new Point64(0, 0), edge[0]);
         double dTmp1 = pDistanceBetweenPoints(new Point64(0, 0), edge[1]);
 
-        if (dTmp1 < dTmp0)
+        if (dTmp1 > dTmp0)
         {
             edge.Reverse();
         }
+        */
 
         // Get sorted out for dx, dy and normalization.
         double dx = edge[0].X - edge[1].X;
@@ -315,13 +319,13 @@ public static partial class GeoWrangler
         dy /= length;
 
         // Extend the line slightly.
-        edge[0] = new Point64((long)(edge[0].X - Math.Abs(dx * keyhole_sizing)), (long)(edge[0].Y - Math.Abs(dy * keyhole_sizing)));
-        edge[1] = new Point64((long)(edge[1].X + Math.Abs(dx * keyhole_sizing)), (long)(edge[1].Y + Math.Abs(dy * keyhole_sizing)));
+        edge[0] = new Point64((long)(edge[0].X - Math.Abs(dx * keyhole_sizing)) - 1, (long)(edge[0].Y - Math.Abs(dy * keyhole_sizing)) - 1);
+        edge[1] = new Point64((long)(edge[1].X + Math.Abs(dx * keyhole_sizing)) + 1, (long)(edge[1].Y + Math.Abs(dy * keyhole_sizing)) + 1);
 
         ClipperOffset co = new();
         co.AddPath(edge, JoinType.Miter, EndType.Square);
         
-        Paths sPaths = ClipperFunc.Paths(co.Execute(customSizing));
+        Paths sPaths = ClipperFunc.Paths(co.Execute(2 * customSizing));
 
         return sPaths;
     }

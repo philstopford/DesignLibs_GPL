@@ -1,8 +1,9 @@
 ﻿#define USINGZ
+
 /*******************************************************************************
 * Author    :  Angus Johnson                                                   *
 * Version   :  10.0 (beta) - also known as Clipper2                            *
-* Date      :  6 March 2022                                                    *
+* Date      :  8 March 2022                                                    *
 * Website   :  http://www.angusj.com                                           *
 * Copyright :  Angus Johnson 2010-2022                                         *
 * Purpose   :  This is the main polygon clipping module                        *
@@ -1266,7 +1267,7 @@ namespace ClipperLib2
 			_outrecList.Add(outrec);
 			outrec.idx = _outrecList.Count - 1;
 			outrec.pts = null;
-			//PolyTree = null
+			outrec.polypath = null;
 
 			ae1.outrec = outrec;
 			SetOwnerAndInnerOuterState(ae1);
@@ -1290,11 +1291,11 @@ namespace ClipperLib2
 			//nb: currently ae1.NextInAEL == ae2 but this could change immediately on return
 		}
 
-		private void AddLocalMaxPoly(Active ae1, Active ae2, Point64 pt)
+		private void AddLocalMaxPoly(Active ae1, Active ae2, Point64 pt, bool force = false)
 		{
 			if (!IsOpen(ae1) && (IsFront(ae1) == IsFront(ae2)))
 				if (!FixSides(ae1)) FixSides(ae2);
-			OutPt op = AddOutPt(ae1, pt);
+			OutPt op = AddOutPt(ae1, pt, true);
 
 			if (ae1.outrec == ae2.outrec)
 			{
@@ -1403,7 +1404,7 @@ namespace ClipperLib2
 			ae2.outrec = null;
 		}
 
-		private OutPt AddOutPt(Active ae, Point64 pt)
+		private OutPt AddOutPt(Active ae, Point64 pt, bool force = false)
 		{
 			OutPt new_op;
 
@@ -1415,9 +1416,19 @@ namespace ClipperLib2
 			OutPt op_back = op_front.next;
 
 			if (to_front && (pt == op_front.pt))
+			{
 				new_op = op_front;
+#if USINGZ
+				if (force) new_op.pt = pt;
+#endif
+			}
 			else if (!to_front && (pt == op_back.pt))
+			{
 				new_op = op_back;
+#if USINGZ
+				if (force) new_op.pt = pt;
+#endif
+			}
 			else
 			{
 				new_op = new OutPt(pt);
@@ -1499,11 +1510,16 @@ namespace ClipperLib2
 #if USINGZ
 					SetZ(ref pt, ae1, ae2);
 #endif
-					AddOutPt(openEdge, pt);
+					AddOutPt(openEdge, pt, true);
 					openEdge.outrec = null;
 				}
 				else
+				{
+#if USINGZ
+					SetZ(ref pt, ae1, ae2);
+#endif
 					StartOpenPath(openEdge, pt);
+				}
 				return;
 			}
 
@@ -1576,18 +1592,21 @@ namespace ClipperLib2
 				if ((old_e1_windcnt != 0 && old_e1_windcnt != 1) || (old_e2_windcnt != 0 && old_e2_windcnt != 1) ||
 					(ae1.local_min.polytype != ae2.local_min.polytype && _cliptype != ClipType.Xor))
 				{
-					AddLocalMaxPoly(ae1, ae2, pt);
+					AddLocalMaxPoly(ae1, ae2, pt, true);
 				}
 				else if (IsFront(ae1) || (ae1.outrec == ae2.outrec))
 				{
-					AddLocalMaxPoly(ae1, ae2, pt);
-					AddLocalMinPoly(ae1, ae2, pt);
+					AddLocalMaxPoly(ae1, ae2, pt, true);
+					AddLocalMinPoly(ae1, ae2, pt, true);
+#if USINGZ
+					SetZ(ref ae1.outrec.pts.pt, ae1, ae2);
+#endif
 				}
 				else
 				{
 					//right & left bounds touching, NOT maxima & minima ...
-					AddOutPt(ae1, pt);
-					AddOutPt(ae2, pt);
+					AddOutPt(ae1, pt, true);
+					AddOutPt(ae2, pt, true);
 					SwapOutrecs(ae1, ae2);
 				}
 			}
@@ -1597,7 +1616,7 @@ namespace ClipperLib2
 #if USINGZ
 				SetZ(ref pt, ae1, ae2);
 #endif
-				AddOutPt(ae1, pt);
+				AddOutPt(ae1, pt, true);
 				SwapOutrecs(ae1, ae2);
 			}
 			else if (IsHotEdge(ae2))
@@ -1605,7 +1624,7 @@ namespace ClipperLib2
 #if USINGZ
 				SetZ(ref pt, ae1, ae2);
 #endif
-				AddOutPt(ae2, pt);
+				AddOutPt(ae2, pt, true);
 				SwapOutrecs(ae1, ae2);
 			}
 			else
@@ -1629,10 +1648,10 @@ namespace ClipperLib2
 
 				if (!IsSamePolyType(ae1, ae2))
 				{
-#if USINGZ
-					SetZ(ref pt, ae1, ae2);
-#endif
 					AddLocalMinPoly(ae1, ae2, pt, false, orientation_check_required);
+#if USINGZ
+					SetZ(ref ae1.outrec.pts.pt, ae1, ae2);
+#endif
 				}
 				else if (old_e1_windcnt == 1 && old_e2_windcnt == 1)
 				{
@@ -1662,6 +1681,10 @@ namespace ClipperLib2
 						default:
 							break;
 					}
+#if USINGZ
+					SetZ(ref ae1.outrec.pts.pt, ae1, ae2);
+#endif
+
 				}
 			}
 		}

@@ -1,4 +1,5 @@
 ﻿#define USINGZ
+
 /*******************************************************************************
 * Author    :  Angus Johnson                                                   *
 * Version   :  10.0 (release candidate 1) - also known as Clipper2             *
@@ -52,12 +53,12 @@ namespace ClipperLib2
 
     public static bool operator ==(Point64 lhs, Point64 rhs)
     {
-      return lhs.X == rhs.X && lhs.Y == rhs.Y && lhs.Z == rhs.Z;
+      return lhs.X == rhs.X && lhs.Y == rhs.Y;
     }
 
     public static bool operator !=(Point64 lhs, Point64 rhs)
     {
-      return lhs.X != rhs.X || lhs.Y != rhs.Y || lhs.Z != rhs.Z;
+      return lhs.X != rhs.X || lhs.Y != rhs.Y;
     }
 
 #else

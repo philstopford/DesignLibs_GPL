@@ -118,10 +118,10 @@ internal class Program
         sL = ClipperFunc.PolyTreeToPaths(pt);
 
         // Gap removal test
-        Paths gR = GeoWrangler.gapRemoval(kH, 100);
+        Paths gR = GeoWrangler.gapRemoval(kH, 500);
 
         // Sliver removal test
-        Paths sR = GeoWrangler.gapRemoval(sL, -100);
+        Paths sR = GeoWrangler.gapRemoval(sL, -500);
     }
 
     private static void multiTest()

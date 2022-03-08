@@ -5,6 +5,9 @@ using ClipperLib2Test;
 
 Console.WriteLine("Comparison tests for Clipper 1 and Clipper 2");
 
+Clipper1Test.edgeOffsetTest();
+Clipper2Test.edgeOffsetTest();
+
 Clipper1Test.rightChordTest();
 Clipper2Test.rightChordTest();
 

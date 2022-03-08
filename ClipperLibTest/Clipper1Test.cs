@@ -10,6 +10,20 @@ public static class Clipper1Test
 {
     const double keyhole_sizing = 500;
 
+    public static void edgeOffsetTest()
+    {
+        Path edge = new()
+        {
+            new(-100000, 99500),
+            new(-100000, 200500)
+        };
+
+        ClipperOffset co = new();
+        co.AddPath(edge, JoinType.jtMiter, EndType.etOpenSquare);
+        Paths p = new();
+        co.Execute(ref p, 500);
+
+    }
     private static void zFillTest(IntPoint bot1, IntPoint top1, IntPoint bot2, IntPoint top2, ref IntPoint pt)
     {
         pt.Z = -1;

@@ -10,6 +10,19 @@ public static class Clipper2Test
 {
     const double keyhole_sizing = 500;
 
+    public static void edgeOffsetTest()
+    {
+        Path64 edge = new()
+        {
+            new(-100000, 99500),
+            new(-100000, 200500)
+        };
+
+        ClipperOffset co = new();
+        co.AddPath(edge, JoinType.Miter, EndType.Square);
+        Paths64 p = ClipperFunc.Paths(co.Execute(500));
+
+    }
     private static void zFillTest(Point64 bot1, Point64 top1, Point64 bot2, Point64 top2, ref Point64 pt)
     {
         pt.Z = -1;

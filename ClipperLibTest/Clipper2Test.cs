@@ -10,6 +10,35 @@ public static class Clipper2Test
 {
     const double keyhole_sizing = 500;
 
+    public static void notTest()
+    {
+        Path64 firstPath = new() {
+            new (-250000,-250000),
+            new (-250000,250000),
+            new (250000,250000),
+            new (250000,-250000),
+            new (-250000,-250000),
+        };
+        
+        Path64 secondPath = new() {
+        new (-150000,-150000),
+        new (-150000,150000),
+        new (150000,150000),
+        new (150000,-150000),
+        new (-150000,-150000),
+        };
+        
+        
+        Clipper c = new();
+        
+        c.AddSubject(firstPath);
+        c.AddClip(secondPath);
+        
+        Paths64 outputPoints = new();
+        
+        c.Execute(ClipType.Difference, FillRule.EvenOdd, outputPoints);
+    }
+
     public static void edgeOffsetTest()
     {
         Path64 edge = new()
@@ -47,7 +76,7 @@ public static class Clipper2Test
 
         Clipper c = new();
 
-        c.ZFill = zFillTest;
+        c.ZFillFunc = zFillTest;
 
         c.AddSubject(outer);
         c.AddClip(cutter);
@@ -122,7 +151,7 @@ public static class Clipper2Test
             y += 100;
         }
         Clipper c3 = new();
-        c3.ZFill = zFillTest;
+        c3.ZFillFunc = zFillTest;
         
         c3.AddClip(lPoly);
         c3.AddOpenSubject(t3);
@@ -615,7 +644,7 @@ public static class Clipper2Test
         }
 
         Clipper c = new();
-        c.ZFill = zFillTest;
+        c.ZFillFunc = zFillTest;
         c.AddOpenSubject(testPath);
         c.AddClip(a);
 
@@ -940,7 +969,7 @@ public static class Clipper2Test
         }
 
         Clipper c = new();
-        c.ZFill = zFillTest;
+        c.ZFillFunc = zFillTest;
         c.AddOpenSubject(testPath);
         c.AddClip(a);
 

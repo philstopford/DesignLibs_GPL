@@ -10,6 +10,40 @@ public static class Clipper1Test
 {
     const double keyhole_sizing = 500;
 
+    public static void notTest()
+    {
+        Path firstPath = new() {
+        new (-250000,-250000),
+        new (-250000,250000),
+        new (250000,250000),
+        new (250000,-250000),
+        new (-250000,-250000),
+        };
+        
+        Path secondPath = new() {
+        new (-150000,-150000),
+        new (-150000,150000),
+        new (150000,150000),
+        new (150000,-150000),
+        new (-150000,-150000),
+        new (-2147483647,-2147483647),
+        new (-2147483647,2147483647),
+        new (2147483647,2147483647),
+        new (2147483647,-2147483647),
+        new (-2147483647,-2147483647),
+        new (-150000,-150000),
+        };
+        
+        
+        Clipper c = new();
+        
+        c.AddPath(firstPath, PolyType.ptSubject, true);
+        c.AddPath(secondPath,PolyType.ptClip, true);
+        
+        Paths outputPoints = new();
+        
+        c.Execute(ClipType.ctIntersection, outputPoints);
+    }
     public static void edgeOffsetTest()
     {
         Path edge = new()

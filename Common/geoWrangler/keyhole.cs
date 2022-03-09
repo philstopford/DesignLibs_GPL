@@ -297,7 +297,6 @@ public static partial class GeoWrangler
         };
         // Force clockwise, which should get us something consistent to work with.
         edge = pClockwise(edge);
-        edge.Reverse();
 
         /*
         double dTmp0 = pDistanceBetweenPoints(new Point64(0, 0), edge[0]);
@@ -318,9 +317,14 @@ public static partial class GeoWrangler
         dx /= length;
         dy /= length;
 
+        if (dy < 0)
+        {
+            edge.Reverse();
+        }
+
         // Extend the line slightly.
-        edge[0] = new Point64((long)(edge[0].X - Math.Abs(dx * keyhole_sizing)) - 1, (long)(edge[0].Y - Math.Abs(dy * keyhole_sizing)) - 1);
-        edge[1] = new Point64((long)(edge[1].X + Math.Abs(dx * keyhole_sizing)) + 1, (long)(edge[1].Y + Math.Abs(dy * keyhole_sizing)) + 1);
+        edge[0] = new Point64((long)(edge[0].X - Math.Abs(dx * keyhole_sizing)) + 1, (long)(edge[0].Y - Math.Abs(dy * keyhole_sizing)) + 1 );
+        edge[1] = new Point64((long)(edge[1].X + Math.Abs(dx * keyhole_sizing)) - 1, (long)(edge[1].Y + Math.Abs(dy * keyhole_sizing)) -1);
 
         ClipperOffset co = new();
         co.AddPath(edge, JoinType.Miter, EndType.Square);

@@ -5,6 +5,9 @@ using ClipperLib2Test;
 
 Console.WriteLine("Comparison tests for Clipper 1 and Clipper 2");
 
+Clipper1Test.unionTest();
+Clipper2Test.unionTest();
+
 Clipper1Test.notTest();
 Clipper2Test.notTest();
 

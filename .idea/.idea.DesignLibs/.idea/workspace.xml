@@ -11407,29 +11407,55 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/ClipperLibTest/Clipper2Test.cs</url>
-          <line>612</line>
+          <line>625</line>
           <properties documentPath="D:\development\git\DesignLibs_GPL\ClipperLibTest\Clipper2Test.cs" initialLine="612" containingFunctionPresentation="method 'leftChordTest'">
             <startOffsets>
-              <option value="17198" />
+              <option value="17515" />
             </startOffsets>
             <endOffsets>
-              <option value="17199" />
+              <option value="17516" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="79" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/ClipperLibTest/Clipper2Test.cs</url>
-          <line>937</line>
+          <line>950</line>
           <properties documentPath="D:\development\git\DesignLibs_GPL\ClipperLibTest\Clipper2Test.cs" initialLine="937" containingFunctionPresentation="method 'rightChordTest'">
             <startOffsets>
-              <option value="27716" />
+              <option value="28033" />
             </startOffsets>
             <endOffsets>
-              <option value="27717" />
+              <option value="28034" />
             </endOffsets>
           </properties>
           <option name="timeStamp" value="80" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/ClipperLibTest/Clipper1Test.cs</url>
+          <line>25</line>
+          <properties documentPath="D:\development\git\DesignLibs_GPL\ClipperLibTest\Clipper1Test.cs" initialLine="25" containingFunctionPresentation="method 'edgeOffsetTest'">
+            <startOffsets>
+              <option value="512" />
+            </startOffsets>
+            <endOffsets>
+              <option value="513" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="114" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Common/geoWrangler/keyhole.cs</url>
+          <line>244</line>
+          <properties documentPath="D:\development\git\DesignLibs_GPL\Common\geoWrangler\keyhole.cs" initialLine="244" containingFunctionPresentation="method 'pMakeKeyHole'">
+            <startOffsets>
+              <option value="9268" />
+            </startOffsets>
+            <endOffsets>
+              <option value="9309" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="116" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

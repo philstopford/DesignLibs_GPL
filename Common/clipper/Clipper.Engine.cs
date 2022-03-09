@@ -11,8 +11,7 @@
 *              Guus Kuiper (https://www.guuskuiper.nl/) for their invaluable   *
 *              assistance in this C# Clipper port.                             *
 * License   :  http://www.boost.org/LICENSE_1_0.txt                            *
-
- *******************************************************************************/
+*******************************************************************************/
 
 using System;
 using System.Collections.Generic;
@@ -56,12 +55,12 @@ namespace ClipperLib2
 	{
 		public Vertex vertex;
 		public PathType polytype;
-		public bool is_open;
-		public LocalMinima(Vertex vertex, PathType polytype, bool is_open = false)
+		public bool isOpen;
+		public LocalMinima(Vertex vertex, PathType polytype, bool isOpen = false)
 		{
 			this.vertex = vertex;
 			this.polytype = polytype;
-			this.is_open = is_open;
+			this.isOpen = isOpen;
 		}
 	};
 
@@ -105,8 +104,8 @@ namespace ClipperLib2
 	{
 		public int idx;
 		public OutRec owner;
-		public Active front_e;
-		public Active back_e;
+		public Active frontEdge;
+		public Active backEdge;
 		public OutPt pts;
 		public PolyPathBase polypath;
 		public OutRecState state;
@@ -116,26 +115,26 @@ namespace ClipperLib2
 	{
 		public Point64 bot;
 		public Point64 top;
-		public long curr_x;  //current (updated at every new scanline)
+		public long curX;  //current (updated at every new scanline)
 		public double dx;
-		public int wind_dx;  //1 or -1 depending on winding direction
-		public int wind_cnt;
-		public int wind_cnt2;  //winding count of the opposite polytype
+		public int windDx;  //1 or -1 depending on winding direction
+		public int windCount;
+		public int windCount2;  //winding count of the opposite polytype
 		public OutRec outrec;
 		//AEL: 'active edge list' (Vatti's AET - active edge table)
 		//     a linked list of all edges (from left to right) that are present
 		//     (or 'active') within the current scanbeam (a horizontal 'beam' that
 		//     sweeps from bottom to top over the paths in the clipping operation).
-		public Active prev_in_ael;
-		public Active next_in_ael;
+		public Active prevInAEL;
+		public Active nextInAEL;
 		//SEL: 'sorted edge list' (Vatti's ST - sorted table)
 		//     linked list used when sorting edges into their new positions at the
 		//     top of scanbeams, but also (re)used to process horizontals.
-		public Active prev_in_sel;
-		public Active next_in_sel;
+		public Active prevInSEL;
+		public Active nextInSEL;
 		public Active jump;
-		public Vertex vertex_top;
-		public LocalMinima local_min;  //the bottom of an edge 'bound' (also Vatti)
+		public Vertex vertexTop;
+		public LocalMinima localMin;  //the bottom of an edge 'bound' (also Vatti)
 	};
 
 	public class Clipper
@@ -157,7 +156,7 @@ namespace ClipperLib2
 #if USINGZ
     public delegate void ZCallback(Point64 bot1, Point64 top1,
 				Point64 bot2, Point64 top2, ref Point64 intersectPt);
-    public ZCallback ZFill { get; set; }
+    public ZCallback ZFillFunc { get; set; }
 #endif
 
 		public Clipper()
@@ -177,7 +176,7 @@ namespace ClipperLib2
 
 		private void SetZ(Active e1, Active e2, ref Point64 intersectPt)
 		{
-			if (ZFill == null) return;
+			if (ZFillFunc == null) return;
 			
 			//prioritize subject vertices over clip vertices
 			//and pass the subject vertices before clip vertices in the callback
@@ -196,7 +195,7 @@ namespace ClipperLib2
 			else if (XYCoordsEqual(intersectPt, e3.top)) intersectPt.Z = e3.top.Z;
 			else if (XYCoordsEqual(intersectPt, e4.bot)) intersectPt.Z = e4.bot.Z;
 			else if (XYCoordsEqual(intersectPt, e4.top)) intersectPt.Z = e4.top.Z;
-			ZFill(e3.bot, e3.top, e4.bot, e4.top, ref intersectPt);
+			ZFillFunc(e3.bot, e3.top, e4.bot, e4.top, ref intersectPt);
 		}
 #endif
 
@@ -228,20 +227,20 @@ namespace ClipperLib2
 
 		private static bool IsOpen(Active ae)
 		{
-			return ae.local_min.is_open;
+			return ae.localMin.isOpen;
 		}
 
 		private static bool IsOpenEnd(Active ae)
 		{
-			return ae.local_min.is_open && 
-				(ae.vertex_top.flags & (VertexFlags.OpenStart | VertexFlags.OpenEnd)) != VertexFlags.None;
+			return ae.localMin.isOpen && 
+				(ae.vertexTop.flags & (VertexFlags.OpenStart | VertexFlags.OpenEnd)) != VertexFlags.None;
 		}
 
 		static Active GetPrevHotEdge(Active ae)
 		{
-			Active prev = ae.prev_in_ael;
+			Active prev = ae.prevInAEL;
 			while (prev != null && (IsOpen(prev) || !IsHotEdge(prev)))
-				prev = prev.prev_in_ael;
+				prev = prev.prevInAEL;
 			return prev;
 		}
 
@@ -270,9 +269,9 @@ namespace ClipperLib2
 			//the front edge will be the LEFT edge when it's an OUTER polygon
 			//so that outer polygons will be orientated clockwise
 			if (ae.outrec.state == OutRecState.Open)
-				return (ae.wind_dx > 0);
+				return (ae.windDx > 0);
 			else
-				return (ae == ae.outrec.front_e);
+				return (ae == ae.outrec.frontEdge);
 		}
 
 		static bool IsInvalidPath(OutPt op)
@@ -329,12 +328,12 @@ namespace ClipperLib2
 
 		static PathType GetPolyType(Active ae)
 		{
-			return ae.local_min.polytype;
+			return ae.localMin.polytype;
 		}
 
 		static bool IsSamePolyType(Active ae1, Active ae2)
 		{
-			return ae1.local_min.polytype == ae2.local_min.polytype;
+			return ae1.localMin.polytype == ae2.localMin.polytype;
 		}
 
 		static Point64 GetIntersectPoint(Active ae1, Active ae2)
@@ -372,23 +371,23 @@ namespace ClipperLib2
 
 		static bool IsLeftBound(Active ae)
 		{
-			return ae.wind_dx > 0;
+			return ae.windDx > 0;
 		}
 
 		static Vertex NextVertex(Active ae)
 		{
 			if (IsLeftBound(ae))
-				return ae.vertex_top.next;
+				return ae.vertexTop.next;
 			else
-				return ae.vertex_top.prev;
+				return ae.vertexTop.prev;
 		}
 
 		static Vertex PrevVertex(Active ae)
 		{
 			if (IsLeftBound(ae))
-				return ae.vertex_top.prev; 
+				return ae.vertexTop.prev; 
 			else
-				return ae.vertex_top.next;
+				return ae.vertexTop.next;
 		}
 
 		static bool IsClockwise(OutPt op)
@@ -398,7 +397,7 @@ namespace ClipperLib2
 
 		static bool IsMaxima(Active ae)
 		{
-			return ((ae.vertex_top.flags & VertexFlags.LocalMax) != VertexFlags.None);
+			return ((ae.vertexTop.flags & VertexFlags.LocalMax) != VertexFlags.None);
 		}
 
 		private Active GetMaximaPair(Active ae)
@@ -407,30 +406,29 @@ namespace ClipperLib2
 			if (IsHorizontal(ae))
 			{
 				//we can't be sure whether the MaximaPair is on the left or right, so ...
-				ae2 = ae.prev_in_ael;
-				while (ae2 != null && ae2.curr_x >= ae.top.X)
+				ae2 = ae.prevInAEL;
+				while (ae2 != null && ae2.curX >= ae.top.X)
 				{
-					if (ae2.vertex_top == ae.vertex_top) return ae2;  //Found!
-					ae2 = ae2.prev_in_ael;
+					if (ae2.vertexTop == ae.vertexTop) return ae2;  //Found!
+					ae2 = ae2.prevInAEL;
 				}
-				ae2 = ae.next_in_ael;
+				ae2 = ae.nextInAEL;
 				while (ae2 != null && (TopX(ae2, ae.top.Y) <= ae.top.X))
 				{
-					if (ae2.vertex_top == ae.vertex_top) return ae2;  //Found!
-					ae2 = ae2.next_in_ael;
+					if (ae2.vertexTop == ae.vertexTop) return ae2;  //Found!
+					ae2 = ae2.nextInAEL;
 				}
-				return null;
 			}
 			else
 			{
-				ae2 = ae.next_in_ael;
+				ae2 = ae.nextInAEL;
 				while (ae2 != null)
 				{
-					if (ae2.vertex_top == ae.vertex_top) return ae2;  //Found!
-					ae2 = ae2.next_in_ael;
+					if (ae2.vertexTop == ae.vertexTop) return ae2;  //Found!
+					ae2 = ae2.nextInAEL;
 				}
-				return null;
 			}
+			return null;
 		}
 
 		static int PointCount(OutPt op)
@@ -471,8 +469,8 @@ namespace ClipperLib2
 
 		static void SetSides(OutRec outrec, Active start_edge, Active end_edge)
 		{
-			outrec.front_e = start_edge;
-			outrec.back_e = end_edge;
+			outrec.frontEdge = start_edge;
+			outrec.backEdge = end_edge;
 		}
 
 		static void SwapOutrecs(Active ae1, Active ae2)
@@ -481,24 +479,24 @@ namespace ClipperLib2
 			OutRec or2 = ae2.outrec;
 			if (or1 == or2)
 			{
-				Active ae = or1.front_e;
-				or1.front_e = or1.back_e;
-				or1.back_e = ae;
+				Active ae = or1.frontEdge;
+				or1.frontEdge = or1.backEdge;
+				or1.backEdge = ae;
 				return;
 			}
 			if (or1 != null)
 			{
-				if (ae1 == or1.front_e)
-					or1.front_e = ae2;
+				if (ae1 == or1.frontEdge)
+					or1.frontEdge = ae2;
 				else
-					or1.back_e = ae2;
+					or1.backEdge = ae2;
 			}
 			if (or2 != null)
 			{
-				if (ae2 == or2.front_e)
-					or2.front_e = ae1;
+				if (ae2 == or2.frontEdge)
+					or2.frontEdge = ae1;
 				else
-					or2.back_e = ae1;
+					or2.backEdge = ae1;
 			}
 			ae1.outrec = or2;
 			ae2.outrec = or1;
@@ -545,11 +543,11 @@ namespace ClipperLib2
 			bool was_outer = IsOuter(ae.outrec);
 			bool is_outer = true;
 
-			Active ae2 = ae.prev_in_ael;
+			Active ae2 = ae.prevInAEL;
 			while (ae2 != null)
 			{
 				if (IsHotEdge(ae2) && !IsOpen(ae2)) is_outer = !is_outer;
-				ae2 = ae2.prev_in_ael;
+				ae2 = ae2.prevInAEL;
 			}
 
 			if (is_outer != was_outer)
@@ -586,9 +584,9 @@ namespace ClipperLib2
 
 		private static void SwapSides(OutRec outrec)
 		{
-			Active ae2 = outrec.front_e;
-			outrec.front_e = outrec.back_e;
-			outrec.back_e = ae2;
+			Active ae2 = outrec.frontEdge;
+			outrec.frontEdge = outrec.backEdge;
+			outrec.backEdge = ae2;
 			outrec.pts = outrec.pts.next;
 		}
 
@@ -613,12 +611,12 @@ namespace ClipperLib2
 			//set owner ...
 			if (IsHeadingLeftHorz(ae))
 			{
-				ae2 = ae.next_in_ael;  //ie assess state from opposite direction
+				ae2 = ae.nextInAEL;  //ie assess state from opposite direction
 				while (ae2 != null && (!IsHotEdge(ae2) || IsOpen(ae2)))
-					ae2 = ae2.next_in_ael;
+					ae2 = ae2.nextInAEL;
 				if (ae2 == null)
 					outrec.owner = null;
-				else if ((ae2.outrec.state == OutRecState.Outer) == (ae2.outrec.front_e == ae2))
+				else if ((ae2.outrec.state == OutRecState.Outer) == (ae2.outrec.frontEdge == ae2))
 					outrec.owner = ae2.outrec.owner;
 				else
 					outrec.owner = ae2.outrec;
@@ -627,10 +625,10 @@ namespace ClipperLib2
 			{
 				ae2 = GetPrevHotEdge(ae);
 				while (ae2 != null && (!IsHotEdge(ae2) || IsOpen(ae2)))
-					ae2 = ae2.prev_in_ael;
+					ae2 = ae2.prevInAEL;
 				if (ae2 == null)
 					outrec.owner = null;
-				else if (IsOuter(ae2.outrec) == (ae2.outrec.back_e == ae2))
+				else if (IsOuter(ae2.outrec) == (ae2.outrec.backEdge == ae2))
 					outrec.owner = ae2.outrec.owner;
 				else
 					outrec.owner = ae2.outrec;
@@ -644,7 +642,7 @@ namespace ClipperLib2
 
 		private static bool EdgesAdjacentInAEL(IntersectNode inode)
 		{
-			return (inode.edge1.next_in_ael == inode.edge2) || (inode.edge1.prev_in_ael == inode.edge2);
+			return (inode.edge1.nextInAEL == inode.edge2) || (inode.edge1.prevInAEL == inode.edge2);
 		}
 
 		protected void CleanUp()
@@ -879,13 +877,13 @@ namespace ClipperLib2
 			switch (_fillrule)
 			{
 				case FillRule.NonZero:
-					if (Math.Abs(ae.wind_cnt) != 1) return false;
+					if (Math.Abs(ae.windCount) != 1) return false;
 					break;
 				case FillRule.Positive:
-					if (ae.wind_cnt != 1) return false;
+					if (ae.windCount != 1) return false;
 					break;
 				case FillRule.Negative:
-					if (ae.wind_cnt != -1) return false;
+					if (ae.windCount != -1) return false;
 					break;
 				default:
 					break;  // delphi2cpp translation note: no warnings
@@ -897,18 +895,18 @@ namespace ClipperLib2
 					switch (_fillrule)
 					{
 						case FillRule.EvenOdd:
-						case FillRule.NonZero: return (ae.wind_cnt2 != 0);
-						case FillRule.Positive: return (ae.wind_cnt2 > 0);
-						case FillRule.Negative: return (ae.wind_cnt2 < 0);
+						case FillRule.NonZero: return (ae.windCount2 != 0);
+						case FillRule.Positive: return (ae.windCount2 > 0);
+						case FillRule.Negative: return (ae.windCount2 < 0);
 					}
 					break;
 				case ClipType.Union:
 					switch (_fillrule)
 					{
 						case FillRule.EvenOdd:
-						case FillRule.NonZero: return (ae.wind_cnt2 == 0);
-						case FillRule.Positive: return (ae.wind_cnt2 <= 0);
-						case FillRule.Negative: return (ae.wind_cnt2 >= 0);
+						case FillRule.NonZero: return (ae.windCount2 == 0);
+						case FillRule.Positive: return (ae.windCount2 <= 0);
+						case FillRule.Negative: return (ae.windCount2 >= 0);
 					}
 					break;
 				case ClipType.Difference:
@@ -916,17 +914,17 @@ namespace ClipperLib2
 						switch (_fillrule)
 						{
 							case FillRule.EvenOdd:
-							case FillRule.NonZero: return (ae.wind_cnt2 == 0);
-							case FillRule.Positive: return (ae.wind_cnt2 <= 0);
-							case FillRule.Negative: return (ae.wind_cnt2 >= 0);
+							case FillRule.NonZero: return (ae.windCount2 == 0);
+							case FillRule.Positive: return (ae.windCount2 <= 0);
+							case FillRule.Negative: return (ae.windCount2 >= 0);
 						}
 					else
 						switch (_fillrule)
 						{
 							case FillRule.EvenOdd:
-							case FillRule.NonZero: return (ae.wind_cnt2 != 0);
-							case FillRule.Positive: return (ae.wind_cnt2 > 0);
-							case FillRule.Negative: return (ae.wind_cnt2 < 0);
+							case FillRule.NonZero: return (ae.windCount2 != 0);
+							case FillRule.Positive: return (ae.windCount2 > 0);
+							case FillRule.Negative: return (ae.windCount2 < 0);
 						}
 					break;
 				case ClipType.Xor:
@@ -941,10 +939,10 @@ namespace ClipperLib2
 		{
 			return _cliptype switch
 			{
-				ClipType.Intersection => (ae.wind_cnt2 != 0),
-				ClipType.Union => (ae.wind_cnt == 0 && ae.wind_cnt2 == 0),
-				ClipType.Difference => (ae.wind_cnt2 == 0),
-				ClipType.Xor => (ae.wind_cnt != 0) != (ae.wind_cnt2 != 0),
+				ClipType.Intersection => (ae.windCount2 != 0),
+				ClipType.Union => (ae.windCount == 0 && ae.windCount2 == 0),
+				ClipType.Difference => (ae.windCount2 == 0),
+				ClipType.Xor => (ae.windCount != 0) != (ae.windCount2 != 0),
 				_ => false,
 			};
 		}
@@ -956,21 +954,21 @@ namespace ClipperLib2
 			//edge. (nb: Adjacent regions can only ever have their wind counts differ by
 			//one. Also, open paths have no meaningful wind directions or counts.)
 
-			Active ae2 = ae.prev_in_ael;
+			Active ae2 = ae.prevInAEL;
 			//find the nearest closed path edge of the same PolyType in AEL (heading left)
 			PathType pt = GetPolyType(ae);
-			while (ae2 != null && (GetPolyType(ae2) != pt || IsOpen(ae2))) ae2 = ae2.prev_in_ael;
+			while (ae2 != null && (GetPolyType(ae2) != pt || IsOpen(ae2))) ae2 = ae2.prevInAEL;
 
 			if (ae2 == null)
 			{
-				ae.wind_cnt = ae.wind_dx;
+				ae.windCount = ae.windDx;
 				ae2 = _actives;
 			}
 			else if (_fillrule == FillRule.EvenOdd)
 			{
-				ae.wind_cnt = ae.wind_dx;
-				ae.wind_cnt2 = ae2.wind_cnt2;
-				ae2 = ae2.next_in_ael;
+				ae.windCount = ae.windDx;
+				ae.windCount2 = ae2.windCount2;
+				ae2 = ae2.nextInAEL;
 			}
 			else
 			{
@@ -978,35 +976,35 @@ namespace ClipperLib2
 				//if ae's WindCnt is in the SAME direction as its WindDx, then polygon
 				//filling will be on the right of 'ae'.
 				//nb: neither ae2.WindCnt nor ae2.WindDx should ever be 0.
-				if (ae2.wind_cnt * ae2.wind_dx < 0)
+				if (ae2.windCount * ae2.windDx < 0)
 				{
 					//opposite directions so 'ae' is outside 'ae2' ...
-					if (Math.Abs(ae2.wind_cnt) > 1)
+					if (Math.Abs(ae2.windCount) > 1)
 					{
 						//outside prev poly but still inside another.
-						if (ae2.wind_dx * ae.wind_dx < 0)
+						if (ae2.windDx * ae.windDx < 0)
 							//reversing direction so use the same WC
-							ae.wind_cnt = ae2.wind_cnt;
+							ae.windCount = ae2.windCount;
 						else
 							//otherwise keep 'reducing' the WC by 1 (ie towards 0) ...
-							ae.wind_cnt = ae2.wind_cnt + ae.wind_dx;
+							ae.windCount = ae2.windCount + ae.windDx;
 					}
 					else
 						//now outside all polys of same polytype so set own WC ...
-						ae.wind_cnt = (IsOpen(ae) ? 1 : ae.wind_dx);
+						ae.windCount = (IsOpen(ae) ? 1 : ae.windDx);
 				}
 				else
 				{
 					//'ae' must be inside 'ae2'
-					if (ae2.wind_dx * ae.wind_dx < 0)
+					if (ae2.windDx * ae.windDx < 0)
 						//reversing direction so use the same WC
-						ae.wind_cnt = ae2.wind_cnt;
+						ae.windCount = ae2.windCount;
 					else
 						//otherwise keep 'increasing' the WC by 1 (ie away from 0) ...
-						ae.wind_cnt = ae2.wind_cnt + ae.wind_dx;
+						ae.windCount = ae2.windCount + ae.windDx;
 				}
-				ae.wind_cnt2 = ae2.wind_cnt2;
-				ae2 = ae2.next_in_ael;  //ie get ready to calc WindCnt2
+				ae.windCount2 = ae2.windCount2;
+				ae2 = ae2.nextInAEL;  //ie get ready to calc WindCnt2
 			}
 
 			//update wind_cnt2 ...
@@ -1014,15 +1012,15 @@ namespace ClipperLib2
 				while (ae2 != ae)
 				{
 					if (GetPolyType(ae2) != pt && !IsOpen(ae2))
-						ae.wind_cnt2 = (ae.wind_cnt2 == 0 ? 1 : 0);
-					ae2 = ae2.next_in_ael;
+						ae.windCount2 = (ae.windCount2 == 0 ? 1 : 0);
+					ae2 = ae2.nextInAEL;
 				}
 			else
 				while (ae2 != ae)
 				{
 					if (GetPolyType(ae2) != pt && !IsOpen(ae2))
-						ae.wind_cnt2 += ae2.wind_dx;
-					ae2 = ae2.next_in_ael;
+						ae.windCount2 += ae2.windDx;
+					ae2 = ae2.nextInAEL;
 				}
 		}
 
@@ -1038,28 +1036,28 @@ namespace ClipperLib2
 						cnt2++;
 					else if (!IsOpen(ae2))
 						cnt1++;
-					ae2 = ae2.next_in_ael;
+					ae2 = ae2.nextInAEL;
 				}
-				ae.wind_cnt = (IsOdd(cnt1) ? 1 : 0);
-				ae.wind_cnt2 = (IsOdd(cnt2) ? 1 : 0);
+				ae.windCount = (IsOdd(cnt1) ? 1 : 0);
+				ae.windCount2 = (IsOdd(cnt2) ? 1 : 0);
 			}
 			else
 			{
 				while (ae2 != ae)
 				{
 					if (GetPolyType(ae2) == PathType.Clip)
-						ae.wind_cnt2 += ae2.wind_dx;
+						ae.windCount2 += ae2.windDx;
 					else if (!IsOpen(ae2))
-						ae.wind_cnt += ae2.wind_dx;
-					ae2 = ae2.next_in_ael;
+						ae.windCount += ae2.windDx;
+					ae2 = ae2.nextInAEL;
 				}
 			}
 		}
 
 		private bool IsValidAelOrder(Active a1, Active a2)
 		{
-			if (a2.curr_x != a1.curr_x)
-				return a2.curr_x > a1.curr_x;
+			if (a2.curX != a1.curX)
+				return a2.curX > a1.curX;
 
 			Point64 pt;
 			if (a1.bot.Y < a2.bot.Y)
@@ -1084,9 +1082,9 @@ namespace ClipperLib2
 						a2.bot, a2.top, NextVertex(a2).pt) >= 0;
 
 			bool a1IsNewEdge = !IsOpen(a1) && 
-				(a1.bot.Y <= a2.bot.Y) && PrevVertex(a1) == a1.local_min.vertex;
+				(a1.bot.Y <= a2.bot.Y) && PrevVertex(a1) == a1.localMin.vertex;
 			bool a2IsNewEdge = !IsOpen(a2) && 
-				(a2.bot.Y <= a1.bot.Y) && PrevVertex(a2) == a2.local_min.vertex;
+				(a2.bot.Y <= a1.bot.Y) && PrevVertex(a2) == a2.localMin.vertex;
 
 			if (IsHorizontal(a1))
 			{
@@ -1109,35 +1107,35 @@ namespace ClipperLib2
 
 			if (_actives == null)
 			{
-				ae.prev_in_ael = null;
-				ae.next_in_ael = null;
+				ae.prevInAEL = null;
+				ae.nextInAEL = null;
 				_actives = ae;
 			}
 			else if (IsValidAelOrder(ae, _actives))
 			{
-				ae.prev_in_ael = null;
-				ae.next_in_ael = _actives;
-				_actives.prev_in_ael = ae;
+				ae.prevInAEL = null;
+				ae.nextInAEL = _actives;
+				_actives.prevInAEL = ae;
 				_actives = ae;
 			}
 			else
 			{
 				ae2 = _actives;
-				while (ae2.next_in_ael != null && IsValidAelOrder(ae2.next_in_ael, ae))
-					ae2 = ae2.next_in_ael;
-				ae.next_in_ael = ae2.next_in_ael;
-				if (ae2.next_in_ael != null) ae2.next_in_ael.prev_in_ael = ae;
-				ae.prev_in_ael = ae2;
-				ae2.next_in_ael = ae;
+				while (ae2.nextInAEL != null && IsValidAelOrder(ae2.nextInAEL, ae))
+					ae2 = ae2.nextInAEL;
+				ae.nextInAEL = ae2.nextInAEL;
+				if (ae2.nextInAEL != null) ae2.nextInAEL.prevInAEL = ae;
+				ae.prevInAEL = ae2;
+				ae2.nextInAEL = ae;
 			}
 		}
 
 		private void InsertRightEdge(Active ae, Active ae2)
 		{
-			ae2.next_in_ael = ae.next_in_ael;
-			if (ae.next_in_ael != null) ae.next_in_ael.prev_in_ael = ae2;
-			ae2.prev_in_ael = ae;
-			ae.next_in_ael = ae2;
+			ae2.nextInAEL = ae.nextInAEL;
+			if (ae.nextInAEL != null) ae.nextInAEL.prevInAEL = ae2;
+			ae2.prevInAEL = ae;
+			ae.nextInAEL = ae2;
 		}
 
 		private void InsertLocalMinimaIntoAEL(long bot_y)
@@ -1158,12 +1156,12 @@ namespace ClipperLib2
 					left_bound = new Active
 					{
 						bot = local_minima.vertex.pt,
-						curr_x = local_minima.vertex.pt.X,
-						vertex_top = local_minima.vertex.prev,  //ie descending
+						curX = local_minima.vertex.pt.X,
+						vertexTop = local_minima.vertex.prev,  //ie descending
 						top = local_minima.vertex.prev.pt,
-						wind_dx = -1,
+						windDx = -1,
 						outrec = null,
-						local_min = local_minima
+						localMin = local_minima
 					};
 					SetDx(left_bound);
 				}
@@ -1177,12 +1175,12 @@ namespace ClipperLib2
 					right_bound = new Active
 					{
 						bot = local_minima.vertex.pt,
-						curr_x = local_minima.vertex.pt.X,
-						vertex_top = local_minima.vertex.next,  //ie ascending
+						curX = local_minima.vertex.pt.X,
+						vertexTop = local_minima.vertex.next,  //ie ascending
 						top = local_minima.vertex.next.pt,
-						wind_dx = 1,
+						windDx = 1,
 						outrec = null,
-						local_min = local_minima
+						localMin = local_minima
 					};
 					SetDx(right_bound);
 				}
@@ -1224,8 +1222,8 @@ namespace ClipperLib2
 
 				if (right_bound != null)
 				{
-					right_bound.wind_cnt = left_bound.wind_cnt;
-					right_bound.wind_cnt2 = left_bound.wind_cnt2;
+					right_bound.windCount = left_bound.windCount;
+					right_bound.windCount2 = left_bound.windCount2;
 					InsertRightEdge(left_bound, right_bound);  ///////
 					if (contributing)
 						AddLocalMinPoly(left_bound, right_bound, left_bound.bot, true);
@@ -1247,7 +1245,7 @@ namespace ClipperLib2
 
 		private void PushHorz(Active ae)
 		{
-			ae.next_in_sel = _sel;
+			ae.nextInSEL = _sel;
 			_sel = ae;
 		}
 
@@ -1255,7 +1253,7 @@ namespace ClipperLib2
 		{
 			ae = _sel;
 			if (ae == null) return false;
-			_sel = _sel.next_in_sel;
+			_sel = _sel.nextInSEL;
 			return true;
 		}
 
@@ -1313,8 +1311,8 @@ namespace ClipperLib2
 					if (IsClockwise(op) && (Area(op) > 0.0))
 						ReverseOutPts(ae1.outrec.pts);
 				}
-				ae1.outrec.front_e = null;
-				ae1.outrec.back_e = null;
+				ae1.outrec.frontEdge = null;
+				ae1.outrec.backEdge = null;
 				ae1.outrec = null;
 				ae2.outrec = null;
 			}
@@ -1357,8 +1355,8 @@ namespace ClipperLib2
 				}
 				else
 				{
-					ae1.outrec.front_e = ae2.outrec.front_e;
-					ae1.outrec.front_e.outrec = ae1.outrec;
+					ae1.outrec.frontEdge = ae2.outrec.frontEdge;
+					ae1.outrec.frontEdge.outrec = ae1.outrec;
 				}
 				//strip duplicates ...
 				if ((p2_end != p2_st) && (p2_end.pt == p2_end.prev.pt))
@@ -1376,8 +1374,8 @@ namespace ClipperLib2
 				}
 				else
 				{
-					ae1.outrec.back_e = ae2.outrec.back_e;
-					ae1.outrec.back_e.outrec = ae1.outrec;
+					ae1.outrec.backEdge = ae2.outrec.backEdge;
+					ae1.outrec.backEdge.outrec = ae1.outrec;
 				}
 				//strip duplicates ...
 				if ((p1_end != p1_st) && (p1_end.pt == p1_end.prev.pt))
@@ -1388,8 +1386,8 @@ namespace ClipperLib2
 				RemoveOutPt(ae1.outrec.pts.prev);
 
 			//after joining, the ae2.OutRec must contains no vertices ...
-			ae2.outrec.front_e = null;
-			ae2.outrec.back_e = null;
+			ae2.outrec.frontEdge = null;
+			ae2.outrec.backEdge = null;
 			ae2.outrec.pts = null;
 			ae2.outrec.owner = ae1.outrec;  //this may be redundant
 
@@ -1439,8 +1437,8 @@ namespace ClipperLib2
 			outrec.state = OutRecState.Open;
 			outrec.pts = null;
 			//outrec.PolyTree = null;
-			outrec.back_e = null;
-			outrec.front_e = null;
+			outrec.backEdge = null;
+			outrec.frontEdge = null;
 
 			ae.outrec = outrec;
 
@@ -1452,9 +1450,9 @@ namespace ClipperLib2
 		private void UpdateEdgeIntoAEL(Active ae)
 		{
 			ae.bot = ae.top;
-			ae.vertex_top = NextVertex(ae);
-			ae.top = ae.vertex_top.pt;
-			ae.curr_x = ae.bot.X;
+			ae.vertexTop = NextVertex(ae);
+			ae.top = ae.vertexTop.pt;
+			ae.curX = ae.bot.X;
 			SetDx(ae);
 			if (!IsHorizontal(ae)) InsertScanline(ae.top.Y);
 		}
@@ -1466,117 +1464,106 @@ namespace ClipperLib2
 			if (_hasOpenPaths && (IsOpen(ae1) || IsOpen(ae2)))
 			{
 				if (IsOpen(ae1) && IsOpen(ae2)) return;
-				Active openEdge, closedEdge;
-				if (IsOpen(ae1))
-				{
-					openEdge = ae1;
-					closedEdge = ae2;
-				}
-				else
-				{
-					openEdge = ae2;
-					closedEdge = ae1;
-				}
-
+				if (IsOpen(ae2)) 
+						SwapActives(ref ae1, ref ae2);
 				switch (_cliptype)
 				{
 					case ClipType.Intersection:
 					case ClipType.Difference:
-						if (IsSamePolyType(openEdge, closedEdge) || (Math.Abs(closedEdge.wind_cnt) != 1)) return;
+						if (IsSamePolyType(ae1, ae2) || (Math.Abs(ae2.windCount) != 1)) return;
 						break;
 					case ClipType.Union:
-						if (IsHotEdge(openEdge) != ((Math.Abs(closedEdge.wind_cnt) != 1) || (IsHotEdge(openEdge) != (closedEdge.wind_cnt != 0)))) return;  //just works!
+						if (IsHotEdge(ae1) != ((Math.Abs(ae2.windCount) != 1) || 
+							(IsHotEdge(ae1) != (ae2.windCount != 0)))) return;  //just works!
 						break;
 					case ClipType.Xor:
-						if (Math.Abs(closedEdge.wind_cnt) != 1) return;
+						if (Math.Abs(ae2.windCount) != 1) return;
 						break;
 					case ClipType.None:
 						throw new ClipperLibException("Error in IntersectEdges - ClipType is None!");
 				}
 				//toggle contribution ...
-				if (IsHotEdge(openEdge))
+				if (IsHotEdge(ae1))
 				{
-					OutPt op = AddOutPt(openEdge, pt);
+					OutPt op = AddOutPt(ae1, pt);
 #if USINGZ
 					SetZ(ae1, ae2, ref op.pt);
 #endif
-					openEdge.outrec = null;
+					ae1.outrec = null;
 				}
 				else
 				{
+					OutPt op =  StartOpenPath(ae1, pt);
 #if USINGZ
-					SetZ(ae1, ae2, ref pt);
+					SetZ(ae1, ae2, ref op.pt);
 #endif
-					StartOpenPath(openEdge, pt);
 				}
 				return;
 			}
 
 			//UPDATE WINDING COUNTS...
 
-			int old_e1_windcnt, old_e2_windcnt;
-			if (ae1.local_min.polytype == ae2.local_min.polytype)
+			int oldE1WindCount, oldE2WindCount;
+			if (ae1.localMin.polytype == ae2.localMin.polytype)
 			{
 				if (_fillrule == FillRule.EvenOdd)
 				{
-					old_e1_windcnt = ae1.wind_cnt;
-					ae1.wind_cnt = ae2.wind_cnt;
-					ae2.wind_cnt = old_e1_windcnt;
+					oldE1WindCount = ae1.windCount;
+					ae1.windCount = ae2.windCount;
+					ae2.windCount = oldE1WindCount;
 				}
 				else
 				{
-					if (ae1.wind_cnt + ae2.wind_dx == 0)
-						ae1.wind_cnt = -ae1.wind_cnt;
+					if (ae1.windCount + ae2.windDx == 0)
+						ae1.windCount = -ae1.windCount;
 					else
-						ae1.wind_cnt += ae2.wind_dx;
-					if (ae2.wind_cnt - ae1.wind_dx == 0)
-						ae2.wind_cnt = -ae2.wind_cnt;
+						ae1.windCount += ae2.windDx;
+					if (ae2.windCount - ae1.windDx == 0)
+						ae2.windCount = -ae2.windCount;
 					else
-						ae2.wind_cnt -= ae1.wind_dx;
+						ae2.windCount -= ae1.windDx;
 				}
 			}
 			else
 			{
 				if (_fillrule != FillRule.EvenOdd)
-					ae1.wind_cnt2 += ae2.wind_dx;
+					ae1.windCount2 += ae2.windDx;
 				else
-					ae1.wind_cnt2 = (ae1.wind_cnt2 == 0 ? 1 : 0);
+					ae1.windCount2 = (ae1.windCount2 == 0 ? 1 : 0);
 				if (_fillrule != FillRule.EvenOdd)
-					ae2.wind_cnt2 -= ae1.wind_dx;
+					ae2.windCount2 -= ae1.windDx;
 				else
-					ae2.wind_cnt2 = (ae2.wind_cnt2 == 0 ? 1 : 0);
+					ae2.windCount2 = (ae2.windCount2 == 0 ? 1 : 0);
 			}
 
 			switch (_fillrule)
 			{
 				case FillRule.Positive:
-					old_e1_windcnt = ae1.wind_cnt;
-					old_e2_windcnt = ae2.wind_cnt;
+					oldE1WindCount = ae1.windCount;
+					oldE2WindCount = ae2.windCount;
 					break;
 				case FillRule.Negative:
-					old_e1_windcnt = -ae1.wind_cnt;
-					old_e2_windcnt = -ae2.wind_cnt;
+					oldE1WindCount = -ae1.windCount;
+					oldE2WindCount = -ae2.windCount;
 					break;
 				default:
-					old_e1_windcnt = Math.Abs(ae1.wind_cnt);
-					old_e2_windcnt = Math.Abs(ae2.wind_cnt);
+					oldE1WindCount = Math.Abs(ae1.windCount);
+					oldE2WindCount = Math.Abs(ae2.windCount);
 					break;
 			}
 
-			bool e1_windcnt_in_01 = old_e1_windcnt == 0 || old_e1_windcnt == 1;
-			bool e2_windcnt_in_01 = old_e2_windcnt == 0 || old_e2_windcnt == 1;
+			bool e1WindCountIs0or1 = oldE1WindCount == 0 || oldE1WindCount == 1;
+			bool e2WindCountIs0or1 = oldE2WindCount == 0 || oldE2WindCount == 1;
 
-			if ((!IsHotEdge(ae1) && !e1_windcnt_in_01) || (!IsHotEdge(ae2) && !e2_windcnt_in_01))
-			{
-				return;
-			}
+			if ((!IsHotEdge(ae1) && !e1WindCountIs0or1) || (!IsHotEdge(ae2) && !e2WindCountIs0or1)) return;
+			
 			//NOW PROCESS THE INTERSECTION ...
 
 			//if both edges are 'hot' ...
 			if (IsHotEdge(ae1) && IsHotEdge(ae2))
 			{
-				if ((old_e1_windcnt != 0 && old_e1_windcnt != 1) || (old_e2_windcnt != 0 && old_e2_windcnt != 1) ||
-					(ae1.local_min.polytype != ae2.local_min.polytype && _cliptype != ClipType.Xor))
+				if ((oldE1WindCount != 0 && oldE1WindCount != 1) || (oldE2WindCount != 0 && oldE2WindCount != 1) ||
+					(ae1.localMin.polytype != ae2.localMin.polytype && _cliptype != ClipType.Xor))
 				{
 					OutPt op = AddLocalMaxPoly(ae1, ae2, pt);
 #if USINGZ
@@ -1627,16 +1614,16 @@ namespace ClipperLib2
 				switch (_fillrule)
 				{
 					case FillRule.Positive:
-						e1Wc2 = ae1.wind_cnt2;
-						e2Wc2 = ae2.wind_cnt2;
+						e1Wc2 = ae1.windCount2;
+						e2Wc2 = ae2.windCount2;
 						break;
 					case FillRule.Negative:
-						e1Wc2 = -ae1.wind_cnt2;
-						e2Wc2 = -ae2.wind_cnt2;
+						e1Wc2 = -ae1.windCount2;
+						e2Wc2 = -ae2.windCount2;
 						break;
 					default:
-						e1Wc2 = Math.Abs(ae1.wind_cnt2);
-						e2Wc2 = Math.Abs(ae2.wind_cnt2);
+						e1Wc2 = Math.Abs(ae1.windCount2);
+						e2Wc2 = Math.Abs(ae2.windCount2);
 						break;
 				}
 
@@ -1647,7 +1634,7 @@ namespace ClipperLib2
 					SetZ(ae1, ae2, ref op.pt);
 #endif
 				}
-				else if (old_e1_windcnt == 1 && old_e2_windcnt == 1)
+				else if (oldE1WindCount == 1 && oldE2WindCount == 1)
 				{
 					OutPt op = null;
 					switch (_cliptype)
@@ -1669,9 +1656,9 @@ namespace ClipperLib2
 							op = AddLocalMinPoly(ae1, ae2, pt, false, orientation_check_required);
 							break;
 
-						default:	//ClipType.Intersection:
-							if (e1Wc2 > 0 && e2Wc2 > 0)
-								op = AddLocalMinPoly(ae1, ae2, pt, false, orientation_check_required);
+						default:  //ClipType.Intersection:
+							if (e1Wc2 <= 0 || e2Wc2 <= 0) return;
+							op = AddLocalMinPoly(ae1, ae2, pt, false, orientation_check_required);
 							break;
 					}
 #if USINGZ
@@ -1684,14 +1671,14 @@ namespace ClipperLib2
 
 		private void DeleteFromAEL(Active ae)
 		{
-			Active prev = ae.prev_in_ael;
-			Active next = ae.next_in_ael;
+			Active prev = ae.prevInAEL;
+			Active next = ae.nextInAEL;
 			if (prev == null && next == null && (ae != _actives)) return;  //already deleted
 			if (prev != null)
-				prev.next_in_ael = next;
+				prev.nextInAEL = next;
 			else
 				_actives = next;
-			if (next != null) next.prev_in_ael = prev;
+			if (next != null) next.prevInAEL = prev;
 			//delete &ae;
 		}
 
@@ -1701,12 +1688,12 @@ namespace ClipperLib2
 			_sel = ae;
 			while (ae != null)
 			{
-				ae.prev_in_sel = ae.prev_in_ael;
-				ae.next_in_sel = ae.next_in_ael;
-				ae.jump = ae.next_in_sel;
-				ae.curr_x = TopX(ae, top_y);
+				ae.prevInSEL = ae.prevInAEL;
+				ae.nextInSEL = ae.nextInAEL;
+				ae.jump = ae.nextInSEL;
+				ae.curX = TopX(ae, top_y);
 				//nb: don't update ae.curr.Y yet (see AddNewIntersectNode)
-				ae = ae.next_in_ael;
+				ae = ae.nextInAEL;
 			}
 		}
 
@@ -1813,9 +1800,9 @@ namespace ClipperLib2
 				else if (ae2.top.Y == top_y)
 					pt.X = ae2.top.X;
 				else if (Math.Abs(ae1.dx) < Math.Abs(ae2.dx))
-					pt.X = ae1.curr_x;
+					pt.X = ae1.curX;
 				else
-					pt.X = ae2.curr_x;
+					pt.X = ae2.curX;
 			}
 
 			IntersectNode node = new IntersectNode(pt, ae1, ae2);
@@ -1824,26 +1811,26 @@ namespace ClipperLib2
 
 		private Active ExtractFromSEL(Active ae)
 		{
-			Active res = ae.next_in_sel;
+			Active res = ae.nextInSEL;
 			if (res != null)
-				res.prev_in_sel = ae.prev_in_sel;
-			if (ae.prev_in_sel != null)
-				ae.prev_in_sel.next_in_sel = res;
+				res.prevInSEL = ae.prevInSEL;
+			if (ae.prevInSEL != null)
+				ae.prevInSEL.nextInSEL = res;
 			return res;
 		}
 
 		private void Insert1Before2InSEL(Active ae1, Active ae2)
 		{
-			ae1.prev_in_sel = ae2.prev_in_sel;
-			if (ae1.prev_in_sel != null)
-				ae1.prev_in_sel.next_in_sel = ae1;
-			ae1.next_in_sel = ae2;
-			ae2.prev_in_sel = ae1;
+			ae1.prevInSEL = ae2.prevInSEL;
+			if (ae1.prevInSEL != null)
+				ae1.prevInSEL.nextInSEL = ae1;
+			ae1.nextInSEL = ae2;
+			ae2.prevInSEL = ae1;
 		}
 
 		private bool BuildIntersectList(long top_y)
 		{
-			if (_actives == null || _actives.next_in_ael == null) return false;
+			if (_actives == null || _actives.nextInAEL == null) return false;
 
 			//Calculate edge positions at the top of the current scanbeam, and from this
 			//we will determine the intersections required to reach these new positions.
@@ -1868,14 +1855,14 @@ namespace ClipperLib2
 					left.jump = r_end;
 					while (left != l_end && right != r_end)
 					{
-						if (right.curr_x < left.curr_x)
+						if (right.curX < left.curX)
 						{
-							tmp = right.prev_in_sel;
+							tmp = right.prevInSEL;
 							for (; ; )
 							{
 								AddNewIntersectNode(tmp, right, top_y);
 								if (tmp == left) break;
-								tmp = tmp.prev_in_sel;
+								tmp = tmp.prevInSEL;
 							}
 							tmp = right;
 							right = ExtractFromSEL(tmp);
@@ -1889,7 +1876,7 @@ namespace ClipperLib2
 								else prev_base.jump = curr_base;
 							}
 						}
-						else left = left.next_in_sel;
+						else left = left.nextInSEL;
 					}
 					prev_base = curr_base;
 					left = r_end;
@@ -1937,15 +1924,15 @@ namespace ClipperLib2
 		private void SwapPositionsInAEL(Active ae1, Active ae2)
 		{
 			//preconditon: ae1 must be immediately to the left of ae2
-			Active next = ae2.next_in_ael;
-			if (next != null) next.prev_in_ael = ae1;
-			Active prev = ae1.prev_in_ael;
-			if (prev != null) prev.next_in_ael = ae2;
-			ae2.prev_in_ael = prev;
-			ae2.next_in_ael = ae1;
-			ae1.prev_in_ael = ae2;
-			ae1.next_in_ael = next;
-			if (ae2.prev_in_ael == null) _actives = ae2;
+			Active next = ae2.nextInAEL;
+			if (next != null) next.prevInAEL = ae1;
+			Active prev = ae1.prevInAEL;
+			if (prev != null) prev.nextInAEL = ae2;
+			ae2.prevInAEL = prev;
+			ae2.nextInAEL = ae1;
+			ae1.prevInAEL = ae2;
+			ae1.nextInAEL = next;
+			if (ae2.prevInAEL == null) _actives = ae2;
 		}
 
 		private bool ResetHorzDirection(Active horz, Active max_pair, out long horz_left, out long horz_right)
@@ -1953,22 +1940,22 @@ namespace ClipperLib2
 			if (horz.bot.X == horz.top.X)
 			{
 				//the horizontal edge is going nowhere ...
-				horz_left = horz.curr_x;
-				horz_right = horz.curr_x;
-				Active ae = horz.next_in_ael;
-				while (ae != null && ae != max_pair) ae = ae.next_in_ael;
+				horz_left = horz.curX;
+				horz_right = horz.curX;
+				Active ae = horz.nextInAEL;
+				while (ae != null && ae != max_pair) ae = ae.nextInAEL;
 				return ae != null;
 			}
-			else if (horz.curr_x < horz.top.X)
+			else if (horz.curX < horz.top.X)
 			{
-				horz_left = horz.curr_x;
+				horz_left = horz.curX;
 				horz_right = horz.top.X;
 				return true;
 			}
 			else
 			{
 				horz_left = horz.top.X;
-				horz_right = horz.curr_x;
+				horz_right = horz.curX;
 				return false;  //right to left
 			}
 		}
@@ -1998,7 +1985,7 @@ namespace ClipperLib2
 				while (!IsMaxima(horz) && NextVertex(horz).pt.Y == pt.Y)
 					UpdateEdgeIntoAEL(horz);
 				horz.bot = pt;
-				horz.curr_x = pt.X;
+				horz.curX = pt.X;
 				//update Dx in case of direction change ...
 				if (horz.bot.X < horz.top.X)
 					horz.dx = double.NegativeInfinity;
@@ -2015,14 +2002,14 @@ namespace ClipperLib2
 				ResetHorzDirection(horz, max_pair, out long horz_left, out long horz_right);
 
 			if (IsHotEdge(horz))
-				AddOutPt(horz, new Point64(horz.curr_x, horz.bot.Y));
+				AddOutPt(horz, new Point64(horz.curX, horz.bot.Y));
 
 			for (; ; )
 			{  //loops through consec. horizontal edges (if open)
 
 				Active ae;
-				if (is_left_to_right) ae = horz.next_in_ael;
-				else ae = horz.prev_in_ael;
+				if (is_left_to_right) ae = horz.nextInAEL;
+				else ae = horz.prevInAEL;
 
 				while (ae != null)
 				{
@@ -2043,10 +2030,10 @@ namespace ClipperLib2
 					if (!is_max || IsOpenEnd(horz))
 					{
 						//otherwise stop when 'ae' is beyond the end of the horizontal line
-						if ((is_left_to_right && ae.curr_x > horz_right) ||
-						 (!is_left_to_right && ae.curr_x < horz_left)) break;
+						if ((is_left_to_right && ae.curX > horz_right) ||
+						 (!is_left_to_right && ae.curX < horz_left)) break;
 
-						if (ae.curr_x == horz.top.X && !IsHorizontal(ae))
+						if (ae.curX == horz.top.X && !IsHorizontal(ae))
 						{
 							//for edges at the end or horzEdge, keep going until horzEdge's
 							//outslope is greater than ae's slope when heading right or until
@@ -2057,18 +2044,18 @@ namespace ClipperLib2
 						}
 					} //!is_max
 
-					pt = new Point64(ae.curr_x, horz.bot.Y);
+					pt = new Point64(ae.curX, horz.bot.Y);
 					if (is_left_to_right)
 					{
 						IntersectEdges(horz, ae, pt);
 						SwapPositionsInAEL(horz, ae);
-						ae = horz.next_in_ael;
+						ae = horz.nextInAEL;
 					}
 					else
 					{
 						IntersectEdges(ae, horz, pt);
 						SwapPositionsInAEL(ae, horz);
-						ae = horz.prev_in_ael;
+						ae = horz.prevInAEL;
 					}
 				}
 
@@ -2109,13 +2096,13 @@ namespace ClipperLib2
 				{
 					//the following helps to avoid micro self-intersections
 					//with negligible impact on performance ...
-					ae.curr_x = ae.top.X;
-					if (ae.prev_in_ael != null && (ae.prev_in_ael.curr_x == ae.curr_x) &&
-							(ae.prev_in_ael.bot.Y != y) && IsHotEdge(ae.prev_in_ael))
-						AddOutPt(ae.prev_in_ael, ae.top);
-					if (ae.next_in_ael != null && (ae.next_in_ael.curr_x == ae.curr_x) &&
-							(ae.next_in_ael.top.Y != y) && IsHotEdge(ae.next_in_ael))
-						AddOutPt(ae.next_in_ael, ae.top);
+					ae.curX = ae.top.X;
+					if (ae.prevInAEL != null && (ae.prevInAEL.curX == ae.curX) &&
+							(ae.prevInAEL.bot.Y != y) && IsHotEdge(ae.prevInAEL))
+						AddOutPt(ae.prevInAEL, ae.top);
+					if (ae.nextInAEL != null && (ae.nextInAEL.curX == ae.curX) &&
+							(ae.nextInAEL.top.Y != y) && IsHotEdge(ae.nextInAEL))
+						AddOutPt(ae.nextInAEL, ae.top);
 
 					if (IsMaxima(ae))
 					{
@@ -2132,15 +2119,15 @@ namespace ClipperLib2
 							PushHorz(ae);  //horizontals are processed later
 					}
 				}
-				ae = ae.next_in_ael;
+				ae = ae.nextInAEL;
 			}
 		}
 
 		private Active DoMaxima(Active ae)
 		{
 			Active next_e, prev_e, max_pair;
-			prev_e = ae.prev_in_ael;
-			next_e = ae.next_in_ael;
+			prev_e = ae.prevInAEL;
+			next_e = ae.nextInAEL;
 			if (IsOpenEnd(ae))
 			{
 				if (IsHotEdge(ae))
@@ -2164,7 +2151,7 @@ namespace ClipperLib2
 			{
 				IntersectEdges(ae, next_e, ae.top);
 				SwapPositionsInAEL(ae, next_e);
-				next_e = ae.next_in_ael;
+				next_e = ae.nextInAEL;
 			}
 
 			if (IsOpen(ae))
@@ -2178,7 +2165,7 @@ namespace ClipperLib2
 				}
 				if (max_pair != null) DeleteFromAEL(max_pair);
 				DeleteFromAEL(ae);
-				return (prev_e != null ? prev_e.next_in_ael : _actives);
+				return (prev_e != null ? prev_e.nextInAEL : _actives);
 			}
 			//here ae.next_in_ael == ENext == EMaxPair ...
 			if (IsHotEdge(ae))
@@ -2186,7 +2173,7 @@ namespace ClipperLib2
 
 			DeleteFromAEL(ae);
 			DeleteFromAEL(max_pair);
-			return (prev_e != null ? prev_e.next_in_ael : _actives);
+			return (prev_e != null ? prev_e.nextInAEL : _actives);
 		}
 
 		private static void CleanPath(Path64 path)
@@ -2410,12 +2397,35 @@ namespace ClipperLib2
 		private const double defaultScale = 100.0;
 		private readonly double _scale;
 		private readonly double _invScale;
+
+#if USINGZ
+		public delegate void ZCallbackD(PointD bot1, PointD top1,
+				PointD bot2, PointD top2, ref PointD intersectPt);
+		public ZCallbackD ZFillDFunc { get; set; }
+#endif
 		public ClipperD(double scale = 0)
 		{
 			if (scale == 0) this._scale = defaultScale;
 			else this._scale = scale;
 			_invScale = 1 / _scale;
 		}
+
+#if USINGZ
+		private void ProxyZCallback(Point64 bot1, Point64 top1,
+			Point64 bot2, Point64 top2, ref Point64 intersectPt)
+    {
+
+			//de-scale coordinates
+			PointD tmp = ClipperFunc.ScalePoint(intersectPt, _invScale);
+			ZFillDFunc(
+					ClipperFunc.ScalePoint(bot1, _invScale),
+					ClipperFunc.ScalePoint(top1, _invScale),
+					ClipperFunc.ScalePoint(bot2, _invScale),
+					ClipperFunc.ScalePoint(top2, _invScale), ref tmp);
+			//re-scale
+			intersectPt.Z = (long)Math.Round(tmp.z * _scale);
+		}
+#endif
 
 		public new void AddPath(Path64 _, PathType __, bool ___) =>
 			throw new ClipperLibException("Error in ClipperD.AddPath - must use PathD parameter");
@@ -2466,7 +2476,15 @@ namespace ClipperLib2
 			PathsD solution_closed, PathsD solution_open)
 		{
 			Paths64 sol_closed = new Paths64(), sol_open = new Paths64();
+		#if USINGZ
+			ZCallback ZFillSaved = ZFillFunc;
+			if (ZFillDFunc != null && ZFillFunc == null)
+				ZFillFunc = ProxyZCallback;
+		#endif
 			bool res = base.Execute(clipType, fillRule, sol_closed, sol_open);
+		#if USINGZ
+			ZFillFunc = ZFillSaved;
+		#endif
 			ClipperFunc.ScalePaths(sol_closed, _invScale, ref solution_closed);
 			ClipperFunc.ScalePaths(sol_open, _invScale, ref solution_open);
 			return res;
@@ -2481,6 +2499,11 @@ namespace ClipperLib2
 		{
 			polytree.Clear();
 			(polytree as PolyPathD).Scale = _scale;
+		#if USINGZ
+			ZCallback ZFillSaved = ZFillFunc;
+			if (ZFillDFunc != null && ZFillFunc == null)
+				ZFillFunc = ProxyZCallback;
+		#endif
 			openPaths.Clear();
 			Paths64 oPaths = new Paths64();
 			bool success = false;
@@ -2490,7 +2513,11 @@ namespace ClipperLib2
 				success = BuildTree(polytree, oPaths);
 			}
 			catch { }
+		#if USINGZ
+			ZFillFunc = ZFillSaved;
+		#endif
 			CleanUp();
+
 			if (oPaths.Count > 0)
 				ClipperFunc.ScalePaths(oPaths, _invScale, ref openPaths);
 			return success;

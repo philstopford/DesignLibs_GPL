@@ -851,6 +851,22 @@ public static partial class GeoWrangler
         return source;
     }
 
+    public static Paths stripTerminators(Paths source, bool keepLast)
+    {
+        return pStripTerminators(source, keepLast);
+    }
+
+    private static Paths pStripTerminators(Paths source, bool keepLast)
+    {
+        Paths ret = new();
+        foreach (Path t in source)
+        {
+            ret.Add(pStripTerminators(t, keepLast));
+        }
+
+        return ret;
+    }
+
     public static Path stripTerminators(Path source, bool keepLast)
     {
         return pStripTerminators(source, keepLast);

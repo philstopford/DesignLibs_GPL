@@ -9,7 +9,6 @@ using Paths = List<List<IntPoint>>;
 public static class Clipper1Test
 {
     const double keyhole_sizing = 500;
-
     public static void unionTest()
     {
         Path simpleFirstPath = new()

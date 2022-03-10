@@ -9,7 +9,6 @@ using Paths64 = List<List<Point64>>;
 public static class Clipper2Test
 {
     const double keyhole_sizing = 500;
-
     public static void unionTest()
     {
         Path64 simpleFirstPath = new()

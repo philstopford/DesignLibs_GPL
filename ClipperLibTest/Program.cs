@@ -2,8 +2,13 @@
 
 using ClipperLib1Test;
 using ClipperLib2Test;
+using ClipperLibTest;
 
 Console.WriteLine("Comparison tests for Clipper 1 and Clipper 2");
+
+// Compare open line clipping
+ComparisonTest.lineClipTest1();
+ComparisonTest.lineClipTest2();
 
 Clipper1Test.unionTest();
 Clipper2Test.unionTest();

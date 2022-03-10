@@ -298,48 +298,7 @@ public static partial class GeoWrangler
         // Force clockwise, which should get us something consistent to work with.
         edge = pClockwise(edge);
 
-        // Get sorted out for dx, dy and normalization.
-        double dx = edge[0].X - edge[1].X;
-        double dy = edge[0].Y - edge[1].Y;
-
-        double length = Math.Sqrt(Utils.myPow(dx, 2) + Utils.myPow(dy, 2));
-
-        dx /= length;
-        dy /= length;
-        
-        // Extend the line slightly.
-        double edge0_newX = edge[0].X;
-        double edge0_newY = edge[0].Y;
-        double edge1_newX = edge[1].X;
-        double edge1_newY = edge[1].Y;
-
-        // Move the edge according to the keyhole sizing, to extend it. Then add 1 to ensure an overlap.
-        double X_shift = (long) Math.Abs(dx * keyhole_sizing) + 1;
-        double Y_shift = (long) Math.Abs(dy * keyhole_sizing) + 1;
-        if (edge[0].X <= edge[1].X)
-        {
-            edge0_newX -= X_shift;
-            edge1_newX += X_shift;
-        }
-        else
-        {
-            edge0_newX += X_shift;
-            edge1_newX -= X_shift;
-        }
-        
-        if (edge[0].Y <= edge[1].Y)
-        {
-            edge0_newY -= Y_shift;
-            edge1_newY += Y_shift;
-        }
-        else
-        {
-            edge0_newY += Y_shift;
-            edge1_newY -= Y_shift;
-        }
-        
-        edge[0] = new Point64(edge0_newX, edge0_newY);
-        edge[1] = new Point64(edge1_newX, edge1_newY);
+        edge = pExtendEdge(edge, keyhole_sizing);
 
         ClipperOffset co = new();
         co.AddPath(edge, JoinType.Miter, EndType.Square);

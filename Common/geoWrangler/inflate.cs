@@ -1,4 +1,5 @@
-﻿using ClipperLib2;
+﻿using System;
+using ClipperLib2;
 using geoLib;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,67 +24,19 @@ public static partial class GeoWrangler
             case 0:
                 return source;
         }
-
-        Paths allSolutions = new();
-
-        for (int i = 0; i < source.Length - 1; i++)
+        
+        ClipperOffset co = new();
+        Path a = GeoWrangler.pathFromPoint(source, 1);
+        // Path from Point auto-closes the input for historical reasons. We may not want this....
+        if (pDistanceBetweenPoints(source[0], source[^1]) > Double.Epsilon)
         {
-            ClipperOffset co = new();
-            Path o = new()
-            {
-                new Point64(source[i].X, source[i].Y), new Point64(source[i + 1].X, source[i + 1].Y)
-            };
-            co.AddPath(o, JoinType.Miter, EndType.Joined);
-
-            int offsetVal = width / 2;
-
-            Paths solution = ClipperFunc.Paths(co.Execute(offsetVal));
-
-            allSolutions.Add(new Path(solution[0]));
-
-            // Need to add a patch polygon to link the segments.
-            Path patchPoly = new()
-            {
-                new Point64(source[i + 1].X - offsetVal, source[i + 1].Y - offsetVal),
-                new Point64(source[i + 1].X - offsetVal, source[i + 1].Y + offsetVal),
-                new Point64(source[i + 1].X + offsetVal, source[i + 1].Y + offsetVal),
-                new Point64(source[i + 1].X + offsetVal, source[i + 1].Y - offsetVal)
-            };
-
-            allSolutions.Add(new Path(patchPoly));
+            pStripTerminators(a, false);
         }
+        co.AddPath(a, JoinType.Miter, EndType.Square);
+        Paths output = ClipperFunc.Paths(co.Execute(width));
 
-        Clipper c = new();
-        c.AddSubject(allSolutions);
+        return pPointFromPath(pClose(output[0]), 1);
 
-        Rect64 b = ClipperFunc.GetBounds(allSolutions);
-
-        Path bPath = new()
-        {
-            new Point64(b.left, b.bottom),
-            new Point64(b.left, b.top),
-            new Point64(b.right, b.top),
-            new Point64(b.right, b.bottom)
-        };
-
-        c.AddClip(bPath);
-
-        Paths union = new();
-        c.Execute(ClipType.Intersection, FillRule.Positive, union);
-
-        GeoLibPoint[] ret;
-        if (union.Any())
-        {
-            // We should only have one result.
-            union[0].Add(new Point64(union[0][0])); // force a close - it wasn't done in the Boolean.
-            ret = pointFromPath(union[0], 1);
-        }
-        else
-        {
-            ret = new [] { new GeoLibPoint(0, 0) };
-        }
-
-        return ret;
     }
 
     public static GeoLibPointF[] resize(GeoLibPointF[] source, double factor)

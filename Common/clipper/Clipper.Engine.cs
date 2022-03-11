@@ -1263,7 +1263,7 @@ namespace ClipperLib2
 				ae2.outrec = null;
 				if (IsOpen(ae1)) return op;
 
-				CleanCollinear(ref outrec.pts);
+				// CleanCollinear(ref outrec.pts);
 				if (outrec.pts != null) 
 					FixSelfIntersects(ref outrec.pts);
 				OutPt result = outrec.pts;
@@ -1886,6 +1886,7 @@ namespace ClipperLib2
 			Point64 pt;
 			//with closed paths, simplify consecutive horizontals into a 'single' edge ...
 			bool horzIsOpen = IsOpen(horz);
+			/*
 			if (!horzIsOpen)
 			{
 				pt = horz.bot;
@@ -1899,6 +1900,7 @@ namespace ClipperLib2
 				else
 					horz.dx = double.PositiveInfinity;
 			}
+			*/
 
 			Active maxPair = null;
 			bool isMax = IsMaxima(horz);

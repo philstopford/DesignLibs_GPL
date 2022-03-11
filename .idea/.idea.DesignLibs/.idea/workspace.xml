@@ -677,7 +677,7 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="RunManager" selected=".NET Project.KeyHolerTest">
+  <component name="RunManager" selected=".NET Project.ClipperLibTest">
     <configuration name="ASA005Test" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -11456,6 +11456,19 @@
             </endOffsets>
           </properties>
           <option name="timeStamp" value="116" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/ClipperLibTest/Clipper2Test.cs</url>
+          <line>32</line>
+          <properties documentPath="D:\development\git\DesignLibs_GPL\ClipperLibTest\Clipper2Test.cs" initialLine="32" containingFunctionPresentation="method 'colinearTest'">
+            <startOffsets>
+              <option value="704" />
+            </startOffsets>
+            <endOffsets>
+              <option value="705" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="117" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

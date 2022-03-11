@@ -9,6 +9,29 @@ using Paths64 = List<List<Point64>>;
 public static class Clipper2Test
 {
     const double keyhole_sizing = 500;
+
+    public static void colinearTest()
+    {
+        Path64 colinear = new()
+        {
+            new(-10, -10),
+            new(-10, 0),
+            new(-10, 10),
+            new(0, 10),
+            new(10, 10),
+            new(10, 0),
+            new(10, -10),
+            new(0, -10),
+            new(-10, -10),
+        };
+
+        Clipper c = new();
+        c.AddSubject(colinear);
+        c.AddClip(colinear);
+        Paths64 output = new();
+        c.Execute(ClipType.Union, FillRule.EvenOdd, output);
+    }
+
     public static void unionTest()
     {
         Path64 simpleFirstPath = new()

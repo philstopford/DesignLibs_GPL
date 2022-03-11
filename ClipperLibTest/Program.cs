@@ -6,6 +6,8 @@ using ClipperLibTest;
 
 Console.WriteLine("Comparison tests for Clipper 1 and Clipper 2");
 
+Clipper2Test.colinearTest();
+
 // Compare open line clipping
 ComparisonTest.lineClipTest1();
 ComparisonTest.lineClipTest2();

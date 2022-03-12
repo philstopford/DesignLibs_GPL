@@ -1,7 +1,7 @@
 ﻿/*******************************************************************************
 * Author    :  Angus Johnson                                                   *
 * Version   :  10.0 (beta) - also known as Clipper2                            *
-* Date      :  10 March 2022                                                    *
+* Date      :  11 March 2022                                                    *
 * Website   :  http://www.angusj.com                                           *
 * Copyright :  Angus Johnson 2010-2022                                         *
 * Purpose   :  Offsets both open and closed paths (ie polylines & polygons).   *
@@ -125,7 +125,7 @@ namespace ClipperLib2
       if (MergeGroups)
       {
         //clean up self-intersections ...
-        ClipperD c = new ClipperD();// {PreserveCollinear = true } ;
+        ClipperD c = new ClipperD();
         c.AddSubject(solution);
         c.Execute(ClipType.Union, FillRule.Positive, solution);
       }
@@ -354,7 +354,7 @@ namespace ClipperLib2
     private void DoGroupOffset(PathGroup group, double delta)
     {
       if (group._endType != EndType.Polygon) delta = Math.Abs(delta) / 2;
-      bool isClockwise, isClosedPaths = !IsFullyOpenEndType(group._endType);
+      bool isClosedPaths = !IsFullyOpenEndType(group._endType);
 
       if (isClosedPaths)
       {
@@ -362,11 +362,9 @@ namespace ClipperLib2
         //designated orientation for outer polygons (needed for tidy-up clipping)
         int lowestIdx = GetLowestPolygonIdx(group._inPaths);
         if (lowestIdx < 0)  return;
-        isClockwise = ClipperFunc.IsClockwise(group._inPaths[lowestIdx]);
-        if (!isClockwise) delta = -delta;
+        if (ClipperFunc.Area(group._inPaths[lowestIdx]) < 0)
+          group._inPaths = ClipperFunc.ReversePaths(group._inPaths);
       }
-      else
-        isClockwise = true;
 
       _delta = delta;
       _joinType = group._joinType;
@@ -420,13 +418,11 @@ namespace ClipperLib2
         if (group._outPath.Count > 0)
           group._outPaths.Add(group._outPath);
       }
-      if (!isClockwise)
-        group._outPaths = ClipperFunc.ReversePaths(group._outPaths);
 
       if (!MergeGroups)
       {
         //clean up self-intersections ...
-        ClipperD c = new ClipperD();//{ PreserveCollinear = true };
+        ClipperD c = new ClipperD();
         c.AddSubject(group._outPaths);
         c.Execute(ClipType.Union, FillRule.Positive, group._outPaths);
       }

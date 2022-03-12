@@ -25,11 +25,32 @@ public static class Clipper2Test
             new(-10, -10),
         };
 
-        Clipper c = new();
+        Clipper c = new() {PreserveCollinear = true};
         c.AddSubject(colinear);
         c.AddClip(colinear);
         Paths64 output = new();
         c.Execute(ClipType.Union, FillRule.EvenOdd, output);
+    }
+
+    public static void colinearOffsetTest()
+    {
+        Path64 colinear = new()
+        {
+            new(-10, -10),
+            new(-10, 0),
+            new(-10, 10),
+            new(0, 10),
+            new(10, 10),
+            new(10, 0),
+            new(10, -10),
+            new(0, -10),
+            new(-10, -10),
+        };
+
+        ClipperOffset co = new();
+        co.AddPath(colinear, JoinType.Miter, EndType.Polygon);
+        Paths64 temp = ClipperFunc.Paths(co.Execute(1.0));
+
     }
 
     public static void unionTest()

@@ -9,6 +9,51 @@ using Paths = List<List<IntPoint>>;
 public static class Clipper1Test
 {
     const double keyhole_sizing = 500;
+
+    public static void colinearTest()
+    {
+        Path colinear = new()
+        {
+            new(-10, -10),
+            new(-10, 0),
+            new(-10, 10),
+            new(0, 10),
+            new(10, 10),
+            new(10, 0),
+            new(10, -10),
+            new(0, -10),
+            new(-10, -10),
+        };
+
+        Clipper c = new() {PreserveCollinear = true};
+        c.AddPath(colinear, PolyType.ptSubject, true);
+        c.AddPath(colinear, PolyType.ptClip, true);
+        Paths output = new();
+        c.Execute(ClipType.ctUnion, output);
+    }
+
+    public static void colinearOffsetTest()
+    {
+        Path colinear = new()
+        {
+            new(-10, -10),
+            new(-10, 0),
+            new(-10, 10),
+            new(0, 10),
+            new(10, 10),
+            new(10, 0),
+            new(10, -10),
+            new(0, -10),
+            new(-10, -10),
+        };
+
+        ClipperOffset co = new() {PreserveCollinear = true};
+        co.AddPath(colinear, JoinType.jtMiter, EndType.etClosedPolygon);
+        Paths temp = new();
+        co.Execute(ref temp, 1.0);
+
+    }
+    
     public static void unionTest()
     {
         Path simpleFirstPath = new()

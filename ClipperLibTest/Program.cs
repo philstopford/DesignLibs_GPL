@@ -6,7 +6,11 @@ using ClipperLibTest;
 
 Console.WriteLine("Comparison tests for Clipper 1 and Clipper 2");
 
+Clipper2Test.colinearOffsetTest();
+Clipper1Test.colinearOffsetTest();
+
 Clipper2Test.colinearTest();
+Clipper1Test.colinearTest();
 
 // Compare open line clipping
 ComparisonTest.lineClipTest1();

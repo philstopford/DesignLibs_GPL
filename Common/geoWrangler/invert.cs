@@ -56,7 +56,7 @@ public static partial class GeoWrangler
             }
         }
 
-        Clipper c = new();
+        Clipper c = new() {PreserveCollinear = false};
 
         c.AddSubject(firstLayerBP);
         // Add hole polygons from our paths
@@ -64,9 +64,7 @@ public static partial class GeoWrangler
 
         Paths cutters = new();
         c.Execute(ClipType.Difference, FillRule.EvenOdd, cutters);
-
-        cutters = pStripColinear(cutters);
-
+        
         switch (useTriangulation)
         {
             case false:

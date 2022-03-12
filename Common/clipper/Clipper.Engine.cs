@@ -3,7 +3,7 @@
 /*******************************************************************************
 * Author    :  Angus Johnson                                                   *
 * Version   :  10.0 (beta) - also known as Clipper2                            *
-* Date      :  11 March 2022                                                    *
+* Date      :  12 March 2022                                                    *
 * Website   :  http://www.angusj.com                                           *
 * Copyright :  Angus Johnson 2010-2022                                         *
 * Purpose   :  This is the main polygon clipping module                        *
@@ -153,8 +153,9 @@ namespace ClipperLib2
 		private readonly List<long> _scanlineList;
 		private int _currentLocMin;
 		private long _currentBotY;
-		protected Boolean _isSortedMinimaList;
-		protected Boolean _hasOpenPaths;
+		protected bool _isSortedMinimaList;
+		protected bool _hasOpenPaths;
+		public bool PreserveCollinear { get; set; }
 
 #if USINGZ
 		public delegate void ZCallback(Point64 bot1, Point64 top1,
@@ -169,6 +170,7 @@ namespace ClipperLib2
 			_vertexList = new List<Vertex>();
 			_outrecList = new List<OutRec>();
 			_scanlineList = new List<long>();
+			PreserveCollinear = true;
 		}
 
 #if USINGZ
@@ -808,24 +810,14 @@ namespace ClipperLib2
 
 		protected void AddPath(Path64 path, PathType polytype, bool isOpen = false)
 		{
-			if (isOpen)
-			{
-				if (polytype == PathType.Clip)
-					throw new ClipperLibException("AddPath: Only subject paths may be open.");
-				_hasOpenPaths = true;
-			}
+			if (isOpen) _hasOpenPaths = true;
 			_isSortedMinimaList = false;
 			AddPathToVertexList(path, polytype, isOpen);
 		}
 
 		protected void AddPaths(Paths64 paths, PathType polytype, bool isOpen = false)
 		{
-			if (isOpen)
-			{
-				if (polytype == PathType.Clip)
-					throw new ClipperLibException("AddPath: Only subject paths may be open.");
-				_hasOpenPaths = true;
-			}
+			if (isOpen) _hasOpenPaths = true;
 			_isSortedMinimaList = false;
 			for (int i = 0; i < paths.Count; i++)
 				AddPathToVertexList(paths[i], polytype, isOpen);
@@ -1250,10 +1242,6 @@ namespace ClipperLib2
 			if (!IsOpen(ae1) && (IsFront(ae1) == IsFront(ae2)))
 				if (!FixSides(ae1)) FixSides(ae2);
 			OutPt op = AddOutPt(ae1, pt);
-#if USINGZ
-			SetZ(ae1, ae2, ref op.pt);
-#endif
-
 			if (ae1.outrec == ae2.outrec)
 			{
 				OutRec outrec = ae1.outrec;
@@ -1263,7 +1251,7 @@ namespace ClipperLib2
 				ae2.outrec = null;
 				if (IsOpen(ae1)) return op;
 
-				CleanCollinear(ref outrec.pts);
+				CleanCollinear(ref outrec.pts, PreserveCollinear);
 				if (outrec.pts != null) 
 					FixSelfIntersects(ref outrec.pts);
 				OutPt result = outrec.pts;
@@ -1867,6 +1855,24 @@ namespace ClipperLib2
 			}
 		}
 
+		private bool TrimHorz(Active horzEdge, bool preserveCollinear)
+		{
+			bool result = false;
+			Point64 pt = NextVertex(horzEdge).pt;
+			//trim 180 deg. spikes in closed paths
+			while ((pt.Y == horzEdge.top.Y) && (!preserveCollinear ||
+				((pt.X < horzEdge.top.X) == (horzEdge.bot.X < horzEdge.top.X))))
+			{
+				horzEdge.vertexTop = NextVertex(horzEdge);
+				horzEdge.top = pt;
+				result = true;
+				if (IsMaxima(horzEdge)) break;
+				pt = NextVertex(horzEdge).pt;
+			}
+			if (result) SetDx(horzEdge); // +/-infinity
+			return result;
+		}
+
 		private void DoHorizontal(Active horz)
 		/*******************************************************************************
 			* Notes: Horizontal edges (HEs) at scanline intersections (ie at the top or    *
@@ -1884,24 +1890,16 @@ namespace ClipperLib2
 			*******************************************************************************/
 		{
 			Point64 pt;
-			//with closed paths, simplify consecutive horizontals into a 'single' edge ...
 			bool horzIsOpen = IsOpen(horz);
-			if (!horzIsOpen)
-			{
-				pt = horz.bot;
-				while (!IsMaxima(horz) && NextVertex(horz).pt.Y == pt.Y)
-					UpdateEdgeIntoAEL(horz);
-				horz.bot = pt;
-				horz.curX = pt.X;
-				//update Dx in case of direction change ...
-				if (horz.bot.X < horz.top.X)
-					horz.dx = double.NegativeInfinity;
-				else
-					horz.dx = double.PositiveInfinity;
-			}
 
 			Active maxPair = null;
 			bool isMax = IsMaxima(horz);
+
+			//remove 180 deg.spikes and also with closed paths and not PreserveCollinear
+			//simplify consecutive horizontals into a 'single' edge ...
+			if (!horzIsOpen && !isMax && TrimHorz(horz, PreserveCollinear))
+				isMax = IsMaxima(horz);
+			
 			if (isMax && !IsOpenEnd(horz))
 				maxPair = GetMaximaPair(horz);
 
@@ -1913,7 +1911,6 @@ namespace ClipperLib2
 
 			for (; ; )
 			{  //loops through consec. horizontal edges (if open)
-
 				Active ae;
 				if (isLeftToRight) ae = horz.nextInAEL;
 				else ae = horz.prevInAEL;
@@ -1932,6 +1929,7 @@ namespace ClipperLib2
 						DeleteFromAEL(horz);
 						return;
 					}
+					
 					//if horzEdge is a maxima, keep going until we reach
 					//its maxima pair, otherwise check for break conditions
 					if (!isMax || IsOpenEnd(horz))
@@ -1969,11 +1967,13 @@ namespace ClipperLib2
 				//check if we've finished looping through consecutive horizontals
 				if (isMax || NextVertex(horz).pt.Y != horz.top.Y) break;
 
-				//this must be an open path with another horizontal
-
 				UpdateEdgeIntoAEL(horz);
-				isLeftToRight = ResetHorzDirection(horz, maxPair, out leftX, out rightX);
 				isMax = IsMaxima(horz);
+
+				if (!horzIsOpen && !isMax && TrimHorz(horz, PreserveCollinear)) 
+					isMax = IsMaxima(horz); //ie update after TrimHorz
+
+				isLeftToRight = ResetHorzDirection(horz, maxPair, out leftX, out rightX);
 
 				if (isMax) maxPair = GetMaximaPair(horz);
 				if (IsHotEdge(horz)) AddOutPt(horz, horz.bot);
@@ -2101,13 +2101,15 @@ namespace ClipperLib2
 			return false; 
 		}
 
-		private static void CleanCollinear(ref OutPt op)
+		private static void CleanCollinear(ref OutPt op, bool preserveCollinear)
 		{
 			if (!ValidatePath(ref op)) return;
 			OutPt startOp = op, op2 = op;
 			for (; ; )
 			{
-				if (InternalClipperFunc.CrossProduct(op2.prev.pt, op2.pt, op2.next.pt) == 0)
+				//nb: if preserveCollinear == true, then only remove 180 deg.spikes
+				if ((InternalClipperFunc.CrossProduct(op2.prev.pt, op2.pt, op2.next.pt) == 0) &&
+					(!preserveCollinear || (InternalClipperFunc.DotProduct(op2.prev.pt, op2.pt, op2.next.pt) < 0)))
 				{
 					if (op2 == op) op = op2.prev;
 					op2 = DeleteOp(op2);

@@ -34,7 +34,7 @@ public static partial class GeoWrangler
     private static Paths pMakeKeyHole(Paths source, double customSizing = 0, double extension = 0, double angularTolerance = 0)
     {
         // Reconcile any overlapping geometry.
-        Clipper c = new ();
+        Clipper c = new () {PreserveCollinear = true};
         
         switch (source.Count)
         {
@@ -366,7 +366,7 @@ public static partial class GeoWrangler
         c.AddSubject(ret);
         c.Execute(ClipType.Union, FillRule.EvenOdd, ret);
 
-        ret = stripColinear(ret);
+        // ret = stripColinear(ret);
 
         // Validate orientations.
         bool gR_orient_gw = isClockwise(ret[0]);

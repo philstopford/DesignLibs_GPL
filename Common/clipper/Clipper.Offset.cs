@@ -125,7 +125,7 @@ namespace ClipperLib2
       if (MergeGroups)
       {
         //clean up self-intersections ...
-        ClipperD c = new ClipperD();
+        ClipperD c = new ClipperD();// {PreserveCollinear = true } ;
         c.AddSubject(solution);
         c.Execute(ClipType.Union, FillRule.Positive, solution);
       }
@@ -426,7 +426,7 @@ namespace ClipperLib2
       if (!MergeGroups)
       {
         //clean up self-intersections ...
-        ClipperD c = new ClipperD();
+        ClipperD c = new ClipperD();//{ PreserveCollinear = true };
         c.AddSubject(group._outPaths);
         c.Execute(ClipType.Union, FillRule.Positive, group._outPaths);
       }

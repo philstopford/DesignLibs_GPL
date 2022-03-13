@@ -11,28 +11,28 @@ using Paths = List<List<Point64>>;
 public static partial class GeoWrangler
 {
     // Bounds will force the negation to only work against the extents of the shape. Useful for capturing islands in negative tone.
-    public static List<GeoLibPointF[]> invertTone(GeoLibPointF[] source, long scaleFactor, bool useTriangulation = false, bool useBounds = false)
+    public static List<GeoLibPointF[]> invertTone(GeoLibPointF[] source, long scaleFactor, bool preserveColinear, bool useTriangulation = false, bool useBounds = false)
     {
-        return pPointFsFromPaths(pInvertTone(pPathsFromPointFs(new List<GeoLibPointF[]> { source }, scaleFactor), useTriangulation, useBounds), scaleFactor);
+        return pPointFsFromPaths(pInvertTone(pPathsFromPointFs(new List<GeoLibPointF[]> { source }, scaleFactor), preserveColinear: preserveColinear, useTriangulation: useTriangulation, useBounds: useBounds), scaleFactor);
     }
 
-    public static List<GeoLibPointF[]> invertTone(List<GeoLibPointF[]> source, long scaleFactor, bool useTriangulation = false, bool useBounds = false)
+    public static List<GeoLibPointF[]> invertTone(List<GeoLibPointF[]> source, long scaleFactor, bool preserveColinear, bool useTriangulation = false, bool useBounds = false)
     {
-        return pPointFsFromPaths(pInvertTone(pPathsFromPointFs(source, scaleFactor), useTriangulation, useBounds), scaleFactor);
+        return pPointFsFromPaths(pInvertTone(pPathsFromPointFs(source, scaleFactor), preserveColinear: preserveColinear, useTriangulation: useTriangulation, useBounds: useBounds), scaleFactor);
     }
 
-    public static Paths invertTone(Path sourcePath, bool useTriangulation = false, bool useBounds = false)
+    public static Paths invertTone(Path sourcePath, bool preserveColinear, bool useTriangulation = false, bool useBounds = false)
     {
         Paths t = new() {sourcePath};
-        return invertTone(t, useTriangulation, useBounds);
+        return invertTone(t, preserveColinear: preserveColinear, useTriangulation: useTriangulation, useBounds:useBounds);
     }
 
-    public static Paths invertTone(Paths sourcePaths, bool useTriangulation = false, bool useBounds = false)
+    public static Paths invertTone(Paths sourcePaths, bool preserveColinear, bool useTriangulation = false, bool useBounds = false)
     {
-        return pInvertTone(sourcePaths, useTriangulation, useBounds);
+        return pInvertTone(sourcePaths, preserveColinear: preserveColinear, useTriangulation: useTriangulation, useBounds: useBounds);
     }
 
-    private static Paths pInvertTone(Paths sourcePaths, bool useTriangulation, bool useBounds)
+    private static Paths pInvertTone(Paths sourcePaths, bool preserveColinear, bool useTriangulation, bool useBounds)
     {
         Path firstLayerBP = new();
         switch (useBounds)
@@ -56,7 +56,7 @@ public static partial class GeoWrangler
             }
         }
 
-        Clipper c = new() {PreserveCollinear = false};
+        Clipper c = new() {PreserveCollinear = preserveColinear};
 
         c.AddSubject(firstLayerBP);
         // Add hole polygons from our paths

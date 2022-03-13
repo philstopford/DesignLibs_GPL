@@ -34,18 +34,6 @@ public static partial class GeoWrangler
 
     private static Paths pInvertTone(Paths sourcePaths, bool useTriangulation, bool useBounds)
     {
-        switch (sourcePaths.Count)
-        {
-            case 1 when !useBounds:
-                sourcePaths[0].Add(new Point64(-int.MaxValue, -int.MaxValue));
-                sourcePaths[0].Add(new Point64(-int.MaxValue, int.MaxValue));
-                sourcePaths[0].Add(new Point64(int.MaxValue, int.MaxValue));
-                sourcePaths[0].Add(new Point64(int.MaxValue, -int.MaxValue));
-                sourcePaths[0].Add(new Point64(-int.MaxValue, -int.MaxValue));
-
-                return sourcePaths.ToList();
-        }
-
         Path firstLayerBP = new();
         switch (useBounds)
         {

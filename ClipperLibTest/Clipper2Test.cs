@@ -49,7 +49,7 @@ public static class Clipper2Test
 
         ClipperOffset co = new();
         co.AddPath(colinear, JoinType.Miter, EndType.Polygon);
-        Paths64 temp = ClipperFunc.Paths(co.Execute(1.0));
+        Paths64 temp = ClipperFunc.Paths64(co.Execute(1.0));
 
     }
 
@@ -318,7 +318,7 @@ public static class Clipper2Test
 
         ClipperOffset co = new();
         co.AddPath(edge, JoinType.Miter, EndType.Square);
-        Paths64 p = ClipperFunc.Paths(co.Execute(500));
+        Paths64 p = ClipperFunc.Paths64(co.Execute(500));
 
     }
     private static void zFillTest(Point64 bot1, Point64 top1, Point64 bot2, Point64 top2, ref Point64 pt)
@@ -457,7 +457,7 @@ public static class Clipper2Test
         ClipperOffset co = new();
         co.AddPaths(t, JoinType.Miter, EndType.Square);
 
-        Paths64 cutters = ClipperFunc.Paths(co.Execute(2.0));
+        Paths64 cutters = ClipperFunc.Paths64(co.Execute(2.0));
 
         Clipper c = new();
 
@@ -570,7 +570,7 @@ public static class Clipper2Test
         ClipperOffset co = new();
         co.AddPaths(kHSource, JoinType.Miter, EndType.Polygon);
         // ClipperLib2 specifies full width in offset for open path, unlike version 1
-        Paths64 out_ = ClipperFunc.Paths(co.Execute(2*keyhole_sizing));
+        Paths64 out_ = ClipperFunc.Paths64(co.Execute(2*keyhole_sizing));
         
         Console.WriteLine("Out count: " + out_.Count);
 
@@ -604,7 +604,7 @@ public static class Clipper2Test
         co.AddPaths(newEdges, JoinType.Miter, EndType.Square);
         PolyTree tp = new();
         // ClipperLib2 specifies full width in offset for open path, unlike version 1
-        Paths64 cutters = ClipperFunc.Paths(co.Execute( 2.0));
+        Paths64 cutters = ClipperFunc.Paths64(co.Execute( 2.0));
         
         Clipper c = new Clipper();
         c.AddSubject(lPoly);

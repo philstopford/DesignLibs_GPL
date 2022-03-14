@@ -298,9 +298,10 @@ public static partial class GeoWrangler
     {
         List<Point64> iPoly = pathFromPoint(iPoints, 1);
         Clipper c = new();
+        c.PreserveCollinear = false;
         c.AddSubject(iPoly);
         List<List<Point64>> oPoly = new();
-        c.Execute(ClipType.Intersection, FillRule.EvenOdd, oPoly);
+        c.Execute(ClipType.Union, FillRule.EvenOdd, oPoly);
 
         GeoLibPoint[] working = pointFromPath(oPoly[0], 1);
 

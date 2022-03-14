@@ -6,6 +6,10 @@ using ClipperLibTest;
 
 Console.WriteLine("Comparison tests for Clipper 1 and Clipper 2");
 
+STest.compare();
+
+SubtractionTest.compare();
+
 Clipper2Test.colinearOffsetTest();
 Clipper1Test.colinearOffsetTest();
 

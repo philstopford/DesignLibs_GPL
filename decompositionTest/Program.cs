@@ -7,7 +7,7 @@ using geoWrangler;
 using geoCoreLib;
 using PartitionTestGeometrySource;
 
-namespace partitionTest;
+namespace decompositionTest;
 
 using Path = List<IntPoint>;
 using Paths = List<List<IntPoint>>;

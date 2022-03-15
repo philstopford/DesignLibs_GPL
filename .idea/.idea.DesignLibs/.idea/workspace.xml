@@ -563,6 +563,7 @@
     <projectFile>BurkhardtTest/Medit/MeditIOTest/MeditIOTest.csproj</projectFile>
     <projectFile>BurkhardtTest/Medit/MeditToFEM/MeditToFEM.csproj</projectFile>
     <projectFile>BurkhardtTest/QuaternionsTest/QuaternionsTest.csproj</projectFile>
+    <projectFile>decompositionTest/decompositionTest.csproj</projectFile>
   </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
@@ -592,7 +593,6 @@
     <setting file="file://$PROJECT_DIR$/Common/Burkardt/IO/PPM_ASCII.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BurkhardtTest/GeometryTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Common/Burkardt/Quadrature/QuadratureRule.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/decomposeTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BurkhardtTest/FEM/FEM1DBVPTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BurkhardtTest/FEM/FEM2DBVPLinearTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Common/Burkardt/Sobol/SobolData.cs" root0="SKIP_HIGHLIGHTING" />
@@ -681,7 +681,7 @@
     <property name="settings.editor.selected.configurable" value="preferences.sourceCode.C#" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
-  <component name="RunManager" selected=".NET Project.decomposeTest">
+  <component name="RunManager" selected=".NET Project.decompositionTest">
     <configuration name="ASA005Test" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -7415,9 +7415,9 @@
       </method>
     </configuration>
     <configuration name="SobolTest" type="DotNetProject" factoryName=".NET Project">
-      <option name="EXE_PATH" value="" />
+      <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/SobolTest/Debug/net6.0/SobolTest.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/artifacts/bin/SobolTest/Debug/net6.0" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="USE_MONO" value="0" />
@@ -7427,7 +7427,7 @@
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
       <option name="PROJECT_KIND" value="DotNetCore" />
-      <option name="PROJECT_TFM" value="" />
+      <option name="PROJECT_TFM" value="net6.0" />
       <method v="2">
         <option name="Build" />
       </method>
@@ -8832,42 +8832,6 @@
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
       <option name="PROJECT_KIND" value="DotNetCore" />
       <option name="PROJECT_TFM" value="" />
-      <method v="2">
-        <option name="Build" />
-      </method>
-    </configuration>
-    <configuration name="Tests\Burkhardt\IO\PBMAIOTest" type="DotNetProject" factoryName=".NET Project" temporary="true">
-      <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/PBMAIOTest/Debug/net6.0/PBMAIOTest.exe" />
-      <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/artifacts/bin/PBMAIOTest/Debug/net6.0" />
-      <option name="PASS_PARENT_ENVS" value="1" />
-      <option name="USE_EXTERNAL_CONSOLE" value="0" />
-      <option name="USE_MONO" value="0" />
-      <option name="RUNTIME_ARGUMENTS" value="" />
-      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/IO/PBMAIOTest/PBMAIOTest.csproj" />
-      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
-      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
-      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
-      <option name="PROJECT_KIND" value="DotNetCore" />
-      <option name="PROJECT_TFM" value="net6.0" />
-      <method v="2">
-        <option name="Build" />
-      </method>
-    </configuration>
-    <configuration name="Tests\Burkhardt\IO\PBMBIOTest" type="DotNetProject" factoryName=".NET Project" temporary="true">
-      <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/PBMBIOTest/Debug/net5.0/PBMBIOTest.exe" />
-      <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/artifacts/bin/PBMBIOTest/Debug/net5.0" />
-      <option name="PASS_PARENT_ENVS" value="1" />
-      <option name="USE_EXTERNAL_CONSOLE" value="0" />
-      <option name="USE_MONO" value="0" />
-      <option name="RUNTIME_ARGUMENTS" value="" />
-      <option name="PROJECT_PATH" value="$PROJECT_DIR$/BurkhardtTest/IO/PBMBIOTest/PBMBIOTest.csproj" />
-      <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
-      <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
-      <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
-      <option name="PROJECT_KIND" value="DotNetCore" />
-      <option name="PROJECT_TFM" value="net5.0" />
       <method v="2">
         <option name="Build" />
       </method>
@@ -10564,15 +10528,15 @@
         <option name="Build" />
       </method>
     </configuration>
-    <configuration name="decomposeTest" type="DotNetProject" factoryName=".NET Project">
-      <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/decomposeTest/Debug/net6.0/decomposeTest.exe" />
+    <configuration name="decompositionTest" type="DotNetProject" factoryName=".NET Project">
+      <option name="EXE_PATH" value="$PROJECT_DIR$/artifacts/bin/decompositionTest/Debug/net6.0/decompositionTest.exe" />
       <option name="PROGRAM_PARAMETERS" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/artifacts/bin/decomposeTest/Debug/net6.0" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/artifacts/bin/decompositionTest/Debug/net6.0" />
       <option name="PASS_PARENT_ENVS" value="1" />
       <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="USE_MONO" value="0" />
       <option name="RUNTIME_ARGUMENTS" value="" />
-      <option name="PROJECT_PATH" value="$PROJECT_DIR$/decomposeTest/decomposeTest.csproj" />
+      <option name="PROJECT_PATH" value="$PROJECT_DIR$/decompositionTest/decompositionTest.csproj" />
       <option name="PROJECT_EXE_PATH_TRACKING" value="1" />
       <option name="PROJECT_ARGUMENTS_TRACKING" value="1" />
       <option name="PROJECT_WORKING_DIRECTORY_TRACKING" value="1" />
@@ -10740,7 +10704,6 @@
       <item itemvalue=".NET Project.LatinRandomTest " />
       <item itemvalue=".NET Project.LatinizeTest" />
       <item itemvalue=".NET Project.oasTest" />
-      <item itemvalue=".NET Project.decomposeTest" />
       <item itemvalue=".NET Project.SobolTest" />
       <item itemvalue=".NET Project.TestEtoVeldrid.Gtk" />
       <item itemvalue=".NET Project.TestEtoVeldrid.Mac64" />
@@ -11283,15 +11246,8 @@
       <item itemvalue=".NET Project.MeditIOTest" />
       <item itemvalue=".NET Project.MeditToFEM" />
       <item itemvalue=".NET Project.QuaternionsTest" />
-      <item itemvalue=".NET Project.Tests\Burkhardt\IO\PBMAIOTest" />
-      <item itemvalue=".NET Project.Tests\Burkhardt\IO\PBMBIOTest" />
+      <item itemvalue=".NET Project.decompositionTest" />
     </list>
-    <recent_temporary>
-      <list>
-        <item itemvalue=".NET Project.Tests\Burkhardt\IO\PBMBIOTest" />
-        <item itemvalue=".NET Project.Tests\Burkhardt\IO\PBMAIOTest" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -11329,14 +11285,7 @@
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/decomposeTest/Program.cs</url>
           <line>104</line>
-          <properties documentPath="D:\development\git\DesignLibs_GPL\partitionTest\Program.cs" initialLine="104" containingFunctionPresentation="method 'partOne'">
-            <startOffsets>
-              <option value="2774" />
-            </startOffsets>
-            <endOffsets>
-              <option value="2875" />
-            </endOffsets>
-          </properties>
+          <properties documentPath="D:\development\git\DesignLibs_GPL\partitionTest\Program.cs" initialLine="104" containingFunctionPresentation="method 'partOne'" />
           <option name="timeStamp" value="14" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">

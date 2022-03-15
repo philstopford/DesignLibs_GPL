@@ -303,7 +303,7 @@ public static partial class GeoWrangler
         ClipperOffset co = new();
         co.AddPath(edge, JoinType.Miter, EndType.Square);
         
-        Paths sPaths = ClipperFunc.Paths(co.Execute(2 * customSizing));
+        Paths sPaths = ClipperFunc.Paths64(co.Execute(2 * customSizing));
 
         return sPaths;
     }
@@ -434,11 +434,11 @@ public static partial class GeoWrangler
 
         ClipperOffset co = new();
         co.AddPaths(source, joinType, EndType.Polygon);
-        cGeometry = ClipperFunc.Paths(co.Execute(customSizing));
+        cGeometry = ClipperFunc.Paths64(co.Execute(customSizing));
         co.Clear();
         co.AddPaths(cGeometry.ToList(), joinType, EndType.Polygon);
         cGeometry.Clear();
-        cGeometry = ClipperFunc.Paths(co.Execute(-customSizing)); // Size back to original dimensions
+        cGeometry = ClipperFunc.Paths64(co.Execute(-customSizing)); // Size back to original dimensions
 
         if (maySimplify)
         {
@@ -470,11 +470,11 @@ public static partial class GeoWrangler
 
         ClipperOffset co = new();
         co.AddPath(source, joinType, EndType.Polygon);
-        cGeometry = ClipperFunc.Paths(co.Execute(customSizing));
+        cGeometry = ClipperFunc.Paths64(co.Execute(customSizing));
         co.Clear();
         co.AddPaths(cGeometry.ToList(), joinType, EndType.Polygon);
         cGeometry.Clear();
-        cGeometry = ClipperFunc.Paths(co.Execute(-customSizing)); // Size back to original dimensions
+        cGeometry = ClipperFunc.Paths64(co.Execute(-customSizing)); // Size back to original dimensions
 
         if (maySimplify)
         {

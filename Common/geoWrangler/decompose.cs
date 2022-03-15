@@ -430,7 +430,7 @@ public static partial class GeoWrangler
                 PolyTree tp = new();
                 
 
-                Paths cutters = ClipperFunc.Paths(co.Execute(1.0));
+                Paths cutters = ClipperFunc.Paths64(co.Execute(1.0));
 
                 c.Clear();
 

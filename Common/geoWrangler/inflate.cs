@@ -107,7 +107,7 @@ public static partial class GeoWrangler
             pStripTerminators(a, false);
         }
         co.AddPath(a, JoinType.Miter, EndType.Square);
-        Paths output = ClipperFunc.Paths(co.Execute(width));
+        Paths output = ClipperFunc.Paths64(co.Execute(width));
 
         return pPointFromPath(pClose(output[0]), 1);
 

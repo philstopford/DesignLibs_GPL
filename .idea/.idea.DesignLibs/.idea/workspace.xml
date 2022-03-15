@@ -607,6 +607,7 @@
     <setting file="file://$PROJECT_DIR$/BurkhardtTest/Interpolation/MultivariateLagrangeTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BurkhardtTest/TestValuesTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BurkhardtTest/Sphere/SphereTriangleMonteCarloTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/decompositionTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BurkhardtTest/Table/TableDelauneyTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BurkhardtTest/Solve/rootRCTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Common/Burkardt/Types/r8mat.cs" root0="FORCE_HIGHLIGHTING" />
@@ -677,7 +678,7 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="RunManager" selected=".NET Project.ClipperLibTest">
+  <component name="RunManager" selected=".NET Project.decompositionTest">
     <configuration name="ASA005Test" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -11380,19 +11381,6 @@
           <option name="timeStamp" value="46" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/decompositionTest/Program.cs</url>
-          <line>99</line>
-          <properties documentPath="D:\development\git\DesignLibs_GPL\decompositionTest\Program.cs" initialLine="99" containingFunctionPresentation="method 'partOne'">
-            <startOffsets>
-              <option value="2671" />
-            </startOffsets>
-            <endOffsets>
-              <option value="2696" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="66" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/geoCoreTest/Program.cs</url>
           <line>357</line>
           <properties documentPath="D:\development\git\DesignLibs_GPL\geoCoreTest\Program.cs" initialLine="357" containingFunctionPresentation="method 'defineAndWrite_Polygon'">
@@ -11433,7 +11421,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Common/geoWrangler/keyhole.cs</url>
-          <line>244</line>
+          <line>242</line>
           <properties documentPath="D:\development\git\DesignLibs_GPL\Common\geoWrangler\keyhole.cs" initialLine="244" containingFunctionPresentation="method 'pMakeKeyHole'">
             <startOffsets>
               <option value="9268" />

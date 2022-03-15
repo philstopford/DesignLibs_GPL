@@ -242,6 +242,8 @@ public static partial class GeoWrangler
     {
         Path lPoly = pathFromPoint(pClockwiseAndReorder(_poly), scaling);
 
+        lPoly = pClose(lPoly);
+
         switch (_poly.Length)
         {
             case 5 when orthogonal(stripTerminators(_poly, false), angularTolerance):
@@ -430,7 +432,7 @@ public static partial class GeoWrangler
                 PolyTree tp = new();
                 
 
-                Paths cutters = ClipperFunc.Paths64(co.Execute(1.0));
+                Paths cutters = ClipperFunc.Paths64(co.Execute(2.0));
 
                 c.Clear();
 

@@ -50,7 +50,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		nuget.config = nuget.config
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "partitionTest", "partitionTest\partitionTest.csproj", "{4F02D21D-3377-405D-A917-BFC686A7AA48}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "decomposeTest", "decomposeTest\decomposeTest.csproj", "{4F02D21D-3377-405D-A917-BFC686A7AA48}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GeoWranglerTest", "GeoWranglerTest\GeoWranglerTest.csproj", "{70B4C488-FA87-48EC-97DA-9E2AD0189409}"
 EndProject

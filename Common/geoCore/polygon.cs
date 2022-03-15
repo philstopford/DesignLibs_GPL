@@ -631,10 +631,10 @@ public class GCPolygon : GCElement
 
         double delta = max_distance - min_distance;
 
-        // Tolerance value - one DB unit.
-        const double tol = 1.0f;// * 1000;
+        // Tolerance value - one DB unit in each direction, sqrt of 2.
+        const double tol = 1.414213f;// * 1000;
 
-        return delta < tol;
+        return delta <= tol;
     }
 
     private void pSaveOASIS(oasWriter ow)

@@ -66,6 +66,10 @@ internal class Program
         bool orth = GeoWrangler.orthogonal(C2, angularTolerance: 0);
         bool orth2 = GeoWrangler.orthogonal(C3, angularTolerance: 0);
 
+        // Complex 10, rot 15
+        GeoLibPoint[] C10R15 = TestGeometry.getComplex10rot15();
+        
+        
         // Staircase
         GeoLibPoint[] S1 = TestGeometry.getStaircase();
 
@@ -118,6 +122,10 @@ internal class Program
         List<GeoLibPoint[]> c3 = GeoWrangler.rectangular_decomposition(ref abort, C3, maxRayLength: rayLength);
 
         writeToLayout("c3", C3, c3);
+
+        List<GeoLibPoint[]> c10r15 = GeoWrangler.rectangular_decomposition(ref abort, C10R15, maxRayLength: rayLength);
+
+        writeToLayout("c10r15", C10R15, c10r15);
 
         List<GeoLibPoint[]> s1 = GeoWrangler.rectangular_decomposition(ref abort, S1, maxRayLength: rayLength);
 

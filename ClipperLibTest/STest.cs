@@ -1,13 +1,13 @@
 ﻿namespace ClipperLibTest;
 
-using Paths64 = List<List<ClipperLib2.Point64>>;
+using Paths64 = List<List<Clipper2Lib.Point64>>;
 using Paths = List<List<ClipperLib1.IntPoint>>;
 
 public class STest
 {
     public static void compare()
     {
-        List<ClipperLib2.Point64> BP = new()
+        List<Clipper2Lib.Point64> BP = new()
         {
             new(1000, 27000),
             new(1000, 2000),
@@ -58,9 +58,9 @@ public class STest
             iPoly1.Add(t);
         }
 
-        ClipperLib2.ClipperOffset co = new();
-        co.AddPaths(iPoly, ClipperLib2.JoinType.Miter, ClipperLib2.EndType.Polygon);
-        iPoly = ClipperLib2.ClipperFunc.Paths64(co.Execute(1.0001));
+        Clipper2Lib.ClipperOffset co = new();
+        co.AddPaths(iPoly, Clipper2Lib.JoinType.Miter, Clipper2Lib.EndType.Polygon);
+        iPoly = Clipper2Lib.ClipperFunc.Paths64(co.Execute(1.0001));
 
         ClipperLib1.Clipper c1 = new() {PreserveCollinear = false};
         c1.AddPath(BP1, ClipperLib1.PolyType.ptSubject, true);
@@ -69,12 +69,12 @@ public class STest
         Paths o1 = new();
         c1.Execute(ClipperLib1.ClipType.ctDifference, o1);
         
-        ClipperLib2.Clipper c2 = new() {PreserveCollinear = false};
+        Clipper2Lib.Clipper c2 = new() {PreserveCollinear = false};
         c2.AddSubject(BP);
         c2.AddClip(iPoly);
 
         Paths64 o2 = new();
-        c2.Execute(ClipperLib2.ClipType.Difference, ClipperLib2.FillRule.EvenOdd, o2);
+        c2.Execute(Clipper2Lib.ClipType.Difference, Clipper2Lib.FillRule.EvenOdd, o2);
 
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace ClipperLibTest;
 
-using Paths64 = List<List<ClipperLib2.Point64>>;
+using Paths64 = List<List<Clipper2Lib.Point64>>;
 using Paths = List<List<ClipperLib1.IntPoint>>;
 
 public static class SubtractionTest
@@ -204,7 +204,7 @@ public static class SubtractionTest
 
     public static void compare()
     {
-        ClipperLib2.Clipper c = new()
+        Clipper2Lib.Clipper c = new()
         {
             PreserveCollinear = true
         };
@@ -214,13 +214,13 @@ public static class SubtractionTest
 
         Paths64 solution_cl = new();
 
-        c.Execute(ClipperLib2.ClipType.Difference, ClipperLib2.FillRule.EvenOdd, solution_cl);
+        c.Execute(Clipper2Lib.ClipType.Difference, Clipper2Lib.FillRule.EvenOdd, solution_cl);
 
         c.PreserveCollinear = false;
         
         Paths64 solution_ncl = new();
 
-        c.Execute(ClipperLib2.ClipType.Difference, ClipperLib2.FillRule.EvenOdd, solution_ncl);
+        c.Execute(Clipper2Lib.ClipType.Difference, Clipper2Lib.FillRule.EvenOdd, solution_ncl);
 
         ClipperLib1.Clipper c1 = new()
         {
@@ -229,7 +229,7 @@ public static class SubtractionTest
 
         Paths layerBPaths1 = new();
 
-        foreach (List<ClipperLib2.Point64> t in layerBPaths)
+        foreach (List<Clipper2Lib.Point64> t in layerBPaths)
         {
             List<ClipperLib1.IntPoint> r = new();
             for (int pt = 0; pt < t.Count; pt++)
@@ -241,7 +241,7 @@ public static class SubtractionTest
         }
 
         Paths layerAPaths1 = new();
-        foreach (List<ClipperLib2.Point64> t in layerAPaths)
+        foreach (List<Clipper2Lib.Point64> t in layerAPaths)
         {
             List<ClipperLib1.IntPoint> r = new();
             for (int pt = 0; pt < t.Count; pt++)

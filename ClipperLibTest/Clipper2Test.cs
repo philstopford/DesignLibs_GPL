@@ -1,5 +1,5 @@
 ﻿
-using ClipperLib2;
+using Clipper2Lib;
 
 namespace ClipperLib2Test;
 

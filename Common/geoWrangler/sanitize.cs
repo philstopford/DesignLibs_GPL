@@ -1,9 +1,9 @@
-﻿using ClipperLib2;
-using geoLib;
+﻿using geoLib;
 using LibTessDotNet.Double;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Clipper2Lib;
 using utility;
 
 namespace geoWrangler;

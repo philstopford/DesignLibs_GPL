@@ -3,7 +3,7 @@
 /*******************************************************************************
 * Author    :  Angus Johnson                                                   *
 * Version   :  10.0 (release candidate 1) - also known as Clipper2             *
-* Date      :  14 March 2022                                                    *
+* Date      :  19 March 2022                                                   *
 * Website   :  http://www.angusj.com                                           *
 * Copyright :  Angus Johnson 2010-2022                                         *
 * Purpose   :  Core structures and functions for the Clipper Library           *
@@ -12,7 +12,7 @@
 
 using System;
 
-namespace ClipperLib2
+namespace Clipper2Lib
 {
 
   public struct Point64

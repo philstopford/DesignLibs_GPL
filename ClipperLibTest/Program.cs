@@ -1,7 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 using ClipperLib1Test;
-using ClipperLib2Test;
+using Clipper2LibTest;
 using ClipperLibTest;
 
 Console.WriteLine("Comparison tests for Clipper 1 and Clipper 2");

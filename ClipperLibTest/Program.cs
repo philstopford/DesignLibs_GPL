@@ -6,6 +6,8 @@ using ClipperLibTest;
 
 Console.WriteLine("Comparison tests for Clipper 1 and Clipper 2");
 
+XTest.compare();
+
 OffsetTest.compare();
 
 STest.compare();

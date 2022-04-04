@@ -157,15 +157,15 @@
 
     <Style x:Key="{x:Type eto:TextBoxHandler}"
        BasedOn="{StaticResource {x:Type TextBox}}"
-       TargetType="{x:Type eto:TextBoxHandler}"/>
+       TargetType="{x:Type TextBox}"/>
 
     <Style x:Key="{x:Type eto:PasswordBoxHandler}"
        BasedOn="{StaticResource {x:Type PasswordBox}}"
-       TargetType="{x:Type eto:PasswordBoxHandler}"/>
+       TargetType="{x:Type PasswordBox}"/>
 
     <Style x:Key="{x:Type eto:GridViewHandler}"
        BasedOn="{StaticResource {x:Type TextBox}}"
-       TargetType="{x:Type eto:GridViewHandler}"/>
+       TargetType="{x:Type TextBox}"/>
 
 
 

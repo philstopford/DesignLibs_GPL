@@ -2878,10 +2878,10 @@ namespace Clipper2Lib
 		}
 
 		private void TidyOutRec(OutRec outrec)
-    {
+	    {
 			if (outrec == null) return;
 			CleanCollinear(ref outrec.pts);
-      FixSelfIntersects(ref outrec.pts);
+	        FixSelfIntersects(ref outrec.pts);
 		}
 
 		private void CleanCollinear(ref OutPt op)
@@ -2891,34 +2891,11 @@ namespace Clipper2Lib
 			for (; ; )
 			{
 				//nb: if preserveCollinear == true, then only remove 180 deg.spikes
-				if (InternalClipperFunc.CrossProduct(op2.prev.pt, op2.pt, op2.next.pt) == 0) 
+				if ((InternalClipperFunc.CrossProduct(op2.prev.pt, op2.pt, op2.next.pt) == 0) &&
+					(op2.joiner == null) && ((op2.pt == op2.prev.pt) || (op2.pt == op2.next.pt) ||
+					 !PreserveCollinear || 
+					 (InternalClipperFunc.DotProduct(op2.prev.pt, op2.pt, op2.next.pt) > 0)))
 				{
-					if (op2.joiner != null)
-          {
-						if (op2.pt == op2.prev.pt && (op2.prev.joiner == null))
-							op2 = op2.prev;
-						else if (op2.pt == op2.next.pt && op2.next.joiner == null)
-							op2 = op2.next;
-						else if (op2.pt != op2.prev.pt && op2.pt != op2.next.pt &&
-							InternalClipperFunc.DotProduct(op2.prev.pt, op2.pt, op2.next.pt) < 0)
-							SafeDeleteOutPtJoiners(op2);
-						else
-            {
-							op2	= op2.next;
-							if (op2 == startOp) break;
-							else continue;
-						}
-					}
-					else if (op2.prev.pt != op2.pt && op2.pt != op2.next.pt &&
-					 PreserveCollinear && InternalClipperFunc.DotProduct(op2.prev.pt, 
-						op2.pt, op2.next.pt) > 0)
-          {
-						//only ignore preserveCollinear when there are 180 degree spikes
-						op2 = op2.next;
-						if (op2 == startOp) break;
-						else continue;
-					}
-					
 					if (op2 == op) op = op.prev;
 					op2 = SafeDisposeOutPt(op2);
 					if (!ValidateOrDeleteClosedPath(ref op2))
@@ -2935,7 +2912,6 @@ namespace Clipper2Lib
 				}
 			}
 		}
-
 		private static double AreaTriangle(Point64 pt1, Point64 pt2, Point64 pt3)
     {
 			return 0.5 * (pt1.X * (pt2.Y - pt3.Y) +

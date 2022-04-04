@@ -78,6 +78,6 @@
 
     <Style x:Key="{x:Type eto:CheckBoxHandler}"
        BasedOn="{StaticResource {x:Type CheckBox}}"
-       TargetType="{x:Type CheckBox}"/>
+       TargetType="{x:Type eto:CheckBoxHandler}"/>
 
 </ResourceDictionary>

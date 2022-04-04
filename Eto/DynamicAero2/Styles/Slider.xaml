@@ -364,7 +364,7 @@
 
     <Style x:Key="{x:Type eto:SliderHandler}"
        BasedOn="{StaticResource {x:Type Slider}}"
-       TargetType="{x:Type Slider}"/>
+       TargetType="{x:Type eto:SliderHandler}"/>
 
     <Style x:Key="{x:Type eto:EtoSlider}"
        BasedOn="{StaticResource {x:Type Slider}}"

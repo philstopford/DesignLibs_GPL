@@ -72,5 +72,5 @@
 
     <Style x:Key="{x:Type eto:RadioButtonHandler}"
        BasedOn="{StaticResource {x:Type RadioButton}}"
-       TargetType="{x:Type RadioButton}"/>
+       TargetType="{x:Type eto:RadioButtonHandler}"/>
 </ResourceDictionary>

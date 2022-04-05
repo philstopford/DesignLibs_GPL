@@ -1,55 +1,55 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-  <Target Name="RemoveSupportDirectories" BeforeTargets="Clean">
-    <RemoveDir Directories="$(OutputPath)lib" />
-    <RemoveDir Directories="$(OutputPath)shaders" />
-  </Target>
-  
-  <Target Name="SetPaths" AfterTargets="Build" BeforeTargets="CopyVeldridSpirvNative">
+    <Target Name="RemoveSupportDirectories" BeforeTargets="Clean">
+        <RemoveDir Directories="$(OutputPath)lib"/>
+        <RemoveDir Directories="$(OutputPath)shaders"/>
+    </Target>
+
+    <Target Name="SetPaths" AfterTargets="Build" BeforeTargets="CopyVeldridSpirvNative">
+        <PropertyGroup>
+            <UsingMacAppBundle>false</UsingMacAppBundle>
+            <UsingMacAppBundle Condition="$(BuildOS) == 'macOS' AND $(OutputAppPath) != ''">true</UsingMacAppBundle>
+
+            <NeatenizePath>$(OutputPath)</NeatenizePath>
+            <NeatenizePath Condition="$(UsingMacAppBundle) AND $(MacBundleMono) == false">$(OutputAppPath)\Contents\MonoBundle\</NeatenizePath>
+        </PropertyGroup>
+    </Target>
+
     <PropertyGroup>
-      <UsingMacAppBundle>false</UsingMacAppBundle>
-      <UsingMacAppBundle Condition="$(BuildOS) == 'macOS' AND $(OutputAppPath) != ''">true</UsingMacAppBundle>
-
-      <NeatenizePath>$(OutputPath)</NeatenizePath>
-      <NeatenizePath Condition="$(UsingMacAppBundle) AND $(MacBundleMono) == false">$(OutputAppPath)\Contents\MonoBundle\</NeatenizePath>
+        <PackageVeldrid Condition="$(OutputType) != 'Library'">true</PackageVeldrid>
+        <NoPackageVeldrid Condition="$([System.Text.RegularExpressions.Regex]::IsMatch($(DefineConstants), '^(.*;)*NOVELDRID(;.*)*$'))">true</NoPackageVeldrid>
     </PropertyGroup>
-  </Target>
 
-  <PropertyGroup>
-    <PackageVeldrid Condition="$(OutputType) != 'Library'">true</PackageVeldrid>
-    <NoPackageVeldrid Condition="$([System.Text.RegularExpressions.Regex]::IsMatch($(DefineConstants), '^(.*;)*NOVELDRID(;.*)*$'))">true</NoPackageVeldrid>
-  </PropertyGroup>
+    <Target Name="CopyVeldridSpirvNative" AfterTargets="SetPaths" BeforeTargets="Cleanup" Condition="$(PackageVeldrid) == 'true' AND $(NoPackageVeldrid) != 'true'">
+        <Copy
+                SourceFiles="$([MSBuild]::EnsureTrailingSlash('$(NuGetPackageRoot)'))veldrid.spirv\$(VeldridSpirvVersion)\runtimes\$(RuntimeID)\native\$(VeldridSpirvNativeName)"
+                DestinationFolder="$(OutputPath)"/>
+    </Target>
 
-  <Target Name="CopyVeldridSpirvNative" AfterTargets="SetPaths" BeforeTargets="Cleanup" Condition="$(PackageVeldrid) == 'true' AND $(NoPackageVeldrid) != 'true'">
-    <Copy
-      SourceFiles="$([MSBuild]::EnsureTrailingSlash('$(NuGetPackageRoot)'))veldrid.spirv\$(VeldridSpirvVersion)\runtimes\$(RuntimeID)\native\$(VeldridSpirvNativeName)"
-      DestinationFolder="$(OutputPath)" />
-  </Target>
+    <Target Name="Cleanup" AfterTargets="SetPaths" Condition="$(Configuration.Contains('Release'))">
+        <ItemGroup>
+            <_DelItems3 Include="$(OutputPath)*.xml"/>
+        </ItemGroup>
+        <ItemGroup>
+            <_DelItems4 Include="$(OutputPath)*.pdb"/>
+        </ItemGroup>
+        <Delete Files="@(_DelItems3)"/>
+        <Delete Files="@(_DelItems4)"/>
+    </Target>
 
-  <Target Name="Cleanup" AfterTargets="SetPaths" Condition="$(Configuration.Contains('Release'))">
-    <ItemGroup>
-      <_DelItems3 Include="$(OutputPath)*.xml" />
-    </ItemGroup>
-    <ItemGroup>
-      <_DelItems4 Include="$(OutputPath)*.pdb" />
-    </ItemGroup>
-    <Delete Files="@(_DelItems3)" />
-    <Delete Files="@(_DelItems4)" />
-  </Target>
+    <Target Name="CopyShaders" AfterTargets="Cleanup" Condition="$(PackageVeldrid) == 'true' AND $(NoPackageVeldrid) != 'true'">
+        <ItemGroup>
+            <Shaders Include="$(TopLevelDirectory)..\DesignLibs_GPL\Eto\shaders\**\*"/>
+        </ItemGroup>
+        <Copy Condition="$(OutputAppPath) != ''" SourceFiles="@(Shaders)" DestinationFolder="$(OutputAppPath)\Contents\Resources\shaders\%(Shaders.RecursiveDir)"/>
+        <Copy Condition="$(OutputAppPath) == ''" SourceFiles="@(Shaders)" DestinationFolder="$(OutputPath)\shaders\%(Shaders.RecursiveDir)"/>
+    </Target>
 
-  <Target Name="CopyShaders" AfterTargets="Cleanup" Condition="$(PackageVeldrid) == 'true' AND $(NoPackageVeldrid) != 'true'">
-    <ItemGroup>
-      <Shaders Include="$(TopLevelDirectory)..\DesignLibs_GPL\Eto\shaders\**\*" />
-    </ItemGroup>
-    <Copy Condition="$(OutputAppPath) != ''" SourceFiles="@(Shaders)" DestinationFolder="$(OutputAppPath)\Contents\Resources\shaders\%(Shaders.RecursiveDir)" />
-    <Copy Condition="$(OutputAppPath) == ''" SourceFiles="@(Shaders)" DestinationFolder="$(OutputPath)\shaders\%(Shaders.RecursiveDir)" />
-  </Target>
-
-  <Target Name="DisplayMessages" BeforeTargets="Build">
-    <Message Importance="High" Text="Project Name = $(MSBuildProjectName)" />
-    <Message Text="Project File Name = $(MSBuildProjectFile)" />
-    <Message Text="Project Extension = $(MSBuildProjectExtension)" />
-  </Target>
+    <Target Name="DisplayMessages" BeforeTargets="Build">
+        <Message Importance="High" Text="Project Name = $(MSBuildProjectName)"/>
+        <Message Text="Project File Name = $(MSBuildProjectFile)"/>
+        <Message Text="Project Extension = $(MSBuildProjectExtension)"/>
+    </Target>
 
 
 </Project>

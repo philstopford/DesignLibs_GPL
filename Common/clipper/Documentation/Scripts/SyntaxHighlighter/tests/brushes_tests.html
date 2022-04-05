@@ -1,41 +1,42 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>SyntaxHighlighter Brushes Tests</title>
-	<script type="text/javascript" src="/js/jquery-1.4.2.js"></script>
-	
-	<!-- SyntaxHighlighter -->
-	<script type="text/javascript" src="/sh/scripts/XRegExp.js"></script> <!-- XRegExp is bundled with the final shCore.js during build -->
-	<script type="text/javascript" src="/sh/scripts/shCore.js"></script>
-	<script type="text/javascript" src="/sh/scripts/shAutoloader.js"></script>
-	<script type="text/javascript" src="/sh/scripts/shBrushAppleScript.js"></script>
-	<script type="text/javascript" src="/sh/scripts/shBrushAS3.js"></script>
-	<script type="text/javascript" src="/sh/scripts/shBrushBash.js"></script>
-	<script type="text/javascript" src="/sh/scripts/shBrushColdFusion.js"></script>
-	<script type="text/javascript" src="/sh/scripts/shBrushCpp.js"></script>
-	<script type="text/javascript" src="/sh/scripts/shBrushCSharp.js"></script>
-	<script type="text/javascript" src="/sh/scripts/shBrushCss.js"></script>
-	<script type="text/javascript" src="/sh/scripts/shBrushDelphi.js"></script>
-	<script type="text/javascript" src="/sh/scripts/shBrushDiff.js"></script>
-	<script type="text/javascript" src="/sh/scripts/shBrushErlang.js"></script>
-	<script type="text/javascript" src="/sh/scripts/shBrushGroovy.js"></script>
-	<script type="text/javascript" src="/sh/scripts/shBrushJava.js"></script>
-	<script type="text/javascript" src="/sh/scripts/shBrushJavaFx.js"></script>
-	<script type="text/javascript" src="/sh/scripts/shBrushJScript.js"></script>
-	<script type="text/javascript" src="/sh/scripts/shBrushPerl.js"></script>
-	<script type="text/javascript" src="/sh/scripts/shBrushPhp.js"></script>
-	<script type="text/javascript" src="/sh/scripts/shBrushPlain.js"></script>
-	<script type="text/javascript" src="/sh/scripts/shBrushPowerShell.js"></script>
-	<script type="text/javascript" src="/sh/scripts/shBrushPython.js"></script>
-	<script type="text/javascript" src="/sh/scripts/shBrushRuby.js"></script>
-	<script type="text/javascript" src="/sh/scripts/shBrushSass.js"></script>
-	<script type="text/javascript" src="/sh/scripts/shBrushScala.js"></script>
-	<script type="text/javascript" src="/sh/scripts/shBrushSql.js"></script>
-	<script type="text/javascript" src="/sh/scripts/shBrushVb.js"></script>
-	<script type="text/javascript" src="/sh/scripts/shBrushXml.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>SyntaxHighlighter Brushes Tests</title>
+    <script type="text/javascript" src="/js/jquery-1.4.2.js"></script>
 
-	<link type="text/css" rel="stylesheet" href="/sh/Styles/shCoreDefault.css"/>
+    <!-- SyntaxHighlighter -->
+    <script type="text/javascript" src="/sh/scripts/XRegExp.js"></script>
+    <!-- XRegExp is bundled with the final shCore.js during build -->
+    <script type="text/javascript" src="/sh/scripts/shCore.js"></script>
+    <script type="text/javascript" src="/sh/scripts/shAutoloader.js"></script>
+    <script type="text/javascript" src="/sh/scripts/shBrushAppleScript.js"></script>
+    <script type="text/javascript" src="/sh/scripts/shBrushAS3.js"></script>
+    <script type="text/javascript" src="/sh/scripts/shBrushBash.js"></script>
+    <script type="text/javascript" src="/sh/scripts/shBrushColdFusion.js"></script>
+    <script type="text/javascript" src="/sh/scripts/shBrushCpp.js"></script>
+    <script type="text/javascript" src="/sh/scripts/shBrushCSharp.js"></script>
+    <script type="text/javascript" src="/sh/scripts/shBrushCss.js"></script>
+    <script type="text/javascript" src="/sh/scripts/shBrushDelphi.js"></script>
+    <script type="text/javascript" src="/sh/scripts/shBrushDiff.js"></script>
+    <script type="text/javascript" src="/sh/scripts/shBrushErlang.js"></script>
+    <script type="text/javascript" src="/sh/scripts/shBrushGroovy.js"></script>
+    <script type="text/javascript" src="/sh/scripts/shBrushJava.js"></script>
+    <script type="text/javascript" src="/sh/scripts/shBrushJavaFx.js"></script>
+    <script type="text/javascript" src="/sh/scripts/shBrushJScript.js"></script>
+    <script type="text/javascript" src="/sh/scripts/shBrushPerl.js"></script>
+    <script type="text/javascript" src="/sh/scripts/shBrushPhp.js"></script>
+    <script type="text/javascript" src="/sh/scripts/shBrushPlain.js"></script>
+    <script type="text/javascript" src="/sh/scripts/shBrushPowerShell.js"></script>
+    <script type="text/javascript" src="/sh/scripts/shBrushPython.js"></script>
+    <script type="text/javascript" src="/sh/scripts/shBrushRuby.js"></script>
+    <script type="text/javascript" src="/sh/scripts/shBrushSass.js"></script>
+    <script type="text/javascript" src="/sh/scripts/shBrushScala.js"></script>
+    <script type="text/javascript" src="/sh/scripts/shBrushSql.js"></script>
+    <script type="text/javascript" src="/sh/scripts/shBrushVb.js"></script>
+    <script type="text/javascript" src="/sh/scripts/shBrushXml.js"></script>
+
+    <link type="text/css" rel="stylesheet" href="/sh/Styles/shCoreDefault.css"/>
 </head>
 
 <body>
@@ -54,6 +55,7 @@ body {
 	overflow: auto;
 	border: none;
 }
+
 </style>
 
 <script type="text/javascript">
@@ -130,6 +132,7 @@ $(document).ready(function()
 	
 	SyntaxHighlighter.highlight();
 });
+
 </script>
 
 </body>

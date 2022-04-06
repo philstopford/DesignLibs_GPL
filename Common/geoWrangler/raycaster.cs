@@ -20,7 +20,7 @@ public class RayCast
 
     private void prox_ZFillCallback(Point64 bot1, Point64 top1, Point64 bot2, Point64 top2, ref Point64 pt)
     {
-        pt = new Point64(pt.X, pt.Y, bot1.Z);
+        pt.Z = bot1.Z;
     }
 
     public static readonly List<string> fallOffList = new() {"None", "Linear", "Gaussian", "Cosine"};
@@ -247,7 +247,7 @@ public class RayCast
 
             if (sideRayFallOff != falloff.none)
             {
-                endPoint = new Point64(endPoint.X, endPoint.Y, 1E4);
+                endPoint.Z = (long)1E4;
             }
 
             Paths rays = new();
@@ -305,8 +305,8 @@ public class RayCast
 
                 if (sideRayFallOff != falloff.none)
                 {
-                    endPoint_f = new Point64(endPoint_f.X, endPoint_f.Y, Convert.ToInt64(weight_val * 1E4));
-                    sPoint = new Point64(sPoint.X, sPoint.Y, endPoint_f.Z);
+                    endPoint_f.Z = Convert.ToInt64(weight_val * 1E4);
+                    sPoint.Z = endPoint_f.Z;
                 }
                 Point64 endPoint1 = GeoWrangler.Rotate(startPoint, endPoint_f, rayAngle);
                 Point64 endPoint2 = GeoWrangler.Rotate(startPoint, endPoint_f, -rayAngle);

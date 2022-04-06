@@ -323,7 +323,7 @@ public static class Clipper2Test
     }
     private static void zFillTest(Point64 bot1, Point64 top1, Point64 bot2, Point64 top2, ref Point64 pt)
     {
-        pt.Z = -1;
+        pt = new(pt.X, pt.Y, -1);
     }
     public static void zFillCallbackTest()
     {
@@ -412,11 +412,7 @@ public static class Clipper2Test
         int y = -1100;
         while (y < 1200)
         {
-            t3.Add(new()
-            {
-                X = x,
-                Y = y
-            });
+            t3.Add(new(x, y));
             y += 100;
         }
         Clipper c3 = new();
@@ -894,22 +890,12 @@ public static class Clipper2Test
         // Let's see if we can track the origin of the chords.
         for (int p = 0; p < a.Count; p++)
         {
-            a[p] = new()
-            {
-                X = a[p].X,
-                Y = a[p].Y,
-                Z = 1
-            };
+            a[p] = new(a[p].X, a[p].Y, 1);
         }
 
         for (int p = 0; p < testPath.Count; p++)
         {
-            testPath[p] = new()
-            {
-                X = testPath[p].X,
-                Y = testPath[p].Y,
-                Z = 2
-            };
+            testPath[p] = new(testPath[p].X, testPath[p].Y, 2);
         }
 
         Clipper c = new();
@@ -1219,22 +1205,12 @@ public static class Clipper2Test
         // Let's see if we can track the origin of the chords.
         for (int p = 0; p < a.Count; p++)
         {
-            a[p] = new()
-            {
-                X = a[p].X,
-                Y = a[p].Y,
-                Z = 1
-            };
+            a[p] = new(a[p].X, a[p].Y, 1);
         }
 
         for (int p = 0; p < testPath.Count; p++)
         {
-            testPath[p] = new()
-            {
-                X = testPath[p].X,
-                Y = testPath[p].Y,
-                Z = 2
-            };
+            testPath[p] = new(testPath[p].X, testPath[p].Y, 2);
         }
 
         Clipper c = new();

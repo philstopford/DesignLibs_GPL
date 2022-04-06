@@ -11376,23 +11376,6 @@
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/ClipperLibTest/XTest.cs</url>
-          <line>64</line>
-          <properties documentPath="D:\development\git\DesignLibs_GPL\ClipperLibTest\XTest.cs" initialLine="64" containingFunctionPresentation="method 'compare'">
-            <startOffsets>
-              <option value="1925" />
-            </startOffsets>
-            <endOffsets>
-              <option value="1926" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <watches-manager>
       <configuration name="DotNetProject">
         <watch expression="x" />

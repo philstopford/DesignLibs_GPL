@@ -20,8 +20,8 @@ using System.Runtime.CompilerServices;
 namespace Clipper2Lib
 {
     using Path64 = List<Point64>;
-    using Paths64 = List<List<Point64>>;
     using PathD = List<PointD>;
+    using Paths64 = List<List<Point64>>;
     using PathsD = List<List<PointD>>;
 
     //Vertex: a pre-clipping data structure. It is used to separate polygons
@@ -72,9 +72,9 @@ namespace Clipper2Lib
     //Y coordinates to the smallest while keeping edges adjacent.
     internal struct IntersectNode
     {
-      public readonly Point64 pt;
-      public readonly Active edge1;
-      public readonly Active edge2;
+        public readonly Point64 pt;
+        public readonly Active edge1;
+        public readonly Active edge2;
 
         public IntersectNode(Point64 pt, Active edge1, Active edge2)
         {
@@ -115,11 +115,11 @@ namespace Clipper2Lib
     internal class OutRec
     {
         public int idx;
-        public OutRec owner;
-        public Active frontEdge;
-        public Active backEdge;
-        public OutPt pts;
-        public PolyPathBase polypath;
+        public OutRec? owner;
+        public Active? frontEdge;
+        public Active? backEdge;
+        public OutPt? pts;
+        public PolyPathBase? polypath;
         public OutRecState state;
     };
 
@@ -127,10 +127,10 @@ namespace Clipper2Lib
     internal class Joiner
     {
         public int idx;
-        public OutPt op1;
-        public OutPt op2;
-        public Joiner next1;
-        public Joiner next2;
+        public OutPt? op1;
+        public OutPt? op2;
+        public Joiner? next1;
+        public Joiner? next2;
     }
 
     internal class Active
@@ -143,23 +143,23 @@ namespace Clipper2Lib
         public int windCount;
         public int windCount2; //winding count of the opposite polytype
 
-        public OutRec outrec;
+        public OutRec? outrec;
 
         //AEL: 'active edge list' (Vatti's AET - active edge table)
         //     a linked list of all edges (from left to right) that are present
         //     (or 'active') within the current scanbeam (a horizontal 'beam' that
         //     sweeps from bottom to top over the paths in the clipping operation).
-        public Active prevInAEL;
+        public Active? prevInAEL;
 
-        public Active nextInAEL;
+        public Active? nextInAEL;
 
         //SEL: 'sorted edge list' (Vatti's ST - sorted table)
         //     linked list used when sorting edges into their new positions at the
         //     top of scanbeams, but also (re)used to process horizontals.
-        public Active prevInSEL;
-        public Active nextInSEL;
-        public Active jump;
-        public Vertex vertexTop;
+        public Active? prevInSEL;
+        public Active? nextInSEL;
+        public Active? jump;
+        public Vertex? vertexTop;
         public LocalMinima localMin; //the bottom of an edge 'bound' (also Vatti)
         internal bool leftBound;
     };
@@ -450,7 +450,7 @@ namespace Clipper2Lib
             return ((ae.vertexTop.flags & VertexFlags.LocalMax) != VertexFlags.None);
         }
 
-        private Active GetMaximaPair(Active ae)
+        private Active? GetMaximaPair(Active ae)
         {
             Active ae2;
             if (IsHorizontal(ae))
@@ -1580,7 +1580,7 @@ namespace Clipper2Lib
             }
         }
 
-        private OutPt IntersectEdges(Active ae1, Active ae2, Point64 pt)
+        private OutPt? IntersectEdges(Active ae1, Active ae2, Point64 pt)
         {
             OutPt resultOp = null;
             //MANAGE OPEN PATH INTERSECTIONS SEPARATELY ...
@@ -1841,7 +1841,7 @@ namespace Clipper2Lib
             _cliptype = ct;
             Reset();
             if (!PopScanline(out long y)) return;
-            for (;;)
+            for (; ; )
             {
                 InsertLocalMinimaIntoAEL(y);
                 Active ae;
@@ -1954,7 +1954,7 @@ namespace Clipper2Lib
                         if (right.curX < left.curX)
                         {
                             tmp = right.prevInSEL;
-                            for (;;)
+                            for (; ; )
                             {
                                 AddNewIntersectNode(tmp, right, topY);
                                 if (tmp == left) break;
@@ -2091,20 +2091,20 @@ namespace Clipper2Lib
         }
 
         private void DoHorizontal(Active horz)
-            /*******************************************************************************
-                * Notes: Horizontal edges (HEs) at scanline intersections (ie at the top or    *
-                * bottom of a scanbeam) are processed as if layered.The order in which HEs     *
-                * are processed doesn't matter. HEs intersect with the bottom vertices of      *
-                * other HEs[#] and with non-horizontal edges [*]. Once these intersections     *
-                * are completed, intermediate HEs are 'promoted' to the next edge in their     *
-                * bounds, and they in turn may be intersected[%] by other HEs.                 *
-                *                                                                              *
-                * eg: 3 horizontals at a scanline:    /   |                     /           /  *
-                *              |                     /    |     (HE3)o ========%========== o   *
-                *              o ======= o(HE2)     /     |         /         /                *
-                *          o ============#=========*======*========#=========o (HE1)           *
-                *         /              |        /       |       /                            *
-                *******************************************************************************/
+        /*******************************************************************************
+            * Notes: Horizontal edges (HEs) at scanline intersections (ie at the top or    *
+            * bottom of a scanbeam) are processed as if layered.The order in which HEs     *
+            * are processed doesn't matter. HEs intersect with the bottom vertices of      *
+            * other HEs[#] and with non-horizontal edges [*]. Once these intersections     *
+            * are completed, intermediate HEs are 'promoted' to the next edge in their     *
+            * bounds, and they in turn may be intersected[%] by other HEs.                 *
+            *                                                                              *
+            * eg: 3 horizontals at a scanline:    /   |                     /           /  *
+            *              |                     /    |     (HE3)o ========%========== o   *
+            *              o ======= o(HE2)     /     |         /         /                *
+            *          o ============#=========*======*========#=========o (HE1)           *
+            *         /              |        /       |       /                            *
+            *******************************************************************************/
         {
             Point64 pt;
             bool horzIsOpen = IsOpen(horz);
@@ -2132,7 +2132,7 @@ namespace Clipper2Lib
             }
 
             OutPt op;
-            for (;;)
+            for (; ; )
             {
                 //loops through consec. horizontal edges (if open)
                 Active ae;
@@ -2435,7 +2435,7 @@ namespace Clipper2Lib
             return op.nextHorz != null || op == _horzLast;
         }
 
-        private bool ValidateOrDeleteClosedPath(ref OutPt op)
+        private bool ValidateOrDeleteClosedPath(ref OutPt? op)
         {
             if (IsValidClosedPath(op)) return true;
             SafeDisposeOutPts(op);
@@ -2655,7 +2655,7 @@ namespace Clipper2Lib
             op2.joiner = j;
         }
 
-        private static Joiner FindJoinParent(Joiner parent, Joiner joiner)
+        private static Joiner? FindJoinParent(Joiner parent, Joiner joiner)
         {
             if (parent == null) return null;
             if (parent.next1 == joiner || parent.next2 == joiner) return parent;
@@ -2785,7 +2785,7 @@ namespace Clipper2Lib
                 if (op2.next == op1) return or1;
             }
 
-            for (;;)
+            for (; ; )
             {
                 if (!IsValidPath(op1) || !IsValidPath(op2)) return or1;
                 if (or1 == or2 && (op1.prev == op2 || op1.next == op2)) return or1;
@@ -2941,7 +2941,7 @@ namespace Clipper2Lib
         private static void UpdateOutrecOwner(OutRec outrec)
         {
             OutPt opCurr = outrec.pts;
-            for (;;)
+            for (; ; )
             {
                 opCurr.outrec = outrec;
                 opCurr = opCurr.next;
@@ -3011,11 +3011,11 @@ namespace Clipper2Lib
             FixSelfIntersects(ref outrec.pts);
         }
 
-        private void CleanCollinear(ref OutPt op)
+        private void CleanCollinear(ref OutPt? op)
         {
             if (!ValidateOrDeleteClosedPath(ref op)) return;
             OutPt startOp = op, op2 = op;
-            for (;;)
+            for (; ; )
             {
                 //nb: if preserveCollinear == true, then only remove 180 deg.spikes
                 if ((InternalClipperFunc.CrossProduct(op2.prev.pt, op2.pt, op2.next.pt) == 0) &&
@@ -3069,7 +3069,7 @@ namespace Clipper2Lib
             }
             else
             {
-                OutPt newOp2 = new OutPt(ip, prevOp.outrec) {prev = prevOp, next = nextNextOp};
+                OutPt newOp2 = new OutPt(ip, prevOp.outrec) { prev = prevOp, next = nextNextOp };
                 nextNextOp.prev = newOp2;
                 prevOp.next = newOp2;
             }
@@ -3089,7 +3089,7 @@ namespace Clipper2Lib
                 splitOp.outrec = newOutRec;
                 splitOp.next.outrec = newOutRec;
 
-                OutPt newOp = new OutPt(ip, newOutRec) {prev = splitOp.next, next = splitOp};
+                OutPt newOp = new OutPt(ip, newOutRec) { prev = splitOp.next, next = splitOp };
                 newOutRec.pts = newOp;
                 splitOp.prev = newOp;
                 splitOp.next.next = newOp;
@@ -3102,7 +3102,7 @@ namespace Clipper2Lib
         {
             if (!IsValidClosedPath(op)) return;
             OutPt op2 = op;
-            for (;;)
+            for (; ; )
             {
                 //3 edged polygons can't self-intersect
                 if (op2.prev == op2.next.next) break;
@@ -3515,7 +3515,7 @@ namespace Clipper2Lib
             get => GetIsHole();
         }
 
-        public PolyPathBase(PolyPathBase parent = null)
+        public PolyPathBase(PolyPathBase? parent = null)
         {
             _parent = parent;
         }
@@ -3540,7 +3540,7 @@ namespace Clipper2Lib
 
         internal abstract PolyPathBase AddChild(Path64 p);
 
-        public PolyPathBase GetChild(int idx)
+        public PolyPathBase? GetChild(int idx)
         {
             if (idx < 0 || idx >= ChildCount) return null;
             else return _childs[idx];
@@ -3556,7 +3556,7 @@ namespace Clipper2Lib
     {
         public Path64 Polygon { get; private set; }
 
-        public PolyPath(PolyPathBase parent = null) : base(parent)
+        public PolyPath(PolyPathBase? parent = null) : base(parent)
         {
         }
 
@@ -3574,7 +3574,7 @@ namespace Clipper2Lib
         internal double Scale { get; set; }
         public PathD Polygon { get; private set; }
 
-        public PolyPathD(PolyPathBase parent = null) : base(parent)
+        public PolyPathD(PolyPathBase? parent = null) : base(parent)
         {
         }
 

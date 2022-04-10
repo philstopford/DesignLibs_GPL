@@ -198,7 +198,7 @@ public static partial class GeoWrangler
                 //  Strip the terminator again to meet the requirements below.
                 projCheck = pStripTerminators(projCheck, false);
                 projCheck = pClockwise(projCheck);
-
+                
                 bool projectCorners = orthogonal(projCheck, angularTolerance);
                 RayCast rc = new(t, outers, 1000000, invert: true, projectCorners: projectCorners);
                 Paths clipped = rc.getClippedRays();
@@ -230,7 +230,10 @@ public static partial class GeoWrangler
                     // First ray or a smaller distance causes us to make this the keyhole edge.
                     if (r != 0 && !(ray_length < minLength))
                     {
-                        continue;
+                        // if (!ray_isOrtho)
+                        {
+                            continue;
+                        }
                     }
 
                     cutPathIndex = r;

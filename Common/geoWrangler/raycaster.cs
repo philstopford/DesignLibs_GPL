@@ -206,8 +206,8 @@ public class RayCast
                     switch (invert)
                     {
                         case true:
-                            currentEdgeNormal = new Point64(currentEdgeNormal.X, -currentEdgeNormal.Y);
-                            previousEdgeNormal = new Point64(previousEdgeNormal.X, -previousEdgeNormal.Y);
+                            currentEdgeNormal = new Point64(-currentEdgeNormal.X, currentEdgeNormal.Y);
+                            previousEdgeNormal = new Point64(-previousEdgeNormal.X, previousEdgeNormal.Y);
                             break;
                     }
                     // Average out our normals

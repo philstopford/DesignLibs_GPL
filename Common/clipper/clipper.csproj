@@ -11,9 +11,11 @@
 
     </PropertyGroup>
 
-    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' "/>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+      <DefineConstants>USINGZ;TRACE</DefineConstants>
+    </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
         <Optimize>true</Optimize>
-        <DefineConstants>USINGZ;TRACE;RELEASE;NETCOREAPP;NETCOREAPP3_1</DefineConstants>
+        <DefineConstants>USINGZ</DefineConstants>
     </PropertyGroup>
 </Project>

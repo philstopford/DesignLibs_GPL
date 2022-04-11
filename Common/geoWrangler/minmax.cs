@@ -105,11 +105,6 @@ public static partial class GeoWrangler
         return maxIndex;
     }
 
-    public static int MinX(List<GeoLibPoint> iPoints)
-    {
-        return pMinX(iPoints.ToArray());
-    }
-    
     public static int MinX(GeoLibPoint[] iPoints)
     {
         return pMinX(iPoints);

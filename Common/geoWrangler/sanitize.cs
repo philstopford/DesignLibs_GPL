@@ -39,16 +39,11 @@ public static partial class GeoWrangler
 
     private static GeoLibPoint[] pReorder(GeoLibPoint[] iPoints)
     {
-        return pReorder(iPoints.ToList()).ToArray();
-    }
-    
-    private static List<GeoLibPoint> pReorder(List<GeoLibPoint> iPoints)
-    {
         int minX_index = MinX(iPoints);
         long minX = iPoints[minX_index].X;
         // This will reorder the point index so that the 0-indexed point is at the minimum X value, and, in the case of multiple points at min X, at the lowest Y of all of those.
         List<int> minXPoints = new();
-        for (int pt = 0; pt < iPoints.Count; pt++)
+        for (int pt = 0; pt < iPoints.Length; pt++)
         {
             if (iPoints[pt].X == minX)
             {
@@ -77,7 +72,7 @@ public static partial class GeoWrangler
         {
             List<GeoLibPoint> tempList = new();
             // Now to start the re-indexing.
-            for (int pt = reIndexStart; pt < iPoints.Count; pt++)
+            for (int pt = reIndexStart; pt < iPoints.Length; pt++)
             {
                 tempList.Add(new GeoLibPoint(iPoints[pt].X, iPoints[pt].Y));
             }
@@ -86,11 +81,13 @@ public static partial class GeoWrangler
             {
                 tempList.Add(new GeoLibPoint(iPoints[pt].X, iPoints[pt].Y));
             }
+
+            iPoints = tempList.ToArray();
         }
 
         return iPoints;
     }
-    
+
     public static Paths clockwiseAndReorder(Paths iPoints)
     {
         return pClockwiseAndReorder(iPoints);
@@ -362,9 +359,6 @@ public static partial class GeoWrangler
                 return source;
         }
 
-        // Re-order to make the colinear removal less challenging.
-        source = pReorder(source);
-
         Path ret = new();
 
         for (int pt = 0; pt < source.Count; pt++)
@@ -436,9 +430,6 @@ public static partial class GeoWrangler
                 return source;
         }
 
-        // Re-order to make the colinear removal less challenging.
-        source = pReorder(source);
-
         List<GeoLibPoint> ret = new();
 
         for (int pt = 0; pt < source.Length; pt++)
@@ -504,9 +495,6 @@ public static partial class GeoWrangler
             case < 3:
                 return source;
         }
-
-        // Re-order to make the colinear removal less challenging.
-        source = pReorder(source);
 
         List<GeoLibPoint> ret = new();
 
@@ -973,6 +961,22 @@ public static partial class GeoWrangler
             source.Add(new GeoLibPoint(source[0]));
         }
         return source;
+    }
+
+    public static List<GeoLibPoint[]> close(List<GeoLibPoint[]> source)
+    {
+        return pClose(source);
+    }
+
+    static List<GeoLibPoint[]> pClose(List<GeoLibPoint[]> source)
+    {
+        List<GeoLibPoint[]> ret = new();
+        foreach (GeoLibPoint[] t in source)
+        {
+            ret.Add(pClose(t));
+        }
+
+        return ret;
     }
 
     public static GeoLibPoint[] close(GeoLibPoint[] source)

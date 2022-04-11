@@ -240,7 +240,8 @@ public static partial class GeoWrangler
 
     private static List<GeoLibPoint[]> decompose_poly_to_rectangles(ref bool abort, GeoLibPoint[] _poly, int scaling, long maxRayLength, double angularTolerance, bool vertical)
     {
-        Path lPoly = pathFromPoint(pClockwiseAndReorder(_poly), scaling);
+        _poly = pClockwiseAndReorder(_poly);
+        Path lPoly = pathFromPoint(_poly, scaling);
 
         lPoly = pClose(lPoly);
 
@@ -444,6 +445,8 @@ public static partial class GeoWrangler
                 c.Execute(ClipType.Difference, FillRule.EvenOdd, f);
 
                 final = pointsFromPaths(f, scaling);
+
+                final = pClose(final);
 
                 final = simplify(final);
 

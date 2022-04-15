@@ -13,6 +13,7 @@ using Paths = List<List<Point64>>;
 
 public class RayCast
 {
+    public enum inversionMode { none, x, y }
     private Paths clippedLines;
     private Paths castLines;
 
@@ -28,12 +29,12 @@ public class RayCast
 
     // Corner projection is default and takes an orthogonal ray out from the corner. Setting to false causes an averaged normal to be generated.
 
-    public RayCast(Path emissionPath, Paths collisionPaths, long max, bool projectCorners = true, int invert = 0, int multisampleRayCount = 0, bool runOuterLoopThreaded = false, bool runInnerLoopThreaded = false, Point64 startOffset = new(), Point64 endOffset = new(), falloff sideRayFallOff = falloff.none, double sideRayFallOffMultiplier = 1.0f, forceSingleDirection dirOverride = forceSingleDirection.no)
+    public RayCast(Path emissionPath, Paths collisionPaths, long max, bool projectCorners = true, inversionMode invert = inversionMode.none, int multisampleRayCount = 0, bool runOuterLoopThreaded = false, bool runInnerLoopThreaded = false, Point64 startOffset = new(), Point64 endOffset = new(), falloff sideRayFallOff = falloff.none, double sideRayFallOffMultiplier = 1.0f, forceSingleDirection dirOverride = forceSingleDirection.no)
     {
         rayCast(emissionPath, collisionPaths, max, projectCorners, invert, multisampleRayCount, runOuterLoopThreaded, runInnerLoopThreaded, startOffset, endOffset, sideRayFallOff, sideRayFallOffMultiplier, dirOverride);
     }
 
-    public RayCast(Path emissionPath, Path collisionPath, long max, bool projectCorners = true, int invert = 0, int multisampleRayCount = 0, bool runOuterLoopThreaded = false, bool runInnerLoopThreaded = false, Point64 startOffset = new(), Point64 endOffset = new(), falloff sideRayFallOff = falloff.none, double sideRayFallOffMultiplier = 1.0f, forceSingleDirection dirOverride = forceSingleDirection.no)
+    public RayCast(Path emissionPath, Path collisionPath, long max, bool projectCorners = true, inversionMode invert = inversionMode.none, int multisampleRayCount = 0, bool runOuterLoopThreaded = false, bool runInnerLoopThreaded = false, Point64 startOffset = new(), Point64 endOffset = new(), falloff sideRayFallOff = falloff.none, double sideRayFallOffMultiplier = 1.0f, forceSingleDirection dirOverride = forceSingleDirection.no)
     {
         rayCast(emissionPath, new Paths { collisionPath }, max, projectCorners, invert, multisampleRayCount, runOuterLoopThreaded, runInnerLoopThreaded, startOffset, endOffset, sideRayFallOff, sideRayFallOffMultiplier, dirOverride);
     }
@@ -73,11 +74,8 @@ public class RayCast
     }
 
     
-    // invert used to be a bool, but we need to handle X and Y normal inversions separately, so this had to move to an int.
-    // 0 is no inversion, same as false used to be.
-    // 1 is X inversion, which is new.
-    // 2 is Y inversion, which is what true used to be.
-    private void rayCast(Path emissionPath, Paths collisionPaths, long maxRayLength, bool projectCorners, int invert, int multisampleRayCount, bool runOuterLoopThreaded, bool runInnerLoopThreaded, Point64 startOffset, Point64 endOffset, falloff sideRayFallOff, double sideRayFallOffMultiplier, forceSingleDirection dirOverride)
+    // invert used to be a bool, but we need to handle X and Y normal inversions separately, so this had to move to an enum for clarity.
+    private void rayCast(Path emissionPath, Paths collisionPaths, long maxRayLength, bool projectCorners, inversionMode invert, int multisampleRayCount, bool runOuterLoopThreaded, bool runInnerLoopThreaded, Point64 startOffset, Point64 endOffset, falloff sideRayFallOff, double sideRayFallOffMultiplier, forceSingleDirection dirOverride)
     {
         // Setting this to true, we shorten rays with the falloff. False means we reduce the contribution to the average instead.
         const bool truncateRaysByWeight = false;
@@ -210,11 +208,11 @@ public class RayCast
                 {
                     switch (invert)
                     {
-                        case 1:
+                        case inversionMode.x:
                             currentEdgeNormal = new Point64(-currentEdgeNormal.X, currentEdgeNormal.Y);
                             previousEdgeNormal = new Point64(-previousEdgeNormal.X, previousEdgeNormal.Y);
                             break;
-                        case 2:
+                        case inversionMode.y:
                             currentEdgeNormal = new Point64(currentEdgeNormal.X, -currentEdgeNormal.Y);
                             previousEdgeNormal = new Point64(previousEdgeNormal.X, -previousEdgeNormal.Y);
                             break;
@@ -246,8 +244,8 @@ public class RayCast
 
             switch (invert)
             {
-                case 1:
-                case 2:
+                case inversionMode.x:
+                case inversionMode.y:
                     endPointDeltaY *= -1;
                     break;
             }

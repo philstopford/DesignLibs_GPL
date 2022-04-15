@@ -16,22 +16,22 @@ public static partial class GeoWrangler
     public const double keyhole_sizing = 500;
     private const double keyhole_extension_default = 1.03;
 
-    public static Paths makeKeyHole(Paths outers, Paths cutters, int invert = 1, double customSizing = 0, double extension = 0, double angularTolerance = 0)
+    public static Paths makeKeyHole(Paths outers, Paths cutters, RayCast.inversionMode invert = RayCast.inversionMode.x, double customSizing = 0, double extension = 0, double angularTolerance = 0)
     {
         return pMakeKeyHole(outers, cutters, invert, customSizing: customSizing, extension: extension, angularTolerance: angularTolerance);
     }
 
-    public static Paths makeKeyHole(Path source, int invert = 1, double customSizing = 0, double extension = 0, double angularTolerance = 0)
+    public static Paths makeKeyHole(Path source, RayCast.inversionMode invert = RayCast.inversionMode.x, double customSizing = 0, double extension = 0, double angularTolerance = 0)
     {
         return pMakeKeyHole(new Paths { source }, invert, customSizing, extension, angularTolerance);
     }
 
-    public static Paths makeKeyHole(Paths source, int invert = 1, double customSizing = 0, double extension = 0, double angularTolerance = 0)
+    public static Paths makeKeyHole(Paths source, RayCast.inversionMode invert = RayCast.inversionMode.x, double customSizing = 0, double extension = 0, double angularTolerance = 0)
     {
         return pMakeKeyHole(source, invert, customSizing: customSizing, extension: extension, angularTolerance: angularTolerance);
     }
 
-    private static Paths pMakeKeyHole(Paths source, int invert = 1, double customSizing = 0, double extension = 0, double angularTolerance = 0)
+    private static Paths pMakeKeyHole(Paths source, RayCast.inversionMode invert = RayCast.inversionMode.x, double customSizing = 0, double extension = 0, double angularTolerance = 0)
     {
         // Reconcile any overlapping geometry.
         Clipper c = new () {PreserveCollinear = true};
@@ -180,7 +180,7 @@ public static partial class GeoWrangler
         }
     }
 
-    private static Paths pMakeKeyHole(Paths outers, Paths cutters, int invert = 1, double customSizing = 0, double extension = 0, double angularTolerance = 0)
+    private static Paths pMakeKeyHole(Paths outers, Paths cutters, RayCast.inversionMode invert = RayCast.inversionMode.x, double customSizing = 0, double extension = 0, double angularTolerance = 0)
     {
         customSizing = customSizing switch
         {

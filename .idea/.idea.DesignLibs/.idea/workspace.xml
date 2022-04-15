@@ -11376,49 +11376,6 @@
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/ClipperLibTest/DonutTest.cs</url>
-          <line>272</line>
-          <properties documentPath="D:\development\git\DesignLibs_GPL\ClipperLibTest\DonutTest.cs" initialLine="272" containingFunctionPresentation="method 'compare'">
-            <startOffsets>
-              <option value="10271" />
-            </startOffsets>
-            <endOffsets>
-              <option value="85802" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/ClipperLibTest/DonutTest.cs</url>
-          <line>2352</line>
-          <properties documentPath="D:\development\git\DesignLibs_GPL\ClipperLibTest\DonutTest.cs" initialLine="2352" containingFunctionPresentation="method 'compare'">
-            <startOffsets>
-              <option value="87719" />
-            </startOffsets>
-            <endOffsets>
-              <option value="87761" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/ClipperLibTest/DonutTest.cs</url>
-          <line>2358</line>
-          <properties documentPath="D:\development\git\DesignLibs_GPL\ClipperLibTest\DonutTest.cs" initialLine="2358" containingFunctionPresentation="method 'compare'">
-            <startOffsets>
-              <option value="88046" />
-            </startOffsets>
-            <endOffsets>
-              <option value="88047" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <watches-manager>
       <configuration name="DotNetProject">
         <watch expression="x" />

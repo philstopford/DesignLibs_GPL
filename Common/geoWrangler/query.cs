@@ -226,6 +226,8 @@ public static partial class GeoWrangler
         c.AddSubject(rationalizedFirstLayer);
         c.Execute(ClipType.Union, FillRule.EvenOdd, intersectionPaths);
 
+        intersectionPaths = pReorder(intersectionPaths);
+
         // Force clockwise.
         foreach (Path t in intersectionPaths)
         {

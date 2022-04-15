@@ -98,7 +98,7 @@ public static partial class GeoWrangler
         }
         
         // If we lost area, we probably had a cutter fully cover up one or more of our polygons.
-        double lostArea = origArea - newArea;
+        double lostArea = Math.Abs(origArea - newArea);
         
         if (lostArea > 0)
         {
@@ -126,6 +126,7 @@ public static partial class GeoWrangler
                     c.AddSubject(tOuter);
                     c.AddClip(odecomp[(int) type.cutter][cIndex].ToList());
                     c.Execute(ClipType.Difference, FillRule.EvenOdd, test);
+                    test = pReorder(test);
                     double area = 0;
                     foreach (Path t in test)
                     {
@@ -163,6 +164,7 @@ public static partial class GeoWrangler
                 Paths cleaned = new();
                 c.AddSubject(ret);
                 c.Execute(ClipType.Union, FillRule.Positive, cleaned);
+                cleaned = pReorder(cleaned);
 
                 switch (cleaned.Count)
                 {
@@ -271,6 +273,8 @@ public static partial class GeoWrangler
                 Paths mergedCutters = new();
                 c.Execute(ClipType.Union, FillRule.EvenOdd, mergedCutters);
 
+                mergedCutters = pReorder(mergedCutters);
+
                 c.Clear();
                 c.AddSubject(outers);
                 c.AddClip(mergedCutters);
@@ -278,6 +282,8 @@ public static partial class GeoWrangler
                 // Reduce our geometry back to the simplest form.
                 Paths new_outers = new();
                 c.Execute(ClipType.Difference, FillRule.EvenOdd, new_outers);//, PolyFillType.pftNonZero, PolyFillType.pftNegative);
+
+                new_outers = pReorder(new_outers);
 
                 outers.Clear();
                 outers.AddRange(new_outers.Where(t1 => ClipperFunc.IsClockwise(t1) == outerOrient));
@@ -308,7 +314,7 @@ public static partial class GeoWrangler
         
         Paths sPaths = ClipperFunc.Paths64(co.Execute(2 * customSizing));
 
-        return sPaths;
+        return pReorder(sPaths);
     }
 
     public static Paths sliverGapRemoval(Path source, double customSizing = 0, double extension = 0, bool maySimplify = false)
@@ -368,6 +374,8 @@ public static partial class GeoWrangler
         Clipper c = new();
         c.AddSubject(ret);
         c.Execute(ClipType.Union, FillRule.EvenOdd, ret);
+
+        ret = pReorder(ret);
 
         // ret = stripColinear(ret);
 
@@ -443,6 +451,8 @@ public static partial class GeoWrangler
         cGeometry.Clear();
         cGeometry = ClipperFunc.Paths64(co.Execute(-customSizing)); // Size back to original dimensions
 
+        cGeometry = pReorder(cGeometry);
+        
         if (maySimplify)
         {
             cGeometry = stripColinear(cGeometry);
@@ -456,7 +466,7 @@ public static partial class GeoWrangler
                 // We crushed our geometry, it seems.
                 // This was probably not the plan, so send back the original geometry instead.
                 source,
-            _ => cGeometry
+            _ => pReorder(cGeometry)
         };
     }
 
@@ -479,6 +489,8 @@ public static partial class GeoWrangler
         cGeometry.Clear();
         cGeometry = ClipperFunc.Paths64(co.Execute(-customSizing)); // Size back to original dimensions
 
+        cGeometry = pReorder(cGeometry);
+        
         if (maySimplify)
         {
             cGeometry = stripColinear(cGeometry);
@@ -522,6 +534,6 @@ public static partial class GeoWrangler
             }
         }
 
-        return cGeometry;
+        return pReorder(cGeometry);
     }
 }

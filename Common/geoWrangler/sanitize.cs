@@ -303,6 +303,8 @@ public static partial class GeoWrangler
         List<List<Point64>> oPoly = new();
         c.Execute(ClipType.Union, FillRule.EvenOdd, oPoly);
 
+        oPoly = pReorder(oPoly);
+
         GeoLibPoint[] working = pointFromPath(oPoly[0], 1);
 
         return working;
@@ -1132,6 +1134,8 @@ public static partial class GeoWrangler
 
             c.Execute(ClipType.Union, FillRule.NonZero, retPaths);
 
+            retPaths = pReorder(retPaths);
+
             retPaths = pClose(retPaths);
 
             return retPaths;
@@ -1154,6 +1158,8 @@ public static partial class GeoWrangler
         c.AddSubject(sourcePaths);
         Paths solution = new();
         c.Execute(ClipType.Union, FillRule.EvenOdd, solution);
+
+        solution = pReorder(solution);
 
         Paths keyHoled = pMakeKeyHole(solution, customSizing: customSizing, extension: extension);
 

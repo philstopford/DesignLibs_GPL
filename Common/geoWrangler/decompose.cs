@@ -39,6 +39,7 @@ public static partial class GeoWrangler
             c.AddSubject(t1);
             Paths t = new();
             c.Execute(ClipType.Union, FillRule.EvenOdd, t);
+            t = pReorder(t);
             double a2 = t.Sum(t2 => ClipperFunc.Area(t2));
 
             switch (Math.Abs(Math.Abs(a1) - Math.Abs(a2)))
@@ -58,6 +59,7 @@ public static partial class GeoWrangler
                     // Non-zero here means that we also reconcile self-intersections without odd-even causing holes; positive only respects a certain orientation (unlike non-zero)
                     // Union is cheaper than finding the bounding box and using intersection; test-bed showed identical results.
                     c.Execute(ClipType.Union, FillRule.NonZero, cR);
+                    cR = pReorder(cR);
 
                     int crCount = cR.Count;
 
@@ -117,12 +119,15 @@ public static partial class GeoWrangler
 
                 c.Execute(ClipType.Difference, FillRule.EvenOdd, ret);//, PolyFillType.pftPositive, PolyFillType.pftNegative);
 
+                ret = pReorder(ret);
+                
                 switch (ret.Count)
                 {
                     // Assume tone is wrong. We should not trigger this with the 'reverse' handling above.
                     case 0:
                         ret.Clear();
                         c.Execute(ClipType.Difference, FillRule.EvenOdd, ret);
+                        ret = pReorder(ret);
                         break;
                 }
 
@@ -443,6 +448,8 @@ public static partial class GeoWrangler
                 c.AddClip(cutters[0]);
                 Paths f = new();
                 c.Execute(ClipType.Difference, FillRule.EvenOdd, f);
+
+                f = pReorder(f);
 
                 final = pointsFromPaths(f, scaling);
 

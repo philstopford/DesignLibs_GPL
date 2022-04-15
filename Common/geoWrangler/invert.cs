@@ -64,6 +64,8 @@ public static partial class GeoWrangler
 
         Paths cutters = new();
         c.Execute(ClipType.Difference, FillRule.EvenOdd, cutters);
+
+        cutters = pReorder(cutters);
         
         switch (useTriangulation)
         {

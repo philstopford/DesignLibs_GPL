@@ -16,22 +16,22 @@ public static partial class GeoWrangler
     public const double keyhole_sizing = 500;
     private const double keyhole_extension_default = 1.03;
 
-    public static Paths makeKeyHole(Paths outers, Paths cutters, double customSizing = 0, double extension = 0, double angularTolerance = 0)
+    public static Paths makeKeyHole(Paths outers, Paths cutters, int invert = 1, double customSizing = 0, double extension = 0, double angularTolerance = 0)
     {
-        return pMakeKeyHole(outers, cutters, customSizing: customSizing, extension: extension, angularTolerance: angularTolerance);
+        return pMakeKeyHole(outers, cutters, invert, customSizing: customSizing, extension: extension, angularTolerance: angularTolerance);
     }
 
-    public static Paths makeKeyHole(Path source, double customSizing = 0, double extension = 0, double angularTolerance = 0)
+    public static Paths makeKeyHole(Path source, int invert = 1, double customSizing = 0, double extension = 0, double angularTolerance = 0)
     {
-        return pMakeKeyHole(new Paths { source }, customSizing, extension, angularTolerance);
+        return pMakeKeyHole(new Paths { source }, invert, customSizing, extension, angularTolerance);
     }
 
-    public static Paths makeKeyHole(Paths source, double customSizing = 0, double extension = 0, double angularTolerance = 0)
+    public static Paths makeKeyHole(Paths source, int invert = 1, double customSizing = 0, double extension = 0, double angularTolerance = 0)
     {
-        return pMakeKeyHole(source, customSizing: customSizing, extension: extension, angularTolerance: angularTolerance);
+        return pMakeKeyHole(source, invert, customSizing: customSizing, extension: extension, angularTolerance: angularTolerance);
     }
 
-    private static Paths pMakeKeyHole(Paths source, double customSizing = 0, double extension = 0, double angularTolerance = 0)
+    private static Paths pMakeKeyHole(Paths source, int invert = 1, double customSizing = 0, double extension = 0, double angularTolerance = 0)
     {
         // Reconcile any overlapping geometry.
         Clipper c = new () {PreserveCollinear = true};
@@ -77,7 +77,7 @@ public static partial class GeoWrangler
         // Unless we massage things, these get killed as the cutters are applied en-masse to outers in the keyholer.
         
         // First, we'll run the keyholer as usual.
-        Paths ret = pMakeKeyHole(decomp[(int)type.outer], decomp[(int)type.cutter], customSizing, extension, angularTolerance);
+        Paths ret = pMakeKeyHole(decomp[(int)type.outer], decomp[(int)type.cutter], invert, customSizing, extension, angularTolerance);
 
         double origArea = 0;
         List<double> origAreas = new();
@@ -143,7 +143,7 @@ public static partial class GeoWrangler
 
                 Paths tOuters = new() {tOuter};
 
-                Paths tRet = pMakeKeyHole(tOuters.ToList(), tCutters.ToList(), customSizing, extension,
+                Paths tRet = pMakeKeyHole(tOuters.ToList(), tCutters.ToList(), invert, customSizing, extension,
                     angularTolerance);
 
                 ret.AddRange(tRet.ToList());
@@ -180,7 +180,7 @@ public static partial class GeoWrangler
         }
     }
 
-    private static Paths pMakeKeyHole(Paths outers, Paths cutters, double customSizing = 0, double extension = 0, double angularTolerance = 0)
+    private static Paths pMakeKeyHole(Paths outers, Paths cutters, int invert = 1, double customSizing = 0, double extension = 0, double angularTolerance = 0)
     {
         customSizing = customSizing switch
         {
@@ -202,7 +202,7 @@ public static partial class GeoWrangler
                 projCheck = pClockwise(projCheck);
                 
                 bool projectCorners = orthogonal(projCheck, angularTolerance);
-                RayCast rc = new(t, outers, 1000000, invert: true, projectCorners: projectCorners);
+                RayCast rc = new(t, outers, 1000000, invert: invert, projectCorners: projectCorners);
                 Paths clipped = rc.getClippedRays();
                 // Need to find minimal length, ideally orthogonal.
                 double minLength = -1;

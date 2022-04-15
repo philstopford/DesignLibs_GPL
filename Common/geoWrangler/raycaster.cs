@@ -28,12 +28,12 @@ public class RayCast
 
     // Corner projection is default and takes an orthogonal ray out from the corner. Setting to false causes an averaged normal to be generated.
 
-    public RayCast(Path emissionPath, Paths collisionPaths, long max, bool projectCorners = true, bool invert = false, int multisampleRayCount = 0, bool runOuterLoopThreaded = false, bool runInnerLoopThreaded = false, Point64 startOffset = new(), Point64 endOffset = new(), falloff sideRayFallOff = falloff.none, double sideRayFallOffMultiplier = 1.0f, forceSingleDirection dirOverride = forceSingleDirection.no)
+    public RayCast(Path emissionPath, Paths collisionPaths, long max, bool projectCorners = true, int invert = 0, int multisampleRayCount = 0, bool runOuterLoopThreaded = false, bool runInnerLoopThreaded = false, Point64 startOffset = new(), Point64 endOffset = new(), falloff sideRayFallOff = falloff.none, double sideRayFallOffMultiplier = 1.0f, forceSingleDirection dirOverride = forceSingleDirection.no)
     {
         rayCast(emissionPath, collisionPaths, max, projectCorners, invert, multisampleRayCount, runOuterLoopThreaded, runInnerLoopThreaded, startOffset, endOffset, sideRayFallOff, sideRayFallOffMultiplier, dirOverride);
     }
 
-    public RayCast(Path emissionPath, Path collisionPath, long max, bool projectCorners = true, bool invert = false, int multisampleRayCount = 0, bool runOuterLoopThreaded = false, bool runInnerLoopThreaded = false, Point64 startOffset = new(), Point64 endOffset = new(), falloff sideRayFallOff = falloff.none, double sideRayFallOffMultiplier = 1.0f, forceSingleDirection dirOverride = forceSingleDirection.no)
+    public RayCast(Path emissionPath, Path collisionPath, long max, bool projectCorners = true, int invert = 0, int multisampleRayCount = 0, bool runOuterLoopThreaded = false, bool runInnerLoopThreaded = false, Point64 startOffset = new(), Point64 endOffset = new(), falloff sideRayFallOff = falloff.none, double sideRayFallOffMultiplier = 1.0f, forceSingleDirection dirOverride = forceSingleDirection.no)
     {
         rayCast(emissionPath, new Paths { collisionPath }, max, projectCorners, invert, multisampleRayCount, runOuterLoopThreaded, runInnerLoopThreaded, startOffset, endOffset, sideRayFallOff, sideRayFallOffMultiplier, dirOverride);
     }
@@ -72,7 +72,12 @@ public class RayCast
         return GeoWrangler.distanceBetweenPoints(clippedLines[ray][0], clippedLines[ray][clippedLines[ray].Count - 1]);
     }
 
-    private void rayCast(Path emissionPath, Paths collisionPaths, long maxRayLength, bool projectCorners, bool invert, int multisampleRayCount, bool runOuterLoopThreaded, bool runInnerLoopThreaded, Point64 startOffset, Point64 endOffset, falloff sideRayFallOff, double sideRayFallOffMultiplier, forceSingleDirection dirOverride)
+    
+    // invert used to be a bool, but we need to handle X and Y normal inversions separately, so this had to move to an int.
+    // 0 is no inversion, same as false used to be.
+    // 1 is X inversion, which is new.
+    // 2 is Y inversion, which is what true used to be.
+    private void rayCast(Path emissionPath, Paths collisionPaths, long maxRayLength, bool projectCorners, int invert, int multisampleRayCount, bool runOuterLoopThreaded, bool runInnerLoopThreaded, Point64 startOffset, Point64 endOffset, falloff sideRayFallOff, double sideRayFallOffMultiplier, forceSingleDirection dirOverride)
     {
         // Setting this to true, we shorten rays with the falloff. False means we reduce the contribution to the average instead.
         const bool truncateRaysByWeight = false;
@@ -193,7 +198,7 @@ public class RayCast
                     long tX = currentEdgeNormal.X;
                     long tY = currentEdgeNormal.Y;
                     // If we're traversing a 90 degree corner, let's not project a diagonal, but fix on our current edge normal.
-                    if (!invert || dirOverride == forceSingleDirection.vertical)
+                    if (invert == 0 || dirOverride == forceSingleDirection.vertical)
                     {
                         tX = -tX;
                         tY = -tY;
@@ -205,9 +210,13 @@ public class RayCast
                 {
                     switch (invert)
                     {
-                        case true:
+                        case 1:
                             currentEdgeNormal = new Point64(-currentEdgeNormal.X, currentEdgeNormal.Y);
                             previousEdgeNormal = new Point64(-previousEdgeNormal.X, previousEdgeNormal.Y);
+                            break;
+                        case 2:
+                            currentEdgeNormal = new Point64(currentEdgeNormal.X, -currentEdgeNormal.Y);
+                            previousEdgeNormal = new Point64(previousEdgeNormal.X, -previousEdgeNormal.Y);
                             break;
                     }
                     // Average out our normals
@@ -237,7 +246,8 @@ public class RayCast
 
             switch (invert)
             {
-                case true:
+                case 1:
+                case 2:
                     endPointDeltaY *= -1;
                     break;
             }
@@ -349,10 +359,10 @@ public class RayCast
                     Paths tmpLine = new();
                     switch (invert)
                     {
-                        case true:
+                        default:
                             d.Execute(ClipType.Intersection, FillRule.EvenOdd, unused, tmpLine);
                             break;
-                        default:
+                        case 0:
                             d.Execute(ClipType.Difference, FillRule.EvenOdd, unused, tmpLine);
                             break;
                     }

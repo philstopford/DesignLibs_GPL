@@ -257,7 +257,7 @@ public static partial class GeoWrangler
         }
 
         // dirOverride switches from a horizontally-biased raycast to vertical in this case.
-        RayCast rc = new(lPoly, lPoly, maxRayLength * scaling, projectCorners: true, invert: true, runOuterLoopThreaded:true, runInnerLoopThreaded: true, dirOverride: vertical ? RayCast.forceSingleDirection.vertical : RayCast.forceSingleDirection.horizontal);
+        RayCast rc = new(lPoly, lPoly, maxRayLength * scaling, projectCorners: true, invert: 1, runOuterLoopThreaded:true, runInnerLoopThreaded: true, dirOverride: vertical ? RayCast.forceSingleDirection.vertical : RayCast.forceSingleDirection.horizontal);
 
         Paths rays = rc.getRays();
 

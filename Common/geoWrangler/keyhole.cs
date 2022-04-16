@@ -307,7 +307,7 @@ public static partial class GeoWrangler
         // Force clockwise, which should get us something consistent to work with.
         edge = pClockwise(edge);
 
-        edge = pExtendEdge(edge, keyhole_sizing);
+        // edge = pExtendEdge(edge, keyhole_sizing);
 
         ClipperOffset co = new();
         co.AddPath(edge, JoinType.Miter, EndType.Square);

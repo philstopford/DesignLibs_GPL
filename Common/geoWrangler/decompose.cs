@@ -435,8 +435,6 @@ public static partial class GeoWrangler
                 // Turn the new edges into cutters and slice. Not terribly elegant and we're relying on rounding to squash notches later.
                 ClipperOffset co = new();
                 co.AddPaths(newEdges, JoinType.Miter, EndType.Square);
-                PolyTree tp = new();
-                
 
                 Paths cutters = ClipperFunc.Paths64(co.Execute(2.0));
 

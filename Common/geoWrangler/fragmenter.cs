@@ -6,8 +6,6 @@ using System.Linq;
 
 namespace geoWrangler;
 
-using Path = List<Point64>;
-using Paths = List<List<Point64>>;
 public class Fragmenter
 {
     private double resolution;
@@ -63,27 +61,36 @@ public class Fragmenter
         return pFragmentPath(pointList);
     }
 
-    public Paths fragmentPaths(Paths source)
+    public Paths64 fragmentPaths(Paths64 source)
     {
         return pFragmentPaths(source);
     }
 
-    private Paths pFragmentPaths(Paths source)
+    private Paths64 pFragmentPaths(Paths64 source)
     {
-        return source.Select(t => pFragmentPath(t)).ToList();
+        IEnumerable<Path64> t = source.Select(t => pFragmentPath(t)).ToList();
+
+        Paths64 ret = new();
+
+        foreach (Path64 p in t)
+        {
+            ret.Add(p);
+        }
+
+        return ret;
     }
 
-    public Path fragmentPath(Path source)
+    public Path64 fragmentPath(Path64 source)
     {
         return pFragmentPath(source);
     }
 
-    private Path pFragmentPath(Path source)
+    private Path64 pFragmentPath(Path64 source)
     {
-        Path ret = new();
+        Path64 ret = new();
         bool closed = source[0].X == source[^1].X && source[0].Y == source[^1].Y;
         // Decouple the geometry.
-        Path t = new();
+        Path64 t = new();
         for (int p = 0; p < source.Count; p++)
         {
             t.Add(new Point64(source[p].X, source[p].Y));
@@ -113,14 +120,14 @@ public class Fragmenter
         return ret;
     }
 
-    public Path fragmentPath(Point64 pt1, Point64 pt2)
+    public Path64 fragmentPath(Point64 pt1, Point64 pt2)
     {
         return pFragmentPath(pt1, pt2);
     }
 
-    private Path pFragmentPath(Point64 pt1, Point64 pt2, bool startAndEndPoints = false)
+    private Path64 pFragmentPath(Point64 pt1, Point64 pt2, bool startAndEndPoints = false)
     {
-        Path returnPath = new();
+        Path64 returnPath = new();
         long x_Distance = pt2.X - pt1.X;
         long y_Distance = pt2.Y - pt1.Y;
         // We do some manipulation here because the points in the call are scaled by CentralProperties.scaleFactorForOperation.

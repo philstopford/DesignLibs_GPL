@@ -1,24 +1,19 @@
 ﻿using System;
 using Clipper2Lib;
 using geoLib;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using utility;
 
 namespace geoWrangler;
 
-using Path = List<Point64>;
-using Paths = List<List<Point64>>;
-
 public static partial class GeoWrangler
 {
-    public static Paths extendEdges(Paths edges, double sizing)
+    public static Paths64 extendEdges(Paths64 edges, double sizing)
     {
         return pExtendEdges(edges, sizing);
     }
 
-    private static Paths pExtendEdges(Paths edges, double sizing)
+    private static Paths64 pExtendEdges(Paths64 edges, double sizing)
     {
         int sLength = edges.Count;
 #if !GWSINGLETHREADED
@@ -35,11 +30,11 @@ public static partial class GeoWrangler
         return edges;
     }
 
-    public static Path extendEdge(Path edge, double sizing)
+    public static Path64 extendEdge(Path64 edge, double sizing)
     {
         return pExtendEdge(edge, sizing);
     }
-    private static Path pExtendEdge(Path edge, double sizing)
+    private static Path64 pExtendEdge(Path64 edge, double sizing)
     {
         // Get sorted out for dx, dy and normalization.
         double dx = edge[0].X - edge[1].X;
@@ -100,14 +95,14 @@ public static partial class GeoWrangler
         }
         
         ClipperOffset co = new();
-        Path a = GeoWrangler.pathFromPoint(source, 1);
-        // Path from Point auto-closes the input for historical reasons. We may not want this....
+        Path64 a = GeoWrangler.pathFromPoint(source, 1);
+        // Path64 from Point auto-closes the input for historical reasons. We may not want this....
         if (pDistanceBetweenPoints(source[0], source[^1]) > Double.Epsilon)
         {
             pStripTerminators(a, false);
         }
         co.AddPath(a, JoinType.Miter, EndType.Square);
-        Paths output = ClipperFunc.Paths64(co.Execute(width));
+        Paths64 output = ClipperFunc.Paths64(co.Execute(width));
 
         output = pReorder(output);
 

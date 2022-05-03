@@ -6,9 +6,6 @@ using System.Linq;
 
 namespace geoWrangler;
 
-using Path = List<Point64>;
-using Paths = List<List<Point64>>;
-
 public static partial class GeoWrangler
 {
     public static GeoLibPointF midPoint(List<GeoLibPoint[]> source)
@@ -171,39 +168,39 @@ public static partial class GeoWrangler
         return new [] { new GeoLibPointF(minX, minY), new GeoLibPointF(maxX, maxY) };
     }
 
-    public static bool enclosed(Path a, Paths b, bool strict = false)
+    public static bool enclosed(Path64 a, Paths64 b, bool strict = false)
     {
         return pEnclosed(a, b, strict);
     }
 
-    private static bool pEnclosed(Path a, Paths b, bool strict = false)
+    private static bool pEnclosed(Path64 a, Paths64 b, bool strict = false)
     {
-        Paths aPath = new() {a};
+        Paths64 aPath = new() {a};
         return pEnclosed(aPath, b, strict);
     }
 
     // To handle this situation, a gap removal is performed. This strips the keyhole (if present) and yields enclosed cutters that we can detect and flag for rigorous processing.
-    public static bool enclosed(Paths source, double customSizing, double extension, bool strict = false)
+    public static bool enclosed(Paths64 source, double customSizing, double extension, bool strict = false)
     {
         return pEnclosed(pGetOutersAndCutters(pRemoveFragments(source, customSizing, extension)), strict);
     }
 
-    public static bool enclosed(Paths a, Paths b, bool strict = false)
+    public static bool enclosed(Paths64 a, Paths64 b, bool strict = false)
     {
         return pEnclosed(a, b, strict);
     }
 
-    public static bool enclosed(Paths[] source, bool strict = false)
+    public static bool enclosed(Paths64[] source, bool strict = false)
     {
         return pEnclosed(source, strict);
     }
 
-    private static bool pEnclosed(Paths[] source, bool strict = false)
+    private static bool pEnclosed(Paths64[] source, bool strict = false)
     {
         return pEnclosed(source[(int)outerCutterIndex.cutter], source[(int)outerCutterIndex.outer], strict);
     }
 
-    private static bool pEnclosed(Paths a, Paths b, bool strict)
+    private static bool pEnclosed(Paths64 a, Paths64 b, bool strict)
     {
 
         if (a.Count == 0 || b.Count == 0)
@@ -215,13 +212,23 @@ public static partial class GeoWrangler
             
         Clipper c = new();
 
-        Paths rationalizedFirstLayer = a.Select(t => clockwise( /*Clipper.CleanPolygon*/t)).ToList();
+        IEnumerable<Path64> tl = a.Select(t => clockwise( /*Clipper.CleanPolygon*/t)).ToList();
+        Paths64 rationalizedFirstLayer = new();
+        foreach (Path64 tp in tl)
+        {
+            rationalizedFirstLayer.Add(tp);
+        }
         // Force to clockwise as a safety measure.
 
-        Paths rationalizedSecondLayer = b.Select(t => clockwise( /*Clipper.CleanPolygon*/t)).ToList();
+        tl = b.Select(t => clockwise( /*Clipper.CleanPolygon*/t)).ToList();
+        Paths64 rationalizedSecondLayer = new();
+        foreach (Path64 tp in tl)
+        {
+            rationalizedSecondLayer.Add(tp);
+        }
 
         // Intersection should not matter based on order.
-        Paths intersectionPaths = new();
+        Paths64 intersectionPaths = new();
         c.AddClip(rationalizedSecondLayer);
         c.AddSubject(rationalizedFirstLayer);
         c.Execute(ClipType.Union, FillRule.EvenOdd, intersectionPaths);
@@ -229,10 +236,10 @@ public static partial class GeoWrangler
         intersectionPaths = pReorder(intersectionPaths);
 
         // Force clockwise.
-        foreach (Path t in intersectionPaths)
+        foreach (Path64 t in intersectionPaths)
         {
             // Fix point order to ensure we can compare easily.
-            Path intersectionPath = clockwise(t);
+            Path64 intersectionPath = clockwise(t);
 
             // Compare hashes.
             string intersectionPathHash = utility.Utils.GetMD5Hash(intersectionPath.ToString());
@@ -421,12 +428,12 @@ public static partial class GeoWrangler
         return angles;
     }
 
-    public static bool orthogonal(Path sourcePoly, double angularTolerance)
+    public static bool orthogonal(Path64 sourcePoly, double angularTolerance)
     {
         return pOrthogonal(sourcePoly, angularTolerance);
     }
 
-    private static bool pOrthogonal(Path sourcePoly, double angularTolerance)
+    private static bool pOrthogonal(Path64 sourcePoly, double angularTolerance)
     {
         bool isOrthogonal = true;
 
@@ -444,14 +451,14 @@ public static partial class GeoWrangler
         return isOrthogonal;
     }
 
-    public static double[] angles(Path sourcePoly, bool allowNegative)
+    public static double[] angles(Path64 sourcePoly, bool allowNegative)
     {
         return pAngles(sourcePoly, allowNegative);
     }
 
-    private static double[] pAngles(Path sourcePoly, bool allowNegative)
+    private static double[] pAngles(Path64 sourcePoly, bool allowNegative)
     {
-        Path stripped = pStripTerminators(sourcePoly, false);
+        Path64 stripped = pStripTerminators(sourcePoly, false);
         int finalIndex = stripped.Count - 1;
 
         double[] angles = new double[stripped.Count];
@@ -570,12 +577,12 @@ public static partial class GeoWrangler
         };
     }
 
-    public static bool isClockwise(Path points)
+    public static bool isClockwise(Path64 points)
     {
         return pIsClockwise(points);
     }
 
-    private static bool pIsClockwise(Path points)
+    private static bool pIsClockwise(Path64 points)
     {
         // Based on stackoverflow.com/questions/1165647/how-to-determine-if-a-list-of-polygon-points-are-in-clockwise-order
         // Shoelace formula.

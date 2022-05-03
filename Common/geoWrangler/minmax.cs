@@ -5,16 +5,14 @@ using System.Linq;
 
 namespace geoWrangler;
 
-using Path = List<Point64>;
-
 public static partial class GeoWrangler
 {
-    public static int MinX(Path sourcePath)
+    public static int MinX(Path64 sourcePath)
     {
         return pMinX(sourcePath);
     }
 
-    private static int pMinX(Path sourcePath)
+    private static int pMinX(Path64 sourcePath)
     {
         long min = sourcePath[0].X;
         int minIndex = 0;
@@ -33,12 +31,12 @@ public static partial class GeoWrangler
         return minIndex;
     }
 
-    public static int MaxX(Path sourcePath)
+    public static int MaxX(Path64 sourcePath)
     {
         return pMaxX(sourcePath);
     }
 
-    private static int pMaxX(Path sourcePath)
+    private static int pMaxX(Path64 sourcePath)
     {
         long max = sourcePath[0].X;
         int maxIndex = 0;
@@ -57,12 +55,12 @@ public static partial class GeoWrangler
         return maxIndex;
     }
 
-    public static int MinY(Path sourcePath)
+    public static int MinY(Path64 sourcePath)
     {
         return pMinY(sourcePath);
     }
 
-    private static int pMinY(Path sourcePath)
+    private static int pMinY(Path64 sourcePath)
     {
         long min = sourcePath[0].Y;
         int minIndex = 0;
@@ -81,12 +79,12 @@ public static partial class GeoWrangler
         return minIndex;
     }
 
-    public static int MaxY(Path sourcePath)
+    public static int MaxY(Path64 sourcePath)
     {
         return pMaxY(sourcePath);
     }
 
-    private static int pMaxY(Path sourcePath)
+    private static int pMaxY(Path64 sourcePath)
     {
         long max = sourcePath[0].Y;
         int maxIndex = 0;

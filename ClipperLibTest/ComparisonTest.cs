@@ -1,11 +1,10 @@
 ﻿namespace ClipperLibTest;
 
-using Paths64 = List<List<Clipper2Lib.Point64>>;
 using Paths = List<List<ClipperLib1.IntPoint>>;
 
 public static class ComparisonTest
 {
-    static Paths64 collisionGeometry = new () {
+    static Clipper2Lib.Paths64 collisionGeometry = new () {
         new () {
             new (0,-250000),
             new (0,-230000),
@@ -85,7 +84,7 @@ public static class ComparisonTest
     };
     public static void lineClipTest1()
     {
-        Paths64 castLines = new() {
+        Clipper2Lib.Paths64 castLines = new() {
         new() {
         new (0,-250000),
         new (-291700,-320076),
@@ -243,13 +242,13 @@ public static class ComparisonTest
             collsionGeometry1.Add(a);
         }
 
-        foreach (List<Clipper2Lib.Point64> t in castLines)
+        foreach (Clipper2Lib.Path64 t in castLines)
         {
             Clipper2Lib.Clipper c2 = new();
             c2.AddOpenSubject(t);
             c2.AddClip(collisionGeometry);
-            Paths64 unused2 = new();
-            Paths64 clipped2 = new();
+            Clipper2Lib.Paths64 unused2 = new();
+            Clipper2Lib.Paths64 clipped2 = new();
             c2.Execute(Clipper2Lib.ClipType.Difference, Clipper2Lib.FillRule.EvenOdd, unused2, clipped2);
 
             ClipperLib1.Clipper c1 = new();
@@ -278,7 +277,7 @@ public static class ComparisonTest
 
     public static void lineClipTest2()
     {
-        Paths64 castLines = new() {
+        Clipper2Lib.Paths64 castLines = new() {
             new() {
                 new (200000,-250000),
                 new (-91700,-320076),
@@ -437,13 +436,13 @@ public static class ComparisonTest
             collsionGeometry1.Add(a);
         }
 
-        foreach (List<Clipper2Lib.Point64> t in castLines)
+        foreach (Clipper2Lib.Path64 t in castLines)
         {
             Clipper2Lib.Clipper c2 = new();
             c2.AddOpenSubject(t);
             c2.AddClip(collisionGeometry);
-            Paths64 unused2 = new();
-            Paths64 clipped2 = new();
+            Clipper2Lib.Paths64 unused2 = new();
+            Clipper2Lib.Paths64 clipped2 = new();
             c2.Execute(Clipper2Lib.ClipType.Difference, Clipper2Lib.FillRule.EvenOdd, unused2, clipped2);
 
             ClipperLib1.Clipper c1 = new();

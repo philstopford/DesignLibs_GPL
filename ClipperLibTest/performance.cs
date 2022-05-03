@@ -2,8 +2,6 @@
 
 namespace ClipperLibTest;
 
-using Path64 = List<Clipper2Lib.Point64>;
-using Paths64 = List<List<Clipper2Lib.Point64>>;
 using Path = List<ClipperLib1.IntPoint>;
 using Paths = List<List<ClipperLib1.IntPoint>>;
 
@@ -16,10 +14,10 @@ public class performance
         return new Clipper2Lib.Point64(x,y);
     }
         
-    public static Path64 MakeRandomPath(int width, int height, int count, Random rand)
+    public static Clipper2Lib.Path64 MakeRandomPath(int width, int height, int count, Random rand)
     {
         rand.Next();
-        Path64 result = new Path64(count);
+        Clipper2Lib.Path64 result = new Clipper2Lib.Path64(count);
         for (int i = 0; i < count; ++i)
             result.Add(MakeRandomPt(width, height, rand));
         return result;
@@ -30,9 +28,9 @@ public class performance
         const int displayWidth = 800, displayHeight = 600, edgeCnt = 1000;
         Random rand = new ();
         Stopwatch stopwatch = new ();
-        Paths64 subj2 = new ();
-        Paths64 clip2 = new ();
-        Paths64 solution2 = new ();
+        Clipper2Lib.Paths64 subj2 = new ();
+        Clipper2Lib.Paths64 clip2 = new ();
+        Clipper2Lib.Paths64 solution2 = new ();
 
         subj2.Add(MakeRandomPath(displayWidth, displayHeight, edgeCnt, rand));
         clip2.Add(MakeRandomPath(displayWidth, displayHeight, edgeCnt, rand));

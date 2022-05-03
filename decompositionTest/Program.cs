@@ -6,9 +6,6 @@ using PartitionTestGeometrySource;
 
 namespace partitionTest;
 
-using Path = List<Point64>;
-using Paths = List<List<Point64>>;
-
 internal class Program
 {
     private static void Main(string[] args)
@@ -159,11 +156,11 @@ internal class Program
         incoming.Add(lPieces);
         incoming.Add(lPiece2);
 
-        Paths paths = GeoWrangler.pathsFromPointFs(incoming, 10000);
+        Paths64 paths = GeoWrangler.pathsFromPointFs(incoming, 10000);
 
         Clipper c = new();
         c.AddSubject(paths);
-        Paths ret = new();
+        Paths64 ret = new();
         PolyTree pt = new();
         c.Execute(ClipType.Union, FillRule.EvenOdd, pt);
         ret = ClipperFunc.PolyTreeToPaths(pt);

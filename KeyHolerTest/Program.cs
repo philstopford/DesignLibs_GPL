@@ -4,9 +4,6 @@ using System.Collections.Generic;
 
 namespace KeyHolerTest;
 
-using Path = List<Point64>;
-using Paths = List<List<Point64>>;
-
 internal class Program
 {
 
@@ -75,7 +72,7 @@ internal class Program
 
     private static void singleTest()
     {
-        Path outer = new()
+        Path64 outer = new()
         {
             new(-200000, -200000),
             new(200000, -200000),
@@ -84,7 +81,7 @@ internal class Program
             new(-200000, -200000)
         };
 
-        Path inner1 = new()
+        Path64 inner1 = new()
         {
             new(-100000, -100000),
             new(-100000, 100000),
@@ -95,36 +92,36 @@ internal class Program
 
         // Segment the paths to match real-world case.
         Fragmenter f = new(10000);
-        Path outer_f = f.fragmentPath(outer);
+        Path64 outer_f = f.fragmentPath(outer);
 
-        Path inner1_f = f.fragmentPath(inner1);
+        Path64 inner1_f = f.fragmentPath(inner1);
 
-        Paths kHSource = new()
+        Paths64 kHSource = new()
         {
             outer,
             inner1
         };
 
         // Generate keyholed geometry
-        Paths kH = GeoWrangler.makeKeyHole(kHSource);
+        Paths64 kH = GeoWrangler.makeKeyHole(kHSource);
 
         // Generate sliver geometry.
-        Paths sL = new();
+        Paths64 sL = new();
         Clipper c = new();
         c.AddSubject(outer);
         c.AddClip(kH);
         c.Execute(ClipType.Difference, FillRule.EvenOdd, sL);
 
         // Gap removal test
-        Paths gR = GeoWrangler.gapRemoval(kH, 100);
+        Paths64 gR = GeoWrangler.gapRemoval(kH, 100);
 
         // Sliver removal test
-        Paths sR = GeoWrangler.gapRemoval(sL, -100);
+        Paths64 sR = GeoWrangler.gapRemoval(sL, -100);
     }
 
     private static void multiTest()
     {
-        Path outer = new()
+        Path64 outer = new()
         {
             new(-300000, -200000),
             new(300000, -200000),
@@ -133,7 +130,7 @@ internal class Program
             new(-300000, -200000)
         };
 
-        Path inner1 = new()
+        Path64 inner1 = new()
         {
             new(-200000, -100000),
             new(-200000, 100000),
@@ -142,7 +139,7 @@ internal class Program
             new(-200000, -100000)
         };
 
-        Path inner2 = new()
+        Path64 inner2 = new()
         {
             new(100000, -100000),
             new(100000, 100000),
@@ -153,12 +150,12 @@ internal class Program
 
         // Segment the paths to match real-world case.
         Fragmenter f = new(10000);
-        Path outer_f = f.fragmentPath(outer);
+        Path64 outer_f = f.fragmentPath(outer);
 
-        Path inner1_f = f.fragmentPath(inner1);
-        Path inner2_f = f.fragmentPath(inner2);
+        Path64 inner1_f = f.fragmentPath(inner1);
+        Path64 inner2_f = f.fragmentPath(inner2);
 
-        Paths kHSource = new()
+        Paths64 kHSource = new()
         {
             outer,
             inner1,
@@ -166,25 +163,25 @@ internal class Program
         };
 
         // Generate keyholed geometry
-        Paths kH = GeoWrangler.makeKeyHole(new Paths(kHSource));
+        Paths64 kH = GeoWrangler.makeKeyHole(new Paths64(kHSource));
 
         // Generate sliver geometry.
-        Paths sL = new();
+        Paths64 sL = new();
         Clipper c = new();
         c.AddSubject(outer);
         c.AddClip(kH);
         c.Execute(ClipType.Difference, FillRule.EvenOdd, sL);
 
         // Gap removal test
-        Paths gR = GeoWrangler.gapRemoval(kH, 100);
+        Paths64 gR = GeoWrangler.gapRemoval(kH, 100);
 
         // Sliver removal test
-        Paths sR = GeoWrangler.gapRemoval(sL, -100);
+        Paths64 sR = GeoWrangler.gapRemoval(sL, -100);
     }
 
     private static void multiCutTest()
     {
-        Path outer = new()
+        Path64 outer = new()
         {
             new(0, 0),
             new(400000, 00000),
@@ -193,7 +190,7 @@ internal class Program
             new(0, 0)
         };
 
-        Path inner1 = new()
+        Path64 inner1 = new()
         {
             new(50000, 150000),
             new(50000, 250000),
@@ -202,7 +199,7 @@ internal class Program
             new(50000, 150000)
         };
 
-        Path inner2 = new()
+        Path64 inner2 = new()
         {
             new(150000, 50000),
             new(150000, 350000),
@@ -211,57 +208,57 @@ internal class Program
             new(150000, 50000)
         };
 
-        Paths kHSource = new()
+        Paths64 kHSource = new()
         {
             outer,
             inner1
         };
 
         // Generate keyholed geometry
-        Paths kH = GeoWrangler.makeKeyHole(new Paths(kHSource));
+        Paths64 kH = GeoWrangler.makeKeyHole(new Paths64(kHSource));
 
-        Paths kHSource2 = new();
+        Paths64 kHSource2 = new();
         kHSource2.AddRange(kH);
         kHSource2.Add(inner2);
 
         // Generate keyholed geometry
-        Paths kH2 = GeoWrangler.makeKeyHole(new Paths(kHSource2));
+        Paths64 kH2 = GeoWrangler.makeKeyHole(new Paths64(kHSource2));
 
         // Generate sliver geometry.
         Clipper c = new();
-        Paths sL = new();
+        Paths64 sL = new();
         c.AddSubject(outer);
         c.AddClip(kH);
         c.Execute(ClipType.Difference, FillRule.EvenOdd, sL);
 
         c.Clear();
-        Paths sL2 = new();
+        Paths64 sL2 = new();
         c.AddSubject(outer);
         c.AddClip(kH2);
         c.Execute(ClipType.Difference, FillRule.EvenOdd, sL2);
 
         // Gap removal test
-        Paths gR = GeoWrangler.gapRemoval(kH, 100);
-        Paths gR2 = GeoWrangler.gapRemoval(kH2, 100);
+        Paths64 gR = GeoWrangler.gapRemoval(kH, 100);
+        Paths64 gR2 = GeoWrangler.gapRemoval(kH2, 100);
 
-        Paths kHSource3 = new();
+        Paths64 kHSource3 = new();
         kHSource3.AddRange(gR);
 
-        Paths kHSource4 = new();
+        Paths64 kHSource4 = new();
         kHSource4.AddRange(gR2);
 
         // Generate keyholed geometry
-        Paths kH3 = GeoWrangler.makeKeyHole(new Paths(kHSource3));
-        Paths kH4 = GeoWrangler.makeKeyHole(new Paths(kHSource4));
+        Paths64 kH3 = GeoWrangler.makeKeyHole(new Paths64(kHSource3));
+        Paths64 kH4 = GeoWrangler.makeKeyHole(new Paths64(kHSource4));
 
         // Sliver removal test
-        Paths sR = GeoWrangler.gapRemoval(sL, -100);
-        Paths sR2 = GeoWrangler.gapRemoval(sL2, -100);
+        Paths64 sR = GeoWrangler.gapRemoval(sL, -100);
+        Paths64 sR2 = GeoWrangler.gapRemoval(sL2, -100);
     }
 
     private static void selfOverlapTest()
     {
-        Path outer = new()
+        Path64 outer = new()
         {
             new(0, 0),
             new(110000, 0),
@@ -279,75 +276,75 @@ internal class Program
         };
 
         // decomposer test
-        Paths dSource = new() {outer};
-        Paths decomp = GeoWrangler.decompose(dSource);
-        Paths kHD = GeoWrangler.makeKeyHole(dSource);
+        Paths64 dSource = new() {outer};
+        Paths64 decomp = GeoWrangler.decompose(dSource);
+        Paths64 kHD = GeoWrangler.makeKeyHole(dSource);
 
         // keyholer test
-        Paths kHSource = new() {outer};
-        Paths kH = GeoWrangler.makeKeyHole(kHSource);
+        Paths64 kHSource = new() {outer};
+        Paths64 kH = GeoWrangler.makeKeyHole(kHSource);
 
         Clipper c = new();
         c.AddSubject(outer);
 
         // no good
-        Paths unionRes = new();
+        Paths64 unionRes = new();
         c.Execute(ClipType.Union, FillRule.EvenOdd, unionRes);
-        Paths unionRes_kH = GeoWrangler.makeKeyHole(unionRes);
-        Paths unionResc = GeoWrangler.close(unionRes);
-        Paths unionResc_kH = GeoWrangler.makeKeyHole(unionResc);
+        Paths64 unionRes_kH = GeoWrangler.makeKeyHole(unionRes);
+        Paths64 unionResc = GeoWrangler.close(unionRes);
+        Paths64 unionResc_kH = GeoWrangler.makeKeyHole(unionResc);
 
         // seems good - get keyhole
-        Paths unionResP = new();
+        Paths64 unionResP = new();
         c.Execute(ClipType.Union, FillRule.Positive, unionResP);
-        Paths unionResP_kH = GeoWrangler.makeKeyHole(unionResP);
-        Paths unionResPc = GeoWrangler.close(unionResP);
-        Paths unionResPc_kH = GeoWrangler.makeKeyHole(unionResPc);
+        Paths64 unionResP_kH = GeoWrangler.makeKeyHole(unionResP);
+        Paths64 unionResPc = GeoWrangler.close(unionResP);
+        Paths64 unionResPc_kH = GeoWrangler.makeKeyHole(unionResPc);
 
         // seems good - get keyhole
-        Paths unionResNZ = new();
+        Paths64 unionResNZ = new();
         c.Execute(ClipType.Union, FillRule.NonZero, unionResNZ);
-        Paths unionResNZ_kH = GeoWrangler.makeKeyHole(unionResNZ);
-        Paths unionResNZc = GeoWrangler.close(unionResNZ);
-        Paths unionResNZc_kH = GeoWrangler.makeKeyHole(unionResNZc);
+        Paths64 unionResNZ_kH = GeoWrangler.makeKeyHole(unionResNZ);
+        Paths64 unionResNZc = GeoWrangler.close(unionResNZ);
+        Paths64 unionResNZc_kH = GeoWrangler.makeKeyHole(unionResNZc);
 
         // no good - no result
-        Paths simplifyRes = new();
+        Paths64 simplifyRes = new();
         c.Execute(ClipType.Union, FillRule.EvenOdd, simplifyRes);
         simplifyRes = GeoWrangler.stripColinear(simplifyRes);
-        Paths simplifyRes_kH = GeoWrangler.makeKeyHole(simplifyRes);
-        Paths simplifyResc = GeoWrangler.close(simplifyRes);
-        Paths simplifyResc_kH = GeoWrangler.makeKeyHole(simplifyResc);
+        Paths64 simplifyRes_kH = GeoWrangler.makeKeyHole(simplifyRes);
+        Paths64 simplifyResc = GeoWrangler.close(simplifyRes);
+        Paths64 simplifyResc_kH = GeoWrangler.makeKeyHole(simplifyResc);
 
-        Paths simplifyRes2 = new();
+        Paths64 simplifyRes2 = new();
         c.Execute(ClipType.Union, FillRule.EvenOdd, simplifyRes2);
-        Paths simplifyRes2_kH = GeoWrangler.makeKeyHole(simplifyRes2);
-        Paths simplifyRes2c = GeoWrangler.close(simplifyRes2);
-        Paths simplifyRes2c_kH = GeoWrangler.makeKeyHole(simplifyRes2c);
+        Paths64 simplifyRes2_kH = GeoWrangler.makeKeyHole(simplifyRes2);
+        Paths64 simplifyRes2c = GeoWrangler.close(simplifyRes2);
+        Paths64 simplifyRes2c_kH = GeoWrangler.makeKeyHole(simplifyRes2c);
 
         // no good - no result
-        Paths intRes = new();
+        Paths64 intRes = new();
         c.Execute(ClipType.Intersection, FillRule.EvenOdd, intRes);
-        Paths intRes_kH = GeoWrangler.makeKeyHole(intRes);
-        Paths intResc = GeoWrangler.close(intRes);
-        Paths intResc_kH = GeoWrangler.makeKeyHole(intResc);
+        Paths64 intRes_kH = GeoWrangler.makeKeyHole(intRes);
+        Paths64 intResc = GeoWrangler.close(intRes);
+        Paths64 intResc_kH = GeoWrangler.makeKeyHole(intResc);
 
         // no good - no result
-        Paths intResP = new();
+        Paths64 intResP = new();
         c.Execute(ClipType.Intersection, FillRule.Positive, intResP);
-        Paths intResP_kH = GeoWrangler.makeKeyHole(intResP);
-        Paths intResPc = GeoWrangler.close(intResP);
-        Paths intResPc_kH = GeoWrangler.makeKeyHole(intResPc);
+        Paths64 intResP_kH = GeoWrangler.makeKeyHole(intResP);
+        Paths64 intResPc = GeoWrangler.close(intResP);
+        Paths64 intResPc_kH = GeoWrangler.makeKeyHole(intResPc);
 
         // no good - no result
-        Paths intResNZ = new();
+        Paths64 intResNZ = new();
         c.Execute(ClipType.Intersection, FillRule.NonZero, intResNZ);
-        Paths intResNZ_kH = GeoWrangler.makeKeyHole(intResNZ);
-        Paths intResNZc = GeoWrangler.close(intResNZ);
-        Paths intResNZc_kH = GeoWrangler.makeKeyHole(intResNZc);
+        Paths64 intResNZ_kH = GeoWrangler.makeKeyHole(intResNZ);
+        Paths64 intResNZc = GeoWrangler.close(intResNZ);
+        Paths64 intResNZc_kH = GeoWrangler.makeKeyHole(intResNZc);
 
-        Rect64 bounds = ClipperFunc.GetBounds(new Paths { outer });
-        Path bb = new()
+        Rect64 bounds = ClipperFunc.GetBounds(new Paths64 { outer });
+        Path64 bb = new()
         {
             new(bounds.left, bounds.bottom),
             new(bounds.left, bounds.top),
@@ -360,30 +357,30 @@ internal class Program
         c.AddClip(outer);
 
         // no good - overlap region is a gap.
-        Paths intRes2 = new();
+        Paths64 intRes2 = new();
         c.Execute(ClipType.Intersection, FillRule.EvenOdd, intRes2);
-        Paths intRes2_kH = GeoWrangler.makeKeyHole(intRes2);
-        Paths intRes2c = GeoWrangler.close(intRes2);
-        Paths intRes2c_kH = GeoWrangler.makeKeyHole(intRes2c);
+        Paths64 intRes2_kH = GeoWrangler.makeKeyHole(intRes2);
+        Paths64 intRes2c = GeoWrangler.close(intRes2);
+        Paths64 intRes2c_kH = GeoWrangler.makeKeyHole(intRes2c);
 
         // seems good - get keyhole
-        Paths intRes2P = new();
+        Paths64 intRes2P = new();
         c.Execute(ClipType.Intersection, FillRule.Positive, intRes2P);
-        Paths intRes2P_kH = GeoWrangler.makeKeyHole(intRes2P);
-        Paths intRes2Pc = GeoWrangler.close(intRes2P);
-        Paths intRes2Pc_kH = GeoWrangler.makeKeyHole(intRes2Pc);
+        Paths64 intRes2P_kH = GeoWrangler.makeKeyHole(intRes2P);
+        Paths64 intRes2Pc = GeoWrangler.close(intRes2P);
+        Paths64 intRes2Pc_kH = GeoWrangler.makeKeyHole(intRes2Pc);
 
         // seems good - get keyhole
-        Paths intRes2NZ = new();
+        Paths64 intRes2NZ = new();
         c.Execute(ClipType.Intersection, FillRule.NonZero, intRes2NZ);
-        Paths intRes2NZ_kH = GeoWrangler.makeKeyHole(intRes2NZ);
-        Paths intRes2NZc = GeoWrangler.close(intRes2NZ);
-        Paths intRes2NZc_kH = GeoWrangler.makeKeyHole(intRes2NZc);
+        Paths64 intRes2NZ_kH = GeoWrangler.makeKeyHole(intRes2NZ);
+        Paths64 intRes2NZc = GeoWrangler.close(intRes2NZ);
+        Paths64 intRes2NZc_kH = GeoWrangler.makeKeyHole(intRes2NZc);
     }
 
     private static void selfOverlapTest_reversed()
     {
-        Path outer = new()
+        Path64 outer = new()
         {
             new(0, 0),
             new(110000, 0),
@@ -403,75 +400,75 @@ internal class Program
         outer.Reverse();
 
         // decomposer test
-        Paths dSource = new() {outer};
-        Paths decomp = GeoWrangler.decompose(dSource);
-        Paths kHD = GeoWrangler.makeKeyHole(dSource);
+        Paths64 dSource = new() {outer};
+        Paths64 decomp = GeoWrangler.decompose(dSource);
+        Paths64 kHD = GeoWrangler.makeKeyHole(dSource);
 
         // keyholer test
-        Paths kHSource = new() {outer};
-        Paths kH = GeoWrangler.makeKeyHole(kHSource);
+        Paths64 kHSource = new() {outer};
+        Paths64 kH = GeoWrangler.makeKeyHole(kHSource);
 
         Clipper c = new();
         c.AddSubject(outer);
 
         // no good - overlap region is a gap.
-        Paths unionRes = new();
+        Paths64 unionRes = new();
         c.Execute(ClipType.Union, FillRule.EvenOdd, unionRes);
-        Paths unionRes_kH = GeoWrangler.makeKeyHole(unionRes);
-        Paths unionResc = GeoWrangler.close(unionRes);
-        Paths unionResc_kH = GeoWrangler.makeKeyHole(unionResc);
+        Paths64 unionRes_kH = GeoWrangler.makeKeyHole(unionRes);
+        Paths64 unionResc = GeoWrangler.close(unionRes);
+        Paths64 unionResc_kH = GeoWrangler.makeKeyHole(unionResc);
 
         // no good - no result
-        Paths unionResP = new();
+        Paths64 unionResP = new();
         c.Execute(ClipType.Union, FillRule.Positive, unionResP);
-        Paths unionResP_kH = GeoWrangler.makeKeyHole(unionResP);
-        Paths unionResPc = GeoWrangler.close(unionResP);
-        Paths unionResPc_kH = GeoWrangler.makeKeyHole(unionResPc);
+        Paths64 unionResP_kH = GeoWrangler.makeKeyHole(unionResP);
+        Paths64 unionResPc = GeoWrangler.close(unionResP);
+        Paths64 unionResPc_kH = GeoWrangler.makeKeyHole(unionResPc);
 
         // seems good - get keyhole
-        Paths unionResNZ = new();
+        Paths64 unionResNZ = new();
         c.Execute(ClipType.Union, FillRule.NonZero, unionResNZ);
-        Paths unionResNZ_kH = GeoWrangler.makeKeyHole(unionResNZ);
-        Paths unionResNZc = GeoWrangler.close(unionResNZ);
-        Paths unionResNZc_kH = GeoWrangler.makeKeyHole(unionResNZc);
+        Paths64 unionResNZ_kH = GeoWrangler.makeKeyHole(unionResNZ);
+        Paths64 unionResNZc = GeoWrangler.close(unionResNZ);
+        Paths64 unionResNZc_kH = GeoWrangler.makeKeyHole(unionResNZc);
 
         // no good - overlap region is a gap.
-        Paths simplifyRes = new();
+        Paths64 simplifyRes = new();
         c.Execute(ClipType.Union, FillRule.EvenOdd, simplifyRes);
         simplifyRes = GeoWrangler.stripColinear(simplifyRes);
-        Paths simplifyRes_kH = GeoWrangler.makeKeyHole(simplifyRes);
-        Paths simplifyResc = GeoWrangler.close(simplifyRes);
-        Paths simplifyResc_kH = GeoWrangler.makeKeyHole(simplifyResc);
+        Paths64 simplifyRes_kH = GeoWrangler.makeKeyHole(simplifyRes);
+        Paths64 simplifyResc = GeoWrangler.close(simplifyRes);
+        Paths64 simplifyResc_kH = GeoWrangler.makeKeyHole(simplifyResc);
 
-        Paths simplifyRes2 = new();
+        Paths64 simplifyRes2 = new();
         c.Execute(ClipType.Union, FillRule.EvenOdd, simplifyRes2);
-        Paths simplifyRes2_kH = GeoWrangler.makeKeyHole(simplifyRes2);
-        Paths simplifyRes2c = GeoWrangler.close(simplifyRes2);
-        Paths simplifyRes2c_kH = GeoWrangler.makeKeyHole(simplifyRes2c);
+        Paths64 simplifyRes2_kH = GeoWrangler.makeKeyHole(simplifyRes2);
+        Paths64 simplifyRes2c = GeoWrangler.close(simplifyRes2);
+        Paths64 simplifyRes2c_kH = GeoWrangler.makeKeyHole(simplifyRes2c);
 
         // no good - no result
-        Paths intRes = new();
+        Paths64 intRes = new();
         c.Execute(ClipType.Intersection, FillRule.EvenOdd, intRes);
-        Paths intRes_kH = GeoWrangler.makeKeyHole(intRes);
-        Paths intResc = GeoWrangler.close(intRes);
-        Paths intResc_kH = GeoWrangler.makeKeyHole(intResc);
+        Paths64 intRes_kH = GeoWrangler.makeKeyHole(intRes);
+        Paths64 intResc = GeoWrangler.close(intRes);
+        Paths64 intResc_kH = GeoWrangler.makeKeyHole(intResc);
 
         // no good - no result
-        Paths intResP = new();
+        Paths64 intResP = new();
         c.Execute(ClipType.Intersection, FillRule.Positive, intResP);
-        Paths intResP_kH = GeoWrangler.makeKeyHole(intResP);
-        Paths intResPc = GeoWrangler.close(intResP);
-        Paths intResPc_kH = GeoWrangler.makeKeyHole(intResPc);
+        Paths64 intResP_kH = GeoWrangler.makeKeyHole(intResP);
+        Paths64 intResPc = GeoWrangler.close(intResP);
+        Paths64 intResPc_kH = GeoWrangler.makeKeyHole(intResPc);
 
         // no good - no result
-        Paths intResNZ = new();
+        Paths64 intResNZ = new();
         c.Execute(ClipType.Intersection, FillRule.NonZero, intResNZ);
-        Paths intResNZ_kH = GeoWrangler.makeKeyHole(intResNZ);
-        Paths intResNZc = GeoWrangler.close(intResNZ);
-        Paths intResNZc_kH = GeoWrangler.makeKeyHole(intResNZc);
+        Paths64 intResNZ_kH = GeoWrangler.makeKeyHole(intResNZ);
+        Paths64 intResNZc = GeoWrangler.close(intResNZ);
+        Paths64 intResNZc_kH = GeoWrangler.makeKeyHole(intResNZc);
 
-        Rect64 bounds = ClipperFunc.GetBounds(new Paths { outer });
-        Path bb = new()
+        Rect64 bounds = ClipperFunc.GetBounds(new Paths64 { outer });
+        Path64 bb = new()
         {
             new(bounds.left, bounds.bottom),
             new(bounds.left, bounds.top),
@@ -484,31 +481,31 @@ internal class Program
         c.AddClip(outer);
 
         // no good - overlap region is a gap.
-        Paths intRes2 = new();
+        Paths64 intRes2 = new();
         c.Execute(ClipType.Intersection, FillRule.EvenOdd, intRes2);
-        Paths intRes2_kH = GeoWrangler.makeKeyHole(intRes2);
-        Paths intRes2c = GeoWrangler.close(intRes2);
-        Paths intRes2c_kH = GeoWrangler.makeKeyHole(intRes2c);
+        Paths64 intRes2_kH = GeoWrangler.makeKeyHole(intRes2);
+        Paths64 intRes2c = GeoWrangler.close(intRes2);
+        Paths64 intRes2c_kH = GeoWrangler.makeKeyHole(intRes2c);
 
         // no good - no result
-        Paths intRes2P = new();
+        Paths64 intRes2P = new();
         c.Execute(ClipType.Intersection, FillRule.Positive, intRes2P);
-        Paths intRes2P_kH = GeoWrangler.makeKeyHole(intRes2P);
-        Paths intRes2Pc = GeoWrangler.close(intRes2P);
-        Paths intRes2Pc_kH = GeoWrangler.makeKeyHole(intRes2Pc);
+        Paths64 intRes2P_kH = GeoWrangler.makeKeyHole(intRes2P);
+        Paths64 intRes2Pc = GeoWrangler.close(intRes2P);
+        Paths64 intRes2Pc_kH = GeoWrangler.makeKeyHole(intRes2Pc);
 
         // seems good - get keyhole
-        Paths intRes2NZ = new();
+        Paths64 intRes2NZ = new();
         c.Execute(ClipType.Intersection, FillRule.NonZero, intRes2NZ);
-        Paths intRes2NZ_kH = GeoWrangler.makeKeyHole(intRes2NZ);
-        Paths intRes2NZc = GeoWrangler.close(intRes2NZ);
-        Paths intRes2NZc_kH = GeoWrangler.makeKeyHole(intRes2NZc);
+        Paths64 intRes2NZ_kH = GeoWrangler.makeKeyHole(intRes2NZ);
+        Paths64 intRes2NZc = GeoWrangler.close(intRes2NZ);
+        Paths64 intRes2NZc_kH = GeoWrangler.makeKeyHole(intRes2NZc);
     }
 
     private static void comboTest()
     {
         // Manually create the sliver.
-        Path outer = new()
+        Path64 outer = new()
         {
             new(-200000, -200000),
             new(300000, -200000),
@@ -521,7 +518,7 @@ internal class Program
             new(-200000, -200000)
         };
 
-        Path inner1 = new()
+        Path64 inner1 = new()
         {
             new(100000, -100000),
             new(100000, 100000),
@@ -532,28 +529,28 @@ internal class Program
 
         // Segment the paths to match real-world case.
         Fragmenter f = new(10000);
-        Path outer_f = f.fragmentPath(outer);
+        Path64 outer_f = f.fragmentPath(outer);
 
-        Path inner1_f = f.fragmentPath(inner1);
+        Path64 inner1_f = f.fragmentPath(inner1);
 
-        Paths kHSource = new()
+        Paths64 kHSource = new()
         {
             outer,
             inner1
         };
 
-        Paths kH = GeoWrangler.makeKeyHole(kHSource);
+        Paths64 kH = GeoWrangler.makeKeyHole(kHSource);
 
         // Gap removal test
-        Paths gR = GeoWrangler.gapRemoval(kH, 100);
+        Paths64 gR = GeoWrangler.gapRemoval(kH, 100);
 
         // Sliver removal test
-        Paths sR = GeoWrangler.gapRemoval(kH, -100);
+        Paths64 sR = GeoWrangler.gapRemoval(kH, -100);
     }
 
     private static void simple_islandTest()
     {
-        Path outer1 = new()
+        Path64 outer1 = new()
         {
             new(-200000, -200000),
             new(200000, -200000),
@@ -562,7 +559,7 @@ internal class Program
             new(-200000, -200000)
         };
 
-        Path inner1 = new()
+        Path64 inner1 = new()
         {
             new(-100000, -100000),
             new(-100000, 100000),
@@ -571,7 +568,7 @@ internal class Program
             new(-100000, -100000)
         };
 
-        Path outer2 = new()
+        Path64 outer2 = new()
         {
             new(-200000, 400000),
             new(200000, 400000),
@@ -580,7 +577,7 @@ internal class Program
             new(-200000, 400000)
         };
 
-        Path inner2 = new()
+        Path64 inner2 = new()
         {
             new(-100000, 500000),
             new(-100000, 700000),
@@ -589,7 +586,7 @@ internal class Program
             new(-100000, 500000)
         };
 
-        Paths kHSource = new()
+        Paths64 kHSource = new()
         {
             outer1,
             inner1,
@@ -598,10 +595,10 @@ internal class Program
         };
 
         // Generate keyholed geometry
-        Paths kH = GeoWrangler.makeKeyHole(kHSource);
+        Paths64 kH = GeoWrangler.makeKeyHole(kHSource);
 
         // Generate sliver geometry.
-        Paths sL = new();
+        Paths64 sL = new();
         Clipper c = new();
         c.AddSubject(outer1);
         c.AddSubject(outer2);
@@ -609,17 +606,17 @@ internal class Program
         c.Execute(ClipType.Difference, FillRule.EvenOdd, sL);
 
         // Gap removal test
-        Paths gR = GeoWrangler.gapRemoval(kH, 100);
+        Paths64 gR = GeoWrangler.gapRemoval(kH, 100);
 
         // Sliver removal test
-        Paths sR = GeoWrangler.gapRemoval(sL, -100);
+        Paths64 sR = GeoWrangler.gapRemoval(sL, -100);
     }
 
     private static void complex_islandTest()
     {
         // Island 1 - mix of sliver and gap at the end.
         // Manually create the sliver.
-        Path outer = new()
+        Path64 outer = new()
         {
             new(-200000, -200000),
             new(300000, -200000),
@@ -632,7 +629,7 @@ internal class Program
             new(-200000, -200000)
         };
 
-        Path inner1 = new()
+        Path64 inner1 = new()
         {
             new(100000, -100000),
             new(100000, 100000),
@@ -641,14 +638,14 @@ internal class Program
             new(100000, -100000)
         };
 
-        Paths kHSource = new()
+        Paths64 kHSource = new()
         {
             outer,
             inner1
         };
 
         // Island 2 - simple single hole
-        Path outer2 = new()
+        Path64 outer2 = new()
         {
             new(-200000, 400000),
             new(200000, 400000),
@@ -657,7 +654,7 @@ internal class Program
             new(-200000, 400000)
         };
 
-        Path inner2 = new()
+        Path64 inner2 = new()
         {
             new(-100000, 500000),
             new(-100000, 700000),
@@ -670,7 +667,7 @@ internal class Program
         kHSource.Add(inner2);
 
         // Island 3 - dual hole hole
-        Path outer3 = new()
+        Path64 outer3 = new()
         {
             new(-300000, 1200000),
             new(300000, 1200000),
@@ -679,7 +676,7 @@ internal class Program
             new(-300000, 1200000)
         };
 
-        Path inner3_1 = new()
+        Path64 inner3_1 = new()
         {
             new(-200000, 1300000),
             new(-200000, 1500000),
@@ -688,7 +685,7 @@ internal class Program
             new(-200000, 1300000)
         };
 
-        Path inner3_2 = new()
+        Path64 inner3_2 = new()
         {
             new(100000, 1300000),
             new(100000, 1500000),
@@ -701,19 +698,19 @@ internal class Program
         kHSource.Add(inner3_1);
         kHSource.Add(inner3_2);
 
-        Paths kH = GeoWrangler.makeKeyHole(kHSource);
+        Paths64 kH = GeoWrangler.makeKeyHole(kHSource);
 
         // Gap removal test
-        Paths gR = GeoWrangler.gapRemoval(kH, 100);
+        Paths64 gR = GeoWrangler.gapRemoval(kH, 100);
 
         // Sliver removal test
-        Paths sR = GeoWrangler.gapRemoval(kH, -100);
+        Paths64 sR = GeoWrangler.gapRemoval(kH, -100);
     }
 
     private static void multiHoleTest()
     {
-        Paths paths = new();
-        Path path_1 = new()
+        Paths64 paths = new();
+        Path64 path_1 = new()
         {
             new(50000, 0),
             new(0, 0),
@@ -723,7 +720,7 @@ internal class Program
         };
         paths.Add(path_1);
 
-        Path path_2 = new()
+        Path64 path_2 = new()
         {
             new(35000, 135000),
             new(35000, 150000),
@@ -733,7 +730,7 @@ internal class Program
         };
         paths.Add(path_2);
 
-        Path path_3 = new()
+        Path64 path_3 = new()
         {
             new(22000, 95000),
             new(22000, 125000),
@@ -743,7 +740,7 @@ internal class Program
         };
         paths.Add(path_3);
 
-        Path path_4 = new()
+        Path64 path_4 = new()
         {
             new(35000, 45000),
             new(35000, 75000),
@@ -753,7 +750,7 @@ internal class Program
         };
         paths.Add(path_4);
 
-        Path path_5 = new()
+        Path64 path_5 = new()
         {
             new(35000, 5000),
             new(35000, 35000),
@@ -764,6 +761,6 @@ internal class Program
         paths.Add(path_5);
 
         // Generate keyholed geometry
-        Paths kH = GeoWrangler.makeKeyHole(paths);
+        Paths64 kH = GeoWrangler.makeKeyHole(paths);
     }
 }

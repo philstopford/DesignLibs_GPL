@@ -1,13 +1,11 @@
 ﻿namespace ClipperLibTest;
 
-using Path64 = List<Clipper2Lib.Point64>;
-using Paths64 = List<List<Clipper2Lib.Point64>>;
 using Path = List<ClipperLib1.IntPoint>;
 using Paths = List<List<ClipperLib1.IntPoint>>;
 
 public static class OffsetTest
 {
-    private static Path64 test = new()
+    private static Clipper2Lib.Path64 test = new()
     {
         new (0, 0),
         new (0, 8),
@@ -42,9 +40,9 @@ public static class OffsetTest
         
         Clipper2Lib.ClipperOffset co2 = new();
         co2.AddPath(test, Clipper2Lib.JoinType.Miter, Clipper2Lib.EndType.Polygon);
-        Paths64 c2up = Clipper2Lib.ClipperFunc.Paths64(co2.Execute(2.0));
+        Clipper2Lib.Paths64 c2up = Clipper2Lib.ClipperFunc.Paths64(co2.Execute(2.0));
         co2.Clear();
         co2.AddPaths(c2up, Clipper2Lib.JoinType.Miter, Clipper2Lib.EndType.Polygon);
-        Paths64 c2down = Clipper2Lib.ClipperFunc.Paths64(co2.Execute(-2.0));
+        Clipper2Lib.Paths64 c2down = Clipper2Lib.ClipperFunc.Paths64(co2.Execute(-2.0));
     }
 }

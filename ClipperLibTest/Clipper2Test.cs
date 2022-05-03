@@ -3,11 +3,75 @@ using Clipper2Lib;
 
 namespace ClipperLib2Test;
 
-using Path64 = List<Point64>;
-using Paths64 = List<List<Point64>>;
-
 public static class Clipper2Test
 {
+    private static void zFillCallback(Point64 bot1, Point64 top1, Point64 bot2, Point64 top2, ref Point64 pt)
+    {
+        pt.Z = -1; // Tag our intersection points.
+    }
+
+    public static void openPathClipTest1()
+    {
+        int[] tpA = new int[]
+        {
+            100000, 0,
+            92718,-18730,
+            76604,-32139,
+            57358,-40958,
+            37461,-46359,
+            17365,-49240,
+            0,-50000,
+            -20791,-48907,
+            -40674,-45677,
+            -60182,-39932,
+            -78801,-30783,
+            -100000,0
+        };
+        
+        Path64 testPath = ClipperFunc.MakePath(tpA);
+
+        int[] bA = new int[]
+        {
+            -60000,0,
+            -58689,20791,
+            -54813,40674,
+            -47918,60182,
+            -37759,77715,
+            -23444,92050,
+            -4185,99756,
+            0,100000,
+            19534,94552,
+            35267,80902,
+            46629,62932,
+            53928,43837,
+            58218,24192,
+            59963,3490,
+            60000,0,
+            58689,-20791,
+            54813,-40674,
+            47918,-60182,
+            37759,-77715,
+            23444,-92050,
+            4185,-99756,
+            0,-100000,
+            -19534,-94552,
+            -35267,-80902,
+            -46629,-62932,
+            -53928,-43837,
+            -58218,-24192,
+        };
+        
+        Path64 b = ClipperFunc.MakePath(bA);
+
+        Clipper c = new Clipper();
+        c.AddOpenSubject(testPath);
+        c.AddClip(b);
+        Paths64 unused = new();
+        Paths64 bottomChords = new();
+        c.Execute(ClipType.Intersection, FillRule.EvenOdd, unused, bottomChords);
+    }
+    
+
     const double keyhole_sizing = 500;
 
     public static void colinearTest()
@@ -612,7 +676,7 @@ public static class Clipper2Test
     
     public static void leftChordTest()
     {
-        Path64 testPath = new List<Point64>() {
+        Path64 testPath = new () {
          new(-200000,0),
          new(-300000,0),
          new(-310453,-548),
@@ -649,7 +713,7 @@ public static class Clipper2Test
          new(-300000,-800000),
          };
 
-        Path64 a = new List<Point64>() {
+        Path64 a = new () {
           new(-460000,-390000),
           new(-459955,-395235),
           new(-459594,-405679),

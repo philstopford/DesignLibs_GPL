@@ -6,6 +6,8 @@ using ClipperLibTest;
 
 Console.WriteLine("Comparison tests for Clipper 1 and Clipper 2");
 
+Clipper2Test.openPathClipTest1();
+
 performance.compare();
 
 XTest.compare();

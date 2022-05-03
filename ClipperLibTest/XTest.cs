@@ -4,7 +4,7 @@ public static class XTest
 {
     public static void compare()
     {
-        List<List<Clipper2Lib.Point64>> xShape = new()
+        Clipper2Lib.Paths64 xShape = new()
         {
             new()
             {
@@ -23,7 +23,7 @@ public static class XTest
             }
         };
 
-        List<Clipper2Lib.Point64> bounds = new()
+        Clipper2Lib.Path64 bounds = new()
         {
             new (0,30000),
             new (0,0),
@@ -35,7 +35,7 @@ public static class XTest
         Clipper2Lib.Clipper c2 = new();
         c2.AddSubject( bounds );
         c2.AddClip( xShape);
-        List<List<Clipper2Lib.Point64>> c2out = new();
+        Clipper2Lib.Paths64 c2out = new();
         c2.Execute(Clipper2Lib.ClipType.Difference, Clipper2Lib.FillRule.EvenOdd, c2out);
 
         List<List<ClipperLib1.IntPoint>> xShape1 = new();

@@ -1,27 +1,22 @@
 ﻿/*******************************************************************************
 * Author    :  Angus Johnson                                                   *
 * Version   :  10.0 (release candidate 1) - also known as Clipper2             *
-* Date      :  16 April 2022                                                   *
+* Date      :  28 April 2022                                                   *
 * Website   :  http://www.angusj.com                                           *
 * Copyright :  Angus Johnson 2010-2022                                         *
-* Purpose   :  Core structures and functions for the Clipper Library           *
+* Purpose   :  Minkowski Sum and Difference                                    *
 * License   :  http://www.boost.org/LICENSE_1_0.txt                            *
 *******************************************************************************/
 
 using System;
-using System.Collections.Generic;
 
 namespace Clipper2Lib
 {
-  using Path64 = List<Point64>;
-  using PathD = List<PointD>;
-  using Paths64 = List<List<Point64>>;
-  using PathsD = List<List<PointD>>;
   public class Minkowski
   {
     private static Paths64 MinkowskiInternal(Path64 pattern, Path64 path, bool isSum, bool isClosed)
     {
-      int delta = isClosed ? 0 : -1;
+      int delta = isClosed ? 0 : 1;
       int patLen = pattern.Count, pathLen = path.Count;
       Paths64 tmp = new Paths64(pathLen);
 
@@ -38,11 +33,11 @@ namespace Clipper2Lib
         tmp.Add(path2);
       }
 
-      Paths64 result = new Paths64((pathLen + delta) * patLen);
+      Paths64 result = new Paths64((pathLen - delta) * patLen);
       int g = isClosed ? pathLen - 1 : 0;
 
       int h = patLen - 1;
-      for (int i = -delta; i < pathLen; i++)
+      for (int i = delta; i < pathLen; i++)
       {
         for (int j = 0; j < patLen; j++)
         {

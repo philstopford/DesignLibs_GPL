@@ -1,10 +1,11 @@
 ﻿namespace ClipperLibTest;
 
+using Paths64 = List<List<Clipper2Lib.Point64>>;
 using Paths = List<List<ClipperLib1.IntPoint>>;
 
 public static class SubtractionTest
 {
-    static Clipper2Lib.Paths64 layerAPaths = new()
+    static Paths64 layerAPaths = new()
     {
         new()
         {
@@ -17,7 +18,7 @@ public static class SubtractionTest
     };
 
 
-    static Clipper2Lib.Paths64 layerBPaths = new()
+    static Paths64 layerBPaths = new()
     {
         new()
         {
@@ -211,13 +212,13 @@ public static class SubtractionTest
         c.AddSubject(layerBPaths);
         c.AddClip(layerAPaths);
 
-        Clipper2Lib.Paths64 solution_cl = new();
+        Paths64 solution_cl = new();
 
         c.Execute(Clipper2Lib.ClipType.Difference, Clipper2Lib.FillRule.EvenOdd, solution_cl);
 
         c.PreserveCollinear = false;
         
-        Clipper2Lib.Paths64 solution_ncl = new();
+        Paths64 solution_ncl = new();
 
         c.Execute(Clipper2Lib.ClipType.Difference, Clipper2Lib.FillRule.EvenOdd, solution_ncl);
 

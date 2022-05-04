@@ -1,12 +1,13 @@
 ﻿namespace ClipperLibTest;
 
+using Paths64 = List<List<Clipper2Lib.Point64>>;
 using Paths = List<List<ClipperLib1.IntPoint>>;
 
 public class STest
 {
     public static void compare()
     {
-        Clipper2Lib.Path64 BP = new()
+        List<Clipper2Lib.Point64> BP = new()
         {
             new(1000, 27000),
             new(1000, 2000),
@@ -15,7 +16,7 @@ public class STest
             new(1000, 27000)
         };
 
-        Clipper2Lib.Paths64 iPoly = new()
+        Paths64 iPoly = new()
         {
             new()
             {
@@ -72,7 +73,7 @@ public class STest
         c2.AddSubject(BP);
         c2.AddClip(iPoly);
 
-        Clipper2Lib.Paths64 o2 = new();
+        Paths64 o2 = new();
         c2.Execute(Clipper2Lib.ClipType.Difference, Clipper2Lib.FillRule.EvenOdd, o2);
 
     }

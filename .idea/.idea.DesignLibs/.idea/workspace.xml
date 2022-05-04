@@ -681,7 +681,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
   </component>
-  <component name="RunManager" selected=".NET Project.decompositionTest">
+  <component name="RunManager" selected=".NET Project.ClipperLibTest">
     <configuration name="ASA005Test" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -11388,6 +11388,19 @@
             </endOffsets>
           </properties>
           <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/ClipperLibTest/OffsetTest.cs</url>
+          <line>144</line>
+          <properties documentPath="D:\development\git\DesignLibs_GPL\ClipperLibTest\OffsetTest.cs" initialLine="144" containingFunctionPresentation="method 'test2'">
+            <startOffsets>
+              <option value="3653" />
+            </startOffsets>
+            <endOffsets>
+              <option value="3654" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="3" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -2352,7 +2352,7 @@ internal class Program
 
         Console.WriteLine("  Geo clean-up....");
         sw.Restart();
-        poly = GeoWrangler.clockwiseAndReorder(poly);
+        poly = GeoWrangler.clockwiseAndReorderXY(poly);
         sw.Stop();
         Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
 

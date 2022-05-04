@@ -64,7 +64,7 @@ namespace PartitionTestGeometrySource
                 new GeoLibPoint(20, -61),
                 new GeoLibPoint(10, -61)
             };
-            C1 = GeoWrangler.clockwiseAndReorder(C1);
+            C1 = GeoWrangler.clockwiseAndReorderXY(C1);
             return C1;
         }
 
@@ -320,7 +320,7 @@ namespace PartitionTestGeometrySource
                 new GeoLibPoint(10, -213),
             };
 
-            C2 = GeoWrangler.clockwiseAndReorder(C2);
+            C2 = GeoWrangler.clockwiseAndReorderXY(C2);
 
             return C2;
         }
@@ -1833,7 +1833,7 @@ namespace PartitionTestGeometrySource
                 new GeoLibPoint(-50, -50),
             };
 
-            S1 = GeoWrangler.clockwiseAndReorder(S1);
+            S1 = GeoWrangler.clockwiseAndReorderXY(S1);
 
             return S1;
         }

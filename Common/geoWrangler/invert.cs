@@ -1,8 +1,12 @@
 ﻿using Clipper2Lib;
 using geoLib;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace geoWrangler;
+
+using Path = List<Point64>;
+using Paths = List<List<Point64>>;
 
 public static partial class GeoWrangler
 {
@@ -17,20 +21,20 @@ public static partial class GeoWrangler
         return pPointFsFromPaths(pInvertTone(pPathsFromPointFs(source, scaleFactor), preserveColinear: preserveColinear, useTriangulation: useTriangulation, useBounds: useBounds), scaleFactor);
     }
 
-    public static Paths64 invertTone(Path64 sourcePath, bool preserveColinear, bool useTriangulation = false, bool useBounds = false)
+    public static Paths invertTone(Path sourcePath, bool preserveColinear, bool useTriangulation = false, bool useBounds = false)
     {
-        Paths64 t = new() {sourcePath};
+        Paths t = new() {sourcePath};
         return invertTone(t, preserveColinear: preserveColinear, useTriangulation: useTriangulation, useBounds:useBounds);
     }
 
-    public static Paths64 invertTone(Paths64 sourcePaths, bool preserveColinear, bool useTriangulation = false, bool useBounds = false)
+    public static Paths invertTone(Paths sourcePaths, bool preserveColinear, bool useTriangulation = false, bool useBounds = false)
     {
         return pInvertTone(sourcePaths, preserveColinear: preserveColinear, useTriangulation: useTriangulation, useBounds: useBounds);
     }
 
-    private static Paths64 pInvertTone(Paths64 sourcePaths, bool preserveColinear, bool useTriangulation, bool useBounds)
+    private static Paths pInvertTone(Paths sourcePaths, bool preserveColinear, bool useTriangulation, bool useBounds)
     {
-        Path64 firstLayerBP = new();
+        Path firstLayerBP = new();
         switch (useBounds)
         {
             case false:
@@ -58,7 +62,7 @@ public static partial class GeoWrangler
         // Add hole polygons from our paths
         c.AddClip(sourcePaths);
 
-        Paths64 cutters = new();
+        Paths cutters = new();
         c.Execute(ClipType.Difference, FillRule.EvenOdd, cutters);
 
         cutters = pReorder(cutters);

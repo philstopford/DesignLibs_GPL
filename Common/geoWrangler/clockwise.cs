@@ -6,6 +6,9 @@ using System.Linq;
 
 namespace geoWrangler;
 
+using Path = List<Point64>;
+using Paths = List<List<Point64>>;
+
 public static partial class GeoWrangler
 {
     public static List<GeoLibPointF[]> xySequence(List<GeoLibPointF[]> source, bool useMidPoint = false)
@@ -200,26 +203,17 @@ public static partial class GeoWrangler
         return iPoints;
     }
 
-    public static Paths64 clockwise(Paths64 source)
+    public static Paths clockwise(Paths source)
     {
-        IEnumerable<Path64> t = source.Select(t => pClockwise(t));
-
-        Paths64 ret = new();
-
-        foreach (Path64 p in t)
-        {
-            ret.Add(p);
-        }
-
-        return ret;
+        return source.Select(t => pClockwise(t.ToList())).ToList();
     }
 
-    public static Path64 clockwise(Path64 iPoints)
+    public static Path clockwise(Path iPoints)
     {
         return pClockwise(iPoints);
     }
 
-    private static Path64 pClockwise(Path64 iPoints)
+    private static Path pClockwise(Path iPoints)
     {
         if (!pIsClockwise(iPoints))
         {

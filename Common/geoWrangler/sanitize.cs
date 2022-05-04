@@ -8,6 +8,9 @@ using utility;
 
 namespace geoWrangler;
 
+using Path = List<Point64>;
+using Paths = List<List<Point64>>;
+
 public static partial class GeoWrangler
 {
     public enum outerCutterIndex { outer, cutter }
@@ -85,15 +88,15 @@ public static partial class GeoWrangler
         return iPoints;
     }
 
-    public static Paths64 clockwiseAndReorder(Paths64 iPoints)
+    public static Paths clockwiseAndReorder(Paths iPoints)
     {
         return pClockwiseAndReorder(iPoints);
     }
 
-    private static Paths64 pClockwiseAndReorder(Paths64 iPoints)
+    private static Paths pClockwiseAndReorder(Paths iPoints)
     {
-        Paths64 retPaths = new();
-        foreach (Path64 t in iPoints.Select(t1 => pClockwiseAndReorder(t1)))
+        Paths retPaths = new();
+        foreach (Path t in iPoints.Select(t1 => pClockwiseAndReorder(t1)))
         {
             t.Reverse(); // Getting a reversed path from the above, not sure why.
             retPaths.Add(pClose(t));
@@ -102,12 +105,12 @@ public static partial class GeoWrangler
         return retPaths;
     }
 
-    public static Path64 clockwiseAndReorder(Path64 iPoints)
+    public static Path clockwiseAndReorder(Path iPoints)
     {
         return pClockwiseAndReorder(iPoints);
     }
 
-    private static Path64 pClockwiseAndReorder(Path64 iPoints)
+    private static Path pClockwiseAndReorder(Path iPoints)
     {
         iPoints = pClockwise(iPoints);
         iPoints = pReorder(iPoints);
@@ -115,31 +118,22 @@ public static partial class GeoWrangler
         return iPoints;
     }
 
-    public static Paths64 reOrder(Paths64 iPoints)
+    public static Paths reOrder(Paths iPoints)
     {
         return pReorder(iPoints);
     }
 
-    private static Paths64 pReorder(Paths64 iPoints)
+    private static Paths pReorder(Paths iPoints)
     {
-        IEnumerable<Path64> t = iPoints.Select(t => pReorder(t)).ToList();
-
-        Paths64 ret = new();
-
-        foreach (Path64 p in t)
-        {
-            ret.Add(p);
-        }
-
-        return ret;
+        return iPoints.Select(t => pReorder(t)).ToList();
     }
 
-    public static Path64 reOrder(Path64 iPoints)
+    public static Path reOrder(Path iPoints)
     {
         return pReorder(iPoints);
     }
 
-    private static Path64 pReorder(Path64 iPoints)
+    private static Path pReorder(Path iPoints)
     {
         int minX_index = MinX(iPoints);
         long minX = iPoints[minX_index].X;
@@ -172,7 +166,7 @@ public static partial class GeoWrangler
         }
 
         {
-            Path64 tempList = new();
+            Path tempList = new();
             // Now to start the re-indexing.
             for (int pt = reIndexStart; pt < iPoints.Count; pt++)
             {
@@ -184,7 +178,7 @@ public static partial class GeoWrangler
                 tempList.Add(new Point64(iPoints[pt].X, iPoints[pt].Y, iPoints[pt].Z));
             }
 
-            iPoints = new Path64(tempList);
+            iPoints = tempList.ToList();
         }
 
         return iPoints;
@@ -302,11 +296,11 @@ public static partial class GeoWrangler
 
     private static GeoLibPoint[] pSimplify(GeoLibPoint[] iPoints)
     {
-        Path64 iPoly = pathFromPoint(iPoints, 1);
+        List<Point64> iPoly = pathFromPoint(iPoints, 1);
         Clipper c = new();
         c.PreserveCollinear = false;
         c.AddSubject(iPoly);
-        Paths64 oPoly = new();
+        List<List<Point64>> oPoly = new();
         c.Execute(ClipType.Union, FillRule.EvenOdd, oPoly);
 
         oPoly = pReorder(oPoly);
@@ -316,18 +310,18 @@ public static partial class GeoWrangler
         return working;
     }
 
-    public static Paths64[] getOutersAndCutters(Paths64 source)
+    public static Paths[] getOutersAndCutters(Paths source)
     {
         return pGetOutersAndCutters(source);
     }
 
-    private static Paths64[] pGetOutersAndCutters(Paths64 source)
+    private static Paths[] pGetOutersAndCutters(Paths source)
     {
-        Paths64[] ret = new Paths64[2];
+        Paths[] ret = new Paths[2];
         // Find cutters and outers.
-        Paths64 outers = new();
-        Paths64 cutters = new();
-        foreach (Path64 t in source)
+        Paths outers = new();
+        Paths cutters = new();
+        foreach (Path t in source)
         {
             if (pIsClockwise(t))
             {
@@ -344,30 +338,22 @@ public static partial class GeoWrangler
         return ret;
     }
 
-    public static Paths64 stripColinear(Paths64 source, double angularTolerance = 0.0f)
+    public static Paths stripColinear(Paths source, double angularTolerance = 0.0f)
     {
         return pStripColinear(source, angularTolerance);
     }
     
-    private static Paths64 pStripColinear(Paths64 source, double angularTolerance = 0.0f)
+    private static Paths pStripColinear(Paths source, double angularTolerance = 0.0f)
     {
-        IEnumerable<Path64> v = source.Select(t => pStripColinear(t, angularTolerance));
-
-        Paths64 w = new ();
-        foreach (Path64 t in v)
-        {
-            w.Add(t);
-        }
-
-        return w;
+        return source.Select(t => pStripColinear(t, angularTolerance)).ToList();
     }
 
-    public static Path64 stripColinear(Path64 source, double angularTolerance = 0.0f)
+    public static Path stripColinear(Path source, double angularTolerance = 0.0f)
     {
         return pStripColinear(source, angularTolerance);
     }
 
-    private static Path64 pStripColinear(Path64 source, double angularTolerance = 0.0f)
+    private static Path pStripColinear(Path source, double angularTolerance = 0.0f)
     {
         switch (source.Count)
         {
@@ -375,7 +361,7 @@ public static partial class GeoWrangler
                 return source;
         }
 
-        Path64 ret = new();
+        Path ret = new();
 
         for (int pt = 0; pt < source.Count; pt++)
         {
@@ -868,15 +854,15 @@ public static partial class GeoWrangler
         return source;
     }
 
-    public static Paths64 stripTerminators(Paths64 source, bool keepLast)
+    public static Paths stripTerminators(Paths source, bool keepLast)
     {
         return pStripTerminators(source, keepLast);
     }
 
-    private static Paths64 pStripTerminators(Paths64 source, bool keepLast)
+    private static Paths pStripTerminators(Paths source, bool keepLast)
     {
-        Paths64 ret = new();
-        foreach (Path64 t in source)
+        Paths ret = new();
+        foreach (Path t in source)
         {
             ret.Add(pStripTerminators(t, keepLast));
         }
@@ -884,12 +870,12 @@ public static partial class GeoWrangler
         return ret;
     }
 
-    public static Path64 stripTerminators(Path64 source, bool keepLast)
+    public static Path stripTerminators(Path source, bool keepLast)
     {
         return pStripTerminators(source, keepLast);
     }
 
-    private static Path64 pStripTerminators(Path64 source, bool keepLast)
+    private static Path pStripTerminators(Path source, bool keepLast)
     {
         switch (source.Count)
         {
@@ -927,26 +913,26 @@ public static partial class GeoWrangler
         return source;
     }
 
-    public static Paths64 close(Paths64 source)
+    public static Paths close(Paths source)
     {
         return pClose(source);
     }
 
-    private static Paths64 pClose(Paths64 source)
+    private static Paths pClose(Paths source)
     {
-        Paths64 ret = new();
-        foreach (Path64 t in source)
+        Paths ret = new();
+        foreach (Path t in source)
         {
             ret.Add(pClose(t));
         }
         return ret;
     }
-    public static Path64 close(Path64 source)
+    public static Path close(Path source)
     {
         return pClose(source);
     }
 
-    private static Path64 pClose(Path64 source)
+    private static Path pClose(Path source)
     {
         switch (source.Count)
         {
@@ -1048,32 +1034,32 @@ public static partial class GeoWrangler
         return n.ToArray();
     }
 
-    public static Paths64 fromSoup(Paths64 source)
+    public static Paths fromSoup(Paths source)
     {
         return pFromSoup(source, WindingRule.NonZero);
     }
 
-    private static Paths64 pFromSoup(Paths64 source, WindingRule wr)
+    private static Paths pFromSoup(Paths source, WindingRule wr)
     {
-        Paths64 outers = new();
-        Paths64 cutters = new();
+        Paths outers = new();
+        Paths cutters = new();
 
-        foreach (Path64 t in source)
+        foreach (Path t in source)
         {
             if (ClipperFunc.IsClockwise(t) == ClipperFunc.IsClockwise(source[0]))
             {
-                outers.Add(new Path64(t));
+                outers.Add(new Path(t));
             }
             else
             {
-                cutters.Add(new Path64(t));
+                cutters.Add(new Path(t));
             }
         }
 
         // Set up our contours. Since Clipper sets up the subject as the first item, we'll make that clockwise and force the rest to counterclockwise.	
         Tess tess = new();
 
-        foreach (Path64 t in outers)
+        foreach (Path t in outers)
         {
             // Skip tiny fragments. The tessellator has trouble with them.	
             /*
@@ -1091,7 +1077,7 @@ public static partial class GeoWrangler
             tess.AddContour(contour);
         }
 
-        foreach (Path64 t in cutters)
+        foreach (Path t in cutters)
         {
             // Skip tiny fragments. The tessellator has trouble with them.
             /*
@@ -1118,14 +1104,14 @@ public static partial class GeoWrangler
 
             // Iterate triangles and create output geometry. We'll use clipper to simplify the output geometry.	
             Clipper c = new() {PreserveCollinear = true};
-            Paths64 retPaths = new();
+            Paths retPaths = new();
 
-            Paths64 cPaths = new();
-            Paths64 aPaths = new();
+            Paths cPaths = new();
+            Paths aPaths = new();
 
             for (int i = 0; i < tess.ElementCount; i++)
             {
-                Path64 trianglePath = new();
+                Path trianglePath = new();
                 for (int p = 0; p < polysize; p++)
                 {
                     Point64 tmpPt = new((long)tess.Vertices[tess.Elements[i * polysize + p]].Position.X, (long)tess.Vertices[tess.Elements[i * polysize + p]].Position.Y);
@@ -1134,11 +1120,11 @@ public static partial class GeoWrangler
 
                 if (ClipperFunc.IsClockwise(trianglePath))
                 {
-                    cPaths.Add(new Path64(trianglePath));
+                    cPaths.Add(trianglePath.ToList());
                 }
                 else
                 {
-                    aPaths.Add(new Path64(trianglePath));
+                    aPaths.Add(trianglePath.ToList());
                 }
             }
 
@@ -1167,30 +1153,30 @@ public static partial class GeoWrangler
 
     private static List<GeoLibPointF[]> pClean_and_flatten(List<GeoLibPointF[]> source, long scaling, double customSizing = 0, double extension = 0)
     {
-        Paths64 sourcePaths = pPathsFromPointFs(source, scaling);
+        Paths sourcePaths = pPathsFromPointFs(source, scaling);
         Clipper c = new();
         c.AddSubject(sourcePaths);
-        Paths64 solution = new();
+        Paths solution = new();
         c.Execute(ClipType.Union, FillRule.EvenOdd, solution);
 
         solution = pReorder(solution);
 
-        Paths64 keyHoled = pMakeKeyHole(solution, customSizing: customSizing, extension: extension);
+        Paths keyHoled = pMakeKeyHole(solution, customSizing: customSizing, extension: extension);
 
         return pPointFsFromPaths(pClockwiseAndReorder(keyHoled), scaling);
     }
 
-    public static Paths64 removeDuplicatePaths(Paths64 source)
+    public static Paths removeDuplicatePaths(Paths source)
     {
         return pRemoveDuplicatePaths(source);
     }
     
-    private static Paths64 pRemoveDuplicatePaths(Paths64 source)
+    private static Paths pRemoveDuplicatePaths(Paths source)
     {
-        Paths64 ret = new();
+        Paths ret = new();
         List<string> polyHashCodes = new();
 
-        foreach (Path64 p in source)
+        foreach (Path p in source)
         {
             string polyHash = Utils.GetMD5Hash(p);
             if (polyHashCodes.IndexOf(polyHash) != -1)
@@ -1198,7 +1184,7 @@ public static partial class GeoWrangler
                 continue;
             }
             polyHashCodes.Add(polyHash);
-            ret.Add(new Path64(p));
+            ret.Add(p.ToList());
         }
 
         return ret;

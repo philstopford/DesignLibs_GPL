@@ -7,16 +7,19 @@ using System.Threading.Tasks;
 
 namespace geoWrangler;
 
+using Path = List<Point64>;
+using Paths = List<List<Point64>>;
+
 public static partial class GeoWrangler
 {
-    public static Paths64 pathsFromPoints(List<GeoLibPoint[]> source, long scaling)
+    public static Paths pathsFromPoints(List<GeoLibPoint[]> source, long scaling)
     {
         return pPathsFromPoints(source, scaling);
     }
 
-    private static Paths64 pPathsFromPoints(List<GeoLibPoint[]> source, long scaling)
+    private static Paths pPathsFromPoints(List<GeoLibPoint[]> source, long scaling)
     {
-        Paths64 ret = new();
+        Paths ret = new();
         try
         {
             ret.AddRange(source.Select(t => pathFromPoint(t, scaling)));
@@ -27,19 +30,19 @@ public static partial class GeoWrangler
         return ret;
     }
 
-    public static Path64 pathFromPoint(GeoLibPoint[] source, long scaling)
+    public static Path pathFromPoint(GeoLibPoint[] source, long scaling)
     {
         return pPathFromPoint(source, scaling);
     }
 
-    private static Path64 pPathFromPoint(GeoLibPoint[] source, long scaling)
+    private static Path pPathFromPoint(GeoLibPoint[] source, long scaling)
     {
         int length = source.Length;
         if (source[0].X != source[^1].X && source[0].Y != source[^1].Y)
         {
             length++; // close the geometry
         }
-        Path64 returnPath = new();
+        Path returnPath = new();
         try
         {
             returnPath.AddRange(source.Select(t => new Point64(t.X * scaling, t.Y * scaling)));
@@ -56,22 +59,22 @@ public static partial class GeoWrangler
         return returnPath;
     }
 
-    public static List<GeoLibPoint[]> pointsFromPaths(Paths64 source, long scaling)
+    public static List<GeoLibPoint[]> pointsFromPaths(Paths source, long scaling)
     {
         return pPointsFromPaths(source, scaling);
     }
 
-    private static List<GeoLibPoint[]> pPointsFromPaths(Paths64 source, long scaling)
+    private static List<GeoLibPoint[]> pPointsFromPaths(Paths source, long scaling)
     {
         return source.Select(t => pPointFromPath(t, scaling)).ToList();
     }
 
-    public static GeoLibPoint[] pointFromPath(Path64 source, long scaling)
+    public static GeoLibPoint[] pointFromPath(Path source, long scaling)
     {
         return pPointFromPath(source, scaling);
     }
 
-    private static GeoLibPoint[] pPointFromPath(Path64 source, long scaling)
+    private static GeoLibPoint[] pPointFromPath(Path source, long scaling)
     {
         int length = source.Count;
         int sCount = length;
@@ -108,14 +111,14 @@ public static partial class GeoWrangler
         return returnPoint;
     }
 
-    public static Paths64 pathsFromPointFs(List<GeoLibPointF[]> source, long scaling)
+    public static Paths pathsFromPointFs(List<GeoLibPointF[]> source, long scaling)
     {
         return pPathsFromPointFs(source, scaling);
     }
 
-    private static Paths64 pPathsFromPointFs(List<GeoLibPointF[]> source, long scaling)
+    private static Paths pPathsFromPointFs(List<GeoLibPointF[]> source, long scaling)
     {
-        Paths64 ret = new();
+        Paths ret = new();
         try
         {
             ret.AddRange(source.Select(t => pathFromPointF(t, scaling)));
@@ -126,12 +129,12 @@ public static partial class GeoWrangler
         return ret;
     }
 
-    public static Path64 pathFromPointF(GeoLibPointF[] source, long scaling)
+    public static Path pathFromPointF(GeoLibPointF[] source, long scaling)
     {
         return pPathFromPointF(source, scaling);
     }
 
-    private static Path64 pPathFromPointF(GeoLibPointF[] source, long scaling)
+    private static Path pPathFromPointF(GeoLibPointF[] source, long scaling)
     {
         int length = source.Length;
         switch (Math.Abs(source[0].X - source[^1].X))
@@ -140,7 +143,7 @@ public static partial class GeoWrangler
                 length++; // close the geometry
                 break;
         }
-        Path64 returnPath = new();
+        Path returnPath = new();
         try
         {
             returnPath.AddRange(source.Select(t => new Point64(Convert.ToInt64(t.X * scaling), Convert.ToInt64(t.Y * scaling))));
@@ -157,22 +160,22 @@ public static partial class GeoWrangler
         return returnPath;
     }
 
-    public static List<GeoLibPointF[]> pointFsFromPaths(Paths64 source, long scaling)
+    public static List<GeoLibPointF[]> pointFsFromPaths(Paths source, long scaling)
     {
         return pPointFsFromPaths(source, scaling);
     }
 
-    private static List<GeoLibPointF[]> pPointFsFromPaths(Paths64 source, long scaling)
+    private static List<GeoLibPointF[]> pPointFsFromPaths(Paths source, long scaling)
     {
         return source.Select(t => pPointFFromPath(t, scaling)).ToList();
     }
 
-    public static GeoLibPointF[] pointFFromPath(Path64 source, long scaling)
+    public static GeoLibPointF[] pointFFromPath(Path source, long scaling)
     {
         return pPointFFromPath(source, scaling);
     }
 
-    private static GeoLibPointF[] pPointFFromPath(Path64 source, long scaling)
+    private static GeoLibPointF[] pPointFFromPath(Path source, long scaling)
     {
         int length = source.Count;
         int sourceCount = length;

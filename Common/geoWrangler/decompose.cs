@@ -39,7 +39,7 @@ public static partial class GeoWrangler
             c.AddSubject(t1);
             Paths t = new();
             c.Execute(ClipType.Union, FillRule.EvenOdd, t);
-            t = pReorder(t);
+            t = pReorderXY(t);
             double a2 = t.Sum(t2 => ClipperFunc.Area(t2));
 
             switch (Math.Abs(Math.Abs(a1) - Math.Abs(a2)))
@@ -59,7 +59,7 @@ public static partial class GeoWrangler
                     // Non-zero here means that we also reconcile self-intersections without odd-even causing holes; positive only respects a certain orientation (unlike non-zero)
                     // Union is cheaper than finding the bounding box and using intersection; test-bed showed identical results.
                     c.Execute(ClipType.Union, FillRule.NonZero, cR);
-                    cR = pReorder(cR);
+                    cR = pReorderXY(cR);
 
                     int crCount = cR.Count;
 
@@ -119,7 +119,7 @@ public static partial class GeoWrangler
 
                 c.Execute(ClipType.Difference, FillRule.EvenOdd, ret);//, PolyFillType.pftPositive, PolyFillType.pftNegative);
 
-                ret = pReorder(ret);
+                ret = pReorderXY(ret);
                 
                 switch (ret.Count)
                 {
@@ -127,7 +127,7 @@ public static partial class GeoWrangler
                     case 0:
                         ret.Clear();
                         c.Execute(ClipType.Difference, FillRule.EvenOdd, ret);
-                        ret = pReorder(ret);
+                        ret = pReorderXY(ret);
                         break;
                 }
 
@@ -245,7 +245,7 @@ public static partial class GeoWrangler
 
     private static List<GeoLibPoint[]> decompose_poly_to_rectangles(ref bool abort, GeoLibPoint[] _poly, int scaling, long maxRayLength, double angularTolerance, bool vertical)
     {
-        _poly = pClockwiseAndReorder(_poly);
+        _poly = pClockwiseAndReorderXY(_poly);
         Path lPoly = pathFromPoint(_poly, scaling);
 
         lPoly = pClose(lPoly);
@@ -447,7 +447,7 @@ public static partial class GeoWrangler
                 Paths f = new();
                 c.Execute(ClipType.Difference, FillRule.EvenOdd, f);
 
-                f = pReorder(f);
+                f = pReorderXY(f);
 
                 final = pointsFromPaths(f, scaling);
 
@@ -455,7 +455,7 @@ public static partial class GeoWrangler
 
                 final = simplify(final);
 
-                final = clockwiseAndReorder(final);
+                final = clockwiseAndReorderXY(final);
                 break;
             }
         }

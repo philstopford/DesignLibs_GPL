@@ -1016,6 +1016,22 @@ public static partial class GeoWrangler
         }
         return source;
     }
+    
+    public static List<GeoLibPointF[]> close(List<GeoLibPointF[]> source)
+    {
+        return pClose(source);
+    }
+
+    private static List<GeoLibPointF[]> pClose(List<GeoLibPointF[]> source)
+    {
+        List<GeoLibPointF[]> ret = new();
+        foreach (GeoLibPointF[] p in source)
+        {
+            ret.Add(pClose(p));
+        }
+
+        return ret;
+    }
 
     public static GeoLibPointF[] close(GeoLibPointF[] source)
     {

@@ -115,6 +115,22 @@ public static partial class GeoWrangler
 
     }
 
+    public static List<GeoLibPointF[]> resize(List<GeoLibPointF[]> source, double factor)
+    {
+        return pResize(source, factor);
+    }
+
+    private static List<GeoLibPointF[]> pResize(List<GeoLibPointF[]> source, double factor)
+    {
+        List<GeoLibPointF[]> ret = new();
+        foreach (GeoLibPointF[] p in source)
+        {
+            ret.Add(pResize(p, factor));
+        }
+
+        return ret;
+    }
+
     public static GeoLibPointF[] resize(GeoLibPointF[] source, double factor)
     {
         return pResize(source, factor);

@@ -941,9 +941,7 @@ public class GeoCore
 
                 break;
         }
-
-        // drawing_.resize(drawing_.userunits / 1E-3);
-
+        
         points = GeoWrangler.resize(points, drawingField.userunits / 1E-3);
         return points;
     }

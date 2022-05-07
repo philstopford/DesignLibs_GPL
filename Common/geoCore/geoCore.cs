@@ -941,8 +941,19 @@ public class GeoCore
 
                 break;
         }
+
+        double resizeFactor = 1.0;
+        switch (fileFormat)
+        {
+            case (int)fileType.gds:
+                resizeFactor = drawingField.userunits / 1E-3;
+                break;
+            case (int)fileType.oasis:
+                resizeFactor = 1000.0 / drawingField.databaseunits;
+                break;
+        }
         
-        points = GeoWrangler.resize(points, drawingField.userunits / 1E-3);
+        points = GeoWrangler.resize(points, resizeFactor);
         return points;
     }
 

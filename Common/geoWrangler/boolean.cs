@@ -23,7 +23,7 @@ public static partial class GeoWrangler
         // In principle, 'rigorous' handling is only needed where the cutter is fully enclosed by the subject polygon.
         // The challenge is to know whether this is the case or not.
         // Possibility would be an intersection test and a vertex count and location comparison from before and after, to see whether anything changed.
-        bool rigorous = GeoWrangler.enclosed(firstLayer, secondLayer); // this is not a strict check because the enclosure can exist either way for this situation.
+        bool rigorous = enclosed(firstLayer, secondLayer); // this is not a strict check because the enclosure can exist either way for this situation.
         
         // Need a secondary check because keyholed geometry could be problematic.
         // Both paths will be reviewed; first one to have a keyhole will trigger the rigorous process.
@@ -31,12 +31,12 @@ public static partial class GeoWrangler
         {
             try
             {
-                rigorous = GeoWrangler.enclosed(firstLayer, customSizing: 1, extension: extension, strict: true); // force a strict check.
+                rigorous = enclosed(firstLayer, customSizing: 1, extension: extension, strict: true); // force a strict check.
 
                 if (!rigorous)
                 {
                     // Need a further check because keyholed geometry in B could be problematic.
-                    rigorous = GeoWrangler.enclosed(secondLayer, customSizing: 1, extension: extension, strict: true); // force a strict check.
+                    rigorous = enclosed(secondLayer, customSizing: 1, extension: extension, strict: true); // force a strict check.
                 }
             }
             catch (Exception)
@@ -45,20 +45,24 @@ public static partial class GeoWrangler
             }
         }
 
-        firstLayer = GeoWrangler.sliverGapRemoval(firstLayer, customSizing:0.5*GeoWrangler.keyhole_sizing);
-        secondLayer = GeoWrangler.sliverGapRemoval(secondLayer, customSizing:0.5*GeoWrangler.keyhole_sizing);
-        firstLayer = GeoWrangler.close(firstLayer);
-        secondLayer = GeoWrangler.close(secondLayer);
+        // Squash incoming artifacts to allow boolean to resolve holes vs outers.
+        // The 0.5 factor here allows for both sides of a keyhole cut to be moved to touch, thus merging.
+        firstLayer = sliverGapRemoval(firstLayer, customSizing:0.5*keyhole_sizing);
+        secondLayer = sliverGapRemoval(secondLayer, customSizing:0.5*keyhole_sizing);
+        // Clipper strips terminating points, so force closed.
+        firstLayer = close(firstLayer);
+        secondLayer = close(secondLayer);
         Paths ret = pLayerBoolean(firstLayerOperator, firstLayer, secondLayerOperator, secondLayer, booleanFlag, preserveColinear: false);
         
-        ret = GeoWrangler.gapRemoval(ret, customSizing:0.5*GeoWrangler.keyhole_sizing,extension: extension).ToList();
+        // Secondary clean-up of the result. This seems to be needed, so retained for now.
+        ret = gapRemoval(ret, customSizing:0.5*keyhole_sizing,extension: extension).ToList();
 
         bool holes = false;
 
         foreach (Path t in ret)
         {
             holes = !ClipperFunc.IsClockwise(t);
-            bool gwHoles = !GeoWrangler.isClockwise(t);
+            bool gwHoles = !isClockwise(t);
             if (holes != gwHoles)
             {
             }
@@ -73,7 +77,7 @@ public static partial class GeoWrangler
         {
             Fragmenter f = new(resolution * scaling);
             ret = f.fragmentPaths(ret);
-            Paths merged = GeoWrangler.makeKeyHole(ret, extension:extension);
+            Paths merged = makeKeyHole(ret, extension:extension);
 
             int count = merged.Count;
 #if !GWSINGLETHREADED
@@ -82,7 +86,7 @@ public static partial class GeoWrangler
                 for (int i = 0; i < count; i++)
 #endif
                 {
-                    merged[i] = GeoWrangler.clockwise(merged[i]);
+                    merged[i] = clockwise(merged[i]);
                 }
 #if !GWSINGLETHREADED
             );
@@ -91,11 +95,11 @@ public static partial class GeoWrangler
             Clipper c1 = new() {PreserveCollinear = true };
             c1.AddSubject(merged);
             c1.Execute(ClipType.Union, FillRule.EvenOdd, ret);
-            ret = GeoWrangler.reOrderXY(ret);
-            ret = GeoWrangler.stripColinear(ret, 1.0);
+            ret = reOrderXY(ret);
+            ret = stripColinear(ret, 1.0);
         }
 
-        ret = GeoWrangler.sliverRemoval(ret, extension: extension); // experimental to try and remove any slivers.
+        ret = sliverRemoval(ret, extension: extension); // experimental to try and remove any slivers.
 
         if (rigorous && !holes)
         {
@@ -106,14 +110,14 @@ public static partial class GeoWrangler
                 for (int i = 0; i < count; i++)
 #endif
                 {
-                    ret[i] = GeoWrangler.clockwise(ret[i]);
-                    ret[i] = GeoWrangler.close(ret[i]);
+                    ret[i] = clockwise(ret[i]);
+                    ret[i] = close(ret[i]);
                 }
 #if !GWSINGLETHREADED
             );
 #endif
             // Return here because the attempt to rationalize the geometry below also screws things up, it seems.
-            return GeoWrangler.stripColinear(ret, 1.0);
+            return stripColinear(ret, 1.0);
         }
 
         Rect64 bounds = ClipperFunc.GetBounds(ret);
@@ -134,9 +138,9 @@ public static partial class GeoWrangler
 
         Paths simple = new();
         c.Execute(ClipType.Intersection, FillRule.EvenOdd, simple);
-        ret = GeoWrangler.reOrderXY(simple);
+        ret = reOrderXY(simple);
 
-        return GeoWrangler.clockwiseAndReorderXY(simple);
+        return clockwiseAndReorderXY(simple);
     }
 
     public static Paths LayerBoolean(int firstLayerOperator, Paths firstLayerPaths, int secondLayerOperator,
@@ -151,26 +155,26 @@ public static partial class GeoWrangler
         {
             try
             {
-                firstLayerPaths = GeoWrangler.invertTone(firstLayerPaths, preserveColinear: preserveColinear).ToList();
+                firstLayerPaths = invertTone(firstLayerPaths, preserveColinear: preserveColinear).ToList();
             }
             catch (Exception)
             {
                 // Something blew up.
             }
-            firstLayerPaths[0] = GeoWrangler.close(firstLayerPaths[0]);
+            firstLayerPaths[0] = close(firstLayerPaths[0]);
         }
 
         if (secondLayerOperator == 1) // NOT layer handling
         {
             try
             {
-                secondLayerPaths = GeoWrangler.invertTone(secondLayerPaths, preserveColinear: preserveColinear).ToList();
+                secondLayerPaths = invertTone(secondLayerPaths, preserveColinear: preserveColinear).ToList();
             }
             catch (Exception)
             {
                 // Something blew up.
             }
-            secondLayerPaths[0] = GeoWrangler.close(secondLayerPaths[0]);
+            secondLayerPaths[0] = close(secondLayerPaths[0]);
         }
 
         if (firstLayerPaths[0].Count <= 1)
@@ -211,7 +215,7 @@ public static partial class GeoWrangler
                 break;
         }
 
-        outputPoints = GeoWrangler.reOrderXY(outputPoints);
+        outputPoints = reOrderXY(outputPoints);
         
         return outputPoints; // Return our first list of points as the result of the boolean.
     }

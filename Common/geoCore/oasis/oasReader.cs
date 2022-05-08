@@ -523,7 +523,7 @@ internal partial class oasReader
                                 textNames[i] = textNames[i] switch
                                 {
                                     "" => "layout#text~" + i,
-                                    _ => textNames[i]
+                                    _ => textNames[i] != null ? textNames[i] : modal.s
                                 };
                                 modal.text_string = textNames[i];
                             }

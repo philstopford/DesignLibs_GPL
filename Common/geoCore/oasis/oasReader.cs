@@ -333,13 +333,7 @@ internal partial class oasReader
                                 readUnsignedInteger();
                                 break;
                         }
-                        try
-                        {
-                            layerNames.Add("L" + l + "D" + i, s);
-                        }
-                        catch (Exception)
-                        {
-                        }
+                        layerNames.Add("L" + l + "D" + i, s);
                         break;
                     case 13: // cellrecord
                         cell_ = drawing_.addCell();

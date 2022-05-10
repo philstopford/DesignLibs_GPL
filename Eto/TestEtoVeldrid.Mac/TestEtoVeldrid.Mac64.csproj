@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Eto.Platform.Mac64" Version="2.6.1" />
+    <PackageReference Include="Eto.Platform.Mac64" Version="2.7.0" />
     <PackageReference Include="Eto.Veldrid.Mac64" Version="0.1.0" />
   </ItemGroup>
 

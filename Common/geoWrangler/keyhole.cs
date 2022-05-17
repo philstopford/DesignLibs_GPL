@@ -197,7 +197,7 @@ public static partial class GeoWrangler
                 // Needed due to ordering sequence from ClipperLib2. Have to clean, re-order and re-close to make the geometry work for the raycaster.
                 Path t = new Path(t1);
                 t = pStripTerminators(t, false); // chop the terminator off to ensure re-ordering doesn't yield a zero-length segment.
-                t = pClockwiseAndReorderXY(t); // speculative : might need to be XY, but picked YX for now.
+                t = pClockwiseAndReorderYX(t); // speculative : might need to be XY, but picked YX for now.
                 t = pClose(t); // re-close to make the raycaster happy.
                 t.Reverse(); // reverse to mark as a cutter. Check with ILB7 to see a case where this is needed.
                 Paths extraCutters = new();

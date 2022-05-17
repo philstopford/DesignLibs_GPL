@@ -436,7 +436,7 @@ public static partial class GeoWrangler
                 ClipperOffset co = new();
                 co.AddPaths(newEdges, JoinType.Miter, EndType.Square);
 
-                Paths cutters = ClipperFunc.Paths64(co.Execute(2.0));
+                Paths cutters = co.Execute(2.0);
 
                 c.Clear();
 

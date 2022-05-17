@@ -192,8 +192,14 @@ public static partial class GeoWrangler
         {
             bool outerOrient = ClipperFunc.IsClockwise(outers[0]);
             // Use raycaster to project from holes to outer, to try and find a keyhole path that is minimal length, and ideally orthogonal.
-            foreach (Path t in cutters)
+            foreach (Path t1 in cutters)
             {
+                // Needed due to ordering sequence from ClipperLib2. Have to clean, re-order and re-close to make the geometry work for the raycaster.
+                Path t = new Path(t1);
+                t = pStripTerminators(t, false); // chop the terminator off to ensure re-ordering doesn't yield a zero-length segment.
+                t = pClockwiseAndReorderXY(t); // speculative : might need to be XY, but picked YX for now.
+                t = pClose(t); // re-close to make the raycaster happy.
+                t.Reverse(); // reverse to mark as a cutter. Check with ILB7 to see a case where this is needed.
                 Paths extraCutters = new();
                 Path projCheck = pStripTerminators(t, true);
                 projCheck = pStripColinear(projCheck);
@@ -312,7 +318,7 @@ public static partial class GeoWrangler
         ClipperOffset co = new();
         co.AddPath(edge, JoinType.Miter, EndType.Square);
         
-        Paths sPaths = ClipperFunc.Paths64(co.Execute(2 * customSizing));
+        Paths sPaths = co.Execute(2 * customSizing);
 
         return pReorderXY(sPaths);
     }
@@ -445,11 +451,11 @@ public static partial class GeoWrangler
 
         ClipperOffset co = new();
         co.AddPaths(source, joinType, EndType.Polygon);
-        cGeometry = ClipperFunc.Paths64(co.Execute(customSizing));
+        cGeometry = co.Execute(customSizing);
         co.Clear();
         co.AddPaths(cGeometry.ToList(), joinType, EndType.Polygon);
         cGeometry.Clear();
-        cGeometry = ClipperFunc.Paths64(co.Execute(-customSizing)); // Size back to original dimensions
+        cGeometry = co.Execute(-customSizing); // Size back to original dimensions
 
         cGeometry = pReorderXY(cGeometry);
         
@@ -483,11 +489,11 @@ public static partial class GeoWrangler
 
         ClipperOffset co = new();
         co.AddPath(source, joinType, EndType.Polygon);
-        cGeometry = ClipperFunc.Paths64(co.Execute(customSizing));
+        cGeometry = co.Execute(customSizing);
         co.Clear();
         co.AddPaths(cGeometry.ToList(), joinType, EndType.Polygon);
         cGeometry.Clear();
-        cGeometry = ClipperFunc.Paths64(co.Execute(-customSizing)); // Size back to original dimensions
+        cGeometry = co.Execute(-customSizing); // Size back to original dimensions
 
         cGeometry = pReorderXY(cGeometry);
         

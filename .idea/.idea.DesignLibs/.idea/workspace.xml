@@ -588,10 +588,6 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/184721741f1cbf7b652ab87e592df39ce069dbafd53b4c4d315218be55b12/Parallel.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/198a6261cebc324728dcc4c178edc5f2894123f711722c80e8557cbfd27651/ThrowHelper.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/f3b9684f72bc2cc435eb694f7cc86eca8c240d2d1cefa1e8697a61f1f2f27f/SafeFileHandle.Windows.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/f4708639776589f5ac2739f6fcbfc67343b1f9dac51cc1dbfdb003eef77cc1c/Monitor.CoreCLR.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BurkhardtTest/FEM/FEM1DBVPTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BurkhardtTest/FEM/FEM2DBVPLinearTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BurkhardtTest/GeometryTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
@@ -677,10 +673,14 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
   <component name="RunManager" selected=".NET Project.ClipperLibTest">
     <configuration name="ASA005Test" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
@@ -11362,12 +11362,14 @@
       <workItem from="1622310656797" duration="5974000" />
       <workItem from="1622317536881" duration="284000" />
       <workItem from="1626535344861" duration="6066000" />
+      <workItem from="1652836220476" duration="597000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
   <component name="UnityUnitTestConfiguration" currentTestLauncher="NUnit" />
   <component name="VcsManagerConfiguration">
@@ -11379,14 +11381,7 @@
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/KeyHolerTest/Program.cs</url>
           <line>710</line>
-          <properties documentPath="D:\development\git\DesignLibs_GPL\KeyHolerTest\Program.cs" initialLine="710" containingFunctionPresentation="method 'complex_islandTest'">
-            <startOffsets>
-              <option value="23046" />
-            </startOffsets>
-            <endOffsets>
-              <option value="23047" />
-            </endOffsets>
-          </properties>
+          <properties documentPath="D:\development\git\DesignLibs_GPL\KeyHolerTest\Program.cs" initialLine="710" containingFunctionPresentation="method 'complex_islandTest'" />
           <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>

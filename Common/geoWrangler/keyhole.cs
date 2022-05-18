@@ -224,17 +224,19 @@ public static partial class GeoWrangler
                 int cutPathIndex = -1;
                 for (int r = 0; r < clipped.Count; r++)
                 {
-
+                    // If the input geometry is purely orthogonal, this is a strong preference.
+                    // Otherwise, we don't care and will take the minimum internal edge.
                     if (orthogonalInput)
                     {
                         bool ray_isOrtho = clipped[r][0].X == clipped[r][1].X || clipped[r][0].Y == clipped[r][1].Y;
-                        switch (minLength_ortho)
+                        if (minLength_ortho && !ray_isOrtho)
                         {
                             // Don't replace an orthogonal ray with a non-orthogonal ray.
-                            case true when !ray_isOrtho:
-                                continue;
+                            continue;
                         }
-                        minLength_ortho = minLength_ortho || ray_isOrtho;
+                        
+                        // Update our tracking with the ray ortho flag.
+                        minLength_ortho = ray_isOrtho;
                     }
 
                     double ray_length = Math.Abs(distanceBetweenPoints(clipped[r][0], clipped[r][1]));

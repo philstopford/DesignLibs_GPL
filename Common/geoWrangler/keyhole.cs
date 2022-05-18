@@ -191,6 +191,8 @@ public static partial class GeoWrangler
         try
         {
             bool outerOrient = ClipperFunc.IsClockwise(outers[0]);
+            bool orthogonalInput = pOrthogonal(outers, 0);
+            orthogonalInput = orthogonalInput && pOrthogonal(cutters, 0);
             // Use raycaster to project from holes to outer, to try and find a keyhole path that is minimal length, and ideally orthogonal.
             foreach (Path t1 in cutters)
             {
@@ -207,22 +209,32 @@ public static partial class GeoWrangler
                 projCheck = pStripTerminators(projCheck, false);
                 projCheck = pClockwise(projCheck);
                 
-                bool projectCorners = orthogonal(projCheck, angularTolerance);
+                bool projectCorners = pOrthogonal(projCheck, angularTolerance);
                 RayCast rc = new(t, outers, 1000000, invert: invert, projectCorners: projectCorners);
                 Paths clipped = rc.getClippedRays();
+
+                // Reverse walk in case there is a better option walking the geometry in the other direction.
+                t.Reverse();
+                rc = new(t, outers, 1000000, invert: invert, projectCorners: projectCorners);
+                clipped.AddRange(rc.getClippedRays());
+                
                 // Need to find minimal length, ideally orthogonal.
                 double minLength = -1;
                 bool minLength_ortho = false;
                 int cutPathIndex = -1;
                 for (int r = 0; r < clipped.Count; r++)
                 {
-                    bool ray_isOrtho = clipped[r][0].X == clipped[r][1].X || clipped[r][0].Y == clipped[r][1].Y;
 
-                    switch (minLength_ortho)
+                    if (orthogonalInput)
                     {
-                        // Don't replace an orthogonal ray with a non-orthogonal ray.
-                        case true when !ray_isOrtho:
-                            continue;
+                        bool ray_isOrtho = clipped[r][0].X == clipped[r][1].X || clipped[r][0].Y == clipped[r][1].Y;
+                        switch (minLength_ortho)
+                        {
+                            // Don't replace an orthogonal ray with a non-orthogonal ray.
+                            case true when !ray_isOrtho:
+                                continue;
+                        }
+                        minLength_ortho = minLength_ortho || ray_isOrtho;
                     }
 
                     double ray_length = Math.Abs(distanceBetweenPoints(clipped[r][0], clipped[r][1]));
@@ -233,15 +245,11 @@ public static partial class GeoWrangler
                             continue;
                     }
 
-                    minLength_ortho = minLength_ortho || ray_isOrtho;
 
                     // First ray or a smaller distance causes us to make this the keyhole edge.
                     if (r != 0 && !(ray_length < minLength))
                     {
-                        // if (!ray_isOrtho)
-                        {
-                            continue;
-                        }
+                        continue;
                     }
 
                     cutPathIndex = r;

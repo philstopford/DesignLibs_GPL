@@ -421,6 +421,22 @@ public static partial class GeoWrangler
         return angles;
     }
 
+    public static bool orthogonal(Paths sourcePoly, double angularTolerance)
+    {
+        return pOrthogonal(sourcePoly, angularTolerance);
+    }
+
+    public static bool pOrthogonal(Paths sourcePoly, double angularTolerance)
+    {
+        bool ret = true;
+        foreach (Path p in sourcePoly)
+        {
+            ret = ret && pOrthogonal(p, angularTolerance);
+        }
+
+        return ret;
+    }
+
     public static bool orthogonal(Path sourcePoly, double angularTolerance)
     {
         return pOrthogonal(sourcePoly, angularTolerance);

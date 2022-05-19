@@ -31,12 +31,12 @@ public class RayCast
 
     public RayCast(Path emissionPath, Paths collisionPaths, long max, bool projectCorners = true, inversionMode invert = inversionMode.none, int multisampleRayCount = 0, bool runOuterLoopThreaded = false, bool runInnerLoopThreaded = false, Point64 startOffset = new(), Point64 endOffset = new(), falloff sideRayFallOff = falloff.none, double sideRayFallOffMultiplier = 1.0f, forceSingleDirection dirOverride = forceSingleDirection.no)
     {
-        rayCast(emissionPath, collisionPaths, max, projectCorners, invert, multisampleRayCount, runOuterLoopThreaded, runInnerLoopThreaded, startOffset, endOffset, sideRayFallOff, sideRayFallOffMultiplier, dirOverride);
+        pRayCast(emissionPath, collisionPaths, max, projectCorners, invert, multisampleRayCount, runOuterLoopThreaded, runInnerLoopThreaded, startOffset, endOffset, sideRayFallOff, sideRayFallOffMultiplier, dirOverride);
     }
 
     public RayCast(Path emissionPath, Path collisionPath, long max, bool projectCorners = true, inversionMode invert = inversionMode.none, int multisampleRayCount = 0, bool runOuterLoopThreaded = false, bool runInnerLoopThreaded = false, Point64 startOffset = new(), Point64 endOffset = new(), falloff sideRayFallOff = falloff.none, double sideRayFallOffMultiplier = 1.0f, forceSingleDirection dirOverride = forceSingleDirection.no)
     {
-        rayCast(emissionPath, new Paths { collisionPath }, max, projectCorners, invert, multisampleRayCount, runOuterLoopThreaded, runInnerLoopThreaded, startOffset, endOffset, sideRayFallOff, sideRayFallOffMultiplier, dirOverride);
+        pRayCast(emissionPath, new Paths { collisionPath }, max, projectCorners, invert, multisampleRayCount, runOuterLoopThreaded, runInnerLoopThreaded, startOffset, endOffset, sideRayFallOff, sideRayFallOffMultiplier, dirOverride);
     }
 
     public Paths getRays()
@@ -317,9 +317,222 @@ public class RayCast
 
         return averagedEdgeNormal;
     }
+
+    private Paths pCutRay(Path ray, Paths collisionPaths, inversionMode invert, falloff sideRayFallOff)
+    {
+        Clipper d = new();
+        if (sideRayFallOff != falloff.none)
+        {
+            d.ZFillFunc = prox_ZFillCallback;
+        }
+        d.AddOpenSubject(ray);
+        d.AddClip(collisionPaths);
+        Paths unused = new();
+        Paths tmpLine = new();
+        switch (invert)
+        {
+            default:
+                d.Execute(ClipType.Intersection, FillRule.EvenOdd, unused, tmpLine);
+                break;
+            case 0:
+                d.Execute(ClipType.Difference, FillRule.EvenOdd, unused, tmpLine);
+                break;
+        }
+
+        return tmpLine;
+    }
+
+    readonly object resultLock = new();
     
+    private void pEvaluateCutRay(Paths ray, int outputIndex, Path emissionPath, int pt, ref long[] resultX, ref long[] resultY, ref double[] weight)
+    {
+        Point64 startPoint = new(emissionPath[pt]);
+        int rayPtCount = ray.Count;
+
+        // There is no matching order in the ray here, so we have to take this odd approach.
+        switch (rayPtCount)
+        {
+            // If we got no result, let's get that sorted out. End and start points are the same.
+            case 0:
+                Monitor.Enter(resultLock);
+                try
+                {
+                    resultX[outputIndex] = startPoint.X;
+                    resultY[outputIndex] = startPoint.Y;
+                    weight[outputIndex] = 1.0f;
+                }
+                finally
+                {
+                    Monitor.Exit(resultLock);
+                }
+
+                break;
+            case > 1:
+            {
+                // We got two lines back. Need to check this carefully.
+                // We need to find the line that has a start/end point matched to our origin point for the ray.
+                int index = -1;
+                for (int tL = 0; tL < ray.Count; tL++)
+                {
+                    long tL0X = ray[tL][0].X;
+                    long tL0Y = ray[tL][0].Y;
+                    long tL1X = ray[tL][1].X;
+                    long tL1Y = ray[tL][1].Y;
+                    if ((tL0X != startPoint.X || tL0Y != startPoint.Y) &&
+                        (tL1X != startPoint.X || tL1Y != startPoint.Y))
+                    {
+                        continue;
+                    }
+
+                    index = tL;
+                    break;
+                }
+                Path tPath = new();
+                switch (index)
+                {
+                    case >= 0:
+                        tPath = ray[index];
+                        break;
+                    default:
+                        tPath.Add(startPoint);
+                        tPath.Add(startPoint);
+                        break;
+                }
+                ray.Clear();
+                ray.Add(tPath);
+                break;
+            }
+        }
+        
+        rayPtCount = ray.Count;
+
+        for (int tL = 0; tL < rayPtCount; tL++)
+        {
+            // Figure out which end of the result line matches our origin point.
+            if (ray[tL][0].X == startPoint.X && ray[tL][0].Y == startPoint.Y)
+            {
+                Monitor.Enter(resultLock);
+                try
+                {
+                    resultX[outputIndex] = ray[tL][1].X;
+                    resultY[outputIndex] = ray[tL][1].Y;
+                    weight[outputIndex] = Convert.ToDouble(ray[tL][1].Z) / 1E4;
+                }
+                finally
+                {
+                    Monitor.Exit(resultLock);
+                }
+            }
+            else if (ray[tL][1].X == startPoint.X && ray[tL][1].Y == startPoint.Y)
+            {
+                Monitor.Enter(resultLock);
+                try
+                {
+                    // Clipper reversed the line direction, so we need to deal with this.
+                    resultX[outputIndex] = ray[tL][0].X;
+                    resultY[outputIndex] = ray[tL][0].Y;
+                    weight[outputIndex] = Convert.ToDouble(ray[tL][0].Z) / 1E4;
+                }
+                finally
+                {
+                    Monitor.Exit(resultLock);
+                }
+            }
+        }
+    }
+
+    class ResultData
+    {
+        public long xAv = 0;
+        public long yAv = 0;
+    }
+    private ResultData pComputeWeightedResult(falloff sideRayFallOff, ref long[] resultX, ref long[] resultY, ref double[] weight)
+    {
+        int xCount = 0;
+        int yCount = 0;
+
+        ResultData res = new();
+        
+        switch (sideRayFallOff)
+        {
+            // If we are not truncating by weight, we do not need to average here - it was done with the normalization above.
+            case falloff.none:
+            {
+                // Average the result to give a weighted spacing across the rays.
+                for (int result = 0; result < resultX.Length; result++)
+                {
+                    switch (Math.Abs(resultX[result]))
+                    {
+                        case > 1000:
+                            xCount++;
+                            res.xAv += resultX[result];
+                            break;
+                    }
+
+                    switch (Math.Abs(resultY[result]))
+                    {
+                        case > 1000:
+                            yCount++;
+                            res.yAv += resultY[result];
+                            break;
+                    }
+                }
+
+                if (xCount != 0)
+                {
+                    res.xAv /= xCount;
+                }
+
+                if (yCount != 0)
+                {
+                    res.yAv /= yCount;
+                }
+
+                break;
+            }
+            default:
+            {
+                double totalWeight = 0.0f;
+                foreach (double t in weight)
+                {
+                    totalWeight += t;
+                }
+
+                // Average the result to give a weighted spacing across the rays.
+                for (int w = 0; w < weight.Length; w++)
+                {
+                    double weight_ = 1.0f;
+                    if (sideRayFallOff != falloff.none && !truncateRaysByWeight && totalWeight > 0)
+                    {
+                        weight_ = weight[w] / totalWeight;
+                    }
+
+                    switch (Math.Abs(resultX[w]))
+                    {
+                        case > 1000:
+                            xCount++;
+                            res.xAv += Convert.ToInt64(weight_ * resultX[w]);
+                            break;
+                    }
+
+                    switch (Math.Abs(resultY[w]))
+                    {
+                        case > 1000:
+                            yCount++;
+                            res.yAv += Convert.ToInt64(weight_ * resultY[w]);
+                            break;
+                    }
+                }
+
+                break;
+            }
+        }
+
+        return res;
+    }
+
     // invert used to be a bool, but we need to handle X and Y normal inversions separately, so this had to move to an enum for clarity.
-    private void rayCast(Path emissionPath, Paths collisionPaths, long maxRayLength, bool projectCorners, inversionMode invert, int multisampleRayCount, bool runOuterLoopThreaded, bool runInnerLoopThreaded, Point64 startOffset, Point64 endOffset, falloff sideRayFallOff, double sideRayFallOffMultiplier, forceSingleDirection dirOverride)
+    private void pRayCast(Path emissionPath, Paths collisionPaths, long maxRayLength, bool projectCorners, inversionMode invert, int multisampleRayCount, bool runOuterLoopThreaded, bool runInnerLoopThreaded, Point64 startOffset, Point64 endOffset, falloff sideRayFallOff, double sideRayFallOffMultiplier, forceSingleDirection dirOverride)
     {
         int ptCount = emissionPath.Count;
 
@@ -373,204 +586,19 @@ public class RayCast
             long[] resultY = new long[rays.Count];
             double[] weight = new double[rays.Count];
             
-            object resultLock = new();
             Parallel.For(0, rays.Count, po_inner, ray =>
                 {
-                    Clipper d = new();
-                    if (sideRayFallOff != falloff.none)
-                    {
-                        d.ZFillFunc = prox_ZFillCallback;
-                    }
-                    d.AddOpenSubject(rays[ray]);
-                    d.AddClip(collisionPaths);
-                    Paths unused = new();
-                    Paths tmpLine = new();
-                    switch (invert)
-                    {
-                        default:
-                            d.Execute(ClipType.Intersection, FillRule.EvenOdd, unused, tmpLine);
-                            break;
-                        case 0:
-                            d.Execute(ClipType.Difference, FillRule.EvenOdd, unused, tmpLine);
-                            break;
-                    }
 
-                    // There is no matching order in the return output here, so we have to take this odd approach.
-                    int tmpLineCount = tmpLine.Count;
-
-                    switch (tmpLineCount)
-                    {
-                        // If we got no result, let's get that sorted out. End and start points are the same.
-                        case 0:
-                            Monitor.Enter(resultLock);
-                            try
-                            {
-                                resultX[ray] = startPoint.X;
-                                resultY[ray] = startPoint.Y;
-                                weight[ray] = 1.0f;
-                            }
-                            finally
-                            {
-                                Monitor.Exit(resultLock);
-                            }
-
-                            break;
-                        case > 1:
-                        {
-                            // We got two lines back. Need to check this carefully.
-                            // We need to find the line that has a start/end point matched to our origin point for the ray.
-                            int index = -1;
-                            for (int tL = 0; tL < tmpLine.Count; tL++)
-                            {
-                                long tL0X = tmpLine[tL][0].X;
-                                long tL0Y = tmpLine[tL][0].Y;
-                                long tL1X = tmpLine[tL][1].X;
-                                long tL1Y = tmpLine[tL][1].Y;
-                                if ((tL0X != startPoint.X || tL0Y != startPoint.Y) &&
-                                    (tL1X != startPoint.X || tL1Y != startPoint.Y))
-                                {
-                                    continue;
-                                }
-
-                                index = tL;
-                                break;
-                            }
-                            Path tPath = new();
-                            switch (index)
-                            {
-                                case >= 0:
-                                    tPath = tmpLine[index];
-                                    break;
-                                default:
-                                    tPath.Add(startPoint);
-                                    tPath.Add(startPoint);
-                                    break;
-                            }
-                            tmpLine.Clear();
-                            tmpLine.Add(tPath);
-                            break;
-                        }
-                    }
-
-                    tmpLineCount = tmpLine.Count;
-
-                    for (int tL = 0; tL < tmpLineCount; tL++)
-                    {
-                        // Figure out which end of the result line matches our origin point.
-                        if (tmpLine[tL][0].X == startPoint.X && tmpLine[tL][0].Y == startPoint.Y)
-                        {
-                            Monitor.Enter(resultLock);
-                            try
-                            {
-                                resultX[ray] = tmpLine[tL][1].X;
-                                resultY[ray] = tmpLine[tL][1].Y;
-                                weight[ray] = Convert.ToDouble(tmpLine[tL][1].Z) / 1E4;
-                            }
-                            finally
-                            {
-                                Monitor.Exit(resultLock);
-                            }
-                        }
-                        else if (tmpLine[tL][1].X == startPoint.X && tmpLine[tL][1].Y == startPoint.Y)
-                        {
-                            Monitor.Enter(resultLock);
-                            try
-                            {
-                                // Clipper reversed the line direction, so we need to deal with this.
-                                resultX[ray] = tmpLine[tL][0].X;
-                                resultY[ray] = tmpLine[tL][0].Y;
-                                weight[ray] = Convert.ToDouble(tmpLine[tL][0].Z) / 1E4;
-                            }
-                            finally
-                            {
-                                Monitor.Exit(resultLock);
-                            }
-                        }
-                    }
+                    Paths tmpLine = pCutRay(rays[ray], collisionPaths, invert, sideRayFallOff);
+                    pEvaluateCutRay(tmpLine, ray, emissionPath, pt, ref resultX, ref resultY, ref weight);
                 }
             );
 
             Path resultPath = new() {startPoint};
 
-            int xCount = 0;
-            long xAv = 0;
-            int yCount = 0;
-            long yAv = 0;
+            ResultData rData = pComputeWeightedResult(sideRayFallOff, ref resultX, ref resultY, ref weight);
 
-            switch (sideRayFallOff)
-            {
-                // If we are not truncating by weight, we do not need to average here - it was done with the normalization above.
-                case falloff.none:
-                {
-                    // Average the result to give a weighted spacing across the rays.
-                    for (int result = 0; result < resultX.Length; result++)
-                    {
-                        switch (Math.Abs(resultX[result]))
-                        {
-                            case > 1000:
-                                xCount++;
-                                xAv += resultX[result];
-                                break;
-                        }
-
-                        switch (Math.Abs(resultY[result]))
-                        {
-                            case > 1000:
-                                yCount++;
-                                yAv += resultY[result];
-                                break;
-                        }
-                    }
-
-                    if (xCount != 0)
-                    {
-                        xAv /= xCount;
-                    }
-                    if (yCount != 0)
-                    {
-                        yAv /= yCount;
-                    }
-
-                    break;
-                }
-                default:
-                {
-                    double totalWeight = 0.0f;
-                    foreach (double t in weight)
-                    {
-                        totalWeight += t;
-                    }
-
-                    // Average the result to give a weighted spacing across the rays.
-                    for (int w = 0; w < weight.Length; w++)
-                    {
-                        double weight_ = 1.0f;
-                        if (sideRayFallOff != falloff.none && !truncateRaysByWeight && totalWeight > 0)
-                        {
-                            weight_ = weight[w] / totalWeight;
-                        }
-
-                        switch (Math.Abs(resultX[w]))
-                        {
-                            case > 1000:
-                                xCount++;
-                                xAv += Convert.ToInt64(weight_ * resultX[w]);
-                                break;
-                        }
-                        switch (Math.Abs(resultY[w]))
-                        {
-                            case > 1000:
-                                yCount++;
-                                yAv += Convert.ToInt64(weight_ * resultY[w]);
-                                break;
-                        }
-                    }
-
-                    break;
-                }
-            }
-
-            resultPath.Add(new Point64(xAv, yAv));
+            resultPath.Add(new Point64(rData.xAv, rData.yAv));
             Monitor.Enter(clippedLinesLock);
             try
             {

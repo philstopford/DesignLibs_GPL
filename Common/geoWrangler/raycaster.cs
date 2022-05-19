@@ -73,13 +73,254 @@ public class RayCast
         return GeoWrangler.distanceBetweenPoints(clippedLines[ray][0], clippedLines[ray][clippedLines[ray].Count - 1]);
     }
 
+    class NormalsData
+    {
+        public Point64[] normals;// = new Point64[ptCount];
+        public Point64[] previousNormals;// = new Point64[ptCount];
+    }
+
+    private static NormalsData pCalculateNormalsData(Path path, bool closedPathEmitter, Point64 startOffset, Point64 endOffset)
+    {
+        NormalsData ret = new();
+        int ptCount = path.Count;
+
+        // This is a serial evaluation as we need both the previous and the current normal for each point.
+        ret.normals = new Point64[ptCount];
+        ret.previousNormals = new Point64[ptCount];
+        for (int pt = 0; pt < ptCount; pt++)
+        {
+            // Start point
+            long dx;
+            long dy;
+            if (pt == path.Count - 1)
+            {
+                switch (closedPathEmitter)
+                {
+                    // Last matches the first. Since we flip the dx and dy tone later, we need to compensate here.
+                    case true:
+                        dx = -ret.normals[0].X;
+                        dy = -ret.normals[0].Y;
+                        break;
+                    default:
+                        dx = path[ptCount - 1].X - endOffset.X;
+                        dy = path[ptCount - 1].Y - endOffset.Y;
+                        break;
+                }
+            }
+            else
+            {
+                switch (closedPathEmitter)
+                {
+                    case false when pt == 0:
+                        dx = path[0].X - startOffset.X;
+                        dy = path[0].Y - startOffset.Y;
+                        break;
+                    default:
+                        dx = path[pt + 1].X - path[pt].X;
+                        dy = path[pt + 1].Y - path[pt].Y;
+                        break;
+                }
+            }
+
+            ret.normals[pt] = new Point64(-dx, -dy);
+
+            switch (pt)
+            {
+                // Previous normal
+                case 0:
+                {
+                    switch (closedPathEmitter)
+                    {
+                        case true:
+                            // n-1 identical to the 0-th point, so we need to dig a little deeper.
+                            dx = path[0].X - path[ptCount - 2].X;
+                            dy = path[0].Y - path[ptCount - 2].Y;
+                            break;
+                        default:
+                            dx = path[0].X - startOffset.X;
+                            dy = path[0].Y - startOffset.Y;
+                            break;
+                    }
+
+                    ret.previousNormals[pt] = new Point64(-dx, -dy);
+                    break;
+                }
+                default:
+                    ret.previousNormals[pt] = ret.normals[pt - 1];
+                    break;
+            }
+        }
+
+        return ret;
+    }
+
+    // Setting this to true, we shorten rays with the falloff. False means we reduce the contribution to the average instead.
+    const bool truncateRaysByWeight = false;
+
+    private Paths pGenerateRays(Path sourcePath, int index, long maxRayLength, bool projectCorners, inversionMode invert, int multisampleRayCount, falloff sideRayFallOff, double sideRayFallOffMultiplier, NormalsData nData, forceSingleDirection dirOverride)
+    {
+        Point64 startPoint = sourcePath[index];
+        
+        Paths rays = new();
+
+        Point64 averagedEdgeNormal = pGetAveragedNormal(nData, index, projectCorners, invert, dirOverride);
+
+        // Normalization. We don't change the original vectors to avoid having to normalize everywhere.
+        double length = Math.Sqrt(Utils.myPow(averagedEdgeNormal.X, 2) + Utils.myPow(averagedEdgeNormal.Y, 2));
+
+        double endPointDeltaX = 0;
+        double endPointDeltaY = 0;
+
+        switch (length)
+        {
+            // Avoid div-by-zero; 0-length is unimportant. Note that setting this cut-off too high produces artifacts.
+            case > 0.0001:
+                endPointDeltaX = Convert.ToDouble(averagedEdgeNormal.X) / length;
+                endPointDeltaY = Convert.ToDouble(averagedEdgeNormal.Y) / length;
+                break;
+        }
+
+        // Set to max ray length from callsite.
+        endPointDeltaX *= maxRayLength;
+        endPointDeltaY *= maxRayLength;
+
+        switch (invert)
+        {
+            case inversionMode.x:
+            case inversionMode.y:
+                endPointDeltaY *= -1;
+                break;
+        }
+        endPointDeltaX *= -1;
+
+        Point64 endPoint = new(endPointDeltaY + startPoint.X, endPointDeltaX + startPoint.Y);
+
+        if (sideRayFallOff != falloff.none)
+        {
+            endPoint.Z = (long)1E4;
+        }
+        
+        Path line = new() {new Point64(startPoint), new Point64(endPoint)};
+        
+        rays.Add(line);
+
+        double angleStep = 90.0f / (1 + multisampleRayCount);
+
+        for (int sample = 0; sample < multisampleRayCount; sample++)
+        {
+            // Add more samples, each n-degrees rotated from the nominal ray
+            double rayAngle = (sample + 1) * angleStep;
+
+            Point64 endPoint_f = endPoint;
+
+            double weight_val = 1.0f;
+            switch (sideRayFallOff)
+            {
+                // Gaussian fall-off
+                case falloff.gaussian:
+                    weight_val = Math.Exp(-Math.Pow(sideRayFallOffMultiplier * (rayAngle / 90.0f), 2));
+                    break;
+                // Linear fall-off
+                case falloff.linear:
+                    weight_val = 1.0f - Math.Min(rayAngle / 90.0f, 1.0f);
+                    break;
+                // Cosine fall-off
+                case falloff.cosine:
+                    double angle = sideRayFallOffMultiplier * rayAngle;
+                    angle = angle switch
+                    {
+                        < 0 => 0,
+                        _ => angle switch
+                        {
+                            > 90.0 => 90.0,
+                            _ => angle
+                        }
+                    };
+                    weight_val = Math.Cos(Utils.toRadians(angle));
+                    // Shift up and flatten to 0-1 range.
+                    weight_val += 1.0f;
+                    weight_val *= 0.5;
+                    break;
+                // No falloff
+            }
+
+            endPoint_f = truncateRaysByWeight switch
+            {
+                true => new Point64(startPoint.X + weight_val * endPointDeltaY,
+                    startPoint.Y + weight_val * endPointDeltaX),
+                _ => endPoint_f
+            };
+
+            Point64 sPoint = new(startPoint.X, startPoint.Y);
+
+            if (sideRayFallOff != falloff.none)
+            {
+                endPoint_f.Z = Convert.ToInt64(weight_val * 1E4);
+                sPoint.Z = endPoint_f.Z;
+            }
+            Point64 endPoint1 = GeoWrangler.Rotate(startPoint, endPoint_f, rayAngle);
+            Point64 endPoint2 = GeoWrangler.Rotate(startPoint, endPoint_f, -rayAngle);
+
+            // The order of line1 below is important, but I'm not yet sure why. If you change it, the expansion becomes asymmetrical on a square (lower section gets squashed).
+            Path line1 = new() {new Point64(endPoint1), new Point64(sPoint)};
+            rays.Add(line1);
+            Path line2 = new() {new Point64(sPoint), new Point64(endPoint2)};
+            rays.Add(line2);
+        }
+
+        return rays;
+    }
+
+    private Point64 pGetAveragedNormal(NormalsData nData, int index, bool projectCorners, inversionMode invert, forceSingleDirection dirOverride)
+    {
+        Point64 averagedEdgeNormal;
+        Point64 currentEdgeNormal = nData.normals[index];
+        Point64 previousEdgeNormal = nData.previousNormals[index];
+
+        // Get average angle for this vertex based on angles from line segments.
+        // http://stackoverflow.com/questions/1243614/how-do-i-calculate-the-normal-vector-of-a-line-segment
+
+        switch (projectCorners)
+        {
+            case true when currentEdgeNormal.X == 0 && previousEdgeNormal.Y == 0 ||
+                           currentEdgeNormal.Y == 0 && previousEdgeNormal.X == 0:
+            {
+                long tX = currentEdgeNormal.X;
+                long tY = currentEdgeNormal.Y;
+                // If we're traversing a 90 degree corner, let's not project a diagonal, but fix on our current edge normal.
+                if (invert == 0 || dirOverride == forceSingleDirection.vertical)
+                {
+                    tX = -tX;
+                    tY = -tY;
+                }
+                averagedEdgeNormal = new Point64(tX, tY);
+                break;
+            }
+            default:
+            {
+                switch (invert)
+                {
+                    case inversionMode.x:
+                        currentEdgeNormal = new Point64(-currentEdgeNormal.X, currentEdgeNormal.Y);
+                        previousEdgeNormal = new Point64(-previousEdgeNormal.X, previousEdgeNormal.Y);
+                        break;
+                    case inversionMode.y:
+                        currentEdgeNormal = new Point64(currentEdgeNormal.X, -currentEdgeNormal.Y);
+                        previousEdgeNormal = new Point64(previousEdgeNormal.X, -previousEdgeNormal.Y);
+                        break;
+                }
+                // Average out our normals
+                averagedEdgeNormal = new Point64((previousEdgeNormal.X + currentEdgeNormal.X) / 2, (previousEdgeNormal.Y + currentEdgeNormal.Y) / 2);
+                break;
+            }
+        }
+
+        return averagedEdgeNormal;
+    }
     
     // invert used to be a bool, but we need to handle X and Y normal inversions separately, so this had to move to an enum for clarity.
     private void rayCast(Path emissionPath, Paths collisionPaths, long maxRayLength, bool projectCorners, inversionMode invert, int multisampleRayCount, bool runOuterLoopThreaded, bool runInnerLoopThreaded, Point64 startOffset, Point64 endOffset, falloff sideRayFallOff, double sideRayFallOffMultiplier, forceSingleDirection dirOverride)
     {
-        // Setting this to true, we shorten rays with the falloff. False means we reduce the contribution to the average instead.
-        const bool truncateRaysByWeight = false;
-
         int ptCount = emissionPath.Count;
 
         // Due to threading and need to tie to polygon point order, we have to use these local storage options and will do the conversion at the end.
@@ -95,72 +336,7 @@ public class RayCast
         // http://stackoverflow.com/questions/1243614/how-do-i-calculate-the-normal-vector-of-a-line-segment
 
         // Pre-calculate these for the threading to be an option.
-        // This is a serial evaluation as we need both the previous and the current normal for each point.
-        Point64[] normals = new Point64[ptCount];
-        Point64[] previousNormals = new Point64[ptCount];
-        for (int pt = 0; pt < ptCount; pt++)
-        {
-            // Start point
-            long dx;
-            long dy;
-            if (pt == emissionPath.Count - 1)
-            {
-                switch (closedPathEmitter)
-                {
-                    // Last matches the first. Since we flip the dx and dy tone later, we need to compensate here.
-                    case true:
-                        dx = -normals[0].X;
-                        dy = -normals[0].Y;
-                        break;
-                    default:
-                        dx = emissionPath[ptCount - 1].X - endOffset.X;
-                        dy = emissionPath[ptCount - 1].Y - endOffset.Y;
-                        break;
-                }
-            }
-            else
-            {
-                switch (closedPathEmitter)
-                {
-                    case false when pt == 0:
-                        dx = emissionPath[0].X - startOffset.X;
-                        dy = emissionPath[0].Y - startOffset.Y;
-                        break;
-                    default:
-                        dx = emissionPath[pt + 1].X - emissionPath[pt].X;
-                        dy = emissionPath[pt + 1].Y - emissionPath[pt].Y;
-                        break;
-                }
-            }
-
-            normals[pt] = new Point64(-dx, -dy);
-
-            switch (pt)
-            {
-                // Previous normal
-                case 0:
-                {
-                    switch (closedPathEmitter)
-                    {
-                        case true:
-                            // n-1 identical to the 0-th point, so we need to dig a little deeper.
-                            dx = emissionPath[0].X - emissionPath[ptCount - 2].X;
-                            dy = emissionPath[0].Y - emissionPath[ptCount - 2].Y;
-                            break;
-                        default:
-                            dx = emissionPath[0].X - startOffset.X;
-                            dy = emissionPath[0].Y - startOffset.Y;
-                            break;
-                    }
-
-                    previousNormals[pt] = new Point64(-dx, -dy);
-                    break;
-                }
-                default:
-                    previousNormals[pt] = normals[pt - 1];
-                    break;
-            }
-        }
+        NormalsData nData = pCalculateNormalsData(emissionPath, closedPathEmitter, startOffset, endOffset);
 
         ParallelOptions po_outer = new();
         po_outer.MaxDegreeOfParallelism = runOuterLoopThreaded switch
@@ -175,157 +351,13 @@ public class RayCast
             false => 1,
             _ => po_inner.MaxDegreeOfParallelism
         };
-
+        
         Parallel.For(0, ptCount, po_outer, pt =>
         {
-            Point64 currentEdgeNormal = normals[pt];
-            Point64 previousEdgeNormal = previousNormals[pt];
-
-            Point64 averagedEdgeNormal;
-
             Point64 startPoint = new(emissionPath[pt]);
-
-            // Get average angle for this vertex based on angles from line segments.
-            // http://stackoverflow.com/questions/1243614/how-do-i-calculate-the-normal-vector-of-a-line-segment
-
-            switch (projectCorners)
-            {
-                case true when currentEdgeNormal.X == 0 && previousEdgeNormal.Y == 0 ||
-                               currentEdgeNormal.Y == 0 && previousEdgeNormal.X == 0:
-                {
-                    long tX = currentEdgeNormal.X;
-                    long tY = currentEdgeNormal.Y;
-                    // If we're traversing a 90 degree corner, let's not project a diagonal, but fix on our current edge normal.
-                    if (invert == 0 || dirOverride == forceSingleDirection.vertical)
-                    {
-                        tX = -tX;
-                        tY = -tY;
-                    }
-                    averagedEdgeNormal = new Point64(tX, tY);
-                    break;
-                }
-                default:
-                {
-                    switch (invert)
-                    {
-                        case inversionMode.x:
-                            currentEdgeNormal = new Point64(-currentEdgeNormal.X, currentEdgeNormal.Y);
-                            previousEdgeNormal = new Point64(-previousEdgeNormal.X, previousEdgeNormal.Y);
-                            break;
-                        case inversionMode.y:
-                            currentEdgeNormal = new Point64(currentEdgeNormal.X, -currentEdgeNormal.Y);
-                            previousEdgeNormal = new Point64(previousEdgeNormal.X, -previousEdgeNormal.Y);
-                            break;
-                    }
-                    // Average out our normals
-                    averagedEdgeNormal = new Point64((previousEdgeNormal.X + currentEdgeNormal.X) / 2, (previousEdgeNormal.Y + currentEdgeNormal.Y) / 2);
-                    break;
-                }
-            }
-
-            // Normalization. We don't change the original vectors to avoid having to normalize everywhere.
-            double length = Math.Sqrt(Utils.myPow(averagedEdgeNormal.X, 2) + Utils.myPow(averagedEdgeNormal.Y, 2));
-
-            double endPointDeltaX = 0;
-            double endPointDeltaY = 0;
-
-            switch (length)
-            {
-                // Avoid div-by-zero; 0-length is unimportant. Note that setting this cut-off too high produces artifacts.
-                case > 0.0001:
-                    endPointDeltaX = Convert.ToDouble(averagedEdgeNormal.X) / length;
-                    endPointDeltaY = Convert.ToDouble(averagedEdgeNormal.Y) / length;
-                    break;
-            }
-
-            // Set to max ray length from callsite.
-            endPointDeltaX *= maxRayLength;
-            endPointDeltaY *= maxRayLength;
-
-            switch (invert)
-            {
-                case inversionMode.x:
-                case inversionMode.y:
-                    endPointDeltaY *= -1;
-                    break;
-            }
-            endPointDeltaX *= -1;
-
-            Point64 endPoint = new(endPointDeltaY + startPoint.X, endPointDeltaX + startPoint.Y);
-
-            if (sideRayFallOff != falloff.none)
-            {
-                endPoint.Z = (long)1E4;
-            }
-
-            Paths rays = new();
-            Path line = new() {new Point64(startPoint), new Point64(endPoint)};
-            rays.Add(line/*.ToList()*/);
-
-            double angleStep = 90.0f / (1 + multisampleRayCount);
-
-            for (int sample = 0; sample < multisampleRayCount; sample++)
-            {
-                // Add more samples, each n-degrees rotated from the nominal ray
-                double rayAngle = (sample + 1) * angleStep;
-
-                Point64 endPoint_f = endPoint;
-
-                double weight_val = 1.0f;
-                switch (sideRayFallOff)
-                {
-                    // Gaussian fall-off
-                    case falloff.gaussian:
-                        weight_val = Math.Exp(-Math.Pow(sideRayFallOffMultiplier * (rayAngle / 90.0f), 2));
-                        break;
-                    // Linear fall-off
-                    case falloff.linear:
-                        weight_val = 1.0f - Math.Min(rayAngle / 90.0f, 1.0f);
-                        break;
-                    // Cosine fall-off
-                    case falloff.cosine:
-                        double angle = sideRayFallOffMultiplier * rayAngle;
-                        angle = angle switch
-                        {
-                            < 0 => 0,
-                            _ => angle switch
-                            {
-                                > 90.0 => 90.0,
-                                _ => angle
-                            }
-                        };
-                        weight_val = Math.Cos(Utils.toRadians(angle));
-                        // Shift up and flatten to 0-1 range.
-                        weight_val += 1.0f;
-                        weight_val *= 0.5;
-                        break;
-                    // No falloff
-                }
-
-                endPoint_f = truncateRaysByWeight switch
-                {
-                    true => new Point64(startPoint.X + weight_val * endPointDeltaY,
-                        startPoint.Y + weight_val * endPointDeltaX),
-                    _ => endPoint_f
-                };
-
-                Point64 sPoint = new(startPoint.X, startPoint.Y);
-
-                if (sideRayFallOff != falloff.none)
-                {
-                    endPoint_f.Z = Convert.ToInt64(weight_val * 1E4);
-                    sPoint.Z = endPoint_f.Z;
-                }
-                Point64 endPoint1 = GeoWrangler.Rotate(startPoint, endPoint_f, rayAngle);
-                Point64 endPoint2 = GeoWrangler.Rotate(startPoint, endPoint_f, -rayAngle);
-
-                // The order of line1 below is important, but I'm not yet sure why. If you change it, the expansion becomes asymmetrical on a square (lower section gets squashed).
-                Path line1 = new() {new Point64(endPoint1), new Point64(sPoint)};
-                rays.Add(line1);
-                Path line2 = new() {new Point64(sPoint), new Point64(endPoint2)};
-                rays.Add(line2);
-            }
-
+            
+            Paths rays = pGenerateRays(emissionPath, pt, maxRayLength, projectCorners, invert, multisampleRayCount, sideRayFallOff, sideRayFallOffMultiplier, nData, dirOverride);
+            
             Monitor.Enter(castLinesLock);
             try
             {
@@ -340,9 +372,7 @@ public class RayCast
             long[] resultX = new long[rays.Count];
             long[] resultY = new long[rays.Count];
             double[] weight = new double[rays.Count];
-
-            previousEdgeNormal = new Point64(currentEdgeNormal.X, currentEdgeNormal.Y);
-
+            
             object resultLock = new();
             Parallel.For(0, rays.Count, po_inner, ray =>
                 {

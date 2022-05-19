@@ -196,8 +196,7 @@ public static partial class GeoWrangler
          * The cost of this is somewhat mitigated by heavy use of multithreading in the raycaster, but the desire for a robust calculation makes the cost
          * worth the effort.
          */
-        
-        
+
         // Reverse walk in case there is a better option walking the geometry in the other direction.
         RayCast rc = new(t, outers, 1000000, invert: invert, projectCorners: projectCorners);
         Paths clipped = rc.getClippedRays();

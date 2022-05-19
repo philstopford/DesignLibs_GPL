@@ -189,12 +189,20 @@ public static partial class GeoWrangler
         bool projectCorners = pOrthogonal(t, angularTolerance);
         t = pClose(t); // re-close to make the raycaster happy.
 
+        /*
+         * Some explanation is required for the below. Project corners will only shoot a single ray out from each corner. This makes the evaluation
+         * sensitive to the direction of travel around the shape. This can lead to missed candidates for ray insertion. To counter this, both directions
+         * of travel must be evaluated.
+         * The cost of this is somewhat mitigated by heavy use of multithreading in the raycaster, but the desire for a robust calculation makes the cost
+         * worth the effort.
+         */
+        
+        
         // Reverse walk in case there is a better option walking the geometry in the other direction.
         RayCast rc = new(t, outers, 1000000, invert: invert, projectCorners: projectCorners);
         Paths clipped = rc.getClippedRays();
 
         t.Reverse(); // reverse to mark as a cutter. Check with ILB7 to see a case where this is needed.
-                
         rc = new(t, outers, 1000000, invert: invert, projectCorners: projectCorners);
         clipped.AddRange(rc.getClippedRays());
 
@@ -232,7 +240,6 @@ public static partial class GeoWrangler
                 case <= double.Epsilon:
                     continue;
             }
-
 
             // First ray or a smaller distance causes us to make this the keyhole edge.
             if (r != 0 && !(ray_length < minLength))

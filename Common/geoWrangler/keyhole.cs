@@ -180,6 +180,102 @@ public static partial class GeoWrangler
         }
     }
 
+    private static Paths pClipRays(Paths outers, Path cutter, RayCast.inversionMode invert = RayCast.inversionMode.x, double angularTolerance = 0)
+    {
+        // Needed due to ordering sequence from ClipperLib2. Have to clean, re-order and re-close to make the geometry work for the raycaster.
+        Path t = new Path(cutter);
+        t = pStripTerminators(t, false); // chop the terminator off to ensure re-ordering doesn't yield a zero-length segment.
+        t = pClockwiseAndReorderYX(t); // speculative : might need to be XY, but picked YX for now.
+        bool projectCorners = pOrthogonal(t, angularTolerance);
+        t = pClose(t); // re-close to make the raycaster happy.
+
+        // Reverse walk in case there is a better option walking the geometry in the other direction.
+        RayCast rc = new(t, outers, 1000000, invert: invert, projectCorners: projectCorners);
+        Paths clipped = rc.getClippedRays();
+
+        t.Reverse(); // reverse to mark as a cutter. Check with ILB7 to see a case where this is needed.
+                
+        rc = new(t, outers, 1000000, invert: invert, projectCorners: projectCorners);
+        clipped.AddRange(rc.getClippedRays());
+
+        return clipped;
+    }
+
+    private static Path pFindInsertionCandidate(Paths edges, bool orthogonalInput)
+    {
+        Path ret = null;
+        // Need to find minimal length, ideally orthogonal.
+        double minLength = -1;
+        bool minLength_ortho = false;
+        int cutPathIndex = -1;
+        for (int r = 0; r < edges.Count; r++)
+        {
+            // If the input geometry is purely orthogonal, this is a strong preference.
+            // Otherwise, we don't care and will take the minimum internal edge.
+            if (orthogonalInput)
+            {
+                bool ray_isOrtho = edges[r][0].X == edges[r][1].X || edges[r][0].Y == edges[r][1].Y;
+                if (minLength_ortho && !ray_isOrtho)
+                {
+                    // Don't replace an orthogonal ray with a non-orthogonal ray.
+                    continue;
+                }
+                        
+                // Update our tracking with the ray ortho flag.
+                minLength_ortho = ray_isOrtho;
+            }
+
+            double ray_length = Math.Abs(distanceBetweenPoints(edges[r][0], edges[r][1]));
+
+            switch (ray_length)
+            {
+                case <= double.Epsilon:
+                    continue;
+            }
+
+
+            // First ray or a smaller distance causes us to make this the keyhole edge.
+            if (r != 0 && !(ray_length < minLength))
+            {
+                continue;
+            }
+
+            cutPathIndex = r;
+            minLength = ray_length;
+        }
+
+        if (cutPathIndex != -1)
+        {
+            ret = edges[cutPathIndex];
+        }
+
+        return ret;
+    }
+
+    private static Paths pCutKeyHole(Paths outers, Paths cutters, Paths extraCutters)
+    {
+        Clipper c = new();
+        c.AddSubject(cutters);
+        c.AddClip(extraCutters);
+
+        Paths mergedCutters = new();
+        c.Execute(ClipType.Union, FillRule.EvenOdd, mergedCutters);
+
+        mergedCutters = pReorderXY(mergedCutters);
+
+        c.Clear();
+        c.AddSubject(outers);
+        c.AddClip(mergedCutters);
+
+        // Reduce our geometry back to the simplest form.
+        Paths new_outers = new();
+        c.Execute(ClipType.Difference, FillRule.EvenOdd, new_outers);//, PolyFillType.pftNonZero, PolyFillType.pftNegative);
+
+        new_outers = pReorderXY(new_outers);
+
+        return new_outers;
+    }
+    
     private static Paths pMakeKeyHole(Paths outers, Paths cutters, RayCast.inversionMode invert = RayCast.inversionMode.x, double customSizing = 0, double extension = 0, double angularTolerance = 0)
     {
         customSizing = customSizing switch
@@ -196,67 +292,15 @@ public static partial class GeoWrangler
             // Use raycaster to project from holes to outer, to try and find a keyhole path that is minimal length, and ideally orthogonal.
             foreach (Path t1 in cutters)
             {
-                // Needed due to ordering sequence from ClipperLib2. Have to clean, re-order and re-close to make the geometry work for the raycaster.
-                Path t = new Path(t1);
-                t = pStripTerminators(t, false); // chop the terminator off to ensure re-ordering doesn't yield a zero-length segment.
-                t = pClockwiseAndReorderYX(t); // speculative : might need to be XY, but picked YX for now.
-                bool projectCorners = pOrthogonal(t, angularTolerance);
-                t = pClose(t); // re-close to make the raycaster happy.
+                Paths clipped = pClipRays(outers, t1, invert, angularTolerance);
 
-                // Reverse walk in case there is a better option walking the geometry in the other direction.
-                RayCast rc = new(t, outers, 1000000, invert: invert, projectCorners: projectCorners);
-                Paths clipped = rc.getClippedRays();
+                Path insertionCandidate = pFindInsertionCandidate(clipped, orthogonalInput);
 
-                t.Reverse(); // reverse to mark as a cutter. Check with ILB7 to see a case where this is needed.
                 Paths extraCutters = new();
-                
-                rc = new(t, outers, 1000000, invert: invert, projectCorners: projectCorners);
-                clipped.AddRange(rc.getClippedRays());
-                
-                // Need to find minimal length, ideally orthogonal.
-                double minLength = -1;
-                bool minLength_ortho = false;
-                int cutPathIndex = -1;
-                for (int r = 0; r < clipped.Count; r++)
-                {
-                    // If the input geometry is purely orthogonal, this is a strong preference.
-                    // Otherwise, we don't care and will take the minimum internal edge.
-                    if (orthogonalInput)
-                    {
-                        bool ray_isOrtho = clipped[r][0].X == clipped[r][1].X || clipped[r][0].Y == clipped[r][1].Y;
-                        if (minLength_ortho && !ray_isOrtho)
-                        {
-                            // Don't replace an orthogonal ray with a non-orthogonal ray.
-                            continue;
-                        }
-                        
-                        // Update our tracking with the ray ortho flag.
-                        minLength_ortho = ray_isOrtho;
-                    }
-
-                    double ray_length = Math.Abs(distanceBetweenPoints(clipped[r][0], clipped[r][1]));
-
-                    switch (ray_length)
-                    {
-                        case <= double.Epsilon:
-                            continue;
-                    }
-
-
-                    // First ray or a smaller distance causes us to make this the keyhole edge.
-                    if (r != 0 && !(ray_length < minLength))
-                    {
-                        continue;
-                    }
-
-                    cutPathIndex = r;
-                    minLength = ray_length;
-                }
-
-                if (cutPathIndex != -1)
+                if (insertionCandidate != null)
                 {
                     // Offset our cutter and assign to the clipping scenario.
-                    Paths sPaths = pInflateEdge(clipped[cutPathIndex], customSizing);
+                    Paths sPaths = pInflateEdge(insertionCandidate, customSizing);
 
                     extraCutters.AddRange(new Paths(sPaths));
                 }
@@ -276,25 +320,8 @@ public static partial class GeoWrangler
                         extraCutters[p] = ClipperFunc.ReversePath(extraCutters[p]);
                     }
                 }
-                
-                Clipper c = new();
-                c.AddSubject(cutters);
-                c.AddClip(extraCutters);
 
-                Paths mergedCutters = new();
-                c.Execute(ClipType.Union, FillRule.EvenOdd, mergedCutters);
-
-                mergedCutters = pReorderXY(mergedCutters);
-
-                c.Clear();
-                c.AddSubject(outers);
-                c.AddClip(mergedCutters);
-
-                // Reduce our geometry back to the simplest form.
-                Paths new_outers = new();
-                c.Execute(ClipType.Difference, FillRule.EvenOdd, new_outers);//, PolyFillType.pftNonZero, PolyFillType.pftNegative);
-
-                new_outers = pReorderXY(new_outers);
+                Paths new_outers = pCutKeyHole(outers, cutters, extraCutters);
 
                 outers.Clear();
                 outers.AddRange(new_outers.Where(t1 => ClipperFunc.IsClockwise(t1) == outerOrient));

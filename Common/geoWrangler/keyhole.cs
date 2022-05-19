@@ -200,21 +200,16 @@ public static partial class GeoWrangler
                 Path t = new Path(t1);
                 t = pStripTerminators(t, false); // chop the terminator off to ensure re-ordering doesn't yield a zero-length segment.
                 t = pClockwiseAndReorderYX(t); // speculative : might need to be XY, but picked YX for now.
+                bool projectCorners = pOrthogonal(t, angularTolerance);
                 t = pClose(t); // re-close to make the raycaster happy.
-                t.Reverse(); // reverse to mark as a cutter. Check with ILB7 to see a case where this is needed.
-                Paths extraCutters = new();
-                Path projCheck = pStripTerminators(t, true);
-                projCheck = pStripColinear(projCheck);
-                //  Strip the terminator again to meet the requirements below.
-                projCheck = pStripTerminators(projCheck, false);
-                projCheck = pClockwise(projCheck);
-                
-                bool projectCorners = pOrthogonal(projCheck, angularTolerance);
+
+                // Reverse walk in case there is a better option walking the geometry in the other direction.
                 RayCast rc = new(t, outers, 1000000, invert: invert, projectCorners: projectCorners);
                 Paths clipped = rc.getClippedRays();
 
-                // Reverse walk in case there is a better option walking the geometry in the other direction.
-                t.Reverse();
+                t.Reverse(); // reverse to mark as a cutter. Check with ILB7 to see a case where this is needed.
+                Paths extraCutters = new();
+                
                 rc = new(t, outers, 1000000, invert: invert, projectCorners: projectCorners);
                 clipped.AddRange(rc.getClippedRays());
                 

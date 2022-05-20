@@ -848,18 +848,22 @@ public static partial class GeoWrangler
         return ret;
     }
 
-
-    public static GeoLibPointF[] removeDuplicates(GeoLibPointF[] source)
+    public static List<GeoLibPointF> removeDuplicates(List<GeoLibPointF> source, double threshold = Double.Epsilon)
     {
-        return pRemoveDuplicates(source).ToArray();
+        return pRemoveDuplicates(source, threshold);
     }
 
-    public static List<GeoLibPointF> pRemoveDuplicates(GeoLibPointF[] source)
+    public static GeoLibPointF[] removeDuplicates(GeoLibPointF[] source, double threshold = Double.Epsilon)
     {
-        return pRemoveDuplicates(source.ToList());
+        return pRemoveDuplicates(source, threshold).ToArray();
     }
 
-    private static List<GeoLibPointF> pRemoveDuplicates(List<GeoLibPointF> source)
+    public static List<GeoLibPointF> pRemoveDuplicates(GeoLibPointF[] source, double threshold = Double.Epsilon)
+    {
+        return pRemoveDuplicates(source.ToList(), threshold);
+    }
+
+    private static List<GeoLibPointF> pRemoveDuplicates(List<GeoLibPointF> source, double threshold = Double.Epsilon)
     {
         List<GeoLibPointF> ret = new();
         switch (source.Count)
@@ -870,8 +874,8 @@ public static partial class GeoWrangler
                 int retIndex = 1;
                 for (int i = 1; i < source.Count - 1; i++)
                 {
-                    if (!(Math.Abs(source[i].X - ret[retIndex - 1].X) > double.Epsilon) &&
-                        !(Math.Abs(source[i].Y - ret[retIndex - 1].Y) > double.Epsilon))
+                    if (!(Math.Abs(source[i].X - ret[retIndex - 1].X) > threshold) &&
+                        !(Math.Abs(source[i].Y - ret[retIndex - 1].Y) > threshold))
                     {
                         continue;
                     }

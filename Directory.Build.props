@@ -33,7 +33,7 @@
     </PropertyGroup>
 
     <PropertyGroup Condition="$(BuildOS) == 'macOS'">
-        <RuntimeID>osx-x64</RuntimeID>
+        <RuntimeID>osx-arm64</RuntimeID>
         <VeldridSpirvNativeName>libveldrid-spirv.dylib</VeldridSpirvNativeName>
     </PropertyGroup>
 

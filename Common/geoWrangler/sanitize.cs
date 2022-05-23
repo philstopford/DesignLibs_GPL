@@ -332,21 +332,19 @@ public static partial class GeoWrangler
             return iPoints;
         }
 
-        Path tempList = new();
+        Path newPath = new();
         // Now to start the re-indexing.
         for (int pt = reIndexStart; pt < iPoints.Count; pt++)
         {
-            tempList.Add(new Point64(iPoints[pt].X, iPoints[pt].Y, iPoints[pt].Z));
+            newPath.Add(new Point64(iPoints[pt].X, iPoints[pt].Y, iPoints[pt].Z));
         }
         // Ensure we close the shape by hitting the reIndexStart point again, since we will possibly have pushed it to the beginning of the shape.
         for (int pt = 0; pt <= reIndexStart; pt++)
         {
-            tempList.Add(new Point64(iPoints[pt].X, iPoints[pt].Y, iPoints[pt].Z));
+            newPath.Add(new Point64(iPoints[pt].X, iPoints[pt].Y, iPoints[pt].Z));
         }
-
-        iPoints = tempList;
-
-        return iPoints;
+        
+        return newPath;
     }
     
     public static List<GeoLibPointF[]> clockwiseAndReorderXY(List<GeoLibPointF[]> iPoints)

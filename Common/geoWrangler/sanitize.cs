@@ -236,23 +236,19 @@ public static partial class GeoWrangler
             return iPoints;
         }
 
+        Path newPath = new();
+        // Now to start the re-indexing.
+        for (int pt = reIndexStart; pt < iPoints.Count; pt++)
         {
-            Path tempList = new();
-            // Now to start the re-indexing.
-            for (int pt = reIndexStart; pt < iPoints.Count; pt++)
-            {
-                tempList.Add(new Point64(iPoints[pt].X, iPoints[pt].Y, iPoints[pt].Z));
-            }
-            // Ensure we close the shape by hitting the reIndexStart point again, since we will possibly have pushed it to the beginning of the shape.
-            for (int pt = 0; pt <= reIndexStart; pt++)
-            {
-                tempList.Add(new Point64(iPoints[pt].X, iPoints[pt].Y, iPoints[pt].Z));
-            }
-
-            iPoints = tempList.ToList();
+            newPath.Add(new Point64(iPoints[pt].X, iPoints[pt].Y, iPoints[pt].Z));
+        }
+        // Ensure we close the shape by hitting the reIndexStart point again, since we will possibly have pushed it to the beginning of the shape.
+        for (int pt = 0; pt <= reIndexStart; pt++)
+        {
+            newPath.Add(new Point64(iPoints[pt].X, iPoints[pt].Y, iPoints[pt].Z));
         }
 
-        return iPoints;
+        return newPath;
     }
 
     public static Paths clockwiseAndReorderYX(Paths iPoints)
@@ -816,7 +812,7 @@ public static partial class GeoWrangler
 
     public static List<GeoLibPoint> pRemoveDuplicates(GeoLibPoint[] source)
     {
-        return pRemoveDuplicates(source.ToList());
+        return pRemoveDuplicates(source);
     }
 
     private static List<GeoLibPoint> pRemoveDuplicates(List<GeoLibPoint> source)
@@ -1397,11 +1393,11 @@ public static partial class GeoWrangler
 
                 if (ClipperFunc.IsClockwise(trianglePath))
                 {
-                    cPaths.Add(trianglePath.ToList());
+                    cPaths.Add(trianglePath);
                 }
                 else
                 {
-                    aPaths.Add(trianglePath.ToList());
+                    aPaths.Add(trianglePath);
                 }
             }
 

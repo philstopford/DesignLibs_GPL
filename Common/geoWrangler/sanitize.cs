@@ -22,7 +22,7 @@ public static partial class GeoWrangler
 
     private static List<GeoLibPoint[]> pClockwiseAndReorderXY(List<GeoLibPoint[]> iPoints)
     {
-        return iPoints.Select(t => pClockwiseAndReorderXY(t)).ToList();
+        return iPoints.Select(pClockwiseAndReorderXY).ToList();
     }
 
     public static GeoLibPoint[] clockwiseAndReorderXY(GeoLibPoint[] iPoints)
@@ -96,7 +96,7 @@ public static partial class GeoWrangler
 
     private static List<GeoLibPoint[]> pClockwiseAndReorderYX(List<GeoLibPoint[]> iPoints)
     {
-        return iPoints.Select(t => pClockwiseAndReorderYX(t)).ToList();
+        return iPoints.Select(pClockwiseAndReorderYX).ToList();
     }
 
     public static GeoLibPoint[] clockwiseAndReorderYX(GeoLibPoint[] iPoints)
@@ -168,7 +168,7 @@ public static partial class GeoWrangler
     private static Paths pClockwiseAndReorderXY(Paths iPoints)
     {
         Paths retPaths = new();
-        foreach (Path t in iPoints.Select(t1 => pClockwiseAndReorderXY(t1)))
+        foreach (Path t in iPoints.Select(pClockwiseAndReorderXY))
         {
             t.Reverse(); // Getting a reversed path from the above, not sure why.
             retPaths.Add(pClose(t));
@@ -197,7 +197,7 @@ public static partial class GeoWrangler
 
     private static Paths pReorderXY(Paths iPoints)
     {
-        return iPoints.Select(t => pReorderXY(t)).ToList();
+        return iPoints.Select(pReorderXY).ToList();
     }
 
     public static Path reOrderXY(Path iPoints)
@@ -259,7 +259,7 @@ public static partial class GeoWrangler
     private static Paths pClockwiseAndReorderYX(Paths iPoints)
     {
         Paths retPaths = new();
-        foreach (Path t in iPoints.Select(t1 => pClockwiseAndReorderXY(t1)))
+        foreach (Path t in iPoints.Select(pClockwiseAndReorderXY))
         {
             t.Reverse(); // Getting a reversed path from the above, not sure why.
             retPaths.Add(pClose(t));
@@ -288,7 +288,7 @@ public static partial class GeoWrangler
 
     private static Paths pReorderYX(Paths iPoints)
     {
-        return iPoints.Select(t => pReorderYX(t)).ToList();
+        return iPoints.Select(pReorderYX).ToList();
     }
 
     public static Path reOrderYX(Path iPoints)

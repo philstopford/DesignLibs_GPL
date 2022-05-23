@@ -218,11 +218,9 @@ public static partial class GeoWrangler
 #if !GWSINGLETHREADED
         );
 #endif
-        switch (H ^ V)
+        if (H ^ V)
         {
-            case true:
-                ret = ret.Reverse().ToArray(); // preserve ordering.
-                break;
+            ret = ret.Reverse().ToArray(); // preserve ordering.
         }
 
         return ret;

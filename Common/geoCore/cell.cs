@@ -240,8 +240,10 @@ public class GCCell
 
     private void pAddCellrefs(int count)
     {
-        GCElement[] e = new GCCellref[count];
-        elementList.AddRange(e.ToList());
+        for (int i = 0; i < count; i++)
+        {
+            elementList.Add(new GCCellref());
+        }
     }
 
     public void addCellref()

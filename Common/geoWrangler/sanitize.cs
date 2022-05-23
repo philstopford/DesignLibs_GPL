@@ -344,7 +344,7 @@ public static partial class GeoWrangler
             tempList.Add(new Point64(iPoints[pt].X, iPoints[pt].Y, iPoints[pt].Z));
         }
 
-        iPoints = tempList.ToList();
+        iPoints = tempList;
 
         return iPoints;
     }

@@ -107,7 +107,7 @@ public static partial class GeoWrangler
             // We need to find out which cutters might have completely killed one or more outers and figure out a plan.
             for (int oIndex = 0; oIndex < odecomp[(int) type.outer].Count; oIndex++)
             {
-                Path tOuter = odecomp[(int) type.outer][oIndex].ToList();
+                Path tOuter = odecomp[(int) type.outer][oIndex];
                 double outerArea = ClipperFunc.Area(tOuter);
                 if (!bypassOuter && (outerArea > lostArea))
                 {
@@ -124,7 +124,7 @@ public static partial class GeoWrangler
                     Paths test = new();
                     c.Clear();
                     c.AddSubject(tOuter);
-                    c.AddClip(odecomp[(int) type.cutter][cIndex].ToList());
+                    c.AddClip(odecomp[(int) type.cutter][cIndex]);
                     c.Execute(ClipType.Difference, FillRule.EvenOdd, test);
                     test = pReorderXY(test);
                     double area = 0;
@@ -143,15 +143,15 @@ public static partial class GeoWrangler
 
                 Paths tOuters = new() {tOuter};
 
-                Paths tRet = pMakeKeyHole(tOuters.ToList(), tCutters.ToList(), invert, customSizing, extension,
+                Paths tRet = pMakeKeyHole(tOuters, tCutters, invert, customSizing, extension,
                     angularTolerance);
 
-                ret.AddRange(tRet.ToList());
+                ret.AddRange(tRet);
             }
             
             // Screen ret for any duplicates and remove them.
-            ret = pClockwiseAndReorderXY(ret.ToList());
-            ret = removeDuplicatePaths(ret.ToList());
+            ret = pClockwiseAndReorderXY(ret);
+            ret = removeDuplicatePaths(ret);
         }
         
         switch (ret.Count)

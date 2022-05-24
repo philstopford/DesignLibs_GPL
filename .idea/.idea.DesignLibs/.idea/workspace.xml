@@ -673,14 +673,14 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected=".NET Project.ClipperLibTest">
     <configuration name="ASA005Test" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
@@ -11363,6 +11363,9 @@
       <workItem from="1622317536881" duration="284000" />
       <workItem from="1626535344861" duration="6066000" />
       <workItem from="1652836220476" duration="597000" />
+      <workItem from="1653272585939" duration="2278000" />
+      <workItem from="1653276103674" duration="260000" />
+      <workItem from="1653353508996" duration="1513000" />
     </task>
     <servers />
   </component>
@@ -11383,6 +11386,19 @@
           <line>710</line>
           <properties documentPath="D:\development\git\DesignLibs_GPL\KeyHolerTest\Program.cs" initialLine="710" containingFunctionPresentation="method 'complex_islandTest'" />
           <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/ClipperLibTest/OpenPathClippingTest.cs</url>
+          <line>80</line>
+          <properties documentPath="D:\development\git\DesignLibs_GPL\ClipperLibTest\OpenPathClippingTest.cs" initialLine="80" containingFunctionPresentation="method 'test'">
+            <startOffsets>
+              <option value="2049" />
+            </startOffsets>
+            <endOffsets>
+              <option value="2050" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="3" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

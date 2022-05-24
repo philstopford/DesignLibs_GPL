@@ -140,7 +140,7 @@ public static class OffsetTest
         
         ClipperOffset co = new();
         co.AddPath(sourcePath, JoinType.Miter, EndType.Polygon);
-        Paths64 resizedPolyData = ClipperFunc.Paths64(co.Execute(Convert.ToDouble(6 * 10000)));
+        Paths64 resizedPolyData = co.Execute(Convert.ToDouble(6 * 10000));
 
     }
     
@@ -179,9 +179,9 @@ public static class OffsetTest
         
         Clipper2Lib.ClipperOffset co2 = new();
         co2.AddPath(test, Clipper2Lib.JoinType.Miter, Clipper2Lib.EndType.Polygon);
-        Paths64 c2up = Clipper2Lib.ClipperFunc.Paths64(co2.Execute(2.0));
+        Paths64 c2up = co2.Execute(2.0);
         co2.Clear();
         co2.AddPaths(c2up, Clipper2Lib.JoinType.Miter, Clipper2Lib.EndType.Polygon);
-        Paths64 c2down = Clipper2Lib.ClipperFunc.Paths64(co2.Execute(-2.0));
+        Paths64 c2down = co2.Execute(-2.0);
     }
 }

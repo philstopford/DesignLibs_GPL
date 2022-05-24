@@ -60,7 +60,7 @@ public class STest
 
         Clipper2Lib.ClipperOffset co = new();
         co.AddPaths(iPoly, Clipper2Lib.JoinType.Miter, Clipper2Lib.EndType.Polygon);
-        iPoly = Clipper2Lib.ClipperFunc.Paths64(co.Execute(1.0001));
+        iPoly = co.Execute(1.0001);
 
         ClipperLib1.Clipper c1 = new() {PreserveCollinear = false};
         c1.AddPath(BP1, ClipperLib1.PolyType.ptSubject, true);

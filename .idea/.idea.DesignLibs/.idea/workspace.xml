@@ -11366,6 +11366,8 @@
       <workItem from="1653272585939" duration="2278000" />
       <workItem from="1653276103674" duration="260000" />
       <workItem from="1653353508996" duration="1513000" />
+      <workItem from="1653408016623" duration="275000" />
+      <workItem from="1653421233281" duration="86000" />
     </task>
     <servers />
   </component>
@@ -11390,14 +11392,7 @@
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/ClipperLibTest/OpenPathClippingTest.cs</url>
           <line>80</line>
-          <properties documentPath="D:\development\git\DesignLibs_GPL\ClipperLibTest\OpenPathClippingTest.cs" initialLine="80" containingFunctionPresentation="method 'test'">
-            <startOffsets>
-              <option value="2049" />
-            </startOffsets>
-            <endOffsets>
-              <option value="2050" />
-            </endOffsets>
-          </properties>
+          <properties documentPath="D:\development\git\DesignLibs_GPL\ClipperLibTest\OpenPathClippingTest.cs" initialLine="80" containingFunctionPresentation="method 'test'" />
           <option name="timeStamp" value="3" />
         </line-breakpoint>
       </breakpoints>

@@ -34,18 +34,18 @@ public static class Clipper2Test
 
     public static void colinearOffsetTest()
     {
-        Path64 colinear = new()
+        Path64 colinear = ClipperFunc.MakePath(new []
         {
-            new(-10, -10),
-            new(-10, 0),
-            new(-10, 10),
-            new(0, 10),
-            new(10, 10),
-            new(10, 0),
-            new(10, -10),
-            new(0, -10),
-            new(-10, -10),
-        };
+            -10, -10,
+            -10, 0,
+            -10, 10,
+            0, 10,
+            10, 10,
+            10, 0,
+            10, -10,
+            0, -10,
+            -10, -10,
+        });
 
         ClipperOffset co = new();
         co.AddPath(colinear, JoinType.Miter, EndType.Polygon);

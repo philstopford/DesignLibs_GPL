@@ -27,6 +27,12 @@ public class Fragmenter
         scaleFactor = scaling;
     }
 
+    public Fragmenter(Fragmenter source, double scale)
+    {
+        pFragmenter(source.resolution, source.scaleFactor * scale);
+    }
+    
+
     public List<GeoLibPointF[]> fragmentPaths(List<GeoLibPointF[]> source)
     {
         return pFragmentPaths(source);

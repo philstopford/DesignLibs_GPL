@@ -11,14 +11,14 @@ using Paths = List<List<Point64>>;
 
 public static partial class GeoWrangler
 {
-    public static Paths customBoolean(int firstLayerOperator, Paths firstLayer, int secondLayerOperator, Paths secondLayer, int booleanFlag, double resolution, double extension, int scaling)
+    public static Paths customBoolean(int firstLayerOperator, Paths firstLayer, int secondLayerOperator, Paths secondLayer, int booleanFlag, double resolution, double extension, int scaling, Fragmenter fragmenter = null)
     {
-        Paths ret = pCustomBoolean(firstLayerOperator, firstLayer, secondLayerOperator, secondLayer, booleanFlag, resolution, extension, scaling);
+        Paths ret = pCustomBoolean(firstLayerOperator, firstLayer, secondLayerOperator, secondLayer, booleanFlag, resolution, extension, scaling, fragmenter);
 
         return ret;
     }
 
-    private static Paths pCustomBoolean(int firstLayerOperator, Paths firstLayer, int secondLayerOperator, Paths secondLayer, int booleanFlag, double resolution, double extension, int scaling)
+    private static Paths pCustomBoolean(int firstLayerOperator, Paths firstLayer, int secondLayerOperator, Paths secondLayer, int booleanFlag, double resolution, double extension, int scaling, Fragmenter fragmenter = null)
     {
         // In principle, 'rigorous' handling is only needed where the cutter is fully enclosed by the subject polygon.
         // The challenge is to know whether this is the case or not.
@@ -77,7 +77,7 @@ public static partial class GeoWrangler
         {
             Fragmenter f = new(resolution * scaling);
             ret = f.fragmentPaths(ret);
-            Paths merged = makeKeyHole(ret, true, extension:extension);
+            Paths merged = makeKeyHole(ret, true, extension:extension, fragmenter:fragmenter);
 
             int count = merged.Count;
 #if !GWSINGLETHREADED

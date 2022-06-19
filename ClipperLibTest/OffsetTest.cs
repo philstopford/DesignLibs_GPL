@@ -143,7 +143,15 @@ public static class OffsetTest
         ClipperOffset co = new();
         co.AddPath(sourcePath, JoinType.Miter, EndType.Polygon);
         Paths64 resizedPolyData = co.Execute(Convert.ToDouble(6 * 10000));
-
+        
+        /* Expected output
+        resizedPolyData = {List<List<Point64>>} Count = 1
+         [0] = {List<Point64>} Count = 4
+          [0] = {Point64} -60000,-60000,0 
+          [1] = {Point64} -60000,360000,0 
+          [2] = {Point64} 360000,360000,0 
+          [3] = {Point64} 360000,-60000,0 
+           */
     }
     
     private static Path64 test = new()
@@ -174,16 +182,122 @@ public static class OffsetTest
         co1.AddPath(test1, ClipperLib1.JoinType.jtMiter, ClipperLib1.EndType.etClosedPolygon);
         Paths c1up = new();
         co1.Execute(ref c1up, 2.0);
+        
+        /* Expected output
+         c1up = {List<List<IntPoint>>} Count = 2
+          [0] = {List<IntPoint>} Count = 4
+           [0] = IntPoint
+            X = {long} 22
+            Y = {long} -2
+            Z = {long} 0
+           [1] = IntPoint
+            X = {long} 22
+            Y = {long} 22
+            Z = {long} 0
+           [2] = IntPoint
+            X = {long} -2
+            Y = {long} 22
+            Z = {long} 0
+           [3] = IntPoint
+            X = {long} -2
+            Y = {long} -2
+            Z = {long} 0
+          [1] = {List<IntPoint>} Count = 4
+           [0] = IntPoint
+            X = {long} 14
+            Y = {long} 14
+            Z = {long} 0
+           [1] = IntPoint
+            X = {long} 14
+            Y = {long} 6
+            Z = {long} 0
+           [2] = IntPoint
+            X = {long} 6
+            Y = {long} 6
+            Z = {long} 0
+           [3] = IntPoint
+            X = {long} 6
+            Y = {long} 14
+            Z = {long} 0
+            */
+        
         co1.Clear();
         co1.AddPaths(c1up, ClipperLib1.JoinType.jtMiter, ClipperLib1.EndType.etClosedPolygon);
         Paths c1down = new();
         co1.Execute(ref c1down, -2.0);
+
+        /* Expected output
+         c1down = {List<List<IntPoint>>} Count = 2
+          [0] = {List<IntPoint>} Count = 4
+           [0] = IntPoint
+            X = {long} 20
+            Y = {long} 20
+            Z = {long} 0
+           [1] = IntPoint
+            X = {long} 0
+            Y = {long} 20
+            Z = {long} 0
+           [2] = IntPoint
+            X = {long} 0
+            Y = {long} 0
+            Z = {long} 0
+           [3] = IntPoint
+            X = {long} 20
+            Y = {long} 0
+            Z = {long} 0
+          [1] = {List<IntPoint>} Count = 4
+           [0] = IntPoint
+            X = {long} 4
+            Y = {long} 4
+            Z = {long} 0
+           [1] = IntPoint
+            X = {long} 4
+            Y = {long} 16
+            Z = {long} 0
+           [2] = IntPoint
+            X = {long} 16
+            Y = {long} 16
+            Z = {long} 0
+           [3] = IntPoint
+            X = {long} 16
+            Y = {long} 4
+            Z = {long} 0
+            */
         
         Clipper2Lib.ClipperOffset co2 = new();
         co2.AddPath(test, Clipper2Lib.JoinType.Miter, Clipper2Lib.EndType.Polygon);
         Paths64 c2up = co2.Execute(2.0);
+        
+        /* Expected output
+         c2up = {List<List<Point64>>} Count = 2
+          [0] = {List<Point64>} Count = 4
+           [0] = {Point64} -2,-2,0 
+           [1] = {Point64} -2,22,0 
+           [2] = {Point64} 22,22,0 
+           [3] = {Point64} 22,-2,0 
+          [1] = {List<Point64>} Count = 4
+           [0] = {Point64} 6,6,0 
+           [1] = {Point64} 14,6,0 
+           [2] = {Point64} 14,14,0 
+           [3] = {Point64} 6,14,0 
+           */
+        
         co2.Clear();
         co2.AddPaths(c2up, Clipper2Lib.JoinType.Miter, Clipper2Lib.EndType.Polygon);
         Paths64 c2down = co2.Execute(-2.0);
+        
+        /* Expected output
+         c2down = {List<List<Point64>>} Count = 2
+          [0] = {List<Point64>} Count = 4
+           [0] = {Point64} 20,0,0 
+           [1] = {Point64} 0,0,0 
+           [2] = {Point64} 0,20,0 
+           [3] = {Point64} 20,20,0 
+          [1] = {List<Point64>} Count = 4
+           [0] = {Point64} 16,4,0 
+           [1] = {Point64} 16,16,0 
+           [2] = {Point64} 4,16,0 
+           [3] = {Point64} 4,4,0 
+           */
     }
 }

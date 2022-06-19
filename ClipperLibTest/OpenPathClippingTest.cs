@@ -79,5 +79,24 @@ public class OpenPathClippingTest
         Paths64 rightChords = new();
         c.Execute(ClipType.Intersection, FillRule.EvenOdd, unused, rightChords);
 
+        /* Expected output
+        bottomChords = {List<List<Point64>>} Count = 1
+         [0] = {List<Point64>} Count = 2
+          [0] = {Point64} 500000,-550000,0 
+          [1] = {Point64} 300000,-550000,0 
+        leftChords = {List<List<Point64>>} Count = 1
+         [0] = {List<Point64>} Count = 2
+          [0] = {Point64} 300000,-550000,0 
+          [1] = {Point64} 300000,-150000,0 
+        rightChords = {List<List<Point64>>} Count = 1
+         [0] = {List<Point64>} Count = 2
+          [0] = {Point64} 500000,-150000,0 
+          [1] = {Point64} 500000,-550000,0 
+        topChords = {List<List<Point64>>} Count = 1
+         [0] = {List<Point64>} Count = 2
+          [0] = {Point64} 300000,-150000,0 
+          [1] = {Point64} 500000,-150000,0 
+             */
+        
     }
 }

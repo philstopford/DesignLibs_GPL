@@ -63,6 +63,23 @@ public class STest
         Clipper2Lib.ClipperOffset co = new();
         co.AddPaths(iPoly, Clipper2Lib.JoinType.Miter, Clipper2Lib.EndType.Polygon);
         iPoly = co.Execute(1.0001);
+        
+        /* Expected output
+        iPoly = {List<List<Point64>>} Count = 1
+         [0] = {List<Point64>} Count = 12
+          [0] = {Point64} 999,1999,0 
+          [1] = {Point64} 999,7001,0 
+          [2] = {Point64} 5999,7001,0 
+          [3] = {Point64} 5999,13999,0 
+          [4] = {Point64} 999,13999,0 
+          [5] = {Point64} 999,27001,0 
+          [6] = {Point64} 27001,27001,0 
+          [7] = {Point64} 27001,22999,0 
+          [8] = {Point64} 16001,22999,0 
+          [9] = {Point64} 16001,16001,0 
+          [10] = {Point64} 27001,16001,0 
+          [11] = {Point64} 27001,1999,0 
+           */
 
         ClipperLib1.Clipper c1 = new() {PreserveCollinear = false};
         c1.AddPath(BP1, ClipperLib1.PolyType.ptSubject, true);
@@ -77,6 +94,20 @@ public class STest
 
         Paths64 o2 = new();
         c2.Execute(Clipper2Lib.ClipType.Difference, Clipper2Lib.FillRule.EvenOdd, o2);
+        
+        /* Expected output
+        o2 = {List<List<Point64>>} Count = 2
+         [0] = {List<Point64>} Count = 4
+          [0] = {Point64} 27000,16001,0 
+          [1] = {Point64} 16001,16001,0 
+          [2] = {Point64} 16001,22999,0 
+          [3] = {Point64} 27000,22999,0 
+         [1] = {List<Point64>} Count = 4
+          [0] = {Point64} 1000,7001,0 
+          [1] = {Point64} 1000,13999,0 
+          [2] = {Point64} 5999,13999,0 
+          [3] = {Point64} 5999,7001,0 
+           */
 
     }
 }

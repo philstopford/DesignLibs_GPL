@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace ClipperLibTest;
 
@@ -273,7 +274,7 @@ public static class ComparisonTest
             
             if (!okay)
             {
-                int somethingBroke = 1;
+                throw new Exception("Mismatch in lineClipTest1");
             }
         }
     }
@@ -467,7 +468,7 @@ public static class ComparisonTest
             
             if (!okay)
             {
-                int somethingBroke = 1;
+                throw new Exception("Mismatch in lineClipTest2");
             }
         }
     }

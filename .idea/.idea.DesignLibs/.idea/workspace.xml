@@ -572,16 +572,11 @@
   <component name="ChangeListManager">
     <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.DesignLibs/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DesignLibs/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BurkhardtTest/OrdinaryDifferentialEquation/RungeKuttaFehlbergTest/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BurkhardtTest/OrdinaryDifferentialEquation/RungeKuttaFehlbergTest/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClipperLibTest/Clipper2Test.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ClipperLibTest/Clipper2Test.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ClipperLibTest/ComparisonTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ClipperLibTest/ComparisonTest.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ClipperLibTest/OffsetTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ClipperLibTest/OffsetTest.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ClipperLibTest/OpenPathClippingTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ClipperLibTest/OpenPathClippingTest.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClipperLibTest/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ClipperLibTest/Program.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ClipperLibTest/STest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ClipperLibTest/STest.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ClipperLibTest/SubtractionTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ClipperLibTest/SubtractionTest.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClipperLibTest/XTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ClipperLibTest/XTest.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClipperLibTest/performance.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ClipperLibTest/performance.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -11386,7 +11381,7 @@
       <workItem from="1653353508996" duration="1513000" />
       <workItem from="1653408016623" duration="275000" />
       <workItem from="1653421233281" duration="86000" />
-      <workItem from="1655650216584" duration="1860000" />
+      <workItem from="1655650216584" duration="2971000" />
     </task>
     <servers />
   </component>
@@ -11400,6 +11395,23 @@
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/ClipperLibTest/SubtractionTest.cs</url>
+          <line>338</line>
+          <properties documentPath="$PROJECT_DIR$/ClipperLibTest/SubtractionTest.cs" initialLine="269" containingFunctionPresentation="method 'compare'">
+            <startOffsets>
+              <option value="9727" />
+            </startOffsets>
+            <endOffsets>
+              <option value="9728" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="41" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <watches-manager>
       <configuration name="DotNetProject">
         <watch expression="x" />

@@ -80,55 +80,592 @@ internal class Program
         bool abort = false;
 
         List<GeoLibPoint[]> l = GeoWrangler.rectangular_decomposition(ref abort, L, maxRayLength: rayLength);
+        
+        /* Expected output
+            l = {List<GeoLibPoint[]>} Count = 2
+             [0] = {GeoLibPoint[]} GeoLibPoint[4]
+              [0] = GeoLibPoint
+               X = {int} 0
+               Y = {int} 0
+               tag = {int} 0
+              [1] = GeoLibPoint
+               X = {int} 0
+               Y = {int} 50
+               tag = {int} 0
+              [2] = GeoLibPoint
+               X = {int} 10
+               Y = {int} 50
+               tag = {int} 0
+              [3] = GeoLibPoint
+               X = {int} 10
+               Y = {int} 0
+               tag = {int} 0
+             [1] = {GeoLibPoint[]} GeoLibPoint[4]
+              [0] = GeoLibPoint
+               X = {int} 10
+               Y = {int} 0
+               tag = {int} 0
+              [1] = GeoLibPoint
+               X = {int} 10
+               Y = {int} 20
+               tag = {int} 0
+              [2] = GeoLibPoint
+               X = {int} 60
+               Y = {int} 20
+               tag = {int} 0
+              [3] = GeoLibPoint
+               X = {int} 60
+               Y = {int} 0
+               tag = {int} 0         
+         */
 
         writeToLayout("l", L, l);
 
         List<GeoLibPoint[]> lccw = GeoWrangler.rectangular_decomposition(ref abort, L_ccw, maxRayLength: rayLength);
+        
+        /* Expected output
+           lccw = {List<GeoLibPoint[]>} Count = 2
+            [0] = {GeoLibPoint[]} GeoLibPoint[4]
+             [0] = GeoLibPoint
+              X = {int} 0
+              Y = {int} 0
+              tag = {int} 0
+             [1] = GeoLibPoint
+              X = {int} 0
+              Y = {int} 50
+              tag = {int} 0
+             [2] = GeoLibPoint
+              X = {int} 10
+              Y = {int} 50
+              tag = {int} 0
+             [3] = GeoLibPoint
+              X = {int} 10
+              Y = {int} 0
+              tag = {int} 0
+            [1] = {GeoLibPoint[]} GeoLibPoint[4]
+             [0] = GeoLibPoint
+              X = {int} 10
+              Y = {int} 0
+              tag = {int} 0
+             [1] = GeoLibPoint
+              X = {int} 10
+              Y = {int} 20
+              tag = {int} 0
+             [2] = GeoLibPoint
+              X = {int} 60
+              Y = {int} 20
+              tag = {int} 0
+             [3] = GeoLibPoint
+              X = {int} 60
+              Y = {int} 0
+              tag = {int} 0
+            */
 
         writeToLayout("lccw", L_ccw, lccw);
 
         List<GeoLibPoint[]> rl = GeoWrangler.rectangular_decomposition(ref abort, rL, maxRayLength: rayLength);
+        
+        /* Expected output
+           rl = {List<GeoLibPoint[]>} Count = 2
+            [0] = {GeoLibPoint[]} GeoLibPoint[4]
+             [0] = GeoLibPoint
+              X = {int} 10
+              Y = {int} 0
+              tag = {int} 0
+             [1] = GeoLibPoint
+              X = {int} 10
+              Y = {int} 50
+              tag = {int} 0
+             [2] = GeoLibPoint
+              X = {int} 60
+              Y = {int} 50
+              tag = {int} 0
+             [3] = GeoLibPoint
+              X = {int} 60
+              Y = {int} 0
+              tag = {int} 0
+            [1] = {GeoLibPoint[]} GeoLibPoint[4]
+             [0] = GeoLibPoint
+              X = {int} 0
+              Y = {int} 0
+              tag = {int} 0
+             [1] = GeoLibPoint
+              X = {int} 0
+              Y = {int} 20
+              tag = {int} 0
+             [2] = GeoLibPoint
+              X = {int} 10
+              Y = {int} 20
+              tag = {int} 0
+             [3] = GeoLibPoint
+              X = {int} 10
+              Y = {int} 0
+              tag = {int} 0
+            */
 
         writeToLayout("rl", rL, rl);
 
         List<GeoLibPoint[]> u = GeoWrangler.rectangular_decomposition(ref abort, U, maxRayLength: rayLength);
+        
+        /* Expected output
+           u = {List<GeoLibPoint[]>} Count = 3
+            [0] = {GeoLibPoint[]} GeoLibPoint[4]
+             [0] = GeoLibPoint
+              X = {int} 0
+              Y = {int} 0
+              tag = {int} 0
+             [1] = GeoLibPoint
+              X = {int} 0
+              Y = {int} 50
+              tag = {int} 0
+             [2] = GeoLibPoint
+              X = {int} 10
+              Y = {int} 50
+              tag = {int} 0
+             [3] = GeoLibPoint
+              X = {int} 10
+              Y = {int} 0
+              tag = {int} 0
+            [1] = {GeoLibPoint[]} GeoLibPoint[4]
+             [0] = GeoLibPoint
+              X = {int} 60
+              Y = {int} 0
+              tag = {int} 0
+             [1] = GeoLibPoint
+              X = {int} 60
+              Y = {int} 80
+              tag = {int} 0
+             [2] = GeoLibPoint
+              X = {int} 120
+              Y = {int} 80
+              tag = {int} 0
+             [3] = GeoLibPoint
+              X = {int} 120
+              Y = {int} 0
+              tag = {int} 0
+            [2] = {GeoLibPoint[]} GeoLibPoint[4]
+             [0] = GeoLibPoint
+              X = {int} 10
+              Y = {int} 0
+              tag = {int} 0
+             [1] = GeoLibPoint
+              X = {int} 10
+              Y = {int} 20
+              tag = {int} 0
+             [2] = GeoLibPoint
+              X = {int} 60
+              Y = {int} 20
+              tag = {int} 0
+             [3] = GeoLibPoint
+              X = {int} 60
+              Y = {int} 0
+              tag = {int} 0
+          */
 
         writeToLayout("u", U, u);
 
         List<GeoLibPoint[]> t = GeoWrangler.rectangular_decomposition(ref abort, T, maxRayLength: rayLength);
 
+        /* Expected output
+           t = {List<GeoLibPoint[]>} Count = 3
+            [0] = {GeoLibPoint[]} GeoLibPoint[4]
+             [0] = GeoLibPoint
+              X = {int} 60
+              Y = {int} 50
+              tag = {int} 0
+             [1] = GeoLibPoint
+              X = {int} 60
+              Y = {int} 80
+              tag = {int} 0
+             [2] = GeoLibPoint
+              X = {int} 80
+              Y = {int} 80
+              tag = {int} 0
+             [3] = GeoLibPoint
+              X = {int} 80
+              Y = {int} 50
+              tag = {int} 0
+            [1] = {GeoLibPoint[]} GeoLibPoint[4]
+             [0] = GeoLibPoint
+              X = {int} 40
+              Y = {int} 0
+              tag = {int} 0
+             [1] = GeoLibPoint
+              X = {int} 40
+              Y = {int} 80
+              tag = {int} 0
+             [2] = GeoLibPoint
+              X = {int} 60
+              Y = {int} 80
+              tag = {int} 0
+             [3] = GeoLibPoint
+              X = {int} 60
+              Y = {int} 0
+              tag = {int} 0
+            [2] = {GeoLibPoint[]} GeoLibPoint[4]
+             [0] = GeoLibPoint
+              X = {int} 0
+              Y = {int} 50
+              tag = {int} 0
+             [1] = GeoLibPoint
+              X = {int} 0
+              Y = {int} 80
+              tag = {int} 0
+             [2] = GeoLibPoint
+              X = {int} 40
+              Y = {int} 80
+              tag = {int} 0
+             [3] = GeoLibPoint
+              X = {int} 40
+              Y = {int} 50
+              tag = {int} 0
+         */
+        
         writeToLayout("t", T, t);
 
         List<GeoLibPoint[]> x = GeoWrangler.rectangular_decomposition(ref abort, X, maxRayLength: rayLength);
 
+        /* Expected output
+           x = {List<GeoLibPoint[]>} Count = 3
+            [0] = {GeoLibPoint[]} GeoLibPoint[4]
+             [0] = GeoLibPoint
+              X = {int} 0
+              Y = {int} 50
+              tag = {int} 0
+             [1] = GeoLibPoint
+              X = {int} 0
+              Y = {int} 80
+              tag = {int} 0
+             [2] = GeoLibPoint
+              X = {int} 60
+              Y = {int} 80
+              tag = {int} 0
+             [3] = GeoLibPoint
+              X = {int} 60
+              Y = {int} 50
+              tag = {int} 0
+            [1] = {GeoLibPoint[]} GeoLibPoint[4]
+             [0] = GeoLibPoint
+              X = {int} 60
+              Y = {int} 20
+              tag = {int} 0
+             [1] = GeoLibPoint
+              X = {int} 60
+              Y = {int} 100
+              tag = {int} 0
+             [2] = GeoLibPoint
+              X = {int} 80
+              Y = {int} 100
+              tag = {int} 0
+             [3] = GeoLibPoint
+              X = {int} 80
+              Y = {int} 20
+              tag = {int} 0
+            [2] = {GeoLibPoint[]} GeoLibPoint[4]
+             [0] = GeoLibPoint
+              X = {int} 80
+              Y = {int} 50
+              tag = {int} 0
+             [1] = GeoLibPoint
+              X = {int} 80
+              Y = {int} 80
+              tag = {int} 0
+             [2] = GeoLibPoint
+              X = {int} 100
+              Y = {int} 80
+              tag = {int} 0
+             [3] = GeoLibPoint
+              X = {int} 100
+              Y = {int} 50
+              tag = {int} 0
+         */
+        
         writeToLayout("x", X, x);
 
         List<GeoLibPoint[]> s = GeoWrangler.rectangular_decomposition(ref abort, S, maxRayLength: rayLength);
 
+        /* Expected output
+           s = {List<GeoLibPoint[]>} Count = 5
+            [0] = {GeoLibPoint[]} GeoLibPoint[4]
+             [0] = GeoLibPoint
+              X = {int} 0
+              Y = {int} 50
+              tag = {int} 0
+             [1] = GeoLibPoint
+              X = {int} 0
+              Y = {int} 110
+              tag = {int} 0
+             [2] = GeoLibPoint
+              X = {int} 20
+              Y = {int} 110
+              tag = {int} 0
+             [3] = GeoLibPoint
+              X = {int} 20
+              Y = {int} 50
+              tag = {int} 0
+            [1] = {GeoLibPoint[]} GeoLibPoint[4]
+             [0] = GeoLibPoint
+              X = {int} 0
+              Y = {int} 0
+              tag = {int} 0
+             [1] = GeoLibPoint
+              X = {int} 0
+              Y = {int} 20
+              tag = {int} 0
+             [2] = GeoLibPoint
+              X = {int} 20
+              Y = {int} 20
+              tag = {int} 0
+             [3] = GeoLibPoint
+              X = {int} 20
+              Y = {int} 0
+              tag = {int} 0
+            [2] = {GeoLibPoint[]} GeoLibPoint[4]
+             [0] = GeoLibPoint
+              X = {int} 80
+              Y = {int} 0
+              tag = {int} 0
+             [1] = GeoLibPoint
+              X = {int} 80
+              Y = {int} 60
+              tag = {int} 0
+             [2] = GeoLibPoint
+              X = {int} 100
+              Y = {int} 60
+              tag = {int} 0
+             [3] = GeoLibPoint
+              X = {int} 100
+              Y = {int} 0
+              tag = {int} 0
+            [3] = {GeoLibPoint[]} GeoLibPoint[4]
+             [0] = GeoLibPoint
+              X = {int} 80
+              Y = {int} 80
+              tag = {int} 0
+             [1] = GeoLibPoint
+              X = {int} 80
+              Y = {int} 110
+              tag = {int} 0
+             [2] = GeoLibPoint
+              X = {int} 100
+              Y = {int} 110
+              tag = {int} 0
+             [3] = GeoLibPoint
+              X = {int} 100
+              Y = {int} 80
+              tag = {int} 0
+            [4] = {GeoLibPoint[]} GeoLibPoint[4]
+             [0] = GeoLibPoint
+              X = {int} 20
+              Y = {int} 0
+              tag = {int} 0
+             [1] = GeoLibPoint
+              X = {int} 20
+              Y = {int} 110
+              tag = {int} 0
+             [2] = GeoLibPoint
+              X = {int} 80
+              Y = {int} 110
+              tag = {int} 0
+             [3] = GeoLibPoint
+              X = {int} 80
+              Y = {int} 0
+              tag = {int} 0
+         */
+        
         writeToLayout("s", S, s);
 
         List<GeoLibPoint[]> ns = GeoWrangler.rectangular_decomposition(ref abort, nS, maxRayLength: rayLength);
 
+        /* Expected output
+           ns = {List<GeoLibPoint[]>} Count = 5
+            [0] = {GeoLibPoint[]} GeoLibPoint[4]
+             [0] = GeoLibPoint
+              X = {int} 0
+              Y = {int} -150
+              tag = {int} 0
+             [1] = GeoLibPoint
+              X = {int} 0
+              Y = {int} -90
+              tag = {int} 0
+             [2] = GeoLibPoint
+              X = {int} 20
+              Y = {int} -90
+              tag = {int} 0
+             [3] = GeoLibPoint
+              X = {int} 20
+              Y = {int} -150
+              tag = {int} 0
+            [1] = {GeoLibPoint[]} GeoLibPoint[4]
+             [0] = GeoLibPoint
+              X = {int} 0
+              Y = {int} -200
+              tag = {int} 0
+             [1] = GeoLibPoint
+              X = {int} 0
+              Y = {int} -180
+              tag = {int} 0
+             [2] = GeoLibPoint
+              X = {int} 20
+              Y = {int} -180
+              tag = {int} 0
+             [3] = GeoLibPoint
+              X = {int} 20
+              Y = {int} -200
+              tag = {int} 0
+            [2] = {GeoLibPoint[]} GeoLibPoint[4]
+             [0] = GeoLibPoint
+              X = {int} 80
+              Y = {int} -200
+              tag = {int} 0
+             [1] = GeoLibPoint
+              X = {int} 80
+              Y = {int} -140
+              tag = {int} 0
+             [2] = GeoLibPoint
+              X = {int} 100
+              Y = {int} -140
+              tag = {int} 0
+             [3] = GeoLibPoint
+              X = {int} 100
+              Y = {int} -200
+              tag = {int} 0
+            [3] = {GeoLibPoint[]} GeoLibPoint[4]
+             [0] = GeoLibPoint
+              X = {int} 80
+              Y = {int} -120
+              tag = {int} 0
+             [1] = GeoLibPoint
+              X = {int} 80
+              Y = {int} -90
+              tag = {int} 0
+             [2] = GeoLibPoint
+              X = {int} 100
+              Y = {int} -90
+              tag = {int} 0
+             [3] = GeoLibPoint
+              X = {int} 100
+              Y = {int} -120
+              tag = {int} 0
+            [4] = {GeoLibPoint[]} GeoLibPoint[4]
+             [0] = GeoLibPoint
+              X = {int} 20
+              Y = {int} -200
+              tag = {int} 0
+             [1] = GeoLibPoint
+              X = {int} 20
+              Y = {int} -90
+              tag = {int} 0
+             [2] = GeoLibPoint
+              X = {int} 80
+              Y = {int} -90
+              tag = {int} 0
+             [3] = GeoLibPoint
+              X = {int} 80
+              Y = {int} -200
+              tag = {int} 0
+         */
+        
         writeToLayout("ns", nS, ns);
 
         List<GeoLibPoint[]> c1 = GeoWrangler.rectangular_decomposition(ref abort, C1, maxRayLength: rayLength);
 
+        // Expect 17 quads
+        
         writeToLayout("c1", C1, c1);
 
         List<GeoLibPoint[]> c2 = GeoWrangler.rectangular_decomposition(ref abort, C2, maxRayLength: rayLength);
+
+        // Expect 81 quads
 
         writeToLayout("c2", C2, c2);
 
         List<GeoLibPoint[]> c3 = GeoWrangler.rectangular_decomposition(ref abort, C3, maxRayLength: rayLength);
 
+        // Expect 13 quads
+
         writeToLayout("c3", C3, c3);
 
         List<GeoLibPoint[]> c10r15 = GeoWrangler.rectangular_decomposition(ref abort, C10R15, maxRayLength: rayLength);
 
+        // Expect 1 irregular polygon
+        
         writeToLayout("c10r15", C10R15, c10r15);
 
         List<GeoLibPoint[]> s1 = GeoWrangler.rectangular_decomposition(ref abort, S1, maxRayLength: rayLength);
 
+        /* Expected output
+           s1 = {List<GeoLibPoint[]>} Count = 4
+            [0] = {GeoLibPoint[]} GeoLibPoint[4]
+             [0] = GeoLibPoint
+              X = {int} -50
+              Y = {int} -50
+              tag = {int} 0
+             [1] = GeoLibPoint
+              X = {int} -50
+              Y = {int} 0
+              tag = {int} 0
+             [2] = GeoLibPoint
+              X = {int} 0
+              Y = {int} 0
+              tag = {int} 0
+             [3] = GeoLibPoint
+              X = {int} 0
+              Y = {int} -50
+              tag = {int} 0
+            [1] = {GeoLibPoint[]} GeoLibPoint[4]
+             [0] = GeoLibPoint
+              X = {int} 0
+              Y = {int} -50
+              tag = {int} 0
+             [1] = GeoLibPoint
+              X = {int} 0
+              Y = {int} 120
+              tag = {int} 0
+             [2] = GeoLibPoint
+              X = {int} 100
+              Y = {int} 120
+              tag = {int} 0
+             [3] = GeoLibPoint
+              X = {int} 100
+              Y = {int} -50
+              tag = {int} 0
+            [2] = {GeoLibPoint[]} GeoLibPoint[4]
+             [0] = GeoLibPoint
+              X = {int} 150
+              Y = {int} -50
+              tag = {int} 0
+             [1] = GeoLibPoint
+              X = {int} 150
+              Y = {int} 300
+              tag = {int} 0
+             [2] = GeoLibPoint
+              X = {int} 200
+              Y = {int} 300
+              tag = {int} 0
+             [3] = GeoLibPoint
+              X = {int} 200
+              Y = {int} -50
+              tag = {int} 0
+            [3] = {GeoLibPoint[]} GeoLibPoint[4]
+             [0] = GeoLibPoint
+              X = {int} 100
+              Y = {int} -50
+              tag = {int} 0
+             [1] = GeoLibPoint
+              X = {int} 100
+              Y = {int} 200
+              tag = {int} 0
+             [2] = GeoLibPoint
+              X = {int} 150
+              Y = {int} 200
+              tag = {int} 0
+             [3] = GeoLibPoint
+              X = {int} 150
+              Y = {int} -50
+              tag = {int} 0
+         */
+        
         writeToLayout("s1", S1, s1);
     }
 
@@ -164,9 +701,7 @@ internal class Program
         Clipper c = new();
         c.AddSubject(paths);
         Paths ret = new();
-        PolyTree pt = new();
-        c.Execute(ClipType.Union, FillRule.EvenOdd, pt);
-        ret = ClipperFunc.PolyTreeToPaths(pt);
+        c.Execute(ClipType.Union, FillRule.EvenOdd, ret);
 
         List<GeoLibPointF[]> done = GeoWrangler.pointFsFromPaths(ret, 10000);
     }
@@ -2367,6 +2902,9 @@ internal class Program
         Console.WriteLine("  Decomposition (vertical)....");
         sw.Restart();
         List<GeoLibPoint[]> ns = GeoWrangler.rectangular_decomposition(ref abort, done, maxRayLength: rayLength);
+
+        // Expect 721 quads.
+        
         sw.Stop();
         Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
 
@@ -2376,12 +2914,15 @@ internal class Program
         Console.WriteLine("  Decomposition (horizontal)....");
         sw.Restart();
         ns = GeoWrangler.rectangular_decomposition(ref abort, done, maxRayLength: rayLength, vertical: false);
+
+        // Expect 721 quads.
+        
         sw.Stop();
         Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
 
         Console.WriteLine("  Writing....");
         writeToLayout("complex_horizontal", done[0], ns);
-
+        
         Console.WriteLine("  Done.");
 
     }
@@ -2398,7 +2939,7 @@ internal class Program
         Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
 
         partFour_do(points_1, "complex_loop");
-
+        
         Console.WriteLine(" Part 2....");
         Console.WriteLine("  Preparing....");
         sw.Start();

@@ -570,7 +570,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="" />
+    <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.DesignLibs/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DesignLibs/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/KeyHolerTest/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/KeyHolerTest/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/decompositionTest/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/decompositionTest/Program.cs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -681,7 +685,7 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager" selected=".NET Project.KeyHolerTest">
+  <component name="RunManager" selected=".NET Project.decompositionTest">
     <configuration name="ASA005Test" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -11369,7 +11373,7 @@
       <workItem from="1653408016623" duration="275000" />
       <workItem from="1653421233281" duration="86000" />
       <workItem from="1655650216584" duration="3143000" />
-      <workItem from="1655658930889" duration="8354000" />
+      <workItem from="1655658930889" duration="10324000" />
     </task>
     <servers />
   </component>
@@ -11399,17 +11403,30 @@
           <option name="timeStamp" value="42" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/KeyHolerTest/Program.cs</url>
-          <line>2428</line>
-          <properties documentPath="$PROJECT_DIR$/KeyHolerTest/Program.cs" initialLine="2428" containingFunctionPresentation="method 'complex_islandTest'">
+          <url>file://$PROJECT_DIR$/decompositionTest/Program.cs</url>
+          <line>2923</line>
+          <properties documentPath="$PROJECT_DIR$/decompositionTest/Program.cs" initialLine="2921" containingFunctionPresentation="method 'partThree'">
             <startOffsets>
-              <option value="88558" />
+              <option value="102757" />
             </startOffsets>
             <endOffsets>
-              <option value="88559" />
+              <option value="102758" />
             </endOffsets>
           </properties>
-          <option name="timeStamp" value="52" />
+          <option name="timeStamp" value="55" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/decompositionTest/Program.cs</url>
+          <line>2908</line>
+          <properties documentPath="$PROJECT_DIR$/decompositionTest/Program.cs" initialLine="2908" containingFunctionPresentation="method 'partThree'">
+            <startOffsets>
+              <option value="102241" />
+            </startOffsets>
+            <endOffsets>
+              <option value="102279" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="56" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -25,12 +25,12 @@ public static partial class GeoWrangler
         return pMakeKeyHole(new Paths { source }, reverseWalk, invert, customSizing, extension, angularTolerance);
     }
 
-    public static Paths makeKeyHole(Paths source, bool reverseWalk, RayCast.inversionMode invert = RayCast.inversionMode.x, double customSizing = 0, double extension = 0, double angularTolerance = 0, Fragmenter fragmenter = null)
+    public static Paths makeKeyHole(Paths source, bool reverseWalk, RayCast.inversionMode invert = RayCast.inversionMode.x, double customSizing = 0, double extension = 0, double angularTolerance = 0)
     {
-        return pMakeKeyHole(source, reverseWalk, invert, customSizing: customSizing, extension: extension, angularTolerance: angularTolerance, fragmenter);
+        return pMakeKeyHole(source, reverseWalk, invert, customSizing: customSizing, extension: extension, angularTolerance: angularTolerance);
     }
 
-    private static Paths pMakeKeyHole(Paths source, bool reverseWalk, RayCast.inversionMode invert = RayCast.inversionMode.x, double customSizing = 0, double extension = 0, double angularTolerance = 0, Fragmenter fragmenter = null)
+    private static Paths pMakeKeyHole(Paths source, bool reverseWalk, RayCast.inversionMode invert = RayCast.inversionMode.x, double customSizing = 0, double extension = 0, double angularTolerance = 0)
     {
         // Reconcile any overlapping geometry.
         Clipper c = new () {PreserveCollinear = true};
@@ -50,12 +50,6 @@ public static partial class GeoWrangler
         // Limit the offset used in the removal otherwise we can cause self-intersections that
         // result in lots of artifacts and trouble.
         Paths input = pRemoveFragments(source, customSizing, extension);
-        if (fragmenter != null)
-        {
-            Paths fragged = fragmenter.fragmentPaths(input);
-            input = new Paths(fragged);
-        }
-        input = pClose(pReorderYX(input));
 
         switch (input.Count)
         {

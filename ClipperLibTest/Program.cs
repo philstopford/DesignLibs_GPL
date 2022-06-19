@@ -1,12 +1,13 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+using System;
 using ClipperLib1Test;
 using ClipperLib2Test;
 using ClipperLibTest;
 
 Console.WriteLine("Comparison tests for Clipper 1 and Clipper 2");
 
-Clipper2Test.test();
+Clipper2Test.chordTest();
 
 OpenPathClippingTest.test();
 

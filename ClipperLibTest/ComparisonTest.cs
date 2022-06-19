@@ -1,4 +1,6 @@
-﻿namespace ClipperLibTest;
+﻿using System.Collections.Generic;
+
+namespace ClipperLibTest;
 
 using Paths64 = List<List<Clipper2Lib.Point64>>;
 using Paths = List<List<ClipperLib1.IntPoint>>;

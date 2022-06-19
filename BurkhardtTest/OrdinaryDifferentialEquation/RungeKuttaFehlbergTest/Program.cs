@@ -308,8 +308,6 @@ internal static class Program
 
             flag = -2;
         }
-
-# undef NEQN
     }
 
     private static void test04()

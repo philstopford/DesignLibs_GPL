@@ -1,4 +1,6 @@
-﻿namespace ClipperLibTest;
+﻿using System.Collections.Generic;
+
+namespace ClipperLibTest;
 
 public static class XTest
 {

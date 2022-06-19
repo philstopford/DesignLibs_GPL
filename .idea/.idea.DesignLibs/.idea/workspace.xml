@@ -570,9 +570,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/KeyHolerTest/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/KeyHolerTest/Program.cs" afterDir="false" />
-    </list>
+    <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -11371,7 +11369,7 @@
       <workItem from="1653408016623" duration="275000" />
       <workItem from="1653421233281" duration="86000" />
       <workItem from="1655650216584" duration="3143000" />
-      <workItem from="1655658930889" duration="7750000" />
+      <workItem from="1655658930889" duration="8354000" />
     </task>
     <servers />
   </component>

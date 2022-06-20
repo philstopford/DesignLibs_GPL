@@ -73,7 +73,7 @@ namespace Clipper2Lib
 
     public ClipperOffset(double miterLimit = 2.0, 
       double arcTolerance = 0.0, bool 
-      preserveCollinear = true, bool reverseSolution = false)
+      preserveCollinear = true, bool reverseSolution = true)
     {
       MiterLimit = miterLimit;
       ArcTolerance = arcTolerance;

@@ -153,7 +153,7 @@ public static class Clipper2Test
             -10, -10,
         });
 
-        ClipperOffset co = new();
+        ClipperOffset co = new() {PreserveCollinear = true, ReverseSolution = true};
         co.AddPath(colinear, JoinType.Miter, EndType.Polygon);
         Paths64 temp = co.Execute(1.0);
         
@@ -565,7 +565,7 @@ public static class Clipper2Test
             new(-100000, 200500)
         };
 
-        ClipperOffset co = new();
+        ClipperOffset co = new() {PreserveCollinear = true, ReverseSolution = true};
         co.AddPath(edge, JoinType.Miter, EndType.Square);
         Paths64 p = co.Execute(500);
         
@@ -766,7 +766,7 @@ public static class Clipper2Test
         };
         
         // Turn the new edges into cutters and slice. Not terribly elegant and we're relying on rounding to squash notches later.
-        ClipperOffset co = new();
+        ClipperOffset co = new() {PreserveCollinear = true, ReverseSolution = true};
         co.AddPaths(t, JoinType.Miter, EndType.Square);
 
         Paths64 cutters = co.Execute(2.0);
@@ -917,7 +917,7 @@ public static class Clipper2Test
             inner1
         };
         
-        ClipperOffset co = new();
+        ClipperOffset co = new() {PreserveCollinear = true, ReverseSolution = true};
         co.AddPaths(kHSource, JoinType.Miter, EndType.Polygon);
         // ClipperLib2 specifies full width in offset for open path, unlike version 1
         Paths64 out_ = co.Execute(2*keyhole_sizing);
@@ -964,7 +964,7 @@ public static class Clipper2Test
             newEdge
         };
 
-        ClipperOffset co = new ClipperOffset();
+        ClipperOffset co = new() {PreserveCollinear = true, ReverseSolution = true};
         co.AddPaths(newEdges, JoinType.Miter, EndType.Square);
         // ClipperLib2 specifies full width in offset for open path, unlike version 1
         Paths64 cutters = co.Execute( 2.0);

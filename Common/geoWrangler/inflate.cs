@@ -99,7 +99,7 @@ public static partial class GeoWrangler
                 return source;
         }
         
-        ClipperOffset co = new();
+        ClipperOffset co = new() {PreserveCollinear = true, ReverseSolution = true};
         Path a = GeoWrangler.pathFromPoint(source, 1);
         // Path from Point auto-closes the input for historical reasons. We may not want this....
         if (pDistanceBetweenPoints(source[0], source[^1]) > Double.Epsilon)

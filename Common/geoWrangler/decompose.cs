@@ -433,7 +433,7 @@ public static partial class GeoWrangler
             case > 0 when !abort:
             {
                 // Turn the new edges into cutters and slice. Not terribly elegant and we're relying on rounding to squash notches later.
-                ClipperOffset co = new();
+                ClipperOffset co = new() {PreserveCollinear = true, ReverseSolution = true};
                 co.AddPaths(newEdges, JoinType.Miter, EndType.Square);
 
                 Paths cutters = co.Execute(2.0);

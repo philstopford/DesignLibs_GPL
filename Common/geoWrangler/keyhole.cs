@@ -358,7 +358,7 @@ public static partial class GeoWrangler
 
         // edge = pExtendEdge(edge, keyhole_sizing);
 
-        ClipperOffset co = new();
+        ClipperOffset co = new() {PreserveCollinear = true, ReverseSolution = true};
         co.AddPath(edge, JoinType.Miter, EndType.Square);
         
         Paths sPaths = co.Execute(2 * customSizing);
@@ -492,7 +492,7 @@ public static partial class GeoWrangler
 
         Paths cGeometry = new();
 
-        ClipperOffset co = new();
+        ClipperOffset co = new() {PreserveCollinear = true, ReverseSolution = true};
         co.AddPaths(source, joinType, EndType.Polygon);
         cGeometry = co.Execute(customSizing);
         co.Clear();
@@ -530,7 +530,7 @@ public static partial class GeoWrangler
         };
         double sourceArea = ClipperFunc.Area(source);
 
-        ClipperOffset co = new();
+        ClipperOffset co = new() {PreserveCollinear = true, ReverseSolution = true};
         co.AddPath(source, joinType, EndType.Polygon);
         cGeometry = co.Execute(customSizing);
         co.Clear();

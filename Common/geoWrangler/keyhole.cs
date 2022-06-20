@@ -78,15 +78,6 @@ public static partial class GeoWrangler
         // First, we'll run the keyholer as usual.
         Paths ret = pMakeKeyHole(decomp[(int)type.outer], decomp[(int)type.cutter], reverseWalk, invert, customSizing, extension, angularTolerance);
         
-        // Fix up orientations to be consistent for the sake of evaluation.
-        if (ClipperFunc.IsClockwise(ret[0]) != ClipperFunc.IsClockwise(source[0]))
-        {
-            foreach (Path t in ret)
-            {
-                t.Reverse();
-            }
-        }
-
         double origArea = 0;
         List<double> origAreas = new();
         foreach (Path t in sliverGapRemoval(source))

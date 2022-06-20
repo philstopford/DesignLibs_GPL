@@ -95,15 +95,14 @@ public static partial class GeoWrangler
             newAreas.Add(tArea);
             newArea += tArea;
         }
+
+        if (newArea < 0)
+        {
+            newArea = -newArea;
+        }
         
         // If we lost area, we probably had a cutter fully cover up one or more of our polygons.
         double lostArea = Math.Abs(origArea - newArea);
-
-        // In case orientation is mismatched. Should not be needed with the forced re-spin earlier.
-        if (newArea == -origArea)
-        {
-            lostArea = 0;
-        }
         
         if (lostArea > 0)
         {

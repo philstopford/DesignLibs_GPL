@@ -154,7 +154,7 @@ public static partial class GeoWrangler
         foreach (Path t in source)
         {
             int r = (int)type.outer;
-            if (!ClipperFunc.IsClockwise(t))
+            if (!ClipperFunc.IsClockwise(t)) // false for cutters
             {
                 r = (int)type.cutter;
             }

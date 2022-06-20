@@ -53,6 +53,8 @@ public static partial class GeoWrangler
         firstLayer = close(firstLayer);
         secondLayer = close(secondLayer);
         Paths ret = pLayerBoolean(firstLayerOperator, firstLayer, secondLayerOperator, secondLayer, booleanFlag, preserveColinear: false);
+
+        return ret;
         
         // Secondary clean-up of the result. This seems to be needed, so retained for now.
         ret = gapRemoval(ret, customSizing:0.5*keyhole_sizing,extension: extension).ToList();
@@ -61,8 +63,8 @@ public static partial class GeoWrangler
 
         foreach (Path t in ret)
         {
-            holes = !ClipperFunc.IsClockwise(t);
-            bool gwHoles = !isClockwise(t);
+            holes = !ClipperFunc.IsClockwise(t); // reports false for outers
+            bool gwHoles = !isClockwise(t); //reports false for outers
             if (holes != gwHoles)
             {
             }

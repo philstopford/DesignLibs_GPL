@@ -184,8 +184,18 @@ public static partial class GeoWrangler
 
     private static Path pClockwiseAndReorderXY(Path iPoints)
     {
+        bool closed = false;
+        if (pDistanceBetweenPoints(iPoints[0], iPoints[^1]) < 10)
+        {
+            closed = true;
+            iPoints = pStripTerminators(iPoints, false);
+        }
         iPoints = pClockwise(iPoints);
         iPoints = pReorderXY(iPoints);
+        if (closed)
+        {
+            iPoints = pClose(iPoints);
+        }
 
         return iPoints;
     }

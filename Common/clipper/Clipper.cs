@@ -1,7 +1,7 @@
 ﻿/*******************************************************************************
 * Author    :  Angus Johnson                                                   *
 * Version   :  10.0 (beta) - also known as Clipper2                            *
-* Date      :  10 May 2022                                                     *
+* Date      :  10 June 2022                                                    *
 * Website   :  http://www.angusj.com                                           *
 * Copyright :  Angus Johnson 2010-2022                                         *
 * Purpose   :  This module contains simple functions that will likely cover    *
@@ -13,6 +13,7 @@
 *******************************************************************************/
 
 #nullable enable
+using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
@@ -26,7 +27,7 @@ namespace Clipper2Lib
   using Paths64 = List<List<Point64>>;
   using PathD = List<PointD>;
   using PathsD = List<List<PointD>>;
-
+  
   public static class ClipperFunc
   {
 
@@ -120,41 +121,47 @@ namespace Clipper2Lib
     }
 
     public static PathsD InflatePaths(PathsD paths, double delta, JoinType joinType, 
-      EndType endType, double miterLimit = 2.0)
+      EndType endType, double miterLimit = 2.0, int precision = 2)
     {
+      if (precision < -8 || precision > 8)
+        throw new Exception("Error: Precision is out of range.");
+      double scale = Math.Pow(10, precision);
+      Paths64 tmp = ScalePaths64(paths, scale);
       ClipperOffset co = new ClipperOffset(miterLimit);
-      co.AddPaths(paths, joinType, endType);
-      Paths64 tmp = co.Execute(delta);
-      return PathsD(tmp);
+      co.AddPaths(tmp, joinType, endType);
+      tmp = co.Execute(delta * scale);
+      return ScalePathsD(tmp, 1/scale);
     }
-
-    public static double Area(Path64 path)
+    public static double Area(Path64 path, 
+      bool OrientationIsReversed = InternalClipperFunc.DEFAULT_ORIENTATION_IS_REVERSED)
     {
+      //https://en.wikipedia.org/wiki/Shoelace_formula
       double a = 0.0;
       int cnt = path.Count;
       if (cnt < 3) return 0.0;
       Point64 prevPt = path[cnt - 1];
       foreach (Point64 pt in path)
       {
-        a += (double) (prevPt.Y - pt.Y) * (prevPt.X + pt.X);
+        a += (double) (prevPt.Y + pt.Y) * (prevPt.X - pt.X);
         prevPt = pt;
       }
-#if REVERSE_ORIENTATION
-      return a * -0.5;
-#else
-      return a * 0.5;
-#endif
+      if (OrientationIsReversed)
+        return a * -0.5; 
+      else
+        return a * 0.5;
     }
 
-    public static double Area(Paths64 paths)
+    public static double Area(Paths64 paths,
+      bool OrientationIsReversed = InternalClipperFunc.DEFAULT_ORIENTATION_IS_REVERSED)
     {
       double a = 0.0;
       foreach (Path64 path in paths)
-        a += Area(path);
+        a += Area(path, OrientationIsReversed);
       return a;
     }
 
-    public static double Area(PathD path)
+    public static double Area(PathD path,
+      bool OrientationIsReversed = InternalClipperFunc.DEFAULT_ORIENTATION_IS_REVERSED)
     {
       double a = 0.0;
       int cnt = path.Count;
@@ -162,34 +169,42 @@ namespace Clipper2Lib
       PointD prevPt = path[cnt - 1];
       foreach (PointD pt in path)
       {
-        a += (prevPt.y - pt.y) * (prevPt.x + pt.x);
+        a += (prevPt.y + pt.y) * (prevPt.x - pt.x);
         prevPt = pt;
       }
-#if REVERSE_ORIENTATION
-      return a * -0.5;
-#else
-      return a * 0.5;
-#endif
+      if (OrientationIsReversed)
+        return a * -0.5;
+      else
+        return a * 0.5;
     }
 
-    public static double Area(PathsD paths)
+    public static double Area(PathsD paths,
+      bool orientation_is_reversed = InternalClipperFunc.DEFAULT_ORIENTATION_IS_REVERSED)
     {
       double a = 0.0;
       foreach (PathD path in paths)
-        a += Area(path);
+        a += Area(path, orientation_is_reversed);
       return a;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool IsClockwise(Path64 poly)
     {
-      return Area(poly) >= 0;
+      return IsPositive(poly);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool IsClockwise(PathD poly)
+    public static bool IsPositive(Path64 poly,
+      bool orientation_is_reversed = InternalClipperFunc.DEFAULT_ORIENTATION_IS_REVERSED)
     {
-      return Area(poly) >= 0;
+      return Area(poly, orientation_is_reversed) >= 0;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool IsPositive(PathD poly,
+      bool orientation_is_reversed = InternalClipperFunc.DEFAULT_ORIENTATION_IS_REVERSED)
+    {
+      return Area(poly, orientation_is_reversed) >= 0;
     }
 
     public static Path64 OffsetPath(Path64 path, long dx, long dy)
@@ -511,5 +526,168 @@ namespace Clipper2Lib
         AddPolyNodeToPathsD((PolyPathD) polyTree._childs[i], result);
       return result;
     }
+
+    public static double PerpendicDistFromLineSqrd(PointD pt, PointD line1, PointD line2)
+    {
+      double a = pt.x - line1.x;
+      double b = pt.y - line1.y;
+      double c = line2.x - line1.x;
+      double d = line2.y - line1.y;
+      if (c == 0 && d == 0) return 0;
+      return Sqr(a * d - c * b) / (c * c + d * d);
+    }
+
+    public static double PerpendicDistFromLineSqrd(Point64 pt, Point64 line1, Point64 line2)
+    {
+      double a = (double) pt.X - line1.X;
+      double b = (double) pt.Y - line1.Y;
+      double c = (double) line2.X - line1.X;
+      double d = (double) line2.Y - line1.Y;
+      if (c == 0 && d == 0) return 0;
+      return Sqr(a * d - c * b) / (c * c + d * d);
+    }
+
+    public static void RDP(Path64 path, int begin, int end, double epsSqrd, List<bool> flags)
+    {
+      int idx = 0;
+      double max_d = 0;
+      while (end > begin && path[begin] == path[end]) flags[end--] = false;
+      for (int i = begin + 1; i < end; ++i)
+      {
+        //PerpendicDistFromLineSqrd - avoids expensive Sqrt()
+        double d = PerpendicDistFromLineSqrd(path[i], path[begin], path[end]);
+        if (d <= max_d) continue;
+        max_d = d;
+        idx = i;
+      }
+      if (max_d <= epsSqrd) return;
+      flags[idx] = true;
+      if (idx > begin + 1) RDP(path, begin, idx, epsSqrd, flags);
+      if (idx < end - 1) RDP(path, idx, end, epsSqrd, flags);
+    }
+
+    public static Path64 RamerDouglasPeucker(Path64 path, double epsilon)
+    {
+      int len = path.Count;
+      if (len < 5) return path;
+      List<bool> flags = new List<bool>(new bool[len]);
+      flags[0] = true;
+      flags[len - 1] = true;
+      RDP(path, 0, len - 1, Sqr(epsilon), flags);
+      Path64 result = new Path64(len);
+      for (int i = 0; i < len; ++i)
+        if (flags[i]) result.Add(path[i]);
+      return result;
+    }
+
+    public static Paths64 RamerDouglasPeucker(Paths64 paths, double epsilon)
+    {
+      Paths64 result = new Paths64(paths.Count);
+      foreach (Path64 path in paths)
+        result.Add(RamerDouglasPeucker(path, epsilon));
+      return result;
+    }
+
+    public static void RDP(PathD path, int begin, int end, double epsSqrd, List<bool> flags)
+    {
+      int idx = 0;
+      double max_d = 0;
+      while (end > begin && path[begin] == path[end]) flags[end--] = false;
+      for (int i = begin + 1; i < end; ++i)
+      {
+        //PerpendicDistFromLineSqrd - avoids expensive Sqrt()
+        double d = PerpendicDistFromLineSqrd(path[i], path[begin], path[end]);
+        if (d <= max_d) continue;
+        max_d = d;
+        idx = i;
+      }
+      if (max_d <= epsSqrd) return;
+      flags[idx] = true;
+      if (idx > begin + 1) RDP(path, begin, idx, epsSqrd, flags);
+      if (idx < end - 1) RDP(path, idx, end, epsSqrd, flags);
+    }
+
+    public static PathD RamerDouglasPeucker(PathD path, double epsilon)
+    {
+      int len = path.Count;
+      if (len < 5) return path;
+      List<bool> flags = new List<bool>(new bool[len]);
+      flags[0] = true;
+      flags[len - 1] = true;
+      RDP(path, 0, len - 1, Sqr(epsilon), flags);
+      PathD result = new PathD(len);
+      for (int i = 0; i < len; ++i)
+        if (flags[i]) result.Add(path[i]);
+      return result;
+    }
+
+    public static PathsD RamerDouglasPeucker(PathsD paths, double epsilon)
+    {
+      PathsD result = new PathsD(paths.Count);
+      foreach (PathD path in paths)
+        result.Add(RamerDouglasPeucker(path, epsilon));
+      return result;
+    }
+
+    public static Path64 TrimCollinear(Path64 path, bool isOpen = false)
+    {
+      int len = path.Count;
+      int i = 0;
+      if (!isOpen)
+      {
+        while (i < len - 1 && InternalClipperFunc.CrossProduct(
+          path[len - 1], path[i], path[i + 1]) == 0) i++;
+        while (i < len - 1 && InternalClipperFunc.CrossProduct(
+          path[len - 2], path[len - 1], path[i]) == 0) len--;
+      }
+
+      if (len - i < 3)
+      {
+        if (!isOpen || len < 2 || path[0] == path[1])
+          return new Path64();
+        else
+          return path;
+      }
+
+      Path64 result = new Path64(len - i);
+      Point64 last = path[i];
+      result.Add(last);
+      for (i++; i < len - 1; i++)
+      {
+        if (InternalClipperFunc.CrossProduct(
+          last, path[i], path[i + 1]) != 0)
+        {
+          last = path[i];
+          result.Add(last);
+        }
+        else if (result.Count > 1 && InternalClipperFunc.CrossProduct(
+          result[^2], last, path[i]) == 0)
+        {
+          result.RemoveAt(result.Count - 1);
+          last = result[^1];
+        } 
+      }
+
+      if (isOpen)
+        result.Add(path[len - 1]);
+      else if (InternalClipperFunc.CrossProduct(
+        last, path[len - 1], result[0]) != 0)
+        result.Add(path[len - 1]);
+      else if (result.Count < 3)
+        result.Clear();
+
+      return result;      
+    }
+
+    public static PathD TrimCollinear(PathD path, int precision, bool isOpen = false)
+    {
+      if (precision < -8 || precision > 8)
+        throw new Exception("Error: Precision is out of range.");
+      double scale = Math.Pow(10, precision);
+      Path64 p = ScalePath64(path, scale);
+      p = TrimCollinear(p, isOpen);
+      return ScalePathD(p, 1 / scale);
+    }
+
   }
 } //namespace

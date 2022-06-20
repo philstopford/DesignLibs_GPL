@@ -1,7 +1,7 @@
 ﻿/*******************************************************************************
 * Author    :  Angus Johnson                                                   *
 * Version   :  10.0 (beta) - also known as Clipper2                            *
-* Date      :  27 May 2022                                                     *
+* Date      :  17 June 2022                                                    *
 * Website   :  http://www.angusj.com                                           *
 * Copyright :  Angus Johnson 2010-2022                                         *
 * Purpose   :  Core structures and functions for the Clipper Library           *
@@ -412,6 +412,25 @@ namespace Clipper2Lib
 
   public static class InternalClipperFunc
   {
+
+    //The classic Cartesian plane is defined by an X-axis that's positive toward
+    //the right and a Y-axis that's positive upwards. However, many modern
+    //graphics libraries use an inverted Y-axis (where Y is positive downward).
+    //This effectively flips polygons upside down, with winding directions that
+    //were clockwise becoming anti-clockwise, and areas that were positive
+    //becoming negative. Nevertheless, in Cartesian coordinates the area of a
+    //convex polygon is defined to be positive if the points are arranged in a
+    //counterclockwise order, and negative if they are in clockwise order
+    //(see https://mathworld.wolfram.com/PolygonArea.html). If this "normal"
+    //winding direction is inconvenient for whatever reason the following
+    //constant can be changed to accommodate this. Note however that winding
+    //direction is only important when using Clipper's Positive and Negative
+    //filling rules. (Reversing orientation has no effect on NonZero an EvenOdd
+    //filling.) The constant below is intended as "set and perhaps not quite
+    //forget". While this sets the default orientation, the Clipper class
+    //constructor contains a parameter which can override this default setting.
+    public const bool DEFAULT_ORIENTATION_IS_REVERSED = true;
+
     public const double floatingPointTolerance = 1E-15;
     public const double defaultMinimumEdgeLength = 0.1;
 

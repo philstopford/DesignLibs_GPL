@@ -13,7 +13,7 @@ public static partial class GeoWrangler
     // Sizing is used to define the keyhole width (default) and will be used for the sliver/gap removal.
     // Use of a custom value will cause headaches.
     public const double keyhole_sizing = 500;
-    private const double keyhole_extension_default = 1.03;
+    private const double keyhole_extension_default = 1.00;
 
     public static Paths makeKeyHole(Paths outers, Paths cutters, bool reverseWalk, RayCast.inversionMode invert = RayCast.inversionMode.x, double customSizing = 0, double extension = 0, double angularTolerance = 0)
     {
@@ -161,16 +161,14 @@ public static partial class GeoWrangler
 
                 // Remove any overlapping duplicate polygons.
                 Paths cleaned = new();
-                c.AddSubject(ret);
-                c.Execute(ClipType.Union, FillRule.Positive, cleaned);
-                cleaned = pReorderXY(cleaned);
+                // c.Clear();
+                // c.AddSubject(ret);
+                // c.Execute(ClipType.Union, FillRule.Positive, cleaned);
+                // cleaned = pReorderXY(cleaned);
 
                 switch (cleaned.Count)
                 {
                     default:
-                        ret = pClose(cleaned);
-                        break;
-                    case 0:
                         ret = pClose(ret);
                         break;
                 }

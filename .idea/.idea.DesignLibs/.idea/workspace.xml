@@ -571,9 +571,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.DesignLibs/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DesignLibs/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/KeyHolerTest/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/KeyHolerTest/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/decompositionTest/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/decompositionTest/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ClipperLibTest/Clipper2Test.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ClipperLibTest/Clipper2Test.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ClipperLibTest/OffsetTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ClipperLibTest/OffsetTest.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ClipperLibTest/STest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ClipperLibTest/STest.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/decompose.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/decompose.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/inflate.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/inflate.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/keyhole.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/keyhole.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -11374,6 +11377,7 @@
       <workItem from="1653421233281" duration="86000" />
       <workItem from="1655650216584" duration="3143000" />
       <workItem from="1655658930889" duration="10324000" />
+      <workItem from="1655698240388" duration="216000" />
     </task>
     <servers />
   </component>

@@ -53,8 +53,6 @@ public static partial class GeoWrangler
         firstLayer = close(firstLayer);
         secondLayer = close(secondLayer);
         Paths ret = pLayerBoolean(firstLayerOperator, firstLayer, secondLayerOperator, secondLayer, booleanFlag, preserveColinear: false);
-
-        return ret;
         
         // Secondary clean-up of the result. This seems to be needed, so retained for now.
         ret = gapRemoval(ret, customSizing:0.5*keyhole_sizing,extension: extension).ToList();

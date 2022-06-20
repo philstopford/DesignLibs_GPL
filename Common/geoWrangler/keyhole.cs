@@ -77,6 +77,15 @@ public static partial class GeoWrangler
         
         // First, we'll run the keyholer as usual.
         Paths ret = pMakeKeyHole(decomp[(int)type.outer], decomp[(int)type.cutter], reverseWalk, invert, customSizing, extension, angularTolerance);
+        
+        // Fix up orientations to be consistent for the sake of evaluation.
+        if (ClipperFunc.IsClockwise(ret[0]) != ClipperFunc.IsClockwise(source[0]))
+        {
+            foreach (Path t in ret)
+            {
+                t.Reverse();
+            }
+        }
 
         double origArea = 0;
         List<double> origAreas = new();
@@ -98,6 +107,12 @@ public static partial class GeoWrangler
         
         // If we lost area, we probably had a cutter fully cover up one or more of our polygons.
         double lostArea = Math.Abs(origArea - newArea);
+
+        // In case orientation is mismatched. Should not be needed with the forced re-spin earlier.
+        if (newArea == -origArea)
+        {
+            lostArea = 0;
+        }
         
         if (lostArea > 0)
         {

@@ -117,17 +117,16 @@ public static partial class GeoWrangler
         if (lostArea > 0)
         {
             // Track whether we are looking at the outer-most outer, and avoid touching it.
-            bool bypassOuter = false;
+            // bool bypassOuter = false;
             // We need to find out which cutters might have completely killed one or more outers and figure out a plan.
             for (int oIndex = 0; oIndex < odecomp[(int) type.outer].Count; oIndex++)
             {
                 Path tOuter = odecomp[(int) type.outer][oIndex];
                 double outerArea = ClipperFunc.Area(tOuter);
-                if (!bypassOuter && (outerArea > lostArea))
+                if (outerArea > lostArea)
                 {
                     if (Math.Abs(outerArea - outerAreas.Max()) <= double.Epsilon)
                     {
-                        bypassOuter = true;
                         continue;
                     }
                 }
@@ -157,7 +156,7 @@ public static partial class GeoWrangler
 
                 Paths tOuters = new() {tOuter};
 
-                Paths tRet = pMakeKeyHole(tOuters, tCutters, reverseWalk, invert, customSizing, extension,
+                Paths tRet = pMakeKeyHole(tCutters, tOuters, reverseWalk, invert, customSizing, extension,
                     angularTolerance);
 
                 ret.AddRange(tRet);

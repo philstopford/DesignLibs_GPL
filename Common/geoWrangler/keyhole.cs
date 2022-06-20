@@ -116,8 +116,6 @@ public static partial class GeoWrangler
         
         if (lostArea > 0)
         {
-            // Track whether we are looking at the outer-most outer, and avoid touching it.
-            // bool bypassOuter = false;
             // We need to find out which cutters might have completely killed one or more outers and figure out a plan.
             for (int oIndex = 0; oIndex < odecomp[(int) type.outer].Count; oIndex++)
             {

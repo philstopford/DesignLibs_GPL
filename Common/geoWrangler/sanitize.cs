@@ -560,7 +560,7 @@ public static partial class GeoWrangler
     private static GeoLibPoint[] pSimplify(GeoLibPoint[] iPoints)
     {
         List<Point64> iPoly = pathFromPoint(iPoints, 1);
-        Clipper c = new();
+        Clipper64 c = new();
         c.PreserveCollinear = false;
         c.AddSubject(iPoly);
         List<List<Point64>> oPoly = new();
@@ -1329,7 +1329,7 @@ public static partial class GeoWrangler
 
         foreach (Path t in source)
         {
-            if (ClipperFunc.IsClockwise(t) == ClipperFunc.IsClockwise(source[0]))
+            if (Clipper.IsPositive(t) == Clipper.IsPositive(source[0]))
             {
                 outers.Add(new Path(t));
             }
@@ -1386,7 +1386,7 @@ public static partial class GeoWrangler
             tess.Tessellate(wr, ElementType.Polygons, polysize);
 
             // Iterate triangles and create output geometry. We'll use clipper to simplify the output geometry.	
-            Clipper c = new() {PreserveCollinear = true};
+            Clipper64 c = new() {PreserveCollinear = true};
             Paths retPaths = new();
 
             Paths cPaths = new();
@@ -1401,7 +1401,7 @@ public static partial class GeoWrangler
                     trianglePath.Add(tmpPt);
                 }
 
-                if (ClipperFunc.IsClockwise(trianglePath))
+                if (Clipper.IsPositive(trianglePath))
                 {
                     cPaths.Add(trianglePath);
                 }
@@ -1437,7 +1437,7 @@ public static partial class GeoWrangler
     private static List<GeoLibPointF[]> pClean_and_flatten(List<GeoLibPointF[]> source, long scaling, double customSizing = 0, double extension = 0)
     {
         Paths sourcePaths = pPathsFromPointFs(source, scaling);
-        Clipper c = new();
+        Clipper64 c = new();
         c.AddSubject(sourcePaths);
         Paths solution = new();
         c.Execute(ClipType.Union, FillRule.EvenOdd, solution);

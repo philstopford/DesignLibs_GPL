@@ -61,7 +61,7 @@ public static partial class GeoWrangler
 
         foreach (Path t in ret)
         {
-            holes = !ClipperFunc.IsClockwise(t); // reports false for outers
+            holes = !Clipper.IsPositive(t); // reports false for outers
             bool gwHoles = !isClockwise(t); //reports false for outers
             if (holes != gwHoles)
             {
@@ -92,7 +92,7 @@ public static partial class GeoWrangler
             );
 #endif
             // Squash any accidental keyholes - not ideal, but best option found so far.
-            Clipper c1 = new() {PreserveCollinear = true };
+            Clipper64 c1 = new() {PreserveCollinear = true };
             c1.AddSubject(merged);
             c1.Execute(ClipType.Union, FillRule.EvenOdd, ret);
             ret = reOrderXY(ret);
@@ -120,7 +120,7 @@ public static partial class GeoWrangler
             return stripColinear(ret, 1.0);
         }
 
-        Rect64 bounds = ClipperFunc.GetBounds(ret);
+        Rect64 bounds = Clipper.GetBounds(ret);
 
         Path bound = new()
         {
@@ -131,7 +131,7 @@ public static partial class GeoWrangler
             new Point64(bounds.left, bounds.bottom)
         };
 
-        Clipper c = new() {PreserveCollinear = false};
+        Clipper64 c = new() {PreserveCollinear = false};
 
         c.AddSubject(ret);
         c.AddClip(bound);
@@ -198,7 +198,7 @@ public static partial class GeoWrangler
         }
 
         // important - if we don't do this, we lose the fragmentation on straight edges.
-        Clipper c = new() {PreserveCollinear = preserveColinear};
+        Clipper64 c = new() {PreserveCollinear = preserveColinear};
 
         c.AddSubject(firstPaths);
         c.AddClip(secondPaths);

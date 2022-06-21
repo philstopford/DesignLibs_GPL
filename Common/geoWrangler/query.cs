@@ -213,7 +213,7 @@ public static partial class GeoWrangler
 
         bool result = false;
             
-        Clipper c = new();
+        Clipper64 c = new();
 
         Paths rationalizedFirstLayer = a.Select(t => clockwise( /*Clipper.CleanPolygon*/t)).ToList();
         // Force to clockwise as a safety measure.
@@ -275,9 +275,9 @@ public static partial class GeoWrangler
             }
                 
             // Check based on area. This seems to be needed - the above doesn't do the right thing every time.
-            double overlapArea = Math.Abs(ClipperFunc.Area(intersectionPath));
-            double clipArea = Math.Abs(ClipperFunc.Area(rationalizedSecondLayer[0]));
-            double subjArea = Math.Abs(ClipperFunc.Area(rationalizedFirstLayer[0]));
+            double overlapArea = Math.Abs(Clipper.Area(intersectionPath));
+            double clipArea = Math.Abs(Clipper.Area(rationalizedSecondLayer[0]));
+            double subjArea = Math.Abs(Clipper.Area(rationalizedFirstLayer[0]));
 
             if (Math.Abs(overlapArea - clipArea) <= double.Epsilon || Math.Abs(overlapArea - subjArea) <= double.Epsilon)
             {

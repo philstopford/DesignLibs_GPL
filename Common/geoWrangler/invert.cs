@@ -46,7 +46,7 @@ public static partial class GeoWrangler
                 break;
             default:
             {
-                Rect64 bounds = ClipperFunc.GetBounds(sourcePaths);
+                Rect64 bounds = Clipper.GetBounds(sourcePaths);
                 firstLayerBP.Add(new Point64(bounds.left, bounds.bottom));
                 firstLayerBP.Add(new Point64(bounds.left, bounds.top));
                 firstLayerBP.Add(new Point64(bounds.right, bounds.top));
@@ -56,7 +56,7 @@ public static partial class GeoWrangler
             }
         }
 
-        Clipper c = new() {PreserveCollinear = preserveColinear};
+        Clipper64 c = new() {PreserveCollinear = preserveColinear};
 
         c.AddSubject(firstLayerBP);
         // Add hole polygons from our paths

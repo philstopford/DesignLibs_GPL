@@ -29,18 +29,18 @@ public static partial class GeoWrangler
 
         Paths ret = new();
 
-        Clipper c = new();
+        Clipper64 c = new();
 
         // Reconcile each path separately to get a clean representation.
         foreach (Path t1 in source)
         {
-            double a1 = ClipperFunc.Area(t1);
+            double a1 = Clipper.Area(t1);
             c.Clear();
             c.AddSubject(t1);
             Paths t = new();
             c.Execute(ClipType.Union, FillRule.EvenOdd, t);
             t = pReorderXY(t);
-            double a2 = t.Sum(t2 => ClipperFunc.Area(t2));
+            double a2 = t.Sum(t2 => Clipper.Area(t2));
 
             switch (Math.Abs(Math.Abs(a1) - Math.Abs(a2)))
             {
@@ -51,7 +51,7 @@ public static partial class GeoWrangler
                 default:
                 {
                     // Orientation tracking.
-                    bool origOrient = ClipperFunc.IsClockwise(t1);
+                    bool origOrient = Clipper.IsPositive(t1);
 
                     c.AddSubject(source);
 
@@ -64,7 +64,7 @@ public static partial class GeoWrangler
                     int crCount = cR.Count;
 
                     // Review orientation. Fix if needed.
-                    if (ClipperFunc.IsClockwise(cR[0]) != origOrient)
+                    if (Clipper.IsPositive(cR[0]) != origOrient)
                     {
 #if !GWSINGLETHREADED
                         Parallel.For(0, crCount, j =>
@@ -90,7 +90,7 @@ public static partial class GeoWrangler
             case > 1:
             {
                 // Need to reverse the orientations if Clipper indicates false here.
-                bool reverse = !ClipperFunc.IsClockwise(ret[0]);
+                bool reverse = !Clipper.IsPositive(ret[0]);
 
                 switch (reverse)
                 {
@@ -154,7 +154,7 @@ public static partial class GeoWrangler
         foreach (Path t in source)
         {
             int r = (int)type.outer;
-            if (!ClipperFunc.IsClockwise(t)) // false for cutters
+            if (!Clipper.IsPositive(t)) // false for cutters
             {
                 r = (int)type.cutter;
             }
@@ -264,7 +264,7 @@ public static partial class GeoWrangler
         // Contains edges from ray intersections that are not part of the original geometry.
         Paths newEdges = new();
 
-        Clipper c = new();
+        Clipper64 c = new();
 
         foreach (Path t in rays)
         {

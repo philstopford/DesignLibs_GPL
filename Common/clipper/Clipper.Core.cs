@@ -429,7 +429,7 @@ namespace Clipper2Lib
     //filling.) The constant below is intended as "set and perhaps not quite
     //forget". While this sets the default orientation, the Clipper class
     //constructor contains a parameter which can override this default setting.
-    public const bool DEFAULT_ORIENTATION_IS_REVERSED = true;
+    public const bool DEFAULT_ORIENTATION_IS_REVERSED = false;
 
     public const double floatingPointTolerance = 1E-15;
     public const double defaultMinimumEdgeLength = 0.1;

@@ -572,12 +572,7 @@
   <component name="ChangeListManager">
     <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.DesignLibs/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DesignLibs/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/clipper/Clipper.Core.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/clipper/Clipper.Core.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/clipper/Clipper.Engine.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/clipper/Clipper.Engine.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/clipper/Clipper.Minkowski.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/clipper/Clipper.Minkowski.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/clipper/Clipper.Offset.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/clipper/Clipper.Offset.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/clipper/Clipper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/clipper/Clipper.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/decompose.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/decompose.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/decompositionTest/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/decompositionTest/Program.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -596,18 +591,6 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BurkhardtTest/FEM/FEM1DBVPTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BurkhardtTest/FEM/FEM2DBVPLinearTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BurkhardtTest/GeometryTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
@@ -11392,6 +11375,7 @@
       <workItem from="1655658930889" duration="10324000" />
       <workItem from="1655698240388" duration="216000" />
       <workItem from="1655817825021" duration="5476000" />
+      <workItem from="1655843327011" duration="2582000" />
     </task>
     <servers />
   </component>
@@ -11405,6 +11389,23 @@
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/decompositionTest/Program.cs</url>
+          <line>3134</line>
+          <properties documentPath="$PROJECT_DIR$/decompositionTest/Program.cs" initialLine="3120" containingFunctionPresentation="method 'partFive'">
+            <startOffsets>
+              <option value="106365" />
+            </startOffsets>
+            <endOffsets>
+              <option value="106366" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <watches-manager>
       <configuration name="DotNetProject">
         <watch expression="x" />

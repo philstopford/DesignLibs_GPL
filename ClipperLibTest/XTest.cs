@@ -34,7 +34,7 @@ public static class XTest
             new (0,30000)
         };
 
-        Clipper2Lib.Clipper c2 = new();
+        Clipper2Lib.Clipper64 c2 = new();
         c2.AddSubject( bounds );
         c2.AddClip( xShape);
         List<List<Clipper2Lib.Point64>> c2out = new();

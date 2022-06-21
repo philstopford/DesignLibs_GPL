@@ -248,7 +248,7 @@ public static class ComparisonTest
 
         foreach (List<Clipper2Lib.Point64> t in castLines)
         {
-            Clipper2Lib.Clipper c2 = new();
+            Clipper2Lib.Clipper64 c2 = new();
             c2.AddOpenSubject(t);
             c2.AddClip(collisionGeometry);
             Paths64 unused2 = new();
@@ -442,7 +442,7 @@ public static class ComparisonTest
 
         foreach (List<Clipper2Lib.Point64> t in castLines)
         {
-            Clipper2Lib.Clipper c2 = new();
+            Clipper2Lib.Clipper64 c2 = new();
             c2.AddOpenSubject(t);
             c2.AddClip(collisionGeometry);
             Paths64 unused2 = new();

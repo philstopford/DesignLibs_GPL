@@ -206,7 +206,7 @@ public static class SubtractionTest
 
     public static void compare()
     {
-        Clipper2Lib.Clipper c = new()
+        Clipper2Lib.Clipper64 c = new()
         {
             PreserveCollinear = true
         };

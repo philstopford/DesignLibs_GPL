@@ -14,14 +14,14 @@ public static class Clipper2Test
 
     public static void chordTest()
     {
-        Path64 testPath = ClipperFunc.MakePath(new[]
+        Path64 testPath = Clipper.MakePath(new[]
         {
             -50000, -550000,
             -50000, -150000,
             650000, -150000
         });
         
-        Path64 b = ClipperFunc.MakePath(new[]
+        Path64 b = Clipper.MakePath(new[]
         {
             300000,-800000,
             300000,0,
@@ -29,14 +29,14 @@ public static class Clipper2Test
             500000,-800000
         });
         
-        Clipper c = new() {PreserveCollinear = true};
+        Clipper64 c = new() {PreserveCollinear = true};
         c.AddOpenSubject(testPath);
         c.AddClip(b);
         Paths64 unused = new();
         Paths64 topChords = new();
         c.Execute(ClipType.Intersection, FillRule.EvenOdd, unused, topChords);
 
-        Path64 testPath2 = ClipperFunc.MakePath(new[]
+        Path64 testPath2 = Clipper.MakePath(new[]
         {
             650000,-150000,
             650000,-550000,
@@ -49,13 +49,13 @@ public static class Clipper2Test
         Paths64 bottomChords = new();
         c.Execute(ClipType.Intersection, FillRule.EvenOdd, unused, bottomChords);
         
-        Path64 testPath3 = ClipperFunc.MakePath(new[]
+        Path64 testPath3 = Clipper.MakePath(new[]
         {
             300000,-800000,
             300000,0
         });
 
-        Path64 a = ClipperFunc.MakePath(new[]
+        Path64 a = Clipper.MakePath(new[]
         {
             -50000, -550000,
             -50000, -150000,
@@ -69,7 +69,7 @@ public static class Clipper2Test
         Paths64 leftChords = new();
         c.Execute(ClipType.Intersection, FillRule.EvenOdd, unused, leftChords);
 
-        Path64 testPath4 = ClipperFunc.MakePath(new[]
+        Path64 testPath4 = Clipper.MakePath(new[]
         {
             300000,0,
             500000,0,
@@ -118,7 +118,7 @@ public static class Clipper2Test
             new(-10, -10),
         };
 
-        Clipper c = new() {PreserveCollinear = true};
+        Clipper64 c = new() {PreserveCollinear = true};
         c.AddSubject(colinear);
         c.AddClip(colinear);
         Paths64 output = new();
@@ -140,7 +140,7 @@ public static class Clipper2Test
 
     public static void colinearOffsetTest()
     {
-        Path64 colinear = ClipperFunc.MakePath(new []
+        Path64 colinear = Clipper.MakePath(new []
         {
             -10, -10,
             -10, 0,
@@ -187,7 +187,7 @@ public static class Clipper2Test
             new (0,-200000),
         };
         
-        Clipper cs = new();
+        Clipper64 cs = new();
         
         cs.AddSubject(simpleFirstPath);
         cs.AddClip(simpleSecondPath);
@@ -380,7 +380,7 @@ public static class Clipper2Test
         new (0,-200000),
         };
 
-        Clipper c = new();
+        Clipper64 c = new();
 
         c.AddSubject(firstPath);
         c.AddClip(secondPath);
@@ -532,7 +532,7 @@ public static class Clipper2Test
         };
         
         
-        Clipper c = new();
+        Clipper64 c = new();
         
         c.AddSubject(firstPath);
         c.AddClip(secondPath);
@@ -601,7 +601,7 @@ public static class Clipper2Test
             new(100, -1100),
         };
 
-        Clipper c = new();
+        Clipper64 c = new();
 
         c.ZFillFunc = zFillTest;
 
@@ -637,7 +637,7 @@ public static class Clipper2Test
             new (-1000, 500),
         };
 
-        Clipper c = new();
+        Clipper64 c = new();
         c.AddClip(lPoly);
         c.AddOpenSubject(t);
 
@@ -659,7 +659,7 @@ public static class Clipper2Test
             new (-900, 500),
         };
 
-        Clipper c2 = new();
+        Clipper64 c2 = new();
         c2.AddClip(lPoly);
         c2.AddOpenSubject(t2);
 
@@ -682,7 +682,7 @@ public static class Clipper2Test
             new (-1000, -1100),
         };
 
-        Clipper c2b = new();
+        Clipper64 c2b = new();
         c2b.AddClip(lPoly);
         c2b.AddOpenSubject(t2b);
 
@@ -706,7 +706,7 @@ public static class Clipper2Test
             t3.Add(new(x, y));
             y += 100;
         }
-        Clipper c3 = new();
+        Clipper64 c3 = new();
         c3.ZFillFunc = zFillTest;
         
         c3.AddClip(lPoly);
@@ -780,7 +780,7 @@ public static class Clipper2Test
           [3] = {Point64} 800001,799999,0 
            */
         
-        Clipper c = new();
+        Clipper64 c = new();
 
         c.AddSubject(lPoly);
 
@@ -827,7 +827,7 @@ public static class Clipper2Test
         new Point64(0,-9800000)
         };
 
-        Clipper c = new();
+        Clipper64 c = new();
 
         c.AddOpenSubject(t);
         c.AddClip(lPoly);
@@ -875,7 +875,7 @@ public static class Clipper2Test
             }
         };
 
-        Clipper c = new Clipper();
+        Clipper64 c = new ();
         c.AddOpenSubject(rays);
         c.AddClip(collisionPaths);
         PolyTree pt = new PolyTree();
@@ -979,7 +979,7 @@ public static class Clipper2Test
            */
         
         Paths64 solution = new();
-        Clipper c = new Clipper();
+        Clipper64 c = new ();
         c.AddSubject(lPoly);
         c.AddClip(cutters);
         c.Execute(ClipType.Difference, FillRule.EvenOdd, solution);
@@ -1289,7 +1289,7 @@ public static class Clipper2Test
             testPath[p] = new(testPath[p].X, testPath[p].Y, 2);
         }
 
-        Clipper c = new();
+        Clipper64 c = new();
         c.ZFillFunc = zFillTest;
         c.AddOpenSubject(testPath);
         c.AddClip(a);
@@ -1613,7 +1613,7 @@ public static class Clipper2Test
             testPath[p] = new(testPath[p].X, testPath[p].Y, 2);
         }
 
-        Clipper c = new();
+        Clipper64 c = new();
         c.ZFillFunc = zFillTest;
         c.AddOpenSubject(testPath);
         c.AddClip(a);

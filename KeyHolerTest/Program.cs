@@ -148,7 +148,7 @@ internal class Program
         
         // Generate sliver geometry.
         Paths sL = new();
-        Clipper c = new();
+        Clipper64 c = new();
         c.AddSubject(outer);
         c.AddClip(kH);
         c.Execute(ClipType.Difference, FillRule.EvenOdd, sL);
@@ -302,7 +302,7 @@ internal class Program
         
         // Generate sliver geometry.
         Paths sL = new();
-        Clipper c = new();
+        Clipper64 c = new();
         c.AddSubject(outer);
         c.AddClip(kH);
         c.Execute(ClipType.Difference, FillRule.EvenOdd, sL);
@@ -516,7 +516,7 @@ internal class Program
            */
         
         // Generate sliver geometry.
-        Clipper c = new();
+        Clipper64 c = new();
         Paths sL = new();
         c.AddSubject(outer);
         c.AddClip(kH);
@@ -791,7 +791,7 @@ internal class Program
           [12] = {Point64} 200000,0,0 
            */
         
-        Clipper c = new();
+        Clipper64 c = new();
         c.AddSubject(outer);
 
         Paths unionRes = new();
@@ -1059,7 +1059,7 @@ internal class Program
         Paths intResNZc = GeoWrangler.close(intResNZ);
         Paths intResNZc_kH = GeoWrangler.makeKeyHole(intResNZc, true);
 
-        Rect64 bounds = ClipperFunc.GetBounds(new Paths { outer });
+        Rect64 bounds = Clipper.GetBounds(new Paths { outer });
         Path bb = new()
         {
             new(bounds.left, bounds.bottom),
@@ -1378,7 +1378,7 @@ internal class Program
            [12] = {Point64} 200000,0,0 
            */
         
-        Clipper c = new();
+        Clipper64 c = new();
         c.AddSubject(outer);
 
         Paths unionRes = new();
@@ -1810,7 +1810,7 @@ internal class Program
         Paths intResNZc = GeoWrangler.close(intResNZ);
         Paths intResNZc_kH = GeoWrangler.makeKeyHole(intResNZc, true);
 
-        Rect64 bounds = ClipperFunc.GetBounds(new Paths { outer });
+        Rect64 bounds = Clipper.GetBounds(new Paths { outer });
         Path bb = new()
         {
             new(bounds.left, bounds.bottom),
@@ -2277,7 +2277,7 @@ internal class Program
         
         // Generate sliver geometry.
         Paths sL = new();
-        Clipper c = new();
+        Clipper64 c = new();
         c.AddSubject(outer1);
         c.AddSubject(outer2);
         c.AddClip(kH);

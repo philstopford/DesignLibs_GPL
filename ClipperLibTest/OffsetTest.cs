@@ -138,7 +138,7 @@ public static class OffsetTest
             0, 0
         };
 
-        Path64 sourcePath = ClipperFunc.MakePath(pointData);
+        Path64 sourcePath = Clipper.MakePath(pointData);
         
         ClipperOffset co = new() {PreserveCollinear = true, ReverseSolution = true};
         co.AddPath(sourcePath, JoinType.Miter, EndType.Polygon);

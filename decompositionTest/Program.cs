@@ -698,7 +698,7 @@ internal class Program
 
         Paths paths = GeoWrangler.pathsFromPointFs(incoming, 10000);
 
-        Clipper c = new();
+        Clipper64 c = new();
         c.AddSubject(paths);
         Paths ret = new();
         c.Execute(ClipType.Union, FillRule.EvenOdd, ret);

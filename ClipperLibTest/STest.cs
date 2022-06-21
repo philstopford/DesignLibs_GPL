@@ -88,7 +88,7 @@ public class STest
         Paths o1 = new();
         c1.Execute(ClipperLib1.ClipType.ctDifference, o1);
         
-        Clipper2Lib.Clipper c2 = new() {PreserveCollinear = false};
+        Clipper2Lib.Clipper64 c2 = new() {PreserveCollinear = false};
         c2.AddSubject(BP);
         c2.AddClip(iPoly);
 

@@ -39,7 +39,7 @@ public class performance
         subj2.Add(MakeRandomPath(displayWidth, displayHeight, edgeCnt, rand));
         clip2.Add(MakeRandomPath(displayWidth, displayHeight, edgeCnt, rand));
 
-        Clipper2Lib.Clipper c2 = new ();
+        Clipper2Lib.Clipper64 c2 = new ();
         c2.AddSubject(subj2);
         c2.AddClip(clip2);
         stopwatch.Start();

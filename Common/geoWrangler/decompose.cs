@@ -150,11 +150,20 @@ public static partial class GeoWrangler
         Paths[] ret = new Paths[2];
         ret[0] = new Paths();
         ret[1] = new Paths();
-
+        
+        // First path in source is always the outer orientation.
+        bool outerOrient = Clipper.IsPositive(source[0]);
+        
         foreach (Path t in source)
         {
+            // Outer was wrongly oriented, so fix up the current path for consistency.
+            if (!outerOrient)
+            {
+                t.Reverse();
+            }
+
             int r = (int)type.outer;
-            if (!Clipper.IsPositive(t)) // false for cutters
+            if (!Clipper.IsPositive(t)) // cutter
             {
                 r = (int)type.cutter;
             }

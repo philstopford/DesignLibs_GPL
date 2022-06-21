@@ -50,6 +50,7 @@ public static partial class GeoWrangler
         // Limit the offset used in the removal otherwise we can cause self-intersections that
         // result in lots of artifacts and trouble.
         Paths input = pRemoveFragments(source, customSizing, extension);
+        input = pStripColinear(input);
 
         switch (input.Count)
         {
@@ -302,6 +303,14 @@ public static partial class GeoWrangler
             bool outerOrient = Clipper.IsPositive(outers[0]);
             bool orthogonalInput = pOrthogonal(outers, 0);
             orthogonalInput = orthogonalInput && pOrthogonal(cutters, 0);
+            // Review orientations.
+            for (int p = 0; p < cutters.Count; p++)
+            {
+                if (Clipper.IsPositive(cutters[p]))
+                {
+                    cutters[p] = Clipper.ReversePath(cutters[p]);
+                }
+            }
             // Use raycaster to project from holes to outer, to try and find a keyhole path that is minimal length, and ideally orthogonal.
             foreach (Path t1 in cutters)
             {
@@ -318,14 +327,6 @@ public static partial class GeoWrangler
                     extraCutters.AddRange(new Paths(sPaths));
                 }
 
-                // Review orientations.
-                for (int p = 0; p < cutters.Count; p++)
-                {
-                    if (Clipper.IsPositive(cutters[p]))
-                    {
-                        cutters[p] = Clipper.ReversePath(cutters[p]);
-                    }
-                }
                 for (int p = 0; p < extraCutters.Count; p++)
                 {
                     if (Clipper.IsPositive(extraCutters[p]))

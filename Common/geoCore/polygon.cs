@@ -632,7 +632,7 @@ public class GCPolygon : GCElement
         double delta = max_distance - min_distance;
 
         // Tolerance value - one DB unit in each direction, sqrt of 2.
-        const double tol = 1.414213f;
+        const double tol = 1.414213f;// * 1000;
 
         return delta <= tol;
     }

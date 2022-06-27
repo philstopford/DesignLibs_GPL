@@ -913,33 +913,47 @@ public class GeoCore
 
     private List<GeoLibPointF[]> pPoints(bool flatten)
     {
+        List<GeoLibPointF[]> points = new();
+
         switch (flatten)
         {
             case true:
-            {
                 List<GCPolygon> tmp = convertToPolygons(true);
-                return tmp.Select(t => GeoWrangler.pointFsFromPoint(t.pointarray, 1)).ToList();
-            }
+                points = tmp.Select(t => GeoWrangler.pointFsFromPoint(t.pointarray, 1)).ToList();
+                break;
+            default:
+                // Do we ever get here?
+
+                List<GeoLibPoint> array_count = new();
+                List<GeoLibPointF> array_pitch = new();
+
+                points.Add(structures[activeStructure].elements[activeLD].geometry.ToArray());
+                if (structures[activeStructure].elements[activeLD].arrayData != null)
+                {
+                    array_count.Add(new GeoLibPoint(structures[activeStructure].elements[activeLD].arrayData.count));
+                    array_pitch.Add(new GeoLibPointF(structures[activeStructure].elements[activeLD].arrayData.pitch));
+                }
+                else
+                {
+                    array_count.Add(new GeoLibPoint(1, 1));
+                    array_pitch.Add(new GeoLibPointF(0, 0));
+                }
+
+                break;
         }
 
-        // Do we ever get here?
-
-        List<GeoLibPointF[]> points = new();
-        List<GeoLibPoint> array_count = new();
-        List<GeoLibPointF> array_pitch = new();
-
-        points.Add(structures[activeStructure].elements[activeLD].geometry.ToArray());
-        if (structures[activeStructure].elements[activeLD].arrayData != null)
+        double resizeFactor = 1.0;
+        switch (fileFormat)
         {
-            array_count.Add(new GeoLibPoint(structures[activeStructure].elements[activeLD].arrayData.count));
-            array_pitch.Add(new GeoLibPointF(structures[activeStructure].elements[activeLD].arrayData.pitch));
+            case (int)fileType.gds:
+                resizeFactor = drawingField.userunits / 1E-3;
+                break;
+            case (int)fileType.oasis:
+                resizeFactor = 1000.0 / drawingField.databaseunits;
+                break;
         }
-        else
-        {
-            array_count.Add(new GeoLibPoint(1, 1));
-            array_pitch.Add(new GeoLibPointF(0, 0));
-        }
-            
+        
+        points = GeoWrangler.resize(points, resizeFactor);
         return points;
     }
 

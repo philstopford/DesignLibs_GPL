@@ -298,8 +298,7 @@ public class GCDrawingfield
             for (int i = 0; i < cellList.Count; i++)
 #endif
             {
-                List<GCPolygon> cellPolys = cellList[i].convertToPolygons(layer:layer, datatype:datatype);
-                ret[i] = cellPolys.ToList();
+                ret[i] = cellList[i].convertToPolygons(layer:layer, datatype:datatype);
             }
 #if !GCSINGLETHREADED
         );

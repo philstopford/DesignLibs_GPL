@@ -6,6 +6,14 @@ namespace oasis;
 
 internal partial class oasReader
 {
+    private void registerLayerDatatype()
+    {
+        if (!layerNames.ContainsKey("L" + modal.layer + "D" + modal.datatype))
+        {
+            layerNames.Add("L" + modal.layer + "D" + modal.datatype, "L" + modal.layer + "D" + modal.datatype);
+        }
+    }
+
     private void addElement(elementType e, GeoLibPoint p)
     {
         int x;
@@ -90,6 +98,7 @@ internal partial class oasReader
     private void addBox()
     {
         cell_.addBox(modal.geometry_x, modal.geometry_y, modal.geometry_w, modal.geometry_h, modal.layer, modal.datatype);
+        registerLayerDatatype();
     }
 
     private void addCellref()
@@ -111,6 +120,7 @@ internal partial class oasReader
     private void addCircle()
     {
         cell_.addCircle(modal.layer, modal.datatype, new GeoLibPoint(modal.geometry_x, modal.geometry_y), modal.circle_radius);
+        registerLayerDatatype();
     }
 
     private void addPath()
@@ -150,6 +160,7 @@ internal partial class oasReader
                 break;
             }
         }
+        registerLayerDatatype();
     }
 
     private void addPolygon()
@@ -162,6 +173,7 @@ internal partial class oasReader
             pa[i].Offset(p.X, p.Y);
         }
         cell_.addPolygon(pa, modal.layer, modal.datatype);
+        registerLayerDatatype();
     }
 
     private void addText()
@@ -169,6 +181,7 @@ internal partial class oasReader
         cell_.addText(modal.textlayer, modal.datatype, new GeoLibPoint(modal.text_x, modal.text_y), modal.text_string);
         cell_.elementList[^1].setWidth(GCSetup.defaultTextWidth);
         cell_.elementList[^1].setPresentation(GCSetup.defaultTextPresentation);
+        registerLayerDatatype();
     }
 
     private void addTrapezoid()

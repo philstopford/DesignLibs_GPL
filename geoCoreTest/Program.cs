@@ -179,8 +179,8 @@ internal class Program
 
         defineAndWrite_manyCellrefs(4, outDir);
 
-        string baseName = "paisley";
-        loadSaveTest(baseName, gdsDir, oasDir, outDir);
+        // string baseName = "paisley";
+        // loadSaveTest(baseName, gdsDir, oasDir, outDir);
     }
 
     private static void loadSaveTest(string baseName, string gdsDir, string oasDir, string outDir)

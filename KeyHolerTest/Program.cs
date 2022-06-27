@@ -1,11 +1,11 @@
-﻿using ClipperLib;
+﻿using Clipper2Lib;
 using geoWrangler;
 using System.Collections.Generic;
 
 namespace KeyHolerTest;
 
-using Path = List<IntPoint>;
-using Paths = List<List<IntPoint>>;
+using Path = List<Point64>;
+using Paths = List<List<Point64>>;
 
 internal class Program
 {
@@ -77,27 +77,29 @@ internal class Program
     {
         Path outer = new()
         {
-            new IntPoint(-200000, -200000),
-            new IntPoint(200000, -200000),
-            new IntPoint(200000, 200000),
-            new IntPoint(-200000, 200000),
-            new IntPoint(-200000, -200000)
+            new(-200000, -200000),
+            new(200000, -200000),
+            new(200000, 200000),
+            new(-200000, 200000),
+            new(-200000, -200000)
         };
 
         Path inner1 = new()
         {
-            new IntPoint(-100000, -100000),
-            new IntPoint(-100000, 100000),
-            new IntPoint(100000, 100000),
-            new IntPoint(100000, -100000),
-            new IntPoint(-100000, -100000)
+            new(-100000, -100000),
+            new(-100000, 100000),
+            new(100000, 100000),
+            new(100000, -100000),
+            new(-100000, -100000)
         };
 
         // Segment the paths to match real-world case.
+        /*
         Fragmenter f = new(10000);
         Path outer_f = f.fragmentPath(outer);
 
         Path inner1_f = f.fragmentPath(inner1);
+        */
 
         Paths kHSource = new()
         {
@@ -105,110 +107,312 @@ internal class Program
             inner1
         };
 
-        // Generate keyholed geometry
-        Paths kH = GeoWrangler.makeKeyHole(kHSource);
+        /* Expect to have
 
+        kHSource = {List<List<Point64>>} Count = 2
+         [0] = {List<Point64>} Count = 5
+          [0] = {Point64} -200000,-200000,0 
+          [1] = {Point64} 200000,-200000,0 
+          [2] = {Point64} 200000,200000,0 
+          [3] = {Point64} -200000,200000,0 
+          [4] = {Point64} -200000,-200000,0 
+         [1] = {List<Point64>} Count = 5
+          [0] = {Point64} -100000,-100000,0 
+          [1] = {Point64} -100000,100000,0 
+          [2] = {Point64} 100000,100000,0 
+          [3] = {Point64} 100000,-100000,0 
+          [4] = {Point64} -100000,-100000,0 
+         */
+
+        // Generate keyholed geometry
+        Paths kH = GeoWrangler.makeKeyHole(kHSource, true);
+
+        /* Expected output
+
+        kH = {List<List<Point64>>} Count = 1
+         [0] = {List<Point64>} Count = 13
+          [0] = {Point64} 200000,-200000,0 
+          [1] = {Point64} 200000,-100500,0 
+          [2] = {Point64} 99500,-100500,0 
+          [3] = {Point64} 99500,-100000,0 
+          [4] = {Point64} -100000,-100000,0 
+          [5] = {Point64} -100000,100000,0 
+          [6] = {Point64} 100000,100000,0 
+          [7] = {Point64} 100000,-99500,0 
+          [8] = {Point64} 200000,-99500,0 
+          [9] = {Point64} 200000,200000,0 
+          [10] = {Point64} -200000,200000,0 
+          [11] = {Point64} -200000,-200000,0 
+          [12] = {Point64} 200000,-200000,0         
+        */
+        
         // Generate sliver geometry.
         Paths sL = new();
-        Clipper c = new();
-        c.AddPath(outer, PolyType.ptSubject, true);
-        c.AddPaths(kH, PolyType.ptClip, true);
-        c.Execute(ClipType.ctDifference, sL);
+        Clipper64 c = new();
+        c.AddSubject(outer);
+        c.AddClip(kH);
+        c.Execute(ClipType.Difference, FillRule.EvenOdd, sL);
 
+        /* Expected output
+        sL = {List<List<Point64>>} Count = 1
+         [0] = {List<Point64>} Count = 8
+          [0] = {Point64} 99500,-100500,0 
+          [1] = {Point64} 99500,-100000,0 
+          [2] = {Point64} -100000,-100000,0 
+          [3] = {Point64} -100000,100000,0 
+          [4] = {Point64} 100000,100000,0 
+          [5] = {Point64} 100000,-99500,0 
+          [6] = {Point64} 200000,-99500,0 
+          [7] = {Point64} 200000,-100500,0 
+           */
+        
         // Gap removal test
         Paths gR = GeoWrangler.gapRemoval(kH, 100);
 
+        /* Expected output
+        gR = {List<List<Point64>>} Count = 1
+         [0] = {List<Point64>} Count = 13
+          [0] = {Point64} 200000,-200000,0 
+          [1] = {Point64} 200000,-100500,0 
+          [2] = {Point64} 99500,-100500,0 
+          [3] = {Point64} 99500,-100000,0 
+          [4] = {Point64} -100000,-100000,0 
+          [5] = {Point64} -100000,100000,0 
+          [6] = {Point64} 100000,100000,0 
+          [7] = {Point64} 100000,-99500,0 
+          [8] = {Point64} 200000,-99500,0 
+          [9] = {Point64} 200000,200000,0 
+          [10] = {Point64} -200000,200000,0 
+          [11] = {Point64} -200000,-200000,0 
+          [12] = {Point64} 200000,-200000,0 
+         */
+    
         // Sliver removal test
         Paths sR = GeoWrangler.gapRemoval(sL, -100);
+        
+        /* Expected output
+        sR = {List<List<Point64>>} Count = 1
+         [0] = {List<Point64>} Count = 9
+          [0] = {Point64} -100000,-100000,0 
+          [1] = {Point64} -100000,100000,0 
+          [2] = {Point64} 100000,100000,0 
+          [3] = {Point64} 100000,-99500,0 
+          [4] = {Point64} 200000,-99500,0 
+          [5] = {Point64} 200000,-100500,0 
+          [6] = {Point64} 99500,-100500,0 
+          [7] = {Point64} 99500,-100000,0 
+          [8] = {Point64} -100000,-100000,0 
+           */
     }
 
     private static void multiTest()
     {
         Path outer = new()
         {
-            new IntPoint(-300000, -200000),
-            new IntPoint(300000, -200000),
-            new IntPoint(300000, 200000),
-            new IntPoint(-300000, 200000),
-            new IntPoint(-300000, -200000)
+            new(-300000, -200000),
+            new(300000, -200000),
+            new(300000, 200000),
+            new(-300000, 200000),
+            new(-300000, -200000)
         };
 
         Path inner1 = new()
         {
-            new IntPoint(-200000, -100000),
-            new IntPoint(-200000, 100000),
-            new IntPoint(-100000, 100000),
-            new IntPoint(-100000, -100000),
-            new IntPoint(-200000, -100000)
+            new(-200000, -100000),
+            new(-200000, 100000),
+            new(-100000, 100000),
+            new(-100000, -100000),
+            new(-200000, -100000)
         };
 
         Path inner2 = new()
         {
-            new IntPoint(100000, -100000),
-            new IntPoint(100000, 100000),
-            new IntPoint(200000, 100000),
-            new IntPoint(200000, -100000),
-            new IntPoint(100000, -100000)
+            new(100000, -100000),
+            new(100000, 100000),
+            new(200000, 100000),
+            new(200000, -100000),
+            new(100000, -100000)
         };
 
         // Segment the paths to match real-world case.
+        /*
         Fragmenter f = new(10000);
         Path outer_f = f.fragmentPath(outer);
 
         Path inner1_f = f.fragmentPath(inner1);
         Path inner2_f = f.fragmentPath(inner2);
-
+        */
         Paths kHSource = new()
         {
             outer,
             inner1,
             inner2
         };
+        
+        /* Expected
+        kHSource = {List<List<Point64>>} Count = 3
+         [0] = {List<Point64>} Count = 5
+          [0] = {Point64} -300000,-200000,0 
+          [1] = {Point64} 300000,-200000,0 
+          [2] = {Point64} 300000,200000,0 
+          [3] = {Point64} -300000,200000,0 
+          [4] = {Point64} -300000,-200000,0 
+         [1] = {List<Point64>} Count = 5
+          [0] = {Point64} -200000,-100000,0 
+          [1] = {Point64} -200000,100000,0 
+          [2] = {Point64} -100000,100000,0 
+          [3] = {Point64} -100000,-100000,0 
+          [4] = {Point64} -200000,-100000,0 
+         [2] = {List<Point64>} Count = 5
+          [0] = {Point64} 100000,-100000,0 
+          [1] = {Point64} 100000,100000,0 
+          [2] = {Point64} 200000,100000,0 
+          [3] = {Point64} 200000,-100000,0 
+          [4] = {Point64} 100000,-100000,0 
+           */
 
         // Generate keyholed geometry
-        Paths kH = GeoWrangler.makeKeyHole(new Paths(kHSource));
+        Paths kH = GeoWrangler.makeKeyHole(new Paths(kHSource), true);
 
+        /* Expected output
+        kH = {List<List<Point64>>} Count = 1
+         [0] = {List<Point64>} Count = 21
+          [0] = {Point64} 300000,-200000,0 
+          [1] = {Point64} 300000,-100500,0 
+          [2] = {Point64} 199500,-100500,0 
+          [3] = {Point64} 199500,-100000,0 
+          [4] = {Point64} 100000,-100000,0 
+          [5] = {Point64} 100000,100000,0 
+          [6] = {Point64} 200000,100000,0 
+          [7] = {Point64} 200000,-99500,0 
+          [8] = {Point64} 300000,-99500,0 
+          [9] = {Point64} 300000,200000,0 
+          [10] = {Point64} -300000,200000,0 
+          [11] = {Point64} -300000,100500,0 
+          [12] = {Point64} -199500,100500,0 
+          [13] = {Point64} -199500,100000,0 
+          [14] = {Point64} -100000,100000,0 
+          [15] = {Point64} -100000,-100000,0 
+          [16] = {Point64} -200000,-100000,0 
+          [17] = {Point64} -200000,99500,0 
+          [18] = {Point64} -300000,99500,0 
+          [19] = {Point64} -300000,-200000,0 
+          [20] = {Point64} 300000,-200000,0 
+           */
+        
         // Generate sliver geometry.
         Paths sL = new();
-        Clipper c = new();
-        c.AddPath(outer, PolyType.ptSubject, true);
-        c.AddPaths(kH, PolyType.ptClip, true);
-        c.Execute(ClipType.ctDifference, sL);
+        Clipper64 c = new();
+        c.AddSubject(outer);
+        c.AddClip(kH);
+        c.Execute(ClipType.Difference, FillRule.EvenOdd, sL);
+        
+        /* Expected output
+        sL = {List<List<Point64>>} Count = 2
+         [0] = {List<Point64>} Count = 8
+          [0] = {Point64} -300000,100500,0 
+          [1] = {Point64} -199500,100500,0 
+          [2] = {Point64} -199500,100000,0 
+          [3] = {Point64} -100000,100000,0 
+          [4] = {Point64} -100000,-100000,0 
+          [5] = {Point64} -200000,-100000,0 
+          [6] = {Point64} -200000,99500,0 
+          [7] = {Point64} -300000,99500,0 
+         [1] = {List<Point64>} Count = 8
+          [0] = {Point64} 199500,-100500,0 
+          [1] = {Point64} 199500,-100000,0 
+          [2] = {Point64} 100000,-100000,0 
+          [3] = {Point64} 100000,100000,0 
+          [4] = {Point64} 200000,100000,0 
+          [5] = {Point64} 200000,-99500,0 
+          [6] = {Point64} 300000,-99500,0 
+          [7] = {Point64} 300000,-100500,0 
+           */
 
         // Gap removal test
         Paths gR = GeoWrangler.gapRemoval(kH, 100);
 
+        /* Expected output
+        gR = {List<List<Point64>>} Count = 1
+         [0] = {List<Point64>} Count = 21
+          [0] = {Point64} 300000,-200000,0 
+          [1] = {Point64} 300000,-100500,0 
+          [2] = {Point64} 199500,-100500,0 
+          [3] = {Point64} 199500,-100000,0 
+          [4] = {Point64} 100000,-100000,0 
+          [5] = {Point64} 100000,100000,0 
+          [6] = {Point64} 200000,100000,0 
+          [7] = {Point64} 200000,-99500,0 
+          [8] = {Point64} 300000,-99500,0 
+          [9] = {Point64} 300000,200000,0 
+          [10] = {Point64} -300000,200000,0 
+          [11] = {Point64} -300000,100500,0 
+          [12] = {Point64} -199500,100500,0 
+          [13] = {Point64} -199500,100000,0 
+          [14] = {Point64} -100000,100000,0 
+          [15] = {Point64} -100000,-100000,0 
+          [16] = {Point64} -200000,-100000,0 
+          [17] = {Point64} -200000,99500,0 
+          [18] = {Point64} -300000,99500,0 
+          [19] = {Point64} -300000,-200000,0 
+          [20] = {Point64} 300000,-200000,0 
+           */
+        
         // Sliver removal test
         Paths sR = GeoWrangler.gapRemoval(sL, -100);
+        
+        /* Expected output
+        sR = {List<List<Point64>>} Count = 2
+         [0] = {List<Point64>} Count = 9
+          [0] = {Point64} -300000,99500,0 
+          [1] = {Point64} -300000,100500,0 
+          [2] = {Point64} -199500,100500,0 
+          [3] = {Point64} -199500,100000,0 
+          [4] = {Point64} -100000,100000,0 
+          [5] = {Point64} -100000,-100000,0 
+          [6] = {Point64} -200000,-100000,0 
+          [7] = {Point64} -200000,99500,0 
+          [8] = {Point64} -300000,99500,0 
+         [1] = {List<Point64>} Count = 9
+          [0] = {Point64} 100000,-100000,0 
+          [1] = {Point64} 100000,100000,0 
+          [2] = {Point64} 200000,100000,0 
+          [3] = {Point64} 200000,-99500,0 
+          [4] = {Point64} 300000,-99500,0 
+          [5] = {Point64} 300000,-100500,0 
+          [6] = {Point64} 199500,-100500,0 
+          [7] = {Point64} 199500,-100000,0 
+          [8] = {Point64} 100000,-100000,0 
+           */
     }
 
     private static void multiCutTest()
     {
         Path outer = new()
         {
-            new IntPoint(0, 0),
-            new IntPoint(400000, 00000),
-            new IntPoint(400000, 400000),
-            new IntPoint(0, 400000),
-            new IntPoint(0, 0)
+            new(0, 0),
+            new(400000, 00000),
+            new(400000, 400000),
+            new(0, 400000),
+            new(0, 0)
         };
 
         Path inner1 = new()
         {
-            new IntPoint(50000, 150000),
-            new IntPoint(50000, 250000),
-            new IntPoint(350000, 250000),
-            new IntPoint(350000, 150000),
-            new IntPoint(50000, 150000)
+            new(50000, 150000),
+            new(50000, 250000),
+            new(350000, 250000),
+            new(350000, 150000),
+            new(50000, 150000)
         };
 
         Path inner2 = new()
         {
-            new IntPoint(150000, 50000),
-            new IntPoint(150000, 350000),
-            new IntPoint(250000, 350000),
-            new IntPoint(250000, 50000),
-            new IntPoint(150000, 50000)
+            new(150000, 50000),
+            new(150000, 350000),
+            new(250000, 350000),
+            new(250000, 50000),
+            new(150000, 50000)
         };
 
         Paths kHSource = new()
@@ -216,33 +420,196 @@ internal class Program
             outer,
             inner1
         };
+        
+        /* Expected
+        kHSource = {List<List<Point64>>} Count = 2
+         [0] = {List<Point64>} Count = 5
+          [0] = {Point64} 0,0,0 
+          [1] = {Point64} 400000,0,0 
+          [2] = {Point64} 400000,400000,0 
+          [3] = {Point64} 0,400000,0 
+          [4] = {Point64} 0,0,0 
+         [1] = {List<Point64>} Count = 5
+          [0] = {Point64} 50000,150000,0 
+          [1] = {Point64} 50000,250000,0 
+          [2] = {Point64} 350000,250000,0 
+          [3] = {Point64} 350000,150000,0 
+          [4] = {Point64} 50000,150000,0 
+           */
 
         // Generate keyholed geometry
-        Paths kH = GeoWrangler.makeKeyHole(new Paths(kHSource));
+        Paths kH = GeoWrangler.makeKeyHole(new Paths(kHSource), true);
 
+        /* Expected output
+        kH = {List<List<Point64>>} Count = 1
+         [0] = {List<Point64>} Count = 13
+          [0] = {Point64} 400000,0,0 
+          [1] = {Point64} 400000,149500,0 
+          [2] = {Point64} 349500,149500,0 
+          [3] = {Point64} 349500,150000,0 
+          [4] = {Point64} 50000,150000,0 
+          [5] = {Point64} 50000,250000,0 
+          [6] = {Point64} 350000,250000,0 
+          [7] = {Point64} 350000,150500,0 
+          [8] = {Point64} 400000,150500,0 
+          [9] = {Point64} 400000,400000,0 
+          [10] = {Point64} 0,400000,0 
+          [11] = {Point64} 0,0,0 
+          [12] = {Point64} 400000,0,0 
+           */
+        
         Paths kHSource2 = new();
         kHSource2.AddRange(kH);
         kHSource2.Add(inner2);
 
+        /* Expected
+        kHSource2 = {List<List<Point64>>} Count = 2
+         [0] = {List<Point64>} Count = 13
+          [0] = {Point64} 400000,0,0 
+          [1] = {Point64} 400000,149500,0 
+          [2] = {Point64} 349500,149500,0 
+          [3] = {Point64} 349500,150000,0 
+          [4] = {Point64} 50000,150000,0 
+          [5] = {Point64} 50000,250000,0 
+          [6] = {Point64} 350000,250000,0 
+          [7] = {Point64} 350000,150500,0 
+          [8] = {Point64} 400000,150500,0 
+          [9] = {Point64} 400000,400000,0 
+          [10] = {Point64} 0,400000,0 
+          [11] = {Point64} 0,0,0 
+          [12] = {Point64} 400000,0,0 
+         [1] = {List<Point64>} Count = 5
+          [0] = {Point64} 150000,50000,0 
+          [1] = {Point64} 150000,350000,0 
+          [2] = {Point64} 250000,350000,0 
+          [3] = {Point64} 250000,50000,0 
+          [4] = {Point64} 150000,50000,0 
+           */
+        
         // Generate keyholed geometry
-        Paths kH2 = GeoWrangler.makeKeyHole(new Paths(kHSource2));
+        Paths kH2 = GeoWrangler.makeKeyHole(new Paths(kHSource2), true);
 
+        /* Expected output
+        kH2 = {List<List<Point64>>} Count = 1
+         [0] = {List<Point64>} Count = 21
+          [0] = {Point64} 400000,0,0 
+          [1] = {Point64} 400000,149500,0 
+          [2] = {Point64} 349500,149500,0 
+          [3] = {Point64} 349500,150000,0 
+          [4] = {Point64} 250000,150000,0 
+          [5] = {Point64} 250000,50000,0 
+          [6] = {Point64} 150000,50000,0 
+          [7] = {Point64} 150000,150000,0 
+          [8] = {Point64} 50000,150000,0 
+          [9] = {Point64} 50000,250000,0 
+          [10] = {Point64} 150000,250000,0 
+          [11] = {Point64} 150000,350000,0 
+          [12] = {Point64} 250000,350000,0 
+          [13] = {Point64} 250000,250000,0 
+          [14] = {Point64} 350000,250000,0 
+          [15] = {Point64} 350000,150500,0 
+          [16] = {Point64} 400000,150500,0 
+          [17] = {Point64} 400000,400000,0 
+          [18] = {Point64} 0,400000,0 
+          [19] = {Point64} 0,0,0 
+          [20] = {Point64} 400000,0,0 
+           */
+        
         // Generate sliver geometry.
-        Clipper c = new();
+        Clipper64 c = new();
         Paths sL = new();
-        c.AddPath(outer, PolyType.ptSubject, true);
-        c.AddPaths(kH, PolyType.ptClip, true);
-        c.Execute(ClipType.ctDifference, sL);
+        c.AddSubject(outer);
+        c.AddClip(kH);
+        c.Execute(ClipType.Difference, FillRule.EvenOdd, sL);
+        
+        /* Expected output
+        sL = {List<List<Point64>>} Count = 1
+         [0] = {List<Point64>} Count = 8
+          [0] = {Point64} 349500,149500,0 
+          [1] = {Point64} 349500,150000,0 
+          [2] = {Point64} 50000,150000,0 
+          [3] = {Point64} 50000,250000,0 
+          [4] = {Point64} 350000,250000,0 
+          [5] = {Point64} 350000,150500,0 
+          [6] = {Point64} 400000,150500,0 
+          [7] = {Point64} 400000,149500,0 
+           */
 
         c.Clear();
         Paths sL2 = new();
-        c.AddPath(outer, PolyType.ptSubject, true);
-        c.AddPaths(kH2, PolyType.ptClip, true);
-        c.Execute(ClipType.ctDifference, sL2);
+        c.AddSubject(outer);
+        c.AddClip(kH2);
+        c.Execute(ClipType.Difference, FillRule.EvenOdd, sL2);
+        
+        /* Expected output
+        sL2 = {List<List<Point64>>} Count = 1
+         [0] = {List<Point64>} Count = 16
+          [0] = {Point64} 349500,149500,0 
+          [1] = {Point64} 349500,150000,0 
+          [2] = {Point64} 250000,150000,0 
+          [3] = {Point64} 250000,50000,0 
+          [4] = {Point64} 150000,50000,0 
+          [5] = {Point64} 150000,150000,0 
+          [6] = {Point64} 50000,150000,0 
+          [7] = {Point64} 50000,250000,0 
+          [8] = {Point64} 150000,250000,0 
+          [9] = {Point64} 150000,350000,0 
+          [10] = {Point64} 250000,350000,0 
+          [11] = {Point64} 250000,250000,0 
+          [12] = {Point64} 350000,250000,0 
+          [13] = {Point64} 350000,150500,0 
+          [14] = {Point64} 400000,150500,0 
+          [15] = {Point64} 400000,149500,0 
+           */
 
         // Gap removal test
         Paths gR = GeoWrangler.gapRemoval(kH, 100);
+        
+        /* Expected output
+        gR = {List<List<Point64>>} Count = 1
+         [0] = {List<Point64>} Count = 13
+          [0] = {Point64} 400000,0,0 
+          [1] = {Point64} 400000,149500,0 
+          [2] = {Point64} 349500,149500,0 
+          [3] = {Point64} 349500,150000,0 
+          [4] = {Point64} 50000,150000,0 
+          [5] = {Point64} 50000,250000,0 
+          [6] = {Point64} 350000,250000,0 
+          [7] = {Point64} 350000,150500,0 
+          [8] = {Point64} 400000,150500,0 
+          [9] = {Point64} 400000,400000,0 
+          [10] = {Point64} 0,400000,0 
+          [11] = {Point64} 0,0,0 
+          [12] = {Point64} 400000,0,0 
+           */
+        
         Paths gR2 = GeoWrangler.gapRemoval(kH2, 100);
+        
+        /* Expected output
+        gR2 = {List<List<Point64>>} Count = 1
+         [0] = {List<Point64>} Count = 21
+          [0] = {Point64} 400000,0,0 
+          [1] = {Point64} 400000,149500,0 
+          [2] = {Point64} 349500,149500,0 
+          [3] = {Point64} 349500,150000,0 
+          [4] = {Point64} 250000,150000,0 
+          [5] = {Point64} 250000,50000,0 
+          [6] = {Point64} 150000,50000,0 
+          [7] = {Point64} 150000,150000,0 
+          [8] = {Point64} 50000,150000,0 
+          [9] = {Point64} 50000,250000,0 
+          [10] = {Point64} 150000,250000,0 
+          [11] = {Point64} 150000,350000,0 
+          [12] = {Point64} 250000,350000,0 
+          [13] = {Point64} 250000,250000,0 
+          [14] = {Point64} 350000,250000,0 
+          [15] = {Point64} 350000,150500,0 
+          [16] = {Point64} 400000,150500,0 
+          [17] = {Point64} 400000,400000,0 
+          [18] = {Point64} 0,400000,0 
+          [19] = {Point64} 0,0,0 
+          [20] = {Point64} 400000,0,0 
+           */
 
         Paths kHSource3 = new();
         kHSource3.AddRange(gR);
@@ -251,262 +618,1387 @@ internal class Program
         kHSource4.AddRange(gR2);
 
         // Generate keyholed geometry
-        Paths kH3 = GeoWrangler.makeKeyHole(new Paths(kHSource3));
-        Paths kH4 = GeoWrangler.makeKeyHole(new Paths(kHSource4));
+        Paths kH3 = GeoWrangler.makeKeyHole(new Paths(kHSource3), true);
+        
+        /* Expected output
+        kH3 = {List<List<Point64>>} Count = 1
+         [0] = {List<Point64>} Count = 13
+          [0] = {Point64} 400000,0,0 
+          [1] = {Point64} 400000,149500,0 
+          [2] = {Point64} 349500,149500,0 
+          [3] = {Point64} 349500,150000,0 
+          [4] = {Point64} 50000,150000,0 
+          [5] = {Point64} 50000,250000,0 
+          [6] = {Point64} 350000,250000,0 
+          [7] = {Point64} 350000,150500,0 
+          [8] = {Point64} 400000,150500,0 
+          [9] = {Point64} 400000,400000,0 
+          [10] = {Point64} 0,400000,0 
+          [11] = {Point64} 0,0,0 
+          [12] = {Point64} 400000,0,0 
+           */
+        
+        Paths kH4 = GeoWrangler.makeKeyHole(new Paths(kHSource4), true);
 
+        /* Expected output
+        kH4 = {List<List<Point64>>} Count = 1
+         [0] = {List<Point64>} Count = 21
+          [0] = {Point64} 400000,0,0 
+          [1] = {Point64} 400000,149500,0 
+          [2] = {Point64} 349500,149500,0 
+          [3] = {Point64} 349500,150000,0 
+          [4] = {Point64} 250000,150000,0 
+          [5] = {Point64} 250000,50000,0 
+          [6] = {Point64} 150000,50000,0 
+          [7] = {Point64} 150000,150000,0 
+          [8] = {Point64} 50000,150000,0 
+          [9] = {Point64} 50000,250000,0 
+          [10] = {Point64} 150000,250000,0 
+          [11] = {Point64} 150000,350000,0 
+          [12] = {Point64} 250000,350000,0 
+          [13] = {Point64} 250000,250000,0 
+          [14] = {Point64} 350000,250000,0 
+          [15] = {Point64} 350000,150500,0 
+          [16] = {Point64} 400000,150500,0 
+          [17] = {Point64} 400000,400000,0 
+          [18] = {Point64} 0,400000,0 
+          [19] = {Point64} 0,0,0 
+          [20] = {Point64} 400000,0,0 
+           */
+        
         // Sliver removal test
         Paths sR = GeoWrangler.gapRemoval(sL, -100);
+        
+        /* Expected output
+        sR = {List<List<Point64>>} Count = 1
+         [0] = {List<Point64>} Count = 9
+          [0] = {Point64} 50000,150000,0 
+          [1] = {Point64} 50000,250000,0 
+          [2] = {Point64} 350000,250000,0 
+          [3] = {Point64} 350000,150500,0 
+          [4] = {Point64} 400000,150500,0 
+          [5] = {Point64} 400000,149500,0 
+          [6] = {Point64} 349500,149500,0 
+          [7] = {Point64} 349500,150000,0 
+          [8] = {Point64} 50000,150000,0 
+           */
+        
         Paths sR2 = GeoWrangler.gapRemoval(sL2, -100);
+        
+        /* Expected output
+        sR2 = {List<List<Point64>>} Count = 1
+         [0] = {List<Point64>} Count = 17
+          [0] = {Point64} 50000,150000,0 
+          [1] = {Point64} 50000,250000,0 
+          [2] = {Point64} 150000,250000,0 
+          [3] = {Point64} 150000,350000,0 
+          [4] = {Point64} 250000,350000,0 
+          [5] = {Point64} 250000,250000,0 
+          [6] = {Point64} 350000,250000,0 
+          [7] = {Point64} 350000,150500,0 
+          [8] = {Point64} 400000,150500,0 
+          [9] = {Point64} 400000,149500,0 
+          [10] = {Point64} 349500,149500,0 
+          [11] = {Point64} 349500,150000,0 
+          [12] = {Point64} 250000,150000,0 
+          [13] = {Point64} 250000,50000,0 
+          [14] = {Point64} 150000,50000,0 
+          [15] = {Point64} 150000,150000,0 
+          [16] = {Point64} 50000,150000,0 
+           */
     }
 
     private static void selfOverlapTest()
     {
         Path outer = new()
         {
-            new IntPoint(0, 0),
-            new IntPoint(110000, 0),
-            new IntPoint(110000, 50000),
-            new IntPoint(50000, 50000),
-            new IntPoint(50000, 150000),
-            new IntPoint(150000, 150000),
-            new IntPoint(150000, 50000),
-            new IntPoint(90000, 50000),
-            new IntPoint(90000, 0),
-            new IntPoint(200000, 0),
-            new IntPoint(200000, 200000),
-            new IntPoint(0, 200000),
-            new IntPoint(0, 0)
+            new(0, 0),
+            new(110000, 0),
+            new(110000, 50000),
+            new(50000, 50000),
+            new(50000, 150000),
+            new(150000, 150000),
+            new(150000, 50000),
+            new(90000, 50000),
+            new(90000, 0),
+            new(200000, 0),
+            new(200000, 200000),
+            new(0, 200000),
+            new(0, 0)
         };
 
         // decomposer test
         Paths dSource = new() {outer};
         Paths decomp = GeoWrangler.decompose(dSource);
-        Paths kHD = GeoWrangler.makeKeyHole(dSource);
+        
+        /* Expected output
+        decomp = {List<List<Point64>>} Count = 2
+         [0] = {List<Point64>} Count = 6
+          [0] = {Point64} 0,0,0 
+          [1] = {Point64} 0,200000,0 
+          [2] = {Point64} 200000,200000,0 
+          [3] = {Point64} 200000,0,0 
+          [4] = {Point64} 110000,0,0 
+          [5] = {Point64} 0,0,0 
+         [1] = {List<Point64>} Count = 6
+          [0] = {Point64} 50000,50000,0 
+          [1] = {Point64} 90000,50000,0 
+          [2] = {Point64} 150000,50000,0 
+          [3] = {Point64} 150000,150000,0 
+          [4] = {Point64} 50000,150000,0 
+          [5] = {Point64} 50000,50000,0 
+           */
+        
+        Paths kHD = GeoWrangler.makeKeyHole(dSource, true);
 
+        /* Expected output
+        kHD = {List<List<Point64>>} Count = 1
+         [0] = {List<Point64>} Count = 13
+          [0] = {Point64} 200000,0,0 
+          [1] = {Point64} 200000,49500,0 
+          [2] = {Point64} 149500,49500,0 
+          [3] = {Point64} 149500,50000,0 
+          [4] = {Point64} 50000,50000,0 
+          [5] = {Point64} 50000,150000,0 
+          [6] = {Point64} 150000,150000,0 
+          [7] = {Point64} 150000,50500,0 
+          [8] = {Point64} 200000,50500,0 
+          [9] = {Point64} 200000,200000,0 
+          [10] = {Point64} 0,200000,0 
+          [11] = {Point64} 0,0,0 
+          [12] = {Point64} 200000,0,0 
+           */
+        
         // keyholer test
         Paths kHSource = new() {outer};
-        Paths kH = GeoWrangler.makeKeyHole(kHSource);
+        Paths kH = GeoWrangler.makeKeyHole(kHSource, true);
 
-        Clipper c = new()
-        {
-            PreserveCollinear = true
-        };
-        c.AddPath(outer, PolyType.ptSubject, true);
+        /* Expected output
+        kH = {List<List<Point64>>} Count = 1
+         [0] = {List<Point64>} Count = 13
+          [0] = {Point64} 200000,0,0 
+          [1] = {Point64} 200000,49500,0 
+          [2] = {Point64} 149500,49500,0 
+          [3] = {Point64} 149500,50000,0 
+          [4] = {Point64} 50000,50000,0 
+          [5] = {Point64} 50000,150000,0 
+          [6] = {Point64} 150000,150000,0 
+          [7] = {Point64} 150000,50500,0 
+          [8] = {Point64} 200000,50500,0 
+          [9] = {Point64} 200000,200000,0 
+          [10] = {Point64} 0,200000,0 
+          [11] = {Point64} 0,0,0 
+          [12] = {Point64} 200000,0,0 
+           */
+        
+        Clipper64 c = new();
+        c.AddSubject(outer);
 
-        // no good
         Paths unionRes = new();
-        c.Execute(ClipType.ctUnion, unionRes);
-        Paths unionRes_kH = GeoWrangler.makeKeyHole(unionRes);
+        c.Execute(ClipType.Union, FillRule.EvenOdd, unionRes);
+        
+        /* Expected output
+        unionRes = {List<List<Point64>>} Count = 1
+         [0] = {List<Point64>} Count = 13
+          [0] = {Point64} 110000,50000,0 
+          [1] = {Point64} 150000,50000,0 
+          [2] = {Point64} 150000,150000,0 
+          [3] = {Point64} 50000,150000,0 
+          [4] = {Point64} 50000,50000,0 
+          [5] = {Point64} 90000,50000,0 
+          [6] = {Point64} 90000,0,0 
+          [7] = {Point64} 0,0,0 
+          [8] = {Point64} 0,200000,0 
+          [9] = {Point64} 200000,200000,0 
+          [10] = {Point64} 200000,0,0 
+          [11] = {Point64} 110000,0,0 
+          [12] = {Point64} 110000,50000,0 
+           */
+        
+        Paths unionRes_kH = GeoWrangler.makeKeyHole(unionRes, true);
+        
+        /* Expected output
+        unionRes_kH = {List<List<Point64>>} Count = 1
+         [0] = {List<Point64>} Count = 13
+          [0] = {Point64} 0,0,0 
+          [1] = {Point64} 0,200000,0 
+          [2] = {Point64} 200000,200000,0 
+          [3] = {Point64} 200000,0,0 
+          [4] = {Point64} 110000,0,0 
+          [5] = {Point64} 110000,50000,0 
+          [6] = {Point64} 150000,50000,0 
+          [7] = {Point64} 150000,150000,0 
+          [8] = {Point64} 50000,150000,0 
+          [9] = {Point64} 50000,50000,0 
+          [10] = {Point64} 90000,50000,0 
+          [11] = {Point64} 90000,0,0 
+          [12] = {Point64} 0,0,0 
+           */
+        
         Paths unionResc = GeoWrangler.close(unionRes);
-        Paths unionResc_kH = GeoWrangler.makeKeyHole(unionResc);
+        Paths unionResc_kH = GeoWrangler.makeKeyHole(unionResc, true);
 
-        // seems good - get keyhole
+        /* Expected output
+        unionResc_kH = {List<List<Point64>>} Count = 1
+         [0] = {List<Point64>} Count = 13
+          [0] = {Point64} 0,0,0 
+          [1] = {Point64} 0,200000,0 
+          [2] = {Point64} 200000,200000,0 
+          [3] = {Point64} 200000,0,0 
+          [4] = {Point64} 110000,0,0 
+          [5] = {Point64} 110000,50000,0 
+          [6] = {Point64} 150000,50000,0 
+          [7] = {Point64} 150000,150000,0 
+          [8] = {Point64} 50000,150000,0 
+          [9] = {Point64} 50000,50000,0 
+          [10] = {Point64} 90000,50000,0 
+          [11] = {Point64} 90000,0,0 
+          [12] = {Point64} 0,0,0 
+           */
+        
         Paths unionResP = new();
-        c.Execute(ClipType.ctUnion, unionResP, PolyFillType.pftPositive);
-        Paths unionResP_kH = GeoWrangler.makeKeyHole(unionResP);
+        c.Execute(ClipType.Union, FillRule.Positive, unionResP);
+        
+        /* Expected output
+         No geometry in unionResP
+         */
+        
+        // no keyhole for any of the below
+        Paths unionResP_kH = GeoWrangler.makeKeyHole(unionResP, true);
         Paths unionResPc = GeoWrangler.close(unionResP);
-        Paths unionResPc_kH = GeoWrangler.makeKeyHole(unionResPc);
+        Paths unionResPc_kH = GeoWrangler.makeKeyHole(unionResPc, true);
 
         // seems good - get keyhole
         Paths unionResNZ = new();
-        c.Execute(ClipType.ctUnion, unionResNZ, PolyFillType.pftNonZero);
-        Paths unionResNZ_kH = GeoWrangler.makeKeyHole(unionResNZ);
+        c.Execute(ClipType.Union, FillRule.NonZero, unionResNZ);
+        
+        /* Expected output
+        unionResNZ = {List<List<Point64>>} Count = 2
+         [0] = {List<Point64>} Count = 6
+          [0] = {Point64} 0,0,0 
+          [1] = {Point64} 0,200000,0 
+          [2] = {Point64} 200000,200000,0 
+          [3] = {Point64} 200000,0,0 
+          [4] = {Point64} 110000,0,0 
+          [5] = {Point64} 0,0,0 
+         [1] = {List<Point64>} Count = 6
+          [0] = {Point64} 90000,50000,0 
+          [1] = {Point64} 150000,50000,0 
+          [2] = {Point64} 150000,150000,0 
+          [3] = {Point64} 50000,150000,0 
+          [4] = {Point64} 50000,50000,0 
+          [5] = {Point64} 90000,50000,0 
+           */
+        
+        Paths unionResNZ_kH = GeoWrangler.makeKeyHole(unionResNZ, true);
+        
+        /* Expected output
+        unionResNZ_kH = {List<List<Point64>>} Count = 1
+         [0] = {List<Point64>} Count = 13
+          [0] = {Point64} 200000,0,0 
+          [1] = {Point64} 200000,49500,0 
+          [2] = {Point64} 149500,49500,0 
+          [3] = {Point64} 149500,50000,0 
+          [4] = {Point64} 50000,50000,0 
+          [5] = {Point64} 50000,150000,0 
+          [6] = {Point64} 150000,150000,0 
+          [7] = {Point64} 150000,50500,0 
+          [8] = {Point64} 200000,50500,0 
+          [9] = {Point64} 200000,200000,0 
+          [10] = {Point64} 0,200000,0 
+          [11] = {Point64} 0,0,0 
+          [12] = {Point64} 200000,0,0 
+           */
+        
         Paths unionResNZc = GeoWrangler.close(unionResNZ);
-        Paths unionResNZc_kH = GeoWrangler.makeKeyHole(unionResNZc);
+        
+        /* Expected output
+        unionResNZc = {List<List<Point64>>} Count = 2
+         [0] = {List<Point64>} Count = 6
+          [0] = {Point64} 0,0,0 
+          [1] = {Point64} 0,200000,0 
+          [2] = {Point64} 200000,200000,0 
+          [3] = {Point64} 200000,0,0 
+          [4] = {Point64} 110000,0,0 
+          [5] = {Point64} 0,0,0 
+         [1] = {List<Point64>} Count = 6
+          [0] = {Point64} 90000,50000,0 
+          [1] = {Point64} 150000,50000,0 
+          [2] = {Point64} 150000,150000,0 
+          [3] = {Point64} 50000,150000,0 
+          [4] = {Point64} 50000,50000,0 
+          [5] = {Point64} 90000,50000,0 
+           */
+        
+        Paths unionResNZc_kH = GeoWrangler.makeKeyHole(unionResNZc, true);
+        
+        /* Expected result
+        unionResNZc_kH = {List<List<Point64>>} Count = 1
+         [0] = {List<Point64>} Count = 13
+          [0] = {Point64} 200000,0,0 
+          [1] = {Point64} 200000,49500,0 
+          [2] = {Point64} 149500,49500,0 
+          [3] = {Point64} 149500,50000,0 
+          [4] = {Point64} 50000,50000,0 
+          [5] = {Point64} 50000,150000,0 
+          [6] = {Point64} 150000,150000,0 
+          [7] = {Point64} 150000,50500,0 
+          [8] = {Point64} 200000,50500,0 
+          [9] = {Point64} 200000,200000,0 
+          [10] = {Point64} 0,200000,0 
+          [11] = {Point64} 0,0,0 
+          [12] = {Point64} 200000,0,0 
+           */
 
-        // no good - no result
         Paths simplifyRes = new();
-        simplifyRes = Clipper.SimplifyPolygon(outer, preserveColinear: false);
-        Paths simplifyRes_kH = GeoWrangler.makeKeyHole(simplifyRes);
-        Paths simplifyResc = GeoWrangler.close(simplifyRes);
-        Paths simplifyResc_kH = GeoWrangler.makeKeyHole(simplifyResc);
+        c.Execute(ClipType.Union, FillRule.EvenOdd, simplifyRes);
+        simplifyRes = GeoWrangler.stripColinear(simplifyRes);
 
+        /* Expected output
+        simplifyRes = {List<List<Point64>>} Count = 1
+         [0] = {List<Point64>} Count = 13
+          [0] = {Point64} 110000,50000,0 
+          [1] = {Point64} 150000,50000,0 
+          [2] = {Point64} 150000,150000,0 
+          [3] = {Point64} 50000,150000,0 
+          [4] = {Point64} 50000,50000,0 
+          [5] = {Point64} 90000,50000,0 
+          [6] = {Point64} 90000,0,0 
+          [7] = {Point64} 0,0,0 
+          [8] = {Point64} 0,200000,0 
+          [9] = {Point64} 200000,200000,0 
+          [10] = {Point64} 200000,0,0 
+          [11] = {Point64} 110000,0,0 
+          [12] = {Point64} 110000,50000,0 
+           */
+
+        Paths simplifyRes_kH = GeoWrangler.makeKeyHole(simplifyRes, true);
+        
+        /* Expected output
+        simplifyRes_kH = {List<List<Point64>>} Count = 1
+         [0] = {List<Point64>} Count = 13
+          [0] = {Point64} 0,0,0 
+          [1] = {Point64} 0,200000,0 
+          [2] = {Point64} 200000,200000,0 
+          [3] = {Point64} 200000,0,0 
+          [4] = {Point64} 110000,0,0 
+          [5] = {Point64} 110000,50000,0 
+          [6] = {Point64} 150000,50000,0 
+          [7] = {Point64} 150000,150000,0 
+          [8] = {Point64} 50000,150000,0 
+          [9] = {Point64} 50000,50000,0 
+          [10] = {Point64} 90000,50000,0 
+          [11] = {Point64} 90000,0,0 
+          [12] = {Point64} 0,0,0 
+           */
+        
+        Paths simplifyResc = GeoWrangler.close(simplifyRes);
+        
+        /* Expected output
+        simplifyResc = {List<List<Point64>>} Count = 1
+         [0] = {List<Point64>} Count = 13
+          [0] = {Point64} 110000,50000,0 
+          [1] = {Point64} 150000,50000,0 
+          [2] = {Point64} 150000,150000,0 
+          [3] = {Point64} 50000,150000,0 
+          [4] = {Point64} 50000,50000,0 
+          [5] = {Point64} 90000,50000,0 
+          [6] = {Point64} 90000,0,0 
+          [7] = {Point64} 0,0,0 
+          [8] = {Point64} 0,200000,0 
+          [9] = {Point64} 200000,200000,0 
+          [10] = {Point64} 200000,0,0 
+          [11] = {Point64} 110000,0,0 
+          [12] = {Point64} 110000,50000,0 
+           */
+        
+        Paths simplifyResc_kH = GeoWrangler.makeKeyHole(simplifyResc, true);
+
+        /* Expected output
+        simplifyResc_kH = {List<List<Point64>>} Count = 1
+         [0] = {List<Point64>} Count = 13
+          [0] = {Point64} 0,0,0 
+          [1] = {Point64} 0,200000,0 
+          [2] = {Point64} 200000,200000,0 
+          [3] = {Point64} 200000,0,0 
+          [4] = {Point64} 110000,0,0 
+          [5] = {Point64} 110000,50000,0 
+          [6] = {Point64} 150000,50000,0 
+          [7] = {Point64} 150000,150000,0 
+          [8] = {Point64} 50000,150000,0 
+          [9] = {Point64} 50000,50000,0 
+          [10] = {Point64} 90000,50000,0 
+          [11] = {Point64} 90000,0,0 
+          [12] = {Point64} 0,0,0 
+           */
+        
         Paths simplifyRes2 = new();
-        simplifyRes2 = Clipper.SimplifyPolygon(outer, preserveColinear: true);
-        Paths simplifyRes2_kH = GeoWrangler.makeKeyHole(simplifyRes2);
+        c.Execute(ClipType.Union, FillRule.EvenOdd, simplifyRes2);
+        Paths simplifyRes2_kH = GeoWrangler.makeKeyHole(simplifyRes2, true);
         Paths simplifyRes2c = GeoWrangler.close(simplifyRes2);
-        Paths simplifyRes2c_kH = GeoWrangler.makeKeyHole(simplifyRes2c);
+        Paths simplifyRes2c_kH = GeoWrangler.makeKeyHole(simplifyRes2c, true);
 
         // no good - no result
         Paths intRes = new();
-        c.Execute(ClipType.ctIntersection, intRes);
-        Paths intRes_kH = GeoWrangler.makeKeyHole(intRes);
+        c.Execute(ClipType.Intersection, FillRule.EvenOdd, intRes);
+        Paths intRes_kH = GeoWrangler.makeKeyHole(intRes, true);
         Paths intResc = GeoWrangler.close(intRes);
-        Paths intResc_kH = GeoWrangler.makeKeyHole(intResc);
+        Paths intResc_kH = GeoWrangler.makeKeyHole(intResc, true);
 
         // no good - no result
         Paths intResP = new();
-        c.Execute(ClipType.ctIntersection, intResP, PolyFillType.pftPositive);
-        Paths intResP_kH = GeoWrangler.makeKeyHole(intResP);
+        c.Execute(ClipType.Intersection, FillRule.Positive, intResP);
+        Paths intResP_kH = GeoWrangler.makeKeyHole(intResP, true);
         Paths intResPc = GeoWrangler.close(intResP);
-        Paths intResPc_kH = GeoWrangler.makeKeyHole(intResPc);
+        Paths intResPc_kH = GeoWrangler.makeKeyHole(intResPc, true);
 
         // no good - no result
         Paths intResNZ = new();
-        c.Execute(ClipType.ctIntersection, intResNZ, PolyFillType.pftNonZero);
-        Paths intResNZ_kH = GeoWrangler.makeKeyHole(intResNZ);
+        c.Execute(ClipType.Intersection, FillRule.NonZero, intResNZ);
+        Paths intResNZ_kH = GeoWrangler.makeKeyHole(intResNZ, true);
         Paths intResNZc = GeoWrangler.close(intResNZ);
-        Paths intResNZc_kH = GeoWrangler.makeKeyHole(intResNZc);
+        Paths intResNZc_kH = GeoWrangler.makeKeyHole(intResNZc, true);
 
-        IntRect bounds = ClipperBase.GetBounds(new Paths { outer });
+        Rect64 bounds = Clipper.GetBounds(new Paths { outer });
         Path bb = new()
         {
-            new IntPoint(bounds.left, bounds.bottom),
-            new IntPoint(bounds.left, bounds.top),
-            new IntPoint(bounds.right, bounds.top),
-            new IntPoint(bounds.right, bounds.bottom)
+            new(bounds.left, bounds.bottom),
+            new(bounds.left, bounds.top),
+            new(bounds.right, bounds.top),
+            new(bounds.right, bounds.bottom)
         };
 
         c.Clear();
-        c.AddPath(bb, PolyType.ptSubject, true);
-        c.AddPath(outer, PolyType.ptClip, true);
+        c.AddSubject(bb);
+        c.AddClip(outer);
 
-        // no good - overlap region is a gap.
         Paths intRes2 = new();
-        c.Execute(ClipType.ctIntersection, intRes2);
-        Paths intRes2_kH = GeoWrangler.makeKeyHole(intRes2);
+        c.Execute(ClipType.Intersection, FillRule.EvenOdd, intRes2);
+        
+        /* Expected output
+         intRes2 = {List<List<Point64>>} Count = 2
+          [0] = {List<Point64>} Count = 6
+           [0] = {Point64} 0,0,0 
+           [1] = {Point64} 0,200000,0 
+           [2] = {Point64} 200000,200000,0 
+           [3] = {Point64} 200000,0,0 
+           [4] = {Point64} 110000,0,0 
+           [5] = {Point64} 0,0,0 
+          [1] = {List<Point64>} Count = 9
+           [0] = {Point64} 90000,0,0 
+           [1] = {Point64} 110000,0,0 
+           [2] = {Point64} 110000,50000,0 
+           [3] = {Point64} 150000,50000,0 
+           [4] = {Point64} 150000,150000,0 
+           [5] = {Point64} 50000,150000,0 
+           [6] = {Point64} 50000,50000,0 
+           [7] = {Point64} 90000,50000,0 
+           [8] = {Point64} 90000,0,0 
+           */
+        
+        Paths intRes2_kH = GeoWrangler.makeKeyHole(intRes2, true);
+        
+        /* Expected output
+         intRes2_kH = {List<List<Point64>>} Count = 1
+          [0] = {List<Point64>} Count = 13
+           [0] = {Point64} 0,0,0 
+           [1] = {Point64} 0,200000,0 
+           [2] = {Point64} 200000,200000,0 
+           [3] = {Point64} 200000,0,0 
+           [4] = {Point64} 110000,0,0 
+           [5] = {Point64} 110000,50000,0 
+           [6] = {Point64} 150000,50000,0 
+           [7] = {Point64} 150000,150000,0 
+           [8] = {Point64} 50000,150000,0 
+           [9] = {Point64} 50000,50000,0 
+           [10] = {Point64} 90000,50000,0 
+           [11] = {Point64} 90000,0,0 
+           [12] = {Point64} 0,0,0 
+           */
+        
         Paths intRes2c = GeoWrangler.close(intRes2);
-        Paths intRes2c_kH = GeoWrangler.makeKeyHole(intRes2c);
+        
+        /* Expected output
+         intRes2c = {List<List<Point64>>} Count = 2
+          [0] = {List<Point64>} Count = 6
+           [0] = {Point64} 0,0,0 
+           [1] = {Point64} 0,200000,0 
+           [2] = {Point64} 200000,200000,0 
+           [3] = {Point64} 200000,0,0 
+           [4] = {Point64} 110000,0,0 
+           [5] = {Point64} 0,0,0 
+          [1] = {List<Point64>} Count = 9
+           [0] = {Point64} 90000,0,0 
+           [1] = {Point64} 110000,0,0 
+           [2] = {Point64} 110000,50000,0 
+           [3] = {Point64} 150000,50000,0 
+           [4] = {Point64} 150000,150000,0 
+           [5] = {Point64} 50000,150000,0 
+           [6] = {Point64} 50000,50000,0 
+           [7] = {Point64} 90000,50000,0 
+           [8] = {Point64} 90000,0,0 
+           */
+        
+        Paths intRes2c_kH = GeoWrangler.makeKeyHole(intRes2c, true);
 
-        // seems good - get keyhole
+        /* Expected output
+         intRes2c_kH = {List<List<Point64>>} Count = 1
+          [0] = {List<Point64>} Count = 13
+           [0] = {Point64} 0,0,0 
+           [1] = {Point64} 0,200000,0 
+           [2] = {Point64} 200000,200000,0 
+           [3] = {Point64} 200000,0,0 
+           [4] = {Point64} 110000,0,0 
+           [5] = {Point64} 110000,50000,0 
+           [6] = {Point64} 150000,50000,0 
+           [7] = {Point64} 150000,150000,0 
+           [8] = {Point64} 50000,150000,0 
+           [9] = {Point64} 50000,50000,0 
+           [10] = {Point64} 90000,50000,0 
+           [11] = {Point64} 90000,0,0 
+           [12] = {Point64} 0,0,0 
+           */
+        
         Paths intRes2P = new();
-        c.Execute(ClipType.ctIntersection, intRes2P, PolyFillType.pftPositive);
-        Paths intRes2P_kH = GeoWrangler.makeKeyHole(intRes2P);
+        c.Execute(ClipType.Intersection, FillRule.Positive, intRes2P);
+        
+        /* Expected output
+         No geometry in intRes2P
+         */
+        
+        // No keyholes as no geometry.
+        Paths intRes2P_kH = GeoWrangler.makeKeyHole(intRes2P, true);
         Paths intRes2Pc = GeoWrangler.close(intRes2P);
-        Paths intRes2Pc_kH = GeoWrangler.makeKeyHole(intRes2Pc);
+        Paths intRes2Pc_kH = GeoWrangler.makeKeyHole(intRes2Pc, true);
 
         // seems good - get keyhole
         Paths intRes2NZ = new();
-        c.Execute(ClipType.ctIntersection, intRes2NZ, PolyFillType.pftNonZero);
-        Paths intRes2NZ_kH = GeoWrangler.makeKeyHole(intRes2NZ);
+        c.Execute(ClipType.Intersection, FillRule.NonZero, intRes2NZ);
+        
+        /* Expected output
+         intRes2NZ = {List<List<Point64>>} Count = 2
+          [0] = {List<Point64>} Count = 6
+           [0] = {Point64} 0,0,0 
+           [1] = {Point64} 0,200000,0 
+           [2] = {Point64} 200000,200000,0 
+           [3] = {Point64} 200000,0,0 
+           [4] = {Point64} 110000,0,0 
+           [5] = {Point64} 0,0,0 
+          [1] = {List<Point64>} Count = 6
+           [0] = {Point64} 90000,50000,0 
+           [1] = {Point64} 150000,50000,0 
+           [2] = {Point64} 150000,150000,0 
+           [3] = {Point64} 50000,150000,0 
+           [4] = {Point64} 50000,50000,0 
+           [5] = {Point64} 90000,50000,0 
+           */
+        
+        Paths intRes2NZ_kH = GeoWrangler.makeKeyHole(intRes2NZ, true);
+        
+        /* Expected output
+         intRes2NZ_kH = {List<List<Point64>>} Count = 1
+          [0] = {List<Point64>} Count = 13
+           [0] = {Point64} 200000,0,0 
+           [1] = {Point64} 200000,49500,0 
+           [2] = {Point64} 149500,49500,0 
+           [3] = {Point64} 149500,50000,0 
+           [4] = {Point64} 50000,50000,0 
+           [5] = {Point64} 50000,150000,0 
+           [6] = {Point64} 150000,150000,0 
+           [7] = {Point64} 150000,50500,0 
+           [8] = {Point64} 200000,50500,0 
+           [9] = {Point64} 200000,200000,0 
+           [10] = {Point64} 0,200000,0 
+           [11] = {Point64} 0,0,0 
+           [12] = {Point64} 200000,0,0 
+           */
+        
         Paths intRes2NZc = GeoWrangler.close(intRes2NZ);
-        Paths intRes2NZc_kH = GeoWrangler.makeKeyHole(intRes2NZc);
+        
+        /* Expected output
+         intRes2NZc = {List<List<Point64>>} Count = 2
+          [0] = {List<Point64>} Count = 6
+           [0] = {Point64} 0,0,0 
+           [1] = {Point64} 0,200000,0 
+           [2] = {Point64} 200000,200000,0 
+           [3] = {Point64} 200000,0,0 
+           [4] = {Point64} 110000,0,0 
+           [5] = {Point64} 0,0,0 
+          [1] = {List<Point64>} Count = 6
+           [0] = {Point64} 90000,50000,0 
+           [1] = {Point64} 150000,50000,0 
+           [2] = {Point64} 150000,150000,0 
+           [3] = {Point64} 50000,150000,0 
+           [4] = {Point64} 50000,50000,0 
+           [5] = {Point64} 90000,50000,0 
+           */
+        
+        Paths intRes2NZc_kH = GeoWrangler.makeKeyHole(intRes2NZc, true);
+        
+         /* Expected output
+          intRes2NZc_kH = {List<List<Point64>>} Count = 1
+           [0] = {List<Point64>} Count = 13
+            [0] = {Point64} 200000,0,0 
+            [1] = {Point64} 200000,49500,0 
+            [2] = {Point64} 149500,49500,0 
+            [3] = {Point64} 149500,50000,0 
+            [4] = {Point64} 50000,50000,0 
+            [5] = {Point64} 50000,150000,0 
+            [6] = {Point64} 150000,150000,0 
+            [7] = {Point64} 150000,50500,0 
+            [8] = {Point64} 200000,50500,0 
+            [9] = {Point64} 200000,200000,0 
+            [10] = {Point64} 0,200000,0 
+            [11] = {Point64} 0,0,0 
+            [12] = {Point64} 200000,0,0 
+          */
+        
     }
 
     private static void selfOverlapTest_reversed()
     {
         Path outer = new()
         {
-            new IntPoint(0, 0),
-            new IntPoint(110000, 0),
-            new IntPoint(110000, 50000),
-            new IntPoint(50000, 50000),
-            new IntPoint(50000, 150000),
-            new IntPoint(150000, 150000),
-            new IntPoint(150000, 50000),
-            new IntPoint(90000, 50000),
-            new IntPoint(90000, 0),
-            new IntPoint(200000, 0),
-            new IntPoint(200000, 200000),
-            new IntPoint(0, 200000),
-            new IntPoint(0, 0)
+            new(0, 0),
+            new(110000, 0),
+            new(110000, 50000),
+            new(50000, 50000),
+            new(50000, 150000),
+            new(150000, 150000),
+            new(150000, 50000),
+            new(90000, 50000),
+            new(90000, 0),
+            new(200000, 0),
+            new(200000, 200000),
+            new(0, 200000),
+            new(0, 0)
         };
 
         outer.Reverse();
 
         // decomposer test
         Paths dSource = new() {outer};
+
+        /* Expected
+         dSource = {List<List<Point64>>} Count = 1
+          [0] = {List<Point64>} Count = 13
+           [0] = {Point64} 0,0,0 
+           [1] = {Point64} 0,200000,0 
+           [2] = {Point64} 200000,200000,0 
+           [3] = {Point64} 200000,0,0 
+           [4] = {Point64} 90000,0,0 
+           [5] = {Point64} 90000,50000,0 
+           [6] = {Point64} 150000,50000,0 
+           [7] = {Point64} 150000,150000,0 
+           [8] = {Point64} 50000,150000,0 
+           [9] = {Point64} 50000,50000,0 
+           [10] = {Point64} 110000,50000,0 
+           [11] = {Point64} 110000,0,0 
+           [12] = {Point64} 0,0,0 
+           */
+        
         Paths decomp = GeoWrangler.decompose(dSource);
-        Paths kHD = GeoWrangler.makeKeyHole(dSource);
+        
+        /* Expected output
+         decomp = {List<List<Point64>>} Count = 2
+          [0] = {List<Point64>} Count = 6
+           [0] = {Point64} 0,0,0 
+           [1] = {Point64} 0,200000,0 
+           [2] = {Point64} 200000,200000,0 
+           [3] = {Point64} 200000,0,0 
+           [4] = {Point64} 110000,0,0 
+           [5] = {Point64} 0,0,0 
+          [1] = {List<Point64>} Count = 6
+           [0] = {Point64} 50000,50000,0 
+           [1] = {Point64} 90000,50000,0 
+           [2] = {Point64} 150000,50000,0 
+           [3] = {Point64} 150000,150000,0 
+           [4] = {Point64} 50000,150000,0 
+           [5] = {Point64} 50000,50000,0 
+           */
+        
+        Paths kHD = GeoWrangler.makeKeyHole(dSource, true);
+        
+        /* Expected output
+         kHD = {List<List<Point64>>} Count = 1
+          [0] = {List<Point64>} Count = 13
+           [0] = {Point64} 200000,0,0 
+           [1] = {Point64} 200000,49500,0 
+           [2] = {Point64} 149500,49500,0 
+           [3] = {Point64} 149500,50000,0 
+           [4] = {Point64} 50000,50000,0 
+           [5] = {Point64} 50000,150000,0 
+           [6] = {Point64} 150000,150000,0 
+           [7] = {Point64} 150000,50500,0 
+           [8] = {Point64} 200000,50500,0 
+           [9] = {Point64} 200000,200000,0 
+           [10] = {Point64} 0,200000,0 
+           [11] = {Point64} 0,0,0 
+           [12] = {Point64} 200000,0,0 
+           */
 
         // keyholer test
         Paths kHSource = new() {outer};
-        Paths kH = GeoWrangler.makeKeyHole(kHSource);
+        
+        /* Expected
+         kHSource = {List<List<Point64>>} Count = 1
+          [0] = {List<Point64>} Count = 13
+           [0] = {Point64} 0,0,0 
+           [1] = {Point64} 0,200000,0 
+           [2] = {Point64} 200000,200000,0 
+           [3] = {Point64} 200000,0,0 
+           [4] = {Point64} 90000,0,0 
+           [5] = {Point64} 90000,50000,0 
+           [6] = {Point64} 150000,50000,0 
+           [7] = {Point64} 150000,150000,0 
+           [8] = {Point64} 50000,150000,0 
+           [9] = {Point64} 50000,50000,0 
+           [10] = {Point64} 110000,50000,0 
+           [11] = {Point64} 110000,0,0 
+           [12] = {Point64} 0,0,0 
+           */
+        
+        Paths kH = GeoWrangler.makeKeyHole(kHSource, true);
 
-        Clipper c = new()
-        {
-            PreserveCollinear = true
-        };
-        c.AddPath(outer, PolyType.ptSubject, true);
+        /* Expected output
+         kH = {List<List<Point64>>} Count = 1
+          [0] = {List<Point64>} Count = 13
+           [0] = {Point64} 200000,0,0 
+           [1] = {Point64} 200000,49500,0 
+           [2] = {Point64} 149500,49500,0 
+           [3] = {Point64} 149500,50000,0 
+           [4] = {Point64} 50000,50000,0 
+           [5] = {Point64} 50000,150000,0 
+           [6] = {Point64} 150000,150000,0 
+           [7] = {Point64} 150000,50500,0 
+           [8] = {Point64} 200000,50500,0 
+           [9] = {Point64} 200000,200000,0 
+           [10] = {Point64} 0,200000,0 
+           [11] = {Point64} 0,0,0 
+           [12] = {Point64} 200000,0,0 
+           */
+        
+        Clipper64 c = new();
+        c.AddSubject(outer);
 
-        // no good - overlap region is a gap.
         Paths unionRes = new();
-        c.Execute(ClipType.ctUnion, unionRes);
-        Paths unionRes_kH = GeoWrangler.makeKeyHole(unionRes);
+        c.Execute(ClipType.Union, FillRule.EvenOdd, unionRes);
+
+        /* Expected output
+         unionRes = {List<List<Point64>>} Count = 1
+          [0] = {List<Point64>} Count = 13
+           [0] = {Point64} 90000,0,0 
+           [1] = {Point64} 0,0,0 
+           [2] = {Point64} 0,200000,0 
+           [3] = {Point64} 200000,200000,0 
+           [4] = {Point64} 200000,0,0 
+           [5] = {Point64} 110000,0,0 
+           [6] = {Point64} 110000,50000,0 
+           [7] = {Point64} 150000,50000,0 
+           [8] = {Point64} 150000,150000,0 
+           [9] = {Point64} 50000,150000,0 
+           [10] = {Point64} 50000,50000,0 
+           [11] = {Point64} 90000,50000,0 
+           [12] = {Point64} 90000,0,0 
+           */
+        
+        Paths unionRes_kH = GeoWrangler.makeKeyHole(unionRes, true);
+        
+        /* Expected output
+         unionRes_kH = {List<List<Point64>>} Count = 1
+          [0] = {List<Point64>} Count = 13
+           [0] = {Point64} 0,0,0 
+           [1] = {Point64} 0,200000,0 
+           [2] = {Point64} 200000,200000,0 
+           [3] = {Point64} 200000,0,0 
+           [4] = {Point64} 110000,0,0 
+           [5] = {Point64} 110000,50000,0 
+           [6] = {Point64} 150000,50000,0 
+           [7] = {Point64} 150000,150000,0 
+           [8] = {Point64} 50000,150000,0 
+           [9] = {Point64} 50000,50000,0 
+           [10] = {Point64} 90000,50000,0 
+           [11] = {Point64} 90000,0,0 
+           [12] = {Point64} 0,0,0 
+           */
+        
         Paths unionResc = GeoWrangler.close(unionRes);
-        Paths unionResc_kH = GeoWrangler.makeKeyHole(unionResc);
+        
+        /* Expected output
+         unionResc = {List<List<Point64>>} Count = 1
+          [0] = {List<Point64>} Count = 13
+           [0] = {Point64} 90000,0,0 
+           [1] = {Point64} 0,0,0 
+           [2] = {Point64} 0,200000,0 
+           [3] = {Point64} 200000,200000,0 
+           [4] = {Point64} 200000,0,0 
+           [5] = {Point64} 110000,0,0 
+           [6] = {Point64} 110000,50000,0 
+           [7] = {Point64} 150000,50000,0 
+           [8] = {Point64} 150000,150000,0 
+           [9] = {Point64} 50000,150000,0 
+           [10] = {Point64} 50000,50000,0 
+           [11] = {Point64} 90000,50000,0 
+           [12] = {Point64} 90000,0,0 
+           */
+        
+        Paths unionResc_kH = GeoWrangler.makeKeyHole(unionResc, true);
 
-        // no good - no result
+        /* Expected output
+         unionResc_kH = {List<List<Point64>>} Count = 1
+          [0] = {List<Point64>} Count = 13
+           [0] = {Point64} 0,0,0 
+           [1] = {Point64} 0,200000,0 
+           [2] = {Point64} 200000,200000,0 
+           [3] = {Point64} 200000,0,0 
+           [4] = {Point64} 110000,0,0 
+           [5] = {Point64} 110000,50000,0 
+           [6] = {Point64} 150000,50000,0 
+           [7] = {Point64} 150000,150000,0 
+           [8] = {Point64} 50000,150000,0 
+           [9] = {Point64} 50000,50000,0 
+           [10] = {Point64} 90000,50000,0 
+           [11] = {Point64} 90000,0,0 
+           [12] = {Point64} 0,0,0 
+           */
+        
         Paths unionResP = new();
-        c.Execute(ClipType.ctUnion, unionResP, PolyFillType.pftPositive);
-        Paths unionResP_kH = GeoWrangler.makeKeyHole(unionResP);
-        Paths unionResPc = GeoWrangler.close(unionResP);
-        Paths unionResPc_kH = GeoWrangler.makeKeyHole(unionResPc);
+        c.Execute(ClipType.Union, FillRule.Positive, unionResP);
 
+        /* Expected output
+           unionResP = {List<List<Point64>>} Count = 2
+            [0] = {List<Point64>} Count = 6
+             [0] = {Point64} 0,0,0 
+             [1] = {Point64} 0,200000,0 
+             [2] = {Point64} 200000,200000,0 
+             [3] = {Point64} 200000,0,0 
+             [4] = {Point64} 110000,0,0 
+             [5] = {Point64} 0,0,0 
+            [1] = {List<Point64>} Count = 6
+             [0] = {Point64} 90000,50000,0 
+             [1] = {Point64} 150000,50000,0 
+             [2] = {Point64} 150000,150000,0 
+             [3] = {Point64} 50000,150000,0 
+             [4] = {Point64} 50000,50000,0 
+             [5] = {Point64} 90000,50000,0 
+           */
+        
+        Paths unionResP_kH = GeoWrangler.makeKeyHole(unionResP, true);
+        
+        /* Expected output
+         unionResP_kH = {List<List<Point64>>} Count = 1
+          [0] = {List<Point64>} Count = 13
+           [0] = {Point64} 200000,0,0 
+           [1] = {Point64} 200000,49500,0 
+           [2] = {Point64} 149500,49500,0 
+           [3] = {Point64} 149500,50000,0 
+           [4] = {Point64} 50000,50000,0 
+           [5] = {Point64} 50000,150000,0 
+           [6] = {Point64} 150000,150000,0 
+           [7] = {Point64} 150000,50500,0 
+           [8] = {Point64} 200000,50500,0 
+           [9] = {Point64} 200000,200000,0 
+           [10] = {Point64} 0,200000,0 
+           [11] = {Point64} 0,0,0 
+           [12] = {Point64} 200000,0,0 
+         */
+        
+        Paths unionResPc = GeoWrangler.close(unionResP);
+        
+        /* Expected output
+          unionResPc = {List<List<Point64>>} Count = 2
+           [0] = {List<Point64>} Count = 6
+            [0] = {Point64} 0,0,0 
+            [1] = {Point64} 0,200000,0 
+            [2] = {Point64} 200000,200000,0 
+            [3] = {Point64} 200000,0,0 
+            [4] = {Point64} 110000,0,0 
+            [5] = {Point64} 0,0,0 
+           [1] = {List<Point64>} Count = 6
+            [0] = {Point64} 90000,50000,0 
+            [1] = {Point64} 150000,50000,0 
+            [2] = {Point64} 150000,150000,0 
+            [3] = {Point64} 50000,150000,0 
+            [4] = {Point64} 50000,50000,0 
+            [5] = {Point64} 90000,50000,0 
+           */
+        
+        Paths unionResPc_kH = GeoWrangler.makeKeyHole(unionResPc, true);
+
+        /* Expected output
+         unionResPc_kH = {List<List<Point64>>} Count = 1
+          [0] = {List<Point64>} Count = 13
+           [0] = {Point64} 200000,0,0 
+           [1] = {Point64} 200000,49500,0 
+           [2] = {Point64} 149500,49500,0 
+           [3] = {Point64} 149500,50000,0 
+           [4] = {Point64} 50000,50000,0 
+           [5] = {Point64} 50000,150000,0 
+           [6] = {Point64} 150000,150000,0 
+           [7] = {Point64} 150000,50500,0 
+           [8] = {Point64} 200000,50500,0 
+           [9] = {Point64} 200000,200000,0 
+           [10] = {Point64} 0,200000,0 
+           [11] = {Point64} 0,0,0 
+           [12] = {Point64} 200000,0,0 
+           */
+        
         // seems good - get keyhole
         Paths unionResNZ = new();
-        c.Execute(ClipType.ctUnion, unionResNZ, PolyFillType.pftNonZero);
-        Paths unionResNZ_kH = GeoWrangler.makeKeyHole(unionResNZ);
+        c.Execute(ClipType.Union, FillRule.NonZero, unionResNZ);
+        
+        /* Expected output
+           unionResNZ = {List<List<Point64>>} Count = 2
+            [0] = {List<Point64>} Count = 6
+             [0] = {Point64} 0,0,0 
+             [1] = {Point64} 0,200000,0 
+             [2] = {Point64} 200000,200000,0 
+             [3] = {Point64} 200000,0,0 
+             [4] = {Point64} 110000,0,0 
+             [5] = {Point64} 0,0,0 
+            [1] = {List<Point64>} Count = 6
+             [0] = {Point64} 90000,50000,0 
+             [1] = {Point64} 150000,50000,0 
+             [2] = {Point64} 150000,150000,0 
+             [3] = {Point64} 50000,150000,0 
+             [4] = {Point64} 50000,50000,0 
+             [5] = {Point64} 90000,50000,0 
+           */
+        
+        Paths unionResNZ_kH = GeoWrangler.makeKeyHole(unionResNZ, true);
+        
+        /* Expected output
+           unionResNZ_kH = {List<List<Point64>>} Count = 1
+            [0] = {List<Point64>} Count = 13
+             [0] = {Point64} 200000,0,0 
+             [1] = {Point64} 200000,49500,0 
+             [2] = {Point64} 149500,49500,0 
+             [3] = {Point64} 149500,50000,0 
+             [4] = {Point64} 50000,50000,0 
+             [5] = {Point64} 50000,150000,0 
+             [6] = {Point64} 150000,150000,0 
+             [7] = {Point64} 150000,50500,0 
+             [8] = {Point64} 200000,50500,0 
+             [9] = {Point64} 200000,200000,0 
+             [10] = {Point64} 0,200000,0 
+             [11] = {Point64} 0,0,0 
+             [12] = {Point64} 200000,0,0 
+           */
+        
         Paths unionResNZc = GeoWrangler.close(unionResNZ);
-        Paths unionResNZc_kH = GeoWrangler.makeKeyHole(unionResNZc);
+        
+        /* Expected output
+           unionResNZc = {List<List<Point64>>} Count = 2
+            [0] = {List<Point64>} Count = 6
+             [0] = {Point64} 0,0,0 
+             [1] = {Point64} 0,200000,0 
+             [2] = {Point64} 200000,200000,0 
+             [3] = {Point64} 200000,0,0 
+             [4] = {Point64} 110000,0,0 
+             [5] = {Point64} 0,0,0 
+            [1] = {List<Point64>} Count = 6
+             [0] = {Point64} 90000,50000,0 
+             [1] = {Point64} 150000,50000,0 
+             [2] = {Point64} 150000,150000,0 
+             [3] = {Point64} 50000,150000,0 
+             [4] = {Point64} 50000,50000,0 
+             [5] = {Point64} 90000,50000,0 
+           */
+        
+        Paths unionResNZc_kH = GeoWrangler.makeKeyHole(unionResNZc, true);
 
+        /* Expected output
+           unionResNZc_kH = {List<List<Point64>>} Count = 1
+            [0] = {List<Point64>} Count = 13
+             [0] = {Point64} 200000,0,0 
+             [1] = {Point64} 200000,49500,0 
+             [2] = {Point64} 149500,49500,0 
+             [3] = {Point64} 149500,50000,0 
+             [4] = {Point64} 50000,50000,0 
+             [5] = {Point64} 50000,150000,0 
+             [6] = {Point64} 150000,150000,0 
+             [7] = {Point64} 150000,50500,0 
+             [8] = {Point64} 200000,50500,0 
+             [9] = {Point64} 200000,200000,0 
+             [10] = {Point64} 0,200000,0 
+             [11] = {Point64} 0,0,0 
+             [12] = {Point64} 200000,0,0 
+           */
+        
         // no good - overlap region is a gap.
         Paths simplifyRes = new();
-        simplifyRes = Clipper.SimplifyPolygon(outer, preserveColinear: false);
-        Paths simplifyRes_kH = GeoWrangler.makeKeyHole(simplifyRes);
+        c.Execute(ClipType.Union, FillRule.EvenOdd, simplifyRes);
+        simplifyRes = GeoWrangler.stripColinear(simplifyRes);
+        
+        /* Expected output
+           simplifyRes = {List<List<Point64>>} Count = 1
+            [0] = {List<Point64>} Count = 13
+             [0] = {Point64} 90000,0,0 
+             [1] = {Point64} 0,0,0 
+             [2] = {Point64} 0,200000,0 
+             [3] = {Point64} 200000,200000,0 
+             [4] = {Point64} 200000,0,0 
+             [5] = {Point64} 110000,0,0 
+             [6] = {Point64} 110000,50000,0 
+             [7] = {Point64} 150000,50000,0 
+             [8] = {Point64} 150000,150000,0 
+             [9] = {Point64} 50000,150000,0 
+             [10] = {Point64} 50000,50000,0 
+             [11] = {Point64} 90000,50000,0 
+             [12] = {Point64} 90000,0,0 
+           */
+        
+        Paths simplifyRes_kH = GeoWrangler.makeKeyHole(simplifyRes, true);
+        
+        /* Expected output
+           simplifyRes_kH = {List<List<Point64>>} Count = 1
+            [0] = {List<Point64>} Count = 13
+             [0] = {Point64} 0,0,0 
+             [1] = {Point64} 0,200000,0 
+             [2] = {Point64} 200000,200000,0 
+             [3] = {Point64} 200000,0,0 
+             [4] = {Point64} 110000,0,0 
+             [5] = {Point64} 110000,50000,0 
+             [6] = {Point64} 150000,50000,0 
+             [7] = {Point64} 150000,150000,0 
+             [8] = {Point64} 50000,150000,0 
+             [9] = {Point64} 50000,50000,0 
+             [10] = {Point64} 90000,50000,0 
+             [11] = {Point64} 90000,0,0 
+             [12] = {Point64} 0,0,0 
+           */
+        
         Paths simplifyResc = GeoWrangler.close(simplifyRes);
-        Paths simplifyResc_kH = GeoWrangler.makeKeyHole(simplifyResc);
+        
+        /* Expected output
+           simplifyResc = {List<List<Point64>>} Count = 1
+            [0] = {List<Point64>} Count = 13
+             [0] = {Point64} 90000,0,0 
+             [1] = {Point64} 0,0,0 
+             [2] = {Point64} 0,200000,0 
+             [3] = {Point64} 200000,200000,0 
+             [4] = {Point64} 200000,0,0 
+             [5] = {Point64} 110000,0,0 
+             [6] = {Point64} 110000,50000,0 
+             [7] = {Point64} 150000,50000,0 
+             [8] = {Point64} 150000,150000,0 
+             [9] = {Point64} 50000,150000,0 
+             [10] = {Point64} 50000,50000,0 
+             [11] = {Point64} 90000,50000,0 
+             [12] = {Point64} 90000,0,0 
+           */
+        
+        Paths simplifyResc_kH = GeoWrangler.makeKeyHole(simplifyResc, true);
+        
+        /* Expected output
+           simplifyResc_kH = {List<List<Point64>>} Count = 1
+            [0] = {List<Point64>} Count = 13
+             [0] = {Point64} 0,0,0 
+             [1] = {Point64} 0,200000,0 
+             [2] = {Point64} 200000,200000,0 
+             [3] = {Point64} 200000,0,0 
+             [4] = {Point64} 110000,0,0 
+             [5] = {Point64} 110000,50000,0 
+             [6] = {Point64} 150000,50000,0 
+             [7] = {Point64} 150000,150000,0 
+             [8] = {Point64} 50000,150000,0 
+             [9] = {Point64} 50000,50000,0 
+             [10] = {Point64} 90000,50000,0 
+             [11] = {Point64} 90000,0,0 
+             [12] = {Point64} 0,0,0 
+           */
 
         Paths simplifyRes2 = new();
-        simplifyRes2 = Clipper.SimplifyPolygon(outer, preserveColinear: true);
-        Paths simplifyRes2_kH = GeoWrangler.makeKeyHole(simplifyRes2);
+        c.Execute(ClipType.Union, FillRule.EvenOdd, simplifyRes2);
+        
+        /* Expected output
+           simplifyRes2 = {List<List<Point64>>} Count = 1
+            [0] = {List<Point64>} Count = 13
+             [0] = {Point64} 90000,0,0 
+             [1] = {Point64} 0,0,0 
+             [2] = {Point64} 0,200000,0 
+             [3] = {Point64} 200000,200000,0 
+             [4] = {Point64} 200000,0,0 
+             [5] = {Point64} 110000,0,0 
+             [6] = {Point64} 110000,50000,0 
+             [7] = {Point64} 150000,50000,0 
+             [8] = {Point64} 150000,150000,0 
+             [9] = {Point64} 50000,150000,0 
+             [10] = {Point64} 50000,50000,0 
+             [11] = {Point64} 90000,50000,0 
+             [12] = {Point64} 90000,0,0 
+           */
+        
+        Paths simplifyRes2_kH = GeoWrangler.makeKeyHole(simplifyRes2, true);
+        
+        /* Expected output
+           simplifyRes2_kH = {List<List<Point64>>} Count = 1
+            [0] = {List<Point64>} Count = 13
+             [0] = {Point64} 0,0,0 
+             [1] = {Point64} 0,200000,0 
+             [2] = {Point64} 200000,200000,0 
+             [3] = {Point64} 200000,0,0 
+             [4] = {Point64} 110000,0,0 
+             [5] = {Point64} 110000,50000,0 
+             [6] = {Point64} 150000,50000,0 
+             [7] = {Point64} 150000,150000,0 
+             [8] = {Point64} 50000,150000,0 
+             [9] = {Point64} 50000,50000,0 
+             [10] = {Point64} 90000,50000,0 
+             [11] = {Point64} 90000,0,0 
+             [12] = {Point64} 0,0,0 
+           */
+        
         Paths simplifyRes2c = GeoWrangler.close(simplifyRes2);
-        Paths simplifyRes2c_kH = GeoWrangler.makeKeyHole(simplifyRes2c);
+        
+        /* Expected output
+           simplifyRes2c = {List<List<Point64>>} Count = 1
+            [0] = {List<Point64>} Count = 13
+             [0] = {Point64} 90000,0,0 
+             [1] = {Point64} 0,0,0 
+             [2] = {Point64} 0,200000,0 
+             [3] = {Point64} 200000,200000,0 
+             [4] = {Point64} 200000,0,0 
+             [5] = {Point64} 110000,0,0 
+             [6] = {Point64} 110000,50000,0 
+             [7] = {Point64} 150000,50000,0 
+             [8] = {Point64} 150000,150000,0 
+             [9] = {Point64} 50000,150000,0 
+             [10] = {Point64} 50000,50000,0 
+             [11] = {Point64} 90000,50000,0 
+             [12] = {Point64} 90000,0,0 
+           */
+        
+        Paths simplifyRes2c_kH = GeoWrangler.makeKeyHole(simplifyRes2c, true);
+        
+        /* Expected output
+           simplifyRes2c_kH = {List<List<Point64>>} Count = 1
+            [0] = {List<Point64>} Count = 13
+             [0] = {Point64} 0,0,0 
+             [1] = {Point64} 0,200000,0 
+             [2] = {Point64} 200000,200000,0 
+             [3] = {Point64} 200000,0,0 
+             [4] = {Point64} 110000,0,0 
+             [5] = {Point64} 110000,50000,0 
+             [6] = {Point64} 150000,50000,0 
+             [7] = {Point64} 150000,150000,0 
+             [8] = {Point64} 50000,150000,0 
+             [9] = {Point64} 50000,50000,0 
+             [10] = {Point64} 90000,50000,0 
+             [11] = {Point64} 90000,0,0 
+             [12] = {Point64} 0,0,0 
+           */
 
         // no good - no result
         Paths intRes = new();
-        c.Execute(ClipType.ctIntersection, intRes);
-        Paths intRes_kH = GeoWrangler.makeKeyHole(intRes);
+        c.Execute(ClipType.Intersection, FillRule.EvenOdd, intRes);
+        Paths intRes_kH = GeoWrangler.makeKeyHole(intRes, true);
         Paths intResc = GeoWrangler.close(intRes);
-        Paths intResc_kH = GeoWrangler.makeKeyHole(intResc);
+        Paths intResc_kH = GeoWrangler.makeKeyHole(intResc, true);
 
         // no good - no result
         Paths intResP = new();
-        c.Execute(ClipType.ctIntersection, intResP, PolyFillType.pftPositive);
-        Paths intResP_kH = GeoWrangler.makeKeyHole(intResP);
+        c.Execute(ClipType.Intersection, FillRule.Positive, intResP);
+        Paths intResP_kH = GeoWrangler.makeKeyHole(intResP, true);
         Paths intResPc = GeoWrangler.close(intResP);
-        Paths intResPc_kH = GeoWrangler.makeKeyHole(intResPc);
+        Paths intResPc_kH = GeoWrangler.makeKeyHole(intResPc, true);
 
         // no good - no result
         Paths intResNZ = new();
-        c.Execute(ClipType.ctIntersection, intResNZ, PolyFillType.pftNonZero);
-        Paths intResNZ_kH = GeoWrangler.makeKeyHole(intResNZ);
+        c.Execute(ClipType.Intersection, FillRule.NonZero, intResNZ);
+        Paths intResNZ_kH = GeoWrangler.makeKeyHole(intResNZ, true);
         Paths intResNZc = GeoWrangler.close(intResNZ);
-        Paths intResNZc_kH = GeoWrangler.makeKeyHole(intResNZc);
+        Paths intResNZc_kH = GeoWrangler.makeKeyHole(intResNZc, true);
 
-        IntRect bounds = ClipperBase.GetBounds(new Paths { outer });
+        Rect64 bounds = Clipper.GetBounds(new Paths { outer });
         Path bb = new()
         {
-            new IntPoint(bounds.left, bounds.bottom),
-            new IntPoint(bounds.left, bounds.top),
-            new IntPoint(bounds.right, bounds.top),
-            new IntPoint(bounds.right, bounds.bottom)
+            new(bounds.left, bounds.bottom),
+            new(bounds.left, bounds.top),
+            new(bounds.right, bounds.top),
+            new(bounds.right, bounds.bottom)
         };
 
         c.Clear();
-        c.AddPath(bb, PolyType.ptSubject, true);
-        c.AddPath(outer, PolyType.ptClip, true);
+        c.AddSubject(bb);
+        c.AddClip(outer);
 
-        // no good - overlap region is a gap.
         Paths intRes2 = new();
-        c.Execute(ClipType.ctIntersection, intRes2);
-        Paths intRes2_kH = GeoWrangler.makeKeyHole(intRes2);
+        c.Execute(ClipType.Intersection, FillRule.EvenOdd, intRes2);
+        
+        /* Expected output
+           intRes2 = {List<List<Point64>>} Count = 1
+            [0] = {List<Point64>} Count = 13
+             [0] = {Point64} 90000,0,0 
+             [1] = {Point64} 0,0,0 
+             [2] = {Point64} 0,200000,0 
+             [3] = {Point64} 200000,200000,0 
+             [4] = {Point64} 200000,0,0 
+             [5] = {Point64} 110000,0,0 
+             [6] = {Point64} 110000,50000,0 
+             [7] = {Point64} 150000,50000,0 
+             [8] = {Point64} 150000,150000,0 
+             [9] = {Point64} 50000,150000,0 
+             [10] = {Point64} 50000,50000,0 
+             [11] = {Point64} 90000,50000,0 
+             [12] = {Point64} 90000,0,0 
+           */
+        
+        Paths intRes2_kH = GeoWrangler.makeKeyHole(intRes2, true);
+        
+        /* Expected output
+           intRes2_kH = {List<List<Point64>>} Count = 1
+            [0] = {List<Point64>} Count = 13
+             [0] = {Point64} 0,0,0 
+             [1] = {Point64} 0,200000,0 
+             [2] = {Point64} 200000,200000,0 
+             [3] = {Point64} 200000,0,0 
+             [4] = {Point64} 110000,0,0 
+             [5] = {Point64} 110000,50000,0 
+             [6] = {Point64} 150000,50000,0 
+             [7] = {Point64} 150000,150000,0 
+             [8] = {Point64} 50000,150000,0 
+             [9] = {Point64} 50000,50000,0 
+             [10] = {Point64} 90000,50000,0 
+             [11] = {Point64} 90000,0,0 
+             [12] = {Point64} 0,0,0 
+           */
+        
         Paths intRes2c = GeoWrangler.close(intRes2);
-        Paths intRes2c_kH = GeoWrangler.makeKeyHole(intRes2c);
+        
+        /* Expected output
+           intRes2c = {List<List<Point64>>} Count = 1
+            [0] = {List<Point64>} Count = 13
+             [0] = {Point64} 90000,0,0 
+             [1] = {Point64} 0,0,0 
+             [2] = {Point64} 0,200000,0 
+             [3] = {Point64} 200000,200000,0 
+             [4] = {Point64} 200000,0,0 
+             [5] = {Point64} 110000,0,0 
+             [6] = {Point64} 110000,50000,0 
+             [7] = {Point64} 150000,50000,0 
+             [8] = {Point64} 150000,150000,0 
+             [9] = {Point64} 50000,150000,0 
+             [10] = {Point64} 50000,50000,0 
+             [11] = {Point64} 90000,50000,0 
+             [12] = {Point64} 90000,0,0 
+           */
+        
+        Paths intRes2c_kH = GeoWrangler.makeKeyHole(intRes2c, true);
+        
+        /* Expected output
+           intRes2c_kH = {List<List<Point64>>} Count = 1
+            [0] = {List<Point64>} Count = 13
+             [0] = {Point64} 0,0,0 
+             [1] = {Point64} 0,200000,0 
+             [2] = {Point64} 200000,200000,0 
+             [3] = {Point64} 200000,0,0 
+             [4] = {Point64} 110000,0,0 
+             [5] = {Point64} 110000,50000,0 
+             [6] = {Point64} 150000,50000,0 
+             [7] = {Point64} 150000,150000,0 
+             [8] = {Point64} 50000,150000,0 
+             [9] = {Point64} 50000,50000,0 
+             [10] = {Point64} 90000,50000,0 
+             [11] = {Point64} 90000,0,0 
+             [12] = {Point64} 0,0,0 
+           */
 
         // no good - no result
         Paths intRes2P = new();
-        c.Execute(ClipType.ctIntersection, intRes2P, PolyFillType.pftPositive);
-        Paths intRes2P_kH = GeoWrangler.makeKeyHole(intRes2P);
+        c.Execute(ClipType.Intersection, FillRule.Positive, intRes2P);
+        
+        /* Expected output
+         No geometry in intRes2P
+         */
+        
+        // No results - no geometry
+        Paths intRes2P_kH = GeoWrangler.makeKeyHole(intRes2P, true);
         Paths intRes2Pc = GeoWrangler.close(intRes2P);
-        Paths intRes2Pc_kH = GeoWrangler.makeKeyHole(intRes2Pc);
+        Paths intRes2Pc_kH = GeoWrangler.makeKeyHole(intRes2Pc, true);
 
         // seems good - get keyhole
         Paths intRes2NZ = new();
-        c.Execute(ClipType.ctIntersection, intRes2NZ, PolyFillType.pftNonZero);
-        Paths intRes2NZ_kH = GeoWrangler.makeKeyHole(intRes2NZ);
+        c.Execute(ClipType.Intersection, FillRule.NonZero, intRes2NZ);
+        
+        /* Expected output
+           intRes2NZ = {List<List<Point64>>} Count = 2
+            [0] = {List<Point64>} Count = 6
+             [0] = {Point64} 0,0,0 
+             [1] = {Point64} 0,200000,0 
+             [2] = {Point64} 200000,200000,0 
+             [3] = {Point64} 200000,0,0 
+             [4] = {Point64} 110000,0,0 
+             [5] = {Point64} 0,0,0 
+            [1] = {List<Point64>} Count = 6
+             [0] = {Point64} 90000,50000,0 
+             [1] = {Point64} 150000,50000,0 
+             [2] = {Point64} 150000,150000,0 
+             [3] = {Point64} 50000,150000,0 
+             [4] = {Point64} 50000,50000,0 
+             [5] = {Point64} 90000,50000,0 
+           */
+        
+        Paths intRes2NZ_kH = GeoWrangler.makeKeyHole(intRes2NZ, true);
+        
+        /* Expected output
+           intRes2NZ_kH = {List<List<Point64>>} Count = 1
+            [0] = {List<Point64>} Count = 13
+             [0] = {Point64} 200000,0,0 
+             [1] = {Point64} 200000,49500,0 
+             [2] = {Point64} 149500,49500,0 
+             [3] = {Point64} 149500,50000,0 
+             [4] = {Point64} 50000,50000,0 
+             [5] = {Point64} 50000,150000,0 
+             [6] = {Point64} 150000,150000,0 
+             [7] = {Point64} 150000,50500,0 
+             [8] = {Point64} 200000,50500,0 
+             [9] = {Point64} 200000,200000,0 
+             [10] = {Point64} 0,200000,0 
+             [11] = {Point64} 0,0,0 
+             [12] = {Point64} 200000,0,0 
+           */
+        
         Paths intRes2NZc = GeoWrangler.close(intRes2NZ);
-        Paths intRes2NZc_kH = GeoWrangler.makeKeyHole(intRes2NZc);
+        
+        /* Expected output
+           intRes2NZc = {List<List<Point64>>} Count = 2
+            [0] = {List<Point64>} Count = 6
+             [0] = {Point64} 0,0,0 
+             [1] = {Point64} 0,200000,0 
+             [2] = {Point64} 200000,200000,0 
+             [3] = {Point64} 200000,0,0 
+             [4] = {Point64} 110000,0,0 
+             [5] = {Point64} 0,0,0 
+            [1] = {List<Point64>} Count = 6
+             [0] = {Point64} 90000,50000,0 
+             [1] = {Point64} 150000,50000,0 
+             [2] = {Point64} 150000,150000,0 
+             [3] = {Point64} 50000,150000,0 
+             [4] = {Point64} 50000,50000,0 
+             [5] = {Point64} 90000,50000,0 
+           */
+        
+        Paths intRes2NZc_kH = GeoWrangler.makeKeyHole(intRes2NZc, true);
+        
+        /* Expected output
+           intRes2NZc_kH = {List<List<Point64>>} Count = 1
+            [0] = {List<Point64>} Count = 13
+             [0] = {Point64} 200000,0,0 
+             [1] = {Point64} 200000,49500,0 
+             [2] = {Point64} 149500,49500,0 
+             [3] = {Point64} 149500,50000,0 
+             [4] = {Point64} 50000,50000,0 
+             [5] = {Point64} 50000,150000,0 
+             [6] = {Point64} 150000,150000,0 
+             [7] = {Point64} 150000,50500,0 
+             [8] = {Point64} 200000,50500,0 
+             [9] = {Point64} 200000,200000,0 
+             [10] = {Point64} 0,200000,0 
+             [11] = {Point64} 0,0,0 
+             [12] = {Point64} 200000,0,0 
+           */
+        
     }
 
     private static void comboTest()
@@ -514,83 +2006,167 @@ internal class Program
         // Manually create the sliver.
         Path outer = new()
         {
-            new IntPoint(-200000, -200000),
-            new IntPoint(300000, -200000),
-            new IntPoint(300000, 200000),
-            new IntPoint(-200000, 200000),
-            new IntPoint(-200000, -99900),
-            new IntPoint(-300000, -99900),
-            new IntPoint(-300000, -100100),
-            new IntPoint(-200000, -100100),
-            new IntPoint(-200000, -200000)
+            new(-200000, -200000),
+            new(300000, -200000),
+            new(300000, 200000),
+            new(-200000, 200000),
+            new(-200000, -99900),
+            new(-300000, -99900),
+            new(-300000, -100100),
+            new(-200000, -100100),
+            new(-200000, -200000)
         };
 
         Path inner1 = new()
         {
-            new IntPoint(100000, -100000),
-            new IntPoint(100000, 100000),
-            new IntPoint(200000, 100000),
-            new IntPoint(200000, -100000),
-            new IntPoint(100000, -100000)
+            new(100000, -100000),
+            new(100000, 100000),
+            new(200000, 100000),
+            new(200000, -100000),
+            new(100000, -100000)
         };
 
         // Segment the paths to match real-world case.
+        /*
         Fragmenter f = new(10000);
         Path outer_f = f.fragmentPath(outer);
 
         Path inner1_f = f.fragmentPath(inner1);
-
+        */
         Paths kHSource = new()
         {
             outer,
             inner1
         };
 
-        Paths kH = GeoWrangler.makeKeyHole(kHSource);
+        /* Expected
+           kHSource = {List<List<Point64>>} Count = 2
+            [0] = {List<Point64>} Count = 9
+             [0] = {Point64} -200000,-200000,0 
+             [1] = {Point64} 300000,-200000,0 
+             [2] = {Point64} 300000,200000,0 
+             [3] = {Point64} -200000,200000,0 
+             [4] = {Point64} -200000,-99900,0 
+             [5] = {Point64} -300000,-99900,0 
+             [6] = {Point64} -300000,-100100,0 
+             [7] = {Point64} -200000,-100100,0 
+             [8] = {Point64} -200000,-200000,0 
+            [1] = {List<Point64>} Count = 5
+             [0] = {Point64} 100000,-100000,0 
+             [1] = {Point64} 100000,100000,0 
+             [2] = {Point64} 200000,100000,0 
+             [3] = {Point64} 200000,-100000,0 
+             [4] = {Point64} 100000,-100000,0 
+           */
+        
+        Paths kH = GeoWrangler.makeKeyHole(kHSource, true);
 
+        /* Expected output
+           kH = {List<List<Point64>>} Count = 1
+            [0] = {List<Point64>} Count = 17
+             [0] = {Point64} -300000,-100100,0 
+             [1] = {Point64} -200000,-100100,0 
+             [2] = {Point64} -200000,-200000,0 
+             [3] = {Point64} 300000,-200000,0 
+             [4] = {Point64} 300000,-100500,0 
+             [5] = {Point64} 199500,-100500,0 
+             [6] = {Point64} 199500,-100000,0 
+             [7] = {Point64} 100000,-100000,0 
+             [8] = {Point64} 100000,100000,0 
+             [9] = {Point64} 200000,100000,0 
+             [10] = {Point64} 200000,-99500,0 
+             [11] = {Point64} 300000,-99500,0 
+             [12] = {Point64} 300000,200000,0 
+             [13] = {Point64} -200000,200000,0 
+             [14] = {Point64} -200000,-99900,0 
+             [15] = {Point64} -300000,-99900,0 
+             [16] = {Point64} -300000,-100100,0 
+           */
+        
         // Gap removal test
         Paths gR = GeoWrangler.gapRemoval(kH, 100);
 
+        /* Expected output
+           gR = {List<List<Point64>>} Count = 1
+            [0] = {List<Point64>} Count = 17
+             [0] = {Point64} -300000,-100100,0 
+             [1] = {Point64} -200000,-100100,0 
+             [2] = {Point64} -200000,-200000,0 
+             [3] = {Point64} 300000,-200000,0 
+             [4] = {Point64} 300000,-100500,0 
+             [5] = {Point64} 199500,-100500,0 
+             [6] = {Point64} 199500,-100000,0 
+             [7] = {Point64} 100000,-100000,0 
+             [8] = {Point64} 100000,100000,0 
+             [9] = {Point64} 200000,100000,0 
+             [10] = {Point64} 200000,-99500,0 
+             [11] = {Point64} 300000,-99500,0 
+             [12] = {Point64} 300000,200000,0 
+             [13] = {Point64} -200000,200000,0 
+             [14] = {Point64} -200000,-99900,0 
+             [15] = {Point64} -300000,-99900,0 
+             [16] = {Point64} -300000,-100100,0 
+           */
+        
         // Sliver removal test
         Paths sR = GeoWrangler.gapRemoval(kH, -100);
+        
+        /* Expected output
+           sR = {List<List<Point64>>} Count = 1
+            [0] = {List<Point64>} Count = 13
+             [0] = {Point64} 300000,-200000,0 
+             [1] = {Point64} 300000,-100500,0 
+             [2] = {Point64} 199500,-100500,0 
+             [3] = {Point64} 199500,-100000,0 
+             [4] = {Point64} 100000,-100000,0 
+             [5] = {Point64} 100000,100000,0 
+             [6] = {Point64} 200000,100000,0 
+             [7] = {Point64} 200000,-99500,0 
+             [8] = {Point64} 300000,-99500,0 
+             [9] = {Point64} 300000,200000,0 
+             [10] = {Point64} -200000,200000,0 
+             [11] = {Point64} -200000,-200000,0 
+             [12] = {Point64} 300000,-200000,0 
+           */
+        
     }
 
     private static void simple_islandTest()
     {
         Path outer1 = new()
         {
-            new IntPoint(-200000, -200000),
-            new IntPoint(200000, -200000),
-            new IntPoint(200000, 200000),
-            new IntPoint(-200000, 200000),
-            new IntPoint(-200000, -200000)
+            new(-200000, -200000),
+            new(200000, -200000),
+            new(200000, 200000),
+            new(-200000, 200000),
+            new(-200000, -200000)
         };
 
         Path inner1 = new()
         {
-            new IntPoint(-100000, -100000),
-            new IntPoint(-100000, 100000),
-            new IntPoint(100000, 100000),
-            new IntPoint(100000, -100000),
-            new IntPoint(-100000, -100000)
+            new(-100000, -100000),
+            new(-100000, 100000),
+            new(100000, 100000),
+            new(100000, -100000),
+            new(-100000, -100000)
         };
 
         Path outer2 = new()
         {
-            new IntPoint(-200000, 400000),
-            new IntPoint(200000, 400000),
-            new IntPoint(200000, 800000),
-            new IntPoint(-200000, 800000),
-            new IntPoint(-200000, 400000)
+            new(-200000, 400000),
+            new(200000, 400000),
+            new(200000, 800000),
+            new(-200000, 800000),
+            new(-200000, 400000)
         };
 
         Path inner2 = new()
         {
-            new IntPoint(-100000, 500000),
-            new IntPoint(-100000, 700000),
-            new IntPoint(100000, 700000),
-            new IntPoint(100000, 500000),
-            new IntPoint(-100000, 500000)
+            new(-100000, 500000),
+            new(-100000, 700000),
+            new(100000, 700000),
+            new(100000, 500000),
+            new(-100000, 500000)
         };
 
         Paths kHSource = new()
@@ -600,23 +2176,161 @@ internal class Program
             outer2,
             inner2
         };
+        
+        /* Expected
+           kHSource = {List<List<Point64>>} Count = 4
+            [0] = {List<Point64>} Count = 5
+             [0] = {Point64} -200000,-200000,0 
+             [1] = {Point64} 200000,-200000,0 
+             [2] = {Point64} 200000,200000,0 
+             [3] = {Point64} -200000,200000,0 
+             [4] = {Point64} -200000,-200000,0 
+            [1] = {List<Point64>} Count = 5
+             [0] = {Point64} -100000,-100000,0 
+             [1] = {Point64} -100000,100000,0 
+             [2] = {Point64} 100000,100000,0 
+             [3] = {Point64} 100000,-100000,0 
+             [4] = {Point64} -100000,-100000,0 
+            [2] = {List<Point64>} Count = 5
+             [0] = {Point64} -200000,400000,0 
+             [1] = {Point64} 200000,400000,0 
+             [2] = {Point64} 200000,800000,0 
+             [3] = {Point64} -200000,800000,0 
+             [4] = {Point64} -200000,400000,0 
+            [3] = {List<Point64>} Count = 5
+             [0] = {Point64} -100000,500000,0 
+             [1] = {Point64} -100000,700000,0 
+             [2] = {Point64} 100000,700000,0 
+             [3] = {Point64} 100000,500000,0 
+             [4] = {Point64} -100000,500000,0 
+           */
 
         // Generate keyholed geometry
-        Paths kH = GeoWrangler.makeKeyHole(kHSource);
+        Paths kH = GeoWrangler.makeKeyHole(kHSource, true);
 
-        // Generate sliver geometry.
-        Paths sL = new();
-        Clipper c = new();
-        c.AddPath(outer1, PolyType.ptSubject, true);
-        c.AddPath(outer2, PolyType.ptSubject, true);
-        c.AddPaths(kH, PolyType.ptClip, true);
-        c.Execute(ClipType.ctDifference, sL);
+        /* Expected output
+           kH = {List<List<Point64>>} Count = 2
+            [0] = {List<Point64>} Count = 13
+             [0] = {Point64} 200000,400000,0 
+             [1] = {Point64} 200000,499500,0 
+             [2] = {Point64} 99500,499500,0 
+             [3] = {Point64} 99500,500000,0 
+             [4] = {Point64} -100000,500000,0 
+             [5] = {Point64} -100000,700000,0 
+             [6] = {Point64} 100000,700000,0 
+             [7] = {Point64} 100000,500500,0 
+             [8] = {Point64} 200000,500500,0 
+             [9] = {Point64} 200000,800000,0 
+             [10] = {Point64} -200000,800000,0 
+             [11] = {Point64} -200000,400000,0 
+             [12] = {Point64} 200000,400000,0 
+            [1] = {List<Point64>} Count = 13
+             [0] = {Point64} 200000,-200000,0 
+             [1] = {Point64} 200000,-100500,0 
+             [2] = {Point64} 99500,-100500,0 
+             [3] = {Point64} 99500,-100000,0 
+             [4] = {Point64} -100000,-100000,0 
+             [5] = {Point64} -100000,100000,0 
+             [6] = {Point64} 100000,100000,0 
+             [7] = {Point64} 100000,-99500,0 
+             [8] = {Point64} 200000,-99500,0 
+             [9] = {Point64} 200000,200000,0 
+             [10] = {Point64} -200000,200000,0 
+             [11] = {Point64} -200000,-200000,0 
+             [12] = {Point64} 200000,-200000,0 
+           */
 
         // Gap removal test
         Paths gR = GeoWrangler.gapRemoval(kH, 100);
 
+        /* Expected output
+           gR = {List<List<Point64>>} Count = 2
+            [0] = {List<Point64>} Count = 13
+             [0] = {Point64} 200000,400000,0 
+             [1] = {Point64} 200000,499500,0 
+             [2] = {Point64} 99500,499500,0 
+             [3] = {Point64} 99500,500000,0 
+             [4] = {Point64} -100000,500000,0 
+             [5] = {Point64} -100000,700000,0 
+             [6] = {Point64} 100000,700000,0 
+             [7] = {Point64} 100000,500500,0 
+             [8] = {Point64} 200000,500500,0 
+             [9] = {Point64} 200000,800000,0 
+             [10] = {Point64} -200000,800000,0 
+             [11] = {Point64} -200000,400000,0 
+             [12] = {Point64} 200000,400000,0 
+            [1] = {List<Point64>} Count = 13
+             [0] = {Point64} 200000,-200000,0 
+             [1] = {Point64} 200000,-100500,0 
+             [2] = {Point64} 99500,-100500,0 
+             [3] = {Point64} 99500,-100000,0 
+             [4] = {Point64} -100000,-100000,0 
+             [5] = {Point64} -100000,100000,0 
+             [6] = {Point64} 100000,100000,0 
+             [7] = {Point64} 100000,-99500,0 
+             [8] = {Point64} 200000,-99500,0 
+             [9] = {Point64} 200000,200000,0 
+             [10] = {Point64} -200000,200000,0 
+             [11] = {Point64} -200000,-200000,0 
+             [12] = {Point64} 200000,-200000,0 
+           */
+        
+        // Generate sliver geometry.
+        Paths sL = new();
+        Clipper64 c = new();
+        c.AddSubject(outer1);
+        c.AddSubject(outer2);
+        c.AddClip(kH);
+        c.Execute(ClipType.Difference, FillRule.EvenOdd, sL);
+        
+        /* Expected output
+           sL = {List<List<Point64>>} Count = 2
+            [0] = {List<Point64>} Count = 8
+             [0] = {Point64} 99500,499500,0 
+             [1] = {Point64} 99500,500000,0 
+             [2] = {Point64} -100000,500000,0 
+             [3] = {Point64} -100000,700000,0 
+             [4] = {Point64} 100000,700000,0 
+             [5] = {Point64} 100000,500500,0 
+             [6] = {Point64} 200000,500500,0 
+             [7] = {Point64} 200000,499500,0 
+            [1] = {List<Point64>} Count = 8
+             [0] = {Point64} 99500,-100500,0 
+             [1] = {Point64} 99500,-100000,0 
+             [2] = {Point64} -100000,-100000,0 
+             [3] = {Point64} -100000,100000,0 
+             [4] = {Point64} 100000,100000,0 
+             [5] = {Point64} 100000,-99500,0 
+             [6] = {Point64} 200000,-99500,0 
+             [7] = {Point64} 200000,-100500,0 
+           */
+        
         // Sliver removal test
         Paths sR = GeoWrangler.gapRemoval(sL, -100);
+        
+        /* Expected output
+           sR = {List<List<Point64>>} Count = 2
+            [0] = {List<Point64>} Count = 9
+             [0] = {Point64} -100000,500000,0 
+             [1] = {Point64} -100000,700000,0 
+             [2] = {Point64} 100000,700000,0 
+             [3] = {Point64} 100000,500500,0 
+             [4] = {Point64} 200000,500500,0 
+             [5] = {Point64} 200000,499500,0 
+             [6] = {Point64} 99500,499500,0 
+             [7] = {Point64} 99500,500000,0 
+             [8] = {Point64} -100000,500000,0 
+            [1] = {List<Point64>} Count = 9
+             [0] = {Point64} -100000,-100000,0 
+             [1] = {Point64} -100000,100000,0 
+             [2] = {Point64} 100000,100000,0 
+             [3] = {Point64} 100000,-99500,0 
+             [4] = {Point64} 200000,-99500,0 
+             [5] = {Point64} 200000,-100500,0 
+             [6] = {Point64} 99500,-100500,0 
+             [7] = {Point64} 99500,-100000,0 
+             [8] = {Point64} -100000,-100000,0 
+           */
     }
 
     private static void complex_islandTest()
@@ -625,24 +2339,24 @@ internal class Program
         // Manually create the sliver.
         Path outer = new()
         {
-            new IntPoint(-200000, -200000),
-            new IntPoint(300000, -200000),
-            new IntPoint(300000, 200000),
-            new IntPoint(-200000, 200000),
-            new IntPoint(-200000, -99900),
-            new IntPoint(-300000, -99900),
-            new IntPoint(-300000, -100100),
-            new IntPoint(-200000, -100100),
-            new IntPoint(-200000, -200000)
+            new(-200000, -200000),
+            new(300000, -200000),
+            new(300000, 200000),
+            new(-200000, 200000),
+            new(-200000, -99900),
+            new(-300000, -99900),
+            new(-300000, -100100),
+            new(-200000, -100100),
+            new(-200000, -200000)
         };
 
         Path inner1 = new()
         {
-            new IntPoint(100000, -100000),
-            new IntPoint(100000, 100000),
-            new IntPoint(200000, 100000),
-            new IntPoint(200000, -100000),
-            new IntPoint(100000, -100000)
+            new(100000, -100000),
+            new(100000, 100000),
+            new(200000, 100000),
+            new(200000, -100000),
+            new(100000, -100000)
         };
 
         Paths kHSource = new()
@@ -654,20 +2368,20 @@ internal class Program
         // Island 2 - simple single hole
         Path outer2 = new()
         {
-            new IntPoint(-200000, 400000),
-            new IntPoint(200000, 400000),
-            new IntPoint(200000, 800000),
-            new IntPoint(-200000, 800000),
-            new IntPoint(-200000, 400000)
+            new(-200000, 400000),
+            new(200000, 400000),
+            new(200000, 800000),
+            new(-200000, 800000),
+            new(-200000, 400000)
         };
 
         Path inner2 = new()
         {
-            new IntPoint(-100000, 500000),
-            new IntPoint(-100000, 700000),
-            new IntPoint(100000, 700000),
-            new IntPoint(100000, 500000),
-            new IntPoint(-100000, 500000)
+            new(-100000, 500000),
+            new(-100000, 700000),
+            new(100000, 700000),
+            new(100000, 500000),
+            new(-100000, 500000)
         };
 
         kHSource.Add(outer2);
@@ -676,42 +2390,263 @@ internal class Program
         // Island 3 - dual hole hole
         Path outer3 = new()
         {
-            new IntPoint(-300000, 1200000),
-            new IntPoint(300000, 1200000),
-            new IntPoint(300000, 1600000),
-            new IntPoint(-300000, 1600000),
-            new IntPoint(-300000, 1200000)
+            new(-300000, 1200000),
+            new(300000, 1200000),
+            new(300000, 1600000),
+            new(-300000, 1600000),
+            new(-300000, 1200000)
         };
 
         Path inner3_1 = new()
         {
-            new IntPoint(-200000, 1300000),
-            new IntPoint(-200000, 1500000),
-            new IntPoint(-100000, 1500000),
-            new IntPoint(-100000, 1300000),
-            new IntPoint(-200000, 1300000)
+            new(-200000, 1300000),
+            new(-200000, 1500000),
+            new(-100000, 1500000),
+            new(-100000, 1300000),
+            new(-200000, 1300000)
         };
 
         Path inner3_2 = new()
         {
-            new IntPoint(100000, 1300000),
-            new IntPoint(100000, 1500000),
-            new IntPoint(200000, 1500000),
-            new IntPoint(200000, 1300000),
-            new IntPoint(100000, 1300000)
+            new(100000, 1300000),
+            new(100000, 1500000),
+            new(200000, 1500000),
+            new(200000, 1300000),
+            new(100000, 1300000)
         };
 
         kHSource.Add(outer3);
         kHSource.Add(inner3_1);
         kHSource.Add(inner3_2);
 
-        Paths kH = GeoWrangler.makeKeyHole(kHSource);
+        /* Expected
+           kHSource = {List<List<Point64>>} Count = 7
+            [0] = {List<Point64>} Count = 9
+             [0] = {Point64} -200000,-200000,0 
+             [1] = {Point64} 300000,-200000,0 
+             [2] = {Point64} 300000,200000,0 
+             [3] = {Point64} -200000,200000,0 
+             [4] = {Point64} -200000,-99900,0 
+             [5] = {Point64} -300000,-99900,0 
+             [6] = {Point64} -300000,-100100,0 
+             [7] = {Point64} -200000,-100100,0 
+             [8] = {Point64} -200000,-200000,0 
+            [1] = {List<Point64>} Count = 5
+             [0] = {Point64} 100000,-100000,0 
+             [1] = {Point64} 100000,100000,0 
+             [2] = {Point64} 200000,100000,0 
+             [3] = {Point64} 200000,-100000,0 
+             [4] = {Point64} 100000,-100000,0 
+            [2] = {List<Point64>} Count = 5
+             [0] = {Point64} -200000,400000,0 
+             [1] = {Point64} 200000,400000,0 
+             [2] = {Point64} 200000,800000,0 
+             [3] = {Point64} -200000,800000,0 
+             [4] = {Point64} -200000,400000,0 
+            [3] = {List<Point64>} Count = 5
+             [0] = {Point64} -100000,500000,0 
+             [1] = {Point64} -100000,700000,0 
+             [2] = {Point64} 100000,700000,0 
+             [3] = {Point64} 100000,500000,0 
+             [4] = {Point64} -100000,500000,0 
+            [4] = {List<Point64>} Count = 5
+             [0] = {Point64} -300000,1200000,0 
+             [1] = {Point64} 300000,1200000,0 
+             [2] = {Point64} 300000,1600000,0 
+             [3] = {Point64} -300000,1600000,0 
+             [4] = {Point64} -300000,1200000,0 
+            [5] = {List<Point64>} Count = 5
+             [0] = {Point64} -200000,1300000,0 
+             [1] = {Point64} -200000,1500000,0 
+             [2] = {Point64} -100000,1500000,0 
+             [3] = {Point64} -100000,1300000,0 
+             [4] = {Point64} -200000,1300000,0 
+            [6] = {List<Point64>} Count = 5
+             [0] = {Point64} 100000,1300000,0 
+             [1] = {Point64} 100000,1500000,0 
+             [2] = {Point64} 200000,1500000,0 
+             [3] = {Point64} 200000,1300000,0 
+             [4] = {Point64} 100000,1300000,0 
+           */
+        
+        Paths kH = GeoWrangler.makeKeyHole(kHSource, true);
 
+        /* Expected output
+           kH = {List<List<Point64>>} Count = 3
+            [0] = {List<Point64>} Count = 21
+             [0] = {Point64} 300000,1200000,0 
+             [1] = {Point64} 300000,1299500,0 
+             [2] = {Point64} 199500,1299500,0 
+             [3] = {Point64} 199500,1300000,0 
+             [4] = {Point64} 100000,1300000,0 
+             [5] = {Point64} 100000,1500000,0 
+             [6] = {Point64} 200000,1500000,0 
+             [7] = {Point64} 200000,1300500,0 
+             [8] = {Point64} 300000,1300500,0 
+             [9] = {Point64} 300000,1600000,0 
+             [10] = {Point64} -300000,1600000,0 
+             [11] = {Point64} -300000,1500500,0 
+             [12] = {Point64} -199500,1500500,0 
+             [13] = {Point64} -199500,1500000,0 
+             [14] = {Point64} -100000,1500000,0 
+             [15] = {Point64} -100000,1300000,0 
+             [16] = {Point64} -200000,1300000,0 
+             [17] = {Point64} -200000,1499500,0 
+             [18] = {Point64} -300000,1499500,0 
+             [19] = {Point64} -300000,1200000,0 
+             [20] = {Point64} 300000,1200000,0 
+            [1] = {List<Point64>} Count = 13
+             [0] = {Point64} 200000,400000,0 
+             [1] = {Point64} 200000,499500,0 
+             [2] = {Point64} 99500,499500,0 
+             [3] = {Point64} 99500,500000,0 
+             [4] = {Point64} -100000,500000,0 
+             [5] = {Point64} -100000,700000,0 
+             [6] = {Point64} 100000,700000,0 
+             [7] = {Point64} 100000,500500,0 
+             [8] = {Point64} 200000,500500,0 
+             [9] = {Point64} 200000,800000,0 
+             [10] = {Point64} -200000,800000,0 
+             [11] = {Point64} -200000,400000,0 
+             [12] = {Point64} 200000,400000,0 
+            [2] = {List<Point64>} Count = 17
+             [0] = {Point64} -300000,-100100,0 
+             [1] = {Point64} -200000,-100100,0 
+             [2] = {Point64} -200000,-200000,0 
+             [3] = {Point64} 300000,-200000,0 
+             [4] = {Point64} 300000,-100500,0 
+             [5] = {Point64} 199500,-100500,0 
+             [6] = {Point64} 199500,-100000,0 
+             [7] = {Point64} 100000,-100000,0 
+             [8] = {Point64} 100000,100000,0 
+             [9] = {Point64} 200000,100000,0 
+             [10] = {Point64} 200000,-99500,0 
+             [11] = {Point64} 300000,-99500,0 
+             [12] = {Point64} 300000,200000,0 
+             [13] = {Point64} -200000,200000,0 
+             [14] = {Point64} -200000,-99900,0 
+             [15] = {Point64} -300000,-99900,0 
+             [16] = {Point64} -300000,-100100,0 
+           */
+        
         // Gap removal test
         Paths gR = GeoWrangler.gapRemoval(kH, 100);
 
+        /* Expected output
+           gR = {List<List<Point64>>} Count = 3
+            [0] = {List<Point64>} Count = 21
+             [0] = {Point64} 300000,1200000,0 
+             [1] = {Point64} 300000,1299500,0 
+             [2] = {Point64} 199500,1299500,0 
+             [3] = {Point64} 199500,1300000,0 
+             [4] = {Point64} 100000,1300000,0 
+             [5] = {Point64} 100000,1500000,0 
+             [6] = {Point64} 200000,1500000,0 
+             [7] = {Point64} 200000,1300500,0 
+             [8] = {Point64} 300000,1300500,0 
+             [9] = {Point64} 300000,1600000,0 
+             [10] = {Point64} -300000,1600000,0 
+             [11] = {Point64} -300000,1500500,0 
+             [12] = {Point64} -199500,1500500,0 
+             [13] = {Point64} -199500,1500000,0 
+             [14] = {Point64} -100000,1500000,0 
+             [15] = {Point64} -100000,1300000,0 
+             [16] = {Point64} -200000,1300000,0 
+             [17] = {Point64} -200000,1499500,0 
+             [18] = {Point64} -300000,1499500,0 
+             [19] = {Point64} -300000,1200000,0 
+             [20] = {Point64} 300000,1200000,0 
+            [1] = {List<Point64>} Count = 13
+             [0] = {Point64} 200000,400000,0 
+             [1] = {Point64} 200000,499500,0 
+             [2] = {Point64} 99500,499500,0 
+             [3] = {Point64} 99500,500000,0 
+             [4] = {Point64} -100000,500000,0 
+             [5] = {Point64} -100000,700000,0 
+             [6] = {Point64} 100000,700000,0 
+             [7] = {Point64} 100000,500500,0 
+             [8] = {Point64} 200000,500500,0 
+             [9] = {Point64} 200000,800000,0 
+             [10] = {Point64} -200000,800000,0 
+             [11] = {Point64} -200000,400000,0 
+             [12] = {Point64} 200000,400000,0 
+            [2] = {List<Point64>} Count = 17
+             [0] = {Point64} -300000,-100100,0 
+             [1] = {Point64} -200000,-100100,0 
+             [2] = {Point64} -200000,-200000,0 
+             [3] = {Point64} 300000,-200000,0 
+             [4] = {Point64} 300000,-100500,0 
+             [5] = {Point64} 199500,-100500,0 
+             [6] = {Point64} 199500,-100000,0 
+             [7] = {Point64} 100000,-100000,0 
+             [8] = {Point64} 100000,100000,0 
+             [9] = {Point64} 200000,100000,0 
+             [10] = {Point64} 200000,-99500,0 
+             [11] = {Point64} 300000,-99500,0 
+             [12] = {Point64} 300000,200000,0 
+             [13] = {Point64} -200000,200000,0 
+             [14] = {Point64} -200000,-99900,0 
+             [15] = {Point64} -300000,-99900,0 
+             [16] = {Point64} -300000,-100100,0 
+           */
+        
         // Sliver removal test
         Paths sR = GeoWrangler.gapRemoval(kH, -100);
+        
+        /* Expected output
+           sR = {List<List<Point64>>} Count = 3
+            [0] = {List<Point64>} Count = 21
+             [0] = {Point64} 300000,1200000,0 
+             [1] = {Point64} 300000,1299500,0 
+             [2] = {Point64} 199500,1299500,0 
+             [3] = {Point64} 199500,1300000,0 
+             [4] = {Point64} 100000,1300000,0 
+             [5] = {Point64} 100000,1500000,0 
+             [6] = {Point64} 200000,1500000,0 
+             [7] = {Point64} 200000,1300500,0 
+             [8] = {Point64} 300000,1300500,0 
+             [9] = {Point64} 300000,1600000,0 
+             [10] = {Point64} -300000,1600000,0 
+             [11] = {Point64} -300000,1500500,0 
+             [12] = {Point64} -199500,1500500,0 
+             [13] = {Point64} -199500,1500000,0 
+             [14] = {Point64} -100000,1500000,0 
+             [15] = {Point64} -100000,1300000,0 
+             [16] = {Point64} -200000,1300000,0 
+             [17] = {Point64} -200000,1499500,0 
+             [18] = {Point64} -300000,1499500,0 
+             [19] = {Point64} -300000,1200000,0 
+             [20] = {Point64} 300000,1200000,0 
+            [1] = {List<Point64>} Count = 13
+             [0] = {Point64} 200000,400000,0 
+             [1] = {Point64} 200000,499500,0 
+             [2] = {Point64} 99500,499500,0 
+             [3] = {Point64} 99500,500000,0 
+             [4] = {Point64} -100000,500000,0 
+             [5] = {Point64} -100000,700000,0 
+             [6] = {Point64} 100000,700000,0 
+             [7] = {Point64} 100000,500500,0 
+             [8] = {Point64} 200000,500500,0 
+             [9] = {Point64} 200000,800000,0 
+             [10] = {Point64} -200000,800000,0 
+             [11] = {Point64} -200000,400000,0 
+             [12] = {Point64} 200000,400000,0 
+            [2] = {List<Point64>} Count = 13
+             [0] = {Point64} 300000,-200000,0 
+             [1] = {Point64} 300000,-100500,0 
+             [2] = {Point64} 199500,-100500,0 
+             [3] = {Point64} 199500,-100000,0 
+             [4] = {Point64} 100000,-100000,0 
+             [5] = {Point64} 100000,100000,0 
+             [6] = {Point64} 200000,100000,0 
+             [7] = {Point64} 200000,-99500,0 
+             [8] = {Point64} 300000,-99500,0 
+             [9] = {Point64} 300000,200000,0 
+             [10] = {Point64} -200000,200000,0 
+             [11] = {Point64} -200000,-200000,0 
+             [12] = {Point64} 300000,-200000,0 
+           */
+        
     }
 
     private static void multiHoleTest()
@@ -719,55 +2654,131 @@ internal class Program
         Paths paths = new();
         Path path_1 = new()
         {
-            new IntPoint(50000, 0),
-            new IntPoint(0, 0),
-            new IntPoint(0, 155000),
-            new IntPoint(50000, 155000),
-            new IntPoint(50000, 0)
+            new(50000, 0),
+            new(0, 0),
+            new(0, 155000),
+            new(50000, 155000),
+            new(50000, 0)
         };
         paths.Add(path_1);
 
         Path path_2 = new()
         {
-            new IntPoint(35000, 135000),
-            new IntPoint(35000, 150000),
-            new IntPoint(5000, 150000),
-            new IntPoint(5000, 135000),
-            new IntPoint(35000, 135000)
+            new(35000, 135000),
+            new(35000, 150000),
+            new(5000, 150000),
+            new(5000, 135000),
+            new(35000, 135000)
         };
         paths.Add(path_2);
 
         Path path_3 = new()
         {
-            new IntPoint(22000, 95000),
-            new IntPoint(22000, 125000),
-            new IntPoint(5000, 125000),
-            new IntPoint(5000, 95000),
-            new IntPoint(22000, 95000)
+            new(22000, 95000),
+            new(22000, 125000),
+            new(5000, 125000),
+            new(5000, 95000),
+            new(22000, 95000)
         };
         paths.Add(path_3);
 
         Path path_4 = new()
         {
-            new IntPoint(35000, 45000),
-            new IntPoint(35000, 75000),
-            new IntPoint(5000, 75000),
-            new IntPoint(5000, 45000),
-            new IntPoint(35000, 45000)
+            new(35000, 45000),
+            new(35000, 75000),
+            new(5000, 75000),
+            new(5000, 45000),
+            new(35000, 45000)
         };
         paths.Add(path_4);
 
         Path path_5 = new()
         {
-            new IntPoint(35000, 5000),
-            new IntPoint(35000, 35000),
-            new IntPoint(5000, 35000),
-            new IntPoint(5000, 5000),
-            new IntPoint(35000, 5000)
+            new(35000, 5000),
+            new(35000, 35000),
+            new(5000, 35000),
+            new(5000, 5000),
+            new(35000, 5000)
         };
         paths.Add(path_5);
 
+        /* Expected
+           paths = {List<List<Point64>>} Count = 5
+            [0] = {List<Point64>} Count = 5
+             [0] = {Point64} 50000,0,0 
+             [1] = {Point64} 0,0,0 
+             [2] = {Point64} 0,155000,0 
+             [3] = {Point64} 50000,155000,0 
+             [4] = {Point64} 50000,0,0 
+            [1] = {List<Point64>} Count = 5
+             [0] = {Point64} 35000,135000,0 
+             [1] = {Point64} 35000,150000,0 
+             [2] = {Point64} 5000,150000,0 
+             [3] = {Point64} 5000,135000,0 
+             [4] = {Point64} 35000,135000,0 
+            [2] = {List<Point64>} Count = 5
+             [0] = {Point64} 22000,95000,0 
+             [1] = {Point64} 22000,125000,0 
+             [2] = {Point64} 5000,125000,0 
+             [3] = {Point64} 5000,95000,0 
+             [4] = {Point64} 22000,95000,0 
+            [3] = {List<Point64>} Count = 5
+             [0] = {Point64} 35000,45000,0 
+             [1] = {Point64} 35000,75000,0 
+             [2] = {Point64} 5000,75000,0 
+             [3] = {Point64} 5000,45000,0 
+             [4] = {Point64} 35000,45000,0 
+            [4] = {List<Point64>} Count = 5
+             [0] = {Point64} 35000,5000,0 
+             [1] = {Point64} 35000,35000,0 
+             [2] = {Point64} 5000,35000,0 
+             [3] = {Point64} 5000,5000,0 
+             [4] = {Point64} 35000,5000,0 
+           */
+        
         // Generate keyholed geometry
-        Paths kH = GeoWrangler.makeKeyHole(paths);
+        Paths kH = GeoWrangler.makeKeyHole(paths, true);
+        
+        /* Expected output
+           kH = {List<List<Point64>>} Count = 1
+            [0] = {List<Point64>} Count = 37
+             [0] = {Point64} 50000,0,0 
+             [1] = {Point64} 50000,155000,0 
+             [2] = {Point64} 0,155000,0 
+             [3] = {Point64} 0,150500,0 
+             [4] = {Point64} 5500,150500,0 
+             [5] = {Point64} 5500,150000,0 
+             [6] = {Point64} 35000,150000,0 
+             [7] = {Point64} 35000,135000,0 
+             [8] = {Point64} 5000,135000,0 
+             [9] = {Point64} 5000,149500,0 
+             [10] = {Point64} 0,149500,0 
+             [11] = {Point64} 0,125500,0 
+             [12] = {Point64} 5500,125500,0 
+             [13] = {Point64} 5500,125000,0 
+             [14] = {Point64} 22000,125000,0 
+             [15] = {Point64} 22000,95000,0 
+             [16] = {Point64} 5000,95000,0 
+             [17] = {Point64} 5000,124500,0 
+             [18] = {Point64} 0,124500,0 
+             [19] = {Point64} 0,75500,0 
+             [20] = {Point64} 5500,75500,0 
+             [21] = {Point64} 5500,75000,0 
+             [22] = {Point64} 35000,75000,0 
+             [23] = {Point64} 35000,45000,0 
+             [24] = {Point64} 5000,45000,0 
+             [25] = {Point64} 5000,74500,0 
+             [26] = {Point64} 0,74500,0 
+             [27] = {Point64} 0,35500,0 
+             [28] = {Point64} 5500,35500,0 
+             [29] = {Point64} 5500,35000,0 
+             [30] = {Point64} 35000,35000,0 
+             [31] = {Point64} 35000,5000,0 
+             [32] = {Point64} 5000,5000,0 
+             [33] = {Point64} 5000,34500,0 
+             [34] = {Point64} 0,34500,0 
+             [35] = {Point64} 0,0,0 
+             [36] = {Point64} 50000,0,0 
+           */
     }
 }

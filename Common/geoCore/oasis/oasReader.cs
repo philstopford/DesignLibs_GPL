@@ -74,6 +74,8 @@ internal partial class oasReader
         public int trapezoid_delta_a { get; set; }
         public int trapezoid_delta_b { get; set; }
         public bool trapezoid_orientation { get; set; }
+        
+        public string s { get; set; }
     }
 
     private GCCell cell_;
@@ -137,6 +139,7 @@ internal partial class oasReader
         modal.repetition = -1;
         modal.polygon_point_list = new List<GeoLibPoint>();
         modal.repArray = new List<GeoLibPoint>();
+        modal.s = "";
     }
 
     public bool load(ref GCDrawingfield drawing)
@@ -170,7 +173,6 @@ internal partial class oasReader
                 br = new EndianBinaryReader(EndianBitConverter.Little, stream);
             }
 
-            string s;
             int i;
             string s1 = "";
             zLibUsed = false;
@@ -182,8 +184,8 @@ internal partial class oasReader
                     continue;
                 }
 
-                s = Encoding.UTF8.GetString(new [] { help });
-                s1 += s;
+                modal.s = Encoding.UTF8.GetString(new [] { help });
+                s1 += modal.s;
             }
             if (s1 != "%SEMI-OASIS\r\n")
             {
@@ -217,10 +219,10 @@ internal partial class oasReader
                     case 0: //pad
                         break;
                     case 1: //start
-                        s = readString();
-                        if (s != "1.0")
+                        modal.s = readString();
+                        if (modal.s != "1.0")
                         {
-                            string err2 = "Unknown/unsupported version of OASIS: " + s;
+                            string err2 = "Unknown/unsupported version of OASIS: " + modal.s;
                             error_msgs.Add(err2);
                             throw new Exception(err2);
                         }
@@ -263,36 +265,36 @@ internal partial class oasReader
                         cellNameCount++;
                         break;
                     case 4: //cellname
-                        s = readString();
+                        modal.s = readString();
                         i = readUnsignedInteger();
-                        cellNames[i] = s;
+                        cellNames[i] = modal.s;
                         break;
                     case 5: //textname
                         textNames[textNameCount] = readString();
                         textNameCount++;
                         break;
                     case 6: //textname
-                        s = readString();
+                        modal.s = readString();
                         i = readUnsignedInteger();
-                        textNames[i] = s;
+                        textNames[i] = modal.s;
                         break;
                     case 7: //property
-                        s = readString();
+                        modal.s = readString();
                         break;
                     case 8: //property
-                        s = readString();
+                        modal.s = readString();
                         i = readUnsignedInteger();
                         break;
                     case 9: //property string
-                        s = readString();
+                        modal.s = readString();
                         break;
                     case 10: //property string
-                        s = readString();
+                        modal.s = readString();
                         i = readUnsignedInteger();
                         break;
                     case 11: //layername textlayername 
                     case 12:
-                        s = readString();
+                        modal.s = readString();
                         i = readUnsignedInteger();
                         switch (i)
                         {
@@ -333,13 +335,7 @@ internal partial class oasReader
                                 readUnsignedInteger();
                                 break;
                         }
-                        try
-                        {
-                            layerNames.Add("L" + l + "D" + i, s);
-                        }
-                        catch (Exception)
-                        {
-                        }
+                        layerNames.Add("L" + l + "D" + i, modal.s);
                         break;
                     case 13: // cellrecord
                         cell_ = drawing_.addCell();
@@ -347,7 +343,7 @@ internal partial class oasReader
                         cellNames[i] = cellNames[i] switch
                         {
                             "" => "layout#cell~" + i,
-                            _ => cellNames[i]
+                            _ => cellNames[i] != null ? cellNames[i] : modal.s
                         };
                         cell_.cellName = cellNames[i];
                         resetModal();
@@ -527,7 +523,7 @@ internal partial class oasReader
                                 textNames[i] = textNames[i] switch
                                 {
                                     "" => "layout#text~" + i,
-                                    _ => textNames[i]
+                                    _ => textNames[i] != null ? textNames[i] : modal.s
                                 };
                                 modal.text_string = textNames[i];
                             }
@@ -1182,7 +1178,7 @@ internal partial class oasReader
             try
             {
                 drawing_.active_cell = drawing.findCellIndex(cell_.cellName);
-                drawing_.resize(1000.0 / drawing_.databaseunits);
+                // drawing_.resize(1000.0 / drawing_.databaseunits);
             }
             catch (Exception)
             {

@@ -1,11 +1,11 @@
-﻿using ClipperLib;
+﻿using Clipper2Lib;
 using geoLib;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace geoWrangler;
 
-using Path = List<IntPoint>;
+using Path = List<Point64>;
 
 public static partial class GeoWrangler
 {

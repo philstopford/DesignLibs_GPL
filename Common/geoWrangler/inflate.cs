@@ -1,16 +1,91 @@
-﻿using ClipperLib;
+﻿using System;
+using Clipper2Lib;
 using geoLib;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using utility;
 
 namespace geoWrangler;
 
-using Path = List<IntPoint>;
-using Paths = List<List<IntPoint>>;
+using Path = List<Point64>;
+using Paths = List<List<Point64>>;
 
 public static partial class GeoWrangler
 {
+    public static Paths extendEdges(Paths edges, double sizing)
+    {
+        return pExtendEdges(edges, sizing);
+    }
+
+    private static Paths pExtendEdges(Paths edges, double sizing)
+    {
+        int sLength = edges.Count;
+#if !GWSINGLETHREADED
+        Parallel.For(0, sLength, i =>
+#else
+            for (int i = 0; i < sLength; i++)
+#endif
+            {
+                edges[i] = pExtendEdge(edges[i], sizing);
+            }
+#if !GWSINGLETHREADED
+        );
+#endif
+        return edges;
+    }
+
+    public static Path extendEdge(Path edge, double sizing)
+    {
+        return pExtendEdge(edge, sizing);
+    }
+    private static Path pExtendEdge(Path edge, double sizing)
+    {
+        // Get sorted out for dx, dy and normalization.
+        double dx = edge[0].X - edge[1].X;
+        double dy = edge[0].Y - edge[1].Y;
+
+        double length = Math.Sqrt(Utils.myPow(dx, 2) + Utils.myPow(dy, 2));
+
+        dx /= length;
+        dy /= length;
+        
+        // Extend the line slightly.
+        double edge0_newX = edge[0].X;
+        double edge0_newY = edge[0].Y;
+        double edge1_newX = edge[1].X;
+        double edge1_newY = edge[1].Y;
+
+        // Move the edge according to the keyhole sizing, to extend it. Then add 1 to ensure an overlap.
+        double X_shift = (long) Math.Abs(dx * sizing) + 1;
+        double Y_shift = (long) Math.Abs(dy * sizing) + 1;
+        if (edge[0].X <= edge[1].X)
+        {
+            edge0_newX -= X_shift;
+            edge1_newX += X_shift;
+        }
+        else
+        {
+            edge0_newX += X_shift;
+            edge1_newX -= X_shift;
+        }
+        
+        if (edge[0].Y <= edge[1].Y)
+        {
+            edge0_newY -= Y_shift;
+            edge1_newY += Y_shift;
+        }
+        else
+        {
+            edge0_newY += Y_shift;
+            edge1_newY -= Y_shift;
+        }
+        
+        edge[0] = new Point64(edge0_newX, edge0_newY);
+        edge[1] = new Point64(edge1_newX, edge1_newY);
+
+        return edge;
+    }
     public static GeoLibPoint[] inflatePath(GeoLibPoint[] source, int width)
     {
         return pInflatePath(source, width);
@@ -23,66 +98,34 @@ public static partial class GeoWrangler
             case 0:
                 return source;
         }
-
-        Paths allSolutions = new();
-
-        for (int i = 0; i < source.Length - 1; i++)
+        
+        ClipperOffset co = new() {PreserveCollinear = true};
+        Path a = GeoWrangler.pathFromPoint(source, 1);
+        // Path from Point auto-closes the input for historical reasons. We may not want this....
+        if (pDistanceBetweenPoints(source[0], source[^1]) > Double.Epsilon)
         {
-            ClipperOffset co = new();
-            Path o = new()
-            {
-                new IntPoint(source[i].X, source[i].Y), new IntPoint(source[i + 1].X, source[i + 1].Y)
-            };
-            co.AddPath(o, JoinType.jtMiter, EndType.etClosedLine);
-
-            int offsetVal = width / 2;
-
-            Paths solution = new();
-
-            co.Execute(ref solution, offsetVal);
-
-            allSolutions.Add(new Path(solution[0]));
-
-            // Need to add a patch polygon to link the segments.
-            Path patchPoly = new()
-            {
-                new IntPoint(source[i + 1].X - offsetVal, source[i + 1].Y - offsetVal),
-                new IntPoint(source[i + 1].X - offsetVal, source[i + 1].Y + offsetVal),
-                new IntPoint(source[i + 1].X + offsetVal, source[i + 1].Y + offsetVal),
-                new IntPoint(source[i + 1].X + offsetVal, source[i + 1].Y - offsetVal)
-            };
-
-            allSolutions.Add(new Path(patchPoly));
+            pStripTerminators(a, false);
         }
+        co.AddPath(a, JoinType.Miter, EndType.Square);
+        Paths output = co.Execute(width);
 
-        Clipper c = new();
-        c.AddPaths(allSolutions, PolyType.ptSubject, true);
+        output = pReorderXY(output);
 
-        IntRect b = ClipperBase.GetBounds(allSolutions);
+        return pPointFromPath(pClose(output[0]), 1);
 
-        Path bPath = new()
+    }
+
+    public static List<GeoLibPointF[]> resize(List<GeoLibPointF[]> source, double factor)
+    {
+        return pResize(source, factor);
+    }
+
+    private static List<GeoLibPointF[]> pResize(List<GeoLibPointF[]> source, double factor)
+    {
+        List<GeoLibPointF[]> ret = new();
+        foreach (GeoLibPointF[] p in source)
         {
-            new IntPoint(b.left, b.bottom),
-            new IntPoint(b.left, b.top),
-            new IntPoint(b.right, b.top),
-            new IntPoint(b.right, b.bottom)
-        };
-
-        c.AddPaths(new Paths { bPath }, PolyType.ptClip, true);
-
-        Paths union = new();
-        c.Execute(ClipType.ctIntersection, union, PolyFillType.pftPositive);
-
-        GeoLibPoint[] ret;
-        if (union.Any())
-        {
-            // We should only have one result.
-            union[0].Add(new IntPoint(union[0][0])); // force a close - it wasn't done in the Boolean.
-            ret = pointFromPath(union[0], 1);
-        }
-        else
-        {
-            ret = new [] { new GeoLibPoint(0, 0) };
+            ret.Add(pResize(p, factor));
         }
 
         return ret;

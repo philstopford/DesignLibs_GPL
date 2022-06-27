@@ -1,89 +1,79 @@
-﻿using ClipperLib;
+﻿using Clipper2Lib;
 using geoLib;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace geoWrangler;
 
-using Path = List<IntPoint>;
-using Paths = List<List<IntPoint>>;
+using Path = List<Point64>;
+using Paths = List<List<Point64>>;
 
 public static partial class GeoWrangler
 {
     // Bounds will force the negation to only work against the extents of the shape. Useful for capturing islands in negative tone.
-    public static List<GeoLibPointF[]> invertTone(GeoLibPointF[] source, long scaleFactor, bool useTriangulation = false, bool useBounds = false)
+    public static List<GeoLibPointF[]> invertTone(GeoLibPointF[] source, long scaleFactor, bool preserveColinear, bool useTriangulation = false, bool useBounds = false)
     {
-        return pPointFsFromPaths(pInvertTone(pPathsFromPointFs(new List<GeoLibPointF[]> { source }, scaleFactor), useTriangulation, useBounds), scaleFactor);
+        return pPointFsFromPaths(pInvertTone(pPathsFromPointFs(new List<GeoLibPointF[]> { source }, scaleFactor), preserveColinear: preserveColinear, useTriangulation: useTriangulation, useBounds: useBounds), scaleFactor);
     }
 
-    public static List<GeoLibPointF[]> invertTone(List<GeoLibPointF[]> source, long scaleFactor, bool useTriangulation = false, bool useBounds = false)
+    public static List<GeoLibPointF[]> invertTone(List<GeoLibPointF[]> source, long scaleFactor, bool preserveColinear, bool useTriangulation = false, bool useBounds = false)
     {
-        return pPointFsFromPaths(pInvertTone(pPathsFromPointFs(source, scaleFactor), useTriangulation, useBounds), scaleFactor);
+        return pPointFsFromPaths(pInvertTone(pPathsFromPointFs(source, scaleFactor), preserveColinear: preserveColinear, useTriangulation: useTriangulation, useBounds: useBounds), scaleFactor);
     }
 
-    public static Paths invertTone(Path sourcePath, bool useTriangulation = false, bool useBounds = false)
+    public static Paths invertTone(Path sourcePath, bool preserveColinear, bool useTriangulation = false, bool useBounds = false)
     {
         Paths t = new() {sourcePath};
-        return invertTone(t, useTriangulation, useBounds);
+        return invertTone(t, preserveColinear: preserveColinear, useTriangulation: useTriangulation, useBounds:useBounds);
     }
 
-    public static Paths invertTone(Paths sourcePaths, bool useTriangulation = false, bool useBounds = false)
+    public static Paths invertTone(Paths sourcePaths, bool preserveColinear, bool useTriangulation = false, bool useBounds = false)
     {
-        return pInvertTone(sourcePaths, useTriangulation, useBounds);
+        return pInvertTone(sourcePaths, preserveColinear: preserveColinear, useTriangulation: useTriangulation, useBounds: useBounds);
     }
 
-    private static Paths pInvertTone(Paths sourcePaths, bool useTriangulation, bool useBounds)
+    private static Paths pInvertTone(Paths sourcePaths, bool preserveColinear, bool useTriangulation, bool useBounds)
     {
-        switch (sourcePaths.Count)
-        {
-            case 1 when !useBounds:
-                sourcePaths[0].Add(new IntPoint(-int.MaxValue, -int.MaxValue));
-                sourcePaths[0].Add(new IntPoint(-int.MaxValue, int.MaxValue));
-                sourcePaths[0].Add(new IntPoint(int.MaxValue, int.MaxValue));
-                sourcePaths[0].Add(new IntPoint(int.MaxValue, -int.MaxValue));
-                sourcePaths[0].Add(new IntPoint(-int.MaxValue, -int.MaxValue));
-
-                return sourcePaths.ToList();
-        }
-
         Path firstLayerBP = new();
         switch (useBounds)
         {
             case false:
-                firstLayerBP.Add(new IntPoint(-int.MaxValue, -int.MaxValue));
-                firstLayerBP.Add(new IntPoint(-int.MaxValue, int.MaxValue));
-                firstLayerBP.Add(new IntPoint(int.MaxValue, int.MaxValue));
-                firstLayerBP.Add(new IntPoint(int.MaxValue, -int.MaxValue));
-                firstLayerBP.Add(new IntPoint(-int.MaxValue, -int.MaxValue));
+                firstLayerBP.Add(new Point64(-int.MaxValue, -int.MaxValue));
+                firstLayerBP.Add(new Point64(-int.MaxValue, int.MaxValue));
+                firstLayerBP.Add(new Point64(int.MaxValue, int.MaxValue));
+                firstLayerBP.Add(new Point64(int.MaxValue, -int.MaxValue));
+                firstLayerBP.Add(new Point64(-int.MaxValue, -int.MaxValue));
                 break;
             default:
             {
-                IntRect bounds = ClipperBase.GetBounds(sourcePaths);
-                firstLayerBP.Add(new IntPoint(bounds.left, bounds.bottom));
-                firstLayerBP.Add(new IntPoint(bounds.left, bounds.top));
-                firstLayerBP.Add(new IntPoint(bounds.right, bounds.top));
-                firstLayerBP.Add(new IntPoint(bounds.right, bounds.bottom));
-                firstLayerBP.Add(new IntPoint(bounds.left, bounds.bottom));
+                Rect64 bounds = Clipper.GetBounds(sourcePaths);
+                firstLayerBP.Add(new Point64(bounds.left, bounds.bottom));
+                firstLayerBP.Add(new Point64(bounds.left, bounds.top));
+                firstLayerBP.Add(new Point64(bounds.right, bounds.top));
+                firstLayerBP.Add(new Point64(bounds.right, bounds.bottom));
+                firstLayerBP.Add(new Point64(bounds.left, bounds.bottom));
                 break;
             }
         }
 
-        Clipper c = new() {PreserveCollinear = false};
+        Clipper64 c = new() {PreserveCollinear = preserveColinear};
 
-        c.AddPath(firstLayerBP, PolyType.ptSubject, true);
+        c.AddSubject(firstLayerBP);
         // Add hole polygons from our paths
-        c.AddPaths(sourcePaths, PolyType.ptClip, true);
+        c.AddClip(sourcePaths);
 
         Paths cutters = new();
-        c.Execute(ClipType.ctDifference, cutters);
+        c.Execute(ClipType.Difference, FillRule.EvenOdd, cutters);
 
+        cutters = pReorderXY(cutters);
+        
         switch (useTriangulation)
         {
             case false:
                 sourcePaths = cutters;
                 return sourcePaths;
             default:
-                return pMakeKeyHole(sourcePaths);
+                return pMakeKeyHole(sourcePaths, true);
         }
     }
 }

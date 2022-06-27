@@ -1,4 +1,4 @@
-﻿using ClipperLib;
+﻿using Clipper2Lib;
 using geoLib;
 using System;
 using System.Collections.Generic;
@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace geoWrangler;
 
-using Path = List<IntPoint>;
-using Paths = List<List<IntPoint>>;
+using Path = List<Point64>;
+using Paths = List<List<Point64>>;
 
 public static partial class GeoWrangler
 {
@@ -45,7 +45,7 @@ public static partial class GeoWrangler
         Path returnPath = new();
         try
         {
-            returnPath.AddRange(source.Select(t => new IntPoint(t.X * scaling, t.Y * scaling)));
+            returnPath.AddRange(source.Select(t => new Point64(t.X * scaling, t.Y * scaling)));
         }
         catch (Exception)
         {
@@ -54,7 +54,7 @@ public static partial class GeoWrangler
         // Close the shape
         if (length != source.Length)
         {
-            returnPath.Add(new IntPoint(returnPath[0]));
+            returnPath.Add(new Point64(returnPath[0]));
         }
         return returnPath;
     }
@@ -146,7 +146,7 @@ public static partial class GeoWrangler
         Path returnPath = new();
         try
         {
-            returnPath.AddRange(source.Select(t => new IntPoint(Convert.ToInt64(t.X * scaling), Convert.ToInt64(t.Y * scaling))));
+            returnPath.AddRange(source.Select(t => new Point64(Convert.ToInt64(t.X * scaling), Convert.ToInt64(t.Y * scaling))));
         }
         catch (Exception)
         {
@@ -155,7 +155,7 @@ public static partial class GeoWrangler
         // Close the shape
         if (length != source.Length)
         {
-            returnPath.Add(new IntPoint(returnPath[0]));
+            returnPath.Add(new Point64(returnPath[0]));
         }
         return returnPath;
     }

@@ -43,6 +43,7 @@
 //#define use_int32
 
 //use_xyz: adds a Z member to IntPoint. Adds a minor cost to performance.
+
 #define use_xyz
 
 //use_lines: Enables open path clipping. Adds a very minor cost to performance.
@@ -75,18 +76,22 @@ public struct DoublePoint
 
     public DoublePoint(double x = 0, double y = 0)
     {
-        X = x; Y = y;
+        X = x;
+        Y = y;
     }
+
     public DoublePoint(DoublePoint dp)
     {
-        X = dp.X; Y = dp.Y;
+        X = dp.X;
+        Y = dp.Y;
     }
+
     public DoublePoint(IntPoint ip)
     {
-        X = ip.X; Y = ip.Y;
+        X = ip.X;
+        Y = ip.Y;
     }
 }
-
 
 //------------------------------------------------------------------------------
 // PolyTree & PolyNode classes
@@ -132,7 +137,6 @@ public class PolyTree : PolyNode
             return result;
         }
     }
-
 }
 
 public class PolyNode
@@ -153,6 +157,7 @@ public class PolyNode
             result = !result;
             node = node.m_Parent;
         }
+
         return result;
     }
 
@@ -197,7 +202,6 @@ public class PolyNode
     public bool IsOpen { get; set; }
 }
 
-
 //------------------------------------------------------------------------------
 // Int128 struct (enables safe math on signed 64bit integers)
 // eg Int128 val1((Int64)9223372036854775807); //ie 2^63 -1
@@ -213,7 +217,7 @@ internal struct Int128
 
     public Int128(long _lo)
     {
-        lo = (ulong)_lo;
+        lo = (ulong) _lo;
         hi = _lo switch
         {
             < 0 => -1,
@@ -240,12 +244,12 @@ internal struct Int128
 
     public static bool operator ==(Int128 val1, Int128 val2)
     {
-        if ((object)val1 == (object)val2)
+        if ((object) val1 == (object) val2)
         {
             return true;
         }
 
-        if ((object)val1 == null || (object)val2 == null)
+        if ((object) val1 == null || (object) val2 == null)
         {
             return false;
         }
@@ -349,10 +353,10 @@ internal struct Int128
             _ => rhs
         };
 
-        ulong int1Hi = (ulong)lhs >> 32;
-        ulong int1Lo = (ulong)lhs & 0xFFFFFFFF;
-        ulong int2Hi = (ulong)rhs >> 32;
-        ulong int2Lo = (ulong)rhs & 0xFFFFFFFF;
+        ulong int1Hi = (ulong) lhs >> 32;
+        ulong int1Lo = (ulong) lhs & 0xFFFFFFFF;
+        ulong int2Hi = (ulong) rhs >> 32;
+        ulong int2Lo = (ulong) rhs & 0xFFFFFFFF;
 
         //nb: see comments in clipper.pas
         ulong a = int1Hi * int2Hi;
@@ -360,9 +364,13 @@ internal struct Int128
         ulong c = int1Hi * int2Lo + int1Lo * int2Hi;
 
         ulong lo;
-        long hi = (long)(a + (c >> 32));
+        long hi = (long) (a + (c >> 32));
 
-        unchecked { lo = (c << 32) + b; }
+        unchecked
+        {
+            lo = (c << 32) + b;
+        }
+
         if (lo < b)
         {
             hi++;
@@ -371,7 +379,6 @@ internal struct Int128
         Int128 result = new(hi, lo);
         return negate ? -result : result;
     }
-
 }
 
 //------------------------------------------------------------------------------
@@ -385,22 +392,30 @@ public struct IntPoint
 
     public IntPoint(long x, long y, long z = 0)
     {
-        X = x; Y = y; Z = z;
+        X = x;
+        Y = y;
+        Z = z;
     }
 
     public IntPoint(double x, double y, double z = 0)
     {
-        X = (long)x; Y = (long)y; Z = (long)z;
+        X = (long) x;
+        Y = (long) y;
+        Z = (long) z;
     }
 
     public IntPoint(DoublePoint dp)
     {
-        X = (long)dp.X; Y = (long)dp.Y; Z = 0;
+        X = (long) dp.X;
+        Y = (long) dp.Y;
+        Z = 0;
     }
 
     public IntPoint(IntPoint pt)
     {
-        X = pt.X; Y = pt.Y; Z = pt.Z;
+        X = pt.X;
+        Y = pt.Y;
+        Z = pt.Z;
     }
 #else
     public IntPoint(cInt X, cInt Y)
@@ -448,8 +463,7 @@ public struct IntPoint
         //simply prevents a compiler warning
         return base.GetHashCode();
     }
-
-}// end struct IntPoint
+} // end struct IntPoint
 
 public struct IntRect
 {
@@ -460,30 +474,74 @@ public struct IntRect
 
     public IntRect(long l, long t, long r, long b)
     {
-        left = l; top = t;
-        right = r; bottom = b;
+        left = l;
+        top = t;
+        right = r;
+        bottom = b;
     }
+
     public IntRect(IntRect ir)
     {
-        left = ir.left; top = ir.top;
-        right = ir.right; bottom = ir.bottom;
+        left = ir.left;
+        top = ir.top;
+        right = ir.right;
+        bottom = ir.bottom;
     }
 }
 
-public enum ClipType { ctIntersection, ctUnion, ctDifference, ctXor }
-public enum PolyType { ptSubject, ptClip }
+public enum ClipType
+{
+    ctIntersection,
+    ctUnion,
+    ctDifference,
+    ctXor
+}
+
+public enum PolyType
+{
+    ptSubject,
+    ptClip
+}
 
 //By far the most widely used winding rules for polygon filling are
 //EvenOdd & NonZero (GDI, GDI+, XLib, OpenGL, Cairo, AGG, Quartz, SVG, Gr32)
 //Others rules include Positive, Negative and ABS_GTR_EQ_TWO (only in OpenGL)
 //see http://glprogramming.com/red/chapter11.html
-public enum PolyFillType { pftEvenOdd, pftNonZero, pftPositive, pftNegative }
+public enum PolyFillType
+{
+    pftEvenOdd,
+    pftNonZero,
+    pftPositive,
+    pftNegative
+}
 
-public enum JoinType { jtSquare, jtRound, jtMiter }
-public enum EndType { etClosedPolygon, etClosedLine, etOpenButt, etOpenSquare, etOpenRound }
+public enum JoinType
+{
+    jtSquare,
+    jtRound,
+    jtMiter
+}
 
-internal enum EdgeSide { esLeft, esRight }
-internal enum Direction { dRightToLeft, dLeftToRight }
+public enum EndType
+{
+    etClosedPolygon,
+    etClosedLine,
+    etOpenButt,
+    etOpenSquare,
+    etOpenRound
+}
+
+internal enum EdgeSide
+{
+    esLeft,
+    esRight
+}
+
+internal enum Direction
+{
+    dRightToLeft,
+    dLeftToRight
+}
 
 internal class TEdge
 {
@@ -583,7 +641,11 @@ public class ClipperBase
     internal const int Skip = -2;
     internal const int Unassigned = -1;
     internal const double tolerance = 1.0E-20;
-    internal static bool near_zero(double val) { return val is > -tolerance and < tolerance; }
+
+    internal static bool near_zero(double val)
+    {
+        return val is > -tolerance and < tolerance;
+    }
 
 #if use_int32
     public const cInt loRange = 0x7FFF;
@@ -604,11 +666,7 @@ public class ClipperBase
 
     //------------------------------------------------------------------------------
 
-    public bool PreserveCollinear
-    {
-        get;
-        set;
-    }
+    public bool PreserveCollinear { get; set; }
     //------------------------------------------------------------------------------
 
     public void Swap(ref long val1, ref long val2)
@@ -634,8 +692,8 @@ public class ClipperBase
             }
 
             pp2 = pp2.Next;
-        }
-        while (pp2 != pp);
+        } while (pp2 != pp);
+
         return false;
     }
     //------------------------------------------------------------------------------
@@ -672,6 +730,7 @@ public class ClipperBase
                 break;
             }
         }
+
         return false;
     }
     //------------------------------------------------------------------------------
@@ -725,6 +784,7 @@ public class ClipperBase
             for (int j = 0; j < t.Count; ++j) t[j] = null;
             t.Clear();
         }
+
         m_edges.Clear();
         m_UseFullRange = false;
         m_HasOpenPaths = false;
@@ -739,6 +799,7 @@ public class ClipperBase
             m_MinimaList = null;
             m_MinimaList = tmpLm;
         }
+
         m_CurrentLM = null;
     }
     //------------------------------------------------------------------------------
@@ -797,6 +858,7 @@ public class ClipperBase
             e.Top = e.Curr;
             e.Bot = e.Next.Curr;
         }
+
         SetDx(e);
         e.PolyTyp = polyType;
     }
@@ -804,7 +866,7 @@ public class ClipperBase
 
     private TEdge FindNextLocMin(TEdge E)
     {
-        for (; ; )
+        for (;;)
         {
             while (E.Bot != E.Prev.Bot || E.Curr == E.Top)
             {
@@ -839,6 +901,7 @@ public class ClipperBase
 
             break;
         }
+
         return E;
     }
     //------------------------------------------------------------------------------
@@ -886,6 +949,7 @@ public class ClipperBase
                         break;
                     }
                 }
+
                 if (E == Result)
                 {
                     Result = LeftBoundIsForward switch
@@ -914,6 +978,7 @@ public class ClipperBase
                     Result = ProcessBound(E, LeftBoundIsForward);
                     InsertLocalMinima(locMin);
                 }
+
                 return Result;
             }
         }
@@ -989,6 +1054,7 @@ public class ClipperBase
                         break;
                     }
                 }
+
                 while (E != Result)
                 {
                     E.NextInLML = E.Next;
@@ -1001,6 +1067,7 @@ public class ClipperBase
 
                     E = E.Next;
                 }
+
                 switch (Math.Abs(E.Dx - horizontal))
                 {
                     case <= double.Epsilon when E != EStart && E.Bot.X != E.Prev.Top.X:
@@ -1050,6 +1117,7 @@ public class ClipperBase
 
                     E = E.Prev;
                 }
+
                 switch (Math.Abs(E.Dx - horizontal))
                 {
                     case <= double.Epsilon when E != EStart && E.Bot.X != E.Next.Top.X:
@@ -1061,6 +1129,7 @@ public class ClipperBase
                 break;
             }
         }
+
         return Result;
     }
     //------------------------------------------------------------------------------
@@ -1122,11 +1191,12 @@ public class ClipperBase
             RangeTest(pg[i], ref m_UseFullRange);
             InitEdge(edges[i], edges[i + 1], edges[i - 1], pg[i]);
         }
+
         TEdge eStart = edges[0];
 
         //2. Remove duplicate vertices, and (when closed) collinear edges ...
         TEdge E = eStart, eLoopStop = eStart;
-        for (; ; )
+        for (;;)
         {
             //nb: allows matching start and end points when not Closed ...
             if (E.Curr == E.Next.Curr && (Closed || E.Next != eStart))
@@ -1145,6 +1215,7 @@ public class ClipperBase
                 eLoopStop = E;
                 continue;
             }
+
             if (E.Prev == E.Next)
             {
                 break; //only two vertices
@@ -1170,6 +1241,7 @@ public class ClipperBase
                     continue;
                 }
             }
+
             E = E.Next;
             if (E == eLoopStop || !Closed && E.Next == eStart)
             {
@@ -1199,8 +1271,7 @@ public class ClipperBase
                 true when E.Curr.Y != eStart.Curr.Y => false,
                 _ => IsFlat
             };
-        }
-        while (E != eStart);
+        } while (E != eStart);
 
         switch (IsFlat)
         {
@@ -1221,7 +1292,7 @@ public class ClipperBase
                 };
                 locMin.RightBound.Side = EdgeSide.esRight;
                 locMin.RightBound.WindDelta = 0;
-                for (; ; )
+                for (;;)
                 {
                     if (E.Bot.X != E.Prev.Top.X)
                     {
@@ -1236,6 +1307,7 @@ public class ClipperBase
                     E.NextInLML = E.Next;
                     E = E.Next;
                 }
+
                 InsertLocalMinima(locMin);
                 m_edges.Add(edges);
                 return true;
@@ -1253,7 +1325,7 @@ public class ClipperBase
             E = E.Next;
         }
 
-        for (; ; )
+        for (;;)
         {
             E = FindNextLocMin(E);
             if (E == EMin)
@@ -1286,6 +1358,7 @@ public class ClipperBase
                 locMin.RightBound = E.Prev;
                 leftBoundIsForward = true; //Q.nextInLML = Q.next
             }
+
             locMin.LeftBound.Side = EdgeSide.esLeft;
             locMin.RightBound.Side = EdgeSide.esRight;
 
@@ -1351,8 +1424,8 @@ public class ClipperBase
                 _ => E
             };
         }
-        return true;
 
+        return true;
     }
     //------------------------------------------------------------------------------
 
@@ -1377,6 +1450,7 @@ public class ClipperBase
         {
             return pt2.X > pt1.X == pt2.X < pt3.X;
         }
+
         return pt2.Y > pt1.Y == pt2.Y < pt3.Y;
     }
     //------------------------------------------------------------------------------
@@ -1482,14 +1556,17 @@ public class ClipperBase
                 e.Curr = e.Bot;
                 e.OutIdx = Unassigned;
             }
+
             e = lm.RightBound;
             if (e != null)
             {
                 e.Curr = e.Bot;
                 e.OutIdx = Unassigned;
             }
+
             lm = lm.Next;
         }
+
         m_ActiveEdges = null;
     }
     //------------------------------------------------------------------------------
@@ -1535,6 +1612,7 @@ public class ClipperBase
                 result.bottom = paths[i][j].Y;
             }
         }
+
         return result;
     }
     //------------------------------------------------------------------------------
@@ -1597,6 +1675,7 @@ public class ClipperBase
                 Y = 0;
                 return false;
         }
+
         Y = m_Scanbeam.Y;
         m_Scanbeam = m_Scanbeam.Next;
         return true;
@@ -1798,7 +1877,6 @@ public class ClipperBase
         e.PrevInAEL = null;
     }
     //------------------------------------------------------------------------------
-
 } //end ClipperBase
 
 public class Clipper : ClipperBase
@@ -1822,6 +1900,7 @@ public class Clipper : ClipperBase
 #if use_xyz
     public delegate void ZFillCallback(IntPoint bot1, IntPoint top1,
         IntPoint bot2, IntPoint top2, ref IntPoint pt);
+
     public ZFillCallback ZFillFunction { get; set; }
 #endif
     public Clipper(int InitOptions = 0) //constructor
@@ -1898,18 +1977,10 @@ public class Clipper : ClipperBase
     }
     //------------------------------------------------------------------------------
 
-    public bool ReverseSolution
-    {
-        get;
-        set;
-    }
+    public bool ReverseSolution { get; set; }
     //------------------------------------------------------------------------------
 
-    public bool StrictlySimple
-    {
-        get;
-        set;
-    }
+    public bool StrictlySimple { get; set; }
     //------------------------------------------------------------------------------
 
     public bool Execute(ClipType clipType, Paths solution,
@@ -1965,6 +2036,7 @@ public class Clipper : ClipperBase
             DisposeAllPolyPts();
             m_ExecuteLocked = false;
         }
+
         return succeeded;
     }
     //------------------------------------------------------------------------------
@@ -2000,6 +2072,7 @@ public class Clipper : ClipperBase
             DisposeAllPolyPts();
             m_ExecuteLocked = false;
         }
+
         return succeeded;
     }
     //------------------------------------------------------------------------------
@@ -2054,7 +2127,8 @@ public class Clipper : ClipperBase
             }
 
             //fix orientations ...
-            foreach (OutRec outRec in m_PolyOuts.Where(outRec => outRec.Pts != null && !outRec.IsOpen).Where(outRec => (outRec.IsHole ^ ReverseSolution) == Area(outRec) > 0))
+            foreach (OutRec outRec in m_PolyOuts.Where(outRec => outRec.Pts != null && !outRec.IsOpen)
+                         .Where(outRec => (outRec.IsHole ^ ReverseSolution) == Area(outRec) > 0))
             {
                 ReversePolyPtLinks(outRec.Pts);
             }
@@ -2233,7 +2307,8 @@ public class Clipper : ClipperBase
             if (Op1 != null && IsHorizontal(rb) &&
                 m_GhostJoins.Count > 0 && rb.WindDelta != 0)
             {
-                foreach (Join j in m_GhostJoins.Where(j => HorzSegmentsOverlap(j.OutPt1.Pt.X, j.OffPt.X, rb.Bot.X, rb.Top.X)))
+                foreach (Join j in m_GhostJoins.Where(j =>
+                             HorzSegmentsOverlap(j.OutPt1.Pt.X, j.OffPt.X, rb.Bot.X, rb.Top.X)))
                 {
                     AddJoin(j.OutPt1, Op1, j.OffPt);
                 }
@@ -2241,7 +2316,9 @@ public class Clipper : ClipperBase
 
             switch (lb.OutIdx)
             {
-                case >= 0 when lb.PrevInAEL != null && lb.PrevInAEL.Curr.X == lb.Bot.X && lb.PrevInAEL.OutIdx >= 0 && SlopesEqual(lb.PrevInAEL.Curr, lb.PrevInAEL.Top, lb.Curr, lb.Top, m_UseFullRange) && lb.WindDelta != 0 && lb.PrevInAEL.WindDelta != 0:
+                case >= 0 when lb.PrevInAEL != null && lb.PrevInAEL.Curr.X == lb.Bot.X && lb.PrevInAEL.OutIdx >= 0 &&
+                               SlopesEqual(lb.PrevInAEL.Curr, lb.PrevInAEL.Top, lb.Curr, lb.Top, m_UseFullRange) &&
+                               lb.WindDelta != 0 && lb.PrevInAEL.WindDelta != 0:
                 {
                     OutPt Op2 = AddOutPt(lb.PrevInAEL, lb.Bot);
                     AddJoin(Op1, Op2, lb.Top);
@@ -2257,7 +2334,9 @@ public class Clipper : ClipperBase
             {
                 switch (rb.OutIdx)
                 {
-                    case >= 0 when rb.PrevInAEL.OutIdx >= 0 && SlopesEqual(rb.PrevInAEL.Curr, rb.PrevInAEL.Top, rb.Curr, rb.Top, m_UseFullRange) && rb.WindDelta != 0 && rb.PrevInAEL.WindDelta != 0:
+                    case >= 0 when rb.PrevInAEL.OutIdx >= 0 &&
+                                   SlopesEqual(rb.PrevInAEL.Curr, rb.PrevInAEL.Top, rb.Curr, rb.Top, m_UseFullRange) &&
+                                   rb.WindDelta != 0 && rb.PrevInAEL.WindDelta != 0:
                     {
                         OutPt Op2 = AddOutPt(rb.PrevInAEL, rb.Bot);
                         AddJoin(Op1, Op2, rb.Top);
@@ -2347,7 +2426,6 @@ public class Clipper : ClipperBase
         }
 
         return e1.Top.X > TopX(e2, e1.Top.Y);
-
     }
     //------------------------------------------------------------------------------
 
@@ -2495,6 +2573,7 @@ public class Clipper : ClipperBase
                         return true;
                 }
         }
+
         return true;
     }
     //------------------------------------------------------------------------------
@@ -2553,6 +2632,7 @@ public class Clipper : ClipperBase
 
                                         e2 = e2.PrevInAEL;
                                     }
+
                                     edge.WindCnt = Inside ? 0 : 1;
                                     break;
                                 }
@@ -2560,6 +2640,7 @@ public class Clipper : ClipperBase
                                     edge.WindCnt = edge.WindDelta;
                                     break;
                             }
+
                             edge.WindCnt2 = e.WindCnt2;
                             e = e.NextInAEL; //ie get ready to calc WindCnt2
                         }
@@ -2611,6 +2692,7 @@ public class Clipper : ClipperBase
                                     break;
                                 }
                             }
+
                             edge.WindCnt2 = e.WindCnt2;
                             e = e.NextInAEL; //ie get ready to calc WindCnt2
                         }
@@ -3024,7 +3106,7 @@ public class Clipper : ClipperBase
             return horizontal;
         }
 
-        return (double)(pt2.X - pt1.X) / (pt2.Y - pt1.Y);
+        return (double) (pt2.X - pt1.X) / (pt2.Y - pt1.Y);
     }
     //---------------------------------------------------------------------------
 
@@ -3096,6 +3178,7 @@ public class Clipper : ClipperBase
                     }
                 }
             }
+
             p = p.Next;
         }
 
@@ -3118,6 +3201,7 @@ public class Clipper : ClipperBase
                 dups = dups.Next;
             }
         }
+
         return pp;
     }
     //------------------------------------------------------------------------------
@@ -3148,22 +3232,27 @@ public class Clipper : ClipperBase
         {
             return outRec2;
         }
+
         if (bPt1.Pt.X < bPt2.Pt.X)
         {
             return outRec1;
         }
+
         if (bPt1.Pt.X > bPt2.Pt.X)
         {
             return outRec2;
         }
+
         if (bPt1.Next == bPt1)
         {
             return outRec2;
         }
+
         if (bPt2.Next == bPt2)
         {
             return outRec1;
         }
+
         return FirstIsBottomPt(bPt1, bPt2) ? outRec1 : outRec2;
     }
     //------------------------------------------------------------------------------
@@ -3178,6 +3267,7 @@ public class Clipper : ClipperBase
                 return true;
             }
         } while (outRec1 != null);
+
         return false;
     }
     //------------------------------------------------------------------------------
@@ -3275,6 +3365,7 @@ public class Clipper : ClipperBase
 
             outRec1.IsHole = outRec2.IsHole;
         }
+
         outRec2.Pts = null;
         outRec2.BottomPt = null;
 
@@ -3295,8 +3386,10 @@ public class Clipper : ClipperBase
                 e.Side = e1.Side;
                 break;
             }
+
             e = e.NextInAEL;
         }
+
         outRec2.Idx = outRec1.Idx;
     }
     //------------------------------------------------------------------------------
@@ -3421,7 +3514,8 @@ public class Clipper : ClipperBase
                     {
                         switch (e2.WindDelta)
                         {
-                            case 0 when Math.Abs(e1.WindCnt) == 1 && (m_ClipType != ClipType.ctUnion || e1.WindCnt2 == 0):
+                            case 0 when Math.Abs(e1.WindCnt) == 1 &&
+                                        (m_ClipType != ClipType.ctUnion || e1.WindCnt2 == 0):
                             {
                                 AddOutPt(e2, pt);
                                 e2.OutIdx = e2Contributing switch
@@ -3438,6 +3532,7 @@ public class Clipper : ClipperBase
                     }
                 }
             }
+
             return;
         }
 #endif
@@ -3506,6 +3601,7 @@ public class Clipper : ClipperBase
                 e1FillType2 = m_SubjFillType;
                 break;
         }
+
         switch (e2.PolyTyp)
         {
             case PolyType.ptSubject:
@@ -3750,13 +3846,12 @@ public class Clipper : ClipperBase
         }
 
         OutPt op1 = null;
-        for (; ; ) //loop through consec. horizontal edges
+        for (;;) //loop through consec. horizontal edges
         {
             bool IsLastHorz = horzEdge == eLastHorz;
             TEdge e = GetNextInAEL(horzEdge, dir);
             while (e != null)
             {
-
                 //this code block inserts extra coords into horizontal edges (in output
                 //polygons) whereever maxima touch these horizontal edges. This helps
                 //'simplifying' polygons (ie if the Simplify property is set).
@@ -3847,6 +3942,7 @@ public class Clipper : ClipperBase
 
                             eNextHorz = eNextHorz.NextInSEL;
                         }
+
                         AddGhostJoin(op1, horzEdge.Bot);
                         break;
                     }
@@ -3883,6 +3979,7 @@ public class Clipper : ClipperBase
                         break;
                     }
                 }
+
                 TEdge eNext = GetNextInAEL(e, dir);
                 SwapPositionsInAEL(horzEdge, e);
                 e = eNext;
@@ -3903,7 +4000,6 @@ public class Clipper : ClipperBase
             }
 
             GetHorzDirection(horzEdge, out dir, out horzLeft, out horzRight);
-
         } //end for (;;)
 
         switch (horzEdge.OutIdx)
@@ -3927,6 +4023,7 @@ public class Clipper : ClipperBase
 
                     eNextHorz = eNextHorz.NextInSEL;
                 }
+
                 AddGhostJoin(op1, horzEdge.Top);
                 break;
             }
@@ -3951,7 +4048,8 @@ public class Clipper : ClipperBase
                     TEdge ePrev = horzEdge.PrevInAEL;
                     TEdge eNext = horzEdge.NextInAEL;
                     if (ePrev != null && ePrev.Curr.X == horzEdge.Bot.X &&
-                        ePrev.Curr.Y == horzEdge.Bot.Y && ePrev.WindDelta != 0 && ePrev.OutIdx >= 0 && ePrev.Curr.Y > ePrev.Top.Y && SlopesEqual(horzEdge, ePrev, m_UseFullRange))
+                        ePrev.Curr.Y == horzEdge.Bot.Y && ePrev.WindDelta != 0 && ePrev.OutIdx >= 0 &&
+                        ePrev.Curr.Y > ePrev.Top.Y && SlopesEqual(horzEdge, ePrev, m_UseFullRange))
                     {
                         OutPt op2 = AddOutPt(ePrev, horzEdge.Bot);
                         AddJoin(op1, op2, horzEdge.Top);
@@ -4016,6 +4114,7 @@ public class Clipper : ClipperBase
         {
             return e.Prev;
         }
+
         return null;
     }
     //------------------------------------------------------------------------------
@@ -4066,6 +4165,7 @@ public class Clipper : ClipperBase
             m_IntersectList.Clear();
             throw new ClipperException("ProcessIntersections error");
         }
+
         m_SortedEdges = null;
         return true;
     }
@@ -4123,6 +4223,7 @@ public class Clipper : ClipperBase
                     e = eNext;
                 }
             }
+
             if (e.PrevInSEL != null)
             {
                 e.PrevInSEL.NextInSEL = null;
@@ -4132,6 +4233,7 @@ public class Clipper : ClipperBase
                 break;
             }
         }
+
         m_SortedEdges = null;
     }
     //------------------------------------------------------------------------------
@@ -4170,8 +4272,10 @@ public class Clipper : ClipperBase
 
                 (m_IntersectList[i], m_IntersectList[j]) = (m_IntersectList[j], m_IntersectList[i]);
             }
+
             SwapPositionsInSEL(m_IntersectList[i].Edge1, m_IntersectList[i].Edge2);
         }
+
         return true;
     }
     //------------------------------------------------------------------------------
@@ -4192,7 +4296,7 @@ public class Clipper : ClipperBase
 
     internal static long Round(double value)
     {
-        return value < 0 ? (long)(value - 0.5) : (long)(value + 0.5);
+        return value < 0 ? (long) (value - 0.5) : (long) (value + 0.5);
     }
     //------------------------------------------------------------------------------
 
@@ -4264,7 +4368,9 @@ public class Clipper : ClipperBase
                         b2 = edge2.Bot.X - edge2.Bot.Y * edge2.Dx;
                         double q = (b2 - b1) / (edge1.Dx - edge2.Dx);
                         ip.Y = Round(q);
-                        ip.X = Math.Abs(edge1.Dx) < Math.Abs(edge2.Dx) ? Round(edge1.Dx * q + b1) : Round(edge2.Dx * q + b2);
+                        ip.X = Math.Abs(edge1.Dx) < Math.Abs(edge2.Dx)
+                            ? Round(edge1.Dx * q + b1)
+                            : Round(edge2.Dx * q + b2);
 
                         break;
                     }
@@ -4280,6 +4386,7 @@ public class Clipper : ClipperBase
 
             ip.X = TopX(Math.Abs(edge1.Dx) < Math.Abs(edge2.Dx) ? edge1 : edge2, ip.Y);
         }
+
         //finally, don't allow 'ip' to be BELOW curr.Y (ie bottom of scanbeam) ...
         if (ip.Y <= edge1.Curr.Y)
         {
@@ -4376,7 +4483,8 @@ public class Clipper : ClipperBase
                             TEdge ePrev = e.PrevInAEL;
                             switch (e.OutIdx)
                             {
-                                case >= 0 when e.WindDelta != 0 && ePrev is {OutIdx: >= 0} && ePrev.Curr.X == e.Curr.X && ePrev.WindDelta != 0:
+                                case >= 0 when e.WindDelta != 0 && ePrev is {OutIdx: >= 0} &&
+                                               ePrev.Curr.X == e.Curr.X && ePrev.WindDelta != 0:
                                 {
                                     IntPoint ip = new(e.Curr);
 #if use_xyz
@@ -4439,6 +4547,7 @@ public class Clipper : ClipperBase
                     AddJoin(op, op2, e.Top);
                 }
             }
+
             e = e.NextInAEL;
         }
     }
@@ -4503,6 +4612,7 @@ public class Clipper : ClipperBase
                                 e.OutIdx = Unassigned;
                                 break;
                         }
+
                         DeleteFromAEL(e);
 
                         switch (eMaxPair.OutIdx)
@@ -4512,6 +4622,7 @@ public class Clipper : ClipperBase
                                 eMaxPair.OutIdx = Unassigned;
                                 break;
                         }
+
                         DeleteFromAEL(eMaxPair);
                         break;
                     }
@@ -4527,7 +4638,10 @@ public class Clipper : ClipperBase
 
     public static void ReversePaths(Paths polys)
     {
-        foreach (Path poly in polys) { poly.Reverse(); }
+        foreach (Path poly in polys)
+        {
+            poly.Reverse();
+        }
     }
     //------------------------------------------------------------------------------
 
@@ -4551,8 +4665,8 @@ public class Clipper : ClipperBase
         {
             result++;
             p = p.Next;
-        }
-        while (p != pts);
+        } while (p != pts);
+
         return result;
     }
     //------------------------------------------------------------------------------
@@ -4583,6 +4697,7 @@ public class Clipper : ClipperBase
                 pg.Add(p.Pt);
                 p = p.Prev;
             }
+
             polyg.Add(pg);
         }
     }
@@ -4673,6 +4788,7 @@ public class Clipper : ClipperBase
             pp.Next.Prev = tmpPP;
             pp = tmpPP;
         }
+
         if (pp == pp.Prev)
         {
             outrec.Pts = null;
@@ -4688,13 +4804,14 @@ public class Clipper : ClipperBase
         outRec.BottomPt = null;
         OutPt pp = outRec.Pts;
         bool preserveCol = PreserveCollinear || StrictlySimple;
-        for (; ; )
+        for (;;)
         {
             if (pp.Prev == pp || pp.Prev == pp.Next)
             {
                 outRec.Pts = null;
                 return;
             }
+
             //test for duplicate points and collinear edges ...
             if (pp.Pt == pp.Next.Pt || pp.Pt == pp.Prev.Pt ||
                 SlopesEqual(pp.Prev.Pt, pp.Pt, pp.Next.Pt, m_UseFullRange) &&
@@ -4720,6 +4837,7 @@ public class Clipper : ClipperBase
                 pp = pp.Next;
             }
         }
+
         outRec.Pts = pp;
     }
     //------------------------------------------------------------------------------
@@ -4746,6 +4864,7 @@ public class Clipper : ClipperBase
                 outPt.Prev = result;
                 break;
         }
+
         return result;
     }
     //------------------------------------------------------------------------------
@@ -4754,14 +4873,31 @@ public class Clipper : ClipperBase
     {
         if (a1 < a2)
         {
-            if (b1 < b2) { Left = Math.Max(a1, b1); Right = Math.Min(a2, b2); }
-            else { Left = Math.Max(a1, b2); Right = Math.Min(a2, b1); }
+            if (b1 < b2)
+            {
+                Left = Math.Max(a1, b1);
+                Right = Math.Min(a2, b2);
+            }
+            else
+            {
+                Left = Math.Max(a1, b2);
+                Right = Math.Min(a2, b1);
+            }
         }
         else
         {
-            if (b1 < b2) { Left = Math.Max(a2, b1); Right = Math.Min(a1, b2); }
-            else { Left = Math.Max(a2, b2); Right = Math.Min(a1, b1); }
+            if (b1 < b2)
+            {
+                Left = Math.Max(a2, b1);
+                Right = Math.Min(a1, b2);
+            }
+            else
+            {
+                Left = Math.Max(a2, b2);
+                Right = Math.Min(a1, b1);
+            }
         }
+
         return Left < Right;
     }
     //------------------------------------------------------------------------------
@@ -4769,10 +4905,8 @@ public class Clipper : ClipperBase
     private bool JoinHorz(OutPt op1, OutPt op1b, OutPt op2, OutPt op2b,
         IntPoint Pt, bool DiscardLeft)
     {
-        Direction Dir1 = op1.Pt.X > op1b.Pt.X ?
-            Direction.dRightToLeft : Direction.dLeftToRight;
-        Direction Dir2 = op2.Pt.X > op2b.Pt.X ?
-            Direction.dRightToLeft : Direction.dLeftToRight;
+        Direction Dir1 = op1.Pt.X > op1b.Pt.X ? Direction.dRightToLeft : Direction.dLeftToRight;
+        Direction Dir2 = op2.Pt.X > op2b.Pt.X ? Direction.dRightToLeft : Direction.dLeftToRight;
         if (Dir1 == Dir2)
         {
             return false;
@@ -4901,6 +5035,7 @@ public class Clipper : ClipperBase
             op1b.Prev = op2b;
             op2b.Next = op1b;
         }
+
         return true;
     }
     //------------------------------------------------------------------------------
@@ -5022,20 +5157,25 @@ public class Clipper : ClipperBase
                 bool DiscardLeftSide;
                 if (op1.Pt.X >= Left && op1.Pt.X <= Right)
                 {
-                    Pt = op1.Pt; DiscardLeftSide = op1.Pt.X > op1b.Pt.X;
+                    Pt = op1.Pt;
+                    DiscardLeftSide = op1.Pt.X > op1b.Pt.X;
                 }
                 else if (op2.Pt.X >= Left && op2.Pt.X <= Right)
                 {
-                    Pt = op2.Pt; DiscardLeftSide = op2.Pt.X > op2b.Pt.X;
+                    Pt = op2.Pt;
+                    DiscardLeftSide = op2.Pt.X > op2b.Pt.X;
                 }
                 else if (op1b.Pt.X >= Left && op1b.Pt.X <= Right)
                 {
-                    Pt = op1b.Pt; DiscardLeftSide = op1b.Pt.X > op1.Pt.X;
+                    Pt = op1b.Pt;
+                    DiscardLeftSide = op1b.Pt.X > op1.Pt.X;
                 }
                 else
                 {
-                    Pt = op2b.Pt; DiscardLeftSide = op2b.Pt.X > op2.Pt.X;
+                    Pt = op2b.Pt;
+                    DiscardLeftSide = op2b.Pt.X > op2.Pt.X;
                 }
+
                 j.OutPt1 = op1;
                 j.OutPt2 = op2;
                 return JoinHorz(op1, op1b, op2, op2b, Pt, DiscardLeftSide);
@@ -5074,6 +5214,7 @@ public class Clipper : ClipperBase
                         break;
                     }
                 }
+
                 op2b = op2.Next;
                 while (op2b.Pt == op2.Pt && op2b != op2)
                 {
@@ -5160,6 +5301,7 @@ public class Clipper : ClipperBase
                     return -1;
                 }
             }
+
             if (ip.Y < pt.Y != ipNext.Y < pt.Y)
             {
                 if (ip.X >= pt.X)
@@ -5170,8 +5312,8 @@ public class Clipper : ClipperBase
                     }
                     else
                     {
-                        double d = (double)(ip.X - pt.X) * (ipNext.Y - pt.Y) -
-                                   (double)(ipNext.X - pt.X) * (ip.Y - pt.Y);
+                        double d = (double) (ip.X - pt.X) * (ipNext.Y - pt.Y) -
+                                   (double) (ipNext.X - pt.X) * (ip.Y - pt.Y);
                         switch (d)
                         {
                             case 0:
@@ -5188,8 +5330,8 @@ public class Clipper : ClipperBase
                 {
                     if (ipNext.X > pt.X)
                     {
-                        double d = (double)(ip.X - pt.X) * (ipNext.Y - pt.Y) -
-                                   (double)(ipNext.X - pt.X) * (ip.Y - pt.Y);
+                        double d = (double) (ip.X - pt.X) * (ipNext.Y - pt.Y) -
+                                   (double) (ipNext.X - pt.X) * (ip.Y - pt.Y);
                         switch (d)
                         {
                             case 0:
@@ -5203,8 +5345,10 @@ public class Clipper : ClipperBase
                     }
                 }
             }
+
             ip = ipNext;
         }
+
         return result;
     }
     //------------------------------------------------------------------------------
@@ -5231,6 +5375,7 @@ public class Clipper : ClipperBase
                     return -1;
                 }
             }
+
             if (poly0y < pty != poly1y < pty)
             {
                 if (poly0x >= ptx)
@@ -5241,8 +5386,8 @@ public class Clipper : ClipperBase
                     }
                     else
                     {
-                        double d = (double)(poly0x - ptx) * (poly1y - pty) -
-                                   (double)(poly1x - ptx) * (poly0y - pty);
+                        double d = (double) (poly0x - ptx) * (poly1y - pty) -
+                                   (double) (poly1x - ptx) * (poly0y - pty);
                         switch (d)
                         {
                             case 0:
@@ -5259,8 +5404,8 @@ public class Clipper : ClipperBase
                 {
                     if (poly1x > ptx)
                     {
-                        double d = (double)(poly0x - ptx) * (poly1y - pty) -
-                                   (double)(poly1x - ptx) * (poly0y - pty);
+                        double d = (double) (poly0x - ptx) * (poly1y - pty) -
+                                   (double) (poly1x - ptx) * (poly0y - pty);
                         switch (d)
                         {
                             case 0:
@@ -5274,8 +5419,11 @@ public class Clipper : ClipperBase
                     }
                 }
             }
-            poly0x = poly1x; poly0y = poly1y;
+
+            poly0x = poly1x;
+            poly0y = poly1y;
         } while (startOp != op);
+
         return result;
     }
     //------------------------------------------------------------------------------
@@ -5295,15 +5443,19 @@ public class Clipper : ClipperBase
                     op = op.Next;
                     break;
             }
-        }
-        while (op != outPt1);
+        } while (op != outPt1);
+
         return true;
     }
     //----------------------------------------------------------------------
 
     private void FixupFirstLefts1(OutRec OldOutRec, OutRec NewOutRec)
     {
-        foreach (OutRec outRec in from outRec in m_PolyOuts let firstLeft = ParseFirstLeft(outRec.FirstLeft) where outRec.Pts != null && firstLeft == OldOutRec where Poly2ContainsPoly1(outRec.Pts, NewOutRec.Pts) select outRec)
+        foreach (OutRec outRec in from outRec in m_PolyOuts
+                 let firstLeft = ParseFirstLeft(outRec.FirstLeft)
+                 where outRec.Pts != null && firstLeft == OldOutRec
+                 where Poly2ContainsPoly1(outRec.Pts, NewOutRec.Pts)
+                 select outRec)
         {
             outRec.FirstLeft = NewOutRec;
         }
@@ -5317,7 +5469,11 @@ public class Clipper : ClipperBase
         //every polygon that's also contained by OuterOutRec's FirstLeft container
         //(including nil) to see if they've become inner to the new inner polygon ...
         OutRec orfl = outerOutRec.FirstLeft;
-        foreach (OutRec outRec in from outRec in m_PolyOuts where outRec.Pts != null && outRec != outerOutRec && outRec != innerOutRec let firstLeft = ParseFirstLeft(outRec.FirstLeft) where firstLeft == orfl || firstLeft == innerOutRec || firstLeft == outerOutRec select outRec)
+        foreach (OutRec outRec in from outRec in m_PolyOuts
+                 where outRec.Pts != null && outRec != outerOutRec && outRec != innerOutRec
+                 let firstLeft = ParseFirstLeft(outRec.FirstLeft)
+                 where firstLeft == orfl || firstLeft == innerOutRec || firstLeft == outerOutRec
+                 select outRec)
         {
             if (Poly2ContainsPoly1(outRec.Pts, innerOutRec.Pts))
             {
@@ -5338,7 +5494,10 @@ public class Clipper : ClipperBase
     private void FixupFirstLefts3(OutRec OldOutRec, OutRec NewOutRec)
     {
         //same as FixupFirstLefts1 but doesn't call Poly2ContainsPoly1()
-        foreach (OutRec outRec in from outRec in m_PolyOuts let firstLeft = ParseFirstLeft(outRec.FirstLeft) where outRec.Pts != null && firstLeft == OldOutRec select outRec)
+        foreach (OutRec outRec in from outRec in m_PolyOuts
+                 let firstLeft = ParseFirstLeft(outRec.FirstLeft)
+                 where outRec.Pts != null && firstLeft == OldOutRec
+                 select outRec)
         {
             outRec.FirstLeft = NewOutRec;
         }
@@ -5462,7 +5621,6 @@ public class Clipper : ClipperBase
                             break;
                     }
                 }
-
             }
             else
             {
@@ -5499,8 +5657,7 @@ public class Clipper : ClipperBase
         {
             op.Idx = outrec.Idx;
             op = op.Prev;
-        }
-        while (op != outrec.Pts);
+        } while (op != outrec.Pts);
     }
     //------------------------------------------------------------------------------
 
@@ -5547,8 +5704,7 @@ public class Clipper : ClipperBase
                                     break;
                             }
                         }
-                        else
-                        if (Poly2ContainsPoly1(outrec.Pts, outrec2.Pts))
+                        else if (Poly2ContainsPoly1(outrec.Pts, outrec2.Pts))
                         {
                             //OutRec1 is contained by OutRec2 ...
                             outrec2.IsHole = outrec.IsHole;
@@ -5574,13 +5730,15 @@ public class Clipper : ClipperBase
                                     break;
                             }
                         }
+
                         op2 = op; //ie get ready for the next iteration
                     }
+
                     op2 = op2.Next;
                 }
+
                 op = op.Next;
-            }
-            while (op != outrec.Pts);
+            } while (op != outrec.Pts);
         }
     }
     //------------------------------------------------------------------------------
@@ -5597,9 +5755,10 @@ public class Clipper : ClipperBase
         double a = 0;
         for (int i = 0, j = cnt - 1; i < cnt; ++i)
         {
-            a += ((double)poly[j].X + poly[i].X) * ((double)poly[j].Y - poly[i].Y);
+            a += ((double) poly[j].X + poly[i].X) * ((double) poly[j].Y - poly[i].Y);
             j = i;
         }
+
         return -a * 0.5;
     }
     //------------------------------------------------------------------------------
@@ -5622,9 +5781,10 @@ public class Clipper : ClipperBase
         double a = 0;
         do
         {
-            a += (op.Prev.Pt.X + op.Pt.X) * (double)(op.Prev.Pt.Y - op.Pt.Y);
+            a += (op.Prev.Pt.X + op.Pt.X) * (double) (op.Prev.Pt.Y - op.Pt.Y);
             op = op.Next;
         } while (op != opFirst);
+
         return a * 0.5;
     }
 
@@ -5697,6 +5857,7 @@ public class Clipper : ClipperBase
             {
                 return DistanceFromLineSqrd(pt2, pt1, pt3) < distSqrd;
             }
+
             return DistanceFromLineSqrd(pt3, pt1, pt2) < distSqrd;
         }
 
@@ -5709,14 +5870,15 @@ public class Clipper : ClipperBase
         {
             return DistanceFromLineSqrd(pt2, pt1, pt3) < distSqrd;
         }
+
         return DistanceFromLineSqrd(pt3, pt1, pt2) < distSqrd;
     }
     //------------------------------------------------------------------------------
 
     private static bool PointsAreClose(IntPoint pt1, IntPoint pt2, double distSqrd)
     {
-        double dx = (double)pt1.X - pt2.X;
-        double dy = (double)pt1.Y - pt2.Y;
+        double dx = (double) pt1.X - pt2.X;
+        double dy = (double) pt1.Y - pt2.Y;
         return dx * dx + dy * dy <= distSqrd;
     }
     //------------------------------------------------------------------------------
@@ -5860,6 +6022,7 @@ public class Clipper : ClipperBase
 
             quads.Add(quad);
         }
+
         return quads;
     }
     //------------------------------------------------------------------------------
@@ -5901,6 +6064,7 @@ public class Clipper : ClipperBase
                 }
             }
         }
+
         c.Execute(ClipType.ctUnion, solution,
             PolyFillType.pftNonZero, PolyFillType.pftNonZero);
         return solution;
@@ -5917,11 +6081,15 @@ public class Clipper : ClipperBase
     }
     //------------------------------------------------------------------------------
 
-    internal enum NodeType { ntAny, ntOpen, ntClosed }
+    internal enum NodeType
+    {
+        ntAny,
+        ntOpen,
+        ntClosed
+    }
 
     public static Paths PolyTreeToPaths(PolyTree polytree)
     {
-
         Paths result = new()
         {
             Capacity = polytree.Total
@@ -5937,7 +6105,9 @@ public class Clipper : ClipperBase
         switch (nt)
         {
             case NodeType.ntOpen: return;
-            case NodeType.ntClosed: match = !polynode.IsOpen; break;
+            case NodeType.ntClosed:
+                match = !polynode.IsOpen;
+                break;
         }
 
         switch (polynode.m_polygon.Count)
@@ -5980,7 +6150,6 @@ public class Clipper : ClipperBase
         return result;
     }
     //------------------------------------------------------------------------------
-
 } //end Clipper
 
 public class ClipperOffset
@@ -6022,7 +6191,7 @@ public class ClipperOffset
 
     internal static long Round(double value)
     {
-        return value < 0 ? (long)(value - 0.5) : (long)(value + 0.5);
+        return value < 0 ? (long) (value - 0.5) : (long) (value + 0.5);
     }
     //------------------------------------------------------------------------------
 
@@ -6060,7 +6229,7 @@ public class ClipperOffset
         newNode.m_polygon.Add(path[0]);
         int j = 0, k = 0;
         for (int i = 1; i <= highI; i++)
-            if (/*(ioPreserveCollinear != 0) || */newNode.m_polygon[j] != path[i])
+            if ( /*(ioPreserveCollinear != 0) || */newNode.m_polygon[j] != path[i])
             {
                 j++;
                 newNode.m_polygon.Add(path[i]);
@@ -6071,6 +6240,7 @@ public class ClipperOffset
                     k = j;
                 }
             }
+
         switch (endType)
         {
             case EndType.etClosedPolygon when j < 2:
@@ -6092,7 +6262,7 @@ public class ClipperOffset
                 break;
             default:
             {
-                IntPoint ip = m_polyNodes.Childs[(int)m_lowest.X].m_polygon[(int)m_lowest.Y];
+                IntPoint ip = m_polyNodes.Childs[(int) m_lowest.X].m_polygon[(int) m_lowest.Y];
                 if (newNode.m_polygon[k].Y > ip.Y ||
                     newNode.m_polygon[k].Y == ip.Y &&
                     newNode.m_polygon[k].X < ip.X)
@@ -6119,7 +6289,7 @@ public class ClipperOffset
         {
             //fixup orientations of all closed paths if the orientation of the
             //closed path with the lowermost vertex is wrong ...
-            case >= 0 when !Clipper.Orientation(m_polyNodes.Childs[(int)m_lowest.X].m_polygon):
+            case >= 0 when !Clipper.Orientation(m_polyNodes.Childs[(int) m_lowest.X].m_polygon):
             {
                 for (int i = 0; i < m_polyNodes.ChildCount; i++)
                 {
@@ -6191,6 +6361,7 @@ public class ClipperOffset
                         break;
                 }
             }
+
             return;
         }
 
@@ -6303,6 +6474,7 @@ public class ClipperOffset
                             break;
                         }
                     }
+
                     m_destPolys.Add(m_destPoly);
                     continue;
                 }
@@ -6428,6 +6600,7 @@ public class ClipperOffset
                             break;
                         }
                     }
+
                     m_destPolys.Add(m_destPoly);
                     break;
                 }
@@ -6555,6 +6728,7 @@ public class ClipperOffset
                             Round(m_srcPoly[j].Y + m_normals[k].Y * m_delta)));
                         return;
                 }
+
                 //else angle ==> 180 degrees   
                 break;
             }
@@ -6596,8 +6770,12 @@ public class ClipperOffset
 
                         break;
                     }
-                    case JoinType.jtSquare: DoSquare(j, k); break;
-                    case JoinType.jtRound: DoRound(j, k); break;
+                    case JoinType.jtSquare:
+                        DoSquare(j, k);
+                        break;
+                    case JoinType.jtRound:
+                        DoRound(j, k);
+                        break;
                 }
 
                 break;
@@ -6632,7 +6810,7 @@ public class ClipperOffset
     {
         double a = Math.Atan2(m_sinA,
             m_normals[k].X * m_normals[j].X + m_normals[k].Y * m_normals[j].Y);
-        int steps = Math.Max((int)Round(m_StepsPerRad * Math.Abs(a)), 1);
+        int steps = Math.Max((int) Round(m_StepsPerRad * Math.Abs(a)), 1);
 
         double X = m_normals[k].X, Y = m_normals[k].Y, X2;
         for (int i = 0; i < steps; ++i)
@@ -6644,6 +6822,7 @@ public class ClipperOffset
             X = X * m_cos - m_sin * Y;
             Y = X2 * m_sin + Y * m_cos;
         }
+
         m_destPoly.Add(new IntPoint(
             Round(m_srcPoly[j].X + m_normals[j].X * m_delta),
             Round(m_srcPoly[j].Y + m_normals[j].Y * m_delta)));
@@ -6653,7 +6832,9 @@ public class ClipperOffset
 
 internal class ClipperException : Exception
 {
-    public ClipperException(string description) : base(description) { }
+    public ClipperException(string description) : base(description)
+    {
+    }
 }
 //------------------------------------------------------------------------------
 

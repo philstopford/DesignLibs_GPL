@@ -1,4 +1,4 @@
-﻿using ClipperLib;
+﻿using Clipper2Lib;
 using geoLib;
 using System;
 using System.Collections.Generic;
@@ -6,8 +6,8 @@ using System.Linq;
 
 namespace geoWrangler;
 
-using Path = List<IntPoint>;
-using Paths = List<List<IntPoint>>;
+using Path = List<Point64>;
+using Paths = List<List<Point64>>;
 
 public static partial class GeoWrangler
 {
@@ -213,7 +213,7 @@ public static partial class GeoWrangler
 
         bool result = false;
             
-        Clipper c = new();
+        Clipper64 c = new();
 
         Paths rationalizedFirstLayer = a.Select(t => clockwise( /*Clipper.CleanPolygon*/t)).ToList();
         // Force to clockwise as a safety measure.
@@ -222,9 +222,11 @@ public static partial class GeoWrangler
 
         // Intersection should not matter based on order.
         Paths intersectionPaths = new();
-        c.AddPaths(rationalizedSecondLayer, PolyType.ptClip, true);
-        c.AddPaths(rationalizedFirstLayer, PolyType.ptSubject, true);
-        c.Execute(ClipType.ctUnion, intersectionPaths);
+        c.AddClip(rationalizedSecondLayer);
+        c.AddSubject(rationalizedFirstLayer);
+        c.Execute(ClipType.Union, FillRule.EvenOdd, intersectionPaths);
+
+        intersectionPaths = pReorderXY(intersectionPaths);
 
         // Force clockwise.
         foreach (Path t in intersectionPaths)
@@ -419,6 +421,22 @@ public static partial class GeoWrangler
         return angles;
     }
 
+    public static bool orthogonal(Paths sourcePoly, double angularTolerance)
+    {
+        return pOrthogonal(sourcePoly, angularTolerance);
+    }
+
+    public static bool pOrthogonal(Paths sourcePoly, double angularTolerance)
+    {
+        bool ret = true;
+        foreach (Path p in sourcePoly)
+        {
+            ret = ret && pOrthogonal(p, angularTolerance);
+        }
+
+        return ret;
+    }
+
     public static bool orthogonal(Path sourcePoly, double angularTolerance)
     {
         return pOrthogonal(sourcePoly, angularTolerance);
@@ -457,9 +475,9 @@ public static partial class GeoWrangler
         for (int pt = 0; pt <= finalIndex; pt++)
         {
             // Assess angle.
-            IntPoint interSection_A;
-            IntPoint interSection_B;
-            IntPoint interSection_C;
+            Point64 interSection_A;
+            Point64 interSection_B;
+            Point64 interSection_C;
             switch (pt)
             {
                 case 0:

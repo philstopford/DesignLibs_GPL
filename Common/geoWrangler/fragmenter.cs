@@ -1,4 +1,4 @@
-﻿using ClipperLib;
+﻿using Clipper2Lib;
 using geoLib;
 using System;
 using System.Collections.Generic;
@@ -6,8 +6,8 @@ using System.Linq;
 
 namespace geoWrangler;
 
-using Path = List<IntPoint>;
-using Paths = List<List<IntPoint>>;
+using Path = List<Point64>;
+using Paths = List<List<Point64>>;
 public class Fragmenter
 {
     private double resolution;
@@ -40,9 +40,9 @@ public class Fragmenter
                 return source.ToList();
         }
 
-        List<GeoLibPointF[]> ret = source.Select(t => pFragmentPath(t.ToArray())).ToList();
+        List<GeoLibPointF[]> ret = source.Select(pFragmentPath).ToList();
 
-        return ret.ToList();
+        return ret;
     }
 
     public GeoLibPointF[] fragmentPath(GeoLibPointF[] pointList)
@@ -52,9 +52,7 @@ public class Fragmenter
 
     private GeoLibPointF[] pFragmentPath(GeoLibPointF[] pointList)
     {
-        List<GeoLibPointF> returnList = fragmentPath(pointList.ToList());
-
-        return returnList.ToArray();
+        return pFragmentPath(pointList.ToList()).ToArray();
     }
 
     // Returns start and end point with fragmented in between.
@@ -70,7 +68,7 @@ public class Fragmenter
 
     private Paths pFragmentPaths(Paths source)
     {
-        return source.Select(t => pFragmentPath(t)).ToList();
+        return source.Select(pFragmentPath).ToList();
     }
 
     public Path fragmentPath(Path source)
@@ -86,7 +84,7 @@ public class Fragmenter
         Path t = new();
         for (int p = 0; p < source.Count; p++)
         {
-            t.Add(new IntPoint(source[p].X, source[p].Y));
+            t.Add(new Point64(source[p].X, source[p].Y));
         }
 
         t = closed switch
@@ -97,14 +95,14 @@ public class Fragmenter
 
         for (int p = 0; p < t.Count - 1; p++)
         {
-            ret.Add(new IntPoint(t[p]));
+            ret.Add(new Point64(t[p]));
             ret.AddRange(pFragmentPath(t[p], t[p + 1]));
         }
 
         switch (closed)
         {
             case true:
-                ret.Add(new IntPoint(t[^1]));
+                ret.Add(new Point64(t[^1]));
                 ret.AddRange(pFragmentPath(t[^1], t[0]));
                 ret = GeoWrangler.close(ret);
                 break;
@@ -113,12 +111,12 @@ public class Fragmenter
         return ret;
     }
 
-    public Path fragmentPath(IntPoint pt1, IntPoint pt2)
+    public Path fragmentPath(Point64 pt1, Point64 pt2)
     {
         return pFragmentPath(pt1, pt2);
     }
 
-    private Path pFragmentPath(IntPoint pt1, IntPoint pt2, bool startAndEndPoints = false)
+    private Path pFragmentPath(Point64 pt1, Point64 pt2, bool startAndEndPoints = false)
     {
         Path returnPath = new();
         long x_Distance = pt2.X - pt1.X;
@@ -130,7 +128,7 @@ public class Fragmenter
         switch (startAndEndPoints)
         {
             case true:
-                returnPath.Add(new IntPoint(pt1));
+                returnPath.Add(new Point64(pt1));
                 break;
         }
         switch (fragmentCount)
@@ -142,7 +140,7 @@ public class Fragmenter
 
                 for (int i = 1; i < fragmentCount; i++)
                 {
-                    returnPath.Add(new IntPoint(pt1.X + i * x_Step, pt1.Y + i * y_Step));
+                    returnPath.Add(new Point64(pt1.X + i * x_Step, pt1.Y + i * y_Step));
                 }
 
                 break;
@@ -151,7 +149,7 @@ public class Fragmenter
         switch (startAndEndPoints)
         {
             case true:
-                returnPath.Add(new IntPoint(pt2));
+                returnPath.Add(new Point64(pt2));
                 break;
         }
         return returnPath;

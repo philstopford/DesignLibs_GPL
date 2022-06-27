@@ -1,4 +1,4 @@
-﻿using ClipperLib;
+﻿using Clipper2Lib;
 using geoLib;
 using System;
 using System.Collections.Generic;
@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace geoWrangler;
 
-using Path = List<IntPoint>;
-using Paths = List<List<IntPoint>>;
+using Path = List<Point64>;
+using Paths = List<List<Point64>>;
 
 public static partial class GeoWrangler
 {
@@ -29,16 +29,17 @@ public static partial class GeoWrangler
 
         Paths ret = new();
 
-        Clipper c = new() {PreserveCollinear = true};
+        Clipper64 c = new();
 
         // Reconcile each path separately to get a clean representation.
         foreach (Path t1 in source)
         {
             double a1 = Clipper.Area(t1);
             c.Clear();
-            c.AddPath(t1, PolyType.ptSubject, true);
+            c.AddSubject(t1);
             Paths t = new();
-            c.Execute(ClipType.ctUnion, t);
+            c.Execute(ClipType.Union, FillRule.EvenOdd, t);
+            t = pReorderXY(t);
             double a2 = t.Sum(t2 => Clipper.Area(t2));
 
             switch (Math.Abs(Math.Abs(a1) - Math.Abs(a2)))
@@ -50,19 +51,20 @@ public static partial class GeoWrangler
                 default:
                 {
                     // Orientation tracking.
-                    bool origOrient = Clipper.Orientation(t1);
+                    bool origOrient = Clipper.IsPositive(t1);
 
-                    c.AddPaths(source, PolyType.ptSubject, true);
+                    c.AddSubject(source);
 
                     Paths cR = new();
                     // Non-zero here means that we also reconcile self-intersections without odd-even causing holes; positive only respects a certain orientation (unlike non-zero)
                     // Union is cheaper than finding the bounding box and using intersection; test-bed showed identical results.
-                    c.Execute(ClipType.ctUnion, cR, PolyFillType.pftNonZero);
+                    c.Execute(ClipType.Union, FillRule.NonZero, cR);
+                    cR = pReorderXY(cR);
 
                     int crCount = cR.Count;
 
                     // Review orientation. Fix if needed.
-                    if (Clipper.Orientation(cR[0]) != origOrient)
+                    if (Clipper.IsPositive(cR[0]) != origOrient)
                     {
 #if !GWSINGLETHREADED
                         Parallel.For(0, crCount, j =>
@@ -88,7 +90,7 @@ public static partial class GeoWrangler
             case > 1:
             {
                 // Need to reverse the orientations if Clipper indicates false here.
-                bool reverse = !Clipper.Orientation(ret[0]);
+                bool reverse = !Clipper.IsPositive(ret[0]);
 
                 switch (reverse)
                 {
@@ -112,17 +114,20 @@ public static partial class GeoWrangler
 
                 Paths[] decomp = pGetDecomposed(ret);
 
-                c.AddPaths(decomp[(int)type.outer], PolyType.ptSubject, true);
-                c.AddPaths(decomp[(int)type.cutter], PolyType.ptClip, true);
+                c.AddSubject(decomp[(int)type.outer]);
+                c.AddClip(decomp[(int)type.cutter]);
 
-                c.Execute(ClipType.ctDifference, ret, PolyFillType.pftPositive, PolyFillType.pftNegative);
+                c.Execute(ClipType.Difference, FillRule.EvenOdd, ret);//, PolyFillType.pftPositive, PolyFillType.pftNegative);
 
+                ret = pReorderXY(ret);
+                
                 switch (ret.Count)
                 {
                     // Assume tone is wrong. We should not trigger this with the 'reverse' handling above.
                     case 0:
                         ret.Clear();
-                        c.Execute(ClipType.ctDifference, ret);
+                        c.Execute(ClipType.Difference, FillRule.EvenOdd, ret);
+                        ret = pReorderXY(ret);
                         break;
                 }
 
@@ -145,11 +150,20 @@ public static partial class GeoWrangler
         Paths[] ret = new Paths[2];
         ret[0] = new Paths();
         ret[1] = new Paths();
-
+        
+        // First path in source is always the outer orientation.
+        bool outerOrient = Clipper.IsPositive(source[0]);
+        
         foreach (Path t in source)
         {
+            // Outer was wrongly oriented, so fix up the current path for consistency.
+            if (!outerOrient)
+            {
+                t.Reverse();
+            }
+
             int r = (int)type.outer;
-            if (!Clipper.Orientation(t))
+            if (!Clipper.IsPositive(t)) // cutter
             {
                 r = (int)type.cutter;
             }
@@ -240,7 +254,10 @@ public static partial class GeoWrangler
 
     private static List<GeoLibPoint[]> decompose_poly_to_rectangles(ref bool abort, GeoLibPoint[] _poly, int scaling, long maxRayLength, double angularTolerance, bool vertical)
     {
-        Path lPoly = pathFromPoint(pClockwiseAndReorder(_poly), scaling);
+        _poly = pClockwiseAndReorderXY(_poly);
+        Path lPoly = pathFromPoint(_poly, scaling);
+
+        lPoly = pClose(lPoly);
 
         switch (_poly.Length)
         {
@@ -249,14 +266,14 @@ public static partial class GeoWrangler
         }
 
         // dirOverride switches from a horizontally-biased raycast to vertical in this case.
-        RayCast rc = new(lPoly, lPoly, maxRayLength * scaling, projectCorners: true, invert: true, runOuterLoopThreaded:true, runInnerLoopThreaded: true, dirOverride: vertical ? RayCast.forceSingleDirection.vertical : RayCast.forceSingleDirection.horizontal);
+        RayCast rc = new(lPoly, lPoly, maxRayLength * scaling, projectCorners: true, invert: RayCast.inversionMode.x, runOuterLoopThreaded:true, runInnerLoopThreaded: true, dirOverride: vertical ? RayCast.forceSingleDirection.vertical : RayCast.forceSingleDirection.horizontal);
 
         Paths rays = rc.getRays();
 
         // Contains edges from ray intersections that are not part of the original geometry.
         Paths newEdges = new();
 
-        Clipper c = new();
+        Clipper64 c = new();
 
         foreach (Path t in rays)
         {
@@ -264,16 +281,15 @@ public static partial class GeoWrangler
             {
                 break;
             }
-            c.AddPath(t, PolyType.ptSubject, false);
-            c.AddPath(lPoly, PolyType.ptClip, true);
+            c.AddOpenSubject(t);
+            c.AddClip(lPoly);
 
             PolyTree pt = new();
+            Paths p = new();
 
-            c.Execute(ClipType.ctIntersection, pt);
+            c.Execute(ClipType.Intersection, FillRule.EvenOdd, pt, p);
             c.Clear();
-
-            Paths p = Clipper.OpenPathsFromPolyTree(pt);
-
+            
             int pCount = p.Count;
 
             switch (pCount)
@@ -289,7 +305,7 @@ public static partial class GeoWrangler
                         double aDist = double.MaxValue;
                         double bDist = double.MaxValue;
                         // See whether the start or end point exists in the lPoly geometry. If not, we should drop this path from the list.
-                        foreach (IntPoint t1 in lPoly)
+                        foreach (Point64 t1 in lPoly)
                         {
                             if (abort)
                             {
@@ -426,27 +442,29 @@ public static partial class GeoWrangler
             case > 0 when !abort:
             {
                 // Turn the new edges into cutters and slice. Not terribly elegant and we're relying on rounding to squash notches later.
-                ClipperOffset co = new();
-                co.AddPaths(newEdges, JoinType.jtMiter, EndType.etOpenSquare);
-                PolyTree tp = new();
-                co.Execute(ref tp, 1.0);
+                ClipperOffset co = new() {PreserveCollinear = true};
+                co.AddPaths(newEdges, JoinType.Miter, EndType.Square);
 
-                Paths cutters = Clipper.ClosedPathsFromPolyTree(tp);
+                Paths cutters = co.Execute(2.0);
 
                 c.Clear();
 
-                c.AddPath(lPoly, PolyType.ptSubject, true);
+                c.AddSubject(lPoly);
 
                 // Take first cutter only - we only cut once, no matter how many potential cutters we have.
-                c.AddPath(cutters[0], PolyType.ptClip, true);
+                c.AddClip(cutters[0]);
                 Paths f = new();
-                c.Execute(ClipType.ctDifference, f, PolyFillType.pftEvenOdd, PolyFillType.pftEvenOdd);
+                c.Execute(ClipType.Difference, FillRule.EvenOdd, f);
+
+                f = pReorderXY(f);
 
                 final = pointsFromPaths(f, scaling);
 
+                final = pClose(final);
+
                 final = simplify(final);
 
-                final = clockwiseAndReorder(final);
+                final = clockwiseAndReorderXY(final);
                 break;
             }
         }

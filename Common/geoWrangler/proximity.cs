@@ -11,18 +11,6 @@ namespace geoWrangler;
 using Path = List<Point64>;
 using Paths = List<List<Point64>>;
 
-public class GeometryResult
-{
-    public List<GeoLibPointF[]> geometry { get; set; }
-    public List<bool> drawn { get; set; }
-
-    public GeometryResult()
-    {
-        geometry = new();
-        drawn = new();
-    }
-}
-
 public static class Proximity
 {
     // Drawn poly allows for geometry to be excluded from consideration in the input list

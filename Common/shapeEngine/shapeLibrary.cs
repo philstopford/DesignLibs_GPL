@@ -6,21 +6,34 @@ namespace shapeEngine;
 
 public class ShapeLibrary
 {
-    private static readonly List<string> availableShapes= new () { "(None)", "Rectangle/Square", "L-shape", "T-shape", "X-shape", "U-shape", "S-shape", "GDS/Oasis", "Boolean" };
+    public int mode = 0; // 0 is Variance; 1 is Quilt. This should go away in future.
+    private static readonly List<string> availableShapes_mode0 = new () { "(None)", "Rectangle/Square", "L-shape", "T-shape", "X-shape", "U-shape", "S-shape", "GDS/Oasis", "Boolean" };
+    public enum shapeNames_mode0 { none, rect, Lshape, Tshape, Xshape, Ushape, Sshape, GEOCORE, BOOLEAN }
 
-    public static List<string> getAvailableShapes()
+    public static List<string> getAvailableShapes_mode0()
     {
-        return pGetAvailableShapes();
+        return pGetAvailableShapes_mode0();
     }
 
-    private static List<string> pGetAvailableShapes()
+    private static List<string> pGetAvailableShapes_mode0()
     {
-        return availableShapes;
+        return availableShapes_mode0;
     }
 
-    public enum shapeNames { none, rect, Lshape, Tshape, Xshape, Ushape, Sshape, GEOCORE, BOOLEAN }
+    private static readonly List<string> availableShapes_mode1 = new () { "(None)", "Rectangle/Square", "L-shape", "T-shape", "X-shape", "U-shape", "S-shape", "Text", "Bounding", "Layout" };
+    public enum shapeNames_mode1 { none, rect, Lshape, Tshape, Xshape, Ushape, Sshape, text, bounding, complex }
 
-    private int shapeIndex;
+    public static List<string> getAvailableShapes_mode1()
+    {
+        return pGetAvailableShapes_mode1();
+    }
+
+    private static List<string> pGetAvailableShapes_mode1()
+    {
+        return availableShapes_mode1;
+    }
+
+    public int shapeIndex;
     public bool shapeValid { get; private set; }
     public bool geoCoreShapeOrthogonal { get; private set; }
     public MyVertex[] Vertex { get; private set; }
@@ -59,35 +72,62 @@ public class ShapeLibrary
         }
     }
     
+    public GeoLibPointF getPivotPoint()
+    {
+        return pGetPivotPoint();
+    }
+
+    private GeoLibPointF pGetPivotPoint()
+    {
+        int limit = Vertex.Length - 1;
+        GeoLibPointF[] t = new GeoLibPointF[limit]; // closed shape, we don't need the final point
+#if !SHAPELIBSINGLETHREADED
+        Parallel.For(0, limit, i =>
+#else
+            for (int i = 0; i < t.Length; i++)
+#endif
+            {
+                t[i] = new GeoLibPointF(Vertex[i].X, Vertex[i].Y);
+            }
+#if !SHAPELIBSINGLETHREADED
+        );
+#endif
+        GeoLibPointF pivot = GeoWrangler.midPoint(t);
+
+        return pivot;
+    }
+    
     private ShapeSettings layerSettings = new();
 
-    public ShapeLibrary(ShapeSettings mcLayerSettings)
+    public ShapeLibrary(int mode_, ShapeSettings shapeSettings)
     {
         Vertex = new MyVertex[1];
         round1 = new MyRound[1];
         tips = new bool[1];
-        pShapeLibrary(mcLayerSettings);
+        pShapeLibrary(mode_, shapeSettings);
     }
 
-    private void pShapeLibrary(ShapeSettings mcLayerSettings)
+    private void pShapeLibrary(int mode_, ShapeSettings shapeSettings)
     {
+        mode = mode_;
         shapeValid = false;
-        layerSettings = mcLayerSettings;
+        layerSettings = shapeSettings;
     }
 
-    public ShapeLibrary(int shapeIndex_, ShapeSettings mcLayerSettings)
+    public ShapeLibrary(int mode_, int shapeIndex_, ShapeSettings shapeSettings)
     {
         Vertex = new MyVertex[1];
         round1 = new MyRound[1];
         tips = new bool[1];
-        pShapeLibrary(shapeIndex_, mcLayerSettings);
+        pShapeLibrary(mode_,shapeIndex_, shapeSettings);
     }
 
-    private void pShapeLibrary(int shapeIndex_, ShapeSettings mcLayerSettings)
+    private void pShapeLibrary(int mode_, int shapeIndex_, ShapeSettings shapeSettings)
     {
+        mode = mode_;
         shapeIndex = shapeIndex_;
         shapeValid = false;
-        layerSettings = mcLayerSettings;
+        layerSettings = shapeSettings;
         pSetShape(shapeIndex);
     }
 
@@ -101,34 +141,73 @@ public class ShapeLibrary
         try
         {
             shapeIndex = shapeIndex_;
-            switch (shapeIndex)
+            switch (mode)
             {
-                case (int)shapeNames.rect:
-                    rectangle();
-                    break;
-                case (int)shapeNames.Lshape:
-                    Lshape();
-                    break;
-                case (int)shapeNames.Tshape:
-                    Tshape();
-                    break;
-                case (int)shapeNames.Xshape:
-                    crossShape();
-                    break;
-                case (int)shapeNames.Ushape:
-                    Ushape();
-                    break;
-                case (int)shapeNames.Sshape:
-                    Sshape();
-                    break;
-                case (int)shapeNames.GEOCORE:
-                    if (layerSettings.getInt(ShapeSettings.properties_i.gCSEngine) == 1)
+                case 0:
+                    switch (shapeIndex)
                     {
-                        customShape(sourcePoly);
+                        case (int)shapeNames_mode0.rect:
+                            rectangle();
+                            break;
+                        case (int)shapeNames_mode0.Lshape:
+                            Lshape();
+                            break;
+                        case (int)shapeNames_mode0.Tshape:
+                            Tshape();
+                            break;
+                        case (int)shapeNames_mode0.Xshape:
+                            crossShape();
+                            break;
+                        case (int)shapeNames_mode0.Ushape:
+                            Ushape();
+                            break;
+                        case (int)shapeNames_mode0.Sshape:
+                            Sshape();
+                            break;
+                        case (int)shapeNames_mode0.GEOCORE:
+                            if (layerSettings.getInt(ShapeSettings.properties_i.gCSEngine) == 1)
+                            {
+                                customShape(sourcePoly);
+                            }
+
+                            break;
+                        default:
+                            throw new Exception();
+                            break;
                     }
+
                     break;
-                default:
-                    throw new Exception();
+                case 1:
+                    switch (shapeIndex)
+                    {
+                        case (int)shapeNames_mode1.rect:
+                        case (int)shapeNames_mode1.text:
+                        case (int)shapeNames_mode1.bounding:
+                            rectangle();
+                            break;
+                        case (int)shapeNames_mode1.Lshape:
+                            Lshape();
+                            break;
+                        case (int)shapeNames_mode1.Tshape:
+                            Tshape();
+                            break;
+                        case (int)shapeNames_mode1.Xshape:
+                            crossShape();
+                            break;
+                        case (int)shapeNames_mode1.Ushape:
+                            Ushape();
+                            break;
+                        case (int)shapeNames_mode1.Sshape:
+                            Sshape();
+                            break;
+                        case (int)shapeNames_mode1.complex:
+                            customShape(sourcePoly);
+                            break;
+                        default:
+                            throw new Exception();
+                            break;
+                    }
+
                     break;
             }
         }
@@ -141,30 +220,84 @@ public class ShapeLibrary
         }
     }
 
+    public static int getSubShapeCount(int index)
+    {
+        return pGetSubShapeCount(index);
+    }
+
+    private static int pGetSubShapeCount(int index)
+    {
+        switch (index)
+        {
+            case (int)shapeNames_mode0.Lshape:
+            case (int)shapeNames_mode0.Tshape:
+            case (int)shapeNames_mode0.Xshape:
+            case (int)shapeNames_mode0.Ushape:
+                return 2;
+            case (int)shapeNames_mode0.Sshape:
+                return 3;
+            default:
+                return 1;
+        }
+    }
+
     private void configureArrays()
     {
         double vertexCount = 0;
-        switch (shapeIndex)
+        switch (mode)
         {
-            case (int)shapeNames.rect: // rectangle
-                vertexCount = 9;
+            case 0:
+                switch (shapeIndex)
+                {
+                    case (int)shapeNames_mode0.rect: // rectangle
+                        vertexCount = 9;
+                        break;
+                    case (int)shapeNames_mode0.Lshape: // L
+                        vertexCount = 13;
+                        break;
+                    case (int)shapeNames_mode0.Tshape: // T
+                        vertexCount = 17;
+                        break;
+                    case (int)shapeNames_mode0.Xshape: // Cross
+                        vertexCount = 25;
+                        break;
+                    case (int)shapeNames_mode0.Ushape: // U
+                        vertexCount = 17;
+                        break;
+                    case (int)shapeNames_mode0.Sshape: // S
+                        vertexCount = 25;
+                        break;
+                }
+
                 break;
-            case (int)shapeNames.Lshape: // L
-                vertexCount = 13;
-                break;
-            case (int)shapeNames.Tshape: // T
-                vertexCount = 17;
-                break;
-            case (int)shapeNames.Xshape: // Cross
-                vertexCount = 25;
-                break;
-            case (int)shapeNames.Ushape: // U
-                vertexCount = 17;
-                break;
-            case (int)shapeNames.Sshape: // S
-                vertexCount = 25;
+            case 1:
+                switch (shapeIndex)
+                {
+                    case (int)shapeNames_mode1.rect: // rectangle
+                    case (int)shapeNames_mode1.text:
+                    case (int)shapeNames_mode1.bounding:
+                        vertexCount = 9;
+                        break;
+                    case (int)shapeNames_mode1.Lshape: // L
+                        vertexCount = 13;
+                        break;
+                    case (int)shapeNames_mode1.Tshape: // T
+                        vertexCount = 17;
+                        break;
+                    case (int)shapeNames_mode1.Xshape: // Cross
+                        vertexCount = 25;
+                        break;
+                    case (int)shapeNames_mode1.Ushape: // U
+                        vertexCount = 17;
+                        break;
+                    case (int)shapeNames_mode1.Sshape: // S
+                        vertexCount = 25;
+                        break;
+                }
+
                 break;
         }
+
         int arrayLength = (int)vertexCount;
         Vertex = new MyVertex[arrayLength];
         tips = new bool[arrayLength];

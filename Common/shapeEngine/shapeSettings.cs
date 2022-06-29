@@ -27,6 +27,26 @@ public class ShapeSettings
         return availableSubShapePositions;
     }
 
+    public static List<string> getAvailableHorShapePositions()
+    {
+        return pGetAvailableHorShapePositions();
+    }
+
+    private static List<string> pGetAvailableHorShapePositions()
+    {
+        return availableHorShapePositions;
+    }
+
+    public static List<string> getAvailableVerShapePositions()
+    {
+        return pGetAvailableVerShapePositions();
+    }
+
+    private static List<string> pGetAvailableVerShapePositions()
+    {
+        return availableVerShapePositions;
+    }
+
     public enum subShapeLocations { TL, TR, BL, BR, TS, RS, BS, LS, C }
     
     public static List<string> getPolyFillTypes()
@@ -39,6 +59,12 @@ public class ShapeSettings
         return polyFillTypes;
     }
 
+    private static readonly List<string> availableHorShapePositions = new() { "Left", "Middle", "Right" };
+    private static readonly List<string> availableVerShapePositions = new() { "Bottom", "Middle", "Top" };
+    public enum subShapeHorLocs { L, M, R }
+    public enum subShapeVerLocs { B, M, T }
+
+    
     private static readonly List<string> availableSubShapePositions = new List<string>
     { "Corner: Top Left", "Corner: Top Right", "Corner: Bottom Left", "Corner: Bottom Right",
         "Middle: Top Side", "Middle: Right Side", "Middle: Bottom Side", "Middle: Left Side",
@@ -56,18 +82,19 @@ public class ShapeSettings
 
     public enum PolyFill { pftEvenOdd, pftNonZero, pftPositive, pftNegative }
 
-    public enum typeShapes { none, rectangle, L, T, X, U, S, GEOCORE, BOOLEAN }
+    public enum typeShapes_mode0 { none, rectangle, L, T, X, U, S, GEOCORE, BOOLEAN }
+    public enum typeShapes_mode1 { none, rectangle, L, T, X, U, S, text, bounding, complex }
 
-    private static readonly int default_subShapeTipLocIndex = 0;
-    private static readonly int default_subShape2TipLocIndex = 0;
-
-    private static readonly int default_subShape3TipLocIndex = 0;
+    public static readonly int default_subShapeTipLocIndex = 0;
+    public static readonly int default_subShape2TipLocIndex = 0;
+    public static readonly int default_subShape3TipLocIndex = 0;
+    
     private static readonly int default_enabled = 0;
     private static readonly int default_geoCoreShapeEngine = 0;
 
-    private static readonly int default_shapeIndex = (int)typeShapes.none;
-    private static readonly int default_subShapeRefIndex = 0;
-    private static readonly int default_posInSubShapeIndex = (int)subShapeLocations.BL;
+    public static readonly int default_shapeIndex = (int)typeShapes_mode0.none;
+    public static readonly int default_subShapeRefIndex = 0;
+    public static readonly int default_posInSubShapeIndex = (int)subShapeLocations.BL;
 
     private static readonly int default_edgeSlide = 0;
     private static readonly int default_proximitySideRays = 2;
@@ -82,12 +109,12 @@ public class ShapeSettings
     private static readonly int default_alignGeom = 0;
 
     private int enabled = default_enabled;
-    private int shapeIndex = default_shapeIndex;
+    public int shapeIndex = default_shapeIndex;
     private int gCSEngine = default_geoCoreShapeEngine;
     private int subShapeTipLocIndex = default_subShapeTipLocIndex;
     private int subShape2TipLocIndex = default_subShape2TipLocIndex;
     private int subShape3TipLocIndex = default_subShape3TipLocIndex;
-    private int subShapeRefIndex = default_subShapeRefIndex;
+    public int subShapeRefIndex = default_subShapeRefIndex;
     private int posInSubShapeIndex = default_posInSubShapeIndex;
     private int edgeSlide = default_edgeSlide;
     private int proximitySideRays = default_proximitySideRays;
@@ -372,10 +399,10 @@ public class ShapeSettings
         return val;
     }
 
-    private static readonly decimal default_subShapeHorLength = 0;
-    private static readonly decimal default_subShapeHorOffset = 0;
-    private static readonly decimal default_subShapeVerLength = 0;
-    private static readonly decimal default_subShapeVerOffset = 0;
+    public static readonly decimal default_subShapeHorLength = 0;
+    public static readonly decimal default_subShapeHorOffset = 0;
+    public static readonly decimal default_subShapeVerLength = 0;
+    public static readonly decimal default_subShapeVerOffset = 0;
     private static readonly decimal default_subShape2HorLength = 0;
     private static readonly decimal default_subShape2HorOffset = 0;
     private static readonly decimal default_subShape2VerLength = 0;
@@ -389,7 +416,7 @@ public class ShapeSettings
     private static readonly decimal default_verTipBias = 0;
     private static readonly decimal default_innerCRR = 0;
     private static readonly decimal default_outerCRR = 0;
-    private static readonly decimal default_rotation = 0;
+    public static readonly decimal default_rotation = 0;
     private static readonly decimal default_proximityBias = 0;
     private static readonly decimal default_proximityIsoDistance = 0;
     private static readonly decimal default_proximitySideRaysFallOffMultiplier = 1.0m;
@@ -404,18 +431,18 @@ public class ShapeSettings
 
     private static readonly decimal default_rayExtension = 1.03m;
 
-    private decimal subShapeHorLength = default_subShapeHorLength;
-    private decimal subShapeHorOffset = default_subShapeHorOffset;
-    private decimal subShapeVerLength = default_subShapeVerLength;
-    private decimal subShapeVerOffset = default_subShapeVerOffset;
-    private decimal subShape2HorLength = default_subShape2HorLength;
-    private decimal subShape2HorOffset = default_subShape2HorOffset;
-    private decimal subShape2VerLength = default_subShape2VerLength;
-    private decimal subShape2VerOffset = default_subShape2VerOffset;
-    private decimal subShape3HorLength = default_subShape3HorLength;
-    private decimal subShape3HorOffset = default_subShape3HorOffset;
-    private decimal subShape3VerLength = default_subShape3VerLength;
-    private decimal subShape3VerOffset = default_subShape3HorOffset;
+    public decimal subShapeHorLength = default_subShapeHorLength;
+    public decimal subShapeHorOffset = default_subShapeHorOffset;
+    public decimal subShapeVerLength = default_subShapeVerLength;
+    public decimal subShapeVerOffset = default_subShapeVerOffset;
+    public decimal subShape2HorLength = default_subShape2HorLength;
+    public decimal subShape2HorOffset = default_subShape2HorOffset;
+    public decimal subShape2VerLength = default_subShape2VerLength;
+    public decimal subShape2VerOffset = default_subShape2VerOffset;
+    public decimal subShape3HorLength = default_subShape3HorLength;
+    public decimal subShape3HorOffset = default_subShape3HorOffset;
+    public decimal subShape3VerLength = default_subShape3VerLength;
+    public decimal subShape3VerOffset = default_subShape3HorOffset;
     private decimal innerCRR = default_innerCRR;
     private decimal outerCRR = default_outerCRR;
     private decimal globalHorOffset = default_globalHorOffset;

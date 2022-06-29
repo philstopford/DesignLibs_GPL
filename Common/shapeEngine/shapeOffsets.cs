@@ -443,35 +443,43 @@ public static class shapeOffsets
         return new GeoLibPointF(xOffset, yOffset);
     }
 
-    public static GeoLibPointF doOffsets(ShapeSettings shapeSettings)
+    public static GeoLibPointF doOffsets(int mode, ShapeSettings shapeSettings)
     {
         // Use our shape-specific offset calculation methods :
         GeoLibPointF offset = new(0, 0);
 
-        switch (shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex))
+        switch (mode)
         {
-            case (int)ShapeSettings.typeShapes.rectangle:
-                offset = rectangle_offset(shapeSettings);
+            case 0:
+                switch (shapeSettings.getInt(ShapeSettings.properties_i.shapeIndex))
+                {
+                    case (int)ShapeSettings.typeShapes_mode0.rectangle:
+                        offset = rectangle_offset(shapeSettings);
+                        break;
+                    case (int)ShapeSettings.typeShapes_mode0.L:
+                        offset = lShape_offset(shapeSettings);
+                        break;
+                    case (int)ShapeSettings.typeShapes_mode0.T:
+                        offset = tShape_offset(shapeSettings);
+                        break;
+                    case (int)ShapeSettings.typeShapes_mode0.X:
+                        offset = xShape_offset(shapeSettings);
+                        break;
+                    case (int)ShapeSettings.typeShapes_mode0.U:
+                        offset = uShape_offset(shapeSettings);
+                        break;
+                    case (int)ShapeSettings.typeShapes_mode0.S:
+                        offset = sShape_offset(shapeSettings);
+                        break;
+                    case (int)ShapeSettings.typeShapes_mode0.BOOLEAN:
+                    case (int)ShapeSettings.typeShapes_mode0.GEOCORE:
+                    default:
+                        // customShape_offset(entropyLayerSettings);
+                        break;
+                }
+
                 break;
-            case (int)ShapeSettings.typeShapes.L:
-                offset = lShape_offset(shapeSettings);
-                break;
-            case (int)ShapeSettings.typeShapes.T:
-                offset = tShape_offset(shapeSettings);
-                break;
-            case (int)ShapeSettings.typeShapes.X:
-                offset = xShape_offset(shapeSettings);
-                break;
-            case (int)ShapeSettings.typeShapes.U:
-                offset = uShape_offset(shapeSettings);
-                break;
-            case (int)ShapeSettings.typeShapes.S:
-                offset = sShape_offset(shapeSettings);
-                break;
-            case (int)ShapeSettings.typeShapes.BOOLEAN:
-            case (int)ShapeSettings.typeShapes.GEOCORE:
-            default:
-                // customShape_offset(entropyLayerSettings);
+            case 1:
                 break;
         }
 

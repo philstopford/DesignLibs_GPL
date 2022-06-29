@@ -26,6 +26,42 @@ public class ShapeLibrary
     public MyVertex[] Vertex { get; private set; }
     public MyRound[] round1 { get; private set; }
     public bool[] tips { get; private set; }
+    
+    private class BoundingBox
+    {
+        private GeoLibPointF midPoint;
+        public GeoLibPointF getMidPoint()
+        {
+            return pGetMidPoint();
+        }
+
+        private GeoLibPointF pGetMidPoint()
+        {
+            return midPoint;
+        }
+
+        public BoundingBox(List<GeoLibPointF> incomingPoints)
+        {
+            pBoundingBox(incomingPoints);
+        }
+
+        private void pBoundingBox(List<GeoLibPointF> incomingPoints)
+        {
+            if (incomingPoints == null)
+            {
+                midPoint = new GeoLibPointF(0.0f, 0.0f);
+            }
+            else
+            {
+                var minX = incomingPoints.Min(p => p.X);
+                var minY = incomingPoints.Min(p => p.Y);
+                var maxX = incomingPoints.Max(p => p.X);
+                var maxY = incomingPoints.Max(p => p.Y);
+                midPoint = new GeoLibPointF(minX + (maxX - minX) / 2.0f, minY + (maxY - minY) / 2.0f);
+            }
+        }
+    }
+    
     private ShapeSettings layerSettings;
 
     public ShapeLibrary(ShapeSettings mcLayerSettings)
@@ -2535,5 +2571,37 @@ public class ShapeLibrary
 
         return mcPoints;
         
+    }
+
+    public List<GeoLibPointF> rotateShape(List<GeoLibPointF> input, ShapeSettings shapeSettings, double rotationVar, double rotationDirection, GeoLibPointF pivot = null)
+    {
+        double rotationAngle = Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.rot));
+        if (rotationDirection <= 0.5)
+        {
+            rotationAngle -= rotationVar;
+        }
+        else
+        {
+            rotationAngle += rotationVar;
+        }
+
+        if (rotationAngle != 0 || (shapeSettings.getInt(ShapeSettings.properties_i.flipH) == 1 || shapeSettings.getInt(ShapeSettings.properties_i.flipV) == 1) && (shapeSettings.getInt(ShapeSettings.properties_i.alignX) == 1 || shapeSettings.getInt(ShapeSettings.properties_i.alignY) == 1))
+        {
+            // Get our bounding box.
+            BoundingBox bb = new(input);
+
+            switch (pivot)
+            {
+                case null:
+                    pivot = new GeoLibPointF(bb.getMidPoint());
+                    break;
+            }
+
+            // OK. Let's try some rotation and wobble.
+            // Temporary separate container for our rotated points, just for now.
+            return GeoWrangler.Rotate(pivot, input, rotationAngle);
+        }
+
+        return input;
     }
 }

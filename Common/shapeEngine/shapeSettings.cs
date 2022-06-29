@@ -78,6 +78,10 @@ public class ShapeSettings
     private static readonly int default_LWRNoisePreview = 0;
     private static readonly decimal default_LWRNoiseFreq = 0.2m;
 
+    private static readonly int default_flipH = 0;
+    private static readonly int default_flipV = 0;
+    private static readonly int default_alignGeom = 0;
+
     private int enabled = default_enabled;
     private int shapeIndex = default_shapeIndex;
     private int gCSEngine = default_geoCoreShapeEngine;
@@ -91,6 +95,10 @@ public class ShapeSettings
     private int LWRNoiseType = default_LWRNoiseType;
     private int LWR2NoiseType = default_LWRNoiseType;
     private int proxSideRaysFallOff = default_proximitySideRaysFallOff;
+    private int flipH = default_flipH;
+    private int flipV = default_flipV;
+    private int alignGeomX = default_alignGeom;
+    private int alignGeomY = default_alignGeom;
 
     private static string default_layerName = "";
     
@@ -103,7 +111,8 @@ public class ShapeSettings
         subShapeRefIndex,posInSubShapeIndex,
         edgeSlide,
         proxRays,proxSideRaysFallOff,
-        lwrType, lwr2Type
+        lwrType, lwr2Type,
+        flipH, flipV, alignX, alignY,
     }
 
     public int getInt(properties_i p)
@@ -154,6 +163,18 @@ public class ShapeSettings
                 break;
             case properties_i.lwr2Type:
                 ret = LWR2NoiseType;
+                break;
+            case properties_i.alignX:
+                ret = alignGeomX;
+                break;
+            case properties_i.alignY:
+                ret = alignGeomY;
+                break;
+            case properties_i.flipH:
+                ret = flipH;
+                break;
+            case properties_i.flipV:
+                ret = flipV;
                 break;
         }
 
@@ -208,6 +229,18 @@ public class ShapeSettings
             case properties_i.lwr2Type:
                 LWR2NoiseType = val;
                 break;
+            case properties_i.alignX:
+                alignGeomX = val;
+                break;
+            case properties_i.alignY:
+                alignGeomY = val;
+                break;
+            case properties_i.flipH:
+                flipH = val;
+                break;
+            case properties_i.flipV:
+                flipV = val;
+                break;
         }
     }
 
@@ -258,6 +291,18 @@ public class ShapeSettings
                 break;
             case properties_i.lwr2Type:
                 LWR2NoiseType = default_LWRNoiseType;
+                break;
+            case properties_i.alignX:
+                alignGeomX = default_alignGeom;
+                break;
+            case properties_i.alignY:
+                alignGeomY = default_alignGeom;
+                break;
+            case properties_i.flipH:
+                flipH = default_flipH;
+                break;
+            case properties_i.flipV:
+                flipV = default_flipV;
                 break;
         }
     }
@@ -310,6 +355,18 @@ public class ShapeSettings
                 break;
             case properties_i.lwr2Type:
                 val = default_LWRNoiseType;
+                break;
+            case properties_i.alignX:
+                val = default_alignGeom;
+                break;
+            case properties_i.alignY:
+                val = default_alignGeom;
+                break;
+            case properties_i.flipH:
+                val = default_flipH;
+                break;
+            case properties_i.flipV:
+                val = default_flipV;
                 break;
         }
 

@@ -42,16 +42,13 @@ public class ShapeLibrary
 
         public BoundingBox(List<GeoLibPointF> incomingPoints)
         {
+            midPoint = new GeoLibPointF(0.0f, 0.0f);
             pBoundingBox(incomingPoints);
         }
 
         private void pBoundingBox(List<GeoLibPointF> incomingPoints)
         {
-            if (incomingPoints == null)
-            {
-                midPoint = new GeoLibPointF(0.0f, 0.0f);
-            }
-            else
+            if (incomingPoints.Count > 0)
             {
                 var minX = incomingPoints.Min(p => p.X);
                 var minY = incomingPoints.Min(p => p.Y);
@@ -62,10 +59,13 @@ public class ShapeLibrary
         }
     }
     
-    private ShapeSettings layerSettings;
+    private ShapeSettings layerSettings = new();
 
     public ShapeLibrary(ShapeSettings mcLayerSettings)
     {
+        Vertex = new MyVertex[1];
+        round1 = new MyRound[1];
+        tips = new bool[1];
         pShapeLibrary(mcLayerSettings);
     }
 
@@ -77,6 +77,9 @@ public class ShapeLibrary
 
     public ShapeLibrary(int shapeIndex_, ShapeSettings mcLayerSettings)
     {
+        Vertex = new MyVertex[1];
+        round1 = new MyRound[1];
+        tips = new bool[1];
         pShapeLibrary(shapeIndex_, mcLayerSettings);
     }
 
@@ -88,12 +91,12 @@ public class ShapeLibrary
         pSetShape(shapeIndex);
     }
 
-    public void setShape(int shapeIndex_, GeoLibPointF[] sourcePoly = null)
+    public void setShape(int shapeIndex_, GeoLibPointF[]? sourcePoly = null)
     {
         pSetShape(shapeIndex_, sourcePoly);
     }
 
-    private void pSetShape(int shapeIndex_, GeoLibPointF[] sourcePoly = null)
+    private void pSetShape(int shapeIndex_, GeoLibPointF[]? sourcePoly = null)
     {
         try
         {
@@ -124,11 +127,17 @@ public class ShapeLibrary
                         customShape(sourcePoly);
                     }
                     break;
+                default:
+                    throw new Exception();
+                    break;
             }
         }
         catch (Exception)
         {
-
+            Vertex = new MyVertex[1];
+            tips = new [] { false };
+            layerSettings = new();
+            round1 = new MyRound[1];
         }
     }
 
@@ -1490,7 +1499,7 @@ public class ShapeLibrary
     }
 
     // Intended to take geometry from an external source and map it into our shape engine.
-    private void customShape(GeoLibPointF[] sourcePoly)
+    private void customShape(GeoLibPointF[]? sourcePoly)
     {
         if (sourcePoly == null)
         {
@@ -2572,7 +2581,7 @@ public class ShapeLibrary
         
     }
 
-    public List<GeoLibPointF> rotateShape(List<GeoLibPointF> input, ShapeSettings shapeSettings, double rotationVar, double rotationDirection, GeoLibPointF pivot = null)
+    public List<GeoLibPointF> rotateShape(List<GeoLibPointF> input, ShapeSettings shapeSettings, double rotationVar, double rotationDirection, GeoLibPointF? pivot = null)
     {
         double rotationAngle = Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.rot));
         if (rotationDirection <= 0.5)

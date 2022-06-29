@@ -75,7 +75,6 @@ public class ShapeSettings
 
     private static readonly decimal default_LWR = 0;
     private static readonly int default_LWRNoiseType = (int)NoiseC.noiseIndex.perlin;
-    private static readonly int default_LWRNoisePreview = 0;
     private static readonly decimal default_LWRNoiseFreq = 0.2m;
 
     private static readonly int default_flipH = 0;
@@ -917,7 +916,7 @@ public class ShapeSettings
         return ret;
     }
 
-    private string layerName;
+    private string layerName = "";
 
     public enum properties_s
     {
@@ -935,6 +934,9 @@ public class ShapeSettings
         {
             case properties_s.s_name:
                 layerName = val;
+                break;
+            default:
+                layerName = "";
                 break;
         }
         

@@ -92,9 +92,9 @@ public class ShapeSettings
     private int posInSubShapeIndex = default_posInSubShapeIndex;
     private int edgeSlide = default_edgeSlide;
     private int proximitySideRays = default_proximitySideRays;
+    private int proxSideRaysFallOff = default_proximitySideRaysFallOff;
     private int LWRNoiseType = default_LWRNoiseType;
     private int LWR2NoiseType = default_LWRNoiseType;
-    private int proxSideRaysFallOff = default_proximitySideRaysFallOff;
     private int flipH = default_flipH;
     private int flipV = default_flipV;
     private int alignGeomX = default_alignGeom;
@@ -105,8 +105,8 @@ public class ShapeSettings
     public enum properties_i
     {
         enabled,
-        gCSEngine,
         shapeIndex,
+        gCSEngine,
         subShapeTipLocIndex, subShape2TipLocIndex, subShape3TipLocIndex,
         subShapeRefIndex,posInSubShapeIndex,
         edgeSlide,
@@ -128,11 +128,11 @@ public class ShapeSettings
             case properties_i.enabled:
                 ret = enabled;
                 break;
-            case properties_i.gCSEngine:
-                ret = gCSEngine;
-                break;
             case properties_i.shapeIndex:
                 ret = shapeIndex;
+                break;
+            case properties_i.gCSEngine:
+                ret = gCSEngine;
                 break;
             case properties_i.subShapeTipLocIndex:
                 ret = subShapeTipLocIndex;
@@ -164,17 +164,17 @@ public class ShapeSettings
             case properties_i.lwr2Type:
                 ret = LWR2NoiseType;
                 break;
-            case properties_i.alignX:
-                ret = alignGeomX;
-                break;
-            case properties_i.alignY:
-                ret = alignGeomY;
-                break;
             case properties_i.flipH:
                 ret = flipH;
                 break;
             case properties_i.flipV:
                 ret = flipV;
+                break;
+            case properties_i.alignX:
+                ret = alignGeomX;
+                break;
+            case properties_i.alignY:
+                ret = alignGeomY;
                 break;
         }
 
@@ -193,11 +193,11 @@ public class ShapeSettings
             case properties_i.enabled:
                 enabled = val;
                 break;
-            case properties_i.gCSEngine:
-                gCSEngine = val;
-                break;
             case properties_i.shapeIndex:
                 shapeIndex = val;
+                break;
+            case properties_i.gCSEngine:
+                gCSEngine = val;
                 break;
             case properties_i.subShapeTipLocIndex:
                 subShapeTipLocIndex = val;
@@ -229,17 +229,17 @@ public class ShapeSettings
             case properties_i.lwr2Type:
                 LWR2NoiseType = val;
                 break;
-            case properties_i.alignX:
-                alignGeomX = val;
-                break;
-            case properties_i.alignY:
-                alignGeomY = val;
-                break;
             case properties_i.flipH:
                 flipH = val;
                 break;
             case properties_i.flipV:
                 flipV = val;
+                break;
+            case properties_i.alignX:
+                alignGeomX = val;
+                break;
+            case properties_i.alignY:
+                alignGeomY = val;
                 break;
         }
     }
@@ -256,11 +256,11 @@ public class ShapeSettings
             case properties_i.enabled:
                 enabled = default_enabled;
                 break;
+            case properties_i.shapeIndex:
+                shapeIndex = default_shapeIndex;
+                break;
             case properties_i.gCSEngine:
                 gCSEngine = default_geoCoreShapeEngine;
-                break;
-            case properties_i.posInSubShapeIndex:
-                posInSubShapeIndex = default_posInSubShapeIndex;
                 break;
             case properties_i.subShapeTipLocIndex:
                 subShapeTipLocIndex = default_subShapeTipLocIndex;
@@ -271,11 +271,11 @@ public class ShapeSettings
             case properties_i.subShape3TipLocIndex:
                 subShape3TipLocIndex = default_subShape3TipLocIndex;
                 break;
-            case properties_i.shapeIndex:
-                shapeIndex = default_shapeIndex;
-                break;
             case properties_i.subShapeRefIndex:
                 subShapeRefIndex = default_subShapeRefIndex;
+                break;
+            case properties_i.posInSubShapeIndex:
+                posInSubShapeIndex = default_posInSubShapeIndex;
                 break;
             case properties_i.edgeSlide:
                 edgeSlide = default_edgeSlide;
@@ -292,17 +292,17 @@ public class ShapeSettings
             case properties_i.lwr2Type:
                 LWR2NoiseType = default_LWRNoiseType;
                 break;
-            case properties_i.alignX:
-                alignGeomX = default_alignGeom;
-                break;
-            case properties_i.alignY:
-                alignGeomY = default_alignGeom;
-                break;
             case properties_i.flipH:
                 flipH = default_flipH;
                 break;
             case properties_i.flipV:
                 flipV = default_flipV;
+                break;
+            case properties_i.alignX:
+                alignGeomX = default_alignGeom;
+                break;
+            case properties_i.alignY:
+                alignGeomY = default_alignGeom;
                 break;
         }
     }
@@ -320,11 +320,11 @@ public class ShapeSettings
             case properties_i.enabled:
                 val = default_enabled;
                 break;
+            case properties_i.shapeIndex:
+                val = default_shapeIndex;
+                break;
             case properties_i.gCSEngine:
                 val = default_geoCoreShapeEngine;
-                break;
-            case properties_i.posInSubShapeIndex:
-                val = default_posInSubShapeIndex;
                 break;
             case properties_i.subShapeTipLocIndex:
                 val = default_subShapeTipLocIndex;
@@ -335,11 +335,11 @@ public class ShapeSettings
             case properties_i.subShape3TipLocIndex:
                 val = default_subShape3TipLocIndex;
                 break;
-            case properties_i.shapeIndex:
-                val = default_shapeIndex;
-                break;
             case properties_i.subShapeRefIndex:
                 val = default_subShapeRefIndex;
+                break;
+            case properties_i.posInSubShapeIndex:
+                val = default_posInSubShapeIndex;
                 break;
             case properties_i.edgeSlide:
                 val = default_edgeSlide;
@@ -356,17 +356,17 @@ public class ShapeSettings
             case properties_i.lwr2Type:
                 val = default_LWRNoiseType;
                 break;
-            case properties_i.alignX:
-                val = default_alignGeom;
-                break;
-            case properties_i.alignY:
-                val = default_alignGeom;
-                break;
             case properties_i.flipH:
                 val = default_flipH;
                 break;
             case properties_i.flipV:
                 val = default_flipV;
+                break;
+            case properties_i.alignX:
+                val = default_alignGeom;
+                break;
+            case properties_i.alignY:
+                val = default_alignGeom;
                 break;
         }
 
@@ -537,11 +537,11 @@ public class ShapeSettings
             case properties_decimal.lwr:
                 ret = LWR;
                 break;
-            case properties_decimal.lwr2:
-                ret = LWR2;
-                break;
             case properties_decimal.lwrFreq:
                 ret = LWRNoiseFreq;
+                break;
+            case properties_decimal.lwr2:
+                ret = LWR2;
                 break;
             case properties_decimal.lwr2Freq:
                 ret = LWR2NoiseFreq;
@@ -561,11 +561,11 @@ public class ShapeSettings
             case properties_decimal.proxSideRaysMultiplier:
                 ret = proxSideRaysMultiplier;
                 break;
-            case properties_decimal.keyhole_factor:
-                ret = gcRayExtension;
-                break;
             case properties_decimal.rayExtension:
                 ret = rayExtension;
+                break;
+            case properties_decimal.keyhole_factor:
+                ret = gcRayExtension;
                 break;
         }
 
@@ -653,11 +653,11 @@ public class ShapeSettings
             case properties_decimal.lwr:
                 LWR = val;
                 break;
-            case properties_decimal.lwr2:
-                LWR2 = val;
-                break;
             case properties_decimal.lwrFreq:
                 LWRNoiseFreq = val;
+                break;
+            case properties_decimal.lwr2:
+                LWR2 = val;
                 break;
             case properties_decimal.lwr2Freq:
                 LWR2NoiseFreq = val;
@@ -767,11 +767,11 @@ public class ShapeSettings
             case properties_decimal.lwr:
                 LWR = default_LWR;
                 break;
-            case properties_decimal.lwr2:
-                LWR2 = default_LWR;
-                break;
             case properties_decimal.lwrFreq:
                 LWRNoiseFreq = default_LWRNoiseFreq;
+                break;
+            case properties_decimal.lwr2:
+                LWR2 = default_LWR;
                 break;
             case properties_decimal.lwr2Freq:
                 LWR2NoiseFreq = default_LWRNoiseFreq;
@@ -882,11 +882,11 @@ public class ShapeSettings
             case properties_decimal.lwr:
                 ret = default_LWR;
                 break;
-            case properties_decimal.lwr2:
-                ret = default_LWR;
-                break;
             case properties_decimal.lwrFreq:
                 ret = default_LWRNoiseFreq;
+                break;
+            case properties_decimal.lwr2:
+                ret = default_LWR;
                 break;
             case properties_decimal.lwr2Freq:
                 ret = default_LWRNoiseFreq;

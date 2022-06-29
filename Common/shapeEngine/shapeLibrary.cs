@@ -1,5 +1,6 @@
 ﻿using geoLib;
 using geoWrangler;
+using utility;
 
 namespace shapeEngine;
 
@@ -1725,5 +1726,814 @@ public class ShapeLibrary
 #if !SHAPELIBSINGLETHREADED
         );
 #endif
+    }
+
+    public void computeTips(double gTipBias, double hTipBias, double hTipBiasType, double hTipBiasNegVar, double hTipBiasPosVar, double vTipBias, double vTipBiasType, double vTipBiasNegVar, double vTipBiasPosVar)
+    {
+        // Wrangle the tips.
+        for (int cp = 0; cp < Vertex.Length - 1; cp++) // We don't drive the last point directly - we'll close our shape.
+        {
+            if (!tips[cp])
+            {
+                continue;
+            }
+
+            // Note that these are reversed due to top-left origin of drawing!
+            // A positive bias shrinks the shape in this code.....
+            // Values below are correlated in the MCControl system for simulations. In preview mode, these are all zero.
+            if (Vertex[cp].direction == typeDirection.down1 && Vertex[cp].yBiasApplied == false)
+            {
+                Vertex[cp].Y -= vTipBias;
+                Vertex[cp].Y -= Convert.ToDouble(gTipBias);
+                if (vTipBiasType < 0.5) // Need to use our negative variation value
+                {
+                    Vertex[cp].Y -= vTipBiasNegVar;
+                }
+                else
+                {
+                    Vertex[cp].Y -= vTipBiasPosVar;
+                }
+                Vertex[cp].yBiasApplied = true;
+            }
+            if (Vertex[cp].direction == typeDirection.up1 && Vertex[cp].yBiasApplied == false)
+            {
+                Vertex[cp].Y += vTipBias;
+                Vertex[cp].Y += gTipBias;
+                if (vTipBiasType < 0.5) // Need to use our negative variation value
+                {
+                    Vertex[cp].Y += vTipBiasNegVar;
+                }
+                else
+                {
+                    Vertex[cp].Y += vTipBiasPosVar;
+                }
+                Vertex[cp].yBiasApplied = true;
+            }
+            if (Vertex[cp].direction == typeDirection.left1 && Vertex[cp].xBiasApplied == false)
+            {
+                Vertex[cp].X -= hTipBias;
+                Vertex[cp].X -= gTipBias;
+                if (hTipBiasType < 0.5) // Need to use our negative variation value
+                {
+                    Vertex[cp].X -= hTipBiasNegVar;
+                }
+                else
+                {
+                    Vertex[cp].X -= hTipBiasPosVar;
+                }
+                Vertex[cp].xBiasApplied = true;
+            }
+
+            if (Vertex[cp].direction != typeDirection.right1 || Vertex[cp].xBiasApplied != false)
+            {
+                continue;
+            }
+
+            Vertex[cp].X += hTipBias;
+            Vertex[cp].X += gTipBias;
+            if (hTipBiasType < 0.5) // Need to use our negative variation value
+            {
+                Vertex[cp].X += hTipBiasNegVar;
+            }
+            else
+            {
+                Vertex[cp].X += hTipBiasPosVar;
+            }
+            Vertex[cp].xBiasApplied = true;
+        }
+    }
+
+    public void computeBias(double gSideBias)
+    {
+        // Global bias for anything that isn't a tip.
+        for (int cp = 0; cp < Vertex.Length - 1; cp++) // We don't drive the last point directly - we'll close our shape.
+        {
+            if (!Vertex[cp].xBiasApplied && !tips[cp])
+            {
+                switch (Vertex[cp].direction)
+                {
+                    case typeDirection.left1:
+                        Vertex[cp].X -= gSideBias;
+                        break;
+                    case typeDirection.right1:
+                        Vertex[cp].X += gSideBias;
+                        break;
+                }
+            }
+            if (!Vertex[cp].yBiasApplied && !tips[cp])
+            {
+                switch (Vertex[cp].direction)
+                {
+                    case typeDirection.up1:
+                        Vertex[cp].Y += gSideBias;
+                        break;
+                    case typeDirection.down1:
+                        Vertex[cp].Y -= gSideBias;
+                        break;
+                }
+            }
+        }
+    }
+
+    public void biasCorners()
+    {
+        // Iterate the corners to apply the bias from the edges.
+        foreach (MyRound t in round1)
+        {
+            Vertex[t.index].X = Vertex[t.verFace].X;
+            Vertex[t.index].Y = Vertex[t.horFace].Y;
+        }
+
+        Vertex[^1] = Vertex[0]; // close the shape.
+        round1[^1] = round1[0];
+    }
+
+    public void edgeMidpoints(int edgeSlide, double eTension)
+    {
+        // Set the midpoints of the edges to the average between the two corners
+        for (int corner = 0; corner < round1.Length; corner++)
+        {
+            double previousEdgeLength;
+
+            if (corner == 0)
+            {
+                previousEdgeLength = Math.Abs(
+                    GeoWrangler.distanceBetweenPoints(new GeoLibPointF(Vertex[round1[corner].index].X, Vertex[round1[corner].index].Y),
+                        new GeoLibPointF(Vertex[round1[^1].index].X, Vertex[round1[^1].index].Y))
+                );
+            }
+            else
+            {
+                previousEdgeLength = Math.Abs(
+                    GeoWrangler.distanceBetweenPoints(new GeoLibPointF(Vertex[round1[corner].index].X, Vertex[round1[corner].index].Y),
+                        new GeoLibPointF(Vertex[round1[corner - 1].index].X, Vertex[round1[corner - 1].index].Y))
+                );
+            }
+
+            // Wrap around if we exceed the length
+            double nextEdgeLength = Math.Abs(
+                GeoWrangler.distanceBetweenPoints(new GeoLibPointF(Vertex[round1[(corner + 1) % (round1.Length - 1)].index].X, Vertex[round1[(corner + 1) % (round1.Length - 1)].index].Y),
+                    new GeoLibPointF(Vertex[round1[(corner + 2) % (round1.Length - 1)].index].X, Vertex[round1[(corner + 2) % (round1.Length - 1)].index].Y))
+            );
+
+            double currentEdgeLength = Math.Abs(
+                GeoWrangler.distanceBetweenPoints(new GeoLibPointF(Vertex[round1[corner].index].X, Vertex[round1[corner].index].Y),
+                    new GeoLibPointF(Vertex[round1[(corner + 1) % (round1.Length - 1)].index].X, Vertex[round1[(corner + 1) % (round1.Length - 1)].index].Y))
+            );
+
+            double offset = 0.5f * currentEdgeLength;
+            bool reverseSlide = true; // used in the linear mode to handle reversed case (where ratio is > 1), and the no-slide case.)
+
+            if (edgeSlide == 1 && previousEdgeLength > 0 && nextEdgeLength > 0)
+            {
+                // Now we need to figure out the weighting.
+                double ratio = Math.Abs(nextEdgeLength / previousEdgeLength);
+                bool doLinearSlide = false;
+
+                if (ratio < 1)
+                {
+                    reverseSlide = false;
+                    if (ratio < 1E-2)
+                    {
+                        ratio = 1E-2; // clamp
+                    }
+                    ratio = 1 / ratio; // normalize into our expected range
+                }
+
+                if (doLinearSlide)
+                {
+                    // Linear
+                    offset = Math.Pow(currentEdgeLength / 2.0f, 1.0f / ratio); // ratio * currentEdgeLength / 2.0f;
+                }
+                else
+                {
+                    // Sigmoid function to try and provide some upper and lower resistance to the slide.
+                    // center is to force 0.5 value of the scaling factor for a ratio of 1
+                    // tension controls the shape of the curve, and thus the sensitivity of the response..
+                    double center = 1.0f;
+                    offset = currentEdgeLength * (1 / (1 + Math.Exp(-eTension * (center - ratio))));
+                }
+            }
+
+            if (corner % 2 == 0)
+            {
+                // Get our associated vertical edge Y position
+                double yPoint1;
+                double yPoint2 = Vertex[round1[(corner + 1) % (round1.Length - 1)].horFace].Y;
+                switch (corner)
+                {
+                    case 0:
+                        // Need to wrap around for bias look-up
+                        yPoint1 = Vertex[round1[^1].horFace].Y;
+                        break;
+                    default:
+                        yPoint1 = Vertex[round1[corner].horFace].Y;
+                        break;
+                }
+
+                if (yPoint1 < yPoint2)
+                {
+                    if (reverseSlide)
+                    {
+                        Vertex[round1[corner].verFace].Y = yPoint2 - offset;
+                    }
+                    else
+                    {
+                        Vertex[round1[corner].verFace].Y = yPoint1 + offset;
+                    }
+                }
+                else
+                {
+                    if (reverseSlide)
+                    {
+                        Vertex[round1[corner].verFace].Y = yPoint2 + offset;
+                    }
+                    else
+                    {
+                        Vertex[round1[corner].verFace].Y = yPoint1 - offset;
+                    }
+                }
+            }
+            else
+            {
+                // Tweak horizontal edge
+                double xPoint1 = Vertex[round1[corner].verFace].X;
+                double xPoint2 = Vertex[round1[(corner + 1) % (round1.Length - 1)].verFace].X;
+
+                if (xPoint1 < xPoint2)
+                {
+                    if (reverseSlide)
+                    {
+                        Vertex[round1[corner].horFace].X = xPoint2 - offset;
+                    }
+                    else
+                    {
+                        Vertex[round1[corner].horFace].X = xPoint1 + offset;
+                    }
+                }
+                else
+                {
+                    if (reverseSlide)
+                    {
+                        Vertex[round1[corner].horFace].X = xPoint2 + offset;
+                    }
+                    else
+                    {
+                        Vertex[round1[corner].horFace].X = xPoint1 - offset;
+                    }
+                }
+            }
+        }
+    }
+    
+    public List<GeoLibPointF> processCorners(bool previewMode, bool cornerCheck, bool ignoreCV, double s0HO, double s0VO, double iCR, double iCV, double iCVariation, bool iCPA, double oCR, double oCV, double oCVariation, bool oCPA, int cornerSegments, int optimizeCorners, double resolution, int scaleFactorForOperation)
+    {
+
+        Fragmenter fragment = new Fragmenter(resolution, scaleFactorForOperation);
+        List<GeoLibPointF> mcPoints = new();
+        List<GeoLibPointF> mcHorEdgePoints = new(); // corner coordinates list, used as a temporary container for each iteration
+        List<List<GeoLibPointF>> mcHorEdgePointsList = new(); // Hold our lists of doubles for each corner in the shape, in order. We cast these to Int in the mcPoints list.
+        List<List<GeoLibPointF>> mcVerEdgePointsList = new(); // Hold our lists of doubles for each edge in the shape, in order. We cast these to Int in the mcPoints list.
+            
+        for (int round = 0; round < round1.Length - 1; round++)
+        {
+            // Derive our basic coordinates for the three vertices on the edge.
+            double start_x = Vertex[round1[round].index].X;
+            double start_y = Vertex[round1[round].index].Y;
+            double currentHorEdge_mid_x = Vertex[round1[round].horFace].X;
+            double currentVerEdge_mid_y = Vertex[round1[round].verFace].Y;
+            double end_x = Vertex[round1[round + 1].index].X;
+            double end_y = Vertex[round1[round + 1].index].Y;
+            double nextVerEdge_mid_y = Vertex[round1[round + 1].verFace].Y;
+
+            switch (Math.Abs(start_y - end_y))
+            {
+                // Test whether we have a vertical edge or not. We only process horizontal edges to avoid doubling up
+                case < double.Epsilon:
+                {
+                    double mcPX;
+                    double mcPY = 0.0f;
+                    // Establish corner rounding sign at start and end points of edge. Default is to move outwards (inner CRR)
+                    bool startInnerRounding = true;
+                    bool endInnerRounding = true;
+                    if (round1[round].direction == typeRound.exter)
+                    {
+                        startInnerRounding = false;
+                    }
+                    if (round1[round + 1].direction == typeRound.exter)
+                    {
+                        endInnerRounding = false;
+                    }
+
+                    // Now sort out the shift based on face orientation.
+                    bool horFaceUp = true;
+                    switch (Vertex[round1[round].horFace].direction)
+                    {
+                        case typeDirection.up1:
+                            break;
+                        case typeDirection.down1:
+                            horFaceUp = false;
+                            break;
+                    }
+                    bool verFaceLeft = true;
+                    switch (Vertex[round1[round].verFace].direction)
+                    {
+                        case typeDirection.left1:
+                            break;
+                        case typeDirection.right1:
+                            verFaceLeft = false;
+                            break;
+                    }
+
+                    // Segment 1
+
+                    // Clamp radius in each direction, if needed, to available distance
+                    double hRadius = round1[round].MaxRadius;
+                    double x_Distance = Math.Sqrt(Utils.myPow(currentHorEdge_mid_x - start_x, 2));
+                    double vRadius = round1[round].MaxRadius;
+                    double y_Distance = Math.Sqrt(Utils.myPow(currentVerEdge_mid_y - start_y, 2));
+
+                    // Add our random variation based on rounding type :
+                    bool paSearchSetsCornerRoundingForThisCorner = false;
+
+                    if (ignoreCV)
+                    {
+                        // Are we on a corner that has a PA-defined rounding value?
+                        switch (startInnerRounding)
+                        {
+                            case true:
+                                paSearchSetsCornerRoundingForThisCorner = iCPA;
+                                break;
+                            default:
+                                paSearchSetsCornerRoundingForThisCorner = oCPA;
+                                break;
+                        }
+                    }
+
+                    // PA search works by setting rounding value directly in the settings, no variation needs to be added.
+                    if (paSearchSetsCornerRoundingForThisCorner)
+                    {
+                        if (startInnerRounding)
+                        {
+                            hRadius = iCVariation * iCR;
+                            vRadius = iCVariation * iCR;
+                        }
+                        else
+                        {
+                            hRadius = oCVariation * oCR;
+                            vRadius = oCVariation * oCR;
+                        }
+                    }
+                    else
+                    {
+                        if (!previewMode)
+                        {
+                            if (startInnerRounding)
+                            {
+                                hRadius += iCVariation * iCV;
+                                vRadius += iCVariation * iCV;
+                            }
+                            else
+                            {
+                                hRadius += oCVariation * oCV;
+                                vRadius += oCVariation * oCV;
+                            }
+                        }
+                    }
+
+                    if (hRadius > x_Distance)
+                    {
+                        hRadius = x_Distance;
+                    }
+                    if (vRadius > y_Distance)
+                    {
+                        vRadius = y_Distance;
+                    }
+
+                    // Clamp for negative radius values that would make no sense
+                    if (hRadius < 0)
+                    {
+                        hRadius = 0;
+                    }
+                    if (vRadius < 0)
+                    {
+                        vRadius = 0;
+                    }
+
+                    double angleIncrement = 90.0f / cornerSegments;
+
+                    // Sweep our corner.
+                    double angle = 0.0f;
+                    while (angle <= 90.0f)
+                    {
+                        // Set start condition
+                        mcPX = start_x; // X position for new point.
+                        mcPY = start_y; // this will hold our Y position for the new point.
+
+                        // Remove full contribution from rounding.
+                        if (verFaceLeft)
+                        {
+                            if (startInnerRounding)
+                            {
+                                mcPX -= hRadius;
+                            }
+                            else
+                            {
+                                mcPX += hRadius;
+                            }
+                        }
+                        else
+                        {
+                            if (startInnerRounding)
+                            {
+                                mcPX += hRadius;
+                            }
+                            else
+                            {
+                                mcPX -= hRadius;
+                            }
+                        }
+                        if (horFaceUp)
+                        {
+                            if (startInnerRounding)
+                            {
+                                mcPY += vRadius;
+                            }
+                            else
+                            {
+                                mcPY -= vRadius;
+                            }
+                        }
+                        else
+                        {
+                            if (startInnerRounding)
+                            {
+                                mcPY -= vRadius;
+                            }
+                            else
+                            {
+                                mcPY += vRadius;
+                            }
+                        }
+
+                        // Now process corner, adding back contribution from rounding
+                        if (verFaceLeft)
+                        {
+                            if (startInnerRounding)
+                            {
+                                mcPX += hRadius * Math.Cos(Utils.toRadians(angle));
+                            }
+                            else
+                            {
+                                mcPX -= hRadius * Math.Cos(Utils.toRadians(angle));
+                            }
+                        }
+                        else
+                        {
+                            if (startInnerRounding)
+                            {
+                                mcPX -= hRadius * Math.Cos(Utils.toRadians(angle));
+                            }
+                            else
+                            {
+                                mcPX += hRadius * Math.Cos(Utils.toRadians(angle));
+                            }
+                        }
+                        if (horFaceUp)
+                        {
+                            if (startInnerRounding)
+                            {
+                                mcPY -= vRadius * Math.Sin(Utils.toRadians(angle));
+                            }
+                            else
+                            {
+                                mcPY += vRadius * Math.Sin(Utils.toRadians(angle));
+                            }
+                        }
+                        else
+                        {
+                            if (startInnerRounding)
+                            {
+                                mcPY += vRadius * Math.Sin(Utils.toRadians(angle));
+                            }
+                            else
+                            {
+                                mcPY -= vRadius * Math.Sin(Utils.toRadians(angle));
+                            }
+                        }
+
+                        GeoLibPointF cPt = new(mcPX, mcPY);
+                        if (angle == 0 || Math.Abs(angle - 90) < double.Epsilon || optimizeCorners == 0 ||
+                            optimizeCorners == 1 &&
+                            Math.Abs(
+                                GeoWrangler.distanceBetweenPoints(mcHorEdgePoints[^1], cPt)
+                            )
+                            > resolution
+                           )
+                        {
+                            mcHorEdgePoints.Add(cPt);
+                        }
+                        angle += angleIncrement;
+                    }
+
+                    // OK. We now need to add points along the edge based on the simulation settings resolution.
+                    // We need to add points from here to just before the midpoint
+
+                    double bridgeX = mcHorEdgePoints[^1].X;
+
+                    // Fragmenter returns first and last points in the point array.
+                    GeoLibPointF[] fragments = fragment.fragmentPath(new [] { new GeoLibPointF(bridgeX, mcPY), new GeoLibPointF(currentHorEdge_mid_x, mcPY) });
+
+                    for (int i = 1; i < fragments.Length - 1; i++)
+                    {
+                        mcHorEdgePoints.Add(fragments[i]);
+                    }
+
+                    // Add our midpoint.
+                    mcHorEdgePoints.Add(new GeoLibPointF(currentHorEdge_mid_x, mcPY));
+
+                    // Segment 2, plus bridging on first pass through.
+
+                    bool firstPass = true; // With this set, we bridge from midpoint to our first point in the first pass through
+                    // segment 2 of the edge.
+                    verFaceLeft = true;
+                    switch (Vertex[round1[round + 1].verFace].direction)
+                    {
+                        case typeDirection.left1:
+                            break;
+                        case typeDirection.right1:
+                            verFaceLeft = false;
+                            break;
+                    }
+
+                    // Clamp radius to available distance, if needed.
+                    hRadius = round1[round + 1].MaxRadius;
+                    x_Distance = Math.Sqrt(Utils.myPow(currentHorEdge_mid_x - end_x, 2));
+                    vRadius = round1[round + 1].MaxRadius;
+                    y_Distance = Math.Sqrt(Utils.myPow(nextVerEdge_mid_y - end_y, 2));
+
+                    // Add our random variation based on rounding type :
+
+                    paSearchSetsCornerRoundingForThisCorner = false;
+                    if (ignoreCV)
+                    {
+                        switch (startInnerRounding)
+                        {
+                            case true:
+                                paSearchSetsCornerRoundingForThisCorner = iCPA;
+                                break;
+                            default:
+                                paSearchSetsCornerRoundingForThisCorner = oCPA;
+                                break;
+                        }
+                    }
+
+                    if (paSearchSetsCornerRoundingForThisCorner)
+                    {
+                        if (startInnerRounding)
+                        {
+                            hRadius = iCVariation * iCR;
+                            vRadius = iCVariation * iCR;
+                        }
+                        else
+                        {
+                            hRadius = oCVariation * oCR;
+                            vRadius = oCVariation * oCR;
+                        }
+                    }
+                    else
+                    {
+                        // Add our random variation based on rounding type :
+                        if (!previewMode)
+                        {
+                            if (endInnerRounding)
+                            {
+                                hRadius += iCVariation * iCV;
+                                vRadius += iCVariation * iCV;
+                            }
+                            else
+                            {
+                                hRadius += oCVariation * oCV;
+                                vRadius += oCVariation * oCV;
+                            }
+                        }
+                    }
+
+                    if (hRadius > x_Distance)
+                    {
+                        hRadius = x_Distance;
+                    }
+                    if (vRadius > y_Distance)
+                    {
+                        vRadius = y_Distance;
+                    }
+
+                    // Clamp for negative radius values that would make no sense
+                    if (hRadius < 0)
+                    {
+                        hRadius = 0;
+                    }
+                    if (vRadius < 0)
+                    {
+                        vRadius = 0;
+                    }
+
+                    // Sweep our end corner. We need to run the sweep in the opposite direction.
+                    angle = 90.0f;
+                    while (angle >= 0.0f)
+                    {
+                        // Set start conditions
+                        mcPX = end_x;
+                        mcPY = end_y;
+
+                        // Remove full extent of rounding in each direction, based on face orientation
+                        if (verFaceLeft)
+                        {
+                            if (endInnerRounding)
+                            {
+                                mcPX -= hRadius;
+                            }
+                            else
+                            {
+                                mcPX += hRadius;
+                            }
+                        }
+                        else
+                        {
+                            if (endInnerRounding)
+                            {
+                                mcPX += hRadius;
+                            }
+                            else
+                            {
+                                mcPX -= hRadius;
+                            }
+                        }
+                        if (horFaceUp)
+                        {
+                            if (endInnerRounding)
+                            {
+                                mcPY += vRadius;
+                            }
+                            else
+                            {
+                                mcPY -= vRadius;
+                            }
+                        }
+                        else
+                        {
+                            if (endInnerRounding)
+                            {
+                                mcPY -= vRadius;
+                            }
+                            else
+                            {
+                                mcPY += vRadius;
+                            }
+                        }
+
+                        // Process corners, adding back the contribution from the rounding based on the angle
+                        if (verFaceLeft)
+                        {
+                            if (endInnerRounding)
+                            {
+                                mcPX += hRadius * Math.Cos(Utils.toRadians(angle));
+                            }
+                            else
+                            {
+                                mcPX -= hRadius * Math.Cos(Utils.toRadians(angle));
+                            }
+                        }
+                        else
+                        {
+                            if (endInnerRounding)
+                            {
+                                mcPX -= hRadius * Math.Cos(Utils.toRadians(angle));
+                            }
+                            else
+                            {
+                                mcPX += hRadius * Math.Cos(Utils.toRadians(angle));
+                            }
+                        }
+                        if (horFaceUp)
+                        {
+                            if (endInnerRounding)
+                            {
+                                mcPY -= vRadius * Math.Sin(Utils.toRadians(angle));
+                            }
+                            else
+                            {
+                                mcPY += vRadius * Math.Sin(Utils.toRadians(angle));
+                            }
+                        }
+                        else
+                        {
+                            if (endInnerRounding)
+                            {
+                                mcPY += vRadius * Math.Sin(Utils.toRadians(angle));
+                            }
+                            else
+                            {
+                                mcPY -= vRadius * Math.Sin(Utils.toRadians(angle));
+                            }
+                        }
+
+                        // If this is the first pass, we need to add points to the start of the rounding, from the midpoint.
+                        if (firstPass)
+                        {
+                            bridgeX = currentHorEdge_mid_x;
+
+                            // Fragmenter returns first and last points in the point array.
+                            fragments = fragment.fragmentPath(new [] { new GeoLibPointF(bridgeX, mcPY), new GeoLibPointF(mcPX, mcPY) });
+
+                            for (int i = 1; i < fragments.Length - 1; i++)
+                            {
+                                mcHorEdgePoints.Add(fragments[i]);
+                            }
+
+                            firstPass = false;
+                        }
+
+                        GeoLibPointF cPt = new(mcPX, mcPY);
+                        if (angle == 0 || Math.Abs(angle - 90) < double.Epsilon || optimizeCorners == 0 ||
+                            optimizeCorners == 1 &&
+                            Math.Abs(
+                                GeoWrangler.distanceBetweenPoints(mcHorEdgePoints[^1], cPt)
+                            )
+                            > resolution
+                           )
+                        {
+                            mcHorEdgePoints.Add(cPt);
+                        }
+                        angle -= angleIncrement;
+                    }
+
+                    mcHorEdgePointsList.Add(mcHorEdgePoints.ToList()); // make a deep copy of the points.
+                    mcHorEdgePoints.Clear(); // clear our list of points to use on the next pass.
+                    break;
+                }
+            }
+        }
+
+        if (cornerCheck)
+        {
+            mcPoints.Clear();
+            foreach (List<GeoLibPointF> t in mcHorEdgePointsList)
+            {
+                foreach (GeoLibPointF t1 in t)
+                {
+                    mcPoints.Add(new GeoLibPointF(t1.X, t1.Y));
+                }
+            }
+            return GeoWrangler.close(mcPoints);
+        }
+
+        // Now we have our corners, let's process the vertical edges. We need the corners in order to get our start/end on each vertical edge.
+        for (int edge = 0; edge < mcHorEdgePointsList.Count; edge++)
+        {
+            // Get our start and end Y positions for our vertical edge.
+            List<GeoLibPointF> startHorEdgePointList = mcHorEdgePointsList[edge];
+            int endHorEdgePointListIndex;
+            if (edge == 0)
+            {
+                endHorEdgePointListIndex = mcHorEdgePointsList.Count - 1; // need to wrap around.
+            }
+            else
+            {
+                endHorEdgePointListIndex = edge - 1;
+            }
+
+            List<GeoLibPointF> endHorEdgePointList = mcHorEdgePointsList[endHorEdgePointListIndex];
+            double vert_x = endHorEdgePointList[^1].X;
+            double startPoint_y = endHorEdgePointList[^1].Y;
+            double endPoint_y = startHorEdgePointList[0].Y;
+
+            // We get the start and end points here.
+            List<GeoLibPointF> fragments = fragment.fragmentPath(new List<GeoLibPointF> { new GeoLibPointF(vert_x, startPoint_y), new GeoLibPointF(vert_x, endPoint_y) });
+            mcVerEdgePointsList.Add(fragments);
+        }
+
+        // OK. We have our corners and edges. We need to walk them now. We'll apply the subshape 1 offset at the same time.
+        for (int section = 0; section < mcVerEdgePointsList.Count; section++)
+        {
+            for (int point = 0; point < mcVerEdgePointsList[section].Count; point++)
+            {
+                double x = mcVerEdgePointsList[section][point].X + s0HO;
+                double y = mcVerEdgePointsList[section][point].Y + s0VO;
+                mcPoints.Add(new GeoLibPointF(x, y));
+            }
+
+            // Corner next.
+            // Start and end points match those in the vertical edges, so we avoid them to eliminate duplicates.
+            for (int point = 1; point < mcHorEdgePointsList[section].Count - 1; point++)
+            {
+                double x = mcHorEdgePointsList[section][point].X + s0HO;
+                double y = mcHorEdgePointsList[section][point].Y + s0VO;
+                mcPoints.Add(new GeoLibPointF(x, y));
+            }
+        }
+
+        return mcPoints;
+        
     }
 }

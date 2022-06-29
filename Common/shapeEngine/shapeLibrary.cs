@@ -2024,7 +2024,6 @@ public class ShapeLibrary
     
     public List<GeoLibPointF> processCorners(bool previewMode, bool cornerCheck, bool ignoreCV, double s0HO, double s0VO, double iCR, double iCV, double iCVariation, bool iCPA, double oCR, double oCV, double oCVariation, bool oCPA, int cornerSegments, int optimizeCorners, double resolution, int scaleFactorForOperation)
     {
-
         Fragmenter fragment = new Fragmenter(resolution, scaleFactorForOperation);
         List<GeoLibPointF> mcPoints = new();
         List<GeoLibPointF> mcHorEdgePoints = new(); // corner coordinates list, used as a temporary container for each iteration

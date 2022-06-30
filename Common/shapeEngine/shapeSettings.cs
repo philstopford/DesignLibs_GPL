@@ -618,7 +618,7 @@ public class ShapeSettings
         return ret;
     }
 
-    public void setDecimal(properties_decimal p, decimal val, int _subShapeRef)
+    public void setDecimal(properties_decimal p, decimal val, int _subShapeRef = -1)
     {
         pSetDecimal(p, val, _subShapeRef);
     }
@@ -752,7 +752,7 @@ public class ShapeSettings
         }
     }
 
-    public void defaultDecimal(properties_decimal p, int _subShapeRef)
+    public void defaultDecimal(properties_decimal p, int _subShapeRef = -1)
     {
         pDefaultDecimal(p, _subShapeRef);
     }
@@ -886,7 +886,7 @@ public class ShapeSettings
         }
     }
 
-    public static decimal getDefaultDecimal(properties_decimal p, int _subShapeRef)
+    public static decimal getDefaultDecimal(properties_decimal p, int _subShapeRef = -1)
     {
         return pGetDefaultDecimal(p, _subShapeRef);
     }

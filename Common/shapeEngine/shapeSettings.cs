@@ -468,10 +468,10 @@ public class ShapeSettings
 
     public enum properties_decimal
     {
-        s0HorLength, s1HorLength, s2HorLength,
-        s0VerLength, s1VerLength, s2VerLength,
-        s0HorOffset, s1HorOffset, s2HorOffset,
-        s0VerOffset, s1VerOffset, s2VerOffset,
+        horLength,
+        verLength,
+        horOffset,
+        verOffset,
         gHorOffset, gVerOffset,
         iCR, oCR,
         sBias, hTBias, hTNVar, hTPVar, vTBias, vTNVar, vTPVar,
@@ -481,51 +481,71 @@ public class ShapeSettings
         rayExtension, keyhole_factor
     }
 
-    public decimal getDecimal(properties_decimal p)
+    public decimal getDecimal(properties_decimal p, int _subShapeRef = -1)
     {
-        return pGetDecimal(p);
+        return pGetDecimal(p, _subShapeRef);
     }
 
-    decimal pGetDecimal(properties_decimal p)
+    decimal pGetDecimal(properties_decimal p, int _subShapeRef)
     {
         decimal ret = 0;
         switch (p)
         {
-            case properties_decimal.s0HorLength:
-                ret = subShapeHorLength;
+            case properties_decimal.horLength:
+                switch (_subShapeRef)
+                {
+                    case 0:
+                        ret = subShapeHorLength;
+                        break;
+                    case 1:
+                        ret = subShape2HorLength;
+                        break;
+                    case 2:
+                        ret = subShape3HorLength;
+                        break;
+                }
                 break;
-            case properties_decimal.s1HorLength:
-                ret = subShape2HorLength;
+            case properties_decimal.verLength:
+                switch (_subShapeRef)
+                {
+                    case 0:
+                        ret = subShapeVerLength;
+                        break;
+                    case 1:
+                        ret = subShape2VerLength;
+                        break;
+                    case 2:
+                        ret = subShape3VerLength;
+                        break;
+                }
                 break;
-            case properties_decimal.s2HorLength:
-                ret = subShape3HorLength;
+            case properties_decimal.horOffset:
+                switch (_subShapeRef)
+                {
+                    case 0:
+                        ret = subShapeHorOffset;
+                        break;
+                    case 1:
+                        ret = subShape2HorOffset;
+                        break;
+                    case 2:
+                        ret = subShape3HorOffset;
+                        break;
+                }
                 break;
-            case properties_decimal.s0VerLength:
-                ret = subShapeVerLength;
-                break;
-            case properties_decimal.s1VerLength:
-                ret = subShape2VerLength;
-                break;
-            case properties_decimal.s2VerLength:
-                ret = subShape3VerLength;
-                break;
-            case properties_decimal.s0HorOffset:
-                ret = subShapeHorOffset;
-                break;
-            case properties_decimal.s1HorOffset:
-                ret = subShape2HorOffset;
-                break;
-            case properties_decimal.s2HorOffset:
-                ret = subShape3HorOffset;
-                break;
-            case properties_decimal.s0VerOffset:
-                ret = subShapeVerOffset;
-                break;
-            case properties_decimal.s1VerOffset:
-                ret = subShape2VerOffset;
-                break;
-            case properties_decimal.s2VerOffset:
-                ret = subShape3VerOffset;
+            case properties_decimal.verOffset:
+                switch (_subShapeRef)
+                {
+                    case 0:
+                        ret = subShapeVerOffset;
+                        break;
+                    case 1:
+                        ret = subShape2VerOffset;
+                        break;
+                    case 2:
+                        ret = subShape3VerOffset;
+                        break;
+                }
                 break;
             case properties_decimal.gHorOffset:
                 ret = globalHorOffset;
@@ -598,50 +618,70 @@ public class ShapeSettings
         return ret;
     }
 
-    public void setDecimal(properties_decimal p, decimal val)
+    public void setDecimal(properties_decimal p, decimal val, int _subShapeRef)
     {
-        pSetDecimal(p, val);
+        pSetDecimal(p, val, _subShapeRef);
     }
 
-    void pSetDecimal(properties_decimal p, decimal val)
+    void pSetDecimal(properties_decimal p, decimal val, int _subShapeRef)
     {
         switch (p)
         {
-            case properties_decimal.s0HorLength:
-                subShapeHorLength = val;
+            case properties_decimal.horLength:
+                switch (_subShapeRef)
+                {
+                    case 0:
+                        subShapeHorLength = val;
+                        break;
+                    case 1:
+                        subShape2HorLength = val;
+                        break;
+                    case 2:
+                        subShape3HorLength = val;
+                        break;
+                }
                 break;
-            case properties_decimal.s1HorLength:
-                subShape2HorLength = val;
+            case properties_decimal.verLength:
+                switch (_subShapeRef)
+                {
+                    case 0:
+                        subShapeVerLength = val;
+                        break;
+                    case 1:
+                        subShape2VerLength = val;
+                        break;
+                    case 2:
+                        subShape3VerLength = val;
+                        break;
+                }
                 break;
-            case properties_decimal.s2HorLength:
-                subShape3HorLength = val;
+            case properties_decimal.horOffset:
+                switch (_subShapeRef)
+                {
+                    case 0:
+                        subShapeHorOffset = val;
+                        break;
+                    case 1:
+                        subShape2HorOffset = val;
+                        break;
+                    case 2:
+                        subShape3HorOffset = val;
+                        break;
+                }
                 break;
-            case properties_decimal.s0VerLength:
-                subShapeVerLength = val;
-                break;
-            case properties_decimal.s1VerLength:
-                subShape2VerLength = val;
-                break;
-            case properties_decimal.s2VerLength:
-                subShape3VerLength = val;
-                break;
-            case properties_decimal.s0HorOffset:
-                subShapeHorOffset = val;
-                break;
-            case properties_decimal.s1HorOffset:
-                subShape2HorOffset = val;
-                break;
-            case properties_decimal.s2HorOffset:
-                subShape3HorOffset = val;
-                break;
-            case properties_decimal.s0VerOffset:
-                subShapeVerOffset = val;
-                break;
-            case properties_decimal.s1VerOffset:
-                subShape2VerOffset = val;
-                break;
-            case properties_decimal.s2VerOffset:
-                subShape3VerOffset = val;
+            case properties_decimal.verOffset:
+                switch (_subShapeRef)
+                {
+                    case 0:
+                        subShapeVerOffset = val;
+                        break;
+                    case 1:
+                        subShape2VerOffset = val;
+                        break;
+                    case 2:
+                        subShape3VerOffset = val;
+                        break;
+                }
                 break;
             case properties_decimal.gHorOffset:
                 globalHorOffset = val;
@@ -712,50 +752,70 @@ public class ShapeSettings
         }
     }
 
-    public void defaultDecimal(properties_decimal p)
+    public void defaultDecimal(properties_decimal p, int _subShapeRef)
     {
-        pDefaultDecimal(p);
+        pDefaultDecimal(p, _subShapeRef);
     }
 
-    void pDefaultDecimal(properties_decimal p)
+    void pDefaultDecimal(properties_decimal p, int _subShapeRef)
     {
         switch (p)
         {
-            case properties_decimal.s0HorLength:
-                subShapeHorLength = default_subShapeHorLength;
+            case properties_decimal.horLength:
+                switch (_subShapeRef)
+                {
+                    case 0:
+                        subShapeHorLength = default_subShapeHorLength;
+                        break;
+                    case 1:
+                        subShape2HorLength = default_subShapeHorLength;
+                        break;
+                    case 2:
+                        subShape3HorLength = default_subShapeHorLength;
+                        break;
+                }
                 break;
-            case properties_decimal.s1HorLength:
-                subShape2HorLength = default_subShape2HorLength;
+            case properties_decimal.verLength:
+                switch (_subShapeRef)
+                {
+                    case 0:
+                        subShapeVerLength = default_subShapeVerLength;
+                        break;
+                    case 1:
+                        subShape2VerLength = default_subShapeVerLength;
+                        break;
+                    case 2:
+                        subShape3VerLength = default_subShapeVerLength;
+                        break;
+                }
                 break;
-            case properties_decimal.s2HorLength:
-                subShape3HorLength = default_subShape3HorLength;
+            case properties_decimal.horOffset:
+                switch (_subShapeRef)
+                {
+                    case 0:
+                        subShapeHorOffset = default_subShapeHorOffset;
+                        break;
+                    case 1:
+                        subShape2HorOffset = default_subShape2HorOffset;
+                        break;
+                    case 2:
+                        subShape3HorOffset = default_subShape3HorOffset;
+                        break;
+                }
                 break;
-            case properties_decimal.s0VerLength:
-                subShapeVerLength = default_subShapeVerLength;
-                break;
-            case properties_decimal.s1VerLength:
-                subShape2VerLength = default_subShape2VerLength;
-                break;
-            case properties_decimal.s2VerLength:
-                subShape3VerLength = default_subShape3VerLength;
-                break;
-            case properties_decimal.s0HorOffset:
-                subShapeHorOffset = default_subShapeHorOffset;
-                break;
-            case properties_decimal.s1HorOffset:
-                subShape2HorOffset = default_subShape2HorOffset;
-                break;
-            case properties_decimal.s2HorOffset:
-                subShape3HorOffset = default_subShape3HorOffset;
-                break;
-            case properties_decimal.s0VerOffset:
-                subShapeVerOffset = default_subShapeVerOffset;
-                break;
-            case properties_decimal.s1VerOffset:
-                subShape2VerOffset = default_subShape2VerOffset;
-                break;
-            case properties_decimal.s2VerOffset:
-                subShape3VerOffset = default_subShape3VerOffset;
+            case properties_decimal.verOffset:
+                switch (_subShapeRef)
+                {
+                    case 0:
+                        subShapeVerOffset = default_subShapeVerOffset;
+                        break;
+                    case 1:
+                        subShape2VerOffset = default_subShape2VerOffset;
+                        break;
+                    case 2:
+                        subShape3VerOffset = default_subShape3VerOffset;
+                        break;
+                }
                 break;
             case properties_decimal.gHorOffset:
                 globalHorOffset = default_globalHorOffset;
@@ -826,51 +886,71 @@ public class ShapeSettings
         }
     }
 
-    public static decimal getDefaultDecimal(properties_decimal p)
+    public static decimal getDefaultDecimal(properties_decimal p, int _subShapeRef)
     {
-        return pGetDefaultDecimal(p);
+        return pGetDefaultDecimal(p, _subShapeRef);
     }
 
-    static decimal pGetDefaultDecimal(properties_decimal p)
+    static decimal pGetDefaultDecimal(properties_decimal p, int _subShapeRef)
     {
         decimal ret = 0;
         switch (p)
         {
-            case properties_decimal.s0HorLength:
-                ret = default_subShapeHorLength;
+            case properties_decimal.horLength:
+                switch (_subShapeRef)
+                {
+                    case 0:
+                        ret = default_subShapeHorLength;
+                        break;
+                    case 1:
+                        ret = default_subShapeHorLength;
+                        break;
+                    case 2:
+                        ret = default_subShapeHorLength;
+                        break;
+                }
                 break;
-            case properties_decimal.s1HorLength:
-                ret = default_subShape2HorLength;
+            case properties_decimal.verLength:
+                switch (_subShapeRef)
+                {
+                    case 0:
+                        ret = default_subShapeVerLength;
+                        break;
+                    case 1:
+                        ret = default_subShapeVerLength;
+                        break;
+                    case 2:
+                        ret = default_subShapeVerLength;
+                        break;
+                }
                 break;
-            case properties_decimal.s2HorLength:
-                ret = default_subShape3HorLength;
+            case properties_decimal.horOffset:
+                switch (_subShapeRef)
+                {
+                    case 0:
+                        ret = default_subShapeHorOffset;
+                        break;
+                    case 1:
+                        ret = default_subShape2HorOffset;
+                        break;
+                    case 2:
+                        ret = default_subShape3HorOffset;
+                        break;
+                }
                 break;
-            case properties_decimal.s0VerLength:
-                ret = default_subShapeVerLength;
-                break;
-            case properties_decimal.s1VerLength:
-                ret = default_subShape2VerLength;
-                break;
-            case properties_decimal.s2VerLength:
-                ret = default_subShape3VerLength;
-                break;
-            case properties_decimal.s0HorOffset:
-                ret = default_subShapeHorOffset;
-                break;
-            case properties_decimal.s1HorOffset:
-                ret = default_subShape2HorOffset;
-                break;
-            case properties_decimal.s2HorOffset:
-                ret = default_subShape3HorOffset;
-                break;
-            case properties_decimal.s0VerOffset:
-                ret = default_subShapeVerOffset;
-                break;
-            case properties_decimal.s1VerOffset:
-                ret = default_subShape2VerOffset;
-                break;
-            case properties_decimal.s2VerOffset:
-                ret = default_subShape3VerOffset;
+            case properties_decimal.verOffset:
+                switch (_subShapeRef)
+                {
+                    case 0:
+                        ret = default_subShapeVerOffset;
+                        break;
+                    case 1:
+                        ret = default_subShape2VerOffset;
+                        break;
+                    case 2:
+                        ret = default_subShape3VerOffset;
+                        break;
+                }
                 break;
             case properties_decimal.gHorOffset:
                 ret = default_globalHorOffset;

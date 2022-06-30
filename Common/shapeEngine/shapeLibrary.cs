@@ -417,25 +417,25 @@ public class ShapeLibrary
         double tmpY = 0.0;
         Vertex[0] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
-        tmpY += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s0VerLength)) / 2;
+        tmpY += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 0)) / 2;
         Vertex[1] = new MyVertex(tmpX, tmpY, typeDirection.left1, true, false, typeVertex.center);
 
-        tmpY = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s0VerLength));
+        tmpY = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 0));
         Vertex[2] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
-        tmpX = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s0HorLength)) / 2;
+        tmpX = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 0)) / 2;
         Vertex[3] = new MyVertex(tmpX, tmpY, typeDirection.up1, false, false, typeVertex.center);
 
-        tmpX = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s0HorLength));
+        tmpX = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 0));
         Vertex[4] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
-        tmpY -= Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s0VerLength)) / 2;
+        tmpY -= Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 0)) / 2;
         Vertex[5] = new MyVertex(tmpX, tmpY, typeDirection.right1, true, false, typeVertex.center);
 
         tmpY = 0.0;
         Vertex[6] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
-        tmpX = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s0HorLength)) / 2;
+        tmpX = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 0)) / 2;
         tmpY = 0.0;
         Vertex[7] = new MyVertex(tmpX, tmpY, typeDirection.down1, false, false, typeVertex.center);
 
@@ -591,50 +591,50 @@ public class ShapeLibrary
         double tmpY = 0.0;
         Vertex[0] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
-        tmpY += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s0VerLength)) / 2;
+        tmpY += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 0)) / 2;
         Vertex[1] = new MyVertex(tmpX, tmpY, typeDirection.left1, true, false, typeVertex.center);
 
-        tmpY = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s0VerLength));
+        tmpY = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 0));
         Vertex[2] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
-        tmpX += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s0HorLength)) / 2;
+        tmpX += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 0)) / 2;
         Vertex[3] = new MyVertex(tmpX, tmpY, typeDirection.up1, false, false, typeVertex.center);
 
-        tmpX += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s0HorLength)) / 2;
+        tmpX += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 0)) / 2;
         Vertex[4] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
-        tmpY = (Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s0VerLength)) - (Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s1VerLength)) +
-            (Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s1VerOffset)) - Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s0VerOffset))))) / 2;
+        tmpY = (Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 0)) - (Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 1)) +
+            (Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verOffset, 1)) - Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verOffset, 0))))) / 2;
         Vertex[5] = new MyVertex(tmpX, tmpY, typeDirection.right1, true, false, typeVertex.center);
 
-        tmpY = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s1VerLength)) + Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s1VerOffset));
+        tmpY = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 1)) + Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verOffset, 1));
         Vertex[6] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
-        tmpX += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s1HorLength) / 2);
+        tmpX += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 1) / 2);
         Vertex[7] = new MyVertex(tmpX, tmpY, typeDirection.up1, false, false, typeVertex.center);
 
-        tmpX += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s1HorLength) / 2);
+        tmpX += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 1) / 2);
         Vertex[8] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
-        tmpY -= Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s1VerLength) / 2);
+        tmpY -= Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 1) / 2);
         Vertex[9] = new MyVertex(tmpX, tmpY, typeDirection.right1, true, false, typeVertex.center);
 
-        tmpY -= Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s1VerLength) / 2);
+        tmpY -= Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 1) / 2);
         Vertex[10] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
-        tmpX -= Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s1HorLength) / 2);
+        tmpX -= Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 1) / 2);
         Vertex[11] = new MyVertex(tmpX, tmpY, typeDirection.down1, false, false, typeVertex.center);
 
-        tmpX -= Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s1HorLength) / 2);
+        tmpX -= Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 1) / 2);
         Vertex[12] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
-        tmpY = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s1VerOffset)) / 2;
+        tmpY = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verOffset, 1)) / 2;
         Vertex[13] = new MyVertex(tmpX, tmpY, typeDirection.right1, true, false, typeVertex.center);
 
         tmpY = 0;
         Vertex[14] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
-        tmpX -= Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s0HorLength) / 2);
+        tmpX -= Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 0) / 2);
         Vertex[15] = new MyVertex(tmpX, tmpY, typeDirection.down1, false, false, typeVertex.center);
 
         processEdgesForRounding();
@@ -781,37 +781,37 @@ public class ShapeLibrary
         double tmpY = 0.0;
         Vertex[0] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
-        tmpY += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s0VerLength)) / 2;
+        tmpY += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 0)) / 2;
         Vertex[1] = new MyVertex(tmpX, tmpY, typeDirection.left1, true, false, typeVertex.center);
 
-        tmpY += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s0VerLength)) / 2;
+        tmpY += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 0)) / 2;
         Vertex[2] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
-        tmpX += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s0HorLength)) / 2;
+        tmpX += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 0)) / 2;
         Vertex[3] = new MyVertex(tmpX, tmpY, typeDirection.up1, false, false, typeVertex.center);
 
-        tmpX += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s0HorLength)) / 2;
+        tmpX += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 0)) / 2;
         Vertex[4] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
-        tmpY -= (Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s0VerLength)) - Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s1VerLength))) / 2;
+        tmpY -= (Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 0)) - Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 1))) / 2;
         Vertex[5] = new MyVertex(tmpX, tmpY, typeDirection.right1, true, false, typeVertex.center);
 
-        tmpY -= (Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s0VerLength)) - Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s1VerLength))) / 2;
+        tmpY -= (Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 0)) - Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 1))) / 2;
         Vertex[6] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
-        tmpX += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s1HorLength)) / 2;
+        tmpX += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 1)) / 2;
         Vertex[7] = new MyVertex(tmpX, tmpY, typeDirection.up1, false, false, typeVertex.center);
 
-        tmpX += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s1HorLength)) / 2;
+        tmpX += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 1)) / 2;
         Vertex[8] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
-        tmpY -= Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s1VerLength)) / 2;
+        tmpY -= Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 1)) / 2;
         Vertex[9] = new MyVertex(tmpX, tmpY, typeDirection.right1, true, false, typeVertex.center);
 
-        tmpY -= Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s1VerLength)) / 2;
+        tmpY -= Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 1)) / 2;
         Vertex[10] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
-        tmpX -= (Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s0HorLength)) + Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s1HorLength))) / 2;
+        tmpX -= (Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 0)) + Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 1))) / 2;
         Vertex[11] = new MyVertex(tmpX, tmpY, typeDirection.down1, false, false, typeVertex.center);
 
         processEdgesForRounding();
@@ -966,40 +966,40 @@ public class ShapeLibrary
         double tmpY = 0.0;
         Vertex[0] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
-        tmpY += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s0VerLength)) / 2;
+        tmpY += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 0)) / 2;
         Vertex[1] = new MyVertex(tmpX, tmpY, typeDirection.left1, true, false, typeVertex.center);
 
-        tmpY = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s0VerLength));
+        tmpY = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 0));
         Vertex[2] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
-        tmpX += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s1HorOffset)) / 2;
+        tmpX += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horOffset, 1)) / 2;
         Vertex[3] = new MyVertex(tmpX, tmpY, typeDirection.up1, false, false, typeVertex.center);
 
-        tmpX += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s1HorOffset)) / 2;
+        tmpX += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horOffset, 1)) / 2;
         Vertex[4] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
-        tmpY -= Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s1VerLength)) / 2;
+        tmpY -= Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 1)) / 2;
         Vertex[5] = new MyVertex(tmpX, tmpY, typeDirection.right1, true, false, typeVertex.center);
 
-        tmpY -= Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s1VerLength)) / 2;
+        tmpY -= Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 1)) / 2;
         Vertex[6] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
-        tmpX += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s1HorLength)) / 2;
+        tmpX += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 1)) / 2;
         Vertex[7] = new MyVertex(tmpX, tmpY, typeDirection.up1, false, false, typeVertex.center);
 
-        tmpX += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s1HorLength)) / 2;
+        tmpX += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 1)) / 2;
         Vertex[8] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
-        tmpY += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s1VerLength)) / 2;
+        tmpY += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 1)) / 2;
         Vertex[9] = new MyVertex(tmpX, tmpY, typeDirection.left1, true, false, typeVertex.center);
 
-        tmpY = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s0VerLength));
+        tmpY = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 0));
         Vertex[10] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
-        tmpX += (Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s0HorLength)) - (Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s1HorOffset)) + Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s1HorLength)))) / 2;
+        tmpX += (Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 0)) - (Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horOffset, 1)) + Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 1)))) / 2;
         Vertex[11] = new MyVertex(tmpX, tmpY, typeDirection.up1, false, false, typeVertex.center);
 
-        tmpX = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s0HorLength));
+        tmpX = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 0));
         Vertex[12] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
         tmpY /= 2;
@@ -1195,23 +1195,23 @@ public class ShapeLibrary
         double tmpY = 0.0;
         Vertex[0] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
-        tmpY += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s1VerOffset)) / 2;
+        tmpY += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verOffset, 1)) / 2;
         Vertex[1] = new MyVertex(tmpX, tmpY, typeDirection.left1, true, false, typeVertex.center);
 
-        tmpY = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s1VerOffset));
+        tmpY = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verOffset, 1));
         Vertex[2] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
-        tmpX = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s1HorOffset));
+        tmpX = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horOffset, 1));
         tmpX /= 2;
         Vertex[3] = new MyVertex(tmpX, tmpY, typeDirection.down1, false, false, typeVertex.center);
 
         tmpX *= 2;
         Vertex[4] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
-        tmpY += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s1VerLength)) / 2;
+        tmpY += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 1)) / 2;
         Vertex[5] = new MyVertex(tmpX, tmpY, typeDirection.left1, true, false, typeVertex.center);
 
-        tmpY += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s1VerLength)) / 2;
+        tmpY += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 1)) / 2;
         Vertex[6] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
         tmpX /= 2;
@@ -1220,56 +1220,56 @@ public class ShapeLibrary
         tmpX = 0.0;
         Vertex[8] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
-        tmpY = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s0VerLength)) - (Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s1VerLength)) + Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s1VerOffset))) / 2;
+        tmpY = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 0)) - (Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 1)) + Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verOffset, 1))) / 2;
         Vertex[9] = new MyVertex(tmpX, tmpY, typeDirection.left1, true, false, typeVertex.center);
 
-        tmpY = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s0VerLength));
+        tmpY = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 0));
         Vertex[10] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
-        tmpX = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s0HorLength)) / 2;
+        tmpX = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 0)) / 2;
         Vertex[11] = new MyVertex(tmpX, tmpY, typeDirection.up1, false, false, typeVertex.center);
 
-        tmpX = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s0HorLength));
+        tmpX = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 0));
         Vertex[12] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
-        tmpY = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s0VerLength)) - (Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s1VerLength)) + Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s1VerOffset))) / 2;
+        tmpY = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 0)) - (Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 1)) + Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verOffset, 1))) / 2;
         Vertex[13] = new MyVertex(tmpX, tmpY, typeDirection.right1, true, false, typeVertex.center);
 
-        tmpY = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s1VerOffset)) + Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s1VerLength));
+        tmpY = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verOffset, 1)) + Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 1));
         Vertex[14] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
         // Need midpoint of edge
-        tmpX = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s0HorLength));
-        tmpX += (Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s1HorLength)) - Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s0HorLength))) / 2 / 2; // midpoint
-        tmpX -= Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s1HorOffset));
+        tmpX = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 0));
+        tmpX += (Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 1)) - Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 0))) / 2 / 2; // midpoint
+        tmpX -= Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horOffset, 1));
         Vertex[15] = new MyVertex(tmpX, tmpY, typeDirection.up1, false, false, typeVertex.center);
 
-        tmpX = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s1HorLength));
-        tmpX += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s1HorOffset));
+        tmpX = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 1));
+        tmpX += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horOffset, 1));
         Vertex[16] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
-        tmpY -= Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s1VerLength)) / 2;
+        tmpY -= Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 1)) / 2;
         Vertex[17] = new MyVertex(tmpX, tmpY, typeDirection.right1, true, false, typeVertex.center);
 
-        tmpY -= Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s1VerLength)) / 2;
+        tmpY -= Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 1)) / 2;
         Vertex[18] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
         // Need midpoint of edge
-        tmpX = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s0HorLength));
-        tmpX += (Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s1HorLength)) - Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s0HorLength))) / 2 / 2; // midpoint
-        tmpX -= Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s1HorOffset));
+        tmpX = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 0));
+        tmpX += (Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 1)) - Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 0))) / 2 / 2; // midpoint
+        tmpX -= Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horOffset, 1));
         Vertex[19] = new MyVertex(tmpX, tmpY, typeDirection.down1, false, false, typeVertex.center);
 
-        tmpX = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s0HorLength));
+        tmpX = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 0));
         Vertex[20] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
-        tmpY -= Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s1VerOffset)) / 2;
+        tmpY -= Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verOffset, 1)) / 2;
         Vertex[21] = new MyVertex(tmpX, tmpY, typeDirection.right1, true, false, typeVertex.center);
 
         tmpY = 0.0;
         Vertex[22] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
-        tmpX += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s0HorLength)) / 2;
+        tmpX += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 0)) / 2;
         Vertex[23] = new MyVertex(tmpX, tmpY, typeDirection.down1, true, false, typeVertex.center);
 
         processEdgesForRounding();
@@ -1491,66 +1491,66 @@ public class ShapeLibrary
         double tmpY = 0.0;
         Vertex[0] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
-        tmpY = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s1VerOffset)) / 2;
+        tmpY = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verOffset, 1)) / 2;
         Vertex[1] = new MyVertex(tmpX, tmpY, typeDirection.left1, true, false, typeVertex.center);
 
-        tmpY = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s1VerOffset));
+        tmpY = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verOffset, 1));
         Vertex[2] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
-        tmpX = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s1HorLength)) / 2;
+        tmpX = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 1)) / 2;
         Vertex[3] = new MyVertex(tmpX, tmpY, typeDirection.up1, false, false, typeVertex.center);
 
-        tmpX = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s1HorLength));
+        tmpX = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 1));
         Vertex[4] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
-        tmpY += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s1VerLength)) / 2;
+        tmpY += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 1)) / 2;
         Vertex[5] = new MyVertex(tmpX, tmpY, typeDirection.left1, true, false, typeVertex.center);
 
-        tmpY = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s1VerOffset)) + Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s1VerLength));
+        tmpY = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verOffset, 1)) + Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 1));
         Vertex[6] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
-        tmpX = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s1HorLength)) / 2;
+        tmpX = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 1)) / 2;
         Vertex[7] = new MyVertex(tmpX, tmpY, typeDirection.down1, false, false, typeVertex.center);
 
         tmpX = 0;
         Vertex[8] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
-        tmpY = (Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s0VerLength)) - tmpY) / 2;
+        tmpY = (Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 0)) - tmpY) / 2;
         Vertex[9] = new MyVertex(tmpX, tmpY, typeDirection.left1, true, false, typeVertex.center);
 
-        tmpY = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s0VerLength));
+        tmpY = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 0));
         Vertex[10] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
-        tmpX = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s0HorLength)) / 2;
+        tmpX = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 0)) / 2;
         Vertex[11] = new MyVertex(tmpX, tmpY, typeDirection.up1, false, false, typeVertex.center);
         // Center so no rounding definition
 
-        tmpX = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s0HorLength));
+        tmpX = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 0));
         Vertex[12] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
-        tmpY -= Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s2VerOffset)) / 2;
+        tmpY -= Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verOffset, 2)) / 2;
         Vertex[13] = new MyVertex(tmpX, tmpY, typeDirection.right1, true, false, typeVertex.center);
         // Center so no rounding definition
 
-        tmpY = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s0VerLength)) - Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s2VerOffset));
+        tmpY = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 0)) - Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verOffset, 2));
         Vertex[14] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
-        tmpX -= Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s2HorLength) / 2);
+        tmpX -= Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 2) / 2);
         Vertex[15] = new MyVertex(tmpX, tmpY, typeDirection.down1, false, false, typeVertex.center);
 
-        tmpX = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s2HorOffset));
+        tmpX = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horOffset, 2));
         Vertex[16] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
-        tmpY -= Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s2VerLength) / 2);
+        tmpY -= Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 2) / 2);
         Vertex[17] = new MyVertex(tmpX, tmpY, typeDirection.right1, false, false, typeVertex.center);
 
-        tmpY = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s0VerLength)) - Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s2VerLength)) - Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s2VerOffset));
+        tmpY = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 0)) - Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 2)) - Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verOffset, 2));
         Vertex[18] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
-        tmpX += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s2HorLength) / 2);
+        tmpX += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 2) / 2);
         Vertex[19] = new MyVertex(tmpX, tmpY, typeDirection.up1, false, false, typeVertex.center);
 
-        tmpX = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s0HorLength));
+        tmpX = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 0));
         Vertex[20] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
         tmpY /= 2;
@@ -1559,7 +1559,7 @@ public class ShapeLibrary
         tmpY = 0;
         Vertex[22] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
-        tmpX = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.s0HorLength)) / 2;
+        tmpX = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 0)) / 2;
         Vertex[23] = new MyVertex(tmpX, tmpY, typeDirection.down1, false, false, typeVertex.center);
 
         processEdgesForRounding();

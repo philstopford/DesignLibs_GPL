@@ -15,7 +15,7 @@ public static class shapeOffsets
         if (posInSubShapeString is "TL" or "TR" or "TS" or "RS" or "LS" or "C")
         {
             // Vertical offset needed to put reference corner at world center
-            tmp_yOffset = -Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.s0VerLength));
+            tmp_yOffset = -Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 0));
 
             // Half the value for a vertical centering requirement
             if (posInSubShapeString is "RS" or "LS" or "C")
@@ -27,7 +27,7 @@ public static class shapeOffsets
 
         if (posInSubShapeString is "TR" or "BR" or "TS" or "RS" or "BS" or "C")
         {
-            tmp_xOffset -= Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.s0HorLength));
+            tmp_xOffset -= Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 0));
 
             // Half the value for horizontal centering conditions
             if (posInSubShapeString is "TS" or "BS" or "C")
@@ -53,11 +53,11 @@ public static class shapeOffsets
             // Vertical offset needed to put reference corner at world center
             if (shapeSettings.getInt(ShapeSettings.properties_i.subShapeRefIndex) == 0)
             {
-                tmp_yOffset = -Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.s0VerLength));
+                tmp_yOffset = -Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 0));
             }
             else
             {
-                tmp_yOffset = -Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.s1VerLength));
+                tmp_yOffset = -Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 1));
             }
 
             // Half the value for a vertical centering requirement
@@ -70,7 +70,7 @@ public static class shapeOffsets
 
         if (shapeSettings.getInt(ShapeSettings.properties_i.subShapeRefIndex) == 1 && posInSubShapeString is "LS" or "BL" or "TL")
         {
-            tmp_xOffset -= Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.s0HorLength)); // essentially the same in X as the RS for subshape 1.
+            tmp_xOffset -= Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 0)); // essentially the same in X as the RS for subshape 1.
         }
         else
         {
@@ -78,12 +78,12 @@ public static class shapeOffsets
             {
                 if (shapeSettings.getInt(ShapeSettings.properties_i.subShapeRefIndex) == 0)
                 {
-                    tmp_xOffset -= Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.s0HorLength));
+                    tmp_xOffset -= Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 0));
                 }
                 else
                 {
-                    tmp_xOffset -= Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.s0HorLength));
-                    tmp_xOffset -= Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.s1HorLength));
+                    tmp_xOffset -= Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 0));
+                    tmp_xOffset -= Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 1));
                 }
 
                 // Half the value for horizontal centering conditions
@@ -95,7 +95,7 @@ public static class shapeOffsets
                     }
                     else
                     {
-                        tmp_xOffset += Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.s1HorLength) / 2);
+                        tmp_xOffset += Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 1) / 2);
                     }
                 }
             }
@@ -116,7 +116,7 @@ public static class shapeOffsets
 
         if (shapeSettings.getInt(ShapeSettings.properties_i.subShapeRefIndex) == 1 && posInSubShapeString is "BR" or "BL" or "BS")
         {
-            tmp_yOffset -= Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.s1VerOffset));
+            tmp_yOffset -= Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.verOffset, 1));
         }
         else
         {
@@ -124,7 +124,7 @@ public static class shapeOffsets
             {
                 if (shapeSettings.getInt(ShapeSettings.properties_i.subShapeRefIndex) == 0)
                 {
-                    tmp_yOffset = -Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.s0VerLength));
+                    tmp_yOffset = -Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 0));
                     // Half the value for a vertical centering requirement
                     if (posInSubShapeString is "RS" or "LS" or "C")
                     {
@@ -133,13 +133,13 @@ public static class shapeOffsets
                 }
                 else
                 {
-                    tmp_yOffset = -Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.s1VerLength));
+                    tmp_yOffset = -Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 1));
                     // Half the value for a vertical centering requirement
                     if (posInSubShapeString is "RS" or "LS" or "C")
                     {
                         tmp_yOffset = Convert.ToDouble(tmp_yOffset / 2);
                     }
-                    tmp_yOffset -= Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.s1VerOffset));
+                    tmp_yOffset -= Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.verOffset, 1));
                 }
 
             }
@@ -148,7 +148,7 @@ public static class shapeOffsets
 
         if (shapeSettings.getInt(ShapeSettings.properties_i.subShapeRefIndex) == 1 && posInSubShapeString is "LS" or "BL" or "TL")
         {
-            tmp_xOffset -= Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.s0HorLength)); // essentially the same in X as the RS for subshape 1.
+            tmp_xOffset -= Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 0)); // essentially the same in X as the RS for subshape 1.
         }
         else
         {
@@ -156,12 +156,12 @@ public static class shapeOffsets
             {
                 if (shapeSettings.getInt(ShapeSettings.properties_i.subShapeRefIndex) == 0)
                 {
-                    tmp_xOffset -= Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.s0HorLength));
+                    tmp_xOffset -= Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 0));
                 }
                 else
                 {
-                    tmp_xOffset -= Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.s0HorLength));
-                    tmp_xOffset -= Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.s1HorLength));
+                    tmp_xOffset -= Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 0));
+                    tmp_xOffset -= Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 1));
                 }
 
                 // Half the value for horizontal centering conditions
@@ -173,7 +173,7 @@ public static class shapeOffsets
                     }
                     else
                     {
-                        tmp_xOffset += Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.s1HorLength) / 2);
+                        tmp_xOffset += Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 1) / 2);
                     }
                 }
             }
@@ -193,7 +193,7 @@ public static class shapeOffsets
 
         if (shapeSettings.getInt(ShapeSettings.properties_i.subShapeRefIndex) == 1 && posInSubShapeString is "BR" or "BL" or "BS")
         {
-            tmp_yOffset -= Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.s1VerOffset));
+            tmp_yOffset -= Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.verOffset, 1));
         }
         else
         {
@@ -202,7 +202,7 @@ public static class shapeOffsets
                 // Vertical offset needed to put reference corner at world center
                 if (shapeSettings.getInt(ShapeSettings.properties_i.subShapeRefIndex) == 0)
                 {
-                    tmp_yOffset = -Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.s0VerLength));
+                    tmp_yOffset = -Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 0));
                     // Half the value for a vertical centering requirement
                     if (posInSubShapeString is "RS" or "LS" or "C")
                     {
@@ -211,13 +211,13 @@ public static class shapeOffsets
                 }
                 else
                 {
-                    tmp_yOffset = -Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.s1VerLength));
+                    tmp_yOffset = -Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 1));
                     // Half the value for a vertical centering requirement
                     if (posInSubShapeString is "RS" or "LS" or "C")
                     {
                         tmp_yOffset = Convert.ToDouble(tmp_yOffset / 2);
                     }
-                    tmp_yOffset -= Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.s1VerOffset));
+                    tmp_yOffset -= Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.verOffset, 1));
                 }
 
             }
@@ -226,7 +226,7 @@ public static class shapeOffsets
 
         if (shapeSettings.getInt(ShapeSettings.properties_i.subShapeRefIndex) == 1 && posInSubShapeString is "LS" or "BL" or "TL")
         {
-            tmp_xOffset -= Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.s1HorOffset));
+            tmp_xOffset -= Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.horOffset, 1));
         }
         else
         {
@@ -234,11 +234,11 @@ public static class shapeOffsets
             {
                 if (shapeSettings.getInt(ShapeSettings.properties_i.subShapeRefIndex) == 0)
                 {
-                    tmp_xOffset -= Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.s0HorLength));
+                    tmp_xOffset -= Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 0));
                 }
                 else
                 {
-                    tmp_xOffset -= Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.s1HorLength));
+                    tmp_xOffset -= Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 1));
                 }
 
                 // Half the value for horizontal centering conditions
@@ -250,13 +250,13 @@ public static class shapeOffsets
                     }
                     else
                     {
-                        tmp_xOffset += Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.s1HorLength) / 2);
+                        tmp_xOffset += Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 1) / 2);
                     }
                 }
 
                 if (shapeSettings.getInt(ShapeSettings.properties_i.subShapeRefIndex) == 1)
                 {
-                    tmp_xOffset -= Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.s1HorOffset));
+                    tmp_xOffset -= Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.horOffset, 1));
                 }
             }
         }
@@ -277,7 +277,7 @@ public static class shapeOffsets
         {
             if (posInSubShapeString is "TL" or "TR" or "TS" or "RS" or "LS" or "C")
             {
-                tmp_yOffset = -Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.s0VerLength));
+                tmp_yOffset = -Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 0));
 
                 // Half the value for a vertical centering requirement
                 if (posInSubShapeString is "RS" or "LS" or "C")
@@ -289,7 +289,7 @@ public static class shapeOffsets
 
             if (posInSubShapeString is "TR" or "BR" or "TS" or "RS" or "BS" or "C")
             {
-                tmp_xOffset -= Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.s0HorLength));
+                tmp_xOffset -= Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 0));
 
                 // Half the value for horizontal centering conditions
                 if (posInSubShapeString is "TS" or "BS" or "C")
@@ -303,32 +303,32 @@ public static class shapeOffsets
             // Subshape 2 is always docked against top edge of subshape 1 in U.
             if (posInSubShapeString is "TL" or "TR" or "TS" or "RS" or "LS" or "BL" or "BR" or "BS" or "C")
             {
-                tmp_yOffset = -Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.s0VerLength));
+                tmp_yOffset = -Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 0));
 
                 switch (posInSubShapeString)
                 {
                     // Half the value for a vertical centering requirement
                     case "RS" or "LS" or "C":
-                        tmp_yOffset += Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.s1VerLength) / 2);
+                        tmp_yOffset += Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 1) / 2);
                         break;
                     // Subtract the value for a subshape 2 bottom edge requirement
                     case "BL" or "BR" or "BS":
-                        tmp_yOffset += Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.s1VerLength));
+                        tmp_yOffset += Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 1));
                         break;
                 }
             }
             yOffset -= tmp_yOffset;
 
             // Subshape 2 is always H-centered in U. Makes it easy.
-            tmp_xOffset -= Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.s0HorLength) / 2);
+            tmp_xOffset -= Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 0) / 2);
 
             switch (posInSubShapeString)
             {
                 case "TR" or "BR" or "RS":
-                    tmp_xOffset -= Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.s1HorLength) / 2);
+                    tmp_xOffset -= Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 1) / 2);
                     break;
                 case "TL" or "BL" or "LS":
-                    tmp_xOffset += Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.s1HorLength) / 2);
+                    tmp_xOffset += Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 1) / 2);
                     break;
             }
         }
@@ -349,7 +349,7 @@ public static class shapeOffsets
             case 0:
                 if (posInSubShapeString is "TL" or "TR" or "TS" or "RS" or "LS" or "C")
                 {
-                    tmp_yOffset = -Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.s0VerLength));
+                    tmp_yOffset = -Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 0));
 
                     // Half the value for a vertical centering requirement
                     if (posInSubShapeString is "RS" or "LS" or "C")
@@ -360,7 +360,7 @@ public static class shapeOffsets
 
                 if (posInSubShapeString is "TR" or "BR" or "TS" or "RS" or "BS" or "C")
                 {
-                    tmp_xOffset -= Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.s0HorLength));
+                    tmp_xOffset -= Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 0));
 
                     // Half the value for horizontal centering conditions
                     if (posInSubShapeString is "TS" or "BS" or "C")
@@ -374,17 +374,17 @@ public static class shapeOffsets
                 // Subshape 2 is always vertically offset relative to bottom edge of subshape 1 in S.
                 if (posInSubShapeString is "TL" or "TR" or "TS" or "RS" or "LS" or "BL" or "BR" or "BS" or "C")
                 {
-                    tmp_yOffset -= Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.s1VerOffset));
+                    tmp_yOffset -= Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.verOffset, 1));
 
                     switch (posInSubShapeString)
                     {
                         // Half the value for a vertical centering requirement
                         case "RS" or "LS" or "C":
-                            tmp_yOffset -= Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.s1VerLength) / 2);
+                            tmp_yOffset -= Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 1) / 2);
                             break;
                         // Subtract the value for a subshape 2 bottom edge requirement
                         case "TL" or "TR" or "TS":
-                            tmp_yOffset -= Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.s1VerLength));
+                            tmp_yOffset -= Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 1));
                             break;
                     }
                 }
@@ -393,7 +393,7 @@ public static class shapeOffsets
 
                 if (posInSubShapeString is "TR" or "BR" or "RS" or "TS" or "BS" or "C")
                 {
-                    tmp_xOffset -= Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.s1HorLength));
+                    tmp_xOffset -= Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 1));
                     if (posInSubShapeString is "TS" or "C" or "BS")
                     {
                         tmp_xOffset /= 2;
@@ -403,35 +403,35 @@ public static class shapeOffsets
                 break;
 
             case 2:
-                tmp_yOffset -= Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.s0VerLength));
+                tmp_yOffset -= Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 0));
                 // Subshape 3 is always offset relative to top edge of subshape 1 in S.
                 if (posInSubShapeString is "TL" or "TR" or "TS" or "RS" or "LS" or "BL" or "BR" or "BS" or "C")
                 {
-                    tmp_yOffset += Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.s2VerOffset));
+                    tmp_yOffset += Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.verOffset, 2));
 
                     switch (posInSubShapeString)
                     {
                         // Half the value for a vertical centering requirement
                         case "RS" or "LS" or "C":
-                            tmp_yOffset += Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.s2VerLength) / 2);
+                            tmp_yOffset += Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 2) / 2);
                             break;
                         // Subtract the value for a subshape 2 bottom edge requirement
                         case "BL" or "BR" or "BS":
-                            tmp_yOffset += Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.s2VerLength));
+                            tmp_yOffset += Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 2));
                             break;
                     }
                 }
 
                 // Subshape 3 is always pinned to right edge in S. Makes it easy.
-                tmp_xOffset -= Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.s0HorLength));
+                tmp_xOffset -= Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 0));
 
                 switch (posInSubShapeString)
                 {
                     case "TL" or "BL" or "LS":
-                        tmp_xOffset += Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.s2HorLength));
+                        tmp_xOffset += Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 2));
                         break;
                     case "TS" or "BS" or "C":
-                        tmp_xOffset += Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.s2HorLength) / 2);
+                        tmp_xOffset += Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 2) / 2);
                         break;
                 }
 

@@ -572,8 +572,8 @@
   <component name="ChangeListManager">
     <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.DesignLibs/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DesignLibs/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Directory.Build.props" beforeDir="false" afterPath="$PROJECT_DIR$/Directory.Build.props" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Eto/Eto.VeldridSurface/Eto.VeldridSurface.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Eto/Eto.VeldridSurface/Eto.VeldridSurface.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/clipper/clipper_512.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/clipper/clipper_512.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/shapeEngine/shapeLibrary.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/shapeEngine/shapeLibrary.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -11383,6 +11383,7 @@
       <workItem from="1655997003574" duration="22000" />
       <workItem from="1656528146198" duration="181000" />
       <workItem from="1656529001008" duration="211000" />
+      <workItem from="1656706225553" duration="2499000" />
     </task>
     <servers />
   </component>

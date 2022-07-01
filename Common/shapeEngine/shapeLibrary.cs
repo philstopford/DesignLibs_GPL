@@ -6,31 +6,68 @@ namespace shapeEngine;
 
 public class ShapeLibrary
 {
-    public int mode = 0; // 0 is Variance; 1 is Quilt. This should go away in future.
-    private static readonly List<string> availableShapes_mode0 = new () { "(None)", "Rectangle/Square", "L-shape", "T-shape", "X-shape", "U-shape", "S-shape", "GDS/Oasis", "Boolean" };
-    public enum shapeNames_mode0 { none, rect, Lshape, Tshape, Xshape, Ushape, Sshape, GEOCORE, BOOLEAN }
-
-    public static List<string> getAvailableShapes_mode0()
+    private static readonly List<string> availableShapes_all = new()
     {
-        return pGetAvailableShapes_mode0();
+        "(None)", "Rectangle/Square", "L-shape", "T-shape", "X-shape", "U-shape", "S-shape", "GDS/Oasis", "Boolean",
+        "Text", "Bounding", "Layout"
+    };
+
+    public enum shapeNames_all
+    {
+        none,
+        rect,
+        Lshape,
+        Tshape,
+        Xshape,
+        Ushape,
+        Sshape,
+        GEOCORE,
+        BOOLEAN,
+        text,
+        bounding,
+        complex
     }
 
-    private static List<string> pGetAvailableShapes_mode0()
+    // Client sends an array that has mapping of the client shape index to the ShapeLibrary index.
+    private int[] shapeMapping_fromClient;
+
+    public void shapesForClient(int[] clientShapeDefinition)
     {
-        return availableShapes_mode0;
+        pShapesForClient(clientShapeDefinition);
     }
 
-    private static readonly List<string> availableShapes_mode1 = new () { "(None)", "Rectangle/Square", "L-shape", "T-shape", "X-shape", "U-shape", "S-shape", "Text", "Bounding", "Layout" };
-    public enum shapeNames_mode1 { none, rect, Lshape, Tshape, Xshape, Ushape, Sshape, text, bounding, complex }
-
-    public static List<string> getAvailableShapes_mode1()
+    void pShapesForClient(int[] clientShapeDefinition)
     {
-        return pGetAvailableShapes_mode1();
+        if (clientShapeDefinition.Length > availableShapes_all.Count)
+        {
+            throw new Exception("More shapes requested than are supported");
+        }
+
+        // Initialize to no-shapes
+        shapeMapping_fromClient = new int[availableShapes_all.Count];
+        for (int i = 0; i < availableShapes_all.Count; i++)
+        {
+            shapeMapping_fromClient[i] = -1;
+        }
+
+        // Set the support flags from the client.
+        for (int i = 0; i < clientShapeDefinition.Length; i++)
+        {
+            shapeMapping_fromClient[i] = clientShapeDefinition[i];
+        }
+
     }
 
-    private static List<string> pGetAvailableShapes_mode1()
+    public static List<string> getAvailableShapes(int[] clientShapeDefinition)
     {
-        return availableShapes_mode1;
+        List<string> availableShapes = new();
+        // Set the support flags from the client.
+        for (int i = 0; i < clientShapeDefinition.Length; i++)
+        {
+            availableShapes.Add(availableShapes_all[clientShapeDefinition[i]]);
+        }
+
+        return availableShapes;
     }
 
     public int shapeIndex;
@@ -39,10 +76,11 @@ public class ShapeLibrary
     public MyVertex[] Vertex { get; private set; }
     public MyRound[] round1 { get; private set; }
     public bool[] tips { get; private set; }
-    
+
     private class BoundingBox
     {
         private GeoLibPointF midPoint;
+
         public GeoLibPointF getMidPoint()
         {
             return pGetMidPoint();
@@ -71,7 +109,7 @@ public class ShapeLibrary
             }
         }
     }
-    
+
     public GeoLibPointF getPivotPoint()
     {
         return pGetPivotPoint();
@@ -96,35 +134,35 @@ public class ShapeLibrary
 
         return pivot;
     }
-    
+
     private ShapeSettings layerSettings = new();
 
-    public ShapeLibrary(int mode_, ShapeSettings shapeSettings)
+    public ShapeLibrary(int[] shapes, ShapeSettings shapeSettings)
     {
         Vertex = new MyVertex[1];
         round1 = new MyRound[1];
         tips = new bool[1];
-        pShapeLibrary(mode_, shapeSettings);
+        pShapeLibrary(shapes, shapeSettings);
     }
 
-    private void pShapeLibrary(int mode_, ShapeSettings shapeSettings)
+    private void pShapeLibrary(int[] shapes, ShapeSettings shapeSettings)
     {
-        mode = mode_;
         shapeValid = false;
         layerSettings = shapeSettings;
+        pShapesForClient(shapes);
     }
 
-    public ShapeLibrary(int mode_, int shapeIndex_, ShapeSettings shapeSettings)
+    public ShapeLibrary(int[] shapes, int shapeIndex_, ShapeSettings shapeSettings)
     {
         Vertex = new MyVertex[1];
         round1 = new MyRound[1];
         tips = new bool[1];
-        pShapeLibrary(mode_,shapeIndex_, shapeSettings);
+        pShapeLibrary(shapes, shapeIndex_, shapeSettings);
     }
 
-    private void pShapeLibrary(int mode_, int shapeIndex_, ShapeSettings shapeSettings)
+    private void pShapeLibrary(int[] shapes, int shapeIndex_, ShapeSettings shapeSettings)
     {
-        mode = mode_;
+        pShapesForClient(shapes);
         shapeIndex = shapeIndex_;
         shapeValid = false;
         layerSettings = shapeSettings;
@@ -140,81 +178,48 @@ public class ShapeLibrary
     {
         try
         {
-            shapeIndex = shapeIndex_;
-            switch (mode)
+            shapeIndex = shapeMapping_fromClient[shapeIndex_];
+            switch (shapeIndex)
             {
-                case 0:
-                    switch (shapeIndex)
+                case (int)shapeNames_all.rect:
+                case (int)shapeNames_all.text:
+                case (int)shapeNames_all.bounding:
+                    rectangle();
+                    break;
+                case (int)shapeNames_all.Lshape:
+                    Lshape();
+                    break;
+                case (int)shapeNames_all.Tshape:
+                    Tshape();
+                    break;
+                case (int)shapeNames_all.Xshape:
+                    crossShape();
+                    break;
+                case (int)shapeNames_all.Ushape:
+                    Ushape();
+                    break;
+                case (int)shapeNames_all.Sshape:
+                    Sshape();
+                    break;
+                case (int)shapeNames_all.GEOCORE:
+                    if (layerSettings.getInt(ShapeSettings.properties_i.gCSEngine) == 1)
                     {
-                        case (int)shapeNames_mode0.rect:
-                            rectangle();
-                            break;
-                        case (int)shapeNames_mode0.Lshape:
-                            Lshape();
-                            break;
-                        case (int)shapeNames_mode0.Tshape:
-                            Tshape();
-                            break;
-                        case (int)shapeNames_mode0.Xshape:
-                            crossShape();
-                            break;
-                        case (int)shapeNames_mode0.Ushape:
-                            Ushape();
-                            break;
-                        case (int)shapeNames_mode0.Sshape:
-                            Sshape();
-                            break;
-                        case (int)shapeNames_mode0.GEOCORE:
-                            if (layerSettings.getInt(ShapeSettings.properties_i.gCSEngine) == 1)
-                            {
-                                customShape(sourcePoly);
-                            }
-
-                            break;
-                        default:
-                            throw new Exception();
-                            break;
+                        customShape(sourcePoly);
                     }
 
                     break;
-                case 1:
-                    switch (shapeIndex)
-                    {
-                        case (int)shapeNames_mode1.rect:
-                        case (int)shapeNames_mode1.text:
-                        case (int)shapeNames_mode1.bounding:
-                            rectangle();
-                            break;
-                        case (int)shapeNames_mode1.Lshape:
-                            Lshape();
-                            break;
-                        case (int)shapeNames_mode1.Tshape:
-                            Tshape();
-                            break;
-                        case (int)shapeNames_mode1.Xshape:
-                            crossShape();
-                            break;
-                        case (int)shapeNames_mode1.Ushape:
-                            Ushape();
-                            break;
-                        case (int)shapeNames_mode1.Sshape:
-                            Sshape();
-                            break;
-                        case (int)shapeNames_mode1.complex:
-                            customShape(sourcePoly);
-                            break;
-                        default:
-                            throw new Exception();
-                            break;
-                    }
-
+                case (int)shapeNames_all.complex:
+                    customShape(sourcePoly);
+                    break;
+                default:
+                    throw new Exception();
                     break;
             }
         }
         catch (Exception)
         {
             Vertex = new MyVertex[1];
-            tips = new [] { false };
+            tips = new[] { false };
             layerSettings = new();
             round1 = new MyRound[1];
         }
@@ -229,12 +234,12 @@ public class ShapeLibrary
     {
         switch (index)
         {
-            case (int)shapeNames_mode0.Lshape:
-            case (int)shapeNames_mode0.Tshape:
-            case (int)shapeNames_mode0.Xshape:
-            case (int)shapeNames_mode0.Ushape:
+            case (int)shapeNames_all.Lshape:
+            case (int)shapeNames_all.Tshape:
+            case (int)shapeNames_all.Xshape:
+            case (int)shapeNames_all.Ushape:
                 return 2;
-            case (int)shapeNames_mode0.Sshape:
+            case (int)shapeNames_all.Sshape:
                 return 3;
             default:
                 return 1;
@@ -244,57 +249,27 @@ public class ShapeLibrary
     private void configureArrays()
     {
         double vertexCount = 0;
-        switch (mode)
+        switch (shapeIndex)
         {
-            case 0:
-                switch (shapeIndex)
-                {
-                    case (int)shapeNames_mode0.rect: // rectangle
-                        vertexCount = 9;
-                        break;
-                    case (int)shapeNames_mode0.Lshape: // L
-                        vertexCount = 13;
-                        break;
-                    case (int)shapeNames_mode0.Tshape: // T
-                        vertexCount = 17;
-                        break;
-                    case (int)shapeNames_mode0.Xshape: // Cross
-                        vertexCount = 25;
-                        break;
-                    case (int)shapeNames_mode0.Ushape: // U
-                        vertexCount = 17;
-                        break;
-                    case (int)shapeNames_mode0.Sshape: // S
-                        vertexCount = 25;
-                        break;
-                }
-
+            case (int)shapeNames_all.rect: // rectangle
+            case (int)shapeNames_all.text:
+            case (int)shapeNames_all.bounding:
+                vertexCount = 9;
                 break;
-            case 1:
-                switch (shapeIndex)
-                {
-                    case (int)shapeNames_mode1.rect: // rectangle
-                    case (int)shapeNames_mode1.text:
-                    case (int)shapeNames_mode1.bounding:
-                        vertexCount = 9;
-                        break;
-                    case (int)shapeNames_mode1.Lshape: // L
-                        vertexCount = 13;
-                        break;
-                    case (int)shapeNames_mode1.Tshape: // T
-                        vertexCount = 17;
-                        break;
-                    case (int)shapeNames_mode1.Xshape: // Cross
-                        vertexCount = 25;
-                        break;
-                    case (int)shapeNames_mode1.Ushape: // U
-                        vertexCount = 17;
-                        break;
-                    case (int)shapeNames_mode1.Sshape: // S
-                        vertexCount = 25;
-                        break;
-                }
-
+            case (int)shapeNames_all.Lshape: // L
+                vertexCount = 13;
+                break;
+            case (int)shapeNames_all.Tshape: // T
+                vertexCount = 17;
+                break;
+            case (int)shapeNames_all.Xshape: // Cross
+                vertexCount = 25;
+                break;
+            case (int)shapeNames_all.Ushape: // U
+                vertexCount = 17;
+                break;
+            case (int)shapeNames_all.Sshape: // S
+                vertexCount = 25;
                 break;
         }
 
@@ -302,7 +277,7 @@ public class ShapeLibrary
         Vertex = new MyVertex[arrayLength];
         tips = new bool[arrayLength];
 #if !SHAPELIBSINGLETHREADED
-        Parallel.For(0, arrayLength, i => 
+        Parallel.For(0, arrayLength, i =>
 #else
             for (Int32 i = 0; i < arrayLength; i++)
 #endif
@@ -315,7 +290,7 @@ public class ShapeLibrary
         arrayLength = (int)Math.Floor(vertexCount / 2) + 1;
         round1 = new MyRound[arrayLength];
 #if !SHAPELIBSINGLETHREADED
-        Parallel.For(0, arrayLength, i => 
+        Parallel.For(0, arrayLength, i =>
 #else
             for (Int32 i = 0; i < arrayLength; i++)
 #endif
@@ -523,6 +498,7 @@ public class ShapeLibrary
                 tips[15] = true;
                 break;
         }
+
         switch (layerSettings.getInt(ShapeSettings.properties_i.subShape2TipLocIndex))
         {
             case (int)ShapeSettings.tipLocations.none: // None
@@ -603,11 +579,14 @@ public class ShapeLibrary
         tmpX += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 0)) / 2;
         Vertex[4] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
-        tmpY = (Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 0)) - (Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 1)) +
-            (Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verOffset, 1)) - Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verOffset, 0))))) / 2;
+        tmpY = (Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 0)) -
+                (Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 1)) +
+                 (Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verOffset, 1)) -
+                  Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verOffset, 0))))) / 2;
         Vertex[5] = new MyVertex(tmpX, tmpY, typeDirection.right1, true, false, typeVertex.center);
 
-        tmpY = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 1)) + Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verOffset, 1));
+        tmpY = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 1)) +
+               Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verOffset, 1));
         Vertex[6] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
         tmpX += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 1) / 2);
@@ -713,6 +692,7 @@ public class ShapeLibrary
                 tips[3] = true;
                 break;
         }
+
         switch (layerSettings.getInt(ShapeSettings.properties_i.subShape2TipLocIndex))
         {
             case (int)ShapeSettings.tipLocations.none: // None
@@ -793,10 +773,12 @@ public class ShapeLibrary
         tmpX += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 0)) / 2;
         Vertex[4] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
-        tmpY -= (Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 0)) - Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 1))) / 2;
+        tmpY -= (Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 0)) -
+                 Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 1))) / 2;
         Vertex[5] = new MyVertex(tmpX, tmpY, typeDirection.right1, true, false, typeVertex.center);
 
-        tmpY -= (Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 0)) - Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 1))) / 2;
+        tmpY -= (Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 0)) -
+                 Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 1))) / 2;
         Vertex[6] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
         tmpX += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 1)) / 2;
@@ -811,7 +793,8 @@ public class ShapeLibrary
         tmpY -= Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 1)) / 2;
         Vertex[10] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
-        tmpX -= (Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 0)) + Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 1))) / 2;
+        tmpX -= (Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 0)) +
+                 Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 1))) / 2;
         Vertex[11] = new MyVertex(tmpX, tmpY, typeDirection.down1, false, false, typeVertex.center);
 
         processEdgesForRounding();
@@ -898,6 +881,7 @@ public class ShapeLibrary
                 tips[15] = true;
                 break;
         }
+
         switch (layerSettings.getInt(ShapeSettings.properties_i.subShape2TipLocIndex))
         {
             case (int)ShapeSettings.tipLocations.none: // None
@@ -996,7 +980,9 @@ public class ShapeLibrary
         tmpY = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 0));
         Vertex[10] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
-        tmpX += (Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 0)) - (Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horOffset, 1)) + Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 1)))) / 2;
+        tmpX += (Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 0)) -
+                 (Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horOffset, 1)) +
+                  Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 1)))) / 2;
         Vertex[11] = new MyVertex(tmpX, tmpY, typeDirection.up1, false, false, typeVertex.center);
 
         tmpX = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 0));
@@ -1103,6 +1089,7 @@ public class ShapeLibrary
                 tips[23] = true;
                 break;
         }
+
         switch (layerSettings.getInt(ShapeSettings.properties_i.subShape2TipLocIndex))
         {
             case (int)ShapeSettings.tipLocations.none: // None
@@ -1220,7 +1207,9 @@ public class ShapeLibrary
         tmpX = 0.0;
         Vertex[8] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
-        tmpY = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 0)) - (Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 1)) + Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verOffset, 1))) / 2;
+        tmpY = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 0)) -
+               (Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 1)) +
+                Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verOffset, 1))) / 2;
         Vertex[9] = new MyVertex(tmpX, tmpY, typeDirection.left1, true, false, typeVertex.center);
 
         tmpY = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 0));
@@ -1232,15 +1221,20 @@ public class ShapeLibrary
         tmpX = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 0));
         Vertex[12] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
-        tmpY = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 0)) - (Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 1)) + Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verOffset, 1))) / 2;
+        tmpY = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 0)) -
+               (Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 1)) +
+                Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verOffset, 1))) / 2;
         Vertex[13] = new MyVertex(tmpX, tmpY, typeDirection.right1, true, false, typeVertex.center);
 
-        tmpY = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verOffset, 1)) + Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 1));
+        tmpY = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verOffset, 1)) +
+               Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 1));
         Vertex[14] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
         // Need midpoint of edge
         tmpX = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 0));
-        tmpX += (Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 1)) - Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 0))) / 2 / 2; // midpoint
+        tmpX += (Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 1)) -
+                 Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 0))) / 2 /
+                2; // midpoint
         tmpX -= Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horOffset, 1));
         Vertex[15] = new MyVertex(tmpX, tmpY, typeDirection.up1, false, false, typeVertex.center);
 
@@ -1256,7 +1250,9 @@ public class ShapeLibrary
 
         // Need midpoint of edge
         tmpX = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 0));
-        tmpX += (Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 1)) - Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 0))) / 2 / 2; // midpoint
+        tmpX += (Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 1)) -
+                 Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 0))) / 2 /
+                2; // midpoint
         tmpX -= Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horOffset, 1));
         Vertex[19] = new MyVertex(tmpX, tmpY, typeDirection.down1, false, false, typeVertex.center);
 
@@ -1364,6 +1360,7 @@ public class ShapeLibrary
                 tips[23] = true;
                 break;
         }
+
         switch (layerSettings.getInt(ShapeSettings.properties_i.subShape2TipLocIndex)) // Bottom notch
         {
             case (int)ShapeSettings.tipLocations.none: // None
@@ -1423,6 +1420,7 @@ public class ShapeLibrary
                 tips[7] = true;
                 break;
         }
+
         switch (layerSettings.getInt(ShapeSettings.properties_i.subShape3TipLocIndex)) // Top notch
         {
             case (int)ShapeSettings.tipLocations.none: // None
@@ -1506,7 +1504,8 @@ public class ShapeLibrary
         tmpY += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 1)) / 2;
         Vertex[5] = new MyVertex(tmpX, tmpY, typeDirection.left1, true, false, typeVertex.center);
 
-        tmpY = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verOffset, 1)) + Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 1));
+        tmpY = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verOffset, 1)) +
+               Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 1));
         Vertex[6] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
         tmpX = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 1)) / 2;
@@ -1532,7 +1531,8 @@ public class ShapeLibrary
         Vertex[13] = new MyVertex(tmpX, tmpY, typeDirection.right1, true, false, typeVertex.center);
         // Center so no rounding definition
 
-        tmpY = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 0)) - Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verOffset, 2));
+        tmpY = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 0)) -
+               Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verOffset, 2));
         Vertex[14] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
         tmpX -= Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 2) / 2);
@@ -1544,7 +1544,9 @@ public class ShapeLibrary
         tmpY -= Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 2) / 2);
         Vertex[17] = new MyVertex(tmpX, tmpY, typeDirection.right1, false, false, typeVertex.center);
 
-        tmpY = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 0)) - Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 2)) - Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verOffset, 2));
+        tmpY = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 0)) -
+               Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verLength, 2)) -
+               Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.verOffset, 2));
         Vertex[18] = new MyVertex(tmpX, tmpY, typeDirection.tilt1, true, false, typeVertex.corner);
 
         tmpX += Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.horLength, 2) / 2);
@@ -1583,24 +1585,31 @@ public class ShapeLibrary
                 if (r == 0)
                 {
                     round1[r].direction = typeRound.exter;
-                    round1[r].MaxRadius = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.oCR));
+                    round1[r].MaxRadius =
+                        Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.oCR));
                 }
                 else
                 {
                     if (
-                        Vertex[round1[r].verFace].direction == typeDirection.right1 && Vertex[round1[r].horFace].direction == typeDirection.up1 && horEdge < verEdge ||
-                        Vertex[round1[r].verFace].direction == typeDirection.left1 && Vertex[round1[r].horFace].direction == typeDirection.up1 && horEdge > verEdge ||
-                        Vertex[round1[r].verFace].direction == typeDirection.right1 && Vertex[round1[r].horFace].direction == typeDirection.down1 && horEdge > verEdge ||
-                        Vertex[round1[r].verFace].direction == typeDirection.left1 && Vertex[round1[r].horFace].direction == typeDirection.down1 && horEdge < verEdge
+                        Vertex[round1[r].verFace].direction == typeDirection.right1 &&
+                        Vertex[round1[r].horFace].direction == typeDirection.up1 && horEdge < verEdge ||
+                        Vertex[round1[r].verFace].direction == typeDirection.left1 &&
+                        Vertex[round1[r].horFace].direction == typeDirection.up1 && horEdge > verEdge ||
+                        Vertex[round1[r].verFace].direction == typeDirection.right1 &&
+                        Vertex[round1[r].horFace].direction == typeDirection.down1 && horEdge > verEdge ||
+                        Vertex[round1[r].verFace].direction == typeDirection.left1 &&
+                        Vertex[round1[r].horFace].direction == typeDirection.down1 && horEdge < verEdge
                     )
                     {
                         round1[r].direction = typeRound.exter;
-                        round1[r].MaxRadius = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.oCR));
+                        round1[r].MaxRadius =
+                            Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.oCR));
                     }
                     else
                     {
                         round1[r].direction = typeRound.inner;
-                        round1[r].MaxRadius = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.iCR));
+                        round1[r].MaxRadius =
+                            Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.iCR));
                     }
                 }
 
@@ -1650,7 +1659,7 @@ public class ShapeLibrary
         sourcePoly = GeoWrangler.clockwise(sourcePoly);
 
         // We need to look at our incoming shape to see whether it's orthogonal and suitable for contouring.
-        geoCoreShapeOrthogonal = GeoWrangler.orthogonal(sourcePoly, angularTolerance:0.003);
+        geoCoreShapeOrthogonal = GeoWrangler.orthogonal(sourcePoly, angularTolerance: 0.003);
 
         if (!geoCoreShapeOrthogonal)
         {
@@ -1670,12 +1679,13 @@ public class ShapeLibrary
         Vertex = new MyVertex[sCount + 1]; // add one to close.
         // Assign shape vertices to Vertex and move on. EntropyShape will know what to do.
 #if !SHAPELIBSINGLETHREADED
-        Parallel.For(0, sCount, pt => 
+        Parallel.For(0, sCount, pt =>
 #else
             for (int pt = 0; pt < sCount; pt++)
 #endif
             {
-                Vertex[pt] = new MyVertex(sourcePoly[pt].X, sourcePoly[pt].Y, typeDirection.tilt1, false, false, typeVertex.corner);
+                Vertex[pt] = new MyVertex(sourcePoly[pt].X, sourcePoly[pt].Y, typeDirection.tilt1, false, false,
+                    typeVertex.corner);
             }
 #if !SHAPELIBSINGLETHREADED
         );
@@ -1725,21 +1735,30 @@ public class ShapeLibrary
         round1[^1] = round1[0]; // close the loop
 
         // Set up first vertex.
-        Vertex[0] = new MyVertex(sourcePoly[0].X, sourcePoly[0].Y, typeDirection.tilt1, false, false, typeVertex.corner);
+        Vertex[0] = new MyVertex(sourcePoly[0].X, sourcePoly[0].Y, typeDirection.tilt1, false, false,
+            typeVertex.corner);
         vertexCounter++;
         // Set up first midpoint.
-        Vertex[1] = new MyVertex((sourcePoly[0].X + sourcePoly[1].X) / 2.0f, (sourcePoly[0].Y + sourcePoly[1].Y) / 2.0f, typeDirection.left1, true, false, typeVertex.center);
+        Vertex[1] = new MyVertex((sourcePoly[0].X + sourcePoly[1].X) / 2.0f, (sourcePoly[0].Y + sourcePoly[1].Y) / 2.0f,
+            typeDirection.left1, true, false, typeVertex.center);
         if (layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) == (int)ShapeSettings.tipLocations.L ||
-            layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) == (int)ShapeSettings.tipLocations.LR ||
-            layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) == (int)ShapeSettings.tipLocations.BL ||
-            layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) == (int)ShapeSettings.tipLocations.TL ||
-            layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) == (int)ShapeSettings.tipLocations.TBL ||
-            layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) == (int)ShapeSettings.tipLocations.BLR ||
-            layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) == (int)ShapeSettings.tipLocations.TLR ||
+            layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) ==
+            (int)ShapeSettings.tipLocations.LR ||
+            layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) ==
+            (int)ShapeSettings.tipLocations.BL ||
+            layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) ==
+            (int)ShapeSettings.tipLocations.TL ||
+            layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) ==
+            (int)ShapeSettings.tipLocations.TBL ||
+            layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) ==
+            (int)ShapeSettings.tipLocations.BLR ||
+            layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) ==
+            (int)ShapeSettings.tipLocations.TLR ||
             layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) == (int)ShapeSettings.tipLocations.all)
         {
             tips[vertexCounter] = true;
         }
+
         vertexCounter++;
 
         // Also set our end points
@@ -1768,7 +1787,8 @@ public class ShapeLibrary
             }
 
             // Register our corner point into the vertex array.
-            Vertex[vertexCounter] = new MyVertex(sourcePoly[pt].X, sourcePoly[pt].Y, typeDirection.tilt1, false, false, typeVertex.corner);
+            Vertex[vertexCounter] = new MyVertex(sourcePoly[pt].X, sourcePoly[pt].Y, typeDirection.tilt1, false, false,
+                typeVertex.corner);
             vertexCounter++;
 
             // Now we have to wrangle the midpoint.
@@ -1809,30 +1829,48 @@ public class ShapeLibrary
             {
                 if (up)
                 {
-                    Vertex[vertexCounter] = new MyVertex(midPt.X, midPt.Y, typeDirection.up1, vertical, false, typeVertex.center);
-                    if (layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) == (int)ShapeSettings.tipLocations.T ||
-                        layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) == (int)ShapeSettings.tipLocations.TB ||
-                        layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) == (int)ShapeSettings.tipLocations.TL ||
-                        layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) == (int)ShapeSettings.tipLocations.TR ||
-                        layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) == (int)ShapeSettings.tipLocations.TBL ||
-                        layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) == (int)ShapeSettings.tipLocations.TBR ||
-                        layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) == (int)ShapeSettings.tipLocations.TLR ||
-                        layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) == (int)ShapeSettings.tipLocations.all)
+                    Vertex[vertexCounter] = new MyVertex(midPt.X, midPt.Y, typeDirection.up1, vertical, false,
+                        typeVertex.center);
+                    if (layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) ==
+                        (int)ShapeSettings.tipLocations.T ||
+                        layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) ==
+                        (int)ShapeSettings.tipLocations.TB ||
+                        layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) ==
+                        (int)ShapeSettings.tipLocations.TL ||
+                        layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) ==
+                        (int)ShapeSettings.tipLocations.TR ||
+                        layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) ==
+                        (int)ShapeSettings.tipLocations.TBL ||
+                        layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) ==
+                        (int)ShapeSettings.tipLocations.TBR ||
+                        layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) ==
+                        (int)ShapeSettings.tipLocations.TLR ||
+                        layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) ==
+                        (int)ShapeSettings.tipLocations.all)
                     {
                         tips[vertexCounter] = true;
                     }
                 }
                 else
                 {
-                    Vertex[vertexCounter] = new MyVertex(midPt.X, midPt.Y, typeDirection.down1, vertical, false, typeVertex.center);
-                    if (layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) == (int)ShapeSettings.tipLocations.B ||
-                        layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) == (int)ShapeSettings.tipLocations.TB ||
-                        layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) == (int)ShapeSettings.tipLocations.BL ||
-                        layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) == (int)ShapeSettings.tipLocations.BR ||
-                        layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) == (int)ShapeSettings.tipLocations.TBL ||
-                        layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) == (int)ShapeSettings.tipLocations.TBR ||
-                        layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) == (int)ShapeSettings.tipLocations.BLR ||
-                        layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) == (int)ShapeSettings.tipLocations.all)
+                    Vertex[vertexCounter] = new MyVertex(midPt.X, midPt.Y, typeDirection.down1, vertical, false,
+                        typeVertex.center);
+                    if (layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) ==
+                        (int)ShapeSettings.tipLocations.B ||
+                        layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) ==
+                        (int)ShapeSettings.tipLocations.TB ||
+                        layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) ==
+                        (int)ShapeSettings.tipLocations.BL ||
+                        layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) ==
+                        (int)ShapeSettings.tipLocations.BR ||
+                        layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) ==
+                        (int)ShapeSettings.tipLocations.TBL ||
+                        layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) ==
+                        (int)ShapeSettings.tipLocations.TBR ||
+                        layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) ==
+                        (int)ShapeSettings.tipLocations.BLR ||
+                        layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) ==
+                        (int)ShapeSettings.tipLocations.all)
                     {
                         tips[vertexCounter] = true;
                     }
@@ -1842,61 +1880,90 @@ public class ShapeLibrary
             {
                 if (left)
                 {
-                    Vertex[vertexCounter] = new MyVertex(midPt.X, midPt.Y, typeDirection.left1, vertical, false, typeVertex.center);
-                    if (layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) == (int)ShapeSettings.tipLocations.L ||
-                        layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) == (int)ShapeSettings.tipLocations.LR ||
-                        layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) == (int)ShapeSettings.tipLocations.BL ||
-                        layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) == (int)ShapeSettings.tipLocations.TL ||
-                        layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) == (int)ShapeSettings.tipLocations.TBL ||
-                        layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) == (int)ShapeSettings.tipLocations.BLR ||
-                        layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) == (int)ShapeSettings.tipLocations.TLR ||
-                        layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) == (int)ShapeSettings.tipLocations.all)
+                    Vertex[vertexCounter] = new MyVertex(midPt.X, midPt.Y, typeDirection.left1, vertical, false,
+                        typeVertex.center);
+                    if (layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) ==
+                        (int)ShapeSettings.tipLocations.L ||
+                        layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) ==
+                        (int)ShapeSettings.tipLocations.LR ||
+                        layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) ==
+                        (int)ShapeSettings.tipLocations.BL ||
+                        layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) ==
+                        (int)ShapeSettings.tipLocations.TL ||
+                        layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) ==
+                        (int)ShapeSettings.tipLocations.TBL ||
+                        layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) ==
+                        (int)ShapeSettings.tipLocations.BLR ||
+                        layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) ==
+                        (int)ShapeSettings.tipLocations.TLR ||
+                        layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) ==
+                        (int)ShapeSettings.tipLocations.all)
                     {
                         tips[vertexCounter] = true;
                     }
                 }
                 else
                 {
-                    Vertex[vertexCounter] = new MyVertex(midPt.X, midPt.Y, typeDirection.right1, vertical, false, typeVertex.center);
-                    if (layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) == (int)ShapeSettings.tipLocations.R ||
-                        layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) == (int)ShapeSettings.tipLocations.LR ||
-                        layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) == (int)ShapeSettings.tipLocations.BR ||
-                        layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) == (int)ShapeSettings.tipLocations.TR ||
-                        layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) == (int)ShapeSettings.tipLocations.TBR ||
-                        layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) == (int)ShapeSettings.tipLocations.BLR ||
-                        layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) == (int)ShapeSettings.tipLocations.TLR ||
-                        layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) == (int)ShapeSettings.tipLocations.all)
+                    Vertex[vertexCounter] = new MyVertex(midPt.X, midPt.Y, typeDirection.right1, vertical, false,
+                        typeVertex.center);
+                    if (layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) ==
+                        (int)ShapeSettings.tipLocations.R ||
+                        layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) ==
+                        (int)ShapeSettings.tipLocations.LR ||
+                        layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) ==
+                        (int)ShapeSettings.tipLocations.BR ||
+                        layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) ==
+                        (int)ShapeSettings.tipLocations.TR ||
+                        layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) ==
+                        (int)ShapeSettings.tipLocations.TBR ||
+                        layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) ==
+                        (int)ShapeSettings.tipLocations.BLR ||
+                        layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) ==
+                        (int)ShapeSettings.tipLocations.TLR ||
+                        layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) ==
+                        (int)ShapeSettings.tipLocations.all)
                     {
                         tips[vertexCounter] = true;
                     }
                 }
             }
+
             vertexCounter++;
         }
 
         // Reprocess our corners for inner/outer rounding based on horFace/verFace directions
 #if !SHAPELIBSINGLETHREADED
-        Parallel.For(0, roundCount, pt => 
+        Parallel.For(0, roundCount, pt =>
 #else
             for (int pt = 0; pt < roundCount; pt++)
 #endif
             {
                 // Only certain changes in direction correspond to an outer vertex, for a clockwise ordered series of points.
                 bool outerVertex = pt == 0 || pt == round1.Length - 1 ||
-                                   round1[pt].verFace < round1[pt].horFace && Vertex[round1[pt].verFace].direction == typeDirection.left1 && Vertex[round1[pt].horFace].direction == typeDirection.up1 ||
-                                   round1[pt].verFace > round1[pt].horFace && Vertex[round1[pt].horFace].direction == typeDirection.up1 && Vertex[round1[pt].verFace].direction == typeDirection.right1 ||
-                                   round1[pt].verFace < round1[pt].horFace && Vertex[round1[pt].verFace].direction == typeDirection.right1 && Vertex[round1[pt].horFace].direction == typeDirection.down1 ||
-                                   round1[pt].verFace > round1[pt].horFace && Vertex[round1[pt].horFace].direction == typeDirection.down1 && Vertex[round1[pt].verFace].direction == typeDirection.left1;
+                                   round1[pt].verFace < round1[pt].horFace &&
+                                   Vertex[round1[pt].verFace].direction == typeDirection.left1 &&
+                                   Vertex[round1[pt].horFace].direction == typeDirection.up1 ||
+                                   round1[pt].verFace > round1[pt].horFace &&
+                                   Vertex[round1[pt].horFace].direction == typeDirection.up1 &&
+                                   Vertex[round1[pt].verFace].direction == typeDirection.right1 ||
+                                   round1[pt].verFace < round1[pt].horFace &&
+                                   Vertex[round1[pt].verFace].direction == typeDirection.right1 &&
+                                   Vertex[round1[pt].horFace].direction == typeDirection.down1 ||
+                                   round1[pt].verFace > round1[pt].horFace &&
+                                   Vertex[round1[pt].horFace].direction == typeDirection.down1 &&
+                                   Vertex[round1[pt].verFace].direction == typeDirection.left1;
 
                 if (outerVertex)
                 {
                     round1[pt].direction = typeRound.exter;
-                    round1[pt].MaxRadius = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.oCR));
+                    round1[pt].MaxRadius =
+                        Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.oCR));
                 }
                 else
                 {
                     round1[pt].direction = typeRound.inner;
-                    round1[pt].MaxRadius = Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.iCR));
+                    round1[pt].MaxRadius =
+                        Convert.ToDouble(layerSettings.getDecimal(ShapeSettings.properties_decimal.iCR));
                 }
 
                 Vertex[round1[pt].index].inner = !outerVertex;
@@ -1906,10 +1973,13 @@ public class ShapeLibrary
 #endif
     }
 
-    public void computeTips(double gTipBias, double hTipBias, double hTipBiasType, double hTipBiasNegVar, double hTipBiasPosVar, double vTipBias, double vTipBiasType, double vTipBiasNegVar, double vTipBiasPosVar)
+    public void computeTips(double gTipBias, double hTipBias, double hTipBiasType, double hTipBiasNegVar,
+        double hTipBiasPosVar, double vTipBias, double vTipBiasType, double vTipBiasNegVar, double vTipBiasPosVar)
     {
         // Wrangle the tips.
-        for (int cp = 0; cp < Vertex.Length - 1; cp++) // We don't drive the last point directly - we'll close our shape.
+        for (int cp = 0;
+             cp < Vertex.Length - 1;
+             cp++) // We don't drive the last point directly - we'll close our shape.
         {
             if (!tips[cp])
             {
@@ -1931,8 +2001,10 @@ public class ShapeLibrary
                 {
                     Vertex[cp].Y -= vTipBiasPosVar;
                 }
+
                 Vertex[cp].yBiasApplied = true;
             }
+
             if (Vertex[cp].direction == typeDirection.up1 && Vertex[cp].yBiasApplied == false)
             {
                 Vertex[cp].Y += vTipBias;
@@ -1945,8 +2017,10 @@ public class ShapeLibrary
                 {
                     Vertex[cp].Y += vTipBiasPosVar;
                 }
+
                 Vertex[cp].yBiasApplied = true;
             }
+
             if (Vertex[cp].direction == typeDirection.left1 && Vertex[cp].xBiasApplied == false)
             {
                 Vertex[cp].X -= hTipBias;
@@ -1959,6 +2033,7 @@ public class ShapeLibrary
                 {
                     Vertex[cp].X -= hTipBiasPosVar;
                 }
+
                 Vertex[cp].xBiasApplied = true;
             }
 
@@ -1977,6 +2052,7 @@ public class ShapeLibrary
             {
                 Vertex[cp].X += hTipBiasPosVar;
             }
+
             Vertex[cp].xBiasApplied = true;
         }
     }
@@ -1984,7 +2060,9 @@ public class ShapeLibrary
     public void computeBias(double gSideBias)
     {
         // Global bias for anything that isn't a tip.
-        for (int cp = 0; cp < Vertex.Length - 1; cp++) // We don't drive the last point directly - we'll close our shape.
+        for (int cp = 0;
+             cp < Vertex.Length - 1;
+             cp++) // We don't drive the last point directly - we'll close our shape.
         {
             if (!Vertex[cp].xBiasApplied && !tips[cp])
             {
@@ -1998,6 +2076,7 @@ public class ShapeLibrary
                         break;
                 }
             }
+
             if (!Vertex[cp].yBiasApplied && !tips[cp])
             {
                 switch (Vertex[cp].direction)
@@ -2036,31 +2115,40 @@ public class ShapeLibrary
             if (corner == 0)
             {
                 previousEdgeLength = Math.Abs(
-                    GeoWrangler.distanceBetweenPoints(new GeoLibPointF(Vertex[round1[corner].index].X, Vertex[round1[corner].index].Y),
+                    GeoWrangler.distanceBetweenPoints(
+                        new GeoLibPointF(Vertex[round1[corner].index].X, Vertex[round1[corner].index].Y),
                         new GeoLibPointF(Vertex[round1[^1].index].X, Vertex[round1[^1].index].Y))
                 );
             }
             else
             {
                 previousEdgeLength = Math.Abs(
-                    GeoWrangler.distanceBetweenPoints(new GeoLibPointF(Vertex[round1[corner].index].X, Vertex[round1[corner].index].Y),
+                    GeoWrangler.distanceBetweenPoints(
+                        new GeoLibPointF(Vertex[round1[corner].index].X, Vertex[round1[corner].index].Y),
                         new GeoLibPointF(Vertex[round1[corner - 1].index].X, Vertex[round1[corner - 1].index].Y))
                 );
             }
 
             // Wrap around if we exceed the length
             double nextEdgeLength = Math.Abs(
-                GeoWrangler.distanceBetweenPoints(new GeoLibPointF(Vertex[round1[(corner + 1) % (round1.Length - 1)].index].X, Vertex[round1[(corner + 1) % (round1.Length - 1)].index].Y),
-                    new GeoLibPointF(Vertex[round1[(corner + 2) % (round1.Length - 1)].index].X, Vertex[round1[(corner + 2) % (round1.Length - 1)].index].Y))
+                GeoWrangler.distanceBetweenPoints(
+                    new GeoLibPointF(Vertex[round1[(corner + 1) % (round1.Length - 1)].index].X,
+                        Vertex[round1[(corner + 1) % (round1.Length - 1)].index].Y),
+                    new GeoLibPointF(Vertex[round1[(corner + 2) % (round1.Length - 1)].index].X,
+                        Vertex[round1[(corner + 2) % (round1.Length - 1)].index].Y))
             );
 
             double currentEdgeLength = Math.Abs(
-                GeoWrangler.distanceBetweenPoints(new GeoLibPointF(Vertex[round1[corner].index].X, Vertex[round1[corner].index].Y),
-                    new GeoLibPointF(Vertex[round1[(corner + 1) % (round1.Length - 1)].index].X, Vertex[round1[(corner + 1) % (round1.Length - 1)].index].Y))
+                GeoWrangler.distanceBetweenPoints(
+                    new GeoLibPointF(Vertex[round1[corner].index].X, Vertex[round1[corner].index].Y),
+                    new GeoLibPointF(Vertex[round1[(corner + 1) % (round1.Length - 1)].index].X,
+                        Vertex[round1[(corner + 1) % (round1.Length - 1)].index].Y))
             );
 
             double offset = 0.5f * currentEdgeLength;
-            bool reverseSlide = true; // used in the linear mode to handle reversed case (where ratio is > 1), and the no-slide case.)
+            bool
+                reverseSlide =
+                    true; // used in the linear mode to handle reversed case (where ratio is > 1), and the no-slide case.)
 
             if (edgeSlide == 1 && previousEdgeLength > 0 && nextEdgeLength > 0)
             {
@@ -2075,6 +2163,7 @@ public class ShapeLibrary
                     {
                         ratio = 1E-2; // clamp
                     }
+
                     ratio = 1 / ratio; // normalize into our expected range
                 }
 
@@ -2163,15 +2252,22 @@ public class ShapeLibrary
             }
         }
     }
-    
-    public List<GeoLibPointF> processCorners(bool previewMode, bool cornerCheck, bool ignoreCV, double s0HO, double s0VO, double iCR, double iCV, double iCVariation, bool iCPA, double oCR, double oCV, double oCVariation, bool oCPA, int cornerSegments, int optimizeCorners, double resolution, int scaleFactorForOperation)
+
+    public List<GeoLibPointF> processCorners(bool previewMode, bool cornerCheck, bool ignoreCV, double s0HO,
+        double s0VO, double iCR, double iCV, double iCVariation, bool iCPA, double oCR, double oCV, double oCVariation,
+        bool oCPA, int cornerSegments, int optimizeCorners, double resolution, int scaleFactorForOperation)
     {
         Fragmenter fragment = new Fragmenter(resolution, scaleFactorForOperation);
         List<GeoLibPointF> mcPoints = new();
-        List<GeoLibPointF> mcHorEdgePoints = new(); // corner coordinates list, used as a temporary container for each iteration
-        List<List<GeoLibPointF>> mcHorEdgePointsList = new(); // Hold our lists of doubles for each corner in the shape, in order. We cast these to Int in the mcPoints list.
-        List<List<GeoLibPointF>> mcVerEdgePointsList = new(); // Hold our lists of doubles for each edge in the shape, in order. We cast these to Int in the mcPoints list.
-            
+        List<GeoLibPointF>
+            mcHorEdgePoints = new(); // corner coordinates list, used as a temporary container for each iteration
+        List<List<GeoLibPointF>>
+            mcHorEdgePointsList =
+                new(); // Hold our lists of doubles for each corner in the shape, in order. We cast these to Int in the mcPoints list.
+        List<List<GeoLibPointF>>
+            mcVerEdgePointsList =
+                new(); // Hold our lists of doubles for each edge in the shape, in order. We cast these to Int in the mcPoints list.
+
         for (int round = 0; round < round1.Length - 1; round++)
         {
             // Derive our basic coordinates for the three vertices on the edge.
@@ -2197,6 +2293,7 @@ public class ShapeLibrary
                     {
                         startInnerRounding = false;
                     }
+
                     if (round1[round + 1].direction == typeRound.exter)
                     {
                         endInnerRounding = false;
@@ -2212,6 +2309,7 @@ public class ShapeLibrary
                             horFaceUp = false;
                             break;
                     }
+
                     bool verFaceLeft = true;
                     switch (Vertex[round1[round].verFace].direction)
                     {
@@ -2282,6 +2380,7 @@ public class ShapeLibrary
                     {
                         hRadius = x_Distance;
                     }
+
                     if (vRadius > y_Distance)
                     {
                         vRadius = y_Distance;
@@ -2292,6 +2391,7 @@ public class ShapeLibrary
                     {
                         hRadius = 0;
                     }
+
                     if (vRadius < 0)
                     {
                         vRadius = 0;
@@ -2330,6 +2430,7 @@ public class ShapeLibrary
                                 mcPX -= hRadius;
                             }
                         }
+
                         if (horFaceUp)
                         {
                             if (startInnerRounding)
@@ -2376,6 +2477,7 @@ public class ShapeLibrary
                                 mcPX += hRadius * Math.Cos(Utils.toRadians(angle));
                             }
                         }
+
                         if (horFaceUp)
                         {
                             if (startInnerRounding)
@@ -2410,6 +2512,7 @@ public class ShapeLibrary
                         {
                             mcHorEdgePoints.Add(cPt);
                         }
+
                         angle += angleIncrement;
                     }
 
@@ -2419,7 +2522,8 @@ public class ShapeLibrary
                     double bridgeX = mcHorEdgePoints[^1].X;
 
                     // Fragmenter returns first and last points in the point array.
-                    GeoLibPointF[] fragments = fragment.fragmentPath(new [] { new GeoLibPointF(bridgeX, mcPY), new GeoLibPointF(currentHorEdge_mid_x, mcPY) });
+                    GeoLibPointF[] fragments = fragment.fragmentPath(new[]
+                        { new GeoLibPointF(bridgeX, mcPY), new GeoLibPointF(currentHorEdge_mid_x, mcPY) });
 
                     for (int i = 1; i < fragments.Length - 1; i++)
                     {
@@ -2431,7 +2535,9 @@ public class ShapeLibrary
 
                     // Segment 2, plus bridging on first pass through.
 
-                    bool firstPass = true; // With this set, we bridge from midpoint to our first point in the first pass through
+                    bool
+                        firstPass =
+                            true; // With this set, we bridge from midpoint to our first point in the first pass through
                     // segment 2 of the edge.
                     verFaceLeft = true;
                     switch (Vertex[round1[round + 1].verFace].direction)
@@ -2500,6 +2606,7 @@ public class ShapeLibrary
                     {
                         hRadius = x_Distance;
                     }
+
                     if (vRadius > y_Distance)
                     {
                         vRadius = y_Distance;
@@ -2510,6 +2617,7 @@ public class ShapeLibrary
                     {
                         hRadius = 0;
                     }
+
                     if (vRadius < 0)
                     {
                         vRadius = 0;
@@ -2546,6 +2654,7 @@ public class ShapeLibrary
                                 mcPX -= hRadius;
                             }
                         }
+
                         if (horFaceUp)
                         {
                             if (endInnerRounding)
@@ -2592,6 +2701,7 @@ public class ShapeLibrary
                                 mcPX += hRadius * Math.Cos(Utils.toRadians(angle));
                             }
                         }
+
                         if (horFaceUp)
                         {
                             if (endInnerRounding)
@@ -2621,7 +2731,8 @@ public class ShapeLibrary
                             bridgeX = currentHorEdge_mid_x;
 
                             // Fragmenter returns first and last points in the point array.
-                            fragments = fragment.fragmentPath(new [] { new GeoLibPointF(bridgeX, mcPY), new GeoLibPointF(mcPX, mcPY) });
+                            fragments = fragment.fragmentPath(new[]
+                                { new GeoLibPointF(bridgeX, mcPY), new GeoLibPointF(mcPX, mcPY) });
 
                             for (int i = 1; i < fragments.Length - 1; i++)
                             {
@@ -2642,6 +2753,7 @@ public class ShapeLibrary
                         {
                             mcHorEdgePoints.Add(cPt);
                         }
+
                         angle -= angleIncrement;
                     }
 
@@ -2662,6 +2774,7 @@ public class ShapeLibrary
                     mcPoints.Add(new GeoLibPointF(t1.X, t1.Y));
                 }
             }
+
             return GeoWrangler.close(mcPoints);
         }
 
@@ -2686,7 +2799,8 @@ public class ShapeLibrary
             double endPoint_y = startHorEdgePointList[0].Y;
 
             // We get the start and end points here.
-            List<GeoLibPointF> fragments = fragment.fragmentPath(new List<GeoLibPointF> { new GeoLibPointF(vert_x, startPoint_y), new GeoLibPointF(vert_x, endPoint_y) });
+            List<GeoLibPointF> fragments = fragment.fragmentPath(new List<GeoLibPointF>
+                { new GeoLibPointF(vert_x, startPoint_y), new GeoLibPointF(vert_x, endPoint_y) });
             mcVerEdgePointsList.Add(fragments);
         }
 
@@ -2711,10 +2825,11 @@ public class ShapeLibrary
         }
 
         return mcPoints;
-        
+
     }
 
-    public List<GeoLibPointF> rotateShape(List<GeoLibPointF> input, ShapeSettings shapeSettings, double rotationVar, double rotationDirection, GeoLibPointF? pivot = null)
+    public List<GeoLibPointF> rotateShape(List<GeoLibPointF> input, ShapeSettings shapeSettings, double rotationVar,
+        double rotationDirection, GeoLibPointF? pivot = null)
     {
         double rotationAngle = Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.rot));
         if (rotationDirection <= 0.5)
@@ -2726,7 +2841,11 @@ public class ShapeLibrary
             rotationAngle += rotationVar;
         }
 
-        if (rotationAngle != 0 || (shapeSettings.getInt(ShapeSettings.properties_i.flipH) == 1 || shapeSettings.getInt(ShapeSettings.properties_i.flipV) == 1) && (shapeSettings.getInt(ShapeSettings.properties_i.alignX) == 1 || shapeSettings.getInt(ShapeSettings.properties_i.alignY) == 1))
+        if (rotationAngle != 0 ||
+            (shapeSettings.getInt(ShapeSettings.properties_i.flipH) == 1 ||
+             shapeSettings.getInt(ShapeSettings.properties_i.flipV) == 1) &&
+            (shapeSettings.getInt(ShapeSettings.properties_i.alignX) == 1 ||
+             shapeSettings.getInt(ShapeSettings.properties_i.alignY) == 1))
         {
             // Get our bounding box.
             BoundingBox bb = new(input);

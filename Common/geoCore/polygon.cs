@@ -573,28 +573,35 @@ public class GCPolygon : GCElement
             gw.bw.Write((byte)0x0E);
             gw.bw.Write((byte)2);
             gw.bw.Write((short)datatype_nr);
-            int i = pointarray.Length;
+
+            GeoLibPoint[] cleaned = GeoWrangler.removeDuplicates(pointarray).ToArray();
+            int i = cleaned.Length;
             i = i switch
             {
                 > 8191 => 8191,
                 _ => i
             };
             //xy 
-            // Add one to the point-list length value (i) to mark the closed shape.
-            int val = (i + 1) * 2 * 4 + 4;
+            bool closedGeometry = ((cleaned[0].X == cleaned[^1].X) && (cleaned[0].Y == cleaned[^1].Y));
+                
+            // Add one to the point-list length value (i) to mark the closed shape, if needed.
+            int val = (closedGeometry ? i: i + 1) * 2 * 4 + 4;
             gw.bw.Write((ushort)val);
             gw.bw.Write((byte)0x10);
             gw.bw.Write((byte)3);
 
             for (int k = 0; k < i; k++)
             {
-                gw.bw.Write(pointarray[k].X);
-                gw.bw.Write(pointarray[k].Y);
+                gw.bw.Write(cleaned[k].X);
+                gw.bw.Write(cleaned[k].Y);
             }
 
             // close the polygon.
-            gw.bw.Write(pointarray[0].X);
-            gw.bw.Write(pointarray[0].Y);
+            if (!closedGeometry)
+            {
+                gw.bw.Write(cleaned[0].X);
+                gw.bw.Write(cleaned[0].Y);
+            }
 
             // endel
             gw.bw.Write((ushort)4);

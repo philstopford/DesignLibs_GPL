@@ -957,7 +957,7 @@ public class GeoCore
         }
         
         points = GeoWrangler.resize(points, resizeFactor);
-        points = GeoWrangler.removeDuplicates(points);
+        // points = GeoWrangler.removeDuplicates(points);
         return points;
     }
 

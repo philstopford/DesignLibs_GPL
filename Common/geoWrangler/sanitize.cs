@@ -813,16 +813,10 @@ public static partial class GeoWrangler
         }
         return ret;
     }
-
-
-    public static GeoLibPoint[]  removeDuplicates(GeoLibPoint[] source)
+    
+    public static List<GeoLibPoint> removeDuplicates(GeoLibPoint[] source)
     {
-        return pRemoveDuplicates(source).ToArray();
-    }
-
-    public static List<GeoLibPoint> pRemoveDuplicates(GeoLibPoint[] source)
-    {
-        return pRemoveDuplicates(source);
+        return pRemoveDuplicates(source.ToList());
     }
 
     private static List<GeoLibPoint> pRemoveDuplicates(List<GeoLibPoint> source)

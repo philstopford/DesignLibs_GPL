@@ -335,7 +335,11 @@ internal partial class oasReader
                                 readUnsignedInteger();
                                 break;
                         }
-                        layerNames.Add("L" + l + "D" + i, modal.s);
+
+                        if (!layerNames.ContainsKey("L" + l + "D" + i))
+                        {
+                            layerNames.Add("L" + l + "D" + i, modal.s);
+                        }
                         break;
                     case 13: // cellrecord
                         cell_ = drawing_.addCell();

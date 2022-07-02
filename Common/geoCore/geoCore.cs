@@ -397,7 +397,10 @@ public class GeoCore
 
     private void pAddLayerName(string key, string value)
     {
-        layerNames.Add(key, value);
+        if (!layerNames.ContainsKey(key))
+        {
+            layerNames.Add(key, value);
+        }
     }
 
     public GeoCore()

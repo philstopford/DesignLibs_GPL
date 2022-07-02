@@ -857,6 +857,22 @@ public static partial class GeoWrangler
         return pRemoveDuplicates(source, threshold);
     }
 
+    public static List<GeoLibPointF[]> removeDuplicates(List<GeoLibPointF[]> source, double threshold = Double.Epsilon)
+    {
+        return pRemoveDuplicates(source, threshold);
+    }
+
+    private static List<GeoLibPointF[]> pRemoveDuplicates(List<GeoLibPointF[]> source, double threshold = Double.Epsilon)
+    {
+        List<GeoLibPointF[]> ret = new List<GeoLibPointF[]>();
+        foreach (var t in source)
+        {
+            ret.Add(removeDuplicates(t, threshold));
+        }
+
+        return ret;
+    }
+
     public static GeoLibPointF[] removeDuplicates(GeoLibPointF[] source, double threshold = Double.Epsilon)
     {
         return pRemoveDuplicates(source, threshold).ToArray();

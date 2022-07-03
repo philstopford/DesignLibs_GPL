@@ -1654,6 +1654,8 @@ public class ShapeLibrary
         // Upstream should trim array to ensure end point is different from start point, but we'll force the issue here for robustness.
         sourcePoly = GeoWrangler.stripTerminators(sourcePoly, true);
         sourcePoly = GeoWrangler.stripColinear(sourcePoly);
+        // Remove duplicate points in case definition was badly constructed.
+        sourcePoly = GeoWrangler.removeDuplicates(sourcePoly);
         //  Strip the terminator again to meet the requirements below.
         sourcePoly = GeoWrangler.stripTerminators(sourcePoly, false);
         sourcePoly = GeoWrangler.clockwise(sourcePoly);

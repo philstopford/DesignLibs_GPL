@@ -359,6 +359,7 @@ public class GeoCore
                 break;
         }
         genLDList();
+        updateCollections();
     }
 
     public GCDrawingfield getDrawing()

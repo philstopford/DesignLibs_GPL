@@ -392,14 +392,8 @@ public class DistanceHandler
         return result;
     }
 
-    private spaceResult overlapAssess(bool debugCalc, Path overlapPoly_, Path aOverlapEdge_, Path bOverlapEdge_, Path aPath_, Path bPath_, int mode, int scaleFactor, bool runThreaded)
+    private spaceResult overlapAssess(bool debugCalc, Path overlapPoly, Path aOverlapEdge, Path bOverlapEdge, Path aPath, Path bPath, int mode, int scaleFactor, bool runThreaded)
     {
-        Path overlapPoly = new Path(overlapPoly_);
-        Path aOverlapEdge = new Path(aOverlapEdge_);
-        Path bOverlapEdge = new Path(bOverlapEdge_);
-        Path aPath = new Path(aPath_);
-        Path bPath = new Path(bPath_);
-
         spaceResult result = new();
         if (aOverlapEdge.Count == 0)
         {

@@ -752,7 +752,7 @@ public class DistanceHandler
             // Harmless - we'll reject the case and move on.
         }
 
-        result.distance = maxDistance;
+        result.distance = -maxDistance / scaleFactorForOperation;
         return result;
     }
 }

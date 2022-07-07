@@ -85,16 +85,16 @@ public class ShapeSettings
     public enum typeShapes_mode0 { none, rectangle, L, T, X, U, S, GEOCORE, BOOLEAN }
     public enum typeShapes_mode1 { none, rectangle, L, T, X, U, S, text, bounding, complex }
 
-    public static readonly int default_subShapeTipLocIndex = 0;
-    public static readonly int default_subShape2TipLocIndex = 0;
-    public static readonly int default_subShape3TipLocIndex = 0;
+    private static readonly int default_subShapeTipLocIndex = 0;
+    private static readonly int default_subShape2TipLocIndex = 0;
+    private static readonly int default_subShape3TipLocIndex = 0;
     
     private static readonly int default_enabled = 0;
     private static readonly int default_geoCoreShapeEngine = 0;
 
-    public static readonly int default_shapeIndex = (int)typeShapes_mode0.none;
-    public static readonly int default_subShapeRefIndex = 0;
-    public static readonly int default_posInSubShapeIndex = (int)subShapeLocations.BL;
+    private static readonly int default_shapeIndex = (int)typeShapes_mode0.none;
+    private static readonly int default_subShapeRefIndex = 0;
+    private static readonly int default_posInSubShapeIndex = (int)subShapeLocations.BL;
 
     private static readonly int default_edgeSlide = 0;
     private static readonly int default_proximitySideRays = 2;
@@ -109,12 +109,12 @@ public class ShapeSettings
     private static readonly int default_alignGeom = 0;
 
     private int enabled = default_enabled;
-    public int shapeIndex = default_shapeIndex;
+    private int shapeIndex = default_shapeIndex;
     private int gCSEngine = default_geoCoreShapeEngine;
     private int subShapeTipLocIndex = default_subShapeTipLocIndex;
     private int subShape2TipLocIndex = default_subShape2TipLocIndex;
     private int subShape3TipLocIndex = default_subShape3TipLocIndex;
-    public int subShapeRefIndex = default_subShapeRefIndex;
+    private int subShapeRefIndex = default_subShapeRefIndex;
     private int posInSubShapeIndex = default_posInSubShapeIndex;
     private int edgeSlide = default_edgeSlide;
     private int proximitySideRays = default_proximitySideRays;

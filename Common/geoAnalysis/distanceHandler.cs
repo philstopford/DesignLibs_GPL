@@ -1,5 +1,6 @@
 using System.Globalization;
 using Clipper2Lib;
+using geoAnalysis;
 using geoLib;
 using geoWrangler;
 using KDTree;
@@ -12,11 +13,10 @@ using Paths = List<List<Point64>>;
 
 public class DistanceHandler
 {
-    public delegate void ErrorRep(string text, string header);
-    public ErrorRep errorRep { get; set; }
-
     public enum spacingCalcModes { spacing, enclosure, spacingOld, enclosureOld } // exp triggers projection from shortest edge for overlap evaluation.
 
+    public delegate void ErrorRep(string text, string header);
+    public ErrorRep errorRep { get; set; }
     private const bool debug = false;
     public Paths resultPaths { get; private set; }
     private double resultDistance;
@@ -40,12 +40,12 @@ public class DistanceHandler
         }
     }
 
-    public DistanceHandler(Paths aPaths, Paths bPaths, double resolution, int scaleFactorForOperation, int subMode, bool runThreaded, bool debug)
+    public DistanceHandler(bool debugCalc, Paths aPaths, Paths bPaths, int mode, int scaleFactor, bool runThreaded)
     {
-        distanceHandlerLogic(aPaths, bPaths, resolution, scaleFactorForOperation, subMode, runThreaded, debug);
+        distanceHandlerLogic(debugCalc, aPaths, bPaths, mode, scaleFactor, runThreaded);
     }
 
-    private void distanceHandlerLogic(Paths aPaths, Paths bPaths, double resolution, int scaleFactorForOperation, int subMode, bool runThreaded, bool debugCalc)
+    private void distanceHandlerLogic(bool debugCalc, Paths aPaths, Paths bPaths, int mode, int scaleFactor, bool runThreaded)
     {
         resultPaths = new Paths();
         // Safety check for no active layers.
@@ -65,11 +65,11 @@ public class DistanceHandler
             if (!isEnclosed)
             {
                 // Overlap method sets result fields.
-                overlap(aPaths, bPaths, resolution, scaleFactorForOperation, subMode, runThreaded, debugCalc);
+                overlap(debugCalc, aPaths, bPaths, mode, scaleFactor, runThreaded);
             }
             else
             {
-                spaceResult result = fastKDTree(aPaths, bPaths, scaleFactorForOperation, subMode);
+                spaceResult result = fastKDTree(aPaths, bPaths, mode, scaleFactor);
 
                 resultDistance = result.distance;
                 resultPaths = result.resultPaths;
@@ -79,7 +79,7 @@ public class DistanceHandler
         }
     }
 
-    private spaceResult fastKDTree(Paths aPaths, Paths bPaths, int scaleFactorForOperation, int subMode)
+    private spaceResult fastKDTree(Paths aPaths, Paths bPaths, int mode, int scaleFactor)
     {
         int numberOfPoints = 0;
         double currentMinimum = 0;
@@ -123,11 +123,11 @@ public class DistanceHandler
 
             double oCheckArea = oCheck.Sum(t => Clipper.Area(t));
 
-            if (subMode == (int)spacingCalcModes.enclosure || subMode == (int)spacingCalcModes.enclosureOld) // negative value since we're fully inside a containing polygon.
+            if (mode == (int)spacingCalcModes.enclosure || mode == (int)spacingCalcModes.enclosureOld) // negative value since we're fully inside a containing polygon.
             {
                 resultNeedsInversion = Math.Abs(Math.Abs(oCheckArea) - Math.Abs(refArea)) > double.Epsilon;
             }
-            if (subMode == (int)spacingCalcModes.spacing || subMode == (int)spacingCalcModes.spacingOld) // negative value since we're fully outside a containing polygon.
+            if (mode == (int)spacingCalcModes.spacing || mode == (int)spacingCalcModes.spacingOld) // negative value since we're fully outside a containing polygon.
             {
                 resultNeedsInversion = Math.Abs(Math.Abs(oCheckArea) - Math.Abs(refArea)) < double.Epsilon;
             }
@@ -159,7 +159,7 @@ public class DistanceHandler
         {
             resultPaths = new Paths {minimumDistancePath},
             // k-d tree distance is the squared distance. Need to scale and sqrt
-            distance = Math.Sqrt(currentMinimum / Utils.myPow(scaleFactorForOperation, 2))
+            distance = Math.Sqrt(currentMinimum / Utils.myPow(scaleFactor, 2))
         };
 
         if (resultNeedsInversion)
@@ -170,7 +170,7 @@ public class DistanceHandler
         return result;
     }
 
-    private void overlap(Paths aPaths, Paths bPaths, double resolution, int scaleFactorForOperation, int subMode, bool runThreaded, bool debugCalc)
+    private void overlap(bool debugCalc, Paths aPaths, Paths bPaths, int mode, int scaleFactor, bool runThreaded)
     {
         bool completeOverlap = false;
         foreach (Path a in aPaths)
@@ -208,7 +208,7 @@ public class DistanceHandler
                     completeOverlap = true;
                 }
 
-                if (subMode == (int)spacingCalcModes.spacing || subMode == (int)spacingCalcModes.spacingOld) // spacing
+                if (mode == (int)spacingCalcModes.spacing || mode == (int)spacingCalcModes.spacingOld) // spacing
                 {
                     // Perform an area check in case of overlap.
                     // Overlap means X/Y negative space needs to be reported.
@@ -216,7 +216,7 @@ public class DistanceHandler
                     overlapShape = aH.listOfOutputPoints;
                 }
 
-                if (!completeOverlap && (subMode == (int)spacingCalcModes.enclosure || subMode == (int)spacingCalcModes.enclosureOld)) // enclosure
+                if (!completeOverlap && (mode == (int)spacingCalcModes.enclosure || mode == (int)spacingCalcModes.enclosureOld)) // enclosure
                 {
                     // Need to find the region outside our enclosure shape. We use the modifier to handle this.
                     c.Clear();
@@ -235,7 +235,7 @@ public class DistanceHandler
                 // This is needed to ensure the downstream evaluation works.
                 overlapShape = GeoWrangler.reOrderYX(overlapShape);
 
-                spaceResult result = doPartialOverlap(overlapShape, layerAPath, layerBPath, resolution, scaleFactorForOperation, subMode, runThreaded, debugCalc);
+                spaceResult result = doPartialOverlap(debugCalc, overlapShape, layerAPath, layerBPath, mode, scaleFactor, runThreaded);
                 if (!result.done || resultPaths.Any() && !(result.distance < resultDistance))
                 {
                     continue;
@@ -247,7 +247,7 @@ public class DistanceHandler
         }
     }
 
-    private spaceResult doPartialOverlap(Paths overlapShape, Path aPath, Path bPath, double resolution, int scaleFactorForOperation, int subMode, bool runThreaded, bool debugCalc)
+    private spaceResult doPartialOverlap(bool debugCalc, Paths overlapShape, Path aPath, Path bPath, int mode, int scaleFactor, bool runThreaded)
     {
         spaceResult result = new();
         int oCount = overlapShape.Count;
@@ -372,7 +372,7 @@ public class DistanceHandler
                 }
 
                 // Walk our edges to figure out the overlap.
-                foreach (spaceResult tResult in aOverlapEdge.SelectMany(t => bOverlapEdge.Select(t1 => overlapAssess(overlapShape[poly], t, t1, aPath, bPath, scaleFactorForOperation, subMode, runThreaded, debugCalc)).Where(tResult => result.resultPaths.Count == 0 || tResult.distance > result.distance)))
+                foreach (spaceResult tResult in aOverlapEdge.SelectMany(t => bOverlapEdge.Select(t1 => overlapAssess(debugCalc, overlapShape[poly], t, t1, aPath, bPath, mode, scaleFactor, runThreaded)).Where(tResult => result.resultPaths.Count == 0 || tResult.distance > result.distance)))
                 {
                     result.distance = tResult.distance;
                     result.resultPaths = tResult.resultPaths;
@@ -385,15 +385,21 @@ public class DistanceHandler
         }
         
         result.done = true;
-        if (debugCalc)
+        if (!debugCalc)
         {
-            result.distance = -result.distance / scaleFactorForOperation;
+            result.distance = -result.distance / scaleFactor;
         }
         return result;
     }
 
-    private spaceResult overlapAssess(Path overlapPoly, Path aOverlapEdge, Path bOverlapEdge, Path aPath, Path bPath, int scaleFactorForOperation, int subMode, bool runThreaded, bool debugCalc)
+    private spaceResult overlapAssess(bool debugCalc, Path overlapPoly_, Path aOverlapEdge_, Path bOverlapEdge_, Path aPath_, Path bPath_, int mode, int scaleFactor, bool runThreaded)
     {
+        Path overlapPoly = new Path(overlapPoly_);
+        Path aOverlapEdge = new Path(aOverlapEdge_);
+        Path bOverlapEdge = new Path(bOverlapEdge_);
+        Path aPath = new Path(aPath_);
+        Path bPath = new Path(bPath_);
+
         spaceResult result = new();
         if (aOverlapEdge.Count == 0)
         {
@@ -423,7 +429,7 @@ public class DistanceHandler
         Point64 shortestPathBeforeStartPoint = new(0, 0);
         Point64 shortestPathAfterEndPoint = new(0, 0);
 
-        if (subMode == (int)spacingCalcModes.spacing)
+        if (mode == (int)spacingCalcModes.spacing)
         {
             // Find the shortest edge length and use that for the projection reference
             // Calculate lengths and check.
@@ -553,7 +559,7 @@ public class DistanceHandler
             }
         }
 
-        if (subMode == (int)spacingCalcModes.spacingOld || subMode == (int)spacingCalcModes.enclosure || subMode == (int)spacingCalcModes.enclosureOld)
+        if (mode == (int)spacingCalcModes.spacingOld || mode == (int)spacingCalcModes.enclosure || mode == (int)spacingCalcModes.enclosureOld)
         {
 
             extractedPath = bOverlapEdge;
@@ -632,7 +638,7 @@ public class DistanceHandler
         bool overOrient = Clipper.IsPositive(overlapPoly);
 
         // No blurry rays, so no point running the inner loop threaded. We thread the outer loop (the emission edge raycast), though. Testing showed small performance improvement for this approach.
-        RayCast rc = new(extractedPath, overlapPoly, scaleFactorForOperation * scaleFactorForOperation, runThreaded, invert, 0, true, false, shortestPathBeforeStartPoint, shortestPathAfterEndPoint);
+        RayCast rc = new(extractedPath, overlapPoly, scaleFactor * scaleFactor, runThreaded, invert, 0, true, false, shortestPathBeforeStartPoint, shortestPathAfterEndPoint);
 
         if (debug || debugCalc)
         {
@@ -752,7 +758,7 @@ public class DistanceHandler
             // Harmless - we'll reject the case and move on.
         }
 
-        result.distance = -maxDistance / scaleFactorForOperation;
+        result.distance = maxDistance;
         return result;
     }
 }

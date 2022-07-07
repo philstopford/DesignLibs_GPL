@@ -462,7 +462,7 @@ public static partial class GeoWrangler
         }
         return ret;
     }
-
+    
     public static GeoLibPointF[] clockwiseAndReorderYX(GeoLibPointF[] iPoints)
     {
         return pClockwiseAndReorderYX(iPoints);
@@ -658,10 +658,22 @@ public static partial class GeoWrangler
 
             double theta = pAngleBetweenPoints(interSection_A, interSection_B, interSection_C, false);
 
-            if (pt == 0 || Math.Abs(theta - 180) > angularTolerance)
+            bool addPoint = true;
+            if (pt != 0 && pt != source.Count - 1)
             {
-                ret.Add(new Point64(source[pt]));
+                if (Math.Abs(theta - 180) <= angularTolerance)
+                {
+                    addPoint = false;
+                }
             }
+
+            switch (addPoint)
+            {
+                case true:
+                    ret.Add(new Point64(source[pt]));
+                    break;
+            }
+            
         }
         return ret;
     }
@@ -732,7 +744,7 @@ public static partial class GeoWrangler
             bool addPoint = true;
             if (pt != 0 && pt != source.Length - 1)
             {
-                if (Math.Abs(theta - 180) < angularTolerance)
+                if (Math.Abs(theta - 180) <= angularTolerance)
                 {
                     addPoint = false;
                 }
@@ -798,7 +810,7 @@ public static partial class GeoWrangler
             bool addPoint = true;
             if (pt != 0 && pt != source.Count - 1)
             {
-                if (Math.Abs(theta - 180) < angularTolerance)
+                if (Math.Abs(theta - 180) <= angularTolerance)
                 {
                     addPoint = false;
                 }
@@ -1007,7 +1019,7 @@ public static partial class GeoWrangler
             bool addPoint = true;
             if (pt != 0 && pt != source.Length - 1)
             {
-                if (Math.Abs(theta - 180) < angularTolerance)
+                if (Math.Abs(theta - 180) <= angularTolerance)
                 {
                     addPoint = false;
                 }
@@ -1073,7 +1085,7 @@ public static partial class GeoWrangler
             bool addPoint = true;
             if (pt != 0 && pt != source.Count - 1)
             {
-                if (Math.Abs(theta - 180) < angularTolerance)
+                if (Math.Abs(theta - 180) <= angularTolerance)
                 {
                     addPoint = false;
                 }

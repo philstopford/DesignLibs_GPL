@@ -34,12 +34,6 @@ public static class Proximity
         // Scale up our geometry for processing. Force a clockwise point order here due to potential upstream point order changes (e.g. polygon merging)
         Paths sourceGeometry = GeoWrangler.pathsFromPointFs(input, scaleFactorForOperation);
 
-        // Ensure geometry meets our needs. This is important for the normal computation and calculations.
-        // If this is not done, sawtooth profiles are seen due to problematic ray casts.
-        sourceGeometry = GeoWrangler.stripTerminators(sourceGeometry, false);
-        sourceGeometry = GeoWrangler.clockwiseAndReorderYX(sourceGeometry);
-        sourceGeometry = GeoWrangler.close(sourceGeometry);
-        
         List<bool> overlapDrawnList = new();
         
         int sCount = sourceGeometry.Count;

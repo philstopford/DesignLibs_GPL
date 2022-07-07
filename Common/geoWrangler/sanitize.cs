@@ -269,7 +269,7 @@ public static partial class GeoWrangler
     private static Paths pClockwiseAndReorderYX(Paths iPoints)
     {
         Paths retPaths = new();
-        foreach (Path t in iPoints.Select(pClockwiseAndReorderXY))
+        foreach (Path t in iPoints.Select(pClockwiseAndReorderYX))
         {
             t.Reverse(); // Getting a reversed path from the above, not sure why.
             retPaths.Add(pClose(t));

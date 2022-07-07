@@ -14,16 +14,18 @@ using Paths = List<List<Point64>>;
 public static class Proximity
 {
     // Drawn poly allows for geometry to be excluded from consideration in the input list
-    public static GeometryResult proximityBias(List<GeoLibPointF[]> input, List<bool> drawnPoly_, decimal pBias, decimal pBiasDist, int proxRays, int proxSideRaysFallOff, decimal proxSideRaysMultiplier, decimal rayExtension, double fragmenterResolution, Int64 scaleFactorForOperation)
+    public static GeometryResult proximityBias(List<GeoLibPointF[]> input, List<bool> drawnPoly_, decimal pBias,
+        decimal pBiasDist, int proxRays, int proxSideRaysFallOff, decimal proxSideRaysMultiplier, decimal rayExtension,
+        double fragmenterResolution, Int64 scaleFactorForOperation)
     {
         // Proximity biasing - where isolated edges get bias based on distance to nearest supporting edge.
         bool proxBiasNeeded = (pBias != 0) && (pBiasDist != 0);
 
         if (!proxBiasNeeded)
         {
-            return new() {geometry = input.ToList(), drawn = drawnPoly_.ToList()};
+            return new() { geometry = input.ToList(), drawn = drawnPoly_.ToList() };
         }
-        
+
         bool debug = false;
         bool linear = false;
 
@@ -35,7 +37,18 @@ public static class Proximity
         Paths sourceGeometry = GeoWrangler.pathsFromPointFs(input, scaleFactorForOperation);
 
         List<bool> overlapDrawnList = new();
-        
+
+        // Ensure geometry meets our needs. This is important for the normal computation and calculations.
+        // If this is not done, sawtooth profiles are seen due to problematic ray casts.
+        for (int p1 = 0; p1 < sourceGeometry.Count; p1++)
+        {
+            if (Clipper.IsPositive(sourceGeometry[p1]))
+            {
+                sourceGeometry[p1].Reverse();
+            }
+        }
+        sourceGeometry = GeoWrangler.close(sourceGeometry);
+
         int sCount = sourceGeometry.Count;
         for (int poly = 0; poly < sCount; poly++)
         {

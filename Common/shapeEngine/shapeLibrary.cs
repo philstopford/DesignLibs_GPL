@@ -1679,6 +1679,7 @@ public class ShapeLibrary
     {
         int sCount = sourcePoly.Length;
         Vertex = new MyVertex[sCount + 1]; // add one to close.
+        tips = new bool[sCount + 1];
         // Assign shape vertices to Vertex and move on. EntropyShape will know what to do.
 #if !SHAPELIBSINGLETHREADED
         Parallel.For(0, sCount, pt =>
@@ -1688,12 +1689,14 @@ public class ShapeLibrary
             {
                 Vertex[pt] = new MyVertex(sourcePoly[pt].X, sourcePoly[pt].Y, typeDirection.tilt1, false, false,
                     typeVertex.corner);
+                tips[pt] = false;
             }
 #if !SHAPELIBSINGLETHREADED
         );
 #endif
         // Close the shape.
         Vertex[^1] = new MyVertex(Vertex[0]);
+        tips[^1] = false;
     }
 
     private void customShape_orthogonal(GeoLibPointF[] sourcePoly)
@@ -2096,6 +2099,10 @@ public class ShapeLibrary
 
     public void biasCorners()
     {
+        if (shapeIndex == (int)ShapeLibrary.shapeNames_all.complex)
+        {
+            return;
+        }
         // Iterate the corners to apply the bias from the edges.
         foreach (MyRound t in round1)
         {

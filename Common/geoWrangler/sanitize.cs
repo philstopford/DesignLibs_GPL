@@ -1466,7 +1466,7 @@ public static partial class GeoWrangler
 
         solution = pReorderXY(solution);
 
-        Paths keyHoled = pMakeKeyHole(solution, true, customSizing: customSizing, extension: extension);
+        Paths keyHoled = pMakeKeyHole(solution, reverseEval:false, biDirectionalEval:true, customSizing: customSizing, extension: extension);
 
         return pPointFsFromPaths(pClockwiseAndReorderXY(keyHoled), scaling);
     }

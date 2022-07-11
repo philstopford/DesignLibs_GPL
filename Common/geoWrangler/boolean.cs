@@ -77,7 +77,7 @@ public static partial class GeoWrangler
         {
             Fragmenter f = new(resolution * scaling);
             ret = f.fragmentPaths(ret);
-            Paths merged = makeKeyHole(ret, true, extension:extension);
+            Paths merged = makeKeyHole(ret, reverseEval:false, biDirectionalEval:true, extension:extension);
 
             int count = merged.Count;
 #if !GWSINGLETHREADED

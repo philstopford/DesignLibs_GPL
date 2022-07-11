@@ -73,7 +73,7 @@ public static partial class GeoWrangler
                 sourcePaths = cutters;
                 return sourcePaths;
             default:
-                return pMakeKeyHole(sourcePaths, true);
+                return pMakeKeyHole(sourcePaths, reverseEval:false, biDirectionalEval:true);
         }
     }
 }

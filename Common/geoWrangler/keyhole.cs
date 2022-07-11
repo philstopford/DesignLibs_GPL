@@ -15,22 +15,22 @@ public static partial class GeoWrangler
     public const double keyhole_sizing = 500;
     private const double keyhole_extension_default = 1.00;
 
-    public static Paths makeKeyHole(Paths outers, Paths cutters, bool reverseWalk, RayCast.inversionMode invert = RayCast.inversionMode.x, double customSizing = 0, double extension = 0, double angularTolerance = 0)
+    public static Paths makeKeyHole(Paths outers, Paths cutters, bool reverseEval, bool biDirectionalEval, RayCast.inversionMode invert = RayCast.inversionMode.x, double customSizing = 0, double extension = 0, double angularTolerance = 0)
     {
-        return pMakeKeyHole(outers, cutters, reverseWalk, invert, customSizing: customSizing, extension: extension, angularTolerance: angularTolerance);
+        return pMakeKeyHole(outers, cutters, reverseEval, biDirectionalEval, invert, customSizing: customSizing, extension: extension, angularTolerance: angularTolerance);
     }
 
-    public static Paths makeKeyHole(Path source, bool reverseWalk, RayCast.inversionMode invert = RayCast.inversionMode.x, double customSizing = 0, double extension = 0, double angularTolerance = 0)
+    public static Paths makeKeyHole(Path source, bool reverseEval, bool biDirectionalEval, RayCast.inversionMode invert = RayCast.inversionMode.x, double customSizing = 0, double extension = 0, double angularTolerance = 0)
     {
-        return pMakeKeyHole(new Paths { source }, reverseWalk, invert, customSizing, extension, angularTolerance);
+        return pMakeKeyHole(new Paths { source }, reverseEval, biDirectionalEval, invert, customSizing, extension, angularTolerance);
     }
 
-    public static Paths makeKeyHole(Paths source, bool reverseWalk, RayCast.inversionMode invert = RayCast.inversionMode.x, double customSizing = 0, double extension = 0, double angularTolerance = 0)
+    public static Paths makeKeyHole(Paths source, bool reverseEval, bool biDirectionalEval, RayCast.inversionMode invert = RayCast.inversionMode.x, double customSizing = 0, double extension = 0, double angularTolerance = 0)
     {
-        return pMakeKeyHole(source, reverseWalk, invert, customSizing: customSizing, extension: extension, angularTolerance: angularTolerance);
+        return pMakeKeyHole(source, reverseEval, biDirectionalEval, invert, customSizing: customSizing, extension: extension, angularTolerance: angularTolerance);
     }
 
-    private static Paths pMakeKeyHole(Paths source, bool reverseWalk, RayCast.inversionMode invert = RayCast.inversionMode.x, double customSizing = 0, double extension = 0, double angularTolerance = 0)
+    private static Paths pMakeKeyHole(Paths source, bool reverseEval, bool biDirectionalEval, RayCast.inversionMode invert = RayCast.inversionMode.x, double customSizing = 0, double extension = 0, double angularTolerance = 0)
     {
         // Reconcile any overlapping geometry.
         Clipper64 c = new () {PreserveCollinear = true};
@@ -77,7 +77,7 @@ public static partial class GeoWrangler
         // Unless we massage things, these get killed as the cutters are applied en-masse to outers in the keyholer.
         
         // First, we'll run the keyholer as usual.
-        Paths ret = pMakeKeyHole(decomp[(int)type.outer], decomp[(int)type.cutter], reverseWalk, invert, customSizing, extension, angularTolerance);
+        Paths ret = pMakeKeyHole(decomp[(int)type.outer], decomp[(int)type.cutter], reverseEval, biDirectionalEval, invert, customSizing, extension, angularTolerance);
         
         double origArea = 0;
         List<double> origAreas = new();
@@ -145,7 +145,7 @@ public static partial class GeoWrangler
 
                 Paths tOuters = new() {tOuter};
 
-                Paths tRet = pMakeKeyHole(tCutters, tOuters, reverseWalk, invert, customSizing, extension,
+                Paths tRet = pMakeKeyHole(tCutters, tOuters, reverseEval, biDirectionalEval, invert, customSizing, extension,
                     angularTolerance);
 
                 ret.AddRange(tRet);
@@ -180,7 +180,7 @@ public static partial class GeoWrangler
         }
     }
 
-    private static Paths pClipRays(Paths outers, Path cutter, bool reverseWalk, RayCast.inversionMode invert = RayCast.inversionMode.x, double angularTolerance = 0)
+    private static Paths pClipRays(Paths outers, Path cutter, bool reverseEval, bool biDirectionalEval, RayCast.inversionMode invert = RayCast.inversionMode.x, double angularTolerance = 0)
     {
         // Needed due to ordering sequence from ClipperLib2. Have to clean, re-order and re-close to make the geometry work for the raycaster.
         Path t = new Path(cutter);
@@ -202,14 +202,17 @@ public static partial class GeoWrangler
          *
          * However, in some cases, the reverse walk is not desired (e.g. for rectangular decomposition in Quilt, where single emission is preferred).
          */
-        if (reverseWalk)
+        if (biDirectionalEval)
         {
             // Reverse walk in case there is a better option walking the geometry in the other direction.
             rc = new(t, outers, 1000000, invert: invert, projectCorners: projectCorners);
             clipped = rc.getClippedRays();
         }
 
-        t.Reverse(); // reverse to mark as a cutter. Check with ILB7 to see a case where this is needed.
+        if (!reverseEval || biDirectionalEval)
+        {
+            t.Reverse();
+        }
         rc = new(t, outers, 1000000, invert: invert, projectCorners: projectCorners);
         clipped.AddRange(rc.getClippedRays());
 
@@ -290,7 +293,7 @@ public static partial class GeoWrangler
         return new_outers;
     }
     
-    private static Paths pMakeKeyHole(Paths outers, Paths cutters, bool reverseWalk, RayCast.inversionMode invert = RayCast.inversionMode.x, double customSizing = 0, double extension = 0, double angularTolerance = 0)
+    private static Paths pMakeKeyHole(Paths outers, Paths cutters, bool reverseEval, bool biDirectionalEval, RayCast.inversionMode invert = RayCast.inversionMode.x, double customSizing = 0, double extension = 0, double angularTolerance = 0)
     {
         customSizing = customSizing switch
         {
@@ -314,7 +317,7 @@ public static partial class GeoWrangler
             // Use raycaster to project from holes to outer, to try and find a keyhole path that is minimal length, and ideally orthogonal.
             foreach (Path t1 in cutters)
             {
-                Paths clipped = pClipRays(outers, t1, reverseWalk, invert, angularTolerance);
+                Paths clipped = pClipRays(outers, t1, reverseEval, biDirectionalEval, invert, angularTolerance);
 
                 Path insertionCandidate = pFindInsertionCandidate(clipped, orthogonalInput);
 

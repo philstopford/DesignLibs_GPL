@@ -142,7 +142,7 @@ public static class ProcessOverlaps
             Fragmenter f = new(Convert.ToDouble(resolution) * scaleFactorForOperation);
             Paths toKeyHole = f.fragmentPaths(mergedPolyData);
             // Nudge the default keyhole size to avoid collapsing existing keyholes.
-            Paths keyHoled = GeoWrangler.makeKeyHole(toKeyHole, true, RayCast.inversionMode.x, customSizing:customSizing, extension:Convert.ToDouble(extension));
+            Paths keyHoled = GeoWrangler.makeKeyHole(toKeyHole, reverseEval:false, biDirectionalEval:true, RayCast.inversionMode.x, customSizing:customSizing, extension:Convert.ToDouble(extension));
 
             if (!keyHoled.Any())
             {
@@ -153,7 +153,7 @@ public static class ProcessOverlaps
             
             if (newArea > area) // We gained area, which suggests we lost a hole. Let's try with the alternate inversion scheme.
             {
-                keyHoled = GeoWrangler.makeKeyHole(toKeyHole, true, RayCast.inversionMode.y, customSizing:customSizing, extension:Convert.ToDouble(extension));
+                keyHoled = GeoWrangler.makeKeyHole(toKeyHole, reverseEval:false, biDirectionalEval:true, RayCast.inversionMode.y, customSizing:customSizing, extension:Convert.ToDouble(extension));
             }
 
             mergedPolyData = GeoWrangler.close(keyHoled);

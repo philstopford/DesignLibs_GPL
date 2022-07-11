@@ -2964,7 +2964,7 @@ internal class Program
         // Give the keyholder a whirl:
         sw.Restart();
         GeoLibPoint[] toDecomp =
-            GeoWrangler.pointFromPath(GeoWrangler.makeKeyHole(GeoWrangler.pathFromPoint(points, 1000), true)[0], 1);
+            GeoWrangler.pointFromPath(GeoWrangler.makeKeyHole(GeoWrangler.pathFromPoint(points, 1000), reverseEval:false, biDirectionalEval:true)[0], 1);
         sw.Stop();
         Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
 
@@ -3123,7 +3123,7 @@ internal class Program
          points = GeoWrangler.clockwiseAndReorderXY(points);
          GeoLibPoint[] toKeyHoler = GeoWrangler.pointsFromPointF(points, scaleFactorForOperation);
          
-         GeoLibPoint[] toDecomp = GeoWrangler.pointFromPath(GeoWrangler.makeKeyHole(GeoWrangler.sliverGapRemoval(GeoWrangler.pathFromPoint(toKeyHoler, 1)), false)[0], 1);
+         GeoLibPoint[] toDecomp = GeoWrangler.pointFromPath(GeoWrangler.makeKeyHole(GeoWrangler.sliverGapRemoval(GeoWrangler.pathFromPoint(toKeyHoler, 1)), reverseEval:false, biDirectionalEval:false)[0], 1);
          GeoLibPoint[]  bounds = GeoWrangler.getBounds(toDecomp);
          GeoLibPointF dist = GeoWrangler.distanceBetweenPoints_point(bounds[0], bounds[1]);
 

@@ -94,60 +94,54 @@ public class RayCast
             long dy;
             if (pt == path.Count - 1)
             {
-                switch (closedPathEmitter)
+                if (closedPathEmitter)
                 {
                     // Last matches the first. Since we flip the dx and dy tone later, we need to compensate here.
-                    case true:
-                        dx = -ret.normals[0].X;
-                        dy = -ret.normals[0].Y;
-                        break;
-                    default:
-                        dx = path[ptCount - 1].X - endOffset.X;
-                        dy = path[ptCount - 1].Y - endOffset.Y;
-                        break;
+                    dx = -ret.normals[0].X;
+                    dy = -ret.normals[0].Y;
+                }
+                else
+                {
+                    dx = path[ptCount - 1].X - endOffset.X;
+                    dy = path[ptCount - 1].Y - endOffset.Y;
                 }
             }
             else
             {
-                switch (closedPathEmitter)
+                if (!closedPathEmitter && pt == 0)
                 {
-                    case false when pt == 0:
-                        dx = path[0].X - startOffset.X;
-                        dy = path[0].Y - startOffset.Y;
-                        break;
-                    default:
-                        dx = path[pt + 1].X - path[pt].X;
-                        dy = path[pt + 1].Y - path[pt].Y;
-                        break;
+                    dx = path[0].X - startOffset.X;
+                    dy = path[0].Y - startOffset.Y;
+                }
+                else
+                {
+                    dx = path[pt + 1].X - path[pt].X;
+                    dy = path[pt + 1].Y - path[pt].Y;
                 }
             }
 
             ret.normals[pt] = new Point64(-dx, -dy);
 
-            switch (pt)
+            // Previous normal
+            if (pt == 0)
             {
-                // Previous normal
-                case 0:
+                if (closedPathEmitter)
                 {
-                    switch (closedPathEmitter)
-                    {
-                        case true:
-                            // n-1 identical to the 0-th point, so we need to dig a little deeper.
-                            dx = path[0].X - path[ptCount - 2].X;
-                            dy = path[0].Y - path[ptCount - 2].Y;
-                            break;
-                        default:
-                            dx = path[0].X - startOffset.X;
-                            dy = path[0].Y - startOffset.Y;
-                            break;
-                    }
-
-                    ret.previousNormals[pt] = new Point64(-dx, -dy);
-                    break;
+                    // n-1 identical to the 0-th point, so we need to dig a little deeper.
+                    dx = path[0].X - path[ptCount - 2].X;
+                    dy = path[0].Y - path[ptCount - 2].Y;
                 }
-                default:
-                    ret.previousNormals[pt] = ret.normals[pt - 1];
-                    break;
+                else
+                {
+                    dx = path[0].X - startOffset.X;
+                    dy = path[0].Y - startOffset.Y;
+                }
+
+                ret.previousNormals[pt] = new Point64(-dx, -dy);
+            }
+            else
+            {
+                ret.previousNormals[pt] = ret.normals[pt - 1];
             }
         }
 
@@ -171,13 +165,11 @@ public class RayCast
         double endPointDeltaX = 0;
         double endPointDeltaY = 0;
 
-        switch (length)
+        if (length > 0.001)
         {
             // Avoid div-by-zero; 0-length is unimportant. Note that setting this cut-off too high produces artifacts.
-            case > 0.0001:
-                endPointDeltaX = Convert.ToDouble(averagedEdgeNormal.X) / length;
-                endPointDeltaY = Convert.ToDouble(averagedEdgeNormal.Y) / length;
-                break;
+            endPointDeltaX = Convert.ToDouble(averagedEdgeNormal.X) / length;
+            endPointDeltaY = Convert.ToDouble(averagedEdgeNormal.Y) / length;
         }
 
         // Set to max ray length from callsite.
@@ -189,6 +181,9 @@ public class RayCast
             case inversionMode.x:
             case inversionMode.y:
                 endPointDeltaY *= -1;
+                break;
+            case inversionMode.none:
+            default:
                 break;
         }
         endPointDeltaX *= -1;
@@ -242,14 +237,16 @@ public class RayCast
                     weight_val *= 0.5;
                     break;
                 // No falloff
+                case falloff.none:
+                default:
+                    break;
             }
 
-            endPoint_f = truncateRaysByWeight switch
+            if (truncateRaysByWeight)
             {
-                true => new Point64(startPoint.X + weight_val * endPointDeltaY,
-                    startPoint.Y + weight_val * endPointDeltaX),
-                _ => endPoint_f
-            };
+                endPoint_f = new Point64(startPoint.X + weight_val * endPointDeltaY,
+                                         startPoint.Y + weight_val * endPointDeltaX);
+            }
 
             Point64 sPoint = new(startPoint.X, startPoint.Y);
 
@@ -280,39 +277,37 @@ public class RayCast
         // Get average angle for this vertex based on angles from line segments.
         // http://stackoverflow.com/questions/1243614/how-do-i-calculate-the-normal-vector-of-a-line-segment
 
-        switch (projectCorners)
+        if (projectCorners && (currentEdgeNormal.X == 0 && previousEdgeNormal.Y == 0 ||
+                       currentEdgeNormal.Y == 0 && previousEdgeNormal.X == 0))
         {
-            case true when currentEdgeNormal.X == 0 && previousEdgeNormal.Y == 0 ||
-                           currentEdgeNormal.Y == 0 && previousEdgeNormal.X == 0:
+            long tX = currentEdgeNormal.X;
+            long tY = currentEdgeNormal.Y;
+            // If we're traversing a 90 degree corner, let's not project a diagonal, but fix on our current edge normal.
+            if (invert == 0 || dirOverride == forceSingleDirection.vertical)
             {
-                long tX = currentEdgeNormal.X;
-                long tY = currentEdgeNormal.Y;
-                // If we're traversing a 90 degree corner, let's not project a diagonal, but fix on our current edge normal.
-                if (invert == 0 || dirOverride == forceSingleDirection.vertical)
-                {
-                    tX = -tX;
-                    tY = -tY;
-                }
-                averagedEdgeNormal = new Point64(tX, tY);
-                break;
+                tX = -tX;
+                tY = -tY;
             }
-            default:
+            averagedEdgeNormal = new Point64(tX, tY);
+        }
+        else
+        {
+            switch (invert)
             {
-                switch (invert)
-                {
-                    case inversionMode.x:
-                        currentEdgeNormal = new Point64(-currentEdgeNormal.X, currentEdgeNormal.Y);
-                        previousEdgeNormal = new Point64(-previousEdgeNormal.X, previousEdgeNormal.Y);
-                        break;
-                    case inversionMode.y:
-                        currentEdgeNormal = new Point64(currentEdgeNormal.X, -currentEdgeNormal.Y);
-                        previousEdgeNormal = new Point64(previousEdgeNormal.X, -previousEdgeNormal.Y);
-                        break;
-                }
-                // Average out our normals
-                averagedEdgeNormal = new Point64((previousEdgeNormal.X + currentEdgeNormal.X) / 2, (previousEdgeNormal.Y + currentEdgeNormal.Y) / 2);
-                break;
+                case inversionMode.x:
+                    currentEdgeNormal = new Point64(-currentEdgeNormal.X, currentEdgeNormal.Y);
+                    previousEdgeNormal = new Point64(-previousEdgeNormal.X, previousEdgeNormal.Y);
+                    break;
+                case inversionMode.y:
+                    currentEdgeNormal = new Point64(currentEdgeNormal.X, -currentEdgeNormal.Y);
+                    previousEdgeNormal = new Point64(previousEdgeNormal.X, -previousEdgeNormal.Y);
+                    break;
+                case inversionMode.none:
+                default:
+                    break;
             }
+            // Average out our normals
+            averagedEdgeNormal = new Point64((previousEdgeNormal.X + currentEdgeNormal.X) / 2, (previousEdgeNormal.Y + currentEdgeNormal.Y) / 2);
         }
 
         return averagedEdgeNormal;
@@ -443,8 +438,8 @@ public class RayCast
 
     class ResultData
     {
-        public long xAv = 0;
-        public long yAv = 0;
+        public long xAv;
+        public long yAv;
     }
     private ResultData pComputeWeightedResult(falloff sideRayFallOff, ref long[] resultX, ref long[] resultY, ref double[] weight)
     {

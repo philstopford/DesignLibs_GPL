@@ -375,7 +375,14 @@ public class DistanceHandler
                 foreach (spaceResult tResult in aOverlapEdge.SelectMany(t => bOverlapEdge.Select(t1 => overlapAssess(debugCalc, overlapShape[poly], t, t1, aPath, bPath, mode, scaleFactor, runThreaded)).Where(tResult => result.resultPaths.Count == 0 || tResult.distance > result.distance)))
                 {
                     result.distance = tResult.distance;
-                    result.resultPaths = tResult.resultPaths;
+                    if (!debugCalc)
+                    {
+                        result.resultPaths = tResult.resultPaths;
+                    }
+                    else
+                    {
+                        result.resultPaths.AddRange(tResult.resultPaths);
+                    }
                 }
             }
         }

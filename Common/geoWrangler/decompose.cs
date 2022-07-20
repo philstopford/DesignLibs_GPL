@@ -284,7 +284,7 @@ public static partial class GeoWrangler
             c.AddOpenSubject(t);
             c.AddClip(lPoly);
 
-            PolyTree pt = new();
+            PolyTree64 pt = new();
             Paths p = new();
 
             c.Execute(ClipType.Intersection, FillRule.EvenOdd, pt, p);

@@ -1,7 +1,7 @@
 ﻿/*******************************************************************************
 * Author    :  Angus Johnson                                                   *
 * Version   :  Clipper2 - beta                                                 *
-* Date      :  20 June 2022                                                    *
+* Date      :  14 July 2022                                                    *
 * Website   :  http://www.angusj.com                                           *
 * Copyright :  Angus Johnson 2010-2022                                         *
 * Purpose   :  Core structures and functions for the Clipper Library           *
@@ -84,7 +84,7 @@ namespace Clipper2Lib
 
     public override string ToString()
     {
-      return $"{X},{Y},{Z} "; //nb: trailing space
+      return $"{X},{Y},{Z} "; // nb: trailing space
     }
 
 #else
@@ -145,7 +145,7 @@ namespace Clipper2Lib
     }
     public override string ToString()
     {
-      return $"{X},{Y} "; //nb: trailing space
+      return $"{X},{Y} "; // nb: trailing space
     }
 
 #endif
@@ -392,7 +392,7 @@ namespace Clipper2Lib
 
   }
 
-  //Note: all clipping operations except for Difference are commutative.
+  // Note: all clipping operations except for Difference are commutative.
   public enum ClipType
   {
     None,
@@ -408,9 +408,9 @@ namespace Clipper2Lib
     Clip
   };
 
-  //By far the most widely used filling rules for polygons are EvenOdd
-  //and NonZero, sometimes called Alternate and Winding respectively.
-  //https://en.wikipedia.org/wiki/Nonzero-rule
+  // By far the most widely used filling rules for polygons are EvenOdd
+  // and NonZero, sometimes called Alternate and Winding respectively.
+  // https://en.wikipedia.org/wiki/Nonzero-rule
   public enum FillRule
   {
     EvenOdd,
@@ -419,7 +419,7 @@ namespace Clipper2Lib
     Negative
   };
 
-  //PointInPolygon
+  // PointInPolygon
   internal enum PipResult
   {
     Inside,
@@ -427,33 +427,25 @@ namespace Clipper2Lib
     OnEdge
   };
 
-  internal enum OutRecState
-  {
-    Undefined,
-    Open,
-    Outer,
-    Inner
-  };
-
   public static class InternalClipper
   {
 
-    //The classic Cartesian plane is defined by an X-axis that's positive toward
-    //the right and a Y-axis that's positive upwards. However, many modern
-    //graphics libraries use an inverted Y-axis (where Y is positive downward).
-    //This effectively flips polygons upside down, with winding directions that
-    //were clockwise becoming anti-clockwise, and areas that were positive
-    //becoming negative. Nevertheless, in Cartesian coordinates the area of a
-    //convex polygon is defined to be positive if the points are arranged in a
-    //counterclockwise order, and negative if they are in clockwise order
+    // The classic Cartesian plane is defined by an X-axis that's positive toward
+    // the right and a Y-axis that's positive upwards. However, many modern
+    // graphics libraries use an inverted Y-axis (where Y is positive downward).
+    // This effectively flips polygons upside down, with winding directions that
+    // were clockwise becoming anti-clockwise, and areas that were positive
+    // becoming negative. Nevertheless, in Cartesian coordinates the area of a
+    // convex polygon is defined to be positive if the points are arranged in a
+    // counterclockwise order, and negative if they are in clockwise order
     //(see https://mathworld.wolfram.com/PolygonArea.html). If this "normal"
-    //winding direction is inconvenient for whatever reason the following
-    //constant can be changed to accommodate this. Note however that winding
-    //direction is only important when using Clipper's Positive and Negative
-    //filling rules. (Reversing orientation has no effect on NonZero an EvenOdd
-    //filling.) The constant below is intended as "set and perhaps not quite
-    //forget". While this sets the default orientation, the Clipper class
-    //constructor contains a parameter which can override this default setting.
+    // winding direction is inconvenient for whatever reason the following
+    // constant can be changed to accommodate this. Note however that winding
+    // direction is only important when using Clipper's Positive and Negative
+    // filling rules. (Reversing orientation has no effect on NonZero an EvenOdd
+    // filling.) The constant below is intended as "set and perhaps not quite
+    // forget". While this sets the default orientation, the Clipper class
+    // constructor contains a parameter which can override this default setting.
     public const bool DEFAULT_ORIENTATION_IS_REVERSED = false;
 
     internal const double floatingPointTolerance = 1E-15;
@@ -461,14 +453,14 @@ namespace Clipper2Lib
 
     internal static double CrossProduct(Point64 pt1, Point64 pt2, Point64 pt3)
     {
-      //typecast to double to avoid potential int overflow
+      // typecast to double to avoid potential int overflow
       return ((double) (pt2.X - pt1.X) * (pt3.Y - pt2.Y) -
               (double) (pt2.Y - pt1.Y) * (pt3.X - pt2.X));
     }
 
     internal static double DotProduct(Point64 pt1, Point64 pt2, Point64 pt3)
     {
-      //typecast to double to avoid potential int overflow
+      // typecast to double to avoid potential int overflow
       return ((double) (pt2.X - pt1.X) * (pt3.X - pt2.X) +
               (double) (pt2.Y - pt1.Y) * (pt3.Y - pt2.Y));
     }
@@ -533,6 +525,6 @@ namespace Clipper2Lib
         dx2 * (seg1a.Y - seg2a.Y)) * (dy2 * (seg1b.X - seg2a.X) -
         dx2 * (seg1b.Y - seg2a.Y)) < 0));
     }
-  } //InternalClipper
+  } // InternalClipper
 
-} //namespace
+} // namespace

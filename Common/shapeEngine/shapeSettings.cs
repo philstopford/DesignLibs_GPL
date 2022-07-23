@@ -448,10 +448,10 @@ public class ShapeSettings
     private decimal globalHorOffset = default_globalHorOffset;
     private decimal globalVerOffset = default_globalVerOffset;
     private decimal sideBias = default_sideBias;
-    private decimal horTipBias = default_horTipBias;
+    public decimal horTipBias = default_horTipBias;
     private decimal horTipBiasPVar = default_horTipBias;
     private decimal horTipBiasNVar;
-    private decimal verTipBias;
+    public decimal verTipBias;
     private decimal verTipBiasPVar;
     private decimal verTipBiasNVar;
     private decimal proximityBias = default_proximityBias;

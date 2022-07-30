@@ -1,7 +1,7 @@
 ﻿/*******************************************************************************
 * Author    :  Angus Johnson                                                   *
 * Version   :  Clipper2 - beta                                                 *
-* Date      :  17 July 2022                                                    *
+* Date      :  23 July 2022                                                    *
 * Website   :  http://www.angusj.com                                           *
 * Copyright :  Angus Johnson 2010-2022                                         *
 * Purpose   :  This module contains simple functions that will likely cover    *
@@ -27,15 +27,15 @@ namespace Clipper2Lib
   using Paths64 = List<List<Point64>>;
   using PathD = List<PointD>;
   using PathsD = List<List<PointD>>;
-  
+
   public static class Clipper
   {
 
     public static Rect64 MaxInvalidRect64 = new Rect64(
       long.MaxValue, long.MaxValue, long.MinValue, long.MinValue);
 
-   public static RectD MaxInvalidRectD = new RectD(
-     double.MaxValue, -double.MaxValue, -double.MaxValue, -double.MaxValue);
+    public static RectD MaxInvalidRectD = new RectD(
+      double.MaxValue, -double.MaxValue, -double.MaxValue, -double.MaxValue);
 
     public static Paths64 Intersect(Paths64 subject, Paths64 clip, FillRule fillRule)
     {
@@ -87,7 +87,7 @@ namespace Clipper2Lib
       return BooleanOp(ClipType.Xor, fillRule, subject, clip);
     }
 
-    public static Paths64 BooleanOp(ClipType clipType, FillRule fillRule, 
+    public static Paths64 BooleanOp(ClipType clipType, FillRule fillRule,
       Paths64? subject, Paths64? clip)
     {
       Paths64 solution = new Paths64();
@@ -112,7 +112,7 @@ namespace Clipper2Lib
       return solution;
     }
 
-    public static Paths64 InflatePaths(Paths64 paths, double delta, JoinType joinType, 
+    public static Paths64 InflatePaths(Paths64 paths, double delta, JoinType joinType,
       EndType endType, double miterLimit = 2.0)
     {
       ClipperOffset co = new ClipperOffset(miterLimit);
@@ -120,7 +120,7 @@ namespace Clipper2Lib
       return co.Execute(delta);
     }
 
-    public static PathsD InflatePaths(PathsD paths, double delta, JoinType joinType, 
+    public static PathsD InflatePaths(PathsD paths, double delta, JoinType joinType,
       EndType endType, double miterLimit = 2.0, int precision = 2)
     {
       if (precision < -8 || precision > 8)
@@ -130,10 +130,9 @@ namespace Clipper2Lib
       ClipperOffset co = new ClipperOffset(miterLimit);
       co.AddPaths(tmp, joinType, endType);
       tmp = co.Execute(delta * scale);
-      return ScalePathsD(tmp, 1/scale);
+      return ScalePathsD(tmp, 1 / scale);
     }
-    public static double Area(Path64 path, 
-      bool OrientationIsReversed = InternalClipper.DEFAULT_ORIENTATION_IS_REVERSED)
+    public static double Area(Path64 path)
     {
       // https://en.wikipedia.org/wiki/Shoelace_formula
       double a = 0.0;
@@ -145,23 +144,18 @@ namespace Clipper2Lib
         a += (double) (prevPt.Y + pt.Y) * (prevPt.X - pt.X);
         prevPt = pt;
       }
-      if (OrientationIsReversed)
-        return a * -0.5; 
-      else
-        return a * 0.5;
+      return a * 0.5;
     }
 
-    public static double Area(Paths64 paths,
-      bool OrientationIsReversed = InternalClipper.DEFAULT_ORIENTATION_IS_REVERSED)
+    public static double Area(Paths64 paths)
     {
       double a = 0.0;
       foreach (Path64 path in paths)
-        a += Area(path, OrientationIsReversed);
+        a += Area(path);
       return a;
     }
 
-    public static double Area(PathD path,
-      bool OrientationIsReversed = InternalClipper.DEFAULT_ORIENTATION_IS_REVERSED)
+    public static double Area(PathD path)
     {
       double a = 0.0;
       int cnt = path.Count;
@@ -172,33 +166,27 @@ namespace Clipper2Lib
         a += (prevPt.y + pt.y) * (prevPt.x - pt.x);
         prevPt = pt;
       }
-      if (OrientationIsReversed)
-        return a * -0.5;
-      else
-        return a * 0.5;
+      return a * 0.5;
     }
 
-    public static double Area(PathsD paths,
-      bool orientation_is_reversed = InternalClipper.DEFAULT_ORIENTATION_IS_REVERSED)
+    public static double Area(PathsD paths)
     {
       double a = 0.0;
       foreach (PathD path in paths)
-        a += Area(path, orientation_is_reversed);
+        a += Area(path);
       return a;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool IsPositive(Path64 poly,
-      bool orientation_is_reversed = InternalClipper.DEFAULT_ORIENTATION_IS_REVERSED)
+    public static bool IsPositive(Path64 poly)
     {
-      return Area(poly, orientation_is_reversed) >= 0;
+      return Area(poly) >= 0;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool IsPositive(PathD poly,
-      bool orientation_is_reversed = InternalClipper.DEFAULT_ORIENTATION_IS_REVERSED)
+    public static bool IsPositive(PathD poly)
     {
-      return Area(poly, orientation_is_reversed) >= 0;
+      return Area(poly) >= 0;
     }
 
     public static Path64 OffsetPath(Path64 path, long dx, long dy)
@@ -210,7 +198,7 @@ namespace Clipper2Lib
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static PointD ScalePoint(Point64 pt, double scale) 
+    public static PointD ScalePoint(Point64 pt, double scale)
     {
       PointD result = new PointD()
       {
@@ -677,7 +665,7 @@ namespace Clipper2Lib
         if (result.Count < 3)
           result.Clear();
       }
-      return result;      
+      return result;
     }
 
     public static PathD TrimCollinear(PathD path, int precision, bool isOpen = false)
@@ -690,69 +678,10 @@ namespace Clipper2Lib
       return ScalePathD(p, 1 / scale);
     }
 
-    public static PointInPolygonResult PointInPolygon(Point64 pt, Path64 polygon)
+    public static PointInPolygonResult PointInPolygon(Point64 pt, List<Point64> polygon)
     {
-      int len = polygon.Count, i = len - 1;
-
-      if (len < 3) return PointInPolygonResult.IsOutside;
-
-      while (i >= 0 && polygon[i].Y == pt.Y) --i;
-      if (i < 0) return PointInPolygonResult.IsOutside;
-
-      int val = 0;
-      bool isAbove = polygon[i].Y < pt.Y;
-      i = 0;
-
-      while (i < len)
-      {
-        if (isAbove)
-        {
-          while (i < len && polygon[i].Y < pt.Y) i++;
-          if (i == len) break;
-        } else
-        {
-          while (i < len && polygon[i].Y > pt.Y) i++;
-          if (i == len) break;
-        }
-
-        Point64 curr, prev;
-
-        curr = polygon[i];
-        if (i > 0) prev = polygon[i - 1];
-        else prev = polygon[len -1];
-
-        if (curr.Y == pt.Y)
-        {
-          if (curr.X == pt.X || (curr.Y == prev.Y &&
-            ((pt.X < prev.X) != (pt.X < curr.X))))
-              return PointInPolygonResult.IsOn;
-          i++;
-          continue;
-        }
-
-        if (pt.X < curr.X && pt.X < prev.X)
-        {
-          // we're only interested in edges crossing on the left
-        }
-        else if (pt.X > prev.X && pt.X > curr.X)
-        {
-          val = 1 - val; // toggle val
-        }
-        else
-        {
-          double d = InternalClipper.CrossProduct(prev, curr, pt);
-          if (d == 0)
-            return PointInPolygonResult.IsOn;
-          if ((d < 0) == isAbove) val = 1 - val;
-        }
-        isAbove = !isAbove;
-        i++;
-      }
-      if (val == 0)
-        return PointInPolygonResult.IsOutside;
-      else
-        return PointInPolygonResult.IsInside;
+      return InternalClipper.PointInPolygon(pt, polygon);
     }
-  }
 
+  }
 } // namespace

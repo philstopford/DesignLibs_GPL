@@ -141,12 +141,12 @@ public class ShapeSettings
         flipH, flipV, alignX, alignY,
     }
 
-    public int getInt(properties_i p)
+    public int getInt(properties_i p, int _subShapeRef = -1)
     {
-        return pGetInt(p);
+        return pGetInt(p, _subShapeRef);
     }
 
-    int pGetInt(properties_i p)
+    int pGetInt(properties_i p, int _subShapeRef)
     {
         int ret = 0;
         switch (p)
@@ -207,12 +207,12 @@ public class ShapeSettings
         return ret;
     }
 
-    public void setInt(properties_i p, int val)
+    public void setInt(properties_i p, int val, int _subShapeRef = -1)
     {
-        pSetInt(p, val);
+        pSetInt(p, val, _subShapeRef);
     }
 
-    void pSetInt(properties_i p, int val)
+    void pSetInt(properties_i p, int val, int _subShapeRef)
     {
         switch (p)
         {

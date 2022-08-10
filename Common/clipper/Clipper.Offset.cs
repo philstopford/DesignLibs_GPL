@@ -1,10 +1,10 @@
 ﻿/*******************************************************************************
 * Author    :  Angus Johnson                                                   *
-* Version   :  Clipper2 - beta                                                 *
-* Date      :  23 July 2022                                                    *
+* Version   :  Clipper2 - ver.1.0.0                                            *
+* Date      :  3 August 2022                                                   *
 * Website   :  http://www.angusj.com                                           *
 * Copyright :  Angus Johnson 2010-2022                                         *
-* Purpose   :  Offsets both open and closed paths (i.e. polylines & polygons). *
+* Purpose   :  Path Offset (Inflate/Shrink)                                    *
 * License   :  http://www.boost.org/LICENSE_1_0.txt                            *
 *******************************************************************************/
 
@@ -69,10 +69,9 @@ namespace Clipper2Lib
     public bool ReverseSolution { get; set; }
 
     private const double TwoPi = Math.PI * 2;
-    private const double DefaultArcTolerance = 0.25;
 
     public ClipperOffset(double miterLimit = 2.0, 
-      double arcTolerance = 0.0, bool 
+      double arcTolerance = 0.25, bool 
       preserveCollinear = false, bool reverseSolution = false)
     {
       MiterLimit = miterLimit;
@@ -120,7 +119,7 @@ namespace Clipper2Lib
     public Paths64 Execute(double delta)
     {
       solution.Clear();
-      if (Math.Abs(delta) < DefaultArcTolerance)
+      if (Math.Abs(delta) < 0.5)
       {
         foreach (PathGroup group in _pathGroups)
           foreach (Path64 path in group._inPaths)
@@ -400,13 +399,12 @@ namespace Clipper2Lib
       double absDelta = Math.Abs(_delta);
       _joinType = group._joinType;
 
-      double arcTol = (ArcTolerance > InternalClipper.floatingPointTolerance
-          ? ArcTolerance
-          : Math.Log10(2 + absDelta) * DefaultArcTolerance); // empirically derived
-
       // calculate a sensible number of steps (for 360 deg for the given offset
       if (group._joinType == JoinType.Round || group._endType == EndType.Round)
       {
+        double arcTol = ArcTolerance > 0.01 ?
+              ArcTolerance :
+              Math.Log10(2 + absDelta) * 0.25; // empirically derived
         // get steps per 180 degrees (see offset_triginometry2.svg)
         _stepsPerRad = Math.PI / Math.Acos(1 - arcTol / absDelta) / TwoPi;
       }

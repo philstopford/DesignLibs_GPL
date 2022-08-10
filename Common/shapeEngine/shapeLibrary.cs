@@ -1,4 +1,5 @@
-﻿using geoLib;
+﻿using System.Diagnostics;
+using geoLib;
 using geoWrangler;
 using utility;
 
@@ -29,7 +30,7 @@ public class ShapeLibrary
     }
 
     // Client sends an array that has mapping of the client shape index to the ShapeLibrary index.
-    private int[] shapeMapping_fromClient;
+    private int[]? shapeMapping_fromClient;
 
     public void shapesForClient(int[] clientShapeDefinition)
     {
@@ -178,6 +179,7 @@ public class ShapeLibrary
     {
         try
         {
+            Debug.Assert(shapeMapping_fromClient != null, nameof(shapeMapping_fromClient) + " != null");
             shapeIndex = shapeMapping_fromClient[shapeIndex_];
             switch (shapeIndex)
             {
@@ -213,7 +215,6 @@ public class ShapeLibrary
                     break;
                 default:
                     throw new Exception();
-                    break;
             }
         }
         catch (Exception)
@@ -2046,7 +2047,7 @@ public class ShapeLibrary
                 Vertex[cp].xBiasApplied = true;
             }
 
-            if (Vertex[cp].direction != typeDirection.right1 || Vertex[cp].xBiasApplied != false)
+            if (Vertex[cp].direction != typeDirection.right1 || Vertex[cp].xBiasApplied)
             {
                 continue;
             }
@@ -2103,7 +2104,7 @@ public class ShapeLibrary
 
     public void biasCorners()
     {
-        if (shapeIndex == (int)ShapeLibrary.shapeNames_all.complex)
+        if (shapeIndex == (int)shapeNames_all.complex)
         {
             return;
         }

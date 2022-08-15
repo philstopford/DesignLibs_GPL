@@ -858,6 +858,39 @@ public static partial class GeoWrangler
         return ret;
     }
 
+    public static Path removeDuplicates(Path source, double threshold = Double.Epsilon)
+    {
+        return pRemoveDuplicates(source, threshold);
+    }
+
+    private static Path pRemoveDuplicates(Path source, double threshold = Double.Epsilon)
+    {
+        Path ret = new();
+        switch (source.Count)
+        {
+            case > 0:
+            {
+                ret.Add(new Point64(source[0]));
+                int retIndex = 1;
+                for (int i = 1; i < source.Count - 1; i++)
+                {
+                    if (!(Math.Abs(source[i].X - ret[retIndex - 1].X) > threshold) &&
+                        !(Math.Abs(source[i].Y - ret[retIndex - 1].Y) > threshold))
+                    {
+                        continue;
+                    }
+
+                    ret.Add(new Point64(source[i]));
+                    retIndex++;
+                }
+
+                break;
+            }
+        }
+
+        return ret;
+    }
+    
     public static List<GeoLibPointF> removeDuplicates(List<GeoLibPointF> source, double threshold = Double.Epsilon)
     {
         return pRemoveDuplicates(source, threshold);

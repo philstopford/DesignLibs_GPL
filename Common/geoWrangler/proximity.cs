@@ -88,6 +88,9 @@ public static class Proximity
 
             Fragmenter f = new(fragmenterResolution * scaleFactorForOperation);
 
+            sourcePoly = GeoWrangler.stripColinear(sourcePoly);
+            sourcePoly = GeoWrangler.removeDuplicates(sourcePoly);
+            sourcePoly = GeoWrangler.close(sourcePoly);
             sourcePoly = f.fragmentPath(sourcePoly);
 
             collisionGeometry = f.fragmentPaths(collisionGeometry);

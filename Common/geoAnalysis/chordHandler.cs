@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Clipper2Lib;
 using geoWrangler;
 using KDTree;
+#pragma warning disable CS8618
 
 namespace geoAnalysis;
 

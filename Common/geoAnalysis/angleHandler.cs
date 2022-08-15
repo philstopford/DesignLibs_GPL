@@ -1,6 +1,7 @@
 using Clipper2Lib;
 using geoWrangler;
 using utility;
+#pragma warning disable CS8618
 
 namespace geoAnalysis;
 

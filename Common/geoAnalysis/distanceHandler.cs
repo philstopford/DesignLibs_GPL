@@ -5,6 +5,7 @@ using geoLib;
 using geoWrangler;
 using KDTree;
 using utility;
+#pragma warning disable CS8618
 
 namespace geoAnalysis;
 

@@ -19,10 +19,10 @@ public class OpenSimplexNoise
     private const double NORM_3D = 1.0 / 103.0;
     private const double NORM_4D = 1.0 / 30.0;
 
-    private byte[] perm;
-    private byte[] perm2D;
-    private byte[] perm3D;
-    private byte[] perm4D;
+    private readonly byte[] perm;
+    private readonly byte[] perm2D;
+    private readonly byte[] perm3D;
+    private readonly byte[] perm4D;
 
     private static readonly double[] gradients2D = {
         5,  2,    2,  5,
@@ -63,9 +63,9 @@ public class OpenSimplexNoise
         -3, -1, -1, -1,     -1, -3, -1, -1,     -1, -1, -3, -1,     -1, -1, -1, -3
     };
 
-    private static Contribution2[] lookup2D;
-    private static Contribution3[] lookup3D;
-    private static Contribution4[] lookup4D;
+    private static readonly Contribution2[] lookup2D;
+    private static readonly Contribution3[] lookup3D;
+    private static readonly Contribution4[] lookup4D;
 
     static OpenSimplexNoise()
     {
@@ -95,7 +95,11 @@ public class OpenSimplexNoise
                 }
                 previous = current;
             }
-            current.Next = new Contribution2(p2D[i + 1], p2D[i + 2], p2D[i + 3]);
+
+            if (current != null)
+            {
+                current.Next = new Contribution2(p2D[i + 1], p2D[i + 2], p2D[i + 3]);
+            }
         }
 
         lookup2D = new Contribution2[64];
@@ -133,10 +137,14 @@ public class OpenSimplexNoise
                 }
                 previous = current;
             }
-            current.Next = new Contribution3(p3D[i + 1], p3D[i + 2], p3D[i + 3], p3D[i + 4])
+
+            if (current != null)
             {
-                Next = new Contribution3(p3D[i + 5], p3D[i + 6], p3D[i + 7], p3D[i + 8])
-            };
+                current.Next = new Contribution3(p3D[i + 1], p3D[i + 2], p3D[i + 3], p3D[i + 4])
+                {
+                    Next = new Contribution3(p3D[i + 5], p3D[i + 6], p3D[i + 7], p3D[i + 8])
+                };
+            }
         }
 
         lookup3D = new Contribution3[2048];
@@ -172,13 +180,17 @@ public class OpenSimplexNoise
                 }
                 previous = current;
             }
-            current.Next = new Contribution4(p4D[i + 1], p4D[i + 2], p4D[i + 3], p4D[i + 4], p4D[i + 5])
+
+            if (current != null)
             {
-                Next = new Contribution4(p4D[i + 6], p4D[i + 7], p4D[i + 8], p4D[i + 9], p4D[i + 10])
+                current.Next = new Contribution4(p4D[i + 1], p4D[i + 2], p4D[i + 3], p4D[i + 4], p4D[i + 5])
                 {
-                    Next = new Contribution4(p4D[i + 11], p4D[i + 12], p4D[i + 13], p4D[i + 14], p4D[i + 15])
-                }
-            };
+                    Next = new Contribution4(p4D[i + 6], p4D[i + 7], p4D[i + 8], p4D[i + 9], p4D[i + 10])
+                    {
+                        Next = new Contribution4(p4D[i + 11], p4D[i + 12], p4D[i + 13], p4D[i + 14], p4D[i + 15])
+                    }
+                };
+            }
         }
 
         lookup4D = new Contribution4[1048576];
@@ -420,8 +432,10 @@ public class OpenSimplexNoise
 
     private class Contribution2
     {
-        public double dx, dy;
-        public int xsb, ysb;
+        public readonly double dx;
+        public readonly double dy;
+        public readonly int xsb;
+        public readonly int ysb;
         public Contribution2 Next;
 
         public Contribution2(double multiplier, int xsb, int ysb)
@@ -435,8 +449,12 @@ public class OpenSimplexNoise
 
     private class Contribution3
     {
-        public double dx, dy, dz;
-        public int xsb, ysb, zsb;
+        public readonly double dx;
+        public readonly double dy;
+        public readonly double dz;
+        public readonly int xsb;
+        public readonly int ysb;
+        public readonly int zsb;
         public Contribution3 Next;
 
         public Contribution3(double multiplier, int xsb, int ysb, int zsb)
@@ -452,8 +470,14 @@ public class OpenSimplexNoise
 
     private class Contribution4
     {
-        public double dx, dy, dz, dw;
-        public int xsb, ysb, zsb, wsb;
+        public readonly double dx;
+        public readonly double dy;
+        public readonly double dz;
+        public readonly double dw;
+        public readonly int xsb;
+        public readonly int ysb;
+        public readonly int zsb;
+        public readonly int wsb;
         public Contribution4 Next;
 
         public Contribution4(double multiplier, int xsb, int ysb, int zsb, int wsb)

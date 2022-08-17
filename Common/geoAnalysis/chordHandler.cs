@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using Clipper2Lib;
 using geoWrangler;
 using KDTree;
@@ -485,8 +483,9 @@ public class ChordHandler
             {
                 doPathA();
             }
-            catch (Exception)
+            catch
             {
+                // ignored
             }
         }
 
@@ -496,8 +495,9 @@ public class ChordHandler
             {
                 doPathB();
             }
-            catch (Exception)
+            catch
             {
+                // ignored
             }
         }
 

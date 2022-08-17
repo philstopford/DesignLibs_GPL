@@ -24,9 +24,11 @@ public static partial class GeoWrangler
         {
             ret.AddRange(source.Select(t => pathFromPoint(t, scaling)));
         }
-        catch (Exception)
+        catch
         {
+            // ignored
         }
+
         return ret;
     }
 
@@ -47,8 +49,9 @@ public static partial class GeoWrangler
         {
             returnPath.AddRange(source.Select(t => new Point64(t.X * scaling, t.Y * scaling)));
         }
-        catch (Exception)
+        catch
         {
+            // ignored
         }
 
         // Close the shape
@@ -123,9 +126,11 @@ public static partial class GeoWrangler
         {
             ret.AddRange(source.Select(t => pathFromPointF(t, scaling)));
         }
-        catch (Exception)
+        catch
         {
+            // ignored
         }
+
         return ret;
     }
 
@@ -148,8 +153,9 @@ public static partial class GeoWrangler
         {
             returnPath.AddRange(source.Select(t => new Point64(Convert.ToInt64(t.X * scaling), Convert.ToInt64(t.Y * scaling))));
         }
-        catch (Exception)
+        catch
         {
+            // ignored
         }
 
         // Close the shape
@@ -216,9 +222,11 @@ public static partial class GeoWrangler
         {
             ret.AddRange(source.Select(t => pPointsFromPointF(t, scaling)));
         }
-        catch (Exception)
+        catch
         {
+            // ignored
         }
+
         return ret;
     }
 
@@ -237,8 +245,9 @@ public static partial class GeoWrangler
                 ret[pt] = new GeoLibPoint(Convert.ToInt64(source[pt].X * scaling),
                     Convert.ToInt64(source[pt].Y * scaling));
             }
-            catch (Exception)
+            catch
             {
+                // ignored
             }
         }
 
@@ -257,9 +266,11 @@ public static partial class GeoWrangler
         {
             ret.AddRange(source.Select(t => pPointFsFromPoint(t, scaling)));
         }
-        catch (Exception)
+        catch
         {
+            // ignored
         }
+
         return ret;
     }
 
@@ -278,8 +289,9 @@ public static partial class GeoWrangler
                 ret[pt] = new GeoLibPointF(Convert.ToDouble(source[pt].X) / scaling,
                     Convert.ToDouble(source[pt].Y) / scaling);
             }
-            catch (Exception)
+            catch
             {
+                // ignored
             }
         }
 

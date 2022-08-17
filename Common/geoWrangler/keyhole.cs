@@ -66,13 +66,8 @@ public static partial class GeoWrangler
             odecomp[i] = decomp[i].ToList();
         }
         // Outer areas
-        List<double> outerAreas = new();
+        List<double> outerAreas = decomp[(int)type.outer].Select(Clipper.Area).ToList();
 
-        foreach (Path p in decomp[(int)type.outer])
-        {
-            outerAreas.Add(Clipper.Area(p));
-        }
-        
         // So here, things get annoying. We can have nested donuts, which means that we have outers fully covered by cutters (from the larger donut).
         // Unless we massage things, these get killed as the cutters are applied en-masse to outers in the keyholer.
         
@@ -163,18 +158,7 @@ public static partial class GeoWrangler
             default:
 
                 // Remove any overlapping duplicate polygons.
-                Paths cleaned = new();
-                // c.Clear();
-                // c.AddSubject(ret);
-                // c.Execute(ClipType.Union, FillRule.Positive, cleaned);
-                // cleaned = pReorderXY(cleaned);
-
-                switch (cleaned.Count)
-                {
-                    default:
-                        ret = pClose(ret);
-                        break;
-                }
+                ret = pClose(ret);
 
                 return ret;
         }
@@ -341,7 +325,7 @@ public static partial class GeoWrangler
                 Paths new_outers = pCutKeyHole(outers, cutters, extraCutters);
 
                 outers.Clear();
-                outers.AddRange(new_outers.Where(t1 => Clipper.IsPositive(t1) == outerOrient));
+                outers.AddRange(new_outers.Where(t1_ => Clipper.IsPositive(t1_) == outerOrient));
             }
             
             return pClockwiseAndReorderXY(outers);
@@ -496,11 +480,9 @@ public static partial class GeoWrangler
         // Used to try and avoid residual fragments; empirically derived.
         customSizing *= extension;
 
-        Paths cGeometry = new();
-
         ClipperOffset co = new() {PreserveCollinear = true};
         co.AddPaths(source, joinType, EndType.Polygon);
-        cGeometry = co.Execute(customSizing);
+        Paths cGeometry = co.Execute(customSizing);
         co.Clear();
         co.AddPaths(cGeometry.ToList(), joinType, EndType.Polygon);
         cGeometry.Clear();
@@ -527,8 +509,6 @@ public static partial class GeoWrangler
 
     private static Paths pRemoveFragments(Path source, double customSizing, bool maySimplify = false, JoinType joinType = JoinType.Miter)
     {
-        Paths cGeometry = new();
-
         customSizing = customSizing switch
         {
             0 => keyhole_sizing,
@@ -538,7 +518,7 @@ public static partial class GeoWrangler
 
         ClipperOffset co = new() {PreserveCollinear = true};
         co.AddPath(source, joinType, EndType.Polygon);
-        cGeometry = co.Execute(customSizing);
+        Paths cGeometry = co.Execute(customSizing);
         co.Clear();
         co.AddPaths(cGeometry.ToList(), joinType, EndType.Polygon);
         cGeometry.Clear();
@@ -576,7 +556,7 @@ public static partial class GeoWrangler
                         // Multi-path handling gets interesting. The first path is assumed to be the outer. Let's compare that with the original geometry. If the orientation is different, reverse the full set.
                         bool orientation = Clipper.IsPositive(source);
                         bool origCG0_o = Clipper.IsPositive(cGeometry[0]);
-                        foreach (Path t in cGeometry.Where(t => origCG0_o != orientation))
+                        foreach (Path t in cGeometry.Where(_ => origCG0_o != orientation))
                         {
                             t.Reverse();
                         }

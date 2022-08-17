@@ -138,7 +138,7 @@ public static partial class GeoWrangler
 
         Paths simple = new();
         c.Execute(ClipType.Intersection, FillRule.EvenOdd, simple);
-        ret = reOrderXY(simple);
+        // ret = reOrderXY(simple);
 
         return clockwiseAndReorderXY(simple);
     }

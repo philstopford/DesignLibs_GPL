@@ -8,9 +8,9 @@ namespace Noise;
 /// </summary>
 public class SimplexNoise
 {
-    private SimplexNoiseOctave[] octaves;
-    private double[] frequencys;
-    private double[] amplitudes;
+    private readonly SimplexNoiseOctave[] octaves;
+    private readonly double[] frequencys;
+    private readonly double[] amplitudes;
 
     public SimplexNoise(int seed) : this(30, 0.7, seed)
     {
@@ -74,31 +74,26 @@ public class SimplexNoiseOctave
     {
         public double x { get; private set; }
         public double y { get; private set; }
-        public double z { get; private set; }
-        public double w { get; private set; }
 
         public Grad(double x, double y, double z)
         {
             this.x = x;
             this.y = y;
-            this.z = z;
         }
 
         public Grad(double x, double y, double z, double w)
         {
             this.x = x;
             this.y = y;
-            this.z = z;
-            this.w = w;
         }
     }
 
-    private static Grad[] grad3 = { new(1,1,0),new(-1,1,0),new(1,-1,0),new(-1,-1,0),
+    private static readonly Grad[] grad3 = { new(1,1,0),new(-1,1,0),new(1,-1,0),new(-1,-1,0),
         new(1,0,1),new(-1,0,1),new(1,0,-1),new(-1,0,-1),
         new(0,1,1),new(0,-1,1),new(0,1,-1),new(0,-1,-1) };
 
     // Contains all the numbers between 0 and 255, these are put in a random order depending upon the seed
-    private static short[] p_supply = { 151,160,137,91,90,15,131,13,201,95,96,53,194,233,7,225,140,
+    private static readonly short[] p_supply = { 151,160,137,91,90,15,131,13,201,95,96,53,194,233,7,225,140,
         36,103,30,69,142,8,99,37,240,21,10,23,190, 6,148,247,120,234,
         75,0,26,197,62,94,252,219,203,117,35,11,32,57,177,33,88,237,
         149,56,87,174,20,125,136,171,168,68,175,74,165,71,134,139,
@@ -115,11 +110,11 @@ public class SimplexNoiseOctave
         254,138,236,205,93,222,114,67,29,24,72,243,141,128,195,78,66,
         215,61,156,180 };
 
-    private short[] p = new short[p_supply.Length];
+    private readonly short[] p = new short[p_supply.Length];
 
     // To remove the need for index wrapping, double the permutation table length
-    private short[] perm = new short[512];
-    private short[] permMod12 = new short[512];
+    private readonly short[] perm = new short[512];
+    private readonly short[] permMod12 = new short[512];
 
     public SimplexNoiseOctave(int seed)
     {
@@ -152,8 +147,8 @@ public class SimplexNoiseOctave
     }
 
     // Skewing and unskewing factors for 2 dimensions
-    private static double F2 = 0.5 * (Math.Sqrt(3.0) - 1.0);
-    private static double G2 = (3.0 - Math.Sqrt(3.0)) / 6.0;
+    private static readonly double F2 = 0.5 * (Math.Sqrt(3.0) - 1.0);
+    private static readonly double G2 = (3.0 - Math.Sqrt(3.0)) / 6.0;
 
     /// <summary>
     /// Fast floor function - this method is a *lot* faster than using (int)Math.floor(x) - at least that's the case for the original Java

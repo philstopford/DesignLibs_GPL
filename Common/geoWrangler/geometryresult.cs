@@ -10,7 +10,7 @@ public class GeometryResult
 
     public GeometryResult()
     {
-        geometry = new();
-        drawn = new();
+        geometry = new List<GeoLibPointF[]>();
+        drawn = new List<bool>();
     }
 }

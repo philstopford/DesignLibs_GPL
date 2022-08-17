@@ -40,7 +40,7 @@ public static partial class GeoWrangler
             Paths t = new();
             c.Execute(ClipType.Union, FillRule.EvenOdd, t);
             t = pReorderXY(t);
-            double a2 = t.Sum(t2 => Clipper.Area(t2));
+            double a2 = t.Sum(Clipper.Area);
 
             switch (Math.Abs(Math.Abs(a1) - Math.Abs(a2)))
             {
@@ -100,11 +100,11 @@ public static partial class GeoWrangler
 #if !GWSINGLETHREADED
                         Parallel.For(0, rCount, i =>
 #else
-                    for (int i = 0; i < rCount; i++)
+                        for (int i = 0; i < rCount; i++)
 #endif
-                            {
-                                ret[i].Reverse();
-                            }
+                        {
+                            ret[i].Reverse();
+                        }
 #if !GWSINGLETHREADED
                         );
 #endif

@@ -61,14 +61,8 @@ public class ShapeLibrary
 
     public static List<string> getAvailableShapes(int[] clientShapeDefinition)
     {
-        List<string> availableShapes = new();
         // Set the support flags from the client.
-        for (int i = 0; i < clientShapeDefinition.Length; i++)
-        {
-            availableShapes.Add(availableShapes_all[clientShapeDefinition[i]]);
-        }
-
-        return availableShapes;
+        return clientShapeDefinition.Select(t => availableShapes_all[t]).ToList();
     }
 
     public int shapeIndex;
@@ -1636,8 +1630,9 @@ public class ShapeLibrary
                     verEdge %= Vertex.Length;
                 }
             }
-            catch (Exception)
+            catch
             {
+                // ignored
             }
         }
 

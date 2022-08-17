@@ -136,9 +136,9 @@ public static partial class GeoWrangler
             minY = source[MinY(source)].Y;
             maxY = source[MaxY(source)].Y;
         }
-        catch (Exception)
+        catch
         {
-
+            // ignored
         }
 
         return new [] { new GeoLibPoint(minX, minY), new GeoLibPoint(maxX, maxY) };
@@ -163,9 +163,9 @@ public static partial class GeoWrangler
             minY = source[MinY(source)].Y;
             maxY = source[MaxY(source)].Y;
         }
-        catch (Exception)
+        catch
         {
-
+            // ignored
         }
 
         return new [] { new GeoLibPointF(minX, minY), new GeoLibPointF(maxX, maxY) };
@@ -215,10 +215,10 @@ public static partial class GeoWrangler
             
         Clipper64 c = new();
 
-        Paths rationalizedFirstLayer = a.Select(t => clockwise( /*Clipper.CleanPolygon*/t)).ToList();
+        Paths rationalizedFirstLayer = a.Select(clockwise).ToList();
         // Force to clockwise as a safety measure.
 
-        Paths rationalizedSecondLayer = b.Select(t => clockwise( /*Clipper.CleanPolygon*/t)).ToList();
+        Paths rationalizedSecondLayer = b.Select(clockwise).ToList();
 
         // Intersection should not matter based on order.
         Paths intersectionPaths = new();

@@ -1,6 +1,5 @@
 using System.Globalization;
 using Clipper2Lib;
-using geoAnalysis;
 using geoLib;
 using geoWrangler;
 using KDTree;
@@ -373,7 +372,8 @@ public class DistanceHandler
                 }
 
                 // Walk our edges to figure out the overlap.
-                foreach (spaceResult tResult in aOverlapEdge.SelectMany(t => bOverlapEdge.Select(t1 => overlapAssess(debugCalc, overlapShape[poly], t, t1, aPath, bPath, mode, scaleFactor, runThreaded)).Where(tResult => result.resultPaths.Count == 0 || tResult.distance > result.distance)))
+                var poly1 = poly;
+                foreach (spaceResult tResult in aOverlapEdge.SelectMany(t => bOverlapEdge.Select(t1 => overlapAssess(debugCalc, overlapShape[poly1], t, t1, aPath, bPath, mode, scaleFactor, runThreaded)).Where(tResult => result.resultPaths.Count == 0 || tResult.distance > result.distance)))
                 {
                     result.distance = tResult.distance;
                     if (!debugCalc)
@@ -389,7 +389,7 @@ public class DistanceHandler
         }
         catch (Exception e)
         {
-            errorRep?.Invoke(e.ToString(), "Oops");
+            errorRep.Invoke(e.ToString(), "Oops");
         }
         
         result.done = true;
@@ -624,7 +624,7 @@ public class DistanceHandler
             }
             catch (Exception)
             {
-                errorRep?.Invoke("distanceHandler: shortestPathBeforeStartPoint failed.", "Oops");
+                errorRep.Invoke("distanceHandler: shortestPathBeforeStartPoint failed.", "Oops");
             }
             try
             {
@@ -632,12 +632,9 @@ public class DistanceHandler
             }
             catch (Exception)
             {
-                errorRep?.Invoke("distanceHandler: shortestPathAfterEndPoint failed.", "Oops");
+                errorRep.Invoke("distanceHandler: shortestPathAfterEndPoint failed.", "Oops");
             }
         }
-
-        bool extrOrient = Clipper.IsPositive(extractedPath);
-        bool overOrient = Clipper.IsPositive(overlapPoly);
 
         // No blurry rays, so no point running the inner loop threaded. We thread the outer loop (the emission edge raycast), though. Testing showed small performance improvement for this approach.
         RayCast rc = new(extractedPath, overlapPoly, scaleFactor * scaleFactor, runThreaded, invert, 0, true, false, shortestPathBeforeStartPoint, shortestPathAfterEndPoint);

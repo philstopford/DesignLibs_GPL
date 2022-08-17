@@ -20,7 +20,7 @@ public class angleHandler
     }
 
     // Distance functions to drive scale-up of intersection marker if needed.
-    private double minDistance = 10.0;
+    private readonly double minDistance = 10.0;
 
     public angleHandler(Paths layerAPath, Paths layerBPath, int scaleFactorForOperation)
     {
@@ -44,7 +44,7 @@ public class angleHandler
         // Set initial output value for the case there are no intersections
         minimumIntersectionAngle = 180.0; // no intersection angle.
 
-        double tmpVal = listOfOutputPoints.Sum(t => Clipper.Area(t));
+        double tmpVal = listOfOutputPoints.Sum(Clipper.Area);
         if (tmpVal == 0.0)
         {
             // No overlap

@@ -570,10 +570,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.DesignLibs/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DesignLibs/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/decompositionTest/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/decompositionTest/Program.cs" afterDir="false" />
-    </list>
+    <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -11390,6 +11387,7 @@
       <workItem from="1659153552581" duration="576000" />
       <workItem from="1659210164614" duration="937000" />
       <workItem from="1659211527627" duration="2467000" />
+      <workItem from="1660746580336" duration="2809000" />
     </task>
     <servers />
   </component>
@@ -11399,6 +11397,17 @@
   <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
   <component name="UnityUnitTestConfiguration" currentTestLauncher="NUnit" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>
@@ -11422,30 +11431,6 @@
           <line>84</line>
           <properties documentPath="D:\development\git\DesignLibs_GPL\decompositionTest\Program.cs" initialLine="84" containingFunctionPresentation="method 'partOne'" />
           <option name="timeStamp" value="4" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Common/geoWrangler/decompose.cs</url>
-          <line>228</line>
-          <properties documentPath="D:\development\git\DesignLibs_GPL\Common\geoWrangler\decompose.cs" initialLine="228" containingFunctionPresentation="method 'pRectangular_decomposition'" />
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Common/geoWrangler/decompose.cs</url>
-          <line>268</line>
-          <properties documentPath="D:\development\git\DesignLibs_GPL\Common\geoWrangler\decompose.cs" initialLine="268" containingFunctionPresentation="method 'decompose_poly_to_rectangles'" />
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Common/geoWrangler/decompose.cs</url>
-          <line>270</line>
-          <properties documentPath="D:\development\git\DesignLibs_GPL\Common\geoWrangler\decompose.cs" initialLine="270" containingFunctionPresentation="method 'decompose_poly_to_rectangles'" />
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Common/geoWrangler/decompose.cs</url>
-          <line>310</line>
-          <properties documentPath="D:\development\git\DesignLibs_GPL\Common\geoWrangler\decompose.cs" initialLine="292" containingFunctionPresentation="method 'decompose_poly_to_rectangles'" />
-          <option name="timeStamp" value="8" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

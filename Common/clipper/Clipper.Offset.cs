@@ -57,9 +57,9 @@ namespace Clipper2Lib
 
   public class ClipperOffset
   {
-    private readonly List<PathGroup> _pathGroups = new List<PathGroup>();
-    private readonly PathD _normals = new PathD();
-    private readonly Paths64 solution = new Paths64();
+    private readonly List<PathGroup> _pathGroups = new();
+    private readonly PathD _normals = new();
+    private readonly Paths64 solution = new();
     private double _delta, _tmpLimit, _stepsPerRad;
     private JoinType _joinType;
     public double ArcTolerance { get; set; }

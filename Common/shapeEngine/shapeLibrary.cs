@@ -2809,7 +2809,7 @@ public class ShapeLibrary
 
             // We get the start and end points here.
             List<GeoLibPointF> fragments = fragment.fragmentPath(new List<GeoLibPointF>
-                { new GeoLibPointF(vert_x, startPoint_y), new GeoLibPointF(vert_x, endPoint_y) });
+                { new(vert_x, startPoint_y), new(vert_x, endPoint_y) });
             mcVerEdgePointsList.Add(fragments);
         }
 

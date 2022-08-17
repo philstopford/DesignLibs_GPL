@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace ClipperLibTest;
+﻿namespace ClipperLibTest;
 
 using Paths64 = List<List<Clipper2Lib.Point64>>;
 using Paths = List<List<ClipperLib1.IntPoint>>;
 
 public static class ComparisonTest
 {
-    static Paths64 collisionGeometry = new () {
+    private static readonly Paths64 collisionGeometry = new () {
         new () {
             new (0,-250000),
             new (0,-230000),

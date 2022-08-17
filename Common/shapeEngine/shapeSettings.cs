@@ -65,12 +65,12 @@ public class ShapeSettings
     public enum subShapeVerLocs { B, M, T }
 
     
-    private static readonly List<string> availableSubShapePositions = new List<string>
+    private static readonly List<string> availableSubShapePositions = new()
     { "Corner: Top Left", "Corner: Top Right", "Corner: Bottom Left", "Corner: Bottom Right",
         "Middle: Top Side", "Middle: Right Side", "Middle: Bottom Side", "Middle: Left Side",
         "Center"};
 
-    private static readonly List<string> availableTipsLocations = new List<string>
+    private static readonly List<string> availableTipsLocations = new()
     { "None", "Left", "Right", "Left & Right",
         "Top", "Bottom", "Top & Bottom",
         "Top & Left", "Top & Right", "Top & Left & Right",
@@ -78,7 +78,7 @@ public class ShapeSettings
         "Top & Bottom & Left", "Top & Bottom & Right",
         "All"};
 
-    private static readonly List<string> polyFillTypes = new List<string> { "Even/Odd", "Non-zero", "Positive", "Negative" };
+    private static readonly List<string> polyFillTypes = new() { "Even/Odd", "Non-zero", "Positive", "Negative" };
 
     public enum PolyFill { pftEvenOdd, pftNonZero, pftPositive, pftNegative }
 

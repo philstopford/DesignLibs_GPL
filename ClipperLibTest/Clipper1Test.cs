@@ -473,8 +473,8 @@ public static class Clipper1Test
         {
             new Path()
             {
-                new IntPoint(800000, 800000),
-                new IntPoint(800000, 1100000)
+                new(800000, 800000),
+                new(800000, 1100000)
             }
         };
         
@@ -571,22 +571,22 @@ public static class Clipper1Test
     {
         Paths rays = new()
         {
-            new Path() {new IntPoint(100000, 200000), new IntPoint(100000, -9800000)}
+            new Path() {new(100000, 200000), new(100000, -9800000)}
         };
 
         Paths collisionPaths = new()
         {
             new Path()
             {
-                new IntPoint(0, 0),
-                new IntPoint(0, 500000),
-                new IntPoint(100000, 500000),
-                new IntPoint(100000, 200000),
-                new IntPoint(600000, 200000),
-                new IntPoint(600000, 800000),
-                new IntPoint(1200000, 800000),
-                new IntPoint(1200000, 0),
-                new IntPoint(0, 0)
+                new(0, 0),
+                new(0, 500000),
+                new(100000, 500000),
+                new(100000, 200000),
+                new(600000, 200000),
+                new(600000, 800000),
+                new(1200000, 800000),
+                new(1200000, 0),
+                new(0, 0)
 
             }
         };

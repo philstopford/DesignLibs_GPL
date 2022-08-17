@@ -3672,7 +3672,7 @@ namespace Clipper2Lib
     public bool Execute(ClipType clipType, FillRule fillRule,
         PathsD solutionClosed, PathsD solutionOpen)
     {
-      Paths64 solClosed64 = new Paths64(), solOpen64 = new Paths64();
+      Paths64 solClosed64 = new(), solOpen64 = new();
 #if USINGZ
       ZCallback64? ZFillSaved = ZFillFunc;
       if (ZFillDFunc != null && ZFillFunc == null)
@@ -3759,7 +3759,7 @@ namespace Clipper2Lib
   public abstract class PolyPathBase : IEnumerable
   {
     internal PolyPathBase? _parent;
-    internal List<PolyPathBase> _childs = new List<PolyPathBase>();
+    internal List<PolyPathBase> _childs = new();
 
     public PolyPathEnum GetEnumerator()
     {

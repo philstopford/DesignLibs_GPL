@@ -760,8 +760,8 @@ public static class Clipper2Test
         {
             new Path64()
             {
-                new Point64(800000, 800000),
-                new Point64(800000, 1100000)
+                new(800000, 800000),
+                new(800000, 1100000)
             }
         };
         
@@ -807,19 +807,19 @@ public static class Clipper2Test
     public static void openPath_clipTest1()
     {
         Path64 lPoly = new Path64() {
-        new Point64(0,0),
-        new Point64(0,200000),
-        new Point64(200000,200000),
-        new Point64(200000,500000),
-        new Point64(0,500000),
-        new Point64(0,1100000),
-        new Point64(1000000,1100000),
-        new Point64(1000000,800000),
-        new Point64(800000,800000),
-        new Point64(800000,600000),
-        new Point64(1000000,600000),
-        new Point64(1000000,0),
-        new Point64(0,0)
+        new(0,0),
+        new(0,200000),
+        new(200000,200000),
+        new(200000,500000),
+        new(0,500000),
+        new(0,1100000),
+        new(1000000,1100000),
+        new(1000000,800000),
+        new(800000,800000),
+        new(800000,600000),
+        new(1000000,600000),
+        new(1000000,0),
+        new(0,0)
         };
 
         Path64 t = new () {
@@ -850,27 +850,27 @@ public static class Clipper2Test
     {
         Paths64 rays2 = new()
         {
-            new Path64() {new Point64(100000, 200000), new Point64(100000, -9800000)}
+            new Path64() {new(100000, 200000), new(100000, -9800000)}
         };
 
         Paths64 rays = new()
         {
-            new Path64() {new Point64(100000, 500000), new Point64(10100000, 500000)}
+            new Path64() {new(100000, 500000), new(10100000, 500000)}
         };
 
         Paths64 collisionPaths = new()
         {
             new Path64()
             {
-                new Point64(0, 0),
-                new Point64(0, 500000),
-                new Point64(100000, 500000),
-                new Point64(100000, 200000),
-                new Point64(600000, 200000),
-                new Point64(600000, 800000),
-                new Point64(1200000, 800000),
-                new Point64(1200000, 0),
-                new Point64(0, 0)
+                new(0, 0),
+                new(0, 500000),
+                new(100000, 500000),
+                new(100000, 200000),
+                new(600000, 200000),
+                new(600000, 800000),
+                new(1200000, 800000),
+                new(1200000, 0),
+                new(0, 0)
 
             }
         };

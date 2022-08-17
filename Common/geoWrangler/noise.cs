@@ -10,7 +10,7 @@ namespace geoWrangler;
 
 public static class NoiseC
 {
-    public static List<string> noiseTypes = new List<string> { "Perlin", "Simplex", "OpenSimplex" };
+    public static List<string> noiseTypes = new() { "Perlin", "Simplex", "OpenSimplex" };
 
     public enum noiseIndex { perlin, simplex, opensimplex }
 

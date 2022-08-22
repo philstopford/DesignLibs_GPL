@@ -26,7 +26,7 @@ public static class Email
             client.Send(message);
             client.Disconnect(true);
         }
-        catch (Exception ex)
+        catch
         {
             throw new Exception( "Email problem");
         }

@@ -318,7 +318,7 @@ public class RayCast
         Clipper64 d = new();
         if (sideRayFallOff != falloff.none)
         {
-            d.ZFillFunc = prox_ZFillCallback;
+            d.ZCallback = prox_ZFillCallback;
         }
         d.AddOpenSubject(ray);
         d.AddClip(collisionPaths);

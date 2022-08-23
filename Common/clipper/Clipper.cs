@@ -1,7 +1,7 @@
 ﻿/*******************************************************************************
 * Author    :  Angus Johnson                                                   *
-* Version   :  Clipper2 - ver.1.0.0                                            *
-* Date      :  3 August 2022                                                   *
+* Version   :  Clipper2 - ver.1.0.3                                            *
+* Date      :  23 August 2022                                                  *
 * Website   :  http://www.angusj.com                                           *
 * Copyright :  Angus Johnson 2010-2022                                         *
 * Purpose   :  This module contains simple functions that will likely cover    *
@@ -31,10 +31,10 @@ namespace Clipper2Lib
   public static class Clipper
   {
 
-    public static Rect64 MaxInvalidRect64 = new(
+    public static Rect64 MaxInvalidRect64 = new Rect64(
       long.MaxValue, long.MaxValue, long.MinValue, long.MinValue);
 
-    public static RectD MaxInvalidRectD = new(
+    public static RectD MaxInvalidRectD = new RectD(
       double.MaxValue, -double.MaxValue, -double.MaxValue, -double.MaxValue);
 
     public static Paths64 Intersect(Paths64 subject, Paths64 clip, FillRule fillRule)
@@ -200,6 +200,34 @@ namespace Clipper2Lib
       return Area(poly) >= 0;
     }
 
+    public static string Path64ToString(Path64 path)
+    {
+      string result = "";
+      foreach (Point64 pt in path)
+        result = result + pt.ToString();
+      return result + '\n';
+    }
+    public static string Paths64ToString(Paths64 paths)
+    {
+      string result = "";
+      foreach (Path64 path in paths)
+        result = result + Path64ToString(path);
+      return result;
+    }
+    public static string PathDToString(PathD path)
+    {
+      string result = "";
+      foreach (PointD pt in path)
+        result = result + pt.ToString();
+      return result + '\n';
+    }
+    public static string PathsDToString(PathsD paths)
+    {
+      string result = "";
+      foreach (PathD path in paths)
+        result = result + PathDToString(path);
+      return result;
+    }
     public static Path64 OffsetPath(Path64 path, long dx, long dy)
     {
       Path64 result = new Path64(path.Count);
@@ -209,12 +237,29 @@ namespace Clipper2Lib
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static PointD ScalePoint(Point64 pt, double scale)
+    public static Point64 ScalePoint64(Point64 pt, double scale)
+    {
+      Point64 result = new Point64()
+      {
+        X = (long) (pt.X * scale),
+        Y = (long) (pt.Y * scale),
+#if USINGZ
+        Z = (long) (pt.Z),
+#endif
+      };
+      return result;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static PointD ScalePointD(Point64 pt, double scale)
     {
       PointD result = new PointD()
       {
         x = pt.X * scale,
         y = pt.Y * scale,
+#if USINGZ
+        z = pt.Z,
+#endif
       };
       return result;
     }
@@ -223,8 +268,13 @@ namespace Clipper2Lib
     {
       if (scale == 1) return path;
       Path64 result = new Path64(path.Count);
+#if USINGZ
+      foreach (Point64 pt in path)
+        result.Add(new Point64(pt.X * scale, pt.Y * scale, pt.Z));
+#else
       foreach (Point64 pt in path)
         result.Add(new Point64(pt.X * scale, pt.Y * scale));
+#endif
       return result;
     }
 

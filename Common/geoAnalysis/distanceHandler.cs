@@ -191,7 +191,7 @@ public class DistanceHandler
                 Paths overlapShape = new();
 
                 // Check for complete overlap
-                Clipper64 c = new() {PreserveCollinear = true, ZFillFunc = ZFillCallback};
+                Clipper64 c = new() {PreserveCollinear = true, ZCallback = ZFillCallback};
                 // Try a union and see whether the point count of the perimeter changes. This might break for re-entrant cases, but those are problematic anyway.
                 Paths fullOverlapCheck = new();
                 c.AddSubject(layerAPath);
@@ -220,7 +220,7 @@ public class DistanceHandler
                 {
                     // Need to find the region outside our enclosure shape. We use the modifier to handle this.
                     c.Clear();
-                    c.ZFillFunc = ZFillCallback;
+                    c.ZCallback = ZFillCallback;
                     // Try cutting layerB from layerA
                     c.AddSubject(layerAPath);
                     c.AddClip(layerBPath);

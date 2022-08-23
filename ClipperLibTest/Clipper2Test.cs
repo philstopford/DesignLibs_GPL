@@ -603,7 +603,7 @@ public static class Clipper2Test
 
         Clipper64 c = new();
 
-        c.ZFillFunc = zFillTest;
+        c.ZCallback = zFillTest;
 
         c.AddSubject(outer);
         c.AddClip(cutter);
@@ -707,7 +707,7 @@ public static class Clipper2Test
             y += 100;
         }
         Clipper64 c3 = new();
-        c3.ZFillFunc = zFillTest;
+        c3.ZCallback = zFillTest;
         
         c3.AddClip(lPoly);
         c3.AddOpenSubject(t3);
@@ -1290,7 +1290,7 @@ public static class Clipper2Test
         }
 
         Clipper64 c = new();
-        c.ZFillFunc = zFillTest;
+        c.ZCallback = zFillTest;
         c.AddOpenSubject(testPath);
         c.AddClip(a);
 
@@ -1614,7 +1614,7 @@ public static class Clipper2Test
         }
 
         Clipper64 c = new();
-        c.ZFillFunc = zFillTest;
+        c.ZCallback = zFillTest;
         c.AddOpenSubject(testPath);
         c.AddClip(a);
 

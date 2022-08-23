@@ -45,7 +45,7 @@ public class ChordHandler
             pt++;
         }
 
-        Clipper64 c = new() {ZFillFunc = ZFillCallback, PreserveCollinear = true};
+        Clipper64 c = new() {ZCallback = ZFillCallback, PreserveCollinear = true};
         c.AddOpenSubject(testPath);
         c.AddClip(b);
         Paths unused = new();
@@ -211,7 +211,7 @@ public class ChordHandler
 
         pt = Math.Max(0, pt - 1);
 
-        Clipper64 c = new() {ZFillFunc = ZFillCallback, PreserveCollinear = true};
+        Clipper64 c = new() {ZCallback = ZFillCallback, PreserveCollinear = true};
         c.AddOpenSubject(testPath);
         c.AddClip(a);
         Paths leftChords = new();
@@ -236,7 +236,7 @@ public class ChordHandler
             pt++;
         }
 
-        c.ZFillFunc = ZFillCallback;
+        c.ZCallback = ZFillCallback;
         c.AddOpenSubject(testPath);
         c.AddClip(a);
         Paths rightChords = new();

@@ -32,7 +32,7 @@ public class angleHandler
         listOfOutputPoints = new Paths();
         resultPaths = new Paths();
         Path resultPath = new();
-        Clipper64 c = new() {ZFillFunc = ZFillCallback};
+        Clipper64 c = new() {ZCallback = ZFillCallback};
         c.AddSubject(layerAPath);
         c.AddClip(layerBPath);
         

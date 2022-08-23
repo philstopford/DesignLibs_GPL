@@ -28,7 +28,7 @@ public class AreaHandler
         listOfOutputPoints = new Paths();
 
         // callsite may not want simplified geometry.
-        Clipper64 c = new() {ZFillFunc = ZFillCallback, PreserveCollinear = !maySimplify};
+        Clipper64 c = new() {ZCallback = ZFillCallback, PreserveCollinear = !maySimplify};
 
         c.AddSubject(aPaths);
 

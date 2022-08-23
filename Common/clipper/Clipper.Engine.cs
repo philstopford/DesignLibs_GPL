@@ -1,7 +1,7 @@
 ﻿/*******************************************************************************
 * Author    :  Angus Johnson                                                   *
-* Version   :  Clipper2 - ver.1.0.0                                            *
-* Date      :  10 August 2022                                                  *
+* Version   :  Clipper2 - ver.1.0.3                                            *
+* Date      :  23 August 2022                                                  *
 * Website   :  http://www.angusj.com                                           *
 * Copyright :  Angus Johnson 2010-2022                                         *
 * Purpose   :  This is the main polygon clipping module                        *
@@ -256,7 +256,7 @@ namespace Clipper2Lib
     public delegate void ZCallback64(Point64 bot1, Point64 top1,
         Point64 bot2, Point64 top2, ref Point64 intersectPt);
 
-    public ZCallback64? ZFillFunc { get; set; }
+    protected ZCallback64? _zCallback;
 #endif
     public ClipperBase()
     {
@@ -277,7 +277,7 @@ namespace Clipper2Lib
 
     private void SetZ(Active e1, Active e2, ref Point64 intersectPt)
     {
-      if (ZFillFunc == null) return;
+      if (_zCallback == null) return;
 
       // prioritize subject vertices over clip vertices
       // and pass the subject vertices before clip vertices in the callback
@@ -291,7 +291,7 @@ namespace Clipper2Lib
           intersectPt = new Point64(intersectPt.X, intersectPt.Y, e2.bot.Z);
         else if (XYCoordsEqual(intersectPt, e2.top))
           intersectPt = new Point64(intersectPt.X, intersectPt.Y, e2.top.Z);
-        ZFillFunc(e1.bot, e1.top, e2.bot, e2.top, ref intersectPt);
+        _zCallback(e1.bot, e1.top, e2.bot, e2.top, ref intersectPt);
       }
       else
       {
@@ -303,7 +303,7 @@ namespace Clipper2Lib
           intersectPt = new Point64(intersectPt.X, intersectPt.Y, e1.bot.Z);
         else if (XYCoordsEqual(intersectPt, e1.top))
           intersectPt = new Point64(intersectPt.X, intersectPt.Y, e1.top.Z);
-        ZFillFunc(e2.bot, e2.top, e1.bot, e1.top, ref intersectPt);
+        _zCallback(e2.bot, e2.top, e1.bot, e1.top, ref intersectPt);
       }
     }
 #endif
@@ -3245,8 +3245,7 @@ namespace Clipper2Lib
       InternalClipper.GetIntersectPoint(
           prevOp.pt, splitOp.pt, splitOp.next.pt, nextNextOp.pt, out PointD ipD);
       Point64 ip = new Point64(ipD);
-#if USINGZ
-#endif
+
       double area1 = Area(outRecOp);
       double area2 = AreaTriangle(ip, splitOp.pt, splitOp.next.pt);
 
@@ -3590,6 +3589,13 @@ namespace Clipper2Lib
       return Execute(clipType, fillRule, polytree, new Paths64());
     }
 
+#if USINGZ
+    public ZCallback64? ZCallback {
+      get { return this._zCallback; }
+      set { this._zCallback = value; } 
+    }
+#endif
+
   } // Clipper64 class
 
   public class ClipperD : ClipperBase
@@ -3601,10 +3607,18 @@ namespace Clipper2Lib
     public delegate void ZCallbackD(PointD bot1, PointD top1,
         PointD bot2, PointD top2, ref PointD intersectPt);
 
-    public ZCallbackD? ZFillDFunc { get; set; }
+    public ZCallbackD? ZCallback { get; set; }
+
+    private void CheckZCallback()
+    {
+      if (ZCallback != null)
+        _zCallback = ZCB;
+      else
+        _zCallback = null;
+    }
 #endif
 
-    public ClipperD(int roundingDecimalPrecision = 0): base()
+    public ClipperD(int roundingDecimalPrecision = 2): base()
     {
       if (roundingDecimalPrecision < -8 || roundingDecimalPrecision > 8)
         throw new ClipperLibException("Error - RoundingDecimalPrecision exceeds the allowed range.");
@@ -3613,19 +3627,22 @@ namespace Clipper2Lib
     }
 
 #if USINGZ
-    private void ProxyZCallback(Point64 bot1, Point64 top1,
+    private void ZCB(Point64 bot1, Point64 top1,
         Point64 bot2, Point64 top2, ref Point64 intersectPt)
     {
-      // de-scale coordinates
-      PointD tmp = Clipper.ScalePoint(intersectPt, _invScale);
-      ZFillDFunc?.Invoke(
-        Clipper.ScalePoint(bot1, _invScale),
-        Clipper.ScalePoint(top1, _invScale),
-        Clipper.ScalePoint(bot2, _invScale),
-        Clipper.ScalePoint(top2, _invScale), ref tmp);
-      // re-scale
+      // de-scale (x & y)
+      // temporarily convert integers to their initial float values
+      // this will slow clipping marginally but will make it much easier
+      // to understand the coordinates passed to the callback function
+      PointD tmp = new PointD(intersectPt);
+      //do the callback
+      ZCallback?.Invoke(
+        Clipper.ScalePointD(bot1, _invScale),
+        Clipper.ScalePointD(top1, _invScale),
+        Clipper.ScalePointD(bot2, _invScale),
+        Clipper.ScalePointD(top2, _invScale), ref tmp);
       intersectPt = new Point64(intersectPt.X,
-          intersectPt.Y, (long) Math.Round(tmp.z * _scale));
+          intersectPt.Y, tmp.z);
     }
 #endif
 
@@ -3672,11 +3689,9 @@ namespace Clipper2Lib
     public bool Execute(ClipType clipType, FillRule fillRule,
         PathsD solutionClosed, PathsD solutionOpen)
     {
-      Paths64 solClosed64 = new(), solOpen64 = new();
+      Paths64 solClosed64 = new Paths64(), solOpen64 = new Paths64();
 #if USINGZ
-      ZCallback64? ZFillSaved = ZFillFunc;
-      if (ZFillDFunc != null && ZFillFunc == null)
-        ZFillFunc = ProxyZCallback;
+      CheckZCallback();
 #endif
 
       bool success = true;
@@ -3693,10 +3708,6 @@ namespace Clipper2Lib
       }
 
       ClearSolution();
-#if USINGZ
-      ZFillFunc = ZFillSaved;
-#endif
-
       if (!success) return false;
 
       solutionClosed.Capacity = solClosed64.Count;
@@ -3719,9 +3730,7 @@ namespace Clipper2Lib
       polytree.Clear();
       (polytree as PolyPathD).Scale = _scale;
 #if USINGZ
-      ZCallback64? ZFillSaved = ZFillFunc;
-      if (ZFillDFunc != null && ZFillFunc == null)
-        ZFillFunc = ProxyZCallback;
+      CheckZCallback();
 #endif
       openPaths.Clear();
       Paths64 oPaths = new Paths64();
@@ -3735,9 +3744,6 @@ namespace Clipper2Lib
       {
         success = false;
       }
-#if USINGZ
-      ZFillFunc = ZFillSaved;
-#endif
       ClearSolution();
       if (!success) return false;
       if (oPaths.Count > 0)
@@ -3759,7 +3765,7 @@ namespace Clipper2Lib
   public abstract class PolyPathBase : IEnumerable
   {
     internal PolyPathBase? _parent;
-    internal List<PolyPathBase> _childs = new();
+    internal List<PolyPathBase> _childs = new List<PolyPathBase>();
 
     public PolyPathEnum GetEnumerator()
     {

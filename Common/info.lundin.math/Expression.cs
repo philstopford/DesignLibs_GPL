@@ -7,7 +7,7 @@
 */
 
 using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
+using System.Xml.Serialization;
 
 namespace info.lundin.math;
 
@@ -42,8 +42,8 @@ public class Expression
     /// <param name="stream">stream to write to</param>
     public void Save(Stream stream)
     {
-        var bin = new BinaryFormatter();
-        bin.Serialize(stream, ExpressionTree);
+        XmlSerializer serializer = new XmlSerializer(typeof(Node));
+        serializer.Serialize(stream, ExpressionTree);
     }
 
     /// <summary>
@@ -52,11 +52,12 @@ public class Expression
     /// <param name="stream">stream to read from</param>
     public void Load(Stream stream)
     {
-        var bin = new BinaryFormatter();
-        Node tree = bin.Deserialize(stream) as Node;
-        if (tree != null)
+        XmlSerializer serializer = new XmlSerializer(typeof(Node));
+        Node tree_ = (Node)serializer.Deserialize(stream);
+
+        if (tree_ != null)
         {
-            ExpressionTree = tree;
+            ExpressionTree = tree_;
         }
     }
 

@@ -10,6 +10,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Xml.Serialization;
 
 namespace info.lundin.math;
 
@@ -34,8 +35,8 @@ public class ExpressionDictionary : IDictionary<string, Expression>
     /// <param name="stream">stream to write to</param>
     public void Save(Stream stream)
     {
-        var bin = new BinaryFormatter();
-        bin.Serialize(stream, dictionary);
+        XmlSerializer serializer = new XmlSerializer(typeof(Node));
+        serializer.Serialize(stream, dictionary);
     }
 
     /// <summary>
@@ -44,10 +45,8 @@ public class ExpressionDictionary : IDictionary<string, Expression>
     /// <param name="stream">stream to read from</param>
     public void Load(Stream stream)
     {
-        var bin = new BinaryFormatter();
-
-        IDictionary<string, Expression> obj
-            = bin.Deserialize(stream) as IDictionary<string, Expression>;
+        XmlSerializer serializer = new XmlSerializer(typeof(IDictionary<string, Expression>));
+        IDictionary<string, Expression> obj = (IDictionary<string, Expression>)serializer.Deserialize(stream);
 
         if (obj != null)
         {

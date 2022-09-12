@@ -35,7 +35,7 @@ public class SVGBuilder
         {
             pft = 0; // PolyFillType.pftNonZero;
             brushClr = MyColor.AntiqueWhite;
-            dashArray = null;
+            dashArray = Array.Empty<int>();
             penClr = MyColor.Black;
             penWidth = 0.8;
             showCoords = false;
@@ -47,6 +47,12 @@ public class SVGBuilder
         public Polygons polygons { get; set; }
         public StyleInfo si { get; set; }
         //public Color pi_color;
+
+        public PolyInfo()
+        {
+            polygons = new Polygons();
+            si = new StyleInfo();
+        }
     }
 
     public class BoundingRect

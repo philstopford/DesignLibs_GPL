@@ -6,11 +6,6 @@
     <DefineConstants>MONOMAC</DefineConstants>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Eto.OpenTK.Mac64" Version="0.1.2" />
-    <PackageReference Include="Eto.Platform.Mac64" Version="2.7.1" />
-  </ItemGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DefineConstants>TRACE;NOVELDRID</DefineConstants>
   </PropertyGroup>
@@ -21,6 +16,8 @@
 
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Eto.OpenTK\Eto.OpenTK.Mac\Eto.OpenTK.Mac64.csproj" />
+    <ProjectReference Include="..\..\..\Eto\src\Eto.Mac\Eto.Mac64.csproj" />
     <ProjectReference Include="..\TestEtoViewport\TestEtoViewport.csproj" />
   </ItemGroup>
 

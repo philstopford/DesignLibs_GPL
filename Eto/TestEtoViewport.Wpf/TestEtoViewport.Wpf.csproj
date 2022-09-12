@@ -7,6 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Eto.OpenTK\Eto.OpenTK.Wpf\Eto.OpenTK.Wpf.csproj" />
+    <ProjectReference Include="..\..\..\Eto\src\Eto.Wpf\Eto.Wpf.csproj" />
     <ProjectReference Include="..\TestEtoViewport\TestEtoViewport.csproj" />
   </ItemGroup>
 
@@ -17,13 +19,6 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DefineConstants>TRACE;NOVELDRID</DefineConstants>
   </PropertyGroup>
-
-
-  <ItemGroup>
-    <PackageReference Include="Eto.OpenTK.Wpf" Version="0.1.2" />
-    <PackageReference Include="Eto.Platform.Windows" Version="2.7.1" />
-    <PackageReference Include="Eto.Platform.Wpf" Version="2.7.1" />
-  </ItemGroup>
 
   <ItemGroup>
     <Reference Include="PresentationCore" />

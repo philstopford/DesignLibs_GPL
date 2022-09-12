@@ -6,6 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Eto.OpenTK\Eto.OpenTK.WinForms\Eto.OpenTK.WinForms.csproj" />
+    <ProjectReference Include="..\..\..\Eto\src\Eto.WinForms\Eto.WinForms.csproj" />
     <ProjectReference Include="..\TestEtoViewport\TestEtoViewport.csproj" />
   </ItemGroup>
 
@@ -16,12 +18,6 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DefineConstants>TRACE;NOVELDRID</DefineConstants>
   </PropertyGroup>
-
-
-  <ItemGroup>
-    <PackageReference Include="Eto.OpenTK.WinForms" Version="0.1.2" />
-    <PackageReference Include="Eto.Platform.Windows" Version="2.7.1" />
-  </ItemGroup>
 
   <ItemGroup>
     <Reference Include="System.Windows.Forms" />

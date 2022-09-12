@@ -570,7 +570,36 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="" />
+    <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.DesignLibs/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DesignLibs/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ClipperLibTest/Clipper1Test.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ClipperLibTest/Clipper1Test.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ClipperLibTest/Clipper2Test.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ClipperLibTest/Clipper2Test.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Email/Email.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Email/Email.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/clipper/Clipper.Core.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/clipper/Clipper.Core.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/clipper/Clipper.Engine.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/clipper/Clipper.Engine.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/clipper/Clipper.Minkowski.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/clipper/Clipper.Minkowski.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/clipper/Clipper.Offset.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/clipper/Clipper.Offset.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/clipper/Clipper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/clipper/Clipper.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoAnalysis/angleHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoAnalysis/angleHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoAnalysis/areaHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoAnalysis/areaHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoAnalysis/chordHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoAnalysis/chordHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoCore/geoCore.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoCore/geoCore.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Eto/DynamicAero2/DynamicAero2.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Eto/DynamicAero2/DynamicAero2.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Eto/Eto.VeldridSurface/Eto.VeldridSurface.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Eto/Eto.VeldridSurface/Eto.VeldridSurface.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Eto/TestEtoVeldrid.Gtk/TestEtoVeldrid.Gtk.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Eto/TestEtoVeldrid.Gtk/TestEtoVeldrid.Gtk.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Eto/TestEtoVeldrid.Mac/TestEtoVeldrid.Mac64.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Eto/TestEtoVeldrid.Mac/TestEtoVeldrid.Mac64.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Eto/TestEtoVeldrid.WinForms/TestEtoVeldrid.WinForms.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Eto/TestEtoVeldrid.WinForms/TestEtoVeldrid.WinForms.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Eto/TestEtoVeldrid.Wpf/TestEtoVeldrid.Wpf.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Eto/TestEtoVeldrid.Wpf/TestEtoVeldrid.Wpf.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Eto/TestEtoVeldrid/TestEtoVeldrid.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Eto/TestEtoVeldrid/TestEtoVeldrid.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Eto/TestEtoViewport.Gtk/TestEtoViewport.Gtk.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Eto/TestEtoViewport.Gtk/TestEtoViewport.Gtk.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Eto/TestEtoViewport.Mac/TestEtoViewport.Mac64.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Eto/TestEtoViewport.Mac/TestEtoViewport.Mac64.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Eto/TestEtoViewport.WinForms/TestEtoViewport.WinForms.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Eto/TestEtoViewport.WinForms/TestEtoViewport.WinForms.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Eto/TestEtoViewport.Wpf/TestEtoViewport.Wpf.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Eto/TestEtoViewport.Wpf/TestEtoViewport.Wpf.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Eto/TestEtoViewport/TestEtoViewport.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Eto/TestEtoViewport/TestEtoViewport.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Eto/errorReporter/errorReporter.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Eto/errorReporter/errorReporter.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Eto/etoViewport/etoViewport.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Eto/etoViewport/etoViewport.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/decompositionTest/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/decompositionTest/Program.cs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -11390,6 +11419,8 @@
       <workItem from="1660746580336" duration="4848000" />
       <workItem from="1660761135784" duration="210000" />
       <workItem from="1660761760372" duration="145000" />
+      <workItem from="1662985415625" duration="354000" />
+      <workItem from="1662986187936" duration="188000" />
     </task>
     <servers />
   </component>

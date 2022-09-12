@@ -26,7 +26,7 @@
     <PackageReference Include="Eto.Forms" Version="2.7.1" />
     <PackageReference Include="Eto.Veldrid" Version="0.1.0" />
     <PackageReference Include="Unofficial.LibTessDotNet" Version="2.0.2" />
-    <PackageReference Include="Veldrid" Version="4.9.0-beta1" />
+    <PackageReference Include="Veldrid" Version="4.9.0-beta2" />
     <PackageReference Include="Veldrid.SPIRV" Version="1.0.15" />
   </ItemGroup>
   

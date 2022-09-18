@@ -6,8 +6,8 @@ using Clipper2Lib;
 
 namespace geoWrangler;
 
-using Path = List<Point64>;
-using Paths = List<List<Point64>>;
+using Path = Path64;
+using Paths = Paths64;
 
 public static partial class GeoWrangler
 {
@@ -55,7 +55,7 @@ public static partial class GeoWrangler
         Paths ret = pLayerBoolean(firstLayerOperator, firstLayer, secondLayerOperator, secondLayer, booleanFlag, preserveColinear: false);
         
         // Secondary clean-up of the result. This seems to be needed, so retained for now.
-        ret = gapRemoval(ret, customSizing:0.5*keyhole_sizing,extension: extension).ToList();
+        ret = new (gapRemoval(ret, customSizing:0.5*keyhole_sizing,extension: extension));
 
         bool holes = false;
 
@@ -155,7 +155,7 @@ public static partial class GeoWrangler
         {
             try
             {
-                firstLayerPaths = invertTone(firstLayerPaths, preserveColinear: preserveColinear).ToList();
+                firstLayerPaths = new (invertTone(firstLayerPaths, preserveColinear: preserveColinear));
             }
             catch (Exception)
             {
@@ -168,7 +168,7 @@ public static partial class GeoWrangler
         {
             try
             {
-                secondLayerPaths = invertTone(secondLayerPaths, preserveColinear: preserveColinear).ToList();
+                secondLayerPaths = new (invertTone(secondLayerPaths, preserveColinear: preserveColinear));
             }
             catch (Exception)
             {
@@ -179,9 +179,9 @@ public static partial class GeoWrangler
 
         if (firstLayerPaths[0].Count <= 1)
         {
-            return secondLayerPaths.ToList();
+            return new (secondLayerPaths);
         }
-        return secondLayerPaths[0].Count <= 1 ? firstLayerPaths.ToList() : pLayerBoolean(firstLayerPaths, secondLayerPaths, booleanFlag, preserveColinear: preserveColinear);
+        return secondLayerPaths[0].Count <= 1 ? new (firstLayerPaths) : pLayerBoolean(firstLayerPaths, secondLayerPaths, booleanFlag, preserveColinear: preserveColinear);
     }
 
     public static Paths LayerBoolean(Paths firstPaths, Paths secondPaths, int booleanFlag, bool preserveColinear = true)

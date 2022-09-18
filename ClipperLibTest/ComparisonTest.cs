@@ -1,6 +1,6 @@
 ﻿namespace ClipperLibTest;
 
-using Paths64 = List<List<Clipper2Lib.Point64>>;
+using Paths64 = Clipper2Lib.Paths64;
 using Paths = List<List<ClipperLib1.IntPoint>>;
 
 public static class ComparisonTest
@@ -233,7 +233,7 @@ public static class ComparisonTest
 
         // Create our Clipper1 collision geometry from the Clipper2 definition
         Paths collsionGeometry1 = new();
-        foreach (List<Clipper2Lib.Point64> t in collisionGeometry)
+        foreach (Clipper2Lib.Path64 t in collisionGeometry)
         {
             List<ClipperLib1.IntPoint> a = new List<ClipperLib1.IntPoint>();
             for (int j = 0; j < t.Count; j++)
@@ -243,7 +243,7 @@ public static class ComparisonTest
             collsionGeometry1.Add(a);
         }
 
-        foreach (List<Clipper2Lib.Point64> t in castLines)
+        foreach (Clipper2Lib.Path64 t in castLines)
         {
             Clipper2Lib.Clipper64 c2 = new();
             c2.AddOpenSubject(t);
@@ -427,7 +427,7 @@ public static class ComparisonTest
         
         // Create our Clipper1 collision geometry from the Clipper2 definition
         Paths collsionGeometry1 = new();
-        foreach (List<Clipper2Lib.Point64> t in collisionGeometry)
+        foreach (Clipper2Lib.Path64 t in collisionGeometry)
         {
             List<ClipperLib1.IntPoint> a = new List<ClipperLib1.IntPoint>();
             for (int j = 0; j < t.Count; j++)
@@ -437,7 +437,7 @@ public static class ComparisonTest
             collsionGeometry1.Add(a);
         }
 
-        foreach (List<Clipper2Lib.Point64> t in castLines)
+        foreach (Clipper2Lib.Path64 t in castLines)
         {
             Clipper2Lib.Clipper64 c2 = new();
             c2.AddOpenSubject(t);

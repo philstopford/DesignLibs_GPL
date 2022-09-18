@@ -3,9 +3,6 @@ using Clipper2Lib;
 
 namespace ClipperLibTest;
 
-using Path64 = List<Point64>;
-using Paths64 = List<List<Point64>>;
-
 public class OpenPathClippingTest
 {
     public static void test()

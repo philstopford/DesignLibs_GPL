@@ -5,8 +5,8 @@ using Clipper2Lib;
 
 namespace ClipperLib2Test;
 
-using Path64 = List<Point64>;
-using Paths64 = List<List<Point64>>;
+using Path = Path64;
+using Paths = Paths64;
 
 public static class Clipper2Test
 {
@@ -1003,7 +1003,7 @@ public static class Clipper2Test
     
     public static void leftChordTest()
     {
-        Path64 testPath = new List<Point64>() {
+        Path64 testPath = new () {
          new(-200000,0),
          new(-300000,0),
          new(-310453,-548),
@@ -1040,7 +1040,7 @@ public static class Clipper2Test
          new(-300000,-800000),
          };
 
-        Path64 a = new List<Point64>() {
+        Path64 a = new () {
           new(-460000,-390000),
           new(-459955,-395235),
           new(-459594,-405679),

@@ -2,14 +2,14 @@
 
 namespace ClipperLibTest;
 
-using Paths64 = List<List<Clipper2Lib.Point64>>;
+using Paths64 = Clipper2Lib.Paths64;
 using Paths = List<List<ClipperLib1.IntPoint>>;
 
 public class STest
 {
     public static void compare()
     {
-        List<Clipper2Lib.Point64> BP = new()
+        Clipper2Lib.Path64 BP = new()
         {
             new(1000, 27000),
             new(1000, 2000),

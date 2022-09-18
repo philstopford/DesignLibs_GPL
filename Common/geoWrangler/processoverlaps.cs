@@ -6,8 +6,8 @@ using geoLib;
 
 namespace geoWrangler;
 
-using Path = List<Point64>;
-using Paths = List<List<Point64>>;
+using Path = Path64;
+using Paths = Paths64;
 
 public static class ProcessOverlaps
 {

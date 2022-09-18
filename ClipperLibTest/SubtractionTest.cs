@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
+﻿namespace ClipperLibTest;
 
-namespace ClipperLibTest;
-
-using Paths64 = List<List<Clipper2Lib.Point64>>;
+using Paths64 = Clipper2Lib.Paths64;
 using Paths = List<List<ClipperLib1.IntPoint>>;
 
 public static class SubtractionTest

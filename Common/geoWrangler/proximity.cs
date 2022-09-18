@@ -8,8 +8,8 @@ using utility;
 
 namespace geoWrangler;
 
-using Path = List<Point64>;
-using Paths = List<List<Point64>>;
+using Path = Path64;
+using Paths = Paths64;
 
 public static class Proximity
 {
@@ -60,8 +60,8 @@ public static class Proximity
             
             overlapDrawnList.Add(false);
 
-            Path sourcePoly = sourceGeometry[poly].ToList();
-            Paths collisionGeometry = sourceGeometry.ToList();
+            Path sourcePoly = new(sourceGeometry[poly]);
+            Paths collisionGeometry = new(sourceGeometry);
             // collisionGeometry.RemoveAt(poly); // Don't actually want to remove the emission as self-aware proximity matters.
             Path deformedPoly = new();
 

@@ -4,7 +4,7 @@ using geoWrangler;
 
 namespace geoAnalysis;
 
-using Paths = List<List<Point64>>;
+using Paths = Paths64;
 
 public class AreaHandler
 {

@@ -6,8 +6,8 @@ using System.Linq;
 
 namespace geoWrangler;
 
-using Path = List<Point64>;
-using Paths = List<List<Point64>>;
+using Path = Path64;
+using Paths = Paths64;
 
 public static partial class GeoWrangler
 {
@@ -215,10 +215,10 @@ public static partial class GeoWrangler
             
         Clipper64 c = new();
 
-        Paths rationalizedFirstLayer = a.Select(clockwise).ToList();
+        Paths rationalizedFirstLayer = new(a.Select(clockwise));
         // Force to clockwise as a safety measure.
 
-        Paths rationalizedSecondLayer = b.Select(clockwise).ToList();
+        Paths rationalizedSecondLayer = new(b.Select(clockwise));
 
         // Intersection should not matter based on order.
         Paths intersectionPaths = new();

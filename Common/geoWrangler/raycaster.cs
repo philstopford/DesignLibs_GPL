@@ -8,8 +8,8 @@ using utility;
 
 namespace geoWrangler;
 
-using Path = List<Point64>;
-using Paths = List<List<Point64>>;
+using Path = Path64;
+using Paths = Paths64;
 
 public class RayCast
 {
@@ -606,7 +606,7 @@ public class RayCast
         });
 
         // Convert the array back to a list.
-        clippedLines = clippedLines_.ToList();
+        clippedLines = new(clippedLines_);
         castLines = new Paths();
         foreach (Paths t in castLines_)
         {

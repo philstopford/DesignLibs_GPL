@@ -1,7 +1,7 @@
 ﻿/*******************************************************************************
 * Author    :  Angus Johnson                                                   *
 * Version   :  Clipper2 - ver.1.0.4                                            *
-* Date      :  14 September 2022                                               *
+* Date      :  16 September 2022                                               *
 * Website   :  http://www.angusj.com                                           *
 * Copyright :  Angus Johnson 2010-2022                                         *
 * Purpose   :  Path Offset (Inflate/Shrink)                                    *
@@ -14,11 +14,6 @@ using System.Runtime.CompilerServices;
 
 namespace Clipper2Lib
 {
-
-  using Path64 = List<Point64>;
-  using Paths64 = List<List<Point64>>;
-  using PathD = List<PointD>;
-  using PathsD = List<List<PointD>>;
   public enum JoinType
   {
     Square,
@@ -151,7 +146,7 @@ namespace Clipper2Lib
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private int GetLowestPolygonIdx(Paths64 paths)
+    private static int GetLowestPolygonIdx(Paths64 paths)
     {
       Point64 lp = new Point64(0, long.MinValue);
       int result = -1;
@@ -166,31 +161,31 @@ namespace Clipper2Lib
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private PointD TranslatePoint(PointD pt, double dx, double dy)
+    private static PointD TranslatePoint(PointD pt, double dx, double dy)
     {
 	    return new PointD(pt.x + dx, pt.y + dy);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private PointD ReflectPoint(PointD pt, PointD pivot)
+    private static PointD ReflectPoint(PointD pt, PointD pivot)
     {
       return new PointD(pivot.x + (pivot.x - pt.x), pivot.y + (pivot.y - pt.y));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private bool AlmostZero(double value, double epsilon = 0.001)
+    private static bool AlmostZero(double value, double epsilon = 0.001)
     {
       return Math.Abs(value) < epsilon;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private double Hypotenuse(double x, double y)
+    private static double Hypotenuse(double x, double y)
     {
       return Math.Sqrt(Math.Pow(x, 2) + Math.Pow(y, 2));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private PointD NormalizeVector(PointD vec)
+    private static PointD NormalizeVector(PointD vec)
     {
 	    double h = Hypotenuse(vec.x, vec.y);
 	    if (AlmostZero(h)) return new PointD(0,0);
@@ -200,13 +195,13 @@ namespace Clipper2Lib
 
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private PointD GetAvgUnitVector(PointD vec1, PointD vec2)
+    private static PointD GetAvgUnitVector(PointD vec1, PointD vec2)
     {
 	    return NormalizeVector(new PointD(vec1.x + vec2.x, vec1.y + vec2.y));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private PointD IntersectPoint(PointD pt1a, PointD pt1b, PointD pt2a, PointD pt2b)
+    private static PointD IntersectPoint(PointD pt1a, PointD pt1b, PointD pt2a, PointD pt2b)
     {
       if (InternalClipper.IsAlmostZero(pt1a.x - pt1b.x)) //vertical
       {
@@ -448,7 +443,7 @@ namespace Clipper2Lib
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private bool IsFullyOpenEndType(EndType et)
+    private static bool IsFullyOpenEndType(EndType et)
     {
       return (et != EndType.Polygon) && (et != EndType.Joined);
     }

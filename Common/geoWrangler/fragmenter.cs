@@ -6,8 +6,8 @@ using System.Linq;
 
 namespace geoWrangler;
 
-using Path = List<Point64>;
-using Paths = List<List<Point64>>;
+using Path = Path64;
+using Paths = Paths64;
 public class Fragmenter
 {
     private double resolution;
@@ -68,7 +68,7 @@ public class Fragmenter
 
     private Paths pFragmentPaths(Paths source)
     {
-        return source.Select(pFragmentPath).ToList();
+        return new (source.Select(pFragmentPath));
     }
 
     public Path fragmentPath(Path source)

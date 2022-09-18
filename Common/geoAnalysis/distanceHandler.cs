@@ -8,8 +8,8 @@ using utility;
 
 namespace geoAnalysis;
 
-using Path = List<Point64>;
-using Paths = List<List<Point64>>;
+using Path = Path64;
+using Paths = Paths64;
 
 public class DistanceHandler
 {
@@ -309,7 +309,7 @@ public class DistanceHandler
                         }
 
                         // We have some points, but now we're getting a new segment.
-                        aOverlapEdge.Add(tempPath.ToList());
+                        aOverlapEdge.Add(new (tempPath));
                         tempPath.Clear();
                     }
                 }
@@ -333,7 +333,7 @@ public class DistanceHandler
                         }
 
                         // We have some points, but now we're getting a new segment.
-                        bOverlapEdge.Add(tempPath.ToList());
+                        bOverlapEdge.Add(new (tempPath));
                         tempPath.Clear();
                     }
                 }

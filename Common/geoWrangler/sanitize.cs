@@ -8,8 +8,8 @@ using utility;
 
 namespace geoWrangler;
 
-using Path = List<Point64>;
-using Paths = List<List<Point64>>;
+using Path = Path64;
+using Paths = Paths64;
 
 public static partial class GeoWrangler
 {
@@ -207,7 +207,7 @@ public static partial class GeoWrangler
 
     private static Paths pReorderXY(Paths iPoints)
     {
-        return iPoints.Select(pReorderXY).ToList();
+        return new Paths64(iPoints.Select(pReorderXY));
     }
 
     public static Path reOrderXY(Path iPoints)
@@ -268,7 +268,7 @@ public static partial class GeoWrangler
 
     private static Paths pClockwiseAndReorderYX(Paths iPoints)
     {
-        Paths retPaths = new();
+        Paths64 retPaths = new();
         foreach (Path t in iPoints.Select(pClockwiseAndReorderYX))
         {
             t.Reverse(); // Getting a reversed path from the above, not sure why.
@@ -298,7 +298,7 @@ public static partial class GeoWrangler
 
     private static Paths pReorderYX(Paths iPoints)
     {
-        return iPoints.Select(pReorderYX).ToList();
+        return new (iPoints.Select(pReorderYX));
     }
 
     public static Path reOrderYX(Path iPoints)
@@ -559,11 +559,11 @@ public static partial class GeoWrangler
 
     private static GeoLibPoint[] pSimplify(GeoLibPoint[] iPoints)
     {
-        List<Point64> iPoly = pathFromPoint(iPoints, 1);
+        Path iPoly = pathFromPoint(iPoints, 1);
         Clipper64 c = new();
         c.PreserveCollinear = false;
         c.AddSubject(iPoly);
-        List<List<Point64>> oPoly = new();
+        Paths oPoly = new();
         c.Execute(ClipType.Union, FillRule.EvenOdd, oPoly);
 
         oPoly = pReorderXY(oPoly);
@@ -608,7 +608,7 @@ public static partial class GeoWrangler
     
     private static Paths pStripColinear(Paths source, double angularTolerance = 0.0f)
     {
-        return source.Select(t => pStripColinear(t, angularTolerance)).ToList();
+        return new(source.Select(t => pStripColinear(t, angularTolerance)));
     }
 
     public static Path stripColinear(Path source, double angularTolerance = 0.0f)
@@ -1522,7 +1522,7 @@ public static partial class GeoWrangler
                 continue;
             }
             polyHashCodes.Add(polyHash);
-            ret.Add(p.ToList());
+            ret.Add(new(p));
         }
 
         return ret;

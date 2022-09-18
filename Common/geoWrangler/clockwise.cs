@@ -6,8 +6,8 @@ using System.Linq;
 
 namespace geoWrangler;
 
-using Path = List<Point64>;
-using Paths = List<List<Point64>>;
+using Path = Path64;
+using Paths = Paths64;
 
 public static partial class GeoWrangler
 {
@@ -205,7 +205,7 @@ public static partial class GeoWrangler
 
     public static Paths clockwise(Paths source)
     {
-        return source.Select(t => pClockwise(t.ToList())).ToList();
+        return new (source.Select(t => pClockwise(new Path (t))));
     }
 
     public static Path clockwise(Path iPoints)

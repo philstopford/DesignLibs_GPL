@@ -5,8 +5,8 @@ using System.Linq;
 
 namespace geoWrangler;
 
-using Path = List<Point64>;
-using Paths = List<List<Point64>>;
+using Path = Path64;
+using Paths = Paths64;
 
 public static partial class GeoWrangler
 {
@@ -63,7 +63,7 @@ public static partial class GeoWrangler
         for (int i = 0; i < decomp.Length; i++)
         {
             decomp[i] = pClose(decomp[i]);
-            odecomp[i] = decomp[i].ToList();
+            odecomp[i] = new(decomp[i]);
         }
         // Outer areas
         List<double> outerAreas = decomp[(int)type.outer].Select(Clipper.Area).ToList();
@@ -484,7 +484,7 @@ public static partial class GeoWrangler
         co.AddPaths(source, joinType, EndType.Polygon);
         Paths cGeometry = co.Execute(customSizing);
         co.Clear();
-        co.AddPaths(cGeometry.ToList(), joinType, EndType.Polygon);
+        co.AddPaths(new(cGeometry), joinType, EndType.Polygon);
         cGeometry.Clear();
         cGeometry = co.Execute(-customSizing); // Size back to original dimensions
 
@@ -520,7 +520,7 @@ public static partial class GeoWrangler
         co.AddPath(source, joinType, EndType.Polygon);
         Paths cGeometry = co.Execute(customSizing);
         co.Clear();
-        co.AddPaths(cGeometry.ToList(), joinType, EndType.Polygon);
+        co.AddPaths(new (cGeometry), joinType, EndType.Polygon);
         cGeometry.Clear();
         cGeometry = co.Execute(-customSizing); // Size back to original dimensions
 

@@ -11,7 +11,6 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.CompilerServices;
 
 namespace Clipper2Lib
@@ -419,10 +418,8 @@ namespace Clipper2Lib
     public Paths64(int reserve = 0) : base(reserve) { }
     public Paths64(Paths64 paths) : base(paths) { }
 
-    public Paths64(IEnumerable<Path64> reserve)
+    public Paths64(IEnumerable<Path64> paths) : base(paths)
     {
-      Clear();
-      AddRange(reserve);
     }
   }
 

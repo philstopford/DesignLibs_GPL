@@ -588,6 +588,7 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/1d3c249eb18e63eda3f99ca6260b3b52a7fff665c749fac9ee4cc40a4ac1e/GridLength.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BurkhardtTest/FEM/FEM1DBVPTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BurkhardtTest/FEM/FEM2DBVPLinearTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BurkhardtTest/GeometryTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
@@ -11394,6 +11395,7 @@
       <workItem from="1662986187936" duration="188000" />
       <workItem from="1663473963479" duration="114000" />
       <workItem from="1663475579636" duration="62000" />
+      <workItem from="1663508633431" duration="153000" />
     </task>
     <servers />
   </component>

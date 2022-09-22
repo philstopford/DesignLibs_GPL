@@ -16,7 +16,7 @@ public static class Proximity
     // Drawn poly allows for geometry to be excluded from consideration in the input list
     public static GeometryResult proximityBias(List<GeoLibPointF[]> input, List<bool> drawnPoly_, decimal pBias,
         decimal pBiasDist, int proxRays, int proxSideRaysFallOff, decimal proxSideRaysMultiplier, decimal rayExtension,
-        double fragmenterResolution, Int64 scaleFactorForOperation, bool doCleanUp, int cleanUpEpsilon)
+        double fragmenterResolution, Int64 scaleFactorForOperation, bool doCleanUp, double cleanUpEpsilon)
     {
         // Proximity biasing - where isolated edges get bias based on distance to nearest supporting edge.
         bool proxBiasNeeded = (pBias != 0) && (pBiasDist != 0);
@@ -163,9 +163,7 @@ public static class Proximity
             // Experimental clean-up
             if (doCleanUp)
             {
-                double eps = cleanUpEpsilon;
-                eps *= 10;
-                Path rdpPath = Clipper.RamerDouglasPeucker(GeoWrangler.close(deformedPoly), eps); // scale from int to make a double
+                Path rdpPath = Clipper.RamerDouglasPeucker(GeoWrangler.close(deformedPoly), cleanUpEpsilon); // scale from int to make a double
                 deformedPoly = f.fragmentPath(GeoWrangler.close(rdpPath));
             }
 

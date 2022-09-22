@@ -161,11 +161,11 @@ public static class Proximity
             }
             
             // Experimental clean-up
-            Path rdpPaths = Clipper.RamerDouglasPeucker(deformedPoly, 0.01);
-            rdpPaths = f.fragmentPath(rdpPaths);
+            Path rdpPath = Clipper.RamerDouglasPeucker(deformedPoly, 0.01);
+            rdpPath = f.fragmentPath(rdpPath);
             
-            preOverlapMergePolys.Add(GeoWrangler.pointFFromPath(rdpPaths, scaleFactorForOperation));
-            deformedPoly.Add(new Point64(deformedPoly[0]));
+            preOverlapMergePolys.Add(GeoWrangler.pointFFromPath(rdpPath, scaleFactorForOperation));
+            // rdpPath.Add(new Point64(rdpPath[0]));
         }
 
         // Check for overlaps and process as needed post-biasing.

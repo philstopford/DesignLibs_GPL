@@ -16,7 +16,7 @@ public static class Proximity
     // Drawn poly allows for geometry to be excluded from consideration in the input list
     public static GeometryResult proximityBias(List<GeoLibPointF[]> input, List<bool> drawnPoly_, decimal pBias,
         decimal pBiasDist, int proxRays, int proxSideRaysFallOff, decimal proxSideRaysMultiplier, decimal rayExtension,
-        double fragmenterResolution, Int64 scaleFactorForOperation)
+        double fragmenterResolution, Int64 scaleFactorForOperation, bool doCleanUp, int cleanUpEpsilon)
     {
         // Proximity biasing - where isolated edges get bias based on distance to nearest supporting edge.
         bool proxBiasNeeded = (pBias != 0) && (pBiasDist != 0);
@@ -161,11 +161,16 @@ public static class Proximity
             }
             
             // Experimental clean-up
-            Path rdpPath = Clipper.RamerDouglasPeucker(deformedPoly, 0.01);
-            rdpPath = f.fragmentPath(rdpPath);
-            
-            preOverlapMergePolys.Add(GeoWrangler.pointFFromPath(rdpPath, scaleFactorForOperation));
-            // rdpPath.Add(new Point64(rdpPath[0]));
+            if (doCleanUp)
+            {
+                double eps = cleanUpEpsilon;
+                eps *= 10;
+                Path rdpPath = Clipper.RamerDouglasPeucker(GeoWrangler.close(deformedPoly), eps); // scale from int to make a double
+                deformedPoly = f.fragmentPath(GeoWrangler.close(rdpPath));
+            }
+
+            // deformedPoly.Add(new Point64(deformedPoly[0]));
+            preOverlapMergePolys.Add(GeoWrangler.pointFFromPath(deformedPoly, scaleFactorForOperation));
         }
 
         // Check for overlaps and process as needed post-biasing.

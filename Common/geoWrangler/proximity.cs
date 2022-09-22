@@ -50,6 +50,9 @@ public static class Proximity
         sourceGeometry = GeoWrangler.close(sourceGeometry);
 
         int sCount = sourceGeometry.Count;
+
+        Fragmenter f = new(fragmenterResolution * scaleFactorForOperation);
+
         for (int poly = 0; poly < sCount; poly++)
         {
             if (sourceGeometry[poly].Count <= 1 || drawnPoly_[poly])
@@ -85,9 +88,7 @@ public static class Proximity
             {
                 emitThread = true;
             }
-
-            Fragmenter f = new(fragmenterResolution * scaleFactorForOperation);
-
+            
             sourcePoly = GeoWrangler.stripColinear(sourcePoly);
             sourcePoly = GeoWrangler.removeDuplicates(sourcePoly);
             sourcePoly = GeoWrangler.close(sourcePoly);
@@ -158,7 +159,12 @@ public static class Proximity
 
                 deformedPoly.Add(new Point64(displacedX, displacedY));
             }
-            preOverlapMergePolys.Add(GeoWrangler.pointFFromPath(deformedPoly, scaleFactorForOperation));
+            
+            // Experimental clean-up
+            Path rdpPaths = Clipper.RamerDouglasPeucker(deformedPoly, 0.01);
+            rdpPaths = f.fragmentPath(rdpPaths);
+            
+            preOverlapMergePolys.Add(GeoWrangler.pointFFromPath(rdpPaths, scaleFactorForOperation));
             deformedPoly.Add(new Point64(deformedPoly[0]));
         }
 

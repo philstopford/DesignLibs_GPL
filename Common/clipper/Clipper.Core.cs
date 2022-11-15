@@ -1,7 +1,6 @@
 ﻿/*******************************************************************************
 * Author    :  Angus Johnson                                                   *
-* Version   :  Clipper2 - ver.1.0.4                                            *
-* Date      :  16 September 2022                                               *
+* Date      :  3 November 2022                                                 *
 * Website   :  http://www.angusj.com                                           *
 * Copyright :  Angus Johnson 2010-2022                                         *
 * Purpose   :  Core structures and functions for the Clipper Library           *
@@ -341,6 +340,12 @@ namespace Clipper2Lib
         rec.top >= top && rec.bottom <= bottom;
     }
 
+    public bool Intersects(Rect64 rec)
+    {
+      return (Math.Max(left, rec.left) < Math.Min(right, rec.right)) &&
+        (Math.Max(top, rec.top) < Math.Min(bottom, rec.bottom));
+    }
+
     public Path64 AsPath()
     {
       Path64 result = new Path64(4)
@@ -400,37 +405,64 @@ namespace Clipper2Lib
       return new PointD((left + right) / 2, (top + bottom) / 2);
     }
 
-    public bool PtIsInside(PointD pt)
+    public bool Contains(PointD pt)
     {
       return pt.x > left && pt.x < right &&
         pt.y > top && pt.y < bottom;
+    }
+
+    public bool Contains(RectD rec)
+    {
+      return rec.left >= left && rec.right <= right &&
+        rec.top >= top && rec.bottom <= bottom;
+    }
+
+    public bool Intersects(RectD rec)
+    {
+      return (Math.Max(left, rec.left) < Math.Min(right, rec.right)) &&
+        (Math.Max(top, rec.top) < Math.Min(bottom, rec.bottom));
+    }
+
+    public PathD AsPath()
+    {
+      PathD result = new PathD(4)
+      {
+        new PointD(left, top),
+        new PointD(right, top),
+        new PointD(right, bottom),
+        new PointD(left, bottom)
+      };
+      return result;
     }
 
   }
 
   public class Path64 : List<Point64> 
   {
+    private Path64() : base() { }
     public Path64(int capacity = 0) : base(capacity) { }
     public Path64(IEnumerable<Point64> path) : base(path) { }
   }
   public class Paths64 : List<Path64>
   {
+    private Paths64() : base() { }
     public Paths64(int capacity = 0) : base(capacity) { }
     public Paths64(IEnumerable<Path64> paths) : base(paths) { }
   }
 
   public class PathD : List<PointD>
   {
+    private PathD() : base() { }
     public PathD(int capacity = 0) : base(capacity) { }
     public PathD(IEnumerable<PointD> path) : base(path) { }
   }
 
   public class PathsD : List<PathD>
   {
+    private PathsD() : base() { }
     public PathsD(int capacity = 0) : base(capacity) { }
     public PathsD(IEnumerable<PathD> paths) : base(paths) { }
   }
-
 
   // Note: all clipping operations except for Difference are commutative.
   public enum ClipType
@@ -472,6 +504,15 @@ namespace Clipper2Lib
     internal const double floatingPointTolerance = 1E-12;
     internal const double defaultMinimumEdgeLength = 0.1;
 
+    private static readonly string
+      precision_range_error = "Error: Precision is out of range.";
+
+    internal static void CheckPrecision(int precision)
+    {
+      if (precision < -8 || precision > 8)
+        throw new Exception(precision_range_error);
+    }
+
     internal static bool IsAlmostZero(double value)
     {
       return (Math.Abs(value) <= floatingPointTolerance);
@@ -505,7 +546,48 @@ namespace Clipper2Lib
       return (vec1.x * vec2.x + vec1.y * vec2.y);
     }
 
-    internal static bool GetIntersectPoint(Point64 ln1a, 
+    internal static bool GetIntersectPoint64(Point64 ln1a,
+      Point64 ln1b, Point64 ln2a, Point64 ln2b, out Point64 ip)
+    {
+      ip = new Point64();
+      double m1, b1, m2, b2;
+      if (ln1b.X == ln1a.X)
+      {
+        if (ln2b.X == ln2a.X) return false;
+        m2 = (double) (ln2b.Y - ln2a.Y) / (ln2b.X - ln2a.X);
+        b2 = ln2a.Y - m2 * ln2a.X;
+        ip.X = ln1a.X;
+        ip.Y = (long) Math.Round(m2 * ln1a.X + b2);
+      }
+      else if (ln2b.X == ln2a.X)
+      {
+        m1 = (double) (ln1b.Y - ln1a.Y) / (ln1b.X - ln1a.X);
+        b1 = ln1a.Y - m1 * ln1a.X;
+        ip.X = ln2a.X;
+        ip.Y = (long) Math.Round(m1 * ln2a.X + b1);
+      }
+      else
+      {
+        m1 = (double) (ln1b.Y - ln1a.Y) / (ln1b.X - ln1a.X);
+        b1 = ln1a.Y - m1 * ln1a.X;
+        m2 = (double) (ln2b.Y - ln2a.Y) / (ln2b.X - ln2a.X);
+        b2 = ln2a.Y - m2 * ln2a.X;
+        if (Math.Abs(m1 - m2) > floatingPointTolerance)
+        {
+          double x = (b2 - b1) / (m1 - m2);
+          ip.X = (long) Math.Round(x);
+          ip.Y = (long) Math.Round(m1 * x + b1);
+        }
+        else
+        {
+          ip.X = (long) Math.Round((double)(ln1a.X + ln1b.X) * 0.5);
+          ip.Y = (long) Math.Round((double)(ln1a.Y + ln1b.Y) * 0.5);
+        }
+      }
+      return true;
+    }
+
+    internal static bool GetIntersectPoint(Point64 ln1a,
       Point64 ln1b, Point64 ln2a, Point64 ln2b, out PointD ip)
     {
       ip = new PointD();
@@ -547,18 +629,32 @@ namespace Clipper2Lib
     }
 
     internal static bool SegmentsIntersect(Point64 seg1a, 
-      Point64 seg1b, Point64 seg2a, Point64 seg2b)
+      Point64 seg1b, Point64 seg2a, Point64 seg2b, bool inclusive = false)
     {
-      double dx1 = seg1a.X - seg1b.X;
-      double dy1 = seg1a.Y - seg1b.Y;
-      double dx2 = seg2a.X - seg2b.X;
-      double dy2 = seg2a.Y - seg2b.Y;
-      return (((dy1 * (seg2a.X - seg1a.X) -
-        dx1 * (seg2a.Y - seg1a.Y)) * (dy1 * (seg2b.X - seg1a.X) -
-        dx1 * (seg2b.Y - seg1a.Y)) < 0) &&
-        ((dy2 * (seg1a.X - seg2a.X) -
-        dx2 * (seg1a.Y - seg2a.Y)) * (dy2 * (seg1b.X - seg2a.X) -
-        dx2 * (seg1b.Y - seg2a.Y)) < 0));
+      if (inclusive)
+      {
+        double res1 = CrossProduct(seg1a, seg2a, seg2b);
+        double res2 = CrossProduct(seg1b, seg2a, seg2b);
+        if (res1 * res2 > 0) return false;
+        double res3 = CrossProduct(seg2a, seg1a, seg1b);
+        double res4 = CrossProduct(seg2b, seg1a, seg1b);
+        if (res3 * res4 > 0) return false;
+        // ensure NOT collinear
+        return (res1 != 0 || res2 != 0 || res3 != 0|| res4 != 0); 
+      }
+      else
+      {
+        double dx1 = seg1a.X - seg1b.X;
+        double dy1 = seg1a.Y - seg1b.Y;
+        double dx2 = seg2a.X - seg2b.X;
+        double dy2 = seg2a.Y - seg2b.Y;
+        return (((dy1 * (seg2a.X - seg1a.X) -
+          dx1 * (seg2a.Y - seg1a.Y)) * (dy1 * (seg2b.X - seg1a.X) -
+          dx1 * (seg2b.Y - seg1a.Y)) < 0) &&
+          ((dy2 * (seg1a.X - seg2a.X) -
+          dx2 * (seg1a.Y - seg2a.Y)) * (dy2 * (seg1b.X - seg2a.X) -
+          dx2 * (seg1b.Y - seg2a.Y)) < 0));
+      }
     }
 
     public static PointInPolygonResult PointInPolygon(Point64 pt, List<Point64> polygon)

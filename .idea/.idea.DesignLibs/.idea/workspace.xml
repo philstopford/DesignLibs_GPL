@@ -570,18 +570,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/Common/geoAnalysis/distanceHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoAnalysis/distanceHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/geoCore/cellrefarray.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoCore/cellrefarray.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/geoCore/element.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoCore/element.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/geoCore/geoCore.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoCore/geoCore.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/geoCore/polygon.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoCore/polygon.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/geoLib/GeoLibArray.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoLib/GeoLibArray.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/geoLib/GeoLibRect.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoLib/GeoLibRect.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/meas.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/meas.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/shapeEngine/shapeLibrary.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/shapeEngine/shapeLibrary.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/shapeEngine/shapeOffsets.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/shapeEngine/shapeOffsets.cs" afterDir="false" />
-    </list>
+    <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -11407,7 +11396,7 @@
       <workItem from="1663475579636" duration="62000" />
       <workItem from="1663508633431" duration="153000" />
       <workItem from="1668696073085" duration="19262000" />
-      <workItem from="1668716445757" duration="825000" />
+      <workItem from="1668716445757" duration="901000" />
     </task>
     <servers />
   </component>

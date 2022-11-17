@@ -119,6 +119,11 @@ public static partial class GeoWrangler
         return rotated;
     }
 
+    public static PathD flip(bool H, bool V, bool alignX, bool alignY, PointD pivot, PathD source)
+    {
+        return pFlip(H, V, alignX, alignY, pivot, source);
+    }
+    
     private static PathD pFlip(bool H, bool V, bool alignX, bool alignY, PointD pivot, PathD source)
     {
         int sLength = source.Capacity;

@@ -775,9 +775,9 @@ public class GeoCore
 
                 GeoLibArray tmpArray = new()
                 {
-                    count = new GeoLibPoint(xCount, yCount),
-                    point = new GeoLibPoint(point.X, point.Y),
-                    pitch = new GeoLibPoint(xSpace, ySpace)
+                    count = new (xCount, yCount),
+                    point = new (point.X, point.Y),
+                    pitch = new (xSpace, ySpace)
                 };
                 structures[cellIndex].elements[adIndex].arrayData = tmpArray;
                 break;

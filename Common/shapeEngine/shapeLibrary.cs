@@ -1807,35 +1807,35 @@ public class ShapeLibrary
             double dy = sourcePoly[next].y - sourcePoly[pt].y;
 
             // Set up our midpoint for convenience.
-            GeoLibPointF midPt = new(sourcePoly[pt].x + dx / 2.0f, sourcePoly[pt].y + dy / 2.0f);
+            PointD midPt = new(sourcePoly[pt].x + dx / 2.0f, sourcePoly[pt].y + dy / 2.0f);
 
             // The normal, to match convention in the distance calculation is assessed from this point to the next point.
 
             // Get average angle for this vertex based on angles from line segments.
             // http://stackoverflow.com/questions/1243614/how-do-i-calculate-the-normal-vector-of-a-line-segmen
-            GeoLibPointF normalPt = new(-dy, dx);
+            PointD normalPt = new(-dy, dx);
 
             // Vertical edge has a normal with an X value non-zero and Y value ~0.
             // treating a 0.01 difference as being ~0
-            bool vertical = Math.Abs(normalPt.X) > 0.01;
+            bool vertical = Math.Abs(normalPt.x) > 0.01;
 
             // Assess the normal to establish direction
             if (vertical)
             {
                 // left facing vertical edge has normal with negative X value.
-                left = normalPt.X < 0;
+                left = normalPt.x < 0;
             }
             else
             {
                 // down facing horizontal edge has normal with negative Y value.
-                up = !(normalPt.Y < 0);
+                up = !(normalPt.y < 0);
             }
 
             if (!vertical)
             {
                 if (up)
                 {
-                    Vertex[vertexCounter] = new MyVertex(midPt.X, midPt.Y, typeDirection.up1, vertical, false,
+                    Vertex[vertexCounter] = new MyVertex(midPt.x, midPt.y, typeDirection.up1, vertical, false,
                         typeVertex.center);
                     if (layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) ==
                         (int)ShapeSettings.tipLocations.T ||
@@ -1859,7 +1859,7 @@ public class ShapeLibrary
                 }
                 else
                 {
-                    Vertex[vertexCounter] = new MyVertex(midPt.X, midPt.Y, typeDirection.down1, vertical, false,
+                    Vertex[vertexCounter] = new MyVertex(midPt.x, midPt.y, typeDirection.down1, vertical, false,
                         typeVertex.center);
                     if (layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) ==
                         (int)ShapeSettings.tipLocations.B ||
@@ -1886,7 +1886,7 @@ public class ShapeLibrary
             {
                 if (left)
                 {
-                    Vertex[vertexCounter] = new MyVertex(midPt.X, midPt.Y, typeDirection.left1, vertical, false,
+                    Vertex[vertexCounter] = new MyVertex(midPt.x, midPt.y, typeDirection.left1, vertical, false,
                         typeVertex.center);
                     if (layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) ==
                         (int)ShapeSettings.tipLocations.L ||
@@ -1910,7 +1910,7 @@ public class ShapeLibrary
                 }
                 else
                 {
-                    Vertex[vertexCounter] = new MyVertex(midPt.X, midPt.Y, typeDirection.right1, vertical, false,
+                    Vertex[vertexCounter] = new MyVertex(midPt.x, midPt.y, typeDirection.right1, vertical, false,
                         typeVertex.center);
                     if (layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) ==
                         (int)ShapeSettings.tipLocations.R ||
@@ -2126,32 +2126,32 @@ public class ShapeLibrary
             {
                 previousEdgeLength = Math.Abs(
                     GeoWrangler.distanceBetweenPoints(
-                        new GeoLibPointF(Vertex[round1[corner].index].X, Vertex[round1[corner].index].Y),
-                        new GeoLibPointF(Vertex[round1[^1].index].X, Vertex[round1[^1].index].Y))
+                        new PointD(Vertex[round1[corner].index].X, Vertex[round1[corner].index].Y),
+                        new PointD(Vertex[round1[^1].index].X, Vertex[round1[^1].index].Y))
                 );
             }
             else
             {
                 previousEdgeLength = Math.Abs(
                     GeoWrangler.distanceBetweenPoints(
-                        new GeoLibPointF(Vertex[round1[corner].index].X, Vertex[round1[corner].index].Y),
-                        new GeoLibPointF(Vertex[round1[corner - 1].index].X, Vertex[round1[corner - 1].index].Y))
+                        new PointD(Vertex[round1[corner].index].X, Vertex[round1[corner].index].Y),
+                        new PointD(Vertex[round1[corner - 1].index].X, Vertex[round1[corner - 1].index].Y))
                 );
             }
 
             // Wrap around if we exceed the length
             double nextEdgeLength = Math.Abs(
                 GeoWrangler.distanceBetweenPoints(
-                    new GeoLibPointF(Vertex[round1[(corner + 1) % (round1.Length - 1)].index].X,
+                    new PointD(Vertex[round1[(corner + 1) % (round1.Length - 1)].index].X,
                         Vertex[round1[(corner + 1) % (round1.Length - 1)].index].Y),
-                    new GeoLibPointF(Vertex[round1[(corner + 2) % (round1.Length - 1)].index].X,
+                    new PointD(Vertex[round1[(corner + 2) % (round1.Length - 1)].index].X,
                         Vertex[round1[(corner + 2) % (round1.Length - 1)].index].Y))
             );
 
             double currentEdgeLength = Math.Abs(
                 GeoWrangler.distanceBetweenPoints(
-                    new GeoLibPointF(Vertex[round1[corner].index].X, Vertex[round1[corner].index].Y),
-                    new GeoLibPointF(Vertex[round1[(corner + 1) % (round1.Length - 1)].index].X,
+                    new PointD(Vertex[round1[corner].index].X, Vertex[round1[corner].index].Y),
+                    new PointD(Vertex[round1[(corner + 1) % (round1.Length - 1)].index].X,
                         Vertex[round1[(corner + 1) % (round1.Length - 1)].index].Y))
             );
 

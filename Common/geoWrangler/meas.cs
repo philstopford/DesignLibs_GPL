@@ -49,47 +49,6 @@ public static partial class GeoWrangler
         return Math.Sqrt(Utils.myPow(pt1.x - pt2.X, 2) + Utils.myPow(pt1.y - pt2.Y, 2));
     }
 
-    public static double distanceBetweenPoints(GeoLibPointF pt1, GeoLibPointF pt2)
-    {
-        return pDistanceBetweenPoints(pt1, pt2);
-    }
-
-    private static double pDistanceBetweenPoints(GeoLibPointF pt1, GeoLibPointF pt2)
-    {
-        return Math.Sqrt(Utils.myPow(pt1.X - pt2.X, 2) + Utils.myPow(pt1.Y - pt2.Y, 2));
-    }
-
-    public static double distanceBetweenPoints(GeoLibPoint pt1, GeoLibPoint pt2)
-    {
-        return pDistanceBetweenPoints(pt1, pt2);
-    }
-
-    private static double pDistanceBetweenPoints(GeoLibPoint pt1, GeoLibPoint pt2)
-    {
-        return Math.Sqrt(Utils.myPow(pt1.X - pt2.X, 2) + Utils.myPow(pt1.Y - pt2.Y, 2));
-    }
-
-    public static GeoLibPointF distanceBetweenPoints_point(GeoLibPointF pt1, GeoLibPointF pt2)
-    {
-        return pDistanceBetweenPoints_point(pt1, pt2);
-    }
-
-    private static GeoLibPointF pDistanceBetweenPoints_point(GeoLibPointF pt1, GeoLibPointF pt2)
-    {
-        GeoLibPointF ret = new(pt1.X - pt2.X, pt1.Y - pt2.Y);
-        return ret;
-    }
-
-    public static GeoLibPointF distanceBetweenPoints_point(GeoLibPoint pt1, GeoLibPoint pt2)
-    {
-        return pDistanceBetweenPoints_point(pt1, pt2);
-    }
-
-    private static GeoLibPointF pDistanceBetweenPoints_point(GeoLibPoint pt1, GeoLibPoint pt2)
-    {
-        GeoLibPointF ret = new(pt1.X - pt2.X, pt1.Y - pt2.Y);
-        return ret;
-    }
 
     public static PointD distanceBetweenPoints_point(PointD pt1, PointD pt2)
     {
@@ -165,43 +124,7 @@ public static partial class GeoWrangler
         }
         return theta;
     }
-
-    public static double angleBetweenPoints(GeoLibPoint interSection_A, GeoLibPoint interSection_B, GeoLibPoint interSection_C, bool allowNegative = false)
-    {
-        return pAngleBetweenPoints(interSection_A, interSection_B, interSection_C, allowNegative);
-    }
-
-    private static double pAngleBetweenPoints(GeoLibPoint interSection_A, GeoLibPoint interSection_B, GeoLibPoint interSection_C, bool allowNegative)
-    {
-        GeoLibPoint cBVector = new(interSection_B.X - interSection_C.X, interSection_B.Y - interSection_C.Y);
-        GeoLibPoint cAVector = new(interSection_A.X - interSection_C.X, interSection_A.Y - interSection_C.Y);
-
-        long xComponents = cBVector.X * cAVector.X;
-        long yComponents = cBVector.Y * cAVector.Y;
-
-        long scalarProduct = xComponents + yComponents;
-
-        return angleCalc(cAVector.X, cAVector.Y, cBVector.X, cBVector.Y, scalarProduct, allowNegative);
-    }
-
-    public static double angleBetweenPoints(GeoLibPointF interSection_A, GeoLibPointF interSection_B, GeoLibPointF interSection_C, bool allowNegative = false)
-    {
-        return pAngleBetweenPoints(interSection_A, interSection_B, interSection_C, allowNegative);
-    }
-
-    private static double pAngleBetweenPoints(GeoLibPointF interSection_A, GeoLibPointF interSection_B, GeoLibPointF interSection_C, bool allowNegative)
-    {
-        GeoLibPointF cBVector = new(interSection_B.X - interSection_C.X, interSection_B.Y - interSection_C.Y);
-        GeoLibPointF cAVector = new(interSection_A.X - interSection_C.X, interSection_A.Y - interSection_C.Y);
-
-        double xComponents = cBVector.X * cAVector.X;
-        double yComponents = cBVector.Y * cAVector.Y;
-
-        double scalarProduct = xComponents + yComponents;
-
-        return angleCalc(cAVector.X, cAVector.Y, cBVector.X, cBVector.Y, scalarProduct, allowNegative);
-    }
-
+    
     private static double angleCalc(double aVX, double aVY, double bVX, double bVY, double scalarProduct, bool allowNegative)
     {
         double cBMagnitude = Math.Sqrt(Utils.myPow(bVX, 2) + Utils.myPow(bVY, 2));

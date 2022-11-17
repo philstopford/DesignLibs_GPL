@@ -268,10 +268,10 @@ public class GCCellRefArray : GCElement
         gw.bw.Write((byte)3);
         gw.bw.Write(point.X);
         gw.bw.Write(point.Y);
-        GeoLibPoint pos = new(pitch.X * count_x + point.X, pitch.Y + point.Y);
+        Point64 pos = new(pitch.X * count_x + point.X, pitch.Y + point.Y);
         gw.bw.Write(pos.X);
         gw.bw.Write(pos.Y);
-        pos = new GeoLibPoint(pitch.X * +point.X, pitch.Y * count_y + point.Y);
+        pos = new (pitch.X * +point.X, pitch.Y * count_y + point.Y);
         gw.bw.Write(pos.X);
         gw.bw.Write(pos.Y);
         // endel

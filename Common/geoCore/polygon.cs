@@ -647,7 +647,7 @@ public class GCPolygon : GCElement
             case true:
             {
                 // pc and r are manipulated in isCircle()
-                GeoLibPoint pc = new();
+                Point64 pc = new();
                 const int r = 0;
                 if (isCircle())
                 {
@@ -706,14 +706,14 @@ public class GCPolygon : GCElement
                     switch (info_byte & 16)
                     {
                         case > 0:
-                            ow.modal.geometry_x = pc.X;
+                            ow.modal.geometry_x = (int)pc.X;
                             ow.writeSignedInteger(ow.modal.geometry_x);
                             break;
                     }
                     switch (info_byte & 8)
                     {
                         case > 0:
-                            ow.modal.geometry_y = pc.Y;
+                            ow.modal.geometry_y = (int)pc.Y;
                             ow.writeSignedInteger(ow.modal.geometry_y);
                             break;
                     }

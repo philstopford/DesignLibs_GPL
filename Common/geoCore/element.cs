@@ -91,19 +91,19 @@ public class GCElement
         return a1;
     }
 
-    public double angle(GeoLibPoint p1, GeoLibPoint p2)
+    public double angle(Point64 p1, Point64 p2)
     {
         return pAngle(p1, p2);
     }
 
-    private double pAngle(GeoLibPoint p1, GeoLibPoint p2)
+    private double pAngle(Point64 p1, Point64 p2)
     {
         double a1;
-        GeoLibPointF dif1 = new(p2.X - p1.X, p2.Y - p1.Y);
-        if (dif1.X != 0)
+        PointD dif1 = new(p2.X - p1.X, p2.Y - p1.Y);
+        if (dif1.x != 0)
         {
-            a1 = Math.Atan(dif1.Y / dif1.X) / 2 / Math.PI * 360;
-            switch (dif1.X)
+            a1 = Math.Atan(dif1.y / dif1.x) / 2 / Math.PI * 360;
+            switch (dif1.x)
             {
                 case < 0:
                     a1 -= 180;
@@ -119,7 +119,7 @@ public class GCElement
         }
         else
         {
-            a1 = dif1.Y switch
+            a1 = dif1.y switch
             {
                 > 0 => 90,
                 _ => -90

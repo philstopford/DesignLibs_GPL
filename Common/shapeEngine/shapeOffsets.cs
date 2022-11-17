@@ -1,10 +1,11 @@
+using Clipper2Lib;
 using geoLib;
 
 namespace shapeEngine;
 
 public static class shapeOffsets
 {
-    private static GeoLibPointF rectangle_offset(ShapeSettings shapeSettings)
+    private static PointD rectangle_offset(ShapeSettings shapeSettings)
     {
         double xOffset = 0;
         double yOffset = 0;
@@ -37,10 +38,10 @@ public static class shapeOffsets
         }
         xOffset += tmp_xOffset;
 
-        return new GeoLibPointF(xOffset, yOffset);
+        return new (xOffset, yOffset);
     }
 
-    private static GeoLibPointF lShape_offset(ShapeSettings shapeSettings)
+    private static PointD lShape_offset(ShapeSettings shapeSettings)
     {
         double xOffset = 0;
         double yOffset = 0;
@@ -103,10 +104,10 @@ public static class shapeOffsets
 
         xOffset += tmp_xOffset;
         
-        return new GeoLibPointF(xOffset, yOffset);
+        return new (xOffset, yOffset);
     }
 
-    private static GeoLibPointF tShape_offset(ShapeSettings shapeSettings)
+    private static PointD tShape_offset(ShapeSettings shapeSettings)
     {
         double xOffset = 0;
         double yOffset = 0;
@@ -180,10 +181,10 @@ public static class shapeOffsets
         }
 
         xOffset += tmp_xOffset;
-        return new GeoLibPointF(xOffset, yOffset);
+        return new (xOffset, yOffset);
     }
 
-    private static GeoLibPointF xShape_offset(ShapeSettings shapeSettings)
+    private static PointD xShape_offset(ShapeSettings shapeSettings)
     {
         double xOffset = 0;
         double yOffset = 0;
@@ -262,10 +263,10 @@ public static class shapeOffsets
         }
 
         xOffset += tmp_xOffset;
-        return new GeoLibPointF(xOffset, yOffset);
+        return new (xOffset, yOffset);
     }
 
-    private static GeoLibPointF uShape_offset(ShapeSettings shapeSettings)
+    private static PointD uShape_offset(ShapeSettings shapeSettings)
     {
         double xOffset = 0;
         double yOffset = 0;
@@ -333,10 +334,10 @@ public static class shapeOffsets
             }
         }
         xOffset += tmp_xOffset;
-        return new GeoLibPointF(xOffset, yOffset);
+        return new (xOffset, yOffset);
     }
 
-    private static GeoLibPointF sShape_offset(ShapeSettings shapeSettings)
+    private static PointD sShape_offset(ShapeSettings shapeSettings)
     {
         double xOffset = 0;
         double yOffset = 0;
@@ -440,13 +441,13 @@ public static class shapeOffsets
 
         yOffset -= tmp_yOffset;
         xOffset += tmp_xOffset;
-        return new GeoLibPointF(xOffset, yOffset);
+        return new (xOffset, yOffset);
     }
 
-    public static GeoLibPointF doOffsets(int mode, ShapeSettings shapeSettings)
+    public static PointD doOffsets(int mode, ShapeSettings shapeSettings)
     {
         // Use our shape-specific offset calculation methods :
-        GeoLibPointF offset = new(0, 0);
+        PointD offset = new(0, 0);
 
         switch (mode)
         {
@@ -484,8 +485,8 @@ public static class shapeOffsets
         }
 
         // Now for global offset.
-        offset.X += Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.gHorOffset));
-        offset.Y -= Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.gVerOffset));
+        offset.x += Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.gHorOffset));
+        offset.y -= Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.gVerOffset));
 
         return offset;
     }

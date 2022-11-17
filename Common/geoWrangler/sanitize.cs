@@ -2,48 +2,83 @@
 using LibTessDotNet.Double;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Clipper2Lib;
 using utility;
 
 namespace geoWrangler;
 
-using Path = Path64;
-using Paths = Paths64;
-
 public static partial class GeoWrangler
 {
     public enum outerCutterIndex { outer, cutter }
 
-    public static List<GeoLibPoint[]> clockwiseAndReorderXY(List<GeoLibPoint[]> iPoints)
+    public static Paths64 clockwiseAndReorderXY(Paths64 iPoints)
     {
         return pClockwiseAndReorderXY(iPoints);
     }
 
-    private static List<GeoLibPoint[]> pClockwiseAndReorderXY(List<GeoLibPoint[]> iPoints)
+    private static Paths64 pClockwiseAndReorderXY(Paths64 iPoints)
     {
-        return iPoints.Select(pClockwiseAndReorderXY).ToList();
+        int sLength = iPoints.Capacity;
+        Paths64 ret = new (sLength);
+#if !GWSINGLETHREADED
+        Parallel.For(0, sLength, pt =>
+#else
+            for (int pt = 0; pt < sLength; pt++)
+#endif
+            {
+                ret[pt] = pClockwiseAndReorderXY(iPoints[pt]);
+            }
+#if !GWSINGLETHREADED
+        );
+#endif
+        return ret;
     }
 
-    public static GeoLibPoint[] clockwiseAndReorderXY(GeoLibPoint[] iPoints)
+    public static Path64 clockwiseAndReorderXY(Path64 iPoints)
     {
         return pClockwiseAndReorderXY(iPoints);
     }
 
-    private static GeoLibPoint[] pClockwiseAndReorderXY(GeoLibPoint[] iPoints)
+    private static Path64 pClockwiseAndReorderXY(Path64 iPoints)
     {
         iPoints = pClockwise(iPoints);
         iPoints = pReorderXY(iPoints);
         return iPoints;
     }
 
-    private static GeoLibPoint[] pReorderXY(GeoLibPoint[] iPoints)
+    public static Paths64 reorderXY(Paths64 iPoints)
+    {
+        return pReorderXY(iPoints);
+    }
+
+    private static Paths64 pReorderXY(Paths64 iPoints)
+    {
+        int sLength = iPoints.Capacity;
+        Paths64 ret = new (sLength);
+#if !GWSINGLETHREADED
+        Parallel.For(0, sLength, pt =>
+#else
+            for (int pt = 0; pt < sLength; pt++)
+#endif
+            {
+                ret[pt] = pReorderXY(iPoints[pt]);
+            }
+#if !GWSINGLETHREADED
+        );
+#endif
+        return ret;
+    }
+
+    private static Path64 pReorderXY(Path64 iPoints)
     {
         int minX_index = MinX(iPoints);
         long minX = iPoints[minX_index].X;
         // This will reorder the point index so that the 0-indexed point is at the minimum X value, and, in the case of multiple points at min X, at the lowest Y of all of those.
         List<int> minXPoints = new();
-        for (int pt = 0; pt < iPoints.Length; pt++)
+        for (int pt = 0; pt < iPoints.Capacity; pt++)
         {
             if (iPoints[pt].X == minX)
             {
@@ -70,54 +105,72 @@ public static partial class GeoWrangler
         }
 
         {
-            List<GeoLibPoint> tempList = new();
+            Path64 tempList = new();
             // Now to start the re-indexing.
-            for (int pt = reIndexStart; pt < iPoints.Length; pt++)
+            for (int pt = reIndexStart; pt < iPoints.Capacity; pt++)
             {
-                tempList.Add(new GeoLibPoint(iPoints[pt].X, iPoints[pt].Y));
+                tempList.Add(new (iPoints[pt].X, iPoints[pt].Y));
             }
             // Ensure we close the shape by hitting the reIndexStart point again, since we will possibly have pushed it to the beginning of the shape.
             for (int pt = 0; pt <= reIndexStart; pt++)
             {
-                tempList.Add(new GeoLibPoint(iPoints[pt].X, iPoints[pt].Y));
+                tempList.Add(new (iPoints[pt].X, iPoints[pt].Y));
             }
 
-            iPoints = tempList.ToArray();
+            iPoints = new (tempList);
         }
 
         return iPoints;
     }
 
 
-    public static List<GeoLibPoint[]> clockwiseAndReorderYX(List<GeoLibPoint[]> iPoints)
+    public static Paths64 clockwiseAndReorderYX(Paths64 iPoints)
     {
         return pClockwiseAndReorderYX(iPoints);
     }
 
-    private static List<GeoLibPoint[]> pClockwiseAndReorderYX(List<GeoLibPoint[]> iPoints)
+    private static Paths64 pClockwiseAndReorderYX(Paths64 iPoints)
     {
-        return iPoints.Select(pClockwiseAndReorderYX).ToList();
+        int sLength = iPoints.Capacity;
+        Paths64 ret = new (sLength);
+#if !GWSINGLETHREADED
+        Parallel.For(0, sLength, pt =>
+#else
+            for (int pt = 0; pt < sLength; pt++)
+#endif
+            {
+                ret[pt] = pClockwiseAndReorderYX(iPoints[pt]);
+            }
+#if !GWSINGLETHREADED
+        );
+#endif
+        return ret;
     }
 
-    public static GeoLibPoint[] clockwiseAndReorderYX(GeoLibPoint[] iPoints)
+    public static Path64 clockwiseAndReorderYX(Path64 iPoints)
     {
         return pClockwiseAndReorderYX(iPoints);
     }
 
-    private static GeoLibPoint[] pClockwiseAndReorderYX(GeoLibPoint[] iPoints)
+    private static Path64 pClockwiseAndReorderYX(Path64 iPoints)
     {
         iPoints = pClockwise(iPoints);
         iPoints = pReorderYX(iPoints);
         return iPoints;
     }
 
-    private static GeoLibPoint[] pReorderYX(GeoLibPoint[] iPoints)
+    public static Path64 reOrderYX(Path64 iPoints)
+    {
+        return pReorderYX(iPoints);
+    }
+
+    private static Path64 pReorderYX(Path64 iPoints)
     {
         int minY_index = MinY(iPoints);
         long minY = iPoints[minY_index].Y;
         // This will reorder the point index so that the 0-indexed point is at the minimum Y value, and, in the case of multiple points at min Y, at the lowest X of all of those.
         List<int> minYPoints = new();
-        for (int pt = 0; pt < iPoints.Length; pt++)
+        for (int pt = 0; pt < iPoints.Capacity; pt++)
         {
             if (iPoints[pt].Y == minY)
             {
@@ -143,251 +196,92 @@ public static partial class GeoWrangler
             return iPoints;
         }
 
-        List<GeoLibPoint> tempList = new();
+        Path64 tempList = new();
         // Now to start the re-indexing.
-        for (int pt = reIndexStart; pt < iPoints.Length; pt++)
+        for (int pt = reIndexStart; pt < iPoints.Capacity; pt++)
         {
-            tempList.Add(new GeoLibPoint(iPoints[pt].X, iPoints[pt].Y));
+            tempList.Add(new (iPoints[pt].X, iPoints[pt].Y));
         }
         // Ensure we close the shape by hitting the reIndexStart point again, since we will possibly have pushed it to the beginning of the shape.
         for (int pt = 0; pt <= reIndexStart; pt++)
         {
-            tempList.Add(new GeoLibPoint(iPoints[pt].X, iPoints[pt].Y));
+            tempList.Add(new (iPoints[pt].X, iPoints[pt].Y));
         }
 
-        iPoints = tempList.ToArray();
+        iPoints = new(tempList);
 
         return iPoints;
-    }
-
-    public static Paths clockwiseAndReorderXY(Paths iPoints)
-    {
-        return pClockwiseAndReorderXY(iPoints);
-    }
-
-    private static Paths pClockwiseAndReorderXY(Paths iPoints)
-    {
-        Paths retPaths = new();
-        foreach (Path t in iPoints.Select(pClockwiseAndReorderXY))
-        {
-            t.Reverse(); // Getting a reversed path from the above, not sure why.
-            retPaths.Add(pClose(t));
-        }
-
-        return retPaths;
-    }
-
-    public static Path clockwiseAndReorderXY(Path iPoints)
-    {
-        return pClockwiseAndReorderXY(iPoints);
-    }
-
-    private static Path pClockwiseAndReorderXY(Path iPoints)
-    {
-        bool closed = false;
-        if (pDistanceBetweenPoints(iPoints[0], iPoints[^1]) < 10)
-        {
-            closed = true;
-            iPoints = pStripTerminators(iPoints, false);
-        }
-        iPoints = pClockwise(iPoints);
-        iPoints = pReorderXY(iPoints);
-        if (closed)
-        {
-            iPoints = pClose(iPoints);
-        }
-
-        return iPoints;
-    }
-
-    public static Paths reOrderXY(Paths iPoints)
-    {
-        return pReorderXY(iPoints);
-    }
-
-    private static Paths pReorderXY(Paths iPoints)
-    {
-        return new Paths64(iPoints.Select(pReorderXY));
-    }
-
-    public static Path reOrderXY(Path iPoints)
-    {
-        return pReorderXY(iPoints);
-    }
-    private static Path pReorderXY(Path iPoints)
-    {
-        int minX_index = MinX(iPoints);
-        long minX = iPoints[minX_index].X;
-        // This will reorder the point index so that the 0-indexed point is at the minimum X value, and, in the case of multiple points at min X, at the lowest Y of all of those.
-        List<int> minXPoints = new();
-        for (int pt = 0; pt < iPoints.Count; pt++)
-        {
-            if (iPoints[pt].X == minX)
-            {
-                minXPoints.Add(pt);
-            }
-        }
-        // Now we need to query our minXPoints to find the point with the lowest Y value.
-        long minY = iPoints[minXPoints[0]].Y;
-        int reIndexStart = minXPoints[0];
-        for (int index = 1; index < minXPoints.Count; index++)
-        {
-            if (iPoints[minXPoints[index]].Y >= minY)
-            {
-                continue;
-            }
-
-            minY = iPoints[minXPoints[index]].Y;
-            reIndexStart = minXPoints[index];
-        }
-
-        if (reIndexStart == 0)
-        {
-            return iPoints;
-        }
-
-        Path newPath = new();
-        // Now to start the re-indexing.
-        for (int pt = reIndexStart; pt < iPoints.Count; pt++)
-        {
-            newPath.Add(new Point64(iPoints[pt].X, iPoints[pt].Y, iPoints[pt].Z));
-        }
-        // Ensure we close the shape by hitting the reIndexStart point again, since we will possibly have pushed it to the beginning of the shape.
-        for (int pt = 0; pt <= reIndexStart; pt++)
-        {
-            newPath.Add(new Point64(iPoints[pt].X, iPoints[pt].Y, iPoints[pt].Z));
-        }
-
-        return newPath;
-    }
-
-    public static Paths clockwiseAndReorderYX(Paths iPoints)
-    {
-        return pClockwiseAndReorderYX(iPoints);
-    }
-
-    private static Paths pClockwiseAndReorderYX(Paths iPoints)
-    {
-        Paths64 retPaths = new();
-        foreach (Path t in iPoints.Select(pClockwiseAndReorderYX))
-        {
-            t.Reverse(); // Getting a reversed path from the above, not sure why.
-            retPaths.Add(pClose(t));
-        }
-
-        return retPaths;
-    }
-
-    public static Path clockwiseAndReorderYX(Path iPoints)
-    {
-        return pClockwiseAndReorderYX(iPoints);
-    }
-
-    private static Path pClockwiseAndReorderYX(Path iPoints)
-    {
-        iPoints = pClockwise(iPoints);
-        iPoints = pReorderYX(iPoints);
-
-        return iPoints;
-    }
-
-    public static Paths reOrderYX(Paths iPoints)
-    {
-        return pReorderYX(iPoints);
-    }
-
-    private static Paths pReorderYX(Paths iPoints)
-    {
-        return new (iPoints.Select(pReorderYX));
-    }
-
-    public static Path reOrderYX(Path iPoints)
-    {
-        return pReorderYX(iPoints);
-    }
-
-    private static Path pReorderYX(Path iPoints)
-    {
-        int minY_index = MinY(iPoints);
-        long minY = iPoints[minY_index].Y;
-        // This will reorder the point index so that the 0-indexed point is at the minimum Y value, and, in the case of multiple points at min Y, at the lowest X of all of those.
-        List<int> minYPoints = new();
-        for (int pt = 0; pt < iPoints.Count; pt++)
-        {
-            if (iPoints[pt].Y == minY)
-            {
-                minYPoints.Add(pt);
-            }
-        }
-        // Now we need to query our minYPoints to find the point with the lowest X value.
-        long minX = iPoints[minYPoints[0]].X;
-        int reIndexStart = minYPoints[0];
-        for (int index = 1; index < minYPoints.Count; index++)
-        {
-            if (iPoints[minYPoints[index]].X >= minX)
-            {
-                continue;
-            }
-
-            minX = iPoints[minYPoints[index]].X;
-            reIndexStart = minYPoints[index];
-        }
-
-        if (reIndexStart == 0)
-        {
-            return iPoints;
-        }
-
-        Path newPath = new();
-        // Now to start the re-indexing.
-        for (int pt = reIndexStart; pt < iPoints.Count; pt++)
-        {
-            newPath.Add(new Point64(iPoints[pt].X, iPoints[pt].Y, iPoints[pt].Z));
-        }
-        // Ensure we close the shape by hitting the reIndexStart point again, since we will possibly have pushed it to the beginning of the shape.
-        for (int pt = 0; pt <= reIndexStart; pt++)
-        {
-            newPath.Add(new Point64(iPoints[pt].X, iPoints[pt].Y, iPoints[pt].Z));
-        }
-        
-        return newPath;
     }
     
-    public static List<GeoLibPointF[]> clockwiseAndReorderXY(List<GeoLibPointF[]> iPoints)
+    public static Paths64 reOrderXY(Paths64 iPoints)
+    {
+        return pReorderXY(iPoints);
+    }
+    
+    public static Path64 reOrderXY(Path64 iPoints)
+    {
+        return pReorderXY(iPoints);
+    }
+    
+    public static Paths64 reOrderYX(Paths64 iPoints)
+    {
+        return pReorderYX(iPoints);
+    }
+    
+    private static Paths64 pReorderYX(Paths64 iPoints)
+    {
+        int sLength = iPoints.Capacity;
+        Paths64 ret = new (sLength);
+#if !GWSINGLETHREADED
+        Parallel.For(0, sLength, pt =>
+#else
+            for (int pt = 0; pt < sLength; pt++)
+#endif
+            {
+                ret[pt] = pReorderYX(iPoints[pt]);
+            }
+#if !GWSINGLETHREADED
+        );
+#endif
+        return ret;
+    }
+
+    
+    public static PathsD clockwiseAndReorderXY(PathsD iPoints)
     {
         return pClockwiseAndReorderXY(iPoints);
     }
 
-    private static List<GeoLibPointF[]> pClockwiseAndReorderXY(List<GeoLibPointF[]> iPoints)
+    private static PathsD pClockwiseAndReorderXY(PathsD iPoints)
     {
-        List<GeoLibPointF[]> ret = new();
-        foreach (GeoLibPointF[] t in iPoints)
+        PathsD ret = new();
+        foreach (PathD t in iPoints)
         {
             ret.Add(pClockwiseAndReorderXY(t));
         }
         return ret;
     }
 
-    public static GeoLibPointF[] clockwiseAndReorderXY(GeoLibPointF[] iPoints)
+    public static PathD clockwiseAndReorderXY(PathD iPoints)
     {
         return pClockwiseAndReorderXY(iPoints);
     }
 
-    private static GeoLibPointF[] pClockwiseAndReorderXY(GeoLibPointF[] iPoints)
+    private static PathD pClockwiseAndReorderXY(PathD iPoints)
     {
         iPoints = pClockwise(iPoints);
         iPoints = pReorderXY(iPoints);
         return iPoints;
     }
-    private static GeoLibPointF[] pReorderXY(GeoLibPointF[] iPoints)
+    private static PathD pReorderXY(PathD iPoints)
     {
         int minX_index = MinX(iPoints);
-        double minX = iPoints[minX_index].X;
+        double minX = iPoints[minX_index].x;
         // This will reorder the point index so that the 0-indexed point is at the minimum X value, and, in the case of multiple points at min X, at the lowest Y of all of those.
         List<int> minXPoints = new();
-        for (int pt = 0; pt < iPoints.Length; pt++)
+        for (int pt = 0; pt < iPoints.Capacity; pt++)
         {
-            switch (Math.Abs(iPoints[pt].X - minX))
+            switch (Math.Abs(iPoints[pt].x - minX))
             {
                 case <= double.Epsilon:
                     minXPoints.Add(pt);
@@ -395,16 +289,16 @@ public static partial class GeoWrangler
             }
         }
         // Now we need to query our minXPoints to find the point with the lowest Y value.
-        double minY = iPoints[minXPoints[0]].Y;
+        double minY = iPoints[minXPoints[0]].y;
         int reIndexStart = minXPoints[0];
         for (int index = 1; index < minXPoints.Count; index++)
         {
-            if (!(iPoints[minXPoints[index]].Y < minY))
+            if (!(iPoints[minXPoints[index]].y < minY))
             {
                 continue;
             }
 
-            minY = iPoints[minXPoints[index]].Y;
+            minY = iPoints[minXPoints[index]].y;
             reIndexStart = minXPoints[index];
         }
 
@@ -414,17 +308,17 @@ public static partial class GeoWrangler
         }
 
         {
-            List<GeoLibPointF> tempList = new();
+            PathD tempList = new();
             // Now to start the re-indexing.
-            for (int pt = reIndexStart; pt < iPoints.Length; pt++)
+            for (int pt = reIndexStart; pt < iPoints.Capacity; pt++)
             {
                 switch (tempList.Count)
                 {
                     // Avoid adding duplicate vertices
-                    case > 1 when Math.Abs(tempList[^1].X - iPoints[pt].X) <= double.Epsilon && Math.Abs(tempList[^1].Y - iPoints[pt].Y) <= double.Epsilon:
+                    case > 1 when Math.Abs(tempList[^1].x - iPoints[pt].x) <= double.Epsilon && Math.Abs(tempList[^1].y - iPoints[pt].y) <= double.Epsilon:
                         continue;
                     default:
-                        tempList.Add(new GeoLibPointF(iPoints[pt].X, iPoints[pt].Y));
+                        tempList.Add(new (iPoints[pt].x, iPoints[pt].y));
                         break;
                 }
             }
@@ -434,56 +328,56 @@ public static partial class GeoWrangler
                 switch (tempList.Count)
                 {
                     // Avoid adding duplicate vertices
-                    case > 1 when Math.Abs(tempList[^1].X - iPoints[pt].X) <= double.Epsilon && Math.Abs(tempList[^1].Y - iPoints[pt].Y) <= double.Epsilon:
+                    case > 1 when Math.Abs(tempList[^1].x - iPoints[pt].x) <= double.Epsilon && Math.Abs(tempList[^1].y - iPoints[pt].y) <= double.Epsilon:
                         continue;
                     default:
-                        tempList.Add(new GeoLibPointF(iPoints[pt].X, iPoints[pt].Y));
+                        tempList.Add(new (iPoints[pt].x, iPoints[pt].y));
                         break;
                 }
             }
 
-            iPoints = tempList.ToArray();
+            iPoints = new (tempList);
         }
 
         return iPoints;
     }
 
-    public static List<GeoLibPointF[]> clockwiseAndReorderYX(List<GeoLibPointF[]> iPoints)
+    public static PathsD clockwiseAndReorderYX(PathsD iPoints)
     {
         return pClockwiseAndReorderYX(iPoints);
     }
 
-    private static List<GeoLibPointF[]> pClockwiseAndReorderYX(List<GeoLibPointF[]> iPoints)
+    private static PathsD pClockwiseAndReorderYX(PathsD iPoints)
     {
-        List<GeoLibPointF[]> ret = new();
-        foreach (GeoLibPointF[] t in iPoints)
+        PathsD ret = new();
+        foreach (PathD t in iPoints)
         {
             ret.Add(pClockwiseAndReorderYX(t));
         }
         return ret;
     }
     
-    public static GeoLibPointF[] clockwiseAndReorderYX(GeoLibPointF[] iPoints)
+    public static PathD clockwiseAndReorderYX(PathD iPoints)
     {
         return pClockwiseAndReorderYX(iPoints);
     }
 
-    private static GeoLibPointF[] pClockwiseAndReorderYX(GeoLibPointF[] iPoints)
+    private static PathD pClockwiseAndReorderYX(PathD iPoints)
     {
         iPoints = pClockwise(iPoints);
         iPoints = pReorderYX(iPoints);
         return iPoints;
     }
     
-    private static GeoLibPointF[] pReorderYX(GeoLibPointF[] iPoints)
+    private static PathD pReorderYX(PathD iPoints)
     {
         int minY_index = MinY(iPoints);
-        double minY = iPoints[minY_index].Y;
+        double minY = iPoints[minY_index].y;
         // This will reorder the point index so that the 0-indexed point is at the minimum Y value, and, in the case of multiple points at min Y, at the lowest X of all of those.
         List<int> minYPoints = new();
-        for (int pt = 0; pt < iPoints.Length; pt++)
+        for (int pt = 0; pt < iPoints.Capacity; pt++)
         {
-            switch (Math.Abs(iPoints[pt].Y - minY))
+            switch (Math.Abs(iPoints[pt].y - minY))
             {
                 case <= double.Epsilon:
                     minYPoints.Add(pt);
@@ -491,16 +385,16 @@ public static partial class GeoWrangler
             }
         }
         // Now we need to query our minYPoints to find the point with the lowest X value.
-        double minX = iPoints[minYPoints[0]].X;
+        double minX = iPoints[minYPoints[0]].x;
         int reIndexStart = minYPoints[0];
         for (int index = 1; index < minYPoints.Count; index++)
         {
-            if (!(iPoints[minYPoints[index]].X < minX))
+            if (!(iPoints[minYPoints[index]].x < minX))
             {
                 continue;
             }
 
-            minX = iPoints[minYPoints[index]].X;
+            minX = iPoints[minYPoints[index]].x;
             reIndexStart = minYPoints[index];
         }
 
@@ -509,17 +403,17 @@ public static partial class GeoWrangler
             return iPoints;
         }
 
-        List<GeoLibPointF> tempList = new();
+        PathD tempList = new();
         // Now to start the re-indexing.
-        for (int pt = reIndexStart; pt < iPoints.Length; pt++)
+        for (int pt = reIndexStart; pt < iPoints.Capacity; pt++)
         {
             switch (tempList.Count)
             {
                 // Avoid adding duplicate vertices
-                case > 1 when Math.Abs(tempList[^1].X - iPoints[pt].X) <= double.Epsilon && Math.Abs(tempList[^1].Y - iPoints[pt].Y) <= double.Epsilon:
+                case > 1 when Math.Abs(tempList[^1].x - iPoints[pt].x) <= double.Epsilon && Math.Abs(tempList[^1].y - iPoints[pt].y) <= double.Epsilon:
                     continue;
                 default:
-                    tempList.Add(new GeoLibPointF(iPoints[pt].X, iPoints[pt].Y));
+                    tempList.Add(new (iPoints[pt].x, iPoints[pt].y));
                     break;
             }
         }
@@ -529,62 +423,75 @@ public static partial class GeoWrangler
             switch (tempList.Count)
             {
                 // Avoid adding duplicate vertices
-                case > 1 when Math.Abs(tempList[^1].X - iPoints[pt].X) <= double.Epsilon && Math.Abs(tempList[^1].Y - iPoints[pt].Y) <= double.Epsilon:
+                case > 1 when Math.Abs(tempList[^1].x - iPoints[pt].x) <= double.Epsilon && Math.Abs(tempList[^1].y - iPoints[pt].y) <= double.Epsilon:
                     continue;
                 default:
-                    tempList.Add(new GeoLibPointF(iPoints[pt].X, iPoints[pt].Y));
+                    tempList.Add(new (iPoints[pt].x, iPoints[pt].y));
                     break;
             }
         }
 
-        iPoints = tempList.ToArray();
+        iPoints = new(tempList);
 
         return iPoints;
     }
     
-    public static List<GeoLibPoint[]> simplify(List<GeoLibPoint[]> source)
+    public static Paths64 simplify(Paths64 source)
     {
         return pSimplify(source);
     }
 
-    private static List<GeoLibPoint[]> pSimplify(List<GeoLibPoint[]> source)
+    private static Paths64 pSimplify(Paths64 source)
     {
-        return source.Select(t => pSimplify(t)).ToList();
+        int sLength = source.Capacity;
+        Paths64 ret = new (sLength);
+#if !GWSINGLETHREADED
+        Parallel.For(0, sLength, pt =>
+#else
+            for (int pt = 0; pt < sLength; pt++)
+#endif
+            {
+                ret[pt] = pSimplify(source[pt]);
+            }
+#if !GWSINGLETHREADED
+        );
+#endif
+        return ret;
     }
    
-    public static GeoLibPoint[] simplify(GeoLibPoint[] iPoints)
+    public static Path64 simplify(Path64 iPoints)
     {
         return pSimplify(iPoints);
     }
 
-    private static GeoLibPoint[] pSimplify(GeoLibPoint[] iPoints)
+    private static Path64 pSimplify(Path64 iPoints)
     {
-        Path iPoly = pathFromPoint(iPoints, 1);
+        Path64 iPoly = pathFromPoint(iPoints, 1);
         Clipper64 c = new();
         c.PreserveCollinear = false;
         c.AddSubject(iPoly);
-        Paths oPoly = new();
+        Paths64 oPoly = new();
         c.Execute(ClipType.Union, FillRule.EvenOdd, oPoly);
 
         oPoly = pReorderXY(oPoly);
 
-        GeoLibPoint[] working = pointFromPath(oPoly[0], 1);
+        Path64 working = pointFromPath(oPoly[0], 1);
 
         return working;
     }
 
-    public static Paths[] getOutersAndCutters(Paths source)
+    public static Paths64[] getOutersAndCutters(Paths64 source)
     {
         return pGetOutersAndCutters(source);
     }
 
-    private static Paths[] pGetOutersAndCutters(Paths source)
+    private static Paths64[] pGetOutersAndCutters(Paths64 source)
     {
-        Paths[] ret = new Paths[2];
+        Paths64[] ret = new Paths64[2];
         // Find cutters and outers.
-        Paths outers = new();
-        Paths cutters = new();
-        foreach (Path t in source)
+        Paths64 outers = new();
+        Paths64 cutters = new();
+        foreach (Path64 t in source)
         {
             if (pIsClockwise(t))
             {
@@ -600,23 +507,13 @@ public static partial class GeoWrangler
 
         return ret;
     }
-
-    public static Paths stripColinear(Paths source, double angularTolerance = 0.0f)
-    {
-        return pStripColinear(source, angularTolerance);
-    }
     
-    private static Paths pStripColinear(Paths source, double angularTolerance = 0.0f)
-    {
-        return new(source.Select(t => pStripColinear(t, angularTolerance)));
-    }
-
-    public static Path stripColinear(Path source, double angularTolerance = 0.0f)
+    public static Path64 stripColinear(Path64 source, double angularTolerance = 0.0f)
     {
         return pStripColinear(source, angularTolerance);
     }
 
-    private static Path pStripColinear(Path source, double angularTolerance = 0.0f)
+    private static Path64 pStripColinear(Path64 source, double angularTolerance = 0.0f)
     {
         switch (source.Count)
         {
@@ -624,7 +521,7 @@ public static partial class GeoWrangler
                 return source;
         }
 
-        Path ret = new();
+        Path64 ret = new();
 
         for (int pt = 0; pt < source.Count; pt++)
         {
@@ -678,167 +575,35 @@ public static partial class GeoWrangler
         return ret;
     }
 
-    public static List<GeoLibPoint[]> stripColinear(List<GeoLibPoint[]> source, double angularTolerance = 0.0f)
+    public static Paths64 stripColinear(Paths64 source, double angularTolerance = 0.0f)
     {
         return pStripColinear(source, angularTolerance);
     }
 
-    private static List<GeoLibPoint[]> pStripColinear(List<GeoLibPoint[]> source, double angularTolerance = 0.0f)
+    private static Paths64 pStripColinear(Paths64 source, double angularTolerance = 0.0f)
     {
-        List<GeoLibPoint[]> ret = new();
-        foreach (GeoLibPoint[] t in source)
+        Paths64 ret = new();
+        foreach (Path64 t in source)
         {
             ret.Add(pStripColinear(t, angularTolerance));
         }
 
         return ret;
     }
-
-    public static GeoLibPoint[] stripColinear(GeoLibPoint[] source, double angularTolerance = 0.0f)
-    {
-        return pStripColinear(source, angularTolerance);
-    }
-
-    private static GeoLibPoint[] pStripColinear(GeoLibPoint[] source, double angularTolerance = 0.0f)
-    {
-        switch (source.Length)
-        {
-            case < 3:
-                return source;
-        }
-
-        List<GeoLibPoint> ret = new();
-
-        for (int pt = 0; pt < source.Length; pt++)
-        {
-            GeoLibPoint interSection_A, interSection_B, interSection_C;
-            switch (pt)
-            {
-                // Assess angle.
-                case 0:
-                    interSection_B = source[^1]; // map to last point
-                    interSection_C = source[pt];
-                    interSection_A = source[pt + 1];
-                    break;
-                default:
-                {
-                    if (pt == source.Length - 1) // last point in the list
-                    {
-                        interSection_B = source[pt - 1];
-                        interSection_C = source[pt];
-                        interSection_A = source[0]; // map to the first point
-                    }
-                    else
-                    {
-                        interSection_B = source[pt - 1];
-                        interSection_C = source[pt];
-                        interSection_A = source[pt + 1];
-                    }
-
-                    break;
-                }
-            }
-
-            double theta = pAngleBetweenPoints(interSection_A, interSection_B, interSection_C, false);
-
-            bool addPoint = true;
-            if (pt != 0 && pt != source.Length - 1)
-            {
-                if (Math.Abs(theta - 180) <= angularTolerance)
-                {
-                    addPoint = false;
-                }
-            }
-
-            switch (addPoint)
-            {
-                case true:
-                    ret.Add(new GeoLibPoint(source[pt]));
-                    break;
-            }
-        }
-        return ret.ToArray();
-    }
-
-    public static List<GeoLibPoint> stripColinear(List<GeoLibPoint> source, double angularTolerance = 0.0f)
-    {
-        return pStripColinear(source, angularTolerance);
-    }
-
-    private static List<GeoLibPoint> pStripColinear(List<GeoLibPoint> source, double angularTolerance = 0.0f)
-    {
-        switch (source.Count)
-        {
-            case < 3:
-                return source;
-        }
-
-        List<GeoLibPoint> ret = new();
-
-        for (int pt = 0; pt < source.Count; pt++)
-        {
-            GeoLibPoint interSection_A, interSection_B, interSection_C;
-            switch (pt)
-            {
-                // Assess angle.
-                case 0:
-                    interSection_B = source[^1]; // map to last point
-                    interSection_C = source[pt];
-                    interSection_A = source[pt + 1];
-                    break;
-                default:
-                {
-                    if (pt == source.Count - 1) // last point in the list
-                    {
-                        interSection_B = source[pt - 1];
-                        interSection_C = source[pt];
-                        interSection_A = source[0]; // map to the first point
-                    }
-                    else
-                    {
-                        interSection_B = source[pt - 1];
-                        interSection_C = source[pt];
-                        interSection_A = source[pt + 1];
-                    }
-
-                    break;
-                }
-            }
-
-            double theta = pAngleBetweenPoints(interSection_A, interSection_B, interSection_C, false);
-
-            bool addPoint = true;
-            if (pt != 0 && pt != source.Count - 1)
-            {
-                if (Math.Abs(theta - 180) <= angularTolerance)
-                {
-                    addPoint = false;
-                }
-            }
-
-            switch (addPoint)
-            {
-                case true:
-                    ret.Add(new GeoLibPoint(source[pt]));
-                    break;
-            }
-        }
-        return ret;
-    }
     
-    public static List<GeoLibPoint> removeDuplicates(GeoLibPoint[] source)
+    public static Path64 removeDuplicates(Path64 source)
     {
-        return pRemoveDuplicates(source.ToList());
+        return pRemoveDuplicates(source);
     }
 
-    private static List<GeoLibPoint> pRemoveDuplicates(List<GeoLibPoint> source)
+    private static Path64 pRemoveDuplicates(Path64 source)
     {
-        List<GeoLibPoint> ret = new();
+        Path64 ret = new();
         switch (source.Count)
         {
             case > 0:
             {
-                ret.Add(new GeoLibPoint(source[0]));
+                ret.Add(new (source[0]));
                 int retIndex = 1;
                 for (int i = 1; i < source.Count - 1; i++)
                 {
@@ -847,7 +612,7 @@ public static partial class GeoWrangler
                         continue;
                     }
 
-                    ret.Add(new GeoLibPoint(source[i]));
+                    ret.Add(new (source[i]));
                     retIndex++;
                 }
 
@@ -858,14 +623,14 @@ public static partial class GeoWrangler
         return ret;
     }
 
-    public static Path removeDuplicates(Path source, double threshold = Double.Epsilon)
+    public static Path64 removeDuplicates(Path64 source, double threshold = Double.Epsilon)
     {
         return pRemoveDuplicates(source, threshold);
     }
 
-    private static Path pRemoveDuplicates(Path source, double threshold = Double.Epsilon)
+    private static Path64 pRemoveDuplicates(Path64 source, double threshold = Double.Epsilon)
     {
-        Path ret = new();
+        Path64 ret = new();
         switch (source.Count)
         {
             case > 0:
@@ -891,19 +656,14 @@ public static partial class GeoWrangler
         return ret;
     }
     
-    public static List<GeoLibPointF> removeDuplicates(List<GeoLibPointF> source, double threshold = Double.Epsilon)
+    public static PathD removeDuplicates(PathD source, double threshold = Double.Epsilon)
     {
         return pRemoveDuplicates(source, threshold);
     }
-
-    public static List<GeoLibPointF[]> removeDuplicates(List<GeoLibPointF[]> source, double threshold = Double.Epsilon)
+    
+    private static PathsD pRemoveDuplicates(PathsD source, double threshold = Double.Epsilon)
     {
-        return pRemoveDuplicates(source, threshold);
-    }
-
-    private static List<GeoLibPointF[]> pRemoveDuplicates(List<GeoLibPointF[]> source, double threshold = Double.Epsilon)
-    {
-        List<GeoLibPointF[]> ret = new List<GeoLibPointF[]>();
+        PathsD ret = new PathsD();
         foreach (var t in source)
         {
             ret.Add(removeDuplicates(t, threshold));
@@ -911,35 +671,25 @@ public static partial class GeoWrangler
 
         return ret;
     }
-
-    public static GeoLibPointF[] removeDuplicates(GeoLibPointF[] source, double threshold = Double.Epsilon)
+    
+    private static PathD pRemoveDuplicates(PathD source, double threshold = Double.Epsilon)
     {
-        return pRemoveDuplicates(source, threshold).ToArray();
-    }
-
-    public static List<GeoLibPointF> pRemoveDuplicates(GeoLibPointF[] source, double threshold = Double.Epsilon)
-    {
-        return pRemoveDuplicates(source.ToList(), threshold);
-    }
-
-    private static List<GeoLibPointF> pRemoveDuplicates(List<GeoLibPointF> source, double threshold = Double.Epsilon)
-    {
-        List<GeoLibPointF> ret = new();
+        PathD ret = new();
         switch (source.Count)
         {
             case > 0:
             {
-                ret.Add(new GeoLibPointF(source[0]));
+                ret.Add(new (source[0]));
                 int retIndex = 1;
                 for (int i = 1; i < source.Count - 1; i++)
                 {
-                    if (!(Math.Abs(source[i].X - ret[retIndex - 1].X) > threshold) &&
-                        !(Math.Abs(source[i].Y - ret[retIndex - 1].Y) > threshold))
+                    if (!(Math.Abs(source[i].x - ret[retIndex - 1].x) > threshold) &&
+                        !(Math.Abs(source[i].y - ret[retIndex - 1].y) > threshold))
                     {
                         continue;
                     }
 
-                    ret.Add(new GeoLibPointF(source[i]));
+                    ret.Add(new (source[i]));
                     retIndex++;
                 }
 
@@ -949,131 +699,37 @@ public static partial class GeoWrangler
 
         return ret;
     }
-
-    public static List<GeoLibPoint> stripTerminators(List<GeoLibPoint> source, bool keepLast)
-    {
-        return pStripTerminators(source, keepLast);
-    }
-
-    public static GeoLibPoint[] stripTerminators(GeoLibPoint[] source, bool keepLast)
-    {
-        return pStripTerminators(source, keepLast);
-    }
-
-    private static GeoLibPoint[] pStripTerminators(GeoLibPoint[] source, bool keepLast)
-    {
-        return pStripTerminators(source.ToList(), keepLast).ToArray();
-    }
-
-    private static List<GeoLibPoint> pStripTerminators(List<GeoLibPoint> source, bool keepLast)
-    {
-        bool firstLast_same = false;
-        int pt_Check = source.Count - 1;
-        if (distanceBetweenPoints(source[pt_Check], source[0]) < 0.01)
-        {
-            firstLast_same = true; // remove duplicated points. The shape will be closed later.
-        }
-        while (firstLast_same)
-        {
-            source.RemoveAt(pt_Check); // remove duplicated points. The shape will be closed later
-            pt_Check--;
-            if (distanceBetweenPoints(source[pt_Check], source[0]) > 0.01)
-            {
-                firstLast_same = false; // stop at the first unmatched point.
-            }
-        }
-
-        source = keepLast switch
-        {
-            true => pClose(source),
-            _ => source
-        };
-
-        return source;
-    }
-
-    public static List<GeoLibPointF[]> stripColinear(List<GeoLibPointF[]> source, double angularTolerance = 0.0f)
+    
+    public static PathsD stripColinear(PathsD source, double angularTolerance = 0.0f)
     {
         return pStripColinear(source, angularTolerance);
     }
 
-    private static List<GeoLibPointF[]> pStripColinear(List<GeoLibPointF[]> source, double angularTolerance = 0.0f)
+    private static PathsD pStripColinear(PathsD source, double angularTolerance = 0.0f)
     {
-        return source.Select(t => pStripColinear(t, angularTolerance)).ToList();
+        int sLength = source.Capacity;
+        PathsD ret = new (sLength);
+#if !GWSINGLETHREADED
+        Parallel.For(0, sLength, pt =>
+#else
+            for (int pt = 0; pt < sLength; pt++)
+#endif
+            {
+                ret[pt] = pStripColinear(source[pt], angularTolerance);
+            }
+#if !GWSINGLETHREADED
+        );
+#endif
+
+        return ret;
     }
 
-    public static GeoLibPointF[] stripColinear(GeoLibPointF[] source, double angularTolerance = 0.0f)
+    public static PathD stripColinear(PathD source, double angularTolerance = 0.0f)
     {
         return pStripColinear(source, angularTolerance);
     }
 
-    private static GeoLibPointF[] pStripColinear(GeoLibPointF[] source, double angularTolerance = 0.0f)
-    {
-        switch (source.Length)
-        {
-            case < 3:
-                return source;
-        }
-
-        List<GeoLibPointF> ret = new();
-
-        for (int pt = 0; pt < source.Length; pt++)
-        {
-            GeoLibPointF interSection_A, interSection_B, interSection_C;
-            switch (pt)
-            {
-                // Assess angle.
-                case 0:
-                    interSection_B = source[^1]; // map to last point
-                    interSection_C = source[pt];
-                    interSection_A = source[pt + 1];
-                    break;
-                default:
-                {
-                    if (pt == source.Length - 1) // last point in the list
-                    {
-                        interSection_B = source[pt - 1];
-                        interSection_C = source[pt];
-                        interSection_A = source[0]; // map to the first point
-                    }
-                    else
-                    {
-                        interSection_B = source[pt - 1];
-                        interSection_C = source[pt];
-                        interSection_A = source[pt + 1];
-                    }
-
-                    break;
-                }
-            }
-
-            double theta = pAngleBetweenPoints(interSection_A, interSection_B, interSection_C, false);
-
-            bool addPoint = true;
-            if (pt != 0 && pt != source.Length - 1)
-            {
-                if (Math.Abs(theta - 180) <= angularTolerance)
-                {
-                    addPoint = false;
-                }
-            }
-
-            switch (addPoint)
-            {
-                case true:
-                    ret.Add(new GeoLibPointF(source[pt]));
-                    break;
-            }
-        }
-        return ret.ToArray();
-    }
-
-    public static List<GeoLibPointF> stripColinear(List<GeoLibPointF> source, double angularTolerance = 0.0f)
-    {
-        return pStripColinear(source, angularTolerance);
-    }
-
-    private static List<GeoLibPointF> pStripColinear(List<GeoLibPointF> source, double angularTolerance = 0.0f)
+    private static PathD pStripColinear(PathD source, double angularTolerance = 0.0f)
     {
         switch (source.Count)
         {
@@ -1081,11 +737,11 @@ public static partial class GeoWrangler
                 return source;
         }
 
-        List<GeoLibPointF> ret = new();
+        PathD ret = new();
 
         for (int pt = 0; pt < source.Count; pt++)
         {
-            GeoLibPointF interSection_A, interSection_B, interSection_C;
+            PointD interSection_A, interSection_B, interSection_C;
             switch (pt)
             {
                 // Assess angle.
@@ -1127,29 +783,19 @@ public static partial class GeoWrangler
             switch (addPoint)
             {
                 case true:
-                    ret.Add(new GeoLibPointF(source[pt]));
+                    ret.Add(new (source[pt]));
                     break;
             }
         }
         return ret;
     }
 
-    public static List<GeoLibPointF> stripTerminators(List<GeoLibPointF> source, bool keepLast)
+    public static PathD stripTerminators(PathD source, bool keepLast)
     {
         return pStripTerminators(source, keepLast);
     }
-
-    public static GeoLibPointF[] stripTerminators(GeoLibPointF[] source, bool keepLast)
-    {
-        return pStripTerminators(source, keepLast);
-    }
-
-    private static GeoLibPointF[] pStripTerminators(GeoLibPointF[] source, bool keepLast)
-    {
-        return pStripTerminators(source.ToList(), keepLast).ToArray();
-    }
-
-    private static List<GeoLibPointF> pStripTerminators(List<GeoLibPointF> source, bool keepLast)
+    
+    private static PathD pStripTerminators(PathD source, bool keepLast)
     {
         bool firstLast_same = false;
         int pt_Check = source.Count - 1;
@@ -1176,15 +822,15 @@ public static partial class GeoWrangler
         return source;
     }
 
-    public static Paths stripTerminators(Paths source, bool keepLast)
+    public static Paths64 stripTerminators(Paths64 source, bool keepLast)
     {
         return pStripTerminators(source, keepLast);
     }
 
-    private static Paths pStripTerminators(Paths source, bool keepLast)
+    private static Paths64 pStripTerminators(Paths64 source, bool keepLast)
     {
-        Paths ret = new();
-        foreach (Path t in source)
+        Paths64 ret = new();
+        foreach (Path64 t in source)
         {
             ret.Add(pStripTerminators(t, keepLast));
         }
@@ -1192,12 +838,12 @@ public static partial class GeoWrangler
         return ret;
     }
 
-    public static Path stripTerminators(Path source, bool keepLast)
+    public static Path64 stripTerminators(Path64 source, bool keepLast)
     {
         return pStripTerminators(source, keepLast);
     }
 
-    private static Path pStripTerminators(Path source, bool keepLast)
+    private static Path64 pStripTerminators(Path64 source, bool keepLast)
     {
         switch (source.Count)
         {
@@ -1235,26 +881,26 @@ public static partial class GeoWrangler
         return source;
     }
 
-    public static Paths close(Paths source)
+    public static Paths64 close(Paths64 source)
     {
         return pClose(source);
     }
 
-    private static Paths pClose(Paths source)
+    private static Paths64 pClose(Paths64 source)
     {
-        Paths ret = new();
-        foreach (Path t in source)
+        Paths64 ret = new();
+        foreach (Path64 t in source)
         {
             ret.Add(pClose(t));
         }
         return ret;
     }
-    public static Path close(Path source)
+    public static Path64 close(Path64 source)
     {
         return pClose(source);
     }
 
-    private static Path pClose(Path source)
+    private static Path64 pClose(Path64 source)
     {
         switch (source.Count)
         {
@@ -1268,136 +914,63 @@ public static partial class GeoWrangler
         return source;
     }
 
-    public static List<GeoLibPoint> close(List<GeoLibPoint> source)
+
+    public static PathD close(PathD source)
     {
         return pClose(source);
     }
 
-    private static List<GeoLibPoint> pClose(List<GeoLibPoint> source)
+    private static PathD pClose(PathD source)
     {
         switch (source.Count)
         {
             case < 1:
                 return source;
         }
-        if (source[0].X != source[^1].X || source[0].Y != source[^1].Y)
+        if (Math.Abs(source[0].x - source[^1].x) > double.Epsilon || Math.Abs(source[0].y - source[^1].y) > double.Epsilon)
         {
-            source.Add(new GeoLibPoint(source[0]));
-        }
-        return source;
-    }
-
-    public static List<GeoLibPoint[]> close(List<GeoLibPoint[]> source)
-    {
-        return pClose(source);
-    }
-
-    static List<GeoLibPoint[]> pClose(List<GeoLibPoint[]> source)
-    {
-        List<GeoLibPoint[]> ret = new();
-        foreach (GeoLibPoint[] t in source)
-        {
-            ret.Add(pClose(t));
-        }
-
-        return ret;
-    }
-
-    public static GeoLibPoint[] close(GeoLibPoint[] source)
-    {
-        return pClose(source);
-    }
-
-    private static GeoLibPoint[] pClose(GeoLibPoint[] source)
-    {
-        switch (source.Length)
-        {
-            case < 1:
-                return source;
-        }
-        List<GeoLibPoint> n = source.ToList();
-        n = close(n);
-        return n.ToArray();
-    }
-
-    public static List<GeoLibPointF> close(List<GeoLibPointF> source)
-    {
-        return pClose(source);
-    }
-
-    private static List<GeoLibPointF> pClose(List<GeoLibPointF> source)
-    {
-        switch (source.Count)
-        {
-            case < 1:
-                return source;
-        }
-        if (Math.Abs(source[0].X - source[^1].X) > double.Epsilon || Math.Abs(source[0].Y - source[^1].Y) > double.Epsilon)
-        {
-            source.Add(new GeoLibPointF(source[0]));
+            source.Add(new (source[0]));
         }
         return source;
     }
     
-    public static List<GeoLibPointF[]> close(List<GeoLibPointF[]> source)
+    private static PathsD pClose(PathsD source)
     {
-        return pClose(source);
-    }
-
-    private static List<GeoLibPointF[]> pClose(List<GeoLibPointF[]> source)
-    {
-        List<GeoLibPointF[]> ret = new();
-        foreach (GeoLibPointF[] p in source)
+        PathsD ret = new();
+        foreach (PathD p in source)
         {
             ret.Add(pClose(p));
         }
 
         return ret;
     }
-
-    public static GeoLibPointF[] close(GeoLibPointF[] source)
-    {
-        return pClose(source);
-    }
-
-    private static GeoLibPointF[] pClose(GeoLibPointF[] source)
-    {
-        switch (source.Length)
-        {
-            case < 1:
-                return source;
-        }
-        List<GeoLibPointF> n = source.ToList();
-        n = close(n);
-        return n.ToArray();
-    }
-
-    public static Paths fromSoup(Paths source)
+    
+    public static Paths64 fromSoup(Paths64 source)
     {
         return pFromSoup(source, WindingRule.NonZero);
     }
 
-    private static Paths pFromSoup(Paths source, WindingRule wr)
+    private static Paths64 pFromSoup(Paths64 source, WindingRule wr)
     {
-        Paths outers = new();
-        Paths cutters = new();
+        Paths64 outers = new();
+        Paths64 cutters = new();
 
-        foreach (Path t in source)
+        foreach (Path64 t in source)
         {
             if (Clipper.IsPositive(t) == Clipper.IsPositive(source[0]))
             {
-                outers.Add(new Path(t));
+                outers.Add(new (t));
             }
             else
             {
-                cutters.Add(new Path(t));
+                cutters.Add(new (t));
             }
         }
 
         // Set up our contours. Since Clipper sets up the subject as the first item, we'll make that clockwise and force the rest to counterclockwise.	
         Tess tess = new();
 
-        foreach (Path t in outers)
+        foreach (Path64 t in outers)
         {
             // Skip tiny fragments. The tessellator has trouble with them.	
             /*
@@ -1415,7 +988,7 @@ public static partial class GeoWrangler
             tess.AddContour(contour);
         }
 
-        foreach (Path t in cutters)
+        foreach (Path64 t in cutters)
         {
             // Skip tiny fragments. The tessellator has trouble with them.
             /*
@@ -1442,14 +1015,14 @@ public static partial class GeoWrangler
 
             // Iterate triangles and create output geometry. We'll use clipper to simplify the output geometry.	
             Clipper64 c = new() {PreserveCollinear = true};
-            Paths retPaths = new();
+            Paths64 retPaths = new();
 
-            Paths cPaths = new();
-            Paths aPaths = new();
+            Paths64 cPaths = new();
+            Paths64 aPaths = new();
 
             for (int i = 0; i < tess.ElementCount; i++)
             {
-                Path trianglePath = new();
+                Path64 trianglePath = new();
                 for (int p = 0; p < polysize; p++)
                 {
                     Point64 tmpPt = new((long)tess.Vertices[tess.Elements[i * polysize + p]].Position.X, (long)tess.Vertices[tess.Elements[i * polysize + p]].Position.Y);
@@ -1484,37 +1057,37 @@ public static partial class GeoWrangler
         }
     }
 
-    public static List<GeoLibPointF[]> clean_and_flatten(List<GeoLibPointF[]> source, long scaling, double customSizing = 0, double extension = 0)
+    public static PathsD clean_and_flatten(PathsD source, long scaling, double customSizing = 0, double extension = 0)
     {
         return pClean_and_flatten(source, scaling, customSizing, extension);
     }
 
-    private static List<GeoLibPointF[]> pClean_and_flatten(List<GeoLibPointF[]> source, long scaling, double customSizing = 0, double extension = 0)
+    private static PathsD pClean_and_flatten(PathsD source, long scaling, double customSizing = 0, double extension = 0)
     {
-        Paths sourcePaths = pPathsFromPointFs(source, scaling);
+        Paths64 sourcePaths = pPathsFromPointFs(source, scaling);
         Clipper64 c = new();
         c.AddSubject(sourcePaths);
-        Paths solution = new();
+        Paths64 solution = new();
         c.Execute(ClipType.Union, FillRule.EvenOdd, solution);
 
         solution = pReorderXY(solution);
 
-        Paths keyHoled = pMakeKeyHole(solution, reverseEval:false, biDirectionalEval:true, customSizing: customSizing, extension: extension);
+        Paths64 keyHoled = pMakeKeyHole(solution, reverseEval:false, biDirectionalEval:true, customSizing: customSizing, extension: extension);
 
         return pPointFsFromPaths(pClockwiseAndReorderXY(keyHoled), scaling);
     }
 
-    public static Paths removeDuplicatePaths(Paths source)
+    public static Paths64 removeDuplicatePaths(Paths64 source)
     {
         return pRemoveDuplicatePaths(source);
     }
     
-    private static Paths pRemoveDuplicatePaths(Paths source)
+    private static Paths64 pRemoveDuplicatePaths(Paths64 source)
     {
-        Paths ret = new();
+        Paths64 ret = new();
         List<string> polyHashCodes = new();
 
-        foreach (Path p in source)
+        foreach (Path64 p in source)
         {
             string polyHash = Utils.GetMD5Hash(p);
             if (polyHashCodes.IndexOf(polyHash) != -1)

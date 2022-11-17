@@ -1,4 +1,6 @@
-﻿namespace geoLib;
+﻿using Clipper2Lib;
+
+namespace geoLib;
 
 public class GeoLibRectangle
 {
@@ -8,7 +10,7 @@ public class GeoLibRectangle
     public int Right { get; set; }
     public int Top { get; set; }
     public int Bottom { get; set; }
-    public GeoLibPoint Location { get; set; }
+    public Point64 Location { get; set; }
     public int Width { get; set; }
     public int Height { get; set; }
 
@@ -54,20 +56,20 @@ public class GeoLibRectangle
     {
         Left = X;
         Top = Y;
-        Location = new GeoLibPoint(X, Y);
+        Location = new Point64(X, Y);
         Bottom = Top + Height;
         Right = Left + Width;
     }
 
-    public void Offset(GeoLibPoint offset)
+    public void Offset(Point64 offset)
     {
         pOffset(offset);
     }
 
-    private void pOffset(GeoLibPoint offset)
+    private void pOffset(Point64 offset)
     {
-        X += offset.X;
-        Y += offset.Y;
+        X += (int)offset.X;
+        Y += (int)offset.Y;
         setOtherProps();
     }
 }

@@ -8,7 +8,7 @@ internal partial class gdsReader
     private void addCellRef()
     {
         cell_.addCellref();
-        cell_.elementList[^1].setPos(new GeoLibPoint(modal.point_array[0].X, modal.point_array[0].Y));
+        cell_.elementList[^1].setPos(new (modal.point_array[0].X, modal.point_array[0].Y));
         cell_.elementList[^1].setCellRef(drawing_.findCell(modal.sname));
         cell_.elementList[^1].setName(modal.sname);
         cell_.elementList[^1].rotate(modal.angle);
@@ -99,7 +99,7 @@ internal partial class gdsReader
 
     private void addPath()
     {
-        switch (modal.point_array.Length)
+        switch (modal.point_array.Capacity)
         {
             case 1:
                 cell_.addCircle(modal.layer, modal.datatype, modal.point_array[0], Convert.ToDouble(modal.width) / 2);

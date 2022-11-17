@@ -1,6 +1,7 @@
 ﻿using geoLib;
 using geoWrangler;
 using System;
+using Clipper2Lib;
 
 namespace oasis;
 
@@ -87,55 +88,55 @@ public partial class oasWriter
         }
     }
 
-    public void writePointArray(GeoLibPoint[] p, bool excludeImplicid)
+    public void writePointArray(Path64 p, bool excludeImplicid)
     {
         bool type0 = true;
         bool type1 = true;
         bool type2 = true;
         bool type3 = true;
-        switch (p.Length % 2)
+        switch (p.Capacity % 2)
         {
             case 0:
                 type0 = false;
                 type1 = false;
                 break;
         }
-        switch (p.Length)
+        switch (p.Capacity)
         {
             case < 4:
                 type0 = false;
                 type1 = false;
                 break;
         }
-        for (int i = 0; i < p.Length - 1; i++)
+        for (int i = 0; i < p.Capacity - 1; i++)
         {
-            GeoLibPointF pd = GeoWrangler.distanceBetweenPoints_point(p[i + 1], p[i]);
-            if (pd.Y != 0 && i % 2 != 0)
+            PointD pd = GeoWrangler.distanceBetweenPoints_point(p[i + 1], p[i]);
+            if (pd.y != 0 && i % 2 != 0)
             {
                 type1 = false;
             }
 
-            if (pd.X != 0 && i % 2 != 0)
+            if (pd.x != 0 && i % 2 != 0)
             {
                 type0 = false;
             }
 
-            if (pd.X != 0 && i % 2 != 1)
+            if (pd.x != 0 && i % 2 != 1)
             {
                 type1 = false;
             }
 
-            if (pd.Y != 0 && i % 2 != 1)
+            if (pd.y != 0 && i % 2 != 1)
             {
                 type0 = false;
             }
 
-            if (pd.X != 0 && pd.Y != 0)
+            if (pd.x != 0 && pd.y != 0)
             {
                 type2 = false;
             }
 
-            if (pd.X != 0 && pd.Y != 0 && Math.Abs(pd.X - pd.Y) > double.Epsilon && Math.Abs(pd.X - -pd.Y) > double.Epsilon)
+            if (pd.x != 0 && pd.y != 0 && Math.Abs(pd.x - pd.y) > double.Epsilon && Math.Abs(pd.x - -pd.y) > double.Epsilon)
             {
                 type3 = false;
             }
@@ -147,16 +148,16 @@ public partial class oasWriter
                 writeUnsignedInteger(0);
                 int count = excludeImplicid switch
                 {
-                    true => p.Length - 3,
-                    _ => p.Length - 1
+                    true => p.Capacity - 3,
+                    _ => p.Capacity - 1
                 };
                 writeUnsignedInteger((uint)count);
-                GeoLibPoint last = new(p[0]);
+                Point64 last = new(p[0]);
                 for (int i = 1; i <= count; i++)
                 {
-                    GeoLibPointF h = GeoWrangler.distanceBetweenPoints_point(p[i], last);
+                    PointD h = GeoWrangler.distanceBetweenPoints_point(p[i], last);
                     write1Delta(h, i % 2 == 0);
-                    last = new GeoLibPoint(p[i]);
+                    last = new (p[i]);
                 }
 
                 break;
@@ -170,16 +171,16 @@ public partial class oasWriter
                         writeUnsignedInteger(1);
                         int count = excludeImplicid switch
                         {
-                            true => p.Length - 3,
-                            _ => p.Length - 1
+                            true => p.Capacity - 3,
+                            _ => p.Capacity - 1
                         };
                         writeUnsignedInteger((uint)count);
-                        GeoLibPoint last = new(p[0]);
+                        Point64 last = new(p[0]);
                         for (int i = 1; i <= count; i++)
                         {
-                            GeoLibPointF h = GeoWrangler.distanceBetweenPoints_point(p[i], last);
+                            PointD h = GeoWrangler.distanceBetweenPoints_point(p[i], last);
                             write1Delta(h, i % 2 == 1);
-                            last = new GeoLibPoint(p[i]);
+                            last = new (p[i]);
                         }
 
                         break;
@@ -193,16 +194,16 @@ public partial class oasWriter
                                 writeUnsignedInteger(2);
                                 int count = excludeImplicid switch
                                 {
-                                    true => p.Length - 2,
-                                    _ => p.Length - 1
+                                    true => p.Capacity - 2,
+                                    _ => p.Capacity - 1
                                 };
                                 writeUnsignedInteger((uint)count);
-                                GeoLibPoint last = new(p[0]);
+                                Point64 last = new(p[0]);
                                 for (int i = 1; i <= count; i++)
                                 {
-                                    GeoLibPointF h = GeoWrangler.distanceBetweenPoints_point(p[i], last);
+                                    PointD h = GeoWrangler.distanceBetweenPoints_point(p[i], last);
                                     write2Delta(h);
-                                    last = new GeoLibPoint(p[i]);
+                                    last = new (p[i]);
                                 }
 
                                 break;
@@ -216,16 +217,16 @@ public partial class oasWriter
                                         writeUnsignedInteger(3);
                                         int count = excludeImplicid switch
                                         {
-                                            true => p.Length - 2,
-                                            _ => p.Length - 1
+                                            true => p.Capacity - 2,
+                                            _ => p.Capacity - 1
                                         };
                                         writeUnsignedInteger((uint)count);
-                                        GeoLibPoint last = new(p[0]);
+                                        Point64 last = new(p[0]);
                                         for (int i = 1; i <= count; i++)
                                         {
-                                            GeoLibPointF h = GeoWrangler.distanceBetweenPoints_point(p[i], last);
+                                            PointD h = GeoWrangler.distanceBetweenPoints_point(p[i], last);
                                             write3Delta(h);
-                                            last = new GeoLibPoint(p[i]);
+                                            last = new (p[i]);
                                         }
 
                                         break;
@@ -235,16 +236,16 @@ public partial class oasWriter
                                         writeUnsignedInteger(4);
                                         int count = excludeImplicid switch
                                         {
-                                            true => p.Length - 2,
-                                            _ => p.Length - 1
+                                            true => p.Capacity - 2,
+                                            _ => p.Capacity - 1
                                         };
                                         writeUnsignedInteger((uint)count);
-                                        GeoLibPoint last = new(p[0]);
+                                        Point64 last = new(p[0]);
                                         for (int i = 1; i <= count; i++)
                                         {
-                                            GeoLibPointF h = GeoWrangler.distanceBetweenPoints_point(p[i], last);
+                                            PointD h = GeoWrangler.distanceBetweenPoints_point(p[i], last);
                                             writeGDelta(h);
-                                            last = new GeoLibPoint(p[i]);
+                                            last = new (p[i]);
                                         }
 
                                         break;
@@ -264,12 +265,12 @@ public partial class oasWriter
         }
     }
 
-    private void write1Delta(GeoLibPointF p, bool dir)
+    private void write1Delta(PointD p, bool dir)
     {
         int w = dir switch
         {
-            true => (int) p.Y,
-            _ => (int) p.X
+            true => (int) p.y,
+            _ => (int) p.x
         };
         switch (w)
         {
@@ -283,55 +284,55 @@ public partial class oasWriter
         writeUnsignedInteger((uint)w);
     }
 
-    private void write2Delta(GeoLibPointF p)
+    private void write2Delta(PointD p)
     {
-        int w = p.X switch
+        int w = p.x switch
         {
-            0 when p.Y > 0 => ((int) p.Y << 2) + 1,
-            0 => ((int) -p.Y << 2) + 3,
-            > 0 => ((int) p.X << 2) + 0,
-            _ => ((int) -p.X << 2) + 2
+            0 when p.y > 0 => ((int) p.y << 2) + 1,
+            0 => ((int) -p.y << 2) + 3,
+            > 0 => ((int) p.x << 2) + 0,
+            _ => ((int) -p.x << 2) + 2
         };
         writeUnsignedInteger((uint)w);
     }
 
-    private void write3Delta(GeoLibPointF p)
+    private void write3Delta(PointD p)
     {
         int w;
-        switch (p.X)
+        switch (p.x)
         {
-            case 0 when p.Y > 0:
-                w = ((int)p.Y << 3) + 1;
+            case 0 when p.y > 0:
+                w = ((int)p.y << 3) + 1;
                 break;
             case 0:
-                w = ((int)-p.Y << 3) + 3;
+                w = ((int)-p.y << 3) + 3;
                 break;
             default:
             {
-                switch (p.Y)
+                switch (p.y)
                 {
-                    case 0 when p.X > 0:
-                        w = ((int)p.X << 3) + 0;
+                    case 0 when p.x > 0:
+                        w = ((int)p.x << 3) + 0;
                         break;
                     case 0:
-                        w = ((int)-p.X << 3) + 2;
+                        w = ((int)-p.x << 3) + 2;
                         break;
                     default:
                     {
-                        switch (Math.Abs(p.Y - p.X))
+                        switch (Math.Abs(p.y - p.x))
                         {
-                            case <= double.Epsilon when p.Y > 0:
-                                w = ((int)p.Y << 3) + 4;
+                            case <= double.Epsilon when p.y > 0:
+                                w = ((int)p.y << 3) + 4;
                                 break;
                             case <= double.Epsilon:
-                                w = ((int)-p.Y << 3) + 6;
+                                w = ((int)-p.y << 3) + 6;
                                 break;
                             default:
                             {
-                                w = p.X switch
+                                w = p.x switch
                                 {
-                                    > 0 => ((int) p.X << 3) + 7,
-                                    _ => ((int) -p.X << 3) + 5
+                                    > 0 => ((int) p.x << 3) + 7,
+                                    _ => ((int) -p.x << 3) + 5
                                 };
 
                                 break;
@@ -348,21 +349,21 @@ public partial class oasWriter
         writeUnsignedInteger((uint)w);
     }
 
-    private void writeGDelta(GeoLibPointF p)
+    private void writeGDelta(PointD p)
     {
-        switch (p.Y)
+        switch (p.y)
         {
             case 0:
             {
                 int i;
-                switch (p.X)
+                switch (p.x)
                 {
                     case >= 0:
-                        i = ((int)p.X << 4);
+                        i = ((int)p.x << 4);
                         break;
                     default:
                         i = 2;
-                        i = ((int)-p.X << 4) + 2 * i;
+                        i = ((int)-p.x << 4) + 2 * i;
                         break;
                 }
                 writeUnsignedInteger((uint)i);
@@ -370,19 +371,19 @@ public partial class oasWriter
             }
             default:
             {
-                switch (p.X)
+                switch (p.x)
                 {
                     case 0:
                     {
                         int i;
-                        switch (p.Y)
+                        switch (p.y)
                         {
                             case >= 0:
-                                i = ((int)p.Y << 4) + 2;
+                                i = ((int)p.y << 4) + 2;
                                 break;
                             default:
                                 i = 3;
-                                i = ((int)-p.Y << 4) + 2 * i;
+                                i = ((int)-p.y << 4) + 2 * i;
                                 break;
                         }
                         writeUnsignedInteger((uint)i);
@@ -390,20 +391,20 @@ public partial class oasWriter
                     }
                     default:
                     {
-                        switch (Math.Abs(p.Y - p.X))
+                        switch (Math.Abs(p.y - p.x))
                         {
                             case <= double.Epsilon:
                             {
                                 int i;
-                                switch (p.X)
+                                switch (p.x)
                                 {
                                     case >= 0:
                                         i = 4;
-                                        i = ((int)p.X << 4) + 2 * i;
+                                        i = ((int)p.x << 4) + 2 * i;
                                         break;
                                     default:
                                         i = 6;
-                                        i = ((int)-p.X << 4) + 2 * i;
+                                        i = ((int)-p.x << 4) + 2 * i;
                                         break;
                                 }
                                 writeUnsignedInteger((uint)i);
@@ -411,20 +412,20 @@ public partial class oasWriter
                             }
                             default:
                             {
-                                switch (Math.Abs(p.Y - -p.X))
+                                switch (Math.Abs(p.y - -p.x))
                                 {
                                     case <= double.Epsilon:
                                     {
                                         int i;
-                                        switch (p.X)
+                                        switch (p.x)
                                         {
                                             case >= 0:
                                                 i = 7;
-                                                i = ((int)p.X << 4) + 2 * i;
+                                                i = ((int)p.x << 4) + 2 * i;
                                                 break;
                                             default:
                                                 i = 5;
-                                                i = ((int)-p.X << 4) + 2 * i;
+                                                i = ((int)-p.x << 4) + 2 * i;
                                                 break;
                                         }
                                         writeUnsignedInteger((uint)i);
@@ -433,27 +434,27 @@ public partial class oasWriter
                                     default:
                                     {
                                         int k;
-                                        switch (p.X)
+                                        switch (p.x)
                                         {
                                             case <= 0:
                                             {
                                                 const int i = 2;
-                                                k = ((int)-p.X << 2) + i + 1;
+                                                k = ((int)-p.x << 2) + i + 1;
                                                 break;
                                             }
                                             default:
-                                                k = ((int)p.X << 2) + 1;
+                                                k = ((int)p.x << 2) + 1;
                                                 break;
                                         }
                                         writeUnsignedInteger((uint)k);
-                                        switch (p.Y)
+                                        switch (p.y)
                                         {
                                             case <= 0:
                                                 int j = 1;
-                                                k = ((int)-p.Y << 1) + j;
+                                                k = ((int)-p.y << 1) + j;
                                                 break;
                                             default:
-                                                k = (int)p.Y << 1;
+                                                k = (int)p.y << 1;
                                                 break;
                                         }
                                         writeUnsignedInteger((uint)k);
@@ -659,18 +660,18 @@ public partial class oasWriter
         switch (da)
         {
             case 0:
-                write1Delta(new GeoLibPointF(db, 0), false);
+                write1Delta(new (db, 0), false);
                 break;
             default:
             {
                 switch (db)
                 {
                     case 0:
-                        write1Delta(new GeoLibPointF(da, 0), false);
+                        write1Delta(new (da, 0), false);
                         break;
                     default:
-                        write1Delta(new GeoLibPointF(da, 0), false);
-                        write1Delta(new GeoLibPointF(db, 0), false);
+                        write1Delta(new (da, 0), false);
+                        write1Delta(new (db, 0), false);
                         break;
                 }
 

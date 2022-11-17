@@ -3,13 +3,15 @@ using geoLib;
 using oasis;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using Clipper2Lib;
 
 namespace geoCoreLib;
 
 public class GCTxt : GCElement
 {
     private string name;
-    private GeoLibPoint point;
+    private Point64 point;
     private GCStrans trans;
     private int width;
     private int presentation;
@@ -24,12 +26,12 @@ public class GCTxt : GCElement
         trans = new GCStrans();
     }
 
-    public GCTxt(int l, int d, GeoLibPoint p, string s)
+    public GCTxt(int l, int d, Point64 p, string s)
     {
         pGCTxt(l, d, p, s);
     }
 
-    private void pGCTxt(int l, int d, GeoLibPoint p, string s)
+    private void pGCTxt(int l, int d, Point64 p, string s)
     {
         name = s;
         point = p;
@@ -40,12 +42,12 @@ public class GCTxt : GCElement
         width = 10;
     }
 
-    public override void minimum(GeoLibPoint pos)
+    public override void minimum(Point64 pos)
     {
         pMinimum(pos);
     }
 
-    private void pMinimum(GeoLibPoint pos)
+    private void pMinimum(Point64 pos)
     {
         if (point.X < pos.X)
         {
@@ -57,12 +59,12 @@ public class GCTxt : GCElement
         }
     }
 
-    public override void maximum(GeoLibPoint pos)
+    public override void maximum(Point64 pos)
     {
         pMaximum(pos);
     }
 
-    private void pMaximum(GeoLibPoint pos)
+    private void pMaximum(Point64 pos)
     {
         if (point.X > pos.X)
         {
@@ -74,28 +76,28 @@ public class GCTxt : GCElement
         }
     }
 
-    public override void moveSelect(GeoLibPoint pos)
+    public override void moveSelect(Point64 pos)
     {
         pMoveSelect(pos);
     }
 
-    private void pMoveSelect(GeoLibPoint pos)
+    private void pMoveSelect(Point64 pos)
     {
         point = select switch
         {
-            true => new GeoLibPoint(point.X + pos.X, point.Y + pos.Y),
+            true => new (point.X + pos.X, point.Y + pos.Y),
             _ => point
         };
     }
 
-    public override void move(GeoLibPoint pos)
+    public override void move(Point64 pos)
     {
         pMove(pos);
     }
 
-    private void pMove(GeoLibPoint pos)
+    private void pMove(Point64 pos)
     {
-        point = new GeoLibPoint(point.X + pos.X, point.Y + pos.Y);
+        point = new (point.X + pos.X, point.Y + pos.Y);
     }
 
     public override void setMirrorx()
@@ -305,14 +307,14 @@ public class GCTxt : GCElement
         switch (info_byte & 16)
         {
             case > 0:
-                ow.modal.text_x = point.X;
+                ow.modal.text_x = (int)point.X;
                 ow.writeSignedInteger(ow.modal.text_x);
                 break;
         }
         switch (info_byte & 8)
         {
             case > 0:
-                ow.modal.text_y = point.Y;
+                ow.modal.text_y = (int)point.Y;
                 ow.writeSignedInteger(ow.modal.text_y);
                 break;
         }
@@ -340,12 +342,12 @@ public class GCTxt : GCElement
     private List<GCPolygon> pConvertToPolygons()
     {
         List<GCPolygon> ret = new();
-        GeoLibPoint[] points = new GeoLibPoint[5];
-        points[0] = new GeoLibPoint(point.X - 1, point.Y - 1);
-        points[1] = new GeoLibPoint(point.X - 1, point.Y + 1);
-        points[2] = new GeoLibPoint(point.X + 1, point.Y + 1);
-        points[3] = new GeoLibPoint(point.X + 1, point.Y - 1);
-        points[4] = new GeoLibPoint(points[0]);
+        Path64 points = new (5);
+        points[0] = new (point.X - 1, point.Y - 1);
+        points[1] = new (point.X - 1, point.Y + 1);
+        points[2] = new (point.X + 1, point.Y + 1);
+        points[3] = new (point.X + 1, point.Y - 1);
+        points[4] = new (points[0]);
         ret.Add(new GCPolygon(points, layer_nr, datatype_nr));
 
         ret[0].text = true;

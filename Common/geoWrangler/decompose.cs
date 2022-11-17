@@ -7,19 +7,16 @@ using System.Threading.Tasks;
 
 namespace geoWrangler;
 
-using Path = Path64;
-using Paths = Paths64;
-
 public static partial class GeoWrangler
 {
     public enum type { outer, cutter }
 
-    public static Paths decompose(Paths source)
+    public static Paths64 decompose(Paths64 source)
     {
         return pDecompose(source);
     }
 
-    private static Paths pDecompose(Paths source)
+    private static Paths64 pDecompose(Paths64 source)
     {
         switch (source.Count)
         {
@@ -27,17 +24,17 @@ public static partial class GeoWrangler
                 return source;
         }
 
-        Paths ret = new();
+        Paths64 ret = new();
 
         Clipper64 c = new();
 
         // Reconcile each path separately to get a clean representation.
-        foreach (Path t1 in source)
+        foreach (Path64 t1 in source)
         {
             double a1 = Clipper.Area(t1);
             c.Clear();
             c.AddSubject(t1);
-            Paths t = new();
+            Paths64 t = new();
             c.Execute(ClipType.Union, FillRule.EvenOdd, t);
             t = pReorderXY(t);
             double a2 = t.Sum(Clipper.Area);
@@ -55,7 +52,7 @@ public static partial class GeoWrangler
 
                     c.AddSubject(source);
 
-                    Paths cR = new();
+                    Paths64 cR = new();
                     // Non-zero here means that we also reconcile self-intersections without odd-even causing holes; positive only respects a certain orientation (unlike non-zero)
                     // Union is cheaper than finding the bounding box and using intersection; test-bed showed identical results.
                     c.Execute(ClipType.Union, FillRule.NonZero, cR);
@@ -112,7 +109,7 @@ public static partial class GeoWrangler
                     }
                 }
 
-                Paths[] decomp = pGetDecomposed(ret);
+                Paths64[] decomp = pGetDecomposed(ret);
 
                 c.AddSubject(decomp[(int)type.outer]);
                 c.AddClip(decomp[(int)type.cutter]);
@@ -140,21 +137,21 @@ public static partial class GeoWrangler
         return ret;
     }
 
-    public static Paths[] getDecomposed(Paths source)
+    public static Paths64[] getDecomposed(Paths64 source)
     {
         return pGetDecomposed(source);
     }
 
-    private static Paths[] pGetDecomposed(Paths source)
+    private static Paths64[] pGetDecomposed(Paths64 source)
     {
-        Paths[] ret = new Paths[2];
-        ret[0] = new Paths();
-        ret[1] = new Paths();
+        Paths64[] ret = new Paths64[2];
+        ret[0] = new ();
+        ret[1] = new ();
         
         // First path in source is always the outer orientation.
         bool outerOrient = Clipper.IsPositive(source[0]);
         
-        foreach (Path t in source)
+        foreach (Path64 t in source)
         {
             // Outer was wrongly oriented, so fix up the current path for consistency.
             if (!outerOrient)
@@ -168,7 +165,7 @@ public static partial class GeoWrangler
                 r = (int)type.cutter;
             }
 
-            ret[r].Add(new Path(t));
+            ret[r].Add(new (t));
         }
 
         return ret;
@@ -176,16 +173,16 @@ public static partial class GeoWrangler
 
 
     // Scaling value below is because the incoming geometry is upsized to allow minor notches to be discarded in the conversion back to ints. Default value provided based on testing.
-    public static List<GeoLibPoint[]> rectangular_decomposition(ref bool abort, List<GeoLibPoint[]> polys, int scaling = 10000, long maxRayLength=-1, double angularTolerance = 0, bool vertical= true)
+    public static Paths64 rectangular_decomposition(ref bool abort, Paths64 polys, int scaling = 10000, long maxRayLength=-1, double angularTolerance = 0, bool vertical= true)
     {
         return pRectangular_decomposition(ref abort, polys, scaling, maxRayLength, angularTolerance, vertical);
     }
 
-    private static List<GeoLibPoint[]> pRectangular_decomposition(ref bool abort, List<GeoLibPoint[]> polys, int scaling, long maxRayLength, double angularTolerance, bool vertical)
+    private static Paths64 pRectangular_decomposition(ref bool abort, Paths64 polys, int scaling, long maxRayLength, double angularTolerance, bool vertical)
     {
-        List<GeoLibPoint[]> ret = new();
+        Paths64 ret = new();
 
-        foreach (GeoLibPoint[] t in polys)
+        foreach (Path64 t in polys)
         {
             if (abort)
             {
@@ -197,14 +194,14 @@ public static partial class GeoWrangler
 
         return ret;
     }
-    public static List<GeoLibPoint[]> rectangular_decomposition(ref bool abort, GeoLibPoint[] _poly, int scaling = 10000, long maxRayLength=-1, double angularTolerance = 0, bool vertical = true)
+    public static Paths64 rectangular_decomposition(ref bool abort, Path64 _poly, int scaling = 10000, long maxRayLength=-1, double angularTolerance = 0, bool vertical = true)
     {
         return pRectangular_decomposition(ref abort, _poly, scaling, maxRayLength, angularTolerance, vertical);
     }
 
-    private static List<GeoLibPoint[]> pRectangular_decomposition(ref bool abort, GeoLibPoint[] _poly, int scaling, long maxRayLength, double angularTolerance, bool vertical)
+    private static Paths64 pRectangular_decomposition(ref bool abort, Path64 _poly, int scaling, long maxRayLength, double angularTolerance, bool vertical)
     {
-        List<GeoLibPoint[]> ret = new() {_poly.ToArray()};
+        Paths64 ret = new() {new(_poly)};
 
         bool changed = true;
         int startIndex = 0;
@@ -226,7 +223,7 @@ public static partial class GeoWrangler
                     ret.Clear();
                     break;
                 }
-                List<GeoLibPoint[]> decomp = decompose_poly_to_rectangles(ref abort, ret[i].ToArray(), scaling, maxRayLength, angularTolerance, vertical);
+                Paths64 decomp = decompose_poly_to_rectangles(ref abort, new (ret[i]), scaling, maxRayLength, angularTolerance, vertical);
                 // If we got more than one polygon back, we decomposed across an internal edge.
                 if (decomp.Count <= 1)
                 {
@@ -252,30 +249,30 @@ public static partial class GeoWrangler
         return ret;
     }
 
-    private static List<GeoLibPoint[]> decompose_poly_to_rectangles(ref bool abort, GeoLibPoint[] _poly, int scaling, long maxRayLength, double angularTolerance, bool vertical)
+    private static Paths64 decompose_poly_to_rectangles(ref bool abort, Path64 _poly, int scaling, long maxRayLength, double angularTolerance, bool vertical)
     {
         _poly = pClockwiseAndReorderXY(_poly);
-        Path lPoly = pathFromPoint(_poly, scaling);
+        Path64 lPoly = pathFromPoint(_poly, scaling);
 
         lPoly = pClose(lPoly);
 
-        switch (_poly.Length)
+        switch (_poly.Capacity)
         {
             case 5 when orthogonal(stripTerminators(_poly, false), angularTolerance):
-                return new List<GeoLibPoint[]> { _poly };
+                return new Paths64 { _poly };
         }
 
         // dirOverride switches from a horizontally-biased raycast to vertical in this case.
         RayCast rc = new(lPoly, lPoly, maxRayLength * scaling, projectCorners: true, invert: RayCast.inversionMode.x, runOuterLoopThreaded:true, runInnerLoopThreaded: true, dirOverride: vertical ? RayCast.forceSingleDirection.vertical : RayCast.forceSingleDirection.horizontal);
 
-        Paths rays = rc.getRays();
+        Paths64 rays = rc.getRays();
 
         // Contains edges from ray intersections that are not part of the original geometry.
-        Paths newEdges = new();
+        Paths64 newEdges = new();
 
         Clipper64 c = new();
 
-        foreach (Path t in rays)
+        foreach (Path64 t in rays)
         {
             if (abort)
             {
@@ -285,7 +282,7 @@ public static partial class GeoWrangler
             c.AddClip(lPoly);
 
             PolyTree64 pt = new();
-            Paths p = new();
+            Paths64 p = new();
 
             c.Execute(ClipType.Intersection, FillRule.EvenOdd, pt, p);
             c.Clear();
@@ -380,7 +377,7 @@ public static partial class GeoWrangler
                 // Should only have at least one path in the result, hopefully with desired direction. Could still have more than one, though.
 
                 bool breakOut = false;
-                foreach (Path t1 in p)
+                foreach (Path64 t1 in p)
                 {
                     if (abort)
                     {
@@ -436,7 +433,7 @@ public static partial class GeoWrangler
             }
         }
 
-        List<GeoLibPoint[]> final = new();
+        Paths64 final = new();
         switch (newEdges.Count)
         {
             case > 0 when !abort:
@@ -445,7 +442,7 @@ public static partial class GeoWrangler
                 ClipperOffset co = new() {PreserveCollinear = true};
                 co.AddPaths(newEdges, JoinType.Miter, EndType.Square);
 
-                Paths cutters = co.Execute(2.0);
+                Paths64 cutters = co.Execute(2.0);
 
                 c.Clear();
 
@@ -453,7 +450,7 @@ public static partial class GeoWrangler
 
                 // Take first cutter only - we only cut once, no matter how many potential cutters we have.
                 c.AddClip(cutters[0]);
-                Paths f = new();
+                Paths64 f = new();
                 c.Execute(ClipType.Difference, FillRule.EvenOdd, f);
 
                 f = pReorderXY(f);

@@ -2,6 +2,8 @@
 using geoLib;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using Clipper2Lib;
 
 namespace geoCoreTest;
 
@@ -119,7 +121,7 @@ internal class Program
 
         gcGDS.updateGeometry(gcGDS.activeStructure, gcGDS.activeLD);
 
-        List<GeoLibPointF[]> geo = gcGDS.points(flatten: true);
+        PathsD geo = gcGDS.points(flatten: true);
     }
 
     private static void test_cellrefarray_nested()
@@ -138,7 +140,7 @@ internal class Program
 
         gcGDS.updateGeometry(gcGDS.activeStructure, gcGDS.activeLD);
 
-        List<GeoLibPointF[]> geo2 = gcGDS.points(flatten: true);
+        PathsD geo2 = gcGDS.points(flatten: true);
     }
 
     private static void test_1()
@@ -303,49 +305,49 @@ internal class Program
         gcell.cellName = "test";
 
         // L
-        GeoLibPoint[] poly = new GeoLibPoint[6];
-        poly[0] = new GeoLibPoint(0, 0);
-        poly[1] = new GeoLibPoint(0, 20);
-        poly[2] = new GeoLibPoint(10, 20);
-        poly[3] = new GeoLibPoint(10, 10);
-        poly[4] = new GeoLibPoint(20, 10);
-        poly[5] = new GeoLibPoint(20, 0);
+        Path64 poly = new Path64(6);
+        poly[0] = new (0, 0);
+        poly[1] = new (0, 20);
+        poly[2] = new (10, 20);
+        poly[3] = new (10, 10);
+        poly[4] = new (20, 10);
+        poly[5] = new (20, 0);
 
         gcell.addPolygon(poly, 1, 0);
 
         // triangle
-        poly = new GeoLibPoint[3];
-        poly[0] = new GeoLibPoint(0, 0);
-        poly[1] = new GeoLibPoint(10, 20);
-        poly[2] = new GeoLibPoint(20, 0);
+        poly = new Path64(3);
+        poly[0] = new (0, 0);
+        poly[1] = new (10, 20);
+        poly[2] = new (20, 0);
 
         gcell.addPolygon(poly, 2, 0);
 
         // pentagram
-        poly = new GeoLibPoint[5];
-        poly[0] = new GeoLibPoint(5, 0);
-        poly[1] = new GeoLibPoint(0, 10);
-        poly[2] = new GeoLibPoint(10, 20);
-        poly[3] = new GeoLibPoint(20, 10);
-        poly[4] = new GeoLibPoint(15, 0);
+        poly = new Path64(5);
+        poly[0] = new (5, 0);
+        poly[1] = new (0, 10);
+        poly[2] = new (10, 20);
+        poly[3] = new (20, 10);
+        poly[4] = new (15, 0);
 
         gcell.addPolygon(poly, 3, 0);
 
         // trapezoid
-        poly = new GeoLibPoint[4];
-        poly[0] = new GeoLibPoint(0, 0);
-        poly[1] = new GeoLibPoint(5, 20);
-        poly[2] = new GeoLibPoint(15, 20);
-        poly[3] = new GeoLibPoint(20, 0);
+        poly = new Path64(4);
+        poly[0] = new (0, 0);
+        poly[1] = new (5, 20);
+        poly[2] = new (15, 20);
+        poly[3] = new (20, 0);
 
         gcell.addPolygon(poly, 4, 0);
 
         // parallelogram
-        poly = new GeoLibPoint[4];
-        poly[0] = new GeoLibPoint(0, 0);
-        poly[1] = new GeoLibPoint(10, 20);
-        poly[2] = new GeoLibPoint(20, 20);
-        poly[3] = new GeoLibPoint(10, 0);
+        poly = new Path64(4);
+        poly[0] = new (0, 0);
+        poly[1] = new (10, 20);
+        poly[2] = new (20, 20);
+        poly[3] = new (10, 0);
 
         gcell.addPolygon(poly, 5, 0);
 
@@ -399,12 +401,12 @@ internal class Program
 
         gcell.cellName = "test";
 
-        GeoLibPoint[] path = new GeoLibPoint[5];
-        path[0] = new GeoLibPoint(0, 0);
-        path[1] = new GeoLibPoint(0, 10);
-        path[2] = new GeoLibPoint(20, 10);
-        path[3] = new GeoLibPoint(20, 40);
-        path[4] = new GeoLibPoint(0, 40);
+        Path64 path = new Path64(5);
+        path[0] = new (0, 0);
+        path[1] = new (0, 10);
+        path[2] = new (20, 10);
+        path[3] = new (20, 40);
+        path[4] = new (0, 40);
 
         gcell.addPath(path, 1, 0);
         gcell.elementList[^1].setWidth(5); // note that Oasis only supports factors of 2, so this gets rounded down to make a 4 unit path at the writer (for Oasis).
@@ -460,7 +462,7 @@ internal class Program
 
         gcell.cellName = "test";
 
-        gcell.addCircle(1, 0, new GeoLibPoint(10, 10), 5.0);
+        gcell.addCircle(1, 0, new (10, 10), 5.0);
 
         g.setDrawing(drawing_);
         g.setValid(true);
@@ -513,13 +515,13 @@ internal class Program
 
         gcell.cellName = "test";
 
-        GeoLibPoint[] poly = new GeoLibPoint[6];
-        poly[0] = new GeoLibPoint(0, 0);
-        poly[1] = new GeoLibPoint(0, 20);
-        poly[2] = new GeoLibPoint(10, 20);
-        poly[3] = new GeoLibPoint(10, 10);
-        poly[4] = new GeoLibPoint(20, 10);
-        poly[5] = new GeoLibPoint(20, 0);
+        Path64 poly = new Path64(6);
+        poly[0] = new (0, 0);
+        poly[1] = new (0, 20);
+        poly[2] = new (10, 20);
+        poly[3] = new (10, 10);
+        poly[4] = new (20, 10);
+        poly[5] = new (20, 0);
 
         gcell.addPolygon(poly, 1, 0);
 
@@ -527,7 +529,7 @@ internal class Program
         gcell = drawing_.addCell();
         gcell.addCellref();
 
-        gcell.elementList[^1].setPos(new GeoLibPoint(10, 0));
+        gcell.elementList[^1].setPos(new (10, 0));
         gcell.elementList[^1].setCellRef(drawing_.findCell("test"));
         gcell.elementList[^1].setName("test");
         gcell.elementList[^1].rotate(0);
@@ -555,20 +557,20 @@ internal class Program
 
         gcell.cellName = "test2";
 
-        poly = new GeoLibPoint[6];
-        poly[0] = new GeoLibPoint(0, 0);
-        poly[1] = new GeoLibPoint(0, 30);
-        poly[2] = new GeoLibPoint(10, 30);
-        poly[3] = new GeoLibPoint(10, 10);
-        poly[4] = new GeoLibPoint(20, 10);
-        poly[5] = new GeoLibPoint(20, 0);
+        poly = new Path64(6);
+        poly[0] = new (0, 0);
+        poly[1] = new (0, 30);
+        poly[2] = new (10, 30);
+        poly[3] = new (10, 10);
+        poly[4] = new (20, 10);
+        poly[5] = new (20, 0);
 
         gcell.addPolygon(poly, 1, 0);
 
         mirror_x = true;
         gcell = drawing_.addCell();
         gcell.addCellref();
-        gcell.elementList[^1].setPos(new GeoLibPoint(20, 20));
+        gcell.elementList[^1].setPos(new (20, 20));
         gcell.elementList[^1].setCellRef(drawing_.findCell("test2"));
         gcell.elementList[^1].setName("test2");
         gcell.elementList[^1].rotate(0);
@@ -630,29 +632,29 @@ internal class Program
 
         gcell.cellName = "test";
 
-        GeoLibPoint[] poly = new GeoLibPoint[6];
-        poly[0] = new GeoLibPoint(0, 0);
-        poly[1] = new GeoLibPoint(0, 20);
-        poly[2] = new GeoLibPoint(10, 20);
-        poly[3] = new GeoLibPoint(10, 10);
-        poly[4] = new GeoLibPoint(20, 10);
-        poly[5] = new GeoLibPoint(20, 0);
+        Path64 poly = new Path64(6);
+        poly[0] = new (0, 0);
+        poly[1] = new (0, 20);
+        poly[2] = new (10, 20);
+        poly[3] = new (10, 10);
+        poly[4] = new (20, 10);
+        poly[5] = new (20, 0);
 
         gcell.addPolygon(poly, 1, 0);
 
 
         // Cellrefarrays also have to resolve to integer placement.
         // Placement errors will occur if the x, y instance counts do not divide the array X, Y values cleanly.
-        GeoLibPoint[] array = new GeoLibPoint[3];
-        array[0] = new GeoLibPoint(0, 0);
-        array[1] = new GeoLibPoint(100, 0);
-        array[2] = new GeoLibPoint(0, 80);
+        Path64 array = new Path64(3);
+        array[0] = new (0, 0);
+        array[1] = new (100, 0);
+        array[2] = new (0, 80);
 
         bool mirror_x = false;
         gcell = drawing_.addCell();
-        gcell.addCellref(drawing_.findCell("test"), new GeoLibPoint(0, 0));
+        gcell.addCellref(drawing_.findCell("test"), new (0, 0));
         gcell.addCellrefArray(drawing_.findCell("test"), array, 4, 4);
-        gcell.elementList[^1].setPos(new GeoLibPoint(0, 0));
+        gcell.elementList[^1].setPos(new (0, 0));
         gcell.elementList[^1].setName("test");
         gcell.elementList[^1].rotate(0);
         gcell.elementList[^1].scale(1);
@@ -713,7 +715,7 @@ internal class Program
 
         gcell.cellName = "test";
 
-        gcell.addText(1, 0, new GeoLibPoint(10, 10), "Text");
+        gcell.addText(1, 0, new (10, 10), "Text");
 
         g.setDrawing(drawing_);
         g.setValid(true);
@@ -772,7 +774,7 @@ internal class Program
 
         for (int i = 0; i < 25; i++)
         {
-            GeoLibPoint[] pa = new GeoLibPoint[5];
+            Path64 pa = new Path64(5);
 
             int[,] coords = i switch
             {
@@ -833,7 +835,7 @@ internal class Program
                     y += coords[pt, 3] * h;
                 }
 
-                pa[pt] = new GeoLibPoint(x, y);
+                pa[pt] = new (x, y);
 
                 if (x > w)
                 {
@@ -845,7 +847,7 @@ internal class Program
                 }
             }
 
-            pa[^1] = new GeoLibPoint(pa[0]);
+            pa[^1] = new (pa[0]);
 
             gcell.addPolygon(pa, i + 1, 0);
         }
@@ -908,28 +910,28 @@ internal class Program
         int trapezoid_delta_a = 5;
         int trapezoid_delta_b = 5;
 
-        GeoLibPoint[] pa = new GeoLibPoint[5];
+        Path64 pa = new Path64(5);
 
         switch (trapezoid_orientation)
         {
             // (m & 0x80)
             case true:
                 //  vertically
-                pa[0] = new GeoLibPoint(x, y + Math.Max(trapezoid_delta_a, 0));
-                pa[1] = new GeoLibPoint(x, y + h + Math.Min(trapezoid_delta_b, 0));
-                pa[2] = new GeoLibPoint(x + w, y + h - Math.Max(trapezoid_delta_b, 0));
-                pa[3] = new GeoLibPoint(x + w, y - Math.Min(trapezoid_delta_a, 0));
+                pa[0] = new (x, y + Math.Max(trapezoid_delta_a, 0));
+                pa[1] = new (x, y + h + Math.Min(trapezoid_delta_b, 0));
+                pa[2] = new (x + w, y + h - Math.Max(trapezoid_delta_b, 0));
+                pa[3] = new (x + w, y - Math.Min(trapezoid_delta_a, 0));
                 break;
             default:
                 //  horizontally
-                pa[0] = new GeoLibPoint(x + Math.Max(trapezoid_delta_a, 0), y + h);
-                pa[1] = new GeoLibPoint(x + w + Math.Min(trapezoid_delta_b, 0), y + h);
-                pa[2] = new GeoLibPoint(x + w - Math.Max(trapezoid_delta_b, 0), y);
-                pa[3] = new GeoLibPoint(x - Math.Min(trapezoid_delta_a, 0), y);
+                pa[0] = new (x + Math.Max(trapezoid_delta_a, 0), y + h);
+                pa[1] = new (x + w + Math.Min(trapezoid_delta_b, 0), y + h);
+                pa[2] = new (x + w - Math.Max(trapezoid_delta_b, 0), y);
+                pa[3] = new (x - Math.Min(trapezoid_delta_a, 0), y);
                 break;
         }
 
-        pa[4] = new GeoLibPoint(pa[0]);
+        pa[4] = new (pa[0]);
 
         gcell.addPolygon(pa, 1, 0);
 
@@ -940,21 +942,21 @@ internal class Program
             // (m & 0x80)
             case true:
                 //  vertically
-                pa[0] = new GeoLibPoint(x, y + Math.Max(trapezoid_delta_a, 0));
-                pa[1] = new GeoLibPoint(x, y + h + Math.Min(trapezoid_delta_b, 0));
-                pa[2] = new GeoLibPoint(x + w, y + h - Math.Max(trapezoid_delta_b, 0));
-                pa[3] = new GeoLibPoint(x + w, y - Math.Min(trapezoid_delta_a, 0));
+                pa[0] = new (x, y + Math.Max(trapezoid_delta_a, 0));
+                pa[1] = new (x, y + h + Math.Min(trapezoid_delta_b, 0));
+                pa[2] = new (x + w, y + h - Math.Max(trapezoid_delta_b, 0));
+                pa[3] = new (x + w, y - Math.Min(trapezoid_delta_a, 0));
                 break;
             default:
                 //  horizontally
-                pa[0] = new GeoLibPoint(x + Math.Max(trapezoid_delta_a, 0), y + h);
-                pa[1] = new GeoLibPoint(x + w + Math.Min(trapezoid_delta_b, 0), y + h);
-                pa[2] = new GeoLibPoint(x + w - Math.Max(trapezoid_delta_b, 0), y);
-                pa[3] = new GeoLibPoint(x - Math.Min(trapezoid_delta_a, 0), y);
+                pa[0] = new (x + Math.Max(trapezoid_delta_a, 0), y + h);
+                pa[1] = new (x + w + Math.Min(trapezoid_delta_b, 0), y + h);
+                pa[2] = new (x + w - Math.Max(trapezoid_delta_b, 0), y);
+                pa[3] = new (x - Math.Min(trapezoid_delta_a, 0), y);
                 break;
         }
 
-        pa[4] = new GeoLibPoint(pa[0]);
+        pa[4] = new (pa[0]);
 
         gcell.addPolygon(pa, 2, 0);
 
@@ -1065,19 +1067,19 @@ internal class Program
 
             gcell.cellName = "test" + i;
 
-            GeoLibPoint[] poly = new GeoLibPoint[6];
-            poly[0] = new GeoLibPoint(0, 0);
-            poly[1] = new GeoLibPoint(0, 20);
-            poly[2] = new GeoLibPoint(10, 20);
-            poly[3] = new GeoLibPoint(10, 10);
-            poly[4] = new GeoLibPoint(20, 10);
-            poly[5] = new GeoLibPoint(20, 0);
+            Path64 poly = new Path64(6);
+            poly[0] = new (0, 0);
+            poly[1] = new (0, 20);
+            poly[2] = new (10, 20);
+            poly[3] = new (10, 10);
+            poly[4] = new (20, 10);
+            poly[5] = new (20, 0);
 
             gcell.addPolygon(poly, 1, 0);
 
             master_gcell.addCellref();
             GCElement cellref = master_gcell.elementList[^1];
-            cellref.setPos(new GeoLibPoint(40 * (i % edge), 40 * Math.Floor((double)i / edge)));
+            cellref.setPos(new (40 * (i % edge), 40 * Math.Floor((double)i / edge)));
             cellref.setCellRef(drawing_.findCell("test" + i));
             cellref.setName("test" + i);
             cellref.rotate(0);

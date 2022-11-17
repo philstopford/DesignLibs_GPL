@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using Clipper2Lib;
 using geoLib;
 using geoWrangler;
 using utility;
@@ -74,58 +75,58 @@ public class ShapeLibrary
 
     private class BoundingBox
     {
-        private GeoLibPointF midPoint;
+        private PointD midPoint;
 
-        public GeoLibPointF getMidPoint()
+        public PointD getMidPoint()
         {
             return pGetMidPoint();
         }
 
-        private GeoLibPointF pGetMidPoint()
+        private PointD pGetMidPoint()
         {
             return midPoint;
         }
 
-        public BoundingBox(List<GeoLibPointF> incomingPoints)
+        public BoundingBox(PathD incomingPoints)
         {
-            midPoint = new GeoLibPointF(0.0f, 0.0f);
+            midPoint = new (0.0f, 0.0f);
             pBoundingBox(incomingPoints);
         }
 
-        private void pBoundingBox(List<GeoLibPointF> incomingPoints)
+        private void pBoundingBox(PathD incomingPoints)
         {
             if (incomingPoints.Count > 0)
             {
-                var minX = incomingPoints.Min(p => p.X);
-                var minY = incomingPoints.Min(p => p.Y);
-                var maxX = incomingPoints.Max(p => p.X);
-                var maxY = incomingPoints.Max(p => p.Y);
-                midPoint = new GeoLibPointF(minX + (maxX - minX) / 2.0f, minY + (maxY - minY) / 2.0f);
+                var minX = incomingPoints.Min(p => p.x);
+                var minY = incomingPoints.Min(p => p.y);
+                var maxX = incomingPoints.Max(p => p.x);
+                var maxY = incomingPoints.Max(p => p.y);
+                midPoint = new (minX + (maxX - minX) / 2.0f, minY + (maxY - minY) / 2.0f);
             }
         }
     }
 
-    public GeoLibPointF getPivotPoint()
+    public PointD getPivotPoint()
     {
         return pGetPivotPoint();
     }
 
-    private GeoLibPointF pGetPivotPoint()
+    private PointD pGetPivotPoint()
     {
         int limit = Vertex.Length - 1;
-        GeoLibPointF[] t = new GeoLibPointF[limit]; // closed shape, we don't need the final point
+        PathD t = new (limit); // closed shape, we don't need the final point
 #if !SHAPELIBSINGLETHREADED
         Parallel.For(0, limit, i =>
 #else
             for (int i = 0; i < t.Length; i++)
 #endif
             {
-                t[i] = new GeoLibPointF(Vertex[i].X, Vertex[i].Y);
+                t[i] = new (Vertex[i].X, Vertex[i].Y);
             }
 #if !SHAPELIBSINGLETHREADED
         );
 #endif
-        GeoLibPointF pivot = GeoWrangler.midPoint(t);
+        PointD pivot = GeoWrangler.midPoint(t);
 
         return pivot;
     }
@@ -164,12 +165,12 @@ public class ShapeLibrary
         pSetShape(shapeIndex);
     }
 
-    public void setShape(int shapeIndex_, GeoLibPointF[]? sourcePoly = null)
+    public void setShape(int shapeIndex_, PathD? sourcePoly = null)
     {
         pSetShape(shapeIndex_, sourcePoly);
     }
 
-    private void pSetShape(int shapeIndex_, GeoLibPointF[]? sourcePoly = null)
+    private void pSetShape(int shapeIndex_, PathD? sourcePoly = null)
     {
         try
         {
@@ -1641,7 +1642,7 @@ public class ShapeLibrary
     }
 
     // Intended to take geometry from an external source and map it into our shape engine.
-    private void customShape(GeoLibPointF[]? sourcePoly)
+    private void customShape(PathD? sourcePoly)
     {
         if (sourcePoly == null)
         {
@@ -1675,9 +1676,9 @@ public class ShapeLibrary
         shapeValid = true;
     }
 
-    private void customShape_nonOrthogonal(GeoLibPointF[] sourcePoly)
+    private void customShape_nonOrthogonal(PathD sourcePoly)
     {
-        int sCount = sourcePoly.Length;
+        int sCount = sourcePoly.Capacity;
         Vertex = new MyVertex[sCount + 1]; // add one to close.
         tips = new bool[sCount + 1];
         // Assign shape vertices to Vertex and move on. EntropyShape will know what to do.
@@ -1687,7 +1688,7 @@ public class ShapeLibrary
             for (int pt = 0; pt < sCount; pt++)
 #endif
             {
-                Vertex[pt] = new MyVertex(sourcePoly[pt].X, sourcePoly[pt].Y, typeDirection.tilt1, false, false,
+                Vertex[pt] = new MyVertex(sourcePoly[pt].x, sourcePoly[pt].y, typeDirection.tilt1, false, false,
                     typeVertex.corner);
                 tips[pt] = false;
             }
@@ -1699,9 +1700,9 @@ public class ShapeLibrary
         tips[^1] = false;
     }
 
-    private void customShape_orthogonal(GeoLibPointF[] sourcePoly)
+    private void customShape_orthogonal(PathD sourcePoly)
     {
-        int sCount = sourcePoly.Length;
+        int sCount = sourcePoly.Capacity;
         int vertexCount = sCount * 2 + 1; // assumes no point in midpoint of edges, and 1 to close.
         Vertex = new MyVertex[vertexCount];
         tips = new bool[vertexCount];
@@ -1719,7 +1720,7 @@ public class ShapeLibrary
         );
 #endif
 
-        int roundCount = sourcePoly.Length + 1;
+        int roundCount = sourcePoly.Capacity + 1;
         round1 = new MyRound[roundCount];
 #if !SHAPELIBSINGLETHREADED
         Parallel.For(0, roundCount, i =>
@@ -1740,11 +1741,11 @@ public class ShapeLibrary
         round1[^1] = round1[0]; // close the loop
 
         // Set up first vertex.
-        Vertex[0] = new MyVertex(sourcePoly[0].X, sourcePoly[0].Y, typeDirection.tilt1, false, false,
+        Vertex[0] = new MyVertex(sourcePoly[0].x, sourcePoly[0].y, typeDirection.tilt1, false, false,
             typeVertex.corner);
         vertexCounter++;
         // Set up first midpoint.
-        Vertex[1] = new MyVertex((sourcePoly[0].X + sourcePoly[1].X) / 2.0f, (sourcePoly[0].Y + sourcePoly[1].Y) / 2.0f,
+        Vertex[1] = new MyVertex((sourcePoly[0].x + sourcePoly[1].x) / 2.0f, (sourcePoly[0].y + sourcePoly[1].y) / 2.0f,
             typeDirection.left1, true, false, typeVertex.center);
         if (layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) == (int)ShapeSettings.tipLocations.L ||
             layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) ==
@@ -1767,8 +1768,8 @@ public class ShapeLibrary
         vertexCounter++;
 
         // Also set our end points
-        Vertex[vertexCount - 2] = new MyVertex((sourcePoly[0].X + sourcePoly[^1].X) / 2.0f,
-            (sourcePoly[0].Y + sourcePoly[^1].Y) / 2.0f, typeDirection.down1, false, false, typeVertex.center);
+        Vertex[vertexCount - 2] = new MyVertex((sourcePoly[0].x + sourcePoly[^1].x) / 2.0f,
+            (sourcePoly[0].y + sourcePoly[^1].y) / 2.0f, typeDirection.down1, false, false, typeVertex.center);
 
         // Figure out our rounding characteristics.
 
@@ -1792,21 +1793,21 @@ public class ShapeLibrary
             }
 
             // Register our corner point into the vertex array.
-            Vertex[vertexCounter] = new MyVertex(sourcePoly[pt].X, sourcePoly[pt].Y, typeDirection.tilt1, false, false,
+            Vertex[vertexCounter] = new MyVertex(sourcePoly[pt].x, sourcePoly[pt].y, typeDirection.tilt1, false, false,
                 typeVertex.corner);
             vertexCounter++;
 
             // Now we have to wrangle the midpoint.
 
-            int next = (pt + 1) % sourcePoly.Length; // wrap to polygon length
+            int next = (pt + 1) % sourcePoly.Capacity; // wrap to polygon length
 
             // Find the normal for the edge to the next point.
 
-            double dx = sourcePoly[next].X - sourcePoly[pt].X;
-            double dy = sourcePoly[next].Y - sourcePoly[pt].Y;
+            double dx = sourcePoly[next].x - sourcePoly[pt].x;
+            double dy = sourcePoly[next].y - sourcePoly[pt].y;
 
             // Set up our midpoint for convenience.
-            GeoLibPointF midPt = new(sourcePoly[pt].X + dx / 2.0f, sourcePoly[pt].Y + dy / 2.0f);
+            GeoLibPointF midPt = new(sourcePoly[pt].x + dx / 2.0f, sourcePoly[pt].y + dy / 2.0f);
 
             // The normal, to match convention in the distance calculation is assessed from this point to the next point.
 
@@ -2262,18 +2263,18 @@ public class ShapeLibrary
         }
     }
 
-    public List<GeoLibPointF> processCorners(bool previewMode, bool cornerCheck, bool ignoreCV, double s0HO,
+    public PathD processCorners(bool previewMode, bool cornerCheck, bool ignoreCV, double s0HO,
         double s0VO, double iCR, double iCV, double iCVariation, bool iCPA, double oCR, double oCV, double oCVariation,
         bool oCPA, int cornerSegments, int optimizeCorners, double resolution, int scaleFactorForOperation)
     {
         Fragmenter fragment = new Fragmenter(resolution, scaleFactorForOperation);
-        List<GeoLibPointF> mcPoints = new();
-        List<GeoLibPointF>
+        PathD mcPoints = new();
+        PathD
             mcHorEdgePoints = new(); // corner coordinates list, used as a temporary container for each iteration
-        List<List<GeoLibPointF>>
+        PathsD
             mcHorEdgePointsList =
                 new(); // Hold our lists of doubles for each corner in the shape, in order. We cast these to Int in the mcPoints list.
-        List<List<GeoLibPointF>>
+        PathsD
             mcVerEdgePointsList =
                 new(); // Hold our lists of doubles for each edge in the shape, in order. We cast these to Int in the mcPoints list.
 
@@ -2510,7 +2511,7 @@ public class ShapeLibrary
                             }
                         }
 
-                        GeoLibPointF cPt = new(mcPX, mcPY);
+                        PointD cPt = new(mcPX, mcPY);
                         if (angle == 0 || Math.Abs(angle - 90) < double.Epsilon || optimizeCorners == 0 ||
                             optimizeCorners == 1 &&
                             Math.Abs(
@@ -2528,19 +2529,19 @@ public class ShapeLibrary
                     // OK. We now need to add points along the edge based on the simulation settings resolution.
                     // We need to add points from here to just before the midpoint
 
-                    double bridgeX = mcHorEdgePoints[^1].X;
+                    double bridgeX = mcHorEdgePoints[^1].x;
 
                     // Fragmenter returns first and last points in the point array.
-                    GeoLibPointF[] fragments = fragment.fragmentPath(new[]
-                        { new GeoLibPointF(bridgeX, mcPY), new GeoLibPointF(currentHorEdge_mid_x, mcPY) });
+                    PathD fragments = fragment.fragmentPath(new PathD ()
+                        { new (bridgeX, mcPY), new (currentHorEdge_mid_x, mcPY) });
 
-                    for (int i = 1; i < fragments.Length - 1; i++)
+                    for (int i = 1; i < fragments.Capacity - 1; i++)
                     {
                         mcHorEdgePoints.Add(fragments[i]);
                     }
 
                     // Add our midpoint.
-                    mcHorEdgePoints.Add(new GeoLibPointF(currentHorEdge_mid_x, mcPY));
+                    mcHorEdgePoints.Add(new (currentHorEdge_mid_x, mcPY));
 
                     // Segment 2, plus bridging on first pass through.
 
@@ -2740,10 +2741,10 @@ public class ShapeLibrary
                             bridgeX = currentHorEdge_mid_x;
 
                             // Fragmenter returns first and last points in the point array.
-                            fragments = fragment.fragmentPath(new[]
-                                { new GeoLibPointF(bridgeX, mcPY), new GeoLibPointF(mcPX, mcPY) });
+                            fragments = fragment.fragmentPath(new PathD
+                                { new (bridgeX, mcPY), new (mcPX, mcPY) });
 
-                            for (int i = 1; i < fragments.Length - 1; i++)
+                            for (int i = 1; i < fragments.Capacity - 1; i++)
                             {
                                 mcHorEdgePoints.Add(fragments[i]);
                             }
@@ -2751,7 +2752,7 @@ public class ShapeLibrary
                             firstPass = false;
                         }
 
-                        GeoLibPointF cPt = new(mcPX, mcPY);
+                        PointD cPt = new(mcPX, mcPY);
                         if (angle == 0 || Math.Abs(angle - 90) < double.Epsilon || optimizeCorners == 0 ||
                             optimizeCorners == 1 &&
                             Math.Abs(
@@ -2766,7 +2767,7 @@ public class ShapeLibrary
                         angle -= angleIncrement;
                     }
 
-                    mcHorEdgePointsList.Add(mcHorEdgePoints.ToList()); // make a deep copy of the points.
+                    mcHorEdgePointsList.Add(new (mcHorEdgePoints)); // make a deep copy of the points.
                     mcHorEdgePoints.Clear(); // clear our list of points to use on the next pass.
                     break;
                 }
@@ -2776,11 +2777,11 @@ public class ShapeLibrary
         if (cornerCheck)
         {
             mcPoints.Clear();
-            foreach (List<GeoLibPointF> t in mcHorEdgePointsList)
+            foreach (PathD t in mcHorEdgePointsList)
             {
-                foreach (GeoLibPointF t1 in t)
+                foreach (PointD t1 in t)
                 {
-                    mcPoints.Add(new GeoLibPointF(t1.X, t1.Y));
+                    mcPoints.Add(new (t1.x, t1.y));
                 }
             }
 
@@ -2791,7 +2792,7 @@ public class ShapeLibrary
         for (int edge = 0; edge < mcHorEdgePointsList.Count; edge++)
         {
             // Get our start and end Y positions for our vertical edge.
-            List<GeoLibPointF> startHorEdgePointList = mcHorEdgePointsList[edge];
+            PathD startHorEdgePointList = mcHorEdgePointsList[edge];
             int endHorEdgePointListIndex;
             if (edge == 0)
             {
@@ -2802,13 +2803,13 @@ public class ShapeLibrary
                 endHorEdgePointListIndex = edge - 1;
             }
 
-            List<GeoLibPointF> endHorEdgePointList = mcHorEdgePointsList[endHorEdgePointListIndex];
-            double vert_x = endHorEdgePointList[^1].X;
-            double startPoint_y = endHorEdgePointList[^1].Y;
-            double endPoint_y = startHorEdgePointList[0].Y;
+            PathD endHorEdgePointList = mcHorEdgePointsList[endHorEdgePointListIndex];
+            double vert_x = endHorEdgePointList[^1].x;
+            double startPoint_y = endHorEdgePointList[^1].y;
+            double endPoint_y = startHorEdgePointList[0].y;
 
             // We get the start and end points here.
-            List<GeoLibPointF> fragments = fragment.fragmentPath(new List<GeoLibPointF>
+            PathD fragments = fragment.fragmentPath(new PathD
                 { new(vert_x, startPoint_y), new(vert_x, endPoint_y) });
             mcVerEdgePointsList.Add(fragments);
         }
@@ -2818,18 +2819,18 @@ public class ShapeLibrary
         {
             for (int point = 0; point < mcVerEdgePointsList[section].Count; point++)
             {
-                double x = mcVerEdgePointsList[section][point].X + s0HO;
-                double y = mcVerEdgePointsList[section][point].Y + s0VO;
-                mcPoints.Add(new GeoLibPointF(x, y));
+                double x = mcVerEdgePointsList[section][point].x + s0HO;
+                double y = mcVerEdgePointsList[section][point].y + s0VO;
+                mcPoints.Add(new (x, y));
             }
 
             // Corner next.
             // Start and end points match those in the vertical edges, so we avoid them to eliminate duplicates.
             for (int point = 1; point < mcHorEdgePointsList[section].Count - 1; point++)
             {
-                double x = mcHorEdgePointsList[section][point].X + s0HO;
-                double y = mcHorEdgePointsList[section][point].Y + s0VO;
-                mcPoints.Add(new GeoLibPointF(x, y));
+                double x = mcHorEdgePointsList[section][point].x + s0HO;
+                double y = mcHorEdgePointsList[section][point].y + s0VO;
+                mcPoints.Add(new (x, y));
             }
         }
 
@@ -2837,8 +2838,8 @@ public class ShapeLibrary
 
     }
 
-    public List<GeoLibPointF> rotateShape(List<GeoLibPointF> input, ShapeSettings shapeSettings, double rotationVar,
-        double rotationDirection, GeoLibPointF? pivot = null)
+    public PathD rotateShape(PathD input, ShapeSettings shapeSettings, double rotationVar,
+        double rotationDirection, PointD pivot)
     {
         double rotationAngle = Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.rot));
         if (rotationDirection <= 0.5)
@@ -2856,15 +2857,17 @@ public class ShapeLibrary
             (shapeSettings.getInt(ShapeSettings.properties_i.alignX) == 1 ||
              shapeSettings.getInt(ShapeSettings.properties_i.alignY) == 1))
         {
+            /*
             // Get our bounding box.
             BoundingBox bb = new(input);
 
             switch (pivot)
             {
                 case null:
-                    pivot = new GeoLibPointF(bb.getMidPoint());
+                    pivot = new (bb.getMidPoint());
                     break;
             }
+            */
 
             // OK. Let's try some rotation and wobble.
             // Temporary separate container for our rotated points, just for now.

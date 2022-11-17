@@ -1,6 +1,9 @@
 ﻿using geoCoreLib;
 using geoLib;
 using System;
+using System.IO;
+using Clipper2Lib;
+using geoWrangler;
 
 namespace oasis;
 
@@ -14,7 +17,7 @@ internal partial class oasReader
         }
     }
 
-    private void addElement(elementType e, GeoLibPoint p)
+    private void addElement(elementType e, Point64 p)
     {
         int x;
         int y;
@@ -23,8 +26,8 @@ internal partial class oasReader
             case elementType.boxElement:
                 x = modal.geometry_x;
                 y = modal.geometry_y;
-                modal.geometry_x += p.X;
-                modal.geometry_y += p.Y;
+                modal.geometry_x += (int)p.X;
+                modal.geometry_y += (int)p.Y;
                 addBox();
                 modal.geometry_x = x;
                 modal.geometry_y = y;
@@ -32,8 +35,8 @@ internal partial class oasReader
             case elementType.polygonElement:
                 x = modal.geometry_x;
                 y = modal.geometry_y;
-                modal.geometry_x += p.X;
-                modal.geometry_y += p.Y;
+                modal.geometry_x += (int)p.X;
+                modal.geometry_y += (int)p.Y;
                 addPolygon();
                 modal.geometry_x = x;
                 modal.geometry_y = y;
@@ -41,8 +44,8 @@ internal partial class oasReader
             case elementType.pathElement:
                 x = modal.geometry_x;
                 y = modal.geometry_y;
-                modal.geometry_x += p.X;
-                modal.geometry_y += p.Y;
+                modal.geometry_x += (int)p.X;
+                modal.geometry_y += (int)p.Y;
                 addPath();
                 modal.geometry_x = x;
                 modal.geometry_y = y;
@@ -50,8 +53,8 @@ internal partial class oasReader
             case elementType.cellrefElement:
                 x = modal.placement_x;
                 y = modal.placement_y;
-                modal.placement_x += p.X;
-                modal.placement_y += p.Y;
+                modal.placement_x += (int)p.X;
+                modal.placement_y += (int)p.Y;
                 addCellref();
                 modal.placement_x = x;
                 modal.placement_y = y;
@@ -59,8 +62,8 @@ internal partial class oasReader
             case elementType.textElement:
                 x = modal.text_x;
                 y = modal.text_y;
-                modal.text_x += p.X;
-                modal.text_y += p.Y;
+                modal.text_x += (int)p.X;
+                modal.text_y += (int)p.Y;
                 addText();
                 modal.text_x = x;
                 modal.text_y = y;
@@ -68,8 +71,8 @@ internal partial class oasReader
             case elementType.circleElement:
                 x = modal.text_x;
                 y = modal.text_y;
-                modal.text_x += p.X;
-                modal.text_y += p.Y;
+                modal.text_x += (int)p.X;
+                modal.text_y += (int)p.Y;
                 addCircle();
                 modal.text_x = x;
                 modal.text_y = y;
@@ -77,8 +80,8 @@ internal partial class oasReader
             case elementType.trapezoidElement:
                 x = modal.text_x;
                 y = modal.text_y;
-                modal.text_x += p.X;
-                modal.text_y += p.Y;
+                modal.text_x += (int)p.X;
+                modal.text_y += (int)p.Y;
                 addTrapezoid();
                 modal.text_x = x;
                 modal.text_y = y;
@@ -86,8 +89,8 @@ internal partial class oasReader
             case elementType.ctrapezoidElement:
                 x = modal.text_x;
                 y = modal.text_y;
-                modal.text_x += p.X;
-                modal.text_y += p.Y;
+                modal.text_x += (int)p.X;
+                modal.text_y += (int)p.Y;
                 addCtrapezoid();
                 modal.text_x = x;
                 modal.text_y = y;
@@ -104,7 +107,7 @@ internal partial class oasReader
     private void addCellref()
     {
         cell_.addCellref();
-        cell_.elementList[^1].setPos(new GeoLibPoint(modal.placement_x, modal.placement_y));
+        cell_.elementList[^1].setPos(new (modal.placement_x, modal.placement_y));
         cell_.elementList[^1].setCellRef(drawing_.findCell(modal.placement_cell));
         cell_.elementList[^1].setName(modal.placement_cell);
         cell_.elementList[^1].rotate(modal.angle);
@@ -119,18 +122,18 @@ internal partial class oasReader
 
     private void addCircle()
     {
-        cell_.addCircle(modal.layer, modal.datatype, new GeoLibPoint(modal.geometry_x, modal.geometry_y), modal.circle_radius);
+        cell_.addCircle(modal.layer, modal.datatype, new (modal.geometry_x, modal.geometry_y), modal.circle_radius);
         registerLayerDatatype();
     }
 
     private void addPath()
     {
-        GeoLibPoint[] pa = new GeoLibPoint[modal.polygon_point_list.Count];
-        GeoLibPoint p = new(modal.geometry_x, modal.geometry_y);
+        Path64 pa = new (modal.polygon_point_list.Count);
+        Point64 p = new(modal.geometry_x, modal.geometry_y);
         for (int i = 0; i < modal.polygon_point_list.Count; i++)
         {
             pa[i] = modal.polygon_point_list[i];
-            pa[i].Offset(p.X, p.Y);
+            pa[i] = GeoWrangler.move(pa[i], p.X, p.Y);
         }
         cell_.addPath(pa, modal.layer, modal.datatype);
         cell_.elementList[^1].setWidth(2 * modal.geometry_w);
@@ -165,12 +168,12 @@ internal partial class oasReader
 
     private void addPolygon()
     {
-        GeoLibPoint[] pa = new GeoLibPoint[modal.polygon_point_list.Count];
-        GeoLibPoint p = new(modal.geometry_x, modal.geometry_y);
+        Path64 pa = new (modal.polygon_point_list.Count);
+        Point64 p = new(modal.geometry_x, modal.geometry_y);
         for (int i = 0; i < modal.polygon_point_list.Count; i++)
         {
-            pa[i] = new GeoLibPoint(modal.polygon_point_list[i]);
-            pa[i].Offset(p.X, p.Y);
+            pa[i] = new (modal.polygon_point_list[i]);
+            pa[i] = GeoWrangler.move(pa[i], p.X, p.Y);
         }
         cell_.addPolygon(pa, modal.layer, modal.datatype);
         registerLayerDatatype();
@@ -178,7 +181,7 @@ internal partial class oasReader
 
     private void addText()
     {
-        cell_.addText(modal.textlayer, modal.datatype, new GeoLibPoint(modal.text_x, modal.text_y), modal.text_string);
+        cell_.addText(modal.textlayer, modal.datatype, new (modal.text_x, modal.text_y), modal.text_string);
         cell_.elementList[^1].setWidth(GCSetup.defaultTextWidth);
         cell_.elementList[^1].setPresentation(GCSetup.defaultTextPresentation);
         registerLayerDatatype();
@@ -186,35 +189,35 @@ internal partial class oasReader
 
     private void addTrapezoid()
     {
-        GeoLibPoint[] pa = new GeoLibPoint[5];
+        Path64 pa = new (5);
 
         switch (modal.trapezoid_orientation)
         {
             // (m & 0x80)
             case true:
                 //  vertically
-                pa[0] = new GeoLibPoint(modal.geometry_x, modal.geometry_y + Math.Max(modal.trapezoid_delta_a, 0));
-                pa[1] = new GeoLibPoint(modal.geometry_x, modal.geometry_y + modal.geometry_h + Math.Min(modal.trapezoid_delta_b, 0));
-                pa[2] = new GeoLibPoint(modal.geometry_x + modal.geometry_w, modal.geometry_y + modal.geometry_h - Math.Max(modal.trapezoid_delta_b, 0));
-                pa[3] = new GeoLibPoint(modal.geometry_x + modal.geometry_w, modal.geometry_y - Math.Min(modal.trapezoid_delta_a, 0));
+                pa[0] = new (modal.geometry_x, modal.geometry_y + Math.Max(modal.trapezoid_delta_a, 0));
+                pa[1] = new (modal.geometry_x, modal.geometry_y + modal.geometry_h + Math.Min(modal.trapezoid_delta_b, 0));
+                pa[2] = new (modal.geometry_x + modal.geometry_w, modal.geometry_y + modal.geometry_h - Math.Max(modal.trapezoid_delta_b, 0));
+                pa[3] = new (modal.geometry_x + modal.geometry_w, modal.geometry_y - Math.Min(modal.trapezoid_delta_a, 0));
                 break;
             default:
                 //  horizontally
-                pa[0] = new GeoLibPoint(modal.geometry_x + Math.Max(modal.trapezoid_delta_a, 0), modal.geometry_y + modal.geometry_h);
-                pa[1] = new GeoLibPoint(modal.geometry_x + modal.geometry_w + Math.Min(modal.trapezoid_delta_b, 0), modal.geometry_y + modal.geometry_h);
-                pa[2] = new GeoLibPoint(modal.geometry_x + modal.geometry_w - Math.Max(modal.trapezoid_delta_b, 0), modal.geometry_y);
-                pa[3] = new GeoLibPoint(modal.geometry_x - Math.Min(modal.trapezoid_delta_a, 0), modal.geometry_y);
+                pa[0] = new (modal.geometry_x + Math.Max(modal.trapezoid_delta_a, 0), modal.geometry_y + modal.geometry_h);
+                pa[1] = new (modal.geometry_x + modal.geometry_w + Math.Min(modal.trapezoid_delta_b, 0), modal.geometry_y + modal.geometry_h);
+                pa[2] = new (modal.geometry_x + modal.geometry_w - Math.Max(modal.trapezoid_delta_b, 0), modal.geometry_y);
+                pa[3] = new (modal.geometry_x - Math.Min(modal.trapezoid_delta_a, 0), modal.geometry_y);
                 break;
         }
 
-        pa[4] = new GeoLibPoint(pa[0]);
+        pa[4] = new (pa[0]);
 
         cell_.addPolygon(pa, modal.layer, modal.datatype);
     }
 
     private void addCtrapezoid()
     {
-        GeoLibPoint[] pa = new GeoLibPoint[5];
+        Path64 pa = new (5);
 
         int[,] coords = modal.ctrapezoid_type switch
         {
@@ -275,7 +278,7 @@ internal partial class oasReader
                 y += coords[pt, 3] * modal.geometry_h;
             }
 
-            pa[pt] = new GeoLibPoint(modal.geometry_x + x, modal.geometry_y + y);
+            pa[pt] = new (modal.geometry_x + x, modal.geometry_y + y);
 
             if (x > modal.geometry_w)
             {
@@ -287,7 +290,7 @@ internal partial class oasReader
             }
         }
 
-        pa[^1] = new GeoLibPoint(pa[0]);
+        pa[^1] = new (pa[0]);
 
         cell_.addPolygon(pa, modal.layer, modal.datatype);
     }
@@ -301,8 +304,8 @@ internal partial class oasReader
                 {
                     case 1:
                     {
-                        cell_.addCellrefArray(drawing_.findCell(modal.placement_cell), new GeoLibPoint(modal.placement_x, modal.placement_y),
-                            new GeoLibPoint(modal.x_space + modal.placement_x, modal.y_space + modal.placement_y), modal.x_dimension, modal.y_dimension);
+                        cell_.addCellrefArray(drawing_.findCell(modal.placement_cell), new (modal.placement_x, modal.placement_y),
+                            new (modal.x_space + modal.placement_x, modal.y_space + modal.placement_y), modal.x_dimension, modal.y_dimension);
                         cell_.elementList[^1].setName(modal.placement_cell);
                         cell_.elementList[^1].rotate(modal.angle);
                         cell_.elementList[^1].scale(modal.mag);
@@ -316,8 +319,8 @@ internal partial class oasReader
                         break;
                     case 2:
                     {
-                        cell_.addCellrefArray(drawing_.findCell(modal.placement_cell), new GeoLibPoint(modal.placement_x, modal.placement_y),
-                            new GeoLibPoint(modal.x_space + modal.placement_x, modal.placement_y), modal.x_dimension, 1);
+                        cell_.addCellrefArray(drawing_.findCell(modal.placement_cell), new (modal.placement_x, modal.placement_y),
+                            new (modal.x_space + modal.placement_x, modal.placement_y), modal.x_dimension, 1);
                         cell_.elementList[^1].setName(modal.placement_cell);
                         cell_.elementList[^1].rotate(modal.angle);
                         cell_.elementList[^1].scale(modal.mag);
@@ -331,8 +334,8 @@ internal partial class oasReader
                         break;
                     case 3:
                     {
-                        cell_.addCellrefArray(drawing_.findCell(modal.placement_cell), new GeoLibPoint(modal.placement_x, modal.placement_y),
-                            new GeoLibPoint(modal.placement_x, modal.y_space + modal.placement_y), 1, modal.y_dimension);
+                        cell_.addCellrefArray(drawing_.findCell(modal.placement_cell), new (modal.placement_x, modal.placement_y),
+                            new (modal.placement_x, modal.y_space + modal.placement_y), 1, modal.y_dimension);
                         cell_.elementList[^1].setName(modal.placement_cell);
                         cell_.elementList[^1].rotate(modal.angle);
                         cell_.elementList[^1].scale(modal.mag);
@@ -354,23 +357,23 @@ internal partial class oasReader
                         for (int x = 0; x < modal.x_dimension; x++)
                         for (int y = 0; y < modal.y_dimension; y++)
                         {
-                            addElement(e, new GeoLibPoint(x * modal.x_space, y * modal.y_space));
+                            addElement(e, new (x * modal.x_space, y * modal.y_space));
                         }
                         break;
                     case 2:
                         for (int x = 0; x < modal.x_dimension; x++)
                         {
-                            addElement(e, new GeoLibPoint(x * modal.x_space, 0));
+                            addElement(e, new (x * modal.x_space, 0));
                         }
                         break;
                     case 3:
                         for (int y = 0; y < modal.y_dimension; y++)
                         {
-                            addElement(e, new GeoLibPoint(0, y * modal.y_space));
+                            addElement(e, new (0, y * modal.y_space));
                         }
                         break;
                     default:
-                        foreach (GeoLibPoint t in modal.repArray)
+                        foreach (Point64 t in modal.repArray)
                         {
                             addElement(e, t);
                         }

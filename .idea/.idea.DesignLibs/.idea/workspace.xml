@@ -570,7 +570,56 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="" />
+    <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.DesignLibs/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DesignLibs/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/SVGBuilder/SVGBuilder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/SVGBuilder/SVGBuilder.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoAnalysis/angleHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoAnalysis/angleHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoAnalysis/chordHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoAnalysis/chordHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoCore/box.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoCore/box.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoCore/cell.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoCore/cell.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoCore/cellref.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoCore/cellref.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoCore/cellrefarray.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoCore/cellrefarray.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoCore/element.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoCore/element.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoCore/gds/gdsAddMethods.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoCore/gds/gdsAddMethods.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoCore/gds/gdsReader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoCore/gds/gdsReader.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoCore/geoCore.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoCore/geoCore.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoCore/oasis/oasReader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoCore/oasis/oasReader.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoCore/oasis/oasWriter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoCore/oasis/oasWriter.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoCore/oasis/oasWriterMethods.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoCore/oasis/oasWriterMethods.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoCore/oasis/oasisAddMethods.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoCore/oasis/oasisAddMethods.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoCore/oasis/oasisReaderMethods.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoCore/oasis/oasisReaderMethods.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoCore/path.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoCore/path.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoCore/polygon.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoCore/polygon.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoCore/txt.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoCore/txt.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoLib/GeoLibMatrix.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoLib/GeoLibMatrix.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoLib/GeoLibPoints.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoLib/GeoLibPoints.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoLib/GeoLibRect.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoLib/GeoLibRect.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoLib/geoLib.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoLib/geoLib.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/array.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/array.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/clockwise.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/clockwise.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/conversions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/conversions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/decompose.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/decompose.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/fragmenter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/fragmenter.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/geometryresult.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/geometryresult.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/inflate.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/inflate.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/invert.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/invert.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/meas.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/meas.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/minmax.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/minmax.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/noise.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/noise.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/processoverlaps.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/processoverlaps.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/proximity.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/proximity.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/query.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/query.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/rotate.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/rotate.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/sanitize.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/sanitize.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/translate.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/translate.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/shapeEngine/distortShape.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/shapeEngine/distortShape.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/shapeEngine/shapeLibrary.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/shapeEngine/shapeLibrary.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GeoWranglerTest/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GeoWranglerTest/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestGeometrySource/basic.cs" beforeDir="false" afterPath="$PROJECT_DIR$/TestGeometrySource/basic.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestGeometrySource/complex.cs" beforeDir="false" afterPath="$PROJECT_DIR$/TestGeometrySource/complex.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/decompositionTest/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/decompositionTest/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/geoCoreTest/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/geoCoreTest/Program.cs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -588,7 +637,6 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/1d3c249eb18e63eda3f99ca6260b3b52a7fff665c749fac9ee4cc40a4ac1e/GridLength.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BurkhardtTest/FEM/FEM1DBVPTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BurkhardtTest/FEM/FEM2DBVPLinearTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BurkhardtTest/GeometryTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
@@ -11396,6 +11444,7 @@
       <workItem from="1663473963479" duration="114000" />
       <workItem from="1663475579636" duration="62000" />
       <workItem from="1663508633431" duration="153000" />
+      <workItem from="1668696073085" duration="19262000" />
     </task>
     <servers />
   </component>
@@ -11424,19 +11473,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/decompositionTest/Program.cs</url>
-          <line>210</line>
-          <properties documentPath="D:\development\git\DesignLibs_GPL\decompositionTest\Program.cs" initialLine="210" containingFunctionPresentation="method 'partOne'" />
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/decompositionTest/Program.cs</url>
-          <line>124</line>
-          <properties documentPath="D:\development\git\DesignLibs_GPL\decompositionTest\Program.cs" initialLine="126" containingFunctionPresentation="method 'partOne'" />
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/decompositionTest/Program.cs</url>
-          <line>84</line>
+          <line>81</line>
           <properties documentPath="D:\development\git\DesignLibs_GPL\decompositionTest\Program.cs" initialLine="84" containingFunctionPresentation="method 'partOne'" />
           <option name="timeStamp" value="4" />
         </line-breakpoint>

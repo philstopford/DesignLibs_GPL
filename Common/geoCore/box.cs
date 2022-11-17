@@ -2,6 +2,8 @@
 using geoLib;
 using oasis;
 using System.Collections.Generic;
+using System.IO;
+using Clipper2Lib;
 
 namespace geoCoreLib;
 
@@ -55,44 +57,44 @@ public class GCBox : GCElement
         return rect.Top != rect.Bottom;
     }
 
-    public override void maximum(GeoLibPoint p)
+    public override void maximum(Point64 p)
     {
         pMaximum(p);
     }
 
-    private void pMaximum(GeoLibPoint p)
+    private void pMaximum(Point64 p)
     {
         p.X = rect.Right;
         p.Y = rect.Top;
     }
 
-    public override void minimum(GeoLibPoint p)
+    public override void minimum(Point64 p)
     {
         pMinimum(p);
     }
 
-    private void pMinimum(GeoLibPoint p)
+    private void pMinimum(Point64 p)
     {
         p.X = rect.Left;
         p.Y = rect.Bottom;
     }
 
-    public override void move(GeoLibPoint pos)
+    public override void move(Point64 pos)
     {
         pMove(pos);
     }
 
-    private void pMove(GeoLibPoint pos)
+    private void pMove(Point64 pos)
     {
         rect.Offset(pos);
     }
 
-    public override void moveSelect(GeoLibPoint p)
+    public override void moveSelect(Point64 p)
     {
         pMoveSelect(p);
     }
 
-    private void pMoveSelect(GeoLibPoint p)
+    private void pMoveSelect(Point64 p)
     {
         switch (select)
         {
@@ -125,12 +127,12 @@ public class GCBox : GCElement
     private List<GCPolygon> pConvertToPolygons()
     {
         List<GCPolygon> ret = new();
-        GeoLibPoint[] points = new GeoLibPoint[5];
-        points[0] = new GeoLibPoint(rect.Left, rect.Top);
-        points[1] = new GeoLibPoint(rect.Right, rect.Top);
-        points[2] = new GeoLibPoint(rect.Right, rect.Bottom);
-        points[3] = new GeoLibPoint(rect.Left, rect.Bottom);
-        points[4] = new GeoLibPoint(rect.Left, rect.Top);
+        Path64 points = new (5);
+        points[0] = new (rect.Left, rect.Top);
+        points[1] = new (rect.Right, rect.Top);
+        points[2] = new (rect.Right, rect.Bottom);
+        points[3] = new (rect.Left, rect.Bottom);
+        points[4] = new (rect.Left, rect.Top);
         ret.Add(new GCPolygon(points, layer_nr, datatype_nr));
         return ret;
     }

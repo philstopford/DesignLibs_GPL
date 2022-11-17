@@ -3,6 +3,8 @@ using geoLib;
 using oasis;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using Clipper2Lib;
 
 namespace geoCoreLib;
 
@@ -12,20 +14,20 @@ public class GCElement
     public int datatype_nr { get; set; }
     public bool select { get; set; }
 
-    public double angle(GeoLibPoint p1, GeoLibPoint p2, GeoLibPoint p3)
+    public double angle(Point64 p1, Point64 p2, Point64 p3)
     {
         return pAngle(p1, p2, p3);
     }
 
-    private double pAngle(GeoLibPoint p1, GeoLibPoint p2, GeoLibPoint p3)
+    private double pAngle(Point64 p1, Point64 p2, Point64 p3)
     {
         double a1, a2;
-        GeoLibPointF dif1 = new(p2.X - p1.X, p2.Y - p1.Y);
-        GeoLibPointF dif2 = new(p3.X - p2.X, p3.Y - p2.Y);
-        if (dif1.X != 0)
+        PointD dif1 = new(p2.X - p1.X, p2.Y - p1.Y);
+        PointD dif2 = new(p3.X - p2.X, p3.Y - p2.Y);
+        if (dif1.x != 0)
         {
-            a1 = Math.Atan(dif1.Y / dif1.X) / 2 / Math.PI * 360;
-            switch (dif1.X)
+            a1 = Math.Atan(dif1.y / dif1.x) / 2 / Math.PI * 360;
+            switch (dif1.x)
             {
                 case < 0:
                     a1 -= 180;
@@ -41,16 +43,16 @@ public class GCElement
         }
         else
         {
-            a1 = dif1.Y switch
+            a1 = dif1.y switch
             {
                 > 0 => 90,
                 _ => -90
             };
         }
-        if (dif2.X != 0)
+        if (dif2.x != 0)
         {
-            a2 = Math.Atan(dif2.Y / dif2.X) / 2 / Math.PI * 360;
-            switch (dif2.X)
+            a2 = Math.Atan(dif2.y / dif2.x) / 2 / Math.PI * 360;
+            switch (dif2.x)
             {
                 case < 0:
                     a2 -= 180;
@@ -66,7 +68,7 @@ public class GCElement
         }
         else
         {
-            a2 = dif2.Y switch
+            a2 = dif2.y switch
             {
                 > 0 => 90,
                 _ => -90
@@ -140,24 +142,24 @@ public class GCElement
         return a1;
     }
 
-    public bool cutPoint2(GeoLibPoint p1, GeoLibPoint p2, GeoLibPoint p3, GeoLibPoint p4, GeoLibPoint pc)
+    public bool cutPoint2(Point64 p1, Point64 p2, Point64 p3, Point64 p4, Point64 pc)
     {
         return pCutPoint2(p1, p2, p3, p4, pc);
     }
 
-    private bool pCutPoint2(GeoLibPoint p1, GeoLibPoint p2, GeoLibPoint p3, GeoLibPoint p4, GeoLibPoint pc)
+    private bool pCutPoint2(Point64 p1, Point64 p2, Point64 p3, Point64 p4, Point64 pc)
     {
         //between  p1-p2+p3-p4
         double m1, m2, b1, b2;
         int help;
-        GeoLibPointF dif1 = new(p2.X - p1.X, p2.Y - p1.Y);
-        GeoLibPointF dif2 = new(p4.X - p3.X, p4.Y - p3.Y);
+        PointD dif1 = new(p2.X - p1.X, p2.Y - p1.Y);
+        PointD dif2 = new(p4.X - p3.X, p4.Y - p3.Y);
         pc.X = 1 << 30;
         pc.Y = 1 << 30;
-        if (dif1.X != 0 && dif2.X != 0)
+        if (dif1.x != 0 && dif2.x != 0)
         {
-            m1 = dif1.Y / dif1.X;
-            m2 = dif2.Y / dif2.X;
+            m1 = dif1.y / dif1.x;
+            m2 = dif2.y / dif2.x;
             b1 = -m1 * p1.X + p1.Y;
             b2 = -m2 * p3.X + p3.Y;
             switch (Math.Abs(m1 - m2))
@@ -166,14 +168,14 @@ public class GCElement
                     return false;
             }
             pc.X = round((b2 - b1) / (m1 - m2));
-            switch (dif1.Y)
+            switch (dif1.y)
             {
                 case 0:
                     pc.Y = p1.Y;
                     break;
                 default:
                 {
-                    pc.Y = dif2.Y switch
+                    pc.Y = dif2.y switch
                     {
                         0 => p3.Y,
                         _ => round(m1 * pc.X + b1)
@@ -183,29 +185,29 @@ public class GCElement
                 }
             }
         }
-        switch (dif1.X)
+        switch (dif1.x)
         {
-            case 0 when dif2.X != 0:
+            case 0 when dif2.x != 0:
             {
-                m2 = dif2.Y / dif2.X;
+                m2 = dif2.y / dif2.x;
                 b2 = -m2 * p3.X + p3.Y;
                 pc.X = p1.X;
-                pc.Y = dif2.Y != 0 ? round(m2 * pc.X + b2) : p3.Y;
+                pc.Y = dif2.y != 0 ? round(m2 * pc.X + b2) : p3.Y;
 
                 break;
             }
         }
-        if (dif1.X != 0 && dif2.X == 0)
+        if (dif1.x != 0 && dif2.x == 0)
         {
-            m1 = dif1.Y / dif1.X;
+            m1 = dif1.y / dif1.x;
             b1 = -m1 * p1.X + p1.Y;
             pc.X = p3.X;
-            pc.Y = dif2.Y != 0 ? round(m1 * pc.X + b1) : p1.Y;
+            pc.Y = dif2.y != 0 ? round(m1 * pc.X + b1) : p1.Y;
         }
 
-        switch (dif1.X)
+        switch (dif1.x)
         {
-            case 0 when dif2.X == 0:
+            case 0 when dif2.x == 0:
                 return false;
         }
 
@@ -216,14 +218,14 @@ public class GCElement
 
         if (p1.X > p2.X)
         {
-            help = p1.X;
+            help = (int)p1.X;
             p1.X = p2.X;
             p2.X = help;
         }
 
         if (p3.X > p4.X)
         {
-            help = p3.X;
+            help = (int)p3.X;
             p3.X = p4.X;
             p4.X = help;
         }
@@ -235,14 +237,14 @@ public class GCElement
 
         if (p1.Y > p2.Y)
         {
-            help = p1.Y;
+            help = (int)p1.Y;
             p1.Y = p2.Y;
             p2.Y = help;
         }
 
         if (p3.Y > p4.Y)
         {
-            help = p3.Y;
+            help = (int)p3.Y;
             p3.Y = p4.Y;
             p4.Y = help;
         }
@@ -250,15 +252,15 @@ public class GCElement
         return pc.Y >= p1.Y && pc.Y <= p2.Y && pc.Y >= p3.Y && pc.Y <= p4.Y;
     }
 
-    public double distance(GeoLibPoint p1, GeoLibPoint p2, GeoLibPoint p3)
+    public double distance(Point64 p1, Point64 p2, Point64 p3)
     {
         return pDistance(p1, p2, p3);
     }
 
-    private double pDistance(GeoLibPoint p1, GeoLibPoint p2, GeoLibPoint p3)
+    private double pDistance(Point64 p1, Point64 p2, Point64 p3)
     {
         // >0 if left off line
-        GeoLibPoint dif1 = new(p2.X - p1.X, p2.Y - p1.Y);
+        Point64 dif1 = new(p2.X - p1.X, p2.Y - p1.Y);
         if (dif1.X == 0)
         {
             return dif1.Y switch
@@ -285,32 +287,32 @@ public class GCElement
 
     }
 
-    public double distance(GeoLibPoint p1, GeoLibPoint p2)
+    public double distance(Point64 p1, Point64 p2)
     {
         return pDistance(p1, p2);
     }
 
-    private double pDistance(GeoLibPoint p1, GeoLibPoint p2)
+    private double pDistance(Point64 p1, Point64 p2)
     {
-        int dx = p1.X - p2.X;
-        int dy = p1.Y - p2.Y;
+        int dx = (int)(p1.X - p2.X);
+        int dy = (int)(p1.X - p2.X);
         return Math.Sqrt(dx * dx + dy * dy);
     }
 
-    public bool identical(GeoLibPoint p1, GeoLibPoint p2, GeoLibPoint p3, GeoLibPoint p4)
+    public bool identical(Point64 p1, Point64 p2, Point64 p3, Point64 p4)
     {
         return pIdentical(p1, p2, p3, p4);
     }
 
-    private bool pIdentical(GeoLibPoint p1, GeoLibPoint p2, GeoLibPoint p3, GeoLibPoint p4)
+    private bool pIdentical(Point64 p1, Point64 p2, Point64 p3, Point64 p4)
     {
         double m1, m2, b1, b2;
-        GeoLibPointF dif1 = new(p2.X - p1.X, p2.Y - p1.Y);
-        GeoLibPointF dif2 = new(p4.X - p3.X, p4.Y - p3.Y);
-        if (dif1.Y != 0 && dif2.Y != 0)
+        PointD dif1 = new(p2.X - p1.X, p2.Y - p1.Y);
+        PointD dif2 = new(p4.X - p3.X, p4.Y - p3.Y);
+        if (dif1.y != 0 && dif2.y != 0)
         {
-            m1 = dif1.X / dif1.Y;
-            m2 = dif2.X / dif2.Y;
+            m1 = dif1.x / dif1.y;
+            m2 = dif2.x / dif2.y;
 
             switch (Math.Abs(m1 - m2))
             {
@@ -327,13 +329,13 @@ public class GCElement
             };
         }
 
-        if (dif1.X == 0 || dif2.X == 0)
+        if (dif1.x == 0 || dif2.x == 0)
         {
             return false;
         }
 
-        m1 = dif1.Y / dif1.X;
-        m2 = dif2.Y / dif2.X;
+        m1 = dif1.y / dif1.x;
+        m2 = dif2.y / dif2.x;
 
         switch (Math.Abs(m1 - m2))
         {
@@ -350,26 +352,26 @@ public class GCElement
         };
     }
 
-    public double length(GeoLibPoint p)
+    public double length(Point64 p)
     {
         return pLength(p);
     }
 
-    private double pLength(GeoLibPoint p)
+    private double pLength(Point64 p)
     {
         return Math.Sqrt(p.X * p.X + p.Y * p.Y);
     }
 
-    public bool parallel(GeoLibPoint p1, GeoLibPoint p2, GeoLibPoint p3, GeoLibPoint p4)
+    public bool parallel(Point64 p1, Point64 p2, Point64 p3, Point64 p4)
     {
         return pParallel(p1, p2, p3, p4);
     }
 
-    private bool pParallel(GeoLibPoint p1, GeoLibPoint p2, GeoLibPoint p3, GeoLibPoint p4)
+    private bool pParallel(Point64 p1, Point64 p2, Point64 p3, Point64 p4)
     {
         double m1, m2;
-        GeoLibPoint dif1 = new(p2.X - p1.X, p2.Y - p1.Y);
-        GeoLibPoint dif2 = new(p4.X - p3.X, p4.Y - p3.Y);
+        Point64 dif1 = new(p2.X - p1.X, p2.Y - p1.Y);
+        Point64 dif2 = new(p4.X - p3.X, p4.Y - p3.Y);
         if (dif1.Y != 0 && dif2.Y != 0)
         {
             m1 = (double)dif1.X / dif1.Y;
@@ -395,20 +397,20 @@ public class GCElement
         };
     }
 
-    public bool nearlyParallel(GeoLibPoint p1, GeoLibPoint p2, GeoLibPoint p3, GeoLibPoint p4)
+    public bool nearlyParallel(Point64 p1, Point64 p2, Point64 p3, Point64 p4)
     {
         return pNearlyParallel(p1, p2, p3, p4);
     }
 
-    private bool pNearlyParallel(GeoLibPoint p1, GeoLibPoint p2, GeoLibPoint p3, GeoLibPoint p4)
+    private bool pNearlyParallel(Point64 p1, Point64 p2, Point64 p3, Point64 p4)
     {
         double m1, m2;
-        GeoLibPointF dif1 = new(p2.X - p1.X, p2.Y - p1.Y);
-        GeoLibPointF dif2 = new(p4.X - p3.X, p4.Y - p3.Y);
-        if (dif1.Y != 0 && dif2.Y != 0)
+        PointD dif1 = new(p2.X - p1.X, p2.Y - p1.Y);
+        PointD dif2 = new(p4.X - p3.X, p4.Y - p3.Y);
+        if (dif1.y != 0 && dif2.y != 0)
         {
-            m1 = dif1.X / dif1.Y;
-            m2 = dif2.X / dif2.Y;
+            m1 = dif1.x / dif1.y;
+            m2 = dif2.x / dif2.y;
             m2 -= m1;
             switch (m2)
             {
@@ -420,13 +422,13 @@ public class GCElement
             }
         }
 
-        if (dif1.X == 0 || dif2.X == 0)
+        if (dif1.x == 0 || dif2.x == 0)
         {
             return false;
         }
 
-        m1 = dif1.Y / dif1.X;
-        m2 = dif2.Y / dif2.X;
+        m1 = dif1.y / dif1.x;
+        m2 = dif2.y / dif2.x;
         m2 -= m1;
         switch (m2)
         {
@@ -438,18 +440,18 @@ public class GCElement
         }
     }
 
-    public bool onLine2(GeoLibPoint p1, GeoLibPoint p2, GeoLibPoint p3)
+    public bool onLine2(Point64 p1, Point64 p2, Point64 p3)
     {
         return pOnLine2(p1, p2, p3);
     }
 
-    private bool pOnLine2(GeoLibPoint p1, GeoLibPoint p2, GeoLibPoint p3)
+    private bool pOnLine2(Point64 p1, Point64 p2, Point64 p3)
     {
         int help;
-        GeoLibPointF dif1 = new(p2.X - p1.X, p2.Y - p1.Y);
-        if (dif1.X != 0)
+        PointD dif1 = new(p2.X - p1.X, p2.Y - p1.Y);
+        if (dif1.x != 0)
         {
-            double m1 = dif1.Y / dif1.X;
+            double m1 = dif1.y / dif1.x;
             double b1 = -m1 * p1.X + p1.Y;
             switch (Math.Abs(p3.Y - (m1 * p3.X + b1)))
             {
@@ -469,14 +471,14 @@ public class GCElement
 
         if (p1.X > p2.X)
         {
-            help = p1.X;
+            help = (int)p1.X;
             p1.X = p2.X;
             p2.X = help;
         }
 
         if (p1.Y > p2.Y)
         {
-            help = p1.Y;
+            help = (int)p1.Y;
             p1.Y = p2.Y;
             p2.Y = help;
         }
@@ -493,14 +495,14 @@ public class GCElement
         };
     }
 
-    public GeoLibPoint round(GeoLibPoint point, int i)
+    public Point64 round(Point64 point, int i)
     {
         return pRound(point, i);
     }
 
-    private GeoLibPoint pRound(GeoLibPoint point, int i)
+    private Point64 pRound(Point64 point, int i)
     {
-        GeoLibPoint p = new();
+        Point64 p = new();
         switch (i)
         {
             case > 1:
@@ -527,28 +529,28 @@ public class GCElement
         return null;
     }
 
-    public GeoLibPoint[] ellipse(GeoLibPoint center, double radius, double anglestep)
+    public Path64 ellipse(Point64 center, double radius, double anglestep)
     {
         return pEllipse(center, radius, anglestep);
     }
 
-    private GeoLibPoint[] pEllipse(GeoLibPoint center, double radius, double anglestep)
+    private Path64 pEllipse(Point64 center, double radius, double anglestep)
     {
-        List<GeoLibPoint> array = new();
+        Path64 array = new();
         double radius1 = radius;
         double radius2 = radius;
         for (double ang = 0; ang < 360; ang += anglestep)
         {
-            array.Add(new GeoLibPoint(center.X + radius1 * Math.Cos(ang / 180 * Math.PI), center.Y + radius2 * Math.Sin(ang / 180 * Math.PI)));
+            array.Add(new (center.X + radius1 * Math.Cos(ang / 180 * Math.PI), center.Y + radius2 * Math.Sin(ang / 180 * Math.PI)));
         }
-        return array.ToArray();
+        return array;
     }
 
-    public virtual void minimum(GeoLibPoint p) { }
-    public virtual void maximum(GeoLibPoint p) { }
+    public virtual void minimum(Point64 p) { }
+    public virtual void maximum(Point64 p) { }
     public virtual void deleteSelect() { }
-    public virtual void moveSelect(GeoLibPoint p) { }
-    public virtual void move(GeoLibPoint p) { }
+    public virtual void moveSelect(Point64 p) { }
+    public virtual void move(Point64 p) { }
     public virtual void moveToLayer(int layer) { layer_nr = layer; }
     public virtual void moveToDataType(int datatype) { datatype_nr = datatype; }
     public virtual void moveToLayerSelect(int layer) { }
@@ -558,7 +560,7 @@ public class GCElement
     public virtual void resize(double factor) { }
     public virtual void clean() { }
     public virtual bool correct() { return true; }
-    public virtual List<GCElement> cutSelect(GeoLibPoint a, GeoLibPoint b) { return null; }
+    public virtual List<GCElement> cutSelect(Point64 a, Point64 b) { return null; }
 
     // Box
     public virtual bool isBox() { return false; }
@@ -571,7 +573,7 @@ public class GCElement
     public virtual List<GCPolygon> convertToPolygons() { return null; }
     public virtual bool mergeSelect(GCPolygon p) { return false; }
     public virtual void edgeRemoveSelect(int edge) { }
-    public virtual bool add(GeoLibPoint[] poly) { return false; }
+    public virtual bool add(Path64 poly) { return false; }
 
     // CellRef
     public virtual bool isCellref() { return false; }
@@ -584,13 +586,13 @@ public class GCElement
     public virtual void clearMirrorx() { }
     public virtual void toggleMirrorx() { }
     public virtual void rotate(double angle) { }
-    public virtual void rotate(double angle, GeoLibPoint pos) { }
+    public virtual void rotate(double angle, Point64 pos) { }
     public virtual void scale(double factor) { }
-    public virtual void scale(GeoLibPoint origin, double factor) { }
+    public virtual void scale(Point64 origin, double factor) { }
     public virtual void setCellRef(GCCell cellRef) { }
-    public virtual void setPos(GeoLibPoint p) { }
+    public virtual void setPos(Point64 p) { }
 
-    public virtual GeoLibPoint getPos() { return null; }
+    public virtual Point64 getPos() { return new(0,0); }
     public virtual List<GCElement> flatSelect() { return null; }
     // and txt;
     public virtual void setName(string s) { }

@@ -8,13 +8,10 @@ using utility;
 
 namespace geoWrangler;
 
-using Path = Path64;
-using Paths = Paths64;
-
 public static class Proximity
 {
     // Drawn poly allows for geometry to be excluded from consideration in the input list
-    public static GeometryResult proximityBias(List<GeoLibPointF[]> input, List<bool> drawnPoly_, decimal pBias,
+    public static GeometryResult proximityBias(PathsD input, List<bool> drawnPoly_, decimal pBias,
         decimal pBiasDist, int proxRays, int proxSideRaysFallOff, decimal proxSideRaysMultiplier, decimal rayExtension,
         double fragmenterResolution, Int64 scaleFactorForOperation, bool doCleanUp, double cleanUpEpsilon)
     {
@@ -23,18 +20,18 @@ public static class Proximity
 
         if (!proxBiasNeeded)
         {
-            return new() { geometry = input.ToList(), drawn = drawnPoly_.ToList() };
+            return new() { geometry = new (input), drawn = drawnPoly_.ToList() };
         }
 
         bool debug = false;
         bool linear = false;
 
-        List<GeoLibPointF[]> preOverlapMergePolys = new();
+        PathsD preOverlapMergePolys = new();
 
-        Paths dRays = new();
+        Paths64 dRays = new();
 
         // Scale up our geometry for processing. Force a clockwise point order here due to potential upstream point order changes (e.g. polygon merging)
-        Paths sourceGeometry = GeoWrangler.pathsFromPointFs(input, scaleFactorForOperation);
+        Paths64 sourceGeometry = GeoWrangler.pathsFromPointFs(input, scaleFactorForOperation);
 
         List<bool> overlapDrawnList = new();
 
@@ -63,10 +60,10 @@ public static class Proximity
             
             overlapDrawnList.Add(false);
 
-            Path sourcePoly = new(sourceGeometry[poly]);
-            Paths collisionGeometry = new(sourceGeometry);
+            Path64 sourcePoly = new(sourceGeometry[poly]);
+            Paths64 collisionGeometry = new(sourceGeometry);
             // collisionGeometry.RemoveAt(poly); // Don't actually want to remove the emission as self-aware proximity matters.
-            Path deformedPoly = new();
+            Path64 deformedPoly = new();
 
             // Threading operation here gets more tricky than the distance handler. We have a less clear trade off of threading based on the emission edge (the polygon being biased) vs the multisampling emission.
             // In batch calculation mode, this tradeoff gets more awkward.
@@ -98,7 +95,7 @@ public static class Proximity
 
             RayCast rc = new(sourcePoly, collisionGeometry, Convert.ToInt32(pBiasDist * scaleFactorForOperation), false, invert:0, proxRays, emitThread, multiSampleThread, sideRayFallOff: (RayCast.falloff)proxSideRaysFallOff, sideRayFallOffMultiplier: Convert.ToDouble(proxSideRaysMultiplier));
 
-            Paths clippedLines = rc.getClippedRays();
+            Paths64 clippedLines = rc.getClippedRays();
             // ReSharper disable once ConditionIsAlwaysTrueOrFalse
             if (debug)
             {
@@ -163,7 +160,7 @@ public static class Proximity
             // Experimental clean-up
             if (doCleanUp)
             {
-                Path rdpPath = Clipper.RamerDouglasPeucker(GeoWrangler.close(deformedPoly), cleanUpEpsilon); // scale from int to make a double
+                Path64 rdpPath = Clipper.RamerDouglasPeucker(GeoWrangler.close(deformedPoly), cleanUpEpsilon); // scale from int to make a double
                 deformedPoly = f.fragmentPath(GeoWrangler.close(rdpPath));
             }
 
@@ -177,7 +174,7 @@ public static class Proximity
         // ReSharper disable once ConditionIsAlwaysTrueOrFalse
         if (debug)
         {
-            foreach (Path t in dRays)
+            foreach (Path64 t in dRays)
             {
                 ret.geometry.Add(GeoWrangler.pointFFromPath(t, scaleFactorForOperation));
                 ret.drawn.Add(true);

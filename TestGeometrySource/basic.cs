@@ -1,13 +1,15 @@
-﻿using geoLib;
+﻿using System.IO;
+using Clipper2Lib;
+using geoLib;
 
 namespace PartitionTestGeometrySource;
 
 public static partial class TestGeometry
 {
-    public static GeoLibPoint[] getL()
+    public static Path64 getL()
     {
         // L
-        GeoLibPoint[] L = new GeoLibPoint[] {
+        Path64 L = new () {
 
             new( 0, 0),
             new( 0, 50),
@@ -22,9 +24,9 @@ public static partial class TestGeometry
         return L;
     }
 
-    public static GeoLibPoint[] getRL()
+    public static Path64 getRL()
     {
-        GeoLibPoint[] rL = new GeoLibPoint[] {
+        Path64 rL = new () {
 
             new( 0, 0),
             new( 0, 20),
@@ -39,9 +41,9 @@ public static partial class TestGeometry
         return rL;
     }
 
-    public static GeoLibPoint[] getU()
+    public static Path64 getU()
     {
-        GeoLibPoint[] U = new GeoLibPoint[] {
+        Path64 U = new () {
 
             new( 0, 0),
             new( 0, 50),
@@ -58,9 +60,9 @@ public static partial class TestGeometry
         return U;
     }
 
-    public static GeoLibPoint[] getT()
+    public static Path64 getT()
     {
-        GeoLibPoint[] T = new GeoLibPoint[] {
+        Path64 T = new () {
 
             new( 0, 50),
             new( 0, 80),
@@ -77,9 +79,9 @@ public static partial class TestGeometry
         return T;
     }
 
-    public static GeoLibPoint[] getX()
+    public static Path64 getX()
     {
-        GeoLibPoint[] X = new GeoLibPoint[] {
+        Path64 X = new () {
 
             new( 0, 50),
             new( 0, 80),
@@ -100,9 +102,9 @@ public static partial class TestGeometry
         return X;
     }
 
-    public static GeoLibPoint[] getS()
+    public static Path64 getS()
     {
-        GeoLibPoint[] S = new GeoLibPoint[] {
+        Path64 S = new () {
 
             new( 0, 0),
             new( 0, 20),
@@ -123,9 +125,9 @@ public static partial class TestGeometry
         return S;
     }
 
-    public static GeoLibPoint[] getnegS()
+    public static Path64 getnegS()
     {
-        GeoLibPoint[] S = new GeoLibPoint[] {
+        Path64 S = new () {
 
             new( 0, 0),
             new( 0, 20),
@@ -143,9 +145,9 @@ public static partial class TestGeometry
 
         };
 
-        for (int i = 0; i < S.Length; i++)
+        for (int i = 0; i < S.Capacity; i++)
         {
-            S[i] = new GeoLibPoint(S[i].X, S[i].Y - 200);
+            S[i] = new (S[i].X, S[i].Y - 200);
         }
 
         return S;

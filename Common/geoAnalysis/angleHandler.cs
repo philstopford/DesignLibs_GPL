@@ -5,14 +5,11 @@ using utility;
 
 namespace geoAnalysis;
 
-using Path = Path64;
-using Paths = Paths64;
-
 public class angleHandler
 {
     public double minimumIntersectionAngle { get; private set; }
-    private Paths listOfOutputPoints;
-    public Paths resultPaths { get; private set; } // will only have one path, for minimum angle.
+    private Paths64 listOfOutputPoints;
+    public Paths64 resultPaths { get; private set; } // will only have one path, for minimum angle.
 
     private void ZFillCallback(Point64 bot1, Point64 top1, Point64 bot2, Point64 top2, ref Point64 pt)
     {
@@ -22,16 +19,16 @@ public class angleHandler
     // Distance functions to drive scale-up of intersection marker if needed.
     private readonly double minDistance = 10.0;
 
-    public angleHandler(Paths layerAPath, Paths layerBPath, int scaleFactorForOperation)
+    public angleHandler(Paths64 layerAPath, Paths64 layerBPath, int scaleFactorForOperation)
     {
         angleHandlerLogic(layerAPath, layerBPath, scaleFactorForOperation);
     }
 
-    private void angleHandlerLogic(Paths layerAPath, Paths layerBPath, int scaleFactorForOperation)
+    private void angleHandlerLogic(Paths64 layerAPath, Paths64 layerBPath, int scaleFactorForOperation)
     {
-        listOfOutputPoints = new Paths();
-        resultPaths = new Paths();
-        Path resultPath = new();
+        listOfOutputPoints = new Paths64();
+        resultPaths = new Paths64();
+        Path64 resultPath = new();
         Clipper64 c = new() {ZCallback = ZFillCallback};
         c.AddSubject(layerAPath);
         c.AddClip(layerBPath);
@@ -55,10 +52,10 @@ public class angleHandler
         else
         {
             double temporaryResult = 180.0;
-            Path temporaryPath = new() {new Point64(0, 0), new Point64(0, 0), new Point64(0, 0)};
-            foreach (Path t in listOfOutputPoints)
+            Path64 temporaryPath = new() {new Point64(0, 0), new Point64(0, 0), new Point64(0, 0)};
+            foreach (Path64 t in listOfOutputPoints)
             {
-                Path overlapPath = GeoWrangler.clockwise(t);
+                Path64 overlapPath = GeoWrangler.clockwise(t);
 
                 int pt = 0;
                 while (pt < overlapPath.Count)

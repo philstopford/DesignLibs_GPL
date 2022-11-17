@@ -1,9 +1,24 @@
-﻿namespace geoLib;
+﻿using Clipper2Lib;
+
+namespace geoLib;
 
 public class GeoLibPointF
 {
-    public double X { get; set; }
-    public double Y { get; set; }
+    private PointD internal_pt;
+
+    public double X
+    {
+        get => internal_pt.x;
+
+        set => internal_pt.x = value;
+    }
+    
+    public double Y
+    {
+        get => internal_pt.y;
+
+        set => internal_pt.y = value;
+    }
 
     // Special value for tracking.
     public int tag { get; set; }
@@ -15,7 +30,7 @@ public class GeoLibPointF
 
     private void pGeoLibPointF()
     {
-
+        internal_pt = new();
     }
 
     public GeoLibPointF(GeoLibPointF sourcePoint)
@@ -25,6 +40,7 @@ public class GeoLibPointF
 
     private void pGeoLibPointF(GeoLibPointF sourcePoint)
     {
+        internal_pt = new();
         X = sourcePoint.X;
         Y = sourcePoint.Y;
     }
@@ -47,21 +63,16 @@ public class GeoLibPointF
 
     private void pGeoLibPointF(double X_, double Y_)
     {
+        internal_pt = new();
         X = X_;
         Y = Y_;
     }
 
     public GeoLibPointF(float X_, float Y_)
     {
-        pGeoLibPointF(X_, Y_);
+        pGeoLibPointF((double)X_, (double)Y_);
     }
-
-    private void pGeoLibPointF(float X_, float Y_)
-    {
-        X = X_;
-        Y = Y_;
-    }
-
+    
     public void Offset(GeoLibPoint offset)
     {
         pOffset(offset);

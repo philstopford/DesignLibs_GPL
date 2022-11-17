@@ -4,7 +4,9 @@ using geoWrangler;
 using oasis;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using Clipper2Lib;
 
 namespace geoCoreLib;
 
@@ -12,7 +14,7 @@ public class GCPolygon : GCElement
 {
     public bool text;
     public string name;
-    public GeoLibPoint[] pointarray { get; set; }
+    public Path64 pointarray { get; set; }
 
     public GCPolygon()
     {
@@ -21,7 +23,7 @@ public class GCPolygon : GCElement
 
     private void pGCPolygon()
     {
-        pointarray = Array.Empty<GeoLibPoint>();
+        pointarray = new();
     }
 
     public GCPolygon(GCPolygon source)
@@ -31,29 +33,29 @@ public class GCPolygon : GCElement
 
     private void pGCPolygon(GCPolygon source)
     {
-        pointarray = source.pointarray.ToArray();
+        pointarray = new (source.pointarray);
         layer_nr = source.layer_nr;
         datatype_nr = source.datatype_nr;
     }
 
-    public GCPolygon(GeoLibPoint[] points, int layer, int datatype)
+    public GCPolygon(Path64 points, int layer, int datatype)
     {
         pGCPolygon(points, layer, datatype);
     }
 
-    private void pGCPolygon(GeoLibPoint[] points, int layer, int datatype)
+    private void pGCPolygon(Path64 points, int layer, int datatype)
     {
-        pointarray = points.ToArray();
+        pointarray = new(points);
         layer_nr = layer;
         datatype_nr = datatype;
     }
 
-    public override void rotate(double angleDegree, GeoLibPoint pos)
+    public override void rotate(double angleDegree, Point64 pos)
     {
         pRotate(angleDegree, pos);
     }
 
-    private void pRotate(double angleDegree, GeoLibPoint pos)
+    private void pRotate(double angleDegree, Point64 pos)
     {
         switch (angleDegree)
         {
@@ -77,18 +79,18 @@ public class GCPolygon : GCElement
 
     public override void resize(double factor)
     {
-        for (int i = 0; i < pointarray.Length; i++)
+        for (int i = 0; i < pointarray.Capacity; i++)
         {
-            pointarray[i] = new GeoLibPoint(pointarray[i].X * factor, pointarray[i].Y * factor);
+            pointarray[i] = new (pointarray[i].X * factor, pointarray[i].Y * factor);
         }
     }
 
-    public override void scale(GeoLibPoint origin, double size)
+    public override void scale(Point64 origin, double size)
     {
         pScale(origin, size);
     }
 
-    private void pScale(GeoLibPoint origin, double size)
+    private void pScale(Point64 origin, double size)
     {
         pointarray = GeoWrangler.resize(origin, pointarray, size);
     }
@@ -100,8 +102,8 @@ public class GCPolygon : GCElement
 
     private void pDeletePoint(int pos)
     {
-        GeoLibPoint[] newPointArray = new GeoLibPoint[pointarray.Length - 1];
-        for (int i = pos; i < pointarray.Length - 1; i++)
+        Path64 newPointArray = new (pointarray.Capacity - 1);
+        for (int i = pos; i < pointarray.Capacity - 1; i++)
         {
             newPointArray[i] = pointarray[i + 1];
         }
@@ -115,8 +117,8 @@ public class GCPolygon : GCElement
 
     private void pAddPoint(int pos)
     {
-        GeoLibPoint[] newPointArray = new GeoLibPoint[pointarray.Length + 1];
-        for (int pt = newPointArray.Length - 1; pt > pos; pt--)
+        Path64 newPointArray = new (pointarray.Capacity + 1);
+        for (int pt = newPointArray.Capacity - 1; pt > pos; pt--)
         {
             newPointArray[pt] = pointarray[pt - 1];
         }
@@ -148,64 +150,57 @@ public class GCPolygon : GCElement
         m.matrix.TransformPoints(pointarray);
     }
 
-    public override void minimum(GeoLibPoint pos)
+    public override void minimum(Point64 pos)
     {
         pMinimum(pos);
     }
 
-    private void pMinimum(GeoLibPoint pos)
+    private void pMinimum(Point64 pos)
     {
-        GeoLibPoint t = GeoWrangler.getMinimumPoint(pointarray);
+        Point64 t = GeoWrangler.getMinimumPoint(pointarray);
 
         pos.X = Math.Min(pos.X, t.X);
         pos.Y = Math.Min(pos.Y, t.Y);
     }
 
-    public override void maximum(GeoLibPoint pos)
+    public override void maximum(Point64 pos)
     {
         pMaximum(pos);
     }
 
-    private void pMaximum(GeoLibPoint pos)
+    private void pMaximum(Point64 pos)
     {
-        GeoLibPoint t = GeoWrangler.getMaximumPoint(pointarray);
+        Point64 t = GeoWrangler.getMaximumPoint(pointarray);
 
         pos.X = Math.Max(pos.X, t.X);
         pos.Y = Math.Max(pos.Y, t.Y);
     }
 
-    public override void moveSelect(GeoLibPoint pos)
+    public override void moveSelect(Point64 pos)
     {
         pMoveSelect(pos);
     }
 
-    private void pMoveSelect(GeoLibPoint pos)
+    private void pMoveSelect(Point64 pos)
     {
         switch (select)
         {
             case true:
             {
-                for (int i = 0; i < pointarray.Length; i++)
-                {
-                    pointarray[i].Offset(pos);
-                }
-
+                pointarray = GeoWrangler.move(pointarray, pos.X, pos.Y);
                 break;
             }
         }
     }
 
-    public override void move(GeoLibPoint pos)
+    public override void move(Point64 pos)
     {
         pMove(pos);
     }
 
-    private void pMove(GeoLibPoint pos)
+    private void pMove(Point64 pos)
     {
-        for (int i = 0; i < pointarray.Length; i++)
-        {
-            pointarray[i] = new GeoLibPoint(pointarray[i].X + pos.X, pointarray[i].Y + pos.Y);
-        }
+        pointarray = GeoWrangler.move(pointarray, pos.X, pos.Y);
     }
 
     public override List<GCPolygon> convertToPolygons()
@@ -226,15 +221,15 @@ public class GCPolygon : GCElement
 
     private void pClean()
     {
-        GeoLibPoint p = new(0, 0);
+        Point64 p = new(0, 0);
         double a;
         int anz = 0;
         for (a = 0; a is < 350 or > 370 && anz < 3;)
         {
             a = 0;
-            for (int i = 0; i < pointarray.Length - 1; i++)
+            for (int i = 0; i < pointarray.Capacity - 1; i++)
             {
-                switch (pointarray.Length)
+                switch (pointarray.Capacity)
                 {
                     case < 4:
                         return; //no area
@@ -242,13 +237,13 @@ public class GCPolygon : GCElement
                 if (pointarray[i] == pointarray[i + 1])
                 {
                     deletePoint(i + 1);
-                    if (pointarray.Length == i + 1)
+                    if (pointarray.Capacity == i + 1)
                     {
                         pointarray[0] = pointarray[i];
                     }
                     i--;
                 }
-                if (i < pointarray.Length - 2)
+                if (i < pointarray.Capacity - 2)
                 {
                     if (nearlyParallel(pointarray[i], pointarray[i + 1], pointarray[i + 1], pointarray[i + 2]))
                     {
@@ -256,13 +251,13 @@ public class GCPolygon : GCElement
                         i = 0;
                     }
                 }
-                switch (pointarray.Length)
+                switch (pointarray.Capacity)
                 {
                     case > 3:
                     {
-                        while (pointarray.Length > 3 && parallel(pointarray[0], pointarray[1], pointarray[^1], pointarray[^2]))
+                        while (pointarray.Capacity > 3 && parallel(pointarray[0], pointarray[1], pointarray[^1], pointarray[^2]))
                         {
-                            deletePoint(pointarray.Length - 1);
+                            deletePoint(pointarray.Capacity - 1);
                             pointarray[0] = pointarray[^1];
                         }
 
@@ -271,11 +266,11 @@ public class GCPolygon : GCElement
                 }
             }
             // sort points
-            for (int i = 0; i < pointarray.Length - 2; i++)
+            for (int i = 0; i < pointarray.Capacity - 2; i++)
             {
                 a += angle(pointarray[i], pointarray[i + 1], pointarray[i + 2]);
             }
-            switch (pointarray.Length)
+            switch (pointarray.Capacity)
             {
                 case > 3:
                     a += angle(pointarray[^2], pointarray[0], pointarray[1]);
@@ -286,10 +281,10 @@ public class GCPolygon : GCElement
             {
                 case < -185:
                 {
-                    for (int i = 1; i < pointarray.Length / 2; i++)
+                    for (int i = 1; i < pointarray.Capacity / 2; i++)
                     {
-                        p = pointarray[pointarray.Length - i - 1];
-                        pointarray[pointarray.Length - i - 1] = pointarray[i];
+                        p = pointarray[pointarray.Capacity - i - 1];
+                        pointarray[pointarray.Capacity - i - 1] = pointarray[i];
                         pointarray[i] = p;
                     }
 
@@ -303,16 +298,16 @@ public class GCPolygon : GCElement
                 case > 370:
                 case < 350 and > -350:
                 {
-                    for (int i = 0; i < pointarray.Length - 1; i++)
+                    for (int i = 0; i < pointarray.Capacity - 1; i++)
                     {
-                        for (int j = i + 2; j < pointarray.Length - 1; j++)
+                        for (int j = i + 2; j < pointarray.Capacity - 1; j++)
                         {
                             bool b = cutPoint2(pointarray[i], pointarray[i + 1], pointarray[j], pointarray[j + 1], p);
                             switch (b)
                             {
                                 case true:
                                 {
-                                    switch (i == 0 && j == pointarray.Length - 2)
+                                    switch (i == 0 && j == pointarray.Capacity - 2)
                                     {
                                         case false:
                                         {
@@ -328,8 +323,8 @@ public class GCPolygon : GCElement
                                                 pointarray[j - k + i + 1] = pointarray[k];
                                                 pointarray[k] = p;
                                             }
-                                            j = pointarray.Length;
-                                            i = pointarray.Length;
+                                            j = pointarray.Capacity;
+                                            i = pointarray.Capacity;
                                             break;
                                         }
                                     }
@@ -344,16 +339,16 @@ public class GCPolygon : GCElement
                 }
             }
 
-            switch (pointarray.Length)
+            switch (pointarray.Capacity)
             {
                 // remove self-intersection 
                 case >= 8:
                 {
                     bool ende2 = false;
-                    for (int i = 0; i < pointarray.Length - 1; i++)
+                    for (int i = 0; i < pointarray.Capacity - 1; i++)
                     {
                         bool ende1 = false;
-                        for (int j = i + 2; j < pointarray.Length - 1; j++)
+                        for (int j = i + 2; j < pointarray.Capacity - 1; j++)
                         {
                             if (identical(pointarray[i], pointarray[i + 1], pointarray[j + 1], pointarray[j]))
                             {
@@ -365,11 +360,11 @@ public class GCPolygon : GCElement
                                     change = true;
                                     h1 = h1 switch
                                     {
-                                        -1 => pointarray.Length - 2,
+                                        -1 => pointarray.Capacity - 2,
                                         _ => i - 1
                                     };
                                     h2 = j + 2;
-                                    if (h2 == pointarray.Length)
+                                    if (h2 == pointarray.Capacity)
                                     {
                                         h2 = 1;
                                     }
@@ -397,7 +392,7 @@ public class GCPolygon : GCElement
                                 {
                                     change = true;
                                     h2 = j + 2;
-                                    if (h2 == pointarray.Length)
+                                    if (h2 == pointarray.Capacity)
                                     {
                                         h2 = 1;
                                     }
@@ -411,7 +406,7 @@ public class GCPolygon : GCElement
                                     change = true;
                                     h1 = h1 switch
                                     {
-                                        -1 => pointarray.Length - 2,
+                                        -1 => pointarray.Capacity - 2,
                                         _ => i - 1
                                     };
                                     if (distance(pointarray[j], pointarray[j + 1], pointarray[h1]) < 0)
@@ -429,11 +424,11 @@ public class GCPolygon : GCElement
                                     switch (j)
                                     {
                                         case -1:
-                                            j = pointarray.Length - 2; ende1 = true;
+                                            j = pointarray.Capacity - 2; ende1 = true;
                                             break;
                                     }
 
-                                    if (i != pointarray.Length)
+                                    if (i != pointarray.Capacity)
                                     {
                                         continue;
                                     }
@@ -441,35 +436,35 @@ public class GCPolygon : GCElement
                                     i = 1; ende2 = true;
                                 }
                                 h2 = i + 1;
-                                if (h2 == pointarray.Length)
+                                if (h2 == pointarray.Capacity)
                                 {
                                     h2 = 1;
                                 }
                                 int h3 = h2 + 1;
-                                if (h3 == pointarray.Length)
+                                if (h3 == pointarray.Capacity)
                                 {
                                     h3 = 1;
                                 }
 
                                 h1 = h1 switch
                                 {
-                                    -1 => pointarray.Length - 2,
+                                    -1 => pointarray.Capacity - 2,
                                     _ => j - 1
                                 };
                                 int h4 = j + 1;
-                                if (h4 == pointarray.Length)
+                                if (h4 == pointarray.Capacity)
                                 {
                                     h4 = 1;
                                 }
                                 int h5 = h4 + 1;
-                                if (h5 == pointarray.Length)
+                                if (h5 == pointarray.Capacity)
                                 {
                                     h5 = 1;
                                 }
                                 int h6 = i - 1;
                                 h6 = h6 switch
                                 {
-                                    -1 => pointarray.Length - 2,
+                                    -1 => pointarray.Capacity - 2,
                                     _ => h6
                                 };
                                 if (onLine2(pointarray[i], pointarray[h2], pointarray[j]))
@@ -547,11 +542,11 @@ public class GCPolygon : GCElement
 
     private void pSaveGDS(gdsWriter gw)
     {
-        GeoLibPoint pc = new();
+        Point64 pc = new();
         const int r = 0;
         if (isCircle())
         {
-            GCPath tPath = new(new [] { pc }, layer_nr, datatype_nr);
+            GCPath tPath = new(new () { pc }, layer_nr, datatype_nr);
             tPath.setWidth(r * 2);
             tPath.setCap(1); // set cap to 'round' type. Also forced in the saver for a round path type, as a safety.
             tPath.setRound(true); // this is the important thing to set - it forces the correct handling (including cap value)
@@ -574,8 +569,8 @@ public class GCPolygon : GCElement
             gw.bw.Write((byte)2);
             gw.bw.Write((short)datatype_nr);
 
-            GeoLibPoint[] cleaned = GeoWrangler.removeDuplicates(pointarray).ToArray();
-            int i = cleaned.Length;
+            Path64 cleaned = GeoWrangler.removeDuplicates(pointarray);
+            int i = cleaned.Capacity;
             i = i switch
             {
                 > 8191 => 8191,
@@ -617,21 +612,21 @@ public class GCPolygon : GCElement
 
     private bool isCircle()
     {
-        switch (pointarray.Length)
+        switch (pointarray.Capacity)
         {
             case < 10:
                 return false;
         }
 
-        GeoLibPointF mid = GeoWrangler.midPoint(pointarray);
+        PointD mid = GeoWrangler.midPoint(pointarray);
 
-        double min_distance = Math.Abs(GeoWrangler.distanceBetweenPoints(mid, new GeoLibPointF(pointarray[0])));
-        double max_distance = Math.Abs(GeoWrangler.distanceBetweenPoints(mid, new GeoLibPointF(pointarray[0])));
+        double min_distance = Math.Abs(GeoWrangler.distanceBetweenPoints(mid, pointarray[0]));
+        double max_distance = Math.Abs(GeoWrangler.distanceBetweenPoints(mid, pointarray[0]));
 
 
-        for (int i = 1; i < pointarray.Length; i++)
+        for (int i = 1; i < pointarray.Capacity; i++)
         {
-            double distance = Math.Abs(GeoWrangler.distanceBetweenPoints(mid, new GeoLibPointF(pointarray[i])));
+            double distance = Math.Abs(GeoWrangler.distanceBetweenPoints(mid, pointarray[i]));
             min_distance = Math.Min(min_distance, distance);
             max_distance = Math.Max(max_distance, distance);
         }
@@ -733,41 +728,41 @@ public class GCPolygon : GCElement
         switch (GCSetup.oasisSaveCtrapezoid)
         {
             // check if ctrapezoid
-            case true when pointarray.Length is 4 or 5:
+            case true when pointarray.Capacity is 4 or 5:
             {
                 int form = 0;
                 int off = 0;
-                for (int i = 1; i < pointarray.Length; i++)
+                for (int i = 1; i < pointarray.Capacity; i++)
                 {
-                    GeoLibPointF pd = GeoWrangler.distanceBetweenPoints_point(pointarray[i], pointarray[i - 1]);
-                    switch (Math.Abs(pd.X - pd.Y))
+                    PointD pd = GeoWrangler.distanceBetweenPoints_point(pointarray[i], pointarray[i - 1]);
+                    switch (Math.Abs(pd.x - pd.y))
                     {
-                        case <= double.Epsilon when pd.X > 0:
+                        case <= double.Epsilon when pd.x > 0:
                             form = form * 10 + 9;
                             break;
-                        case <= double.Epsilon when pd.X < 0:
+                        case <= double.Epsilon when pd.x < 0:
                             form = form * 10 + 1;
                             break;
                         default:
                         {
-                            switch (Math.Abs(pd.X - -pd.Y))
+                            switch (Math.Abs(pd.x - -pd.y))
                             {
-                                case <= double.Epsilon when pd.X < 0:
+                                case <= double.Epsilon when pd.x < 0:
                                     form = form * 10 + 7;
                                     break;
-                                case <= double.Epsilon when pd.X > 0:
+                                case <= double.Epsilon when pd.x > 0:
                                     form = form * 10 + 3;
                                     break;
                                 default:
                                 {
-                                    form = pd.X switch
+                                    form = pd.x switch
                                     {
-                                        0 when pd.Y > 0 => form * 10 + 8,
-                                        0 when pd.Y < 0 => form * 10 + 2,
-                                        _ => pd.Y switch
+                                        0 when pd.y > 0 => form * 10 + 8,
+                                        0 when pd.y < 0 => form * 10 + 2,
+                                        _ => pd.y switch
                                         {
-                                            0 when pd.X > 0 => form * 10 + 6,
-                                            0 when pd.X < 0 => form * 10 + 4,
+                                            0 when pd.x > 0 => form * 10 + 6,
+                                            0 when pd.x < 0 => form * 10 + 4,
                                             _ => -1
                                         }
                                     };
@@ -788,7 +783,7 @@ public class GCPolygon : GCElement
                 {
                     int w;
                     int h;
-                    switch (pointarray.Length)
+                    switch (pointarray.Capacity)
                     {
                         case 4:
                             switch (form)
@@ -812,14 +807,14 @@ public class GCPolygon : GCElement
                             }
                             switch (form)
                             {
-                                case 672: ow.writeCtrapezoid(layer_nr, 16, pointarray[0 + off].X, pointarray[0 + off].Y, pointarray[1 + off].X - pointarray[0 + off].X, 0, datatype_nr); return;
-                                case 942: ow.writeCtrapezoid(layer_nr, 17, pointarray[0 + off].X, pointarray[0 + off].Y, pointarray[1 + off].X - pointarray[0 + off].X, 0, datatype_nr); return;
-                                case 681: ow.writeCtrapezoid(layer_nr, 18, pointarray[0 + off].X, pointarray[0 + off].Y, pointarray[1 + off].X - pointarray[0 + off].X, 0, datatype_nr); return;
-                                case 438: w = pointarray[0 + off].X - pointarray[1 + off].X; ow.writeCtrapezoid(layer_nr, 19, pointarray[0 + off].X - w, pointarray[0 + off].Y - w, w, 0, datatype_nr); return;
-                                case 671: h = (pointarray[1 + off].X - pointarray[0 + off].X) / 2; ow.writeCtrapezoid(layer_nr, 20, pointarray[0 + off].X, pointarray[0 + off].Y, 0, h, datatype_nr); return;
-                                case 943: h = pointarray[1 + off].Y - pointarray[0 + off].Y; ow.writeCtrapezoid(layer_nr, 21, pointarray[0 + off].X - h, pointarray[0 + off].Y, 0, h, datatype_nr); return;
-                                case 972: w = pointarray[1 + off].X - pointarray[0 + off].X; ow.writeCtrapezoid(layer_nr, 22, pointarray[0 + off].X, pointarray[0 + off].Y, w, 0, datatype_nr); return;
-                                case 813: w = (pointarray[1 + off].Y - pointarray[0 + off].Y) / 2; ow.writeCtrapezoid(layer_nr, 23, pointarray[0 + off].X - w, pointarray[0 + off].Y, w, 0, datatype_nr); return;
+                                case 672: ow.writeCtrapezoid(layer_nr, 16, (int)pointarray[0 + off].X, (int)pointarray[0 + off].Y, (int)(pointarray[1 + off].X - pointarray[0 + off].X), 0, datatype_nr); return;
+                                case 942: ow.writeCtrapezoid(layer_nr, 17, (int)pointarray[0 + off].X, (int)pointarray[0 + off].Y, (int)(pointarray[1 + off].X - pointarray[0 + off].X), 0, datatype_nr); return;
+                                case 681: ow.writeCtrapezoid(layer_nr, 18, (int)pointarray[0 + off].X, (int)pointarray[0 + off].Y, (int)(pointarray[1 + off].X - pointarray[0 + off].X), 0, datatype_nr); return;
+                                case 438: w = (int)(pointarray[0 + off].X - pointarray[1 + off].X); ow.writeCtrapezoid(layer_nr, 19, (int)pointarray[0 + off].X - w, (int)pointarray[0 + off].Y - w, w, 0, datatype_nr); return;
+                                case 671: h = (int)((pointarray[1 + off].X - pointarray[0 + off].X) / 2); ow.writeCtrapezoid(layer_nr, 20, (int)pointarray[0 + off].X, (int)pointarray[0 + off].Y, 0, h, datatype_nr); return;
+                                case 943: h = (int)(pointarray[1 + off].Y - pointarray[0 + off].Y); ow.writeCtrapezoid(layer_nr, 21, (int)pointarray[0 + off].X - h, (int)pointarray[0 + off].Y, 0, h, datatype_nr); return;
+                                case 972: w = (int)(pointarray[1 + off].X - pointarray[0 + off].X); ow.writeCtrapezoid(layer_nr, 22, (int)pointarray[0 + off].X, (int)pointarray[0 + off].Y, w, 0, datatype_nr); return;
+                                case 813: w = (int)((pointarray[1 + off].Y - pointarray[0 + off].Y) / 2); ow.writeCtrapezoid(layer_nr, 23, (int)pointarray[0 + off].X - w, (int)pointarray[0 + off].Y, w, 0, datatype_nr); return;
                             }
 
                             break;
@@ -899,164 +894,164 @@ public class GCPolygon : GCElement
                             switch (form)
                             {
                                 case 6842:
-                                    w = pointarray[1 + off].X - pointarray[0 + off].X;
+                                    w = (int)(pointarray[1 + off].X - pointarray[0 + off].X);
                                     h = off switch
                                     {
-                                        3 => pointarray[1].Y - pointarray[2].Y,
-                                        _ => pointarray[2 + off].Y - pointarray[1 + off].Y
+                                        3 => (int)(pointarray[1].Y - pointarray[2].Y),
+                                        _ => (int)(pointarray[2 + off].Y - pointarray[1 + off].Y)
                                     };
                                     if (h == w)
                                     {
-                                        ow.writeCtrapezoid(layer_nr, 25, pointarray[0 + off].X, pointarray[0 + off].Y, w, 0, datatype_nr);
+                                        ow.writeCtrapezoid(layer_nr, 25, (int)pointarray[0 + off].X, (int)pointarray[0 + off].Y, w, 0, datatype_nr);
                                     }
                                     else
                                     {
-                                        ow.writeCtrapezoid(layer_nr, 24, pointarray[0 + off].X, pointarray[0 + off].Y, w, h, datatype_nr);
+                                        ow.writeCtrapezoid(layer_nr, 24, (int)pointarray[0 + off].X, (int)pointarray[0 + off].Y, w, h, datatype_nr);
                                     }
                                     return;
                                 case 6742:
-                                    w = pointarray[1 + off].X - pointarray[0 + off].X;
+                                    w = (int)(pointarray[1 + off].X - pointarray[0 + off].X);
                                     h = off switch
                                     {
-                                        0 => pointarray[2].Y - pointarray[1].Y,
-                                        _ => pointarray[-1 + off].Y - pointarray[0 + off].Y
+                                        0 => (int)(pointarray[2].Y - pointarray[1].Y),
+                                        _ => (int)(pointarray[-1 + off].Y - pointarray[0 + off].Y)
                                     };
-                                    ow.writeCtrapezoid(layer_nr, 0, pointarray[0 + off].X, pointarray[0 + off].Y, w, h, datatype_nr);
+                                    ow.writeCtrapezoid(layer_nr, 0, (int)pointarray[0 + off].X, (int)pointarray[0 + off].Y, w, h, datatype_nr);
                                     return;
                                 case 6942:
                                     h = off switch
                                     {
-                                        0 => pointarray[2].Y - pointarray[1].Y,
-                                        _ => pointarray[-1 + off].Y - pointarray[0 + off].Y
+                                        0 => (int)(pointarray[2].Y - pointarray[1].Y),
+                                        _ => (int)(pointarray[-1 + off].Y - pointarray[0 + off].Y)
                                     };
-                                    w = pointarray[1 + off].X - pointarray[0 + off].X + h;
-                                    ow.writeCtrapezoid(layer_nr, 1, pointarray[0 + off].X, pointarray[0 + off].Y, w, h, datatype_nr);
+                                    w = (int)(pointarray[1 + off].X - pointarray[0 + off].X + h);
+                                    ow.writeCtrapezoid(layer_nr, 1, (int)pointarray[0 + off].X, (int)pointarray[0 + off].Y, w, h, datatype_nr);
                                     return;
                                 case 6841:
-                                    w = pointarray[1 + off].X - pointarray[0 + off].X;
+                                    w = (int)(pointarray[1 + off].X - pointarray[0 + off].X);
                                     h = off switch
                                     {
-                                        0 => pointarray[2].Y - pointarray[1].Y,
-                                        _ => pointarray[-1 + off].Y - pointarray[0 + off].Y
+                                        0 => (int)(pointarray[2].Y - pointarray[1].Y),
+                                        _ => (int)(pointarray[-1 + off].Y - pointarray[0 + off].Y)
                                     };
-                                    ow.writeCtrapezoid(layer_nr, 2, pointarray[0 + off].X, pointarray[0 + off].Y, w, h, datatype_nr);
+                                    ow.writeCtrapezoid(layer_nr, 2, (int)pointarray[0 + off].X, (int)pointarray[0 + off].Y, w, h, datatype_nr);
                                     return;
                                 case 6843:
                                     h = off switch
                                     {
-                                        0 => pointarray[2].Y - pointarray[1].Y,
-                                        _ => pointarray[-1 + off].Y - pointarray[0 + off].Y
+                                        0 => (int)(pointarray[2].Y - pointarray[1].Y),
+                                        _ => (int)(pointarray[-1 + off].Y - pointarray[0 + off].Y)
                                     };
-                                    w = pointarray[1 + off].X - pointarray[0 + off].X + h;
-                                    ow.writeCtrapezoid(layer_nr, 3, pointarray[0 + off].X - h, pointarray[0 + off].Y, w, h, datatype_nr);
+                                    w = (int)(pointarray[1 + off].X - pointarray[0 + off].X + h);
+                                    ow.writeCtrapezoid(layer_nr, 3, (int)(pointarray[0 + off].X - h), (int)pointarray[0 + off].Y, w, h, datatype_nr);
                                     return;
                                 case 6741:
-                                    w = pointarray[1 + off].X - pointarray[0 + off].X;
+                                    w = (int)(pointarray[1 + off].X - pointarray[0 + off].X);
                                     h = off switch
                                     {
-                                        0 => pointarray[2].Y - pointarray[1].Y,
-                                        _ => pointarray[-1 + off].Y - pointarray[0 + off].Y
+                                        0 => (int)(pointarray[2].Y - pointarray[1].Y),
+                                        _ => (int)(pointarray[-1 + off].Y - pointarray[0 + off].Y)
                                     };
-                                    ow.writeCtrapezoid(layer_nr, 4, pointarray[0 + off].X, pointarray[0 + off].Y, w, h, datatype_nr);
+                                    ow.writeCtrapezoid(layer_nr, 4, (int)pointarray[0 + off].X, (int)pointarray[0 + off].Y, w, h, datatype_nr);
                                     return;
                                 case 6943:
                                     h = off switch
                                     {
-                                        0 => pointarray[2].Y - pointarray[1].Y,
-                                        _ => pointarray[-1 + off].Y - pointarray[0 + off].Y
+                                        0 => (int)(pointarray[2].Y - pointarray[1].Y),
+                                        _ => (int)(pointarray[-1 + off].Y - pointarray[0 + off].Y)
                                     };
-                                    w = pointarray[1 + off].X - pointarray[0 + off].X + h + h;
-                                    ow.writeCtrapezoid(layer_nr, 5, pointarray[0 + off].X - h, pointarray[0 + off].Y, w, h, datatype_nr);
+                                    w = (int)(pointarray[1 + off].X - pointarray[0 + off].X + h + h);
+                                    ow.writeCtrapezoid(layer_nr, 5, (int)(pointarray[0 + off].X - h), (int)pointarray[0 + off].Y, w, h, datatype_nr);
                                     return;
                                 case 6941:
                                     h = off switch
                                     {
-                                        0 => pointarray[2].Y - pointarray[1].Y,
-                                        _ => pointarray[-1 + off].Y - pointarray[0 + off].Y
+                                        0 => (int)(pointarray[2].Y - pointarray[1].Y),
+                                        _ => (int)(pointarray[-1 + off].Y - pointarray[0 + off].Y)
                                     };
-                                    w = pointarray[1 + off].X - pointarray[0 + off].X + h;
-                                    ow.writeCtrapezoid(layer_nr, 6, pointarray[0 + off].X, pointarray[0 + off].Y, w, h, datatype_nr);
+                                    w = (int)(pointarray[1 + off].X - pointarray[0 + off].X + h);
+                                    ow.writeCtrapezoid(layer_nr, 6, (int)pointarray[0 + off].X, (int)pointarray[0 + off].Y, w, h, datatype_nr);
                                     return;
                                 case 6743:
                                     h = off switch
                                     {
-                                        0 => pointarray[2].Y - pointarray[1].Y,
-                                        _ => pointarray[-1 + off].Y - pointarray[0 + off].Y
+                                        0 => (int)(pointarray[2].Y - pointarray[1].Y),
+                                        _ => (int)(pointarray[-1 + off].Y - pointarray[0 + off].Y)
                                     };
-                                    w = pointarray[1 + off].X - pointarray[0 + off].X + h;
-                                    ow.writeCtrapezoid(layer_nr, 7, pointarray[0 + off].X - h, pointarray[0 + off].Y, w, h, datatype_nr);
+                                    w = (int)(pointarray[1 + off].X - pointarray[0 + off].X + h);
+                                    ow.writeCtrapezoid(layer_nr, 7, (int)(pointarray[0 + off].X - h), (int)pointarray[0 + off].Y, w, h, datatype_nr);
                                     return;
                                 case 6872:
-                                    w = pointarray[1 + off].X - pointarray[0 + off].X;
+                                    w = (int)(pointarray[1 + off].X - pointarray[0 + off].X);
                                     h = off switch
                                     {
-                                        0 => pointarray[3].Y - pointarray[0].Y,
-                                        _ => pointarray[-1 + off].Y - pointarray[0 + off].Y
+                                        0 => (int)(pointarray[3].Y - pointarray[0].Y),
+                                        _ => (int)(pointarray[-1 + off].Y - pointarray[0 + off].Y)
                                     };
-                                    ow.writeCtrapezoid(layer_nr, 8, pointarray[0 + off].X, pointarray[0 + off].Y, w, h, datatype_nr);
+                                    ow.writeCtrapezoid(layer_nr, 8, (int)pointarray[0 + off].X, (int)pointarray[0 + off].Y, w, h, datatype_nr);
                                     return;
                                 case 6812:
-                                    w = pointarray[1 + off].X - pointarray[0 + off].X;
+                                    w = (int)(pointarray[1 + off].X - pointarray[0 + off].X);
                                     h = off switch
                                     {
-                                        0 => pointarray[2].Y - pointarray[0].Y,
-                                        _ => pointarray[-1 + off].Y - pointarray[0 + off].Y + w
+                                        0 => (int)(pointarray[2].Y - pointarray[0].Y),
+                                        _ => (int)(pointarray[-1 + off].Y - pointarray[0 + off].Y + w)
                                     };
-                                    ow.writeCtrapezoid(layer_nr, 9, pointarray[0 + off].X, pointarray[0 + off].Y, w, h, datatype_nr);
+                                    ow.writeCtrapezoid(layer_nr, 9, (int)pointarray[0 + off].X, (int)pointarray[0 + off].Y, w, h, datatype_nr);
                                     return;
                                 case 9842:
-                                    w = pointarray[1 + off].X - pointarray[0 + off].X;
+                                    w = (int)(pointarray[1 + off].X - pointarray[0 + off].X);
                                     h = off switch
                                     {
-                                        0 => pointarray[3].Y - pointarray[0].Y,
-                                        _ => pointarray[-1 + off].Y - pointarray[0 + off].Y
+                                        0 => (int)(pointarray[3].Y - pointarray[0].Y),
+                                        _ => (int)(pointarray[-1 + off].Y - pointarray[0 + off].Y)
                                     };
-                                    ow.writeCtrapezoid(layer_nr, 10, pointarray[0 + off].X, pointarray[0 + off].Y, w, h, datatype_nr);
+                                    ow.writeCtrapezoid(layer_nr, 10, (int)pointarray[0 + off].X, (int)pointarray[0 + off].Y, w, h, datatype_nr);
                                     return;
                                 case 8423:
-                                    h = pointarray[1 + off].Y - pointarray[0 + off].Y;
+                                    h = (int)(pointarray[1 + off].Y - pointarray[0 + off].Y);
                                     w = off switch
                                     {
-                                        0 => pointarray[0].X - pointarray[2].X,
-                                        _ => pointarray[0 + off].X - pointarray[-1 + off].X
+                                        0 => (int)(pointarray[0].X - pointarray[2].X),
+                                        _ => (int)(pointarray[0 + off].X - pointarray[-1 + off].X)
                                     };
-                                    ow.writeCtrapezoid(layer_nr, 11, pointarray[0 + off].X - w, pointarray[0 + off].Y, w, h, datatype_nr);
+                                    ow.writeCtrapezoid(layer_nr, 11, (int)(pointarray[0 + off].X - w), (int)pointarray[0 + off].Y, w, h, datatype_nr);
                                     return;
                                 case 9872:
-                                    w = pointarray[1 + off].X - pointarray[0 + off].X;
+                                    w = (int)(pointarray[1 + off].X - pointarray[0 + off].X);
                                     h = off switch
                                     {
-                                        0 => pointarray[3].Y - pointarray[0].Y,
-                                        _ => pointarray[-1 + off].Y - pointarray[0 + off].Y
+                                        0 => (int)(pointarray[3].Y - pointarray[0].Y),
+                                        _ => (int)(pointarray[-1 + off].Y - pointarray[0 + off].Y)
                                     };
-                                    ow.writeCtrapezoid(layer_nr, 12, pointarray[0 + off].X, pointarray[0 + off].Y, w, h, datatype_nr);
+                                    ow.writeCtrapezoid(layer_nr, 12, (int)pointarray[0 + off].X, (int)pointarray[0 + off].Y, w, h, datatype_nr);
                                     return;
                                 case 8123:
-                                    h = pointarray[1 + off].Y - pointarray[0 + off].Y;
+                                    h = (int)(pointarray[1 + off].Y - pointarray[0 + off].Y);
                                     w = off switch
                                     {
-                                        0 => pointarray[0].X - pointarray[2].X,
-                                        _ => pointarray[0 + off].X - pointarray[-1 + off].X
+                                        0 => (int)(pointarray[0].X - pointarray[2].X),
+                                        _ => (int)(pointarray[0 + off].X - pointarray[-1 + off].X)
                                     };
-                                    ow.writeCtrapezoid(layer_nr, 13, pointarray[0 + off].X - w, pointarray[0 + off].Y, w, h, datatype_nr);
+                                    ow.writeCtrapezoid(layer_nr, 13, (int)(pointarray[0 + off].X - w), (int)pointarray[0 + off].Y, w, h, datatype_nr);
                                     return;
                                 case 9812:
-                                    w = pointarray[1 + off].X - pointarray[0 + off].X;
+                                    w = (int)(pointarray[1 + off].X - pointarray[0 + off].X);
                                     h = off switch
                                     {
-                                        0 => pointarray[2].Y - pointarray[0].Y,
-                                        _ => pointarray[-1 + off].Y - pointarray[0 + off].Y + w
+                                        0 => (int)(pointarray[2].Y - pointarray[0].Y),
+                                        _ => (int)(pointarray[-1 + off].Y - pointarray[0 + off].Y + w)
                                     };
-                                    ow.writeCtrapezoid(layer_nr, 14, pointarray[0 + off].X, pointarray[0 + off].Y, w, h, datatype_nr);
+                                    ow.writeCtrapezoid(layer_nr, 14, (int)pointarray[0 + off].X, (int)pointarray[0 + off].Y, w, h, datatype_nr);
                                     return;
                                 case 8723:
                                     w = off switch
                                     {
-                                        0 => pointarray[0].X - pointarray[2].X,
-                                        _ => pointarray[0 + off].X - pointarray[-1 + off].X
+                                        0 => (int)(pointarray[0].X - pointarray[2].X),
+                                        _ => (int)(pointarray[0 + off].X - pointarray[-1 + off].X)
                                     };
-                                    h = pointarray[1 + off].Y - pointarray[0 + off].Y + w;
-                                    ow.writeCtrapezoid(layer_nr, 15, pointarray[0 + off].X - w, pointarray[0 + off].Y, w, h, datatype_nr);
+                                    h = (int)(pointarray[1 + off].Y - pointarray[0 + off].Y + w);
+                                    ow.writeCtrapezoid(layer_nr, 15, (int)(pointarray[0 + off].X - w), (int)pointarray[0 + off].Y, w, h, datatype_nr);
                                     return;
                             }
 
@@ -1071,41 +1066,41 @@ public class GCPolygon : GCElement
         switch (GCSetup.oasisSaveTrapezoid)
         {
             //trapezoid
-            case true when pointarray.Length == 5:
+            case true when pointarray.Capacity == 5:
             {
                 int form = 0;
                 int da, db;
-                int minX = pointarray[0].X;
-                int maxX = pointarray[0].X;
-                int minY = pointarray[0].Y;
-                int maxY = pointarray[0].Y;
-                for (int i = 1; i < pointarray.Length; i++)
+                int minX = (int)pointarray[0].X;
+                int maxX = (int)pointarray[0].X;
+                int minY = (int)pointarray[0].Y;
+                int maxY = (int)pointarray[0].Y;
+                for (int i = 1; i < pointarray.Capacity; i++)
                 {
                     if (pointarray[i].X > maxX)
                     {
-                        maxX = pointarray[i].X;
+                        maxX = (int)pointarray[i].X;
                     }
                     if (pointarray[i].Y > maxY)
                     {
-                        maxY = pointarray[i].Y;
+                        maxY = (int)pointarray[i].Y;
                     }
                     if (pointarray[i].X < minX)
                     {
-                        minX = pointarray[i].X;
+                        minX = (int)pointarray[i].X;
                     }
                     if (pointarray[i].Y < minY)
                     {
-                        minY = pointarray[i].Y;
+                        minY = (int)pointarray[i].Y;
                     }
-                    GeoLibPointF pd = GeoWrangler.distanceBetweenPoints_point(pointarray[i], pointarray[i - 1]);
-                    switch (pd.X)
+                    PointD pd = GeoWrangler.distanceBetweenPoints_point(pointarray[i], pointarray[i - 1]);
+                    switch (pd.x)
                     {
                         case 0:
                             form = form * 10 + 1;
                             break;
                         default:
                         {
-                            switch (pd.Y)
+                            switch (pd.y)
                             {
                                 case 0:
                                     form = form * 10 + 2;
@@ -1128,13 +1123,13 @@ public class GCPolygon : GCElement
                     case 1012:
                         if (pointarray[0].X > pointarray[2].X)
                         {
-                            da = pointarray[0].Y - pointarray[3].Y;
-                            db = pointarray[1].Y - pointarray[2].Y;
+                            da = (int)(pointarray[0].Y - pointarray[3].Y);
+                            db = (int)(pointarray[1].Y - pointarray[2].Y);
                         }
                         else
                         {
-                            db = pointarray[0].Y - pointarray[3].Y;
-                            da = pointarray[1].Y - pointarray[2].Y;
+                            db = (int)(pointarray[0].Y - pointarray[3].Y);
+                            da = (int)(pointarray[1].Y - pointarray[2].Y);
                         }
                         ow.writeTrapezoid(layer_nr, 1, minX, minY, w, h, -da, -db, datatype_nr);
                         return;
@@ -1143,13 +1138,13 @@ public class GCPolygon : GCElement
                     case 2101:
                         if (pointarray[1].X > pointarray[3].X)
                         {
-                            da = pointarray[1].Y - pointarray[4].Y;
-                            db = pointarray[2].Y - pointarray[3].Y;
+                            da = (int)(pointarray[1].Y - pointarray[4].Y);
+                            db = (int)(pointarray[2].Y - pointarray[3].Y);
                         }
                         else
                         {
-                            db = pointarray[1].Y - pointarray[4].Y;
-                            da = pointarray[2].Y - pointarray[3].Y;
+                            db = (int)(pointarray[1].Y - pointarray[4].Y);
+                            da = (int)(pointarray[2].Y - pointarray[3].Y);
                         }
                         ow.writeTrapezoid(layer_nr, 1, minX, minY, w, h, -da, -db, datatype_nr);
                         //printf("minX %d, maxX %d, minY %d, maxY %d, w %d, h %d, da %d, db %d\n",minX,maxX,minY,maxY,w,h,da,db);
@@ -1159,13 +1154,13 @@ public class GCPolygon : GCElement
                     case 2021:
                         if (pointarray[0].Y < pointarray[2].Y)
                         {
-                            da = pointarray[0].X - pointarray[3].X;
-                            db = pointarray[1].X - pointarray[2].X;
+                            da = (int)(pointarray[0].X - pointarray[3].X);
+                            db = (int)(pointarray[1].X - pointarray[2].X);
                         }
                         else
                         {
-                            db = -pointarray[0].X + pointarray[3].X;
-                            da = -pointarray[1].X + pointarray[2].X;
+                            db = (int)(-pointarray[0].X + pointarray[3].X);
+                            da = (int)(-pointarray[1].X + pointarray[2].X);
                         }
                         ow.writeTrapezoid(layer_nr, 0, minX, minY, w, h, -da, -db, datatype_nr);
                         return;
@@ -1174,13 +1169,13 @@ public class GCPolygon : GCElement
                     case 212:
                         if (pointarray[1].Y < pointarray[3].Y)
                         {
-                            da = pointarray[1].X - pointarray[4].X;
-                            db = pointarray[2].X - pointarray[3].X;
+                            da = (int)(pointarray[1].X - pointarray[4].X);
+                            db = (int)(pointarray[2].X - pointarray[3].X);
                         }
                         else
                         {
-                            db = -pointarray[1].X + pointarray[4].X;
-                            da = -pointarray[2].X + pointarray[3].X;
+                            db = (int)(-pointarray[1].X + pointarray[4].X);
+                            da = (int)(-pointarray[2].X + pointarray[3].X);
                         }
                         ow.writeTrapezoid(layer_nr, 0, minX, minY, w, h, -da, -db, datatype_nr);
                         return;
@@ -1233,14 +1228,14 @@ public class GCPolygon : GCElement
         switch (info_byte & 16)
         {
             case > 0:
-                ow.modal.geometry_x = pointarray[0].X;
+                ow.modal.geometry_x = (int)pointarray[0].X;
                 ow.writeSignedInteger(ow.modal.geometry_x);
                 break;
         }
         switch (info_byte & 8)
         {
             case > 0:
-                ow.modal.geometry_y = pointarray[0].Y;
+                ow.modal.geometry_y = (int)pointarray[0].Y;
                 ow.writeSignedInteger(ow.modal.geometry_y);
                 break;
         }

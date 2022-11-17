@@ -6,9 +6,6 @@ using PartitionTestGeometrySource;
 
 namespace partitionTest;
 
-using Path = Path64;
-using Paths = Paths64;
-
 internal class Program
 {
     private static void Main(string[] args)
@@ -32,37 +29,37 @@ internal class Program
     private static void partOne()
     {
         // L
-        GeoLibPoint[] L = TestGeometry.getL();
-        GeoLibPoint[] rL = TestGeometry.getRL();
+        Path64 L = TestGeometry.getL();
+        Path64 rL = TestGeometry.getRL();
 
         // Reversed orientation.
-        GeoLibPoint[] L_ccw = L.ToArray();
-        Array.Reverse(L_ccw);
+        Path64 L_ccw = new (L);
+        L_ccw.Reverse();
 
         // U
-        GeoLibPoint[] U = TestGeometry.getU();
+        Path64 U = TestGeometry.getU();
 
         // T
-        GeoLibPoint[] T = TestGeometry.getT();
+        Path64 T = TestGeometry.getT();
 
         // X
-        GeoLibPoint[] X = TestGeometry.getX();
+        Path64 X = TestGeometry.getX();
 
         // S
-        GeoLibPoint[] S = TestGeometry.getS();
+        Path64 S = TestGeometry.getS();
 
         // Negative S
-        GeoLibPoint[] nS = TestGeometry.getnegS();
+        Path64 nS = TestGeometry.getnegS();
 
         // Complex 1
-        GeoLibPoint[] C1 = TestGeometry.getComplex1();
+        Path64 C1 = TestGeometry.getComplex1();
 
 
         // Complex 2
-        GeoLibPoint[] C2 = TestGeometry.getComplex2();
+        Path64 C2 = TestGeometry.getComplex2();
 
         // Complex 3
-        GeoLibPoint[] C3 = TestGeometry.getComplex3();
+        Path64 C3 = TestGeometry.getComplex3();
 
         // C3 = GeoWrangler.clockwiseAndReorder(C3);
 
@@ -70,11 +67,11 @@ internal class Program
         bool orth2 = GeoWrangler.orthogonal(C3, angularTolerance: 0);
 
         // Complex 10, rot 15
-        GeoLibPoint[] C10R15 = TestGeometry.getComplex10rot15();
+        Path64 C10R15 = TestGeometry.getComplex10rot15();
 
 
         // Staircase
-        GeoLibPoint[] S1 = TestGeometry.getStaircase();
+        Path64 S1 = TestGeometry.getStaircase();
 
         // Rectangular decomposition will return non-orthogonal polygons in the output when encountered.
 
@@ -82,11 +79,11 @@ internal class Program
 
         bool abort = false;
 
-        List<GeoLibPoint[]> l = GeoWrangler.rectangular_decomposition(ref abort, L, maxRayLength: rayLength);
+        Paths64 l = GeoWrangler.rectangular_decomposition(ref abort, L, maxRayLength: rayLength);
 
         /* Expected output
-            l = {List<GeoLibPoint[]>} Count = 2
-             [0] = {GeoLibPoint[]} GeoLibPoint[4]
+            l = {List<Path>} Count = 2
+             [0] = {Path} GeoLibPoint[4]
               [0] = GeoLibPoint
                X = {int} 0
                Y = {int} 0
@@ -103,7 +100,7 @@ internal class Program
                X = {int} 10
                Y = {int} 0
                tag = {int} 0
-             [1] = {GeoLibPoint[]} GeoLibPoint[4]
+             [1] = {Path} GeoLibPoint[4]
               [0] = GeoLibPoint
                X = {int} 10
                Y = {int} 0
@@ -124,11 +121,11 @@ internal class Program
 
         writeToLayout("l", L, l);
 
-        List<GeoLibPoint[]> lccw = GeoWrangler.rectangular_decomposition(ref abort, L_ccw, maxRayLength: rayLength);
+        Paths64 lccw = GeoWrangler.rectangular_decomposition(ref abort, L_ccw, maxRayLength: rayLength);
 
         /* Expected output
-           lccw = {List<GeoLibPoint[]>} Count = 2
-            [0] = {GeoLibPoint[]} GeoLibPoint[4]
+           lccw = {List<Path>} Count = 2
+            [0] = {Path} GeoLibPoint[4]
              [0] = GeoLibPoint
               X = {int} 0
               Y = {int} 0
@@ -145,7 +142,7 @@ internal class Program
               X = {int} 10
               Y = {int} 0
               tag = {int} 0
-            [1] = {GeoLibPoint[]} GeoLibPoint[4]
+            [1] = {Path} GeoLibPoint[4]
              [0] = GeoLibPoint
               X = {int} 10
               Y = {int} 0
@@ -166,11 +163,11 @@ internal class Program
 
         writeToLayout("lccw", L_ccw, lccw);
 
-        List<GeoLibPoint[]> rl = GeoWrangler.rectangular_decomposition(ref abort, rL, maxRayLength: rayLength);
+        Paths64 rl = GeoWrangler.rectangular_decomposition(ref abort, rL, maxRayLength: rayLength);
 
         /* Expected output
-           rl = {List<GeoLibPoint[]>} Count = 2
-            [0] = {GeoLibPoint[]} GeoLibPoint[4]
+           rl = {List<Path>} Count = 2
+            [0] = {Path} GeoLibPoint[4]
              [0] = GeoLibPoint
               X = {int} 10
               Y = {int} 0
@@ -187,7 +184,7 @@ internal class Program
               X = {int} 60
               Y = {int} 0
               tag = {int} 0
-            [1] = {GeoLibPoint[]} GeoLibPoint[4]
+            [1] = {Path} GeoLibPoint[4]
              [0] = GeoLibPoint
               X = {int} 0
               Y = {int} 0
@@ -208,11 +205,11 @@ internal class Program
 
         writeToLayout("rl", rL, rl);
 
-        List<GeoLibPoint[]> u = GeoWrangler.rectangular_decomposition(ref abort, U, maxRayLength: rayLength);
+        Paths64 u = GeoWrangler.rectangular_decomposition(ref abort, U, maxRayLength: rayLength);
 
         /* Expected output
-           u = {List<GeoLibPoint[]>} Count = 3
-            [0] = {GeoLibPoint[]} GeoLibPoint[4]
+           u = {List<Path>} Count = 3
+            [0] = {Path} GeoLibPoint[4]
              [0] = GeoLibPoint
               X = {int} 0
               Y = {int} 0
@@ -229,7 +226,7 @@ internal class Program
               X = {int} 10
               Y = {int} 0
               tag = {int} 0
-            [1] = {GeoLibPoint[]} GeoLibPoint[4]
+            [1] = {Path} GeoLibPoint[4]
              [0] = GeoLibPoint
               X = {int} 60
               Y = {int} 0
@@ -246,7 +243,7 @@ internal class Program
               X = {int} 120
               Y = {int} 0
               tag = {int} 0
-            [2] = {GeoLibPoint[]} GeoLibPoint[4]
+            [2] = {Path} GeoLibPoint[4]
              [0] = GeoLibPoint
               X = {int} 10
               Y = {int} 0
@@ -267,11 +264,11 @@ internal class Program
 
         writeToLayout("u", U, u);
 
-        List<GeoLibPoint[]> t = GeoWrangler.rectangular_decomposition(ref abort, T, maxRayLength: rayLength);
+        Paths64 t = GeoWrangler.rectangular_decomposition(ref abort, T, maxRayLength: rayLength);
 
         /* Expected output
-           t = {List<GeoLibPoint[]>} Count = 3
-            [0] = {GeoLibPoint[]} GeoLibPoint[4]
+           t = {List<Path>} Count = 3
+            [0] = {Path} GeoLibPoint[4]
              [0] = GeoLibPoint
               X = {int} 60
               Y = {int} 50
@@ -288,7 +285,7 @@ internal class Program
               X = {int} 80
               Y = {int} 50
               tag = {int} 0
-            [1] = {GeoLibPoint[]} GeoLibPoint[4]
+            [1] = {Path} GeoLibPoint[4]
              [0] = GeoLibPoint
               X = {int} 40
               Y = {int} 0
@@ -305,7 +302,7 @@ internal class Program
               X = {int} 60
               Y = {int} 0
               tag = {int} 0
-            [2] = {GeoLibPoint[]} GeoLibPoint[4]
+            [2] = {Path} GeoLibPoint[4]
              [0] = GeoLibPoint
               X = {int} 0
               Y = {int} 50
@@ -326,11 +323,11 @@ internal class Program
 
         writeToLayout("t", T, t);
 
-        List<GeoLibPoint[]> x = GeoWrangler.rectangular_decomposition(ref abort, X, maxRayLength: rayLength);
+        Paths64 x = GeoWrangler.rectangular_decomposition(ref abort, X, maxRayLength: rayLength);
 
         /* Expected output
-           x = {List<GeoLibPoint[]>} Count = 3
-            [0] = {GeoLibPoint[]} GeoLibPoint[4]
+           x = {List<Path>} Count = 3
+            [0] = {Path} GeoLibPoint[4]
              [0] = GeoLibPoint
               X = {int} 0
               Y = {int} 50
@@ -347,7 +344,7 @@ internal class Program
               X = {int} 60
               Y = {int} 50
               tag = {int} 0
-            [1] = {GeoLibPoint[]} GeoLibPoint[4]
+            [1] = {Path} GeoLibPoint[4]
              [0] = GeoLibPoint
               X = {int} 60
               Y = {int} 20
@@ -364,7 +361,7 @@ internal class Program
               X = {int} 80
               Y = {int} 20
               tag = {int} 0
-            [2] = {GeoLibPoint[]} GeoLibPoint[4]
+            [2] = {Path} GeoLibPoint[4]
              [0] = GeoLibPoint
               X = {int} 80
               Y = {int} 50
@@ -385,11 +382,11 @@ internal class Program
 
         writeToLayout("x", X, x);
 
-        List<GeoLibPoint[]> s = GeoWrangler.rectangular_decomposition(ref abort, S, maxRayLength: rayLength);
+        Paths64 s = GeoWrangler.rectangular_decomposition(ref abort, S, maxRayLength: rayLength);
 
         /* Expected output
-           s = {List<GeoLibPoint[]>} Count = 5
-            [0] = {GeoLibPoint[]} GeoLibPoint[4]
+           s = {List<Path>} Count = 5
+            [0] = {Path} GeoLibPoint[4]
              [0] = GeoLibPoint
               X = {int} 0
               Y = {int} 50
@@ -406,7 +403,7 @@ internal class Program
               X = {int} 20
               Y = {int} 50
               tag = {int} 0
-            [1] = {GeoLibPoint[]} GeoLibPoint[4]
+            [1] = {Path} GeoLibPoint[4]
              [0] = GeoLibPoint
               X = {int} 0
               Y = {int} 0
@@ -423,7 +420,7 @@ internal class Program
               X = {int} 20
               Y = {int} 0
               tag = {int} 0
-            [2] = {GeoLibPoint[]} GeoLibPoint[4]
+            [2] = {Path} GeoLibPoint[4]
              [0] = GeoLibPoint
               X = {int} 80
               Y = {int} 0
@@ -440,7 +437,7 @@ internal class Program
               X = {int} 100
               Y = {int} 0
               tag = {int} 0
-            [3] = {GeoLibPoint[]} GeoLibPoint[4]
+            [3] = {Path} GeoLibPoint[4]
              [0] = GeoLibPoint
               X = {int} 80
               Y = {int} 80
@@ -457,7 +454,7 @@ internal class Program
               X = {int} 100
               Y = {int} 80
               tag = {int} 0
-            [4] = {GeoLibPoint[]} GeoLibPoint[4]
+            [4] = {Path} GeoLibPoint[4]
              [0] = GeoLibPoint
               X = {int} 20
               Y = {int} 0
@@ -478,11 +475,11 @@ internal class Program
 
         writeToLayout("s", S, s);
 
-        List<GeoLibPoint[]> ns = GeoWrangler.rectangular_decomposition(ref abort, nS, maxRayLength: rayLength);
+        Paths64 ns = GeoWrangler.rectangular_decomposition(ref abort, nS, maxRayLength: rayLength);
 
         /* Expected output
-           ns = {List<GeoLibPoint[]>} Count = 5
-            [0] = {GeoLibPoint[]} GeoLibPoint[4]
+           ns = {List<Path>} Count = 5
+            [0] = {Path} GeoLibPoint[4]
              [0] = GeoLibPoint
               X = {int} 0
               Y = {int} -150
@@ -499,7 +496,7 @@ internal class Program
               X = {int} 20
               Y = {int} -150
               tag = {int} 0
-            [1] = {GeoLibPoint[]} GeoLibPoint[4]
+            [1] = {Path} GeoLibPoint[4]
              [0] = GeoLibPoint
               X = {int} 0
               Y = {int} -200
@@ -516,7 +513,7 @@ internal class Program
               X = {int} 20
               Y = {int} -200
               tag = {int} 0
-            [2] = {GeoLibPoint[]} GeoLibPoint[4]
+            [2] = {Path} GeoLibPoint[4]
              [0] = GeoLibPoint
               X = {int} 80
               Y = {int} -200
@@ -533,7 +530,7 @@ internal class Program
               X = {int} 100
               Y = {int} -200
               tag = {int} 0
-            [3] = {GeoLibPoint[]} GeoLibPoint[4]
+            [3] = {Path} GeoLibPoint[4]
              [0] = GeoLibPoint
               X = {int} 80
               Y = {int} -120
@@ -550,7 +547,7 @@ internal class Program
               X = {int} 100
               Y = {int} -120
               tag = {int} 0
-            [4] = {GeoLibPoint[]} GeoLibPoint[4]
+            [4] = {Path} GeoLibPoint[4]
              [0] = GeoLibPoint
               X = {int} 20
               Y = {int} -200
@@ -571,35 +568,35 @@ internal class Program
 
         writeToLayout("ns", nS, ns);
 
-        List<GeoLibPoint[]> c1 = GeoWrangler.rectangular_decomposition(ref abort, C1, maxRayLength: rayLength);
+        Paths64 c1 = GeoWrangler.rectangular_decomposition(ref abort, C1, maxRayLength: rayLength);
 
         // Expect 17 quads
 
         writeToLayout("c1", C1, c1);
 
-        List<GeoLibPoint[]> c2 = GeoWrangler.rectangular_decomposition(ref abort, C2, maxRayLength: rayLength);
+        Paths64 c2 = GeoWrangler.rectangular_decomposition(ref abort, C2, maxRayLength: rayLength);
 
         // Expect 81 quads
 
         writeToLayout("c2", C2, c2);
 
-        List<GeoLibPoint[]> c3 = GeoWrangler.rectangular_decomposition(ref abort, C3, maxRayLength: rayLength);
+        Paths64 c3 = GeoWrangler.rectangular_decomposition(ref abort, C3, maxRayLength: rayLength);
 
         // Expect 13 quads
 
         writeToLayout("c3", C3, c3);
 
-        List<GeoLibPoint[]> c10r15 = GeoWrangler.rectangular_decomposition(ref abort, C10R15, maxRayLength: rayLength);
+        Paths64 c10r15 = GeoWrangler.rectangular_decomposition(ref abort, C10R15, maxRayLength: rayLength);
 
         // Expect 1 irregular polygon
 
         writeToLayout("c10r15", C10R15, c10r15);
 
-        List<GeoLibPoint[]> s1 = GeoWrangler.rectangular_decomposition(ref abort, S1, maxRayLength: rayLength);
+        Paths64 s1 = GeoWrangler.rectangular_decomposition(ref abort, S1, maxRayLength: rayLength);
 
         /* Expected output
-           s1 = {List<GeoLibPoint[]>} Count = 4
-            [0] = {GeoLibPoint[]} GeoLibPoint[4]
+           s1 = {List<Path>} Count = 4
+            [0] = {Path} GeoLibPoint[4]
              [0] = GeoLibPoint
               X = {int} -50
               Y = {int} -50
@@ -616,7 +613,7 @@ internal class Program
               X = {int} 0
               Y = {int} -50
               tag = {int} 0
-            [1] = {GeoLibPoint[]} GeoLibPoint[4]
+            [1] = {Path} GeoLibPoint[4]
              [0] = GeoLibPoint
               X = {int} 0
               Y = {int} -50
@@ -633,7 +630,7 @@ internal class Program
               X = {int} 100
               Y = {int} -50
               tag = {int} 0
-            [2] = {GeoLibPoint[]} GeoLibPoint[4]
+            [2] = {Path} GeoLibPoint[4]
              [0] = GeoLibPoint
               X = {int} 150
               Y = {int} -50
@@ -650,7 +647,7 @@ internal class Program
               X = {int} 200
               Y = {int} -50
               tag = {int} 0
-            [3] = {GeoLibPoint[]} GeoLibPoint[4]
+            [3] = {Path} GeoLibPoint[4]
              [0] = GeoLibPoint
               X = {int} 100
               Y = {int} -50
@@ -674,8 +671,8 @@ internal class Program
 
     private static void partTwo()
     {
-        List<GeoLibPointF[]> incoming = new();
-        GeoLibPointF[] lPieces = new GeoLibPointF[]
+        PathsD incoming = new();
+        PathD lPieces = new PathD
         {
             new(0.00000, 0.00000),
             new(0.00000, 0.05000),
@@ -685,7 +682,7 @@ internal class Program
         };
 
 
-        GeoLibPointF[] lPiece2 = new GeoLibPointF[]
+        PathD lPiece2 = new PathD
         {
             new(0.01000, 0.00000),
             new(0.01000, 0.02000),
@@ -694,19 +691,19 @@ internal class Program
             new(0.01000, 0.00000)
         };
 
-        Array.Reverse(lPieces);
-        Array.Reverse(lPiece2);
+        lPieces.Reverse();
+        lPiece2.Reverse();
         incoming.Add(lPieces);
         incoming.Add(lPiece2);
 
-        Paths paths = GeoWrangler.pathsFromPointFs(incoming, 10000);
+        Paths64 paths = GeoWrangler.pathsFromPointFs(incoming, 10000);
 
         Clipper64 c = new();
         c.AddSubject(paths);
-        Paths ret = new();
+        Paths64 ret = new();
         c.Execute(ClipType.Union, FillRule.EvenOdd, ret);
 
-        List<GeoLibPointF[]> done = GeoWrangler.pointFsFromPaths(ret, 10000);
+        PathsD done = GeoWrangler.pointFsFromPaths(ret, 10000);
     }
 
     private static void partThree()
@@ -717,7 +714,7 @@ internal class Program
         Console.WriteLine("  Preparing....");
         sw.Start();
 
-        GeoLibPointF[] poly = new GeoLibPointF[]
+        PathD poly = new PathD
         {
             new(0.01000, -0.21300),
             new(0.01000, -0.20200),
@@ -2897,7 +2894,7 @@ internal class Program
 
         Console.WriteLine("  Conversion....");
         sw.Restart();
-        List<GeoLibPoint[]> done = new() { GeoWrangler.pointsFromPointF(poly, 1000) };
+        Paths64 done = new() { GeoWrangler.pointsFromPointF(poly, 1000) };
         sw.Stop();
         Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
 
@@ -2905,7 +2902,7 @@ internal class Program
 
         Console.WriteLine("  Decomposition (vertical)....");
         sw.Restart();
-        List<GeoLibPoint[]> ns = GeoWrangler.rectangular_decomposition(ref abort, done, maxRayLength: rayLength);
+        Paths64 ns = GeoWrangler.rectangular_decomposition(ref abort, done, maxRayLength: rayLength);
 
         // Expect 721 quads.
 
@@ -2936,7 +2933,7 @@ internal class Program
         Console.WriteLine(" Part 1....");
         Console.WriteLine("  Preparing....");
         sw.Start();
-        GeoLibPoint[] points_1 = TestGeometry.ortho_fractal_1();
+        Path64 points_1 = TestGeometry.ortho_fractal_1();
         points_1 = GeoWrangler.close(points_1);
         sw.Stop();
         Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
@@ -2946,14 +2943,14 @@ internal class Program
         Console.WriteLine(" Part 2....");
         Console.WriteLine("  Preparing....");
         sw.Start();
-        GeoLibPoint[] points_2 = TestGeometry.ortho_fractal_2();
+        Path64 points_2 = TestGeometry.ortho_fractal_2();
         points_2 = GeoWrangler.close(points_2);
         sw.Stop();
         Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
         partFour_do(points_2, "complex_loop_rot");
     }
 
-    private static void partFour_do(GeoLibPoint[] points, string baseString)
+    private static void partFour_do(Path64 points, string baseString)
     {
         System.Diagnostics.Stopwatch sw = new();
 
@@ -2963,22 +2960,22 @@ internal class Program
         Console.WriteLine("  Keyhole....");
         // Give the keyholder a whirl:
         sw.Restart();
-        GeoLibPoint[] toDecomp =
+        Path64 toDecomp =
             GeoWrangler.pointFromPath(GeoWrangler.makeKeyHole(GeoWrangler.pathFromPoint(points, 1000), reverseEval:false, biDirectionalEval:true)[0], 1);
         sw.Stop();
         Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
 
         Console.WriteLine("  Query....");
         sw.Restart();
-        GeoLibPoint[] bounds = GeoWrangler.getBounds(toDecomp);
-        GeoLibPointF dist = GeoWrangler.distanceBetweenPoints_point(bounds[0], bounds[1]);
+        Path64 bounds = GeoWrangler.getBounds(toDecomp);
+        PointD dist = GeoWrangler.distanceBetweenPoints_point(bounds[0], bounds[1]);
         sw.Stop();
         Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
 
         Console.WriteLine("  Decomposition (vertical)....");
         sw.Restart();
-        List<GeoLibPoint[]> decompOut = GeoWrangler.rectangular_decomposition(ref abort, toDecomp, scaling: 2,
-            maxRayLength: (long)Math.Max(Math.Abs(dist.X), Math.Abs(dist.Y)) * 1, vertical: vertical);
+        Paths64 decompOut = GeoWrangler.rectangular_decomposition(ref abort, toDecomp, scaling: 2,
+            maxRayLength: (long)Math.Max(Math.Abs(dist.x), Math.Abs(dist.y)) * 1, vertical: vertical);
         sw.Stop();
         Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
 
@@ -2988,7 +2985,7 @@ internal class Program
         Console.WriteLine("  Decomposition (horizontal)....");
         sw.Restart();
         decompOut = GeoWrangler.rectangular_decomposition(ref abort, toDecomp, scaling: 2,
-            maxRayLength: (long)Math.Max(Math.Abs(dist.X), Math.Abs(dist.Y)) * 1, vertical: !vertical);
+            maxRayLength: (long)Math.Max(Math.Abs(dist.x), Math.Abs(dist.y)) * 1, vertical: !vertical);
         sw.Stop();
         Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
 
@@ -3004,138 +3001,138 @@ internal class Program
         bool vertical = true;
         bool abort = false;
 
-        List<GeoLibPointF[]> polydata = new()
+        PathsD polydata = new()
         {
-            new[]
+            new()
             {
-                new GeoLibPointF(-40, -30),
-                new GeoLibPointF(-40, 70),
-                new GeoLibPointF(0, 70),
-                new GeoLibPointF(0, 50),
-                new GeoLibPointF(-20, 50),
-                new GeoLibPointF(-20, -10),
-                new GeoLibPointF(0, -10),
-                new GeoLibPointF(0, -30),
-                new GeoLibPointF(-40, -30),
+                new (-40, -30),
+                new (-40, 70),
+                new (0, 70),
+                new (0, 50),
+                new (-20, 50),
+                new (-20, -10),
+                new (0, -10),
+                new (0, -30),
+                new (-40, -30),
             },
-            new[]
+            new()
             {
-                new GeoLibPointF(0, -30),
-                new GeoLibPointF(0, -10),
-                new GeoLibPointF(20, -10),
-                new GeoLibPointF(20, 50),
-                new GeoLibPointF(0, 50),
-                new GeoLibPointF(0, 70),
-                new GeoLibPointF(40, 70),
-                new GeoLibPointF(40, -30),
-                new GeoLibPointF(0, -30),
+                new (0, -30),
+                new (0, -10),
+                new (20, -10),
+                new (20, 50),
+                new (0, 50),
+                new (0, 70),
+                new (40, 70),
+                new (40, -30),
+                new (0, -30),
             },
-            new[]
+            new()
             {
-                new GeoLibPointF(-80, -60),
-                new GeoLibPointF(-80, 100),
-                new GeoLibPointF(0, 100),
-                new GeoLibPointF(0, 80),
-                new GeoLibPointF(-60, 80),
-                new GeoLibPointF(-60, -50),
-                new GeoLibPointF(0, -50),
-                new GeoLibPointF(0, -60),
-                new GeoLibPointF(-80, -60),
+                new (-80, -60),
+                new (-80, 100),
+                new (0, 100),
+                new (0, 80),
+                new (-60, 80),
+                new (-60, -50),
+                new (0, -50),
+                new (0, -60),
+                new (-80, -60),
             },
-            new[]
+            new()
             {
-                new GeoLibPointF(0, -60),
-                new GeoLibPointF(0, -50),
-                new GeoLibPointF(60, -50),
-                new GeoLibPointF(60, 80),
-                new GeoLibPointF(0, 80),
-                new GeoLibPointF(0, 100),
-                new GeoLibPointF(80, 100),
-                new GeoLibPointF(80, -60),
-                new GeoLibPointF(0, -60),
+                new (0, -60),
+                new (0, -50),
+                new (60, -50),
+                new (60, 80),
+                new (0, 80),
+                new (0, 100),
+                new (80, 100),
+                new (80, -60),
+                new (0, -60),
             },
-            new[]
+            new()
             {
-                new GeoLibPointF(-8, -27),
-                new GeoLibPointF(-8, 40),
-                new GeoLibPointF(9, 40),
-                new GeoLibPointF(9, -27),
-                new GeoLibPointF(-8, -27)
+                new (-8, -27),
+                new (-8, 40),
+                new (9, 40),
+                new (9, -27),
+                new (-8, -27)
             },
-            new[]
+            new()
             {
-                new GeoLibPointF(-14, -4),
-                new GeoLibPointF(-14, 15),
-                new GeoLibPointF(-7, 15),
-                new GeoLibPointF(-7, -4),
-                new GeoLibPointF(-14, -4),
+                new (-14, -4),
+                new (-14, 15),
+                new (-7, 15),
+                new (-7, -4),
+                new (-14, -4),
             },
-            new[]
+            new()
             {
-                new GeoLibPointF(10, 9),
-                new GeoLibPointF(10, 20),
-                new GeoLibPointF(13, 20),
-                new GeoLibPointF(13, 9),
-                new GeoLibPointF(10, 9),
+                new (10, 9),
+                new (10, 20),
+                new (13, 20),
+                new (13, 9),
+                new (10, 9),
             },
-            new[]
+            new()
             {
-                new GeoLibPointF(48, -1),
-                new GeoLibPointF(48, 31),
-                new GeoLibPointF(55, 31),
-                new GeoLibPointF(55, -1),
-                new GeoLibPointF(48, -1),
+                new (48, -1),
+                new (48, 31),
+                new (55, 31),
+                new (55, -1),
+                new (48, -1),
             },
-            new[]
+            new()
             {
-                new GeoLibPointF(-11, -44),
-                new GeoLibPointF(-11, -39),
-                new GeoLibPointF(16, -39),
-                new GeoLibPointF(16, -44),
-                new GeoLibPointF(-11, -44),
+                new (-11, -44),
+                new (-11, -39),
+                new (16, -39),
+                new (16, -44),
+                new (-11, -44),
             },
-            new[]
+            new()
             {
-                new GeoLibPointF(-51, 3),
-                new GeoLibPointF(-51, 23),
-                new GeoLibPointF(-47, 23),
-                new GeoLibPointF(-47, 3),
-                new GeoLibPointF(-51, 3),
+                new (-51, 3),
+                new (-51, 23),
+                new (-47, 23),
+                new (-47, 3),
+                new (-51, 3),
             },
-            new[]
+            new()
             {
-                new GeoLibPointF(-16, 76),
-                new GeoLibPointF(-16, 77),
-                new GeoLibPointF(-3, 77),
-                new GeoLibPointF(-3, 76),
-                new GeoLibPointF(-16, 76),
+                new (-16, 76),
+                new (-16, 77),
+                new (-3, 77),
+                new (-3, 76),
+                new (-16, 76),
             },
         };
         
         int scaleFactorForOperation = 1000;
 
-        List<GeoLibPoint[]> out_decomp = new();
+        Paths64 out_decomp = new();
         for (int i = 0; i < polydata.Count; i++)
         {
-         GeoLibPointF[] points = polydata[i].ToArray();
+         PathD points = new (polydata[i]);
          points = GeoWrangler.removeDuplicates(points);
          points = GeoWrangler.stripColinear(points);
          points = GeoWrangler.clockwiseAndReorderXY(points);
-         GeoLibPoint[] toKeyHoler = GeoWrangler.pointsFromPointF(points, scaleFactorForOperation);
+         Path64 toKeyHoler = GeoWrangler.pointsFromPointF(points, scaleFactorForOperation);
          
-         GeoLibPoint[] toDecomp = GeoWrangler.pointFromPath(GeoWrangler.makeKeyHole(GeoWrangler.sliverGapRemoval(GeoWrangler.pathFromPoint(toKeyHoler, 1)), reverseEval:false, biDirectionalEval:false)[0], 1);
-         GeoLibPoint[]  bounds = GeoWrangler.getBounds(toDecomp);
-         GeoLibPointF dist = GeoWrangler.distanceBetweenPoints_point(bounds[0], bounds[1]);
+         Path64 toDecomp = GeoWrangler.pointFromPath(GeoWrangler.makeKeyHole(GeoWrangler.sliverGapRemoval(GeoWrangler.pathFromPoint(toKeyHoler, 1)), reverseEval:false, biDirectionalEval:false)[0], 1);
+         Path64  bounds = GeoWrangler.getBounds(toDecomp);
+         PointD dist = GeoWrangler.distanceBetweenPoints_point(bounds[0], bounds[1]);
 
-         List<GeoLibPoint[]>decompOut = GeoWrangler.rectangular_decomposition(ref abort, toDecomp, scaling: 2,
-          maxRayLength: (long) Math.Max(Math.Abs(dist.X), Math.Abs(dist.Y)), vertical: vertical);
+         Paths64 decompOut = GeoWrangler.rectangular_decomposition(ref abort, toDecomp, scaling: 2,
+          maxRayLength: (long) Math.Max(Math.Abs(dist.x), Math.Abs(dist.y)), vertical: vertical);
          
          out_decomp.AddRange(decompOut);
         }
     }
 
 
-    private static void writeToLayout(string filename, GeoLibPoint[] orig, List<GeoLibPoint[]> decomped)
+    private static void writeToLayout(string filename, Path64 orig, Paths64 decomped)
     {
         // Can the system define geometry and write it correctly to Oasis and GDS files.
         GeoCore g = new();

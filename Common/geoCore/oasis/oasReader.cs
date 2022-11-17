@@ -8,6 +8,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Text;
+using Clipper2Lib;
 
 namespace oasis;
 
@@ -53,7 +54,7 @@ internal partial class oasReader
         public int xy_model { get; set; }
         public int geometry_w { get; set; }
         public int geometry_h { get; set; }
-        public List<GeoLibPoint> polygon_point_list { get; set; }
+        public Path64 polygon_point_list { get; set; }
         public int path_halfwidth { get; set; }
         public int path_point_list { get; set; }
         public int path_start_extension { get; set; }
@@ -70,7 +71,7 @@ internal partial class oasReader
         public int y_dimension { get; set; }
         public int x_space { get; set; }
         public int y_space { get; set; }
-        public List<GeoLibPoint> repArray { get; set; }
+        public Path64 repArray { get; set; }
         public int trapezoid_delta_a { get; set; }
         public int trapezoid_delta_b { get; set; }
         public bool trapezoid_orientation { get; set; }
@@ -101,8 +102,8 @@ internal partial class oasReader
     {
         drawing_ = new GCDrawingfield(filename_);
         error_msgs = new List<string>();
-        modal.repArray = new List<GeoLibPoint>();
-        modal.polygon_point_list = new List<GeoLibPoint>();
+        modal.repArray = new Path64();
+        modal.polygon_point_list = new Path64();
         filename = filename_;
     }
 
@@ -137,8 +138,8 @@ internal partial class oasReader
         modal.texttype = -1;
         modal.circle_radius = -1;
         modal.repetition = -1;
-        modal.polygon_point_list = new List<GeoLibPoint>();
-        modal.repArray = new List<GeoLibPoint>();
+        modal.polygon_point_list = new Path64();
+        modal.repArray = new Path64();
         modal.s = "";
     }
 
@@ -794,8 +795,8 @@ internal partial class oasReader
                         {
                             modal.trapezoid_orientation = true;
                         }
-                        modal.trapezoid_delta_a = read1Delta(false).X;
-                        modal.trapezoid_delta_b = read1Delta(false).X;
+                        modal.trapezoid_delta_a = (int)read1Delta(false).X;
+                        modal.trapezoid_delta_b = (int)read1Delta(false).X;
                         switch (modal.absoluteMode)
                         {
                             case true:
@@ -865,10 +866,10 @@ internal partial class oasReader
                         switch (record)
                         {
                             case 24:
-                                modal.trapezoid_delta_a = read1Delta(false).X;
+                                modal.trapezoid_delta_a = (int)read1Delta(false).X;
                                 break;
                             default:
-                                modal.trapezoid_delta_b = read1Delta(false).X;
+                                modal.trapezoid_delta_b = (int)read1Delta(false).X;
                                 break;
                         }
                         switch (modal.absoluteMode)

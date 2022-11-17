@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using Clipper2Lib;
 using utility;
 
 namespace gds;
@@ -54,7 +55,7 @@ internal partial class gdsReader
         public bool mag_ { get; set; }
         public string sname { get; set; }
 
-        public GeoLibPoint[] point_array { get; set; }
+        public Path64 point_array { get; set; }
     }
 
     private modals modal;
@@ -329,12 +330,12 @@ internal partial class gdsReader
                         };
                         break;
                     case 16: //XY
-                        modal.point_array = new GeoLibPoint[items / 2];
-                        for (int g = 0; g < modal.point_array.Length; g++)
+                        modal.point_array = new Path64(items / 2);
+                        for (int g = 0; g < modal.point_array.Capacity; g++)
                         {
                             int32x = br.ReadInt32();
                             int32y = br.ReadInt32();
-                            modal.point_array[g] = new GeoLibPoint(int32x, int32y);
+                            modal.point_array[g] = new (int32x, int32y);
                         }
                         break;
                     case 17: //ENDEL

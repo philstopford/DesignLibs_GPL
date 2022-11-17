@@ -1,11 +1,12 @@
 ﻿using System.Globalization;
+using Clipper2Lib;
 using color;
 using geoLib;
 
 namespace SVGBuilder;
 
-using Polygon = List<GeoLibPointF>;
-using Polygons = List<List<GeoLibPointF>>;
+using Polygon = PathD;
+using Polygons = PathsD;
 //a very simple class that builds an SVG file with any number of 
 //polygons of the specified formats ...
 public class SVGBuilder
@@ -82,18 +83,18 @@ public class SVGBuilder
         style = new StyleInfo();
     }
 
-    public void AddPolygons(List<GeoLibPointF[]> pointArrayList)
+    public void AddPolygons(PathsD pointArrayList)
     {
         Polygons tempPolygonsList = pointArrayList.Select(t => t.ToList()).Select(tempPolygon => tempPolygon.ToList()).ToList();
         AddPolygons(tempPolygonsList.ToList());
     }
 
-    public void AddPolygons(GeoLibPointF[] pointArray)
+    public void AddPolygons(PathD pointArray)
     {
         Polygons tempPolygonsList = new();
-        Polygon tempPolygon = pointArray.ToList();
-        tempPolygonsList.Add(tempPolygon.ToList());
-        AddPolygons(tempPolygonsList.ToList());
+        Polygon tempPolygon = new (pointArray);
+        tempPolygonsList.Add(new(tempPolygon));
+        AddPolygons(tempPolygonsList);
     }
 
     public void AddPolygons(Polygons poly)

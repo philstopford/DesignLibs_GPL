@@ -3,60 +3,150 @@ using System.Collections.Generic;
 using geoLib;
 using System.Linq;
 using System.Threading.Tasks;
+using Clipper2Lib;
 
 namespace geoWrangler;
 
 public static partial class GeoWrangler
 {
-    public static List<GeoLibPointF[]> move(List<GeoLibPointF[]> source, decimal x, decimal y)
+    public static Point64 move(Point64 source, decimal x, decimal y)
+    {
+        return new Point64((Int64)(source.X + x), (Int64)(source.Y + y));
+    }
+    public static Point64 move(Point64 source, double x, double y)
+    {
+        return new Point64((Int64)(source.X + x), (Int64)(source.Y + y));
+    }
+    
+    public static Point64 move(Point64 source, int x, int y)
+    {
+        return new Point64((source.X + x), (source.Y + y));
+    }
+
+    public static Point64 move(Point64 source, Int64 x, Int64 y)
+    {
+        return new Point64((source.X + x), (source.Y + y));
+    }
+
+    public static Paths64 move(Paths64 source, decimal x, decimal y)
     {
         return pMove(source, Convert.ToDouble(x), Convert.ToDouble(y));
     }
-    public static List<GeoLibPointF[]> move(List<GeoLibPointF[]> source, double x, double y)
+    public static Paths64 move(Paths64 source, double x, double y)
     {
         return pMove(source, x, y);
     }
 
-    private static List<GeoLibPointF[]> pMove(List<GeoLibPointF[]> source, double x, double y)
+    private static Paths64 pMove(Paths64 source, double x, double y)
     {
-        return source.Select(t => pMove(t, x, y)).ToList();
-    }
+        int sLength = source.Capacity;
+        Paths64 ret = new (sLength);
 
-    private static List<List<GeoLibPointF>> pMove(List<List<GeoLibPointF>> source, double x, double y)
-    {
-        return source.Select(t => pMove(t.ToArray(), x, y).ToList()).ToList();
-    }
+        Int64 x_ = (Int64)x;
+        Int64 y_ = (Int64)y;
 
-    public static GeoLibPointF[] move(GeoLibPointF[] source, decimal x, decimal y)
-    {
-        return pMove(source, Convert.ToDouble(x), Convert.ToDouble(y));
-    }
-
-    public static GeoLibPointF[] move(GeoLibPointF[] source, double x, double y)
-    {
-        return pMove(source, x, y);
-    }
-
-    private static GeoLibPointF[] pMove(GeoLibPointF[] source, double x, double y)
-    {
-        int sLength = source.Length;
-        GeoLibPointF[] ret = new GeoLibPointF[sLength];
 #if !GWSINGLETHREADED
         Parallel.For(0, sLength, i =>
 #else
             for (int i = 0; i < source.Length; i++)
 #endif
             {
-                ret[i] = new GeoLibPointF(source[i].X + x, source[i].Y + y);
+                ret[i] = new(pMove(source[i], x_, y_));
+            }
+#if !GWSINGLETHREADED
+        );
+#endif
+
+        return ret;
+    }
+    
+    public static Path64 move(Path64 source, decimal x, decimal y)
+    {
+        return pMove(source, (Int64)(x), (Int64)(y));
+    }
+
+    public static Path64 move(Path64 source, double x, double y)
+    {
+        return pMove(source, (Int64)(x), (Int64)(y));
+    }
+
+    public static Path64 move(Path64 source, Int64 x, Int64 y)
+    {
+        return pMove(source, x, y);
+    }
+
+    private static Path64 pMove(Path64 source, Int64 x, Int64 y)
+    {
+        int sLength = source.Capacity;
+        Path64 ret = new (sLength);
+#if !GWSINGLETHREADED
+        Parallel.For(0, sLength, i =>
+#else
+            for (int i = 0; i < source.Length; i++)
+#endif
+            {
+                ret[i] = new (source[i].X + x, source[i].Y + y);
             }
 #if !GWSINGLETHREADED
         );
 #endif
         return ret;
     }
-
-    public static List<GeoLibPointF> move(List<GeoLibPointF> source, double x, double y)
+    
+    public static PathsD move(PathsD source, decimal x, decimal y)
     {
-        return pMove(source.ToArray(), x, y).ToList();
+        return pMove(source, Convert.ToDouble(x), Convert.ToDouble(y));
+    }
+    public static PathsD move(PathsD source, double x, double y)
+    {
+        return pMove(source, x, y);
+    }
+
+    private static PathsD pMove(PathsD source, double x, double y)
+    {
+        int sLength = source.Capacity;
+        PathsD ret = new (sLength);
+
+#if !GWSINGLETHREADED
+        Parallel.For(0, sLength, i =>
+#else
+            for (int i = 0; i < source.Length; i++)
+#endif
+            {
+                ret[i] = new(pMove(source[i], x, y));
+            }
+#if !GWSINGLETHREADED
+        );
+#endif
+
+        return ret;
+    }
+    
+    public static PathD move(PathD source, decimal x, decimal y)
+    {
+        return pMove(source, Convert.ToDouble(x), Convert.ToDouble(y));
+    }
+
+    public static PathD move(PathD source, double x, double y)
+    {
+        return pMove(source, x, y);
+    }
+
+    private static PathD pMove(PathD source, double x, double y)
+    {
+        int sLength = source.Capacity;
+        PathD ret = new (sLength);
+#if !GWSINGLETHREADED
+        Parallel.For(0, sLength, i =>
+#else
+            for (int i = 0; i < source.Length; i++)
+#endif
+            {
+                ret[i] = new (source[i].x + x, source[i].y + y);
+            }
+#if !GWSINGLETHREADED
+        );
+#endif
+        return ret;
     }
 }

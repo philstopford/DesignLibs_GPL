@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using Clipper2Lib;
 
 namespace oasis;
 
@@ -44,7 +45,7 @@ public partial class oasWriter
         public int xy_model { get; set; }
         public int geometry_w { get; set; }
         public int geometry_h { get; set; }
-        public List<GeoLibPoint> polygon_point_list { get; set; }
+        public Path64 polygon_point_list { get; set; }
         public int path_halfwidth { get; set; }
         public int path_point_list { get; set; }
         public int path_start_extension { get; set; }
@@ -61,7 +62,7 @@ public partial class oasWriter
         public int y_dimension { get; set; }
         public int x_space { get; set; }
         public int y_space { get; set; }
-        public List<GeoLibPoint> repArray { get; set; }
+        public Path64 repArray { get; set; }
         public double trapezonid_delta_a { get; set; }
         public double trapezonid_delta_b { get; set; }
         public bool trapezonid_orientation { get; set; }
@@ -84,8 +85,8 @@ public partial class oasWriter
         modal.texttype = -1;
         modal.circle_radius = -1;
         modal.repetition = -1;
-        modal.polygon_point_list = new List<GeoLibPoint>();
-        modal.repArray = new List<GeoLibPoint>();
+        modal.polygon_point_list = new ();
+        modal.repArray = new ();
     }
 
     public oasWriter(GeoCore gc, string filename)

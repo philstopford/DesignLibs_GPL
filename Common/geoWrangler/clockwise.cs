@@ -6,21 +6,18 @@ using System.Linq;
 
 namespace geoWrangler;
 
-using Path = Path64;
-using Paths = Paths64;
-
 public static partial class GeoWrangler
 {
-    public static List<GeoLibPointF[]> xySequence(List<GeoLibPointF[]> source, bool useMidPoint = false)
+    public static PathsD xySequence(PathsD source, bool useMidPoint = false)
     {
         return pXYSequence(source, useMidPoint);
     }
 
-    private static List<GeoLibPointF[]> pXYSequence(List<GeoLibPointF[]> source, bool useMidPoint)
+    private static PathsD pXYSequence(PathsD source, bool useMidPoint)
     {
         int sourceCount = source.Count;
 
-        List<GeoLibPointF> sortPoints = new();
+        PathD sortPoints = new();
 
         for (int i = 0; i < sourceCount; i++)
         {
@@ -30,35 +27,40 @@ public static partial class GeoWrangler
                     sortPoints.Add(midPoint(source[i]));
                     break;
                 default:
-                    sortPoints.Add(new GeoLibPointF(source[i][0]));
+                    sortPoints.Add(new (source[i][0]));
                     break;
             }
 
-            sortPoints[i].tag = i; // track our original poly for this midpoint through the re-order
+            sortPoints[i] = new (sortPoints[i].x, sortPoints[i].y, i); // track our original poly for this midpoint through the re-order
         }
 
-        sortPoints = sortPoints.OrderBy(p => p.X).ThenBy(p => p.Y).ToList();
+        IOrderedEnumerable<PointD> tmp_sortPoints = sortPoints.OrderBy(p => p.x).ThenBy(p => p.y);
+        sortPoints.Clear();
+        foreach (PointD t in tmp_sortPoints)
+        {
+            sortPoints.Add(new PointD(t));
+        }
 
-        List<GeoLibPointF[]> ret = new();
+        PathsD ret = new();
 
         for (int i = 0; i < sourceCount; i++)
         {
-            ret.Add(source[sortPoints[i].tag].ToArray());
+            ret.Add(source[(int)sortPoints[i].z]);
         }
 
         return ret;
     }
 
-    public static List<GeoLibPoint[]> xySequence(List<GeoLibPoint[]> source, bool useMidPoint = false)
+    public static Paths64 xySequence(Paths64 source, bool useMidPoint = false)
     {
         return pXYSequence(source, useMidPoint);
     }
 
-    private static List<GeoLibPoint[]> pXYSequence(List<GeoLibPoint[]> source, bool useMidPoint)
+    private static Paths64 pXYSequence(Paths64 source, bool useMidPoint)
     {
         int sourceCount = source.Count;
 
-        List<GeoLibPointF> sortPoints = new();
+        PathD sortPoints = new();
 
         for (int i = 0; i < sourceCount; i++)
         {
@@ -68,41 +70,46 @@ public static partial class GeoWrangler
                     sortPoints.Add(midPoint(source[i]));
                     break;
                 default:
-                    sortPoints.Add(new GeoLibPointF(source[i][0]));
+                    sortPoints.Add(new (source[i][0]));
                     break;
             }
 
-            sortPoints[i].tag = i; // track our original poly for this midpoint through the re-order
+            sortPoints[i] = new (sortPoints[i].x, sortPoints[i].y, i); // track our original poly for this midpoint through the re-order
         }
 
-        sortPoints = sortPoints.OrderBy(p => p.X).ThenBy(p => p.Y).ToList();
+        IOrderedEnumerable<PointD> tmp_sortPoints = sortPoints.OrderBy(p => p.x).ThenBy(p => p.y);
+        sortPoints.Clear();
+        foreach (PointD t in tmp_sortPoints)
+        {
+            sortPoints.Add(new PointD(t));
+        }
 
-        List<GeoLibPoint[]> ret = new();
+        Paths64 ret = new();
 
         for (int i = 0; i < sourceCount; i++)
         {
-            ret.Add(source[sortPoints[i].tag].ToArray());
+            ret.Add(source[(int)sortPoints[i].z]);
         }
 
         return ret;
     }
 
-    public static List<GeoLibPointF[]> clockwiseSequence(List<GeoLibPointF[]> source)
+    public static PathsD clockwiseSequence(PathsD source)
     {
         return pClockwiseSequence(source);
     }
 
-    private static List<GeoLibPointF[]> pClockwiseSequence(List<GeoLibPointF[]> source)
+    private static PathsD pClockwiseSequence(PathsD source)
     {
         int sourceCount = source.Count;
-        GeoLibPointF[] midPoints = new GeoLibPointF[sourceCount];
+        PathD midPoints = new (sourceCount);
 
         for (int i = 0; i < sourceCount; i++)
         {
             midPoints[i] = midPoint(source[i]);
         }
 
-        GeoLibPointF[] reorderedMidPoints = pClockwise(midPoints);
+        PathD reorderedMidPoints = pClockwise(midPoints);
 
         // Position in array is new polygon; value is old index.
         int[] newOrder = new int[source.Count];
@@ -110,8 +117,8 @@ public static partial class GeoWrangler
         {
             for (int j = 0; j < sourceCount; j++)
             {
-                if (!(Math.Abs(reorderedMidPoints[i].X - midPoints[j].X) <= double.Epsilon) ||
-                    !(Math.Abs(reorderedMidPoints[i].Y - midPoints[j].Y) <= double.Epsilon))
+                if (!(Math.Abs(reorderedMidPoints[i].x - midPoints[j].x) <= double.Epsilon) ||
+                    !(Math.Abs(reorderedMidPoints[i].y - midPoints[j].y) <= double.Epsilon))
                 {
                     continue;
                 }
@@ -121,31 +128,31 @@ public static partial class GeoWrangler
             }
         }
 
-        List<GeoLibPointF[]> ret = new();
+        PathsD ret = new();
         for (int i = 0; i < sourceCount; i++)
         {
-            ret.Add(source[newOrder[i]].ToArray());
+            ret.Add(new(source[newOrder[i]]));
         }
 
         return ret;
     }
 
-    public static List<GeoLibPoint[]> clockwiseSequence(List<GeoLibPoint[]> source)
+    public static Paths64 clockwiseSequence(Paths64 source)
     {
         return pClockwiseSequence(source);
     }
 
-    private static List<GeoLibPoint[]> pClockwiseSequence(List<GeoLibPoint[]> source)
+    private static Paths64 pClockwiseSequence(Paths64 source)
     {
         int sourceCount = source.Count;
-        GeoLibPointF[] midPoints = new GeoLibPointF[sourceCount];
+        PathD midPoints = new (sourceCount);
 
         for (int i = 0; i < sourceCount; i++)
         {
             midPoints[i] = midPoint(source[i]);
         }
 
-        GeoLibPointF[] reorderedMidPoints = pClockwise(midPoints);
+        PathD reorderedMidPoints = pClockwise(midPoints);
 
         // Position in array is new polygon; value is old index.
         int[] newOrder = new int[source.Count];
@@ -153,8 +160,8 @@ public static partial class GeoWrangler
         {
             for (int j = 0; j < sourceCount; j++)
             {
-                if (!(Math.Abs(reorderedMidPoints[i].X - midPoints[j].X) <= double.Epsilon) ||
-                    !(Math.Abs(reorderedMidPoints[i].Y - midPoints[j].Y) <= double.Epsilon))
+                if (!(Math.Abs(reorderedMidPoints[i].x - midPoints[j].x) <= double.Epsilon) ||
+                    !(Math.Abs(reorderedMidPoints[i].y - midPoints[j].y) <= double.Epsilon))
                 {
                     continue;
                 }
@@ -164,62 +171,47 @@ public static partial class GeoWrangler
             }
         }
 
-        List<GeoLibPoint[]> ret = new();
+        Paths64 ret = new();
         for (int i = 0; i < sourceCount; i++)
         {
-            ret.Add(source[newOrder[i]].ToArray());
+            ret.Add(new(source[newOrder[i]]));
         }
 
         return ret;
     }
 
-    public static GeoLibPoint[] clockwise(GeoLibPoint[] points)
+    public static Path64 clockwise(Path64 points)
     {
         return pClockwise(points);
     }
 
-    private static GeoLibPoint[] pClockwise(GeoLibPoint[] points)
+    private static Path64 pClockwise(Path64 points)
     {
         if (!pIsClockwise(points))
         {
-            Array.Reverse(points);
+            points.Reverse();
         }
 
         return points;
     }
 
-    public static GeoLibPointF[] clockwise(GeoLibPointF[] iPoints)
+    public static PathD clockwise(PathD iPoints)
     {
         return pClockwise(iPoints);
     }
 
-    private static GeoLibPointF[] pClockwise(GeoLibPointF[] iPoints)
+    private static PathD pClockwise(PathD iPoints)
     {
         if (!pIsClockwise(iPoints))
         {
-            Array.Reverse(iPoints);
+            iPoints.Reverse();
         }
 
         return iPoints;
     }
 
-    public static Paths clockwise(Paths source)
+    public static Paths64 clockwise(Paths64 source)
     {
-        return new (source.Select(t => pClockwise(new Path (t))));
-    }
-
-    public static Path clockwise(Path iPoints)
-    {
-        return pClockwise(iPoints);
-    }
-
-    private static Path pClockwise(Path iPoints)
-    {
-        if (!pIsClockwise(iPoints))
-        {
-            Array.Reverse(iPoints.ToArray());
-        }
-
-        return iPoints;
+        return new (source.Select(t => pClockwise(new Path64 (t))));
     }
 }

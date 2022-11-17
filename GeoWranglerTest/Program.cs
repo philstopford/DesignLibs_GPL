@@ -1,4 +1,5 @@
-﻿using geoLib;
+﻿using Clipper2Lib;
+using geoLib;
 using geoWrangler;
 
 namespace GeoWranglerTest;
@@ -7,7 +8,7 @@ internal static class Program
 {
     private static void Main()
     {
-        GeoLibPointF[] source = {
+        PathD source = new () {
             new(0.02985, 0.18999),
             new(0.00864, 0.21120),
             new(0.01217, 0.21474),
@@ -82,6 +83,6 @@ internal static class Program
             new(0.03692, 0.19706)
         };
 
-        GeoLibPointF[] cleaned = GeoWrangler.stripColinear(source, angularTolerance:0.2);
+        PathD cleaned = GeoWrangler.stripColinear(source, angularTolerance:0.2);
     }
 }

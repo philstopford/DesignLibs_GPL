@@ -11,11 +11,11 @@ using Paths = Paths64;
 
 public static class ProcessOverlaps
 {
-    public static GeometryResult processOverlaps(List<GeoLibPointF[]> sourceData, List<bool> drawn, double extension, double resolution, Int64 scaleFactorForOperation, double customSizing = 0, bool forceOverride = false, FillRule pft = FillRule.NonZero)
+    public static GeometryResult processOverlaps(PathsD sourceData, List<bool> drawn, double extension, double resolution, Int64 scaleFactorForOperation, double customSizing = 0, bool forceOverride = false, FillRule pft = FillRule.NonZero)
     {
         // Filter drawn, process those, then do not-drawn. This allows for element counts to change.
-        List<GeoLibPointF[]> drawnStuff = new();
-        List<GeoLibPointF[]> notDrawnStuff = new();
+        PathsD drawnStuff = new();
+        PathsD notDrawnStuff = new();
         int sCount = sourceData.Count;
         for (int i = 0; i < sCount; i++)
         {
@@ -29,9 +29,9 @@ public static class ProcessOverlaps
             }
         }
         
-        List<GeoLibPointF[]> processed_Drawn = processOverlaps_core(drawnStuff, customSizing:customSizing, extension:extension, resolution:resolution, scaleFactorForOperation:scaleFactorForOperation, forceOverride, pft);
+        PathsD processed_Drawn = processOverlaps_core(drawnStuff, customSizing:customSizing, extension:extension, resolution:resolution, scaleFactorForOperation:scaleFactorForOperation, forceOverride, pft);
 
-        List<GeoLibPointF[]> processed_NotDrawn = processOverlaps_core( notDrawnStuff, customSizing:customSizing, extension: extension, resolution:resolution, scaleFactorForOperation:scaleFactorForOperation, forceOverride, pft);
+        PathsD processed_NotDrawn = processOverlaps_core( notDrawnStuff, customSizing:customSizing, extension: extension, resolution:resolution, scaleFactorForOperation:scaleFactorForOperation, forceOverride, pft);
 
 
         GeometryResult ret = new();
@@ -55,7 +55,7 @@ public static class ProcessOverlaps
 
     }
 
-    private static List<GeoLibPointF[]> processOverlaps_core(List<GeoLibPointF[]> sourceData, double customSizing, double extension, double resolution, Int64 scaleFactorForOperation, bool forceOverride = false, FillRule pft = FillRule.NonZero)
+    private static PathsD processOverlaps_core(PathsD sourceData, double customSizing, double extension, double resolution, Int64 scaleFactorForOperation, bool forceOverride = false, FillRule pft = FillRule.NonZero)
     {
         if (sourceData.Count == 0)
         {
@@ -158,7 +158,7 @@ public static class ProcessOverlaps
             mergedPolyData = GeoWrangler.close(keyHoled);
 
             // We got some resulting geometry from our Boolean so let's process it to send back to the caller.
-            List<GeoLibPointF[]> refinedData = new();
+            PathsD refinedData = new();
             
             int rpdCount = mergedPolyData.Count;
 

@@ -10,12 +10,12 @@ using Paths = Paths64;
 public static partial class GeoWrangler
 {
     // Bounds will force the negation to only work against the extents of the shape. Useful for capturing islands in negative tone.
-    public static List<GeoLibPointF[]> invertTone(GeoLibPointF[] source, long scaleFactor, bool preserveColinear, bool useTriangulation = false, bool useBounds = false)
+    public static PathsD invertTone(PathD source, long scaleFactor, bool preserveColinear, bool useTriangulation = false, bool useBounds = false)
     {
-        return pPointFsFromPaths(pInvertTone(pPathsFromPointFs(new List<GeoLibPointF[]> { source }, scaleFactor), preserveColinear: preserveColinear, useTriangulation: useTriangulation, useBounds: useBounds), scaleFactor);
+        return pPointFsFromPaths(pInvertTone(pPathsFromPointFs(new PathsD { source }, scaleFactor), preserveColinear: preserveColinear, useTriangulation: useTriangulation, useBounds: useBounds), scaleFactor);
     }
 
-    public static List<GeoLibPointF[]> invertTone(List<GeoLibPointF[]> source, long scaleFactor, bool preserveColinear, bool useTriangulation = false, bool useBounds = false)
+    public static PathsD invertTone(PathsD source, long scaleFactor, bool preserveColinear, bool useTriangulation = false, bool useBounds = false)
     {
         return pPointFsFromPaths(pInvertTone(pPathsFromPointFs(source, scaleFactor), preserveColinear: preserveColinear, useTriangulation: useTriangulation, useBounds: useBounds), scaleFactor);
     }

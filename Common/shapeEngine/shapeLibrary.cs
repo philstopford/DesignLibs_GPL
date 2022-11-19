@@ -1678,7 +1678,7 @@ public class ShapeLibrary
 
     private void customShape_nonOrthogonal(PathD sourcePoly)
     {
-        int sCount = sourcePoly.Capacity;
+        int sCount = sourcePoly.Count;
         Vertex = new MyVertex[sCount + 1]; // add one to close.
         tips = new bool[sCount + 1];
         // Assign shape vertices to Vertex and move on. EntropyShape will know what to do.
@@ -1702,7 +1702,7 @@ public class ShapeLibrary
 
     private void customShape_orthogonal(PathD sourcePoly)
     {
-        int sCount = sourcePoly.Capacity;
+        int sCount = sourcePoly.Count;
         int vertexCount = sCount * 2 + 1; // assumes no point in midpoint of edges, and 1 to close.
         Vertex = new MyVertex[vertexCount];
         tips = new bool[vertexCount];
@@ -1720,7 +1720,7 @@ public class ShapeLibrary
         );
 #endif
 
-        int roundCount = sourcePoly.Capacity + 1;
+        int roundCount = sourcePoly.Count + 1;
         round1 = new MyRound[roundCount];
 #if !SHAPELIBSINGLETHREADED
         Parallel.For(0, roundCount, i =>
@@ -1799,7 +1799,7 @@ public class ShapeLibrary
 
             // Now we have to wrangle the midpoint.
 
-            int next = (pt + 1) % sourcePoly.Capacity; // wrap to polygon length
+            int next = (pt + 1) % sourcePoly.Count; // wrap to polygon length
 
             // Find the normal for the edge to the next point.
 

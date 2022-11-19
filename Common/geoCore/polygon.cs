@@ -79,7 +79,7 @@ public class GCPolygon : GCElement
 
     public override void resize(double factor)
     {
-        for (int i = 0; i < pointarray.Capacity; i++)
+        for (int i = 0; i < pointarray.Count; i++)
         {
             pointarray[i] = new (pointarray[i].X * factor, pointarray[i].Y * factor);
         }
@@ -102,8 +102,8 @@ public class GCPolygon : GCElement
 
     private void pDeletePoint(int pos)
     {
-        Path64 newPointArray = new (pointarray.Capacity - 1);
-        for (int i = pos; i < pointarray.Capacity - 1; i++)
+        Path64 newPointArray = new (pointarray.Count - 1);
+        for (int i = pos; i < pointarray.Count - 1; i++)
         {
             newPointArray[i] = pointarray[i + 1];
         }
@@ -117,8 +117,8 @@ public class GCPolygon : GCElement
 
     private void pAddPoint(int pos)
     {
-        Path64 newPointArray = new (pointarray.Capacity + 1);
-        for (int pt = newPointArray.Capacity - 1; pt > pos; pt--)
+        Path64 newPointArray = new (pointarray.Count + 1);
+        for (int pt = newPointArray.Count - 1; pt > pos; pt--)
         {
             newPointArray[pt] = pointarray[pt - 1];
         }
@@ -227,9 +227,9 @@ public class GCPolygon : GCElement
         for (a = 0; a is < 350 or > 370 && anz < 3;)
         {
             a = 0;
-            for (int i = 0; i < pointarray.Capacity - 1; i++)
+            for (int i = 0; i < pointarray.Count - 1; i++)
             {
-                switch (pointarray.Capacity)
+                switch (pointarray.Count)
                 {
                     case < 4:
                         return; //no area
@@ -237,13 +237,13 @@ public class GCPolygon : GCElement
                 if (pointarray[i] == pointarray[i + 1])
                 {
                     deletePoint(i + 1);
-                    if (pointarray.Capacity == i + 1)
+                    if (pointarray.Count == i + 1)
                     {
                         pointarray[0] = pointarray[i];
                     }
                     i--;
                 }
-                if (i < pointarray.Capacity - 2)
+                if (i < pointarray.Count - 2)
                 {
                     if (nearlyParallel(pointarray[i], pointarray[i + 1], pointarray[i + 1], pointarray[i + 2]))
                     {
@@ -251,13 +251,13 @@ public class GCPolygon : GCElement
                         i = 0;
                     }
                 }
-                switch (pointarray.Capacity)
+                switch (pointarray.Count)
                 {
                     case > 3:
                     {
-                        while (pointarray.Capacity > 3 && parallel(pointarray[0], pointarray[1], pointarray[^1], pointarray[^2]))
+                        while (pointarray.Count > 3 && parallel(pointarray[0], pointarray[1], pointarray[^1], pointarray[^2]))
                         {
-                            deletePoint(pointarray.Capacity - 1);
+                            deletePoint(pointarray.Count - 1);
                             pointarray[0] = pointarray[^1];
                         }
 
@@ -266,11 +266,11 @@ public class GCPolygon : GCElement
                 }
             }
             // sort points
-            for (int i = 0; i < pointarray.Capacity - 2; i++)
+            for (int i = 0; i < pointarray.Count - 2; i++)
             {
                 a += angle(pointarray[i], pointarray[i + 1], pointarray[i + 2]);
             }
-            switch (pointarray.Capacity)
+            switch (pointarray.Count)
             {
                 case > 3:
                     a += angle(pointarray[^2], pointarray[0], pointarray[1]);
@@ -281,10 +281,10 @@ public class GCPolygon : GCElement
             {
                 case < -185:
                 {
-                    for (int i = 1; i < pointarray.Capacity / 2; i++)
+                    for (int i = 1; i < pointarray.Count / 2; i++)
                     {
-                        p = pointarray[pointarray.Capacity - i - 1];
-                        pointarray[pointarray.Capacity - i - 1] = pointarray[i];
+                        p = pointarray[pointarray.Count - i - 1];
+                        pointarray[pointarray.Count - i - 1] = pointarray[i];
                         pointarray[i] = p;
                     }
 
@@ -298,16 +298,16 @@ public class GCPolygon : GCElement
                 case > 370:
                 case < 350 and > -350:
                 {
-                    for (int i = 0; i < pointarray.Capacity - 1; i++)
+                    for (int i = 0; i < pointarray.Count - 1; i++)
                     {
-                        for (int j = i + 2; j < pointarray.Capacity - 1; j++)
+                        for (int j = i + 2; j < pointarray.Count - 1; j++)
                         {
                             bool b = cutPoint2(pointarray[i], pointarray[i + 1], pointarray[j], pointarray[j + 1], p);
                             switch (b)
                             {
                                 case true:
                                 {
-                                    switch (i == 0 && j == pointarray.Capacity - 2)
+                                    switch (i == 0 && j == pointarray.Count - 2)
                                     {
                                         case false:
                                         {
@@ -323,8 +323,8 @@ public class GCPolygon : GCElement
                                                 pointarray[j - k + i + 1] = pointarray[k];
                                                 pointarray[k] = p;
                                             }
-                                            j = pointarray.Capacity;
-                                            i = pointarray.Capacity;
+                                            j = pointarray.Count;
+                                            i = pointarray.Count;
                                             break;
                                         }
                                     }
@@ -339,16 +339,16 @@ public class GCPolygon : GCElement
                 }
             }
 
-            switch (pointarray.Capacity)
+            switch (pointarray.Count)
             {
                 // remove self-intersection 
                 case >= 8:
                 {
                     bool ende2 = false;
-                    for (int i = 0; i < pointarray.Capacity - 1; i++)
+                    for (int i = 0; i < pointarray.Count - 1; i++)
                     {
                         bool ende1 = false;
-                        for (int j = i + 2; j < pointarray.Capacity - 1; j++)
+                        for (int j = i + 2; j < pointarray.Count - 1; j++)
                         {
                             if (identical(pointarray[i], pointarray[i + 1], pointarray[j + 1], pointarray[j]))
                             {
@@ -360,11 +360,11 @@ public class GCPolygon : GCElement
                                     change = true;
                                     h1 = h1 switch
                                     {
-                                        -1 => pointarray.Capacity - 2,
+                                        -1 => pointarray.Count - 2,
                                         _ => i - 1
                                     };
                                     h2 = j + 2;
-                                    if (h2 == pointarray.Capacity)
+                                    if (h2 == pointarray.Count)
                                     {
                                         h2 = 1;
                                     }
@@ -392,7 +392,7 @@ public class GCPolygon : GCElement
                                 {
                                     change = true;
                                     h2 = j + 2;
-                                    if (h2 == pointarray.Capacity)
+                                    if (h2 == pointarray.Count)
                                     {
                                         h2 = 1;
                                     }
@@ -406,7 +406,7 @@ public class GCPolygon : GCElement
                                     change = true;
                                     h1 = h1 switch
                                     {
-                                        -1 => pointarray.Capacity - 2,
+                                        -1 => pointarray.Count - 2,
                                         _ => i - 1
                                     };
                                     if (distance(pointarray[j], pointarray[j + 1], pointarray[h1]) < 0)
@@ -424,11 +424,11 @@ public class GCPolygon : GCElement
                                     switch (j)
                                     {
                                         case -1:
-                                            j = pointarray.Capacity - 2; ende1 = true;
+                                            j = pointarray.Count - 2; ende1 = true;
                                             break;
                                     }
 
-                                    if (i != pointarray.Capacity)
+                                    if (i != pointarray.Count)
                                     {
                                         continue;
                                     }
@@ -436,35 +436,35 @@ public class GCPolygon : GCElement
                                     i = 1; ende2 = true;
                                 }
                                 h2 = i + 1;
-                                if (h2 == pointarray.Capacity)
+                                if (h2 == pointarray.Count)
                                 {
                                     h2 = 1;
                                 }
                                 int h3 = h2 + 1;
-                                if (h3 == pointarray.Capacity)
+                                if (h3 == pointarray.Count)
                                 {
                                     h3 = 1;
                                 }
 
                                 h1 = h1 switch
                                 {
-                                    -1 => pointarray.Capacity - 2,
+                                    -1 => pointarray.Count - 2,
                                     _ => j - 1
                                 };
                                 int h4 = j + 1;
-                                if (h4 == pointarray.Capacity)
+                                if (h4 == pointarray.Count)
                                 {
                                     h4 = 1;
                                 }
                                 int h5 = h4 + 1;
-                                if (h5 == pointarray.Capacity)
+                                if (h5 == pointarray.Count)
                                 {
                                     h5 = 1;
                                 }
                                 int h6 = i - 1;
                                 h6 = h6 switch
                                 {
-                                    -1 => pointarray.Capacity - 2,
+                                    -1 => pointarray.Count - 2,
                                     _ => h6
                                 };
                                 if (onLine2(pointarray[i], pointarray[h2], pointarray[j]))
@@ -570,7 +570,7 @@ public class GCPolygon : GCElement
             gw.bw.Write((short)datatype_nr);
 
             Path64 cleaned = GeoWrangler.removeDuplicates(pointarray);
-            int i = cleaned.Capacity;
+            int i = cleaned.Count;
             i = i switch
             {
                 > 8191 => 8191,
@@ -612,7 +612,7 @@ public class GCPolygon : GCElement
 
     private bool isCircle()
     {
-        switch (pointarray.Capacity)
+        switch (pointarray.Count)
         {
             case < 10:
                 return false;
@@ -624,7 +624,7 @@ public class GCPolygon : GCElement
         double max_distance = Math.Abs(GeoWrangler.distanceBetweenPoints(mid, pointarray[0]));
 
 
-        for (int i = 1; i < pointarray.Capacity; i++)
+        for (int i = 1; i < pointarray.Count; i++)
         {
             double distance = Math.Abs(GeoWrangler.distanceBetweenPoints(mid, pointarray[i]));
             min_distance = Math.Min(min_distance, distance);
@@ -728,11 +728,11 @@ public class GCPolygon : GCElement
         switch (GCSetup.oasisSaveCtrapezoid)
         {
             // check if ctrapezoid
-            case true when pointarray.Capacity is 4 or 5:
+            case true when pointarray.Count is 4 or 5:
             {
                 int form = 0;
                 int off = 0;
-                for (int i = 1; i < pointarray.Capacity; i++)
+                for (int i = 1; i < pointarray.Count; i++)
                 {
                     PointD pd = GeoWrangler.distanceBetweenPoints_point(pointarray[i], pointarray[i - 1]);
                     switch (Math.Abs(pd.x - pd.y))
@@ -783,7 +783,7 @@ public class GCPolygon : GCElement
                 {
                     int w;
                     int h;
-                    switch (pointarray.Capacity)
+                    switch (pointarray.Count)
                     {
                         case 4:
                             switch (form)
@@ -1066,7 +1066,7 @@ public class GCPolygon : GCElement
         switch (GCSetup.oasisSaveTrapezoid)
         {
             //trapezoid
-            case true when pointarray.Capacity == 5:
+            case true when pointarray.Count == 5:
             {
                 int form = 0;
                 int da, db;
@@ -1074,7 +1074,7 @@ public class GCPolygon : GCElement
                 int maxX = (int)pointarray[0].X;
                 int minY = (int)pointarray[0].Y;
                 int maxY = (int)pointarray[0].Y;
-                for (int i = 1; i < pointarray.Capacity; i++)
+                for (int i = 1; i < pointarray.Count; i++)
                 {
                     if (pointarray[i].X > maxX)
                     {

@@ -99,7 +99,7 @@ internal partial class gdsReader
 
     private void addPath()
     {
-        switch (modal.point_array.Capacity)
+        switch (modal.point_array.Count)
         {
             case 1:
                 cell_.addCircle(modal.layer, modal.datatype, modal.point_array[0], Convert.ToDouble(modal.width) / 2);

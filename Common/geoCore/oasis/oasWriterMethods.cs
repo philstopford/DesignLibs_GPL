@@ -94,21 +94,21 @@ public partial class oasWriter
         bool type1 = true;
         bool type2 = true;
         bool type3 = true;
-        switch (p.Capacity % 2)
+        switch (p.Count % 2)
         {
             case 0:
                 type0 = false;
                 type1 = false;
                 break;
         }
-        switch (p.Capacity)
+        switch (p.Count)
         {
             case < 4:
                 type0 = false;
                 type1 = false;
                 break;
         }
-        for (int i = 0; i < p.Capacity - 1; i++)
+        for (int i = 0; i < p.Count - 1; i++)
         {
             PointD pd = GeoWrangler.distanceBetweenPoints_point(p[i + 1], p[i]);
             if (pd.y != 0 && i % 2 != 0)
@@ -148,8 +148,8 @@ public partial class oasWriter
                 writeUnsignedInteger(0);
                 int count = excludeImplicid switch
                 {
-                    true => p.Capacity - 3,
-                    _ => p.Capacity - 1
+                    true => p.Count - 3,
+                    _ => p.Count - 1
                 };
                 writeUnsignedInteger((uint)count);
                 Point64 last = new(p[0]);
@@ -171,8 +171,8 @@ public partial class oasWriter
                         writeUnsignedInteger(1);
                         int count = excludeImplicid switch
                         {
-                            true => p.Capacity - 3,
-                            _ => p.Capacity - 1
+                            true => p.Count - 3,
+                            _ => p.Count - 1
                         };
                         writeUnsignedInteger((uint)count);
                         Point64 last = new(p[0]);
@@ -194,8 +194,8 @@ public partial class oasWriter
                                 writeUnsignedInteger(2);
                                 int count = excludeImplicid switch
                                 {
-                                    true => p.Capacity - 2,
-                                    _ => p.Capacity - 1
+                                    true => p.Count - 2,
+                                    _ => p.Count - 1
                                 };
                                 writeUnsignedInteger((uint)count);
                                 Point64 last = new(p[0]);
@@ -217,8 +217,8 @@ public partial class oasWriter
                                         writeUnsignedInteger(3);
                                         int count = excludeImplicid switch
                                         {
-                                            true => p.Capacity - 2,
-                                            _ => p.Capacity - 1
+                                            true => p.Count - 2,
+                                            _ => p.Count - 1
                                         };
                                         writeUnsignedInteger((uint)count);
                                         Point64 last = new(p[0]);
@@ -236,8 +236,8 @@ public partial class oasWriter
                                         writeUnsignedInteger(4);
                                         int count = excludeImplicid switch
                                         {
-                                            true => p.Capacity - 2,
-                                            _ => p.Capacity - 1
+                                            true => p.Count - 2,
+                                            _ => p.Count - 1
                                         };
                                         writeUnsignedInteger((uint)count);
                                         Point64 last = new(p[0]);

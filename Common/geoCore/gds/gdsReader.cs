@@ -331,7 +331,7 @@ internal partial class gdsReader
                         break;
                     case 16: //XY
                         modal.point_array = new Path64(items / 2);
-                        for (int g = 0; g < modal.point_array.Capacity; g++)
+                        for (int g = 0; g < modal.point_array.Count; g++)
                         {
                             int32x = br.ReadInt32();
                             int32y = br.ReadInt32();

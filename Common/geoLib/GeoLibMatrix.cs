@@ -139,7 +139,7 @@ public class GeoLibMatrix
         double dx = m[4];
         double dy = m[5];
 
-        int sLength = source.Capacity;
+        int sLength = source.Count;
 #if !GEOLIBSINGLETHREADED
         Parallel.For(0, sLength, pt =>
 #else
@@ -169,7 +169,7 @@ public class GeoLibMatrix
         double dx = m[4];
         double dy = m[5];
 
-        int sLength = source.Capacity;
+        int sLength = source.Count;
 #if !GEOLIBSINGLETHREADED
         Parallel.For(0, sLength, pt => 
 #else

@@ -20,7 +20,7 @@ public static class distortShape
                 // Now let's get some barrel distortion sorted out. Only for non-drawn polygons, and skip if both coefficients are zero to avoid overhead.
                 case false when lDC1 != 0 || lDC2 != 0:
                 {
-                    int pCount = input[poly].Capacity;
+                    int pCount = input[poly].Count;
 #if !SHAPEENGINESINGLETHREADED
                     Parallel.For(0, pCount, point =>
 #else

@@ -50,7 +50,7 @@ public class GCPath : GCElement
 
     private bool pCorrect()
     {
-        switch (pointarray.Capacity)
+        switch (pointarray.Count)
         {
             case < 2:
             case 2 when pointarray[0] == pointarray[1] && cap == 0:
@@ -129,9 +129,9 @@ public class GCPath : GCElement
 
     private void pClean()
     {
-        for (int i = 0; i < pointarray.Capacity - 1; i++)
+        for (int i = 0; i < pointarray.Count - 1; i++)
         {
-            switch (pointarray.Capacity)
+            switch (pointarray.Count)
             {
                 case <= 2:
                     return; //no area
@@ -240,7 +240,7 @@ public class GCPath : GCElement
         gw.bw.Write((byte)3);
         gw.bw.Write(width);
 
-        int i = pointarray.Capacity;
+        int i = pointarray.Count;
         i = i switch
         {
             > 8191 => 8191,

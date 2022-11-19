@@ -530,16 +530,16 @@ public class OVPSettings
 		if (!(Math.Abs(poly[0].x - poly[^1].x) > double.Epsilon) ||
 		    !(Math.Abs(poly[0].y - poly[^1].y) > double.Epsilon))
 		{
-			tempPoly = new PointF[poly.Capacity];
-			for (int pt = 0; pt < poly.Capacity; pt++)
+			tempPoly = new PointF[poly.Count];
+			for (int pt = 0; pt < poly.Count; pt++)
 			{
 				tempPoly[pt] = new PointF((float)poly[pt].x, (float)poly[pt].y);
 			}
 		}
 		else
 		{
-			tempPoly = new PointF[poly.Capacity + 1];
-			for (int pt = 0; pt < poly.Capacity; pt++)
+			tempPoly = new PointF[poly.Count + 1];
+			for (int pt = 0; pt < poly.Count; pt++)
 			{
 				tempPoly[pt] = new PointF((float)poly[pt].x, (float)poly[pt].y);
 			}

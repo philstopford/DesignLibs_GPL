@@ -74,7 +74,7 @@ public class GCCell
     {
         GCElement e;
 
-        if (points.Capacity != 5)
+        if (points.Count != 5)
         {
             e = new GCPolygon(points, layer, datatype);
             pAddElement(e);

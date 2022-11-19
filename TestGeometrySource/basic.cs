@@ -145,7 +145,7 @@ public static partial class TestGeometry
 
         };
 
-        for (int i = 0; i < S.Capacity; i++)
+        for (int i = 0; i < S.Count; i++)
         {
             S[i] = new (S[i].X, S[i].Y - 200);
         }

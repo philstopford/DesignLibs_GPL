@@ -126,16 +126,19 @@ public static partial class GeoWrangler
         double maxX = 0;
         double maxY = 0;
 
-        try
+        if (source.Count > 0)
         {
-            minX = source[MinX(source)].X;
-            maxX = source[MaxX(source)].X;
-            minY = source[MinY(source)].Y;
-            maxY = source[MaxY(source)].Y;
-        }
-        catch
-        {
-            // ignored
+            try
+            {
+                minX = source[MinX(source)].X;
+                maxX = source[MaxX(source)].X;
+                minY = source[MinY(source)].Y;
+                maxY = source[MaxY(source)].Y;
+            }
+            catch
+            {
+                // ignored
+            }
         }
 
         return new () { new (minX, minY), new (maxX, maxY) };
@@ -153,16 +156,19 @@ public static partial class GeoWrangler
         double maxX = 0;
         double maxY = 0;
 
-        try
+        if (source.Count > 0)
         {
-            minX = source[MinX(source)].x;
-            maxX = source[MaxX(source)].x;
-            minY = source[MinY(source)].y;
-            maxY = source[MaxY(source)].y;
-        }
-        catch
-        {
-            // ignored
+            try
+            {
+                minX = source[MinX(source)].x;
+                maxX = source[MaxX(source)].x;
+                minY = source[MinY(source)].y;
+                maxY = source[MaxY(source)].y;
+            }
+            catch
+            {
+                // ignored
+            }
         }
 
         return new () { new (minX, minY), new (maxX, maxY) };
@@ -310,7 +316,7 @@ public static partial class GeoWrangler
     private static double[] pAngles(Path64 sourcePoly, bool allowNegative)
     {
         Path64 stripped = pStripTerminators(sourcePoly, true);
-        int finalIndex = stripped.Capacity - 2;
+        int finalIndex = stripped.Count - 2;
 
         double[] angles = new double[finalIndex + 1];
 
@@ -374,9 +380,9 @@ public static partial class GeoWrangler
     private static double[] pAngles(PathD sourcePoly, bool allowNegative)
     {
         PathD stripped = pStripTerminators(sourcePoly, false);
-        int finalIndex = stripped.Capacity - 1;
+        int finalIndex = stripped.Count - 1;
 
-        double[] angles = new double[stripped.Capacity];
+        double[] angles = new double[stripped.Count];
 
         for (int pt = 0; pt <= finalIndex; pt++)
         {
@@ -446,11 +452,11 @@ public static partial class GeoWrangler
 
         long delta = 0;
 
-        for (int pt = 0; pt < points.Capacity; pt++)
+        for (int pt = 0; pt < points.Count; pt++)
         {
             long deltaX;
             long deltaY;
-            if (pt == points.Capacity - 1)
+            if (pt == points.Count - 1)
             {
                 deltaX = points[0].X - points[pt].X;
                 deltaY = points[0].Y + points[pt].Y;
@@ -483,11 +489,11 @@ public static partial class GeoWrangler
 
         double delta = 0;
 
-        for (int pt = 0; pt < points.Capacity; pt++)
+        for (int pt = 0; pt < points.Count; pt++)
         {
             double deltaX;
             double deltaY;
-            if (pt == points.Capacity - 1)
+            if (pt == points.Count - 1)
             {
                 deltaX = points[0].x - points[pt].x;
                 deltaY = points[0].y + points[pt].y;

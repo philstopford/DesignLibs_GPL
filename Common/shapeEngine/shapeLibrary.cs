@@ -2535,7 +2535,7 @@ public class ShapeLibrary
                     PathD fragments = fragment.fragmentPath(new PathD ()
                         { new (bridgeX, mcPY), new (currentHorEdge_mid_x, mcPY) });
 
-                    for (int i = 1; i < fragments.Capacity - 1; i++)
+                    for (int i = 1; i < fragments.Count - 1; i++)
                     {
                         mcHorEdgePoints.Add(fragments[i]);
                     }
@@ -2744,7 +2744,7 @@ public class ShapeLibrary
                             fragments = fragment.fragmentPath(new PathD
                                 { new (bridgeX, mcPY), new (mcPX, mcPY) });
 
-                            for (int i = 1; i < fragments.Capacity - 1; i++)
+                            for (int i = 1; i < fragments.Count - 1; i++)
                             {
                                 mcHorEdgePoints.Add(fragments[i]);
                             }
@@ -2857,17 +2857,12 @@ public class ShapeLibrary
             (shapeSettings.getInt(ShapeSettings.properties_i.alignX) == 1 ||
              shapeSettings.getInt(ShapeSettings.properties_i.alignY) == 1))
         {
-            /*
-            // Get our bounding box.
-            BoundingBox bb = new(input);
-
-            switch (pivot)
+            if (double.IsNaN(pivot.x) || double.IsNaN(pivot.y))
             {
-                case null:
-                    pivot = new (bb.getMidPoint());
-                    break;
+                // Get our bounding box.
+                BoundingBox bb = new(input);
+                pivot = new(bb.getMidPoint());
             }
-            */
 
             // OK. Let's try some rotation and wobble.
             // Temporary separate container for our rotated points, just for now.

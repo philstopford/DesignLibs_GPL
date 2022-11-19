@@ -134,7 +134,7 @@ public static partial class GeoWrangler
 
     private static PathD pResize(PathD source, double factor)
     {
-        int sLength = source.Capacity;
+        int sLength = source.Count;
         PathD ret = new (sLength);
 #if !GWSINGLETHREADED
         Parallel.For(0, sLength, pt =>
@@ -157,7 +157,7 @@ public static partial class GeoWrangler
 
     private static Path64 pResize_to_int(PathD source, double factor)
     {
-        int sLength = source.Capacity;
+        int sLength = source.Count;
         Path64 ret = new (sLength);
 
 #if !GWSINGLETHREADED
@@ -181,7 +181,7 @@ public static partial class GeoWrangler
 
     private static Path64 pResize(Path64 source, double factor)
     {
-        int sLength = source.Capacity;
+        int sLength = source.Count;
         Path64 ret = new (sLength);
 #if !GWSINGLETHREADED
         Parallel.For(0, sLength, pt =>
@@ -204,9 +204,9 @@ public static partial class GeoWrangler
 
     private static Path64 pResize(Point64 pivot, Path64 source, double factor)
     {
-        Path64 pointarray = new (source.Capacity);
+        Path64 pointarray = new (source.Count);
 #if !GWSINGLETHREADED
-        Parallel.For(0, pointarray.Capacity, i => 
+        Parallel.For(0, pointarray.Count, i => 
 #else
             for (int i = 0; i < pointarray.Length; i++)
 #endif

@@ -256,7 +256,7 @@ public static partial class GeoWrangler
 
         lPoly = pClose(lPoly);
 
-        switch (_poly.Capacity)
+        switch (_poly.Count)
         {
             case 5 when orthogonal(stripTerminators(_poly, false), angularTolerance):
                 return new Paths64 { _poly };

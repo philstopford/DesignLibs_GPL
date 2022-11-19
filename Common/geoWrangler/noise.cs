@@ -41,12 +41,12 @@ public static class NoiseC
         // Need to iterate our preview points.
         for (int poly = 0; poly < ret.Count; poly++)
         {
-            if (ret[poly].Capacity <= 1 || drawnPoly[poly])
+            if (ret[poly].Count <= 1 || drawnPoly[poly])
             {
                 continue;
             }
             PathD mcPoints = new (ret[poly]);
-            int ptCount = mcPoints.Capacity;
+            int ptCount = mcPoints.Count;
 
             // Create our jittered polygon in a new list to avoid breaking normal computation, etc. by modifying the source.
             PathD jitteredPoints = new (ptCount);
@@ -82,7 +82,7 @@ public static class NoiseC
 #endif
             normals[^1] = new (normals[0]);
 
-            int nLength = normals.Capacity;
+            int nLength = normals.Count;
 #if !NOISESINGLETHREADED
             Parallel.For(1, nLength, pt => 
 #else

@@ -36,7 +36,7 @@ public static partial class GeoWrangler
 
     private static Path64 pPathFromPoint(Path64 source, long scaling)
     {
-        int length = source.Capacity;
+        int length = source.Count;
         if (source[0].X != source[^1].X && source[0].Y != source[^1].Y)
         {
             length++; // close the geometry
@@ -52,7 +52,7 @@ public static partial class GeoWrangler
         }
 
         // Close the shape
-        if (length != source.Capacity)
+        if (length != source.Count)
         {
             returnPath.Add(new Point64(returnPath[0]));
         }
@@ -138,7 +138,7 @@ public static partial class GeoWrangler
 
     private static Path64 pPathFromPointF(PathD source, long scaling)
     {
-        int length = source.Capacity;
+        int length = source.Count;
         switch (Math.Abs(source[0].x - source[^1].x))
         {
             case > double.Epsilon when Math.Abs(source[0].y - source[^1].y) > double.Epsilon:
@@ -156,7 +156,7 @@ public static partial class GeoWrangler
         }
 
         // Close the shape
-        if (length != source.Capacity)
+        if (length != source.Count)
         {
             returnPath.Add(new (returnPath[0]));
         }
@@ -234,8 +234,8 @@ public static partial class GeoWrangler
 
     private static Path64 pPointsFromPointF(PathD source, long scaling)
     {
-        Path64 ret = new (source.Capacity);
-        for (int pt = 0; pt < source.Capacity; pt++)
+        Path64 ret = new (source.Count);
+        for (int pt = 0; pt < source.Count; pt++)
         {
             try
             {
@@ -278,8 +278,8 @@ public static partial class GeoWrangler
 
     private static PathD pPointFsFromPoint(Path64 source, long scaling)
     {
-        PathD ret = new (source.Capacity);
-        for (int pt = 0; pt < source.Capacity; pt++)
+        PathD ret = new (source.Count);
+        for (int pt = 0; pt < source.Count; pt++)
         {
             try
             {

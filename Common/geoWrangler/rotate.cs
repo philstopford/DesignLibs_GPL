@@ -24,7 +24,7 @@ public static partial class GeoWrangler
                 return pointList;
         }
 
-        int pointListLength = pointList.Capacity;
+        int pointListLength = pointList.Count;
         Path64 returnList = new (pointListLength);
 
 #if !GWSINGLETHREADED
@@ -55,7 +55,7 @@ public static partial class GeoWrangler
                 return pointList;
         }
 
-        int pointListLength = pointList.Capacity;
+        int pointListLength = pointList.Count;
         PathD returnList = new (pointListLength);
 
 #if !GWSINGLETHREADED
@@ -126,7 +126,11 @@ public static partial class GeoWrangler
     
     private static PathD pFlip(bool H, bool V, bool alignX, bool alignY, PointD pivot, PathD source)
     {
-        int sLength = source.Capacity;
+        if (double.IsNaN(pivot.x) || double.IsNaN(pivot.y))
+        {
+            pivot = midPoint(source);
+        }
+        int sLength = source.Count;
         PathD ret = new (sLength);
 #if !GWSINGLETHREADED
         Parallel.For(0, sLength, pt =>

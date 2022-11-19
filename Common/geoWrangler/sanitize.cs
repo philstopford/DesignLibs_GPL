@@ -21,7 +21,7 @@ public static partial class GeoWrangler
 
     private static Paths64 pClockwiseAndReorderXY(Paths64 iPoints)
     {
-        int sLength = iPoints.Capacity;
+        int sLength = iPoints.Count;
         Paths64 ret = new (sLength);
 #if !GWSINGLETHREADED
         Parallel.For(0, sLength, pt =>
@@ -56,7 +56,7 @@ public static partial class GeoWrangler
 
     private static Paths64 pReorderXY(Paths64 iPoints)
     {
-        int sLength = iPoints.Capacity;
+        int sLength = iPoints.Count;
         Paths64 ret = new (sLength);
 #if !GWSINGLETHREADED
         Parallel.For(0, sLength, pt =>
@@ -78,7 +78,7 @@ public static partial class GeoWrangler
         long minX = iPoints[minX_index].X;
         // This will reorder the point index so that the 0-indexed point is at the minimum X value, and, in the case of multiple points at min X, at the lowest Y of all of those.
         List<int> minXPoints = new();
-        for (int pt = 0; pt < iPoints.Capacity; pt++)
+        for (int pt = 0; pt < iPoints.Count; pt++)
         {
             if (iPoints[pt].X == minX)
             {
@@ -107,7 +107,7 @@ public static partial class GeoWrangler
         {
             Path64 tempList = new();
             // Now to start the re-indexing.
-            for (int pt = reIndexStart; pt < iPoints.Capacity; pt++)
+            for (int pt = reIndexStart; pt < iPoints.Count; pt++)
             {
                 tempList.Add(new (iPoints[pt].X, iPoints[pt].Y));
             }
@@ -131,7 +131,7 @@ public static partial class GeoWrangler
 
     private static Paths64 pClockwiseAndReorderYX(Paths64 iPoints)
     {
-        int sLength = iPoints.Capacity;
+        int sLength = iPoints.Count;
         Paths64 ret = new (sLength);
 #if !GWSINGLETHREADED
         Parallel.For(0, sLength, pt =>
@@ -170,7 +170,7 @@ public static partial class GeoWrangler
         long minY = iPoints[minY_index].Y;
         // This will reorder the point index so that the 0-indexed point is at the minimum Y value, and, in the case of multiple points at min Y, at the lowest X of all of those.
         List<int> minYPoints = new();
-        for (int pt = 0; pt < iPoints.Capacity; pt++)
+        for (int pt = 0; pt < iPoints.Count; pt++)
         {
             if (iPoints[pt].Y == minY)
             {
@@ -198,7 +198,7 @@ public static partial class GeoWrangler
 
         Path64 tempList = new();
         // Now to start the re-indexing.
-        for (int pt = reIndexStart; pt < iPoints.Capacity; pt++)
+        for (int pt = reIndexStart; pt < iPoints.Count; pt++)
         {
             tempList.Add(new (iPoints[pt].X, iPoints[pt].Y));
         }
@@ -230,7 +230,7 @@ public static partial class GeoWrangler
     
     private static Paths64 pReorderYX(Paths64 iPoints)
     {
-        int sLength = iPoints.Capacity;
+        int sLength = iPoints.Count;
         Paths64 ret = new (sLength);
 #if !GWSINGLETHREADED
         Parallel.For(0, sLength, pt =>
@@ -279,7 +279,7 @@ public static partial class GeoWrangler
         double minX = iPoints[minX_index].x;
         // This will reorder the point index so that the 0-indexed point is at the minimum X value, and, in the case of multiple points at min X, at the lowest Y of all of those.
         List<int> minXPoints = new();
-        for (int pt = 0; pt < iPoints.Capacity; pt++)
+        for (int pt = 0; pt < iPoints.Count; pt++)
         {
             switch (Math.Abs(iPoints[pt].x - minX))
             {
@@ -310,7 +310,7 @@ public static partial class GeoWrangler
         {
             PathD tempList = new();
             // Now to start the re-indexing.
-            for (int pt = reIndexStart; pt < iPoints.Capacity; pt++)
+            for (int pt = reIndexStart; pt < iPoints.Count; pt++)
             {
                 switch (tempList.Count)
                 {
@@ -375,7 +375,7 @@ public static partial class GeoWrangler
         double minY = iPoints[minY_index].y;
         // This will reorder the point index so that the 0-indexed point is at the minimum Y value, and, in the case of multiple points at min Y, at the lowest X of all of those.
         List<int> minYPoints = new();
-        for (int pt = 0; pt < iPoints.Capacity; pt++)
+        for (int pt = 0; pt < iPoints.Count; pt++)
         {
             switch (Math.Abs(iPoints[pt].y - minY))
             {
@@ -405,7 +405,7 @@ public static partial class GeoWrangler
 
         PathD tempList = new();
         // Now to start the re-indexing.
-        for (int pt = reIndexStart; pt < iPoints.Capacity; pt++)
+        for (int pt = reIndexStart; pt < iPoints.Count; pt++)
         {
             switch (tempList.Count)
             {
@@ -443,7 +443,7 @@ public static partial class GeoWrangler
 
     private static Paths64 pSimplify(Paths64 source)
     {
-        int sLength = source.Capacity;
+        int sLength = source.Count;
         Paths64 ret = new (sLength);
 #if !GWSINGLETHREADED
         Parallel.For(0, sLength, pt =>
@@ -707,7 +707,7 @@ public static partial class GeoWrangler
 
     private static PathsD pStripColinear(PathsD source, double angularTolerance = 0.0f)
     {
-        int sLength = source.Capacity;
+        int sLength = source.Count;
         PathsD ret = new (sLength);
 #if !GWSINGLETHREADED
         Parallel.For(0, sLength, pt =>

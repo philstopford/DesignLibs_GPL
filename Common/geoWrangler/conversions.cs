@@ -44,7 +44,7 @@ public static partial class GeoWrangler
         Path64 returnPath = new();
         try
         {
-            returnPath.AddRange(source.Select(t => new Point64(t.X * scaling, t.Y * scaling)));
+            returnPath.AddRange(source.Select(t => new Point64(t.X * scaling, t.Y * scaling, t.Z)));
         }
         catch
         {
@@ -98,7 +98,7 @@ public static partial class GeoWrangler
 #endif
             {
                 
-                returnPoint[pt] = new ((long)Math.Round(Convert.ToDecimal(source[pt].X) / scaling), (long)Math.Round(Convert.ToDecimal(source[pt].Y) / scaling));
+                returnPoint[pt] = new ((long)Math.Round(Convert.ToDecimal(source[pt].X) / scaling), (long)Math.Round(Convert.ToDecimal(source[pt].Y) / scaling), source[pt].Z);
             }
 #if !GWSINGLETHREADED
         );
@@ -148,7 +148,7 @@ public static partial class GeoWrangler
         Path64 returnPath = new();
         try
         {
-            returnPath.AddRange(source.Select(t => new Point64(Convert.ToInt64(t.x * scaling), Convert.ToInt64(t.y * scaling))));
+            returnPath.AddRange(source.Select(t => new Point64(Convert.ToInt64(t.x * scaling), Convert.ToInt64(t.y * scaling), t.z)));
         }
         catch
         {
@@ -194,7 +194,7 @@ public static partial class GeoWrangler
 #endif
             {
                 returnPointF[pt] = new ((double)source[pt].X / scaling,
-                    (double)source[pt].Y / scaling);
+                    (double)source[pt].Y / scaling, source[pt].Z);
             }
 #if !GWSINGLETHREADED
         );
@@ -240,7 +240,7 @@ public static partial class GeoWrangler
             try
             {
                 ret[pt] = new (Convert.ToInt64(source[pt].x * scaling),
-                    Convert.ToInt64(source[pt].y * scaling));
+                    Convert.ToInt64(source[pt].y * scaling), Convert.ToInt64(source[pt].z));
             }
             catch
             {
@@ -284,7 +284,7 @@ public static partial class GeoWrangler
             try
             {
                 ret[pt] = new (Convert.ToDouble(source[pt].X) / scaling,
-                    Convert.ToDouble(source[pt].Y) / scaling);
+                    Convert.ToDouble(source[pt].Y) / scaling, source[pt].Z);
             }
             catch
             {

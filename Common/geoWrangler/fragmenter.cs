@@ -70,7 +70,7 @@ public class Fragmenter
         Path64 t = new();
         for (int p = 0; p < source.Count; p++)
         {
-            t.Add(new Point64(source[p].X, source[p].Y));
+            t.Add(new Point64(source[p].X, source[p].Y, source[p].Z));
         }
 
         t = closed switch
@@ -126,7 +126,7 @@ public class Fragmenter
 
                 for (int i = 1; i < fragmentCount; i++)
                 {
-                    returnPath.Add(new Point64(pt1.X + i * x_Step, pt1.Y + i * y_Step));
+                    returnPath.Add(new Point64(pt1.X + i * x_Step, pt1.Y + i * y_Step, pt1.Z));
                 }
 
                 break;
@@ -181,7 +181,7 @@ public class Fragmenter
         // Avoid sending back the first and last vertices of the path.
         for (int i = 1; i < fragmentCount; i++)
         {
-            returnList.Add(new (pt1.x + i * x_Step, pt1.y + i * y_Step));
+            returnList.Add(new (pt1.x + i * x_Step, pt1.y + i * y_Step, pt1.z));
         }
         return returnList;
     }

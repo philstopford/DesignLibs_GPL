@@ -11,21 +11,21 @@ public static partial class GeoWrangler
 {
     public static Point64 move(Point64 source, decimal x, decimal y)
     {
-        return new Point64((Int64)(source.X + x), (Int64)(source.Y + y));
+        return new Point64((Int64)(source.X + x), (Int64)(source.Y + y), source.Z);
     }
     public static Point64 move(Point64 source, double x, double y)
     {
-        return new Point64((Int64)(source.X + x), (Int64)(source.Y + y));
+        return new Point64((Int64)(source.X + x), (Int64)(source.Y + y), source.Z);
     }
     
     public static Point64 move(Point64 source, int x, int y)
     {
-        return new Point64((source.X + x), (source.Y + y));
+        return new Point64((source.X + x), (source.Y + y), source.Z);
     }
 
     public static Point64 move(Point64 source, Int64 x, Int64 y)
     {
-        return new Point64((source.X + x), (source.Y + y));
+        return new Point64((source.X + x), (source.Y + y), source.Z);
     }
 
     public static Paths64 move(Paths64 source, decimal x, decimal y)
@@ -42,16 +42,13 @@ public static partial class GeoWrangler
         int sLength = source.Count;
         Paths64 ret = new (sLength);
 
-        Int64 x_ = (Int64)x;
-        Int64 y_ = (Int64)y;
-
 #if !GWSINGLETHREADED
         Parallel.For(0, sLength, i =>
 #else
             for (int i = 0; i < source.Length; i++)
 #endif
             {
-                ret[i] = new(pMove(source[i], x_, y_));
+                ret[i] = new(move(source[i], x, y));
             }
 #if !GWSINGLETHREADED
         );
@@ -85,14 +82,34 @@ public static partial class GeoWrangler
             for (int i = 0; i < source.Length; i++)
 #endif
             {
-                ret[i] = new (source[i].X + x, source[i].Y + y);
+                ret[i] = new(move(source[i], x, y));
             }
 #if !GWSINGLETHREADED
         );
 #endif
         return ret;
     }
-    
+
+    public static PointD move(PointD source, decimal x, decimal y)
+    {
+        return move(source, (double)x, (double)y);
+    }
+
+    public static PointD move(PointD source, int x, int y)
+    {
+        return move(source, x, y);
+    }
+
+    public static PointD move(PointD source, Int64 x, Int64 y)
+    {
+        return move(source, x, y);
+    }
+
+    public static PointD move(PointD source, double x, double y)
+    {
+        return new PointD(source.x + x, source.y + y, source.z);
+    }
+
     public static PathsD move(PathsD source, decimal x, decimal y)
     {
         return pMove(source, Convert.ToDouble(x), Convert.ToDouble(y));
@@ -142,7 +159,7 @@ public static partial class GeoWrangler
             for (int i = 0; i < source.Length; i++)
 #endif
             {
-                ret[i] = new (source[i].x + x, source[i].y + y);
+                ret[i] = new(move(source[i], x, y));
             }
 #if !GWSINGLETHREADED
         );

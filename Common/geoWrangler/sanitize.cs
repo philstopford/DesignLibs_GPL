@@ -109,12 +109,12 @@ public static partial class GeoWrangler
             // Now to start the re-indexing.
             for (int pt = reIndexStart; pt < iPoints.Count; pt++)
             {
-                tempList.Add(new (iPoints[pt].X, iPoints[pt].Y));
+                tempList.Add(new (iPoints[pt]));
             }
             // Ensure we close the shape by hitting the reIndexStart point again, since we will possibly have pushed it to the beginning of the shape.
             for (int pt = 0; pt <= reIndexStart; pt++)
             {
-                tempList.Add(new (iPoints[pt].X, iPoints[pt].Y));
+                tempList.Add(new (iPoints[pt]));
             }
 
             iPoints = new (tempList);
@@ -318,7 +318,7 @@ public static partial class GeoWrangler
                     case > 1 when Math.Abs(tempList[^1].x - iPoints[pt].x) <= double.Epsilon && Math.Abs(tempList[^1].y - iPoints[pt].y) <= double.Epsilon:
                         continue;
                     default:
-                        tempList.Add(new (iPoints[pt].x, iPoints[pt].y));
+                        tempList.Add(new (iPoints[pt]));
                         break;
                 }
             }
@@ -331,7 +331,7 @@ public static partial class GeoWrangler
                     case > 1 when Math.Abs(tempList[^1].x - iPoints[pt].x) <= double.Epsilon && Math.Abs(tempList[^1].y - iPoints[pt].y) <= double.Epsilon:
                         continue;
                     default:
-                        tempList.Add(new (iPoints[pt].x, iPoints[pt].y));
+                        tempList.Add(new (iPoints[pt]));
                         break;
                 }
             }
@@ -413,7 +413,7 @@ public static partial class GeoWrangler
                 case > 1 when Math.Abs(tempList[^1].x - iPoints[pt].x) <= double.Epsilon && Math.Abs(tempList[^1].y - iPoints[pt].y) <= double.Epsilon:
                     continue;
                 default:
-                    tempList.Add(new (iPoints[pt].x, iPoints[pt].y));
+                    tempList.Add(new (iPoints[pt]));
                     break;
             }
         }
@@ -426,7 +426,7 @@ public static partial class GeoWrangler
                 case > 1 when Math.Abs(tempList[^1].x - iPoints[pt].x) <= double.Epsilon && Math.Abs(tempList[^1].y - iPoints[pt].y) <= double.Epsilon:
                     continue;
                 default:
-                    tempList.Add(new (iPoints[pt].x, iPoints[pt].y));
+                    tempList.Add(new (iPoints[pt]));
                     break;
             }
         }

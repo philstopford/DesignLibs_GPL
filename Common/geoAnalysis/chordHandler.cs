@@ -184,10 +184,10 @@ public class ChordHandler
         }
 
         aChordLengths[0] = minTopChordLength;
-        a_chordPaths.Add(topChord);
+        a_chordPaths[0] = topChord;
 
         aChordLengths[1] = minBottomChordLength;
-        a_chordPaths.Add(bottomChord);
+        a_chordPaths[1] = bottomChord;
     }
 
     private void doPathB()
@@ -351,10 +351,10 @@ public class ChordHandler
         }
 
         bChordLengths[0] = minLeftChordLength;
-        b_chordPaths.Add(leftChord);
+        b_chordPaths[0] = leftChord;
 
         bChordLengths[1] = minRightChordLength;
-        b_chordPaths.Add(rightChord);
+        b_chordPaths[1] = rightChord;
 
     }
 

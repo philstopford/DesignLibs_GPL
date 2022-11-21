@@ -914,7 +914,11 @@ public static partial class GeoWrangler
         return source;
     }
 
-
+    public static PathsD close(PathsD source)
+    {
+        return pClose(source);
+    }
+    
     public static PathD close(PathD source)
     {
         return pClose(source);

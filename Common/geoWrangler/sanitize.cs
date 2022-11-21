@@ -200,12 +200,12 @@ public static partial class GeoWrangler
         // Now to start the re-indexing.
         for (int pt = reIndexStart; pt < iPoints.Count; pt++)
         {
-            tempList.Add(new (iPoints[pt].X, iPoints[pt].Y));
+            tempList.Add(new (iPoints[pt]));
         }
         // Ensure we close the shape by hitting the reIndexStart point again, since we will possibly have pushed it to the beginning of the shape.
         for (int pt = 0; pt <= reIndexStart; pt++)
         {
-            tempList.Add(new (iPoints[pt].X, iPoints[pt].Y));
+            tempList.Add(new (iPoints[pt]));
         }
 
         iPoints = new(tempList);

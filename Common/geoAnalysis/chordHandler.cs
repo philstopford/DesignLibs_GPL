@@ -449,8 +449,8 @@ public class ChordHandler
         b = GeoWrangler.reOrderYX(b);
 
         // Get our chord path storage sorted out.
-        a_chordPaths = new Paths64(2);
-        b_chordPaths = new Paths64(2);
+        a_chordPaths = Helper.initedPaths64(2);
+        b_chordPaths = Helper.initedPaths64(2);
 
         aChordLengths = new[] { 0.0, 0.0 };
         bChordLengths = new[] { 0.0, 0.0 };

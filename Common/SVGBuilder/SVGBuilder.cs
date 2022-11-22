@@ -1,7 +1,6 @@
 ﻿using System.Globalization;
 using Clipper2Lib;
 using color;
-using geoLib;
 
 namespace SVGBuilder;
 

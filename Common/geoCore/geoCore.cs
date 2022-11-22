@@ -924,7 +924,7 @@ public class GeoCore
         {
             case true:
                 List<GCPolygon> tmp = convertToPolygons(true);
-                points = new (tmp.Select(t => GeoWrangler.pathDFromPath64(t.pointarray)));
+                points = new (tmp.Select(t => GeoWrangler.PathDFromPath64(t.pointarray)));
                 break;
             default:
                 // Do we ever get here?

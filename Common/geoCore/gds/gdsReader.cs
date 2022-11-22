@@ -1,5 +1,4 @@
 ﻿using geoCoreLib;
-using geoLib;
 using MiscUtil.Conversion;
 using MiscUtil.IO;
 using System;

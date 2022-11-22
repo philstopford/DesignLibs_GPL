@@ -1,6 +1,4 @@
-﻿using geoLib;
-using System;
-using System.Linq;
+﻿using System;
 using System.Text;
 using Clipper2Lib;
 using geoWrangler;

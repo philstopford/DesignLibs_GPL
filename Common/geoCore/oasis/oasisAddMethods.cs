@@ -1,7 +1,5 @@
 ﻿using geoCoreLib;
-using geoLib;
 using System;
-using System.IO;
 using Clipper2Lib;
 using geoWrangler;
 

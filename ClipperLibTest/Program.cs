@@ -1,6 +1,5 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-using System;
 using ClipperLib1Test;
 using ClipperLib2Test;
 using ClipperLibTest;

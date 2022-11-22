@@ -1,7 +1,5 @@
 ﻿using System;
 using Clipper2Lib;
-using geoLib;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using utility;
 
@@ -9,12 +7,12 @@ namespace geoWrangler;
 
 public static partial class GeoWrangler
 {
-    public static Paths64 extendEdges(Paths64 edges, double sizing)
+    public static PathsD extendEdges(PathsD edges, double sizing)
     {
         return pExtendEdges(edges, sizing);
     }
 
-    private static Paths64 pExtendEdges(Paths64 edges, double sizing)
+    private static PathsD pExtendEdges(PathsD edges, double sizing)
     {
         int sLength = edges.Count;
 #if !GWSINGLETHREADED
@@ -31,15 +29,15 @@ public static partial class GeoWrangler
         return edges;
     }
 
-    public static Path64 extendEdge(Path64 edge, double sizing)
+    public static PathD extendEdge(PathD edge, double sizing)
     {
         return pExtendEdge(edge, sizing);
     }
-    private static Path64 pExtendEdge(Path64 edge, double sizing)
+    private static PathD pExtendEdge(PathD edge, double sizing)
     {
         // Get sorted out for dx, dy and normalization.
-        double dx = edge[0].X - edge[1].X;
-        double dy = edge[0].Y - edge[1].Y;
+        double dx = edge[0].x - edge[1].x;
+        double dy = edge[0].y - edge[1].y;
 
         double length = Math.Sqrt(Utils.myPow(dx, 2) + Utils.myPow(dy, 2));
 
@@ -47,15 +45,15 @@ public static partial class GeoWrangler
         dy /= length;
         
         // Extend the line slightly.
-        double edge0_newX = edge[0].X;
-        double edge0_newY = edge[0].Y;
-        double edge1_newX = edge[1].X;
-        double edge1_newY = edge[1].Y;
+        double edge0_newX = edge[0].x;
+        double edge0_newY = edge[0].y;
+        double edge1_newX = edge[1].x;
+        double edge1_newY = edge[1].y;
 
         // Move the edge according to the keyhole sizing, to extend it. Then add 1 to ensure an overlap.
         double X_shift = (long) Math.Abs(dx * sizing) + 1;
         double Y_shift = (long) Math.Abs(dy * sizing) + 1;
-        if (edge[0].X <= edge[1].X)
+        if (edge[0].x <= edge[1].x)
         {
             edge0_newX -= X_shift;
             edge1_newX += X_shift;
@@ -66,7 +64,7 @@ public static partial class GeoWrangler
             edge1_newX -= X_shift;
         }
         
-        if (edge[0].Y <= edge[1].Y)
+        if (edge[0].y <= edge[1].y)
         {
             edge0_newY -= Y_shift;
             edge1_newY += Y_shift;
@@ -77,17 +75,17 @@ public static partial class GeoWrangler
             edge1_newY -= Y_shift;
         }
         
-        edge[0] = new Point64(edge0_newX, edge0_newY, edge[0].Z);
-        edge[1] = new Point64(edge1_newX, edge1_newY, edge[1].Z);
+        edge[0] = new (edge0_newX, edge0_newY, edge[0].z);
+        edge[1] = new (edge1_newX, edge1_newY, edge[1].z);
 
         return edge;
     }
-    public static Path64 inflatePath(Path64 source, int width)
+    public static PathD inflatePath(PathD source, int width)
     {
         return pInflatePath(source, width);
     }
 
-    private static Path64 pInflatePath(Path64 source, int width)
+    private static PathD pInflatePath(PathD source, int width)
     {
         switch (width)
         {
@@ -96,18 +94,22 @@ public static partial class GeoWrangler
         }
         
         ClipperOffset co = new() {PreserveCollinear = true};
-        Path64 a = new(source);
+        Path64 a;
         // Path from Point auto-closes the input for historical reasons. We may not want this....
         if (pDistanceBetweenPoints(source[0], source[^1]) > Double.Epsilon)
         {
-            pStripTerminators(a, false);
+            a = _pPath64FromPathD(pStripTerminators(source, false));
+        }
+        else
+        {
+            a = _pPath64FromPathD(source);
         }
         co.AddPath(a, JoinType.Miter, EndType.Square);
+
         Paths64 output = co.Execute(width);
-
-        output = pReorderXY(output);
-
-        return pClose(output[0]);
+        PathD ret = _pPathDFromPath64(output[0]);
+        ret = pReorderXY(ret);
+        return pClose(ret);
     }
 
     public static PathsD resize(PathsD source, double factor)

@@ -1,5 +1,4 @@
 using Clipper2Lib;
-using geoLib;
 
 namespace shapeEngine;
 

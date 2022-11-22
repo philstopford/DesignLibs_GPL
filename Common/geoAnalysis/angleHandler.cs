@@ -8,28 +8,28 @@ namespace geoAnalysis;
 public class angleHandler
 {
     public double minimumIntersectionAngle { get; private set; }
-    private Paths64 listOfOutputPoints;
-    public Paths64 resultPaths { get; private set; } // will only have one path, for minimum angle.
+    private PathsD listOfOutputPoints;
+    public PathsD resultPaths { get; private set; } // will only have one path, for minimum angle.
 
-    private void ZFillCallback(Point64 bot1, Point64 top1, Point64 bot2, Point64 top2, ref Point64 pt)
+    private void ZFillCallback(PointD bot1, PointD top1, PointD bot2, PointD top2, ref PointD pt)
     {
-        pt.Z = -1; // Tag our intersection points.
+        pt.z = -1; // Tag our intersection points.
     }
 
     // Distance functions to drive scale-up of intersection marker if needed.
     private readonly double minDistance = 10.0;
 
-    public angleHandler(Paths64 layerAPath, Paths64 layerBPath, int scaleFactorForOperation)
+    public angleHandler(PathsD layerAPath, PathsD layerBPath)
     {
-        angleHandlerLogic(layerAPath, layerBPath, scaleFactorForOperation);
+        angleHandlerLogic(layerAPath, layerBPath);
     }
 
-    private void angleHandlerLogic(Paths64 layerAPath, Paths64 layerBPath, int scaleFactorForOperation)
+    private void angleHandlerLogic(PathsD layerAPath, PathsD layerBPath)
     {
         listOfOutputPoints = new ();
         resultPaths = new ();
-        Path64 resultPath = new();
-        Clipper64 c = new() {ZCallback = ZFillCallback};
+        PathD resultPath = new();
+        ClipperD c = new() {ZCallback = ZFillCallback};
         c.AddSubject(layerAPath);
         c.AddClip(layerBPath);
         
@@ -52,21 +52,21 @@ public class angleHandler
         else
         {
             double temporaryResult = 180.0;
-            Path64 temporaryPath = new() {new (0, 0), new (0, 0), new (0, 0)};
-            foreach (Path64 t in listOfOutputPoints)
+            PathD temporaryPath = new() {new (0, 0), new (0, 0), new (0, 0)};
+            foreach (PathD t in listOfOutputPoints)
             {
-                Path64 overlapPath = GeoWrangler.clockwise(t);
+                PathD overlapPath = GeoWrangler.clockwise(t);
 
                 int pt = 0;
                 while (pt < overlapPath.Count)
                 {
-                    if (overlapPath[pt].Z == -1)
+                    if (overlapPath[pt].z == -1)
                     {
                         // intersection point found - let's get our three points to find the angle.
                         // http://en.wikipedia.org/wiki/Law_of_cosines
-                        Point64 interSection_B;
-                        Point64 interSection_C;
-                        Point64 interSection_A;
+                        PointD interSection_B;
+                        PointD interSection_C;
+                        PointD interSection_A;
                         if (pt == 0)
                         {
                             // Find preceding not-identical point.
@@ -146,16 +146,16 @@ public class angleHandler
                             interSection_A = overlapPath[refPt];
                         }
 
-                        Point64 cBVector = new(interSection_B.X - interSection_C.X, interSection_B.Y - interSection_C.Y);
-                        Point64 cAVector = new(interSection_A.X - interSection_C.X, interSection_A.Y - interSection_C.Y);
+                        PointD cBVector = new(interSection_B.x - interSection_C.x, interSection_B.y - interSection_C.y);
+                        PointD cAVector = new(interSection_A.x - interSection_C.x, interSection_A.y - interSection_C.y);
 
-                        long xComponents = cBVector.X * cAVector.X;
-                        long yComponents = cBVector.Y * cAVector.Y;
+                        double xComponents = cBVector.x * cAVector.x;
+                        double yComponents = cBVector.y * cAVector.y;
 
-                        long scalarProduct = xComponents + yComponents;
+                        double scalarProduct = xComponents + yComponents;
 
-                        double cBMagnitude = Math.Sqrt(Utils.myPow(cBVector.X, 2) + Utils.myPow(cBVector.Y, 2));
-                        double cAMagnitude = Math.Sqrt(Utils.myPow(cAVector.X, 2) + Utils.myPow(cAVector.Y, 2));
+                        double cBMagnitude = Math.Sqrt(Utils.myPow(cBVector.x, 2) + Utils.myPow(cBVector.y, 2));
+                        double cAMagnitude = Math.Sqrt(Utils.myPow(cAVector.x, 2) + Utils.myPow(cAVector.y, 2));
 
                         double theta = Math.Abs(Utils.toDegrees(Math.Acos(scalarProduct / (cBMagnitude * cAMagnitude)))); // Avoid falling into a trap with negative angles.
 
@@ -163,9 +163,9 @@ public class angleHandler
                         {
                             temporaryResult = theta;
                             temporaryPath.Clear();
-                            temporaryPath.Add(new Point64(interSection_A.X, interSection_A.Y));
-                            temporaryPath.Add(new Point64(interSection_C.X, interSection_C.Y));
-                            temporaryPath.Add(new Point64(interSection_B.X, interSection_B.Y));
+                            temporaryPath.Add(new (interSection_A.x, interSection_A.y));
+                            temporaryPath.Add(new (interSection_C.x, interSection_C.y));
+                            temporaryPath.Add(new (interSection_B.x, interSection_B.y));
                         }
                     }
                     pt++;
@@ -174,37 +174,37 @@ public class angleHandler
             minimumIntersectionAngle = temporaryResult;
 
             // Check our temporary path to see if we need to scale it up.
-            double distance = GeoWrangler.distanceBetweenPoints(temporaryPath[0], temporaryPath[1]) / scaleFactorForOperation;
-            Point64 distancePoint64 = GeoWrangler.Point64_distanceBetweenPoints(temporaryPath[0], temporaryPath[1]); // A to C
+            double distance = GeoWrangler.distanceBetweenPoints(temporaryPath[0], temporaryPath[1]);
+            PointD distancePoint64 = GeoWrangler.PointD_distanceBetweenPoints(temporaryPath[0], temporaryPath[1]); // A to C
             if (distance < minDistance)
             {
-                double X = temporaryPath[0].X;
-                double Y = temporaryPath[0].Y;
-                if (temporaryPath[1].X != temporaryPath[0].X)
+                double X = temporaryPath[0].x;
+                double Y = temporaryPath[0].y;
+                if (temporaryPath[1].x != temporaryPath[0].x)
                 {
-                    X = temporaryPath[1].X + distancePoint64.X * (minDistance / distance);
+                    X = temporaryPath[1].x + distancePoint64.x * (minDistance / distance);
                 }
-                if (temporaryPath[1].Y != temporaryPath[0].Y)
+                if (temporaryPath[1].y != temporaryPath[0].y)
                 {
-                    Y = temporaryPath[1].Y + distancePoint64.Y * (minDistance / distance);
+                    Y = temporaryPath[1].y + distancePoint64.y * (minDistance / distance);
                 }
-                temporaryPath[0] = new Point64((long)X, (long)Y);
+                temporaryPath[0] = new (X, Y);
             }
-            distance = GeoWrangler.distanceBetweenPoints(temporaryPath[2], temporaryPath[1]) / scaleFactorForOperation;
-            distancePoint64 = GeoWrangler.Point64_distanceBetweenPoints(temporaryPath[2], temporaryPath[1]); // B to C
+            distance = GeoWrangler.distanceBetweenPoints(temporaryPath[2], temporaryPath[1]);
+            distancePoint64 = GeoWrangler.PointD_distanceBetweenPoints(temporaryPath[2], temporaryPath[1]); // B to C
             if (distance < minDistance)
             {
-                double X = temporaryPath[2].X;
-                double Y = temporaryPath[2].Y;
-                if (temporaryPath[1].Y != temporaryPath[2].Y)
+                double X = temporaryPath[2].x;
+                double Y = temporaryPath[2].y;
+                if (temporaryPath[1].y != temporaryPath[2].y)
                 {
-                    Y = temporaryPath[1].Y + distancePoint64.Y * (minDistance / distance);
+                    Y = temporaryPath[1].y + distancePoint64.y * (minDistance / distance);
                 }
-                if (temporaryPath[1].X != temporaryPath[2].X)
+                if (temporaryPath[1].x != temporaryPath[2].x)
                 {
-                    X = temporaryPath[1].X + distancePoint64.X * (minDistance / distance);
+                    X = temporaryPath[1].x + distancePoint64.x * (minDistance / distance);
                 }
-                temporaryPath[2] = new Point64((long)X, (long)Y);
+                temporaryPath[2] = new (X, Y);
             }
             resultPaths.Add(temporaryPath);
         }

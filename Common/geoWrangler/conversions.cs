@@ -1,7 +1,4 @@
 ﻿using Clipper2Lib;
-using geoLib;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -9,17 +6,13 @@ namespace geoWrangler;
 
 public static partial class GeoWrangler
 {
-    public static Paths64 paths64FromPathsD(PathsD source, double scaling = 1.0)
-    {
-        return pPaths64FromPathsD(source, scaling);
-    }
 
-    private static Paths64 pPaths64FromPathsD(PathsD source, double scaling = 1.0)
+    private static Paths64 _pPaths64FromPathsD(PathsD source, double scaling = 1.0)
     {
         Paths64 ret = new();
         try
         {
-            ret.AddRange(source.Select(t => path64FromPathD(t, scaling)));
+            ret.AddRange(source.Select(t => _pPath64FromPathD(t, scaling)));
         }
         catch
         {
@@ -29,12 +22,7 @@ public static partial class GeoWrangler
         return ret;
     }
 
-    public static Path64 path64FromPathD(PathD source, double scaling = 1.0)
-    {
-        return pPath64FromPathD(source, scaling);
-    }
-
-    private static Path64 pPath64FromPathD(PathD source, double scaling = 1.0)
+    private static Path64 _pPath64FromPathD(PathD source, double scaling = 1.0)
     {
         int length = source.Count;
         if (source[0].x != source[^1].x && source[0].y != source[^1].y)
@@ -64,22 +52,16 @@ public static partial class GeoWrangler
         return returnPath;
     }
 
-    public static PathsD pathsDFromPaths64(Paths64 source, double scaling = 1.0)
+    private static PathsD _pPathsDFromPaths64(Paths64 source, double scaling = 1.0)
     {
-        return pPathsDFromPaths64(source, scaling);
+        return new (source.Select(t => _pPathDFromPath64(t, scaling)));
     }
 
-    private static PathsD pPathsDFromPaths64(Paths64 source, double scaling = 1.0)
+    public static PathD PathDFromPath64(Path64 source, double scaling = 1.0)
     {
-        return new (source.Select(t => pPathDFromPath64(t, scaling)));
+        return _pPathDFromPath64(source, scaling);
     }
-
-    public static PathD pathDFromPath64(Path64 source, double scaling = 1.0)
-    {
-        return pPathDFromPath64(source, scaling);
-    }
-
-    private static PathD pPathDFromPath64(Path64 source, double scaling = 1.0)
+    private static PathD _pPathDFromPath64(Path64 source, double scaling = 1.0)
     {
         int length = source.Count;
         int sCount = length;
@@ -121,4 +103,28 @@ public static partial class GeoWrangler
         }
         return returnPath;
     }
+
+/*
+    public static Paths64 paths64FromPathsD(PathsD source, double scaling = 1.0)
+    {
+        return pPaths64FromPathsD(source, scaling);
+    }
+
+    public static Path64 path64FromPathD(PathD source, double scaling = 1.0)
+    {
+        return pPath64FromPathD(source, scaling);
+    }
+
+
+    public static PathsD pathsDFromPaths64(Paths64 source, double scaling = 1.0)
+    {
+        return pPathsDFromPaths64(source, scaling);
+    }
+
+    public static PathD pathDFromPath64(Path64 source, double scaling = 1.0)
+    {
+        return pPathDFromPath64(source, scaling);
+    }
+
+    */
 }

@@ -1,15 +1,13 @@
-﻿using System.IO;
-using Clipper2Lib;
-using geoLib;
+﻿using Clipper2Lib;
 
 namespace PartitionTestGeometrySource;
 
 public static partial class TestGeometry
 {
-    public static Path64 getL()
+    public static PathD getL()
     {
         // L
-        Path64 L = new () {
+        PathD L = new () {
 
             new( 0, 0),
             new( 0, 50),
@@ -24,9 +22,9 @@ public static partial class TestGeometry
         return L;
     }
 
-    public static Path64 getRL()
+    public static PathD getRL()
     {
-        Path64 rL = new () {
+        PathD rL = new () {
 
             new( 0, 0),
             new( 0, 20),
@@ -41,9 +39,9 @@ public static partial class TestGeometry
         return rL;
     }
 
-    public static Path64 getU()
+    public static PathD getU()
     {
-        Path64 U = new () {
+        PathD U = new () {
 
             new( 0, 0),
             new( 0, 50),
@@ -60,9 +58,9 @@ public static partial class TestGeometry
         return U;
     }
 
-    public static Path64 getT()
+    public static PathD getT()
     {
-        Path64 T = new () {
+        PathD T = new () {
 
             new( 0, 50),
             new( 0, 80),
@@ -79,9 +77,9 @@ public static partial class TestGeometry
         return T;
     }
 
-    public static Path64 getX()
+    public static PathD getX()
     {
-        Path64 X = new () {
+        PathD X = new () {
 
             new( 0, 50),
             new( 0, 80),
@@ -102,9 +100,9 @@ public static partial class TestGeometry
         return X;
     }
 
-    public static Path64 getS()
+    public static PathD getS()
     {
-        Path64 S = new () {
+        PathD S = new () {
 
             new( 0, 0),
             new( 0, 20),
@@ -125,9 +123,9 @@ public static partial class TestGeometry
         return S;
     }
 
-    public static Path64 getnegS()
+    public static PathD getnegS()
     {
-        Path64 S = new () {
+        PathD S = new () {
 
             new( 0, 0),
             new( 0, 20),
@@ -147,7 +145,7 @@ public static partial class TestGeometry
 
         for (int i = 0; i < S.Count; i++)
         {
-            S[i] = new (S[i].X, S[i].Y - 200);
+            S[i] = new (S[i].x, S[i].y - 200);
         }
 
         return S;

@@ -1,16 +1,14 @@
-﻿using System.IO;
-using Clipper2Lib;
-using geoLib;
+﻿using Clipper2Lib;
 using geoWrangler;
 
 namespace PartitionTestGeometrySource
 {
     public static partial class TestGeometry
     {
-        public static Path64 getComplex1()
+        public static PathD getComplex1()
         {
             // Complex 1
-            Path64 C1 = new ()
+            PathD C1 = new ()
             {
                 new (10, -61),
                 new (10, -50),
@@ -70,10 +68,10 @@ namespace PartitionTestGeometrySource
             return C1;
         }
 
-        public static Path64 getComplex2()
+        public static PathD getComplex2()
         {
             // Complex 2
-            Path64 C2 = new ()
+            PathD C2 = new ()
             {
                 new (10, -213),
                 new (10, -202),
@@ -327,9 +325,9 @@ namespace PartitionTestGeometrySource
             return C2;
         }
 
-        public static Path64 getComplex3()
+        public static PathD getComplex3()
         {
-            Path64 C3 = new ()
+            PathD C3 = new ()
             {
                 new (-63, -63),
                 new (-63, 63),
@@ -365,7 +363,7 @@ namespace PartitionTestGeometrySource
             return C3;
         }
 
-        public static Path64 getComplex10rot15()
+        public static PathD getComplex10rot15()
         {
             PathD tmp_c10r15 = new ()
             {
@@ -1810,16 +1808,14 @@ namespace PartitionTestGeometrySource
                 new(0.18796, -0.29769),
                 new(0.19055, -0.30735)
             };
-
-            Path64 ret = GeoWrangler.path64FromPathD(tmp_c10r15, 10000);
-
-            return ret;
+            
+            return tmp_c10r15;
         }
 
 
-        public static Path64 getStaircase()
+        public static PathD getStaircase()
         {
-            Path64 S1 = new ()
+            PathD S1 = new ()
             {
 
                 new (-50, -50),
@@ -1840,9 +1836,9 @@ namespace PartitionTestGeometrySource
             return S1;
         }
 
-        public static Path64 ortho_fractal_1()
+        public static PathD ortho_fractal_1()
         {
-            Path64 points = new ()
+            PathD points = new ()
             {
                 new (-210, 10),
                 new (-210, 20),
@@ -3290,9 +3286,9 @@ namespace PartitionTestGeometrySource
             return points;
         }
 
-        public static Path64 ortho_fractal_2()
+        public static PathD ortho_fractal_2()
         {
-            return new Path64
+            return new PathD
             {
                 new (-213, 10),
                 new (-213, 20),
@@ -4737,9 +4733,9 @@ namespace PartitionTestGeometrySource
             };
         }
 
-        public static Path64 ortho_fractal_3()
+        public static PathD ortho_fractal_3()
         {
-            return new Path64
+            return new PathD
             {
                 new (10, -213),
                 new (10, -202),

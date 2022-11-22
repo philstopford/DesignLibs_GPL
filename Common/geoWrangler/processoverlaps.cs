@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Clipper2Lib;
-using geoLib;
 
 namespace geoWrangler;
 
@@ -60,13 +59,13 @@ public static class ProcessOverlaps
         }
         try
         {
-            Clipper64 c = new() {PreserveCollinear = true};
-            Paths64 sourcePolyData = GeoWrangler.paths64FromPathsD(sourceData);
-            Paths64 mergedPolyData = new();
+            ClipperD c = new() {PreserveCollinear = true};
+            PathsD sourcePolyData = new(sourceData);
+            PathsD mergedPolyData = new();
             
             // Union isn't always robust, so get a bounding box and run an intersection boolean to rationalize the geometry.
-            Rect64 bounds = Clipper.GetBounds(sourcePolyData);
-            Path64 bounding = new()
+            RectD bounds = Clipper.GetBounds(sourcePolyData);
+            PathD bounding = new()
             {
                 new (bounds.left, bounds.bottom),
                 new (bounds.left, bounds.top),
@@ -86,10 +85,10 @@ public static class ProcessOverlaps
             // Avoid the keyhole handling if we don't actually need to do it.
             bool noKeyHolesNeeded = true;
             // Decompose to outers and cutters
-            Paths64[] decomp = GeoWrangler.getDecomposed(mergedPolyData);
+            PathsD[] decomp = GeoWrangler.getDecomposed(mergedPolyData);
 
-            Paths64 outers = decomp[(int)GeoWrangler.type.outer];
-            Paths64 cutters = decomp[(int)GeoWrangler.type.cutter];
+            PathsD outers = decomp[(int)GeoWrangler.type.outer];
+            PathsD cutters = decomp[(int)GeoWrangler.type.cutter];
 
             int oCount = outers.Count;
             int cCount = cutters.Count;
@@ -103,7 +102,7 @@ public static class ProcessOverlaps
                     c.Clear();
                     c.AddSubject(outers[outer]);
                     c.AddClip(cutters[cutter]);
-                    Paths64 test = new();
+                    PathsD test = new();
                     c.Execute(ClipType.Union, FillRule.Positive, test);
                     test = GeoWrangler.reOrderXY(test);
 
@@ -126,7 +125,7 @@ public static class ProcessOverlaps
             if (noKeyHolesNeeded)
             {
                 // Send back our merged data to the caller; no keyholes needed and overlaps are reconciled.
-                return GeoWrangler.pathsDFromPaths64(mergedPolyData);
+                return new(mergedPolyData);
             }
             
             // So it turns out we need to worry about keyholes if we didn't return already. Let's get started.
@@ -136,9 +135,9 @@ public static class ProcessOverlaps
 
             // We need to run the fragmenter here because the keyholer / raycaster pipeline needs points for emission.
             Fragmenter f = new(Convert.ToDouble(resolution));
-            Paths64 toKeyHole = f.fragmentPaths(mergedPolyData);
+            PathsD toKeyHole = f.fragmentPaths(mergedPolyData);
             // Nudge the default keyhole size to avoid collapsing existing keyholes.
-            Paths64 keyHoled = GeoWrangler.makeKeyHole(toKeyHole, reverseEval:false, biDirectionalEval:true, RayCast.inversionMode.x, customSizing:customSizing, extension:Convert.ToDouble(extension));
+            PathsD keyHoled = GeoWrangler.makeKeyHole(toKeyHole, reverseEval:false, biDirectionalEval:true, RayCast.inversionMode.x, customSizing:customSizing, extension:Convert.ToDouble(extension));
 
             if (!keyHoled.Any())
             {
@@ -163,7 +162,7 @@ public static class ProcessOverlaps
             for (int rPoly = 0; rPoly < rpdCount; rPoly++)
             {
                 // We have to re-fragment as the overlap processing changed the geometry heavily.
-                refinedData.Add(f.fragmentPath(GeoWrangler.pathDFromPath64(mergedPolyData[rPoly])));
+                refinedData.Add(new (f.fragmentPath(mergedPolyData[rPoly])));
             }
 
             return refinedData;

@@ -1,8 +1,6 @@
 ﻿using geoCoreLib;
-using geoLib;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using Clipper2Lib;
 
 namespace geoCoreTest;

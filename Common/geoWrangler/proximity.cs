@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using Clipper2Lib;
-using geoLib;
 using utility;
 
 namespace geoWrangler;
@@ -28,10 +26,10 @@ public static class Proximity
 
         PathsD preOverlapMergePolys = new();
 
-        Paths64 dRays = new();
+        PathsD dRays = new();
 
         // Scale up our geometry for processing. Force a clockwise point order here due to potential upstream point order changes (e.g. polygon merging)
-        Paths64 sourceGeometry = GeoWrangler.paths64FromPathsD(input);
+        PathsD sourceGeometry = new(input);
 
         List<bool> overlapDrawnList = new();
 
@@ -60,10 +58,10 @@ public static class Proximity
             
             overlapDrawnList.Add(false);
 
-            Path64 sourcePoly = new(sourceGeometry[poly]);
-            Paths64 collisionGeometry = new(sourceGeometry);
+            PathD sourcePoly = new(sourceGeometry[poly]);
+            PathsD collisionGeometry = new(sourceGeometry);
             // collisionGeometry.RemoveAt(poly); // Don't actually want to remove the emission as self-aware proximity matters.
-            Path64 deformedPoly = new();
+            PathD deformedPoly = new();
 
             // Threading operation here gets more tricky than the distance handler. We have a less clear trade off of threading based on the emission edge (the polygon being biased) vs the multisampling emission.
             // In batch calculation mode, this tradeoff gets more awkward.
@@ -95,7 +93,7 @@ public static class Proximity
 
             RayCast rc = new(sourcePoly, collisionGeometry, Convert.ToInt32(pBiasDist), false, invert:0, proxRays, emitThread, multiSampleThread, sideRayFallOff: (RayCast.falloff)proxSideRaysFallOff, sideRayFallOffMultiplier: Convert.ToDouble(proxSideRaysMultiplier));
 
-            Paths64 clippedLines = rc.getClippedRays();
+            PathsD clippedLines = rc.getClippedRays();
             // ReSharper disable once ConditionIsAlwaysTrueOrFalse
             if (debug)
             {
@@ -106,8 +104,8 @@ public static class Proximity
             int cLCount = clippedLines.Count;
             for (int line = 0; line < cLCount; line++)
             {
-                long displacedX = sourcePoly[line].X;
-                long displacedY = sourcePoly[line].Y;
+                double displacedX = sourcePoly[line].x;
+                double displacedY = sourcePoly[line].y;
 
                 double lineLength = rc.getRayLength(line);
 
@@ -115,7 +113,7 @@ public static class Proximity
                 {
                     // No biasing - ray never made it beyond the surface. Short-cut the 
                     case 0:
-                        deformedPoly.Add(new Point64(clippedLines[line][0]));
+                        deformedPoly.Add(new (clippedLines[line][0]));
                         continue;
                     case < 0:
                         lineLength *= -1;
@@ -145,27 +143,26 @@ public static class Proximity
                 }
 
                 // Use our cast ray from rc to get a normalized average 
-                Point64 averagedEdgeNormal = GeoWrangler.Point64_distanceBetweenPoints(clippedLines[line][clippedLines[line].Count - 1], clippedLines[line][0]);
+                PointD averagedEdgeNormal = GeoWrangler.PointD_distanceBetweenPoints(clippedLines[line][clippedLines[line].Count - 1], clippedLines[line][0]);
 
                 // Normalize our vector length.
-                double aX = averagedEdgeNormal.X / lineLength;
-                double aY = averagedEdgeNormal.Y / lineLength;
+                double aX = averagedEdgeNormal.x / lineLength;
+                double aY = averagedEdgeNormal.y / lineLength;
 
                 displacedY += (long)(displacedAmount * aY);
                 displacedX += (long)(displacedAmount * aX);
 
-                deformedPoly.Add(new Point64(displacedX, displacedY));
+                deformedPoly.Add(new (displacedX, displacedY));
             }
             
             // Experimental clean-up
             if (doCleanUp)
             {
-                Path64 rdpPath = Clipper.RamerDouglasPeucker(GeoWrangler.close(deformedPoly), cleanUpEpsilon); // scale from int to make a double
+                PathD rdpPath = Clipper.RamerDouglasPeucker(GeoWrangler.close(deformedPoly), cleanUpEpsilon); // scale from int to make a double
                 deformedPoly = f.fragmentPath(GeoWrangler.close(rdpPath));
             }
 
-            // deformedPoly.Add(new Point64(deformedPoly[0]));
-            preOverlapMergePolys.Add(GeoWrangler.pathDFromPath64(deformedPoly));
+            preOverlapMergePolys.Add(new(deformedPoly));
         }
 
         // Check for overlaps and process as needed post-biasing.
@@ -174,9 +171,9 @@ public static class Proximity
         // ReSharper disable once ConditionIsAlwaysTrueOrFalse
         if (debug)
         {
-            foreach (Path64 t in dRays)
+            foreach (PathD t in dRays)
             {
-                ret.geometry.Add(GeoWrangler.pathDFromPath64(t));
+                ret.geometry.Add(new(t));
                 ret.drawn.Add(true);
             }
         }

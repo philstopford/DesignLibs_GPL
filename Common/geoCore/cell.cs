@@ -1,9 +1,7 @@
 ﻿using gds;
-using geoLib;
 using oasis;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Clipper2Lib;

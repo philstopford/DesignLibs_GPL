@@ -1,11 +1,7 @@
 ﻿using Clipper2Lib;
 using geoWrangler;
-using System.Collections.Generic;
 
 namespace KeyHolerTest;
-
-using Path = Path64;
-using Paths = Paths64;
 
 internal class Program
 {
@@ -75,7 +71,7 @@ internal class Program
 
     private static void singleTest()
     {
-        Path outer = new()
+        PathD outer = new()
         {
             new(-200000, -200000),
             new(200000, -200000),
@@ -84,7 +80,7 @@ internal class Program
             new(-200000, -200000)
         };
 
-        Path inner1 = new()
+        PathD inner1 = new()
         {
             new(-100000, -100000),
             new(-100000, 100000),
@@ -96,16 +92,18 @@ internal class Program
         // Segment the paths to match real-world case.
         /*
         Fragmenter f = new(10000);
-        Path outer_f = f.fragmentPath(outer);
+        PathD outer_f = f.fragmentPath(outer);
 
-        Path inner1_f = f.fragmentPath(inner1);
+        PathD inner1_f = f.fragmentPath(inner1);
         */
 
-        Paths kHSource = new()
+        PathsD kHSource = new()
         {
             outer,
             inner1
         };
+        
+        // kHSource = Clipper.ScalePaths(kHSource, 0.0001)
 
         /* Expect to have
 
@@ -125,7 +123,7 @@ internal class Program
          */
 
         // Generate keyholed geometry
-        Paths kH = GeoWrangler.makeKeyHole(kHSource, reverseEval:false, biDirectionalEval:true);
+        PathsD kH = GeoWrangler.makeKeyHole(kHSource, reverseEval:false, biDirectionalEval:true);
 
         /* Expected output
 
@@ -147,8 +145,8 @@ internal class Program
         */
         
         // Generate sliver geometry.
-        Paths sL = new();
-        Clipper64 c = new();
+        PathsD sL = new();
+        ClipperD c = new();
         c.AddSubject(outer);
         c.AddClip(kH);
         c.Execute(ClipType.Difference, FillRule.EvenOdd, sL);
@@ -167,7 +165,7 @@ internal class Program
            */
         
         // Gap removal test
-        Paths gR = GeoWrangler.gapRemoval(kH, 100);
+        PathsD gR = GeoWrangler.gapRemoval(kH, 100);
 
         /* Expected output
         gR = {List<List<Point64>>} Count = 1
@@ -188,7 +186,7 @@ internal class Program
          */
     
         // Sliver removal test
-        Paths sR = GeoWrangler.gapRemoval(sL, -100);
+        PathsD sR = GeoWrangler.gapRemoval(sL, -100);
         
         /* Expected output
         sR = {List<List<Point64>>} Count = 1
@@ -207,7 +205,7 @@ internal class Program
 
     private static void multiTest()
     {
-        Path outer = new()
+     PathD outer = new()
         {
             new(-300000, -200000),
             new(300000, -200000),
@@ -216,7 +214,7 @@ internal class Program
             new(-300000, -200000)
         };
 
-        Path inner1 = new()
+        PathD inner1 = new()
         {
             new(-200000, -100000),
             new(-200000, 100000),
@@ -225,7 +223,7 @@ internal class Program
             new(-200000, -100000)
         };
 
-        Path inner2 = new()
+        PathD inner2 = new()
         {
             new(100000, -100000),
             new(100000, 100000),
@@ -237,12 +235,12 @@ internal class Program
         // Segment the paths to match real-world case.
         /*
         Fragmenter f = new(10000);
-        Path outer_f = f.fragmentPath(outer);
+        PathD outer_f = f.fragmentPath(outer);
 
-        Path inner1_f = f.fragmentPath(inner1);
-        Path inner2_f = f.fragmentPath(inner2);
+        PathD inner1_f = f.fragmentPath(inner1);
+        PathD inner2_f = f.fragmentPath(inner2);
         */
-        Paths kHSource = new()
+        PathsD kHSource = new()
         {
             outer,
             inner1,
@@ -272,7 +270,7 @@ internal class Program
            */
 
         // Generate keyholed geometry
-        Paths kH = GeoWrangler.makeKeyHole(new Paths(kHSource), reverseEval:false, biDirectionalEval:true);
+        PathsD kH = GeoWrangler.makeKeyHole(new PathsD(kHSource), reverseEval:false, biDirectionalEval:true);
 
         /* Expected output
         kH = {List<List<Point64>>} Count = 1
@@ -301,8 +299,8 @@ internal class Program
            */
         
         // Generate sliver geometry.
-        Paths sL = new();
-        Clipper64 c = new();
+        PathsD sL = new();
+        ClipperD c = new();
         c.AddSubject(outer);
         c.AddClip(kH);
         c.Execute(ClipType.Difference, FillRule.EvenOdd, sL);
@@ -330,7 +328,7 @@ internal class Program
            */
 
         // Gap removal test
-        Paths gR = GeoWrangler.gapRemoval(kH, 100);
+        PathsD gR = GeoWrangler.gapRemoval(kH, 100);
 
         /* Expected output
         gR = {List<List<Point64>>} Count = 1
@@ -359,7 +357,7 @@ internal class Program
            */
         
         // Sliver removal test
-        Paths sR = GeoWrangler.gapRemoval(sL, -100);
+        PathsD sR = GeoWrangler.gapRemoval(sL, -100);
         
         /* Expected output
         sR = {List<List<Point64>>} Count = 2
@@ -388,7 +386,7 @@ internal class Program
 
     private static void multiCutTest()
     {
-        Path outer = new()
+        PathD outer = new()
         {
             new(0, 0),
             new(400000, 00000),
@@ -397,7 +395,7 @@ internal class Program
             new(0, 0)
         };
 
-        Path inner1 = new()
+        PathD inner1 = new()
         {
             new(50000, 150000),
             new(50000, 250000),
@@ -406,7 +404,7 @@ internal class Program
             new(50000, 150000)
         };
 
-        Path inner2 = new()
+        PathD inner2 = new()
         {
             new(150000, 50000),
             new(150000, 350000),
@@ -415,7 +413,7 @@ internal class Program
             new(150000, 50000)
         };
 
-        Paths kHSource = new()
+        PathsD kHSource = new()
         {
             outer,
             inner1
@@ -438,7 +436,7 @@ internal class Program
            */
 
         // Generate keyholed geometry
-        Paths kH = GeoWrangler.makeKeyHole(new Paths(kHSource), reverseEval:false, biDirectionalEval:true);
+        PathsD kH = GeoWrangler.makeKeyHole(new PathsD(kHSource), reverseEval:false, biDirectionalEval:true);
 
         /* Expected output
         kH = {List<List<Point64>>} Count = 1
@@ -458,7 +456,7 @@ internal class Program
           [12] = {Point64} 400000,0,0 
            */
         
-        Paths kHSource2 = new();
+        PathsD kHSource2 = new();
         kHSource2.AddRange(kH);
         kHSource2.Add(inner2);
 
@@ -487,7 +485,7 @@ internal class Program
            */
         
         // Generate keyholed geometry
-        Paths kH2 = GeoWrangler.makeKeyHole(new Paths(kHSource2), reverseEval:false, biDirectionalEval:true);
+        PathsD kH2 = GeoWrangler.makeKeyHole(new PathsD(kHSource2), reverseEval:false, biDirectionalEval:true);
 
         /* Expected output
         kH2 = {List<List<Point64>>} Count = 1
@@ -516,8 +514,8 @@ internal class Program
            */
         
         // Generate sliver geometry.
-        Clipper64 c = new();
-        Paths sL = new();
+        ClipperD c = new();
+        PathsD sL = new();
         c.AddSubject(outer);
         c.AddClip(kH);
         c.Execute(ClipType.Difference, FillRule.EvenOdd, sL);
@@ -536,7 +534,7 @@ internal class Program
            */
 
         c.Clear();
-        Paths sL2 = new();
+        PathsD sL2 = new();
         c.AddSubject(outer);
         c.AddClip(kH2);
         c.Execute(ClipType.Difference, FillRule.EvenOdd, sL2);
@@ -563,7 +561,7 @@ internal class Program
            */
 
         // Gap removal test
-        Paths gR = GeoWrangler.gapRemoval(kH, 100);
+        PathsD gR = GeoWrangler.gapRemoval(kH, 100);
         
         /* Expected output
         gR = {List<List<Point64>>} Count = 1
@@ -583,7 +581,7 @@ internal class Program
           [12] = {Point64} 400000,0,0 
            */
         
-        Paths gR2 = GeoWrangler.gapRemoval(kH2, 100);
+        PathsD gR2 = GeoWrangler.gapRemoval(kH2, 100);
         
         /* Expected output
         gR2 = {List<List<Point64>>} Count = 1
@@ -611,14 +609,14 @@ internal class Program
           [20] = {Point64} 400000,0,0 
            */
 
-        Paths kHSource3 = new();
+        PathsD kHSource3 = new();
         kHSource3.AddRange(gR);
 
-        Paths kHSource4 = new();
+        PathsD kHSource4 = new();
         kHSource4.AddRange(gR2);
 
         // Generate keyholed geometry
-        Paths kH3 = GeoWrangler.makeKeyHole(new Paths(kHSource3), reverseEval:false, biDirectionalEval:true);
+        PathsD kH3 = GeoWrangler.makeKeyHole(new PathsD(kHSource3), reverseEval:false, biDirectionalEval:true);
         
         /* Expected output
         kH3 = {List<List<Point64>>} Count = 1
@@ -638,7 +636,7 @@ internal class Program
           [12] = {Point64} 400000,0,0 
            */
         
-        Paths kH4 = GeoWrangler.makeKeyHole(new Paths(kHSource4), reverseEval:false, biDirectionalEval:true);
+        PathsD kH4 = GeoWrangler.makeKeyHole(new PathsD(kHSource4), reverseEval:false, biDirectionalEval:true);
 
         /* Expected output
         kH4 = {List<List<Point64>>} Count = 1
@@ -667,7 +665,7 @@ internal class Program
            */
         
         // Sliver removal test
-        Paths sR = GeoWrangler.gapRemoval(sL, -100);
+        PathsD sR = GeoWrangler.gapRemoval(sL, -100);
         
         /* Expected output
         sR = {List<List<Point64>>} Count = 1
@@ -683,7 +681,7 @@ internal class Program
           [8] = {Point64} 50000,150000,0 
            */
         
-        Paths sR2 = GeoWrangler.gapRemoval(sL2, -100);
+        PathsD sR2 = GeoWrangler.gapRemoval(sL2, -100);
         
         /* Expected output
         sR2 = {List<List<Point64>>} Count = 1
@@ -710,7 +708,7 @@ internal class Program
 
     private static void selfOverlapTest()
     {
-        Path outer = new()
+        PathD outer = new()
         {
             new(0, 0),
             new(110000, 0),
@@ -728,8 +726,8 @@ internal class Program
         };
 
         // decomposer test
-        Paths dSource = new() {outer};
-        Paths decomp = GeoWrangler.decompose(dSource);
+        PathsD dSource = new() {outer};
+        PathsD decomp = GeoWrangler.decompose(dSource);
         
         /* Expected output
         decomp = {List<List<Point64>>} Count = 2
@@ -749,7 +747,7 @@ internal class Program
           [5] = {Point64} 50000,50000,0 
            */
         
-        Paths kHD = GeoWrangler.makeKeyHole(dSource, reverseEval:false, biDirectionalEval:true);
+        PathsD kHD = GeoWrangler.makeKeyHole(dSource, reverseEval:false, biDirectionalEval:true);
 
         /* Expected output
         kHD = {List<List<Point64>>} Count = 1
@@ -770,8 +768,8 @@ internal class Program
            */
         
         // keyholer test
-        Paths kHSource = new() {outer};
-        Paths kH = GeoWrangler.makeKeyHole(kHSource, reverseEval:false, biDirectionalEval:true);
+        PathsD kHSource = new() {outer};
+        PathsD kH = GeoWrangler.makeKeyHole(kHSource, reverseEval:false, biDirectionalEval:true);
 
         /* Expected output
         kH = {List<List<Point64>>} Count = 1
@@ -791,10 +789,10 @@ internal class Program
           [12] = {Point64} 200000,0,0 
            */
         
-        Clipper64 c = new();
+        ClipperD c = new();
         c.AddSubject(outer);
 
-        Paths unionRes = new();
+        PathsD unionRes = new();
         c.Execute(ClipType.Union, FillRule.EvenOdd, unionRes);
         
         /* Expected output
@@ -815,7 +813,7 @@ internal class Program
           [12] = {Point64} 110000,50000,0 
            */
         
-        Paths unionRes_kH = GeoWrangler.makeKeyHole(unionRes, reverseEval:false, biDirectionalEval:true);
+        PathsD unionRes_kH = GeoWrangler.makeKeyHole(unionRes, reverseEval:false, biDirectionalEval:true);
         
         /* Expected output
         unionRes_kH = {List<List<Point64>>} Count = 1
@@ -835,8 +833,8 @@ internal class Program
           [12] = {Point64} 0,0,0 
            */
         
-        Paths unionResc = GeoWrangler.close(unionRes);
-        Paths unionResc_kH = GeoWrangler.makeKeyHole(unionResc, reverseEval:false, biDirectionalEval:true);
+        PathsD unionResc = GeoWrangler.close(unionRes);
+        PathsD unionResc_kH = GeoWrangler.makeKeyHole(unionResc, reverseEval:false, biDirectionalEval:true);
 
         /* Expected output
         unionResc_kH = {List<List<Point64>>} Count = 1
@@ -856,7 +854,7 @@ internal class Program
           [12] = {Point64} 0,0,0 
            */
         
-        Paths unionResP = new();
+        PathsD unionResP = new();
         c.Execute(ClipType.Union, FillRule.Positive, unionResP);
         
         /* Expected output
@@ -864,12 +862,12 @@ internal class Program
          */
         
         // no keyhole for any of the below
-        Paths unionResP_kH = GeoWrangler.makeKeyHole(unionResP, reverseEval:false, biDirectionalEval:true);
-        Paths unionResPc = GeoWrangler.close(unionResP);
-        Paths unionResPc_kH = GeoWrangler.makeKeyHole(unionResPc, reverseEval:false, biDirectionalEval:true);
+        PathsD unionResP_kH = GeoWrangler.makeKeyHole(unionResP, reverseEval:false, biDirectionalEval:true);
+        PathsD unionResPc = GeoWrangler.close(unionResP);
+        PathsD unionResPc_kH = GeoWrangler.makeKeyHole(unionResPc, reverseEval:false, biDirectionalEval:true);
 
         // seems good - get keyhole
-        Paths unionResNZ = new();
+        PathsD unionResNZ = new();
         c.Execute(ClipType.Union, FillRule.NonZero, unionResNZ);
         
         /* Expected output
@@ -890,7 +888,7 @@ internal class Program
           [5] = {Point64} 90000,50000,0 
            */
         
-        Paths unionResNZ_kH = GeoWrangler.makeKeyHole(unionResNZ, reverseEval:false, biDirectionalEval:true);
+        PathsD unionResNZ_kH = GeoWrangler.makeKeyHole(unionResNZ, reverseEval:false, biDirectionalEval:true);
         
         /* Expected output
         unionResNZ_kH = {List<List<Point64>>} Count = 1
@@ -910,7 +908,7 @@ internal class Program
           [12] = {Point64} 200000,0,0 
            */
         
-        Paths unionResNZc = GeoWrangler.close(unionResNZ);
+        PathsD unionResNZc = GeoWrangler.close(unionResNZ);
         
         /* Expected output
         unionResNZc = {List<List<Point64>>} Count = 2
@@ -930,7 +928,7 @@ internal class Program
           [5] = {Point64} 90000,50000,0 
            */
         
-        Paths unionResNZc_kH = GeoWrangler.makeKeyHole(unionResNZc, reverseEval:false, biDirectionalEval:true);
+        PathsD unionResNZc_kH = GeoWrangler.makeKeyHole(unionResNZc, reverseEval:false, biDirectionalEval:true);
         
         /* Expected result
         unionResNZc_kH = {List<List<Point64>>} Count = 1
@@ -950,7 +948,7 @@ internal class Program
           [12] = {Point64} 200000,0,0 
            */
 
-        Paths simplifyRes = new();
+        PathsD simplifyRes = new();
         c.Execute(ClipType.Union, FillRule.EvenOdd, simplifyRes);
         simplifyRes = GeoWrangler.stripColinear(simplifyRes);
 
@@ -972,7 +970,7 @@ internal class Program
           [12] = {Point64} 110000,50000,0 
            */
 
-        Paths simplifyRes_kH = GeoWrangler.makeKeyHole(simplifyRes, reverseEval:false, biDirectionalEval:true);
+        PathsD simplifyRes_kH = GeoWrangler.makeKeyHole(simplifyRes, reverseEval:false, biDirectionalEval:true);
         
         /* Expected output
         simplifyRes_kH = {List<List<Point64>>} Count = 1
@@ -992,7 +990,7 @@ internal class Program
           [12] = {Point64} 0,0,0 
            */
         
-        Paths simplifyResc = GeoWrangler.close(simplifyRes);
+        PathsD simplifyResc = GeoWrangler.close(simplifyRes);
         
         /* Expected output
         simplifyResc = {List<List<Point64>>} Count = 1
@@ -1012,7 +1010,7 @@ internal class Program
           [12] = {Point64} 110000,50000,0 
            */
         
-        Paths simplifyResc_kH = GeoWrangler.makeKeyHole(simplifyResc, reverseEval:false, biDirectionalEval:true);
+        PathsD simplifyResc_kH = GeoWrangler.makeKeyHole(simplifyResc, reverseEval:false, biDirectionalEval:true);
 
         /* Expected output
         simplifyResc_kH = {List<List<Point64>>} Count = 1
@@ -1032,35 +1030,35 @@ internal class Program
           [12] = {Point64} 0,0,0 
            */
         
-        Paths simplifyRes2 = new();
+        PathsD simplifyRes2 = new();
         c.Execute(ClipType.Union, FillRule.EvenOdd, simplifyRes2);
-        Paths simplifyRes2_kH = GeoWrangler.makeKeyHole(simplifyRes2, reverseEval:false, biDirectionalEval:true);
-        Paths simplifyRes2c = GeoWrangler.close(simplifyRes2);
-        Paths simplifyRes2c_kH = GeoWrangler.makeKeyHole(simplifyRes2c, reverseEval:false, biDirectionalEval:true);
+        PathsD simplifyRes2_kH = GeoWrangler.makeKeyHole(simplifyRes2, reverseEval:false, biDirectionalEval:true);
+        PathsD simplifyRes2c = GeoWrangler.close(simplifyRes2);
+        PathsD simplifyRes2c_kH = GeoWrangler.makeKeyHole(simplifyRes2c, reverseEval:false, biDirectionalEval:true);
 
         // no good - no result
-        Paths intRes = new();
+        PathsD intRes = new();
         c.Execute(ClipType.Intersection, FillRule.EvenOdd, intRes);
-        Paths intRes_kH = GeoWrangler.makeKeyHole(intRes, reverseEval:false, biDirectionalEval:true);
-        Paths intResc = GeoWrangler.close(intRes);
-        Paths intResc_kH = GeoWrangler.makeKeyHole(intResc, reverseEval:false, biDirectionalEval:true);
+        PathsD intRes_kH = GeoWrangler.makeKeyHole(intRes, reverseEval:false, biDirectionalEval:true);
+        PathsD intResc = GeoWrangler.close(intRes);
+        PathsD intResc_kH = GeoWrangler.makeKeyHole(intResc, reverseEval:false, biDirectionalEval:true);
 
         // no good - no result
-        Paths intResP = new();
+        PathsD intResP = new();
         c.Execute(ClipType.Intersection, FillRule.Positive, intResP);
-        Paths intResP_kH = GeoWrangler.makeKeyHole(intResP, reverseEval:false, biDirectionalEval:true);
-        Paths intResPc = GeoWrangler.close(intResP);
-        Paths intResPc_kH = GeoWrangler.makeKeyHole(intResPc, reverseEval:false, biDirectionalEval:true);
+        PathsD intResP_kH = GeoWrangler.makeKeyHole(intResP, reverseEval:false, biDirectionalEval:true);
+        PathsD intResPc = GeoWrangler.close(intResP);
+        PathsD intResPc_kH = GeoWrangler.makeKeyHole(intResPc, reverseEval:false, biDirectionalEval:true);
 
         // no good - no result
-        Paths intResNZ = new();
+        PathsD intResNZ = new();
         c.Execute(ClipType.Intersection, FillRule.NonZero, intResNZ);
-        Paths intResNZ_kH = GeoWrangler.makeKeyHole(intResNZ, reverseEval:false, biDirectionalEval:true);
-        Paths intResNZc = GeoWrangler.close(intResNZ);
-        Paths intResNZc_kH = GeoWrangler.makeKeyHole(intResNZc, reverseEval:false, biDirectionalEval:true);
+        PathsD intResNZ_kH = GeoWrangler.makeKeyHole(intResNZ, reverseEval:false, biDirectionalEval:true);
+        PathsD intResNZc = GeoWrangler.close(intResNZ);
+        PathsD intResNZc_kH = GeoWrangler.makeKeyHole(intResNZc, reverseEval:false, biDirectionalEval:true);
 
-        Rect64 bounds = Clipper.GetBounds(new Paths { outer });
-        Path bb = new()
+        RectD bounds = Clipper.GetBounds(new PathsD { outer });
+        PathD bb = new()
         {
             new(bounds.left, bounds.bottom),
             new(bounds.left, bounds.top),
@@ -1072,7 +1070,7 @@ internal class Program
         c.AddSubject(bb);
         c.AddClip(outer);
 
-        Paths intRes2 = new();
+        PathsD intRes2 = new();
         c.Execute(ClipType.Intersection, FillRule.EvenOdd, intRes2);
         
         /* Expected output
@@ -1096,7 +1094,7 @@ internal class Program
            [8] = {Point64} 90000,0,0 
            */
         
-        Paths intRes2_kH = GeoWrangler.makeKeyHole(intRes2, reverseEval:false, biDirectionalEval:true);
+        PathsD intRes2_kH = GeoWrangler.makeKeyHole(intRes2, reverseEval:false, biDirectionalEval:true);
         
         /* Expected output
          intRes2_kH = {List<List<Point64>>} Count = 1
@@ -1116,7 +1114,7 @@ internal class Program
            [12] = {Point64} 0,0,0 
            */
         
-        Paths intRes2c = GeoWrangler.close(intRes2);
+        PathsD intRes2c = GeoWrangler.close(intRes2);
         
         /* Expected output
          intRes2c = {List<List<Point64>>} Count = 2
@@ -1139,7 +1137,7 @@ internal class Program
            [8] = {Point64} 90000,0,0 
            */
         
-        Paths intRes2c_kH = GeoWrangler.makeKeyHole(intRes2c, reverseEval:false, biDirectionalEval:true);
+        PathsD intRes2c_kH = GeoWrangler.makeKeyHole(intRes2c, reverseEval:false, biDirectionalEval:true);
 
         /* Expected output
          intRes2c_kH = {List<List<Point64>>} Count = 1
@@ -1159,7 +1157,7 @@ internal class Program
            [12] = {Point64} 0,0,0 
            */
         
-        Paths intRes2P = new();
+        PathsD intRes2P = new();
         c.Execute(ClipType.Intersection, FillRule.Positive, intRes2P);
         
         /* Expected output
@@ -1167,12 +1165,12 @@ internal class Program
          */
         
         // No keyholes as no geometry.
-        Paths intRes2P_kH = GeoWrangler.makeKeyHole(intRes2P, reverseEval:false, biDirectionalEval:true);
-        Paths intRes2Pc = GeoWrangler.close(intRes2P);
-        Paths intRes2Pc_kH = GeoWrangler.makeKeyHole(intRes2Pc, reverseEval:false, biDirectionalEval:true);
+        PathsD intRes2P_kH = GeoWrangler.makeKeyHole(intRes2P, reverseEval:false, biDirectionalEval:true);
+        PathsD intRes2Pc = GeoWrangler.close(intRes2P);
+        PathsD intRes2Pc_kH = GeoWrangler.makeKeyHole(intRes2Pc, reverseEval:false, biDirectionalEval:true);
 
         // seems good - get keyhole
-        Paths intRes2NZ = new();
+        PathsD intRes2NZ = new();
         c.Execute(ClipType.Intersection, FillRule.NonZero, intRes2NZ);
         
         /* Expected output
@@ -1193,7 +1191,7 @@ internal class Program
            [5] = {Point64} 90000,50000,0 
            */
         
-        Paths intRes2NZ_kH = GeoWrangler.makeKeyHole(intRes2NZ, reverseEval:false, biDirectionalEval:true);
+        PathsD intRes2NZ_kH = GeoWrangler.makeKeyHole(intRes2NZ, reverseEval:false, biDirectionalEval:true);
         
         /* Expected output
          intRes2NZ_kH = {List<List<Point64>>} Count = 1
@@ -1213,7 +1211,7 @@ internal class Program
            [12] = {Point64} 200000,0,0 
            */
         
-        Paths intRes2NZc = GeoWrangler.close(intRes2NZ);
+        PathsD intRes2NZc = GeoWrangler.close(intRes2NZ);
         
         /* Expected output
          intRes2NZc = {List<List<Point64>>} Count = 2
@@ -1233,7 +1231,7 @@ internal class Program
            [5] = {Point64} 90000,50000,0 
            */
         
-        Paths intRes2NZc_kH = GeoWrangler.makeKeyHole(intRes2NZc, reverseEval:false, biDirectionalEval:true);
+        PathsD intRes2NZc_kH = GeoWrangler.makeKeyHole(intRes2NZc, reverseEval:false, biDirectionalEval:true);
         
          /* Expected output
           intRes2NZc_kH = {List<List<Point64>>} Count = 1
@@ -1257,7 +1255,7 @@ internal class Program
 
     private static void selfOverlapTest_reversed()
     {
-        Path outer = new()
+        PathD outer = new()
         {
             new(0, 0),
             new(110000, 0),
@@ -1277,7 +1275,7 @@ internal class Program
         outer.Reverse();
 
         // decomposer test
-        Paths dSource = new() {outer};
+        PathsD dSource = new() {outer};
 
         /* Expected
          dSource = {List<List<Point64>>} Count = 1
@@ -1297,7 +1295,7 @@ internal class Program
            [12] = {Point64} 0,0,0 
            */
         
-        Paths decomp = GeoWrangler.decompose(dSource);
+        PathsD decomp = GeoWrangler.decompose(dSource);
         
         /* Expected output
          decomp = {List<List<Point64>>} Count = 2
@@ -1317,7 +1315,7 @@ internal class Program
            [5] = {Point64} 50000,50000,0 
            */
         
-        Paths kHD = GeoWrangler.makeKeyHole(dSource, reverseEval:false, biDirectionalEval:true);
+        PathsD kHD = GeoWrangler.makeKeyHole(dSource, reverseEval:false, biDirectionalEval:true);
         
         /* Expected output
          kHD = {List<List<Point64>>} Count = 1
@@ -1338,7 +1336,7 @@ internal class Program
            */
 
         // keyholer test
-        Paths kHSource = new() {outer};
+        PathsD kHSource = new() {outer};
         
         /* Expected
          kHSource = {List<List<Point64>>} Count = 1
@@ -1358,7 +1356,7 @@ internal class Program
            [12] = {Point64} 0,0,0 
            */
         
-        Paths kH = GeoWrangler.makeKeyHole(kHSource, reverseEval:false, biDirectionalEval:true);
+        PathsD kH = GeoWrangler.makeKeyHole(kHSource, reverseEval:false, biDirectionalEval:true);
 
         /* Expected output
          kH = {List<List<Point64>>} Count = 1
@@ -1378,10 +1376,10 @@ internal class Program
            [12] = {Point64} 200000,0,0 
            */
         
-        Clipper64 c = new();
+        ClipperD c = new();
         c.AddSubject(outer);
 
-        Paths unionRes = new();
+        PathsD unionRes = new();
         c.Execute(ClipType.Union, FillRule.EvenOdd, unionRes);
 
         /* Expected output
@@ -1402,7 +1400,7 @@ internal class Program
            [12] = {Point64} 90000,0,0 
            */
         
-        Paths unionRes_kH = GeoWrangler.makeKeyHole(unionRes, reverseEval:false, biDirectionalEval:true);
+        PathsD unionRes_kH = GeoWrangler.makeKeyHole(unionRes, reverseEval:false, biDirectionalEval:true);
         
         /* Expected output
          unionRes_kH = {List<List<Point64>>} Count = 1
@@ -1422,7 +1420,7 @@ internal class Program
            [12] = {Point64} 0,0,0 
            */
         
-        Paths unionResc = GeoWrangler.close(unionRes);
+        PathsD unionResc = GeoWrangler.close(unionRes);
         
         /* Expected output
          unionResc = {List<List<Point64>>} Count = 1
@@ -1442,7 +1440,7 @@ internal class Program
            [12] = {Point64} 90000,0,0 
            */
         
-        Paths unionResc_kH = GeoWrangler.makeKeyHole(unionResc, reverseEval:false, biDirectionalEval:true);
+        PathsD unionResc_kH = GeoWrangler.makeKeyHole(unionResc, reverseEval:false, biDirectionalEval:true);
 
         /* Expected output
          unionResc_kH = {List<List<Point64>>} Count = 1
@@ -1462,7 +1460,7 @@ internal class Program
            [12] = {Point64} 0,0,0 
            */
         
-        Paths unionResP = new();
+        PathsD unionResP = new();
         c.Execute(ClipType.Union, FillRule.Positive, unionResP);
 
         /* Expected output
@@ -1483,7 +1481,7 @@ internal class Program
              [5] = {Point64} 90000,50000,0 
            */
         
-        Paths unionResP_kH = GeoWrangler.makeKeyHole(unionResP, reverseEval:false, biDirectionalEval:true);
+        PathsD unionResP_kH = GeoWrangler.makeKeyHole(unionResP, reverseEval:false, biDirectionalEval:true);
         
         /* Expected output
          unionResP_kH = {List<List<Point64>>} Count = 1
@@ -1503,7 +1501,7 @@ internal class Program
            [12] = {Point64} 200000,0,0 
          */
         
-        Paths unionResPc = GeoWrangler.close(unionResP);
+        PathsD unionResPc = GeoWrangler.close(unionResP);
         
         /* Expected output
           unionResPc = {List<List<Point64>>} Count = 2
@@ -1523,7 +1521,7 @@ internal class Program
             [5] = {Point64} 90000,50000,0 
            */
         
-        Paths unionResPc_kH = GeoWrangler.makeKeyHole(unionResPc, reverseEval:false, biDirectionalEval:true);
+        PathsD unionResPc_kH = GeoWrangler.makeKeyHole(unionResPc, reverseEval:false, biDirectionalEval:true);
 
         /* Expected output
          unionResPc_kH = {List<List<Point64>>} Count = 1
@@ -1544,7 +1542,7 @@ internal class Program
            */
         
         // seems good - get keyhole
-        Paths unionResNZ = new();
+        PathsD unionResNZ = new();
         c.Execute(ClipType.Union, FillRule.NonZero, unionResNZ);
         
         /* Expected output
@@ -1565,7 +1563,7 @@ internal class Program
              [5] = {Point64} 90000,50000,0 
            */
         
-        Paths unionResNZ_kH = GeoWrangler.makeKeyHole(unionResNZ, reverseEval:false, biDirectionalEval:true);
+        PathsD unionResNZ_kH = GeoWrangler.makeKeyHole(unionResNZ, reverseEval:false, biDirectionalEval:true);
         
         /* Expected output
            unionResNZ_kH = {List<List<Point64>>} Count = 1
@@ -1585,7 +1583,7 @@ internal class Program
              [12] = {Point64} 200000,0,0 
            */
         
-        Paths unionResNZc = GeoWrangler.close(unionResNZ);
+        PathsD unionResNZc = GeoWrangler.close(unionResNZ);
         
         /* Expected output
            unionResNZc = {List<List<Point64>>} Count = 2
@@ -1605,7 +1603,7 @@ internal class Program
              [5] = {Point64} 90000,50000,0 
            */
         
-        Paths unionResNZc_kH = GeoWrangler.makeKeyHole(unionResNZc, reverseEval:false, biDirectionalEval:true);
+        PathsD unionResNZc_kH = GeoWrangler.makeKeyHole(unionResNZc, reverseEval:false, biDirectionalEval:true);
 
         /* Expected output
            unionResNZc_kH = {List<List<Point64>>} Count = 1
@@ -1626,7 +1624,7 @@ internal class Program
            */
         
         // no good - overlap region is a gap.
-        Paths simplifyRes = new();
+        PathsD simplifyRes = new();
         c.Execute(ClipType.Union, FillRule.EvenOdd, simplifyRes);
         simplifyRes = GeoWrangler.stripColinear(simplifyRes);
         
@@ -1648,7 +1646,7 @@ internal class Program
              [12] = {Point64} 90000,0,0 
            */
         
-        Paths simplifyRes_kH = GeoWrangler.makeKeyHole(simplifyRes, reverseEval:false, biDirectionalEval:true);
+        PathsD simplifyRes_kH = GeoWrangler.makeKeyHole(simplifyRes, reverseEval:false, biDirectionalEval:true);
         
         /* Expected output
            simplifyRes_kH = {List<List<Point64>>} Count = 1
@@ -1668,7 +1666,7 @@ internal class Program
              [12] = {Point64} 0,0,0 
            */
         
-        Paths simplifyResc = GeoWrangler.close(simplifyRes);
+        PathsD simplifyResc = GeoWrangler.close(simplifyRes);
         
         /* Expected output
            simplifyResc = {List<List<Point64>>} Count = 1
@@ -1688,7 +1686,7 @@ internal class Program
              [12] = {Point64} 90000,0,0 
            */
         
-        Paths simplifyResc_kH = GeoWrangler.makeKeyHole(simplifyResc, reverseEval:false, biDirectionalEval:true);
+        PathsD simplifyResc_kH = GeoWrangler.makeKeyHole(simplifyResc, reverseEval:false, biDirectionalEval:true);
         
         /* Expected output
            simplifyResc_kH = {List<List<Point64>>} Count = 1
@@ -1708,7 +1706,7 @@ internal class Program
              [12] = {Point64} 0,0,0 
            */
 
-        Paths simplifyRes2 = new();
+        PathsD simplifyRes2 = new();
         c.Execute(ClipType.Union, FillRule.EvenOdd, simplifyRes2);
         
         /* Expected output
@@ -1729,7 +1727,7 @@ internal class Program
              [12] = {Point64} 90000,0,0 
            */
         
-        Paths simplifyRes2_kH = GeoWrangler.makeKeyHole(simplifyRes2, reverseEval:false, biDirectionalEval:true);
+        PathsD simplifyRes2_kH = GeoWrangler.makeKeyHole(simplifyRes2, reverseEval:false, biDirectionalEval:true);
         
         /* Expected output
            simplifyRes2_kH = {List<List<Point64>>} Count = 1
@@ -1749,7 +1747,7 @@ internal class Program
              [12] = {Point64} 0,0,0 
            */
         
-        Paths simplifyRes2c = GeoWrangler.close(simplifyRes2);
+        PathsD simplifyRes2c = GeoWrangler.close(simplifyRes2);
         
         /* Expected output
            simplifyRes2c = {List<List<Point64>>} Count = 1
@@ -1769,7 +1767,7 @@ internal class Program
              [12] = {Point64} 90000,0,0 
            */
         
-        Paths simplifyRes2c_kH = GeoWrangler.makeKeyHole(simplifyRes2c, reverseEval:false, biDirectionalEval:true);
+        PathsD simplifyRes2c_kH = GeoWrangler.makeKeyHole(simplifyRes2c, reverseEval:false, biDirectionalEval:true);
         
         /* Expected output
            simplifyRes2c_kH = {List<List<Point64>>} Count = 1
@@ -1790,28 +1788,28 @@ internal class Program
            */
 
         // no good - no result
-        Paths intRes = new();
+        PathsD intRes = new();
         c.Execute(ClipType.Intersection, FillRule.EvenOdd, intRes);
-        Paths intRes_kH = GeoWrangler.makeKeyHole(intRes, reverseEval:false, biDirectionalEval:true);
-        Paths intResc = GeoWrangler.close(intRes);
-        Paths intResc_kH = GeoWrangler.makeKeyHole(intResc, reverseEval:false, biDirectionalEval:true);
+        PathsD intRes_kH = GeoWrangler.makeKeyHole(intRes, reverseEval:false, biDirectionalEval:true);
+        PathsD intResc = GeoWrangler.close(intRes);
+        PathsD intResc_kH = GeoWrangler.makeKeyHole(intResc, reverseEval:false, biDirectionalEval:true);
 
         // no good - no result
-        Paths intResP = new();
+        PathsD intResP = new();
         c.Execute(ClipType.Intersection, FillRule.Positive, intResP);
-        Paths intResP_kH = GeoWrangler.makeKeyHole(intResP, reverseEval:false, biDirectionalEval:true);
-        Paths intResPc = GeoWrangler.close(intResP);
-        Paths intResPc_kH = GeoWrangler.makeKeyHole(intResPc, reverseEval:false, biDirectionalEval:true);
+        PathsD intResP_kH = GeoWrangler.makeKeyHole(intResP, reverseEval:false, biDirectionalEval:true);
+        PathsD intResPc = GeoWrangler.close(intResP);
+        PathsD intResPc_kH = GeoWrangler.makeKeyHole(intResPc, reverseEval:false, biDirectionalEval:true);
 
         // no good - no result
-        Paths intResNZ = new();
+        PathsD intResNZ = new();
         c.Execute(ClipType.Intersection, FillRule.NonZero, intResNZ);
-        Paths intResNZ_kH = GeoWrangler.makeKeyHole(intResNZ, reverseEval:false, biDirectionalEval:true);
-        Paths intResNZc = GeoWrangler.close(intResNZ);
-        Paths intResNZc_kH = GeoWrangler.makeKeyHole(intResNZc, reverseEval:false, biDirectionalEval:true);
+        PathsD intResNZ_kH = GeoWrangler.makeKeyHole(intResNZ, reverseEval:false, biDirectionalEval:true);
+        PathsD intResNZc = GeoWrangler.close(intResNZ);
+        PathsD intResNZc_kH = GeoWrangler.makeKeyHole(intResNZc, reverseEval:false, biDirectionalEval:true);
 
-        Rect64 bounds = Clipper.GetBounds(new Paths { outer });
-        Path bb = new()
+        RectD bounds = Clipper.GetBounds(new PathsD { outer });
+        PathD bb = new()
         {
             new(bounds.left, bounds.bottom),
             new(bounds.left, bounds.top),
@@ -1823,7 +1821,7 @@ internal class Program
         c.AddSubject(bb);
         c.AddClip(outer);
 
-        Paths intRes2 = new();
+        PathsD intRes2 = new();
         c.Execute(ClipType.Intersection, FillRule.EvenOdd, intRes2);
         
         /* Expected output
@@ -1844,7 +1842,7 @@ internal class Program
              [12] = {Point64} 90000,0,0 
            */
         
-        Paths intRes2_kH = GeoWrangler.makeKeyHole(intRes2, reverseEval:false, biDirectionalEval:true);
+        PathsD intRes2_kH = GeoWrangler.makeKeyHole(intRes2, reverseEval:false, biDirectionalEval:true);
         
         /* Expected output
            intRes2_kH = {List<List<Point64>>} Count = 1
@@ -1864,7 +1862,7 @@ internal class Program
              [12] = {Point64} 0,0,0 
            */
         
-        Paths intRes2c = GeoWrangler.close(intRes2);
+        PathsD intRes2c = GeoWrangler.close(intRes2);
         
         /* Expected output
            intRes2c = {List<List<Point64>>} Count = 1
@@ -1884,7 +1882,7 @@ internal class Program
              [12] = {Point64} 90000,0,0 
            */
         
-        Paths intRes2c_kH = GeoWrangler.makeKeyHole(intRes2c, reverseEval:false, biDirectionalEval:true);
+        PathsD intRes2c_kH = GeoWrangler.makeKeyHole(intRes2c, reverseEval:false, biDirectionalEval:true);
         
         /* Expected output
            intRes2c_kH = {List<List<Point64>>} Count = 1
@@ -1905,7 +1903,7 @@ internal class Program
            */
 
         // no good - no result
-        Paths intRes2P = new();
+        PathsD intRes2P = new();
         c.Execute(ClipType.Intersection, FillRule.Positive, intRes2P);
         
         /* Expected output
@@ -1913,12 +1911,12 @@ internal class Program
          */
         
         // No results - no geometry
-        Paths intRes2P_kH = GeoWrangler.makeKeyHole(intRes2P, reverseEval:false, biDirectionalEval:true);
-        Paths intRes2Pc = GeoWrangler.close(intRes2P);
-        Paths intRes2Pc_kH = GeoWrangler.makeKeyHole(intRes2Pc, reverseEval:false, biDirectionalEval:true);
+        PathsD intRes2P_kH = GeoWrangler.makeKeyHole(intRes2P, reverseEval:false, biDirectionalEval:true);
+        PathsD intRes2Pc = GeoWrangler.close(intRes2P);
+        PathsD intRes2Pc_kH = GeoWrangler.makeKeyHole(intRes2Pc, reverseEval:false, biDirectionalEval:true);
 
         // seems good - get keyhole
-        Paths intRes2NZ = new();
+        PathsD intRes2NZ = new();
         c.Execute(ClipType.Intersection, FillRule.NonZero, intRes2NZ);
         
         /* Expected output
@@ -1939,7 +1937,7 @@ internal class Program
              [5] = {Point64} 90000,50000,0 
            */
         
-        Paths intRes2NZ_kH = GeoWrangler.makeKeyHole(intRes2NZ, reverseEval:false, biDirectionalEval:true);
+        PathsD intRes2NZ_kH = GeoWrangler.makeKeyHole(intRes2NZ, reverseEval:false, biDirectionalEval:true);
         
         /* Expected output
            intRes2NZ_kH = {List<List<Point64>>} Count = 1
@@ -1959,7 +1957,7 @@ internal class Program
              [12] = {Point64} 200000,0,0 
            */
         
-        Paths intRes2NZc = GeoWrangler.close(intRes2NZ);
+        PathsD intRes2NZc = GeoWrangler.close(intRes2NZ);
         
         /* Expected output
            intRes2NZc = {List<List<Point64>>} Count = 2
@@ -1979,7 +1977,7 @@ internal class Program
              [5] = {Point64} 90000,50000,0 
            */
         
-        Paths intRes2NZc_kH = GeoWrangler.makeKeyHole(intRes2NZc, reverseEval:false, biDirectionalEval:true);
+        PathsD intRes2NZc_kH = GeoWrangler.makeKeyHole(intRes2NZc, reverseEval:false, biDirectionalEval:true);
         
         /* Expected output
            intRes2NZc_kH = {List<List<Point64>>} Count = 1
@@ -2004,7 +2002,7 @@ internal class Program
     private static void comboTest()
     {
         // Manually create the sliver.
-        Path outer = new()
+        PathD outer = new()
         {
             new(-200000, -200000),
             new(300000, -200000),
@@ -2017,7 +2015,7 @@ internal class Program
             new(-200000, -200000)
         };
 
-        Path inner1 = new()
+        PathD inner1 = new()
         {
             new(100000, -100000),
             new(100000, 100000),
@@ -2029,11 +2027,11 @@ internal class Program
         // Segment the paths to match real-world case.
         /*
         Fragmenter f = new(10000);
-        Path outer_f = f.fragmentPath(outer);
+        PathD outer_f = f.fragmentPath(outer);
 
-        Path inner1_f = f.fragmentPath(inner1);
+        PathD inner1_f = f.fragmentPath(inner1);
         */
-        Paths kHSource = new()
+        PathsD kHSource = new()
         {
             outer,
             inner1
@@ -2059,7 +2057,7 @@ internal class Program
              [4] = {Point64} 100000,-100000,0 
            */
         
-        Paths kH = GeoWrangler.makeKeyHole(kHSource, reverseEval:false, biDirectionalEval:true);
+        PathsD kH = GeoWrangler.makeKeyHole(kHSource, reverseEval:false, biDirectionalEval:true);
 
         /* Expected output
            kH = {List<List<Point64>>} Count = 1
@@ -2084,7 +2082,7 @@ internal class Program
            */
         
         // Gap removal test
-        Paths gR = GeoWrangler.gapRemoval(kH, 100);
+        PathsD gR = GeoWrangler.gapRemoval(kH, 100);
 
         /* Expected output
            gR = {List<List<Point64>>} Count = 1
@@ -2109,7 +2107,7 @@ internal class Program
            */
         
         // Sliver removal test
-        Paths sR = GeoWrangler.gapRemoval(kH, -100);
+        PathsD sR = GeoWrangler.gapRemoval(kH, -100);
         
         /* Expected output
            sR = {List<List<Point64>>} Count = 1
@@ -2133,7 +2131,7 @@ internal class Program
 
     private static void simple_islandTest()
     {
-        Path outer1 = new()
+        PathD outer1 = new()
         {
             new(-200000, -200000),
             new(200000, -200000),
@@ -2142,7 +2140,7 @@ internal class Program
             new(-200000, -200000)
         };
 
-        Path inner1 = new()
+        PathD inner1 = new()
         {
             new(-100000, -100000),
             new(-100000, 100000),
@@ -2151,7 +2149,7 @@ internal class Program
             new(-100000, -100000)
         };
 
-        Path outer2 = new()
+        PathD outer2 = new()
         {
             new(-200000, 400000),
             new(200000, 400000),
@@ -2160,7 +2158,7 @@ internal class Program
             new(-200000, 400000)
         };
 
-        Path inner2 = new()
+        PathD inner2 = new()
         {
             new(-100000, 500000),
             new(-100000, 700000),
@@ -2169,7 +2167,7 @@ internal class Program
             new(-100000, 500000)
         };
 
-        Paths kHSource = new()
+        PathsD kHSource = new()
         {
             outer1,
             inner1,
@@ -2206,7 +2204,7 @@ internal class Program
            */
 
         // Generate keyholed geometry
-        Paths kH = GeoWrangler.makeKeyHole(kHSource, reverseEval:false, biDirectionalEval:true);
+        PathsD kH = GeoWrangler.makeKeyHole(kHSource, reverseEval:false, biDirectionalEval:true);
 
         /* Expected output
            kH = {List<List<Point64>>} Count = 2
@@ -2241,7 +2239,7 @@ internal class Program
            */
 
         // Gap removal test
-        Paths gR = GeoWrangler.gapRemoval(kH, 100);
+        PathsD gR = GeoWrangler.gapRemoval(kH, 100);
 
         /* Expected output
            gR = {List<List<Point64>>} Count = 2
@@ -2276,8 +2274,8 @@ internal class Program
            */
         
         // Generate sliver geometry.
-        Paths sL = new();
-        Clipper64 c = new();
+        PathsD sL = new();
+        ClipperD c = new();
         c.AddSubject(outer1);
         c.AddSubject(outer2);
         c.AddClip(kH);
@@ -2306,7 +2304,7 @@ internal class Program
            */
         
         // Sliver removal test
-        Paths sR = GeoWrangler.gapRemoval(sL, -100);
+        PathsD sR = GeoWrangler.gapRemoval(sL, -100);
         
         /* Expected output
            sR = {List<List<Point64>>} Count = 2
@@ -2337,7 +2335,7 @@ internal class Program
     {
         // Island 1 - mix of sliver and gap at the end.
         // Manually create the sliver.
-        Path outer = new()
+        PathD outer = new()
         {
             new(-200000, -200000),
             new(300000, -200000),
@@ -2350,7 +2348,7 @@ internal class Program
             new(-200000, -200000)
         };
 
-        Path inner1 = new()
+        PathD inner1 = new()
         {
             new(100000, -100000),
             new(100000, 100000),
@@ -2359,14 +2357,14 @@ internal class Program
             new(100000, -100000)
         };
 
-        Paths kHSource = new()
+        PathsD kHSource = new()
         {
             outer,
             inner1
         };
 
         // Island 2 - simple single hole
-        Path outer2 = new()
+        PathD outer2 = new()
         {
             new(-200000, 400000),
             new(200000, 400000),
@@ -2375,7 +2373,7 @@ internal class Program
             new(-200000, 400000)
         };
 
-        Path inner2 = new()
+        PathD inner2 = new()
         {
             new(-100000, 500000),
             new(-100000, 700000),
@@ -2388,7 +2386,7 @@ internal class Program
         kHSource.Add(inner2);
 
         // Island 3 - dual hole hole
-        Path outer3 = new()
+        PathD outer3 = new()
         {
             new(-300000, 1200000),
             new(300000, 1200000),
@@ -2397,7 +2395,7 @@ internal class Program
             new(-300000, 1200000)
         };
 
-        Path inner3_1 = new()
+        PathD inner3_1 = new()
         {
             new(-200000, 1300000),
             new(-200000, 1500000),
@@ -2406,7 +2404,7 @@ internal class Program
             new(-200000, 1300000)
         };
 
-        Path inner3_2 = new()
+        PathD inner3_2 = new()
         {
             new(100000, 1300000),
             new(100000, 1500000),
@@ -2469,7 +2467,7 @@ internal class Program
              [4] = {Point64} 100000,1300000,0 
            */
         
-        Paths kH = GeoWrangler.makeKeyHole(kHSource, reverseEval:false, biDirectionalEval:true);
+        PathsD kH = GeoWrangler.makeKeyHole(kHSource, reverseEval:false, biDirectionalEval:true);
 
         /* Expected output
            kH = {List<List<Point64>>} Count = 3
@@ -2530,7 +2528,7 @@ internal class Program
            */
         
         // Gap removal test
-        Paths gR = GeoWrangler.gapRemoval(kH, 100);
+        PathsD gR = GeoWrangler.gapRemoval(kH, 100);
 
         /* Expected output
            gR = {List<List<Point64>>} Count = 3
@@ -2591,7 +2589,7 @@ internal class Program
            */
         
         // Sliver removal test
-        Paths sR = GeoWrangler.gapRemoval(kH, -100);
+        PathsD sR = GeoWrangler.gapRemoval(kH, -100);
         
         /* Expected output
            sR = {List<List<Point64>>} Count = 3
@@ -2651,8 +2649,8 @@ internal class Program
 
     private static void multiHoleTest()
     {
-        Paths paths = new();
-        Path path_1 = new()
+        PathsD paths = new();
+        PathD path_1 = new()
         {
             new(50000, 0),
             new(0, 0),
@@ -2662,7 +2660,7 @@ internal class Program
         };
         paths.Add(path_1);
 
-        Path path_2 = new()
+        PathD path_2 = new()
         {
             new(35000, 135000),
             new(35000, 150000),
@@ -2672,7 +2670,7 @@ internal class Program
         };
         paths.Add(path_2);
 
-        Path path_3 = new()
+        PathD path_3 = new()
         {
             new(22000, 95000),
             new(22000, 125000),
@@ -2682,7 +2680,7 @@ internal class Program
         };
         paths.Add(path_3);
 
-        Path path_4 = new()
+        PathD path_4 = new()
         {
             new(35000, 45000),
             new(35000, 75000),
@@ -2692,7 +2690,7 @@ internal class Program
         };
         paths.Add(path_4);
 
-        Path path_5 = new()
+        PathD path_5 = new()
         {
             new(35000, 5000),
             new(35000, 35000),
@@ -2737,7 +2735,7 @@ internal class Program
            */
         
         // Generate keyholed geometry
-        Paths kH = GeoWrangler.makeKeyHole(paths, reverseEval:false, biDirectionalEval:true);
+        PathsD kH = GeoWrangler.makeKeyHole(paths, reverseEval:false, biDirectionalEval:true);
         
         /* Expected output
            kH = {List<List<Point64>>} Count = 1

@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
-using System.Windows;
-using System.Windows.Threading;
 
 namespace DynamicAero2.Styles
 {

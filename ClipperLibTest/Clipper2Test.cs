@@ -1,7 +1,4 @@
-﻿
-using System;
-using System.Collections.Generic;
-using Clipper2Lib;
+﻿using Clipper2Lib;
 
 namespace ClipperLib2Test;
 

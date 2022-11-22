@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Clipper2Lib;
-using geoLib;
 using Noise;
 using utility;
 

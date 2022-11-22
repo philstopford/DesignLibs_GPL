@@ -1,5 +1,4 @@
 ﻿using Clipper2Lib;
-using geoLib;
 using geoWrangler;
 using geoCoreLib;
 using PartitionTestGeometrySource;
@@ -10,7 +9,6 @@ internal class Program
 {
     private static void Main(string[] args)
     {
-     debug();
         Console.WriteLine("Part One");
         partOne();
 
@@ -26,78 +24,41 @@ internal class Program
         Console.WriteLine("Part Five");
         partFive();
     }
-
-    private static void debug()
-    {
-        Path64 lPoly = Clipper.MakePath(new int[] {
-         0,0,
-         0,500000,
-         100000,500000,
-         100000,200000, 
-         600000,200000, 
-         600000,0,
-         0,0
-           }
-        );
-        Path64 newEdge = Clipper.MakePath(new int[]
-        {
-         100000,200000,
-         100000,0
-        });
-
-        Paths64 newEdges = new() { newEdge };
-        
-        
-        ClipperOffset co = new() {PreserveCollinear = false};
-        co.AddPaths(newEdges, JoinType.Miter, EndType.Square);
-
-        Paths64 cutters = co.Execute(2.0);
-
-        Clipper64 c = new();
-
-        c.AddSubject(lPoly);
-
-        // Take first cutter only - we only cut once, no matter how many potential cutters we have.
-        c.AddClip(cutters[0]);
-        Paths64 f = new();
-        c.Execute(ClipType.Difference, FillRule.EvenOdd, f);
-
-    }
     
     private static void partOne()
     {
         // L
-        Path64 L = TestGeometry.getL();
-        Path64 rL = TestGeometry.getRL();
+        PathD L = TestGeometry.getL();
+        PathD rL = TestGeometry.getRL();
 
         // Reversed orientation.
-        Path64 L_ccw = new (L);
+        PathD L_ccw = new (L);
         L_ccw.Reverse();
 
         // U
-        Path64 U = TestGeometry.getU();
+        PathD U = TestGeometry.getU();
 
         // T
-        Path64 T = TestGeometry.getT();
+        PathD T = TestGeometry.getT();
 
         // X
-        Path64 X = TestGeometry.getX();
+        PathD X = TestGeometry.getX();
 
         // S
-        Path64 S = TestGeometry.getS();
+        PathD S = TestGeometry.getS();
 
         // Negative S
-        Path64 nS = TestGeometry.getnegS();
+        PathD nS = TestGeometry.getnegS();
 
         // Complex 1
-        Path64 C1 = TestGeometry.getComplex1();
+        PathD C1 = TestGeometry.getComplex1();
 
 
         // Complex 2
-        Path64 C2 = TestGeometry.getComplex2();
+        PathD C2 = TestGeometry.getComplex2();
 
         // Complex 3
-        Path64 C3 = TestGeometry.getComplex3();
+        PathD C3 = TestGeometry.getComplex3();
 
         // C3 = GeoWrangler.clockwiseAndReorder(C3);
 
@@ -105,11 +66,11 @@ internal class Program
         bool orth2 = GeoWrangler.orthogonal(C3, angularTolerance: 0);
 
         // Complex 10, rot 15
-        Path64 C10R15 = TestGeometry.getComplex10rot15();
+        PathD C10R15 = TestGeometry.getComplex10rot15();
 
 
         // Staircase
-        Path64 S1 = TestGeometry.getStaircase();
+        PathD S1 = TestGeometry.getStaircase();
 
         // Rectangular decomposition will return non-orthogonal polygons in the output when encountered.
 
@@ -117,7 +78,7 @@ internal class Program
 
         bool abort = false;
 
-        Paths64 l = GeoWrangler.rectangular_decomposition(ref abort, L, maxRayLength: rayLength);
+        PathsD l = GeoWrangler.rectangular_decomposition(ref abort, L, maxRayLength: rayLength);
 
         /* Expected output
             l = {List<Path>} Count = 2
@@ -159,7 +120,7 @@ internal class Program
 
         writeToLayout("l", L, l);
 
-        Paths64 lccw = GeoWrangler.rectangular_decomposition(ref abort, L_ccw, maxRayLength: rayLength);
+        PathsD lccw = GeoWrangler.rectangular_decomposition(ref abort, L_ccw, maxRayLength: rayLength);
 
         /* Expected output
            lccw = {List<Path>} Count = 2
@@ -201,7 +162,7 @@ internal class Program
 
         writeToLayout("lccw", L_ccw, lccw);
 
-        Paths64 rl = GeoWrangler.rectangular_decomposition(ref abort, rL, maxRayLength: rayLength);
+        PathsD rl = GeoWrangler.rectangular_decomposition(ref abort, rL, maxRayLength: rayLength);
 
         /* Expected output
            rl = {List<Path>} Count = 2
@@ -243,7 +204,7 @@ internal class Program
 
         writeToLayout("rl", rL, rl);
 
-        Paths64 u = GeoWrangler.rectangular_decomposition(ref abort, U, maxRayLength: rayLength);
+        PathsD u = GeoWrangler.rectangular_decomposition(ref abort, U, maxRayLength: rayLength);
 
         /* Expected output
            u = {List<Path>} Count = 3
@@ -302,7 +263,7 @@ internal class Program
 
         writeToLayout("u", U, u);
 
-        Paths64 t = GeoWrangler.rectangular_decomposition(ref abort, T, maxRayLength: rayLength);
+        PathsD t = GeoWrangler.rectangular_decomposition(ref abort, T, maxRayLength: rayLength);
 
         /* Expected output
            t = {List<Path>} Count = 3
@@ -361,7 +322,7 @@ internal class Program
 
         writeToLayout("t", T, t);
 
-        Paths64 x = GeoWrangler.rectangular_decomposition(ref abort, X, maxRayLength: rayLength);
+        PathsD x = GeoWrangler.rectangular_decomposition(ref abort, X, maxRayLength: rayLength);
 
         /* Expected output
            x = {List<Path>} Count = 3
@@ -420,7 +381,7 @@ internal class Program
 
         writeToLayout("x", X, x);
 
-        Paths64 s = GeoWrangler.rectangular_decomposition(ref abort, S, maxRayLength: rayLength);
+        PathsD s = GeoWrangler.rectangular_decomposition(ref abort, S, maxRayLength: rayLength);
 
         /* Expected output
            s = {List<Path>} Count = 5
@@ -513,7 +474,7 @@ internal class Program
 
         writeToLayout("s", S, s);
 
-        Paths64 ns = GeoWrangler.rectangular_decomposition(ref abort, nS, maxRayLength: rayLength);
+        PathsD ns = GeoWrangler.rectangular_decomposition(ref abort, nS, maxRayLength: rayLength);
 
         /* Expected output
            ns = {List<Path>} Count = 5
@@ -606,31 +567,31 @@ internal class Program
 
         writeToLayout("ns", nS, ns);
 
-        Paths64 c1 = GeoWrangler.rectangular_decomposition(ref abort, C1, maxRayLength: rayLength);
+        PathsD c1 = GeoWrangler.rectangular_decomposition(ref abort, C1, maxRayLength: rayLength);
 
         // Expect 17 quads
 
         writeToLayout("c1", C1, c1);
 
-        Paths64 c2 = GeoWrangler.rectangular_decomposition(ref abort, C2, maxRayLength: rayLength);
+        PathsD c2 = GeoWrangler.rectangular_decomposition(ref abort, C2, maxRayLength: rayLength);
 
         // Expect 81 quads
 
         writeToLayout("c2", C2, c2);
 
-        Paths64 c3 = GeoWrangler.rectangular_decomposition(ref abort, C3, maxRayLength: rayLength);
+        PathsD c3 = GeoWrangler.rectangular_decomposition(ref abort, C3, maxRayLength: rayLength);
 
         // Expect 13 quads
 
         writeToLayout("c3", C3, c3);
 
-        Paths64 c10r15 = GeoWrangler.rectangular_decomposition(ref abort, C10R15, maxRayLength: rayLength);
+        PathsD c10r15 = GeoWrangler.rectangular_decomposition(ref abort, C10R15, maxRayLength: rayLength);
 
         // Expect 1 irregular polygon
 
         writeToLayout("c10r15", C10R15, c10r15);
 
-        Paths64 s1 = GeoWrangler.rectangular_decomposition(ref abort, S1, maxRayLength: rayLength);
+        PathsD s1 = GeoWrangler.rectangular_decomposition(ref abort, S1, maxRayLength: rayLength);
 
         /* Expected output
            s1 = {List<Path>} Count = 4
@@ -733,15 +694,11 @@ internal class Program
         lPiece2.Reverse();
         incoming.Add(lPieces);
         incoming.Add(lPiece2);
-
-        Paths64 paths = GeoWrangler.paths64FromPathsD(incoming);
-
-        Clipper64 c = new();
-        c.AddSubject(paths);
-        Paths64 ret = new();
+        
+        ClipperD c = new();
+        c.AddSubject(incoming);
+        PathsD ret = new();
         c.Execute(ClipType.Union, FillRule.EvenOdd, ret);
-
-        PathsD done = GeoWrangler.pathsDFromPaths64(ret);
     }
 
     private static void partThree()
@@ -2932,7 +2889,7 @@ internal class Program
 
         Console.WriteLine("  Conversion....");
         sw.Restart();
-        Paths64 done = new() { GeoWrangler.path64FromPathD(poly) };
+        PathsD done = new() { poly };
         sw.Stop();
         Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
 
@@ -2940,7 +2897,7 @@ internal class Program
 
         Console.WriteLine("  Decomposition (vertical)....");
         sw.Restart();
-        Paths64 ns = GeoWrangler.rectangular_decomposition(ref abort, done, maxRayLength: rayLength);
+        PathsD ns = GeoWrangler.rectangular_decomposition(ref abort, done, maxRayLength: rayLength);
 
         // Expect 721 quads.
 
@@ -2971,7 +2928,7 @@ internal class Program
         Console.WriteLine(" Part 1....");
         Console.WriteLine("  Preparing....");
         sw.Start();
-        Path64 points_1 = TestGeometry.ortho_fractal_1();
+        PathD points_1 = TestGeometry.ortho_fractal_1();
         points_1 = GeoWrangler.close(points_1);
         sw.Stop();
         Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
@@ -2981,14 +2938,14 @@ internal class Program
         Console.WriteLine(" Part 2....");
         Console.WriteLine("  Preparing....");
         sw.Start();
-        Path64 points_2 = TestGeometry.ortho_fractal_2();
+        PathD points_2 = TestGeometry.ortho_fractal_2();
         points_2 = GeoWrangler.close(points_2);
         sw.Stop();
         Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
         partFour_do(points_2, "complex_loop_rot");
     }
 
-    private static void partFour_do(Path64 points, string baseString)
+    private static void partFour_do(PathD points, string baseString)
     {
         System.Diagnostics.Stopwatch sw = new();
 
@@ -2998,20 +2955,20 @@ internal class Program
         Console.WriteLine("  Keyhole....");
         // Give the keyholder a whirl:
         sw.Restart();
-        Path64 toDecomp = GeoWrangler.makeKeyHole(points, reverseEval:false, biDirectionalEval:true)[0];
+        PathD toDecomp = GeoWrangler.makeKeyHole(points, reverseEval:false, biDirectionalEval:true)[0];
         sw.Stop();
         Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
 
         Console.WriteLine("  Query....");
         sw.Restart();
-        Path64 bounds = GeoWrangler.getBounds(toDecomp);
+        PathD bounds = GeoWrangler.getBounds(toDecomp);
         PointD dist = GeoWrangler.distanceBetweenPoints_point(bounds[0], bounds[1]);
         sw.Stop();
         Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
 
         Console.WriteLine("  Decomposition (vertical)....");
         sw.Restart();
-        Paths64 decompOut = GeoWrangler.rectangular_decomposition(ref abort, toDecomp,
+        PathsD decompOut = GeoWrangler.rectangular_decomposition(ref abort, toDecomp,
             maxRayLength: (long)Math.Max(Math.Abs(dist.x), Math.Abs(dist.y)) * 1, vertical: vertical);
         sw.Stop();
         Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
@@ -3148,20 +3105,19 @@ internal class Program
         
         int scaleFactorForOperation = 1000;
 
-        Paths64 out_decomp = new();
+        PathsD out_decomp = new();
         for (int i = 0; i < polydata.Count; i++)
         {
          PathD points = new (polydata[i]);
          points = GeoWrangler.removeDuplicates(points);
          points = GeoWrangler.stripColinear(points);
          points = GeoWrangler.clockwiseAndReorderXY(points);
-         Path64 toKeyHoler = GeoWrangler.path64FromPathD(points);
          
-         Path64 toDecomp = GeoWrangler.makeKeyHole(GeoWrangler.sliverGapRemoval(toKeyHoler), reverseEval:false, biDirectionalEval:false)[0];
-         Path64  bounds = GeoWrangler.getBounds(toDecomp);
+         PathD toDecomp = GeoWrangler.makeKeyHole(GeoWrangler.sliverGapRemoval(points), reverseEval:false, biDirectionalEval:false)[0];
+         PathD  bounds = GeoWrangler.getBounds(toDecomp);
          PointD dist = GeoWrangler.distanceBetweenPoints_point(bounds[0], bounds[1]);
 
-         Paths64 decompOut = GeoWrangler.rectangular_decomposition(ref abort, toDecomp,
+         PathsD decompOut = GeoWrangler.rectangular_decomposition(ref abort, toDecomp,
           maxRayLength: (long) Math.Max(Math.Abs(dist.x), Math.Abs(dist.y)), vertical: vertical);
          
          out_decomp.AddRange(decompOut);
@@ -3169,7 +3125,7 @@ internal class Program
     }
 
 
-    private static void writeToLayout(string filename, Path64 orig, Paths64 decomped)
+    private static void writeToLayout(string filename, PathD orig, PathsD decomped)
     {
         // Can the system define geometry and write it correctly to Oasis and GDS files.
         GeoCore g = new();

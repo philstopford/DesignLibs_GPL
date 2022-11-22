@@ -1,108 +1,10 @@
 ﻿using Clipper2Lib;
-using geoLib;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace geoWrangler;
 
 public static partial class GeoWrangler
 {
-    public static int MinX(Path64 sourcePath)
-    {
-        return pMinX(sourcePath);
-    }
-
-    private static int pMinX(Path64 sourcePath)
-    {
-        long min = sourcePath[0].X;
-        int minIndex = 0;
-
-        for (int i = 1; i < sourcePath.Count; ++i)
-        {
-            if (sourcePath[i].X >= min)
-            {
-                continue;
-            }
-
-            min = sourcePath[i].X;
-            minIndex = i;
-        }
-
-        return minIndex;
-    }
-
-    public static int MaxX(Path64 sourcePath)
-    {
-        return pMaxX(sourcePath);
-    }
-
-    private static int pMaxX(Path64 sourcePath)
-    {
-        long max = sourcePath[0].X;
-        int maxIndex = 0;
-
-        for (int i = 1; i < sourcePath.Count; ++i)
-        {
-            if (sourcePath[i].X <= max)
-            {
-                continue;
-            }
-
-            max = sourcePath[i].X;
-            maxIndex = i;
-        }
-
-        return maxIndex;
-    }
-
-    public static int MinY(Path64 sourcePath)
-    {
-        return pMinY(sourcePath);
-    }
-
-    private static int pMinY(Path64 sourcePath)
-    {
-        long min = sourcePath[0].Y;
-        int minIndex = 0;
-
-        for (int i = 1; i < sourcePath.Count; ++i)
-        {
-            if (sourcePath[i].Y >= min)
-            {
-                continue;
-            }
-
-            min = sourcePath[i].Y;
-            minIndex = i;
-        }
-
-        return minIndex;
-    }
-
-    public static int MaxY(Path64 sourcePath)
-    {
-        return pMaxY(sourcePath);
-    }
-
-    private static int pMaxY(Path64 sourcePath)
-    {
-        long max = sourcePath[0].Y;
-        int maxIndex = 0;
-
-        for (int i = 1; i < sourcePath.Count; ++i)
-        {
-            if (sourcePath[i].Y <= max)
-            {
-                continue;
-            }
-
-            max = sourcePath[i].Y;
-            maxIndex = i;
-        }
-
-        return maxIndex;
-    }
-
     public static int MinX(PathD iPoints)
     {
         return pMinX(iPoints);
@@ -198,33 +100,7 @@ public static partial class GeoWrangler
 
         return maxIndex;
     }
-
-    public static Point64 getMinimumPoint(Path64 iPoints)
-    {
-        return pGetMinimumPoint(iPoints);
-    }
-
-    private static Point64 pGetMinimumPoint(Path64 iPoints)
-    {
-        int x = (int)iPoints.Min(p => p.X);
-        int y = (int)iPoints.Min(p => p.Y);
-
-        return new (x, y);
-    }
-
-    public static Point64 getMaximumPoint(Path64 iPoints)
-    {
-        return pGetMaximumPoint(iPoints);
-    }
-
-    private static Point64 pGetMaximumPoint(Path64 iPoints)
-    {
-        int x = (int)iPoints.Max(p => p.X);
-        int y = (int)iPoints.Max(p => p.Y);
-
-        return new (x, y);
-    }
-
+    
     public static PointD getMinimumPoint(PathD iPoints)
     {
         return pGetMinimumPoint(iPoints);

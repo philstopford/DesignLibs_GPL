@@ -2,7 +2,6 @@
 using geoLib;
 using oasis;
 using System.Collections.Generic;
-using System.IO;
 using Clipper2Lib;
 
 namespace geoCoreLib;

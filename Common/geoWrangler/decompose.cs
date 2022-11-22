@@ -173,12 +173,12 @@ public static partial class GeoWrangler
 
 
     // Scaling value below is because the incoming geometry is upsized to allow minor notches to be discarded in the conversion back to ints. Default value provided based on testing.
-    public static Paths64 rectangular_decomposition(ref bool abort, Paths64 polys, int scaling = 10000, long maxRayLength=-1, double angularTolerance = 0, bool vertical= true)
+    public static Paths64 rectangular_decomposition(ref bool abort, Paths64 polys, long maxRayLength=-1, double angularTolerance = 0, bool vertical= true)
     {
-        return pRectangular_decomposition(ref abort, polys, scaling, maxRayLength, angularTolerance, vertical);
+        return pRectangular_decomposition(ref abort, polys, maxRayLength, angularTolerance, vertical);
     }
 
-    private static Paths64 pRectangular_decomposition(ref bool abort, Paths64 polys, int scaling, long maxRayLength, double angularTolerance, bool vertical)
+    private static Paths64 pRectangular_decomposition(ref bool abort, Paths64 polys, long maxRayLength, double angularTolerance, bool vertical)
     {
         Paths64 ret = new();
 
@@ -189,17 +189,17 @@ public static partial class GeoWrangler
                 ret.Clear();
                 break;
             }
-            ret.AddRange(pRectangular_decomposition(ref abort, t, scaling, maxRayLength, angularTolerance, vertical));
+            ret.AddRange(pRectangular_decomposition(ref abort, t, maxRayLength, angularTolerance, vertical));
         }
 
         return ret;
     }
-    public static Paths64 rectangular_decomposition(ref bool abort, Path64 _poly, int scaling = 10000, long maxRayLength=-1, double angularTolerance = 0, bool vertical = true)
+    public static Paths64 rectangular_decomposition(ref bool abort, Path64 _poly, long maxRayLength=-1, double angularTolerance = 0, bool vertical = true)
     {
-        return pRectangular_decomposition(ref abort, _poly, scaling, maxRayLength, angularTolerance, vertical);
+        return pRectangular_decomposition(ref abort, _poly, maxRayLength, angularTolerance, vertical);
     }
 
-    private static Paths64 pRectangular_decomposition(ref bool abort, Path64 _poly, int scaling, long maxRayLength, double angularTolerance, bool vertical)
+    private static Paths64 pRectangular_decomposition(ref bool abort, Path64 _poly, long maxRayLength, double angularTolerance, bool vertical)
     {
         Paths64 ret = new() {new(_poly)};
 
@@ -223,7 +223,7 @@ public static partial class GeoWrangler
                     ret.Clear();
                     break;
                 }
-                Paths64 decomp = decompose_poly_to_rectangles(ref abort, new (ret[i]), scaling, maxRayLength, angularTolerance, vertical);
+                Paths64 decomp = decompose_poly_to_rectangles(ref abort, new (ret[i]), maxRayLength, angularTolerance, vertical);
                 // If we got more than one polygon back, we decomposed across an internal edge.
                 if (decomp.Count <= 1)
                 {
@@ -249,7 +249,7 @@ public static partial class GeoWrangler
         return ret;
     }
 
-    private static Paths64 decompose_poly_to_rectangles(ref bool abort, Path64 _poly, int scaling, long maxRayLength, double angularTolerance, bool vertical)
+    private static Paths64 decompose_poly_to_rectangles(ref bool abort, Path64 _poly, long maxRayLength, double angularTolerance, bool vertical)
     {
         _poly = pClockwiseAndReorderXY(_poly);
         // Path64 lPoly = pathFromPoint(_poly, scaling);
@@ -263,7 +263,7 @@ public static partial class GeoWrangler
         }
 
         // dirOverride switches from a horizontally-biased raycast to vertical in this case.
-        RayCast rc = new(lPoly, lPoly, maxRayLength * scaling, projectCorners: true, invert: RayCast.inversionMode.x, runOuterLoopThreaded:true, runInnerLoopThreaded: true, dirOverride: vertical ? RayCast.forceSingleDirection.vertical : RayCast.forceSingleDirection.horizontal);
+        RayCast rc = new(lPoly, lPoly, maxRayLength, projectCorners: true, invert: RayCast.inversionMode.x, runOuterLoopThreaded:true, runInnerLoopThreaded: true, dirOverride: vertical ? RayCast.forceSingleDirection.vertical : RayCast.forceSingleDirection.horizontal);
 
         Paths64 rays = rc.getRays();
 
@@ -454,10 +454,8 @@ public static partial class GeoWrangler
                 c.Execute(ClipType.Difference, FillRule.EvenOdd, f);
 
                 f = pReorderXY(f);
-
-                final = pointsFromPaths(f, scaling);
-
-                final = pClose(final);
+                
+                final = pClose(f);
 
                 final = simplify(final);
 

@@ -8,7 +8,7 @@ namespace geoWrangler;
 
 public static class ProcessOverlaps
 {
-    public static GeometryResult processOverlaps(PathsD sourceData, List<bool> drawn, double extension, double resolution, Int64 scaleFactorForOperation, double customSizing = 0, bool forceOverride = false, FillRule pft = FillRule.NonZero)
+    public static GeometryResult processOverlaps(PathsD sourceData, List<bool> drawn, double extension, double resolution, double customSizing = 0, bool forceOverride = false, FillRule pft = FillRule.NonZero)
     {
         // Filter drawn, process those, then do not-drawn. This allows for element counts to change.
         PathsD drawnStuff = new();
@@ -26,9 +26,9 @@ public static class ProcessOverlaps
             }
         }
         
-        PathsD processed_Drawn = processOverlaps_core(drawnStuff, customSizing:customSizing, extension:extension, resolution:resolution, scaleFactorForOperation:scaleFactorForOperation, forceOverride, pft);
+        PathsD processed_Drawn = processOverlaps_core(drawnStuff, customSizing:customSizing, extension:extension, resolution:resolution, forceOverride, pft);
 
-        PathsD processed_NotDrawn = processOverlaps_core( notDrawnStuff, customSizing:customSizing, extension: extension, resolution:resolution, scaleFactorForOperation:scaleFactorForOperation, forceOverride, pft);
+        PathsD processed_NotDrawn = processOverlaps_core( notDrawnStuff, customSizing:customSizing, extension: extension, resolution:resolution, forceOverride, pft);
 
 
         GeometryResult ret = new();
@@ -52,7 +52,7 @@ public static class ProcessOverlaps
 
     }
 
-    private static PathsD processOverlaps_core(PathsD sourceData, double customSizing, double extension, double resolution, Int64 scaleFactorForOperation, bool forceOverride = false, FillRule pft = FillRule.NonZero)
+    private static PathsD processOverlaps_core(PathsD sourceData, double customSizing, double extension, double resolution, bool forceOverride = false, FillRule pft = FillRule.NonZero)
     {
         if (sourceData.Count == 0)
         {
@@ -61,7 +61,7 @@ public static class ProcessOverlaps
         try
         {
             Clipper64 c = new() {PreserveCollinear = true};
-            Paths64 sourcePolyData = GeoWrangler.pathsFromPointFs(sourceData, scaleFactorForOperation);
+            Paths64 sourcePolyData = GeoWrangler.paths64FromPathsD(sourceData);
             Paths64 mergedPolyData = new();
             
             // Union isn't always robust, so get a bounding box and run an intersection boolean to rationalize the geometry.
@@ -126,7 +126,7 @@ public static class ProcessOverlaps
             if (noKeyHolesNeeded)
             {
                 // Send back our merged data to the caller; no keyholes needed and overlaps are reconciled.
-                return GeoWrangler.pointFsFromPaths(mergedPolyData, scaleFactorForOperation);
+                return GeoWrangler.pathsDFromPaths64(mergedPolyData);
             }
             
             // So it turns out we need to worry about keyholes if we didn't return already. Let's get started.
@@ -135,7 +135,7 @@ public static class ProcessOverlaps
             // Can geoWrangler help us out here?
 
             // We need to run the fragmenter here because the keyholer / raycaster pipeline needs points for emission.
-            Fragmenter f = new(Convert.ToDouble(resolution) * scaleFactorForOperation);
+            Fragmenter f = new(Convert.ToDouble(resolution));
             Paths64 toKeyHole = f.fragmentPaths(mergedPolyData);
             // Nudge the default keyhole size to avoid collapsing existing keyholes.
             Paths64 keyHoled = GeoWrangler.makeKeyHole(toKeyHole, reverseEval:false, biDirectionalEval:true, RayCast.inversionMode.x, customSizing:customSizing, extension:Convert.ToDouble(extension));
@@ -158,15 +158,12 @@ public static class ProcessOverlaps
             PathsD refinedData = new();
             
             int rpdCount = mergedPolyData.Count;
-
-            // Switch our fragmenter to use a new configuration for the downsized geometry.
-            f = new Fragmenter(Convert.ToDouble(resolution), scaleFactorForOperation);
-
+            
             // Convert back our geometry.                
             for (int rPoly = 0; rPoly < rpdCount; rPoly++)
             {
                 // We have to re-fragment as the overlap processing changed the geometry heavily.
-                refinedData.Add(f.fragmentPath(GeoWrangler.pointFFromPath(mergedPolyData[rPoly], scaleFactorForOperation)));
+                refinedData.Add(f.fragmentPath(GeoWrangler.pathDFromPath64(mergedPolyData[rPoly])));
             }
 
             return refinedData;

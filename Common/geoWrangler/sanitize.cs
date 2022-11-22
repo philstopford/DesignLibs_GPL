@@ -466,16 +466,15 @@ public static partial class GeoWrangler
 
     private static Path64 pSimplify(Path64 iPoints)
     {
-        Path64 iPoly = pathFromPoint(iPoints, 1);
         Clipper64 c = new();
         c.PreserveCollinear = false;
-        c.AddSubject(iPoly);
+        c.AddSubject(iPoints);
         Paths64 oPoly = new();
         c.Execute(ClipType.Union, FillRule.EvenOdd, oPoly);
 
         oPoly = pReorderXY(oPoly);
 
-        Path64 working = pointFromPath(oPoly[0], 1);
+        Path64 working = new(oPoly[0]);
 
         return working;
     }
@@ -1061,14 +1060,14 @@ public static partial class GeoWrangler
         }
     }
 
-    public static PathsD clean_and_flatten(PathsD source, long scaling, double customSizing = 0, double extension = 0)
+    public static PathsD clean_and_flatten(PathsD source, double customSizing = 0, double extension = 0)
     {
-        return pClean_and_flatten(source, scaling, customSizing, extension);
+        return pClean_and_flatten(source, customSizing, extension);
     }
 
-    private static PathsD pClean_and_flatten(PathsD source, long scaling, double customSizing = 0, double extension = 0)
+    private static PathsD pClean_and_flatten(PathsD source, double customSizing = 0, double extension = 0)
     {
-        Paths64 sourcePaths = pPathsFromPointFs(source, scaling);
+        Paths64 sourcePaths = paths64FromPathsD(source);
         Clipper64 c = new();
         c.AddSubject(sourcePaths);
         Paths64 solution = new();
@@ -1078,7 +1077,7 @@ public static partial class GeoWrangler
 
         Paths64 keyHoled = pMakeKeyHole(solution, reverseEval:false, biDirectionalEval:true, customSizing: customSizing, extension: extension);
 
-        return pPointFsFromPaths(pClockwiseAndReorderXY(keyHoled), scaling);
+        return pPathsDFromPaths64(pClockwiseAndReorderXY(keyHoled));
     }
 
     public static Paths64 removeDuplicatePaths(Paths64 source)

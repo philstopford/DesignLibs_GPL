@@ -10,14 +10,14 @@ using Paths = Paths64;
 public static partial class GeoWrangler
 {
     // Bounds will force the negation to only work against the extents of the shape. Useful for capturing islands in negative tone.
-    public static PathsD invertTone(PathD source, long scaleFactor, bool preserveColinear, bool useTriangulation = false, bool useBounds = false)
+    public static PathsD invertTone(PathD source, bool preserveColinear, bool useTriangulation = false, bool useBounds = false)
     {
-        return pPointFsFromPaths(pInvertTone(pPathsFromPointFs(new PathsD { source }, scaleFactor), preserveColinear: preserveColinear, useTriangulation: useTriangulation, useBounds: useBounds), scaleFactor);
+        return pPathsDFromPaths64(pInvertTone(pPaths64FromPathsD(new PathsD { source }), preserveColinear: preserveColinear, useTriangulation: useTriangulation, useBounds: useBounds));
     }
 
-    public static PathsD invertTone(PathsD source, long scaleFactor, bool preserveColinear, bool useTriangulation = false, bool useBounds = false)
+    public static PathsD invertTone(PathsD source, bool preserveColinear, bool useTriangulation = false, bool useBounds = false)
     {
-        return pPointFsFromPaths(pInvertTone(pPathsFromPointFs(source, scaleFactor), preserveColinear: preserveColinear, useTriangulation: useTriangulation, useBounds: useBounds), scaleFactor);
+        return pPathsDFromPaths64(pInvertTone(pPaths64FromPathsD(source), preserveColinear: preserveColinear, useTriangulation: useTriangulation, useBounds: useBounds));
     }
 
     public static Paths invertTone(Path sourcePath, bool preserveColinear, bool useTriangulation = false, bool useBounds = false)

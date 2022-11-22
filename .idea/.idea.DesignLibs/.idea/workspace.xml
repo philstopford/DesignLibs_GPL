@@ -570,7 +570,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="" />
+    <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.DesignLibs/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DesignLibs/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoCore/geoCore.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoCore/geoCore.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/conversions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/conversions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/decompose.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/decompose.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/inflate.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/inflate.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/invert.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/invert.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/processoverlaps.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/processoverlaps.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/proximity.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/proximity.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/sanitize.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/sanitize.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestGeometrySource/complex.cs" beforeDir="false" afterPath="$PROJECT_DIR$/TestGeometrySource/complex.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/decompositionTest/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/decompositionTest/Program.cs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -588,6 +600,7 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/1f37ad4aa02441539d05eed61577511d94de00/1b/c640e62f/ThrowHelper.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BurkhardtTest/FEM/FEM1DBVPTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BurkhardtTest/FEM/FEM2DBVPLinearTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BurkhardtTest/GeometryTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
@@ -678,7 +691,8 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/mnt/D/development/git/DesignLibs_GPL/Common/SVGBuilder/SVGBuilder.csproj&quot;,
+    &quot;XThreadsFramesViewSplitterKey&quot;: &quot;0.37176472&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/phil/Documents/tmp/DesignLibs_GPL/DesignLibs.sln&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -686,7 +700,7 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager" selected=".NET Project.TestEtoViewport.WinForms">
+  <component name="RunManager" selected=".NET Project.decompositionTest">
     <configuration name="ASA005Test" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -11397,6 +11411,9 @@
       <workItem from="1663508633431" duration="153000" />
       <workItem from="1668696073085" duration="19262000" />
       <workItem from="1668716445757" duration="901000" />
+      <workItem from="1669088628473" duration="1290000" />
+      <workItem from="1669089966531" duration="5951000" />
+      <workItem from="1669133727832" duration="3966000" />
     </task>
     <servers />
   </component>
@@ -11425,12 +11442,24 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/decompositionTest/Program.cs</url>
-          <line>81</line>
-          <properties documentPath="D:\development\git\DesignLibs_GPL\decompositionTest\Program.cs" initialLine="84" containingFunctionPresentation="method 'partOne'" />
-          <option name="timeStamp" value="4" />
+          <line>159</line>
+          <properties documentPath="$PROJECT_DIR$/decompositionTest/Program.cs" initialLine="121" containingFunctionPresentation="method 'partOne'">
+            <startOffsets>
+              <option value="3918" />
+            </startOffsets>
+            <endOffsets>
+              <option value="3943" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="5" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="Frame#geoWrangler.GeoWrangler.decompose_poly_to_rectangles" memberName="lPoly" />
+      </pinned-members>
+    </pin-to-top-manager>
     <watches-manager>
       <configuration name="DotNetProject">
         <watch expression="x" />

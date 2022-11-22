@@ -13,7 +13,7 @@ public static class Proximity
     // Drawn poly allows for geometry to be excluded from consideration in the input list
     public static GeometryResult proximityBias(PathsD input, List<bool> drawnPoly_, decimal pBias,
         decimal pBiasDist, int proxRays, int proxSideRaysFallOff, decimal proxSideRaysMultiplier, decimal rayExtension,
-        double fragmenterResolution, Int64 scaleFactorForOperation, bool doCleanUp, double cleanUpEpsilon)
+        double fragmenterResolution, bool doCleanUp, double cleanUpEpsilon)
     {
         // Proximity biasing - where isolated edges get bias based on distance to nearest supporting edge.
         bool proxBiasNeeded = (pBias != 0) && (pBiasDist != 0);
@@ -31,7 +31,7 @@ public static class Proximity
         Paths64 dRays = new();
 
         // Scale up our geometry for processing. Force a clockwise point order here due to potential upstream point order changes (e.g. polygon merging)
-        Paths64 sourceGeometry = GeoWrangler.pathsFromPointFs(input, scaleFactorForOperation);
+        Paths64 sourceGeometry = GeoWrangler.paths64FromPathsD(input);
 
         List<bool> overlapDrawnList = new();
 
@@ -48,7 +48,7 @@ public static class Proximity
 
         int sCount = sourceGeometry.Count;
 
-        Fragmenter f = new(fragmenterResolution * scaleFactorForOperation);
+        Fragmenter f = new(fragmenterResolution);
 
         for (int poly = 0; poly < sCount; poly++)
         {
@@ -93,7 +93,7 @@ public static class Proximity
 
             collisionGeometry = f.fragmentPaths(collisionGeometry);
 
-            RayCast rc = new(sourcePoly, collisionGeometry, Convert.ToInt32(pBiasDist * scaleFactorForOperation), false, invert:0, proxRays, emitThread, multiSampleThread, sideRayFallOff: (RayCast.falloff)proxSideRaysFallOff, sideRayFallOffMultiplier: Convert.ToDouble(proxSideRaysMultiplier));
+            RayCast rc = new(sourcePoly, collisionGeometry, Convert.ToInt32(pBiasDist), false, invert:0, proxRays, emitThread, multiSampleThread, sideRayFallOff: (RayCast.falloff)proxSideRaysFallOff, sideRayFallOffMultiplier: Convert.ToDouble(proxSideRaysMultiplier));
 
             Paths64 clippedLines = rc.getClippedRays();
             // ReSharper disable once ConditionIsAlwaysTrueOrFalse
@@ -123,7 +123,7 @@ public static class Proximity
                 }
 
                 // Calculate our bias based on this distance and apply it.
-                double biasScaling = lineLength / scaleFactorForOperation / Convert.ToDouble(pBiasDist);
+                double biasScaling = lineLength / 1.0 / Convert.ToDouble(pBiasDist);
 
                 if (biasScaling > 1)
                 {
@@ -136,12 +136,12 @@ public static class Proximity
                 // ReSharper disable once ConditionIsAlwaysTrueOrFalse
                 if (linear)
                 {
-                    displacedAmount = biasScaling * Convert.ToDouble(pBias) * scaleFactorForOperation;
+                    displacedAmount = biasScaling * Convert.ToDouble(pBias);
                 }
                 else
                 {
                     // Using sine to make a ease-in/ease-out effect.
-                    displacedAmount = Math.Sin(Utils.toRadians(biasScaling * 90.0f)) * Convert.ToDouble(pBias) * scaleFactorForOperation;
+                    displacedAmount = Math.Sin(Utils.toRadians(biasScaling * 90.0f)) * Convert.ToDouble(pBias);
                 }
 
                 // Use our cast ray from rc to get a normalized average 
@@ -165,18 +165,18 @@ public static class Proximity
             }
 
             // deformedPoly.Add(new Point64(deformedPoly[0]));
-            preOverlapMergePolys.Add(GeoWrangler.pointFFromPath(deformedPoly, scaleFactorForOperation));
+            preOverlapMergePolys.Add(GeoWrangler.pathDFromPath64(deformedPoly));
         }
 
         // Check for overlaps and process as needed post-biasing.
-        GeometryResult ret = ProcessOverlaps.processOverlaps(preOverlapMergePolys, overlapDrawnList, extension:Convert.ToDouble(rayExtension), resolution:fragmenterResolution, scaleFactorForOperation:scaleFactorForOperation, forceOverride: false);
+        GeometryResult ret = ProcessOverlaps.processOverlaps(preOverlapMergePolys, overlapDrawnList, extension:Convert.ToDouble(rayExtension), resolution:fragmenterResolution, forceOverride: false);
 
         // ReSharper disable once ConditionIsAlwaysTrueOrFalse
         if (debug)
         {
             foreach (Path64 t in dRays)
             {
-                ret.geometry.Add(GeoWrangler.pointFFromPath(t, scaleFactorForOperation));
+                ret.geometry.Add(GeoWrangler.pathDFromPath64(t));
                 ret.drawn.Add(true);
             }
         }

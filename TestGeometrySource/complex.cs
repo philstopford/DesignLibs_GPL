@@ -1811,7 +1811,7 @@ namespace PartitionTestGeometrySource
                 new(0.19055, -0.30735)
             };
 
-            Path64 ret = GeoWrangler.pointsFromPointF(tmp_c10r15, 10000);
+            Path64 ret = GeoWrangler.path64FromPathD(tmp_c10r15, 10000);
 
             return ret;
         }

@@ -734,14 +734,14 @@ internal class Program
         incoming.Add(lPieces);
         incoming.Add(lPiece2);
 
-        Paths64 paths = GeoWrangler.pathsFromPointFs(incoming, 10000);
+        Paths64 paths = GeoWrangler.paths64FromPathsD(incoming);
 
         Clipper64 c = new();
         c.AddSubject(paths);
         Paths64 ret = new();
         c.Execute(ClipType.Union, FillRule.EvenOdd, ret);
 
-        PathsD done = GeoWrangler.pointFsFromPaths(ret, 10000);
+        PathsD done = GeoWrangler.pathsDFromPaths64(ret);
     }
 
     private static void partThree()
@@ -2932,7 +2932,7 @@ internal class Program
 
         Console.WriteLine("  Conversion....");
         sw.Restart();
-        Paths64 done = new() { GeoWrangler.pointsFromPointF(poly, 1000) };
+        Paths64 done = new() { GeoWrangler.path64FromPathD(poly) };
         sw.Stop();
         Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
 
@@ -2998,8 +2998,7 @@ internal class Program
         Console.WriteLine("  Keyhole....");
         // Give the keyholder a whirl:
         sw.Restart();
-        Path64 toDecomp =
-            GeoWrangler.pointFromPath(GeoWrangler.makeKeyHole(GeoWrangler.pathFromPoint(points, 1000), reverseEval:false, biDirectionalEval:true)[0], 1);
+        Path64 toDecomp = GeoWrangler.makeKeyHole(points, reverseEval:false, biDirectionalEval:true)[0];
         sw.Stop();
         Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
 
@@ -3012,7 +3011,7 @@ internal class Program
 
         Console.WriteLine("  Decomposition (vertical)....");
         sw.Restart();
-        Paths64 decompOut = GeoWrangler.rectangular_decomposition(ref abort, toDecomp, scaling: 2,
+        Paths64 decompOut = GeoWrangler.rectangular_decomposition(ref abort, toDecomp,
             maxRayLength: (long)Math.Max(Math.Abs(dist.x), Math.Abs(dist.y)) * 1, vertical: vertical);
         sw.Stop();
         Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
@@ -3022,7 +3021,7 @@ internal class Program
 
         Console.WriteLine("  Decomposition (horizontal)....");
         sw.Restart();
-        decompOut = GeoWrangler.rectangular_decomposition(ref abort, toDecomp, scaling: 2,
+        decompOut = GeoWrangler.rectangular_decomposition(ref abort, toDecomp,
             maxRayLength: (long)Math.Max(Math.Abs(dist.x), Math.Abs(dist.y)) * 1, vertical: !vertical);
         sw.Stop();
         Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
@@ -3156,13 +3155,13 @@ internal class Program
          points = GeoWrangler.removeDuplicates(points);
          points = GeoWrangler.stripColinear(points);
          points = GeoWrangler.clockwiseAndReorderXY(points);
-         Path64 toKeyHoler = GeoWrangler.pointsFromPointF(points, scaleFactorForOperation);
+         Path64 toKeyHoler = GeoWrangler.path64FromPathD(points);
          
-         Path64 toDecomp = GeoWrangler.pointFromPath(GeoWrangler.makeKeyHole(GeoWrangler.sliverGapRemoval(GeoWrangler.pathFromPoint(toKeyHoler, 1)), reverseEval:false, biDirectionalEval:false)[0], 1);
+         Path64 toDecomp = GeoWrangler.makeKeyHole(GeoWrangler.sliverGapRemoval(toKeyHoler), reverseEval:false, biDirectionalEval:false)[0];
          Path64  bounds = GeoWrangler.getBounds(toDecomp);
          PointD dist = GeoWrangler.distanceBetweenPoints_point(bounds[0], bounds[1]);
 
-         Paths64 decompOut = GeoWrangler.rectangular_decomposition(ref abort, toDecomp, scaling: 2,
+         Paths64 decompOut = GeoWrangler.rectangular_decomposition(ref abort, toDecomp,
           maxRayLength: (long) Math.Max(Math.Abs(dist.x), Math.Abs(dist.y)), vertical: vertical);
          
          out_decomp.AddRange(decompOut);

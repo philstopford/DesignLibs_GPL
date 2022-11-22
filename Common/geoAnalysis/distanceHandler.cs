@@ -49,7 +49,7 @@ public class DistanceHandler
         if (aPaths.Count == 1 && aPaths[0].Count == 1 ||
             bPaths.Count == 1 && bPaths[0].Count == 1)
         {
-            resultPaths.Add(new() {new Point64(0, 0)});
+            resultPaths.Add(new() {new (0, 0)});
             distanceString = "N/A";
         }
         else
@@ -154,7 +154,7 @@ public class DistanceHandler
 
         spaceResult result = new()
         {
-            resultPaths = new Paths64 {minimumDistancePath},
+            resultPaths = new () {minimumDistancePath},
             // k-d tree distance is the squared distance. Need to scale and sqrt
             distance = Math.Sqrt(currentMinimum / Utils.myPow(scaleFactor, 2))
         };
@@ -209,7 +209,7 @@ public class DistanceHandler
                 {
                     // Perform an area check in case of overlap.
                     // Overlap means X/Y negative space needs to be reported.
-                    AreaHandler aH = new(new Paths64 { layerAPath }, new Paths64 { layerBPath }, maySimplify: false, perPoly: false, scaleFactorForOperation: 1.0);
+                    AreaHandler aH = new(new () { layerAPath }, new Paths64 { layerBPath }, maySimplify: false, perPoly: false, scaleFactorForOperation: 1.0);
                     overlapShape = aH.listOfOutputPoints;
                 }
 
@@ -725,9 +725,9 @@ public class DistanceHandler
                 result.resultPaths.Clear();
                 result.resultPaths.Add(new()
                 {
-                    new Point64(clippedLines[line][0]),
-                    new Point64(clippedLines[line][0]),
-                    new Point64(clippedLines[line][clippedLines[line].Count - 1])
+                    new (clippedLines[line][0]),
+                    new (clippedLines[line][0]),
+                    new (clippedLines[line][clippedLines[line].Count - 1])
                 });
             }
         }

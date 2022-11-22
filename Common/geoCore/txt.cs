@@ -342,7 +342,7 @@ public class GCTxt : GCElement
     private List<GCPolygon> pConvertToPolygons()
     {
         List<GCPolygon> ret = new();
-        Path64 points = new (5);
+        Path64 points = Helper.initedPath64(5);
         points[0] = new (point.X - 1, point.Y - 1);
         points[1] = new (point.X - 1, point.Y + 1);
         points[2] = new (point.X + 1, point.Y + 1);

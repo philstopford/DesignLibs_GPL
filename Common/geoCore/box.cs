@@ -127,7 +127,7 @@ public class GCBox : GCElement
     private List<GCPolygon> pConvertToPolygons()
     {
         List<GCPolygon> ret = new();
-        Path64 points = new (5);
+        Path64 points = Helper.initedPath64(5);
         points[0] = new (rect.Left, rect.Top);
         points[1] = new (rect.Right, rect.Top);
         points[2] = new (rect.Right, rect.Bottom);

@@ -4,28 +4,26 @@ using geoWrangler;
 
 namespace geoAnalysis;
 
-using Paths = Paths64;
-
 public class AreaHandler
 {
     public enum areaCalcModes { all, perpoly }
     public double area { get; private set; }
-    public Paths listOfOutputPoints { get; private set; }
+    public Paths64 listOfOutputPoints { get; private set; }
 
     private void ZFillCallback(Point64 bot1, Point64 top1, Point64 bot2, Point64 top2, ref Point64 pt)
     {
         pt.Z = -1; // Tag our intersection points.
     }
 
-    public AreaHandler(Paths aPaths, Paths bPaths, bool maySimplify, bool perPoly, double scaleFactorForOperation)
+    public AreaHandler(Paths64 aPaths, Paths64 bPaths, bool maySimplify, bool perPoly, double scaleFactorForOperation)
     {
         areaHandlerLogic(aPaths, bPaths, scaleFactorForOperation, maySimplify, perPoly);
     }
 
-    private void areaHandlerLogic(Paths aPaths, Paths bPaths, double scaleFactorForOperation, bool maySimplify, bool perPoly)
+    private void areaHandlerLogic(Paths64 aPaths, Paths64 bPaths, double scaleFactorForOperation, bool maySimplify, bool perPoly)
     {
-        Paths tmpPaths = new();
-        listOfOutputPoints = new Paths();
+        Paths64 tmpPaths = new();
+        listOfOutputPoints = new ();
 
         // callsite may not want simplified geometry.
         Clipper64 c = new() {ZCallback = ZFillCallback, PreserveCollinear = !maySimplify};

@@ -252,14 +252,14 @@ public static partial class GeoWrangler
     private static Paths64 decompose_poly_to_rectangles(ref bool abort, Path64 _poly, int scaling, long maxRayLength, double angularTolerance, bool vertical)
     {
         _poly = pClockwiseAndReorderXY(_poly);
-        Path64 lPoly = pathFromPoint(_poly, scaling);
+        // Path64 lPoly = pathFromPoint(_poly, scaling);
 
-        lPoly = pClose(lPoly);
+        Path64 lPoly = pClose(_poly);
 
         switch (_poly.Count)
         {
             case 5 when orthogonal(stripTerminators(_poly, false), angularTolerance):
-                return new Paths64 { _poly };
+                return new () { _poly };
         }
 
         // dirOverride switches from a horizontally-biased raycast to vertical in this case.
@@ -466,6 +466,6 @@ public static partial class GeoWrangler
             }
         }
 
-        return final;
+        return new(final);
     }
 }

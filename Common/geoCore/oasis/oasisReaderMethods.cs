@@ -520,7 +520,7 @@ internal partial class oasReader
     {
         int type = readUnsignedInteger();
         int count = readUnsignedInteger();
-        Path64 pointlist = new (count + 1);
+        Path64 pointlist = Helper.initedPath64(count + 1);
         pointlist[0] = new (0, 0);
         Point64 last = new(0, 0);
         Point64 oPt;

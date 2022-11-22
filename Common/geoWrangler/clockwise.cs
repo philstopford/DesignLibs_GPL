@@ -102,7 +102,7 @@ public static partial class GeoWrangler
     private static PathsD pClockwiseSequence(PathsD source)
     {
         int sourceCount = source.Count;
-        PathD midPoints = new (sourceCount);
+        PathD midPoints = Helper.initedPathD(sourceCount);
 
         for (int i = 0; i < sourceCount; i++)
         {
@@ -145,7 +145,7 @@ public static partial class GeoWrangler
     private static Paths64 pClockwiseSequence(Paths64 source)
     {
         int sourceCount = source.Count;
-        PathD midPoints = new (sourceCount);
+        PathD midPoints = Helper.initedPathD(sourceCount);
 
         for (int i = 0; i < sourceCount; i++)
         {

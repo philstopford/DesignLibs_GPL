@@ -305,7 +305,7 @@ internal class Program
         gcell.cellName = "test";
 
         // L
-        Path64 poly = new Path64(6);
+        Path64 poly = Helper.initedPath64(6);
         poly[0] = new (0, 0);
         poly[1] = new (0, 20);
         poly[2] = new (10, 20);
@@ -316,7 +316,7 @@ internal class Program
         gcell.addPolygon(poly, 1, 0);
 
         // triangle
-        poly = new Path64(3);
+        poly = Helper.initedPath64(3);
         poly[0] = new (0, 0);
         poly[1] = new (10, 20);
         poly[2] = new (20, 0);
@@ -324,7 +324,7 @@ internal class Program
         gcell.addPolygon(poly, 2, 0);
 
         // pentagram
-        poly = new Path64(5);
+        poly = Helper.initedPath64(5);
         poly[0] = new (5, 0);
         poly[1] = new (0, 10);
         poly[2] = new (10, 20);
@@ -334,7 +334,7 @@ internal class Program
         gcell.addPolygon(poly, 3, 0);
 
         // trapezoid
-        poly = new Path64(4);
+        poly = Helper.initedPath64(4);
         poly[0] = new (0, 0);
         poly[1] = new (5, 20);
         poly[2] = new (15, 20);
@@ -343,7 +343,7 @@ internal class Program
         gcell.addPolygon(poly, 4, 0);
 
         // parallelogram
-        poly = new Path64(4);
+        poly = Helper.initedPath64(4);
         poly[0] = new (0, 0);
         poly[1] = new (10, 20);
         poly[2] = new (20, 20);
@@ -401,7 +401,7 @@ internal class Program
 
         gcell.cellName = "test";
 
-        Path64 path = new Path64(5);
+        Path64 path = Helper.initedPath64(5);
         path[0] = new (0, 0);
         path[1] = new (0, 10);
         path[2] = new (20, 10);
@@ -515,7 +515,7 @@ internal class Program
 
         gcell.cellName = "test";
 
-        Path64 poly = new Path64(6);
+        Path64 poly = Helper.initedPath64(6);
         poly[0] = new (0, 0);
         poly[1] = new (0, 20);
         poly[2] = new (10, 20);
@@ -557,7 +557,7 @@ internal class Program
 
         gcell.cellName = "test2";
 
-        poly = new Path64(6);
+        poly = Helper.initedPath64(6);
         poly[0] = new (0, 0);
         poly[1] = new (0, 30);
         poly[2] = new (10, 30);
@@ -632,7 +632,7 @@ internal class Program
 
         gcell.cellName = "test";
 
-        Path64 poly = new Path64(6);
+        Path64 poly = Helper.initedPath64(6);
         poly[0] = new (0, 0);
         poly[1] = new (0, 20);
         poly[2] = new (10, 20);
@@ -645,7 +645,7 @@ internal class Program
 
         // Cellrefarrays also have to resolve to integer placement.
         // Placement errors will occur if the x, y instance counts do not divide the array X, Y values cleanly.
-        Path64 array = new Path64(3);
+        Path64 array = Helper.initedPath64(3);
         array[0] = new (0, 0);
         array[1] = new (100, 0);
         array[2] = new (0, 80);
@@ -774,7 +774,7 @@ internal class Program
 
         for (int i = 0; i < 25; i++)
         {
-            Path64 pa = new Path64(5);
+            Path64 pa = Helper.initedPath64(5);
 
             int[,] coords = i switch
             {
@@ -910,7 +910,7 @@ internal class Program
         int trapezoid_delta_a = 5;
         int trapezoid_delta_b = 5;
 
-        Path64 pa = new Path64(5);
+        Path64 pa = Helper.initedPath64(5);
 
         switch (trapezoid_orientation)
         {
@@ -1067,7 +1067,7 @@ internal class Program
 
             gcell.cellName = "test" + i;
 
-            Path64 poly = new Path64(6);
+            Path64 poly = Helper.initedPath64(6);
             poly[0] = new (0, 0);
             poly[1] = new (0, 20);
             poly[2] = new (10, 20);

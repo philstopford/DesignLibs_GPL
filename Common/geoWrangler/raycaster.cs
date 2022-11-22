@@ -8,14 +8,11 @@ using utility;
 
 namespace geoWrangler;
 
-using Path = Path64;
-using Paths = Paths64;
-
 public class RayCast
 {
     public enum inversionMode { none, x, y }
-    private Paths clippedLines;
-    private Paths castLines;
+    private Paths64 clippedLines;
+    private Paths64 castLines;
 
     public enum forceSingleDirection { no, vertical, horizontal } // No and horizontal are treated the same in this code at the moment; leaving these to make the code more readable and intent clearer.
 
@@ -29,32 +26,32 @@ public class RayCast
 
     // Corner projection is default and takes an orthogonal ray out from the corner. Setting to false causes an averaged normal to be generated.
 
-    public RayCast(Path emissionPath, Paths collisionPaths, long max, bool projectCorners = true, inversionMode invert = inversionMode.none, int multisampleRayCount = 0, bool runOuterLoopThreaded = false, bool runInnerLoopThreaded = false, Point64 startOffset = new(), Point64 endOffset = new(), falloff sideRayFallOff = falloff.none, double sideRayFallOffMultiplier = 1.0f, forceSingleDirection dirOverride = forceSingleDirection.no)
+    public RayCast(Path64 emissionPath, Paths64 collisionPaths, long max, bool projectCorners = true, inversionMode invert = inversionMode.none, int multisampleRayCount = 0, bool runOuterLoopThreaded = false, bool runInnerLoopThreaded = false, Point64 startOffset = new(), Point64 endOffset = new(), falloff sideRayFallOff = falloff.none, double sideRayFallOffMultiplier = 1.0f, forceSingleDirection dirOverride = forceSingleDirection.no)
     {
         pRayCast(emissionPath, collisionPaths, max, projectCorners, invert, multisampleRayCount, runOuterLoopThreaded, runInnerLoopThreaded, startOffset, endOffset, sideRayFallOff, sideRayFallOffMultiplier, dirOverride);
     }
 
-    public RayCast(Path emissionPath, Path collisionPath, long max, bool projectCorners = true, inversionMode invert = inversionMode.none, int multisampleRayCount = 0, bool runOuterLoopThreaded = false, bool runInnerLoopThreaded = false, Point64 startOffset = new(), Point64 endOffset = new(), falloff sideRayFallOff = falloff.none, double sideRayFallOffMultiplier = 1.0f, forceSingleDirection dirOverride = forceSingleDirection.no)
+    public RayCast(Path64 emissionPath, Path64 collisionPath, long max, bool projectCorners = true, inversionMode invert = inversionMode.none, int multisampleRayCount = 0, bool runOuterLoopThreaded = false, bool runInnerLoopThreaded = false, Point64 startOffset = new(), Point64 endOffset = new(), falloff sideRayFallOff = falloff.none, double sideRayFallOffMultiplier = 1.0f, forceSingleDirection dirOverride = forceSingleDirection.no)
     {
-        pRayCast(emissionPath, new Paths { collisionPath }, max, projectCorners, invert, multisampleRayCount, runOuterLoopThreaded, runInnerLoopThreaded, startOffset, endOffset, sideRayFallOff, sideRayFallOffMultiplier, dirOverride);
+        pRayCast(emissionPath, new () { collisionPath }, max, projectCorners, invert, multisampleRayCount, runOuterLoopThreaded, runInnerLoopThreaded, startOffset, endOffset, sideRayFallOff, sideRayFallOffMultiplier, dirOverride);
     }
 
-    public Paths getRays()
+    public Paths64 getRays()
     {
         return pGetRays();
     }
 
-    private Paths pGetRays()
+    private Paths64 pGetRays()
     {
         return castLines;
     }
 
-    public Paths getClippedRays()
+    public Paths64 getClippedRays()
     {
         return pGetClippedRays();
     }
 
-    private Paths pGetClippedRays()
+    private Paths64 pGetClippedRays()
     {
         return clippedLines;
     }
@@ -79,7 +76,7 @@ public class RayCast
         public Point64[] previousNormals;// = new Point64[ptCount];
     }
 
-    private static NormalsData pCalculateNormalsData(Path path, bool closedPathEmitter, Point64 startOffset, Point64 endOffset)
+    private static NormalsData pCalculateNormalsData(Path64 path, bool closedPathEmitter, Point64 startOffset, Point64 endOffset)
     {
         NormalsData ret = new();
         int ptCount = path.Count;
@@ -151,11 +148,11 @@ public class RayCast
     // Setting this to true, we shorten rays with the falloff. False means we reduce the contribution to the average instead.
     const bool truncateRaysByWeight = false;
 
-    private Paths pGenerateRays(Path sourcePath, int index, long maxRayLength, bool projectCorners, inversionMode invert, int multisampleRayCount, falloff sideRayFallOff, double sideRayFallOffMultiplier, NormalsData nData, forceSingleDirection dirOverride)
+    private Paths64 pGenerateRays(Path64 sourcePath, int index, long maxRayLength, bool projectCorners, inversionMode invert, int multisampleRayCount, falloff sideRayFallOff, double sideRayFallOffMultiplier, NormalsData nData, forceSingleDirection dirOverride)
     {
         Point64 startPoint = sourcePath[index];
         
-        Paths rays = new();
+        Paths64 rays = new();
 
         Point64 averagedEdgeNormal = pGetAveragedNormal(nData, index, projectCorners, invert, dirOverride);
 
@@ -195,7 +192,7 @@ public class RayCast
             endPoint.Z = (long)1E4;
         }
         
-        Path line = new() {new Point64(startPoint), new Point64(endPoint)};
+        Path64 line = new() {new (startPoint), new (endPoint)};
         
         rays.Add(line);
 
@@ -259,9 +256,9 @@ public class RayCast
             Point64 endPoint2 = GeoWrangler.Rotate(startPoint, endPoint_f, -rayAngle);
 
             // The order of line1 below is important, but I'm not yet sure why. If you change it, the expansion becomes asymmetrical on a square (lower section gets squashed).
-            Path line1 = new() {new Point64(endPoint1), new Point64(sPoint)};
+            Path64 line1 = new() {new (endPoint1), new (sPoint)};
             rays.Add(line1);
-            Path line2 = new() {new Point64(sPoint), new Point64(endPoint2)};
+            Path64 line2 = new() {new (sPoint), new (endPoint2)};
             rays.Add(line2);
         }
 
@@ -313,7 +310,7 @@ public class RayCast
         return averagedEdgeNormal;
     }
 
-    private Paths pCutRay(Path ray, Paths collisionPaths, inversionMode invert, falloff sideRayFallOff)
+    private Paths64 pCutRay(Path64 ray, Paths64 collisionPaths, inversionMode invert, falloff sideRayFallOff)
     {
         Clipper64 d = new();
         if (sideRayFallOff != falloff.none)
@@ -322,8 +319,8 @@ public class RayCast
         }
         d.AddOpenSubject(ray);
         d.AddClip(collisionPaths);
-        Paths unused = new();
-        Paths tmpLine = new();
+        Paths64 unused = new();
+        Paths64 tmpLine = new();
         switch (invert)
         {
             default:
@@ -339,7 +336,7 @@ public class RayCast
 
     readonly object resultLock = new();
     
-    private void pEvaluateCutRay(Paths ray, int outputIndex, Path emissionPath, int pt, ref long[] resultX, ref long[] resultY, ref double[] weight)
+    private void pEvaluateCutRay(Paths64 ray, int outputIndex, Path64 emissionPath, int pt, ref long[] resultX, ref long[] resultY, ref double[] weight)
     {
         Point64 startPoint = new(emissionPath[pt]);
         int rayPtCount = ray.Count;
@@ -382,7 +379,7 @@ public class RayCast
                     index = tL;
                     break;
                 }
-                Path tPath = new();
+                Path64 tPath = new();
                 switch (index)
                 {
                     case >= 0:
@@ -527,15 +524,15 @@ public class RayCast
     }
 
     // invert used to be a bool, but we need to handle X and Y normal inversions separately, so this had to move to an enum for clarity.
-    private void pRayCast(Path emissionPath, Paths collisionPaths, long maxRayLength, bool projectCorners, inversionMode invert, int multisampleRayCount, bool runOuterLoopThreaded, bool runInnerLoopThreaded, Point64 startOffset, Point64 endOffset, falloff sideRayFallOff, double sideRayFallOffMultiplier, forceSingleDirection dirOverride)
+    private void pRayCast(Path64 emissionPath, Paths64 collisionPaths, long maxRayLength, bool projectCorners, inversionMode invert, int multisampleRayCount, bool runOuterLoopThreaded, bool runInnerLoopThreaded, Point64 startOffset, Point64 endOffset, falloff sideRayFallOff, double sideRayFallOffMultiplier, forceSingleDirection dirOverride)
     {
         int ptCount = emissionPath.Count;
 
         // Due to threading and need to tie to polygon point order, we have to use these local storage options and will do the conversion at the end.
         object castLinesLock = new();
-        Paths[] castLines_ = new Paths[ptCount];
+        Paths64[] castLines_ = new Paths64[ptCount];
         object clippedLinesLock = new();
-        Path[] clippedLines_ = new Path[ptCount];
+        Path64[] clippedLines_ = new Path64[ptCount];
 
         // We need to think about the end point case.
         bool closedPathEmitter = ptCount > 3 && emissionPath[0].X == emissionPath[ptCount - 1].X && emissionPath[0].Y == emissionPath[ptCount - 1].Y;
@@ -564,12 +561,12 @@ public class RayCast
         {
             Point64 startPoint = new(emissionPath[pt]);
             
-            Paths rays = pGenerateRays(emissionPath, pt, maxRayLength, projectCorners, invert, multisampleRayCount, sideRayFallOff, sideRayFallOffMultiplier, nData, dirOverride);
+            Paths64 rays = pGenerateRays(emissionPath, pt, maxRayLength, projectCorners, invert, multisampleRayCount, sideRayFallOff, sideRayFallOffMultiplier, nData, dirOverride);
             
             Monitor.Enter(castLinesLock);
             try
             {
-                castLines_[pt] = new Paths();
+                castLines_[pt] = new ();
                 castLines_[pt].AddRange(rays);
             }
             finally
@@ -584,12 +581,12 @@ public class RayCast
             Parallel.For(0, rays.Count, po_inner, ray =>
                 {
 
-                    Paths tmpLine = pCutRay(rays[ray], collisionPaths, invert, sideRayFallOff);
+                    Paths64 tmpLine = pCutRay(rays[ray], collisionPaths, invert, sideRayFallOff);
                     pEvaluateCutRay(tmpLine, ray, emissionPath, pt, ref resultX, ref resultY, ref weight);
                 }
             );
 
-            Path resultPath = new() {startPoint};
+            Path64 resultPath = new() {startPoint};
 
             ResultData rData = pComputeWeightedResult(sideRayFallOff, ref resultX, ref resultY, ref weight);
 
@@ -607,8 +604,8 @@ public class RayCast
 
         // Convert the array back to a list.
         clippedLines = new(clippedLines_);
-        castLines = new Paths();
-        foreach (Paths t in castLines_)
+        castLines = new ();
+        foreach (Paths64 t in castLines_)
         {
             castLines.AddRange(t);
         }

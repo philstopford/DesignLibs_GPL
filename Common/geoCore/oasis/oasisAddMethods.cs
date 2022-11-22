@@ -128,7 +128,7 @@ internal partial class oasReader
 
     private void addPath()
     {
-        Path64 pa = new (modal.polygon_point_list.Count);
+        Path64 pa = Helper.initedPath64(modal.polygon_point_list.Count);
         Point64 p = new(modal.geometry_x, modal.geometry_y);
         for (int i = 0; i < modal.polygon_point_list.Count; i++)
         {
@@ -168,7 +168,7 @@ internal partial class oasReader
 
     private void addPolygon()
     {
-        Path64 pa = new (modal.polygon_point_list.Count);
+        Path64 pa = Helper.initedPath64(modal.polygon_point_list.Count);
         Point64 p = new(modal.geometry_x, modal.geometry_y);
         for (int i = 0; i < modal.polygon_point_list.Count; i++)
         {
@@ -189,7 +189,7 @@ internal partial class oasReader
 
     private void addTrapezoid()
     {
-        Path64 pa = new (5);
+        Path64 pa = Helper.initedPath64(5);
 
         switch (modal.trapezoid_orientation)
         {
@@ -217,7 +217,7 @@ internal partial class oasReader
 
     private void addCtrapezoid()
     {
-        Path64 pa = new (5);
+        Path64 pa = Helper.initedPath64(5);
 
         int[,] coords = modal.ctrapezoid_type switch
         {

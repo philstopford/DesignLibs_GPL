@@ -49,11 +49,11 @@ public static class NoiseC
             int ptCount = mcPoints.Count;
 
             // Create our jittered polygon in a new list to avoid breaking normal computation, etc. by modifying the source.
-            PathD jitteredPoints = new (ptCount);
+            PathD jitteredPoints = Helper.initedPathD(ptCount);
 
             // We could probably simply cast rays in the raycaster and use those, but for now reinvent the wheel here...
-            PathD normals = new (ptCount);
-            PathD previousNormals = new (ptCount);
+            PathD normals = Helper.initedPathD(ptCount);
+            PathD previousNormals = Helper.initedPathD(ptCount);
             // Pre-calculate these for the threading to be an option.
             // This is a serial evaluation as we need both the previous and the current normal for each point.
 #if !NOISESINGLETHREADED

@@ -26,8 +26,8 @@ public class angleHandler
 
     private void angleHandlerLogic(Paths64 layerAPath, Paths64 layerBPath, int scaleFactorForOperation)
     {
-        listOfOutputPoints = new Paths64();
-        resultPaths = new Paths64();
+        listOfOutputPoints = new ();
+        resultPaths = new ();
         Path64 resultPath = new();
         Clipper64 c = new() {ZCallback = ZFillCallback};
         c.AddSubject(layerAPath);
@@ -46,13 +46,13 @@ public class angleHandler
         {
             // No overlap
             // Set output path and avoid heavy lifting
-            resultPath.Add(new Point64(0, 0));
+            resultPath.Add(new (0, 0));
             resultPaths.Add(resultPath);
         }
         else
         {
             double temporaryResult = 180.0;
-            Path64 temporaryPath = new() {new Point64(0, 0), new Point64(0, 0), new Point64(0, 0)};
+            Path64 temporaryPath = new() {new (0, 0), new (0, 0), new (0, 0)};
             foreach (Path64 t in listOfOutputPoints)
             {
                 Path64 overlapPath = GeoWrangler.clockwise(t);

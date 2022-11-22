@@ -22,7 +22,7 @@ public static partial class GeoWrangler
     private static Paths64 pClockwiseAndReorderXY(Paths64 iPoints)
     {
         int sLength = iPoints.Count;
-        Paths64 ret = new (sLength);
+        Paths64 ret = Helper.initedPaths64(sLength);
 #if !GWSINGLETHREADED
         Parallel.For(0, sLength, pt =>
 #else
@@ -57,7 +57,7 @@ public static partial class GeoWrangler
     private static Paths64 pReorderXY(Paths64 iPoints)
     {
         int sLength = iPoints.Count;
-        Paths64 ret = new (sLength);
+        Paths64 ret = Helper.initedPaths64(sLength);
 #if !GWSINGLETHREADED
         Parallel.For(0, sLength, pt =>
 #else
@@ -132,7 +132,7 @@ public static partial class GeoWrangler
     private static Paths64 pClockwiseAndReorderYX(Paths64 iPoints)
     {
         int sLength = iPoints.Count;
-        Paths64 ret = new (sLength);
+        Paths64 ret = Helper.initedPaths64(sLength);
 #if !GWSINGLETHREADED
         Parallel.For(0, sLength, pt =>
 #else
@@ -231,7 +231,7 @@ public static partial class GeoWrangler
     private static Paths64 pReorderYX(Paths64 iPoints)
     {
         int sLength = iPoints.Count;
-        Paths64 ret = new (sLength);
+        Paths64 ret = Helper.initedPaths64(sLength);
 #if !GWSINGLETHREADED
         Parallel.For(0, sLength, pt =>
 #else
@@ -444,7 +444,7 @@ public static partial class GeoWrangler
     private static Paths64 pSimplify(Paths64 source)
     {
         int sLength = source.Count;
-        Paths64 ret = new (sLength);
+        Paths64 ret = Helper.initedPaths64(sLength);
 #if !GWSINGLETHREADED
         Parallel.For(0, sLength, pt =>
 #else
@@ -663,7 +663,7 @@ public static partial class GeoWrangler
     
     private static PathsD pRemoveDuplicates(PathsD source, double threshold = Double.Epsilon)
     {
-        PathsD ret = new PathsD();
+        PathsD ret = new ();
         foreach (var t in source)
         {
             ret.Add(removeDuplicates(t, threshold));
@@ -708,7 +708,7 @@ public static partial class GeoWrangler
     private static PathsD pStripColinear(PathsD source, double angularTolerance = 0.0f)
     {
         int sLength = source.Count;
-        PathsD ret = new (sLength);
+        PathsD ret = Helper.initedPathsD(sLength);
 #if !GWSINGLETHREADED
         Parallel.For(0, sLength, pt =>
 #else

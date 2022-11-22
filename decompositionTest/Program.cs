@@ -10,6 +10,7 @@ internal class Program
 {
     private static void Main(string[] args)
     {
+     debug();
         Console.WriteLine("Part One");
         partOne();
 
@@ -26,6 +27,43 @@ internal class Program
         partFive();
     }
 
+    private static void debug()
+    {
+        Path64 lPoly = Clipper.MakePath(new int[] {
+         0,0,
+         0,500000,
+         100000,500000,
+         100000,200000, 
+         600000,200000, 
+         600000,0,
+         0,0
+           }
+        );
+        Path64 newEdge = Clipper.MakePath(new int[]
+        {
+         100000,200000,
+         100000,0
+        });
+
+        Paths64 newEdges = new() { newEdge };
+        
+        
+        ClipperOffset co = new() {PreserveCollinear = false};
+        co.AddPaths(newEdges, JoinType.Miter, EndType.Square);
+
+        Paths64 cutters = co.Execute(2.0);
+
+        Clipper64 c = new();
+
+        c.AddSubject(lPoly);
+
+        // Take first cutter only - we only cut once, no matter how many potential cutters we have.
+        c.AddClip(cutters[0]);
+        Paths64 f = new();
+        c.Execute(ClipType.Difference, FillRule.EvenOdd, f);
+
+    }
+    
     private static void partOne()
     {
         // L
@@ -672,7 +710,7 @@ internal class Program
     private static void partTwo()
     {
         PathsD incoming = new();
-        PathD lPieces = new PathD
+        PathD lPieces = new ()
         {
             new(0.00000, 0.00000),
             new(0.00000, 0.05000),
@@ -682,7 +720,7 @@ internal class Program
         };
 
 
-        PathD lPiece2 = new PathD
+        PathD lPiece2 = new ()
         {
             new(0.01000, 0.00000),
             new(0.01000, 0.02000),
@@ -714,7 +752,7 @@ internal class Program
         Console.WriteLine("  Preparing....");
         sw.Start();
 
-        PathD poly = new PathD
+        PathD poly = new ()
         {
             new(0.01000, -0.21300),
             new(0.01000, -0.20200),

@@ -76,7 +76,7 @@ public class ChordHandler
         // Now let's see what we have.
 
         double minBottomChordLength = 0;
-        Path64 bottomChord = new() {new Point64(0, 0)};
+        Path64 bottomChord = new() {new (0, 0)};
         // safety in case we have no chords on the top.
         foreach (Path64 t in bottomChords)
         {
@@ -130,7 +130,7 @@ public class ChordHandler
         }
 
         double minTopChordLength = 0;
-        Path64 topChord = new() {new Point64(0, 0)};
+        Path64 topChord = new() {new (0, 0)};
         // safety in case we have no chords on the top.
         foreach (Path64 t in topChords)
         {
@@ -365,8 +365,8 @@ public class ChordHandler
 
     private void chordHandlerLogic(Paths64 aSource, Paths64 bSource, double resolution, int scaleFactorForOperation, int subMode)
     {
-        a_chordPaths = new Paths64(2) {new() {new Point64(0, 0)}, new() {new Point64(0, 0)}};
-        b_chordPaths = new Paths64(2) {new() {new Point64(0, 0)}, new() {new Point64(0, 0)}};
+        a_chordPaths = new () {new() {new (0, 0)}, new() {new (0, 0)}};
+        b_chordPaths = new () {new() {new (0, 0)}, new() {new (0, 0)}};
         aChordLengths = new[] {0.0, 0.0};
         bChordLengths = new[] {0.0, 0.0};
 
@@ -551,8 +551,8 @@ public class ChordHandler
 
         if (!aChordsValid)
         {
-            a_chordPaths[0] = new Path64 {new(0, 0)};
-            a_chordPaths[1] = new Path64 {new(0, 0)};
+            a_chordPaths[0] = new () {new(0, 0)};
+            a_chordPaths[1] = new () {new(0, 0)};
             aChordLengths = new double[] { 0, 0 };
         }
 
@@ -561,8 +561,8 @@ public class ChordHandler
             return;
         }
 
-        b_chordPaths[0] = new Path64 {new(0, 0)};
-        b_chordPaths[1] = new Path64 {new(0, 0)};
+        b_chordPaths[0] = new () {new(0, 0)};
+        b_chordPaths[1] = new () {new(0, 0)};
         bChordLengths = new double[] { 0, 0 };
     }
 }

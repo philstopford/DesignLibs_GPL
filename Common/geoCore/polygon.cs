@@ -102,7 +102,7 @@ public class GCPolygon : GCElement
 
     private void pDeletePoint(int pos)
     {
-        Path64 newPointArray = new (pointarray.Count - 1);
+        Path64 newPointArray = Helper.initedPath64(pointarray.Count - 1);
         for (int i = pos; i < pointarray.Count - 1; i++)
         {
             newPointArray[i] = pointarray[i + 1];
@@ -117,7 +117,7 @@ public class GCPolygon : GCElement
 
     private void pAddPoint(int pos)
     {
-        Path64 newPointArray = new (pointarray.Count + 1);
+        Path64 newPointArray = Helper.initedPath64(pointarray.Count + 1);
         for (int pt = newPointArray.Count - 1; pt > pos; pt--)
         {
             newPointArray[pt] = pointarray[pt - 1];

@@ -71,10 +71,10 @@ public static class ProcessOverlaps
             Rect64 bounds = Clipper.GetBounds(sourcePolyData);
             Path bounding = new()
             {
-                new Point64(bounds.left, bounds.bottom),
-                new Point64(bounds.left, bounds.top),
-                new Point64(bounds.right, bounds.top),
-                new Point64(bounds.right, bounds.bottom)
+                new (bounds.left, bounds.bottom),
+                new (bounds.left, bounds.top),
+                new (bounds.right, bounds.top),
+                new (bounds.right, bounds.bottom)
             };
 
             c.AddClip(sourcePolyData);

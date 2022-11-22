@@ -102,8 +102,8 @@ internal partial class oasReader
     {
         drawing_ = new GCDrawingfield(filename_);
         error_msgs = new List<string>();
-        modal.repArray = new Path64();
-        modal.polygon_point_list = new Path64();
+        modal.repArray = new ();
+        modal.polygon_point_list = new ();
         filename = filename_;
     }
 
@@ -138,8 +138,8 @@ internal partial class oasReader
         modal.texttype = -1;
         modal.circle_radius = -1;
         modal.repetition = -1;
-        modal.polygon_point_list = new Path64();
-        modal.repArray = new Path64();
+        modal.polygon_point_list = new ();
+        modal.repArray = new ();
         modal.s = "";
     }
 

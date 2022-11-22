@@ -106,7 +106,7 @@ public class GeoCore
 
             public BakedGeo()
             {
-                fgeo = new PathsD();
+                fgeo = new ();
                 isText = new List<bool>();
             }
 
@@ -147,7 +147,7 @@ public class GeoCore
             int index = bakedGeo_LD.IndexOf(ld);
             return index switch
             {
-                -1 => new PathsD(),
+                -1 => new (),
                 _ => bakedGeo[index].fgeo
             };
         }
@@ -200,7 +200,7 @@ public class GeoCore
 
             private void init()
             {
-                geometry = new PathD();
+                geometry = new ();
                 isText = false;
                 name = "";
                 isCellRefArray = "";
@@ -835,7 +835,7 @@ public class GeoCore
 
         public GeoData()
         {
-            geo = new PathsD();
+            geo = new ();
             ld = new List<string>();
             isText = new List<bool>();
             name = new List<string>();

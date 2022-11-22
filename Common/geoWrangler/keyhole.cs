@@ -358,7 +358,7 @@ public static partial class GeoWrangler
 
     public static Paths sliverGapRemoval(Path source, double customSizing = 0, double extension = 0, bool maySimplify = false)
     {
-        return pSliverGapRemoval(new Paths { source }, customSizing, extension, maySimplify: maySimplify);
+        return pSliverGapRemoval(new () { source }, customSizing, extension, maySimplify: maySimplify);
     }
 
     public static Paths sliverGapRemoval(Paths source, double customSizing = 0, double extension = 0, bool maySimplify = false)

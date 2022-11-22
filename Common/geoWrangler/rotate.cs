@@ -25,7 +25,7 @@ public static partial class GeoWrangler
         }
 
         int pointListLength = pointList.Count;
-        Path64 returnList = new (pointListLength);
+        Path64 returnList = Helper.initedPath64(pointListLength);
 
 #if !GWSINGLETHREADED
         Parallel.For(0, pointListLength, i =>
@@ -56,7 +56,7 @@ public static partial class GeoWrangler
         }
 
         int pointListLength = pointList.Count;
-        PathD returnList = new (pointListLength);
+        PathD returnList = Helper.initedPathD(pointListLength);
 
 #if !GWSINGLETHREADED
         Parallel.For(0, pointListLength, i =>
@@ -131,7 +131,7 @@ public static partial class GeoWrangler
             pivot = midPoint(source);
         }
         int sLength = source.Count;
-        PathD ret = new (sLength);
+        PathD ret = Helper.initedPathD(sLength);
 #if !GWSINGLETHREADED
         Parallel.For(0, sLength, pt =>
 #else

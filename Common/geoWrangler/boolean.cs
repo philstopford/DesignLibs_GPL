@@ -1,24 +1,19 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Clipper2Lib;
 
 namespace geoWrangler;
 
-using Path = Path64;
-using Paths = Paths64;
-
 public static partial class GeoWrangler
 {
-    public static Paths customBoolean(int firstLayerOperator, Paths firstLayer, int secondLayerOperator, Paths secondLayer, int booleanFlag, double resolution, double extension, int scaling)
+    public static Paths64 customBoolean(int firstLayerOperator, Paths64 firstLayer, int secondLayerOperator, Paths64 secondLayer, int booleanFlag, double resolution, double extension, int scaling)
     {
-        Paths ret = pCustomBoolean(firstLayerOperator, firstLayer, secondLayerOperator, secondLayer, booleanFlag, resolution, extension, scaling);
+        Paths64 ret = pCustomBoolean(firstLayerOperator, firstLayer, secondLayerOperator, secondLayer, booleanFlag, resolution, extension, scaling);
 
         return ret;
     }
 
-    private static Paths pCustomBoolean(int firstLayerOperator, Paths firstLayer, int secondLayerOperator, Paths secondLayer, int booleanFlag, double resolution, double extension, int scaling)
+    private static Paths64 pCustomBoolean(int firstLayerOperator, Paths64 firstLayer, int secondLayerOperator, Paths64 secondLayer, int booleanFlag, double resolution, double extension, int scaling)
     {
         // In principle, 'rigorous' handling is only needed where the cutter is fully enclosed by the subject polygon.
         // The challenge is to know whether this is the case or not.
@@ -52,14 +47,14 @@ public static partial class GeoWrangler
         // Clipper strips terminating points, so force closed.
         firstLayer = close(firstLayer);
         secondLayer = close(secondLayer);
-        Paths ret = pLayerBoolean(firstLayerOperator, firstLayer, secondLayerOperator, secondLayer, booleanFlag, preserveColinear: false);
+        Paths64 ret = pLayerBoolean(firstLayerOperator, firstLayer, secondLayerOperator, secondLayer, booleanFlag, preserveColinear: false);
         
         // Secondary clean-up of the result. This seems to be needed, so retained for now.
         ret = new (gapRemoval(ret, customSizing:0.5*keyhole_sizing,extension: extension));
 
         bool holes = false;
 
-        foreach (Path t in ret)
+        foreach (Path64 t in ret)
         {
             holes = !Clipper.IsPositive(t); // reports false for outers
             bool gwHoles = !isClockwise(t); //reports false for outers
@@ -77,7 +72,7 @@ public static partial class GeoWrangler
         {
             Fragmenter f = new(resolution * scaling);
             ret = f.fragmentPaths(ret);
-            Paths merged = makeKeyHole(ret, reverseEval:false, biDirectionalEval:true, extension:extension);
+            Paths64 merged = makeKeyHole(ret, reverseEval:false, biDirectionalEval:true, extension:extension);
 
             int count = merged.Count;
 #if !GWSINGLETHREADED
@@ -122,13 +117,13 @@ public static partial class GeoWrangler
 
         Rect64 bounds = Clipper.GetBounds(ret);
 
-        Path bound = new()
+        Path64 bound = new()
         {
-            new Point64(bounds.left, bounds.bottom),
-            new Point64(bounds.left, bounds.top),
-            new Point64(bounds.right, bounds.top),
-            new Point64(bounds.right, bounds.bottom),
-            new Point64(bounds.left, bounds.bottom)
+            new (bounds.left, bounds.bottom),
+            new (bounds.left, bounds.top),
+            new (bounds.right, bounds.top),
+            new (bounds.right, bounds.bottom),
+            new (bounds.left, bounds.bottom)
         };
 
         Clipper64 c = new() {PreserveCollinear = false};
@@ -136,20 +131,20 @@ public static partial class GeoWrangler
         c.AddSubject(ret);
         c.AddClip(bound);
 
-        Paths simple = new();
+        Paths64 simple = new();
         c.Execute(ClipType.Intersection, FillRule.EvenOdd, simple);
         // ret = reOrderXY(simple);
 
         return clockwiseAndReorderXY(simple);
     }
 
-    public static Paths LayerBoolean(int firstLayerOperator, Paths firstLayerPaths, int secondLayerOperator,
-        Paths secondLayerPaths, int booleanFlag, bool preserveColinear)
+    public static Paths64 LayerBoolean(int firstLayerOperator, Paths64 firstLayerPaths, int secondLayerOperator,
+        Paths64 secondLayerPaths, int booleanFlag, bool preserveColinear)
     {
         return pLayerBoolean(firstLayerOperator, firstLayerPaths, secondLayerOperator,
             secondLayerPaths, booleanFlag, preserveColinear);
     }
-    private static Paths pLayerBoolean(int firstLayerOperator, Paths firstLayerPaths, int secondLayerOperator, Paths secondLayerPaths, int booleanFlag, bool preserveColinear)
+    private static Paths64 pLayerBoolean(int firstLayerOperator, Paths64 firstLayerPaths, int secondLayerOperator, Paths64 secondLayerPaths, int booleanFlag, bool preserveColinear)
     {
         if (firstLayerOperator == 1) // NOT layer handling
         {
@@ -184,12 +179,12 @@ public static partial class GeoWrangler
         return secondLayerPaths[0].Count <= 1 ? new (firstLayerPaths) : pLayerBoolean(firstLayerPaths, secondLayerPaths, booleanFlag, preserveColinear: preserveColinear);
     }
 
-    public static Paths LayerBoolean(Paths firstPaths, Paths secondPaths, int booleanFlag, bool preserveColinear = true)
+    public static Paths64 LayerBoolean(Paths64 firstPaths, Paths64 secondPaths, int booleanFlag, bool preserveColinear = true)
     {
         return pLayerBoolean(firstPaths, secondPaths, booleanFlag, preserveColinear);
 
     }
-    private static Paths pLayerBoolean(Paths firstPaths, Paths secondPaths, int booleanFlag, bool preserveColinear = true)
+    private static Paths64 pLayerBoolean(Paths64 firstPaths, Paths64 secondPaths, int booleanFlag, bool preserveColinear = true)
     {
         string booleanType = "AND";
         if (booleanFlag == 1)
@@ -203,7 +198,7 @@ public static partial class GeoWrangler
         c.AddSubject(firstPaths);
         c.AddClip(secondPaths);
 
-        Paths outputPoints = new();
+        Paths64 outputPoints = new();
 
         switch (booleanType)
         {

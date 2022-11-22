@@ -11,7 +11,7 @@ public class GeometryResult
 
     public GeometryResult()
     {
-        geometry = new PathsD();
+        geometry = new ();
         drawn = new List<bool>();
     }
 }

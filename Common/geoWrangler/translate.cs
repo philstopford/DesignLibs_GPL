@@ -40,7 +40,7 @@ public static partial class GeoWrangler
     private static Paths64 pMove(Paths64 source, double x, double y)
     {
         int sLength = source.Count;
-        Paths64 ret = new (sLength);
+        Paths64 ret = Helper.initedPaths64(sLength);
 
 #if !GWSINGLETHREADED
         Parallel.For(0, sLength, i =>
@@ -75,7 +75,7 @@ public static partial class GeoWrangler
     private static Path64 pMove(Path64 source, Int64 x, Int64 y)
     {
         int sLength = source.Count;
-        Path64 ret = new (sLength);
+        Path64 ret = Helper.initedPath64(sLength);
 #if !GWSINGLETHREADED
         Parallel.For(0, sLength, i =>
 #else
@@ -122,7 +122,7 @@ public static partial class GeoWrangler
     private static PathsD pMove(PathsD source, double x, double y)
     {
         int sLength = source.Count;
-        PathsD ret = new (sLength);
+        PathsD ret = Helper.initedPathsD(sLength);
 
 #if !GWSINGLETHREADED
         Parallel.For(0, sLength, i =>
@@ -152,7 +152,7 @@ public static partial class GeoWrangler
     private static PathD pMove(PathD source, double x, double y)
     {
         int sLength = source.Count;
-        PathD ret = new (sLength);
+        PathD ret = Helper.initedPathD(sLength);
 #if !GWSINGLETHREADED
         Parallel.For(0, sLength, i =>
 #else

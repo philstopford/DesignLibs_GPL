@@ -90,7 +90,7 @@ public static partial class GeoWrangler
                 break;
             }
         }
-        Path64 returnPoint = new (length);
+        Path64 returnPoint = Helper.initedPath64(length);
 #if !GWSINGLETHREADED
         Parallel.For(0, sCount, pt =>
 #else
@@ -186,7 +186,7 @@ public static partial class GeoWrangler
         {
             length++; // close the geometry
         }
-        PathD returnPointF = new (length);
+        PathD returnPointF = Helper.initedPathD(length);
 #if !GWSINGLETHREADED
         Parallel.For(0, sourceCount, pt =>
 #else
@@ -234,7 +234,7 @@ public static partial class GeoWrangler
 
     private static Path64 pPointsFromPointF(PathD source, long scaling)
     {
-        Path64 ret = new (source.Count);
+        Path64 ret = Helper.initedPath64(source.Count);
         for (int pt = 0; pt < source.Count; pt++)
         {
             try
@@ -278,7 +278,7 @@ public static partial class GeoWrangler
 
     private static PathD pPointFsFromPoint(Path64 source, long scaling)
     {
-        PathD ret = new (source.Count);
+        PathD ret = Helper.initedPathD(source.Count);
         for (int pt = 0; pt < source.Count; pt++)
         {
             try

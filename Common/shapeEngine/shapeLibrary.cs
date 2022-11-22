@@ -114,7 +114,7 @@ public class ShapeLibrary
     private PointD pGetPivotPoint()
     {
         int limit = Vertex.Length - 1;
-        PathD t = new (limit); // closed shape, we don't need the final point
+        PathD t = Helper.initedPathD(limit); // closed shape, we don't need the final point
 #if !SHAPELIBSINGLETHREADED
         Parallel.For(0, limit, i =>
 #else

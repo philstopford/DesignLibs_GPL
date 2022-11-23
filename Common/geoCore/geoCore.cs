@@ -112,7 +112,7 @@ public class GeoCore
 
             public BakedGeo(PathsD source, List<bool> text, string ld)
             {
-                fgeo = source;
+                fgeo = new(source);
                 isText = text;
                 LD = ld;
             }
@@ -132,11 +132,11 @@ public class GeoCore
             switch (index)
             {
                 case -1:
-                    bakedGeo.Add(new BakedGeo(new PathsD { source }, new List<bool> { text }, ld));
+                    bakedGeo.Add(new BakedGeo(new PathsD { new(source) }, new List<bool> { text }, ld));
                     bakedGeo_LD.Add(ld);
                     break;
                 default:
-                    bakedGeo[index].fgeo.Add(source);
+                    bakedGeo[index].fgeo.Add(new(source));
                     bakedGeo[index].isText.Add(text);
                     break;
             }
@@ -148,7 +148,7 @@ public class GeoCore
             return index switch
             {
                 -1 => new (),
-                _ => bakedGeo[index].fgeo
+                _ => new(bakedGeo[index].fgeo)
             };
         }
 

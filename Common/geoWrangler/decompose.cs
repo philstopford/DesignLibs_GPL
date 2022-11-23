@@ -467,36 +467,35 @@ public static partial class GeoWrangler
             case > 0 when !abort:
             {
                 // Turn the new edges into cutters and slice. Not terribly elegant and we're relying on rounding to squash notches later.
-                ClipperOffset co = new() {PreserveCollinear = true};
-
-                // Need to workaround missing PathD support in ClipperOffset...
-                double scalar = 1000;
+                // Floating points cause trouble here - we need to snap the edges to integer intervals to avoid creating internal edges.
+                double scalar = 10000;
                 double scalar_inv = 1.0 / scalar;
                 Paths64 rescaledSource = _pPaths64FromPathsD(newEdges, scalar);
                 
+                ClipperOffset co = new() {PreserveCollinear = true};
                 co.AddPaths(rescaledSource, JoinType.Miter, EndType.Square);
 
                 // Width is 2 for 1 unit each side (+/-), and the second value below is to balance the cut.
-                Paths64 tmp = co.Execute(2.0 * 0.01 * scalar);
-
-                PathsD cutters = _pPathsDFromPaths64(tmp, scalar_inv);
-
-                c.Clear();
-
-                c.AddSubject(lPoly);
+                Paths64 cutters = co.Execute(2.0);
+                
+                Clipper64 c1 = new();
+                c1.AddSubject(_pPath64FromPathD(lPoly, scalar));
 
                 // Take first cutter only - we only cut once, no matter how many potential cutters we have.
-                c.AddClip(cutters[0]);
-                PathsD f = new();
-                c.Execute(ClipType.Difference, FillRule.EvenOdd, f);
+                c1.AddClip(cutters[0]);
+                Paths64 f = new();
+                c1.Execute(ClipType.Difference, FillRule.EvenOdd, f);
 
                 f = pReorderXY(f);
+
+                f = Clipper.ScalePaths(f, scalar_inv);
+
+                f = pClose(f);
+
+                f = simplify(f);
                 
-                final = pClose(f);
-
-                final = simplify(final);
-
-                final = clockwiseAndReorderXY(final);
+                final = clockwiseAndReorderXY(_pPathsDFromPaths64(f, 1));
+                
                 break;
             }
         }

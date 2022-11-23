@@ -294,7 +294,7 @@ public static partial class typeMethods
                 done = true;
                 for (i = 0; i < m; i++)
                 {
-                    if (!(Math.Abs(a[i] - b[i]) > double.Epsilon))
+                    if (!(Math.Abs(a[i] - b[i]) > typeMethods.r8_epsilon()))
                     {
                         continue;
                     }

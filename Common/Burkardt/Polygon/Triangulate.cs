@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.Types;
 
 namespace Burkardt.Polygon;
 
@@ -71,7 +72,7 @@ public static class Triangulate
         int node_m1 = n - 1;
         for (node = 0; node < n; node++)
         {
-            if (Math.Abs(x[node_m1] - x[node]) <= double.Epsilon && Math.Abs(y[node_m1] - y[node]) <= double.Epsilon)
+            if (Math.Abs(x[node_m1] - x[node]) <= typeMethods.r8_epsilon() && Math.Abs(y[node_m1] - y[node]) <= typeMethods.r8_epsilon())
             {
                 Console.WriteLine("");
                 Console.WriteLine("POLYGON_TRIANGULATE - Fatal error!");

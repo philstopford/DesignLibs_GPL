@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.Types;
 
 namespace Burkardt.Sparse;
 
@@ -59,7 +60,7 @@ public static class SparseRule
             int j;
             for ( j = 0; j < dim; j++ )
             {
-                if ( Math.Abs(nodes[r+j*nr] - x0) > double.Epsilon )
+                if ( Math.Abs(nodes[r+j*nr] - x0) > typeMethods.r8_epsilon() )
                 {
                     count = 2 * count;
                 }

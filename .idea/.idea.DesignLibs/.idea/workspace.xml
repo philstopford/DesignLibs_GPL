@@ -572,7 +572,140 @@
   <component name="ChangeListManager">
     <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.DesignLibs/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DesignLibs/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BurkhardtTest/ComboTest/r8vec.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BurkhardtTest/ComboTest/r8vec.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BurkhardtTest/Disk/DiskMonteCarloTest/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BurkhardtTest/Disk/DiskMonteCarloTest/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BurkhardtTest/FeynmanKac/FeynmanKac3DTest/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BurkhardtTest/FeynmanKac/FeynmanKac3DTest/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BurkhardtTest/FloydTest/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BurkhardtTest/FloydTest/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BurkhardtTest/SubsetTest/r8Test.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BurkhardtTest/SubsetTest/r8Test.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BurkhardtTest/TOMS/TOMS097Test/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BurkhardtTest/TOMS/TOMS097Test/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BurkhardtTest/TOMS/TOMS743Test/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BurkhardtTest/TOMS/TOMS743Test/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BurkhardtTest/TOMS/TOMS886Test/Ellipse.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BurkhardtTest/TOMS/TOMS886Test/Ellipse.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BurkhardtTest/TOMS/TOMS886Test/Rectangle.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BurkhardtTest/TOMS/TOMS886Test/Rectangle.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BurkhardtTest/TOMS/TOMS886Test/Triangle.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BurkhardtTest/TOMS/TOMS886Test/Triangle.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BurkhardtTest/Tiler3D/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BurkhardtTest/Tiler3D/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BurkhardtTest/nIntExactnessTest/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BurkhardtTest/nIntExactnessTest/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/AppliedStatisticsAlgorithms/ASA109.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/AppliedStatisticsAlgorithms/ASA109.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/BLAS/BLAS1D.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/BLAS/BLAS1D.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/BLAS/BLAS2D.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/BLAS/BLAS2D.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/BLAS/BLAS3D.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/BLAS/BLAS3D.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Bisection/BisectionRC.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Bisection/BisectionRC.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/BoxBehnken.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/BoxBehnken.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/CDF/E0000_E0001.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/CDF/E0000_E0001.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/CDF/gamma.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/CDF/gamma.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Circle/Segment.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Circle/Segment.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Ellipsoid/Grid.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Ellipsoid/Grid.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/FEM/Div.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/FEM/Div.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/FEM/Grid.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/FEM/Grid.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/FullertonFnLib/r8_b_.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/FullertonFnLib/r8_b_.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/FullertonFnLib/r8_g_.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/FullertonFnLib/r8_g_.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/FullertonFnLib/r8_m_.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/FullertonFnLib/r8_m_.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/FullertonFnLib/r8_p_.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/FullertonFnLib/r8_p_.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Function/BesselJ.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Function/BesselJ.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Function/Bins.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Function/Bins.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Function/NBITS.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Function/NBITS.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/GMesh/GMeshIO.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/GMesh/GMeshIO.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Geometry/LocalMinimum.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Geometry/LocalMinimum.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Geometry/Segments.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Geometry/Segments.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Grid/Poisson.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Grid/Poisson.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Helpers.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Helpers.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Integral/Filon.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Integral/Filon.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Interpolation/BarycentricInterp1D.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Interpolation/BarycentricInterp1D.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Interpolation/Lagrange.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Interpolation/Lagrange.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Lagrange/Lagrange1D.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Lagrange/Lagrange1D.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Laguerre/p20.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Laguerre/p20.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Line/Geometry.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Line/Geometry.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Line/Line.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Line/Line.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Linpack/DQRDC.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Linpack/DQRDC.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Linpack/ZQRDC.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Linpack/ZQRDC.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Linpack/ZSVDC.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Linpack/ZSVDC.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Matrix/DSVDC.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Matrix/DSVDC.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Matrix/TQL2.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Matrix/TQL2.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/OrdinaryDifferentialEquation/RungeKuttaFehlberg/rkf45.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/OrdinaryDifferentialEquation/RungeKuttaFehlberg/rkf45.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/OrdinaryDifferentialEquation/ode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/OrdinaryDifferentialEquation/ode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/PDF/r8.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/PDF/r8.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Parabola/Geometry.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Parabola/Geometry.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Plane/Geometry.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Plane/Geometry.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Points/Geometry.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Points/Geometry.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Points/Points.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Points/Points.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Polygon/Geometry.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Polygon/Geometry.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Polygon/MonteCarlo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Polygon/MonteCarlo.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Polygon/Properties.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Polygon/Properties.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Polygon/Triangulate.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Polygon/Triangulate.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Polynomial/BernsteinPolynomial.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Polynomial/BernsteinPolynomial.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Probability/Beta.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Probability/Beta.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Probability/Chi.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Probability/Chi.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Probability/EmpiricalDiscrete.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Probability/EmpiricalDiscrete.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Probability/Ribesl.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Probability/Ribesl.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Probability/Triangle.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Probability/Triangle.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Ranking/Knapsack.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Ranking/Knapsack.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Rational.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Rational.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Sequences/Jacobi.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Sequences/Jacobi.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Solve/BisectionRC.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Solve/BisectionRC.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Solve/LocalMinimum.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Solve/LocalMinimum.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Solve/QRSolve.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Solve/QRSolve.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Solve/RestartedGeneralizedMinimumResidual.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Solve/RestartedGeneralizedMinimumResidual.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Solve/RootRC.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Solve/RootRC.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Solve/Zero.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Solve/Zero.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Solve/zerorc.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Solve/zerorc.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Sparse/Grid.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Sparse/Grid.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Sparse/Grid_GaussLegendre.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Sparse/Grid_GaussLegendre.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Sparse/Grid_Hermite.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Sparse/Grid_Hermite.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Sparse/Grid_NodesWeights.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Sparse/Grid_NodesWeights.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Sparse/SGMGAniso.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Sparse/SGMGAniso.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Sparse/SparseRule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Sparse/SparseRule.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Sphere/Geometry.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Sphere/Geometry.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Spline/Linear.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Spline/Linear.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Stroud/Cube.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Stroud/Cube.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Stroud/Ellipse.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Stroud/Ellipse.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Stroud/Rectangle.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Stroud/Rectangle.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Stroud/Sphere.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Stroud/Sphere.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/TOMS/TOMS179.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/TOMS/TOMS179.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/TOMS/TOMS243.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/TOMS/TOMS243.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/TOMS/TOMS917.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/TOMS/TOMS917.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Tube/Geometry.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Tube/Geometry.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Types/c4.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Types/c4.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Types/points.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Types/points.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Types/r8.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Types/r8.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Types/r82poly.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Types/r82poly.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Types/r82row.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Types/r82row.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Types/r82vec.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Types/r82vec.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Types/r8_gamma.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Types/r8_gamma.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Types/r8_hyper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Types/r8_hyper.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Types/r8_is.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Types/r8_is.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Types/r8col.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Types/r8col.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Types/r8interval.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Types/r8interval.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Types/r8mat.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Types/r8mat.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Types/r8mat_is.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Types/r8mat_is.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Types/r8pbu.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Types/r8pbu.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Types/r8poly.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Types/r8poly.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Types/r8vec.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Types/r8vec.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_bin.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_bin.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_bracket.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_bracket.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_comparison.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_comparison.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_index.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_index.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_is.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_is.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_mirror.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_mirror.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_mm.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_mm.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_order.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_order.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_sort.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_sort.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Types/r8vm.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Types/r8vm.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Voxels/Geometry.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Voxels/Geometry.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Burkardt/WFunction/WAPR.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/WFunction/WAPR.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoCore/cell.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoCore/cell.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoLib/GeoLibRect.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoLib/GeoLibRect.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/clockwise.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/clockwise.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/close.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/close.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/close_p64.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/close_p64.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Common/geoWrangler/decompose.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/decompose.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/inflate.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/inflate.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/inflate_p64.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/inflate_p64.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/keyhole.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/keyhole.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/processoverlaps.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/processoverlaps.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/query_enclosed.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/query_enclosed.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/reorder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/reorder.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/reorder_p64.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/reorder_p64.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/strip.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/strip.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/strip_p64.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/strip_p64.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -684,7 +817,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "XThreadsFramesViewSplitterKey": "0.40599",
-    "last_opened_file_path": "/home/phil/Documents/tmp/DesignLibs_GPL/DesignLibs.sln",
+    "last_opened_file_path": "/home/phil/Documents/tmp/DesignLibs_GPL/Directory.Build.props",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -11407,6 +11540,7 @@
       <workItem from="1669089966531" duration="5951000" />
       <workItem from="1669133727832" duration="4467000" />
       <workItem from="1669140909507" duration="18056000" />
+      <workItem from="1669228740994" duration="7324000" />
     </task>
     <servers />
   </component>
@@ -11431,23 +11565,6 @@
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Common/geoWrangler/decompose.cs</url>
-          <line>491</line>
-          <properties documentPath="$PROJECT_DIR$/Common/geoWrangler/decompose.cs" initialLine="491" containingFunctionPresentation="method 'decompose_poly_to_rectangles'">
-            <startOffsets>
-              <option value="16017" />
-            </startOffsets>
-            <endOffsets>
-              <option value="16035" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="9" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="Frame#geoWrangler.GeoWrangler.decompose_poly_to_rectangles" memberName="lPoly" />

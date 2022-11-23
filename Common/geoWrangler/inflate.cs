@@ -103,7 +103,7 @@ public static partial class GeoWrangler
         ClipperOffset co = new() {PreserveCollinear = true};
         Path64 a;
         // Path from Point auto-closes the input for historical reasons. We may not want this....
-        if (pDistanceBetweenPoints(rescaledSource[0], rescaledSource[^1]) > Double.Epsilon)
+        if (pDistanceBetweenPoints(rescaledSource[0], rescaledSource[^1]) > constants.tolerance)
         {
             rescaledSource = pStripTerminators(rescaledSource, false);
         }

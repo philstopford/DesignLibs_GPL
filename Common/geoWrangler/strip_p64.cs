@@ -6,12 +6,12 @@ namespace geoWrangler;
 
 public static partial class GeoWrangler
 {
-    public static Path64 removeDuplicates(Path64 source, double threshold = Double.Epsilon)
+    public static Path64 removeDuplicates(Path64 source, double threshold = constants.tolerance)
     {
         return pRemoveDuplicates(source, threshold);
     }
     
-    private static Paths64 pRemoveDuplicates(Paths64 source, double threshold = Double.Epsilon)
+    private static Paths64 pRemoveDuplicates(Paths64 source, double threshold = constants.tolerance)
     {
         Paths64 ret = new ();
         foreach (var t in source)
@@ -22,7 +22,7 @@ public static partial class GeoWrangler
         return ret;
     }
     
-    private static Path64 pRemoveDuplicates(Path64 source, double threshold = Double.Epsilon)
+    private static Path64 pRemoveDuplicates(Path64 source, double threshold = constants.tolerance)
     {
         Path64 ret = new();
         switch (source.Count)

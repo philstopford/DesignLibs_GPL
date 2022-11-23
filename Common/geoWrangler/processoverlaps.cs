@@ -109,7 +109,7 @@ public static class ProcessOverlaps
 
                     double uArea = test.Sum(t => Math.Abs(Clipper.Area(t)));
 
-                    if (!(Math.Abs(uArea - origArea) < double.Epsilon))
+                    if (!(Math.Abs(uArea - origArea) < constants.tolerance))
                     {
                         continue;
                     }

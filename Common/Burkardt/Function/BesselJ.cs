@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.Types;
 
 namespace Burkardt.Function;
 
@@ -439,7 +440,7 @@ public static class BesselJ
                             _ => zero
                         };
 
-                        if (Math.Abs(alpha - zero) > double.Epsilon)
+                        if (Math.Abs(alpha - zero) > typeMethods.r8_epsilon())
                         {
                             tempa = Math.Pow(halfx, alpha) / (alpha * Helpers.Gamma(alpha));
                         }
@@ -452,7 +453,7 @@ public static class BesselJ
 
                         b[0] = tempa + tempa * tempb / alpem;
 
-                        if (Math.Abs(x - zero) > double.Epsilon && Math.Abs(b[0] - zero) <= double.Epsilon)
+                        if (Math.Abs(x - zero) > typeMethods.r8_epsilon() && Math.Abs(b[0] - zero) <= typeMethods.r8_epsilon())
                         {
                             ncalc = 0;
                         }
@@ -475,7 +476,7 @@ public static class BesselJ
                                 {
                                     tempc = halfx;
 
-                                    if (Math.Abs(tempb - zero) > double.Epsilon)
+                                    if (Math.Abs(tempb - zero) > typeMethods.r8_epsilon())
                                     {
                                         tover = enmten / tempb;
                                     }
@@ -818,7 +819,7 @@ public static class BesselJ
 
                                 sum += b[0] * alp2em;
 
-                                if (Math.Abs(alpha + one - one) > double.Epsilon)
+                                if (Math.Abs(alpha + one - one) > typeMethods.r8_epsilon())
                                 {
                                     sum = sum * Helpers.Gamma(alpha) * Math.Pow(x * half, -alpha);
                                 }
@@ -868,7 +869,7 @@ public static class BesselJ
                                         //
                                         //  Normalize.  Divide all B by sum.
                                         //
-                                        if (Math.Abs(alpha + one - one) > double.Epsilon)
+                                        if (Math.Abs(alpha + one - one) > typeMethods.r8_epsilon())
                                         {
                                             sum = sum * Helpers.Gamma(alpha) * Math.Pow(x * half, -alpha);
                                         }
@@ -961,7 +962,7 @@ public static class BesselJ
                         //
                         //  Normalize.  Divide all B by sum.
                         //
-                        if (Math.Abs(alpha + one - one) > double.Epsilon)
+                        if (Math.Abs(alpha + one - one) > typeMethods.r8_epsilon())
                         {
                             sum = sum * Helpers.Gamma(alpha) * Math.Pow(x * half, -alpha);
                         }

@@ -66,10 +66,10 @@ public static partial class GeoWrangler
             c.Execute(ClipType.Union, FillRule.EvenOdd, t);
             t = pReorderXY(t);
             double a2 = t.Sum(Clipper.Area);
-
+            
             switch (Math.Abs(Math.Abs(a1) - Math.Abs(a2)))
             {
-                case <= double.Epsilon:
+                case <= constants.tolerance:
                     // shape didn't really change.
                     ret.Add(t1);
                     break;

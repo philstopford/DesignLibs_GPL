@@ -113,7 +113,7 @@ public static partial class typeMethods
 
         for (i = 0; i < n; i++)
         {
-            if (Math.Abs(a1[startIndexA1 + i] - a2[startIndexA2 + i]) > double.Epsilon)
+            if (Math.Abs(a1[startIndexA1 + i] - a2[startIndexA2 + i]) > typeMethods.r8_epsilon())
             {
                 return false;
             }

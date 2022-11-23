@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.Types;
 
 namespace Burkardt.AppliedStatistics;
 
@@ -265,7 +266,7 @@ public static partial class Algorithms
                     return value;
                 }
 
-                if (tx != 0.0 && Math.Abs(tx - 1.0) > double.Epsilon)
+                if (tx != 0.0 && Math.Abs(tx - 1.0) > typeMethods.r8_epsilon())
                 {
                     break;
                 }

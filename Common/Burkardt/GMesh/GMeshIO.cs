@@ -289,10 +289,10 @@ public static class IO
         //  Make a very simple guess as to the dimensionality of the data.
         //
         node_dim = 3;
-        if (Math.Abs(z_max - z_min) <= double.Epsilon)
+        if (Math.Abs(z_max - z_min) <= typeMethods.r8_epsilon())
         {
             node_dim = 2;
-            if (Math.Abs(y_max - y_min) <= double.Epsilon)
+            if (Math.Abs(y_max - y_min) <= typeMethods.r8_epsilon())
             {
                 node_dim = 1;
             }

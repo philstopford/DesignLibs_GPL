@@ -1240,7 +1240,7 @@ public static partial class typeMethods
         {
             for (j = 0; j < n; j++)
             {
-                if (!(Math.Abs(rref[i + j * m] - 1.0) <= double.Epsilon))
+                if (!(Math.Abs(rref[i + j * m] - 1.0) <= typeMethods.r8_epsilon()))
                 {
                     continue;
                 }
@@ -1362,7 +1362,7 @@ public static partial class typeMethods
             int j;
             for (j = 0; j < n; j++)
             {
-                if (!(Math.Abs(rref[i + j * m] - 1.0) <= double.Epsilon))
+                if (!(Math.Abs(rref[i + j * m] - 1.0) <= typeMethods.r8_epsilon()))
                 {
                     continue;
                 }

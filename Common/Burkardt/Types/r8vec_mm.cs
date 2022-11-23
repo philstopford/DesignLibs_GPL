@@ -47,7 +47,7 @@ public static partial class typeMethods
         double amax = r8vec_max(n, a);
         double amin = r8vec_min(n, a);
 
-        if (Math.Abs(amin - amax) <= double.Epsilon)
+        if (Math.Abs(amin - amax) <= typeMethods.r8_epsilon())
         {
             for (i = 0; i < n; i++)
             {
@@ -106,7 +106,7 @@ public static partial class typeMethods
 
         double[] b = new double[n];
 
-        if (Math.Abs(bmax - bmin) <= double.Epsilon)
+        if (Math.Abs(bmax - bmin) <= typeMethods.r8_epsilon())
         {
             for (i = 0; i < n; i++)
             {
@@ -119,7 +119,7 @@ public static partial class typeMethods
         double amax = r8vec_max(n, a);
         double amin = r8vec_min(n, a);
 
-        if (Math.Abs(amin - amax) <= double.Epsilon)
+        if (Math.Abs(amin - amax) <= typeMethods.r8_epsilon())
         {
             for (i = 0; i < n; i++)
             {

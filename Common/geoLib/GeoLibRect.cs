@@ -54,8 +54,8 @@ public class GeoLibRectangle
 
     private void setOtherProps()
     {
-        Left = X;
-        Top = Y;
+        Left = X - (int)(Width * 0.5);
+        Top = Y - (int)(Height * 0.5);
         Location = new Point64(X, Y);
         Bottom = Top + Height;
         Right = Left + Width;
@@ -168,8 +168,8 @@ public class GeoLibRectangleF
 
     private void setOtherProps()
     {
-        Left = X;
-        Top = Y;
+        Left = X - (Width * 0.5);
+        Top = Y - (Height * 0.5);
         Location = new (X, Y);
         Bottom = Top + Height;
         Right = Left + Width;

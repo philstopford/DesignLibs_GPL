@@ -45,12 +45,12 @@ public static class Geometry
         x = 0.0;
         y = 0.0;
 
-        if (Math.Abs(x1 - x2) <= double.Epsilon || Math.Abs(x2 - x3) <= double.Epsilon || Math.Abs(x3 - x1) <= double.Epsilon)
+        if (Math.Abs(x1 - x2) <= typeMethods.r8_epsilon() || Math.Abs(x2 - x3) <= typeMethods.r8_epsilon() || Math.Abs(x3 - x1) <= typeMethods.r8_epsilon())
         {
             return 1;
         }
 
-        if (Math.Abs(y1 - y2) <= double.Epsilon && Math.Abs(y2 - y3) <= double.Epsilon && Math.Abs(y3 - y1) <= double.Epsilon)
+        if (Math.Abs(y1 - y2) <= typeMethods.r8_epsilon() && Math.Abs(y2 - y3) <= typeMethods.r8_epsilon() && Math.Abs(y3 - y1) <= typeMethods.r8_epsilon())
         {
             x = x1;
             y = y1;
@@ -127,12 +127,12 @@ public static class Geometry
         x = 0.0;
         y = 0.0;
 
-        if (Math.Abs(x1 - x2) <= double.Epsilon || Math.Abs(x2 - x3) <= double.Epsilon || Math.Abs(x3 - x1) <= double.Epsilon)
+        if (Math.Abs(x1 - x2) <= typeMethods.r8_epsilon() || Math.Abs(x2 - x3) <= typeMethods.r8_epsilon() || Math.Abs(x3 - x1) <= typeMethods.r8_epsilon())
         {
             return 1;
         }
 
-        if (Math.Abs(y1 - y2) <= double.Epsilon && Math.Abs(y2 - y3) <= double.Epsilon && Math.Abs(y3 - y1) <= double.Epsilon)
+        if (Math.Abs(y1 - y2) <= typeMethods.r8_epsilon() && Math.Abs(y2 - y3) <= typeMethods.r8_epsilon() && Math.Abs(y3 - y1) <= typeMethods.r8_epsilon())
         {
             x = x1;
             y = y1;

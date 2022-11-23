@@ -1011,7 +1011,7 @@ public static class Rational
 
         double r_max = typeMethods.i4_huge() / 10.0;
 
-        while (Math.Abs(r - (int)r) > double.Epsilon && r < r_max)
+        while (Math.Abs(r - (int)r) > typeMethods.r8_epsilon() && r < r_max)
         {
             r *= 10.0;
             exponent -= 1;

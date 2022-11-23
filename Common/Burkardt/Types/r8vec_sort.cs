@@ -1454,14 +1454,14 @@ public static partial class typeMethods
                 if (j < ir)
                 {
                     if (x[indx[j - 1]] < x[indx[j]] ||
-                        Math.Abs(x[indx[j - 1]] - x[indx[j]]) <= double.Epsilon && y[indx[j - 1]] < y[indx[j]])
+                        Math.Abs(x[indx[j - 1]] - x[indx[j]]) <= typeMethods.r8_epsilon() && y[indx[j - 1]] < y[indx[j]])
                     {
                         j += 1;
                     }
                 }
 
                 if (xval < x[indx[j - 1]] ||
-                    Math.Abs(xval - x[indx[j - 1]]) <= double.Epsilon && yval < y[indx[j - 1]])
+                    Math.Abs(xval - x[indx[j - 1]]) <= typeMethods.r8_epsilon() && yval < y[indx[j - 1]])
                 {
                     indx[i - 1] = indx[j - 1];
                     i = j;
@@ -1537,8 +1537,8 @@ public static partial class typeMethods
 
         for (itest = 1; itest < n; itest++)
         {
-            if (!(Math.Abs(a1[itest] - a1[unique_num - 1]) > double.Epsilon) &&
-                !(Math.Abs(a2[itest] - a2[unique_num - 1]) > double.Epsilon))
+            if (!(Math.Abs(a1[itest] - a1[unique_num - 1]) > typeMethods.r8_epsilon()) &&
+                !(Math.Abs(a2[itest] - a2[unique_num - 1]) > typeMethods.r8_epsilon()))
             {
                 continue;
             }
@@ -1614,8 +1614,8 @@ public static partial class typeMethods
 
         for (itest = 2; itest <= n; itest++)
         {
-            if (!(Math.Abs(a1[itest - 2] - a1[itest - 1]) > double.Epsilon) &&
-                !(Math.Abs(a2[itest - 2] - a2[itest - 1]) > double.Epsilon))
+            if (!(Math.Abs(a1[itest - 2] - a1[itest - 1]) > typeMethods.r8_epsilon()) &&
+                !(Math.Abs(a2[itest - 2] - a2[itest - 1]) > typeMethods.r8_epsilon()))
             {
                 continue;
             }
@@ -2139,7 +2139,7 @@ public static partial class typeMethods
             {
                 mid = (lo + hi) / 2;
 
-                if (Math.Abs(value - a[mid - 1]) <= double.Epsilon)
+                if (Math.Abs(value - a[mid - 1]) <= typeMethods.r8_epsilon())
                 {
                     return mid;
                 }
@@ -2183,7 +2183,7 @@ public static partial class typeMethods
         {
             mid = (lo + hi) / 2;
 
-            if (Math.Abs(value - a[mid - 1]) <= double.Epsilon)
+            if (Math.Abs(value - a[mid - 1]) <= typeMethods.r8_epsilon())
             {
                 return mid;
             }

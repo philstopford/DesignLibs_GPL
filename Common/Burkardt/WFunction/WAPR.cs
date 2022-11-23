@@ -1,5 +1,6 @@
 ﻿using System;
 using Burkardt.Function;
+using Burkardt.Types;
 
 namespace Burkardt.WFunction;
 
@@ -159,7 +160,7 @@ public static class WAPR
                     return value;
                 }
 
-                if (Math.Abs(x - data.em) <= double.Epsilon)
+                if (Math.Abs(x - data.em) <= typeMethods.r8_epsilon())
                 {
                     value = -1.0;
                     return value;

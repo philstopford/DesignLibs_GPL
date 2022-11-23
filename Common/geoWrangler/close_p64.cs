@@ -24,7 +24,7 @@ public static partial class GeoWrangler
         }
 
         Path64 ret = new(source);
-        if (Math.Abs(source[0].X - source[^1].X) > double.Epsilon || Math.Abs(source[0].Y - source[^1].Y) > double.Epsilon)
+        if (Math.Abs(source[0].X - source[^1].X) > constants.tolerance || Math.Abs(source[0].Y - source[^1].Y) > constants.tolerance)
         {
             ret.Add(new (source[0]));
         }

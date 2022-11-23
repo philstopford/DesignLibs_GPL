@@ -112,7 +112,7 @@ public static partial class GeoWrangler
         {
             switch (Math.Abs(iPoints[pt].X - minX))
             {
-                case <= double.Epsilon:
+                case <= constants.tolerance:
                     minXPoints.Add(pt);
                     break;
             }
@@ -143,7 +143,7 @@ public static partial class GeoWrangler
             switch (tempList.Count)
             {
                 // Avoid adding duplicate vertices
-                case > 1 when Math.Abs(tempList[^1].X - iPoints[pt].X) <= double.Epsilon && Math.Abs(tempList[^1].Y - iPoints[pt].Y) <= double.Epsilon:
+                case > 1 when Math.Abs(tempList[^1].X - iPoints[pt].X) <= constants.tolerance && Math.Abs(tempList[^1].Y - iPoints[pt].Y) <= constants.tolerance:
                     continue;
                 default:
                     tempList.Add(new (iPoints[pt]));
@@ -156,7 +156,7 @@ public static partial class GeoWrangler
             switch (tempList.Count)
             {
                 // Avoid adding duplicate vertices
-                case > 1 when Math.Abs(tempList[^1].X - iPoints[pt].X) <= double.Epsilon && Math.Abs(tempList[^1].Y - iPoints[pt].Y) <= double.Epsilon:
+                case > 1 when Math.Abs(tempList[^1].X - iPoints[pt].X) <= constants.tolerance && Math.Abs(tempList[^1].Y - iPoints[pt].Y) <= constants.tolerance:
                     continue;
                 default:
                     tempList.Add(new (iPoints[pt]));
@@ -182,7 +182,7 @@ public static partial class GeoWrangler
         {
             switch (Math.Abs(iPoints[pt].Y - minY))
             {
-                case <= double.Epsilon:
+                case <= constants.tolerance:
                     minYPoints.Add(pt);
                     break;
             }
@@ -213,7 +213,7 @@ public static partial class GeoWrangler
             switch (tempList.Count)
             {
                 // Avoid adding duplicate vertices
-                case > 1 when Math.Abs(tempList[^1].X - iPoints[pt].X) <= double.Epsilon && Math.Abs(tempList[^1].Y - iPoints[pt].Y) <= double.Epsilon:
+                case > 1 when Math.Abs(tempList[^1].X - iPoints[pt].X) <= constants.tolerance && Math.Abs(tempList[^1].Y - iPoints[pt].Y) <= constants.tolerance:
                     continue;
                 default:
                     tempList.Add(new (iPoints[pt]));
@@ -226,7 +226,7 @@ public static partial class GeoWrangler
             switch (tempList.Count)
             {
                 // Avoid adding duplicate vertices
-                case > 1 when Math.Abs(tempList[^1].X - iPoints[pt].X) <= double.Epsilon && Math.Abs(tempList[^1].Y - iPoints[pt].Y) <= double.Epsilon:
+                case > 1 when Math.Abs(tempList[^1].X - iPoints[pt].X) <= constants.tolerance && Math.Abs(tempList[^1].Y - iPoints[pt].Y) <= constants.tolerance:
                     continue;
                 default:
                     tempList.Add(new (iPoints[pt]));

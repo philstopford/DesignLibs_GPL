@@ -82,7 +82,7 @@ public static partial class typeMethods
                 break;
             }
 
-            if (Math.Abs(x2[indx2[equal1 - 2] - 1] - xval) > double.Epsilon)
+            if (Math.Abs(x2[indx2[equal1 - 2] - 1] - xval) > typeMethods.r8_epsilon())
             {
                 break;
             }
@@ -99,7 +99,7 @@ public static partial class typeMethods
                 break;
             }
 
-            if (Math.Abs(x2[indx2[equal2] - 1] - xval) > double.Epsilon)
+            if (Math.Abs(x2[indx2[equal2] - 1] - xval) > typeMethods.r8_epsilon())
             {
                 break;
             }
@@ -114,7 +114,7 @@ public static partial class typeMethods
 
         for (get = 1; get <= n2; get++)
         {
-            if (!(Math.Abs(x2[get - 1] - xval) > double.Epsilon))
+            if (!(Math.Abs(x2[get - 1] - xval) > typeMethods.r8_epsilon()))
             {
                 continue;
             }
@@ -221,7 +221,7 @@ public static partial class typeMethods
 
             switch (i)
             {
-                case > 1 when Math.Abs(x[indx[i - 1] - 1] - x3[n3 - 1]) <= double.Epsilon:
+                case > 1 when Math.Abs(x[indx[i - 1] - 1] - x3[n3 - 1]) <= typeMethods.r8_epsilon():
                     continue;
                 default:
                     n3 += 1;
@@ -585,7 +585,7 @@ public static partial class typeMethods
             return;
         }
 
-        if (Math.Abs(xval - xlo) <= double.Epsilon)
+        if (Math.Abs(xval - xlo) <= typeMethods.r8_epsilon())
         {
             less = 0;
             equal = 1;
@@ -601,7 +601,7 @@ public static partial class typeMethods
             return;
         }
 
-        if (Math.Abs(xval - xhi) <= double.Epsilon)
+        if (Math.Abs(xval - xhi) <= typeMethods.r8_epsilon())
         {
             less = n - 1;
             equal = n;
@@ -622,7 +622,7 @@ public static partial class typeMethods
             int mid = (lo + hi) / 2;
             double xmid = x[indx[mid - 1] - 1];
 
-            if (Math.Abs(xval - xmid) <= double.Epsilon)
+            if (Math.Abs(xval - xmid) <= typeMethods.r8_epsilon())
             {
                 equal = mid;
                 less = mid - 1;

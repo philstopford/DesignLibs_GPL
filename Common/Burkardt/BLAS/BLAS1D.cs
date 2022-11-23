@@ -1236,7 +1236,7 @@ public static class BLAS1D
                 test = Math.Abs(s[l - 1]) + Math.Abs(s[l]);
                 ztest = test + Math.Abs(e[l - 1]);
 
-                if (!(Math.Abs(ztest - test) <= double.Epsilon))
+                if (!(Math.Abs(ztest - test) <= typeMethods.r8_epsilon()))
                 {
                     continue;
                 }
@@ -1275,7 +1275,7 @@ public static class BLAS1D
 
                     ztest = test + Math.Abs(s[ls - 1]);
 
-                    if (!(Math.Abs(ztest - test) <= double.Epsilon))
+                    if (!(Math.Abs(ztest - test) <= typeMethods.r8_epsilon()))
                     {
                         continue;
                     }

@@ -208,7 +208,7 @@ public static class EmpiricalDiscrete
         {
             for (int j = i + 1; j < a; j++)
             {
-                if (!(Math.Abs(c[i] - c[j]) <= double.Epsilon))
+                if (!(Math.Abs(c[i] - c[j]) <= typeMethods.r8_epsilon()))
                 {
                     continue;
                 }
@@ -330,7 +330,7 @@ public static class EmpiricalDiscrete
 
         for (int i = 0; i <= a; i++)
         {
-            if (!(Math.Abs(x - c[i]) <= double.Epsilon))
+            if (!(Math.Abs(x - c[i]) <= typeMethods.r8_epsilon()))
             {
                 continue;
             }

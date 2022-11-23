@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.Types;
 
 namespace Burkardt.Laguerre;
 
@@ -121,7 +122,7 @@ public static partial class Integrands
 
         for (i = 0; i < n; i++)
         {
-            if (Math.Pow(x[i] - 1.0, 2) + Math.Pow(0.25, p20Data.beta) == 0.0 || Math.Abs(x[i] - 2.0) <= double.Epsilon)
+            if (Math.Pow(x[i] - 1.0, 2) + Math.Pow(0.25, p20Data.beta) == 0.0 || Math.Abs(x[i] - 2.0) <= typeMethods.r8_epsilon())
             {
                 fx[i] = 0.0;
             }

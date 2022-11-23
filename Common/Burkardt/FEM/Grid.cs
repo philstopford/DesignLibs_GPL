@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using Burkardt.OrderNS;
+using Burkardt.Types;
 
 namespace Burkardt.FEM;
 
@@ -1589,7 +1590,7 @@ public static class Grid
 
         for (i = 1; i < n; i++)
         {
-            if (Math.Abs(a[i] - a[0]) > double.Epsilon)
+            if (Math.Abs(a[i] - a[0]) > typeMethods.r8_epsilon())
             {
                 break;
             }

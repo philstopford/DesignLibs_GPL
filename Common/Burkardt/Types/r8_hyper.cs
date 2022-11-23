@@ -65,12 +65,12 @@ public static partial class typeMethods
         int nm = 0;
         double r;
 
-        bool l0 = Math.Abs(c - (int) c) <= double.Epsilon && c < 0.0;
+        bool l0 = Math.Abs(c - (int) c) <= typeMethods.r8_epsilon() && c < 0.0;
         bool l1 = 1.0 - x < 1.0E-15 && c - a - b <= 0.0;
-        bool l2 = Math.Abs(a - (int) a) <= double.Epsilon && a < 0.0;
-        bool l3 = Math.Abs(b - (int) b) <= double.Epsilon && b < 0.0;
-        bool l4 = Math.Abs(c - a - (int) (c - a)) <= double.Epsilon && c - a <= 0.0;
-        bool l5 = Math.Abs(c - b - (int) (c - b)) <= double.Epsilon && c - b <= 0.0;
+        bool l2 = Math.Abs(a - (int) a) <= typeMethods.r8_epsilon() && a < 0.0;
+        bool l3 = Math.Abs(b - (int) b) <= typeMethods.r8_epsilon() && b < 0.0;
+        bool l4 = Math.Abs(c - a - (int) (c - a)) <= typeMethods.r8_epsilon() && c - a <= 0.0;
+        bool l5 = Math.Abs(c - b - (int) (c - b)) <= typeMethods.r8_epsilon() && c - b <= 0.0;
 
         switch (l0)
         {
@@ -109,7 +109,7 @@ public static partial class typeMethods
             return hf;
         }
 
-        if (Math.Abs(1.0 - x - eps) <= double.Epsilon && 0.0 < c - a - b)
+        if (Math.Abs(1.0 - x - eps) <= typeMethods.r8_epsilon() && 0.0 < c - a - b)
         {
             gc = Helpers.Gamma(c);
             gcab = Helpers.Gamma(c - a - b);

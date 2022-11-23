@@ -51,7 +51,7 @@ public static class Linear
 
         double int_val = 0.0;
 
-        if (Math.Abs(a - b) <= double.Epsilon)
+        if (Math.Abs(a - b) <= typeMethods.r8_epsilon())
         {
             return int_val;
         }

@@ -256,7 +256,7 @@ internal static class Program
         {
             switch (x_range[dim + 0 * dim_num])
             {
-                case -1.0 when Math.Abs(x_range[dim + 1 * dim_num] - +1.0) <= double.Epsilon:
+                case -1.0 when Math.Abs(x_range[dim + 1 * dim_num] - +1.0) <= typeMethods.r8_epsilon():
                 {
                     switch (alpha[dim])
                     {
@@ -274,7 +274,7 @@ internal static class Program
 
                     break;
                 }
-                case 0.0 when Math.Abs(x_range[dim + 1 * dim_num] - typeMethods.r8_huge()) <= double.Epsilon:
+                case 0.0 when Math.Abs(x_range[dim + 1 * dim_num] - typeMethods.r8_huge()) <= typeMethods.r8_epsilon():
                 {
                     switch (alpha[dim])
                     {
@@ -293,8 +293,8 @@ internal static class Program
                 }
                 default:
                 {
-                    if (Math.Abs(x_range[dim + 0 * dim_num] - (-typeMethods.r8_huge())) <= double.Epsilon &&
-                        Math.Abs(x_range[dim + 1 * dim_num] - +typeMethods.r8_huge()) <= double.Epsilon)
+                    if (Math.Abs(x_range[dim + 0 * dim_num] - (-typeMethods.r8_huge())) <= typeMethods.r8_epsilon() &&
+                        Math.Abs(x_range[dim + 1 * dim_num] - +typeMethods.r8_huge()) <= typeMethods.r8_epsilon())
                     {
                         switch (alpha[dim])
                         {

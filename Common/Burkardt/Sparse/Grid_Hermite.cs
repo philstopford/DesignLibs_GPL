@@ -171,7 +171,7 @@ public static class Grid_Hermite
                             for (dim = 0; dim < dim_num; dim++)
                             {
                                 if (!(Math.Abs(grid_point[dim + point2 * dim_num] - grid_point_temp[dim]) >
-                                      double.Epsilon))
+                                      typeMethods.r8_epsilon()))
                                 {
                                     continue;
                                 }

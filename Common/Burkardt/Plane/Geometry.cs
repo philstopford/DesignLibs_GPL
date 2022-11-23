@@ -1644,7 +1644,7 @@ public static class Geometry
                     break;
             }
         }
-        else if (Math.Abs(dist23 - dist) <= double.Epsilon)
+        else if (Math.Abs(dist23 - dist) <= typeMethods.r8_epsilon())
         {
             typeMethods.r8vec_copy(DIM_NUM, pt, ref pn, a2index: +near_num * 3);
             near_num += 1;
@@ -1679,7 +1679,7 @@ public static class Geometry
                     break;
             }
         }
-        else if (Math.Abs(dist31 - dist) <= double.Epsilon)
+        else if (Math.Abs(dist31 - dist) <= typeMethods.r8_epsilon())
         {
             typeMethods.r8vec_copy(DIM_NUM, pt, ref pn, a2index: +near_num * 3);
             near_num += 1;

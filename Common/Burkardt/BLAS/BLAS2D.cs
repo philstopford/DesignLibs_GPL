@@ -150,7 +150,7 @@ public static class BLAS2D
         //
         if (m == 0 ||
             n == 0 ||
-            alpha == 0.0 && Math.Abs(beta - 1.0) <= double.Epsilon)
+            alpha == 0.0 && Math.Abs(beta - 1.0) <= typeMethods.r8_epsilon())
         {
             return;
         }
@@ -189,7 +189,7 @@ public static class BLAS2D
         //
         //  First form  y := beta*y.
         //
-        if (Math.Abs(beta - 1.0) > double.Epsilon)
+        if (Math.Abs(beta - 1.0) > typeMethods.r8_epsilon())
         {
             switch (incy)
             {

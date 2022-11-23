@@ -412,7 +412,7 @@ internal static class Program
                     break;
             }
 
-            if (Math.Abs(w - wp1[i]) <= double.Epsilon)
+            if (Math.Abs(w - wp1[i]) <= typeMethods.r8_epsilon())
             {
                 nd = (int) (Math.Log10(Math.Pow(2.0, nbits)) + 0.5);
             }
@@ -440,7 +440,7 @@ internal static class Program
         for (i = 0; i < 20; i++)
         {
             w = WAPR.wapr(ref wdata, x2[i], 0, ref nerror, 0);
-            if (Math.Abs(w - wp2[i]) <= double.Epsilon)
+            if (Math.Abs(w - wp2[i]) <= typeMethods.r8_epsilon())
             {
                 nd = (int) (Math.Log10(Math.Pow(2.0, nbits)) + 0.5);
             }
@@ -458,7 +458,7 @@ internal static class Program
         for (i = 0; i < 20; i++)
         {
             w = WAPR.wapr(ref wdata, -x2[i], 0, ref nerror, 0);
-            if (Math.Abs(w - wp2[20 + i]) <= double.Epsilon)
+            if (Math.Abs(w - wp2[20 + i]) <= typeMethods.r8_epsilon())
             {
                 nd = (int) (Math.Log10(Math.Pow(2.0, nbits)) + 0.5);
             }
@@ -486,7 +486,7 @@ internal static class Program
         for (i = 0; i < 10; i++)
         {
             w = WAPR.wapr(ref wdata, x3[i], 0, ref nerror, 0);
-            if (Math.Abs(w - wp3[i]) <= double.Epsilon)
+            if (Math.Abs(w - wp3[i]) <= typeMethods.r8_epsilon())
             {
                 nd = (int) (Math.Log10(Math.Pow(2.0, nbits)) + 0.5);
             }
@@ -514,7 +514,7 @@ internal static class Program
         for (i = 0; i < 68; i++)
         {
             w = WAPR.wapr(ref wdata, dx1[i], 1, ref nerror, 1);
-            if (Math.Abs(w - wm1[i]) <= double.Epsilon)
+            if (Math.Abs(w - wm1[i]) <= typeMethods.r8_epsilon())
             {
                 nd = (int) (Math.Log10(Math.Pow(2.0, nbits)) + 0.5);
             }
@@ -547,7 +547,7 @@ internal static class Program
                 case > 0.0:
                 {
                     w = WAPR.wapr(ref wdata, -dx1[i], 1, ref nerror, 0);
-                    if (Math.Abs(w - wm2[i]) <= double.Epsilon)
+                    if (Math.Abs(w - wm2[i]) <= typeMethods.r8_epsilon())
                     {
                         nd = (int) (Math.Log10(Math.Pow(2.0, nbits)) + 0.5);
                     }
@@ -671,7 +671,7 @@ internal static class Program
                             break;
                     }
 
-                    if (Math.Abs(w - we) <= double.Epsilon)
+                    if (Math.Abs(w - we) <= typeMethods.r8_epsilon())
                     {
                         nd = (int) (Math.Log10(Math.Pow(2.0, nbits)) + 0.5);
                     }
@@ -735,7 +735,7 @@ internal static class Program
                                     break;
                             }
 
-                            if (Math.Abs(w - we) <= double.Epsilon)
+                            if (Math.Abs(w - we) <= typeMethods.r8_epsilon())
                             {
                                 nd = (int) (Math.Log10(Math.Pow(2.0, nbits)) + 0.5);
                             }
@@ -872,7 +872,7 @@ internal static class Program
                             break;
                     }
 
-                    if (Math.Abs(w - we) <= double.Epsilon)
+                    if (Math.Abs(w - we) <= typeMethods.r8_epsilon())
                     {
                         nd = (int) (Math.Log10(Math.Pow(2.0, nbits)) + 0.5);
                     }
@@ -934,7 +934,7 @@ internal static class Program
                                     break;
                             }
 
-                            if (Math.Abs(w - we) <= double.Epsilon)
+                            if (Math.Abs(w - we) <= typeMethods.r8_epsilon())
                             {
                                 nd = (int) (Math.Log10(Math.Pow(2.0, nbits)) + 0.5);
                             }

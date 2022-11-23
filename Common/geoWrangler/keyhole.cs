@@ -106,7 +106,7 @@ public static partial class GeoWrangler
                 double outerArea = Clipper.Area(tOuter);
                 if (outerArea > lostArea)
                 {
-                    if (Math.Abs(outerArea - outerAreas.Max()) <= double.Epsilon)
+                    if (Math.Abs(outerArea - outerAreas.Max()) <= constants.tolerance)
                     {
                         continue;
                     }
@@ -227,7 +227,7 @@ public static partial class GeoWrangler
 
             switch (ray_length)
             {
-                case <= double.Epsilon:
+                case <= constants.tolerance:
                     continue;
             }
 
@@ -486,8 +486,8 @@ public static partial class GeoWrangler
         customSizing *= extension;
         
         // Need to workaround missing PathD support in ClipperOffset...
-        double scalar = 1000;
-        double scalar_inv = 1.0 / 1000;
+        double scalar = 10000;
+        double scalar_inv = 1.0 / scalar;
         Paths64 rescaledSource = _pPaths64FromPathsD(source, scalar);
 
         ClipperOffset co = new() {PreserveCollinear = true};
@@ -511,7 +511,7 @@ public static partial class GeoWrangler
 
         return Math.Abs(newArea) switch
         {
-            <= double.Epsilon =>
+            <= constants.tolerance =>
                 // We crushed our geometry, it seems.
                 // This was probably not the plan, so send back the original geometry instead.
                 new(source),
@@ -559,7 +559,7 @@ public static partial class GeoWrangler
 
         switch (Math.Abs(newArea))
         {
-            case <= double.Epsilon:
+            case <= constants.tolerance:
                 // We crushed our geometry, it seems.
                 // This was probably not the plan, so send back the original geometry instead.
                 cGeometry.Clear();

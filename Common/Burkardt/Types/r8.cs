@@ -342,7 +342,7 @@ public static partial class typeMethods
             return value;
         }
 
-        if (Math.Abs(a - b) <= double.Epsilon)
+        if (Math.Abs(a - b) <= typeMethods.r8_epsilon())
         {
             value = a;
             return value;
@@ -2156,7 +2156,7 @@ public static partial class typeMethods
     {
         double value;
 
-        if (Math.Abs(x - y) <= double.Epsilon)
+        if (Math.Abs(x - y) <= typeMethods.r8_epsilon())
         {
             value = 0.0;
             return value;
@@ -2336,6 +2336,7 @@ public static partial class typeMethods
         return r8_e_save;
     }
 
+    public const double _r8_epsilon = 2.220446049250313E-016;
     public static double r8_epsilon()
 
         //****************************************************************************80
@@ -2369,7 +2370,7 @@ public static partial class typeMethods
         //    Output, double R8_EPSILON, the R8 round-off unit.
         //
     {
-        return 2.220446049250313E-016;//typeMethods.r8_epsilon();
+        return _r8_epsilon ;//typeMethods.r8_epsilon();
     }
 
     public class r8EpsilonData
@@ -3511,7 +3512,7 @@ public static partial class typeMethods
         //    corresponds to X.
         //
     {
-        if (Math.Abs(xmax - xmin) <= double.Epsilon)
+        if (Math.Abs(xmax - xmin) <= typeMethods.r8_epsilon())
         {
             Console.WriteLine("");
             Console.WriteLine("R8_TO_I4 - Fatal error!");
@@ -3786,7 +3787,7 @@ public static partial class typeMethods
                 return bin;
         }
 
-        if (Math.Abs(b - a) <= double.Epsilon)
+        if (Math.Abs(b - a) <= typeMethods.r8_epsilon())
         {
             bin = 0;
             return bin;
@@ -3816,11 +3817,11 @@ public static partial class typeMethods
         {
             bin = 1;
         }
-        else if (Math.Abs(c - a2) <= double.Epsilon)
+        else if (Math.Abs(c - a2) <= typeMethods.r8_epsilon())
         {
             bin = 2;
         }
-        else if (Math.Abs(c - b2) <= double.Epsilon)
+        else if (Math.Abs(c - b2) <= typeMethods.r8_epsilon())
         {
             bin = nbin - 1;
         }
@@ -3911,7 +3912,7 @@ public static partial class typeMethods
                 return rd;
         }
 
-        if (Math.Abs(rmax - rmin) <= double.Epsilon)
+        if (Math.Abs(rmax - rmin) <= typeMethods.r8_epsilon())
         {
             rd = rmax;
             return rd;
@@ -4459,7 +4460,7 @@ public static partial class typeMethods
                 {
                     n = (int) ((rlo2 - r) / rwide) + 1;
                     value = r + n * rwide;
-                    if (Math.Abs(value - rhi) <= double.Epsilon)
+                    if (Math.Abs(value - rhi) <= typeMethods.r8_epsilon())
                     {
                         value = rlo;
                     }
@@ -4468,7 +4469,7 @@ public static partial class typeMethods
                 {
                     n = (int) ((r - rlo2) / rwide);
                     value = r - n * rwide;
-                    if (Math.Abs(value - rlo) <= double.Epsilon)
+                    if (Math.Abs(value - rlo) <= typeMethods.r8_epsilon())
                     {
                         value = rhi;
                     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.Types;
 
 namespace Burkardt.FullertonFnLib;
 
@@ -175,9 +176,9 @@ public static partial class FullertonLib
 
         switch (ax)
         {
-            case <= 0.0 when Math.Abs(r8_aint(ax) - ax) <= double.Epsilon:
+            case <= 0.0 when Math.Abs(r8_aint(ax) - ax) <= typeMethods.r8_epsilon():
             {
-                if (0.0 < a || Math.Abs(r8_aint(a) - a) > double.Epsilon)
+                if (0.0 < a || Math.Abs(r8_aint(a) - a) > typeMethods.r8_epsilon())
                 {
                     Console.WriteLine("");
                     Console.WriteLine("R8_POCH - Fatal error!");
@@ -225,7 +226,7 @@ public static partial class FullertonLib
             //
             //  A + X is not zero or a negative integer.
             //
-            case <= 0.0 when Math.Abs(r8_aint(a) - a) <= double.Epsilon:
+            case <= 0.0 when Math.Abs(r8_aint(a) - a) <= typeMethods.r8_epsilon():
                 value = 0.0;
                 return value;
         }
@@ -234,7 +235,7 @@ public static partial class FullertonLib
         //
         //  x is a small non-positive integer, presummably a common case.
         //
-        if (Math.Abs(n - x) <= double.Epsilon && n <= 20)
+        if (Math.Abs(n - x) <= typeMethods.r8_epsilon() && n <= 20)
         {
             value = 1.0;
             int i;
@@ -492,7 +493,7 @@ public static partial class FullertonLib
             value = (value - binv) / (1.0 + x * binv);
         }
 
-        if (Math.Abs(bp - a) <= double.Epsilon)
+        if (Math.Abs(bp - a) <= typeMethods.r8_epsilon())
         {
             return value;
         }

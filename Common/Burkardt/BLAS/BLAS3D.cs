@@ -216,7 +216,7 @@ public static class BLAS3D
 
         switch (alpha)
         {
-            case 0.0 or 0 when Math.Abs(beta - 1.0) <= double.Epsilon:
+            case 0.0 or 0 when Math.Abs(beta - 1.0) <= typeMethods.r8_epsilon():
                 return;
             //
             //  And if alpha is 0.0.
@@ -280,7 +280,7 @@ public static class BLAS3D
                         }
                         default:
                         {
-                            if (Math.Abs(beta - 1.0) > double.Epsilon)
+                            if (Math.Abs(beta - 1.0) > typeMethods.r8_epsilon())
                             {
                                 for (i = 0; i < m; i++)
                                 {
@@ -356,7 +356,7 @@ public static class BLAS3D
                                 }
                                 default:
                                 {
-                                    if (Math.Abs(beta - 1.0) > double.Epsilon)
+                                    if (Math.Abs(beta - 1.0) > typeMethods.r8_epsilon())
                                     {
                                         for (i = 0; i < m; i++)
                                         {
@@ -853,7 +853,7 @@ public static class BLAS3D
                                             break;
                                     }
 
-                                    if (!(Math.Abs(temp - 1.0) > double.Epsilon))
+                                    if (!(Math.Abs(temp - 1.0) > typeMethods.r8_epsilon()))
                                     {
                                         continue;
                                     }
@@ -892,7 +892,7 @@ public static class BLAS3D
                                             break;
                                     }
 
-                                    if (!(Math.Abs(temp - 1.0) > double.Epsilon))
+                                    if (!(Math.Abs(temp - 1.0) > typeMethods.r8_epsilon()))
                                     {
                                         continue;
                                     }
@@ -1141,7 +1141,7 @@ public static class BLAS3D
                     {
                         for (j = 0; j < n; j++)
                         {
-                            if (Math.Abs(alpha - 1.0) > double.Epsilon)
+                            if (Math.Abs(alpha - 1.0) > typeMethods.r8_epsilon())
                             {
                                 for (i = 0; i < m; i++)
                                 {
@@ -1176,7 +1176,7 @@ public static class BLAS3D
                     {
                         for (j = 0; j < n; j++)
                         {
-                            if (Math.Abs(alpha - 1.0) > double.Epsilon)
+                            if (Math.Abs(alpha - 1.0) > typeMethods.r8_epsilon())
                             {
                                 for (i = 0; i < m; i++)
                                 {
@@ -1273,7 +1273,7 @@ public static class BLAS3D
                     {
                         for (j = 0; j < n; j++)
                         {
-                            if (Math.Abs(alpha - 1.0) > double.Epsilon)
+                            if (Math.Abs(alpha - 1.0) > typeMethods.r8_epsilon())
                             {
                                 for (i = 0; i < m; i++)
                                 {
@@ -1315,7 +1315,7 @@ public static class BLAS3D
                     {
                         for (j = n - 1; 0 <= j; j--)
                         {
-                            if (Math.Abs(alpha - 1.0) > double.Epsilon)
+                            if (Math.Abs(alpha - 1.0) > typeMethods.r8_epsilon())
                             {
                                 for (i = 0; i < m; i++)
                                 {
@@ -1390,7 +1390,7 @@ public static class BLAS3D
                                         }
                                     }
 
-                                    if (!(Math.Abs(alpha - 1.0) > double.Epsilon))
+                                    if (!(Math.Abs(alpha - 1.0) > typeMethods.r8_epsilon()))
                                     {
                                         continue;
                                     }
@@ -1435,7 +1435,7 @@ public static class BLAS3D
                                         }
                                     }
 
-                                    if (!(Math.Abs(alpha - 1.0) > double.Epsilon))
+                                    if (!(Math.Abs(alpha - 1.0) > typeMethods.r8_epsilon()))
                                     {
                                         continue;
                                     }

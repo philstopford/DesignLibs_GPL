@@ -92,7 +92,7 @@ public static partial class typeMethods
             int j;
             for ( j = 1; j <= i - 1; j++ )
             {
-                if ( Math.Abs(x[i] - x[j]) <= double.Epsilon )
+                if ( Math.Abs(x[i] - x[j]) <= typeMethods.r8_epsilon() )
                 {
                     return false;
                 }
@@ -145,7 +145,7 @@ public static partial class typeMethods
     {
         int i;
 
-        if (Math.Abs(amax - amin) <= double.Epsilon)
+        if (Math.Abs(amax - amin) <= typeMethods.r8_epsilon())
         {
             for (i = 0; i < n; i++)
             {
@@ -161,7 +161,7 @@ public static partial class typeMethods
         double amin3 = r8vec_min(n, a);
         double amax3 = r8vec_max(n, a);
 
-        if (Math.Abs(amax3 - amin3) > double.Epsilon)
+        if (Math.Abs(amax3 - amin3) > typeMethods.r8_epsilon())
         {
             for (i = 0; i < n; i++)
             {
@@ -441,7 +441,7 @@ public static partial class typeMethods
         {
             isgn = -1;
         }
-        else if ( Math.Abs(a1[i-1] - a1[j-1]) <= double.Epsilon )
+        else if ( Math.Abs(a1[i-1] - a1[j-1]) <= typeMethods.r8_epsilon() )
         {
             if ( a2[i-1] < a2[j-1] )
             {
@@ -947,7 +947,7 @@ public static partial class typeMethods
                 a[startIndexA + (r - 1)] = a[startIndexA + l];
                 a[startIndexA + l] = temp;
             }
-            else if (Math.Abs(a[startIndexA + l] - key) <double.Epsilon)
+            else if (Math.Abs(a[startIndexA + l] - key) <typeMethods.r8_epsilon())
             {
                 m += 1;
                 temp = a[startIndexA + (m - 1)];
@@ -2178,7 +2178,7 @@ public static partial class typeMethods
         {
             int mid = (low + high) / 2;
 
-            if (Math.Abs(a[mid - 1] - aval) <= double.Epsilon)
+            if (Math.Abs(a[mid - 1] - aval) <= typeMethods.r8_epsilon())
             {
                 indx = mid;
                 break;

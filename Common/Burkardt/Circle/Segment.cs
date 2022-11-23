@@ -1074,7 +1074,7 @@ public static class Segment
                 return h;
         }
 
-        if (Math.Abs(area - area_circle) <= double.Epsilon)
+        if (Math.Abs(area - area_circle) <= typeMethods.r8_epsilon())
         {
             h = 2.0 * r;
             return h;

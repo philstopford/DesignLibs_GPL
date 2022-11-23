@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.Types;
 
 namespace Burkardt.BoxBehnkenNS;
 
@@ -91,7 +92,7 @@ public static class BoxBehnken
 
                 for (int i2 = 0; i2 < dim_num; i2++ )
                 {
-                    if ( Math.Abs(x[i2+j*dim_num] - range[i2+0*dim_num]) <= double.Epsilon )
+                    if ( Math.Abs(x[i2+j*dim_num] - range[i2+0*dim_num]) <= typeMethods.r8_epsilon() )
                     {
                         last_low = i2;
                     }
@@ -111,7 +112,7 @@ public static class BoxBehnken
 
                 for (int i2 = last_low + 1; i2 < dim_num; i2++ )
                 {
-                    if ( Math.Abs(x[i2+j*dim_num] - range[i2+1*dim_num]) <= double.Epsilon )
+                    if ( Math.Abs(x[i2+j*dim_num] - range[i2+1*dim_num]) <= typeMethods.r8_epsilon() )
                     {
                         x[i2+j*dim_num] = range[i2+0*dim_num];
                     }

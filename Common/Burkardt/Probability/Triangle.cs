@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.Types;
 using Burkardt.Uniform;
 
 namespace Burkardt.Probability;
@@ -42,7 +43,7 @@ public static class Triangle
         }
         else if (x <= b)
         {
-            if (Math.Abs(a - b) <= double.Epsilon)
+            if (Math.Abs(a - b) <= typeMethods.r8_epsilon())
             {
                 cdf = 0.0;
             }
@@ -164,7 +165,7 @@ public static class Triangle
             return false;
         }
 
-        if (!(Math.Abs(a - c) <= double.Epsilon))
+        if (!(Math.Abs(a - c) <= typeMethods.r8_epsilon()))
         {
             return true;
         }
@@ -255,7 +256,7 @@ public static class Triangle
         }
         else if (x <= b)
         {
-            if (Math.Abs(a - b) <= double.Epsilon)
+            if (Math.Abs(a - b) <= typeMethods.r8_epsilon())
             {
                 pdf = 0.0;
             }
@@ -266,7 +267,7 @@ public static class Triangle
         }
         else if (x <= c)
         {
-            if (Math.Abs(b - c) <= double.Epsilon)
+            if (Math.Abs(b - c) <= typeMethods.r8_epsilon())
             {
                 pdf = 0.0;
             }

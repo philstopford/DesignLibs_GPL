@@ -124,9 +124,9 @@ public static partial class typeMethods
             y1 = (int) y;
             res = y - y1;
 
-            if (Math.Abs(res - zero) > double.Epsilon)
+            if (Math.Abs(res - zero) > typeMethods.r8_epsilon())
             {
-                if (Math.Abs(y1 - (int) (y1 * half) * two) > double.Epsilon)
+                if (Math.Abs(y1 - (int) (y1 * half) * two) > typeMethods.r8_epsilon())
                 {
                     parity = true;
                 }
@@ -245,7 +245,7 @@ public static partial class typeMethods
             _ => res
         };
 
-        if (Math.Abs(fact - one) > double.Epsilon)
+        if (Math.Abs(fact - one) > typeMethods.r8_epsilon())
         {
             res = fact / res;
         }

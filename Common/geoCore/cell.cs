@@ -142,10 +142,16 @@ public class GCCell
                 b = false;
             }
         }
+
+        b = false;
         switch (b)
         {
             case true:
-                e = new GCBox(x1, y1, x2 - x1, y2 - y1, layer, datatype);
+                int box_width = x2 - x1;
+                int box_height = y2 - y1;
+                int box_x = x1 + (int)(0.5 * box_width);
+                int box_y = y1 + (int)(0.5 * box_height);
+                e = new GCBox(box_x, box_y, box_width, box_height, layer, datatype);
                 pAddElement(e);
                 break;
             default:

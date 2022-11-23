@@ -205,7 +205,7 @@ internal static class Program
         {
             for (i = 0; i < N; i++)
             {
-                if (Math.Abs(a[i + j * N] - huge) <= double.Epsilon)
+                if (Math.Abs(a[i + j * N] - huge) <= typeMethods.r8_epsilon())
                 {
                     a[i + j * N] = -1.0;
                 }

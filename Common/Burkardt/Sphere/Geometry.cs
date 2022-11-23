@@ -3580,7 +3580,7 @@ public static class Geometry
                     break;
             }
 
-            if (!(Math.Abs(lam1 - lam2) > double.Epsilon))
+            if (!(Math.Abs(lam1 - lam2) > typeMethods.r8_epsilon()))
             {
                 continue;
             }

@@ -114,7 +114,7 @@ public static partial class GeoWrangler
             double clipArea = Math.Abs(Clipper.Area(rationalizedSecondLayer[0]));
             double subjArea = Math.Abs(Clipper.Area(rationalizedFirstLayer[0]));
 
-            if (Math.Abs(overlapArea - clipArea) <= double.Epsilon || Math.Abs(overlapArea - subjArea) <= double.Epsilon)
+            if (Math.Abs(overlapArea - clipArea) <= constants.tolerance || Math.Abs(overlapArea - subjArea) <= constants.tolerance)
             {
                 result = true;
             }

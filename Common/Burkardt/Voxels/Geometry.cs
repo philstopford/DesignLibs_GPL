@@ -689,19 +689,19 @@ public static class Geometry
         //  Move to the new voxel.  Whichever index just made the half
         //  step must be forced to take a whole step.
         //
-        if (Math.Abs(alpha - alphai) <= double.Epsilon)
+        if (Math.Abs(alpha - alphai) <= typeMethods.r8_epsilon())
         {
             v3[0] = v2[0] + typeMethods.i4_sign(inc);
             v3[1] = v1[1] + (int) typeMethods.r8_nint(alpha * jnc);
             v3[2] = v1[2] + (int) typeMethods.r8_nint(alpha * knc);
         }
-        else if (Math.Abs(alpha - alphaj) <= double.Epsilon)
+        else if (Math.Abs(alpha - alphaj) <= typeMethods.r8_epsilon())
         {
             v3[0] = v1[0] + (int) typeMethods.r8_nint(alpha * inc);
             v3[1] = v2[1] + typeMethods.i4_sign(jnc);
             v3[2] = v1[2] + (int) typeMethods.r8_nint(alpha * knc);
         }
-        else if (Math.Abs(alpha - alphak) <= double.Epsilon)
+        else if (Math.Abs(alpha - alphak) <= typeMethods.r8_epsilon())
         {
             v3[0] = v1[0] + (int) typeMethods.r8_nint(alpha * inc);
             v3[1] = v1[1] + (int) typeMethods.r8_nint(alpha * jnc);

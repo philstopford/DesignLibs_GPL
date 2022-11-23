@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.Types;
 
 namespace Burkardt.CDFLib;
 
@@ -855,7 +856,7 @@ public static class E0000E0001
                 goto S100;
         }
 
-        switch (Math.Abs(data.e0001vars.c - data.e0001vars.a) > double.Epsilon)
+        switch (Math.Abs(data.e0001vars.c - data.e0001vars.a) > typeMethods.r8_epsilon())
         {
             case false:
                 goto S90;
@@ -967,7 +968,7 @@ public static class E0000E0001
 
         goto S70;
         S210:
-        switch (Math.Abs(data.e0001vars.w - data.e0001vars.mb) <= double.Epsilon)
+        switch (Math.Abs(data.e0001vars.w - data.e0001vars.mb) <= typeMethods.r8_epsilon())
         {
             case false:
                 goto S220;

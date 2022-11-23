@@ -99,7 +99,7 @@ public static class Ellipse
     {
         double value;
 
-        if (Math.Abs(r1 - r2) <= double.Epsilon)
+        if (Math.Abs(r1 - r2) <= typeMethods.r8_epsilon())
         {
             value = 2.0 * Math.PI * r1;
             return value;

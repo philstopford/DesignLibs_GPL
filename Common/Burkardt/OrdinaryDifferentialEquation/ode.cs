@@ -199,7 +199,7 @@ public static class ODE
                 return;
         }
 
-        if (Math.Abs(t - tout) <= double.Epsilon)
+        if (Math.Abs(t - tout) <= typeMethods.r8_epsilon())
         {
             iflag = 6;
             Console.WriteLine("");
@@ -244,7 +244,7 @@ public static class ODE
 
         if (iflag != 1)
         {
-            if (Math.Abs(t - told) > double.Epsilon)
+            if (Math.Abs(t - told) > typeMethods.r8_epsilon())
             {
                 iflag = 6;
                 Console.WriteLine("");
@@ -1095,7 +1095,7 @@ public static class ODE
             //  NS is the number of steps taken with size H, including the current
             //  one.  When K < NS, no coefficients change.
             //
-            if (Math.Abs(h - hold) > double.Epsilon)
+            if (Math.Abs(h - hold) > typeMethods.r8_epsilon())
             {
                 ns = 0;
             }

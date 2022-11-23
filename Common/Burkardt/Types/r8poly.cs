@@ -1075,7 +1075,7 @@ public static partial class typeMethods
         {
             for (j = 0; j < i; j++)
             {
-                if (!(Math.Abs(xpol[i] - xpol[j]) <= double.Epsilon))
+                if (!(Math.Abs(xpol[i] - xpol[j]) <= typeMethods.r8_epsilon()))
                 {
                     continue;
                 }
@@ -2430,12 +2430,12 @@ public static partial class typeMethods
         x = 0.0;
         y = 0.0;
 
-        if (Math.Abs(x1 - x2) <= double.Epsilon || Math.Abs(x2 - x3) <= double.Epsilon || Math.Abs(x3 - x1) <= double.Epsilon)
+        if (Math.Abs(x1 - x2) <= typeMethods.r8_epsilon() || Math.Abs(x2 - x3) <= typeMethods.r8_epsilon() || Math.Abs(x3 - x1) <= typeMethods.r8_epsilon())
         {
             return 1;
         }
 
-        if (Math.Abs(y1 - y2) <= double.Epsilon && Math.Abs(y2 - y3) <= double.Epsilon && Math.Abs(y3 - y1) <= double.Epsilon)
+        if (Math.Abs(y1 - y2) <= typeMethods.r8_epsilon() && Math.Abs(y2 - y3) <= typeMethods.r8_epsilon() && Math.Abs(y3 - y1) <= typeMethods.r8_epsilon())
         {
             x = x1;
             y = y1;
@@ -2513,12 +2513,12 @@ public static partial class typeMethods
         x = 0.0;
         y = 0.0;
 
-        if (Math.Abs(x1 - x2) <= double.Epsilon || Math.Abs(x2 - x3) <= double.Epsilon || Math.Abs(x3 - x1) <= double.Epsilon)
+        if (Math.Abs(x1 - x2) <= typeMethods.r8_epsilon() || Math.Abs(x2 - x3) <= typeMethods.r8_epsilon() || Math.Abs(x3 - x1) <= typeMethods.r8_epsilon())
         {
             return 1;
         }
 
-        if (Math.Abs(y1 - y2) <= double.Epsilon && Math.Abs(y2 - y3) <= double.Epsilon && Math.Abs(y3 - y1) <= double.Epsilon)
+        if (Math.Abs(y1 - y2) <= typeMethods.r8_epsilon() && Math.Abs(y2 - y3) <= typeMethods.r8_epsilon() && Math.Abs(y3 - y1) <= typeMethods.r8_epsilon())
         {
             x = x1;
             y = y1;
@@ -2728,15 +2728,15 @@ public static partial class typeMethods
             //
             //  If any X's are equal, put them and the Y data first.
             //
-            case <= double.Epsilon when Math.Abs(x2 - x3) <= double.Epsilon:
+            case <= typeMethods._r8_epsilon when Math.Abs(x2 - x3) <= typeMethods.r8_epsilon():
                 distinct = 1;
                 break;
-            case <= double.Epsilon:
+            case <= typeMethods._r8_epsilon:
                 distinct = 2;
                 break;
             default:
             {
-                if (Math.Abs(x1 - x3) <= double.Epsilon)
+                if (Math.Abs(x1 - x3) <= typeMethods.r8_epsilon())
                 {
                     Console.WriteLine("");
                     Console.WriteLine("R8POLY2_VAL - Fatal error!");
@@ -2744,7 +2744,7 @@ public static partial class typeMethods
                     return;
                 }
 
-                if (Math.Abs(x2 - x3) <= double.Epsilon)
+                if (Math.Abs(x2 - x3) <= typeMethods.r8_epsilon())
                 {
                     distinct = 2;
                     (x1, x3) = (x3, x1);

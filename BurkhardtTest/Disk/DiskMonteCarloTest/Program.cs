@@ -191,7 +191,7 @@ internal static class Program
 
         switch (center[0])
         {
-            case 0.0 when center[1] == 0.0 && Math.Abs(r - 1.0) <= double.Epsilon:
+            case 0.0 when center[1] == 0.0 && Math.Abs(r - 1.0) <= typeMethods.r8_epsilon():
             {
                 Console.WriteLine("");
                 string cout = "     Exact";

@@ -238,7 +238,7 @@ internal static class EllipseTest
             fmin = Math.Min(fmin, fxy);
         }
 
-        if (Math.Abs(fmax - fmin) <= double.Epsilon)
+        if (Math.Abs(fmax - fmin) <= typeMethods.r8_epsilon())
         {
             maxdev = 1.0;
         }
@@ -368,7 +368,7 @@ internal static class EllipseTest
     {
         double value;
 
-        if (Math.Abs(sigma2 - c2) <= double.Epsilon)
+        if (Math.Abs(sigma2 - c2) <= typeMethods.r8_epsilon())
         {
             value = 1.0;
         }
@@ -485,7 +485,7 @@ internal static class EllipseTest
     {
         double value;
 
-        if (Math.Abs(sigma2 - c2) <= double.Epsilon)
+        if (Math.Abs(sigma2 - c2) <= typeMethods.r8_epsilon())
         {
             value = (c1 - sigma1) / alpha;
         }

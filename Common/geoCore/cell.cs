@@ -145,7 +145,7 @@ public class GCCell
         switch (b)
         {
             case true:
-                e = new GCBox(x1, y1, x2 - x1 + 1, y2 - y1 + 1, layer, datatype);
+                e = new GCBox(x1, y1, x2 - x1, y2 - y1, layer, datatype);
                 pAddElement(e);
                 break;
             default:

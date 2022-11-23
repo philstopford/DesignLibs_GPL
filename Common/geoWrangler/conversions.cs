@@ -32,18 +32,13 @@ public static partial class GeoWrangler
         Path64 returnPath = new();
         try
         {
-            returnPath.AddRange(source.Select(t => new Point64(t)));
+            returnPath.AddRange(source.Select(t => new Point64(t.x * scaling, t.y * scaling)));
         }
         catch
         {
             // ignored
         }
-
-        if (scaling != 1.0)
-        {
-            returnPath = Clipper.ScalePath(returnPath, scaling);
-        }
-
+        
         // Close the shape
         if (length != source.Count)
         {
@@ -104,27 +99,25 @@ public static partial class GeoWrangler
         return returnPath;
     }
 
-/*
     public static Paths64 paths64FromPathsD(PathsD source, double scaling = 1.0)
     {
-        return pPaths64FromPathsD(source, scaling);
+        return _pPaths64FromPathsD(source, scaling);
     }
 
     public static Path64 path64FromPathD(PathD source, double scaling = 1.0)
     {
-        return pPath64FromPathD(source, scaling);
+        return _pPath64FromPathD(source, scaling);
     }
 
 
     public static PathsD pathsDFromPaths64(Paths64 source, double scaling = 1.0)
     {
-        return pPathsDFromPaths64(source, scaling);
+        return _pPathsDFromPaths64(source, scaling);
     }
 
     public static PathD pathDFromPath64(Path64 source, double scaling = 1.0)
     {
-        return pPathDFromPath64(source, scaling);
+        return _pPathDFromPath64(source, scaling);
     }
 
-    */
 }

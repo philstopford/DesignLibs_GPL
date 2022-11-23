@@ -3165,11 +3165,11 @@ internal class Program
 
         gcell.cellName = "test";
 
-        gcell.addPolygon(orig, 1, 0);
+        gcell.addPolygon(GeoWrangler.path64FromPathD(orig), 1, 0);
 
         for (int i = 0; i < decomped.Count; i++)
         {
-            gcell.addBox(decomped[i], 1, 1);
+            gcell.addBox(GeoWrangler.path64FromPathD(decomped[i]), 1, 1);
         }
 
         g.setDrawing(drawing_);

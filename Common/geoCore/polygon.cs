@@ -584,15 +584,15 @@ public class GCPolygon : GCElement
 
             for (int k = 0; k < i; k++)
             {
-                gw.bw.Write(cleaned[k].X);
-                gw.bw.Write(cleaned[k].Y);
+                gw.bw.Write((int)cleaned[k].X);
+                gw.bw.Write((int)cleaned[k].Y);
             }
 
             // close the polygon.
             if (!closedGeometry)
             {
-                gw.bw.Write(cleaned[0].X);
-                gw.bw.Write(cleaned[0].Y);
+                gw.bw.Write((int)cleaned[0].X);
+                gw.bw.Write((int)cleaned[0].Y);
             }
 
             // endel

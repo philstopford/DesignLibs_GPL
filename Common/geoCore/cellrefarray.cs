@@ -265,14 +265,14 @@ public class GCCellRefArray : GCElement
         gw.bw.Write((ushort)(3 * 2 * 4 + 4));
         gw.bw.Write((byte)0x10);
         gw.bw.Write((byte)3);
-        gw.bw.Write(point.X);
-        gw.bw.Write(point.Y);
+        gw.bw.Write((int)point.X);
+        gw.bw.Write((int)point.Y);
         Point64 pos = new(pitch.X * count_x + point.X, pitch.Y + point.Y);
-        gw.bw.Write(pos.X);
-        gw.bw.Write(pos.Y);
+        gw.bw.Write((int)pos.X);
+        gw.bw.Write((int)pos.Y);
         pos = new (pitch.X * +point.X, pitch.Y * count_y + point.Y);
-        gw.bw.Write(pos.X);
-        gw.bw.Write(pos.Y);
+        gw.bw.Write((int)pos.X);
+        gw.bw.Write((int)pos.Y);
         // endel
         gw.bw.Write((ushort)4);
         gw.bw.Write((byte)0x11);

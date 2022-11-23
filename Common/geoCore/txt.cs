@@ -246,8 +246,8 @@ public class GCTxt : GCElement
         gw.bw.Write((ushort)val);
         gw.bw.Write((byte)0x10);
         gw.bw.Write((byte)3);
-        gw.bw.Write(point.X);
-        gw.bw.Write(point.Y);
+        gw.bw.Write((int)point.X);
+        gw.bw.Write((int)point.Y);
         gw.writeString(name, 0x19);
         // endel
         gw.bw.Write((ushort)4);

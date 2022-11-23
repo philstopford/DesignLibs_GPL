@@ -333,8 +333,8 @@ public class GCCellref : GCElement
         gw.bw.Write((ushort)(2 * 4 + 4));
         gw.bw.Write((byte)0x10);
         gw.bw.Write((byte)3);
-        gw.bw.Write(point.X);
-        gw.bw.Write(point.Y);
+        gw.bw.Write((int)point.X);
+        gw.bw.Write((int)point.Y);
         // endel
         gw.bw.Write((ushort)4);
         gw.bw.Write((byte)0x11);

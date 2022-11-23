@@ -249,8 +249,8 @@ public class GCPath : GCElement
         gw.bw.Write((byte)3);
         for (int k = 0; k < i; k++)
         {
-            gw.bw.Write(pointarray[k].X);
-            gw.bw.Write(pointarray[k].Y);
+            gw.bw.Write((int)pointarray[k].X);
+            gw.bw.Write((int)pointarray[k].Y);
         }
         // endel
         gw.bw.Write((ushort)4);

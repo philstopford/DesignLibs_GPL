@@ -345,7 +345,8 @@ public static partial class GeoWrangler
         // edge = pExtendEdge(edge, keyhole_sizing);
 
         // Need to workaround missing PathD support in ClipperOffset...
-        double scalar = 10000;
+        double scalar = 1000;
+        double scalar_inv = 1.0 / scalar;
         Path64 rescaledSource = _pPath64FromPathD(edge, scalar);
 
         ClipperOffset co = new() {PreserveCollinear = true};
@@ -353,7 +354,7 @@ public static partial class GeoWrangler
         
         Paths64 tmp = co.Execute(2 * customSizing);
 
-        PathsD sPaths = _pPathsDFromPaths64(tmp, scalar);
+        PathsD sPaths = _pPathsDFromPaths64(tmp, scalar_inv);
 
         return pReorderXY(sPaths);
     }
@@ -483,7 +484,8 @@ public static partial class GeoWrangler
         customSizing *= extension;
         
         // Need to workaround missing PathD support in ClipperOffset...
-        double scalar = 10000;
+        double scalar = 1000;
+        double scalar_inv = 1.0 / 1000;
         Paths64 rescaledSource = _pPaths64FromPathsD(source, scalar);
 
         ClipperOffset co = new() {PreserveCollinear = true};
@@ -494,7 +496,7 @@ public static partial class GeoWrangler
         tmp.Clear();
         tmp = co.Execute(-customSizing); // Size back to original dimensions
 
-        PathsD cGeometry = _pPathsDFromPaths64(tmp, scalar);
+        PathsD cGeometry = _pPathsDFromPaths64(tmp, scalar_inv);
         
         cGeometry = pReorderXY(cGeometry);
         
@@ -525,7 +527,8 @@ public static partial class GeoWrangler
         double sourceArea = Clipper.Area(source);
 
         // Need to workaround missing PathD support in ClipperOffset...
-        double scalar = 10000;
+        double scalar = 1000;
+        double scalar_inv = 1.0 / 1000;
         Path64 rescaledSource = _pPath64FromPathD(source, scalar);
 
         ClipperOffset co = new() {PreserveCollinear = true};
@@ -536,7 +539,7 @@ public static partial class GeoWrangler
         tmp.Clear();
         tmp = co.Execute(-customSizing); // Size back to original dimensions
 
-        PathsD cGeometry = _pPathsDFromPaths64(tmp, scalar);
+        PathsD cGeometry = _pPathsDFromPaths64(tmp, scalar_inv);
 
         cGeometry = pReorderXY(cGeometry);
         

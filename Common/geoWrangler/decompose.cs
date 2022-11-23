@@ -470,14 +470,16 @@ public static partial class GeoWrangler
                 ClipperOffset co = new() {PreserveCollinear = true};
 
                 // Need to workaround missing PathD support in ClipperOffset...
-                double scalar = 10000;
+                double scalar = 1000;
+                double scalar_inv = 1.0 / scalar;
                 Paths64 rescaledSource = _pPaths64FromPathsD(newEdges, scalar);
                 
                 co.AddPaths(rescaledSource, JoinType.Miter, EndType.Square);
 
-                Paths64 tmp = co.Execute(2.0);
+                // Width is 2 for 1 unit each side (+/-), and the second value below is to balance the cut.
+                Paths64 tmp = co.Execute(2.0 * 0.01 * scalar);
 
-                PathsD cutters = _pPathsDFromPaths64(tmp, scalar);
+                PathsD cutters = _pPathsDFromPaths64(tmp, scalar_inv);
 
                 c.Clear();
 

@@ -572,13 +572,7 @@
   <component name="ChangeListManager">
     <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.DesignLibs/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DesignLibs/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/geoCore/cellref.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoCore/cellref.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/geoCore/cellrefarray.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoCore/cellrefarray.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/geoCore/path.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoCore/path.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/geoCore/polygon.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoCore/polygon.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/geoCore/txt.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoCore/txt.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/conversions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/conversions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/decompositionTest/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/decompositionTest/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/decompose.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/decompose.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -684,20 +678,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;XThreadsFramesViewSplitterKey&quot;: &quot;0.37176472&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/phil/Documents/tmp/DesignLibs_GPL/DesignLibs.sln&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "XThreadsFramesViewSplitterKey": "0.40599",
+    "last_opened_file_path": "/home/phil/Documents/tmp/DesignLibs_GPL/DesignLibs.sln",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected=".NET Project.decompositionTest">
     <configuration name="ASA005Test" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
@@ -11412,7 +11406,7 @@
       <workItem from="1669088628473" duration="1290000" />
       <workItem from="1669089966531" duration="5951000" />
       <workItem from="1669133727832" duration="4467000" />
-      <workItem from="1669140909507" duration="16408000" />
+      <workItem from="1669140909507" duration="18056000" />
     </task>
     <servers />
   </component>
@@ -11437,6 +11431,23 @@
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Common/geoWrangler/decompose.cs</url>
+          <line>491</line>
+          <properties documentPath="$PROJECT_DIR$/Common/geoWrangler/decompose.cs" initialLine="491" containingFunctionPresentation="method 'decompose_poly_to_rectangles'">
+            <startOffsets>
+              <option value="16017" />
+            </startOffsets>
+            <endOffsets>
+              <option value="16035" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="Frame#geoWrangler.GeoWrangler.decompose_poly_to_rectangles" memberName="lPoly" />

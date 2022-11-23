@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using Burkardt.Function;
+using Burkardt.Types;
 using Burkardt.WFunction;
 
 namespace TOMS743Test;

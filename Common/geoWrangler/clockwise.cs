@@ -56,12 +56,13 @@ public static partial class GeoWrangler
 
     private static PathD pClockwise(PathD iPoints)
     {
-        if (!pIsClockwise(iPoints))
+        PathD ret = new(iPoints);
+        if (!pIsClockwise(ret))
         {
-            iPoints.Reverse();
+            ret.Reverse();
         }
 
-        return iPoints;
+        return ret;
     }
 
     public static PathsD clockwise(PathsD source)
@@ -91,9 +92,9 @@ public static partial class GeoWrangler
 
     private static PathD pClockwiseAndReorderXY(PathD iPoints)
     {
-        iPoints = pClockwise(iPoints);
-        iPoints = pReorderXY(iPoints);
-        return iPoints;
+        PathD ret = pClockwise(iPoints);
+        ret = pReorderXY(ret);
+        return ret;
     }
     
     public static PathsD clockwiseAndReorderYX(PathsD iPoints)
@@ -118,8 +119,8 @@ public static partial class GeoWrangler
 
     private static PathD pClockwiseAndReorderYX(PathD iPoints)
     {
-        iPoints = pClockwise(iPoints);
-        iPoints = pReorderYX(iPoints);
-        return iPoints;
+        PathD ret = pClockwise(iPoints);
+        ret = pReorderYX(ret);
+        return ret;
     }
 }

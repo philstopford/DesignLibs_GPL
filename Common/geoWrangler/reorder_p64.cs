@@ -45,7 +45,7 @@ public static partial class GeoWrangler
 
         for (int i = 0; i < sourceCount; i++)
         {
-            ret.Add(source[(int)sortPoints[i].z]);
+            ret.Add(new(source[(int)sortPoints[i].z]));
         }
 
         return ret;
@@ -133,42 +133,38 @@ public static partial class GeoWrangler
 
         if (reIndexStart == 0)
         {
-            return iPoints;
+            return new(iPoints);
         }
 
+        Path64 tempList = new();
+        // Now to start the re-indexing.
+        for (int pt = reIndexStart; pt < iPoints.Count; pt++)
         {
-            Path64 tempList = new();
-            // Now to start the re-indexing.
-            for (int pt = reIndexStart; pt < iPoints.Count; pt++)
+            switch (tempList.Count)
             {
-                switch (tempList.Count)
-                {
-                    // Avoid adding duplicate vertices
-                    case > 1 when Math.Abs(tempList[^1].X - iPoints[pt].X) <= double.Epsilon && Math.Abs(tempList[^1].Y - iPoints[pt].Y) <= double.Epsilon:
-                        continue;
-                    default:
-                        tempList.Add(new (iPoints[pt]));
-                        break;
-                }
+                // Avoid adding duplicate vertices
+                case > 1 when Math.Abs(tempList[^1].X - iPoints[pt].X) <= double.Epsilon && Math.Abs(tempList[^1].Y - iPoints[pt].Y) <= double.Epsilon:
+                    continue;
+                default:
+                    tempList.Add(new (iPoints[pt]));
+                    break;
             }
-            // Ensure we close the shape by hitting the reIndexStart point again, since we will possibly have pushed it to the beginning of the shape.
-            for (int pt = 0; pt <= reIndexStart; pt++)
+        }
+        // Ensure we close the shape by hitting the reIndexStart point again, since we will possibly have pushed it to the beginning of the shape.
+        for (int pt = 0; pt <= reIndexStart; pt++)
+        {
+            switch (tempList.Count)
             {
-                switch (tempList.Count)
-                {
-                    // Avoid adding duplicate vertices
-                    case > 1 when Math.Abs(tempList[^1].X - iPoints[pt].X) <= double.Epsilon && Math.Abs(tempList[^1].Y - iPoints[pt].Y) <= double.Epsilon:
-                        continue;
-                    default:
-                        tempList.Add(new (iPoints[pt]));
-                        break;
-                }
+                // Avoid adding duplicate vertices
+                case > 1 when Math.Abs(tempList[^1].X - iPoints[pt].X) <= double.Epsilon && Math.Abs(tempList[^1].Y - iPoints[pt].Y) <= double.Epsilon:
+                    continue;
+                default:
+                    tempList.Add(new (iPoints[pt]));
+                    break;
             }
-
-            iPoints = new (tempList);
         }
 
-        return iPoints;
+        return new (tempList);
     }
     
     public static Path64 reOrderYX(Path64 iPoints)
@@ -207,7 +203,7 @@ public static partial class GeoWrangler
 
         if (reIndexStart == 0)
         {
-            return iPoints;
+            return new(iPoints);
         }
 
         Path64 tempList = new();
@@ -238,8 +234,6 @@ public static partial class GeoWrangler
             }
         }
 
-        iPoints = new(tempList);
-
-        return iPoints;
+        return new(tempList);
     }
 }

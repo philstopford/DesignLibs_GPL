@@ -45,7 +45,7 @@ public static partial class GeoWrangler
 
         for (int i = 0; i < sourceCount; i++)
         {
-            ret.Add(source[(int)sortPoints[i].z]);
+            ret.Add(new(source[(int)sortPoints[i].z]));
         }
 
         return ret;
@@ -207,7 +207,7 @@ public static partial class GeoWrangler
 
         if (reIndexStart == 0)
         {
-            return iPoints;
+            return new(iPoints);
         }
 
         PathD tempList = new();
@@ -238,8 +238,6 @@ public static partial class GeoWrangler
             }
         }
 
-        iPoints = new(tempList);
-
-        return iPoints;
+        return new(tempList);
     }
 }

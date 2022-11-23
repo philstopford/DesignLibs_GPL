@@ -18,7 +18,7 @@ public static partial class GeoWrangler
         {
             // essentially a zero rotation clamp at 0.01 degrees
             case < 1E-2:
-                return pointList;
+                return new(pointList);
         }
 
         int pointListLength = pointList.Count;
@@ -49,7 +49,7 @@ public static partial class GeoWrangler
         {
             // essentially a zero rotation clamp at 0.01 degrees
             case < 1E-2:
-                return point;
+                return new(point);
         }
 
         double angle = Utils.toRadians(angleDegree);
@@ -58,7 +58,6 @@ public static partial class GeoWrangler
         double y = pivot.Y + ((point.X - pivot.X) * Math.Sin(angle) +
                               (point.Y - pivot.Y) * Math.Cos(angle));
 
-        Point64 rotated = new(x, y, point.Z);
-        return rotated;
+        return new(x, y, point.Z);
     }
 }

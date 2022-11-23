@@ -11,7 +11,7 @@ public static partial class GeoWrangler
 
     private static double[] pAngles(PathD sourcePoly, bool allowNegative)
     {
-        PathD stripped = pStripTerminators(sourcePoly, false);
+        PathD stripped = pStripTerminators(new PathD(sourcePoly), false);
         int finalIndex = stripped.Count - 1;
 
         double[] angles = new double[stripped.Count];

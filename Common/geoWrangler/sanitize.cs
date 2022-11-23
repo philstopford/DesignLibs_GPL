@@ -116,7 +116,7 @@ public static partial class GeoWrangler
         }
         catch (Exception)
         {
-            return source;
+            return new(source);
         }
     }
 

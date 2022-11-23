@@ -57,7 +57,7 @@ public class Fragmenter
         PathD returnList = new();
         for (int pt = 0; pt < pointList.Count; pt++)
         {
-            returnList.Add(pointList[pt]);
+            returnList.Add(new(pointList[pt]));
             if (pt == pointList.Count - 1)
             {
                 continue;

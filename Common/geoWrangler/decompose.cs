@@ -49,7 +49,7 @@ public static partial class GeoWrangler
         switch (source.Count)
         {
             case < 1:
-                return source;
+                return new(source);
         }
 
         PathsD ret = new();
@@ -170,8 +170,9 @@ public static partial class GeoWrangler
         return pGetDecomposed(source);
     }
 
-    private static PathsD[] pGetDecomposed(PathsD source)
+    private static PathsD[] pGetDecomposed(PathsD source_)
     {
+        PathsD source = new(source_);
         PathsD[] ret = new PathsD[2];
         ret[0] = new ();
         ret[1] = new ();
@@ -206,8 +207,9 @@ public static partial class GeoWrangler
         return pRectangular_decomposition(ref abort, polys, maxRayLength, angularTolerance, vertical);
     }
 
-    private static PathsD pRectangular_decomposition(ref bool abort, PathsD polys, long maxRayLength, double angularTolerance, bool vertical)
+    private static PathsD pRectangular_decomposition(ref bool abort, PathsD polys_, long maxRayLength, double angularTolerance, bool vertical)
     {
+        PathsD polys = new(polys_);
         PathsD ret = new();
 
         foreach (PathD t in polys)
@@ -277,9 +279,9 @@ public static partial class GeoWrangler
         return ret;
     }
 
-    private static PathsD decompose_poly_to_rectangles(ref bool abort, PathD _poly, long maxRayLength, double angularTolerance, bool vertical)
+    private static PathsD decompose_poly_to_rectangles(ref bool abort, PathD poly, long maxRayLength, double angularTolerance, bool vertical)
     {
-        _poly = pClockwiseAndReorderXY(_poly);
+        PathD _poly = pClockwiseAndReorderXY(new PathD(poly));
         // Path64 lPoly = pathFromPoint(_poly, scaling);
 
         PathD lPoly = pClose(_poly);

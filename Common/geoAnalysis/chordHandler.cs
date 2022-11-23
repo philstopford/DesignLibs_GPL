@@ -363,8 +363,10 @@ public class ChordHandler
         chordHandlerLogic(aSource, bSource, resolution, subMode);
     }
 
-    private void chordHandlerLogic(PathsD aSource, PathsD bSource, double resolution, int subMode)
+    private void chordHandlerLogic(PathsD aSource_, PathsD bSource_, double resolution, int subMode)
     {
+        PathsD aSource = new(aSource_);
+        PathsD bSource = new(bSource_);
         a_chordPaths = new () {new() {new (0, 0)}, new() {new (0, 0)}};
         b_chordPaths = new () {new() {new (0, 0)}, new() {new (0, 0)}};
         aChordLengths = new[] {0.0, 0.0};

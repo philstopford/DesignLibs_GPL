@@ -35,7 +35,7 @@ public static partial class GeoWrangler
         switch (source.Count)
         {
             case < 1:
-                return source;
+                return new(source);
         }
 
         customSizing = customSizing switch
@@ -151,7 +151,7 @@ public static partial class GeoWrangler
         switch (ret.Count)
         {
             case 0:
-                return source; // something blew up. Send back the original geometry.
+                return new(source); // something blew up. Send back the original geometry.
             default:
 
                 // Remove any overlapping duplicate polygons.
@@ -243,7 +243,7 @@ public static partial class GeoWrangler
 
         if (cutPathIndex != -1)
         {
-            ret = edges[cutPathIndex];
+            ret = new(edges[cutPathIndex]);
         }
 
         return ret;
@@ -273,8 +273,10 @@ public static partial class GeoWrangler
         return new_outers;
     }
     
-    private static PathsD pMakeKeyHole(PathsD outers, PathsD cutters, bool reverseEval, bool biDirectionalEval, RayCast.inversionMode invert = RayCast.inversionMode.x, double customSizing = 0, double extension = 0, double angularTolerance = 0)
+    private static PathsD pMakeKeyHole(PathsD outers_, PathsD cutters_, bool reverseEval, bool biDirectionalEval, RayCast.inversionMode invert = RayCast.inversionMode.x, double customSizing = 0, double extension = 0, double angularTolerance = 0)
     {
+        PathsD outers = new(outers_);
+        PathsD cutters = new(cutters_);
         customSizing = customSizing switch
         {
             0 => keyhole_sizing,
@@ -332,7 +334,7 @@ public static partial class GeoWrangler
         }
     }
 
-    private static PathsD pInflateEdge(PathD edge, double customSizing)
+    private static PathsD pInflateEdge(PathD edge_, double customSizing)
     {
         customSizing = customSizing switch
         {
@@ -340,7 +342,7 @@ public static partial class GeoWrangler
             _ => customSizing
         };
         // Force clockwise, which should get us something consistent to work with.
-        edge = pClockwise(edge);
+        PathD edge = pClockwise(edge_);
 
         // edge = pExtendEdge(edge, keyhole_sizing);
 
@@ -383,7 +385,7 @@ public static partial class GeoWrangler
         {
             0 =>
                 // Probably not what we intended, so return the original as we assume the incoming geometry got crushed out of existence.
-                source,
+                new(source),
             _ => ret
         };
     }
@@ -398,7 +400,7 @@ public static partial class GeoWrangler
         switch (source.Count)
         {
             case < 1:
-                return source;
+                return new(source);
         }
 
         bool orig_orient_gw = isClockwise(source[0]);
@@ -409,7 +411,7 @@ public static partial class GeoWrangler
         switch (ret.Count)
         {
             case 0:
-                return source; // something blew up. Send back the original geometry.
+                return new(source); // something blew up. Send back the original geometry.
         }
 
         // Clean-up the geometry.
@@ -460,7 +462,7 @@ public static partial class GeoWrangler
 
         return (Math.Abs(oArea) - Math.Abs(nArea)) switch
         {
-            < 10000 => source,
+            < 10000 => new(source),
             _ => ret
         };
     }
@@ -512,13 +514,14 @@ public static partial class GeoWrangler
             <= double.Epsilon =>
                 // We crushed our geometry, it seems.
                 // This was probably not the plan, so send back the original geometry instead.
-                source,
+                new(source),
             _ => pReorderXY(cGeometry)
         };
     }
 
-    private static PathsD pRemoveFragments(PathD source, double customSizing, bool maySimplify = false, JoinType joinType = JoinType.Miter)
+    private static PathsD pRemoveFragments(PathD source_, double customSizing, bool maySimplify = false, JoinType joinType = JoinType.Miter)
     {
+        PathD source = new(source_);
         customSizing = customSizing switch
         {
             0 => keyhole_sizing,

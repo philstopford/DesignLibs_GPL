@@ -11,8 +11,9 @@ public static partial class GeoWrangler
         return pExtendEdges(edges, sizing);
     }
 
-    private static Paths64 pExtendEdges(Paths64 edges, double sizing)
+    private static Paths64 pExtendEdges(Paths64 edges_, double sizing)
     {
+        Paths64 edges = new(edges_);
         int sLength = edges.Count;
 #if !GWSINGLETHREADED
         Parallel.For(0, sLength, i =>

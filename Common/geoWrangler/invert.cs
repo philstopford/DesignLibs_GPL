@@ -53,8 +53,7 @@ public static partial class GeoWrangler
         switch (useTriangulation)
         {
             case false:
-                sourcePaths = cutters;
-                return sourcePaths;
+                return cutters;
             default:
                 return pMakeKeyHole(sourcePaths, reverseEval:false, biDirectionalEval:true);
         }

@@ -41,8 +41,10 @@ public class DistanceHandler
         distanceHandlerLogic(debugCalc, aPaths, bPaths, mode, scaleFactor, runThreaded);
     }
 
-    private void distanceHandlerLogic(bool debugCalc, PathsD aPaths, PathsD bPaths, int mode, int scaleFactor, bool runThreaded)
+    private void distanceHandlerLogic(bool debugCalc, PathsD aPaths_, PathsD bPaths_, int mode, int scaleFactor, bool runThreaded)
     {
+        PathsD aPaths = new (aPaths_);
+        PathsD bPaths = new (bPaths_);
         resultPaths = new ();
         // Safety check for no active layers.
         if (aPaths.Count == 1 && aPaths[0].Count == 1 ||

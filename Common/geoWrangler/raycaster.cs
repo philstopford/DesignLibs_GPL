@@ -42,7 +42,7 @@ public class RayCast
 
     private PathsD pGetRays()
     {
-        return castLines;
+        return new(castLines);
     }
 
     public PathsD getClippedRays()
@@ -52,7 +52,7 @@ public class RayCast
 
     private PathsD pGetClippedRays()
     {
-        return clippedLines;
+        return new(clippedLines);
     }
 
     public double getRayLength(int ray)
@@ -116,7 +116,7 @@ public class RayCast
                 }
             }
 
-            ret.normals[pt] = new PointD(-dx, -dy);
+            ret.normals[pt] = new (-dx, -dy);
 
             // Previous normal
             if (pt == 0)
@@ -137,7 +137,7 @@ public class RayCast
             }
             else
             {
-                ret.previousNormals[pt] = ret.normals[pt - 1];
+                ret.previousNormals[pt] = new(ret.normals[pt - 1]);
             }
         }
 
@@ -149,7 +149,7 @@ public class RayCast
 
     private PathsD pGenerateRays(PathD sourcePath, int index, long maxRayLength, bool projectCorners, inversionMode invert, int multisampleRayCount, falloff sideRayFallOff, double sideRayFallOffMultiplier, NormalsData nData, forceSingleDirection dirOverride)
     {
-        PointD startPoint = sourcePath[index];
+        PointD startPoint = new(sourcePath[index]);
         
         PathsD rays = new();
 
@@ -191,9 +191,7 @@ public class RayCast
             endPoint.z = (long)1E4;
         }
         
-        PathD line = new() {new (startPoint), new (endPoint)};
-        
-        rays.Add(line);
+        rays.Add(new() {new (startPoint), new (endPoint)});
 
         double angleStep = 90.0f / (1 + multisampleRayCount);
 
@@ -202,7 +200,7 @@ public class RayCast
             // Add more samples, each n-degrees rotated from the nominal ray
             double rayAngle = (sample + 1) * angleStep;
 
-            PointD endPoint_f = endPoint;
+            PointD endPoint_f = new(endPoint);
 
             double weight_val = 1.0f;
             switch (sideRayFallOff)
@@ -255,10 +253,8 @@ public class RayCast
             PointD endPoint2 = GeoWrangler.Rotate(startPoint, endPoint_f, -rayAngle);
 
             // The order of line1 below is important, but I'm not yet sure why. If you change it, the expansion becomes asymmetrical on a square (lower section gets squashed).
-            PathD line1 = new() {new (endPoint1), new (sPoint)};
-            rays.Add(line1);
-            PathD line2 = new() {new (sPoint), new (endPoint2)};
-            rays.Add(line2);
+            rays.Add(new() {new (endPoint1), new (sPoint)});
+            rays.Add(new() {new (sPoint), new (endPoint2)});
         }
 
         return rays;
@@ -267,8 +263,8 @@ public class RayCast
     private PointD pGetAveragedNormal(NormalsData nData, int index, bool projectCorners, inversionMode invert, forceSingleDirection dirOverride)
     {
         PointD averagedEdgeNormal;
-        PointD currentEdgeNormal = nData.normals[index];
-        PointD previousEdgeNormal = nData.previousNormals[index];
+        PointD currentEdgeNormal = new(nData.normals[index]);
+        PointD previousEdgeNormal = new(nData.previousNormals[index]);
 
         // Get average angle for this vertex based on angles from line segments.
         // http://stackoverflow.com/questions/1243614/how-do-i-calculate-the-normal-vector-of-a-line-segment
@@ -382,7 +378,7 @@ public class RayCast
                 switch (index)
                 {
                     case >= 0:
-                        tPath = ray[index];
+                        tPath = new(ray[index]);
                         break;
                     default:
                         tPath.Add(startPoint);
@@ -565,8 +561,7 @@ public class RayCast
             Monitor.Enter(castLinesLock);
             try
             {
-                castLines_[pt] = new ();
-                castLines_[pt].AddRange(rays);
+                castLines_[pt] = new (rays);
             }
             finally
             {
@@ -585,7 +580,7 @@ public class RayCast
                 }
             );
 
-            PathD resultPath = new() {startPoint};
+            PathD resultPath = new() {new(startPoint)};
 
             ResultData rData = pComputeWeightedResult(sideRayFallOff, ref resultX, ref resultY, ref weight);
 
@@ -593,7 +588,7 @@ public class RayCast
             Monitor.Enter(clippedLinesLock);
             try
             {
-                clippedLines_[pt] = resultPath;
+                clippedLines_[pt] = new(resultPath);
             }
             finally
             {

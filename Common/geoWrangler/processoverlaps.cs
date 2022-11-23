@@ -7,8 +7,9 @@ namespace geoWrangler;
 
 public static class ProcessOverlaps
 {
-    public static GeometryResult processOverlaps(PathsD sourceData, List<bool> drawn, double extension, double resolution, double customSizing = 0, bool forceOverride = false, FillRule pft = FillRule.NonZero)
+    public static GeometryResult processOverlaps(PathsD sourceData_, List<bool> drawn, double extension, double resolution, double customSizing = 0, bool forceOverride = false, FillRule pft = FillRule.NonZero)
     {
+        PathsD sourceData = new(sourceData_);
         // Filter drawn, process those, then do not-drawn. This allows for element counts to change.
         PathsD drawnStuff = new();
         PathsD notDrawnStuff = new();
@@ -55,7 +56,7 @@ public static class ProcessOverlaps
     {
         if (sourceData.Count == 0)
         {
-            return sourceData;
+            return new(sourceData);
         }
         try
         {
@@ -169,7 +170,7 @@ public static class ProcessOverlaps
         }
         catch (Exception)
         {
-            return sourceData;
+            return new(sourceData);
         }
     }
     

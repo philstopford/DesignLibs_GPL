@@ -22,11 +22,13 @@ public static partial class GeoWrangler
             case < 1:
                 return source;
         }
+
+        Path64 ret = new(source);
         if (Math.Abs(source[0].X - source[^1].X) > double.Epsilon || Math.Abs(source[0].Y - source[^1].Y) > double.Epsilon)
         {
-            source.Add(new (source[0]));
+            ret.Add(new (source[0]));
         }
-        return source;
+        return ret;
     }
     
     private static Paths64 pClose(Paths64 source)

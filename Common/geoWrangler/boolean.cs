@@ -13,8 +13,10 @@ public static partial class GeoWrangler
         return ret;
     }
 
-    private static PathsD pCustomBoolean(int firstLayerOperator, PathsD firstLayer, int secondLayerOperator, PathsD secondLayer, int booleanFlag, double resolution, double extension)
+    private static PathsD pCustomBoolean(int firstLayerOperator, PathsD firstLayer_, int secondLayerOperator, PathsD secondLayer_, int booleanFlag, double resolution, double extension)
     {
+        PathsD firstLayer = new (firstLayer_);
+        PathsD secondLayer = new (secondLayer_);
         // In principle, 'rigorous' handling is only needed where the cutter is fully enclosed by the subject polygon.
         // The challenge is to know whether this is the case or not.
         // Possibility would be an intersection test and a vertex count and location comparison from before and after, to see whether anything changed.
@@ -144,13 +146,14 @@ public static partial class GeoWrangler
         return pLayerBoolean(firstLayerOperator, firstLayerPaths, secondLayerOperator,
             secondLayerPaths, booleanFlag, preserveColinear);
     }
-    private static PathsD pLayerBoolean(int firstLayerOperator, PathsD firstLayerPaths, int secondLayerOperator, PathsD secondLayerPaths, int booleanFlag, bool preserveColinear)
+    private static PathsD pLayerBoolean(int firstLayerOperator, PathsD firstLayerPaths_, int secondLayerOperator, PathsD secondLayerPaths_, int booleanFlag, bool preserveColinear)
     {
+        PathsD firstLayerPaths = new(firstLayerPaths_);
         if (firstLayerOperator == 1) // NOT layer handling
         {
             try
             {
-                firstLayerPaths = new (invertTone(firstLayerPaths, preserveColinear: preserveColinear));
+                firstLayerPaths = new (invertTone(firstLayerPaths_, preserveColinear: preserveColinear));
             }
             catch (Exception)
             {
@@ -159,6 +162,7 @@ public static partial class GeoWrangler
             firstLayerPaths[0] = close(firstLayerPaths[0]);
         }
 
+        PathsD secondLayerPaths = new(secondLayerPaths_);
         if (secondLayerOperator == 1) // NOT layer handling
         {
             try

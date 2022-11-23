@@ -84,10 +84,10 @@ public static partial class GeoWrangler
         switch (source.Count)
         {
             case < 3:
-                return source;
+                return new(source);
         }
 
-        Path64 ret = new();
+        Path64 ret = new(source);
 
         for (int pt = 0; pt < source.Count; pt++)
         {
@@ -96,23 +96,23 @@ public static partial class GeoWrangler
             {
                 // Assess angle.
                 case 0:
-                    interSection_B = source[^1]; // map to last point
-                    interSection_C = source[pt];
-                    interSection_A = source[pt + 1];
+                    interSection_B = new(ret[^1]); // map to last point
+                    interSection_C = new(ret[pt]);
+                    interSection_A = new(ret[pt + 1]);
                     break;
                 default:
                 {
                     if (pt == source.Count - 1) // last point in the list
                     {
-                        interSection_B = source[pt - 1];
-                        interSection_C = source[pt];
-                        interSection_A = source[0]; // map to the first point
+                        interSection_B = new(ret[pt - 1]);
+                        interSection_C = new(ret[pt]);
+                        interSection_A = new(ret[0]); // map to the first point
                     }
                     else
                     {
-                        interSection_B = source[pt - 1];
-                        interSection_C = source[pt];
-                        interSection_A = source[pt + 1];
+                        interSection_B = new(ret[pt - 1]);
+                        interSection_C = new(ret[pt]);
+                        interSection_A = new(ret[pt + 1]);
                     }
 
                     break;
@@ -133,7 +133,7 @@ public static partial class GeoWrangler
             switch (addPoint)
             {
                 case true:
-                    ret.Add(new (source[pt]));
+                    ret.Add(new (ret[pt]));
                     break;
             }
         }
@@ -145,30 +145,31 @@ public static partial class GeoWrangler
         return pStripTerminators(source, keepLast);
     }
     
-    private static Path64 pStripTerminators(Path64 source, bool keepLast)
+    private static Path64 pStripTerminators(Path64 source_, bool keepLast)
     {
+        Path64 ret = new(source_);
         bool firstLast_same = false;
-        int pt_Check = source.Count - 1;
-        if (distanceBetweenPoints(source[pt_Check], source[0]) < 0.01)
+        int pt_Check = ret.Count - 1;
+        if (distanceBetweenPoints(ret[pt_Check], ret[0]) < 0.01)
         {
             firstLast_same = true; // remove duplicated points. The shape will be closed later.
         }
         while (firstLast_same)
         {
-            source.RemoveAt(pt_Check); // remove duplicated points. The shape will be closed later
+            ret.RemoveAt(pt_Check); // remove duplicated points. The shape will be closed later
             pt_Check--;
-            if (distanceBetweenPoints(source[pt_Check], source[0]) > 0.01)
+            if (distanceBetweenPoints(ret[pt_Check], ret[0]) > 0.01)
             {
                 firstLast_same = false; // stop at the first unmatched point.
             }
         }
 
-        source = keepLast switch
+        ret = keepLast switch
         {
-            true => pClose(source),
-            _ => source
+            true => pClose(ret),
+            _ => ret
         };
 
-        return source;
+        return ret;
     }
 }

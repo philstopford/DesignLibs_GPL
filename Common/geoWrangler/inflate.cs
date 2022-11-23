@@ -12,8 +12,9 @@ public static partial class GeoWrangler
         return pExtendEdges(edges, sizing);
     }
 
-    private static PathsD pExtendEdges(PathsD edges, double sizing)
+    private static PathsD pExtendEdges(PathsD edges_, double sizing)
     {
+        PathsD edges = new(edges_);
         int sLength = edges.Count;
 #if !GWSINGLETHREADED
         Parallel.For(0, sLength, i =>
@@ -90,7 +91,7 @@ public static partial class GeoWrangler
         switch (width)
         {
             case 0:
-                return source;
+                return new(source);
         }
 
         

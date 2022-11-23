@@ -20,13 +20,15 @@ public static partial class GeoWrangler
         switch (source.Count)
         {
             case < 1:
-                return source;
+                return new(source);
         }
+
+        PathD ret = new(source);
         if (Math.Abs(source[0].x - source[^1].x) > double.Epsilon || Math.Abs(source[0].y - source[^1].y) > double.Epsilon)
         {
-            source.Add(new (source[0]));
+            ret.Add(new (source[0]));
         }
-        return source;
+        return ret;
     }
     
     private static PathsD pClose(PathsD source)

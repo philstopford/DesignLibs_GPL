@@ -704,7 +704,7 @@ internal class Program
     private static void partThree()
     {
         System.Diagnostics.Stopwatch sw = new();
-        int rayLength = 10000;
+        int rayLength = 1000;
 
         Console.WriteLine("  Preparing....");
         sw.Start();

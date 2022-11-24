@@ -212,7 +212,7 @@ public static partial class GeoWrangler
             // Otherwise, we don't care and will take the minimum internal edge.
             if (orthogonalInput)
             {
-                bool ray_isOrtho = edges[r][0].x == edges[r][1].x || edges[r][0].y == edges[r][1].y;
+                bool ray_isOrtho = Math.Abs(edges[r][0].x - edges[r][1].x) < constants.tolerance || Math.Abs(edges[r][0].y - edges[r][1].y) < constants.tolerance;
                 if (minLength_ortho && !ray_isOrtho)
                 {
                     // Don't replace an orthogonal ray with a non-orthogonal ray.

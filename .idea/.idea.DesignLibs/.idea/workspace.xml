@@ -572,140 +572,12 @@
   <component name="ChangeListManager">
     <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.DesignLibs/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DesignLibs/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BurkhardtTest/ComboTest/r8vec.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BurkhardtTest/ComboTest/r8vec.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BurkhardtTest/Disk/DiskMonteCarloTest/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BurkhardtTest/Disk/DiskMonteCarloTest/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BurkhardtTest/FeynmanKac/FeynmanKac3DTest/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BurkhardtTest/FeynmanKac/FeynmanKac3DTest/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BurkhardtTest/FloydTest/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BurkhardtTest/FloydTest/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BurkhardtTest/SubsetTest/r8Test.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BurkhardtTest/SubsetTest/r8Test.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BurkhardtTest/TOMS/TOMS097Test/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BurkhardtTest/TOMS/TOMS097Test/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BurkhardtTest/TOMS/TOMS743Test/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BurkhardtTest/TOMS/TOMS743Test/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BurkhardtTest/TOMS/TOMS886Test/Ellipse.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BurkhardtTest/TOMS/TOMS886Test/Ellipse.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BurkhardtTest/TOMS/TOMS886Test/Rectangle.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BurkhardtTest/TOMS/TOMS886Test/Rectangle.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BurkhardtTest/TOMS/TOMS886Test/Triangle.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BurkhardtTest/TOMS/TOMS886Test/Triangle.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BurkhardtTest/Tiler3D/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BurkhardtTest/Tiler3D/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BurkhardtTest/nIntExactnessTest/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BurkhardtTest/nIntExactnessTest/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/AppliedStatisticsAlgorithms/ASA109.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/AppliedStatisticsAlgorithms/ASA109.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/BLAS/BLAS1D.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/BLAS/BLAS1D.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/BLAS/BLAS2D.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/BLAS/BLAS2D.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/BLAS/BLAS3D.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/BLAS/BLAS3D.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Bisection/BisectionRC.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Bisection/BisectionRC.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/BoxBehnken.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/BoxBehnken.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/CDF/E0000_E0001.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/CDF/E0000_E0001.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/CDF/gamma.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/CDF/gamma.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Circle/Segment.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Circle/Segment.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Ellipsoid/Grid.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Ellipsoid/Grid.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/FEM/Div.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/FEM/Div.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/FEM/Grid.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/FEM/Grid.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/FullertonFnLib/r8_b_.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/FullertonFnLib/r8_b_.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/FullertonFnLib/r8_g_.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/FullertonFnLib/r8_g_.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/FullertonFnLib/r8_m_.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/FullertonFnLib/r8_m_.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/FullertonFnLib/r8_p_.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/FullertonFnLib/r8_p_.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Function/BesselJ.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Function/BesselJ.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Function/Bins.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Function/Bins.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Function/NBITS.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Function/NBITS.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/GMesh/GMeshIO.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/GMesh/GMeshIO.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Geometry/LocalMinimum.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Geometry/LocalMinimum.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Geometry/Segments.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Geometry/Segments.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Grid/Poisson.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Grid/Poisson.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Helpers.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Helpers.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Integral/Filon.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Integral/Filon.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Interpolation/BarycentricInterp1D.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Interpolation/BarycentricInterp1D.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Interpolation/Lagrange.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Interpolation/Lagrange.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Lagrange/Lagrange1D.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Lagrange/Lagrange1D.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Laguerre/p20.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Laguerre/p20.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Line/Geometry.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Line/Geometry.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Line/Line.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Line/Line.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Linpack/DQRDC.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Linpack/DQRDC.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Linpack/ZQRDC.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Linpack/ZQRDC.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Linpack/ZSVDC.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Linpack/ZSVDC.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Matrix/DSVDC.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Matrix/DSVDC.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Matrix/TQL2.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Matrix/TQL2.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/OrdinaryDifferentialEquation/RungeKuttaFehlberg/rkf45.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/OrdinaryDifferentialEquation/RungeKuttaFehlberg/rkf45.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/OrdinaryDifferentialEquation/ode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/OrdinaryDifferentialEquation/ode.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/PDF/r8.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/PDF/r8.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Parabola/Geometry.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Parabola/Geometry.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Plane/Geometry.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Plane/Geometry.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Points/Geometry.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Points/Geometry.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Points/Points.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Points/Points.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Polygon/Geometry.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Polygon/Geometry.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Polygon/MonteCarlo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Polygon/MonteCarlo.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Polygon/Properties.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Polygon/Properties.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Polygon/Triangulate.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Polygon/Triangulate.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Polynomial/BernsteinPolynomial.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Polynomial/BernsteinPolynomial.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Probability/Beta.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Probability/Beta.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Probability/Chi.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Probability/Chi.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Probability/EmpiricalDiscrete.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Probability/EmpiricalDiscrete.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Probability/Ribesl.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Probability/Ribesl.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Probability/Triangle.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Probability/Triangle.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Ranking/Knapsack.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Ranking/Knapsack.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Rational.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Rational.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Sequences/Jacobi.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Sequences/Jacobi.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Solve/BisectionRC.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Solve/BisectionRC.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Solve/LocalMinimum.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Solve/LocalMinimum.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Solve/QRSolve.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Solve/QRSolve.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Solve/RestartedGeneralizedMinimumResidual.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Solve/RestartedGeneralizedMinimumResidual.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Solve/RootRC.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Solve/RootRC.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Solve/Zero.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Solve/Zero.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Solve/zerorc.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Solve/zerorc.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Sparse/Grid.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Sparse/Grid.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Sparse/Grid_GaussLegendre.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Sparse/Grid_GaussLegendre.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Sparse/Grid_Hermite.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Sparse/Grid_Hermite.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Sparse/Grid_NodesWeights.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Sparse/Grid_NodesWeights.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Sparse/SGMGAniso.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Sparse/SGMGAniso.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Sparse/SparseRule.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Sparse/SparseRule.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Sphere/Geometry.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Sphere/Geometry.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Spline/Linear.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Spline/Linear.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Stroud/Cube.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Stroud/Cube.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Stroud/Ellipse.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Stroud/Ellipse.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Stroud/Rectangle.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Stroud/Rectangle.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Stroud/Sphere.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Stroud/Sphere.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/TOMS/TOMS179.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/TOMS/TOMS179.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/TOMS/TOMS243.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/TOMS/TOMS243.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/TOMS/TOMS917.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/TOMS/TOMS917.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Tube/Geometry.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Tube/Geometry.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Types/c4.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Types/c4.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Types/points.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Types/points.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Types/r8.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Types/r8.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Types/r82poly.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Types/r82poly.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Types/r82row.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Types/r82row.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Types/r82vec.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Types/r82vec.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Types/r8_gamma.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Types/r8_gamma.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Types/r8_hyper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Types/r8_hyper.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Types/r8_is.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Types/r8_is.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Types/r8col.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Types/r8col.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Types/r8interval.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Types/r8interval.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Types/r8mat.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Types/r8mat.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Types/r8mat_is.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Types/r8mat_is.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Types/r8pbu.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Types/r8pbu.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Types/r8poly.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Types/r8poly.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Types/r8vec.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Types/r8vec.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_bin.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_bin.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_bracket.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_bracket.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_comparison.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_comparison.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_index.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_index.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_is.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_is.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_mirror.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_mirror.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_mm.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_mm.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_order.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_order.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_sort.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Types/r8vec_sort.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Types/r8vm.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Types/r8vm.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/Voxels/Geometry.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/Voxels/Geometry.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Burkardt/WFunction/WAPR.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Burkardt/WFunction/WAPR.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/geoCore/cell.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoCore/cell.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/geoLib/GeoLibRect.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoLib/GeoLibRect.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/clockwise.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/clockwise.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/close.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/close.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/close_p64.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/close_p64.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/constants.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/constants.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/conversions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/conversions.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Common/geoWrangler/decompose.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/decompose.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/inflate.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/inflate.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/inflate_p64.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/inflate_p64.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Common/geoWrangler/keyhole.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/keyhole.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/processoverlaps.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/processoverlaps.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/query_enclosed.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/query_enclosed.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/reorder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/reorder.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/reorder_p64.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/reorder_p64.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/strip.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/strip.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/strip_p64.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/strip_p64.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/raycaster.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/raycaster.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/decompositionTest/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/decompositionTest/Program.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -724,6 +596,88 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/1f37ad4aa02441539d05eed61577511d94de00/1b/c640e62f/ThrowHelper.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/1f37ad4aa02441539d05eed61577511d94de00/24/342777ba/Interop.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BurkhardtTest/FEM/FEM1DBVPTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
@@ -11540,7 +11494,7 @@
       <workItem from="1669089966531" duration="5951000" />
       <workItem from="1669133727832" duration="4467000" />
       <workItem from="1669140909507" duration="18056000" />
-      <workItem from="1669228740994" duration="7324000" />
+      <workItem from="1669228740994" duration="14943000" />
     </task>
     <servers />
   </component>
@@ -11565,6 +11519,218 @@
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/decompositionTest/Program.cs</url>
+          <line>2899</line>
+          <properties documentPath="$PROJECT_DIR$/decompositionTest/Program.cs" initialLine="2899" containingFunctionPresentation="method 'partThree'">
+            <startOffsets>
+              <option value="97138" />
+            </startOffsets>
+            <endOffsets>
+              <option value="97230" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="32" />
+        </line-breakpoint>
+        <line-breakpoint type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/decompositionTest/Program.cs</url>
+          <line>2903</line>
+          <properties documentPath="$PROJECT_DIR$/decompositionTest/Program.cs" initialLine="2903" containingFunctionPresentation="method 'partThree'">
+            <startOffsets>
+              <option value="97270" />
+            </startOffsets>
+            <endOffsets>
+              <option value="97280" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="39" />
+        </line-breakpoint>
+        <line-breakpoint type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Common/geoWrangler/decompose.cs</url>
+          <line>255</line>
+          <properties documentPath="$PROJECT_DIR$/Common/geoWrangler/decompose.cs" initialLine="255" containingFunctionPresentation="method 'pRectangular_decomposition'">
+            <startOffsets>
+              <option value="7678" />
+            </startOffsets>
+            <endOffsets>
+              <option value="7790" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="41" />
+        </line-breakpoint>
+        <line-breakpoint type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Common/geoWrangler/decompose.cs</url>
+          <line>286</line>
+          <properties documentPath="$PROJECT_DIR$/Common/geoWrangler/decompose.cs" initialLine="286" containingFunctionPresentation="method 'decompose_poly_to_rectangles'">
+            <startOffsets>
+              <option value="8994" />
+            </startOffsets>
+            <endOffsets>
+              <option value="9022" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="42" />
+        </line-breakpoint>
+        <line-breakpoint type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Common/geoWrangler/decompose.cs</url>
+          <line>288</line>
+          <properties documentPath="$PROJECT_DIR$/Common/geoWrangler/decompose.cs" initialLine="288" containingFunctionPresentation="method 'decompose_poly_to_rectangles'">
+            <startOffsets>
+              <option value="9032" />
+            </startOffsets>
+            <endOffsets>
+              <option value="9052" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="43" />
+        </line-breakpoint>
+        <line-breakpoint type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Common/geoWrangler/decompose.cs</url>
+          <line>295</line>
+          <properties documentPath="$PROJECT_DIR$/Common/geoWrangler/decompose.cs" initialLine="295" containingFunctionPresentation="method 'decompose_poly_to_rectangles'">
+            <startOffsets>
+              <option value="9302" />
+            </startOffsets>
+            <endOffsets>
+              <option value="9562" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="44" />
+        </line-breakpoint>
+        <line-breakpoint type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Common/geoWrangler/decompose.cs</url>
+          <line>291</line>
+          <properties documentPath="$PROJECT_DIR$/Common/geoWrangler/decompose.cs" initialLine="291" containingFunctionPresentation="method 'decompose_poly_to_rectangles'">
+            <startOffsets>
+              <option value="9165" />
+            </startOffsets>
+            <endOffsets>
+              <option value="9189" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="45" />
+        </line-breakpoint>
+        <line-breakpoint type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Common/geoWrangler/raycaster.cs</url>
+          <line>318</line>
+          <properties documentPath="$PROJECT_DIR$/Common/geoWrangler/raycaster.cs" initialLine="318" containingFunctionPresentation="method 'pCutRay'">
+            <startOffsets>
+              <option value="12363" />
+            </startOffsets>
+            <endOffsets>
+              <option value="12378" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="51" />
+        </line-breakpoint>
+        <line-breakpoint type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Common/geoWrangler/raycaster.cs</url>
+          <line>331</line>
+          <properties documentPath="$PROJECT_DIR$/Common/geoWrangler/raycaster.cs" initialLine="324" containingFunctionPresentation="method 'pCutRay'">
+            <startOffsets>
+              <option value="12719" />
+            </startOffsets>
+            <endOffsets>
+              <option value="12785" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="54" />
+        </line-breakpoint>
+        <line-breakpoint type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Common/geoWrangler/raycaster.cs</url>
+          <line>327</line>
+          <properties documentPath="$PROJECT_DIR$/Common/geoWrangler/raycaster.cs" initialLine="327" containingFunctionPresentation="method 'pCutRay'">
+            <startOffsets>
+              <option value="12629" />
+            </startOffsets>
+            <endOffsets>
+              <option value="12641" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="55" />
+        </line-breakpoint>
+        <line-breakpoint type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Common/geoWrangler/raycaster.cs</url>
+          <line>323</line>
+          <properties documentPath="$PROJECT_DIR$/Common/geoWrangler/raycaster.cs" initialLine="323" containingFunctionPresentation="method 'pCutRay'">
+            <startOffsets>
+              <option value="12468" />
+            </startOffsets>
+            <endOffsets>
+              <option value="12536" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="56" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Common/geoWrangler/raycaster.cs</url>
+          <line>346</line>
+          <properties documentPath="$PROJECT_DIR$/Common/geoWrangler/raycaster.cs" initialLine="346" containingFunctionPresentation="method 'pEvaluateCutRay'">
+            <startOffsets>
+              <option value="13246" />
+            </startOffsets>
+            <endOffsets>
+              <option value="13265" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="63" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Common/geoWrangler/raycaster.cs</url>
+          <line>400</line>
+          <properties documentPath="$PROJECT_DIR$/Common/geoWrangler/raycaster.cs" initialLine="400" containingFunctionPresentation="method 'pEvaluateCutRay'">
+            <startOffsets>
+              <option value="15222" />
+            </startOffsets>
+            <endOffsets>
+              <option value="15245" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="64" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Common/geoWrangler/raycaster.cs</url>
+          <line>405</line>
+          <properties documentPath="$PROJECT_DIR$/Common/geoWrangler/raycaster.cs" initialLine="405" containingFunctionPresentation="method 'pEvaluateCutRay'">
+            <startOffsets>
+              <option value="15398" />
+            </startOffsets>
+            <endOffsets>
+              <option value="15525" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="65" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Common/geoWrangler/raycaster.cs</url>
+          <line>425</line>
+          <properties documentPath="$PROJECT_DIR$/Common/geoWrangler/raycaster.cs" initialLine="425" containingFunctionPresentation="method 'pEvaluateCutRay'">
+            <startOffsets>
+              <option value="16289" />
+            </startOffsets>
+            <endOffsets>
+              <option value="16325" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="66" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Common/geoWrangler/raycaster.cs</url>
+          <line>342</line>
+          <properties documentPath="$PROJECT_DIR$/Common/geoWrangler/raycaster.cs" initialLine="342" containingFunctionPresentation="method 'pEvaluateCutRay'">
+            <startOffsets>
+              <option value="13065" />
+            </startOffsets>
+            <endOffsets>
+              <option value="13107" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="67" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="Frame#geoWrangler.GeoWrangler.decompose_poly_to_rectangles" memberName="lPoly" />

@@ -379,7 +379,7 @@ public static partial class GeoWrangler
                     {
                         case true:
                         {
-                            if (p[p_][0].x != p[p_][1].x)
+                            if (Math.Abs(p[p_][0].x - p[p_][1].x) > constants.tolerance)
                             {
                                 p.RemoveAt(p_);
                             }
@@ -388,7 +388,7 @@ public static partial class GeoWrangler
                         }
                         default:
                         {
-                            if (p[p_][0].y != p[p_][1].y)
+                            if (Math.Abs(p[p_][0].y - p[p_][1].y) > constants.tolerance)
                             {
                                 p.RemoveAt(p_);
                             }
@@ -420,10 +420,10 @@ public static partial class GeoWrangler
                         {
                             break;
                         }
-                        if (lPoly[e].x == t1[0].x && lPoly[e].y == t1[0].y)
+                        if (Math.Abs(lPoly[e].x - t1[0].x) < constants.tolerance && Math.Abs(lPoly[e].y - t1[0].y) < constants.tolerance)
                         {
                             int nextIndex = (e + 1) % lPoly.Count;
-                            if (lPoly[nextIndex].x == t1[1].x && lPoly[nextIndex].y == t1[1].y)
+                            if (Math.Abs(lPoly[nextIndex].x - t1[1].x) < constants.tolerance && Math.Abs(lPoly[nextIndex].y - t1[1].y) < constants.tolerance)
                             {
                                 edgeIsNew = false;
                             }
@@ -433,10 +433,10 @@ public static partial class GeoWrangler
                         {
                             case true:
                             {
-                                if (lPoly[e].x == t1[1].x && lPoly[e].y == t1[1].y)
+                                if (Math.Abs(lPoly[e].x - t1[1].x) < constants.tolerance && Math.Abs(lPoly[e].y - t1[1].y) < constants.tolerance)
                                 {
                                     int nextIndex = (e + 1) % lPoly.Count;
-                                    if (lPoly[nextIndex].x == t1[0].x && lPoly[nextIndex].y == t1[0].y)
+                                    if (Math.Abs(lPoly[nextIndex].x - t1[0].x) < constants.tolerance && Math.Abs(lPoly[nextIndex].y - t1[0].y) < constants.tolerance)
                                     {
                                         edgeIsNew = false;
                                     }

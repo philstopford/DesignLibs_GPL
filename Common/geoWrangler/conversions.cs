@@ -1,4 +1,5 @@
-﻿using Clipper2Lib;
+﻿using System;
+using Clipper2Lib;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -25,7 +26,7 @@ public static partial class GeoWrangler
     private static Path64 _pPath64FromPathD(PathD source, double scaling = 1.0)
     {
         int length = source.Count;
-        if (source[0].x != source[^1].x && source[0].y != source[^1].y)
+        if (Math.Abs(source[0].x - source[^1].x) > constants.tolerance && Math.Abs(source[0].y - source[^1].y) > constants.tolerance)
         {
             length++; // close the geometry
         }

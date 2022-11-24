@@ -54,7 +54,7 @@ public static partial class GeoWrangler
         // Move the edge according to the keyhole sizing, to extend it. Then add 1 to ensure an overlap.
         double X_shift = (long) Math.Abs(dx * sizing) + 1;
         double Y_shift = (long) Math.Abs(dy * sizing) + 1;
-        if (edge[0].x <= edge[1].x)
+        if (edge[1].x - edge[0].x > constants.tolerance )
         {
             edge0_newX -= X_shift;
             edge1_newX += X_shift;
@@ -65,7 +65,7 @@ public static partial class GeoWrangler
             edge1_newX -= X_shift;
         }
         
-        if (edge[0].y <= edge[1].y)
+        if (edge[1].y - edge[0].y > constants.tolerance )
         {
             edge0_newY -= Y_shift;
             edge1_newY += Y_shift;

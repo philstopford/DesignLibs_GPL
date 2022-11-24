@@ -2889,7 +2889,7 @@ internal class Program
 
         Console.WriteLine("  Conversion....");
         sw.Restart();
-        PathsD done = new() { poly };
+        PathsD done = new() { new(poly) }; // this was originally scaled up by 1000 in the integer pipeline.
         sw.Stop();
         Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
 

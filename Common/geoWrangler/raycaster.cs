@@ -269,8 +269,8 @@ public class RayCast
         // Get average angle for this vertex based on angles from line segments.
         // http://stackoverflow.com/questions/1243614/how-do-i-calculate-the-normal-vector-of-a-line-segment
 
-        if (projectCorners && (currentEdgeNormal.x == 0 && previousEdgeNormal.y == 0 ||
-                       currentEdgeNormal.y == 0 && previousEdgeNormal.x == 0))
+        if (projectCorners && (Math.Abs(currentEdgeNormal.x) < constants.tolerance && Math.Abs(previousEdgeNormal.y) < constants.tolerance ||
+                       Math.Abs(currentEdgeNormal.y) < constants.tolerance && Math.Abs(previousEdgeNormal.x) < constants.tolerance))
         {
             double tX = currentEdgeNormal.x;
             double tY = currentEdgeNormal.y;
@@ -319,7 +319,14 @@ public class RayCast
         switch (invert)
         {
             default:
-                d.Execute(ClipType.Intersection, FillRule.EvenOdd, unused, tmpLine);
+                try
+                {
+                    d.Execute(ClipType.Intersection, FillRule.EvenOdd, unused, tmpLine);
+                }
+                catch (Exception e)
+                {
+                    int yyy = 2;
+                }
                 break;
             case 0:
                 d.Execute(ClipType.Difference, FillRule.EvenOdd, unused, tmpLine);
@@ -365,8 +372,8 @@ public class RayCast
                     double tL0Y = ray[tL][0].y;
                     double tL1X = ray[tL][1].x;
                     double tL1Y = ray[tL][1].y;
-                    if ((tL0X != startPoint.x || tL0Y != startPoint.y) &&
-                        (tL1X != startPoint.x || tL1Y != startPoint.y))
+                    if ((Math.Abs(tL0X - startPoint.x) > constants.tolerance || Math.Abs(tL0Y - startPoint.y) > constants.tolerance) &&
+                        (Math.Abs(tL1X - startPoint.x) > constants.tolerance || Math.Abs(tL1Y - startPoint.y) > constants.tolerance))
                     {
                         continue;
                     }
@@ -396,21 +403,21 @@ public class RayCast
         for (int tL = 0; tL < rayPtCount; tL++)
         {
             // Figure out which end of the result line matches our origin point.
-            if (ray[tL][0].x == startPoint.x && ray[tL][0].y == startPoint.y)
+            if (Math.Abs(ray[tL][0].x - startPoint.x) < constants.tolerance && Math.Abs(ray[tL][0].y - startPoint.y) < constants.tolerance)
             {
                 Monitor.Enter(resultLock);
                 try
                 {
                     resultX[outputIndex] = ray[tL][1].x;
                     resultY[outputIndex] = ray[tL][1].y;
-                    weight[outputIndex] = ray[tL][1].z / 1E4;
+                    weight[outputIndex] = ray[tL][1].z; // / 1E4;
                 }
                 finally
                 {
                     Monitor.Exit(resultLock);
                 }
             }
-            else if (ray[tL][1].x == startPoint.x && ray[tL][1].y == startPoint.y)
+            else if (Math.Abs(ray[tL][1].x - startPoint.x) < constants.tolerance && Math.Abs(ray[tL][1].y - startPoint.y) < constants.tolerance)
             {
                 Monitor.Enter(resultLock);
                 try
@@ -418,7 +425,7 @@ public class RayCast
                     // Clipper reversed the line direction, so we need to deal with this.
                     resultX[outputIndex] = ray[tL][0].x;
                     resultY[outputIndex] = ray[tL][0].y;
-                    weight[outputIndex] = ray[tL][0].z / 1E4;
+                    weight[outputIndex] = ray[tL][0].z;// / 1E4;
                 }
                 finally
                 {
@@ -530,7 +537,7 @@ public class RayCast
         PathD[] clippedLines_ = new PathD[ptCount];
 
         // We need to think about the end point case.
-        bool closedPathEmitter = ptCount > 3 && emissionPath[0].x == emissionPath[ptCount - 1].x && emissionPath[0].y == emissionPath[ptCount - 1].y;
+        bool closedPathEmitter = ptCount > 3 && Math.Abs(emissionPath[0].x - emissionPath[ptCount - 1].x) < constants.tolerance && Math.Abs(emissionPath[0].y - emissionPath[ptCount - 1].y) < constants.tolerance;
 
         // Get average angle for this vertex based on angles from line segments.
         // http://stackoverflow.com/questions/1243614/how-do-i-calculate-the-normal-vector-of-a-line-segment

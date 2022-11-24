@@ -199,23 +199,23 @@ public class GCBox : GCElement
         {
             info_byte += 2;
         }
-        if (rect.Left != ow.modal.geometry_x)
+        if (rect.X != ow.modal.geometry_x)
         {
             info_byte += 16;
         }
-        if (rect.Top != ow.modal.geometry_y)
+        if (rect.Y != ow.modal.geometry_y)
         {
             info_byte += 8;
         }
-        if (rect.Bottom - rect.Top != ow.modal.geometry_h)
+        if (rect.Height != ow.modal.geometry_h)
         {
             info_byte += 32;
         }
-        if (rect.Right - rect.Left != ow.modal.geometry_w)
+        if (rect.Width != ow.modal.geometry_w)
         {
             info_byte += 64;
         }
-        if (rect.Right - rect.Left == rect.Bottom - rect.Top)
+        if (rect.Width == rect.Height)
         {
             info_byte += 128;
             info_byte = (byte)(info_byte & (255 - 32));
@@ -240,7 +240,7 @@ public class GCBox : GCElement
         {
             case > 0:
             {
-                ow.modal.geometry_w = rect.Right - rect.Left;
+                ow.modal.geometry_w = rect.Width;
                 ow.writeUnsignedInteger((uint)ow.modal.geometry_w);
                 ow.modal.geometry_h = (info_byte & 128) switch
                 {
@@ -254,21 +254,21 @@ public class GCBox : GCElement
         switch (info_byte & 32)
         {
             case > 0:
-                ow.modal.geometry_h = rect.Bottom - rect.Top;
+                ow.modal.geometry_h = rect.Height;
                 ow.writeUnsignedInteger((uint)ow.modal.geometry_h);
                 break;
         }
         switch (info_byte & 16)
         {
             case > 0:
-                ow.modal.geometry_x = rect.Left;
+                ow.modal.geometry_x = rect.X;
                 ow.writeSignedInteger(ow.modal.geometry_x);
                 break;
         }
         switch (info_byte & 8)
         {
             case > 0:
-                ow.modal.geometry_y = rect.Top;
+                ow.modal.geometry_y = rect.Y;
                 ow.writeSignedInteger(ow.modal.geometry_y);
                 break;
         }

@@ -78,7 +78,7 @@ public class GCCell
             pAddElement(e);
             return;
         }
-        if (points[0] != points[4])
+        if ((points[0].X != points[4].X) || (points[0].Y != points[4].Y))
         {
             e = new GCPolygon(points, layer, datatype);
             pAddElement(e);
@@ -86,10 +86,10 @@ public class GCCell
         }
 
         int x2, y2;
-        Point64 p = points[0];
+        Point64 p = new(points[0]);
         int x1 = (int)p.X;
         int y1 = (int)p.Y;
-        p = points[1];
+        p = new(points[1]);
         if (p.X < x1)
         {
             x2 = x1;
@@ -110,7 +110,7 @@ public class GCCell
         }
         for (int i = 2; i < 4; i++)
         {
-            p = points[i];
+            p = new(points[i]);
             if (p.X < x1)
             {
                 x1 = (int)p.X;
@@ -131,7 +131,7 @@ public class GCCell
         bool b = true;
         for (int i = 0; i < 4; i++)
         {
-            p = points[i];
+            p = new(points[i]);
             if (p.X != x1 && p.X != x2)
             {
                 b = false;
@@ -143,7 +143,7 @@ public class GCCell
             }
         }
 
-        b = false;
+        // b = false;
         switch (b)
         {
             case true:

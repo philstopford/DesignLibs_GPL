@@ -16,7 +16,7 @@ internal class Program
         partTwo();
 
         Console.WriteLine("Part Three (takes a while)");
-        partThree();
+        // partThree();
 
         Console.WriteLine("Part Four (takes even longer)");
         partFour();
@@ -119,6 +119,10 @@ internal class Program
          */
 
         writeToLayout("l", L, l);
+
+        PathD L_small = Clipper.ScalePath(L, 0.01);
+        PathsD lsmall = GeoWrangler.rectangular_decomposition(ref abort, L_small, maxRayLength: rayLength);
+        writeToLayout("l_small", L_small, lsmall);
 
         PathsD lccw = GeoWrangler.rectangular_decomposition(ref abort, L_ccw, maxRayLength: rayLength);
 

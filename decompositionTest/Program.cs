@@ -16,7 +16,7 @@ internal class Program
         partTwo();
 
         Console.WriteLine("Part Three (takes a while)");
-        // partThree();
+        partThree();
 
         Console.WriteLine("Part Four (takes even longer)");
         partFour();

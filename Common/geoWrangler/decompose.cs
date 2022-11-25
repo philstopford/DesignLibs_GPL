@@ -490,13 +490,13 @@ public static partial class GeoWrangler
 
                 f = pReorderXY(f);
 
-                f = Clipper.ScalePaths(f, scalar_inv);
+                // f = Clipper.ScalePaths(f, scalar_inv);
 
                 f = pClose(f);
 
                 f = simplify(f);
                 
-                final = clockwiseAndReorderXY(_pPathsDFromPaths64(f, 1));
+                final = clockwiseAndReorderXY(_pPathsDFromPaths64(f, scalar_inv));
                 
                 break;
             }

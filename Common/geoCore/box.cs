@@ -242,19 +242,24 @@ public class GCBox : GCElement
             {
                 ow.modal.geometry_w = rect.Width;
                 ow.writeUnsignedInteger((uint)ow.modal.geometry_w);
-                ow.modal.geometry_h = (info_byte & 128) switch
-                {
-                    > 0 => ow.modal.geometry_w,
-                    _ => ow.modal.geometry_h
-                };
 
                 break;
             }
         }
+
+        switch (info_byte & 128)
+        {
+            case > 0:
+                ow.modal.geometry_h = ow.modal.geometry_w;
+                break;
+            default:
+                ow.modal.geometry_h = rect.Height;
+                break;
+        }
+
         switch (info_byte & 32)
         {
             case > 0:
-                ow.modal.geometry_h = rect.Height;
                 ow.writeUnsignedInteger((uint)ow.modal.geometry_h);
                 break;
         }

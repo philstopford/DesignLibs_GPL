@@ -199,11 +199,11 @@ public class GCBox : GCElement
         {
             info_byte += 2;
         }
-        if (rect.X != ow.modal.geometry_x)
+        if (rect.Left != ow.modal.geometry_x)
         {
             info_byte += 16;
         }
-        if (rect.Y != ow.modal.geometry_y)
+        if (rect.Bottom != ow.modal.geometry_y)
         {
             info_byte += 8;
         }

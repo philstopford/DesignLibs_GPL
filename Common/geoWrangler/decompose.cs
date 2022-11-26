@@ -221,7 +221,7 @@ public static partial class GeoWrangler
             }
             ret.AddRange(pRectangular_decomposition(ref abort, t, maxRayLength, angularTolerance, vertical));
         }
-
+        
         return ret;
     }
     public static PathsD rectangular_decomposition(ref bool abort, PathD _poly, long maxRayLength=-1, double angularTolerance = 0, bool vertical = true)
@@ -273,8 +273,6 @@ public static partial class GeoWrangler
                 break;
             }
         }
-
-
 
         return ret;
     }
@@ -488,13 +486,13 @@ public static partial class GeoWrangler
 
                 f = pReorderXY(f);
 
-                // f = Clipper.ScalePaths(f, scalar_inv);
-
+                f = Clipper.ScalePaths(f, constants.scalar_inv);
+                
                 f = pClose(f);
 
                 f = simplify(f);
                 
-                final = clockwiseAndReorderXY(_pPathsDFromPaths64(f, constants.scalar_inv));
+                final = clockwiseAndReorderXY(_pPathsDFromPaths64(f, 1));
                 
                 break;
             }

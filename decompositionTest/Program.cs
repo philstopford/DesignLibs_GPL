@@ -120,9 +120,11 @@ internal class Program
 
         writeToLayout("l", L, l);
 
+        /*
         PathD L_small = Clipper.ScalePath(L, 0.01);
         PathsD lsmall = GeoWrangler.rectangular_decomposition(ref abort, L_small, maxRayLength: rayLength);
         writeToLayout("l_small", L_small, lsmall);
+        */
 
         PathsD lccw = GeoWrangler.rectangular_decomposition(ref abort, L_ccw, maxRayLength: rayLength);
 
@@ -727,6 +729,7 @@ internal class Program
         Console.WriteLine("  Conversion....");
         sw.Restart();
         PathsD done = new() { new(poly) }; // this was originally scaled up by 1000 in the integer pipeline.
+        done = Clipper.ScalePaths(done, 1000);
         sw.Stop();
         Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
 

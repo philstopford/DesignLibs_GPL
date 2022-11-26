@@ -7,141 +7,115 @@ public static partial class TestGeometry
     public static PathD getL()
     {
         // L
-        PathD L = new () {
-
-            new( 0, 0),
-            new( 0, 50),
-            new( 10, 50),
-            new( 10, 20),
-            new( 60, 20),
-            new( 60, 0),
-            new( 0, 0)
-
-        };
-
-        return L;
+        return Clipper.MakePath(new double[] {
+            0, 0,
+            0, 50,
+            10, 50,
+            10, 20,
+            60, 20,
+            60, 0,
+            0, 0
+        });
     }
 
     public static PathD getRL()
     {
-        PathD rL = new () {
-
-            new( 0, 0),
-            new( 0, 20),
-            new( 10, 20),
-            new( 10, 50),
-            new( 60, 50),
-            new( 60, 0),
-            new( 0, 0)
-
-        };
-
-        return rL;
+        return Clipper.MakePath(new double[] {
+            0, 0,
+            0, 20,
+            10, 20,
+            10, 50,
+            60, 50,
+            60, 0,
+            0, 0
+        });
     }
 
     public static PathD getU()
     {
-        PathD U = new () {
-
-            new( 0, 0),
-            new( 0, 50),
-            new( 10, 50),
-            new( 10, 20),
-            new( 60, 20),
-            new( 60, 80),
-            new( 120, 80),
-            new( 120, 0),
-            new( 0, 0)
-
-        };
-
-        return U;
+        return Clipper.MakePath(new double[] {
+            0, 0,
+            0, 50,
+            10, 50,
+            10, 20,
+            60, 20,
+            60, 80,
+            120, 80,
+            120, 0,
+            0, 0
+        });
     }
 
     public static PathD getT()
     {
-        PathD T = new () {
-
-            new( 0, 50),
-            new( 0, 80),
-            new( 80, 80),
-            new( 80, 50),
-            new( 60, 50),
-            new( 60, 0),
-            new( 40, 0),
-            new( 40, 50),
-            new( 0, 50)
-
-        };
-
-        return T;
+        return Clipper.MakePath(new double[] {
+            0, 50,
+            0, 80,
+            80, 80,
+            80, 50,
+            60, 50,
+            60, 0,
+            40, 0,
+            40, 50,
+            0, 50
+        });
     }
 
     public static PathD getX()
     {
-        PathD X = new () {
-
-            new( 0, 50),
-            new( 0, 80),
-            new( 60, 80),
-            new( 60, 100),
-            new( 80, 100),
-            new( 80, 80),
-            new( 100, 80),
-            new( 100, 50),
-            new( 80, 50),
-            new( 80, 20),
-            new( 60, 20),
-            new( 60, 50),
-            new( 0, 50)
-
-        };
-
-        return X;
+        return Clipper.MakePath(new double[] {
+            0, 50,
+            0, 80,
+            60, 80,
+            60, 100,
+            80, 100,
+            80, 80,
+            100, 80,
+            100, 50,
+            80, 50,
+            80, 20,
+            60, 20,
+            60, 50,
+            0, 50
+        });
     }
 
     public static PathD getS()
     {
-        PathD S = new () {
-
-            new( 0, 0),
-            new( 0, 20),
-            new( 20, 20),
-            new( 20, 50),
-            new( 0, 50),
-            new( 0, 110),
-            new( 100, 110),
-            new( 100, 80),
-            new( 80, 80),
-            new( 80, 60),
-            new( 100, 60),
-            new( 100, 0),
-            new( 0, 0)
-
-        };
-
-        return S;
+        return Clipper.MakePath(new double[] {
+            0, 0,
+            0, 20,
+            20, 20,
+            20, 50,
+            0, 50,
+            0, 110,
+            100, 110,
+            100, 80,
+            80, 80,
+            80, 60,
+            100, 60,
+            100, 0,
+            0, 0
+        });
     }
 
     public static PathD getnegS()
     {
-        PathD S = new () {
-
-            new( 0, 0),
-            new( 0, 20),
-            new( 20, 20),
-            new( 20, 50),
-            new( 0, 50),
-            new( 0, 110),
-            new( 100, 110),
-            new( 100, 80),
-            new( 80, 80),
-            new( 80, 60),
-            new( 100, 60),
-            new( 100, 0),
-            new( 0, 0)
-
-        };
+        PathD S = Clipper.MakePath(new double[] {
+            0, 0,
+            0, 20,
+            20, 20,
+            20, 50,
+            0, 50,
+            0, 110,
+            100, 110,
+            100, 80,
+            80, 80,
+            80, 60,
+            100, 60,
+            100, 0,
+            0, 0
+        });
 
         for (int i = 0; i < S.Count; i++)
         {

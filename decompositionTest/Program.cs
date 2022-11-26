@@ -940,8 +940,6 @@ internal class Program
             },
         };
         
-        int scaleFactorForOperation = 1000;
-
         PathsD out_decomp = new();
         for (int i = 0; i < polydata.Count; i++)
         {

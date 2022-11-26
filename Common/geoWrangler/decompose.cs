@@ -483,16 +483,16 @@ public static partial class GeoWrangler
                 c1.AddClip(cutters[0]);
                 Paths64 f = new();
                 c1.Execute(ClipType.Difference, FillRule.EvenOdd, f);
-
-                f = pReorderXY(f);
-
+                
+                // Squash our notches by scaling the integers back down. The notches disappear when they can't
+                // be represented by integer values.
                 f = Clipper.ScalePaths(f, constants.scalar_inv);
                 
-                f = pClose(f);
-
+                // Clean-up.
                 f = simplify(f);
                 
-                final = clockwiseAndReorderXY(_pPathsDFromPaths64(f, 1));
+                // Conversion.
+                final = _pPathsDFromPaths64(f, 1);
                 
                 break;
             }

@@ -84,7 +84,7 @@ public static class Proximity
                 emitThread = true;
             }
             
-            sourcePoly = GeoWrangler.stripColinear(sourcePoly);
+            sourcePoly = GeoWrangler.stripCollinear(sourcePoly);
             sourcePoly = GeoWrangler.removeDuplicates(sourcePoly);
             sourcePoly = GeoWrangler.close(sourcePoly);
             sourcePoly = f.fragmentPath(sourcePoly);

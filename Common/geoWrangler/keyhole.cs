@@ -47,7 +47,7 @@ public static partial class GeoWrangler
         // Limit the offset used in the removal otherwise we can cause self-intersections that
         // result in lots of artifacts and trouble.
         PathsD input = pRemoveFragments(source, customSizing, extension);
-        input = pStripColinear(input);
+        input = pStripCollinear(input);
 
         switch (input.Count)
         {
@@ -502,7 +502,7 @@ public static partial class GeoWrangler
         
         if (maySimplify)
         {
-            cGeometry = stripColinear(cGeometry);
+            cGeometry = stripCollinear(cGeometry);
         }
 
         double newArea = cGeometry.Sum(t => Clipper.Area(t));
@@ -546,7 +546,7 @@ public static partial class GeoWrangler
         
         if (maySimplify)
         {
-            cGeometry = stripColinear(cGeometry);
+            cGeometry = stripCollinear(cGeometry);
         }
 
         double newArea = 0;

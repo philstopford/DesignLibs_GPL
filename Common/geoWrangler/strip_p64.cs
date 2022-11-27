@@ -50,12 +50,12 @@ public static partial class GeoWrangler
         return ret;
     }
     
-    public static Paths64 stripColinear(Paths64 source, double angularTolerance = 0.0f)
+    public static Paths64 stripCollinear(Paths64 source, double angularTolerance = 0.0f)
     {
-        return pStripColinear(source, angularTolerance);
+        return pStripCollinear(source, angularTolerance);
     }
 
-    private static Paths64 pStripColinear(Paths64 source, double angularTolerance = 0.0f)
+    private static Paths64 pStripCollinear(Paths64 source, double angularTolerance = 0.0f)
     {
         int sLength = source.Count;
         Paths64 ret = Helper.initedPaths64(sLength);
@@ -65,7 +65,7 @@ public static partial class GeoWrangler
             for (int pt = 0; pt < sLength; pt++)
 #endif
             {
-                ret[pt] = pStripColinear(source[pt], angularTolerance);
+                ret[pt] = pStripCollinear(source[pt], angularTolerance);
             }
 #if !GWSINGLETHREADED
         );
@@ -74,12 +74,12 @@ public static partial class GeoWrangler
         return ret;
     }
 
-    public static Path64 stripColinear(Path64 source, double angularTolerance = 0.0f)
+    public static Path64 stripCollinear(Path64 source, double angularTolerance = 0.0f)
     {
-        return pStripColinear(source, angularTolerance);
+        return pStripCollinear(source, angularTolerance);
     }
 
-    private static Path64 pStripColinear(Path64 source, double angularTolerance = 0.0f)
+    private static Path64 pStripCollinear(Path64 source, double angularTolerance = 0.0f)
     {
         switch (source.Count)
         {
@@ -87,56 +87,8 @@ public static partial class GeoWrangler
                 return new(source);
         }
 
-        Path64 ret = new(source);
+        Path64 ret = Clipper.TrimCollinear(source, distanceBetweenPoints(source[0], source[^1]) == 0);
 
-        for (int pt = 0; pt < source.Count; pt++)
-        {
-            Point64 interSection_A, interSection_B, interSection_C;
-            switch (pt)
-            {
-                // Assess angle.
-                case 0:
-                    interSection_B = new(ret[^1]); // map to last point
-                    interSection_C = new(ret[pt]);
-                    interSection_A = new(ret[pt + 1]);
-                    break;
-                default:
-                {
-                    if (pt == source.Count - 1) // last point in the list
-                    {
-                        interSection_B = new(ret[pt - 1]);
-                        interSection_C = new(ret[pt]);
-                        interSection_A = new(ret[0]); // map to the first point
-                    }
-                    else
-                    {
-                        interSection_B = new(ret[pt - 1]);
-                        interSection_C = new(ret[pt]);
-                        interSection_A = new(ret[pt + 1]);
-                    }
-
-                    break;
-                }
-            }
-
-            double theta = pAngleBetweenPoints(interSection_A, interSection_B, interSection_C, false);
-
-            bool addPoint = true;
-            if (pt != 0 && pt != source.Count - 1)
-            {
-                if (Math.Abs(theta - 180) <= angularTolerance)
-                {
-                    addPoint = false;
-                }
-            }
-
-            switch (addPoint)
-            {
-                case true:
-                    ret.Add(new (ret[pt]));
-                    break;
-            }
-        }
         return ret;
     }
 

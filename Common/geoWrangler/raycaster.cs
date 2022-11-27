@@ -403,21 +403,21 @@ public class RayCast
         for (int tL = 0; tL < rayPtCount; tL++)
         {
             // Figure out which end of the result line matches our origin point.
-            if (Math.Abs(ray[tL][0].x - startPoint.x) < constants.tolerance && Math.Abs(ray[tL][0].y - startPoint.y) < constants.tolerance)
+            if (ray[tL][0].z == startPoint.z)
             {
                 Monitor.Enter(resultLock);
                 try
                 {
                     resultX[outputIndex] = ray[tL][1].x;
                     resultY[outputIndex] = ray[tL][1].y;
-                    weight[outputIndex] = ray[tL][1].z; // / 1E4;
+                    weight[outputIndex] = 1E4;
                 }
                 finally
                 {
                     Monitor.Exit(resultLock);
                 }
             }
-            else if (Math.Abs(ray[tL][1].x - startPoint.x) < constants.tolerance && Math.Abs(ray[tL][1].y - startPoint.y) < constants.tolerance)
+            else if (ray[tL][1].z == startPoint.z)
             {
                 Monitor.Enter(resultLock);
                 try
@@ -425,7 +425,7 @@ public class RayCast
                     // Clipper reversed the line direction, so we need to deal with this.
                     resultX[outputIndex] = ray[tL][0].x;
                     resultY[outputIndex] = ray[tL][0].y;
-                    weight[outputIndex] = ray[tL][0].z;// / 1E4;
+                    weight[outputIndex] = 1E4;
                 }
                 finally
                 {
@@ -457,7 +457,8 @@ public class RayCast
                 {
                     switch (Math.Abs(resultX[result]))
                     {
-                        case > 1000:
+                        // Ignore values that are below our floating point tolerance.
+                        case > constants.tolerance:
                             xCount++;
                             res.xAv += resultX[result];
                             break;
@@ -465,7 +466,8 @@ public class RayCast
 
                     switch (Math.Abs(resultY[result]))
                     {
-                        case > 1000:
+                        // Ignore values that are below our floating point tolerance.
+                        case > constants.tolerance:
                             yCount++;
                             res.yAv += resultY[result];
                             break;
@@ -503,7 +505,8 @@ public class RayCast
 
                     switch (Math.Abs(resultX[w]))
                     {
-                        case > 1000:
+                        // Ignore values that are below our floating point tolerance.
+                        case > constants.tolerance:
                             xCount++;
                             res.xAv += weight_ * resultX[w];
                             break;
@@ -511,7 +514,8 @@ public class RayCast
 
                     switch (Math.Abs(resultY[w]))
                     {
-                        case > 1000:
+                        // Ignore values that are below our floating point tolerance.
+                        case > constants.tolerance:
                             yCount++;
                             res.yAv += weight_ * resultY[w];
                             break;
@@ -589,6 +593,7 @@ public class RayCast
 
             PathD resultPath = new() {new(startPoint)};
 
+            // Note that results below constants.tolerance will be ignored in the below call.
             ResultData rData = pComputeWeightedResult(sideRayFallOff, ref resultX, ref resultY, ref weight);
 
             resultPath.Add(new (rData.xAv, rData.yAv));

@@ -635,7 +635,7 @@ public class DistanceHandler
         }
 
         // No blurry rays, so no point running the inner loop threaded. We thread the outer loop (the emission edge raycast), though. Testing showed small performance improvement for this approach.
-        RayCast rc = new(extractedPath, overlapPoly, Int32.MaxValue, runThreaded, invert, 0, true, false, shortestPathBeforeStartPoint, shortestPathAfterEndPoint);
+        RayCast rc = new(extractedPath, overlapPoly, 1000, runThreaded, invert, 0, true, false, shortestPathBeforeStartPoint, shortestPathAfterEndPoint);
 
         if (debug || debugCalc)
         {
@@ -690,7 +690,7 @@ public class DistanceHandler
                 }
             }
 
-            bool ortho = clippedLines[line][0].x == clippedLines[line][1].x || clippedLines[line][0].y == clippedLines[line][1].y;
+            bool ortho = Math.Abs(clippedLines[line][0].x - clippedLines[line][1].x) < constants.tolerance || Math.Abs(clippedLines[line][0].y - clippedLines[line][1].y) < constants.tolerance;
 
             double threshold = 0.01500; // arbitrary, dialed in by hand.
 

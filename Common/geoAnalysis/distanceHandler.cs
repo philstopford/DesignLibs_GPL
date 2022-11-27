@@ -36,12 +36,12 @@ public class DistanceHandler
         }
     }
 
-    public DistanceHandler(bool debugCalc, PathsD aPaths, PathsD bPaths, int mode, int scaleFactor, bool runThreaded)
+    public DistanceHandler(bool debugCalc, PathsD aPaths, PathsD bPaths, int mode, bool runThreaded)
     {
-        distanceHandlerLogic(debugCalc, aPaths, bPaths, mode, scaleFactor, runThreaded);
+        distanceHandlerLogic(debugCalc, aPaths, bPaths, mode, runThreaded);
     }
 
-    private void distanceHandlerLogic(bool debugCalc, PathsD aPaths_, PathsD bPaths_, int mode, int scaleFactor, bool runThreaded)
+    private void distanceHandlerLogic(bool debugCalc, PathsD aPaths_, PathsD bPaths_, int mode, bool runThreaded)
     {
         PathsD aPaths = new (aPaths_);
         PathsD bPaths = new (bPaths_);
@@ -63,11 +63,11 @@ public class DistanceHandler
             if (!isEnclosed)
             {
                 // Overlap method sets result fields.
-                overlap(debugCalc, aPaths, bPaths, mode, scaleFactor, runThreaded);
+                overlap(debugCalc, aPaths, bPaths, mode, runThreaded);
             }
             else
             {
-                spaceResult result = fastKDTree(aPaths, bPaths, mode, scaleFactor);
+                spaceResult result = fastKDTree(aPaths, bPaths, mode);
 
                 resultDistance = result.distance;
                 resultPaths = result.resultPaths;
@@ -77,7 +77,7 @@ public class DistanceHandler
         }
     }
 
-    private spaceResult fastKDTree(PathsD aPaths, PathsD bPaths, int mode, int scaleFactor)
+    private spaceResult fastKDTree(PathsD aPaths, PathsD bPaths, int mode)
     {
         int numberOfPoints = 0;
         double currentMinimum = 0;
@@ -157,7 +157,7 @@ public class DistanceHandler
         {
             resultPaths = new () {minimumDistancePath},
             // k-d tree distance is the squared distance. Need to scale and sqrt
-            distance = Math.Sqrt(currentMinimum / Utils.myPow(scaleFactor, 2))
+            distance = Math.Sqrt(currentMinimum)
         };
 
         if (resultNeedsInversion)
@@ -168,7 +168,7 @@ public class DistanceHandler
         return result;
     }
 
-    private void overlap(bool debugCalc, PathsD aPaths, PathsD bPaths, int mode, int scaleFactor, bool runThreaded)
+    private void overlap(bool debugCalc, PathsD aPaths, PathsD bPaths, int mode, bool runThreaded)
     {
         bool completeOverlap = false;
         foreach (PathD a in aPaths)
@@ -233,7 +233,7 @@ public class DistanceHandler
                 // This is needed to ensure the downstream evaluation works.
                 overlapShape = GeoWrangler.reOrderYX(overlapShape);
 
-                spaceResult result = doPartialOverlap(debugCalc, overlapShape, layerAPath, layerBPath, mode, scaleFactor, runThreaded);
+                spaceResult result = doPartialOverlap(debugCalc, overlapShape, layerAPath, layerBPath, mode, runThreaded);
                 if (!result.done || resultPaths.Any() && !(result.distance < resultDistance))
                 {
                     continue;
@@ -245,7 +245,7 @@ public class DistanceHandler
         }
     }
 
-    private spaceResult doPartialOverlap(bool debugCalc, PathsD overlapShape, PathD aPath, PathD bPath, int mode, int scaleFactor, bool runThreaded)
+    private spaceResult doPartialOverlap(bool debugCalc, PathsD overlapShape, PathD aPath, PathD bPath, int mode, bool runThreaded)
     {
         spaceResult result = new();
         int oCount = overlapShape.Count;
@@ -371,7 +371,7 @@ public class DistanceHandler
 
                 // Walk our edges to figure out the overlap.
                 var poly1 = poly;
-                foreach (spaceResult tResult in aOverlapEdge.SelectMany(t => bOverlapEdge.Select(t1 => overlapAssess(debugCalc, overlapShape[poly1], t, t1, aPath, bPath, mode, scaleFactor, runThreaded)).Where(tResult => result.resultPaths.Count == 0 || tResult.distance > result.distance)))
+                foreach (spaceResult tResult in aOverlapEdge.SelectMany(t => bOverlapEdge.Select(t1 => overlapAssess(debugCalc, overlapShape[poly1], t, t1, aPath, bPath, mode, runThreaded)).Where(tResult => result.resultPaths.Count == 0 || tResult.distance > result.distance)))
                 {
                     result.distance = tResult.distance;
                     if (!debugCalc)
@@ -393,12 +393,12 @@ public class DistanceHandler
         result.done = true;
         if (!debugCalc)
         {
-            result.distance = -result.distance / scaleFactor;
+            result.distance = -result.distance;
         }
         return result;
     }
 
-    private spaceResult overlapAssess(bool debugCalc, PathD overlapPoly, PathD aOverlapEdge, PathD bOverlapEdge, PathD aPath, PathD bPath, int mode, int scaleFactor, bool runThreaded)
+    private spaceResult overlapAssess(bool debugCalc, PathD overlapPoly, PathD aOverlapEdge, PathD bOverlapEdge, PathD aPath, PathD bPath, int mode, bool runThreaded)
     {
         spaceResult result = new();
         if (aOverlapEdge.Count == 0)
@@ -635,7 +635,7 @@ public class DistanceHandler
         }
 
         // No blurry rays, so no point running the inner loop threaded. We thread the outer loop (the emission edge raycast), though. Testing showed small performance improvement for this approach.
-        RayCast rc = new(extractedPath, overlapPoly, scaleFactor * scaleFactor, runThreaded, invert, 0, true, false, shortestPathBeforeStartPoint, shortestPathAfterEndPoint);
+        RayCast rc = new(extractedPath, overlapPoly, Int32.MaxValue, runThreaded, invert, 0, true, false, shortestPathBeforeStartPoint, shortestPathAfterEndPoint);
 
         if (debug || debugCalc)
         {

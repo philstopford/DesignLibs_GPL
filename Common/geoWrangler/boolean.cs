@@ -93,7 +93,7 @@ public static partial class GeoWrangler
             c1.AddSubject(merged);
             c1.Execute(ClipType.Union, FillRule.EvenOdd, ret);
             ret = reOrderXY(ret);
-            ret = stripColinear(ret, 1.0);
+            ret = stripColinear(ret);
         }
 
         ret = sliverRemoval(ret, extension: extension); // experimental to try and remove any slivers.
@@ -114,7 +114,7 @@ public static partial class GeoWrangler
             );
 #endif
             // Return here because the attempt to rationalize the geometry below also screws things up, it seems.
-            return stripColinear(ret, 1.0);
+            return stripColinear(ret);
         }
 
         RectD bounds = Clipper.GetBounds(ret);

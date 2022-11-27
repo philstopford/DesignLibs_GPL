@@ -572,12 +572,6 @@
   <component name="ChangeListManager">
     <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.DesignLibs/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DesignLibs/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/constants.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/constants.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/conversions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/conversions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/decompose.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/decompose.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/keyhole.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/keyhole.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/raycaster.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/raycaster.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/decompositionTest/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/decompositionTest/Program.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -596,88 +590,6 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/1f37ad4aa02441539d05eed61577511d94de00/1b/c640e62f/ThrowHelper.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/1f37ad4aa02441539d05eed61577511d94de00/24/342777ba/Interop.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BurkhardtTest/FEM/FEM1DBVPTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
@@ -765,20 +677,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "XThreadsFramesViewSplitterKey": "0.40599",
-    "last_opened_file_path": "/home/phil/Documents/tmp/DesignLibs_GPL/Directory.Build.props",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;XThreadsFramesViewSplitterKey&quot;: &quot;0.40599&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/phil/Documents/tmp/DesignLibs_GPL/Directory.Build.props&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected=".NET Project.decompositionTest">
     <configuration name="ASA005Test" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
@@ -11495,6 +11407,8 @@
       <workItem from="1669133727832" duration="4467000" />
       <workItem from="1669140909507" duration="18056000" />
       <workItem from="1669228740994" duration="14943000" />
+      <workItem from="1669492385798" duration="3939000" />
+      <workItem from="1669496634309" duration="1236000" />
     </task>
     <servers />
   </component>
@@ -11521,97 +11435,6 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/decompositionTest/Program.cs</url>
-          <line>2899</line>
-          <properties documentPath="$PROJECT_DIR$/decompositionTest/Program.cs" initialLine="2899" containingFunctionPresentation="method 'partThree'">
-            <startOffsets>
-              <option value="97138" />
-            </startOffsets>
-            <endOffsets>
-              <option value="97230" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="32" />
-        </line-breakpoint>
-        <line-breakpoint type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/decompositionTest/Program.cs</url>
-          <line>2903</line>
-          <properties documentPath="$PROJECT_DIR$/decompositionTest/Program.cs" initialLine="2903" containingFunctionPresentation="method 'partThree'">
-            <startOffsets>
-              <option value="97270" />
-            </startOffsets>
-            <endOffsets>
-              <option value="97280" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="39" />
-        </line-breakpoint>
-        <line-breakpoint type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Common/geoWrangler/decompose.cs</url>
-          <line>255</line>
-          <properties documentPath="$PROJECT_DIR$/Common/geoWrangler/decompose.cs" initialLine="255" containingFunctionPresentation="method 'pRectangular_decomposition'">
-            <startOffsets>
-              <option value="7678" />
-            </startOffsets>
-            <endOffsets>
-              <option value="7790" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="41" />
-        </line-breakpoint>
-        <line-breakpoint type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Common/geoWrangler/decompose.cs</url>
-          <line>286</line>
-          <properties documentPath="$PROJECT_DIR$/Common/geoWrangler/decompose.cs" initialLine="286" containingFunctionPresentation="method 'decompose_poly_to_rectangles'">
-            <startOffsets>
-              <option value="8994" />
-            </startOffsets>
-            <endOffsets>
-              <option value="9022" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="42" />
-        </line-breakpoint>
-        <line-breakpoint type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Common/geoWrangler/decompose.cs</url>
-          <line>288</line>
-          <properties documentPath="$PROJECT_DIR$/Common/geoWrangler/decompose.cs" initialLine="288" containingFunctionPresentation="method 'decompose_poly_to_rectangles'">
-            <startOffsets>
-              <option value="9032" />
-            </startOffsets>
-            <endOffsets>
-              <option value="9052" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="43" />
-        </line-breakpoint>
-        <line-breakpoint type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Common/geoWrangler/decompose.cs</url>
-          <line>295</line>
-          <properties documentPath="$PROJECT_DIR$/Common/geoWrangler/decompose.cs" initialLine="295" containingFunctionPresentation="method 'decompose_poly_to_rectangles'">
-            <startOffsets>
-              <option value="9302" />
-            </startOffsets>
-            <endOffsets>
-              <option value="9562" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="44" />
-        </line-breakpoint>
-        <line-breakpoint type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Common/geoWrangler/decompose.cs</url>
-          <line>291</line>
-          <properties documentPath="$PROJECT_DIR$/Common/geoWrangler/decompose.cs" initialLine="291" containingFunctionPresentation="method 'decompose_poly_to_rectangles'">
-            <startOffsets>
-              <option value="9165" />
-            </startOffsets>
-            <endOffsets>
-              <option value="9189" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="45" />
-        </line-breakpoint>
         <line-breakpoint type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Common/geoWrangler/raycaster.cs</url>
           <line>318</line>
@@ -11666,45 +11489,6 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/Common/geoWrangler/raycaster.cs</url>
-          <line>346</line>
-          <properties documentPath="$PROJECT_DIR$/Common/geoWrangler/raycaster.cs" initialLine="346" containingFunctionPresentation="method 'pEvaluateCutRay'">
-            <startOffsets>
-              <option value="13246" />
-            </startOffsets>
-            <endOffsets>
-              <option value="13265" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="63" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Common/geoWrangler/raycaster.cs</url>
-          <line>400</line>
-          <properties documentPath="$PROJECT_DIR$/Common/geoWrangler/raycaster.cs" initialLine="400" containingFunctionPresentation="method 'pEvaluateCutRay'">
-            <startOffsets>
-              <option value="15222" />
-            </startOffsets>
-            <endOffsets>
-              <option value="15245" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="64" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Common/geoWrangler/raycaster.cs</url>
-          <line>405</line>
-          <properties documentPath="$PROJECT_DIR$/Common/geoWrangler/raycaster.cs" initialLine="405" containingFunctionPresentation="method 'pEvaluateCutRay'">
-            <startOffsets>
-              <option value="15398" />
-            </startOffsets>
-            <endOffsets>
-              <option value="15525" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="65" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Common/geoWrangler/raycaster.cs</url>
           <line>425</line>
           <properties documentPath="$PROJECT_DIR$/Common/geoWrangler/raycaster.cs" initialLine="425" containingFunctionPresentation="method 'pEvaluateCutRay'">
             <startOffsets>
@@ -11717,17 +11501,17 @@
           <option name="timeStamp" value="66" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Common/geoWrangler/raycaster.cs</url>
-          <line>342</line>
-          <properties documentPath="$PROJECT_DIR$/Common/geoWrangler/raycaster.cs" initialLine="342" containingFunctionPresentation="method 'pEvaluateCutRay'">
+          <url>file://$PROJECT_DIR$/Common/geoWrangler/decompose.cs</url>
+          <line>214</line>
+          <properties documentPath="$PROJECT_DIR$/Common/geoWrangler/decompose.cs" initialLine="214" containingFunctionPresentation="method 'pRectangular_decomposition'">
             <startOffsets>
-              <option value="13065" />
+              <option value="6347" />
             </startOffsets>
             <endOffsets>
-              <option value="13107" />
+              <option value="6373" />
             </endOffsets>
           </properties>
-          <option name="timeStamp" value="67" />
+          <option name="timeStamp" value="85" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

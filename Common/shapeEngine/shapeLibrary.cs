@@ -2265,9 +2265,9 @@ public class ShapeLibrary
 
     public PathD processCorners(bool previewMode, bool cornerCheck, bool ignoreCV, double s0HO,
         double s0VO, double iCR, double iCV, double iCVariation, bool iCPA, double oCR, double oCV, double oCVariation,
-        bool oCPA, int cornerSegments, int optimizeCorners, double resolution, int scaleFactorForOperation)
+        bool oCPA, int cornerSegments, int optimizeCorners, double resolution)
     {
-        Fragmenter fragment = new Fragmenter(resolution, scaleFactorForOperation);
+        Fragmenter fragment = new Fragmenter(resolution);
         PathD mcPoints = new();
         PathD
             mcHorEdgePoints = new(); // corner coordinates list, used as a temporary container for each iteration
@@ -2292,7 +2292,7 @@ public class ShapeLibrary
             switch (Math.Abs(start_y - end_y))
             {
                 // Test whether we have a vertical edge or not. We only process horizontal edges to avoid doubling up
-                case < double.Epsilon:
+                case < constants.tolerance:
                 {
                     double mcPX;
                     double mcPY = 0.0f;
@@ -2411,7 +2411,7 @@ public class ShapeLibrary
 
                     // Sweep our corner.
                     double angle = 0.0f;
-                    while (angle <= 90.0f)
+                    while (angle < 90.0f)
                     {
                         // Set start condition
                         mcPX = start_x; // X position for new point.
@@ -2512,7 +2512,7 @@ public class ShapeLibrary
                         }
 
                         PointD cPt = new(mcPX, mcPY);
-                        if (angle == 0 || Math.Abs(angle - 90) < double.Epsilon || optimizeCorners == 0 ||
+                        if (angle == 0 || Math.Abs(angle - 90) < constants.tolerance || optimizeCorners == 0 ||
                             optimizeCorners == 1 &&
                             Math.Abs(
                                 GeoWrangler.distanceBetweenPoints(mcHorEdgePoints[^1], cPt)
@@ -2520,7 +2520,7 @@ public class ShapeLibrary
                             > resolution
                            )
                         {
-                            mcHorEdgePoints.Add(cPt);
+                            mcHorEdgePoints.Add(new(cPt));
                         }
 
                         angle += angleIncrement;
@@ -2537,7 +2537,7 @@ public class ShapeLibrary
 
                     for (int i = 1; i < fragments.Count - 1; i++)
                     {
-                        mcHorEdgePoints.Add(fragments[i]);
+                        mcHorEdgePoints.Add(new(fragments[i]));
                     }
 
                     // Add our midpoint.
@@ -2635,7 +2635,7 @@ public class ShapeLibrary
 
                     // Sweep our end corner. We need to run the sweep in the opposite direction.
                     angle = 90.0f;
-                    while (angle >= 0.0f)
+                    while (angle > 0.0f)
                     {
                         // Set start conditions
                         mcPX = end_x;
@@ -2746,14 +2746,14 @@ public class ShapeLibrary
 
                             for (int i = 1; i < fragments.Count - 1; i++)
                             {
-                                mcHorEdgePoints.Add(fragments[i]);
+                                mcHorEdgePoints.Add(new(fragments[i]));
                             }
 
                             firstPass = false;
                         }
 
                         PointD cPt = new(mcPX, mcPY);
-                        if (angle == 0 || Math.Abs(angle - 90) < double.Epsilon || optimizeCorners == 0 ||
+                        if (angle == 0 || Math.Abs(angle - 90) < constants.tolerance || optimizeCorners == 0 ||
                             optimizeCorners == 1 &&
                             Math.Abs(
                                 GeoWrangler.distanceBetweenPoints(mcHorEdgePoints[^1], cPt)
@@ -2761,7 +2761,7 @@ public class ShapeLibrary
                             > resolution
                            )
                         {
-                            mcHorEdgePoints.Add(cPt);
+                            mcHorEdgePoints.Add(new(cPt));
                         }
 
                         angle -= angleIncrement;
@@ -2792,7 +2792,7 @@ public class ShapeLibrary
         for (int edge = 0; edge < mcHorEdgePointsList.Count; edge++)
         {
             // Get our start and end Y positions for our vertical edge.
-            PathD startHorEdgePointList = mcHorEdgePointsList[edge];
+            PathD startHorEdgePointList = new(mcHorEdgePointsList[edge]);
             int endHorEdgePointListIndex;
             if (edge == 0)
             {
@@ -2803,7 +2803,7 @@ public class ShapeLibrary
                 endHorEdgePointListIndex = edge - 1;
             }
 
-            PathD endHorEdgePointList = mcHorEdgePointsList[endHorEdgePointListIndex];
+            PathD endHorEdgePointList = new(mcHorEdgePointsList[endHorEdgePointListIndex]);
             double vert_x = endHorEdgePointList[^1].x;
             double startPoint_y = endHorEdgePointList[^1].y;
             double endPoint_y = startHorEdgePointList[0].y;
@@ -2811,7 +2811,7 @@ public class ShapeLibrary
             // We get the start and end points here.
             PathD fragments = fragment.fragmentPath(new PathD
                 { new(vert_x, startPoint_y), new(vert_x, endPoint_y) });
-            mcVerEdgePointsList.Add(fragments);
+            mcVerEdgePointsList.Add(new(fragments));
         }
 
         // OK. We have our corners and edges. We need to walk them now. We'll apply the subshape 1 offset at the same time.

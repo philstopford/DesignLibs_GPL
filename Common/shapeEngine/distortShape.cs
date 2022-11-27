@@ -6,9 +6,9 @@ namespace shapeEngine;
 
 public static class distortShape
 {
-    public static PathsD distortion(PathsD input, bool[] drawn, decimal lDC1, decimal lDC2, double resolution, int scaleFactorForOperation)
+    public static PathsD distortion(PathsD input, bool[] drawn, decimal lDC1, decimal lDC2, double resolution)
     {
-        Fragmenter fragment = new(resolution, scaleFactorForOperation);
+        Fragmenter fragment = new(resolution);
         PathsD ret = new ();
         for (int poly = 0; poly < input.Count; poly++)
         {
@@ -31,8 +31,10 @@ public static class distortShape
 
                             // Need to calculate a new 'radius' from the origin for each point in the polygon, then scale the X/Y values accordingly in the polygon.
                             // Use scale factor to try and guarantee a -1 to +1 value range
+                            /*
                             px /= scaleFactorForOperation;
                             py /= scaleFactorForOperation;
+                            */
 
                             double oRadius = Math.Sqrt(Utils.myPow(px, 2) + Utils.myPow(py, 2));
                             // Polynomial radial distortion.
@@ -44,8 +46,10 @@ public static class distortShape
                             double t2 = Convert.ToDouble(lDC1) * Utils.myPow(amplifier, 2) * Utils.myPow(Math.Abs(oRadius), 4);
                             double sFactor = 1 - (t1 + t2);
 
+                            /*
                             px *= sFactor * scaleFactorForOperation;
                             py *= sFactor * scaleFactorForOperation;
+                            */
 
                             ret[poly1][point] = new (px, py);
 

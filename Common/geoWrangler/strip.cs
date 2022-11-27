@@ -50,12 +50,12 @@ public static partial class GeoWrangler
         return ret;
     }
     
-    public static PathsD stripColinear(PathsD source, double angularTolerance = 0.0f)
+    public static PathsD stripColinear(PathsD source)
     {
-        return pStripColinear(source, angularTolerance);
+        return pStripColinear(source);
     }
 
-    private static PathsD pStripColinear(PathsD source, double angularTolerance = 0.0f)
+    private static PathsD pStripColinear(PathsD source)
     {
         int sLength = source.Count;
         PathsD ret = Helper.initedPathsD(sLength);
@@ -65,7 +65,7 @@ public static partial class GeoWrangler
             for (int pt = 0; pt < sLength; pt++)
 #endif
             {
-                ret[pt] = pStripColinear(source[pt], angularTolerance);
+                ret[pt] = pStripColinear(source[pt]);
             }
 #if !GWSINGLETHREADED
         );
@@ -74,12 +74,12 @@ public static partial class GeoWrangler
         return ret;
     }
 
-    public static PathD stripColinear(PathD source, double angularTolerance = 0.0f)
+    public static PathD stripColinear(PathD source)
     {
-        return pStripColinear(source, angularTolerance);
+        return pStripColinear(source);
     }
 
-    private static PathD pStripColinear(PathD source, double angularTolerance = 0.0f)
+    private static PathD pStripColinear(PathD source)
     {
         switch (source.Count)
         {
@@ -87,8 +87,9 @@ public static partial class GeoWrangler
                 return new(source);
         }
 
-        PathD ret = new(source);
-        
+        PathD ret = Clipper.TrimCollinear(source, 2, distanceBetweenPoints(source[0], source[^1]) < constants.tolerance);
+
+        return ret;
         for (int pt = 0; pt < ret.Count; pt++)
         {
             PointD interSection_A, interSection_B, interSection_C;
@@ -124,7 +125,7 @@ public static partial class GeoWrangler
             bool addPoint = true;
             if (pt != 0 && pt != ret.Count - 1)
             {
-                if (Math.Abs(theta - 180) <= angularTolerance)
+                if (Math.Abs(theta - 180) <= constants.tolerance)
                 {
                     addPoint = false;
                 }
@@ -150,7 +151,7 @@ public static partial class GeoWrangler
         PathD ret = new(source_);
         bool firstLast_same = false;
         int pt_Check = ret.Count - 1;
-        if (distanceBetweenPoints(ret[pt_Check], ret[0]) < 0.01)
+        if (distanceBetweenPoints(ret[pt_Check], ret[0]) < constants.tolerance)
         {
             firstLast_same = true; // remove duplicated points. The shape will be closed later.
         }
@@ -158,7 +159,7 @@ public static partial class GeoWrangler
         {
             ret.RemoveAt(pt_Check); // remove duplicated points. The shape will be closed later
             pt_Check--;
-            if (distanceBetweenPoints(ret[pt_Check], ret[0]) > 0.01)
+            if (distanceBetweenPoints(ret[pt_Check], ret[0]) > constants.tolerance)
             {
                 firstLast_same = false; // stop at the first unmatched point.
             }

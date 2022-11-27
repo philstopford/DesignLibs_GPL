@@ -6,20 +6,18 @@ namespace geoWrangler;
 public class Fragmenter
 {
     private double resolution;
-    private double scaleFactor;
 
     private const double def_res = 1.0;
     private const double def_scale = 1.0;
 
-    public Fragmenter(double res = def_res, double scaling = def_scale)
+    public Fragmenter(double res = def_res)
     {
-        pFragmenter(res, scaling);
+        pFragmenter(res);
     }
 
-    private void pFragmenter(double res = def_res, double scaling = def_scale)
+    private void pFragmenter(double res = def_res)
     {
         resolution = res;
-        scaleFactor = scaling;
     }
 
     public PathsD fragmentPaths(PathsD source)
@@ -45,10 +43,9 @@ public class Fragmenter
         return pFragmentPath(pointList);
     }
     
-    public PathD fragmentPath(PathD pointList, double res, double scaling)
+    public PathD fragmentPath(PathD pointList, double res)
     {
         resolution = res;
-        scaleFactor = scaling;
         return pFragmentPath(pointList);
     }
 
@@ -75,18 +72,22 @@ public class Fragmenter
     private PathD fragmentPath(PointD pt1, PointD pt2)
     {
         PathD returnList = new();
-        double x_Distance = pt2.x - pt1.x;
-        double y_Distance = pt2.y - pt1.y;
         double fragmentCount = Math.Floor(GeoWrangler.distanceBetweenPoints(pt1, pt2) / resolution);
 
-        double x_Step = x_Distance / fragmentCount;
-        double y_Step = y_Distance / fragmentCount;
-
-        // Avoid sending back the first and last vertices of the path.
-        for (int i = 1; i < fragmentCount; i++)
+        if (fragmentCount > 0)
         {
-            returnList.Add(new (pt1.x + i * x_Step, pt1.y + i * y_Step, pt1.z));
+            double x_Distance = pt2.x - pt1.x;
+            double y_Distance = pt2.y - pt1.y;
+            double x_Step = x_Distance / fragmentCount;
+            double y_Step = y_Distance / fragmentCount;
+
+            // Avoid sending back the first and last vertices of the path.
+            for (int i = 1; i < fragmentCount; i++)
+            {
+                returnList.Add(new(pt1.x + i * x_Step, pt1.y + i * y_Step, pt1.z));
+            }
         }
+
         return returnList;
     }
 }

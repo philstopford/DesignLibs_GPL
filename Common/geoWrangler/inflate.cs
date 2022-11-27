@@ -101,7 +101,6 @@ public static partial class GeoWrangler
         Path64 rescaledSource = _pPath64FromPathD(source, scalar);
 
         ClipperOffset co = new() {PreserveCollinear = true};
-        Path64 a;
         // Path from Point auto-closes the input for historical reasons. We may not want this....
         if (pDistanceBetweenPoints(rescaledSource[0], rescaledSource[^1]) > constants.tolerance)
         {

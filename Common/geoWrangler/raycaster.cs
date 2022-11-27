@@ -319,14 +319,7 @@ public class RayCast
         switch (invert)
         {
             default:
-                try
-                {
-                    d.Execute(ClipType.Intersection, FillRule.EvenOdd, unused, tmpLine);
-                }
-                catch (Exception e)
-                {
-                    int yyy = 2;
-                }
+                d.Execute(ClipType.Intersection, FillRule.EvenOdd, unused, tmpLine);
                 break;
             case 0:
                 d.Execute(ClipType.Difference, FillRule.EvenOdd, unused, tmpLine);
@@ -410,7 +403,7 @@ public class RayCast
                 {
                     resultX[outputIndex] = ray[tL][1].x;
                     resultY[outputIndex] = ray[tL][1].y;
-                    weight[outputIndex] = 1E4;
+                    weight[outputIndex] = 1.0f;
                 }
                 finally
                 {
@@ -425,7 +418,7 @@ public class RayCast
                     // Clipper reversed the line direction, so we need to deal with this.
                     resultX[outputIndex] = ray[tL][0].x;
                     resultY[outputIndex] = ray[tL][0].y;
-                    weight[outputIndex] = 1E4;
+                    weight[outputIndex] = 1.0f;
                 }
                 finally
                 {

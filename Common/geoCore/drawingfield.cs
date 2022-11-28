@@ -75,7 +75,20 @@ public class GCDrawingfield
 
     private void pGCDrawingfield(GCDrawingfield drawing)
     {
-        cellList = drawing.cellList.ToList();
+        if (drawing == null)
+        {
+            reset();
+            return;
+        }
+        try
+        {
+            cellList = drawing.cellList.ToList();
+        }
+        catch
+        {
+            cellList = new();
+        }
+
         accyear = drawing.accyear;
         accmonth = drawing.accmonth;
         accday = drawing.accday;

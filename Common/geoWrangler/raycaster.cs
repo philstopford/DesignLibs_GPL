@@ -246,6 +246,7 @@ public class RayCast
 
             if (sideRayFallOff != falloff.none)
             {
+                // This is because the z is an int, and we want to preserve the float data.
                 endPoint_f.z = Convert.ToInt64(weight_val * 1E4);
                 sPoint.z = endPoint_f.z;
             }
@@ -346,7 +347,7 @@ public class RayCast
                 {
                     resultX[outputIndex] = startPoint.x;
                     resultY[outputIndex] = startPoint.y;
-                    weight[outputIndex] = 1E4;
+                    weight[outputIndex] = 1E4; // integer value, so represent float 1.0f with 1E4 
                 }
                 finally
                 {
@@ -396,7 +397,7 @@ public class RayCast
         for (int tL = 0; tL < rayPtCount; tL++)
         {
             // Figure out which end of the result line matches our origin point.
-            if (ray[tL][0].z == startPoint.z)
+            if (Math.Abs(ray[tL][0].x - startPoint.x) < constants.tolerance && Math.Abs(ray[tL][0].y - startPoint.y) < constants.tolerance)
             {
                 Monitor.Enter(resultLock);
                 try
@@ -410,7 +411,7 @@ public class RayCast
                     Monitor.Exit(resultLock);
                 }
             }
-            else if (ray[tL][1].z == startPoint.z)
+            if (Math.Abs(ray[tL][1].x - startPoint.x) < constants.tolerance && Math.Abs(ray[tL][1].y - startPoint.y) < constants.tolerance)
             {
                 Monitor.Enter(resultLock);
                 try

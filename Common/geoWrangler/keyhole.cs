@@ -10,7 +10,7 @@ public static partial class GeoWrangler
     // Sizing is used to define the keyhole width (default) and will be used for the sliver/gap removal.
     // Use of a custom value will cause headaches.
     public const double keyhole_sizing = 5;
-    private const double keyhole_extension_default = 1.00;
+    private const double keyhole_extension_default = 1.03;
 
     public static PathsD makeKeyHole(PathsD outers, PathsD cutters, bool reverseEval, bool biDirectionalEval, RayCast.inversionMode invert = RayCast.inversionMode.x, double customSizing = 0, double extension = 0, double angularTolerance = 0)
     {
@@ -484,9 +484,7 @@ public static partial class GeoWrangler
         customSizing *= extension;
         
         // Need to workaround missing PathD support in ClipperOffset...
-        double scalar = 10000;
-        double scalar_inv = 1.0 / scalar;
-        Paths64 rescaledSource = _pPaths64FromPathsD(source, scalar);
+        Paths64 rescaledSource = _pPaths64FromPathsD(source, constants.scalar4);
 
         ClipperOffset co = new() {PreserveCollinear = true};
         co.AddPaths(rescaledSource, joinType, EndType.Polygon);
@@ -496,7 +494,7 @@ public static partial class GeoWrangler
         tmp.Clear();
         tmp = co.Execute(-customSizing); // Size back to original dimensions
 
-        PathsD cGeometry = _pPathsDFromPaths64(tmp, scalar_inv);
+        PathsD cGeometry = _pPathsDFromPaths64(tmp, constants.scalar4_inv);
         
         cGeometry = pReorderXY(cGeometry);
         
@@ -528,9 +526,7 @@ public static partial class GeoWrangler
         double sourceArea = Clipper.Area(source);
 
         // Need to workaround missing PathD support in ClipperOffset...
-        double scalar = 1000;
-        double scalar_inv = 1.0 / 1000;
-        Path64 rescaledSource = _pPath64FromPathD(source, scalar);
+        Path64 rescaledSource = _pPath64FromPathD(source, constants.scalar2);
 
         ClipperOffset co = new() {PreserveCollinear = true};
         co.AddPath(rescaledSource, joinType, EndType.Polygon);
@@ -540,7 +536,7 @@ public static partial class GeoWrangler
         tmp.Clear();
         tmp = co.Execute(-customSizing); // Size back to original dimensions
 
-        PathsD cGeometry = _pPathsDFromPaths64(tmp, scalar_inv);
+        PathsD cGeometry = _pPathsDFromPaths64(tmp, constants.scalar2_inv);
 
         cGeometry = pReorderXY(cGeometry);
         

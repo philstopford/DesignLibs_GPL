@@ -96,9 +96,7 @@ public static partial class GeoWrangler
 
         
         // Need to workaround missing PathD support in ClipperOffset...
-        double scalar = 1000;
-        double scalar_inv = 1.0 / scalar;
-        Path64 rescaledSource = _pPath64FromPathD(source, scalar);
+        Path64 rescaledSource = _pPath64FromPathD(source, constants.scalar2);
 
         ClipperOffset co = new() {PreserveCollinear = true};
         // Path from Point auto-closes the input for historical reasons. We may not want this....
@@ -109,7 +107,7 @@ public static partial class GeoWrangler
         co.AddPath(rescaledSource, JoinType.Miter, EndType.Square);
 
         Paths64 output = co.Execute(width);
-        PathD ret = _pPathDFromPath64(output[0], scalar_inv);
+        PathD ret = _pPathDFromPath64(output[0], constants.scalar2_inv);
         ret = pReorderXY(ret);
         return pClose(ret);
     }

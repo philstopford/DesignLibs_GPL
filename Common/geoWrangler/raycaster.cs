@@ -71,8 +71,8 @@ public class RayCast
 
     class NormalsData
     {
-        public PointD[] normals;// = new Point64[ptCount];
-        public PointD[] previousNormals;// = new Point64[ptCount];
+        public PointD[] normals;
+        public PointD[] previousNormals;
     }
 
     private static NormalsData pCalculateNormalsData(PathD path, bool closedPathEmitter, PointD startOffset, PointD endOffset)
@@ -149,7 +149,7 @@ public class RayCast
 
     private PathsD pGenerateRays(PathD sourcePath, int index, long maxRayLength, bool projectCorners, inversionMode invert, int multisampleRayCount, falloff sideRayFallOff, double sideRayFallOffMultiplier, NormalsData nData, forceSingleDirection dirOverride)
     {
-        PointD startPoint = new(sourcePath[index]);
+        PointD startPoint = sourcePath[index];
         
         PathsD rays = new();
 
@@ -191,7 +191,7 @@ public class RayCast
             endPoint.z = (long)1E4;
         }
         
-        rays.Add(new() {new (startPoint), new (endPoint)});
+        rays.Add(new() {startPoint, endPoint});
 
         double angleStep = 90.0f / (1 + multisampleRayCount);
 
@@ -253,8 +253,8 @@ public class RayCast
             PointD endPoint2 = GeoWrangler.Rotate(startPoint, endPoint_f, -rayAngle);
 
             // The order of line1 below is important, but I'm not yet sure why. If you change it, the expansion becomes asymmetrical on a square (lower section gets squashed).
-            rays.Add(new() {new (endPoint1), new (sPoint)});
-            rays.Add(new() {new (sPoint), new (endPoint2)});
+            rays.Add(new() {endPoint1, sPoint});
+            rays.Add(new() {sPoint, endPoint2});
         }
 
         return rays;
@@ -333,7 +333,7 @@ public class RayCast
     
     private void pEvaluateCutRay(PathsD ray, int outputIndex, PathD emissionPath, int pt, ref double[] resultX, ref double[] resultY, ref double[] weight)
     {
-        PointD startPoint = new(emissionPath[pt]);
+        PointD startPoint = emissionPath[pt];
         int rayPtCount = ray.Count;
 
         // There is no matching order in the ray here, so we have to take this odd approach.
@@ -346,7 +346,7 @@ public class RayCast
                 {
                     resultX[outputIndex] = startPoint.x;
                     resultY[outputIndex] = startPoint.y;
-                    weight[outputIndex] = 1.0f;
+                    weight[outputIndex] = 1E4;
                 }
                 finally
                 {
@@ -403,7 +403,7 @@ public class RayCast
                 {
                     resultX[outputIndex] = ray[tL][1].x;
                     resultY[outputIndex] = ray[tL][1].y;
-                    weight[outputIndex] = 1.0f;
+                    weight[outputIndex] = Convert.ToDouble(ray[tL][1].z) / 1E4;
                 }
                 finally
                 {
@@ -418,7 +418,7 @@ public class RayCast
                     // Clipper reversed the line direction, so we need to deal with this.
                     resultX[outputIndex] = ray[tL][0].x;
                     resultY[outputIndex] = ray[tL][0].y;
-                    weight[outputIndex] = 1.0f;
+                    weight[outputIndex] = Convert.ToDouble(ray[tL][0].z) / 1E4;
                 }
                 finally
                 {

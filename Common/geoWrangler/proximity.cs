@@ -121,7 +121,7 @@ public static class Proximity
                 }
 
                 // Calculate our bias based on this distance and apply it.
-                double biasScaling = lineLength / 1.0 / Convert.ToDouble(pBiasDist);
+                double biasScaling = lineLength / Convert.ToDouble(pBiasDist);
 
                 if (biasScaling > 1)
                 {
@@ -149,8 +149,8 @@ public static class Proximity
                 double aX = averagedEdgeNormal.x / lineLength;
                 double aY = averagedEdgeNormal.y / lineLength;
 
-                displacedY += (long)(displacedAmount * aY);
-                displacedX += (long)(displacedAmount * aX);
+                displacedY += displacedAmount * aY;
+                displacedX += displacedAmount * aX;
 
                 deformedPoly.Add(new (displacedX, displacedY));
             }
@@ -158,7 +158,7 @@ public static class Proximity
             // Experimental clean-up
             if (doCleanUp)
             {
-                PathD rdpPath = Clipper.RamerDouglasPeucker(GeoWrangler.close(deformedPoly), cleanUpEpsilon); // scale from int to make a double
+                PathD rdpPath = Clipper.RamerDouglasPeucker(GeoWrangler.close(deformedPoly), cleanUpEpsilon * 0.001); // scale from int to make a double
                 deformedPoly = f.fragmentPath(GeoWrangler.close(rdpPath));
             }
 

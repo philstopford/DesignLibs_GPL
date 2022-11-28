@@ -84,10 +84,11 @@ public static class Proximity
                 emitThread = true;
             }
             
-            sourcePoly = GeoWrangler.stripCollinear(sourcePoly);
-            sourcePoly = GeoWrangler.removeDuplicates(sourcePoly);
-            sourcePoly = GeoWrangler.close(sourcePoly);
-            sourcePoly = f.fragmentPath(sourcePoly);
+            // These do not appear to be needed.
+            // sourcePoly = GeoWrangler.stripCollinear(sourcePoly);
+            // sourcePoly = GeoWrangler.removeDuplicates(sourcePoly);
+            // sourcePoly = GeoWrangler.close(sourcePoly);
+            // sourcePoly = f.fragmentPath(sourcePoly);
 
             collisionGeometry = f.fragmentPaths(collisionGeometry);
 
@@ -158,7 +159,7 @@ public static class Proximity
             // Experimental clean-up
             if (doCleanUp)
             {
-                PathD rdpPath = Clipper.RamerDouglasPeucker(GeoWrangler.close(deformedPoly), cleanUpEpsilon * 0.001); // scale from int to make a double
+                PathD rdpPath = Clipper.RamerDouglasPeucker(GeoWrangler.close(deformedPoly), cleanUpEpsilon * 0.001);
                 deformedPoly = f.fragmentPath(GeoWrangler.close(rdpPath));
             }
 

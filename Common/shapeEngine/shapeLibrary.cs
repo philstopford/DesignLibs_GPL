@@ -1662,7 +1662,7 @@ public class ShapeLibrary
         sourcePoly = GeoWrangler.clockwise(sourcePoly);
 
         // We need to look at our incoming shape to see whether it's orthogonal and suitable for contouring.
-        geoCoreShapeOrthogonal = GeoWrangler.orthogonal(sourcePoly, angularTolerance: 0.003);
+        geoCoreShapeOrthogonal = GeoWrangler.orthogonal(sourcePoly, angularTolerance: 0.0);
 
         sourcePoly = GeoWrangler.close(sourcePoly);
 
@@ -1705,7 +1705,7 @@ public class ShapeLibrary
     private void customShape_orthogonal(PathD sourcePoly)
     {
         int sCount = sourcePoly.Count;
-        int vertexCount = sCount * 2 + 1; // assumes no point in midpoint of edges, and 1 to close.
+        int vertexCount = sCount * 2; // assumes no point in midpoint of edges, and 1 to close.
         Vertex = new MyVertex[vertexCount];
         tips = new bool[vertexCount];
         int vertexCounter = 0; // set up our vertex counter.

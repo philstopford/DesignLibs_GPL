@@ -34,12 +34,7 @@ public static partial class GeoWrangler
             t_sortPoints[i] = new (t_sortPoints[i].x, t_sortPoints[i].y, i); // track our original poly for this midpoint through the re-order
         }
 
-        IOrderedEnumerable<PointD> tmp_sortPoints = t_sortPoints.OrderBy(p => p.x).ThenBy(p => p.y);
-        PathD sortPoints = new();
-        foreach (PointD t in tmp_sortPoints)
-        {
-            sortPoints.Add(new (t));
-        }
+        PathD sortPoints = new PathD(t_sortPoints.OrderBy(p => p.x).ThenBy(p => p.y));
 
         PathsD ret = new();
 

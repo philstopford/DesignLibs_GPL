@@ -17,25 +17,25 @@ public static partial class GeoWrangler
     {
         int sourceCount = source.Count;
 
-        PathD sortPoints = new();
+        PathD t_sortPoints = new();
 
         for (int i = 0; i < sourceCount; i++)
         {
             switch (useMidPoint)
             {
                 case true:
-                    sortPoints.Add(midPoint(source[i]));
+                    t_sortPoints.Add(midPoint(source[i]));
                     break;
                 default:
-                    sortPoints.Add(new (source[i][0]));
+                    t_sortPoints.Add(new (source[i][0]));
                     break;
             }
 
-            sortPoints[i] = new (sortPoints[i].x, sortPoints[i].y, i); // track our original poly for this midpoint through the re-order
+            t_sortPoints[i] = new (t_sortPoints[i].x, t_sortPoints[i].y, i); // track our original poly for this midpoint through the re-order
         }
 
-        IOrderedEnumerable<PointD> tmp_sortPoints = sortPoints.OrderBy(p => p.x).ThenBy(p => p.y);
-        sortPoints.Clear();
+        IOrderedEnumerable<PointD> tmp_sortPoints = t_sortPoints.OrderBy(p => p.x).ThenBy(p => p.y);
+        PathD sortPoints = new();
         foreach (PointD t in tmp_sortPoints)
         {
             sortPoints.Add(new (t));

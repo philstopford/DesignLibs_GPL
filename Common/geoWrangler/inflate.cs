@@ -106,7 +106,7 @@ public static partial class GeoWrangler
         }
         co.AddPath(rescaledSource, JoinType.Miter, EndType.Square);
 
-        Paths64 output = co.Execute(width);
+        Paths64 output = co.Execute(width); // no scalar, deliberately.
         PathD ret = _pPathDFromPath64(output[0], constants.scalar2_inv);
         ret = pReorderXY(ret);
         return pClose(ret);

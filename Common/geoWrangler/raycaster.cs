@@ -366,8 +366,8 @@ public class RayCast
                     double tL0Y = ray[tL][0].y;
                     double tL1X = ray[tL][1].x;
                     double tL1Y = ray[tL][1].y;
-                    if ((Math.Abs(tL0X - startPoint.x) > constants.tolerance || Math.Abs(tL0Y - startPoint.y) > constants.tolerance) &&
-                        (Math.Abs(tL1X - startPoint.x) > constants.tolerance || Math.Abs(tL1Y - startPoint.y) > constants.tolerance))
+                    if ((Math.Abs(tL0X - startPoint.x) > 6 * constants.tolerance || Math.Abs(tL0Y - startPoint.y) > 6 * constants.tolerance) &&
+                        (Math.Abs(tL1X - startPoint.x) > 6 * constants.tolerance || Math.Abs(tL1Y - startPoint.y) > 6 * constants.tolerance))
                     {
                         continue;
                     }
@@ -397,7 +397,7 @@ public class RayCast
         for (int tL = 0; tL < rayPtCount; tL++)
         {
             // Figure out which end of the result line matches our origin point.
-            if (Math.Abs(ray[tL][0].x - startPoint.x) < constants.tolerance && Math.Abs(ray[tL][0].y - startPoint.y) < constants.tolerance)
+            if (Math.Abs(ray[tL][0].x - startPoint.x) < 6 * constants.tolerance && Math.Abs(ray[tL][0].y - startPoint.y) < 6 * constants.tolerance)
             {
                 Monitor.Enter(resultLock);
                 try
@@ -411,7 +411,7 @@ public class RayCast
                     Monitor.Exit(resultLock);
                 }
             }
-            if (Math.Abs(ray[tL][1].x - startPoint.x) < constants.tolerance && Math.Abs(ray[tL][1].y - startPoint.y) < constants.tolerance)
+            if (Math.Abs(ray[tL][1].x - startPoint.x) < 6 * constants.tolerance && Math.Abs(ray[tL][1].y - startPoint.y) < 6 * constants.tolerance)
             {
                 Monitor.Enter(resultLock);
                 try

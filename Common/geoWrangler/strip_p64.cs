@@ -50,12 +50,12 @@ public static partial class GeoWrangler
         return ret;
     }
     
-    public static Paths64 stripCollinear(Paths64 source, double angularTolerance = 0.0f)
+    public static Paths64 stripCollinear(Paths64 source)
     {
-        return pStripCollinear(source, angularTolerance);
+        return pStripCollinear(source);
     }
 
-    private static Paths64 pStripCollinear(Paths64 source, double angularTolerance = 0.0f)
+    private static Paths64 pStripCollinear(Paths64 source)
     {
         int sLength = source.Count;
         Paths64 ret = Helper.initedPaths64(sLength);
@@ -65,7 +65,7 @@ public static partial class GeoWrangler
             for (int pt = 0; pt < sLength; pt++)
 #endif
             {
-                ret[pt] = pStripCollinear(source[pt], angularTolerance);
+                ret[pt] = pStripCollinear(source[pt]);
             }
 #if !GWSINGLETHREADED
         );
@@ -74,12 +74,12 @@ public static partial class GeoWrangler
         return ret;
     }
 
-    public static Path64 stripCollinear(Path64 source, double angularTolerance = 0.0f)
+    public static Path64 stripCollinear(Path64 source)
     {
-        return pStripCollinear(source, angularTolerance);
+        return pStripCollinear(source);
     }
 
-    private static Path64 pStripCollinear(Path64 source, double angularTolerance = 0.0f)
+    private static Path64 pStripCollinear(Path64 source)
     {
         switch (source.Count)
         {
@@ -91,7 +91,7 @@ public static partial class GeoWrangler
 
         return ret;
     }
-
+    
     public static Path64 stripTerminators(Path64 source, bool keepLast)
     {
         return pStripTerminators(source, keepLast);

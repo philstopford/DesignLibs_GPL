@@ -24,7 +24,9 @@ public static partial class GeoWrangler
     
     private static PathD pRemoveDuplicates(PathD source, double threshold = constants.tolerance)
     {
-        PathD ret = new();
+        // Experiment to see if we can use Clipper instead.
+        PathD ret = Clipper.StripNearDuplicates(source, threshold, distanceBetweenPoints(source[0], source[^1]) <= constants.tolerance);
+        /*
         switch (source.Count)
         {
             case > 0:
@@ -46,8 +48,8 @@ public static partial class GeoWrangler
                 break;
             }
         }
-
-        return ret;
+        */
+        return pClose(ret);
     }
     
     public static PathsD stripCollinear(PathsD source)
@@ -74,12 +76,12 @@ public static partial class GeoWrangler
         return ret;
     }
 
-    public static PathD stripCollinear(PathD source)
+    public static PathD stripCollinear(PathD source, int precision = 2)
     {
-        return pStripCollinear(source);
+        return pStripCollinear(source, precision);
     }
 
-    private static PathD pStripCollinear(PathD source)
+    private static PathD pStripCollinear(PathD source, int precision = 2)
     {
         switch (source.Count)
         {
@@ -87,7 +89,7 @@ public static partial class GeoWrangler
                 return new(source);
         }
 
-        PathD ret = Clipper.TrimCollinear(source, 2, distanceBetweenPoints(source[0], source[^1]) < constants.tolerance);
+        PathD ret = Clipper.TrimCollinear(source, precision, distanceBetweenPoints(source[0], source[^1]) < constants.tolerance);
 
         return ret;
     }

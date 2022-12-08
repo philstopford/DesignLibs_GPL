@@ -2262,7 +2262,7 @@ namespace Clipper2Lib
           AddOutPt(horz, horz.top);
         UpdateEdgeIntoAEL(horz);
 
-        if (PreserveCollinear && HorzIsSpike(horz))
+        if (PreserveCollinear && !horzIsOpen && HorzIsSpike(horz))
           TrimHorz(horz, true);
 
         isLeftToRight = ResetHorzDirection(horz, maxPair, out leftX, out rightX);

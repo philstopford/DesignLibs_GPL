@@ -948,7 +948,7 @@ internal class Program
         {
          PathD points = new (polydata[i]);
          points = GeoWrangler.removeDuplicates(points);
-         points = GeoWrangler.stripColinear(points);
+         points = GeoWrangler.stripCollinear(points);
          points = GeoWrangler.clockwiseAndReorderXY(points);
          
          PathD toDecomp = GeoWrangler.makeKeyHole(GeoWrangler.sliverGapRemoval(points), reverseEval:false, biDirectionalEval:false)[0];

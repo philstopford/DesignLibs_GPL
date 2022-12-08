@@ -82,6 +82,6 @@ internal static class Program
             new(0.03692, 0.19706)
         };
 
-        PathD cleaned = GeoWrangler.stripColinear(source, angularTolerance:0.2);
+        PathD cleaned = GeoWrangler.stripCollinear(source, precision:6);
     }
 }

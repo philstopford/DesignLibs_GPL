@@ -950,7 +950,7 @@ internal class Program
 
         PathsD simplifyRes = new();
         c.Execute(ClipType.Union, FillRule.EvenOdd, simplifyRes);
-        simplifyRes = GeoWrangler.stripColinear(simplifyRes);
+        simplifyRes = GeoWrangler.stripCollinear(simplifyRes);
 
         /* Expected output
         simplifyRes = {List<List<Point64>>} Count = 1
@@ -1626,7 +1626,7 @@ internal class Program
         // no good - overlap region is a gap.
         PathsD simplifyRes = new();
         c.Execute(ClipType.Union, FillRule.EvenOdd, simplifyRes);
-        simplifyRes = GeoWrangler.stripColinear(simplifyRes);
+        simplifyRes = GeoWrangler.stripCollinear(simplifyRes);
         
         /* Expected output
            simplifyRes = {List<List<Point64>>} Count = 1

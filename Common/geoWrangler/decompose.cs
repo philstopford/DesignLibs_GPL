@@ -468,7 +468,7 @@ public static partial class GeoWrangler
             {
                 // Turn the new edges into cutters and slice. Not terribly elegant and we're relying on rounding to squash notches later.
                 // Floating points cause trouble here - we need to snap the edges to integer intervals to avoid creating internal edges.
-                Paths64 rescaledSource = _pPaths64FromPathsD(newEdges, constants.scalar);
+                Paths64 rescaledSource = _pPaths64FromPathsD(newEdges, constants.scalar_1E3);
                 
                 ClipperOffset co = new() {PreserveCollinear = true};
                 co.AddPaths(rescaledSource, JoinType.Miter, EndType.Square);
@@ -477,7 +477,7 @@ public static partial class GeoWrangler
                 Paths64 cutters = co.Execute(2.0);
                 
                 Clipper64 c1 = new();
-                c1.AddSubject(_pPath64FromPathD(lPoly, constants.scalar));
+                c1.AddSubject(_pPath64FromPathD(lPoly, constants.scalar_1E3));
 
                 // Take first cutter only - we only cut once, no matter how many potential cutters we have.
                 c1.AddClip(cutters[0]);
@@ -486,7 +486,7 @@ public static partial class GeoWrangler
                 
                 // Squash our notches by scaling the integers back down. The notches disappear when they can't
                 // be represented by integer values.
-                f = Clipper.ScalePaths(f, constants.scalar_inv);
+                f = Clipper.ScalePaths(f, constants.scalar_1E3_inv);
                 
                 // Clean-up.
                 f = simplify(f);

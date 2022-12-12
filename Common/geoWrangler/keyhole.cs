@@ -30,7 +30,7 @@ public static partial class GeoWrangler
     private static PathsD pMakeKeyHole(PathsD source, bool reverseEval, bool biDirectionalEval, RayCast.inversionMode invert = RayCast.inversionMode.x, double customSizing = 0, double extension = 0, double angularTolerance = 0)
     {
         // Reconcile any overlapping geometry.
-        ClipperD c = new () {PreserveCollinear = true};
+        ClipperD c = new (constants.roundingDecimalPrecision) {PreserveCollinear = true};
         
         switch (source.Count)
         {
@@ -251,7 +251,7 @@ public static partial class GeoWrangler
 
     private static PathsD pCutKeyHole(PathsD outers, PathsD cutters, PathsD extraCutters)
     {
-        ClipperD c = new();
+        ClipperD c = new(constants.roundingDecimalPrecision);
         c.AddSubject(cutters);
         c.AddClip(extraCutters);
 
@@ -422,7 +422,7 @@ public static partial class GeoWrangler
         }
 
         // Clean-up the geometry.
-        ClipperD c = new();
+        ClipperD c = new(constants.roundingDecimalPrecision);
         c.AddSubject(ret);
         c.Execute(ClipType.Union, FillRule.EvenOdd, ret);
 

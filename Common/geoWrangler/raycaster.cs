@@ -308,7 +308,7 @@ public class RayCast
 
     private PathsD pCutRay(PathD ray, PathsD collisionPaths, inversionMode invert, falloff sideRayFallOff)
     {
-        ClipperD d = new();
+        ClipperD d = new(constants.roundingDecimalPrecision);
         if (sideRayFallOff != falloff.none)
         {
             d.ZCallback = prox_ZFillCallback;

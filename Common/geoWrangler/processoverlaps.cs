@@ -60,7 +60,7 @@ public static class ProcessOverlaps
         }
         try
         {
-            ClipperD c = new() {PreserveCollinear = true};
+            ClipperD c = new(constants.roundingDecimalPrecision) {PreserveCollinear = true};
             PathsD sourcePolyData = new(sourceData);
             PathsD mergedPolyData = new();
             

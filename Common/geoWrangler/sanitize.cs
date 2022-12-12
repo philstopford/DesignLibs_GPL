@@ -77,7 +77,7 @@ public static partial class GeoWrangler
             tess.Tessellate(wr, ElementType.Polygons, polysize);
 
             // Iterate triangles and create output geometry. We'll use clipper to simplify the output geometry.	
-            ClipperD c = new() {PreserveCollinear = true};
+            ClipperD c = new(constants.roundingDecimalPrecision) {PreserveCollinear = true};
             PathsD retPaths = new();
 
             PathsD cPaths = new();
@@ -127,7 +127,7 @@ public static partial class GeoWrangler
 
     private static PathsD pClean_and_flatten(PathsD source, double customSizing = 0, double extension = 0)
     {
-        ClipperD c = new();
+        ClipperD c = new(constants.roundingDecimalPrecision);
         c.AddSubject(source);
         PathsD solution = new();
         c.Execute(ClipType.Union, FillRule.EvenOdd, solution);

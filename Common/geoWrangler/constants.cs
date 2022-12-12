@@ -2,6 +2,7 @@ namespace geoWrangler;
 
 public static class constants
 {
+    public const int roundingDecimalPrecision = 4;
     public const double scalar = 100;
     public const double scalar_inv = 1.0 / scalar;
     public const double scalar2 = 1000;

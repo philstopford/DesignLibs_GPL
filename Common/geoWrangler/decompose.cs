@@ -54,7 +54,7 @@ public static partial class GeoWrangler
 
         PathsD ret = new();
 
-        ClipperD c = new();
+        ClipperD c = new(constants.roundingDecimalPrecision);
 
         // Reconcile each path separately to get a clean representation.
         foreach (PathD t1 in source)
@@ -298,7 +298,7 @@ public static partial class GeoWrangler
         // Contains edges from ray intersections that are not part of the original geometry.
         PathsD newEdges = new();
 
-        ClipperD c = new();
+        ClipperD c = new(constants.roundingDecimalPrecision);
 
         foreach (PathD t in rays)
         {

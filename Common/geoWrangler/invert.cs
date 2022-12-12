@@ -39,7 +39,7 @@ public static partial class GeoWrangler
             }
         }
 
-        ClipperD c = new() {PreserveCollinear = preserveColinear};
+        ClipperD c = new(constants.roundingDecimalPrecision) {PreserveCollinear = preserveColinear};
 
         c.AddSubject(firstLayerBP);
         // Add hole polygons from our paths

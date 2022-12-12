@@ -89,7 +89,7 @@ public static partial class GeoWrangler
             );
 #endif
             // Squash any accidental keyholes - not ideal, but best option found so far.
-            ClipperD c1 = new() {PreserveCollinear = true };
+            ClipperD c1 = new(constants.roundingDecimalPrecision) {PreserveCollinear = true };
             c1.AddSubject(merged);
             c1.Execute(ClipType.Union, FillRule.EvenOdd, ret);
             ret = reOrderXY(ret);
@@ -128,7 +128,7 @@ public static partial class GeoWrangler
             new (bounds.left, bounds.bottom)
         };
 
-        ClipperD c = new() {PreserveCollinear = false};
+        ClipperD c = new(constants.roundingDecimalPrecision) {PreserveCollinear = false};
 
         c.AddSubject(ret);
         c.AddClip(bound);
@@ -197,7 +197,7 @@ public static partial class GeoWrangler
         }
 
         // important - if we don't do this, we lose the fragmentation on straight edges.
-        ClipperD c = new() {PreserveCollinear = preserveColinear};
+        ClipperD c = new(constants.roundingDecimalPrecision) {PreserveCollinear = preserveColinear};
 
         c.AddSubject(firstPaths);
         c.AddClip(secondPaths);

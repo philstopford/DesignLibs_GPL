@@ -48,7 +48,7 @@ public static partial class GeoWrangler
 
         bool result = false;
             
-        ClipperD c = new();
+        ClipperD c = new(constants.roundingDecimalPrecision);
 
         PathsD rationalizedFirstLayer = clockwise(a);
         // Force to clockwise as a safety measure.

@@ -35,7 +35,7 @@ public static partial class GeoWrangler
 
     private static PathD pSimplify(PathD iPoints)
     {
-        ClipperD c = new();
+        ClipperD c = new(constants.roundingDecimalPrecision);
         c.PreserveCollinear = false;
         c.AddSubject(iPoints);
         PathsD oPoly = new();

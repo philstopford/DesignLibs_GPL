@@ -94,7 +94,6 @@ public static partial class GeoWrangler
                 return source;
         }
         
-        /*
         ClipperOffset co = new() {PreserveCollinear = true};
         Path64 a = new(source);
         // Path from Point auto-closes the input for historical reasons. We may not want this....
@@ -104,10 +103,7 @@ public static partial class GeoWrangler
         }
         co.AddPath(a, JoinType.Miter, EndType.Square);
         Paths64 output = co.Execute(width);
-        */
 
-        Paths64 output = Clipper.InflatePaths(new Paths64() {source}, width, JoinType.Miter, EndType.Square);
-        
         output = pReorderXY(output);
 
         return pClose(output[0]);

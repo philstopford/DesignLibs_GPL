@@ -346,8 +346,10 @@ public static partial class GeoWrangler
 
         // edge = pExtendEdge(edge, keyhole_sizing);
 
+        /*
         // Need to workaround missing PathD support in ClipperOffset...
         // Note that the scalar has interaction with pRemoveFragments
+        
         Path64 rescaledSource = _pPath64FromPathD(edge, constants.scalar);
 
         ClipperOffset co = new() {PreserveCollinear = true};
@@ -355,10 +357,15 @@ public static partial class GeoWrangler
         
         Paths64 tmp = co.Execute(2 * customSizing);
 
-        // Sizr back down again.
+        // Size back down again.
         PathsD sPaths = _pPathsDFromPaths64(tmp, constants.scalar_inv);
+        */
 
-        return pReorderXY(sPaths);
+        // Note that the scalar has interaction with pRemoveFragments
+        PathsD ret = Clipper.InflatePaths(new PathsD() { edge }, 2 * customSizing, JoinType.Miter, EndType.Square,
+            precision: 4);
+        
+        return pReorderXY(ret);
     }
 
     public static PathsD sliverGapRemoval(PathD source, double customSizing = 0, double extension = 0, bool maySimplify = false)
@@ -485,6 +492,7 @@ public static partial class GeoWrangler
         // Used to try and avoid residual fragments; empirically derived.
         customSizing *= extension;
         
+        /*
         // Need to workaround missing PathD support in ClipperOffset...
         Paths64 rescaledSource = _pPaths64FromPathsD(source, constants.scalar4);
 
@@ -499,7 +507,14 @@ public static partial class GeoWrangler
         tmp = co.Execute(-(customSizing  * constants.scalar)); // Size back to original dimensions
 
         PathsD cGeometry = _pPathsDFromPaths64(tmp, constants.scalar4_inv);
+        */
         
+        // The scalar below must be aligned with the usage in pInflateEdge
+        PathsD tmp = Clipper.InflatePaths(source, customSizing, joinType, EndType.Polygon,
+            precision: 4);
+        PathsD cGeometry = Clipper.InflatePaths(tmp, -customSizing, joinType, EndType.Polygon,
+            precision: 4);
+
         cGeometry = pReorderXY(cGeometry);
         
         if (maySimplify)
@@ -529,6 +544,7 @@ public static partial class GeoWrangler
         };
         double sourceArea = Clipper.Area(source);
 
+        /*
         // Need to workaround missing PathD support in ClipperOffset...
         Path64 rescaledSource = _pPath64FromPathD(source, constants.scalar2);
 
@@ -543,7 +559,14 @@ public static partial class GeoWrangler
         tmp = co.Execute(-(customSizing * constants.scalar)); // Size back to original dimensions
 
         PathsD cGeometry = _pPathsDFromPaths64(tmp, constants.scalar2_inv);
+        */
 
+        // The scalar below must be aligned with the usage in pInflateEdge
+        PathsD tmp = Clipper.InflatePaths(new PathsD() { source }, customSizing, joinType, EndType.Polygon,
+            precision: 4);
+        PathsD cGeometry = Clipper.InflatePaths(tmp, -customSizing, joinType, EndType.Polygon,
+            precision: 4);
+        
         cGeometry = pReorderXY(cGeometry);
         
         if (maySimplify)

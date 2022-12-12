@@ -1,4 +1,5 @@
 ﻿using Clipper2Lib;
+using geoWrangler;
 
 namespace ClipperLibTest;
 
@@ -213,7 +214,7 @@ public class OpenPathClippingTest
             40.00000, -3.67500,
         });
 
-        ClipperD d = new();
+        ClipperD d = new(constants.roundingDecimalPrecision);
         d.AddOpenSubject(cutMe);
         d.AddClip(clippingPath);
         PathsD out_ = new();

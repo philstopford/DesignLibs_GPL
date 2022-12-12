@@ -146,7 +146,7 @@ internal class Program
         
         // Generate sliver geometry.
         PathsD sL = new();
-        ClipperD c = new();
+        ClipperD c = new(constants.roundingDecimalPrecision);
         c.AddSubject(outer);
         c.AddClip(kH);
         c.Execute(ClipType.Difference, FillRule.EvenOdd, sL);
@@ -300,7 +300,7 @@ internal class Program
         
         // Generate sliver geometry.
         PathsD sL = new();
-        ClipperD c = new();
+        ClipperD c = new(constants.roundingDecimalPrecision);
         c.AddSubject(outer);
         c.AddClip(kH);
         c.Execute(ClipType.Difference, FillRule.EvenOdd, sL);
@@ -514,7 +514,7 @@ internal class Program
            */
         
         // Generate sliver geometry.
-        ClipperD c = new();
+        ClipperD c = new(constants.roundingDecimalPrecision);
         PathsD sL = new();
         c.AddSubject(outer);
         c.AddClip(kH);
@@ -789,7 +789,7 @@ internal class Program
           [12] = {Point64} 200,0,0 
            */
         
-        ClipperD c = new();
+        ClipperD c = new(constants.roundingDecimalPrecision);
         c.AddSubject(outer);
 
         PathsD unionRes = new();
@@ -1376,7 +1376,7 @@ internal class Program
            [12] = {Point64} 200,0,0 
            */
         
-        ClipperD c = new();
+        ClipperD c = new(constants.roundingDecimalPrecision);
         c.AddSubject(outer);
 
         PathsD unionRes = new();
@@ -2275,7 +2275,7 @@ internal class Program
         
         // Generate sliver geometry.
         PathsD sL = new();
-        ClipperD c = new();
+        ClipperD c = new(constants.roundingDecimalPrecision);
         c.AddSubject(outer1);
         c.AddSubject(outer2);
         c.AddClip(kH);

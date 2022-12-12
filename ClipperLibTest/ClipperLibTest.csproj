@@ -9,6 +9,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Common\clipper\clipper.csproj" />
+      <ProjectReference Include="..\Common\geoWrangler\geoWrangler.csproj" />
     </ItemGroup>
 
 </Project>

@@ -14,6 +14,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Runtime.ConstrainedExecution;
 
 namespace Clipper2Lib
 {
@@ -2255,7 +2256,6 @@ namespace Clipper2Lib
         }
 
         if (NextVertex(horz).pt.Y != horz.top.Y) break;
-
 
         // there must be a following (consecutive) horizontal
         if (IsHotEdge(horz))

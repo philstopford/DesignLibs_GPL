@@ -11,6 +11,8 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography;
+using System.Threading;
 
 namespace Clipper2Lib
 {
@@ -442,12 +444,26 @@ namespace Clipper2Lib
     private Path64() : base() { }
     public Path64(int capacity = 0) : base(capacity) { }
     public Path64(IEnumerable<Point64> path) : base(path) { }
+    public override string ToString()
+    {
+      string s = "";
+      foreach (Point64 p in this)
+        s = s + p.ToString() + " ";
+      return s;
+    }
   }
   public class Paths64 : List<Path64>
   {
     private Paths64() : base() { }
     public Paths64(int capacity = 0) : base(capacity) { }
     public Paths64(IEnumerable<Path64> paths) : base(paths) { }
+    public override string ToString()
+    {
+      string s = "";
+      foreach (Path64 p in this)
+        s = s + p.ToString() + "\n";
+      return s;
+    }
   }
 
   public class PathD : List<PointD>
@@ -455,6 +471,13 @@ namespace Clipper2Lib
     private PathD() : base() { }
     public PathD(int capacity = 0) : base(capacity) { }
     public PathD(IEnumerable<PointD> path) : base(path) { }
+    public override string ToString()
+    {
+      string s = "";
+      foreach (PointD p in this)
+        s = s + p.ToString() + " ";
+      return s;
+    }
   }
 
   public class PathsD : List<PathD>
@@ -462,6 +485,13 @@ namespace Clipper2Lib
     private PathsD() : base() { }
     public PathsD(int capacity = 0) : base(capacity) { }
     public PathsD(IEnumerable<PathD> paths) : base(paths) { }
+    public override string ToString()
+    {
+      string s = "";
+      foreach (PathD p in this)
+        s = s + p.ToString() + "\n";
+      return s;
+    }
   }
 
   // Note: all clipping operations except for Difference are commutative.
@@ -567,17 +597,17 @@ namespace Clipper2Lib
       double dx1 = (ln1b.X - ln1a.X);
       double dy2 = (ln2b.Y - ln2a.Y);
       double dx2 = (ln2b.X - ln2a.X);
-      double q1 = dy1 * ln1a.X - dx1 * ln1a.Y;
-      double q2 = dy2 * ln2a.X - dx2 * ln2a.Y;
-      double cross_prod = dy1 * dx2 - dy2 * dx1;
-      if (cross_prod == 0.0)
+      double cp = dy1 * dx2 - dy2 * dx1;
+      if (cp == 0.0)
       {
         ip = new Point64();
         return false;
       }
+      double qx = dx1 * ln1a.Y - dy1 * ln1a.X;
+      double qy = dx2 * ln2a.Y - dy2 * ln2a.X;
       ip = new Point64(
-        CheckCastInt64((dx2 * q1 - dx1 * q2) / cross_prod),
-        CheckCastInt64((dy2 * q1 - dy1 * q2) / cross_prod));
+        CheckCastInt64((dx1 * qy - dx2 * qx) / cp),
+        CheckCastInt64((dy1 * qy - dy2 * qx) / cp));
       return (ip.X != Invalid64 && ip.Y != Invalid64);
     }
 

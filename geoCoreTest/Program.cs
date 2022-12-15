@@ -2,20 +2,100 @@
 using System;
 using System.Collections.Generic;
 using Clipper2Lib;
+using geoWrangler;
+using utility;
 
 namespace geoCoreTest;
 
 internal class Program
 {
-    private static string baseDir = "D:\\Google Drive\\Semi\\geocore_test\\";
+    private static string baseDir = "/d/Google Drive/Semi/geocore_test/"; //"D:\\Google Drive\\Semi\\geocore_test\\";
 
     private static void Main(string[] args)
     {
+        test_circle(baseDir);
         test_1();
         test_cellrefarray_basic();
         test_cellrefarray_nested();
         test_cell_export();
         test_cell_export_complex();
+    }
+
+    private static void test_circle(string outDir)
+    {
+        int numberOfPoints = 30;
+
+        double deg_per_pt = 360.0 / numberOfPoints;
+
+        double radius = 5;
+
+        PathD circleD = new();
+
+        for (int pt = 0; pt < numberOfPoints; pt++)
+        {
+            double deg = deg_per_pt * pt;
+            double rad = Utils.toRadians(deg);
+
+            double x = Math.Cos(deg) * radius;
+            double y = Math.Sin(deg) * radius;
+            
+            circleD.Add(new(x, y));
+        }
+
+        int scale = 100; // for 0.01 nm resolution.
+
+        Path64 circle = GeoWrangler.resize_to_int(circleD, 100);
+        
+        // Can the system define geometry and write it correctly to Oasis and GDS files.
+        GeoCore g = new();
+        g.reset();
+        GCDrawingfield drawing_ = new("")
+        {
+            accyear = 2018,
+            accmonth = 12,
+            accday = 5,
+            acchour = 2,
+            accmin = 10,
+            accsec = 10,
+            modyear = 2018,
+            modmonth = 12,
+            modday = 5,
+            modhour = 2,
+            modmin = 10,
+            modsec = 10,
+            databaseunits = 1000 * scale,
+            userunits = 0.001 / scale,
+            libname = "noname"
+        };
+
+        GCCell gcell = drawing_.addCell();
+        gcell.accyear = 2018;
+        gcell.accmonth = 12;
+        gcell.accday = 5;
+        gcell.acchour = 2;
+        gcell.accmin = 10;
+        gcell.accsec = 10;
+        gcell.modyear = 2018;
+        gcell.modmonth = 12;
+        gcell.modday = 5;
+        gcell.modhour = 2;
+        gcell.modmin = 10;
+        gcell.modsec = 10;
+
+        gcell.cellName = "test";
+        
+        gcell.addPolygon(circle, 1, 0);
+        // For comparison
+        gcell.addCircle(1, 1, new(0,0), 5);
+        
+        g.setDrawing(drawing_);
+        g.setValid(true);
+
+        gds.gdsWriter gw = new(g, outDir + "poly10_circle11.gds");
+        gw.save();
+
+        oasis.oasWriter ow = new(g, outDir + "poly10_circle11.oas");
+        ow.save();
     }
 
     private static void test_cell_export()

@@ -161,17 +161,17 @@ public class GCCell
         }
     }
 
-    public GCElement addCircle(int layer, int datatype, Point64 center, double radius)
+    public void addCircle(int layer, int datatype, Point64 center, double radius)
     {
-        return pAddCircle(layer, datatype, center, radius);
+        pAddCircle(layer, datatype, center, radius);
     }
 
-    private GCElement pAddCircle(int layer, int datatype, Point64 center, double radius)
+    private void pAddCircle(int layer, int datatype, Point64 center, double radius)
     {
         GCElement e = new();
         Path64 points = e.ellipse(center, radius, GCSetup.circularDefault);
         e = new GCPolygon(points, layer, datatype);
-        return e;
+        pAddElement(e);
     }
 
     public void addElement(GCElement element)

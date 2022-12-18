@@ -541,7 +541,7 @@ internal class Program
 
         gcell.cellName = "test";
 
-        gcell.addCircle(1, 0, new (10, 10), 500.0);
+        gcell.addCircle(1, 0, new (10, 10), 5.0);
 
         g.setDrawing(drawing_);
         g.setValid(true);

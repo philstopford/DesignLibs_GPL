@@ -1,6 +1,7 @@
 ﻿using geoCoreLib;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using Clipper2Lib;
 using geoWrangler;
 using utility;
@@ -84,9 +85,9 @@ internal class Program
 
         gcell.cellName = "test";
         
-        gcell.addPolygon(circle, 1, 0);
+        // gcell.addPolygon(circle, 1, 0);
         // For comparison
-        gcell.addCircle(1, 1, new(0,0), 5);
+        gcell.addCircle(1, 1, new(0,0), 500);
         
         g.setDrawing(drawing_);
         g.setValid(true);
@@ -101,7 +102,7 @@ internal class Program
     private static void test_cell_export()
     {
         // Note that the cell computation is for all layers/dataypes. The list of GCPolygons would need to be filtered separately for the LD of interest.
-        string arrayDir = baseDir + "cellrefarray\\";
+        string arrayDir = baseDir + "cellrefarray" + Path.DirectorySeparatorChar;
 
         GeoCoreHandler gH_GDS = new();
         gH_GDS.updateGeoCoreHandler(arrayDir + "L_array_nested.gds", GeoCore.fileType.gds);
@@ -133,7 +134,7 @@ internal class Program
     private static void test_cell_export_complex()
     {
         // Note that the cell computation is for all layers/dataypes. The list of GCPolygons would need to be filtered separately for the LD of interest.
-        string arrayDir = baseDir + "cellrefarray\\";
+        string arrayDir = baseDir + "cellrefarray" + Path.DirectorySeparatorChar;
 
         GeoCoreHandler gH_GDS = new();
         gH_GDS.updateGeoCoreHandler(arrayDir + "L_array_nested_2.gds", GeoCore.fileType.gds);
@@ -185,7 +186,7 @@ internal class Program
 
     private static void test_cellrefarray_basic()
     {
-        string arrayDir = baseDir + "cellrefarray\\";
+        string arrayDir = baseDir + "cellrefarray" + Path.DirectorySeparatorChar;
 
         GeoCoreHandler gH_GDS = new();
         gH_GDS.updateGeoCoreHandler(arrayDir + "L_array_nested.gds", GeoCore.fileType.gds);
@@ -204,7 +205,7 @@ internal class Program
 
     private static void test_cellrefarray_nested()
     {
-        string arrayDir = baseDir + "cellrefarray\\";
+        string arrayDir = baseDir + "cellrefarray" + Path.DirectorySeparatorChar;
 
         GeoCoreHandler gH_GDS = new();
         gH_GDS.updateGeoCoreHandler(arrayDir + "L_array_nested_2.gds", GeoCore.fileType.gds);
@@ -224,9 +225,9 @@ internal class Program
     private static void test_1()
     {
 
-        string gdsDir = baseDir + "gdsFiles\\";
-        string oasDir = baseDir + "oasFiles\\";
-        string outDir = baseDir + "geoCoreTestOut\\";
+        string gdsDir = baseDir + "gdsFiles" + Path.DirectorySeparatorChar;
+        string oasDir = baseDir + "oasFiles" + Path.DirectorySeparatorChar;
+        string outDir = baseDir + "geoCoreTestOut" + Path.DirectorySeparatorChar;
 
         // Basic tests.
         defineAndWrite_Box(outDir);
@@ -540,7 +541,7 @@ internal class Program
 
         gcell.cellName = "test";
 
-        gcell.addCircle(1, 0, new (10, 10), 5.0);
+        gcell.addCircle(1, 0, new (10, 10), 500.0);
 
         g.setDrawing(drawing_);
         g.setValid(true);

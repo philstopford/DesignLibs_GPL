@@ -540,11 +540,11 @@ public class GCPolygon : GCElement
     private void pSaveGDS(gdsWriter gw)
     {
         Point64 pc = new();
-        const int r = 0;
-        if (isCircle())
+        CircleResult res = isCircle();
+        if (res.circle)
         {
             GCPath tPath = new(new () { pc }, layer_nr, datatype_nr);
-            tPath.setWidth(r * 2);
+            tPath.setWidth((int)(res.radius * 2));
             tPath.setCap(1); // set cap to 'round' type. Also forced in the saver for a round path type, as a safety.
             tPath.setRound(true); // this is the important thing to set - it forces the correct handling (including cap value)
             tPath.saveGDS(gw);
@@ -607,19 +607,24 @@ public class GCPolygon : GCElement
         pSaveOASIS(ow);
     }
 
-    private bool isCircle()
+    class CircleResult
     {
+        public bool circle { get; set; }
+        public double radius { get; set; }
+    }
+    private CircleResult isCircle()
+    {
+        CircleResult result = new() {circle = false, radius = 0};
         switch (pointarray.Count)
         {
             case < 10:
-                return false;
+                return result;
         }
 
         PointD mid = GeoWrangler.midPoint(pointarray);
 
         double min_distance = Math.Abs(GeoWrangler.distanceBetweenPoints(mid, pointarray[0]));
         double max_distance = Math.Abs(GeoWrangler.distanceBetweenPoints(mid, pointarray[0]));
-
 
         for (int i = 1; i < pointarray.Count; i++)
         {
@@ -631,9 +636,18 @@ public class GCPolygon : GCElement
         double delta = max_distance - min_distance;
 
         // Tolerance value - one DB unit in each direction, sqrt of 2.
-        const double tol = 1.414213f;// * 1000;
+        // Multiply by 100 to take account of 0.01 nm minimum grid.
+        const double tol = 1.414213f * 100;
 
-        return delta <= tol;
+        if (delta > tol)
+        {
+            return result;
+        }
+
+        result.circle = true;
+        result.radius = delta * 100 / 2;
+
+        return result;
     }
 
     private void pSaveOASIS(oasWriter ow)
@@ -645,8 +659,8 @@ public class GCPolygon : GCElement
             {
                 // pc and r are manipulated in isCircle()
                 Point64 pc = new();
-                const int r = 0;
-                if (isCircle())
+                CircleResult res = isCircle();
+                if (res.circle)
                 {
                     ow.modal.absoluteMode = ow.modal.absoluteMode switch
                     {
@@ -671,7 +685,7 @@ public class GCPolygon : GCElement
                     {
                         info_byte += 8;
                     }
-                    switch (Math.Abs(r - ow.modal.circle_radius))
+                    switch (Math.Abs(res.radius - ow.modal.circle_radius))
                     {
                         case > double.Epsilon:
                             info_byte += 32;
@@ -696,7 +710,7 @@ public class GCPolygon : GCElement
                     switch (info_byte & 32)
                     {
                         case > 0:
-                            ow.modal.circle_radius = r;
+                            ow.modal.circle_radius = res.radius;
                             ow.writeUnsignedInteger((uint)ow.modal.circle_radius);
                             break;
                     }

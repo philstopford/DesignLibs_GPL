@@ -24,30 +24,8 @@ public static partial class GeoWrangler
     
     private static Path64 pRemoveDuplicates(Path64 source, double threshold = constants.tolerance)
     {
-        Path64 ret = new();
-        switch (source.Count)
-        {
-            case > 0:
-            {
-                ret.Add(new (source[0]));
-                int retIndex = 1;
-                for (int i = 1; i < source.Count - 1; i++)
-                {
-                    if (!(Math.Abs(source[i].X - ret[retIndex - 1].X) > threshold) &&
-                        !(Math.Abs(source[i].Y - ret[retIndex - 1].Y) > threshold))
-                    {
-                        continue;
-                    }
-
-                    ret.Add(new (source[i]));
-                    retIndex++;
-                }
-
-                break;
-            }
-        }
-
-        return ret;
+        bool isClosed = distanceBetweenPoints(source[0], source[^1]) < constants.tolerance;
+        return Clipper.StripDuplicates(source, isClosed);
     }
     
     public static Paths64 stripCollinear(Paths64 source)

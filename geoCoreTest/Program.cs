@@ -10,7 +10,8 @@ namespace geoCoreTest;
 
 internal class Program
 {
-    private static string baseDir = "/d/Google Drive/Semi/geocore_test/"; //"D:\\Google Drive\\Semi\\geocore_test\\";
+    private static string root = "/d";
+    private static string baseDir = Path.Join(root, "Google Drive", "Semi", "geocore_test") + Path.DirectorySeparatorChar; //"D:\\Google Drive\\Semi\\geocore_test\\";
 
     private static void Main(string[] args)
     {

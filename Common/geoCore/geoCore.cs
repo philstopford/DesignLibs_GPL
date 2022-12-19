@@ -13,13 +13,8 @@ namespace geoCoreLib;
 
 public class GeoCore
 {
-    public double scaling = 1.0f;
     private GCDrawingfield drawingField;
-
-    public static ushort maxLayers = ushort.MaxValue;
-
-    public double baseScale = 1.0;
-
+    
     public List<string> error_msgs;
     private bool valid;
 
@@ -498,9 +493,7 @@ public class GeoCore
         pStructureList.Clear();
         structure_LayerDataTypeList[0].Clear();
         structures.Clear();
-
-        scaling = 1.0f;
-            
+        
         for (int cell = 0; cell < drawing_.cellList.Count; cell++)
         {
             if (drawing_.cellList[cell].elementList == null)
@@ -636,7 +629,7 @@ public class GeoCore
                 case -1:
                 {
                     hashList.Add(crP_Hash);
-                    PathD t = new (p.pointarray.Select(t1 => new PointD (t1.X * scaling, t1.Y * scaling)));
+                    PathD t = new (p.pointarray.Select(t1 => new PointD (t1.X, t1.Y)));
                     if (gcCell.elementList[element].isText())
                     {
                         string text = gcCell.elementList[element].getName();
@@ -806,7 +799,7 @@ public class GeoCore
 
                         const int x = 0;
                         const int y = 0;
-                        PathD t = new (crP.pointarray.Select(t1 => new PointD((t1.X + x * xSpace) * scaling, (t1.Y + y * ySpace) * scaling)));
+                        PathD t = new (crP.pointarray.Select(t1 => new PointD((t1.X + x * xSpace), (t1.Y + y * ySpace))));
                         structures[cellIndex].addPoly(t, ldString);
                         ret.Add(t);
                         text.Add(crP.isText());

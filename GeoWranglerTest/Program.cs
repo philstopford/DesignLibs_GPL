@@ -7,6 +7,40 @@ internal static class Program
 {
     private static void Main()
     {
+        test_strip_collinear();
+        test_fragmentPath();
+    }
+
+    private static void test_fragmentPath()
+    {
+        PathD original = new()
+        {
+            new(0, 0),
+            new(0, 10),
+            new(10, 10),
+            new(10, 0),
+            new(0, 0)
+        };
+
+        Fragmenter f = new();
+
+        PathD fragmented_10 = f.fragmentPath(original, 1.0);
+        PathD fragmented_05 = f.fragmentPath(original, 0.5);
+
+        // Inject a point into the path that is off-grid for the fragmentation. This has to be collinear to avoid changing the actual shape.
+        original.Insert(1, new(0,5.2));
+        
+        // The fragmentation below should change the result on the first edge due to the injected point
+        PathD fragmented_b_10 = f.fragmentPath(original, 1.0);
+        PathD fragmented_b_05 = f.fragmentPath(original, 0.5);
+
+        // The below should give consistent results with the original fragmentation - the injected collinear point should have been stripped.
+        PathD refragmented_10 = f.refragmentPath(original, 1.0);
+        PathD refragmented_05 = f.refragmentPath(original, 0.5);
+    }
+
+    private static void test_strip_collinear()
+    {
         PathD source = new () {
             new(0.02985, 0.18999),
             new(0.00864, 0.21120),

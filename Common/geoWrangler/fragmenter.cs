@@ -1,6 +1,7 @@
 ﻿using Clipper2Lib;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace geoWrangler;
 public class Fragmenter
@@ -8,7 +9,6 @@ public class Fragmenter
     private double resolution;
 
     private const double def_res = 1.0;
-    private const double def_scale = 1.0;
 
     public Fragmenter(double res = def_res)
     {
@@ -42,7 +42,43 @@ public class Fragmenter
     {
         return pFragmentPath(pointList);
     }
-    
+
+    public PathsD refragmentPaths(PathsD pointList, double res)
+    {
+        return pRefragmentPaths(pointList, res);
+    }
+
+    private PathsD pRefragmentPaths(PathsD pointList, double res)
+    {
+        int count = pointList.Count;
+        PathsD ret = Helper.initedPathsD(count);
+#if !GWSINGLETHREADED
+        Parallel.For(0, count, i =>
+#else
+                for (int i = 0; i < count; i++)
+#endif
+            {
+                ret[i] = pRefragmentPath(pointList[i], res);
+            }
+#if !GWSINGLETHREADED
+        );
+#endif
+        return ret;
+    }
+
+    public PathD refragmentPath(PathD pointList, double res)
+    {
+        return pRefragmentPath(pointList, res);
+    }
+
+    private PathD pRefragmentPath(PathD pointList, double res)
+    {
+        bool closed = GeoWrangler.distanceBetweenPoints(pointList[0], pointList[^1]) <= constants.tolerance;
+        PathD ret = Clipper.TrimCollinear(pointList, constants.roundingDecimalPrecision, closed);
+        ret = fragmentPath(ret, res);
+        return ret;
+    }
+
     public PathD fragmentPath(PathD pointList, double res)
     {
         resolution = res;

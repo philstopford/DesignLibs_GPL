@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.Types;
 
 namespace Burkardt.FEM;
 
@@ -131,7 +132,7 @@ public class Div
                 return;
         }
 
-        if (Math.Abs(xhi - xlo) <= double.Epsilon)
+        if (Math.Abs(xhi - xlo) <= typeMethods.r8_epsilon())
         {
             Console.WriteLine("");
             Console.WriteLine("DIV_Q4 - Fatal error!");
@@ -141,7 +142,7 @@ public class Div
             return;
         }
 
-        if (Math.Abs(yhi - ylo) <= double.Epsilon)
+        if (Math.Abs(yhi - ylo) <= typeMethods.r8_epsilon())
         {
             Console.WriteLine("");
             Console.WriteLine("DIV_Q4 - Fatal error!");

@@ -2,20 +2,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Clipper2Lib;
-using geoLib;
 
 namespace geoWrangler;
 
-using Path = Path64;
-using Paths = Paths64;
-
 public static class ProcessOverlaps
 {
-    public static GeometryResult processOverlaps(List<GeoLibPointF[]> sourceData, List<bool> drawn, double extension, double resolution, Int64 scaleFactorForOperation, double customSizing = 0, bool forceOverride = false, FillRule pft = FillRule.NonZero)
+    public static GeometryResult processOverlaps(PathsD sourceData_, List<bool> drawn, double extension, double resolution, double customSizing = 0, bool forceOverride = false, FillRule pft = FillRule.NonZero)
     {
+        PathsD sourceData = new(sourceData_);
         // Filter drawn, process those, then do not-drawn. This allows for element counts to change.
-        List<GeoLibPointF[]> drawnStuff = new();
-        List<GeoLibPointF[]> notDrawnStuff = new();
+        PathsD drawnStuff = new();
+        PathsD notDrawnStuff = new();
         int sCount = sourceData.Count;
         for (int i = 0; i < sCount; i++)
         {
@@ -29,9 +26,9 @@ public static class ProcessOverlaps
             }
         }
         
-        List<GeoLibPointF[]> processed_Drawn = processOverlaps_core(drawnStuff, customSizing:customSizing, extension:extension, resolution:resolution, scaleFactorForOperation:scaleFactorForOperation, forceOverride, pft);
+        PathsD processed_Drawn = processOverlaps_core(drawnStuff, customSizing:customSizing, extension:extension, resolution:resolution, forceOverride, pft);
 
-        List<GeoLibPointF[]> processed_NotDrawn = processOverlaps_core( notDrawnStuff, customSizing:customSizing, extension: extension, resolution:resolution, scaleFactorForOperation:scaleFactorForOperation, forceOverride, pft);
+        PathsD processed_NotDrawn = processOverlaps_core( notDrawnStuff, customSizing:customSizing, extension: extension, resolution:resolution, forceOverride, pft);
 
 
         GeometryResult ret = new();
@@ -55,26 +52,26 @@ public static class ProcessOverlaps
 
     }
 
-    private static List<GeoLibPointF[]> processOverlaps_core(List<GeoLibPointF[]> sourceData, double customSizing, double extension, double resolution, Int64 scaleFactorForOperation, bool forceOverride = false, FillRule pft = FillRule.NonZero)
+    private static PathsD processOverlaps_core(PathsD sourceData, double customSizing, double extension, double resolution, bool forceOverride = false, FillRule pft = FillRule.NonZero)
     {
         if (sourceData.Count == 0)
         {
-            return sourceData;
+            return new(sourceData);
         }
         try
         {
-            Clipper64 c = new() {PreserveCollinear = true};
-            Paths sourcePolyData = GeoWrangler.pathsFromPointFs(sourceData, scaleFactorForOperation);
-            Paths mergedPolyData = new();
+            ClipperD c = new(constants.roundingDecimalPrecision) {PreserveCollinear = true};
+            PathsD sourcePolyData = new(sourceData);
+            PathsD mergedPolyData = new();
             
             // Union isn't always robust, so get a bounding box and run an intersection boolean to rationalize the geometry.
-            Rect64 bounds = Clipper.GetBounds(sourcePolyData);
-            Path bounding = new()
+            RectD bounds = Clipper.GetBounds(sourcePolyData);
+            PathD bounding = new()
             {
-                new Point64(bounds.left, bounds.bottom),
-                new Point64(bounds.left, bounds.top),
-                new Point64(bounds.right, bounds.top),
-                new Point64(bounds.right, bounds.bottom)
+                new (bounds.left, bounds.bottom),
+                new (bounds.left, bounds.top),
+                new (bounds.right, bounds.top),
+                new (bounds.right, bounds.bottom)
             };
 
             c.AddClip(sourcePolyData);
@@ -89,10 +86,10 @@ public static class ProcessOverlaps
             // Avoid the keyhole handling if we don't actually need to do it.
             bool noKeyHolesNeeded = true;
             // Decompose to outers and cutters
-            Paths[] decomp = GeoWrangler.getDecomposed(mergedPolyData);
+            PathsD[] decomp = GeoWrangler.getDecomposed(mergedPolyData);
 
-            Paths outers = decomp[(int)GeoWrangler.type.outer];
-            Paths cutters = decomp[(int)GeoWrangler.type.cutter];
+            PathsD outers = decomp[(int)GeoWrangler.type.outer];
+            PathsD cutters = decomp[(int)GeoWrangler.type.cutter];
 
             int oCount = outers.Count;
             int cCount = cutters.Count;
@@ -106,13 +103,13 @@ public static class ProcessOverlaps
                     c.Clear();
                     c.AddSubject(outers[outer]);
                     c.AddClip(cutters[cutter]);
-                    Paths test = new();
+                    PathsD test = new();
                     c.Execute(ClipType.Union, FillRule.Positive, test);
                     test = GeoWrangler.reOrderXY(test);
 
                     double uArea = test.Sum(t => Math.Abs(Clipper.Area(t)));
 
-                    if (!(Math.Abs(uArea - origArea) < double.Epsilon))
+                    if (!(Math.Abs(uArea - origArea) < constants.tolerance))
                     {
                         continue;
                     }
@@ -129,7 +126,7 @@ public static class ProcessOverlaps
             if (noKeyHolesNeeded)
             {
                 // Send back our merged data to the caller; no keyholes needed and overlaps are reconciled.
-                return GeoWrangler.pointFsFromPaths(mergedPolyData, scaleFactorForOperation);
+                return new(mergedPolyData);
             }
             
             // So it turns out we need to worry about keyholes if we didn't return already. Let's get started.
@@ -138,10 +135,10 @@ public static class ProcessOverlaps
             // Can geoWrangler help us out here?
 
             // We need to run the fragmenter here because the keyholer / raycaster pipeline needs points for emission.
-            Fragmenter f = new(Convert.ToDouble(resolution) * scaleFactorForOperation);
-            Paths toKeyHole = f.fragmentPaths(mergedPolyData);
+            Fragmenter f = new(Convert.ToDouble(resolution));
+            PathsD toKeyHole = f.fragmentPaths(mergedPolyData);
             // Nudge the default keyhole size to avoid collapsing existing keyholes.
-            Paths keyHoled = GeoWrangler.makeKeyHole(toKeyHole, reverseEval:false, biDirectionalEval:true, RayCast.inversionMode.x, customSizing:customSizing, extension:Convert.ToDouble(extension));
+            PathsD keyHoled = GeoWrangler.makeKeyHole(toKeyHole, reverseEval:false, biDirectionalEval:true, RayCast.inversionMode.x, customSizing:customSizing, extension:Convert.ToDouble(extension));
 
             if (!keyHoled.Any())
             {
@@ -158,25 +155,22 @@ public static class ProcessOverlaps
             mergedPolyData = GeoWrangler.close(keyHoled);
 
             // We got some resulting geometry from our Boolean so let's process it to send back to the caller.
-            List<GeoLibPointF[]> refinedData = new();
+            PathsD refinedData = new();
             
             int rpdCount = mergedPolyData.Count;
-
-            // Switch our fragmenter to use a new configuration for the downsized geometry.
-            f = new Fragmenter(Convert.ToDouble(resolution), scaleFactorForOperation);
-
+            
             // Convert back our geometry.                
             for (int rPoly = 0; rPoly < rpdCount; rPoly++)
             {
                 // We have to re-fragment as the overlap processing changed the geometry heavily.
-                refinedData.Add(f.fragmentPath(GeoWrangler.pointFFromPath(mergedPolyData[rPoly], scaleFactorForOperation)));
+                refinedData.Add(new (f.fragmentPath(mergedPolyData[rPoly])));
             }
 
             return refinedData;
         }
         catch (Exception)
         {
-            return sourceData;
+            return new(sourceData);
         }
     }
     

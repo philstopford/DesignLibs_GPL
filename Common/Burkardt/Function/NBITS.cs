@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.Types;
 
 namespace Burkardt.Function;
 
@@ -62,7 +63,7 @@ public static class NBITS
             b /= 2.0;
             double v = b + 1.0;
 
-            if ( Math.Abs(v - 1.0) <= double.Epsilon )
+            if ( Math.Abs(v - 1.0) <= typeMethods.r8_epsilon())
             {
                 break;
             }

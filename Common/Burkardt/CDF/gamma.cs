@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.Types;
 
 namespace Burkardt.CDFLib;
 
@@ -207,13 +208,13 @@ public static partial class CDF
 
         double twoa = a + a;
         m = (int)Math.Truncate(twoa);
-        if (Math.Abs(twoa - m) > double.Epsilon)
+        if (Math.Abs(twoa - m) > typeMethods.r8_epsilon())
         {
             goto S20;
         }
 
         int i = m / 2;
-        if (Math.Abs(a - i) <= double.Epsilon)
+        if (Math.Abs(a - i) <= typeMethods.r8_epsilon())
         {
             goto S210;
         }

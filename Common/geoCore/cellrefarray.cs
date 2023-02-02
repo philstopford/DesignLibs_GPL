@@ -1,27 +1,28 @@
 ﻿using gds;
-using geoLib;
 using oasis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Clipper2Lib;
+using geoWrangler;
 
 namespace geoCoreLib;
 
 public class GCCellRefArray : GCElement
 {
-    private GeoLibPoint point;
+    private Point64 point;
     public int count_x, count_y;
-    public GeoLibPoint pitch;
+    public Point64 pitch;
     public GCCell cell_ref { get; set; }
     private string name;
     public GCStrans trans { get; set; }
 
-    public GCCellRefArray(GCCell c, GeoLibPoint[] array, int xCount, int yCount)
+    public GCCellRefArray(GCCell c, Path64 array, int xCount, int yCount)
     {
         cell_ref = c;
         point = array[0];
-        pitch = new GeoLibPoint((array[1].X - point.X) / xCount,  (array[2].Y - point.Y) / yCount);
+        pitch = new ((array[1].X - point.X) / xCount,  (array[2].Y - point.Y) / yCount);
         count_x = xCount;
         count_y = yCount;
         // Tag layer and datatype to allow this element to be filtered out from LD and geo lists.
@@ -31,12 +32,12 @@ public class GCCellRefArray : GCElement
         trans.reset();
     }
 
-    public GCCellRefArray(GCCell c, GeoLibPoint pos1, GeoLibPoint pos2, int xCount, int yCount)
+    public GCCellRefArray(GCCell c, Point64 pos1, Point64 pos2, int xCount, int yCount)
     {
         cell_ref = c;
         point = pos1;
-        GeoLibPoint p = new(pos2.X - pos1.X, pos2.Y - pos1.Y);
-        pitch = new GeoLibPoint(p.X, p.Y);
+        Point64 p = new(pos2.X - pos1.X, pos2.Y - pos1.Y);
+        pitch = new (p.X, p.Y);
         count_x = xCount;
         count_y = yCount;
         // Tag layer and datatype to allow this element to be filtered out from LD and geo lists.
@@ -66,26 +67,25 @@ public class GCCellRefArray : GCElement
         return cell_ref;
     }
 
-    public override void minimum(GeoLibPoint p)
+    public override void minimum(Point64 p)
     {
         pMinimum(p);
     }
 
-    private void pMinimum(GeoLibPoint p)
+    private void pMinimum(Point64 p)
     {
         for (int x = 0; x < 2; x++)
         {
             for (int y = 0; y < 2; y++)
             {
-                GeoLibPoint pos3 = point;
-                pos3.Offset(new GeoLibPoint(pitch.X * x * (count_x - 1), pitch.Y * y * (count_y - 1)));
-                GeoLibPoint pos1 = new(p.X - pos3.X, p.Y - pos3.Y);
+                Point64 pos3 = GeoWrangler.move(point, pitch.X * x * (count_x - 1), pitch.Y * y * (count_y - 1));
+                Point64 pos1 = new(p.X - pos3.X, p.Y - pos3.Y);
                 pos1.Y = trans.mirror_x switch
                 {
                     true => -pos1.Y,
                     _ => pos1.Y
                 };
-                GeoLibPoint pos2 = pos1;
+                Point64 pos2 = pos1;
                 cell_ref.maximum(pos1);
                 cell_ref.minimum(pos2);
                 switch (trans.mirror_x)
@@ -95,8 +95,8 @@ public class GCCellRefArray : GCElement
                         pos2.Y = -pos2.Y;
                         break;
                 }
-                pos1.Offset(pos3);
-                pos2.Offset(pos3);
+                pos1 = GeoWrangler.move(pos1, pos3.X, pos3.Y);
+                pos2 = GeoWrangler.move(pos2, pos3.X, pos3.Y);
                 p.X = Math.Min(p.X, pos2.X);
                 p.X = Math.Min(p.X, pos1.X);
                 p.Y = Math.Min(p.Y, pos2.Y);
@@ -105,26 +105,25 @@ public class GCCellRefArray : GCElement
         }
     }
 
-    public override void maximum(GeoLibPoint p)
+    public override void maximum(Point64 p)
     {
         pMaximum(p);
     }
 
-    private void pMaximum(GeoLibPoint p)
+    private void pMaximum(Point64 p)
     {
         for (int x = 0; x < 2; x++)
         {
             for (int y = 0; y < 2; y++)
             {
-                GeoLibPoint pos3 = point;
-                pos3.Offset(new GeoLibPoint(pitch.X * x * (count_x - 1), pitch.Y * y * (count_y - 1)));
-                GeoLibPoint pos1 = new(p.X - pos3.X, p.Y - pos3.Y);
+                Point64 pos3 = GeoWrangler.move(point, pitch.X * x * (count_x - 1), pitch.Y * y * (count_y - 1));
+                Point64 pos1 = new(p.X - pos3.X, p.Y - pos3.Y);
                 pos1.Y = trans.mirror_x switch
                 {
                     true => -pos1.Y,
                     _ => pos1.Y
                 };
-                GeoLibPoint pos2 = pos1;
+                Point64 pos2 = pos1;
                 cell_ref.maximum(pos1);
                 cell_ref.minimum(pos2);
                 switch (trans.mirror_x)
@@ -134,8 +133,8 @@ public class GCCellRefArray : GCElement
                         pos2.Y = -pos2.Y;
                         break;
                 }
-                pos1.Offset(pos3);
-                pos2.Offset(pos3);
+                pos1 = GeoWrangler.move(pos1, pos3.X, pos3.Y);
+                pos2 = GeoWrangler.move(pos2, pos3.X, pos3.Y);
                 p.X = Math.Max(p.X, pos1.X);
                 p.X = Math.Max(p.X, pos2.X);
                 p.Y = Math.Max(p.Y, pos1.Y);
@@ -144,27 +143,27 @@ public class GCCellRefArray : GCElement
         }
     }
 
-    public override void move(GeoLibPoint p)
+    public override void move(Point64 p)
     {
         pMove(p);
     }
 
-    private void pMove(GeoLibPoint p)
+    private void pMove(Point64 p)
     {
-        point.Offset(p);
+        point = new (point.X + p.X, point.Y + p.Y);
     }
 
-    public override void moveSelect(GeoLibPoint p)
+    public override void moveSelect(Point64 p)
     {
         pMoveSelect(p);
     }
 
-    private void pMoveSelect(GeoLibPoint p)
+    private void pMoveSelect(Point64 p)
     {
         switch (select)
         {
             case true:
-                point.Offset(p);
+                pMove(p);
                 break;
         }
     }
@@ -192,12 +191,12 @@ public class GCCellRefArray : GCElement
         pitch.Y = (int)(pitch.Y * factor);
     }
 
-    public override void setPos(GeoLibPoint p)
+    public override void setPos(Point64 p)
     {
         pSetPos(p);
     }
 
-    private void pSetPos(GeoLibPoint p)
+    private void pSetPos(Point64 p)
     {
         point = p;
     }
@@ -266,14 +265,14 @@ public class GCCellRefArray : GCElement
         gw.bw.Write((ushort)(3 * 2 * 4 + 4));
         gw.bw.Write((byte)0x10);
         gw.bw.Write((byte)3);
-        gw.bw.Write(point.X);
-        gw.bw.Write(point.Y);
-        GeoLibPoint pos = new(pitch.X * count_x + point.X, pitch.Y + point.Y);
-        gw.bw.Write(pos.X);
-        gw.bw.Write(pos.Y);
-        pos = new GeoLibPoint(pitch.X * +point.X, pitch.Y * count_y + point.Y);
-        gw.bw.Write(pos.X);
-        gw.bw.Write(pos.Y);
+        gw.bw.Write((int)point.X);
+        gw.bw.Write((int)point.Y);
+        Point64 pos = new(pitch.X * count_x + point.X, pitch.Y + point.Y);
+        gw.bw.Write((int)pos.X);
+        gw.bw.Write((int)pos.Y);
+        pos = new (pitch.X * +point.X, pitch.Y * count_y + point.Y);
+        gw.bw.Write((int)pos.X);
+        gw.bw.Write((int)pos.Y);
         // endel
         gw.bw.Write((ushort)4);
         gw.bw.Write((byte)0x11);
@@ -349,14 +348,14 @@ public class GCCellRefArray : GCElement
         switch (info_byte & 32)
         {
             case > 0:
-                ow.modal.placement_x = point.X;
+                ow.modal.placement_x = (int)point.X;
                 ow.writeSignedInteger(ow.modal.placement_x);
                 break;
         }
         switch (info_byte & 16)
         {
             case > 0:
-                ow.modal.placement_y = point.Y;
+                ow.modal.placement_y = (int)point.Y;
                 ow.writeSignedInteger(ow.modal.placement_y);
                 break;
         }
@@ -366,14 +365,14 @@ public class GCCellRefArray : GCElement
                 ow.writeUnsignedInteger(3);
                 ow.modal.y_dimension = count_y;
                 ow.writeUnsignedInteger((uint)(count_y - 2));
-                ow.modal.y_space = pitch.Y;
+                ow.modal.y_space = (int)pitch.Y;
                 ow.writeUnsignedInteger((uint)pitch.Y);
                 break;
             case > 0 when count_y == 1:
                 ow.writeUnsignedInteger(2);
                 ow.modal.x_dimension = count_x;
                 ow.writeUnsignedInteger((uint)(count_x - 2));
-                ow.modal.x_space = pitch.X;
+                ow.modal.x_space = (int)pitch.X;
                 ow.writeUnsignedInteger((uint)pitch.X);
                 break;
             case > 0:
@@ -382,8 +381,8 @@ public class GCCellRefArray : GCElement
                 ow.modal.y_dimension = count_y;
                 ow.writeUnsignedInteger((uint)(count_x - 2));
                 ow.writeUnsignedInteger((uint)(count_y - 2));
-                ow.modal.x_space = pitch.X;
-                ow.modal.y_space = pitch.Y;
+                ow.modal.x_space = (int)pitch.X;
+                ow.modal.y_space = (int)pitch.Y;
                 ow.writeUnsignedInteger((uint)pitch.X);
                 ow.writeUnsignedInteger((uint)pitch.Y);
                 break;
@@ -409,12 +408,12 @@ public class GCCellRefArray : GCElement
         return cell_ref;
     }
 
-    public override GeoLibPoint getPos()
+    public override Point64 getPos()
     {
         return pGetPos();
     }
 
-    private GeoLibPoint pGetPos()
+    private Point64 pGetPos()
     {
         return point;
     }
@@ -448,7 +447,7 @@ public class GCCellRefArray : GCElement
             {
                 foreach (GCPolygon tp in tmp.Select(t => new GCPolygon(t)))
                 {
-                    tp.move(new GeoLibPoint(x * pitch.X, y * pitch.Y));
+                    tp.move(new (x * pitch.X, y * pitch.Y));
                     ret.Add(tp);
                 }
             }

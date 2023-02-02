@@ -1361,7 +1361,7 @@ public static class r8Test
                 {
                     ncan[k - 1] = 0;
                 }
-                else if (Math.Abs(t - total) <= double.Epsilon)
+                else if (Math.Abs(t - total) <= typeMethods.r8_epsilon())
                 {
                     ncan[k - 1] += 1;
                     stacks[nstack] = 0.0;
@@ -1384,7 +1384,7 @@ public static class r8Test
                 }
                 else if (total < t && k == n)
                 {
-                    if (Math.Abs(total + w[k - 1] - t) <= double.Epsilon)
+                    if (Math.Abs(total + w[k - 1] - t) <= typeMethods.r8_epsilon())
                     {
                         ncan[k - 1] += 1;
                         stacks[nstack] = 1.0;

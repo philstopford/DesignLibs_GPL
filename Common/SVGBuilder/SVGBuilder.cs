@@ -1,11 +1,9 @@
 ﻿using System.Globalization;
+using Clipper2Lib;
 using color;
-using geoLib;
 
 namespace SVGBuilder;
 
-using Polygon = List<GeoLibPointF>;
-using Polygons = List<List<GeoLibPointF>>;
 //a very simple class that builds an SVG file with any number of 
 //polygons of the specified formats ...
 public class SVGBuilder
@@ -44,13 +42,13 @@ public class SVGBuilder
 
     public class PolyInfo
     {
-        public Polygons polygons { get; set; }
+        public PathsD polygons { get; set; }
         public StyleInfo si { get; set; }
         //public Color pi_color;
 
         public PolyInfo()
         {
-            polygons = new Polygons();
+            polygons = new ();
             si = new StyleInfo();
         }
     }
@@ -81,22 +79,16 @@ public class SVGBuilder
         PolyInfoList = new List<PolyInfo>();
         style = new StyleInfo();
     }
-
-    public void AddPolygons(List<GeoLibPointF[]> pointArrayList)
+    
+    public void AddPolygons(PathD pointArray)
     {
-        Polygons tempPolygonsList = pointArrayList.Select(t => t.ToList()).Select(tempPolygon => tempPolygon.ToList()).ToList();
-        AddPolygons(tempPolygonsList.ToList());
+        PathsD tempPolygonsList = new();
+        PathD tempPolygon = new (pointArray);
+        tempPolygonsList.Add(new(tempPolygon));
+        AddPolygons(tempPolygonsList);
     }
 
-    public void AddPolygons(GeoLibPointF[] pointArray)
-    {
-        Polygons tempPolygonsList = new();
-        Polygon tempPolygon = pointArray.ToList();
-        tempPolygonsList.Add(tempPolygon.ToList());
-        AddPolygons(tempPolygonsList.ToList());
-    }
-
-    public void AddPolygons(Polygons poly)
+    public void AddPolygons(PathsD poly)
     {
         if (poly.Count == 0)
         {
@@ -135,31 +127,31 @@ public class SVGBuilder
             return false;
         }
 
-        BoundingRect rec = new() {left = PolyInfoList[i].polygons[j][0].X};
+        BoundingRect rec = new() {left = PolyInfoList[i].polygons[j][0].x};
         rec.right = rec.left;
-        rec.top = PolyInfoList[0].polygons[j][0].Y;
+        rec.top = PolyInfoList[0].polygons[j][0].y;
         rec.bottom = rec.top;
 
         for (; i < PolyInfoList.Count; i++)
         {
-            foreach (GeoLibPointF pt in PolyInfoList[i].polygons.SelectMany(pg => pg))
+            foreach (PointD pt in PolyInfoList[i].polygons.SelectMany(pg => pg))
             {
-                if (pt.X < rec.left)
+                if (pt.x < rec.left)
                 {
-                    rec.left = pt.X;
+                    rec.left = pt.x;
                 }
-                else if (pt.X > rec.right)
+                else if (pt.x > rec.right)
                 {
-                    rec.right = pt.X;
+                    rec.right = pt.x;
                 }
 
-                if (pt.Y < rec.top)
+                if (pt.y < rec.top)
                 {
-                    rec.top = pt.Y;
+                    rec.top = pt.y;
                 }
-                else if (pt.Y > rec.bottom)
+                else if (pt.y > rec.bottom)
                 {
-                    rec.bottom = pt.Y;
+                    rec.bottom = pt.y;
                 }
             }
         }
@@ -181,16 +173,16 @@ public class SVGBuilder
         foreach (PolyInfo pi in PolyInfoList)
         {
             writer.Write(" <path d=\"");
-            foreach (Polygon p in pi.polygons.Where(p => p.Count >= 3))
+            foreach (PathD p in pi.polygons.Where(p => p.Count >= 3))
             {
                 writer.Write(string.Format(NumberFormatInfo.InvariantInfo, " M {0:f2} {1:f2}",
-                    p[0].X * scale + offsetX,
-                    p[0].Y * scale + offsetY));
+                    p[0].x * scale + offsetX,
+                    p[0].y * scale + offsetY));
                 for (int k = 1; k < p.Count; k++)
                 {
                     writer.Write(string.Format(NumberFormatInfo.InvariantInfo, " L {0:f2} {1:f2}",
-                        p[k].X * scale + offsetX,
-                        p[k].Y * scale + offsetY));
+                        p[k].x * scale + offsetX,
+                        p[k].y * scale + offsetY));
                 }
                 writer.Write(" z");
             }
@@ -208,12 +200,12 @@ public class SVGBuilder
                 case true:
                 {
                     writer.Write("<g font-family=\"Verdana\" font-size=\"11\" fill=\"black\">\n\n");
-                    foreach (Polygon p in pi.polygons)
+                    foreach (PathD p in pi.polygons)
                     {
-                        foreach (GeoLibPointF pt in p)
+                        foreach (PointD pt in p)
                         {
-                            double x = pt.X;
-                            double y = pt.Y;
+                            double x = pt.x;
+                            double y = pt.y;
                             writer.Write($"<text x=\"{x * scale + offsetX}\" y=\"{y * scale + offsetY}\">{x},{y}</text>\n");
 
                         }

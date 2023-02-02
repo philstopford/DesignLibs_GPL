@@ -1,11 +1,29 @@
-﻿namespace geoLib;
+﻿using Clipper2Lib;
+
+namespace geoLib;
 
 public enum typeDirection { left1, right1, up1, down1, tilt1 }
 public enum typeVertex { corner, center }
 public enum typeRound { inner, exter }
 
-public class MyVertex : GeoLibPointF
+public class MyVertex
 {
+    private PointD internal_pt;
+
+    public double X
+    {
+        get => internal_pt.x;
+
+        set => internal_pt.x = value;
+    }
+    
+    public double Y
+    {
+        get => internal_pt.y;
+
+        set => internal_pt.y = value;
+    }
+
     public typeDirection direction { get; set; }
     public bool vertical { get; set; } // denotes a vertex attached to a vertical edge
     public bool inner { get; set; } // denotes an inner vertex

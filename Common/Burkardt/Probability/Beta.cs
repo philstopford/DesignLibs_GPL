@@ -714,7 +714,7 @@ public static class Beta
                     return value;
                 }
 
-                if (tx != 0.0 && Math.Abs(tx - 1.0) > double.Epsilon)
+                if (tx != 0.0 && Math.Abs(tx - 1.0) > typeMethods.r8_epsilon())
                 {
                     break;
                 }
@@ -722,7 +722,7 @@ public static class Beta
                 g /= 3.0;
             }
 
-            if (Math.Abs(tx - value) <= double.Epsilon)
+            if (Math.Abs(tx - value) <= typeMethods.r8_epsilon())
             {
                 break;
             }

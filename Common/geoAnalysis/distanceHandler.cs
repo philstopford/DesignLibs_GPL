@@ -1,15 +1,11 @@
 using System.Globalization;
 using Clipper2Lib;
-using geoLib;
 using geoWrangler;
 using KDTree;
 using utility;
 #pragma warning disable CS8618
 
 namespace geoAnalysis;
-
-using Path = Path64;
-using Paths = Paths64;
 
 public class DistanceHandler
 {
@@ -18,41 +14,43 @@ public class DistanceHandler
     public delegate void ErrorRep(string text, string header);
     public ErrorRep errorRep { get; set; }
     private const bool debug = false;
-    public Paths resultPaths { get; private set; }
+    public PathsD resultPaths { get; private set; }
     private double resultDistance;
     public string distanceString { get; private set; }
     private RayCast.inversionMode invert;
 
-    private void ZFillCallback(Point64 bot1, Point64 top1, Point64 bot2, Point64 top2, ref Point64 pt)
+    private void ZFillCallback(PointD bot1, PointD top1, PointD bot2, PointD top2, ref PointD pt)
     {
-        pt.Z = -1; // Tag our intersection points.
+        pt.z = -1; // Tag our intersection points.
     }
 
     private class spaceResult
     {
         public bool done { get; set; } // to flag early return.
         public double distance { get; set; }
-        public Paths resultPaths { get; set; }
+        public PathsD resultPaths { get; set; }
 
         public spaceResult()
         {
-            resultPaths = new Paths();
+            resultPaths = new ();
         }
     }
 
-    public DistanceHandler(bool debugCalc, Paths aPaths, Paths bPaths, int mode, int scaleFactor, bool runThreaded)
+    public DistanceHandler(bool debugCalc, PathsD aPaths, PathsD bPaths, int mode, bool runThreaded)
     {
-        distanceHandlerLogic(debugCalc, aPaths, bPaths, mode, scaleFactor, runThreaded);
+        distanceHandlerLogic(debugCalc, aPaths, bPaths, mode, runThreaded);
     }
 
-    private void distanceHandlerLogic(bool debugCalc, Paths aPaths, Paths bPaths, int mode, int scaleFactor, bool runThreaded)
+    private void distanceHandlerLogic(bool debugCalc, PathsD aPaths_, PathsD bPaths_, int mode, bool runThreaded)
     {
-        resultPaths = new Paths();
+        PathsD aPaths = new (aPaths_);
+        PathsD bPaths = new (bPaths_);
+        resultPaths = new ();
         // Safety check for no active layers.
         if (aPaths.Count == 1 && aPaths[0].Count == 1 ||
             bPaths.Count == 1 && bPaths[0].Count == 1)
         {
-            resultPaths.Add(new() {new Point64(0, 0)});
+            resultPaths.Add(new() {new (0, 0)});
             distanceString = "N/A";
         }
         else
@@ -65,11 +63,11 @@ public class DistanceHandler
             if (!isEnclosed)
             {
                 // Overlap method sets result fields.
-                overlap(debugCalc, aPaths, bPaths, mode, scaleFactor, runThreaded);
+                overlap(debugCalc, aPaths, bPaths, mode, runThreaded);
             }
             else
             {
-                spaceResult result = fastKDTree(aPaths, bPaths, mode, scaleFactor);
+                spaceResult result = fastKDTree(aPaths, bPaths, mode);
 
                 resultDistance = result.distance;
                 resultPaths = result.resultPaths;
@@ -79,32 +77,32 @@ public class DistanceHandler
         }
     }
 
-    private spaceResult fastKDTree(Paths aPaths, Paths bPaths, int mode, int scaleFactor)
+    private spaceResult fastKDTree(PathsD aPaths, PathsD bPaths, int mode)
     {
         int numberOfPoints = 0;
         double currentMinimum = 0;
-        Path minimumDistancePath = new();
+        PathD minimumDistancePath = new();
         bool resultNeedsInversion = false;
 
         double refArea = 0;
 
-        foreach (Path t in bPaths)
+        foreach (PathD t in bPaths)
         {
             numberOfPoints += t.Count;
             refArea += Clipper.Area(t);
         }
         // KDTree to store the points from our target shape(s)
-        KDTree<GeoLibPointF> pTree = new(2, numberOfPoints);
+        KDTree<PointD> pTree = new(2, numberOfPoints);
 
         for (int shapeA = 0; shapeA < aPaths.Count; shapeA++)
         {
-            foreach (Path t in bPaths)
+            foreach (PathD t in bPaths)
             {
                 for (int pointB = 0; pointB < t.Count; pointB++)
                 {
                     try
                     {
-                        pTree.AddPoint(new double[] { t[pointB].X, t[pointB].Y }, new GeoLibPointF(t[pointB].X, t[pointB].Y));
+                        pTree.AddPoint(new double[] { t[pointB].x, t[pointB].y }, new (t[pointB].x, t[pointB].y));
                     }
                     catch (Exception ex)
                     {
@@ -114,8 +112,8 @@ public class DistanceHandler
             }
 
             // Do we need to invert the result?
-            Clipper64 c = new() {PreserveCollinear = true};
-            Paths oCheck = new();
+            ClipperD c = new(constants.roundingDecimalPrecision) {PreserveCollinear = true};
+            PathsD oCheck = new();
             c.AddClip(bPaths);
             c.AddSubject(aPaths[shapeA]);
             c.Execute(ClipType.Union, FillRule.EvenOdd, oCheck);
@@ -136,7 +134,7 @@ public class DistanceHandler
             for (int pointA = 0; pointA < aPaths[shapeA].Count; pointA++)
             {
                 // '1' forces a single nearest neighbor to be returned.
-                NearestNeighbour<GeoLibPointF> pIter = pTree.NearestNeighbors(new double[] { aPaths[shapeA][pointA].X, aPaths[shapeA][pointA].Y }, 1);
+                NearestNeighbour<PointD> pIter = pTree.NearestNeighbors(new double[] { aPaths[shapeA][pointA].x, aPaths[shapeA][pointA].y }, 1);
                 while (pIter.MoveNext())
                 {
                     double currentDistance = pIter.CurrentDistance;
@@ -147,9 +145,9 @@ public class DistanceHandler
                     }
 
                     minimumDistancePath.Clear();
-                    minimumDistancePath.Add(new Point64(aPaths[shapeA][pointA]));
-                    minimumDistancePath.Add(new Point64((pIter.Current.X + aPaths[shapeA][pointA].X) / 2.0f, (pIter.Current.Y + aPaths[shapeA][pointA].Y) / 2.0f));
-                    minimumDistancePath.Add(new Point64(pIter.Current.X, pIter.Current.Y));
+                    minimumDistancePath.Add(new (aPaths[shapeA][pointA]));
+                    minimumDistancePath.Add(new ((pIter.Current.x + aPaths[shapeA][pointA].x) / 2.0f, (pIter.Current.y + aPaths[shapeA][pointA].y) / 2.0f));
+                    minimumDistancePath.Add(new (pIter.Current.x, pIter.Current.y));
                     currentMinimum = currentDistance;
                 }
             }
@@ -157,9 +155,9 @@ public class DistanceHandler
 
         spaceResult result = new()
         {
-            resultPaths = new Paths {minimumDistancePath},
+            resultPaths = new () {minimumDistancePath},
             // k-d tree distance is the squared distance. Need to scale and sqrt
-            distance = Math.Sqrt(currentMinimum / Utils.myPow(scaleFactor, 2))
+            distance = Math.Sqrt(currentMinimum)
         };
 
         if (resultNeedsInversion)
@@ -170,30 +168,30 @@ public class DistanceHandler
         return result;
     }
 
-    private void overlap(bool debugCalc, Paths aPaths, Paths bPaths, int mode, int scaleFactor, bool runThreaded)
+    private void overlap(bool debugCalc, PathsD aPaths, PathsD bPaths, int mode, bool runThreaded)
     {
         bool completeOverlap = false;
-        foreach (Path a in aPaths)
+        foreach (PathD a in aPaths)
         {
-            Path layerAPath = new();
+            PathD layerAPath = new();
             for (int pa = 0; pa < a.Count; pa++)
             {
-                layerAPath.Add(new(a[pa].X, a[pa].Y, 1));
+                layerAPath.Add(new(a[pa].x, a[pa].y, 1));
             }
-            foreach (Path b in bPaths)
+            foreach (PathD b in bPaths)
             {
-                Path layerBPath = new();
+                PathD layerBPath = new();
                 for (int pb = 0; pb < b.Count; pb++)
                 {
-                    layerBPath.Add(new(b[pb].X, b[pb].Y, 2));
+                    layerBPath.Add(new(b[pb].x, b[pb].y, 2));
                 }
 
-                Paths overlapShape = new();
+                PathsD overlapShape = new();
 
                 // Check for complete overlap
-                Clipper64 c = new() {PreserveCollinear = true, ZCallback = ZFillCallback};
+                ClipperD c = new(constants.roundingDecimalPrecision) {PreserveCollinear = true, ZCallback = ZFillCallback};
                 // Try a union and see whether the point count of the perimeter changes. This might break for re-entrant cases, but those are problematic anyway.
-                Paths fullOverlapCheck = new();
+                PathsD fullOverlapCheck = new();
                 c.AddSubject(layerAPath);
                 c.AddClip(layerBPath);
                 c.Execute(ClipType.Union, FillRule.EvenOdd, fullOverlapCheck);
@@ -212,7 +210,7 @@ public class DistanceHandler
                 {
                     // Perform an area check in case of overlap.
                     // Overlap means X/Y negative space needs to be reported.
-                    AreaHandler aH = new(new Paths { layerAPath }, new Paths { layerBPath }, maySimplify: false, perPoly: false, scaleFactorForOperation: 1.0);
+                    AreaHandler aH = new(new () { layerAPath }, new PathsD { layerBPath }, maySimplify: false, perPoly: false);
                     overlapShape = aH.listOfOutputPoints;
                 }
 
@@ -235,7 +233,7 @@ public class DistanceHandler
                 // This is needed to ensure the downstream evaluation works.
                 overlapShape = GeoWrangler.reOrderYX(overlapShape);
 
-                spaceResult result = doPartialOverlap(debugCalc, overlapShape, layerAPath, layerBPath, mode, scaleFactor, runThreaded);
+                spaceResult result = doPartialOverlap(debugCalc, overlapShape, layerAPath, layerBPath, mode, runThreaded);
                 if (!result.done || resultPaths.Any() && !(result.distance < resultDistance))
                 {
                     continue;
@@ -247,7 +245,7 @@ public class DistanceHandler
         }
     }
 
-    private spaceResult doPartialOverlap(bool debugCalc, Paths overlapShape, Path aPath, Path bPath, int mode, int scaleFactor, bool runThreaded)
+    private spaceResult doPartialOverlap(bool debugCalc, PathsD overlapShape, PathD aPath, PathD bPath, int mode, bool runThreaded)
     {
         spaceResult result = new();
         int oCount = overlapShape.Count;
@@ -273,7 +271,7 @@ public class DistanceHandler
                 {
                     residesOnAEdge[pt] = false;
                     residesOnBEdge[pt] = false;
-                    switch (overlapShape[poly][pt].Z)
+                    switch (overlapShape[poly][pt].z)
                     {
                         case -1:
                             // residesOnAEdge[pt] = true;
@@ -289,15 +287,15 @@ public class DistanceHandler
                 }
 
                 // Now we need to construct our Paths for the overlap edges, based on the true/false case for each array.
-                Paths aOverlapEdge = new();
-                Paths bOverlapEdge = new();
+                PathsD aOverlapEdge = new();
+                PathsD bOverlapEdge = new();
 
-                Path tempPath = new();
+                PathD tempPath = new();
                 for (int i = 0; i < ptCount; i++)
                 {
                     if (residesOnAEdge[i])
                     {
-                        tempPath.Add(new Point64(overlapShape[poly][i]));
+                        tempPath.Add(new (overlapShape[poly][i]));
                     }
                     else // not found on A edge, probably resides on B edge, but we'll check that separately to keep code readable.
                     {
@@ -323,7 +321,7 @@ public class DistanceHandler
                 {
                     if (residesOnBEdge[i])
                     {
-                        tempPath.Add(new Point64(overlapShape[poly][i]));
+                        tempPath.Add(new (overlapShape[poly][i]));
                     }
                     else
                     {
@@ -373,7 +371,7 @@ public class DistanceHandler
 
                 // Walk our edges to figure out the overlap.
                 var poly1 = poly;
-                foreach (spaceResult tResult in aOverlapEdge.SelectMany(t => bOverlapEdge.Select(t1 => overlapAssess(debugCalc, overlapShape[poly1], t, t1, aPath, bPath, mode, scaleFactor, runThreaded)).Where(tResult => result.resultPaths.Count == 0 || tResult.distance > result.distance)))
+                foreach (spaceResult tResult in aOverlapEdge.SelectMany(t => bOverlapEdge.Select(t1 => overlapAssess(debugCalc, overlapShape[poly1], t, t1, aPath, bPath, mode, runThreaded)).Where(tResult => result.resultPaths.Count == 0 || tResult.distance > result.distance)))
                 {
                     result.distance = tResult.distance;
                     if (!debugCalc)
@@ -395,12 +393,12 @@ public class DistanceHandler
         result.done = true;
         if (!debugCalc)
         {
-            result.distance = -result.distance / scaleFactor;
+            result.distance = -result.distance;
         }
         return result;
     }
 
-    private spaceResult overlapAssess(bool debugCalc, Path overlapPoly, Path aOverlapEdge, Path bOverlapEdge, Path aPath, Path bPath, int mode, int scaleFactor, bool runThreaded)
+    private spaceResult overlapAssess(bool debugCalc, PathD overlapPoly, PathD aOverlapEdge, PathD bOverlapEdge, PathD aPath, PathD bPath, int mode, bool runThreaded)
     {
         spaceResult result = new();
         if (aOverlapEdge.Count == 0)
@@ -420,7 +418,7 @@ public class DistanceHandler
 
         aOverlapEdge = GeoWrangler.reOrderXY(aOverlapEdge);
         bOverlapEdge = GeoWrangler.reOrderXY(bOverlapEdge);
-        Path extractedPath = new();
+        PathD extractedPath = new();
         bool usingAEdge = false;
 
         /* Prior to 1.7, we used the edge from the layerB combination to raycast. This was not ideal.
@@ -428,8 +426,8 @@ public class DistanceHandler
             approach is retained for now as well.
         */
 
-        Point64 shortestPathBeforeStartPoint = new(0, 0);
-        Point64 shortestPathAfterEndPoint = new(0, 0);
+        PointD shortestPathBeforeStartPoint = new(0, 0);
+        PointD shortestPathAfterEndPoint = new(0, 0);
 
         if (mode == (int)spacingCalcModes.spacing)
         {
@@ -437,11 +435,11 @@ public class DistanceHandler
             // Calculate lengths and check.
             for (int pt = 0; pt < aOverlapEdge.Count - 1; pt++)
             {
-                lengthA += Math.Sqrt(Utils.myPow(aOverlapEdge[pt + 1].X - aOverlapEdge[pt].X, 2) + Utils.myPow(aOverlapEdge[pt + 1].Y - aOverlapEdge[pt].Y, 2));
+                lengthA += Math.Sqrt(Utils.myPow(aOverlapEdge[pt + 1].x - aOverlapEdge[pt].x, 2) + Utils.myPow(aOverlapEdge[pt + 1].y - aOverlapEdge[pt].y, 2));
             }
             for (int pt = 0; pt < bOverlapEdge.Count - 1; pt++)
             {
-                lengthB += Math.Sqrt(Utils.myPow(bOverlapEdge[pt + 1].X - bOverlapEdge[pt].X, 2) + Utils.myPow(bOverlapEdge[pt + 1].Y - bOverlapEdge[pt].Y, 2));
+                lengthB += Math.Sqrt(Utils.myPow(bOverlapEdge[pt + 1].x - bOverlapEdge[pt].x, 2) + Utils.myPow(bOverlapEdge[pt + 1].y - bOverlapEdge[pt].y, 2));
             }
 
             extractedPath = bOverlapEdge; // need a default in case of equivalent lengths
@@ -504,8 +502,8 @@ public class DistanceHandler
                     }
                 }
 
-                shortestPathBeforeStartPoint = new Point64(aPath[startIndex]);
-                shortestPathAfterEndPoint = new Point64(aPath[endIndex]);
+                shortestPathBeforeStartPoint = new (aPath[startIndex]);
+                shortestPathAfterEndPoint = new (aPath[endIndex]);
             }
             else
             {
@@ -556,8 +554,8 @@ public class DistanceHandler
                     }
                 }
 
-                shortestPathBeforeStartPoint = new Point64(bPath[startIndex]);
-                shortestPathAfterEndPoint = new Point64(bPath[endIndex]);
+                shortestPathBeforeStartPoint = new (bPath[startIndex]);
+                shortestPathAfterEndPoint = new (bPath[endIndex]);
             }
         }
 
@@ -620,7 +618,7 @@ public class DistanceHandler
 
             try
             {
-                shortestPathBeforeStartPoint = new Point64(bPath[startIndex]);
+                shortestPathBeforeStartPoint = new (bPath[startIndex]);
             }
             catch (Exception)
             {
@@ -628,7 +626,7 @@ public class DistanceHandler
             }
             try
             {
-                shortestPathAfterEndPoint = new Point64(bPath[endIndex]);
+                shortestPathAfterEndPoint = new (bPath[endIndex]);
             }
             catch (Exception)
             {
@@ -637,7 +635,7 @@ public class DistanceHandler
         }
 
         // No blurry rays, so no point running the inner loop threaded. We thread the outer loop (the emission edge raycast), though. Testing showed small performance improvement for this approach.
-        RayCast rc = new(extractedPath, overlapPoly, scaleFactor * scaleFactor, runThreaded, invert, 0, true, false, shortestPathBeforeStartPoint, shortestPathAfterEndPoint);
+        RayCast rc = new(extractedPath, overlapPoly, 1000, runThreaded, invert, 0, true, false, shortestPathBeforeStartPoint, shortestPathAfterEndPoint);
 
         if (debug || debugCalc)
         {
@@ -647,7 +645,7 @@ public class DistanceHandler
             return result;
         }
 
-        Paths clippedLines = rc.getClippedRays();
+        PathsD clippedLines = rc.getClippedRays();
 
         bool validOverlapFound = false;
 
@@ -662,7 +660,7 @@ public class DistanceHandler
 
             double startPointCheck_A_dist = GeoWrangler.distanceBetweenPoints(clippedLines[line][0], aOverlapEdge[0]);
             double endPointCheck_A_dist = GeoWrangler.distanceBetweenPoints(clippedLines[line][1], aOverlapEdge[0]);
-            foreach (Point64 t in aOverlapEdge)
+            foreach (PointD t in aOverlapEdge)
             {
                 double temp_startPointCheck_A_dist = GeoWrangler.distanceBetweenPoints(clippedLines[line][0], t);
                 double temp_endPointCheck_A_dist = GeoWrangler.distanceBetweenPoints(clippedLines[line][1], t);
@@ -678,7 +676,7 @@ public class DistanceHandler
 
             double startPointCheck_B_dist = GeoWrangler.distanceBetweenPoints(clippedLines[line][0], bOverlapEdge[0]);
             double endPointCheck_B_dist = GeoWrangler.distanceBetweenPoints(clippedLines[line][1], bOverlapEdge[0]);
-            foreach (Point64 t in bOverlapEdge)
+            foreach (PointD t in bOverlapEdge)
             {
                 double temp_startPointCheck_B_dist = GeoWrangler.distanceBetweenPoints(clippedLines[line][0], t);
                 double temp_endPointCheck_B_dist = GeoWrangler.distanceBetweenPoints(clippedLines[line][1], t);
@@ -692,9 +690,9 @@ public class DistanceHandler
                 }
             }
 
-            bool ortho = clippedLines[line][0].X == clippedLines[line][1].X || clippedLines[line][0].Y == clippedLines[line][1].Y;
+            bool ortho = Math.Abs(clippedLines[line][0].x - clippedLines[line][1].x) < constants.tolerance || Math.Abs(clippedLines[line][0].y - clippedLines[line][1].y) < constants.tolerance;
 
-            double threshold = 1500; // arbitrary, dialed in by hand.
+            double threshold = 0.01500; // arbitrary, dialed in by hand.
 
             if (!(ortho || usingAEdge && startPointCheck_A_dist < threshold && endPointCheck_A_dist < threshold || !usingAEdge && startPointCheck_B_dist < threshold && endPointCheck_B_dist < threshold
                ))
@@ -728,9 +726,9 @@ public class DistanceHandler
                 result.resultPaths.Clear();
                 result.resultPaths.Add(new()
                 {
-                    new Point64(clippedLines[line][0]),
-                    new Point64(clippedLines[line][0]),
-                    new Point64(clippedLines[line][clippedLines[line].Count - 1])
+                    new (clippedLines[line][0]),
+                    new (clippedLines[line][0]),
+                    new (clippedLines[line][clippedLines[line].Count - 1])
                 });
             }
         }
@@ -744,9 +742,9 @@ public class DistanceHandler
                 result.resultPaths.Clear();
                 result.resultPaths.Add(new()
                 {
-                    new Point64(clippedLines[maxDistance_fallbackIndex][0]),
-                    new Point64(clippedLines[maxDistance_fallbackIndex][0]),
-                    new Point64(
+                    new (clippedLines[maxDistance_fallbackIndex][0]),
+                    new (clippedLines[maxDistance_fallbackIndex][0]),
+                    new (
                         clippedLines[maxDistance_fallbackIndex]
                             [clippedLines[maxDistance_fallbackIndex].Count - 1])
                 });

@@ -1,13 +1,9 @@
 ﻿using Clipper2Lib;
-using geoLib;
 using geoWrangler;
 using geoCoreLib;
 using PartitionTestGeometrySource;
 
 namespace partitionTest;
-
-using Path = Path64;
-using Paths = Paths64;
 
 internal class Program
 {
@@ -28,41 +24,41 @@ internal class Program
         Console.WriteLine("Part Five");
         partFive();
     }
-
+    
     private static void partOne()
     {
         // L
-        GeoLibPoint[] L = TestGeometry.getL();
-        GeoLibPoint[] rL = TestGeometry.getRL();
+        PathD L = TestGeometry.getL();
+        PathD rL = TestGeometry.getRL();
 
         // Reversed orientation.
-        GeoLibPoint[] L_ccw = L.ToArray();
-        Array.Reverse(L_ccw);
+        PathD L_ccw = new (L);
+        L_ccw.Reverse();
 
         // U
-        GeoLibPoint[] U = TestGeometry.getU();
+        PathD U = TestGeometry.getU();
 
         // T
-        GeoLibPoint[] T = TestGeometry.getT();
+        PathD T = TestGeometry.getT();
 
         // X
-        GeoLibPoint[] X = TestGeometry.getX();
+        PathD X = TestGeometry.getX();
 
         // S
-        GeoLibPoint[] S = TestGeometry.getS();
+        PathD S = TestGeometry.getS();
 
         // Negative S
-        GeoLibPoint[] nS = TestGeometry.getnegS();
+        PathD nS = TestGeometry.getnegS();
 
         // Complex 1
-        GeoLibPoint[] C1 = TestGeometry.getComplex1();
+        PathD C1 = TestGeometry.getComplex1();
 
 
         // Complex 2
-        GeoLibPoint[] C2 = TestGeometry.getComplex2();
+        PathD C2 = TestGeometry.getComplex2();
 
         // Complex 3
-        GeoLibPoint[] C3 = TestGeometry.getComplex3();
+        PathD C3 = TestGeometry.getComplex3();
 
         // C3 = GeoWrangler.clockwiseAndReorder(C3);
 
@@ -70,11 +66,11 @@ internal class Program
         bool orth2 = GeoWrangler.orthogonal(C3, angularTolerance: 0);
 
         // Complex 10, rot 15
-        GeoLibPoint[] C10R15 = TestGeometry.getComplex10rot15();
+        PathD C10R15 = TestGeometry.getComplex10rot15();
 
 
         // Staircase
-        GeoLibPoint[] S1 = TestGeometry.getStaircase();
+        PathD S1 = TestGeometry.getStaircase();
 
         // Rectangular decomposition will return non-orthogonal polygons in the output when encountered.
 
@@ -82,11 +78,11 @@ internal class Program
 
         bool abort = false;
 
-        List<GeoLibPoint[]> l = GeoWrangler.rectangular_decomposition(ref abort, L, maxRayLength: rayLength);
+        PathsD l = GeoWrangler.rectangular_decomposition(ref abort, L, maxRayLength: rayLength);
 
         /* Expected output
-            l = {List<GeoLibPoint[]>} Count = 2
-             [0] = {GeoLibPoint[]} GeoLibPoint[4]
+            l = {List<Path>} Count = 2
+             [0] = {Path} GeoLibPoint[4]
               [0] = GeoLibPoint
                X = {int} 0
                Y = {int} 0
@@ -103,7 +99,7 @@ internal class Program
                X = {int} 10
                Y = {int} 0
                tag = {int} 0
-             [1] = {GeoLibPoint[]} GeoLibPoint[4]
+             [1] = {Path} GeoLibPoint[4]
               [0] = GeoLibPoint
                X = {int} 10
                Y = {int} 0
@@ -124,11 +120,17 @@ internal class Program
 
         writeToLayout("l", L, l);
 
-        List<GeoLibPoint[]> lccw = GeoWrangler.rectangular_decomposition(ref abort, L_ccw, maxRayLength: rayLength);
+        /*
+        PathD L_small = Clipper.ScalePath(L, 0.01);
+        PathsD lsmall = GeoWrangler.rectangular_decomposition(ref abort, L_small, maxRayLength: rayLength);
+        writeToLayout("l_small", L_small, lsmall);
+        */
+
+        PathsD lccw = GeoWrangler.rectangular_decomposition(ref abort, L_ccw, maxRayLength: rayLength);
 
         /* Expected output
-           lccw = {List<GeoLibPoint[]>} Count = 2
-            [0] = {GeoLibPoint[]} GeoLibPoint[4]
+           lccw = {List<Path>} Count = 2
+            [0] = {Path} GeoLibPoint[4]
              [0] = GeoLibPoint
               X = {int} 0
               Y = {int} 0
@@ -145,7 +147,7 @@ internal class Program
               X = {int} 10
               Y = {int} 0
               tag = {int} 0
-            [1] = {GeoLibPoint[]} GeoLibPoint[4]
+            [1] = {Path} GeoLibPoint[4]
              [0] = GeoLibPoint
               X = {int} 10
               Y = {int} 0
@@ -166,11 +168,11 @@ internal class Program
 
         writeToLayout("lccw", L_ccw, lccw);
 
-        List<GeoLibPoint[]> rl = GeoWrangler.rectangular_decomposition(ref abort, rL, maxRayLength: rayLength);
+        PathsD rl = GeoWrangler.rectangular_decomposition(ref abort, rL, maxRayLength: rayLength);
 
         /* Expected output
-           rl = {List<GeoLibPoint[]>} Count = 2
-            [0] = {GeoLibPoint[]} GeoLibPoint[4]
+           rl = {List<Path>} Count = 2
+            [0] = {Path} GeoLibPoint[4]
              [0] = GeoLibPoint
               X = {int} 10
               Y = {int} 0
@@ -187,7 +189,7 @@ internal class Program
               X = {int} 60
               Y = {int} 0
               tag = {int} 0
-            [1] = {GeoLibPoint[]} GeoLibPoint[4]
+            [1] = {Path} GeoLibPoint[4]
              [0] = GeoLibPoint
               X = {int} 0
               Y = {int} 0
@@ -208,11 +210,11 @@ internal class Program
 
         writeToLayout("rl", rL, rl);
 
-        List<GeoLibPoint[]> u = GeoWrangler.rectangular_decomposition(ref abort, U, maxRayLength: rayLength);
+        PathsD u = GeoWrangler.rectangular_decomposition(ref abort, U, maxRayLength: rayLength);
 
         /* Expected output
-           u = {List<GeoLibPoint[]>} Count = 3
-            [0] = {GeoLibPoint[]} GeoLibPoint[4]
+           u = {List<Path>} Count = 3
+            [0] = {Path} GeoLibPoint[4]
              [0] = GeoLibPoint
               X = {int} 0
               Y = {int} 0
@@ -229,7 +231,7 @@ internal class Program
               X = {int} 10
               Y = {int} 0
               tag = {int} 0
-            [1] = {GeoLibPoint[]} GeoLibPoint[4]
+            [1] = {Path} GeoLibPoint[4]
              [0] = GeoLibPoint
               X = {int} 60
               Y = {int} 0
@@ -246,7 +248,7 @@ internal class Program
               X = {int} 120
               Y = {int} 0
               tag = {int} 0
-            [2] = {GeoLibPoint[]} GeoLibPoint[4]
+            [2] = {Path} GeoLibPoint[4]
              [0] = GeoLibPoint
               X = {int} 10
               Y = {int} 0
@@ -267,11 +269,11 @@ internal class Program
 
         writeToLayout("u", U, u);
 
-        List<GeoLibPoint[]> t = GeoWrangler.rectangular_decomposition(ref abort, T, maxRayLength: rayLength);
+        PathsD t = GeoWrangler.rectangular_decomposition(ref abort, T, maxRayLength: rayLength);
 
         /* Expected output
-           t = {List<GeoLibPoint[]>} Count = 3
-            [0] = {GeoLibPoint[]} GeoLibPoint[4]
+           t = {List<Path>} Count = 3
+            [0] = {Path} GeoLibPoint[4]
              [0] = GeoLibPoint
               X = {int} 60
               Y = {int} 50
@@ -288,7 +290,7 @@ internal class Program
               X = {int} 80
               Y = {int} 50
               tag = {int} 0
-            [1] = {GeoLibPoint[]} GeoLibPoint[4]
+            [1] = {Path} GeoLibPoint[4]
              [0] = GeoLibPoint
               X = {int} 40
               Y = {int} 0
@@ -305,7 +307,7 @@ internal class Program
               X = {int} 60
               Y = {int} 0
               tag = {int} 0
-            [2] = {GeoLibPoint[]} GeoLibPoint[4]
+            [2] = {Path} GeoLibPoint[4]
              [0] = GeoLibPoint
               X = {int} 0
               Y = {int} 50
@@ -326,11 +328,11 @@ internal class Program
 
         writeToLayout("t", T, t);
 
-        List<GeoLibPoint[]> x = GeoWrangler.rectangular_decomposition(ref abort, X, maxRayLength: rayLength);
+        PathsD x = GeoWrangler.rectangular_decomposition(ref abort, X, maxRayLength: rayLength);
 
         /* Expected output
-           x = {List<GeoLibPoint[]>} Count = 3
-            [0] = {GeoLibPoint[]} GeoLibPoint[4]
+           x = {List<Path>} Count = 3
+            [0] = {Path} GeoLibPoint[4]
              [0] = GeoLibPoint
               X = {int} 0
               Y = {int} 50
@@ -347,7 +349,7 @@ internal class Program
               X = {int} 60
               Y = {int} 50
               tag = {int} 0
-            [1] = {GeoLibPoint[]} GeoLibPoint[4]
+            [1] = {Path} GeoLibPoint[4]
              [0] = GeoLibPoint
               X = {int} 60
               Y = {int} 20
@@ -364,7 +366,7 @@ internal class Program
               X = {int} 80
               Y = {int} 20
               tag = {int} 0
-            [2] = {GeoLibPoint[]} GeoLibPoint[4]
+            [2] = {Path} GeoLibPoint[4]
              [0] = GeoLibPoint
               X = {int} 80
               Y = {int} 50
@@ -385,11 +387,11 @@ internal class Program
 
         writeToLayout("x", X, x);
 
-        List<GeoLibPoint[]> s = GeoWrangler.rectangular_decomposition(ref abort, S, maxRayLength: rayLength);
+        PathsD s = GeoWrangler.rectangular_decomposition(ref abort, S, maxRayLength: rayLength);
 
         /* Expected output
-           s = {List<GeoLibPoint[]>} Count = 5
-            [0] = {GeoLibPoint[]} GeoLibPoint[4]
+           s = {List<Path>} Count = 5
+            [0] = {Path} GeoLibPoint[4]
              [0] = GeoLibPoint
               X = {int} 0
               Y = {int} 50
@@ -406,7 +408,7 @@ internal class Program
               X = {int} 20
               Y = {int} 50
               tag = {int} 0
-            [1] = {GeoLibPoint[]} GeoLibPoint[4]
+            [1] = {Path} GeoLibPoint[4]
              [0] = GeoLibPoint
               X = {int} 0
               Y = {int} 0
@@ -423,7 +425,7 @@ internal class Program
               X = {int} 20
               Y = {int} 0
               tag = {int} 0
-            [2] = {GeoLibPoint[]} GeoLibPoint[4]
+            [2] = {Path} GeoLibPoint[4]
              [0] = GeoLibPoint
               X = {int} 80
               Y = {int} 0
@@ -440,7 +442,7 @@ internal class Program
               X = {int} 100
               Y = {int} 0
               tag = {int} 0
-            [3] = {GeoLibPoint[]} GeoLibPoint[4]
+            [3] = {Path} GeoLibPoint[4]
              [0] = GeoLibPoint
               X = {int} 80
               Y = {int} 80
@@ -457,7 +459,7 @@ internal class Program
               X = {int} 100
               Y = {int} 80
               tag = {int} 0
-            [4] = {GeoLibPoint[]} GeoLibPoint[4]
+            [4] = {Path} GeoLibPoint[4]
              [0] = GeoLibPoint
               X = {int} 20
               Y = {int} 0
@@ -478,11 +480,11 @@ internal class Program
 
         writeToLayout("s", S, s);
 
-        List<GeoLibPoint[]> ns = GeoWrangler.rectangular_decomposition(ref abort, nS, maxRayLength: rayLength);
+        PathsD ns = GeoWrangler.rectangular_decomposition(ref abort, nS, maxRayLength: rayLength);
 
         /* Expected output
-           ns = {List<GeoLibPoint[]>} Count = 5
-            [0] = {GeoLibPoint[]} GeoLibPoint[4]
+           ns = {List<Path>} Count = 5
+            [0] = {Path} GeoLibPoint[4]
              [0] = GeoLibPoint
               X = {int} 0
               Y = {int} -150
@@ -499,7 +501,7 @@ internal class Program
               X = {int} 20
               Y = {int} -150
               tag = {int} 0
-            [1] = {GeoLibPoint[]} GeoLibPoint[4]
+            [1] = {Path} GeoLibPoint[4]
              [0] = GeoLibPoint
               X = {int} 0
               Y = {int} -200
@@ -516,7 +518,7 @@ internal class Program
               X = {int} 20
               Y = {int} -200
               tag = {int} 0
-            [2] = {GeoLibPoint[]} GeoLibPoint[4]
+            [2] = {Path} GeoLibPoint[4]
              [0] = GeoLibPoint
               X = {int} 80
               Y = {int} -200
@@ -533,7 +535,7 @@ internal class Program
               X = {int} 100
               Y = {int} -200
               tag = {int} 0
-            [3] = {GeoLibPoint[]} GeoLibPoint[4]
+            [3] = {Path} GeoLibPoint[4]
              [0] = GeoLibPoint
               X = {int} 80
               Y = {int} -120
@@ -550,7 +552,7 @@ internal class Program
               X = {int} 100
               Y = {int} -120
               tag = {int} 0
-            [4] = {GeoLibPoint[]} GeoLibPoint[4]
+            [4] = {Path} GeoLibPoint[4]
              [0] = GeoLibPoint
               X = {int} 20
               Y = {int} -200
@@ -571,35 +573,35 @@ internal class Program
 
         writeToLayout("ns", nS, ns);
 
-        List<GeoLibPoint[]> c1 = GeoWrangler.rectangular_decomposition(ref abort, C1, maxRayLength: rayLength);
+        PathsD c1 = GeoWrangler.rectangular_decomposition(ref abort, C1, maxRayLength: rayLength);
 
         // Expect 17 quads
 
         writeToLayout("c1", C1, c1);
 
-        List<GeoLibPoint[]> c2 = GeoWrangler.rectangular_decomposition(ref abort, C2, maxRayLength: rayLength);
+        PathsD c2 = GeoWrangler.rectangular_decomposition(ref abort, C2, maxRayLength: rayLength);
 
         // Expect 81 quads
 
         writeToLayout("c2", C2, c2);
 
-        List<GeoLibPoint[]> c3 = GeoWrangler.rectangular_decomposition(ref abort, C3, maxRayLength: rayLength);
+        PathsD c3 = GeoWrangler.rectangular_decomposition(ref abort, C3, maxRayLength: rayLength);
 
         // Expect 13 quads
 
         writeToLayout("c3", C3, c3);
 
-        List<GeoLibPoint[]> c10r15 = GeoWrangler.rectangular_decomposition(ref abort, C10R15, maxRayLength: rayLength);
+        PathsD c10r15 = GeoWrangler.rectangular_decomposition(ref abort, C10R15, maxRayLength: rayLength);
 
         // Expect 1 irregular polygon
 
         writeToLayout("c10r15", C10R15, c10r15);
 
-        List<GeoLibPoint[]> s1 = GeoWrangler.rectangular_decomposition(ref abort, S1, maxRayLength: rayLength);
+        PathsD s1 = GeoWrangler.rectangular_decomposition(ref abort, S1, maxRayLength: rayLength);
 
         /* Expected output
-           s1 = {List<GeoLibPoint[]>} Count = 4
-            [0] = {GeoLibPoint[]} GeoLibPoint[4]
+           s1 = {List<Path>} Count = 4
+            [0] = {Path} GeoLibPoint[4]
              [0] = GeoLibPoint
               X = {int} -50
               Y = {int} -50
@@ -616,7 +618,7 @@ internal class Program
               X = {int} 0
               Y = {int} -50
               tag = {int} 0
-            [1] = {GeoLibPoint[]} GeoLibPoint[4]
+            [1] = {Path} GeoLibPoint[4]
              [0] = GeoLibPoint
               X = {int} 0
               Y = {int} -50
@@ -633,7 +635,7 @@ internal class Program
               X = {int} 100
               Y = {int} -50
               tag = {int} 0
-            [2] = {GeoLibPoint[]} GeoLibPoint[4]
+            [2] = {Path} GeoLibPoint[4]
              [0] = GeoLibPoint
               X = {int} 150
               Y = {int} -50
@@ -650,7 +652,7 @@ internal class Program
               X = {int} 200
               Y = {int} -50
               tag = {int} 0
-            [3] = {GeoLibPoint[]} GeoLibPoint[4]
+            [3] = {Path} GeoLibPoint[4]
              [0] = GeoLibPoint
               X = {int} 100
               Y = {int} -50
@@ -674,8 +676,8 @@ internal class Program
 
     private static void partTwo()
     {
-        List<GeoLibPointF[]> incoming = new();
-        GeoLibPointF[] lPieces = new GeoLibPointF[]
+        PathsD incoming = new();
+        PathD lPieces = new ()
         {
             new(0.00000, 0.00000),
             new(0.00000, 0.05000),
@@ -685,7 +687,7 @@ internal class Program
         };
 
 
-        GeoLibPointF[] lPiece2 = new GeoLibPointF[]
+        PathD lPiece2 = new ()
         {
             new(0.01000, 0.00000),
             new(0.01000, 0.02000),
@@ -694,2197 +696,26 @@ internal class Program
             new(0.01000, 0.00000)
         };
 
-        Array.Reverse(lPieces);
-        Array.Reverse(lPiece2);
+        lPieces.Reverse();
+        lPiece2.Reverse();
         incoming.Add(lPieces);
         incoming.Add(lPiece2);
-
-        Paths paths = GeoWrangler.pathsFromPointFs(incoming, 10000);
-
-        Clipper64 c = new();
-        c.AddSubject(paths);
-        Paths ret = new();
+        
+        ClipperD c = new(constants.roundingDecimalPrecision);
+        c.AddSubject(incoming);
+        PathsD ret = new();
         c.Execute(ClipType.Union, FillRule.EvenOdd, ret);
-
-        List<GeoLibPointF[]> done = GeoWrangler.pointFsFromPaths(ret, 10000);
     }
 
     private static void partThree()
     {
         System.Diagnostics.Stopwatch sw = new();
-        int rayLength = 10000;
+        int rayLength = 1000;
 
         Console.WriteLine("  Preparing....");
         sw.Start();
 
-        GeoLibPointF[] poly = new GeoLibPointF[]
-        {
-            new(0.01000, -0.21300),
-            new(0.01000, -0.20200),
-            new(0.00000, -0.20200),
-            new(0.00000, -0.21200),
-            new(-0.01000, -0.21200),
-            new(-0.01000, -0.18200),
-            new(0.00000, -0.18200),
-            new(0.00000, -0.19200),
-            new(0.01000, -0.19200),
-            new(0.01000, -0.15200),
-            new(0.00000, -0.15200),
-            new(0.00000, -0.14200),
-            new(-0.06000, -0.14200),
-            new(-0.06000, -0.13200),
-            new(-0.05000, -0.13200),
-            new(-0.05000, -0.12200),
-            new(-0.06000, -0.12200),
-            new(-0.06000, -0.11200),
-            new(-0.03000, -0.11200),
-            new(-0.03000, -0.12200),
-            new(-0.04000, -0.12200),
-            new(-0.04000, -0.13200),
-            new(0.00000, -0.13200),
-            new(0.00000, -0.12200),
-            new(0.01000, -0.12200),
-            new(0.01000, -0.05000),
-            new(0.00000, -0.05000),
-            new(0.00000, -0.06000),
-            new(-0.01000, -0.06000),
-            new(-0.01000, -0.03000),
-            new(0.00000, -0.03000),
-            new(0.00000, -0.04000),
-            new(0.01000, -0.04000),
-            new(0.01000, 0.00000),
-            new(0.00000, 0.00000),
-            new(0.00000, 0.01000),
-            new(-0.07000, 0.01000),
-            new(-0.07000, 0.00000),
-            new(-0.06000, 0.00000),
-            new(-0.06000, -0.01000),
-            new(-0.09000, -0.01000),
-            new(-0.09000, 0.00000),
-            new(-0.08000, 0.00000),
-            new(-0.08000, 0.01000),
-            new(-0.12000, 0.01000),
-            new(-0.12000, 0.00000),
-            new(-0.13000, 0.00000),
-            new(-0.13000, -0.06100),
-            new(-0.14000, -0.06100),
-            new(-0.14000, -0.05000),
-            new(-0.15000, -0.05000),
-            new(-0.15000, -0.06000),
-            new(-0.16000, -0.06000),
-            new(-0.16000, -0.03000),
-            new(-0.15000, -0.03000),
-            new(-0.15000, -0.04000),
-            new(-0.14000, -0.04000),
-            new(-0.14000, 0.00000),
-            new(-0.15000, 0.00000),
-            new(-0.15000, 0.01000),
-            new(-0.21000, 0.01000),
-            new(-0.21000, 0.02000),
-            new(-0.20000, 0.02000),
-            new(-0.20000, 0.03000),
-            new(-0.21000, 0.03000),
-            new(-0.21000, 0.04000),
-            new(-0.18000, 0.04000),
-            new(-0.18000, 0.03000),
-            new(-0.19000, 0.03000),
-            new(-0.19000, 0.02000),
-            new(-0.15000, 0.02000),
-            new(-0.15000, 0.03000),
-            new(-0.14000, 0.03000),
-            new(-0.14000, 0.09100),
-            new(-0.13000, 0.09100),
-            new(-0.13000, 0.08000),
-            new(-0.12000, 0.08000),
-            new(-0.12000, 0.09000),
-            new(-0.11000, 0.09000),
-            new(-0.11000, 0.06000),
-            new(-0.12000, 0.06000),
-            new(-0.12000, 0.07000),
-            new(-0.13000, 0.07000),
-            new(-0.13000, 0.03000),
-            new(-0.12000, 0.03000),
-            new(-0.12000, 0.02000),
-            new(-0.05000, 0.02000),
-            new(-0.05000, 0.03000),
-            new(-0.06000, 0.03000),
-            new(-0.06000, 0.04000),
-            new(-0.03000, 0.04000),
-            new(-0.03000, 0.03000),
-            new(-0.04000, 0.03000),
-            new(-0.04000, 0.02000),
-            new(0.00000, 0.02000),
-            new(0.00000, 0.03000),
-            new(0.01000, 0.03000),
-            new(0.01000, 0.10200),
-            new(0.00000, 0.10200),
-            new(0.00000, 0.09200),
-            new(-0.01000, 0.09200),
-            new(-0.01000, 0.12200),
-            new(0.00000, 0.12200),
-            new(0.00000, 0.11200),
-            new(0.01000, 0.11200),
-            new(0.01000, 0.15200),
-            new(0.00000, 0.15200),
-            new(0.00000, 0.16200),
-            new(-0.06000, 0.16200),
-            new(-0.06000, 0.17200),
-            new(-0.05000, 0.17200),
-            new(-0.05000, 0.18200),
-            new(-0.06000, 0.18200),
-            new(-0.06000, 0.19200),
-            new(-0.03000, 0.19200),
-            new(-0.03000, 0.18200),
-            new(-0.04000, 0.18200),
-            new(-0.04000, 0.17200),
-            new(0.00000, 0.17200),
-            new(0.00000, 0.18200),
-            new(0.01000, 0.18200),
-            new(0.01000, 0.25200),
-            new(0.00000, 0.25200),
-            new(0.00000, 0.24200),
-            new(-0.01000, 0.24200),
-            new(-0.01000, 0.27200),
-            new(0.00000, 0.27200),
-            new(0.00000, 0.26200),
-            new(0.01000, 0.26200),
-            new(0.01000, 0.30200),
-            new(0.00000, 0.30200),
-            new(0.00000, 0.31200),
-            new(-0.06000, 0.31200),
-            new(-0.06000, 0.32200),
-            new(-0.05000, 0.32200),
-            new(-0.05000, 0.33200),
-            new(-0.06000, 0.33200),
-            new(-0.06000, 0.34200),
-            new(-0.03000, 0.34200),
-            new(-0.03000, 0.33200),
-            new(-0.04000, 0.33200),
-            new(-0.04000, 0.32200),
-            new(0.00000, 0.32200),
-            new(0.00000, 0.33200),
-            new(0.01000, 0.33200),
-            new(0.01000, 0.40400),
-            new(0.00000, 0.40400),
-            new(0.00000, 0.39400),
-            new(-0.01000, 0.39400),
-            new(-0.01000, 0.42400),
-            new(0.00000, 0.42400),
-            new(0.00000, 0.41400),
-            new(0.01000, 0.41400),
-            new(0.01000, 0.45400),
-            new(0.00000, 0.45400),
-            new(0.00000, 0.46400),
-            new(-0.07000, 0.46400),
-            new(-0.07000, 0.45400),
-            new(-0.06000, 0.45400),
-            new(-0.06000, 0.44400),
-            new(-0.09000, 0.44400),
-            new(-0.09000, 0.45400),
-            new(-0.08000, 0.45400),
-            new(-0.08000, 0.46400),
-            new(-0.12000, 0.46400),
-            new(-0.12000, 0.45400),
-            new(-0.13000, 0.45400),
-            new(-0.13000, 0.39300),
-            new(-0.14000, 0.39300),
-            new(-0.14000, 0.40400),
-            new(-0.15000, 0.40400),
-            new(-0.15000, 0.39400),
-            new(-0.16000, 0.39400),
-            new(-0.16000, 0.42400),
-            new(-0.15000, 0.42400),
-            new(-0.15000, 0.41400),
-            new(-0.14000, 0.41400),
-            new(-0.14000, 0.45400),
-            new(-0.15000, 0.45400),
-            new(-0.15000, 0.46400),
-            new(-0.21000, 0.46400),
-            new(-0.21000, 0.47400),
-            new(-0.20000, 0.47400),
-            new(-0.20000, 0.48400),
-            new(-0.21000, 0.48400),
-            new(-0.21000, 0.49400),
-            new(-0.18000, 0.49400),
-            new(-0.18000, 0.48400),
-            new(-0.19000, 0.48400),
-            new(-0.19000, 0.47400),
-            new(-0.15000, 0.47400),
-            new(-0.15000, 0.48400),
-            new(-0.14000, 0.48400),
-            new(-0.14000, 0.54500),
-            new(-0.13000, 0.54500),
-            new(-0.13000, 0.53400),
-            new(-0.12000, 0.53400),
-            new(-0.12000, 0.54400),
-            new(-0.11000, 0.54400),
-            new(-0.11000, 0.51400),
-            new(-0.12000, 0.51400),
-            new(-0.12000, 0.52400),
-            new(-0.13000, 0.52400),
-            new(-0.13000, 0.48400),
-            new(-0.12000, 0.48400),
-            new(-0.12000, 0.47400),
-            new(-0.05000, 0.47400),
-            new(-0.05000, 0.48400),
-            new(-0.06000, 0.48400),
-            new(-0.06000, 0.49400),
-            new(-0.03000, 0.49400),
-            new(-0.03000, 0.48400),
-            new(-0.04000, 0.48400),
-            new(-0.04000, 0.47400),
-            new(0.00000, 0.47400),
-            new(0.00000, 0.48400),
-            new(0.01000, 0.48400),
-            new(0.01000, 0.55600),
-            new(0.00000, 0.55600),
-            new(0.00000, 0.54600),
-            new(-0.01000, 0.54600),
-            new(-0.01000, 0.57600),
-            new(0.00000, 0.57600),
-            new(0.00000, 0.56600),
-            new(0.01000, 0.56600),
-            new(0.01000, 0.60600),
-            new(0.00000, 0.60600),
-            new(0.00000, 0.61600),
-            new(-0.06000, 0.61600),
-            new(-0.06000, 0.62600),
-            new(-0.05000, 0.62600),
-            new(-0.05000, 0.63600),
-            new(-0.06000, 0.63600),
-            new(-0.06000, 0.64600),
-            new(-0.03000, 0.64600),
-            new(-0.03000, 0.63600),
-            new(-0.04000, 0.63600),
-            new(-0.04000, 0.62600),
-            new(0.00000, 0.62600),
-            new(0.00000, 0.63600),
-            new(0.01000, 0.63600),
-            new(0.01000, 0.70600),
-            new(0.00000, 0.70600),
-            new(0.00000, 0.69600),
-            new(-0.01000, 0.69600),
-            new(-0.01000, 0.72600),
-            new(0.00000, 0.72600),
-            new(0.00000, 0.71600),
-            new(0.01000, 0.71600),
-            new(0.01000, 0.75600),
-            new(0.00000, 0.75600),
-            new(0.00000, 0.76600),
-            new(-0.06000, 0.76600),
-            new(-0.06000, 0.77600),
-            new(-0.05000, 0.77600),
-            new(-0.05000, 0.78600),
-            new(-0.06000, 0.78600),
-            new(-0.06000, 0.79600),
-            new(-0.03000, 0.79600),
-            new(-0.03000, 0.78600),
-            new(-0.04000, 0.78600),
-            new(-0.04000, 0.77600),
-            new(0.00000, 0.77600),
-            new(0.00000, 0.78600),
-            new(0.01000, 0.78600),
-            new(0.01000, 0.85800),
-            new(0.00000, 0.85800),
-            new(0.00000, 0.84800),
-            new(-0.01000, 0.84800),
-            new(-0.01000, 0.87800),
-            new(0.00000, 0.87800),
-            new(0.00000, 0.86800),
-            new(0.01000, 0.86800),
-            new(0.01000, 0.90800),
-            new(0.00000, 0.90800),
-            new(0.00000, 0.91800),
-            new(-0.07000, 0.91800),
-            new(-0.07000, 0.90800),
-            new(-0.06000, 0.90800),
-            new(-0.06000, 0.89800),
-            new(-0.09000, 0.89800),
-            new(-0.09000, 0.90800),
-            new(-0.08000, 0.90800),
-            new(-0.08000, 0.91800),
-            new(-0.12000, 0.91800),
-            new(-0.12000, 0.90800),
-            new(-0.13000, 0.90800),
-            new(-0.13000, 0.84700),
-            new(-0.14000, 0.84700),
-            new(-0.14000, 0.85800),
-            new(-0.15000, 0.85800),
-            new(-0.15000, 0.84800),
-            new(-0.16000, 0.84800),
-            new(-0.16000, 0.87800),
-            new(-0.15000, 0.87800),
-            new(-0.15000, 0.86800),
-            new(-0.14000, 0.86800),
-            new(-0.14000, 0.90800),
-            new(-0.15000, 0.90800),
-            new(-0.15000, 0.91800),
-            new(-0.21000, 0.91800),
-            new(-0.21000, 0.92800),
-            new(-0.20000, 0.92800),
-            new(-0.20000, 0.93800),
-            new(-0.21000, 0.93800),
-            new(-0.21000, 0.94800),
-            new(-0.18000, 0.94800),
-            new(-0.18000, 0.93800),
-            new(-0.19000, 0.93800),
-            new(-0.19000, 0.92800),
-            new(-0.15000, 0.92800),
-            new(-0.15000, 0.93800),
-            new(-0.14000, 0.93800),
-            new(-0.14000, 0.99900),
-            new(-0.13000, 0.99900),
-            new(-0.13000, 0.98800),
-            new(-0.12000, 0.98800),
-            new(-0.12000, 0.99800),
-            new(-0.11000, 0.99800),
-            new(-0.11000, 0.96800),
-            new(-0.12000, 0.96800),
-            new(-0.12000, 0.97800),
-            new(-0.13000, 0.97800),
-            new(-0.13000, 0.93800),
-            new(-0.12000, 0.93800),
-            new(-0.12000, 0.92800),
-            new(-0.05000, 0.92800),
-            new(-0.05000, 0.93800),
-            new(-0.06000, 0.93800),
-            new(-0.06000, 0.94800),
-            new(-0.03000, 0.94800),
-            new(-0.03000, 0.93800),
-            new(-0.04000, 0.93800),
-            new(-0.04000, 0.92800),
-            new(0.00000, 0.92800),
-            new(0.00000, 0.93800),
-            new(0.01000, 0.93800),
-            new(0.01000, 1.01000),
-            new(0.00000, 1.01000),
-            new(0.00000, 1.00000),
-            new(-0.01000, 1.00000),
-            new(-0.01000, 1.03000),
-            new(0.00000, 1.03000),
-            new(0.00000, 1.02000),
-            new(0.01000, 1.02000),
-            new(0.01000, 1.06000),
-            new(0.00000, 1.06000),
-            new(0.00000, 1.07000),
-            new(-0.06000, 1.07000),
-            new(-0.06000, 1.08000),
-            new(-0.05000, 1.08000),
-            new(-0.05000, 1.09000),
-            new(-0.06000, 1.09000),
-            new(-0.06000, 1.10000),
-            new(-0.03000, 1.10000),
-            new(-0.03000, 1.09000),
-            new(-0.04000, 1.09000),
-            new(-0.04000, 1.08000),
-            new(0.00000, 1.08000),
-            new(0.00000, 1.09000),
-            new(0.01000, 1.09000),
-            new(0.01000, 1.16000),
-            new(0.00000, 1.16000),
-            new(0.00000, 1.15000),
-            new(-0.01000, 1.15000),
-            new(-0.01000, 1.18000),
-            new(0.00000, 1.18000),
-            new(0.00000, 1.17000),
-            new(0.01000, 1.17000),
-            new(0.01000, 1.21000),
-            new(0.00000, 1.21000),
-            new(0.00000, 1.22000),
-            new(-0.06000, 1.22000),
-            new(-0.06000, 1.23000),
-            new(-0.05000, 1.23000),
-            new(-0.05000, 1.24000),
-            new(-0.06000, 1.24000),
-            new(-0.06000, 1.25000),
-            new(-0.03000, 1.25000),
-            new(-0.03000, 1.24000),
-            new(-0.04000, 1.24000),
-            new(-0.04000, 1.23000),
-            new(0.00000, 1.23000),
-            new(0.00000, 1.24000),
-            new(0.01000, 1.24000),
-            new(0.01000, 1.31200),
-            new(0.00000, 1.31200),
-            new(0.00000, 1.30200),
-            new(-0.01000, 1.30200),
-            new(-0.01000, 1.33200),
-            new(0.00000, 1.33200),
-            new(0.00000, 1.32200),
-            new(0.01000, 1.32200),
-            new(0.01000, 1.36200),
-            new(0.00000, 1.36200),
-            new(0.00000, 1.37200),
-            new(-0.07000, 1.37200),
-            new(-0.07000, 1.36200),
-            new(-0.06000, 1.36200),
-            new(-0.06000, 1.35200),
-            new(-0.09000, 1.35200),
-            new(-0.09000, 1.36200),
-            new(-0.08000, 1.36200),
-            new(-0.08000, 1.37200),
-            new(-0.12000, 1.37200),
-            new(-0.12000, 1.36200),
-            new(-0.13000, 1.36200),
-            new(-0.13000, 1.30100),
-            new(-0.14000, 1.30100),
-            new(-0.14000, 1.31200),
-            new(-0.15000, 1.31200),
-            new(-0.15000, 1.30200),
-            new(-0.16000, 1.30200),
-            new(-0.16000, 1.33200),
-            new(-0.15000, 1.33200),
-            new(-0.15000, 1.32200),
-            new(-0.14000, 1.32200),
-            new(-0.14000, 1.36200),
-            new(-0.15000, 1.36200),
-            new(-0.15000, 1.37200),
-            new(-0.21000, 1.37200),
-            new(-0.21000, 1.38200),
-            new(-0.20000, 1.38200),
-            new(-0.20000, 1.39200),
-            new(-0.21000, 1.39200),
-            new(-0.21000, 1.40200),
-            new(-0.18000, 1.40200),
-            new(-0.18000, 1.39200),
-            new(-0.19000, 1.39200),
-            new(-0.19000, 1.38200),
-            new(-0.15000, 1.38200),
-            new(-0.15000, 1.39200),
-            new(-0.14000, 1.39200),
-            new(-0.14000, 1.45300),
-            new(-0.13000, 1.45300),
-            new(-0.13000, 1.44200),
-            new(-0.12000, 1.44200),
-            new(-0.12000, 1.45200),
-            new(-0.11000, 1.45200),
-            new(-0.11000, 1.42200),
-            new(-0.12000, 1.42200),
-            new(-0.12000, 1.43200),
-            new(-0.13000, 1.43200),
-            new(-0.13000, 1.39200),
-            new(-0.12000, 1.39200),
-            new(-0.12000, 1.38200),
-            new(-0.05000, 1.38200),
-            new(-0.05000, 1.39200),
-            new(-0.06000, 1.39200),
-            new(-0.06000, 1.40200),
-            new(-0.03000, 1.40200),
-            new(-0.03000, 1.39200),
-            new(-0.04000, 1.39200),
-            new(-0.04000, 1.38200),
-            new(0.00000, 1.38200),
-            new(0.00000, 1.39200),
-            new(0.01000, 1.39200),
-            new(0.01000, 1.46400),
-            new(0.00000, 1.46400),
-            new(0.00000, 1.45400),
-            new(-0.01000, 1.45400),
-            new(-0.01000, 1.48400),
-            new(0.00000, 1.48400),
-            new(0.00000, 1.47400),
-            new(0.01000, 1.47400),
-            new(0.01000, 1.51400),
-            new(0.00000, 1.51400),
-            new(0.00000, 1.52400),
-            new(-0.06000, 1.52400),
-            new(-0.06000, 1.53400),
-            new(-0.05000, 1.53400),
-            new(-0.05000, 1.54400),
-            new(-0.06000, 1.54400),
-            new(-0.06000, 1.55400),
-            new(-0.03000, 1.55400),
-            new(-0.03000, 1.54400),
-            new(-0.04000, 1.54400),
-            new(-0.04000, 1.53400),
-            new(0.00000, 1.53400),
-            new(0.00000, 1.54400),
-            new(0.01000, 1.54400),
-            new(0.01000, 1.61400),
-            new(0.00000, 1.61400),
-            new(0.00000, 1.60400),
-            new(-0.01000, 1.60400),
-            new(-0.01000, 1.63400),
-            new(0.00000, 1.63400),
-            new(0.00000, 1.62400),
-            new(0.01000, 1.62400),
-            new(0.01000, 1.66400),
-            new(0.00000, 1.66400),
-            new(0.00000, 1.67400),
-            new(-0.06000, 1.67400),
-            new(-0.06000, 1.68400),
-            new(-0.05000, 1.68400),
-            new(-0.05000, 1.69400),
-            new(-0.06000, 1.69400),
-            new(-0.06000, 1.70400),
-            new(-0.03000, 1.70400),
-            new(-0.03000, 1.69400),
-            new(-0.04000, 1.69400),
-            new(-0.04000, 1.68400),
-            new(0.00000, 1.68400),
-            new(0.00000, 1.69400),
-            new(0.01000, 1.69400),
-            new(0.01000, 1.76600),
-            new(0.00000, 1.76600),
-            new(0.00000, 1.75600),
-            new(-0.01000, 1.75600),
-            new(-0.01000, 1.78600),
-            new(0.00000, 1.78600),
-            new(0.00000, 1.77600),
-            new(0.01000, 1.77600),
-            new(0.01000, 1.81600),
-            new(0.00000, 1.81600),
-            new(0.00000, 1.82600),
-            new(-0.07000, 1.82600),
-            new(-0.07000, 1.81600),
-            new(-0.06000, 1.81600),
-            new(-0.06000, 1.80600),
-            new(-0.09000, 1.80600),
-            new(-0.09000, 1.81600),
-            new(-0.08000, 1.81600),
-            new(-0.08000, 1.82600),
-            new(-0.12000, 1.82600),
-            new(-0.12000, 1.81600),
-            new(-0.13000, 1.81600),
-            new(-0.13000, 1.75500),
-            new(-0.14000, 1.75500),
-            new(-0.14000, 1.76600),
-            new(-0.15000, 1.76600),
-            new(-0.15000, 1.75600),
-            new(-0.16000, 1.75600),
-            new(-0.16000, 1.78600),
-            new(-0.15000, 1.78600),
-            new(-0.15000, 1.77600),
-            new(-0.14000, 1.77600),
-            new(-0.14000, 1.81600),
-            new(-0.15000, 1.81600),
-            new(-0.15000, 1.82600),
-            new(-0.21000, 1.82600),
-            new(-0.21000, 1.83600),
-            new(-0.20000, 1.83600),
-            new(-0.20000, 1.84600),
-            new(-0.21000, 1.84600),
-            new(-0.21000, 1.85600),
-            new(-0.18000, 1.85600),
-            new(-0.18000, 1.84600),
-            new(-0.19000, 1.84600),
-            new(-0.19000, 1.83600),
-            new(-0.15000, 1.83600),
-            new(-0.15000, 1.84600),
-            new(-0.14000, 1.84600),
-            new(-0.14000, 1.90700),
-            new(-0.13000, 1.90700),
-            new(-0.13000, 1.89600),
-            new(-0.12000, 1.89600),
-            new(-0.12000, 1.90600),
-            new(-0.11000, 1.90600),
-            new(-0.11000, 1.87600),
-            new(-0.12000, 1.87600),
-            new(-0.12000, 1.88600),
-            new(-0.13000, 1.88600),
-            new(-0.13000, 1.84600),
-            new(-0.12000, 1.84600),
-            new(-0.12000, 1.83600),
-            new(-0.05000, 1.83600),
-            new(-0.05000, 1.84600),
-            new(-0.06000, 1.84600),
-            new(-0.06000, 1.85600),
-            new(-0.03000, 1.85600),
-            new(-0.03000, 1.84600),
-            new(-0.04000, 1.84600),
-            new(-0.04000, 1.83600),
-            new(0.00000, 1.83600),
-            new(0.00000, 1.84600),
-            new(0.01000, 1.84600),
-            new(0.01000, 1.91800),
-            new(0.00000, 1.91800),
-            new(0.00000, 1.90800),
-            new(-0.01000, 1.90800),
-            new(-0.01000, 1.93800),
-            new(0.00000, 1.93800),
-            new(0.00000, 1.92800),
-            new(0.01000, 1.92800),
-            new(0.01000, 1.96800),
-            new(0.00000, 1.96800),
-            new(0.00000, 1.97800),
-            new(-0.06000, 1.97800),
-            new(-0.06000, 1.98800),
-            new(-0.05000, 1.98800),
-            new(-0.05000, 1.99800),
-            new(-0.06000, 1.99800),
-            new(-0.06000, 2.00800),
-            new(-0.03000, 2.00800),
-            new(-0.03000, 1.99800),
-            new(-0.04000, 1.99800),
-            new(-0.04000, 1.98800),
-            new(0.00000, 1.98800),
-            new(0.00000, 1.99800),
-            new(0.01000, 1.99800),
-            new(0.01000, 2.05900),
-            new(0.02000, 2.05900),
-            new(0.02000, 2.04800),
-            new(0.03000, 2.04800),
-            new(0.03000, 2.05800),
-            new(0.04000, 2.05800),
-            new(0.04000, 2.02800),
-            new(0.03000, 2.02800),
-            new(0.03000, 2.03800),
-            new(0.02000, 2.03800),
-            new(0.02000, 1.99800),
-            new(0.03000, 1.99800),
-            new(0.03000, 1.98800),
-            new(0.09000, 1.98800),
-            new(0.09000, 1.97800),
-            new(0.08000, 1.97800),
-            new(0.08000, 1.96800),
-            new(0.09000, 1.96800),
-            new(0.09000, 1.95800),
-            new(0.06000, 1.95800),
-            new(0.06000, 1.96800),
-            new(0.07000, 1.96800),
-            new(0.07000, 1.97800),
-            new(0.03000, 1.97800),
-            new(0.03000, 1.96800),
-            new(0.02000, 1.96800),
-            new(0.02000, 1.89600),
-            new(0.03000, 1.89600),
-            new(0.03000, 1.90600),
-            new(0.04000, 1.90600),
-            new(0.04000, 1.87600),
-            new(0.03000, 1.87600),
-            new(0.03000, 1.88600),
-            new(0.02000, 1.88600),
-            new(0.02000, 1.84600),
-            new(0.03000, 1.84600),
-            new(0.03000, 1.83600),
-            new(0.10000, 1.83600),
-            new(0.10000, 1.84600),
-            new(0.09000, 1.84600),
-            new(0.09000, 1.85600),
-            new(0.12000, 1.85600),
-            new(0.12000, 1.84600),
-            new(0.11000, 1.84600),
-            new(0.11000, 1.83600),
-            new(0.15000, 1.83600),
-            new(0.15000, 1.84600),
-            new(0.16000, 1.84600),
-            new(0.16000, 1.90700),
-            new(0.17000, 1.90700),
-            new(0.17000, 1.89600),
-            new(0.18000, 1.89600),
-            new(0.18000, 1.90600),
-            new(0.19000, 1.90600),
-            new(0.19000, 1.87600),
-            new(0.18000, 1.87600),
-            new(0.18000, 1.88600),
-            new(0.17000, 1.88600),
-            new(0.17000, 1.84600),
-            new(0.18000, 1.84600),
-            new(0.18000, 1.83600),
-            new(0.24000, 1.83600),
-            new(0.24000, 1.82600),
-            new(0.23000, 1.82600),
-            new(0.23000, 1.81600),
-            new(0.24000, 1.81600),
-            new(0.24000, 1.80600),
-            new(0.21000, 1.80600),
-            new(0.21000, 1.81600),
-            new(0.22000, 1.81600),
-            new(0.22000, 1.82600),
-            new(0.18000, 1.82600),
-            new(0.18000, 1.81600),
-            new(0.17000, 1.81600),
-            new(0.17000, 1.75500),
-            new(0.16000, 1.75500),
-            new(0.16000, 1.76600),
-            new(0.15000, 1.76600),
-            new(0.15000, 1.75600),
-            new(0.14000, 1.75600),
-            new(0.14000, 1.78600),
-            new(0.15000, 1.78600),
-            new(0.15000, 1.77600),
-            new(0.16000, 1.77600),
-            new(0.16000, 1.81600),
-            new(0.15000, 1.81600),
-            new(0.15000, 1.82600),
-            new(0.08000, 1.82600),
-            new(0.08000, 1.81600),
-            new(0.09000, 1.81600),
-            new(0.09000, 1.80600),
-            new(0.06000, 1.80600),
-            new(0.06000, 1.81600),
-            new(0.07000, 1.81600),
-            new(0.07000, 1.82600),
-            new(0.03000, 1.82600),
-            new(0.03000, 1.81600),
-            new(0.02000, 1.81600),
-            new(0.02000, 1.74400),
-            new(0.03000, 1.74400),
-            new(0.03000, 1.75400),
-            new(0.04000, 1.75400),
-            new(0.04000, 1.72400),
-            new(0.03000, 1.72400),
-            new(0.03000, 1.73400),
-            new(0.02000, 1.73400),
-            new(0.02000, 1.69400),
-            new(0.03000, 1.69400),
-            new(0.03000, 1.68400),
-            new(0.09000, 1.68400),
-            new(0.09000, 1.67400),
-            new(0.08000, 1.67400),
-            new(0.08000, 1.66400),
-            new(0.09000, 1.66400),
-            new(0.09000, 1.65400),
-            new(0.06000, 1.65400),
-            new(0.06000, 1.66400),
-            new(0.07000, 1.66400),
-            new(0.07000, 1.67400),
-            new(0.03000, 1.67400),
-            new(0.03000, 1.66400),
-            new(0.02000, 1.66400),
-            new(0.02000, 1.59400),
-            new(0.03000, 1.59400),
-            new(0.03000, 1.60400),
-            new(0.04000, 1.60400),
-            new(0.04000, 1.57400),
-            new(0.03000, 1.57400),
-            new(0.03000, 1.58400),
-            new(0.02000, 1.58400),
-            new(0.02000, 1.54400),
-            new(0.03000, 1.54400),
-            new(0.03000, 1.53400),
-            new(0.09000, 1.53400),
-            new(0.09000, 1.52400),
-            new(0.08000, 1.52400),
-            new(0.08000, 1.51400),
-            new(0.09000, 1.51400),
-            new(0.09000, 1.50400),
-            new(0.06000, 1.50400),
-            new(0.06000, 1.51400),
-            new(0.07000, 1.51400),
-            new(0.07000, 1.52400),
-            new(0.03000, 1.52400),
-            new(0.03000, 1.51400),
-            new(0.02000, 1.51400),
-            new(0.02000, 1.44200),
-            new(0.03000, 1.44200),
-            new(0.03000, 1.45200),
-            new(0.04000, 1.45200),
-            new(0.04000, 1.42200),
-            new(0.03000, 1.42200),
-            new(0.03000, 1.43200),
-            new(0.02000, 1.43200),
-            new(0.02000, 1.39200),
-            new(0.03000, 1.39200),
-            new(0.03000, 1.38200),
-            new(0.10000, 1.38200),
-            new(0.10000, 1.39200),
-            new(0.09000, 1.39200),
-            new(0.09000, 1.40200),
-            new(0.12000, 1.40200),
-            new(0.12000, 1.39200),
-            new(0.11000, 1.39200),
-            new(0.11000, 1.38200),
-            new(0.15000, 1.38200),
-            new(0.15000, 1.39200),
-            new(0.16000, 1.39200),
-            new(0.16000, 1.45300),
-            new(0.17000, 1.45300),
-            new(0.17000, 1.44200),
-            new(0.18000, 1.44200),
-            new(0.18000, 1.45200),
-            new(0.19000, 1.45200),
-            new(0.19000, 1.42200),
-            new(0.18000, 1.42200),
-            new(0.18000, 1.43200),
-            new(0.17000, 1.43200),
-            new(0.17000, 1.39200),
-            new(0.18000, 1.39200),
-            new(0.18000, 1.38200),
-            new(0.24000, 1.38200),
-            new(0.24000, 1.37200),
-            new(0.23000, 1.37200),
-            new(0.23000, 1.36200),
-            new(0.24000, 1.36200),
-            new(0.24000, 1.35200),
-            new(0.21000, 1.35200),
-            new(0.21000, 1.36200),
-            new(0.22000, 1.36200),
-            new(0.22000, 1.37200),
-            new(0.18000, 1.37200),
-            new(0.18000, 1.36200),
-            new(0.17000, 1.36200),
-            new(0.17000, 1.30100),
-            new(0.16000, 1.30100),
-            new(0.16000, 1.31200),
-            new(0.15000, 1.31200),
-            new(0.15000, 1.30200),
-            new(0.14000, 1.30200),
-            new(0.14000, 1.33200),
-            new(0.15000, 1.33200),
-            new(0.15000, 1.32200),
-            new(0.16000, 1.32200),
-            new(0.16000, 1.36200),
-            new(0.15000, 1.36200),
-            new(0.15000, 1.37200),
-            new(0.08000, 1.37200),
-            new(0.08000, 1.36200),
-            new(0.09000, 1.36200),
-            new(0.09000, 1.35200),
-            new(0.06000, 1.35200),
-            new(0.06000, 1.36200),
-            new(0.07000, 1.36200),
-            new(0.07000, 1.37200),
-            new(0.03000, 1.37200),
-            new(0.03000, 1.36200),
-            new(0.02000, 1.36200),
-            new(0.02000, 1.29000),
-            new(0.03000, 1.29000),
-            new(0.03000, 1.30000),
-            new(0.04000, 1.30000),
-            new(0.04000, 1.27000),
-            new(0.03000, 1.27000),
-            new(0.03000, 1.28000),
-            new(0.02000, 1.28000),
-            new(0.02000, 1.24000),
-            new(0.03000, 1.24000),
-            new(0.03000, 1.23000),
-            new(0.09000, 1.23000),
-            new(0.09000, 1.22000),
-            new(0.08000, 1.22000),
-            new(0.08000, 1.21000),
-            new(0.09000, 1.21000),
-            new(0.09000, 1.20000),
-            new(0.06000, 1.20000),
-            new(0.06000, 1.21000),
-            new(0.07000, 1.21000),
-            new(0.07000, 1.22000),
-            new(0.03000, 1.22000),
-            new(0.03000, 1.21000),
-            new(0.02000, 1.21000),
-            new(0.02000, 1.14000),
-            new(0.03000, 1.14000),
-            new(0.03000, 1.15000),
-            new(0.04000, 1.15000),
-            new(0.04000, 1.12000),
-            new(0.03000, 1.12000),
-            new(0.03000, 1.13000),
-            new(0.02000, 1.13000),
-            new(0.02000, 1.09000),
-            new(0.03000, 1.09000),
-            new(0.03000, 1.08000),
-            new(0.09000, 1.08000),
-            new(0.09000, 1.07000),
-            new(0.08000, 1.07000),
-            new(0.08000, 1.06000),
-            new(0.09000, 1.06000),
-            new(0.09000, 1.05000),
-            new(0.06000, 1.05000),
-            new(0.06000, 1.06000),
-            new(0.07000, 1.06000),
-            new(0.07000, 1.07000),
-            new(0.03000, 1.07000),
-            new(0.03000, 1.06000),
-            new(0.02000, 1.06000),
-            new(0.02000, 0.98800),
-            new(0.03000, 0.98800),
-            new(0.03000, 0.99800),
-            new(0.04000, 0.99800),
-            new(0.04000, 0.96800),
-            new(0.03000, 0.96800),
-            new(0.03000, 0.97800),
-            new(0.02000, 0.97800),
-            new(0.02000, 0.93800),
-            new(0.03000, 0.93800),
-            new(0.03000, 0.92800),
-            new(0.10000, 0.92800),
-            new(0.10000, 0.93800),
-            new(0.09000, 0.93800),
-            new(0.09000, 0.94800),
-            new(0.12000, 0.94800),
-            new(0.12000, 0.93800),
-            new(0.11000, 0.93800),
-            new(0.11000, 0.92800),
-            new(0.15000, 0.92800),
-            new(0.15000, 0.93800),
-            new(0.16000, 0.93800),
-            new(0.16000, 0.99900),
-            new(0.17000, 0.99900),
-            new(0.17000, 0.98800),
-            new(0.18000, 0.98800),
-            new(0.18000, 0.99800),
-            new(0.19000, 0.99800),
-            new(0.19000, 0.96800),
-            new(0.18000, 0.96800),
-            new(0.18000, 0.97800),
-            new(0.17000, 0.97800),
-            new(0.17000, 0.93800),
-            new(0.18000, 0.93800),
-            new(0.18000, 0.92800),
-            new(0.24000, 0.92800),
-            new(0.24000, 0.91800),
-            new(0.23000, 0.91800),
-            new(0.23000, 0.90800),
-            new(0.24000, 0.90800),
-            new(0.24000, 0.89800),
-            new(0.21000, 0.89800),
-            new(0.21000, 0.90800),
-            new(0.22000, 0.90800),
-            new(0.22000, 0.91800),
-            new(0.18000, 0.91800),
-            new(0.18000, 0.90800),
-            new(0.17000, 0.90800),
-            new(0.17000, 0.84700),
-            new(0.16000, 0.84700),
-            new(0.16000, 0.85800),
-            new(0.15000, 0.85800),
-            new(0.15000, 0.84800),
-            new(0.14000, 0.84800),
-            new(0.14000, 0.87800),
-            new(0.15000, 0.87800),
-            new(0.15000, 0.86800),
-            new(0.16000, 0.86800),
-            new(0.16000, 0.90800),
-            new(0.15000, 0.90800),
-            new(0.15000, 0.91800),
-            new(0.08000, 0.91800),
-            new(0.08000, 0.90800),
-            new(0.09000, 0.90800),
-            new(0.09000, 0.89800),
-            new(0.06000, 0.89800),
-            new(0.06000, 0.90800),
-            new(0.07000, 0.90800),
-            new(0.07000, 0.91800),
-            new(0.03000, 0.91800),
-            new(0.03000, 0.90800),
-            new(0.02000, 0.90800),
-            new(0.02000, 0.83600),
-            new(0.03000, 0.83600),
-            new(0.03000, 0.84600),
-            new(0.04000, 0.84600),
-            new(0.04000, 0.81600),
-            new(0.03000, 0.81600),
-            new(0.03000, 0.82600),
-            new(0.02000, 0.82600),
-            new(0.02000, 0.78600),
-            new(0.03000, 0.78600),
-            new(0.03000, 0.77600),
-            new(0.09000, 0.77600),
-            new(0.09000, 0.76600),
-            new(0.08000, 0.76600),
-            new(0.08000, 0.75600),
-            new(0.09000, 0.75600),
-            new(0.09000, 0.74600),
-            new(0.06000, 0.74600),
-            new(0.06000, 0.75600),
-            new(0.07000, 0.75600),
-            new(0.07000, 0.76600),
-            new(0.03000, 0.76600),
-            new(0.03000, 0.75600),
-            new(0.02000, 0.75600),
-            new(0.02000, 0.68600),
-            new(0.03000, 0.68600),
-            new(0.03000, 0.69600),
-            new(0.04000, 0.69600),
-            new(0.04000, 0.66600),
-            new(0.03000, 0.66600),
-            new(0.03000, 0.67600),
-            new(0.02000, 0.67600),
-            new(0.02000, 0.63600),
-            new(0.03000, 0.63600),
-            new(0.03000, 0.62600),
-            new(0.09000, 0.62600),
-            new(0.09000, 0.61600),
-            new(0.08000, 0.61600),
-            new(0.08000, 0.60600),
-            new(0.09000, 0.60600),
-            new(0.09000, 0.59600),
-            new(0.06000, 0.59600),
-            new(0.06000, 0.60600),
-            new(0.07000, 0.60600),
-            new(0.07000, 0.61600),
-            new(0.03000, 0.61600),
-            new(0.03000, 0.60600),
-            new(0.02000, 0.60600),
-            new(0.02000, 0.53400),
-            new(0.03000, 0.53400),
-            new(0.03000, 0.54400),
-            new(0.04000, 0.54400),
-            new(0.04000, 0.51400),
-            new(0.03000, 0.51400),
-            new(0.03000, 0.52400),
-            new(0.02000, 0.52400),
-            new(0.02000, 0.48400),
-            new(0.03000, 0.48400),
-            new(0.03000, 0.47400),
-            new(0.10000, 0.47400),
-            new(0.10000, 0.48400),
-            new(0.09000, 0.48400),
-            new(0.09000, 0.49400),
-            new(0.12000, 0.49400),
-            new(0.12000, 0.48400),
-            new(0.11000, 0.48400),
-            new(0.11000, 0.47400),
-            new(0.15000, 0.47400),
-            new(0.15000, 0.48400),
-            new(0.16000, 0.48400),
-            new(0.16000, 0.54500),
-            new(0.17000, 0.54500),
-            new(0.17000, 0.53400),
-            new(0.18000, 0.53400),
-            new(0.18000, 0.54400),
-            new(0.19000, 0.54400),
-            new(0.19000, 0.51400),
-            new(0.18000, 0.51400),
-            new(0.18000, 0.52400),
-            new(0.17000, 0.52400),
-            new(0.17000, 0.48400),
-            new(0.18000, 0.48400),
-            new(0.18000, 0.47400),
-            new(0.24000, 0.47400),
-            new(0.24000, 0.46400),
-            new(0.23000, 0.46400),
-            new(0.23000, 0.45400),
-            new(0.24000, 0.45400),
-            new(0.24000, 0.44400),
-            new(0.21000, 0.44400),
-            new(0.21000, 0.45400),
-            new(0.22000, 0.45400),
-            new(0.22000, 0.46400),
-            new(0.18000, 0.46400),
-            new(0.18000, 0.45400),
-            new(0.17000, 0.45400),
-            new(0.17000, 0.39300),
-            new(0.16000, 0.39300),
-            new(0.16000, 0.40400),
-            new(0.15000, 0.40400),
-            new(0.15000, 0.39400),
-            new(0.14000, 0.39400),
-            new(0.14000, 0.42400),
-            new(0.15000, 0.42400),
-            new(0.15000, 0.41400),
-            new(0.16000, 0.41400),
-            new(0.16000, 0.45400),
-            new(0.15000, 0.45400),
-            new(0.15000, 0.46400),
-            new(0.08000, 0.46400),
-            new(0.08000, 0.45400),
-            new(0.09000, 0.45400),
-            new(0.09000, 0.44400),
-            new(0.06000, 0.44400),
-            new(0.06000, 0.45400),
-            new(0.07000, 0.45400),
-            new(0.07000, 0.46400),
-            new(0.03000, 0.46400),
-            new(0.03000, 0.45400),
-            new(0.02000, 0.45400),
-            new(0.02000, 0.38200),
-            new(0.03000, 0.38200),
-            new(0.03000, 0.39200),
-            new(0.04000, 0.39200),
-            new(0.04000, 0.36200),
-            new(0.03000, 0.36200),
-            new(0.03000, 0.37200),
-            new(0.02000, 0.37200),
-            new(0.02000, 0.33200),
-            new(0.03000, 0.33200),
-            new(0.03000, 0.32200),
-            new(0.09000, 0.32200),
-            new(0.09000, 0.31200),
-            new(0.08000, 0.31200),
-            new(0.08000, 0.30200),
-            new(0.09000, 0.30200),
-            new(0.09000, 0.29200),
-            new(0.06000, 0.29200),
-            new(0.06000, 0.30200),
-            new(0.07000, 0.30200),
-            new(0.07000, 0.31200),
-            new(0.03000, 0.31200),
-            new(0.03000, 0.30200),
-            new(0.02000, 0.30200),
-            new(0.02000, 0.23200),
-            new(0.03000, 0.23200),
-            new(0.03000, 0.24200),
-            new(0.04000, 0.24200),
-            new(0.04000, 0.21200),
-            new(0.03000, 0.21200),
-            new(0.03000, 0.22200),
-            new(0.02000, 0.22200),
-            new(0.02000, 0.18200),
-            new(0.03000, 0.18200),
-            new(0.03000, 0.17200),
-            new(0.09000, 0.17200),
-            new(0.09000, 0.16200),
-            new(0.08000, 0.16200),
-            new(0.08000, 0.15200),
-            new(0.09000, 0.15200),
-            new(0.09000, 0.14200),
-            new(0.06000, 0.14200),
-            new(0.06000, 0.15200),
-            new(0.07000, 0.15200),
-            new(0.07000, 0.16200),
-            new(0.03000, 0.16200),
-            new(0.03000, 0.15200),
-            new(0.02000, 0.15200),
-            new(0.02000, 0.08000),
-            new(0.03000, 0.08000),
-            new(0.03000, 0.09000),
-            new(0.04000, 0.09000),
-            new(0.04000, 0.06000),
-            new(0.03000, 0.06000),
-            new(0.03000, 0.07000),
-            new(0.02000, 0.07000),
-            new(0.02000, 0.03000),
-            new(0.03000, 0.03000),
-            new(0.03000, 0.02000),
-            new(0.10000, 0.02000),
-            new(0.10000, 0.03000),
-            new(0.09000, 0.03000),
-            new(0.09000, 0.04000),
-            new(0.12000, 0.04000),
-            new(0.12000, 0.03000),
-            new(0.11000, 0.03000),
-            new(0.11000, 0.02000),
-            new(0.15000, 0.02000),
-            new(0.15000, 0.03000),
-            new(0.16000, 0.03000),
-            new(0.16000, 0.09100),
-            new(0.17000, 0.09100),
-            new(0.17000, 0.08000),
-            new(0.18000, 0.08000),
-            new(0.18000, 0.09000),
-            new(0.19000, 0.09000),
-            new(0.19000, 0.06000),
-            new(0.18000, 0.06000),
-            new(0.18000, 0.07000),
-            new(0.17000, 0.07000),
-            new(0.17000, 0.03000),
-            new(0.18000, 0.03000),
-            new(0.18000, 0.02000),
-            new(0.25000, 0.02000),
-            new(0.25000, 0.03000),
-            new(0.24000, 0.03000),
-            new(0.24000, 0.04000),
-            new(0.27000, 0.04000),
-            new(0.27000, 0.03000),
-            new(0.26000, 0.03000),
-            new(0.26000, 0.02000),
-            new(0.30000, 0.02000),
-            new(0.30000, 0.03000),
-            new(0.31000, 0.03000),
-            new(0.31000, 0.09100),
-            new(0.32000, 0.09100),
-            new(0.32000, 0.08000),
-            new(0.33000, 0.08000),
-            new(0.33000, 0.09000),
-            new(0.34000, 0.09000),
-            new(0.34000, 0.06000),
-            new(0.33000, 0.06000),
-            new(0.33000, 0.07000),
-            new(0.32000, 0.07000),
-            new(0.32000, 0.03000),
-            new(0.33000, 0.03000),
-            new(0.33000, 0.02000),
-            new(0.40000, 0.02000),
-            new(0.40000, 0.03000),
-            new(0.39000, 0.03000),
-            new(0.39000, 0.04000),
-            new(0.42000, 0.04000),
-            new(0.42000, 0.03000),
-            new(0.41000, 0.03000),
-            new(0.41000, 0.02000),
-            new(0.45000, 0.02000),
-            new(0.45000, 0.03000),
-            new(0.46000, 0.03000),
-            new(0.46000, 0.10200),
-            new(0.45000, 0.10200),
-            new(0.45000, 0.09200),
-            new(0.44000, 0.09200),
-            new(0.44000, 0.12200),
-            new(0.45000, 0.12200),
-            new(0.45000, 0.11200),
-            new(0.46000, 0.11200),
-            new(0.46000, 0.15200),
-            new(0.45000, 0.15200),
-            new(0.45000, 0.16200),
-            new(0.39000, 0.16200),
-            new(0.39000, 0.17200),
-            new(0.40000, 0.17200),
-            new(0.40000, 0.18200),
-            new(0.39000, 0.18200),
-            new(0.39000, 0.19200),
-            new(0.42000, 0.19200),
-            new(0.42000, 0.18200),
-            new(0.41000, 0.18200),
-            new(0.41000, 0.17200),
-            new(0.45000, 0.17200),
-            new(0.45000, 0.18200),
-            new(0.46000, 0.18200),
-            new(0.46000, 0.24300),
-            new(0.47000, 0.24300),
-            new(0.47000, 0.23200),
-            new(0.48000, 0.23200),
-            new(0.48000, 0.24200),
-            new(0.49000, 0.24200),
-            new(0.49000, 0.21200),
-            new(0.48000, 0.21200),
-            new(0.48000, 0.22200),
-            new(0.47000, 0.22200),
-            new(0.47000, 0.18200),
-            new(0.48000, 0.18200),
-            new(0.48000, 0.17200),
-            new(0.54000, 0.17200),
-            new(0.54000, 0.16200),
-            new(0.53000, 0.16200),
-            new(0.53000, 0.15200),
-            new(0.54000, 0.15200),
-            new(0.54000, 0.14200),
-            new(0.51000, 0.14200),
-            new(0.51000, 0.15200),
-            new(0.52000, 0.15200),
-            new(0.52000, 0.16200),
-            new(0.48000, 0.16200),
-            new(0.48000, 0.15200),
-            new(0.47000, 0.15200),
-            new(0.47000, 0.08000),
-            new(0.48000, 0.08000),
-            new(0.48000, 0.09000),
-            new(0.49000, 0.09000),
-            new(0.49000, 0.06000),
-            new(0.48000, 0.06000),
-            new(0.48000, 0.07000),
-            new(0.47000, 0.07000),
-            new(0.47000, 0.03000),
-            new(0.48000, 0.03000),
-            new(0.48000, 0.02000),
-            new(0.55000, 0.02000),
-            new(0.55000, 0.03000),
-            new(0.54000, 0.03000),
-            new(0.54000, 0.04000),
-            new(0.57000, 0.04000),
-            new(0.57000, 0.03000),
-            new(0.56000, 0.03000),
-            new(0.56000, 0.02000),
-            new(0.60000, 0.02000),
-            new(0.60000, 0.03000),
-            new(0.61000, 0.03000),
-            new(0.61000, 0.09100),
-            new(0.62000, 0.09100),
-            new(0.62000, 0.08000),
-            new(0.63000, 0.08000),
-            new(0.63000, 0.09000),
-            new(0.64000, 0.09000),
-            new(0.64000, 0.06000),
-            new(0.63000, 0.06000),
-            new(0.63000, 0.07000),
-            new(0.62000, 0.07000),
-            new(0.62000, 0.03000),
-            new(0.63000, 0.03000),
-            new(0.63000, 0.02000),
-            new(0.70000, 0.02000),
-            new(0.70000, 0.03000),
-            new(0.69000, 0.03000),
-            new(0.69000, 0.04000),
-            new(0.72000, 0.04000),
-            new(0.72000, 0.03000),
-            new(0.71000, 0.03000),
-            new(0.71000, 0.02000),
-            new(0.75000, 0.02000),
-            new(0.75000, 0.03000),
-            new(0.76000, 0.03000),
-            new(0.76000, 0.09100),
-            new(0.77000, 0.09100),
-            new(0.77000, 0.08000),
-            new(0.78000, 0.08000),
-            new(0.78000, 0.09000),
-            new(0.79000, 0.09000),
-            new(0.79000, 0.06000),
-            new(0.78000, 0.06000),
-            new(0.78000, 0.07000),
-            new(0.77000, 0.07000),
-            new(0.77000, 0.03000),
-            new(0.78000, 0.03000),
-            new(0.78000, 0.02000),
-            new(0.85000, 0.02000),
-            new(0.85000, 0.03000),
-            new(0.84000, 0.03000),
-            new(0.84000, 0.04000),
-            new(0.87000, 0.04000),
-            new(0.87000, 0.03000),
-            new(0.86000, 0.03000),
-            new(0.86000, 0.02000),
-            new(0.90000, 0.02000),
-            new(0.90000, 0.03000),
-            new(0.91000, 0.03000),
-            new(0.91000, 0.10200),
-            new(0.90000, 0.10200),
-            new(0.90000, 0.09200),
-            new(0.89000, 0.09200),
-            new(0.89000, 0.12200),
-            new(0.90000, 0.12200),
-            new(0.90000, 0.11200),
-            new(0.91000, 0.11200),
-            new(0.91000, 0.15200),
-            new(0.90000, 0.15200),
-            new(0.90000, 0.16200),
-            new(0.84000, 0.16200),
-            new(0.84000, 0.17200),
-            new(0.85000, 0.17200),
-            new(0.85000, 0.18200),
-            new(0.84000, 0.18200),
-            new(0.84000, 0.19200),
-            new(0.87000, 0.19200),
-            new(0.87000, 0.18200),
-            new(0.86000, 0.18200),
-            new(0.86000, 0.17200),
-            new(0.90000, 0.17200),
-            new(0.90000, 0.18200),
-            new(0.91000, 0.18200),
-            new(0.91000, 0.24300),
-            new(0.92000, 0.24300),
-            new(0.92000, 0.23200),
-            new(0.93000, 0.23200),
-            new(0.93000, 0.24200),
-            new(0.94000, 0.24200),
-            new(0.94000, 0.21200),
-            new(0.93000, 0.21200),
-            new(0.93000, 0.22200),
-            new(0.92000, 0.22200),
-            new(0.92000, 0.18200),
-            new(0.93000, 0.18200),
-            new(0.93000, 0.17200),
-            new(0.99000, 0.17200),
-            new(0.99000, 0.16200),
-            new(0.98000, 0.16200),
-            new(0.98000, 0.15200),
-            new(0.99000, 0.15200),
-            new(0.99000, 0.14200),
-            new(0.96000, 0.14200),
-            new(0.96000, 0.15200),
-            new(0.97000, 0.15200),
-            new(0.97000, 0.16200),
-            new(0.93000, 0.16200),
-            new(0.93000, 0.15200),
-            new(0.92000, 0.15200),
-            new(0.92000, 0.08000),
-            new(0.93000, 0.08000),
-            new(0.93000, 0.09000),
-            new(0.94000, 0.09000),
-            new(0.94000, 0.06000),
-            new(0.93000, 0.06000),
-            new(0.93000, 0.07000),
-            new(0.92000, 0.07000),
-            new(0.92000, 0.03000),
-            new(0.93000, 0.03000),
-            new(0.93000, 0.02000),
-            new(1.00000, 0.02000),
-            new(1.00000, 0.03000),
-            new(0.99000, 0.03000),
-            new(0.99000, 0.04000),
-            new(1.02000, 0.04000),
-            new(1.02000, 0.03000),
-            new(1.01000, 0.03000),
-            new(1.01000, 0.02000),
-            new(1.05000, 0.02000),
-            new(1.05000, 0.03000),
-            new(1.06000, 0.03000),
-            new(1.06000, 0.09100),
-            new(1.07000, 0.09100),
-            new(1.07000, 0.08000),
-            new(1.08000, 0.08000),
-            new(1.08000, 0.09000),
-            new(1.09000, 0.09000),
-            new(1.09000, 0.06000),
-            new(1.08000, 0.06000),
-            new(1.08000, 0.07000),
-            new(1.07000, 0.07000),
-            new(1.07000, 0.03000),
-            new(1.08000, 0.03000),
-            new(1.08000, 0.02000),
-            new(1.15000, 0.02000),
-            new(1.15000, 0.03000),
-            new(1.14000, 0.03000),
-            new(1.14000, 0.04000),
-            new(1.17000, 0.04000),
-            new(1.17000, 0.03000),
-            new(1.16000, 0.03000),
-            new(1.16000, 0.02000),
-            new(1.20000, 0.02000),
-            new(1.20000, 0.03000),
-            new(1.21000, 0.03000),
-            new(1.21000, 0.09100),
-            new(1.22000, 0.09100),
-            new(1.22000, 0.08000),
-            new(1.23000, 0.08000),
-            new(1.23000, 0.09000),
-            new(1.24000, 0.09000),
-            new(1.24000, 0.06000),
-            new(1.23000, 0.06000),
-            new(1.23000, 0.07000),
-            new(1.22000, 0.07000),
-            new(1.22000, 0.03000),
-            new(1.23000, 0.03000),
-            new(1.23000, 0.02000),
-            new(1.30000, 0.02000),
-            new(1.30000, 0.03000),
-            new(1.29000, 0.03000),
-            new(1.29000, 0.04000),
-            new(1.32000, 0.04000),
-            new(1.32000, 0.03000),
-            new(1.31000, 0.03000),
-            new(1.31000, 0.02000),
-            new(1.35000, 0.02000),
-            new(1.35000, 0.03000),
-            new(1.36000, 0.03000),
-            new(1.36000, 0.10200),
-            new(1.35000, 0.10200),
-            new(1.35000, 0.09200),
-            new(1.34000, 0.09200),
-            new(1.34000, 0.12200),
-            new(1.35000, 0.12200),
-            new(1.35000, 0.11200),
-            new(1.36000, 0.11200),
-            new(1.36000, 0.15200),
-            new(1.35000, 0.15200),
-            new(1.35000, 0.16200),
-            new(1.29000, 0.16200),
-            new(1.29000, 0.17200),
-            new(1.30000, 0.17200),
-            new(1.30000, 0.18200),
-            new(1.29000, 0.18200),
-            new(1.29000, 0.19200),
-            new(1.32000, 0.19200),
-            new(1.32000, 0.18200),
-            new(1.31000, 0.18200),
-            new(1.31000, 0.17200),
-            new(1.35000, 0.17200),
-            new(1.35000, 0.18200),
-            new(1.36000, 0.18200),
-            new(1.36000, 0.24300),
-            new(1.37000, 0.24300),
-            new(1.37000, 0.23200),
-            new(1.38000, 0.23200),
-            new(1.38000, 0.24200),
-            new(1.39000, 0.24200),
-            new(1.39000, 0.21200),
-            new(1.38000, 0.21200),
-            new(1.38000, 0.22200),
-            new(1.37000, 0.22200),
-            new(1.37000, 0.18200),
-            new(1.38000, 0.18200),
-            new(1.38000, 0.17200),
-            new(1.44000, 0.17200),
-            new(1.44000, 0.16200),
-            new(1.43000, 0.16200),
-            new(1.43000, 0.15200),
-            new(1.44000, 0.15200),
-            new(1.44000, 0.14200),
-            new(1.41000, 0.14200),
-            new(1.41000, 0.15200),
-            new(1.42000, 0.15200),
-            new(1.42000, 0.16200),
-            new(1.38000, 0.16200),
-            new(1.38000, 0.15200),
-            new(1.37000, 0.15200),
-            new(1.37000, 0.08000),
-            new(1.38000, 0.08000),
-            new(1.38000, 0.09000),
-            new(1.39000, 0.09000),
-            new(1.39000, 0.06000),
-            new(1.38000, 0.06000),
-            new(1.38000, 0.07000),
-            new(1.37000, 0.07000),
-            new(1.37000, 0.03000),
-            new(1.38000, 0.03000),
-            new(1.38000, 0.02000),
-            new(1.45000, 0.02000),
-            new(1.45000, 0.03000),
-            new(1.44000, 0.03000),
-            new(1.44000, 0.04000),
-            new(1.47000, 0.04000),
-            new(1.47000, 0.03000),
-            new(1.46000, 0.03000),
-            new(1.46000, 0.02000),
-            new(1.50000, 0.02000),
-            new(1.50000, 0.03000),
-            new(1.51000, 0.03000),
-            new(1.51000, 0.09100),
-            new(1.52000, 0.09100),
-            new(1.52000, 0.08000),
-            new(1.53000, 0.08000),
-            new(1.53000, 0.09000),
-            new(1.54000, 0.09000),
-            new(1.54000, 0.06000),
-            new(1.53000, 0.06000),
-            new(1.53000, 0.07000),
-            new(1.52000, 0.07000),
-            new(1.52000, 0.03000),
-            new(1.53000, 0.03000),
-            new(1.53000, 0.02000),
-            new(1.60000, 0.02000),
-            new(1.60000, 0.03000),
-            new(1.59000, 0.03000),
-            new(1.59000, 0.04000),
-            new(1.62000, 0.04000),
-            new(1.62000, 0.03000),
-            new(1.61000, 0.03000),
-            new(1.61000, 0.02000),
-            new(1.65000, 0.02000),
-            new(1.65000, 0.03000),
-            new(1.66000, 0.03000),
-            new(1.66000, 0.09100),
-            new(1.67000, 0.09100),
-            new(1.67000, 0.08000),
-            new(1.68000, 0.08000),
-            new(1.68000, 0.09000),
-            new(1.69000, 0.09000),
-            new(1.69000, 0.06000),
-            new(1.68000, 0.06000),
-            new(1.68000, 0.07000),
-            new(1.67000, 0.07000),
-            new(1.67000, 0.03000),
-            new(1.68000, 0.03000),
-            new(1.68000, 0.02000),
-            new(1.75000, 0.02000),
-            new(1.75000, 0.03000),
-            new(1.74000, 0.03000),
-            new(1.74000, 0.04000),
-            new(1.77000, 0.04000),
-            new(1.77000, 0.03000),
-            new(1.76000, 0.03000),
-            new(1.76000, 0.02000),
-            new(1.80000, 0.02000),
-            new(1.80000, 0.03000),
-            new(1.81000, 0.03000),
-            new(1.81000, 0.10200),
-            new(1.80000, 0.10200),
-            new(1.80000, 0.09200),
-            new(1.79000, 0.09200),
-            new(1.79000, 0.12200),
-            new(1.80000, 0.12200),
-            new(1.80000, 0.11200),
-            new(1.81000, 0.11200),
-            new(1.81000, 0.15200),
-            new(1.80000, 0.15200),
-            new(1.80000, 0.16200),
-            new(1.74000, 0.16200),
-            new(1.74000, 0.17200),
-            new(1.75000, 0.17200),
-            new(1.75000, 0.18200),
-            new(1.74000, 0.18200),
-            new(1.74000, 0.19200),
-            new(1.77000, 0.19200),
-            new(1.77000, 0.18200),
-            new(1.76000, 0.18200),
-            new(1.76000, 0.17200),
-            new(1.80000, 0.17200),
-            new(1.80000, 0.18200),
-            new(1.81000, 0.18200),
-            new(1.81000, 0.24300),
-            new(1.82000, 0.24300),
-            new(1.82000, 0.23200),
-            new(1.83000, 0.23200),
-            new(1.83000, 0.24200),
-            new(1.84000, 0.24200),
-            new(1.84000, 0.21200),
-            new(1.83000, 0.21200),
-            new(1.83000, 0.22200),
-            new(1.82000, 0.22200),
-            new(1.82000, 0.18200),
-            new(1.83000, 0.18200),
-            new(1.83000, 0.17200),
-            new(1.89000, 0.17200),
-            new(1.89000, 0.16200),
-            new(1.88000, 0.16200),
-            new(1.88000, 0.15200),
-            new(1.89000, 0.15200),
-            new(1.89000, 0.14200),
-            new(1.86000, 0.14200),
-            new(1.86000, 0.15200),
-            new(1.87000, 0.15200),
-            new(1.87000, 0.16200),
-            new(1.83000, 0.16200),
-            new(1.83000, 0.15200),
-            new(1.82000, 0.15200),
-            new(1.82000, 0.08000),
-            new(1.83000, 0.08000),
-            new(1.83000, 0.09000),
-            new(1.84000, 0.09000),
-            new(1.84000, 0.06000),
-            new(1.83000, 0.06000),
-            new(1.83000, 0.07000),
-            new(1.82000, 0.07000),
-            new(1.82000, 0.03000),
-            new(1.83000, 0.03000),
-            new(1.83000, 0.02000),
-            new(1.90000, 0.02000),
-            new(1.90000, 0.03000),
-            new(1.89000, 0.03000),
-            new(1.89000, 0.04000),
-            new(1.92000, 0.04000),
-            new(1.92000, 0.03000),
-            new(1.91000, 0.03000),
-            new(1.91000, 0.02000),
-            new(1.95000, 0.02000),
-            new(1.95000, 0.03000),
-            new(1.96000, 0.03000),
-            new(1.96000, 0.09100),
-            new(1.97000, 0.09100),
-            new(1.97000, 0.08000),
-            new(1.98000, 0.08000),
-            new(1.98000, 0.09000),
-            new(1.99000, 0.09000),
-            new(1.99000, 0.06000),
-            new(1.98000, 0.06000),
-            new(1.98000, 0.07000),
-            new(1.97000, 0.07000),
-            new(1.97000, 0.03000),
-            new(1.98000, 0.03000),
-            new(1.98000, 0.02000),
-            new(2.04000, 0.02000),
-            new(2.04000, 0.01000),
-            new(2.03000, 0.01000),
-            new(2.03000, 0.00000),
-            new(2.04000, 0.00000),
-            new(2.04000, -0.01000),
-            new(2.01000, -0.01000),
-            new(2.01000, 0.00000),
-            new(2.02000, 0.00000),
-            new(2.02000, 0.01000),
-            new(1.98000, 0.01000),
-            new(1.98000, 0.00000),
-            new(1.97000, 0.00000),
-            new(1.97000, -0.06100),
-            new(1.96000, -0.06100),
-            new(1.96000, -0.05000),
-            new(1.95000, -0.05000),
-            new(1.95000, -0.06000),
-            new(1.94000, -0.06000),
-            new(1.94000, -0.03000),
-            new(1.95000, -0.03000),
-            new(1.95000, -0.04000),
-            new(1.96000, -0.04000),
-            new(1.96000, 0.00000),
-            new(1.95000, 0.00000),
-            new(1.95000, 0.01000),
-            new(1.88000, 0.01000),
-            new(1.88000, 0.00000),
-            new(1.89000, 0.00000),
-            new(1.89000, -0.01000),
-            new(1.86000, -0.01000),
-            new(1.86000, 0.00000),
-            new(1.87000, 0.00000),
-            new(1.87000, 0.01000),
-            new(1.83000, 0.01000),
-            new(1.83000, 0.00000),
-            new(1.82000, 0.00000),
-            new(1.82000, -0.07200),
-            new(1.83000, -0.07200),
-            new(1.83000, -0.06200),
-            new(1.84000, -0.06200),
-            new(1.84000, -0.09200),
-            new(1.83000, -0.09200),
-            new(1.83000, -0.08200),
-            new(1.82000, -0.08200),
-            new(1.82000, -0.12200),
-            new(1.83000, -0.12200),
-            new(1.83000, -0.13200),
-            new(1.89000, -0.13200),
-            new(1.89000, -0.14200),
-            new(1.88000, -0.14200),
-            new(1.88000, -0.15200),
-            new(1.89000, -0.15200),
-            new(1.89000, -0.16200),
-            new(1.86000, -0.16200),
-            new(1.86000, -0.15200),
-            new(1.87000, -0.15200),
-            new(1.87000, -0.14200),
-            new(1.83000, -0.14200),
-            new(1.83000, -0.15200),
-            new(1.82000, -0.15200),
-            new(1.82000, -0.21300),
-            new(1.81000, -0.21300),
-            new(1.81000, -0.20200),
-            new(1.80000, -0.20200),
-            new(1.80000, -0.21200),
-            new(1.79000, -0.21200),
-            new(1.79000, -0.18200),
-            new(1.80000, -0.18200),
-            new(1.80000, -0.19200),
-            new(1.81000, -0.19200),
-            new(1.81000, -0.15200),
-            new(1.80000, -0.15200),
-            new(1.80000, -0.14200),
-            new(1.74000, -0.14200),
-            new(1.74000, -0.13200),
-            new(1.75000, -0.13200),
-            new(1.75000, -0.12200),
-            new(1.74000, -0.12200),
-            new(1.74000, -0.11200),
-            new(1.77000, -0.11200),
-            new(1.77000, -0.12200),
-            new(1.76000, -0.12200),
-            new(1.76000, -0.13200),
-            new(1.80000, -0.13200),
-            new(1.80000, -0.12200),
-            new(1.81000, -0.12200),
-            new(1.81000, -0.05000),
-            new(1.80000, -0.05000),
-            new(1.80000, -0.06000),
-            new(1.79000, -0.06000),
-            new(1.79000, -0.03000),
-            new(1.80000, -0.03000),
-            new(1.80000, -0.04000),
-            new(1.81000, -0.04000),
-            new(1.81000, 0.00000),
-            new(1.80000, 0.00000),
-            new(1.80000, 0.01000),
-            new(1.73000, 0.01000),
-            new(1.73000, 0.00000),
-            new(1.74000, 0.00000),
-            new(1.74000, -0.01000),
-            new(1.71000, -0.01000),
-            new(1.71000, 0.00000),
-            new(1.72000, 0.00000),
-            new(1.72000, 0.01000),
-            new(1.68000, 0.01000),
-            new(1.68000, 0.00000),
-            new(1.67000, 0.00000),
-            new(1.67000, -0.06100),
-            new(1.66000, -0.06100),
-            new(1.66000, -0.05000),
-            new(1.65000, -0.05000),
-            new(1.65000, -0.06000),
-            new(1.64000, -0.06000),
-            new(1.64000, -0.03000),
-            new(1.65000, -0.03000),
-            new(1.65000, -0.04000),
-            new(1.66000, -0.04000),
-            new(1.66000, 0.00000),
-            new(1.65000, 0.00000),
-            new(1.65000, 0.01000),
-            new(1.58000, 0.01000),
-            new(1.58000, 0.00000),
-            new(1.59000, 0.00000),
-            new(1.59000, -0.01000),
-            new(1.56000, -0.01000),
-            new(1.56000, 0.00000),
-            new(1.57000, 0.00000),
-            new(1.57000, 0.01000),
-            new(1.53000, 0.01000),
-            new(1.53000, 0.00000),
-            new(1.52000, 0.00000),
-            new(1.52000, -0.06100),
-            new(1.51000, -0.06100),
-            new(1.51000, -0.05000),
-            new(1.50000, -0.05000),
-            new(1.50000, -0.06000),
-            new(1.49000, -0.06000),
-            new(1.49000, -0.03000),
-            new(1.50000, -0.03000),
-            new(1.50000, -0.04000),
-            new(1.51000, -0.04000),
-            new(1.51000, 0.00000),
-            new(1.50000, 0.00000),
-            new(1.50000, 0.01000),
-            new(1.43000, 0.01000),
-            new(1.43000, 0.00000),
-            new(1.44000, 0.00000),
-            new(1.44000, -0.01000),
-            new(1.41000, -0.01000),
-            new(1.41000, 0.00000),
-            new(1.42000, 0.00000),
-            new(1.42000, 0.01000),
-            new(1.38000, 0.01000),
-            new(1.38000, 0.00000),
-            new(1.37000, 0.00000),
-            new(1.37000, -0.07200),
-            new(1.38000, -0.07200),
-            new(1.38000, -0.06200),
-            new(1.39000, -0.06200),
-            new(1.39000, -0.09200),
-            new(1.38000, -0.09200),
-            new(1.38000, -0.08200),
-            new(1.37000, -0.08200),
-            new(1.37000, -0.12200),
-            new(1.38000, -0.12200),
-            new(1.38000, -0.13200),
-            new(1.44000, -0.13200),
-            new(1.44000, -0.14200),
-            new(1.43000, -0.14200),
-            new(1.43000, -0.15200),
-            new(1.44000, -0.15200),
-            new(1.44000, -0.16200),
-            new(1.41000, -0.16200),
-            new(1.41000, -0.15200),
-            new(1.42000, -0.15200),
-            new(1.42000, -0.14200),
-            new(1.38000, -0.14200),
-            new(1.38000, -0.15200),
-            new(1.37000, -0.15200),
-            new(1.37000, -0.21300),
-            new(1.36000, -0.21300),
-            new(1.36000, -0.20200),
-            new(1.35000, -0.20200),
-            new(1.35000, -0.21200),
-            new(1.34000, -0.21200),
-            new(1.34000, -0.18200),
-            new(1.35000, -0.18200),
-            new(1.35000, -0.19200),
-            new(1.36000, -0.19200),
-            new(1.36000, -0.15200),
-            new(1.35000, -0.15200),
-            new(1.35000, -0.14200),
-            new(1.29000, -0.14200),
-            new(1.29000, -0.13200),
-            new(1.30000, -0.13200),
-            new(1.30000, -0.12200),
-            new(1.29000, -0.12200),
-            new(1.29000, -0.11200),
-            new(1.32000, -0.11200),
-            new(1.32000, -0.12200),
-            new(1.31000, -0.12200),
-            new(1.31000, -0.13200),
-            new(1.35000, -0.13200),
-            new(1.35000, -0.12200),
-            new(1.36000, -0.12200),
-            new(1.36000, -0.05000),
-            new(1.35000, -0.05000),
-            new(1.35000, -0.06000),
-            new(1.34000, -0.06000),
-            new(1.34000, -0.03000),
-            new(1.35000, -0.03000),
-            new(1.35000, -0.04000),
-            new(1.36000, -0.04000),
-            new(1.36000, 0.00000),
-            new(1.35000, 0.00000),
-            new(1.35000, 0.01000),
-            new(1.28000, 0.01000),
-            new(1.28000, 0.00000),
-            new(1.29000, 0.00000),
-            new(1.29000, -0.01000),
-            new(1.26000, -0.01000),
-            new(1.26000, 0.00000),
-            new(1.27000, 0.00000),
-            new(1.27000, 0.01000),
-            new(1.23000, 0.01000),
-            new(1.23000, 0.00000),
-            new(1.22000, 0.00000),
-            new(1.22000, -0.06100),
-            new(1.21000, -0.06100),
-            new(1.21000, -0.05000),
-            new(1.20000, -0.05000),
-            new(1.20000, -0.06000),
-            new(1.19000, -0.06000),
-            new(1.19000, -0.03000),
-            new(1.20000, -0.03000),
-            new(1.20000, -0.04000),
-            new(1.21000, -0.04000),
-            new(1.21000, 0.00000),
-            new(1.20000, 0.00000),
-            new(1.20000, 0.01000),
-            new(1.13000, 0.01000),
-            new(1.13000, 0.00000),
-            new(1.14000, 0.00000),
-            new(1.14000, -0.01000),
-            new(1.11000, -0.01000),
-            new(1.11000, 0.00000),
-            new(1.12000, 0.00000),
-            new(1.12000, 0.01000),
-            new(1.08000, 0.01000),
-            new(1.08000, 0.00000),
-            new(1.07000, 0.00000),
-            new(1.07000, -0.06100),
-            new(1.06000, -0.06100),
-            new(1.06000, -0.05000),
-            new(1.05000, -0.05000),
-            new(1.05000, -0.06000),
-            new(1.04000, -0.06000),
-            new(1.04000, -0.03000),
-            new(1.05000, -0.03000),
-            new(1.05000, -0.04000),
-            new(1.06000, -0.04000),
-            new(1.06000, 0.00000),
-            new(1.05000, 0.00000),
-            new(1.05000, 0.01000),
-            new(0.98000, 0.01000),
-            new(0.98000, 0.00000),
-            new(0.99000, 0.00000),
-            new(0.99000, -0.01000),
-            new(0.96000, -0.01000),
-            new(0.96000, 0.00000),
-            new(0.97000, 0.00000),
-            new(0.97000, 0.01000),
-            new(0.93000, 0.01000),
-            new(0.93000, 0.00000),
-            new(0.92000, 0.00000),
-            new(0.92000, -0.07200),
-            new(0.93000, -0.07200),
-            new(0.93000, -0.06200),
-            new(0.94000, -0.06200),
-            new(0.94000, -0.09200),
-            new(0.93000, -0.09200),
-            new(0.93000, -0.08200),
-            new(0.92000, -0.08200),
-            new(0.92000, -0.12200),
-            new(0.93000, -0.12200),
-            new(0.93000, -0.13200),
-            new(0.99000, -0.13200),
-            new(0.99000, -0.14200),
-            new(0.98000, -0.14200),
-            new(0.98000, -0.15200),
-            new(0.99000, -0.15200),
-            new(0.99000, -0.16200),
-            new(0.96000, -0.16200),
-            new(0.96000, -0.15200),
-            new(0.97000, -0.15200),
-            new(0.97000, -0.14200),
-            new(0.93000, -0.14200),
-            new(0.93000, -0.15200),
-            new(0.92000, -0.15200),
-            new(0.92000, -0.21300),
-            new(0.91000, -0.21300),
-            new(0.91000, -0.20200),
-            new(0.90000, -0.20200),
-            new(0.90000, -0.21200),
-            new(0.89000, -0.21200),
-            new(0.89000, -0.18200),
-            new(0.90000, -0.18200),
-            new(0.90000, -0.19200),
-            new(0.91000, -0.19200),
-            new(0.91000, -0.15200),
-            new(0.90000, -0.15200),
-            new(0.90000, -0.14200),
-            new(0.84000, -0.14200),
-            new(0.84000, -0.13200),
-            new(0.85000, -0.13200),
-            new(0.85000, -0.12200),
-            new(0.84000, -0.12200),
-            new(0.84000, -0.11200),
-            new(0.87000, -0.11200),
-            new(0.87000, -0.12200),
-            new(0.86000, -0.12200),
-            new(0.86000, -0.13200),
-            new(0.90000, -0.13200),
-            new(0.90000, -0.12200),
-            new(0.91000, -0.12200),
-            new(0.91000, -0.05000),
-            new(0.90000, -0.05000),
-            new(0.90000, -0.06000),
-            new(0.89000, -0.06000),
-            new(0.89000, -0.03000),
-            new(0.90000, -0.03000),
-            new(0.90000, -0.04000),
-            new(0.91000, -0.04000),
-            new(0.91000, 0.00000),
-            new(0.90000, 0.00000),
-            new(0.90000, 0.01000),
-            new(0.83000, 0.01000),
-            new(0.83000, 0.00000),
-            new(0.84000, 0.00000),
-            new(0.84000, -0.01000),
-            new(0.81000, -0.01000),
-            new(0.81000, 0.00000),
-            new(0.82000, 0.00000),
-            new(0.82000, 0.01000),
-            new(0.78000, 0.01000),
-            new(0.78000, 0.00000),
-            new(0.77000, 0.00000),
-            new(0.77000, -0.06100),
-            new(0.76000, -0.06100),
-            new(0.76000, -0.05000),
-            new(0.75000, -0.05000),
-            new(0.75000, -0.06000),
-            new(0.74000, -0.06000),
-            new(0.74000, -0.03000),
-            new(0.75000, -0.03000),
-            new(0.75000, -0.04000),
-            new(0.76000, -0.04000),
-            new(0.76000, 0.00000),
-            new(0.75000, 0.00000),
-            new(0.75000, 0.01000),
-            new(0.68000, 0.01000),
-            new(0.68000, 0.00000),
-            new(0.69000, 0.00000),
-            new(0.69000, -0.01000),
-            new(0.66000, -0.01000),
-            new(0.66000, 0.00000),
-            new(0.67000, 0.00000),
-            new(0.67000, 0.01000),
-            new(0.63000, 0.01000),
-            new(0.63000, 0.00000),
-            new(0.62000, 0.00000),
-            new(0.62000, -0.06100),
-            new(0.61000, -0.06100),
-            new(0.61000, -0.05000),
-            new(0.60000, -0.05000),
-            new(0.60000, -0.06000),
-            new(0.59000, -0.06000),
-            new(0.59000, -0.03000),
-            new(0.60000, -0.03000),
-            new(0.60000, -0.04000),
-            new(0.61000, -0.04000),
-            new(0.61000, 0.00000),
-            new(0.60000, 0.00000),
-            new(0.60000, 0.01000),
-            new(0.53000, 0.01000),
-            new(0.53000, 0.00000),
-            new(0.54000, 0.00000),
-            new(0.54000, -0.01000),
-            new(0.51000, -0.01000),
-            new(0.51000, 0.00000),
-            new(0.52000, 0.00000),
-            new(0.52000, 0.01000),
-            new(0.48000, 0.01000),
-            new(0.48000, 0.00000),
-            new(0.47000, 0.00000),
-            new(0.47000, -0.07200),
-            new(0.48000, -0.07200),
-            new(0.48000, -0.06200),
-            new(0.49000, -0.06200),
-            new(0.49000, -0.09200),
-            new(0.48000, -0.09200),
-            new(0.48000, -0.08200),
-            new(0.47000, -0.08200),
-            new(0.47000, -0.12200),
-            new(0.48000, -0.12200),
-            new(0.48000, -0.13200),
-            new(0.54000, -0.13200),
-            new(0.54000, -0.14200),
-            new(0.53000, -0.14200),
-            new(0.53000, -0.15200),
-            new(0.54000, -0.15200),
-            new(0.54000, -0.16200),
-            new(0.51000, -0.16200),
-            new(0.51000, -0.15200),
-            new(0.52000, -0.15200),
-            new(0.52000, -0.14200),
-            new(0.48000, -0.14200),
-            new(0.48000, -0.15200),
-            new(0.47000, -0.15200),
-            new(0.47000, -0.21300),
-            new(0.46000, -0.21300),
-            new(0.46000, -0.20200),
-            new(0.45000, -0.20200),
-            new(0.45000, -0.21200),
-            new(0.44000, -0.21200),
-            new(0.44000, -0.18200),
-            new(0.45000, -0.18200),
-            new(0.45000, -0.19200),
-            new(0.46000, -0.19200),
-            new(0.46000, -0.15200),
-            new(0.45000, -0.15200),
-            new(0.45000, -0.14200),
-            new(0.39000, -0.14200),
-            new(0.39000, -0.13200),
-            new(0.40000, -0.13200),
-            new(0.40000, -0.12200),
-            new(0.39000, -0.12200),
-            new(0.39000, -0.11200),
-            new(0.42000, -0.11200),
-            new(0.42000, -0.12200),
-            new(0.41000, -0.12200),
-            new(0.41000, -0.13200),
-            new(0.45000, -0.13200),
-            new(0.45000, -0.12200),
-            new(0.46000, -0.12200),
-            new(0.46000, -0.05000),
-            new(0.45000, -0.05000),
-            new(0.45000, -0.06000),
-            new(0.44000, -0.06000),
-            new(0.44000, -0.03000),
-            new(0.45000, -0.03000),
-            new(0.45000, -0.04000),
-            new(0.46000, -0.04000),
-            new(0.46000, 0.00000),
-            new(0.45000, 0.00000),
-            new(0.45000, 0.01000),
-            new(0.38000, 0.01000),
-            new(0.38000, 0.00000),
-            new(0.39000, 0.00000),
-            new(0.39000, -0.01000),
-            new(0.36000, -0.01000),
-            new(0.36000, 0.00000),
-            new(0.37000, 0.00000),
-            new(0.37000, 0.01000),
-            new(0.33000, 0.01000),
-            new(0.33000, 0.00000),
-            new(0.32000, 0.00000),
-            new(0.32000, -0.06100),
-            new(0.31000, -0.06100),
-            new(0.31000, -0.05000),
-            new(0.30000, -0.05000),
-            new(0.30000, -0.06000),
-            new(0.29000, -0.06000),
-            new(0.29000, -0.03000),
-            new(0.30000, -0.03000),
-            new(0.30000, -0.04000),
-            new(0.31000, -0.04000),
-            new(0.31000, 0.00000),
-            new(0.30000, 0.00000),
-            new(0.30000, 0.01000),
-            new(0.23000, 0.01000),
-            new(0.23000, 0.00000),
-            new(0.24000, 0.00000),
-            new(0.24000, -0.01000),
-            new(0.21000, -0.01000),
-            new(0.21000, 0.00000),
-            new(0.22000, 0.00000),
-            new(0.22000, 0.01000),
-            new(0.18000, 0.01000),
-            new(0.18000, 0.00000),
-            new(0.17000, 0.00000),
-            new(0.17000, -0.06100),
-            new(0.16000, -0.06100),
-            new(0.16000, -0.05000),
-            new(0.15000, -0.05000),
-            new(0.15000, -0.06000),
-            new(0.14000, -0.06000),
-            new(0.14000, -0.03000),
-            new(0.15000, -0.03000),
-            new(0.15000, -0.04000),
-            new(0.16000, -0.04000),
-            new(0.16000, 0.00000),
-            new(0.15000, 0.00000),
-            new(0.15000, 0.01000),
-            new(0.08000, 0.01000),
-            new(0.08000, 0.00000),
-            new(0.09000, 0.00000),
-            new(0.09000, -0.01000),
-            new(0.06000, -0.01000),
-            new(0.06000, 0.00000),
-            new(0.07000, 0.00000),
-            new(0.07000, 0.01000),
-            new(0.03000, 0.01000),
-            new(0.03000, 0.00000),
-            new(0.02000, 0.00000),
-            new(0.02000, -0.07200),
-            new(0.03000, -0.07200),
-            new(0.03000, -0.06200),
-            new(0.04000, -0.06200),
-            new(0.04000, -0.09200),
-            new(0.03000, -0.09200),
-            new(0.03000, -0.08200),
-            new(0.02000, -0.08200),
-            new(0.02000, -0.12200),
-            new(0.03000, -0.12200),
-            new(0.03000, -0.13200),
-            new(0.09000, -0.13200),
-            new(0.09000, -0.14200),
-            new(0.08000, -0.14200),
-            new(0.08000, -0.15200),
-            new(0.09000, -0.15200),
-            new(0.09000, -0.16200),
-            new(0.06000, -0.16200),
-            new(0.06000, -0.15200),
-            new(0.07000, -0.15200),
-            new(0.07000, -0.14200),
-            new(0.03000, -0.14200),
-            new(0.03000, -0.15200),
-            new(0.02000, -0.15200),
-            new(0.02000, -0.21300),
-            new(0.01000, -0.21300),
-        };
+        PathD poly = TestGeometry.verycomplex();
 
         sw.Stop();
         Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
@@ -2897,7 +728,8 @@ internal class Program
 
         Console.WriteLine("  Conversion....");
         sw.Restart();
-        List<GeoLibPoint[]> done = new() { GeoWrangler.pointsFromPointF(poly, 1000) };
+        PathsD done = new() { new(poly) }; // this was originally scaled up by 1000 in the integer pipeline.
+        done = Clipper.ScalePaths(done, 1000);
         sw.Stop();
         Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
 
@@ -2905,7 +737,7 @@ internal class Program
 
         Console.WriteLine("  Decomposition (vertical)....");
         sw.Restart();
-        List<GeoLibPoint[]> ns = GeoWrangler.rectangular_decomposition(ref abort, done, maxRayLength: rayLength);
+        PathsD ns = GeoWrangler.rectangular_decomposition(ref abort, done, maxRayLength: rayLength);
 
         // Expect 721 quads.
 
@@ -2936,7 +768,7 @@ internal class Program
         Console.WriteLine(" Part 1....");
         Console.WriteLine("  Preparing....");
         sw.Start();
-        GeoLibPoint[] points_1 = TestGeometry.ortho_fractal_1();
+        PathD points_1 = TestGeometry.ortho_fractal_1();
         points_1 = GeoWrangler.close(points_1);
         sw.Stop();
         Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
@@ -2946,14 +778,14 @@ internal class Program
         Console.WriteLine(" Part 2....");
         Console.WriteLine("  Preparing....");
         sw.Start();
-        GeoLibPoint[] points_2 = TestGeometry.ortho_fractal_2();
+        PathD points_2 = TestGeometry.ortho_fractal_2();
         points_2 = GeoWrangler.close(points_2);
         sw.Stop();
         Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
         partFour_do(points_2, "complex_loop_rot");
     }
 
-    private static void partFour_do(GeoLibPoint[] points, string baseString)
+    private static void partFour_do(PathD points, string baseString)
     {
         System.Diagnostics.Stopwatch sw = new();
 
@@ -2963,22 +795,21 @@ internal class Program
         Console.WriteLine("  Keyhole....");
         // Give the keyholder a whirl:
         sw.Restart();
-        GeoLibPoint[] toDecomp =
-            GeoWrangler.pointFromPath(GeoWrangler.makeKeyHole(GeoWrangler.pathFromPoint(points, 1000), reverseEval:false, biDirectionalEval:true)[0], 1);
+        PathD toDecomp = GeoWrangler.makeKeyHole(points, reverseEval:false, biDirectionalEval:true)[0];
         sw.Stop();
         Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
 
         Console.WriteLine("  Query....");
         sw.Restart();
-        GeoLibPoint[] bounds = GeoWrangler.getBounds(toDecomp);
-        GeoLibPointF dist = GeoWrangler.distanceBetweenPoints_point(bounds[0], bounds[1]);
+        PathD bounds = GeoWrangler.getBounds(toDecomp);
+        PointD dist = GeoWrangler.distanceBetweenPoints_point(bounds[0], bounds[1]);
         sw.Stop();
         Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
 
         Console.WriteLine("  Decomposition (vertical)....");
         sw.Restart();
-        List<GeoLibPoint[]> decompOut = GeoWrangler.rectangular_decomposition(ref abort, toDecomp, scaling: 2,
-            maxRayLength: (long)Math.Max(Math.Abs(dist.X), Math.Abs(dist.Y)) * 1, vertical: vertical);
+        PathsD decompOut = GeoWrangler.rectangular_decomposition(ref abort, toDecomp,
+            maxRayLength: (long)Math.Max(Math.Abs(dist.x), Math.Abs(dist.y)) * 1, vertical: vertical);
         sw.Stop();
         Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
 
@@ -2987,8 +818,8 @@ internal class Program
 
         Console.WriteLine("  Decomposition (horizontal)....");
         sw.Restart();
-        decompOut = GeoWrangler.rectangular_decomposition(ref abort, toDecomp, scaling: 2,
-            maxRayLength: (long)Math.Max(Math.Abs(dist.X), Math.Abs(dist.Y)) * 1, vertical: !vertical);
+        decompOut = GeoWrangler.rectangular_decomposition(ref abort, toDecomp,
+            maxRayLength: (long)Math.Max(Math.Abs(dist.x), Math.Abs(dist.y)) * 1, vertical: !vertical);
         sw.Stop();
         Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
 
@@ -3004,138 +835,135 @@ internal class Program
         bool vertical = true;
         bool abort = false;
 
-        List<GeoLibPointF[]> polydata = new()
+        PathsD polydata = new()
         {
-            new[]
+            new()
             {
-                new GeoLibPointF(-40, -30),
-                new GeoLibPointF(-40, 70),
-                new GeoLibPointF(0, 70),
-                new GeoLibPointF(0, 50),
-                new GeoLibPointF(-20, 50),
-                new GeoLibPointF(-20, -10),
-                new GeoLibPointF(0, -10),
-                new GeoLibPointF(0, -30),
-                new GeoLibPointF(-40, -30),
+                new (-40, -30),
+                new (-40, 70),
+                new (0, 70),
+                new (0, 50),
+                new (-20, 50),
+                new (-20, -10),
+                new (0, -10),
+                new (0, -30),
+                new (-40, -30),
             },
-            new[]
+            new()
             {
-                new GeoLibPointF(0, -30),
-                new GeoLibPointF(0, -10),
-                new GeoLibPointF(20, -10),
-                new GeoLibPointF(20, 50),
-                new GeoLibPointF(0, 50),
-                new GeoLibPointF(0, 70),
-                new GeoLibPointF(40, 70),
-                new GeoLibPointF(40, -30),
-                new GeoLibPointF(0, -30),
+                new (0, -30),
+                new (0, -10),
+                new (20, -10),
+                new (20, 50),
+                new (0, 50),
+                new (0, 70),
+                new (40, 70),
+                new (40, -30),
+                new (0, -30),
             },
-            new[]
+            new()
             {
-                new GeoLibPointF(-80, -60),
-                new GeoLibPointF(-80, 100),
-                new GeoLibPointF(0, 100),
-                new GeoLibPointF(0, 80),
-                new GeoLibPointF(-60, 80),
-                new GeoLibPointF(-60, -50),
-                new GeoLibPointF(0, -50),
-                new GeoLibPointF(0, -60),
-                new GeoLibPointF(-80, -60),
+                new (-80, -60),
+                new (-80, 100),
+                new (0, 100),
+                new (0, 80),
+                new (-60, 80),
+                new (-60, -50),
+                new (0, -50),
+                new (0, -60),
+                new (-80, -60),
             },
-            new[]
+            new()
             {
-                new GeoLibPointF(0, -60),
-                new GeoLibPointF(0, -50),
-                new GeoLibPointF(60, -50),
-                new GeoLibPointF(60, 80),
-                new GeoLibPointF(0, 80),
-                new GeoLibPointF(0, 100),
-                new GeoLibPointF(80, 100),
-                new GeoLibPointF(80, -60),
-                new GeoLibPointF(0, -60),
+                new (0, -60),
+                new (0, -50),
+                new (60, -50),
+                new (60, 80),
+                new (0, 80),
+                new (0, 100),
+                new (80, 100),
+                new (80, -60),
+                new (0, -60),
             },
-            new[]
+            new()
             {
-                new GeoLibPointF(-8, -27),
-                new GeoLibPointF(-8, 40),
-                new GeoLibPointF(9, 40),
-                new GeoLibPointF(9, -27),
-                new GeoLibPointF(-8, -27)
+                new (-8, -27),
+                new (-8, 40),
+                new (9, 40),
+                new (9, -27),
+                new (-8, -27)
             },
-            new[]
+            new()
             {
-                new GeoLibPointF(-14, -4),
-                new GeoLibPointF(-14, 15),
-                new GeoLibPointF(-7, 15),
-                new GeoLibPointF(-7, -4),
-                new GeoLibPointF(-14, -4),
+                new (-14, -4),
+                new (-14, 15),
+                new (-7, 15),
+                new (-7, -4),
+                new (-14, -4),
             },
-            new[]
+            new()
             {
-                new GeoLibPointF(10, 9),
-                new GeoLibPointF(10, 20),
-                new GeoLibPointF(13, 20),
-                new GeoLibPointF(13, 9),
-                new GeoLibPointF(10, 9),
+                new (10, 9),
+                new (10, 20),
+                new (13, 20),
+                new (13, 9),
+                new (10, 9),
             },
-            new[]
+            new()
             {
-                new GeoLibPointF(48, -1),
-                new GeoLibPointF(48, 31),
-                new GeoLibPointF(55, 31),
-                new GeoLibPointF(55, -1),
-                new GeoLibPointF(48, -1),
+                new (48, -1),
+                new (48, 31),
+                new (55, 31),
+                new (55, -1),
+                new (48, -1),
             },
-            new[]
+            new()
             {
-                new GeoLibPointF(-11, -44),
-                new GeoLibPointF(-11, -39),
-                new GeoLibPointF(16, -39),
-                new GeoLibPointF(16, -44),
-                new GeoLibPointF(-11, -44),
+                new (-11, -44),
+                new (-11, -39),
+                new (16, -39),
+                new (16, -44),
+                new (-11, -44),
             },
-            new[]
+            new()
             {
-                new GeoLibPointF(-51, 3),
-                new GeoLibPointF(-51, 23),
-                new GeoLibPointF(-47, 23),
-                new GeoLibPointF(-47, 3),
-                new GeoLibPointF(-51, 3),
+                new (-51, 3),
+                new (-51, 23),
+                new (-47, 23),
+                new (-47, 3),
+                new (-51, 3),
             },
-            new[]
+            new()
             {
-                new GeoLibPointF(-16, 76),
-                new GeoLibPointF(-16, 77),
-                new GeoLibPointF(-3, 77),
-                new GeoLibPointF(-3, 76),
-                new GeoLibPointF(-16, 76),
+                new (-16, 76),
+                new (-16, 77),
+                new (-3, 77),
+                new (-3, 76),
+                new (-16, 76),
             },
         };
         
-        int scaleFactorForOperation = 1000;
-
-        List<GeoLibPoint[]> out_decomp = new();
+        PathsD out_decomp = new();
         for (int i = 0; i < polydata.Count; i++)
         {
-         GeoLibPointF[] points = polydata[i].ToArray();
+         PathD points = new (polydata[i]);
          points = GeoWrangler.removeDuplicates(points);
-         points = GeoWrangler.stripColinear(points);
+         points = GeoWrangler.stripCollinear(points);
          points = GeoWrangler.clockwiseAndReorderXY(points);
-         GeoLibPoint[] toKeyHoler = GeoWrangler.pointsFromPointF(points, scaleFactorForOperation);
          
-         GeoLibPoint[] toDecomp = GeoWrangler.pointFromPath(GeoWrangler.makeKeyHole(GeoWrangler.sliverGapRemoval(GeoWrangler.pathFromPoint(toKeyHoler, 1)), reverseEval:false, biDirectionalEval:false)[0], 1);
-         GeoLibPoint[]  bounds = GeoWrangler.getBounds(toDecomp);
-         GeoLibPointF dist = GeoWrangler.distanceBetweenPoints_point(bounds[0], bounds[1]);
+         PathD toDecomp = GeoWrangler.makeKeyHole(GeoWrangler.sliverGapRemoval(points), reverseEval:false, biDirectionalEval:false)[0];
+         PathD  bounds = GeoWrangler.getBounds(toDecomp);
+         PointD dist = GeoWrangler.distanceBetweenPoints_point(bounds[0], bounds[1]);
 
-         List<GeoLibPoint[]>decompOut = GeoWrangler.rectangular_decomposition(ref abort, toDecomp, scaling: 2,
-          maxRayLength: (long) Math.Max(Math.Abs(dist.X), Math.Abs(dist.Y)), vertical: vertical);
+         PathsD decompOut = GeoWrangler.rectangular_decomposition(ref abort, toDecomp,
+          maxRayLength: (long) Math.Max(Math.Abs(dist.x), Math.Abs(dist.y)), vertical: vertical);
          
          out_decomp.AddRange(decompOut);
         }
     }
 
 
-    private static void writeToLayout(string filename, GeoLibPoint[] orig, List<GeoLibPoint[]> decomped)
+    private static void writeToLayout(string filename, PathD orig, PathsD decomped)
     {
         // Can the system define geometry and write it correctly to Oasis and GDS files.
         GeoCore g = new();
@@ -3175,11 +1003,11 @@ internal class Program
 
         gcell.cellName = "test";
 
-        gcell.addPolygon(orig, 1, 0);
+        gcell.addPolygon(GeoWrangler.path64FromPathD(orig), 1, 0);
 
         for (int i = 0; i < decomped.Count; i++)
         {
-            gcell.addBox(decomped[i], 1, 1);
+            gcell.addBox(GeoWrangler.path64FromPathD(decomped[i]), 1, 1);
         }
 
         g.setDrawing(drawing_);

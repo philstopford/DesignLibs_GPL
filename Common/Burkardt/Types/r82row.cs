@@ -186,7 +186,7 @@ public static partial class typeMethods
                 return order;
             }
 
-            if (a[0 + 0 * 2] < a[0 + i * 2] || Math.Abs(a[0 + 0 * 2] - a[0 + i * 2]) <= double.Epsilon && a[1 + 0 * 2] < a[1 + i * 2])
+            if (a[0 + 0 * 2] < a[0 + i * 2] || Math.Abs(a[0 + 0 * 2] - a[0 + i * 2]) <= typeMethods.r8_epsilon() && a[1 + 0 * 2] < a[1 + i * 2])
             {
                 order = i switch
                 {
@@ -197,7 +197,7 @@ public static partial class typeMethods
                 break;
             }
 
-            if (!(a[0 + i * 2] < a[0 + 0 * 2]) && (!(Math.Abs(a[0 + i * 2] - a[0 + 0 * 2]) <= double.Epsilon) ||
+            if (!(a[0 + i * 2] < a[0 + 0 * 2]) && (!(Math.Abs(a[0 + i * 2] - a[0 + 0 * 2]) <= typeMethods.r8_epsilon()) ||
                                                    !(a[1 + i * 2] < a[1 + 0 * 2])))
             {
                 continue;
@@ -226,7 +226,7 @@ public static partial class typeMethods
             if (order == 1)
             {
                 if (!(a[0 + i * 2] < a[0 + (i - 1) * 2]) &&
-                    (!(Math.Abs(a[0 + i * 2] - a[0 + (i - 1) * 2]) <= double.Epsilon) ||
+                    (!(Math.Abs(a[0 + i * 2] - a[0 + (i - 1) * 2]) <= typeMethods.r8_epsilon()) ||
                      !(a[1 + i * 2] < a[1 + (i - 1) * 2])))
                 {
                     continue;
@@ -239,13 +239,13 @@ public static partial class typeMethods
             if (order == 2)
             {
                 if (a[0 + i * 2] < a[0 + (i - 1) * 2] ||
-                    Math.Abs(a[0 + i * 2] - a[0 + (i - 1) * 2]) <= double.Epsilon && a[1 + i * 2] < a[1 + (i - 1) * 2])
+                    Math.Abs(a[0 + i * 2] - a[0 + (i - 1) * 2]) <= typeMethods.r8_epsilon() && a[1 + i * 2] < a[1 + (i - 1) * 2])
                 {
                     order = -1;
                     break;
                 }
 
-                if (Math.Abs(a[0 + i * 2] - a[0 + (i - 1) * 2]) < double.Epsilon && Math.Abs(a[1 + i * 2] - a[1 + (i - 1) * 2]) <= double.Epsilon)
+                if (Math.Abs(a[0 + i * 2] - a[0 + (i - 1) * 2]) < typeMethods.r8_epsilon() && Math.Abs(a[1 + i * 2] - a[1 + (i - 1) * 2]) <= typeMethods.r8_epsilon())
                 {
                     order = 1;
                 }
@@ -253,7 +253,7 @@ public static partial class typeMethods
             else if (order == 3)
             {
                 if (!(a[0 + (i - 1) * 2] < a[0 + i * 2]) &&
-                    (!(Math.Abs(a[0 + (i - 1) * 2] - a[0 + i * 2]) <= double.Epsilon) ||
+                    (!(Math.Abs(a[0 + (i - 1) * 2] - a[0 + i * 2]) <= typeMethods.r8_epsilon()) ||
                      !(a[1 + (i - 1) * 2] < a[1 + i * 2])))
                 {
                     continue;
@@ -265,13 +265,13 @@ public static partial class typeMethods
             else
             {
                 if (a[0 + (i - 1) * 2] < a[0 + i * 2] ||
-                    Math.Abs(a[0 + (i - 1) * 2] - a[0 + i * 2]) <= double.Epsilon && a[1 + (i - 1) * 2] < a[1 + i * 2])
+                    Math.Abs(a[0 + (i - 1) * 2] - a[0 + i * 2]) <= typeMethods.r8_epsilon() && a[1 + (i - 1) * 2] < a[1 + i * 2])
                 {
                     order = -1;
                     break;
                 }
 
-                if (Math.Abs(a[0 + i * 2] - a[0 + (i - 1) * 2]) <= double.Epsilon && Math.Abs(a[1 + i * 2] - a[1 + (i - 1) * 2]) <= double.Epsilon)
+                if (Math.Abs(a[0 + i * 2] - a[0 + (i - 1) * 2]) <= typeMethods.r8_epsilon() && Math.Abs(a[1 + i * 2] - a[1 + (i - 1) * 2]) <= typeMethods.r8_epsilon())
                 {
                     order = 3;
                 }
@@ -828,7 +828,7 @@ public static partial class typeMethods
                 if (j < ir)
                 {
                     if (a[0 + indx[j - 1] * 2] < a[0 + indx[j] * 2] ||
-                        Math.Abs(a[0 + indx[j - 1] * 2] - a[0 + indx[j] * 2]) <= double.Epsilon &&
+                        Math.Abs(a[0 + indx[j - 1] * 2] - a[0 + indx[j] * 2]) <= typeMethods.r8_epsilon() &&
                         a[1 + indx[j - 1] * 2] < a[1 + indx[j] * 2])
                     {
                         j += 1;
@@ -836,7 +836,7 @@ public static partial class typeMethods
                 }
 
                 if (aval[0] < a[0 + indx[j - 1] * 2] ||
-                    Math.Abs(aval[0] - a[0 + indx[j - 1] * 2]) <= double.Epsilon &&
+                    Math.Abs(aval[0] - a[0 + indx[j - 1] * 2]) <= typeMethods.r8_epsilon() &&
                     aval[1] < a[1 + indx[j - 1] * 2])
                 {
                     indx[i - 1] = indx[j - 1];

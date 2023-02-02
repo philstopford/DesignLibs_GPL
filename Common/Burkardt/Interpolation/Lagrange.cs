@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.Types;
 
 namespace Burkardt.Interpolation;
 
@@ -136,7 +137,7 @@ public static class LagrangeInterpolation
 
         for (i = 0; i < n; i++)
         {
-            if (!(Math.Abs(xv - x[i]) <= double.Epsilon))
+            if (!(Math.Abs(xv - x[i]) <= typeMethods.r8_epsilon()))
             {
                 continue;
             }

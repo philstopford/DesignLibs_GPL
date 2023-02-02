@@ -1,24 +1,20 @@
 ﻿using System;
 using Clipper2Lib;
-using geoLib;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using utility;
 
 namespace geoWrangler;
 
-using Path = Path64;
-using Paths = Paths64;
-
 public static partial class GeoWrangler
 {
-    public static Paths extendEdges(Paths edges, double sizing)
+    public static PathsD extendEdges(PathsD edges, double sizing)
     {
         return pExtendEdges(edges, sizing);
     }
 
-    private static Paths pExtendEdges(Paths edges, double sizing)
+    private static PathsD pExtendEdges(PathsD edges_, double sizing)
     {
+        PathsD edges = new(edges_);
         int sLength = edges.Count;
 #if !GWSINGLETHREADED
         Parallel.For(0, sLength, i =>
@@ -34,15 +30,15 @@ public static partial class GeoWrangler
         return edges;
     }
 
-    public static Path extendEdge(Path edge, double sizing)
+    public static PathD extendEdge(PathD edge, double sizing)
     {
         return pExtendEdge(edge, sizing);
     }
-    private static Path pExtendEdge(Path edge, double sizing)
+    private static PathD pExtendEdge(PathD edge, double sizing)
     {
         // Get sorted out for dx, dy and normalization.
-        double dx = edge[0].X - edge[1].X;
-        double dy = edge[0].Y - edge[1].Y;
+        double dx = edge[0].x - edge[1].x;
+        double dy = edge[0].y - edge[1].y;
 
         double length = Math.Sqrt(Utils.myPow(dx, 2) + Utils.myPow(dy, 2));
 
@@ -50,15 +46,15 @@ public static partial class GeoWrangler
         dy /= length;
         
         // Extend the line slightly.
-        double edge0_newX = edge[0].X;
-        double edge0_newY = edge[0].Y;
-        double edge1_newX = edge[1].X;
-        double edge1_newY = edge[1].Y;
+        double edge0_newX = edge[0].x;
+        double edge0_newY = edge[0].y;
+        double edge1_newX = edge[1].x;
+        double edge1_newY = edge[1].y;
 
         // Move the edge according to the keyhole sizing, to extend it. Then add 1 to ensure an overlap.
-        double X_shift = (long) Math.Abs(dx * sizing) + 1;
-        double Y_shift = (long) Math.Abs(dy * sizing) + 1;
-        if (edge[0].X <= edge[1].X)
+        double X_shift = Math.Abs(dx * sizing) + 1;
+        double Y_shift = Math.Abs(dy * sizing) + 1;
+        if (edge[1].x - edge[0].x > constants.tolerance )
         {
             edge0_newX -= X_shift;
             edge1_newX += X_shift;
@@ -69,7 +65,7 @@ public static partial class GeoWrangler
             edge1_newX -= X_shift;
         }
         
-        if (edge[0].Y <= edge[1].Y)
+        if (edge[1].y - edge[0].y > constants.tolerance )
         {
             edge0_newY -= Y_shift;
             edge1_newY += Y_shift;
@@ -80,49 +76,51 @@ public static partial class GeoWrangler
             edge1_newY -= Y_shift;
         }
         
-        edge[0] = new Point64(edge0_newX, edge0_newY);
-        edge[1] = new Point64(edge1_newX, edge1_newY);
+        edge[0] = new (edge0_newX, edge0_newY, edge[0].z);
+        edge[1] = new (edge1_newX, edge1_newY, edge[1].z);
 
         return edge;
     }
-    public static GeoLibPoint[] inflatePath(GeoLibPoint[] source, int width)
+    public static PathD inflatePath(PathD source, int width)
     {
         return pInflatePath(source, width);
     }
 
-    private static GeoLibPoint[] pInflatePath(GeoLibPoint[] source, int width)
+    private static PathD pInflatePath(PathD source, int width)
     {
         switch (width)
         {
             case 0:
-                return source;
+                return new(source);
         }
+
         
+        // Need to workaround missing PathD support in ClipperOffset...
+        Path64 rescaledSource = _pPath64FromPathD(source, constants.scalar_1E2);
+
         ClipperOffset co = new() {PreserveCollinear = true};
-        Path a = GeoWrangler.pathFromPoint(source, 1);
         // Path from Point auto-closes the input for historical reasons. We may not want this....
-        if (pDistanceBetweenPoints(source[0], source[^1]) > Double.Epsilon)
+        if (pDistanceBetweenPoints(rescaledSource[0], rescaledSource[^1]) > constants.tolerance)
         {
-            pStripTerminators(a, false);
+            rescaledSource = pStripTerminators(rescaledSource, false);
         }
-        co.AddPath(a, JoinType.Miter, EndType.Square);
-        Paths output = co.Execute(width);
+        co.AddPath(rescaledSource, JoinType.Miter, EndType.Square);
 
-        output = pReorderXY(output);
-
-        return pPointFromPath(pClose(output[0]), 1);
-
+        Paths64 output = co.Execute(width); // no scalar, deliberately.
+        PathD ret = _pPathDFromPath64(output[0], constants.scalar_1E2_inv);
+        ret = pReorderXY(ret);
+        return pClose(ret);
     }
 
-    public static List<GeoLibPointF[]> resize(List<GeoLibPointF[]> source, double factor)
+    public static PathsD resize(PathsD source, double factor)
     {
         return pResize(source, factor);
     }
 
-    private static List<GeoLibPointF[]> pResize(List<GeoLibPointF[]> source, double factor)
+    private static PathsD pResize(PathsD source, double factor)
     {
-        List<GeoLibPointF[]> ret = new();
-        foreach (GeoLibPointF[] p in source)
+        PathsD ret = new();
+        foreach (PathD p in source)
         {
             ret.Add(pResize(p, factor));
         }
@@ -130,22 +128,22 @@ public static partial class GeoWrangler
         return ret;
     }
 
-    public static GeoLibPointF[] resize(GeoLibPointF[] source, double factor)
+    public static PathD resize(PathD source, double factor)
     {
         return pResize(source, factor);
     }
 
-    private static GeoLibPointF[] pResize(GeoLibPointF[] source, double factor)
+    private static PathD pResize(PathD source, double factor)
     {
-        int sLength = source.Length;
-        GeoLibPointF[] ret = new GeoLibPointF[sLength];
+        int sLength = source.Count;
+        PathD ret = Helper.initedPathD(sLength);
 #if !GWSINGLETHREADED
         Parallel.For(0, sLength, pt =>
 #else
             for (int pt = 0; pt < sLength; pt++)
 #endif
             {
-                ret[pt] = new GeoLibPointF(source[pt].X * factor, source[pt].Y * factor);
+                ret[pt] = new (source[pt].x * factor, source[pt].y * factor, source[pt].z);
             }
 #if !GWSINGLETHREADED
         );
@@ -153,15 +151,15 @@ public static partial class GeoWrangler
         return ret;
     }
 
-    public static GeoLibPoint[] resize_to_int(GeoLibPointF[] source, double factor)
+    public static Path64 resize_to_int(PathD source, double factor)
     {
         return pResize_to_int(source, factor);
     }
 
-    private static GeoLibPoint[] pResize_to_int(GeoLibPointF[] source, double factor)
+    private static Path64 pResize_to_int(PathD source, double factor)
     {
-        int sLength = source.Length;
-        GeoLibPoint[] ret = new GeoLibPoint[sLength];
+        int sLength = source.Count;
+        Path64 ret = Helper.initedPath64(sLength);
 
 #if !GWSINGLETHREADED
         Parallel.For(0, sLength, pt =>
@@ -169,7 +167,7 @@ public static partial class GeoWrangler
             for (int pt = 0; pt < sLength; pt++)
 #endif
             {
-                ret[pt] = new GeoLibPoint((int)(source[pt].X * factor), (int)(source[pt].Y * factor));
+                ret[pt] = new ((long)(source[pt].x * factor), (long)(source[pt].y * factor), (long)source[pt].z);
             }
 #if !GWSINGLETHREADED
         );
@@ -177,22 +175,22 @@ public static partial class GeoWrangler
         return ret;
     }
 
-    public static GeoLibPoint[] resize(GeoLibPoint[] source, double factor)
+    public static Path64 resize(Path64 source, double factor)
     {
         return pResize(source, factor);
     }
 
-    private static GeoLibPoint[] pResize(GeoLibPoint[] source, double factor)
+    private static Path64 pResize(Path64 source, double factor)
     {
-        int sLength = source.Length;
-        GeoLibPoint[] ret = new GeoLibPoint[sLength];
+        int sLength = source.Count;
+        Path64 ret = Helper.initedPath64(sLength);
 #if !GWSINGLETHREADED
         Parallel.For(0, sLength, pt =>
 #else
             for (int pt = 0; pt < sLength; pt++)
 #endif
             {
-                ret[pt] = new GeoLibPoint(source[pt].X * factor, source[pt].Y * factor);
+                ret[pt] = new (source[pt].X * factor, source[pt].Y * factor, source[pt].Z);
             }
 #if !GWSINGLETHREADED
         );
@@ -200,21 +198,21 @@ public static partial class GeoWrangler
         return ret;
     }
 
-    public static GeoLibPoint[] resize(GeoLibPoint pivot, GeoLibPoint[] source, double factor)
+    public static Path64 resize(Point64 pivot, Path64 source, double factor)
     {
         return pResize(pivot, source, factor);
     }
 
-    private static GeoLibPoint[] pResize(GeoLibPoint pivot, GeoLibPoint[] source, double factor)
+    private static Path64 pResize(Point64 pivot, Path64 source, double factor)
     {
-        GeoLibPoint[] pointarray = new GeoLibPoint[source.Length];
+        Path64 pointarray = Helper.initedPath64(source.Count);
 #if !GWSINGLETHREADED
-        Parallel.For(0, pointarray.Length, i => 
+        Parallel.For(0, pointarray.Count, i => 
 #else
             for (int i = 0; i < pointarray.Length; i++)
 #endif
             {
-                pointarray[i] = new GeoLibPoint(pivot.X + (source[i].X - pivot.X) * factor, pivot.Y + (source[i].Y - pivot.Y) * factor);
+                pointarray[i] = new (pivot.X + (source[i].X - pivot.X) * factor, pivot.Y + (source[i].Y - pivot.Y) * factor, source[i].Z);
             }
 #if !GWSINGLETHREADED
         );

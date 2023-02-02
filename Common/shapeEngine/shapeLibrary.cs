@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using Clipper2Lib;
 using geoLib;
 using geoWrangler;
 using utility;
@@ -74,58 +75,58 @@ public class ShapeLibrary
 
     private class BoundingBox
     {
-        private GeoLibPointF midPoint;
+        private PointD midPoint;
 
-        public GeoLibPointF getMidPoint()
+        public PointD getMidPoint()
         {
             return pGetMidPoint();
         }
 
-        private GeoLibPointF pGetMidPoint()
+        private PointD pGetMidPoint()
         {
             return midPoint;
         }
 
-        public BoundingBox(List<GeoLibPointF> incomingPoints)
+        public BoundingBox(PathD incomingPoints)
         {
-            midPoint = new GeoLibPointF(0.0f, 0.0f);
+            midPoint = new (0.0f, 0.0f);
             pBoundingBox(incomingPoints);
         }
 
-        private void pBoundingBox(List<GeoLibPointF> incomingPoints)
+        private void pBoundingBox(PathD incomingPoints)
         {
             if (incomingPoints.Count > 0)
             {
-                var minX = incomingPoints.Min(p => p.X);
-                var minY = incomingPoints.Min(p => p.Y);
-                var maxX = incomingPoints.Max(p => p.X);
-                var maxY = incomingPoints.Max(p => p.Y);
-                midPoint = new GeoLibPointF(minX + (maxX - minX) / 2.0f, minY + (maxY - minY) / 2.0f);
+                var minX = incomingPoints.Min(p => p.x);
+                var minY = incomingPoints.Min(p => p.y);
+                var maxX = incomingPoints.Max(p => p.x);
+                var maxY = incomingPoints.Max(p => p.y);
+                midPoint = new (minX + (maxX - minX) / 2.0f, minY + (maxY - minY) / 2.0f);
             }
         }
     }
 
-    public GeoLibPointF getPivotPoint()
+    public PointD getPivotPoint()
     {
         return pGetPivotPoint();
     }
 
-    private GeoLibPointF pGetPivotPoint()
+    private PointD pGetPivotPoint()
     {
         int limit = Vertex.Length - 1;
-        GeoLibPointF[] t = new GeoLibPointF[limit]; // closed shape, we don't need the final point
+        PathD t = Helper.initedPathD(limit); // closed shape, we don't need the final point
 #if !SHAPELIBSINGLETHREADED
         Parallel.For(0, limit, i =>
 #else
             for (int i = 0; i < t.Length; i++)
 #endif
             {
-                t[i] = new GeoLibPointF(Vertex[i].X, Vertex[i].Y);
+                t[i] = new (Vertex[i].X, Vertex[i].Y);
             }
 #if !SHAPELIBSINGLETHREADED
         );
 #endif
-        GeoLibPointF pivot = GeoWrangler.midPoint(t);
+        PointD pivot = GeoWrangler.midPoint(t);
 
         return pivot;
     }
@@ -164,12 +165,12 @@ public class ShapeLibrary
         pSetShape(shapeIndex);
     }
 
-    public void setShape(int shapeIndex_, GeoLibPointF[]? sourcePoly = null)
+    public void setShape(int shapeIndex_, PathD? sourcePoly = null)
     {
         pSetShape(shapeIndex_, sourcePoly);
     }
 
-    private void pSetShape(int shapeIndex_, GeoLibPointF[]? sourcePoly = null)
+    private void pSetShape(int shapeIndex_, PathD? sourcePoly = null)
     {
         try
         {
@@ -1641,7 +1642,7 @@ public class ShapeLibrary
     }
 
     // Intended to take geometry from an external source and map it into our shape engine.
-    private void customShape(GeoLibPointF[]? sourcePoly)
+    private void customShape(PathD? sourcePoly)
     {
         if (sourcePoly == null)
         {
@@ -1653,7 +1654,7 @@ public class ShapeLibrary
         // fed correctly.
         // Upstream should trim array to ensure end point is different from start point, but we'll force the issue here for robustness.
         sourcePoly = GeoWrangler.stripTerminators(sourcePoly, true);
-        sourcePoly = GeoWrangler.stripColinear(sourcePoly);
+        sourcePoly = GeoWrangler.stripCollinear(sourcePoly);
         // Remove duplicate points in case definition was badly constructed.
         sourcePoly = GeoWrangler.removeDuplicates(sourcePoly);
         //  Strip the terminator again to meet the requirements below.
@@ -1661,7 +1662,9 @@ public class ShapeLibrary
         sourcePoly = GeoWrangler.clockwise(sourcePoly);
 
         // We need to look at our incoming shape to see whether it's orthogonal and suitable for contouring.
-        geoCoreShapeOrthogonal = GeoWrangler.orthogonal(sourcePoly, angularTolerance: 0.003);
+        geoCoreShapeOrthogonal = GeoWrangler.orthogonal(sourcePoly, angularTolerance: 0.0);
+
+        sourcePoly = GeoWrangler.close(sourcePoly);
 
         if (!geoCoreShapeOrthogonal)
         {
@@ -1675,9 +1678,9 @@ public class ShapeLibrary
         shapeValid = true;
     }
 
-    private void customShape_nonOrthogonal(GeoLibPointF[] sourcePoly)
+    private void customShape_nonOrthogonal(PathD sourcePoly)
     {
-        int sCount = sourcePoly.Length;
+        int sCount = sourcePoly.Count;
         Vertex = new MyVertex[sCount + 1]; // add one to close.
         tips = new bool[sCount + 1];
         // Assign shape vertices to Vertex and move on. EntropyShape will know what to do.
@@ -1687,7 +1690,7 @@ public class ShapeLibrary
             for (int pt = 0; pt < sCount; pt++)
 #endif
             {
-                Vertex[pt] = new MyVertex(sourcePoly[pt].X, sourcePoly[pt].Y, typeDirection.tilt1, false, false,
+                Vertex[pt] = new MyVertex(sourcePoly[pt].x, sourcePoly[pt].y, typeDirection.tilt1, false, false,
                     typeVertex.corner);
                 tips[pt] = false;
             }
@@ -1699,10 +1702,10 @@ public class ShapeLibrary
         tips[^1] = false;
     }
 
-    private void customShape_orthogonal(GeoLibPointF[] sourcePoly)
+    private void customShape_orthogonal(PathD sourcePoly)
     {
-        int sCount = sourcePoly.Length;
-        int vertexCount = sCount * 2 + 1; // assumes no point in midpoint of edges, and 1 to close.
+        int sCount = sourcePoly.Count;
+        int vertexCount = sCount * 2; // assumes no point in midpoint of edges, and 1 to close.
         Vertex = new MyVertex[vertexCount];
         tips = new bool[vertexCount];
         int vertexCounter = 0; // set up our vertex counter.
@@ -1719,7 +1722,7 @@ public class ShapeLibrary
         );
 #endif
 
-        int roundCount = sourcePoly.Length + 1;
+        int roundCount = sourcePoly.Count + 1;
         round1 = new MyRound[roundCount];
 #if !SHAPELIBSINGLETHREADED
         Parallel.For(0, roundCount, i =>
@@ -1740,11 +1743,11 @@ public class ShapeLibrary
         round1[^1] = round1[0]; // close the loop
 
         // Set up first vertex.
-        Vertex[0] = new MyVertex(sourcePoly[0].X, sourcePoly[0].Y, typeDirection.tilt1, false, false,
+        Vertex[0] = new MyVertex(sourcePoly[0].x, sourcePoly[0].y, typeDirection.tilt1, false, false,
             typeVertex.corner);
         vertexCounter++;
         // Set up first midpoint.
-        Vertex[1] = new MyVertex((sourcePoly[0].X + sourcePoly[1].X) / 2.0f, (sourcePoly[0].Y + sourcePoly[1].Y) / 2.0f,
+        Vertex[1] = new MyVertex((sourcePoly[0].x + sourcePoly[1].x) / 2.0f, (sourcePoly[0].y + sourcePoly[1].y) / 2.0f,
             typeDirection.left1, true, false, typeVertex.center);
         if (layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) == (int)ShapeSettings.tipLocations.L ||
             layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) ==
@@ -1767,8 +1770,8 @@ public class ShapeLibrary
         vertexCounter++;
 
         // Also set our end points
-        Vertex[vertexCount - 2] = new MyVertex((sourcePoly[0].X + sourcePoly[^1].X) / 2.0f,
-            (sourcePoly[0].Y + sourcePoly[^1].Y) / 2.0f, typeDirection.down1, false, false, typeVertex.center);
+        Vertex[vertexCount - 2] = new MyVertex((sourcePoly[0].x + sourcePoly[^1].x) / 2.0f,
+            (sourcePoly[0].y + sourcePoly[^1].y) / 2.0f, typeDirection.down1, false, false, typeVertex.center);
 
         // Figure out our rounding characteristics.
 
@@ -1792,49 +1795,49 @@ public class ShapeLibrary
             }
 
             // Register our corner point into the vertex array.
-            Vertex[vertexCounter] = new MyVertex(sourcePoly[pt].X, sourcePoly[pt].Y, typeDirection.tilt1, false, false,
+            Vertex[vertexCounter] = new MyVertex(sourcePoly[pt].x, sourcePoly[pt].y, typeDirection.tilt1, false, false,
                 typeVertex.corner);
             vertexCounter++;
 
             // Now we have to wrangle the midpoint.
 
-            int next = (pt + 1) % sourcePoly.Length; // wrap to polygon length
+            int next = (pt + 1) % sourcePoly.Count; // wrap to polygon length
 
             // Find the normal for the edge to the next point.
 
-            double dx = sourcePoly[next].X - sourcePoly[pt].X;
-            double dy = sourcePoly[next].Y - sourcePoly[pt].Y;
+            double dx = sourcePoly[next].x - sourcePoly[pt].x;
+            double dy = sourcePoly[next].y - sourcePoly[pt].y;
 
             // Set up our midpoint for convenience.
-            GeoLibPointF midPt = new(sourcePoly[pt].X + dx / 2.0f, sourcePoly[pt].Y + dy / 2.0f);
+            PointD midPt = new(sourcePoly[pt].x + dx / 2.0f, sourcePoly[pt].y + dy / 2.0f);
 
             // The normal, to match convention in the distance calculation is assessed from this point to the next point.
 
             // Get average angle for this vertex based on angles from line segments.
             // http://stackoverflow.com/questions/1243614/how-do-i-calculate-the-normal-vector-of-a-line-segmen
-            GeoLibPointF normalPt = new(-dy, dx);
+            PointD normalPt = new(-dy, dx);
 
             // Vertical edge has a normal with an X value non-zero and Y value ~0.
             // treating a 0.01 difference as being ~0
-            bool vertical = Math.Abs(normalPt.X) > 0.01;
+            bool vertical = Math.Abs(normalPt.x) > 0.01;
 
             // Assess the normal to establish direction
             if (vertical)
             {
                 // left facing vertical edge has normal with negative X value.
-                left = normalPt.X < 0;
+                left = normalPt.x < 0;
             }
             else
             {
                 // down facing horizontal edge has normal with negative Y value.
-                up = !(normalPt.Y < 0);
+                up = !(normalPt.y < 0);
             }
 
             if (!vertical)
             {
                 if (up)
                 {
-                    Vertex[vertexCounter] = new MyVertex(midPt.X, midPt.Y, typeDirection.up1, vertical, false,
+                    Vertex[vertexCounter] = new MyVertex(midPt.x, midPt.y, typeDirection.up1, vertical, false,
                         typeVertex.center);
                     if (layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) ==
                         (int)ShapeSettings.tipLocations.T ||
@@ -1858,7 +1861,7 @@ public class ShapeLibrary
                 }
                 else
                 {
-                    Vertex[vertexCounter] = new MyVertex(midPt.X, midPt.Y, typeDirection.down1, vertical, false,
+                    Vertex[vertexCounter] = new MyVertex(midPt.x, midPt.y, typeDirection.down1, vertical, false,
                         typeVertex.center);
                     if (layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) ==
                         (int)ShapeSettings.tipLocations.B ||
@@ -1885,7 +1888,7 @@ public class ShapeLibrary
             {
                 if (left)
                 {
-                    Vertex[vertexCounter] = new MyVertex(midPt.X, midPt.Y, typeDirection.left1, vertical, false,
+                    Vertex[vertexCounter] = new MyVertex(midPt.x, midPt.y, typeDirection.left1, vertical, false,
                         typeVertex.center);
                     if (layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) ==
                         (int)ShapeSettings.tipLocations.L ||
@@ -1909,7 +1912,7 @@ public class ShapeLibrary
                 }
                 else
                 {
-                    Vertex[vertexCounter] = new MyVertex(midPt.X, midPt.Y, typeDirection.right1, vertical, false,
+                    Vertex[vertexCounter] = new MyVertex(midPt.x, midPt.y, typeDirection.right1, vertical, false,
                         typeVertex.center);
                     if (layerSettings.getInt(ShapeSettings.properties_i.subShapeTipLocIndex) ==
                         (int)ShapeSettings.tipLocations.R ||
@@ -2125,32 +2128,32 @@ public class ShapeLibrary
             {
                 previousEdgeLength = Math.Abs(
                     GeoWrangler.distanceBetweenPoints(
-                        new GeoLibPointF(Vertex[round1[corner].index].X, Vertex[round1[corner].index].Y),
-                        new GeoLibPointF(Vertex[round1[^1].index].X, Vertex[round1[^1].index].Y))
+                        new PointD(Vertex[round1[corner].index].X, Vertex[round1[corner].index].Y),
+                        new PointD(Vertex[round1[^1].index].X, Vertex[round1[^1].index].Y))
                 );
             }
             else
             {
                 previousEdgeLength = Math.Abs(
                     GeoWrangler.distanceBetweenPoints(
-                        new GeoLibPointF(Vertex[round1[corner].index].X, Vertex[round1[corner].index].Y),
-                        new GeoLibPointF(Vertex[round1[corner - 1].index].X, Vertex[round1[corner - 1].index].Y))
+                        new PointD(Vertex[round1[corner].index].X, Vertex[round1[corner].index].Y),
+                        new PointD(Vertex[round1[corner - 1].index].X, Vertex[round1[corner - 1].index].Y))
                 );
             }
 
             // Wrap around if we exceed the length
             double nextEdgeLength = Math.Abs(
                 GeoWrangler.distanceBetweenPoints(
-                    new GeoLibPointF(Vertex[round1[(corner + 1) % (round1.Length - 1)].index].X,
+                    new PointD(Vertex[round1[(corner + 1) % (round1.Length - 1)].index].X,
                         Vertex[round1[(corner + 1) % (round1.Length - 1)].index].Y),
-                    new GeoLibPointF(Vertex[round1[(corner + 2) % (round1.Length - 1)].index].X,
+                    new PointD(Vertex[round1[(corner + 2) % (round1.Length - 1)].index].X,
                         Vertex[round1[(corner + 2) % (round1.Length - 1)].index].Y))
             );
 
             double currentEdgeLength = Math.Abs(
                 GeoWrangler.distanceBetweenPoints(
-                    new GeoLibPointF(Vertex[round1[corner].index].X, Vertex[round1[corner].index].Y),
-                    new GeoLibPointF(Vertex[round1[(corner + 1) % (round1.Length - 1)].index].X,
+                    new PointD(Vertex[round1[corner].index].X, Vertex[round1[corner].index].Y),
+                    new PointD(Vertex[round1[(corner + 1) % (round1.Length - 1)].index].X,
                         Vertex[round1[(corner + 1) % (round1.Length - 1)].index].Y))
             );
 
@@ -2262,18 +2265,18 @@ public class ShapeLibrary
         }
     }
 
-    public List<GeoLibPointF> processCorners(bool previewMode, bool cornerCheck, bool ignoreCV, double s0HO,
+    public PathD processCorners(bool previewMode, bool cornerCheck, bool ignoreCV, double s0HO,
         double s0VO, double iCR, double iCV, double iCVariation, bool iCPA, double oCR, double oCV, double oCVariation,
-        bool oCPA, int cornerSegments, int optimizeCorners, double resolution, int scaleFactorForOperation)
+        bool oCPA, int cornerSegments, int optimizeCorners, double resolution)
     {
-        Fragmenter fragment = new Fragmenter(resolution, scaleFactorForOperation);
-        List<GeoLibPointF> mcPoints = new();
-        List<GeoLibPointF>
+        Fragmenter fragment = new Fragmenter(resolution);
+        PathD mcPoints = new();
+        PathD
             mcHorEdgePoints = new(); // corner coordinates list, used as a temporary container for each iteration
-        List<List<GeoLibPointF>>
+        PathsD
             mcHorEdgePointsList =
                 new(); // Hold our lists of doubles for each corner in the shape, in order. We cast these to Int in the mcPoints list.
-        List<List<GeoLibPointF>>
+        PathsD
             mcVerEdgePointsList =
                 new(); // Hold our lists of doubles for each edge in the shape, in order. We cast these to Int in the mcPoints list.
 
@@ -2510,7 +2513,7 @@ public class ShapeLibrary
                             }
                         }
 
-                        GeoLibPointF cPt = new(mcPX, mcPY);
+                        PointD cPt = new(mcPX, mcPY);
                         if (angle == 0 || Math.Abs(angle - 90) < double.Epsilon || optimizeCorners == 0 ||
                             optimizeCorners == 1 &&
                             Math.Abs(
@@ -2528,19 +2531,19 @@ public class ShapeLibrary
                     // OK. We now need to add points along the edge based on the simulation settings resolution.
                     // We need to add points from here to just before the midpoint
 
-                    double bridgeX = mcHorEdgePoints[^1].X;
+                    double bridgeX = mcHorEdgePoints[^1].x;
 
                     // Fragmenter returns first and last points in the point array.
-                    GeoLibPointF[] fragments = fragment.fragmentPath(new[]
-                        { new GeoLibPointF(bridgeX, mcPY), new GeoLibPointF(currentHorEdge_mid_x, mcPY) });
+                    PathD fragments = fragment.fragmentPath(new()
+                        { new PointD(bridgeX, mcPY), new PointD(currentHorEdge_mid_x, mcPY) });
 
-                    for (int i = 1; i < fragments.Length - 1; i++)
+                    for (int i = 1; i < fragments.Count - 1; i++)
                     {
                         mcHorEdgePoints.Add(fragments[i]);
                     }
 
                     // Add our midpoint.
-                    mcHorEdgePoints.Add(new GeoLibPointF(currentHorEdge_mid_x, mcPY));
+                    mcHorEdgePoints.Add(new (currentHorEdge_mid_x, mcPY));
 
                     // Segment 2, plus bridging on first pass through.
 
@@ -2740,10 +2743,10 @@ public class ShapeLibrary
                             bridgeX = currentHorEdge_mid_x;
 
                             // Fragmenter returns first and last points in the point array.
-                            fragments = fragment.fragmentPath(new[]
-                                { new GeoLibPointF(bridgeX, mcPY), new GeoLibPointF(mcPX, mcPY) });
+                            fragments = fragment.fragmentPath(new()
+                                { new PointD(bridgeX, mcPY), new (mcPX, mcPY) });
 
-                            for (int i = 1; i < fragments.Length - 1; i++)
+                            for (int i = 1; i < fragments.Count - 1; i++)
                             {
                                 mcHorEdgePoints.Add(fragments[i]);
                             }
@@ -2751,7 +2754,7 @@ public class ShapeLibrary
                             firstPass = false;
                         }
 
-                        GeoLibPointF cPt = new(mcPX, mcPY);
+                        PointD cPt = new(mcPX, mcPY);
                         if (angle == 0 || Math.Abs(angle - 90) < double.Epsilon || optimizeCorners == 0 ||
                             optimizeCorners == 1 &&
                             Math.Abs(
@@ -2766,7 +2769,7 @@ public class ShapeLibrary
                         angle -= angleIncrement;
                     }
 
-                    mcHorEdgePointsList.Add(mcHorEdgePoints.ToList()); // make a deep copy of the points.
+                    mcHorEdgePointsList.Add(new(mcHorEdgePoints)); // make a deep copy of the points.
                     mcHorEdgePoints.Clear(); // clear our list of points to use on the next pass.
                     break;
                 }
@@ -2776,11 +2779,11 @@ public class ShapeLibrary
         if (cornerCheck)
         {
             mcPoints.Clear();
-            foreach (List<GeoLibPointF> t in mcHorEdgePointsList)
+            foreach (PathD t in mcHorEdgePointsList)
             {
-                foreach (GeoLibPointF t1 in t)
+                foreach (PointD t1 in t)
                 {
-                    mcPoints.Add(new GeoLibPointF(t1.X, t1.Y));
+                    mcPoints.Add(new (t1.x, t1.y));
                 }
             }
 
@@ -2791,7 +2794,7 @@ public class ShapeLibrary
         for (int edge = 0; edge < mcHorEdgePointsList.Count; edge++)
         {
             // Get our start and end Y positions for our vertical edge.
-            List<GeoLibPointF> startHorEdgePointList = mcHorEdgePointsList[edge];
+            PathD startHorEdgePointList = mcHorEdgePointsList[edge];
             int endHorEdgePointListIndex;
             if (edge == 0)
             {
@@ -2802,13 +2805,13 @@ public class ShapeLibrary
                 endHorEdgePointListIndex = edge - 1;
             }
 
-            List<GeoLibPointF> endHorEdgePointList = mcHorEdgePointsList[endHorEdgePointListIndex];
-            double vert_x = endHorEdgePointList[^1].X;
-            double startPoint_y = endHorEdgePointList[^1].Y;
-            double endPoint_y = startHorEdgePointList[0].Y;
+            PathD endHorEdgePointList = mcHorEdgePointsList[endHorEdgePointListIndex];
+            double vert_x = endHorEdgePointList[^1].x;
+            double startPoint_y = endHorEdgePointList[^1].y;
+            double endPoint_y = startHorEdgePointList[0].y;
 
             // We get the start and end points here.
-            List<GeoLibPointF> fragments = fragment.fragmentPath(new List<GeoLibPointF>
+            PathD fragments = fragment.fragmentPath(new ()
                 { new(vert_x, startPoint_y), new(vert_x, endPoint_y) });
             mcVerEdgePointsList.Add(fragments);
         }
@@ -2818,27 +2821,602 @@ public class ShapeLibrary
         {
             for (int point = 0; point < mcVerEdgePointsList[section].Count; point++)
             {
-                double x = mcVerEdgePointsList[section][point].X + s0HO;
-                double y = mcVerEdgePointsList[section][point].Y + s0VO;
-                mcPoints.Add(new GeoLibPointF(x, y));
+                double x = mcVerEdgePointsList[section][point].x + s0HO;
+                double y = mcVerEdgePointsList[section][point].y + s0VO;
+                mcPoints.Add(new (x, y));
             }
 
             // Corner next.
             // Start and end points match those in the vertical edges, so we avoid them to eliminate duplicates.
             for (int point = 1; point < mcHorEdgePointsList[section].Count - 1; point++)
             {
-                double x = mcHorEdgePointsList[section][point].X + s0HO;
-                double y = mcHorEdgePointsList[section][point].Y + s0VO;
-                mcPoints.Add(new GeoLibPointF(x, y));
+                double x = mcHorEdgePointsList[section][point].x + s0HO;
+                double y = mcHorEdgePointsList[section][point].y + s0VO;
+                mcPoints.Add(new (x, y));
             }
         }
 
         return mcPoints;
 
     }
+    
+    public PathD ___processCorners(bool previewMode, bool cornerCheck, bool ignoreCV, double s0HO,
+        double s0VO, double iCR, double iCV, double iCVariation, bool iCPA, double oCR, double oCV, double oCVariation,
+        bool oCPA, int cornerSegments, int optimizeCorners, double resolution)
+    {
+        Fragmenter fragment = new Fragmenter(resolution);
+        PathD mcPoints = new();
+        PathD
+            mcHorEdgePoints = new(); // corner coordinates list, used as a temporary container for each iteration
+        PathsD
+            mcHorEdgePointsList =
+                new(); // Hold our lists of doubles for each corner in the shape, in order. We cast these to Int in the mcPoints list.
+        PathsD
+            mcVerEdgePointsList =
+                new(); // Hold our lists of doubles for each edge in the shape, in order. We cast these to Int in the mcPoints list.
 
-    public List<GeoLibPointF> rotateShape(List<GeoLibPointF> input, ShapeSettings shapeSettings, double rotationVar,
-        double rotationDirection, GeoLibPointF? pivot = null)
+        for (int round = 0; round < round1.Length - 1; round++)
+        {
+            // Derive our basic coordinates for the three vertices on the edge.
+            double start_x = Vertex[round1[round].index].X;
+            double start_y = Vertex[round1[round].index].Y;
+            double currentHorEdge_mid_x = Vertex[round1[round].horFace].X;
+            double currentVerEdge_mid_y = Vertex[round1[round].verFace].Y;
+            double end_x = Vertex[round1[round + 1].index].X;
+            double end_y = Vertex[round1[round + 1].index].Y;
+            double nextVerEdge_mid_y = Vertex[round1[round + 1].verFace].Y;
+
+            switch (Math.Abs(start_y - end_y))
+            {
+                // Test whether we have a vertical edge or not. We only process horizontal edges to avoid doubling up
+                case < constants.tolerance:
+                {
+                    double mcPX;
+                    double mcPY = 0.0f;
+                    // Establish corner rounding sign at start and end points of edge. Default is to move outwards (inner CRR)
+                    bool startInnerRounding = true;
+                    bool endInnerRounding = true;
+                    if (round1[round].direction == typeRound.exter)
+                    {
+                        startInnerRounding = false;
+                    }
+
+                    if (round1[round + 1].direction == typeRound.exter)
+                    {
+                        endInnerRounding = false;
+                    }
+
+                    // Now sort out the shift based on face orientation.
+                    bool horFaceUp = true;
+                    switch (Vertex[round1[round].horFace].direction)
+                    {
+                        case typeDirection.up1:
+                            break;
+                        case typeDirection.down1:
+                            horFaceUp = false;
+                            break;
+                    }
+
+                    bool verFaceLeft = true;
+                    switch (Vertex[round1[round].verFace].direction)
+                    {
+                        case typeDirection.left1:
+                            break;
+                        case typeDirection.right1:
+                            verFaceLeft = false;
+                            break;
+                    }
+
+                    // Segment 1
+
+                    // Clamp radius in each direction, if needed, to available distance
+                    double hRadius = round1[round].MaxRadius;
+                    double x_Distance = Math.Sqrt(Utils.myPow(currentHorEdge_mid_x - start_x, 2));
+                    double vRadius = round1[round].MaxRadius;
+                    double y_Distance = Math.Sqrt(Utils.myPow(currentVerEdge_mid_y - start_y, 2));
+
+                    // Add our random variation based on rounding type :
+                    bool paSearchSetsCornerRoundingForThisCorner = false;
+
+                    if (ignoreCV)
+                    {
+                        // Are we on a corner that has a PA-defined rounding value?
+                        switch (startInnerRounding)
+                        {
+                            case true:
+                                paSearchSetsCornerRoundingForThisCorner = iCPA;
+                                break;
+                            default:
+                                paSearchSetsCornerRoundingForThisCorner = oCPA;
+                                break;
+                        }
+                    }
+
+                    // PA search works by setting rounding value directly in the settings, no variation needs to be added.
+                    if (paSearchSetsCornerRoundingForThisCorner)
+                    {
+                        if (startInnerRounding)
+                        {
+                            hRadius = iCVariation * iCR;
+                            vRadius = iCVariation * iCR;
+                        }
+                        else
+                        {
+                            hRadius = oCVariation * oCR;
+                            vRadius = oCVariation * oCR;
+                        }
+                    }
+                    else
+                    {
+                        if (!previewMode)
+                        {
+                            if (startInnerRounding)
+                            {
+                                hRadius += iCVariation * iCV;
+                                vRadius += iCVariation * iCV;
+                            }
+                            else
+                            {
+                                hRadius += oCVariation * oCV;
+                                vRadius += oCVariation * oCV;
+                            }
+                        }
+                    }
+
+                    if (hRadius > x_Distance)
+                    {
+                        hRadius = x_Distance;
+                    }
+
+                    if (vRadius > y_Distance)
+                    {
+                        vRadius = y_Distance;
+                    }
+
+                    // Clamp for negative radius values that would make no sense
+                    if (hRadius < 0)
+                    {
+                        hRadius = 0;
+                    }
+
+                    if (vRadius < 0)
+                    {
+                        vRadius = 0;
+                    }
+
+                    double angleIncrement = 90.0f / cornerSegments;
+
+                    // Sweep our corner.
+                    double angle = 0.0f;
+                    while (angle < 90.0f)
+                    {
+                        // Set start condition
+                        mcPX = start_x; // X position for new point.
+                        mcPY = start_y; // this will hold our Y position for the new point.
+
+                        // Remove full contribution from rounding.
+                        if (verFaceLeft)
+                        {
+                            if (startInnerRounding)
+                            {
+                                mcPX -= hRadius;
+                            }
+                            else
+                            {
+                                mcPX += hRadius;
+                            }
+                        }
+                        else
+                        {
+                            if (startInnerRounding)
+                            {
+                                mcPX += hRadius;
+                            }
+                            else
+                            {
+                                mcPX -= hRadius;
+                            }
+                        }
+
+                        if (horFaceUp)
+                        {
+                            if (startInnerRounding)
+                            {
+                                mcPY += vRadius;
+                            }
+                            else
+                            {
+                                mcPY -= vRadius;
+                            }
+                        }
+                        else
+                        {
+                            if (startInnerRounding)
+                            {
+                                mcPY -= vRadius;
+                            }
+                            else
+                            {
+                                mcPY += vRadius;
+                            }
+                        }
+
+                        // Now process corner, adding back contribution from rounding
+                        if (verFaceLeft)
+                        {
+                            if (startInnerRounding)
+                            {
+                                mcPX += hRadius * Math.Cos(Utils.toRadians(angle));
+                            }
+                            else
+                            {
+                                mcPX -= hRadius * Math.Cos(Utils.toRadians(angle));
+                            }
+                        }
+                        else
+                        {
+                            if (startInnerRounding)
+                            {
+                                mcPX -= hRadius * Math.Cos(Utils.toRadians(angle));
+                            }
+                            else
+                            {
+                                mcPX += hRadius * Math.Cos(Utils.toRadians(angle));
+                            }
+                        }
+
+                        if (horFaceUp)
+                        {
+                            if (startInnerRounding)
+                            {
+                                mcPY -= vRadius * Math.Sin(Utils.toRadians(angle));
+                            }
+                            else
+                            {
+                                mcPY += vRadius * Math.Sin(Utils.toRadians(angle));
+                            }
+                        }
+                        else
+                        {
+                            if (startInnerRounding)
+                            {
+                                mcPY += vRadius * Math.Sin(Utils.toRadians(angle));
+                            }
+                            else
+                            {
+                                mcPY -= vRadius * Math.Sin(Utils.toRadians(angle));
+                            }
+                        }
+
+                        PointD cPt = new(mcPX, mcPY);
+                        if (angle == 0 || Math.Abs(angle - 90) < constants.tolerance || optimizeCorners == 0 ||
+                            optimizeCorners == 1 &&
+                            Math.Abs(
+                                GeoWrangler.distanceBetweenPoints(mcHorEdgePoints[^1], cPt)
+                            )
+                            > resolution
+                           )
+                        {
+                            mcHorEdgePoints.Add(new(cPt));
+                        }
+
+                        angle += angleIncrement;
+                    }
+
+                    // OK. We now need to add points along the edge based on the simulation settings resolution.
+                    // We need to add points from here to just before the midpoint
+
+                    double bridgeX = mcHorEdgePoints[^1].x;
+
+                    // Fragmenter returns first and last points in the point array.
+                    PathD fragments = fragment.fragmentPath(new PathD ()
+                        { new (bridgeX, mcPY), new (currentHorEdge_mid_x, mcPY) });
+
+                    for (int i = 1; i < fragments.Count - 1; i++)
+                    {
+                        mcHorEdgePoints.Add(new(fragments[i]));
+                    }
+
+                    // Add our midpoint.
+                    mcHorEdgePoints.Add(new (currentHorEdge_mid_x, mcPY));
+
+                    // Segment 2, plus bridging on first pass through.
+
+                    bool
+                        firstPass =
+                            true; // With this set, we bridge from midpoint to our first point in the first pass through
+                    // segment 2 of the edge.
+                    verFaceLeft = true;
+                    switch (Vertex[round1[round + 1].verFace].direction)
+                    {
+                        case typeDirection.left1:
+                            break;
+                        case typeDirection.right1:
+                            verFaceLeft = false;
+                            break;
+                    }
+
+                    // Clamp radius to available distance, if needed.
+                    hRadius = round1[round + 1].MaxRadius;
+                    x_Distance = Math.Sqrt(Utils.myPow(currentHorEdge_mid_x - end_x, 2));
+                    vRadius = round1[round + 1].MaxRadius;
+                    y_Distance = Math.Sqrt(Utils.myPow(nextVerEdge_mid_y - end_y, 2));
+
+                    // Add our random variation based on rounding type :
+
+                    paSearchSetsCornerRoundingForThisCorner = false;
+                    if (ignoreCV)
+                    {
+                        switch (startInnerRounding)
+                        {
+                            case true:
+                                paSearchSetsCornerRoundingForThisCorner = iCPA;
+                                break;
+                            default:
+                                paSearchSetsCornerRoundingForThisCorner = oCPA;
+                                break;
+                        }
+                    }
+
+                    if (paSearchSetsCornerRoundingForThisCorner)
+                    {
+                        if (startInnerRounding)
+                        {
+                            hRadius = iCVariation * iCR;
+                            vRadius = iCVariation * iCR;
+                        }
+                        else
+                        {
+                            hRadius = oCVariation * oCR;
+                            vRadius = oCVariation * oCR;
+                        }
+                    }
+                    else
+                    {
+                        // Add our random variation based on rounding type :
+                        if (!previewMode)
+                        {
+                            if (endInnerRounding)
+                            {
+                                hRadius += iCVariation * iCV;
+                                vRadius += iCVariation * iCV;
+                            }
+                            else
+                            {
+                                hRadius += oCVariation * oCV;
+                                vRadius += oCVariation * oCV;
+                            }
+                        }
+                    }
+
+                    if (hRadius > x_Distance)
+                    {
+                        hRadius = x_Distance;
+                    }
+
+                    if (vRadius > y_Distance)
+                    {
+                        vRadius = y_Distance;
+                    }
+
+                    // Clamp for negative radius values that would make no sense
+                    if (hRadius < 0)
+                    {
+                        hRadius = 0;
+                    }
+
+                    if (vRadius < 0)
+                    {
+                        vRadius = 0;
+                    }
+
+                    // Sweep our end corner. We need to run the sweep in the opposite direction.
+                    angle = 90.0f;
+                    while (angle > 0.0f)
+                    {
+                        // Set start conditions
+                        mcPX = end_x;
+                        mcPY = end_y;
+
+                        // Remove full extent of rounding in each direction, based on face orientation
+                        if (verFaceLeft)
+                        {
+                            if (endInnerRounding)
+                            {
+                                mcPX -= hRadius;
+                            }
+                            else
+                            {
+                                mcPX += hRadius;
+                            }
+                        }
+                        else
+                        {
+                            if (endInnerRounding)
+                            {
+                                mcPX += hRadius;
+                            }
+                            else
+                            {
+                                mcPX -= hRadius;
+                            }
+                        }
+
+                        if (horFaceUp)
+                        {
+                            if (endInnerRounding)
+                            {
+                                mcPY += vRadius;
+                            }
+                            else
+                            {
+                                mcPY -= vRadius;
+                            }
+                        }
+                        else
+                        {
+                            if (endInnerRounding)
+                            {
+                                mcPY -= vRadius;
+                            }
+                            else
+                            {
+                                mcPY += vRadius;
+                            }
+                        }
+
+                        // Process corners, adding back the contribution from the rounding based on the angle
+                        if (verFaceLeft)
+                        {
+                            if (endInnerRounding)
+                            {
+                                mcPX += hRadius * Math.Cos(Utils.toRadians(angle));
+                            }
+                            else
+                            {
+                                mcPX -= hRadius * Math.Cos(Utils.toRadians(angle));
+                            }
+                        }
+                        else
+                        {
+                            if (endInnerRounding)
+                            {
+                                mcPX -= hRadius * Math.Cos(Utils.toRadians(angle));
+                            }
+                            else
+                            {
+                                mcPX += hRadius * Math.Cos(Utils.toRadians(angle));
+                            }
+                        }
+
+                        if (horFaceUp)
+                        {
+                            if (endInnerRounding)
+                            {
+                                mcPY -= vRadius * Math.Sin(Utils.toRadians(angle));
+                            }
+                            else
+                            {
+                                mcPY += vRadius * Math.Sin(Utils.toRadians(angle));
+                            }
+                        }
+                        else
+                        {
+                            if (endInnerRounding)
+                            {
+                                mcPY += vRadius * Math.Sin(Utils.toRadians(angle));
+                            }
+                            else
+                            {
+                                mcPY -= vRadius * Math.Sin(Utils.toRadians(angle));
+                            }
+                        }
+
+                        // If this is the first pass, we need to add points to the start of the rounding, from the midpoint.
+                        if (firstPass)
+                        {
+                            bridgeX = currentHorEdge_mid_x;
+
+                            // Fragmenter returns first and last points in the point array.
+                            fragments = fragment.fragmentPath(new PathD
+                                { new (bridgeX, mcPY), new (mcPX, mcPY) });
+
+                            for (int i = 1; i < fragments.Count - 1; i++)
+                            {
+                                mcHorEdgePoints.Add(new(fragments[i]));
+                            }
+
+                            firstPass = false;
+                        }
+
+                        PointD cPt = new(mcPX, mcPY);
+                        if (angle == 0 || Math.Abs(angle - 90) < constants.tolerance || optimizeCorners == 0 ||
+                            optimizeCorners == 1 &&
+                            Math.Abs(
+                                GeoWrangler.distanceBetweenPoints(mcHorEdgePoints[^1], cPt)
+                            )
+                            > resolution
+                           )
+                        {
+                            mcHorEdgePoints.Add(new(cPt));
+                        }
+
+                        angle -= angleIncrement;
+                    }
+
+                    mcHorEdgePointsList.Add(new (mcHorEdgePoints)); // make a deep copy of the points.
+                    mcHorEdgePoints.Clear(); // clear our list of points to use on the next pass.
+                    break;
+                }
+            }
+        }
+
+        if (cornerCheck)
+        {
+            mcPoints.Clear();
+            foreach (PathD t in mcHorEdgePointsList)
+            {
+                foreach (PointD t1 in t)
+                {
+                    mcPoints.Add(new (t1.x, t1.y));
+                }
+            }
+
+            return GeoWrangler.close(mcPoints);
+        }
+
+        // Now we have our corners, let's process the vertical edges. We need the corners in order to get our start/end on each vertical edge.
+        for (int edge = 0; edge < mcHorEdgePointsList.Count; edge++)
+        {
+            // Get our start and end Y positions for our vertical edge.
+            PathD startHorEdgePointList = new(mcHorEdgePointsList[edge]);
+            int endHorEdgePointListIndex;
+            if (edge == 0)
+            {
+                endHorEdgePointListIndex = mcHorEdgePointsList.Count - 1; // need to wrap around.
+            }
+            else
+            {
+                endHorEdgePointListIndex = edge - 1;
+            }
+
+            PathD endHorEdgePointList = new(mcHorEdgePointsList[endHorEdgePointListIndex]);
+            double vert_x = endHorEdgePointList[^1].x;
+            double startPoint_y = endHorEdgePointList[^1].y;
+            double endPoint_y = startHorEdgePointList[0].y;
+
+            // We get the start and end points here.
+            PathD fragments = fragment.fragmentPath(new PathD
+                { new(vert_x, startPoint_y), new(vert_x, endPoint_y) });
+            mcVerEdgePointsList.Add(new(fragments));
+        }
+
+        // OK. We have our corners and edges. We need to walk them now. We'll apply the subshape 1 offset at the same time.
+        for (int section = 0; section < mcVerEdgePointsList.Count; section++)
+        {
+            for (int point = 0; point < mcVerEdgePointsList[section].Count; point++)
+            {
+                double x = mcVerEdgePointsList[section][point].x + s0HO;
+                double y = mcVerEdgePointsList[section][point].y + s0VO;
+                mcPoints.Add(new (x, y));
+            }
+
+            // Corner next.
+            // Start and end points match those in the vertical edges, so we avoid them to eliminate duplicates.
+            for (int point = 1; point < mcHorEdgePointsList[section].Count - 1; point++)
+            {
+                double x = mcHorEdgePointsList[section][point].x + s0HO;
+                double y = mcHorEdgePointsList[section][point].y + s0VO;
+                mcPoints.Add(new (x, y));
+            }
+        }
+
+        return GeoWrangler.close(mcPoints);
+
+    }
+
+    public PathD rotateShape(PathD input, ShapeSettings shapeSettings, double rotationVar,
+        double rotationDirection, PointD pivot)
     {
         double rotationAngle = Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.rot));
         if (rotationDirection <= 0.5)
@@ -2856,14 +3434,11 @@ public class ShapeLibrary
             (shapeSettings.getInt(ShapeSettings.properties_i.alignX) == 1 ||
              shapeSettings.getInt(ShapeSettings.properties_i.alignY) == 1))
         {
-            // Get our bounding box.
-            BoundingBox bb = new(input);
-
-            switch (pivot)
+            if (double.IsNaN(pivot.x) || double.IsNaN(pivot.y))
             {
-                case null:
-                    pivot = new GeoLibPointF(bb.getMidPoint());
-                    break;
+                // Get our bounding box.
+                BoundingBox bb = new(input);
+                pivot = new(bb.getMidPoint());
             }
 
             // OK. Let's try some rotation and wobble.

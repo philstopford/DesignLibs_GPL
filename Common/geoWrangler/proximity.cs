@@ -1,40 +1,35 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using Clipper2Lib;
-using geoLib;
 using utility;
 
 namespace geoWrangler;
 
-using Path = Path64;
-using Paths = Paths64;
-
 public static class Proximity
 {
     // Drawn poly allows for geometry to be excluded from consideration in the input list
-    public static GeometryResult proximityBias(List<GeoLibPointF[]> input, List<bool> drawnPoly_, decimal pBias,
+    public static GeometryResult proximityBias(PathsD input, List<bool> drawnPoly_, decimal pBias,
         decimal pBiasDist, int proxRays, int proxSideRaysFallOff, decimal proxSideRaysMultiplier, decimal rayExtension,
-        double fragmenterResolution, Int64 scaleFactorForOperation, bool doCleanUp, double cleanUpEpsilon)
+        double fragmenterResolution, bool doCleanUp, double cleanUpEpsilon)
     {
         // Proximity biasing - where isolated edges get bias based on distance to nearest supporting edge.
         bool proxBiasNeeded = (pBias != 0) && (pBiasDist != 0);
 
         if (!proxBiasNeeded)
         {
-            return new() { geometry = input.ToList(), drawn = drawnPoly_.ToList() };
+            return new() { geometry = new (input), drawn = drawnPoly_.ToList() };
         }
 
         bool debug = false;
         bool linear = false;
 
-        List<GeoLibPointF[]> preOverlapMergePolys = new();
+        PathsD preOverlapMergePolys = new();
 
-        Paths dRays = new();
+        PathsD dRays = new();
 
         // Scale up our geometry for processing. Force a clockwise point order here due to potential upstream point order changes (e.g. polygon merging)
-        Paths sourceGeometry = GeoWrangler.pathsFromPointFs(input, scaleFactorForOperation);
+        PathsD sourceGeometry = new(input);
 
         List<bool> overlapDrawnList = new();
 
@@ -51,7 +46,7 @@ public static class Proximity
 
         int sCount = sourceGeometry.Count;
 
-        Fragmenter f = new(fragmenterResolution * scaleFactorForOperation);
+        Fragmenter f = new(fragmenterResolution);
 
         for (int poly = 0; poly < sCount; poly++)
         {
@@ -63,10 +58,10 @@ public static class Proximity
             
             overlapDrawnList.Add(false);
 
-            Path sourcePoly = new(sourceGeometry[poly]);
-            Paths collisionGeometry = new(sourceGeometry);
+            PathD sourcePoly = new(sourceGeometry[poly]);
+            PathsD collisionGeometry = new(sourceGeometry);
             // collisionGeometry.RemoveAt(poly); // Don't actually want to remove the emission as self-aware proximity matters.
-            Path deformedPoly = new();
+            PathD deformedPoly = new();
 
             // Threading operation here gets more tricky than the distance handler. We have a less clear trade off of threading based on the emission edge (the polygon being biased) vs the multisampling emission.
             // In batch calculation mode, this tradeoff gets more awkward.
@@ -89,16 +84,17 @@ public static class Proximity
                 emitThread = true;
             }
             
-            sourcePoly = GeoWrangler.stripColinear(sourcePoly);
-            sourcePoly = GeoWrangler.removeDuplicates(sourcePoly);
-            sourcePoly = GeoWrangler.close(sourcePoly);
-            sourcePoly = f.fragmentPath(sourcePoly);
+            // These do not appear to be needed.
+            // sourcePoly = GeoWrangler.stripCollinear(sourcePoly);
+            // sourcePoly = GeoWrangler.removeDuplicates(sourcePoly);
+            // sourcePoly = GeoWrangler.close(sourcePoly);
+            // sourcePoly = f.fragmentPath(sourcePoly);
 
             collisionGeometry = f.fragmentPaths(collisionGeometry);
 
-            RayCast rc = new(sourcePoly, collisionGeometry, Convert.ToInt32(pBiasDist * scaleFactorForOperation), false, invert:0, proxRays, emitThread, multiSampleThread, sideRayFallOff: (RayCast.falloff)proxSideRaysFallOff, sideRayFallOffMultiplier: Convert.ToDouble(proxSideRaysMultiplier));
+            RayCast rc = new(sourcePoly, collisionGeometry, Convert.ToInt32(pBiasDist), false, invert:0, proxRays, emitThread, multiSampleThread, sideRayFallOff: (RayCast.falloff)proxSideRaysFallOff, sideRayFallOffMultiplier: Convert.ToDouble(proxSideRaysMultiplier));
 
-            Paths clippedLines = rc.getClippedRays();
+            PathsD clippedLines = rc.getClippedRays();
             // ReSharper disable once ConditionIsAlwaysTrueOrFalse
             if (debug)
             {
@@ -109,8 +105,8 @@ public static class Proximity
             int cLCount = clippedLines.Count;
             for (int line = 0; line < cLCount; line++)
             {
-                long displacedX = sourcePoly[line].X;
-                long displacedY = sourcePoly[line].Y;
+                double displacedX = sourcePoly[line].x;
+                double displacedY = sourcePoly[line].y;
 
                 double lineLength = rc.getRayLength(line);
 
@@ -118,7 +114,7 @@ public static class Proximity
                 {
                     // No biasing - ray never made it beyond the surface. Short-cut the 
                     case 0:
-                        deformedPoly.Add(new Point64(clippedLines[line][0]));
+                        deformedPoly.Add(new (clippedLines[line][0]));
                         continue;
                     case < 0:
                         lineLength *= -1;
@@ -126,7 +122,7 @@ public static class Proximity
                 }
 
                 // Calculate our bias based on this distance and apply it.
-                double biasScaling = lineLength / scaleFactorForOperation / Convert.ToDouble(pBiasDist);
+                double biasScaling = lineLength / Convert.ToDouble(pBiasDist);
 
                 if (biasScaling > 1)
                 {
@@ -139,47 +135,46 @@ public static class Proximity
                 // ReSharper disable once ConditionIsAlwaysTrueOrFalse
                 if (linear)
                 {
-                    displacedAmount = biasScaling * Convert.ToDouble(pBias) * scaleFactorForOperation;
+                    displacedAmount = biasScaling * Convert.ToDouble(pBias);
                 }
                 else
                 {
                     // Using sine to make a ease-in/ease-out effect.
-                    displacedAmount = Math.Sin(Utils.toRadians(biasScaling * 90.0f)) * Convert.ToDouble(pBias) * scaleFactorForOperation;
+                    displacedAmount = Math.Sin(Utils.toRadians(biasScaling * 90.0f)) * Convert.ToDouble(pBias);
                 }
 
                 // Use our cast ray from rc to get a normalized average 
-                Point64 averagedEdgeNormal = GeoWrangler.Point64_distanceBetweenPoints(clippedLines[line][clippedLines[line].Count - 1], clippedLines[line][0]);
+                PointD averagedEdgeNormal = GeoWrangler.PointD_distanceBetweenPoints(clippedLines[line][clippedLines[line].Count - 1], clippedLines[line][0]);
 
                 // Normalize our vector length.
-                double aX = averagedEdgeNormal.X / lineLength;
-                double aY = averagedEdgeNormal.Y / lineLength;
+                double aX = averagedEdgeNormal.x / lineLength;
+                double aY = averagedEdgeNormal.y / lineLength;
 
-                displacedY += (long)(displacedAmount * aY);
-                displacedX += (long)(displacedAmount * aX);
+                displacedY += displacedAmount * aY;
+                displacedX += displacedAmount * aX;
 
-                deformedPoly.Add(new Point64(displacedX, displacedY));
+                deformedPoly.Add(new (displacedX, displacedY));
             }
             
             // Experimental clean-up
             if (doCleanUp)
             {
-                Path rdpPath = Clipper.RamerDouglasPeucker(GeoWrangler.close(deformedPoly), cleanUpEpsilon); // scale from int to make a double
+                PathD rdpPath = Clipper.RamerDouglasPeucker(GeoWrangler.close(deformedPoly), cleanUpEpsilon * 0.001);
                 deformedPoly = f.fragmentPath(GeoWrangler.close(rdpPath));
             }
 
-            // deformedPoly.Add(new Point64(deformedPoly[0]));
-            preOverlapMergePolys.Add(GeoWrangler.pointFFromPath(deformedPoly, scaleFactorForOperation));
+            preOverlapMergePolys.Add(new(deformedPoly));
         }
 
         // Check for overlaps and process as needed post-biasing.
-        GeometryResult ret = ProcessOverlaps.processOverlaps(preOverlapMergePolys, overlapDrawnList, extension:Convert.ToDouble(rayExtension), resolution:fragmenterResolution, scaleFactorForOperation:scaleFactorForOperation, forceOverride: false);
+        GeometryResult ret = ProcessOverlaps.processOverlaps(preOverlapMergePolys, overlapDrawnList, extension:Convert.ToDouble(rayExtension), resolution:fragmenterResolution, forceOverride: false);
 
         // ReSharper disable once ConditionIsAlwaysTrueOrFalse
         if (debug)
         {
-            foreach (Path t in dRays)
+            foreach (PathD t in dRays)
             {
-                ret.geometry.Add(GeoWrangler.pointFFromPath(t, scaleFactorForOperation));
+                ret.geometry.Add(new(t));
                 ret.drawn.Add(true);
             }
         }

@@ -1,28 +1,19 @@
-﻿using Clipper2Lib;
-using geoLib;
-using System;
-using System.Collections.Generic;
+﻿using System;
+using Clipper2Lib;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace geoWrangler;
 
-using Path = Path64;
-using Paths = Paths64;
-
 public static partial class GeoWrangler
 {
-    public static Paths pathsFromPoints(List<GeoLibPoint[]> source, long scaling)
-    {
-        return pPathsFromPoints(source, scaling);
-    }
 
-    private static Paths pPathsFromPoints(List<GeoLibPoint[]> source, long scaling)
+    private static Paths64 _pPaths64FromPathsD(PathsD source, double scaling = 1.0)
     {
-        Paths ret = new();
+        Paths64 ret = new();
         try
         {
-            ret.AddRange(source.Select(t => pathFromPoint(t, scaling)));
+            ret.AddRange(source.Select(t => _pPath64FromPathD(t, scaling)));
         }
         catch
         {
@@ -32,52 +23,41 @@ public static partial class GeoWrangler
         return ret;
     }
 
-    public static Path pathFromPoint(GeoLibPoint[] source, long scaling)
+    private static Path64 _pPath64FromPathD(PathD source, double scaling = 1.0)
     {
-        return pPathFromPoint(source, scaling);
-    }
-
-    private static Path pPathFromPoint(GeoLibPoint[] source, long scaling)
-    {
-        int length = source.Length;
-        if (source[0].X != source[^1].X && source[0].Y != source[^1].Y)
+        int length = source.Count;
+        if (Math.Abs(source[0].x - source[^1].x) > constants.tolerance && Math.Abs(source[0].y - source[^1].y) > constants.tolerance)
         {
             length++; // close the geometry
         }
-        Path returnPath = new();
+        Path64 returnPath = new();
         try
         {
-            returnPath.AddRange(source.Select(t => new Point64(t.X * scaling, t.Y * scaling)));
+            returnPath.AddRange(source.Select(t => new Point64(t.x * scaling, t.y * scaling)));
         }
         catch
         {
             // ignored
         }
-
+        
         // Close the shape
-        if (length != source.Length)
+        if (length != source.Count)
         {
             returnPath.Add(new Point64(returnPath[0]));
         }
         return returnPath;
     }
 
-    public static List<GeoLibPoint[]> pointsFromPaths(Paths source, long scaling)
+    private static PathsD _pPathsDFromPaths64(Paths64 source, double scaling = 1.0)
     {
-        return pPointsFromPaths(source, scaling);
+        return new (source.Select(t => _pPathDFromPath64(t, scaling)));
     }
 
-    private static List<GeoLibPoint[]> pPointsFromPaths(Paths source, long scaling)
+    public static PathD PathDFromPath64(Path64 source, double scaling = 1.0)
     {
-        return source.Select(t => pPointFromPath(t, scaling)).ToList();
+        return _pPathDFromPath64(source, scaling);
     }
-
-    public static GeoLibPoint[] pointFromPath(Path source, long scaling)
-    {
-        return pPointFromPath(source, scaling);
-    }
-
-    private static GeoLibPoint[] pPointFromPath(Path source, long scaling)
+    private static PathD _pPathDFromPath64(Path64 source, double scaling = 1.0)
     {
         int length = source.Count;
         int sCount = length;
@@ -93,7 +73,7 @@ public static partial class GeoWrangler
                 break;
             }
         }
-        GeoLibPoint[] returnPoint = new GeoLibPoint[length];
+        PathD returnPath = Helper.initedPathD(length);
 #if !GWSINGLETHREADED
         Parallel.For(0, sCount, pt =>
 #else
@@ -101,201 +81,44 @@ public static partial class GeoWrangler
 #endif
             {
                 
-                returnPoint[pt] = new GeoLibPoint((long)Math.Round(Convert.ToDecimal(source[pt].X) / scaling), (long)Math.Round(Convert.ToDecimal(source[pt].Y) / scaling));
+                returnPath[pt] = new (source[pt]);
             }
 #if !GWSINGLETHREADED
         );
 #endif
+
+        if (scaling != 1.0)
+        {
+            returnPath = Clipper.ScalePath(returnPath, scaling);
+        }
+        
         // Close the shape.
         if (length != sCount)
         {
-            returnPoint[length - 1] = new GeoLibPoint(returnPoint[0]);
-        }
-        return returnPoint;
-    }
-
-    public static Paths pathsFromPointFs(List<GeoLibPointF[]> source, long scaling)
-    {
-        return pPathsFromPointFs(source, scaling);
-    }
-
-    private static Paths pPathsFromPointFs(List<GeoLibPointF[]> source, long scaling)
-    {
-        Paths ret = new();
-        try
-        {
-            ret.AddRange(source.Select(t => pathFromPointF(t, scaling)));
-        }
-        catch
-        {
-            // ignored
-        }
-
-        return ret;
-    }
-
-    public static Path pathFromPointF(GeoLibPointF[] source, long scaling)
-    {
-        return pPathFromPointF(source, scaling);
-    }
-
-    private static Path pPathFromPointF(GeoLibPointF[] source, long scaling)
-    {
-        int length = source.Length;
-        switch (Math.Abs(source[0].X - source[^1].X))
-        {
-            case > double.Epsilon when Math.Abs(source[0].Y - source[^1].Y) > double.Epsilon:
-                length++; // close the geometry
-                break;
-        }
-        Path returnPath = new();
-        try
-        {
-            returnPath.AddRange(source.Select(t => new Point64(Convert.ToInt64(t.X * scaling), Convert.ToInt64(t.Y * scaling))));
-        }
-        catch
-        {
-            // ignored
-        }
-
-        // Close the shape
-        if (length != source.Length)
-        {
-            returnPath.Add(new Point64(returnPath[0]));
+            returnPath[length - 1] = new (returnPath[0]);
         }
         return returnPath;
     }
 
-    public static List<GeoLibPointF[]> pointFsFromPaths(Paths source, long scaling)
+    public static Paths64 paths64FromPathsD(PathsD source, double scaling = 1.0)
     {
-        return pPointFsFromPaths(source, scaling);
+        return _pPaths64FromPathsD(source, scaling);
     }
 
-    private static List<GeoLibPointF[]> pPointFsFromPaths(Paths source, long scaling)
+    public static Path64 path64FromPathD(PathD source, double scaling = 1.0)
     {
-        return source.Select(t => pPointFFromPath(t, scaling)).ToList();
+        return _pPath64FromPathD(source, scaling);
     }
 
-    public static GeoLibPointF[] pointFFromPath(Path source, long scaling)
+
+    public static PathsD pathsDFromPaths64(Paths64 source, double scaling = 1.0)
     {
-        return pPointFFromPath(source, scaling);
+        return _pPathsDFromPaths64(source, scaling);
     }
 
-    private static GeoLibPointF[] pPointFFromPath(Path source, long scaling)
+    public static PathD pathDFromPath64(Path64 source, double scaling = 1.0)
     {
-        int length = source.Count;
-        int sourceCount = length;
-        if (source[0].X != source[length - 1].X && source[0].Y != source[length - 1].Y)
-        {
-            length++; // close the geometry
-        }
-        GeoLibPointF[] returnPointF = new GeoLibPointF[length];
-#if !GWSINGLETHREADED
-        Parallel.For(0, sourceCount, pt =>
-#else
-            for (int pt = 0; pt < source.Count(); pt++)
-#endif
-            {
-                returnPointF[pt] = new GeoLibPointF((double)source[pt].X / scaling,
-                    (double)source[pt].Y / scaling);
-            }
-#if !GWSINGLETHREADED
-        );
-#endif
-        // Close the shape.
-        if (length != sourceCount)
-        {
-            returnPointF[length - 1] = new GeoLibPointF(returnPointF[0]);
-        }
-        return returnPointF;
-    }
-
-    public static List<GeoLibPoint[]> pointsFromPointFs(List<GeoLibPointF[]> source, long scaling)
-    {
-        return pPointsFromPointFs(source, scaling);
-    }
-
-    private static List<GeoLibPoint[]> pPointsFromPointFs(List<GeoLibPointF[]> source, long scaling)
-    {
-        List<GeoLibPoint[]> ret = new();
-        try
-        {
-            ret.AddRange(source.Select(t => pPointsFromPointF(t, scaling)));
-        }
-        catch
-        {
-            // ignored
-        }
-
-        return ret;
-    }
-
-    public static GeoLibPoint[] pointsFromPointF(GeoLibPointF[] source, long scaling)
-    {
-        return pPointsFromPointF(source, scaling);
-    }
-
-    private static GeoLibPoint[] pPointsFromPointF(GeoLibPointF[] source, long scaling)
-    {
-        GeoLibPoint[] ret = new GeoLibPoint[source.Length];
-        for (int pt = 0; pt < source.Length; pt++)
-        {
-            try
-            {
-                ret[pt] = new GeoLibPoint(Convert.ToInt64(source[pt].X * scaling),
-                    Convert.ToInt64(source[pt].Y * scaling));
-            }
-            catch
-            {
-                // ignored
-            }
-        }
-
-        return ret;
-    }
-
-    public static List<GeoLibPointF[]> pointFsFromPoints(List<GeoLibPoint[]> source, long scaling)
-    {
-        return pPointFsFromPoints(source, scaling);
-    }
-
-    private static List<GeoLibPointF[]> pPointFsFromPoints(List<GeoLibPoint[]> source, long scaling)
-    {
-        List<GeoLibPointF[]> ret = new();
-        try
-        {
-            ret.AddRange(source.Select(t => pPointFsFromPoint(t, scaling)));
-        }
-        catch
-        {
-            // ignored
-        }
-
-        return ret;
-    }
-
-    public static GeoLibPointF[] pointFsFromPoint(GeoLibPoint[] source, long scaling)
-    {
-        return pPointFsFromPoint(source, scaling);
-    }
-
-    private static GeoLibPointF[] pPointFsFromPoint(GeoLibPoint[] source, long scaling)
-    {
-        GeoLibPointF[] ret = new GeoLibPointF[source.Length];
-        for (int pt = 0; pt < source.Length; pt++)
-        {
-            try
-            {
-                ret[pt] = new GeoLibPointF(Convert.ToDouble(source[pt].X) / scaling,
-                    Convert.ToDouble(source[pt].Y) / scaling);
-            }
-            catch
-            {
-                // ignored
-            }
-        }
-
-        return ret;
+        return _pPathDFromPath64(source, scaling);
     }
 
 }

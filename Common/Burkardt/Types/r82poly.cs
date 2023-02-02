@@ -147,12 +147,12 @@ public static partial class typeMethods
                 case 0.0:
                     type = 2;
                     break;
-                case > 0.0 when Math.Abs(r8_sign(delta) - r8_sign(a + b)) > double.Epsilon:
+                case > 0.0 when Math.Abs(r8_sign(delta) - r8_sign(a + b)) > typeMethods.r8_epsilon():
                     type = 3;
                     break;
                 case > 0.0:
                 {
-                    if (Math.Abs(r8_sign(delta) - r8_sign(a + b)) <= double.Epsilon)
+                    if (Math.Abs(r8_sign(delta) - r8_sign(a + b)) <= typeMethods.r8_epsilon())
                     {
                         type = 4;
                     }

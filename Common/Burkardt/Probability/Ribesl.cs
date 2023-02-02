@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.Types;
 
 namespace Burkardt.Probability;
 
@@ -576,7 +577,7 @@ public static class Ribesl
             //
             //  Normalize.  Divide all B(N) by TOTAL.
             //
-            if (Math.Abs(alpha - zero) > double.Epsilon)
+            if (Math.Abs(alpha - zero) > typeMethods.r8_epsilon())
             {
                 total = total * Helpers.Gamma(one + alpha) * Math.Pow(x * half, -alpha);
             }
@@ -622,7 +623,7 @@ public static class Ribesl
             halfx = half * x;
         }
 
-        if (Math.Abs(alpha - zero) > double.Epsilon)
+        if (Math.Abs(alpha - zero) > typeMethods.r8_epsilon())
         {
             tempa = Math.Pow(halfx, alpha) / Helpers.Gamma(empal);
         }
@@ -643,14 +644,14 @@ public static class Ribesl
 
         b[0] = tempa + tempa * tempb / empal;
 
-        if (Math.Abs(x - zero) > double.Epsilon && Math.Abs(b[0] - zero) <= double.Epsilon)
+        if (Math.Abs(x - zero) > typeMethods.r8_epsilon() && Math.Abs(b[0] - zero) <= typeMethods.r8_epsilon())
         {
             ncalc = 0;
         }
 
         switch (nb)
         {
-            case > 1 when Math.Abs(x - zero) <= double.Epsilon:
+            case > 1 when Math.Abs(x - zero) <= typeMethods.r8_epsilon():
             {
                 int i;
                 for (i = 1; i < nb; i++)
@@ -668,7 +669,7 @@ public static class Ribesl
                 tempc = halfx;
                 tover = (enmten + enmten) / x;
 
-                if (Math.Abs(tempb - zero) > double.Epsilon)
+                if (Math.Abs(tempb - zero) > typeMethods.r8_epsilon())
                 {
                     tover = enmten / tempb;
                 }
@@ -686,7 +687,7 @@ public static class Ribesl
 
                     b[n - 1] = tempa + tempa * tempb / empal;
 
-                    if (Math.Abs(b[n - 1] - zero) <= double.Epsilon && n < ncalc)
+                    if (Math.Abs(b[n - 1] - zero) <= typeMethods.r8_epsilon() && n < ncalc)
                     {
                         ncalc = n - 1;
                     }

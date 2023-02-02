@@ -1,10 +1,10 @@
 ﻿using gds;
-using geoLib;
 using oasis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Clipper2Lib;
 
 namespace geoCoreLib;
 
@@ -63,22 +63,22 @@ public class GCCell
         addElement(new GCBox(x, y, b, h, layer, datatype));
     }
 
-    public void addBox(GeoLibPoint[] points, int layer, int datatype)
+    public void addBox(Path64 points, int layer, int datatype)
     {
         pAddBox(points, layer, datatype);
     }
 
-    private void pAddBox(GeoLibPoint[] points, int layer, int datatype)
+    private void pAddBox(Path64 points, int layer, int datatype)
     {
         GCElement e;
 
-        if (points.Length != 5)
+        if (points.Count != 5)
         {
             e = new GCPolygon(points, layer, datatype);
             pAddElement(e);
             return;
         }
-        if (points[0] != points[4])
+        if ((points[0].X != points[4].X) || (points[0].Y != points[4].Y))
         {
             e = new GCPolygon(points, layer, datatype);
             pAddElement(e);
@@ -86,52 +86,52 @@ public class GCCell
         }
 
         int x2, y2;
-        GeoLibPoint p = points[0];
-        int x1 = p.X;
-        int y1 = p.Y;
-        p = points[1];
+        Point64 p = new(points[0]);
+        int x1 = (int)p.X;
+        int y1 = (int)p.Y;
+        p = new(points[1]);
         if (p.X < x1)
         {
             x2 = x1;
-            x1 = p.X;
+            x1 = (int)p.X;
         }
         else
         {
-            x2 = p.X;
+            x2 = (int)p.X;
         }
         if (p.Y < y1)
         {
             y2 = y1;
-            y1 = p.Y;
+            y1 = (int)p.Y;
         }
         else
         {
-            y2 = p.Y;
+            y2 = (int)p.Y;
         }
         for (int i = 2; i < 4; i++)
         {
-            p = points[i];
+            p = new(points[i]);
             if (p.X < x1)
             {
-                x1 = p.X;
+                x1 = (int)p.X;
             }
             if (p.X > x2)
             {
-                x2 = p.X;
+                x2 = (int)p.X;
             }
             if (p.Y < y1)
             {
-                y1 = p.Y;
+                y1 = (int)p.Y;
             }
             if (p.Y > y2)
             {
-                y2 = p.Y;
+                y2 = (int)p.Y;
             }
         }
         bool b = true;
         for (int i = 0; i < 4; i++)
         {
-            p = points[i];
+            p = new(points[i]);
             if (p.X != x1 && p.X != x2)
             {
                 b = false;
@@ -142,10 +142,16 @@ public class GCCell
                 b = false;
             }
         }
+
+        // b = false;
         switch (b)
         {
             case true:
-                e = new GCBox(x1, y1, x2 - x1 + 1, y2 - y1 + 1, layer, datatype);
+                int box_width = x2 - x1;
+                int box_height = y2 - y1;
+                int box_x = x1 + (int)(0.5 * box_width);
+                int box_y = y1 + (int)(0.5 * box_height);
+                e = new GCBox(box_x, box_y, box_width, box_height, layer, datatype);
                 pAddElement(e);
                 break;
             default:
@@ -155,17 +161,17 @@ public class GCCell
         }
     }
 
-    public GCElement addCircle(int layer, int datatype, GeoLibPoint center, double radius)
+    public void addCircle(int layer, int datatype, Point64 center, double radius)
     {
-        return pAddCircle(layer, datatype, center, radius);
+        pAddCircle(layer, datatype, center, radius);
     }
 
-    private GCElement pAddCircle(int layer, int datatype, GeoLibPoint center, double radius)
+    private void pAddCircle(int layer, int datatype, Point64 center, double radius)
     {
         GCElement e = new();
-        GeoLibPoint[] points = e.ellipse(center, radius, GCSetup.circularDefault);
+        Path64 points = e.ellipse(center, radius, GCSetup.circularDefault);
         e = new GCPolygon(points, layer, datatype);
-        return e;
+        pAddElement(e);
     }
 
     public void addElement(GCElement element)
@@ -178,56 +184,56 @@ public class GCCell
         elementList.Add(element);
     }
 
-    public void addPath(GeoLibPoint[] points, int layer, int datatype)
+    public void addPath(Path64 points, int layer, int datatype)
     {
         pAddPath(points, layer, datatype);
     }
 
-    private void pAddPath(GeoLibPoint[] points, int layer, int datatype)
+    private void pAddPath(Path64 points, int layer, int datatype)
     {
         GCElement e = new GCPath(points, layer, datatype);
         pAddElement(e);
     }
 
-    public void addPolygon(GeoLibPoint[] points, int layer, int datatype)
+    public void addPolygon(Path64 points, int layer, int datatype)
     {
         pAddPolygon(points, layer, datatype);
     }
 
-    private void pAddPolygon(GeoLibPoint[] points, int layer, int datatype)
+    private void pAddPolygon(Path64 points, int layer, int datatype)
     {
         GCElement e = new GCPolygon(points, layer, datatype);
         pAddElement(e);
     }
 
-    public void addCellref(GCCell c, GeoLibPoint pos)
+    public void addCellref(GCCell c, Point64 pos)
     {
         pAddCellref(c, pos);
     }
 
-    private void pAddCellref(GCCell c, GeoLibPoint pos)
+    private void pAddCellref(GCCell c, Point64 pos)
     {
         GCElement e = new GCCellref(c, pos);
         pAddElement(e);
     }
 
-    public void addCellrefArray(GCCell c, GeoLibPoint[] array, int anzx, int anzy)
+    public void addCellrefArray(GCCell c, Path64 array, int anzx, int anzy)
     {
         pAddCellrefArray(c, array, anzx, anzy);
     }
 
-    private void pAddCellrefArray(GCCell c, GeoLibPoint[] array, int anzx, int anzy)
+    private void pAddCellrefArray(GCCell c, Path64 array, int anzx, int anzy)
     {
         GCElement e = new GCCellRefArray(c, array, anzx, anzy);
         pAddElement(e);
     }
 
-    public void addCellrefArray(GCCell c, GeoLibPoint pos1, GeoLibPoint pos2, int anzx, int anzy)
+    public void addCellrefArray(GCCell c, Point64 pos1, Point64 pos2, int anzx, int anzy)
     {
         pAddCellrefArray(c, pos1, pos2, anzx, anzy);
     }
 
-    private void pAddCellrefArray(GCCell c, GeoLibPoint pos1, GeoLibPoint pos2, int anzx, int anzy)
+    private void pAddCellrefArray(GCCell c, Point64 pos1, Point64 pos2, int anzx, int anzy)
     {
         GCElement e = new GCCellRefArray(c, pos1, pos2, anzx, anzy);
         pAddElement(e);
@@ -257,12 +263,12 @@ public class GCCell
         pAddElement(e);
     }
 
-    public void addText(int layer, int datatype, GeoLibPoint pos, string text)
+    public void addText(int layer, int datatype, Point64 pos, string text)
     {
         pAddText(layer, datatype, pos, text);
     }
 
-    private void pAddText(int layer, int datatype, GeoLibPoint pos, string text)
+    private void pAddText(int layer, int datatype, Point64 pos, string text)
     {
         GCElement e = new GCTxt(layer, datatype, pos, text);
         pAddElement(e);
@@ -293,12 +299,12 @@ public class GCCell
         return b;
     }
 
-    public void move(GeoLibPoint p)
+    public void move(Point64 p)
     {
         pMove(p);
     }
 
-    private void pMove(GeoLibPoint p)
+    private void pMove(Point64 p)
     {
         int elementListCount = elementList.Count;
 #if !GCSINGLETHREADED
@@ -317,12 +323,12 @@ public class GCCell
 #endif
     }
 
-    public void moveSelect(GeoLibPoint p)
+    public void moveSelect(Point64 p)
     {
         pMoveSelect(p);
     }
 
-    private void pMoveSelect(GeoLibPoint p)
+    private void pMoveSelect(Point64 p)
     {
         int elementListCount = elementList.Count;
 #if !GCSINGLETHREADED
@@ -461,12 +467,12 @@ public class GCCell
 #endif
     }
 
-    public void rotateSelect(double angle, GeoLibPoint pos)
+    public void rotateSelect(double angle, Point64 pos)
     {
         pRotateSelect(angle, pos);
     }
 
-    private void pRotateSelect(double angle, GeoLibPoint pos)
+    private void pRotateSelect(double angle, Point64 pos)
     {
         GCStrans m = new();
         m.translate(pos.X, pos.Y);
@@ -509,12 +515,12 @@ public class GCCell
 #endif
     }
 
-    public void scaleSelect(GeoLibPoint pos, GeoLibPoint p2, GeoLibPoint p3)
+    public void scaleSelect(Point64 pos, Point64 p2, Point64 p3)
     {
         pScaleSelect(pos, p2, p3);
     }
 
-    private void pScaleSelect(GeoLibPoint pos, GeoLibPoint p2, GeoLibPoint p3)
+    private void pScaleSelect(Point64 pos, Point64 p2, Point64 p3)
     {
         GCStrans m = new();
         m.translate(pos.X, pos.Y);
@@ -579,12 +585,12 @@ public class GCCell
 #endif
     }
 
-    public void mirrorSelect(GeoLibPoint p1, GeoLibPoint p2)
+    public void mirrorSelect(Point64 p1, Point64 p2)
     {
         pMirrorSelect(p1, p2);
     }
 
-    private void pMirrorSelect(GeoLibPoint p1, GeoLibPoint p2)
+    private void pMirrorSelect(Point64 p1, Point64 p2)
     {
         GCStrans m = new();
         if (p1 == p2)
@@ -643,12 +649,12 @@ public class GCCell
 #endif
     }
         
-    public void minimum(GeoLibPoint pos)
+    public void minimum(Point64 pos)
     {
         pMinimum(pos);
     }
 
-    private void pMinimum(GeoLibPoint pos)
+    private void pMinimum(Point64 pos)
     {
         foreach (GCElement el in elementList)
         {
@@ -659,12 +665,12 @@ public class GCCell
         }
     }
 
-    public void maximum(GeoLibPoint pos)
+    public void maximum(Point64 pos)
     {
         pMaximum(pos);
     }
 
-    private void pMaximum(GeoLibPoint pos)
+    private void pMaximum(Point64 pos)
     {
         foreach (GCElement el in elementList)
         {

@@ -1,151 +1,125 @@
-﻿using geoLib;
+﻿using Clipper2Lib;
 
 namespace PartitionTestGeometrySource;
 
 public static partial class TestGeometry
 {
-    public static GeoLibPoint[] getL()
+    public static PathD getL()
     {
         // L
-        GeoLibPoint[] L = new GeoLibPoint[] {
-
-            new( 0, 0),
-            new( 0, 50),
-            new( 10, 50),
-            new( 10, 20),
-            new( 60, 20),
-            new( 60, 0),
-            new( 0, 0)
-
-        };
-
-        return L;
+        return Clipper.MakePath(new double[] {
+            0, 0,
+            0, 50,
+            10, 50,
+            10, 20,
+            60, 20,
+            60, 0,
+            0, 0
+        });
     }
 
-    public static GeoLibPoint[] getRL()
+    public static PathD getRL()
     {
-        GeoLibPoint[] rL = new GeoLibPoint[] {
-
-            new( 0, 0),
-            new( 0, 20),
-            new( 10, 20),
-            new( 10, 50),
-            new( 60, 50),
-            new( 60, 0),
-            new( 0, 0)
-
-        };
-
-        return rL;
+        return Clipper.MakePath(new double[] {
+            0, 0,
+            0, 20,
+            10, 20,
+            10, 50,
+            60, 50,
+            60, 0,
+            0, 0
+        });
     }
 
-    public static GeoLibPoint[] getU()
+    public static PathD getU()
     {
-        GeoLibPoint[] U = new GeoLibPoint[] {
-
-            new( 0, 0),
-            new( 0, 50),
-            new( 10, 50),
-            new( 10, 20),
-            new( 60, 20),
-            new( 60, 80),
-            new( 120, 80),
-            new( 120, 0),
-            new( 0, 0)
-
-        };
-
-        return U;
+        return Clipper.MakePath(new double[] {
+            0, 0,
+            0, 50,
+            10, 50,
+            10, 20,
+            60, 20,
+            60, 80,
+            120, 80,
+            120, 0,
+            0, 0
+        });
     }
 
-    public static GeoLibPoint[] getT()
+    public static PathD getT()
     {
-        GeoLibPoint[] T = new GeoLibPoint[] {
-
-            new( 0, 50),
-            new( 0, 80),
-            new( 80, 80),
-            new( 80, 50),
-            new( 60, 50),
-            new( 60, 0),
-            new( 40, 0),
-            new( 40, 50),
-            new( 0, 50)
-
-        };
-
-        return T;
+        return Clipper.MakePath(new double[] {
+            0, 50,
+            0, 80,
+            80, 80,
+            80, 50,
+            60, 50,
+            60, 0,
+            40, 0,
+            40, 50,
+            0, 50
+        });
     }
 
-    public static GeoLibPoint[] getX()
+    public static PathD getX()
     {
-        GeoLibPoint[] X = new GeoLibPoint[] {
-
-            new( 0, 50),
-            new( 0, 80),
-            new( 60, 80),
-            new( 60, 100),
-            new( 80, 100),
-            new( 80, 80),
-            new( 100, 80),
-            new( 100, 50),
-            new( 80, 50),
-            new( 80, 20),
-            new( 60, 20),
-            new( 60, 50),
-            new( 0, 50)
-
-        };
-
-        return X;
+        return Clipper.MakePath(new double[] {
+            0, 50,
+            0, 80,
+            60, 80,
+            60, 100,
+            80, 100,
+            80, 80,
+            100, 80,
+            100, 50,
+            80, 50,
+            80, 20,
+            60, 20,
+            60, 50,
+            0, 50
+        });
     }
 
-    public static GeoLibPoint[] getS()
+    public static PathD getS()
     {
-        GeoLibPoint[] S = new GeoLibPoint[] {
-
-            new( 0, 0),
-            new( 0, 20),
-            new( 20, 20),
-            new( 20, 50),
-            new( 0, 50),
-            new( 0, 110),
-            new( 100, 110),
-            new( 100, 80),
-            new( 80, 80),
-            new( 80, 60),
-            new( 100, 60),
-            new( 100, 0),
-            new( 0, 0)
-
-        };
-
-        return S;
+        return Clipper.MakePath(new double[] {
+            0, 0,
+            0, 20,
+            20, 20,
+            20, 50,
+            0, 50,
+            0, 110,
+            100, 110,
+            100, 80,
+            80, 80,
+            80, 60,
+            100, 60,
+            100, 0,
+            0, 0
+        });
     }
 
-    public static GeoLibPoint[] getnegS()
+    public static PathD getnegS()
     {
-        GeoLibPoint[] S = new GeoLibPoint[] {
+        PathD S = Clipper.MakePath(new double[] {
+            0, 0,
+            0, 20,
+            20, 20,
+            20, 50,
+            0, 50,
+            0, 110,
+            100, 110,
+            100, 80,
+            80, 80,
+            80, 60,
+            100, 60,
+            100, 0,
+            0, 0
+        });
 
-            new( 0, 0),
-            new( 0, 20),
-            new( 20, 20),
-            new( 20, 50),
-            new( 0, 50),
-            new( 0, 110),
-            new( 100, 110),
-            new( 100, 80),
-            new( 80, 80),
-            new( 80, 60),
-            new( 100, 60),
-            new( 100, 0),
-            new( 0, 0)
-
-        };
-
-        for (int i = 0; i < S.Length; i++)
+        for (int i = 0; i < S.Count; i++)
         {
-            S[i] = new GeoLibPoint(S[i].X, S[i].Y - 200);
+            S[i] = new (S[i].x, S[i].y - 200);
         }
 
         return S;

@@ -4,31 +4,29 @@ using geoWrangler;
 
 namespace geoAnalysis;
 
-using Paths = Paths64;
-
 public class AreaHandler
 {
     public enum areaCalcModes { all, perpoly }
     public double area { get; private set; }
-    public Paths listOfOutputPoints { get; private set; }
+    public PathsD listOfOutputPoints { get; private set; }
 
-    private void ZFillCallback(Point64 bot1, Point64 top1, Point64 bot2, Point64 top2, ref Point64 pt)
+    private void ZFillCallback(PointD bot1, PointD top1, PointD bot2, PointD top2, ref PointD pt)
     {
-        pt.Z = -1; // Tag our intersection points.
+        pt.z = -1; // Tag our intersection points.
     }
 
-    public AreaHandler(Paths aPaths, Paths bPaths, bool maySimplify, bool perPoly, double scaleFactorForOperation)
+    public AreaHandler(PathsD aPaths, PathsD bPaths, bool maySimplify, bool perPoly)
     {
-        areaHandlerLogic(aPaths, bPaths, scaleFactorForOperation, maySimplify, perPoly);
+        areaHandlerLogic(aPaths, bPaths, maySimplify, perPoly);
     }
 
-    private void areaHandlerLogic(Paths aPaths, Paths bPaths, double scaleFactorForOperation, bool maySimplify, bool perPoly)
+    private void areaHandlerLogic(PathsD aPaths, PathsD bPaths, bool maySimplify, bool perPoly)
     {
-        Paths tmpPaths = new();
-        listOfOutputPoints = new Paths();
+        PathsD tmpPaths = new();
+        listOfOutputPoints = new ();
 
         // callsite may not want simplified geometry.
-        Clipper64 c = new() {ZCallback = ZFillCallback, PreserveCollinear = !maySimplify};
+        ClipperD c = new(constants.roundingDecimalPrecision) {ZCallback = ZFillCallback, PreserveCollinear = !maySimplify};
 
         c.AddSubject(aPaths);
 
@@ -74,6 +72,6 @@ public class AreaHandler
             }
         }
         // Sum the areas by polygon.
-        area = tmpVal / (scaleFactorForOperation * scaleFactorForOperation);
+        area = tmpVal;
     }
 }

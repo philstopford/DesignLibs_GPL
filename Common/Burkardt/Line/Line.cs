@@ -108,7 +108,7 @@ public static class Line
             {
                 case 0.0:
                 {
-                    if (Math.Abs(b2 * c1 - c2 * b1) <= double.Epsilon)
+                    if (Math.Abs(b2 * c1 - c2 * b1) <= typeMethods.r8_epsilon())
                     {
                         ival = 2;
                     }
@@ -117,7 +117,7 @@ public static class Line
                 }
                 default:
                 {
-                    if (Math.Abs(a2 * c1 - c2 * a1) <= double.Epsilon)
+                    if (Math.Abs(a2 * c1 - c2 * a1) <= typeMethods.r8_epsilon())
                     {
                         ival = 2;
                     }
@@ -528,7 +528,7 @@ public static class Line
             }
             case true:
             {
-                if (Math.Abs(a2 * p1[0] + b2 * p1[1] - c2) <= double.Epsilon)
+                if (Math.Abs(a2 * p1[0] + b2 * p1[1] - c2) <= typeMethods.r8_epsilon())
                 {
                     ival = 1;
                     typeMethods.r8vec_copy(2, p1, ref p);
@@ -542,7 +542,7 @@ public static class Line
                 {
                     case true:
                     {
-                        if (Math.Abs(a1 * p3[0] + b1 * p3[1] - c1) <= double.Epsilon)
+                        if (Math.Abs(a1 * p3[0] + b1 * p3[1] - c1) <= typeMethods.r8_epsilon())
                         {
                             ival = 1;
                             typeMethods.r8vec_copy(2, p3, ref p);
@@ -656,7 +656,7 @@ public static class Line
             }
             case true:
             {
-                if (Math.Abs(a2 * p1[0] + b2 * p1[1] - c2) <= double.Epsilon)
+                if (Math.Abs(a2 * p1[0] + b2 * p1[1] - c2) <= typeMethods.r8_epsilon())
                 {
                     ival = 1;
                     typeMethods.r8vec_copy(2, p1, ref p, p1Index);
@@ -670,7 +670,7 @@ public static class Line
                 {
                     case true:
                     {
-                        if (Math.Abs(a1 * p3[0] + b1 * p3[1] - c1) <= double.Epsilon)
+                        if (Math.Abs(a1 * p3[0] + b1 * p3[1] - c1) <= typeMethods.r8_epsilon())
                         {
                             ival = 1;
                             typeMethods.r8vec_copy(2, p3, ref p, p3Index);
@@ -791,7 +791,7 @@ public static class Line
             {
                 case 0.0:
                 {
-                    if (Math.Abs(b2 * c1 - c2 * b1) <= double.Epsilon)
+                    if (Math.Abs(b2 * c1 - c2 * b1) <= typeMethods.r8_epsilon())
                     {
                         ival = 2;
                     }
@@ -800,7 +800,7 @@ public static class Line
                 }
                 default:
                 {
-                    if (Math.Abs(a2 * c1 - c2 * a1) <= double.Epsilon)
+                    if (Math.Abs(a2 * c1 - c2 * a1) <= typeMethods.r8_epsilon())
                     {
                         ival = 2;
                     }

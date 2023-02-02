@@ -1,4 +1,6 @@
-﻿namespace geoLib;
+﻿using Clipper2Lib;
+
+namespace geoLib;
 
 public class GeoLibRectangle
 {
@@ -8,7 +10,7 @@ public class GeoLibRectangle
     public int Right { get; set; }
     public int Top { get; set; }
     public int Bottom { get; set; }
-    public GeoLibPoint Location { get; set; }
+    public Point64 Location { get; set; }
     public int Width { get; set; }
     public int Height { get; set; }
 
@@ -52,22 +54,22 @@ public class GeoLibRectangle
 
     private void setOtherProps()
     {
-        Left = X;
-        Top = Y;
-        Location = new GeoLibPoint(X, Y);
-        Bottom = Top + Height;
-        Right = Left + Width;
+        Left = X - (int)(Width * 0.5);
+        Bottom = Y - (int)(Height * 0.5);
+        Location = new Point64(X, Y);
+        Top = Y + (int)(Height * 0.5);
+        Right = X + (int)(Width *0.5);
     }
 
-    public void Offset(GeoLibPoint offset)
+    public void Offset(Point64 offset)
     {
         pOffset(offset);
     }
 
-    private void pOffset(GeoLibPoint offset)
+    private void pOffset(Point64 offset)
     {
-        X += offset.X;
-        Y += offset.Y;
+        X += (int)offset.X;
+        Y += (int)offset.Y;
         setOtherProps();
     }
 }
@@ -80,7 +82,7 @@ public class GeoLibRectangleF
     public double Right { get; set; }
     public double Top { get; set; }
     public double Bottom { get; set; }
-    public GeoLibPointF Location { get; set; }
+    public PointD Location { get; set; }
     public double Width { get; set; }
     public double Height { get; set; }
 
@@ -166,34 +168,34 @@ public class GeoLibRectangleF
 
     private void setOtherProps()
     {
-        Left = X;
-        Top = Y;
-        Location = new GeoLibPointF(X, Y);
+        Left = X - (Width * 0.5);
+        Top = Y - (Height * 0.5);
+        Location = new (X, Y);
         Bottom = Top + Height;
         Right = Left + Width;
     }
 
-    public void Offset(GeoLibPoint offset)
+    public void Offset(Point64 offset)
     {
         pOffset(offset);
     }
 
-    private void pOffset(GeoLibPoint offset)
+    private void pOffset(Point64 offset)
     {
         X += offset.X;
         Y += offset.Y;
         setOtherProps();
     }
 
-    public void Offset(GeoLibPointF offset)
+    public void Offset(PointD offset)
     {
         pOffset(offset);
     }
 
-    private void pOffset(GeoLibPointF offset)
+    private void pOffset(PointD offset)
     {
-        X += offset.X;
-        Y += offset.Y;
+        X += offset.x;
+        Y += offset.y;
         setOtherProps();
     }
 }

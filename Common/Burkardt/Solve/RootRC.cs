@@ -107,7 +107,7 @@ public static class RootRC
         //
         //  Check for a repeated X value.
         //
-        if (2.0 <= q[8] && Math.Abs(x - q[3]) <= double.Epsilon || Math.Abs(x - q[1]) <= double.Epsilon)
+        if (2.0 <= q[8] && Math.Abs(x - q[3]) <= typeMethods.r8_epsilon() || Math.Abs(x - q[1]) <= typeMethods.r8_epsilon())
         {
             Console.WriteLine("");
             Console.WriteLine("ROOT_RC - Fatal error!");
@@ -128,7 +128,7 @@ public static class RootRC
         //
         //  If we have a change-in-sign interval, store the opposite value.
         //
-        if (Math.Abs(typeMethods.r8_sign(q[0]) - typeMethods.r8_sign(q[2])) > double.Epsilon)
+        if (Math.Abs(typeMethods.r8_sign(q[0]) - typeMethods.r8_sign(q[2])) > typeMethods.r8_epsilon())
         {
             q[6] = q[2];
             q[7] = q[3];
@@ -185,9 +185,9 @@ public static class RootRC
         //
         //  Try the secant step.
         //
-        if (Math.Abs(q[0] - q[2]) > double.Epsilon || q[6] == 0.0)
+        if (Math.Abs(q[0] - q[2]) > typeMethods.r8_epsilon() || q[6] == 0.0)
         {
-            if (Math.Abs(q[0] - q[2]) <= double.Epsilon)
+            if (Math.Abs(q[0] - q[2]) <= typeMethods.r8_epsilon())
             {
                 Console.WriteLine("");
                 Console.WriteLine("ROOT_RC - Fatal error!");

@@ -570,7 +570,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="" />
+    <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.DesignLibs/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DesignLibs/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/strip.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/strip.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/strip_p64.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/strip_p64.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GeoWranglerTest/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/GeoWranglerTest/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/KeyHolerTest/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/KeyHolerTest/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/decompositionTest/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/decompositionTest/Program.cs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -588,7 +595,6 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/1d3c249eb18e63eda3f99ca6260b3b52a7fff665c749fac9ee4cc40a4ac1e/GridLength.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BurkhardtTest/FEM/FEM1DBVPTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BurkhardtTest/FEM/FEM2DBVPLinearTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BurkhardtTest/GeometryTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
@@ -674,20 +680,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/mnt/D/development/git/DesignLibs_GPL/Common/SVGBuilder/SVGBuilder.csproj&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "XThreadsFramesViewSplitterKey": "0.40599",
+    "last_opened_file_path": "/home/phil/Documents/tmp/DesignLibs_GPL/Directory.Build.props",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
-  <component name="RunManager" selected=".NET Project.TestEtoViewport.WinForms">
+}]]></component>
+  <component name="RunManager" selected=".NET Project.decompositionTest">
     <configuration name="ASA005Test" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -11396,6 +11404,16 @@
       <workItem from="1663473963479" duration="114000" />
       <workItem from="1663475579636" duration="62000" />
       <workItem from="1663508633431" duration="153000" />
+      <workItem from="1668696073085" duration="19262000" />
+      <workItem from="1668716445757" duration="901000" />
+      <workItem from="1669088628473" duration="1290000" />
+      <workItem from="1669089966531" duration="5951000" />
+      <workItem from="1669133727832" duration="4467000" />
+      <workItem from="1669140909507" duration="18056000" />
+      <workItem from="1669228740994" duration="14943000" />
+      <workItem from="1669492385798" duration="3939000" />
+      <workItem from="1669496634309" duration="1236000" />
+      <workItem from="1669825361246" duration="2313000" />
     </task>
     <servers />
   </component>
@@ -11422,26 +11440,91 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/decompositionTest/Program.cs</url>
-          <line>210</line>
-          <properties documentPath="D:\development\git\DesignLibs_GPL\decompositionTest\Program.cs" initialLine="210" containingFunctionPresentation="method 'partOne'" />
-          <option name="timeStamp" value="1" />
+        <line-breakpoint type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Common/geoWrangler/raycaster.cs</url>
+          <line>318</line>
+          <properties documentPath="$PROJECT_DIR$/Common/geoWrangler/raycaster.cs" initialLine="318" containingFunctionPresentation="method 'pCutRay'">
+            <startOffsets>
+              <option value="12363" />
+            </startOffsets>
+            <endOffsets>
+              <option value="12378" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="51" />
+        </line-breakpoint>
+        <line-breakpoint type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Common/geoWrangler/raycaster.cs</url>
+          <line>331</line>
+          <properties documentPath="$PROJECT_DIR$/Common/geoWrangler/raycaster.cs" initialLine="324" containingFunctionPresentation="method 'pCutRay'">
+            <startOffsets>
+              <option value="12719" />
+            </startOffsets>
+            <endOffsets>
+              <option value="12785" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="54" />
+        </line-breakpoint>
+        <line-breakpoint type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Common/geoWrangler/raycaster.cs</url>
+          <line>327</line>
+          <properties documentPath="$PROJECT_DIR$/Common/geoWrangler/raycaster.cs" initialLine="327" containingFunctionPresentation="method 'pCutRay'">
+            <startOffsets>
+              <option value="12629" />
+            </startOffsets>
+            <endOffsets>
+              <option value="12641" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="55" />
+        </line-breakpoint>
+        <line-breakpoint type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Common/geoWrangler/raycaster.cs</url>
+          <line>323</line>
+          <properties documentPath="$PROJECT_DIR$/Common/geoWrangler/raycaster.cs" initialLine="323" containingFunctionPresentation="method 'pCutRay'">
+            <startOffsets>
+              <option value="12468" />
+            </startOffsets>
+            <endOffsets>
+              <option value="12536" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="56" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/decompositionTest/Program.cs</url>
-          <line>124</line>
-          <properties documentPath="D:\development\git\DesignLibs_GPL\decompositionTest\Program.cs" initialLine="126" containingFunctionPresentation="method 'partOne'" />
-          <option name="timeStamp" value="3" />
+          <url>file://$PROJECT_DIR$/Common/geoWrangler/raycaster.cs</url>
+          <line>425</line>
+          <properties documentPath="$PROJECT_DIR$/Common/geoWrangler/raycaster.cs" initialLine="425" containingFunctionPresentation="method 'pEvaluateCutRay'">
+            <startOffsets>
+              <option value="16289" />
+            </startOffsets>
+            <endOffsets>
+              <option value="16325" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="66" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/decompositionTest/Program.cs</url>
-          <line>84</line>
-          <properties documentPath="D:\development\git\DesignLibs_GPL\decompositionTest\Program.cs" initialLine="84" containingFunctionPresentation="method 'partOne'" />
-          <option name="timeStamp" value="4" />
+          <url>file://$PROJECT_DIR$/Common/geoWrangler/decompose.cs</url>
+          <line>214</line>
+          <properties documentPath="$PROJECT_DIR$/Common/geoWrangler/decompose.cs" initialLine="214" containingFunctionPresentation="method 'pRectangular_decomposition'">
+            <startOffsets>
+              <option value="6347" />
+            </startOffsets>
+            <endOffsets>
+              <option value="6373" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="85" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="Frame#geoWrangler.GeoWrangler.decompose_poly_to_rectangles" memberName="lPoly" />
+      </pinned-members>
+    </pin-to-top-manager>
     <watches-manager>
       <configuration name="DotNetProject">
         <watch expression="x" />

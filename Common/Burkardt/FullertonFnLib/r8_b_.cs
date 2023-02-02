@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.Types;
 
 namespace Burkardt.FullertonFnLib;
 
@@ -2843,7 +2844,7 @@ public static partial class FullertonLib
                 value = Math.Exp(xb);
             }
 
-            if (Math.Abs(y - x) > double.Epsilon || Math.Abs(p - pin) > double.Epsilon)
+            if (Math.Abs(y - x) > typeMethods.r8_epsilon() || Math.Abs(p - pin) > typeMethods.r8_epsilon())
             {
                 value = 1.0 - value;
             }
@@ -2869,7 +2870,7 @@ public static partial class FullertonLib
         {
             value = Math.Exp(xb);
             term = value * p;
-            if (Math.Abs(ps - 1.0) > double.Epsilon)
+            if (Math.Abs(ps - 1.0) > typeMethods.r8_epsilon())
             {
                 n = (int) r8_max(data.alneps / Math.Log(y), 4.0);
                 for (i = 1; i <= n; i++)
@@ -2894,7 +2895,7 @@ public static partial class FullertonLib
 
                 double finsum = 0.0;
                 n = (int) q;
-                if (Math.Abs(q - n) <= double.Epsilon)
+                if (Math.Abs(q - n) <= typeMethods.r8_epsilon())
                 {
                     n -= 1;
                 }
@@ -2930,7 +2931,7 @@ public static partial class FullertonLib
             }
         }
 
-        if (Math.Abs(y - x) > double.Epsilon || Math.Abs(p - pin) > double.Epsilon)
+        if (Math.Abs(y - x) > typeMethods.r8_epsilon() || Math.Abs(p - pin) > typeMethods.r8_epsilon())
         {
             value = 1.0 - value;
         }

@@ -310,7 +310,7 @@ public static class Lagrange1D
     {
         double yi = 1.0;
 
-        if (!(Math.Abs(xi - xd[i]) > double.Epsilon))
+        if (!(Math.Abs(xi - xd[i]) > typeMethods.r8_epsilon()))
         {
             return yi;
         }

@@ -74,7 +74,7 @@ public static partial class typeMethods
             int i;
             for ( i = 0; i < m; i++ )
             {
-                if (!(Math.Abs(a[i + unique_index * m] - a[i + indx[j] * m]) > double.Epsilon))
+                if (!(Math.Abs(a[i + unique_index * m] - a[i + indx[j] * m]) > typeMethods.r8_epsilon()))
                 {
                     continue;
                 }
@@ -1029,7 +1029,7 @@ public static partial class typeMethods
 
             while (hi < n - 1)
             {
-                if (Math.Abs(r[indx[hi + 1]] - r[indx[lo]]) <= double.Epsilon)
+                if (Math.Abs(r[indx[hi + 1]] - r[indx[lo]]) <= typeMethods.r8_epsilon())
                 {
                     hi += 1;
                 }
@@ -1055,7 +1055,7 @@ public static partial class typeMethods
                     equal = true;
                     for (i = 0; i < m; i++)
                     {
-                        if (!(Math.Abs(a[i + indx[j2] * m] - a[i + indx[j1] * m]) > double.Epsilon))
+                        if (!(Math.Abs(a[i + indx[j2] * m] - a[i + indx[j1] * m]) > typeMethods.r8_epsilon()))
                         {
                             continue;
                         }

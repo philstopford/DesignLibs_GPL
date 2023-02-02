@@ -382,7 +382,7 @@ public static class RungeKuttaFehlberg
         //
         if (mflag != 1)
         {
-            if (Math.Abs(t - tout) <= double.Epsilon && data.kflag != 3)
+            if (Math.Abs(t - tout) <= typeMethods.r8_epsilon() && data.kflag != 3)
             {
                 flag_return = 8;
                 return flag_return;
@@ -529,7 +529,7 @@ public static class RungeKuttaFehlberg
                 yp = f(t, y, yp);
                 data.nfe = 1;
 
-                if (Math.Abs(t - tout) <= double.Epsilon)
+                if (Math.Abs(t - tout) <= typeMethods.r8_epsilon())
                 {
                     flag_return = 2;
                     return flag_return;
@@ -1226,7 +1226,7 @@ public static class RungeKuttaFehlberg
         //
         if (mflag != 1)
         {
-            if (Math.Abs(t - tout) <= double.Epsilon && data.kflag != 3)
+            if (Math.Abs(t - tout) <= typeMethods.r8_epsilon() && data.kflag != 3)
             {
                 flag_return = 8;
                 return flag_return;
@@ -1373,7 +1373,7 @@ public static class RungeKuttaFehlberg
                 yp = f(t, y, yp);
                 data.nfe = 1;
 
-                if (Math.Abs(t - tout) <= double.Epsilon)
+                if (Math.Abs(t - tout) <= typeMethods.r8_epsilon())
                 {
                     flag_return = 2;
                     return flag_return;

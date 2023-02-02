@@ -225,14 +225,14 @@ public static class LocalMinimum
                     sb = u;
                 }
 
-                if (fu <= fw || Math.Abs(w - x) <= double.Epsilon)
+                if (fu <= fw || Math.Abs(w - x) <= typeMethods.r8_epsilon())
                 {
                     v = w;
                     fv = fw;
                     w = u;
                     fw = fu;
                 }
-                else if (fu <= fv || Math.Abs(v - x) <= double.Epsilon || Math.Abs(v - w) <= double.Epsilon)
+                else if (fu <= fv || Math.Abs(v - x) <= typeMethods.r8_epsilon() || Math.Abs(v - w) <= typeMethods.r8_epsilon())
                 {
                     v = u;
                     fv = fu;
@@ -424,14 +424,14 @@ public static class LocalMinimum
                         b = data.u;
                     }
 
-                    if ( data.fu <= data.fw || Math.Abs(data.w - data.x) <= double.Epsilon )
+                    if ( data.fu <= data.fw || Math.Abs(data.w - data.x) <= typeMethods.r8_epsilon() )
                     {
                         data.v = data.w;
                         data.fv = data.fw;
                         data.w = data.u;
                         data.fw = data.fu;
                     }
-                    else if ( data.fu <= data.fv || Math.Abs(data.v - data.x) <= double.Epsilon || Math.Abs(data.v - data.w) <= double.Epsilon )
+                    else if ( data.fu <= data.fv || Math.Abs(data.v - data.x) <= typeMethods.r8_epsilon() || Math.Abs(data.v - data.w) <= typeMethods.r8_epsilon() )
                     {
                         data.v = data.u;
                         data.fv = data.fu;

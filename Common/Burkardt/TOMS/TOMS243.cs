@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Numerics;
+using Burkardt.Types;
 
 namespace Burkardt.TOMSNS;
 
@@ -73,11 +74,11 @@ public static partial class TOMS
 
                 if ( a != 0.0 && Math.Abs ( f ) <= Math.Abs ( e ) )
                 {
-                    if ( Math.Abs(Math.CopySign ( 1.0, a ) - -1.0) > double.Epsilon )
+                    if ( Math.Abs(Math.CopySign ( 1.0, a ) - -1.0) > typeMethods.r8_epsilon() )
                     {
                         d = Math.Atan ( b / a );
                     }
-                    else if ( Math.Abs(Math.CopySign ( 1.0, b ) - -1.0) > double.Epsilon )
+                    else if ( Math.Abs(Math.CopySign ( 1.0, b ) - -1.0) > typeMethods.r8_epsilon() )
                     {
                         d = Math.Atan ( b / a ) + Math.PI;
                     }

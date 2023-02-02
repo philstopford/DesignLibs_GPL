@@ -45,7 +45,7 @@ public static partial class typeMethods
     {
         double r2;
 
-        if (Math.Abs(rmax - rmin) <= double.Epsilon)
+        if (Math.Abs(rmax - rmin) <= typeMethods.r8_epsilon())
         {
             r2 = (r2max + r2min) / 2.0;
         }
@@ -98,7 +98,7 @@ public static partial class typeMethods
     {
         int i;
 
-        if (Math.Abs(rmax - rmin) <= double.Epsilon)
+        if (Math.Abs(rmax - rmin) <= typeMethods.r8_epsilon())
         {
             i = (imax + imin) / 2;
         }

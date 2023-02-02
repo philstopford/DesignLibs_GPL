@@ -233,7 +233,7 @@ public static partial class typeMethods
         //
         //  XVAL = X(START)?
         //
-        if (Math.Abs(x[start - 1] - xval) <= double.Epsilon)
+        if (Math.Abs(x[start - 1] - xval) <= typeMethods.r8_epsilon())
         {
             left = start;
             right = start;
@@ -258,7 +258,7 @@ public static partial class typeMethods
             //  XVAL = X(START+1)?
             //
 
-            if (Math.Abs(xval - x[start]) <= double.Epsilon)
+            if (Math.Abs(xval - x[start]) <= typeMethods.r8_epsilon())
             {
                 left = start + 1;
                 right = start + 1;
@@ -285,7 +285,7 @@ public static partial class typeMethods
             //
             //  XVAL = X(START+2)?
             //
-            if (Math.Abs(xval - x[start + 1]) <= double.Epsilon)
+            if (Math.Abs(xval - x[start + 1]) <= typeMethods.r8_epsilon())
             {
                 left = start + 2;
                 right = start + 2;
@@ -326,7 +326,7 @@ public static partial class typeMethods
                 //
                 default:
                 {
-                    if (Math.Abs(xval - x[start - 2]) <= double.Epsilon)
+                    if (Math.Abs(xval - x[start - 2]) <= typeMethods.r8_epsilon())
                     {
                         left = start - 1;
                         right = start - 1;

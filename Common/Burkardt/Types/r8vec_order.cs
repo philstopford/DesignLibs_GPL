@@ -115,7 +115,7 @@ public static partial class typeMethods
                     break;
                 }
 
-                if (Math.Abs(x[i] - x[i - 1]) <= double.Epsilon)
+                if (Math.Abs(x[i] - x[i - 1]) <= typeMethods.r8_epsilon())
                 {
                     order = 1;
                 }
@@ -138,7 +138,7 @@ public static partial class typeMethods
                     break;
                 }
 
-                if (Math.Abs(x[i] - x[i - 1]) <= double.Epsilon)
+                if (Math.Abs(x[i] - x[i - 1]) <= typeMethods.r8_epsilon())
                 {
                     order = 3;
                 }

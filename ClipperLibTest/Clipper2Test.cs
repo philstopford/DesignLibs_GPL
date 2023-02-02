@@ -1,7 +1,4 @@
-﻿
-using System;
-using System.Collections.Generic;
-using Clipper2Lib;
+﻿using Clipper2Lib;
 
 namespace ClipperLib2Test;
 
@@ -806,7 +803,7 @@ public static class Clipper2Test
     }
     public static void openPath_clipTest1()
     {
-        Path64 lPoly = new Path64() {
+        Path64 lPoly = new () {
         new(0,0),
         new(0,200000),
         new(200000,200000),

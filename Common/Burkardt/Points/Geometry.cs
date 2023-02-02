@@ -602,8 +602,8 @@ public static class Geometry
                 hull[hull_num] = 1;
                 hull_num += 1;
 
-                if (!(Math.Abs(node_xy[0 + 0 * 2] - node_xy[0 + 1 * 2]) > double.Epsilon) &&
-                    !(Math.Abs(node_xy[1 + 0 * 2] - node_xy[1 + 1 * 2]) > double.Epsilon))
+                if (!(Math.Abs(node_xy[0 + 0 * 2] - node_xy[0 + 1 * 2]) > typeMethods.r8_epsilon()) &&
+                    !(Math.Abs(node_xy[1 + 0 * 2] - node_xy[1 + 1 * 2]) > typeMethods.r8_epsilon()))
                 {
                     return;
                 }
@@ -623,7 +623,7 @@ public static class Geometry
         for (i = 2; i <= node_num; i++)
         {
             if (node_xy[0 + (i - 1) * 2] < node_xy[0 + (q - 1) * 2] ||
-                Math.Abs(node_xy[0 + (i - 1) * 2] - node_xy[0 + (q - 1) * 2]) <= double.Epsilon &&
+                Math.Abs(node_xy[0 + (i - 1) * 2] - node_xy[0 + (q - 1) * 2]) <= typeMethods.r8_epsilon() &&
                 node_xy[1 + (i - 1) * 2] < node_xy[1 + (q - 1) * 2])
             {
                 q = i;
@@ -657,8 +657,8 @@ public static class Geometry
 
             for (i = 1; i <= node_num; i++)
             {
-                if (i == q || (!(Math.Abs(node_xy[0 + (i - 1) * 2] - q_xy[0]) > double.Epsilon) &&
-                               !(Math.Abs(node_xy[1 + (i - 1) * 2] - q_xy[1]) > double.Epsilon)))
+                if (i == q || (!(Math.Abs(node_xy[0 + (i - 1) * 2] - q_xy[0]) > typeMethods.r8_epsilon()) &&
+                               !(Math.Abs(node_xy[1 + (i - 1) * 2] - q_xy[1]) > typeMethods.r8_epsilon())))
                 {
                     continue;
                 }
@@ -675,7 +675,7 @@ public static class Geometry
                 //
                 //  In case of ties, choose the nearer point.
                 //
-                else if (Math.Abs(angle - angle_max) <= double.Epsilon)
+                else if (Math.Abs(angle - angle_max) <= typeMethods.r8_epsilon())
                 {
                     double di = Math.Sqrt(Math.Pow(node_xy[0 + (i - 1) * 2] - q_xy[0], 2)
                                           + Math.Pow(node_xy[1 + (i - 1) * 2] - q_xy[1], 2));

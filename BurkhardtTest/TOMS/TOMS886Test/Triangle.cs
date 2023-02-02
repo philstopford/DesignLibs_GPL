@@ -237,7 +237,7 @@ public static class TriangleTest
             fmin = Math.Min(fmin, fxy);
         }
 
-        if (Math.Abs(fmax - fmin) <= double.Epsilon)
+        if (Math.Abs(fmax - fmin) <= typeMethods.r8_epsilon())
         {
             maxdev = 1.0;
         }

@@ -157,7 +157,7 @@ public static class Geometry
                     double dis2 = (a * p1[0 + (j - 1) * DIM_NUM] + b * p1[1 + (j - 1) * DIM_NUM] + c)
                                   / Math.Sqrt(a * a + b * b);
 
-                    if (Math.Abs(typeMethods.r8_sign(dis1) - typeMethods.r8_sign(dis2)) > double.Epsilon)
+                    if (Math.Abs(typeMethods.r8_sign(dis1) - typeMethods.r8_sign(dis2)) > typeMethods.r8_epsilon())
                     {
                         temp = p1[0 + (j - 1) * DIM_NUM];
                         p1[0 + (j - 1) * DIM_NUM] = p2[0 + (j - 1) * DIM_NUM];

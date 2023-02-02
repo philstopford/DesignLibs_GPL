@@ -5,7 +5,6 @@ using Eto.Forms;
 using Eto.Drawing;
 using System.Diagnostics;
 using System.Globalization;
-using System.Timers;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Linq;

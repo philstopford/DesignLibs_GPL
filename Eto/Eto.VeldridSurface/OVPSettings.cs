@@ -4,6 +4,7 @@ using LibTessDotNet.Double;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Clipper2Lib;
 
 namespace VeldridEto;
 
@@ -406,7 +407,7 @@ public class OVPSettings
 				break;
 		}
 
-		PointF[] polys = checkPoly(poly);
+		PointF[] polys = closePoly(poly);
 
 		polyList.Add(new ovp_Poly(poly, polyColor, alpha));
 		polySourceIndex.Add(layerIndex);
@@ -423,8 +424,6 @@ public class OVPSettings
 
 	private void pAddBGPolygon(PointF[] poly, Color polyColor, float alpha, int layerIndex)
 	{
-		PointF[] polys = checkPoly(poly);
-
 		bgPolyList.Add(new ovp_Poly(poly, polyColor, alpha));
 		bgPolyListPtCount.Add(poly.Length);
 		bgPolySourceIndex.Add(layerIndex);
@@ -524,28 +523,49 @@ public class OVPSettings
 
 		return iPoints;
 	}
-
-	private static PointF[] checkPoly(PointF[] poly)
+	
+	public static PointF[] convertToClosedPointF(PathD poly)
 	{
-		PointF[] source = poly.ToArray();
+		PointF[] tempPoly;
+		if (!(Math.Abs(poly[0].x - poly[^1].x) > double.Epsilon) ||
+		    !(Math.Abs(poly[0].y - poly[^1].y) > double.Epsilon))
+		{
+			tempPoly = new PointF[poly.Count];
+			for (int pt = 0; pt < poly.Count; pt++)
+			{
+				tempPoly[pt] = new PointF((float)poly[pt].x, (float)poly[pt].y);
+			}
+		}
+		else
+		{
+			tempPoly = new PointF[poly.Count + 1];
+			for (int pt = 0; pt < poly.Count; pt++)
+			{
+				tempPoly[pt] = new PointF((float)poly[pt].x, (float)poly[pt].y);
+			}
+			tempPoly[^1] = new PointF(tempPoly[0].X, tempPoly[0].Y);
+		}
 
+		return tempPoly;
+	}
+
+	public static PointF[] closePoly(PointF[] poly)
+	{
 		if (!(Math.Abs(poly[0].X - poly[^1].X) > double.Epsilon) ||
 		    !(Math.Abs(poly[0].Y - poly[^1].Y) > double.Epsilon))
 		{
-			return source;
+			return poly;
 		}
-
+		
 		PointF[] tempPoly = new PointF[poly.Length + 1];
 		for (int pt = 0; pt < poly.Length; pt++)
 		{
 			tempPoly[pt] = new PointF(poly[pt].X, poly[pt].Y);
 		}
 		tempPoly[^1] = new PointF(tempPoly[0].X, tempPoly[0].Y);
-		source = tempPoly.ToArray();
-
-		return source;
+		return tempPoly;
 	}
-
+	
 	private void tessPoly(PointF[] source, Color polyColor, float alpha)
 	{
 		Tess tess = new();

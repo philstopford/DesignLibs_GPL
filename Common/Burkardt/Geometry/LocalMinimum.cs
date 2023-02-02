@@ -41,7 +41,7 @@ public static class LocalMinimum
         //
         //  Refuse to deal with coincident data.
         //
-        if (Math.Abs(x1 - x2) <= double.Epsilon || Math.Abs(x2 - x3) <= double.Epsilon || Math.Abs(x3 - x1) <= double.Epsilon)
+        if (Math.Abs(x1 - x2) <= typeMethods.r8_epsilon() || Math.Abs(x2 - x3) <= typeMethods.r8_epsilon() || Math.Abs(x3 - x1) <= typeMethods.r8_epsilon())
         {
             Console.WriteLine("");
             Console.WriteLine("MINABS - Fatal error!");
@@ -160,7 +160,7 @@ public static class LocalMinimum
         //
         //  Refuse to deal with coincident data.
         //
-        if (Math.Abs(x1 - x2) <= double.Epsilon || Math.Abs(x2 - x3) <= double.Epsilon || Math.Abs(x3 - x1) <= double.Epsilon)
+        if (Math.Abs(x1 - x2) <= typeMethods.r8_epsilon() || Math.Abs(x2 - x3) <= typeMethods.r8_epsilon() || Math.Abs(x3 - x1) <= typeMethods.r8_epsilon())
         {
             return false;
         }

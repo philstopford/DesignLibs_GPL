@@ -157,7 +157,7 @@ public static partial class typeMethods
             {
                 value = Math.Abs(r - (int) r) switch
                 {
-                    <= double.Epsilon => true,
+                    <= typeMethods._r8_epsilon => true,
                     _ => false
                 };
 

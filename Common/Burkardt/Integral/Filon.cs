@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.Types;
 
 namespace Burkardt.IntegralNS;
 
@@ -83,7 +84,7 @@ public static class Filon
         int i;
         double value;
 
-        if (Math.Abs(a - b) <= double.Epsilon)
+        if (Math.Abs(a - b) <= typeMethods.r8_epsilon())
         {
             value = 0.0;
             return value;
@@ -259,7 +260,7 @@ public static class Filon
         int i;
         double value;
 
-        if (Math.Abs(a - b) <= double.Epsilon)
+        if (Math.Abs(a - b) <= typeMethods.r8_epsilon())
         {
             value = 0.0;
             return value;
@@ -431,7 +432,7 @@ public static class Filon
         int i;
         double value;
 
-        if (Math.Abs(a - b) <= double.Epsilon)
+        if (Math.Abs(a - b) <= typeMethods.r8_epsilon())
         {
             value = 0.0;
             return value;
@@ -607,7 +608,7 @@ public static class Filon
         int i;
         double value;
 
-        if (Math.Abs(a - b) <= double.Epsilon)
+        if (Math.Abs(a - b) <= typeMethods.r8_epsilon())
         {
             value = 0.0;
             return value;

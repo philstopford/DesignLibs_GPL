@@ -546,7 +546,7 @@ public static partial class typeMethods
         {
             for (i = j + 1; i < n; i++)
             {
-                if (!(Math.Abs(a[i] - a[j]) <= double.Epsilon))
+                if (!(Math.Abs(a[i] - a[j]) <= typeMethods.r8_epsilon()))
                 {
                     continue;
                 }
@@ -684,7 +684,7 @@ public static partial class typeMethods
         {
             for (i = j + 1; i < n; i++)
             {
-                if (!(Math.Abs(a[i] - a[j]) <= double.Epsilon))
+                if (!(Math.Abs(a[i] - a[j]) <= typeMethods.r8_epsilon()))
                 {
                     continue;
                 }
@@ -821,7 +821,7 @@ public static partial class typeMethods
         {
             for (i = j + 1; i < n; i++)
             {
-                if (!(Math.Abs(a[i] - a[j]) <= double.Epsilon))
+                if (!(Math.Abs(a[i] - a[j]) <= typeMethods.r8_epsilon()))
                 {
                     continue;
                 }
@@ -922,7 +922,7 @@ public static partial class typeMethods
         {
             for (i = j + 1; i < n; i++)
             {
-                if (!(Math.Abs(a[i] - a[j]) <= double.Epsilon))
+                if (!(Math.Abs(a[i] - a[j]) <= typeMethods.r8_epsilon()))
                 {
                     continue;
                 }

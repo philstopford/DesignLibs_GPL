@@ -1992,7 +1992,7 @@ public static class Geometry
             }
             case true:
             {
-                if (Math.Abs(a2 * p1[(0 + p1Index) % p1.Length] + b2 * p1[(1 + p1Index) % p1.Length] - c2) <= double.Epsilon)
+                if (Math.Abs(a2 * p1[(0 + p1Index) % p1.Length] + b2 * p1[(1 + p1Index) % p1.Length] - c2) <= typeMethods.r8_epsilon())
                 {
                     ival = 1;
                     typeMethods.r8vec_copy(DIM_NUM, p1, ref p, p1Index);
@@ -2006,7 +2006,7 @@ public static class Geometry
                 {
                     case true:
                     {
-                        if (Math.Abs(a1 * p3[(0 + p3Index) % p3.Length] + b1 * p3[(1 + p3Index) % p3.Length] - c1) <= double.Epsilon)
+                        if (Math.Abs(a1 * p3[(0 + p3Index) % p3.Length] + b1 * p3[(1 + p3Index) % p3.Length] - c1) <= typeMethods.r8_epsilon())
                         {
                             ival = 1;
                             typeMethods.r8vec_copy(DIM_NUM, p3, ref p, p3Index);
@@ -2215,7 +2215,7 @@ public static class Geometry
         //    Output, bool LINES_EXP_PARALLEL_2D is TRUE if the lines are parallel.
         //
     {
-        bool value = Math.Abs((p2[1] - p1[1]) * (q2[0] - q1[0]) - (q2[1] - q1[1]) * (p2[0] - p1[0])) > double.Epsilon;
+        bool value = Math.Abs((p2[1] - p1[1]) * (q2[0] - q1[0]) - (q2[1] - q1[1]) * (p2[0] - p1[0])) > typeMethods.r8_epsilon();
 
         return !value;
     }
@@ -2296,7 +2296,7 @@ public static class Geometry
         double pdotp = typeMethods.r8vec_dot_product(DIM_NUM, p, p);
         double qdotq = typeMethods.r8vec_dot_product(DIM_NUM, q, q);
 
-        bool value = Math.Abs(pdotq * pdotq - pdotp * qdotq) > double.Epsilon;
+        bool value = Math.Abs(pdotq * pdotq - pdotp * qdotq) > typeMethods.r8_epsilon();
 
         return !value;
     }
@@ -2422,7 +2422,7 @@ public static class Geometry
         //
         //  If the lines are not parallel, they intersect, and have distance 0.
         //
-        if (Math.Abs(a1 * b2 - a2 * b1) > double.Epsilon)
+        if (Math.Abs(a1 * b2 - a2 * b1) > typeMethods.r8_epsilon())
         {
             value = 0.0;
             return value;
@@ -2542,7 +2542,7 @@ public static class Geometry
             {
                 case 0.0:
                 {
-                    if (Math.Abs(b2 * c1 - c2 * b1) <= double.Epsilon)
+                    if (Math.Abs(b2 * c1 - c2 * b1) <= typeMethods.r8_epsilon())
                     {
                         ival = 2;
                     }
@@ -2551,7 +2551,7 @@ public static class Geometry
                 }
                 default:
                 {
-                    if (Math.Abs(a2 * c1 - c2 * a1) <= double.Epsilon)
+                    if (Math.Abs(a2 * c1 - c2 * a1) <= typeMethods.r8_epsilon())
                     {
                         ival = 2;
                     }

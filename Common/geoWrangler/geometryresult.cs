@@ -1,16 +1,16 @@
 using System.Collections.Generic;
-using geoLib;
+using Clipper2Lib;
 
 namespace geoWrangler;
 
 public class GeometryResult
 {
-    public List<GeoLibPointF[]> geometry { get; set; }
+    public PathsD geometry { get; set; }
     public List<bool> drawn { get; set; }
 
     public GeometryResult()
     {
-        geometry = new List<GeoLibPointF[]>();
+        geometry = new ();
         drawn = new List<bool>();
     }
 }

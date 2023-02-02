@@ -1,8 +1,8 @@
 ﻿/*******************************************************************************
 * Author    :  Angus Johnson                                                   *
-* Date      :  3 November 2022                                                 *
+* Date      :  26 January 2023                                                 *
 * Website   :  http://www.angusj.com                                           *
-* Copyright :  Angus Johnson 2010-2022                                         *
+* Copyright :  Angus Johnson 2010-2023                                         *
 * Purpose   :  This module contains simple functions that will likely cover    *
 *              most polygon boolean and offsetting needs, while also avoiding  *
 *              the inherent complexities of the other modules.                 *
@@ -92,7 +92,7 @@ namespace Clipper2Lib
         subject, clip, fillRule, precision);
     }
 
-    public static Paths64 BooleanOp(ClipType clipType, 
+    public static Paths64 BooleanOp(ClipType clipType,
       Paths64? subject, Paths64? clip, FillRule fillRule)
     {
       Paths64 solution = new Paths64();
@@ -105,6 +105,18 @@ namespace Clipper2Lib
       return solution;
     }
 
+    public static void BooleanOp(ClipType clipType,
+      Paths64? subject, Paths64? clip, 
+      PolyTree64 polytree, FillRule fillRule)
+    {
+      if (subject == null) return;
+      Clipper64 c = new Clipper64();
+      c.AddPaths(subject, PathType.Subject);
+      if (clip != null)
+        c.AddPaths(clip, PathType.Clip);
+      c.Execute(clipType, fillRule, polytree);
+    }
+
     public static PathsD BooleanOp(ClipType clipType, PathsD subject, PathsD? clip, 
       FillRule fillRule, int precision = 2)
     {
@@ -115,6 +127,18 @@ namespace Clipper2Lib
         c.AddClip(clip);
       c.Execute(clipType, fillRule, solution);
       return solution;
+    }
+
+    public static void BooleanOp(ClipType clipType,
+      PathsD? subject, PathsD? clip,
+      PolyTreeD polytree, FillRule fillRule, int precision = 2)
+    {
+      if (subject == null) return;
+      ClipperD c = new ClipperD(precision);
+      c.AddPaths(subject, PathType.Subject);
+      if (clip != null)
+        c.AddPaths(clip, PathType.Clip);
+      c.Execute(clipType, fillRule, polytree);
     }
 
     public static Paths64 InflatePaths(Paths64 paths, double delta, JoinType joinType,
@@ -721,6 +745,7 @@ namespace Clipper2Lib
       return result;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static void AddPolyNodeToPaths(PolyPath64 polyPath, Paths64 paths)
     {
       if (polyPath.Polygon!.Count > 0)
@@ -729,6 +754,7 @@ namespace Clipper2Lib
         AddPolyNodeToPaths((PolyPath64) polyPath._childs[i], paths);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Paths64 PolyTreeToPaths64(PolyTree64 polyTree)
     {
       Paths64 result = new Paths64();
@@ -737,6 +763,7 @@ namespace Clipper2Lib
       return result;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void AddPolyNodeToPathsD(PolyPathD polyPath, PathsD paths)
     {
       if (polyPath.Polygon!.Count > 0)
@@ -745,6 +772,7 @@ namespace Clipper2Lib
         AddPolyNodeToPathsD((PolyPathD) polyPath._childs[i], paths);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static PathsD PolyTreeToPathsD(PolyTreeD polyTree)
     {
       PathsD result = new PathsD();
@@ -757,6 +785,8 @@ namespace Clipper2Lib
       return result;
     }
 
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double PerpendicDistFromLineSqrd(PointD pt, PointD line1, PointD line2)
     {
       double a = pt.x - line1.x;
@@ -767,6 +797,7 @@ namespace Clipper2Lib
       return Sqr(a * d - c * b) / (c * c + d * d);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static double PerpendicDistFromLineSqrd(Point64 pt, Point64 line1, Point64 line2)
     {
       double a = (double) pt.X - line1.X;
@@ -855,6 +886,179 @@ namespace Clipper2Lib
       return result;
     }
 
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static int GetNext(int current, int high, ref bool[] flags)
+    {
+      ++current;
+      while (current <= high && flags[current]) ++current;
+      if (current <= high) return current;
+      current = 0;
+      while (flags[current]) ++current;
+      return current;
+    }
+
+    private static int GetPrior(int current, int high, ref bool[] flags)
+    {
+      if (current == 0) current = high;
+      else --current;
+      while (current > 0 && flags[current]) --current;
+      if (!flags[current]) return current;
+      current = high;
+      while (flags[current]) --current;
+      return current;
+    }
+
+    public static Path64 SimplifyPath(Path64 path,
+      double epsilon, bool isOpenPath = false)
+    {
+      int len = path.Count, high = len - 1;
+      double epsSqr = Sqr(epsilon);
+      if (len < 4) return path;
+
+      bool[] flags = new bool[len];
+      double[] dsq = new double[len];
+      int prev = high, curr = 0, start, next, prior2, next2;
+      if (isOpenPath)
+      {
+        dsq[0] = double.MaxValue;
+        dsq[high] = double.MaxValue;
+      }
+      else
+      {
+        dsq[0] = PerpendicDistFromLineSqrd(path[0], path[high], path[1]);
+        dsq[high] = PerpendicDistFromLineSqrd(path[high], path[0], path[high - 1]);
+      }
+      for (int i = 1; i < high; ++i)
+        dsq[i] = PerpendicDistFromLineSqrd(path[i], path[i - 1], path[i + 1]);
+
+      for (; ; )
+      {
+        if (dsq[curr] > epsSqr)
+        {
+          start = curr;
+          do
+          {
+            curr = GetNext(curr, high, ref flags);
+          } while (curr != start && dsq[curr] > epsSqr);
+          if (curr == start) break;
+        }
+
+        prev = GetPrior(curr, high, ref flags);
+        next = GetNext(curr, high, ref flags);
+        if (next == prev) break;
+
+        if (dsq[next] < dsq[curr])
+        {
+          flags[next] = true;
+          next = GetNext(next, high, ref flags);
+          next2 = GetNext(next, high, ref flags);
+          dsq[curr] = PerpendicDistFromLineSqrd(path[curr], path[prev], path[next]);
+          if (next != high || !isOpenPath)
+            dsq[next] = PerpendicDistFromLineSqrd(path[next], path[curr], path[next2]);
+          curr = next;
+        }
+        else
+        {
+          flags[curr] = true;
+          curr = next;
+          next = GetNext(next, high, ref flags);
+          prior2 = GetPrior(prev, high, ref flags);
+          dsq[curr] = PerpendicDistFromLineSqrd(path[curr], path[prev], path[next]);
+          if (prev != 0 || !isOpenPath)
+            dsq[prev] = PerpendicDistFromLineSqrd(path[prev], path[prior2], path[curr]);
+        }
+      }
+      Path64 result = new Path64(len);
+      for (int i = 0; i < len; i++)
+        if (!flags[i]) result.Add(path[i]);
+      return result;
+    }
+
+    public static Paths64 SimplifyPaths(Paths64 paths,
+      double epsilon, bool isOpenPath = false)
+    {
+      Paths64 result = new Paths64(paths.Count);
+      foreach (Path64 path in paths)
+        result.Add(SimplifyPath(path, epsilon, isOpenPath));
+      return result;
+    }
+
+    public static PathD SimplifyPath(PathD path,
+      double epsilon, bool isOpenPath = false)
+    {
+      int len = path.Count, high = len - 1;
+      double epsSqr = Sqr(epsilon);
+      if (len < 4) return path;
+
+      bool[] flags = new bool[len];
+      double[] dsq = new double[len];
+      int prev = high, curr = 0, start, next, prior2, next2;
+      if (isOpenPath)
+      {
+        dsq[0] = double.MaxValue;
+        dsq[high] = double.MaxValue;
+      }
+      else
+      {
+        dsq[0] = PerpendicDistFromLineSqrd(path[0], path[high], path[1]);
+        dsq[high] = PerpendicDistFromLineSqrd(path[high], path[0], path[high - 1]);
+      }
+      for (int i = 1; i < high; ++i)
+        dsq[i] = PerpendicDistFromLineSqrd(path[i], path[i - 1], path[i + 1]);
+
+      for (; ; )
+      {
+        if (dsq[curr] > epsSqr)
+        {
+          start = curr;
+          do
+          {
+            curr = GetNext(curr, high, ref flags);
+          } while (curr != start && dsq[curr] > epsSqr);
+          if (curr == start) break;
+        }
+
+        prev = GetPrior(curr, high, ref flags);
+        next = GetNext(curr, high, ref flags);
+        if (next == prev) break;
+
+        if (dsq[next] < dsq[curr])
+        {
+          flags[next] = true;
+          next = GetNext(next, high, ref flags);
+          next2 = GetNext(next, high, ref flags);
+          dsq[curr] = PerpendicDistFromLineSqrd(path[curr], path[prev], path[next]);
+          if (next != high || !isOpenPath)
+            dsq[next] = PerpendicDistFromLineSqrd(path[next], path[curr], path[next2]);
+          curr = next;
+        }
+        else
+        {
+          flags[curr] = true;
+          curr = next;
+          next = GetNext(next, high, ref flags);
+          prior2 = GetPrior(prev, high, ref flags);
+          dsq[curr] = PerpendicDistFromLineSqrd(path[curr], path[prev], path[next]);
+          if (prev != 0 || !isOpenPath)
+            dsq[prev] = PerpendicDistFromLineSqrd(path[prev], path[prior2], path[curr]);
+        }
+      }
+      PathD result = new PathD(len);
+      for (int i = 0; i < len; i++)
+        if (!flags[i]) result.Add(path[i]);
+      return result;
+    }
+
+    public static PathsD SimplifyPaths(PathsD paths,
+      double epsilon, bool isOpenPath = false)
+    {
+      PathsD result = new PathsD(paths.Count);
+      foreach (PathD path in paths)
+        result.Add(SimplifyPath(path, epsilon, isOpenPath));
+      return result;
+    }
+
     public static Path64 TrimCollinear(Path64 path, bool isOpen = false)
     {
       int len = path.Count;
@@ -910,9 +1114,19 @@ namespace Clipper2Lib
       return ScalePathD(p, 1 / scale);
     }
 
-    public static PointInPolygonResult PointInPolygon(Point64 pt, List<Point64> polygon)
+    public static PointInPolygonResult PointInPolygon(Point64 pt, Path64 polygon)
     {
       return InternalClipper.PointInPolygon(pt, polygon);
+    }
+
+    public static PointInPolygonResult PointInPolygon(PointD pt, 
+      PathD polygon, int precision = 2)
+    {
+      InternalClipper.CheckPrecision(precision);
+      double scale = Math.Pow(10, precision);
+      Point64 p = new Point64(pt, scale);
+      Path64 path = ScalePath64(polygon, scale);
+      return InternalClipper.PointInPolygon(p, path);
     }
 
     public static Path64 Ellipse(Point64 center,

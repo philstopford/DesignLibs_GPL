@@ -1,73 +1,84 @@
-﻿namespace geoLib;
+﻿using Clipper2Lib;
 
-public class GeoLibPointF
+namespace geoLib;
+
+public class GeoLibPointF_
 {
-    public double X { get; set; }
-    public double Y { get; set; }
+    private PointD internal_pt;
+
+    public double X
+    {
+        get => internal_pt.x;
+
+        set => internal_pt.x = value;
+    }
+    
+    public double Y
+    {
+        get => internal_pt.y;
+
+        set => internal_pt.y = value;
+    }
 
     // Special value for tracking.
     public int tag { get; set; }
 
-    public GeoLibPointF()
+    public GeoLibPointF_()
     {
         pGeoLibPointF();
     }
 
     private void pGeoLibPointF()
     {
-
+        internal_pt = new();
     }
 
-    public GeoLibPointF(GeoLibPointF sourcePoint)
+    public GeoLibPointF_(GeoLibPointF_ sourcePoint)
     {
         pGeoLibPointF(sourcePoint);
     }
 
-    private void pGeoLibPointF(GeoLibPointF sourcePoint)
+    private void pGeoLibPointF(GeoLibPointF_ sourcePoint)
+    {
+        internal_pt = new();
+        X = sourcePoint.X;
+        Y = sourcePoint.Y;
+    }
+
+    public GeoLibPointF_(GeoLibPoint_ sourcePoint)
+    {
+        pGeoLibPointF(sourcePoint);
+    }
+
+    private void pGeoLibPointF(GeoLibPoint_ sourcePoint)
     {
         X = sourcePoint.X;
         Y = sourcePoint.Y;
     }
 
-    public GeoLibPointF(GeoLibPoint sourcePoint)
-    {
-        pGeoLibPointF(sourcePoint);
-    }
-
-    private void pGeoLibPointF(GeoLibPoint sourcePoint)
-    {
-        X = sourcePoint.X;
-        Y = sourcePoint.Y;
-    }
-
-    public GeoLibPointF(double X_, double Y_)
+    public GeoLibPointF_(double X_, double Y_)
     {
         pGeoLibPointF(X_, Y_);
     }
 
     private void pGeoLibPointF(double X_, double Y_)
     {
+        internal_pt = new();
         X = X_;
         Y = Y_;
     }
 
-    public GeoLibPointF(float X_, float Y_)
+    public GeoLibPointF_(float X_, float Y_)
     {
-        pGeoLibPointF(X_, Y_);
+        pGeoLibPointF((double)X_, (double)Y_);
     }
-
-    private void pGeoLibPointF(float X_, float Y_)
-    {
-        X = X_;
-        Y = Y_;
-    }
-
-    public void Offset(GeoLibPoint offset)
+    
+    public void Offset(GeoLibPoint_ offset)
     {
         pOffset(offset);
     }
 
-    private void pOffset(GeoLibPoint offset)
+    private void pOffset(GeoLibPoint_ offset)
     {
         X += offset.X;
         Y += offset.Y;
@@ -84,12 +95,12 @@ public class GeoLibPointF
         Y += y;
     }
 
-    public void Offset(GeoLibPointF offset)
+    public void Offset(GeoLibPointF_ offset)
     {
         pOffset(offset);
     }
 
-    private void pOffset(GeoLibPointF offset)
+    private void pOffset(GeoLibPointF_ offset)
     {
         X += offset.X;
         Y += offset.Y;
@@ -107,14 +118,27 @@ public class GeoLibPointF
     }
 }
 
-public class GeoLibPoint
+public class GeoLibPoint_
 {
-    public int X { get; set; }
-    public int Y { get; set; }
+    private Point64 internal_pt;
 
+    public long X
+    {
+        get => internal_pt.X;
+
+        set => internal_pt.X = value;
+    }
+    
+    public long Y
+    {
+        get => internal_pt.Y;
+
+        set => internal_pt.Y = value;
+    }
+    
     public int tag { get; set; }
 
-    public GeoLibPoint()
+    public GeoLibPoint_()
     {
         pGeoLibPoint();
     }
@@ -124,18 +148,18 @@ public class GeoLibPoint
 
     }
 
-    public GeoLibPoint(GeoLibPoint sourcePoint)
+    public GeoLibPoint_(GeoLibPoint_ sourcePoint)
     {
         pGeoLibPoint(sourcePoint);
     }
 
-    private void pGeoLibPoint(GeoLibPoint sourcePoint)
+    private void pGeoLibPoint(GeoLibPoint_ sourcePoint)
     {
         X = sourcePoint.X;
         Y = sourcePoint.Y;
     }
 
-    public GeoLibPoint(double X_, double Y_)
+    public GeoLibPoint_(double X_, double Y_)
     {
         pGeoLibPoint(X_, Y_);
     }
@@ -146,7 +170,7 @@ public class GeoLibPoint
         Y = (int)Y_;
     }
 
-    public GeoLibPoint(float X_, float Y_)
+    public GeoLibPoint_(float X_, float Y_)
     {
         pGeoLibPoint(X_, Y_);
     }
@@ -157,7 +181,7 @@ public class GeoLibPoint
         Y = (int)Y_;
     }
 
-    public GeoLibPoint(int X_, int Y_)
+    public GeoLibPoint_(int X_, int Y_)
     {
         pGeoLibPoint(X_, Y_);
     }
@@ -168,12 +192,12 @@ public class GeoLibPoint
         Y = Y_;
     }
 
-    public void Offset(GeoLibPoint offset)
+    public void Offset(GeoLibPoint_ offset)
     {
         pOffset(offset);
     }
 
-    private void pOffset(GeoLibPoint offset)
+    private void pOffset(GeoLibPoint_ offset)
     {
         X += offset.X;
         Y += offset.Y;

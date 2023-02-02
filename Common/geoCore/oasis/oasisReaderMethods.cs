@@ -1,7 +1,7 @@
-﻿using geoLib;
-using System;
-using System.Linq;
+﻿using System;
 using System.Text;
+using Clipper2Lib;
+using geoWrangler;
 
 namespace oasis;
 
@@ -198,7 +198,7 @@ internal partial class oasReader
         };
     }
 
-    private GeoLibPoint read1Delta(bool dir)
+    private Point64 read1Delta(bool dir)
     {
         // dir true-> vertical
         int i = readUnsignedInteger();
@@ -215,12 +215,12 @@ internal partial class oasReader
 
         return dir switch
         {
-            true => new GeoLibPoint(0, i),
-            _ => new GeoLibPoint(i, 0)
+            true => new Point64(0, i),
+            _ => new Point64(i, 0)
         };
     }
 
-    private GeoLibPoint readGDelta()
+    private Point64 readGDelta()
     {
         int i = readUnsignedInteger();
         int k;
@@ -233,21 +233,21 @@ internal partial class oasReader
                 switch (k)
                 {
                     case 0:
-                        return new GeoLibPoint(i, 0);
+                        return new (i, 0);
                     case 1:
-                        return new GeoLibPoint(0, i);
+                        return new (0, i);
                     case 2:
-                        return new GeoLibPoint(-i, 0);
+                        return new (-i, 0);
                     case 3:
-                        return new GeoLibPoint(0, -i);
+                        return new (0, -i);
                     case 4:
-                        return new GeoLibPoint(i, i);
+                        return new (i, i);
                     case 5:
-                        return new GeoLibPoint(-i, i);
+                        return new (-i, i);
                     case 6:
-                        return new GeoLibPoint(-i, -i);
+                        return new (-i, -i);
                     case 7:
-                        return new GeoLibPoint(i, -i);
+                        return new (i, -i);
                 }
                 break;
             case 1: //form 1
@@ -271,63 +271,63 @@ internal partial class oasReader
                         k = -(k >> 1);
                         break;
                 }
-                return new GeoLibPoint(i, k);
+                return new (i, k);
         }
-        return new GeoLibPoint(0, 0);
+        return new (0, 0);
     }
 
-    private GeoLibPoint read2Delta()
+    private Point64 read2Delta()
     {
         int i = readUnsignedInteger();
         switch (i % 4)
         {
             case 0:
                 i >>= 2;
-                return new GeoLibPoint(i, 0);
+                return new (i, 0);
             case 1:
                 i >>= 2;
-                return new GeoLibPoint(0, i);
+                return new (0, i);
             case 2:
                 i = -(i >> 2);
-                return new GeoLibPoint(i, 0);
+                return new (i, 0);
             case 3:
                 i = -(i >> 2);
-                return new GeoLibPoint(0, i);
+                return new (0, i);
         }
-        return new GeoLibPoint(0, 0);
+        return new (0, 0);
     }
 
-    private GeoLibPoint read3Delta()
+    private Point64 read3Delta()
     {
         int i = readUnsignedInteger();
         switch (i % 8)
         {
             case 0:
                 i >>= 3;
-                return new GeoLibPoint(i, 0);
+                return new (i, 0);
             case 1:
                 i >>= 3;
-                return new GeoLibPoint(0, i);
+                return new (0, i);
             case 2:
                 i >>= 3;
-                return new GeoLibPoint(-i, 0);
+                return new (-i, 0);
             case 3:
                 i >>= 3;
-                return new GeoLibPoint(0, -i);
+                return new (0, -i);
             case 4:
                 i >>= 3;
-                return new GeoLibPoint(i, i);
+                return new (i, i);
             case 5:
                 i >>= 3;
-                return new GeoLibPoint(-i, i);
+                return new (-i, i);
             case 6:
                 i >>= 3;
-                return new GeoLibPoint(-i, -i);
+                return new (-i, -i);
             case 7:
                 i >>= 3;
-                return new GeoLibPoint(i, -i);
+                return new (i, -i);
         }
-        return new GeoLibPoint(0, 0);
+        return new (0, 0);
     }
 
     private void readRepetition()
@@ -355,11 +355,11 @@ internal partial class oasReader
                 int k = readUnsignedInteger() + 2;
                 int j = 0;
                 modal.repArray.Clear();
-                modal.repArray.Add(new GeoLibPoint(0, 0));
+                modal.repArray.Add(new (0, 0));
                 for (int z = 1; z < k; z++)
                 {
                     j += readUnsignedInteger();
-                    modal.repArray.Add(new GeoLibPoint(j, 0));
+                    modal.repArray.Add(new (j, 0));
                 }
             }
                 break;
@@ -369,11 +369,11 @@ internal partial class oasReader
                 int j = 0;
                 int grid = readUnsignedInteger();
                 modal.repArray.Clear();
-                modal.repArray.Add(new GeoLibPoint(0, 0));
+                modal.repArray.Add(new (0, 0));
                 for (int z = 1; z < k; z++)
                 {
                     j += readUnsignedInteger() * grid;
-                    modal.repArray.Add(new GeoLibPoint(j, 0));
+                    modal.repArray.Add(new (j, 0));
                 }
             }
                 break;
@@ -382,11 +382,11 @@ internal partial class oasReader
                 int k = readUnsignedInteger() + 2;
                 int j = 0;
                 modal.repArray.Clear();
-                modal.repArray.Add(new GeoLibPoint(0, 0));
+                modal.repArray.Add(new (0, 0));
                 for (int z = 1; z < k; z++)
                 {
                     j += readUnsignedInteger();
-                    modal.repArray.Add(new GeoLibPoint(0, j));
+                    modal.repArray.Add(new (0, j));
                 }
             }
                 break;
@@ -396,11 +396,11 @@ internal partial class oasReader
                 int j = 0;
                 int grid = readUnsignedInteger();
                 modal.repArray.Clear();
-                modal.repArray.Add(new GeoLibPoint(0, 0));
+                modal.repArray.Add(new (0, 0));
                 for (int z = 1; z < k; z++)
                 {
                     j += readUnsignedInteger() * grid;
-                    modal.repArray.Add(new GeoLibPoint(0, j));
+                    modal.repArray.Add(new (0, j));
                 }
             }
                 break;
@@ -408,21 +408,21 @@ internal partial class oasReader
             {
                 int anz1 = readUnsignedInteger() + 2;
                 int anz2 = readUnsignedInteger() + 2;
-                GeoLibPoint p1 = readGDelta();
-                GeoLibPoint p2 = readGDelta();
+                Point64 p1 = readGDelta();
+                Point64 p2 = readGDelta();
                 modal.repArray.Clear();
                 for (int x1 = 0; x1 < anz1; x1++)
                 {
                     for (int x2 = 0; x2 < anz2; x2++)
                     {
-                        modal.repArray.Add(new GeoLibPoint());
+                        modal.repArray.Add(new ());
                     }
                 }
                 for (int x1 = 0; x1 < anz1; x1++)
                 {
                     for (int x2 = 0; x2 < anz2; x2++)
                     {
-                        modal.repArray[x1 + x2 * anz1] = new GeoLibPoint(x1 * p1.X + x2 * p2.X, x1 * p1.Y + x2 * p2.Y);
+                        modal.repArray[x1 + x2 * anz1] = new (x1 * p1.X + x2 * p2.X, x1 * p1.Y + x2 * p2.Y);
                     }
                 }
             }
@@ -430,39 +430,40 @@ internal partial class oasReader
             case 9:
             {
                 int anz1 = readUnsignedInteger() + 2;
-                GeoLibPoint p1 = readGDelta();
+                Point64 p1 = readGDelta();
                 modal.repArray.Clear();
                 for (int x1 = 0; x1 < anz1; x1++)
                 {
-                    modal.repArray.Add(new GeoLibPoint(x1 * p1.X, x1 * p1.Y));
+                    modal.repArray.Add(new (x1 * p1.X, x1 * p1.Y));
                 }
             }
                 break;
             case 10:
             {
                 int k = readUnsignedInteger() + 2;
-                GeoLibPoint j = new(0, 0);
+                Point64 j = new(0, 0);
                 modal.repArray.Clear();
-                modal.repArray.Add(new GeoLibPoint(0, 0));
+                modal.repArray.Add(new (0, 0));
                 for (int z = 1; z < k; z++)
                 {
-                    j.Offset(readGDelta());
-                    modal.repArray.Add(new GeoLibPoint(j));
+                    Point64 oPt = readGDelta();
+                    j = GeoWrangler.move(j, oPt.X, oPt.Y);
+                    modal.repArray.Add(new (j));
                 }
             }
                 break;
             case 11:
             {
                 int k = readUnsignedInteger() + 2;
-                GeoLibPoint j = new(0, 0);
+                Point64 j = new(0, 0);
                 int grid = readUnsignedInteger();
                 modal.repArray.Clear();
-                modal.repArray.Add(new GeoLibPoint(0, 0));
+                modal.repArray.Add(new (0, 0));
                 for (int z = 1; z < k; z++)
                 {
-                    GeoLibPoint tmpPoint = readGDelta();
-                    j.Offset(new GeoLibPoint(tmpPoint.X * grid, tmpPoint.Y * grid));
-                    modal.repArray.Add(new GeoLibPoint(j));
+                    Point64 oPt = readGDelta();
+                    j = GeoWrangler.move(j, oPt.X * grid, oPt.Y * grid);
+                    modal.repArray.Add(new (j.X, j.Y));
                 }
             }
                 break;
@@ -517,9 +518,10 @@ internal partial class oasReader
     {
         int type = readUnsignedInteger();
         int count = readUnsignedInteger();
-        GeoLibPoint[] pointlist = new GeoLibPoint[count + 1];
-        pointlist[0] = new GeoLibPoint(0, 0);
-        GeoLibPoint last = new(0, 0);
+        Path64 pointlist = Helper.initedPath64(count + 1);
+        pointlist[0] = new (0, 0);
+        Point64 last = new(0, 0);
+        Point64 oPt;
         int i;
         bool dir = true;
         switch (type)
@@ -528,97 +530,109 @@ internal partial class oasReader
                 dir = false;
                 for (i = 1; i <= count; i++)
                 {
-                    last.Offset(read1Delta(dir));
-                    pointlist[i] = new GeoLibPoint(last);
+                    oPt = read1Delta(dir);
+                    last = GeoWrangler.move(last, oPt.X, oPt.Y);
+                    pointlist[i] = new (last);
                     dir = !dir;
                 }
                 switch (addImplecid)
                 {
                     case true:
-                        Array.Resize(ref pointlist, pointlist.Length + 2);
-                        pointlist[^2] = new GeoLibPoint(0, pointlist[^3].Y);
-                        pointlist[^1] = new GeoLibPoint(pointlist[0]);
+                        /*
+                        pointlist.Add(new());
+                        pointlist.Add(new());
+                        pointlist[^2] = new (pointlist[^3].X, 0);
+                        pointlist[^1] = new (pointlist[0]);
+                        */
+                        pointlist.Add(new (pointlist[^1].X, 0));
+                        pointlist.Add(new (pointlist[0]));
                         break;
                 }
                 break;
             case 1:
                 for (i = 1; i <= count; i++)
                 {
-                    last.Offset(read1Delta(dir));
-                    pointlist[i] = new GeoLibPoint(last);
+                    oPt = read1Delta(dir);
+                    last = GeoWrangler.move(last, oPt.X, oPt.Y);
+                    pointlist[i] = new (last);
                     dir = !dir;
                 }
                 switch (addImplecid)
                 {
                     case true:
-                        Array.Resize(ref pointlist, pointlist.Length + 2);
-                        pointlist[^2] = new GeoLibPoint(pointlist[^3].X, 0);
-                        pointlist[^1] = new GeoLibPoint(pointlist[0]);
+                        /*
+                        pointlist.Add(new());
+                        pointlist.Add(new());
+                        pointlist[^2] = new (pointlist[^3].X, 0);
+                        pointlist[^1] = new (pointlist[0]);
+                        */
+                        pointlist.Add(new (pointlist[^1].X, 0));
+                        pointlist.Add(new (pointlist[0]));
                         break;
                 }
                 break;
             case 2:
                 for (i = 1; i <= count; i++)
                 {
-                    last.Offset(read2Delta());
-                    pointlist[i] = new GeoLibPoint(last);
+                    oPt = read2Delta();
+                    last = GeoWrangler.move(last, oPt.X, oPt.Y);
+                    pointlist[i] = new (last);
                 }
                 switch (addImplecid)
                 {
                     case true:
-                        Array.Resize(ref pointlist, pointlist.Length + 1);
-                        pointlist[^1] = new GeoLibPoint(pointlist[0]);
+                        pointlist.Add(new (pointlist[0]));
                         break;
                 }
                 break;
             case 3:
                 for (i = 1; i <= count; i++)
                 {
-                    last.Offset(read3Delta());
-                    pointlist[i] = new GeoLibPoint(last);
+                    oPt = read3Delta();
+                    last = GeoWrangler.move(last, oPt.X, oPt.Y);
+                    pointlist[i] = new (last);
                 }
                 switch (addImplecid)
                 {
                     case true:
-                        Array.Resize(ref pointlist, pointlist.Length + 1);
-                        pointlist[^1] = new GeoLibPoint(pointlist[0]);
+                        pointlist.Add(new (pointlist[0]));
                         break;
                 }
                 break;
             case 4:
                 for (i = 1; i <= count; i++)
                 {
-                    last.Offset(readGDelta());
-                    pointlist[i] = new GeoLibPoint(last);
+                    oPt = readGDelta();
+                    last = GeoWrangler.move(last, oPt.X, oPt.Y);
+                    pointlist[i] = new (last);
                 }
                 switch (addImplecid)
                 {
                     case true:
-                        Array.Resize(ref pointlist, pointlist.Length + 1);
-                        pointlist[^1] = new GeoLibPoint(pointlist[0]);
+                        pointlist.Add(new (pointlist[0]));
                         break;
                 }
                 break;
             case 5:
             {
-                GeoLibPoint l = new(0, 0);
+                Point64 l = new(0, 0);
                 for (i = 1; i <= count; i++)
                 {
-                    last.Offset(readGDelta());
-                    l.Offset(last);
-                    pointlist[i] = new GeoLibPoint(l);
+                    oPt = readGDelta();
+                    last = GeoWrangler.move(last, oPt.X, oPt.Y);
+                    l = GeoWrangler.move(l, last.X, last.Y);
+                    pointlist[i] = new (l);
                 }
                 switch (addImplecid)
                 {
                     case true:
-                        Array.Resize(ref pointlist, pointlist.Length + 1);
-                        pointlist[^1] = new GeoLibPoint(pointlist[0]);
+                        pointlist.Add(new (pointlist[0]));
                         break;
                 }
             }
                 break;
         }
-        modal.polygon_point_list = pointlist.ToList();
+        modal.polygon_point_list = new(pointlist);
     }
 
     private void zLibInit(uint before, uint after)

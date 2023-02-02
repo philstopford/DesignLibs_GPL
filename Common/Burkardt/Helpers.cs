@@ -1182,7 +1182,7 @@ public static class Helpers
         {
             double t = 4.0 + r;
 
-            if ( Math.Abs(t - 4.0) <= double.Epsilon )
+            if ( Math.Abs(t - 4.0) <= typeMethods.r8_epsilon() )
             {
                 break;
             }

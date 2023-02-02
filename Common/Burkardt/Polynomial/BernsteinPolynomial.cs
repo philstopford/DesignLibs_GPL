@@ -567,7 +567,7 @@ public static class BernsteinPolynomial
         //    Bernstein polynomials at X.
         //
     {
-        if (Math.Abs(b - a) <= double.Epsilon)
+        if (Math.Abs(b - a) <= typeMethods.r8_epsilon())
         {
             Console.WriteLine("");
             Console.WriteLine("BERNSTEIN_POLY_AB - Fatal error!");
@@ -771,7 +771,7 @@ public static class BernsteinPolynomial
         //    polynomials at X.
         //
     {
-        if (Math.Abs(b - a) <= double.Epsilon)
+        if (Math.Abs(b - a) <= typeMethods.r8_epsilon())
         {
             Console.WriteLine("");
             Console.WriteLine("BPAB - Fatal error!");

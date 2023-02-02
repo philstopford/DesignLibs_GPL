@@ -1283,7 +1283,7 @@ public static partial class typeMethods
                 //  Compute the next iterate as a weighted combination of the
                 //  old iterate and the just computed standard Jacobi iterate.
                 //
-                if (Math.Abs(omega - 1.0) > double.Epsilon)
+                if (Math.Abs(omega - 1.0) > typeMethods.r8_epsilon())
                 {
                     for (i = 0; i < n; i++)
                     {

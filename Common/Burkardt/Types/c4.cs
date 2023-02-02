@@ -227,7 +227,7 @@ public static partial class typeMethods
 
                 s = (float)temp3.Real;
 
-                if (Math.Abs(s - 1.0 / tiny) > double.Epsilon)
+                if (Math.Abs(s - 1.0 / tiny) > typeMethods.r8_epsilon())
                 {
                     tiny = (float)Math.Sqrt(tiny);
                 }
@@ -612,7 +612,7 @@ public static partial class typeMethods
 
                 s = temp3.Real;
 
-                if (Math.Abs(s - 1.0 / tiny) > double.Epsilon)
+                if (Math.Abs(s - 1.0 / tiny) > typeMethods.r8_epsilon())
                 {
                     tiny = Math.Sqrt(tiny);
                 }

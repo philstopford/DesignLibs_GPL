@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.Types;
 
 namespace Burkardt.FullertonFnLib;
 
@@ -858,7 +859,7 @@ public static partial class FullertonLib
 
         switch (x)
         {
-            case <= 0.0 when Math.Abs(r8_aint(x) - x) <= double.Epsilon:
+            case <= 0.0 when Math.Abs(r8_aint(x) - x) <= typeMethods.r8_epsilon():
                 value = 0.0;
                 break;
             default:

@@ -2593,7 +2593,7 @@ public static class Properties
         //
         //  If the line segment is actually a point, then the answer is easy.
         //
-        if (Math.Abs(p1[p1Index + 0] - p2[p2Index + 0]) <= double.Epsilon && Math.Abs(p1[p1Index + 1] - p2[p2Index + 1]) <= double.Epsilon)
+        if (Math.Abs(p1[p1Index + 0] - p2[p2Index + 0]) <= typeMethods.r8_epsilon() && Math.Abs(p1[p1Index + 1] - p2[p2Index + 1]) <= typeMethods.r8_epsilon())
         {
             t = 0.0;
         }
@@ -2687,7 +2687,7 @@ public static class Properties
         //
         //  If the line segment is actually a point, then the answer is easy.
         //
-        if (Math.Abs(p1[p1Index + 0] - p2[p2Index + 0]) <= double.Epsilon && Math.Abs(p1[p1Index + 1] - p2[p2Index + 1]) <= double.Epsilon)
+        if (Math.Abs(p1[p1Index + 0] - p2[p2Index + 0]) <= typeMethods.r8_epsilon() && Math.Abs(p1[p1Index + 1] - p2[p2Index + 1]) <= typeMethods.r8_epsilon())
         {
             t = 0.0;
         }

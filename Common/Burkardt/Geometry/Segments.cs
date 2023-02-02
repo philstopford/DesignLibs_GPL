@@ -46,7 +46,7 @@ public static class Segments
 
         switch (unit)
         {
-            case 0.0 when Math.Abs(p3 - p1) <= double.Epsilon:
+            case 0.0 when Math.Abs(p3 - p1) <= typeMethods.r8_epsilon():
                 u = 0.5;
                 break;
             case 0.0 when p3 < p1:
@@ -1138,7 +1138,7 @@ public static class Segments
 
         segment_point_near_3d(p3, p4, p2, ref pn2, ref d2, ref t2);
 
-        if (Math.Abs(t1 - t2) <= double.Epsilon)
+        if (Math.Abs(t1 - t2) <= typeMethods.r8_epsilon())
         {
             dist = segment_point_dist_3d(p1, p2, pn1);
             return dist;
@@ -1449,7 +1449,7 @@ public static class Segments
                         continue;
                     }
 
-                    if (Math.Abs(x1val - p1[0 + j * 2]) <= double.Epsilon && Math.Abs(y1val - p1[1 + j * 2]) <= double.Epsilon)
+                    if (Math.Abs(x1val - p1[0 + j * 2]) <= typeMethods.r8_epsilon() && Math.Abs(y1val - p1[1 + j * 2]) <= typeMethods.r8_epsilon())
                     {
                         jval -= 1;
                         order[j] = jval;
@@ -1466,7 +1466,7 @@ public static class Segments
                         p1[1 + j * 2] = p2[1 + j * 2];
                         p2[1 + j * 2] = temp;
                     }
-                    else if (Math.Abs(x1val - p2[0 + j * 2]) <= double.Epsilon && Math.Abs(y1val - p2[1 + j * 2]) <= double.Epsilon)
+                    else if (Math.Abs(x1val - p2[0 + j * 2]) <= typeMethods.r8_epsilon() && Math.Abs(y1val - p2[1 + j * 2]) <= typeMethods.r8_epsilon())
                     {
                         jval -= 1;
                         order[j] = jval;
@@ -1475,7 +1475,7 @@ public static class Segments
                         y1val = p1[1 + j * 2];
                         match += 1;
                     }
-                    else if (Math.Abs(x2val - p1[0 + j * 2]) <= double.Epsilon && Math.Abs(y2val - p1[1 + j * 2]) <= double.Epsilon)
+                    else if (Math.Abs(x2val - p1[0 + j * 2]) <= typeMethods.r8_epsilon() && Math.Abs(y2val - p1[1 + j * 2]) <= typeMethods.r8_epsilon())
                     {
                         kval += 1;
                         order[j] = kval;
@@ -1484,7 +1484,7 @@ public static class Segments
                         y2val = p2[1 + j * 2];
                         match += 1;
                     }
-                    else if (Math.Abs(x2val - p2[0 + j * 2]) <= double.Epsilon && Math.Abs(y2val - p2[1 + j * 2]) <= double.Epsilon)
+                    else if (Math.Abs(x2val - p2[0 + j * 2]) <= typeMethods.r8_epsilon() && Math.Abs(y2val - p2[1 + j * 2]) <= typeMethods.r8_epsilon())
                     {
                         kval += 1;
                         order[j] = kval;
@@ -1507,7 +1507,7 @@ public static class Segments
                 //  If the string has closed on itself, then we don't want to
                 //  look for any more matches for this string.
                 //
-                if (Math.Abs(x1val - x2val) <= double.Epsilon && Math.Abs(y1val - y2val) <= double.Epsilon)
+                if (Math.Abs(x1val - x2val) <= typeMethods.r8_epsilon() && Math.Abs(y1val - y2val) <= typeMethods.r8_epsilon())
                 {
                     break;
                 }

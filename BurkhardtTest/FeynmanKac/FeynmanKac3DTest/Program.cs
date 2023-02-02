@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using Burkardt.Types;
 using Burkardt.Uniform;
 
 namespace FeynmanKac3DTest;
@@ -141,13 +142,13 @@ internal static class Program
         //
         //  Choose the spacing so we have about 10 points in the shortest direction.
         //
-        if (Math.Abs(a - Math.Min(Math.Min(a, b), c)) <= double.Epsilon)
+        if (Math.Abs(a - Math.Min(Math.Min(a, b), c)) <= typeMethods.r8_epsilon())
         {
             ni = 11;
             nj = 1 + (int) Math.Ceiling(b / a) * (ni - 1);
             nk = 1 + (int) Math.Ceiling(c / a) * (ni - 1);
         }
-        else if (Math.Abs(b - Math.Min(Math.Min(a, b), c)) <= double.Epsilon)
+        else if (Math.Abs(b - Math.Min(Math.Min(a, b), c)) <= typeMethods.r8_epsilon())
         {
             nj = 11;
             ni = 1 + (int) Math.Ceiling(a / b) * (nj - 1);

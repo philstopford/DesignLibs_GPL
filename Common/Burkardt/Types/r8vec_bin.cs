@@ -67,7 +67,7 @@ public static partial class typeMethods
     {
         int i;
 
-        if (Math.Abs(bin_max - bin_min) <= double.Epsilon)
+        if (Math.Abs(bin_max - bin_min) <= typeMethods.r8_epsilon())
         {
             Console.WriteLine("");
             Console.WriteLine("R8VEC_BIN - Fatal error!");

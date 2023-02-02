@@ -1075,7 +1075,7 @@ public static class Sphere
         int i;
         double result;
 
-        if (Math.Abs(r1 - r2) <= double.Epsilon)
+        if (Math.Abs(r1 - r2) <= typeMethods.r8_epsilon())
         {
             result = 0.0;
             return result;

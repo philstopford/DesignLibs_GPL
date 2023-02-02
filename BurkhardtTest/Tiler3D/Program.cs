@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Burkardt.Types;
 
 namespace Tiler3D;
 
@@ -209,37 +210,37 @@ internal static class Program
         double theta = u * DEG2RAD;
         double psi = w * DEG2RAD;
 
-        if (Math.Abs(u - umin) <= double.Epsilon)
+        if (Math.Abs(u - umin) <= typeMethods.r8_epsilon())
         {
             x = v * Math.Cos(theta) * Math.Cos(psi);
             y = v * Math.Sin(theta) * Math.Cos(psi);
             z = v * Math.Sin(psi);
         }
-        else if (Math.Abs(u - umax) <= double.Epsilon)
+        else if (Math.Abs(u - umax) <= typeMethods.r8_epsilon())
         {
             x = v * Math.Cos(theta) * Math.Cos(psi);
             y = v * Math.Sin(theta) * Math.Cos(psi);
             z = v * Math.Sin(psi);
         }
-        else if (Math.Abs(v - vmin) <= double.Epsilon)
+        else if (Math.Abs(v - vmin) <= typeMethods.r8_epsilon())
         {
             x = v * Math.Cos(theta) * Math.Cos(psi);
             y = v * Math.Sin(theta) * Math.Cos(psi);
             z = v * Math.Sin(psi);
         }
-        else if (Math.Abs(v - vmax) <= double.Epsilon)
+        else if (Math.Abs(v - vmax) <= typeMethods.r8_epsilon())
         {
             x = v * Math.Cos(theta) * Math.Cos(psi);
             y = v * Math.Sin(theta) * Math.Cos(psi);
             z = v * Math.Sin(psi);
         }
-        else if (Math.Abs(w - wmin) <= double.Epsilon)
+        else if (Math.Abs(w - wmin) <= typeMethods.r8_epsilon())
         {
             x = v * Math.Cos(theta) * Math.Cos(psi);
             y = v * Math.Sin(theta) * Math.Cos(psi);
             z = v * Math.Sin(psi);
         }
-        else if (Math.Abs(w - wmax) <= double.Epsilon)
+        else if (Math.Abs(w - wmax) <= typeMethods.r8_epsilon())
         {
             x = v * Math.Cos(theta) * Math.Cos(psi);
             y = v * Math.Sin(theta) * Math.Cos(psi);

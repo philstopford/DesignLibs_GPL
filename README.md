@@ -28,7 +28,7 @@ This is a copy of http://www.centerspace.net/resources/free-stuff/mersenne-twist
 
 ### MiscUtil:
 
-This is a modified copy of http://yoda.arachsys.com/csharp/miscutil/. The modification was the removal of some code that could not be supported under .NET Core 3.1, but which was not needed by the projects DesignLibs serves.
+This is a modified copy of http://yoda.arachsys.com/csharp/miscutil/. The modification was the removal of some code that could not be supported under .NET Core 3.1 and later .NET releases, but which was not needed by the projects DesignLibs serves.
 
 ### Noise:
 
@@ -36,7 +36,7 @@ This provides Perlin, Simplex and OpenSimplex noise functions.
 
 ### Clipper:
 
-This is a copy of the C# version of https://sourceforge.net/projects/polyclipping/. This is heavily used for polygon clipping, including raycasting.
+This is a copy of the C# library from github.com/AngusJohnson/Clipper2. This is heavily used for polygon clipping, including raycasting.
 
 ### info.lundin.math
 
@@ -52,7 +52,7 @@ This provides the basic geometric primitives (integer and floating point both). 
 
 ### GeoWrangler:
 
-This is a general purpose library to wrangle geometry of different types. Integer and floating points from GeoLib, as well as the Path(s) constructs from ClipperLib are all supported. This library allows for various transformations and conversions of geometry.
+This is a general purpose library for various transformations and conversions of geometry.
 
 It also provides:
  - raycaster

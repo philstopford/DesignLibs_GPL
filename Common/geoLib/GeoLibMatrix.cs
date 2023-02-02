@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Clipper2Lib;
 
 namespace geoLib;
 
@@ -124,12 +125,12 @@ public class GeoLibMatrix
         m[5] += y;
     }
 
-    public void TransformPoints(GeoLibPoint[] source)
+    public void TransformPoints(Path64 source)
     {
         pTransformPoints(source);
     }
 
-    private void pTransformPoints(GeoLibPoint[] source)
+    private void pTransformPoints(Path64 source)
     {
         double m11 = m[0];
         double m12 = m[1];
@@ -138,7 +139,7 @@ public class GeoLibMatrix
         double dx = m[4];
         double dy = m[5];
 
-        int sLength = source.Length;
+        int sLength = source.Count;
 #if !GEOLIBSINGLETHREADED
         Parallel.For(0, sLength, pt =>
 #else
@@ -147,19 +148,19 @@ public class GeoLibMatrix
             {
                 double x1 = m11 * source[pt].X + m21 * source[pt].Y + dx;
                 double y1 = m12 * source[pt].X + m22 * source[pt].Y + dy;
-                source[pt] = new GeoLibPoint(x1, y1);
+                source[pt] = new (x1, y1);
             }
 #if !GEOLIBSINGLETHREADED
         );
 #endif
     }
 
-    public void TransformPoints(GeoLibPointF[] source)
+    public void TransformPoints(PathD source)
     {
         pTransformPoints(source);
     }
 
-    private void pTransformPoints(GeoLibPointF[] source)
+    private void pTransformPoints(PathD source)
     {
         double m11 = m[0];
         double m12 = m[1];
@@ -168,16 +169,16 @@ public class GeoLibMatrix
         double dx = m[4];
         double dy = m[5];
 
-        int sLength = source.Length;
+        int sLength = source.Count;
 #if !GEOLIBSINGLETHREADED
         Parallel.For(0, sLength, pt => 
 #else
             for (int pt = 0; pt < sLength; pt++)
 #endif
             {
-                double x1 = m11 * source[pt].X + m21 * source[pt].Y + dx;
-                double y1 = m12 * source[pt].X + m22 * source[pt].Y + dy;
-                source[pt] = new GeoLibPointF(x1, y1);
+                double x1 = m11 * source[pt].x + m21 * source[pt].y + dx;
+                double y1 = m12 * source[pt].x + m22 * source[pt].y + dy;
+                source[pt] = new (x1, y1);
             }
 #if !GEOLIBSINGLETHREADED
         );

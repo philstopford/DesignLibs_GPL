@@ -7,18 +7,14 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using Clipper2Lib;
 
 namespace geoCoreLib;
 
 public class GeoCore
 {
-    public double scaling = 1.0f;
     private GCDrawingfield drawingField;
-
-    public static ushort maxLayers = ushort.MaxValue;
-
-    public double baseScale = 1.0;
-
+    
     public List<string> error_msgs;
     private bool valid;
 
@@ -100,24 +96,24 @@ public class GeoCore
         public class BakedGeo
         {
             public string LD { get; set; }
-            public List<GeoLibPointF[]> fgeo { get; set; }
+            public PathsD fgeo { get; set; }
             public List<bool> isText { get; set; }
 
             public BakedGeo()
             {
-                fgeo = new List<GeoLibPointF[]>();
+                fgeo = new ();
                 isText = new List<bool>();
             }
 
-            public BakedGeo(List<GeoLibPointF[]> source, List<bool> text, string ld)
+            public BakedGeo(PathsD source, List<bool> text, string ld)
             {
-                fgeo = source;
+                fgeo = new(source);
                 isText = text;
                 LD = ld;
             }
         }
 
-        public void addBakedGeo(List<GeoLibPointF[]> source, List<bool> text, string ld)
+        public void addBakedGeo(PathsD source, List<bool> text, string ld)
         {
             for (int i = 0; i < source.Count; i++)
             {
@@ -125,29 +121,29 @@ public class GeoCore
             }
         }
 
-        public void addBakedGeo(GeoLibPointF[] source, bool text, string ld)
+        public void addBakedGeo(PathD source, bool text, string ld)
         {
             int index = bakedGeo_LD.IndexOf(ld);
             switch (index)
             {
                 case -1:
-                    bakedGeo.Add(new BakedGeo(new List<GeoLibPointF[]> { source }, new List<bool> { text }, ld));
+                    bakedGeo.Add(new BakedGeo(new PathsD { new(source) }, new List<bool> { text }, ld));
                     bakedGeo_LD.Add(ld);
                     break;
                 default:
-                    bakedGeo[index].fgeo.Add(source);
+                    bakedGeo[index].fgeo.Add(new(source));
                     bakedGeo[index].isText.Add(text);
                     break;
             }
         }
 
-        public List<GeoLibPointF[]> getBakedGeo(string ld)
+        public PathsD getBakedGeo(string ld)
         {
             int index = bakedGeo_LD.IndexOf(ld);
             return index switch
             {
-                -1 => new List<GeoLibPointF[]>(),
-                _ => bakedGeo[index].fgeo
+                -1 => new (),
+                _ => new(bakedGeo[index].fgeo)
             };
         }
 
@@ -186,7 +182,7 @@ public class GeoCore
             public bool isText { get; set; }
             public string isCellRefArray { get; set; }
 
-            public List<GeoLibPointF> geometry { get; set; }
+            public PathD geometry { get; set; }
 
             public GeoLibArray arrayData { get; set; }
 
@@ -199,31 +195,31 @@ public class GeoCore
 
             private void init()
             {
-                geometry = new List<GeoLibPointF>();
+                geometry = new ();
                 isText = false;
                 name = "";
                 isCellRefArray = "";
                 arrayData = null;
             }
 
-            public Element(List<GeoLibPointF> sourceGeo, bool text)
+            public Element(PathD sourceGeo, bool text)
             {
                 init(sourceGeo, text);
             }
 
-            private void init(List<GeoLibPointF> sourceGeo, bool text)
+            private void init(PathD sourceGeo, bool text)
             {
-                geometry = sourceGeo.ToList();
+                geometry = new (sourceGeo);
                 isText = text;
             }
         }
 
-        public void addPoly(List<GeoLibPointF> poly, string ldString)
+        public void addPoly(PathD poly, string ldString)
         {
             pAddPoly(poly, ldString);
         }
 
-        private void pAddPoly(List<GeoLibPointF> poly, string ldString)
+        private void pAddPoly(PathD poly, string ldString)
         {
             elements.Add(new Element(poly, false));
             elements[^1].LD = ldString;
@@ -235,12 +231,12 @@ public class GeoCore
             }
         }
 
-        public void addText(string name, List<GeoLibPointF> poly, string ldString)
+        public void addText(string name, PathD poly, string ldString)
         {
             pAddText(name, poly, ldString);
         }
 
-        private void pAddText(string text, List<GeoLibPointF> poly, string ldString)
+        private void pAddText(string text, PathD poly, string ldString)
         {
             elements.Add(new Element(poly, true));
             elements[^1].name = text;
@@ -497,9 +493,7 @@ public class GeoCore
         pStructureList.Clear();
         structure_LayerDataTypeList[0].Clear();
         structures.Clear();
-
-        scaling = 1.0f;
-            
+        
         for (int cell = 0; cell < drawing_.cellList.Count; cell++)
         {
             if (drawing_.cellList[cell].elementList == null)
@@ -615,7 +609,7 @@ public class GeoCore
 
     private GeoData getGeometry_simple(GCCell gcCell, int element, List<string> hashList, int cellIndex)
     {
-        List<List<GeoLibPointF>> ret = new();
+        PathsD ret = new();
         List<string> lds = new();
         List<GCPolygon> lp = gcCell.elementList[element].convertToPolygons();
         List<bool> isText = new();
@@ -635,7 +629,7 @@ public class GeoCore
                 case -1:
                 {
                     hashList.Add(crP_Hash);
-                    List<GeoLibPointF> t = p.pointarray.Select(t1 => new GeoLibPointF(t1.X * scaling, t1.Y * scaling)).ToList();
+                    PathD t = new (p.pointarray.Select(t1 => new PointD (t1.X, t1.Y)));
                     if (gcCell.elementList[element].isText())
                     {
                         string text = gcCell.elementList[element].getName();
@@ -660,7 +654,7 @@ public class GeoCore
         GeoData ret = new();
         // Need to de-reference these cases.
         double angle = 0.0f;
-        GeoLibPoint point = null;
+        Point64 point = new();
         double mag = 1.0f;
         GCCell tmpCel = gcCell;
         double xSpace = 0;
@@ -732,9 +726,9 @@ public class GeoCore
     }
 
 
-    private GeoData getGeometry_2(GCCell gcCell, int element, List<string> hashList, GCCell tmpCel, int cellIndex, int referenceElement, GeoLibPoint point, int xCount, int yCount, double xSpace, double ySpace, double angle, double mag)
+    private GeoData getGeometry_2(GCCell gcCell, int element, List<string> hashList, GCCell tmpCel, int cellIndex, int referenceElement, Point64 point, int xCount, int yCount, double xSpace, double ySpace, double angle, double mag)
     {
-        List<List<GeoLibPointF>> ret = new();
+        PathsD ret = new();
         int crLayer = tmpCel.elementList[referenceElement].layer_nr;
         int crDatatype = tmpCel.elementList[referenceElement].datatype_nr;
 
@@ -774,9 +768,9 @@ public class GeoCore
 
                 GeoLibArray tmpArray = new()
                 {
-                    count = new GeoLibPoint(xCount, yCount),
-                    point = new GeoLibPoint(point),
-                    pitch = new GeoLibPoint(xSpace, ySpace)
+                    count = new (xCount, yCount),
+                    point = new (point.X, point.Y),
+                    pitch = new (xSpace, ySpace)
                 };
                 structures[cellIndex].elements[adIndex].arrayData = tmpArray;
                 break;
@@ -805,7 +799,7 @@ public class GeoCore
 
                         const int x = 0;
                         const int y = 0;
-                        List<GeoLibPointF> t = crP.pointarray.Select(t1 => new GeoLibPointF((t1.X + x * xSpace) * scaling, (t1.Y + y * ySpace) * scaling)).ToList();
+                        PathD t = new (crP.pointarray.Select(t1 => new PointD((t1.X + x * xSpace), (t1.Y + y * ySpace))));
                         structures[cellIndex].addPoly(t, ldString);
                         ret.Add(t);
                         text.Add(crP.isText());
@@ -827,22 +821,22 @@ public class GeoCore
 
     public class GeoData
     {
-        public List<List<GeoLibPointF>> geo;
+        public PathsD geo;
         public List<string> ld;
         public List<bool> isText;
         public List<string> name;
 
         public GeoData()
         {
-            geo = new List<List<GeoLibPointF>>();
+            geo = new ();
             ld = new List<string>();
             isText = new List<bool>();
             name = new List<string>();
         }
 
-        public GeoData(List<List<GeoLibPointF>> poly, List<bool> text, List<string> LDs, List<string> names)
+        public GeoData(PathsD poly, List<bool> text, List<string> LDs, List<string> names)
         {
-            geo = poly.ToList();
+            geo = new (poly);
             ld = LDs.ToList();
             isText = text.ToList();
             name = names.ToList();
@@ -864,7 +858,7 @@ public class GeoCore
             
         for (int i = 0; i < ret.geo.Count; i++)
         {
-            structures[cellIndex].addBakedGeo(ret.geo[i].ToArray(), ret.isText[i], ret.ld[i]);
+            structures[cellIndex].addBakedGeo(new(ret.geo[i]), ret.isText[i], ret.ld[i]);
         }
     }
 
@@ -910,37 +904,37 @@ public class GeoCore
 
     }
 
-    public List<GeoLibPointF[]> points(bool flatten)
+    public PathsD points(bool flatten)
     {
         return pPoints(flatten);
     }
 
-    private List<GeoLibPointF[]> pPoints(bool flatten)
+    private PathsD pPoints(bool flatten)
     {
-        List<GeoLibPointF[]> points = new();
+        PathsD points = new();
 
         switch (flatten)
         {
             case true:
                 List<GCPolygon> tmp = convertToPolygons(true);
-                points = tmp.Select(t => GeoWrangler.pointFsFromPoint(t.pointarray, 1)).ToList();
+                points = new (tmp.Select(t => GeoWrangler.PathDFromPath64(t.pointarray)));
                 break;
             default:
                 // Do we ever get here?
 
-                List<GeoLibPoint> array_count = new();
-                List<GeoLibPointF> array_pitch = new();
+                Path64 array_count = new();
+                PathD array_pitch = new();
 
-                points.Add(structures[activeStructure].elements[activeLD].geometry.ToArray());
+                points.Add(new (structures[activeStructure].elements[activeLD].geometry));
                 if (structures[activeStructure].elements[activeLD].arrayData != null)
                 {
-                    array_count.Add(new GeoLibPoint(structures[activeStructure].elements[activeLD].arrayData.count));
-                    array_pitch.Add(new GeoLibPointF(structures[activeStructure].elements[activeLD].arrayData.pitch));
+                    array_count.Add(new (structures[activeStructure].elements[activeLD].arrayData.count.X,structures[activeStructure].elements[activeLD].arrayData.count.Y));
+                    array_pitch.Add(new (structures[activeStructure].elements[activeLD].arrayData.pitch.X, structures[activeStructure].elements[activeLD].arrayData.pitch.Y));
                 }
                 else
                 {
-                    array_count.Add(new GeoLibPoint(1, 1));
-                    array_pitch.Add(new GeoLibPointF(0, 0));
+                    array_count.Add(new (1, 1));
+                    array_pitch.Add(new (0, 0));
                 }
 
                 break;

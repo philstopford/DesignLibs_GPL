@@ -1,4 +1,5 @@
 ﻿using System;
+using Burkardt.Types;
 
 namespace Burkardt.Sequence;
 
@@ -184,7 +185,7 @@ public static class Jacobi
                         //
                         //  Annihilate tiny offdiagonal elements.
                         //
-                        case > 4 when Math.Abs(termp - Math.Abs(d[p])) <= double.Epsilon && Math.Abs(termq - Math.Abs(d[q])) <= double.Epsilon:
+                        case > 4 when Math.Abs(termp - Math.Abs(d[p])) <= typeMethods.r8_epsilon() && Math.Abs(termq - Math.Abs(d[q])) <= typeMethods.r8_epsilon():
                             a[p + q * n] = 0.0;
                             break;
                         //
@@ -195,7 +196,7 @@ public static class Jacobi
                                 double h = d[q] - d[p];
                                 double term = Math.Abs(h) + gapq;
 
-                                if (Math.Abs(term - Math.Abs(h)) <= double.Epsilon)
+                                if (Math.Abs(term - Math.Abs(h)) <= typeMethods.r8_epsilon())
                                 {
                                     t = a[p + q * n] / h;
                                 }

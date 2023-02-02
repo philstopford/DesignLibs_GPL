@@ -1,17 +1,15 @@
 ﻿using gds;
-using geoLib;
 using geoWrangler;
 using oasis;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Clipper2Lib;
 
 namespace geoCoreLib;
 
 public class GCPath : GCElement
 {
-    private GeoLibPoint[] pointarray;
+    private Path64 pointarray;
     private int width;
     private int cap;
     private bool isRound;
@@ -23,19 +21,19 @@ public class GCPath : GCElement
 
     private void pGCPath()
     {
-        pointarray = Array.Empty<GeoLibPoint>();
+        pointarray = new();
     }
 
-    public GCPath(GeoLibPoint[] points, int layer, int datatype)
+    public GCPath(Path64 points, int layer, int datatype)
     {
         pGCPath(points, layer, datatype);
     }
 
-    private void pGCPath(GeoLibPoint[] points, int layer, int datatype)
+    private void pGCPath(Path64 points, int layer, int datatype)
     {
         layer_nr = layer;
         datatype_nr = datatype;
-        pointarray = points;
+        pointarray = new(points);
         width = 0;
         cap = 0;
         clean();
@@ -48,7 +46,7 @@ public class GCPath : GCElement
 
     private bool pCorrect()
     {
-        switch (pointarray.Length)
+        switch (pointarray.Count)
         {
             case < 2:
             case 2 when pointarray[0] == pointarray[1] && cap == 0:
@@ -58,77 +56,55 @@ public class GCPath : GCElement
         }
     }
 
-    public override void minimum(GeoLibPoint pos)
+    public override void minimum(Point64 pos)
     {
         pMinimum(pos);
     }
 
-    private void pMinimum(GeoLibPoint pos)
+    private void pMinimum(Point64 pos)
     {
-        GeoLibPoint p = GeoWrangler.getMinimumPoint(pointarray);
+        Point64 p = GeoWrangler.getMinimumPoint(pointarray);
         pos.X = Math.Min(pos.X, p.X);
         pos.Y = Math.Min(pos.Y, p.Y);
     }
 
-    public override void maximum(GeoLibPoint pos)
+    public override void maximum(Point64 pos)
     {
         pMaximum(pos);
     }
 
-    private void pMaximum(GeoLibPoint pos)
+    private void pMaximum(Point64 pos)
     {
-        GeoLibPoint p = GeoWrangler.getMaximumPoint(pointarray);
+        Point64 p = GeoWrangler.getMaximumPoint(pointarray);
         pos.X = Math.Max(pos.X, p.X);
         pos.Y = Math.Max(pos.Y, p.Y);
     }
 
-    public override void moveSelect(GeoLibPoint pos)
+    public override void moveSelect(Point64 pos)
     {
         pMoveSelect(pos);
     }
 
-    private void pMoveSelect(GeoLibPoint pos)
+    private void pMoveSelect(Point64 pos)
     {
         switch (select)
         {
             case true:
             {
-                int pointArrayCount = pointarray.Length;
-#if !GCSINGLETHREADED
-                Parallel.For(0, pointArrayCount, i =>
-#else
-                for (int i = 0; i < pointArrayCount; i++)
-#endif
-                    {
-                        pointarray[i].Offset(pos);
-                    }
-#if !GCSINGLETHREADED
-                );
-#endif
+                pointarray = GeoWrangler.move(pointarray, pos.X, pos.Y);
                 break;
             }
         }
     }
 
-    public override void move(GeoLibPoint pos)
+    public override void move(Point64 pos)
     {
         pMove(pos);
     }
 
-    private void pMove(GeoLibPoint pos)
+    private void pMove(Point64 pos)
     {
-        int pointArrayCount = pointarray.Length;
-#if !GCSINGLETHREADED
-        Parallel.For(0, pointArrayCount, i =>
-#else
-            for (int i = 0; i < pointArrayCount; i++)
-#endif
-            {
-                pointarray[i].Offset(pos);
-            }
-#if !GCSINGLETHREADED
-        );
-#endif
+        pointarray = GeoWrangler.move(pointarray, pos.X, pos.Y);
     }
 
     public override void resize(double size)
@@ -149,9 +125,9 @@ public class GCPath : GCElement
 
     private void pClean()
     {
-        for (int i = 0; i < pointarray.Length - 1; i++)
+        for (int i = 0; i < pointarray.Count - 1; i++)
         {
-            switch (pointarray.Length)
+            switch (pointarray.Count)
             {
                 case <= 2:
                     return; //no area
@@ -174,9 +150,7 @@ public class GCPath : GCElement
 
     private void pDeletePoint(int pos)
     {
-        List<GeoLibPoint> newArray = pointarray.ToList();
-        newArray.RemoveAt(pos);
-        pointarray = newArray.ToArray();
+        pointarray.RemoveAt(pos);
     }
 
     public override void setWidth(int width_)
@@ -207,7 +181,7 @@ public class GCPath : GCElement
     private List<GCPolygon> pConvertToPolygons()
     {
         List<GCPolygon> ret = new();
-        GeoLibPoint[] tmp = GeoWrangler.inflatePath(pointarray, width);
+        Path64 tmp = GeoWrangler.inflatePath(pointarray, width);
         ret.Add(new GCPolygon(tmp, layer_nr, datatype_nr));
         return ret;
     }
@@ -262,7 +236,7 @@ public class GCPath : GCElement
         gw.bw.Write((byte)3);
         gw.bw.Write(width);
 
-        int i = pointarray.Length;
+        int i = pointarray.Count;
         i = i switch
         {
             > 8191 => 8191,
@@ -275,8 +249,8 @@ public class GCPath : GCElement
         gw.bw.Write((byte)3);
         for (int k = 0; k < i; k++)
         {
-            gw.bw.Write(pointarray[k].X);
-            gw.bw.Write(pointarray[k].Y);
+            gw.bw.Write((int)pointarray[k].X);
+            gw.bw.Write((int)pointarray[k].Y);
         }
         // endel
         gw.bw.Write((ushort)4);
@@ -373,14 +347,14 @@ public class GCPath : GCElement
         switch (info_byte & 16)
         {
             case > 0:
-                ow.modal.geometry_x = pointarray[0].X;
+                ow.modal.geometry_x = (int)pointarray[0].X;
                 ow.writeSignedInteger(ow.modal.geometry_x);
                 break;
         }
         switch (info_byte & 8)
         {
             case > 0:
-                ow.modal.geometry_y = pointarray[0].Y;
+                ow.modal.geometry_y = (int)pointarray[0].Y;
                 ow.writeSignedInteger(ow.modal.geometry_y);
                 break;
         }

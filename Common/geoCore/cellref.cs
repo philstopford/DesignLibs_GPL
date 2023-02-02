@@ -1,15 +1,16 @@
 ﻿using gds;
-using geoLib;
 using oasis;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Clipper2Lib;
+using geoWrangler;
 
 namespace geoCoreLib;
 
 public class GCCellref : GCElement
 {
-    public GeoLibPoint point { get; set; }
+    public Point64 point { get; set; }
     private string name;
     public GCCell cell_ref { get; set; }
     public GCStrans trans { get; set; }
@@ -24,12 +25,12 @@ public class GCCellref : GCElement
         name = s;
     }
 
-    public GCCellref(GCCell c, GeoLibPoint pos)
+    public GCCellref(GCCell c, Point64 pos)
     {
         pGCCellref(c, pos);
     }
 
-    private void pGCCellref(GCCell c, GeoLibPoint pos)
+    private void pGCCellref(GCCell c, Point64 pos)
     {
         cell_ref = c;
         // Tag layer and datatype to allow this element to be filtered out from LD and geo lists.
@@ -51,39 +52,39 @@ public class GCCellref : GCElement
         // Tag layer and datatype to allow this element to be filtered out from LD and geo lists.
         layer_nr = -1;
         datatype_nr = -1;
-        point = new GeoLibPoint(0, 0);
+        point = new (0, 0);
         trans = new GCStrans();
         trans.reset();
     }
 
-    public override void setPos(GeoLibPoint p)
+    public override void setPos(Point64 p)
     {
         pSetPos(p);
     }
 
-    private void pSetPos(GeoLibPoint p)
+    private void pSetPos(Point64 p)
     {
-        point = new GeoLibPoint(p.X, p.Y);
+        point = new (p.X, p.Y);
     }
 
-    public override GeoLibPoint getPos()
+    public override Point64 getPos()
     {
         return pGetPos();
     }
 
-    private GeoLibPoint pGetPos()
+    private Point64 pGetPos()
     {
         return point;
     }
 
-    public override void minimum(GeoLibPoint p)
+    public override void minimum(Point64 p)
     {
         pMinimum(p);
     }
 
-    private void pMinimum(GeoLibPoint p)
+    private void pMinimum(Point64 p)
     {
-        GeoLibPoint pos1 = new(p.X - point.X, p.Y - point.Y);
+        Point64 pos1 = new(p.X - point.X, p.Y - point.Y);
         pos1.Y = trans.mirror_x switch
         {
             true => -pos1.Y,
@@ -96,7 +97,7 @@ public class GCCellref : GCElement
                 pos1.X = -pos1.X;
                 break;
         }
-        GeoLibPoint pos2 = pos1;
+        Point64 pos2 = pos1;
         cell_ref.maximum(pos1);
         cell_ref.minimum(pos2);
         switch (trans.mirror_x)
@@ -120,8 +121,8 @@ public class GCCellref : GCElement
                 pos2.X = -pos2.X;
                 break;
         }
-        pos1.Offset(point);
-        pos2.Offset(point);
+        pos1 = GeoWrangler.move(pos1, point.X, point.Y);
+        pos2 = GeoWrangler.move(pos2, point.X, point.Y);
         p.X = Math.Min(p.X, pos2.X);
         p.X = Math.Min(p.X, pos1.X);
         p.Y = Math.Min(p.Y, pos2.Y);
@@ -148,14 +149,14 @@ public class GCCellref : GCElement
         trans.angle = angle;
     }
 
-    public override void maximum(GeoLibPoint p)
+    public override void maximum(Point64 p)
     {
         pMaximum(p);
     }
 
-    private void pMaximum(GeoLibPoint p)
+    private void pMaximum(Point64 p)
     {
-        GeoLibPoint pos1 = new(p.X - point.X, p.Y - point.Y);
+        Point64 pos1 = new(p.X - point.X, p.Y - point.Y);
         pos1.Y = trans.mirror_x switch
         {
             true => -pos1.Y,
@@ -168,7 +169,7 @@ public class GCCellref : GCElement
                 pos1.X = -pos1.X;
                 break;
         }
-        GeoLibPoint pos2 = pos1;
+        Point64 pos2 = pos1;
         cell_ref.maximum(pos1);
         cell_ref.minimum(pos2);
         switch (trans.mirror_x)
@@ -192,8 +193,8 @@ public class GCCellref : GCElement
                 pos2.X = -pos2.X;
                 break;
         }
-        pos1.Offset(point);
-        pos2.Offset(point);
+        pos1 = GeoWrangler.move(pos1, point.X, point.Y);
+        pos2 = GeoWrangler.move(pos2, point.X, point.Y);
         p.X = Math.Max(p.X, pos2.X);
         p.X = Math.Max(p.X, pos1.X);
         p.Y = Math.Max(p.Y, pos2.Y);
@@ -210,24 +211,24 @@ public class GCCellref : GCElement
         return cell_ref;
     }
 
-    public override void move(GeoLibPoint p)
+    public override void move(Point64 p)
     {
         pMove(p);
     }
 
-    private void pMove(GeoLibPoint p)
+    private void pMove(Point64 p)
     {
-        point.Offset(p);
+        point = GeoWrangler.move(point, p.X, p.Y);
     }
 
-    public override void moveSelect(GeoLibPoint p)
+    public override void moveSelect(Point64 p)
     {
         pMoveSelect(p);
     }
 
-    private void pMoveSelect(GeoLibPoint p)
+    private void pMoveSelect(Point64 p)
     {
-        point.Offset(p);
+        pMove(p);
     }
 
     public override void setMirrorx()
@@ -247,8 +248,7 @@ public class GCCellref : GCElement
 
     private void pResize(double factor)
     {
-        point.X = (int)(point.X * factor);
-        point.Y = (int)(point.Y * factor);
+        point = new ((int)(point.X * factor), (int)(point.Y * factor));
     }
 
     public override bool isCellref()
@@ -333,8 +333,8 @@ public class GCCellref : GCElement
         gw.bw.Write((ushort)(2 * 4 + 4));
         gw.bw.Write((byte)0x10);
         gw.bw.Write((byte)3);
-        gw.bw.Write(point.X);
-        gw.bw.Write(point.Y);
+        gw.bw.Write((int)point.X);
+        gw.bw.Write((int)point.Y);
         // endel
         gw.bw.Write((ushort)4);
         gw.bw.Write((byte)0x11);
@@ -396,14 +396,14 @@ public class GCCellref : GCElement
         switch (info_byte & 32)
         {
             case > 0:
-                ow.modal.placement_x = point.X;
+                ow.modal.placement_x = (int)point.X;
                 ow.writeSignedInteger(ow.modal.placement_x);
                 break;
         }
         switch (info_byte & 16)
         {
             case > 0:
-                ow.modal.placement_y = point.Y;
+                ow.modal.placement_y = (int)point.Y;
                 ow.writeSignedInteger(ow.modal.placement_y);
                 break;
         }

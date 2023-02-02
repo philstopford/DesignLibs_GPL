@@ -1,5 +1,6 @@
 ﻿using System;
 using Burkardt.AppliedStatistics;
+using Burkardt.Types;
 
 namespace Burkardt.TOMSNS;
 
@@ -125,7 +126,7 @@ public static partial class TOMS
         temp = ib;
         double ps = q - ib;
 
-        if (Math.Abs(q - temp) <= double.Epsilon)
+        if (Math.Abs(q - temp) <= typeMethods.r8_epsilon())
         {
             ps = 1.0;
         }

@@ -2,6 +2,7 @@
 using geoLib;
 using oasis;
 using System.Collections.Generic;
+using Clipper2Lib;
 
 namespace geoCoreLib;
 
@@ -55,44 +56,44 @@ public class GCBox : GCElement
         return rect.Top != rect.Bottom;
     }
 
-    public override void maximum(GeoLibPoint p)
+    public override void maximum(Point64 p)
     {
         pMaximum(p);
     }
 
-    private void pMaximum(GeoLibPoint p)
+    private void pMaximum(Point64 p)
     {
         p.X = rect.Right;
         p.Y = rect.Top;
     }
 
-    public override void minimum(GeoLibPoint p)
+    public override void minimum(Point64 p)
     {
         pMinimum(p);
     }
 
-    private void pMinimum(GeoLibPoint p)
+    private void pMinimum(Point64 p)
     {
         p.X = rect.Left;
         p.Y = rect.Bottom;
     }
 
-    public override void move(GeoLibPoint pos)
+    public override void move(Point64 pos)
     {
         pMove(pos);
     }
 
-    private void pMove(GeoLibPoint pos)
+    private void pMove(Point64 pos)
     {
         rect.Offset(pos);
     }
 
-    public override void moveSelect(GeoLibPoint p)
+    public override void moveSelect(Point64 p)
     {
         pMoveSelect(p);
     }
 
-    private void pMoveSelect(GeoLibPoint p)
+    private void pMoveSelect(Point64 p)
     {
         switch (select)
         {
@@ -125,12 +126,12 @@ public class GCBox : GCElement
     private List<GCPolygon> pConvertToPolygons()
     {
         List<GCPolygon> ret = new();
-        GeoLibPoint[] points = new GeoLibPoint[5];
-        points[0] = new GeoLibPoint(rect.Left, rect.Top);
-        points[1] = new GeoLibPoint(rect.Right, rect.Top);
-        points[2] = new GeoLibPoint(rect.Right, rect.Bottom);
-        points[3] = new GeoLibPoint(rect.Left, rect.Bottom);
-        points[4] = new GeoLibPoint(rect.Left, rect.Top);
+        Path64 points = Helper.initedPath64(5);
+        points[0] = new (rect.Left, rect.Top);
+        points[1] = new (rect.Right, rect.Top);
+        points[2] = new (rect.Right, rect.Bottom);
+        points[3] = new (rect.Left, rect.Bottom);
+        points[4] = new (rect.Left, rect.Top);
         ret.Add(new GCPolygon(points, layer_nr, datatype_nr));
         return ret;
     }
@@ -202,19 +203,19 @@ public class GCBox : GCElement
         {
             info_byte += 16;
         }
-        if (rect.Top != ow.modal.geometry_y)
+        if (rect.Bottom != ow.modal.geometry_y)
         {
             info_byte += 8;
         }
-        if (rect.Bottom - rect.Top != ow.modal.geometry_h)
+        if (rect.Height != ow.modal.geometry_h)
         {
             info_byte += 32;
         }
-        if (rect.Right - rect.Left != ow.modal.geometry_w)
+        if (rect.Width != ow.modal.geometry_w)
         {
             info_byte += 64;
         }
-        if (rect.Right - rect.Left == rect.Bottom - rect.Top)
+        if (rect.Width == rect.Height)
         {
             info_byte += 128;
             info_byte = (byte)(info_byte & (255 - 32));
@@ -239,35 +240,40 @@ public class GCBox : GCElement
         {
             case > 0:
             {
-                ow.modal.geometry_w = rect.Right - rect.Left;
+                ow.modal.geometry_w = rect.Width;
                 ow.writeUnsignedInteger((uint)ow.modal.geometry_w);
-                ow.modal.geometry_h = (info_byte & 128) switch
-                {
-                    > 0 => ow.modal.geometry_w,
-                    _ => ow.modal.geometry_h
-                };
 
                 break;
             }
         }
+
+        switch (info_byte & 128)
+        {
+            case > 0:
+                ow.modal.geometry_h = ow.modal.geometry_w;
+                break;
+            default:
+                ow.modal.geometry_h = rect.Height;
+                break;
+        }
+
         switch (info_byte & 32)
         {
             case > 0:
-                ow.modal.geometry_h = rect.Bottom - rect.Top;
                 ow.writeUnsignedInteger((uint)ow.modal.geometry_h);
                 break;
         }
         switch (info_byte & 16)
         {
             case > 0:
-                ow.modal.geometry_x = rect.Left;
+                ow.modal.geometry_x = rect.Left; //rect.X;
                 ow.writeSignedInteger(ow.modal.geometry_x);
                 break;
         }
         switch (info_byte & 8)
         {
             case > 0:
-                ow.modal.geometry_y = rect.Top;
+                ow.modal.geometry_y = rect.Bottom; // rect.Y;
                 ow.writeSignedInteger(ow.modal.geometry_y);
                 break;
         }

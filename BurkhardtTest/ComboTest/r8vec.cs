@@ -112,7 +112,7 @@ internal static partial class Program
                 {
                     ncan[k - 1] = 0;
                 }
-                else if (Math.Abs(t - total) <= double.Epsilon)
+                else if (Math.Abs(t - total) <= typeMethods.r8_epsilon())
                 {
                     ncan[k - 1] += 1;
                     stacks[nstack] = 0.0;
@@ -140,7 +140,7 @@ internal static partial class Program
                         }
                         case < t when k == n:
                         {
-                            if (Math.Abs(total + w[k - 1] - t) <= double.Epsilon)
+                            if (Math.Abs(total + w[k - 1] - t) <= typeMethods.r8_epsilon())
                             {
                                 ncan[k - 1] += 1;
                                 stacks[nstack] = 1.0;

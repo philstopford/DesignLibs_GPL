@@ -181,16 +181,7 @@ public sealed class NonClosingStreamWrapper : Stream
         CheckClosed();
         stream.Flush();
     }
-
-    /// <summary>
-    /// Throws a NotSupportedException.
-    /// </summary>
-    /// <returns>n/a</returns>
-    public override object InitializeLifetimeService()
-    {
-        throw new NotSupportedException();
-    }
-
+    
     /// <summary>
     /// Returns the length of the underlying stream.
     /// </summary>

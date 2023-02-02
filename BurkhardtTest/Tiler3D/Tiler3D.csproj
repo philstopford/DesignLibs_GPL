@@ -13,4 +13,8 @@
       <DefineConstants>TRACE;NOVELDRID;COREAPP</DefineConstants>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\..\Common\Burkardt\Burkardt.csproj" />
+    </ItemGroup>
+
 </Project>

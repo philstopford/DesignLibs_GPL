@@ -110,7 +110,7 @@ public static class Zero
 
                 double q;
                 double p;
-                if (Math.Abs(sa - c) <= double.Epsilon)
+                if (Math.Abs(sa - c) <= typeMethods.r8_epsilon())
                 {
                     p = 2.0 * m * s;
                     q = 1.0 - s;

@@ -252,7 +252,7 @@ public static partial class PDF
                                     v = beta * Math.Log(u1 / (1.0 - u1));
                                     w = a * Math.Exp(v);
 
-                                    if (Math.Abs(aa - a) <= double.Epsilon)
+                                    if (Math.Abs(aa - a) <= typeMethods.r8_epsilon())
                                     {
                                         value = w / (b + w);
                                     }
@@ -287,7 +287,7 @@ public static partial class PDF
             }
         }
 
-        if (Math.Abs(aa - a) <= double.Epsilon)
+        if (Math.Abs(aa - a) <= typeMethods.r8_epsilon())
         {
             value = w / (b + w);
         }

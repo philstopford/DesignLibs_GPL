@@ -174,7 +174,7 @@ public static class WrightOmega
             //
             //  Test if exactly on the singular points.
             //
-            case -1.0 when Math.Abs(Complex.Abs(y) - Math.PI) <= double.Epsilon:
+            case -1.0 when Math.Abs(Complex.Abs(y) - Math.PI) <= typeMethods.r8_epsilon():
                 w = new Complex(-1.0, 0.0);
                 e = new Complex(0.0, 0.0);
                 r = new Complex(0.0, 0.0);

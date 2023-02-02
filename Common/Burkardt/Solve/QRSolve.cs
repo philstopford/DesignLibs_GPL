@@ -750,7 +750,7 @@ public static class QRSolve
                 t = tt;
                 tt = 1.0 + 0.05 * tt * Math.Pow(qraux[j - 1] / work[j - 1], 2);
 
-                if (Math.Abs(tt - 1.0) > double.Epsilon)
+                if (Math.Abs(tt - 1.0) > typeMethods.r8_epsilon())
                 {
                     qraux[j - 1] *= Math.Sqrt(t);
                 }

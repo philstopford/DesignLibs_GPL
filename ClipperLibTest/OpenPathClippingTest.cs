@@ -8,6 +8,33 @@ using Paths = Paths64;
 
 public class OpenPathClippingTest
 {
+    public static void parallelLines()
+    {
+        Path64 a1 = Clipper.MakePath(new [] {10, 0, 20, 0});
+        Path64 a2 = Clipper.MakePath(new [] {30, 0, 40, 0});
+        Path64 a3 = Clipper.MakePath(new [] {50, 0, 60, 0});
+        Path64 b1 = Clipper.MakePath(new [] {20, 30, 30, 30});
+        Path64 b2 = Clipper.MakePath(new [] {40, 30, 50, 30});
+        Path64 b3 = Clipper.MakePath(new [] {60, 30, 70, 30});
+
+        Clipper64 c = new();
+        c.AddOpenSubject(a1);
+        c.AddOpenSubject(a2);
+        c.AddOpenSubject(a3);
+        c.AddOpenSubject(b1);
+        c.AddOpenSubject(b2);
+        c.AddOpenSubject(b3);
+
+        Path64 bounds = Clipper.MakePath(new[] { -100, -100, 100, 100 });
+        c.AddClip(bounds);
+        
+        Paths64 o = new();
+        c.Execute(ClipType.Intersection, FillRule.EvenOdd, new Paths64(), o);
+
+        int x = 2;
+    }
+    
+    
     public static void complextest()
     {
         PathD clippingPath = Clipper.MakePath(new[]

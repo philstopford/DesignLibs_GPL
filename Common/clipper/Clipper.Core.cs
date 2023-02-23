@@ -1,6 +1,6 @@
 ﻿/*******************************************************************************
 * Author    :  Angus Johnson                                                   *
-* Date      :  11 February 2023                                                *
+* Date      :  21 February 2023                                                *
 * Website   :  http://www.angusj.com                                           *
 * Copyright :  Angus Johnson 2010-2023                                         *
 * Purpose   :  Core structures and functions for the Clipper Library           *
@@ -291,9 +291,12 @@ namespace Clipper2Lib
     public long top;
     public long right;
     public long bottom;
+    private static readonly string InvalidRect = "Invalid Rect64 assignment";
 
     public Rect64(long l, long t, long r, long b)
     {
+      if (r < l || b < t)
+        throw new Exception(InvalidRect);
       left = l;
       top = t;
       right = r;
@@ -381,9 +384,12 @@ namespace Clipper2Lib
     public double top;
     public double right;
     public double bottom;
+    private static readonly string InvalidRect = "Invalid RectD assignment";
 
     public RectD(double l, double t, double r, double b)
     {
+      if (r < l || b < t)
+        throw new Exception(InvalidRect);
       left = l;
       top = t;
       right = r;
@@ -398,6 +404,18 @@ namespace Clipper2Lib
       bottom = rec.bottom;
     }
 
+    public RectD(bool isValid)
+    {
+      if (isValid)
+      {
+        left = 0; top = 0; right = 0; bottom = 0;
+      }
+      else
+      {
+        left = double.MaxValue; top = double.MaxValue;
+        right = -double.MaxValue; bottom = -double.MaxValue;
+      }
+    }
     public double Width
     {
       get => right - left;
@@ -465,6 +483,7 @@ namespace Clipper2Lib
       return s;
     }
   }
+
   public class Paths64 : List<Path64>
   {
     private Paths64() : base() { }
@@ -556,6 +575,15 @@ namespace Clipper2Lib
 
     private static readonly string
       precision_range_error = "Error: Precision is out of range.";
+
+#if USINGZ
+    public static Path64 SetZ(Path64 path, long Z)
+    {
+      Path64 result = new Path64(path.Count);
+      foreach (Point64 pt in path) result.Add(new Point64(pt.X, pt.Y, Z));
+      return result;
+    }
+#endif
 
     internal static void CheckPrecision(int precision)
     {
@@ -683,33 +711,36 @@ namespace Clipper2Lib
 
     public static PointInPolygonResult PointInPolygon(Point64 pt, Path64 polygon)
     {
-      int len = polygon.Count, i = len - 1;
-
+      int len = polygon.Count, start = 0;
       if (len < 3) return PointInPolygonResult.IsOutside;
 
-      while (i >= 0 && polygon[i].Y == pt.Y) --i;
-      if (i < 0) return PointInPolygonResult.IsOutside;
+      while (start < len && polygon[start].Y == pt.Y) start++;
+      if (start == len) return PointInPolygonResult.IsOutside;
 
-      int val = 0;
-      bool isAbove = polygon[i].Y < pt.Y;
-      i = 0;
-
-      while (i < len)
+      double d;
+      bool isAbove = polygon[start].Y < pt.Y, startingAbove = isAbove;
+      int val = 0, i = start + 1, end = len;
+      while (true)
       {
+        if (i == end)
+        {
+          if (end == 0 || start == 0) break;  
+          end = start;
+          i = 0;
+        }
+        
         if (isAbove)
         {
-          while (i < len && polygon[i].Y < pt.Y) i++;
-          if (i == len) break;
+          while (i < end && polygon[i].Y < pt.Y) i++;
+          if (i == end) continue;
         }
         else
         {
-          while (i < len && polygon[i].Y > pt.Y) i++;
-          if (i == len) break;
+          while (i < end && polygon[i].Y > pt.Y) i++;
+          if (i == end) continue;
         }
 
-        Point64 prev;
-
-        Point64 curr = polygon[i];
+        Point64 curr = polygon[i], prev;
         if (i > 0) prev = polygon[i - 1];
         else prev = polygon[len - 1];
 
@@ -719,6 +750,7 @@ namespace Clipper2Lib
             ((pt.X < prev.X) != (pt.X < curr.X))))
             return PointInPolygonResult.IsOn;
           i++;
+          if (i == start) break;
           continue;
         }
 
@@ -732,13 +764,25 @@ namespace Clipper2Lib
         }
         else
         {
-          double d = CrossProduct(prev, curr, pt);
+          d = CrossProduct(prev, curr, pt);
           if (d == 0) return PointInPolygonResult.IsOn;
           if ((d < 0) == isAbove) val = 1 - val;
         }
         isAbove = !isAbove;
         i++;
       }
+
+      if (isAbove != startingAbove)
+      {
+        if (i == len) i = 0;  
+        if (i == 0)
+          d = CrossProduct(polygon[len - 1], polygon[0], pt);
+        else
+          d = CrossProduct(polygon[i - 1], polygon[i], pt);
+        if (d == 0) return PointInPolygonResult.IsOn;
+        if ((d < 0) == isAbove) val = 1 - val;
+      }
+
       if (val == 0)
         return PointInPolygonResult.IsOutside;
       return PointInPolygonResult.IsInside;

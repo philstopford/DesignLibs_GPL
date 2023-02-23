@@ -1,6 +1,6 @@
 ﻿/*******************************************************************************
 * Author    :  Angus Johnson                                                   *
-* Date      :  11 February 2023                                                *
+* Date      :  21 February 2023                                                *
 * Website   :  http://www.angusj.com                                           *
 * Copyright :  Angus Johnson 2010-2023                                         *
 * Purpose   :  This module contains simple functions that will likely cover    *
@@ -14,7 +14,6 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Runtime.CompilerServices;
 
 namespace Clipper2Lib
@@ -25,14 +24,11 @@ namespace Clipper2Lib
 
   public static class Clipper
   {
-    private static Rect64 maxInvalidRect64 = new Rect64(
-      long.MaxValue, long.MaxValue, long.MinValue, long.MinValue);
+    private static Rect64 invalidRect64 = new Rect64(false);
+    public static Rect64 InvalidRect64 => invalidRect64;
 
-    private static RectD maxInvalidRectD = new RectD(
-      double.MaxValue, double.MaxValue, -double.MaxValue, -double.MaxValue);
-
-    public static Rect64 MaxInvalidRect64 => maxInvalidRect64;
-    public static RectD MaxInvalidRectD => maxInvalidRectD;
+    private static RectD invalidRectD = new RectD(false);
+    public static RectD InvalidRectD => invalidRectD;
 
     public static Paths64 Intersect(Paths64 subject, Paths64 clip, FillRule fillRule)
     {
@@ -238,7 +234,17 @@ namespace Clipper2Lib
       return Minkowski.Sum(pattern, path, isClosed);
     }
 
+    public static PathsD MinkowskiSum(PathD pattern, PathD path, bool isClosed)
+    {
+      return Minkowski.Sum(pattern, path, isClosed);
+    }
+
     public static Paths64 MinkowskiDiff(Path64 pattern, Path64 path, bool isClosed)
+    {
+      return Minkowski.Diff(pattern, path, isClosed);
+    }
+
+    public static PathsD MinkowskiDiff(PathD pattern, PathD path, bool isClosed)
     {
       return Minkowski.Diff(pattern, path, isClosed);
     }
@@ -554,7 +560,7 @@ namespace Clipper2Lib
 
     public static Rect64 GetBounds(Path64 path)
     {
-      Rect64 result = MaxInvalidRect64;
+      Rect64 result = InvalidRect64;
       foreach (Point64 pt in path)
       {
         if (pt.X < result.left) result.left = pt.X;
@@ -567,7 +573,7 @@ namespace Clipper2Lib
 
     public static Rect64 GetBounds(Paths64 paths)
     {
-      Rect64 result = MaxInvalidRect64;
+      Rect64 result = InvalidRect64;
       foreach (Path64 path in paths)
         foreach (Point64 pt in path)
         {
@@ -581,7 +587,7 @@ namespace Clipper2Lib
 
     public static RectD GetBounds(PathD path)
     {
-      RectD result = MaxInvalidRectD;
+      RectD result = InvalidRectD;
       foreach (PointD pt in path)
       {
         if (pt.x < result.left) result.left = pt.x;
@@ -594,7 +600,7 @@ namespace Clipper2Lib
 
     public static RectD GetBounds(PathsD paths)
     {
-      RectD result = MaxInvalidRectD;
+      RectD result = InvalidRectD;
       foreach (PathD path in paths)
         foreach (PointD pt in path)
         {

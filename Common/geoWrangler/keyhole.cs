@@ -352,10 +352,11 @@ public static partial class GeoWrangler
 
         ClipperOffset co = new() {PreserveCollinear = true};
         co.AddPath(rescaledSource, JoinType.Miter, EndType.Square);
-        
-        Paths64 tmp = co.Execute(2 * customSizing);
 
-        // Sizr back down again.
+        Paths64 tmp = new();
+        co.Execute(2 * customSizing, tmp);
+
+        // Size back down again.
         PathsD sPaths = _pPathsDFromPaths64(tmp, constants.scalar_1E2_inv);
 
         return pReorderXY(sPaths);
@@ -491,12 +492,13 @@ public static partial class GeoWrangler
         ClipperOffset co = new() {PreserveCollinear = true};
         co.AddPaths(rescaledSource, joinType, EndType.Polygon);
         // The scalar below must be aligned with the usage in pInflateEdge
-        Paths64 tmp = co.Execute(customSizing * constants.scalar_1E2);
+        Paths64 tmp = new();
+        co.Execute(customSizing * constants.scalar_1E2, tmp);
         co.Clear();
         co.AddPaths(new(tmp), joinType, EndType.Polygon);
         tmp.Clear();
         // The scalar below must be aligned with the usage in pInflateEdge
-        tmp = co.Execute(-(customSizing  * constants.scalar_1E2)); // Size back to original dimensions
+        co.Execute(-(customSizing  * constants.scalar_1E2), tmp); // Size back to original dimensions
 
         PathsD cGeometry = _pPathsDFromPaths64(tmp, constants.scalar_1E4_inv);
         
@@ -535,12 +537,13 @@ public static partial class GeoWrangler
         ClipperOffset co = new() {PreserveCollinear = true};
         co.AddPath(rescaledSource, joinType, EndType.Polygon);
         // The scalar below must be aligned with the usage in pInflateEdge
-        Paths64 tmp = co.Execute(customSizing * constants.scalar_1E2);
+        Paths64 tmp = new();
+        co.Execute(customSizing * constants.scalar_1E2, tmp);
         co.Clear();
         co.AddPaths(new (tmp), joinType, EndType.Polygon);
         tmp.Clear();
         // The scalar below must be aligned with the usage in pInflateEdge
-        tmp = co.Execute(-(customSizing * constants.scalar_1E2)); // Size back to original dimensions
+        co.Execute(-(customSizing * constants.scalar_1E2), tmp); // Size back to original dimensions
 
         PathsD cGeometry = _pPathsDFromPaths64(tmp, constants.scalar_1E2_inv);
 

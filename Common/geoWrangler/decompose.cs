@@ -474,7 +474,8 @@ public static partial class GeoWrangler
                 co.AddPaths(rescaledSource, JoinType.Miter, EndType.Square);
 
                 // Width is 2 for 1 unit each side (+/-), and the second value below is to balance the cut.
-                Paths64 cutters = co.Execute(2.0);
+                Paths64 cutters = new();
+                co.Execute(2.0, cutters);
                 
                 Clipper64 c1 = new();
                 c1.AddSubject(_pPath64FromPathD(lPoly, constants.scalar_1E2));

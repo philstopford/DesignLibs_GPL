@@ -60,7 +60,7 @@ public class STest
 
         Clipper2Lib.ClipperOffset co = new() {PreserveCollinear = true, ReverseSolution = true};
         co.AddPaths(iPoly, Clipper2Lib.JoinType.Miter, Clipper2Lib.EndType.Polygon);
-        iPoly = co.Execute(1.0001);
+        co.Execute(1.0001, iPoly);
         
         /* Expected output
         iPoly = {List<List<Point64>>} Count = 1

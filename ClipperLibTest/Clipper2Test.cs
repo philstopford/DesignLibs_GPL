@@ -152,7 +152,8 @@ public static class Clipper2Test
 
         ClipperOffset co = new() {PreserveCollinear = true, ReverseSolution = true};
         co.AddPath(colinear, JoinType.Miter, EndType.Polygon);
-        Paths64 temp = co.Execute(1.0);
+        Paths64 temp = new();
+        co.Execute(1.0, temp);
         
         /* Expected output
         temp = {List<List<Point64>>} Count = 1
@@ -564,7 +565,8 @@ public static class Clipper2Test
 
         ClipperOffset co = new() {PreserveCollinear = true, ReverseSolution = true};
         co.AddPath(edge, JoinType.Miter, EndType.Square);
-        Paths64 p = co.Execute(500);
+        Paths64 p = new();
+        co.Execute(500, p);
         
         /* Expected output
         p = {List<List<Point64>>} Count = 1
@@ -766,7 +768,8 @@ public static class Clipper2Test
         ClipperOffset co = new() {PreserveCollinear = true, ReverseSolution = true};
         co.AddPaths(t, JoinType.Miter, EndType.Square);
 
-        Paths64 cutters = co.Execute(2.0);
+        Paths64 cutters = new();
+        co.Execute(2.0, cutters);
 
         /* Expected output
         cutters = {List<List<Point64>>} Count = 1
@@ -917,7 +920,8 @@ public static class Clipper2Test
         ClipperOffset co = new() {PreserveCollinear = true, ReverseSolution = true};
         co.AddPaths(kHSource, JoinType.Miter, EndType.Polygon);
         // ClipperLib2 specifies full width in offset for open path, unlike version 1
-        Paths64 out_ = co.Execute(2*keyhole_sizing);
+        Paths64 out_ = new();
+        co.Execute(2*keyhole_sizing, out_);
         
         /* Expected output
         out_ = {List<List<Point64>>} Count = 2
@@ -964,7 +968,8 @@ public static class Clipper2Test
         ClipperOffset co = new() {PreserveCollinear = true, ReverseSolution = true};
         co.AddPaths(newEdges, JoinType.Miter, EndType.Square);
         // ClipperLib2 specifies full width in offset for open path, unlike version 1
-        Paths64 cutters = co.Execute( 2.0);
+        Paths64 cutters = new();
+        co.Execute( 2.0, cutters);
         
         /* Expected output
         cutters = {List<List<Point64>>} Count = 1

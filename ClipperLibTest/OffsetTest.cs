@@ -140,7 +140,8 @@ public static class OffsetTest
         
         ClipperOffset co = new() {PreserveCollinear = true, ReverseSolution = true};
         co.AddPath(sourcePath, JoinType.Miter, EndType.Polygon);
-        Paths64 resizedPolyData = co.Execute(Convert.ToDouble(6 * 10000));
+        Paths64 resizedPolyData = new();
+        co.Execute(Convert.ToDouble(6 * 10000), resizedPolyData);
         
         /* Expected output
         resizedPolyData = {List<List<Point64>>} Count = 1
@@ -264,7 +265,8 @@ public static class OffsetTest
         
         ClipperOffset co2 = new() {PreserveCollinear = true, ReverseSolution = true};
         co2.AddPath(test, Clipper2Lib.JoinType.Miter, Clipper2Lib.EndType.Polygon);
-        Paths64 c2up = co2.Execute(2.0);
+        Paths64 c2up = new();
+        co2.Execute(2.0, c2up);
         
         /* Expected output
          c2up = {List<List<Point64>>} Count = 2
@@ -282,7 +284,8 @@ public static class OffsetTest
         
         co2.Clear();
         co2.AddPaths(c2up, Clipper2Lib.JoinType.Miter, Clipper2Lib.EndType.Polygon);
-        Paths64 c2down = co2.Execute(-2.0);
+        Paths64 c2down = new();
+        co2.Execute(-2.0, c2down);
         
         /* Expected output
          c2down = {List<List<Point64>>} Count = 2

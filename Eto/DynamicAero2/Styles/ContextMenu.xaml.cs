@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DynamicAero2.Styles
+﻿namespace DynamicAero2.Styles
 {
     partial class ContextMenu
     {

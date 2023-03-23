@@ -1,11 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <PackageProjectUrl>https://kuiper.zone/csharp-randomness/</PackageProjectUrl>
     <Platforms>AnyCPU;x64</Platforms>
+    <LangVersion>11</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>

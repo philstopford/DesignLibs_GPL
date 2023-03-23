@@ -571,13 +571,57 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/ClipperLibTest/Clipper2Test.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ClipperLibTest/Clipper2Test.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClipperLibTest/OffsetTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ClipperLibTest/OffsetTest.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ClipperLibTest/STest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ClipperLibTest/STest.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/decompose.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/decompose.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/inflate.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/inflate.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/inflate_p64.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/inflate_p64.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/keyhole.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/keyhole.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ClipperLibTest/ClipperLibTest.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/ClipperLibTest/ClipperLibTest.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Color/color.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Color/color.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Email/Email.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Email/Email.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/KDTree/KDTree.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Common/KDTree/KDTree.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/LHC/LHC.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Common/LHC/LHC.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/LibTessDotNet/LibTessDotNet.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Common/LibTessDotNet/LibTessDotNet.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/MersenneTwister/mersenneTwister.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Common/MersenneTwister/mersenneTwister.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/MiscUtil/MiscUtil.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Common/MiscUtil/MiscUtil.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Noise/noise.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Noise/noise.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/SVGBuilder/SVGBuilder.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Common/SVGBuilder/SVGBuilder.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/Tral.Randomness/Tral.Randomness.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Tral.Randomness/Tral.Randomness.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/clipper/Clipper.Core.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/clipper/Clipper.Core.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/clipper/Clipper.Engine.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/clipper/Clipper.Engine.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/clipper/Clipper.Minkowski.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/clipper/Clipper.Minkowski.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/clipper/Clipper.RectClip.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/clipper/Clipper.RectClip.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/clipper/clipper.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Common/clipper/clipper.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/entropyRNG/entropyRNG.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Common/entropyRNG/entropyRNG.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/gdsTest/gdsTest.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Common/gdsTest/gdsTest.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoAnalysis/geoAnalysis.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoAnalysis/geoAnalysis.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoCore/geoCore.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoCore/geoCore.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoLib/geoLib.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoLib/geoLib.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/geoWrangler.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/geoWrangler.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/meas_distance_as_point.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/meas_distance_as_point.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/strip.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/strip.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/strip_p64.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/strip_p64.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/info.lundin.math/info.lundin.math.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Common/info.lundin.math/info.lundin.math.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/oasTest/oasTest.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Common/oasTest/oasTest.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/shapeEngine/shapeEngine.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Common/shapeEngine/shapeEngine.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/utility/utility.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Common/utility/utility.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Eto/DynamicAero2/DynamicAero2.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Eto/DynamicAero2/DynamicAero2.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Eto/DynamicAero2/Styles/ContextMenu.xaml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Eto/DynamicAero2/Styles/ContextMenu.xaml.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Eto/DynamicAero2/Theme.xaml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Eto/DynamicAero2/Theme.xaml.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Eto/Eto.VeldridSurface/Eto.VeldridSurface.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Eto/Eto.VeldridSurface/Eto.VeldridSurface.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Eto/TestEtoVeldrid.Gtk/TestEtoVeldrid.Gtk.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Eto/TestEtoVeldrid.Gtk/TestEtoVeldrid.Gtk.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Eto/TestEtoVeldrid.Mac/TestEtoVeldrid.Mac64.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Eto/TestEtoVeldrid.Mac/TestEtoVeldrid.Mac64.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Eto/TestEtoVeldrid.WinForms/TestEtoVeldrid.WinForms.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Eto/TestEtoVeldrid.WinForms/TestEtoVeldrid.WinForms.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Eto/TestEtoVeldrid.Wpf/TestEtoVeldrid.Wpf.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Eto/TestEtoVeldrid.Wpf/TestEtoVeldrid.Wpf.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Eto/TestEtoVeldrid/TestEtoVeldrid.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Eto/TestEtoVeldrid/TestEtoVeldrid.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Eto/TestEtoViewport.Gtk/TestEtoViewport.Gtk.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Eto/TestEtoViewport.Gtk/TestEtoViewport.Gtk.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Eto/TestEtoViewport.Mac/TestEtoViewport.Mac64.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Eto/TestEtoViewport.Mac/TestEtoViewport.Mac64.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Eto/TestEtoViewport.WinForms/TestEtoViewport.WinForms.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Eto/TestEtoViewport.WinForms/TestEtoViewport.WinForms.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Eto/TestEtoViewport.Wpf/TestEtoViewport.Wpf.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Eto/TestEtoViewport.Wpf/TestEtoViewport.Wpf.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Eto/TestEtoViewport/TestEtoViewport.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Eto/TestEtoViewport/TestEtoViewport.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Eto/errorReporter/errorReporter.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Eto/errorReporter/errorReporter.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Eto/etoViewport/etoViewport.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Eto/etoViewport/etoViewport.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GeoWranglerTest/GeoWranglerTest.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/GeoWranglerTest/GeoWranglerTest.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HistoTest/HistoTest.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/HistoTest/HistoTest.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/KeyHolerTest/KeyHolerTest.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/KeyHolerTest/KeyHolerTest.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestGeometrySource/PartitionTestGeometrySource.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/TestGeometrySource/PartitionTestGeometrySource.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/decompositionTest/decompositionTest.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/decompositionTest/decompositionTest.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/geoCoreTest/geoCoreTest.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/geoCoreTest/geoCoreTest.csproj" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -603,6 +647,7 @@
     <setting file="file://$PROJECT_DIR$/Common/Burkardt/Sobol/SobolDataLarge.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Common/Burkardt/Sphere/LebedevRule.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Common/Burkardt/Types/r8mat.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Common/geoWrangler/decompose.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/decompositionTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
@@ -671,28 +716,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "XThreadsFramesViewSplitterKey": "0.40599",
-    "last_opened_file_path": "/home/phil/Documents/tmp/DesignLibs_GPL/Directory.Build.props",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;XThreadsFramesViewSplitterKey&quot;: &quot;0.40599&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/phil/Documents/tmp/DesignLibs_GPL/Directory.Build.props&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "rider.external.source.directories": [
-      "/home/phil/.config/JetBrains/Rider2022.3/resharper-host/DecompilerCache",
-      "/home/phil/.config/JetBrains/Rider2022.3/resharper-host/SourcesCache",
-      "/home/phil/.local/share/Symbols/src"
+  &quot;keyToStringList&quot;: {
+    &quot;rider.external.source.directories&quot;: [
+      &quot;/home/phil/.config/JetBrains/Rider2022.3/resharper-host/DecompilerCache&quot;,
+      &quot;/home/phil/.config/JetBrains/Rider2022.3/resharper-host/SourcesCache&quot;,
+      &quot;/home/phil/.local/share/Symbols/src&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected=".NET Project.decompositionTest">
     <configuration name="ClipperLibTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
@@ -1072,6 +1117,7 @@
       <workItem from="1669825361246" duration="2313000" />
       <workItem from="1679497948836" duration="492000" />
       <workItem from="1679498905953" duration="269000" />
+      <workItem from="1679539687315" duration="342000" />
     </task>
     <servers />
   </component>

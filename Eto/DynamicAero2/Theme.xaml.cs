@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DynamicAero2
+﻿namespace DynamicAero2
 {
     partial class Theme
     {

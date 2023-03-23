@@ -2,8 +2,9 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net7.0-windows</TargetFramework>
     <ApplicationManifest>app1.manifest</ApplicationManifest>
+    <LangVersion>11</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>

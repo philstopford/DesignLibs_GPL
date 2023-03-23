@@ -1,6 +1,4 @@
 ﻿using Clipper2Lib;
-using System;
-using utility;
 
 namespace geoWrangler;
 

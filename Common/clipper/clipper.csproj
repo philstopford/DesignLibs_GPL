@@ -1,13 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFramework>net7.0</TargetFramework>
         <Configurations>Debug;Release</Configurations>
         <ReleaseVersion>0.24</ReleaseVersion>
     </PropertyGroup>
 
     <PropertyGroup>
-        <LangVersion>10</LangVersion>
+        <LangVersion>11</LangVersion>
 
     </PropertyGroup>
 

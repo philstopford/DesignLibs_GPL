@@ -572,21 +572,6 @@
   <component name="ChangeListManager">
     <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.DesignLibs/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DesignLibs/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/Email/Email.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Common/Email/Email.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Eto/DynamicAero2/DynamicAero2.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Eto/DynamicAero2/DynamicAero2.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Eto/Eto.VeldridSurface/Eto.VeldridSurface.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Eto/Eto.VeldridSurface/Eto.VeldridSurface.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Eto/TestEtoVeldrid.Gtk/TestEtoVeldrid.Gtk.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Eto/TestEtoVeldrid.Gtk/TestEtoVeldrid.Gtk.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Eto/TestEtoVeldrid.Mac/TestEtoVeldrid.Mac64.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Eto/TestEtoVeldrid.Mac/TestEtoVeldrid.Mac64.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Eto/TestEtoVeldrid.WinForms/TestEtoVeldrid.WinForms.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Eto/TestEtoVeldrid.WinForms/TestEtoVeldrid.WinForms.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Eto/TestEtoVeldrid.Wpf/TestEtoVeldrid.Wpf.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Eto/TestEtoVeldrid.Wpf/TestEtoVeldrid.Wpf.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Eto/TestEtoVeldrid/TestEtoVeldrid.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Eto/TestEtoVeldrid/TestEtoVeldrid.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Eto/TestEtoViewport.Gtk/TestEtoViewport.Gtk.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Eto/TestEtoViewport.Gtk/TestEtoViewport.Gtk.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Eto/TestEtoViewport.Mac/TestEtoViewport.Mac64.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Eto/TestEtoViewport.Mac/TestEtoViewport.Mac64.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Eto/TestEtoViewport.WinForms/TestEtoViewport.WinForms.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Eto/TestEtoViewport.WinForms/TestEtoViewport.WinForms.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Eto/TestEtoViewport.Wpf/TestEtoViewport.Wpf.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Eto/TestEtoViewport.Wpf/TestEtoViewport.Wpf.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Eto/TestEtoViewport/TestEtoViewport.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Eto/TestEtoViewport/TestEtoViewport.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Eto/errorReporter/errorReporter.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Eto/errorReporter/errorReporter.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Eto/etoViewport/etoViewport.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Eto/etoViewport/etoViewport.csproj" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -697,8 +682,8 @@
   },
   &quot;keyToStringList&quot;: {
     &quot;rider.external.source.directories&quot;: [
-      &quot;/home/phil/.config/JetBrains/Rider2022.3/resharper-host/DecompilerCache&quot;,
-      &quot;/home/phil/.config/JetBrains/Rider2022.3/resharper-host/SourcesCache&quot;,
+      &quot;/home/phil/.config/JetBrains/Rider2023.1/resharper-host/DecompilerCache&quot;,
+      &quot;/home/phil/.config/JetBrains/Rider2023.1/resharper-host/SourcesCache&quot;,
       &quot;/home/phil/.local/share/Symbols/src&quot;
     ]
   }
@@ -1086,6 +1071,9 @@
       <workItem from="1680470112942" duration="323000" />
       <workItem from="1680658660135" duration="88000" />
       <workItem from="1680658881612" duration="19000" />
+      <workItem from="1680659333118" duration="72000" />
+      <workItem from="1681225849160" duration="860000" />
+      <workItem from="1681227664601" duration="203000" />
     </task>
     <servers />
   </component>

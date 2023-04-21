@@ -9,6 +9,29 @@ using Paths = List<List<ClipperLib1.IntPoint>>;
 
 public static class OffsetTest
 {
+    public static void test3()
+    {
+        int[] pointData = new[]
+        {
+            -360,-100,
+            120,260,
+            300,-140,
+            -340,160
+        }
+
+;
+
+        Path64 sourcePath = Clipper.MakePath(pointData);
+        
+        ClipperOffset co = new(miterLimit:2, arcTolerance:0.25);
+        co.AddPath(sourcePath, JoinType.Miter, EndType.Square);
+        Paths64 resizedPolyData = new();
+        co.Execute(50, resizedPolyData);
+
+        int xx = 2;
+    }
+
+
     public static void test2()
     {
         int[] pointData = new[]
@@ -280,7 +303,7 @@ public static class OffsetTest
            [1] = {Point64} 14,6,0 
            [2] = {Point64} 14,14,0 
            [3] = {Point64} 6,14,0 
-           */
+          */
         
         co2.Clear();
         co2.AddPaths(c2up, Clipper2Lib.JoinType.Miter, Clipper2Lib.EndType.Polygon);
@@ -299,6 +322,6 @@ public static class OffsetTest
            [1] = {Point64} 16,16,0 
            [2] = {Point64} 4,16,0 
            [3] = {Point64} 4,4,0 
-           */
+          */
     }
 }

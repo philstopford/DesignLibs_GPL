@@ -2,11 +2,11 @@
 using Clipper2Lib;
 using color;
 
-namespace SVGBuilder;
+namespace OLD__SVGBuilder;
 
 //a very simple class that builds an SVG file with any number of 
 //polygons of the specified formats ...
-public class SVGBuilder
+public class OLD__SVGBuilder
 {
     public class StyleInfo
     {
@@ -74,7 +74,7 @@ public class SVGBuilder
                                            " fill-opacity:0; fill-rule:{2}; stroke:{3};" +
                                            " stroke-opacity:{4:f2}; stroke-width:{5:f2};\"/>\n\n";
 
-    public SVGBuilder()
+    public OLD__SVGBuilder()
     {
         PolyInfoList = new List<PolyInfo>();
         style = new StyleInfo();

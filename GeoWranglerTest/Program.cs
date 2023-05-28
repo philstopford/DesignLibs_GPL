@@ -44,9 +44,16 @@ internal static class Program
             new(0.0, 0.0),
             new PointD(0.0, -10.0)
         };
+        
+        // Need both transforms to get the full result. Not sure if implementation-related or a bug in C2.
+        // No big deal either way.
 
         PathsD result = Minkowski.Sum(original, vector, true);
 
+        PathsD result_i = Minkowski.Sum(original, vector2, true);
+
+        result.AddRange(result_i);
+        
         SvgWriter svg = new();
         svg.FillRule = FillRule.EvenOdd;
 

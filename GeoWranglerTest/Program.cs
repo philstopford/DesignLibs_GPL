@@ -1,4 +1,5 @@
-﻿using Clipper2Lib;
+﻿using System;
+using Clipper2Lib;
 using geoWrangler;
 
 namespace GeoWranglerTest;
@@ -7,10 +8,120 @@ internal static class Program
 {
     private static void Main()
     {
+        unidirectional_bias();
         test_strip_collinear();
         test_fragmentPath();
     }
 
+    private static void unidirectional_bias()
+    {
+        PathD original = new()
+        {
+            new(0, 0),
+            new (0, 50),
+            new (20,50),
+            new (20, 80),
+            new (0,80),
+            new(0, 100),
+            new(40, 100),
+            new(40, 60),
+            new(60, 30),
+            new(40, 0),
+            new(0, 0)
+        };
+
+        PathsD original_ = new();
+        original_.Add(original);
+        
+        PathD vector = new()
+        {
+            new(0.0, 0.0),
+            new PointD(0.0, 10.0)
+        };
+
+        PathD vector2 = new()
+        {
+            new(0.0, 0.0),
+            new PointD(0.0, -10.0)
+        };
+
+        PathsD result = Minkowski.Sum(original, vector, true);
+
+        SvgWriter svg = new();
+        svg.FillRule = FillRule.EvenOdd;
+
+        SvgUtils.AddSubject(svg, original_);
+        SvgUtils.AddSolution(svg, Clipper.Union(result, original_, FillRule.Positive, 2), true);
+        SvgUtils.SaveToFile(svg, "tmp.svg", FillRule.NonZero, 150,150, 10);
+
+        PathsD subject = new () { Clipper.Ellipse(new PointD (50.0,50.0),20,20)};
+
+        PathsD result2 = Minkowski.Sum(subject[0], vector, true);
+        
+        SvgWriter svg2 = new();
+        svg2.FillRule = FillRule.EvenOdd;
+        SvgUtils.AddSubject(svg2, subject);
+        SvgUtils.AddSolution(svg2, Clipper.Union(result2, subject, FillRule.Positive, 2), true);
+        SvgUtils.SaveToFile(svg2, "tmp2.svg", FillRule.NonZero, 150,150, 10);
+        
+        // System("tmp.svg");
+        //
+    }
+
+    internal static double CrossProduct(Point64 pt1, Point64 pt2, Point64 pt3)
+    {
+        // typecast to double to avoid potential int overflow
+        return ((double) (pt2.X - pt1.X) * (pt3.Y - pt2.Y) -
+                (double) (pt2.Y - pt1.Y) * (pt3.X - pt2.X));
+    }
+
+    internal static double DotProduct(Point64 pt1, Point64 pt2, Point64 pt3)
+    {
+        // typecast to double to avoid potential int overflow
+        return ((double) (pt2.X - pt1.X) * (pt3.X - pt2.X) +
+                (double) (pt2.Y - pt1.Y) * (pt3.Y - pt2.Y));
+    }
+
+    internal static double CrossProduct(PointD vec1, PointD vec2)
+    {
+        return (vec1.y * vec2.x - vec2.y * vec1.x);
+    }
+
+    internal static double DotProduct(PointD vec1, PointD vec2)
+    {
+        return (vec1.x * vec2.x + vec1.y * vec2.y);
+    }
+
+    internal static double CrossProduct(PointD pt1, PointD pt2, PointD pt3)
+    {
+        // typecast to double to avoid potential int overflow
+        return ((pt2.x - pt1.x) * (pt3.y - pt2.y) -
+                (pt2.y - pt1.y) * (pt3.x - pt2.x));
+    }
+
+    internal static double DotProduct(PointD pt1, PointD pt2, PointD pt3)
+    {
+        // typecast to double to avoid potential int overflow
+        return ((pt2.x - pt1.x) * (pt3.x - pt2.x) +
+                (pt2.y - pt1.y) * (pt3.y - pt2.y));
+    }
+
+    private static double varOffset(Path64 path, PathD norms, int pt, int prevPt)
+    {
+        // sin(A) < 0: right turning
+        // cos(A) < 0: change in angle is more than 90 degree
+        int nextPt = pt + 1;
+        if (nextPt == path.Count)
+        {
+            nextPt = 0;
+        }
+        double sinA = CrossProduct(norms[nextPt], norms[pt], norms[prevPt]);
+        double cosA = DotProduct(norms[nextPt], norms[pt], norms[prevPt]);
+
+        return Math.Pow(norms[pt].y + norms[prevPt].y, 2) * 10;
+        return 0.0;
+    }
+    
     private static void test_fragmentPath()
     {
         PathD original = new()

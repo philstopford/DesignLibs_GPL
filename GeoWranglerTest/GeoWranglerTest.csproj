@@ -8,6 +8,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Common\geoLib\geoLib.csproj" />
     <ProjectReference Include="..\Common\geoWrangler\geoWrangler.csproj" />
+    <ProjectReference Include="..\Common\SVGBuilder\SVGBuilder.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

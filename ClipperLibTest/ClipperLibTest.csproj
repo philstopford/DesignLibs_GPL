@@ -10,6 +10,7 @@
     <ItemGroup>
       <ProjectReference Include="..\Common\clipper\clipper.csproj" />
       <ProjectReference Include="..\Common\geoWrangler\geoWrangler.csproj" />
+      <ProjectReference Include="..\Common\SVGBuilder\SVGBuilder.csproj" />
     </ItemGroup>
 
 </Project>

@@ -1,4 +1,5 @@
 ﻿using Clipper2Lib;
+using geoWrangler;
 
 namespace ClipperLib2Test;
 
@@ -9,6 +10,47 @@ public static class Clipper2Test
 {
     const double keyhole_sizing = 500;
 
+    public static void H_subtract_test()
+    {
+        double[] subj0 = new double[] { 0, 0, 9, 0, 9, 12, 0, 12 };
+        //Array.Reverse(subj0);
+        double[] subj1 = new double[] { 0, 2, 9, 2, 9, 10, 0, 10 };
+        //Array.Reverse(subj1);
+        PathsD subj = new () { Clipper.MakePath(subj0),
+            Clipper.MakePath(subj1)};
+
+        double[] clip0 = new double[] { 0, 3, 9, 3, 9, 4, 0, 4 };
+        //Array.Reverse(clip0);
+        double[] clip1 = new double[] { 0, 8, 9, 8, 9, 9, 0, 9 };
+        //Array.Reverse(clip1);
+        double[] clip2 = new double[] { 2, 3, 3, 3, 3, 9, 2, 9 };
+        //Array.Reverse(clip2);
+        double[] clip3 = new double[] { 6, 3, 7, 3, 7, 9, 6, 9 };
+        //Array.Reverse(clip3);
+        
+        PathsD clip = new() { Clipper.MakePath(clip0),
+            Clipper.MakePath(clip1),
+            Clipper.MakePath(clip2),
+            Clipper.MakePath(clip3) };
+
+        subj = Clipper.Union(subj, FillRule.NonZero);
+        clip = Clipper.Union(clip, FillRule.NonZero);
+
+        PathsD sol = Clipper.Difference(subj, clip, FillRule.NonZero);
+
+        // std::cout << sol;
+
+        SvgWriter svgSrc,svgDst;
+        svgSrc = new();
+        svgDst = new();
+        SvgUtils.AddSolution(svgSrc, subj, true);
+        SvgUtils.AddSolution(svgSrc, clip, true);
+        SvgUtils.SaveToFile(svgSrc, "svgSrc.svg", FillRule.NonZero, 800, 600, 10);
+
+        SvgUtils.AddSolution(svgDst, sol, true);
+        SvgUtils.SaveToFile(svgDst, "svgDst.svg", FillRule.NonZero, 800, 600, 10);
+    }
+    
     public static void chordTest()
     {
         Path64 testPath = Clipper.MakePath(new[]

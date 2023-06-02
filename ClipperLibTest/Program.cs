@@ -4,6 +4,8 @@ using ClipperLib1Test;
 using ClipperLib2Test;
 using ClipperLibTest;
 
+Clipper2Test.H_subtract_test();
+
 Console.WriteLine("Comparison tests for Clipper 1 and Clipper 2");
 
 OffsetTest.test3();

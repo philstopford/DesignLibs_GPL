@@ -15,6 +15,19 @@ internal static class Program
 
     private static void unidirectional_bias()
     {
+        SvgWriter svg = new();
+        svg.FillRule = FillRule.EvenOdd;
+        
+        Path64 test = Clipper.MakePath(new[] { 0, 0, 4500, 0, 4500, 4500, 0, 4500 });
+
+        Path64 testvector = Clipper.MakePath(new[] { 0, 0, 500, 0 });
+
+        Paths64 res = Minkowski.Sum(test, testvector, true);
+        
+        SvgUtils.AddSubject(svg, test);
+        SvgUtils.AddSolution(svg, Clipper.Union(res, new() {test}, FillRule.Positive), true);
+        SvgUtils.SaveToFile(svg, "curious.svg", FillRule.NonZero, 5500,5500, 10);
+
         PathD original = new()
         {
             new(0, 0),
@@ -54,9 +67,6 @@ internal static class Program
 
         result.AddRange(result_i);
         
-        SvgWriter svg = new();
-        svg.FillRule = FillRule.EvenOdd;
-
         SvgUtils.AddSubject(svg, original_);
         SvgUtils.AddSolution(svg, Clipper.Union(result, original_, FillRule.Positive, 2), true);
         SvgUtils.SaveToFile(svg, "tmp.svg", FillRule.NonZero, 150,150, 10);

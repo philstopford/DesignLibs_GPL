@@ -54,7 +54,7 @@ public static partial class GeoWrangler
         // Move the edge according to the keyhole sizing, to extend it. Then add 1 to ensure an overlap.
         double X_shift = Math.Abs(dx * sizing) + 1;
         double Y_shift = Math.Abs(dy * sizing) + 1;
-        if (edge[1].x - edge[0].x > constants.tolerance )
+        if (edge[1].x - edge[0].x > Constants.tolerance )
         {
             edge0_newX -= X_shift;
             edge1_newX += X_shift;
@@ -65,7 +65,7 @@ public static partial class GeoWrangler
             edge1_newX -= X_shift;
         }
         
-        if (edge[1].y - edge[0].y > constants.tolerance )
+        if (edge[1].y - edge[0].y > Constants.tolerance )
         {
             edge0_newY -= Y_shift;
             edge1_newY += Y_shift;
@@ -96,11 +96,11 @@ public static partial class GeoWrangler
 
         
         // Need to workaround missing PathD support in ClipperOffset...
-        Path64 rescaledSource = _pPath64FromPathD(source, constants.scalar_1E2);
+        Path64 rescaledSource = _pPath64FromPathD(source, Constants.scalar_1E2);
 
         ClipperOffset co = new() {PreserveCollinear = true};
         // Path from Point auto-closes the input for historical reasons. We may not want this....
-        if (pDistanceBetweenPoints(rescaledSource[0], rescaledSource[^1]) > constants.tolerance)
+        if (pDistanceBetweenPoints(rescaledSource[0], rescaledSource[^1]) > Constants.tolerance)
         {
             rescaledSource = pStripTerminators(rescaledSource, false);
         }
@@ -108,7 +108,7 @@ public static partial class GeoWrangler
 
         Paths64 output = new();
         co.Execute(width, output); // no scalar, deliberately.
-        PathD ret = _pPathDFromPath64(output[0], constants.scalar_1E2_inv);
+        PathD ret = _pPathDFromPath64(output[0], Constants.scalar_1E2_inv);
         ret = pReorderXY(ret);
         return pClose(ret);
     }

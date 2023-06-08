@@ -1,6 +1,6 @@
 namespace geoWrangler;
 
-public static class constants
+public static class Constants
 {
     public const int roundingDecimalPrecision = 4;
     public const double tolerance = 0.001;

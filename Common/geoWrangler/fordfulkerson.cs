@@ -7,7 +7,7 @@ namespace geoWrangler;
 
 internal class demo_fordfulkerson
 {
-    public class fordfulkerson
+    public class FordFulkerson
     {
         private const int V = 6; //Number of vertices in graph 
 

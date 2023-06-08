@@ -2869,7 +2869,7 @@ public class ShapeLibrary
             switch (Math.Abs(start_y - end_y))
             {
                 // Test whether we have a vertical edge or not. We only process horizontal edges to avoid doubling up
-                case < constants.tolerance:
+                case < Constants.tolerance:
                 {
                     double mcPX;
                     double mcPY = 0.0f;
@@ -3089,7 +3089,7 @@ public class ShapeLibrary
                         }
 
                         PointD cPt = new(mcPX, mcPY);
-                        if (angle == 0 || Math.Abs(angle - 90) < constants.tolerance || optimizeCorners == 0 ||
+                        if (angle == 0 || Math.Abs(angle - 90) < Constants.tolerance || optimizeCorners == 0 ||
                             optimizeCorners == 1 &&
                             Math.Abs(
                                 GeoWrangler.distanceBetweenPoints(mcHorEdgePoints[^1], cPt)
@@ -3330,7 +3330,7 @@ public class ShapeLibrary
                         }
 
                         PointD cPt = new(mcPX, mcPY);
-                        if (angle == 0 || Math.Abs(angle - 90) < constants.tolerance || optimizeCorners == 0 ||
+                        if (angle == 0 || Math.Abs(angle - 90) < Constants.tolerance || optimizeCorners == 0 ||
                             optimizeCorners == 1 &&
                             Math.Abs(
                                 GeoWrangler.distanceBetweenPoints(mcHorEdgePoints[^1], cPt)

@@ -73,8 +73,8 @@ public class Fragmenter
 
     private PathD pRefragmentPath(PathD pointList, double res)
     {
-        bool closed = GeoWrangler.distanceBetweenPoints(pointList[0], pointList[^1]) <= constants.tolerance;
-        PathD ret = Clipper.TrimCollinear(pointList, constants.roundingDecimalPrecision, closed);
+        bool closed = GeoWrangler.distanceBetweenPoints(pointList[0], pointList[^1]) <= Constants.tolerance;
+        PathD ret = Clipper.TrimCollinear(pointList, Constants.roundingDecimalPrecision, closed);
         ret = fragmentPath(ret, res);
         return ret;
     }

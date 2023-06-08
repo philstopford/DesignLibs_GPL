@@ -37,7 +37,7 @@ public static partial class GeoWrangler
         return ret;
     }
 
-    public enum type { outer, cutter }
+    public enum Type { outer, cutter }
 
     public static PathsD decompose(PathsD source)
     {
@@ -54,7 +54,7 @@ public static partial class GeoWrangler
 
         PathsD ret = new();
 
-        ClipperD c = new(constants.roundingDecimalPrecision);
+        ClipperD c = new(Constants.roundingDecimalPrecision);
 
         // Reconcile each path separately to get a clean representation.
         foreach (PathD t1 in source)
@@ -69,7 +69,7 @@ public static partial class GeoWrangler
             
             switch (Math.Abs(Math.Abs(a1) - Math.Abs(a2)))
             {
-                case <= constants.tolerance:
+                case <= Constants.tolerance:
                     // shape didn't really change.
                     ret.Add(t1);
                     break;
@@ -139,8 +139,8 @@ public static partial class GeoWrangler
 
                 PathsD[] decomp = pGetDecomposed(ret);
 
-                c.AddSubject(decomp[(int)type.outer]);
-                c.AddClip(decomp[(int)type.cutter]);
+                c.AddSubject(decomp[(int)Type.outer]);
+                c.AddClip(decomp[(int)Type.cutter]);
 
                 c.Execute(ClipType.Difference, FillRule.EvenOdd, ret);//, PolyFillType.pftPositive, PolyFillType.pftNegative);
 
@@ -188,10 +188,10 @@ public static partial class GeoWrangler
                 t.Reverse();
             }
 
-            int r = (int)type.outer;
+            int r = (int)Type.outer;
             if (!Clipper.IsPositive(t)) // cutter
             {
-                r = (int)type.cutter;
+                r = (int)Type.cutter;
             }
 
             ret[r].Add(new (t));
@@ -298,7 +298,7 @@ public static partial class GeoWrangler
         // Contains edges from ray intersections that are not part of the original geometry.
         PathsD newEdges = new();
 
-        ClipperD c = new(constants.roundingDecimalPrecision);
+        ClipperD c = new(Constants.roundingDecimalPrecision);
 
         foreach (PathD t in rays)
         {
@@ -377,7 +377,7 @@ public static partial class GeoWrangler
                     {
                         case true:
                         {
-                            if (Math.Abs(p[p_][0].x - p[p_][1].x) > constants.tolerance)
+                            if (Math.Abs(p[p_][0].x - p[p_][1].x) > Constants.tolerance)
                             {
                                 p.RemoveAt(p_);
                             }
@@ -386,7 +386,7 @@ public static partial class GeoWrangler
                         }
                         default:
                         {
-                            if (Math.Abs(p[p_][0].y - p[p_][1].y) > constants.tolerance)
+                            if (Math.Abs(p[p_][0].y - p[p_][1].y) > Constants.tolerance)
                             {
                                 p.RemoveAt(p_);
                             }
@@ -418,10 +418,10 @@ public static partial class GeoWrangler
                         {
                             break;
                         }
-                        if (Math.Abs(lPoly[e].x - t1[0].x) < constants.tolerance && Math.Abs(lPoly[e].y - t1[0].y) < constants.tolerance)
+                        if (Math.Abs(lPoly[e].x - t1[0].x) < Constants.tolerance && Math.Abs(lPoly[e].y - t1[0].y) < Constants.tolerance)
                         {
                             int nextIndex = (e + 1) % lPoly.Count;
-                            if (Math.Abs(lPoly[nextIndex].x - t1[1].x) < constants.tolerance && Math.Abs(lPoly[nextIndex].y - t1[1].y) < constants.tolerance)
+                            if (Math.Abs(lPoly[nextIndex].x - t1[1].x) < Constants.tolerance && Math.Abs(lPoly[nextIndex].y - t1[1].y) < Constants.tolerance)
                             {
                                 edgeIsNew = false;
                             }
@@ -431,10 +431,10 @@ public static partial class GeoWrangler
                         {
                             case true:
                             {
-                                if (Math.Abs(lPoly[e].x - t1[1].x) < constants.tolerance && Math.Abs(lPoly[e].y - t1[1].y) < constants.tolerance)
+                                if (Math.Abs(lPoly[e].x - t1[1].x) < Constants.tolerance && Math.Abs(lPoly[e].y - t1[1].y) < Constants.tolerance)
                                 {
                                     int nextIndex = (e + 1) % lPoly.Count;
-                                    if (Math.Abs(lPoly[nextIndex].x - t1[0].x) < constants.tolerance && Math.Abs(lPoly[nextIndex].y - t1[0].y) < constants.tolerance)
+                                    if (Math.Abs(lPoly[nextIndex].x - t1[0].x) < Constants.tolerance && Math.Abs(lPoly[nextIndex].y - t1[0].y) < Constants.tolerance)
                                     {
                                         edgeIsNew = false;
                                     }
@@ -468,7 +468,7 @@ public static partial class GeoWrangler
             {
                 // Turn the new edges into cutters and slice. Not terribly elegant and we're relying on rounding to squash notches later.
                 // Floating points cause trouble here - we need to snap the edges to integer intervals to avoid creating internal edges.
-                Paths64 rescaledSource = _pPaths64FromPathsD(newEdges, constants.scalar_1E2);
+                Paths64 rescaledSource = _pPaths64FromPathsD(newEdges, Constants.scalar_1E2);
                 
                 ClipperOffset co = new() {PreserveCollinear = true};
                 co.AddPaths(rescaledSource, JoinType.Miter, EndType.Square);
@@ -478,7 +478,7 @@ public static partial class GeoWrangler
                 co.Execute(2.0, cutters);
                 
                 Clipper64 c1 = new();
-                c1.AddSubject(_pPath64FromPathD(lPoly, constants.scalar_1E2));
+                c1.AddSubject(_pPath64FromPathD(lPoly, Constants.scalar_1E2));
 
                 // Take first cutter only - we only cut once, no matter how many potential cutters we have.
                 c1.AddClip(cutters[0]);
@@ -487,7 +487,7 @@ public static partial class GeoWrangler
                 
                 // Squash our notches by scaling the integers back down. The notches disappear when they can't
                 // be represented by integer values.
-                f = Clipper.ScalePaths(f, constants.scalar_1E2_inv);
+                f = Clipper.ScalePaths(f, Constants.scalar_1E2_inv);
                 
                 // Clean-up.
                 f = simplify(f);

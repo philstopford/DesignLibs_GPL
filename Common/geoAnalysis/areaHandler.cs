@@ -26,7 +26,7 @@ public class AreaHandler
         listOfOutputPoints = new ();
 
         // callsite may not want simplified geometry.
-        ClipperD c = new(constants.roundingDecimalPrecision) {ZCallback = ZFillCallback, PreserveCollinear = !maySimplify};
+        ClipperD c = new(Constants.roundingDecimalPrecision) {ZCallback = ZFillCallback, PreserveCollinear = !maySimplify};
 
         c.AddSubject(aPaths);
 

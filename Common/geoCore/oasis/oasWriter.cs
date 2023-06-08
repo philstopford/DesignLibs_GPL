@@ -21,9 +21,9 @@ public partial class oasWriter
     private Dictionary<string, string> namedLayers;
     private string filename_;
 
-    public modals modal;
+    public Modals modal;
 
-    public struct modals
+    public struct Modals
     {
         public bool absoluteMode { get; set; }
         public int placement_x { get; set; }

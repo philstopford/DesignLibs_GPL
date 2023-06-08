@@ -5,12 +5,12 @@ namespace geoWrangler;
 
 public static partial class GeoWrangler
 {
-    public static PathD removeDuplicates(PathD source, double threshold = constants.tolerance)
+    public static PathD removeDuplicates(PathD source, double threshold = Constants.tolerance)
     {
         return pRemoveDuplicates(source, threshold);
     }
     
-    private static PathsD pRemoveDuplicates(PathsD source, double threshold = constants.tolerance)
+    private static PathsD pRemoveDuplicates(PathsD source, double threshold = Constants.tolerance)
     {
         PathsD ret = new ();
         foreach (var t in source)
@@ -21,10 +21,10 @@ public static partial class GeoWrangler
         return ret;
     }
     
-    private static PathD pRemoveDuplicates(PathD source, double threshold = constants.tolerance)
+    private static PathD pRemoveDuplicates(PathD source, double threshold = Constants.tolerance)
     {
         // Experiment to see if we can use Clipper instead.
-        PathD ret = Clipper.StripNearDuplicates(source, threshold, distanceBetweenPoints(source[0], source[^1]) <= constants.tolerance);
+        PathD ret = Clipper.StripNearDuplicates(source, threshold, distanceBetweenPoints(source[0], source[^1]) <= Constants.tolerance);
         /*
         switch (source.Count)
         {
@@ -88,7 +88,7 @@ public static partial class GeoWrangler
                 return new(source);
         }
 
-        PathD ret = Clipper.TrimCollinear(source, precision, distanceBetweenPoints(source[0], source[^1]) < constants.tolerance);
+        PathD ret = Clipper.TrimCollinear(source, precision, distanceBetweenPoints(source[0], source[^1]) < Constants.tolerance);
 
         return ret;
     }
@@ -103,7 +103,7 @@ public static partial class GeoWrangler
         PathD ret = new(source_);
         bool firstLast_same = false;
         int pt_Check = ret.Count - 1;
-        if (distanceBetweenPoints(ret[pt_Check], ret[0]) < constants.tolerance)
+        if (distanceBetweenPoints(ret[pt_Check], ret[0]) < Constants.tolerance)
         {
             firstLast_same = true; // remove duplicated points. The shape will be closed later.
         }
@@ -111,7 +111,7 @@ public static partial class GeoWrangler
         {
             ret.RemoveAt(pt_Check); // remove duplicated points. The shape will be closed later
             pt_Check--;
-            if (distanceBetweenPoints(ret[pt_Check], ret[0]) > constants.tolerance)
+            if (distanceBetweenPoints(ret[pt_Check], ret[0]) > Constants.tolerance)
             {
                 firstLast_same = false; // stop at the first unmatched point.
             }

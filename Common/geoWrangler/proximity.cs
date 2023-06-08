@@ -92,7 +92,7 @@ public static class Proximity
 
             collisionGeometry = f.fragmentPaths(collisionGeometry);
 
-            RayCast rc = new(sourcePoly, collisionGeometry, Convert.ToInt32(pBiasDist), false, invert:0, proxRays, emitThread, multiSampleThread, sideRayFallOff: (RayCast.falloff)proxSideRaysFallOff, sideRayFallOffMultiplier: Convert.ToDouble(proxSideRaysMultiplier));
+            RayCast rc = new(sourcePoly, collisionGeometry, Convert.ToInt32(pBiasDist), false, invert:0, proxRays, emitThread, multiSampleThread, sideRayFallOff: (RayCast.Falloff)proxSideRaysFallOff, sideRayFallOffMultiplier: Convert.ToDouble(proxSideRaysMultiplier));
 
             PathsD clippedLines = rc.getClippedRays();
             // ReSharper disable once ConditionIsAlwaysTrueOrFalse

@@ -112,7 +112,7 @@ public class DistanceHandler
             }
 
             // Do we need to invert the result?
-            ClipperD c = new(constants.roundingDecimalPrecision) {PreserveCollinear = true};
+            ClipperD c = new(Constants.roundingDecimalPrecision) {PreserveCollinear = true};
             PathsD oCheck = new();
             c.AddClip(bPaths);
             c.AddSubject(aPaths[shapeA]);
@@ -189,7 +189,7 @@ public class DistanceHandler
                 PathsD overlapShape = new();
 
                 // Check for complete overlap
-                ClipperD c = new(constants.roundingDecimalPrecision) {PreserveCollinear = true, ZCallback = ZFillCallback};
+                ClipperD c = new(Constants.roundingDecimalPrecision) {PreserveCollinear = true, ZCallback = ZFillCallback};
                 // Try a union and see whether the point count of the perimeter changes. This might break for re-entrant cases, but those are problematic anyway.
                 PathsD fullOverlapCheck = new();
                 c.AddSubject(layerAPath);
@@ -690,7 +690,7 @@ public class DistanceHandler
                 }
             }
 
-            bool ortho = Math.Abs(clippedLines[line][0].x - clippedLines[line][1].x) < constants.tolerance || Math.Abs(clippedLines[line][0].y - clippedLines[line][1].y) < constants.tolerance;
+            bool ortho = Math.Abs(clippedLines[line][0].x - clippedLines[line][1].x) < Constants.tolerance || Math.Abs(clippedLines[line][0].y - clippedLines[line][1].y) < Constants.tolerance;
 
             double threshold = 0.01500; // arbitrary, dialed in by hand.
 

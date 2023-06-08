@@ -18,16 +18,3 @@ public static class IListExtensions {
         }
     }
 }
-
-public static class testing
-{
-    private static void testShuffle()
-    {
-        List<int> t = new() {1, 2, 3, 4, 5, 6};
-        t.Shuffle();
-        int[] t2 = {1, 2, 3, 4, 5, 6};
-        t2.Shuffle();
-
-    }
-        
-}

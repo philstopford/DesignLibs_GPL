@@ -5,12 +5,12 @@ namespace geoWrangler;
 
 public static partial class GeoWrangler
 {
-    public static Path64 removeDuplicates(Path64 source, double threshold = constants.tolerance)
+    public static Path64 removeDuplicates(Path64 source, double threshold = Constants.tolerance)
     {
         return pRemoveDuplicates(source, threshold);
     }
     
-    private static Paths64 pRemoveDuplicates(Paths64 source, double threshold = constants.tolerance)
+    private static Paths64 pRemoveDuplicates(Paths64 source, double threshold = Constants.tolerance)
     {
         Paths64 ret = new ();
         foreach (var t in source)
@@ -21,9 +21,9 @@ public static partial class GeoWrangler
         return ret;
     }
     
-    private static Path64 pRemoveDuplicates(Path64 source, double threshold = constants.tolerance)
+    private static Path64 pRemoveDuplicates(Path64 source, double threshold = Constants.tolerance)
     {
-        bool isClosed = distanceBetweenPoints(source[0], source[^1]) < constants.tolerance;
+        bool isClosed = distanceBetweenPoints(source[0], source[^1]) < Constants.tolerance;
         return Clipper.StripDuplicates(source, isClosed);
     }
     

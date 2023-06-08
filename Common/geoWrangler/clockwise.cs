@@ -29,8 +29,8 @@ public static partial class GeoWrangler
         {
             for (int j = 0; j < sourceCount; j++)
             {
-                if (!(Math.Abs(reorderedMidPoints[i].x - midPoints[j].x) <= constants.tolerance) ||
-                    !(Math.Abs(reorderedMidPoints[i].y - midPoints[j].y) <= constants.tolerance))
+                if (!(Math.Abs(reorderedMidPoints[i].x - midPoints[j].x) <= Constants.tolerance) ||
+                    !(Math.Abs(reorderedMidPoints[i].y - midPoints[j].y) <= Constants.tolerance))
                 {
                     continue;
                 }

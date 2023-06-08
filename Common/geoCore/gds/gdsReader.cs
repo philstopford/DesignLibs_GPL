@@ -33,7 +33,7 @@ internal partial class gdsReader
     private short int16, help16;
     private double double_;
 
-    public struct modals
+    public struct Modals
     {
         public int beginExt { get; set; }
         public int endExt { get; set; }
@@ -57,7 +57,7 @@ internal partial class gdsReader
         public Path64 point_array { get; set; }
     }
 
-    private modals modal;
+    private Modals modal;
 
     public void reset()
     {

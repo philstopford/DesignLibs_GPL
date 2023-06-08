@@ -26,7 +26,7 @@ public static partial class GeoWrangler
     private static Path64 _pPath64FromPathD(PathD source, double scaling = 1.0)
     {
         int length = source.Count;
-        if (Math.Abs(source[0].x - source[^1].x) > constants.tolerance && Math.Abs(source[0].y - source[^1].y) > constants.tolerance)
+        if (Math.Abs(source[0].x - source[^1].x) > Constants.tolerance && Math.Abs(source[0].y - source[^1].y) > Constants.tolerance)
         {
             length++; // close the geometry
         }

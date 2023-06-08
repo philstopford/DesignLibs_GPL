@@ -21,16 +21,16 @@ public class RayCast
     }
 
     public static readonly List<string> fallOffList = new() {"None", "Linear", "Gaussian", "Cosine"};
-    public enum falloff { none, linear, gaussian, cosine }
+    public enum Falloff { none, linear, gaussian, cosine }
 
     // Corner projection is default and takes an orthogonal ray out from the corner. Setting to false causes an averaged normal to be generated.
 
-    public RayCast(PathD emissionPath, PathsD collisionPaths, long max, bool projectCorners = true, inversionMode invert = inversionMode.none, int multisampleRayCount = 0, bool runOuterLoopThreaded = false, bool runInnerLoopThreaded = false, PointD startOffset = new(), PointD endOffset = new(), falloff sideRayFallOff = falloff.none, double sideRayFallOffMultiplier = 1.0f, forceSingleDirection dirOverride = forceSingleDirection.no)
+    public RayCast(PathD emissionPath, PathsD collisionPaths, long max, bool projectCorners = true, inversionMode invert = inversionMode.none, int multisampleRayCount = 0, bool runOuterLoopThreaded = false, bool runInnerLoopThreaded = false, PointD startOffset = new(), PointD endOffset = new(), Falloff sideRayFallOff = Falloff.none, double sideRayFallOffMultiplier = 1.0f, forceSingleDirection dirOverride = forceSingleDirection.no)
     {
         pRayCast(emissionPath, collisionPaths, max, projectCorners, invert, multisampleRayCount, runOuterLoopThreaded, runInnerLoopThreaded, startOffset, endOffset, sideRayFallOff, sideRayFallOffMultiplier, dirOverride);
     }
 
-    public RayCast(PathD emissionPath, PathD collisionPath, long max, bool projectCorners = true, inversionMode invert = inversionMode.none, int multisampleRayCount = 0, bool runOuterLoopThreaded = false, bool runInnerLoopThreaded = false, PointD startOffset = new(), PointD endOffset = new(), falloff sideRayFallOff = falloff.none, double sideRayFallOffMultiplier = 1.0f, forceSingleDirection dirOverride = forceSingleDirection.no)
+    public RayCast(PathD emissionPath, PathD collisionPath, long max, bool projectCorners = true, inversionMode invert = inversionMode.none, int multisampleRayCount = 0, bool runOuterLoopThreaded = false, bool runInnerLoopThreaded = false, PointD startOffset = new(), PointD endOffset = new(), Falloff sideRayFallOff = Falloff.none, double sideRayFallOffMultiplier = 1.0f, forceSingleDirection dirOverride = forceSingleDirection.no)
     {
         pRayCast(emissionPath, new () { collisionPath }, max, projectCorners, invert, multisampleRayCount, runOuterLoopThreaded, runInnerLoopThreaded, startOffset, endOffset, sideRayFallOff, sideRayFallOffMultiplier, dirOverride);
     }
@@ -147,7 +147,7 @@ public class RayCast
     // Setting this to true, we shorten rays with the falloff. False means we reduce the contribution to the average instead.
     const bool truncateRaysByWeight = false;
 
-    private PathsD pGenerateRays(PathD sourcePath, int index, long maxRayLength, bool projectCorners, inversionMode invert, int multisampleRayCount, falloff sideRayFallOff, double sideRayFallOffMultiplier, NormalsData nData, forceSingleDirection dirOverride)
+    private PathsD pGenerateRays(PathD sourcePath, int index, long maxRayLength, bool projectCorners, inversionMode invert, int multisampleRayCount, Falloff sideRayFallOff, double sideRayFallOffMultiplier, NormalsData nData, forceSingleDirection dirOverride)
     {
         PointD startPoint = sourcePath[index];
         
@@ -186,7 +186,7 @@ public class RayCast
 
         PointD endPoint = new(endPointDeltaY + startPoint.x, endPointDeltaX + startPoint.y);
 
-        if (sideRayFallOff != falloff.none)
+        if (sideRayFallOff != Falloff.none)
         {
             endPoint.z = (long)1E4;
         }
@@ -206,15 +206,15 @@ public class RayCast
             switch (sideRayFallOff)
             {
                 // Gaussian fall-off
-                case falloff.gaussian:
+                case Falloff.gaussian:
                     weight_val = Math.Exp(-Math.Pow(sideRayFallOffMultiplier * (rayAngle / 90.0f), 2));
                     break;
                 // Linear fall-off
-                case falloff.linear:
+                case Falloff.linear:
                     weight_val = 1.0f - Math.Min(rayAngle / 90.0f, 1.0f);
                     break;
                 // Cosine fall-off
-                case falloff.cosine:
+                case Falloff.cosine:
                     double angle = sideRayFallOffMultiplier * rayAngle;
                     angle = angle switch
                     {
@@ -231,7 +231,7 @@ public class RayCast
                     weight_val *= 0.5;
                     break;
                 // No falloff
-                case falloff.none:
+                case Falloff.none:
                 default:
                     break;
             }
@@ -244,7 +244,7 @@ public class RayCast
 
             PointD sPoint = new(startPoint.x, startPoint.y);
 
-            if (sideRayFallOff != falloff.none)
+            if (sideRayFallOff != Falloff.none)
             {
                 // This is because the z is an int, and we want to preserve the float data.
                 endPoint_f.z = Convert.ToInt64(weight_val * 1E4);
@@ -270,8 +270,8 @@ public class RayCast
         // Get average angle for this vertex based on angles from line segments.
         // http://stackoverflow.com/questions/1243614/how-do-i-calculate-the-normal-vector-of-a-line-segment
 
-        if (projectCorners && (Math.Abs(currentEdgeNormal.x) < constants.tolerance && Math.Abs(previousEdgeNormal.y) < constants.tolerance ||
-                       Math.Abs(currentEdgeNormal.y) < constants.tolerance && Math.Abs(previousEdgeNormal.x) < constants.tolerance))
+        if (projectCorners && (Math.Abs(currentEdgeNormal.x) < Constants.tolerance && Math.Abs(previousEdgeNormal.y) < Constants.tolerance ||
+                       Math.Abs(currentEdgeNormal.y) < Constants.tolerance && Math.Abs(previousEdgeNormal.x) < Constants.tolerance))
         {
             double tX = currentEdgeNormal.x;
             double tY = currentEdgeNormal.y;
@@ -306,10 +306,10 @@ public class RayCast
         return averagedEdgeNormal;
     }
 
-    private PathsD pCutRay(PathD ray, PathsD collisionPaths, inversionMode invert, falloff sideRayFallOff)
+    private PathsD pCutRay(PathD ray, PathsD collisionPaths, inversionMode invert, Falloff sideRayFallOff)
     {
-        ClipperD d = new(constants.roundingDecimalPrecision);
-        if (sideRayFallOff != falloff.none)
+        ClipperD d = new(Constants.roundingDecimalPrecision);
+        if (sideRayFallOff != Falloff.none)
         {
             d.ZCallback = prox_ZFillCallback;
         }
@@ -366,8 +366,8 @@ public class RayCast
                     double tL0Y = ray[tL][0].y;
                     double tL1X = ray[tL][1].x;
                     double tL1Y = ray[tL][1].y;
-                    if ((Math.Abs(tL0X - startPoint.x) > 6 * constants.tolerance || Math.Abs(tL0Y - startPoint.y) > 6 * constants.tolerance) &&
-                        (Math.Abs(tL1X - startPoint.x) > 6 * constants.tolerance || Math.Abs(tL1Y - startPoint.y) > 6 * constants.tolerance))
+                    if ((Math.Abs(tL0X - startPoint.x) > 6 * Constants.tolerance || Math.Abs(tL0Y - startPoint.y) > 6 * Constants.tolerance) &&
+                        (Math.Abs(tL1X - startPoint.x) > 6 * Constants.tolerance || Math.Abs(tL1Y - startPoint.y) > 6 * Constants.tolerance))
                     {
                         continue;
                     }
@@ -397,7 +397,7 @@ public class RayCast
         for (int tL = 0; tL < rayPtCount; tL++)
         {
             // Figure out which end of the result line matches our origin point.
-            if (Math.Abs(ray[tL][0].x - startPoint.x) < 6 * constants.tolerance && Math.Abs(ray[tL][0].y - startPoint.y) < 6 * constants.tolerance)
+            if (Math.Abs(ray[tL][0].x - startPoint.x) < 6 * Constants.tolerance && Math.Abs(ray[tL][0].y - startPoint.y) < 6 * Constants.tolerance)
             {
                 Monitor.Enter(resultLock);
                 try
@@ -411,7 +411,7 @@ public class RayCast
                     Monitor.Exit(resultLock);
                 }
             }
-            if (Math.Abs(ray[tL][1].x - startPoint.x) < 6 * constants.tolerance && Math.Abs(ray[tL][1].y - startPoint.y) < 6 * constants.tolerance)
+            if (Math.Abs(ray[tL][1].x - startPoint.x) < 6 * Constants.tolerance && Math.Abs(ray[tL][1].y - startPoint.y) < 6 * Constants.tolerance)
             {
                 Monitor.Enter(resultLock);
                 try
@@ -434,7 +434,7 @@ public class RayCast
         public double xAv;
         public double yAv;
     }
-    private ResultData pComputeWeightedResult(falloff sideRayFallOff, ref double[] resultX, ref double[] resultY, ref double[] weight)
+    private ResultData pComputeWeightedResult(Falloff sideRayFallOff, ref double[] resultX, ref double[] resultY, ref double[] weight)
     {
         int xCount = 0;
         int yCount = 0;
@@ -444,7 +444,7 @@ public class RayCast
         switch (sideRayFallOff)
         {
             // If we are not truncating by weight, we do not need to average here - it was done with the normalization above.
-            case falloff.none:
+            case Falloff.none:
             {
                 // Average the result to give a weighted spacing across the rays.
                 for (int result = 0; result < resultX.Length; result++)
@@ -452,7 +452,7 @@ public class RayCast
                     switch (Math.Abs(resultX[result]))
                     {
                         // Ignore values that are below our floating point tolerance.
-                        case > constants.tolerance:
+                        case > Constants.tolerance:
                             xCount++;
                             res.xAv += resultX[result];
                             break;
@@ -461,7 +461,7 @@ public class RayCast
                     switch (Math.Abs(resultY[result]))
                     {
                         // Ignore values that are below our floating point tolerance.
-                        case > constants.tolerance:
+                        case > Constants.tolerance:
                             yCount++;
                             res.yAv += resultY[result];
                             break;
@@ -492,7 +492,7 @@ public class RayCast
                 for (int w = 0; w < weight.Length; w++)
                 {
                     double weight_ = 1.0f;
-                    if (sideRayFallOff != falloff.none && !truncateRaysByWeight && totalWeight > 0)
+                    if (sideRayFallOff != Falloff.none && !truncateRaysByWeight && totalWeight > 0)
                     {
                         weight_ = weight[w] / totalWeight;
                     }
@@ -500,7 +500,7 @@ public class RayCast
                     switch (Math.Abs(resultX[w]))
                     {
                         // Ignore values that are below our floating point tolerance.
-                        case > constants.tolerance:
+                        case > Constants.tolerance:
                             xCount++;
                             res.xAv += weight_ * resultX[w];
                             break;
@@ -509,7 +509,7 @@ public class RayCast
                     switch (Math.Abs(resultY[w]))
                     {
                         // Ignore values that are below our floating point tolerance.
-                        case > constants.tolerance:
+                        case > Constants.tolerance:
                             yCount++;
                             res.yAv += weight_ * resultY[w];
                             break;
@@ -524,7 +524,7 @@ public class RayCast
     }
 
     // invert used to be a bool, but we need to handle X and Y normal inversions separately, so this had to move to an enum for clarity.
-    private void pRayCast(PathD emissionPath, PathsD collisionPaths, long maxRayLength, bool projectCorners, inversionMode invert, int multisampleRayCount, bool runOuterLoopThreaded, bool runInnerLoopThreaded, PointD startOffset, PointD endOffset, falloff sideRayFallOff, double sideRayFallOffMultiplier, forceSingleDirection dirOverride)
+    private void pRayCast(PathD emissionPath, PathsD collisionPaths, long maxRayLength, bool projectCorners, inversionMode invert, int multisampleRayCount, bool runOuterLoopThreaded, bool runInnerLoopThreaded, PointD startOffset, PointD endOffset, Falloff sideRayFallOff, double sideRayFallOffMultiplier, forceSingleDirection dirOverride)
     {
         int ptCount = emissionPath.Count;
 
@@ -535,7 +535,7 @@ public class RayCast
         PathD[] clippedLines_ = new PathD[ptCount];
 
         // We need to think about the end point case.
-        bool closedPathEmitter = ptCount > 3 && Math.Abs(emissionPath[0].x - emissionPath[ptCount - 1].x) < constants.tolerance && Math.Abs(emissionPath[0].y - emissionPath[ptCount - 1].y) < constants.tolerance;
+        bool closedPathEmitter = ptCount > 3 && Math.Abs(emissionPath[0].x - emissionPath[ptCount - 1].x) < Constants.tolerance && Math.Abs(emissionPath[0].y - emissionPath[ptCount - 1].y) < Constants.tolerance;
 
         // Get average angle for this vertex based on angles from line segments.
         // http://stackoverflow.com/questions/1243614/how-do-i-calculate-the-normal-vector-of-a-line-segment

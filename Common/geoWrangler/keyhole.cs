@@ -30,7 +30,7 @@ public static partial class GeoWrangler
     private static PathsD pMakeKeyHole(PathsD source, bool reverseEval, bool biDirectionalEval, RayCast.inversionMode invert = RayCast.inversionMode.x, double customSizing = 0, double extension = 0, double angularTolerance = 0)
     {
         // Reconcile any overlapping geometry.
-        ClipperD c = new (constants.roundingDecimalPrecision) {PreserveCollinear = true};
+        ClipperD c = new (Constants.roundingDecimalPrecision) {PreserveCollinear = true};
         
         switch (source.Count)
         {
@@ -63,13 +63,13 @@ public static partial class GeoWrangler
             odecomp[i] = new(decomp[i]);
         }
         // Outer areas
-        List<double> outerAreas = decomp[(int)type.outer].Select(Clipper.Area).ToList();
+        List<double> outerAreas = decomp[(int)Type.outer].Select(Clipper.Area).ToList();
 
         // So here, things get annoying. We can have nested donuts, which means that we have outers fully covered by cutters (from the larger donut).
         // Unless we massage things, these get killed as the cutters are applied en-masse to outers in the keyholer.
         
         // First, we'll run the keyholer as usual.
-        PathsD ret = pMakeKeyHole(decomp[(int)type.outer], decomp[(int)type.cutter], reverseEval, biDirectionalEval, invert, customSizing, extension, angularTolerance);
+        PathsD ret = pMakeKeyHole(decomp[(int)Type.outer], decomp[(int)Type.cutter], reverseEval, biDirectionalEval, invert, customSizing, extension, angularTolerance);
         
         double origArea = 0;
         List<double> origAreas = new();
@@ -100,25 +100,25 @@ public static partial class GeoWrangler
         if (lostArea > 0)
         {
             // We need to find out which cutters might have completely killed one or more outers and figure out a plan.
-            for (int oIndex = 0; oIndex < odecomp[(int) type.outer].Count; oIndex++)
+            for (int oIndex = 0; oIndex < odecomp[(int) Type.outer].Count; oIndex++)
             {
-                PathD tOuter = odecomp[(int) type.outer][oIndex];
+                PathD tOuter = odecomp[(int) Type.outer][oIndex];
                 double outerArea = Clipper.Area(tOuter);
                 if (outerArea > lostArea)
                 {
-                    if (Math.Abs(outerArea - outerAreas.Max()) <= constants.tolerance)
+                    if (Math.Abs(outerArea - outerAreas.Max()) <= Constants.tolerance)
                     {
                         continue;
                     }
                 }
                 PathsD tCutters = new();
                 // Do any cutters cover up our outer?
-                for (int cIndex = 0; cIndex < odecomp[(int) type.cutter].Count; cIndex++)
+                for (int cIndex = 0; cIndex < odecomp[(int) Type.cutter].Count; cIndex++)
                 {
                     PathsD test = new();
                     c.Clear();
                     c.AddSubject(tOuter);
-                    c.AddClip(odecomp[(int) type.cutter][cIndex]);
+                    c.AddClip(odecomp[(int) Type.cutter][cIndex]);
                     c.Execute(ClipType.Difference, FillRule.EvenOdd, test);
                     test = pReorderXY(test);
                     double area = 0;
@@ -130,7 +130,7 @@ public static partial class GeoWrangler
                     // If area is zero, the cutter fully covered the outer and we need to skip it.
                     if ((area != 0) && (area <= lostArea))
                     {
-                        tCutters.Add(odecomp[(int) type.cutter][cIndex]);
+                        tCutters.Add(odecomp[(int) Type.cutter][cIndex]);
                     }
 
                 }
@@ -212,7 +212,7 @@ public static partial class GeoWrangler
             // Otherwise, we don't care and will take the minimum internal edge.
             if (orthogonalInput)
             {
-                bool ray_isOrtho = Math.Abs(edges[r][0].x - edges[r][1].x) < constants.tolerance || Math.Abs(edges[r][0].y - edges[r][1].y) < constants.tolerance;
+                bool ray_isOrtho = Math.Abs(edges[r][0].x - edges[r][1].x) < Constants.tolerance || Math.Abs(edges[r][0].y - edges[r][1].y) < Constants.tolerance;
                 if (minLength_ortho && !ray_isOrtho)
                 {
                     // Don't replace an orthogonal ray with a non-orthogonal ray.
@@ -227,7 +227,7 @@ public static partial class GeoWrangler
 
             switch (ray_length)
             {
-                case <= constants.tolerance:
+                case <= Constants.tolerance:
                     continue;
             }
 
@@ -251,7 +251,7 @@ public static partial class GeoWrangler
 
     private static PathsD pCutKeyHole(PathsD outers, PathsD cutters, PathsD extraCutters)
     {
-        ClipperD c = new(constants.roundingDecimalPrecision);
+        ClipperD c = new(Constants.roundingDecimalPrecision);
         c.AddSubject(cutters);
         c.AddClip(extraCutters);
 
@@ -348,7 +348,7 @@ public static partial class GeoWrangler
 
         // Need to workaround missing PathD support in ClipperOffset...
         // Note that the scalar has interaction with pRemoveFragments
-        Path64 rescaledSource = _pPath64FromPathD(edge, constants.scalar_1E2);
+        Path64 rescaledSource = _pPath64FromPathD(edge, Constants.scalar_1E2);
 
         ClipperOffset co = new() {PreserveCollinear = true};
         co.AddPath(rescaledSource, JoinType.Miter, EndType.Square);
@@ -357,7 +357,7 @@ public static partial class GeoWrangler
         co.Execute(2 * customSizing, tmp);
 
         // Size back down again.
-        PathsD sPaths = _pPathsDFromPaths64(tmp, constants.scalar_1E2_inv);
+        PathsD sPaths = _pPathsDFromPaths64(tmp, Constants.scalar_1E2_inv);
 
         return pReorderXY(sPaths);
     }
@@ -416,7 +416,7 @@ public static partial class GeoWrangler
         }
 
         // Clean-up the geometry.
-        ClipperD c = new(constants.roundingDecimalPrecision);
+        ClipperD c = new(Constants.roundingDecimalPrecision);
         c.AddSubject(ret);
         c.Execute(ClipType.Union, FillRule.EvenOdd, ret);
 
@@ -487,20 +487,20 @@ public static partial class GeoWrangler
         customSizing *= extension;
         
         // Need to workaround missing PathD support in ClipperOffset...
-        Paths64 rescaledSource = _pPaths64FromPathsD(source, constants.scalar_1E4);
+        Paths64 rescaledSource = _pPaths64FromPathsD(source, Constants.scalar_1E4);
 
         ClipperOffset co = new() {PreserveCollinear = true};
         co.AddPaths(rescaledSource, joinType, EndType.Polygon);
         // The scalar below must be aligned with the usage in pInflateEdge
         Paths64 tmp = new();
-        co.Execute(customSizing * constants.scalar_1E2, tmp);
+        co.Execute(customSizing * Constants.scalar_1E2, tmp);
         co.Clear();
         co.AddPaths(new(tmp), joinType, EndType.Polygon);
         tmp.Clear();
         // The scalar below must be aligned with the usage in pInflateEdge
-        co.Execute(-(customSizing  * constants.scalar_1E2), tmp); // Size back to original dimensions
+        co.Execute(-(customSizing  * Constants.scalar_1E2), tmp); // Size back to original dimensions
 
-        PathsD cGeometry = _pPathsDFromPaths64(tmp, constants.scalar_1E4_inv);
+        PathsD cGeometry = _pPathsDFromPaths64(tmp, Constants.scalar_1E4_inv);
         
         cGeometry = pReorderXY(cGeometry);
         
@@ -513,7 +513,7 @@ public static partial class GeoWrangler
 
         return Math.Abs(newArea) switch
         {
-            <= constants.tolerance =>
+            <= Constants.tolerance =>
                 // We crushed our geometry, it seems.
                 // This was probably not the plan, so send back the original geometry instead.
                 new(source),
@@ -532,20 +532,20 @@ public static partial class GeoWrangler
         double sourceArea = Clipper.Area(source);
 
         // Need to workaround missing PathD support in ClipperOffset...
-        Path64 rescaledSource = _pPath64FromPathD(source, constants.scalar_1E2);
+        Path64 rescaledSource = _pPath64FromPathD(source, Constants.scalar_1E2);
 
         ClipperOffset co = new() {PreserveCollinear = true};
         co.AddPath(rescaledSource, joinType, EndType.Polygon);
         // The scalar below must be aligned with the usage in pInflateEdge
         Paths64 tmp = new();
-        co.Execute(customSizing * constants.scalar_1E2, tmp);
+        co.Execute(customSizing * Constants.scalar_1E2, tmp);
         co.Clear();
         co.AddPaths(new (tmp), joinType, EndType.Polygon);
         tmp.Clear();
         // The scalar below must be aligned with the usage in pInflateEdge
-        co.Execute(-(customSizing * constants.scalar_1E2), tmp); // Size back to original dimensions
+        co.Execute(-(customSizing * Constants.scalar_1E2), tmp); // Size back to original dimensions
 
-        PathsD cGeometry = _pPathsDFromPaths64(tmp, constants.scalar_1E2_inv);
+        PathsD cGeometry = _pPathsDFromPaths64(tmp, Constants.scalar_1E2_inv);
 
         cGeometry = pReorderXY(cGeometry);
         
@@ -562,7 +562,7 @@ public static partial class GeoWrangler
 
         switch (Math.Abs(newArea))
         {
-            case <= constants.tolerance:
+            case <= Constants.tolerance:
                 // We crushed our geometry, it seems.
                 // This was probably not the plan, so send back the original geometry instead.
                 cGeometry.Clear();

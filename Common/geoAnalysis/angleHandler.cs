@@ -29,7 +29,7 @@ public class angleHandler
         listOfOutputPoints = new ();
         resultPaths = new ();
         PathD resultPath = new();
-        ClipperD c = new(constants.roundingDecimalPrecision) {ZCallback = ZFillCallback};
+        ClipperD c = new(Constants.roundingDecimalPrecision) {ZCallback = ZFillCallback};
         c.AddSubject(layerAPath);
         c.AddClip(layerBPath);
         

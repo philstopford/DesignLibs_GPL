@@ -60,7 +60,7 @@ public static class ProcessOverlaps
         }
         try
         {
-            ClipperD c = new(constants.roundingDecimalPrecision) {PreserveCollinear = true};
+            ClipperD c = new(Constants.roundingDecimalPrecision) {PreserveCollinear = true};
             PathsD sourcePolyData = new(sourceData);
             PathsD mergedPolyData = new();
             
@@ -88,8 +88,8 @@ public static class ProcessOverlaps
             // Decompose to outers and cutters
             PathsD[] decomp = GeoWrangler.getDecomposed(mergedPolyData);
 
-            PathsD outers = decomp[(int)GeoWrangler.type.outer];
-            PathsD cutters = decomp[(int)GeoWrangler.type.cutter];
+            PathsD outers = decomp[(int)GeoWrangler.Type.outer];
+            PathsD cutters = decomp[(int)GeoWrangler.Type.cutter];
 
             int oCount = outers.Count;
             int cCount = cutters.Count;
@@ -109,7 +109,7 @@ public static class ProcessOverlaps
 
                     double uArea = test.Sum(t => Math.Abs(Clipper.Area(t)));
 
-                    if (!(Math.Abs(uArea - origArea) < constants.tolerance))
+                    if (!(Math.Abs(uArea - origArea) < Constants.tolerance))
                     {
                         continue;
                     }

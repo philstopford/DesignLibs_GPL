@@ -42,7 +42,7 @@ public class ChordHandler
             pt++;
         }
 
-        ClipperD c = new(constants.roundingDecimalPrecision) {ZCallback = ZFillCallback, PreserveCollinear = true};
+        ClipperD c = new(Constants.roundingDecimalPrecision) {ZCallback = ZFillCallback, PreserveCollinear = true};
         c.AddOpenSubject(testPath);
         c.AddClip(b);
         PathsD unused = new();
@@ -208,7 +208,7 @@ public class ChordHandler
 
         pt = Math.Max(0, pt - 1);
 
-        ClipperD c = new(constants.roundingDecimalPrecision) {ZCallback = ZFillCallback, PreserveCollinear = true};
+        ClipperD c = new(Constants.roundingDecimalPrecision) {ZCallback = ZFillCallback, PreserveCollinear = true};
         c.AddOpenSubject(testPath);
         c.AddClip(a);
         PathsD leftChords = new();

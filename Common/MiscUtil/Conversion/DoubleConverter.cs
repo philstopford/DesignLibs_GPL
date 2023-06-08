@@ -11,7 +11,7 @@ namespace MiscUtil.Conversion;
 public class DoubleConverter
 {
     /// <doc> This provides the results from the convertor - the exponent, mantissa and whether the result is negative or not.</doc>
-    public class result
+    public class Result
     {
         /// <summary>
         /// exponent
@@ -32,9 +32,9 @@ public class DoubleConverter
     /// </summary>
     /// <param name="d"></param>
     /// <returns></returns>
-    public static result calculate(double d)
+    public static Result calculate(double d)
     {
-        result r = new();
+        Result r = new();
         // Translate the double into sign, exponent and mantissa.
         long bits = BitConverter.DoubleToInt64Bits(d);
         // Note that the shift is sign-extended, hence the test against -1 not 1
@@ -107,7 +107,7 @@ public class DoubleConverter
                 return "NaN";
         }
 
-        result r = calculate(d);
+        Result r = calculate(d);
 
         // Construct a new decimal expansion with the mantissa
         ArbitraryDecimal ad = new(r.mantissa);

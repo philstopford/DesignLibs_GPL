@@ -32,7 +32,7 @@ internal partial class oasReader
     private GCDrawingfield drawing_;
 
     private enum elementType { boxElement, polygonElement, pathElement, cellrefElement, textElement, circleElement, trapezoidElement, ctrapezoidElement }
-    public struct modals
+    public struct Modals
     {
         public bool absoluteMode { get; set; }
         public int placement_x { get; set; }
@@ -82,7 +82,7 @@ internal partial class oasReader
     private string[] cellNames = new string[1024000]; // maxLayers
     private string[] textNames = new string[1024000]; // maxLayers
     public Dictionary<string, string> layerNames { get; set; }
-    private modals modal;
+    private Modals modal;
 
     private bool zLibUsed; // ZLib data in use.
 

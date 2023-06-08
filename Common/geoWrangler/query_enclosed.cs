@@ -48,7 +48,7 @@ public static partial class GeoWrangler
 
         bool result = false;
             
-        ClipperD c = new(constants.roundingDecimalPrecision);
+        ClipperD c = new(Constants.roundingDecimalPrecision);
 
         PathsD rationalizedFirstLayer = clockwise(a);
         // Force to clockwise as a safety measure.
@@ -114,7 +114,7 @@ public static partial class GeoWrangler
             double clipArea = Math.Abs(Clipper.Area(rationalizedSecondLayer[0]));
             double subjArea = Math.Abs(Clipper.Area(rationalizedFirstLayer[0]));
 
-            if (Math.Abs(overlapArea - clipArea) <= constants.tolerance || Math.Abs(overlapArea - subjArea) <= constants.tolerance)
+            if (Math.Abs(overlapArea - clipArea) <= Constants.tolerance || Math.Abs(overlapArea - subjArea) <= Constants.tolerance)
             {
                 result = true;
             }

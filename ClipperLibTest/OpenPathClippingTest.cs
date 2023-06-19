@@ -241,7 +241,7 @@ public class OpenPathClippingTest
             40.00000, -3.67500,
         });
 
-        ClipperD d = new(constants.roundingDecimalPrecision);
+        ClipperD d = new(Constants.roundingDecimalPrecision);
         d.AddOpenSubject(cutMe);
         d.AddClip(clippingPath);
         PathsD out_ = new();

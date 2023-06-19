@@ -701,7 +701,7 @@ internal class Program
         incoming.Add(lPieces);
         incoming.Add(lPiece2);
         
-        ClipperD c = new(constants.roundingDecimalPrecision);
+        ClipperD c = new(Constants.roundingDecimalPrecision);
         c.AddSubject(incoming);
         PathsD ret = new();
         c.Execute(ClipType.Union, FillRule.EvenOdd, ret);

@@ -3415,9 +3415,19 @@ public class ShapeLibrary
 
     }
 
-    public PathD rotateShape(PathD input, ShapeSettings shapeSettings, double rotationVar,
+    public class RotateOutput
+    {
+        public PathD output { get; set; }
+        public double totalRotation { get; set; }
+    }
+    
+    public RotateOutput rotateShape(PathD input, ShapeSettings shapeSettings, double rotationVar,
         double rotationDirection, PointD pivot)
     {
+        RotateOutput ret = new();
+        ret.output = input;
+        ret.totalRotation = 0;
+
         double rotationAngle = Convert.ToDouble(shapeSettings.getDecimal(ShapeSettings.properties_decimal.rot));
         if (rotationDirection <= 0.5)
         {
@@ -3443,9 +3453,10 @@ public class ShapeLibrary
 
             // OK. Let's try some rotation and wobble.
             // Temporary separate container for our rotated points, just for now.
-            return GeoWrangler.Rotate(pivot, input, rotationAngle);
+            ret.output = GeoWrangler.Rotate(pivot, input, rotationAngle);
+            ret.totalRotation = rotationAngle;
         }
-
-        return input;
+        
+        return ret;
     }
 }

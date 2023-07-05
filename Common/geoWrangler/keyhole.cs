@@ -137,7 +137,7 @@ public static partial class GeoWrangler
 
                 PathsD tOuters = new() {tOuter};
 
-                PathsD tRet = pMakeKeyHole(tCutters, tOuters, reverseEval, biDirectionalEval, invert, customSizing, extension,
+                PathsD tRet = pMakeKeyHole(tOuters, tCutters, reverseEval, biDirectionalEval, invert, customSizing, extension,
                     angularTolerance);
 
                 ret.AddRange(tRet);
@@ -328,7 +328,7 @@ public static partial class GeoWrangler
             
             return pClockwiseAndReorderXY(outers);
         }
-        catch (Exception)
+        catch (Exception e)
         {
             throw new Exception("pMakeKeyHole error");
         }

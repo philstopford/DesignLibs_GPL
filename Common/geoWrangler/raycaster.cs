@@ -150,6 +150,7 @@ public class RayCast
     private PathsD pGenerateRays(PathD sourcePath, int index, long maxRayLength, bool projectCorners, inversionMode invert, int multisampleRayCount, Falloff sideRayFallOff, double sideRayFallOffMultiplier, NormalsData nData, forceSingleDirection dirOverride)
     {
         PointD startPoint = sourcePath[index];
+        startPoint.z = -100 - index;
         
         PathsD rays = new();
 
@@ -242,7 +243,7 @@ public class RayCast
                                          startPoint.y + weight_val * endPointDeltaX);
             }
 
-            PointD sPoint = new(startPoint.x, startPoint.y);
+            PointD sPoint = new(startPoint.x, startPoint.y, startPoint.z);
 
             if (sideRayFallOff != Falloff.none)
             {

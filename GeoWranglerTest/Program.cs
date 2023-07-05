@@ -8,9 +8,26 @@ internal static class Program
 {
     private static void Main()
     {
+        grassfire_test();
         unidirectional_bias();
         test_strip_collinear();
         test_fragmentPath();
+    }
+
+    private static void grassfire_test()
+    {
+        PathD original = new()
+        {
+            new(0, 0),
+            new(0, 80),
+            new(80, 80),
+            new(80, 60),
+            new(40, 60),
+            new(40, 0),
+            new(0, 0)
+        };
+
+        PathD median = GeoWrangler.skeleton(original);
     }
 
     private static void unidirectional_bias()

@@ -28,6 +28,13 @@ internal static class Program
         };
 
         PathD median = GeoWrangler.skeleton(original);
+
+        SvgWriter svg = new();
+        svg.FillRule = FillRule.EvenOdd;
+        
+        SvgUtils.AddSubject(svg, original);
+        SvgUtils.AddOpenSolution(svg, new PathsD() {median}, true);
+        SvgUtils.SaveToFile(svg, "median.svg", FillRule.NonZero, 5500,5500, 10);
     }
 
     private static void unidirectional_bias()

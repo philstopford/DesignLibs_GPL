@@ -84,10 +84,12 @@ public static partial class GeoWrangler
 
         Dictionary<string, PointD> initial = new();
         Dictionary<string, PathD> displacements = new();
+        Dictionary<string, PathD> displacements_by_initial_xy = new();
         
         foreach (PathD ray in rays_c1)
         {
             string key = "P" + ray[0].z;
+            string key_xy = "X" + ray[0].x + "Y" + ray[0].y;
 
             if (!initial.ContainsKey(key))
             {
@@ -99,6 +101,11 @@ public static partial class GeoWrangler
                 displacements.Add(key, new PathD());
             }
             displacements[key].Add(dist);
+            if (!displacements_by_initial_xy.ContainsKey(key_xy))
+            {
+                displacements_by_initial_xy.Add(key_xy, new PathD());
+            }
+            displacements_by_initial_xy[key_xy].Add(dist);
         }
 
         PathD median = new();
@@ -106,21 +113,24 @@ public static partial class GeoWrangler
         for (int i = 0; i < initial.Count; i++)
         {
             string key = "P" + i;
+            PointD start = new(initial[key]);
+            string key_xy = "X" + start.x + "Y" + start.y;
             try
             {
-                PointD start = new(initial[key]);
 
                 // Figure out our average displacement.
                 PointD displacement = new(0, 0);
-                int displacement_count = displacements[key].Count;
+                //int displacement_count = displacements[key].Count;
+                int displacement_count = displacements_by_initial_xy[key_xy].Count;
+                PathD displacements_path = displacements_by_initial_xy[key_xy];
                 for (int d = 0; d < displacement_count; d++)
                 {
-                    displacement.x += displacements[key][d].x;
-                    displacement.y += displacements[key][d].y;
+                    displacement.x += displacements_path[d].x;
+                    displacement.y += displacements_path[d].y;
                 }
 
-                displacement.x /= displacement_count;
-                displacement.y /= displacement_count;
+                displacement.x /= totalrays_per_point;
+                displacement.y /= totalrays_per_point;
 
                 median.Add(new(start.x + (0.5 * displacement.x), start.y + (0.5 * displacement.y)));
 

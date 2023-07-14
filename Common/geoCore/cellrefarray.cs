@@ -15,7 +15,6 @@ public class GCCellRefArray : GCElement
     public int count_x, count_y;
     public Point64 pitch;
     public GCCell cell_ref { get; set; }
-    private string name;
     public GCStrans trans { get; set; }
 
     public GCCellRefArray(GCCell c, Path64 array, int xCount, int yCount)

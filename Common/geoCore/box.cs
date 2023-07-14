@@ -266,14 +266,14 @@ public class GCBox : GCElement
         switch (info_byte & 16)
         {
             case > 0:
-                ow.modal.geometry_x = rect.Left; //rect.X;
+                ow.modal.geometry_x = rect.Left;
                 ow.writeSignedInteger(ow.modal.geometry_x);
                 break;
         }
         switch (info_byte & 8)
         {
             case > 0:
-                ow.modal.geometry_y = rect.Bottom; // rect.Y;
+                ow.modal.geometry_y = rect.Bottom;
                 ow.writeSignedInteger(ow.modal.geometry_y);
                 break;
         }

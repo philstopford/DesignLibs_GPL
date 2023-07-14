@@ -101,9 +101,9 @@ public class OLD__SVGBuilder
 
     public bool SaveToFile(string filename, double scale = 10.0, int margin = 10)
     {
-        // if (scale == 0) scale = 1.0;
-        // if (margin < 0) margin = 0;
-
+        scale = Math.Max(1, scale);
+        margin = Math.Max(0, margin);
+        
         //calculate the bounding rect ...
         int i = 0, j = 0;
         while (i < PolyInfoList.Count)

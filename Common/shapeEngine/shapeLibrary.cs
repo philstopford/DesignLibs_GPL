@@ -31,7 +31,7 @@ public class ShapeLibrary
     }
 
     // Client sends an array that has mapping of the client shape index to the ShapeLibrary index.
-    private int[]? shapeMapping_fromClient;
+    private int[] shapeMapping_fromClient;
 
     public void shapesForClient(int[] clientShapeDefinition)
     {
@@ -165,12 +165,12 @@ public class ShapeLibrary
         pSetShape(shapeIndex);
     }
 
-    public void setShape(int shapeIndex_, PathD? sourcePoly = null)
+    public void setShape(int shapeIndex_, PathD sourcePoly = null)
     {
         pSetShape(shapeIndex_, sourcePoly);
     }
 
-    private void pSetShape(int shapeIndex_, PathD? sourcePoly = null)
+    private void pSetShape(int shapeIndex_, PathD sourcePoly = null)
     {
         try
         {
@@ -1642,7 +1642,7 @@ public class ShapeLibrary
     }
 
     // Intended to take geometry from an external source and map it into our shape engine.
-    private void customShape(PathD? sourcePoly)
+    private void customShape(PathD sourcePoly)
     {
         if (sourcePoly == null)
         {

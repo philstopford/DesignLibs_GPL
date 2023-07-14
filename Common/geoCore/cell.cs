@@ -143,7 +143,6 @@ public class GCCell
             }
         }
 
-        // b = false;
         switch (b)
         {
             case true:

@@ -127,7 +127,10 @@ public class VeldridDriver
 
 		Surface.Resize += (sender, e) =>
 		{
-			pUpdateViewport();
+			if (Surface.Visible && (e.Width > 0) && (e.Height > 0))
+			{
+				pUpdateViewport();
+			}
 		};
 	}
 		
@@ -355,7 +358,7 @@ public class VeldridDriver
 		ovpSettings.lockVP(!ovpSettings.isLocked());
 		updateHostFunc?.Invoke();
 	}
-
+	
 	private void selectByClick(float x, float y)
 	{
 		// Where did we click?
@@ -1136,12 +1139,15 @@ public class VeldridDriver
 				return;
 		}
 
-		drawAxes();
-		drawGrid();
-		drawLines();
-		drawPolygons();
-		updateHostFunc?.Invoke();
-		Draw();
+		if (Surface.Visible && (Surface.Width > 0) && (Surface.Height > 0))
+		{
+			drawAxes();
+			drawGrid();
+			drawLines();
+			drawPolygons();
+			updateHostFunc?.Invoke();
+			Draw();
+		}
 
 	}
 

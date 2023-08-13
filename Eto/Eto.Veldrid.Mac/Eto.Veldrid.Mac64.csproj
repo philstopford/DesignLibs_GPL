@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <DefineConstants>MONOMAC</DefineConstants>
+    <MacBuildBundle>false</MacBuildBundle>
+    <Title>Veldrid Mac implementation for Eto.Forms</Title>
+    <Description>This provides the Mac64 implementation of Eto.Veldrid for Eto.Forms</Description>
+    <TargetFramework>net7.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Eto.Platform.Mac64" Version="2.7.5" />
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.0" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Eto.Veldrid\Eto.Veldrid.csproj" />
+  </ItemGroup>
+
+</Project>

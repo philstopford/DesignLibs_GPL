@@ -7,12 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Eto.Veldrid.WinForms\Eto.Veldrid.WinForms.csproj" />
     <ProjectReference Include="..\TestEtoVeldrid\TestEtoVeldrid.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Eto.Platform.Windows" Version="2.7.5" />
-    <PackageReference Include="Eto.Veldrid.WinForms" Version="0.1.0" />
   </ItemGroup>
 
   <ItemGroup>

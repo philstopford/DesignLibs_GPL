@@ -1,9 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
+    <DefineConstants>GTK3</DefineConstants>
+    <Title>Veldrid Gtk implementation for Eto.Forms</Title>
+    <Description>This provides the Gtk implementation of Eto.Veldrid for Eto.Forms</Description>
     <TargetFramework>net7.0</TargetFramework>
-    <LangVersion>11</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'Default' ">
@@ -13,12 +14,11 @@
 
   <ItemGroup>
     <PackageReference Include="Eto.Platform.Gtk" Version="2.7.5" />
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.0" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Common\veldrid\src\Veldrid\Veldrid.csproj" />
-    <ProjectReference Include="..\Eto.Veldrid.Gtk\Eto.Veldrid.Gtk.csproj" />
-    <ProjectReference Include="..\TestEtoVeldrid\TestEtoVeldrid.csproj" />
+    <ProjectReference Include="..\Eto.Veldrid\Eto.Veldrid.csproj" />
   </ItemGroup>
   
 </Project>

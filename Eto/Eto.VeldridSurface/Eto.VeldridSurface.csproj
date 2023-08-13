@@ -24,16 +24,16 @@
   
   <ItemGroup>
     <PackageReference Include="Eto.Forms" Version="2.7.5" />
-    <PackageReference Include="Eto.Veldrid" Version="0.1.0" />
     <PackageReference Include="Unofficial.LibTessDotNet" Version="2.0.2" />
-    <PackageReference Include="Veldrid" Version="4.9.0" />
-    <PackageReference Include="Veldrid.SPIRV" Version="1.0.15" />
   </ItemGroup>
   
   <ItemGroup>
     <ProjectReference Include="..\..\Common\clipper\clipper.csproj" />
     <ProjectReference Include="..\..\Common\KDTree\KDTree.csproj" />
     <ProjectReference Include="..\..\Common\utility\utility.csproj" />
+    <ProjectReference Include="..\..\Common\veldrid-spirv\src\Veldrid.SPIRV\Veldrid.SPIRV.csproj" />
+    <ProjectReference Include="..\..\Common\veldrid\src\Veldrid\Veldrid.csproj" />
+    <ProjectReference Include="..\Eto.Veldrid\Eto.Veldrid.csproj" />
   </ItemGroup>
   
 </Project>

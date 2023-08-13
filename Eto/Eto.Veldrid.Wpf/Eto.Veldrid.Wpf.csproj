@@ -1,0 +1,51 @@
+﻿<Project>
+
+  <PropertyGroup>
+    <HaveWindowsDesktopSdk Condition="$(HaveWindowsDesktopSdk) == '' and $(OS) == 'Windows_NT' and $([System.Version]::Parse($([MSBuild]::ValueOrDefault('$(VisualStudioVersion)', '1.0')))) &gt;= $([System.Version]::Parse('16.0'))">true</HaveWindowsDesktopSdk>
+    <TargetFramework>net7.0-windows</TargetFramework>
+  </PropertyGroup>
+
+  <Import Condition="'$(HaveWindowsDesktopSdk)' != 'true'" Sdk="Microsoft.NET.Sdk" Project="Sdk.props" />
+  <Import Condition="'$(HaveWindowsDesktopSdk)' == 'true'" Sdk="Microsoft.NET.Sdk.WindowsDesktop" Project="Sdk.props" />
+
+  <PropertyGroup>
+    <TargetFrameworks Condition="$(HaveWindowsDesktopSdk) == 'true'">$(TargetFrameworks);netcoreapp3.1</TargetFrameworks>
+    <UseWPF Condition="$(HaveWindowsDesktopSdk) == 'True'">true</UseWPF>
+    <UseWinForms Condition="$(HaveWindowsDesktopSdk) == 'True'">true</UseWinForms>
+    <!-- prevent warning with Extended.Wpf.Toolkit in .NET Core -->
+    <NoWarn>NU1701</NoWarn>
+    <Title>Veldrid WPF implementation for Eto.Forms</Title>
+    <Description>This provides the WPF implementation of Eto.Veldrid for Eto.Forms</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\veldrid\src\Veldrid\Veldrid.csproj" />
+    <ProjectReference Include="..\Eto.Veldrid\Eto.Veldrid.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Eto.Platform.Wpf" Version="2.5.1" />
+
+    <!-- Please note that version 3.6.0 is the newest version of this toolkit
+    that has licensing terms permitting use in commercial projects.
+    https://github.com/picoe/Eto/issues/1544
+    https://github.com/xceedsoftware/wpftoolkit/issues/1557 -->
+    <PackageReference Include="Extended.Wpf.Toolkit" Version="[3.6.0]" />
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.0" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup Condition="$(TargetFramework) == 'net461'">
+    <Reference Include="PresentationCore" Pack="False" />
+    <Reference Include="PresentationFramework" Pack="False" />
+    <Reference Include="ReachFramework" Pack="False" />
+    <Reference Include="System.Windows.Forms" Pack="False" />
+    <Reference Include="System.Xaml" Pack="False" />
+    <Reference Include="WindowsBase" Pack="False" />
+    <Reference Include="WindowsFormsIntegration" Pack="False" />
+  </ItemGroup>
+
+  <Import Condition="'$(HaveWindowsDesktopSdk)' != 'true'" Sdk="Microsoft.NET.Sdk" Project="Sdk.targets" />
+  <Import Condition="'$(HaveWindowsDesktopSdk)' == 'true'" Sdk="Microsoft.NET.Sdk.WindowsDesktop" Project="Sdk.targets" />
+
+
+</Project>

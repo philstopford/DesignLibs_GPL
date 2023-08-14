@@ -575,12 +575,17 @@
   <component name="ChangeListManager">
     <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.DesignLibs/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DesignLibs/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DesignLibs.sln" beforeDir="false" afterPath="$PROJECT_DIR$/DesignLibs.sln" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Eto/Eto.VeldridSurface/Eto.VeldridSurface.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Eto/Eto.VeldridSurface/Eto.VeldridSurface.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Eto/TestEtoVeldrid.Gtk/TestEtoVeldrid.Gtk.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Eto/TestEtoVeldrid.Gtk/TestEtoVeldrid.Gtk.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Eto/TestEtoVeldrid.WinForms/TestEtoVeldrid.WinForms.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Eto/TestEtoVeldrid.WinForms/TestEtoVeldrid.WinForms.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Eto/TestEtoVeldrid.Wpf/TestEtoVeldrid.Wpf.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Eto/TestEtoVeldrid.Wpf/TestEtoVeldrid.Wpf.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Eto/TestEtoVeldrid/TestEtoVeldrid.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Eto/TestEtoVeldrid/TestEtoVeldrid.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Eto/DynamicAero2/DynamicAero2.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Eto/DynamicAero2/DynamicAero2.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Eto/Eto.Veldrid.Mac/Eto.Veldrid.Mac64.csproj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Eto/Eto.Veldrid.Mac/MacVeldridSurfaceHandler.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Eto/Eto.Veldrid.Mac/MacVeldridView.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Eto/Eto.Veldrid.WinForms/Eto.Veldrid.WinForms.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Eto/Eto.Veldrid.WinForms/Eto.Veldrid.WinForms.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Eto/Eto.Veldrid.Wpf/Eto.Veldrid.Wpf.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Eto/Eto.Veldrid.Wpf/Eto.Veldrid.Wpf.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Eto/TestEtoVeldrid.Mac/App.config" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Eto/TestEtoVeldrid.Mac/Icon.icns" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Eto/TestEtoVeldrid.Mac/Info.plist" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Eto/TestEtoVeldrid.Mac/Program.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Eto/TestEtoVeldrid.Mac/TestEtoVeldrid.Mac64.csproj" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -1107,6 +1112,8 @@
       <workItem from="1688999570120" duration="1062000" />
       <workItem from="1691962624576" duration="86000" />
       <workItem from="1691964400965" duration="1569000" />
+      <workItem from="1691966527430" duration="1024000" />
+      <workItem from="1691969310968" duration="1907000" />
     </task>
     <servers />
   </component>

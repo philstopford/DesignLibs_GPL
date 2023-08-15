@@ -575,17 +575,6 @@
   <component name="ChangeListManager">
     <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.DesignLibs/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DesignLibs/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Eto/DynamicAero2/DynamicAero2.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Eto/DynamicAero2/DynamicAero2.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Eto/Eto.Veldrid.Mac/Eto.Veldrid.Mac64.csproj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Eto/Eto.Veldrid.Mac/MacVeldridSurfaceHandler.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Eto/Eto.Veldrid.Mac/MacVeldridView.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Eto/Eto.Veldrid.WinForms/Eto.Veldrid.WinForms.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Eto/Eto.Veldrid.WinForms/Eto.Veldrid.WinForms.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Eto/Eto.Veldrid.Wpf/Eto.Veldrid.Wpf.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Eto/Eto.Veldrid.Wpf/Eto.Veldrid.Wpf.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Eto/TestEtoVeldrid.Mac/App.config" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Eto/TestEtoVeldrid.Mac/Icon.icns" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Eto/TestEtoVeldrid.Mac/Info.plist" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Eto/TestEtoVeldrid.Mac/Program.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Eto/TestEtoVeldrid.Mac/TestEtoVeldrid.Mac64.csproj" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -612,8 +601,8 @@
     <setting file="file://$PROJECT_DIR$/Common/Burkardt/Sphere/LebedevRule.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Common/Burkardt/Types/r8mat.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Common/geoWrangler/decompose.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Eto/etoViewport/TestViewport.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/decompositionTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/85dd6eaee2df437d9c80c46f66d59e92336e00/94/595600de/Widget.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
@@ -1114,6 +1103,8 @@
       <workItem from="1691964400965" duration="1569000" />
       <workItem from="1691966527430" duration="1024000" />
       <workItem from="1691969310968" duration="1907000" />
+      <workItem from="1692050424442" duration="1419000" />
+      <workItem from="1692111812005" duration="8338000" />
     </task>
     <servers />
   </component>

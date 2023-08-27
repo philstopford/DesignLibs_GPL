@@ -1,13 +1,12 @@
 ﻿/*******************************************************************************
 * Author    :  Angus Johnson                                                   *
-* Date      :  16 May 2023                                                     *
+* Date      :  7 August 2023                                                   *
 * Website   :  http://www.angusj.com                                           *
 * Copyright :  Angus Johnson 2010-2023                                         *
 * Purpose   :  Path Offset (Inflate/Shrink)                                    *
 * License   :  http://www.boost.org/LICENSE_1_0.txt                            *
 *******************************************************************************/
 
-#nullable enable
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -78,8 +77,8 @@ namespace Clipper2Lib
 #if USINGZ
     public ClipperBase.ZCallback64? ZCallback { get; set; }
 #endif
-    public ClipperOffset(double miterLimit = 2.0, 
-      double arcTolerance = 0.0, bool 
+    public ClipperOffset(double miterLimit = 2.0,
+      double arcTolerance = 0.0, bool
       preserveCollinear = false, bool reverseSolution = false)
     {
       MiterLimit = miterLimit;
@@ -91,7 +90,6 @@ namespace Clipper2Lib
       ZCallback = null;
 #endif
     }
-
     public void Clear()
     {
       _groupList.Clear();
@@ -331,7 +329,7 @@ namespace Clipper2Lib
       PointD vec;
       if (j == k)
       {
-        vec = new PointD(_normals[0].y, -_normals[0].x);
+        vec = new PointD(_normals[j].y, -_normals[j].x);
       }
       else
       {
@@ -461,14 +459,17 @@ namespace Clipper2Lib
       else if (sinA < -1.0) sinA = -1.0;
 
       if (DeltaCallback != null)
+      { 
         _groupDelta = DeltaCallback(path, _normals, j, k);
+        if (group.pathsReversed) _groupDelta = -_groupDelta;
+      }
       if (Math.Abs(_groupDelta) < Tolerance)
       {
         group.outPath.Add(path[j]);
         return;
       }
 
-      if (cosA > 0.99)
+      if (cosA > 0.999)
         DoMiter(group, path, j, k, cosA);
       else if (cosA > -0.99 && (sinA * _groupDelta < 0)) 
       {
@@ -485,7 +486,7 @@ namespace Clipper2Lib
         if (cosA > _mitLimSqr - 1) DoMiter(group, path, j, k, cosA);
         else DoSquare(group, path, j, k);
       }
-      else if (_joinType == JoinType.Square)
+      else if (cosA > 0.99 || _joinType == JoinType.Square)
         //angle less than 8 degrees or a squared join
         DoSquare(group, path, j, k);
       else
@@ -497,6 +498,16 @@ namespace Clipper2Lib
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private void OffsetPolygon(Group group, Path64 path)
     {
+      // when the path is contracting, make sure 
+      // there is sufficient space to do so.              //#593
+      //nb: this will have a small impact on performance
+      double a = Clipper.Area(path);
+      if ((a < 0) != (_groupDelta < 0))
+      {
+        Rect64 rec = Clipper.GetBounds(path);
+        if (Math.Abs(_groupDelta) * 2 > rec.Width) return;
+      }
+
       group.outPath = new Path64();
       int cnt = path.Count, prev = cnt - 1;
       for (int i = 0; i < cnt; i++)

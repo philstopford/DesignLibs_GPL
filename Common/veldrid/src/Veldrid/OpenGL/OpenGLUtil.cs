@@ -12,12 +12,12 @@ namespace Veldrid.OpenGL
         [Conditional("DEBUG")]
         internal static void CheckLastError()
         {
-            //VerifyLastError();
+            VerifyLastError();
         }
 
         internal static void CheckLastError2()
         {
-            //VerifyLastError();
+            VerifyLastError();
         }
         internal static void VerifyLastError()
         {

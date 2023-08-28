@@ -19,7 +19,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\veldrid\src\Veldrid\Veldrid.csproj" />
     <ProjectReference Include="..\Eto.Veldrid\Eto.Veldrid.csproj" />
   </ItemGroup>
 

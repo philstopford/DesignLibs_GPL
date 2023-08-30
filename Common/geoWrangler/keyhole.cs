@@ -477,6 +477,13 @@ public static partial class GeoWrangler
             _ => customSizing
         };
 
+        // This is an empirical 'fudge' factor in order to close keyholes reliably.
+        // Testing landed on this as a minimal value which appears to work - lower values leave
+        // gaps; higher values run the risk of crushing 'real' geometrical features.
+        // I'm not really sure why this is now needed - earlier code worked fine.
+        // Good tests for this are ILB16, ILB17.
+        customSizing *= 1.05;
+
         extension = extension switch
         {
             0 => keyhole_extension_default,

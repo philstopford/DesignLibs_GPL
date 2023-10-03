@@ -1,6 +1,6 @@
 ﻿/*******************************************************************************
 * Author    :  Angus Johnson                                                   *
-* Date      :  27 August 2023                                                  *
+* Date      :  1 October 2023                                                  *
 * Website   :  http://www.angusj.com                                           *
 * Copyright :  Angus Johnson 2010-2023                                         *
 * Purpose   :  This is the main polygon clipping module                        *
@@ -13,6 +13,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
 
 namespace Clipper2Lib
@@ -507,7 +508,9 @@ namespace Clipper2Lib
     {
       if ((currentY == ae.top.Y) || (ae.top.X == ae.bot.X)) return ae.top.X;
       if (currentY == ae.bot.Y) return ae.bot.X;
-      return ae.bot.X + (long) Math.Round(ae.dx * (currentY - ae.bot.Y));
+
+      // use MidpointRounding.ToEven in order to explicitly match the nearbyint behaviour on the C++ side
+      return ae.bot.X + (long) Math.Round(ae.dx * (currentY - ae.bot.Y), MidpointRounding.ToEven);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -844,17 +847,6 @@ namespace Clipper2Lib
     private LocalMinima PopLocalMinima()
     {
       return _minimaList[_currentLocMin++];
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private void AddLocMin(Vertex vert, PathType polytype, bool isOpen)
-    {
-      // make sure the vertex is added only once ...
-      if ((vert.flags & VertexFlags.LocalMin) != VertexFlags.None) return;
-      vert.flags |= VertexFlags.LocalMin;
-
-      LocalMinima lm = new LocalMinima(vert, polytype, isOpen);
-      _minimaList.Add(lm);
     }
    
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -1898,9 +1890,9 @@ namespace Clipper2Lib
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private void AddNewIntersectNode(Active ae1, Active ae2, long topY)
     {
-      if (!InternalClipper.GetIntersectPt(
+      if (!InternalClipper.GetIntersectPoint(
         ae1.bot, ae1.top, ae2.bot, ae2.top, out Point64 ip))
-        ip = new Point64(ae1.curX, topY);
+          ip = new Point64(ae1.curX, topY);
 
       if (ip.Y > _currentBotY || ip.Y < topY)
       {
@@ -2749,13 +2741,11 @@ private void DoHorizontal(Active horz)
             if (Path1InsidePath2(or1.pts, or2.pts))
             {
               //swap or1's & or2's pts
-              OutPt tmp = or1.pts;
-              or1.pts = or2.pts;
-              or2.pts = tmp;
+              (or2.pts, or1.pts) = (or1.pts, or2.pts);
               FixOutRecPts(or1);
               FixOutRecPts(or2);
               //or2 is now inside or1
-              or2.owner = or1.owner;
+              or2.owner = or1;
             }
             else if (Path1InsidePath2(or2.pts, or1.pts))
               or2.owner = or1;
@@ -3500,9 +3490,38 @@ private void DoHorizontal(Active horz)
     {
       _childs.Clear();
     }
-  } // PolyPathBase class
 
-  public class PolyPath64 : PolyPathBase
+    internal string ToStringInternal(int idx, int level)
+    {
+      string result = "", padding = "", plural = "s";
+      if (_childs.Count == 1) plural = "";
+      padding = padding.PadLeft(level * 2);
+      if ((level & 1) == 0)
+        result += string.Format("{0}+- hole ({1}) contains {2} nested polygon{3}.\n", padding, idx, _childs.Count, plural);
+      else
+        result += string.Format("{0}+- polygon ({1}) contains {2} hole{3}.\n", padding, idx, _childs.Count, plural);
+
+      for (int i = 0; i < Count; i++)
+        if (_childs[i].Count > 0)
+          result += _childs[i].ToStringInternal(i, level +1);
+      return result;
+    }
+
+    public override string ToString()
+    {
+      if (Level > 0) return ""; //only accept tree root 
+      string plural = "s";
+      if (_childs.Count == 1) plural = "";
+      string result = string.Format("Polytree with {0} polygon{1}.\n", _childs.Count, plural);
+      for (int i = 0; i < Count; i++)
+        if (_childs[i].Count > 0)
+          result += _childs[i].ToStringInternal(i, 1);
+      return result + '\n';
+    }
+
+} // PolyPathBase class
+
+public class PolyPath64 : PolyPathBase
   {
     public Path64? Polygon { get; private set; } // polytree root's polygon == null
 
@@ -3547,7 +3566,6 @@ private void DoHorizontal(Active horz)
       return result;
     }
   }
-
   public class PolyPathD : PolyPathBase
   {
     internal double Scale { get; set; }

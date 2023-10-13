@@ -573,7 +573,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="" />
+    <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.DesignLibs/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DesignLibs/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/clipper/Clipper.Core.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/clipper/Clipper.Core.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/clipper/Clipper.Engine.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/clipper/Clipper.Engine.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/clipper/Clipper.Offset.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/clipper/Clipper.Offset.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/clipper/Clipper.RectClip.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/clipper/Clipper.RectClip.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/clipper/Clipper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/clipper/Clipper.cs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -663,40 +670,40 @@
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="Toolset" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 0
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 0
+}</component>
   <component name="ProjectId" id="1mwQdTEsxQe82OkrcOTraJx6kfi" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "XThreadsFramesViewSplitterKey": "0.2764505",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "/d/development/DesignLibs_GPL/Eto/Eto.Veldrid.Wpf/Eto.Veldrid.Wpf.csproj",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "Errors",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;XThreadsFramesViewSplitterKey&quot;: &quot;0.2764505&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/d/development/DesignLibs_GPL/Eto/Eto.Veldrid.Wpf/Eto.Veldrid.Wpf.csproj&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;Errors&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "rider.external.source.directories": [
-      "/home/phil/.config/JetBrains/Rider2023.2/resharper-host/DecompilerCache",
-      "/home/phil/.config/JetBrains/Rider2023.2/resharper-host/SourcesCache",
-      "/home/phil/.local/share/Symbols/src"
+  &quot;keyToStringList&quot;: {
+    &quot;rider.external.source.directories&quot;: [
+      &quot;/home/phil/.config/JetBrains/Rider2023.2/resharper-host/DecompilerCache&quot;,
+      &quot;/home/phil/.config/JetBrains/Rider2023.2/resharper-host/SourcesCache&quot;,
+      &quot;/home/phil/.local/share/Symbols/src&quot;
     ]
   }
-}]]></component>
-  <component name="RunManager" selected=".NET Project.TestEtoVeldrid.Gtk">
+}</component>
+  <component name="RunManager" selected=".NET Project.decompositionTest">
     <configuration name="ClipperLibTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -1109,6 +1116,8 @@
       <workItem from="1692050424442" duration="1419000" />
       <workItem from="1692111812005" duration="8338000" />
       <workItem from="1693156747411" duration="182000" />
+      <workItem from="1695318146407" duration="274000" />
+      <workItem from="1696350251953" duration="3129000" />
     </task>
     <servers />
   </component>

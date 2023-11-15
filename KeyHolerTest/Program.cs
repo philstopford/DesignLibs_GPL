@@ -161,14 +161,6 @@ internal class Program
             100, -100
         });
 
-        // Segment the paths to match real-world case.
-        /*
-        Fragmenter f = new(10000);
-        PathD outer_f = f.fragmentPath(outer);
-
-        PathD inner1_f = f.fragmentPath(inner1);
-        PathD inner2_f = f.fragmentPath(inner2);
-        */
         PathsD kHSource = new()
         {
             outer,
@@ -176,56 +168,11 @@ internal class Program
             inner2
         };
         
-        /* Expected
-        kHSource = {List<List<Point64>>} Count = 3
-         [0] = {List<Point64>} Count = 5
-          [0] = {Point64} -300,-200,0 
-          [1] = {Point64} 300,-200,0 
-          [2] = {Point64} 300,200,0 
-          [3] = {Point64} -300,200,0 
-          [4] = {Point64} -300,-200,0 
-         [1] = {List<Point64>} Count = 5
-          [0] = {Point64} -200,-100,0 
-          [1] = {Point64} -200,100,0 
-          [2] = {Point64} -100,100,0 
-          [3] = {Point64} -100,-100,0 
-          [4] = {Point64} -200,-100,0 
-         [2] = {List<Point64>} Count = 5
-          [0] = {Point64} 100,-100,0 
-          [1] = {Point64} 100,100,0 
-          [2] = {Point64} 200,100,0 
-          [3] = {Point64} 200,-100,0 
-          [4] = {Point64} 100,-100,0 
-           */
 
         // Generate keyholed geometry
         PathsD kH = GeoWrangler.makeKeyHole(new PathsD(kHSource), reverseEval:false, biDirectionalEval:true);
-
-        /* Expected output
-        kH = {List<List<Point64>>} Count = 1
-         [0] = {List<Point64>} Count = 21
-          [0] = {Point64} 300,-200,0 
-          [1] = {Point64} 300,-100.5,0 
-          [2] = {Point64} 199.5,-100.5,0 
-          [3] = {Point64} 199.5,-100,0 
-          [4] = {Point64} 100,-100,0 
-          [5] = {Point64} 100,100,0 
-          [6] = {Point64} 200,100,0 
-          [7] = {Point64} 200,-99.5,0 
-          [8] = {Point64} 300,-99.5,0 
-          [9] = {Point64} 300,200,0 
-          [10] = {Point64} -300,200,0 
-          [11] = {Point64} -300,100.5,0 
-          [12] = {Point64} -199.5,100.5,0 
-          [13] = {Point64} -199.5,100,0 
-          [14] = {Point64} -100,100,0 
-          [15] = {Point64} -100,-100,0 
-          [16] = {Point64} -200,-100,0 
-          [17] = {Point64} -200,99.5,0 
-          [18] = {Point64} -300,99.5,0 
-          [19] = {Point64} -300,-200,0 
-          [20] = {Point64} 300,-200,0 
-           */
+        Assert.AreEqual(kH.Count, 1);
+        Assert.LessOrEqual(Clipper.Area(kH) - -199979.995d, 0.001);
         
         // Generate sliver geometry.
         PathsD sL = new();

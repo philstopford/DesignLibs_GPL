@@ -575,11 +575,12 @@
   <component name="ChangeListManager">
     <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.DesignLibs/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DesignLibs/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/gdsTest/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/gdsTest/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/clipper/Clipper.Core.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/clipper/Clipper.Core.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/clipper/Clipper.Engine.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/clipper/Clipper.Engine.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/clipper/Clipper.Offset.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/clipper/Clipper.Offset.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/KeyHolerTest/KeyHolerTest.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/KeyHolerTest/KeyHolerTest.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/KeyHolerTest/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/KeyHolerTest/Program.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/decompositionTest/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/decompositionTest/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/decompositionTest/decompositionTest.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/decompositionTest/decompositionTest.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/geoCoreTest/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/geoCoreTest/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/geoCoreTest/geoCoreTest.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/geoCoreTest/geoCoreTest.csproj" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -608,6 +609,7 @@
     <setting file="file://$PROJECT_DIR$/Common/geoWrangler/decompose.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/decompositionTest/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/85dd6eaee2df437d9c80c46f66d59e92336e00/94/595600de/Widget.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/46a322d26154b982566e1817203e5452c91223f93b0e392d9c5b4806696fdc1/Assert.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <changedPaths>
@@ -703,7 +705,7 @@
     ]
   }
 }]]></component>
-  <component name="RunManager" selected=".NET Project.decompositionTest">
+  <component name="RunManager" selected=".NET Project.KeyHolerTest">
     <configuration name="ClipperLibTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -1119,7 +1121,7 @@
       <workItem from="1695318146407" duration="274000" />
       <workItem from="1696350251953" duration="3129000" />
       <workItem from="1699995308600" duration="17000" />
-      <workItem from="1699995329548" duration="13579000" />
+      <workItem from="1699995329548" duration="19808000" />
     </task>
     <servers />
   </component>
@@ -1147,17 +1149,17 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/decompositionTest/Program.cs</url>
-          <line>375</line>
-          <properties documentPath="$PROJECT_DIR$/decompositionTest/Program.cs" initialLine="375" containingFunctionPresentation="Method 'partOne'">
+          <url>file://$PROJECT_DIR$/KeyHolerTest/Program.cs</url>
+          <line>130</line>
+          <properties documentPath="$PROJECT_DIR$/KeyHolerTest/Program.cs" initialLine="143" containingFunctionPresentation="Method 'singleTest'">
             <startOffsets>
-              <option value="13531" />
+              <option value="5669" />
             </startOffsets>
             <endOffsets>
-              <option value="13559" />
+              <option value="5714" />
             </endOffsets>
           </properties>
-          <option name="timeStamp" value="33" />
+          <option name="timeStamp" value="44" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

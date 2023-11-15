@@ -633,19 +633,16 @@ public class GCPolygon : GCElement
             max_distance = Math.Max(max_distance, distance);
         }
 
-        double delta = max_distance - min_distance;
+        double min_area = Math.PI * min_distance * min_distance;
+        double max_area = Math.PI * max_distance * max_distance;
+        double actual_area = Clipper.Area(pointarray);
 
-        // Tolerance value - one DB unit in each direction, sqrt of 2.
-        // Multiply by 100 to take account of 0.01 nm minimum grid.
-        const double tol = 1.414213f * 100;
-
-        if (delta > tol)
+        if ((actual_area >= min_area) && (actual_area <= max_area))
         {
-            return result;
+            result.circle = true;
+            // 100 to account for 0.01 nm grid
+            result.radius = 100 * Math.Sqrt(actual_area / Math.PI);
         }
-
-        result.circle = true;
-        result.radius = delta * 100 / 2;
 
         return result;
     }

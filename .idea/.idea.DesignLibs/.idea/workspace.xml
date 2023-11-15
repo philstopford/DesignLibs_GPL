@@ -575,12 +575,10 @@
   <component name="ChangeListManager">
     <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.DesignLibs/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DesignLibs/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/clipper/Clipper.Core.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/clipper/Clipper.Core.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/clipper/Clipper.Engine.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/clipper/Clipper.Engine.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/clipper/Clipper.Offset.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/clipper/Clipper.Offset.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoCore/polygon.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoCore/polygon.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/keyhole.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/keyhole.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/KeyHolerTest/KeyHolerTest.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/KeyHolerTest/KeyHolerTest.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/KeyHolerTest/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/KeyHolerTest/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/decompositionTest/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/decompositionTest/Program.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -681,31 +679,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "XThreadsFramesViewSplitterKey": "0.2764505",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "/d/development/DesignLibs_GPL/Eto/Eto.Veldrid.Wpf/Eto.Veldrid.Wpf.csproj",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "RiderUnitTestingPageId",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;XThreadsFramesViewSplitterKey&quot;: &quot;0.2764505&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/d/development/DesignLibs_GPL/Eto/Eto.Veldrid.Wpf/Eto.Veldrid.Wpf.csproj&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;RiderUnitTestingPageId&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "rider.external.source.directories": [
-      "/home/phil/.config/JetBrains/Rider2023.2/resharper-host/DecompilerCache",
-      "/home/phil/.config/JetBrains/Rider2023.2/resharper-host/SourcesCache",
-      "/home/phil/.local/share/Symbols/src"
+  &quot;keyToStringList&quot;: {
+    &quot;rider.external.source.directories&quot;: [
+      &quot;/home/phil/.config/JetBrains/Rider2023.2/resharper-host/DecompilerCache&quot;,
+      &quot;/home/phil/.config/JetBrains/Rider2023.2/resharper-host/SourcesCache&quot;,
+      &quot;/home/phil/.local/share/Symbols/src&quot;
     ]
   }
-}]]></component>
-  <component name="RunManager" selected=".NET Project.KeyHolerTest">
+}</component>
+  <component name="RunManager" selected=".NET Project.decompositionTest">
     <configuration name="ClipperLibTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -1122,6 +1120,7 @@
       <workItem from="1696350251953" duration="3129000" />
       <workItem from="1699995308600" duration="17000" />
       <workItem from="1699995329548" duration="19808000" />
+      <workItem from="1700022457032" duration="3821000" />
     </task>
     <servers />
   </component>
@@ -1150,16 +1149,94 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/KeyHolerTest/Program.cs</url>
-          <line>130</line>
-          <properties documentPath="$PROJECT_DIR$/KeyHolerTest/Program.cs" initialLine="143" containingFunctionPresentation="Method 'singleTest'">
+          <line>2441</line>
+          <properties documentPath="$PROJECT_DIR$/KeyHolerTest/Program.cs" initialLine="2406" containingFunctionPresentation="Method 'complex_islandTest'">
             <startOffsets>
-              <option value="5669" />
+              <option value="87309" />
             </startOffsets>
             <endOffsets>
-              <option value="5714" />
+              <option value="87353" />
             </endOffsets>
           </properties>
-          <option name="timeStamp" value="44" />
+          <option name="timeStamp" value="52" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/KeyHolerTest/Program.cs</url>
+          <line>295</line>
+          <properties documentPath="$PROJECT_DIR$/KeyHolerTest/Program.cs" initialLine="295" containingFunctionPresentation="Method 'multiTest'">
+            <startOffsets>
+              <option value="11758" />
+            </startOffsets>
+            <endOffsets>
+              <option value="11759" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="55" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Common/geoWrangler/keyhole.cs</url>
+          <line>277</line>
+          <properties documentPath="$PROJECT_DIR$/Common/geoWrangler/keyhole.cs" initialLine="277" containingFunctionPresentation="Method 'pMakeKeyHole'">
+            <startOffsets>
+              <option value="11345" />
+            </startOffsets>
+            <endOffsets>
+              <option value="11374" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="56" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Common/geoWrangler/keyhole.cs</url>
+          <line>253</line>
+          <properties documentPath="$PROJECT_DIR$/Common/geoWrangler/keyhole.cs" initialLine="253" containingFunctionPresentation="Method 'pCutKeyHole'">
+            <startOffsets>
+              <option value="10420" />
+            </startOffsets>
+            <endOffsets>
+              <option value="10473" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="57" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Common/geoWrangler/keyhole.cs</url>
+          <line>16</line>
+          <properties documentPath="$PROJECT_DIR$/Common/geoWrangler/keyhole.cs" initialLine="16" containingFunctionPresentation="Method 'makeKeyHole'">
+            <startOffsets>
+              <option value="669" />
+            </startOffsets>
+            <endOffsets>
+              <option value="832" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="58" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Common/geoWrangler/keyhole.cs</url>
+          <line>21</line>
+          <properties documentPath="$PROJECT_DIR$/Common/geoWrangler/keyhole.cs" initialLine="21" containingFunctionPresentation="Method 'makeKeyHole'">
+            <startOffsets>
+              <option value="1079" />
+            </startOffsets>
+            <endOffsets>
+              <option value="1205" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="59" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/Common/geoWrangler/keyhole.cs</url>
+          <line>26</line>
+          <properties documentPath="$PROJECT_DIR$/Common/geoWrangler/keyhole.cs" initialLine="26" containingFunctionPresentation="Method 'makeKeyHole'">
+            <startOffsets>
+              <option value="1453" />
+            </startOffsets>
+            <endOffsets>
+              <option value="1607" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="60" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

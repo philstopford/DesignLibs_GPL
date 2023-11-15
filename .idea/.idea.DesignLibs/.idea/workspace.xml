@@ -575,11 +575,11 @@
   <component name="ChangeListManager">
     <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.DesignLibs/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DesignLibs/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/clipper/Clipper.Core.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/clipper/Clipper.Core.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/clipper/Clipper.Engine.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/clipper/Clipper.Engine.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/clipper/Clipper.Offset.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/clipper/Clipper.Offset.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/clipper/Clipper.RectClip.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/clipper/Clipper.RectClip.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/clipper/Clipper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/clipper/Clipper.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/gdsTest/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/gdsTest/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/decompositionTest/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/decompositionTest/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/decompositionTest/decompositionTest.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/decompositionTest/decompositionTest.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/geoCoreTest/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/geoCoreTest/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/geoCoreTest/geoCoreTest.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/geoCoreTest/geoCoreTest.csproj" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -679,30 +679,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;XThreadsFramesViewSplitterKey&quot;: &quot;0.2764505&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/d/development/DesignLibs_GPL/Eto/Eto.Veldrid.Wpf/Eto.Veldrid.Wpf.csproj&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;Errors&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "XThreadsFramesViewSplitterKey": "0.2764505",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "/d/development/DesignLibs_GPL/Eto/Eto.Veldrid.Wpf/Eto.Veldrid.Wpf.csproj",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "RiderUnitTestingPageId",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;rider.external.source.directories&quot;: [
-      &quot;/home/phil/.config/JetBrains/Rider2023.2/resharper-host/DecompilerCache&quot;,
-      &quot;/home/phil/.config/JetBrains/Rider2023.2/resharper-host/SourcesCache&quot;,
-      &quot;/home/phil/.local/share/Symbols/src&quot;
+  "keyToStringList": {
+    "rider.external.source.directories": [
+      "/home/phil/.config/JetBrains/Rider2023.2/resharper-host/DecompilerCache",
+      "/home/phil/.config/JetBrains/Rider2023.2/resharper-host/SourcesCache",
+      "/home/phil/.local/share/Symbols/src"
     ]
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected=".NET Project.decompositionTest">
     <configuration name="ClipperLibTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
@@ -1118,6 +1118,8 @@
       <workItem from="1693156747411" duration="182000" />
       <workItem from="1695318146407" duration="274000" />
       <workItem from="1696350251953" duration="3129000" />
+      <workItem from="1699995308600" duration="17000" />
+      <workItem from="1699995329548" duration="13579000" />
     </task>
     <servers />
   </component>
@@ -1142,8 +1144,26 @@
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DotNet Breakpoints">
+          <url>file://$PROJECT_DIR$/decompositionTest/Program.cs</url>
+          <line>375</line>
+          <properties documentPath="$PROJECT_DIR$/decompositionTest/Program.cs" initialLine="375" containingFunctionPresentation="Method 'partOne'">
+            <startOffsets>
+              <option value="13531" />
+            </startOffsets>
+            <endOffsets>
+              <option value="13559" />
+            </endOffsets>
+          </properties>
+          <option name="timeStamp" value="33" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
+        <PinnedItemInfo parentTag="Type#geoCoreLib.GCPolygon" memberName="name" />
         <PinnedItemInfo parentTag="Frame#geoWrangler.GeoWrangler.decompose_poly_to_rectangles" memberName="lPoly" />
       </pinned-members>
     </pin-to-top-manager>

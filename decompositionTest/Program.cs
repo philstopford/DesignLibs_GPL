@@ -2,6 +2,7 @@
 using geoWrangler;
 using geoCoreLib;
 using PartitionTestGeometrySource;
+using NUnit.Framework;
 
 namespace partitionTest;
 
@@ -79,44 +80,27 @@ internal class Program
         bool abort = false;
 
         PathsD l = GeoWrangler.rectangular_decomposition(ref abort, L, maxRayLength: rayLength);
-
-        /* Expected output
-            l = {List<Path>} Count = 2
-             [0] = {Path} GeoLibPoint[4]
-              [0] = GeoLibPoint
-               X = {int} 0
-               Y = {int} 0
-               tag = {int} 0
-              [1] = GeoLibPoint
-               X = {int} 0
-               Y = {int} 50
-               tag = {int} 0
-              [2] = GeoLibPoint
-               X = {int} 10
-               Y = {int} 50
-               tag = {int} 0
-              [3] = GeoLibPoint
-               X = {int} 10
-               Y = {int} 0
-               tag = {int} 0
-             [1] = {Path} GeoLibPoint[4]
-              [0] = GeoLibPoint
-               X = {int} 10
-               Y = {int} 0
-               tag = {int} 0
-              [1] = GeoLibPoint
-               X = {int} 10
-               Y = {int} 20
-               tag = {int} 0
-              [2] = GeoLibPoint
-               X = {int} 60
-               Y = {int} 20
-               tag = {int} 0
-              [3] = GeoLibPoint
-               X = {int} 60
-               Y = {int} 0
-               tag = {int} 0         
-         */
+        Assert.AreEqual(l.Count, 2);
+        Assert.AreEqual(l[0][0].x, 0);
+        Assert.AreEqual(l[0][0].y, 0);
+        Assert.AreEqual(l[0][1].x, 10);
+        Assert.AreEqual(l[0][1].y, 0);
+        Assert.AreEqual(l[0][2].x, 10);
+        Assert.AreEqual(l[0][2].y, 50);
+        Assert.AreEqual(l[0][3].x, 0);
+        Assert.AreEqual(l[0][3].y, 50);
+        Assert.AreEqual(l[0][4].x, 0);
+        Assert.AreEqual(l[0][4].y, 0);
+        Assert.AreEqual(l[1][0].x, 10);
+        Assert.AreEqual(l[1][0].y, 0);
+        Assert.AreEqual(l[1][1].x, 60);
+        Assert.AreEqual(l[1][1].y, 0);
+        Assert.AreEqual(l[1][2].x, 60);
+        Assert.AreEqual(l[1][2].y, 20);
+        Assert.AreEqual(l[1][3].x, 10);
+        Assert.AreEqual(l[1][3].y, 20);
+        Assert.AreEqual(l[1][4].x, 10);
+        Assert.AreEqual(l[1][4].y, 0);
 
         writeToLayout("l", L, l);
 
@@ -127,449 +111,267 @@ internal class Program
         */
 
         PathsD lccw = GeoWrangler.rectangular_decomposition(ref abort, L_ccw, maxRayLength: rayLength);
-
-        /* Expected output
-           lccw = {List<Path>} Count = 2
-            [0] = {Path} GeoLibPoint[4]
-             [0] = GeoLibPoint
-              X = {int} 0
-              Y = {int} 0
-              tag = {int} 0
-             [1] = GeoLibPoint
-              X = {int} 0
-              Y = {int} 50
-              tag = {int} 0
-             [2] = GeoLibPoint
-              X = {int} 10
-              Y = {int} 50
-              tag = {int} 0
-             [3] = GeoLibPoint
-              X = {int} 10
-              Y = {int} 0
-              tag = {int} 0
-            [1] = {Path} GeoLibPoint[4]
-             [0] = GeoLibPoint
-              X = {int} 10
-              Y = {int} 0
-              tag = {int} 0
-             [1] = GeoLibPoint
-              X = {int} 10
-              Y = {int} 20
-              tag = {int} 0
-             [2] = GeoLibPoint
-              X = {int} 60
-              Y = {int} 20
-              tag = {int} 0
-             [3] = GeoLibPoint
-              X = {int} 60
-              Y = {int} 0
-              tag = {int} 0
-            */
+        Assert.AreEqual(lccw.Count, 2);
+        Assert.AreEqual(lccw[0][0].x, 0);
+        Assert.AreEqual(lccw[0][0].y, 0);
+        Assert.AreEqual(lccw[0][1].x, 10);
+        Assert.AreEqual(lccw[0][1].y, 0);
+        Assert.AreEqual(lccw[0][2].x, 10);
+        Assert.AreEqual(lccw[0][2].y, 50);
+        Assert.AreEqual(lccw[0][3].x, 0);
+        Assert.AreEqual(lccw[0][3].y, 50);
+        Assert.AreEqual(lccw[0][4].x, 0);
+        Assert.AreEqual(lccw[0][4].y, 0);
+        Assert.AreEqual(lccw[1][0].x, 10);
+        Assert.AreEqual(lccw[1][0].y, 0);
+        Assert.AreEqual(lccw[1][1].x, 60);
+        Assert.AreEqual(lccw[1][1].y, 0);
+        Assert.AreEqual(lccw[1][2].x, 60);
+        Assert.AreEqual(lccw[1][2].y, 20);
+        Assert.AreEqual(lccw[1][3].x, 10);
+        Assert.AreEqual(lccw[1][3].y, 20);
+        Assert.AreEqual(lccw[1][4].x, 10);
+        Assert.AreEqual(lccw[1][4].y, 0);
 
         writeToLayout("lccw", L_ccw, lccw);
 
         PathsD rl = GeoWrangler.rectangular_decomposition(ref abort, rL, maxRayLength: rayLength);
-
-        /* Expected output
-           rl = {List<Path>} Count = 2
-            [0] = {Path} GeoLibPoint[4]
-             [0] = GeoLibPoint
-              X = {int} 10
-              Y = {int} 0
-              tag = {int} 0
-             [1] = GeoLibPoint
-              X = {int} 10
-              Y = {int} 50
-              tag = {int} 0
-             [2] = GeoLibPoint
-              X = {int} 60
-              Y = {int} 50
-              tag = {int} 0
-             [3] = GeoLibPoint
-              X = {int} 60
-              Y = {int} 0
-              tag = {int} 0
-            [1] = {Path} GeoLibPoint[4]
-             [0] = GeoLibPoint
-              X = {int} 0
-              Y = {int} 0
-              tag = {int} 0
-             [1] = GeoLibPoint
-              X = {int} 0
-              Y = {int} 20
-              tag = {int} 0
-             [2] = GeoLibPoint
-              X = {int} 10
-              Y = {int} 20
-              tag = {int} 0
-             [3] = GeoLibPoint
-              X = {int} 10
-              Y = {int} 0
-              tag = {int} 0
-            */
+        Assert.AreEqual(rl.Count, 2);
+        Assert.AreEqual(rl[0][0].x, 10);
+        Assert.AreEqual(rl[0][0].y, 0);
+        Assert.AreEqual(rl[0][1].x, 60);
+        Assert.AreEqual(rl[0][1].y, 0);
+        Assert.AreEqual(rl[0][2].x, 60);
+        Assert.AreEqual(rl[0][2].y, 50);
+        Assert.AreEqual(rl[0][3].x, 10);
+        Assert.AreEqual(rl[0][3].y, 50);
+        Assert.AreEqual(rl[0][4].x, 10);
+        Assert.AreEqual(rl[0][4].y, 0);
+        Assert.AreEqual(rl[1][0].x, 0);
+        Assert.AreEqual(rl[1][0].y, 0);
+        Assert.AreEqual(rl[1][1].x, 10);
+        Assert.AreEqual(rl[1][1].y, 0);
+        Assert.AreEqual(rl[1][2].x, 10);
+        Assert.AreEqual(rl[1][2].y, 20);
+        Assert.AreEqual(rl[1][3].x, 0);
+        Assert.AreEqual(rl[1][3].y, 20);
+        Assert.AreEqual(rl[1][4].x, 0);
+        Assert.AreEqual(rl[1][4].y, 0);
 
         writeToLayout("rl", rL, rl);
 
         PathsD u = GeoWrangler.rectangular_decomposition(ref abort, U, maxRayLength: rayLength);
-
-        /* Expected output
-           u = {List<Path>} Count = 3
-            [0] = {Path} GeoLibPoint[4]
-             [0] = GeoLibPoint
-              X = {int} 0
-              Y = {int} 0
-              tag = {int} 0
-             [1] = GeoLibPoint
-              X = {int} 0
-              Y = {int} 50
-              tag = {int} 0
-             [2] = GeoLibPoint
-              X = {int} 10
-              Y = {int} 50
-              tag = {int} 0
-             [3] = GeoLibPoint
-              X = {int} 10
-              Y = {int} 0
-              tag = {int} 0
-            [1] = {Path} GeoLibPoint[4]
-             [0] = GeoLibPoint
-              X = {int} 60
-              Y = {int} 0
-              tag = {int} 0
-             [1] = GeoLibPoint
-              X = {int} 60
-              Y = {int} 80
-              tag = {int} 0
-             [2] = GeoLibPoint
-              X = {int} 120
-              Y = {int} 80
-              tag = {int} 0
-             [3] = GeoLibPoint
-              X = {int} 120
-              Y = {int} 0
-              tag = {int} 0
-            [2] = {Path} GeoLibPoint[4]
-             [0] = GeoLibPoint
-              X = {int} 10
-              Y = {int} 0
-              tag = {int} 0
-             [1] = GeoLibPoint
-              X = {int} 10
-              Y = {int} 20
-              tag = {int} 0
-             [2] = GeoLibPoint
-              X = {int} 60
-              Y = {int} 20
-              tag = {int} 0
-             [3] = GeoLibPoint
-              X = {int} 60
-              Y = {int} 0
-              tag = {int} 0
-          */
+        Assert.AreEqual(u.Count, 3);
+        Assert.AreEqual(u[0][0].x, 0);
+        Assert.AreEqual(u[0][0].y, 0);
+        Assert.AreEqual(u[0][1].x, 10);
+        Assert.AreEqual(u[0][1].y, 0);
+        Assert.AreEqual(u[0][2].x, 10);
+        Assert.AreEqual(u[0][2].y, 50);
+        Assert.AreEqual(u[0][3].x, 0);
+        Assert.AreEqual(u[0][3].y, 50);
+        Assert.AreEqual(u[0][4].x, 0);
+        Assert.AreEqual(u[0][4].y, 0);
+        Assert.AreEqual(u[1][0].x, 60);
+        Assert.AreEqual(u[1][0].y, 0);
+        Assert.AreEqual(u[1][1].x, 120);
+        Assert.AreEqual(u[1][1].y, 0);
+        Assert.AreEqual(u[1][2].x, 120);
+        Assert.AreEqual(u[1][2].y, 80);
+        Assert.AreEqual(u[1][3].x, 60);
+        Assert.AreEqual(u[1][3].y, 80);
+        Assert.AreEqual(u[1][4].x, 60);
+        Assert.AreEqual(u[1][4].y, 0);
+        Assert.AreEqual(u[2][0].x, 10);
+        Assert.AreEqual(u[2][0].y, 0);
+        Assert.AreEqual(u[2][1].x, 60);
+        Assert.AreEqual(u[2][1].y, 0);
+        Assert.AreEqual(u[2][2].x, 60);
+        Assert.AreEqual(u[2][2].y, 20);
+        Assert.AreEqual(u[2][3].x, 10);
+        Assert.AreEqual(u[2][3].y, 20);
+        Assert.AreEqual(u[2][4].x, 10);
+        Assert.AreEqual(u[2][4].y, 0);
 
         writeToLayout("u", U, u);
 
         PathsD t = GeoWrangler.rectangular_decomposition(ref abort, T, maxRayLength: rayLength);
-
-        /* Expected output
-           t = {List<Path>} Count = 3
-            [0] = {Path} GeoLibPoint[4]
-             [0] = GeoLibPoint
-              X = {int} 60
-              Y = {int} 50
-              tag = {int} 0
-             [1] = GeoLibPoint
-              X = {int} 60
-              Y = {int} 80
-              tag = {int} 0
-             [2] = GeoLibPoint
-              X = {int} 80
-              Y = {int} 80
-              tag = {int} 0
-             [3] = GeoLibPoint
-              X = {int} 80
-              Y = {int} 50
-              tag = {int} 0
-            [1] = {Path} GeoLibPoint[4]
-             [0] = GeoLibPoint
-              X = {int} 40
-              Y = {int} 0
-              tag = {int} 0
-             [1] = GeoLibPoint
-              X = {int} 40
-              Y = {int} 80
-              tag = {int} 0
-             [2] = GeoLibPoint
-              X = {int} 60
-              Y = {int} 80
-              tag = {int} 0
-             [3] = GeoLibPoint
-              X = {int} 60
-              Y = {int} 0
-              tag = {int} 0
-            [2] = {Path} GeoLibPoint[4]
-             [0] = GeoLibPoint
-              X = {int} 0
-              Y = {int} 50
-              tag = {int} 0
-             [1] = GeoLibPoint
-              X = {int} 0
-              Y = {int} 80
-              tag = {int} 0
-             [2] = GeoLibPoint
-              X = {int} 40
-              Y = {int} 80
-              tag = {int} 0
-             [3] = GeoLibPoint
-              X = {int} 40
-              Y = {int} 50
-              tag = {int} 0
-         */
-
+        Assert.AreEqual(t.Count, 3);
+        Assert.AreEqual(t[0][0].x, 60);
+        Assert.AreEqual(t[0][0].y, 50);
+        Assert.AreEqual(t[0][1].x, 80);
+        Assert.AreEqual(t[0][1].y, 50);
+        Assert.AreEqual(t[0][2].x, 80);
+        Assert.AreEqual(t[0][2].y, 80);
+        Assert.AreEqual(t[0][3].x, 60);
+        Assert.AreEqual(t[0][3].y, 80);
+        Assert.AreEqual(t[0][4].x, 60);
+        Assert.AreEqual(t[0][4].y, 50);
+        Assert.AreEqual(t[1][0].x, 40);
+        Assert.AreEqual(t[1][0].y, 0);
+        Assert.AreEqual(t[1][1].x, 60);
+        Assert.AreEqual(t[1][1].y, 0);
+        Assert.AreEqual(t[1][2].x, 60);
+        Assert.AreEqual(t[1][2].y, 80);
+        Assert.AreEqual(t[1][3].x, 40);
+        Assert.AreEqual(t[1][3].y, 80);
+        Assert.AreEqual(t[1][4].x, 40);
+        Assert.AreEqual(t[1][4].y, 0);
+        Assert.AreEqual(t[2][0].x, 0);
+        Assert.AreEqual(t[2][0].y, 50);
+        Assert.AreEqual(t[2][1].x, 40);
+        Assert.AreEqual(t[2][1].y, 50);
+        Assert.AreEqual(t[2][2].x, 40);
+        Assert.AreEqual(t[2][2].y, 80);
+        Assert.AreEqual(t[2][3].x, 0);
+        Assert.AreEqual(t[2][3].y, 80);
+        Assert.AreEqual(t[2][4].x, 0);
+        Assert.AreEqual(t[2][4].y, 50);
+        
         writeToLayout("t", T, t);
 
         PathsD x = GeoWrangler.rectangular_decomposition(ref abort, X, maxRayLength: rayLength);
-
-        /* Expected output
-           x = {List<Path>} Count = 3
-            [0] = {Path} GeoLibPoint[4]
-             [0] = GeoLibPoint
-              X = {int} 0
-              Y = {int} 50
-              tag = {int} 0
-             [1] = GeoLibPoint
-              X = {int} 0
-              Y = {int} 80
-              tag = {int} 0
-             [2] = GeoLibPoint
-              X = {int} 60
-              Y = {int} 80
-              tag = {int} 0
-             [3] = GeoLibPoint
-              X = {int} 60
-              Y = {int} 50
-              tag = {int} 0
-            [1] = {Path} GeoLibPoint[4]
-             [0] = GeoLibPoint
-              X = {int} 60
-              Y = {int} 20
-              tag = {int} 0
-             [1] = GeoLibPoint
-              X = {int} 60
-              Y = {int} 100
-              tag = {int} 0
-             [2] = GeoLibPoint
-              X = {int} 80
-              Y = {int} 100
-              tag = {int} 0
-             [3] = GeoLibPoint
-              X = {int} 80
-              Y = {int} 20
-              tag = {int} 0
-            [2] = {Path} GeoLibPoint[4]
-             [0] = GeoLibPoint
-              X = {int} 80
-              Y = {int} 50
-              tag = {int} 0
-             [1] = GeoLibPoint
-              X = {int} 80
-              Y = {int} 80
-              tag = {int} 0
-             [2] = GeoLibPoint
-              X = {int} 100
-              Y = {int} 80
-              tag = {int} 0
-             [3] = GeoLibPoint
-              X = {int} 100
-              Y = {int} 50
-              tag = {int} 0
-         */
+        Assert.AreEqual(x.Count, 3);
+        Assert.AreEqual(x[0][0].x, 0);
+        Assert.AreEqual(x[0][0].y, 50);
+        Assert.AreEqual(x[0][1].x, 60);
+        Assert.AreEqual(x[0][1].y, 50);
+        Assert.AreEqual(x[0][2].x, 60);
+        Assert.AreEqual(x[0][2].y, 80);
+        Assert.AreEqual(x[0][3].x, 0);
+        Assert.AreEqual(x[0][3].y, 80);
+        Assert.AreEqual(x[0][4].x, 0);
+        Assert.AreEqual(x[0][4].y, 50);
+        Assert.AreEqual(x[1][0].x, 60);
+        Assert.AreEqual(x[1][0].y, 20);
+        Assert.AreEqual(x[1][1].x, 80);
+        Assert.AreEqual(x[1][1].y, 20);
+        Assert.AreEqual(x[1][2].x, 80);
+        Assert.AreEqual(x[1][2].y, 100);
+        Assert.AreEqual(x[1][3].x, 60);
+        Assert.AreEqual(x[1][3].y, 100);
+        Assert.AreEqual(x[1][4].x, 60);
+        Assert.AreEqual(x[1][4].y, 20);
+        Assert.AreEqual(x[2][0].x, 80);
+        Assert.AreEqual(x[2][0].y, 50);
+        Assert.AreEqual(x[2][1].x, 100);
+        Assert.AreEqual(x[2][1].y, 50);
+        Assert.AreEqual(x[2][2].x, 100);
+        Assert.AreEqual(x[2][2].y, 80);
+        Assert.AreEqual(x[2][3].x, 80);
+        Assert.AreEqual(x[2][3].y, 80);
+        Assert.AreEqual(x[2][4].x, 80);
+        Assert.AreEqual(x[2][4].y, 50);
 
         writeToLayout("x", X, x);
 
         PathsD s = GeoWrangler.rectangular_decomposition(ref abort, S, maxRayLength: rayLength);
-
-        /* Expected output
-           s = {List<Path>} Count = 5
-            [0] = {Path} GeoLibPoint[4]
-             [0] = GeoLibPoint
-              X = {int} 0
-              Y = {int} 50
-              tag = {int} 0
-             [1] = GeoLibPoint
-              X = {int} 0
-              Y = {int} 110
-              tag = {int} 0
-             [2] = GeoLibPoint
-              X = {int} 20
-              Y = {int} 110
-              tag = {int} 0
-             [3] = GeoLibPoint
-              X = {int} 20
-              Y = {int} 50
-              tag = {int} 0
-            [1] = {Path} GeoLibPoint[4]
-             [0] = GeoLibPoint
-              X = {int} 0
-              Y = {int} 0
-              tag = {int} 0
-             [1] = GeoLibPoint
-              X = {int} 0
-              Y = {int} 20
-              tag = {int} 0
-             [2] = GeoLibPoint
-              X = {int} 20
-              Y = {int} 20
-              tag = {int} 0
-             [3] = GeoLibPoint
-              X = {int} 20
-              Y = {int} 0
-              tag = {int} 0
-            [2] = {Path} GeoLibPoint[4]
-             [0] = GeoLibPoint
-              X = {int} 80
-              Y = {int} 0
-              tag = {int} 0
-             [1] = GeoLibPoint
-              X = {int} 80
-              Y = {int} 60
-              tag = {int} 0
-             [2] = GeoLibPoint
-              X = {int} 100
-              Y = {int} 60
-              tag = {int} 0
-             [3] = GeoLibPoint
-              X = {int} 100
-              Y = {int} 0
-              tag = {int} 0
-            [3] = {Path} GeoLibPoint[4]
-             [0] = GeoLibPoint
-              X = {int} 80
-              Y = {int} 80
-              tag = {int} 0
-             [1] = GeoLibPoint
-              X = {int} 80
-              Y = {int} 110
-              tag = {int} 0
-             [2] = GeoLibPoint
-              X = {int} 100
-              Y = {int} 110
-              tag = {int} 0
-             [3] = GeoLibPoint
-              X = {int} 100
-              Y = {int} 80
-              tag = {int} 0
-            [4] = {Path} GeoLibPoint[4]
-             [0] = GeoLibPoint
-              X = {int} 20
-              Y = {int} 0
-              tag = {int} 0
-             [1] = GeoLibPoint
-              X = {int} 20
-              Y = {int} 110
-              tag = {int} 0
-             [2] = GeoLibPoint
-              X = {int} 80
-              Y = {int} 110
-              tag = {int} 0
-             [3] = GeoLibPoint
-              X = {int} 80
-              Y = {int} 0
-              tag = {int} 0
-         */
+        Assert.AreEqual(s.Count, 5);
+        Assert.AreEqual(s[0][0].x, 0);
+        Assert.AreEqual(s[0][0].y, 50);
+        Assert.AreEqual(s[0][1].x, 20);
+        Assert.AreEqual(s[0][1].y, 50);
+        Assert.AreEqual(s[0][2].x, 20);
+        Assert.AreEqual(s[0][2].y, 110);
+        Assert.AreEqual(s[0][3].x, 0);
+        Assert.AreEqual(s[0][3].y, 110);
+        Assert.AreEqual(s[0][4].x, 0);
+        Assert.AreEqual(s[0][4].y, 50);
+        Assert.AreEqual(s[1][0].x, 0);
+        Assert.AreEqual(s[1][0].y, 0);
+        Assert.AreEqual(s[1][1].x, 20);
+        Assert.AreEqual(s[1][1].y, 0);
+        Assert.AreEqual(s[1][2].x, 20);
+        Assert.AreEqual(s[1][2].y, 20);
+        Assert.AreEqual(s[1][3].x, 0);
+        Assert.AreEqual(s[1][3].y, 20);
+        Assert.AreEqual(s[1][4].x, 0);
+        Assert.AreEqual(s[1][4].y, 0);
+        Assert.AreEqual(s[2][0].x, 80);
+        Assert.AreEqual(s[2][0].y, 0);
+        Assert.AreEqual(s[2][1].x, 100);
+        Assert.AreEqual(s[2][1].y, 0);
+        Assert.AreEqual(s[2][2].x, 100);
+        Assert.AreEqual(s[2][2].y, 60);
+        Assert.AreEqual(s[2][3].x, 80);
+        Assert.AreEqual(s[2][3].y, 60);
+        Assert.AreEqual(s[2][4].x, 80);
+        Assert.AreEqual(s[2][4].y, 0);
+        Assert.AreEqual(s[3][0].x, 80);
+        Assert.AreEqual(s[3][0].y, 80);
+        Assert.AreEqual(s[3][1].x, 100);
+        Assert.AreEqual(s[3][1].y, 80);
+        Assert.AreEqual(s[3][2].x, 100);
+        Assert.AreEqual(s[3][2].y, 110);
+        Assert.AreEqual(s[3][3].x, 80);
+        Assert.AreEqual(s[3][3].y, 110);
+        Assert.AreEqual(s[3][4].x, 80);
+        Assert.AreEqual(s[3][4].y, 80);
+        Assert.AreEqual(s[4][0].x, 20);
+        Assert.AreEqual(s[4][0].y, 0);
+        Assert.AreEqual(s[4][1].x, 80);
+        Assert.AreEqual(s[4][1].y, 0);
+        Assert.AreEqual(s[4][2].x, 80);
+        Assert.AreEqual(s[4][2].y, 110);
+        Assert.AreEqual(s[4][3].x, 20);
+        Assert.AreEqual(s[4][3].y, 110);
+        Assert.AreEqual(s[4][4].x, 20);
+        Assert.AreEqual(s[4][4].y, 0);
 
         writeToLayout("s", S, s);
 
         PathsD ns = GeoWrangler.rectangular_decomposition(ref abort, nS, maxRayLength: rayLength);
-
-        /* Expected output
-           ns = {List<Path>} Count = 5
-            [0] = {Path} GeoLibPoint[4]
-             [0] = GeoLibPoint
-              X = {int} 0
-              Y = {int} -150
-              tag = {int} 0
-             [1] = GeoLibPoint
-              X = {int} 0
-              Y = {int} -90
-              tag = {int} 0
-             [2] = GeoLibPoint
-              X = {int} 20
-              Y = {int} -90
-              tag = {int} 0
-             [3] = GeoLibPoint
-              X = {int} 20
-              Y = {int} -150
-              tag = {int} 0
-            [1] = {Path} GeoLibPoint[4]
-             [0] = GeoLibPoint
-              X = {int} 0
-              Y = {int} -200
-              tag = {int} 0
-             [1] = GeoLibPoint
-              X = {int} 0
-              Y = {int} -180
-              tag = {int} 0
-             [2] = GeoLibPoint
-              X = {int} 20
-              Y = {int} -180
-              tag = {int} 0
-             [3] = GeoLibPoint
-              X = {int} 20
-              Y = {int} -200
-              tag = {int} 0
-            [2] = {Path} GeoLibPoint[4]
-             [0] = GeoLibPoint
-              X = {int} 80
-              Y = {int} -200
-              tag = {int} 0
-             [1] = GeoLibPoint
-              X = {int} 80
-              Y = {int} -140
-              tag = {int} 0
-             [2] = GeoLibPoint
-              X = {int} 100
-              Y = {int} -140
-              tag = {int} 0
-             [3] = GeoLibPoint
-              X = {int} 100
-              Y = {int} -200
-              tag = {int} 0
-            [3] = {Path} GeoLibPoint[4]
-             [0] = GeoLibPoint
-              X = {int} 80
-              Y = {int} -120
-              tag = {int} 0
-             [1] = GeoLibPoint
-              X = {int} 80
-              Y = {int} -90
-              tag = {int} 0
-             [2] = GeoLibPoint
-              X = {int} 100
-              Y = {int} -90
-              tag = {int} 0
-             [3] = GeoLibPoint
-              X = {int} 100
-              Y = {int} -120
-              tag = {int} 0
-            [4] = {Path} GeoLibPoint[4]
-             [0] = GeoLibPoint
-              X = {int} 20
-              Y = {int} -200
-              tag = {int} 0
-             [1] = GeoLibPoint
-              X = {int} 20
-              Y = {int} -90
-              tag = {int} 0
-             [2] = GeoLibPoint
-              X = {int} 80
-              Y = {int} -90
-              tag = {int} 0
-             [3] = GeoLibPoint
-              X = {int} 80
-              Y = {int} -200
-              tag = {int} 0
-         */
+        Assert.AreEqual(ns.Count, 5);
+        Assert.AreEqual(ns[0][0].x, 0);
+        Assert.AreEqual(ns[0][0].y, -150);
+        Assert.AreEqual(ns[0][1].x, 20);
+        Assert.AreEqual(ns[0][1].y, -150);
+        Assert.AreEqual(ns[0][2].x, 20);
+        Assert.AreEqual(ns[0][2].y, -90);
+        Assert.AreEqual(ns[0][3].x, 0);
+        Assert.AreEqual(ns[0][3].y, -90);
+        Assert.AreEqual(ns[0][4].x, 0);
+        Assert.AreEqual(ns[0][4].y, -150);
+        Assert.AreEqual(ns[1][0].x, 0);
+        Assert.AreEqual(ns[1][0].y, -200);
+        Assert.AreEqual(ns[1][1].x, 20);
+        Assert.AreEqual(ns[1][1].y, -200);
+        Assert.AreEqual(ns[1][2].x, 20);
+        Assert.AreEqual(ns[1][2].y, -180);
+        Assert.AreEqual(ns[1][3].x, 0);
+        Assert.AreEqual(ns[1][3].y, -180);
+        Assert.AreEqual(ns[1][4].x, 0);
+        Assert.AreEqual(ns[1][4].y, -200);
+        Assert.AreEqual(ns[2][0].x, 80);
+        Assert.AreEqual(ns[2][0].y, -200);
+        Assert.AreEqual(ns[2][1].x, 100);
+        Assert.AreEqual(ns[2][1].y, -200);
+        Assert.AreEqual(ns[2][2].x, 100);
+        Assert.AreEqual(ns[2][2].y, -140);
+        Assert.AreEqual(ns[2][3].x, 80);
+        Assert.AreEqual(ns[2][3].y, -140);
+        Assert.AreEqual(ns[2][4].x, 80);
+        Assert.AreEqual(ns[2][4].y, -200);
+        Assert.AreEqual(ns[3][0].x, 80);
+        Assert.AreEqual(ns[3][0].y, -120);
+        Assert.AreEqual(ns[3][1].x, 100);
+        Assert.AreEqual(ns[3][1].y, -120);
+        Assert.AreEqual(ns[3][2].x, 100);
+        Assert.AreEqual(ns[3][2].y, -90);
+        Assert.AreEqual(ns[3][3].x, 80);
+        Assert.AreEqual(ns[3][3].y, -90);
+        Assert.AreEqual(ns[3][4].x, 80);
+        Assert.AreEqual(ns[3][4].y, -120);
+        Assert.AreEqual(ns[4][0].x, 20);
+        Assert.AreEqual(ns[4][0].y, -200);
+        Assert.AreEqual(ns[4][1].x, 80);
+        Assert.AreEqual(ns[4][1].y, -200);
+        Assert.AreEqual(ns[4][2].x, 80);
+        Assert.AreEqual(ns[4][2].y, -90);
+        Assert.AreEqual(ns[4][3].x, 20);
+        Assert.AreEqual(ns[4][3].y, -90);
+        Assert.AreEqual(ns[4][4].x, 20);
+        Assert.AreEqual(ns[4][4].y, -200);
 
         writeToLayout("ns", nS, ns);
 

@@ -23,4 +23,9 @@
     <ProjectReference Include="..\Common\geoLib\geoLib.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="NUnit" Version="3.14.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.5.0" />
+  </ItemGroup>
+
 </Project>

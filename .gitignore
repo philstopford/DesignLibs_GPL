@@ -11,6 +11,7 @@
 *.sln.docstates
 
 decomp_out/
+keyhole_out/
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

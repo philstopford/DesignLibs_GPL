@@ -2,12 +2,12 @@
 using Clipper2Lib;
 using geoWrangler;
 using NUnit.Framework;
+using utility;
 
 namespace KeyHolerTest;
 
 internal class Program
 {
-
     /*
      *
      * There are multiple tests here.
@@ -25,13 +25,13 @@ internal class Program
      *                  sL2 should have one polygon of sixteen points.
      *                  sR should have one polygon of five points.
      *                  sR2 should have one polygon of thirteen points.
-     * 
+     *
      * selfOverlapTest : Manually created an overlap within the same Path. Tests how the overlap region is handled for different approaches, to also ensure a keyhole is defined
      *                  Results (x means the correct keyhole is inserted) :
-     *                  
+     *
                                 Normal		Reversed
-                        uR 					
-                        uRP 	x			
+                        uR
+                        uRP 	x
                         uRNZ 	x			x
                         simp
                         iR
@@ -40,27 +40,30 @@ internal class Program
                         iR2
                         iR2P	x
                         iR2NZ	x			x
-     *                  
+     *
      * comboTest : creates a polygon with a keyhole and a sliver. The sliver is manually defined at this time.
      *              Result should be that gR_a has two polygons. sR_a should have one polygon.
-     *              
+     *
      * simple_islandTest : two not-overlapping instances of singleTest.
      *                      Result should be gR_a having four polygons. sR_a should have two polygons.
-     * 
+     *
      * complex_islandTest : not-overlapping instances of singleTest, multiTest and comboTest.
      *                      Result should be gR_a having seven polygons. sR_a should have three polygons.
-     * 
+     *
      * NOTES:
      *          The keyholer requires orientation rules to be followed to avoid trouble.
      *          _f variants are fragmented forms due to clean-up required when removing vertices. Closing shape and using GeoWrangler might be an option here.
      *          A basic attempt is made to check the orientation of the results; might not work well for complex cases.
-     * 
-     * TODO: 
+     *
+     * TODO:
      */
 
+    private static string root_loc = "/d/development/DesignLibs_GPL/keyhole_out/";
+    
     private static void Main(string[] args)
     {
         singleTest();
+        spiralTest();
         multiTest();
         multiCutTest();
         selfOverlapTest();
@@ -75,11 +78,11 @@ internal class Program
     {
         PathD outer = Clipper.MakePath(new double[]
         {
-         -200, -200,
-         200, -200,
-         200, 200,
-         -200, 200,
-         -200, -200
+            -200, -200,
+            200, -200,
+            200, 200,
+            -200, 200,
+            -200, -200
         });
 
         PathD inner1 = Clipper.MakePath(new double[]
@@ -98,7 +101,13 @@ internal class Program
         };
 
         // Generate keyholed geometry
-        PathsD kH = GeoWrangler.makeKeyHole(kHSource, reverseEval:false, biDirectionalEval:true);
+        PathsD kH = GeoWrangler.makeKeyHole(kHSource, false, true);
+        SvgWriter svgSrc;
+        svgSrc = new SvgWriter();
+        SvgUtils.AddClip(svgSrc, kHSource);
+        SvgUtils.AddSolution(svgSrc, kH, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "singletest_kh.svg", FillRule.NonZero, 800, 800, 10);
+
         Assert.AreEqual(kH.Count, 1);
         // Expected area should be 120000
         double expectedArea = Math.Abs(Clipper.Area(outer)) - Math.Abs(Clipper.Area(inner1));
@@ -109,7 +118,7 @@ internal class Program
         Assert.LessOrEqual(Math.Abs(kH[0][3].x - -100.05), 0.001);
         Assert.LessOrEqual(Math.Abs(kH[0][8].x - -99.95), 0.001);
         Assert.LessOrEqual(Math.Abs(kH[0][9].x - -99.95), 0.001);
-        
+
         // Generate sliver geometry.
         PathsD sL = new();
         ClipperD c = new(Constants.roundingDecimalPrecision);
@@ -118,18 +127,76 @@ internal class Program
         c.Execute(ClipType.Difference, FillRule.EvenOdd, sL);
         Assert.AreEqual(sL.Count, 1);
         Assert.LessOrEqual(Clipper.Area(sL) - 40010.0025, 0.0001);
+        svgSrc.ClearAll();
+        SvgUtils.AddClip(svgSrc, kH);
+        SvgUtils.AddSolution(svgSrc, sL, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "singletest_sl.svg", FillRule.NonZero, 800, 800, 10);
 
         // Gap removal test
         PathsD gR = GeoWrangler.gapRemoval(kH, 100);
+        svgSrc.ClearAll();
+        SvgUtils.AddClip(svgSrc, kH);
+        SvgUtils.AddSolution(svgSrc, gR, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "keyholetest_singletest_gr.svg", FillRule.NonZero, 800, 800, 10);
         Assert.AreEqual(gR.Count, 2);
         Assert.AreEqual(Math.Abs(Clipper.Area(outer)), Math.Abs(Clipper.Area(gR[0])));
         Assert.AreEqual(Math.Abs(Clipper.Area(inner1)), Math.Abs(Clipper.Area(gR[1])));
         Assert.False(Clipper.IsPositive(gR[0]));
         Assert.True(Clipper.IsPositive(gR[1]));
-        
+
         // Sliver removal test
         PathsD sR = GeoWrangler.gapRemoval(sL, -100);
+        svgSrc.ClearAll();
+        SvgUtils.AddClip(svgSrc, sL);
+        SvgUtils.AddSolution(svgSrc, sR, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "singletest_sr.svg", FillRule.NonZero, 800, 800, 10);
         Assert.AreEqual(Clipper.Area(sR), 40000);
+    }
+
+    private static void spiralTest()
+    {
+        PathD spiral = Clipper.MakePath(new double[]
+        {
+            -0.06300, -0.06300,
+            -0.06300, 0.06300,
+            0.00200, 0.06300,
+            0.00200, 0.05700,
+            -0.05700, 0.05700,
+            -0.05700, -0.05700,
+            0.05700, -0.05700,
+            0.05700, 0.03700,
+            -0.03700, 0.03700,
+            -0.03700, -0.03700,
+            0.03700, -0.03700,
+            0.03700, 0.01700,
+            -0.01700, 0.01700,
+            -0.01700, -0.01700,
+            0.01700, -0.01700,
+            0.01700, -0.00300,
+            -0.00200, -0.00300,
+            -0.00200, 0.00300,
+            0.02300, 0.00300,
+            0.02300, -0.02300,
+            -0.02300, -0.02300,
+            -0.02300, 0.02300,
+            0.04300, 0.02300,
+            0.04300, -0.04300,
+            -0.04300, -0.04300,
+            -0.04300, 0.04300,
+            0.06300, 0.04300,
+            0.06300, -0.06300
+        });
+        spiral = GeoWrangler.resize(spiral, 1000);
+        PathsD kH = GeoWrangler.makeKeyHole(spiral, false, false);
+        PathD test = GeoWrangler.stripTerminators(kH[0], false);
+        Assert.AreEqual(Utils.GetSHA256Hash(spiral), Utils.GetSHA256Hash(test));
+        spiral = GeoWrangler.resize(spiral, 0.001);
+        kH = GeoWrangler.resize(kH, 0.001);
+        SvgWriter svgSrc;
+        svgSrc = new SvgWriter();
+        SvgUtils.AddClip(svgSrc, spiral);
+        SvgUtils.AddSolution(svgSrc, kH, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "spiral.svg", FillRule.NonZero, 800, 800, 10);
     }
 
     private static void multiTest()
@@ -167,126 +234,76 @@ internal class Program
             inner1,
             inner2
         };
-        
+
 
         // Generate keyholed geometry
-        PathsD kH = GeoWrangler.makeKeyHole(new PathsD(kHSource), reverseEval:false, biDirectionalEval:true);
+        PathsD kH = GeoWrangler.makeKeyHole(new PathsD(kHSource), false, true);
+        SvgWriter svgSrc;
+        svgSrc = new SvgWriter();
+        SvgUtils.AddClip(svgSrc, kHSource);
+        SvgUtils.AddSolution(svgSrc, kH, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "multitest_kh.svg", FillRule.NonZero, 800, 800, 10);
         Assert.AreEqual(kH.Count, 1);
         Assert.LessOrEqual(Clipper.Area(kH) - -199979.995d, 0.001);
-        
+
         // Generate sliver geometry.
         PathsD sL = new();
         ClipperD c = new(Constants.roundingDecimalPrecision);
         c.AddSubject(outer);
         c.AddClip(kH);
         c.Execute(ClipType.Difference, FillRule.EvenOdd, sL);
+        svgSrc.ClearAll();
+        SvgUtils.AddClip(svgSrc, kH);
+        SvgUtils.AddSolution(svgSrc, sL, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "multitest_sl.svg", FillRule.NonZero, 800, 800, 10);
+        Assert.AreEqual(sL.Count, 2);
+        Assert.LessOrEqual(Math.Abs(Clipper.Area(sL) - 40020.005), 0.001);
         
-        /* Expected output
-        sL = {List<List<Point64>>} Count = 2
-         [0] = {List<Point64>} Count = 8
-          [0] = {Point64} -300,100.5,0 
-          [1] = {Point64} -199.5,100.5,0 
-          [2] = {Point64} -199.5,100,0 
-          [3] = {Point64} -100,100,0 
-          [4] = {Point64} -100,-100,0 
-          [5] = {Point64} -200,-100,0 
-          [6] = {Point64} -200,99.5,0 
-          [7] = {Point64} -300,99.5,0 
-         [1] = {List<Point64>} Count = 8
-          [0] = {Point64} 199.5,-100.5,0 
-          [1] = {Point64} 199.5,-100,0 
-          [2] = {Point64} 100,-100,0 
-          [3] = {Point64} 100,100,0 
-          [4] = {Point64} 200,100,0 
-          [5] = {Point64} 200,-99.5,0 
-          [6] = {Point64} 300,-99.5,0 
-          [7] = {Point64} 300,-100.5,0 
-           */
-
         // Gap removal test
         PathsD gR = GeoWrangler.gapRemoval(kH, 100);
-
-        /* Expected output
-        gR = {List<List<Point64>>} Count = 1
-         [0] = {List<Point64>} Count = 21
-          [0] = {Point64} 300,-200,0 
-          [1] = {Point64} 300,-100.5,0 
-          [2] = {Point64} 199.5,-100.5,0 
-          [3] = {Point64} 199.5,-100,0 
-          [4] = {Point64} 100,-100,0 
-          [5] = {Point64} 100,100,0 
-          [6] = {Point64} 200,100,0 
-          [7] = {Point64} 200,-99.5,0 
-          [8] = {Point64} 300,-99.5,0 
-          [9] = {Point64} 300,200,0 
-          [10] = {Point64} -300,200,0 
-          [11] = {Point64} -300,100.5,0 
-          [12] = {Point64} -199.5,100.5,0 
-          [13] = {Point64} -199.5,100,0 
-          [14] = {Point64} -100,100,0 
-          [15] = {Point64} -100,-100,0 
-          [16] = {Point64} -200,-100,0 
-          [17] = {Point64} -200,99.5,0 
-          [18] = {Point64} -300,99.5,0 
-          [19] = {Point64} -300,-200,0 
-          [20] = {Point64} 300,-200,0 
-           */
+        svgSrc.ClearAll();
+        SvgUtils.AddSolution(svgSrc, gR, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "multitest_gr.svg", FillRule.NonZero, 800, 800, 10);
+        Assert.AreEqual(gR.Count, 3);
+        Assert.AreEqual(Clipper.Area(gR), -200000);
         
         // Sliver removal test
         PathsD sR = GeoWrangler.gapRemoval(sL, -100);
-        
-        /* Expected output
-        sR = {List<List<Point64>>} Count = 2
-         [0] = {List<Point64>} Count = 9
-          [0] = {Point64} -300,99.5,0 
-          [1] = {Point64} -300,100.5,0 
-          [2] = {Point64} -199.5,100.5,0 
-          [3] = {Point64} -199.5,100,0 
-          [4] = {Point64} -100,100,0 
-          [5] = {Point64} -100,-100,0 
-          [6] = {Point64} -200,-100,0 
-          [7] = {Point64} -200,99.5,0 
-          [8] = {Point64} -300,99.5,0 
-         [1] = {List<Point64>} Count = 9
-          [0] = {Point64} 100,-100,0 
-          [1] = {Point64} 100,100,0 
-          [2] = {Point64} 200,100,0 
-          [3] = {Point64} 200,-99.5,0 
-          [4] = {Point64} 300,-99.5,0 
-          [5] = {Point64} 300,-100.5,0 
-          [6] = {Point64} 199.5,-100.5,0 
-          [7] = {Point64} 199.5,-100,0 
-          [8] = {Point64} 100,-100,0 
-           */
+        svgSrc.ClearAll();
+        SvgUtils.AddClip(svgSrc, sL);
+        SvgUtils.AddSolution(svgSrc, sR, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "multitest_sr.svg", FillRule.NonZero, 800, 800, 10);
+        Assert.AreEqual(sR.Count, 2);
+        Assert.AreEqual(Clipper.Area(sR), 40000);
     }
 
     private static void multiCutTest()
     {
         PathD outer = new()
         {
-            new(0, 0),
-            new(400, 0),
-            new(400, 400),
-            new(0, 400),
-            new(0, 0)
+            new PointD(0, 0),
+            new PointD(400, 0),
+            new PointD(400, 400),
+            new PointD(0, 400),
+            new PointD(0, 0)
         };
 
         PathD inner1 = new()
         {
-            new(50, 150),
-            new(50, 250),
-            new(350, 250),
-            new(350, 150),
-            new(50, 150)
+            new PointD(50, 150),
+            new PointD(50, 250),
+            new PointD(350, 250),
+            new PointD(350, 150),
+            new PointD(50, 150)
         };
 
         PathD inner2 = new()
         {
-            new(150, 50),
-            new(150, 350),
-            new(250, 350),
-            new(250, 50),
-            new(150, 50)
+            new PointD(150, 50),
+            new PointD(150, 350),
+            new PointD(250, 350),
+            new PointD(250, 50),
+            new PointD(150, 50)
         };
 
         PathsD kHSource = new()
@@ -294,100 +311,28 @@ internal class Program
             outer,
             inner1
         };
-        
-        /* Expected
-        kHSource = {List<List<Point64>>} Count = 2
-         [0] = {List<Point64>} Count = 5
-          [0] = {Point64} 0,0,0 
-          [1] = {Point64} 400,0,0 
-          [2] = {Point64} 400,400,0 
-          [3] = {Point64} 0,400,0 
-          [4] = {Point64} 0,0,0 
-         [1] = {List<Point64>} Count = 5
-          [0] = {Point64} 50,150,0 
-          [1] = {Point64} 50,250,0 
-          [2] = {Point64} 350,250,0 
-          [3] = {Point64} 350,150,0 
-          [4] = {Point64} 50,150,0 
-           */
 
         // Generate keyholed geometry
-        PathsD kH = GeoWrangler.makeKeyHole(new PathsD(kHSource), reverseEval:false, biDirectionalEval:true);
-
-        /* Expected output
-        kH = {List<List<Point64>>} Count = 1
-         [0] = {List<Point64>} Count = 13
-          [0] = {Point64} 400,0,0 
-          [1] = {Point64} 400,149.5,0 
-          [2] = {Point64} 349.5,149.5,0 
-          [3] = {Point64} 349.5,150,0 
-          [4] = {Point64} 50,150,0 
-          [5] = {Point64} 50,250,0 
-          [6] = {Point64} 350,250,0 
-          [7] = {Point64} 350,150.5,0 
-          [8] = {Point64} 400,150.5,0 
-          [9] = {Point64} 400,400,0 
-          [10] = {Point64} 0,400,0 
-          [11] = {Point64} 0,0,0 
-          [12] = {Point64} 400,0,0 
-           */
+        PathsD kH = GeoWrangler.makeKeyHole(new PathsD(kHSource), false, true);
+        SvgWriter svgSrc;
+        svgSrc = new SvgWriter();
+        SvgUtils.AddClip(svgSrc, kHSource);
+        SvgUtils.AddSolution(svgSrc, kH, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "multicuttest_kh.svg", FillRule.NonZero, 800, 800, 10);
+        Assert.AreEqual(kH.Count, 1);
+        Assert.LessOrEqual(Clipper.Area(kH) - -129994.9975d, 0.001);
         
         PathsD kHSource2 = new();
         kHSource2.AddRange(kH);
         kHSource2.Add(inner2);
 
-        /* Expected
-        kHSource2 = {List<List<Point64>>} Count = 2
-         [0] = {List<Point64>} Count = 13
-          [0] = {Point64} 400,0,0 
-          [1] = {Point64} 400,149.5,0 
-          [2] = {Point64} 349.5,149.5,0 
-          [3] = {Point64} 349.5,150,0 
-          [4] = {Point64} 50,150,0 
-          [5] = {Point64} 50,250,0 
-          [6] = {Point64} 350,250,0 
-          [7] = {Point64} 350,150.5,0 
-          [8] = {Point64} 400,150.5,0 
-          [9] = {Point64} 400,400,0 
-          [10] = {Point64} 0,400,0 
-          [11] = {Point64} 0,0,0 
-          [12] = {Point64} 400,0,0 
-         [1] = {List<Point64>} Count = 5
-          [0] = {Point64} 150,50,0 
-          [1] = {Point64} 150,350,0 
-          [2] = {Point64} 250,350,0 
-          [3] = {Point64} 250,50,0 
-          [4] = {Point64} 150,50,0 
-           */
-        
         // Generate keyholed geometry
-        PathsD kH2 = GeoWrangler.makeKeyHole(new PathsD(kHSource2), reverseEval:false, biDirectionalEval:true);
-
-        /* Expected output
-        kH2 = {List<List<Point64>>} Count = 1
-         [0] = {List<Point64>} Count = 21
-          [0] = {Point64} 400,0,0 
-          [1] = {Point64} 400,149.5,0 
-          [2] = {Point64} 349.5,149.5,0 
-          [3] = {Point64} 349.5,150,0 
-          [4] = {Point64} 250,150,0 
-          [5] = {Point64} 250,50,0 
-          [6] = {Point64} 150,50,0 
-          [7] = {Point64} 150,150,0 
-          [8] = {Point64} 50,150,0 
-          [9] = {Point64} 50,250,0 
-          [10] = {Point64} 150,250,0 
-          [11] = {Point64} 150,350,0 
-          [12] = {Point64} 250,350,0 
-          [13] = {Point64} 250,250,0 
-          [14] = {Point64} 350,250,0 
-          [15] = {Point64} 350,150.5,0 
-          [16] = {Point64} 400,150.5,0 
-          [17] = {Point64} 400,400,0 
-          [18] = {Point64} 0,400,0 
-          [19] = {Point64} 0,0,0 
-          [20] = {Point64} 400,0,0 
-           */
+        PathsD kH2 = GeoWrangler.makeKeyHole(new PathsD(kHSource2), false, true);
+        svgSrc.ClearAll();
+        SvgUtils.AddSolution(svgSrc, kH2, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "multicuttest_kh2.svg", FillRule.NonZero, 800, 800, 10);
+        Assert.AreEqual(kH2.Count, 1);
+        Assert.LessOrEqual(Math.Abs(Clipper.Area(kH2) - -139989.995), 0.001);
         
         // Generate sliver geometry.
         ClipperD c = new(Constants.roundingDecimalPrecision);
@@ -395,96 +340,38 @@ internal class Program
         c.AddSubject(outer);
         c.AddClip(kH);
         c.Execute(ClipType.Difference, FillRule.EvenOdd, sL);
-        
-        /* Expected output
-        sL = {List<List<Point64>>} Count = 1
-         [0] = {List<Point64>} Count = 8
-          [0] = {Point64} 349.5,149.5,0 
-          [1] = {Point64} 349.5,150,0 
-          [2] = {Point64} 50,150,0 
-          [3] = {Point64} 50,250,0 
-          [4] = {Point64} 350,250,0 
-          [5] = {Point64} 350,150.5,0 
-          [6] = {Point64} 400,150.5,0 
-          [7] = {Point64} 400,149.5,0 
-           */
+        svgSrc.ClearAll();
+        SvgUtils.AddSolution(svgSrc, sL, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "multicuttest_sl.svg", FillRule.NonZero, 800, 800, 10);
+        Assert.AreEqual(sL.Count, 1);
+        Assert.LessOrEqual(Math.Abs(Clipper.Area(sL) - 30005.0025), 0.001);
 
         c.Clear();
         PathsD sL2 = new();
         c.AddSubject(outer);
         c.AddClip(kH2);
         c.Execute(ClipType.Difference, FillRule.EvenOdd, sL2);
+        svgSrc.ClearAll();
+        SvgUtils.AddSolution(svgSrc, sL2, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "multicuttest_sl2.svg", FillRule.NonZero, 800, 800, 10);
+        Assert.AreEqual(sL2.Count, 2);
+        Assert.LessOrEqual(Math.Abs(Clipper.Area(sL2) - 20010.005), 0.001);
         
-        /* Expected output
-        sL2 = {List<List<Point64>>} Count = 1
-         [0] = {List<Point64>} Count = 16
-          [0] = {Point64} 349.5,149.5,0 
-          [1] = {Point64} 349.5,150,0 
-          [2] = {Point64} 250,150,0 
-          [3] = {Point64} 250,50,0 
-          [4] = {Point64} 150,50,0 
-          [5] = {Point64} 150,150,0 
-          [6] = {Point64} 50,100,0 
-          [7] = {Point64} 50,200,0 
-          [8] = {Point64} 150,250,0 
-          [9] = {Point64} 150,350,0 
-          [10] = {Point64} 250,350,0 
-          [11] = {Point64} 250,250,0 
-          [12] = {Point64} 350,250,0 
-          [13] = {Point64} 350,150.5,0 
-          [14] = {Point64} 400,150.5,0 
-          [15] = {Point64} 400,149.5,0 
-           */
-
         // Gap removal test
         PathsD gR = GeoWrangler.gapRemoval(kH, 100);
-        
-        /* Expected output
-        gR = {List<List<Point64>>} Count = 1
-         [0] = {List<Point64>} Count = 13
-          [0] = {Point64} 400,0,0 
-          [1] = {Point64} 400,149.5,0 
-          [2] = {Point64} 349.5,149.5,0 
-          [3] = {Point64} 349.5,150,0 
-          [4] = {Point64} 50,150,0 
-          [5] = {Point64} 50,250,0 
-          [6] = {Point64} 350,250,0 
-          [7] = {Point64} 350,150.5,0 
-          [8] = {Point64} 400,150.5,0 
-          [9] = {Point64} 400,400,0 
-          [10] = {Point64} 0,400,0 
-          [11] = {Point64} 0,0,0 
-          [12] = {Point64} 400,0,0 
-           */
-        
-        PathsD gR2 = GeoWrangler.gapRemoval(kH2, 100);
-        
-        /* Expected output
-        gR2 = {List<List<Point64>>} Count = 1
-         [0] = {List<Point64>} Count = 21
-          [0] = {Point64} 400,0,0 
-          [1] = {Point64} 400,149.5,0 
-          [2] = {Point64} 349.5,149.5,0 
-          [3] = {Point64} 349.5,150,0 
-          [4] = {Point64} 250,150,0 
-          [5] = {Point64} 250,50,0 
-          [6] = {Point64} 150,50,0 
-          [7] = {Point64} 150,150,0 
-          [8] = {Point64} 50,150,0 
-          [9] = {Point64} 50,250,0 
-          [10] = {Point64} 150,250,0 
-          [11] = {Point64} 150,350,0 
-          [12] = {Point64} 250,350,0 
-          [13] = {Point64} 250,250,0 
-          [14] = {Point64} 350,250,0 
-          [15] = {Point64} 350,150.5,0 
-          [16] = {Point64} 400,150.5,0 
-          [17] = {Point64} 400,400,0 
-          [18] = {Point64} 0,400,0 
-          [19] = {Point64} 0,0,0 
-          [20] = {Point64} 400,0,0 
-           */
+        svgSrc.ClearAll();
+        SvgUtils.AddSolution(svgSrc, gR, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "multicuttest_gr.svg", FillRule.NonZero, 800, 800, 10);
+        Assert.AreEqual(gR.Count, 2);
+        Assert.LessOrEqual(Math.Abs(Clipper.Area(gR) - -130000), 0.001);
 
+        PathsD gR2 = GeoWrangler.gapRemoval(kH2, 100);
+        svgSrc.ClearAll();
+        SvgUtils.AddSolution(svgSrc, gR2, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "multicuttest_gr2.svg", FillRule.NonZero, 800, 800, 10);
+        Assert.AreEqual(gR2.Count, 3);
+        Assert.LessOrEqual(Math.Abs(Clipper.Area(gR2) - -140000), 0.001);
+        
         PathsD kHSource3 = new();
         kHSource3.AddRange(gR);
 
@@ -492,454 +379,226 @@ internal class Program
         kHSource4.AddRange(gR2);
 
         // Generate keyholed geometry
-        PathsD kH3 = GeoWrangler.makeKeyHole(new PathsD(kHSource3), reverseEval:false, biDirectionalEval:true);
-        
-        /* Expected output
-        kH3 = {List<List<Point64>>} Count = 1
-         [0] = {List<Point64>} Count = 13
-          [0] = {Point64} 400,0,0 
-          [1] = {Point64} 400,149.5,0 
-          [2] = {Point64} 349.5,149.5,0 
-          [3] = {Point64} 349.5,150,0 
-          [4] = {Point64} 50,150,0 
-          [5] = {Point64} 50,250,0 
-          [6] = {Point64} 350,250,0 
-          [7] = {Point64} 350,150.5,0 
-          [8] = {Point64} 400,150.5,0 
-          [9] = {Point64} 400,400,0 
-          [10] = {Point64} 0,400,0 
-          [11] = {Point64} 0,0,0 
-          [12] = {Point64} 400,0,0 
-           */
-        
-        PathsD kH4 = GeoWrangler.makeKeyHole(new PathsD(kHSource4), reverseEval:false, biDirectionalEval:true);
+        PathsD kH3 = GeoWrangler.makeKeyHole(new PathsD(kHSource3), false, true);
+        svgSrc.ClearAll();
+        SvgUtils.AddSolution(svgSrc, kH3, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "multicuttest_kh3.svg", FillRule.NonZero, 800, 800, 10);
+        Assert.AreEqual(kH3.Count, 1);
+        Assert.LessOrEqual(Math.Abs(Clipper.Area(kH3) - -129994.9975), 0.001);
 
-        /* Expected output
-        kH4 = {List<List<Point64>>} Count = 1
-         [0] = {List<Point64>} Count = 21
-          [0] = {Point64} 400,0,0 
-          [1] = {Point64} 400,149.5,0 
-          [2] = {Point64} 349.5,149.5,0 
-          [3] = {Point64} 349.5,150,0 
-          [4] = {Point64} 250,150,0 
-          [5] = {Point64} 250,50,0 
-          [6] = {Point64} 150,50,0 
-          [7] = {Point64} 150,150,0 
-          [8] = {Point64} 50,150,0 
-          [9] = {Point64} 50,250,0 
-          [10] = {Point64} 150,250,0 
-          [11] = {Point64} 150,350,0 
-          [12] = {Point64} 250,350,0 
-          [13] = {Point64} 250,250,0 
-          [14] = {Point64} 350,250,0 
-          [15] = {Point64} 350,150.5,0 
-          [16] = {Point64} 400,150.5,0 
-          [17] = {Point64} 400,400,0 
-          [18] = {Point64} 0,400,0 
-          [19] = {Point64} 0,0,0 
-          [20] = {Point64} 400,0,0 
-           */
-        
+        PathsD kH4 = GeoWrangler.makeKeyHole(new PathsD(kHSource4), false, true);
+        svgSrc.ClearAll();
+        SvgUtils.AddSolution(svgSrc, kH4, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "multicuttest_kh4.svg", FillRule.NonZero, 800, 800, 10);
+        Assert.AreEqual(kH4.Count, 1);
+        Assert.LessOrEqual(Math.Abs(Clipper.Area(kH4) - -139989.995), 0.001);
+
         // Sliver removal test
         PathsD sR = GeoWrangler.gapRemoval(sL, -100);
-        
-        /* Expected output
-        sR = {List<List<Point64>>} Count = 1
-         [0] = {List<Point64>} Count = 9
-          [0] = {Point64} 50,150,0 
-          [1] = {Point64} 50,250,0 
-          [2] = {Point64} 350,250,0 
-          [3] = {Point64} 350,150.5,0 
-          [4] = {Point64} 400,150.5,0 
-          [5] = {Point64} 400,149.5,0 
-          [6] = {Point64} 349.5,149.5,0 
-          [7] = {Point64} 349.5,150,0 
-          [8] = {Point64} 50,150,0 
-           */
+        svgSrc.ClearAll();
+        SvgUtils.AddSolution(svgSrc, sR, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "multicuttest_sr.svg", FillRule.NonZero, 800, 800, 10);
+        Assert.AreEqual(sR.Count, 1);
+        Assert.LessOrEqual(Math.Abs(Clipper.Area(sR) - 30000), 0.001);
         
         PathsD sR2 = GeoWrangler.gapRemoval(sL2, -100);
-        
-        /* Expected output
-        sR2 = {List<List<Point64>>} Count = 1
-         [0] = {List<Point64>} Count = 17
-          [0] = {Point64} 50,150,0 
-          [1] = {Point64} 50,250,0 
-          [2] = {Point64} 150,250,0 
-          [3] = {Point64} 150,350,0 
-          [4] = {Point64} 250,350,0 
-          [5] = {Point64} 250,250,0 
-          [6] = {Point64} 350,250,0 
-          [7] = {Point64} 350,150.5,0 
-          [8] = {Point64} 400,150.5,0 
-          [9] = {Point64} 400,149.5,0 
-          [10] = {Point64} 349.5,149.5,0 
-          [11] = {Point64} 349.5,150,0 
-          [12] = {Point64} 250,150,0 
-          [13] = {Point64} 250,50,0 
-          [14] = {Point64} 150,50,0 
-          [15] = {Point64} 150,150,0 
-          [16] = {Point64} 50,150,0 
-           */
+        svgSrc.ClearAll();
+        SvgUtils.AddSolution(svgSrc, sR2, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "multicuttest_sr2.svg", FillRule.NonZero, 800, 800, 10);
+        Assert.AreEqual(sR2.Count, 2);
+        Assert.LessOrEqual(Math.Abs(Clipper.Area(sR2) - 20000), 0.001);
     }
 
     private static void selfOverlapTest()
     {
         PathD outer = new()
         {
-            new(0, 0),
-            new(110, 0),
-            new(110, 50),
-            new(50, 50),
-            new(50, 150),
-            new(150, 150),
-            new(150, 50),
-            new(90, 50),
-            new(90, 0),
-            new(200, 0),
-            new(200, 200),
-            new(0, 200),
-            new(0, 0)
+            new PointD(0, 0),
+            new PointD(110, 0),
+            new PointD(110, 50),
+            new PointD(50, 50),
+            new PointD(50, 150),
+            new PointD(150, 150),
+            new PointD(150, 50),
+            new PointD(90, 50),
+            new PointD(90, 0),
+            new PointD(200, 0),
+            new PointD(200, 200),
+            new PointD(0, 200),
+            new PointD(0, 0)
         };
 
         // decomposer test
-        PathsD dSource = new() {outer};
+        PathsD dSource = new() { outer };
         PathsD decomp = GeoWrangler.decompose(dSource);
-        
-        /* Expected output
-        decomp = {List<List<Point64>>} Count = 2
-         [0] = {List<Point64>} Count = 6
-          [0] = {Point64} 0,0,0 
-          [1] = {Point64} 0,200,0 
-          [2] = {Point64} 200,200,0 
-          [3] = {Point64} 200,0,0 
-          [4] = {Point64} 110,0,0 
-          [5] = {Point64} 0,0,0 
-         [1] = {List<Point64>} Count = 6
-          [0] = {Point64} 50,50,0 
-          [1] = {Point64} 90,50,0 
-          [2] = {Point64} 150,50,0 
-          [3] = {Point64} 150,150,0 
-          [4] = {Point64} 50,150,0 
-          [5] = {Point64} 50,50,0 
-           */
-        
-        PathsD kHD = GeoWrangler.makeKeyHole(dSource, reverseEval:false, biDirectionalEval:true);
+        SvgWriter svgSrc;
+        svgSrc = new SvgWriter();
+        SvgUtils.AddClip(svgSrc, dSource);
+        SvgUtils.AddSolution(svgSrc, decomp, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest.svg", FillRule.NonZero, 800, 800, 10);
+        Assert.AreEqual(decomp.Count, 2);
+        Assert.LessOrEqual(Clipper.Area(decomp) - 30000, 0.001);
 
-        /* Expected output
-        kHD = {List<List<Point64>>} Count = 1
-         [0] = {List<Point64>} Count = 13
-          [0] = {Point64} 200,0,0 
-          [1] = {Point64} 200,49.5,0 
-          [2] = {Point64} 149.5,49.5,0 
-          [3] = {Point64} 149.5,50,0 
-          [4] = {Point64} 50,50,0 
-          [5] = {Point64} 50,150,0 
-          [6] = {Point64} 150,150,0 
-          [7] = {Point64} 150,50.5,0 
-          [8] = {Point64} 200,50.5,0 
-          [9] = {Point64} 200,200,0 
-          [10] = {Point64} 0,200,0 
-          [11] = {Point64} 0,0,0 
-          [12] = {Point64} 200,0,0 
-           */
-        
+        PathsD kHD = GeoWrangler.makeKeyHole(dSource, false, true);
+        svgSrc.ClearAll();
+        SvgUtils.AddSolution(svgSrc, kHD, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_khd.svg", FillRule.NonZero, 800, 800, 10);
+        Assert.AreEqual(kHD.Count, 1);
+        Assert.LessOrEqual(Math.Abs(Clipper.Area(kHD) - -29994.9975), 0.001);
+
         // keyholer test
-        PathsD kHSource = new() {outer};
-        PathsD kH = GeoWrangler.makeKeyHole(kHSource, reverseEval:false, biDirectionalEval:true);
+        PathsD kHSource = new() { outer };
+        PathsD kH = GeoWrangler.makeKeyHole(kHSource, false, true);
+        svgSrc.ClearAll();
+        SvgUtils.AddClip(svgSrc, kHSource);
+        SvgUtils.AddSolution(svgSrc, kH, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_kh.svg", FillRule.NonZero, 800, 800, 10);
+        Assert.AreEqual(kH.Count, 1);
+        Assert.LessOrEqual(Math.Abs(Clipper.Area(kH) - -29994.9975), 0.001);
 
-        /* Expected output
-        kH = {List<List<Point64>>} Count = 1
-         [0] = {List<Point64>} Count = 13
-          [0] = {Point64} 200,0,0 
-          [1] = {Point64} 200,49.5,0 
-          [2] = {Point64} 149.5,49.5,0 
-          [3] = {Point64} 149.5,50,0 
-          [4] = {Point64} 50,50,0 
-          [5] = {Point64} 50,15,0 
-          [6] = {Point64} 15,15,0 
-          [7] = {Point64} 15,50.5,0 
-          [8] = {Point64} 200,50.5,0 
-          [9] = {Point64} 200,200,0 
-          [10] = {Point64} 0,200,0 
-          [11] = {Point64} 0,0,0 
-          [12] = {Point64} 200,0,0 
-           */
-        
         ClipperD c = new(Constants.roundingDecimalPrecision);
         c.AddSubject(outer);
 
         PathsD unionRes = new();
         c.Execute(ClipType.Union, FillRule.EvenOdd, unionRes);
-        
-        /* Expected output
-        unionRes = {List<List<Point64>>} Count = 1
-         [0] = {List<Point64>} Count = 13
-          [0] = {Point64} 110,50,0 
-          [1] = {Point64} 150,50,0 
-          [2] = {Point64} 150,150,0 
-          [3] = {Point64} 50,150,0 
-          [4] = {Point64} 50,50,0 
-          [5] = {Point64} 90,50,0 
-          [6] = {Point64} 90,0,0 
-          [7] = {Point64} 0,0,0 
-          [8] = {Point64} 0,200,0 
-          [9] = {Point64} 200,200,0 
-          [10] = {Point64} 200,0,0 
-          [11] = {Point64} 110,0,0 
-          [12] = {Point64} 110,50,0 
-           */
-        
-        PathsD unionRes_kH = GeoWrangler.makeKeyHole(unionRes, reverseEval:false, biDirectionalEval:true);
-        
-        /* Expected output
-        unionRes_kH = {List<List<Point64>>} Count = 1
-         [0] = {List<Point64>} Count = 13
-          [0] = {Point64} 0,0,0 
-          [1] = {Point64} 0,200,0 
-          [2] = {Point64} 200,200,0 
-          [3] = {Point64} 200,0,0 
-          [4] = {Point64} 110,0,0 
-          [5] = {Point64} 110,50,0 
-          [6] = {Point64} 150,50,0 
-          [7] = {Point64} 150,150,0 
-          [8] = {Point64} 50,150,0 
-          [9] = {Point64} 50,50,0 
-          [10] = {Point64} 90,50,0 
-          [11] = {Point64} 90,0,0 
-          [12] = {Point64} 0,0,0 
-           */
-        
-        PathsD unionResc = GeoWrangler.close(unionRes);
-        PathsD unionResc_kH = GeoWrangler.makeKeyHole(unionResc, reverseEval:false, biDirectionalEval:true);
 
-        /* Expected output
-        unionResc_kH = {List<List<Point64>>} Count = 1
-         [0] = {List<Point64>} Count = 13
-          [0] = {Point64} 0,0,0 
-          [1] = {Point64} 0,200,0 
-          [2] = {Point64} 200,200,0 
-          [3] = {Point64} 200,0,0 
-          [4] = {Point64} 110,0,0 
-          [5] = {Point64} 110,50,0 
-          [6] = {Point64} 150,50,0 
-          [7] = {Point64} 150,150,0 
-          [8] = {Point64} 50,150,0 
-          [9] = {Point64} 50,50,0 
-          [10] = {Point64} 90,50,0 
-          [11] = {Point64} 90,0,0 
-          [12] = {Point64} 0,0,0 
-           */
-        
+        PathsD unionRes_kH = GeoWrangler.makeKeyHole(unionRes, false, true);
+
+        svgSrc.ClearAll();
+        SvgUtils.AddClip(svgSrc, unionRes);
+        SvgUtils.AddSolution(svgSrc, unionRes_kH, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_unionres.svg", FillRule.NonZero, 800, 800, 10);
+        Assert.AreEqual(unionRes_kH.Count, 1);
+        Assert.LessOrEqual(Math.Abs(Clipper.Area(unionRes_kH) - 29000), 0.001);
+
+        PathsD unionResc = GeoWrangler.close(unionRes);
+        PathsD unionResc_kH = GeoWrangler.makeKeyHole(unionResc, false, true);
+
+        svgSrc.ClearAll();
+        SvgUtils.AddClip(svgSrc, unionResc);
+        SvgUtils.AddSolution(svgSrc, unionResc_kH, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_unionresc.svg", FillRule.NonZero, 800, 800, 10);
+        Assert.AreEqual(unionResc_kH.Count, 1);
+        Assert.LessOrEqual(Math.Abs(Clipper.Area(unionResc_kH) - 29000), 0.001);
+
         PathsD unionResP = new();
         c.Execute(ClipType.Union, FillRule.Positive, unionResP);
-        
-        /* Expected output
-         No geometry in unionResP
-         */
-        
-        // no keyhole for any of the below
-        PathsD unionResP_kH = GeoWrangler.makeKeyHole(unionResP, reverseEval:false, biDirectionalEval:true);
+
+        PathsD unionResP_kH = GeoWrangler.makeKeyHole(unionResP, false, true);
+        svgSrc.ClearAll();
+        SvgUtils.AddClip(svgSrc, unionResP);
+        SvgUtils.AddSolution(svgSrc, unionResP_kH, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_unionresp.svg", FillRule.NonZero, 800, 800, 10);
+        Assert.AreEqual(unionResP_kH.Count, 1);
+        Assert.LessOrEqual(Math.Abs(Clipper.Area(unionResP_kH) - -29994.9975), 0.001);
+
         PathsD unionResPc = GeoWrangler.close(unionResP);
-        PathsD unionResPc_kH = GeoWrangler.makeKeyHole(unionResPc, reverseEval:false, biDirectionalEval:true);
+        PathsD unionResPc_kH = GeoWrangler.makeKeyHole(unionResPc, false, true);
+        svgSrc.ClearAll();
+        SvgUtils.AddClip(svgSrc, unionResPc);
+        SvgUtils.AddSolution(svgSrc, unionResPc_kH, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_unionrespc.svg", FillRule.NonZero, 800, 800, 10);
+        Assert.AreEqual(unionResPc_kH.Count, 1);
+        Assert.LessOrEqual(Math.Abs(Clipper.Area(unionResPc_kH) - -29994.9975), 0.001);
 
         // seems good - get keyhole
         PathsD unionResNZ = new();
         c.Execute(ClipType.Union, FillRule.NonZero, unionResNZ);
-        
-        /* Expected output
-        unionResNZ = {List<List<Point64>>} Count = 2
-         [0] = {List<Point64>} Count = 6
-          [0] = {Point64} 0,0,0 
-          [1] = {Point64} 0,200,0 
-          [2] = {Point64} 200,200,0 
-          [3] = {Point64} 200,0,0 
-          [4] = {Point64} 110,0,0 
-          [5] = {Point64} 0,0,0 
-         [1] = {List<Point64>} Count = 6
-          [0] = {Point64} 90,50,0 
-          [1] = {Point64} 150,50,0 
-          [2] = {Point64} 150,150,0 
-          [3] = {Point64} 50,150,0 
-          [4] = {Point64} 50,50,0 
-          [5] = {Point64} 90,50,0 
-           */
-        
-        PathsD unionResNZ_kH = GeoWrangler.makeKeyHole(unionResNZ, reverseEval:false, biDirectionalEval:true);
-        
-        /* Expected output
-        unionResNZ_kH = {List<List<Point64>>} Count = 1
-         [0] = {List<Point64>} Count = 13
-          [0] = {Point64} 200,0,0 
-          [1] = {Point64} 200,49.5,0 
-          [2] = {Point64} 149.5,49.5,0 
-          [3] = {Point64} 149.5,50,0 
-          [4] = {Point64} 50,50,0 
-          [5] = {Point64} 50,150,0 
-          [6] = {Point64} 150,150,0 
-          [7] = {Point64} 150,50.5,0 
-          [8] = {Point64} 200,50.5,0 
-          [9] = {Point64} 200,200,0 
-          [10] = {Point64} 0,200,0 
-          [11] = {Point64} 0,0,0 
-          [12] = {Point64} 200,0,0 
-           */
-        
+
+        PathsD unionResNZ_kH = GeoWrangler.makeKeyHole(unionResNZ, false, true);
+        svgSrc.ClearAll();
+        SvgUtils.AddClip(svgSrc, unionResNZ);
+        SvgUtils.AddSolution(svgSrc, unionResNZ_kH, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_unionresnz.svg", FillRule.NonZero, 800, 800, 10);
+        Assert.AreEqual(unionResNZ_kH.Count, 1);
+        Assert.LessOrEqual(Math.Abs(Clipper.Area(unionResNZ_kH) - -29994.9975), 0.001);
+
         PathsD unionResNZc = GeoWrangler.close(unionResNZ);
-        
-        /* Expected output
-        unionResNZc = {List<List<Point64>>} Count = 2
-         [0] = {List<Point64>} Count = 6
-          [0] = {Point64} 0,0,0 
-          [1] = {Point64} 0,200,0 
-          [2] = {Point64} 200,200,0 
-          [3] = {Point64} 200,0,0 
-          [4] = {Point64} 110,0,0 
-          [5] = {Point64} 0,0,0 
-         [1] = {List<Point64>} Count = 6
-          [0] = {Point64} 90,50,0 
-          [1] = {Point64} 150,50,0 
-          [2] = {Point64} 150,150,0 
-          [3] = {Point64} 50,150,0 
-          [4] = {Point64} 50,50,0 
-          [5] = {Point64} 90,50,0 
-           */
-        
-        PathsD unionResNZc_kH = GeoWrangler.makeKeyHole(unionResNZc, reverseEval:false, biDirectionalEval:true);
-        
-        /* Expected result
-        unionResNZc_kH = {List<List<Point64>>} Count = 1
-         [0] = {List<Point64>} Count = 13
-          [0] = {Point64} 200,0,0 
-          [1] = {Point64} 200,49.5,0 
-          [2] = {Point64} 149.5,49.5,0 
-          [3] = {Point64} 149.5,50,0 
-          [4] = {Point64} 50,50,0 
-          [5] = {Point64} 50,150,0 
-          [6] = {Point64} 150,150,0 
-          [7] = {Point64} 150,50.5,0 
-          [8] = {Point64} 200,50.5,0 
-          [9] = {Point64} 200,200,0 
-          [10] = {Point64} 0,200,0 
-          [11] = {Point64} 0,0,0 
-          [12] = {Point64} 200,0,0 
-           */
+        PathsD unionResNZc_kH = GeoWrangler.makeKeyHole(unionResNZc, false, true);
+        svgSrc.ClearAll();
+        SvgUtils.AddClip(svgSrc, unionResNZc);
+        SvgUtils.AddSolution(svgSrc, unionResNZc_kH, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_unionresnzc.svg", FillRule.NonZero, 800, 800, 10);
+        Assert.AreEqual(unionResNZc_kH.Count, 1);
+        Assert.LessOrEqual(Math.Abs(Clipper.Area(unionResNZc_kH) - -29994.9975), 0.001);
 
         PathsD simplifyRes = new();
         c.Execute(ClipType.Union, FillRule.EvenOdd, simplifyRes);
         simplifyRes = GeoWrangler.stripCollinear(simplifyRes);
 
-        /* Expected output
-        simplifyRes = {List<List<Point64>>} Count = 1
-         [0] = {List<Point64>} Count = 13
-          [0] = {Point64} 110,50,0 
-          [1] = {Point64} 150,50,0 
-          [2] = {Point64} 150,150,0 
-          [3] = {Point64} 50,150,0 
-          [4] = {Point64} 50,50,0 
-          [5] = {Point64} 90,50,0 
-          [6] = {Point64} 90,0,0 
-          [7] = {Point64} 0,0,0 
-          [8] = {Point64} 0,200,0 
-          [9] = {Point64} 200,200,0 
-          [10] = {Point64} 200,0,0 
-          [11] = {Point64} 110,0,0 
-          [12] = {Point64} 110,50,0 
-           */
+        PathsD simplifyRes_kH = GeoWrangler.makeKeyHole(simplifyRes, false, true);
+        svgSrc.ClearAll();
+        SvgUtils.AddClip(svgSrc, simplifyRes);
+        SvgUtils.AddSolution(svgSrc, simplifyRes_kH, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_simplifyres.svg", FillRule.NonZero, 800, 800, 10);
+        Assert.AreEqual(simplifyRes_kH.Count, 1);
+        Assert.LessOrEqual(Math.Abs(Clipper.Area(simplifyRes_kH) - 29000), 0.001);
 
-        PathsD simplifyRes_kH = GeoWrangler.makeKeyHole(simplifyRes, reverseEval:false, biDirectionalEval:true);
-        
-        /* Expected output
-        simplifyRes_kH = {List<List<Point64>>} Count = 1
-         [0] = {List<Point64>} Count = 13
-          [0] = {Point64} 0,0,0 
-          [1] = {Point64} 0,200,0 
-          [2] = {Point64} 200,200,0 
-          [3] = {Point64} 200,0,0 
-          [4] = {Point64} 110,0,0 
-          [5] = {Point64} 110,50,0 
-          [6] = {Point64} 150,50,0 
-          [7] = {Point64} 150,150,0 
-          [8] = {Point64} 50,150,0 
-          [9] = {Point64} 50,50,0 
-          [10] = {Point64} 90,50,0 
-          [11] = {Point64} 90,0,0 
-          [12] = {Point64} 0,0,0 
-           */
-        
         PathsD simplifyResc = GeoWrangler.close(simplifyRes);
-        
-        /* Expected output
-        simplifyResc = {List<List<Point64>>} Count = 1
-         [0] = {List<Point64>} Count = 13
-          [0] = {Point64} 110,50,0 
-          [1] = {Point64} 150,50,0 
-          [2] = {Point64} 150,150,0 
-          [3] = {Point64} 50,150,0 
-          [4] = {Point64} 50,50,0 
-          [5] = {Point64} 90,50,0 
-          [6] = {Point64} 90,0,0 
-          [7] = {Point64} 0,0,0 
-          [8] = {Point64} 0,200,0 
-          [9] = {Point64} 200,200,0 
-          [10] = {Point64} 200,0,0 
-          [11] = {Point64} 110,0,0 
-          [12] = {Point64} 110,50,0 
-           */
-        
-        PathsD simplifyResc_kH = GeoWrangler.makeKeyHole(simplifyResc, reverseEval:false, biDirectionalEval:true);
+        PathsD simplifyResc_kH = GeoWrangler.makeKeyHole(simplifyResc, false, true);
+        svgSrc.ClearAll();
+        SvgUtils.AddClip(svgSrc, simplifyResc);
+        SvgUtils.AddSolution(svgSrc, simplifyResc_kH, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_simplifyresc.svg", FillRule.NonZero, 800, 800, 10);
+        Assert.AreEqual(simplifyResc_kH.Count, 1);
+        Assert.LessOrEqual(Math.Abs(Clipper.Area(simplifyResc_kH) - 29000), 0.001);
 
-        /* Expected output
-        simplifyResc_kH = {List<List<Point64>>} Count = 1
-         [0] = {List<Point64>} Count = 13
-          [0] = {Point64} 0,0,0 
-          [1] = {Point64} 0,200,0 
-          [2] = {Point64} 200,200,0 
-          [3] = {Point64} 200,0,0 
-          [4] = {Point64} 110,0,0 
-          [5] = {Point64} 110,50,0 
-          [6] = {Point64} 150,50,0 
-          [7] = {Point64} 150,150,0 
-          [8] = {Point64} 50,150,0 
-          [9] = {Point64} 50,50,0 
-          [10] = {Point64} 90,50,0 
-          [11] = {Point64} 90,0,0 
-          [12] = {Point64} 0,0,0 
-           */
-        
         PathsD simplifyRes2 = new();
         c.Execute(ClipType.Union, FillRule.EvenOdd, simplifyRes2);
-        PathsD simplifyRes2_kH = GeoWrangler.makeKeyHole(simplifyRes2, reverseEval:false, biDirectionalEval:true);
+        PathsD simplifyRes2_kH = GeoWrangler.makeKeyHole(simplifyRes2, false, true);
+        svgSrc.ClearAll();
+        SvgUtils.AddClip(svgSrc, simplifyRes2);
+        SvgUtils.AddSolution(svgSrc, simplifyRes2_kH, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_simplifyres2.svg", FillRule.NonZero, 800, 800, 10);
+        Assert.AreEqual(simplifyRes2_kH.Count, 1);
+        Assert.LessOrEqual(Math.Abs(Clipper.Area(simplifyRes2_kH) - 29000), 0.001);
+
         PathsD simplifyRes2c = GeoWrangler.close(simplifyRes2);
-        PathsD simplifyRes2c_kH = GeoWrangler.makeKeyHole(simplifyRes2c, reverseEval:false, biDirectionalEval:true);
+        PathsD simplifyRes2c_kH = GeoWrangler.makeKeyHole(simplifyRes2c, false, true);
+        svgSrc.ClearAll();
+        SvgUtils.AddClip(svgSrc, simplifyRes2c);
+        SvgUtils.AddSolution(svgSrc, simplifyRes2c_kH, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_simplifyres2c.svg", FillRule.NonZero, 800, 800, 10);
+        Assert.AreEqual(simplifyRes2c_kH.Count, 1);
+        Assert.LessOrEqual(Math.Abs(Clipper.Area(simplifyRes2c_kH) - 29000), 0.001);
 
         // no good - no result
         PathsD intRes = new();
         c.Execute(ClipType.Intersection, FillRule.EvenOdd, intRes);
-        PathsD intRes_kH = GeoWrangler.makeKeyHole(intRes, reverseEval:false, biDirectionalEval:true);
+        Assert.AreEqual(intRes.Count, 0);
+
+        PathsD intRes_kH = GeoWrangler.makeKeyHole(intRes, false, true);
+        Assert.AreEqual(intRes_kH.Count, 0);
+
         PathsD intResc = GeoWrangler.close(intRes);
-        PathsD intResc_kH = GeoWrangler.makeKeyHole(intResc, reverseEval:false, biDirectionalEval:true);
+        PathsD intResc_kH = GeoWrangler.makeKeyHole(intResc, false, true);
+        Assert.AreEqual(intResc_kH.Count, 0);
 
         // no good - no result
         PathsD intResP = new();
         c.Execute(ClipType.Intersection, FillRule.Positive, intResP);
-        PathsD intResP_kH = GeoWrangler.makeKeyHole(intResP, reverseEval:false, biDirectionalEval:true);
+        PathsD intResP_kH = GeoWrangler.makeKeyHole(intResP, false, true);
+        Assert.AreEqual(intResP_kH.Count, 0);
         PathsD intResPc = GeoWrangler.close(intResP);
-        PathsD intResPc_kH = GeoWrangler.makeKeyHole(intResPc, reverseEval:false, biDirectionalEval:true);
+        PathsD intResPc_kH = GeoWrangler.makeKeyHole(intResPc, false, true);
+        Assert.AreEqual(intResPc_kH.Count, 0);
 
         // no good - no result
         PathsD intResNZ = new();
         c.Execute(ClipType.Intersection, FillRule.NonZero, intResNZ);
-        PathsD intResNZ_kH = GeoWrangler.makeKeyHole(intResNZ, reverseEval:false, biDirectionalEval:true);
+        PathsD intResNZ_kH = GeoWrangler.makeKeyHole(intResNZ, false, true);
+        Assert.AreEqual(intResNZ_kH.Count, 0);
         PathsD intResNZc = GeoWrangler.close(intResNZ);
-        PathsD intResNZc_kH = GeoWrangler.makeKeyHole(intResNZc, reverseEval:false, biDirectionalEval:true);
+        PathsD intResNZc_kH = GeoWrangler.makeKeyHole(intResNZc, false, true);
+        Assert.AreEqual(intResNZc_kH.Count, 0);
 
         RectD bounds = Clipper.GetBounds(new PathsD { outer });
         PathD bb = new()
         {
-            new(bounds.left, bounds.bottom),
-            new(bounds.left, bounds.top),
-            new(bounds.right, bounds.top),
-            new(bounds.right, bounds.bottom)
+            new PointD(bounds.left, bounds.bottom),
+            new PointD(bounds.left, bounds.top),
+            new PointD(bounds.right, bounds.top),
+            new PointD(bounds.right, bounds.bottom)
         };
 
         c.Clear();
@@ -948,185 +607,66 @@ internal class Program
 
         PathsD intRes2 = new();
         c.Execute(ClipType.Intersection, FillRule.EvenOdd, intRes2);
-        
-        /* Expected output
-         intRes2 = {List<List<Point64>>} Count = 2
-          [0] = {List<Point64>} Count = 6
-           [0] = {Point64} 0,0,0 
-           [1] = {Point64} 0,200,0 
-           [2] = {Point64} 200,200,0 
-           [3] = {Point64} 200,0,0 
-           [4] = {Point64} 110,0,0 
-           [5] = {Point64} 0,0,0 
-          [1] = {List<Point64>} Count = 9
-           [0] = {Point64} 90,0,0 
-           [1] = {Point64} 110,0,0 
-           [2] = {Point64} 110,50,0 
-           [3] = {Point64} 150,50,0 
-           [4] = {Point64} 150,150,0 
-           [5] = {Point64} 50,150,0 
-           [6] = {Point64} 50,50,0 
-           [7] = {Point64} 90,50,0 
-           [8] = {Point64} 90,0,0 
-           */
-        
-        PathsD intRes2_kH = GeoWrangler.makeKeyHole(intRes2, reverseEval:false, biDirectionalEval:true);
-        
-        /* Expected output
-         intRes2_kH = {List<List<Point64>>} Count = 1
-          [0] = {List<Point64>} Count = 13
-           [0] = {Point64} 0,0,0 
-           [1] = {Point64} 0,200,0 
-           [2] = {Point64} 200,200,0 
-           [3] = {Point64} 200,0,0 
-           [4] = {Point64} 110,0,0 
-           [5] = {Point64} 110,50,0 
-           [6] = {Point64} 150,50,0 
-           [7] = {Point64} 150,150,0 
-           [8] = {Point64} 50,150,0 
-           [9] = {Point64} 50,50,0 
-           [10] = {Point64} 90,50,0 
-           [11] = {Point64} 90,0,0 
-           [12] = {Point64} 0,0,0 
-           */
-        
-        PathsD intRes2c = GeoWrangler.close(intRes2);
-        
-        /* Expected output
-         intRes2c = {List<List<Point64>>} Count = 2
-          [0] = {List<Point64>} Count = 6
-           [0] = {Point64} 0,0,0 
-           [1] = {Point64} 0,200,0 
-           [2] = {Point64} 200,200,0 
-           [3] = {Point64} 200,0,0 
-           [4] = {Point64} 110,0,0 
-           [5] = {Point64} 0,0,0 
-          [1] = {List<Point64>} Count = 9
-           [0] = {Point64} 90,0,0 
-           [1] = {Point64} 110,0,0 
-           [2] = {Point64} 110,50,0 
-           [3] = {Point64} 150,50,0 
-           [4] = {Point64} 150,150,0 
-           [5] = {Point64} 50,150,0 
-           [6] = {Point64} 50,50,0 
-           [7] = {Point64} 90,50,0 
-           [8] = {Point64} 90,0,0 
-           */
-        
-        PathsD intRes2c_kH = GeoWrangler.makeKeyHole(intRes2c, reverseEval:false, biDirectionalEval:true);
 
-        /* Expected output
-         intRes2c_kH = {List<List<Point64>>} Count = 1
-          [0] = {List<Point64>} Count = 13
-           [0] = {Point64} 0,0,0 
-           [1] = {Point64} 0,200,0 
-           [2] = {Point64} 200,200,0 
-           [3] = {Point64} 200,0,0 
-           [4] = {Point64} 110,0,0 
-           [5] = {Point64} 110,50,0 
-           [6] = {Point64} 150,50,0 
-           [7] = {Point64} 150,150,0 
-           [8] = {Point64} 50,150,0 
-           [9] = {Point64} 50,50,0 
-           [10] = {Point64} 90,50,0 
-           [11] = {Point64} 90,0,0 
-           [12] = {Point64} 0,0,0 
-           */
+        PathsD intRes2_kH = GeoWrangler.makeKeyHole(intRes2, false, true);
+        svgSrc.ClearAll();
+        SvgUtils.AddClip(svgSrc, intRes2);
+        SvgUtils.AddSolution(svgSrc, intRes2_kH, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_intres2.svg", FillRule.NonZero, 800, 800, 10);
+        Assert.AreEqual(intRes2_kH.Count, 1);
+        Assert.LessOrEqual(Math.Abs(Clipper.Area(intRes2_kH) - 29000), 0.001);
+
+        PathsD intRes2c = GeoWrangler.close(intRes2);
+        PathsD intRes2c_kH = GeoWrangler.makeKeyHole(intRes2c, false, true);
+        svgSrc.ClearAll();
+        SvgUtils.AddClip(svgSrc, intRes2c);
+        SvgUtils.AddSolution(svgSrc, intRes2c_kH, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_intres2c.svg", FillRule.NonZero, 800, 800, 10);
+        Assert.AreEqual(intRes2c_kH.Count, 1);
+        Assert.LessOrEqual(Math.Abs(Clipper.Area(intRes2c_kH) - 29000), 0.001);
         
         PathsD intRes2P = new();
         c.Execute(ClipType.Intersection, FillRule.Positive, intRes2P);
-        
-        /* Expected output
-         No geometry in intRes2P
-         */
-        
-        // No keyholes as no geometry.
-        PathsD intRes2P_kH = GeoWrangler.makeKeyHole(intRes2P, reverseEval:false, biDirectionalEval:true);
+        Assert.AreEqual(intRes2P.Count, 2);
+
+        PathsD intRes2P_kH = GeoWrangler.makeKeyHole(intRes2P, false, true);
+        svgSrc.ClearAll();
+        SvgUtils.AddClip(svgSrc, intRes2P);
+        SvgUtils.AddSolution(svgSrc, intRes2P_kH, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_intres2p.svg", FillRule.NonZero, 800, 800, 10);
+        Assert.AreEqual(intRes2P_kH.Count, 1);
+        Assert.LessOrEqual(Math.Abs(Clipper.Area(intRes2P_kH) - -29994.9975), 0.001);
+
         PathsD intRes2Pc = GeoWrangler.close(intRes2P);
-        PathsD intRes2Pc_kH = GeoWrangler.makeKeyHole(intRes2Pc, reverseEval:false, biDirectionalEval:true);
+        PathsD intRes2Pc_kH = GeoWrangler.makeKeyHole(intRes2Pc, false, true);
+        svgSrc.ClearAll();
+        SvgUtils.AddClip(svgSrc, intRes2Pc);
+        SvgUtils.AddSolution(svgSrc, intRes2Pc_kH, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_intres2pc.svg", FillRule.NonZero, 800, 800, 10);
+        Assert.AreEqual(intRes2Pc_kH.Count, 1);
+        Assert.LessOrEqual(Math.Abs(Clipper.Area(intRes2Pc_kH) - -29994.9975), 0.001);
 
         // seems good - get keyhole
         PathsD intRes2NZ = new();
         c.Execute(ClipType.Intersection, FillRule.NonZero, intRes2NZ);
         
-        /* Expected output
-         intRes2NZ = {List<List<Point64>>} Count = 2
-          [0] = {List<Point64>} Count = 6
-           [0] = {Point64} 0,0,0 
-           [1] = {Point64} 0,200,0 
-           [2] = {Point64} 200,200,0 
-           [3] = {Point64} 200,0,0 
-           [4] = {Point64} 110,0,0 
-           [5] = {Point64} 0,0,0 
-          [1] = {List<Point64>} Count = 6
-           [0] = {Point64} 90,50,0 
-           [1] = {Point64} 150,50,0 
-           [2] = {Point64} 150,150,0 
-           [3] = {Point64} 50,150,0 
-           [4] = {Point64} 50,50,0 
-           [5] = {Point64} 90,50,0 
-           */
-        
-        PathsD intRes2NZ_kH = GeoWrangler.makeKeyHole(intRes2NZ, reverseEval:false, biDirectionalEval:true);
-        
-        /* Expected output
-         intRes2NZ_kH = {List<List<Point64>>} Count = 1
-          [0] = {List<Point64>} Count = 13
-           [0] = {Point64} 200,0,0 
-           [1] = {Point64} 200,49.5,0 
-           [2] = {Point64} 149.5,49.5,0 
-           [3] = {Point64} 149.5,50,0 
-           [4] = {Point64} 50,50,0 
-           [5] = {Point64} 50,150,0 
-           [6] = {Point64} 150,150,0 
-           [7] = {Point64} 150,50.5,0 
-           [8] = {Point64} 200,50.5,0 
-           [9] = {Point64} 200,200,0 
-           [10] = {Point64} 0,200,0 
-           [11] = {Point64} 0,0,0 
-           [12] = {Point64} 200,0,0 
-           */
-        
+        PathsD intRes2NZ_kH = GeoWrangler.makeKeyHole(intRes2NZ, false, true);
+        svgSrc.ClearAll();
+        SvgUtils.AddClip(svgSrc, intRes2NZ);
+        SvgUtils.AddSolution(svgSrc, intRes2NZ_kH, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_intres2nz.svg", FillRule.NonZero, 800, 800, 10);
+        double area = Clipper.Area(intRes2NZ_kH);
+        Assert.AreEqual(intRes2NZ_kH.Count, 1);
+        Assert.LessOrEqual(Math.Abs(Clipper.Area(intRes2NZ_kH) - -29994.9975), 0.001);
+
         PathsD intRes2NZc = GeoWrangler.close(intRes2NZ);
-        
-        /* Expected output
-         intRes2NZc = {List<List<Point64>>} Count = 2
-          [0] = {List<Point64>} Count = 6
-           [0] = {Point64} 0,0,0 
-           [1] = {Point64} 0,200,0 
-           [2] = {Point64} 200,200,0 
-           [3] = {Point64} 200,0,0 
-           [4] = {Point64} 110,0,0 
-           [5] = {Point64} 0,0,0 
-          [1] = {List<Point64>} Count = 6
-           [0] = {Point64} 90,50,0 
-           [1] = {Point64} 150,50,0 
-           [2] = {Point64} 150,150,0 
-           [3] = {Point64} 50,150,0 
-           [4] = {Point64} 50,50,0 
-           [5] = {Point64} 90,50,0 
-           */
-        
-        PathsD intRes2NZc_kH = GeoWrangler.makeKeyHole(intRes2NZc, reverseEval:false, biDirectionalEval:true);
-        
-         /* Expected output
-          intRes2NZc_kH = {List<List<Point64>>} Count = 1
-           [0] = {List<Point64>} Count = 13
-            [0] = {Point64} 200,0,0 
-            [1] = {Point64} 200,49.5,0 
-            [2] = {Point64} 149.5,49.5,0 
-            [3] = {Point64} 149.5,50,0 
-            [4] = {Point64} 50,50,0 
-            [5] = {Point64} 50,150,0 
-            [6] = {Point64} 150,150,0 
-            [7] = {Point64} 150,50.5,0 
-            [8] = {Point64} 200,50.5,0 
-            [9] = {Point64} 200,200,0 
-            [10] = {Point64} 0,200,0 
-            [11] = {Point64} 0,0,0 
-            [12] = {Point64} 200,0,0 
-          */
-        
+        PathsD intRes2NZc_kH = GeoWrangler.makeKeyHole(intRes2NZc, false, true);
+        svgSrc.ClearAll();
+        SvgUtils.AddClip(svgSrc, intRes2NZc);
+        SvgUtils.AddSolution(svgSrc, intRes2NZc_kH, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_intres2nzc.svg", FillRule.NonZero, 800, 800, 10);
+        Assert.AreEqual(intRes2NZc_kH.Count, 1);
+        Assert.LessOrEqual(Math.Abs(Clipper.Area(intRes2NZc_kH) - -29994.9975), 0.001);
     }
 
     private static void selfOverlapTest_reversed()
@@ -1150,547 +690,178 @@ internal class Program
 
         outer.Reverse();
 
-        // decomposer test
-        PathsD dSource = new() {outer};
-
-        /* Expected
-         dSource = {List<List<Point64>>} Count = 1
-          [0] = {List<Point64>} Count = 13
-           [0] = {Point64} 0,0,0 
-           [1] = {Point64} 0,200,0 
-           [2] = {Point64} 200,200,0 
-           [3] = {Point64} 200,0,0 
-           [4] = {Point64} 90,0,0 
-           [5] = {Point64} 90,50,0 
-           [6] = {Point64} 150,50,0 
-           [7] = {Point64} 150,150,0 
-           [8] = {Point64} 50,150,0 
-           [9] = {Point64} 50,50,0 
-           [10] = {Point64} 110,50,0 
-           [11] = {Point64} 110,0,0 
-           [12] = {Point64} 0,0,0 
-           */
-        
+        PathsD dSource = new() { outer };
         PathsD decomp = GeoWrangler.decompose(dSource);
-        
-        /* Expected output
-         decomp = {List<List<Point64>>} Count = 2
-          [0] = {List<Point64>} Count = 6
-           [0] = {Point64} 0,0,0 
-           [1] = {Point64} 0,200,0 
-           [2] = {Point64} 200,200,0 
-           [3] = {Point64} 200,0,0 
-           [4] = {Point64} 110,0,0 
-           [5] = {Point64} 0,0,0 
-          [1] = {List<Point64>} Count = 6
-           [0] = {Point64} 50,50,0 
-           [1] = {Point64} 90,50,0 
-           [2] = {Point64} 150,50,0 
-           [3] = {Point64} 150,150,0 
-           [4] = {Point64} 50,150,0 
-           [5] = {Point64} 50,50,0 
-           */
-        
-        PathsD kHD = GeoWrangler.makeKeyHole(dSource, reverseEval:false, biDirectionalEval:true);
-        
-        /* Expected output
-         kHD = {List<List<Point64>>} Count = 1
-          [0] = {List<Point64>} Count = 13
-           [0] = {Point64} 200,0,0 
-           [1] = {Point64} 200,49.5,0 
-           [2] = {Point64} 149.5,49.5,0 
-           [3] = {Point64} 149.5,50,0 
-           [4] = {Point64} 50,50.,0 
-           [5] = {Point64} 50,150,0 
-           [6] = {Point64} 150,150,0 
-           [7] = {Point64} 150,50.5,0 
-           [8] = {Point64} 200,50.5,0 
-           [9] = {Point64} 200,200,0 
-           [10] = {Point64} 0,200,0 
-           [11] = {Point64} 0,0,0 
-           [12] = {Point64} 200,0,0 
-           */
+
+        SvgWriter svgSrc;
+        svgSrc = new SvgWriter();
+        SvgUtils.AddClip(svgSrc, dSource);
+        SvgUtils.AddSolution(svgSrc, decomp, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_reversed.svg", FillRule.NonZero, 800, 800, 10);
+        Assert.AreEqual(decomp.Count, 2);
+        // Delta expected. Sign for dSource is opposite to decomp.
+        Assert.AreEqual(Clipper.Area(decomp), 30000);
+        Assert.AreEqual(Clipper.Area(dSource), -31000);
+
+        PathsD kHD = GeoWrangler.makeKeyHole(dSource, false, true);
+        svgSrc.ClearAll();
+        SvgUtils.AddClip(svgSrc, dSource);
+        SvgUtils.AddSolution(svgSrc, kHD, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_reversed_khd.svg", FillRule.NonZero, 800, 800, 10);
+        Assert.AreEqual(kHD.Count, 1);
+        Assert.LessOrEqual(Math.Abs(Clipper.Area(kHD) - -29994.9975), 0.001);
 
         // keyholer test
-        PathsD kHSource = new() {outer};
-        
-        /* Expected
-         kHSource = {List<List<Point64>>} Count = 1
-          [0] = {List<Point64>} Count = 13
-           [0] = {Point64} 0,0,0 
-           [1] = {Point64} 0,200,0 
-           [2] = {Point64} 200,200,0 
-           [3] = {Point64} 200,0,0 
-           [4] = {Point64} 90,0,0 
-           [5] = {Point64} 90,50,0 
-           [6] = {Point64} 150,50,0 
-           [7] = {Point64} 150,150,0 
-           [8] = {Point64} 50,150,0 
-           [9] = {Point64} 50,50,0 
-           [10] = {Point64} 110,50,0 
-           [11] = {Point64} 110,0,0 
-           [12] = {Point64} 0,0,0 
-           */
-        
-        PathsD kH = GeoWrangler.makeKeyHole(kHSource, reverseEval:false, biDirectionalEval:true);
+        PathsD kHSource = new() { outer };
+        PathsD kH = GeoWrangler.makeKeyHole(kHSource, false, true);
+        svgSrc.ClearAll();
+        SvgUtils.AddClip(svgSrc, kHSource);
+        SvgUtils.AddSolution(svgSrc, kH, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_reversed_kh.svg", FillRule.NonZero, 800, 800, 10);
+        Assert.AreEqual(kH.Count, 1);
+        Assert.LessOrEqual(Math.Abs(Clipper.Area(kH) - -29994.9975), 0.001);
 
-        /* Expected output
-         kH = {List<List<Point64>>} Count = 1
-          [0] = {List<Point64>} Count = 13
-           [0] = {Point64} 200,0,0 
-           [1] = {Point64} 200,49.5,0 
-           [2] = {Point64} 149.5,49.5,0 
-           [3] = {Point64} 149.5,50,0 
-           [4] = {Point64} 50,5,0 
-           [5] = {Point64} 50,150,0 
-           [6] = {Point64} 150,150,0 
-           [7] = {Point64} 150,50.5,0 
-           [8] = {Point64} 200,50.5,0 
-           [9] = {Point64} 200,200,0 
-           [10] = {Point64} 0,200,0 
-           [11] = {Point64} 0,0,0 
-           [12] = {Point64} 200,0,0 
-           */
-        
         ClipperD c = new(Constants.roundingDecimalPrecision);
         c.AddSubject(outer);
 
         PathsD unionRes = new();
         c.Execute(ClipType.Union, FillRule.EvenOdd, unionRes);
 
-        /* Expected output
-         unionRes = {List<List<Point64>>} Count = 1
-          [0] = {List<Point64>} Count = 13
-           [0] = {Point64} 90000,0,0 
-           [1] = {Point64} 0,0,0 
-           [2] = {Point64} 0,200,0 
-           [3] = {Point64} 200,200,0 
-           [4] = {Point64} 200,0,0 
-           [5] = {Point64} 110,0,0 
-           [6] = {Point64} 110,50,0 
-           [7] = {Point64} 150,50,0 
-           [8] = {Point64} 150,150,0 
-           [9] = {Point64} 50,150,0 
-           [10] = {Point64} 50,50,0 
-           [11] = {Point64} 90,50,0 
-           [12] = {Point64} 90,0,0 
-           */
-        
-        PathsD unionRes_kH = GeoWrangler.makeKeyHole(unionRes, reverseEval:false, biDirectionalEval:true);
-        
-        /* Expected output
-         unionRes_kH = {List<List<Point64>>} Count = 1
-          [0] = {List<Point64>} Count = 13
-           [0] = {Point64} 0,0,0 
-           [1] = {Point64} 0,200,0 
-           [2] = {Point64} 200,200,0 
-           [3] = {Point64} 200,0,0 
-           [4] = {Point64} 110,0,0 
-           [5] = {Point64} 110,50,0 
-           [6] = {Point64} 150,50,0 
-           [7] = {Point64} 150,150,0 
-           [8] = {Point64} 50,150,0 
-           [9] = {Point64} 50,50,0 
-           [10] = {Point64} 90,50,0 
-           [11] = {Point64} 90,0,0 
-           [12] = {Point64} 0,0,0 
-           */
-        
-        PathsD unionResc = GeoWrangler.close(unionRes);
-        
-        /* Expected output
-         unionResc = {List<List<Point64>>} Count = 1
-          [0] = {List<Point64>} Count = 13
-           [0] = {Point64} 90,0,0 
-           [1] = {Point64} 0,0,0 
-           [2] = {Point64} 0,200,0 
-           [3] = {Point64} 200,200,0 
-           [4] = {Point64} 200,0,0 
-           [5] = {Point64} 110,0,0 
-           [6] = {Point64} 110,50,0 
-           [7] = {Point64} 150,50,0 
-           [8] = {Point64} 150,150,0 
-           [9] = {Point64} 50,150,0 
-           [10] = {Point64} 50,50,0 
-           [11] = {Point64} 90,50,0 
-           [12] = {Point64} 90,0,0 
-           */
-        
-        PathsD unionResc_kH = GeoWrangler.makeKeyHole(unionResc, reverseEval:false, biDirectionalEval:true);
+        PathsD unionRes_kH = GeoWrangler.makeKeyHole(unionRes, false, true);
+        svgSrc.ClearAll();
+        SvgUtils.AddClip(svgSrc, unionRes);
+        SvgUtils.AddSolution(svgSrc, unionRes_kH, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_reversed_khunion.svg", FillRule.NonZero, 800, 800, 10);
+        Assert.AreEqual(unionRes_kH.Count, 1);
+        Assert.AreEqual(Clipper.Area(unionRes_kH), Clipper.Area(unionRes));
 
-        /* Expected output
-         unionResc_kH = {List<List<Point64>>} Count = 1
-          [0] = {List<Point64>} Count = 13
-           [0] = {Point64} 0,0,0 
-           [1] = {Point64} 0,200,0 
-           [2] = {Point64} 200,200,0 
-           [3] = {Point64} 200,0,0 
-           [4] = {Point64} 110,0,0 
-           [5] = {Point64} 110,50,0 
-           [6] = {Point64} 150,50,0 
-           [7] = {Point64} 150,150,0 
-           [8] = {Point64} 50,150,0 
-           [9] = {Point64} 50,50,0 
-           [10] = {Point64} 90,50,0 
-           [11] = {Point64} 90,0,0 
-           [12] = {Point64} 0,0,0 
-           */
-        
+        PathsD unionResc = GeoWrangler.close(unionRes);
+        PathsD unionResc_kH = GeoWrangler.makeKeyHole(unionResc, false, true);
+        svgSrc.ClearAll();
+        SvgUtils.AddClip(svgSrc, unionResc);
+        SvgUtils.AddSolution(svgSrc, unionResc_kH, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_reversed_khunionc.svg", FillRule.NonZero, 800, 800, 10);
+        Assert.AreEqual(unionResc_kH.Count, 1);
+        Assert.AreEqual(Clipper.Area(unionResc_kH), Clipper.Area(unionResc));
+
         PathsD unionResP = new();
+        c.Clear();
+        c.AddSubject(unionResc);
         c.Execute(ClipType.Union, FillRule.Positive, unionResP);
 
-        /* Expected output
-           unionResP = {List<List<Point64>>} Count = 2
-            [0] = {List<Point64>} Count = 6
-             [0] = {Point64} 0,0,0 
-             [1] = {Point64} 0,200,0 
-             [2] = {Point64} 200,200,0 
-             [3] = {Point64} 200,0,0 
-             [4] = {Point64} 110,0,0 
-             [5] = {Point64} 0,0,0 
-            [1] = {List<Point64>} Count = 6
-             [0] = {Point64} 90,50,0 
-             [1] = {Point64} 150,50,0 
-             [2] = {Point64} 150,150,0 
-             [3] = {Point64} 50,150,0 
-             [4] = {Point64} 50,50,0 
-             [5] = {Point64} 90,50,0 
-           */
-        
-        PathsD unionResP_kH = GeoWrangler.makeKeyHole(unionResP, reverseEval:false, biDirectionalEval:true);
-        
-        /* Expected output
-         unionResP_kH = {List<List<Point64>>} Count = 1
-          [0] = {List<Point64>} Count = 13
-           [0] = {Point64} 200,0,0 
-           [1] = {Point64} 200,49.5,0 
-           [2] = {Point64} 149.5,49.5,0 
-           [3] = {Point64} 149.5,50,0 
-           [4] = {Point64} 50,50,0 
-           [5] = {Point64} 50,150,0 
-           [6] = {Point64} 150,150,0 
-           [7] = {Point64} 150,50.5,0 
-           [8] = {Point64} 200,50.5,0 
-           [9] = {Point64} 200,200,0 
-           [10] = {Point64} 0,200,0 
-           [11] = {Point64} 0,0,0 
-           [12] = {Point64} 200,0,0 
-         */
-        
-        PathsD unionResPc = GeoWrangler.close(unionResP);
-        
-        /* Expected output
-          unionResPc = {List<List<Point64>>} Count = 2
-           [0] = {List<Point64>} Count = 6
-            [0] = {Point64} 0,0,0 
-            [1] = {Point64} 0,200,0 
-            [2] = {Point64} 200,200,0 
-            [3] = {Point64} 200,0,0 
-            [4] = {Point64} 110,0,0 
-            [5] = {Point64} 0,0,0 
-           [1] = {List<Point64>} Count = 6
-            [0] = {Point64} 90,50,0 
-            [1] = {Point64} 150,50,0 
-            [2] = {Point64} 150,150,0 
-            [3] = {Point64} 50,150,0 
-            [4] = {Point64} 50,50,0 
-            [5] = {Point64} 90,50,0 
-           */
-        
-        PathsD unionResPc_kH = GeoWrangler.makeKeyHole(unionResPc, reverseEval:false, biDirectionalEval:true);
+        PathsD unionResP_kH = GeoWrangler.makeKeyHole(unionResP, false, true);
+        svgSrc.ClearAll();
+        SvgUtils.AddClip(svgSrc, unionResP);
+        SvgUtils.AddSolution(svgSrc, unionResP_kH, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_reversed_khunionp.svg", FillRule.NonZero, 800, 800, 10);
+        Assert.AreEqual(unionResP_kH.Count, 1);
+        Assert.AreEqual(Clipper.Area(unionResP_kH), Clipper.Area(unionResP));
 
-        /* Expected output
-         unionResPc_kH = {List<List<Point64>>} Count = 1
-          [0] = {List<Point64>} Count = 13
-           [0] = {Point64} 200,0,0 
-           [1] = {Point64} 200,49.5,0 
-           [2] = {Point64} 149.5,49.500,0 
-           [3] = {Point64} 149.5,50,0 
-           [4] = {Point64} 50,50,0 
-           [5] = {Point64} 50,150,0 
-           [6] = {Point64} 150,150,0 
-           [7] = {Point64} 150,50.5,0 
-           [8] = {Point64} 200,50.5,0 
-           [9] = {Point64} 200,200,0 
-           [10] = {Point64} 0,200,0 
-           [11] = {Point64} 0,0,0 
-           [12] = {Point64} 200,0,0 
-           */
-        
-        // seems good - get keyhole
+        PathsD unionResPc = GeoWrangler.close(unionResP);
+        PathsD unionResPc_kH = GeoWrangler.makeKeyHole(unionResPc, false, true);
+        svgSrc.ClearAll();
+        SvgUtils.AddClip(svgSrc, unionResPc);
+        SvgUtils.AddSolution(svgSrc, unionResPc_kH, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_reversed_khunionpc.svg", FillRule.NonZero, 800, 800, 10);
+        Assert.AreEqual(unionResPc_kH.Count, 1);
+        Assert.AreEqual(Clipper.Area(unionResPc_kH), Clipper.Area(unionResPc));
+
         PathsD unionResNZ = new();
         c.Execute(ClipType.Union, FillRule.NonZero, unionResNZ);
-        
-        /* Expected output
-           unionResNZ = {List<List<Point64>>} Count = 2
-            [0] = {List<Point64>} Count = 6
-             [0] = {Point64} 0,0,0 
-             [1] = {Point64} 0,200,0 
-             [2] = {Point64} 200,200,0 
-             [3] = {Point64} 200,0,0 
-             [4] = {Point64} 110,0,0 
-             [5] = {Point64} 0,0,0 
-            [1] = {List<Point64>} Count = 6
-             [0] = {Point64} 90,50,0 
-             [1] = {Point64} 150,50,0 
-             [2] = {Point64} 150,150,0 
-             [3] = {Point64} 50,150,0 
-             [4] = {Point64} 50,50,0 
-             [5] = {Point64} 90,50,0 
-           */
-        
-        PathsD unionResNZ_kH = GeoWrangler.makeKeyHole(unionResNZ, reverseEval:false, biDirectionalEval:true);
-        
-        /* Expected output
-           unionResNZ_kH = {List<List<Point64>>} Count = 1
-            [0] = {List<Point64>} Count = 13
-             [0] = {Point64} 200,0,0 
-             [1] = {Point64} 200,49.5,0 
-             [2] = {Point64} 149.5,49.5,0 
-             [3] = {Point64} 149.5,50,0 
-             [4] = {Point64} 50,50,0 
-             [5] = {Point64} 50,150,0 
-             [6] = {Point64} 150,150,0 
-             [7] = {Point64} 150,50.5,0 
-             [8] = {Point64} 200,50.5,0 
-             [9] = {Point64} 200,200,0 
-             [10] = {Point64} 0,200,0 
-             [11] = {Point64} 0,0,0 
-             [12] = {Point64} 200,0,0 
-           */
-        
-        PathsD unionResNZc = GeoWrangler.close(unionResNZ);
-        
-        /* Expected output
-           unionResNZc = {List<List<Point64>>} Count = 2
-            [0] = {List<Point64>} Count = 6
-             [0] = {Point64} 0,0,0 
-             [1] = {Point64} 0,200,0 
-             [2] = {Point64} 200,200,0 
-             [3] = {Point64} 200,0,0 
-             [4] = {Point64} 110,0,0 
-             [5] = {Point64} 0,0,0 
-            [1] = {List<Point64>} Count = 6
-             [0] = {Point64} 90,50,0 
-             [1] = {Point64} 150,50,0 
-             [2] = {Point64} 150,150,0 
-             [3] = {Point64} 50,150,0 
-             [4] = {Point64} 50,50,0 
-             [5] = {Point64} 90,50,0 
-           */
-        
-        PathsD unionResNZc_kH = GeoWrangler.makeKeyHole(unionResNZc, reverseEval:false, biDirectionalEval:true);
 
-        /* Expected output
-           unionResNZc_kH = {List<List<Point64>>} Count = 1
-            [0] = {List<Point64>} Count = 13
-             [0] = {Point64} 200,0,0 
-             [1] = {Point64} 200,49.5,0 
-             [2] = {Point64} 149.5,49.5,0 
-             [3] = {Point64} 149.5,50,0 
-             [4] = {Point64} 50,50,0 
-             [5] = {Point64} 50,150,0 
-             [6] = {Point64} 150,150,0 
-             [7] = {Point64} 150,50.5,0 
-             [8] = {Point64} 200,50.5,0 
-             [9] = {Point64} 200,200,0 
-             [10] = {Point64} 0,200,0 
-             [11] = {Point64} 0,0,0 
-             [12] = {Point64} 200,0,0 
-           */
-        
+        PathsD unionResNZ_kH = GeoWrangler.makeKeyHole(unionResNZ, false, true);
+        svgSrc.ClearAll();
+        SvgUtils.AddClip(svgSrc, unionResNZ);
+        SvgUtils.AddSolution(svgSrc, unionResNZ_kH, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_reversed_khunionnz.svg", FillRule.NonZero, 800, 800, 10);
+        Assert.AreEqual(unionResNZ_kH.Count, 1);
+        Assert.AreEqual(Clipper.Area(unionResNZ_kH), Clipper.Area(unionResNZ));
+
+        PathsD unionResNZc = GeoWrangler.close(unionResNZ);
+        PathsD unionResNZc_kH = GeoWrangler.makeKeyHole(unionResNZc, false, true);
+        svgSrc.ClearAll();
+        SvgUtils.AddClip(svgSrc, unionResNZc);
+        SvgUtils.AddSolution(svgSrc, unionResNZc_kH, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_reversed_khunionnzc.svg", FillRule.NonZero, 800, 800, 10);
+        Assert.AreEqual(unionResNZc_kH.Count, 1);
+        Assert.AreEqual(Clipper.Area(unionResNZc_kH), Clipper.Area(unionResNZc));
+
         // no good - overlap region is a gap.
         PathsD simplifyRes = new();
         c.Execute(ClipType.Union, FillRule.EvenOdd, simplifyRes);
         simplifyRes = GeoWrangler.stripCollinear(simplifyRes);
-        
-        /* Expected output
-           simplifyRes = {List<List<Point64>>} Count = 1
-            [0] = {List<Point64>} Count = 13
-             [0] = {Point64} 90,0,0 
-             [1] = {Point64} 0,0,0 
-             [2] = {Point64} 0,200,0 
-             [3] = {Point64} 200,200,0 
-             [4] = {Point64} 200,0,0 
-             [5] = {Point64} 110,0,0 
-             [6] = {Point64} 110,50,0 
-             [7] = {Point64} 150,50,0 
-             [8] = {Point64} 150,150,0 
-             [9] = {Point64} 50,150,0 
-             [10] = {Point64} 50,50,0 
-             [11] = {Point64} 90,50,0 
-             [12] = {Point64} 90,0,0 
-           */
-        
-        PathsD simplifyRes_kH = GeoWrangler.makeKeyHole(simplifyRes, reverseEval:false, biDirectionalEval:true);
-        
-        /* Expected output
-           simplifyRes_kH = {List<List<Point64>>} Count = 1
-            [0] = {List<Point64>} Count = 13
-             [0] = {Point64} 0,0,0 
-             [1] = {Point64} 0,200,0 
-             [2] = {Point64} 200,200,0 
-             [3] = {Point64} 200,0,0 
-             [4] = {Point64} 110,0,0 
-             [5] = {Point64} 110,50,0 
-             [6] = {Point64} 150,50,0 
-             [7] = {Point64} 150,150,0 
-             [8] = {Point64} 50,150,0 
-             [9] = {Point64} 50,50,0 
-             [10] = {Point64} 90,50,0 
-             [11] = {Point64} 90,0,0 
-             [12] = {Point64} 0,0,0 
-           */
-        
+        PathsD simplifyRes_kH = GeoWrangler.makeKeyHole(simplifyRes, false, true);
+        svgSrc.ClearAll();
+        SvgUtils.AddClip(svgSrc, simplifyRes);
+        SvgUtils.AddSolution(svgSrc, simplifyRes_kH, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_reversed_khsimplify.svg", FillRule.NonZero, 800, 800, 10);
+        Assert.AreEqual(simplifyRes_kH.Count, 1);
+        Assert.AreEqual(Clipper.Area(simplifyRes_kH), Clipper.Area(simplifyRes));
+
         PathsD simplifyResc = GeoWrangler.close(simplifyRes);
-        
-        /* Expected output
-           simplifyResc = {List<List<Point64>>} Count = 1
-            [0] = {List<Point64>} Count = 13
-             [0] = {Point64} 90,0,0 
-             [1] = {Point64} 0,0,0 
-             [2] = {Point64} 0,200,0 
-             [3] = {Point64} 200,200,0 
-             [4] = {Point64} 200,0,0 
-             [5] = {Point64} 110,0,0 
-             [6] = {Point64} 110,50,0 
-             [7] = {Point64} 150,50,0 
-             [8] = {Point64} 150,150,0 
-             [9] = {Point64} 50,150,0 
-             [10] = {Point64} 50,50,0 
-             [11] = {Point64} 90,50,0 
-             [12] = {Point64} 90,0,0 
-           */
-        
-        PathsD simplifyResc_kH = GeoWrangler.makeKeyHole(simplifyResc, reverseEval:false, biDirectionalEval:true);
-        
-        /* Expected output
-           simplifyResc_kH = {List<List<Point64>>} Count = 1
-            [0] = {List<Point64>} Count = 13
-             [0] = {Point64} 0,0,0 
-             [1] = {Point64} 0,200,0 
-             [2] = {Point64} 200,200,0 
-             [3] = {Point64} 200,0,0 
-             [4] = {Point64} 110,0,0 
-             [5] = {Point64} 110,50,0 
-             [6] = {Point64} 150,50,0 
-             [7] = {Point64} 150,150,0 
-             [8] = {Point64} 50,150,0 
-             [9] = {Point64} 50,50,0 
-             [10] = {Point64} 90,50,0 
-             [11] = {Point64} 90,0,0 
-             [12] = {Point64} 0,0,0 
-           */
+        PathsD simplifyResc_kH = GeoWrangler.makeKeyHole(simplifyResc, false, true);
+        svgSrc.ClearAll();
+        SvgUtils.AddClip(svgSrc, simplifyResc);
+        SvgUtils.AddSolution(svgSrc, simplifyRes_kH, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_reversed_khsimplifyc.svg", FillRule.NonZero, 800, 800, 10);
+        Assert.AreEqual(simplifyResc_kH.Count, 1);
+        Assert.AreEqual(Clipper.Area(simplifyResc_kH), Clipper.Area(simplifyResc));
 
         PathsD simplifyRes2 = new();
         c.Execute(ClipType.Union, FillRule.EvenOdd, simplifyRes2);
-        
-        /* Expected output
-           simplifyRes2 = {List<List<Point64>>} Count = 1
-            [0] = {List<Point64>} Count = 13
-             [0] = {Point64} 90,0,0 
-             [1] = {Point64} 0,0,0 
-             [2] = {Point64} 0,200,0 
-             [3] = {Point64} 200,200,0 
-             [4] = {Point64} 200,0,0 
-             [5] = {Point64} 110,0,0 
-             [6] = {Point64} 110,50,0 
-             [7] = {Point64} 150,50,0 
-             [8] = {Point64} 150,150,0 
-             [9] = {Point64} 50,150,0 
-             [10] = {Point64} 50,50,0 
-             [11] = {Point64} 90,50,0 
-             [12] = {Point64} 90,0,0 
-           */
-        
-        PathsD simplifyRes2_kH = GeoWrangler.makeKeyHole(simplifyRes2, reverseEval:false, biDirectionalEval:true);
-        
-        /* Expected output
-           simplifyRes2_kH = {List<List<Point64>>} Count = 1
-            [0] = {List<Point64>} Count = 13
-             [0] = {Point64} 0,0,0 
-             [1] = {Point64} 0,200,0 
-             [2] = {Point64} 200,200,0 
-             [3] = {Point64} 200,0,0 
-             [4] = {Point64} 110,0,0 
-             [5] = {Point64} 110,50,0 
-             [6] = {Point64} 150,50,0 
-             [7] = {Point64} 150,150,0 
-             [8] = {Point64} 50,150,0 
-             [9] = {Point64} 50,50,0 
-             [10] = {Point64} 90,50,0 
-             [11] = {Point64} 90,0,0 
-             [12] = {Point64} 0,0,0 
-           */
-        
+        PathsD simplifyRes2_kH = GeoWrangler.makeKeyHole(simplifyRes2, false, true);
+        svgSrc.ClearAll();
+        SvgUtils.AddClip(svgSrc, simplifyRes2);
+        SvgUtils.AddSolution(svgSrc, simplifyRes2_kH, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_reversed_khsimplify2.svg", FillRule.NonZero, 800, 800, 10);
+        Assert.AreEqual(simplifyRes2_kH.Count, 1);
+        Assert.AreEqual(Clipper.Area(simplifyRes2_kH), Clipper.Area(simplifyRes2));
+
         PathsD simplifyRes2c = GeoWrangler.close(simplifyRes2);
-        
-        /* Expected output
-           simplifyRes2c = {List<List<Point64>>} Count = 1
-            [0] = {List<Point64>} Count = 13
-             [0] = {Point64} 90,0,0 
-             [1] = {Point64} 0,0,0 
-             [2] = {Point64} 0,200,0 
-             [3] = {Point64} 200,200,0 
-             [4] = {Point64} 200,0,0 
-             [5] = {Point64} 110,0,0 
-             [6] = {Point64} 110,50,0 
-             [7] = {Point64} 150,50,0 
-             [8] = {Point64} 150,150,0 
-             [9] = {Point64} 50,150,0 
-             [10] = {Point64} 50,50,0 
-             [11] = {Point64} 90,50,0 
-             [12] = {Point64} 90,0,0 
-           */
-        
-        PathsD simplifyRes2c_kH = GeoWrangler.makeKeyHole(simplifyRes2c, reverseEval:false, biDirectionalEval:true);
-        
-        /* Expected output
-           simplifyRes2c_kH = {List<List<Point64>>} Count = 1
-            [0] = {List<Point64>} Count = 13
-             [0] = {Point64} 0,0,0 
-             [1] = {Point64} 0,200,0 
-             [2] = {Point64} 200,200,0 
-             [3] = {Point64} 200,0,0 
-             [4] = {Point64} 110,0,0 
-             [5] = {Point64} 110,50,0 
-             [6] = {Point64} 150,50,0 
-             [7] = {Point64} 150,150,0 
-             [8] = {Point64} 50,150,0 
-             [9] = {Point64} 50,50,0 
-             [10] = {Point64} 90,50,0 
-             [11] = {Point64} 90,0,0 
-             [12] = {Point64} 0,0,0 
-           */
+        PathsD simplifyRes2c_kH = GeoWrangler.makeKeyHole(simplifyRes2c, false, true);
+        svgSrc.ClearAll();
+        SvgUtils.AddClip(svgSrc, simplifyRes2c);
+        SvgUtils.AddSolution(svgSrc, simplifyRes2c_kH, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_reversed_khsimplify2c.svg", FillRule.NonZero, 800, 800, 10);
+        Assert.AreEqual(simplifyRes2c_kH.Count, 1);
+        Assert.AreEqual(Clipper.Area(simplifyRes2c_kH), Clipper.Area(simplifyRes2c));
 
         // no good - no result
         PathsD intRes = new();
         c.Execute(ClipType.Intersection, FillRule.EvenOdd, intRes);
-        PathsD intRes_kH = GeoWrangler.makeKeyHole(intRes, reverseEval:false, biDirectionalEval:true);
+        Assert.AreEqual(intRes.Count, 0);
+        PathsD intRes_kH = GeoWrangler.makeKeyHole(intRes, false, true);
+        Assert.AreEqual(intRes_kH.Count, 0);
+
         PathsD intResc = GeoWrangler.close(intRes);
-        PathsD intResc_kH = GeoWrangler.makeKeyHole(intResc, reverseEval:false, biDirectionalEval:true);
+        PathsD intResc_kH = GeoWrangler.makeKeyHole(intResc, false, true);
+        Assert.AreEqual(intResc_kH.Count, 0);
 
         // no good - no result
         PathsD intResP = new();
         c.Execute(ClipType.Intersection, FillRule.Positive, intResP);
-        PathsD intResP_kH = GeoWrangler.makeKeyHole(intResP, reverseEval:false, biDirectionalEval:true);
+        PathsD intResP_kH = GeoWrangler.makeKeyHole(intResP, false, true);
+        Assert.AreEqual(intResP_kH.Count, 0);
         PathsD intResPc = GeoWrangler.close(intResP);
-        PathsD intResPc_kH = GeoWrangler.makeKeyHole(intResPc, reverseEval:false, biDirectionalEval:true);
+        PathsD intResPc_kH = GeoWrangler.makeKeyHole(intResPc, false, true);
+        Assert.AreEqual(intResPc_kH.Count, 0);
 
         // no good - no result
         PathsD intResNZ = new();
         c.Execute(ClipType.Intersection, FillRule.NonZero, intResNZ);
-        PathsD intResNZ_kH = GeoWrangler.makeKeyHole(intResNZ, reverseEval:false, biDirectionalEval:true);
+        PathsD intResNZ_kH = GeoWrangler.makeKeyHole(intResNZ, false, true);
+        Assert.AreEqual(intResNZ_kH.Count, 0);
         PathsD intResNZc = GeoWrangler.close(intResNZ);
-        PathsD intResNZc_kH = GeoWrangler.makeKeyHole(intResNZc, reverseEval:false, biDirectionalEval:true);
+        PathsD intResNZc_kH = GeoWrangler.makeKeyHole(intResNZc, false, true);
+        Assert.AreEqual(intResNZc_kH.Count, 0);
 
         RectD bounds = Clipper.GetBounds(new PathsD { outer });
         PathD bb = new()
         {
-            new(bounds.left, bounds.bottom),
-            new(bounds.left, bounds.top),
-            new(bounds.right, bounds.top),
-            new(bounds.right, bounds.bottom)
+            new PointD(bounds.left, bounds.bottom),
+            new PointD(bounds.left, bounds.top),
+            new PointD(bounds.right, bounds.top),
+            new PointD(bounds.right, bounds.bottom)
         };
 
         c.Clear();
@@ -1699,180 +870,58 @@ internal class Program
 
         PathsD intRes2 = new();
         c.Execute(ClipType.Intersection, FillRule.EvenOdd, intRes2);
-        
-        /* Expected output
-           intRes2 = {List<List<Point64>>} Count = 1
-            [0] = {List<Point64>} Count = 13
-             [0] = {Point64} 90,0,0 
-             [1] = {Point64} 0,0,0 
-             [2] = {Point64} 0,200,0 
-             [3] = {Point64} 200,200,0 
-             [4] = {Point64} 200,0,0 
-             [5] = {Point64} 110,0,0 
-             [6] = {Point64} 110,50,0 
-             [7] = {Point64} 150,50,0 
-             [8] = {Point64} 150,150,0 
-             [9] = {Point64} 50,150,0 
-             [10] = {Point64} 50,50,0 
-             [11] = {Point64} 90,50,0 
-             [12] = {Point64} 90,0,0 
-           */
-        
-        PathsD intRes2_kH = GeoWrangler.makeKeyHole(intRes2, reverseEval:false, biDirectionalEval:true);
-        
-        /* Expected output
-           intRes2_kH = {List<List<Point64>>} Count = 1
-            [0] = {List<Point64>} Count = 13
-             [0] = {Point64} 0,0,0 
-             [1] = {Point64} 0,200,0 
-             [2] = {Point64} 200,200,0 
-             [3] = {Point64} 200,0,0 
-             [4] = {Point64} 110,0,0 
-             [5] = {Point64} 110,50,0 
-             [6] = {Point64} 150,50,0 
-             [7] = {Point64} 150,150,0 
-             [8] = {Point64} 50,150,0 
-             [9] = {Point64} 50,50,0 
-             [10] = {Point64} 90,50,0 
-             [11] = {Point64} 90,0,0 
-             [12] = {Point64} 0,0,0 
-           */
-        
+
+        PathsD intRes2_kH = GeoWrangler.makeKeyHole(intRes2, false, true);
+        svgSrc.ClearAll();
+        SvgUtils.AddClip(svgSrc, intRes2);
+        SvgUtils.AddSolution(svgSrc, intRes2_kH, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_reversed_khint2.svg", FillRule.NonZero, 800, 800, 10);
+        Assert.AreEqual(intRes2_kH.Count, 1);
+        Assert.AreEqual(Clipper.Area(intRes2_kH), Clipper.Area(intRes2));
+
         PathsD intRes2c = GeoWrangler.close(intRes2);
-        
-        /* Expected output
-           intRes2c = {List<List<Point64>>} Count = 1
-            [0] = {List<Point64>} Count = 13
-             [0] = {Point64} 90,0,0 
-             [1] = {Point64} 0,0,0 
-             [2] = {Point64} 0,200,0 
-             [3] = {Point64} 200,200,0 
-             [4] = {Point64} 200,0,0 
-             [5] = {Point64} 110,0,0 
-             [6] = {Point64} 110,50,0 
-             [7] = {Point64} 150,50,0 
-             [8] = {Point64} 150,150,0 
-             [9] = {Point64} 50,150,0 
-             [10] = {Point64} 50,50,0 
-             [11] = {Point64} 90,50,0 
-             [12] = {Point64} 90,0,0 
-           */
-        
-        PathsD intRes2c_kH = GeoWrangler.makeKeyHole(intRes2c, reverseEval:false, biDirectionalEval:true);
-        
-        /* Expected output
-           intRes2c_kH = {List<List<Point64>>} Count = 1
-            [0] = {List<Point64>} Count = 13
-             [0] = {Point64} 0,0,0 
-             [1] = {Point64} 0,200,0 
-             [2] = {Point64} 200,200,0 
-             [3] = {Point64} 200,0,0 
-             [4] = {Point64} 110,0,0 
-             [5] = {Point64} 110,50,0 
-             [6] = {Point64} 150,50,0 
-             [7] = {Point64} 150,150,0 
-             [8] = {Point64} 50,150,0 
-             [9] = {Point64} 50,50,0 
-             [10] = {Point64} 90,50,0 
-             [11] = {Point64} 90,0,0 
-             [12] = {Point64} 0,0,0 
-           */
+        PathsD intRes2c_kH = GeoWrangler.makeKeyHole(intRes2c, false, true);
+        svgSrc.ClearAll();
+        SvgUtils.AddClip(svgSrc, intRes2c);
+        SvgUtils.AddSolution(svgSrc, intRes2c_kH, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_reversed_khint2c.svg", FillRule.NonZero, 800, 800, 10);
+        Assert.AreEqual(intRes2c_kH.Count, 1);
+        Assert.AreEqual(Clipper.Area(intRes2c_kH), Clipper.Area(intRes2c));
 
         // no good - no result
         PathsD intRes2P = new();
         c.Execute(ClipType.Intersection, FillRule.Positive, intRes2P);
-        
-        /* Expected output
-         No geometry in intRes2P
-         */
-        
+        Assert.AreEqual(intRes2P.Count, 0);
+
         // No results - no geometry
-        PathsD intRes2P_kH = GeoWrangler.makeKeyHole(intRes2P, reverseEval:false, biDirectionalEval:true);
+        PathsD intRes2P_kH = GeoWrangler.makeKeyHole(intRes2P, false, true);
+        Assert.AreEqual(intRes2P_kH.Count, 0);
+
         PathsD intRes2Pc = GeoWrangler.close(intRes2P);
-        PathsD intRes2Pc_kH = GeoWrangler.makeKeyHole(intRes2Pc, reverseEval:false, biDirectionalEval:true);
+        PathsD intRes2Pc_kH = GeoWrangler.makeKeyHole(intRes2Pc, false, true);
+        Assert.AreEqual(intRes2Pc_kH.Count, 0);
 
         // seems good - get keyhole
         PathsD intRes2NZ = new();
         c.Execute(ClipType.Intersection, FillRule.NonZero, intRes2NZ);
-        
-        /* Expected output
-           intRes2NZ = {List<List<Point64>>} Count = 2
-            [0] = {List<Point64>} Count = 6
-             [0] = {Point64} 0,0,0 
-             [1] = {Point64} 0,200,0 
-             [2] = {Point64} 200,200,0 
-             [3] = {Point64} 200,0,0 
-             [4] = {Point64} 110,0,0 
-             [5] = {Point64} 0,0,0 
-            [1] = {List<Point64>} Count = 6
-             [0] = {Point64} 90,50,0 
-             [1] = {Point64} 150,50,0 
-             [2] = {Point64} 150,150,0 
-             [3] = {Point64} 50,150,0 
-             [4] = {Point64} 50,50,0 
-             [5] = {Point64} 90,50,0 
-           */
-        
-        PathsD intRes2NZ_kH = GeoWrangler.makeKeyHole(intRes2NZ, reverseEval:false, biDirectionalEval:true);
-        
-        /* Expected output
-           intRes2NZ_kH = {List<List<Point64>>} Count = 1
-            [0] = {List<Point64>} Count = 13
-             [0] = {Point64} 200,0,0 
-             [1] = {Point64} 200,49.5,0 
-             [2] = {Point64} 149.5,49.5,0 
-             [3] = {Point64} 149.5,50,0 
-             [4] = {Point64} 50,50,0 
-             [5] = {Point64} 50,150,0 
-             [6] = {Point64} 150,150,0 
-             [7] = {Point64} 150,50.5,0 
-             [8] = {Point64} 200,50.5,0 
-             [9] = {Point64} 200,200,0 
-             [10] = {Point64} 0,200,0 
-             [11] = {Point64} 0,0,0 
-             [12] = {Point64} 200,0,0 
-           */
-        
+        Assert.AreEqual(intRes2NZ.Count, 2);
+
+        PathsD intRes2NZ_kH = GeoWrangler.makeKeyHole(intRes2NZ, false, true);
+        svgSrc.ClearAll();
+        SvgUtils.AddClip(svgSrc, intRes2NZ);
+        SvgUtils.AddSolution(svgSrc, intRes2NZ_kH, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_reversed_khint2nz.svg", FillRule.NonZero, 800, 800, 10);
+        Assert.AreEqual(intRes2NZ_kH.Count, 1);
+        Assert.LessOrEqual(Math.Abs(Clipper.Area(intRes2NZ_kH) - -29994.9975), 0.001);
+
         PathsD intRes2NZc = GeoWrangler.close(intRes2NZ);
-        
-        /* Expected output
-           intRes2NZc = {List<List<Point64>>} Count = 2
-            [0] = {List<Point64>} Count = 6
-             [0] = {Point64} 0,0,0 
-             [1] = {Point64} 0,200,0 
-             [2] = {Point64} 200,200,0 
-             [3] = {Point64} 200,0,0 
-             [4] = {Point64} 110,0,0 
-             [5] = {Point64} 0,0,0 
-            [1] = {List<Point64>} Count = 6
-             [0] = {Point64} 90,50,0 
-             [1] = {Point64} 150,50,0 
-             [2] = {Point64} 150,150,0 
-             [3] = {Point64} 50,150,0 
-             [4] = {Point64} 50,50,0 
-             [5] = {Point64} 90,50,0 
-           */
-        
-        PathsD intRes2NZc_kH = GeoWrangler.makeKeyHole(intRes2NZc, reverseEval:false, biDirectionalEval:true);
-        
-        /* Expected output
-           intRes2NZc_kH = {List<List<Point64>>} Count = 1
-            [0] = {List<Point64>} Count = 13
-             [0] = {Point64} 200,0,0 
-             [1] = {Point64} 200,49.5,0 
-             [2] = {Point64} 149.5,49.5,0 
-             [3] = {Point64} 149.5,50,0 
-             [4] = {Point64} 50,50,0 
-             [5] = {Point64} 50,150,0 
-             [6] = {Point64} 150,150,0 
-             [7] = {Point64} 150,50.5,0 
-             [8] = {Point64} 200,50.5,0 
-             [9] = {Point64} 200,200,0 
-             [10] = {Point64} 0,200,0 
-             [11] = {Point64} 0,0,0 
-             [12] = {Point64} 200,0,0 
-           */
-        
+        PathsD intRes2NZc_kH = GeoWrangler.makeKeyHole(intRes2NZc, false, true);
+        svgSrc.ClearAll();
+        SvgUtils.AddClip(svgSrc, intRes2NZc);
+        SvgUtils.AddSolution(svgSrc, intRes2NZc_kH, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "selfoverlaptest_reversed_khint2nzc.svg", FillRule.NonZero, 800, 800, 10);
+        Assert.AreEqual(intRes2NZc_kH.Count, 1);
+        Assert.LessOrEqual(Math.Abs(Clipper.Area(intRes2NZc_kH) - -29994.9975), 0.001);
     }
 
     private static void comboTest()
@@ -1900,109 +949,40 @@ internal class Program
             100, -100
         });
 
-        // Segment the paths to match real-world case.
-        /*
-        Fragmenter f = new(10000);
-        PathD outer_f = f.fragmentPath(outer);
-
-        PathD inner1_f = f.fragmentPath(inner1);
-        */
         PathsD kHSource = new()
         {
             outer,
             inner1
         };
 
-        /* Expected
-           kHSource = {List<List<Point64>>} Count = 2
-            [0] = {List<Point64>} Count = 9
-             [0] = {Point64} -200,-200,0 
-             [1] = {Point64} 300,-200,0 
-             [2] = {Point64} 300,200,0 
-             [3] = {Point64} -200,200,0 
-             [4] = {Point64} -200,-99.9,0 
-             [5] = {Point64} -300,-99.9,0 
-             [6] = {Point64} -300,-100.1,0 
-             [7] = {Point64} -200,-100.1,0 
-             [8] = {Point64} -200,-200,0 
-            [1] = {List<Point64>} Count = 5
-             [0] = {Point64} 100,-100,0 
-             [1] = {Point64} 100,100,0 
-             [2] = {Point64} 200,100,0 
-             [3] = {Point64} 200,-100,0 
-             [4] = {Point64} 100,-100,0 
-           */
-        
-        PathsD kH = GeoWrangler.makeKeyHole(kHSource, reverseEval:false, biDirectionalEval:true);
-
-        /* Expected output
-           kH = {List<List<Point64>>} Count = 1
-            [0] = {List<Point64>} Count = 17
-             [0] = {Point64} -300,-100.1,0 
-             [1] = {Point64} -200,-100.1,0 
-             [2] = {Point64} -200,-200,0 
-             [3] = {Point64} 300,-200,0 
-             [4] = {Point64} 300,-100.5,0 
-             [5] = {Point64} 199.5,-100.5,0 
-             [6] = {Point64} 199.5,-100,0 
-             [7] = {Point64} 100,-100,0 
-             [8] = {Point64} 100,100,0 
-             [9] = {Point64} 200,100,0 
-             [10] = {Point64} 200,-99.5,0 
-             [11] = {Point64} 300,-99.5,0 
-             [12] = {Point64} 300,200,0 
-             [13] = {Point64} -200,200,0 
-             [14] = {Point64} -200,-99.9,0 
-             [15] = {Point64} -300,-99.9,0 
-             [16] = {Point64} -300,-100.1,0 
-           */
+        PathsD kH = GeoWrangler.makeKeyHole(kHSource, false, true);
+        SvgWriter svgSrc;
+        svgSrc = new SvgWriter();
+        SvgUtils.AddClip(svgSrc, kHSource);
+        SvgUtils.AddSolution(svgSrc, kH, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "combotest_kh.svg", FillRule.NonZero, 800, 800, 10);
+        Assert.AreEqual(kH.Count, 1);
+        // Delta expected. Sign for dSource is opposite to decomp.
+        Assert.LessOrEqual(Math.Abs(Clipper.Area(kH) - -180009.9975), 0.001);
+        Assert.AreEqual(Clipper.Area(kHSource), 180020);
         
         // Gap removal test
         PathsD gR = GeoWrangler.gapRemoval(kH, 100);
+        svgSrc.ClearAll();
+        SvgUtils.AddClip(svgSrc, kH);
+        SvgUtils.AddSolution(svgSrc, gR, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "combotest_gr.svg", FillRule.NonZero, 800, 800, 10);
+        Assert.AreEqual(gR.Count, 2);
+        Assert.AreEqual(Math.Abs(Clipper.Area(gR)), Math.Abs(Clipper.Area(kHSource)));
 
-        /* Expected output
-           gR = {List<List<Point64>>} Count = 1
-            [0] = {List<Point64>} Count = 17
-             [0] = {Point64} -300,-100.1,0 
-             [1] = {Point64} -200,-100.1,0 
-             [2] = {Point64} -200,-200,0 
-             [3] = {Point64} 300,-200,0 
-             [4] = {Point64} 300,-100.5,0 
-             [5] = {Point64} 199.5,-100.5,0 
-             [6] = {Point64} 199.5,-100,0 
-             [7] = {Point64} 100,-100,0 
-             [8] = {Point64} 100,100,0 
-             [9] = {Point64} 200,100,0 
-             [10] = {Point64} 200,-99.5,0 
-             [11] = {Point64} 300,-99.5,0 
-             [12] = {Point64} 300,200,0 
-             [13] = {Point64} -200,200,0 
-             [14] = {Point64} -200,-99.9,0 
-             [15] = {Point64} -300,-99.9,0 
-             [16] = {Point64} -300,-100.1,0 
-           */
-        
         // Sliver removal test
         PathsD sR = GeoWrangler.gapRemoval(kH, -100);
-        
-        /* Expected output
-           sR = {List<List<Point64>>} Count = 1
-            [0] = {List<Point64>} Count = 13
-             [0] = {Point64} 300,-200,0 
-             [1] = {Point64} 300,-100.5,0 
-             [2] = {Point64} 199.5,-100.5,0 
-             [3] = {Point64} 199.5,-100,0 
-             [4] = {Point64} 100,-100,0 
-             [5] = {Point64} 100,100,0 
-             [6] = {Point64} 200,100,0 
-             [7] = {Point64} 200,-99.5,0 
-             [8] = {Point64} 300,-99.5,0 
-             [9] = {Point64} 300,200,0 
-             [10] = {Point64} -200,200,0 
-             [11] = {Point64} -200,-200,0 
-             [12] = {Point64} 300,-200,0 
-           */
-        
+        svgSrc.ClearAll();
+        SvgUtils.AddClip(svgSrc, kH);
+        SvgUtils.AddSolution(svgSrc, sR, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "combotest_sr.svg", FillRule.NonZero, 800, 800, 10);
+        Assert.AreEqual(sR.Count, 1);
+        Assert.LessOrEqual(Math.Abs(Clipper.Area(sR) - -179989.9975d), 0.001);
     }
 
     private static void simple_islandTest()
@@ -2050,68 +1030,68 @@ internal class Program
             outer2,
             inner2
         };
-        
+
         /* Expected
            kHSource = {List<List<Point64>>} Count = 4
             [0] = {List<Point64>} Count = 5
-             [0] = {Point64} -200,-200,0 
-             [1] = {Point64} 200,-200,0 
-             [2] = {Point64} 200,200,0 
-             [3] = {Point64} -200,200,0 
-             [4] = {Point64} -200,-200,0 
+             [0] = {Point64} -200,-200,0
+             [1] = {Point64} 200,-200,0
+             [2] = {Point64} 200,200,0
+             [3] = {Point64} -200,200,0
+             [4] = {Point64} -200,-200,0
             [1] = {List<Point64>} Count = 5
-             [0] = {Point64} -100,-100,0 
-             [1] = {Point64} -100,100,0 
-             [2] = {Point64} 100,100,0 
-             [3] = {Point64} 100,-100,0 
-             [4] = {Point64} -100,-100,0 
+             [0] = {Point64} -100,-100,0
+             [1] = {Point64} -100,100,0
+             [2] = {Point64} 100,100,0
+             [3] = {Point64} 100,-100,0
+             [4] = {Point64} -100,-100,0
             [2] = {List<Point64>} Count = 5
-             [0] = {Point64} -200,400,0 
-             [1] = {Point64} 200,400,0 
-             [2] = {Point64} 200,800,0 
-             [3] = {Point64} -200,800,0 
-             [4] = {Point64} -200,400,0 
+             [0] = {Point64} -200,400,0
+             [1] = {Point64} 200,400,0
+             [2] = {Point64} 200,800,0
+             [3] = {Point64} -200,800,0
+             [4] = {Point64} -200,400,0
             [3] = {List<Point64>} Count = 5
-             [0] = {Point64} -100,500,0 
-             [1] = {Point64} -100,700,0 
-             [2] = {Point64} 100,700,0 
-             [3] = {Point64} 100,500,0 
-             [4] = {Point64} -100,500,0 
+             [0] = {Point64} -100,500,0
+             [1] = {Point64} -100,700,0
+             [2] = {Point64} 100,700,0
+             [3] = {Point64} 100,500,0
+             [4] = {Point64} -100,500,0
            */
 
         // Generate keyholed geometry
-        PathsD kH = GeoWrangler.makeKeyHole(kHSource, reverseEval:false, biDirectionalEval:true);
+        PathsD kH = GeoWrangler.makeKeyHole(kHSource, false, true);
 
         /* Expected output
            kH = {List<List<Point64>>} Count = 2
             [0] = {List<Point64>} Count = 13
-             [0] = {Point64} 200,400,0 
-             [1] = {Point64} 200,499.5,0 
-             [2] = {Point64} 99.5,499.5,0 
-             [3] = {Point64} 99.5,500,0 
-             [4] = {Point64} -100,500,0 
-             [5] = {Point64} -100,700,0 
-             [6] = {Point64} 100,700,0 
-             [7] = {Point64} 100,500.5,0 
-             [8] = {Point64} 200,500.5,0 
-             [9] = {Point64} 200,800,0 
-             [10] = {Point64} -200,800,0 
-             [11] = {Point64} -200,400,0 
-             [12] = {Point64} 200,400,0 
+             [0] = {Point64} 200,400,0
+             [1] = {Point64} 200,499.5,0
+             [2] = {Point64} 99.5,499.5,0
+             [3] = {Point64} 99.5,500,0
+             [4] = {Point64} -100,500,0
+             [5] = {Point64} -100,700,0
+             [6] = {Point64} 100,700,0
+             [7] = {Point64} 100,500.5,0
+             [8] = {Point64} 200,500.5,0
+             [9] = {Point64} 200,800,0
+             [10] = {Point64} -200,800,0
+             [11] = {Point64} -200,400,0
+             [12] = {Point64} 200,400,0
             [1] = {List<Point64>} Count = 13
-             [0] = {Point64} 200,-200,0 
-             [1] = {Point64} 200,-100.5,0 
-             [2] = {Point64} 99.5,-100.5,0 
-             [3] = {Point64} 99.5,-100,0 
-             [4] = {Point64} -100,-100,0 
-             [5] = {Point64} -100,100,0 
-             [6] = {Point64} 100,100,0 
-             [7] = {Point64} 100,-99.5,0 
-             [8] = {Point64} 200,-99.5,0 
-             [9] = {Point64} 200,200,0 
-             [10] = {Point64} -200,200,0 
-             [11] = {Point64} -200,-200,0 
-             [12] = {Point64} 200,-200,0 
+             [0] = {Point64} 200,-200,0
+             [1] = {Point64} 200,-100.5,0
+             [2] = {Point64} 99.5,-100.5,0
+             [3] = {Point64} 99.5,-100,0
+             [4] = {Point64} -100,-100,0
+             [5] = {Point64} -100,100,0
+             [6] = {Point64} 100,100,0
+             [7] = {Point64} 100,-99.5,0
+             [8] = {Point64} 200,-99.5,0
+             [9] = {Point64} 200,200,0
+             [10] = {Point64} -200,200,0
+             [11] = {Point64} -200,-200,0
+             [12] = {Point64} 200,-200,0
            */
 
         // Gap removal test
@@ -2120,35 +1100,35 @@ internal class Program
         /* Expected output
            gR = {List<List<Point64>>} Count = 2
             [0] = {List<Point64>} Count = 13
-             [0] = {Point64} 200,400,0 
-             [1] = {Point64} 200,499.5,0 
-             [2] = {Point64} 99.5,499.5,0 
-             [3] = {Point64} 99.5,500,0 
-             [4] = {Point64} -100,500,0 
-             [5] = {Point64} -100,700,0 
-             [6] = {Point64} 100,700,0 
-             [7] = {Point64} 100,500.5,0 
-             [8] = {Point64} 200,500.5,0 
-             [9] = {Point64} 200,800,0 
-             [10] = {Point64} -200,800,0 
-             [11] = {Point64} -200,400,0 
-             [12] = {Point64} 200,400,0 
+             [0] = {Point64} 200,400,0
+             [1] = {Point64} 200,499.5,0
+             [2] = {Point64} 99.5,499.5,0
+             [3] = {Point64} 99.5,500,0
+             [4] = {Point64} -100,500,0
+             [5] = {Point64} -100,700,0
+             [6] = {Point64} 100,700,0
+             [7] = {Point64} 100,500.5,0
+             [8] = {Point64} 200,500.5,0
+             [9] = {Point64} 200,800,0
+             [10] = {Point64} -200,800,0
+             [11] = {Point64} -200,400,0
+             [12] = {Point64} 200,400,0
             [1] = {List<Point64>} Count = 13
-             [0] = {Point64} 200,-200,0 
-             [1] = {Point64} 200,-100.5,0 
-             [2] = {Point64} 99.5,-100.5,0 
-             [3] = {Point64} 99.5,-100,0 
-             [4] = {Point64} -100,-100,0 
-             [5] = {Point64} -100,100,0 
-             [6] = {Point64} 100,100,0 
-             [7] = {Point64} 100,-99.5,0 
-             [8] = {Point64} 200,-99.5,0 
-             [9] = {Point64} 200,200,0 
-             [10] = {Point64} -200,200,0 
-             [11] = {Point64} -200,-200,0 
-             [12] = {Point64} 200,-200,0 
+             [0] = {Point64} 200,-200,0
+             [1] = {Point64} 200,-100.5,0
+             [2] = {Point64} 99.5,-100.5,0
+             [3] = {Point64} 99.5,-100,0
+             [4] = {Point64} -100,-100,0
+             [5] = {Point64} -100,100,0
+             [6] = {Point64} 100,100,0
+             [7] = {Point64} 100,-99.5,0
+             [8] = {Point64} 200,-99.5,0
+             [9] = {Point64} 200,200,0
+             [10] = {Point64} -200,200,0
+             [11] = {Point64} -200,-200,0
+             [12] = {Point64} 200,-200,0
            */
-        
+
         // Generate sliver geometry.
         PathsD sL = new();
         ClipperD c = new(Constants.roundingDecimalPrecision);
@@ -2156,54 +1136,54 @@ internal class Program
         c.AddSubject(outer2);
         c.AddClip(kH);
         c.Execute(ClipType.Difference, FillRule.EvenOdd, sL);
-        
+
         /* Expected output
            sL = {List<List<Point64>>} Count = 2
             [0] = {List<Point64>} Count = 8
-             [0] = {Point64} 99.5,499.5,0 
-             [1] = {Point64} 99.5,500,0 
-             [2] = {Point64} -100,500,0 
-             [3] = {Point64} -100,700,0 
-             [4] = {Point64} 100,700,0 
-             [5] = {Point64} 100,500.5,0 
-             [6] = {Point64} 200,500.5,0 
-             [7] = {Point64} 200,499.5,0 
+             [0] = {Point64} 99.5,499.5,0
+             [1] = {Point64} 99.5,500,0
+             [2] = {Point64} -100,500,0
+             [3] = {Point64} -100,700,0
+             [4] = {Point64} 100,700,0
+             [5] = {Point64} 100,500.5,0
+             [6] = {Point64} 200,500.5,0
+             [7] = {Point64} 200,499.5,0
             [1] = {List<Point64>} Count = 8
-             [0] = {Point64} 99.5,-100.5,0 
-             [1] = {Point64} 99.5,-100,0 
-             [2] = {Point64} -100,-100,0 
-             [3] = {Point64} -100,100,0 
-             [4] = {Point64} 100,100,0 
-             [5] = {Point64} 100,-99.5,0 
-             [6] = {Point64} 200,-99.5,0 
-             [7] = {Point64} 200,-100.5,0 
+             [0] = {Point64} 99.5,-100.5,0
+             [1] = {Point64} 99.5,-100,0
+             [2] = {Point64} -100,-100,0
+             [3] = {Point64} -100,100,0
+             [4] = {Point64} 100,100,0
+             [5] = {Point64} 100,-99.5,0
+             [6] = {Point64} 200,-99.5,0
+             [7] = {Point64} 200,-100.5,0
            */
-        
+
         // Sliver removal test
         PathsD sR = GeoWrangler.gapRemoval(sL, -100);
-        
+
         /* Expected output
            sR = {List<List<Point64>>} Count = 2
             [0] = {List<Point64>} Count = 9
-             [0] = {Point64} -100,500,0 
-             [1] = {Point64} -100,700,0 
-             [2] = {Point64} 100,700,0 
-             [3] = {Point64} 100,500.5,0 
-             [4] = {Point64} 200,500.5,0 
-             [5] = {Point64} 200,499.5,0 
-             [6] = {Point64} 99.5,499.5,0 
-             [7] = {Point64} 99.5,500,0 
-             [8] = {Point64} -100,500,0 
+             [0] = {Point64} -100,500,0
+             [1] = {Point64} -100,700,0
+             [2] = {Point64} 100,700,0
+             [3] = {Point64} 100,500.5,0
+             [4] = {Point64} 200,500.5,0
+             [5] = {Point64} 200,499.5,0
+             [6] = {Point64} 99.5,499.5,0
+             [7] = {Point64} 99.5,500,0
+             [8] = {Point64} -100,500,0
             [1] = {List<Point64>} Count = 9
-             [0] = {Point64} -100,-100,0 
-             [1] = {Point64} -100,100,0 
-             [2] = {Point64} 100,100,0 
-             [3] = {Point64} 100,-99.5,0 
-             [4] = {Point64} 200,-99.5,0 
-             [5] = {Point64} 200,-100.5,0 
-             [6] = {Point64} 99.5,-100.5,0 
-             [7] = {Point64} 99.5,-100,0 
-             [8] = {Point64} -100,-100,0 
+             [0] = {Point64} -100,-100,0
+             [1] = {Point64} -100,100,0
+             [2] = {Point64} 100,100,0
+             [3] = {Point64} 100,-99.5,0
+             [4] = {Point64} 200,-99.5,0
+             [5] = {Point64} 200,-100.5,0
+             [6] = {Point64} 99.5,-100.5,0
+             [7] = {Point64} 99.5,-100,0
+             [8] = {Point64} -100,-100,0
            */
     }
 
@@ -2296,229 +1276,229 @@ internal class Program
         /* Expected
            kHSource = {List<List<Point64>>} Count = 7
             [0] = {List<Point64>} Count = 9
-             [0] = {Point64} -200,-200,0 
-             [1] = {Point64} 300,-200,0 
-             [2] = {Point64} 300,200,0 
-             [3] = {Point64} -200,200,0 
-             [4] = {Point64} -200,-99.9,0 
-             [5] = {Point64} -300,-99.9,0 
-             [6] = {Point64} -300,-100.1,0 
-             [7] = {Point64} -200,-100.1,0 
-             [8] = {Point64} -200,-200,0 
+             [0] = {Point64} -200,-200,0
+             [1] = {Point64} 300,-200,0
+             [2] = {Point64} 300,200,0
+             [3] = {Point64} -200,200,0
+             [4] = {Point64} -200,-99.9,0
+             [5] = {Point64} -300,-99.9,0
+             [6] = {Point64} -300,-100.1,0
+             [7] = {Point64} -200,-100.1,0
+             [8] = {Point64} -200,-200,0
             [1] = {List<Point64>} Count = 5
-             [0] = {Point64} 100,-100,0 
-             [1] = {Point64} 100,100,0 
-             [2] = {Point64} 200,100,0 
-             [3] = {Point64} 200,-100,0 
-             [4] = {Point64} 100,-100,0 
+             [0] = {Point64} 100,-100,0
+             [1] = {Point64} 100,100,0
+             [2] = {Point64} 200,100,0
+             [3] = {Point64} 200,-100,0
+             [4] = {Point64} 100,-100,0
             [2] = {List<Point64>} Count = 5
-             [0] = {Point64} -200,400,0 
-             [1] = {Point64} 200,400,0 
-             [2] = {Point64} 200,800,0 
-             [3] = {Point64} -200,800,0 
-             [4] = {Point64} -200,400,0 
+             [0] = {Point64} -200,400,0
+             [1] = {Point64} 200,400,0
+             [2] = {Point64} 200,800,0
+             [3] = {Point64} -200,800,0
+             [4] = {Point64} -200,400,0
             [3] = {List<Point64>} Count = 5
-             [0] = {Point64} -100,500,0 
-             [1] = {Point64} -100,700,0 
-             [2] = {Point64} 100,700,0 
-             [3] = {Point64} 100,500,0 
-             [4] = {Point64} -100,500,0 
+             [0] = {Point64} -100,500,0
+             [1] = {Point64} -100,700,0
+             [2] = {Point64} 100,700,0
+             [3] = {Point64} 100,500,0
+             [4] = {Point64} -100,500,0
             [4] = {List<Point64>} Count = 5
-             [0] = {Point64} -300,1200,0 
-             [1] = {Point64} 300,1200,0 
-             [2] = {Point64} 300,1600,0 
-             [3] = {Point64} -300,1600,0 
-             [4] = {Point64} -300,1200,0 
+             [0] = {Point64} -300,1200,0
+             [1] = {Point64} 300,1200,0
+             [2] = {Point64} 300,1600,0
+             [3] = {Point64} -300,1600,0
+             [4] = {Point64} -300,1200,0
             [5] = {List<Point64>} Count = 5
-             [0] = {Point64} -200,1300,0 
-             [1] = {Point64} -200,1500,0 
-             [2] = {Point64} -100,1500,0 
-             [3] = {Point64} -100,1300,0 
-             [4] = {Point64} -200,1300,0 
+             [0] = {Point64} -200,1300,0
+             [1] = {Point64} -200,1500,0
+             [2] = {Point64} -100,1500,0
+             [3] = {Point64} -100,1300,0
+             [4] = {Point64} -200,1300,0
             [6] = {List<Point64>} Count = 5
-             [0] = {Point64} 100,1300,0 
-             [1] = {Point64} 100,1500,0 
-             [2] = {Point64} 200,1500,0 
-             [3] = {Point64} 200,1300,0 
-             [4] = {Point64} 100,1300,0 
+             [0] = {Point64} 100,1300,0
+             [1] = {Point64} 100,1500,0
+             [2] = {Point64} 200,1500,0
+             [3] = {Point64} 200,1300,0
+             [4] = {Point64} 100,1300,0
            */
-        
-        PathsD kH = GeoWrangler.makeKeyHole(kHSource, reverseEval:false, biDirectionalEval:true);
+
+        PathsD kH = GeoWrangler.makeKeyHole(kHSource, false, true);
 
         /* Expected output
            kH = {List<List<Point64>>} Count = 3
             [0] = {List<Point64>} Count = 21
-             [0] = {Point64} 300,1200,0 
-             [1] = {Point64} 300,1299.5,0 
-             [2] = {Point64} 199.5,1299.5,0 
-             [3] = {Point64} 199.5,1300,0 
-             [4] = {Point64} 100,1300,0 
-             [5] = {Point64} 100,1500,0 
-             [6] = {Point64} 200,1500,0 
-             [7] = {Point64} 200,1300.5,0 
-             [8] = {Point64} 300,1300.5,0 
-             [9] = {Point64} 300,1600,0 
-             [10] = {Point64} -300,1600,0 
-             [11] = {Point64} -300,1500.5,0 
-             [12] = {Point64} -199.5,1500.5,0 
-             [13] = {Point64} -199.5,1500,0 
-             [14] = {Point64} -100,1500,0 
-             [15] = {Point64} -100,1300,0 
-             [16] = {Point64} -200,1300,0 
-             [17] = {Point64} -200,1499.5,0 
-             [18] = {Point64} -300,1499.5,0 
-             [19] = {Point64} -300,1200,0 
-             [20] = {Point64} 300,1200,0 
+             [0] = {Point64} 300,1200,0
+             [1] = {Point64} 300,1299.5,0
+             [2] = {Point64} 199.5,1299.5,0
+             [3] = {Point64} 199.5,1300,0
+             [4] = {Point64} 100,1300,0
+             [5] = {Point64} 100,1500,0
+             [6] = {Point64} 200,1500,0
+             [7] = {Point64} 200,1300.5,0
+             [8] = {Point64} 300,1300.5,0
+             [9] = {Point64} 300,1600,0
+             [10] = {Point64} -300,1600,0
+             [11] = {Point64} -300,1500.5,0
+             [12] = {Point64} -199.5,1500.5,0
+             [13] = {Point64} -199.5,1500,0
+             [14] = {Point64} -100,1500,0
+             [15] = {Point64} -100,1300,0
+             [16] = {Point64} -200,1300,0
+             [17] = {Point64} -200,1499.5,0
+             [18] = {Point64} -300,1499.5,0
+             [19] = {Point64} -300,1200,0
+             [20] = {Point64} 300,1200,0
             [1] = {List<Point64>} Count = 13
-             [0] = {Point64} 200,400,0 
-             [1] = {Point64} 200,499.5,0 
-             [2] = {Point64} 99.5,499.5,0 
-             [3] = {Point64} 99.5,500,0 
-             [4] = {Point64} -100,500,0 
-             [5] = {Point64} -100,700,0 
-             [6] = {Point64} 100,700,0 
-             [7] = {Point64} 100,500.5,0 
-             [8] = {Point64} 200,500.5,0 
-             [9] = {Point64} 200,800,0 
-             [10] = {Point64} -200,800,0 
-             [11] = {Point64} -200,400,0 
-             [12] = {Point64} 200,400,0 
+             [0] = {Point64} 200,400,0
+             [1] = {Point64} 200,499.5,0
+             [2] = {Point64} 99.5,499.5,0
+             [3] = {Point64} 99.5,500,0
+             [4] = {Point64} -100,500,0
+             [5] = {Point64} -100,700,0
+             [6] = {Point64} 100,700,0
+             [7] = {Point64} 100,500.5,0
+             [8] = {Point64} 200,500.5,0
+             [9] = {Point64} 200,800,0
+             [10] = {Point64} -200,800,0
+             [11] = {Point64} -200,400,0
+             [12] = {Point64} 200,400,0
             [2] = {List<Point64>} Count = 17
-             [0] = {Point64} -300,-100.1,0 
-             [1] = {Point64} -200,-100.1,0 
-             [2] = {Point64} -200,-200,0 
-             [3] = {Point64} 300,-200,0 
-             [4] = {Point64} 300,-100.5,0 
-             [5] = {Point64} 199.5,-100.5,0 
-             [6] = {Point64} 199.5,-100,0 
-             [7] = {Point64} 100,-100,0 
-             [8] = {Point64} 100,100,0 
-             [9] = {Point64} 200,100,0 
-             [10] = {Point64} 200,-99.5,0 
-             [11] = {Point64} 300,-99.5,0 
-             [12] = {Point64} 300,200,0 
-             [13] = {Point64} -200,200,0 
-             [14] = {Point64} -200,-99.9,0 
-             [15] = {Point64} -300,-99.9,0 
-             [16] = {Point64} -300,-100.1,0 
+             [0] = {Point64} -300,-100.1,0
+             [1] = {Point64} -200,-100.1,0
+             [2] = {Point64} -200,-200,0
+             [3] = {Point64} 300,-200,0
+             [4] = {Point64} 300,-100.5,0
+             [5] = {Point64} 199.5,-100.5,0
+             [6] = {Point64} 199.5,-100,0
+             [7] = {Point64} 100,-100,0
+             [8] = {Point64} 100,100,0
+             [9] = {Point64} 200,100,0
+             [10] = {Point64} 200,-99.5,0
+             [11] = {Point64} 300,-99.5,0
+             [12] = {Point64} 300,200,0
+             [13] = {Point64} -200,200,0
+             [14] = {Point64} -200,-99.9,0
+             [15] = {Point64} -300,-99.9,0
+             [16] = {Point64} -300,-100.1,0
            */
-        
+
         // Gap removal test
         PathsD gR = GeoWrangler.gapRemoval(kH, 100);
 
         /* Expected output
            gR = {List<List<Point64>>} Count = 3
             [0] = {List<Point64>} Count = 21
-             [0] = {Point64} 300,1200,0 
-             [1] = {Point64} 300,1299.5,0 
-             [2] = {Point64} 199.5,1299.5,0 
-             [3] = {Point64} 199.5,1300,0 
-             [4] = {Point64} 100,1300,0 
-             [5] = {Point64} 100,1500,0 
-             [6] = {Point64} 200,1500,0 
-             [7] = {Point64} 200,1300.5,0 
-             [8] = {Point64} 300,1300.5,0 
-             [9] = {Point64} 300,1600,0 
-             [10] = {Point64} -300,1600,0 
-             [11] = {Point64} -300,1500.5,0 
-             [12] = {Point64} -199.5,1500.5,0 
-             [13] = {Point64} -199.5,1500,0 
-             [14] = {Point64} -100,1500,0 
-             [15] = {Point64} -100,1300,0 
-             [16] = {Point64} -200,1300,0 
-             [17] = {Point64} -200,1499.5,0 
-             [18] = {Point64} -300,1499.5,0 
-             [19] = {Point64} -300,1200,0 
-             [20] = {Point64} 300,1200,0 
+             [0] = {Point64} 300,1200,0
+             [1] = {Point64} 300,1299.5,0
+             [2] = {Point64} 199.5,1299.5,0
+             [3] = {Point64} 199.5,1300,0
+             [4] = {Point64} 100,1300,0
+             [5] = {Point64} 100,1500,0
+             [6] = {Point64} 200,1500,0
+             [7] = {Point64} 200,1300.5,0
+             [8] = {Point64} 300,1300.5,0
+             [9] = {Point64} 300,1600,0
+             [10] = {Point64} -300,1600,0
+             [11] = {Point64} -300,1500.5,0
+             [12] = {Point64} -199.5,1500.5,0
+             [13] = {Point64} -199.5,1500,0
+             [14] = {Point64} -100,1500,0
+             [15] = {Point64} -100,1300,0
+             [16] = {Point64} -200,1300,0
+             [17] = {Point64} -200,1499.5,0
+             [18] = {Point64} -300,1499.5,0
+             [19] = {Point64} -300,1200,0
+             [20] = {Point64} 300,1200,0
             [1] = {List<Point64>} Count = 13
-             [0] = {Point64} 200,400,0 
-             [1] = {Point64} 200,499.5,0 
-             [2] = {Point64} 99.5,499.5,0 
-             [3] = {Point64} 99.5,500,0 
-             [4] = {Point64} -100,500,0 
-             [5] = {Point64} -100,700,0 
-             [6] = {Point64} 100,700,0 
-             [7] = {Point64} 100,500.5,0 
-             [8] = {Point64} 200,500.5,0 
-             [9] = {Point64} 200,800,0 
-             [10] = {Point64} -200,800,0 
-             [11] = {Point64} -200,400,0 
-             [12] = {Point64} 200,400,0 
+             [0] = {Point64} 200,400,0
+             [1] = {Point64} 200,499.5,0
+             [2] = {Point64} 99.5,499.5,0
+             [3] = {Point64} 99.5,500,0
+             [4] = {Point64} -100,500,0
+             [5] = {Point64} -100,700,0
+             [6] = {Point64} 100,700,0
+             [7] = {Point64} 100,500.5,0
+             [8] = {Point64} 200,500.5,0
+             [9] = {Point64} 200,800,0
+             [10] = {Point64} -200,800,0
+             [11] = {Point64} -200,400,0
+             [12] = {Point64} 200,400,0
             [2] = {List<Point64>} Count = 17
-             [0] = {Point64} -300,-100.1,0 
-             [1] = {Point64} -200,-100.1,0 
-             [2] = {Point64} -200,-200,0 
-             [3] = {Point64} 300,-200,0 
-             [4] = {Point64} 300,-100.5,0 
-             [5] = {Point64} 199.5,-100.5,0 
-             [6] = {Point64} 199.5,-100,0 
-             [7] = {Point64} 100,-100,0 
-             [8] = {Point64} 100,100,0 
-             [9] = {Point64} 200,100,0 
-             [10] = {Point64} 200,-99.5,0 
-             [11] = {Point64} 300,-99.5,0 
-             [12] = {Point64} 300,200,0 
-             [13] = {Point64} -200,200,0 
-             [14] = {Point64} -200,-99.9,0 
-             [15] = {Point64} -300,-99.9,0 
-             [16] = {Point64} -300,-100.1,0 
+             [0] = {Point64} -300,-100.1,0
+             [1] = {Point64} -200,-100.1,0
+             [2] = {Point64} -200,-200,0
+             [3] = {Point64} 300,-200,0
+             [4] = {Point64} 300,-100.5,0
+             [5] = {Point64} 199.5,-100.5,0
+             [6] = {Point64} 199.5,-100,0
+             [7] = {Point64} 100,-100,0
+             [8] = {Point64} 100,100,0
+             [9] = {Point64} 200,100,0
+             [10] = {Point64} 200,-99.5,0
+             [11] = {Point64} 300,-99.5,0
+             [12] = {Point64} 300,200,0
+             [13] = {Point64} -200,200,0
+             [14] = {Point64} -200,-99.9,0
+             [15] = {Point64} -300,-99.9,0
+             [16] = {Point64} -300,-100.1,0
            */
-        
+
         // Sliver removal test
         PathsD sR = GeoWrangler.gapRemoval(kH, -100);
-        
+
         /* Expected output
            sR = {List<List<Point64>>} Count = 3
             [0] = {List<Point64>} Count = 21
-             [0] = {Point64} 300,1200,0 
-             [1] = {Point64} 300,1299.5,0 
-             [2] = {Point64} 199.5,1299.5,0 
-             [3] = {Point64} 199.5,1300,0 
-             [4] = {Point64} 100,1300,0 
-             [5] = {Point64} 100,1500,0 
-             [6] = {Point64} 200,1500,0 
-             [7] = {Point64} 200,1300.5,0 
-             [8] = {Point64} 300,1300.5,0 
-             [9] = {Point64} 300,1600,0 
-             [10] = {Point64} -300,1600,0 
-             [11] = {Point64} -300,1500.5,0 
-             [12] = {Point64} -199.5,1500.5,0 
-             [13] = {Point64} -199.5,1500,0 
-             [14] = {Point64} -100,1500,0 
-             [15] = {Point64} -100,1300,0 
-             [16] = {Point64} -200,1300,0 
-             [17] = {Point64} -200,1499.5,0 
-             [18] = {Point64} -300,1499.5,0 
-             [19] = {Point64} -300,1200,0 
-             [20] = {Point64} 300,1200,0 
+             [0] = {Point64} 300,1200,0
+             [1] = {Point64} 300,1299.5,0
+             [2] = {Point64} 199.5,1299.5,0
+             [3] = {Point64} 199.5,1300,0
+             [4] = {Point64} 100,1300,0
+             [5] = {Point64} 100,1500,0
+             [6] = {Point64} 200,1500,0
+             [7] = {Point64} 200,1300.5,0
+             [8] = {Point64} 300,1300.5,0
+             [9] = {Point64} 300,1600,0
+             [10] = {Point64} -300,1600,0
+             [11] = {Point64} -300,1500.5,0
+             [12] = {Point64} -199.5,1500.5,0
+             [13] = {Point64} -199.5,1500,0
+             [14] = {Point64} -100,1500,0
+             [15] = {Point64} -100,1300,0
+             [16] = {Point64} -200,1300,0
+             [17] = {Point64} -200,1499.5,0
+             [18] = {Point64} -300,1499.5,0
+             [19] = {Point64} -300,1200,0
+             [20] = {Point64} 300,1200,0
             [1] = {List<Point64>} Count = 13
-             [0] = {Point64} 200,400,0 
-             [1] = {Point64} 200,499.5,0 
-             [2] = {Point64} 99.5,499.5,0 
-             [3] = {Point64} 99.5,500,0 
-             [4] = {Point64} -100,500,0 
-             [5] = {Point64} -100,700,0 
-             [6] = {Point64} 100,700,0 
-             [7] = {Point64} 100,500.5,0 
-             [8] = {Point64} 200,500.5,0 
-             [9] = {Point64} 200,800,0 
-             [10] = {Point64} -200,800,0 
-             [11] = {Point64} -200,400,0 
-             [12] = {Point64} 200,400,0 
+             [0] = {Point64} 200,400,0
+             [1] = {Point64} 200,499.5,0
+             [2] = {Point64} 99.5,499.5,0
+             [3] = {Point64} 99.5,500,0
+             [4] = {Point64} -100,500,0
+             [5] = {Point64} -100,700,0
+             [6] = {Point64} 100,700,0
+             [7] = {Point64} 100,500.5,0
+             [8] = {Point64} 200,500.5,0
+             [9] = {Point64} 200,800,0
+             [10] = {Point64} -200,800,0
+             [11] = {Point64} -200,400,0
+             [12] = {Point64} 200,400,0
             [2] = {List<Point64>} Count = 13
-             [0] = {Point64} 300,-200,0 
-             [1] = {Point64} 300,-100.5,0 
-             [2] = {Point64} 199.5,-100.5,0 
-             [3] = {Point64} 199.5,-100,0 
-             [4] = {Point64} 100,-100,0 
-             [5] = {Point64} 100,100,0 
-             [6] = {Point64} 200,100,0 
-             [7] = {Point64} 200,-99.5,0 
-             [8] = {Point64} 300,-99.5,0 
-             [9] = {Point64} 300,200,0 
-             [10] = {Point64} -200,200,0 
-             [11] = {Point64} -200,-200,0 
-             [12] = {Point64} 300,-200,0 
+             [0] = {Point64} 300,-200,0
+             [1] = {Point64} 300,-100.5,0
+             [2] = {Point64} 199.5,-100.5,0
+             [3] = {Point64} 199.5,-100,0
+             [4] = {Point64} 100,-100,0
+             [5] = {Point64} 100,100,0
+             [6] = {Point64} 200,100,0
+             [7] = {Point64} 200,-99.5,0
+             [8] = {Point64} 300,-99.5,0
+             [9] = {Point64} 300,200,0
+             [10] = {Point64} -200,200,0
+             [11] = {Point64} -200,-200,0
+             [12] = {Point64} 300,-200,0
            */
     }
 
@@ -2578,80 +1558,80 @@ internal class Program
         /* Expected
            paths = {List<List<Point64>>} Count = 5
             [0] = {List<Point64>} Count = 5
-             [0] = {Point64} 5000,0,0 
-             [1] = {Point64} 0,0,0 
-             [2] = {Point64} 0,155000,0 
-             [3] = {Point64} 5000,155000,0 
-             [4] = {Point64} 5000,0,0 
+             [0] = {Point64} 5000,0,0
+             [1] = {Point64} 0,0,0
+             [2] = {Point64} 0,155000,0
+             [3] = {Point64} 5000,155000,0
+             [4] = {Point64} 5000,0,0
             [1] = {List<Point64>} Count = 5
-             [0] = {Point64} 3500,13500,0 
-             [1] = {Point64} 3500,1500,0 
-             [2] = {Point64} 5000,1500,0 
-             [3] = {Point64} 5000,13500,0 
-             [4] = {Point64} 3500,13500,0 
+             [0] = {Point64} 3500,13500,0
+             [1] = {Point64} 3500,1500,0
+             [2] = {Point64} 5000,1500,0
+             [3] = {Point64} 5000,13500,0
+             [4] = {Point64} 3500,13500,0
             [2] = {List<Point64>} Count = 5
-             [0] = {Point64} 22000,95000,0 
-             [1] = {Point64} 22000,12500,0 
-             [2] = {Point64} 5000,12500,0 
-             [3] = {Point64} 5000,95000,0 
-             [4] = {Point64} 22000,95000,0 
+             [0] = {Point64} 22000,95000,0
+             [1] = {Point64} 22000,12500,0
+             [2] = {Point64} 5000,12500,0
+             [3] = {Point64} 5000,95000,0
+             [4] = {Point64} 22000,95000,0
             [3] = {List<Point64>} Count = 5
-             [0] = {Point64} 3500,45000,0 
-             [1] = {Point64} 3500,75000,0 
-             [2] = {Point64} 5000,75000,0 
-             [3] = {Point64} 5000,45000,0 
-             [4] = {Point64} 3500,45000,0 
+             [0] = {Point64} 3500,45000,0
+             [1] = {Point64} 3500,75000,0
+             [2] = {Point64} 5000,75000,0
+             [3] = {Point64} 5000,45000,0
+             [4] = {Point64} 3500,45000,0
             [4] = {List<Point64>} Count = 5
-             [0] = {Point64} 3500,5000,0 
-             [1] = {Point64} 3500,3500,0 
-             [2] = {Point64} 5000,3500,0 
-             [3] = {Point64} 5000,5000,0 
-             [4] = {Point64} 3500,5000,0 
+             [0] = {Point64} 3500,5000,0
+             [1] = {Point64} 3500,3500,0
+             [2] = {Point64} 5000,3500,0
+             [3] = {Point64} 5000,5000,0
+             [4] = {Point64} 3500,5000,0
            */
-        
+
         // Generate keyholed geometry
-        PathsD kH = GeoWrangler.makeKeyHole(paths, reverseEval:false, biDirectionalEval:true);
-        
+        PathsD kH = GeoWrangler.makeKeyHole(paths, false, true);
+
         /* Expected output
            kH = {List<List<Point64>>} Count = 1
             [0] = {List<Point64>} Count = 37
-             [0] = {Point64} 5000,0,0 
-             [1] = {Point64} 5000,155000,0 
-             [2] = {Point64} 0,155000,0 
-             [3] = {Point64} 0,150500,0 
-             [4] = {Point64} 5500,150500,0 
-             [5] = {Point64} 5500,1500,0 
-             [6] = {Point64} 3500,1500,0 
-             [7] = {Point64} 3500,13500,0 
-             [8] = {Point64} 5000,13500,0 
-             [9] = {Point64} 5000,149500,0 
-             [10] = {Point64} 0,149500,0 
-             [11] = {Point64} 0,125500,0 
-             [12] = {Point64} 5500,125500,0 
-             [13] = {Point64} 5500,12500,0 
-             [14] = {Point64} 22000,12500,0 
-             [15] = {Point64} 22000,95000,0 
-             [16] = {Point64} 5000,95000,0 
-             [17] = {Point64} 5000,124500,0 
-             [18] = {Point64} 0,124500,0 
-             [19] = {Point64} 0,75500,0 
-             [20] = {Point64} 5500,75500,0 
-             [21] = {Point64} 5500,75000,0 
-             [22] = {Point64} 3500,75000,0 
-             [23] = {Point64} 3500,45000,0 
-             [24] = {Point64} 5000,45000,0 
-             [25] = {Point64} 5000,74500,0 
-             [26] = {Point64} 0,74500,0 
-             [27] = {Point64} 0,35500,0 
-             [28] = {Point64} 5500,35500,0 
-             [29] = {Point64} 5500,3500,0 
-             [30] = {Point64} 3500,3500,0 
-             [31] = {Point64} 3500,5000,0 
-             [32] = {Point64} 5000,5000,0 
-             [33] = {Point64} 5000,34500,0 
-             [34] = {Point64} 0,34500,0 
-             [35] = {Point64} 0,0,0 
-             [36] = {Point64} 5000,0,0 
+             [0] = {Point64} 5000,0,0
+             [1] = {Point64} 5000,155000,0
+             [2] = {Point64} 0,155000,0
+             [3] = {Point64} 0,150500,0
+             [4] = {Point64} 5500,150500,0
+             [5] = {Point64} 5500,1500,0
+             [6] = {Point64} 3500,1500,0
+             [7] = {Point64} 3500,13500,0
+             [8] = {Point64} 5000,13500,0
+             [9] = {Point64} 5000,149500,0
+             [10] = {Point64} 0,149500,0
+             [11] = {Point64} 0,125500,0
+             [12] = {Point64} 5500,125500,0
+             [13] = {Point64} 5500,12500,0
+             [14] = {Point64} 22000,12500,0
+             [15] = {Point64} 22000,95000,0
+             [16] = {Point64} 5000,95000,0
+             [17] = {Point64} 5000,124500,0
+             [18] = {Point64} 0,124500,0
+             [19] = {Point64} 0,75500,0
+             [20] = {Point64} 5500,75500,0
+             [21] = {Point64} 5500,75000,0
+             [22] = {Point64} 3500,75000,0
+             [23] = {Point64} 3500,45000,0
+             [24] = {Point64} 5000,45000,0
+             [25] = {Point64} 5000,74500,0
+             [26] = {Point64} 0,74500,0
+             [27] = {Point64} 0,35500,0
+             [28] = {Point64} 5500,35500,0
+             [29] = {Point64} 5500,3500,0
+             [30] = {Point64} 3500,3500,0
+             [31] = {Point64} 3500,5000,0
+             [32] = {Point64} 5000,5000,0
+             [33] = {Point64} 5000,34500,0
+             [34] = {Point64} 0,34500,0
+             [35] = {Point64} 0,0,0
+             [36] = {Point64} 5000,0,0
            */
     }
 }

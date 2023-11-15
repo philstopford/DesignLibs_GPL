@@ -3,6 +3,7 @@ using geoWrangler;
 using geoCoreLib;
 using PartitionTestGeometrySource;
 using NUnit.Framework;
+using utility;
 
 namespace partitionTest;
 
@@ -19,7 +20,7 @@ internal class Program
         Console.WriteLine("Part Three (takes a while)");
         partThree();
 
-        Console.WriteLine("Part Four (takes even longer)");
+        Console.WriteLine("Part Four (takes less time than part three)");
         partFour();
         
         Console.WriteLine("Part Five");
@@ -80,6 +81,7 @@ internal class Program
         bool abort = false;
 
         PathsD l = GeoWrangler.rectangular_decomposition(ref abort, L, maxRayLength: rayLength);
+        writeToLayout("l", L, l);
         Assert.AreEqual(l.Count, 2);
         Assert.AreEqual(l[0][0].x, 0);
         Assert.AreEqual(l[0][0].y, 0);
@@ -101,16 +103,9 @@ internal class Program
         Assert.AreEqual(l[1][3].y, 20);
         Assert.AreEqual(l[1][4].x, 10);
         Assert.AreEqual(l[1][4].y, 0);
-
-        writeToLayout("l", L, l);
-
-        /*
-        PathD L_small = Clipper.ScalePath(L, 0.01);
-        PathsD lsmall = GeoWrangler.rectangular_decomposition(ref abort, L_small, maxRayLength: rayLength);
-        writeToLayout("l_small", L_small, lsmall);
-        */
-
+        
         PathsD lccw = GeoWrangler.rectangular_decomposition(ref abort, L_ccw, maxRayLength: rayLength);
+        writeToLayout("lccw", L_ccw, lccw);
         Assert.AreEqual(lccw.Count, 2);
         Assert.AreEqual(lccw[0][0].x, 0);
         Assert.AreEqual(lccw[0][0].y, 0);
@@ -132,10 +127,9 @@ internal class Program
         Assert.AreEqual(lccw[1][3].y, 20);
         Assert.AreEqual(lccw[1][4].x, 10);
         Assert.AreEqual(lccw[1][4].y, 0);
-
-        writeToLayout("lccw", L_ccw, lccw);
-
+        
         PathsD rl = GeoWrangler.rectangular_decomposition(ref abort, rL, maxRayLength: rayLength);
+        writeToLayout("rl", rL, rl);
         Assert.AreEqual(rl.Count, 2);
         Assert.AreEqual(rl[0][0].x, 10);
         Assert.AreEqual(rl[0][0].y, 0);
@@ -158,9 +152,9 @@ internal class Program
         Assert.AreEqual(rl[1][4].x, 0);
         Assert.AreEqual(rl[1][4].y, 0);
 
-        writeToLayout("rl", rL, rl);
 
         PathsD u = GeoWrangler.rectangular_decomposition(ref abort, U, maxRayLength: rayLength);
+        writeToLayout("u", U, u);
         Assert.AreEqual(u.Count, 3);
         Assert.AreEqual(u[0][0].x, 0);
         Assert.AreEqual(u[0][0].y, 0);
@@ -192,10 +186,9 @@ internal class Program
         Assert.AreEqual(u[2][3].y, 20);
         Assert.AreEqual(u[2][4].x, 10);
         Assert.AreEqual(u[2][4].y, 0);
-
-        writeToLayout("u", U, u);
-
+        
         PathsD t = GeoWrangler.rectangular_decomposition(ref abort, T, maxRayLength: rayLength);
+        writeToLayout("t", T, t);
         Assert.AreEqual(t.Count, 3);
         Assert.AreEqual(t[0][0].x, 60);
         Assert.AreEqual(t[0][0].y, 50);
@@ -228,9 +221,8 @@ internal class Program
         Assert.AreEqual(t[2][4].x, 0);
         Assert.AreEqual(t[2][4].y, 50);
         
-        writeToLayout("t", T, t);
-
         PathsD x = GeoWrangler.rectangular_decomposition(ref abort, X, maxRayLength: rayLength);
+        writeToLayout("x", X, x);
         Assert.AreEqual(x.Count, 3);
         Assert.AreEqual(x[0][0].x, 0);
         Assert.AreEqual(x[0][0].y, 50);
@@ -262,10 +254,9 @@ internal class Program
         Assert.AreEqual(x[2][3].y, 80);
         Assert.AreEqual(x[2][4].x, 80);
         Assert.AreEqual(x[2][4].y, 50);
-
-        writeToLayout("x", X, x);
-
+        
         PathsD s = GeoWrangler.rectangular_decomposition(ref abort, S, maxRayLength: rayLength);
+        writeToLayout("s", S, s);
         Assert.AreEqual(s.Count, 5);
         Assert.AreEqual(s[0][0].x, 0);
         Assert.AreEqual(s[0][0].y, 50);
@@ -317,10 +308,9 @@ internal class Program
         Assert.AreEqual(s[4][3].y, 110);
         Assert.AreEqual(s[4][4].x, 20);
         Assert.AreEqual(s[4][4].y, 0);
-
-        writeToLayout("s", S, s);
-
+        
         PathsD ns = GeoWrangler.rectangular_decomposition(ref abort, nS, maxRayLength: rayLength);
+        writeToLayout("ns", nS, ns);
         Assert.AreEqual(ns.Count, 5);
         Assert.AreEqual(ns[0][0].x, 0);
         Assert.AreEqual(ns[0][0].y, -150);
@@ -372,108 +362,73 @@ internal class Program
         Assert.AreEqual(ns[4][3].y, -90);
         Assert.AreEqual(ns[4][4].x, 20);
         Assert.AreEqual(ns[4][4].y, -200);
-
-        writeToLayout("ns", nS, ns);
-
+        
         PathsD c1 = GeoWrangler.rectangular_decomposition(ref abort, C1, maxRayLength: rayLength);
-
-        // Expect 17 quads
-
         writeToLayout("c1", C1, c1);
+        Assert.AreEqual(c1.Count, 17);
+        // Use area because result is complex and hash not reliable due to floats.
+        Assert.AreEqual(Clipper.Area(c1), 4920);
 
         PathsD c2 = GeoWrangler.rectangular_decomposition(ref abort, C2, maxRayLength: rayLength);
-
-        // Expect 81 quads
-
         writeToLayout("c2", C2, c2);
-
+        Assert.AreEqual(c2.Count, 81);
+        // Use area because result is complex and hash not reliable due to floats.
+        Assert.AreEqual(Clipper.Area(c2), 24600);
+        
         PathsD c3 = GeoWrangler.rectangular_decomposition(ref abort, C3, maxRayLength: rayLength);
-
-        // Expect 13 quads
-
         writeToLayout("c3", C3, c3);
-
+        Assert.AreEqual(c3.Count, 13);
+        // Use area because result is complex and hash not reliable due to floats.
+        Assert.AreEqual(Clipper.Area(c3), 5424);
+        
         PathsD c10r15 = GeoWrangler.rectangular_decomposition(ref abort, C10R15, maxRayLength: rayLength);
-
-        // Expect 1 irregular polygon
-
         writeToLayout("c10r15", C10R15, c10r15);
+        Assert.AreEqual(c10r15.Count, 1);
+        Assert.LessOrEqual(Math.Abs(Clipper.Area(c10r15))-14742059.915, 0.001);
 
         PathsD s1 = GeoWrangler.rectangular_decomposition(ref abort, S1, maxRayLength: rayLength);
-
-        /* Expected output
-           s1 = {List<Path>} Count = 4
-            [0] = {Path} GeoLibPoint[4]
-             [0] = GeoLibPoint
-              X = {int} -50
-              Y = {int} -50
-              tag = {int} 0
-             [1] = GeoLibPoint
-              X = {int} -50
-              Y = {int} 0
-              tag = {int} 0
-             [2] = GeoLibPoint
-              X = {int} 0
-              Y = {int} 0
-              tag = {int} 0
-             [3] = GeoLibPoint
-              X = {int} 0
-              Y = {int} -50
-              tag = {int} 0
-            [1] = {Path} GeoLibPoint[4]
-             [0] = GeoLibPoint
-              X = {int} 0
-              Y = {int} -50
-              tag = {int} 0
-             [1] = GeoLibPoint
-              X = {int} 0
-              Y = {int} 120
-              tag = {int} 0
-             [2] = GeoLibPoint
-              X = {int} 100
-              Y = {int} 120
-              tag = {int} 0
-             [3] = GeoLibPoint
-              X = {int} 100
-              Y = {int} -50
-              tag = {int} 0
-            [2] = {Path} GeoLibPoint[4]
-             [0] = GeoLibPoint
-              X = {int} 150
-              Y = {int} -50
-              tag = {int} 0
-             [1] = GeoLibPoint
-              X = {int} 150
-              Y = {int} 300
-              tag = {int} 0
-             [2] = GeoLibPoint
-              X = {int} 200
-              Y = {int} 300
-              tag = {int} 0
-             [3] = GeoLibPoint
-              X = {int} 200
-              Y = {int} -50
-              tag = {int} 0
-            [3] = {Path} GeoLibPoint[4]
-             [0] = GeoLibPoint
-              X = {int} 100
-              Y = {int} -50
-              tag = {int} 0
-             [1] = GeoLibPoint
-              X = {int} 100
-              Y = {int} 200
-              tag = {int} 0
-             [2] = GeoLibPoint
-              X = {int} 150
-              Y = {int} 200
-              tag = {int} 0
-             [3] = GeoLibPoint
-              X = {int} 150
-              Y = {int} -50
-              tag = {int} 0
-         */
-
         writeToLayout("s1", S1, s1);
+        Assert.AreEqual(s1.Count, 4);
+        Assert.AreEqual(s1[0][0].x, -50);
+        Assert.AreEqual(s1[0][0].y, -50);
+        Assert.AreEqual(s1[0][1].x, 0);
+        Assert.AreEqual(s1[0][1].y, -50);
+        Assert.AreEqual(s1[0][2].x, 0);
+        Assert.AreEqual(s1[0][2].y, 0);
+        Assert.AreEqual(s1[0][3].x, -50);
+        Assert.AreEqual(s1[0][3].y, 0);
+        Assert.AreEqual(s1[0][4].x, -50);
+        Assert.AreEqual(s1[0][4].y, -50);
+        Assert.AreEqual(s1[1][0].x, 0);
+        Assert.AreEqual(s1[1][0].y, -50);
+        Assert.AreEqual(s1[1][1].x, 100);
+        Assert.AreEqual(s1[1][1].y, -50);
+        Assert.AreEqual(s1[1][2].x, 100);
+        Assert.AreEqual(s1[1][2].y, 120);
+        Assert.AreEqual(s1[1][3].x, 0);
+        Assert.AreEqual(s1[1][3].y, 120);
+        Assert.AreEqual(s1[1][4].x, 0);
+        Assert.AreEqual(s1[1][4].y, -50);
+        Assert.AreEqual(s1[2][0].x, 150);
+        Assert.AreEqual(s1[2][0].y, -50);
+        Assert.AreEqual(s1[2][1].x, 200);
+        Assert.AreEqual(s1[2][1].y, -50);
+        Assert.AreEqual(s1[2][2].x, 200);
+        Assert.AreEqual(s1[2][2].y, 300);
+        Assert.AreEqual(s1[2][3].x, 150);
+        Assert.AreEqual(s1[2][3].y, 300);
+        Assert.AreEqual(s1[2][4].x, 150);
+        Assert.AreEqual(s1[2][4].y, -50);
+        Assert.AreEqual(s1[3][0].x, 100);
+        Assert.AreEqual(s1[3][0].y, -50);
+        Assert.AreEqual(s1[3][1].x, 150);
+        Assert.AreEqual(s1[3][1].y, -50);
+        Assert.AreEqual(s1[3][2].x, 150);
+        Assert.AreEqual(s1[3][2].y, 200);
+        Assert.AreEqual(s1[3][3].x, 100);
+        Assert.AreEqual(s1[3][3].y, 200);
+        Assert.AreEqual(s1[3][4].x, 100);
+        Assert.AreEqual(s1[3][4].y, -50);
     }
 
     private static void partTwo()
@@ -540,26 +495,30 @@ internal class Program
         Console.WriteLine("  Decomposition (vertical)....");
         sw.Restart();
         PathsD ns = GeoWrangler.rectangular_decomposition(ref abort, done, maxRayLength: rayLength);
-
-        // Expect 721 quads.
-
+        
         sw.Stop();
         Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
 
         Console.WriteLine("  Writing....");
         writeToLayout("complex", done[0], ns);
 
+        double area = Clipper.Area(ns);
+        Assert.AreEqual(ns.Count, 200);
+        Assert.AreEqual(Math.Abs(area), 221320);
+        
         Console.WriteLine("  Decomposition (horizontal)....");
         sw.Restart();
         ns = GeoWrangler.rectangular_decomposition(ref abort, done, maxRayLength: rayLength, vertical: false);
-
-        // Expect 721 quads.
 
         sw.Stop();
         Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
 
         Console.WriteLine("  Writing....");
         writeToLayout("complex_horizontal", done[0], ns);
+
+        area = Clipper.Area(ns);
+        Assert.AreEqual(ns.Count, 607);
+        Assert.AreEqual(Math.Abs(area), 221320);
 
         Console.WriteLine("  Done.");
     }
@@ -575,7 +534,7 @@ internal class Program
         sw.Stop();
         Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
 
-        partFour_do(points_1, "complex_loop");
+        partFour_do(points_1, "complex_loop", 401, 401, 325380.0);
 
         Console.WriteLine(" Part 2....");
         Console.WriteLine("  Preparing....");
@@ -584,10 +543,10 @@ internal class Program
         points_2 = GeoWrangler.close(points_2);
         sw.Stop();
         Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");
-        partFour_do(points_2, "complex_loop_rot");
+        partFour_do(points_2, "complex_loop_rot", 401, 401, 325380);
     }
 
-    private static void partFour_do(PathD points, string baseString)
+    private static void partFour_do(PathD points, string baseString, int expectedCountV, int expectedCountH, double expectedArea)
     {
         System.Diagnostics.Stopwatch sw = new();
 
@@ -617,6 +576,9 @@ internal class Program
 
         Console.WriteLine("  Writing....");
         writeToLayout(baseString, points, decompOut);
+        
+        Assert.AreEqual(decompOut.Count, expectedCountV);
+        Assert.AreEqual(Clipper.Area(decompOut), expectedArea);
 
         Console.WriteLine("  Decomposition (horizontal)....");
         sw.Restart();
@@ -627,6 +589,9 @@ internal class Program
 
         Console.WriteLine("  Writing....");
         writeToLayout(baseString + "_horizontal", points, decompOut);
+
+        Assert.AreEqual(decompOut.Count, expectedCountH);
+        Assert.AreEqual(Clipper.Area(decompOut), expectedArea);
         Console.WriteLine("  Done.");
 
         sw.Stop();
@@ -762,6 +727,9 @@ internal class Program
          
          out_decomp.AddRange(decompOut);
         }
+        
+        Assert.AreEqual(out_decomp.Count, 19);
+        Assert.AreEqual(Clipper.Area(out_decomp), 13843.0);
     }
 
 

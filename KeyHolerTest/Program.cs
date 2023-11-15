@@ -1,5 +1,7 @@
-﻿using Clipper2Lib;
+﻿using System;
+using Clipper2Lib;
 using geoWrangler;
+using NUnit.Framework;
 
 namespace KeyHolerTest;
 
@@ -89,60 +91,24 @@ internal class Program
             -100, -100
         });
 
-        // Segment the paths to match real-world case.
-        /*
-        Fragmenter f = new(10000);
-        PathD outer_f = f.fragmentPath(outer);
-
-        PathD inner1_f = f.fragmentPath(inner1);
-        */
-
         PathsD kHSource = new()
         {
             outer,
             inner1
         };
-        
-        // kHSource = Clipper.ScalePaths(kHSource, 0.0001)
-
-        /* Expect to have
-
-        kHSource = {List<List<Point64>>} Count = 2
-         [0] = {List<Point64>} Count = 5
-          [0] = {Point64} -200,-200,0 
-          [1] = {Point64} 200,-200,0 
-          [2] = {Point64} 200,200,0 
-          [3] = {Point64} -200,200,0 
-          [4] = {Point64} -200,-200,0 
-         [1] = {List<Point64>} Count = 5
-          [0] = {Point64} -100,-100,0 
-          [1] = {Point64} -100,100,0 
-          [2] = {Point64} 100,100,0 
-          [3] = {Point64} 100,-100,0 
-          [4] = {Point64} -100,-100,0 
-         */
 
         // Generate keyholed geometry
         PathsD kH = GeoWrangler.makeKeyHole(kHSource, reverseEval:false, biDirectionalEval:true);
-
-        /* Expected output
-
-        kH = {List<List<Point64>>} Count = 1
-         [0] = {List<Point64>} Count = 13
-          [0] = {Point64} 200,-200,0 
-          [1] = {Point64} 200,-100.5,0 
-          [2] = {Point64} 99.5,-100.5,0 
-          [3] = {Point64} 99.5,-100,0 
-          [4] = {Point64} -100,-100,0 
-          [5] = {Point64} -100,100,0 
-          [6] = {Point64} 100,100,0 
-          [7] = {Point64} 100,-99.5,0 
-          [8] = {Point64} 200,-99.5,0 
-          [9] = {Point64} 200,200,0 
-          [10] = {Point64} -200,200,0 
-          [11] = {Point64} -200,-200,0 
-          [12] = {Point64} 200,-200,0         
-        */
+        Assert.AreEqual(kH.Count, 1);
+        // Expected area should be 120000
+        double expectedArea = Math.Abs(Clipper.Area(outer)) - Math.Abs(Clipper.Area(inner1));
+        // There is a small delta due to the keyhole, but it should be negligible.
+        Assert.LessOrEqual(expectedArea - Math.Abs(Clipper.Area(kH)), 10.01);
+        // Let's make sure our keyhole didn't move too much as well, that could be annoying.
+        Assert.LessOrEqual(Math.Abs(kH[0][2].x - -100.05), 0.001);
+        Assert.LessOrEqual(Math.Abs(kH[0][3].x - -100.05), 0.001);
+        Assert.LessOrEqual(Math.Abs(kH[0][8].x - -99.95), 0.001);
+        Assert.LessOrEqual(Math.Abs(kH[0][9].x - -99.95), 0.001);
         
         // Generate sliver geometry.
         PathsD sL = new();
@@ -150,57 +116,20 @@ internal class Program
         c.AddSubject(outer);
         c.AddClip(kH);
         c.Execute(ClipType.Difference, FillRule.EvenOdd, sL);
+        Assert.AreEqual(sL.Count, 1);
+        Assert.LessOrEqual(Clipper.Area(sL) - 40010.0025, 0.0001);
 
-        /* Expected output
-        sL = {List<List<Point64>>} Count = 1
-         [0] = {List<Point64>} Count = 8
-          [0] = {Point64} 99.5,-100.5,0 
-          [1] = {Point64} 99.5,-100,0 
-          [2] = {Point64} -100,-100,0 
-          [3] = {Point64} -100,100,0 
-          [4] = {Point64} 100,100,0 
-          [5] = {Point64} 100,-99.5,0 
-          [6] = {Point64} 200,-99.5,0 
-          [7] = {Point64} 200,-100.5,0 
-           */
-        
         // Gap removal test
         PathsD gR = GeoWrangler.gapRemoval(kH, 100);
-
-        /* Expected output
-        gR = {List<List<Point64>>} Count = 1
-         [0] = {List<Point64>} Count = 13
-          [0] = {Point64} 200,-200,0 
-          [1] = {Point64} 200,-100.5,0 
-          [2] = {Point64} 99.5,-100.5,0 
-          [3] = {Point64} 99.5,-100,0 
-          [4] = {Point64} -100,-100,0 
-          [5] = {Point64} -100,100,0 
-          [6] = {Point64} 100,100,0 
-          [7] = {Point64} 100,-99.5,0 
-          [8] = {Point64} 200,-99.5,0 
-          [9] = {Point64} 200,200,0 
-          [10] = {Point64} -200,200,0 
-          [11] = {Point64} -200,-200,0 
-          [12] = {Point64} 200,-200,0 
-         */
-    
+        Assert.AreEqual(gR.Count, 2);
+        Assert.AreEqual(Math.Abs(Clipper.Area(outer)), Math.Abs(Clipper.Area(gR[0])));
+        Assert.AreEqual(Math.Abs(Clipper.Area(inner1)), Math.Abs(Clipper.Area(gR[1])));
+        Assert.False(Clipper.IsPositive(gR[0]));
+        Assert.True(Clipper.IsPositive(gR[1]));
+        
         // Sliver removal test
         PathsD sR = GeoWrangler.gapRemoval(sL, -100);
-        
-        /* Expected output
-        sR = {List<List<Point64>>} Count = 1
-         [0] = {List<Point64>} Count = 9
-          [0] = {Point64} -100,-100,0 
-          [1] = {Point64} -100,100,0 
-          [2] = {Point64} 100,100,0 
-          [3] = {Point64} 100,-99.5,0 
-          [4] = {Point64} 200,-99.5,0 
-          [5] = {Point64} 200,-100.5,0 
-          [6] = {Point64} 99.5,-100.5,0 
-          [7] = {Point64} 99.5,-100,0 
-          [8] = {Point64} -100,-100,0 
-           */
+        Assert.AreEqual(Clipper.Area(sR), 40000);
     }
 
     private static void multiTest()

@@ -1283,65 +1283,17 @@ internal class Program
         
         // Sliver removal test
         PathsD sR = GeoWrangler.gapRemoval(kH123, -100);
-
-        /* Expected output
-           sR = {List<List<Point64>>} Count = 3
-            [0] = {List<Point64>} Count = 21
-             [0] = {Point64} 300,1200,0
-             [1] = {Point64} 300,1299.5,0
-             [2] = {Point64} 199.5,1299.5,0
-             [3] = {Point64} 199.5,1300,0
-             [4] = {Point64} 100,1300,0
-             [5] = {Point64} 100,1500,0
-             [6] = {Point64} 200,1500,0
-             [7] = {Point64} 200,1300.5,0
-             [8] = {Point64} 300,1300.5,0
-             [9] = {Point64} 300,1600,0
-             [10] = {Point64} -300,1600,0
-             [11] = {Point64} -300,1500.5,0
-             [12] = {Point64} -199.5,1500.5,0
-             [13] = {Point64} -199.5,1500,0
-             [14] = {Point64} -100,1500,0
-             [15] = {Point64} -100,1300,0
-             [16] = {Point64} -200,1300,0
-             [17] = {Point64} -200,1499.5,0
-             [18] = {Point64} -300,1499.5,0
-             [19] = {Point64} -300,1200,0
-             [20] = {Point64} 300,1200,0
-            [1] = {List<Point64>} Count = 13
-             [0] = {Point64} 200,400,0
-             [1] = {Point64} 200,499.5,0
-             [2] = {Point64} 99.5,499.5,0
-             [3] = {Point64} 99.5,500,0
-             [4] = {Point64} -100,500,0
-             [5] = {Point64} -100,700,0
-             [6] = {Point64} 100,700,0
-             [7] = {Point64} 100,500.5,0
-             [8] = {Point64} 200,500.5,0
-             [9] = {Point64} 200,800,0
-             [10] = {Point64} -200,800,0
-             [11] = {Point64} -200,400,0
-             [12] = {Point64} 200,400,0
-            [2] = {List<Point64>} Count = 13
-             [0] = {Point64} 300,-200,0
-             [1] = {Point64} 300,-100.5,0
-             [2] = {Point64} 199.5,-100.5,0
-             [3] = {Point64} 199.5,-100,0
-             [4] = {Point64} 100,-100,0
-             [5] = {Point64} 100,100,0
-             [6] = {Point64} 200,100,0
-             [7] = {Point64} 200,-99.5,0
-             [8] = {Point64} 300,-99.5,0
-             [9] = {Point64} 300,200,0
-             [10] = {Point64} -200,200,0
-             [11] = {Point64} -200,-200,0
-             [12] = {Point64} 300,-200,0
-           */
+        svgSrc.ClearAll();
+        SvgUtils.AddClip(svgSrc, kH123);
+        SvgUtils.AddSolution(svgSrc, sR, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "complexislandtest_sr.svg", FillRule.NonZero, 800, 800, 10);
+        Assert.AreEqual(sR.Count, 3);
+        Assert.AreEqual(-499959.989, Clipper.Area(sR), 0.001);
     }
 
     private static void multiHoleTest()
     {
-        PathsD paths = new();
+        PathsD kHSource = new();
         PathD path_1 = Clipper.MakePath(new double[]
         {
             50, 0,
@@ -1350,7 +1302,7 @@ internal class Program
             50, 155,
             50, 0
         });
-        paths.Add(path_1);
+        kHSource.Add(path_1);
 
         PathD path_2 = Clipper.MakePath(new double[]
         {
@@ -1360,7 +1312,7 @@ internal class Program
             5, 135,
             35, 135
         });
-        paths.Add(path_2);
+        kHSource.Add(path_2);
 
         PathD path_3 = Clipper.MakePath(new double[]
         {
@@ -1370,7 +1322,7 @@ internal class Program
             5, 95,
             22, 95
         });
-        paths.Add(path_3);
+        kHSource.Add(path_3);
 
         PathD path_4 = Clipper.MakePath(new double[]
         {
@@ -1380,95 +1332,28 @@ internal class Program
             5, 45,
             35, 45
         });
-        paths.Add(path_4);
+        kHSource.Add(path_4);
 
         PathD path_5 = Clipper.MakePath(new double[]
         {
             35, 5,
             35, 35,
             5, 35,
-            5, 50,
+            5, 5,
             35, 5
         });
-        paths.Add(path_5);
-
-        /* Expected
-           paths = {List<List<Point64>>} Count = 5
-            [0] = {List<Point64>} Count = 5
-             [0] = {Point64} 5000,0,0
-             [1] = {Point64} 0,0,0
-             [2] = {Point64} 0,155000,0
-             [3] = {Point64} 5000,155000,0
-             [4] = {Point64} 5000,0,0
-            [1] = {List<Point64>} Count = 5
-             [0] = {Point64} 3500,13500,0
-             [1] = {Point64} 3500,1500,0
-             [2] = {Point64} 5000,1500,0
-             [3] = {Point64} 5000,13500,0
-             [4] = {Point64} 3500,13500,0
-            [2] = {List<Point64>} Count = 5
-             [0] = {Point64} 22000,95000,0
-             [1] = {Point64} 22000,12500,0
-             [2] = {Point64} 5000,12500,0
-             [3] = {Point64} 5000,95000,0
-             [4] = {Point64} 22000,95000,0
-            [3] = {List<Point64>} Count = 5
-             [0] = {Point64} 3500,45000,0
-             [1] = {Point64} 3500,75000,0
-             [2] = {Point64} 5000,75000,0
-             [3] = {Point64} 5000,45000,0
-             [4] = {Point64} 3500,45000,0
-            [4] = {List<Point64>} Count = 5
-             [0] = {Point64} 3500,5000,0
-             [1] = {Point64} 3500,3500,0
-             [2] = {Point64} 5000,3500,0
-             [3] = {Point64} 5000,5000,0
-             [4] = {Point64} 3500,5000,0
-           */
+        kHSource.Add(path_5);
 
         // Generate keyholed geometry
-        PathsD kH = GeoWrangler.makeKeyHole(paths, false, true);
-
-        /* Expected output
-           kH = {List<List<Point64>>} Count = 1
-            [0] = {List<Point64>} Count = 37
-             [0] = {Point64} 5000,0,0
-             [1] = {Point64} 5000,155000,0
-             [2] = {Point64} 0,155000,0
-             [3] = {Point64} 0,150500,0
-             [4] = {Point64} 5500,150500,0
-             [5] = {Point64} 5500,1500,0
-             [6] = {Point64} 3500,1500,0
-             [7] = {Point64} 3500,13500,0
-             [8] = {Point64} 5000,13500,0
-             [9] = {Point64} 5000,149500,0
-             [10] = {Point64} 0,149500,0
-             [11] = {Point64} 0,125500,0
-             [12] = {Point64} 5500,125500,0
-             [13] = {Point64} 5500,12500,0
-             [14] = {Point64} 22000,12500,0
-             [15] = {Point64} 22000,95000,0
-             [16] = {Point64} 5000,95000,0
-             [17] = {Point64} 5000,124500,0
-             [18] = {Point64} 0,124500,0
-             [19] = {Point64} 0,75500,0
-             [20] = {Point64} 5500,75500,0
-             [21] = {Point64} 5500,75000,0
-             [22] = {Point64} 3500,75000,0
-             [23] = {Point64} 3500,45000,0
-             [24] = {Point64} 5000,45000,0
-             [25] = {Point64} 5000,74500,0
-             [26] = {Point64} 0,74500,0
-             [27] = {Point64} 0,35500,0
-             [28] = {Point64} 5500,35500,0
-             [29] = {Point64} 5500,3500,0
-             [30] = {Point64} 3500,3500,0
-             [31] = {Point64} 3500,5000,0
-             [32] = {Point64} 5000,5000,0
-             [33] = {Point64} 5000,34500,0
-             [34] = {Point64} 0,34500,0
-             [35] = {Point64} 0,0,0
-             [36] = {Point64} 5000,0,0
-           */
+        PathsD kH = GeoWrangler.makeKeyHole(kHSource, false, true);
+        SvgWriter svgSrc;
+        svgSrc = new SvgWriter();
+        SvgUtils.AddClip(svgSrc, kHSource);
+        SvgUtils.AddSolution(svgSrc, kH, true);
+        SvgUtils.SaveToFile(svgSrc, root_loc + "multiholetest_1.svg", FillRule.NonZero, 800, 800, 10);
+        double area_kh = Clipper.Area(kH);
+        Assert.AreEqual(1, kH.Count);
+        Assert.AreEqual(-4987.99, area_kh, 0.001);
+        Assert.AreEqual(-4990, Clipper.Area(kHSource));
     }
 }

@@ -1282,7 +1282,7 @@ internal class Program
         Assert.AreEqual(Clipper.Area(kHSource), -Clipper.Area(gR));
         
         // Sliver removal test
-        PathsD sR = GeoWrangler.gapRemoval(kH, -100);
+        PathsD sR = GeoWrangler.gapRemoval(kH123, -100);
 
         /* Expected output
            sR = {List<List<Point64>>} Count = 3

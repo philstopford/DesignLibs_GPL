@@ -97,7 +97,7 @@ public static partial class GeoWrangler
         // If we lost area, we probably had a cutter fully cover up one or more of our polygons.
         double lostArea = Math.Abs(origArea - newArea);
         
-        if (lostArea > 0)
+        if (lostArea > 1E-9) // Arbitrary due to the nature of floats
         {
             // We need to find out which cutters might have completely killed one or more outers and figure out a plan.
             for (int oIndex = 0; oIndex < odecomp[(int) Type.outer].Count; oIndex++)
@@ -269,7 +269,7 @@ public static partial class GeoWrangler
         c.Execute(ClipType.Difference, FillRule.EvenOdd, new_outers);//, PolyFillType.pftNonZero, PolyFillType.pftNegative);
 
         new_outers = pReorderXY(new_outers);
-
+        
         return new_outers;
     }
     
@@ -308,6 +308,7 @@ public static partial class GeoWrangler
                 {
                     // Offset our cutter and assign to the clipping scenario.
                     PathsD sPaths = pInflateEdge(insertionCandidate, customSizing);
+                    sPaths = Clipper.SimplifyPaths(sPaths, 0);
 
                     extraCutters.AddRange(new PathsD (sPaths));
                 }
@@ -321,6 +322,7 @@ public static partial class GeoWrangler
                 }
 
                 PathsD new_outers = pCutKeyHole(outers, cutters, extraCutters);
+                new_outers = Clipper.SimplifyPaths(new_outers, 0);
 
                 outers.Clear();
                 outers.AddRange(new_outers.Where(t1_ => Clipper.IsPositive(t1_) == outerOrient));

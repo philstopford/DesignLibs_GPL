@@ -575,10 +575,10 @@
   <component name="ChangeListManager">
     <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.DesignLibs/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DesignLibs/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/geoCore/polygon.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoCore/polygon.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Common/geoWrangler/decompose.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/decompose.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Common/geoWrangler/keyhole.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/keyhole.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/KeyHolerTest/KeyHolerTest.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/KeyHolerTest/KeyHolerTest.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/KeyHolerTest/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/KeyHolerTest/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestGeometrySource/verycomplex.cs" beforeDir="false" afterPath="$PROJECT_DIR$/TestGeometrySource/verycomplex.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/decompositionTest/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/decompositionTest/Program.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -597,6 +597,14 @@
     </file-type-list>
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///Dummy.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Common/Burkardt/Blend.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Common/Burkardt/IO/PPM_ASCII.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Common/Burkardt/Quadrature/QuadratureRule.cs" root0="FORCE_HIGHLIGHTING" />
@@ -684,7 +692,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;XThreadsFramesViewSplitterKey&quot;: &quot;0.2764505&quot;,
+    &quot;XThreadsFramesViewSplitterKey&quot;: &quot;0.27686915&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;last_opened_file_path&quot;: &quot;/d/development/DesignLibs_GPL/Eto/Eto.Veldrid.Wpf/Eto.Veldrid.Wpf.csproj&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
@@ -692,7 +700,7 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;RiderUnitTestingPageId&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.sourceCode&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
   &quot;keyToStringList&quot;: {
@@ -1120,7 +1128,9 @@
       <workItem from="1696350251953" duration="3129000" />
       <workItem from="1699995308600" duration="17000" />
       <workItem from="1699995329548" duration="19808000" />
-      <workItem from="1700022457032" duration="3821000" />
+      <workItem from="1700022457032" duration="37536000" />
+      <workItem from="1700141010130" duration="35217000" />
+      <workItem from="1700189534700" duration="326000" />
     </task>
     <servers />
   </component>
@@ -1145,101 +1155,6 @@
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/KeyHolerTest/Program.cs</url>
-          <line>2441</line>
-          <properties documentPath="$PROJECT_DIR$/KeyHolerTest/Program.cs" initialLine="2406" containingFunctionPresentation="Method 'complex_islandTest'">
-            <startOffsets>
-              <option value="87309" />
-            </startOffsets>
-            <endOffsets>
-              <option value="87353" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="52" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/KeyHolerTest/Program.cs</url>
-          <line>295</line>
-          <properties documentPath="$PROJECT_DIR$/KeyHolerTest/Program.cs" initialLine="295" containingFunctionPresentation="Method 'multiTest'">
-            <startOffsets>
-              <option value="11758" />
-            </startOffsets>
-            <endOffsets>
-              <option value="11759" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="55" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Common/geoWrangler/keyhole.cs</url>
-          <line>277</line>
-          <properties documentPath="$PROJECT_DIR$/Common/geoWrangler/keyhole.cs" initialLine="277" containingFunctionPresentation="Method 'pMakeKeyHole'">
-            <startOffsets>
-              <option value="11345" />
-            </startOffsets>
-            <endOffsets>
-              <option value="11374" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="56" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Common/geoWrangler/keyhole.cs</url>
-          <line>253</line>
-          <properties documentPath="$PROJECT_DIR$/Common/geoWrangler/keyhole.cs" initialLine="253" containingFunctionPresentation="Method 'pCutKeyHole'">
-            <startOffsets>
-              <option value="10420" />
-            </startOffsets>
-            <endOffsets>
-              <option value="10473" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="57" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Common/geoWrangler/keyhole.cs</url>
-          <line>16</line>
-          <properties documentPath="$PROJECT_DIR$/Common/geoWrangler/keyhole.cs" initialLine="16" containingFunctionPresentation="Method 'makeKeyHole'">
-            <startOffsets>
-              <option value="669" />
-            </startOffsets>
-            <endOffsets>
-              <option value="832" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="58" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Common/geoWrangler/keyhole.cs</url>
-          <line>21</line>
-          <properties documentPath="$PROJECT_DIR$/Common/geoWrangler/keyhole.cs" initialLine="21" containingFunctionPresentation="Method 'makeKeyHole'">
-            <startOffsets>
-              <option value="1079" />
-            </startOffsets>
-            <endOffsets>
-              <option value="1205" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="59" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DotNet Breakpoints">
-          <url>file://$PROJECT_DIR$/Common/geoWrangler/keyhole.cs</url>
-          <line>26</line>
-          <properties documentPath="$PROJECT_DIR$/Common/geoWrangler/keyhole.cs" initialLine="26" containingFunctionPresentation="Method 'makeKeyHole'">
-            <startOffsets>
-              <option value="1453" />
-            </startOffsets>
-            <endOffsets>
-              <option value="1607" />
-            </endOffsets>
-          </properties>
-          <option name="timeStamp" value="60" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="Type#geoCoreLib.GCPolygon" memberName="name" />

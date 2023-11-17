@@ -1,5 +1,8 @@
 ﻿using Clipper2Lib;
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -200,7 +203,6 @@ public static partial class GeoWrangler
         return ret;
     }
 
-
     // Scaling value below is because the incoming geometry is upsized to allow minor notches to be discarded in the conversion back to ints. Default value provided based on testing.
     public static PathsD rectangular_decomposition(ref bool abort, PathsD polys, long maxRayLength=-1, double angularTolerance = 0, bool vertical= true)
     {
@@ -253,13 +255,14 @@ public static partial class GeoWrangler
                     ret.Clear();
                     break;
                 }
+
                 PathsD decomp = decompose_poly_to_rectangles(ref abort, new (ret[i]), maxRayLength, angularTolerance, vertical);
                 // If we got more than one polygon back, we decomposed across an internal edge.
                 if (decomp.Count <= 1)
                 {
                     continue;
                 }
-
+                
                 // We decomposed something and need to store the new elements.
                 // Remove original polygon from the list - we only want the decomposed entries in future.
                 ret.RemoveAt(i);
@@ -280,7 +283,6 @@ public static partial class GeoWrangler
     private static PathsD decompose_poly_to_rectangles(ref bool abort, PathD poly, long maxRayLength, double angularTolerance, bool vertical)
     {
         PathD _poly = pClockwiseAndReorderXY(new PathD(poly));
-        // Path64 lPoly = pathFromPoint(_poly, scaling);
 
         PathD lPoly = pClose(_poly);
 
@@ -364,100 +366,84 @@ public static partial class GeoWrangler
                 continue;
             }
 
+            int pCount_ = p.Count;
+            for (int p_ = pCount_ - 1; p_ >= 0; p_--)
             {
-                int pCount_ = p.Count;
-                for (int p_ = pCount_ - 1; p_ >= 0; p_--)
-                {
-                    if (abort)
-                    {
-                        break;
-                    }
-
-                    switch (vertical)
-                    {
-                        case true:
-                        {
-                            if (Math.Abs(p[p_][0].x - p[p_][1].x) > Constants.tolerance)
-                            {
-                                p.RemoveAt(p_);
-                            }
-
-                            break;
-                        }
-                        default:
-                        {
-                            if (Math.Abs(p[p_][0].y - p[p_][1].y) > Constants.tolerance)
-                            {
-                                p.RemoveAt(p_);
-                            }
-
-                            break;
-                        }
-                    }
-                }
-
-                switch (p.Count)
-                {
-                    case 0:
-                        continue;
-                }
-
-                // Should only have at least one path in the result, hopefully with desired direction. Could still have more than one, though.
-
-                bool breakOut = false;
-                foreach (PathD t1 in p)
-                {
-                    if (abort)
-                    {
-                        break;
-                    }
-                    bool edgeIsNew = true;
-                    for (int e = 0; e < lPoly.Count - 1; e++)
-                    {
-                        if (abort)
-                        {
-                            break;
-                        }
-                        if (Math.Abs(lPoly[e].x - t1[0].x) < Constants.tolerance && Math.Abs(lPoly[e].y - t1[0].y) < Constants.tolerance)
-                        {
-                            int nextIndex = (e + 1) % lPoly.Count;
-                            if (Math.Abs(lPoly[nextIndex].x - t1[1].x) < Constants.tolerance && Math.Abs(lPoly[nextIndex].y - t1[1].y) < Constants.tolerance)
-                            {
-                                edgeIsNew = false;
-                            }
-                        }
-
-                        switch (edgeIsNew)
-                        {
-                            case true:
-                            {
-                                if (Math.Abs(lPoly[e].x - t1[1].x) < Constants.tolerance && Math.Abs(lPoly[e].y - t1[1].y) < Constants.tolerance)
-                                {
-                                    int nextIndex = (e + 1) % lPoly.Count;
-                                    if (Math.Abs(lPoly[nextIndex].x - t1[0].x) < Constants.tolerance && Math.Abs(lPoly[nextIndex].y - t1[0].y) < Constants.tolerance)
-                                    {
-                                        edgeIsNew = false;
-                                    }
-                                }
-
-                                break;
-                            }
-                        }
-                    }
-
-                    if (!edgeIsNew)
-                    {
-                        continue;
-                    }
-
-                    newEdges.Add(t1);// new Path(p[0]));
-                    breakOut = true;
-                    break;
-                }
-                if (breakOut)
+                if (abort)
                 {
                     break;
                 }
+
+                switch (vertical)
+                {
+                    case true:
+                    {
+                        if (Math.Abs(p[p_][0].x - p[p_][1].x) > Constants.tolerance)
+                        {
+                            p.RemoveAt(p_);
+                        }
+
+                        break;
+                    }
+                    default:
+                    {
+                        if (Math.Abs(p[p_][0].y - p[p_][1].y) > Constants.tolerance)
+                        {
+                            p.RemoveAt(p_);
+                        }
+
+                        break;
+                    }
+                }
+            }
+
+            switch (p.Count)
+            {
+                case 0:
+                    continue;
+            }
+
+            // Should only have at least one path in the result, hopefully with desired direction. Could still have more than one, though.
+            // We now need to screen candidates and this is quite involved.
+            bool breakOut = false;
+            foreach (PathD t1 in p)
+            {
+                if (abort)
+                {
+                    break;
+                }
+
+                // So this is where we start screening candidate edges. This ends up being trickier than expected and after a variety of approaches
+                // this one seems to be the most robust.
+                bool edgeIsNew = true;
+                // Use an area check to see if our edge was somehow coincident with the original geometry.
+                ClipperOffset co = new();
+                co.AddPath(Clipper.ScalePath64(t1, 1.0), JoinType.Square, EndType.Butt);
+                Paths64 inflated = new();
+                co.Execute(2.0, inflated);
+
+                double orig_area = Clipper.Area(inflated);
+                Paths64 intersect = Clipper.Intersect(inflated, new Paths64() {Clipper.ScalePath64(lPoly, 1.0)}, FillRule.EvenOdd);
+                double intersect_area = Clipper.Area(intersect);
+                
+                // If we have a coincident edge, half of the offset will be inside the polygon and half outside, so we should get a measurable area difference.
+                if (Math.Abs((Math.Abs(orig_area) * 0.5) - Math.Abs(intersect_area)) < 0.0001 )
+                {
+                    edgeIsNew = false;
+                }
+
+                if (!edgeIsNew)
+                {
+                    continue;
+                }
+
+                newEdges.Add(t1);
+                breakOut = true;
+                break;
+            }
+            if (breakOut)
+            {
+                break;
             }
         }
 
@@ -466,28 +452,45 @@ public static partial class GeoWrangler
         {
             case > 0 when !abort:
             {
-                // Turn the new edges into cutters and slice. Not terribly elegant and we're relying on rounding to squash notches later.
-                // Floating points cause trouble here - we need to snap the edges to integer intervals to avoid creating internal edges.
-                Paths64 rescaledSource = _pPaths64FromPathsD(newEdges, Constants.scalar_1E2);
-                
-                ClipperOffset co = new() {PreserveCollinear = true};
-                co.AddPaths(rescaledSource, JoinType.Miter, EndType.Square);
-
-                // Width is 2 for 1 unit each side (+/-), and the second value below is to balance the cut.
-                Paths64 cutters = new();
-                co.Execute(2.0, cutters);
-                
-                Clipper64 c1 = new();
-                c1.AddSubject(_pPath64FromPathD(lPoly, Constants.scalar_1E2));
-
-                // Take first cutter only - we only cut once, no matter how many potential cutters we have.
-                c1.AddClip(cutters[0]);
                 Paths64 f = new();
-                c1.Execute(ClipType.Difference, FillRule.EvenOdd, f);
-                
-                // Squash our notches by scaling the integers back down. The notches disappear when they can't
-                // be represented by integer values.
-                f = Clipper.ScalePaths(f, Constants.scalar_1E2_inv);
+                Paths64 rescaledSources = _pPaths64FromPathsD(newEdges, Constants.scalar_1E2);
+
+                // We tried to screen candidate edges earlier, but this is a defensive approach to avoid decomposition failures.
+                // We may have some falsely detected 'new' edges, so we iterate our candidates to try and find one that increases the polygon count.
+                foreach (Path64 rescaledSource in rescaledSources)
+                {
+                    f.Clear();
+                    // Turn the new edges into cutters and slice. Not terribly elegant and we're relying on rounding to squash notches later.
+                    // Floating points cause trouble here - we need to snap the edges to integer intervals to avoid creating internal edges.
+                    ClipperOffset co = new() { PreserveCollinear = true };
+                    co.AddPath(rescaledSource, JoinType.Miter, EndType.Square);
+
+                    // Width is 2 for 1 unit each side (+/-), and the second value below is to balance the cut.
+                    Paths64 cutters = new();
+                    co.Execute(2.0, cutters);
+
+                    Clipper64 c1 = new();
+                    c1.AddSubject(_pPath64FromPathD(lPoly, Constants.scalar_1E2));
+
+                    // Take first cutter only - we only cut once, no matter how many potential cutters we have.
+                    c1.AddClip(cutters[0]);
+                    c1.Execute(ClipType.Difference, FillRule.EvenOdd, f);
+
+                    // Squash our notches by scaling the integers back down. The notches disappear when they can't
+                    // be represented by integer values.
+                    f = Clipper.ScalePaths(f, Constants.scalar_1E2_inv);
+
+                    // Did we actually get a bisection? If not, try a different candidate edge.
+                    if (f.Count > 1)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        // Ideally we don't get here. Use this to figure out if we do...
+                        int x = 2;
+                    }
+                }
                 
                 // Clean-up.
                 f = simplify(f);

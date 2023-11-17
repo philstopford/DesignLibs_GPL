@@ -21,6 +21,7 @@
     <ProjectReference Include="..\geoLib\geoLib.csproj" />
     <ProjectReference Include="..\LibTessDotNet\LibTessDotNet.csproj" />
     <ProjectReference Include="..\Noise\noise.csproj" />
+    <ProjectReference Include="..\SVGBuilder\SVGBuilder.csproj" />
     <ProjectReference Include="..\utility\utility.csproj" />
   </ItemGroup>
 

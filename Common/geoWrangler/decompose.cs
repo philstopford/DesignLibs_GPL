@@ -7,6 +7,7 @@ namespace geoWrangler;
 
 public static partial class GeoWrangler
 {
+    public const double decomp_keyhole_sizing = 50;
     public enum outerCutterIndex { outer, cutter }
     
     public static PathsD[] getOutersAndCutters(PathsD source)

@@ -577,7 +577,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/.idea.DesignLibs/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DesignLibs/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Common/geoWrangler/decompose.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/decompose.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Common/geoWrangler/keyhole.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoWrangler/keyhole.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TestGeometrySource/verycomplex.cs" beforeDir="false" afterPath="$PROJECT_DIR$/TestGeometrySource/verycomplex.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/decompositionTest/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/decompositionTest/Program.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -1130,7 +1129,7 @@
       <workItem from="1699995329548" duration="19808000" />
       <workItem from="1700022457032" duration="37536000" />
       <workItem from="1700141010130" duration="35217000" />
-      <workItem from="1700189534700" duration="326000" />
+      <workItem from="1700189534700" duration="1385000" />
     </task>
     <servers />
   </component>

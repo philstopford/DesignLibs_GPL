@@ -868,7 +868,7 @@ internal class Program
         Console.WriteLine("  Keyhole....");
         // Give the keyholder a whirl:
         sw.Restart();
-        PathD toDecomp = GeoWrangler.makeKeyHole(points, reverseEval:false, biDirectionalEval:true)[0];
+        PathD toDecomp = GeoWrangler.makeKeyHole(points, reverseEval:false, biDirectionalEval:true, customSizing: GeoWrangler.decomp_keyhole_sizing)[0];
         writeToLayout("loop_kh_ref", points, new PathsD{toDecomp});
         sw.Stop();
         Console.WriteLine("     done in " + sw.Elapsed.TotalSeconds + ".");

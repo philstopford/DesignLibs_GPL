@@ -41,9 +41,12 @@ public static class XTest
         c2.Execute(Clipper2Lib.ClipType.Difference, Clipper2Lib.FillRule.EvenOdd, c2out);
         
         double area = c2out.Sum(t => Clipper2Lib.Clipper.Area(t));
-        Assert.AreEqual(1, area);
-        Assert.AreEqual(1, c2out.Count);
-        Assert.AreEqual(14, c2out[0].Count);
+        Assert.AreEqual(814000000, area);
+        Assert.AreEqual(4, c2out.Count);
+        Assert.AreEqual(4, c2out[0].Count);
+        Assert.AreEqual(4, c2out[1].Count);
+        Assert.AreEqual(4, c2out[2].Count);
+        Assert.AreEqual(4, c2out[3].Count);
 
         List<List<ClipperLib1.IntPoint>> xShape1 = new();
         for (int p = 0; p < xShape.Count; p++)
@@ -70,8 +73,11 @@ public static class XTest
         c1.Execute(ClipperLib1.ClipType.ctDifference, o1);
 
         double area2 = o1.Sum(t => ClipperLib1.Clipper.Area(t));
-        Assert.AreEqual(1, area2);
-        Assert.AreEqual(1, o1.Count);
-        Assert.AreEqual(14, o1[0].Count);
+        Assert.AreEqual(814000000, area2);
+        Assert.AreEqual(4, o1.Count);
+        Assert.AreEqual(4, o1[0].Count);
+        Assert.AreEqual(4, o1[1].Count);
+        Assert.AreEqual(4, o1[2].Count);
+        Assert.AreEqual(4, o1[3].Count);
     }
 }

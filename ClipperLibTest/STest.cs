@@ -65,9 +65,9 @@ public class STest
         co.Execute(1.0001, iPoly);
         
         double area = iPoly.Sum(t => Clipper2Lib.Clipper.Area(t));
-        Assert.AreEqual(1, area);
+        Assert.AreEqual(538134004, area);
         Assert.AreEqual(1, iPoly.Count);
-        Assert.AreEqual(14, iPoly[0].Count);
+        Assert.AreEqual(12, iPoly[0].Count);
 
         ClipperLib1.Clipper c1 = new() {PreserveCollinear = false};
         c1.AddPath(BP1, ClipperLib1.PolyType.ptSubject, true);
@@ -84,13 +84,15 @@ public class STest
         c2.Execute(Clipper2Lib.ClipType.Difference, Clipper2Lib.FillRule.EvenOdd, o2);
         
         double areac1 = o1.Sum(t => ClipperLib1.Clipper.Area(t));
-        Assert.AreEqual(1, areac1);
-        Assert.AreEqual(1, o1.Count);
-        Assert.AreEqual(14, o1[0].Count);
+        Assert.AreEqual(112000000, areac1);
+        Assert.AreEqual(2, o1.Count);
+        Assert.AreEqual(4, o1[0].Count);
+        Assert.AreEqual(4, o1[1].Count);
         
         double areac2 = o2.Sum(t => Clipper2Lib.Clipper.Area(t));
-        Assert.AreEqual(1, areac2);
-        Assert.AreEqual(1, o2.Count);
-        Assert.AreEqual(14, o2[0].Count);
+        Assert.AreEqual(111954004, areac2);
+        Assert.AreEqual(2, o2.Count);
+        Assert.AreEqual(4, o2[0].Count);
+        Assert.AreEqual(4, o2[1].Count);
     }
 }

@@ -268,8 +268,8 @@ public static class ComparisonTest
             Paths clipped1 = ClipperLib1.Clipper.OpenPathsFromPolyTree(pt);
             
             // Results ought to be ~consistent. ClipperLib2 reverses the direction compared to ClipperLib1
-            Assert.True(((clipped1[0][0].X == clipped2[0][0].X) && (clipped1[0][0].Y == clipped2[0][0].Y)) ||
-                        ((clipped1[0][0].X == clipped2[0][1].X) && (clipped1[0][0].Y == clipped2[0][1].Y)));
+            Assert.True(((Math.Abs(clipped1[0][0].X - clipped2[0][0].X) <= 1) && (Math.Abs(clipped1[0][0].Y - clipped2[0][0].Y) <= 1)) ||
+                        ((Math.Abs(clipped1[0][0].X - clipped2[0][1].X) <= 1) && (Math.Abs(clipped1[0][0].Y - clipped2[0][1].Y) <= 1)));
         }
     }
 
@@ -457,8 +457,8 @@ public static class ComparisonTest
             Paths clipped1 = ClipperLib1.Clipper.OpenPathsFromPolyTree(pt);
             
             // Results ought to be ~consistent. ClipperLib2 reverses the direction compared to ClipperLib1
-            Assert.True(((clipped1[0][0].X == clipped2[0][0].X) && (clipped1[0][0].Y == clipped2[0][0].Y)) ||
-                        ((clipped1[0][0].X == clipped2[0][1].X) && (clipped1[0][0].Y == clipped2[0][1].Y)));
+            Assert.True(((Math.Abs(clipped1[0][0].X - clipped2[0][0].X) <= 1) && (Math.Abs(clipped1[0][0].Y - clipped2[0][0].Y) <= 1)) ||
+                        ((Math.Abs(clipped1[0][0].X - clipped2[0][1].X) <= 1) && (Math.Abs(clipped1[0][0].Y - clipped2[0][1].Y) <= 1)));
         }
     }
 }

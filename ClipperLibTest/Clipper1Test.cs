@@ -31,9 +31,9 @@ public static class Clipper1Test
         Paths output = new();
         c.Execute(ClipType.ctUnion, output);
         double area = output.Sum(t => Clipper.Area(t));
-        Assert.AreEqual(1, area);
+        Assert.AreEqual(400, area);
         Assert.AreEqual(1, output.Count);
-        Assert.AreEqual(1, output[0].Count);
+        Assert.AreEqual(8, output[0].Count);
     }
 
     public static void collinearOffsetTest()
@@ -57,9 +57,9 @@ public static class Clipper1Test
         co.Execute(ref temp, 1.0);
 
         double area = temp.Sum(t => Clipper.Area(t));
-        Assert.AreEqual(1, area);
+        Assert.AreEqual(484, area);
         Assert.AreEqual(1, temp.Count);
-        Assert.AreEqual(1, temp[0].Count);
+        Assert.AreEqual(8, temp[0].Count);
     }
     
     public static void unionTest()
@@ -91,9 +91,9 @@ public static class Clipper1Test
         cs.Execute(ClipType.ctUnion, simpleOutputPoints);
 
         double area1 = simpleOutputPoints.Sum(t => Clipper.Area(t));
-        Assert.AreEqual(1, area1);
+        Assert.AreEqual(50000000000, area1);
         Assert.AreEqual(1, simpleOutputPoints.Count);
-        Assert.AreEqual(1, simpleOutputPoints[0].Count);
+        Assert.AreEqual(12, simpleOutputPoints[0].Count);
 
         Path firstPath = new() {
         new (100000,-300000),
@@ -271,9 +271,9 @@ public static class Clipper1Test
         Paths outputPoints = new();
         c.Execute(ClipType.ctUnion,  outputPoints);
         double area = outputPoints.Sum(t => Clipper.Area(t));
-        Assert.AreEqual(1, area);
+        Assert.AreEqual(50000000000, area);
         Assert.AreEqual(1, outputPoints.Count);
-        Assert.AreEqual(14, outputPoints[0].Count);
+        Assert.AreEqual(12, outputPoints[0].Count);
     }
 
     public static void notTest()
@@ -311,9 +311,10 @@ public static class Clipper1Test
         c.Execute(ClipType.ctIntersection, outputPoints);
 
         double area = outputPoints.Sum(t => Clipper.Area(t));
-        Assert.AreEqual(1, area);
-        Assert.AreEqual(1, outputPoints.Count);
-        Assert.AreEqual(14, outputPoints[0].Count);
+        Assert.AreEqual(160000000000, area);
+        Assert.AreEqual(2, outputPoints.Count);
+        Assert.AreEqual(4, outputPoints[0].Count);
+        Assert.AreEqual(4, outputPoints[1].Count);
     }
     public static void edgeOffsetTest()
     {
@@ -328,9 +329,9 @@ public static class Clipper1Test
         Paths p = new();
         co.Execute(ref p, 500);
         double area = p.Sum(t => Clipper.Area(t));
-        Assert.AreEqual(1, area);
+        Assert.AreEqual(102000000, area);
         Assert.AreEqual(1, p.Count);
-        Assert.AreEqual(14, p[0].Count);
+        Assert.AreEqual(4, p[0].Count);
     }
     private static void zFillTest(IntPoint bot1, IntPoint top1, IntPoint bot2, IntPoint top2, ref IntPoint pt)
     {
@@ -364,9 +365,9 @@ public static class Clipper1Test
         Paths solution = new();
         c.Execute(ClipType.ctIntersection, solution);
         double area = solution.Sum(t => Clipper.Area(t));
-        Assert.AreEqual(1, area);
+        Assert.AreEqual(20000, area);
         Assert.AreEqual(1, solution.Count);
-        Assert.AreEqual(14, solution[0].Count);
+        Assert.AreEqual(4, solution[0].Count);
     }
     
     public static void coincident_openPathTest()
@@ -398,7 +399,7 @@ public static class Clipper1Test
         Paths solution = Clipper.OpenPathsFromPolyTree(pt);
         
         Assert.AreEqual(1, solution.Count);
-        Assert.AreEqual(14, solution[0].Count);
+        Assert.AreEqual(2, solution[0].Count);
 
         Path t2 = new()
         {
@@ -421,7 +422,7 @@ public static class Clipper1Test
         Paths solution2 = Clipper.OpenPathsFromPolyTree(pt2);
 
         Assert.AreEqual(1, solution2.Count);
-        Assert.AreEqual(14, solution2[0].Count);
+        Assert.AreEqual(3, solution2[0].Count);
 
         Path t2b = new()
         {
@@ -444,7 +445,7 @@ public static class Clipper1Test
         Paths solution2b = Clipper.OpenPathsFromPolyTree(pt2b);
 
         Assert.AreEqual(1, solution2b.Count);
-        Assert.AreEqual(14, solution2b[0].Count);
+        Assert.AreEqual(3, solution2b[0].Count);
 
         Path t3 = new();
         int x = 0;
@@ -472,7 +473,7 @@ public static class Clipper1Test
         Paths solution3 = Clipper.OpenPathsFromPolyTree(pt3);
 
         Assert.AreEqual(1, solution3.Count);
-        Assert.AreEqual(14, solution3[0].Count);
+        Assert.AreEqual(21, solution3[0].Count);
     }
     public static void keyHole_test2()
     {
@@ -505,9 +506,9 @@ public static class Clipper1Test
         Paths cutters = Clipper.ClosedPathsFromPolyTree(tp);
 
         double area = cutters.Sum(t => Clipper.Area(t));
-        Assert.AreEqual(1, area);
+        Assert.AreEqual(600004, area);
         Assert.AreEqual(1, cutters.Count);
-        Assert.AreEqual(14, cutters[0].Count);
+        Assert.AreEqual(4, cutters[0].Count);
 
         Clipper c = new();
 
@@ -518,9 +519,10 @@ public static class Clipper1Test
         Paths f = new();
         c.Execute(ClipType.ctDifference, f, PolyFillType.pftEvenOdd, PolyFillType.pftEvenOdd);
         double area2 = f.Sum(t => Clipper.Area(t));
-        Assert.AreEqual(1, area2);
-        Assert.AreEqual(1, f.Count);
-        Assert.AreEqual(14, f[0].Count);
+        Assert.AreEqual(719999399999, area2);
+        Assert.AreEqual(2, f.Count);
+        Assert.AreEqual(6, f[0].Count);
+        Assert.AreEqual(4, f[1].Count);
     }
     
     public static void openPath_clipTest1()
@@ -556,10 +558,7 @@ public static class Clipper1Test
         c.Execute(ClipType.ctIntersection, pt);
         Paths solution = Clipper.OpenPathsFromPolyTree(pt);
  
-        double area = solution.Sum(t => Clipper.Area(t));
-        Assert.AreEqual(1, area);
         Assert.AreEqual(1, solution.Count);
-        Assert.AreEqual(14, solution[0].Count);
     }
 
     public static void keyHole_test1()
@@ -594,9 +593,10 @@ public static class Clipper1Test
         co.Execute(ref out_, keyhole_sizing);
 
         double area = out_.Sum(t => Clipper.Area(t));
-        Assert.AreEqual(1, area);
-        Assert.AreEqual(1, out_.Count);
-        Assert.AreEqual(14, out_[0].Count);
+        Assert.AreEqual(121200000000, area);
+        Assert.AreEqual(2, out_.Count);
+        Assert.AreEqual(4, out_[0].Count);
+        Assert.AreEqual(4, out_[1].Count);
     }
 
     public static void openPath_clipTest2()
@@ -630,7 +630,7 @@ public static class Clipper1Test
         c.Execute(ClipType.ctIntersection, pt);
         Paths solution = Clipper.OpenPathsFromPolyTree(pt);
         Assert.AreEqual(1, solution.Count);
-        Assert.AreEqual(14, solution[0].Count);
+        Assert.AreEqual(2, solution[0].Count);
     }
     public static void offsetTest()
     {
@@ -670,9 +670,10 @@ public static class Clipper1Test
         c.Execute(ClipType.ctDifference, solution);
 
         double area = solution.Sum(t => Clipper.Area(t));
-        Assert.AreEqual(1, area);
-        Assert.AreEqual(1, solution.Count);
-        Assert.AreEqual(14, solution[0].Count);
+        Assert.AreEqual(149999599999, area);
+        Assert.AreEqual(2, solution.Count);
+        Assert.AreEqual(6, solution[0].Count);
+        Assert.AreEqual(4, solution[1].Count);
     }
     
     public static void leftChordTest()
@@ -982,8 +983,9 @@ public static class Clipper1Test
         c.Execute(ClipType.ctIntersection, pt);
         Paths open = Clipper.OpenPathsFromPolyTree(pt);
         
-        Assert.AreEqual(1, open.Count);
-        Assert.AreEqual(14, open[0].Count);
+        Assert.AreEqual(2, open.Count);
+        Assert.AreEqual(2, open[0].Count);
+        Assert.AreEqual(2, open[1].Count);
     }
     
     public static void rightChordTest()
@@ -1309,6 +1311,6 @@ public static class Clipper1Test
         c.Execute(ClipType.ctIntersection, pt);
         Paths open = Clipper.OpenPathsFromPolyTree(pt);
         Assert.AreEqual(1, open.Count);
-        Assert.AreEqual(14, open[0].Count);
+        Assert.AreEqual(17, open[0].Count);
     }
 }

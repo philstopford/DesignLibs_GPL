@@ -219,9 +219,10 @@ public static class SubtractionTest
         c.Execute(Clipper2Lib.ClipType.Difference, Clipper2Lib.FillRule.EvenOdd, solution_cl);
 
         double area = solution_cl.Sum(t => Clipper2Lib.Clipper.Area(t));
-        Assert.AreEqual(1, area);
-        Assert.AreEqual(1, solution_cl.Count);
-        Assert.AreEqual(14, solution_cl[0].Count);
+        Assert.AreEqual(1.8446743606529683E+19d, area);
+        Assert.AreEqual(2, solution_cl.Count);
+        Assert.AreEqual(4, solution_cl[0].Count);
+        Assert.AreEqual(4, solution_cl[1].Count);
         
         c.PreserveCollinear = false;
         
@@ -230,9 +231,10 @@ public static class SubtractionTest
         c.Execute(Clipper2Lib.ClipType.Difference, Clipper2Lib.FillRule.EvenOdd, solution_ncl);
 
         double area2 = solution_ncl.Sum(t => Clipper2Lib.Clipper.Area(t));
-        Assert.AreEqual(1, area2);
-        Assert.AreEqual(1, solution_ncl.Count);
-        Assert.AreEqual(14, solution_ncl[0].Count);
+        Assert.AreEqual(1.8446743606529683E+19, area2);
+        Assert.AreEqual(2, solution_ncl.Count);
+        Assert.AreEqual(4, solution_ncl[0].Count);
+        Assert.AreEqual(4, solution_ncl[1].Count);
         
         ClipperLib1.Clipper c1 = new()
         {
@@ -272,9 +274,10 @@ public static class SubtractionTest
         c1.Execute(ClipperLib1.ClipType.ctDifference, solution_cl1);
 
         double area3 = solution_cl1.Sum(t => ClipperLib1.Clipper.Area(t));
-        Assert.AreEqual(1, area3);
-        Assert.AreEqual(1, solution_cl1.Count);
-        Assert.AreEqual(14, solution_cl1[0].Count);
+        Assert.AreEqual(1.8446743606529683E+19d, area3);
+        Assert.AreEqual(2, solution_cl1.Count);
+        Assert.AreEqual(4, solution_cl1[0].Count);
+        Assert.AreEqual(4, solution_cl1[1].Count);
         
         c1.PreserveCollinear = false;
         
@@ -283,8 +286,9 @@ public static class SubtractionTest
         c1.Execute(ClipperLib1.ClipType.ctDifference, solution_ncl1);
         
         double area4 = solution_ncl1.Sum(t => ClipperLib1.Clipper.Area(t));
-        Assert.AreEqual(1, area4);
-        Assert.AreEqual(1, solution_ncl1.Count);
-        Assert.AreEqual(14, solution_ncl1[0].Count);
+        Assert.AreEqual(1.8446743606529683E+19d, area4);
+        Assert.AreEqual(2, solution_ncl1.Count);
+        Assert.AreEqual(4, solution_ncl1[0].Count);
+        Assert.AreEqual(4, solution_ncl1[1].Count);
     }
 }

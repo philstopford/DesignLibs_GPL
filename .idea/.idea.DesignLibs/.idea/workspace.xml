@@ -574,6 +574,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.DesignLibs/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DesignLibs/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ClipperLibTest/Clipper1Test.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ClipperLibTest/Clipper1Test.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ClipperLibTest/Clipper2Test.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ClipperLibTest/Clipper2Test.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ClipperLibTest/ComparisonTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ClipperLibTest/ComparisonTest.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ClipperLibTest/OffsetTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ClipperLibTest/OffsetTest.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ClipperLibTest/OpenPathClippingTest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ClipperLibTest/OpenPathClippingTest.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ClipperLibTest/STest.cs" beforeDir="false" afterPath="$PROJECT_DIR$/ClipperLibTest/STest.cs" afterDir="false" />
@@ -711,7 +715,7 @@
     ]
   }
 }</component>
-  <component name="RunManager" selected=".NET Project.decompositionTest">
+  <component name="RunManager" selected=".NET Project.ClipperLibTest">
     <configuration name="ClipperLibTest" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -1131,7 +1135,7 @@
       <workItem from="1700022457032" duration="37536000" />
       <workItem from="1700141010130" duration="35217000" />
       <workItem from="1700189534700" duration="1385000" />
-      <workItem from="1700346883539" duration="4200000" />
+      <workItem from="1700346883539" duration="6800000" />
     </task>
     <servers />
   </component>

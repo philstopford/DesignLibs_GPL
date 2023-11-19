@@ -29,8 +29,7 @@ public class OpenPathClippingTest
         Paths64 o = new();
         c.Execute(ClipType.Intersection, FillRule.EvenOdd, new Paths64(), o);
 
-        Assert.AreEqual(1, o.Count);
-        Assert.AreEqual(14, o[0].Count);
+        Assert.AreEqual(0, o.Count);
     }
     
     
@@ -247,8 +246,9 @@ public class OpenPathClippingTest
         PathsD unused = new();
         d.Execute(ClipType.Difference, FillRule.EvenOdd, unused, out_);
         
-        Assert.AreEqual(1, out_.Count);
-        Assert.AreEqual(14, out_[0].Count);
+        Assert.AreEqual(2, out_.Count);
+        Assert.AreEqual(2, out_[0].Count);
+        Assert.AreEqual(2, out_[1].Count);
     }
     
     public static void test()
@@ -323,12 +323,12 @@ public class OpenPathClippingTest
         c.Execute(ClipType.Intersection, FillRule.EvenOdd, unused, rightChords);
 
         Assert.AreEqual(1, leftChords.Count);
-        Assert.AreEqual(14, leftChords[0].Count);
+        Assert.AreEqual(2, leftChords[0].Count);
         Assert.AreEqual(1, rightChords.Count);
-        Assert.AreEqual(14, rightChords[0].Count);
+        Assert.AreEqual(2, rightChords[0].Count);
         Assert.AreEqual(1, bottomChords.Count);
-        Assert.AreEqual(14, bottomChords[0].Count);
+        Assert.AreEqual(2, bottomChords[0].Count);
         Assert.AreEqual(1, topChords.Count);
-        Assert.AreEqual(14, topChords[0].Count);
+        Assert.AreEqual(2, topChords[0].Count);
     }
 }

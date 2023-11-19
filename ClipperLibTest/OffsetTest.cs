@@ -28,9 +28,10 @@ public static class OffsetTest
         co.Execute(50, resizedPolyData);
 
         double area = resizedPolyData.Sum(t => Clipper.Area(t));
-        Assert.AreEqual(1, area);
-        Assert.AreEqual(1, resizedPolyData.Count);
-        Assert.AreEqual(14, resizedPolyData[0].Count);
+        Assert.AreEqual(86501.5, area);
+        Assert.AreEqual(2, resizedPolyData.Count);
+        Assert.AreEqual(11, resizedPolyData[0].Count);
+        Assert.AreEqual(3, resizedPolyData[1].Count);
     }
 
 
@@ -169,9 +170,9 @@ public static class OffsetTest
         co.Execute(Convert.ToDouble(6 * 10000), resizedPolyData);
         
         double area = resizedPolyData.Sum(t => Clipper.Area(t));
-        Assert.AreEqual(1, area);
+        Assert.AreEqual(176400000000, area);
         Assert.AreEqual(1, resizedPolyData.Count);
-        Assert.AreEqual(14, resizedPolyData[0].Count);
+        Assert.AreEqual(120, resizedPolyData[0].Count);
     }
     
     private static Path64 test = new()
@@ -204,9 +205,10 @@ public static class OffsetTest
         co1.Execute(ref c1up, 2.0);
         
         double area = c1up.Sum(t => ClipperLib1.Clipper.Area(t));
-        Assert.AreEqual(1, area);
-        Assert.AreEqual(1, c1up.Count);
-        Assert.AreEqual(14, c1up[0].Count);
+        Assert.AreEqual(512, area);
+        Assert.AreEqual(2, c1up.Count);
+        Assert.AreEqual(4, c1up[0].Count);
+        Assert.AreEqual(4, c1up[1].Count);
         
         co1.Clear();
         co1.AddPaths(c1up, ClipperLib1.JoinType.jtMiter, ClipperLib1.EndType.etClosedPolygon);
@@ -214,9 +216,10 @@ public static class OffsetTest
         co1.Execute(ref c1down, -2.0);
 
         double area1 = c1down.Sum(t => ClipperLib1.Clipper.Area(t));
-        Assert.AreEqual(1, area1);
-        Assert.AreEqual(1, c1down.Count);
-        Assert.AreEqual(14, c1down[0].Count);
+        Assert.AreEqual(256, area1);
+        Assert.AreEqual(2, c1down.Count);
+        Assert.AreEqual(4, c1down[0].Count);
+        Assert.AreEqual(4, c1down[1].Count);
         
         ClipperOffset co2 = new() {PreserveCollinear = true, ReverseSolution = true};
         co2.AddPath(test, Clipper2Lib.JoinType.Miter, Clipper2Lib.EndType.Polygon);
@@ -224,9 +227,10 @@ public static class OffsetTest
         co2.Execute(2.0, c2up);
         
         double area2 = c2up.Sum(t => Clipper.Area(t));
-        Assert.AreEqual(1, area2);
-        Assert.AreEqual(1, c2up.Count);
-        Assert.AreEqual(14, c2up[0].Count);
+        Assert.AreEqual(512, area2);
+        Assert.AreEqual(2, c2up.Count);
+        Assert.AreEqual(5, c2up[0].Count);
+        Assert.AreEqual(5, c2up[1].Count);
         
         co2.Clear();
         co2.AddPaths(c2up, Clipper2Lib.JoinType.Miter, Clipper2Lib.EndType.Polygon);
@@ -234,8 +238,9 @@ public static class OffsetTest
         co2.Execute(-2.0, c2down);
         
         double area3 = c2down.Sum(t => Clipper.Area(t));
-        Assert.AreEqual(1, area3);
-        Assert.AreEqual(1, c2down.Count);
-        Assert.AreEqual(14, c2down[0].Count);
+        Assert.AreEqual(-256, area3);
+        Assert.AreEqual(2, c2down.Count);
+        Assert.AreEqual(5, c2down[0].Count);
+        Assert.AreEqual(5, c2down[1].Count);
     }
 }

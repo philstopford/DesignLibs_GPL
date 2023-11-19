@@ -1,5 +1,6 @@
 ﻿using Clipper2Lib;
 using geoWrangler;
+using NUnit.Framework;
 
 namespace ClipperLib2Test;
 
@@ -38,8 +39,6 @@ public static class Clipper2Test
 
         PathsD sol = Clipper.Difference(subj, clip, FillRule.NonZero);
 
-        // std::cout << sol;
-
         SvgWriter svgSrc,svgDst;
         svgSrc = new();
         svgDst = new();
@@ -49,6 +48,11 @@ public static class Clipper2Test
 
         SvgUtils.AddSolution(svgDst, sol, true);
         SvgUtils.SaveToFile(svgDst, "svgDst.svg", FillRule.NonZero, 800, 600, 10);
+        
+        double area = sol.Sum(t => Clipper.Area(t));
+        Assert.AreEqual(1, area);
+        Assert.AreEqual(1, sol.Count);
+        Assert.AreEqual(14, sol[0].Count);
     }
     
     public static void chordTest()
@@ -122,29 +126,19 @@ public static class Clipper2Test
         Paths64 rightChords = new();
         c.Execute(ClipType.Intersection, FillRule.EvenOdd, unused, rightChords);
 
-        /* Expected output
-        bottomChords = {List<List<Point64>>} Count = 1
-         [0] = {List<Point64>} Count = 2
-          [0] = {Point64} 500000,-550000,0 
-          [1] = {Point64} 300000,-550000,0 
-        leftChords = {List<List<Point64>>} Count = 1
-         [0] = {List<Point64>} Count = 2
-          [0] = {Point64} 300000,-550000,0 
-          [1] = {Point64} 300000,-150000,0 
-        rightChords = {List<List<Point64>>} Count = 1
-         [0] = {List<Point64>} Count = 2
-          [0] = {Point64} 500000,-150000,0 
-          [1] = {Point64} 500000,-550000,0
-        topChords = {List<List<Point64>>} Count = 1
-         [0] = {List<Point64>} Count = 2
-          [0] = {Point64} 300000,-150000,0 
-          [1] = {Point64} 500000,-150000,0 
-         */
+        Assert.AreEqual(1, leftChords.Count);
+        Assert.AreEqual(14, leftChords[0].Count);
+        Assert.AreEqual(1, rightChords.Count);
+        Assert.AreEqual(14, rightChords[0].Count);
+        Assert.AreEqual(1, bottomChords.Count);
+        Assert.AreEqual(14, bottomChords[0].Count);
+        Assert.AreEqual(1, topChords.Count);
+        Assert.AreEqual(14, topChords[0].Count);
     }
     
-    public static void colinearTest()
+    public static void collinearTest()
     {
-        Path64 colinear = new()
+        Path64 collinear = new()
         {
             new(-10, -10),
             new(-10, 0),
@@ -158,28 +152,20 @@ public static class Clipper2Test
         };
 
         Clipper64 c = new() {PreserveCollinear = true};
-        c.AddSubject(colinear);
-        c.AddClip(colinear);
+        c.AddSubject(collinear);
+        c.AddClip(collinear);
         Paths64 output = new();
         c.Execute(ClipType.Union, FillRule.EvenOdd, output);
-        
-        /* Expected output
-        output = {List<List<Point64>>} Count = 1
-         [0] = {List<Point64>} Count = 8
-          [0] = {Point64} -10,-10,0 
-          [1] = {Point64} -10,0,0 
-          [2] = {Point64} -10,10,0 
-          [3] = {Point64} 0,10,0 
-          [4] = {Point64} 10,10,0 
-          [5] = {Point64} 10,0,0 
-          [6] = {Point64} 10,-10,0 
-          [7] = {Point64} 0,-10,0 
-         */
+
+        double area = output.Sum(t => Clipper.Area(t));
+        Assert.AreEqual(1, area);
+        Assert.AreEqual(1, output.Count);
+        Assert.AreEqual(14, output[0].Count);
     }
 
-    public static void colinearOffsetTest()
+    public static void collinearOffsetTest()
     {
-        Path64 colinear = Clipper.MakePath(new []
+        Path64 collinear = Clipper.MakePath(new []
         {
             -10, -10,
             -10, 0,
@@ -193,18 +179,14 @@ public static class Clipper2Test
         });
 
         ClipperOffset co = new() {PreserveCollinear = true, ReverseSolution = true};
-        co.AddPath(colinear, JoinType.Miter, EndType.Polygon);
+        co.AddPath(collinear, JoinType.Miter, EndType.Polygon);
         Paths64 temp = new();
         co.Execute(1.0, temp);
         
-        /* Expected output
-        temp = {List<List<Point64>>} Count = 1
-         [0] = {List<Point64>} Count = 4
-          [0] = {Point64} -11,-11,0 
-          [1] = {Point64} -11,11,0 
-          [2] = {Point64} 11,11,0 
-          [3] = {Point64} 11,-11,0 
-         */
+        double area = temp.Sum(t => Clipper.Area(t));
+        Assert.AreEqual(1, area);
+        Assert.AreEqual(1, temp.Count);
+        Assert.AreEqual(14, temp[0].Count);
     }
 
     public static void unionTest()
@@ -235,22 +217,10 @@ public static class Clipper2Test
         Paths64 simpleOutputPoints = new();
         cs.Execute(ClipType.Union, FillRule.EvenOdd, simpleOutputPoints);
         
-        /* Expected output
-        simpleOutputPoints = {List<List<Point64>>} Count = 1
-         [0] = {List<Point64>} Count = 12
-          [0] = {Point64} 100000,-300000,0 
-          [1] = {Point64} 100000,-200000,0 
-          [2] = {Point64} 0,-200000,0 
-          [3] = {Point64} 0,-100000,0 
-          [4] = {Point64} 100000,-100000,0 
-          [5] = {Point64} 100000,0,0 
-          [6] = {Point64} 200000,0,0 
-          [7] = {Point64} 200000,-100000,0 
-          [8] = {Point64} 300000,-100000,0 
-          [9] = {Point64} 300000,-200000,0 
-          [10] = {Point64} 200000,-200000,0 
-          [11] = {Point64} 200000,-300000,0 
-         */
+        double area = simpleOutputPoints.Sum(t => Clipper.Area(t));
+        Assert.AreEqual(1, area);
+        Assert.AreEqual(1, simpleOutputPoints.Count);
+        Assert.AreEqual(14, simpleOutputPoints[0].Count);
 
         Path64 firstPath = new() {
         new (100000,-300000),
@@ -427,130 +397,10 @@ public static class Clipper2Test
 
         Paths64 outputPoints = new();
         c.Execute(ClipType.Union, FillRule.EvenOdd, outputPoints);        
-        /* Expected output
-        outputPoints = {List<List<Point64>>} Count = 1
-         [0] = {List<Point64>} Count = 120
-           [0] = {Point64} 100000,-300000,0 
-           [1] = {Point64} 100000,-290000,0 
-           [2] = {Point64} 100000,-280000,0 
-           [3] = {Point64} 100000,-270000,0 
-           [4] = {Point64} 100000,-260000,0 
-           [5] = {Point64} 100000,-250000,0 
-           [6] = {Point64} 100000,-240000,0 
-           [7] = {Point64} 100000,-230000,0 
-           [8] = {Point64} 100000,-220000,0 
-           [9] = {Point64} 100000,-210000,0 
-           [10] = {Point64} 100000,-200000,0 
-           [11] = {Point64} 90000,-200000,0 
-           [12] = {Point64} 80000,-200000,0 
-           [13] = {Point64} 70000,-200000,0 
-           [14] = {Point64} 60000,-200000,0 
-           [15] = {Point64} 50000,-200000,0 
-           [16] = {Point64} 40000,-200000,0 
-           [17] = {Point64} 30000,-200000,0 
-           [18] = {Point64} 20000,-200000,0 
-           [19] = {Point64} 10000,-200000,0 
-           [20] = {Point64} 0,-200000,0 
-           [21] = {Point64} 0,-190000,0 
-           [22] = {Point64} 0,-180000,0 
-           [23] = {Point64} 0,-170000,0 
-           [24] = {Point64} 0,-160000,0 
-           [25] = {Point64} 0,-150000,0 
-           [26] = {Point64} 0,-140000,0 
-           [27] = {Point64} 0,-130000,0 
-           [28] = {Point64} 0,-120000,0 
-           [29] = {Point64} 0,-110000,0 
-           [30] = {Point64} 0,-100000,0 
-           [31] = {Point64} 10000,-100000,0 
-           [32] = {Point64} 20000,-100000,0 
-           [33] = {Point64} 30000,-100000,0 
-           [34] = {Point64} 40000,-100000,0 
-           [35] = {Point64} 50000,-100000,0 
-           [36] = {Point64} 60000,-100000,0 
-           [37] = {Point64} 70000,-100000,0 
-           [38] = {Point64} 80000,-100000,0 
-           [39] = {Point64} 90000,-100000,0 
-           [40] = {Point64} 100000,-100000,0 
-           [41] = {Point64} 100000,-90000,0 
-           [42] = {Point64} 100000,-80000,0 
-           [43] = {Point64} 100000,-70000,0 
-           [44] = {Point64} 100000,-60000,0 
-           [45] = {Point64} 100000,-50000,0 
-           [46] = {Point64} 100000,-40000,0 
-           [47] = {Point64} 100000,-30000,0 
-           [48] = {Point64} 100000,-20000,0 
-           [49] = {Point64} 100000,-10000,0 
-           [50] = {Point64} 100000,0,0 
-           [51] = {Point64} 110000,0,0 
-           [52] = {Point64} 120000,0,0 
-           [53] = {Point64} 130000,0,0 
-           [54] = {Point64} 140000,0,0 
-           [55] = {Point64} 150000,0,0 
-           [56] = {Point64} 160000,0,0 
-           [57] = {Point64} 170000,0,0 
-           [58] = {Point64} 180000,0,0 
-           [59] = {Point64} 190000,0,0 
-           [60] = {Point64} 200000,0,0 
-           [61] = {Point64} 200000,-10000,0 
-           [62] = {Point64} 200000,-20000,0 
-           [63] = {Point64} 200000,-30000,0 
-           [64] = {Point64} 200000,-40000,0 
-           [65] = {Point64} 200000,-50000,0 
-           [66] = {Point64} 200000,-60000,0 
-           [67] = {Point64} 200000,-70000,0 
-           [68] = {Point64} 200000,-80000,0 
-           [69] = {Point64} 200000,-90000,0 
-           [70] = {Point64} 200000,-100000,0 
-           [71] = {Point64} 210000,-100000,0 
-           [72] = {Point64} 220000,-100000,0 
-           [73] = {Point64} 230000,-100000,0 
-           [74] = {Point64} 240000,-100000,0 
-           [75] = {Point64} 250000,-100000,0 
-           [76] = {Point64} 260000,-100000,0 
-           [77] = {Point64} 270000,-100000,0 
-           [78] = {Point64} 280000,-100000,0 
-           [79] = {Point64} 290000,-100000,0 
-           [80] = {Point64} 300000,-100000,0 
-           [81] = {Point64} 300000,-110000,0 
-           [82] = {Point64} 300000,-120000,0 
-           [83] = {Point64} 300000,-130000,0 
-           [84] = {Point64} 300000,-140000,0 
-           [85] = {Point64} 300000,-150000,0 
-           [86] = {Point64} 300000,-160000,0 
-           [87] = {Point64} 300000,-170000,0 
-           [88] = {Point64} 300000,-180000,0 
-           [89] = {Point64} 300000,-190000,0 
-           [90] = {Point64} 300000,-200000,0 
-           [91] = {Point64} 290000,-200000,0 
-           [92] = {Point64} 280000,-200000,0 
-           [93] = {Point64} 270000,-200000,0 
-           [94] = {Point64} 260000,-200000,0 
-           [95] = {Point64} 250000,-200000,0 
-           [96] = {Point64} 240000,-200000,0 
-           [97] = {Point64} 230000,-200000,0 
-           [98] = {Point64} 220000,-200000,0 
-           [99] = {Point64} 210000,-200000,0 
-           [100] = {Point64} 200000,-200000,0 
-           [101] = {Point64} 200000,-210000,0 
-           [102] = {Point64} 200000,-220000,0 
-           [103] = {Point64} 200000,-230000,0 
-           [104] = {Point64} 200000,-240000,0 
-           [105] = {Point64} 200000,-250000,0 
-           [106] = {Point64} 200000,-260000,0 
-           [107] = {Point64} 200000,-270000,0 
-           [108] = {Point64} 200000,-280000,0 
-           [109] = {Point64} 200000,-290000,0 
-           [110] = {Point64} 200000,-300000,0 
-           [111] = {Point64} 190000,-300000,0 
-           [112] = {Point64} 180000,-300000,0 
-           [113] = {Point64} 170000,-300000,0 
-           [114] = {Point64} 160000,-300000,0 
-           [115] = {Point64} 150000,-300000,0 
-           [116] = {Point64} 140000,-300000,0 
-           [117] = {Point64} 130000,-300000,0 
-           [118] = {Point64} 120000,-300000,0 
-           [119] = {Point64} 110000,-300000,0 
-            */
+        double area1 = outputPoints.Sum(t => Clipper.Area(t));
+        Assert.AreEqual(1, area1);
+        Assert.AreEqual(1, outputPoints.Count);
+        Assert.AreEqual(14, outputPoints[0].Count);
     }
 
     public static void notTest()
@@ -581,20 +431,10 @@ public static class Clipper2Test
         
         c.Execute(ClipType.Difference, FillRule.EvenOdd, outputPoints);
         
-        /* Expected output
-        outputPoints = {List<List<Point64>>} Count = 2
-         [0] = {List<Point64>} Count = 4
-          [0] = {Point64} -250000,-250000,0 
-          [1] = {Point64} -250000,250000,0 
-          [2] = {Point64} 250000,250000,0 
-          [3] = {Point64} 250000,-250000,0 
-         [1] = {List<Point64>} Count = 4
-          [0] = {Point64} -150000,-150000,0 
-          [1] = {Point64} 150000,-150000,0 
-          [2] = {Point64} 150000,150000,0 
-          [3] = {Point64} -150000,150000,0 
-           */
-        
+        double area = outputPoints.Sum(t => Clipper.Area(t));
+        Assert.AreEqual(1, area);
+        Assert.AreEqual(1, outputPoints.Count);
+        Assert.AreEqual(14, outputPoints[0].Count);
     }
 
     public static void edgeOffsetTest()
@@ -610,15 +450,10 @@ public static class Clipper2Test
         Paths64 p = new();
         co.Execute(500, p);
         
-        /* Expected output
-        p = {List<List<Point64>>} Count = 1
-         [0] = {List<Point64>} Count = 4
-          [0] = {Point64} -100250,99250,0 
-          [1] = {Point64} -100250,200750,0 
-          [2] = {Point64} -99750,200750,0 
-          [3] = {Point64} -99750,99250,0 
-           */
-
+        double area = p.Sum(t => Clipper.Area(t));
+        Assert.AreEqual(1, area);
+        Assert.AreEqual(1, p.Count);
+        Assert.AreEqual(14, p[0].Count);
     }
     private static void zFillTest(Point64 bot1, Point64 top1, Point64 bot2, Point64 top2, ref Point64 pt)
     {
@@ -652,14 +487,10 @@ public static class Clipper2Test
         Paths64 solution = new();
         c.Execute(ClipType.Intersection, FillRule.EvenOdd, solution);
         
-        /* Expected output
-        solution = {List<List<Point64>>} Count = 1
-         [0] = {List<Point64>} Count = 4
-          [0] = {Point64} -100,-1000,-1 
-          [1] = {Point64} -100,-900,0 
-          [2] = {Point64} 100,-900,0 
-          [3] = {Point64} 100,-1000,-1 
-         */
+        double area = solution.Sum(t => Clipper.Area(t));
+        Assert.AreEqual(1, area);
+        Assert.AreEqual(1, solution.Count);
+        Assert.AreEqual(14, solution[0].Count);
     }
     public static void coincident_openPathTest()
     {
@@ -686,12 +517,10 @@ public static class Clipper2Test
         Paths64 solution = new();
         c.Execute(ClipType.Intersection, FillRule.EvenOdd, solution, open);
         
-        /* Expected output
-        open = {List<List<Point64>>} Count = 1
-         [0] = {List<Point64>} Count = 2
-          [0] = {Point64} -1000,-1000,0 
-          [1] = {Point64} -1000,500,0          
-         */
+        double area = solution.Sum(t => Clipper.Area(t));
+        Assert.AreEqual(1, area);
+        Assert.AreEqual(1, solution.Count);
+        Assert.AreEqual(14, solution[0].Count);
         
         Path64 t2 = new()
         {
@@ -708,13 +537,10 @@ public static class Clipper2Test
         Paths64 solution2 = new();
         c2.Execute(ClipType.Intersection, FillRule.EvenOdd, solution2, open2);
 
-        /* Expected output
-        open2 = {List<List<Point64>>} Count = 1
-         [0] = {List<Point64>} Count = 3
-          [0] = {Point64} -1000,-1000,0 
-          [1] = {Point64} -1000,500,0 
-          [2] = {Point64} -900,500,0  
-         */
+        double area1 = solution2.Sum(t => Clipper.Area(t));
+        Assert.AreEqual(1, area1);
+        Assert.AreEqual(1, solution2.Count);
+        Assert.AreEqual(14, solution2[0].Count);
 
         Path64 t2b = new()
         {
@@ -731,13 +557,10 @@ public static class Clipper2Test
         Paths64 solution2b = new();
         c2b.Execute(ClipType.Intersection, FillRule.EvenOdd, solution2b, open2b);
 
-        /* Expected output
-        open2b = {List<List<Point64>>} Count = 1
-         [0] = {List<Point64>} Count = 3
-          [0] = {Point64} -900,500,0 
-          [1] = {Point64} -1000,500,0 
-          [2] = {Point64} -1000,-1000,0  
-         */
+        double area2 = solution2b.Sum(t => Clipper.Area(t));
+        Assert.AreEqual(1, area2);
+        Assert.AreEqual(1, solution2b.Count);
+        Assert.AreEqual(14, solution2b[0].Count);
 
         Path64 t3 = new();
         int x = 0;
@@ -757,31 +580,10 @@ public static class Clipper2Test
         Paths64 solution3 = new();
         c3.Execute(ClipType.Intersection, FillRule.EvenOdd, solution3, open3 );
         
-        /* Expected output
-        open3 = {List<List<Point64>>} Count = 1
-         [0] = {List<Point64>} Count = 21
-          [0] = {Point64} 0,-1000,-1 
-          [1] = {Point64} 0,-900,0 
-          [2] = {Point64} 0,-800,0 
-          [3] = {Point64} 0,-700,0 
-          [4] = {Point64} 0,-600,0 
-          [5] = {Point64} 0,-500,0 
-          [6] = {Point64} 0,-400,0 
-          [7] = {Point64} 0,-300,0 
-          [8] = {Point64} 0,-200,0 
-          [9] = {Point64} 0,-100,0 
-          [10] = {Point64} 0,0,0 
-          [11] = {Point64} 0,100,0 
-          [12] = {Point64} 0,200,0 
-          [13] = {Point64} 0,300,0 
-          [14] = {Point64} 0,400,0 
-          [15] = {Point64} 0,500,0 
-          [16] = {Point64} 0,600,0 
-          [17] = {Point64} 0,700,0 
-          [18] = {Point64} 0,800,0 
-          [19] = {Point64} 0,900,0 
-          [20] = {Point64} 0,1000,-1          
-         */
+        double area3 = solution3.Sum(t => Clipper.Area(t));
+        Assert.AreEqual(1, area3);
+        Assert.AreEqual(1, solution3.Count);
+        Assert.AreEqual(14, solution3[0].Count);
     }
     
     public static void keyHole_test2()
@@ -813,14 +615,10 @@ public static class Clipper2Test
         Paths64 cutters = new();
         co.Execute(2.0, cutters);
 
-        /* Expected output
-        cutters = {List<List<Point64>>} Count = 1
-         [0] = {List<Point64>} Count = 4
-          [0] = {Point64} 799999,799999,0 
-          [1] = {Point64} 799999,1100001,0 
-          [2] = {Point64} 800001,1100001,0 
-          [3] = {Point64} 800001,799999,0 
-           */
+        double area = cutters.Sum(t => Clipper.Area(t));
+        Assert.AreEqual(1, area);
+        Assert.AreEqual(1, cutters.Count);
+        Assert.AreEqual(14, cutters[0].Count);
         
         Clipper64 c = new();
 
@@ -830,21 +628,10 @@ public static class Clipper2Test
         c.AddClip(cutters[0]);
         Paths64 f = new();
         c.Execute(ClipType.Difference, FillRule.EvenOdd, f);
-        /* Expected output
-        f = {List<List<Point64>>} Count = 2
-         [0] = {List<Point64>} Count = 4
-          [0] = {Point64} 800001,800000,0 
-          [1] = {Point64} 800001,1100000,0 
-          [2] = {Point64} 1000000,1100000,0 
-          [3] = {Point64} 1000000,800000,0 
-         [1] = {List<Point64>} Count = 6
-          [0] = {Point64} 200000,0,0 
-          [1] = {Point64} 200000,1100000,0 
-          [2] = {Point64} 799999,1100000,0 
-          [3] = {Point64} 799999,799999,0 
-          [4] = {Point64} 800000,799999,0 
-          [5] = {Point64} 800000,0,0 
-           */
+        double area1 = f.Sum(t => Clipper.Area(t));
+        Assert.AreEqual(1, area1);
+        Assert.AreEqual(1, f.Count);
+        Assert.AreEqual(14, f[0].Count);
     }
     public static void openPath_clipTest1()
     {
@@ -879,13 +666,8 @@ public static class Clipper2Test
 
         c.Execute(ClipType.Intersection, FillRule.EvenOdd, pt, p);
         
-        /* Expected output
-        p = {List<List<Point64>>} Count = 1
-         [0] = {List<Point64>} Count = 2
-          [0] = {Point64} 0,200000,0 
-          [1] = {Point64} 0,0,0 
-           */
- 
+        Assert.AreEqual(1, p.Count);
+        Assert.AreEqual(14, p[0].Count);
     }
     
     public static void openPath_clipTest2()
@@ -924,12 +706,8 @@ public static class Clipper2Test
         Paths64 solution = new();
         c.Execute(ClipType.Intersection, FillRule.EvenOdd, pt, solution);
         
-        /* Expected output
-        solution = {List<List<Point64>>} Count = 1
-         [0] = {List<Point64>} Count = 2
-          [0] = {Point64} 600000,500000,0 
-          [1] = {Point64} 1200000,500000,0 
-           */
+        Assert.AreEqual(1, solution.Count);
+        Assert.AreEqual(14, solution[0].Count);
     }
     
     public static void keyHole_test1()
@@ -965,22 +743,10 @@ public static class Clipper2Test
         Paths64 out_ = new();
         co.Execute(2*keyhole_sizing, out_);
         
-        /* Expected output
-        out_ = {List<List<Point64>>} Count = 2
-         [0] = {List<Point64>} Count = 4
-          [0] = {Point64} 201000,-201000,0 
-          [1] = {Point64} -201000,-201000,0 
-          [2] = {Point64} -201000,201000,0 
-          [3] = {Point64} 201000,201000,0 
-         [1] = {List<Point64>} Count = 4
-          [0] = {Point64} 99000,-99000,0 
-          [1] = {Point64} 99000,99000,0 
-          [2] = {Point64} -99000,99000,0 
-          [3] = {Point64} -99000,-99000,0 
-           */
-        
-        Console.WriteLine("Out count: " + out_.Count);
-
+        double area = out_.Sum(t => Clipper.Area(t));
+        Assert.AreEqual(1, area);
+        Assert.AreEqual(1, out_.Count);
+        Assert.AreEqual(14, out_[0].Count);
     }
     
     public static void offsetTest()
@@ -1013,14 +779,10 @@ public static class Clipper2Test
         Paths64 cutters = new();
         co.Execute( 2.0, cutters);
         
-        /* Expected output
-        cutters = {List<List<Point64>>} Count = 1
-         [0] = {List<Point64>} Count = 4
-          [0] = {Point64} 99999,-1,0 
-          [1] = {Point64} 99999,200001,0 
-          [2] = {Point64} 100001,200001,0 
-          [3] = {Point64} 100001,-1,0 
-           */
+        double area = cutters.Sum(t => Clipper.Area(t));
+        Assert.AreEqual(1, area);
+        Assert.AreEqual(1, cutters.Count);
+        Assert.AreEqual(14, cutters[0].Count);
         
         Paths64 solution = new();
         Clipper64 c = new ();
@@ -1028,21 +790,10 @@ public static class Clipper2Test
         c.AddClip(cutters);
         c.Execute(ClipType.Difference, FillRule.EvenOdd, solution);
         
-        /* Expected output
-        solution = {List<List<Point64>>} Count = 2
-         [0] = {List<Point64>} Count = 6
-          [0] = {Point64} 0,0,0 
-          [1] = {Point64} 0,500000,0 
-          [2] = {Point64} 100000,500000,0 
-          [3] = {Point64} 100000,200001,0 
-          [4] = {Point64} 99999,200001,0 
-          [5] = {Point64} 99999,0,0 
-         [1] = {List<Point64>} Count = 4
-          [0] = {Point64} 100001,0,0 
-          [1] = {Point64} 100001,200000,0 
-          [2] = {Point64} 600000,200000,0 
-          [3] = {Point64} 600000,0,0 
-           */
+        double area1 = solution.Sum(t => Clipper.Area(t));
+        Assert.AreEqual(1, area1);
+        Assert.AreEqual(1, solution.Count);
+        Assert.AreEqual(14, solution[0].Count);
     }
     
     public static void leftChordTest()
@@ -1342,15 +1093,8 @@ public static class Clipper2Test
         Paths64 open = new();
         c.Execute(ClipType.Intersection, FillRule.EvenOdd, unused, open);
 
-        /* Expected output
-        open = {List<List<Point64>>} Count = 2
-         [0] = {List<Point64>} Count = 2
-          [0] = {Point64} -200000,0,2 
-          [1] = {Point64} -246931,0,-1 
-         [1] = {List<Point64>} Count = 2
-          [0] = {Point64} -400000,-255956,-1 
-          [1] = {Point64} -400000,-536878,-1 
-           */
+        Assert.AreEqual(1, open.Count);
+        Assert.AreEqual(14, open[0].Count);
     }
 
     public static void rightChordTest()
@@ -1666,27 +1410,7 @@ public static class Clipper2Test
         Paths64 open = new();
         c.Execute(ClipType.Intersection, FillRule.EvenOdd, unused, open);
         
-        /* Expected output
-        open = {List<List<Point64>>} Count = 1
-         [0] = {List<Point64>} Count = 17
-          [0] = {Point64} -100000,-650000,-1 
-          [1] = {Point64} -100000,-100000,2 
-          [2] = {Point64} -100548,-89547,2 
-          [3] = {Point64} -102185,-79209,2 
-          [4] = {Point64} -104894,-69098,2 
-          [5] = {Point64} -108645,-59326,2 
-          [6] = {Point64} -113397,-50000,2 
-          [7] = {Point64} -119098,-41221,2 
-          [8] = {Point64} -125686,-33087,2 
-          [9] = {Point64} -133087,-25686,2 
-          [10] = {Point64} -141221,-19098,2 
-          [11] = {Point64} -150000,-13397,2 
-          [12] = {Point64} -159326,-8645,2 
-          [13] = {Point64} -169098,-4894,2 
-          [14] = {Point64} -179209,-2185,2 
-          [15] = {Point64} -189547,-548,2 
-          [16] = {Point64} -200000,0,2 
-           */
-
+        Assert.AreEqual(1, open.Count);
+        Assert.AreEqual(14, open[0].Count);
     }
 }

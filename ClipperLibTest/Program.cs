@@ -30,11 +30,11 @@ STest.compare();
 
 SubtractionTest.compare();
 
-Clipper2Test.colinearOffsetTest();
-Clipper1Test.colinearOffsetTest();
+Clipper2Test.collinearOffsetTest();
+Clipper1Test.collinearOffsetTest();
 
-Clipper2Test.colinearTest();
-Clipper1Test.colinearTest();
+Clipper2Test.collinearTest();
+Clipper1Test.collinearTest();
 
 // Compare open line clipping
 ComparisonTest.lineClipTest1();

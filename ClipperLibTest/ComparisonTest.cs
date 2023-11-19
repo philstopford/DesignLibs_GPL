@@ -1,4 +1,6 @@
-﻿namespace ClipperLibTest;
+﻿using NUnit.Framework;
+
+namespace ClipperLibTest;
 
 using Paths64 = Clipper2Lib.Paths64;
 using Paths = List<List<ClipperLib1.IntPoint>>;
@@ -266,13 +268,8 @@ public static class ComparisonTest
             Paths clipped1 = ClipperLib1.Clipper.OpenPathsFromPolyTree(pt);
             
             // Results ought to be ~consistent. ClipperLib2 reverses the direction compared to ClipperLib1
-            bool okay = (clipped1[0][0].X == clipped2[0][0].X) && (clipped1[0][0].Y == clipped2[0][0].Y);
-            okay = okay || (clipped1[0][0].X == clipped2[0][1].X) && (clipped1[0][0].Y == clipped2[0][1].Y);
-            
-            if (!okay)
-            {
-                throw new Exception("Mismatch in lineClipTest1");
-            }
+            Assert.True(((clipped1[0][0].X == clipped2[0][0].X) && (clipped1[0][0].Y == clipped2[0][0].Y)) ||
+                        ((clipped1[0][0].X == clipped2[0][1].X) && (clipped1[0][0].Y == clipped2[0][1].Y)));
         }
     }
 
@@ -460,13 +457,8 @@ public static class ComparisonTest
             Paths clipped1 = ClipperLib1.Clipper.OpenPathsFromPolyTree(pt);
             
             // Results ought to be ~consistent. ClipperLib2 reverses the direction compared to ClipperLib1
-            bool okay = (clipped1[0][0].X == clipped2[0][0].X) && (clipped1[0][0].Y == clipped2[0][0].Y);
-            okay = okay || (clipped1[0][0].X == clipped2[0][1].X) && (clipped1[0][0].Y == clipped2[0][1].Y);
-            
-            if (!okay)
-            {
-                throw new Exception("Mismatch in lineClipTest2");
-            }
+            Assert.True(((clipped1[0][0].X == clipped2[0][0].X) && (clipped1[0][0].Y == clipped2[0][0].Y)) ||
+                        ((clipped1[0][0].X == clipped2[0][1].X) && (clipped1[0][0].Y == clipped2[0][1].Y)));
         }
     }
 }

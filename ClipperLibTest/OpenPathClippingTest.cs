@@ -1,10 +1,8 @@
 ﻿using Clipper2Lib;
 using geoWrangler;
+using NUnit.Framework;
 
 namespace ClipperLibTest;
-
-using Path = Path64;
-using Paths = Paths64;
 
 public class OpenPathClippingTest
 {
@@ -31,7 +29,8 @@ public class OpenPathClippingTest
         Paths64 o = new();
         c.Execute(ClipType.Intersection, FillRule.EvenOdd, new Paths64(), o);
 
-        int x = 2;
+        Assert.AreEqual(1, o.Count);
+        Assert.AreEqual(14, o[0].Count);
     }
     
     
@@ -247,6 +246,9 @@ public class OpenPathClippingTest
         PathsD out_ = new();
         PathsD unused = new();
         d.Execute(ClipType.Difference, FillRule.EvenOdd, unused, out_);
+        
+        Assert.AreEqual(1, out_.Count);
+        Assert.AreEqual(14, out_[0].Count);
     }
     
     public static void test()
@@ -320,24 +322,13 @@ public class OpenPathClippingTest
         Paths64 rightChords = new();
         c.Execute(ClipType.Intersection, FillRule.EvenOdd, unused, rightChords);
 
-        /* Expected output
-        bottomChords = {List<List<Point64>>} Count = 1
-         [0] = {List<Point64>} Count = 2
-          [0] = {Point64} 500000,-550000,0 
-          [1] = {Point64} 300000,-550000,0 
-        leftChords = {List<List<Point64>>} Count = 1
-         [0] = {List<Point64>} Count = 2
-          [0] = {Point64} 300000,-550000,0 
-          [1] = {Point64} 300000,-150000,0 
-        rightChords = {List<List<Point64>>} Count = 1
-         [0] = {List<Point64>} Count = 2
-          [0] = {Point64} 500000,-150000,0 
-          [1] = {Point64} 500000,-550000,0 
-        topChords = {List<List<Point64>>} Count = 1
-         [0] = {List<Point64>} Count = 2
-          [0] = {Point64} 300000,-150000,0 
-          [1] = {Point64} 500000,-150000,0 
-             */
-        
+        Assert.AreEqual(1, leftChords.Count);
+        Assert.AreEqual(14, leftChords[0].Count);
+        Assert.AreEqual(1, rightChords.Count);
+        Assert.AreEqual(14, rightChords[0].Count);
+        Assert.AreEqual(1, bottomChords.Count);
+        Assert.AreEqual(14, bottomChords[0].Count);
+        Assert.AreEqual(1, topChords.Count);
+        Assert.AreEqual(14, topChords[0].Count);
     }
 }

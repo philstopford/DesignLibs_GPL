@@ -1,9 +1,8 @@
 ﻿using Clipper2Lib;
+using NUnit.Framework;
 
 namespace ClipperLibTest;
 
-using Path64 = Path64;
-using Paths64 = Paths64;
 using Path = List<ClipperLib1.IntPoint>;
 using Paths = List<List<ClipperLib1.IntPoint>>;
 
@@ -28,7 +27,10 @@ public static class OffsetTest
         Paths64 resizedPolyData = new();
         co.Execute(50, resizedPolyData);
 
-        int xx = 2;
+        double area = resizedPolyData.Sum(t => Clipper.Area(t));
+        Assert.AreEqual(1, area);
+        Assert.AreEqual(1, resizedPolyData.Count);
+        Assert.AreEqual(14, resizedPolyData[0].Count);
     }
 
 
@@ -166,14 +168,10 @@ public static class OffsetTest
         Paths64 resizedPolyData = new();
         co.Execute(Convert.ToDouble(6 * 10000), resizedPolyData);
         
-        /* Expected output
-        resizedPolyData = {List<List<Point64>>} Count = 1
-         [0] = {List<Point64>} Count = 4
-          [0] = {Point64} -60000,-60000,0 
-          [1] = {Point64} -60000,360000,0 
-          [2] = {Point64} 360000,360000,0 
-          [3] = {Point64} 360000,-60000,0 
-           */
+        double area = resizedPolyData.Sum(t => Clipper.Area(t));
+        Assert.AreEqual(1, area);
+        Assert.AreEqual(1, resizedPolyData.Count);
+        Assert.AreEqual(14, resizedPolyData[0].Count);
     }
     
     private static Path64 test = new()
@@ -205,123 +203,39 @@ public static class OffsetTest
         Paths c1up = new();
         co1.Execute(ref c1up, 2.0);
         
-        /* Expected output
-         c1up = {List<List<IntPoint>>} Count = 2
-          [0] = {List<IntPoint>} Count = 4
-           [0] = IntPoint
-            X = {long} 22
-            Y = {long} -2
-            Z = {long} 0
-           [1] = IntPoint
-            X = {long} 22
-            Y = {long} 22
-            Z = {long} 0
-           [2] = IntPoint
-            X = {long} -2
-            Y = {long} 22
-            Z = {long} 0
-           [3] = IntPoint
-            X = {long} -2
-            Y = {long} -2
-            Z = {long} 0
-          [1] = {List<IntPoint>} Count = 4
-           [0] = IntPoint
-            X = {long} 14
-            Y = {long} 14
-            Z = {long} 0
-           [1] = IntPoint
-            X = {long} 14
-            Y = {long} 6
-            Z = {long} 0
-           [2] = IntPoint
-            X = {long} 6
-            Y = {long} 6
-            Z = {long} 0
-           [3] = IntPoint
-            X = {long} 6
-            Y = {long} 14
-            Z = {long} 0
-            */
+        double area = c1up.Sum(t => ClipperLib1.Clipper.Area(t));
+        Assert.AreEqual(1, area);
+        Assert.AreEqual(1, c1up.Count);
+        Assert.AreEqual(14, c1up[0].Count);
         
         co1.Clear();
         co1.AddPaths(c1up, ClipperLib1.JoinType.jtMiter, ClipperLib1.EndType.etClosedPolygon);
         Paths c1down = new();
         co1.Execute(ref c1down, -2.0);
 
-        /* Expected output
-         c1down = {List<List<IntPoint>>} Count = 2
-          [0] = {List<IntPoint>} Count = 4
-           [0] = IntPoint
-            X = {long} 20
-            Y = {long} 20
-            Z = {long} 0
-           [1] = IntPoint
-            X = {long} 0
-            Y = {long} 20
-            Z = {long} 0
-           [2] = IntPoint
-            X = {long} 0
-            Y = {long} 0
-            Z = {long} 0
-           [3] = IntPoint
-            X = {long} 20
-            Y = {long} 0
-            Z = {long} 0
-          [1] = {List<IntPoint>} Count = 4
-           [0] = IntPoint
-            X = {long} 4
-            Y = {long} 4
-            Z = {long} 0
-           [1] = IntPoint
-            X = {long} 4
-            Y = {long} 16
-            Z = {long} 0
-           [2] = IntPoint
-            X = {long} 16
-            Y = {long} 16
-            Z = {long} 0
-           [3] = IntPoint
-            X = {long} 16
-            Y = {long} 4
-            Z = {long} 0
-            */
+        double area1 = c1down.Sum(t => ClipperLib1.Clipper.Area(t));
+        Assert.AreEqual(1, area1);
+        Assert.AreEqual(1, c1down.Count);
+        Assert.AreEqual(14, c1down[0].Count);
         
         ClipperOffset co2 = new() {PreserveCollinear = true, ReverseSolution = true};
         co2.AddPath(test, Clipper2Lib.JoinType.Miter, Clipper2Lib.EndType.Polygon);
         Paths64 c2up = new();
         co2.Execute(2.0, c2up);
         
-        /* Expected output
-         c2up = {List<List<Point64>>} Count = 2
-          [0] = {List<Point64>} Count = 4
-           [0] = {Point64} -2,-2,0 
-           [1] = {Point64} -2,22,0 
-           [2] = {Point64} 22,22,0 
-           [3] = {Point64} 22,-2,0 
-          [1] = {List<Point64>} Count = 4
-           [0] = {Point64} 6,6,0 
-           [1] = {Point64} 14,6,0 
-           [2] = {Point64} 14,14,0 
-           [3] = {Point64} 6,14,0 
-          */
+        double area2 = c2up.Sum(t => Clipper.Area(t));
+        Assert.AreEqual(1, area2);
+        Assert.AreEqual(1, c2up.Count);
+        Assert.AreEqual(14, c2up[0].Count);
         
         co2.Clear();
         co2.AddPaths(c2up, Clipper2Lib.JoinType.Miter, Clipper2Lib.EndType.Polygon);
         Paths64 c2down = new();
         co2.Execute(-2.0, c2down);
         
-        /* Expected output
-         c2down = {List<List<Point64>>} Count = 2
-          [0] = {List<Point64>} Count = 4
-           [0] = {Point64} 20,0,0 
-           [1] = {Point64} 0,0,0 
-           [2] = {Point64} 0,20,0 
-           [3] = {Point64} 20,20,0 
-          [1] = {List<Point64>} Count = 4
-           [0] = {Point64} 16,4,0 
-           [1] = {Point64} 16,16,0 
-           [2] = {Point64} 4,16,0 
-           [3] = {Point64} 4,4,0 
-          */
+        double area3 = c2down.Sum(t => Clipper.Area(t));
+        Assert.AreEqual(1, area3);
+        Assert.AreEqual(1, c2down.Count);
+        Assert.AreEqual(14, c2down[0].Count);
     }
 }

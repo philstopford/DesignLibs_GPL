@@ -1,4 +1,6 @@
-﻿namespace ClipperLibTest;
+﻿using NUnit.Framework;
+
+namespace ClipperLibTest;
 
 public static class XTest
 {
@@ -38,29 +40,10 @@ public static class XTest
         Clipper2Lib.Paths64 c2out = new();
         c2.Execute(Clipper2Lib.ClipType.Difference, Clipper2Lib.FillRule.EvenOdd, c2out);
         
-        /* Expected output
-        c2out = {List<List<Point64>>} Count = 4
-         [0] = {List<Point64>} Count = 4
-          [0] = {Point64} 24000,13000,0 
-          [1] = {Point64} 48000,13000,0 
-          [2] = {Point64} 48000,0,0 
-          [3] = {Point64} 24000,0,0 
-         [1] = {List<Point64>} Count = 4
-          [0] = {Point64} 24000,21000,0 
-          [1] = {Point64} 24000,30000,0 
-          [2] = {Point64} 48000,30000,0 
-          [3] = {Point64} 48000,21000,0 
-         [2] = {List<Point64>} Count = 4
-          [0] = {Point64} 0,30000,0 
-          [1] = {Point64} 13000,30000,0 
-          [2] = {Point64} 13000,21000,0 
-          [3] = {Point64} 0,21000,0 
-         [3] = {List<Point64>} Count = 4
-          [0] = {Point64} 0,0,0 
-          [1] = {Point64} 0,13000,0 
-          [2] = {Point64} 13000,13000,0 
-          [3] = {Point64} 13000,0,0 
-           */
+        double area = c2out.Sum(t => Clipper2Lib.Clipper.Area(t));
+        Assert.AreEqual(1, area);
+        Assert.AreEqual(1, c2out.Count);
+        Assert.AreEqual(14, c2out[0].Count);
 
         List<List<ClipperLib1.IntPoint>> xShape1 = new();
         for (int p = 0; p < xShape.Count; p++)
@@ -86,8 +69,9 @@ public static class XTest
         List<List<ClipperLib1.IntPoint>> o1 = new();
         c1.Execute(ClipperLib1.ClipType.ctDifference, o1);
 
-        /* Expected output
-         */
-        
+        double area2 = o1.Sum(t => ClipperLib1.Clipper.Area(t));
+        Assert.AreEqual(1, area2);
+        Assert.AreEqual(1, o1.Count);
+        Assert.AreEqual(14, o1[0].Count);
     }
 }

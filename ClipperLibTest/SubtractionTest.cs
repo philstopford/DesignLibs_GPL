@@ -1,4 +1,6 @@
-﻿namespace ClipperLibTest;
+﻿using NUnit.Framework;
+
+namespace ClipperLibTest;
 
 using Paths64 = Clipper2Lib.Paths64;
 using Paths = List<List<ClipperLib1.IntPoint>>;
@@ -216,19 +218,10 @@ public static class SubtractionTest
 
         c.Execute(Clipper2Lib.ClipType.Difference, Clipper2Lib.FillRule.EvenOdd, solution_cl);
 
-        /* Expected output
-        solution_cl = {List<List<Point64>>} Count = 2
-         [0] = {List<Point64>} Count = 4
-          [0] = {Point64} -2147483647,2147483647,0 
-          [1] = {Point64} 2147483647,2147483647,0 
-          [2] = {Point64} 2147483647,-2147483647,0 
-          [3] = {Point64} -2147483647,-2147483647,0 
-         [1] = {List<Point64>} Count = 4
-          [0] = {Point64} 0,0,0 
-          [1] = {Point64} 500000,0,0 
-          [2] = {Point64} 500000,900000,0 
-          [3] = {Point64} 0,900000,0 
-           */
+        double area = solution_cl.Sum(t => Clipper2Lib.Clipper.Area(t));
+        Assert.AreEqual(1, area);
+        Assert.AreEqual(1, solution_cl.Count);
+        Assert.AreEqual(14, solution_cl[0].Count);
         
         c.PreserveCollinear = false;
         
@@ -236,19 +229,10 @@ public static class SubtractionTest
 
         c.Execute(Clipper2Lib.ClipType.Difference, Clipper2Lib.FillRule.EvenOdd, solution_ncl);
 
-        /* Expected output
-        solution_ncl = {List<List<Point64>>} Count = 2
-         [0] = {List<Point64>} Count = 4
-          [0] = {Point64} -2147483647,2147483647,0 
-          [1] = {Point64} 2147483647,2147483647,0 
-          [2] = {Point64} 2147483647,-2147483647,0 
-          [3] = {Point64} -2147483647,-2147483647,0 
-         [1] = {List<Point64>} Count = 4
-          [0] = {Point64} 0,0,0 
-          [1] = {Point64} 500000,0,0 
-          [2] = {Point64} 500000,900000,0 
-          [3] = {Point64} 0,900000,0 
-           */
+        double area2 = solution_ncl.Sum(t => Clipper2Lib.Clipper.Area(t));
+        Assert.AreEqual(1, area2);
+        Assert.AreEqual(1, solution_ncl.Count);
+        Assert.AreEqual(14, solution_ncl[0].Count);
         
         ClipperLib1.Clipper c1 = new()
         {
@@ -287,43 +271,10 @@ public static class SubtractionTest
 
         c1.Execute(ClipperLib1.ClipType.ctDifference, solution_cl1);
 
-        /* Expected output
-        solution_cl1 = {List<List<IntPoint>>} Count = 2
-         [0] = {List<IntPoint>} Count = 4
-          [0] = IntPoint
-           X = {long} 2147483647
-           Y = {long} 2147483647
-           Z = {long} 0
-          [1] = IntPoint
-           X = {long} -2147483647
-           Y = {long} 2147483647
-           Z = {long} 0
-          [2] = IntPoint
-           X = {long} -2147483647
-           Y = {long} -2147483647
-           Z = {long} 0
-          [3] = IntPoint
-           X = {long} 2147483647
-           Y = {long} -2147483647
-           Z = {long} 0
-         [1] = {List<IntPoint>} Count = 4
-          [0] = IntPoint
-           X = {long} 500000
-           Y = {long} 900000
-           Z = {long} 0
-          [1] = IntPoint
-           X = {long} 500000
-           Y = {long} 0
-           Z = {long} 0
-          [2] = IntPoint
-           X = {long} 0
-           Y = {long} 0
-           Z = {long} 0
-          [3] = IntPoint
-           X = {long} 0
-           Y = {long} 900000
-           Z = {long} 0
-            */
+        double area3 = solution_cl1.Sum(t => ClipperLib1.Clipper.Area(t));
+        Assert.AreEqual(1, area3);
+        Assert.AreEqual(1, solution_cl1.Count);
+        Assert.AreEqual(14, solution_cl1[0].Count);
         
         c1.PreserveCollinear = false;
         
@@ -331,43 +282,9 @@ public static class SubtractionTest
 
         c1.Execute(ClipperLib1.ClipType.ctDifference, solution_ncl1);
         
-        /* Expected output
-         solution_ncl1 = {List<List<IntPoint>>} Count = 2
-          [0] = {List<IntPoint>} Count = 4
-           [0] = IntPoint
-            X = {long} 2147483647
-            Y = {long} 2147483647
-            Z = {long} 0
-           [1] = IntPoint
-            X = {long} -2147483647
-            Y = {long} 2147483647
-            Z = {long} 0
-           [2] = IntPoint
-            X = {long} -2147483647
-            Y = {long} -2147483647
-            Z = {long} 0
-           [3] = IntPoint
-            X = {long} 2147483647
-            Y = {long} -2147483647
-            Z = {long} 0
-          [1] = {List<IntPoint>} Count = 4
-           [0] = IntPoint
-            X = {long} 500000
-            Y = {long} 900000
-            Z = {long} 0
-           [1] = IntPoint
-            X = {long} 500000
-            Y = {long} 0
-            Z = {long} 0
-           [2] = IntPoint
-            X = {long} 0
-            Y = {long} 0
-            Z = {long} 0
-           [3] = IntPoint
-            X = {long} 0
-            Y = {long} 900000
-            Z = {long} 0
-            */
-
+        double area4 = solution_ncl1.Sum(t => ClipperLib1.Clipper.Area(t));
+        Assert.AreEqual(1, area4);
+        Assert.AreEqual(1, solution_ncl1.Count);
+        Assert.AreEqual(14, solution_ncl1[0].Count);
     }
 }

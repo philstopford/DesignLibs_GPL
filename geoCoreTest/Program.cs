@@ -10,12 +10,12 @@ namespace geoCoreTest;
 
 internal class Program
 {
-    private static string root = "/d";
-    private static string baseDir = Path.Join(root, "Google Drive", "Semi", "geocore_test") + Path.DirectorySeparatorChar; //"D:\\Google Drive\\Semi\\geocore_test\\";
+    private static string baseDir = "/d/development/DesignLibs_GPL/geocore_test/";
 
     private static void Main(string[] args)
     {
-        test_circle(baseDir);
+        test_circle(baseDir + "out/");
+        test_box(baseDir + "out/");
         test_1();
         test_cellrefarray_basic();
         test_cellrefarray_nested();
@@ -23,10 +23,9 @@ internal class Program
         test_cell_export_complex();
     }
 
-    // [Test]
     private static void test_circle(string outDir)
     {
-        int numberOfPoints = 30;
+        int numberOfPoints = 60;
 
         double deg_per_pt = 360.0 / numberOfPoints;
 
@@ -39,8 +38,8 @@ internal class Program
             double deg = deg_per_pt * pt;
             double rad = Utils.toRadians(deg);
 
-            double x = Math.Cos(deg) * radius;
-            double y = Math.Sin(deg) * radius;
+            double x = Math.Cos(rad) * radius;
+            double y = Math.Sin(rad) * radius;
             
             circleD.Add(new(x, y));
         }
@@ -86,7 +85,7 @@ internal class Program
 
         gcell.cellName = "test";
         
-        // gcell.addPolygon(circle, 1, 0);
+        gcell.addPolygon(Clipper.ScalePath64(circleD, scale*scale), 1, 0);
         // For comparison
         gcell.addCircle(1, 1, new(0,0), 500);
 
@@ -113,6 +112,84 @@ internal class Program
         Assert.True(File.Exists(outDir + "poly10_circle11.oas"));
     }
 
+    private static void test_box(string outDir)
+    {
+
+        int scale = 100; // for 0.01 nm resolution.
+        
+        // Can the system define geometry and write it correctly to Oasis and GDS files.
+        GeoCore g = new();
+        g.reset();
+        GCDrawingfield drawing_ = new("")
+        {
+            accyear = 2018,
+            accmonth = 12,
+            accday = 5,
+            acchour = 2,
+            accmin = 10,
+            accsec = 10,
+            modyear = 2018,
+            modmonth = 12,
+            modday = 5,
+            modhour = 2,
+            modmin = 10,
+            modsec = 10,
+            databaseunits = 1000 * scale,
+            userunits = 0.001 / scale,
+            libname = "noname"
+        };
+        Assert.AreEqual(drawing_.accyear, 2018);
+
+        GCCell gcell = drawing_.addCell();
+        gcell.accyear = 2018;
+        gcell.accmonth = 12;
+        gcell.accday = 5;
+        gcell.acchour = 2;
+        gcell.accmin = 10;
+        gcell.accsec = 10;
+        gcell.modyear = 2018;
+        gcell.modmonth = 12;
+        gcell.modday = 5;
+        gcell.modhour = 2;
+        gcell.modmin = 10;
+        gcell.modsec = 10;
+
+        gcell.cellName = "test";
+
+        PathD boxPoly = Clipper.MakePath(new double[]
+        {
+            0.081, 0.46,
+            0.081, 0.47,
+            0.1, 0.47,
+            0.1, 0.46,
+        });
+        
+        gcell.addPolygon(Clipper.ScalePath64(boxPoly, 1000*scale), 1, 2);
+        
+        gcell.addBox(9050, 46500, 1900, 1000, 1, 1);
+
+        // Do we have the cell in the drawing?
+        Assert.AreEqual(drawing_.findCell("test"), gcell);
+       
+        g.setDrawing(drawing_);
+        g.setValid(true);
+        
+        if (File.Exists(outDir + "box.gds"))
+        {
+            File.Delete(outDir + "box.gds");
+        }
+        gds.gdsWriter gw = new(g, outDir + "box.gds");
+        gw.save();
+        Assert.True(File.Exists(outDir + "box.gds"));
+
+        if (File.Exists(outDir + "box.oas"))
+        {
+            File.Delete(outDir + "box.oas");
+        }
+        oasis.oasWriter ow = new(g, outDir + "box.oas");
+        ow.save();
+        Assert.True(File.Exists(outDir + "box.oas"));
+    }
     private static void test_cell_export()
     {
         // Note that the cell computation is for all layers/dataypes. The list of GCPolygons would need to be filtered separately for the LD of interest.

@@ -435,7 +435,7 @@ internal class Program
     private static void consistency_from_gds()
     {
         GeoCoreHandler gH_GDS = new();
-        gH_GDS.updateGeoCoreHandler(baseDir + "/consistency/c3_consistency.gds", GeoCore.fileType.oasis);
+        gH_GDS.updateGeoCoreHandler(baseDir + "/consistency/c3_consistency.gds", GeoCore.fileType.gds);
         GeoCore gcGDS = gH_GDS.getGeo();
         Assert.AreEqual(gcGDS.isValid(), true);
 

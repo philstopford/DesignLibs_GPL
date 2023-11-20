@@ -14,8 +14,10 @@ internal class Program
 
     private static void Main(string[] args)
     {
+        /*
         test_circle(baseDir + "out/");
         test_box(baseDir + "out/");
+        */
         consistency_from_oasis();
         consistency_from_gds();
         test_1();
@@ -409,7 +411,7 @@ internal class Program
     private static void consistency_from_oasis()
     {
         GeoCoreHandler gH_OAS = new();
-        gH_OAS.updateGeoCoreHandler(baseDir + "/consistency/c3_consistency.oas", GeoCore.fileType.oasis);
+        gH_OAS.updateGeoCoreHandler(baseDir + "/consistency/triage.oas", GeoCore.fileType.oasis);
         GeoCore gcOAS = gH_OAS.getGeo();
         Assert.AreEqual(gcOAS.isValid(), true);
 

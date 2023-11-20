@@ -1,5 +1,6 @@
 ﻿using geoCoreLib;
 using System;
+using System.Buffers.Binary;
 using System.Collections.Generic;
 using System.IO;
 using Clipper2Lib;
@@ -14,10 +15,11 @@ internal class Program
 
     private static void Main(string[] args)
     {
+        box_test(baseDir + "out/");
         /*
+        number_conversion();
         test_circle(baseDir + "out/");
         test_box(baseDir + "out/");
-        */
         consistency_from_oasis();
         consistency_from_gds();
         test_1();
@@ -25,6 +27,126 @@ internal class Program
         test_cellrefarray_nested();
         test_cell_export();
         test_cell_export_complex();
+        */
+    }
+
+    
+    // FIXME: The below indicates a real problem with the box implementation. X and Y should be the lower left corner
+    // per the spec, but the implementation in DesignLibs_GPL is wrong and uses this as the center.
+    // When saving out, the X and Y values end up wrong (e.g. X becomes -65).
+    // Need to fix this without breaking too much.
+    private static void box_test(string outDir)
+    {
+        string filename = "box_0_0_10_10";
+        int scale = 100; // for 0.01 nm resolution.
+        GeoCore g = new();
+        g.reset();
+        GCDrawingfield drawing_ = new("test")
+        {
+            accyear = 2018,
+            accmonth = 12,
+            accday = 5,
+            acchour = 2,
+            accmin = 10,
+            accsec = 10,
+            modyear = 2018,
+            modmonth = 12,
+            modday = 5,
+            modhour = 2,
+            modmin = 10,
+            modsec = 10,
+            databaseunits = 1000 * scale,
+            userunits = 0.001 / scale,
+            libname = "noname"
+        };
+        Assert.AreEqual(drawing_.accyear, 2018);
+
+        GCCell gcell = drawing_.addCell();
+        gcell.accyear = 2018;
+        gcell.accmonth = 12;
+        gcell.accday = 5;
+        gcell.acchour = 2;
+        gcell.accmin = 10;
+        gcell.accsec = 10;
+        gcell.modyear = 2018;
+        gcell.modmonth = 12;
+        gcell.modday = 5;
+        gcell.modhour = 2;
+        gcell.modmin = 10;
+        gcell.modsec = 10;
+
+        gcell.cellName = "test";
+     
+        gcell.addBox(-60 * 1000 * scale, 0, 10 * 1000 * scale, 10 * 1000 * scale, 1, 1);
+        
+        g.setDrawing(drawing_);
+        g.setValid(true);
+
+        if (File.Exists(outDir + "/" + filename + ".gds"))
+        {
+            File.Delete(outDir + "/" + filename + ".gds");
+        }
+        gds.gdsWriter gw = new(g, outDir + "/" + filename + ".gds");
+        gw.save();
+        Assert.True(File.Exists(outDir + "/" + filename + ".gds"));
+
+        if (File.Exists(outDir + "/" + filename + ".oas"))
+        {
+            File.Delete(outDir + "/" + filename + ".oas");
+        }
+        oasis.oasWriter ow = new(g, outDir + "/" + filename + ".oas");
+        ow.save();
+        Assert.True(File.Exists(outDir + "/" + filename + ".oas"));
+        
+        // Load the files in to see what we have.
+
+        GeoCoreHandler gH_GDS = new();
+        gH_GDS.updateGeoCoreHandler(outDir + "/" + filename + ".gds", GeoCore.fileType.gds);
+        GeoCore gcGDS = gH_GDS.getGeo();
+        Assert.True(gcGDS.isValid());
+
+        GCDrawingfield drawing_gds = gcGDS.getDrawing();
+        drawing_gds.databaseunits = 1000 * scale;
+        drawing_gds.userunits = 0.001 / scale;
+        GCCell cell_gds = drawing_gds.findCell("test");
+        int elementCount = cell_gds.elementList.Count;
+        
+        if (File.Exists(outDir + "/" + filename + "_resave.gds"))
+        {
+            File.Delete(outDir + "/" + filename + "_resave.gds");
+        }
+        gds.gdsWriter gw2 = new(gcGDS, outDir + "/" + filename + "_resave.gds");
+        gw2.save();
+        Assert.True(File.Exists(outDir + "/" + filename + "_resave.gds"));
+
+        if (File.Exists(outDir + "/" + filename + "_resave.oas"))
+        {
+            File.Delete(outDir + "/" + filename + "_resave.oas");
+        }
+        oasis.oasWriter ow2 = new(gcGDS, outDir + "/" + filename + "_resave.oas");
+        ow2.save();
+        Assert.True(File.Exists(outDir + "/" + filename + "_resave.oas"));
+    }
+
+    private static void number_conversion()
+    {
+        uint a = 6;
+
+        uint tmp = BinaryPrimitives.ReverseEndianness(a);
+        
+        byte[] bytes = BitConverter.GetBytes(tmp);
+
+        uint a_2 = BinaryPrimitives.ReadUInt32BigEndian(bytes);
+        Assert.AreEqual(a, a_2);
+        
+        int b = -63;
+        
+        int tmp2 = BinaryPrimitives.ReverseEndianness(b);
+        
+        bytes = BitConverter.GetBytes(tmp2);
+
+        int b_2 = BinaryPrimitives.ReadInt32BigEndian(bytes);
+        Assert.AreEqual(b, b_2);
     }
 
     private static void test_circle(string outDir)

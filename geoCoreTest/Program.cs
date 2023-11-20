@@ -16,6 +16,8 @@ internal class Program
     {
         test_circle(baseDir + "out/");
         test_box(baseDir + "out/");
+        consistency_from_oasis();
+        consistency_from_gds();
         test_1();
         test_cellrefarray_basic();
         test_cellrefarray_nested();
@@ -404,6 +406,58 @@ internal class Program
         Assert.AreEqual(t3[15].pointarray[6], new Point64(330,330,0));
     }
 
+    private static void consistency_from_oasis()
+    {
+        GeoCoreHandler gH_OAS = new();
+        gH_OAS.updateGeoCoreHandler(baseDir + "/consistency/c3_consistency.oas", GeoCore.fileType.oasis);
+        GeoCore gcOAS = gH_OAS.getGeo();
+        Assert.AreEqual(gcOAS.isValid(), true);
+
+        string outFile = baseDir + "/out/c3_consistency_from_oas.gds";
+        if (File.Exists(outFile))
+        {
+            File.Delete(outFile);
+        }
+        gds.gdsWriter gw = new(gcOAS, outFile);
+        gw.save();
+        Assert.True(File.Exists(outFile));
+
+        string outFile2 = baseDir + "/out/c3_consistency_from_oas.oas";
+        if (File.Exists(outFile2))
+        {
+            File.Delete(outFile2);
+        }
+        oasis.oasWriter ow = new(gcOAS, outFile2);
+        ow.save();
+        Assert.True(File.Exists(outFile2));
+    }
+
+    private static void consistency_from_gds()
+    {
+        GeoCoreHandler gH_GDS = new();
+        gH_GDS.updateGeoCoreHandler(baseDir + "/consistency/c3_consistency.gds", GeoCore.fileType.oasis);
+        GeoCore gcGDS = gH_GDS.getGeo();
+        Assert.AreEqual(gcGDS.isValid(), true);
+
+        string outFile = baseDir + "/out/c3_consistency_from_gds.gds";
+        if (File.Exists(outFile))
+        {
+            File.Delete(outFile);
+        }
+        gds.gdsWriter gw = new(gcGDS, outFile);
+        gw.save();
+        Assert.True(File.Exists(outFile));
+
+        string outFile2 = baseDir + "/out/c3_consistency_from_gds.oas";
+        if (File.Exists(outFile2))
+        {
+            File.Delete(outFile2);
+        }
+        oasis.oasWriter ow = new(gcGDS, outFile2);
+        ow.save();
+        Assert.True(File.Exists(outFile2));
+    }
+
     private static void test_cell_export_complex()
     {
         // Note that the cell computation is for all layers/dataypes. The list of GCPolygons would need to be filtered separately for the LD of interest.
@@ -628,10 +682,7 @@ internal class Program
 
     private static void test_1()
     {
-
-        string gdsDir = baseDir + "gdsFiles" + Path.DirectorySeparatorChar;
-        string oasDir = baseDir + "oasFiles" + Path.DirectorySeparatorChar;
-        string outDir = baseDir + "geoCoreTestOut" + Path.DirectorySeparatorChar;
+        string outDir = baseDir + "out" + Path.DirectorySeparatorChar;
 
         // Basic tests.
         defineAndWrite_Box(outDir);

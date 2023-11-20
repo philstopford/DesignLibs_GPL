@@ -8,12 +8,12 @@ public static partial class GeoWrangler
 {
     public static Point64 move(Point64 source, int x, int y)
     {
-        return move(source, x, y);
+        return new (source.X + x, source.Y + y, source.Z);
     }
 
     public static Point64 move(Point64 source, Int64 x, Int64 y)
     {
-        return move(source, x, y);
+        return new (source.X + x, source.Y + y, source.Z);
     }
 
     public static Point64 move(Point64 source, double x, double y)

@@ -1,6 +1,7 @@
 ﻿using System;
 using Clipper2Lib;
 using geoWrangler;
+using NUnit.Framework;
 
 namespace GeoWranglerTest;
 
@@ -35,6 +36,18 @@ internal static class Program
         SvgUtils.AddSubject(svg, original);
         SvgUtils.AddOpenSolution(svg, new PathsD() {median}, true);
         SvgUtils.SaveToFile(svg, "median.svg", FillRule.NonZero, 5500,5500, 10);
+
+        Assert.AreEqual(6, median.Count);
+        Assert.AreEqual(77.5, median[0].x);
+        Assert.AreEqual(70, median[0].y);
+        Assert.AreEqual(75, median[1].x);
+        Assert.AreEqual(70, median[1].y);
+        Assert.AreEqual(25, median[2].x);
+        Assert.AreEqual(70, median[2].y);
+        Assert.AreEqual(20, median[3].x);
+        Assert.AreEqual(60, median[3].y);
+        Assert.AreEqual(20, median[4].x);
+        Assert.AreEqual(13.33, median[4].y);
     }
 
     private static void unidirectional_bias()
@@ -51,6 +64,8 @@ internal static class Program
         SvgUtils.AddSubject(svg, test);
         SvgUtils.AddSolution(svg, Clipper.Union(res, new() {test}, FillRule.Positive), true);
         SvgUtils.SaveToFile(svg, "curious.svg", FillRule.NonZero, 5500,5500, 10);
+        
+        Assert.AreEqual(4500000, Clipper.Area(res));
 
         PathD original = new()
         {
@@ -95,6 +110,8 @@ internal static class Program
         SvgUtils.AddSolution(svg, Clipper.Union(result, original_, FillRule.Positive, 2), true);
         SvgUtils.SaveToFile(svg, "tmp.svg", FillRule.NonZero, 150,150, 10);
 
+        Assert.AreEqual(3167, Clipper.Area(result));
+
         PathsD subject = new () { Clipper.Ellipse(new PointD (50.0,50.0),20,20)};
 
         PathsD result2 = Minkowski.Sum(subject[0], vector, true);
@@ -105,8 +122,7 @@ internal static class Program
         SvgUtils.AddSolution(svg2, Clipper.Union(result2, subject, FillRule.Positive, 2), true);
         SvgUtils.SaveToFile(svg2, "tmp2.svg", FillRule.NonZero, 150,150, 10);
         
-        // System("tmp.svg");
-        //
+        Assert.LessOrEqual(Clipper.Area(result2) - 785.5610, 0.001);
     }
 
     internal static double CrossProduct(Point64 pt1, Point64 pt2, Point64 pt3)
@@ -160,7 +176,6 @@ internal static class Program
         double cosA = DotProduct(norms[nextPt], norms[pt], norms[prevPt]);
 
         return Math.Pow(norms[pt].y + norms[prevPt].y, 2) * 10;
-        return 0.0;
     }
     
     private static void test_fragmentPath()
@@ -179,6 +194,9 @@ internal static class Program
         PathD fragmented_10 = f.fragmentPath(original, 1.0);
         PathD fragmented_05 = f.fragmentPath(original, 0.5);
 
+        Assert.AreEqual(81, fragmented_05.Count);
+        Assert.AreEqual(41, fragmented_10.Count);
+
         // Inject a point into the path that is off-grid for the fragmentation. This has to be collinear to avoid changing the actual shape.
         original.Insert(1, new(0,5.2));
         
@@ -186,9 +204,15 @@ internal static class Program
         PathD fragmented_b_10 = f.fragmentPath(original, 1.0);
         PathD fragmented_b_05 = f.fragmentPath(original, 0.5);
 
+        Assert.AreEqual(80, fragmented_b_05.Count);
+        Assert.AreEqual(40, fragmented_b_10.Count);
+
         // The below should give consistent results with the original fragmentation - the injected collinear point should have been stripped.
         PathD refragmented_10 = f.refragmentPath(original, 1.0);
         PathD refragmented_05 = f.refragmentPath(original, 0.5);
+        
+        Assert.AreEqual(81, refragmented_05.Count);
+        Assert.AreEqual(41, refragmented_10.Count);
     }
 
     private static void test_strip_collinear()
@@ -269,5 +293,6 @@ internal static class Program
         };
 
         PathD cleaned = GeoWrangler.stripCollinear(source, precision:6);
+        Assert.AreEqual(71, cleaned.Count);
     }
 }

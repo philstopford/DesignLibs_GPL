@@ -268,7 +268,6 @@ public class GCBox : GCElement
             case > 0:
                 // OASIS puts X at the lower left corner
                 ow.modal.geometry_x = rect.Left;
-                ow.modal.geometry_x += rect.Width / 2;
                 ow.writeSignedInteger(ow.modal.geometry_x);
                 break;
         }

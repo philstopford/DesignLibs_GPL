@@ -266,13 +266,16 @@ public class GCBox : GCElement
         switch (info_byte & 16)
         {
             case > 0:
+                // OASIS puts X at the lower left corner
                 ow.modal.geometry_x = rect.Left;
+                ow.modal.geometry_x += rect.Width / 2;
                 ow.writeSignedInteger(ow.modal.geometry_x);
                 break;
         }
         switch (info_byte & 8)
         {
             case > 0:
+                // OASIS puts Y at the lower left corner
                 ow.modal.geometry_y = rect.Bottom;
                 ow.writeSignedInteger(ow.modal.geometry_y);
                 break;

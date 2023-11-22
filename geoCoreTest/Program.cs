@@ -30,6 +30,7 @@ internal class Program
     private static void box_test(string outDir)
     {
         int dimension = 10;
+        int scale_from_nm = 1; // makes a um scale feature.
         for (int x = -10; x < 20; x += 10)
         {
             for (int y = -10; y < 20; y += 10)
@@ -74,7 +75,7 @@ internal class Program
 
                 gcell.cellName = "test";
 
-                gcell.addBox(x * 1000 * scale, y * 1000 * scale, dimension * 1000 * scale, dimension * 1000 * scale, 1, 1);
+                gcell.addBox(x * scale_from_nm * scale, y * scale_from_nm * scale, dimension * scale_from_nm * scale, dimension * scale_from_nm * scale, 1, 1);
 
                 g.setDrawing(drawing_);
                 g.setValid(true);

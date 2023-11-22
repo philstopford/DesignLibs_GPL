@@ -16,8 +16,6 @@ internal class Program
     private static void Main(string[] args)
     {
         box_test(baseDir + "out/");
-        /*
-        number_conversion();
         test_circle(baseDir + "out/");
         test_box(baseDir + "out/");
         consistency_from_oasis();
@@ -27,112 +25,115 @@ internal class Program
         test_cellrefarray_nested();
         test_cell_export();
         test_cell_export_complex();
-        */
     }
 
-    
-    // FIXME: The below indicates a real problem with the box implementation. X and Y should be the lower left corner
-    // per the spec, but the implementation in DesignLibs_GPL is wrong and uses this as the center.
-    // When saving out, the X and Y values end up wrong (e.g. X becomes -65).
-    // Need to fix this without breaking too much.
     private static void box_test(string outDir)
     {
-        string filename = "box_-5_-5_10_10";
-        int scale = 100; // for 0.01 nm resolution.
-        GeoCore g = new();
-        g.reset();
-        GCDrawingfield drawing_ = new("test")
+        int dimension = 10;
+        for (int x = -10; x < 20; x += 10)
         {
-            accyear = 2018,
-            accmonth = 12,
-            accday = 5,
-            acchour = 2,
-            accmin = 10,
-            accsec = 10,
-            modyear = 2018,
-            modmonth = 12,
-            modday = 5,
-            modhour = 2,
-            modmin = 10,
-            modsec = 10,
-            databaseunits = 1000 * scale,
-            userunits = 0.001 / scale,
-            libname = "noname"
-        };
-        Assert.AreEqual(drawing_.accyear, 2018);
+            for (int y = -10; y < 20; y += 10)
+            {
+                string filename = "box_" + x + "_" + y + "_" + dimension + "_" + dimension;
+                int scale = 100; // for 0.01 nm resolution.
+                GeoCore g = new();
+                g.reset();
+                GCDrawingfield drawing_ = new("test")
+                {
+                    accyear = 2018,
+                    accmonth = 12,
+                    accday = 5,
+                    acchour = 2,
+                    accmin = 10,
+                    accsec = 10,
+                    modyear = 2018,
+                    modmonth = 12,
+                    modday = 5,
+                    modhour = 2,
+                    modmin = 10,
+                    modsec = 10,
+                    databaseunits = 1000 * scale,
+                    userunits = 0.001 / scale,
+                    libname = "noname"
+                };
+                Assert.AreEqual(drawing_.accyear, 2018);
 
-        GCCell gcell = drawing_.addCell();
-        gcell.accyear = 2018;
-        gcell.accmonth = 12;
-        gcell.accday = 5;
-        gcell.acchour = 2;
-        gcell.accmin = 10;
-        gcell.accsec = 10;
-        gcell.modyear = 2018;
-        gcell.modmonth = 12;
-        gcell.modday = 5;
-        gcell.modhour = 2;
-        gcell.modmin = 10;
-        gcell.modsec = 10;
+                GCCell gcell = drawing_.addCell();
+                gcell.accyear = 2018;
+                gcell.accmonth = 12;
+                gcell.accday = 5;
+                gcell.acchour = 2;
+                gcell.accmin = 10;
+                gcell.accsec = 10;
+                gcell.modyear = 2018;
+                gcell.modmonth = 12;
+                gcell.modday = 5;
+                gcell.modhour = 2;
+                gcell.modmin = 10;
+                gcell.modsec = 10;
 
-        gcell.cellName = "test";
-     
-        gcell.addBox(-5 * 1000 * scale, -5 * 1000 * scale, 10 * 1000 * scale, 10 * 1000 * scale, 1, 1);
-        
-        g.setDrawing(drawing_);
-        g.setValid(true);
+                gcell.cellName = "test";
 
-        if (File.Exists(outDir + "/" + filename + ".gds"))
-        {
-            File.Delete(outDir + "/" + filename + ".gds");
+                gcell.addBox(x * 1000 * scale, y * 1000 * scale, dimension * 1000 * scale, dimension * 1000 * scale, 1, 1);
+
+                g.setDrawing(drawing_);
+                g.setValid(true);
+
+                if (File.Exists(outDir + "/" + filename + ".gds"))
+                {
+                    File.Delete(outDir + "/" + filename + ".gds");
+                }
+
+                gds.gdsWriter gw = new(g, outDir + "/" + filename + ".gds");
+                gw.save();
+                Assert.True(File.Exists(outDir + "/" + filename + ".gds"));
+
+                if (File.Exists(outDir + "/" + filename + ".oas"))
+                {
+                    File.Delete(outDir + "/" + filename + ".oas");
+                }
+
+                oasis.oasWriter ow = new(g, outDir + "/" + filename + ".oas");
+                ow.save();
+                Assert.True(File.Exists(outDir + "/" + filename + ".oas"));
+
+                // Load the files in to see what we have.
+
+                GeoCoreHandler gH_GDS = new();
+                gH_GDS.updateGeoCoreHandler(outDir + "/" + filename + ".gds", GeoCore.fileType.gds);
+                GeoCore gcGDS = gH_GDS.getGeo();
+                Assert.True(gcGDS.isValid());
+
+                GCDrawingfield drawing_gds = gcGDS.getDrawing();
+                drawing_gds.databaseunits = 1000 * scale;
+                drawing_gds.userunits = 0.001 / scale;
+                GCCell cell_gds = drawing_gds.findCell("test");
+                int elementCount = cell_gds.elementList.Count;
+
+                string out_filename = outDir + "/" + filename + "_resave_from_gds.gds";
+                save_gdsii(gcGDS, out_filename);
+
+                out_filename = outDir + "/" + filename + "_resave_from_gds.oas";
+                save_oasis(gcGDS, out_filename);
+
+                GeoCoreHandler gH_OAS = new();
+                gH_OAS.updateGeoCoreHandler(outDir + "/" + filename + ".oas", GeoCore.fileType.oasis);
+                GeoCore gcOAS = gH_OAS.getGeo();
+                Assert.True(gcOAS.isValid());
+
+                GCDrawingfield drawing_oas = gcOAS.getDrawing();
+                drawing_oas.databaseunits = 1000 * scale;
+                drawing_oas.userunits = 0.001 / scale;
+                GCCell cell_oas = drawing_oas.findCell("test");
+                elementCount = cell_oas.elementList.Count;
+
+                out_filename = outDir + "/" + filename + "_resave_from_oas.gds";
+                save_gdsii(gcOAS, out_filename);
+
+                out_filename = outDir + "/" + filename + "_resave_from_oas.oas";
+                save_oasis(gcOAS, out_filename);
+            }
         }
-        gds.gdsWriter gw = new(g, outDir + "/" + filename + ".gds");
-        gw.save();
-        Assert.True(File.Exists(outDir + "/" + filename + ".gds"));
-
-        if (File.Exists(outDir + "/" + filename + ".oas"))
-        {
-            File.Delete(outDir + "/" + filename + ".oas");
-        }
-        oasis.oasWriter ow = new(g, outDir + "/" + filename + ".oas");
-        ow.save();
-        Assert.True(File.Exists(outDir + "/" + filename + ".oas"));
-        
-        // Load the files in to see what we have.
-
-        GeoCoreHandler gH_GDS = new();
-        gH_GDS.updateGeoCoreHandler(outDir + "/" + filename + ".gds", GeoCore.fileType.gds);
-        GeoCore gcGDS = gH_GDS.getGeo();
-        Assert.True(gcGDS.isValid());
-
-        GCDrawingfield drawing_gds = gcGDS.getDrawing();
-        drawing_gds.databaseunits = 1000 * scale;
-        drawing_gds.userunits = 0.001 / scale;
-        GCCell cell_gds = drawing_gds.findCell("test");
-        int elementCount = cell_gds.elementList.Count;
-
-        string out_filename = outDir + "/" + filename + "_resave_from_gds.gds";
-        save_gdsii(gcGDS, out_filename);
-
-        out_filename = outDir + "/" + filename + "_resave_from_gds.oas";
-        save_oasis(gcGDS, out_filename);
-        
-        GeoCoreHandler gH_OAS = new();
-        gH_OAS.updateGeoCoreHandler(outDir + "/" + filename + ".oas", GeoCore.fileType.oasis);
-        GeoCore gcOAS = gH_OAS.getGeo();
-        Assert.True(gcOAS.isValid());
-
-        GCDrawingfield drawing_oas = gcOAS.getDrawing();
-        drawing_oas.databaseunits = 1000 * scale;
-        drawing_oas.userunits = 0.001 / scale;
-        GCCell cell_oas = drawing_oas.findCell("test");
-        elementCount = cell_oas.elementList.Count;
-
-        out_filename = outDir + "/" + filename + "_resave_from_oas.gds";
-        save_gdsii(gcOAS, out_filename);
-
-        out_filename = outDir + "/" + filename + "_resave_from_oas.oas";
-        save_oasis(gcOAS, out_filename);
     }
 
     private static void save_gdsii(GeoCore gc, string out_filename)

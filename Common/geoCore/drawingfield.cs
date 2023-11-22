@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -43,18 +44,19 @@ public class GCDrawingfield
         databaseunits = 1E-9;
         userunits = 1E-3;
         libname = "noname";
-        modyear = 0;
-        modmonth = 0;
-        modday = 0;
-        modhour = 0;
-        modmin = 0;
-        modsec = 0;
-        accyear = 0;
-        accmonth = 0;
-        accday = 0;
-        acchour = 0;
-        accmin = 0;
-        accsec = 0;
+        DateTime now = DateTime.Now;
+        modyear = (short)now.Year;
+        modmonth = (short)now.Month;
+        modday = (short)now.Day;
+        modhour = (short)now.Hour;
+        modmin = (short)now.Minute;
+        modsec = (short)now.Second;
+        accyear = (short)now.Year;
+        accmonth = (short)now.Month;
+        accday = (short)now.Day;
+        acchour = (short)now.Hour;
+        accmin = (short)now.Minute;
+        accsec = (short)now.Second;
     }
 
     public GCDrawingfield(string name)

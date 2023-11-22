@@ -95,6 +95,10 @@ public partial class oasWriter
 
     private void pOASWriter(GeoCore gc, string filename)
     {
+        if (!gc.isValid())
+        {
+            throw new("Provided GeoCore instance is not marked as valid");
+        }
         drawing_ = gc.getDrawing();
         filename_ = filename;
         namedLayers = gc.getLayerNames();

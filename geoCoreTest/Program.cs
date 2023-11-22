@@ -60,6 +60,7 @@ internal class Program
                 Assert.AreEqual(drawing_.accyear, 2018);
 
                 GCCell gcell = drawing_.addCell();
+                // Force the below for comparison sake
                 gcell.accyear = 2018;
                 gcell.accmonth = 12;
                 gcell.accday = 5;

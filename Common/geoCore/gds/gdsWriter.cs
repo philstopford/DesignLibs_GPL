@@ -26,6 +26,10 @@ public partial class gdsWriter
 
     private void pGDSWriter(GeoCore gc, string filename)
     {
+        if (!gc.isValid())
+        {
+            throw new("Provided GeoCore instance is not marked as valid");
+        }
         drawing_ = gc.getDrawing();
         filename_ = filename;
     }

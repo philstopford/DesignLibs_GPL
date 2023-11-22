@@ -575,10 +575,6 @@
   <component name="ChangeListManager">
     <list default="true" id="a39039fe-13dd-44a3-90f1-46995e05a771" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.DesignLibs/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.DesignLibs/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/geoCore/cell.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoCore/cell.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/geoCore/drawingfield.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoCore/drawingfield.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/geoCore/gds/gdsWriter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoCore/gds/gdsWriter.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Common/geoCore/oasis/oasWriter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Common/geoCore/oasis/oasWriter.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/geoCoreTest/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/geoCoreTest/Program.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -1140,7 +1136,8 @@
       <workItem from="1700490418477" duration="8895000" />
       <workItem from="1700513444799" duration="3187000" />
       <workItem from="1700582424138" duration="3874000" />
-      <workItem from="1700659618412" duration="8603000" />
+      <workItem from="1700659618412" duration="9198000" />
+      <workItem from="1700696656005" duration="754000" />
     </task>
     <servers />
   </component>

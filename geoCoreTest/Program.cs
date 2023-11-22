@@ -15,6 +15,7 @@ internal class Program
 
     private static void Main(string[] args)
     {
+        valid_test(baseDir + "out/");
         box_test(baseDir + "out/");
         test_circle(baseDir + "out/");
         test_box(baseDir + "out/");
@@ -27,6 +28,79 @@ internal class Program
         test_cell_export_complex();
     }
 
+    private static void valid_test(string outDir)
+    {
+        GeoCore g = new();
+        g.reset();
+        if (File.Exists(outDir + "/should_fail.gds"))
+        {
+            File.Delete(outDir + "/should_fail.gds");
+        }
+        if (File.Exists(outDir + "/should_fail.oas"))
+        {
+            File.Delete(outDir + "/should_fail.oas");
+        }
+        // These should fail because the GeoCore set-up is invalid.
+        try
+        {
+            gds.gdsWriter gw = new(g, outDir + "/should_fail.gds");
+            throw new("Failed to fail");
+        }
+        catch (Exception e)
+        {
+            Assert.AreEqual("Provided GeoCore instance is not marked as valid", e.Message);
+        }
+        try
+        {
+            oasis.oasWriter ow = new(g, outDir + "/should_fail.oas");
+            throw new("Failed to fail");
+        }
+        catch (Exception e)
+        {
+            Assert.AreEqual("Provided GeoCore instance is not marked as valid", e.Message);
+        }
+        
+        GCDrawingfield drawing_ = new("test")
+        {
+            accyear = 2018,
+            accmonth = 12,
+            accday = 5,
+            acchour = 2,
+            accmin = 10,
+            accsec = 10,
+            modyear = 2018,
+            modmonth = 12,
+            modday = 5,
+            modhour = 2,
+            modmin = 10,
+            modsec = 10,
+            databaseunits = 1000,
+            userunits = 0.001,
+            libname = "noname"
+        };
+        
+        g.setDrawing(drawing_);
+        // These should fail because the GeoCore set-up is invalid.
+        try
+        {
+            gds.gdsWriter gw = new(g, outDir + "/should_fail.gds");
+            throw new("Failed to fail");
+        }
+        catch (Exception e)
+        {
+            Assert.AreEqual("Provided GeoCore instance is not marked as valid", e.Message);
+        }
+        try
+        {
+            oasis.oasWriter ow = new(g, outDir + "/should_fail.oas");
+            throw new("Failed to fail");
+        }
+        catch (Exception e)
+        {
+            Assert.AreEqual("Provided GeoCore instance is not marked as valid", e.Message);
+        }
+    }
+    
     private static void box_test(string outDir)
     {
         int dimension = 10;

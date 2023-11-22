@@ -37,7 +37,7 @@ internal class Program
     // Need to fix this without breaking too much.
     private static void box_test(string outDir)
     {
-        string filename = "box_0_0_10_10";
+        string filename = "box_-5_-5_10_10";
         int scale = 100; // for 0.01 nm resolution.
         GeoCore g = new();
         g.reset();
@@ -77,7 +77,7 @@ internal class Program
 
         gcell.cellName = "test";
      
-        gcell.addBox(-60 * 1000 * scale, 0, 10 * 1000 * scale, 10 * 1000 * scale, 1, 1);
+        gcell.addBox(-5 * 1000 * scale, -5 * 1000 * scale, 10 * 1000 * scale, 10 * 1000 * scale, 1, 1);
         
         g.setDrawing(drawing_);
         g.setValid(true);
@@ -110,22 +110,51 @@ internal class Program
         drawing_gds.userunits = 0.001 / scale;
         GCCell cell_gds = drawing_gds.findCell("test");
         int elementCount = cell_gds.elementList.Count;
-        
-        if (File.Exists(outDir + "/" + filename + "_resave.gds"))
-        {
-            File.Delete(outDir + "/" + filename + "_resave.gds");
-        }
-        gds.gdsWriter gw2 = new(gcGDS, outDir + "/" + filename + "_resave.gds");
-        gw2.save();
-        Assert.True(File.Exists(outDir + "/" + filename + "_resave.gds"));
 
-        if (File.Exists(outDir + "/" + filename + "_resave.oas"))
+        string out_filename = outDir + "/" + filename + "_resave_from_gds.gds";
+        save_gdsii(gcGDS, out_filename);
+
+        out_filename = outDir + "/" + filename + "_resave_from_gds.oas";
+        save_oasis(gcGDS, out_filename);
+        
+        GeoCoreHandler gH_OAS = new();
+        gH_OAS.updateGeoCoreHandler(outDir + "/" + filename + ".oas", GeoCore.fileType.oasis);
+        GeoCore gcOAS = gH_OAS.getGeo();
+        Assert.True(gcOAS.isValid());
+
+        GCDrawingfield drawing_oas = gcOAS.getDrawing();
+        drawing_oas.databaseunits = 1000 * scale;
+        drawing_oas.userunits = 0.001 / scale;
+        GCCell cell_oas = drawing_oas.findCell("test");
+        elementCount = cell_oas.elementList.Count;
+
+        out_filename = outDir + "/" + filename + "_resave_from_oas.gds";
+        save_gdsii(gcOAS, out_filename);
+
+        out_filename = outDir + "/" + filename + "_resave_from_oas.oas";
+        save_oasis(gcOAS, out_filename);
+    }
+
+    private static void save_gdsii(GeoCore gc, string out_filename)
+    {
+        if (File.Exists(out_filename))
         {
-            File.Delete(outDir + "/" + filename + "_resave.oas");
+            File.Delete(out_filename);
         }
-        oasis.oasWriter ow2 = new(gcGDS, outDir + "/" + filename + "_resave.oas");
-        ow2.save();
-        Assert.True(File.Exists(outDir + "/" + filename + "_resave.oas"));
+        gds.gdsWriter ow = new(gc, out_filename);
+        ow.save();
+        Assert.True(File.Exists(out_filename));
+    }
+
+    private static void save_oasis(GeoCore gc, string out_filename)
+    {
+        if (File.Exists(out_filename))
+        {
+            File.Delete(out_filename);
+        }
+        oasis.oasWriter ow = new(gc, out_filename);
+        ow.save();
+        Assert.True(File.Exists(out_filename));
     }
 
     private static void number_conversion()

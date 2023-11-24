@@ -13,6 +13,7 @@ internal class Program
         testDistanceHandler();
         testDistanceHandler_multi();
         testChordHandler();
+        testAngleHandler();
     }
 
     static void testAreaHandler()
@@ -193,6 +194,36 @@ internal class Program
         Assert.AreEqual(60, cH3.aChordLengths[1]);
         Assert.AreEqual(40, cH3.bChordLengths[0]);
         Assert.AreEqual(40, cH3.bChordLengths[1]);
+    }
+
+    static void testAngleHandler()
+    {
+        PathsD aPaths = new()
+        {
+            Clipper.MakePath(new double[]
+            {
+                0, 0,
+                0, 50,
+                200,50,
+                200, 0
+            }),
+        };
+        PathD bPath = Clipper.MakePath(new double[]
+        {
+            90, 25,
+            90, 75,
+            110, 75,
+            110, 25
+        });
+        bPath = geoWrangler.GeoWrangler.Rotate(new(100,50), bPath, 45.0);
+        
+        PathsD bPaths = new()
+        {
+            bPath
+        };
+
+        angleHandler aH = new angleHandler(aPaths, bPaths);
+        Assert.LessOrEqual(Math.Abs(45.0 - aH.minimumIntersectionAngle), 0.001);
     }
     
 }
